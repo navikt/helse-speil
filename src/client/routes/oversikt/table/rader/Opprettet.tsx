@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Normaltekst } from 'nav-frontend-typografi';
+import { BodyShort } from '@navikt/ds-react';
 
 import { somDato } from '../../../../mapping/vedtaksperiode';
 import { NORSK_DATOFORMAT } from '../../../../utils/date';
@@ -13,6 +13,6 @@ interface OpprettetProps {
 
 export const Opprettet = React.memo(({ date }: OpprettetProps) => (
     <CellContent width={100}>
-        <Normaltekst>{`${somDato(date).format(NORSK_DATOFORMAT)}`}</Normaltekst>
+        <BodyShort>{`${somDato(date).format(NORSK_DATOFORMAT)}`}</BodyShort>
     </CellContent>
 ));

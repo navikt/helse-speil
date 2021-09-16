@@ -1,9 +1,8 @@
 import styled from '@emotion/styled';
 import React from 'react';
 
-import { Element, Normaltekst } from 'nav-frontend-typografi';
-
 import { Bag, People } from '@navikt/ds-icons';
+import { BodyShort } from '@navikt/ds-react';
 
 import { TekstMedEllipsis } from '../../../components/TekstMedEllipsis';
 import { somPenger } from '../../../utils/locale';
@@ -21,11 +20,13 @@ const Container = styled.div`
         'personIcon personName personSum';
 `;
 
-const Title = styled(Element)`
+const Title = styled(BodyShort)`
+    font-weight: 600;
     grid-area: title;
 `;
 
-const Total = styled(Element)`
+const Total = styled(BodyShort)`
+    font-weight: 600;
     grid-area: total;
     justify-self: flex-end;
 `;
@@ -57,12 +58,12 @@ const PersonName = styled.div`
     max-width: 150px;
 `;
 
-const ArbeidsgiverSum = styled(Normaltekst)`
+const ArbeidsgiverSum = styled(BodyShort)`
     grid-area: arbeidsgiverSum;
     justify-self: flex-end;
 `;
 
-const PersonSum = styled(Normaltekst)`
+const PersonSum = styled(BodyShort)`
     grid-area: personSum;
     justify-self: flex-end;
 `;
@@ -83,21 +84,21 @@ export const Utbetalingssum = ({
     personnavn,
 }: BeløpTilUtbetalingProps) => (
     <Container>
-        <Title>{erUtbetalt ? 'Utbetalt beløp' : 'Beløp til utbetaling'}</Title>
-        <Total>{somPenger(arbeidsgiverNettobeløp + personNettobeløp)}</Total>
+        <Title component="p">{erUtbetalt ? 'Utbetalt beløp' : 'Beløp til utbetaling'}</Title>
+        <Total component="p">{somPenger(arbeidsgiverNettobeløp + personNettobeløp)}</Total>
         <ArbeidsgiverIcon>
             <Bag data-tip="Arbeidsgiver" title="Arbeidsgiver" />
         </ArbeidsgiverIcon>
         <ArbeidsgiverName>
             <TekstMedEllipsis>{arbeidsgivernavn}</TekstMedEllipsis>
         </ArbeidsgiverName>
-        <ArbeidsgiverSum>{somPenger(arbeidsgiverNettobeløp)}</ArbeidsgiverSum>
+        <ArbeidsgiverSum component="p">{somPenger(arbeidsgiverNettobeløp)}</ArbeidsgiverSum>
         <PersonIcon>
             <People data-tip="Arbeidstaker" title="Arbeidstaker" />
         </PersonIcon>
         <PersonName>
             <TekstMedEllipsis>{personnavn}</TekstMedEllipsis>
         </PersonName>
-        <PersonSum>{somPenger(personNettobeløp)}</PersonSum>
+        <PersonSum component="p">{somPenger(personNettobeløp)}</PersonSum>
     </Container>
 );

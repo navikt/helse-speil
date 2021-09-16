@@ -1,9 +1,7 @@
 import styled from '@emotion/styled';
 import React, { useRef, useState } from 'react';
 
-import { Normaltekst } from 'nav-frontend-typografi';
-
-import { Popover } from '@navikt/ds-react';
+import { BodyShort, Popover } from '@navikt/ds-react';
 
 const Container = styled.span`
     position: absolute;
@@ -11,7 +9,7 @@ const Container = styled.span`
     left: 0;
 `;
 
-const Text = styled(Normaltekst)`
+const Text = styled(BodyShort)`
     white-space: nowrap;
     padding: 0.5rem 1rem;
     font-style: normal;
@@ -39,7 +37,7 @@ export const Overstyringsindikator = () => {
                 onClose={() => setShowPopover(false)}
                 placement="top"
             >
-                <Text>{text}</Text>
+                <Text component="p">{text}</Text>
             </Popover>
         </Container>
     );

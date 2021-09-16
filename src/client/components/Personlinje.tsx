@@ -3,7 +3,7 @@ import { Person } from 'internal-types';
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-import { Element, Normaltekst } from 'nav-frontend-typografi';
+import { BodyShort } from '@navikt/ds-react';
 
 import { usePersondataSkalAnonymiseres } from '../state/person';
 import { NORSK_DATOFORMAT } from '../utils/date';
@@ -35,8 +35,8 @@ const Container = styled.div`
     }
 `;
 
-const Separator = styled(Normaltekst)`
-    margin: 0 1rem 0 1rem;
+const Separator = styled(BodyShort)`
+    margin: 0 1rem;
 `;
 
 const Lenke = styled(Link)`
@@ -66,6 +66,10 @@ const DødsdatoEtikett = styled(Etikett)`
     background: var(--speil-etikett-forlengelse-it-background);
     border: 1px solid var(--speil-etikett-forlengelse-it-border);
     color: var(--navds-color-text-inverse);
+`;
+
+const Bold = styled(BodyShort)`
+    font-weight: 600;
 `;
 
 const Kjønnsikon = ({ kjønn }: { kjønn: 'kvinne' | 'mann' | 'ukjent' }) => {
@@ -111,13 +115,13 @@ export const LasterPersonlinje = () => (
     <Container>
         <KjønnsnøytraltIkon />
         <LoadingText />
-        <Separator>/</Separator>
+        <Separator component="p">/</Separator>
         <LoadingText />
-        <Separator>/</Separator>
+        <Separator component="p">/</Separator>
         <LoadingText />
-        <Separator>/</Separator>
+        <Separator component="p">/</Separator>
         <LoadingText />
-        <Separator>/</Separator>
+        <Separator component="p">/</Separator>
         <LoadingText />
     </Container>
 );
@@ -134,37 +138,39 @@ export const Personlinje = ({ person }: PersonlinjeProps) => {
     return (
         <Container>
             <Kjønnsikon kjønn={kjønn} />
-            <Element>{capitalizeName(`${etternavn}, ${fornavn} ${mellomnavn ? `${mellomnavn} ` : ''}`)}</Element>
-            <Separator>/</Separator>
+            <Bold component="p">
+                {capitalizeName(`${etternavn}, ${fornavn} ${mellomnavn ? `${mellomnavn} ` : ''}`)}
+            </Bold>
+            <Separator component="p">/</Separator>
             {fnr ? (
                 <Clipboard
                     preserveWhitespace={false}
                     copyMessage="Fødselsnummer er kopiert"
                     dataTip="Kopier fødselsnummer"
                 >
-                    <Normaltekst>{formatFnr(fnr)}</Normaltekst>
+                    <BodyShort>{formatFnr(fnr)}</BodyShort>
                 </Clipboard>
             ) : (
-                <Normaltekst>Fødselsnummer ikke tilgjengelig</Normaltekst>
+                <BodyShort>Fødselsnummer ikke tilgjengelig</BodyShort>
             )}
-            <Separator>/</Separator>
-            <Normaltekst>Aktør-ID:&nbsp;</Normaltekst>
+            <Separator component="p">/</Separator>
+            <BodyShort>Aktør-ID:&nbsp;</BodyShort>
             <Clipboard preserveWhitespace={false} copyMessage="Aktør-ID er kopiert" dataTip="Kopier aktør-ID">
-                <Normaltekst>{aktørId}</Normaltekst>
+                <BodyShort>{aktørId}</BodyShort>
             </Clipboard>
-            <Separator>/</Separator>
-            <Normaltekst>
+            <Separator component="p">/</Separator>
+            <BodyShort>
                 Boenhet: {enhet.id} ({enhet.navn})
-            </Normaltekst>
+            </BodyShort>
             {utbetalingsoversikt && (
                 <>
-                    <Separator>/</Separator>
+                    <Separator component="p">/</Separator>
                     <Lenke to={`${person.aktørId}/../utbetalingshistorikk`}>Utbetalingsoversikt</Lenke>
                 </>
             )}
             {person?.dødsdato && (
                 <>
-                    <Separator>/</Separator>
+                    <Separator component="p">/</Separator>
                     <DødsdatoEtikett>Død {person?.dødsdato?.format(NORSK_DATOFORMAT)}</DødsdatoEtikett>
                 </>
             )}

@@ -1,10 +1,6 @@
-import React, { SVGProps } from 'react';
+import React from 'react';
 
-export interface IkonProps extends SVGProps<any> {
-    height?: number;
-    width?: number;
-    viewBox?: string;
-    className?: string;
+export interface IkonProps extends React.SVGAttributes<SVGElement> {
     alt?: string;
 }
 

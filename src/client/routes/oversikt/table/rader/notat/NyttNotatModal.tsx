@@ -6,7 +6,8 @@ import { useSetRecoilState } from 'recoil';
 import { Flatknapp, Knapp } from 'nav-frontend-knapper';
 import { Textarea } from 'nav-frontend-skjema';
 import NavFrontendSpinner from 'nav-frontend-spinner';
-import { Normaltekst } from 'nav-frontend-typografi';
+
+import { BodyShort } from '@navikt/ds-react';
 
 import { Modal } from '../../../../../components/Modal';
 import { Key } from '../../../../../hooks/useKeyboard';
@@ -24,6 +25,7 @@ import { SisteNotat } from './SisteNotat';
 const Knappegruppe = styled.span`
     display: flex;
     margin-top: 4em;
+
     > button:not(:last-of-type) {
         margin-right: 1rem;
     }
@@ -33,12 +35,13 @@ const Content = styled.div`
     padding: 1rem;
 `;
 
-const StyledUndertittel = styled(Normaltekst)`
+const StyledUndertittel = styled(BodyShort)`
     margin-top: 1.5rem;
 `;
 
 const StyledModal = styled(Modal)`
     width: 670px;
+
     h1 {
         font-size: 24px;
         font-weight: 600;
@@ -114,7 +117,7 @@ export const NyttNotatModal = ({ lukkModal, personinfo, vedtaksperiodeId, leggSa
 
     return (
         <StyledModal title={<Tittel>{tittel}</Tittel>} contentLabel="Notat" isOpen onRequestClose={closeModal}>
-            <StyledUndertittel>{undertittel}</StyledUndertittel>
+            <StyledUndertittel component="p">{undertittel}</StyledUndertittel>
             <Content>
                 {notaterForOppgave.length > 0 && (
                     <>

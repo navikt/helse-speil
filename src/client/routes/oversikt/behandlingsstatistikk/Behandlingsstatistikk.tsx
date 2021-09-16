@@ -5,7 +5,7 @@ import { Behandlingsstatistikk as Statistikk } from 'internal-types';
 import React from 'react';
 import { selector, useRecoilValueLoadable } from 'recoil';
 
-import { Normaltekst } from 'nav-frontend-typografi';
+import { BodyShort } from '@navikt/ds-react';
 
 import { CloseButton } from '../../../components/CloseButton';
 import { Flex } from '../../../components/Flex';
@@ -24,7 +24,7 @@ const Container = styled.div`
     height: 100%;
 `;
 
-const Header = styled(Normaltekst)`
+const Header = styled(BodyShort)`
     width: 100%;
     font-family: inherit;
     font-weight: 600;
@@ -165,7 +165,7 @@ export const Behandlingsstatistikk = () => {
         >
             <Container>
                 <HeaderContainer>
-                    <Header>Totalt behandlede saker i dag</Header>
+                    <Header component="p">Totalt behandlede saker i dag</Header>
                     <CloseButton onClick={() => setShow(false)} />
                 </HeaderContainer>
                 {statistikk ? (

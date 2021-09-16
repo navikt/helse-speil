@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import React from 'react';
 
-import { Element, Undertekst } from 'nav-frontend-typografi';
+import { BodyShort } from '@navikt/ds-react';
 
 import { NORSK_DATOFORMAT } from '../../../utils/date';
 
@@ -35,14 +35,22 @@ const EmptyIcon = styled.div`
     height: 20px;
 `;
 
+const Bold = styled(BodyShort)`
+    font-weight: 600;
+`;
+
+const Timestamp = styled(BodyShort)`
+    font-size: 14px;
+`;
+
 export const HistorikkHendelse = ({ icon, title, body, timestamp }: Hendelse) => {
     return (
         <Container>
             <IconContainer>{icon ?? <EmptyIcon />}</IconContainer>
             <ContentContainer>
-                <Element>{title}</Element>
+                <Bold component="p">{title}</Bold>
                 {body}
-                {timestamp && <Undertekst>{timestamp.format(NORSK_DATOFORMAT)}</Undertekst>}
+                {timestamp && <Timestamp component="p">{timestamp.format(NORSK_DATOFORMAT)}</Timestamp>}
             </ContentContainer>
         </Container>
     );

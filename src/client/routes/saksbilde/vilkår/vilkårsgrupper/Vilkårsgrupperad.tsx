@@ -1,14 +1,14 @@
 import styled from '@emotion/styled';
 import React, { ReactNode } from 'react';
 
-import { Normaltekst } from 'nav-frontend-typografi';
+import { BodyShort } from '@navikt/ds-react';
 
 interface Props {
     label: string;
     children: ReactNode | ReactNode[];
 }
 
-const Navn = styled(Normaltekst)`
+const Navn = styled(BodyShort)`
     min-width: 15rem;
 `;
 
@@ -22,7 +22,7 @@ const Verdi = styled.div`
 
 export const Vilkårsgrupperad = ({ label, children }: Props) => (
     <>
-        <Navn>{label}</Navn>
+        <Navn component="p">{label}</Navn>
         <Verdi>{children}</Verdi>
     </>
 );

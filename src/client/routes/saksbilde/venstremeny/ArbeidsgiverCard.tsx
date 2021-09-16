@@ -1,7 +1,7 @@
 import { Arbeidsforhold } from 'internal-types';
 import React from 'react';
 
-import { Normaltekst } from 'nav-frontend-typografi';
+import { BodyShort } from '@navikt/ds-react';
 
 import { Flex } from '../../../components/Flex';
 import { Clipboard } from '../../../components/clipboard';
@@ -38,23 +38,23 @@ export const ArbeidsgiverCard = ({
             copyMessage="Organisasjonsnummer er kopiert"
             dataTip="Kopier organisasjonsnummer"
         >
-            <Normaltekst>
+            <BodyShort>
                 {anonymiseringEnabled ? getAnonymArbeidsgiverForOrgnr(organisasjonsnummer).orgnr : organisasjonsnummer}
-            </Normaltekst>
+            </BodyShort>
         </Clipboard>
         {arbeidsforhold.map((e, i) => (
             <React.Fragment key={i}>
-                <Normaltekst>{`${
+                <BodyShort>{`${
                     anonymiseringEnabled ? 'Agurkifisert stillingstittel' : capitalize(e.stillingstittel)
-                }, ${e.stillingsprosent} %`}</Normaltekst>
-                <Normaltekst>
+                }, ${e.stillingsprosent} %`}</BodyShort>
+                <BodyShort>
                     {e.startdato.format(NORSK_DATOFORMAT)}
                     {e.sluttdato && ' - ' && e.sluttdato.format(NORSK_DATOFORMAT)}
-                </Normaltekst>
+                </BodyShort>
             </React.Fragment>
         ))}
         <Flex flexDirection="row" justifyContent="space-between">
-            <Normaltekst>Månedsbeløp:</Normaltekst>
+            <BodyShort>Månedsbeløp:</BodyShort>
             {somPenger(månedsbeløp)}
         </Flex>
     </Card>

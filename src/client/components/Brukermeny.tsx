@@ -1,10 +1,8 @@
 import styled from '@emotion/styled';
 import React, { useState } from 'react';
 
-import { Normaltekst } from 'nav-frontend-typografi';
-
 import { Collapse, Expand } from '@navikt/ds-icons';
-import { Popover } from '@navikt/ds-react';
+import { BodyShort, Popover } from '@navikt/ds-react';
 
 import { TekstMedEllipsis } from './TekstMedEllipsis';
 import { DropdownMenyknapp } from './dropdown/Dropdown';
@@ -55,7 +53,7 @@ const MenyNavn = styled(TekstMedEllipsis)`
     width: 190px;
 `;
 
-const MenyTekst = styled(Normaltekst)`
+const MenyTekst = styled(BodyShort)`
     padding: 4px 16px;
 `;
 
@@ -103,8 +101,8 @@ export const Brukermeny: React.FC<BrukermenyProps> = ({ navn, ident }) => {
                 arrow={false}
                 offset={-8}
             >
-                <MenyTekst>{navn}</MenyTekst>
-                <MenyTekst>{ident}</MenyTekst>
+                <MenyTekst component="p">{navn}</MenyTekst>
+                <MenyTekst component="p">{ident}</MenyTekst>
                 <Strek />
                 <MenyLenke href="/logout">Logg ut</MenyLenke>
             </Popover>

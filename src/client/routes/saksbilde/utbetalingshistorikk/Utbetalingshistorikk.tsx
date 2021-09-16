@@ -3,8 +3,7 @@ import { Person, UtbetalingshistorikkUtbetaling } from 'internal-types';
 import React, { useState } from 'react';
 import { useHistory } from 'react-router';
 
-import Element from 'nav-frontend-typografi/lib/element';
-
+import { BodyShort } from '@navikt/ds-react';
 import { Tabell } from '@navikt/helse-frontend-tabell';
 
 import { useRefreshPersonVedUrlEndring } from '../../../hooks/useRefreshPersonVedUrlEndring';
@@ -18,6 +17,10 @@ const Container = styled.div`
     flex-direction: column;
     flex: 1;
     overflow: auto;
+`;
+
+const Bold = styled(BodyShort)`
+    font-weight: 600;
 `;
 
 const Lukknapp = styled.button`
@@ -103,12 +106,14 @@ export const Utbetalingshistorikk = ({ person, anonymiseringEnabled }: Utbetalin
     const rader = person.utbetalinger.map((utbetaling) => {
         let utbetalingslinjer = utbetaling.arbeidsgiverOppdrag.utbetalingslinjer;
         return [
-            <Element>{utbetalingslinjer[0].fom.format(NORSK_DATOFORMAT_KORT)}</Element>,
-            <Element>{utbetalingslinjer[utbetalingslinjer.length - 1].tom.format(NORSK_DATOFORMAT_KORT)}</Element>,
-            <Element>{utbetaling.arbeidsgiverOppdrag.fagsystemId}</Element>,
-            <Element>{utbetaling.totalbeløp ? `${utbetaling.totalbeløp} kr` : '-'}</Element>,
-            <Element>{utbetaling.status}</Element>,
-            <Element>{utbetaling.type}</Element>,
+            <Bold component="p">{utbetalingslinjer[0].fom.format(NORSK_DATOFORMAT_KORT)}</Bold>,
+            <Bold component="p">
+                {utbetalingslinjer[utbetalingslinjer.length - 1].tom.format(NORSK_DATOFORMAT_KORT)}
+            </Bold>,
+            <Bold component="p">{utbetaling.arbeidsgiverOppdrag.fagsystemId}</Bold>,
+            <Bold component="p">{utbetaling.totalbeløp ? `${utbetaling.totalbeløp} kr` : '-'}</Bold>,
+            <Bold component="p">{utbetaling.status}</Bold>,
+            <Bold component="p">{utbetaling.type}</Bold>,
             annulleringErForespurt(utbetaling) ? (
                 'Utbetalingen er forespurt annullert'
             ) : visAnnulleringsknapp(utbetaling) ? (

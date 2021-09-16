@@ -1,8 +1,11 @@
 import styled from '@emotion/styled';
+import React from 'react';
 
-import { UndertekstBold } from 'nav-frontend-typografi';
+import { BodyShort } from '@navikt/ds-react';
 
-export const CardTitle = styled(UndertekstBold)`
+const Title = styled(BodyShort)`
+    font-size: 14px;
+    font-weight: 600;
     display: flex;
     align-items: center;
     margin-bottom: 0.25rem;
@@ -26,3 +29,9 @@ export const CardTitle = styled(UndertekstBold)`
         }
     }
 `;
+
+interface CardTitleProps extends React.HTMLAttributes<HTMLParagraphElement> {
+    children: React.ReactNode;
+}
+
+export const CardTitle: React.FC<CardTitleProps> = (props) => <Title component="h3" {...props} />;

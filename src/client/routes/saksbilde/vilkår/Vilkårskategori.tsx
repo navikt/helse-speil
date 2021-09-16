@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import React, { ReactNode } from 'react';
 
-import { Normaltekst } from 'nav-frontend-typografi';
+import { BodyShort } from '@navikt/ds-react';
 
 import { Flex } from '../../../components/Flex';
 
@@ -20,6 +20,6 @@ interface VilkårskategoriProps extends React.HTMLAttributes<HTMLDivElement> {
 export const Vilkårskategori = ({ children, ikon, ...rest }: VilkårskategoriProps) => (
     <Container className="vilkårskategori" {...rest}>
         <IkonContainer>{ikon}</IkonContainer>
-        <Normaltekst>{children}</Normaltekst>
+        <BodyShort>{children}</BodyShort>
     </Container>
 );

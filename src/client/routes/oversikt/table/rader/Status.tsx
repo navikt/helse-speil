@@ -1,11 +1,16 @@
+import styled from '@emotion/styled';
 import React from 'react';
 
-import { Element } from 'nav-frontend-typografi';
+import { BodyShort } from '@navikt/ds-react';
 
 import { CellContent } from './CellContent';
 
 const getFormattedWarningText = (antallVarsler?: number): string =>
     !antallVarsler ? '' : antallVarsler === 1 ? '1 varsel' : `${antallVarsler} varsler`;
+
+const Text = styled(BodyShort)`
+    font-weight: 600;
+`;
 
 interface StatusProps {
     numberOfWarnings: number;
@@ -13,6 +18,6 @@ interface StatusProps {
 
 export const Status = React.memo(({ numberOfWarnings }: StatusProps) => (
     <CellContent width={100}>
-        <Element>{getFormattedWarningText(numberOfWarnings)}</Element>
+        <Text component="p">{getFormattedWarningText(numberOfWarnings)}</Text>
     </CellContent>
 ));

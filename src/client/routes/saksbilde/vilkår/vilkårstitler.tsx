@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import classNames from 'classnames';
 import React, { ReactNode } from 'react';
 
-import { Undertekst, Undertittel } from 'nav-frontend-typografi';
+import { BodyShort } from '@navikt/ds-react';
 
 import { Kryssikon } from '../../../components/ikoner/Kryssikon';
 import { Sjekkikon } from '../../../components/ikoner/Sjekkikon';
@@ -26,17 +26,19 @@ const TekstContainer = styled.div`
     flex-wrap: wrap;
 `;
 
-export const Tittel = styled(Undertittel)`
+export const Tittel = styled(BodyShort)`
     display: flex;
     align-items: center;
     color: var(--navds-color-text-primary);
     font-size: 18px;
+    font-weight: 600;
     margin-right: 0.5rem;
     white-space: nowrap;
     min-height: 1.5rem;
 `;
 
-export const Paragraf = styled(Undertekst)`
+export const Paragraf = styled(BodyShort)`
+    font-size: 14px;
     display: flex;
     align-items: center;
     color: var(--navds-color-text-disabled);
@@ -64,10 +66,10 @@ export const Vilkårsgruppetittel = ({ children, oppfylt, paragraf, type, classN
             )}
         </IkonContainer>
         <TekstContainer>
-            <Tittel tag="h3" data-testid={type}>
+            <Tittel component="h3" data-testid={type}>
                 {children}
             </Tittel>
-            {paragraf && <Paragraf>{paragraf}</Paragraf>}
+            {paragraf && <Paragraf component="p">{paragraf}</Paragraf>}
         </TekstContainer>
     </Header>
 );

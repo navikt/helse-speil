@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import { Periodetype, Vedtaksperiode, Vilkår } from 'internal-types';
 import React from 'react';
 
-import { Normaltekst, Undertekst } from 'nav-frontend-typografi';
+import { BodyShort } from '@navikt/ds-react';
 
 import { Flex } from '../../../components/Flex';
 import { LovdataLenke } from '../../../components/LovdataLenke';
@@ -11,7 +11,7 @@ import { Vilkårdata, Vilkårstype } from '../../../mapping/vilkår';
 
 import { Opptjeningstid, Sykepengegrunnlag } from './vilkårsgrupper/Vilkårsgrupper';
 
-const VilkårManglerData = () => <Normaltekst>Mangler data om vilkåret</Normaltekst>;
+const VilkårManglerData = () => <BodyShort>Mangler data om vilkåret</BodyShort>;
 
 const opptjeningstid = (vilkår: Vilkår): Vilkårdata => {
     try {
@@ -38,6 +38,11 @@ const IconContainer = styled.div`
     justify-self: center;
 `;
 
+const LovdataLenkeContainer = styled(BodyShort)`
+    font-size: 14px;
+    margin-left: 0.5rem;
+`;
+
 const sykepengegrunnlag = (vilkår: Vilkår): Vilkårdata => {
     try {
         const harEndretParagraf = vilkår.alder.alderSisteSykedag < 70 && vilkår.alder.alderSisteSykedag >= 67;
@@ -54,9 +59,9 @@ const sykepengegrunnlag = (vilkår: Vilkår): Vilkårdata => {
                             width={16}
                         />
                     </IconContainer>
-                    <Undertekst style={{ marginLeft: '.5rem' }}>
+                    <LovdataLenkeContainer component="p">
                         <LovdataLenke paragraf="8-51">§ 8-51</LovdataLenke>
-                    </Undertekst>
+                    </LovdataLenkeContainer>
                 </EndretParagrafContainer>
             ) : (
                 <LovdataLenke paragraf="8-3">§ 8-3</LovdataLenke>

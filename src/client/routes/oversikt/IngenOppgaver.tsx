@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import dayjs from 'dayjs';
 import React from 'react';
 
-import { Sidetittel } from 'nav-frontend-typografi';
+import { Title } from '@navikt/ds-react';
 
 import agurk from '../../assets/ingen-oppgaver-agurk.png';
 import fredagstaco from '../../assets/ingen-oppgaver-fredagstaco.png';
@@ -20,7 +20,7 @@ const Container = styled.div`
     padding: 4rem;
 `;
 
-const Tekst = styled(Sidetittel)`
+const Tekst = styled(Title)`
     margin: 2rem 0 0;
     font-size: 1.25rem;
     flex: 1;
@@ -40,21 +40,27 @@ export const IngenOppgaver = () => {
                     ) : (
                         <img alt="Agurk med armer og bein som holder kaffekopp" src={agurk} />
                     )}
-                    <Tekst>Ooops! Ingen saker å plukke...</Tekst>
+                    <Tekst component="h2" size="m">
+                        Ooops! Ingen saker å plukke...
+                    </Tekst>
                 </Container>
             );
         case 'mine':
             return (
                 <Container>
                     <img alt="Tom brevkasse som smiler" src={brevkasse} />
-                    <Tekst>Du har ingen tildelte saker</Tekst>
+                    <Tekst component="h2" size="m">
+                        Du har ingen tildelte saker
+                    </Tekst>
                 </Container>
             );
         case 'ventende':
             return (
                 <Container>
                     <img alt="Tom brevkasse som smiler" src={brevkasse} />
-                    <Tekst>Du har ingen saker på vent</Tekst>
+                    <Tekst component="h2" size="m">
+                        Du har ingen saker på vent
+                    </Tekst>
                 </Container>
             );
         default:

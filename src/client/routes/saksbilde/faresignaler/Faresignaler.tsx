@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import { Faresignal, Risikovurdering } from 'internal-types';
 import React, { ReactNode } from 'react';
 
-import { Normaltekst } from 'nav-frontend-typografi';
+import { BodyShort } from '@navikt/ds-react';
 
 import { AgurkErrorBoundary } from '../../../components/AgurkErrorBoundary';
 import { FlexColumn } from '../../../components/Flex';
@@ -80,12 +80,12 @@ const Faresignalkategori = ({ ikon, overskrift, faresignaler, vurderingIkon }: F
     <Kolonne>
         <Linje>
             <IkonContainer>{ikon}</IkonContainer>
-            <Normaltekst>{overskrift}</Normaltekst>
+            <BodyShort>{overskrift}</BodyShort>
         </Linje>
         {faresignaler.map((faresignal, i) => (
             <Linje key={i}>
                 <IkonContainer>{vurderingIkon}</IkonContainer>
-                <Normaltekst>{faresignal.beskrivelse}</Normaltekst>
+                <BodyShort>{faresignal.beskrivelse}</BodyShort>
             </Linje>
         ))}
     </Kolonne>

@@ -42,8 +42,8 @@ export const Yrkeskadeinfo: React.FC<React.HTMLAttributes<HTMLDivElement>> = (pr
             <Information width={20} height={20} />
         </IconContainer>
         <TitleContainer>
-            <Tittel>Systemet henter ikke inn yrkesskade</Tittel>
-            <Paragraf>
+            <Tittel component="h3">Systemet henter ikke inn yrkesskade</Tittel>
+            <Paragraf component="p">
                 <LovdataLenke paragraf="8-55">§ 8-55</LovdataLenke>
             </Paragraf>
         </TitleContainer>

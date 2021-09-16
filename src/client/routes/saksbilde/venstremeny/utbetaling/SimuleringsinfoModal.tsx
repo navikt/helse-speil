@@ -4,7 +4,7 @@ import { Utbetaling, Utbetalingsdetalj } from 'external-types';
 import { Simulering } from 'internal-types';
 import React from 'react';
 
-import { Element, Normaltekst, Undertittel } from 'nav-frontend-typografi';
+import { BodyShort, Title } from '@navikt/ds-react';
 
 import { Grid } from '../../../../components/Grid';
 import { Modal } from '../../../../components/Modal';
@@ -23,7 +23,11 @@ const Underliste = styled(Grid)`
     }
 `;
 
-const NegativtBeløp = styled(Normaltekst)`
+const Bold = styled(BodyShort)`
+    font-weight: 600;
+`;
+
+const NegativtBeløp = styled(BodyShort)`
     color: var(--navds-color-text-error);
     font-style: italic;
 `;
@@ -45,22 +49,22 @@ interface UtbetalingsvisningProps {
 const Utbetalingsvisning = ({ utbetaling, index, anonymiseringEnabled }: UtbetalingsvisningProps) => (
     <React.Fragment>
         {index > 0 && <Luft />}
-        <Normaltekst>Utbetales til ID</Normaltekst>
-        <Normaltekst>
+        <BodyShort>Utbetales til ID</BodyShort>
+        <BodyShort>
             {anonymiseringEnabled
                 ? getAnonymArbeidsgiverForOrgnr(utbetaling.utbetalesTilId).orgnr
                 : utbetaling.utbetalesTilId}
-        </Normaltekst>
-        <Normaltekst>Utbetales til navn</Normaltekst>
-        <Normaltekst>
+        </BodyShort>
+        <BodyShort>Utbetales til navn</BodyShort>
+        <BodyShort>
             {anonymiseringEnabled
                 ? getAnonymArbeidsgiverForOrgnr(utbetaling.utbetalesTilId).navn
                 : utbetaling.utbetalesTilNavn}
-        </Normaltekst>
-        <Normaltekst>Forfall</Normaltekst>
-        <Normaltekst>{formaterDato(utbetaling.forfall)}</Normaltekst>
-        <Normaltekst>Feilkonto</Normaltekst>
-        <Normaltekst>{utbetaling.feilkonto ? 'Ja' : 'Nei'}</Normaltekst>
+        </BodyShort>
+        <BodyShort>Forfall</BodyShort>
+        <BodyShort>{formaterDato(utbetaling.forfall)}</BodyShort>
+        <BodyShort>Feilkonto</BodyShort>
+        <BodyShort>{utbetaling.feilkonto ? 'Ja' : 'Nei'}</BodyShort>
         {utbetaling.detaljer.map((detalj: Utbetalingsdetalj, index: number) => (
             <Utbetalingsdetaljvisning
                 detalj={detalj}
@@ -81,44 +85,44 @@ interface UtbetalingsdetaljvisningProps {
 const Utbetalingsdetaljvisning = ({ detalj, index, anonymiseringEnabled }: UtbetalingsdetaljvisningProps) => (
     <React.Fragment>
         {index > 0 && <Luft />}
-        <Normaltekst>Faktisk fom</Normaltekst>
-        <Normaltekst>{formaterDato(detalj.faktiskFom)}</Normaltekst>
-        <Normaltekst>Faktisk tom</Normaltekst>
-        <Normaltekst>{formaterDato(detalj.faktiskTom)}</Normaltekst>
-        <Normaltekst>Sats</Normaltekst>
+        <BodyShort>Faktisk fom</BodyShort>
+        <BodyShort>{formaterDato(detalj.faktiskFom)}</BodyShort>
+        <BodyShort>Faktisk tom</BodyShort>
+        <BodyShort>{formaterDato(detalj.faktiskTom)}</BodyShort>
+        <BodyShort>Sats</BodyShort>
         {detalj.sats < 0 ? (
-            <NegativtBeløp>{somPenger(detalj.sats)}</NegativtBeløp>
+            <NegativtBeløp component="p">{somPenger(detalj.sats)}</NegativtBeløp>
         ) : (
-            <Normaltekst>{somPenger(detalj.sats)}</Normaltekst>
+            <BodyShort>{somPenger(detalj.sats)}</BodyShort>
         )}
-        <Normaltekst>Antall sats</Normaltekst>
-        <Normaltekst>{detalj.antallSats}</Normaltekst>
-        <Normaltekst>Type sats</Normaltekst>
-        <Normaltekst>{detalj.typeSats}</Normaltekst>
-        <Normaltekst>Beløp</Normaltekst>
+        <BodyShort>Antall sats</BodyShort>
+        <BodyShort>{detalj.antallSats}</BodyShort>
+        <BodyShort>Type sats</BodyShort>
+        <BodyShort>{detalj.typeSats}</BodyShort>
+        <BodyShort>Beløp</BodyShort>
         {detalj.belop < 0 ? (
-            <NegativtBeløp>{somPenger(detalj.belop)}</NegativtBeløp>
+            <NegativtBeløp component="p">{somPenger(detalj.belop)}</NegativtBeløp>
         ) : (
-            <Normaltekst>{somPenger(detalj.belop)}</Normaltekst>
+            <BodyShort>{somPenger(detalj.belop)}</BodyShort>
         )}
-        <Normaltekst>Konto</Normaltekst>
-        <Normaltekst>{anonymiseringEnabled ? 'Agurkifisert konto' : detalj.konto}</Normaltekst>
-        <Normaltekst>Klassekode</Normaltekst>
-        <Normaltekst>{detalj.klassekode}</Normaltekst>
-        <Normaltekst>Klassekodebeskrivelse</Normaltekst>
-        <Normaltekst>{detalj.klassekodeBeskrivelse}</Normaltekst>
-        <Normaltekst>Uføregrad</Normaltekst>
-        <Normaltekst>{detalj.uforegrad}</Normaltekst>
-        <Normaltekst>Utbetalingstype</Normaltekst>
-        <Normaltekst>{detalj.utbetalingsType}</Normaltekst>
-        <Normaltekst>Refunderes orgnummer</Normaltekst>
-        <Normaltekst>
+        <BodyShort>Konto</BodyShort>
+        <BodyShort>{anonymiseringEnabled ? 'Agurkifisert konto' : detalj.konto}</BodyShort>
+        <BodyShort>Klassekode</BodyShort>
+        <BodyShort>{detalj.klassekode}</BodyShort>
+        <BodyShort>Klassekodebeskrivelse</BodyShort>
+        <BodyShort>{detalj.klassekodeBeskrivelse}</BodyShort>
+        <BodyShort>Uføregrad</BodyShort>
+        <BodyShort>{detalj.uforegrad}</BodyShort>
+        <BodyShort>Utbetalingstype</BodyShort>
+        <BodyShort>{detalj.utbetalingsType}</BodyShort>
+        <BodyShort>Refunderes orgnummer</BodyShort>
+        <BodyShort>
             {anonymiseringEnabled
                 ? getAnonymArbeidsgiverForOrgnr(detalj.refunderesOrgNr).orgnr
                 : detalj.refunderesOrgNr}
-        </Normaltekst>
-        <Normaltekst>Tilbakeføring</Normaltekst>
-        <Normaltekst>{detalj.tilbakeforing ? 'Ja' : 'Nei'}</Normaltekst>
+        </BodyShort>
+        <BodyShort>Tilbakeføring</BodyShort>
+        <BodyShort>{detalj.tilbakeforing ? 'Ja' : 'Nei'}</BodyShort>
     </React.Fragment>
 );
 
@@ -138,19 +142,21 @@ export const SimuleringsinfoModal = ({
     <Modal isOpen={åpenModal} contentLabel="Simuleringsinfo" onRequestClose={lukkModal}>
         <Modalinnhold>
             <Grid gridTemplateColumns="1fr 1fr">
-                <Undertittel>Simulering</Undertittel>
+                <Title component="h2" size="m">
+                    Simulering
+                </Title>
             </Grid>
             {simulering.perioder.map((periode, index) => (
                 <Underliste gridTemplateColumns="1fr 1fr" key={`periode-${index}`}>
                     <Luft />
-                    <Element>Periode</Element>
-                    <Element>{`${formaterDato(periode.fom)} - ${formaterDato(periode.tom)}`}</Element>
+                    <BodyShort component="p">Periode</BodyShort>
+                    <BodyShort component="p">{`${formaterDato(periode.fom)} - ${formaterDato(periode.tom)}`}</BodyShort>
                     <Luft />
-                    <Normaltekst>Totalbeløp simulering</Normaltekst>
+                    <BodyShort>Totalbeløp simulering</BodyShort>
                     {simulering.totalbeløp < 0 ? (
-                        <NegativtBeløp>{somPenger(simulering.totalbeløp)}</NegativtBeløp>
+                        <NegativtBeløp component="p">{somPenger(simulering.totalbeløp)}</NegativtBeløp>
                     ) : (
-                        <Normaltekst>{somPenger(simulering.totalbeløp)}</Normaltekst>
+                        <BodyShort>{somPenger(simulering.totalbeløp)}</BodyShort>
                     )}
                     <Luft />
                     {periode.utbetalinger.map((utbetaling, index) => (

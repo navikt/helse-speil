@@ -3,7 +3,10 @@ import React, { useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 
 import { Textarea } from 'nav-frontend-skjema';
-import { Normaltekst } from 'nav-frontend-typografi';
+
+import { BodyShort } from '@navikt/ds-react';
+
+import { ErrorMessage } from '../../../../components/ErrorMessage';
 
 const Label = styled.label`
     > p:first-of-type {
@@ -16,9 +19,8 @@ const Label = styled.label`
     }
 `;
 
-const Feilmelding = styled(Normaltekst)`
+const Feilmelding = styled(ErrorMessage)`
     margin: 0.25rem 0;
-    color: var(--navds-color-text-error);
 `;
 
 export const ForklaringTextarea = () => {
@@ -33,7 +35,7 @@ export const ForklaringTextarea = () => {
 
     return (
         <Label>
-            <Normaltekst id="forklaring-label">Forklaring</Normaltekst>
+            <BodyShort id="forklaring-label">Forklaring</BodyShort>
             <Textarea
                 id="forklaring"
                 value={forklaring}

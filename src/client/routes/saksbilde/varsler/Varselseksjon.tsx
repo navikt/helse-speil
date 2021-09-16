@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import React, { ReactNode } from 'react';
 
-import { Element, Normaltekst } from 'nav-frontend-typografi';
+import { BodyShort } from '@navikt/ds-react';
 
 import { FlexColumn } from '../../../components/Flex';
 
@@ -14,8 +14,8 @@ const Container = styled(FlexColumn)`
     }
 `;
 
-const Tittel = styled(Element)`
-    color: var(--navds-color-text-primary);
+const Tittel = styled(BodyShort)`
+    font-weight: 600;
 `;
 
 interface VarselseksjonProps {
@@ -24,7 +24,7 @@ interface VarselseksjonProps {
 
 export const Varselseksjon: React.FC<VarselseksjonProps> = ({ tittel, children }) => (
     <Container>
-        <Tittel>{tittel}</Tittel>
-        <Normaltekst>{children}</Normaltekst>
+        <Tittel component="p">{tittel}</Tittel>
+        <BodyShort>{children}</BodyShort>
     </Container>
 );

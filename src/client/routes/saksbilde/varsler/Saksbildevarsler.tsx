@@ -1,8 +1,7 @@
 import { Saksbehandler, Tidslinjetilstand, TildelingType, Vedtaksperiode } from 'internal-types';
 import React from 'react';
 
-import { Normaltekst } from 'nav-frontend-typografi';
-
+import { BodyShort } from '@navikt/ds-react';
 import { Varseltype } from '@navikt/helse-frontend-varsel';
 import '@navikt/helse-frontend-varsel/lib/main.css';
 
@@ -115,13 +114,13 @@ export const Saksbildevarsler = ({
         <div className="Saksbildevarsler">
             {infoVarsler.map(({ grad, melding }, index) => (
                 <Saksbildevarsel type={grad} key={index}>
-                    <Normaltekst>{melding}</Normaltekst>
+                    <BodyShort>{melding}</BodyShort>
                 </Saksbildevarsel>
             ))}
             <Aktivitetsloggvarsler varsler={vedtaksperiode.aktivitetslog} />
             {feilVarsler.map(({ grad, melding }, index) => (
                 <Saksbildevarsel type={grad} key={index}>
-                    <Normaltekst>{melding}</Normaltekst>
+                    <BodyShort>{melding}</BodyShort>
                 </Saksbildevarsel>
             ))}
         </div>

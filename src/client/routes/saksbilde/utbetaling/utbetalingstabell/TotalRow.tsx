@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import { Dagtype, Utbetalingsdag } from 'internal-types';
 import React from 'react';
 
-import { Element } from 'nav-frontend-typografi';
+import { BodyShort } from '@navikt/ds-react';
 
 import { Row } from '../../table/Row';
 import { UtbetalingCell } from './UtbetalingCell';
@@ -15,7 +15,8 @@ const Container = styled(Row)`
     }
 `;
 
-const TotalText = styled(Element)`
+const TotalText = styled(BodyShort)`
+    font-weight: 600;
     white-space: nowrap;
 `;
 
@@ -35,14 +36,14 @@ export const TotalRow = React.memo(({ dager, dagerIgjen }: TotalRowProps) => {
         <Container>
             <td>TOTAL</td>
             <td>
-                <TotalText>{utbetalingsdager.length} dager</TotalText>
+                <TotalText component="p">{utbetalingsdager.length} dager</TotalText>
             </td>
             <td />
             <td />
             <td />
             <UtbetalingCell style={{ fontWeight: 'bold' }} utbetaling={totalUtbetaling} />
             <td>
-                <TotalText>{dagerIgjen}</TotalText>
+                <TotalText component="p">{dagerIgjen}</TotalText>
             </td>
             <td />
         </Container>

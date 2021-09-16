@@ -1,7 +1,7 @@
 import { Periodetype } from 'internal-types';
 import React from 'react';
 
-import { Normaltekst } from 'nav-frontend-typografi';
+import { BodyShort } from '@navikt/ds-react';
 
 import { Flex } from '../../../../components/Flex';
 import { Oppgaveetikett } from '../../../../components/Oppgaveetikett';
@@ -34,7 +34,7 @@ export const Sakstype = React.memo(({ type }: SakstypeProps) => (
     <CellContent width={128}>
         <Flex alignItems="center">
             <Oppgaveetikett type={type} />
-            <Normaltekst style={{ marginLeft: '12px' }}>{getLabelForType(type)}</Normaltekst>
+            <BodyShort style={{ marginLeft: '12px' }}>{getLabelForType(type)}</BodyShort>
         </Flex>
     </CellContent>
 ));

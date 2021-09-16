@@ -2,9 +2,8 @@ import styled from '@emotion/styled';
 import { Dayjs } from 'dayjs';
 import React, { useRef, useState } from 'react';
 
-import { Element, Normaltekst, Undertekst } from 'nav-frontend-typografi';
-
 import { CaseworkerFilled } from '@navikt/ds-icons';
+import { BodyShort } from '@navikt/ds-react';
 import { Tooltip } from '@navikt/helse-frontend-tooltip';
 import '@navikt/helse-frontend-tooltip/lib/main.css';
 
@@ -35,12 +34,17 @@ const StyledTooltip = styled(Tooltip)`
     }
 `;
 
-const Begrunnelsetekst = styled(Normaltekst)`
+const Begrunnelsetekst = styled(BodyShort)`
     color: var(--navds-color-text-inverse);
 `;
 
-const StyledUndertekst = styled(Undertekst)`
+const StyledUndertekst = styled(BodyShort)`
+    font-size: 14px;
     font-style: italic;
+`;
+
+const Bold = styled(BodyShort)`
+    font-weight: 600;
 `;
 
 export const OverstyringsindikatorSaksbehandler = ({
@@ -65,9 +69,9 @@ export const OverstyringsindikatorSaksbehandler = ({
             <CaseworkerFilled height={20} width={20} />
             {visTooltip && (
                 <StyledTooltip>
-                    <Element>Begrunnelse</Element>
-                    <Begrunnelsetekst>{begrunnelse}</Begrunnelsetekst>
-                    <StyledUndertekst>
+                    <Bold component="p">Begrunnelse</Bold>
+                    <Begrunnelsetekst component="p">{begrunnelse}</Begrunnelsetekst>
+                    <StyledUndertekst component="p">
                         {saksbehandler}, {dato.format(NORSK_DATOFORMAT)}
                     </StyledUndertekst>
                 </StyledTooltip>

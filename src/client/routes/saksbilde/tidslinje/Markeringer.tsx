@@ -1,9 +1,9 @@
+import styled from '@emotion/styled';
 import { Dayjs } from 'dayjs';
 import { Person } from 'internal-types';
 import React from 'react';
 
-import { Undertekst } from 'nav-frontend-typografi';
-
+import { BodyShort } from '@navikt/ds-react';
 import { Pins } from '@navikt/helse-frontend-timeline/lib';
 import { Pin } from '@navikt/helse-frontend-timeline/lib/components/types';
 
@@ -11,6 +11,10 @@ import { maksdatoForPerson } from '../../../mapping/selectors';
 import { NORSK_DATOFORMAT } from '../../../utils/date';
 
 import { PinsTooltip } from './TidslinjeTooltip';
+
+const Text = styled(BodyShort)`
+    font-size: 14px;
+`;
 
 const maksdatoForPeriode = (person: Person, fom: Dayjs, tom: Dayjs): Dayjs | undefined => {
     const maksdato = maksdatoForPerson(person);
@@ -26,7 +30,7 @@ const maksdatoPin = (person: Person, fom: Dayjs, tom: Dayjs): Pin | undefined =>
             date: maksdato.endOf('day').toDate(),
             render: (
                 <PinsTooltip>
-                    <Undertekst>Maksdato: {maksdato.format(NORSK_DATOFORMAT)}</Undertekst>
+                    <Text component="p">Maksdato: {maksdato.format(NORSK_DATOFORMAT)}</Text>
                 </PinsTooltip>
             ),
         }

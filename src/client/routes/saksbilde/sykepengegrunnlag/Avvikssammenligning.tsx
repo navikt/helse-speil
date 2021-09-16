@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import React from 'react';
 
-import { Element, Normaltekst } from 'nav-frontend-typografi';
+import { BodyShort } from '@navikt/ds-react';
 
 import { somPenger } from '../../../utils/locale';
 
@@ -10,6 +10,10 @@ interface Props {
     totalOmregnetÅrsinntekt?: number;
     totalRapportertÅrsinntekt?: number;
 }
+
+const Bold = styled(BodyShort)`
+    font-weight: 600;
+`;
 
 const Sammenligning = styled.div`
     display: grid;
@@ -29,13 +33,13 @@ const Divider = styled.hr`
 export const Avvikssammenligning = ({ avvik, totalOmregnetÅrsinntekt, totalRapportertÅrsinntekt }: Props) => {
     return (
         <Sammenligning>
-            <Normaltekst>Total omregnet årsinntekt</Normaltekst>
-            <Normaltekst>{somPenger(totalOmregnetÅrsinntekt)}</Normaltekst>
-            <Normaltekst>Total rapportert årsinntekt</Normaltekst>
-            <Normaltekst>{somPenger(totalRapportertÅrsinntekt)}</Normaltekst>
+            <BodyShort>Total omregnet årsinntekt</BodyShort>
+            <BodyShort>{somPenger(totalOmregnetÅrsinntekt)}</BodyShort>
+            <BodyShort>Total rapportert årsinntekt</BodyShort>
+            <BodyShort>{somPenger(totalRapportertÅrsinntekt)}</BodyShort>
             <Divider />
-            <Element>Utregnet avvik</Element>
-            <Element>{avvik ? `${Math.floor(avvik)} %` : '-'}</Element>
+            <Bold component="p">Utregnet avvik</Bold>
+            <Bold component="p">{avvik ? `${Math.floor(avvik)} %` : '-'}</Bold>
         </Sammenligning>
     );
 };

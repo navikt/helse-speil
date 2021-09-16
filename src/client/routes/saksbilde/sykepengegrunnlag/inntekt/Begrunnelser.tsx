@@ -4,7 +4,8 @@ import React from 'react';
 import { useFormContext } from 'react-hook-form';
 
 import { Radio } from 'nav-frontend-skjema';
-import { Normaltekst } from 'nav-frontend-typografi';
+
+import { ErrorMessage } from '../../../../components/ErrorMessage';
 
 const Fieldset = styled.fieldset<{ error?: boolean }>`
     padding: 0;
@@ -36,10 +37,6 @@ const Fieldset = styled.fieldset<{ error?: boolean }>`
         `}
 `;
 
-const Error = styled(Normaltekst)`
-    color: var(--navds-color-text-error);
-`;
-
 export const Begrunnelser = () => {
     const form = useFormContext();
     const { ref, ...begrunnelseValidation } = form.register('begrunnelse', { required: 'Velg en begrunnelse' });
@@ -65,7 +62,9 @@ export const Begrunnelser = () => {
                 value="Arbeidsgiver har innrapportert feil til A-ordningen"
                 {...begrunnelseValidation}
             />
-            {form.formState.errors['begrunnelse'] && <Error>{form.formState.errors['begrunnelse'].message}</Error>}
+            {form.formState.errors['begrunnelse'] && (
+                <ErrorMessage>{form.formState.errors['begrunnelse'].message}</ErrorMessage>
+            )}
         </Fieldset>
     );
 };

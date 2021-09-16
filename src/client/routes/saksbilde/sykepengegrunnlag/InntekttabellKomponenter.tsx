@@ -1,7 +1,8 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
+import React from 'react';
 
-import { Element, Undertekst } from 'nav-frontend-typografi';
+import { BodyShort } from '@navikt/ds-react';
 
 export const InntektMedKilde = styled.div`
     display: flex;
@@ -41,14 +42,27 @@ export const ArbeidsgiverRad = styled.button<{ erGjeldende: boolean }>`
     }
 `;
 
-export const Kategoritittel = styled(Element)`
+const BoldTitle = styled(BodyShort)`
+    font-weight: 600;
     color: var(--navds-color-gray-80);
     margin-bottom: 1rem;
 `;
 
-export const Kolonnetittel = styled(Undertekst)`
-    color: var(--navds-color-text-primary);
+export const Kategoritittel: React.FC<React.HTMLAttributes<HTMLParagraphElement>> = (props) => (
+    <BoldTitle component="p" {...props}>
+        {props.children}
+    </BoldTitle>
+);
+
+const SmallTitle = styled(BodyShort)`
+    font-size: 14px;
 `;
+
+export const Kolonnetittel: React.FC<React.HTMLAttributes<HTMLParagraphElement>> = (props) => (
+    <SmallTitle component="p" {...props}>
+        {props.children}
+    </SmallTitle>
+);
 
 export const Divider = styled.hr`
     border: none;
@@ -58,7 +72,7 @@ export const Divider = styled.hr`
     margin: 0.25rem 0;
 `;
 
-export const Total = styled(Element)`
+export const Total = styled(BodyShort)`
     text-align: right;
     margin-right: 2.25rem;
 `;

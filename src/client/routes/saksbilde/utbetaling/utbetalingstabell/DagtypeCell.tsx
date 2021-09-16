@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import { Dagtype } from 'internal-types';
 import React from 'react';
 
-import { Normaltekst } from 'nav-frontend-typografi';
+import { BodyShort } from '@navikt/ds-react';
 
 import { CellContent } from '../../table/CellContent';
 import { IconAnnullert } from '../../table/icons/IconAnnullert';
@@ -83,7 +83,7 @@ export const DagtypeCell: React.FC<DagtypeCellProps> = ({
         <td {...rest}>
             <CellContent>
                 <IconContainer>{dagtypeIcon(type)}</IconContainer>
-                <Normaltekst>{text}</Normaltekst>
+                <BodyShort>{text}</BodyShort>
             </CellContent>
         </td>
     );

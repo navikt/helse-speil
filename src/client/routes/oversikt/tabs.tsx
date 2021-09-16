@@ -3,7 +3,7 @@ import styled from '@emotion/styled';
 import React from 'react';
 import { atom, useRecoilState, useRecoilValue } from 'recoil';
 
-import { Normaltekst } from 'nav-frontend-typografi';
+import { BodyShort } from '@navikt/ds-react';
 
 import { Flex } from '../../components/Flex';
 import { Dropdown } from '../../components/dropdown/Dropdown';
@@ -81,7 +81,7 @@ const Tab = styled.button<{ active: boolean }>`
         `}
 `;
 
-const Antall = styled(Normaltekst)`
+const Antall = styled(BodyShort)`
     margin-left: 0.25rem;
 `;
 
@@ -103,7 +103,7 @@ const OppgaveTab = ({ tag, label, numberOfTasks }: TabProps) => {
         <Tab role="tab" aria-selected={aktivTab === tag} active={aktivTab === tag} onClick={() => setAktivTab(tag)}>
             <Flex alignItems="center">
                 {label}
-                <Antall>({numberOfTasks})</Antall>
+                <Antall component="p">({numberOfTasks})</Antall>
             </Flex>
         </Tab>
     );

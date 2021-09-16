@@ -6,10 +6,10 @@ import { useHistory } from 'react-router';
 import { useSetRecoilState } from 'recoil';
 
 import { Hovedknapp, Knapp } from 'nav-frontend-knapper';
-import { Normaltekst } from 'nav-frontend-typografi';
 
 import { Varseltype } from '@navikt/helse-frontend-varsel';
 
+import { ErrorMessage } from '../../../../components/ErrorMessage';
 import { postAbonnerPåAktør, postSendTilInfotrygd, postUtbetalingsgodkjenning } from '../../../../io/http';
 import { Tidslinjeperiode } from '../../../../modell/utbetalingshistorikkelement';
 import { opptegnelsePollingTimeState } from '../../../../state/opptegnelser';
@@ -179,10 +179,10 @@ export const Utbetalingsdialog = ({
                 )}
             </Knapper>
             {error && (
-                <Normaltekst className="skjemaelement__feilmelding">
+                <ErrorMessage>
                     {error.message || 'En feil har oppstått.'}
                     {error.statusCode === 401 && <a href="/"> Logg inn</a>}
-                </Normaltekst>
+                </ErrorMessage>
             )}
             {modalvisning === Modalvisning.Godkjenning && (
                 <Utbetalingsmodal onClose={lukkModal} onApprove={godkjennUtbetaling} isSending={isSending} />

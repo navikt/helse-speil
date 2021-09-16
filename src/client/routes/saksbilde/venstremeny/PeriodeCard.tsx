@@ -3,7 +3,7 @@ import { Dayjs } from 'dayjs';
 import { Periodetype, Vedtaksperiode } from 'internal-types';
 import React from 'react';
 
-import { Normaltekst, Undertekst } from 'nav-frontend-typografi';
+import { BodyShort } from '@navikt/ds-react';
 
 import { Flex } from '../../../components/Flex';
 import { LovdataLenke } from '../../../components/LovdataLenke';
@@ -29,6 +29,11 @@ const Grid = styled.div`
 
 const IconContainer = styled.div`
     justify-self: center;
+`;
+
+const LovdataLenkeContainer = styled(BodyShort)`
+    font-size: 14px;
+    margin-left: 0.5rem;
 `;
 
 const getTextForPeriodetype = (type: Periodetype): string => {
@@ -78,18 +83,16 @@ export const PeriodeCard = React.memo(
                     <IconContainer data-tip="Sykmeldingsperiode">
                         <Sykmeldingsperiodeikon alt="Sykmeldingsperiode" />
                     </IconContainer>
-                    <Normaltekst>{`${formatertDato(aktivPeriode.fom)} - ${formatertDato(
-                        aktivPeriode.tom
-                    )}`}</Normaltekst>
+                    <BodyShort>{`${formatertDato(aktivPeriode.fom)} - ${formatertDato(aktivPeriode.tom)}`}</BodyShort>
                     <IconContainer data-tip="Skjæringstidspunkt">
                         <Skjæringstidspunktikon alt="Skjæringstidspunkt" />
                     </IconContainer>
-                    <Normaltekst>{skjæringstidspunkt}</Normaltekst>
+                    <BodyShort>{skjæringstidspunkt}</BodyShort>
                     <IconContainer data-tip="Maksdato">
                         <Maksdatoikon alt="Maksdato" />
                     </IconContainer>
                     <Flex justifyContent="space-between">
-                        <Normaltekst>{`${maksdato} (${gjenståendeDager ?? 'Ukjent antall'} dager igjen)`}</Normaltekst>
+                        <BodyShort>{`${maksdato} (${gjenståendeDager ?? 'Ukjent antall'} dager igjen)`}</BodyShort>
                         {over67år && (
                             <Flex alignItems="center">
                                 <IconContainer data-tip="Mellom 62 og 70 år - redusert antall sykepengedager">
@@ -99,9 +102,9 @@ export const PeriodeCard = React.memo(
                                         width={16}
                                     />
                                 </IconContainer>
-                                <Undertekst style={{ marginLeft: '.5rem' }}>
+                                <LovdataLenkeContainer component="p">
                                     <LovdataLenke paragraf="8-51">§ 8-51</LovdataLenke>
-                                </Undertekst>
+                                </LovdataLenkeContainer>
                             </Flex>
                         )}
                     </Flex>

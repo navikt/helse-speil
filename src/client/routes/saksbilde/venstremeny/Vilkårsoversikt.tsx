@@ -2,8 +2,7 @@ import styled from '@emotion/styled';
 import { Vedtaksperiode } from 'internal-types';
 import React from 'react';
 
-import { Normaltekst } from 'nav-frontend-typografi';
-
+import { BodyShort } from '@navikt/ds-react';
 import { Varsel, Varseltype } from '@navikt/helse-frontend-varsel';
 
 import { Advarselikon } from '../../../components/ikoner/Advarselikon';
@@ -18,7 +17,7 @@ const Vilkåroversikt = styled.li`
     line-height: 22px;
 `;
 
-const Vilkårnavn = styled(Normaltekst)`
+const Vilkårnavn = styled(BodyShort)`
     margin-left: 1rem;
 `;
 
@@ -48,7 +47,7 @@ interface VurdertVilkårProps {
 const VurdertVilkår = ({ tittel, oppfylt }: VurdertVilkårProps) => (
     <Vilkåroversikt>
         <Vilkårikon>{vurderingsikon(oppfylt)}</Vilkårikon>
-        <Vilkårnavn>{tittel}</Vilkårnavn>
+        <Vilkårnavn component="p">{tittel}</Vilkårnavn>
     </Vilkåroversikt>
 );
 

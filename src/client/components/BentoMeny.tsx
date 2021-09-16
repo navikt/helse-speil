@@ -1,10 +1,8 @@
 import styled from '@emotion/styled';
 import React, { useState } from 'react';
 
-import { Element } from 'nav-frontend-typografi';
-
 import { ExternalLink, SystemFilled } from '@navikt/ds-icons';
-import { Popover } from '@navikt/ds-react';
+import { BodyShort, Popover } from '@navikt/ds-react';
 
 import { usePerson } from '../state/person';
 
@@ -44,8 +42,9 @@ const BentoButton = styled(Button)`
     }
 `;
 
-const Tittel = styled(Element)`
+const Tittel = styled(BodyShort)`
     color: var(--navds-color-text-primary);
+    font-weight: 600;
     padding: 4px 16px 16px;
 `;
 
@@ -130,7 +129,7 @@ export const BentoMeny = () => {
                 offset={-8}
                 tabIndex={-1}
             >
-                <Tittel>Systemer og oppslagsverk</Tittel>
+                <Tittel component="p">Systemer og oppslagsverk</Tittel>
                 {links.map(({ tekst, href }) => (
                     <BentoLenke key={href} href={href}>
                         {tekst}

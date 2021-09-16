@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import { Notat } from 'internal-types';
 import React from 'react';
 
-import { Undertekst } from 'nav-frontend-typografi';
+import { BodyShort } from '@navikt/ds-react';
 
 import { NORSK_DATOFORMAT, NORSK_KLOKKESLETT } from '../../../../../utils/date';
 
@@ -14,7 +14,8 @@ const NotatContainer = styled.li`
     }
 `;
 
-const NotatTekst = styled(Undertekst)`
+const NotatTekst = styled(BodyShort)`
+    font-size: 14px;
     align-items: center;
     color: var(--navds-color-text-disabled);
     white-space: nowrap;
@@ -36,11 +37,11 @@ export const SisteNotat = ({ notater, multiline = false }: { notater: Notat[]; m
             <NotatContainer key={notat.id}>
                 {multiline ? (
                     <>
-                        <NotatTekst>{tekst1}</NotatTekst>
-                        <NotatTekst>{tekst2}</NotatTekst>
+                        <NotatTekst component="p">{tekst1}</NotatTekst>
+                        <NotatTekst component="p">{tekst2}</NotatTekst>
                     </>
                 ) : (
-                    <NotatTekst>
+                    <NotatTekst component="p">
                         {tekst1}
                         {': '} {tekst2}
                     </NotatTekst>

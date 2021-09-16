@@ -6,10 +6,10 @@ import { FormProvider, useForm } from 'react-hook-form';
 
 import { Feiloppsummering } from 'nav-frontend-skjema';
 import NavFrontendSpinner from 'nav-frontend-spinner';
-import { Element, Normaltekst } from 'nav-frontend-typografi';
 
-import { Button as NavButton } from '@navikt/ds-react';
+import { BodyShort, Button as NavButton } from '@navikt/ds-react';
 
+import { ErrorMessage } from '../../../../components/ErrorMessage';
 import { Flex, FlexColumn } from '../../../../components/Flex';
 import { OverstyringTimeoutModal } from '../../../../components/OverstyringTimeoutModal';
 import { Overstyringsindikator } from '../../../../components/Overstyringsindikator';
@@ -58,7 +58,11 @@ const Tabell = styled.div`
     }
 `;
 
-const OpprinneligMånedsbeløp = styled(Normaltekst)`
+const Bold = styled(BodyShort)`
+    font-weight: 600;
+`;
+
+const OpprinneligMånedsbeløp = styled(BodyShort)`
     text-decoration: line-through;
     margin-left: 1rem;
 `;
@@ -88,12 +92,8 @@ const OmregnetTilÅrsinntektContainer = styled.div<{ harEndringer: boolean }>`
         `}
 `;
 
-const Warning = styled(Normaltekst)`
+const Warning = styled(BodyShort)`
     font-style: italic;
-`;
-
-const Error = styled(Normaltekst)`
-    color: var(--navds-color-text-error);
 `;
 
 const Buttons = styled.span`
@@ -247,28 +247,28 @@ export const EditableInntekt = ({ omregnetÅrsinntekt, close, onEndre }: Editabl
             <form onSubmit={form.handleSubmit(confirmChanges)}>
                 <Container>
                     <Tabell>
-                        <Normaltekst>Månedsbeløp</Normaltekst>
+                        <BodyShort>Månedsbeløp</BodyShort>
                         <Flex>
                             <FlexColumn>
                                 <MånedsbeløpInput initialMånedsbeløp={omregnetÅrsinntekt.månedsbeløp} />
                             </FlexColumn>
-                            <OpprinneligMånedsbeløp>
+                            <OpprinneligMånedsbeløp component="p">
                                 {toKronerOgØre(omregnetÅrsinntekt.månedsbeløp)}
                             </OpprinneligMånedsbeløp>
                         </Flex>
                     </Tabell>
-                    <Warning>Endringen vil gjelde fra skjæringstidspunktet</Warning>
+                    <Warning component="p">Endringen vil gjelde fra skjæringstidspunktet</Warning>
                     <Tabell>
                         <OmregnetTilÅrsinntekt harEndringer={harEndringer}>
-                            <Normaltekst>
+                            <BodyShort>
                                 {omregnetÅrsinntekt?.kilde === Inntektskildetype.Infotrygd
                                     ? 'Sykepengegrunnlag før 6G'
                                     : 'Omregnet til årsinntekt'}
-                            </Normaltekst>
+                            </BodyShort>
                         </OmregnetTilÅrsinntekt>
                         <OmregnetTilÅrsinntektContainer harEndringer={harEndringer}>
                             {harEndringer && <Overstyringsindikator />}
-                            <Element>{somPenger(omregnetÅrsinntekt.beløp)}</Element>
+                            <Bold component="p">{somPenger(omregnetÅrsinntekt.beløp)}</Bold>
                         </OmregnetTilÅrsinntektContainer>
                     </Tabell>
                     <Begrunnelser />
@@ -294,7 +294,7 @@ export const EditableInntekt = ({ omregnetÅrsinntekt, close, onEndre }: Editabl
                             Avbryt
                         </Button>
                     </Buttons>
-                    {error && <Error>{error}</Error>}
+                    {error && <ErrorMessage>{error}</ErrorMessage>}
                     {timedOut && <OverstyringTimeoutModal onRequestClose={() => setTimedOut(false)} />}
                 </Container>
             </form>

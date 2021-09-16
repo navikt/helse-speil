@@ -1,7 +1,7 @@
 import { AvvistBegrunnelse, Dagtype, Utbetalingsdag } from 'internal-types';
 import React from 'react';
 
-import { Normaltekst } from 'nav-frontend-typografi';
+import { BodyShort } from '@navikt/ds-react';
 
 import { LovdataLenke } from '../../../../components/LovdataLenke';
 import { Tooltip } from '../../../../components/Tooltip';
@@ -15,7 +15,7 @@ interface MerknadProps {
 const Merknad = ({ begrunnelse }: MerknadProps) => {
     switch (begrunnelse.tekst) {
         case 'EtterDødsdato':
-            return <Normaltekst>Personen er død</Normaltekst>;
+            return <BodyShort>Personen er død</BodyShort>;
         case 'EgenmeldingUtenforArbeidsgiverperiode':
             return (
                 <span data-tip="Egenmelding utenfor arbeidsgiverperioden">
@@ -44,7 +44,7 @@ const Merknad = ({ begrunnelse }: MerknadProps) => {
             return (
                 <span data-tip="Krav til medlemskap er ikke oppfylt">
                     <LovdataLenke paragraf="8-2">§ 8-2</LovdataLenke>
-                    <Normaltekst> og </Normaltekst>
+                    <BodyShort> og </BodyShort>
                     <LovdataLenke paragraf="2-" harParagraf={false}>
                         kap. 2
                     </LovdataLenke>
@@ -76,7 +76,7 @@ const foreldetDagMerknad = (isForeldet: boolean): React.ReactNode | undefined =>
 const avvisningsårsakerMerknad = (avvisningsårsaker?: AvvistBegrunnelse[]) =>
     avvisningsårsaker?.map((it, i) => (
         <React.Fragment key={i}>
-            {i !== 0 && <Normaltekst>,&nbsp;</Normaltekst>}
+            {i !== 0 && <BodyShort>,&nbsp;</BodyShort>}
             <Merknad begrunnelse={it} />
         </React.Fragment>
     ));
