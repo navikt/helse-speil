@@ -6,7 +6,7 @@ metadata:
   name: {{app}}-redis
   namespace: {{team}}
   annotations:
-    nais.io/read-only-file-system: "false"
+    nais.io/security-does-not-matter: "true"
 spec:
   image: bitnami/redis:6.2
   port: 6379
@@ -25,6 +25,3 @@ spec:
     protocol: redis
   envFrom:
     - secret: speil-redis
-  env:
-    - name: REDIS_TMP_DIR
-      value: "/tmp"
