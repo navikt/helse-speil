@@ -52,7 +52,9 @@ const overlapper = (periode: Tidslinjeperiode, other: Tidslinjeperiode) =>
     (periode.tom.isSameOrAfter(other.fom) && periode.tom.isSameOrBefore(other.tom));
 
 const alleTidslinjeperioder = (person: Person) =>
-    person.arbeidsgivere.flatMap((arbeidsgiver) => arbeidsgiver.tidslinjeperioder[0].map((periode) => periode));
+    person.arbeidsgivere.flatMap(
+        (arbeidsgiver) => arbeidsgiver.tidslinjeperioder?.[0]?.map((periode) => periode) ?? []
+    );
 
 const overlappendePerioder = (person: Person, periode: Tidslinjeperiode) =>
     alleTidslinjeperioder(person).filter((it) => overlapper(it, periode));
