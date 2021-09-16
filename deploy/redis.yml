@@ -6,7 +6,8 @@ metadata:
   name: {{app}}-redis
   namespace: {{team}}
   annotations:
-    nais.io/security-does-not-matter: "true"
+    nais.io/run-as-group: "0"
+    nais.io/read-only-file-system: "false"
 spec:
   image: bitnami/redis:6.2
   port: 6379
