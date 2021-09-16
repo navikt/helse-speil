@@ -3,11 +3,7 @@ import { Personinfo } from 'internal-types';
 import React, { ChangeEvent, useState } from 'react';
 import { useSetRecoilState } from 'recoil';
 
-import { Flatknapp, Knapp } from 'nav-frontend-knapper';
-import { Textarea } from 'nav-frontend-skjema';
-import NavFrontendSpinner from 'nav-frontend-spinner';
-
-import { BodyShort } from '@navikt/ds-react';
+import { BodyShort, Button, Loader, Textarea } from '@navikt/ds-react';
 
 import { Modal } from '../../../../../components/Modal';
 import { Key } from '../../../../../hooks/useKeyboard';
@@ -79,7 +75,6 @@ export const NyttNotatModal = ({ lukkModal, personinfo, vedtaksperiodeId, leggSa
     const [tekst, setTekst] = useState('');
     const tekstMaxLength = 100;
 
-    const tellerTekst = (antallTegn: number, maxLength: number) => `${maxLength - antallTegn} tegn gjenstår`;
     const tittel = sakSkalLeggesPåVent ? 'Legg på vent' : 'Lagt på vent - ny kommentar';
     const undertittel = `Søker: ${formatertNavn}`;
 
@@ -126,34 +121,35 @@ export const NyttNotatModal = ({ lukkModal, personinfo, vedtaksperiodeId, leggSa
                     </>
                 )}
                 <StyledTextarea
+                    label="Begrunnelse"
+                    hideLabel
                     name="tekst"
                     value={tekst}
-                    feil={tekst.length > tekstMaxLength ? 'Det er kun tillatt med 100 tegn' : null}
+                    error={tekst.length > tekstMaxLength ? 'Det er kun tillatt med 100 tegn' : null}
                     onChange={(event: ChangeEvent) => {
                         setTekst((event.target as HTMLInputElement).value);
                     }}
                     onKeyPress={keyboardEvent}
                     placeholder="Skriv hvorfor saken er lagt på vent, så det er lettere å starte igjen senere.&#10;Eks: Kontaktet arbeidsgiver, fikk ikke svar.&#10;Kommer ikke i vedtaksbrevet, men vil bli forevist bruker ved spørsmål om innsyn."
                     maxLength={tekstMaxLength}
-                    tellerTekst={tellerTekst}
                 />
                 <Knappegruppe>
-                    <Knapp
-                        mini
+                    <Button
+                        size="s"
                         disabled={isFetching || tekst.trim() === '' || tekst.trim().length > tekstMaxLength}
                         onClick={submit}
                     >
-                        {sakSkalLeggesPåVent ? 'LEGG PÅ VENT' : 'LAGRE'}
-                        {isFetching && <NavFrontendSpinner type="XXS" />}
-                    </Knapp>
+                        {sakSkalLeggesPåVent ? 'Legg på vent' : 'Lagre'}
+                        {isFetching && <Loader size="xs" />}
+                    </Button>
                     {sakSkalLeggesPåVent ? (
-                        <Flatknapp mini onClick={closeModal}>
-                            AVBRYT
-                        </Flatknapp>
+                        <Button size="s" variant="secondary" onClick={closeModal}>
+                            Avbryt
+                        </Button>
                     ) : (
-                        <Flatknapp mini onClick={navigerTilbake}>
-                            TILBAKE
-                        </Flatknapp>
+                        <Button variant="secondary" size="s" onClick={navigerTilbake}>
+                            Tilbake
+                        </Button>
                     )}
                 </Knappegruppe>
             </Content>

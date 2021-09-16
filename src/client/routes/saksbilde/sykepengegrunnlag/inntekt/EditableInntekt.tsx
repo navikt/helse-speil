@@ -4,10 +4,7 @@ import { Inntektskildetype, OmregnetÅrsinntekt, Person, Vedtaksperiode } from '
 import React, { useEffect, useRef, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 
-import { Feiloppsummering } from 'nav-frontend-skjema';
-import NavFrontendSpinner from 'nav-frontend-spinner';
-
-import { BodyShort, Button as NavButton } from '@navikt/ds-react';
+import { BodyShort, Button as NavButton, ErrorSummary, ErrorSummaryItem, Loader } from '@navikt/ds-react';
 
 import { ErrorMessage } from '../../../../components/ErrorMessage';
 import { Flex, FlexColumn } from '../../../../components/Flex';
@@ -275,20 +272,17 @@ export const EditableInntekt = ({ omregnetÅrsinntekt, close, onEndre }: Editabl
                     <ForklaringTextarea />
                     {!form.formState.isValid && form.formState.isSubmitted && (
                         <FeiloppsummeringContainer>
-                            <Feiloppsummering
-                                innerRef={feiloppsummeringRef}
-                                tittel="Skjemaet inneholder følgende feil:"
-                                feil={Object.entries(form.formState.errors).map(([id, error]) => ({
-                                    skjemaelementId: id,
-                                    feilmelding: error.message,
-                                }))}
-                            />
+                            <ErrorSummary ref={feiloppsummeringRef} heading="Skjemaet inneholder følgende feil:">
+                                {Object.entries(form.formState.errors).map(([id, error]) => (
+                                    <ErrorSummaryItem key={id}>{error.message}</ErrorSummaryItem>
+                                ))}
+                            </ErrorSummary>
                         </FeiloppsummeringContainer>
                     )}
                     <Buttons>
                         <Button disabled={isLoading} variant="primary">
                             Ferdig
-                            {isLoading && <NavFrontendSpinner type="XXS" />}
+                            {isLoading && <Loader size="xs" />}
                         </Button>
                         <Button variant="secondary" onClick={cancelEditing}>
                             Avbryt

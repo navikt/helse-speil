@@ -1,70 +1,43 @@
-import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import React from 'react';
 import { useFormContext } from 'react-hook-form';
 
-import { Radio } from 'nav-frontend-skjema';
+import { Fieldset, Radio } from '@navikt/ds-react';
 
 import { ErrorMessage } from '../../../../components/ErrorMessage';
 
-const Fieldset = styled.fieldset<{ error?: boolean }>`
-    padding: 0;
-    margin: 0 0 2rem;
-
-    > legend {
-        margin-bottom: 1rem;
+const BegrunnelseFieldset = styled(Fieldset)`
+    > .navds-radio {
+        padding: 0;
     }
 
-    > .skjemaelement:not(:last-of-type) {
-        margin-bottom: 1rem;
-    }
-
-    > .skjemaelement:last-of-type {
-        margin-bottom: 0.5rem;
-    }
-
-    > .skjemaelement > label.skjemaelement__label:before {
-        box-sizing: border-box;
-    }
-
-    ${(props) =>
-        props.error &&
-        css`
-            > .skjemaelement > label.skjemaelement__label:before {
-                border-color: var(--navds-color-text-error);
-                border-width: 2px;
-            }
-        `}
+    margin-bottom: 2rem;
 `;
 
 export const Begrunnelser = () => {
     const form = useFormContext();
     const { ref, ...begrunnelseValidation } = form.register('begrunnelse', { required: 'Velg en begrunnelse' });
     return (
-        <Fieldset id="begrunnelse" error={form.formState.errors['begrunnelse']}>
-            <legend>Begrunnelse</legend>
+        <BegrunnelseFieldset legend="Begrunnelse" id="begrunnelse" error={form.formState.errors['begrunnelse']}>
+            <Radio ref={ref} value="Korrigert inntektsmelding" {...begrunnelseValidation}>
+                Korrigert inntektsmelding
+            </Radio>
+            <Radio ref={ref} value="Tariffendring" {...begrunnelseValidation}>
+                Tariffendring
+            </Radio>
             <Radio
-                radioRef={ref}
-                label="Korrigert inntektsmelding"
-                value="Korrigert inntektsmelding"
-                {...begrunnelseValidation}
-            />
-            <Radio radioRef={ref} label="Tariffendring" value="Tariffendring" {...begrunnelseValidation} />
-            <Radio
-                radioRef={ref}
-                label="Arbeidsgiver har oppgitt feil inntekt i inntektsmeldingen"
+                ref={ref}
                 value="Arbeidsgiver har oppgitt feil inntekt i inntektsmeldingen"
                 {...begrunnelseValidation}
-            />
-            <Radio
-                radioRef={ref}
-                label="Arbeidsgiver har innrapportert feil til A-ordningen"
-                value="Arbeidsgiver har innrapportert feil til A-ordningen"
-                {...begrunnelseValidation}
-            />
+            >
+                Arbeidsgiver har oppgitt feil inntekt i inntektsmeldingen
+            </Radio>
+            <Radio ref={ref} value="Arbeidsgiver har innrapportert feil til A-ordningen" {...begrunnelseValidation}>
+                Arbeidsgiver har innrapportert feil til A-ordningen
+            </Radio>
             {form.formState.errors['begrunnelse'] && (
                 <ErrorMessage>{form.formState.errors['begrunnelse'].message}</ErrorMessage>
             )}
-        </Fieldset>
+        </BegrunnelseFieldset>
     );
 };

@@ -2,35 +2,29 @@ import styled from '@emotion/styled';
 import React, { ChangeEvent, ReactNode } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
 
-import { CheckboxGruppe, SkjemaGruppe, Textarea } from 'nav-frontend-skjema';
-
-import { Checkbox as NavCheckbox } from '@navikt/ds-react';
+import { Checkbox as NavCheckbox, Fieldset, Textarea } from '@navikt/ds-react';
 
 import { Tidslinjeperiode } from '../../../../modell/utbetalingshistorikkelement';
 import { useVedtaksperiode } from '../../../../state/tidslinje';
 
 import { Begrunnelse } from './Utbetalingsdialog';
 
-const Container = styled(SkjemaGruppe)`
+const Container = styled.div`
     margin-top: 1.5rem;
+`;
 
-    .skjemagruppe .skjemagruppe__legend {
-        margin: 1.5rem 0 2rem;
-    }
+const BegrunnelseBox = styled(Textarea)`
+    min-height: 120px;
+`;
 
-    .skjemaelement.textarea__container .skjemaelement__label {
-        font-weight: normal;
-    }
-
-    .skjemaelement__input.textarea--medMeta {
-        height: 120px !important;
-    }
+const ÅrsakFieldset = styled(Fieldset)`
+    margin-bottom: 2rem;
 `;
 
 const Checkbox = styled(NavCheckbox)`
     display: flex;
     padding: 0;
-    margin: 0 0 20px;
+    margin: 0;
 
     input {
         width: 1.5rem;
@@ -75,9 +69,9 @@ export const Begrunnelsesskjema = ({ aktivPeriode }: BegrunnelsesskjemaProps) =>
 
     return (
         <Container>
-            <CheckboxGruppe
+            <ÅrsakFieldset
                 legend="Årsak til at saken ikke kan behandles"
-                feil={formState.errors.begrunnelser ? formState.errors.begrunnelser.message : null}
+                error={formState.errors.begrunnelser ? formState.errors.begrunnelser.message : null}
             >
                 {warnings?.map((advarsel, index) => {
                     switch (advarsel) {
@@ -115,17 +109,17 @@ export const Begrunnelsesskjema = ({ aktivPeriode }: BegrunnelsesskjemaProps) =>
                     }
                 })}
                 <BegrunnelseCheckbox begrunnelse="Annet" />
-            </CheckboxGruppe>
+            </ÅrsakFieldset>
             <Controller
                 name="kommentar"
                 defaultValue=""
                 render={({ field: { value, onChange } }) => (
-                    <Textarea
+                    <BegrunnelseBox
                         name="kommentar"
                         value={value}
                         description="Må ikke inneholde personopplysninger"
                         label={`Begrunnelse ${annet ? '' : '(valgfri)'}`}
-                        feil={formState.errors.kommentar ? formState.errors.kommentar.message : null}
+                        error={formState.errors.kommentar ? formState.errors.kommentar.message : null}
                         onChange={(event: ChangeEvent) => {
                             clearErrors('kommentar');
                             onChange(event);
