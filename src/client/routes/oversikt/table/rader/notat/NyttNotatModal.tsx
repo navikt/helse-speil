@@ -135,7 +135,11 @@ export const NyttNotatModal = ({ lukkModal, personinfo, vedtaksperiodeId, leggSa
                     tellerTekst={tellerTekst}
                 />
                 <Knappegruppe>
-                    <Knapp mini disabled={tekst.trim() === '' || tekst.trim().length > tekstMaxLength} onClick={submit}>
+                    <Knapp
+                        mini
+                        disabled={isFetching || tekst.trim() === '' || tekst.trim().length > tekstMaxLength}
+                        onClick={submit}
+                    >
                         {sakSkalLeggesPåVent ? 'LEGG PÅ VENT' : 'LAGRE'}
                         {isFetching && <NavFrontendSpinner type="XXS" />}
                     </Knapp>
