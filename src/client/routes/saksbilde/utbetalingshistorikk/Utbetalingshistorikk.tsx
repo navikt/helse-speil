@@ -1,79 +1,52 @@
 import styled from '@emotion/styled';
-import { Person, UtbetalingshistorikkUtbetaling } from 'internal-types';
+import type { Person, UtbetalingshistorikkUtbetaling } from 'internal-types';
 import React, { useState } from 'react';
 import { useHistory } from 'react-router';
 
-import { BodyShort } from '@navikt/ds-react';
-import { Tabell } from '@navikt/helse-frontend-tabell';
+import { Close } from '@navikt/ds-icons';
+import { Button } from '@navikt/ds-react';
 
+import { Bold } from '../../../components/Bold';
 import { useRefreshPersonVedUrlEndring } from '../../../hooks/useRefreshPersonVedUrlEndring';
-import { findEarliest, findLatest, NORSK_DATOFORMAT_KORT } from '../../../utils/date';
+import { findEarliest, findLatest } from '../../../utils/date';
 
 import { anonymisertPersoninfo } from '../../../agurkdata';
 import { Annulleringslinje, Annulleringsmodal } from '../sakslinje/annullering/Annulleringsmodal';
+import { Cell } from './Cell';
+import { FraCell } from './FraCell';
+import { TilCell } from './TilCell';
 
 const Container = styled.div`
     display: flex;
     flex-direction: column;
-    flex: 1;
-    overflow: auto;
+    padding: 1rem 2rem;
 `;
 
-const Bold = styled(BodyShort)`
-    font-weight: 600;
+const CloseButton = styled(Button)`
+    width: max-content;
+    margin-bottom: 1.5rem;
+
+    > svg {
+        margin-right: 0.75rem;
+    }
 `;
 
-const Lukknapp = styled.button`
-    position: relative;
-    cursor: pointer;
-    height: 2rem;
-    width: 15rem;
-    padding: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border: none;
-    background: none;
-    font-size: 0.8em;
-    text-decoration: underline;
-    margin-bottom: 2rem;
+const Table = styled.table`
+    > thead > tr {
+        height: 2rem;
+        font-weight: 600;
+        text-align: left;
 
-    &:before,
-    &:after {
-        color: var(--navds-color-action-default);
-        content: '';
-        position: absolute;
-        width: 1.25rem;
-        height: 3px;
-        top: 50%;
-        left: 2em;
-        background-color: currentColor;
+        > th {
+            padding: 0.5rem 0.75rem;
+        }
     }
 
-    &:before {
-        transform: translate(-50%, -50%) rotate(-45deg);
-    }
-
-    &:after {
-        transform: translate(-50%, -50%) rotate(45deg);
-    }
-
-    &:hover,
-    &:focus {
-        background: var(--navds-color-action-default);
-    }
-
-    &:active {
-        background: var(--navds-text-focus);
-    }
-
-    &:hover:before,
-    &:focus:before,
-    &:hover:after,
-    &:focus:after,
-    &:active:before,
-    &:active:after {
-        background: var(--navds-color-background);
+    > tbody > tr {
+        height: 2rem;
+        &:nth-child(2n-1) {
+            background-color: var(--navds-color-gray-10);
+        }
     }
 `;
 
@@ -105,21 +78,7 @@ export const Utbetalingshistorikk = ({ person, anonymiseringEnabled }: Utbetalin
 
     const rader = person.utbetalinger.map((utbetaling) => {
         let utbetalingslinjer = utbetaling.arbeidsgiverOppdrag.utbetalingslinjer;
-        return [
-            <Bold component="p">{utbetalingslinjer[0].fom.format(NORSK_DATOFORMAT_KORT)}</Bold>,
-            <Bold component="p">
-                {utbetalingslinjer[utbetalingslinjer.length - 1].tom.format(NORSK_DATOFORMAT_KORT)}
-            </Bold>,
-            <Bold component="p">{utbetaling.arbeidsgiverOppdrag.fagsystemId}</Bold>,
-            <Bold component="p">{utbetaling.totalbeløp ? `${utbetaling.totalbeløp} kr` : '-'}</Bold>,
-            <Bold component="p">{utbetaling.status}</Bold>,
-            <Bold component="p">{utbetaling.type}</Bold>,
-            annulleringErForespurt(utbetaling) ? (
-                'Utbetalingen er forespurt annullert'
-            ) : visAnnulleringsknapp(utbetaling) ? (
-                <button onClick={() => setTilAnnullering(utbetaling)}>Annuller</button>
-            ) : null,
-        ];
+        return [];
     });
 
     const linjer = (utbetaling: UtbetalingshistorikkUtbetaling): Annulleringslinje[] => [
@@ -132,13 +91,52 @@ export const Utbetalingshistorikk = ({ person, anonymiseringEnabled }: Utbetalin
     const fødselsnummer = anonymiseringEnabled ? anonymisertPersoninfo.fnr : person.fødselsnummer;
 
     return (
-        <Container className="utbetalingshistorikk">
-            <Lukknapp onClick={lukkUtbetalingshistorikk}>Lukk utbetalingshistorikk</Lukknapp>
-            <Tabell
-                beskrivelse={`Utbetalingshistorikk for person med fødselsnummer ${fødselsnummer}`}
-                headere={headere}
-                rader={rader}
-            />
+        <Container className="Utbetalingshistorikk">
+            <CloseButton onClick={lukkUtbetalingshistorikk} size="s" variant="secondary">
+                <Close /> Lukk utbetalingshistorikk
+            </CloseButton>
+            <Table aria-label={`Utbetalingshistorikk for person med fødselsnummer ${fødselsnummer}`}>
+                <thead>
+                    <tr>
+                        <th>Fra</th>
+                        <th>Til</th>
+                        <th>Fagstystem-ID</th>
+                        <th>Totalbeløp</th>
+                        <th>Status</th>
+                        <th>Type</th>
+                        <th>Annuller</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {person.utbetalinger.map((utbetaling, i) => (
+                        <tr key={i}>
+                            <FraCell utbetaling={utbetaling} />
+                            <TilCell utbetaling={utbetaling} />
+                            <Cell>
+                                <Bold>{utbetaling.arbeidsgiverOppdrag.fagsystemId}</Bold>
+                            </Cell>
+                            <Cell>
+                                <Bold>{utbetaling.totalbeløp ? `${utbetaling.totalbeløp} kr` : '-'}</Bold>
+                            </Cell>
+                            <Cell>
+                                <Bold>{utbetaling.status}</Bold>
+                            </Cell>
+                            <Cell>
+                                <Bold>{utbetaling.type}</Bold>
+                            </Cell>
+                            <Cell>
+                                {annulleringErForespurt(utbetaling) ? (
+                                    'Utbetalingen er forespurt annullert'
+                                ) : visAnnulleringsknapp(utbetaling) ? (
+                                    <Button size="s" onClick={() => setTilAnnullering(utbetaling)}>
+                                        Annuller
+                                    </Button>
+                                ) : null}
+                            </Cell>
+                        </tr>
+                    ))}
+                </tbody>
+            </Table>
             {tilAnnullering && (
                 <Annulleringsmodal
                     person={person}
