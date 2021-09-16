@@ -1,5 +1,5 @@
 import { Dayjs } from 'dayjs';
-import { Dagtype, Overstyring, OverstyrtDag, Utbetalingsdag } from 'internal-types';
+import { Dagtype, Kildetype, Overstyring, OverstyrtDag, Utbetalingsdag } from 'internal-types';
 import { useMemo } from 'react';
 
 import { Tidslinjeperiode } from '../../../../modell/utbetalingshistorikkelement';
@@ -29,7 +29,8 @@ export const useTabelldagerMap = (
     periode: Tidslinjeperiode,
     overstyringer: Overstyring[],
     gjenståendeDager: number,
-    maksdato?: Dayjs
+    maksdato?: Dayjs,
+    skjæringstidspunkt?: Dayjs
 ): Map<string, UtbetalingstabellDag> =>
     useMemo(() => {
         const antallDagerIgjen =
@@ -39,8 +40,8 @@ export const useTabelldagerMap = (
             (it, i) => ({
                 ...it,
                 sykdomsdag: {
-                    kilde: periode.sykdomstidslinje[i].kilde,
-                    type: periode.sykdomstidslinje[i].type,
+                    kilde: periode.sykdomstidslinje[i]?.kilde ?? Kildetype.Ukjent,
+                    type: periode.sykdomstidslinje[i]?.type ?? it.type,
                 },
             })
         ) as UtbetalingstabellDag[];

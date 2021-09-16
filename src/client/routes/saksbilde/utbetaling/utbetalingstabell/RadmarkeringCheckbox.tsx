@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+import { Dayjs } from 'dayjs';
 import { Dagtype } from 'internal-types';
 import React from 'react';
 
@@ -28,11 +29,21 @@ const Container = styled.div`
 interface RadmarkeringCheckboxProps extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'size' | 'value'> {
     index: number;
     dagtype: Dagtype;
+    dato: Dayjs;
+    skjæringstidspunkt?: Dayjs;
 }
 
-export const RadmarkeringCheckbox: React.FC<RadmarkeringCheckboxProps> = ({ index, dagtype, ...rest }) => {
+export const RadmarkeringCheckbox: React.FC<RadmarkeringCheckboxProps> = ({
+    index,
+    dagtype,
+    dato,
+    skjæringstidspunkt,
+    ...rest
+}) => {
     const dagKanOverstyres =
-        (dagtype !== Dagtype.Helg && [Dagtype.Syk, Dagtype.Ferie, Dagtype.Egenmelding].includes(dagtype)) ||
+        ((!skjæringstidspunkt || !dato.isSame(skjæringstidspunkt)) &&
+            dagtype !== Dagtype.Helg &&
+            [Dagtype.Syk, Dagtype.Ferie, Dagtype.Egenmelding].includes(dagtype)) ||
         (overstyrPermisjonsdagerEnabled && dagtype === Dagtype.Permisjon);
 
     if (!dagKanOverstyres) {

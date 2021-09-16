@@ -73,6 +73,7 @@ export enum Kildetype {
     Saksbehandler = 'Saksbehandler',
     Aordningen = 'Aordningen',
     Ainntekt = 'Ainntekt',
+    Ukjent = 'Ukjent',
 }
 
 export enum Periodetype {

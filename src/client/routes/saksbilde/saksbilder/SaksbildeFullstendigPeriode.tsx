@@ -94,6 +94,7 @@ export const SaksbildeFullstendigPeriode = ({ personTilBehandling, aktivPeriode,
                                         <Utbetaling
                                             periode={aktivPeriode}
                                             overstyringer={vedtaksperiode.overstyringer}
+                                            skjæringstidspunkt={vedtaksperiode.vilkår?.dagerIgjen.skjæringstidspunkt}
                                         />
                                     </Route>
                                     <Route path={`${path}/inngangsvilkår`}>

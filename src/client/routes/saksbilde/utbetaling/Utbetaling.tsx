@@ -66,9 +66,10 @@ interface OverstyrbarUtbetalingProps {
     fom: Dayjs;
     tom: Dayjs;
     dager: Map<string, UtbetalingstabellDag>;
+    skjæringstidspunkt?: Dayjs;
 }
 
-const OverstyrbarUtbetaling: React.FC<OverstyrbarUtbetalingProps> = ({ fom, tom, dager }) => {
+const OverstyrbarUtbetaling: React.FC<OverstyrbarUtbetalingProps> = ({ fom, tom, dager, skjæringstidspunkt }) => {
     const form = useForm({ mode: 'onBlur', shouldFocusError: false });
 
     const [overstyrer, setOverstyrer] = useState(false);
@@ -151,7 +152,9 @@ const OverstyrbarUtbetaling: React.FC<OverstyrbarUtbetalingProps> = ({ fom, tom,
                                 <RadmarkeringCheckbox
                                     key={i}
                                     index={i}
+                                    dato={dag.dato}
                                     dagtype={dag.type}
+                                    skjæringstidspunkt={skjæringstidspunkt}
                                     onChange={toggleChecked(dag)}
                                     checked={markerteDager.get(dag.dato.format(NORSK_DATOFORMAT)) !== undefined}
                                 />
@@ -196,16 +199,17 @@ const ReadonlyUtbetaling: React.FC<ReadonlyUtbetalingProps> = ({ fom, tom, dager
 interface UtbetalingProps {
     periode: Tidslinjeperiode;
     overstyringer: Overstyring[];
+    skjæringstidspunkt?: Dayjs;
 }
 
-export const Utbetaling: React.FC<UtbetalingProps> = React.memo(({ periode, overstyringer }) => {
+export const Utbetaling: React.FC<UtbetalingProps> = React.memo(({ periode, overstyringer, skjæringstidspunkt }) => {
     const overstyringIsEnabled = useOverstyringIsEnabled();
     const revurderingIsEnabled = useRevurderingIsEnabled(defaultUtbetalingToggles);
     const overstyrRevurderingIsEnabled = useOverstyrRevurderingIsEnabled(defaultUtbetalingToggles);
 
     const gjenståendeDager = useGjenståendeDager(periode.beregningId);
     const maksdato = useMaksdato(periode.beregningId);
-    const dager = useTabelldagerMap(periode, overstyringer, gjenståendeDager, maksdato);
+    const dager = useTabelldagerMap(periode, overstyringer, gjenståendeDager, maksdato, skjæringstidspunkt);
 
     return revurderingIsEnabled || overstyringIsEnabled || overstyrRevurderingIsEnabled ? (
         <OverstyrbarUtbetaling fom={periode.fom} tom={periode.tom} dager={dager} />
