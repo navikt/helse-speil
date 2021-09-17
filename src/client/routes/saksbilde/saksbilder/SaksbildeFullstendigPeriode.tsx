@@ -3,8 +3,6 @@ import { Person, Vedtaksperiode } from 'internal-types';
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 
-import '@navikt/helse-frontend-logg/lib/main.css';
-
 import { ErrorBoundary } from '../../../components/ErrorBoundary';
 import { Flex, FlexColumn } from '../../../components/Flex';
 import { useSetVedtaksperiodeReferanserForNotater } from '../../../hooks/useSetVedtaksperiodeReferanserForNotater';

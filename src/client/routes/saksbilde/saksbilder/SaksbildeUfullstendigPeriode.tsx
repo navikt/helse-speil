@@ -1,8 +1,6 @@
 import styled from '@emotion/styled';
 import React from 'react';
 
-import '@navikt/helse-frontend-logg/lib/main.css';
-
 import { Flex } from '../../../components/Flex';
 import { Tidslinjeperiode } from '../../../modell/utbetalingshistorikkelement';
 

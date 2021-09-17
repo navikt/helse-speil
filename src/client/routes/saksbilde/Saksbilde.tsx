@@ -3,7 +3,6 @@ import { Person, Tidslinjetilstand } from 'internal-types';
 import React from 'react';
 import { Route, Switch, useRouteMatch } from 'react-router-dom';
 
-import '@navikt/helse-frontend-logg/lib/main.css';
 import { Varsel, Varseltype } from '@navikt/helse-frontend-varsel';
 
 import { ErrorBoundary } from '../../components/ErrorBoundary';
