@@ -2,8 +2,6 @@ import styled from '@emotion/styled';
 import { TildelingType } from 'internal-types';
 import React from 'react';
 
-import 'nav-frontend-tabell-style';
-
 import { Link } from '@navikt/ds-react';
 
 import { Modal } from '../../../../../components/Modal';
@@ -11,6 +9,24 @@ import { useInnloggetSaksbehandler } from '../../../../../state/authentication';
 import { useNotaterForVedtaksperiode } from '../../../../../state/notater';
 
 import { NotatListeRad } from './NotatListeRad';
+
+const Table = styled.table`
+    th,
+    td {
+        padding: 1rem;
+    }
+    th {
+        text-align: left;
+        font-weight: 600;
+        border-bottom: 1px solid var(--navds-color-gray-60);
+    }
+    tbody > tr > td {
+        border-bottom: 1px solid var(--navds-color-gray-20);
+    }
+    tbody > tr:nth-child(2n-1) > td {
+        background-color: var(--navds-color-gray-10);
+    }
+`;
 
 const StyledLenke = styled(Link)`
     align-self: flex-end;
@@ -68,7 +84,7 @@ export const NotatListeModal = ({ lukk, vedtaksperiodeId, tildeling, åpneNyttNo
             <Content>
                 {notater.length > 0 && (
                     <>
-                        <table className="tabell tabell--stripet">
+                        <Table>
                             <thead>
                                 <tr>
                                     <th>Dato</th>
@@ -87,7 +103,7 @@ export const NotatListeModal = ({ lukk, vedtaksperiodeId, tildeling, åpneNyttNo
                                     />
                                 ))}
                             </tbody>
-                        </table>
+                        </Table>
                         <br />
                         {påVent && (
                             <StyledLenke
