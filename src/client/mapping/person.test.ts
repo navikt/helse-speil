@@ -7,7 +7,6 @@ import {
     SpleisSykdomsdagtype,
     SpleisUtbetalingsdagtype,
 } from 'external-types';
-import { Vedtaksperiode } from 'internal-types';
 
 import { ISO_TIDSPUNKTFORMAT } from '../utils/date';
 
@@ -168,9 +167,8 @@ describe('personmapper', () => {
         );
 
         const førsteVedtaksperiode = person.arbeidsgivere[0].vedtaksperioder[0] as Vedtaksperiode;
-        const hendelseId: string = førsteVedtaksperiode.sykdomstidslinje[
-            førsteVedtaksperiode.sykdomstidslinje.length - 1
-        ].kildeId!;
+        const hendelseId: string =
+            førsteVedtaksperiode.sykdomstidslinje[førsteVedtaksperiode.sykdomstidslinje.length - 1].kildeId!;
 
         expect(hendelseId).toBeDefined();
     });

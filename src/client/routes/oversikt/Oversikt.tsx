@@ -1,5 +1,4 @@
 import styled from '@emotion/styled';
-import { Oppgave } from 'internal-types';
 import React, { useEffect, useState } from 'react';
 import { useRecoilValue, useRecoilValueLoadable, useResetRecoilState } from 'recoil';
 

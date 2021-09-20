@@ -1,9 +1,7 @@
-import { Dag, Dagtype, Person } from 'internal-types';
 import { useEffect, useState } from 'react';
 
 import { postAbonnerPåAktør, postOverstyrteDager } from '../../../../io/http';
 import { OverstyrtDagDTO } from '../../../../io/types';
-import { Tidslinjeperiode } from '../../../../modell/utbetalingshistorikkelement';
 import {
     kalkulererFerdigToastKey,
     kalkulererToast,
@@ -17,17 +15,17 @@ import { useAddToast, useRemoveToast } from '../../../../state/toasts';
 
 type OverstyrtDagtype = 'Sykedag' | 'Feriedag' | 'Egenmeldingsdag' | 'Permisjonsdag' | 'Avvist';
 
-const tilOverstyrtDagtype = (type: Dagtype): OverstyrtDagtype => {
+const tilOverstyrtDagtype = (type: Dag['type']): OverstyrtDagtype => {
     switch (type) {
-        case Dagtype.Syk:
+        case 'Syk':
             return 'Sykedag';
-        case Dagtype.Ferie:
+        case 'Ferie':
             return 'Feriedag';
-        case Dagtype.Permisjon:
+        case 'Permisjon':
             return 'Permisjonsdag';
-        case Dagtype.Egenmelding:
+        case 'Egenmelding':
             return 'Egenmeldingsdag';
-        case Dagtype.Avvist:
+        case 'Avslått':
             return 'Avvist';
         default:
             throw Error(`Dag med type ${type} kan ikke overstyres.`);

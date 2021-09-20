@@ -1,5 +1,4 @@
 import styled from '@emotion/styled';
-import { TildelingType } from 'internal-types';
 import React from 'react';
 
 import { Link } from '@navikt/ds-react';
@@ -61,7 +60,7 @@ interface Props {
     lukk: () => void;
     vedtaksperiodeId: string;
     åpneNyttNotatModal: () => void;
-    tildeling?: TildelingType;
+    tildeling?: Tildeling;
 }
 
 export const NotatListeModal = ({ lukk, vedtaksperiodeId, tildeling, åpneNyttNotatModal }: Props) => {

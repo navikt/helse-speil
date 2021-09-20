@@ -1,7 +1,6 @@
 import styled from '@emotion/styled';
 import dayjs from 'dayjs';
 import { Utbetaling, Utbetalingsdetalj } from 'external-types';
-import { Simulering } from 'internal-types';
 import React from 'react';
 
 import { BodyShort, Title } from '@navikt/ds-react';
@@ -127,7 +126,7 @@ const Utbetalingsdetaljvisning = ({ detalj, index, anonymiseringEnabled }: Utbet
 );
 
 interface SimuleringsmodalProps {
-    simulering: Simulering;
+    simulering: Required<Vedtaksperiode>['simuleringsdata'];
     åpenModal: boolean;
     lukkModal: () => void;
     anonymiseringEnabled: boolean;

@@ -1,5 +1,4 @@
 import { Dayjs } from 'dayjs';
-import { Dagtype, Person, UfullstendigVedtaksperiode, Vedtaksperiode, Vedtaksperiodetilstand } from 'internal-types';
 import React, { useMemo } from 'react';
 
 import { getPositionedPeriods } from '@navikt/helse-frontend-timeline/src/components/calc';
@@ -8,17 +7,17 @@ import { HoverInfo } from './HoverInfo';
 import { arbeidsgiverNavn } from './Tidslinje';
 import { TidslinjeperiodeObject } from './Tidslinje.types';
 
-const harDagtyper = (dagtyper: Dagtype[], periode: Vedtaksperiode | UfullstendigVedtaksperiode): boolean =>
+const harDagtyper = (dagtyper: Dag['type'][], periode: Vedtaksperiode | UfullstendigVedtaksperiode): boolean =>
     !!periode.utbetalingstidslinje?.find((it) => dagtyper.includes(it.type));
 
 const skalViseInfoPin = (vedtaksperiode: Vedtaksperiode | UfullstendigVedtaksperiode): boolean =>
-    harDagtyper([Dagtype.Ferie, Dagtype.Arbeidsgiverperiode], vedtaksperiode);
+    harDagtyper(['Ferie', 'Arbeidsgiverperiode'], vedtaksperiode);
 
-const status = (vedtaksperiode: Vedtaksperiode | UfullstendigVedtaksperiode): Vedtaksperiodetilstand | string => {
+const status = (vedtaksperiode: Vedtaksperiode | UfullstendigVedtaksperiode): Periodetilstand | string => {
     if ((vedtaksperiode as Vedtaksperiode).automatiskBehandlet) {
-        return vedtaksperiode.tilstand === Vedtaksperiodetilstand.TilUtbetaling
+        return vedtaksperiode.tilstand === 'tilUtbetaling'
             ? 'tilUtbetalingAutomatisk'
-            : vedtaksperiode.tilstand === Vedtaksperiodetilstand.Utbetalt
+            : vedtaksperiode.tilstand === 'utbetalt'
             ? 'utbetaltAutomatisk'
             : vedtaksperiode.tilstand;
     } else {

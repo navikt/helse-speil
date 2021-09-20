@@ -1,5 +1,4 @@
 import styled from '@emotion/styled';
-import { Dagtype, Utbetalingsdag } from 'internal-types';
 import React from 'react';
 
 import { BodyShort } from '@navikt/ds-react';
@@ -28,7 +27,7 @@ interface TotalRowProps {
 export const TotalRow = React.memo(({ dager, dagerIgjen }: TotalRowProps) => {
     const utbetalingsdager = dager
         .filter(([_, { utbetaling }]) => utbetaling && utbetaling > 0)
-        .filter(([_, { type }]) => type !== Dagtype.Avvist) as [string, Required<UtbetalingstabellDag>][];
+        .filter(([_, { type }]) => type !== 'Avslått') as [string, Required<UtbetalingstabellDag>][];
 
     const totalUtbetaling = utbetalingsdager.reduce((total, [_, { utbetaling }]) => total + utbetaling, 0);
 

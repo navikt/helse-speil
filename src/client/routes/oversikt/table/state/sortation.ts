@@ -1,4 +1,3 @@
-import { Oppgave } from 'internal-types';
 import { atom, selector, useRecoilValue, useSetRecoilState } from 'recoil';
 
 import { tabState, TabType } from '../../tabs';

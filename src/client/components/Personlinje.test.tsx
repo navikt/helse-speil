@@ -1,6 +1,5 @@
 import '@testing-library/jest-dom/extend-expect';
 import { render, screen } from '@testing-library/react';
-import { Person } from 'internal-types';
 import React from 'react';
 import { MemoryRouter } from 'react-router';
 import { RecoilRoot } from 'recoil';

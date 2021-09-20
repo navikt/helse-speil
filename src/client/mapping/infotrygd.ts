@@ -4,27 +4,26 @@ import {
     SpesialistPerson,
     SpleisForlengelseFraInfotrygd,
 } from 'external-types';
-import { InfotrygdTypetekst, Infotrygdutbetaling, Periodetype, Vedtaksperiode } from 'internal-types';
 
 import { somDato } from './vedtaksperiode';
 
 export const erInfotrygdforlengelse = (vedtaksperiode: Vedtaksperiode) =>
-    vedtaksperiode.periodetype === Periodetype.Infotrygdforlengelse;
+    vedtaksperiode.periodetype === 'infotrygdforlengelse';
 
 export const tilTypetekst = (
     spesialistInfotrygdtypetekst: SpesialistInfotrygdtypetekst
-): InfotrygdTypetekst | string => {
+): Infotrygdutbetaling['typetekst'] => {
     switch (spesialistInfotrygdtypetekst) {
         case SpesialistInfotrygdtypetekst.FERIE:
-            return InfotrygdTypetekst.FERIE;
+            return 'Ferie';
         case SpesialistInfotrygdtypetekst.UTBETALING:
-            return InfotrygdTypetekst.UTBETALING;
+            return 'Utbetaling';
         case SpesialistInfotrygdtypetekst.ARBEIDSGIVERREFUSJON:
-            return InfotrygdTypetekst.ARBEIDSGIVERREFUSJON;
+            return 'ArbRef';
         case SpesialistInfotrygdtypetekst.UKJENT:
-            return InfotrygdTypetekst.UKJENT;
+            return 'Ukjent';
         case SpesialistInfotrygdtypetekst.TILBAKEFØRT:
-            return InfotrygdTypetekst.TILBAKEFØRT;
+            return 'Tilbakeført';
         default:
             return spesialistInfotrygdtypetekst;
     }
@@ -35,7 +34,7 @@ export const mapInfotrygdutbetaling = (utbetaling: SpesialistInfotrygdutbetaling
     tom: somDato(utbetaling.tom),
     grad: utbetaling.grad !== '' ? parseInt(utbetaling.grad) : undefined,
     dagsats: utbetaling.typetekst !== SpesialistInfotrygdtypetekst.FERIE ? utbetaling.dagsats : undefined,
-    typetekst: tilTypetekst(utbetaling.typetekst) as InfotrygdTypetekst,
+    typetekst: tilTypetekst(utbetaling.typetekst),
     organisasjonsnummer: utbetaling.organisasjonsnummer,
 });
 

@@ -1,5 +1,4 @@
 import styled from '@emotion/styled';
-import { Dagtype, Kildetype } from 'internal-types';
 import { nanoid } from 'nanoid';
 import React, { ReactNode, useRef } from 'react';
 
@@ -13,15 +12,15 @@ import { CellContent } from '../../table/CellContent';
 import { OverstyringsindikatorSaksbehandler } from './OverstyringsindikatorSaksbehandler';
 import { Dagoverstyring } from './Utbetalingstabell.types';
 
-const getKildeTypeIcon = (type?: Kildetype, overstyring?: Dagoverstyring): ReactNode => {
+const getKildeTypeIcon = (type?: Sykdomsdag['kilde'], overstyring?: Dagoverstyring): ReactNode => {
     switch (type) {
-        case Kildetype.Sykmelding:
-            return <Kilde type={Kildetype.Sykmelding}>SM</Kilde>;
-        case Kildetype.Søknad:
-            return <Kilde type={Kildetype.Søknad}>SØ</Kilde>;
-        case Kildetype.Inntektsmelding:
-            return <Kilde type={Kildetype.Inntektsmelding}>IM</Kilde>;
-        case Kildetype.Saksbehandler:
+        case 'Sykmelding':
+            return <Kilde type="Sykmelding">SM</Kilde>;
+        case 'Søknad':
+            return <Kilde type="Søknad">SØ</Kilde>;
+        case 'Inntektsmelding':
+            return <Kilde type="Inntektsmelding">IM</Kilde>;
+        case 'Saksbehandler':
             return overstyring ? (
                 <OverstyringsindikatorSaksbehandler
                     begrunnelse={overstyring.begrunnelse}
@@ -44,8 +43,8 @@ const Container = styled(CellContent)`
 `;
 
 interface KildeCellProps extends React.HTMLAttributes<HTMLTableDataCellElement> {
-    type: Dagtype;
-    kilde?: Kildetype;
+    type: Dag['type'];
+    kilde?: Sykdomsdag['kilde'];
     overstyring?: Dagoverstyring;
 }
 
@@ -54,7 +53,7 @@ export const KildeCell = ({ type, kilde, overstyring, ...rest }: KildeCellProps)
     return (
         <td {...rest}>
             <Container>
-                {type !== Dagtype.Helg && (
+                {type !== 'Helg' && (
                     <>
                         <span data-tip={kilde} data-for={tooltipId}>
                             {getKildeTypeIcon(kilde, overstyring)}

@@ -1,5 +1,4 @@
 import { Dayjs } from 'dayjs';
-import { Dagtype, Kildetype, Utbetalingsdag } from 'internal-types';
 
 export type Dagoverstyring = {
     begrunnelse: string;
@@ -11,8 +10,8 @@ export type Dagoverstyring = {
 export type UtbetalingstabellDag = Utbetalingsdag & {
     isMaksdato: boolean;
     sykdomsdag: {
-        type: Dagtype;
-        kilde: Kildetype;
+        type: Sykdomsdag['type'];
+        kilde: Sykdomsdag['kilde'];
     };
     dagerIgjen?: number;
     overstyring?: Dagoverstyring;

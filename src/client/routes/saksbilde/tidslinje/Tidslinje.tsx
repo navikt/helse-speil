@@ -1,7 +1,6 @@
 import styled from '@emotion/styled';
 import dayjs from 'dayjs';
 import 'dayjs/locale/nb';
-import { Arbeidsgiver, Person } from 'internal-types';
 import React, { useState } from 'react';
 
 import { AxisLabels } from '@navikt/helse-frontend-timeline/lib';

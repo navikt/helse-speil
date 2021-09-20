@@ -1,6 +1,5 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
-import { Dagtype } from 'internal-types';
 import React, { Dispatch, SetStateAction, useMemo } from 'react';
 
 import { Checkbox as NavCheckbox } from '@navikt/ds-react';
@@ -57,9 +56,9 @@ export const MarkerAlleDagerCheckbox: React.FC<MarkerAlleDagerCheckboxProps> = (
     setMarkerteDager,
     ...rest
 }) => {
-    const dagKanOverstyres = (type: Dagtype) =>
-        (type !== Dagtype.Helg && [Dagtype.Syk, Dagtype.Ferie, Dagtype.Egenmelding].includes(type)) ||
-        (overstyrPermisjonsdagerEnabled && type === Dagtype.Permisjon);
+    const dagKanOverstyres = (type: Dag['type']) =>
+        (type !== 'Helg' && ['Syk', 'Ferie', 'Egenmelding'].includes(type)) ||
+        (overstyrPermisjonsdagerEnabled && type === 'Permisjon');
 
     const overstyrbareDager = useMemo(
         () =>

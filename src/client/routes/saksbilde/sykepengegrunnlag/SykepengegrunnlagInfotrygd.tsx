@@ -1,6 +1,5 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
-import { Inntektsgrunnlag } from 'internal-types';
 import React from 'react';
 
 import { BodyShort } from '@navikt/ds-react';

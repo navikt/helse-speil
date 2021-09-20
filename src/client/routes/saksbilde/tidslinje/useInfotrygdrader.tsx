@@ -1,6 +1,5 @@
 import styled from '@emotion/styled';
 import { Dayjs } from 'dayjs';
-import { Infotrygdperiodetilstand, InfotrygdTypetekst, Infotrygdutbetaling, Person } from 'internal-types';
 import { nanoid } from 'nanoid';
 import React, { useMemo } from 'react';
 
@@ -25,15 +24,15 @@ const Tekst = styled.p`
     white-space: nowrap;
 `;
 
-const status = (typetekst: InfotrygdTypetekst) => {
+const status = (typetekst: Infotrygdutbetaling['typetekst']): Infotrygdperiodetilstand => {
     switch (typetekst) {
-        case InfotrygdTypetekst.UTBETALING:
-        case InfotrygdTypetekst.ARBEIDSGIVERREFUSJON:
-            return Infotrygdperiodetilstand.UtbetaltIInfotrygd;
-        case InfotrygdTypetekst.FERIE:
-            return Infotrygdperiodetilstand.Infotrygdferie;
+        case 'Utbetaling':
+        case 'ArbRef':
+            return 'utbetaltIInfotrygd';
+        case 'Ferie':
+            return 'infotrygdferie';
         default:
-            return Infotrygdperiodetilstand.Infotrygdukjent;
+            return 'infotrygdukjent';
     }
 };
 

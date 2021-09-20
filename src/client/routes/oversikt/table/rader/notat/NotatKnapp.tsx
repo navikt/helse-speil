@@ -1,6 +1,4 @@
 import styled from '@emotion/styled';
-import { Personinfo } from 'internal-types';
-import { TildelingType } from 'internal-types';
 import React, { useState } from 'react';
 
 import { Notes } from '@navikt/ds-icons';
@@ -17,7 +15,7 @@ const NotesContainer = styled.span`
 `;
 
 interface NotatKnappProps {
-    tildeling?: TildelingType;
+    tildeling?: Tildeling;
     vedtaksperiodeId: string;
     personinfo: Personinfo;
 }

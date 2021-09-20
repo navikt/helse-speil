@@ -1,5 +1,4 @@
 import styled from '@emotion/styled';
-import { Oppgave } from 'internal-types';
 import React from 'react';
 
 import { SortationState, useSetSortation } from './state/sortation';

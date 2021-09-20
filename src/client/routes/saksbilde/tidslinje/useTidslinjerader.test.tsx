@@ -1,7 +1,6 @@
 import { renderHook } from '@testing-library/react-hooks';
 import dayjs, { Dayjs } from 'dayjs';
 import { SpleisUtbetalingsdagtype } from 'external-types';
-import { Dagtype, Tidslinjetilstand, Utbetalingsdag } from 'internal-types';
 import { mappetPerson } from 'test-data';
 
 import { umappetArbeidsgiver } from '../../../../test/data/arbeidsgiver';
@@ -109,10 +108,10 @@ describe('useTidslinjerader', () => {
         expect(result.current[0].rader.length).toEqual(2);
         expect(result.current[0].rader[0].perioder.length).toEqual(2);
         expect(result.current[0].rader[1].perioder.length).toEqual(2);
-        expect(result.current[0].rader[1].perioder[0].tilstand).toEqual(Tidslinjetilstand.UtbetaltAutomatisk);
-        expect(result.current[0].rader[1].perioder[1].tilstand).toEqual(Tidslinjetilstand.UtbetaltAutomatisk);
-        expect(result.current[0].rader[0].perioder[0].tilstand).toEqual(Tidslinjetilstand.Annullert);
-        expect(result.current[0].rader[0].perioder[1].tilstand).toEqual(Tidslinjetilstand.Annullert);
+        expect(result.current[0].rader[1].perioder[0].tilstand).toEqual('utbetaltAutomatisk');
+        expect(result.current[0].rader[1].perioder[1].tilstand).toEqual('utbetaltAutomatisk');
+        expect(result.current[0].rader[0].perioder[0].tilstand).toEqual('annullert');
+        expect(result.current[0].rader[0].perioder[1].tilstand).toEqual('annullert');
     });
 
     test('to vedtaksperioder der første blir revurdert medfører to tidslinjerader med to perioder på hver', () => {
@@ -168,14 +167,14 @@ describe('useTidslinjerader', () => {
         expect(result.current[0].rader.length).toEqual(2);
         expect(result.current[0].rader[0].perioder.length).toEqual(2);
         expect(result.current[0].rader[1].perioder.length).toEqual(2);
-        expect(result.current[0].rader[1].perioder[0].tilstand).toEqual(Tidslinjetilstand.UtbetaltAutomatisk);
-        expect(result.current[0].rader[1].perioder[1].tilstand).toEqual(Tidslinjetilstand.UtbetaltAutomatisk);
-        expect(result.current[0].rader[0].perioder[0].tilstand).toEqual(Tidslinjetilstand.Revurdert);
-        expect(result.current[0].rader[0].perioder[1].tilstand).toEqual(Tidslinjetilstand.Revurdert);
+        expect(result.current[0].rader[1].perioder[0].tilstand).toEqual('utbetaltAutomatisk');
+        expect(result.current[0].rader[1].perioder[1].tilstand).toEqual('utbetaltAutomatisk');
+        expect(result.current[0].rader[0].perioder[0].tilstand).toEqual('revurdert');
+        expect(result.current[0].rader[0].perioder[1].tilstand).toEqual('revurdert');
     });
 });
 
-export const utbetalingstidslinje = (fom: Dayjs, tom: Dayjs, dagtype: Dagtype = Dagtype.Syk) => {
+export const utbetalingstidslinje = (fom: Dayjs, tom: Dayjs, dagtype: Dag['type'] = 'Syk') => {
     const antallDager = Math.abs(tom.diff(fom, 'day')) + 1;
     const utbetalingsdager: Utbetalingsdag[] = [];
     for (let step = 0; step < antallDager; step++) {

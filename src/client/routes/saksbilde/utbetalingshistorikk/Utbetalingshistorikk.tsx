@@ -1,5 +1,4 @@
 import styled from '@emotion/styled';
-import type { Person, UtbetalingshistorikkUtbetaling } from 'internal-types';
 import React, { useState } from 'react';
 import { useHistory } from 'react-router';
 

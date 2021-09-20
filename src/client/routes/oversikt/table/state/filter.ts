@@ -1,4 +1,3 @@
-import { InntektskildeType, Oppgave, Periodetype } from 'internal-types';
 import { atom, selector, useRecoilValue, useSetRecoilState } from 'recoil';
 
 import { tabState, TabType } from '../../tabs';
@@ -30,50 +29,50 @@ const defaultFilters: Filter<Oppgave>[] = [
     {
         label: 'Førstegang.',
         active: false,
-        function: (oppgave: Oppgave) => oppgave.periodetype === Periodetype.Førstegangsbehandling,
+        function: (oppgave: Oppgave) => oppgave.periodetype === 'førstegangsbehandling',
         column: 1,
     },
     {
         label: 'Forlengelse.',
         active: false,
         function: (oppgave: Oppgave) =>
-            oppgave.periodetype === Periodetype.Forlengelse || oppgave.periodetype === Periodetype.Infotrygdforlengelse,
+            oppgave.periodetype === 'forlengelse' || oppgave.periodetype === 'infotrygdforlengelse',
         column: 1,
     },
     {
         label: 'Forlengelse - IT',
         active: false,
-        function: (oppgave: Oppgave) => oppgave.periodetype === Periodetype.OvergangFraInfotrygd,
+        function: (oppgave: Oppgave) => oppgave.periodetype === 'overgangFraIt',
         column: 1,
     },
     {
         label: 'Stikkprøver',
         active: false,
-        function: (oppgave: Oppgave) => oppgave.periodetype === Periodetype.Stikkprøve,
+        function: (oppgave: Oppgave) => oppgave.periodetype === 'stikkprøve',
         column: 1,
     },
     {
         label: 'Risk QA',
         active: false,
-        function: (oppgave: Oppgave) => oppgave.periodetype === Periodetype.RiskQa,
+        function: (oppgave: Oppgave) => oppgave.periodetype === 'riskQa',
         column: 1,
     },
     {
         label: 'Revurdering',
         active: false,
-        function: (oppgave: Oppgave) => oppgave.periodetype === Periodetype.Revurdering,
+        function: (oppgave: Oppgave) => oppgave.periodetype === 'revurdering',
         column: 1,
     },
     {
         label: 'Én arbeidsgiver',
         active: false,
-        function: (oppgave: Oppgave) => oppgave.inntektskilde === InntektskildeType.EnArbeidsgiver,
+        function: (oppgave: Oppgave) => oppgave.inntektskilde === 'EN_ARBEIDSGIVER',
         column: 3,
     },
     {
         label: 'Flere arbeidsgivere',
         active: false,
-        function: (oppgave: Oppgave) => oppgave.inntektskilde === InntektskildeType.FlereArbeidsgivere,
+        function: (oppgave: Oppgave) => oppgave.inntektskilde === 'FLERE_ARBEIDSGIVERE',
         column: 3,
     },
 ];

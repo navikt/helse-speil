@@ -1,5 +1,4 @@
 import styled from '@emotion/styled';
-import { Periodetype, Person, Vedtaksperiode } from 'internal-types';
 import React from 'react';
 
 import { AgurkErrorBoundary } from '../../../components/AgurkErrorBoundary';
@@ -35,13 +34,13 @@ export const Sykepengegrunnlag = ({ vedtaksperiode, person }: SykepengegrunnlagP
     return (
         <Container className="Sykepengegrunnlag">
             <AgurkErrorBoundary>
-                {periodetype === Periodetype.Førstegangsbehandling && !behandlet ? (
+                {periodetype === 'førstegangsbehandling' && !behandlet ? (
                     <UbehandletSykepengegrunnlag
                         inntektsgrunnlag={inntektsgrunnlag}
                         inntektskilde={arbeidsgiverinntekt}
                         anonymiseringEnabled={anonymiseringEnabled}
                     />
-                ) : periodetype === Periodetype.Infotrygdforlengelse ? (
+                ) : periodetype === 'infotrygdforlengelse' ? (
                     <SykepengegrunnlagFraInfogtrygd
                         inntektsgrunnlag={inntektsgrunnlag}
                         inntekt={arbeidsgiverinntekt!}

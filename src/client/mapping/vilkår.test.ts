@@ -1,5 +1,4 @@
 import { SpleisVilkår } from 'external-types';
-import { Opptjening, Vilkår } from 'internal-types';
 
 import { NORSK_DATOFORMAT } from '../utils/date';
 

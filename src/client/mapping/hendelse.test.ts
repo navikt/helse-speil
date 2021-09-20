@@ -1,5 +1,4 @@
 import { SpleisHendelsetype, SpleisInntektsmelding, SpleisSykmelding, SpleisSøknad } from 'external-types';
-import { Inntektsmelding, Kildetype, Sykmelding, Søknad } from 'internal-types';
 
 import { mapHendelse } from './hendelse';
 import { somDato, somTidspunkt } from './vedtaksperiode';
@@ -14,7 +13,7 @@ describe('mapHendelse', () => {
         };
         const mappetInntektsmelding: Inntektsmelding = {
             id: 'en-inntektsmelding',
-            type: Kildetype.Inntektsmelding,
+            type: 'Inntektsmelding',
             mottattTidspunkt: somTidspunkt('2020-01-01T00:00:00'),
             beregnetInntekt: 600000,
         };
@@ -30,7 +29,7 @@ describe('mapHendelse', () => {
         };
         const mappetSykmelding: Sykmelding = {
             id: 'en-sykmelding',
-            type: Kildetype.Sykmelding,
+            type: 'Sykmelding',
             fom: somDato('2020-01-01'),
             tom: somDato('2020-01-31'),
             rapportertDato: somTidspunkt('2020-02-01T00:00:00'),
@@ -48,7 +47,7 @@ describe('mapHendelse', () => {
         };
         const mappetSøknad: Søknad = {
             id: 'en-søknad',
-            type: Kildetype.Søknad,
+            type: 'Søknad',
             fom: somDato('2020-01-01'),
             tom: somDato('2020-01-31'),
             rapportertDato: somTidspunkt('2020-02-01T00:00:00'),

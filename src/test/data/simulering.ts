@@ -1,5 +1,3 @@
-import { Simulering } from 'internal-types';
-
 export const umappetSimuleringsdata = {
     totalbeløp: 9999,
     perioder: [
@@ -35,7 +33,7 @@ export const umappetSimuleringsdata = {
     ],
 };
 
-export const mappetSimuleringsdata: Simulering = {
+export const mappetSimuleringsdata: Required<Vedtaksperiode>['simuleringsdata'] = {
     totalbeløp: 9999,
     perioder: [
         {

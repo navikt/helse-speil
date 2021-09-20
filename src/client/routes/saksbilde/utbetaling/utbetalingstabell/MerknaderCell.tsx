@@ -1,4 +1,3 @@
-import { AvvistBegrunnelse, Dagtype, Utbetalingsdag } from 'internal-types';
 import React from 'react';
 
 import { BodyShort } from '@navikt/ds-react';
@@ -9,7 +8,7 @@ import { Tooltip } from '../../../../components/Tooltip';
 import { CellContent } from '../../table/CellContent';
 
 interface MerknadProps {
-    begrunnelse: AvvistBegrunnelse;
+    begrunnelse: Avvisning;
 }
 
 const Merknad = ({ begrunnelse }: MerknadProps) => {
@@ -73,7 +72,7 @@ const foreldetDagMerknad = (isForeldet: boolean): React.ReactNode | undefined =>
         </span>
     ) : undefined;
 
-const avvisningsårsakerMerknad = (avvisningsårsaker?: AvvistBegrunnelse[]) =>
+const avvisningsårsakerMerknad = (avvisningsårsaker?: Avvisning[]) =>
     avvisningsårsaker?.map((it, i) => (
         <React.Fragment key={i}>
             {i !== 0 && <BodyShort>,&nbsp;</BodyShort>}
@@ -90,7 +89,7 @@ export const MerknaderCell = ({ dag, isMaksdato, ...rest }: MerknaderCellProps) 
     <td {...rest}>
         <CellContent>
             {sisteUtbetalingsdagMerknad(isMaksdato) ??
-                foreldetDagMerknad(dag.type === Dagtype.Foreldet) ??
+                foreldetDagMerknad(dag.type === 'Foreldet') ??
                 avvisningsårsakerMerknad(dag.avvistÅrsaker)}
             <Tooltip effect="solid" />
         </CellContent>

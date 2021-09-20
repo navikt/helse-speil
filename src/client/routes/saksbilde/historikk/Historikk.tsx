@@ -1,6 +1,5 @@
 import styled from '@emotion/styled';
 import { AnimatePresence, motion } from 'framer-motion';
-import { Personinfo, TildelingType } from 'internal-types';
 import React from 'react';
 import { useState } from 'react';
 
@@ -33,7 +32,7 @@ const Hendelser = styled.ul`
 interface HistorikkProps {
     vedtaksperiodeId: string;
     personinfo: Personinfo;
-    tildeling?: TildelingType;
+    tildeling?: Tildeling;
 }
 
 export const Historikk = ({ vedtaksperiodeId, tildeling, personinfo }: HistorikkProps) => {

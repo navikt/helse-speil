@@ -1,4 +1,3 @@
-import { TildelingType } from 'internal-types';
 import React, { useContext, useState } from 'react';
 
 import { Loader } from '@navikt/ds-react';
@@ -11,7 +10,7 @@ import { useAddVarsel, useRemoveVarsel } from '../../../state/varsler';
 
 interface TildelingsknappProps {
     oppgavereferanse: string;
-    tildeling?: TildelingType;
+    tildeling?: Tildeling;
     erTildeltInnloggetBruker: boolean;
 }
 

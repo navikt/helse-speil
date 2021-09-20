@@ -1,6 +1,5 @@
 import styled from '@emotion/styled';
 import { Dayjs } from 'dayjs';
-import { Person } from 'internal-types';
 import React from 'react';
 
 import { BodyShort } from '@navikt/ds-react';

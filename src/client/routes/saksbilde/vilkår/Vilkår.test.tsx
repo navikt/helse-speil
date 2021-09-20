@@ -2,14 +2,13 @@ import '@testing-library/jest-dom/extend-expect';
 import { render, screen, within } from '@testing-library/react';
 import dayjs, { Dayjs } from 'dayjs';
 import { SpleisForlengelseFraInfotrygd, SpleisVedtaksperiodetilstand } from 'external-types';
-import { Periodetype, Person, Vedtaksperiode, Vilkår as VilkårType } from 'internal-types';
 import React from 'react';
 import { mappetPerson, mappetVedtaksperiode } from 'test-data';
 
 import { Vilkår } from './Vilkår';
 
 const infotrygdforlengelse = () => ({
-    periodetype: Periodetype.Infotrygdforlengelse,
+    periodetype: 'infotrygdforlengelse',
     forlengelseFraInfotrygd: SpleisForlengelseFraInfotrygd.JA,
 });
 
@@ -21,12 +20,12 @@ const ferdigbehandlet = () => ({
 });
 
 const påfølgende = () => ({
-    periodetype: Periodetype.Forlengelse,
+    periodetype: 'forlengelse',
 });
 
 type PersonMedModifiserteVilkårOptions = {
     vedtaksperiodeverdier?: { [K in keyof Partial<Vedtaksperiode>]: any }[];
-    vilkårverdier?: { [K in keyof Partial<VilkårType>]: any }[];
+    vilkårverdier?: { [K in keyof Partial<Vilkår>]: any }[];
 };
 
 const personMedModifiserteVilkår = ({
@@ -70,7 +69,7 @@ describe('Vilkår', () => {
     describe('førstegangsbehandling', () => {
         it('har alle vilkår oppfylt', () => {
             const medAlleVilkårOppfylt = personMedModifiserteVilkår({
-                vedtaksperiodeverdier: [{ periodetype: Periodetype.Førstegangsbehandling }],
+                vedtaksperiodeverdier: [{ periodetype: 'førstegangsbehandling' }],
             });
             render(
                 <Vilkår

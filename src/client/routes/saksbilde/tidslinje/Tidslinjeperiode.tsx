@@ -1,7 +1,6 @@
 import styled from '@emotion/styled';
 import classNames from 'classnames';
 import { Dayjs } from 'dayjs';
-import { Infotrygdperiodetilstand, Tidslinjetilstand } from 'internal-types';
 import React, { ReactNode, useState } from 'react';
 
 import { Popover } from '@navikt/ds-react';
@@ -15,50 +14,50 @@ const ariaLabel = (tilstand: Tidslinjetilstand | Infotrygdperiodetilstand, fom: 
     const fomString = fom.format(NORSK_DATOFORMAT);
     const tomString = tom.format(NORSK_DATOFORMAT);
     switch (tilstand) {
-        case Tidslinjetilstand.TilUtbetaling:
+        case 'tilUtbetaling':
             return `Periode til utbetaling fra ${fomString} til ${tomString}`;
-        case Tidslinjetilstand.Utbetalt:
+        case 'utbetalt':
             return `Utbetalt periode fra ${fomString} til ${tomString}`;
-        case Tidslinjetilstand.Oppgaver:
+        case 'oppgaver':
             return `Periode til behandling fra ${fomString} til ${tomString}`;
-        case Tidslinjetilstand.Venter:
-        case Tidslinjetilstand.VenterPåKiling:
+        case 'venter':
+        case 'venterPåKiling':
             return `Periode som venter på mer informasjon fra ${fomString} til ${tomString}`;
-        case Tidslinjetilstand.Avslag:
+        case 'avslag':
             return `Avvist periode fra ${fomString} til ${tomString}`;
-        case Tidslinjetilstand.IngenUtbetaling:
+        case 'ingenUtbetaling':
             return `Periode uten utbetaling fra ${fomString} til ${tomString}`;
-        case Tidslinjetilstand.KunFerie:
+        case 'kunFerie':
             return `Ferieperiode fra ${fomString} til ${tomString}`;
-        case Tidslinjetilstand.KunPermisjon:
+        case 'kunPermisjon':
             return `Permisjonsperiode fra ${fomString} til ${tomString}`;
-        case Tidslinjetilstand.Feilet:
+        case 'feilet':
             return `Periode med feil fra ${fomString} til ${tomString}`;
-        case Tidslinjetilstand.TilInfotrygd:
+        case 'tilInfotrygd':
             return `Periode som ble sendt til Infotrygd fra ${fomString} til ${tomString}`;
-        case Tidslinjetilstand.Annullert:
+        case 'annullert':
             return `Annullert periode fra ${fomString} til ${tomString}`;
-        case Tidslinjetilstand.TilAnnullering:
+        case 'tilAnnullering':
             return `Periode sendt til annullering fra ${fomString} til ${tomString}`;
-        case Tidslinjetilstand.AnnulleringFeilet:
+        case 'annulleringFeilet':
             return `Periode med feilet annullering fra ${fomString} til ${tomString}`;
-        case Tidslinjetilstand.UtbetaltAutomatisk:
+        case 'utbetaltAutomatisk':
             return `Periode som er utbetalt automatisk fra ${fomString} til ${tomString}`;
-        case Tidslinjetilstand.TilUtbetalingAutomatisk:
+        case 'tilUtbetalingAutomatisk':
             return `Periode som venter på å bli utbetalt automatisk fra ${fomString} til ${tomString}`;
-        case Tidslinjetilstand.Revurderes:
+        case 'revurderes':
             return `Periode som revurderes fra ${fomString} til ${tomString}`;
-        case Tidslinjetilstand.Revurdert:
+        case 'revurdert':
             return `Periode som har blitt revudert fra ${fomString} til ${tomString}`;
-        case Tidslinjetilstand.RevurdertIngenUtbetaling:
+        case 'revurdertIngenUtbetaling':
             return `Revurdert periode uten utbetaling fra ${fomString} til ${tomString}`;
-        case Tidslinjetilstand.Ukjent:
+        case 'ukjent':
             return `Periode med ukjent tilstand fra ${fomString} til ${tomString}`;
-        case Infotrygdperiodetilstand.UtbetaltIInfotrygd:
+        case 'utbetaltIInfotrygd':
             return `Periode utbetalt i Infotrygd fra ${fomString} til ${tomString}`;
-        case Infotrygdperiodetilstand.Infotrygdferie:
+        case 'infotrygdferie':
             return `Ferieperiode hentet fra Infotrygd fra ${fomString} til ${tomString}`;
-        case Infotrygdperiodetilstand.Infotrygdukjent:
+        case 'infotrygdukjent':
             return `Periode fra Infotrygd med ukjent tilstand fra ${fomString} til ${tomString}`;
     }
 };

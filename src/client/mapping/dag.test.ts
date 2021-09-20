@@ -5,7 +5,6 @@ import {
     SpleisUtbetalingsdagtype,
     SpleisVilkår,
 } from 'external-types';
-import { Dagtype, Kildetype } from 'internal-types';
 
 import { mapSykdomstidslinje, mapUtbetalingstidslinje } from './dag';
 import { somDato } from './vedtaksperiode';
@@ -75,61 +74,61 @@ const enUmappetSykdomstidlinje = [
     },
 ];
 
-const enMappetSykdomstidlinje = [
+const enMappetSykdomstidlinje: Sykdomsdag[] = [
     {
-        type: Dagtype.Arbeidsdag,
+        type: 'Arbeidsdag',
         dato: somDato('2020-01-01'),
         gradering: undefined,
-        kilde: Kildetype.Inntektsmelding,
+        kilde: 'Inntektsmelding',
         kildeId: 'en-inntektsmelding',
     },
     {
-        type: Dagtype.Syk,
+        type: 'Syk',
         dato: somDato('2020-01-02'),
         gradering: 100,
-        kilde: Kildetype.Søknad,
+        kilde: 'Søknad',
         kildeId: 'en-søknad',
     },
     {
-        type: Dagtype.Ferie,
+        type: 'Ferie',
         dato: somDato('2020-01-03'),
         gradering: undefined,
-        kilde: Kildetype.Søknad,
+        kilde: 'Søknad',
         kildeId: 'en-søknad',
     },
     {
-        type: Dagtype.Ubestemt,
+        type: 'Ubestemt',
         dato: somDato('2020-01-04'),
         gradering: undefined,
-        kilde: Kildetype.Søknad,
+        kilde: 'Søknad',
         kildeId: 'en-søknad',
     },
     {
-        type: Dagtype.Helg,
+        type: 'Helg',
         dato: somDato('2020-01-05'),
         gradering: undefined,
-        kilde: Kildetype.Søknad,
+        kilde: 'Søknad',
         kildeId: undefined,
     },
     {
-        type: Dagtype.Egenmelding,
+        type: 'Egenmelding',
         dato: somDato('2020-01-06'),
         gradering: undefined,
-        kilde: Kildetype.Inntektsmelding,
+        kilde: 'Inntektsmelding',
         kildeId: 'en-inntektsmelding',
     },
     {
-        type: Dagtype.Foreldet,
+        type: 'Foreldet',
         dato: somDato('2020-01-07'),
         gradering: 100,
-        kilde: Kildetype.Sykmelding,
+        kilde: 'Sykmelding',
         kildeId: 'en-sykmelding',
     },
     {
-        type: Dagtype.Annullert,
+        type: 'Annullert',
         dato: somDato('2020-01-08'),
         gradering: undefined,
-        kilde: Kildetype.Saksbehandler,
+        kilde: 'Saksbehandler',
         kildeId: 'en-saksbehandler',
     },
 ];
@@ -149,7 +148,7 @@ describe('mapUtbetalingstidslinje', () => {
             begrunnelser: undefined,
         };
         const mappet = {
-            type: Dagtype.Syk,
+            type: 'Syk',
             utbetaling: 1234,
             dato: dayjs('2020-01-01'),
             gradering: 100,
@@ -164,16 +163,16 @@ describe('mapUtbetalingstidslinje', () => {
             dato: '2020-01-01',
             utbetaling: 0,
             grad: 100,
-            begrunnelser: ['Fordi'],
+            begrunnelser: ['EtterDødsdato'],
         };
-        const mappet = {
-            type: Dagtype.Avvist,
+        const mappet: Utbetalingsdag = {
+            type: 'Avslått',
             utbetaling: 0,
             dato: dayjs('2020-01-01'),
             gradering: 100,
             avvistÅrsaker: [
                 {
-                    tekst: 'Fordi',
+                    tekst: 'EtterDødsdato',
                     paragraf: undefined,
                 },
             ],
@@ -191,7 +190,7 @@ describe('mapUtbetalingstidslinje', () => {
             begrunnelser: ['Fordi'],
         };
         const mappet = {
-            type: Dagtype.Avvist,
+            type: 'Avslått',
             utbetaling: 0,
             dato: dayjs('2020-01-01'),
             gradering: 100,
@@ -215,7 +214,7 @@ describe('mapUtbetalingstidslinje', () => {
             begrunnelser: ['Fordi', 'Derfor', 'Sånn er det'],
         };
         const mappet = {
-            type: Dagtype.Avvist,
+            type: 'Avslått',
             utbetaling: 0,
             dato: dayjs('2020-01-01'),
             gradering: 100,

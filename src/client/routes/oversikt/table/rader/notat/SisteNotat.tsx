@@ -1,5 +1,4 @@
 import styled from '@emotion/styled';
-import { Notat } from 'internal-types';
 import React from 'react';
 
 import { BodyShort } from '@navikt/ds-react';

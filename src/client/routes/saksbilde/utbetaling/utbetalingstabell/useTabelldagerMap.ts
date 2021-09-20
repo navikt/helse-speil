@@ -1,8 +1,6 @@
 import { Dayjs } from 'dayjs';
-import { Dagtype, Kildetype, Overstyring, OverstyrtDag, Utbetalingsdag } from 'internal-types';
 import { useMemo } from 'react';
 
-import { Tidslinjeperiode } from '../../../../modell/utbetalingshistorikkelement';
 import { NORSK_DATOFORMAT } from '../../../../utils/date';
 
 import { UtbetalingstabellDag } from './Utbetalingstabell.types';
@@ -11,19 +9,20 @@ const mapKey = (dag: Utbetalingsdag): string => dag.dato.format(NORSK_DATOFORMAT
 
 export const withDagerIgjen = (dager: Utbetalingsdag[], totaltAntallDagerIgjen: number): UtbetalingstabellDag[] => {
     const getDagerIgjen = (dag: Utbetalingsdag, dagerIgjen: number) =>
-        dag.type === Dagtype.Syk && dagerIgjen > 0 ? dagerIgjen - 1 : dagerIgjen;
+        dag.type === 'Syk' && dagerIgjen > 0 ? dagerIgjen - 1 : dagerIgjen;
 
     return dager.length > 0
         ? (dager
               .slice(1)
-              .reduce((alle, it, i) => alle.concat([{ ...it, dagerIgjen: getDagerIgjen(it, alle[i].dagerIgjen) }]), [
-                  { ...dager[0], dagerIgjen: getDagerIgjen(dager[0], totaltAntallDagerIgjen) },
-              ]) as UtbetalingstabellDag[])
+              .reduce(
+                  (alle, it, i) => alle.concat([{ ...it, dagerIgjen: getDagerIgjen(it, alle[i].dagerIgjen) }]),
+                  [{ ...dager[0], dagerIgjen: getDagerIgjen(dager[0], totaltAntallDagerIgjen) }]
+              ) as UtbetalingstabellDag[])
         : [];
 };
 
 export const antallSykedagerTilOgMedMaksdato = (dager: Utbetalingsdag[], maksdato?: Dayjs): number =>
-    maksdato ? dager.filter((it) => it.type === Dagtype.Syk && it.dato.isSameOrBefore(maksdato)).length : 0;
+    maksdato ? dager.filter((it) => it.type === 'Syk' && it.dato.isSameOrBefore(maksdato)).length : 0;
 
 export const useTabelldagerMap = (
     periode: Tidslinjeperiode,
@@ -40,7 +39,7 @@ export const useTabelldagerMap = (
             (it, i) => ({
                 ...it,
                 sykdomsdag: {
-                    kilde: periode.sykdomstidslinje[i]?.kilde ?? Kildetype.Ukjent,
+                    kilde: periode.sykdomstidslinje[i]?.kilde ?? 'Ukjent',
                     type: periode.sykdomstidslinje[i]?.type ?? it.type,
                 },
             })

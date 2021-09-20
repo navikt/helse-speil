@@ -1,7 +1,4 @@
-import { Person, Tidslinjetilstand, Vedtaksperiode } from 'internal-types';
 import { atom, useRecoilValue, useSetRecoilState } from 'recoil';
-
-import { Tidslinjeperiode } from '../modell/utbetalingshistorikkelement';
 
 import { usePerson } from './person';
 
@@ -21,7 +18,7 @@ export const useAktivPeriode = (): Tidslinjeperiode | undefined => {
 
         return (
             person.arbeidsgivere
-                .flatMap((a) => a.tidslinjeperioder)
+                .flatMap(({ tidslinjeperioder }) => tidslinjeperioder)
                 .flatMap((perioder) => perioder)
                 .find(
                     (periode) => periode.id === id && periode.beregningId === beregningId && periode.unique === unique
@@ -47,8 +44,7 @@ export const useOppgavereferanse = (beregningId: string): string | undefined => 
 };
 
 export const harOppgave = (tidslinjeperiode: Tidslinjeperiode) =>
-    [Tidslinjetilstand.Oppgaver, Tidslinjetilstand.Revurderes].includes(tidslinjeperiode.tilstand) &&
-    !!tidslinjeperiode.oppgavereferanse;
+    ['oppgaver', 'revurderes'].includes(tidslinjeperiode.tilstand) && !!tidslinjeperiode.oppgavereferanse;
 
 const defaultTidslinjeperiode = (person: Person): Tidslinjeperiode | undefined => {
     const valgbarePerioder: Tidslinjeperiode[] = person.arbeidsgivere
@@ -58,9 +54,7 @@ const defaultTidslinjeperiode = (person: Person): Tidslinjeperiode | undefined =
         .sort((a, b) => (a.opprettet.isAfter(b.opprettet) ? 1 : -1))
         .sort((a, b) => (a.fom.isBefore(b.fom) ? 1 : -1));
     return (
-        valgbarePerioder.find((periode) =>
-            [Tidslinjetilstand.Oppgaver, Tidslinjetilstand.Revurderes].includes(periode.tilstand)
-        ) ?? valgbarePerioder[0]
+        valgbarePerioder.find((periode) => ['oppgaver', 'revurderes'].includes(periode.tilstand)) ?? valgbarePerioder[0]
     );
 };
 

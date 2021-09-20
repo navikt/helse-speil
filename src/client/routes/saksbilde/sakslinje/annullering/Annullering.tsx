@@ -1,8 +1,6 @@
-import { Utbetaling } from 'internal-types';
 import React, { useContext, useState } from 'react';
 
 import { DropdownContext, DropdownMenyknapp } from '../../../../components/dropdown/Dropdown';
-import { Tidslinjeperiode } from '../../../../modell/utbetalingshistorikkelement';
 import { usePerson } from '../../../../state/person';
 
 import { Annulleringsmodal } from './Annulleringsmodal';

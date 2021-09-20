@@ -1,7 +1,6 @@
 import '@testing-library/jest-dom/extend-expect';
 import { render, screen } from '@testing-library/react';
 import dayjs, { Dayjs } from 'dayjs';
-import { Dagtype, Kildetype } from 'internal-types';
 import React from 'react';
 
 import { NORSK_DATOFORMAT } from '../../../../utils/date';
@@ -11,7 +10,7 @@ import { UtbetalingstabellDag } from './Utbetalingstabell.types';
 
 const enUtbetalingstabelldag = (overrides?: Partial<UtbetalingstabellDag>): UtbetalingstabellDag => ({
     dato: overrides?.dato ?? dayjs(),
-    type: overrides?.type ?? Dagtype.Syk,
+    type: overrides?.type ?? 'Syk',
     gradering: overrides?.gradering ?? 100,
     totalGradering: overrides?.totalGradering ?? 100,
     utbetaling: overrides?.utbetaling ?? 1234,
@@ -19,8 +18,8 @@ const enUtbetalingstabelldag = (overrides?: Partial<UtbetalingstabellDag>): Utbe
     overstyring: overrides?.overstyring,
     isMaksdato: false,
     sykdomsdag: overrides?.sykdomsdag ?? {
-        type: Dagtype.Syk,
-        kilde: Kildetype.Sykmelding,
+        type: 'Syk',
+        kilde: 'Sykmelding',
     },
 });
 

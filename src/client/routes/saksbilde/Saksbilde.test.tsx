@@ -3,7 +3,6 @@ import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import dayjs from 'dayjs';
 import { SpesialistInntektskilde } from 'external-types';
-import { Person } from 'internal-types';
 import React from 'react';
 import { MemoryRouter } from 'react-router';
 import { Route } from 'react-router-dom';
@@ -34,26 +33,29 @@ jest.mock('../../featureToggles', () => ({
     },
 }));
 
-const wrapper = (personTilBehandling?: Person): React.FC => ({ children }) => (
-    <MemoryRouter initialEntries={['/person/:aktorId/utbetaling']}>
-        <Route path="/person/:aktorId">
-            <RecoilRoot
-                initializeState={({ set }) => {
-                    personTilBehandling && set(personState, { person: personTilBehandling });
-                    set(authState, {
-                        email: 'nav.navesen@nav.no',
-                        name: 'Nav Navesen',
-                        oid: 'oid',
-                        ident: 'NN12345',
-                        isLoggedIn: true,
-                    });
-                }}
-            >
-                {children}
-            </RecoilRoot>
-        </Route>
-    </MemoryRouter>
-);
+const wrapper =
+    (personTilBehandling?: Person): React.FC =>
+    ({ children }) =>
+        (
+            <MemoryRouter initialEntries={['/person/:aktorId/utbetaling']}>
+                <Route path="/person/:aktorId">
+                    <RecoilRoot
+                        initializeState={({ set }) => {
+                            personTilBehandling && set(personState, { person: personTilBehandling });
+                            set(authState, {
+                                email: 'nav.navesen@nav.no',
+                                name: 'Nav Navesen',
+                                oid: 'oid',
+                                ident: 'NN12345',
+                                isLoggedIn: true,
+                            });
+                        }}
+                    >
+                        {children}
+                    </RecoilRoot>
+                </Route>
+            </MemoryRouter>
+        );
 
 describe('Saksbilde', () => {
     test('rendrer loading screen dersom det ikke finnes person', async () => {

@@ -1,5 +1,4 @@
 import styled from '@emotion/styled';
-import { Simulering } from 'internal-types';
 import React, { useState } from 'react';
 
 import { BodyShort, Link } from '@navikt/ds-react';
@@ -36,7 +35,7 @@ interface UtbetalingCardProps {
     beregningId: string;
     utbetalingsdagerTotalt: number;
     ikkeUtbetaltEnda: boolean;
-    simulering?: Simulering;
+    simulering?: Vedtaksperiode['simuleringsdata'];
     anonymiseringEnabled: boolean;
 }
 

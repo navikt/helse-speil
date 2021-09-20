@@ -1,11 +1,9 @@
-import { Kjønn } from 'internal-types';
-
-export const anonymisertPersoninfo = {
+export const anonymisertPersoninfo: Personinfo = {
     fornavn: 'Agurk',
     mellomnavn: 'Squash',
     etternavn: 'Agurksen',
     fødselsdato: null,
-    kjønn: 'ukjent' as Kjønn,
+    kjønn: 'ukjent',
     fnr: '11001100111',
 };
 

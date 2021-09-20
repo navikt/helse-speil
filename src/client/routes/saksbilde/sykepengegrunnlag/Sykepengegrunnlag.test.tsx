@@ -1,7 +1,6 @@
 import '@testing-library/jest-dom/extend-expect';
 import { render, screen } from '@testing-library/react';
 import { SpesialistInntektkilde } from 'external-types';
-import { Periodetype } from 'internal-types';
 import React from 'react';
 import { RecoilRoot } from 'recoil';
 import { mappetPerson, mappetVedtaksperiode } from 'test-data';
@@ -29,69 +28,53 @@ const expectContainsStandardFieldsInfotrygd = () => {
     expect(screen.queryByText('Sammenligningsgrunnlag')).toBeNull();
 };
 
+const wrapper: React.FC = ({ children }) => (
+    <RecoilRoot initializeState={({ set }) => set(persondataSkalAnonymiseres, false)}>{children}</RecoilRoot>
+);
+
 describe('Sykepengegrunnlag', () => {
     test('rendrer ubehandlet sykepengegrunnlag', () => {
-        render(
-            <RecoilRoot initializeState={({ set }) => set(persondataSkalAnonymiseres, false)}>
-                <Sykepengegrunnlag vedtaksperiode={enVedtaksperiodeIM} person={enPerson} />
-            </RecoilRoot>
-        );
+        render(<Sykepengegrunnlag vedtaksperiode={enVedtaksperiodeIM} person={enPerson} />, { wrapper });
         expect(screen.queryByText('Sykepengegrunnlag satt ved skjæringstidspunkt - 01.01.2020')).toBeNull();
         expectContainsStandardFields();
     });
     test('rendrer behandlet sykepengegrunnlag for førstegangssak', () => {
-        const behandletPeriode = {
+        const behandletPeriode: Vedtaksperiode = {
             ...enVedtaksperiodeIM,
-            periodetype: Periodetype.Førstegangsbehandling,
+            periodetype: 'førstegangsbehandling',
             behandlet: true,
         };
-        render(
-            <RecoilRoot initializeState={({ set }) => set(persondataSkalAnonymiseres, false)}>
-                <Sykepengegrunnlag vedtaksperiode={behandletPeriode} person={enPerson} />
-            </RecoilRoot>
-        );
+        render(<Sykepengegrunnlag vedtaksperiode={behandletPeriode} person={enPerson} />, { wrapper });
         expect(screen.queryByText('Sykepengegrunnlag satt ved skjæringstidspunkt - 01.01.2020')).toBeVisible();
         expectContainsStandardFields();
     });
     test('rendrer behandlet sykepengegrunnlag for forlengelse', () => {
-        const behandletPeriode = {
+        const behandletPeriode: Vedtaksperiode = {
             ...enVedtaksperiodeIT,
             inntektsgrunnlag: mappetInntektsgrunnlag,
-            periodetype: Periodetype.Forlengelse,
+            periodetype: 'forlengelse',
             behandlet: true,
         };
-        render(
-            <RecoilRoot initializeState={({ set }) => set(persondataSkalAnonymiseres, false)}>
-                <Sykepengegrunnlag vedtaksperiode={behandletPeriode} person={enPerson} />
-            </RecoilRoot>
-        );
+        render(<Sykepengegrunnlag vedtaksperiode={behandletPeriode} person={enPerson} />, { wrapper });
         expect(screen.queryByText('Sykepengegrunnlag satt ved skjæringstidspunkt - 01.01.2020')).toBeVisible();
         expectContainsStandardFields();
     });
     test('rendrer behandlet sykepengegrunnlag for infotrygdforlengelser', () => {
-        const behandletPeriode = {
+        const behandletPeriode: Vedtaksperiode = {
             ...enVedtaksperiodeIT,
-            periodetype: Periodetype.Infotrygdforlengelse,
+            periodetype: 'infotrygdforlengelse',
             behandlet: true,
         };
-        render(
-            <RecoilRoot initializeState={({ set }) => set(persondataSkalAnonymiseres, false)}>
-                <Sykepengegrunnlag vedtaksperiode={behandletPeriode} person={enPerson} />
-            </RecoilRoot>
-        );
+        render(<Sykepengegrunnlag vedtaksperiode={behandletPeriode} person={enPerson} />, { wrapper });
         expectContainsStandardFieldsInfotrygd();
     });
     test('rendrer ubehandlet sykepengegrunnlag for infotrygdforlengelser', () => {
-        const behandletPeriode = {
+        const behandletPeriode: Vedtaksperiode = {
             ...enVedtaksperiodeIT,
-            periodetype: Periodetype.Infotrygdforlengelse,
+            periodetype: 'infotrygdforlengelse',
             behandlet: false,
         };
-        render(
-            <RecoilRoot initializeState={({ set }) => set(persondataSkalAnonymiseres, false)}>
-                <Sykepengegrunnlag vedtaksperiode={behandletPeriode} person={enPerson} />
-            </RecoilRoot>
-        );
+        render(<Sykepengegrunnlag vedtaksperiode={behandletPeriode} person={enPerson} />, { wrapper });
         expectContainsStandardFieldsInfotrygd();
     });
 });

@@ -1,8 +1,7 @@
 import dayjs from 'dayjs';
 import { SpesialistInntektkilde, SpesialistInntektsgrunnlag } from 'external-types';
-import { Inntektskildetype } from 'internal-types';
 
-export const mappetInntektsgrunnlag = {
+export const mappetInntektsgrunnlag: Inntektsgrunnlag = {
     organisasjonsnummer: '987654321',
     skjæringstidspunkt: dayjs('2020-01-01T00:00:00.000Z'),
     sykepengegrunnlag: 372000,
@@ -13,7 +12,7 @@ export const mappetInntektsgrunnlag = {
             arbeidsgivernavn: 'Potetsekk AS',
             organisasjonsnummer: '987654321',
             omregnetÅrsinntekt: {
-                kilde: Inntektskildetype.Inntektsmelding,
+                kilde: 'Inntektsmelding',
                 beløp: 372000,
                 månedsbeløp: 31000.0,
                 inntekterFraAOrdningen: undefined,

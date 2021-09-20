@@ -1,7 +1,6 @@
 import '@testing-library/jest-dom/extend-expect';
 import { act, renderHook } from '@testing-library/react-hooks';
 import dayjs from 'dayjs';
-import { InntektskildeType, Oppgave, Periodetype, Saksbehandler } from 'internal-types';
 import React from 'react';
 import { Loadable, RecoilRoot, useRecoilValueLoadable } from 'recoil';
 
@@ -36,12 +35,12 @@ const enOppgave = (): Oppgave => ({
     fødselsnummer: '12345678910',
     aktørId: '12345678910',
     antallVarsler: 0,
-    periodetype: Periodetype.Førstegangsbehandling,
+    periodetype: 'førstegangsbehandling',
     boenhet: {
         id: '1234',
         navn: 'Boenhet',
     },
-    inntektskilde: InntektskildeType.EnArbeidsgiver,
+    inntektskilde: 'EN_ARBEIDSGIVER',
     tildeling: undefined,
 });
 

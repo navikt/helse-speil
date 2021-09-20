@@ -1,5 +1,4 @@
 import styled from '@emotion/styled';
-import { Personinfo } from 'internal-types';
 import React, { useRef, useState } from 'react';
 
 import { Button as NavButton, Loader } from '@navikt/ds-react';

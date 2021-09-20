@@ -1,8 +1,5 @@
 import styled from '@emotion/styled';
-import { Periodetype, Tidslinjetilstand } from 'internal-types';
 import React from 'react';
-
-import { Tooltip } from './Tooltip';
 
 interface EtikettProps {
     størrelse?: 's' | 'l';
@@ -104,20 +101,20 @@ interface OppgaveetikettProps extends EtikettProps {
 
 export const Oppgaveetikett = ({ type, tilstand, størrelse = 'l' }: OppgaveetikettProps) => {
     switch (type) {
-        case Periodetype.Førstegangsbehandling:
+        case 'førstegangsbehandling':
             return <FørstegangsbehandlingEtikett størrelse={størrelse} />;
-        case Periodetype.Forlengelse:
+        case 'forlengelse':
             return <ForlengelseEtikett størrelse={størrelse} />;
-        case Periodetype.Infotrygdforlengelse:
+        case 'infotrygdforlengelse':
             return <ForlengelseEtikett størrelse={størrelse} />;
-        case Periodetype.OvergangFraInfotrygd:
+        case 'overgangFraIt':
             return <InfotrygdforlengelseEtikett størrelse={størrelse} />;
-        case Periodetype.Stikkprøve:
+        case 'stikkprøve':
             return <StikkprøveEtikett størrelse={størrelse} />;
-        case Periodetype.RiskQa:
+        case 'riskQa':
             return <RiskQaEtikett størrelse={størrelse} />;
-        case Periodetype.Revurdering: {
-            if (tilstand === Tidslinjetilstand.Revurderes) {
+        case 'revurdering': {
+            if (tilstand === 'revurderes') {
                 return <RevurderesEtikett størrelse={størrelse} />;
             } else {
                 return <RevurderingEtikett størrelse={størrelse} />;

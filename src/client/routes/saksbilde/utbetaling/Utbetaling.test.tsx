@@ -2,11 +2,8 @@ import '@testing-library/jest-dom/extend-expect';
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import dayjs from 'dayjs';
-import { Dag, Dagtype, Sykdomsdag, Utbetalingsdag } from 'internal-types';
 import React from 'react';
 import { RecoilRoot } from 'recoil';
-
-import { Tidslinjeperiode } from '../../../modell/utbetalingshistorikkelement';
 
 import { Utbetaling } from './Utbetaling';
 import { UtbetalingstabellDag } from './utbetalingstabell/Utbetalingstabell.types';
@@ -43,7 +40,7 @@ jest.mock('../../../state/tidslinje', () => ({
 const wrapper: React.FC = ({ children }) => <RecoilRoot>{children}</RecoilRoot>;
 
 const enDag = (overrides?: Partial<Dag>): Dag => ({
-    type: overrides?.type ?? Dagtype.Syk,
+    type: overrides?.type ?? 'Syk',
     dato: overrides?.dato ?? dayjs(),
     gradering: overrides?.gradering ?? 100,
 });
@@ -54,8 +51,8 @@ const enPeriode = (): Tidslinjeperiode =>
         tom: dayjs(),
         utbetalingstidslinje: [
             enDag({ dato: dayjs('2021-01-01') }),
-            enDag({ dato: dayjs('2021-01-02'), type: Dagtype.Egenmelding }),
-            enDag({ dato: dayjs('2021-01-03'), type: Dagtype.Ferie }),
+            enDag({ dato: dayjs('2021-01-02'), type: 'Egenmelding' }),
+            enDag({ dato: dayjs('2021-01-03'), type: 'Ferie' }),
         ] as Utbetalingsdag[],
         sykdomstidslinje: [
             enDag({ dato: dayjs('2021-01-01') }),
@@ -99,7 +96,7 @@ describe('Utbetaling', () => {
         await waitFor(() => {
             expect(postOverstyringArguments).toHaveLength(2);
             postOverstyringArguments[0]?.forEach((it) => {
-                expect(it.type).toEqual(Dagtype.Syk);
+                expect(it.type).toEqual('Syk');
                 expect(it.gradering).toEqual(80);
             });
         });

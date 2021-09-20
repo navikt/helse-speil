@@ -1,5 +1,4 @@
 import { Dayjs } from 'dayjs';
-import { Tidslinjetilstand } from 'internal-types';
 import { ReactNode } from 'react';
 
 import { PositionedPeriod } from '@navikt/helse-frontend-timeline/lib';

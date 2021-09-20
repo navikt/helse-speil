@@ -2,7 +2,6 @@ import styled from '@emotion/styled';
 import React from 'react';
 
 import { Flex } from '../../../components/Flex';
-import { Tidslinjeperiode } from '../../../modell/utbetalingshistorikkelement';
 
 import { getVedtaksperiodeTilstandError } from '../Saksbilde';
 

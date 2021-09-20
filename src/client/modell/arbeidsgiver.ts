@@ -1,5 +1,3 @@
-import { Arbeidsforhold, Arbeidsgiver } from 'internal-types';
-
 import { usePerson } from '../state/person';
 import { useAktivPeriode } from '../state/tidslinje';
 

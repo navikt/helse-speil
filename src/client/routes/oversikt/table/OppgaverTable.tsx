@@ -1,5 +1,4 @@
 import styled from '@emotion/styled';
-import { Oppgave } from 'internal-types';
 import React from 'react';
 
 import { useSetVedtaksperiodeReferanserForNotater } from '../../../hooks/useSetVedtaksperiodeReferanserForNotater';
@@ -18,12 +17,12 @@ import { Pagination } from './Pagination';
 import { SortButton } from './SortButton';
 import { Table } from './Table';
 import { Bosted } from './rader/Bosted';
-import { Inntektskilde } from './rader/Inntektskilde';
+import { InntektskildeView } from './rader/InntektskildeView';
 import { Opprettet } from './rader/Opprettet';
 import { Sakstype } from './rader/Sakstype';
 import { Status } from './rader/Status';
 import { Søker } from './rader/Søker';
-import { Tildeling } from './rader/Tildeling';
+import { TildelingView } from './rader/TildelingView';
 import { OptionsButton } from './rader/kjøttbolle/OptionsButton';
 import { NotatKnapp } from './rader/notat/NotatKnapp';
 
@@ -155,7 +154,7 @@ export const OppgaverTable = React.memo(({ oppgaver }: { oppgaver: Oppgave[] }) 
                         {paginatedRows.map((it) => (
                             <LinkRow onNavigate={onNavigate} aktørId={it.aktørId} key={it.oppgavereferanse}>
                                 <Cell>
-                                    <Tildeling oppgave={it} />
+                                    <TildelingView oppgave={it} />
                                 </Cell>
                                 <Cell>
                                     <Sakstype type={it.periodetype} />
@@ -164,7 +163,7 @@ export const OppgaverTable = React.memo(({ oppgaver }: { oppgaver: Oppgave[] }) 
                                     <Bosted stedsnavn={it.boenhet.navn} oppgavereferanse={it.oppgavereferanse} />
                                 </Cell>
                                 <Cell>
-                                    <Inntektskilde type={it.inntektskilde} />
+                                    <InntektskildeView type={it.inntektskilde} />
                                 </Cell>
                                 <Cell>
                                     <Status numberOfWarnings={it.antallVarsler} />
@@ -179,7 +178,11 @@ export const OppgaverTable = React.memo(({ oppgaver }: { oppgaver: Oppgave[] }) 
                                     <OptionsButton oppgave={it} personinfo={it.personinfo} />
                                 </Cell>
                                 <Cell style={{ width: '100%' }}>
-                                    <NotatKnapp tildeling={it.tildeling} vedtaksperiodeId={it.vedtaksperiodeId} personinfo={it.personinfo} />
+                                    <NotatKnapp
+                                        tildeling={it.tildeling}
+                                        vedtaksperiodeId={it.vedtaksperiodeId}
+                                        personinfo={it.personinfo}
+                                    />
                                 </Cell>
                             </LinkRow>
                         ))}

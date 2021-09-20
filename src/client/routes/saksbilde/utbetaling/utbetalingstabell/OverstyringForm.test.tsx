@@ -1,7 +1,6 @@
 import '@testing-library/jest-dom/extend-expect';
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { Dagtype } from 'internal-types';
 import React from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 
@@ -27,7 +26,7 @@ describe('OverstyringForm', () => {
     });
 
     it('viser feilmelding om begrunnelse ikke er fylt ut før innsending', async () => {
-        const overstyrteDager = new Map([['2020-01-01', { type: Dagtype.Syk } as UtbetalingstabellDag]]);
+        const overstyrteDager = new Map([['2020-01-01', { type: 'Syk' } as UtbetalingstabellDag]]);
         render(
             <OverstyringForm overstyrteDager={overstyrteDager} toggleOverstyring={() => null} onSubmit={() => null} />,
             {

@@ -5,20 +5,10 @@ import {
     SpleisMedlemskapstatus,
     SpleisVilkår,
 } from 'external-types';
-import {
-    Alder,
-    Basisvilkår,
-    DagerIgjen,
-    Opptjening,
-    SykepengegrunnlagVilkår,
-    Søknadsfrist,
-    Vilkår,
-} from 'internal-types';
 import { ReactNode } from 'react';
 
 import { somDato, somKanskjeDato } from './vedtaksperiode';
 
-// noinspection JSUnusedGlobalSymbols
 export enum Vilkårstype {
     Alder = 'alder',
     Søknadsfrist = 'søknadsfrist',

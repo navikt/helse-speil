@@ -1,5 +1,4 @@
 import styled from '@emotion/styled';
-import { Oppgave, Personinfo } from 'internal-types';
 import React, { useRef, useState } from 'react';
 
 import { Popover } from '@navikt/ds-react';
@@ -94,14 +93,14 @@ export const OptionsButton = React.memo(({ oppgave, personinfo }: OptionsButtonP
                     )}
                     {erTildeltInnloggetBruker &&
                         (oppgave.tildeling!.påVent ? (
-                        <FjernFraPåVentMenuButton oppgavereferanse={oppgave.oppgavereferanse} />
-                    ) : (
-                        <LeggPåVentMenuButton
-                            oppgavereferanse={oppgave.oppgavereferanse}
-                            vedtaksperiodeId={oppgave.vedtaksperiodeId}
-                            personinfo={personinfo}
-                        />
-                    ))}
+                            <FjernFraPåVentMenuButton oppgavereferanse={oppgave.oppgavereferanse} />
+                        ) : (
+                            <LeggPåVentMenuButton
+                                oppgavereferanse={oppgave.oppgavereferanse}
+                                vedtaksperiodeId={oppgave.vedtaksperiodeId}
+                                personinfo={personinfo}
+                            />
+                        ))}
                     {skalViseAvmeldingsknapp && <MeldAvMenuButton oppgavereferanse={oppgave.oppgavereferanse} />}
                 </Popover>
             </Container>

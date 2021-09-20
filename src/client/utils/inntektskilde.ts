@@ -1,29 +1,27 @@
-import { Inntektskildetype, Kildetype } from 'internal-types';
-
-export const kilde = (kilde?: Inntektskildetype) => {
+export const kilde = (kilde?: OmregnetÅrsinntekt['kilde']) => {
     switch (kilde) {
-        case Inntektskildetype.Saksbehandler:
+        case 'Saksbehandler':
             return 'SB';
-        case Inntektskildetype.Inntektsmelding:
+        case 'Inntektsmelding':
             return 'IM';
-        case Inntektskildetype.Infotrygd:
+        case 'Infotrygd':
             return 'IT';
-        case Inntektskildetype.AOrdningen:
+        case 'AOrdningen':
             return 'AO';
         default:
             return '-';
     }
 };
 
-export const getKildeType = (inntektskilde?: Inntektskildetype): Kildetype | undefined => {
+export const getKildeType = (inntektskilde?: OmregnetÅrsinntekt['kilde']): Sykdomsdag['kilde'] | undefined => {
     switch (inntektskilde) {
-        case Inntektskildetype.Saksbehandler:
-            return Kildetype.Saksbehandler;
-        case Inntektskildetype.Inntektsmelding:
-            return Kildetype.Inntektsmelding;
-        case Inntektskildetype.AOrdningen:
-            return Kildetype.Aordningen;
-        case Inntektskildetype.Infotrygd:
+        case 'Saksbehandler':
+            return 'Saksbehandler';
+        case 'Inntektsmelding':
+            return 'Inntektsmelding';
+        case 'AOrdningen':
+            return 'Aordningen';
+        case 'Infotrygd':
         default:
             return undefined;
     }

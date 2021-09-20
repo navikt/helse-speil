@@ -1,5 +1,4 @@
 import styled from '@emotion/styled';
-import { Dagtype } from 'internal-types';
 import React from 'react';
 
 import { BodyShort } from '@navikt/ds-react';
@@ -23,39 +22,39 @@ const IconContainer = styled.div`
     flex-shrink: 0;
 `;
 
-const dagtypeIcon = (type: Dagtype) => {
+const dagtypeIcon = (type: Dag['type']) => {
     switch (type) {
-        case Dagtype.Syk:
+        case 'Syk':
             return <IconSyk />;
-        case Dagtype.Ferie:
+        case 'Ferie':
             return <IconFerie />;
-        case Dagtype.Avvist:
-        case Dagtype.Foreldet:
+        case 'Avslått':
+        case 'Foreldet':
             return <IconFailure />;
-        case Dagtype.Egenmelding:
+        case 'Egenmelding':
             return <IconEgenmelding />;
-        case Dagtype.Arbeidsdag:
+        case 'Arbeidsdag':
             return <IconArbeidsdag />;
-        case Dagtype.Arbeidsgiverperiode:
+        case 'Arbeidsgiverperiode':
             return <IconArbeidsgiverperiode />;
-        case Dagtype.Annullert:
+        case 'Annullert':
             return <IconAnnullert />;
-        case Dagtype.Permisjon:
+        case 'Permisjon':
             return <IconPermisjon />;
-        case Dagtype.Ubestemt:
-        case Dagtype.Helg:
+        case 'Ubestemt':
+        case 'Helg':
         default:
             return null;
     }
 };
 
-const textForType = (typeUtbetalingsdag: Dagtype, typeSykdomsdag: Dagtype): string => {
+const textForType = (typeUtbetalingsdag: Dag['type'], typeSykdomsdag: Dag['type']): string => {
     switch (typeUtbetalingsdag) {
-        case Dagtype.Avvist:
+        case 'Avslått':
             return `${typeSykdomsdag} (Avslått)`;
-        case Dagtype.Foreldet:
+        case 'Foreldet':
             return `${typeSykdomsdag} (Foreldet)`;
-        case Dagtype.Arbeidsgiverperiode:
+        case 'Arbeidsgiverperiode':
             return `${typeSykdomsdag} (AGP)`;
         default:
             return typeSykdomsdag;
@@ -63,8 +62,8 @@ const textForType = (typeUtbetalingsdag: Dagtype, typeSykdomsdag: Dagtype): stri
 };
 
 interface DagtypeCellProps extends React.HTMLAttributes<HTMLTableDataCellElement> {
-    typeUtbetalingsdag: Dagtype;
-    typeSykdomsdag: Dagtype;
+    typeUtbetalingsdag: Dag['type'];
+    typeSykdomsdag: Dag['type'];
     overstyrtDag?: UtbetalingstabellDag;
 }
 
@@ -75,7 +74,7 @@ export const DagtypeCell: React.FC<DagtypeCellProps> = ({
     ...rest
 }) => {
     const text = textForType(typeUtbetalingsdag, overstyrtDag?.type ?? typeSykdomsdag);
-    const type = [Dagtype.Avvist, Dagtype.Foreldet].includes(typeUtbetalingsdag)
+    const type = ['Avvist', 'Foreldet'].includes(typeUtbetalingsdag)
         ? typeUtbetalingsdag
         : overstyrtDag?.type ?? typeSykdomsdag;
 

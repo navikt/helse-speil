@@ -1,7 +1,6 @@
 import dayjs from 'dayjs';
 import isSameOrAfter from 'dayjs/plugin/isSameOrAfter';
 import isSameOrBefore from 'dayjs/plugin/isSameOrBefore';
-import { UfullstendigVedtaksperiode, Vedtaksperiodetilstand } from 'internal-types';
 
 import { NORSK_DATOFORMAT } from '../utils/date';
 
@@ -29,7 +28,7 @@ describe('UfullstendigVedtaksperiodeBuilder', () => {
         expect(ufullstendigVedtaksperiode.id).toEqual('fa02d7a5-daf2-488c-9798-2539edd7fe3g');
         expect(ufullstendigVedtaksperiode.fom.format(NORSK_DATOFORMAT)).toEqual('01.01.2020');
         expect(ufullstendigVedtaksperiode.tom.format(NORSK_DATOFORMAT)).toEqual('31.01.2020');
-        expect(ufullstendigVedtaksperiode.tilstand).toEqual(Vedtaksperiodetilstand.Venter);
+        expect(ufullstendigVedtaksperiode.tilstand).toEqual('venter');
         expect(ufullstendigVedtaksperiode.fullstendig).toBeFalsy();
     });
 });

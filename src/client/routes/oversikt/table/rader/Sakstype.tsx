@@ -1,4 +1,3 @@
-import { Periodetype } from 'internal-types';
 import React from 'react';
 
 import { BodyShort } from '@navikt/ds-react';
@@ -10,18 +9,18 @@ import { CellContent } from './CellContent';
 
 const getLabelForType = (type: Periodetype) => {
     switch (type) {
-        case Periodetype.Forlengelse:
-        case Periodetype.Infotrygdforlengelse:
+        case 'forlengelse':
+        case 'infotrygdforlengelse':
             return 'Forlengelse';
-        case Periodetype.Førstegangsbehandling:
+        case 'førstegangsbehandling':
             return 'Førstegang.';
-        case Periodetype.OvergangFraInfotrygd:
+        case 'overgangFraIt':
             return 'Forlengelse IT';
-        case Periodetype.Stikkprøve:
+        case 'stikkprøve':
             return 'Stikkprøve';
-        case Periodetype.RiskQa:
+        case 'riskQa':
             return 'Risk QA';
-        case Periodetype.Revurdering:
+        case 'revurdering':
             return 'Revurdering';
     }
 };

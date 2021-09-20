@@ -1,5 +1,4 @@
 import styled from '@emotion/styled';
-import { Arbeidsgiverinntekt, Inntektsgrunnlag } from 'internal-types';
 import React from 'react';
 
 import { BehandletAvInfotrygdVarsel } from '@navikt/helse-frontend-varsel';

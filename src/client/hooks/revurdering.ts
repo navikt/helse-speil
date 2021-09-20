@@ -1,17 +1,13 @@
-import { Tidslinjetilstand } from 'internal-types';
-import type { Person, Vedtaksperiode } from 'internal-types';
-
-import type { Tidslinjeperiode } from '../modell/utbetalingshistorikkelement';
 import { usePerson } from '../state/person';
 import { useAktivPeriode } from '../state/tidslinje';
 
 import type { UtbetalingToggles } from '../featureToggles';
 
-const godkjentTilstander = [
-    Tidslinjetilstand.Utbetalt,
-    Tidslinjetilstand.UtbetaltAutomatisk,
-    Tidslinjetilstand.Revurdert,
-    Tidslinjetilstand.RevurdertIngenUtbetaling,
+const godkjentTilstander: Tidslinjetilstand[] = [
+    'utbetalt',
+    'utbetaltAutomatisk',
+    'revurdert',
+    'revurdertIngenUtbetaling',
 ];
 
 const arbeidsgiversSisteSkjæringstidspunktErLikSkjæringstidspunktetTilPerioden = (
@@ -63,7 +59,7 @@ const alleOverlappendePerioderErAvsluttet = (person: Person, aktivPeriode: Tidsl
     const overlappende = overlappendePerioder(person, aktivPeriode);
 
     if (overlappende.some((it) => godkjentTilstander.includes(it.tilstand))) {
-        return overlappende.every((it) => it.tilstand !== Tidslinjetilstand.Revurderes);
+        return overlappende.every((it) => it.tilstand !== 'revurderes');
     }
     return true;
 };
@@ -71,8 +67,8 @@ const alleOverlappendePerioderErAvsluttet = (person: Person, aktivPeriode: Tidsl
 const alleOverlappendePerioderErTilRevurdering = (person: Person, aktivPeriode: Tidslinjeperiode): boolean => {
     const overlappende = overlappendePerioder(person, aktivPeriode);
 
-    if (overlappende.some((it) => it.tilstand === Tidslinjetilstand.Revurderes)) {
-        return overlappende.every((it) => it.tilstand === Tidslinjetilstand.Revurderes);
+    if (overlappende.some((it) => it.tilstand === 'revurderes')) {
+        return overlappende.every((it) => it.tilstand === 'revurderes');
     }
 
     return true;
@@ -97,7 +93,7 @@ export const useOverstyrRevurderingIsEnabled = (toggles: UtbetalingToggles) => {
     const periode = useAktivPeriode();
     const person = usePerson();
 
-    if (!person || !periode || periode.tilstand !== Tidslinjetilstand.Revurderes) {
+    if (!person || !periode || periode.tilstand !== 'revurderes') {
         return false;
     }
 

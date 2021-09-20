@@ -1,6 +1,5 @@
 import dayjs from 'dayjs';
 import { SpesialistInfotrygdtypetekst, SpesialistPerson } from 'external-types';
-import { Arbeidsgiver, Kjønn, Person } from 'internal-types';
 
 import { utbetalingsoversikt } from '../featureToggles';
 import { ArbeidsgiverBuilder } from './arbeidsgiver';
@@ -62,7 +61,7 @@ export class PersonBuilder {
             mellomnavn: this.unmapped.personinfo.mellomnavn,
             etternavn: this.unmapped.personinfo.etternavn,
             fødselsdato: this.unmapped.personinfo.fødselsdato ? somDato(this.unmapped.personinfo.fødselsdato) : null,
-            kjønn: (this.unmapped.personinfo.kjønn ?? 'ukjent') as Kjønn,
+            kjønn: (this.unmapped.personinfo.kjønn ?? 'ukjent') as Personinfo['kjønn'],
             fnr: this.unmapped.fødselsnummer,
         };
     };

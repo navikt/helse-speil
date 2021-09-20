@@ -1,5 +1,4 @@
 import styled from '@emotion/styled';
-import { Personinfo } from 'internal-types';
 import React, { useContext, useState } from 'react';
 import { useHistory } from 'react-router';
 import { useSetRecoilState } from 'recoil';

@@ -1,5 +1,4 @@
 import styled from '@emotion/styled';
-import { Arbeidsgiverinntekt, Inntektsgrunnlag } from 'internal-types';
 import React, { useState } from 'react';
 
 import { InntektsgrunnlagTable } from './InntektsgrunnlagTable';

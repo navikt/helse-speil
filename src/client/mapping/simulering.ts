@@ -7,7 +7,6 @@ import {
     Utbetalingsdetalj,
     Utbetalingsperiode,
 } from 'external-types';
-import { Simulering } from 'internal-types';
 
 const mapSimuleringsutbetalingDetaljer = (
     spleisSimuleringsutbetalingDetaljer: SpleisSimuleringutbetalingDetaljer[]
@@ -44,7 +43,7 @@ const mapSimuleringsperioder = (perioder: SpleisSimuleringperiode[]): Utbetaling
         utbetalinger: mapSimuleringsutbetalinger(spleisPeriode.utbetalinger),
     }));
 
-export const mapSimuleringsdata = (data?: SpleisDataForSimulering): Simulering | undefined =>
+export const mapSimuleringsdata = (data?: SpleisDataForSimulering): Vedtaksperiode['simuleringsdata'] | undefined =>
     data && {
         totalbeløp: data.totalbeløp,
         perioder: mapSimuleringsperioder(data.perioder),

@@ -1,4 +1,3 @@
-import { Oppgave } from 'internal-types';
 import React from 'react';
 
 import { IkkeTildelt } from './IkkeTildelt';
@@ -8,7 +7,7 @@ interface TildelingProps {
     oppgave: Oppgave;
 }
 
-export const Tildeling = React.memo(({ oppgave }: TildelingProps) =>
+export const TildelingView = React.memo(({ oppgave }: TildelingProps) =>
     oppgave.tildeling ? (
         <Tildelt name={oppgave.tildeling.saksbehandler.navn} oppgavereferanse={oppgave.oppgavereferanse} />
     ) : (

@@ -1,4 +1,3 @@
-import { Vedtaksperiode } from 'internal-types';
 import React from 'react';
 
 import { BehandletVarsel } from '@navikt/helse-frontend-varsel';

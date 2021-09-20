@@ -1,6 +1,5 @@
 import styled from '@emotion/styled';
 import { Dayjs } from 'dayjs';
-import type { Overstyring, Vedtaksperiode } from 'internal-types';
 import React, { useEffect, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 
@@ -11,7 +10,6 @@ import { OverstyringTimeoutModal } from '../../../components/OverstyringTimeoutM
 import { useOverstyrRevurderingIsEnabled, useRevurderingIsEnabled } from '../../../hooks/revurdering';
 import { useMap } from '../../../hooks/useMap';
 import { useOverstyringIsEnabled } from '../../../hooks/useOverstyringIsEnabled';
-import type { Tidslinjeperiode } from '../../../modell/utbetalingshistorikkelement';
 import { useGjenståendeDager, useMaksdato } from '../../../modell/utbetalingshistorikkelement';
 import { useAktivPeriode, useVedtaksperiode } from '../../../state/tidslinje';
 import { NORSK_DATOFORMAT } from '../../../utils/date';

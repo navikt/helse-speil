@@ -3,7 +3,6 @@ import React from 'react';
 
 import { Flex } from '../../../components/Flex';
 import { Location, useNavigation } from '../../../hooks/useNavigation';
-import { Periodetype, Tidslinjeperiode } from '../../../modell/utbetalingshistorikkelement';
 
 import { TabLink } from '../TabLink';
 import { HistorikkHeader } from '../historikk/HistorikkHeader';
@@ -38,8 +37,7 @@ export const Sakslinje = ({ aktivPeriode }: SakslinjeProps) => {
     return (
         <Container>
             <Flex>
-                {(aktivPeriode?.type === Periodetype.VEDTAKSPERIODE ||
-                    aktivPeriode?.type === Periodetype.REVURDERING) && (
+                {(aktivPeriode?.type === 'VEDTAKSPERIODE' || aktivPeriode?.type === 'REVURDERING') && (
                     <TabList role="tablist">
                         <TabLink to={pathForLocation(Location.Utbetaling)} title="Utbetaling" icon={<HjemIkon />}>
                             Utbetaling

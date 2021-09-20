@@ -1,10 +1,9 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
-import { Dagtype } from 'internal-types';
 import React from 'react';
 
 interface RowProps {
-    type?: Dagtype;
+    type?: Dag['type'];
 }
 
 const leftAlignedLine = (color: string) => css`
@@ -24,7 +23,7 @@ const leftAlignedLine = (color: string) => css`
 `;
 
 const helgStyle = (props: RowProps) =>
-    props.type === Dagtype.Helg &&
+    props.type === 'Helg' &&
     css`
         background: repeating-linear-gradient(
             123deg,
@@ -36,14 +35,14 @@ const helgStyle = (props: RowProps) =>
     `;
 
 const avvistStyle = (props: RowProps) =>
-    props.type === Dagtype.Avvist &&
+    props.type === 'Avslått' &&
     css`
         background-color: #f9d2cc;
         ${leftAlignedLine('var(--navds-color-error-border)')}
     `;
 
 const arbeidsgiverperiodeStyle = (props: RowProps) =>
-    props.type === Dagtype.Arbeidsgiverperiode &&
+    props.type === 'Arbeidsgiverperiode' &&
     css`
         background-color: #f8f8f8;
         ${leftAlignedLine('var(--navds-color-text-disabled)')}

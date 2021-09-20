@@ -1,38 +1,37 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
-import { Kildetype } from 'internal-types';
 import React from 'react';
 
 interface KildeProps {
-    type?: Kildetype;
+    type?: Sykdomsdag['kilde'];
 }
 
 const ainntektStyle = (props: KildeProps) =>
-    props.type === Kildetype.Ainntekt &&
+    props.type === 'Ainntekt' &&
     css`
         background-color: #cce2f0;
     `;
 
 const aordningenStyle = (props: KildeProps) =>
-    props.type === Kildetype.Aordningen &&
+    props.type === 'Aordningen' &&
     css`
         background-color: #ccf1d6;
     `;
 
 const sykmeldingStyle = (props: KildeProps) =>
-    props.type === Kildetype.Sykmelding &&
+    props.type === 'Sykmelding' &&
     css`
         background-color: #d8f9ff;
     `;
 
 const søknadStyle = (props: KildeProps) =>
-    props.type === Kildetype.Søknad &&
+    props.type === 'Søknad' &&
     css`
         background-color: #e0dae7;
     `;
 
 const inntektsmeldingStyle = (props: KildeProps) =>
-    props.type === Kildetype.Inntektsmelding &&
+    props.type === 'Inntektsmelding' &&
     css`
         background-color: #ecefcc;
     `;

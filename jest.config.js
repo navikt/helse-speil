@@ -13,7 +13,6 @@ module.exports = {
         '\\.(gif|ttf|eot|svg)$': '<rootDir>/__mocks__/fileMock.js',
         'nav-(.*)-style': '<rootDir>/__mocks__/fileMock.js',
         'external-types': '<rootDir>/src/types/types.external',
-        'internal-types': '<rootDir>/src/types/types.internal',
         'test-data': '<rootDir>/src/test/data',
         '@navikt/ds-icons(.*)': '@navikt/ds-icons/cjs$1',
         '@navikt/ds-react(.*)': '@navikt/ds-react/cjs$1',

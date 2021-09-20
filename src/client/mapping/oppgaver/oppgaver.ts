@@ -1,10 +1,9 @@
 import dayjs from 'dayjs';
 import { Oppgavetype, SpesialistInntektskilde, SpesialistOppgave } from 'external-types';
-import { InntektskildeType, Kjønn, Oppgave, Periodetype } from 'internal-types';
 
 import { tilPeriodetype } from '../periodetype';
 
-const kjønn = (kjønn: string | null): Kjønn => {
+const kjønn = (kjønn: string | null): 'mann' | 'kvinne' | 'ukjent' => {
     if (!kjønn) return 'ukjent';
     switch (kjønn.toLowerCase()) {
         case 'mann':
@@ -16,14 +15,14 @@ const kjønn = (kjønn: string | null): Kjønn => {
     }
 };
 
-export const inntektskilde = (inntektskilde?: SpesialistInntektskilde): InntektskildeType => {
+export const inntektskilde = (inntektskilde?: SpesialistInntektskilde): Inntektskilde => {
     switch (inntektskilde) {
         case SpesialistInntektskilde.EnArbeidsgiver:
-            return InntektskildeType.EnArbeidsgiver;
+            return 'EN_ARBEIDSGIVER';
         case SpesialistInntektskilde.FlereArbeidsgivere:
-            return InntektskildeType.FlereArbeidsgivere;
+            return 'FLERE_ARBEIDSGIVERE';
         default:
-            return InntektskildeType.EnArbeidsgiver;
+            return 'EN_ARBEIDSGIVER';
     }
 };
 
@@ -44,11 +43,11 @@ export const tilOppgave = (oppgave: SpesialistOppgave): Oppgave => ({
     antallVarsler: oppgave.antallVarsler,
     periodetype:
         oppgave.oppgavetype === Oppgavetype.Stikkprøve
-            ? Periodetype.Stikkprøve
+            ? 'stikkprøve'
             : oppgave.oppgavetype === Oppgavetype.RiskQa
-            ? Periodetype.RiskQa
+            ? 'riskQa'
             : oppgave.oppgavetype === Oppgavetype.Revurdering
-            ? Periodetype.Revurdering
+            ? 'revurdering'
             : tilPeriodetype(oppgave.type),
     boenhet: oppgave.boenhet,
     inntektskilde: inntektskilde(oppgave.inntektskilde),

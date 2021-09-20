@@ -1,5 +1,4 @@
 import styled from '@emotion/styled';
-import { Arbeidsgiverinntekt, Kildetype } from 'internal-types';
 import React from 'react';
 
 import { Bag } from '@navikt/ds-icons';
@@ -81,7 +80,7 @@ export const Inntektskilderinnhold = ({ inntektskilde, anonymiseringEnabled }: I
                 </Clipboard>
                 )
             </Organisasjonsnummer>
-            <Kilde type={Kildetype.Ainntekt}>AA</Kilde>
+            <Kilde type="Ainntekt">AA</Kilde>
         </Header>
         <Bransjer component="p">
             {`BRANSJE${inntektskilde.bransjer.length > 1 ? 'R' : ''}: `}

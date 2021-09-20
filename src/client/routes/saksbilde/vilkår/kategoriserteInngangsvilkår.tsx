@@ -1,5 +1,4 @@
 import styled from '@emotion/styled';
-import { Periodetype, Vedtaksperiode, Vilkår } from 'internal-types';
 import React from 'react';
 
 import { BodyShort } from '@navikt/ds-react';
@@ -114,9 +113,9 @@ export const kategoriserteInngangsvilkår = ({
 }: Vedtaksperiode): KategoriserteVilkår => {
     if (!vilkår) return {};
 
-    const vurdertIInfotrygd = forlengelseFraInfotrygd || periodetype === Periodetype.Infotrygdforlengelse;
+    const vurdertIInfotrygd = forlengelseFraInfotrygd || periodetype === 'infotrygdforlengelse';
     const vurdertAutomatisk = !vurdertIInfotrygd && behandlet && automatiskBehandlet;
-    const vurdertFørstePeriode = !vurdertIInfotrygd && !behandlet && periodetype === Periodetype.Forlengelse;
+    const vurdertFørstePeriode = !vurdertIInfotrygd && !behandlet && periodetype === 'forlengelse';
     const vurdertAvSaksbehandler = !vurdertIInfotrygd && behandlet && !automatiskBehandlet;
     const ikkeVurdert = !vurdertIInfotrygd && !vurdertAutomatisk && !vurdertFørstePeriode && !vurdertAvSaksbehandler;
 

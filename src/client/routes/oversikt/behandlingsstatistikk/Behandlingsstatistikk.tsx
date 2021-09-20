@@ -1,7 +1,6 @@
 import styled from '@emotion/styled';
 import { EksternBehandlingstatistikk } from 'external-types';
 import { motion } from 'framer-motion';
-import { Behandlingsstatistikk as Statistikk, Periodetype } from 'internal-types';
 import React from 'react';
 import { selector, useRecoilValueLoadable } from 'recoil';
 
@@ -111,7 +110,7 @@ const AnnullertePerioderIkon = () => {
     );
 };
 
-const toStatistikk = (eksternStatistikk: EksternBehandlingstatistikk): Statistikk => ({
+const toStatistikk = (eksternStatistikk: EksternBehandlingstatistikk): Behandlingsstatistikk => ({
     ...eksternStatistikk,
     antallOppgaverTilGodkjenning: {
         ...eksternStatistikk.antallOppgaverTilGodkjenning,
@@ -133,7 +132,7 @@ const toStatistikk = (eksternStatistikk: EksternBehandlingstatistikk): Statistik
     },
 });
 
-const behandlingsstatistikkState = selector<Statistikk>({
+const behandlingsstatistikkState = selector<Behandlingsstatistikk>({
     key: 'behandlingsstatistikkState',
     get: async () => {
         return await getBehandlingsstatistikk()
@@ -148,17 +147,17 @@ const EtikettContainer = styled.div``;
 
 const getDataTipForPeriodetype = (periodetype: Periodetype) => {
     switch (periodetype) {
-        case Periodetype.Forlengelse:
+        case 'forlengelse':
             return 'Forlengelser';
-        case Periodetype.Førstegangsbehandling:
+        case 'førstegangsbehandling':
             return 'Førstegangsbehandlinger';
-        case Periodetype.Infotrygdforlengelse:
+        case 'infotrygdforlengelse':
             return 'Forlengelse fra Infotrygd';
-        case Periodetype.OvergangFraInfotrygd:
-            return 'Overgange fra Infotrygd';
-        case Periodetype.Stikkprøve:
+        case 'overgangFraIt':
+            return 'Overgang fra Infotrygd';
+        case 'stikkprøve':
             return 'Stikkprøver';
-        case Periodetype.RiskQa:
+        case 'riskQa':
             return 'RiskQaer';
         default:
             return '';
@@ -168,7 +167,7 @@ const getDataTipForPeriodetype = (periodetype: Periodetype) => {
 export const Behandlingsstatistikk = () => {
     const loadableStatistikk = useRecoilValueLoadable(behandlingsstatistikkState);
     const statistikk =
-        loadableStatistikk.state === 'hasValue' ? (loadableStatistikk.contents as Statistikk) : undefined;
+        loadableStatistikk.state === 'hasValue' ? (loadableStatistikk.contents as Behandlingsstatistikk) : undefined;
 
     const [show, setShow] = useShowStatistikkState();
 

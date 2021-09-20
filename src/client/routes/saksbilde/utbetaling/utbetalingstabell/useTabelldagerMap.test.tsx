@@ -1,26 +1,23 @@
 import { renderHook } from '@testing-library/react-hooks';
 import dayjs from 'dayjs';
-import { Dagtype, Overstyring } from 'internal-types';
 import React from 'react';
-
-import { Tidslinjeperiode } from '../../../../modell/utbetalingshistorikkelement';
 
 import { antallSykedagerTilOgMedMaksdato, useTabelldagerMap, withDagerIgjen } from './useTabelldagerMap';
 
-const dager = [
-    { dato: dayjs('2021-01-01'), type: Dagtype.Syk },
-    { dato: dayjs('2021-01-02'), type: Dagtype.Avvist },
-    { dato: dayjs('2021-01-03'), type: Dagtype.Syk },
-    { dato: dayjs('2021-01-04'), type: Dagtype.Helg },
-    { dato: dayjs('2021-01-05'), type: Dagtype.Helg },
-    { dato: dayjs('2021-01-06'), type: Dagtype.Syk },
-    { dato: dayjs('2021-01-07'), type: Dagtype.Syk },
-    { dato: dayjs('2021-01-08'), type: Dagtype.Egenmelding },
-    { dato: dayjs('2021-01-09'), type: Dagtype.Syk },
-    { dato: dayjs('2021-01-10'), type: Dagtype.Syk },
-    { dato: dayjs('2021-01-11'), type: Dagtype.Syk },
-    { dato: dayjs('2021-01-12'), type: Dagtype.Syk },
-    { dato: dayjs('2021-01-13'), type: Dagtype.Syk },
+const dager: Dag[] = [
+    { dato: dayjs('2021-01-01'), type: 'Syk' },
+    { dato: dayjs('2021-01-02'), type: 'Avslått' },
+    { dato: dayjs('2021-01-03'), type: 'Syk' },
+    { dato: dayjs('2021-01-04'), type: 'Helg' },
+    { dato: dayjs('2021-01-05'), type: 'Helg' },
+    { dato: dayjs('2021-01-06'), type: 'Syk' },
+    { dato: dayjs('2021-01-07'), type: 'Syk' },
+    { dato: dayjs('2021-01-08'), type: 'Egenmelding' },
+    { dato: dayjs('2021-01-09'), type: 'Syk' },
+    { dato: dayjs('2021-01-10'), type: 'Syk' },
+    { dato: dayjs('2021-01-11'), type: 'Syk' },
+    { dato: dayjs('2021-01-12'), type: 'Syk' },
+    { dato: dayjs('2021-01-13'), type: 'Syk' },
 ];
 
 describe('withDagerIgjen', () => {
@@ -53,9 +50,9 @@ describe('useTabelldagerMap', () => {
 
         const { result } = renderHook(() => useTabelldagerMap(periode, [], 100, dayjs()));
 
-        expect(result.current.get('01.01.2021')?.type).toEqual(Dagtype.Syk);
-        expect(result.current.get('02.01.2021')?.type).toEqual(Dagtype.Avvist);
-        expect(result.current.get('08.01.2021')?.type).toEqual(Dagtype.Egenmelding);
+        expect(result.current.get('01.01.2021')?.type).toEqual('Syk');
+        expect(result.current.get('02.01.2021')?.type).toEqual('Avslått');
+        expect(result.current.get('08.01.2021')?.type).toEqual('Egenmelding');
     });
 
     it('mapper overstyringer', () => {
@@ -70,7 +67,7 @@ describe('useTabelldagerMap', () => {
                 hendelseId: 'en-id',
                 timestamp,
                 begrunnelse: 'Fordi',
-                overstyrteDager: [{ dato: dayjs('2021-01-02'), type: Dagtype.Syk, grad: 80 }],
+                overstyrteDager: [{ dato: dayjs('2021-01-02'), type: 'Syk', grad: 80 }],
                 saksbehandlerIdent: 'en-ident',
                 saksbehandlerNavn: 'et-navn',
             },

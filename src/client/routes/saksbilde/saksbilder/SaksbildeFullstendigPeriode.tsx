@@ -1,5 +1,4 @@
 import styled from '@emotion/styled';
-import { Person, Vedtaksperiode } from 'internal-types';
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 
@@ -8,7 +7,7 @@ import { Flex, FlexColumn } from '../../../components/Flex';
 import { useSetVedtaksperiodeReferanserForNotater } from '../../../hooks/useSetVedtaksperiodeReferanserForNotater';
 import { erOver67År, getMånedsbeløp, getSkjæringstidspunkt } from '../../../mapping/selectors';
 import { useArbeidsforhold, useArbeidsgivernavn } from '../../../modell/arbeidsgiver';
-import { Tidslinjeperiode, useMaksdato } from '../../../modell/utbetalingshistorikkelement';
+import { useMaksdato } from '../../../modell/utbetalingshistorikkelement';
 import { useInnloggetSaksbehandler } from '../../../state/authentication';
 import { usePersondataSkalAnonymiseres } from '../../../state/person';
 import { useOppgavereferanse, useVedtaksperiode } from '../../../state/tidslinje';

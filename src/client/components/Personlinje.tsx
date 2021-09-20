@@ -1,5 +1,4 @@
 import styled from '@emotion/styled';
-import { Person } from 'internal-types';
 import React from 'react';
 import { Link } from 'react-router-dom';
 
@@ -83,10 +82,6 @@ const Kjønnsikon = ({ kjønn }: { kjønn: 'kvinne' | 'mann' | 'ukjent' }) => {
     }
 };
 
-interface PersonlinjeProps {
-    person?: Person;
-}
-
 const LoadingText = styled.div`
     @keyframes placeHolderShimmer {
         0% {
@@ -125,6 +120,10 @@ export const LasterPersonlinje = () => (
         <LoadingText />
     </Container>
 );
+
+interface PersonlinjeProps {
+    person?: Person;
+}
 
 export const Personlinje = ({ person }: PersonlinjeProps) => {
     const anonymiseringEnabled = usePersondataSkalAnonymiseres();

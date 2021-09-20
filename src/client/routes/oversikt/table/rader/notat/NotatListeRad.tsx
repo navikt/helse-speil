@@ -1,5 +1,4 @@
 import styled from '@emotion/styled';
-import { Notat, Saksbehandler } from 'internal-types';
 import React, { useState } from 'react';
 import { useSetRecoilState } from 'recoil';
 

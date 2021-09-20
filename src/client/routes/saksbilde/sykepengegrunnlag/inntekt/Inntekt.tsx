@@ -1,6 +1,5 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
-import { OmregnetÅrsinntekt } from 'internal-types';
 import React, { useState } from 'react';
 
 import { CaseworkerFilled } from '@navikt/ds-icons';
@@ -9,7 +8,7 @@ import { BodyShort } from '@navikt/ds-react';
 import { EditButton } from '../../../../components/EditButton';
 import { Flex, FlexColumn } from '../../../../components/Flex';
 import { Kilde } from '../../../../components/Kilde';
-import { useUtbetaling, Utbetalingstatus } from '../../../../modell/utbetalingshistorikkelement';
+import { useUtbetaling } from '../../../../modell/utbetalingshistorikkelement';
 import { useAktivPeriode } from '../../../../state/tidslinje';
 import { getKildeType, kilde } from '../../../../utils/inntektskilde';
 
@@ -56,7 +55,7 @@ const Tittel = styled(BodyShort)`
     color: var(--navds-color-text-primary);
 `;
 
-const useUtbetalingstatus = (): Utbetalingstatus | undefined => {
+const useUtbetalingstatus = (): UtbetalingshistorikkElement['status'] | undefined => {
     const periode = useAktivPeriode();
     const utbetaling = useUtbetaling(periode?.beregningId ?? '');
     return utbetaling?.status;
@@ -87,7 +86,7 @@ export const Inntekt = ({ omregnetÅrsinntekt }: InntektProps) => {
                     <EditButton
                         isOpen={editing}
                         openText="Lukk"
-                        closedText={status === Utbetalingstatus.UTBETALT ? 'Revurder' : 'Endre'}
+                        closedText={status === 'UTBETALT' ? 'Revurder' : 'Endre'}
                         onOpen={() => setEditing(true)}
                         onClose={() => setEditing(false)}
                         style={{ justifySelf: 'flex-end' }}

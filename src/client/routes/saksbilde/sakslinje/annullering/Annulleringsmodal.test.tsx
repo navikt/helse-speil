@@ -3,7 +3,6 @@ import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import dayjs from 'dayjs';
 import isSameOrAfter from 'dayjs/plugin/isSameOrAfter';
-import { Vedtaksperiode } from 'internal-types';
 import React from 'react';
 import { RecoilRoot } from 'recoil';
 import { mappetPerson } from 'test-data';

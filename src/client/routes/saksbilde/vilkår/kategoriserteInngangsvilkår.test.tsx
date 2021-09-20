@@ -1,7 +1,6 @@
 import '@testing-library/jest-dom/extend-expect';
 import dayjs from 'dayjs';
 import { SpesialistArbeidsgiver } from 'external-types';
-import { Periodetype, Vedtaksperiode, Vilkår } from 'internal-types';
 import React from 'react';
 
 import { VedtaksperiodeBuilder } from '../../../mapping/vedtaksperiode';
@@ -23,7 +22,7 @@ const enSpeilVedtaksperiode = ({
     behandlet = false,
     forlengelseFraInfotrygd = false,
     automatiskBehandlet = false,
-    periodetype = Periodetype.Førstegangsbehandling,
+    periodetype = 'førstegangsbehandling',
 }: EnSpeilVedtaksperiodeOptions): Vedtaksperiode => {
     const { vedtaksperiode } = new VedtaksperiodeBuilder()
         .setVedtaksperiode(umappetVedtaksperiode())
@@ -141,7 +140,7 @@ describe('useKategoriserteVilkår', () => {
             vilkår: defaultVilkår,
             behandlet: false,
             automatiskBehandlet: false,
-            periodetype: Periodetype.Forlengelse,
+            periodetype: 'forlengelse',
         });
         const { vilkårVurdertFørstePeriode, ...rest } = kategoriserteInngangsvilkår(vedtaksperiode);
 

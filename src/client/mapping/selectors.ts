@@ -1,8 +1,7 @@
 import dayjs, { Dayjs } from 'dayjs';
-import { Dag, Dagtype, Person, Vedtaksperiode } from 'internal-types';
 
 const trimLedendeArbeidsdager = (sykdomstidslinje: Dag[]): Dag[] => {
-    const førsteIkkearbeidsdag = sykdomstidslinje.findIndex((dag) => dag.type !== Dagtype.Arbeidsdag) ?? 0;
+    const førsteIkkearbeidsdag = sykdomstidslinje.findIndex((dag) => dag.type !== 'Arbeidsdag') ?? 0;
     return sykdomstidslinje.slice(førsteIkkearbeidsdag);
 };
 

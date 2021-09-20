@@ -1,5 +1,4 @@
 import fetchIntercept from 'fetch-intercept';
-import { Saksbehandler } from 'internal-types';
 import { useEffect } from 'react';
 import { atom, useRecoilState, useRecoilValue, useResetRecoilState } from 'recoil';
 

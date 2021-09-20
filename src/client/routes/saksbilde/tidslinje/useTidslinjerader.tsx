@@ -1,11 +1,8 @@
 import { Dayjs } from 'dayjs';
-import { Dagtype, Person, Utbetalingsdag } from 'internal-types';
 import { nanoid } from 'nanoid';
 import React, { useMemo } from 'react';
 
 import { getPositionedPeriods } from '@navikt/helse-frontend-timeline/lib';
-
-import { Tidslinjeperiode } from '../../../modell/utbetalingshistorikkelement';
 
 import { TidslinjeperiodeHoverInfo } from './HoverInfo';
 import { arbeidsgiverNavn } from './Tidslinje';
@@ -18,11 +15,11 @@ export type TidslinjeradObject = {
     erAktiv: boolean;
 };
 
-const harDagtyper = (dagtyper: Dagtype[], tidslinje: Utbetalingsdag[]): boolean =>
+const harDagtyper = (dagtyper: Dag['type'][], tidslinje: Utbetalingsdag[]): boolean =>
     !!tidslinje.find((it) => dagtyper.includes(it.type));
 
 const skalViseInfoPin = (tidslinje: Utbetalingsdag[]): boolean =>
-    harDagtyper([Dagtype.Ferie, Dagtype.Arbeidsgiverperiode, Dagtype.Permisjon], tidslinje);
+    harDagtyper(['Ferie', 'Arbeidsgiverperiode', 'Permisjon'], tidslinje);
 
 export const toTidslinjeperioder = (
     tidslinjeperioder: Tidslinjeperiode[],

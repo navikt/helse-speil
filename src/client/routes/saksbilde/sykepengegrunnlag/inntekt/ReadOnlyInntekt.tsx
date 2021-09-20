@@ -1,5 +1,4 @@
 import styled from '@emotion/styled';
-import { Inntektskildetype, Kildetype, OmregnetÅrsinntekt } from 'internal-types';
 import React from 'react';
 
 import { InformationFilled } from '@navikt/ds-icons';
@@ -102,16 +101,14 @@ const InntektFraAordningen = ({ omregnetÅrsinntekt }: { omregnetÅrsinntekt: Om
 
 export const ReadOnlyInntekt = ({ omregnetÅrsinntekt }: ReadOnlyInntektProps) => (
     <>
-        {getKildeType(omregnetÅrsinntekt?.kilde) === Kildetype.Aordningen ? (
+        {getKildeType(omregnetÅrsinntekt?.kilde) === 'Aordningen' ? (
             <InntektFraAordningen omregnetÅrsinntekt={omregnetÅrsinntekt!} />
         ) : (
             <Tabell>
                 <BodyShort component="p">Månedsbeløp</BodyShort>
                 <Verdi component="p">{somPenger(omregnetÅrsinntekt?.månedsbeløp)}</Verdi>
                 <Bold component="p">
-                    {omregnetÅrsinntekt?.kilde === Inntektskildetype.Infotrygd
-                        ? 'Sykepengegrunnlag før 6G'
-                        : 'Omregnet til årsinntekt'}
+                    {omregnetÅrsinntekt?.kilde === 'Infotrygd' ? 'Sykepengegrunnlag før 6G' : 'Omregnet til årsinntekt'}
                 </Bold>
                 <FetVerdi component="p">{somPenger(omregnetÅrsinntekt?.beløp)}</FetVerdi>
             </Tabell>

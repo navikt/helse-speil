@@ -1,13 +1,11 @@
 import '@testing-library/jest-dom/extend-expect';
 import { render, screen } from '@testing-library/react';
 import dayjs from 'dayjs';
-import { Tidslinjetilstand } from 'internal-types';
 import React from 'react';
 import { MemoryRouter } from 'react-router';
 import { RecoilRoot } from 'recoil';
 import { enTidslinjeperiode, mappetPerson } from 'test-data';
 
-import { Periodetype, Tidslinjeperiode } from '../../../../modell/utbetalingshistorikkelement';
 import { personState } from '../../../../state/person';
 
 import '../../../../tekster';
@@ -34,12 +32,12 @@ jest.mock('../../../../io/http', () => ({
 
 describe('Utbetalingsknapp vises ikke ved tilstand:', () => {
     test('Utbetalt', async () => {
-        render(<UtbetalingView aktivPeriode={enTidslinjeperiode(Tidslinjetilstand.Utbetalt)} />);
+        render(<UtbetalingView aktivPeriode={enTidslinjeperiode('utbetalt')} />);
         expect(screen.queryAllByRole('button')).toHaveLength(0);
     });
 
     test('Avslag', async () => {
-        render(<UtbetalingView aktivPeriode={enTidslinjeperiode(Tidslinjetilstand.Avslag)} />);
+        render(<UtbetalingView aktivPeriode={enTidslinjeperiode('avslag')} />);
         expect(screen.queryAllByRole('button')).toHaveLength(0);
     });
 });
@@ -48,12 +46,7 @@ describe('Utbetalingsknapp ved revurdering:', () => {
     test('Utbetalt', async () => {
         render(
             <UtbetalingView
-                aktivPeriode={enTidslinjeperiode(
-                    Tidslinjetilstand.Revurderes,
-                    dayjs('2021-01-01'),
-                    dayjs('2021-01-31'),
-                    Periodetype.REVURDERING
-                )}
+                aktivPeriode={enTidslinjeperiode('revurderes', dayjs('2021-01-01'), dayjs('2021-01-31'), 'REVURDERING')}
             />
         );
         expect(screen.queryAllByRole('button')).toHaveLength(1);

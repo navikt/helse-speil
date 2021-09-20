@@ -1,7 +1,6 @@
 import '@testing-library/jest-dom/extend-expect';
 import { queries, queryHelpers, render, screen } from '@testing-library/react';
 import dayjs from 'dayjs';
-import { AvvistBegrunnelse, Dagtype, Utbetalingsdag } from 'internal-types';
 import React from 'react';
 
 import { MerknaderCell } from './MerknaderCell';
@@ -10,7 +9,7 @@ const queryByDataTip = queryHelpers.queryByAttribute.bind(null, 'data-tip');
 
 const enUtbetalingsdag: Utbetalingsdag = {
     dato: dayjs(),
-    type: Dagtype.Syk,
+    type: 'Syk',
 };
 
 describe('MerknaderCell', () => {
@@ -20,10 +19,9 @@ describe('MerknaderCell', () => {
     });
 
     test('rendrer merknad om foreldet dag', () => {
-        const screen = render(
-            <MerknaderCell dag={{ ...enUtbetalingsdag, type: Dagtype.Foreldet }} isMaksdato={false} />,
-            { queries: { queryByDataTip } }
-        );
+        const screen = render(<MerknaderCell dag={{ ...enUtbetalingsdag, type: 'Foreldet' }} isMaksdato={false} />, {
+            queries: { queryByDataTip },
+        });
         expect(screen.queryByDataTip('Foreldet')).toBeVisible();
     });
 
@@ -36,7 +34,7 @@ describe('MerknaderCell', () => {
             { tekst: 'ManglerOpptjening' },
             { tekst: 'ManglerMedlemskap' },
             { tekst: 'SykepengedagerOppbrukt' },
-        ] as AvvistBegrunnelse[];
+        ] as Avvisning[];
 
         const screen = render(<MerknaderCell dag={{ ...enUtbetalingsdag, avvistÅrsaker }} isMaksdato={false} />, {
             queries: { ...queries, queryByDataTip },

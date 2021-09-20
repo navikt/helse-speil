@@ -11,7 +11,6 @@ import {
     SpleisUtbetalingsdag,
     SpleisVedtaksperiodetilstand,
 } from 'external-types';
-import { Vedtaksperiode } from 'internal-types';
 
 import { VedtaksperiodeBuilder } from '../../client/mapping/vedtaksperiode';
 

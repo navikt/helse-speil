@@ -1,6 +1,5 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
-import { Inntektskildetype, OmregnetÅrsinntekt, Person, Vedtaksperiode } from 'internal-types';
 import React, { useEffect, useRef, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 
@@ -11,8 +10,7 @@ import { Flex, FlexColumn } from '../../../../components/Flex';
 import { OverstyringTimeoutModal } from '../../../../components/OverstyringTimeoutModal';
 import { Overstyringsindikator } from '../../../../components/Overstyringsindikator';
 import { postOverstyrtInntekt } from '../../../../io/http';
-import { OverstyrtInntektDTO } from '../../../../io/types';
-import { Tidslinjeperiode } from '../../../../modell/utbetalingshistorikkelement';
+import type { OverstyrtInntektDTO } from '../../../../io/types';
 import {
     kalkulererFerdigToastKey,
     kalkulererToast,
@@ -258,7 +256,7 @@ export const EditableInntekt = ({ omregnetÅrsinntekt, close, onEndre }: Editabl
                     <Tabell>
                         <OmregnetTilÅrsinntekt harEndringer={harEndringer}>
                             <BodyShort>
-                                {omregnetÅrsinntekt?.kilde === Inntektskildetype.Infotrygd
+                                {omregnetÅrsinntekt?.kilde === 'Infotrygd'
                                     ? 'Sykepengegrunnlag før 6G'
                                     : 'Omregnet til årsinntekt'}
                             </BodyShort>

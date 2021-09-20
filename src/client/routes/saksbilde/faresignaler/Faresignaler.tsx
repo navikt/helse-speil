@@ -1,5 +1,4 @@
 import styled from '@emotion/styled';
-import { Faresignal, Risikovurdering } from 'internal-types';
 import React, { ReactNode } from 'react';
 
 import { BodyShort } from '@navikt/ds-react';
@@ -46,7 +45,7 @@ const Kolonne = styled(FlexColumn)`
     }
 `;
 
-export const Faresignaler = ({ risikovurdering }: { risikovurdering: Risikovurdering }) => (
+export const Faresignaler = ({ risikovurdering }: { risikovurdering: Vedtaksperiode['risikovurdering'] }) => (
     <AgurkErrorBoundary sidenavn="Faresignaler">
         <Container className="faresignaler">
             {risikovurdering && (risikovurdering.funn?.length ?? 0) > 0 && (

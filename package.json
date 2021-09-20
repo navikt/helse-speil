@@ -154,7 +154,6 @@
         "parcel-bundler": "^1.12.5",
         "postcss": "^8.2.9",
         "prettier": "^2.2.1",
-        "puppeteer": "^8.0.0",
         "react-hot-loader": "^4.13.0",
         "react-test-renderer": "^17.0.2",
         "rimraf": "^3.0.2",
@@ -170,7 +169,6 @@
     "snyk": true,
     "alias": {
         "test-data": "./src/test/data",
-        "internal-types": "./src/types/types.internal.ts",
         "external-types": "./src/types/types.external.ts"
     }
 }

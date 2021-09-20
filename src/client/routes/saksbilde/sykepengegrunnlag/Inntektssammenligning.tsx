@@ -1,6 +1,5 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
-import { Kildetype, OmregnetÅrsinntekt, Sammenligningsgrunnlag } from 'internal-types';
 import React from 'react';
 
 import { BodyShort } from '@navikt/ds-react';
@@ -70,7 +69,7 @@ export const Inntektssammenligning = ({
         <td>
             <InntektMedKilde>
                 <BodyShort>{somPenger(sammenligningsgrunnlag?.beløp)}</BodyShort>
-                <Kilde type={Kildetype.Aordningen}>AO</Kilde>
+                <Kilde type="Aordningen">AO</Kilde>
             </InntektMedKilde>
         </td>
     </ArbeidsgiverRad>

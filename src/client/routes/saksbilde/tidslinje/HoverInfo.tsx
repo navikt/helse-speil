@@ -1,19 +1,11 @@
 import styled from '@emotion/styled';
 import { Dayjs } from 'dayjs';
-import {
-    Dagtype,
-    Tidslinjetilstand,
-    UfullstendigVedtaksperiode,
-    Utbetalingsdag,
-    Vedtaksperiode,
-    Vedtaksperiodetilstand,
-} from 'internal-types';
 import React, { CSSProperties } from 'react';
 
 import { BodyShort } from '@navikt/ds-react';
 
 import { FlexColumn } from '../../../components/Flex';
-import { Tidslinjeperiode, useGjenståendeDager, useNettobeløp } from '../../../modell/utbetalingshistorikkelement';
+import { useGjenståendeDager, useNettobeløp } from '../../../modell/utbetalingshistorikkelement';
 import { NORSK_DATOFORMAT } from '../../../utils/date';
 import { somPenger } from '../../../utils/locale';
 
@@ -45,13 +37,13 @@ interface Periode {
     tom: Dayjs;
 }
 
-export const tilPeriodeTekst = (utbetalingstidslinje: Utbetalingsdag[], dagtype: Dagtype): string | undefined => {
+export const tilPeriodeTekst = (utbetalingstidslinje: Utbetalingsdag[], dagtype: Dag['type']): string | undefined => {
     const split = splitPerioderPåDagtype(utbetalingstidslinje, dagtype);
     const antallDager = utbetalingstidslinje.filter(({ type }) => type === dagtype).length;
     return periodetekst(antallDager, split);
 };
 
-const splitPerioderPåDagtype = (utbetalingstidslinje: Utbetalingsdag[], dagtype: Dagtype): Periode[] => {
+const splitPerioderPåDagtype = (utbetalingstidslinje: Utbetalingsdag[], dagtype: Dag['type']): Periode[] => {
     let resultat: Periode[] = [];
     let påbegyntPeriode: Dayjs | undefined;
     utbetalingstidslinje.forEach((dag) => {
@@ -83,40 +75,40 @@ const periodetekst = (antallDager: number, perioder: Periode[]): string | undefi
 
 const utbetalingstatus = (status: Tidslinjetilstand) => {
     switch (status) {
-        case Tidslinjetilstand.UtbetaltAutomatisk:
+        case 'utbetaltAutomatisk':
             return 'Automatisk utbetalt';
-        case Tidslinjetilstand.TilUtbetalingAutomatisk:
+        case 'tilUtbetalingAutomatisk':
             return 'Sendt til automatisk utbetaling';
-        case Tidslinjetilstand.Revurderes:
+        case 'revurderes':
             return 'Til revurdering';
-        case Tidslinjetilstand.Oppgaver:
+        case 'oppgaver':
             return 'Til behandling';
-        case Tidslinjetilstand.TilUtbetaling:
+        case 'tilUtbetaling':
             return 'Sendt til utbetaling';
-        case Tidslinjetilstand.Revurdert:
-        case Tidslinjetilstand.Utbetalt:
+        case 'revurdert':
+        case 'utbetalt':
             return 'Utbetalt';
-        case Tidslinjetilstand.RevurdertIngenUtbetaling:
-        case Tidslinjetilstand.IngenUtbetaling:
+        case 'revurdertIngenUtbetaling':
+        case 'ingenUtbetaling':
             return 'Ingen utbetaling';
-        case Tidslinjetilstand.KunFerie:
+        case 'kunFerie':
             return 'Ferie';
-        case Tidslinjetilstand.KunPermisjon:
+        case 'kunPermisjon':
             return 'Permisjon';
-        case Tidslinjetilstand.Venter:
-        case Tidslinjetilstand.VenterPåKiling:
+        case 'venter':
+        case 'venterPåKiling':
             return 'Venter';
-        case Tidslinjetilstand.Annullert:
+        case 'annullert':
             return 'Annullert';
-        case Tidslinjetilstand.AnnulleringFeilet:
+        case 'annulleringFeilet':
             return 'Annullering feilet';
-        case Tidslinjetilstand.TilAnnullering:
+        case 'tilAnnullering':
             return 'Sendt til annullering';
-        case Tidslinjetilstand.Avslag:
+        case 'avslag':
             return 'Avslag';
-        case Tidslinjetilstand.Feilet:
+        case 'feilet':
             return 'Feilet';
-        case Tidslinjetilstand.TilInfotrygd:
+        case 'tilInfotrygd':
             return 'Sendt til infotrygd';
         default:
             return 'Ukjent';
@@ -125,34 +117,34 @@ const utbetalingstatus = (status: Tidslinjetilstand) => {
 
 const statusType = (periode: Vedtaksperiode | UfullstendigVedtaksperiode): string => {
     switch (periode.tilstand) {
-        case Vedtaksperiodetilstand.Oppgaver:
+        case 'oppgaver':
             return 'Til behandling';
-        case Vedtaksperiodetilstand.TilUtbetaling:
+        case 'tilUtbetaling':
             return 'automatiskBehandlet' in periode && periode.automatiskBehandlet
                 ? 'Sendt til automatisk utbetaling'
                 : 'Sendt til utbetaling';
-        case Vedtaksperiodetilstand.Utbetalt:
+        case 'utbetalt':
             return 'automatiskBehandlet' in periode && periode.automatiskBehandlet ? 'Automatisk utbetalt' : 'Utbetalt';
-        case Vedtaksperiodetilstand.IngenUtbetaling:
+        case 'ingenUtbetaling':
             return 'Ingen utbetaling';
-        case Vedtaksperiodetilstand.KunFerie:
+        case 'kunFerie':
             return 'Ferie';
-        case Vedtaksperiodetilstand.KunPermisjon:
+        case 'kunPermisjon':
             return 'Permisjon';
-        case Vedtaksperiodetilstand.Venter:
-        case Vedtaksperiodetilstand.VenterPåKiling:
+        case 'venter':
+        case 'venterPåKiling':
             return 'Venter';
-        case Vedtaksperiodetilstand.Annullert:
+        case 'annullert':
             return 'Annullert';
-        case Vedtaksperiodetilstand.AnnulleringFeilet:
+        case 'annulleringFeilet':
             return 'Annullering feilet';
-        case Vedtaksperiodetilstand.TilAnnullering:
+        case 'tilAnnullering':
             return 'Sendt til annullering';
-        case Vedtaksperiodetilstand.Avslag:
+        case 'avslag':
             return 'Avslag';
-        case Vedtaksperiodetilstand.Feilet:
+        case 'feilet':
             return 'Feilet';
-        case Vedtaksperiodetilstand.TilInfotrygd:
+        case 'tilInfotrygd':
             return 'Sendt til infotrygd';
     }
     return 'Ukjent';
@@ -182,9 +174,9 @@ export const HoverInfo = ({ vedtaksperiode }: HoverInfoProps) => {
 
     const utbetalt = utbetaltForPeriode(vedtaksperiode);
     const utbetalingstidslinje = vedtaksperiode.utbetalingstidslinje ?? [];
-    const arbeidsgiverperiode = tilPeriodeTekst(utbetalingstidslinje, Dagtype.Arbeidsgiverperiode);
-    const ferieperiode = tilPeriodeTekst(utbetalingstidslinje, Dagtype.Ferie);
-    const permisjonsperiode = tilPeriodeTekst(utbetalingstidslinje, Dagtype.Permisjon);
+    const arbeidsgiverperiode = tilPeriodeTekst(utbetalingstidslinje, 'Arbeidsgiverperiode');
+    const ferieperiode = tilPeriodeTekst(utbetalingstidslinje, 'Ferie');
+    const permisjonsperiode = tilPeriodeTekst(utbetalingstidslinje, 'Permisjon');
 
     return (
         <Container>
@@ -251,9 +243,9 @@ export const TidslinjeperiodeHoverInfo = ({ tidslinjeperiode }: Tidslinjeperiode
     const tom = tidslinjeperiode.tom.format(NORSK_DATOFORMAT);
 
     const utbetalingstidslinje = tidslinjeperiode.utbetalingstidslinje ?? [];
-    const arbeidsgiverperiode = tilPeriodeTekst(utbetalingstidslinje, Dagtype.Arbeidsgiverperiode);
-    const ferieperiode = tilPeriodeTekst(utbetalingstidslinje, Dagtype.Ferie);
-    const permisjonsperiode = tilPeriodeTekst(utbetalingstidslinje, Dagtype.Permisjon);
+    const arbeidsgiverperiode = tilPeriodeTekst(utbetalingstidslinje, 'Arbeidsgiverperiode');
+    const ferieperiode = tilPeriodeTekst(utbetalingstidslinje, 'Ferie');
+    const permisjonsperiode = tilPeriodeTekst(utbetalingstidslinje, 'Permisjon');
 
     return (
         <Container>
@@ -267,13 +259,9 @@ export const TidslinjeperiodeHoverInfo = ({ tidslinjeperiode }: Tidslinjeperiode
                     {fom} - {tom}
                 </LinjeVerdi>
             </Linje>
-            {[
-                Tidslinjetilstand.UtbetaltAutomatisk,
-                Tidslinjetilstand.Utbetalt,
-                Tidslinjetilstand.RevurdertIngenUtbetaling,
-                Tidslinjetilstand.Revurdert,
-                Tidslinjetilstand.Annullert,
-            ].includes(tidslinjeperiode.tilstand) &&
+            {['utbetaltAutomatisk', 'utbetalt', 'revurdertIngenUtbetaling', 'revurdert', 'annullert'].includes(
+                tidslinjeperiode.tilstand
+            ) &&
                 nettobeløp != undefined && (
                     <Linje>
                         <LinjeFelt component="p">Utbetalt: </LinjeFelt>

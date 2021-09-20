@@ -1,5 +1,4 @@
 import styled from '@emotion/styled';
-import { Oppgave } from 'internal-types';
 import React, { useRef, useState } from 'react';
 
 import { Collapse, Expand } from '@navikt/ds-icons';

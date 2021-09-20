@@ -1,9 +1,8 @@
 import styled from '@emotion/styled';
 import { Dayjs } from 'dayjs';
-import { Arbeidsforhold, Dagtype, Simulering, Tidslinjetilstand } from 'internal-types';
 import React from 'react';
 
-import { Tidslinjeperiode, useGjenståendeDager } from '../../../modell/utbetalingshistorikkelement';
+import { useGjenståendeDager } from '../../../modell/utbetalingshistorikkelement';
 import { harOppgave } from '../../../state/tidslinje';
 import { NORSK_DATOFORMAT, NORSK_DATOFORMAT_KORT } from '../../../utils/date';
 
@@ -30,7 +29,7 @@ interface VenstreMenyProps {
     arbeidsforhold: Arbeidsforhold[];
     anonymiseringEnabled: boolean;
     over67År: boolean;
-    simulering?: Simulering;
+    simulering?: Vedtaksperiode['simuleringsdata'];
     månedsbeløp?: number;
     maksdato?: Dayjs;
     skjæringstidspunkt?: Dayjs;
@@ -49,8 +48,8 @@ export const VenstreMeny = ({
     skjæringstidspunkt,
 }: VenstreMenyProps) => {
     const gjenståendeDager = useGjenståendeDager(aktivPeriode.beregningId);
-    const utbetalingsdagerTotalt = aktivPeriode.utbetalingstidslinje.filter((dag) => dag.type === Dagtype.Syk).length;
-    const ikkeUtbetaltEnda = harOppgave(aktivPeriode) || aktivPeriode.tilstand === Tidslinjetilstand.Venter;
+    const utbetalingsdagerTotalt = aktivPeriode.utbetalingstidslinje.filter((dag) => dag.type === 'Syk').length;
+    const ikkeUtbetaltEnda = harOppgave(aktivPeriode) || aktivPeriode.tilstand === 'venter';
 
     return (
         <Container>

@@ -2,16 +2,6 @@ import dayjs from 'dayjs';
 import isSameOrAfter from 'dayjs/plugin/isSameOrAfter';
 import isSameOrBefore from 'dayjs/plugin/isSameOrBefore';
 import { SpesialistInntektkilde, SpesialistPerson, SpleisVedtaksperiodetilstand } from 'external-types';
-import {
-    Dagtype,
-    Inntektsgrunnlag,
-    Inntektskildetype,
-    Overstyring,
-    Periodetype,
-    Utbetalingslinje,
-    Vedtaksperiode,
-    Vedtaksperiodetilstand,
-} from 'internal-types';
 
 import { ISO_TIDSPUNKTFORMAT, NORSK_DATOFORMAT } from '../utils/date';
 
@@ -108,11 +98,11 @@ describe('VedtaksperiodeBuilder', () => {
         expect(vedtaksperiode.fom.format(NORSK_DATOFORMAT)).toEqual('01.01.2020');
         expect(vedtaksperiode.tom.format(NORSK_DATOFORMAT)).toEqual('31.01.2020');
         expect(vedtaksperiode.gruppeId).toEqual('en-gruppeId');
-        expect(vedtaksperiode.tilstand).toEqual(Vedtaksperiodetilstand.Oppgaver);
+        expect(vedtaksperiode.tilstand).toEqual('oppgaver');
         expect(vedtaksperiode.behandlet).toBeFalsy();
         expect(vedtaksperiode.fullstendig).toBeTruthy();
         expect(vedtaksperiode.godkjentAv).toBeUndefined();
-        expect(vedtaksperiode.periodetype).toEqual(Periodetype.Førstegangsbehandling);
+        expect(vedtaksperiode.periodetype).toEqual('førstegangsbehandling');
         expect(vedtaksperiode.oppgavereferanse).toEqual('en-oppgavereferanse');
         expect(vedtaksperiode.godkjenttidspunkt).toBeUndefined();
         expect(vedtaksperiode.automatiskBehandlet).toBeFalsy();
@@ -174,7 +164,7 @@ describe('VedtaksperiodeBuilder', () => {
         const mappetOverstyring = vedtaksperiode.overstyringer.pop() as Overstyring;
         expect(mappetOverstyring.overstyrteDager).toHaveLength(1);
         expect(mappetOverstyring.overstyrteDager[0].dato.format(NORSK_DATOFORMAT)).toEqual('01.01.2020');
-        expect(mappetOverstyring.overstyrteDager[0].type).toEqual(Dagtype.Syk);
+        expect(mappetOverstyring.overstyrteDager[0].type).toEqual('Syk');
         expect(mappetOverstyring.overstyrteDager[0].grad).toEqual(60);
     });
     test('mapper inntektsgrunnlag infotrygd', () => {
@@ -206,7 +196,7 @@ describe('VedtaksperiodeBuilder', () => {
         expect(inntekt.organisasjonsnummer).toEqual('987654321');
         expect(inntekt.omregnetÅrsinntekt?.beløp).toEqual(372000);
         expect(inntekt.omregnetÅrsinntekt?.månedsbeløp).toEqual(31000);
-        expect(inntekt.omregnetÅrsinntekt?.kilde).toEqual(Inntektskildetype.Infotrygd);
+        expect(inntekt.omregnetÅrsinntekt?.kilde).toEqual('Infotrygd');
         expect(inntekt.omregnetÅrsinntekt?.inntekterFraAOrdningen).toBeUndefined();
         expect(inntekt.sammenligningsgrunnlag).toBeUndefined();
         expect(inntekt.bransjer).toEqual(['Sofasitting', 'TV-titting']);
@@ -244,7 +234,7 @@ describe('VedtaksperiodeBuilder', () => {
         expect(inntekt.organisasjonsnummer).toEqual('987654321');
         expect(inntekt.omregnetÅrsinntekt?.beløp).toEqual(372000);
         expect(inntekt.omregnetÅrsinntekt?.månedsbeløp).toEqual(31000);
-        expect(inntekt.omregnetÅrsinntekt?.kilde).toEqual(Inntektskildetype.Inntektsmelding);
+        expect(inntekt.omregnetÅrsinntekt?.kilde).toEqual('Inntektsmelding');
         expect(inntekt.omregnetÅrsinntekt?.inntekterFraAOrdningen).toBeUndefined();
 
         expect(inntekt.sammenligningsgrunnlag?.beløp).toEqual(372000);
@@ -267,6 +257,6 @@ describe('VedtaksperiodeBuilder', () => {
             .setAnnullertUtbetalingshistorikk([])
             .build() as { vedtaksperiode: Vedtaksperiode };
 
-        expect(vedtaksperiode.tilstand).toEqual(Vedtaksperiodetilstand.Venter);
+        expect(vedtaksperiode.tilstand).toEqual('venter');
     });
 });

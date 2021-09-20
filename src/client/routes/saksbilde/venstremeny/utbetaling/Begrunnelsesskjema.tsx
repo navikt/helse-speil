@@ -4,7 +4,6 @@ import { Controller, useFormContext } from 'react-hook-form';
 
 import { Checkbox as NavCheckbox, Fieldset, Textarea } from '@navikt/ds-react';
 
-import { Tidslinjeperiode } from '../../../../modell/utbetalingshistorikkelement';
 import { useVedtaksperiode } from '../../../../state/tidslinje';
 
 import { Begrunnelse } from './Utbetalingsdialog';

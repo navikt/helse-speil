@@ -5,11 +5,10 @@ import { FormProvider, useForm } from 'react-hook-form';
 import { Button, Loader, Title } from '@navikt/ds-react';
 
 import { Modal } from '../../../../components/Modal';
-import type { Tidslinjeperiode } from '../../../../modell/utbetalingshistorikkelement';
 
 import { Begrunnelsesskjema } from './Begrunnelsesskjema';
-import { Begrunnelse, Årsak } from './Utbetalingsdialog';
 import type { Avvisningsskjema } from './Utbetalingsdialog';
+import { Begrunnelse, Årsak } from './Utbetalingsdialog';
 
 const OkKnapp = styled(Button)`
     margin-top: 2rem;

@@ -1,8 +1,6 @@
 import dayjs from 'dayjs';
 import { SpesialistNotat } from 'external-types';
-import { Notat } from 'internal-types';
-import { useRecoilValueLoadable } from 'recoil';
-import { atom, selector } from 'recoil';
+import { atom, selector, useRecoilValueLoadable } from 'recoil';
 
 import { getNotater } from '../io/http';
 

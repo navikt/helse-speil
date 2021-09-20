@@ -1,5 +1,4 @@
 import styled from '@emotion/styled';
-import { Person, Vedtaksperiode } from 'internal-types';
 import React from 'react';
 
 import { AgurkErrorBoundary } from '../../../components/AgurkErrorBoundary';

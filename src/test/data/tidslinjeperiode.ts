@@ -1,13 +1,10 @@
 import dayjs, { Dayjs } from 'dayjs';
-import { InntektskildeType, Tidslinjetilstand } from 'internal-types';
-
-import { Periodetype, Tidslinjeperiode } from '../../client/modell/utbetalingshistorikkelement';
 
 export const enTidslinjeperiode = (
-    tilstand: Tidslinjetilstand = Tidslinjetilstand.Oppgaver,
+    tilstand: Tidslinjetilstand = 'oppgaver',
     fom: Dayjs = dayjs('2021-01-01'),
     tom: Dayjs = dayjs('2021-01-31'),
-    periodetype: Periodetype = Periodetype.VEDTAKSPERIODE
+    periodetype: Tidslinjeperiode['type'] = 'VEDTAKSPERIODE'
 ): Tidslinjeperiode => {
     return {
         id: 'fa02d7a5-daf2-488c-9798-2539edd7fe3f',
@@ -16,7 +13,7 @@ export const enTidslinjeperiode = (
         fom: fom,
         tom: tom,
         type: periodetype,
-        inntektskilde: InntektskildeType.EnArbeidsgiver,
+        inntektskilde: 'EN_ARBEIDSGIVER',
         tilstand: tilstand,
         utbetalingstidslinje: [],
         sykdomstidslinje: [],

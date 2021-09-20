@@ -1,6 +1,4 @@
 import styled from '@emotion/styled';
-import type { Arbeidsgiver, Error, Person, Vedtaksperiode } from 'internal-types';
-import { Vedtaksperiodetilstand } from 'internal-types';
 import { nanoid } from 'nanoid';
 import React, { useContext, useState } from 'react';
 import { useHistory } from 'react-router';
@@ -11,7 +9,6 @@ import { Varseltype } from '@navikt/helse-frontend-varsel';
 
 import { ErrorMessage } from '../../../../components/ErrorMessage';
 import { postAbonnerPåAktør, postSendTilInfotrygd, postUtbetalingsgodkjenning } from '../../../../io/http';
-import type { Tidslinjeperiode } from '../../../../modell/utbetalingshistorikkelement';
 import { opptegnelsePollingTimeState } from '../../../../state/opptegnelser';
 import { usePerson } from '../../../../state/person';
 import { Scopes, useAddEphemeralVarsel } from '../../../../state/varsler';
@@ -99,7 +96,7 @@ const skalPolleEtterNestePeriode = (personTilBehandling: Person) =>
         .flatMap((arbeidsgiver: Arbeidsgiver) =>
             arbeidsgiver.vedtaksperioder.flatMap((vedtaksperiode: Vedtaksperiode) => vedtaksperiode.tilstand)
         )
-        .some((tilstand) => tilstand === Vedtaksperiodetilstand.VenterPåKiling);
+        .some((tilstand) => tilstand === 'venterPåKiling');
 
 export const Utbetalingsdialog = ({
     aktivPeriode,
@@ -110,7 +107,7 @@ export const Utbetalingsdialog = ({
     const history = useHistory();
     const personTilBehandling = usePerson() as Person;
     const { addUtbetalingstoast, addInfotrygdtoast } = useVedtakstoast();
-    const [error, setError] = useState<Error | undefined>(undefined);
+    const [error, setError] = useState<SpeilError | undefined>(undefined);
     const [isSending, setIsSending] = useState<boolean>(false);
     const [modalvisning, setModalvisning] = useState<Modalvisning | undefined>();
     const { logOppgaveForkastet, logOppgaveGodkjent } = useContext(AmplitudeContext);
@@ -120,7 +117,7 @@ export const Utbetalingsdialog = ({
     const åpneAvvisningsmodal = () => setModalvisning(Modalvisning.Avvisning);
     const lukkModal = () => setModalvisning(undefined);
 
-    const onError = ({ message, statusCode }: Error) => {
+    const onError = ({ message, statusCode }: SpeilError) => {
         setError({ message: `Kunne ikke fatte vedtak: ${message} (statuskode: ${statusCode ?? 'ukjent'})` });
         setIsSending(false);
         lukkModal();

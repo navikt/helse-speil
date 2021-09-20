@@ -1,4 +1,3 @@
-import { InntektskildeType, Oppgave, Periodetype, Saksbehandler, TildelingType } from 'internal-types';
 import { atom, selector, useRecoilValue, useRecoilValueLoadable, useSetRecoilState } from 'recoil';
 
 import { Varseltype } from '@navikt/helse-frontend-varsel';
@@ -34,7 +33,7 @@ const remoteOppgaverState = selector<Oppgave[]>({
     },
 });
 
-type TildelingStateType = { [oppgavereferanse: string]: TildelingType | undefined };
+type TildelingStateType = { [oppgavereferanse: string]: Tildeling | undefined };
 
 const _tildelingerState = atom<TildelingStateType>({
     key: '_tildelingerState',
@@ -62,8 +61,8 @@ export const oppgaverState = selector<Oppgave[]>({
         const tildelinger = get(tildelingerState);
         const oppgaver = get(remoteOppgaverState);
         return oppgaver
-            .filter((oppgave) => stikkprøve || oppgave.periodetype != Periodetype.Stikkprøve)
-            .filter((oppgave) => flereArbeidsgivere || oppgave.inntektskilde != InntektskildeType.FlereArbeidsgivere)
+            .filter((oppgave) => stikkprøve || oppgave.periodetype != 'stikkprøve')
+            .filter((oppgave) => flereArbeidsgivere || oppgave.inntektskilde != 'FLERE_ARBEIDSGIVERE')
             .map((oppgave) => ({ ...oppgave, tildeling: tildelinger[oppgave.oppgavereferanse] }));
     },
 });

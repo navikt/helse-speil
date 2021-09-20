@@ -19,8 +19,7 @@
         "baseUrl": ".",
         "paths": {
             "test-data": ["./src/test/data"],
-            "external-types": ["./src/types/types.external"],
-            "internal-types": ["./src/types/types.internal"]
+            "external-types": ["./src/types/types.external"]
         }
     },
     "exclude": ["node_modules", "jest.config.js", "__mock-data__", "__mocks__", "e2e-tests", "dist"],

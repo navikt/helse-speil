@@ -1,5 +1,4 @@
 import styled from '@emotion/styled';
-import { Arbeidsgiverinntekt, Inntektsgrunnlag } from 'internal-types';
 import React from 'react';
 
 import { BodyShort } from '@navikt/ds-react';

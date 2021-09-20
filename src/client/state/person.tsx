@@ -1,4 +1,3 @@
-import { Oppgave, Person, TildelingType, Vedtaksperiode } from 'internal-types';
 import { atom, selector, useRecoilValue, useResetRecoilState, useSetRecoilState } from 'recoil';
 
 import { Varseltype } from '@navikt/helse-frontend-varsel';
@@ -40,7 +39,7 @@ export const personState = atom<PersonState | undefined>({
     default: undefined,
 });
 
-const tildelingState = atom<TildelingType | undefined>({
+const tildelingState = atom<Tildeling | undefined>({
     key: 'tildelingState',
     default: undefined,
 });
@@ -100,7 +99,7 @@ export const usePersonPåVent = () => {
     return (påVent: boolean) => tildelPerson(påVent);
 };
 
-export const usePerson = () => {
+export const usePerson = (): Person | undefined => {
     const person = useRecoilValue(personState)?.person;
     const tildeling = useRecoilValue(tildelingState);
     const frontendOverstyrerTildeling = useRecoilValue(frontendOverstyrerTildelingState);
@@ -151,9 +150,11 @@ export const useHentPerson = () => {
 };
 
 export const useSykepengegrunnlag = (beregningId: string) => {
-    return (usePerson()
-        ?.arbeidsgivere.flatMap((a) => a.vedtaksperioder)
-        .find((v) => v.beregningIder?.find((id) => id === beregningId)) as Vedtaksperiode)?.vilkår?.sykepengegrunnlag;
+    return (
+        usePerson()
+            ?.arbeidsgivere.flatMap((a) => a.vedtaksperioder)
+            .find((v) => v.beregningIder?.find((id) => id === beregningId)) as Vedtaksperiode
+    )?.vilkår?.sykepengegrunnlag;
 };
 
 export const useLeggPåVent = () => {

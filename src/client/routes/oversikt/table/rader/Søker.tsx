@@ -1,4 +1,3 @@
-import { Personinfo } from 'internal-types';
 import React from 'react';
 
 import { TekstMedEllipsis } from '../../../../components/TekstMedEllipsis';

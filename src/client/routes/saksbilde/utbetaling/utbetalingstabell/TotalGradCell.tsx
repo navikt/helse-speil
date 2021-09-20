@@ -1,15 +1,14 @@
-import { Dagtype } from 'internal-types';
 import React from 'react';
 
 import { Overstyringsindikator } from '../../../../components/Overstyringsindikator';
 
 import { Cell } from './Cell';
 
-const dagtypeIsValid = (type: Dagtype): boolean =>
-    [Dagtype.Helg, Dagtype.Arbeidsdag, Dagtype.Ferie, Dagtype.Permisjon].every((it) => it !== type);
+const dagtypeIsValid = (type: Dag['type']): boolean =>
+    ['Helg', 'Arbeidsdag', 'Ferie', 'Permisjon'].every((it) => it !== type);
 
 interface TotalGradProps {
-    type: Dagtype;
+    type: Dag['type'];
     erOverstyrt?: boolean;
     totalGradering?: number;
 }

@@ -1,4 +1,3 @@
-import { Person } from 'internal-types';
 import React, { useContext } from 'react';
 
 import { Varseltype } from '@navikt/helse-frontend-varsel';

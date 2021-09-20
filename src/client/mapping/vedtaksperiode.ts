@@ -12,16 +12,7 @@ import {
     SpleisUtbetalingslinje,
     SpleisVedtaksperiodetilstand,
 } from 'external-types';
-import {
-    Inntektskildetype,
-    Periodetype,
-    Utbetaling,
-    Utbetalingstype,
-    Vedtaksperiode,
-    Vedtaksperiodetilstand,
-} from 'internal-types';
 
-import { Utbetalingshistorikkelement } from '../modell/utbetalingshistorikkelement';
 import { ISO_DATOFORMAT, ISO_TIDSPUNKTFORMAT, NORSK_DATOFORMAT } from '../utils/date';
 
 import { mapSykdomstidslinje, mapUtbetalingstidslinje } from './dag';
@@ -60,7 +51,7 @@ const mapUtbetaling = (utbetalinger: SpleisUtbetalinger, key: keyof SpleisUtbeta
 
 export class VedtaksperiodeBuilder {
     private unmapped: SpesialistVedtaksperiode;
-    private annullerteHistorikkelementer: Utbetalingshistorikkelement[];
+    private annullerteHistorikkelementer: HistorikkElement[];
     private person: SpesialistPerson;
     private arbeidsgiver: SpesialistArbeidsgiver;
     private overstyringer: SpesialistOverstyring[] = [];
@@ -84,9 +75,9 @@ export class VedtaksperiodeBuilder {
         return this;
     };
 
-    setAnnullertUtbetalingshistorikk = (utbetalingshistorikk: Utbetalingshistorikkelement[]) => {
+    setAnnullertUtbetalingshistorikk = (utbetalingshistorikk: HistorikkElement[]) => {
         this.annullerteHistorikkelementer = utbetalingshistorikk.filter(
-            (element) => element.utbetaling.type === Utbetalingstype.ANNULLERING
+            (element) => element.utbetaling.type === 'ANNULLERING'
         );
         return this;
     };
@@ -184,10 +175,30 @@ export class VedtaksperiodeBuilder {
 
     private mapTilstand = () => {
         this.vedtaksperiode.tilstand =
-            (this.inneholderAnnullerteDager() && Vedtaksperiodetilstand.Annullert) ||
-            (this.venterPåSaksbehandleroppgave() && Vedtaksperiodetilstand.Venter) ||
-            Vedtaksperiodetilstand[this.unmapped.tilstand] ||
-            Vedtaksperiodetilstand.Ukjent;
+            (this.inneholderAnnullerteDager() && 'annullert') ||
+            (this.venterPåSaksbehandleroppgave() && 'venter') ||
+            ((): Periodetilstand => {
+                switch (this.unmapped.tilstand) {
+                    case SpleisVedtaksperiodetilstand.TilUtbetaling:
+                        return 'tilUtbetaling';
+                    case SpleisVedtaksperiodetilstand.Utbetalt:
+                        return 'utbetalt';
+                    case SpleisVedtaksperiodetilstand.Oppgaver:
+                        return 'oppgaver';
+                    case SpleisVedtaksperiodetilstand.Venter:
+                        return 'venter';
+                    case SpleisVedtaksperiodetilstand.VenterPåKiling:
+                        return 'venterPåKiling';
+                    case SpleisVedtaksperiodetilstand.IngenUtbetaling:
+                        return 'ingenUtbetaling';
+                    case SpleisVedtaksperiodetilstand.Feilet:
+                        return 'feilet';
+                    case SpleisVedtaksperiodetilstand.TilInfotrygd:
+                        return 'tilInfotrygd';
+                    default:
+                        return 'ukjent';
+                }
+            })();
     };
 
     private mapHendelser = () => {
@@ -215,25 +226,25 @@ export class VedtaksperiodeBuilder {
         const mapExistingPeriodetype = (): Periodetype => {
             switch (this.unmapped.periodetype) {
                 case SpleisPeriodetype.FØRSTEGANGSBEHANDLING:
-                    return Periodetype.Førstegangsbehandling;
+                    return 'førstegangsbehandling';
                 case SpleisPeriodetype.OVERGANG_FRA_IT:
                 case SpleisPeriodetype.INFOTRYGDFORLENGELSE:
-                    return Periodetype.Infotrygdforlengelse;
+                    return 'infotrygdforlengelse';
                 case SpleisPeriodetype.FORLENGELSE:
-                    return Periodetype.Forlengelse;
+                    return 'forlengelse';
                 case SpleisPeriodetype.STIKKPRØVE:
-                    return Periodetype.Stikkprøve;
+                    return 'stikkprøve';
                 case SpleisPeriodetype.RISK_QA:
-                    return Periodetype.RiskQa;
+                    return 'riskQa';
             }
         };
         const mapPeriodetype = (): Periodetype => {
             if (this.erFørstegangsbehandling()) {
-                return Periodetype.Førstegangsbehandling;
+                return 'førstegangsbehandling';
             } else if (this.erInfotrygdforlengelse()) {
-                return Periodetype.Infotrygdforlengelse;
+                return 'infotrygdforlengelse';
             } else {
-                return Periodetype.Forlengelse;
+                return 'forlengelse';
             }
         };
         this.vedtaksperiode.periodetype = this.unmapped.periodetype ? mapExistingPeriodetype() : mapPeriodetype();
@@ -309,7 +320,7 @@ export class VedtaksperiodeBuilder {
                     omregnetÅrsinntekt:
                         (arbeidsgiverinntekt.omregnetÅrsinntekt && {
                             ...arbeidsgiverinntekt.omregnetÅrsinntekt,
-                            kilde: Inntektskildetype[arbeidsgiverinntekt.omregnetÅrsinntekt.kilde],
+                            kilde: arbeidsgiverinntekt.omregnetÅrsinntekt.kilde,
                             inntekterFraAOrdningen: arbeidsgiverinntekt.omregnetÅrsinntekt.inntekterFraAOrdningen,
                         }) ??
                         undefined,

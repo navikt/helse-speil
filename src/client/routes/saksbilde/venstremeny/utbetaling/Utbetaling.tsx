@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Periodetype, Tidslinjeperiode, useUtbetaling } from '../../../../modell/utbetalingshistorikkelement';
+import { useUtbetaling } from '../../../../modell/utbetalingshistorikkelement';
 import { harOppgave, useOppgavereferanse } from '../../../../state/tidslinje';
 
 import { Utbetalingsdialog } from './Utbetalingsdialog';
@@ -10,7 +10,7 @@ interface UtbetalingProps {
 }
 
 export const Utbetaling = ({ aktivPeriode }: UtbetalingProps) => {
-    const erRevurdering = aktivPeriode.type === Periodetype.REVURDERING;
+    const erRevurdering = aktivPeriode.type === 'REVURDERING';
     const utbetaling = useUtbetaling(aktivPeriode.beregningId);
     const oppgavereferanse = useOppgavereferanse(aktivPeriode.beregningId);
 

@@ -1,4 +1,3 @@
-import { UtbetalingshistorikkUtbetaling } from 'internal-types';
 import React from 'react';
 
 import { Bold } from '../../../components/Bold';

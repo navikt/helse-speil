@@ -1,6 +1,5 @@
 import React from 'react';
 
-import { Tidslinjeperiode } from '../../../modell/utbetalingshistorikkelement';
 import { useVedtaksperiode } from '../../../state/tidslinje';
 
 import { Card } from './Card';

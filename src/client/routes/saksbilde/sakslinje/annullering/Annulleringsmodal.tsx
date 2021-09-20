@@ -1,6 +1,5 @@
 import styled from '@emotion/styled';
 import { Dayjs } from 'dayjs';
-import { Person } from 'internal-types';
 import React, { useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { useSetRecoilState } from 'recoil';

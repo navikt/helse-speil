@@ -1,5 +1,4 @@
 import styled from '@emotion/styled';
-import { Dagtype } from 'internal-types';
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 
@@ -53,25 +52,22 @@ const InputContainer = styled.div`
     align-items: start;
 `;
 
-const dagtyperUtenGradering = [Dagtype.Arbeidsdag, Dagtype.Ferie, Dagtype.Permisjon];
+const dagtyperUtenGradering: Dag['type'][] = ['Arbeidsdag', 'Ferie', 'Permisjon'];
 
-export const shortestListLength = <T extends unknown>(lists: T[][]) =>
-    lists.reduce((min, list) => (list.length < min ? list.length : min), Number.MAX_SAFE_INTEGER);
-
-export const lovligeTypeendringer = (revurderingIsEnabled: boolean) => {
+export const lovligeTypeendringer = (revurderingIsEnabled: boolean): Dag['type'][] => {
     if (revurderingIsEnabled) {
-        return [Dagtype.Syk, Dagtype.Ferie];
+        return ['Syk', 'Ferie'];
     } else if (overstyrPermisjonsdagerEnabled) {
-        return [Dagtype.Syk, Dagtype.Ferie, Dagtype.Egenmelding, Dagtype.Permisjon];
+        return ['Syk', 'Ferie', 'Egenmelding', 'Permisjon'];
     } else {
-        return [Dagtype.Syk, Dagtype.Ferie, Dagtype.Egenmelding];
+        return ['Syk', 'Ferie', 'Egenmelding'];
     }
 };
 
 const harEndring = (endring: Partial<UtbetalingstabellDag>): boolean =>
     endring.type !== undefined || endring.gradering !== undefined;
 
-const kanVelgeGrad = (type?: Dagtype) => type && dagtyperUtenGradering.every((it) => it !== type);
+const kanVelgeGrad = (type?: Dag['type']) => type && dagtyperUtenGradering.every((it) => it !== type);
 
 interface EndringFormProps {
     markerteDager: Map<string, UtbetalingstabellDag>;
@@ -99,9 +95,9 @@ export const EndringForm: React.FC<EndringFormProps> = ({ markerteDager, toggleO
     });
 
     const oppdaterDagtype = (event: React.ChangeEvent<HTMLSelectElement>) => {
-        if (Object.values(Dagtype).includes(event.target.value as Dagtype)) {
+        if (lovligeTypeendringer(revurderingIsEnabled).includes(event.target.value as Dag['type'])) {
             form.clearErrors('dagtype');
-            const type = event.target.value as Dagtype;
+            const type = event.target.value as Dag['type'];
             setEndring({ ...endring, type, gradering: kanVelgeGrad(type) ? endring.gradering : undefined });
         }
     };
@@ -134,7 +130,7 @@ export const EndringForm: React.FC<EndringFormProps> = ({ markerteDager, toggleO
                             error={form.formState.errors.dagtype?.message}
                             data-testid="dagtypevelger"
                         >
-                            {lovligeTypeendringer(revurderingIsEnabled).map((dagtype: Dagtype) => (
+                            {lovligeTypeendringer(revurderingIsEnabled).map((dagtype: Dag['type']) => (
                                 <option key={dagtype} value={dagtype}>
                                     {dagtype}
                                 </option>

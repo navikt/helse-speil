@@ -1,6 +1,5 @@
 import styled from '@emotion/styled';
 import { Dayjs } from 'dayjs';
-import { Periodetype, Vedtaksperiode } from 'internal-types';
 import React from 'react';
 
 import { BodyShort } from '@navikt/ds-react';
@@ -12,7 +11,6 @@ import { Advarselikon } from '../../../components/ikoner/Advarselikon';
 import { Maksdatoikon } from '../../../components/ikoner/Maksdatoikon';
 import { Skjæringstidspunktikon } from '../../../components/ikoner/Skjæringstidspunktikon';
 import { Sykmeldingsperiodeikon } from '../../../components/ikoner/Sykmeldingsperiodeikon';
-import { Periodetype as Historikkperiodetype, Tidslinjeperiode } from '../../../modell/utbetalingshistorikkelement';
 import { useVedtaksperiode } from '../../../state/tidslinje';
 import { NORSK_DATOFORMAT_KORT } from '../../../utils/date';
 import { capitalize } from '../../../utils/locale';
@@ -38,18 +36,18 @@ const LovdataLenkeContainer = styled(BodyShort)`
 
 const getTextForPeriodetype = (type: Periodetype): string => {
     switch (type) {
-        case Periodetype.Forlengelse:
-        case Periodetype.Infotrygdforlengelse:
+        case 'forlengelse':
+        case 'infotrygdforlengelse':
             return 'FORLENGELSE';
-        case Periodetype.Førstegangsbehandling:
+        case 'førstegangsbehandling':
             return 'FØRSTEGANGSBEHANDLING';
-        case Periodetype.OvergangFraInfotrygd:
+        case 'overgangFraIt':
             return 'FORLENGELSE IT';
-        case Periodetype.Stikkprøve:
+        case 'stikkprøve':
             return 'STIKKPRØVE';
-        case Periodetype.RiskQa:
+        case 'riskQa':
             return 'RISK QA';
-        case Periodetype.Revurdering:
+        case 'revurdering':
             return 'REVURDERING';
     }
 };
@@ -67,10 +65,7 @@ interface PeriodeCardProps {
 export const PeriodeCard = React.memo(
     ({ aktivPeriode, maksdato, over67år, skjæringstidspunkt, gjenståendeDager }: PeriodeCardProps) => {
         const vedtaksperiode = useVedtaksperiode(aktivPeriode.id) as Vedtaksperiode;
-        const periodetype =
-            aktivPeriode.type === Historikkperiodetype.REVURDERING
-                ? Periodetype.Revurdering
-                : vedtaksperiode.periodetype;
+        const periodetype = aktivPeriode.type === 'REVURDERING' ? 'revurdering' : vedtaksperiode.periodetype;
         const periodetypeLabel = getTextForPeriodetype(periodetype);
 
         return (

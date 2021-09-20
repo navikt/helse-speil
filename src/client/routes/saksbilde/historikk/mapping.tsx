@@ -1,13 +1,10 @@
 import styled from '@emotion/styled';
 import dayjs from 'dayjs';
-import { Dokument, Kildetype, Notat, Overstyring, Utbetalingstype, Vedtaksperiode, Vurdering } from 'internal-types';
-import React from 'react';
-import { useMemo } from 'react';
+import React, { useMemo } from 'react';
 
 import { Link } from '@navikt/ds-react';
 
 import { Kilde } from '../../../components/Kilde';
-import { Tidslinjeperiode } from '../../../modell/utbetalingshistorikkelement';
 import { usePerson } from '../../../state/person';
 
 import { Hendelse, Hendelsetype } from './Historikk.types';
@@ -29,16 +26,16 @@ export const useDokumenter = (vedtaksperiode?: Vedtaksperiode): Hendelse[] =>
             .map((hendelse: Dokument) => ({
                 id: hendelse.id,
                 timestamp:
-                    hendelse.type === Kildetype.Inntektsmelding
+                    hendelse.type === 'Inntektsmelding'
                         ? dayjs(hendelse.mottattTidspunkt)
                         : hendelse.rapportertDato && dayjs(hendelse.rapportertDato),
                 title: (() => {
                     switch (hendelse.type) {
-                        case Kildetype.Inntektsmelding:
+                        case 'Inntektsmelding':
                             return 'Inntektsmelding mottatt';
-                        case Kildetype.Søknad:
+                        case 'Søknad':
                             return 'Søknad mottatt';
-                        case Kildetype.Sykmelding:
+                        case 'Sykmelding':
                             return 'Sykmelding mottatt';
                         default:
                             return 'Hendelse';
@@ -49,11 +46,11 @@ export const useDokumenter = (vedtaksperiode?: Vedtaksperiode): Hendelse[] =>
                     <Kilde type={hendelse.type}>
                         {(() => {
                             switch (hendelse.type) {
-                                case Kildetype.Søknad:
+                                case 'Søknad':
                                     return 'SØ';
-                                case Kildetype.Sykmelding:
+                                case 'Sykmelding':
                                     return 'SM';
-                                case Kildetype.Inntektsmelding:
+                                case 'Inntektsmelding':
                                     return 'IM';
                             }
                         })()}
@@ -70,16 +67,17 @@ export const useUtbetalinger = (periode?: Tidslinjeperiode): Hendelse[] => {
     return utbetalingshistorikk
         .filter((it) => it.id === periode?.beregningId)
         .filter((it) => it.utbetaling.vurdering)
-        .map(({ utbetaling }, i) => {
-            const { tidsstempel, automatisk, godkjent, ident } = utbetaling.vurdering as Vurdering;
+        .map(({ utbetaling }: HistorikkElement, i) => {
+            const { tidsstempel, automatisk, godkjent, ident } = (utbetaling as Required<UtbetalingshistorikkElement>)
+                .vurdering;
             return {
                 id: `utbetaling-${periode?.beregningId}-${i}`,
                 timestamp: tidsstempel,
                 title: automatisk
                     ? 'Automatisk godkjent'
-                    : utbetaling.type === Utbetalingstype.ANNULLERING
+                    : utbetaling.type === 'ANNULLERING'
                     ? 'Annullert'
-                    : utbetaling.type === Utbetalingstype.REVURDERING
+                    : utbetaling.type === 'REVURDERING'
                     ? 'Revurdert'
                     : 'Sendt til utbetaling',
                 type: Hendelsetype.Historikk,

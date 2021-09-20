@@ -1,6 +1,5 @@
 import '@testing-library/jest-dom/extend-expect';
 import { render, screen } from '@testing-library/react';
-import { Saksbehandler, Tidslinjetilstand, TildelingType } from 'internal-types';
 import React from 'react';
 import { enTidslinjeperiode, mappetVedtaksperiode } from 'test-data';
 
@@ -19,7 +18,7 @@ const annenSaksbehandler: Saksbehandler = {
 
 describe('Saksbildevarsler', () => {
     test('viser infovarsel når saken har gått til utbetaling', () => {
-        const periodeTilUtbetaling = enTidslinjeperiode(Tidslinjetilstand.TilUtbetaling);
+        const periodeTilUtbetaling = enTidslinjeperiode('tilUtbetaling');
         render(
             <Saksbildevarsler
                 vedtaksperiode={mappetVedtaksperiode()}
@@ -30,7 +29,7 @@ describe('Saksbildevarsler', () => {
         expect(screen.getByText('Utbetalingen er sendt til oppdragsystemet.')).toBeVisible();
     });
     test('viser infovarsel når saken har blitt utbetalt', () => {
-        const utbetaltPeriode = enTidslinjeperiode(Tidslinjetilstand.Utbetalt);
+        const utbetaltPeriode = enTidslinjeperiode('utbetalt');
         render(
             <Saksbildevarsler
                 vedtaksperiode={mappetVedtaksperiode()}
@@ -41,7 +40,7 @@ describe('Saksbildevarsler', () => {
         expect(screen.getByText('Utbetalingen er sendt til oppdragsystemet.')).toBeVisible();
     });
     test('viser infovarsel når revurdert periode har gått til utbetaling', () => {
-        const revurdertPeriode = enTidslinjeperiode(Tidslinjetilstand.Revurdert);
+        const revurdertPeriode = enTidslinjeperiode('revurdert');
         render(
             <Saksbildevarsler
                 vedtaksperiode={mappetVedtaksperiode()}
@@ -52,7 +51,7 @@ describe('Saksbildevarsler', () => {
         expect(screen.getByText('Utbetalingen er sendt til oppdragsystemet.')).toBeVisible();
     });
     test('viser infovarsel når saken er til revurdering', () => {
-        const periodeTilRevurdering = enTidslinjeperiode(Tidslinjetilstand.Revurderes);
+        const periodeTilRevurdering = enTidslinjeperiode('revurderes');
         render(
             <Saksbildevarsler
                 vedtaksperiode={mappetVedtaksperiode()}
@@ -63,7 +62,7 @@ describe('Saksbildevarsler', () => {
         expect(screen.getByText('Revurdering er igangsatt og må fullføres.')).toBeVisible();
     });
     test('viser infovarsel når saken er godkjent uten utbetaling', () => {
-        const periodeUtenUtbetaling = enTidslinjeperiode(Tidslinjetilstand.IngenUtbetaling);
+        const periodeUtenUtbetaling = enTidslinjeperiode('ingenUtbetaling');
         render(
             <Saksbildevarsler
                 vedtaksperiode={mappetVedtaksperiode()}
@@ -74,7 +73,7 @@ describe('Saksbildevarsler', () => {
         expect(screen.getByText('Perioden er godkjent, ingen utbetaling.')).toBeVisible();
     });
     test('viser infovarsel når saken kun inneholder ferie', () => {
-        const ferieperiode = enTidslinjeperiode(Tidslinjetilstand.KunFerie);
+        const ferieperiode = enTidslinjeperiode('kunFerie');
         render(
             <Saksbildevarsler
                 vedtaksperiode={mappetVedtaksperiode()}
@@ -85,7 +84,7 @@ describe('Saksbildevarsler', () => {
         expect(screen.getByText('Perioden er godkjent, ingen utbetaling.')).toBeVisible();
     });
     test('viser infovarsel når saken kun inneholder permisjon', () => {
-        const permisjonperiode = enTidslinjeperiode(Tidslinjetilstand.KunPermisjon);
+        const permisjonperiode = enTidslinjeperiode('kunPermisjon');
         render(
             <Saksbildevarsler
                 vedtaksperiode={mappetVedtaksperiode()}
@@ -96,7 +95,7 @@ describe('Saksbildevarsler', () => {
         expect(screen.getByText('Perioden er godkjent, ingen utbetaling.')).toBeVisible();
     });
     test('viser feilvarsel om utbetaling har feilet', () => {
-        const feiletperiode = enTidslinjeperiode(Tidslinjetilstand.Feilet);
+        const feiletperiode = enTidslinjeperiode('feilet');
         render(
             <Saksbildevarsler
                 vedtaksperiode={mappetVedtaksperiode()}
@@ -107,7 +106,7 @@ describe('Saksbildevarsler', () => {
         expect(screen.getByText('Utbetalingen feilet.')).toBeVisible();
     });
     test('viser infovarsel om saken er annullert', () => {
-        const periode = enTidslinjeperiode(Tidslinjetilstand.Annullert);
+        const periode = enTidslinjeperiode('annullert');
         render(
             <Saksbildevarsler
                 vedtaksperiode={mappetVedtaksperiode()}
@@ -118,7 +117,7 @@ describe('Saksbildevarsler', () => {
         expect(screen.getByText('Utbetalingen er annullert.')).toBeVisible();
     });
     test('viser infovarsel om saken er sendt til annullering', () => {
-        const periode = enTidslinjeperiode(Tidslinjetilstand.TilAnnullering);
+        const periode = enTidslinjeperiode('tilAnnullering');
         render(
             <Saksbildevarsler
                 vedtaksperiode={mappetVedtaksperiode()}
@@ -129,7 +128,7 @@ describe('Saksbildevarsler', () => {
         expect(screen.getByText('Annullering venter.')).toBeVisible();
     });
     test('viser feilvarsel om annullering feilet', () => {
-        const periode = enTidslinjeperiode(Tidslinjetilstand.AnnulleringFeilet);
+        const periode = enTidslinjeperiode('annulleringFeilet');
         render(
             <Saksbildevarsler
                 vedtaksperiode={mappetVedtaksperiode()}
@@ -140,7 +139,7 @@ describe('Saksbildevarsler', () => {
         expect(screen.getByText('Annulleringen feilet. Kontakt utviklerteamet.')).toBeVisible();
     });
     test('viser feilvarsel om saken har en aktiv oppgave men mangler oppgavereferanse', () => {
-        const periode = { ...enTidslinjeperiode(Tidslinjetilstand.Oppgaver), oppgavereferanse: '' };
+        const periode = { ...enTidslinjeperiode('oppgaver'), oppgavereferanse: '' };
         render(
             <Saksbildevarsler
                 vedtaksperiode={mappetVedtaksperiode()}
@@ -155,7 +154,7 @@ describe('Saksbildevarsler', () => {
         ).toBeVisible();
     });
     test('viser feilvarsel om vedtaksperioden har en ukjent tilstand', () => {
-        const periode = enTidslinjeperiode(Tidslinjetilstand.Ukjent);
+        const periode = enTidslinjeperiode('ukjent');
         render(
             <Saksbildevarsler
                 vedtaksperiode={mappetVedtaksperiode()}
@@ -169,7 +168,7 @@ describe('Saksbildevarsler', () => {
         render(
             <Saksbildevarsler
                 vedtaksperiode={mappetVedtaksperiode()}
-                aktivPeriode={enTidslinjeperiode(Tidslinjetilstand.UtbetaltAutomatisk)}
+                aktivPeriode={enTidslinjeperiode('utbetaltAutomatisk')}
                 saksbehandler={saksbehandler}
             />
         );
@@ -182,7 +181,7 @@ describe('Saksbildevarsler', () => {
         };
         render(
             <Saksbildevarsler
-                aktivPeriode={enTidslinjeperiode(Tidslinjetilstand.Oppgaver)}
+                aktivPeriode={enTidslinjeperiode('oppgaver')}
                 vedtaksperiode={periode}
                 saksbehandler={saksbehandler}
             />
@@ -194,13 +193,13 @@ describe('Saksbildevarsler', () => {
         const periode = {
             ...mappetVedtaksperiode(),
         };
-        const tildeling: TildelingType = {
+        const tildeling: Tildeling = {
             saksbehandler: annenSaksbehandler,
             påVent: false,
         };
         render(
             <Saksbildevarsler
-                aktivPeriode={enTidslinjeperiode(Tidslinjetilstand.Oppgaver)}
+                aktivPeriode={enTidslinjeperiode('oppgaver')}
                 vedtaksperiode={periode}
                 tildeling={tildeling}
                 saksbehandler={saksbehandler}

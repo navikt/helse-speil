@@ -1,5 +1,4 @@
 import styled from '@emotion/styled';
-import { Person, Tidslinjetilstand } from 'internal-types';
 import React from 'react';
 import { Route, Switch, useRouteMatch } from 'react-router-dom';
 
@@ -38,34 +37,34 @@ export const getErrorMelding = (tilstand: Tidslinjetilstand) => {
 
 export const getVedtaksperiodeTilstandError = (tilstand: Tidslinjetilstand) => {
     switch (tilstand) {
-        case Tidslinjetilstand.Venter:
+        case 'venter':
             return (
                 <Varsel type={Varseltype.Info}>
                     Kunne ikke vise informasjon om vedtaksperioden. Dette skyldes at perioden ikke er klar til
                     behandling.
                 </Varsel>
             );
-        case Tidslinjetilstand.KunFerie:
+        case 'kunFerie':
             return (
                 <Varsel type={Varseltype.Info}>
                     Kunne ikke vise informasjon om vedtaksperioden. Perioden inneholder kun ferie.
                 </Varsel>
             );
-        case Tidslinjetilstand.KunPermisjon:
+        case 'kunPermisjon':
             return (
                 <Varsel type={Varseltype.Info}>
                     Kunne ikke vise informasjon om vedtaksperioden. Perioden inneholder kun permisjon.
                 </Varsel>
             );
-        case Tidslinjetilstand.IngenUtbetaling:
+        case 'ingenUtbetaling':
             return (
                 <Varsel type={Varseltype.Info}>
                     Kunne ikke vise informasjon om vedtaksperioden. Perioden har ingen utbetaling.
                 </Varsel>
             );
-        case Tidslinjetilstand.VenterPåKiling:
+        case 'venterPåKiling':
             return <Varsel type={Varseltype.Info}>Ikke klar til behandling - avventer system.</Varsel>;
-        case Tidslinjetilstand.Ukjent:
+        case 'ukjent':
             return <Varsel type={Varseltype.Feil}>Kunne ikke lese informasjon om sakens tilstand.</Varsel>;
         default:
             return undefined;

@@ -1,6 +1,5 @@
 import dayjs, { Dayjs } from 'dayjs';
 import { SpleisVedtaksperiodetilstand, UfullstendigSpesialistVedtaksperiode } from 'external-types';
-import { UfullstendigVedtaksperiode } from 'internal-types';
 
 import { UfullstendigVedtaksperiodeBuilder } from '../../client/mapping/ufullstendigVedtaksperiode';
 
