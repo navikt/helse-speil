@@ -1,3 +1,4 @@
+import styled from '@emotion/styled';
 import React from 'react';
 
 import { BodyShort } from '@navikt/ds-react';
@@ -6,6 +7,12 @@ import { LovdataLenke } from '../../../../components/LovdataLenke';
 import { Tooltip } from '../../../../components/Tooltip';
 
 import { CellContent } from '../../table/CellContent';
+
+const Container = styled.span`
+    display: flex;
+    white-space: nowrap;
+    gap: 0.25rem;
+`;
 
 interface MerknadProps {
     begrunnelse: Avvisning;
@@ -17,45 +24,45 @@ const Merknad = ({ begrunnelse }: MerknadProps) => {
             return <BodyShort>Personen er død</BodyShort>;
         case 'EgenmeldingUtenforArbeidsgiverperiode':
             return (
-                <span data-tip="Egenmelding utenfor arbeidsgiverperioden">
+                <Container data-tip="Egenmelding utenfor arbeidsgiverperioden">
                     <LovdataLenke paragraf="8-23">§ 8-23</LovdataLenke>
-                </span>
+                </Container>
             );
         case 'MinimumSykdomsgrad':
             return (
-                <span data-tip="Sykdomsgrad under 20%">
+                <Container data-tip="Sykdomsgrad under 20%">
                     <LovdataLenke paragraf="8-13">§ 8-13</LovdataLenke>
-                </span>
+                </Container>
             );
         case 'MinimumInntekt':
             return (
-                <span data-tip="Over 70 år">
+                <Container data-tip="Over 70 år">
                     <LovdataLenke paragraf="8-3">§ 8-3</LovdataLenke>
-                </span>
+                </Container>
             );
         case 'ManglerOpptjening':
             return (
-                <span data-tip="Krav til 4 ukers opptjening er ikke oppfylt">
+                <Container data-tip="Krav til 4 ukers opptjening er ikke oppfylt">
                     <LovdataLenke paragraf="8-2">§ 8-2</LovdataLenke>
-                </span>
+                </Container>
             );
         case 'ManglerMedlemskap':
             return (
-                <span data-tip="Krav til medlemskap er ikke oppfylt">
+                <Container data-tip="Krav til medlemskap er ikke oppfylt">
                     <LovdataLenke paragraf="8-2">§ 8-2</LovdataLenke>
                     <BodyShort> og </BodyShort>
                     <LovdataLenke paragraf="2-" harParagraf={false}>
                         kap. 2
                     </LovdataLenke>
-                </span>
+                </Container>
             );
         case 'SykepengedagerOppbrukt':
             return (
-                <span data-tip="Maks antall sykepengedager er nådd">
+                <Container data-tip="Maks antall sykepengedager er nådd">
                     <LovdataLenke paragraf={begrunnelse.paragraf ?? '8-12'}>
                         § {begrunnelse.paragraf ?? '8-12'}
                     </LovdataLenke>
-                </span>
+                </Container>
             );
         default:
             return null;
@@ -67,9 +74,9 @@ const sisteUtbetalingsdagMerknad = (isMaksdato: boolean): React.ReactNode | unde
 
 const foreldetDagMerknad = (isForeldet: boolean): React.ReactNode | undefined =>
     isForeldet ? (
-        <span data-tip="Foreldet">
+        <Container data-tip="Foreldet">
             <LovdataLenke paragraf="22-13">§ 22-13</LovdataLenke>
-        </span>
+        </Container>
     ) : undefined;
 
 const avvisningsårsakerMerknad = (avvisningsårsaker?: Avvisning[]) =>
