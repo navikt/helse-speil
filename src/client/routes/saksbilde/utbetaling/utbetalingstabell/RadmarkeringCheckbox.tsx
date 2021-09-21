@@ -5,6 +5,7 @@ import React from 'react';
 import { Checkbox } from '@navikt/ds-react';
 
 import { overstyrPermisjonsdagerEnabled } from '../../../../featureToggles';
+import { DisabledCheckbox } from './DisabledCheckbox';
 
 const Container = styled.div`
     position: relative;
@@ -39,14 +40,18 @@ export const RadmarkeringCheckbox: React.FC<RadmarkeringCheckboxProps> = ({
     skjæringstidspunkt,
     ...rest
 }) => {
+    const erSkjæringstidspunkt: boolean = skjæringstidspunkt !== undefined && dato.isSame(skjæringstidspunkt, 'day');
+
     const dagKanOverstyres =
-        ((!skjæringstidspunkt || !dato.isSame(skjæringstidspunkt)) &&
-            dagtype !== 'Helg' &&
-            ['Syk', 'Ferie', 'Egenmelding'].includes(dagtype)) ||
+        (dagtype !== 'Helg' && ['Syk', 'Ferie', 'Egenmelding'].includes(dagtype)) ||
         (overstyrPermisjonsdagerEnabled && dagtype === 'Permisjon');
 
     if (!dagKanOverstyres) {
         return <Container />;
+    }
+
+    if (erSkjæringstidspunkt) {
+        return <DisabledCheckbox label="Kan foreløpig ikke endres. Mangler støtte for skjæringstidspunkt" />;
     }
 
     return (

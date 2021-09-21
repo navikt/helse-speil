@@ -48,22 +48,26 @@ interface MarkerAlleDagerCheckboxProps extends Omit<React.InputHTMLAttributes<HT
     alleDager: Map<string, UtbetalingstabellDag>;
     markerteDager: Map<string, UtbetalingstabellDag>;
     setMarkerteDager: Dispatch<SetStateAction<Map<string, UtbetalingstabellDag>>>;
+    skjæringstidspunkt?: Dayjs;
 }
 
 export const MarkerAlleDagerCheckbox: React.FC<MarkerAlleDagerCheckboxProps> = ({
     alleDager,
     markerteDager,
     setMarkerteDager,
+    skjæringstidspunkt,
     ...rest
 }) => {
-    const dagKanOverstyres = (type: Dag['type']) =>
-        (type !== 'Helg' && ['Syk', 'Ferie', 'Egenmelding'].includes(type)) ||
+    const dagKanOverstyres = (type: Dag['type'], dato: Dayjs) =>
+        ((!skjæringstidspunkt || !dato.isSame(skjæringstidspunkt, 'day')) &&
+            type !== 'Helg' &&
+            ['Syk', 'Ferie', 'Egenmelding'].includes(type)) ||
         (overstyrPermisjonsdagerEnabled && type === 'Permisjon');
 
     const overstyrbareDager = useMemo(
         () =>
             Array.from(alleDager.entries()).reduce(
-                (dager, [key, dag]) => (dagKanOverstyres(dag.type) ? dager.set(key, dag) : dager),
+                (dager, [key, dag]) => (dagKanOverstyres(dag.type, dag.dato) ? dager.set(key, dag) : dager),
                 new Map()
             ),
         [alleDager]

@@ -145,6 +145,7 @@ const OverstyrbarUtbetaling: React.FC<OverstyrbarUtbetalingProps> = ({ fom, tom,
                                 alleDager={dager}
                                 markerteDager={markerteDager}
                                 setMarkerteDager={setMarkerteDager}
+                                skjæringstidspunkt={skjæringstidspunkt}
                             />
                             {Array.from(dager.values()).map((dag, i) => (
                                 <RadmarkeringCheckbox
