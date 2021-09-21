@@ -1,56 +1,49 @@
-import {
-    EksternSykdomsdag,
-    SpleisSykdomsdagtype,
-    SpleisUtbetalingsdag,
-    SpleisUtbetalingsdagtype,
-} from 'external-types';
-
-const utbetalingsdagtype = (sykdomsdagtype: SpleisSykdomsdagtype): SpleisUtbetalingsdagtype => {
+const utbetalingsdagtype = (sykdomsdagtype: ExternalSykdomsdagtype): ExternalUtbetalingsdagtype => {
     switch (sykdomsdagtype) {
-        case SpleisSykdomsdagtype.ARBEIDSDAG:
-        case SpleisSykdomsdagtype.IMPLISITT_DAG:
-        case SpleisSykdomsdagtype.ARBEIDSDAG_SØKNAD:
-        case SpleisSykdomsdagtype.ARBEIDSDAG_INNTEKTSMELDING:
-            return SpleisUtbetalingsdagtype.ARBEIDSDAG;
-        case SpleisSykdomsdagtype.UTENLANDSDAG:
-        case SpleisSykdomsdagtype.ARBEIDSGIVERDAG:
-        case SpleisSykdomsdagtype.EGENMELDINGSDAG_SØKNAD:
-        case SpleisSykdomsdagtype.EGENMELDINGSDAG_INNTEKTSMELDING:
-            return SpleisUtbetalingsdagtype.ARBEIDSGIVERPERIODE;
-        case SpleisSykdomsdagtype.FERIEDAG:
-        case SpleisSykdomsdagtype.FERIEDAG_SØKNAD:
-        case SpleisSykdomsdagtype.FERIEDAG_INNTEKTSMELDING:
-        case SpleisSykdomsdagtype.PERMISJONSDAG:
-        case SpleisSykdomsdagtype.PERMISJONSDAG_SØKNAD:
-            return SpleisUtbetalingsdagtype.FERIEDAG;
-        case SpleisSykdomsdagtype.FORELDET_SYKEDAG:
-            return SpleisUtbetalingsdagtype.AVVISTDAG;
-        case SpleisSykdomsdagtype.SYK_HELGEDAG:
-        case SpleisSykdomsdagtype.FRISK_HELGEDAG:
-        case SpleisSykdomsdagtype.SYK_HELGEDAG_SØKNAD:
-        case SpleisSykdomsdagtype.FRISK_HELGEDAG_SØKNAD:
-        case SpleisSykdomsdagtype.SYK_HELGEDAG_SYKMELDING:
-        case SpleisSykdomsdagtype.FRISK_HELGEDAG_INNTEKTSMELDING:
-            return SpleisUtbetalingsdagtype.HELGEDAG;
-        case SpleisSykdomsdagtype.STUDIEDAG:
-        case SpleisSykdomsdagtype.UBESTEMTDAG:
-        case SpleisSykdomsdagtype.ANNULLERT_DAG:
-            return SpleisUtbetalingsdagtype.UKJENTDAG;
-        case SpleisSykdomsdagtype.SYKEDAG:
-        case SpleisSykdomsdagtype.SYKEDAG_SØKNAD:
-        case SpleisSykdomsdagtype.SYKEDAG_SYKMELDING:
-            return SpleisUtbetalingsdagtype.NAVDAG;
+        case 'ARBEIDSDAG':
+        case 'IMPLISITT_DAG':
+        case 'ARBEIDSDAG_SØKNAD':
+        case 'ARBEIDSDAG_INNTEKTSMELDING':
+            return 'Arbeidsdag';
+        case 'UTENLANDSDAG':
+        case 'ARBEIDSGIVERDAG':
+        case 'EGENMELDINGSDAG_SØKNAD':
+        case 'EGENMELDINGSDAG_INNTEKTSMELDING':
+            return 'ArbeidsgiverperiodeDag';
+        case 'FERIEDAG':
+        case 'FERIEDAG_SØKNAD':
+        case 'FERIEDAG_INNTEKTSMELDING':
+        case 'PERMISJONSDAG':
+        case 'PERMISJONSDAG_SØKNAD':
+            return 'Feriedag';
+        case 'FORELDET_SYKEDAG':
+            return 'AvvistDag';
+        case 'SYK_HELGEDAG':
+        case 'FRISK_HELGEDAG':
+        case 'SYK_HELGEDAG_SØKNAD':
+        case 'FRISK_HELGEDAG_SØKNAD':
+        case 'SYK_HELGEDAG_SYKMELDING':
+        case 'FRISK_HELGEDAG_INNTEKTSMELDING':
+            return 'Helgedag';
+        case 'STUDIEDAG':
+        case 'UBESTEMTDAG':
+        case 'ANNULLERT_DAG':
+            return 'UkjentDag';
+        case 'SYKEDAG':
+        case 'SYKEDAG_SØKNAD':
+        case 'SYKEDAG_SYKMELDING':
+            return 'NavDag';
     }
 };
 
-const utbetaling = (sykdomsdagtype: SpleisSykdomsdagtype, dagsats: number): number | undefined =>
-    utbetalingsdagtype(sykdomsdagtype) === SpleisUtbetalingsdagtype.NAVDAG ? dagsats : undefined;
+const utbetaling = (sykdomsdagtype: ExternalSykdomsdagtype, dagsats: number): number | undefined =>
+    utbetalingsdagtype(sykdomsdagtype) === 'NavDag' ? dagsats : undefined;
 
 const tilUtbetalingsdag = (
-    sykdomsdag: EksternSykdomsdag,
+    sykdomsdag: ExternalSykdomsdag,
     dagsats: number,
     grad: number = 100
-): SpleisUtbetalingsdag => ({
+): ExternalUtbetalingsdag => ({
     type: utbetalingsdagtype(sykdomsdag.type),
     inntekt: dagsats,
     dato: sykdomsdag.dagen,
@@ -58,5 +51,7 @@ const tilUtbetalingsdag = (
     grad: grad,
 });
 
-export const utbetalingstidslinje = (sykdomstidslinje: EksternSykdomsdag[], dagsats: number): SpleisUtbetalingsdag[] =>
-    sykdomstidslinje.map((sykdomsdag) => tilUtbetalingsdag(sykdomsdag, dagsats));
+export const utbetalingstidslinje = (
+    sykdomstidslinje: ExternalSykdomsdag[],
+    dagsats: number
+): ExternalUtbetalingsdag[] => sykdomstidslinje.map((sykdomsdag) => tilUtbetalingsdag(sykdomsdag, dagsats));

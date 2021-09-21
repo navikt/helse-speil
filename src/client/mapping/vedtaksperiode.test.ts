@@ -1,7 +1,6 @@
 import dayjs from 'dayjs';
 import isSameOrAfter from 'dayjs/plugin/isSameOrAfter';
 import isSameOrBefore from 'dayjs/plugin/isSameOrBefore';
-import { SpesialistInntektkilde, SpesialistPerson, SpleisVedtaksperiodetilstand } from 'external-types';
 
 import { ISO_TIDSPUNKTFORMAT, NORSK_DATOFORMAT } from '../utils/date';
 
@@ -88,7 +87,7 @@ describe('VedtaksperiodeBuilder', () => {
         const { vedtaksperiode, problems } = new VedtaksperiodeBuilder()
             .setArbeidsgiver(umappetArbeidsgiver())
             .setVedtaksperiode(umappetVedtaksperiode())
-            .setInntektsgrunnlag([umappetInntektsgrunnlag(SpesialistInntektkilde.Inntektsmelding)])
+            .setInntektsgrunnlag([umappetInntektsgrunnlag('Inntektsmelding')])
             .setAnnullertUtbetalingshistorikk([])
             .build() as { vedtaksperiode: Vedtaksperiode; problems: Error[] };
 
@@ -171,9 +170,9 @@ describe('VedtaksperiodeBuilder', () => {
         const { vedtaksperiode, problems } = new VedtaksperiodeBuilder()
             .setVedtaksperiode(umappetVedtaksperiode())
             .setArbeidsgiver(umappetArbeidsgiver())
-            .setInntektsgrunnlag([umappetInntektsgrunnlag(SpesialistInntektkilde.Infotrygd)])
+            .setInntektsgrunnlag([umappetInntektsgrunnlag('Infotrygd')])
             .setAnnullertUtbetalingshistorikk([])
-            .setPerson({ arbeidsgivere: [umappetArbeidsgiver()] } as SpesialistPerson)
+            .setPerson({ arbeidsgivere: [umappetArbeidsgiver()] } as ExternalPerson)
             .build() as { vedtaksperiode: Vedtaksperiode; problems: Error[] };
 
         expect(problems).toHaveLength(0);
@@ -211,7 +210,7 @@ describe('VedtaksperiodeBuilder', () => {
             .setArbeidsgiver(umappetArbeidsgiver())
             .setInntektsgrunnlag([umappetInntektsgrunnlag()])
             .setAnnullertUtbetalingshistorikk([])
-            .setPerson({ arbeidsgivere: [umappetArbeidsgiver()] } as SpesialistPerson)
+            .setPerson({ arbeidsgivere: [umappetArbeidsgiver()] } as ExternalPerson)
             .build() as { vedtaksperiode: Vedtaksperiode; problems: Error[] };
 
         expect(problems).toHaveLength(0);
@@ -250,7 +249,7 @@ describe('VedtaksperiodeBuilder', () => {
         const { vedtaksperiode } = new VedtaksperiodeBuilder()
             .setVedtaksperiode({
                 ...umappetVedtaksperiode(),
-                tilstand: SpleisVedtaksperiodetilstand.Oppgaver,
+                tilstand: 'Oppgaver',
                 oppgavereferanse: null,
             })
             .setArbeidsgiver(umappetArbeidsgiver())

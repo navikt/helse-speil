@@ -1,6 +1,5 @@
 import { renderHook } from '@testing-library/react-hooks';
 import dayjs, { Dayjs } from 'dayjs';
-import { SpleisUtbetalingsdagtype } from 'external-types';
 import { mappetPerson } from 'test-data';
 
 import { umappetArbeidsgiver } from '../../../../test/data/arbeidsgiver';
@@ -142,17 +141,17 @@ describe('useTidslinjerader', () => {
                             ).utbetaling,
                             utbetalingstidslinje: [
                                 {
-                                    type: SpleisUtbetalingsdagtype.NAVDAG,
+                                    type: 'NavDag',
                                     inntekt: 1431,
                                     dato: '2020-01-01',
                                 },
                                 {
-                                    type: SpleisUtbetalingsdagtype.NAVDAG,
+                                    type: 'NavDag',
                                     inntekt: 1431,
                                     dato: '2020-01-02',
                                 },
                                 {
-                                    type: SpleisUtbetalingsdagtype.NAVDAG,
+                                    type: 'NavDag',
                                     inntekt: 1431,
                                     dato: '2020-01-03',
                                 },

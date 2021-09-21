@@ -2,7 +2,6 @@ import '@testing-library/jest-dom/extend-expect';
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import dayjs from 'dayjs';
-import { SpesialistInntektskilde } from 'external-types';
 import React from 'react';
 import { MemoryRouter } from 'react-router';
 import { Route } from 'react-router-dom';
@@ -167,7 +166,7 @@ describe('Saksbilde', () => {
                         fom: dato,
                         tom: dato,
                         beregningIder: ['id1'],
-                        inntektskilde: SpesialistInntektskilde.FlereArbeidsgivere,
+                        inntektskilde: 'FLERE_ARBEIDSGIVERE',
                     }),
                 ],
                 [],
@@ -181,7 +180,7 @@ describe('Saksbilde', () => {
                         fom: dato,
                         tom: dato,
                         beregningIder: ['id2'],
-                        inntektskilde: SpesialistInntektskilde.FlereArbeidsgivere,
+                        inntektskilde: 'FLERE_ARBEIDSGIVERE',
                     }),
                 ],
                 [],
@@ -223,7 +222,7 @@ describe('Saksbilde', () => {
                         fom: dato,
                         tom: dato,
                         beregningIder: ['id1', 'id2'],
-                        inntektskilde: SpesialistInntektskilde.FlereArbeidsgivere,
+                        inntektskilde: 'FLERE_ARBEIDSGIVERE',
                     }),
                 ],
                 [],
@@ -240,7 +239,7 @@ describe('Saksbilde', () => {
                         fom: dato,
                         tom: dato,
                         beregningIder: ['id3', 'id4'],
-                        inntektskilde: SpesialistInntektskilde.FlereArbeidsgivere,
+                        inntektskilde: 'FLERE_ARBEIDSGIVERE',
                     }),
                 ],
                 [],
@@ -291,7 +290,7 @@ describe('Saksbilde', () => {
                         fom: dato,
                         tom: dato,
                         beregningIder: ['id1', 'id2'],
-                        inntektskilde: SpesialistInntektskilde.FlereArbeidsgivere,
+                        inntektskilde: 'FLERE_ARBEIDSGIVERE',
                     }),
                 ],
                 [],
@@ -314,7 +313,7 @@ describe('Saksbilde', () => {
                         fom: dato,
                         tom: dato,
                         beregningIder: ['id3', 'id4'],
-                        inntektskilde: SpesialistInntektskilde.FlereArbeidsgivere,
+                        inntektskilde: 'FLERE_ARBEIDSGIVERE',
                     }),
                 ],
                 [],

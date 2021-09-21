@@ -1,10 +1,4 @@
 import dayjs, { Dayjs } from 'dayjs';
-import {
-    EksternUtbetalingshistorikkElement,
-    SpleisSykdomsdagkildeType,
-    SpleisSykdomsdagtype,
-    SpleisUtbetalingsdagtype,
-} from 'external-types';
 
 export const umappetUtbetalingshistorikk = (
     beregningId: string = 'id1',
@@ -12,14 +6,14 @@ export const umappetUtbetalingshistorikk = (
     utbetalingstatus: string = 'UTBETALT',
     opprettet: Dayjs = dayjs('2020-01-01T00:00:00'),
     dag: Dayjs = dayjs('2020-01-01')
-): EksternUtbetalingshistorikkElement => ({
+): ExternalHistorikkElement => ({
     beregningId: beregningId,
     hendelsetidslinje: [
         {
             dagen: dag.format('YYYY-MM-DD'),
-            type: SpleisSykdomsdagtype.SYKEDAG,
+            type: 'SYKEDAG',
             kilde: {
-                type: SpleisSykdomsdagkildeType.SAKSBEHANDLER,
+                type: 'Saksbehandler',
                 kildeId: 'eed4d4f5-b629-4986-82db-391336f861e9',
             },
             grad: 100.0,
@@ -28,9 +22,9 @@ export const umappetUtbetalingshistorikk = (
     beregnettidslinje: [
         {
             dagen: dag.format('YYYY-MM-DD'),
-            type: SpleisSykdomsdagtype.SYKEDAG,
+            type: 'SYKEDAG',
             kilde: {
-                type: SpleisSykdomsdagkildeType.SAKSBEHANDLER,
+                type: 'Saksbehandler',
                 kildeId: 'eed4d4f5-b629-4986-82db-391336f861e9',
             },
             grad: 100.0,
@@ -41,7 +35,7 @@ export const umappetUtbetalingshistorikk = (
         status: utbetalingstatus,
         utbetalingstidslinje: [
             {
-                type: SpleisUtbetalingsdagtype.NAVDAG,
+                type: 'NavDag',
                 inntekt: 1431,
                 dato: dag.format('YYYY-MM-DD'),
             },

@@ -1,6 +1,4 @@
-import { SpesialistArbeidsforhold } from 'external-types';
-
-export const umappetArbeidsforhold: SpesialistArbeidsforhold = {
+export const umappetArbeidsforhold: ExternalArbeidsforhold = {
     organisasjonsnummer: '987654321',
     stillingstittel: 'UNNASLUNTRER',
     stillingsprosent: 100,

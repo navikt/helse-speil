@@ -1,55 +1,50 @@
-import {
-    SpesialistInfotrygdtypetekst,
-    SpesialistInfotrygdutbetaling,
-    SpesialistPerson,
-    SpleisForlengelseFraInfotrygd,
-} from 'external-types';
-
 import { somDato } from './vedtaksperiode';
 
 export const erInfotrygdforlengelse = (vedtaksperiode: Vedtaksperiode) =>
     vedtaksperiode.periodetype === 'infotrygdforlengelse';
 
 export const tilTypetekst = (
-    spesialistInfotrygdtypetekst: SpesialistInfotrygdtypetekst
+    spesialistInfotrygdtypetekst: ExternalInfotrygdutbetaling['typetekst']
 ): Infotrygdutbetaling['typetekst'] => {
     switch (spesialistInfotrygdtypetekst) {
-        case SpesialistInfotrygdtypetekst.FERIE:
+        case 'Ferie':
             return 'Ferie';
-        case SpesialistInfotrygdtypetekst.UTBETALING:
+        case 'Utbetaling':
             return 'Utbetaling';
-        case SpesialistInfotrygdtypetekst.ARBEIDSGIVERREFUSJON:
+        case 'ArbRef':
             return 'ArbRef';
-        case SpesialistInfotrygdtypetekst.UKJENT:
+        case 'Ukjent..':
             return 'Ukjent';
-        case SpesialistInfotrygdtypetekst.TILBAKEFØRT:
+        case 'Tilbakeført':
             return 'Tilbakeført';
         default:
             return spesialistInfotrygdtypetekst;
     }
 };
 
-export const mapInfotrygdutbetaling = (utbetaling: SpesialistInfotrygdutbetaling): Infotrygdutbetaling => ({
+export const mapInfotrygdutbetaling = (utbetaling: ExternalInfotrygdutbetaling): Infotrygdutbetaling => ({
     fom: somDato(utbetaling.fom),
     tom: somDato(utbetaling.tom),
     grad: utbetaling.grad !== '' ? parseInt(utbetaling.grad) : undefined,
-    dagsats: utbetaling.typetekst !== SpesialistInfotrygdtypetekst.FERIE ? utbetaling.dagsats : undefined,
+    dagsats: utbetaling.typetekst !== 'Ferie' ? utbetaling.dagsats : undefined,
     typetekst: tilTypetekst(utbetaling.typetekst),
     organisasjonsnummer: utbetaling.organisasjonsnummer,
 });
 
-export const mapInfotrygdutbetalinger = (person: SpesialistPerson): Infotrygdutbetaling[] =>
+export const mapInfotrygdutbetalinger = (person: ExternalPerson): Infotrygdutbetaling[] =>
     person.infotrygdutbetalinger
-        ?.filter((utbetaling) => utbetaling.typetekst !== SpesialistInfotrygdtypetekst.TILBAKEFØRT)
+        ?.filter((utbetaling) => utbetaling.typetekst !== 'Tilbakeført')
         .map(mapInfotrygdutbetaling) ?? [];
 
-export const mapForlengelseFraInfotrygd = (value: SpleisForlengelseFraInfotrygd): boolean | undefined => {
+export const mapForlengelseFraInfotrygd = (
+    value: ExternalVedtaksperiode['forlengelseFraInfotrygd']
+): boolean | undefined => {
     switch (value) {
-        case SpleisForlengelseFraInfotrygd.JA:
+        case 'JA':
             return true;
-        case SpleisForlengelseFraInfotrygd.NEI:
+        case 'NEI':
             return false;
-        case SpleisForlengelseFraInfotrygd.IKKE_ETTERSPURT:
+        case 'IKKE_ETTERSPURT':
             return undefined;
     }
 };

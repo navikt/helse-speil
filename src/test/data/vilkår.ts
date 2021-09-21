@@ -1,12 +1,11 @@
 import dayjs from 'dayjs';
-import { SpleisMedlemskapstatus, EksternSykdomsdag, SpleisSykdomsdagtype, SpleisVilkår } from 'external-types';
 
 import { somDato } from '../../client/mapping/vedtaksperiode';
 
-export const umappedeVilkår = (tidslinje: EksternSykdomsdag[]): SpleisVilkår => {
+export const umappedeVilkår = (tidslinje: ExternalSykdomsdag[]): ExternalVedtaksperiode['vilkår'] => {
     const førsteDag = tidslinje[0];
     const sisteDag = tidslinje.slice(-1).pop()!;
-    const førsteSykedag = tidslinje.find(({ type }) => type === SpleisSykdomsdagtype.SYKEDAG)!;
+    const førsteSykedag = tidslinje.find(({ type }) => type === 'SYKEDAG')!;
     return {
         sykepengedager: {
             forbrukteSykedager: 3,
@@ -35,17 +34,17 @@ export const umappedeVilkår = (tidslinje: EksternSykdomsdag[]): SpleisVilkår =
             grunnbeløp: 99858,
             oppfylt: true,
         },
-        medlemskapstatus: SpleisMedlemskapstatus.JA,
+        medlemskapstatus: 'JA',
     };
 };
 
-export const dataForVilkårsvurdering = () => ({
+export const dataForVilkårsvurdering = (): ExternalVedtaksperiode['dataForVilkårsvurdering'] => ({
     antallOpptjeningsdagerErMinst: 3539,
     avviksprosent: 0.0,
     beregnetÅrsinntektFraInntektskomponenten: 372000.0,
     erEgenAnsatt: false,
     harOpptjening: true,
-    medlemskapstatus: SpleisMedlemskapstatus.JA,
+    medlemskapstatus: 'JA',
 });
 
 export const risikovurdering = () => ({

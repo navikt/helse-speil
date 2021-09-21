@@ -269,26 +269,34 @@ declare type Overstyring = {
     saksbehandlerIdent?: string;
 };
 
+declare type Simuleringsutbetalingdetalj = {
+    sats: number;
+    konto: string;
+    belop: number;
+    typeSats: string;
+    uforegrad: number;
+    antallSats: number;
+    faktiskFom: string;
+    faktiskTom: string;
+    klassekode: string;
+    tilbakeforing: boolean;
+    refunderesOrgNr: string;
+    utbetalingsType: string;
+    klassekodeBeskrivelse: string;
+};
+
 declare type Simuleringsutbetaling = {
     forfall: string;
-    detaljer: {
-        sats: number;
-        konto: string;
-        belop: number;
-        typeSats: string;
-        uforegrad: number;
-        antallSats: number;
-        faktiskFom: string;
-        faktiskTom: string;
-        klassekode: string;
-        tilbakeforing: boolean;
-        refunderesOrgNr: string;
-        utbetalingsType: string;
-        klassekodeBeskrivelse: string;
-    }[];
+    detaljer: Simuleringsutbetalingdetalj[];
     feilkonto: boolean;
     utbetalesTilId: string;
     utbetalesTilNavn: string;
+};
+
+declare type Simuleringsperiode = {
+    fom: string;
+    tom: string;
+    utbetalinger: Simuleringsutbetaling[];
 };
 
 declare type Utbetalingslinje = {
@@ -334,11 +342,7 @@ declare type Vedtaksperiode = {
     };
     simuleringsdata?: {
         totalbeløp: number;
-        perioder: {
-            fom: string;
-            tom: string;
-            utbetalinger: Simuleringsutbetaling[];
-        }[];
+        perioder: Simuleringsperiode[];
     };
     hendelser: Dokument[];
     aktivitetslog: string[];
@@ -485,4 +489,16 @@ declare type SpeilError = {
     message: string;
     statusCode?: number;
     technical?: string;
+};
+
+declare type OpptegnelseType =
+    | 'UTBETALING_ANNULLERING_FEILET'
+    | 'UTBETALING_ANNULLERING_OK'
+    | 'NY_SAKSBEHANDLEROPPGAVE';
+
+declare type Opptegnelse = {
+    aktørId: number;
+    sekvensnummer: number;
+    type: OpptegnelseType;
+    payload: string;
 };

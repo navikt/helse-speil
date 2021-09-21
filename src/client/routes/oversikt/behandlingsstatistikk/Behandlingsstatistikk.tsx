@@ -1,5 +1,4 @@
 import styled from '@emotion/styled';
-import { EksternBehandlingstatistikk } from 'external-types';
 import { motion } from 'framer-motion';
 import React from 'react';
 import { selector, useRecoilValueLoadable } from 'recoil';
@@ -110,7 +109,7 @@ const AnnullertePerioderIkon = () => {
     );
 };
 
-const toStatistikk = (eksternStatistikk: EksternBehandlingstatistikk): Behandlingsstatistikk => ({
+const toStatistikk = (eksternStatistikk: ExternalBehandlingstatistikk): Behandlingsstatistikk => ({
     ...eksternStatistikk,
     antallOppgaverTilGodkjenning: {
         ...eksternStatistikk.antallOppgaverTilGodkjenning,

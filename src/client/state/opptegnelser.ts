@@ -1,4 +1,3 @@
-import { Opptegnelse, OpptegnelseType } from 'external-types';
 import { atom, selector, useRecoilValue, useSetRecoilState } from 'recoil';
 
 export const opptegnelsePollingTimeState = atom<number>({
@@ -14,9 +13,7 @@ export const nyesteOpptegnelserState = atom<Opptegnelse[]>({
 export const nyesteOpptegnelseMedTypeOppgaveState = selector<Opptegnelse | undefined>({
     key: 'nyesteOpptegnelseMedTypeOppgaveState',
     get: ({ get }) =>
-        get(nyesteOpptegnelserState).find(
-            (opptegnelse) => opptegnelse.type === OpptegnelseType.NY_SAKSBEHANDLEROPPGAVE
-        ),
+        get(nyesteOpptegnelserState).find((opptegnelse) => opptegnelse.type === 'NY_SAKSBEHANDLEROPPGAVE'),
 });
 
 export const sisteSekvensIdOpptegnelseState = selector<number | undefined>({

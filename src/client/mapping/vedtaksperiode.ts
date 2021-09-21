@@ -1,17 +1,4 @@
 import dayjs, { Dayjs } from 'dayjs';
-import {
-    SpesialistArbeidsgiver,
-    SpesialistInntektsgrunnlag,
-    SpesialistOverstyring,
-    SpesialistPerson,
-    SpesialistVedtaksperiode,
-    SpleisForlengelseFraInfotrygd,
-    SpleisPeriodetype,
-    SpleisSykdomsdagtype,
-    SpleisUtbetalinger,
-    SpleisUtbetalingslinje,
-    SpleisVedtaksperiodetilstand,
-} from 'external-types';
 
 import { ISO_DATOFORMAT, ISO_TIDSPUNKTFORMAT, NORSK_DATOFORMAT } from '../utils/date';
 
@@ -38,10 +25,13 @@ export const somProsent = (avviksprosent: number): number => avviksprosent * 100
 export const somInntekt = (inntekt?: number, måneder: number = 1): number | undefined =>
     inntekt ? +(inntekt * måneder).toFixed(2) : undefined;
 
-const mapUtbetaling = (utbetalinger: SpleisUtbetalinger, key: keyof SpleisUtbetalinger): Utbetaling | undefined =>
+const mapUtbetaling = (
+    utbetalinger: ExternalVedtaksperiode['utbetalinger'],
+    key: keyof ExternalVedtaksperiode['utbetalinger']
+): Utbetaling | undefined =>
     utbetalinger[key] && {
         fagsystemId: utbetalinger[key]!.fagsystemId,
-        linjer: utbetalinger[key]!.linjer.map((value: SpleisUtbetalingslinje) => ({
+        linjer: utbetalinger[key]!.linjer.map((value: ExternalUtbetalingslinje) => ({
             fom: somDato(value.fom),
             tom: somDato(value.tom),
             dagsats: value.dagsats,
@@ -50,26 +40,26 @@ const mapUtbetaling = (utbetalinger: SpleisUtbetalinger, key: keyof SpleisUtbeta
     };
 
 export class VedtaksperiodeBuilder {
-    private unmapped: SpesialistVedtaksperiode;
+    private unmapped: ExternalVedtaksperiode;
     private annullerteHistorikkelementer: HistorikkElement[];
-    private person: SpesialistPerson;
-    private arbeidsgiver: SpesialistArbeidsgiver;
-    private overstyringer: SpesialistOverstyring[] = [];
+    private person: ExternalPerson;
+    private arbeidsgiver: ExternalArbeidsgiver;
+    private overstyringer: ExternalOverstyring[] = [];
     private vedtaksperiode: Partial<Vedtaksperiode> = {};
-    private inntektsgrunnlag?: SpesialistInntektsgrunnlag;
+    private inntektsgrunnlag?: ExternalInntektsgrunnlag;
     private problems: Error[] = [];
 
-    setVedtaksperiode = (vedtaksperiode: SpesialistVedtaksperiode) => {
+    setVedtaksperiode = (vedtaksperiode: ExternalVedtaksperiode) => {
         this.unmapped = vedtaksperiode;
         return this;
     };
 
-    setPerson = (person: SpesialistPerson) => {
+    setPerson = (person: ExternalPerson) => {
         this.person = person;
         return this;
     };
 
-    setArbeidsgiver = (arbeidsgiver: SpesialistArbeidsgiver) => {
+    setArbeidsgiver = (arbeidsgiver: ExternalArbeidsgiver) => {
         this.arbeidsgiver = arbeidsgiver;
         this.vedtaksperiode.arbeidsgivernavn = arbeidsgiver.navn;
         return this;
@@ -82,12 +72,12 @@ export class VedtaksperiodeBuilder {
         return this;
     };
 
-    setOverstyringer = (overstyringer: SpesialistOverstyring[]) => {
+    setOverstyringer = (overstyringer: ExternalOverstyring[]) => {
         this.overstyringer = overstyringer;
         return this;
     };
 
-    setInntektsgrunnlag = (inntektsgrunnlag: SpesialistInntektsgrunnlag[]) => {
+    setInntektsgrunnlag = (inntektsgrunnlag: ExternalInntektsgrunnlag[]) => {
         this.inntektsgrunnlag = inntektsgrunnlag.find(
             (element) =>
                 this.unmapped.fullstendig &&
@@ -179,21 +169,21 @@ export class VedtaksperiodeBuilder {
             (this.venterPåSaksbehandleroppgave() && 'venter') ||
             ((): Periodetilstand => {
                 switch (this.unmapped.tilstand) {
-                    case SpleisVedtaksperiodetilstand.TilUtbetaling:
+                    case 'TilUtbetaling':
                         return 'tilUtbetaling';
-                    case SpleisVedtaksperiodetilstand.Utbetalt:
+                    case 'Utbetalt':
                         return 'utbetalt';
-                    case SpleisVedtaksperiodetilstand.Oppgaver:
+                    case 'Oppgaver':
                         return 'oppgaver';
-                    case SpleisVedtaksperiodetilstand.Venter:
+                    case 'Venter':
                         return 'venter';
-                    case SpleisVedtaksperiodetilstand.VenterPåKiling:
+                    case 'VenterPåKiling':
                         return 'venterPåKiling';
-                    case SpleisVedtaksperiodetilstand.IngenUtbetaling:
+                    case 'IngenUtbetaling':
                         return 'ingenUtbetaling';
-                    case SpleisVedtaksperiodetilstand.Feilet:
+                    case 'Feilet':
                         return 'feilet';
-                    case SpleisVedtaksperiodetilstand.TilInfotrygd:
+                    case 'TilInfotrygd':
                         return 'tilInfotrygd';
                     default:
                         return 'ukjent';
@@ -225,16 +215,16 @@ export class VedtaksperiodeBuilder {
     private mapPeriodetype = () => {
         const mapExistingPeriodetype = (): Periodetype => {
             switch (this.unmapped.periodetype) {
-                case SpleisPeriodetype.FØRSTEGANGSBEHANDLING:
+                case 'FØRSTEGANGSBEHANDLING':
                     return 'førstegangsbehandling';
-                case SpleisPeriodetype.OVERGANG_FRA_IT:
-                case SpleisPeriodetype.INFOTRYGDFORLENGELSE:
+                case 'OVERGANG_FRA_IT':
+                case 'INFOTRYGDFORLENGELSE':
                     return 'infotrygdforlengelse';
-                case SpleisPeriodetype.FORLENGELSE:
+                case 'FORLENGELSE':
                     return 'forlengelse';
-                case SpleisPeriodetype.STIKKPRØVE:
+                case 'STIKKPRØVE':
                     return 'stikkprøve';
-                case SpleisPeriodetype.RISK_QA:
+                case 'RISK_QA':
                     return 'riskQa';
             }
         };
@@ -301,7 +291,7 @@ export class VedtaksperiodeBuilder {
     };
 
     private mapInntektsgrunnlag = () => {
-        const arbeidsgiverForOrganisasjonsnummer = (organisasjonsnummer: string): SpesialistArbeidsgiver | undefined =>
+        const arbeidsgiverForOrganisasjonsnummer = (organisasjonsnummer: string): ExternalArbeidsgiver | undefined =>
             this.person?.arbeidsgivere.find((it) => it.organisasjonsnummer === organisasjonsnummer);
 
         try {
@@ -351,8 +341,7 @@ export class VedtaksperiodeBuilder {
         }
     };
 
-    private erInfotrygdforlengelse = (): boolean =>
-        this.unmapped.forlengelseFraInfotrygd === SpleisForlengelseFraInfotrygd.JA;
+    private erInfotrygdforlengelse = (): boolean => this.unmapped.forlengelseFraInfotrygd === 'JA';
 
     private erFørstegangsbehandling = (): boolean => {
         const førsteUtbetalingsdag = this.unmapped.utbetalinger?.arbeidsgiverUtbetaling?.linjer[0].fom ?? dayjs(0);
@@ -360,8 +349,8 @@ export class VedtaksperiodeBuilder {
     };
 
     private inneholderAnnullerteDager = (): boolean =>
-        !!this.unmapped.sykdomstidslinje.find((dag) => dag.type === SpleisSykdomsdagtype.ANNULLERT_DAG);
+        !!this.unmapped.sykdomstidslinje.find((dag) => dag.type === 'ANNULLERT_DAG');
 
     private venterPåSaksbehandleroppgave = (): boolean =>
-        this.unmapped.tilstand === SpleisVedtaksperiodetilstand.Oppgaver && this.unmapped.oppgavereferanse === null;
+        this.unmapped.tilstand === 'Oppgaver' && this.unmapped.oppgavereferanse === null;
 }

@@ -1,16 +1,6 @@
-import {
-    SpleisDataForSimulering,
-    SpleisSimuleringperiode,
-    SpleisSimuleringutbetaling,
-    SpleisSimuleringutbetalingDetaljer,
-    Utbetaling,
-    Utbetalingsdetalj,
-    Utbetalingsperiode,
-} from 'external-types';
-
 const mapSimuleringsutbetalingDetaljer = (
-    spleisSimuleringsutbetalingDetaljer: SpleisSimuleringutbetalingDetaljer[]
-): Utbetalingsdetalj[] =>
+    spleisSimuleringsutbetalingDetaljer: ExternalSimuleringsdetaljer[]
+): Simuleringsutbetalingdetalj[] =>
     spleisSimuleringsutbetalingDetaljer.map((spleisDetaljer) => ({
         antallSats: spleisDetaljer.antallSats,
         belop: spleisDetaljer.beløp,
@@ -27,7 +17,7 @@ const mapSimuleringsutbetalingDetaljer = (
         utbetalingsType: spleisDetaljer.utbetalingstype,
     }));
 
-const mapSimuleringsutbetalinger = (utbetalinger: SpleisSimuleringutbetaling[]): Utbetaling[] =>
+const mapSimuleringsutbetalinger = (utbetalinger: ExternalSimuleringsutbetaling[]): Simuleringsutbetaling[] =>
     utbetalinger.map((spleisSimuleringsutbetaling) => ({
         detaljer: mapSimuleringsutbetalingDetaljer(spleisSimuleringsutbetaling.detaljer),
         feilkonto: spleisSimuleringsutbetaling.feilkonto,
@@ -36,14 +26,16 @@ const mapSimuleringsutbetalinger = (utbetalinger: SpleisSimuleringutbetaling[]):
         utbetalesTilNavn: spleisSimuleringsutbetaling.utbetalesTilNavn,
     }));
 
-const mapSimuleringsperioder = (perioder: SpleisSimuleringperiode[]): Utbetalingsperiode[] =>
+const mapSimuleringsperioder = (perioder: ExternalSimuleringsperiode[]): Simuleringsperiode[] =>
     perioder.map((spleisPeriode) => ({
         fom: spleisPeriode.fom,
         tom: spleisPeriode.tom,
         utbetalinger: mapSimuleringsutbetalinger(spleisPeriode.utbetalinger),
     }));
 
-export const mapSimuleringsdata = (data?: SpleisDataForSimulering): Vedtaksperiode['simuleringsdata'] | undefined =>
+export const mapSimuleringsdata = (
+    data?: ExternalVedtaksperiode['simuleringsdata']
+): Vedtaksperiode['simuleringsdata'] | undefined =>
     data && {
         totalbeløp: data.totalbeløp,
         perioder: mapSimuleringsperioder(data.perioder),

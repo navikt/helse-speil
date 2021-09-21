@@ -1,6 +1,4 @@
-import { SpleisUtbetaling, SpleisUtbetalingsdag } from 'external-types';
-
-const utbetaling = (tidslinje: SpleisUtbetalingsdag[], fagsystemId: string): SpleisUtbetaling | undefined => {
+const utbetaling = (tidslinje: ExternalUtbetalingsdag[], fagsystemId: string): ExternalUtbetaling | undefined => {
     const førsteUtbetalingsdag = tidslinje.find(({ utbetaling }) => utbetaling !== undefined);
     const sisteUtbetalingsdag = [...tidslinje].reverse().find(({ utbetaling }) => utbetaling !== undefined);
 
@@ -20,7 +18,7 @@ const utbetaling = (tidslinje: SpleisUtbetalingsdag[], fagsystemId: string): Spl
 };
 
 export const utbetalinger = (
-    tidslinje: SpleisUtbetalingsdag[],
+    tidslinje: ExternalUtbetalingsdag[],
     tilArbeidsgiver: boolean = false,
     tilPerson: boolean = false,
     fagsystemId: string = 'en-fagsystem-id'
@@ -29,9 +27,9 @@ export const utbetalinger = (
     personUtbetaling: tilPerson ? utbetaling(tidslinje, fagsystemId) : undefined,
 });
 
-export const totalbeløpArbeidstaker = (utbetalingsdager: SpleisUtbetalingsdag[]) =>
+export const totalbeløpArbeidstaker = (utbetalingsdager: ExternalUtbetalingsdag[]) =>
     utbetalingsdager.reduce(
-        (totalbeløp: number, { utbetaling }: SpleisUtbetalingsdag) =>
+        (totalbeløp: number, { utbetaling }: ExternalUtbetalingsdag) =>
             utbetaling ? totalbeløp + utbetaling : totalbeløp,
         0
     );

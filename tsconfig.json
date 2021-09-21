@@ -18,8 +18,7 @@
         "skipLibCheck": true,
         "baseUrl": ".",
         "paths": {
-            "test-data": ["./src/test/data"],
-            "external-types": ["./src/types/types.external"]
+            "test-data": ["./src/test/data"]
         }
     },
     "exclude": ["node_modules", "jest.config.js", "__mock-data__", "__mocks__", "e2e-tests", "dist"],

@@ -1,125 +1,115 @@
-import {
-    EksternSykdomsdag,
-    SpleisSykdomsdagkilde,
-    SpleisSykdomsdagkildeType,
-    SpleisSykdomsdagtype,
-    SpleisUtbetalingsdag,
-    SpleisUtbetalingsdagtype,
-    SpleisVilkår,
-} from 'external-types';
-
 import { somDato } from './vedtaksperiode';
 
-export const utbetalingstidslinjedag = (dag: SpleisUtbetalingsdagtype): Dag['type'] => {
+export const utbetalingstidslinjedag = (dag: ExternalUtbetalingsdagtype): Dag['type'] => {
     switch (dag) {
-        case SpleisUtbetalingsdagtype.ARBEIDSGIVERPERIODE:
+        case 'ArbeidsgiverperiodeDag':
             return 'Arbeidsgiverperiode';
-        case SpleisUtbetalingsdagtype.NAVDAG:
+        case 'NavDag':
             return 'Syk';
-        case SpleisUtbetalingsdagtype.HELGEDAG:
-        case SpleisUtbetalingsdagtype.NAVHELG:
+        case 'Helgedag':
+        case 'NavHelgDag':
             return 'Helg';
-        case SpleisUtbetalingsdagtype.FERIEDAG:
+        case 'Feriedag':
             return 'Ferie';
-        case SpleisUtbetalingsdagtype.UKJENTDAG:
+        case 'UkjentDag':
             return 'Ubestemt';
-        case SpleisUtbetalingsdagtype.ARBEIDSDAG:
+        case 'Arbeidsdag':
             return 'Arbeidsdag';
-        case SpleisUtbetalingsdagtype.AVVISTDAG:
+        case 'AvvistDag':
             return 'Avslått';
-        case SpleisUtbetalingsdagtype.FORELDETDAG:
+        case 'ForeldetDag':
             return 'Foreldet';
     }
 };
 
-export const sykdomstidslinjedag = (dag: SpleisSykdomsdagtype): Dag['type'] => {
+export const sykdomstidslinjedag = (dag: ExternalSykdomsdagtype): Dag['type'] => {
     switch (dag) {
-        case SpleisSykdomsdagtype.SYKEDAG_SØKNAD:
-        case SpleisSykdomsdagtype.SYKEDAG_SYKMELDING:
-        case SpleisSykdomsdagtype.SYKEDAG:
+        case 'SYKEDAG_SØKNAD':
+        case 'SYKEDAG_SYKMELDING':
+        case 'SYKEDAG':
             return 'Syk';
-        case SpleisSykdomsdagtype.PERMISJONSDAG:
-        case SpleisSykdomsdagtype.PERMISJONSDAG_SØKNAD:
+        case 'PERMISJONSDAG':
+        case 'PERMISJONSDAG_SØKNAD':
             return 'Permisjon';
-        case SpleisSykdomsdagtype.FERIEDAG_INNTEKTSMELDING:
-        case SpleisSykdomsdagtype.FERIEDAG_SØKNAD:
-        case SpleisSykdomsdagtype.FERIEDAG:
+        case 'FERIEDAG_INNTEKTSMELDING':
+        case 'FERIEDAG_SØKNAD':
+        case 'FERIEDAG':
             return 'Ferie';
-        case SpleisSykdomsdagtype.UTENLANDSDAG:
-        case SpleisSykdomsdagtype.UBESTEMTDAG:
-        case SpleisSykdomsdagtype.STUDIEDAG:
+        case 'UTENLANDSDAG':
+        case 'UBESTEMTDAG':
+        case 'STUDIEDAG':
             return 'Ubestemt';
-        case SpleisSykdomsdagtype.IMPLISITT_DAG:
-        case SpleisSykdomsdagtype.ARBEIDSDAG:
-        case SpleisSykdomsdagtype.ARBEIDSDAG_SØKNAD:
-        case SpleisSykdomsdagtype.ARBEIDSDAG_INNTEKTSMELDING:
+        case 'IMPLISITT_DAG':
+        case 'ARBEIDSDAG':
+        case 'ARBEIDSDAG_SØKNAD':
+        case 'ARBEIDSDAG_INNTEKTSMELDING':
             return 'Arbeidsdag';
-        case SpleisSykdomsdagtype.SYK_HELGEDAG:
-        case SpleisSykdomsdagtype.FRISK_HELGEDAG:
-        case SpleisSykdomsdagtype.SYK_HELGEDAG_SYKMELDING:
-        case SpleisSykdomsdagtype.SYK_HELGEDAG_SØKNAD:
-        case SpleisSykdomsdagtype.FRISK_HELGEDAG_INNTEKTSMELDING:
-        case SpleisSykdomsdagtype.FRISK_HELGEDAG_SØKNAD:
+        case 'SYK_HELGEDAG':
+        case 'FRISK_HELGEDAG':
+        case 'SYK_HELGEDAG_SYKMELDING':
+        case 'SYK_HELGEDAG_SØKNAD':
+        case 'FRISK_HELGEDAG_INNTEKTSMELDING':
+        case 'FRISK_HELGEDAG_SØKNAD':
             return 'Helg';
-        case SpleisSykdomsdagtype.ARBEIDSGIVERDAG:
-        case SpleisSykdomsdagtype.EGENMELDINGSDAG_INNTEKTSMELDING:
-        case SpleisSykdomsdagtype.EGENMELDINGSDAG_SØKNAD:
+        case 'ARBEIDSGIVERDAG':
+        case 'EGENMELDINGSDAG_INNTEKTSMELDING':
+        case 'EGENMELDINGSDAG_SØKNAD':
             return 'Egenmelding';
-        case SpleisSykdomsdagtype.FORELDET_SYKEDAG:
+        case 'FORELDET_SYKEDAG':
             return 'Foreldet';
-        case SpleisSykdomsdagtype.ANNULLERT_DAG:
+        case 'ANNULLERT_DAG':
             return 'Annullert';
     }
 };
 
-const hendelseTypeGammel = (type: SpleisSykdomsdagtype): Sykdomsdag['kilde'] | undefined => {
+const hendelseTypeGammel = (type: ExternalSykdomsdagtype): Sykdomsdag['kilde'] | undefined => {
     switch (type) {
-        case SpleisSykdomsdagtype.ARBEIDSDAG_INNTEKTSMELDING:
-        case SpleisSykdomsdagtype.EGENMELDINGSDAG_INNTEKTSMELDING:
-        case SpleisSykdomsdagtype.FERIEDAG_INNTEKTSMELDING:
-        case SpleisSykdomsdagtype.FRISK_HELGEDAG_INNTEKTSMELDING:
+        case 'ARBEIDSDAG_INNTEKTSMELDING':
+        case 'EGENMELDINGSDAG_INNTEKTSMELDING':
+        case 'FERIEDAG_INNTEKTSMELDING':
+        case 'FRISK_HELGEDAG_INNTEKTSMELDING':
             return 'Inntektsmelding';
-        case SpleisSykdomsdagtype.ARBEIDSDAG_SØKNAD:
-        case SpleisSykdomsdagtype.EGENMELDINGSDAG_SØKNAD:
-        case SpleisSykdomsdagtype.FERIEDAG_SØKNAD:
-        case SpleisSykdomsdagtype.FRISK_HELGEDAG_SØKNAD:
-        case SpleisSykdomsdagtype.PERMISJONSDAG_SØKNAD:
-        case SpleisSykdomsdagtype.SYKEDAG_SØKNAD:
-        case SpleisSykdomsdagtype.SYK_HELGEDAG_SØKNAD:
-        case SpleisSykdomsdagtype.STUDIEDAG:
-        case SpleisSykdomsdagtype.UTENLANDSDAG:
+        case 'ARBEIDSDAG_SØKNAD':
+        case 'EGENMELDINGSDAG_SØKNAD':
+        case 'FERIEDAG_SØKNAD':
+        case 'FRISK_HELGEDAG_SØKNAD':
+        case 'PERMISJONSDAG_SØKNAD':
+        case 'SYKEDAG_SØKNAD':
+        case 'SYK_HELGEDAG_SØKNAD':
+        case 'STUDIEDAG':
+        case 'UTENLANDSDAG':
             return 'Søknad';
-        case SpleisSykdomsdagtype.SYK_HELGEDAG_SYKMELDING:
-        case SpleisSykdomsdagtype.SYKEDAG_SYKMELDING:
+        case 'SYK_HELGEDAG_SYKMELDING':
+        case 'SYKEDAG_SYKMELDING':
             return 'Sykmelding';
-        case SpleisSykdomsdagtype.ANNULLERT_DAG:
+        case 'ANNULLERT_DAG':
             return 'Saksbehandler';
-        case SpleisSykdomsdagtype.FORELDET_SYKEDAG:
-        case SpleisSykdomsdagtype.UBESTEMTDAG:
-        case SpleisSykdomsdagtype.IMPLISITT_DAG:
+        case 'FORELDET_SYKEDAG':
+        case 'UBESTEMTDAG':
+        case 'IMPLISITT_DAG':
             return undefined;
 
         // For å slippe typescript-warning om ufullstendig code path defineres de nye typene også
-        case SpleisSykdomsdagtype.ARBEIDSDAG:
-        case SpleisSykdomsdagtype.ARBEIDSGIVERDAG:
-        case SpleisSykdomsdagtype.FERIEDAG:
-        case SpleisSykdomsdagtype.FRISK_HELGEDAG:
-        case SpleisSykdomsdagtype.PERMISJONSDAG:
-        case SpleisSykdomsdagtype.SYKEDAG:
-        case SpleisSykdomsdagtype.SYK_HELGEDAG:
+        case 'ARBEIDSDAG':
+        case 'ARBEIDSGIVERDAG':
+        case 'FERIEDAG':
+        case 'FRISK_HELGEDAG':
+        case 'PERMISJONSDAG':
+        case 'SYKEDAG':
+        case 'SYK_HELGEDAG':
             return undefined;
     }
 };
 
-const hendelseType = (kilde: SpleisSykdomsdagkilde | undefined): Sykdomsdag['kilde'] | undefined => {
+const hendelseType = (kilde: ExternalSykdomsdag['kilde'] | undefined): Sykdomsdag['kilde'] | undefined => {
     switch (kilde?.type) {
-        case SpleisSykdomsdagkildeType.SAKSBEHANDLER:
+        case 'Saksbehandler':
             return 'Saksbehandler';
-        case SpleisSykdomsdagkildeType.INNTEKTSMELDING:
+        case 'Inntektsmelding':
             return 'Inntektsmelding';
-        case SpleisSykdomsdagkildeType.SØKNAD:
+        case 'Søknad':
             return 'Søknad';
-        case SpleisSykdomsdagkildeType.SYKMELDING:
+        case 'Sykmelding':
             return 'Sykmelding';
         default:
             return undefined;
@@ -128,7 +118,7 @@ const hendelseType = (kilde: SpleisSykdomsdagkilde | undefined): Sykdomsdag['kil
 
 const somHeltall = (value?: number) => value && +value.toFixed(0);
 
-export const mapSykdomstidslinje = (sykdomstidslinje: EksternSykdomsdag[]): Sykdomsdag[] =>
+export const mapSykdomstidslinje = (sykdomstidslinje: ExternalSykdomsdag[]): Sykdomsdag[] =>
     sykdomstidslinje.map((dag) => ({
         type: sykdomstidslinjedag(dag.type),
         dato: somDato(dag.dagen),
@@ -137,7 +127,7 @@ export const mapSykdomstidslinje = (sykdomstidslinje: EksternSykdomsdag[]): Sykd
         kildeId: dag.kilde?.kildeId ?? undefined,
     }));
 
-const getAvvistÅrsak = (begrunnelse: string, vilkår?: SpleisVilkår) =>
+const getAvvistÅrsak = (begrunnelse: string, vilkår?: ExternalVedtaksperiode['vilkår']) =>
     vilkår
         ? {
               tekst: begrunnelse,
@@ -159,9 +149,9 @@ export const mapTidslinjeMedAldersvilkår = (utbetalingstidslinje: Utbetalingsda
 };
 
 export const mapUtbetalingsdag =
-    (vilkår?: SpleisVilkår) =>
-    (dag: SpleisUtbetalingsdag): Utbetalingsdag => ({
-        type: utbetalingstidslinjedag(dag.type as SpleisUtbetalingsdagtype),
+    (vilkår?: ExternalVedtaksperiode['vilkår']) =>
+    (dag: ExternalUtbetalingsdag): Utbetalingsdag => ({
+        type: utbetalingstidslinjedag(dag.type as ExternalUtbetalingsdagtype),
         dato: somDato(dag.dato),
         gradering: somHeltall(dag.grad),
         totalGradering: somHeltall(dag.totalGrad),
@@ -170,6 +160,6 @@ export const mapUtbetalingsdag =
     });
 
 export const mapUtbetalingstidslinje = (
-    utbetalingstidslinje: SpleisUtbetalingsdag[],
-    vilkår?: SpleisVilkår
+    utbetalingstidslinje: ExternalUtbetalingsdag[],
+    vilkår?: ExternalVedtaksperiode['vilkår']
 ): Utbetalingsdag[] => utbetalingstidslinje.map(mapUtbetalingsdag(vilkår));

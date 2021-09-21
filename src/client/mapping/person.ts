@@ -1,22 +1,21 @@
 import dayjs from 'dayjs';
-import { SpesialistInfotrygdtypetekst, SpesialistPerson } from 'external-types';
 
 import { utbetalingsoversikt } from '../featureToggles';
 import { ArbeidsgiverBuilder } from './arbeidsgiver';
 import { mapInfotrygdutbetaling } from './infotrygd';
 import { somDato } from './vedtaksperiode';
 
-export const mapPerson = (personFraSpesialist: SpesialistPerson): { person: Person; problems: Error[] } => {
+export const mapPerson = (personFraSpesialist: ExternalPerson): { person: Person; problems: Error[] } => {
     const { person, problems } = new PersonBuilder().addPerson(personFraSpesialist).build();
     return { person: person as Person, problems };
 };
 
 export class PersonBuilder {
-    private unmapped: SpesialistPerson;
+    private unmapped: ExternalPerson;
     private person: Partial<Person> = {};
     private problems: Error[] = [];
 
-    addPerson(person: SpesialistPerson): PersonBuilder {
+    addPerson(person: ExternalPerson): PersonBuilder {
         this.unmapped = person;
         return this;
     }
@@ -83,7 +82,7 @@ export class PersonBuilder {
     private mapInfotrygdutbetalinger = () => {
         this.person.infotrygdutbetalinger =
             this.unmapped.infotrygdutbetalinger
-                ?.filter((utbetaling) => utbetaling.typetekst !== SpesialistInfotrygdtypetekst.TILBAKEFØRT)
+                ?.filter((utbetaling) => utbetaling.typetekst !== 'Tilbakeført')
                 .map(mapInfotrygdutbetaling) ?? [];
     };
 

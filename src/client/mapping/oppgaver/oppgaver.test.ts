@@ -1,5 +1,3 @@
-import { Oppgavetype, SpesialistInntektskilde, SpesialistOppgave, SpesialistPeriodetype } from 'external-types';
-
 import { tilOppgave } from './oppgaver';
 
 describe('oppgavemapper', () => {
@@ -38,8 +36,8 @@ describe('oppgavemapper', () => {
     });
 });
 
-const oppgaveUtenTildeling: SpesialistOppgave = {
-    oppgavetype: Oppgavetype.Søknad,
+const oppgaveUtenTildeling: ExternalOppgave = {
+    oppgavetype: 'SØKNAD',
     oppgavereferanse: '123',
     opprettet: '2018-02-27T08:38:00.728127',
     fødselsnummer: '21023701901',
@@ -52,18 +50,18 @@ const oppgaveUtenTildeling: SpesialistOppgave = {
         kjønn: null,
     },
     vedtaksperiodeId: 'aaaaaaaa-6541-4dcf-aa53-8b466fc4ac87',
-    type: SpesialistPeriodetype.Førstegangsbehandling,
+    type: 'FØRSTEGANGSBEHANDLING',
     antallVarsler: 2,
     boenhet: {
         id: '0212',
         navn: 'Alta',
     },
-    inntektskilde: SpesialistInntektskilde.EnArbeidsgiver,
+    inntektskilde: 'EN_ARBEIDSGIVER',
     tildeling: undefined,
 };
 
-const oppgaveMedildeling: SpesialistOppgave = {
-    oppgavetype: Oppgavetype.Søknad,
+const oppgaveMedildeling: ExternalOppgave = {
+    oppgavetype: 'SØKNAD',
     oppgavereferanse: '123',
     opprettet: '2018-02-27T08:38:00.728127',
     fødselsnummer: '21023701901',
@@ -76,13 +74,13 @@ const oppgaveMedildeling: SpesialistOppgave = {
         kjønn: null,
     },
     vedtaksperiodeId: 'aaaaaaaa-6541-4dcf-aa53-8b466fc4ac87',
-    type: SpesialistPeriodetype.Førstegangsbehandling,
+    type: 'FØRSTEGANGSBEHANDLING',
     antallVarsler: 2,
     boenhet: {
         id: '0212',
         navn: 'Alta',
     },
-    inntektskilde: SpesialistInntektskilde.EnArbeidsgiver,
+    inntektskilde: 'EN_ARBEIDSGIVER',
     tildeling: {
         epost: 'saksbehandler@nav.no',
         oid: 'uuid',

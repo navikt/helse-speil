@@ -1,74 +1,68 @@
 import dayjs from 'dayjs';
-import {
-    SpleisSykdomsdagkildeType,
-    SpleisSykdomsdagtype,
-    SpleisUtbetalingsdagtype,
-    SpleisVilkår,
-} from 'external-types';
 
 import { mapSykdomstidslinje, mapUtbetalingstidslinje } from './dag';
 import { somDato } from './vedtaksperiode';
 
-const enUmappetSykdomstidlinje = [
+const enUmappetSykdomstidlinje: ExternalSykdomsdag[] = [
     {
         dagen: '2020-01-01',
-        type: SpleisSykdomsdagtype.ARBEIDSDAG,
+        type: 'ARBEIDSDAG',
         kilde: {
-            type: SpleisSykdomsdagkildeType.INNTEKTSMELDING,
+            type: 'Inntektsmelding',
             kildeId: 'en-inntektsmelding',
         },
     },
     {
         dagen: '2020-01-02',
-        type: SpleisSykdomsdagtype.SYKEDAG,
+        type: 'SYKEDAG',
         kilde: {
-            type: SpleisSykdomsdagkildeType.SØKNAD,
+            type: 'Søknad',
             kildeId: 'en-søknad',
         },
         grad: 100,
     },
     {
         dagen: '2020-01-03',
-        type: SpleisSykdomsdagtype.FERIEDAG,
+        type: 'FERIEDAG',
         kilde: {
-            type: SpleisSykdomsdagkildeType.SØKNAD,
+            type: 'Søknad',
             kildeId: 'en-søknad',
         },
     },
     {
         dagen: '2020-01-04',
-        type: SpleisSykdomsdagtype.STUDIEDAG,
+        type: 'STUDIEDAG',
         kilde: {
-            type: SpleisSykdomsdagkildeType.SØKNAD,
+            type: 'Søknad',
             kildeId: 'en-søknad',
         },
     },
     {
         dagen: '2020-01-05',
-        type: SpleisSykdomsdagtype.SYK_HELGEDAG_SØKNAD,
+        type: 'SYK_HELGEDAG_SØKNAD',
     },
     {
         dagen: '2020-01-06',
-        type: SpleisSykdomsdagtype.ARBEIDSGIVERDAG,
+        type: 'ARBEIDSGIVERDAG',
         kilde: {
-            type: SpleisSykdomsdagkildeType.INNTEKTSMELDING,
+            type: 'Inntektsmelding',
             kildeId: 'en-inntektsmelding',
         },
     },
     {
         dagen: '2020-01-07',
-        type: SpleisSykdomsdagtype.FORELDET_SYKEDAG,
+        type: 'FORELDET_SYKEDAG',
         kilde: {
-            type: SpleisSykdomsdagkildeType.SYKMELDING,
+            type: 'Sykmelding',
             kildeId: 'en-sykmelding',
         },
         grad: 100,
     },
     {
         dagen: '2020-01-08',
-        type: SpleisSykdomsdagtype.ANNULLERT_DAG,
+        type: 'ANNULLERT_DAG',
         kilde: {
-            type: SpleisSykdomsdagkildeType.SAKSBEHANDLER,
+            type: 'Saksbehandler',
             kildeId: 'en-saksbehandler',
         },
     },
@@ -139,8 +133,8 @@ test('mapSykdomstidslinje', () => {
 
 describe('mapUtbetalingstidslinje', () => {
     test('mapper navdager', () => {
-        const umappet = {
-            type: SpleisUtbetalingsdagtype.NAVDAG,
+        const umappet: ExternalUtbetalingsdag = {
+            type: 'NavDag',
             inntekt: 1234,
             dato: '2020-01-01',
             utbetaling: 1234,
@@ -154,11 +148,11 @@ describe('mapUtbetalingstidslinje', () => {
             gradering: 100,
             avvistÅrsaker: undefined,
         };
-        expect(mapUtbetalingstidslinje([umappet], {} as SpleisVilkår)).toEqual([mappet]);
+        expect(mapUtbetalingstidslinje([umappet], {} as ExternalVedtaksperiode['vilkår'])).toEqual([mappet]);
     });
     test('mapper avviste dager', () => {
-        const umappet = {
-            type: SpleisUtbetalingsdagtype.AVVISTDAG,
+        const umappet: ExternalUtbetalingsdag = {
+            type: 'AvvistDag',
             inntekt: 1234,
             dato: '2020-01-01',
             utbetaling: 0,
@@ -177,12 +171,12 @@ describe('mapUtbetalingstidslinje', () => {
                 },
             ],
         };
-        const vilkår = { alder: { alderSisteSykedag: 20 } } as SpleisVilkår;
+        const vilkår = { alder: { alderSisteSykedag: 20 } } as ExternalVedtaksperiode['vilkår'];
         expect(mapUtbetalingstidslinje([umappet], vilkår)).toEqual([mappet]);
     });
     test('mapper avviste dager med paragraf 8-51', () => {
-        const umappet = {
-            type: SpleisUtbetalingsdagtype.AVVISTDAG,
+        const umappet: ExternalUtbetalingsdag = {
+            type: 'AvvistDag',
             inntekt: 1234,
             dato: '2020-01-01',
             utbetaling: 0,
@@ -201,12 +195,12 @@ describe('mapUtbetalingstidslinje', () => {
                 },
             ],
         };
-        const vilkår = { alder: { alderSisteSykedag: 67 } } as SpleisVilkår;
+        const vilkår = { alder: { alderSisteSykedag: 67 } } as ExternalVedtaksperiode['vilkår'];
         expect(mapUtbetalingstidslinje([umappet], vilkår)).toEqual([mappet]);
     });
     test('mapper avviste dager med flere begrunnelser', () => {
-        const umappet = {
-            type: SpleisUtbetalingsdagtype.AVVISTDAG,
+        const umappet: ExternalUtbetalingsdag = {
+            type: 'AvvistDag',
             inntekt: 1234,
             dato: '2020-01-01',
             utbetaling: 0,
@@ -233,7 +227,7 @@ describe('mapUtbetalingstidslinje', () => {
                 },
             ],
         };
-        const vilkår = { alder: { alderSisteSykedag: 20 } } as SpleisVilkår;
+        const vilkår = { alder: { alderSisteSykedag: 20 } } as ExternalVedtaksperiode['vilkår'];
         expect(mapUtbetalingstidslinje([umappet], vilkår)).toEqual([mappet]);
     });
 });

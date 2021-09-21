@@ -1,7 +1,6 @@
 import '@testing-library/jest-dom/extend-expect';
 import { render, screen, within } from '@testing-library/react';
 import dayjs, { Dayjs } from 'dayjs';
-import { SpleisForlengelseFraInfotrygd, SpleisVedtaksperiodetilstand } from 'external-types';
 import React from 'react';
 import { mappetPerson, mappetVedtaksperiode } from 'test-data';
 
@@ -9,11 +8,11 @@ import { Vilkår } from './Vilkår';
 
 const infotrygdforlengelse = () => ({
     periodetype: 'infotrygdforlengelse',
-    forlengelseFraInfotrygd: SpleisForlengelseFraInfotrygd.JA,
+    forlengelseFraInfotrygd: 'JA',
 });
 
-const ferdigbehandlet = () => ({
-    tilstand: SpleisVedtaksperiodetilstand.Utbetalt,
+const ferdigbehandlet = (): Partial<Vedtaksperiode> => ({
+    tilstand: 'utbetalt',
     godkjenttidspunkt: dayjs(),
     godkjentAv: 'En Saksbehandler',
     behandlet: true,

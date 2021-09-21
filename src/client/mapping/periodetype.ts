@@ -1,18 +1,16 @@
-import { SpesialistPeriodetype } from 'external-types';
-
-export const tilPeriodetype = (type: SpesialistPeriodetype): Periodetype => {
+export const tilPeriodetype = (type: ExternalPeriodetype): Periodetype => {
     switch (type) {
-        case SpesialistPeriodetype.Forlengelse:
+        case 'FORLENGELSE':
             return 'forlengelse';
-        case SpesialistPeriodetype.Førstegangsbehandling:
+        case 'FØRSTEGANGSBEHANDLING':
             return 'førstegangsbehandling';
-        case SpesialistPeriodetype.Infotrygdforlengelse:
+        case 'INFOTRYGDFORLENGELSE':
             return 'infotrygdforlengelse';
-        case SpesialistPeriodetype.OvergangFraInfotrygd:
+        case 'OVERGANG_FRA_IT':
             return 'overgangFraIt';
-        case SpesialistPeriodetype.Stikkprøve:
+        case 'STIKKPRØVE':
             return 'stikkprøve';
-        case SpesialistPeriodetype.RiskQa:
+        case 'RISK_QA':
             return 'riskQa';
     }
 };

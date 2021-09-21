@@ -1,9 +1,8 @@
 import dayjs from 'dayjs';
-import { SpesialistOverstyringDag } from 'external-types';
 
 import { sykdomstidslinjedag } from './dag';
 
-export const tilOverstyrtDag = (dag: SpesialistOverstyringDag): OverstyrtDag => ({
+export const tilOverstyrtDag = (dag: ExternalOverstyringsdag): OverstyrtDag => ({
     dato: dayjs(dag.dato),
     type: sykdomstidslinjedag(dag.dagtype),
     grad: dag.grad,

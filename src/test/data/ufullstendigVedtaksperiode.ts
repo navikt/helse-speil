@@ -1,5 +1,4 @@
 import dayjs, { Dayjs } from 'dayjs';
-import { SpleisVedtaksperiodetilstand, UfullstendigSpesialistVedtaksperiode } from 'external-types';
 
 import { UfullstendigVedtaksperiodeBuilder } from '../../client/mapping/ufullstendigVedtaksperiode';
 
@@ -16,7 +15,7 @@ type UmappetVedtaksperiodeOptions = {
 
 export const umappetUfullstendigVedtaksperiode = (
     options?: UmappetVedtaksperiodeOptions
-): UfullstendigSpesialistVedtaksperiode => {
+): ExternalUfullstendigVedtaksperiode => {
     const fom = options?.fom ?? dayjs('2020-01-01');
     const tom = options?.tom ?? dayjs('2020-01-31');
     const id = options?.id ?? 'fa02d7a5-daf2-488c-9798-2539edd7fe3g';
@@ -26,7 +25,7 @@ export const umappetUfullstendigVedtaksperiode = (
         id: id,
         fom: fom.format('YYYY-MM-DD'),
         tom: tom.format('YYYY-MM-DD'),
-        tilstand: SpleisVedtaksperiodetilstand.Venter,
+        tilstand: 'Venter',
         gruppeId: 'en-gruppeId',
         fullstendig: false,
         utbetalingstidslinje: utbetalingsdager,

@@ -1,5 +1,4 @@
 import dayjs from 'dayjs';
-import { Oppgavetype, SpesialistInntektskilde, SpesialistOppgave } from 'external-types';
 
 import { tilPeriodetype } from '../periodetype';
 
@@ -15,18 +14,12 @@ const kjønn = (kjønn: string | null): 'mann' | 'kvinne' | 'ukjent' => {
     }
 };
 
-export const inntektskilde = (inntektskilde?: SpesialistInntektskilde): Inntektskilde => {
-    switch (inntektskilde) {
-        case SpesialistInntektskilde.EnArbeidsgiver:
-            return 'EN_ARBEIDSGIVER';
-        case SpesialistInntektskilde.FlereArbeidsgivere:
-            return 'FLERE_ARBEIDSGIVERE';
-        default:
-            return 'EN_ARBEIDSGIVER';
-    }
-};
+export const inntektskilde = (inntektskilde?: ExternalVedtaksperiode['inntektskilde']): Inntektskilde =>
+    inntektskilde && ['EN_ARBEIDSGIVER', 'FLERE_ARBEIDSGIVERE'].includes(inntektskilde)
+        ? inntektskilde
+        : 'EN_ARBEIDSGIVER';
 
-export const tilOppgave = (oppgave: SpesialistOppgave): Oppgave => ({
+export const tilOppgave = (oppgave: ExternalOppgave): Oppgave => ({
     oppgavereferanse: oppgave.oppgavereferanse,
     opprettet: oppgave.opprettet,
     vedtaksperiodeId: oppgave.vedtaksperiodeId,
@@ -42,11 +35,11 @@ export const tilOppgave = (oppgave: SpesialistOppgave): Oppgave => ({
     aktørId: oppgave.aktørId,
     antallVarsler: oppgave.antallVarsler,
     periodetype:
-        oppgave.oppgavetype === Oppgavetype.Stikkprøve
+        oppgave.oppgavetype === 'STIKKPRØVE'
             ? 'stikkprøve'
-            : oppgave.oppgavetype === Oppgavetype.RiskQa
+            : oppgave.oppgavetype === 'RISK_QA'
             ? 'riskQa'
-            : oppgave.oppgavetype === Oppgavetype.Revurdering
+            : oppgave.oppgavetype === 'REVURDERING'
             ? 'revurdering'
             : tilPeriodetype(oppgave.type),
     boenhet: oppgave.boenhet,

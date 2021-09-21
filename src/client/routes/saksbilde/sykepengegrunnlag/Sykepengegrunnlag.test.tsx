@@ -1,6 +1,5 @@
 import '@testing-library/jest-dom/extend-expect';
 import { render, screen } from '@testing-library/react';
-import { SpesialistInntektkilde } from 'external-types';
 import React from 'react';
 import { RecoilRoot } from 'recoil';
 import { mappetPerson, mappetVedtaksperiode } from 'test-data';
@@ -14,7 +13,7 @@ import { Sykepengegrunnlag } from './Sykepengegrunnlag';
 const enPerson = mappetPerson();
 const enVedtaksperiodeIM = mappetVedtaksperiode();
 const enVedtaksperiodeIT = mappetVedtaksperiode(undefined, undefined, undefined, [
-    umappetInntektsgrunnlag(SpesialistInntektkilde.Infotrygd),
+    umappetInntektsgrunnlag('Infotrygd'),
 ]);
 
 const expectContainsStandardFields = () => {

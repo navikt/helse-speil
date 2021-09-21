@@ -1,12 +1,4 @@
 import dayjs from 'dayjs';
-import {
-    SpleisAktivitet,
-    SpleisAlvorlighetsgrad,
-    EksternSykdomsdag,
-    SpleisSykdomsdagkildeType,
-    SpleisSykdomsdagtype,
-    SpleisUtbetalingsdagtype,
-} from 'external-types';
 
 import { ISO_TIDSPUNKTFORMAT } from '../utils/date';
 
@@ -27,8 +19,8 @@ jest.mock('nanoid', () => ({
 const enAktivitet = (
     melding: string = 'Aktivitetsloggvarsel',
     tidsstempel: string = '2020-04-03T07:40:47.261Z',
-    alvorlighetsgrad: SpleisAlvorlighetsgrad = 'W'
-): SpleisAktivitet => ({
+    alvorlighetsgrad: ExternalAktivitet['alvorlighetsgrad'] = 'W'
+): ExternalAktivitet => ({
     vedtaksperiodeId: 'vedtaksperiodeId',
     alvorlighetsgrad: alvorlighetsgrad,
     melding: melding,
@@ -64,25 +56,25 @@ describe('personmapper', () => {
                     umappetVedtaksperiode(),
                     medUtbetalingstidslinje(umappetVedtaksperiode(), [
                         {
-                            type: SpleisUtbetalingsdagtype.NAVDAG,
+                            type: 'NavDag',
                             inntekt: 999.5,
                             dato: '2019-10-06',
                             utbetaling: 1000.0,
                         },
                         {
-                            type: SpleisUtbetalingsdagtype.NAVDAG,
+                            type: 'NavDag',
                             inntekt: 999.5,
                             dato: '2019-10-07',
                             utbetaling: 1000.0,
                         },
                         {
-                            type: SpleisUtbetalingsdagtype.NAVDAG,
+                            type: 'NavDag',
                             inntekt: 999.5,
                             dato: '2019-10-08',
                             utbetaling: 1000.0,
                         },
                         {
-                            type: SpleisUtbetalingsdagtype.NAVDAG,
+                            type: 'NavDag',
                             inntekt: 999.5,
                             dato: '2019-10-09',
                             utbetaling: 1000.0,
@@ -104,10 +96,10 @@ describe('personmapper', () => {
                     medLedendeSykdomsdager(umappetVedtaksperiode(), [
                         {
                             dagen: '2019-12-31',
-                            type: SpleisSykdomsdagtype.SYKEDAG,
+                            type: 'SYKEDAG',
                             kilde: {
                                 kildeId: '1D7B00B8-216D-4090-8DEA-72E97183F8D7',
-                                type: SpleisSykdomsdagkildeType.SYKMELDING,
+                                type: 'Sykmelding',
                             },
                         },
                     ]),
@@ -124,20 +116,20 @@ describe('personmapper', () => {
     test('mapper overstyring av tidslinje', async () => {
         const saksbehandlerKildeId = '5B807A30-E197-474F-9AFB-D136649A02DB';
         const overstyrtDato = '2019-10-07';
-        const ekstraDager: EksternSykdomsdag[] = [
+        const ekstraDager: ExternalSykdomsdag[] = [
             {
                 dagen: '2019-10-06',
-                type: SpleisSykdomsdagtype.SYK_HELGEDAG,
+                type: 'SYK_HELGEDAG',
                 kilde: {
-                    type: SpleisSykdomsdagkildeType.SØKNAD,
+                    type: 'Søknad',
                     kildeId: 'D94DD20F-8B95-4769-87DA-80F8F3AE6576',
                 },
             },
             {
                 dagen: overstyrtDato,
-                type: SpleisSykdomsdagtype.FERIEDAG,
+                type: 'FERIEDAG',
                 kilde: {
-                    type: SpleisSykdomsdagkildeType.SAKSBEHANDLER,
+                    type: 'Saksbehandler',
                     kildeId: saksbehandlerKildeId,
                 },
             },
@@ -155,7 +147,7 @@ describe('personmapper', () => {
                             saksbehandlerIdent: 'O999999',
                             overstyrteDager: [
                                 {
-                                    dagtype: SpleisSykdomsdagtype.FERIEDAG,
+                                    dagtype: 'FERIEDAG',
                                     dato: overstyrtDato,
                                     grad: undefined,
                                 },

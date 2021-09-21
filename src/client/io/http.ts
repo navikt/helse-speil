@@ -1,5 +1,3 @@
-import { EksternBehandlingstatistikk, SpesialistNotat, SpesialistOppgave } from 'external-types';
-
 import { Avvisningsskjema } from '../routes/saksbilde/venstremeny/utbetaling/Utbetalingsdialog';
 
 import {
@@ -84,7 +82,7 @@ export const fetchPerson = async (personId?: string) =>
     });
 
 export const fetchOppgaver = async () =>
-    get(`${baseUrl}/person/`).then((response) => response.data.oppgaver as SpesialistOppgave[]);
+    get(`${baseUrl}/person/`).then((response) => response.data.oppgaver as ExternalOppgave[]);
 
 export const post = async (url: string, data: any, headere?: Headers): Promise<SpeilResponse> => {
     const response = await fetch(url, {
@@ -178,16 +176,14 @@ export const getOpptegnelser = async (sisteSekvensId?: number) => {
     return sisteSekvensId ? get(`${baseUrl}/opptegnelse/hent/${sisteSekvensId}`) : get(`${baseUrl}/opptegnelse/hent`);
 };
 
-export const getBehandlingsstatistikk = async () => {
-    return get(`${baseUrl}/behandlingsstatistikk`).then(
-        (response) => response.data.behandlingsstatistikk as EksternBehandlingstatistikk
-    );
+export const getBehandlingsstatistikk = async (): Promise<ExternalBehandlingstatistikk> => {
+    return get(`${baseUrl}/behandlingsstatistikk`).then((response) => response.data.behandlingsstatistikk);
 };
 
 export const getNotater = async (vedtaksperiodeIder: string[]) => {
     return get(`${baseUrl}/notater?vedtaksperiodeId=${vedtaksperiodeIder.join('&vedtaksperiodeId=')}`).then(
         (response) => {
-            return response.data as { vedtaksperiodeId: SpesialistNotat[] };
+            return response.data as { vedtaksperiodeId: ExternalNotat[] };
         }
     );
 };

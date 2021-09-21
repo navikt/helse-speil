@@ -12,7 +12,6 @@ module.exports = {
         '\\.(css|less|sass|scss)$': '<rootDir>/__mocks__/styleMock.js',
         '\\.(gif|ttf|eot|svg)$': '<rootDir>/__mocks__/fileMock.js',
         'nav-(.*)-style': '<rootDir>/__mocks__/fileMock.js',
-        'external-types': '<rootDir>/src/types/types.external',
         'test-data': '<rootDir>/src/test/data',
         '@navikt/ds-icons(.*)': '@navikt/ds-icons/cjs$1',
         '@navikt/ds-react(.*)': '@navikt/ds-react/cjs$1',

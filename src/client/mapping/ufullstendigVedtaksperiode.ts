@@ -1,27 +1,21 @@
 import dayjs from 'dayjs';
-import {
-    SpesialistArbeidsgiver,
-    SpesialistPerson,
-    SpleisVedtaksperiodetilstand,
-    UfullstendigSpesialistVedtaksperiode,
-} from 'external-types';
 
 import { mapUtbetalingsdag } from './dag';
 
 export class UfullstendigVedtaksperiodeBuilder {
     constructor(
-        person: SpesialistPerson,
-        arbeidsgiver: SpesialistArbeidsgiver,
-        vedtaksperiode: UfullstendigSpesialistVedtaksperiode
+        person: ExternalPerson,
+        arbeidsgiver: ExternalArbeidsgiver,
+        vedtaksperiode: ExternalUfullstendigVedtaksperiode
     ) {
         this.person = person;
         this.arbeidsgiver = arbeidsgiver;
         this.unmapped = vedtaksperiode;
     }
 
-    private readonly unmapped: UfullstendigSpesialistVedtaksperiode;
-    private readonly arbeidsgiver: SpesialistArbeidsgiver;
-    private person: SpesialistPerson;
+    private readonly unmapped: ExternalUfullstendigVedtaksperiode;
+    private readonly arbeidsgiver: ExternalArbeidsgiver;
+    private person: ExternalPerson;
     private problems: Error[] = [];
 
     build = (): { ufullstendigVedtaksperiode?: UfullstendigVedtaksperiode; problems: Error[] } => {
@@ -44,21 +38,21 @@ export class UfullstendigVedtaksperiodeBuilder {
                 fullstendig: false,
                 tilstand: ((): Periodetilstand => {
                     switch (this.unmapped.tilstand) {
-                        case SpleisVedtaksperiodetilstand.TilUtbetaling:
+                        case 'TilUtbetaling':
                             return 'tilUtbetaling';
-                        case SpleisVedtaksperiodetilstand.Utbetalt:
+                        case 'Utbetalt':
                             return 'utbetalt';
-                        case SpleisVedtaksperiodetilstand.Oppgaver:
+                        case 'Oppgaver':
                             return 'oppgaver';
-                        case SpleisVedtaksperiodetilstand.Venter:
+                        case 'Venter':
                             return 'venter';
-                        case SpleisVedtaksperiodetilstand.VenterPåKiling:
+                        case 'VenterPåKiling':
                             return 'venterPåKiling';
-                        case SpleisVedtaksperiodetilstand.IngenUtbetaling:
+                        case 'IngenUtbetaling':
                             return 'ingenUtbetaling';
-                        case SpleisVedtaksperiodetilstand.Feilet:
+                        case 'Feilet':
                             return 'feilet';
-                        case SpleisVedtaksperiodetilstand.TilInfotrygd:
+                        case 'TilInfotrygd':
                             return 'tilInfotrygd';
                         default:
                             return 'ukjent';

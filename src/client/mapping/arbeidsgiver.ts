@@ -1,11 +1,4 @@
 import dayjs from 'dayjs';
-import {
-    EksternUtbetalingshistorikkElement,
-    SpesialistArbeidsgiver,
-    SpesialistInntektsgrunnlag,
-    SpesialistPerson,
-    SpesialistVedtaksperiode,
-} from 'external-types';
 import { nanoid } from 'nanoid';
 
 import {
@@ -35,23 +28,23 @@ const tidligerePeriodeINesteGenerasjonErRevurdering = (
 ) => nesteGenerasjon.find((periode) => erRevurdering(periode) && periode.fom.isBefore(gjeldende.fom)) !== undefined;
 
 export class ArbeidsgiverBuilder {
-    private unmapped: SpesialistArbeidsgiver;
-    private person: SpesialistPerson;
+    private unmapped: ExternalArbeidsgiver;
+    private person: ExternalPerson;
     private arbeidsgiver: Partial<Arbeidsgiver> = {};
-    private inntektsgrunnlag: SpesialistInntektsgrunnlag[];
+    private inntektsgrunnlag: ExternalInntektsgrunnlag[];
     private problems: Error[] = [];
 
-    addPerson(person: SpesialistPerson) {
+    addPerson(person: ExternalPerson) {
         this.person = person;
         return this;
     }
 
-    addArbeidsgiver(arbeidsgiver: SpesialistArbeidsgiver) {
+    addArbeidsgiver(arbeidsgiver: ExternalArbeidsgiver) {
         this.unmapped = arbeidsgiver;
         return this;
     }
 
-    addInntektsgrunnlag(inntektsgrunnlag: SpesialistInntektsgrunnlag[]) {
+    addInntektsgrunnlag(inntektsgrunnlag: ExternalInntektsgrunnlag[]) {
         this.inntektsgrunnlag = inntektsgrunnlag;
         return this;
     }
@@ -188,7 +181,7 @@ export class ArbeidsgiverBuilder {
         this.arbeidsgiver = {
             ...this.arbeidsgiver,
             utbetalingshistorikk:
-                this.unmapped.utbetalingshistorikk?.map((element: EksternUtbetalingshistorikkElement) => {
+                this.unmapped.utbetalingshistorikk?.map((element: ExternalHistorikkElement) => {
                     return utbetalingshistorikkelement(
                         element.beregningId,
                         mapSykdomstidslinje(element.beregnettidslinje),
@@ -223,7 +216,7 @@ export class ArbeidsgiverBuilder {
         this.arbeidsgiver.vedtaksperioder = this.unmapped.vedtaksperioder.map((unmappedVedtaksperiode) => {
             if (unmappedVedtaksperiode.fullstendig) {
                 const { vedtaksperiode, problems } = new VedtaksperiodeBuilder()
-                    .setVedtaksperiode(unmappedVedtaksperiode as SpesialistVedtaksperiode)
+                    .setVedtaksperiode(unmappedVedtaksperiode as ExternalVedtaksperiode)
                     .setPerson(this.person)
                     .setArbeidsgiver(this.unmapped)
                     .setAnnullertUtbetalingshistorikk(this.arbeidsgiver.utbetalingshistorikk!)

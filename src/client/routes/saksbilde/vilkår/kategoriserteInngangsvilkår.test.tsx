@@ -1,6 +1,5 @@
 import '@testing-library/jest-dom/extend-expect';
 import dayjs from 'dayjs';
-import { SpesialistArbeidsgiver } from 'external-types';
 import React from 'react';
 
 import { VedtaksperiodeBuilder } from '../../../mapping/vedtaksperiode';
@@ -26,7 +25,7 @@ const enSpeilVedtaksperiode = ({
 }: EnSpeilVedtaksperiodeOptions): Vedtaksperiode => {
     const { vedtaksperiode } = new VedtaksperiodeBuilder()
         .setVedtaksperiode(umappetVedtaksperiode())
-        .setArbeidsgiver({ organisasjonsnummer: '123456789' } as SpesialistArbeidsgiver)
+        .setArbeidsgiver({ organisasjonsnummer: '123456789' } as ExternalArbeidsgiver)
         .setAnnullertUtbetalingshistorikk([])
         .setOverstyringer([])
         .build();

@@ -1,6 +1,5 @@
 import styled from '@emotion/styled';
 import dayjs from 'dayjs';
-import { Utbetaling, Utbetalingsdetalj } from 'external-types';
 import React from 'react';
 
 import { BodyShort, Title } from '@navikt/ds-react';
@@ -40,7 +39,7 @@ const Luft = styled.div`
 const formaterDato = (forfall: string) => dayjs(forfall).format(NORSK_DATOFORMAT);
 
 interface UtbetalingsvisningProps {
-    utbetaling: Utbetaling;
+    utbetaling: Simuleringsutbetaling;
     index: number;
     anonymiseringEnabled: boolean;
 }
@@ -64,7 +63,7 @@ const Utbetalingsvisning = ({ utbetaling, index, anonymiseringEnabled }: Utbetal
         <BodyShort>{formaterDato(utbetaling.forfall)}</BodyShort>
         <BodyShort>Feilkonto</BodyShort>
         <BodyShort>{utbetaling.feilkonto ? 'Ja' : 'Nei'}</BodyShort>
-        {utbetaling.detaljer.map((detalj: Utbetalingsdetalj, index: number) => (
+        {utbetaling.detaljer.map((detalj: Simuleringsutbetalingdetalj, index: number) => (
             <Utbetalingsdetaljvisning
                 detalj={detalj}
                 index={index}
@@ -76,7 +75,7 @@ const Utbetalingsvisning = ({ utbetaling, index, anonymiseringEnabled }: Utbetal
 );
 
 interface UtbetalingsdetaljvisningProps {
-    detalj: Utbetalingsdetalj;
+    detalj: Simuleringsutbetalingdetalj;
     index: number;
     anonymiseringEnabled: boolean;
 }

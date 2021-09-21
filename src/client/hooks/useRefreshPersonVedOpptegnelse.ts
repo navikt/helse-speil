@@ -1,4 +1,3 @@
-import { Opptegnelse } from 'external-types';
 import { useEffect } from 'react';
 import { useRecoilValue } from 'recoil';
 

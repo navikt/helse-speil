@@ -1,7 +1,6 @@
 import dayjs from 'dayjs';
-import { SpleisHendelse, SpleisHendelsetype, EksternSykdomsdag, SpleisSykdomsdagtype } from 'external-types';
 
-const sykmelding = (sykdomsdager: EksternSykdomsdag[]) => {
+const sykmelding = (sykdomsdager: ExternalSykdomsdag[]): ExternalSykmelding => {
     const fom = sykdomsdager[0];
     const tom = sykdomsdager.slice(-1).pop()!;
     const rapportertDato = dayjs(tom.dagen).add(15, 'day').format('YYYY-MM-DD');
@@ -10,11 +9,11 @@ const sykmelding = (sykdomsdager: EksternSykdomsdag[]) => {
         rapportertdato: rapportertDato,
         fom: fom.dagen,
         tom: tom.dagen,
-        type: SpleisHendelsetype.SYKMELDING,
+        type: 'NY_SØKNAD',
     };
 };
 
-const søknad = (sykdomsdager: EksternSykdomsdag[]) => {
+const søknad = (sykdomsdager: ExternalSykdomsdag[]): ExternalSøknad => {
     const fom = sykdomsdager[0];
     const tom = sykdomsdager.slice(-1).pop()!;
     const rapportertDato = dayjs(tom.dagen).add(15, 'day').format('YYYY-MM-DD');
@@ -24,23 +23,23 @@ const søknad = (sykdomsdager: EksternSykdomsdag[]) => {
         sendtNav: rapportertDato,
         fom: fom.dagen,
         tom: tom.dagen,
-        type: SpleisHendelsetype.SØKNAD_NAV,
+        type: 'SENDT_SØKNAD_NAV',
     };
 };
 
-const inntektsmelding = (sykdomsdager: EksternSykdomsdag[]) => {
-    const førsteFraværsdag = sykdomsdager.find(({ type }) => type === SpleisSykdomsdagtype.SYKEDAG)!;
+const inntektsmelding = (sykdomsdager: ExternalSykdomsdag[]): ExternalInntektsmelding => {
+    const førsteFraværsdag = sykdomsdager.find(({ type }) => type === 'SYKEDAG')!;
     const mottattDato = dayjs(førsteFraværsdag.dagen).add(15, 'day').format('YYYY-MM-DD');
     return {
         id: '09851096-bcba-4c7a-8dc0-a1617a744f1f',
         beregnetInntekt: 31000.0,
         førsteFraværsdag: førsteFraværsdag.dagen,
         mottattDato: mottattDato,
-        type: SpleisHendelsetype.INNTEKTSMELDING,
+        type: 'INNTEKTSMELDING',
     };
 };
 
-export const hendelser = (sykdomsdager: EksternSykdomsdag[]): SpleisHendelse[] => [
+export const hendelser = (sykdomsdager: ExternalSykdomsdag[]): ExternalHendelse[] => [
     sykmelding(sykdomsdager),
     søknad(sykdomsdager),
     inntektsmelding(sykdomsdager),

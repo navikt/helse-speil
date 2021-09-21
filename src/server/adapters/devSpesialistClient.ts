@@ -1,4 +1,3 @@
-import { SpesialistOppgave } from 'external-types';
 import * as fs from 'fs';
 import request from 'request-promise-native';
 
@@ -9,15 +8,15 @@ const devSpesialistClient = (_: Instrumentation): SpesialistClient => ({
     behandlingerForPeriode: async (_accessToken: string): Promise<Response> => {
         const fromFile = fs.readFileSync('__mock-data__/oppgaver.json', 'utf-8');
         const oppgaver = await Promise.all(
-            JSON.parse(fromFile).map(async (oppgave: SpesialistOppgave) => {
+            JSON.parse(fromFile).map(async (oppgave: ExternalOppgave) => {
                 const tildeling = await hentPersonStatus(oppgave.aktørId);
                 return { ...oppgave, tildeling };
             })
         );
-        return Promise.resolve(({
+        return Promise.resolve({
             status: 200,
             body: oppgaver,
-        } as unknown) as Response);
+        } as unknown as Response);
     },
 
     hentPersonByAktørId: lesPerson,
@@ -25,7 +24,7 @@ const devSpesialistClient = (_: Instrumentation): SpesialistClient => ({
     hentPersonByFødselsnummer: lesPerson,
 
     hentBehandlingsstatistikk: async (): Promise<Response> => {
-        return Promise.resolve(({
+        return Promise.resolve({
             status: 200,
             body: {
                 antallOppgaverTilGodkjenning: {
@@ -53,7 +52,7 @@ const devSpesialistClient = (_: Instrumentation): SpesialistClient => ({
                     ],
                 },
             },
-        } as unknown) as Response);
+        } as unknown as Response);
     },
 });
 

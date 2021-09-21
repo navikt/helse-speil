@@ -1,14 +1,13 @@
-import { SpleisHendelsetype, SpleisInntektsmelding, SpleisSykmelding, SpleisSøknad } from 'external-types';
-
 import { mapHendelse } from './hendelse';
 import { somDato, somTidspunkt } from './vedtaksperiode';
 
 describe('mapHendelse', () => {
     test('mapper inntektsmelding', () => {
-        const inntektsmelding: SpleisInntektsmelding = {
+        const inntektsmelding: ExternalInntektsmelding = {
             id: 'en-inntektsmelding',
-            type: SpleisHendelsetype.INNTEKTSMELDING,
+            type: 'INNTEKTSMELDING',
             mottattDato: '2020-01-01T00:00:00',
+            førsteFraværsdag: '2020-01-01:T00:00:00',
             beregnetInntekt: 600000,
         };
         const mappetInntektsmelding: Inntektsmelding = {
@@ -20,9 +19,9 @@ describe('mapHendelse', () => {
         expect(mapHendelse(inntektsmelding)).toEqual(mappetInntektsmelding);
     });
     test('mapper sykmelding', () => {
-        const sykmelding: SpleisSykmelding = {
+        const sykmelding: ExternalSykmelding = {
             id: 'en-sykmelding',
-            type: SpleisHendelsetype.SYKMELDING,
+            type: 'NY_SØKNAD',
             fom: '2020-01-01',
             tom: '2020-01-31',
             rapportertdato: '2020-02-01T00:00:00',
@@ -37,9 +36,9 @@ describe('mapHendelse', () => {
         expect(mapHendelse(sykmelding)).toEqual(mappetSykmelding);
     });
     test('mapper søknad', () => {
-        const søknad: SpleisSøknad = {
+        const søknad: ExternalSøknad = {
             id: 'en-søknad',
-            type: SpleisHendelsetype.SØKNAD_NAV,
+            type: 'SENDT_SØKNAD_NAV',
             fom: '2020-01-01',
             tom: '2020-01-31',
             rapportertdato: '2020-02-01T00:00:00',

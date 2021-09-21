@@ -1,5 +1,4 @@
 import dayjs from 'dayjs';
-import { SpesialistInntektkilde, SpesialistInntektsgrunnlag } from 'external-types';
 
 export const mappetInntektsgrunnlag: Inntektsgrunnlag = {
     organisasjonsnummer: '987654321',
@@ -32,12 +31,12 @@ export const mappetInntektsgrunnlag: Inntektsgrunnlag = {
 };
 
 export const umappetInntektsgrunnlag = (
-    inntektskilde: SpesialistInntektkilde = SpesialistInntektkilde.Inntektsmelding
-): SpesialistInntektsgrunnlag => ({
+    inntektskilde: ExternalInntektkilde = 'Inntektsmelding'
+): ExternalInntektsgrunnlag => ({
     skjæringstidspunkt: '2020-01-01',
     sykepengegrunnlag: 372000.0,
     omregnetÅrsinntekt: 372000.0,
-    sammenligningsgrunnlag: inntektskilde === SpesialistInntektkilde.Inntektsmelding ? 372000.0 : undefined,
+    sammenligningsgrunnlag: inntektskilde === 'Inntektsmelding' ? 372000.0 : undefined,
     avviksprosent: 0.0,
     maksUtbetalingPerDag: 1430.7692307692,
     inntekter: [
@@ -50,7 +49,7 @@ export const umappetInntektsgrunnlag = (
                 inntekterFraAOrdningen: undefined,
             },
             sammenligningsgrunnlag:
-                inntektskilde === SpesialistInntektkilde.Inntektsmelding
+                inntektskilde === 'Inntektsmelding'
                     ? {
                           beløp: 372000.0,
                           inntekterFraAOrdningen: [

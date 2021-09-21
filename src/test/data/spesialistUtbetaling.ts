@@ -1,6 +1,4 @@
-import { SpesialistUtbetaling } from 'external-types';
-
-export const umappetUtbetalinger = (): SpesialistUtbetaling[] => [
+export const umappetUtbetalinger = (): ExternalUtbetalingElement[] => [
     {
         status: 'UTBETALT',
         type: 'UTBETALING',

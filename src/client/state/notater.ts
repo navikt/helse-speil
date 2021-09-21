@@ -1,5 +1,4 @@
 import dayjs from 'dayjs';
-import { SpesialistNotat } from 'external-types';
 import { atom, selector, useRecoilValueLoadable } from 'recoil';
 
 import { getNotater } from '../io/http';
@@ -38,7 +37,7 @@ export const useNotaterForVedtaksperiode = (vedtaksperiodeId: string) => {
         : [];
 };
 
-const toNotat = (spesialistNotat: SpesialistNotat): Notat => ({
+const toNotat = (spesialistNotat: ExternalNotat): Notat => ({
     id: spesialistNotat.id,
     tekst: spesialistNotat.tekst,
     saksbehandler: {

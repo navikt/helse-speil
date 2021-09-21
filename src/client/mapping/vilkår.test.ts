@@ -1,5 +1,3 @@
-import { SpleisVilkår } from 'external-types';
-
 import { NORSK_DATOFORMAT } from '../utils/date';
 
 import { umappetVedtaksperiode } from '../../test/data/vedtaksperiode';
@@ -53,7 +51,7 @@ describe('mapVilkår', () => {
             vilkår: {
                 ...vedtaksperiode.vilkår,
                 sykepengedager: undefined,
-            } as SpleisVilkår,
+            } as ExternalVedtaksperiode['vilkår'],
         };
         const { problems, vilkår } = mapVilkår(korruptVedtaksperiode);
         expect(problems).toHaveLength(1);

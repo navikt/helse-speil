@@ -1,45 +1,37 @@
-import {
-    SpleisHendelse,
-    SpleisHendelsetype,
-    SpleisInntektsmelding,
-    SpleisSykmelding,
-    SpleisSøknad,
-} from 'external-types';
-
 import { somDato, somKanskjeTidspunkt, somTidspunkt } from './vedtaksperiode';
 
-const mapInntektsmelding = (hendelse: SpleisHendelse): Inntektsmelding => ({
+const mapInntektsmelding = (hendelse: ExternalHendelse): Inntektsmelding => ({
     id: hendelse.id,
     type: 'Inntektsmelding',
-    beregnetInntekt: (hendelse as SpleisInntektsmelding).beregnetInntekt,
-    mottattTidspunkt: somTidspunkt((hendelse as SpleisInntektsmelding).mottattDato),
+    beregnetInntekt: (hendelse as ExternalInntektsmelding).beregnetInntekt,
+    mottattTidspunkt: somTidspunkt((hendelse as ExternalInntektsmelding).mottattDato),
 });
 
-const mapSøknad = (hendelse: SpleisHendelse): Søknad => ({
-    id: (hendelse as SpleisSøknad).id,
+const mapSøknad = (hendelse: ExternalHendelse): Søknad => ({
+    id: (hendelse as ExternalSøknad).id,
     type: 'Søknad',
-    fom: somDato((hendelse as SpleisSøknad).fom),
-    tom: somDato((hendelse as SpleisSøknad).tom),
-    sendtNav: somDato((hendelse as SpleisSøknad as SpleisSøknad).sendtNav),
-    rapportertDato: somKanskjeTidspunkt((hendelse as SpleisSøknad).rapportertdato),
+    fom: somDato((hendelse as ExternalSøknad).fom),
+    tom: somDato((hendelse as ExternalSøknad).tom),
+    sendtNav: somDato((hendelse as ExternalSøknad as ExternalSøknad).sendtNav),
+    rapportertDato: somKanskjeTidspunkt((hendelse as ExternalSøknad).rapportertdato),
 });
 
-const mapSykmelding = (hendelse: SpleisHendelse): Sykmelding => ({
-    id: (hendelse as SpleisSykmelding).id,
+const mapSykmelding = (hendelse: ExternalHendelse): Sykmelding => ({
+    id: (hendelse as ExternalSykmelding).id,
     type: 'Sykmelding',
-    fom: somDato((hendelse as SpleisSykmelding).fom),
-    tom: somDato((hendelse as SpleisSykmelding).tom),
-    rapportertDato: somKanskjeTidspunkt((hendelse as SpleisSykmelding).rapportertdato),
+    fom: somDato((hendelse as ExternalSykmelding).fom),
+    tom: somDato((hendelse as ExternalSykmelding).tom),
+    rapportertDato: somKanskjeTidspunkt((hendelse as ExternalSykmelding).rapportertdato),
 });
 
-export const mapHendelse = (hendelse: SpleisHendelse): Dokument => {
+export const mapHendelse = (hendelse: ExternalHendelse): Dokument => {
     switch (hendelse.type) {
-        case SpleisHendelsetype.INNTEKTSMELDING:
+        case 'INNTEKTSMELDING':
             return mapInntektsmelding(hendelse);
-        case SpleisHendelsetype.SØKNAD_ARBEIDSGIVER:
-        case SpleisHendelsetype.SØKNAD_NAV:
+        case 'SENDT_SØKNAD_ARBEIDSGIVER':
+        case 'SENDT_SØKNAD_NAV':
             return mapSøknad(hendelse);
-        case SpleisHendelsetype.SYKMELDING:
+        case 'NY_SØKNAD':
             return mapSykmelding(hendelse);
     }
 };
