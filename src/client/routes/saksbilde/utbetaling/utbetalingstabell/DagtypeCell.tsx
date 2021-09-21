@@ -49,15 +49,19 @@ const dagtypeIcon = (type: Dag['type']) => {
 };
 
 const textForType = (typeUtbetalingsdag: Dag['type'], typeSykdomsdag: Dag['type']): string => {
-    switch (typeUtbetalingsdag) {
-        case 'Avslått':
-            return `${typeSykdomsdag} (Avslått)`;
-        case 'Foreldet':
-            return `${typeSykdomsdag} (Foreldet)`;
-        case 'Arbeidsgiverperiode':
-            return `${typeSykdomsdag} (AGP)`;
-        default:
-            return typeSykdomsdag;
+    if (typeUtbetalingsdag === typeSykdomsdag) {
+        return typeUtbetalingsdag;
+    } else {
+        switch (typeUtbetalingsdag) {
+            case 'Avslått':
+                return `${typeSykdomsdag} (Avslått)`;
+            case 'Foreldet':
+                return `${typeSykdomsdag} (Foreldet)`;
+            case 'Arbeidsgiverperiode':
+                return `${typeSykdomsdag} (AGP)`;
+            default:
+                return typeSykdomsdag;
+        }
     }
 };
 
