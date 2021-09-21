@@ -71,7 +71,7 @@ export const SaksbildeFullstendigPeriode = ({ personTilBehandling, aktivPeriode 
                     månedsbeløp={månedsbeløp}
                     skjæringstidspunkt={skjæringstidspunkt}
                 />
-                <Content>
+                <Content className="Content" data-testid="saksbilde-content">
                     <Saksbildevarsler
                         aktivPeriode={aktivPeriode}
                         vedtaksperiode={vedtaksperiode}

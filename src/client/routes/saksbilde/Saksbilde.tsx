@@ -14,6 +14,7 @@ import { useAktivPeriode } from '../../state/tidslinje';
 import { Scopes, useVarselFilter } from '../../state/varsler';
 
 import { SaksbildeFullstendigPeriode } from './saksbilder/SaksbildeFullstendigPeriode';
+import { TomtSaksbilde } from './saksbilder/SaksbildeTomt';
 import { SaksbildeUfullstendigPeriode } from './saksbilder/SaksbildeUfullstendigPeriode';
 import { Sakslinje } from './sakslinje/Sakslinje';
 import { LasterTidslinje, Tidslinje } from './tidslinje';
@@ -50,13 +51,15 @@ const SaksbildeContent = React.memo(() => {
 
     const { path } = useRouteMatch();
 
-    if (!personTilBehandling) return <LasterSaksbilde />;
+    if (!personTilBehandling) {
+        return <LasterSaksbilde />;
+    }
 
     return (
         <Container className="Saksbilde">
             <Personlinje person={personTilBehandling} />
             <Tidslinje person={personTilBehandling} />
-            {aktivPeriode && (
+            {aktivPeriode ? (
                 <>
                     <Sakslinje aktivPeriode={aktivPeriode} />
                     <Switch>
@@ -78,6 +81,8 @@ const SaksbildeContent = React.memo(() => {
                         </Route>
                     </Switch>
                 </>
+            ) : (
+                <TomtSaksbilde />
             )}
         </Container>
     );

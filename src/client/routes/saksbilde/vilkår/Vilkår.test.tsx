@@ -24,7 +24,7 @@ const påfølgende = () => ({
 
 type PersonMedModifiserteVilkårOptions = {
     vedtaksperiodeverdier?: { [K in keyof Partial<Vedtaksperiode>]: any }[];
-    vilkårverdier?: { [K in keyof Partial<Inngangsvilkår>]: any }[];
+    vilkårverdier?: { [K in keyof Partial<Vilkår>]: any }[];
 };
 
 const personMedModifiserteVilkår = ({

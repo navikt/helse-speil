@@ -63,10 +63,11 @@ describe('Saksbilde', () => {
         await waitFor(() => {
             expect(screen.queryByTestId('laster-saksbilde')).toBeVisible();
             expect(screen.queryByTestId('tomt-saksbilde')).toBeNull();
-            expect(screen.queryByTestId('saksbilde-fullstendig')).toBeNull();
+            expect(screen.queryByTestId('saksbilde-content')).toBeNull();
             expect(screen.queryByTestId('saksbilde-ufullstendig-vedtaksperiode')).toBeNull();
         });
     });
+
     test('rendrer tomt saksbilde for personer uten vedtaksperioder', async () => {
         const personUtenVedtaksperioder = mappetPerson([umappetArbeidsgiver([], [], [])]);
         render(<Saksbilde />, { wrapper: wrapper(personUtenVedtaksperioder) });
@@ -74,12 +75,12 @@ describe('Saksbilde', () => {
         await waitFor(() => {
             expect(screen.queryByTestId('tomt-saksbilde')).toBeVisible();
             expect(screen.queryByTestId('laster-saksbilde')).toBeNull();
-            expect(screen.queryByTestId('saksbilde-fullstendig')).toBeNull();
+            expect(screen.queryByTestId('saksbilde-content')).toBeNull();
             expect(screen.queryByTestId('saksbilde-ufullstendig-vedtaksperiode')).toBeNull();
         });
     });
+
     test('rendrer saksbilde for ufullstendig vedtaksperiode', async () => {
-        //
         const personMedUfullstendigVedtaksperiode = mappetPerson([
             umappetArbeidsgiver(
                 [
@@ -100,7 +101,7 @@ describe('Saksbilde', () => {
 
         await waitFor(() => {
             expect(screen.getByTestId('saksbilde-ufullstendig-vedtaksperiode')).toBeVisible();
-            expect(screen.queryByTestId('saksbilde-fullstendig')).toBeNull();
+            expect(screen.queryByTestId('saksbilde-content')).toBeNull();
             expect(screen.queryByTestId('laster-saksbilde')).toBeNull();
             expect(screen.queryByTestId('tomt-saksbilde')).toBeNull();
         });
@@ -112,7 +113,7 @@ describe('Saksbilde', () => {
         render(<Saksbilde />, { wrapper: wrapper(person) });
 
         await waitFor(() => {
-            expect(screen.queryByTestId('saksbilde-fullstendig')).toBeVisible();
+            expect(screen.queryByTestId('saksbilde-content')).toBeVisible();
             expect(screen.queryByTestId('saksbilde-ufullstendig-vedtaksperiode')).toBeNull();
             expect(screen.queryByTestId('laster-saksbilde')).toBeNull();
             expect(screen.queryByTestId('tomt-saksbilde')).toBeNull();
@@ -120,7 +121,6 @@ describe('Saksbilde', () => {
     });
 
     test('rendrer saksbilde for revurdering', async () => {
-        //
         const dato = dayjs('2020-01-01');
         const personMedUtbetalingshistorikk = mappetPerson([
             umappetArbeidsgiver(
@@ -147,7 +147,7 @@ describe('Saksbilde', () => {
         userEvent.click(perioder[0].getElementsByTagName('button')[0]);
 
         await waitFor(() => {
-            expect(screen.getByTestId('saksbilde-fullstendig')).toBeVisible();
+            expect(screen.getByTestId('saksbilde-content')).toBeVisible();
             expect(screen.queryByTestId('saksbilde-ufullstendig-vedtaksperiode')).toBeNull();
             expect(screen.queryByTestId('laster-saksbilde')).toBeNull();
             expect(screen.queryByTestId('tomt-saksbilde')).toBeNull();
