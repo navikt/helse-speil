@@ -211,7 +211,12 @@ export const Utbetaling: React.FC<UtbetalingProps> = React.memo(({ periode, over
     const dager = useTabelldagerMap(periode, overstyringer, gjenståendeDager, maksdato, skjæringstidspunkt);
 
     return revurderingIsEnabled || overstyringIsEnabled || overstyrRevurderingIsEnabled ? (
-        <OverstyrbarUtbetaling fom={periode.fom} tom={periode.tom} dager={dager} />
+        <OverstyrbarUtbetaling
+            fom={periode.fom}
+            tom={periode.tom}
+            dager={dager}
+            skjæringstidspunkt={skjæringstidspunkt}
+        />
     ) : (
         <ReadonlyUtbetaling fom={periode.fom} tom={periode.tom} dager={dager} />
     );
