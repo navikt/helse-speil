@@ -16,6 +16,8 @@ import { FraCell } from './FraCell';
 import { TilCell } from './TilCell';
 
 const Container = styled.div`
+    grid-column-start: venstremeny;
+    grid-column-end: høyremeny;
     display: flex;
     flex-direction: column;
     padding: 1rem 2rem;

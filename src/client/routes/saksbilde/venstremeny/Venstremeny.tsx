@@ -13,11 +13,11 @@ import { VilkårCard } from './VilkårCard';
 import { Utbetaling } from './utbetaling/Utbetaling';
 
 const Container = styled.section`
+    grid-area: venstremeny;
     display: flex;
     flex-direction: column;
     box-sizing: border-box;
-    width: var(--speil-venstremeny-width);
-    min-width: 19.5rem;
+    min-width: var(--speil-venstremeny-width);
     padding: 2rem 1.5rem;
     border-right: 1px solid var(--navds-color-border);
 `;
@@ -52,7 +52,7 @@ export const VenstreMeny = ({
     const ikkeUtbetaltEnda = harOppgave(aktivPeriode) || aktivPeriode.tilstand === 'venter';
 
     return (
-        <Container>
+        <Container className="Venstremeny">
             <PeriodeCard
                 aktivPeriode={aktivPeriode}
                 maksdato={maksdato?.format(NORSK_DATOFORMAT_KORT) ?? 'Ukjent maksdato'}

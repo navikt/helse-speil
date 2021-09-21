@@ -10,13 +10,13 @@ import { Sakslinjemeny, VerktøylinjeForTomtSaksbilde } from './Sakslinjemeny';
 import { HjemIkon } from './icons/HjemIkon';
 
 const Container = styled.div`
+    grid-area: sakslinje;
     display: flex;
     justify-content: space-between;
     height: 48px;
     box-sizing: border-box;
     border-bottom: 1px solid var(--navds-color-border);
     padding: 0 2rem 0 2rem;
-    min-width: var(--speil-total-min-width);
 
     > div:last-of-type {
         margin-left: 1rem;
@@ -35,7 +35,7 @@ export const Sakslinje = ({ aktivPeriode }: SakslinjeProps) => {
     const { pathForLocation } = useNavigation();
 
     return (
-        <Container>
+        <Container className="Sakslinje">
             <Flex>
                 {(aktivPeriode?.type === 'VEDTAKSPERIODE' || aktivPeriode?.type === 'REVURDERING') && (
                     <TabList role="tablist">
@@ -61,7 +61,7 @@ export const Sakslinje = ({ aktivPeriode }: SakslinjeProps) => {
 };
 
 export const SakslinjeForTomtSaksbilde = () => (
-    <Container>
+    <Container className="Sakslinje">
         <VerktøylinjeForTomtSaksbilde />
     </Container>
 );

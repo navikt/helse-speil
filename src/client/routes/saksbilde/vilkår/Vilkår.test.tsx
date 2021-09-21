@@ -4,7 +4,7 @@ import dayjs, { Dayjs } from 'dayjs';
 import React from 'react';
 import { mappetPerson, mappetVedtaksperiode } from 'test-data';
 
-import { Vilkår } from './Vilkår';
+import { Inngangsvilkår } from './Inngangsvilkår';
 
 const infotrygdforlengelse = () => ({
     periodetype: 'infotrygdforlengelse',
@@ -24,7 +24,7 @@ const påfølgende = () => ({
 
 type PersonMedModifiserteVilkårOptions = {
     vedtaksperiodeverdier?: { [K in keyof Partial<Vedtaksperiode>]: any }[];
-    vilkårverdier?: { [K in keyof Partial<Vilkår>]: any }[];
+    vilkårverdier?: { [K in keyof Partial<Inngangsvilkår>]: any }[];
 };
 
 const personMedModifiserteVilkår = ({
@@ -71,7 +71,7 @@ describe('Vilkår', () => {
                 vedtaksperiodeverdier: [{ periodetype: 'førstegangsbehandling' }],
             });
             render(
-                <Vilkår
+                <Inngangsvilkår
                     person={medAlleVilkårOppfylt}
                     vedtaksperiode={medAlleVilkårOppfylt.arbeidsgivere[0].vedtaksperioder[0] as Vedtaksperiode}
                 />
@@ -89,7 +89,7 @@ describe('Vilkår', () => {
                 vilkårverdier: [{ opptjening: { oppfylt: false } }],
             });
             render(
-                <Vilkår
+                <Inngangsvilkår
                     person={medNoenVilkårIkkeOppfylt}
                     vedtaksperiode={medNoenVilkårIkkeOppfylt.arbeidsgivere[0].vedtaksperioder[0] as Vedtaksperiode}
                 />
@@ -110,7 +110,7 @@ describe('Vilkår', () => {
         it('er godkjent', async () => {
             const medGodkjentPeriode = await personMedModifiserteVilkår({ vedtaksperiodeverdier: [ferdigbehandlet()] });
             render(
-                <Vilkår
+                <Inngangsvilkår
                     person={medGodkjentPeriode}
                     vedtaksperiode={medGodkjentPeriode.arbeidsgivere[0].vedtaksperioder[0] as Vedtaksperiode}
                 />
@@ -128,7 +128,7 @@ describe('Vilkår', () => {
                 vedtaksperiodeverdier: [{ automatiskBehandlet: true, behandlet: true }],
             });
             render(
-                <Vilkår
+                <Inngangsvilkår
                     person={medGodkjentPeriode}
                     vedtaksperiode={medGodkjentPeriode.arbeidsgivere[0].vedtaksperioder[0] as Vedtaksperiode}
                 />
@@ -148,7 +148,7 @@ describe('Vilkår', () => {
                 vedtaksperiodeverdier: [{ ...påfølgende() }, ferdigbehandlet()],
             });
             render(
-                <Vilkår
+                <Inngangsvilkår
                     person={påfølgendeMedOppfylteVilkår}
                     vedtaksperiode={påfølgendeMedOppfylteVilkår.arbeidsgivere[0].vedtaksperioder[0] as Vedtaksperiode}
                 />
@@ -168,7 +168,7 @@ describe('Vilkår', () => {
                 vedtaksperiodeverdier: [{ ...infotrygdforlengelse() }],
             });
             render(
-                <Vilkår
+                <Inngangsvilkår
                     person={infotrygdforlengelseMedOppfylteVilkår}
                     vedtaksperiode={
                         infotrygdforlengelseMedOppfylteVilkår.arbeidsgivere[0].vedtaksperioder[0] as Vedtaksperiode

@@ -20,10 +20,9 @@ import { useTidslinjeutsnitt } from './useTidslinjeutsnitt';
 dayjs.locale('nb');
 
 const Container = styled(FlexColumn)`
-    position: relative;
+    grid-area: tidslinje;
     padding: 24px 32px 16px 32px;
     border-bottom: 1px solid var(--navds-color-border);
-    min-width: var(--speil-total-min-width);
     box-sizing: border-box;
     --tidslinje-rad-offset: 250px;
 `;

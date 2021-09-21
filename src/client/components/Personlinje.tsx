@@ -18,11 +18,10 @@ import { Manneikon } from './ikoner/Manneikon';
 const formatFnr = (fnr: string) => fnr.slice(0, 6) + ' ' + fnr.slice(6);
 
 const Container = styled.div`
+    grid-area: personlinje;
     display: flex;
     align-items: center;
-    flex-shrink: 0;
     height: 48px;
-    min-width: var(--speil-total-min-width);
     box-sizing: border-box;
     padding: 0 2rem;
     background: var(--speil-background-secondary);
@@ -107,7 +106,7 @@ const LoadingText = styled.div`
 `;
 
 export const LasterPersonlinje = () => (
-    <Container>
+    <Container className="Personlinje">
         <KjønnsnøytraltIkon />
         <LoadingText />
         <Separator component="p">/</Separator>
@@ -127,7 +126,7 @@ interface PersonlinjeProps {
 
 export const Personlinje = ({ person }: PersonlinjeProps) => {
     const anonymiseringEnabled = usePersondataSkalAnonymiseres();
-    if (!person) return <Container />;
+    if (!person) return <Container className="Personlinje" />;
 
     const { aktørId, personinfo, enhet } = anonymiseringEnabled
         ? { ...person, aktørId: '1000000000000', enhet: { id: 1000, navn: 'Agurkheim' } }
@@ -135,7 +134,7 @@ export const Personlinje = ({ person }: PersonlinjeProps) => {
     const { fornavn, mellomnavn, etternavn, kjønn, fnr } = anonymiseringEnabled ? anonymisertPersoninfo : personinfo;
 
     return (
-        <Container>
+        <Container className="Personlinje">
             <Kjønnsikon kjønn={kjønn} />
             <Bold component="p">
                 {capitalizeName(`${etternavn}, ${fornavn} ${mellomnavn ? `${mellomnavn} ` : ''}`)}

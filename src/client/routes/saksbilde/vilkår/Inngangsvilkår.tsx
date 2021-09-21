@@ -17,6 +17,8 @@ import { Yrkeskadeinfo } from './vilkårsgrupper/Yrkesskadeinfo';
 
 const Container = styled.div`
     margin-top: 2rem;
+    overflow-x: scroll;
+    box-sizing: border-box;
 
     > div:first-of-type > *:not(:last-of-type) {
         margin-right: 1rem;
@@ -51,7 +53,7 @@ interface VilkårProps {
     person?: Person;
 }
 
-export const Vilkår = ({ vedtaksperiode, person }: VilkårProps) => {
+export const Inngangsvilkår = ({ vedtaksperiode, person }: VilkårProps) => {
     if (!vedtaksperiode || person === undefined) return null;
 
     const {
@@ -76,8 +78,8 @@ export const Vilkår = ({ vedtaksperiode, person }: VilkårProps) => {
         harVilkår(vilkårVurdertAutomatisk);
 
     return (
-        <AgurkErrorBoundary sidenavn="Vilkår">
-            <Container className="vilkår">
+        <AgurkErrorBoundary sidenavn="Inngangsvilkår">
+            <Container className="Inngangsvilkår">
                 {harBehandledeVilkår && (
                     <Flex>
                         {harVilkår(ikkeVurderteVilkår) && <IkkeVurderteVilkår vilkår={ikkeVurderteVilkår!} />}

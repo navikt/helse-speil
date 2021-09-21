@@ -14,6 +14,7 @@ const Container = styled.div`
     margin-top: 2rem;
     display: flex;
     flex-direction: row;
+    overflow-x: scroll;
 `;
 
 const Linje = styled.div`
