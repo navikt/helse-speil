@@ -37,7 +37,7 @@ export const NotatKnapp = ({ tildeling, vedtaksperiodeId, personinfo }: NotatKna
                 />
                 {showNotatListeModal && (
                     <NotatListeModal
-                        lukk={() => setShowNotatListeModal(false)}
+                        onClose={() => setShowNotatListeModal(false)}
                         vedtaksperiodeId={vedtaksperiodeId}
                         tildeling={tildeling}
                         åpneNyttNotatModal={() => setShowNyttNotatModal(true)}

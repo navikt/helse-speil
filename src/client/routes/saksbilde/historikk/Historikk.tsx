@@ -61,7 +61,7 @@ export const Historikk = ({ vedtaksperiodeId, tildeling, personinfo }: Historikk
                 {showNotatListeModal && (
                     <NotatListeModal
                         vedtaksperiodeId={vedtaksperiodeId}
-                        lukk={() => setShowNotatListeModal(false)}
+                        onClose={() => setShowNotatListeModal(false)}
                         åpneNyttNotatModal={() => setShowNyttNotatModal(true)}
                         tildeling={tildeling}
                     />

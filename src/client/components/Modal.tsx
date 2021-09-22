@@ -39,6 +39,7 @@ const Lukknapp = styled.button`
     height: 2rem;
     width: 2rem;
     padding: 0;
+    margin: -8px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -83,15 +84,15 @@ const Lukknapp = styled.button`
     }
 `;
 
-const Topprad = styled.div`
+const Topprad = styled.header`
     width: 100%;
     display: flex;
     flex-direction: row-reverse;
     justify-content: space-between;
-    align-items: center;
+    align-items: flex-start;
 `;
 
-interface ModalProps {
+export interface ModalProps {
     isOpen: boolean;
     contentLabel: string;
     onRequestClose: (event: React.MouseEvent | React.KeyboardEvent) => void;
