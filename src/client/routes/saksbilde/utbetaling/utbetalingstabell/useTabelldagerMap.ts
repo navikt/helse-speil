@@ -54,12 +54,14 @@ export const useTabelldagerMap = (
                     dagerMap.set(dag.dato.format(NORSK_DATOFORMAT), {
                         ...existing,
                         isMaksdato: (maksdato && dag.dato.isSame(maksdato)) ?? false,
-                        overstyring: {
-                            begrunnelse: overstyring.begrunnelse,
-                            ident: overstyring.saksbehandlerIdent,
-                            navn: overstyring.saksbehandlerNavn,
-                            timestamp: overstyring.timestamp,
-                        },
+                        overstyringer: (existing.overstyringer ?? []).concat([
+                            {
+                                begrunnelse: overstyring.begrunnelse,
+                                ident: overstyring.saksbehandlerIdent,
+                                navn: overstyring.saksbehandlerNavn,
+                                timestamp: overstyring.timestamp,
+                            },
+                        ]),
                     });
                 }
             });

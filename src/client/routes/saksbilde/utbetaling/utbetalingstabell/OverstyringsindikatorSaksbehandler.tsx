@@ -1,20 +1,14 @@
 import styled from '@emotion/styled';
-import { Dayjs } from 'dayjs';
 import React, { useRef, useState } from 'react';
 
 import { CaseworkerFilled } from '@navikt/ds-icons';
-import { BodyShort } from '@navikt/ds-react';
-import { Tooltip } from '@navikt/helse-frontend-tooltip';
 import '@navikt/helse-frontend-tooltip/lib/main.css';
 
+import { Endringslogg } from '../../../../components/Endringslogg';
 import { useInteractOutside } from '../../../../hooks/useInteractOutside';
 import { NORSK_DATOFORMAT } from '../../../../utils/date';
 
-interface OverstyringsindikatorProps {
-    begrunnelse: string;
-    saksbehandler: string;
-    dato: Dayjs;
-}
+import { Dagoverstyring } from './Utbetalingstabell.types';
 
 const Overstyringknapp = styled.button`
     position: relative;
@@ -28,53 +22,50 @@ const Overstyringknapp = styled.button`
     outline: none;
 `;
 
-const StyledTooltip = styled(Tooltip)`
-    > p {
-        text-align: left;
-    }
-`;
+interface OverstyringsindikatorProps {
+    overstyringer: Dagoverstyring[];
+}
 
-const Begrunnelsetekst = styled(BodyShort)`
-    color: var(--navds-color-text-inverse);
-`;
-
-const StyledUndertekst = styled(BodyShort)`
-    font-size: 14px;
-    font-style: italic;
-`;
-
-const Bold = styled(BodyShort)`
-    font-weight: 600;
-`;
-
-export const OverstyringsindikatorSaksbehandler = ({
-    begrunnelse,
-    saksbehandler,
-    dato,
-}: OverstyringsindikatorProps) => {
-    const [visTooltip, setVisTooltip] = useState(false);
+export const OverstyringsindikatorSaksbehandler = ({ overstyringer }: OverstyringsindikatorProps) => {
+    const [visEndringslogg, setVisEndringslogg] = useState(false);
 
     const buttonRef = useRef<HTMLButtonElement>(null);
 
-    const toggleVisTooltip = () => setVisTooltip((prevState) => !prevState);
+    const toggleVisTooltip = () => setVisEndringslogg((prevState) => !prevState);
 
     useInteractOutside({
         ref: buttonRef,
-        active: visTooltip,
+        active: visEndringslogg,
         onInteractOutside: toggleVisTooltip,
     });
 
     return (
-        <Overstyringknapp type="button" ref={buttonRef} onClick={() => setVisTooltip((value) => !value)}>
+        <Overstyringknapp type="button" ref={buttonRef} onClick={() => setVisEndringslogg((value) => !value)}>
             <CaseworkerFilled height={20} width={20} />
-            {visTooltip && (
-                <StyledTooltip>
-                    <Bold component="p">Begrunnelse</Bold>
-                    <Begrunnelsetekst component="p">{begrunnelse}</Begrunnelsetekst>
-                    <StyledUndertekst component="p">
-                        {saksbehandler}, {dato.format(NORSK_DATOFORMAT)}
-                    </StyledUndertekst>
-                </StyledTooltip>
+            {visEndringslogg && (
+                <Endringslogg
+                    isOpen
+                    contentLabel="Endringslogg"
+                    title="Endringslogg"
+                    onRequestClose={() => setVisEndringslogg(false)}
+                >
+                    <thead>
+                        <tr>
+                            <th>Dato</th>
+                            <th>Kilde</th>
+                            <th>Kommentar</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {overstyringer.map(({ timestamp, navn, begrunnelse }, i) => (
+                            <tr key={i}>
+                                <td>{timestamp.format(NORSK_DATOFORMAT)}</td>
+                                <td>{navn}</td>
+                                <td>{begrunnelse}</td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </Endringslogg>
             )}
         </Overstyringknapp>
     );

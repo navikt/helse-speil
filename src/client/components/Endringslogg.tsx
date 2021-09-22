@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import React from 'react';
 
-import { Modal as SpeilModal, ModalProps } from '../../../../../components/Modal';
+import { Modal as SpeilModal, ModalProps } from './Modal';
 
 const Table = styled.table`
     th,
@@ -13,10 +13,15 @@ const Table = styled.table`
         }
     }
 
+    td:first-of-type {
+        font-size: 14px;
+    }
+
     th {
         text-align: left;
         font-weight: 400;
         font-size: 14px;
+        color: var(--navds-color-gray-80);
     }
 
     tbody > tr:nth-of-type(2n-1) > td {
@@ -26,7 +31,7 @@ const Table = styled.table`
 
 const Modal = styled(SpeilModal)`
     width: max-content;
-    padding: 18px 24px;
+    padding: 18px 24px 24px;
 
     > header {
         font-size: 16px;
@@ -37,10 +42,8 @@ const Modal = styled(SpeilModal)`
 
 interface EndringsloggProps extends ModalProps {}
 
-export const Endringslogg: React.FC<EndringsloggProps> = ({ children, ...modalProps }) => {
-    return (
-        <Modal {...modalProps}>
-            <Table>{children}</Table>
-        </Modal>
-    );
-};
+export const Endringslogg: React.FC<EndringsloggProps> = ({ children, ...modalProps }) => (
+    <Modal {...modalProps}>
+        <Table>{children}</Table>
+    </Modal>
+);

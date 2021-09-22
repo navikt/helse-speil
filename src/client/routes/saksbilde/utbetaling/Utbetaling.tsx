@@ -187,13 +187,11 @@ interface ReadonlyUtbetalingProps {
     dager: Map<string, UtbetalingstabellDag>;
 }
 
-const ReadonlyUtbetaling: React.FC<ReadonlyUtbetalingProps> = ({ fom, tom, dager }) => {
-    return (
-        <UtbetalingstabellContainer data-testid="utbetaling">
-            <Utbetalingstabell fom={fom} tom={tom} dager={dager} />
-        </UtbetalingstabellContainer>
-    );
-};
+const ReadonlyUtbetaling: React.FC<ReadonlyUtbetalingProps> = ({ fom, tom, dager }) => (
+    <UtbetalingstabellContainer data-testid="utbetaling">
+        <Utbetalingstabell fom={fom} tom={tom} dager={dager} />
+    </UtbetalingstabellContainer>
+);
 
 interface UtbetalingProps {
     periode: Tidslinjeperiode;

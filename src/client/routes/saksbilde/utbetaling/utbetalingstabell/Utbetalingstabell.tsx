@@ -104,7 +104,7 @@ export const Utbetalingstabell = ({ fom, tom, dager, lokaleOverstyringer }: Utbe
                                 <KildeCell
                                     type={dag.sykdomsdag.type}
                                     kilde={dag.sykdomsdag.kilde}
-                                    overstyring={dag.overstyring}
+                                    overstyringer={dag.overstyringer}
                                 />
                                 <TotalGradCell
                                     type={dag.type}

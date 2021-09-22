@@ -12,7 +12,7 @@ import { CellContent } from '../../table/CellContent';
 import { OverstyringsindikatorSaksbehandler } from './OverstyringsindikatorSaksbehandler';
 import { Dagoverstyring } from './Utbetalingstabell.types';
 
-const getKildeTypeIcon = (type?: Sykdomsdag['kilde'], overstyring?: Dagoverstyring): ReactNode => {
+const getKildeTypeIcon = (type?: Sykdomsdag['kilde'], overstyringer?: Dagoverstyring[]): ReactNode => {
     switch (type) {
         case 'Sykmelding':
             return <Kilde type="Sykmelding">SM</Kilde>;
@@ -21,12 +21,8 @@ const getKildeTypeIcon = (type?: Sykdomsdag['kilde'], overstyring?: Dagoverstyri
         case 'Inntektsmelding':
             return <Kilde type="Inntektsmelding">IM</Kilde>;
         case 'Saksbehandler':
-            return overstyring ? (
-                <OverstyringsindikatorSaksbehandler
-                    begrunnelse={overstyring.begrunnelse}
-                    saksbehandler={overstyring.navn}
-                    dato={overstyring.timestamp}
-                />
+            return overstyringer ? (
+                <OverstyringsindikatorSaksbehandler overstyringer={overstyringer} />
             ) : (
                 <Flex>
                     <CaseworkerFilled height={20} width={20} />
@@ -45,18 +41,19 @@ const Container = styled(CellContent)`
 interface KildeCellProps extends React.HTMLAttributes<HTMLTableDataCellElement> {
     type: Dag['type'];
     kilde?: Sykdomsdag['kilde'];
-    overstyring?: Dagoverstyring;
+    overstyringer?: Dagoverstyring[];
 }
 
-export const KildeCell = ({ type, kilde, overstyring, ...rest }: KildeCellProps) => {
+export const KildeCell = ({ type, kilde, overstyringer, ...rest }: KildeCellProps) => {
     const tooltipId = useRef(nanoid()).current;
+
     return (
         <td {...rest}>
             <Container>
                 {type !== 'Helg' && (
                     <>
                         <span data-tip={kilde} data-for={tooltipId}>
-                            {getKildeTypeIcon(kilde, overstyring)}
+                            {getKildeTypeIcon(kilde, overstyringer)}
                         </span>
                         <Tooltip id={tooltipId} effect="solid" />
                     </>

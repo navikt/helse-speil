@@ -2,10 +2,10 @@ import React from 'react';
 
 import { Link } from '@navikt/ds-react';
 
+import { Endringslogg } from '../../../../../components/Endringslogg';
 import { useInnloggetSaksbehandler } from '../../../../../state/authentication';
 import { useNotaterForVedtaksperiode } from '../../../../../state/notater';
 
-import { Endringslogg } from './Endringslogg';
 import { NotatListeRad } from './NotatListeRad';
 
 interface NotatListeModalProps {
