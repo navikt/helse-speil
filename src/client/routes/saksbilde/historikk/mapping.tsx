@@ -87,12 +87,15 @@ export const useUtbetalinger = (periode?: Tidslinjeperiode): Hendelse[] => {
         });
 };
 
-export const useUtbetalingsendringer = (onClickEndring: () => void, vedtaksperiode?: Vedtaksperiode): Hendelse[] =>
+export const useUtbetalingsendringer = (
+    onClickEndring: (overstyring: Overstyring) => void,
+    vedtaksperiode?: Vedtaksperiode
+): Hendelse[] =>
     (vedtaksperiode?.fullstendig &&
         vedtaksperiode.overstyringer.map((overstyring: Overstyring) => ({
             id: overstyring.hendelseId,
             timestamp: dayjs(overstyring.timestamp),
-            title: <LinkButton onClick={onClickEndring}>Endret utbetalingsdager</LinkButton>,
+            title: <LinkButton onClick={() => onClickEndring(overstyring)}>Endret utbetalingsdager</LinkButton>,
             type: Hendelsetype.Historikk,
             body: (
                 <BegrunnelseTekst>

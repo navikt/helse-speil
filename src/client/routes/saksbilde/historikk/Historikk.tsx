@@ -45,6 +45,8 @@ export const Historikk = React.memo(({ vedtaksperiodeId, tildeling, personinfo }
     const [showNyttNotatModal, setShowNyttNotatModal] = useState(false);
     const [showEndringslogg, setShowEndringslogg] = useState(false);
 
+    const [endring, setEndring] = useState<Overstyring | null>(null);
+
     useLayoutEffect(() => {
         if (showHistorikk) {
             document.documentElement.style.setProperty('--speil-hoyremeny-width', '272px');
@@ -55,7 +57,7 @@ export const Historikk = React.memo(({ vedtaksperiodeId, tildeling, personinfo }
 
     useOppdaterHistorikk({
         onClickNotat: () => setShowNotatListeModal(true),
-        onClickEndring: () => setShowEndringslogg(true),
+        onClickEndring: setEndring,
     });
 
     return (
@@ -92,15 +94,17 @@ export const Historikk = React.memo(({ vedtaksperiodeId, tildeling, personinfo }
             )}
             <Endringslogg
                 overstyringer={
-                    vedtaksperiode?.overstyringer.map((it) => ({
-                        timestamp: it.timestamp,
-                        ident: it.saksbehandlerIdent,
-                        navn: it.saksbehandlerNavn,
-                        begrunnelse: it.begrunnelse,
+                    endring?.overstyrteDager.map((it) => ({
+                        timestamp: it.dato,
+                        navn: endring.saksbehandlerNavn,
+                        ident: endring.saksbehandlerIdent,
+                        begrunnelse: endring.begrunnelse,
+                        grad: it.grad,
+                        type: it.type,
                     })) ?? []
                 }
-                isOpen={showEndringslogg}
-                onRequestClose={() => setShowEndringslogg(false)}
+                isOpen={endring !== null}
+                onRequestClose={() => setEndring(null)}
             />
         </>
     );

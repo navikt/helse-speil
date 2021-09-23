@@ -60,6 +60,8 @@ export const useTabelldagerMap = (
                                 ident: overstyring.saksbehandlerIdent,
                                 navn: overstyring.saksbehandlerNavn,
                                 timestamp: overstyring.timestamp,
+                                type: dag.type,
+                                grad: dag.grad,
                             },
                         ]),
                     });

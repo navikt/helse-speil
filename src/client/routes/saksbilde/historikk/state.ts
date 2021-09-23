@@ -38,7 +38,7 @@ export const useFilterState = () => useRecoilState(filterState);
 
 type UseOppdaterHistorikkOptions = {
     onClickNotat: () => void;
-    onClickEndring: () => void;
+    onClickEndring: (overstyring: Overstyring) => void;
 };
 
 export const useOppdaterHistorikk = ({ onClickNotat, onClickEndring }: UseOppdaterHistorikkOptions) => {

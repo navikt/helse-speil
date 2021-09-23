@@ -265,6 +265,8 @@ declare type Dagoverstyring = {
     navn: string;
     timestamp: Dayjs;
     ident?: string;
+    type?: Dag['type'];
+    grad?: number;
 };
 
 declare type Overstyring = {
