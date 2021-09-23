@@ -10,9 +10,10 @@ import { FlexColumn } from '../../../components/Flex';
 import { usePersondataSkalAnonymiseres } from '../../../state/person';
 
 import { getAnonymArbeidsgiverForOrgnr } from '../../../agurkdata';
+import { Arbeidsgiverrad } from './Arbeidsgiverrad';
+import { Infotrygdrad } from './Infotrygdrad';
 import { Markeringer } from './Markeringer';
 import { LasterUtsnittsvelger, Utsnittsvelger } from './Utsnittsvelger';
-import { Rad } from './rader';
 import { useInfotrygdrader } from './useInfotrygdrader';
 import { useTidslinjerader } from './useTidslinjerader';
 import { useTidslinjeutsnitt } from './useTidslinjeutsnitt';
@@ -97,7 +98,7 @@ export const Tidslinje = React.memo(({ person }: TidslinjeProps) => {
                 </MarkeringerContainer>
                 <RaderContainer>
                     {tidslinjerader.map(({ id, navn, rader }, i) => (
-                        <Rad.Arbeidsgiver
+                        <Arbeidsgiverrad
                             key={i}
                             navn={navn}
                             id={id}
@@ -107,7 +108,7 @@ export const Tidslinje = React.memo(({ person }: TidslinjeProps) => {
                         />
                     ))}
                     {infotrygdrader.map((it, i) => (
-                        <Rad.Infotrygd key={i} rad={it} navn={it.arbeidsgivernavn} />
+                        <Infotrygdrad key={i} rad={it} navn={it.arbeidsgivernavn} />
                     ))}
                 </RaderContainer>
             </TidslinjeContainer>
