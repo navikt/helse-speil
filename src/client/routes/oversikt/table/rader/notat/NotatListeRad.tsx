@@ -22,7 +22,10 @@ const Row = styled.tr`
 
 const AlertRow = styled.tr`
     position: relative;
-    background-color: #f9d2cc;
+
+    > td {
+        background-color: #f9d2cc;
+    }
 `;
 
 const Cell = styled.td`
