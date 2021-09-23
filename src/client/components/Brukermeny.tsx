@@ -54,6 +54,7 @@ const MenyNavn = styled(TekstMedEllipsis)`
 `;
 
 const MenyTekst = styled(BodyShort)`
+    color: var(--navds-color-text-primary);
     padding: 4px 16px;
 `;
 
