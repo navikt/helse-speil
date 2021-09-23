@@ -18,6 +18,6 @@ interface StatusProps {
 
 export const Status = React.memo(({ numberOfWarnings }: StatusProps) => (
     <CellContent width={100}>
-        <Text component="p">{getFormattedWarningText(numberOfWarnings)}</Text>
+        <Text as="p">{getFormattedWarningText(numberOfWarnings)}</Text>
     </CellContent>
 ));

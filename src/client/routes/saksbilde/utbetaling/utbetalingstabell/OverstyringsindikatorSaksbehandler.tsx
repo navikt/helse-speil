@@ -6,9 +6,6 @@ import '@navikt/helse-frontend-tooltip/lib/main.css';
 
 import { Endringslogg } from '../../../../components/Endringslogg';
 import { useInteractOutside } from '../../../../hooks/useInteractOutside';
-import { NORSK_DATOFORMAT } from '../../../../utils/date';
-
-import { Dagoverstyring } from './Utbetalingstabell.types';
 
 const Overstyringknapp = styled.button`
     position: relative;
@@ -42,31 +39,11 @@ export const OverstyringsindikatorSaksbehandler = ({ overstyringer }: Overstyrin
     return (
         <Overstyringknapp type="button" ref={buttonRef} onClick={() => setVisEndringslogg((value) => !value)}>
             <CaseworkerFilled height={20} width={20} />
-            {visEndringslogg && (
-                <Endringslogg
-                    isOpen
-                    contentLabel="Endringslogg"
-                    title="Endringslogg"
-                    onRequestClose={() => setVisEndringslogg(false)}
-                >
-                    <thead>
-                        <tr>
-                            <th>Dato</th>
-                            <th>Kilde</th>
-                            <th>Kommentar</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {overstyringer.map(({ timestamp, navn, begrunnelse }, i) => (
-                            <tr key={i}>
-                                <td>{timestamp.format(NORSK_DATOFORMAT)}</td>
-                                <td>{navn}</td>
-                                <td>{begrunnelse}</td>
-                            </tr>
-                        ))}
-                    </tbody>
-                </Endringslogg>
-            )}
+            <Endringslogg
+                overstyringer={overstyringer}
+                isOpen={visEndringslogg}
+                onRequestClose={() => setVisEndringslogg(false)}
+            />
         </Overstyringknapp>
     );
 };

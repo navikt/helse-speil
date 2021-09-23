@@ -47,7 +47,7 @@ const ErrorInnhold: React.FC<ErrorInnholdProps> = ({ sidenavn, errormelding }) =
     const ref = useRef<HTMLParagraphElement>(null);
     return (
         <Container>
-            <Agurktekst component="p">
+            <Agurktekst as="p">
                 Det har dessverre oppstått en feil, og for denne perioden kan ikke {sidenavn ?? 'siden'} vises.
             </Agurktekst>
             <div>

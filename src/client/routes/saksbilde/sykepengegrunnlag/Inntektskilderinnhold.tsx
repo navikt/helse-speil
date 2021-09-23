@@ -82,7 +82,7 @@ export const Inntektskilderinnhold = ({ inntektskilde, anonymiseringEnabled }: I
             </Organisasjonsnummer>
             <Kilde type="Ainntekt">AA</Kilde>
         </Header>
-        <Bransjer component="p">
+        <Bransjer as="p">
             {`BRANSJE${inntektskilde.bransjer.length > 1 ? 'R' : ''}: `}
             {anonymiseringEnabled ? 'Agurkifisert bransje' : inntektskilde.bransjer.join(', ')}
         </Bransjer>

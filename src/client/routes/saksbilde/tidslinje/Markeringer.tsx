@@ -29,7 +29,7 @@ const maksdatoPin = (person: Person, fom: Dayjs, tom: Dayjs): Pin | undefined =>
             date: maksdato.endOf('day').toDate(),
             render: (
                 <PinsTooltip>
-                    <Text component="p">Maksdato: {maksdato.format(NORSK_DATOFORMAT)}</Text>
+                    <Text as="p">Maksdato: {maksdato.format(NORSK_DATOFORMAT)}</Text>
                 </PinsTooltip>
             ),
         }

@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 
 import { BodyShort, Link } from '@navikt/ds-react';
 
+import { LinkButton } from '../../../components/LinkButton';
 import { useArbeidsgiver } from '../../../modell/arbeidsgiver';
 import { useUtbetaling } from '../../../modell/utbetalingshistorikkelement';
 import { usePersonnavn, useSykepengegrunnlag } from '../../../state/person';
@@ -69,10 +70,10 @@ export const UtbetalingCard = ({
         <Card>
             <CardTitle>TIL UTBETALING</CardTitle>
             <Grid>
-                <BodyShort component="p">Sykepengegrunnlag</BodyShort>
-                <Value component="p">{somPenger(sykepengegrunnlag?.sykepengegrunnlag)}</Value>
-                <BodyShort component="p">Utbetalingdager</BodyShort>
-                <Value component="p">{utbetalingsdagerTotalt}</Value>
+                <BodyShort as="p">Sykepengegrunnlag</BodyShort>
+                <Value as="p">{somPenger(sykepengegrunnlag?.sykepengegrunnlag)}</Value>
+                <BodyShort as="p">Utbetalingdager</BodyShort>
+                <Value as="p">{utbetalingsdagerTotalt}</Value>
             </Grid>
             <Utbetalingssum
                 erUtbetalt={!ikkeUtbetaltEnda}
@@ -83,9 +84,7 @@ export const UtbetalingCard = ({
             />
             {simulering ? (
                 <>
-                    <Link href="#" onClick={() => setSimuleringÅpen(true)}>
-                        Simulering
-                    </Link>
+                    <LinkButton onClick={() => setSimuleringÅpen(true)}>Simulering</LinkButton>
                     <SimuleringsinfoModal
                         simulering={simulering}
                         åpenModal={simuleringÅpen}
@@ -94,7 +93,7 @@ export const UtbetalingCard = ({
                     />
                 </>
             ) : (
-                <Feilmelding component="p">Mangler simulering</Feilmelding>
+                <Feilmelding as="p">Mangler simulering</Feilmelding>
             )}
         </Card>
     );

@@ -62,13 +62,13 @@ export const LeggPåVentMenuButton = ({ oppgavereferanse, vedtaksperiodeId, pers
 
     return (
         <span ref={containerRef}>
-            <Button onClick={(e) => åpneModal(e)}>
+            <Button as="button" onClick={(e) => åpneModal(e)}>
                 Legg på vent
-                {isFetching && <Loader size="xs" />}
+                {isFetching && <Loader size="xsmall" />}
             </Button>
             {visModal && (
                 <NyttNotatModal
-                    lukkModal={() => setVisModal(false)}
+                    onClose={() => setVisModal(false)}
                     personinfo={personinfo}
                     vedtaksperiodeId={vedtaksperiodeId}
                     leggSakPåVent={settPåVent}

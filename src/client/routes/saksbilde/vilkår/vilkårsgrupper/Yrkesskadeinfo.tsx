@@ -42,15 +42,15 @@ export const Yrkeskadeinfo: React.FC<React.HTMLAttributes<HTMLDivElement>> = (pr
             <Information width={20} height={20} />
         </IconContainer>
         <TitleContainer>
-            <Tittel component="h3">Systemet henter ikke inn yrkesskade</Tittel>
-            <Paragraf component="p">
+            <Tittel as="h3">Systemet henter ikke inn yrkesskade</Tittel>
+            <Paragraf as="p">
                 <LovdataLenke paragraf="8-55">§ 8-55</LovdataLenke>
             </Paragraf>
         </TitleContainer>
         <TextContainer>
-            <BodyShort component="p">Systemet henter per i dag ikke inn informasjon om yrkesskade.</BodyShort>
-            <BodyShort component="p">Yrkesskade kan ha påvirkning på utfallet av enkelte vilkår.</BodyShort>
-            <BodyShort component="p">Vurdering av yrkesskade følger ordinære rutiner.</BodyShort>
+            <BodyShort as="p">Systemet henter per i dag ikke inn informasjon om yrkesskade.</BodyShort>
+            <BodyShort as="p">Yrkesskade kan ha påvirkning på utfallet av enkelte vilkår.</BodyShort>
+            <BodyShort as="p">Vurdering av yrkesskade følger ordinære rutiner.</BodyShort>
         </TextContainer>
     </Container>
 );

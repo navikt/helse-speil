@@ -28,9 +28,9 @@ type GrunnbeløpProps = {
 
 const Grunnbeløp = ({ grunnbeløp, alder }: GrunnbeløpProps) =>
     alder >= 67 ? (
-        <BodyShort component="p">{`2G er ${toKronerOgØre(grunnbeløp * 2)} kr`}</BodyShort>
+        <BodyShort as="p">{`2G er ${toKronerOgØre(grunnbeløp * 2)} kr`}</BodyShort>
     ) : (
-        <BodyShort component="p">{`0,5G er ${toKronerOgØre(grunnbeløp / 2)} kr`}</BodyShort>
+        <BodyShort as="p">{`0,5G er ${toKronerOgØre(grunnbeløp / 2)} kr`}</BodyShort>
     );
 
 export const Sykepengegrunnlag = ({ sykepengegrunnlag, alder }: Vilkår) => (

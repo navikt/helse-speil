@@ -16,7 +16,7 @@ const Spinner = styled(Loader)`
 export const kalkulererToast = ({
     message = (
         <>
-            Kalkulerer endringer <Spinner size="xs" />
+            Kalkulerer endringer <Spinner size="xsmall" />
         </>
     ),
     callback,

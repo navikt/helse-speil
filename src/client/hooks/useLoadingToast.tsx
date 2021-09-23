@@ -29,7 +29,7 @@ export const useLoadingToast = ({ isLoading, message }: UseIsLoadingToastOptions
                 key: toastKey.current,
                 message: (
                     <>
-                        {message} <Spinner size="xs" />
+                        {message} <Spinner size="xsmall" />
                     </>
                 ),
             });

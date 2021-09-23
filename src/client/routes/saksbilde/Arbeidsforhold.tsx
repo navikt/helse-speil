@@ -28,8 +28,8 @@ export const Arbeidsforhold = ({
     const stilling = anonymiseringEnabled ? 'Agurkifisert stillingstittel' : stillingstittel;
     return (
         <>
-            <BodyShort component="p">{`${stilling}, ${stillingsprosent} %`}</BodyShort>
-            <Høyrestilt component="p">
+            <BodyShort as="p">{`${stilling}, ${stillingsprosent} %`}</BodyShort>
+            <Høyrestilt as="p">
                 {startdato.format(NORSK_DATOFORMAT)}
                 {' - '}
                 {sluttdato && sluttdato.format(NORSK_DATOFORMAT)}

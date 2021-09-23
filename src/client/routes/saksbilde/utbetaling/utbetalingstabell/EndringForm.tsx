@@ -123,7 +123,7 @@ export const EndringForm: React.FC<EndringFormProps> = ({ markerteDager, toggleO
                 <form onSubmit={form.handleSubmit(handleSubmit)}>
                     <InputContainer>
                         <Dagtypevelger
-                            size="s"
+                            size="small"
                             label="Utbet. dager"
                             onChange={oppdaterDagtype}
                             aria-invalid={form.formState.errors.dagtype}
@@ -137,7 +137,7 @@ export const EndringForm: React.FC<EndringFormProps> = ({ markerteDager, toggleO
                             ))}
                         </Dagtypevelger>
                         <Gradvelger
-                            size="s"
+                            size="small"
                             type="number"
                             label="Grad"
                             onChange={oppdaterGrad}
@@ -147,7 +147,13 @@ export const EndringForm: React.FC<EndringFormProps> = ({ markerteDager, toggleO
                             error={form.formState.errors.gradvelger?.message}
                             {...gradvelgervalidation}
                         />
-                        <Knapp size="s" type="submit" disabled={markerteDager.size === 0} data-testid="endre">
+                        <Knapp
+                            as="button"
+                            size="small"
+                            type="submit"
+                            disabled={markerteDager.size === 0}
+                            data-testid="endre"
+                        >
                             Endre ({markerteDager.size})
                         </Knapp>
                         <ToggleOverstyringKnapp type="button" onClick={toggleOverstyring}>

@@ -18,8 +18,8 @@ const Container = styled.div`
 
 export const IkkeLoggetInn = () => (
     <Container>
-        <BodyShort component="p">Du må logge inn for å få tilgang til systemet</BodyShort>
-        <BodyShort component="p">
+        <BodyShort as="p">Du må logge inn for å få tilgang til systemet</BodyShort>
+        <BodyShort as="p">
             <Link href="/">Gå til innloggingssiden</Link>
         </BodyShort>
     </Container>

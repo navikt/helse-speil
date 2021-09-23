@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import dayjs from 'dayjs';
 import React from 'react';
 
-import { Title } from '@navikt/ds-react';
+import { Heading } from '@navikt/ds-react';
 
 import agurk from '../../assets/ingen-oppgaver-agurk.png';
 import fredagstaco from '../../assets/ingen-oppgaver-fredagstaco.png';
@@ -20,7 +20,7 @@ const Container = styled.div`
     padding: 4rem;
 `;
 
-const Tekst = styled(Title)`
+const Tekst = styled(Heading)`
     margin: 2rem 0 0;
     font-size: 1.25rem;
     flex: 1;
@@ -40,7 +40,7 @@ export const IngenOppgaver = () => {
                     ) : (
                         <img alt="Agurk med armer og bein som holder kaffekopp" src={agurk} />
                     )}
-                    <Tekst component="h2" size="m">
+                    <Tekst as="h2" size="medium">
                         Ooops! Ingen saker å plukke...
                     </Tekst>
                 </Container>
@@ -49,7 +49,7 @@ export const IngenOppgaver = () => {
             return (
                 <Container>
                     <img alt="Tom brevkasse som smiler" src={brevkasse} />
-                    <Tekst component="h2" size="m">
+                    <Tekst as="h2" size="medium">
                         Du har ingen tildelte saker
                     </Tekst>
                 </Container>
@@ -58,7 +58,7 @@ export const IngenOppgaver = () => {
             return (
                 <Container>
                     <img alt="Tom brevkasse som smiler" src={brevkasse} />
-                    <Tekst component="h2" size="m">
+                    <Tekst as="h2" size="medium">
                         Du har ingen saker på vent
                     </Tekst>
                 </Container>

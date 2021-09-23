@@ -2,6 +2,8 @@ import styled from '@emotion/styled';
 import React, { useLayoutEffect, useState } from 'react';
 
 import { CloseButton } from '../../../components/CloseButton';
+import { Endringslogg } from '../../../components/Endringslogg';
+import { useVedtaksperiode } from '../../../state/tidslinje';
 
 import { NotatListeModal } from '../../oversikt/table/rader/notat/NotatListeModal';
 import { NyttNotatModal } from '../../oversikt/table/rader/notat/NyttNotatModal';
@@ -35,11 +37,13 @@ interface HistorikkProps {
     tildeling?: Tildeling;
 }
 
-export const Historikk = ({ vedtaksperiodeId, tildeling, personinfo }: HistorikkProps) => {
+export const Historikk = React.memo(({ vedtaksperiodeId, tildeling, personinfo }: HistorikkProps) => {
     const historikk = useHistorikk();
+    const vedtaksperiode = useVedtaksperiode(vedtaksperiodeId);
     const [showHistorikk, setShowHistorikk] = useShowHistorikkState();
     const [showNotatListeModal, setShowNotatListeModal] = useState(false);
     const [showNyttNotatModal, setShowNyttNotatModal] = useState(false);
+    const [showEndringslogg, setShowEndringslogg] = useState(false);
 
     useLayoutEffect(() => {
         if (showHistorikk) {
@@ -49,38 +53,55 @@ export const Historikk = ({ vedtaksperiodeId, tildeling, personinfo }: Historikk
         }
     }, [showHistorikk]);
 
-    useOppdaterHistorikk(() => setShowNotatListeModal(true));
+    useOppdaterHistorikk({
+        onClickNotat: () => setShowNotatListeModal(true),
+        onClickEndring: () => setShowEndringslogg(true),
+    });
 
     return (
-        <Container>
-            <Hendelser>
-                <HistorikkTitle>
-                    HISTORIKK
-                    <CloseButton onClick={() => setShowHistorikk(false)} />
-                </HistorikkTitle>
-                {showNotatListeModal && (
-                    <NotatListeModal
-                        vedtaksperiodeId={vedtaksperiodeId}
-                        onClose={() => setShowNotatListeModal(false)}
-                        åpneNyttNotatModal={() => setShowNyttNotatModal(true)}
-                        tildeling={tildeling}
-                    />
-                )}
-                {showNyttNotatModal && (
-                    <NyttNotatModal
-                        lukkModal={() => setShowNyttNotatModal(false)}
-                        personinfo={personinfo}
-                        vedtaksperiodeId={vedtaksperiodeId}
-                        navigerTilbake={() => {
-                            setShowNotatListeModal(true);
-                            setShowNyttNotatModal(false);
-                        }}
-                    />
-                )}
-                {historikk.map((it) => (
-                    <HistorikkHendelse key={it.id} {...it} />
-                ))}
-            </Hendelser>
-        </Container>
+        <>
+            <Container>
+                <Hendelser>
+                    <HistorikkTitle>
+                        HISTORIKK
+                        <CloseButton onClick={() => setShowHistorikk(false)} />
+                    </HistorikkTitle>
+                    {historikk.map((it) => (
+                        <HistorikkHendelse key={it.id} {...it} />
+                    ))}
+                </Hendelser>
+            </Container>
+            {showNotatListeModal && (
+                <NotatListeModal
+                    vedtaksperiodeId={vedtaksperiodeId}
+                    onClose={() => setShowNotatListeModal(false)}
+                    åpneNyttNotatModal={() => setShowNyttNotatModal(true)}
+                    tildeling={tildeling}
+                />
+            )}
+            {showNyttNotatModal && (
+                <NyttNotatModal
+                    vedtaksperiodeId={vedtaksperiodeId}
+                    onClose={() => setShowNyttNotatModal(false)}
+                    personinfo={personinfo}
+                    navigerTilbake={() => {
+                        setShowNotatListeModal(true);
+                        setShowNyttNotatModal(false);
+                    }}
+                />
+            )}
+            <Endringslogg
+                overstyringer={
+                    vedtaksperiode?.overstyringer.map((it) => ({
+                        timestamp: it.timestamp,
+                        ident: it.saksbehandlerIdent,
+                        navn: it.saksbehandlerNavn,
+                        begrunnelse: it.begrunnelse,
+                    })) ?? []
+                }
+                isOpen={showEndringslogg}
+                onRequestClose={() => setShowEndringslogg(false)}
+            />
+        </>
     );
-};
+});

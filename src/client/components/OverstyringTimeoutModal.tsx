@@ -53,10 +53,10 @@ export const OverstyringTimeoutModal = ({ onRequestClose }: Props) => {
                 <Tekst>Kalkuleringen ser ut til å ta noe tid.</Tekst>
                 <Tekst>Oppgaven vil dukke opp i oversikten når den er klar.</Tekst>
                 <Knappegruppe>
-                    <Button size="s" onClick={redirectTilOversikten}>
+                    <Button size="small" variant="secondary" onClick={redirectTilOversikten}>
                         Tilbake til oversikten
                     </Button>
-                    <Button size="s" variant="secondary" onClick={closeModal}>
+                    <Button size="small" variant="tertiary" onClick={closeModal}>
                         Det er greit
                     </Button>
                 </Knappegruppe>

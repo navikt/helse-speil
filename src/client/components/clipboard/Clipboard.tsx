@@ -105,7 +105,7 @@ export const Clipboard = ({ children, copySource, preserveWhitespace = true, cop
                                 left: -2,
                             }}
                         >
-                            <Popover component="p">{copyMessage ?? 'Kopiert!'}</Popover>
+                            <Popover as="p">{copyMessage ?? 'Kopiert!'}</Popover>
                         </motion.span>
                     )}
                 </AnimatePresence>

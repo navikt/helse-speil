@@ -46,7 +46,7 @@ interface VurdertVilkårProps {
 const VurdertVilkår = ({ tittel, oppfylt }: VurdertVilkårProps) => (
     <Vilkåroversikt>
         <Vilkårikon>{vurderingsikon(oppfylt)}</Vilkårikon>
-        <Vilkårnavn component="p">{tittel}</Vilkårnavn>
+        <Vilkårnavn as="p">{tittel}</Vilkårnavn>
     </Vilkåroversikt>
 );
 

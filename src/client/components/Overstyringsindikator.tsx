@@ -37,7 +37,7 @@ export const Overstyringsindikator = () => {
                 onClose={() => setShowPopover(false)}
                 placement="top"
             >
-                <Text component="p">{text}</Text>
+                <Text as="p">{text}</Text>
             </Popover>
         </Container>
     );

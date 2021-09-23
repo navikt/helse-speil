@@ -11,7 +11,7 @@ const Text = styled(BodyShort)`
 interface ErrorMessageProps extends React.HTMLAttributes<HTMLParagraphElement> {}
 
 export const ErrorMessage: React.FC<ErrorMessageProps> = ({ children, ...rest }) => (
-    <Text component="p" {...rest}>
+    <Text as="p" {...rest}>
         {children}
     </Text>
 );

@@ -84,21 +84,21 @@ export const Utbetalingssum = ({
     personnavn,
 }: BeløpTilUtbetalingProps) => (
     <Container>
-        <Title component="p">{erUtbetalt ? 'Utbetalt beløp' : 'Beløp til utbetaling'}</Title>
-        <Total component="p">{somPenger(arbeidsgiverNettobeløp + personNettobeløp)}</Total>
+        <Title as="p">{erUtbetalt ? 'Utbetalt beløp' : 'Beløp til utbetaling'}</Title>
+        <Total as="p">{somPenger(arbeidsgiverNettobeløp + personNettobeløp)}</Total>
         <ArbeidsgiverIcon>
             <Bag data-tip="Arbeidsgiver" title="Arbeidsgiver" />
         </ArbeidsgiverIcon>
         <ArbeidsgiverName>
             <TekstMedEllipsis>{arbeidsgivernavn}</TekstMedEllipsis>
         </ArbeidsgiverName>
-        <ArbeidsgiverSum component="p">{somPenger(arbeidsgiverNettobeløp)}</ArbeidsgiverSum>
+        <ArbeidsgiverSum as="p">{somPenger(arbeidsgiverNettobeløp)}</ArbeidsgiverSum>
         <PersonIcon>
             <People data-tip="Arbeidstaker" title="Arbeidstaker" />
         </PersonIcon>
         <PersonName>
             <TekstMedEllipsis>{personnavn}</TekstMedEllipsis>
         </PersonName>
-        <PersonSum component="p">{somPenger(personNettobeløp)}</PersonSum>
+        <PersonSum as="p">{somPenger(personNettobeløp)}</PersonSum>
     </Container>
 );

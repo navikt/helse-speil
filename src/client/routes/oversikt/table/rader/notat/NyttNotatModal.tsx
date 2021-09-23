@@ -55,14 +55,14 @@ const StyledTextarea = styled(Textarea)`
 `;
 
 interface Props {
-    lukkModal: () => void;
+    onClose: () => void;
     personinfo: Personinfo;
     vedtaksperiodeId: string;
     leggSakPåVent?: () => void;
     navigerTilbake?: () => void;
 }
 
-export const NyttNotatModal = ({ lukkModal, personinfo, vedtaksperiodeId, leggSakPåVent, navigerTilbake }: Props) => {
+export const NyttNotatModal = ({ onClose, personinfo, vedtaksperiodeId, leggSakPåVent, navigerTilbake }: Props) => {
     const notaterForOppgave = useNotaterForVedtaksperiode(vedtaksperiodeId);
     const refreshNotater = useSetRecoilState(notaterStateRefetchKey);
     const errorHandler = useOperationErrorHandler('Nytt Notat');
@@ -83,7 +83,7 @@ export const NyttNotatModal = ({ lukkModal, personinfo, vedtaksperiodeId, leggSa
 
     const closeModal = (event: React.MouseEvent | React.KeyboardEvent) => {
         event.stopPropagation();
-        lukkModal();
+        onClose();
     };
 
     const prøvPostNotat = (notat: NotatDTO) => {
@@ -97,7 +97,7 @@ export const NyttNotatModal = ({ lukkModal, personinfo, vedtaksperiodeId, leggSa
                 .finally(() => {
                     setIsFetching(false);
                     if (navigerTilbake) navigerTilbake();
-                    else lukkModal();
+                    else onClose();
                 }),
             errorHandler
         );
@@ -111,7 +111,7 @@ export const NyttNotatModal = ({ lukkModal, personinfo, vedtaksperiodeId, leggSa
 
     return (
         <StyledModal title={<Tittel>{tittel}</Tittel>} contentLabel="Notat" isOpen onRequestClose={closeModal}>
-            <StyledUndertittel component="p">{undertittel}</StyledUndertittel>
+            <StyledUndertittel as="p">{undertittel}</StyledUndertittel>
             <Content>
                 {notaterForOppgave.length > 0 && (
                     <>
@@ -134,19 +134,19 @@ export const NyttNotatModal = ({ lukkModal, personinfo, vedtaksperiodeId, leggSa
                 />
                 <Knappegruppe>
                     <Button
-                        size="s"
+                        size="small"
                         disabled={isFetching || tekst.trim() === '' || tekst.trim().length > tekstMaxLength}
                         onClick={submit}
                     >
                         {sakSkalLeggesPåVent ? 'Legg på vent' : 'Lagre'}
-                        {isFetching && <Loader size="xs" />}
+                        {isFetching && <Loader size="xsmall" />}
                     </Button>
                     {sakSkalLeggesPåVent ? (
-                        <Button size="s" variant="secondary" onClick={closeModal}>
+                        <Button size="small" variant="secondary" onClick={closeModal}>
                             Avbryt
                         </Button>
                     ) : (
-                        <Button variant="secondary" size="s" onClick={navigerTilbake}>
+                        <Button variant="secondary" size="small" onClick={navigerTilbake}>
                             Tilbake
                         </Button>
                     )}

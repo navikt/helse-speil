@@ -166,11 +166,11 @@ export const Utbetalingsdialog = ({
     return (
         <>
             <Knapper>
-                <Button variant="action" size="s" onClick={åpneGodkjenningsmodal}>
+                <Button variant="primary" size="small" onClick={åpneGodkjenningsmodal}>
                     {godkjenningsknappTekst}
                 </Button>
                 {kanAvvises && (
-                    <Button size="s" onClick={åpneAvvisningsmodal}>
+                    <Button variant="secondary" size="small" onClick={åpneAvvisningsmodal}>
                         Kan ikke behandles her
                     </Button>
                 )}

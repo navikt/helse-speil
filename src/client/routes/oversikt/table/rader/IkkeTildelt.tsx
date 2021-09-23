@@ -38,9 +38,9 @@ export const IkkeTildelt = ({ oppgavereferanse }: IkkeTildeltProps) => {
 
     return (
         <CellContent width={128}>
-            <Tildelingsknapp size="s" onClick={tildel}>
+            <Tildelingsknapp as="button" variant="secondary" size="small" onClick={tildel}>
                 Tildel meg
-                {isFetching && <Loader size="xs" />}
+                {isFetching && <Loader size="xsmall" />}
             </Tildelingsknapp>
         </CellContent>
     );

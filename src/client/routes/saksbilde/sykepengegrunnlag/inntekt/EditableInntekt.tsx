@@ -247,12 +247,12 @@ export const EditableInntekt = ({ omregnetÅrsinntekt, close, onEndre }: Editabl
                             <FlexColumn>
                                 <MånedsbeløpInput initialMånedsbeløp={omregnetÅrsinntekt.månedsbeløp} />
                             </FlexColumn>
-                            <OpprinneligMånedsbeløp component="p">
+                            <OpprinneligMånedsbeløp as="p">
                                 {toKronerOgØre(omregnetÅrsinntekt.månedsbeløp)}
                             </OpprinneligMånedsbeløp>
                         </Flex>
                     </Tabell>
-                    <Warning component="p">Endringen vil gjelde fra skjæringstidspunktet</Warning>
+                    <Warning as="p">Endringen vil gjelde fra skjæringstidspunktet</Warning>
                     <Tabell>
                         <OmregnetTilÅrsinntekt harEndringer={harEndringer}>
                             <BodyShort>
@@ -263,7 +263,7 @@ export const EditableInntekt = ({ omregnetÅrsinntekt, close, onEndre }: Editabl
                         </OmregnetTilÅrsinntekt>
                         <OmregnetTilÅrsinntektContainer harEndringer={harEndringer}>
                             {harEndringer && <Overstyringsindikator />}
-                            <Bold component="p">{somPenger(omregnetÅrsinntekt.beløp)}</Bold>
+                            <Bold as="p">{somPenger(omregnetÅrsinntekt.beløp)}</Bold>
                         </OmregnetTilÅrsinntektContainer>
                     </Tabell>
                     <Begrunnelser />
@@ -278,11 +278,11 @@ export const EditableInntekt = ({ omregnetÅrsinntekt, close, onEndre }: Editabl
                         </FeiloppsummeringContainer>
                     )}
                     <Buttons>
-                        <Button disabled={isLoading} variant="primary">
+                        <Button as="button" disabled={isLoading} variant="secondary">
                             Ferdig
-                            {isLoading && <Loader size="xs" />}
+                            {isLoading && <Loader size="xsmall" />}
                         </Button>
-                        <Button variant="secondary" onClick={cancelEditing}>
+                        <Button as="button" variant="tertiary" onClick={cancelEditing}>
                             Avbryt
                         </Button>
                     </Buttons>

@@ -35,14 +35,14 @@ export const TotalRow = React.memo(({ dager, dagerIgjen }: TotalRowProps) => {
         <Container>
             <td>TOTAL</td>
             <td>
-                <TotalText component="p">{utbetalingsdager.length} dager</TotalText>
+                <TotalText as="p">{utbetalingsdager.length} dager</TotalText>
             </td>
             <td />
             <td />
             <td />
             <UtbetalingCell style={{ fontWeight: 'bold' }} utbetaling={totalUtbetaling} />
             <td>
-                <TotalText component="p">{dagerIgjen}</TotalText>
+                <TotalText as="p">{dagerIgjen}</TotalText>
             </td>
             <td />
         </Container>

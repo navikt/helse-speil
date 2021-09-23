@@ -22,7 +22,7 @@ const Verdi = styled.div`
 
 export const Vilkårsgrupperad = ({ label, children }: Props) => (
     <>
-        <Navn component="p">{label}</Navn>
+        <Navn as="p">{label}</Navn>
         <Verdi>{children}</Verdi>
     </>
 );

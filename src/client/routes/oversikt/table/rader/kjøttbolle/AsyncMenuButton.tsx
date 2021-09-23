@@ -69,9 +69,9 @@ export const AsyncMenuButton = ({
     };
 
     return (
-        <Button onClick={onClick} {...rest}>
+        <Button as="button" onClick={onClick} {...rest}>
             {children}
-            {isPerformingAsyncOperation && <Loader size="xs" />}
+            {isPerformingAsyncOperation && <Loader size="xsmall" />}
         </Button>
     );
 };

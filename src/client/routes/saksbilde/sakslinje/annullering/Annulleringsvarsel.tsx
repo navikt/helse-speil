@@ -15,7 +15,7 @@ const Varsel = styled(Alert)`
 `;
 
 export const Annulleringsvarsel: React.FC<AlertProps> = ({ children, ...rest }) => (
-    <Varsel size="s" {...rest}>
+    <Varsel size="small" {...rest}>
         {children}
     </Varsel>
 );

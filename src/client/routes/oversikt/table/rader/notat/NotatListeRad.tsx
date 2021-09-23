@@ -89,8 +89,8 @@ export const NotatListeRad = ({ notat, vedtaksperiodeId, saksbehandler }: Props)
             {fellesRader}
             <TextCell>
                 {notat.saksbehandler.oid === saksbehandler.oid && (
-                    <LenkeCell href="#" onClick={() => prøvFeilregistrerNotat(notat.id)}>
-                        Feilregistrer {isFetching && <Loader size="xs" />}
+                    <LenkeCell as="button" onClick={() => prøvFeilregistrerNotat(notat.id)}>
+                        Feilregistrer {isFetching && <Loader size="xsmall" />}
                     </LenkeCell>
                 )}
             </TextCell>

@@ -109,13 +109,13 @@ export const LasterPersonlinje = () => (
     <Container className="Personlinje">
         <KjønnsnøytraltIkon />
         <LoadingText />
-        <Separator component="p">/</Separator>
+        <Separator as="p">/</Separator>
         <LoadingText />
-        <Separator component="p">/</Separator>
+        <Separator as="p">/</Separator>
         <LoadingText />
-        <Separator component="p">/</Separator>
+        <Separator as="p">/</Separator>
         <LoadingText />
-        <Separator component="p">/</Separator>
+        <Separator as="p">/</Separator>
         <LoadingText />
     </Container>
 );
@@ -136,10 +136,8 @@ export const Personlinje = ({ person }: PersonlinjeProps) => {
     return (
         <Container className="Personlinje">
             <Kjønnsikon kjønn={kjønn} />
-            <Bold component="p">
-                {capitalizeName(`${etternavn}, ${fornavn} ${mellomnavn ? `${mellomnavn} ` : ''}`)}
-            </Bold>
-            <Separator component="p">/</Separator>
+            <Bold as="p">{capitalizeName(`${etternavn}, ${fornavn} ${mellomnavn ? `${mellomnavn} ` : ''}`)}</Bold>
+            <Separator as="p">/</Separator>
             {fnr ? (
                 <Clipboard
                     preserveWhitespace={false}
@@ -151,24 +149,24 @@ export const Personlinje = ({ person }: PersonlinjeProps) => {
             ) : (
                 <BodyShort>Fødselsnummer ikke tilgjengelig</BodyShort>
             )}
-            <Separator component="p">/</Separator>
+            <Separator as="p">/</Separator>
             <BodyShort>Aktør-ID:&nbsp;</BodyShort>
             <Clipboard preserveWhitespace={false} copyMessage="Aktør-ID er kopiert" dataTip="Kopier aktør-ID">
                 <BodyShort>{aktørId}</BodyShort>
             </Clipboard>
-            <Separator component="p">/</Separator>
+            <Separator as="p">/</Separator>
             <BodyShort>
                 Boenhet: {enhet.id} ({enhet.navn})
             </BodyShort>
             {utbetalingsoversikt && (
                 <>
-                    <Separator component="p">/</Separator>
+                    <Separator as="p">/</Separator>
                     <Lenke to={`${person.aktørId}/../utbetalingshistorikk`}>Utbetalingsoversikt</Lenke>
                 </>
             )}
             {person?.dødsdato && (
                 <>
-                    <Separator component="p">/</Separator>
+                    <Separator as="p">/</Separator>
                     <DødsdatoEtikett>Død {person?.dødsdato?.format(NORSK_DATOFORMAT)}</DødsdatoEtikett>
                 </>
             )}

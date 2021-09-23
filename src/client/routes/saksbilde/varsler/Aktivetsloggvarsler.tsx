@@ -31,7 +31,7 @@ export const Aktivitetsloggvarsler = React.memo(({ varsler }: { varsler: string[
                 } else {
                     return (
                         <Saksbildevarsel key={index} type={Varseltype.Advarsel}>
-                            <BodyShort component="p">{aktivitet}</BodyShort>
+                            <BodyShort as="p">{aktivitet}</BodyShort>
                         </Saksbildevarsel>
                     );
                 }

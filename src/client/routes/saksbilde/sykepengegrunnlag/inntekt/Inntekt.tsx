@@ -75,7 +75,7 @@ export const Inntekt = ({ omregnetÅrsinntekt }: InntektProps) => {
         <Container editing={editing}>
             <Header isEditing={editing}>
                 <Flex alignItems="center">
-                    <Tittel component="h3">Inntekt</Tittel>
+                    <Tittel as="h3">Inntekt</Tittel>
                     {endret ? (
                         <CaseworkerFilled height={20} width={20} />
                     ) : (

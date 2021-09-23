@@ -75,10 +75,10 @@ describe('useTabelldagerMap', () => {
 
         const { result } = renderHook(() => useTabelldagerMap(periode, overstyringer, 100, dayjs()));
 
-        expect(result.current.get('01.01.2021')?.overstyring).toBeUndefined();
-        expect(result.current.get('02.01.2021')?.overstyring?.begrunnelse).toEqual('Fordi');
-        expect(result.current.get('02.01.2021')?.overstyring?.timestamp.isSame(timestamp)).toBeTruthy();
-        expect(result.current.get('02.01.2021')?.overstyring?.ident).toEqual('en-ident');
-        expect(result.current.get('02.01.2021')?.overstyring?.navn).toEqual('et-navn');
+        expect(result.current.get('01.01.2021')?.overstyringer).toBeUndefined();
+        expect(result.current.get('02.01.2021')?.overstyringer?.[0].begrunnelse).toEqual('Fordi');
+        expect(result.current.get('02.01.2021')?.overstyringer?.[0].timestamp.isSame(timestamp)).toEqual(true);
+        expect(result.current.get('02.01.2021')?.overstyringer?.[0].ident).toEqual('en-ident');
+        expect(result.current.get('02.01.2021')?.overstyringer?.[0].navn).toEqual('et-navn');
     });
 });

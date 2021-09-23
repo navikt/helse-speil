@@ -49,7 +49,7 @@ const BoldTitle = styled(BodyShort)`
 `;
 
 export const Kategoritittel: React.FC<React.HTMLAttributes<HTMLParagraphElement>> = (props) => (
-    <BoldTitle component="p" {...props}>
+    <BoldTitle as="p" {...props}>
         {props.children}
     </BoldTitle>
 );
@@ -59,7 +59,7 @@ const SmallTitle = styled(BodyShort)`
 `;
 
 export const Kolonnetittel: React.FC<React.HTMLAttributes<HTMLParagraphElement>> = (props) => (
-    <SmallTitle component="p" {...props}>
+    <SmallTitle as="p" {...props}>
         {props.children}
     </SmallTitle>
 );

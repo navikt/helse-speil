@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import React from 'react';
 
-import { BodyShort, Button, Loader, Title } from '@navikt/ds-react';
+import { BodyShort, Button, Loader, Heading } from '@navikt/ds-react';
 
 import { Modal } from '../../../../components/Modal';
 
@@ -31,9 +31,9 @@ export const Utbetalingsmodal = ({ isSending, onApprove, onClose }: Props) => (
     <Modal
         isOpen
         title={
-            <Title component="h2" size="l">
+            <Heading as="h2" size="large">
                 Er du sikker?
-            </Title>
+            </Heading>
         }
         contentLabel="Godkjenn utbetaling"
         onRequestClose={onClose}
@@ -41,11 +41,13 @@ export const Utbetalingsmodal = ({ isSending, onApprove, onClose }: Props) => (
         <Container>
             <BodyShort>Når du trykker ja blir utbetalingen sendt til oppdragsystemet.</BodyShort>
             <Buttons>
-                <Button variant="action" onClick={onApprove} disabled={isSending}>
+                <Button variant="primary" onClick={onApprove} disabled={isSending}>
                     Ja
-                    {isSending && <Loader size="xs" />}
+                    {isSending && <Loader size="xsmall" />}
                 </Button>
-                <Button onClick={onClose}>Avbryt</Button>
+                <Button variant="secondary" onClick={onClose}>
+                    Avbryt
+                </Button>
             </Buttons>
         </Container>
     </Modal>

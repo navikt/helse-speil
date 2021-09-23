@@ -34,4 +34,4 @@ interface CardTitleProps extends React.HTMLAttributes<HTMLParagraphElement> {
     children: React.ReactNode;
 }
 
-export const CardTitle: React.FC<CardTitleProps> = (props) => <Title component="h3" {...props} />;
+export const CardTitle: React.FC<CardTitleProps> = (props) => <Title as="h3" {...props} />;

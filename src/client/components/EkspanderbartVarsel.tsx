@@ -3,16 +3,20 @@ import React, { ReactNode, useState } from 'react';
 
 import { Accordion, Alert } from '@navikt/ds-react';
 
-const Container = styled(Accordion)`
-    border-bottom: 1px solid var(--navds-color-warning-border);
-
-    &:hover {
-        border-bottom: 1px solid var(--navds-color-warning-border);
-    }
-
+const Container = styled(Accordion.Item)`
     > button {
-        &:hover > .navds-accordion__heading {
-            color: var(--navds-color-text-primary);
+        color: var(--navds-color-text-primary);
+        background-color: var(--navds-color-warning-background);
+        padding: 0 1rem 0 0;
+
+        &,
+        &:hover,
+        &:focus {
+            border-bottom: 1px solid var(--navds-color-warning-border);
+        }
+
+        &.navds-accordion__header:hover {
+            text-decoration-color: var(--navds-color-text-primary);
         }
 
         &:focus,
@@ -23,9 +27,6 @@ const Container = styled(Accordion)`
         &:focus-visible {
             box-shadow: inset var(--navds-shadow-focus);
         }
-
-        background-color: var(--navds-color-warning-background);
-        padding: 0 1rem 0 0;
 
         > svg > path {
             fill: var(--navds-color-text-primary);
@@ -41,15 +42,12 @@ const Container = styled(Accordion)`
             min-height: unset;
         }
     }
-
-    .navds-accordion__content {
-        padding: 0;
-    }
 `;
 
-const Content = styled.div`
+const Content = styled(Accordion.Content)`
     background: var(--navds-color-warning-background);
     padding: 0.5rem 3.25rem;
+    border-bottom: 1px solid var(--navds-color-warning-border);
 `;
 
 const Warning = styled(Alert)`
@@ -68,7 +66,8 @@ export const EkspanderbartVarsel: React.FC<EkspanderbartVarselProps> = ({ label,
     const heading = <Warning variant="warning">{label}</Warning>;
 
     return (
-        <Container heading={heading} open={open} onClick={() => setOpen(!open)}>
+        <Container defaultOpen={open}>
+            <Accordion.Header onClick={() => setOpen(!open)}>{heading}</Accordion.Header>
             <Content>{children}</Content>
         </Container>
     );

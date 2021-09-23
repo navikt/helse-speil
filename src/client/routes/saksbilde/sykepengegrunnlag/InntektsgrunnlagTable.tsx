@@ -91,21 +91,21 @@ export const InntektsgrunnlagTable = ({
                 <tr>
                     <th />
                     <th>
-                        <Bold component="p">Inntektsgrunnlag</Bold>
+                        <Bold as="p">Inntektsgrunnlag</Bold>
                     </th>
                     <th>
-                        <Bold component="p">Sammenligningsgrunnlag</Bold>
+                        <Bold as="p">Sammenligningsgrunnlag</Bold>
                     </th>
                 </tr>
                 <tr>
                     <th>
-                        <Kolonnetittel component="p">Inntektskilde</Kolonnetittel>
+                        <Kolonnetittel as="p">Inntektskilde</Kolonnetittel>
                     </th>
                     <th>
-                        <Kolonnetittel component="p">Omregnet årsinntekt</Kolonnetittel>
+                        <Kolonnetittel as="p">Omregnet årsinntekt</Kolonnetittel>
                     </th>
                     <th>
-                        <Kolonnetittel component="p">Rapportert årsinntekt</Kolonnetittel>
+                        <Kolonnetittel as="p">Rapportert årsinntekt</Kolonnetittel>
                     </th>
                 </tr>
             </thead>
@@ -130,13 +130,13 @@ export const InntektsgrunnlagTable = ({
             <tfoot>
                 <tr>
                     <td>
-                        <Bold component="p">Total</Bold>
+                        <Bold as="p">Total</Bold>
                     </td>
                     <td>
-                        <Bold component="p">{somPenger(inntektsgrunnlag.omregnetÅrsinntekt)}</Bold>
+                        <Bold as="p">{somPenger(inntektsgrunnlag.omregnetÅrsinntekt)}</Bold>
                     </td>
                     <td>
-                        <Bold component="p">{somPenger(inntektsgrunnlag.sammenligningsgrunnlag)}</Bold>
+                        <Bold as="p">{somPenger(inntektsgrunnlag.sammenligningsgrunnlag)}</Bold>
                     </td>
                 </tr>
             </tfoot>
@@ -148,7 +148,7 @@ export const InntektsgrunnlagTable = ({
                         <BodyShort>Total omregnet årsinntekt</BodyShort>
                     </td>
                     <td>
-                        <RightAligned component="p">{somPenger(inntektsgrunnlag.omregnetÅrsinntekt)}</RightAligned>
+                        <RightAligned as="p">{somPenger(inntektsgrunnlag.omregnetÅrsinntekt)}</RightAligned>
                     </td>
                 </tr>
                 <tr>
@@ -156,29 +156,27 @@ export const InntektsgrunnlagTable = ({
                         <BodyShort>Total rapportert årsinntekt</BodyShort>
                     </td>
                     <td>
-                        <RightAligned component="p">{somPenger(inntektsgrunnlag.sammenligningsgrunnlag)}</RightAligned>
+                        <RightAligned as="p">{somPenger(inntektsgrunnlag.sammenligningsgrunnlag)}</RightAligned>
                     </td>
                 </tr>
             </tbody>
             <tfoot>
                 <tr>
                     <td>
-                        <Bold component="p">Utregnet avvik</Bold>
+                        <Bold as="p">Utregnet avvik</Bold>
                     </td>
                     <td>
-                        <BoldRightAligned component="p">
+                        <BoldRightAligned as="p">
                             {inntektsgrunnlag.avviksprosent ? `${Math.floor(inntektsgrunnlag.avviksprosent)} %` : '-'}
                         </BoldRightAligned>
                     </td>
                 </tr>
                 <tr>
                     <td>
-                        <Bold component="p">Sykepengegrunnlag</Bold>
+                        <Bold as="p">Sykepengegrunnlag</Bold>
                     </td>
                     <td>
-                        <BoldRightAligned component="p">
-                            {somPenger(inntektsgrunnlag.sykepengegrunnlag)}
-                        </BoldRightAligned>
+                        <BoldRightAligned as="p">{somPenger(inntektsgrunnlag.sykepengegrunnlag)}</BoldRightAligned>
                     </td>
                 </tr>
             </tfoot>

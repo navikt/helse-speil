@@ -30,7 +30,7 @@ export const vedtaksperioderTilVisningState = atom<string[]>({
     default: [],
 });
 
-export const useNotaterForVedtaksperiode = (vedtaksperiodeId: string) => {
+export const useNotaterForVedtaksperiode = (vedtaksperiodeId?: string) => {
     const notater = useRecoilValueLoadable<Notat[]>(notaterState);
     return notater.state === 'hasValue'
         ? notater.contents.filter((notat) => notat.vedtaksperiodeId == vedtaksperiodeId)

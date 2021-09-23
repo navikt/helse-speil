@@ -2,6 +2,10 @@ import styled from '@emotion/styled';
 import React, { ReactNode } from 'react';
 import ReactModal from 'react-modal';
 
+if (process.env.NODE_ENV === 'production') {
+    ReactModal.setAppElement('#root');
+}
+
 if (ReactModal.defaultStyles.overlay) {
     ReactModal.defaultStyles.overlay.backgroundColor = 'rgba(61, 56, 49, 0.7)';
     ReactModal.defaultStyles.overlay.zIndex = 10000;
@@ -94,20 +98,20 @@ const Topprad = styled.header`
 
 export interface ModalProps {
     isOpen: boolean;
-    contentLabel: string;
     onRequestClose: (event: React.MouseEvent | React.KeyboardEvent) => void;
     title?: ReactNode;
     className?: string;
+    contentLabel?: string;
     shouldReturnFocusAfterClose?: boolean;
 }
 
 export const Modal: React.FunctionComponent<ModalProps> = ({
     isOpen,
-    contentLabel,
     onRequestClose,
     title,
     children,
     className,
+    contentLabel,
     shouldReturnFocusAfterClose,
 }) => (
     <span onClick={(event) => event.stopPropagation()}>

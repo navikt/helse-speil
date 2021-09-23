@@ -10,7 +10,6 @@ import { Tooltip } from '../../../../components/Tooltip';
 
 import { CellContent } from '../../table/CellContent';
 import { OverstyringsindikatorSaksbehandler } from './OverstyringsindikatorSaksbehandler';
-import { Dagoverstyring } from './Utbetalingstabell.types';
 
 const getKildeTypeIcon = (type?: Sykdomsdag['kilde'], overstyringer?: Dagoverstyring[]): ReactNode => {
     switch (type) {

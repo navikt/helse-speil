@@ -15,7 +15,7 @@ const enUtbetalingstabelldag = (overrides?: Partial<UtbetalingstabellDag>): Utbe
     totalGradering: overrides?.totalGradering ?? 100,
     utbetaling: overrides?.utbetaling ?? 1234,
     dagerIgjen: overrides?.dagerIgjen ?? 100,
-    overstyring: overrides?.overstyring,
+    overstyringer: overrides?.overstyringer,
     isMaksdato: false,
     sykdomsdag: overrides?.sykdomsdag ?? {
         type: 'Syk',

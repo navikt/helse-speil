@@ -184,7 +184,7 @@ export const Behandlingsstatistikk = () => {
         >
             <Container>
                 <HeaderContainer>
-                    <Header component="p">Totalt behandlede saker i dag</Header>
+                    <Header as="p">Totalt behandlede saker i dag</Header>
                     <CloseButton onClick={() => setShow(false)} />
                 </HeaderContainer>
                 {statistikk ? (

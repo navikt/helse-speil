@@ -97,7 +97,7 @@ export const PeriodeCard = React.memo(
                                         width={16}
                                     />
                                 </IconContainer>
-                                <LovdataLenkeContainer component="p">
+                                <LovdataLenkeContainer as="p">
                                     <LovdataLenke paragraf="8-51">§ 8-51</LovdataLenke>
                                 </LovdataLenkeContainer>
                             </Flex>

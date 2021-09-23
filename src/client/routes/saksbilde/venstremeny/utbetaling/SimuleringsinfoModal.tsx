@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import dayjs from 'dayjs';
 import React from 'react';
 
-import { BodyShort, Title } from '@navikt/ds-react';
+import { BodyShort, Heading } from '@navikt/ds-react';
 
 import { Grid } from '../../../../components/Grid';
 import { Modal } from '../../../../components/Modal';
@@ -89,7 +89,7 @@ const Utbetalingsdetaljvisning = ({ detalj, index, anonymiseringEnabled }: Utbet
         <BodyShort>{formaterDato(detalj.faktiskTom)}</BodyShort>
         <BodyShort>Sats</BodyShort>
         {detalj.sats < 0 ? (
-            <NegativtBeløp component="p">{somPenger(detalj.sats)}</NegativtBeløp>
+            <NegativtBeløp as="p">{somPenger(detalj.sats)}</NegativtBeløp>
         ) : (
             <BodyShort>{somPenger(detalj.sats)}</BodyShort>
         )}
@@ -99,7 +99,7 @@ const Utbetalingsdetaljvisning = ({ detalj, index, anonymiseringEnabled }: Utbet
         <BodyShort>{detalj.typeSats}</BodyShort>
         <BodyShort>Beløp</BodyShort>
         {detalj.belop < 0 ? (
-            <NegativtBeløp component="p">{somPenger(detalj.belop)}</NegativtBeløp>
+            <NegativtBeløp as="p">{somPenger(detalj.belop)}</NegativtBeløp>
         ) : (
             <BodyShort>{somPenger(detalj.belop)}</BodyShort>
         )}
@@ -140,19 +140,19 @@ export const SimuleringsinfoModal = ({
     <Modal isOpen={åpenModal} contentLabel="Simuleringsinfo" onRequestClose={lukkModal}>
         <Modalinnhold>
             <Grid gridTemplateColumns="1fr 1fr">
-                <Title component="h2" size="m">
+                <Heading as="h2" size="medium">
                     Simulering
-                </Title>
+                </Heading>
             </Grid>
             {simulering.perioder.map((periode, index) => (
                 <Underliste gridTemplateColumns="1fr 1fr" key={`periode-${index}`}>
                     <Luft />
-                    <BodyShort component="p">Periode</BodyShort>
-                    <BodyShort component="p">{`${formaterDato(periode.fom)} - ${formaterDato(periode.tom)}`}</BodyShort>
+                    <BodyShort as="p">Periode</BodyShort>
+                    <BodyShort as="p">{`${formaterDato(periode.fom)} - ${formaterDato(periode.tom)}`}</BodyShort>
                     <Luft />
                     <BodyShort>Totalbeløp simulering</BodyShort>
                     {simulering.totalbeløp < 0 ? (
-                        <NegativtBeløp component="p">{somPenger(simulering.totalbeløp)}</NegativtBeløp>
+                        <NegativtBeløp as="p">{somPenger(simulering.totalbeløp)}</NegativtBeløp>
                     ) : (
                         <BodyShort>{somPenger(simulering.totalbeløp)}</BodyShort>
                     )}

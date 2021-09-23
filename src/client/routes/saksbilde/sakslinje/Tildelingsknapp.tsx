@@ -41,7 +41,7 @@ export const Tildelingsknapp = ({ oppgavereferanse, tildeling, erTildeltInnlogge
             }}
         >
             Meld av
-            {isFetching && <Loader size="xs" />}
+            {isFetching && <Loader size="xsmall" />}
         </DropdownMenyknapp>
     ) : (
         <DropdownMenyknapp
@@ -69,7 +69,7 @@ export const Tildelingsknapp = ({ oppgavereferanse, tildeling, erTildeltInnlogge
             }}
         >
             Tildel meg
-            {isFetching && <Loader size="xs" />}
+            {isFetching && <Loader size="xsmall" />}
         </DropdownMenyknapp>
     );
 };

@@ -181,37 +181,37 @@ export const HoverInfo = ({ vedtaksperiode }: HoverInfoProps) => {
     return (
         <Container>
             <Linje>
-                <LinjeFelt component="p">Status: </LinjeFelt>
-                <LinjeVerdi component="p"> {status} </LinjeVerdi>
+                <LinjeFelt as="p">Status: </LinjeFelt>
+                <LinjeVerdi as="p"> {status} </LinjeVerdi>
             </Linje>
             <Linje>
-                <LinjeFelt component="p">Periode: </LinjeFelt>
-                <LinjeVerdi component="p">
+                <LinjeFelt as="p">Periode: </LinjeFelt>
+                <LinjeVerdi as="p">
                     {fom} - {tom}
                 </LinjeVerdi>
             </Linje>
             {utbetalt && utbetalt !== 0 && (
                 <Linje>
-                    <LinjeFelt component="p">Utbetalt: </LinjeFelt>
-                    <LinjeVerdi component="p">{somPenger(utbetalt)} </LinjeVerdi>
+                    <LinjeFelt as="p">Utbetalt: </LinjeFelt>
+                    <LinjeVerdi as="p">{somPenger(utbetalt)} </LinjeVerdi>
                 </Linje>
             )}
             {arbeidsgiverperiode && (
                 <Linje>
-                    <LinjeFelt component="p">Arbeidsgiverperiode: </LinjeFelt>
-                    <LinjeVerdi component="p">{arbeidsgiverperiode} </LinjeVerdi>
+                    <LinjeFelt as="p">Arbeidsgiverperiode: </LinjeFelt>
+                    <LinjeVerdi as="p">{arbeidsgiverperiode} </LinjeVerdi>
                 </Linje>
             )}
             {ferieperiode && (
                 <Linje>
-                    <LinjeFelt component="p">Ferie: </LinjeFelt>
-                    <LinjeVerdi component="p">{ferieperiode} </LinjeVerdi>
+                    <LinjeFelt as="p">Ferie: </LinjeFelt>
+                    <LinjeVerdi as="p">{ferieperiode} </LinjeVerdi>
                 </Linje>
             )}
             {permisjonsperiode && (
                 <Linje>
-                    <LinjeFelt component="p">Permisjon: </LinjeFelt>
-                    <LinjeVerdi component="p">{permisjonsperiode} </LinjeVerdi>
+                    <LinjeFelt as="p">Permisjon: </LinjeFelt>
+                    <LinjeVerdi as="p">{permisjonsperiode} </LinjeVerdi>
                 </Linje>
             )}
             {dagerIgjen !== undefined && (
@@ -223,8 +223,7 @@ export const HoverInfo = ({ vedtaksperiode }: HoverInfoProps) => {
                         } as CSSProperties
                     }
                 >
-                    <LinjeFelt component="p">Dager igjen: </LinjeFelt>{' '}
-                    <LinjeVerdi component="p">{dagerIgjen}</LinjeVerdi>
+                    <LinjeFelt as="p">Dager igjen: </LinjeFelt> <LinjeVerdi as="p">{dagerIgjen}</LinjeVerdi>
                 </Linje>
             )}
         </Container>
@@ -250,12 +249,12 @@ export const TidslinjeperiodeHoverInfo = ({ tidslinjeperiode }: Tidslinjeperiode
     return (
         <Container>
             <Linje>
-                <LinjeFelt component="p">Status: </LinjeFelt>
-                <LinjeVerdi component="p"> {status} </LinjeVerdi>
+                <LinjeFelt as="p">Status: </LinjeFelt>
+                <LinjeVerdi as="p"> {status} </LinjeVerdi>
             </Linje>
             <Linje>
-                <LinjeFelt component="p">Periode: </LinjeFelt>
-                <LinjeVerdi component="p">
+                <LinjeFelt as="p">Periode: </LinjeFelt>
+                <LinjeVerdi as="p">
                     {fom} - {tom}
                 </LinjeVerdi>
             </Linje>
@@ -264,26 +263,26 @@ export const TidslinjeperiodeHoverInfo = ({ tidslinjeperiode }: Tidslinjeperiode
             ) &&
                 nettobeløp != undefined && (
                     <Linje>
-                        <LinjeFelt component="p">Utbetalt: </LinjeFelt>
-                        <LinjeVerdi component="p">{somPenger(nettobeløp)} </LinjeVerdi>
+                        <LinjeFelt as="p">Utbetalt: </LinjeFelt>
+                        <LinjeVerdi as="p">{somPenger(nettobeløp)} </LinjeVerdi>
                     </Linje>
                 )}
             {arbeidsgiverperiode && (
                 <Linje>
-                    <LinjeFelt component="p">Arbeidsgiverperiode: </LinjeFelt>
-                    <LinjeVerdi component="p">{arbeidsgiverperiode} </LinjeVerdi>
+                    <LinjeFelt as="p">Arbeidsgiverperiode: </LinjeFelt>
+                    <LinjeVerdi as="p">{arbeidsgiverperiode} </LinjeVerdi>
                 </Linje>
             )}
             {ferieperiode && (
                 <Linje>
-                    <LinjeFelt component="p">Ferie: </LinjeFelt>
-                    <LinjeVerdi component="p">{ferieperiode} </LinjeVerdi>
+                    <LinjeFelt as="p">Ferie: </LinjeFelt>
+                    <LinjeVerdi as="p">{ferieperiode} </LinjeVerdi>
                 </Linje>
             )}
             {permisjonsperiode && (
                 <Linje>
-                    <LinjeFelt component="p">Permisjon: </LinjeFelt>
-                    <LinjeVerdi component="p">{permisjonsperiode} </LinjeVerdi>
+                    <LinjeFelt as="p">Permisjon: </LinjeFelt>
+                    <LinjeVerdi as="p">{permisjonsperiode} </LinjeVerdi>
                 </Linje>
             )}
             {gjenståendeDager !== undefined && (
@@ -297,8 +296,7 @@ export const TidslinjeperiodeHoverInfo = ({ tidslinjeperiode }: Tidslinjeperiode
                         } as CSSProperties
                     }
                 >
-                    <LinjeFelt component="p">Dager igjen: </LinjeFelt>{' '}
-                    <LinjeVerdi component="p">{gjenståendeDager}</LinjeVerdi>
+                    <LinjeFelt as="p">Dager igjen: </LinjeFelt> <LinjeVerdi as="p">{gjenståendeDager}</LinjeVerdi>
                 </Linje>
             )}
         </Container>

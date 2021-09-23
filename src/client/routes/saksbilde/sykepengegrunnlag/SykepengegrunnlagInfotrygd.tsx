@@ -111,15 +111,15 @@ export const SykepengegrunnlagInfotrygd = ({ inntektsgrunnlag }: Sykepengegrunnl
                     <tr>
                         <th></th>
                         <th>
-                            <Bold component="p">Inntektsgrunnlag</Bold>
+                            <Bold as="p">Inntektsgrunnlag</Bold>
                         </th>
                     </tr>
                     <tr>
                         <th>
-                            <Kolonnetittel component="p">Inntektskilde</Kolonnetittel>
+                            <Kolonnetittel as="p">Inntektskilde</Kolonnetittel>
                         </th>
                         <th>
-                            <Kolonnetittel component="p">Sykepengegrunnlag før 6G</Kolonnetittel>
+                            <Kolonnetittel as="p">Sykepengegrunnlag før 6G</Kolonnetittel>
                         </th>
                     </tr>
                 </thead>
@@ -158,18 +158,18 @@ export const SykepengegrunnlagInfotrygd = ({ inntektsgrunnlag }: Sykepengegrunnl
                 <tfoot>
                     <tr>
                         <td>
-                            <Bold component="p">Total</Bold>
+                            <Bold as="p">Total</Bold>
                         </td>
                         <td>
-                            <Bold component="p">{somPenger(inntektsgrunnlag.omregnetÅrsinntekt)}</Bold>
+                            <Bold as="p">{somPenger(inntektsgrunnlag.omregnetÅrsinntekt)}</Bold>
                         </td>
                     </tr>
                     <tr>
                         <td>
-                            <Bold component="p">Sykepengegrunnlag</Bold>
+                            <Bold as="p">Sykepengegrunnlag</Bold>
                         </td>
                         <td>
-                            <Bold component="p">{somPenger(inntektsgrunnlag.sykepengegrunnlag)}</Bold>
+                            <Bold as="p">{somPenger(inntektsgrunnlag.sykepengegrunnlag)}</Bold>
                         </td>
                     </tr>
                 </tfoot>

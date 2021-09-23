@@ -66,10 +66,10 @@ export const Vilkårsgruppetittel = ({ children, oppfylt, paragraf, type, classN
             )}
         </IkonContainer>
         <TekstContainer>
-            <Tittel component="h3" data-testid={type}>
+            <Tittel as="h3" data-testid={type}>
                 {children}
             </Tittel>
-            {paragraf && <Paragraf component="p">{paragraf}</Paragraf>}
+            {paragraf && <Paragraf as="p">{paragraf}</Paragraf>}
         </TekstContainer>
     </Header>
 );

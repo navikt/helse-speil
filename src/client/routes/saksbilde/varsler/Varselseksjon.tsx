@@ -6,7 +6,7 @@ import { BodyShort } from '@navikt/ds-react';
 import { FlexColumn } from '../../../components/Flex';
 
 const Container = styled(FlexColumn)`
-    margin: 0.5rem 0;
+    padding: 0.5rem 0;
     max-width: 75%;
 
     &:not(:last-of-type) {
@@ -24,7 +24,7 @@ interface VarselseksjonProps {
 
 export const Varselseksjon: React.FC<VarselseksjonProps> = ({ tittel, children }) => (
     <Container>
-        <Tittel component="p">{tittel}</Tittel>
+        <Tittel as="p">{tittel}</Tittel>
         <BodyShort>{children}</BodyShort>
     </Container>
 );

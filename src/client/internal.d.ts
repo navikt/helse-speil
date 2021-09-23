@@ -260,6 +260,13 @@ declare type OverstyrtDag = Dag & {
     grad?: number;
 };
 
+declare type Dagoverstyring = {
+    begrunnelse: string;
+    navn: string;
+    timestamp: Dayjs;
+    ident?: string;
+};
+
 declare type Overstyring = {
     hendelseId: string;
     begrunnelse: string;

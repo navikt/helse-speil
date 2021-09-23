@@ -67,14 +67,14 @@ export const PåVentKnapp = ({ erPåVent, oppgavereferanse, vedtaksperiodeId, pe
             {erPåVent ? (
                 <DropdownMenyknapp onClick={fjernFraPåVent}>
                     Fjern fra på vent
-                    {isFetching && <Loader size="xs" />}
+                    {isFetching && <Loader size="xsmall" />}
                 </DropdownMenyknapp>
             ) : (
                 <DropdownMenyknapp onClick={() => setVisModal(true)}>Legg på vent</DropdownMenyknapp>
             )}
             {visModal && (
                 <NyttNotatModal
-                    lukkModal={() => setVisModal(false)}
+                    onClose={() => setVisModal(false)}
                     personinfo={personinfo}
                     vedtaksperiodeId={vedtaksperiodeId}
                     leggSakPåVent={settPåVent}

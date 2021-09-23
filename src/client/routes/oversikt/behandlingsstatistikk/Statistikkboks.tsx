@@ -5,16 +5,16 @@ import { Accordion, BodyShort } from '@navikt/ds-react';
 
 import { Statistikklinje } from './Statistikklinje';
 
-const Boks = styled(Accordion)`
+const Boks = styled(Accordion.Item)`
     margin-bottom: 1.75rem;
-    border: none;
-
-    &:hover {
-        border: none;
-    }
 
     > button {
         margin-bottom: 4px;
+        border: none;
+
+        &:hover {
+            border: none;
+        }
     }
 
     > button,
@@ -50,8 +50,8 @@ interface HeadingProps {
 
 const Heading = ({ tittel, tilgjengeligeSaker }: HeadingProps) => (
     <HeadingContainer>
-        <BodyShort component="p">{tittel}</BodyShort>
-        <BodyShort component="p">{tilgjengeligeSaker}</BodyShort>
+        <BodyShort as="p">{tittel}</BodyShort>
+        <BodyShort as="p">{tilgjengeligeSaker}</BodyShort>
     </HeadingContainer>
 );
 
@@ -66,14 +66,19 @@ export const Statistikkboks = ({
     elementer,
     visesByDefault = false,
 }: StatistikkboksProps) => (
-    <Boks heading={<Heading tittel={tittel} tilgjengeligeSaker={tilgjengeligeSaker} />} open={visesByDefault}>
-        {elementer.map((element, index) => (
-            <Statistikklinje
-                key={index}
-                etikett={element.etikett}
-                upperBound={tilgjengeligeSaker}
-                currentValue={element.antall}
-            />
-        ))}
+    <Boks defaultOpen={visesByDefault}>
+        <Accordion.Header>
+            <Heading tittel={tittel} tilgjengeligeSaker={tilgjengeligeSaker} />
+        </Accordion.Header>
+        <Accordion.Content>
+            {elementer.map((element, index) => (
+                <Statistikklinje
+                    key={index}
+                    etikett={element.etikett}
+                    upperBound={tilgjengeligeSaker}
+                    currentValue={element.antall}
+                />
+            ))}
+        </Accordion.Content>
     </Boks>
 );

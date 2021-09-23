@@ -101,8 +101,8 @@ export const Brukermeny: React.FC<BrukermenyProps> = ({ navn, ident }) => {
                 arrow={false}
                 offset={-8}
             >
-                <MenyTekst component="p">{navn}</MenyTekst>
-                <MenyTekst component="p">{ident}</MenyTekst>
+                <MenyTekst as="p">{navn}</MenyTekst>
+                <MenyTekst as="p">{ident}</MenyTekst>
                 <Strek />
                 <MenyLenke href="/logout">Logg ut</MenyLenke>
             </Popover>

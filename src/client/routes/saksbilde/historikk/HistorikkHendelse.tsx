@@ -48,9 +48,9 @@ export const HistorikkHendelse = ({ icon, title, body, timestamp }: Hendelse) =>
         <Container>
             <IconContainer>{icon ?? <EmptyIcon />}</IconContainer>
             <ContentContainer>
-                <Bold component="p">{title}</Bold>
+                <Bold as="p">{title}</Bold>
                 {body}
-                {timestamp && <Timestamp component="p">{timestamp.format(NORSK_DATOFORMAT)}</Timestamp>}
+                {timestamp && <Timestamp as="p">{timestamp.format(NORSK_DATOFORMAT)}</Timestamp>}
             </ContentContainer>
         </Container>
     );

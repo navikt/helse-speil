@@ -38,8 +38,8 @@ export const Avvikssammenligning = ({ avvik, totalOmregnetÅrsinntekt, totalRapp
             <BodyShort>Total rapportert årsinntekt</BodyShort>
             <BodyShort>{somPenger(totalRapportertÅrsinntekt)}</BodyShort>
             <Divider />
-            <Bold component="p">Utregnet avvik</Bold>
-            <Bold component="p">{avvik ? `${Math.floor(avvik)} %` : '-'}</Bold>
+            <Bold as="p">Utregnet avvik</Bold>
+            <Bold as="p">{avvik ? `${Math.floor(avvik)} %` : '-'}</Bold>
         </Sammenligning>
     );
 };

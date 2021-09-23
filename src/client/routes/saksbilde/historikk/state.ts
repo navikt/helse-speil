@@ -36,31 +36,31 @@ export const useHistorikk = () => useRecoilValue(historikk);
 
 export const useFilterState = () => useRecoilState(filterState);
 
-export const useOppdaterHistorikk = (onNotatLenkeClick: () => void) => {
-    const aktivPeriode = useAktivPeriode();
-    const vedtaksperiode = useVedtaksperiode(aktivPeriode?.id!);
+type UseOppdaterHistorikkOptions = {
+    onClickNotat: () => void;
+    onClickEndring: () => void;
+};
 
+export const useOppdaterHistorikk = ({ onClickNotat, onClickEndring }: UseOppdaterHistorikkOptions) => {
+    const setHistorikk = useSetRecoilState(historikkState);
+    const aktivPeriode = useAktivPeriode();
+    const vedtaksperiode = useVedtaksperiode(aktivPeriode?.id);
+    const notaterForVedtaksperiode = useNotaterForVedtaksperiode(vedtaksperiode?.id);
+
+    const notater = useNotater(notaterForVedtaksperiode, onClickNotat);
     const dokumenter = useDokumenter(vedtaksperiode);
     const utbetalinger = useUtbetalinger(aktivPeriode);
-    const utbetalingsendringer = useUtbetalingsendringer(vedtaksperiode);
-
-    const notaterForVedtaksperiode = useNotaterForVedtaksperiode(vedtaksperiode?.id!);
-    const notater = useNotater(notaterForVedtaksperiode, onNotatLenkeClick);
-
-    const setHistorikk = useSetRecoilState(historikkState);
-
-    const byTimestamp = (a: Hendelse, b: Hendelse): number =>
-        a.timestamp === undefined ? -1 : b.timestamp === undefined ? 1 : b.timestamp.diff(a.timestamp);
-
-    const hendelser = [...dokumenter, ...utbetalingsendringer].filter(
-        (it) => !aktivPeriode || it.timestamp?.isSameOrBefore(aktivPeriode.opprettet)
-    );
-
-    hendelser.push(...utbetalinger);
-    hendelser.push(...notater);
-    hendelser.sort(byTimestamp);
+    const utbetalingsendringer = useUtbetalingsendringer(onClickEndring, vedtaksperiode);
 
     useEffect(() => {
-        setHistorikk(hendelser);
+        setHistorikk(
+            [...dokumenter, ...utbetalingsendringer]
+                .filter((it) => !aktivPeriode || it.timestamp?.isSameOrBefore(aktivPeriode.opprettet))
+                .concat(utbetalinger)
+                .concat(notater)
+                .sort((a: Hendelse, b: Hendelse): number =>
+                    a.timestamp === undefined ? -1 : b.timestamp === undefined ? 1 : b.timestamp.diff(a.timestamp)
+                )
+        );
     }, [aktivPeriode, notater]);
 };

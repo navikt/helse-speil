@@ -45,6 +45,7 @@ const Table = styled.table`
 
     > tbody > tr {
         height: 2rem;
+
         &:nth-child(2n-1) {
             background-color: var(--navds-color-gray-10);
         }
@@ -93,7 +94,7 @@ export const Utbetalingshistorikk = ({ person, anonymiseringEnabled }: Utbetalin
 
     return (
         <Container className="Utbetalingshistorikk">
-            <CloseButton onClick={lukkUtbetalingshistorikk} size="s" variant="secondary">
+            <CloseButton as="button" onClick={lukkUtbetalingshistorikk} size="small" variant="tertiary">
                 <Close /> Lukk utbetalingshistorikk
             </CloseButton>
             <Table aria-label={`Utbetalingshistorikk for person med fødselsnummer ${fødselsnummer}`}>
@@ -129,7 +130,7 @@ export const Utbetalingshistorikk = ({ person, anonymiseringEnabled }: Utbetalin
                                 {annulleringErForespurt(utbetaling) ? (
                                     'Utbetalingen er forespurt annullert'
                                 ) : visAnnulleringsknapp(utbetaling) ? (
-                                    <Button size="s" onClick={() => setTilAnnullering(utbetaling)}>
+                                    <Button size="small" onClick={() => setTilAnnullering(utbetaling)}>
                                         Annuller
                                     </Button>
                                 ) : null}

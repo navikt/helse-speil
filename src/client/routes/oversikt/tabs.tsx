@@ -103,7 +103,7 @@ const OppgaveTab = ({ tag, label, numberOfTasks }: TabProps) => {
         <Tab role="tab" aria-selected={aktivTab === tag} active={aktivTab === tag} onClick={() => setAktivTab(tag)}>
             <Flex alignItems="center">
                 {label}
-                <Antall component="p">({numberOfTasks})</Antall>
+                <Antall as="p">({numberOfTasks})</Antall>
             </Flex>
         </Tab>
     );

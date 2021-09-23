@@ -2,7 +2,7 @@ import React from 'react';
 
 import { Link } from '@navikt/ds-react';
 
-import { Endringslogg } from '../../../../../components/Endringslogg';
+import { TableModal } from '../../../../../components/TableModal';
 import { useInnloggetSaksbehandler } from '../../../../../state/authentication';
 import { useNotaterForVedtaksperiode } from '../../../../../state/notater';
 
@@ -26,7 +26,7 @@ export const NotatListeModal = ({ onClose, vedtaksperiodeId, tildeling, åpneNyt
     };
 
     return (
-        <Endringslogg
+        <TableModal
             title="Lagt på vent - notater"
             contentLabel="Lagt på vent - notater"
             isOpen
@@ -73,6 +73,6 @@ export const NotatListeModal = ({ onClose, vedtaksperiodeId, tildeling, åpneNyt
                     )}
                 </>
             )}
-        </Endringslogg>
+        </TableModal>
     );
 };

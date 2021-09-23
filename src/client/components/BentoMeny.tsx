@@ -129,7 +129,7 @@ export const BentoMeny = () => {
                 offset={-8}
                 tabIndex={-1}
             >
-                <Tittel component="p">Systemer og oppslagsverk</Tittel>
+                <Tittel as="p">Systemer og oppslagsverk</Tittel>
                 {links.map(({ tekst, href }) => (
                     <BentoLenke key={href} href={href}>
                         {tekst}

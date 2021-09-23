@@ -149,14 +149,14 @@ export const Annulleringsmodal = ({
                         </ul>
                     </Utbetalingsgruppe>
                     <Annulleringsbegrunnelse />
-                    <AnnullerKnapp disabled={isSending}>
+                    <AnnullerKnapp as="button" variant="secondary" disabled={isSending}>
                         Annuller
-                        {isSending && <Loader size="xs" />}
+                        {isSending && <Loader size="xsmall" />}
                     </AnnullerKnapp>
-                    <Button variant="secondary" onClick={onClose}>
+                    <Button variant="tertiary" onClick={onClose}>
                         Avbryt
                     </Button>
-                    {postAnnulleringFeil && <Feilmelding component="p">{postAnnulleringFeil}</Feilmelding>}
+                    {postAnnulleringFeil && <Feilmelding as="p">{postAnnulleringFeil}</Feilmelding>}
                 </Form>
             </ModalContainer>
         </FormProvider>

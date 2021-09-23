@@ -173,7 +173,7 @@ const OverstyrbarUtbetaling: React.FC<OverstyrbarUtbetalingProps> = ({ fom, tom,
             </UtbetalingstabellContainer>
             {state === 'timedOut' && <OverstyringTimeoutModal onRequestClose={() => null} />}
             {state === 'hasError' && error && (
-                <Feilmelding component="p" role="alert">
+                <Feilmelding as="p" role="alert">
                     {error}
                 </Feilmelding>
             )}

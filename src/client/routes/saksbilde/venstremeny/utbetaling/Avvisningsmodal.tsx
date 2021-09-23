@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import React from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 
-import { Button, Loader, Title } from '@navikt/ds-react';
+import { Button, Loader, Heading } from '@navikt/ds-react';
 
 import { Modal } from '../../../../components/Modal';
 
@@ -65,9 +65,9 @@ export const Avvisningsmodal = ({ aktivPeriode, isSending, onApprove, onClose }:
         <StyledModal
             isOpen
             title={
-                <Title component="h2" size="l">
+                <Heading as="h2" size="large">
                     Kan ikke behandles her
-                </Title>
+                </Heading>
             }
             contentLabel="Kan ikke behandles her"
             onRequestClose={onClose}
@@ -76,11 +76,11 @@ export const Avvisningsmodal = ({ aktivPeriode, isSending, onApprove, onClose }:
                 <form onSubmit={form.handleSubmit(submit)}>
                     <Begrunnelsesskjema aktivPeriode={aktivPeriode} />
                     <div>
-                        <OkKnapp disabled={isSending}>
+                        <OkKnapp as="button" disabled={isSending}>
                             Avslutt saken
-                            {isSending && <Loader size="xs" />}
+                            {isSending && <Loader size="xsmall" />}
                         </OkKnapp>
-                        <AvbrytKnapp variant="secondary" onClick={onClose}>
+                        <AvbrytKnapp as="button" variant="secondary" onClick={onClose}>
                             Avbryt
                         </AvbrytKnapp>
                     </div>

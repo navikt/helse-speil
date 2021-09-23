@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import React from 'react';
 
-import { BodyShort, Link, Title } from '@navikt/ds-react';
+import { BodyShort, Link, Heading } from '@navikt/ds-react';
 
 import nissemyra from '../assets/nissemyra.svg';
 import { FlexColumn } from '../components/Flex';
@@ -16,7 +16,7 @@ const TekstContainer = styled(FlexColumn)`
     margin-right: 3rem;
 `;
 
-const Tekst = styled(Title)`
+const Tekst = styled(Heading)`
     font-size: 2.5rem;
     line-height: 2.75rem;
 `;
@@ -39,14 +39,16 @@ export const PageNotFound = () => {
     return (
         <Container>
             <TekstContainer>
-                <Feilkodetekst component="p">Feilkode: 404</Feilkodetekst>
-                <Tekst component="h2" size="m">
+                <Feilkodetekst as="p">Feilkode: 404</Feilkodetekst>
+                <Tekst as="h2" size="medium">
                     Oooops!
                 </Tekst>
-                <Tekst component="h2" size="m">
+                <Tekst as="h2" size="medium">
                     Nå havna vi langt ut i nissemyra
                 </Tekst>
-                <Oppgavelenke href="/">Til oppgavelista</Oppgavelenke>
+                <Oppgavelenke as="a" href="/">
+                    Til oppgavelista
+                </Oppgavelenke>
             </TekstContainer>
             <img alt="Agurk med armer og bein ikledd en lue som leser et kart" src={nissemyra} />
         </Container>

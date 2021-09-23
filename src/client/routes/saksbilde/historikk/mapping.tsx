@@ -2,9 +2,10 @@ import styled from '@emotion/styled';
 import dayjs from 'dayjs';
 import React, { useMemo } from 'react';
 
-import { Link } from '@navikt/ds-react';
+import { Notes } from '@navikt/ds-icons';
 
 import { Kilde } from '../../../components/Kilde';
+import { LinkButton } from '../../../components/LinkButton';
 import { usePerson } from '../../../state/person';
 
 import { Hendelse, Hendelsetype } from './Historikk.types';
@@ -86,39 +87,35 @@ export const useUtbetalinger = (periode?: Tidslinjeperiode): Hendelse[] => {
         });
 };
 
-export const useUtbetalingsendringer = (vedtaksperiode?: Vedtaksperiode): Hendelse[] =>
+export const useUtbetalingsendringer = (onClickEndring: () => void, vedtaksperiode?: Vedtaksperiode): Hendelse[] =>
     (vedtaksperiode?.fullstendig &&
         vedtaksperiode.overstyringer.map((overstyring: Overstyring) => ({
             id: overstyring.hendelseId,
             timestamp: dayjs(overstyring.timestamp),
-            title: 'Endret utbetalingsdager',
+            title: <LinkButton onClick={onClickEndring}>Endret utbetalingsdager</LinkButton>,
             type: Hendelsetype.Historikk,
             body: (
                 <BegrunnelseTekst>
-                    <p>{overstyring.begrunnelse}</p>
-                    <p>{overstyring.saksbehandlerIdent ?? overstyring.saksbehandlerNavn}</p>
+                    <p>{overstyring.saksbehandlerNavn ?? overstyring.saksbehandlerIdent}</p>
                 </BegrunnelseTekst>
             ),
         }))) ||
     [];
 
-export const useNotater = (notater: Notat[], onNotatLenkeClick: () => void): Hendelse[] =>
+export const useNotater = (notater: Notat[], onClickNotat: () => void): Hendelse[] =>
     useMemo(
         () =>
             notater.map((notat: Notat) => ({
                 id: notat.id,
                 timestamp: dayjs(notat.opprettet),
-                title: (
-                    <Link href="#" onClick={() => onNotatLenkeClick()}>
-                        Lagt på vent
-                    </Link>
-                ),
+                title: <LinkButton onClick={onClickNotat}>Lagt på vent</LinkButton>,
                 type: Hendelsetype.Historikk,
                 body: (
                     <BegrunnelseTekst key={notat.id}>
                         <p>{notat.saksbehandler.navn}</p>
                     </BegrunnelseTekst>
                 ),
+                icon: <Notes />,
             })),
         [JSON.stringify(notater.map((notat) => notat.id))]
     );

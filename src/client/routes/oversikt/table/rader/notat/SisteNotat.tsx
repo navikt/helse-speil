@@ -36,11 +36,11 @@ export const SisteNotat = ({ notater, multiline = false }: { notater: Notat[]; m
             <NotatContainer key={notat.id}>
                 {multiline ? (
                     <>
-                        <NotatTekst component="p">{tekst1}</NotatTekst>
-                        <NotatTekst component="p">{tekst2}</NotatTekst>
+                        <NotatTekst as="p">{tekst1}</NotatTekst>
+                        <NotatTekst as="p">{tekst2}</NotatTekst>
                     </>
                 ) : (
-                    <NotatTekst component="p">
+                    <NotatTekst as="p">
                         {tekst1}
                         {': '} {tekst2}
                     </NotatTekst>
