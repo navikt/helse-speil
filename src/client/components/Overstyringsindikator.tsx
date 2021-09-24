@@ -27,6 +27,7 @@ export const Overstyringsindikator: React.FC<OverstyringsindikatorProps> = ({
 
     return (
         <Container
+            data-testid="overstyringsindikator"
             ref={containerRef}
             onMouseOver={() => setShowPopover(true)}
             onMouseLeave={() => setShowPopover(false)}
