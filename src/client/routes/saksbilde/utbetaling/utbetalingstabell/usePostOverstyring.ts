@@ -70,7 +70,7 @@ export const usePostOverstyring = (): UsePostOverstyringResult => {
         const timeout: NodeJS.Timeout | number | null = calculating
             ? setTimeout(() => {
                   setState('timedOut');
-              }, 10000)
+              }, 15000)
             : null;
         return () => {
             !!timeout && clearTimeout(timeout);

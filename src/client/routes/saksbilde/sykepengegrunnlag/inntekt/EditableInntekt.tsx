@@ -162,7 +162,7 @@ const usePostOverstyrtInntekt = (onFerdigKalkulert: () => void) => {
         const timeout: NodeJS.Timeout | number | null = calculating
             ? setTimeout(() => {
                   setTimedOut(true);
-              }, 10000)
+              }, 15000)
             : null;
         return () => {
             !!timeout && clearTimeout(timeout);
