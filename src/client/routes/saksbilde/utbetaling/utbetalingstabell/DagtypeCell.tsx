@@ -3,6 +3,8 @@ import React from 'react';
 
 import { BodyShort } from '@navikt/ds-react';
 
+import { Overstyringsindikator } from '../../../../components/Overstyringsindikator';
+
 import { CellContent } from '../../table/CellContent';
 import { IconAnnullert } from '../../table/icons/IconAnnullert';
 import { IconArbeidsdag } from '../../table/icons/IconArbeidsdag';
@@ -84,6 +86,7 @@ export const DagtypeCell: React.FC<DagtypeCellProps> = ({
 
     return (
         <td {...rest}>
+            {overstyrtDag && <Overstyringsindikator />}
             <CellContent>
                 <IconContainer>{dagtypeIcon(type)}</IconContainer>
                 <BodyShort>{text}</BodyShort>
