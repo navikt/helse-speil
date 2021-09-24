@@ -16,10 +16,11 @@ interface GradCellProps extends React.HTMLAttributes<HTMLTableDataCellElement> {
 }
 
 export const GradCell: React.FC<GradCellProps> = ({ type, grad, overstyrtDag, ...rest }) => {
-    const gradErOverstyrt = overstyrtDag && grad !== undefined && overstyrtDag.gradering !== grad;
+    const gradErOverstyrt = overstyrtDag && overstyrtDag.gradering !== grad;
+    const overstyringstekst = grad === undefined || grad === null ? 'Endret fra dag uten grad' : `Endret fra ${grad} %`;
     return (
         <td {...rest}>
-            {gradErOverstyrt && <Overstyringsindikator text={`Endret fra ${grad} %`} />}
+            {gradErOverstyrt && <Overstyringsindikator text={overstyringstekst} />}
             {dagtypeIsValid(overstyrtDag?.type ?? type) && renderGrad(overstyrtDag?.gradering ?? grad)}
         </td>
     );
