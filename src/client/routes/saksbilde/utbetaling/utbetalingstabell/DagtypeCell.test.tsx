@@ -1,5 +1,6 @@
 import '@testing-library/jest-dom/extend-expect';
 import { render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import React from 'react';
 
 import { DagtypeCell } from './DagtypeCell';
@@ -28,5 +29,20 @@ describe('DagtypeCell', () => {
         render(<DagtypeCell typeUtbetalingsdag="Syk" typeSykdomsdag="Syk" overstyrtDag={dag} />);
 
         expect(screen.getByText('Ferie')).toBeVisible();
+    });
+
+    it('rendrer tekst for overstyringsindikatoren når vi overstyrer fra Syk til Ferie', () => {
+        const dag: UtbetalingstabellDag = { type: 'Ferie' } as UtbetalingstabellDag;
+        render(<DagtypeCell typeUtbetalingsdag="Syk" typeSykdomsdag="Syk" overstyrtDag={dag} />);
+        const indikator = screen.getByTestId('overstyringsindikator');
+        expect(indikator).toBeVisible();
+
+        userEvent.hover(indikator);
+        expect(screen.getByText('Endret fra Syk')).toBeVisible();
+    });
+
+    it('rendrer ikke overstyringsindikator når vi ikke overstyrer', () => {
+        render(<DagtypeCell typeUtbetalingsdag="Syk" typeSykdomsdag="Syk" />);
+        expect(screen.queryByTestId('overstyringsindikator')).toBeNull();
     });
 });
