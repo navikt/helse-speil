@@ -15,11 +15,15 @@ const Text = styled(BodyShort)`
     font-style: normal;
 `;
 
-export const Overstyringsindikator = () => {
+interface OverstyringsindikatorProps {
+    text?: string;
+}
+
+export const Overstyringsindikator: React.FC<OverstyringsindikatorProps> = ({
+    text = 'Endringene vil oppdateres og kalkuleres etter du har trykket på ferdig',
+}) => {
     const [showPopover, setShowPopover] = useState(false);
     const containerRef = useRef<HTMLSpanElement>(null);
-
-    const text = 'Endringene vil oppdateres og kalkuleres etter du har trykket på ferdig';
 
     return (
         <Container

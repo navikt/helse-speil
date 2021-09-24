@@ -19,7 +19,7 @@ export const GradCell: React.FC<GradCellProps> = ({ type, grad, overstyrtDag, ..
     const gradErOverstyrt = overstyrtDag && grad !== undefined && overstyrtDag.gradering !== grad;
     return (
         <td {...rest}>
-            {gradErOverstyrt && <Overstyringsindikator />}
+            {gradErOverstyrt && <Overstyringsindikator text={`Endret fra ${grad} %`} />}
             {dagtypeIsValid(overstyrtDag?.type ?? type) && renderGrad(overstyrtDag?.gradering ?? grad)}
         </td>
     );

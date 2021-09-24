@@ -87,7 +87,7 @@ export const DagtypeCell: React.FC<DagtypeCellProps> = ({
 
     return (
         <td {...rest}>
-            {dagtypeErOverstyrt && <Overstyringsindikator />}
+            {dagtypeErOverstyrt && <Overstyringsindikator text={`Endret fra ${typeUtbetalingsdag}`} />}
             <CellContent>
                 <IconContainer>{dagtypeIcon(type)}</IconContainer>
                 <BodyShort>{text}</BodyShort>
