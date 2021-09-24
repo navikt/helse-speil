@@ -83,10 +83,11 @@ export const DagtypeCell: React.FC<DagtypeCellProps> = ({
     const type = ['Avvist', 'Foreldet'].includes(typeUtbetalingsdag)
         ? typeUtbetalingsdag
         : overstyrtDag?.type ?? typeSykdomsdag;
+    const dagtypeErOverstyrt = overstyrtDag && overstyrtDag.type !== typeUtbetalingsdag;
 
     return (
         <td {...rest}>
-            {overstyrtDag && <Overstyringsindikator />}
+            {dagtypeErOverstyrt && <Overstyringsindikator />}
             <CellContent>
                 <IconContainer>{dagtypeIcon(type)}</IconContainer>
                 <BodyShort>{text}</BodyShort>
