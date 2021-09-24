@@ -13,10 +13,6 @@ const Table = styled.table`
         }
     }
 
-    td:first-of-type {
-        font-size: 14px;
-    }
-
     th {
         text-align: left;
         font-weight: 400;

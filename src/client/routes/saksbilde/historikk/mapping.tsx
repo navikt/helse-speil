@@ -99,7 +99,7 @@ export const useUtbetalingsendringer = (
             type: Hendelsetype.Historikk,
             body: (
                 <BegrunnelseTekst>
-                    <p>{overstyring.saksbehandlerNavn ?? overstyring.saksbehandlerIdent}</p>
+                    <p>{overstyring.saksbehandlerIdent ?? overstyring.saksbehandlerNavn}</p>
                 </BegrunnelseTekst>
             ),
         }))) ||

@@ -95,12 +95,13 @@ export const Historikk = React.memo(({ vedtaksperiodeId, tildeling, personinfo }
             <Endringslogg
                 overstyringer={
                     endring?.overstyrteDager.map((it) => ({
-                        timestamp: it.dato,
+                        timestamp: endring.timestamp,
                         navn: endring.saksbehandlerNavn,
                         ident: endring.saksbehandlerIdent,
                         begrunnelse: endring.begrunnelse,
                         grad: it.grad,
                         type: it.type,
+                        dato: it.dato,
                     })) ?? []
                 }
                 isOpen={endring !== null}

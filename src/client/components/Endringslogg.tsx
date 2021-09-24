@@ -21,22 +21,24 @@ export const Endringslogg: React.FC<EndringsloggProps> = ({ overstyringer, ...mo
         <thead>
             <tr>
                 <th>Dato</th>
-                <td>Grad</td>
                 <th>Dagtype</th>
+                <th>Grad</th>
+                <th>Begrunnelse</th>
                 <th>Kilde</th>
-                <th>Kommentar</th>
+                <th>Endret dato</th>
             </tr>
         </thead>
         <tbody>
-            {overstyringer.map(({ timestamp, navn, begrunnelse, grad, type }, i) => (
+            {overstyringer.map(({ timestamp, ident, begrunnelse, grad, type, dato }, i) => (
                 <tr key={i}>
-                    <td>{timestamp.format(NORSK_DATOFORMAT)}</td>
-                    <td>{!!grad && `${grad} %`}</td>
+                    <td>{dato?.format(NORSK_DATOFORMAT)}</td>
                     <td>{type}</td>
-                    <td>{navn}</td>
+                    <td>{!!grad && `${grad} %`}</td>
                     <td>
                         <Begrunnelse as="p">{begrunnelse}</Begrunnelse>
                     </td>
+                    <td>{ident}</td>
+                    <td>{timestamp.format(NORSK_DATOFORMAT)}</td>
                 </tr>
             ))}
         </tbody>
