@@ -55,9 +55,7 @@ export const NotatListeModal = ({ onClose, vedtaksperiodeId, tildeling, åpneNyt
                     {påVent && (
                         <tfoot>
                             <tr>
-                                <td />
-                                <td />
-                                <td>
+                                <td colSpan={4} style={{ textAlign: 'right' }}>
                                     <Link
                                         href="#"
                                         onClick={() => {

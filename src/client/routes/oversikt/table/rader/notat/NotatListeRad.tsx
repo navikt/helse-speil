@@ -17,6 +17,10 @@ const LenkeCell = styled(Link)`
     cursor: pointer;
 `;
 
+const KursivCell = styled.td`
+    font-style: italic;
+`;
+
 interface Props {
     notat: Notat;
     vedtaksperiodeId: string;
@@ -54,7 +58,7 @@ export const NotatListeRad = ({ notat, vedtaksperiodeId, saksbehandler }: Props)
     return notat.feilregistrert ? (
         <tr className="alert">
             {fellesRader}
-            <td>Feilregistrert</td>
+            <KursivCell>Feilregistrert</KursivCell>
         </tr>
     ) : (
         <tr>
