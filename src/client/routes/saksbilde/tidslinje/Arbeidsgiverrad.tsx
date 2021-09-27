@@ -57,7 +57,7 @@ const IconContainer = styled.div`
 `;
 
 interface EnkelRadProps {
-    rad: TidslinjeradObject;
+    rad?: TidslinjeradObject;
     navn: string;
 }
 
@@ -69,9 +69,11 @@ const EnkelRad: React.FC<EnkelRadProps> = ({ rad, navn }) => (
                 <TekstMedEllipsis data-tip={navn}>{navn}</TekstMedEllipsis>
             </Flex>
         </Navn>
-        <Rader>
-            <Tidslinjerad rad={rad} erKlikkbar={true} />
-        </Rader>
+        {rad !== undefined && (
+            <Rader>
+                <Tidslinjerad rad={rad} erKlikkbar={true} />
+            </Rader>
+        )}
     </Flex>
 );
 
@@ -110,8 +112,8 @@ interface ArbeidsgiverradProps {
 }
 
 export const Arbeidsgiverrad = ({ rader, navn, ...rest }: ArbeidsgiverradProps) =>
-    rader.length === 1 ? (
-        <EnkelRad rad={rader[0]} navn={navn} />
-    ) : (
+    rader.length > 1 ? (
         <EkspanderbarRad rader={rader} navn={navn} {...rest} />
+    ) : (
+        <EnkelRad rad={rader.length > 0 ? rader[0] : undefined} navn={navn} />
     );
