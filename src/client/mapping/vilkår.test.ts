@@ -55,7 +55,7 @@ describe('mapVilkår', () => {
         };
         const { problems, vilkår } = mapVilkår(korruptVedtaksperiode);
         expect(problems).toHaveLength(1);
-        expect(problems.pop()).toEqual(TypeError("Cannot read property 'forbrukteSykedager' of undefined"));
+        expect(problems.pop()?.message).toContain('forbrukteSykedager');
         expect(vilkår?.dagerIgjen).toBeUndefined();
         expect(vilkår?.alder).toBeTruthy();
         expect(vilkår?.sykepengegrunnlag).toBeTruthy();

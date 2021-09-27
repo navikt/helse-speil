@@ -53,6 +53,4 @@ export const erRevurderingsperiode = (periode: Tidslinjeperiode) => periode.type
 
 export const useMaksdato = (beregningId: string) => useUtbetaling(beregningId)?.maksdato;
 
-export const useNettobeløp = (beregningId: string) => useUtbetaling(beregningId)?.arbeidsgiverNettobeløp;
-
 export const useGjenståendeDager = (beregningId: string): number => useUtbetaling(beregningId)?.gjenståendeDager ?? 0;

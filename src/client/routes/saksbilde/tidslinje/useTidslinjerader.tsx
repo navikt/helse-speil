@@ -4,7 +4,7 @@ import React, { useMemo } from 'react';
 
 import { getPositionedPeriods } from '@navikt/helse-frontend-timeline/lib';
 
-import { TidslinjeperiodeHoverInfo } from './HoverInfo';
+import { HoverInfo } from './HoverInfo';
 import { arbeidsgiverNavn } from './Tidslinje';
 import { TidslinjeperiodeObject } from './Tidslinje.types';
 
@@ -34,7 +34,7 @@ export const toTidslinjeperioder = (
             tilstand: it.tilstand,
             utbetalingstype: it.type.toString().toLowerCase(),
             skalVisePin: it.utbetalingstidslinje && skalViseInfoPin(it.utbetalingstidslinje),
-            hoverLabel: <TidslinjeperiodeHoverInfo tidslinjeperiode={it} />,
+            hoverLabel: <HoverInfo tidslinjeperiode={it} />,
         };
     });
 

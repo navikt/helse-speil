@@ -2,12 +2,14 @@ import '@testing-library/jest-dom/extend-expect';
 import { render, screen } from '@testing-library/react';
 import dayjs from 'dayjs';
 import React from 'react';
-import { mappetVedtaksperiode } from 'test-data';
+import { RecoilRoot } from 'recoil';
+import { enTidslinjeperiode } from 'test-data';
 
 import { HoverInfo, tilPeriodeTekst } from './HoverInfo';
 import { utbetalingstidslinje } from './useTidslinjerader.test';
 
-const enPeriode = mappetVedtaksperiode();
+const enPeriode = enTidslinjeperiode();
+const wrapper: React.FC = ({ children }) => <RecoilRoot>{children}</RecoilRoot>;
 
 const enArbeidsgiverperiodedag: Utbetalingsdag = {
     dato: dayjs('2020-01-01'),
@@ -19,23 +21,14 @@ describe('HoverInfo', () => {
         const periodeMedArbeidsgiverperiodedager = {
             ...enPeriode,
             utbetalingstidslinje: [
-                ...new Array(16).fill(enArbeidsgiverperiodedag),
-                ...enPeriode.utbetalingstidslinje.slice(16),
-            ],
-        };
-        render(<HoverInfo vedtaksperiode={periodeMedArbeidsgiverperiodedager} />);
-        expect(screen.getByText('Arbeidsgiverperiode:')).toBeVisible();
-        expect(screen.getByText('01.01.2020 - 16.01.2020')).toBeVisible();
-    });
-    test('teller ikke med trailing helg etter arbeidsgiverperiode', () => {
-        const periodeMedArbeidsgiverperiodedager = {
-            ...enPeriode,
-            utbetalingstidslinje: [
-                ...new Array(17).fill(enArbeidsgiverperiodedag),
+                ...new Array(17).fill(enArbeidsgiverperiodedag).map((dag, index) => ({
+                    ...dag,
+                    dato: dag.dato.add(index, 'day'),
+                })),
                 ...enPeriode.utbetalingstidslinje.slice(17),
             ],
         };
-        render(<HoverInfo vedtaksperiode={periodeMedArbeidsgiverperiodedager} />);
+        render(<HoverInfo tidslinjeperiode={periodeMedArbeidsgiverperiodedager} />, { wrapper });
         expect(screen.getByText('Arbeidsgiverperiode:')).toBeVisible();
         expect(screen.getByText('01.01.2020 - 17.01.2020')).toBeVisible();
     });
@@ -49,43 +42,23 @@ describe('HoverInfo', () => {
                 ...enPeriode.utbetalingstidslinje.slice(16),
             ],
         };
-        render(<HoverInfo vedtaksperiode={periodeMedArbeidsgiverperiodedager} />);
+        render(<HoverInfo tidslinjeperiode={periodeMedArbeidsgiverperiodedager} />, { wrapper });
         expect(screen.getByText('Arbeidsgiverperiode:')).toBeVisible();
         expect(screen.getByText('15 dager')).toBeVisible();
     });
     test('viser antall feriedager', () => {
-        const periodeMedFerie: Vedtaksperiode = {
+        const periodeMedFerie: Tidslinjeperiode = {
             ...enPeriode,
             utbetalingstidslinje: [...enPeriode.utbetalingstidslinje, { dato: dayjs('2020-01-01'), type: 'Ferie' }],
         };
-        render(<HoverInfo vedtaksperiode={periodeMedFerie} />);
+        render(<HoverInfo tidslinjeperiode={periodeMedFerie} />, { wrapper });
         expect(screen.getByText('Ferie:')).toBeVisible();
         expect(screen.getByText('01.01.2020')).toBeVisible();
     });
     test('viser fom og tom for perioden', () => {
-        render(<HoverInfo vedtaksperiode={enPeriode} />);
+        render(<HoverInfo tidslinjeperiode={enPeriode} />, { wrapper });
         expect(screen.getByText('Periode:')).toBeVisible();
-        expect(screen.getByText('01.01.2020 - 31.01.2020')).toBeVisible();
-    });
-
-    test('viser antall dager igjen for fullverdig vedtaksperiode', () => {
-        const periodeMedDagerIgjen = { ...enPeriode, vilkår: { dagerIgjen: { gjenståendeDager: 10 } } };
-        render(<HoverInfo vedtaksperiode={periodeMedDagerIgjen} />);
-        expect(screen.getByText('Dager igjen:')).toHaveStyle('color:var(--navds-color-text-primary)');
-        expect(screen.getByText('10')).toHaveStyle('color:var(--navds-color-text-primary)');
-    });
-
-    test('viser antall dager igjen for fullverdig vedtaksperiode med rødt hvis null', () => {
-        const periodeMedDagerIgjen = { ...enPeriode, vilkår: { dagerIgjen: { gjenståendeDager: 0 } } };
-        render(<HoverInfo vedtaksperiode={periodeMedDagerIgjen} />);
-        expect(screen.getByText('Dager igjen:')).toHaveStyle('color:var(--navds-color-error-text)');
-        expect(screen.getByText('0')).toHaveStyle('color:var(--navds-color-error-text)');
-    });
-
-    test('Viser ikke dager igjen for ufullstendig periode', () => {
-        const periodeMedDagerIgjen = { ...enPeriode, fullstendig: false };
-        render(<HoverInfo vedtaksperiode={periodeMedDagerIgjen} />);
-        expect(screen.queryByText('Dager igjen', { exact: false })).toBeNull();
+        expect(screen.getByText('01.01.2021 - 31.01.2021')).toBeVisible();
     });
 });
 
