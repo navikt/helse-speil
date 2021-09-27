@@ -23,6 +23,10 @@ const Table = styled.table`
     tbody > tr:nth-of-type(2n-1) > td {
         background-color: var(--navds-color-gray-10);
     }
+
+    tbody tr.alert td {
+        background-color: #f9d2cc;
+    }
 `;
 
 const Modal = styled(SpeilModal)`

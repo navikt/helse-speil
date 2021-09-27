@@ -50,7 +50,7 @@ const mockNotat: SpesialistNotat = {
     id: '123456',
     tekst: 'Revidert utgave 2',
     opprettet: '2021-02-01T23:04:09.454',
-    saksbehandlerOid: '12345668',
+    saksbehandlerOid: 'uuid',
     saksbehandlerNavn: 'Bernt Bjelle 2',
     saksbehandlerEpost: 'bernt.bjelle@nav.no',
     saksbehandlerIdent: 'E123456',

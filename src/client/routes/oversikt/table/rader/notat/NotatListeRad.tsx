@@ -12,40 +12,9 @@ import { ignorePromise } from '../../../../../utils/promise';
 
 import { sleep } from '../../../../../../server/devHelpers';
 
-const Row = styled.tr`
-    position: relative;
-
-    &:nth-of-type(2n + 1) {
-        background-color: var(--speil-table-row-background-color-alternate);
-    }
-`;
-
-const AlertRow = styled.tr`
-    position: relative;
-
-    > td {
-        background-color: #f9d2cc;
-    }
-`;
-
-const Cell = styled.td`
-    position: relative;
-    border-bottom: 1px solid var(--speil-table-row-border-color);
-    height: 2rem;
-    vertical-align: middle;
-`;
-
-const TextCell = styled.td`
-    position: relative;
-    border-bottom: 1px solid var(--speil-table-row-border-color);
-    height: 2rem;
-    vertical-align: middle;
-    max-width: 200px;
-    word-break: break-word;
-`;
-
 const LenkeCell = styled(Link)`
     color: var(--navds-color-text-primary);
+    cursor: pointer;
 `;
 
 interface Props {
@@ -76,27 +45,27 @@ export const NotatListeRad = ({ notat, vedtaksperiodeId, saksbehandler }: Props)
 
     const fellesRader = (
         <>
-            <Cell>{`${notat.opprettet.format(NORSK_DATOFORMAT)} kl ${notat.opprettet.format(NORSK_KLOKKESLETT)}`}</Cell>
-            <Cell>{notat.saksbehandler.navn}</Cell>
-            <TextCell>{notat.tekst}</TextCell>
+            <td>{`${notat.opprettet.format(NORSK_DATOFORMAT)} kl ${notat.opprettet.format(NORSK_KLOKKESLETT)}`}</td>
+            <td>{notat.saksbehandler.navn}</td>
+            <td>{notat.tekst}</td>
         </>
     );
 
     return notat.feilregistrert ? (
-        <AlertRow>
+        <tr className="alert">
             {fellesRader}
-            <TextCell>Feilregistrert</TextCell>
-        </AlertRow>
+            <td>Feilregistrert</td>
+        </tr>
     ) : (
-        <Row>
+        <tr>
             {fellesRader}
-            <TextCell>
+            <td>
                 {notat.saksbehandler.oid === saksbehandler.oid && (
-                    <LenkeCell as="button" onClick={() => prøvFeilregistrerNotat(notat.id)}>
+                    <LenkeCell as="a" onClick={() => prøvFeilregistrerNotat(notat.id)}>
                         Feilregistrer {isFetching && <Loader size="xsmall" />}
                     </LenkeCell>
                 )}
-            </TextCell>
-        </Row>
+            </td>
+        </tr>
     );
 };
