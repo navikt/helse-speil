@@ -13,8 +13,6 @@ const Button = styled(NavButton)`
     padding: 0.25rem 1rem;
     width: 100%;
     box-sizing: border-box;
-    display: flex;
-    align-items: center;
 
     &:hover,
     &:focus {
