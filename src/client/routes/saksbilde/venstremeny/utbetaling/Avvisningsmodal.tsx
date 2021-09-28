@@ -77,7 +77,7 @@ export const Avvisningsmodal = ({ aktivPeriode, isSending, onApprove, onClose }:
                     <Begrunnelsesskjema aktivPeriode={aktivPeriode} />
                     <div>
                         <OkKnapp as="button" disabled={isSending}>
-                            Avslutt saken
+                            Kan ikke behandles her
                             {isSending && <Loader size="xsmall" />}
                         </OkKnapp>
                         <AvbrytKnapp as="button" variant="secondary" onClick={onClose}>
