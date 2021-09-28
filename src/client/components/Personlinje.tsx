@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+import dayjs from 'dayjs';
 import React from 'react';
 import { Link } from 'react-router-dom';
 
@@ -131,12 +132,15 @@ export const Personlinje = ({ person }: PersonlinjeProps) => {
     const { aktørId, personinfo, enhet } = anonymiseringEnabled
         ? { ...person, aktørId: '1000000000000', enhet: { id: 1000, navn: 'Agurkheim' } }
         : person;
-    const { fornavn, mellomnavn, etternavn, kjønn, fnr } = anonymiseringEnabled ? anonymisertPersoninfo : personinfo;
+    const { fornavn, mellomnavn, etternavn, kjønn, fnr, fødselsdato } = anonymiseringEnabled
+        ? anonymisertPersoninfo
+        : personinfo;
 
     return (
         <Container className="Personlinje">
             <Kjønnsikon kjønn={kjønn} />
             <Bold as="p">{capitalizeName(`${etternavn}, ${fornavn} ${mellomnavn ? `${mellomnavn} ` : ''}`)}</Bold>
+            <Bold as="p">&nbsp;{fødselsdato !== null && `(${dayjs().diff(fødselsdato, 'year')} år)`}</Bold>
             <Separator as="p">/</Separator>
             {fnr ? (
                 <Clipboard
