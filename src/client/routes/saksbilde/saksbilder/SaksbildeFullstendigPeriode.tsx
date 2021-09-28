@@ -3,6 +3,7 @@ import React from 'react';
 import { Route, Switch, useRouteMatch } from 'react-router-dom';
 
 import { ErrorBoundary } from '../../../components/ErrorBoundary';
+import { Tooltip } from '../../../components/Tooltip';
 import { useSetVedtaksperiodeReferanserForNotater } from '../../../hooks/useSetVedtaksperiodeReferanserForNotater';
 import { erOver67År, getMånedsbeløp, getSkjæringstidspunkt } from '../../../mapping/selectors';
 import { useArbeidsforhold, useArbeidsgivernavn } from '../../../modell/arbeidsgiver';
@@ -111,6 +112,7 @@ export const SaksbildeFullstendigPeriode = ({ personTilBehandling, aktivPeriode 
                     tildeling={personTilBehandling.tildeling}
                     personinfo={personTilBehandling.personinfo}
                 />
+                <Tooltip effect="solid" />
             </AmplitudeProvider>
         </ErrorBoundary>
     );
