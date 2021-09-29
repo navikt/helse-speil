@@ -1,1312 +1,672 @@
 {
     "utbetalinger": [],
-    "aktørId": "1000000009871",
-    "fødselsnummer": "21023701901",
+    "aktørId": "1363090701744",
+    "fødselsnummer": "21118720935",
     "dødsdato": null,
     "personinfo": {
-        "fornavn": "Kong",
+        "fornavn": "TREIG",
         "mellomnavn": null,
-        "etternavn": "Harald",
-        "fødselsdato": "1937-02-21",
+        "etternavn": "SAKS",
+        "fødselsdato": "1987-11-21",
         "kjønn": "Mann"
     },
     "arbeidsgivere": [
         {
-            "organisasjonsnummer": "972674818",
-            "navn": "PENGELØS SPAREBANK",
-            "id": "f9eb993e-07cd-4eef-925c-356528a73b21",
-            "vedtaksperioder": [
+            "organisasjonsnummer": "947064649",
+            "navn": "SJOKKERENDE ELEKTRIKER",
+            "id": "c1aa0114-eb70-4472-83ff-d83f5f1cb651",
+            "overstyringer": [],
+            "bransjer": [],
+            "generasjoner": [
                 {
-                    "id": "aaaaaaaa-6541-4dcf-aa53-8b466fc4ac87",
-                    "gruppeId": "aae3bd15-5600-42bb-9d4a-2377f6d92e32",
-                    "fom": "2021-04-03",
-                    "tom": "2021-04-30",
-                    "tilstand": "Oppgaver",
-                    "fullstendig": true,
-                    "utbetalingstidslinje": [
+                    "id": "ab09fc5c-98b4-430d-9387-d405286fae40",
+                    "perioder": [
                         {
-                            "type": "ArbeidsgiverperiodeDag",
-                            "inntekt": 669,
-                            "dato": "2021-04-03"
-                        },
-                        {
-                            "type": "ArbeidsgiverperiodeDag",
-                            "inntekt": 669,
-                            "dato": "2021-04-04"
-                        },
-                        {
-                            "type": "ArbeidsgiverperiodeDag",
-                            "inntekt": 669,
-                            "dato": "2021-04-05"
-                        },
-                        {
-                            "type": "ArbeidsgiverperiodeDag",
-                            "inntekt": 669,
-                            "dato": "2021-04-06"
-                        },
-                        {
-                            "type": "ArbeidsgiverperiodeDag",
-                            "inntekt": 669,
-                            "dato": "2021-04-07"
-                        },
-                        {
-                            "type": "ArbeidsgiverperiodeDag",
-                            "inntekt": 669,
-                            "dato": "2021-04-08"
-                        },
-                        {
-                            "type": "ArbeidsgiverperiodeDag",
-                            "inntekt": 669,
-                            "dato": "2021-04-09"
-                        },
-                        {
-                            "type": "ArbeidsgiverperiodeDag",
-                            "inntekt": 669,
-                            "dato": "2021-04-10"
-                        },
-                        {
-                            "type": "ArbeidsgiverperiodeDag",
-                            "inntekt": 669,
-                            "dato": "2021-04-11"
-                        },
-                        {
-                            "type": "ArbeidsgiverperiodeDag",
-                            "inntekt": 669,
-                            "dato": "2021-04-12"
-                        },
-                        {
-                            "type": "ArbeidsgiverperiodeDag",
-                            "inntekt": 669,
-                            "dato": "2021-04-13"
-                        },
-                        {
-                            "type": "ArbeidsgiverperiodeDag",
-                            "inntekt": 669,
-                            "dato": "2021-04-14"
-                        },
-                        {
-                            "type": "ArbeidsgiverperiodeDag",
-                            "inntekt": 669,
-                            "dato": "2021-04-15"
-                        },
-                        {
-                            "type": "ArbeidsgiverperiodeDag",
-                            "inntekt": 669,
-                            "dato": "2021-04-16"
-                        },
-                        {
-                            "type": "ArbeidsgiverperiodeDag",
-                            "inntekt": 669,
-                            "dato": "2021-04-17"
-                        },
-                        {
-                            "type": "ArbeidsgiverperiodeDag",
-                            "inntekt": 669,
-                            "dato": "2021-04-18"
-                        },
-                        {
-                            "type": "AvvistDag",
-                            "inntekt": 0,
-                            "dato": "2021-04-19",
-                            "begrunnelser": ["EgenmeldingUtenforArbeidsgiverperiode", "MinimumSykdomsgrad"],
-                            "grad": 0
-                        },
-                        {
-                            "type": "NavDag",
-                            "inntekt": 669,
-                            "dato": "2021-04-20",
-                            "utbetaling": 669,
-                            "grad": 100,
-                            "totalGrad": 100
-                        },
-                        {
-                            "type": "NavDag",
-                            "inntekt": 669,
-                            "dato": "2021-04-21",
-                            "utbetaling": 669,
-                            "grad": 100,
-                            "totalGrad": 100
-                        },
-                        {
-                            "type": "NavDag",
-                            "inntekt": 669,
-                            "dato": "2021-04-22",
-                            "utbetaling": 669,
-                            "grad": 100,
-                            "totalGrad": 100
-                        },
-                        {
-                            "type": "NavDag",
-                            "inntekt": 669,
-                            "dato": "2021-04-23",
-                            "utbetaling": 669,
-                            "grad": 100,
-                            "totalGrad": 100
-                        },
-                        {
-                            "type": "NavHelgDag",
-                            "inntekt": 0,
-                            "dato": "2021-04-24",
-                            "grad": 100
-                        },
-                        {
-                            "type": "NavHelgDag",
-                            "inntekt": 0,
-                            "dato": "2021-04-25",
-                            "grad": 100
-                        },
-                        {
-                            "type": "NavDag",
-                            "inntekt": 669,
-                            "dato": "2021-04-26",
-                            "utbetaling": 669,
-                            "grad": 100,
-                            "totalGrad": 100
-                        },
-                        {
-                            "type": "NavDag",
-                            "inntekt": 669,
-                            "dato": "2021-04-27",
-                            "utbetaling": 669,
-                            "grad": 100,
-                            "totalGrad": 100
-                        },
-                        {
-                            "type": "NavDag",
-                            "inntekt": 669,
-                            "dato": "2021-04-28",
-                            "utbetaling": 669,
-                            "grad": 100,
-                            "totalGrad": 100
-                        },
-                        {
-                            "type": "NavDag",
-                            "inntekt": 669,
-                            "dato": "2021-04-29",
-                            "utbetaling": 669,
-                            "grad": 100,
-                            "totalGrad": 100
-                        },
-                        {
-                            "type": "NavDag",
-                            "inntekt": 669,
-                            "dato": "2021-04-30",
-                            "utbetaling": 669,
-                            "grad": 100,
-                            "totalGrad": 100
-                        }
-                    ],
-                    "inntektskilde": "EN_ARBEIDSGIVER",
-                    "utbetalingsreferanse": null,
-                    "utbetalinger": {
-                        "arbeidsgiverUtbetaling": null,
-                        "personUtbetaling": null
-                    },
-                    "utbetalteUtbetalinger": {
-                        "arbeidsgiverUtbetaling": null,
-                        "personUtbetaling": null
-                    },
-                    "sykdomstidslinje": [
-                        {
-                            "dagen": "2021-04-03",
-                            "type": "SYK_HELGEDAG",
-                            "kilde": {
-                                "type": "Søknad",
-                                "kildeId": "553de369-0f4e-4558-a453-c73006d3404d"
+                            "vedtaksperiodeId": "dd9ef7a0-c94f-41de-8e17-71330508d3ac",
+                            "fom": "2021-07-01",
+                            "tom": "2021-07-31",
+                            "sammenslåttTidslinje": [
+                                {
+                                    "dagen": "2021-07-01",
+                                    "sykdomstidslinjedagtype": "SYKEDAG",
+                                    "utbetalingstidslinjedagtype": "ArbeidsgiverperiodeDag",
+                                    "kilde": {
+                                        "type": "Søknad",
+                                        "id": "b4b2657c-60d4-4305-8c09-9956933190ae"
+                                    },
+                                    "grad": 100,
+                                    "utbetalingsinfo": null,
+                                    "begrunnelser": null
+                                },
+                                {
+                                    "dagen": "2021-07-02",
+                                    "sykdomstidslinjedagtype": "SYKEDAG",
+                                    "utbetalingstidslinjedagtype": "ArbeidsgiverperiodeDag",
+                                    "kilde": {
+                                        "type": "Søknad",
+                                        "id": "b4b2657c-60d4-4305-8c09-9956933190ae"
+                                    },
+                                    "grad": 100,
+                                    "utbetalingsinfo": null,
+                                    "begrunnelser": null
+                                },
+                                {
+                                    "dagen": "2021-07-03",
+                                    "sykdomstidslinjedagtype": "SYK_HELGEDAG",
+                                    "utbetalingstidslinjedagtype": "ArbeidsgiverperiodeDag",
+                                    "kilde": {
+                                        "type": "Søknad",
+                                        "id": "b4b2657c-60d4-4305-8c09-9956933190ae"
+                                    },
+                                    "grad": 100,
+                                    "utbetalingsinfo": null,
+                                    "begrunnelser": null
+                                },
+                                {
+                                    "dagen": "2021-07-04",
+                                    "sykdomstidslinjedagtype": "SYK_HELGEDAG",
+                                    "utbetalingstidslinjedagtype": "ArbeidsgiverperiodeDag",
+                                    "kilde": {
+                                        "type": "Søknad",
+                                        "id": "b4b2657c-60d4-4305-8c09-9956933190ae"
+                                    },
+                                    "grad": 100,
+                                    "utbetalingsinfo": null,
+                                    "begrunnelser": null
+                                },
+                                {
+                                    "dagen": "2021-07-05",
+                                    "sykdomstidslinjedagtype": "SYKEDAG",
+                                    "utbetalingstidslinjedagtype": "ArbeidsgiverperiodeDag",
+                                    "kilde": {
+                                        "type": "Søknad",
+                                        "id": "b4b2657c-60d4-4305-8c09-9956933190ae"
+                                    },
+                                    "grad": 100,
+                                    "utbetalingsinfo": null,
+                                    "begrunnelser": null
+                                },
+                                {
+                                    "dagen": "2021-07-06",
+                                    "sykdomstidslinjedagtype": "SYKEDAG",
+                                    "utbetalingstidslinjedagtype": "ArbeidsgiverperiodeDag",
+                                    "kilde": {
+                                        "type": "Søknad",
+                                        "id": "b4b2657c-60d4-4305-8c09-9956933190ae"
+                                    },
+                                    "grad": 100,
+                                    "utbetalingsinfo": null,
+                                    "begrunnelser": null
+                                },
+                                {
+                                    "dagen": "2021-07-07",
+                                    "sykdomstidslinjedagtype": "SYKEDAG",
+                                    "utbetalingstidslinjedagtype": "ArbeidsgiverperiodeDag",
+                                    "kilde": {
+                                        "type": "Søknad",
+                                        "id": "b4b2657c-60d4-4305-8c09-9956933190ae"
+                                    },
+                                    "grad": 100,
+                                    "utbetalingsinfo": null,
+                                    "begrunnelser": null
+                                },
+                                {
+                                    "dagen": "2021-07-08",
+                                    "sykdomstidslinjedagtype": "SYKEDAG",
+                                    "utbetalingstidslinjedagtype": "ArbeidsgiverperiodeDag",
+                                    "kilde": {
+                                        "type": "Søknad",
+                                        "id": "b4b2657c-60d4-4305-8c09-9956933190ae"
+                                    },
+                                    "grad": 100,
+                                    "utbetalingsinfo": null,
+                                    "begrunnelser": null
+                                },
+                                {
+                                    "dagen": "2021-07-09",
+                                    "sykdomstidslinjedagtype": "SYKEDAG",
+                                    "utbetalingstidslinjedagtype": "ArbeidsgiverperiodeDag",
+                                    "kilde": {
+                                        "type": "Søknad",
+                                        "id": "b4b2657c-60d4-4305-8c09-9956933190ae"
+                                    },
+                                    "grad": 100,
+                                    "utbetalingsinfo": null,
+                                    "begrunnelser": null
+                                },
+                                {
+                                    "dagen": "2021-07-10",
+                                    "sykdomstidslinjedagtype": "SYK_HELGEDAG",
+                                    "utbetalingstidslinjedagtype": "ArbeidsgiverperiodeDag",
+                                    "kilde": {
+                                        "type": "Søknad",
+                                        "id": "b4b2657c-60d4-4305-8c09-9956933190ae"
+                                    },
+                                    "grad": 100,
+                                    "utbetalingsinfo": null,
+                                    "begrunnelser": null
+                                },
+                                {
+                                    "dagen": "2021-07-11",
+                                    "sykdomstidslinjedagtype": "SYK_HELGEDAG",
+                                    "utbetalingstidslinjedagtype": "ArbeidsgiverperiodeDag",
+                                    "kilde": {
+                                        "type": "Søknad",
+                                        "id": "b4b2657c-60d4-4305-8c09-9956933190ae"
+                                    },
+                                    "grad": 100,
+                                    "utbetalingsinfo": null,
+                                    "begrunnelser": null
+                                },
+                                {
+                                    "dagen": "2021-07-12",
+                                    "sykdomstidslinjedagtype": "SYKEDAG",
+                                    "utbetalingstidslinjedagtype": "ArbeidsgiverperiodeDag",
+                                    "kilde": {
+                                        "type": "Søknad",
+                                        "id": "b4b2657c-60d4-4305-8c09-9956933190ae"
+                                    },
+                                    "grad": 100,
+                                    "utbetalingsinfo": null,
+                                    "begrunnelser": null
+                                },
+                                {
+                                    "dagen": "2021-07-13",
+                                    "sykdomstidslinjedagtype": "SYKEDAG",
+                                    "utbetalingstidslinjedagtype": "ArbeidsgiverperiodeDag",
+                                    "kilde": {
+                                        "type": "Søknad",
+                                        "id": "b4b2657c-60d4-4305-8c09-9956933190ae"
+                                    },
+                                    "grad": 100,
+                                    "utbetalingsinfo": null,
+                                    "begrunnelser": null
+                                },
+                                {
+                                    "dagen": "2021-07-14",
+                                    "sykdomstidslinjedagtype": "SYKEDAG",
+                                    "utbetalingstidslinjedagtype": "ArbeidsgiverperiodeDag",
+                                    "kilde": {
+                                        "type": "Søknad",
+                                        "id": "b4b2657c-60d4-4305-8c09-9956933190ae"
+                                    },
+                                    "grad": 100,
+                                    "utbetalingsinfo": null,
+                                    "begrunnelser": null
+                                },
+                                {
+                                    "dagen": "2021-07-15",
+                                    "sykdomstidslinjedagtype": "SYKEDAG",
+                                    "utbetalingstidslinjedagtype": "ArbeidsgiverperiodeDag",
+                                    "kilde": {
+                                        "type": "Søknad",
+                                        "id": "b4b2657c-60d4-4305-8c09-9956933190ae"
+                                    },
+                                    "grad": 100,
+                                    "utbetalingsinfo": null,
+                                    "begrunnelser": null
+                                },
+                                {
+                                    "dagen": "2021-07-16",
+                                    "sykdomstidslinjedagtype": "SYKEDAG",
+                                    "utbetalingstidslinjedagtype": "ArbeidsgiverperiodeDag",
+                                    "kilde": {
+                                        "type": "Søknad",
+                                        "id": "b4b2657c-60d4-4305-8c09-9956933190ae"
+                                    },
+                                    "grad": 100,
+                                    "utbetalingsinfo": null,
+                                    "begrunnelser": null
+                                },
+                                {
+                                    "dagen": "2021-07-17",
+                                    "sykdomstidslinjedagtype": "SYK_HELGEDAG",
+                                    "utbetalingstidslinjedagtype": "NavHelgDag",
+                                    "kilde": {
+                                        "type": "Søknad",
+                                        "id": "b4b2657c-60d4-4305-8c09-9956933190ae"
+                                    },
+                                    "grad": 100,
+                                    "utbetalingsinfo": null,
+                                    "begrunnelser": null
+                                },
+                                {
+                                    "dagen": "2021-07-18",
+                                    "sykdomstidslinjedagtype": "SYK_HELGEDAG",
+                                    "utbetalingstidslinjedagtype": "NavHelgDag",
+                                    "kilde": {
+                                        "type": "Søknad",
+                                        "id": "b4b2657c-60d4-4305-8c09-9956933190ae"
+                                    },
+                                    "grad": 100,
+                                    "utbetalingsinfo": null,
+                                    "begrunnelser": null
+                                },
+                                {
+                                    "dagen": "2021-07-19",
+                                    "sykdomstidslinjedagtype": "SYKEDAG",
+                                    "utbetalingstidslinjedagtype": "NavDag",
+                                    "kilde": {
+                                        "type": "Søknad",
+                                        "id": "b4b2657c-60d4-4305-8c09-9956933190ae"
+                                    },
+                                    "grad": 100,
+                                    "utbetalingsinfo": {
+                                        "inntekt": 1154,
+                                        "utbetaling": 1154,
+                                        "totalGrad": 100
+                                    },
+                                    "begrunnelser": null
+                                },
+                                {
+                                    "dagen": "2021-07-20",
+                                    "sykdomstidslinjedagtype": "SYKEDAG",
+                                    "utbetalingstidslinjedagtype": "NavDag",
+                                    "kilde": {
+                                        "type": "Søknad",
+                                        "id": "b4b2657c-60d4-4305-8c09-9956933190ae"
+                                    },
+                                    "grad": 100,
+                                    "utbetalingsinfo": {
+                                        "inntekt": 1154,
+                                        "utbetaling": 1154,
+                                        "totalGrad": 100
+                                    },
+                                    "begrunnelser": null
+                                },
+                                {
+                                    "dagen": "2021-07-21",
+                                    "sykdomstidslinjedagtype": "SYKEDAG",
+                                    "utbetalingstidslinjedagtype": "NavDag",
+                                    "kilde": {
+                                        "type": "Søknad",
+                                        "id": "b4b2657c-60d4-4305-8c09-9956933190ae"
+                                    },
+                                    "grad": 100,
+                                    "utbetalingsinfo": {
+                                        "inntekt": 1154,
+                                        "utbetaling": 1154,
+                                        "totalGrad": 100
+                                    },
+                                    "begrunnelser": null
+                                },
+                                {
+                                    "dagen": "2021-07-22",
+                                    "sykdomstidslinjedagtype": "SYKEDAG",
+                                    "utbetalingstidslinjedagtype": "NavDag",
+                                    "kilde": {
+                                        "type": "Søknad",
+                                        "id": "b4b2657c-60d4-4305-8c09-9956933190ae"
+                                    },
+                                    "grad": 100,
+                                    "utbetalingsinfo": {
+                                        "inntekt": 1154,
+                                        "utbetaling": 1154,
+                                        "totalGrad": 100
+                                    },
+                                    "begrunnelser": null
+                                },
+                                {
+                                    "dagen": "2021-07-23",
+                                    "sykdomstidslinjedagtype": "SYKEDAG",
+                                    "utbetalingstidslinjedagtype": "NavDag",
+                                    "kilde": {
+                                        "type": "Søknad",
+                                        "id": "b4b2657c-60d4-4305-8c09-9956933190ae"
+                                    },
+                                    "grad": 100,
+                                    "utbetalingsinfo": {
+                                        "inntekt": 1154,
+                                        "utbetaling": 1154,
+                                        "totalGrad": 100
+                                    },
+                                    "begrunnelser": null
+                                },
+                                {
+                                    "dagen": "2021-07-24",
+                                    "sykdomstidslinjedagtype": "SYK_HELGEDAG",
+                                    "utbetalingstidslinjedagtype": "NavHelgDag",
+                                    "kilde": {
+                                        "type": "Søknad",
+                                        "id": "b4b2657c-60d4-4305-8c09-9956933190ae"
+                                    },
+                                    "grad": 100,
+                                    "utbetalingsinfo": null,
+                                    "begrunnelser": null
+                                },
+                                {
+                                    "dagen": "2021-07-25",
+                                    "sykdomstidslinjedagtype": "SYK_HELGEDAG",
+                                    "utbetalingstidslinjedagtype": "NavHelgDag",
+                                    "kilde": {
+                                        "type": "Søknad",
+                                        "id": "b4b2657c-60d4-4305-8c09-9956933190ae"
+                                    },
+                                    "grad": 100,
+                                    "utbetalingsinfo": null,
+                                    "begrunnelser": null
+                                },
+                                {
+                                    "dagen": "2021-07-26",
+                                    "sykdomstidslinjedagtype": "SYKEDAG",
+                                    "utbetalingstidslinjedagtype": "NavDag",
+                                    "kilde": {
+                                        "type": "Søknad",
+                                        "id": "b4b2657c-60d4-4305-8c09-9956933190ae"
+                                    },
+                                    "grad": 100,
+                                    "utbetalingsinfo": {
+                                        "inntekt": 1154,
+                                        "utbetaling": 1154,
+                                        "totalGrad": 100
+                                    },
+                                    "begrunnelser": null
+                                },
+                                {
+                                    "dagen": "2021-07-27",
+                                    "sykdomstidslinjedagtype": "SYKEDAG",
+                                    "utbetalingstidslinjedagtype": "NavDag",
+                                    "kilde": {
+                                        "type": "Søknad",
+                                        "id": "b4b2657c-60d4-4305-8c09-9956933190ae"
+                                    },
+                                    "grad": 100,
+                                    "utbetalingsinfo": {
+                                        "inntekt": 1154,
+                                        "utbetaling": 1154,
+                                        "totalGrad": 100
+                                    },
+                                    "begrunnelser": null
+                                },
+                                {
+                                    "dagen": "2021-07-28",
+                                    "sykdomstidslinjedagtype": "SYKEDAG",
+                                    "utbetalingstidslinjedagtype": "NavDag",
+                                    "kilde": {
+                                        "type": "Søknad",
+                                        "id": "b4b2657c-60d4-4305-8c09-9956933190ae"
+                                    },
+                                    "grad": 100,
+                                    "utbetalingsinfo": {
+                                        "inntekt": 1154,
+                                        "utbetaling": 1154,
+                                        "totalGrad": 100
+                                    },
+                                    "begrunnelser": null
+                                },
+                                {
+                                    "dagen": "2021-07-29",
+                                    "sykdomstidslinjedagtype": "SYKEDAG",
+                                    "utbetalingstidslinjedagtype": "NavDag",
+                                    "kilde": {
+                                        "type": "Søknad",
+                                        "id": "b4b2657c-60d4-4305-8c09-9956933190ae"
+                                    },
+                                    "grad": 100,
+                                    "utbetalingsinfo": {
+                                        "inntekt": 1154,
+                                        "utbetaling": 1154,
+                                        "totalGrad": 100
+                                    },
+                                    "begrunnelser": null
+                                },
+                                {
+                                    "dagen": "2021-07-30",
+                                    "sykdomstidslinjedagtype": "SYKEDAG",
+                                    "utbetalingstidslinjedagtype": "NavDag",
+                                    "kilde": {
+                                        "type": "Søknad",
+                                        "id": "b4b2657c-60d4-4305-8c09-9956933190ae"
+                                    },
+                                    "grad": 100,
+                                    "utbetalingsinfo": {
+                                        "inntekt": 1154,
+                                        "utbetaling": 1154,
+                                        "totalGrad": 100
+                                    },
+                                    "begrunnelser": null
+                                },
+                                {
+                                    "dagen": "2021-07-31",
+                                    "sykdomstidslinjedagtype": "SYK_HELGEDAG",
+                                    "utbetalingstidslinjedagtype": "NavHelgDag",
+                                    "kilde": {
+                                        "type": "Søknad",
+                                        "id": "b4b2657c-60d4-4305-8c09-9956933190ae"
+                                    },
+                                    "grad": 100,
+                                    "utbetalingsinfo": null,
+                                    "begrunnelser": null
+                                }
+                            ],
+                            "behandlingstype": "BEHANDLET",
+                            "erForkastet": false,
+                            "periodetype": "FØRSTEGANGSBEHANDLING",
+                            "inntektskilde": "EN_ARBEIDSGIVER",
+                            "opprettet": "2021-09-29T10:24:32.693568017",
+                            "beregningId": "41a56e0b-dd76-47f5-901c-e734cb2fd3f6",
+                            "gjenståendeSykedager": 238,
+                            "forbrukteSykedager": 10,
+                            "skjæringstidspunkt": "2021-07-01",
+                            "maksdato": "2022-06-29",
+                            "utbetaling": {
+                                "type": "UTBETALING",
+                                "status": "Ubetalt",
+                                "arbeidsgiverNettoBeløp": 11540,
+                                "personNettoBeløp": 0,
+                                "arbeidsgiverFagsystemId": "5SVL77IEXZCSZE3FMVVVIKZARY",
+                                "personFagsystemId": "TUCZ5B4VLFDRNMBIJPZZLGLDHQ",
+                                "vurdering": null
                             },
-                            "grad": 100
-                        },
-                        {
-                            "dagen": "2021-04-04",
-                            "type": "SYK_HELGEDAG",
-                            "kilde": {
-                                "type": "Søknad",
-                                "kildeId": "553de369-0f4e-4558-a453-c73006d3404d"
-                            },
-                            "grad": 100
-                        },
-                        {
-                            "dagen": "2021-04-05",
-                            "type": "FERIEDAG",
-                            "kilde": {
-                                "type": "Saksbehandler",
-                                "kildeId": "f0a6fea4-59f4-499b-aca5-338473ff2721"
-                            },
-                            "grad": null
-                        },
-                        {
-                            "dagen": "2021-04-06",
-                            "type": "FERIEDAG",
-                            "kilde": {
-                                "type": "Saksbehandler",
-                                "kildeId": "f0a6fea4-59f4-499b-aca5-338473ff2721"
-                            },
-                            "grad": null
-                        },
-                        {
-                            "dagen": "2021-04-07",
-                            "type": "FERIEDAG",
-                            "kilde": {
-                                "type": "Saksbehandler",
-                                "kildeId": "f0a6fea4-59f4-499b-aca5-338473ff2721"
-                            },
-                            "grad": null
-                        },
-                        {
-                            "dagen": "2021-04-08",
-                            "type": "SYKEDAG",
-                            "kilde": {
-                                "type": "Søknad",
-                                "kildeId": "553de369-0f4e-4558-a453-c73006d3404d"
-                            },
-                            "grad": 100
-                        },
-                        {
-                            "dagen": "2021-04-09",
-                            "type": "SYKEDAG",
-                            "kilde": {
-                                "type": "Søknad",
-                                "kildeId": "553de369-0f4e-4558-a453-c73006d3404d"
-                            },
-                            "grad": 100
-                        },
-                        {
-                            "dagen": "2021-04-10",
-                            "type": "SYK_HELGEDAG",
-                            "kilde": {
-                                "type": "Søknad",
-                                "kildeId": "553de369-0f4e-4558-a453-c73006d3404d"
-                            },
-                            "grad": 100
-                        },
-                        {
-                            "dagen": "2021-04-11",
-                            "type": "SYK_HELGEDAG",
-                            "kilde": {
-                                "type": "Søknad",
-                                "kildeId": "553de369-0f4e-4558-a453-c73006d3404d"
-                            },
-                            "grad": 100
-                        },
-                        {
-                            "dagen": "2021-04-12",
-                            "type": "SYKEDAG",
-                            "kilde": {
-                                "type": "Søknad",
-                                "kildeId": "553de369-0f4e-4558-a453-c73006d3404d"
-                            },
-                            "grad": 100
-                        },
-                        {
-                            "dagen": "2021-04-13",
-                            "type": "SYKEDAG",
-                            "kilde": {
-                                "type": "Søknad",
-                                "kildeId": "553de369-0f4e-4558-a453-c73006d3404d"
-                            },
-                            "grad": 100
-                        },
-                        {
-                            "dagen": "2021-04-14",
-                            "type": "SYKEDAG",
-                            "kilde": {
-                                "type": "Søknad",
-                                "kildeId": "553de369-0f4e-4558-a453-c73006d3404d"
-                            },
-                            "grad": 100
-                        },
-                        {
-                            "dagen": "2021-04-15",
-                            "type": "FERIEDAG",
-                            "kilde": {
-                                "type": "Saksbehandler",
-                                "kildeId": "2f7ee150-ac40-480a-a9c4-666fdec83b1a"
-                            },
-                            "grad": null
-                        },
-                        {
-                            "dagen": "2021-04-16",
-                            "type": "ARBEIDSGIVERDAG",
-                            "kilde": {
-                                "type": "Saksbehandler",
-                                "kildeId": "2f7ee150-ac40-480a-a9c4-666fdec83b1a"
-                            },
-                            "grad": 100
-                        },
-                        {
-                            "dagen": "2021-04-17",
-                            "type": "SYK_HELGEDAG",
-                            "kilde": {
-                                "type": "Søknad",
-                                "kildeId": "553de369-0f4e-4558-a453-c73006d3404d"
-                            },
-                            "grad": 100
-                        },
-                        {
-                            "dagen": "2021-04-18",
-                            "type": "SYK_HELGEDAG",
-                            "kilde": {
-                                "type": "Søknad",
-                                "kildeId": "553de369-0f4e-4558-a453-c73006d3404d"
-                            },
-                            "grad": 100
-                        },
-                        {
-                            "dagen": "2021-04-19",
-                            "type": "ARBEIDSGIVERDAG",
-                            "kilde": {
-                                "type": "Saksbehandler",
-                                "kildeId": "6e4ff4bc-f645-48fd-8faf-24f731844536"
-                            },
-                            "grad": 100
-                        },
-                        {
-                            "dagen": "2021-04-20",
-                            "type": "SYKEDAG",
-                            "kilde": {
-                                "type": "Søknad",
-                                "kildeId": "553de369-0f4e-4558-a453-c73006d3404d"
-                            },
-                            "grad": 100
-                        },
-                        {
-                            "dagen": "2021-04-21",
-                            "type": "SYKEDAG",
-                            "kilde": {
-                                "type": "Søknad",
-                                "kildeId": "553de369-0f4e-4558-a453-c73006d3404d"
-                            },
-                            "grad": 100
-                        },
-                        {
-                            "dagen": "2021-04-22",
-                            "type": "SYKEDAG",
-                            "kilde": {
-                                "type": "Inntektsmelding",
-                                "kildeId": "553de369-0f4e-4558-a453-c73006d3404d"
-                            },
-                            "grad": 100
-                        },
-                        {
-                            "dagen": "2021-04-23",
-                            "type": "SYKEDAG",
-                            "kilde": {
-                                "type": "Inntektsmelding",
-                                "kildeId": "553de369-0f4e-4558-a453-c73006d3404d"
-                            },
-                            "grad": 100
-                        },
-                        {
-                            "dagen": "2021-04-24",
-                            "type": "SYK_HELGEDAG",
-                            "kilde": {
-                                "type": "Søknad",
-                                "kildeId": "553de369-0f4e-4558-a453-c73006d3404d"
-                            },
-                            "grad": 100
-                        },
-                        {
-                            "dagen": "2021-04-25",
-                            "type": "SYK_HELGEDAG",
-                            "kilde": {
-                                "type": "Søknad",
-                                "kildeId": "553de369-0f4e-4558-a453-c73006d3404d"
-                            },
-                            "grad": 100
-                        },
-                        {
-                            "dagen": "2021-04-26",
-                            "type": "SYKEDAG",
-                            "kilde": {
-                                "type": "Sykmelding",
-                                "kildeId": "553de369-0f4e-4558-a453-c73006d3404d"
-                            },
-                            "grad": 100
-                        },
-                        {
-                            "dagen": "2021-04-27",
-                            "type": "SYKEDAG",
-                            "kilde": {
-                                "type": "Sykmelding",
-                                "kildeId": "553de369-0f4e-4558-a453-c73006d3404d"
-                            },
-                            "grad": 100
-                        },
-                        {
-                            "dagen": "2021-04-28",
-                            "type": "SYKEDAG",
-                            "kilde": {
-                                "type": "Søknad",
-                                "kildeId": "553de369-0f4e-4558-a453-c73006d3404d"
-                            },
-                            "grad": 100
-                        },
-                        {
-                            "dagen": "2021-04-29",
-                            "type": "SYKEDAG",
-                            "kilde": {
-                                "type": "Søknad",
-                                "kildeId": "553de369-0f4e-4558-a453-c73006d3404d"
-                            },
-                            "grad": 100
-                        },
-                        {
-                            "dagen": "2021-04-30",
-                            "type": "SYKEDAG",
-                            "kilde": {
-                                "type": "Søknad",
-                                "kildeId": "553de369-0f4e-4558-a453-c73006d3404d"
-                            },
-                            "grad": 100
-                        }
-                    ],
-                    "godkjentAv": null,
-                    "godkjenttidspunkt": null,
-                    "automatiskBehandlet": false,
-                    "vilkår": {
-                        "sykepengedager": {
-                            "forbrukteSykedager": 9,
-                            "skjæringstidspunkt": "2021-04-03",
-                            "beregningsdato": "2021-04-03",
-                            "førsteFraværsdag": "2021-04-03",
-                            "førsteSykepengedag": "2021-04-20",
-                            "maksdato": "2022-03-31",
-                            "gjenståendeDager": 239,
-                            "oppfylt": true
-                        },
-                        "alder": {
-                            "alderSisteSykedag": 69,
-                            "oppfylt": true
-                        },
-                        "opptjening": {
-                            "antallKjenteOpptjeningsdager": 7330,
-                            "fom": "2001-03-09",
-                            "oppfylt": true
-                        },
-                        "søknadsfrist": {
-                            "sendtNav": "2021-05-01T00:00:00",
-                            "søknadFom": "2021-04-03",
-                            "søknadTom": "2021-04-30",
-                            "oppfylt": true
-                        },
-                        "medlemskapstatus": "VET_IKKE"
-                    },
-                    "inntektsmeldingId": "7631e3fd-9ac3-459f-a60c-753013e3af09",
-                    "inntektFraInntektsmelding": 14500,
-                    "totalbeløpArbeidstaker": 6021,
-                    "hendelser": [
-                        {
-                            "id": "a8d73800-43e4-4bfd-af7a-286e371e7ba4",
-                            "fom": "2021-04-03",
-                            "tom": "2021-04-30",
-                            "rapportertdato": "2021-06-04T12:11:32.85906762",
-                            "type": "NY_SØKNAD"
-                        },
-                        {
-                            "id": "553de369-0f4e-4558-a453-c73006d3404d",
-                            "fom": "2021-04-03",
-                            "tom": "2021-04-30",
-                            "rapportertdato": "2021-06-04T12:11:33.127252784",
-                            "sendtNav": "2021-05-01T00:00:00",
-                            "type": "SENDT_SØKNAD_NAV"
-                        },
-                        {
-                            "id": "7631e3fd-9ac3-459f-a60c-753013e3af09",
-                            "mottattDato": "2021-06-04T12:11:33.156873211",
-                            "beregnetInntekt": 14500,
-                            "type": "INNTEKTSMELDING"
-                        }
-                    ],
-                    "dataForVilkårsvurdering": {
-                        "beregnetÅrsinntektFraInntektskomponenten": 217500,
-                        "avviksprosent": 0.2,
-                        "antallOpptjeningsdagerErMinst": 7330,
-                        "harOpptjening": true,
-                        "medlemskapstatus": "VET_IKKE"
-                    },
-                    "simuleringsdata": {
-                        "totalbeløp": 6021,
-                        "perioder": [
-                            {
-                                "fom": "2021-04-20",
-                                "tom": "2021-04-30",
-                                "utbetalinger": [
+                            "hendelser": [
+                                {
+                                    "id": "aaf7bf91-58ee-4b50-9959-9fa01ecc9079",
+                                    "fom": "2021-07-01",
+                                    "tom": "2021-07-31",
+                                    "rapportertdato": "2021-09-29T10:24:29.939591833",
+                                    "type": "NY_SØKNAD"
+                                },
+                                {
+                                    "id": "b4b2657c-60d4-4305-8c09-9956933190ae",
+                                    "fom": "2021-07-01",
+                                    "tom": "2021-07-31",
+                                    "rapportertdato": "2021-09-29T10:24:29.939933041",
+                                    "sendtNav": "2021-08-01T00:00:00",
+                                    "type": "SENDT_SØKNAD_NAV"
+                                },
+                                {
+                                    "id": "2f6ed86f-f393-4733-9dc6-6492500a72a3",
+                                    "mottattDato": "2021-09-29T10:24:29.940143906",
+                                    "beregnetInntekt": 25000,
+                                    "type": "INNTEKTSMELDING"
+                                }
+                            ],
+                            "simulering": {
+                                "totalbeløp": 11540,
+                                "perioder": [
                                     {
-                                        "utbetalesTilId": "928497704",
-                                        "utbetalesTilNavn": "BESK KAFFE",
-                                        "forfall": "2021-06-07",
-                                        "feilkonto": false,
-                                        "detaljer": [
+                                        "fom": "2021-07-17",
+                                        "tom": "2021-07-31",
+                                        "utbetalinger": [
                                             {
-                                                "faktiskFom": "2021-04-20",
-                                                "faktiskTom": "2021-04-30",
-                                                "konto": "2338020",
-                                                "beløp": 6021,
-                                                "tilbakeføring": false,
-                                                "sats": 669,
-                                                "typeSats": "DAG",
-                                                "antallSats": 9,
-                                                "uføregrad": 100,
-                                                "klassekode": "SPREFAG-IOP",
-                                                "klassekodeBeskrivelse": "Sykepenger, Refusjon arbeidsgiver",
-                                                "utbetalingstype": "YTEL",
-                                                "refunderesOrgNr": "972674818"
+                                                "utbetalesTilId": "928497704",
+                                                "utbetalesTilNavn": "BESK KAFFE",
+                                                "forfall": "2021-09-29",
+                                                "feilkonto": false,
+                                                "detaljer": [
+                                                    {
+                                                        "faktiskFom": "2021-07-17",
+                                                        "faktiskTom": "2021-07-31",
+                                                        "konto": "2338020",
+                                                        "beløp": 11540,
+                                                        "tilbakeføring": false,
+                                                        "sats": 1154,
+                                                        "typeSats": "DAG",
+                                                        "antallSats": 10,
+                                                        "uføregrad": 100,
+                                                        "klassekode": "SPREFAG-IOP",
+                                                        "klassekodeBeskrivelse": "Sykepenger, Refusjon arbeidsgiver",
+                                                        "utbetalingstype": "YTEL",
+                                                        "refunderesOrgNr": "947064649"
+                                                    }
+                                                ]
                                             }
                                         ]
                                     }
                                 ]
-                            }
-                        ]
-                    },
-                    "aktivitetslogg": [
-                        {
-                            "vedtaksperiodeId": "f5598ad8-2535-4ade-bf63-bf1b0395fe25",
-                            "alvorlighetsgrad": "W",
-                            "melding": "Vurder lovvalg og medlemskap",
-                            "tidsstempel": "2021-06-04 12:11:37.461"
-                        },
-                        {
-                            "vedtaksperiodeId": "f5598ad8-2535-4ade-bf63-bf1b0395fe25",
-                            "alvorlighetsgrad": "W",
-                            "melding": "Minst én dag uten utbetaling på grunn av sykdomsgrad under 20 %. Vurder å sende brev",
-                            "tidsstempel": "2021-06-07 11:33:25.662"
+                            },
+                            "vilkårsgrunnlagshistorikkId": "6ab9d97a-923d-4476-a84b-43dcf017f2fa",
+                            "periodevilkår": {
+                                "sykepengedager": {
+                                    "skjæringstidspunkt": "2021-07-01",
+                                    "maksdato": "2022-06-29",
+                                    "forbrukteSykedager": 10,
+                                    "gjenståendeDager": 238,
+                                    "oppfylt": true
+                                },
+                                "alder": {
+                                    "alderSisteSykedag": 33,
+                                    "oppfylt": true
+                                },
+                                "søknadsfrist": {
+                                    "sendtNav": "2021-08-01T00:00:00",
+                                    "søknadFom": "2021-07-01",
+                                    "søknadTom": "2021-07-31",
+                                    "oppfylt": true
+                                }
+                            },
+                            "aktivitetslogg": [
+                                {
+                                    "vedtaksperiodeId": "dd9ef7a0-c94f-41de-8e17-71330508d3ac",
+                                    "alvorlighetsgrad": "W",
+                                    "melding": "Vurder lovvalg og medlemskap",
+                                    "tidsstempel": "2021-09-29 10:24:32.234"
+                                }
+                            ],
+                            "tidslinjeperiodeId": "030e8acd-de6f-437e-9a4a-5c5e5317eba3",
+                            "utbetalingstilstand": "Ubetalt",
+                            "utbetalingstype": "UTBETALING"
                         }
-                    ],
-                    "forlengelseFraInfotrygd": "NEI",
-                    "periodetype": "FØRSTEGANGSBEHANDLING",
-                    "beregningIder": ["ff581b18-612e-4b93-bb12-6bdb3f18c5a3"],
-                    "oppgavereferanse": "1",
-                    "risikovurdering": {
-                        "funn": [
-                            {
-                                "kreverSupersaksbehandler": false,
-                                "beskrivelse": "Symptomdiagnose ved 15 uker. Vurder arbeidsuførhet.",
-                                "kategori": ["8-4"]
-                            }
-                        ],
-                        "kontrollertOk": [
-                            {
-                                "beskrivelse": "Det er ikke registrert nye arbeidsforhold på sykmeldt i søknadsperioden",
-                                "kategori": []
-                            },
-                            {
-                                "beskrivelse": "Fant ingen meldinger fra veiledere om å stanse automatisk behandling",
-                                "kategori": ["8-4"]
-                            },
-                            {
-                                "beskrivelse": "Har ikke Z-diagnose som bi-diagnose",
-                                "kategori": ["8-4"]
-                            },
-                            {
-                                "beskrivelse": "Ikke registrert at enhet er konkurs eller under avvikling",
-                                "kategori": []
-                            },
-                            {
-                                "beskrivelse": "Ingen nye roller i næringslivet registrert på brukeren siste måned",
-                                "kategori": []
-                            },
-                            {
-                                "beskrivelse": "Inntekt andre plasser økte i snitt mindre enn 0 kr etter sykmeldt",
-                                "kategori": []
-                            }
-                        ],
-                        "arbeidsuførhetvurdering": [],
-                        "ufullstendig": false
-                    },
-                    "varsler": [
-                        "Ikke registrert eller mangler samtykke i Kontakt- og reservasjonsregisteret, eventuell kommunikasjon må skje i brevform",
-                        "Kunne ikke sjekke åpne oppgaver på sykepenger i Gosys",
-                        "Ikke registrert eller mangler samtykke i Kontakt- og reservasjonsregisteret, eventuell kommunikasjon må skje i brevform",
-                        "Kunne ikke sjekke åpne oppgaver på sykepenger i Gosys",
-                        "Ikke registrert eller mangler samtykke i Kontakt- og reservasjonsregisteret, eventuell kommunikasjon må skje i brevform",
-                        "Kunne ikke sjekke åpne oppgaver på sykepenger i Gosys",
-                        "Vurder lovvalg og medlemskap",
-                        "Minst én dag uten utbetaling på grunn av sykdomsgrad under 20 %. Vurder å sende brev",
-                        "Ikke registrert eller mangler samtykke i Kontakt- og reservasjonsregisteret, eventuell kommunikasjon må skje i brevform",
-                        "Kunne ikke sjekke åpne oppgaver på sykepenger i Gosys"
                     ]
-                }
-            ],
-            "overstyringer": [
-                {
-                    "hendelseId": "f0a6fea4-59f4-499b-aca5-338473ff2721",
-                    "begrunnelse": "Litt ferie",
-                    "timestamp": "2021-06-07T11:28:56.17948",
-                    "overstyrteDager": [
-                        {
-                            "dato": "2021-04-05",
-                            "dagtype": "Feriedag",
-                            "grad": 0
-                        },
-                        {
-                            "dato": "2021-04-06",
-                            "dagtype": "Feriedag",
-                            "grad": 0
-                        },
-                        {
-                            "dato": "2021-04-07",
-                            "dagtype": "Feriedag",
-                            "grad": 0
-                        }
-                    ],
-                    "saksbehandlerNavn": "En saksbehandler",
-                    "saksbehandlerIdent": "S123456"
-                },
-                {
-                    "hendelseId": "2f7ee150-ac40-480a-a9c4-666fdec83b1a",
-                    "begrunnelse": "Enda litt mer ferie",
-                    "timestamp": "2021-06-07T11:30:27.987434",
-                    "overstyrteDager": [
-                        {
-                            "dato": "2021-04-15",
-                            "dagtype": "Feriedag",
-                            "grad": 0
-                        },
-                        {
-                            "dato": "2021-04-16",
-                            "dagtype": "Egenmeldingsdag",
-                            "grad": 0
-                        }
-                    ],
-                    "saksbehandlerNavn": "En saksbehandler",
-                    "saksbehandlerIdent": "S123456"
-                },
-                {
-                    "hendelseId": "6e4ff4bc-f645-48fd-8faf-24f731844536",
-                    "begrunnelse": "Også en egenmelding a gitt",
-                    "timestamp": "2021-06-07T11:33:24.543534",
-                    "overstyrteDager": [
-                        {
-                            "dato": "2021-04-19",
-                            "dagtype": "Egenmeldingsdag",
-                            "grad": 0
-                        }
-                    ],
-                    "saksbehandlerNavn": "En saksbehandler",
-                    "saksbehandlerIdent": "S123456"
-                }
-            ],
-            "bransjer": [],
-            "utbetalingshistorikk": [
-                {
-                    "beregningId": "ff581b18-612e-4b93-bb12-6bdb3f18c5a3",
-                    "beregnettidslinje": [
-                        {
-                            "dagen": "2021-04-03",
-                            "type": "SYK_HELGEDAG",
-                            "kilde": {
-                                "type": "Søknad",
-                                "kildeId": "553de369-0f4e-4558-a453-c73006d3404d"
-                            },
-                            "grad": 100
-                        },
-                        {
-                            "dagen": "2021-04-04",
-                            "type": "SYK_HELGEDAG",
-                            "kilde": {
-                                "type": "Søknad",
-                                "kildeId": "553de369-0f4e-4558-a453-c73006d3404d"
-                            },
-                            "grad": 100
-                        },
-                        {
-                            "dagen": "2021-04-05",
-                            "type": "FERIEDAG",
-                            "kilde": {
-                                "type": "Saksbehandler",
-                                "kildeId": "f0a6fea4-59f4-499b-aca5-338473ff2721"
-                            },
-                            "grad": null
-                        },
-                        {
-                            "dagen": "2021-04-06",
-                            "type": "FERIEDAG",
-                            "kilde": {
-                                "type": "Saksbehandler",
-                                "kildeId": "f0a6fea4-59f4-499b-aca5-338473ff2721"
-                            },
-                            "grad": null
-                        },
-                        {
-                            "dagen": "2021-04-07",
-                            "type": "FERIEDAG",
-                            "kilde": {
-                                "type": "Saksbehandler",
-                                "kildeId": "f0a6fea4-59f4-499b-aca5-338473ff2721"
-                            },
-                            "grad": null
-                        },
-                        {
-                            "dagen": "2021-04-08",
-                            "type": "SYKEDAG",
-                            "kilde": {
-                                "type": "Søknad",
-                                "kildeId": "553de369-0f4e-4558-a453-c73006d3404d"
-                            },
-                            "grad": 100
-                        },
-                        {
-                            "dagen": "2021-04-09",
-                            "type": "SYKEDAG",
-                            "kilde": {
-                                "type": "Søknad",
-                                "kildeId": "553de369-0f4e-4558-a453-c73006d3404d"
-                            },
-                            "grad": 100
-                        },
-                        {
-                            "dagen": "2021-04-10",
-                            "type": "SYK_HELGEDAG",
-                            "kilde": {
-                                "type": "Søknad",
-                                "kildeId": "553de369-0f4e-4558-a453-c73006d3404d"
-                            },
-                            "grad": 100
-                        },
-                        {
-                            "dagen": "2021-04-11",
-                            "type": "SYK_HELGEDAG",
-                            "kilde": {
-                                "type": "Søknad",
-                                "kildeId": "553de369-0f4e-4558-a453-c73006d3404d"
-                            },
-                            "grad": 100
-                        },
-                        {
-                            "dagen": "2021-04-12",
-                            "type": "SYKEDAG",
-                            "kilde": {
-                                "type": "Søknad",
-                                "kildeId": "553de369-0f4e-4558-a453-c73006d3404d"
-                            },
-                            "grad": 100
-                        },
-                        {
-                            "dagen": "2021-04-13",
-                            "type": "SYKEDAG",
-                            "kilde": {
-                                "type": "Søknad",
-                                "kildeId": "553de369-0f4e-4558-a453-c73006d3404d"
-                            },
-                            "grad": 100
-                        },
-                        {
-                            "dagen": "2021-04-14",
-                            "type": "SYKEDAG",
-                            "kilde": {
-                                "type": "Søknad",
-                                "kildeId": "553de369-0f4e-4558-a453-c73006d3404d"
-                            },
-                            "grad": 100
-                        },
-                        {
-                            "dagen": "2021-04-15",
-                            "type": "FERIEDAG",
-                            "kilde": {
-                                "type": "Saksbehandler",
-                                "kildeId": "2f7ee150-ac40-480a-a9c4-666fdec83b1a"
-                            },
-                            "grad": null
-                        },
-                        {
-                            "dagen": "2021-04-16",
-                            "type": "ARBEIDSGIVERDAG",
-                            "kilde": {
-                                "type": "Saksbehandler",
-                                "kildeId": "2f7ee150-ac40-480a-a9c4-666fdec83b1a"
-                            },
-                            "grad": 100
-                        },
-                        {
-                            "dagen": "2021-04-17",
-                            "type": "SYK_HELGEDAG",
-                            "kilde": {
-                                "type": "Søknad",
-                                "kildeId": "553de369-0f4e-4558-a453-c73006d3404d"
-                            },
-                            "grad": 100
-                        },
-                        {
-                            "dagen": "2021-04-18",
-                            "type": "SYK_HELGEDAG",
-                            "kilde": {
-                                "type": "Søknad",
-                                "kildeId": "553de369-0f4e-4558-a453-c73006d3404d"
-                            },
-                            "grad": 100
-                        },
-                        {
-                            "dagen": "2021-04-19",
-                            "type": "ARBEIDSGIVERDAG",
-                            "kilde": {
-                                "type": "Saksbehandler",
-                                "kildeId": "6e4ff4bc-f645-48fd-8faf-24f731844536"
-                            },
-                            "grad": 100
-                        },
-                        {
-                            "dagen": "2021-04-20",
-                            "type": "SYKEDAG",
-                            "kilde": {
-                                "type": "Søknad",
-                                "kildeId": "553de369-0f4e-4558-a453-c73006d3404d"
-                            },
-                            "grad": 100
-                        },
-                        {
-                            "dagen": "2021-04-21",
-                            "type": "FERIEDAG",
-                            "kilde": {
-                                "type": "Søknad",
-                                "kildeId": "553de369-0f4e-4558-a453-c73006d3404d"
-                            }
-                        },
-                        {
-                            "dagen": "2021-04-22",
-                            "type": "SYKEDAG",
-                            "kilde": {
-                                "type": "Søknad",
-                                "kildeId": "553de369-0f4e-4558-a453-c73006d3404d"
-                            },
-                            "grad": 100
-                        },
-                        {
-                            "dagen": "2021-04-23",
-                            "type": "SYKEDAG",
-                            "kilde": {
-                                "type": "Søknad",
-                                "kildeId": "553de369-0f4e-4558-a453-c73006d3404d"
-                            },
-                            "grad": 100
-                        },
-                        {
-                            "dagen": "2021-04-24",
-                            "type": "SYK_HELGEDAG",
-                            "kilde": {
-                                "type": "Søknad",
-                                "kildeId": "553de369-0f4e-4558-a453-c73006d3404d"
-                            },
-                            "grad": 100
-                        },
-                        {
-                            "dagen": "2021-04-25",
-                            "type": "SYK_HELGEDAG",
-                            "kilde": {
-                                "type": "Søknad",
-                                "kildeId": "553de369-0f4e-4558-a453-c73006d3404d"
-                            },
-                            "grad": 100
-                        },
-                        {
-                            "dagen": "2021-04-26",
-                            "type": "SYKEDAG",
-                            "kilde": {
-                                "type": "Søknad",
-                                "kildeId": "553de369-0f4e-4558-a453-c73006d3404d"
-                            },
-                            "grad": 100
-                        },
-                        {
-                            "dagen": "2021-04-27",
-                            "type": "SYKEDAG",
-                            "kilde": {
-                                "type": "Søknad",
-                                "kildeId": "553de369-0f4e-4558-a453-c73006d3404d"
-                            },
-                            "grad": 100
-                        },
-                        {
-                            "dagen": "2021-04-28",
-                            "type": "SYKEDAG",
-                            "kilde": {
-                                "type": "Søknad",
-                                "kildeId": "553de369-0f4e-4558-a453-c73006d3404d"
-                            },
-                            "grad": 100
-                        },
-                        {
-                            "dagen": "2021-04-29",
-                            "type": "SYKEDAG",
-                            "kilde": {
-                                "type": "Søknad",
-                                "kildeId": "553de369-0f4e-4558-a453-c73006d3404d"
-                            },
-                            "grad": 100
-                        },
-                        {
-                            "dagen": "2021-04-30",
-                            "type": "SYKEDAG",
-                            "kilde": {
-                                "type": "Søknad",
-                                "kildeId": "553de369-0f4e-4558-a453-c73006d3404d"
-                            },
-                            "grad": 100
-                        }
-                    ],
-                    "hendelsetidslinje": [
-                        {
-                            "dagen": "2021-04-19",
-                            "type": "ARBEIDSGIVERDAG",
-                            "kilde": {
-                                "type": "Saksbehandler",
-                                "kildeId": "6e4ff4bc-f645-48fd-8faf-24f731844536"
-                            },
-                            "grad": 100
-                        }
-                    ],
-                    "utbetaling": {
-                        "type": "UTBETALING",
-                        "status": "IKKE_UTBETALT",
-                        "gjenståendeSykedager": 239,
-                        "forbrukteSykedager": 9,
-                        "arbeidsgiverNettoBeløp": 6021,
-                        "arbeidsgiverFagsystemId": "NKOLN5CPKFAWNPSMKLA4SCIC2A",
-                        "maksdato": "2022-03-31",
-                        "beregningId": "ff581b18-612e-4b93-bb12-6bdb3f18c5a3",
-                        "utbetalingstidslinje": [
-                            {
-                                "type": "ArbeidsgiverperiodeDag",
-                                "inntekt": 669,
-                                "dato": "2021-04-03",
-                                "utbetaling": null,
-                                "grad": null,
-                                "totalGrad": null,
-                                "begrunnelser": null
-                            },
-                            {
-                                "type": "ArbeidsgiverperiodeDag",
-                                "inntekt": 669,
-                                "dato": "2021-04-04",
-                                "utbetaling": null,
-                                "grad": null,
-                                "totalGrad": null,
-                                "begrunnelser": null
-                            },
-                            {
-                                "type": "ArbeidsgiverperiodeDag",
-                                "inntekt": 669,
-                                "dato": "2021-04-05",
-                                "utbetaling": null,
-                                "grad": null,
-                                "totalGrad": null,
-                                "begrunnelser": null
-                            },
-                            {
-                                "type": "ArbeidsgiverperiodeDag",
-                                "inntekt": 669,
-                                "dato": "2021-04-06",
-                                "utbetaling": null,
-                                "grad": null,
-                                "totalGrad": null,
-                                "begrunnelser": null
-                            },
-                            {
-                                "type": "ArbeidsgiverperiodeDag",
-                                "inntekt": 669,
-                                "dato": "2021-04-07",
-                                "utbetaling": null,
-                                "grad": null,
-                                "totalGrad": null,
-                                "begrunnelser": null
-                            },
-                            {
-                                "type": "ArbeidsgiverperiodeDag",
-                                "inntekt": 669,
-                                "dato": "2021-04-08",
-                                "utbetaling": null,
-                                "grad": null,
-                                "totalGrad": null,
-                                "begrunnelser": null
-                            },
-                            {
-                                "type": "ArbeidsgiverperiodeDag",
-                                "inntekt": 669,
-                                "dato": "2021-04-09",
-                                "utbetaling": null,
-                                "grad": null,
-                                "totalGrad": null,
-                                "begrunnelser": null
-                            },
-                            {
-                                "type": "ArbeidsgiverperiodeDag",
-                                "inntekt": 669,
-                                "dato": "2021-04-10",
-                                "utbetaling": null,
-                                "grad": null,
-                                "totalGrad": null,
-                                "begrunnelser": null
-                            },
-                            {
-                                "type": "ArbeidsgiverperiodeDag",
-                                "inntekt": 669,
-                                "dato": "2021-04-11",
-                                "utbetaling": null,
-                                "grad": null,
-                                "totalGrad": null,
-                                "begrunnelser": null
-                            },
-                            {
-                                "type": "ArbeidsgiverperiodeDag",
-                                "inntekt": 669,
-                                "dato": "2021-04-12",
-                                "utbetaling": null,
-                                "grad": null,
-                                "totalGrad": null,
-                                "begrunnelser": null
-                            },
-                            {
-                                "type": "ArbeidsgiverperiodeDag",
-                                "inntekt": 669,
-                                "dato": "2021-04-13",
-                                "utbetaling": null,
-                                "grad": null,
-                                "totalGrad": null,
-                                "begrunnelser": null
-                            },
-                            {
-                                "type": "ArbeidsgiverperiodeDag",
-                                "inntekt": 669,
-                                "dato": "2021-04-14",
-                                "utbetaling": null,
-                                "grad": null,
-                                "totalGrad": null,
-                                "begrunnelser": null
-                            },
-                            {
-                                "type": "ArbeidsgiverperiodeDag",
-                                "inntekt": 669,
-                                "dato": "2021-04-15",
-                                "utbetaling": null,
-                                "grad": null,
-                                "totalGrad": null,
-                                "begrunnelser": null
-                            },
-                            {
-                                "type": "ArbeidsgiverperiodeDag",
-                                "inntekt": 669,
-                                "dato": "2021-04-16",
-                                "utbetaling": null,
-                                "grad": null,
-                                "totalGrad": null,
-                                "begrunnelser": null
-                            },
-                            {
-                                "type": "ArbeidsgiverperiodeDag",
-                                "inntekt": 669,
-                                "dato": "2021-04-17",
-                                "utbetaling": null,
-                                "grad": null,
-                                "totalGrad": null,
-                                "begrunnelser": null
-                            },
-                            {
-                                "type": "ArbeidsgiverperiodeDag",
-                                "inntekt": 669,
-                                "dato": "2021-04-18",
-                                "utbetaling": null,
-                                "grad": null,
-                                "totalGrad": null,
-                                "begrunnelser": null
-                            },
-                            {
-                                "type": "AvvistDag",
-                                "inntekt": 0,
-                                "dato": "2021-04-19",
-                                "utbetaling": null,
-                                "grad": 0,
-                                "totalGrad": null,
-                                "begrunnelser": ["EgenmeldingUtenforArbeidsgiverperiode", "MinimumSykdomsgrad"]
-                            },
-                            {
-                                "type": "NavDag",
-                                "inntekt": 669,
-                                "dato": "2021-04-20",
-                                "utbetaling": 669,
-                                "grad": 100,
-                                "totalGrad": 100,
-                                "begrunnelser": null
-                            },
-                            {
-                                "type": "Feriedag",
-                                "inntekt": 669,
-                                "dato": "2021-04-21",
-                                "utbetaling": null,
-                                "grad": null,
-                                "totalGrad": null,
-                                "begrunnelser": null
-                            },
-                            {
-                                "type": "NavDag",
-                                "inntekt": 669,
-                                "dato": "2021-04-22",
-                                "utbetaling": 669,
-                                "grad": 100,
-                                "totalGrad": 100,
-                                "begrunnelser": null
-                            },
-                            {
-                                "type": "NavDag",
-                                "inntekt": 669,
-                                "dato": "2021-04-23",
-                                "utbetaling": 669,
-                                "grad": 100,
-                                "totalGrad": 100,
-                                "begrunnelser": null
-                            },
-                            {
-                                "type": "NavHelgDag",
-                                "inntekt": 0,
-                                "dato": "2021-04-24",
-                                "utbetaling": null,
-                                "grad": 100,
-                                "totalGrad": null,
-                                "begrunnelser": null
-                            },
-                            {
-                                "type": "NavHelgDag",
-                                "inntekt": 0,
-                                "dato": "2021-04-25",
-                                "utbetaling": null,
-                                "grad": 100,
-                                "totalGrad": null,
-                                "begrunnelser": null
-                            },
-                            {
-                                "type": "NavDag",
-                                "inntekt": 669,
-                                "dato": "2021-04-26",
-                                "utbetaling": 669,
-                                "grad": 100,
-                                "totalGrad": 100,
-                                "begrunnelser": null
-                            },
-                            {
-                                "type": "NavDag",
-                                "inntekt": 669,
-                                "dato": "2021-04-27",
-                                "utbetaling": 669,
-                                "grad": 100,
-                                "totalGrad": 100,
-                                "begrunnelser": null
-                            },
-                            {
-                                "type": "NavDag",
-                                "inntekt": 669,
-                                "dato": "2021-04-28",
-                                "utbetaling": 669,
-                                "grad": 100,
-                                "totalGrad": 100,
-                                "begrunnelser": null
-                            },
-                            {
-                                "type": "NavDag",
-                                "inntekt": 669,
-                                "dato": "2021-04-29",
-                                "utbetaling": 669,
-                                "grad": 100,
-                                "totalGrad": 100,
-                                "begrunnelser": null
-                            },
-                            {
-                                "type": "NavDag",
-                                "inntekt": 669,
-                                "dato": "2021-04-30",
-                                "utbetaling": 669,
-                                "grad": 100,
-                                "totalGrad": 100,
-                                "begrunnelser": null
-                            }
-                        ],
-                        "tidsstempel": "2021-06-07T11:33:25.664956669",
-                        "vurdering": null
-                    },
-                    "tidsstempel": "2021-06-07T11:33:25.664956669"
                 }
             ]
         }
     ],
     "infotrygdutbetalinger": [],
     "enhet": {
-        "id": "1428",
-        "navn": "Askvoll"
+        "id": "5301",
+        "navn": "NAV Holmestrand"
     },
     "arbeidsforhold": [
         {
-            "organisasjonsnummer": "972674818",
-            "stillingstittel": "HØYSKOLELÆRER",
+            "organisasjonsnummer": "947064649",
+            "stillingstittel": "ELEKTRIKER",
             "stillingsprosent": 100,
-            "startdato": "2021-03-09",
+            "startdato": "2001-09-01",
             "sluttdato": null
         }
     ],
     "inntektsgrunnlag": [
         {
-            "skjæringstidspunkt": "2021-04-03",
-            "sykepengegrunnlag": 174000,
-            "omregnetÅrsinntekt": 174000,
-            "sammenligningsgrunnlag": 217500,
-            "avviksprosent": 20,
-            "maksUtbetalingPerDag": 669.2307692307693,
+            "skjæringstidspunkt": "2021-07-01",
+            "sykepengegrunnlag": 300000,
+            "omregnetÅrsinntekt": 300000,
+            "sammenligningsgrunnlag": 300000,
+            "avviksprosent": 0,
+            "maksUtbetalingPerDag": 1153.8461538461538,
             "inntekter": [
                 {
-                    "arbeidsgiver": "972674818",
+                    "arbeidsgiver": "947064649",
                     "omregnetÅrsinntekt": {
                         "kilde": "Inntektsmelding",
-                        "beløp": 174000,
-                        "månedsbeløp": 14500,
+                        "beløp": 300000,
+                        "månedsbeløp": 25000,
                         "inntekterFraAOrdningen": null
                     },
                     "sammenligningsgrunnlag": {
-                        "beløp": 217500,
+                        "beløp": 300000,
                         "inntekterFraAOrdningen": [
                             {
                                 "måned": "2020-08",
-                                "sum": 21750
-                            },
-                            {
-                                "måned": "2020-06",
-                                "sum": 21750
+                                "sum": 25000
                             },
                             {
                                 "måned": "2020-12",
-                                "sum": 21750
+                                "sum": 25000
                             },
                             {
                                 "måned": "2020-10",
-                                "sum": 21750
+                                "sum": 25000
                             },
                             {
                                 "måned": "2020-07",
-                                "sum": 21750
-                            },
-                            {
-                                "måned": "2020-05",
-                                "sum": 21750
+                                "sum": 25000
                             },
                             {
                                 "måned": "2020-11",
-                                "sum": 21750
-                            },
-                            {
-                                "måned": "2020-04",
-                                "sum": 21750
+                                "sum": 25000
                             },
                             {
                                 "måned": "2020-09",
-                                "sum": 21750
+                                "sum": 25000
+                            },
+                            {
+                                "måned": "2021-05",
+                                "sum": 25000
+                            },
+                            {
+                                "måned": "2021-02",
+                                "sum": 25000
+                            },
+                            {
+                                "måned": "2021-04",
+                                "sum": 25000
+                            },
+                            {
+                                "måned": "2021-06",
+                                "sum": 25000
                             },
                             {
                                 "måned": "2021-01",
-                                "sum": 21750
+                                "sum": 25000
+                            },
+                            {
+                                "måned": "2021-03",
+                                "sum": 25000
                             }
                         ]
                     }
                 }
             ],
             "oppfyllerKravOmMinstelønn": true,
-            "grunnbeløp": 101351
+            "grunnbeløp": 106399
         }
     ],
-    "erPåVent": false,
+    "vilkårsgrunnlagHistorikk": {
+        "6ab9d97a-923d-4476-a84b-43dcf017f2fa": {
+            "2021-07-01": {
+                "skjæringstidspunkt": "2021-07-01",
+                "omregnetÅrsinntekt": 300000,
+                "sammenligningsgrunnlag": 300000,
+                "sykepengegrunnlag": 300000,
+                "inntekter": [
+                    {
+                        "organisasjonsnummer": "947064649",
+                        "omregnetÅrsinntekt": {
+                            "kilde": "Inntektsmelding",
+                            "beløp": 300000,
+                            "månedsbeløp": 25000,
+                            "inntekterFraAOrdningen": null
+                        },
+                        "sammenligningsgrunnlag": 300000
+                    }
+                ],
+                "avviksprosent": 0,
+                "oppfyllerKravOmMinstelønn": true,
+                "grunnbeløp": 106399,
+                "medlemskapstatus": "VET_IKKE"
+            }
+        }
+    },
     "tildeling": null
 }

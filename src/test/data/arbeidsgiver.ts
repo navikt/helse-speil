@@ -14,4 +14,5 @@ export const umappetArbeidsgiver = (
     vedtaksperioder: vedtaksperioder,
     overstyringer: overstyringer,
     utbetalingshistorikk: utbetalingshistorikk,
+    generasjoner: [],
 });

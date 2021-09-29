@@ -8,12 +8,12 @@ const mapInntektsmelding = (hendelse: ExternalHendelse): Inntektsmelding => ({
 });
 
 const mapSøknad = (hendelse: ExternalHendelse): Søknad => ({
-    id: (hendelse as ExternalSøknad).id,
+    id: (hendelse as ExternalSøknadNav).id,
     type: 'Søknad',
-    fom: somDato((hendelse as ExternalSøknad).fom),
-    tom: somDato((hendelse as ExternalSøknad).tom),
-    sendtNav: somDato((hendelse as ExternalSøknad as ExternalSøknad).sendtNav),
-    rapportertDato: somKanskjeTidspunkt((hendelse as ExternalSøknad).rapportertdato),
+    fom: somDato((hendelse as ExternalSøknadNav).fom),
+    tom: somDato((hendelse as ExternalSøknadNav).tom),
+    sendtNav: somDato((hendelse as ExternalSøknadNav as ExternalSøknadNav).sendtNav),
+    rapportertDato: somKanskjeTidspunkt((hendelse as ExternalSøknadNav).rapportertdato),
 });
 
 const mapSykmelding = (hendelse: ExternalHendelse): Sykmelding => ({

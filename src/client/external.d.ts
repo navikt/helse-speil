@@ -124,12 +124,20 @@ declare type ExternalHendelse = {
     type: 'INNTEKTSMELDING' | 'NY_SØKNAD' | 'SENDT_SØKNAD_NAV' | 'SENDT_SØKNAD_ARBEIDSGIVER';
 };
 
-declare type ExternalSøknad = ExternalHendelse & {
+declare type ExternalSøknadNav = ExternalHendelse & {
     fom: string;
     tom: string;
     rapportertdato: string;
     sendtNav: string;
-    type: 'SENDT_SØKNAD_NAV' | 'SENDT_SØKNAD_ARBEIDSGIVER';
+    type: 'SENDT_SØKNAD_NAV';
+};
+
+declare type ExternalSøknadArbeidsgiver = ExternalHendelse & {
+    fom: string;
+    tom: string;
+    rapportertdato: string;
+    sendtArbeidsgiver: string;
+    type: 'SENDT_SØKNAD_ARBEIDSGIVER';
 };
 
 declare type ExternalSykmelding = ExternalHendelse & {
@@ -142,15 +150,14 @@ declare type ExternalSykmelding = ExternalHendelse & {
 declare type ExternalInntektsmelding = ExternalHendelse & {
     mottattDato: string;
     beregnetInntekt: number;
-    førsteFraværsdag: string;
     type: 'INNTEKTSMELDING';
 };
 
 declare type ExternalAktivitet = {
-    vedtaksperiodeId: string;
+    vedtaksperiodeId: UUID;
     alvorlighetsgrad: 'W';
     melding: string;
-    tidsstempel: string;
+    tidsstempel: TimestampString;
 };
 
 interface ExternalFaresignal {
@@ -289,14 +296,159 @@ declare type ExternalHistorikkElement = {
     tidsstempel: string;
 };
 
+declare type ExternalSykdomstidslinjedagtype =
+    | 'ARBEIDSDAG'
+    | 'ARBEIDSGIVERDAG'
+    | 'FERIEDAG'
+    | 'FORELDET_SYKEDAG'
+    | 'FRISK_HELGEDAG'
+    | 'PERMISJONSDAG'
+    | 'SYKEDAG'
+    | 'SYK_HELGEDAG'
+    | 'UBESTEMTDAG'
+    | 'AVSLÅTT';
+
+declare type ExternalUtbetalingstidslinjedagtype =
+    | 'ArbeidsgiverperiodeDag'
+    | 'NavDag'
+    | 'NavHelgDag'
+    | 'Helgedag'
+    | 'Arbeidsdag'
+    | 'Feriedag'
+    | 'AvvistDag'
+    | 'UkjentDag'
+    | 'ForeldetDag';
+
+declare type ExternalUtbetalingsinfo = {
+    inntekt?: number;
+    utbetaling?: number;
+    totalGrad?: number;
+};
+
+declare type ExternalBegrunnelser =
+    | 'SykepengedagerOppbrukt'
+    | 'MinimumInntekt'
+    | 'EgenmeldingUtenforArbeidsgiverperiode'
+    | 'MinimumSykdomsgrad'
+    | 'EtterDødsdato'
+    | 'ManglerMedlemskap'
+    | 'ManglerOpptjening';
+
+declare type ExternalTidslinjedag = {
+    dagen: string;
+    sykdomstidslinjedagtype: ExternalSykdomstidslinjedagtype;
+    utbetalingstidslinjedagtype: ExternalUtbetalingstidslinjedagtype;
+    kilde: {
+        id: string;
+        type: string;
+    };
+    grad: number | null;
+    utbetalingsinfo: ExternalUtbetalingsinfo | null;
+    begrunnelser: ExternalBegrunnelser[] | null;
+};
+
+declare type ExternalBehandlingstype = 'UBEREGNET' | 'BEHANDLET' | 'VENTER';
+
+declare type ExternalTidslinjeperiodetype =
+    | 'FØRSTEGANGSBEHANDLING'
+    | 'FORLENGELSE'
+    | 'OVERGANG_FRA_IT'
+    | 'INFOTRYGDFORLENGELSE';
+
+declare type ExternalInntektskilde = 'EN_ARBEIDSGIVER' | 'FLERE_ARBEIDSGIVERE';
+
+declare type TimestampString = string;
+
+declare type DateString = string;
+
+declare type UUID = string;
+
+declare type ExternalPeriodeUtbetalingStatus =
+    | 'Annullert'
+    | 'Forkastet'
+    | 'Godkjent'
+    | 'GodkjentUtenUtbetaling'
+    | 'IkkeGodkjent'
+    | 'Overført'
+    | 'Sendt'
+    | 'Utbetalt'
+    | 'UtbetalingFeilet'
+    | 'Ubetalt';
+
+declare type ExternalPeriodeUtbetaling = {
+    type: 'REVURDERING' | 'UTBETALING' | 'ANNULLERING';
+    status: ExternalPeriodeUtbetalingStatus;
+    arbeidsgiverNettoBeløp: number;
+    personNettoBeløp: number;
+    arbeidsgiverFagsystemId: string;
+    personFagsystemId: string;
+    vurdering: null | {
+        godkjent: boolean;
+        tidsstempel: TimestampString;
+        automatisk: boolean;
+        ident: string;
+    };
+};
+
+declare type ExternalBeregnetPeriode = {
+    vedtaksperiodeId: UUID;
+    fom: DateString;
+    tom: DateString;
+    sammenslåttTidslinje: ExternalTidslinjedag[];
+    behandlingstype: ExternalBehandlingstype;
+    erForkastet: boolean;
+    periodetype: ExternalTidslinjeperiodetype;
+    inntektskilde: ExternalInntektskilde;
+    opprettet: TimestampString;
+    beregningId: UUID;
+    gjenståendeSykedager: number | null;
+    forbrukteSykedager: number | null;
+    skjæringstidspunkt: DateString;
+    maksdato: DateString;
+    utbetaling: ExternalPeriodeUtbetaling;
+    hendelser: (ExternalSøknadNav | ExternalSøknadArbeidsgiver | ExternalSykmelding | ExternalInntektsmelding)[];
+    simulering: null | {
+        totalbeløp: number;
+        perioder: ExternalSimuleringsperiode[];
+    };
+    vilkårsgrunnlagshistorikkId: UUID;
+    periodevilkår: {
+        sykepengedager: {
+            skjæringstidspunkt: DateString;
+            maksdato: DateString;
+            forbrukteSykedager: number | null;
+            gjenståendeDager: number | null;
+            oppfylt: boolean;
+        };
+        alder: {
+            alderSisteSykedag: number;
+            oppfylt: boolean;
+        };
+        søknadsfrist: null | {
+            sendtNav: TimestampString;
+            søknadFom: DateString;
+            søknadTom: DateString;
+            oppfylt: boolean;
+        };
+    };
+    aktivitetslogg: ExternalAktivitet[];
+    tidslinjeperiodeId: UUID;
+};
+
+declare type ExternalGenerasjon = {
+    id: string;
+    perioder: ExternalBeregnetPeriode[];
+};
+
 declare type ExternalArbeidsgiver = {
     bransjer?: string[];
     id: string;
     organisasjonsnummer: string;
-    vedtaksperioder: (ExternalVedtaksperiode | ExternalUfullstendigVedtaksperiode)[];
     navn: string;
+    vedtaksperioder: (ExternalVedtaksperiode | ExternalUfullstendigVedtaksperiode)[];
+    utbetalingshistorikk: ExternalHistorikkElement[];
     overstyringer: ExternalOverstyring[];
-    utbetalingshistorikk?: ExternalHistorikkElement[];
+    generasjoner: ExternalGenerasjon[];
 };
 
 declare type ExternalInntektkilde = 'Saksbehandler' | 'Inntektsmelding' | 'Infotrygd' | 'AOrdningen';

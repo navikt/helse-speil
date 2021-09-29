@@ -13,7 +13,7 @@ const sykmelding = (sykdomsdager: ExternalSykdomsdag[]): ExternalSykmelding => {
     };
 };
 
-const søknad = (sykdomsdager: ExternalSykdomsdag[]): ExternalSøknad => {
+const søknad = (sykdomsdager: ExternalSykdomsdag[]): ExternalSøknadNav => {
     const fom = sykdomsdager[0];
     const tom = sykdomsdager.slice(-1).pop()!;
     const rapportertDato = dayjs(tom.dagen).add(15, 'day').format('YYYY-MM-DD');
@@ -33,7 +33,6 @@ const inntektsmelding = (sykdomsdager: ExternalSykdomsdag[]): ExternalInntektsme
     return {
         id: '09851096-bcba-4c7a-8dc0-a1617a744f1f',
         beregnetInntekt: 31000.0,
-        førsteFraværsdag: førsteFraværsdag.dagen,
         mottattDato: mottattDato,
         type: 'INNTEKTSMELDING',
     };

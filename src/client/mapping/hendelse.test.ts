@@ -7,7 +7,6 @@ describe('mapHendelse', () => {
             id: 'en-inntektsmelding',
             type: 'INNTEKTSMELDING',
             mottattDato: '2020-01-01T00:00:00',
-            førsteFraværsdag: '2020-01-01:T00:00:00',
             beregnetInntekt: 600000,
         };
         const mappetInntektsmelding: Inntektsmelding = {
@@ -36,7 +35,7 @@ describe('mapHendelse', () => {
         expect(mapHendelse(sykmelding)).toEqual(mappetSykmelding);
     });
     test('mapper søknad', () => {
-        const søknad: ExternalSøknad = {
+        const søknad: ExternalSøknadNav = {
             id: 'en-søknad',
             type: 'SENDT_SØKNAD_NAV',
             fom: '2020-01-01',
