@@ -390,7 +390,7 @@ declare type ExternalPeriodeUtbetaling = {
     };
 };
 
-declare type ExternalBeregnetPeriode = {
+declare type ExternalUberegnetPeriode = {
     vedtaksperiodeId: UUID;
     fom: DateString;
     tom: DateString;
@@ -400,6 +400,10 @@ declare type ExternalBeregnetPeriode = {
     periodetype: ExternalTidslinjeperiodetype;
     inntektskilde: ExternalInntektskilde;
     opprettet: TimestampString;
+    tidslinjeperiodeId: UUID;
+};
+
+declare type ExternalBeregnetPeriode = ExternalUberegnetPeriode & {
     beregningId: UUID;
     gjenståendeSykedager: number | null;
     forbrukteSykedager: number | null;
@@ -432,7 +436,6 @@ declare type ExternalBeregnetPeriode = {
         };
     };
     aktivitetslogg: ExternalAktivitet[];
-    tidslinjeperiodeId: UUID;
 };
 
 declare type ExternalGenerasjon = {
@@ -453,8 +456,10 @@ declare type ExternalArbeidsgiver = {
 
 declare type ExternalInntektkilde = 'Saksbehandler' | 'Inntektsmelding' | 'Infotrygd' | 'AOrdningen';
 
+declare type YearMonthString = string; // "yyyy-MM"
+
 declare type ExternalInntekterFraAOrdningen = {
-    måned: string;
+    måned: YearMonthString;
     sum: number;
 };
 
@@ -462,7 +467,7 @@ declare type ExternalOmregnetÅrsinntekt = {
     kilde: ExternalInntektkilde;
     beløp: number;
     månedsbeløp: number;
-    inntekterFraAOrdningen?: ExternalInntekterFraAOrdningen[]; //kun gyldig for A-ordningen
+    inntekterFraAOrdningen?: ExternalInntekterFraAOrdningen[];
 };
 
 declare type ExternalSammenligningsgrunnlag = {
@@ -474,8 +479,8 @@ declare type ExternalPersoninfo = {
     fornavn: string;
     mellomnavn: string | null;
     etternavn: string;
+    fødselsdato: DateString | null;
     kjønn: string | null;
-    fødselsdato: string | null;
 };
 
 declare type ExternalArbeidsforhold = {
@@ -540,20 +545,48 @@ declare type ExternalInntektsgrunnlag = {
     grunnbeløp?: number;
 };
 
+declare type ExternalArbeidsgiverinntekt = {
+    organisasjonsnummer: string;
+    omregnetÅrsinntekt: ExternalOmregnetÅrsinntekt | null;
+    sammenligningsgrunnlag: number | null;
+};
+
+declare type ExternalVilkårsgrunnlag = {
+    vilkårsgrunnlagtype: 'SPLEIS' | 'INFOTRYGD';
+    skjæringstidspunkt: DateString;
+    omregnetÅrsinntekt: number | null;
+    sammenligningsgrunnlag: number | null;
+    sykepengegrunnlag: number;
+    inntekter: ExternalArbeidsgiverinntekt[];
+};
+
+declare type ExternalSpleisVilkårsgrunnlag = ExternalVilkårsgrunnlag & {
+    vilkårsgrunnlagtype: 'SPLEIS';
+    avviksprosent: number | null;
+    oppfyllerKravOmMinstelønn: boolean | null;
+    grunnbeløp: number;
+    medlemskapstatus: 'JA' | 'NEI' | 'VET_IKKE';
+};
+
+declare type ExternalInfotrygdVilkårsgrunnlag = ExternalVilkårsgrunnlag & {
+    vilkårsgrunnlagtype: 'INFOTRYGD';
+};
+
 declare type ExternalPerson = {
+    utbetalinger: ExternalUtbetalingElement[];
     aktørId: string;
     fødselsnummer: string;
-    utbetalinger: ExternalUtbetalingElement[];
-    arbeidsgivere: ExternalArbeidsgiver[];
-    inntektsgrunnlag?: ExternalInntektsgrunnlag[];
+    dødsdato: string | null;
     personinfo: ExternalPersoninfo;
+    arbeidsgivere: ExternalArbeidsgiver[];
+    infotrygdutbetalinger?: ExternalInfotrygdutbetaling[];
     enhet: {
         id: string;
         navn: string;
     };
     arbeidsforhold: ExternalArbeidsforhold[];
-    infotrygdutbetalinger?: ExternalInfotrygdutbetaling[];
-    dødsdato?: string;
+    inntektsgrunnlag?: ExternalInntektsgrunnlag[];
+    vilkårsgrunnlagHistorikk: Record<UUID, Record<DateString, ExternalVilkårsgrunnlag>>;
     tildeling?: ExternalTildeling;
 };
 
