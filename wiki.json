@@ -310,5 +310,11 @@
         "betydning": "Den sykmeldte har skiftet arbeidsgiver i løpet av sykefraværet.",
         "løsning": "Sjekk at riktig dagsats er lagt til grunn.",
         "viktighet": "Høy"
+    },
+    {
+        "varsel": "Opplysninger fra Infotrygd har endret seg etter at vedtaket ble fattet. Undersøk om det er overlapp med periode fra Infotrygd.",
+        "betydning": "Vi fikk informasjon fra Infotrygd som er annerledes enn da vedtaket ble fattet.",
+        "løsning": "Hvis en periode overlapper med Infotrygd så må utbetalingen i Infotrygd returføres. Undersøk også om opplysningene fra Infotrygd er endret, f.eks. i vedtaksinformasjonen. Om den nye informasjonen i Infotrygd er korrekt og fører til at saken ikke støttes i Speil, må den annulleres.",
+        "viktighet": "Høy"
     }
 ]
