@@ -44,6 +44,7 @@ const MarkeringerContainer = styled.div`
     width: calc(100% - var(--tidslinje-rad-offset));
     height: 100%;
     left: var(--tidslinje-rad-offset);
+    box-sizing: unset;
 `;
 
 const RaderContainer = styled.div`
