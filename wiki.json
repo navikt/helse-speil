@@ -108,7 +108,7 @@
         "viktighet": "Høy"
     },
     {
-        "varsel": "Inntektsmelding inneholder ikke arbeidsgiverperiode. Vurder om  arbeidsgiverperioden beregnes riktig",
+        "varsel": "Inntektsmeldingen mangler ikke arbeidsgiverperiode. Vurder om vilkårene for sykepenger er oppfylt, og om det skal være arbeidsgiverperiode",
         "betydning": "Selvforklarende. Oppstår dersom inntektsmelding kommer inn for et arbeidsforhold bruker ikke er sykmeldt i.",
         "løsning": "Kontrollér at det kun er én arbeidsgiver. Skal kun komme ved flere arbeidsforhold i samme virksomhet.",
         "viktighet": "Høy"
@@ -144,13 +144,13 @@
         "viktighet": "Lav"
     },
     {
-        "varsel": "Maks antall sykepengedager er nådd i perioden. Vurder å sende brev",
+        "varsel": "Maks antall sykepengedager er nådd i perioden. Vurder å sende vedtak fra Infotrygd",
         "betydning": "Maks antall sykepengedager er nådd i perioden",
         "løsning": "Du trenger ikke å sende avslag når bruker har sammenhengende sykmelding fra maksdatoen. Søknaden behandles og «utbetales» i ny løsning selv om det ikke fører til noen utbetaling.",
         "viktighet": "Lav"
     },
     {
-        "varsel": "Minst én dag uten utbetaling på grunn av sykdomsgrad under 20 %. Vurder å sende brev",
+        "varsel": "Minst én dag uten utbetaling på grunn av sykdomsgrad under 20 %. Vurder å sende vedtak fra Infotrygd",
         "betydning": "Minst én dag uten utbetaling på grunn av sykdomsgrad under 20",
         "løsning": "Dersom du er enig i vurderingen, send avslagsbrev fra Infotrygd og godkjenn i ny løsning. OBS!!: Hør med den som er sykmeldt hvis det er mistanke om misforståelser ved utfylling av søknaden. Da kan du sende spørsmål i Modia og legge saken på vent til du får svar.",
         "viktighet": "Høy"
@@ -168,7 +168,7 @@
         "viktighet": "Høy"
     },
     {
-        "varsel": "Inntekt under krav til minste sykepengegrunnlag. Vurder å sende brev",
+        "varsel": "Inntekt under krav til minste sykepengegrunnlag. Vurder å sende vedtak fra Infotrygd",
         "betydning": "Inntekt under krav til minste sykepengegrunnlag",
         "løsning": "Dersom du er enig med vurderingen, send avslag fra Infotrygd. Dersom du er uenig, send saken til Gosys for manuell vurdering.",
         "viktighet": "Lav"
@@ -206,7 +206,7 @@
     {
         "varsel": "Ikke registrert eller mangler samtykke i Kontakt- og reservasjonsregisteret, eventuell kommunikasjon må skje i brevform",
         "betydning": "Brukeren ikke har bekreftet valget om reservasjon de siste 18 månedene.",
-        "løsning": "Dersom vi ønsker å kommunisere med brukeren, enten for å sende et vedtak eller hente inn informasjon, må det være på brev og ikke i automatiske løsninger.",
+        "løsning": "Dersom vi ønsker å kommunisere med brukeren, enten for å sende et vedtak eller hente inn informasjon, må det være på brev og ikke i automatiske løsninger.<br><br><p>Dette er en ny paragraf</p>",
         "viktighet": "Lav"
     },
     {
@@ -234,19 +234,13 @@
         "viktighet": "Lav"
     },
     {
-        "varsel": "Utenlandsopphold oppgitt i perioden i søknaden. Vurder rett til sykepenger og korriger sykmeldingperioden",
+        "varsel": "Utenlandsopphold oppgitt i perioden i søknaden.",
         "betydning": "Det er oppgitt utenlandsopphold utenfor EØS i søknaden",
         "løsning": "Undersøk om det er vedtak om beholde sykepenger under utenlandsopphold. Hvis det er søkt uten at det er behandlet - legg saken på vent til det foreligger vedtak i saken. Korriger dager dersom det er gitt avslag - og godkjenn saken i ny løsning. Hvis brukeren har fått vedtak fra NAV-kontoret, trenger du ikke å sende nytt vedtak.",
         "viktighet": "Høy"
     },
     {
-        "varsel": "Utdanning oppgitt i perioden i søknaden. Vurder rett til sykepenger og korriger sykmeldingsperioden",
-        "betydning": "Det er fylt ut utdanning i søknaden",
-        "løsning": "Undersøk om den sykmeldte nylig startet i utdanning og vurder vilkår. Dersom forrige utbetalte periode hadde varsel på utdanning trenger du ikke gjøre noen ny vurdering",
-        "viktighet": "Høy"
-    },
-    {
-        "varsel": "Permisjon oppgitt i perioden i søknaden. Vurder rett til sykepenger og korriger sykmeldingsperioden",
+        "varsel": "Permisjon oppgitt i perioden i søknaden.",
         "betydning": "Det skal ikke utbetales sykepenger under permisjon.",
         "løsning": "Retten til sykepenger skal vurderes dersom permisjonen er lengre enn 14 dager. Vurder å sende vedtak fra Infotrygd.",
         "viktighet": "Høy"
@@ -315,6 +309,24 @@
         "varsel": "Opplysninger fra Infotrygd har endret seg etter at vedtaket ble fattet. Undersøk om det er overlapp med periode fra Infotrygd.",
         "betydning": "Vi fikk informasjon fra Infotrygd som er annerledes enn da vedtaket ble fattet.",
         "løsning": "Hvis en periode overlapper med Infotrygd så må utbetalingen i Infotrygd returføres. Undersøk også om opplysningene fra Infotrygd er endret, f.eks. i vedtaksinformasjonen. Om den nye informasjonen i Infotrygd er korrekt og fører til at saken ikke støttes i Speil, må den annulleres.",
+        "viktighet": "Høy"
+    },
+    {
+        "varsel": "Sykmeldingen er tilbakedatert, vurder fra og med dato for utbetaling.",
+        "betydning": "Sykmeldingen er tilbakedatert.",
+        "løsning": "Hvis tilbakedateringen er godkjent, skal du finne notat i Gosys eller stå i fritekstfelt på SP-UB. Da kan du godkjenne saken i Speil. Hvis tilbakedateringen er under vurdering, skal det være en åpen Gosys-oppgave. I slike tilfeller skal du legge saken på vent til vurderingen er ferdig. Hvis tilbakedateringen er avslått, skal du avvise saken i Speil og sende vedtak. Registerer avslaget i SP-SA. Husk også å lukke oppgaven på søknaden/inntektsmeldingen i Gosys.",
+        "viktighet": "Høy"
+    },
+    {
+        "varsel": "Minst én dag er avslått på grunn av foreldelse. Vurder å sende vedtak fra Infotrygd",
+        "betydning": "Søknaden har kommet inn mer enn 3 måneder før dagen/dagene.",
+        "løsning": "Hvis det ikke finnes noe unntak fra foreldelsesfristen skal du godkjenne i Speil og sende vedtak fra Infotrygd. Hvis forslaget er feil må du avvise saken i Speil og behandle i Infotrygd. Dersom dagen/dagene som er avslått er innenfor arbeidsgiverperioden trenger du ikke å sende avslag fra Infotrygd.",
+        "viktighet": "Høy"
+    },
+    {
+        "varsel": "Utdanning oppgitt i søknaden om sykepenger. Sjekk om det er relevant for retten til sykepenger",
+        "betydning": "Det er fylt ut utdanning i søknaden",
+        "løsning": "Undersøk om den sykmeldte nylig startet i utdanning og vurder vilkår. Dersom forrige utbetalte periode hadde varsel på utdanning trenger du ikke gjøre noen ny vurdering",
         "viktighet": "Høy"
     }
 ]

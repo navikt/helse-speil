@@ -5,6 +5,7 @@
 !/node_modules/*
 !/dist/*
 !/wiki.json
+!/utdatert_wiki.json
 
 # Ignore inside allowed directory
 node_modules/@snyk

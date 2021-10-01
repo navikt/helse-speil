@@ -5,6 +5,7 @@ import { Varseltype } from '@navikt/helse-frontend-varsel';
 
 import { EkspanderbartVarsel } from '../../../components/EkspanderbartVarsel';
 
+import utdatert_wiki from '../../../../../utdatert_wiki.json';
 import wiki from '../../../../../wiki.json';
 import { Saksbildevarsel } from './Saksbildevarsel';
 import { Varselseksjon } from './Varselseksjon';
@@ -20,7 +21,8 @@ export const Aktivitetsloggvarsler = React.memo(({ varsler }: { varsler: string[
     return (
         <>
             {varsler.map((aktivitet, index) => {
-                const wikiAktivitet: WikiEntry | undefined = wiki.find((it) => it.varsel === aktivitet);
+                const wikis = [...wiki, ...utdatert_wiki];
+                const wikiAktivitet: WikiEntry | undefined = wikis.find((it) => it.varsel === aktivitet);
                 if (wikiAktivitet && (wikiAktivitet.betydning.length > 0 || wikiAktivitet.løsning.length > 0)) {
                     return (
                         <EkspanderbartVarsel key={index} label={aktivitet}>
