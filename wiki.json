@@ -144,13 +144,13 @@
         "viktighet": "Lav"
     },
     {
-        "varsel": "Maks antall sykepengedager er nådd i perioden. Vurder å sende vedtak fra Infotrygd",
+        "varsel": "Maks antall sykepengedager er nådd i perioden. Vurder å sende vedtaksbrev fra Infotrygd",
         "betydning": "Maks antall sykepengedager er nådd i perioden",
         "løsning": "Du trenger ikke å sende avslag når bruker har sammenhengende sykmelding fra maksdatoen. Søknaden behandles og «utbetales» i ny løsning selv om det ikke fører til noen utbetaling.",
         "viktighet": "Lav"
     },
     {
-        "varsel": "Minst én dag uten utbetaling på grunn av sykdomsgrad under 20 %. Vurder å sende vedtak fra Infotrygd",
+        "varsel": "Minst én dag uten utbetaling på grunn av sykdomsgrad under 20 %. Vurder å sende vedtaksbrev fra Infotrygd",
         "betydning": "Minst én dag uten utbetaling på grunn av sykdomsgrad under 20",
         "løsning": "Dersom du er enig i vurderingen, send avslagsbrev fra Infotrygd og godkjenn i ny løsning. OBS!!: Hør med den som er sykmeldt hvis det er mistanke om misforståelser ved utfylling av søknaden. Da kan du sende spørsmål i Modia og legge saken på vent til du får svar.",
         "viktighet": "Høy"
@@ -168,7 +168,7 @@
         "viktighet": "Høy"
     },
     {
-        "varsel": "Inntekt under krav til minste sykepengegrunnlag. Vurder å sende vedtak fra Infotrygd",
+        "varsel": "Inntekt under krav til minste sykepengegrunnlag. Vurder å sende vedtaksbrev fra Infotrygd",
         "betydning": "Inntekt under krav til minste sykepengegrunnlag",
         "løsning": "Dersom du er enig med vurderingen, send avslag fra Infotrygd. Dersom du er uenig, send saken til Gosys for manuell vurdering.",
         "viktighet": "Lav"
@@ -242,7 +242,7 @@
     {
         "varsel": "Permisjon oppgitt i perioden i søknaden.",
         "betydning": "Det skal ikke utbetales sykepenger under permisjon.",
-        "løsning": "Retten til sykepenger skal vurderes dersom permisjonen er lengre enn 14 dager. Vurder å sende vedtak fra Infotrygd.",
+        "løsning": "Retten til sykepenger skal vurderes dersom permisjonen er lengre enn 14 dager. Vurder å sende vedtaksbrev fra Infotrygd.",
         "viktighet": "Høy"
     },
     {
@@ -318,9 +318,9 @@
         "viktighet": "Høy"
     },
     {
-        "varsel": "Minst én dag er avslått på grunn av foreldelse. Vurder å sende vedtak fra Infotrygd",
+        "varsel": "Minst én dag er avslått på grunn av foreldelse. Vurder å sende vedtaksbrev fra Infotrygd",
         "betydning": "Søknaden har kommet inn mer enn 3 måneder før dagen/dagene.",
-        "løsning": "Hvis det ikke finnes noe unntak fra foreldelsesfristen skal du godkjenne i Speil og sende vedtak fra Infotrygd. Hvis forslaget er feil må du avvise saken i Speil og behandle i Infotrygd. Dersom dagen/dagene som er avslått er innenfor arbeidsgiverperioden trenger du ikke å sende avslag fra Infotrygd.",
+        "løsning": "Hvis det ikke finnes noe unntak fra foreldelsesfristen skal du godkjenne i Speil og sende vedtaksbrev fra Infotrygd. Hvis forslaget er feil må du avvise saken i Speil og behandle i Infotrygd. Dersom dagen/dagene som er avslått er innenfor arbeidsgiverperioden trenger du ikke å sende avslag fra Infotrygd.",
         "viktighet": "Høy"
     },
     {
