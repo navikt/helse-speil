@@ -76,15 +76,30 @@ describe('Annulleringsmodal', () => {
             expect(screen.queryByText('Skriv en kommentar hvis du velger begrunnelsen "annet"')).not.toBeNull();
         });
     });
+    test('viser feilmelding ved manglende skjæringstidspunkt-valg', async () => {
+        await renderAnnulleringsmodal();
+        userEvent.click(screen.getByText('Annet'));
+        userEvent.click(screen.getByText('Annuller'));
+        await waitFor(() => {
+            expect(
+                screen.queryByText(
+                    'Velg om endringen gjelder siste skjæringstidspunkt eller et tidligere skjæringstidspunkt'
+                )
+            ).not.toBeNull();
+        });
+    });
     test('bygger AnnulleringDTO ved post av annullering', async () => {
         await renderAnnulleringsmodal();
         userEvent.click(screen.getByText('Ferie'));
+        userEvent.click(screen.getByText('Ja, det siste skjæringstidspunktet'));
         userEvent.click(screen.getByText('Annuller'));
         await waitFor(() => {
             expect(cachedAnnullering?.aktørId).toEqual('1211109876233');
             expect(cachedAnnullering?.fødselsnummer).toEqual('01019000123');
             expect(cachedAnnullering?.organisasjonsnummer).toEqual('987654321');
             expect(cachedAnnullering?.fagsystemId).toEqual('EN_FAGSYSTEMID');
+            expect(cachedAnnullering?.begrunnelser?.length).toEqual(1);
+            expect(cachedAnnullering?.gjelder_siste_skjæringstidspunkt).toEqual(true);
         });
     });
 });

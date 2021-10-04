@@ -13,12 +13,15 @@ import { defaultUtbetalingToggles } from '../../../../featureToggles';
 const Container = styled(Flex)`
     min-height: 24px;
     margin-bottom: 1rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    padding: 0 2rem;
+    width: 100%;
 `;
 
 const ToggleOverstyringKnapp = styled.button`
-    position: absolute;
-    top: 1rem;
-    right: 2rem;
+    margin-top: 1rem;
     border: none;
     background: none;
     display: flex;
@@ -39,6 +42,10 @@ const ToggleOverstyringKnapp = styled.button`
     }
 `;
 
+const InfobobleContainer = styled.div`
+    margin-top: 1rem;
+`;
+
 interface UtbetalingHeaderProps {
     periodeErForkastet: boolean;
     toggleOverstyring: () => void;
@@ -49,9 +56,11 @@ export const UtbetalingHeader: React.FC<UtbetalingHeaderProps> = ({ periodeErFor
     return (
         <Container>
             {periodeErForkastet ? (
-                <PopoverHjelpetekst ikon={<SortInfoikon />} offset={24}>
-                    <p>Kan ikke revurdere perioden på grunn av manglende datagrunnlag</p>
-                </PopoverHjelpetekst>
+                <InfobobleContainer>
+                    <PopoverHjelpetekst ikon={<SortInfoikon />}>
+                        <p>Kan ikke revurdere perioden på grunn av manglende datagrunnlag</p>
+                    </PopoverHjelpetekst>
+                </InfobobleContainer>
             ) : (
                 <ToggleOverstyringKnapp onClick={toggleOverstyring} data-testid="overstyringsknapp">
                     <Locked height={24} width={24} />

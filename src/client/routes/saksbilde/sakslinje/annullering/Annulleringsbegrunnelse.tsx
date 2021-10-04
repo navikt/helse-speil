@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import React, { ChangeEvent } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
 
-import { Checkbox as NavCheckbox, Fieldset, Textarea } from '@navikt/ds-react';
+import { Checkbox as NavCheckbox, Fieldset, Radio, RadioGroup, Textarea } from '@navikt/ds-react';
 
 import { Annulleringsvarsel } from './Annulleringsvarsel';
 
@@ -10,8 +10,12 @@ const Container = styled.div``;
 
 const Undertittel = styled.h3`
     font-size: 1.25rem;
-    margin-bottom: 1rem;
+    margin-bottom: 0.75rem;
     font-weight: 600;
+`;
+
+const RadioContainer = styled(RadioGroup)`
+    margin-bottom: 2.5rem;
 `;
 
 const CheckboxContainer = styled(Fieldset)`
@@ -51,32 +55,67 @@ export const Annulleringsbegrunnelse = () => {
     const begrunnelserWatch = watch(`begrunnelser`);
     const begrunnelser = {
         ferie: 'Ferie',
+        permisjon: 'Permisjon',
         utenlandsopphold: 'Utenlandsopphold',
-        ny_sykmeldingsgrad: 'Ny sykmeldingsgrad',
-        feil_skjæringstidspunkt: 'Feil skjæringstidspunkt',
-        feil_i_sykepengegrunnlag: 'Feil i sykepengegrunnlag',
-        feil_i_inntekt_fra_inntektsmelding: 'Feil i inntekt fra inntektsmelding',
-        feil_i_refusjon: 'Feil i refusjon',
-        endringen_er_i_en_tidligere_periode: 'Endringen er i en tidligere periode',
-        kunne_ikke_revurderes_pga_feil_datagrunnlag:
-            'Perioden kunne ikke revurderes fordi det var feil i datagrunnlaget',
+        arbeidsgiverperiode: 'Arbeidsgiverperiode',
+        avslåtte_dager: 'Avslåtte dager',
+        sykmeldingsgrad: 'Sykmeldingsgrad',
+        skjæringstidspunkt: 'Skjæringstidspunkt',
+        inntekt: 'Inntekt (omregnet årsinntekt)',
+        sykepengegrunnlag: 'Sykepengegrunnlag',
+        refusjon: 'Refusjon',
+        gjenstående_dager: 'Gjenstående dager (inkludert maksdato)',
+        knapp_mangler: 'Det vises hverken revurderingsknapp eller informasjonsboble',
+        periode_forkastet: 'Det vises en informasjonsboble som oppgir at det mangler datagrunnlag',
         annet: 'Annet',
     };
     const annet = begrunnelserWatch ? begrunnelserWatch.includes('annet') : false;
 
     const { onChange: onChangeBegrunnelser, ...begrunnelserValidation } = register('begrunnelser');
+    const { onChange: onChangeSkjæringstidspunkt, ...skjæringstidspunktValidation } = register(
+        'gjelder_siste_skjæringstidspunkt'
+    );
 
+    const onChangeRadioButton = (event: React.ChangeEvent<HTMLInputElement>) => {
+        onChangeSkjæringstidspunkt(event);
+        clearErrors('gjelder_siste_skjæringstidspunkt');
+    };
     return (
         <Container>
             <Undertittel>Årsak til annullering</Undertittel>
-            <Annulleringsvarsel variant="info">
-                Årsakene og begrunnelsen som fylles inn skal brukes til å forbedre løsningen.
+            <Annulleringsvarsel variant="info" style={{ marginBottom: '2.5rem' }}>
+                Årsakene og begrunnelsen du fyller ut her, finner du ikke igjen i saksbehandlingssystemet etterpå.
                 <br />
-                Du vil ikke finne igjen informasjonen i saksbehandlingssystemet etterpå.
+                Informasjonen som fylles inn skal brukes til å forbedre løsningen.
             </Annulleringsvarsel>
+
+            <RadioContainer
+                legend="Gjelder endringen det siste skjæringtidspunktet?"
+                error={
+                    formState.errors.gjelder_siste_skjæringstidspunkt
+                        ? formState.errors.gjelder_siste_skjæringstidspunkt.message
+                        : null
+                }
+                name="gjelder_siste_skjæringstidspunkt"
+            >
+                <Radio
+                    value="siste_skjæringstidspunkt"
+                    onChange={onChangeRadioButton}
+                    {...skjæringstidspunktValidation}
+                >
+                    Ja, det siste skjæringstidspunktet
+                </Radio>
+                <Radio
+                    value="tidligere_skjæringstidspunkt"
+                    onChange={onChangeRadioButton}
+                    {...skjæringstidspunktValidation}
+                >
+                    Nei, et tidligere skjæringstidspunkt
+                </Radio>
+            </RadioContainer>
+
             <CheckboxContainer
-                legend="Årsak til annullering"
-                hideLegend
+                legend="Hvorfor kunne ikke vedtaket revurderes?"
                 error={formState.errors.begrunnelser ? formState.errors.begrunnelser.message : null}
             >
                 {Object.entries(begrunnelser).map(([key, value], index) => (

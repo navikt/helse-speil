@@ -84,8 +84,10 @@ export const Annulleringsmodal = ({
     const form = useForm({ mode: 'onBlur' });
     const kommentar = form.watch('kommentar');
     const begrunnelser = form.watch(`begrunnelser`);
+    const gjelderSisteSkjæringstidspunkt = form.watch(`gjelder_siste_skjæringstidspunkt`);
     const annenBegrunnelse = begrunnelser ? begrunnelser.includes('annet') : false;
     const harMinstÉnBegrunnelse = () => begrunnelser?.length > 0 ?? true;
+    const harFeil = () => Object.keys(form.formState.errors).length > 0;
 
     const annullering = (): AnnulleringDTO => ({
         aktørId: person.aktørId,
@@ -93,21 +95,31 @@ export const Annulleringsmodal = ({
         organisasjonsnummer: organisasjonsnummer,
         fagsystemId: fagsystemId,
         begrunnelser: begrunnelser,
+        gjelder_siste_skjæringstidspunkt: gjelderSisteSkjæringstidspunkt === 'siste_skjæringstidspunkt',
         kommentar: kommentar ? (kommentar.trim() === '' ? undefined : kommentar.trim()) : undefined,
     });
 
     const sendAnnullering = (annullering: AnnulleringDTO) => {
+        if (!gjelderSisteSkjæringstidspunkt) {
+            form.setError('gjelder_siste_skjæringstidspunkt', {
+                type: 'manual',
+                message: 'Velg om endringen gjelder siste skjæringstidspunkt eller et tidligere skjæringstidspunkt',
+            });
+        }
         if (annenBegrunnelse && !kommentar) {
             form.setError('kommentar', {
                 type: 'manual',
                 message: 'Skriv en kommentar hvis du velger begrunnelsen "annet"',
             });
-        } else if (!harMinstÉnBegrunnelse()) {
+        }
+        if (!harMinstÉnBegrunnelse()) {
             form.setError('begrunnelser', {
                 type: 'manual',
                 message: 'Velg minst én begrunnelse',
             });
-        } else {
+        }
+
+        if (!harFeil()) {
             setIsSending(true);
             setPostAnnulleringFeil(undefined);
             postAnnullering(annullering)

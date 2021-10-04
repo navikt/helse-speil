@@ -8,6 +8,7 @@ const StyledPopover = styled(Popover)`
     border: 1px solid #6a6a6a;
     box-shadow: 0 2px 2px rgba(0, 0, 0, 0.25);
     border-radius: 2px;
+    width: max-content;
 
     .popover__pil {
         border-right: 1px solid #6a6a6a;
@@ -21,17 +22,17 @@ interface PopoverHjelpetekstProps extends Pick<PopoverProps, 'offset'> {
 }
 
 export const PopoverHjelpetekst: React.FC<PopoverHjelpetekstProps> = ({ children, ikon, ...rest }) => {
-    const ref = useRef<HTMLButtonElement>(null);
-    const [anchor, setAnchor] = useState<HTMLButtonElement | null>(null);
+    const ref = useRef<HTMLDivElement>(null);
+    const [anchor, setAnchor] = useState<HTMLDivElement | null>(null);
 
     const close = () => setAnchor(null);
 
     return (
         <div>
-            <span ref={ref} onMouseOver={(_) => setAnchor(ref.current!)} onMouseOut={close}>
+            <div ref={ref} onMouseOver={(_) => setAnchor(ref.current!)} onMouseOut={close}>
                 {ikon}
-            </span>
-            <StyledPopover open={anchor !== null} anchorEl={anchor} {...rest} onClose={close}>
+            </div>
+            <StyledPopover open={anchor !== null} anchorEl={anchor} {...rest} onClose={close} placement="top">
                 {children}
             </StyledPopover>
         </div>
