@@ -3,6 +3,7 @@ import React from 'react';
 
 import { Flex } from '../../../components/Flex';
 import { Location, useNavigation } from '../../../hooks/useNavigation';
+import { useVedtaksperiode } from '../../../state/tidslinje';
 
 import { TabLink } from '../TabLink';
 import { HistorikkHeader } from '../historikk/HistorikkHeader';
@@ -33,6 +34,7 @@ interface SakslinjeProps {
 
 export const Sakslinje = ({ aktivPeriode }: SakslinjeProps) => {
     const { pathForLocation } = useNavigation();
+    const vedtaksperiode = useVedtaksperiode(aktivPeriode.id) as Vedtaksperiode;
 
     return (
         <Container className="Sakslinje">
@@ -48,9 +50,11 @@ export const Sakslinje = ({ aktivPeriode }: SakslinjeProps) => {
                         <TabLink to={pathForLocation(Location.Sykepengegrunnlag)} title="Sykepengegrunnlag">
                             Sykepengegrunnlag
                         </TabLink>
-                        <TabLink to={pathForLocation(Location.Faresignaler)} title="Faresignaler">
-                            Faresignaler
-                        </TabLink>
+                        {vedtaksperiode.risikovurdering && (
+                            <TabLink to={pathForLocation(Location.Faresignaler)} title="Faresignaler">
+                                Faresignaler
+                            </TabLink>
+                        )}
                     </TabList>
                 )}
                 <Sakslinjemeny aktivPeriode={aktivPeriode} />
