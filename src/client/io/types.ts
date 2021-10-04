@@ -31,7 +31,7 @@ export interface AnnulleringDTO {
     fødselsnummer: string;
     organisasjonsnummer: string;
     fagsystemId: string;
-    gjelder_siste_skjæringstidspunkt: boolean;
+    gjelderSisteSkjæringstidspunkt: boolean;
     begrunnelser?: string[];
     kommentar?: string;
 }

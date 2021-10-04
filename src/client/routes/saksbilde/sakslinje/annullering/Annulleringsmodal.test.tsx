@@ -99,7 +99,7 @@ describe('Annulleringsmodal', () => {
             expect(cachedAnnullering?.organisasjonsnummer).toEqual('987654321');
             expect(cachedAnnullering?.fagsystemId).toEqual('EN_FAGSYSTEMID');
             expect(cachedAnnullering?.begrunnelser?.length).toEqual(1);
-            expect(cachedAnnullering?.gjelder_siste_skjæringstidspunkt).toEqual(true);
+            expect(cachedAnnullering?.gjelderSisteSkjæringstidspunkt).toEqual(true);
         });
     });
 });

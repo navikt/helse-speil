@@ -95,7 +95,7 @@ export const Annulleringsmodal = ({
         organisasjonsnummer: organisasjonsnummer,
         fagsystemId: fagsystemId,
         begrunnelser: begrunnelser,
-        gjelder_siste_skjæringstidspunkt: gjelderSisteSkjæringstidspunkt === 'siste_skjæringstidspunkt',
+        gjelderSisteSkjæringstidspunkt: gjelderSisteSkjæringstidspunkt === 'siste_skjæringstidspunkt',
         kommentar: kommentar ? (kommentar.trim() === '' ? undefined : kommentar.trim()) : undefined,
     });
 
