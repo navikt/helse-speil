@@ -23,6 +23,7 @@ const Grid = styled.div`
     grid-template-columns: 1.25rem auto;
     grid-column-gap: 0.75rem;
     grid-row-gap: 0.125rem;
+    align-items: center;
 `;
 
 const IconContainer = styled.div`
@@ -62,6 +63,10 @@ interface PeriodeCardProps {
     skjæringstidspunkt: string;
 }
 
+const PeriodeCardTitle = styled(CardTitle)`
+    margin-bottom: 0;
+`;
+
 export const PeriodeCard = React.memo(
     ({ aktivPeriode, maksdato, over67år, skjæringstidspunkt, gjenståendeDager }: PeriodeCardProps) => {
         const vedtaksperiode = useVedtaksperiode(aktivPeriode.id) as Vedtaksperiode;
@@ -74,7 +79,7 @@ export const PeriodeCard = React.memo(
                     <IconContainer data-tip={capitalize(periodetypeLabel)}>
                         <Oppgaveetikett type={periodetype} tilstand={aktivPeriode.tilstand} />
                     </IconContainer>
-                    <CardTitle>{periodetypeLabel}</CardTitle>
+                    <PeriodeCardTitle>{periodetypeLabel}</PeriodeCardTitle>
                     <IconContainer data-tip="Sykmeldingsperiode">
                         <Sykmeldingsperiodeikon alt="Sykmeldingsperiode" />
                     </IconContainer>
