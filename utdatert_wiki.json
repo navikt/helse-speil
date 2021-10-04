@@ -12,6 +12,12 @@
         "viktighet": "Høy"
     },
     {
+        "varsel": "Inntektsmeldingen mangler ikke arbeidsgiverperiode. Vurder om vilkårene for sykepenger er oppfylt, og om det skal være arbeidsgiverperiode",
+        "betydning": "Selvforklarende. Oppstår dersom inntektsmelding kommer inn for et arbeidsforhold bruker ikke er sykmeldt i.",
+        "løsning": "Kontrollér at det kun er én arbeidsgiver. Skal kun komme ved flere arbeidsforhold i samme virksomhet.",
+        "viktighet": "Høy"
+    },
+    {
         "varsel": "Permisjon oppgitt i perioden i søknaden. Vurder rett til sykepenger og korriger sykmeldingsperioden",
         "betydning": "Det skal ikke utbetales sykepenger under permisjon.",
         "løsning": "Retten til sykepenger skal vurderes dersom permisjonen er lengre enn 14 dager. Vurder å sende vedtak fra Infotrygd.",
