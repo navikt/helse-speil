@@ -4,14 +4,13 @@ import { mapPerson } from '../../client/mapping/person';
 
 import { umappetArbeidsgiver } from './arbeidsgiver';
 import { umappetInntektsgrunnlag } from './inntektsgrunnlag';
-import { umappetSimuleringsdata } from './simulering';
 import { umappetUtbetalinger } from './spesialistUtbetaling';
 
 export const umappetPerson = (
     arbeidsgivere = [umappetArbeidsgiver()],
     utbetalinger = umappetUtbetalinger(),
     inntektsgrunnlag = [umappetInntektsgrunnlag()]
-) => ({
+): ExternalPerson => ({
     aktørId: '1211109876233',
     fødselsnummer: '01019000123',
     personinfo: {
@@ -21,11 +20,11 @@ export const umappetPerson = (
         fødselsdato: '1956-12-12T00:00:00.000Z',
         kjønn: 'Mannebjørn',
     },
+    dødsdato: null,
+    infotrygdutbetalinger: [],
     utbetalinger,
     arbeidsgivere,
     enhet: { id: '', navn: '' },
-    tildeltTil: null,
-    erPåVent: null,
     arbeidsforhold: [
         {
             organisasjonsnummer: '987654321',
@@ -34,8 +33,9 @@ export const umappetPerson = (
             startdato: '2020-01-01',
         },
     ],
-    simuleringsdata: umappetSimuleringsdata,
     inntektsgrunnlag,
+    vilkårsgrunnlagHistorikk: {},
+    tildeling: null,
 });
 
 export const mappetPerson = (

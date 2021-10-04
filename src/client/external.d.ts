@@ -579,15 +579,15 @@ declare type ExternalPerson = {
     dødsdato: string | null;
     personinfo: ExternalPersoninfo;
     arbeidsgivere: ExternalArbeidsgiver[];
-    infotrygdutbetalinger?: ExternalInfotrygdutbetaling[];
+    infotrygdutbetalinger: ExternalInfotrygdutbetaling[] | null;
     enhet: {
         id: string;
         navn: string;
     };
     arbeidsforhold: ExternalArbeidsforhold[];
-    inntektsgrunnlag?: ExternalInntektsgrunnlag[];
+    inntektsgrunnlag: ExternalInntektsgrunnlag[] | null;
     vilkårsgrunnlagHistorikk: Record<UUID, Record<DateString, ExternalVilkårsgrunnlag>>;
-    tildeling?: ExternalTildeling;
+    tildeling: ExternalTildeling | null;
 };
 
 declare type ExternalPeriodetype =
