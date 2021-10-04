@@ -5,6 +5,7 @@ const eminem = 'G103083';
 const supersaksbehandlere = [eminem, 'D117949', 'A148751', 'N115007', 'C117102', 'S145454'];
 const fagkoordinatorer = ['J150708', 'S108267', 'S109074', 'K104950', 'O107213', 'K105348', 'T143450', 'B137568', 'H126784', 'A151722'];
 const faktiskSupportsaksbehandlere = ['H104215', 'O130292', 'F111930'];
+const tilgangFlereArbeidsgivere = ['M139452', 'S109031'];
 
 const utvidetTilganger = [
     ...faktiskSupportsaksbehandlere,
@@ -47,6 +48,7 @@ export const erDev = () => location.hostname === 'speil.dev.intern.nav.no';
 const harTilgangTilAlt = () => [...supersaksbehandlere, ...fagkoordinatorer].includes(extractIdent());
 const erFaktiskSupportsaksbehandler = () => faktiskSupportsaksbehandlere.includes(extractIdent()); // ref @support på Slack
 const harUtvidetTilgang = () => utvidetTilganger.includes(extractIdent());
+const harTilgangFlereArbeidsgivere = () => tilgangFlereArbeidsgivere.includes(extractIdent());
 const erAnnulleringsbois = () => erKnudix() || erKevin();
 const erSpiceGirls = () => erMarthe() || erMarte() || erKevin() || erAnders() || erHegeir();
 const erKnudix = () => extractIdent() === 'N143409';
@@ -95,7 +97,8 @@ export const flereArbeidsgivere =
     erDigimort() ||
     erVegard() ||
     harTilgangTilAlt() ||
-    erFaktiskSupportsaksbehandler();
+    erFaktiskSupportsaksbehandler() ||
+    harTilgangFlereArbeidsgivere();
 export const kanFrigiAndresOppgaver = harTilgangTilAlt() || erLocal() || erDev();
 
 export interface UtbetalingToggles {
