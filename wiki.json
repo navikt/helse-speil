@@ -168,12 +168,6 @@
         "viktighet": "Høy"
     },
     {
-        "varsel": "Inntekt under krav til minste sykepengegrunnlag. Vurder å sende vedtaksbrev fra Infotrygd",
-        "betydning": "Inntekt under krav til minste sykepengegrunnlag",
-        "løsning": "Dersom du er enig med vurderingen, send avslag fra Infotrygd. Dersom du er uenig, send saken til Gosys for manuell vurdering.",
-        "viktighet": "Lav"
-    },
-    {
         "varsel": "Perioden er avslått på grunn av at inntekt er under krav til minste sykepengegrunnlag",
         "betydning": "Alle dager er avvist på grunn av at sykepengegrunnlaget er under minstekrav",
         "løsning": "Undersøk at sykepengegrunnlaget er korrekt. Hvis det er fastsatt korrekt kan saken godkjennes i speil, da må avslagsbrev sendes i infotrygd.",
