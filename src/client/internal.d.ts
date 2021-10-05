@@ -504,7 +504,8 @@ declare type SpeilError = {
 declare type OpptegnelseType =
     | 'UTBETALING_ANNULLERING_FEILET'
     | 'UTBETALING_ANNULLERING_OK'
-    | 'NY_SAKSBEHANDLEROPPGAVE';
+    | 'NY_SAKSBEHANDLEROPPGAVE'
+    | 'REVURDERING_AVVIST';
 
 declare type Opptegnelse = {
     aktørId: number;

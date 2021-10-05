@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react';
 
+import { Varseltype } from '@navikt/helse-frontend-varsel';
+
 import { postAbonnerPåAktør, postOverstyrteDager } from '../../../../io/http';
 import { OverstyrtDagDTO } from '../../../../io/types';
 import {
@@ -12,6 +14,7 @@ import { useOpptegnelser, useSetOpptegnelserPollingRate } from '../../../../stat
 import { usePerson } from '../../../../state/person';
 import { useAktivPeriode } from '../../../../state/tidslinje';
 import { useAddToast, useRemoveToast } from '../../../../state/toasts';
+import { Scopes, useAddVarsel } from '../../../../state/varsler';
 
 type OverstyrtDagtype = 'Sykedag' | 'Feriedag' | 'Egenmeldingsdag' | 'Permisjonsdag' | 'Avvist';
 
@@ -57,10 +60,21 @@ export const usePostOverstyring = (): UsePostOverstyringResult => {
     const [state, setState] = useState<UsePostOverstyringState>('initial');
     const [error, setError] = useState<string>();
     const [calculating, setCalculating] = useState(false);
+    const addVarsel = useAddVarsel();
 
     useEffect(() => {
         if (opptegnelser && calculating) {
-            addToast(kalkuleringFerdigToast({ callback: () => removeToast(kalkulererFerdigToastKey) }));
+            if (opptegnelser.type === 'REVURDERING_AVVIST') {
+                removeToast(kalkulererFerdigToastKey);
+                addVarsel({
+                    key: 'revurderingAvvist',
+                    message: 'Revurderingen gikk ikke gjennom. Ta kontakt med support dersom du trenger hjelp.',
+                    scope: Scopes.SAKSBILDE,
+                    type: Varseltype.Feil,
+                });
+            } else {
+                addToast(kalkuleringFerdigToast({ callback: () => removeToast(kalkulererFerdigToastKey) }));
+            }
             setCalculating(false);
             setState('done');
         }

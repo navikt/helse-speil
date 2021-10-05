@@ -13,7 +13,9 @@ export const nyesteOpptegnelserState = atom<Opptegnelse[]>({
 export const nyesteOpptegnelseMedTypeOppgaveState = selector<Opptegnelse | undefined>({
     key: 'nyesteOpptegnelseMedTypeOppgaveState',
     get: ({ get }) =>
-        get(nyesteOpptegnelserState).find((opptegnelse) => opptegnelse.type === 'NY_SAKSBEHANDLEROPPGAVE'),
+        get(nyesteOpptegnelserState).find(
+            (opptegnelse) => opptegnelse.type === 'NY_SAKSBEHANDLEROPPGAVE' || opptegnelse.type === 'REVURDERING_AVVIST'
+        ),
 });
 
 export const sisteSekvensIdOpptegnelseState = selector<number | undefined>({
