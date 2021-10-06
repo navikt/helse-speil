@@ -21,5 +21,7 @@ export const enTidslinjeperiode = (
         fullstendig: true,
         opprettet: dayjs('2020-01-01T:00:00:00'),
         oppgavereferanse: 'en-oppgavereferanse',
+        vilkårsgrunnlaghistorikkId: 'vilkårsgrunnlaghistorikkId',
+        skjæringstidspunkt: fom.format('YYYY-MM-DD'),
     };
 };

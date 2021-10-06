@@ -136,6 +136,8 @@ declare type Tidslinjeperiode = {
     opprettet: Dayjs;
     fagsystemId?: string;
     oppgavereferanse?: string;
+    vilkårsgrunnlaghistorikkId: string | null;
+    skjæringstidspunkt: string | null;
 };
 
 declare type Basisvilkår = {

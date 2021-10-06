@@ -761,6 +761,8 @@ export const mappetPersonObject = (): Person => ({
                         ],
                         organisasjonsnummer: '987654321',
                         fullstendig: true,
+                        skjæringstidspunkt: '2020-01-01',
+                        vilkårsgrunnlaghistorikkId: 'vilkårsgrunnlaghistorikkId',
                     },
                 ],
             ],

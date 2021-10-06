@@ -68,16 +68,14 @@ export class ArbeidsgiverBuilder {
         this.arbeidsgiver.tidslinjeperioder = this.flatten(
             this.arbeidsgiver.vedtaksperioder?.flatMap(
                 (periode): Tidslinjeperiode[] =>
-                    periode.beregningIder?.map((beregningId) => this.mapBeregningId(beregningId, periode)) ??
-                    this.mapUfullstendigPeriode(periode)
+                    periode.beregningIder?.map((beregningId) =>
+                        this.mapFullstendigPeriode(beregningId, periode as Vedtaksperiode)
+                    ) ?? this.mapUfullstendigPeriode(periode)
             ) ?? []
         );
     };
 
-    private mapBeregningId = (
-        beregningId: string,
-        periode: Vedtaksperiode | UfullstendigVedtaksperiode
-    ): Tidslinjeperiode => {
+    private mapFullstendigPeriode = (beregningId: string, periode: Vedtaksperiode): Tidslinjeperiode => {
         const element = this.arbeidsgiver.utbetalingshistorikk?.find((e) => e.id === beregningId)!;
         const tidslinje = mapTidslinjeMedAldersvilkår(
             utbetalingstidslinje(element.utbetaling, periode.fom, periode.tom),
@@ -119,6 +117,8 @@ export class ArbeidsgiverBuilder {
             organisasjonsnummer: this.arbeidsgiver.organisasjonsnummer!,
             opprettet: element.tidsstempel,
             oppgavereferanse: oppgavereferanse,
+            skjæringstidspunkt: periode.vilkår?.dagerIgjen.skjæringstidspunkt.format('YYYY-MM-DD') ?? null,
+            vilkårsgrunnlaghistorikkId: element.vilkårsgrunnlaghistorikkId,
         };
     };
 
@@ -144,6 +144,8 @@ export class ArbeidsgiverBuilder {
             fullstendig: periode.fullstendig,
             organisasjonsnummer: this.arbeidsgiver.organisasjonsnummer!,
             opprettet: dayjs(),
+            vilkårsgrunnlaghistorikkId: null,
+            skjæringstidspunkt: null,
         },
     ];
 
