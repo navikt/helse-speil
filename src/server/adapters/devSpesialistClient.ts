@@ -81,9 +81,9 @@ const hentPersonStatus = async (aktørId: string): Promise<any> => {
 
 const filenameForPersonId = (id: string) => {
     switch (id) {
-        case '1000000009871':
-        case '12020069420':
-            return 'kong-harald_egenmelding.json';
+        case '2469366399586':
+        case '25068609936':
+            return 'kong-harald.json';
         case '87654321962123':
         case '12020042069':
             return 'dronning-sonja_forlengelse-revurdering.json';
