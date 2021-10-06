@@ -2,7 +2,7 @@ import { atom, selector, useRecoilValue, useRecoilValueLoadable, useSetRecoilSta
 
 import { Varseltype } from '@navikt/helse-frontend-varsel';
 
-import { deletePåVent, deleteTildeling, fetchOppgaver, postLeggPåVent, postTildeling } from '../io/http';
+import { deletePåVent, deleteTildeling, getOppgaver, postLeggPåVent, postTildeling } from '../io/http';
 import { tilOppgave } from '../mapping/oppgaver/oppgaver';
 
 import { flereArbeidsgivere, stikkprøve } from '../featureToggles';
@@ -18,7 +18,7 @@ const remoteOppgaverState = selector<Oppgave[]>({
     key: 'remoteOppgaverState',
     get: async ({ get }) => {
         get(oppgaverStateRefetchKey);
-        return await fetchOppgaver()
+        return await getOppgaver()
             .then((spesialistOppgaver) => spesialistOppgaver.map(tilOppgave))
             .catch((error) => {
                 switch (error.statusCode) {

@@ -1,6 +1,6 @@
 import '@testing-library/jest-dom/extend-expect';
 
-import { fetchPerson } from './http';
+import { getPerson } from './http';
 
 declare global {
     namespace NodeJS {
@@ -25,7 +25,7 @@ test('behandlinger funnet', async () => {
             },
         });
     });
-    const response = await fetchPerson('12345');
+    const response = await getPerson('12345');
     expect(fetch).toHaveBeenCalledTimes(1);
     expect(response).toEqual({ data: 'yup', status: 200 });
 });
@@ -39,7 +39,7 @@ test('behandlinger ikke funnet', async () => {
             },
         });
     });
-    const response = await fetchPerson('12345').catch((err) => {
+    const response = await getPerson('12345').catch((err) => {
         expect(err).toEqual({
             message: undefined,
             statusCode: 404,

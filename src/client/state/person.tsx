@@ -2,7 +2,7 @@ import { atom, selector, useRecoilValue, useResetRecoilState, useSetRecoilState 
 
 import { Varseltype } from '@navikt/helse-frontend-varsel';
 
-import { deletePåVent, fetchPerson, postLeggPåVent } from '../io/http';
+import { deletePåVent, getPerson, postLeggPåVent } from '../io/http';
 import { mapPerson } from '../mapping/person';
 
 import { useInnloggetSaksbehandler } from './authentication';
@@ -14,7 +14,7 @@ interface PersonState {
 }
 
 const hentPerson = (id: string): Promise<PersonState> =>
-    fetchPerson(id)
+    getPerson(id)
         .then(async ({ data }) => ({ ...mapPerson(data.person) }))
         .catch((error) => {
             switch (error.statusCode) {

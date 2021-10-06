@@ -122,12 +122,12 @@ export const put = async (url: string, data: any, headere?: Headers): Promise<Sp
     };
 };
 
-export const fetchPerson = async (personId?: string) =>
+export const getPerson = async (personId?: string) =>
     get<{ person: ExternalPerson }>(`${baseUrl}/person/sok`, {
         headers: { 'nav-person-id': personId },
     });
 
-export const fetchOppgaver = async () =>
+export const getOppgaver = async () =>
     get<{ oppgaver: ExternalOppgave[] }>(`${baseUrl}/person/`).then((response) => response.data.oppgaver);
 
 export const getOpptegnelser = async (sisteSekvensId?: number) => {
