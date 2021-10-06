@@ -2,11 +2,11 @@ import styled from '@emotion/styled';
 import React from 'react';
 import { useFormContext } from 'react-hook-form';
 
-import { Fieldset, Radio } from '@navikt/ds-react';
+import { RadioGroup, Radio } from '@navikt/ds-react';
 
 import { ErrorMessage } from '../../../../components/ErrorMessage';
 
-const BegrunnelseFieldset = styled(Fieldset)`
+const BegrunnelseFieldset = styled(RadioGroup)`
     > .navds-radio {
         padding: 0;
     }
@@ -18,7 +18,12 @@ export const Begrunnelser = () => {
     const form = useFormContext();
     const { ref, ...begrunnelseValidation } = form.register('begrunnelse', { required: 'Velg en begrunnelse' });
     return (
-        <BegrunnelseFieldset legend="Begrunnelse" id="begrunnelse" error={form.formState.errors['begrunnelse']}>
+        <BegrunnelseFieldset
+            legend="Begrunnelse"
+            id="begrunnelse"
+            name="begrunnelse"
+            error={form.formState.errors['begrunnelse']}
+        >
             <Radio ref={ref} value="Korrigert inntektsmelding" {...begrunnelseValidation}>
                 Korrigert inntektsmelding
             </Radio>
