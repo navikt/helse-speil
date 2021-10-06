@@ -12,6 +12,7 @@ export interface PostAnnulleringOptions {
     vedtaksperiodeId: string;
     begrunnelser: string[];
     kommentar: string;
+    gjelderSisteSkjæringstidspunkt: boolean;
 }
 
 export interface AnnulleringClient {

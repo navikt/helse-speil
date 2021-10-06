@@ -57,6 +57,7 @@ export default ({ vedtakClient, annulleringClient }: SetupOptions) => {
 
     router.post('/annullering', (req: SpeilRequest, res: Response) => {
         logger.info(`Sender annullering for fagsystemId ${req.body.fagsystemId}`);
+        logger.sikker.info(`Sender annullering for fagsystemId ${req.body.fagsystemId} med payload ${req.body}`);
         annulleringClient
             .annuller({
                 aktørId: req.body.aktørId,
@@ -68,6 +69,7 @@ export default ({ vedtakClient, annulleringClient }: SetupOptions) => {
                 vedtaksperiodeId: req.body.vedtaksperiodeId,
                 begrunnelser: req.body.begrunnelser,
                 kommentar: req.body.kommentar,
+                gjelderSisteSkjæringstidspunkt: req.body.gjelderSisteSkjæringstidspunkt,
             })
             .then(() => {
                 res.sendStatus(204);
