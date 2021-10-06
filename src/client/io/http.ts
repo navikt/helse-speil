@@ -14,9 +14,9 @@ export const ResponseError = (statusCode: number, message?: string) => ({
     message,
 });
 
-export interface SpeilResponse {
+interface SpeilResponse<T> {
     status: number;
-    data: any;
+    data: T;
 }
 
 type Headers = { [key: string]: any };
@@ -50,7 +50,7 @@ const ensureAcceptHeader = (options: Options = {}): RequestInit | undefined => {
     return undefined;
 };
 
-const get = async (url: string, options?: Options): Promise<SpeilResponse> => {
+const get = async <T>(url: string, options?: Options): Promise<SpeilResponse<T>> => {
     const response = await fetch(url, ensureAcceptHeader(options));
 
     if (response.status >= 400) {
@@ -63,28 +63,7 @@ const get = async (url: string, options?: Options): Promise<SpeilResponse> => {
     };
 };
 
-export const del = async (url: string, data?: any, options?: Options) => {
-    const response = await fetch(url, {
-        method: 'DELETE',
-        body: JSON.stringify(data),
-        ...options,
-    });
-
-    if (response.status >= 400) {
-        throw ResponseError(response.status);
-    }
-    return response;
-};
-
-export const fetchPerson = async (personId?: string) =>
-    get(`${baseUrl}/person/sok`, {
-        headers: { 'nav-person-id': personId },
-    });
-
-export const fetchOppgaver = async () =>
-    get(`${baseUrl}/person/`).then((response) => response.data.oppgaver as ExternalOppgave[]);
-
-export const post = async (url: string, data: any, headere?: Headers): Promise<SpeilResponse> => {
+export const post = async (url: string, data: any, headere?: Headers): Promise<SpeilResponse<any>> => {
     const response = await fetch(url, {
         method: 'POST',
         headers: {
@@ -107,7 +86,20 @@ export const post = async (url: string, data: any, headere?: Headers): Promise<S
     };
 };
 
-export const put = async (url: string, data: any, headere?: Headers): Promise<SpeilResponse> => {
+export const del = async (url: string, data?: any, options?: Options) => {
+    const response = await fetch(url, {
+        method: 'DELETE',
+        body: JSON.stringify(data),
+        ...options,
+    });
+
+    if (response.status >= 400) {
+        throw ResponseError(response.status);
+    }
+    return response;
+};
+
+export const put = async (url: string, data: any, headere?: Headers): Promise<SpeilResponse<any>> => {
     const response = await fetch(url, {
         method: 'PUT',
         headers: {
@@ -128,6 +120,32 @@ export const put = async (url: string, data: any, headere?: Headers): Promise<Sp
         status: response.status,
         data: await getData(response),
     };
+};
+
+export const fetchPerson = async (personId?: string) =>
+    get<{ person: ExternalPerson }>(`${baseUrl}/person/sok`, {
+        headers: { 'nav-person-id': personId },
+    });
+
+export const fetchOppgaver = async () =>
+    get<{ oppgaver: ExternalOppgave[] }>(`${baseUrl}/person/`).then((response) => response.data.oppgaver);
+
+export const getOpptegnelser = async (sisteSekvensId?: number) => {
+    return sisteSekvensId
+        ? get<Opptegnelse[]>(`${baseUrl}/opptegnelse/hent/${sisteSekvensId}`)
+        : get<Opptegnelse[]>(`${baseUrl}/opptegnelse/hent`);
+};
+
+export const getBehandlingsstatistikk = async (): Promise<ExternalBehandlingstatistikk> => {
+    return get<{ behandlingsstatistikk: ExternalBehandlingstatistikk }>(`${baseUrl}/behandlingsstatistikk`).then(
+        (response) => response.data.behandlingsstatistikk
+    );
+};
+
+export const getNotater = async (vedtaksperiodeIder: string[]) => {
+    return get<{ vedtaksperiodeId: ExternalNotat[] }>(
+        `${baseUrl}/notater?vedtaksperiodeId=${vedtaksperiodeIder.join('&vedtaksperiodeId=')}`
+    ).then((response) => response.data);
 };
 
 const postVedtak = async (oppgavereferanse: string, aktørId: string, godkjent: boolean, skjema?: Avvisningsskjema) =>
@@ -166,26 +184,6 @@ export const deleteTildeling = async (oppgavereferanse: string) => {
 
 export const postAbonnerPåAktør = async (aktørId: string) => {
     return post(`${baseUrl}/opptegnelse/abonner/${aktørId}`, {});
-};
-
-export const getAlleOpptegnelser = async () => {
-    return get(`${baseUrl}/opptegnelse/hent`);
-};
-
-export const getOpptegnelser = async (sisteSekvensId?: number) => {
-    return sisteSekvensId ? get(`${baseUrl}/opptegnelse/hent/${sisteSekvensId}`) : get(`${baseUrl}/opptegnelse/hent`);
-};
-
-export const getBehandlingsstatistikk = async (): Promise<ExternalBehandlingstatistikk> => {
-    return get(`${baseUrl}/behandlingsstatistikk`).then((response) => response.data.behandlingsstatistikk);
-};
-
-export const getNotater = async (vedtaksperiodeIder: string[]) => {
-    return get(`${baseUrl}/notater?vedtaksperiodeId=${vedtaksperiodeIder.join('&vedtaksperiodeId=')}`).then(
-        (response) => {
-            return response.data as { vedtaksperiodeId: ExternalNotat[] };
-        }
-    );
 };
 
 export const postNotat = async (oppgavereferanse: string, notat: NotatDTO) => {
