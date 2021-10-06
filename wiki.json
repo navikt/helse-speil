@@ -322,5 +322,11 @@
         "betydning": "Det er fylt ut utdanning i søknaden",
         "løsning": "Undersøk om den sykmeldte nylig startet i utdanning og vurder vilkår. Dersom forrige utbetalte periode hadde varsel på utdanning trenger du ikke gjøre noen ny vurdering",
         "viktighet": "Høy"
+    },
+    {
+        "varsel": "Har mer enn 25 % avvik. Dette støttes foreløpig ikke i Speil. Du må derfor annullere periodene.",
+        "betydning": "Det er lagt inn en ny inntekt som gir 25 % avvik. Skjønnsmessig fastsettelse av sykepengegrunnlaget støttes ikke i Speil.",
+        "løsning": "Du kan endre inntekten en gang til hvis du har gjort noe feil. Dersom endringen skal gjennomføres må periodene annulleres i Speil og behandles i Infotrygd.",
+        "viktighet": "Høy"
     }
 ]
