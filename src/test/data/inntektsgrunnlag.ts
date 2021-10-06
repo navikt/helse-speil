@@ -46,7 +46,7 @@ export const umappetInntektsgrunnlag = (
                 kilde: inntektskilde,
                 beløp: 372000.0,
                 månedsbeløp: 31000.0,
-                inntekterFraAOrdningen: undefined,
+                inntekterFraAOrdningen: null,
             },
             sammenligningsgrunnlag:
                 inntektskilde === 'Inntektsmelding'

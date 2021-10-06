@@ -10,12 +10,18 @@ import { aktivPeriodeState } from './tidslinje';
 
 interface PersonState {
     problems?: Error[];
-    person?: Person;
+    person?: Person & { vilkårsgrunnlagHistorikk: Record<UUID, Record<DateString, ExternalVilkårsgrunnlag>> };
 }
 
 const hentPerson = (id: string): Promise<PersonState> =>
     getPerson(id)
-        .then(async ({ data }) => ({ ...mapPerson(data.person) }))
+        .then(async ({ data }) => {
+            const { person, problems } = mapPerson(data.person);
+            return {
+                person: { ...person, vilkårsgrunnlagHistorikk: data.person.vilkårsgrunnlagHistorikk },
+                problems: problems,
+            };
+        })
         .catch((error) => {
             switch (error.statusCode) {
                 case 404:
@@ -185,6 +191,14 @@ export const useFjernPåVent = () => {
                 return Promise.reject();
             });
     };
+};
+
+export const useVilkårsgrunnlaghistorikk = (
+    skjæringstidspunkt: string,
+    vilkårsgrunnlaghistorikkId: string
+): ExternalVilkårsgrunnlag | null => {
+    const person = useRecoilValue(personState)?.person;
+    return person?.vilkårsgrunnlagHistorikk[vilkårsgrunnlaghistorikkId]?.[skjæringstidspunkt] ?? null;
 };
 
 export const useIsLoadingPerson = () => useRecoilValue(loadingPersonState);

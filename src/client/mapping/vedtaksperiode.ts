@@ -311,7 +311,8 @@ export class VedtaksperiodeBuilder {
                         (arbeidsgiverinntekt.omregnetÅrsinntekt && {
                             ...arbeidsgiverinntekt.omregnetÅrsinntekt,
                             kilde: arbeidsgiverinntekt.omregnetÅrsinntekt.kilde,
-                            inntekterFraAOrdningen: arbeidsgiverinntekt.omregnetÅrsinntekt.inntekterFraAOrdningen,
+                            inntekterFraAOrdningen:
+                                arbeidsgiverinntekt.omregnetÅrsinntekt.inntekterFraAOrdningen ?? undefined,
                         }) ??
                         undefined,
                     sammenligningsgrunnlag:

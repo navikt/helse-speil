@@ -7,10 +7,12 @@ import { mappetPerson } from 'test-data';
 import { umappetArbeidsgiver } from '../../test/data/arbeidsgiver';
 import { umappetUtbetalingshistorikk } from '../../test/data/utbetalingshistorikk';
 import { umappetVedtaksperiode } from '../../test/data/vedtaksperiode';
+import { etSpleisgrunnlag } from '../../test/data/vilkårsgrunnlaghistorikk';
+import { personState, useVilkårsgrunnlaghistorikk } from './person';
 
 const personActual = jest.requireActual('./person');
 
-const wrapper: React.FC = ({ children }) => <RecoilRoot>{children} </RecoilRoot>;
+const wrapper: React.FC = ({ children }) => <RecoilRoot>{children}</RecoilRoot>;
 const person = mappetPerson([
     umappetArbeidsgiver(
         [
@@ -44,5 +46,49 @@ describe('sykepengrunnlagHook', () => {
             { wrapper }
         );
         expect(result.current?.sykepengegrunnlag).toEqual(372000);
+    });
+});
+
+describe('vilkårsgrunnlagHook', () => {
+    it('finner vilkårsgrunnlag', () => {
+        const { result } = renderHook(() => useVilkårsgrunnlaghistorikk('2020-10-21', 'id1'), {
+            wrapper: ({ children }) => (
+                <RecoilRoot
+                    initializeState={({ set }) => {
+                        set(personState, {
+                            person: {
+                                ...mappetPerson(),
+                                vilkårsgrunnlagHistorikk: {
+                                    id1: { '2020-10-21': etSpleisgrunnlag({ skjæringstidspunkt: '2020-10-21' }) },
+                                },
+                            },
+                        });
+                    }}
+                >
+                    {children}
+                </RecoilRoot>
+            ),
+        });
+        expect(result.current?.skjæringstidspunkt).toEqual('2020-10-21');
+    });
+
+    it('finner ikke vilkårsgrunnlag', () => {
+        const { result } = renderHook(() => useVilkårsgrunnlaghistorikk('2020-01-01', 'id1'), {
+            wrapper: ({ children }) => (
+                <RecoilRoot
+                    initializeState={({ set }) => {
+                        set(personState, {
+                            person: {
+                                ...mappetPerson(),
+                                vilkårsgrunnlagHistorikk: {},
+                            },
+                        });
+                    }}
+                >
+                    {children}
+                </RecoilRoot>
+            ),
+        });
+        expect(result.current).toBeNull();
     });
 });

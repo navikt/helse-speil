@@ -40,7 +40,13 @@ const wrapper =
                 <Route path="/person/:aktorId">
                     <RecoilRoot
                         initializeState={({ set }) => {
-                            personTilBehandling && set(personState, { person: personTilBehandling });
+                            personTilBehandling &&
+                                set(personState, {
+                                    person: {
+                                        ...personTilBehandling,
+                                        vilkårsgrunnlagHistorikk: {},
+                                    },
+                                });
                             set(authState, {
                                 email: 'nav.navesen@nav.no',
                                 name: 'Nav Navesen',

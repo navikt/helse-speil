@@ -468,7 +468,7 @@ declare type ExternalOmregnetÅrsinntekt = {
     kilde: ExternalInntektkilde;
     beløp: number;
     månedsbeløp: number;
-    inntekterFraAOrdningen?: ExternalInntekterFraAOrdningen[];
+    inntekterFraAOrdningen: ExternalInntekterFraAOrdningen[] | null;
 };
 
 declare type ExternalSammenligningsgrunnlag = {
@@ -599,6 +599,9 @@ declare type ExternalPeriodetype =
     | 'STIKKPRØVE'
     | 'RISK_QA';
 
+declare type ExternalBehandlingstatistikkResponse = {
+    statistikk: ExternalSpleisVilkårsgrunnlag;
+};
 declare type ExternalBehandlingstatistikk = {
     antallOppgaverTilGodkjenning: {
         totalt: number;
