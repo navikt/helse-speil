@@ -30,6 +30,7 @@ export default (config: AppConfig, onBehalfOf: OnBehalfOf) => ({
         vedtaksperiodeId,
         begrunnelser,
         kommentar,
+        gjelderSisteSkjæringstidspunkt,
     }: PostAnnulleringOptions) => {
         const onBehalfOfToken = await onBehalfOf.hentFor(config.oidc.clientIDSpesialist, speilToken);
         const options = {
@@ -44,6 +45,7 @@ export default (config: AppConfig, onBehalfOf: OnBehalfOf) => ({
                 vedtaksperiodeId,
                 begrunnelser,
                 kommentar,
+                gjelderSisteSkjæringstidspunkt,
             },
             json: true,
         };
