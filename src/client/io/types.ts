@@ -21,7 +21,7 @@ export interface OverstyrteDagerDTO extends Overstyring {
 }
 
 export interface OverstyrtInntektDTO extends Overstyring {
-    månedsbeløp: number;
+    månedligInntekt: number;
     skjæringstidspunkt: string;
     forklaring: string;
 }

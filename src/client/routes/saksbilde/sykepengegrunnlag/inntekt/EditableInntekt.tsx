@@ -128,13 +128,13 @@ const useGetOverstyrtInntekt = () => {
     const { id, organisasjonsnummer } = useAktivPeriode() as Tidslinjeperiode;
     const { vilkår } = useVedtaksperiode(id) as Vedtaksperiode;
 
-    return (begrunnelse: string, forklaring: string, månedsbeløp: number) => ({
+    return (begrunnelse: string, forklaring: string, månedligInntekt: number) => ({
         aktørId: aktørId,
         fødselsnummer: fødselsnummer,
         organisasjonsnummer: organisasjonsnummer,
         begrunnelse: begrunnelse,
         forklaring: forklaring,
-        månedsbeløp: månedsbeløp,
+        månedligInntekt: månedligInntekt,
         skjæringstidspunkt: vilkår!.dagerIgjen.skjæringstidspunkt.format(ISO_DATOFORMAT),
     });
 };
@@ -190,8 +190,10 @@ const usePostOverstyrtInntekt = (onFerdigKalkulert: () => void) => {
                 })
                 .catch((error) => {
                     switch (error.statusCode) {
-                        default:
-                            setError('Kunne ikke overstyre inntekt. Prøv igjen senere.');
+                        default: {
+                            console.log(error);
+                            setError('Kunne ikke overstyre inntekt. Prøv igjen senere. ');
+                        }
                     }
                     setIsLoading(false);
                 });

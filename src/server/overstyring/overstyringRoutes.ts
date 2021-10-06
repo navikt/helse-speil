@@ -20,5 +20,15 @@ export default ({ overstyringClient }: SetupOptions) => {
             });
     });
 
+    router.post('/overstyr/inntekt', (req: SpeilRequest, res: Response) => {
+        overstyringClient
+            .overstyrInntekt(req.body, req.session!.speilToken)
+            .then(() => res.sendStatus(200))
+            .catch((err) => {
+                logger.error(`Feil under overstyring av inntekt: ${err}`);
+                res.status(500).send('Feil under overstyring av inntekt');
+            });
+    });
+
     return router;
 };
