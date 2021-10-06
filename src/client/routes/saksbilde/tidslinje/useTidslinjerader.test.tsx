@@ -63,8 +63,14 @@ describe('useTidslinjerader', () => {
                 [],
                 [
                     umappetUtbetalingshistorikk('1234'),
-                    umappetUtbetalingshistorikk('1235', 'REVURDERING', 'UTBETALT', dayjs('2020-01-02T00:00:00')),
-                    umappetUtbetalingshistorikk('1236', 'UTBETALING', 'UTBETALT', dayjs('2020-01-03T00:00:00')),
+                    umappetUtbetalingshistorikk(
+                        '1235',
+                        'vid1',
+                        'REVURDERING',
+                        'UTBETALT',
+                        dayjs('2020-01-02T00:00:00')
+                    ),
+                    umappetUtbetalingshistorikk('1236', 'vid1', 'UTBETALING', 'UTBETALT', dayjs('2020-01-03T00:00:00')),
                 ]
             ),
         ]);
@@ -97,8 +103,14 @@ describe('useTidslinjerader', () => {
                 [],
                 [
                     umappetUtbetalingshistorikk('1234'),
-                    umappetUtbetalingshistorikk('1235', 'UTBETALING', 'UTBETALT', dayjs('2020-01-02T00:00:00')),
-                    umappetUtbetalingshistorikk('1236', 'ANNULLERING', 'ANNULLERT', dayjs('2020-01-03T00:00:00')),
+                    umappetUtbetalingshistorikk('1235', 'vid1', 'UTBETALING', 'UTBETALT', dayjs('2020-01-02T00:00:00')),
+                    umappetUtbetalingshistorikk(
+                        '1236',
+                        'vid1',
+                        'ANNULLERING',
+                        'ANNULLERT',
+                        dayjs('2020-01-03T00:00:00')
+                    ),
                 ]
             ),
         ]);
@@ -129,12 +141,19 @@ describe('useTidslinjerader', () => {
                 [],
                 [
                     umappetUtbetalingshistorikk('1234'),
-                    umappetUtbetalingshistorikk('1235', 'UTBETALING', 'UTBETALT', dayjs('2020-01-02T00:00:00')),
+                    umappetUtbetalingshistorikk('1235', 'vid1', 'UTBETALING', 'UTBETALT', dayjs('2020-01-02T00:00:00')),
                     {
-                        ...umappetUtbetalingshistorikk('1236', 'REVURDERING', 'UTBETALT', dayjs('2020-01-03T00:00:00')),
+                        ...umappetUtbetalingshistorikk(
+                            '1236',
+                            'vid1',
+                            'REVURDERING',
+                            'UTBETALT',
+                            dayjs('2020-01-03T00:00:00')
+                        ),
                         utbetaling: {
                             ...umappetUtbetalingshistorikk(
                                 '1236',
+                                'vid1',
                                 'REVURDERING',
                                 'UTBETALT',
                                 dayjs('2020-01-03T00:00:00')

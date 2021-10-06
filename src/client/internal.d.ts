@@ -80,6 +80,7 @@ declare type UtbetalingshistorikkElement = {
 
 declare type HistorikkElement = {
     id: string;
+    vilkårsgrunnlaghistorikkId: string;
     beregnettidslinje: Sykdomsdag[];
     hendelsetidslinje: Sykdomsdag[];
     utbetaling: UtbetalingshistorikkElement;

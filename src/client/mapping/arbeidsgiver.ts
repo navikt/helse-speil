@@ -184,6 +184,7 @@ export class ArbeidsgiverBuilder {
                 this.unmapped.utbetalingshistorikk?.map((element: ExternalHistorikkElement) => {
                     return utbetalingshistorikkelement(
                         element.beregningId,
+                        element.vilkårsgrunnlagHistorikkId,
                         mapSykdomstidslinje(element.beregnettidslinje),
                         mapSykdomstidslinje(element.hendelsetidslinje),
                         {

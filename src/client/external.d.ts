@@ -294,6 +294,7 @@ declare type ExternalHistorikkElement = {
     hendelsetidslinje: ExternalSykdomsdag[];
     utbetaling: ExternalUtbetalingshistorikkElement;
     tidsstempel: string;
+    vilkårsgrunnlagHistorikkId: string;
 };
 
 declare type ExternalSykdomstidslinjedagtype =

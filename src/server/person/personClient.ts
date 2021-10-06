@@ -32,10 +32,10 @@ export const personClient = (
 
         return request.post(options).then((res) => {
             tidtakning();
-            return Promise.resolve(({
+            return Promise.resolve({
                 status: res.statusCode,
                 body: res.body,
-            } as unknown) as Response);
+            } as unknown as Response);
         });
     },
 });

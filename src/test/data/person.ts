@@ -684,6 +684,7 @@ export const mappetPersonObject = (): Person => ({
             utbetalingshistorikk: [
                 {
                     id: 'id1',
+                    vilkårsgrunnlaghistorikkId: 'vilkårsgrunnlaghistorikkId',
                     kilde: 'UTBETALING',
                     beregnettidslinje: [
                         {

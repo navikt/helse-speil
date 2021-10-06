@@ -2,12 +2,14 @@ import dayjs, { Dayjs } from 'dayjs';
 
 export const umappetUtbetalingshistorikk = (
     beregningId: string = 'id1',
+    vilkårsgrunnlaghistorikkId: string = 'vilkårsgrunnlaghistorikkId',
     utbetalingtype: string = 'UTBETALING',
     utbetalingstatus: string = 'UTBETALT',
     opprettet: Dayjs = dayjs('2020-01-01T00:00:00'),
     dag: Dayjs = dayjs('2020-01-01')
 ): ExternalHistorikkElement => ({
     beregningId: beregningId,
+    vilkårsgrunnlagHistorikkId: vilkårsgrunnlaghistorikkId,
     hendelsetidslinje: [
         {
             dagen: dag.format('YYYY-MM-DD'),

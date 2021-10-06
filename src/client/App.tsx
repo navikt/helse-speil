@@ -63,12 +63,13 @@ const App = () => {
     );
 };
 
-const withRoutingAndState = (Component: React.ComponentType) => () => (
-    <BrowserRouter>
-        <RecoilRoot>
-            <Component />
-        </RecoilRoot>
-    </BrowserRouter>
-);
+const withRoutingAndState = (Component: React.ComponentType) => () =>
+    (
+        <BrowserRouter>
+            <RecoilRoot>
+                <Component />
+            </RecoilRoot>
+        </BrowserRouter>
+    );
 
 export default hot(module)(withRoutingAndState(App));

@@ -9,12 +9,14 @@ const useHistorikkelement = (beregningId: string): HistorikkElement | undefined 
 
 export const utbetalingshistorikkelement = (
     id: string,
+    vilkårsgrunnlaghistorikkId: string,
     beregnettidslinje: Sykdomsdag[],
     hendelsetidslinje: Sykdomsdag[],
     utbetaling: UtbetalingshistorikkElement,
     tidsstempel: Dayjs
 ): HistorikkElement => ({
     id: id,
+    vilkårsgrunnlaghistorikkId: vilkårsgrunnlaghistorikkId,
     beregnettidslinje: beregnettidslinje,
     hendelsetidslinje: hendelsetidslinje,
     utbetaling: utbetaling,
