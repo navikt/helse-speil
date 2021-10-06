@@ -49,7 +49,7 @@ export const MånedsbeløpInput = ({ initialMånedsbeløp }: MånedsbeløpInputP
                 id="månedligInntekt"
                 ref={ref}
                 defaultValue={initialMånedsbeløp}
-                error={form.formState.errors.månedsbeløp}
+                error={form.formState.errors.månedsbeløp?.message}
                 onBlur={(event) => {
                     onBlur(event);
                     form.trigger('månedligInntekt');

@@ -22,7 +22,7 @@ export const Begrunnelser = () => {
             legend="Begrunnelse"
             id="begrunnelse"
             name="begrunnelse"
-            error={form.formState.errors['begrunnelse']}
+            error={form.formState.errors['begrunnelse']?.message}
         >
             <Radio ref={ref} value="Korrigert inntektsmelding" {...begrunnelseValidation}>
                 Korrigert inntektsmelding
@@ -40,9 +40,6 @@ export const Begrunnelser = () => {
             <Radio ref={ref} value="Arbeidsgiver har innrapportert feil til A-ordningen" {...begrunnelseValidation}>
                 Arbeidsgiver har innrapportert feil til A-ordningen
             </Radio>
-            {form.formState.errors['begrunnelse'] && (
-                <ErrorMessage>{form.formState.errors['begrunnelse'].message}</ErrorMessage>
-            )}
         </BegrunnelseFieldset>
     );
 };
