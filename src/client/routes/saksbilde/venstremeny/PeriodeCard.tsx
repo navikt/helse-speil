@@ -59,7 +59,7 @@ interface PeriodeCardProps {
     aktivPeriode: Tidslinjeperiode;
     maksdato: string;
     over67år: boolean;
-    gjenståendeDager?: number;
+    gjenståendeDager: number | null;
     skjæringstidspunkt: string;
 }
 

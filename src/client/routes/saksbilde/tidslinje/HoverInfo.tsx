@@ -166,7 +166,7 @@ export const HoverInfo = ({ tidslinjeperiode }: HoverInfoProps) => {
                     <LinjeVerdi as="p">{permisjonsperiode} </LinjeVerdi>
                 </Linje>
             )}
-            {gjenståendeDager !== undefined && (
+            {gjenståendeDager !== null && (
                 <Linje
                     style={
                         {
