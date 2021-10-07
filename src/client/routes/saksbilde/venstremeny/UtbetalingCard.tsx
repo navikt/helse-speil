@@ -1,12 +1,12 @@
 import styled from '@emotion/styled';
 import React, { useState } from 'react';
 
-import { BodyShort, Link } from '@navikt/ds-react';
+import { BodyShort } from '@navikt/ds-react';
 
 import { LinkButton } from '../../../components/LinkButton';
 import { useArbeidsgiver } from '../../../modell/arbeidsgiver';
 import { useUtbetaling } from '../../../modell/utbetalingshistorikkelement';
-import { usePersonnavn, useSykepengegrunnlag } from '../../../state/person';
+import { usePersonnavn, useVilkårsgrunnlaghistorikk } from '../../../state/person';
 import { somPenger } from '../../../utils/locale';
 
 import { anonymisertPersoninfo, getAnonymArbeidsgiverForOrgnr } from '../../../agurkdata';
@@ -38,6 +38,8 @@ interface UtbetalingCardProps {
     ikkeUtbetaltEnda: boolean;
     simulering?: Vedtaksperiode['simuleringsdata'];
     anonymiseringEnabled: boolean;
+    skjæringstidspunkt: DateString;
+    vilkårsgrunnlaghistorikkId: UUID;
 }
 
 export const UtbetalingCard = ({
@@ -46,8 +48,10 @@ export const UtbetalingCard = ({
     ikkeUtbetaltEnda,
     simulering,
     anonymiseringEnabled,
+    skjæringstidspunkt,
+    vilkårsgrunnlaghistorikkId,
 }: UtbetalingCardProps) => {
-    const sykepengegrunnlag = useSykepengegrunnlag(beregningId);
+    const vilkårsgrunnlaghistorikk = useVilkårsgrunnlaghistorikk(skjæringstidspunkt, vilkårsgrunnlaghistorikkId);
     const [simuleringÅpen, setSimuleringÅpen] = useState(false);
 
     const { arbeidsgiverNettobeløp, personNettobeløp } = useUtbetaling(beregningId) ?? {
@@ -71,7 +75,7 @@ export const UtbetalingCard = ({
             <CardTitle>TIL UTBETALING</CardTitle>
             <Grid>
                 <BodyShort as="p">Sykepengegrunnlag</BodyShort>
-                <Value as="p">{somPenger(sykepengegrunnlag?.sykepengegrunnlag)}</Value>
+                <Value as="p">{somPenger(vilkårsgrunnlaghistorikk?.sykepengegrunnlag)}</Value>
                 <BodyShort as="p">Utbetalingdager</BodyShort>
                 <Value as="p">{utbetalingsdagerTotalt}</Value>
             </Grid>

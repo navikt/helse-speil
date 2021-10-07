@@ -68,13 +68,17 @@ export const VenstreMeny = ({
                 månedsbeløp={månedsbeløp}
             />
             <VilkårCard aktivPeriode={aktivPeriode} />
-            <UtbetalingCard
-                beregningId={aktivPeriode.beregningId}
-                ikkeUtbetaltEnda={ikkeUtbetaltEnda}
-                utbetalingsdagerTotalt={utbetalingsdagerTotalt}
-                simulering={simulering}
-                anonymiseringEnabled={anonymiseringEnabled}
-            />
+            {skjæringstidspunkt && aktivPeriode.vilkårsgrunnlaghistorikkId && (
+                <UtbetalingCard
+                    beregningId={aktivPeriode.beregningId}
+                    ikkeUtbetaltEnda={ikkeUtbetaltEnda}
+                    utbetalingsdagerTotalt={utbetalingsdagerTotalt}
+                    simulering={simulering}
+                    anonymiseringEnabled={anonymiseringEnabled}
+                    skjæringstidspunkt={skjæringstidspunkt.format('YYYY-MM-DD')}
+                    vilkårsgrunnlaghistorikkId={aktivPeriode.vilkårsgrunnlaghistorikkId}
+                />
+            )}
             <Utbetaling aktivPeriode={aktivPeriode} />
         </Container>
     );
