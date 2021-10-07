@@ -9,8 +9,13 @@ import { Kilde } from '../../../components/Kilde';
 import { TekstMedEllipsis } from '../../../components/TekstMedEllipsis';
 import { Tooltip } from '../../../components/Tooltip';
 import { Clipboard } from '../../../components/clipboard';
+import {
+    useArbeidsforholdRender,
+    useArbeidsgiverbransjerRender,
+    useArbeidsgivernavnRender,
+    useOrganisasjonsnummerRender,
+} from '../../../state/person';
 
-import { getAnonymArbeidsgiverForOrgnr } from '../../../agurkdata';
 import { Arbeidsforhold } from '../Arbeidsforhold';
 import { Inntekt } from './inntekt/Inntekt';
 
@@ -56,42 +61,48 @@ const ArbeidsforholdTabell = styled(Tabell)`
 `;
 
 interface InntektskilderinnholdProps {
-    inntektskilde: Arbeidsgiverinntekt;
-    anonymiseringEnabled: boolean;
+    inntekt: ExternalArbeidsgiverinntekt;
 }
 
-export const Inntektskilderinnhold = ({ inntektskilde, anonymiseringEnabled }: InntektskilderinnholdProps) => (
-    <FlexColumn>
-        <Header>
-            <Bag width={20} height={20} />
-            <Navn data-tip="Arbeidsgivernavn">
-                <TekstMedEllipsis>
-                    {anonymiseringEnabled
-                        ? getAnonymArbeidsgiverForOrgnr(inntektskilde.organisasjonsnummer).navn
-                        : inntektskilde.arbeidsgivernavn}
-                </TekstMedEllipsis>
-            </Navn>
-            <Organisasjonsnummer>
-                (
-                <Clipboard copyMessage="Organisasjonsnummer er kopiert" dataTip="Kopier organisasjonsnummer">
-                    {anonymiseringEnabled
-                        ? getAnonymArbeidsgiverForOrgnr(inntektskilde.organisasjonsnummer).orgnr
-                        : inntektskilde.organisasjonsnummer}
-                </Clipboard>
-                )
-            </Organisasjonsnummer>
-            <Kilde type="Ainntekt">AA</Kilde>
-        </Header>
-        <Bransjer as="p">
-            {`BRANSJE${inntektskilde.bransjer.length > 1 ? 'R' : ''}: `}
-            {anonymiseringEnabled ? 'Agurkifisert bransje' : inntektskilde.bransjer.join(', ')}
-        </Bransjer>
-        <ArbeidsforholdTabell>
-            {inntektskilde.arbeidsforhold?.[0] && (
-                <Arbeidsforhold anonymiseringEnabled={anonymiseringEnabled} {...inntektskilde.arbeidsforhold[0]} />
-            )}
-        </ArbeidsforholdTabell>
-        <Inntekt omregnetÅrsinntekt={inntektskilde.omregnetÅrsinntekt} />
-        <Tooltip effect="solid" />
-    </FlexColumn>
-);
+export const Inntektskilderinnhold = ({ inntekt }: InntektskilderinnholdProps) => {
+    const arbeidsgivernavn = useArbeidsgivernavnRender(inntekt.organisasjonsnummer);
+    const organisasjonsnummer = useOrganisasjonsnummerRender(inntekt.organisasjonsnummer);
+    const bransjer = useArbeidsgiverbransjerRender(inntekt.organisasjonsnummer);
+    const arbeidsforhold = useArbeidsforholdRender(inntekt.organisasjonsnummer);
+
+    return (
+        <FlexColumn>
+            <Header>
+                <Bag width={20} height={20} />
+                <Navn data-tip="Arbeidsgivernavn">
+                    <TekstMedEllipsis>{arbeidsgivernavn}</TekstMedEllipsis>
+                </Navn>
+                <Organisasjonsnummer>
+                    (
+                    <Clipboard copyMessage="Organisasjonsnummer er kopiert" dataTip="Kopier organisasjonsnummer">
+                        {organisasjonsnummer}
+                    </Clipboard>
+                    )
+                </Organisasjonsnummer>
+                <Kilde type="Ainntekt">AA</Kilde>
+            </Header>
+            <Bransjer as="p">
+                {`BRANSJE${bransjer.length > 1 ? 'R' : ''}: `}
+                {bransjer.join(', ')}
+            </Bransjer>
+            <ArbeidsforholdTabell className="ArbeidsforholdTabell">
+                {arbeidsforhold.map((it, i) => (
+                    <Arbeidsforhold
+                        key={i}
+                        startdato={it.startdato}
+                        sluttdato={it.sluttdato}
+                        stillingsprosent={it.stillingsprosent}
+                        stillingstittel={it.stillingstittel}
+                    />
+                ))}
+            </ArbeidsforholdTabell>
+            <Inntekt omregnetÅrsinntekt={inntekt.omregnetÅrsinntekt} />
+            <Tooltip effect="solid" />
+        </FlexColumn>
+    );
+};

@@ -5,6 +5,7 @@ import React from 'react';
 import { BodyShort } from '@navikt/ds-react';
 
 import { Kilde } from '../../../components/Kilde';
+import { useArbeidsgivernavnRender } from '../../../state/person';
 import { getKildeType, kilde } from '../../../utils/inntektskilde';
 import { somPenger } from '../../../utils/locale';
 
@@ -39,38 +40,41 @@ const InntektMedKilde = styled.div`
     }
 `;
 
-interface Props {
-    arbeidsgiver: string;
-    omregnetÅrsinntekt?: OmregnetÅrsinntekt;
-    sammenligningsgrunnlag?: Sammenligningsgrunnlag;
+interface InntektssammenligningProps {
+    organisasjonsnummer: string;
+    omregnetÅrsinntekt: ExternalOmregnetÅrsinntekt | null;
+    sammenligningsgrunnlag: number | null;
     erGjeldende: boolean;
     onSetAktivInntektskilde: () => void;
 }
 
 export const Inntektssammenligning = ({
-    arbeidsgiver,
+    organisasjonsnummer,
     omregnetÅrsinntekt,
     sammenligningsgrunnlag,
     erGjeldende,
     onSetAktivInntektskilde,
-}: Props) => (
-    <ArbeidsgiverRad erGjeldende={erGjeldende} onClick={onSetAktivInntektskilde}>
-        <td>
-            <BodyShort>{arbeidsgiver}</BodyShort>
-        </td>
-        <td>
-            <InntektMedKilde>
-                <BodyShort>{omregnetÅrsinntekt ? somPenger(omregnetÅrsinntekt.beløp) : 'Ukjent'}</BodyShort>
-                {omregnetÅrsinntekt && (
-                    <Kilde type={getKildeType(omregnetÅrsinntekt.kilde)}>{kilde(omregnetÅrsinntekt.kilde)}</Kilde>
-                )}
-            </InntektMedKilde>
-        </td>
-        <td>
-            <InntektMedKilde>
-                <BodyShort>{somPenger(sammenligningsgrunnlag?.beløp)}</BodyShort>
-                <Kilde type="Aordningen">AO</Kilde>
-            </InntektMedKilde>
-        </td>
-    </ArbeidsgiverRad>
-);
+}: InntektssammenligningProps) => {
+    const arbeidsgivernavn = useArbeidsgivernavnRender(organisasjonsnummer);
+    return (
+        <ArbeidsgiverRad erGjeldende={erGjeldende} onClick={onSetAktivInntektskilde}>
+            <td>
+                <BodyShort>{organisasjonsnummer}</BodyShort>
+            </td>
+            <td>
+                <InntektMedKilde>
+                    <BodyShort>{omregnetÅrsinntekt ? somPenger(omregnetÅrsinntekt.beløp) : 'Ukjent'}</BodyShort>
+                    {omregnetÅrsinntekt && (
+                        <Kilde type={getKildeType(omregnetÅrsinntekt.kilde)}>{kilde(omregnetÅrsinntekt.kilde)}</Kilde>
+                    )}
+                </InntektMedKilde>
+            </td>
+            <td>
+                <InntektMedKilde>
+                    <BodyShort>{somPenger(sammenligningsgrunnlag)}</BodyShort>
+                    <Kilde type="Aordningen">AO</Kilde>
+                </InntektMedKilde>
+            </td>
+        </ArbeidsgiverRad>
+    );
+};

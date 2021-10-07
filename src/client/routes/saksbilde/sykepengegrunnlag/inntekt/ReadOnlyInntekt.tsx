@@ -49,10 +49,6 @@ const InformationIcon = styled(InformationFilled)`
     width: 24px;
 `;
 
-interface ReadOnlyInntektProps {
-    omregnetÅrsinntekt?: OmregnetÅrsinntekt;
-}
-
 const getMonthName = (yearMonth: string) => {
     const monthNumberToMonthName: Record<string, string> = {
         '01': 'Januar',
@@ -71,7 +67,7 @@ const getMonthName = (yearMonth: string) => {
     return monthNumberToMonthName[yearMonth.split('-')[1]] ?? 'Fant ikke måned';
 };
 
-const InntektFraAordningen = ({ omregnetÅrsinntekt }: { omregnetÅrsinntekt: OmregnetÅrsinntekt }) => {
+const InntektFraAordningen = ({ omregnetÅrsinntekt }: { omregnetÅrsinntekt: ExternalOmregnetÅrsinntekt }) => {
     return (
         <>
             <Tittel as="h3" size="medium">
@@ -98,6 +94,10 @@ const InntektFraAordningen = ({ omregnetÅrsinntekt }: { omregnetÅrsinntekt: Om
         </>
     );
 };
+
+interface ReadOnlyInntektProps {
+    omregnetÅrsinntekt: ExternalOmregnetÅrsinntekt | null;
+}
 
 export const ReadOnlyInntekt = ({ omregnetÅrsinntekt }: ReadOnlyInntektProps) => (
     <>

@@ -5,12 +5,19 @@ import { Varseltype } from '@navikt/helse-frontend-varsel';
 import { deletePåVent, getPerson, postLeggPåVent } from '../io/http';
 import { mapPerson } from '../mapping/person';
 
+import { getAnonymArbeidsgiverForOrgnr } from '../agurkdata';
 import { useInnloggetSaksbehandler } from './authentication';
-import { aktivPeriodeState } from './tidslinje';
+import { aktivPeriodeState, useAktivPeriode } from './tidslinje';
+
+type SpeilApiV2 = {
+    vilkårsgrunnlagHistorikk: Record<UUID, Record<DateString, ExternalVilkårsgrunnlag>>;
+    arbeidsgivereV2: ExternalArbeidsgiver[];
+    arbeidsforhold: ExternalArbeidsforhold[];
+};
 
 interface PersonState {
     problems?: Error[];
-    person?: Person & { vilkårsgrunnlagHistorikk: Record<UUID, Record<DateString, ExternalVilkårsgrunnlag>> };
+    person?: Person & SpeilApiV2;
 }
 
 const hentPerson = (id: string): Promise<PersonState> =>
@@ -18,7 +25,12 @@ const hentPerson = (id: string): Promise<PersonState> =>
         .then(async ({ data }) => {
             const { person, problems } = mapPerson(data.person);
             return {
-                person: { ...person, vilkårsgrunnlagHistorikk: data.person.vilkårsgrunnlagHistorikk },
+                person: {
+                    ...person,
+                    vilkårsgrunnlagHistorikk: data.person.vilkårsgrunnlagHistorikk,
+                    arbeidsgivereV2: data.person.arbeidsgivere,
+                    arbeidsforhold: data.person.arbeidsforhold,
+                },
                 problems: problems,
             };
         })
@@ -105,7 +117,7 @@ export const usePersonPåVent = () => {
     return (påVent: boolean) => tildelPerson(påVent);
 };
 
-export const usePerson = (): Person | undefined => {
+export const usePerson = (): (Person & SpeilApiV2) | undefined => {
     const person = useRecoilValue(personState)?.person;
     const tildeling = useRecoilValue(tildelingState);
     const frontendOverstyrerTildeling = useRecoilValue(frontendOverstyrerTildelingState);
@@ -198,7 +210,56 @@ export const useVilkårsgrunnlaghistorikk = (
     vilkårsgrunnlaghistorikkId: string
 ): ExternalVilkårsgrunnlag | null => {
     const person = useRecoilValue(personState)?.person;
-    return person?.vilkårsgrunnlagHistorikk[vilkårsgrunnlaghistorikkId]?.[skjæringstidspunkt] ?? null;
+
+    if (!person) throw Error('Finner ikke vilkårsgrunnlaghistorikk fordi person mangler');
+
+    return person.vilkårsgrunnlagHistorikk[vilkårsgrunnlaghistorikkId]?.[skjæringstidspunkt] ?? null;
+};
+
+export const useOrganisasjonsnummer = (): string => {
+    const periode = useAktivPeriode();
+
+    if (!periode) throw Error('Finner ikke organisasjonsnummer fordi aktiv periode mangler');
+
+    return periode.organisasjonsnummer;
+};
+
+export const useOrganisasjonsnummerRender = (organisasjonsnummer: string): Agurkifiserbar<string> => {
+    const anonymiseringIsEnabled = usePersondataSkalAnonymiseres();
+
+    return anonymiseringIsEnabled ? getAnonymArbeidsgiverForOrgnr(organisasjonsnummer).orgnr : organisasjonsnummer;
+};
+
+const useArbeidsgiver = (organisasjonsnummer: string): ExternalArbeidsgiver => {
+    const person = usePerson();
+
+    if (!person) throw Error('Finner ikke arbeidsgiver fordi person mangler');
+
+    return person.arbeidsgivereV2.find((it) => it.organisasjonsnummer === organisasjonsnummer) as ExternalArbeidsgiver;
+};
+
+export const useArbeidsgivernavnRender = (organisasjonsnummer: string): string => {
+    const anonymiseringIsEnabled = usePersondataSkalAnonymiseres();
+    const arbeidsgivernavn = useArbeidsgiver(organisasjonsnummer).navn;
+
+    return anonymiseringIsEnabled ? getAnonymArbeidsgiverForOrgnr(organisasjonsnummer).navn : arbeidsgivernavn;
+};
+
+export const useArbeidsgiverbransjerRender = (organisasjonsnummer: string): Agurkifiserbar<string[]> => {
+    const anonymiseringIsEnabled = usePersondataSkalAnonymiseres();
+    const bransjer = useArbeidsgiver(organisasjonsnummer).bransjer;
+
+    return anonymiseringIsEnabled ? bransjer.map((it) => 'Agurkifisert bransje') : bransjer;
+};
+
+export const useArbeidsforholdRender = (organisasjonsnummer: string): Agurkifiserbar<ExternalArbeidsforhold[]> => {
+    const anonymiseringIsEnabled = usePersondataSkalAnonymiseres();
+    const arbeidsforhold =
+        usePerson()?.arbeidsforhold.filter((it) => it.organisasjonsnummer === organisasjonsnummer) ?? [];
+
+    return anonymiseringIsEnabled
+        ? arbeidsforhold.map((it) => ({ ...it, stillingstittel: 'Agurkifisert stillingstittel' }))
+        : arbeidsforhold;
 };
 
 export const useIsLoadingPerson = () => useRecoilValue(loadingPersonState);

@@ -3,7 +3,11 @@ import React from 'react';
 
 import { AgurkErrorBoundary } from '../../../components/AgurkErrorBoundary';
 import { førsteVedtaksperiode, getSkjæringstidspunkt } from '../../../mapping/selectors';
-import { usePersondataSkalAnonymiseres } from '../../../state/person';
+import {
+    useOrganisasjonsnummer,
+    usePersondataSkalAnonymiseres,
+    useVilkårsgrunnlaghistorikk,
+} from '../../../state/person';
 import { NORSK_DATOFORMAT } from '../../../utils/date';
 
 import { BehandletSykepengegrunnlag } from './BehandletSykepengegrunnlag';
@@ -21,9 +25,18 @@ const Container = styled.section`
 interface SykepengegrunnlagProps {
     vedtaksperiode: Vedtaksperiode;
     person: Person;
+    vilkårsgrunnlaghistorikkId: UUID;
+    skjæringstidspunkt: DateString;
 }
 
-export const Sykepengegrunnlag = ({ vedtaksperiode, person }: SykepengegrunnlagProps) => {
+export const Sykepengegrunnlag = ({
+    vedtaksperiode,
+    person,
+    vilkårsgrunnlaghistorikkId,
+    skjæringstidspunkt,
+}: SykepengegrunnlagProps) => {
+    const organisasjonsnummer = useOrganisasjonsnummer();
+    const vilkårsgrunnlag = useVilkårsgrunnlaghistorikk(skjæringstidspunkt, vilkårsgrunnlaghistorikkId);
     const { periodetype, inntektsgrunnlag, behandlet } = vedtaksperiode;
     const anonymiseringEnabled = usePersondataSkalAnonymiseres();
 
@@ -35,11 +48,12 @@ export const Sykepengegrunnlag = ({ vedtaksperiode, person }: SykepengegrunnlagP
         <Container className="Sykepengegrunnlag">
             <AgurkErrorBoundary>
                 {periodetype === 'førstegangsbehandling' && !behandlet ? (
-                    <UbehandletSykepengegrunnlag
-                        inntektsgrunnlag={inntektsgrunnlag}
-                        inntektskilde={arbeidsgiverinntekt}
-                        anonymiseringEnabled={anonymiseringEnabled}
-                    />
+                    vilkårsgrunnlag?.vilkårsgrunnlagtype === 'SPLEIS' && (
+                        <UbehandletSykepengegrunnlag
+                            vilkårsgrunnlag={vilkårsgrunnlag as ExternalSpleisVilkårsgrunnlag}
+                            organisasjonsnummer={organisasjonsnummer}
+                        />
+                    )
                 ) : periodetype === 'infotrygdforlengelse' ? (
                     <SykepengegrunnlagFraInfogtrygd
                         inntektsgrunnlag={inntektsgrunnlag}

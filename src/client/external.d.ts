@@ -445,7 +445,7 @@ declare type ExternalGenerasjon = {
 };
 
 declare type ExternalArbeidsgiver = {
-    bransjer?: string[];
+    bransjer: string[];
     id: string;
     organisasjonsnummer: string;
     navn: string;
@@ -650,3 +650,5 @@ declare type ExternalNotat = {
     feilregistrert: boolean;
     saksbehandlerIdent?: string;
 };
+
+declare type Agurkifiserbar<T> = T;

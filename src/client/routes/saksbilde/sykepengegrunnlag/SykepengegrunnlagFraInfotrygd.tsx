@@ -32,7 +32,7 @@ export const SykepengegrunnlagFraInfogtrygd = ({
 }: SykepengegrunnlagFraInfogtrygdProps) => (
     <BehandletAvInfotrygdVarsel tittel="Sykepengegrunnlag satt i Infotrygd">
         <OversiktContainer>
-            <Inntektskilderinnhold inntektskilde={inntekt!} anonymiseringEnabled={anonymiseringEnabled} />
+            <Inntektskilderinnhold inntekt={inntekt!} anonymiseringEnabled={anonymiseringEnabled} />
             <Strek />
             <SykepengegrunnlagInfotrygd inntektsgrunnlag={inntektsgrunnlag} />
         </OversiktContainer>

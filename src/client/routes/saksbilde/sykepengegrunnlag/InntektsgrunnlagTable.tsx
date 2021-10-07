@@ -1,20 +1,12 @@
 import styled from '@emotion/styled';
-import React from 'react';
+import React, { Dispatch, SetStateAction } from 'react';
 
 import { BodyShort } from '@navikt/ds-react';
 
 import { FlexColumn } from '../../../components/Flex';
 import { somPenger } from '../../../utils/locale';
 
-import { getAnonymArbeidsgiverForOrgnr } from '../../../agurkdata';
 import { Inntektssammenligning } from './Inntektssammenligning';
-
-interface InntektsgrunnlaginnholdProps {
-    inntektsgrunnlag: Inntektsgrunnlag;
-    anonymiseringEnabled: boolean;
-    aktivInntektskilde: Arbeidsgiverinntekt;
-    setAktivInntektskilde: (inntektskilde: Arbeidsgiverinntekt) => void;
-}
 
 const Container = styled(FlexColumn)`
     --fixed-column-width: 14rem;
@@ -79,11 +71,24 @@ const Table = styled.table`
     }
 `;
 
+interface InntektsgrunnlaginnholdProps {
+    inntekter: ExternalArbeidsgiverinntekt[];
+    omregnetÅrsinntekt: number | null;
+    sammenligningsgrunnlag: number | null;
+    avviksprosent: number | null;
+    sykepengegrunnlag: number;
+    setAktivInntektskilde: Dispatch<SetStateAction<ExternalArbeidsgiverinntekt>>;
+    gjeldendeOrganisasjonsnummer: string;
+}
+
 export const InntektsgrunnlagTable = ({
-    inntektsgrunnlag,
-    anonymiseringEnabled,
-    aktivInntektskilde,
+    inntekter,
+    omregnetÅrsinntekt,
+    sammenligningsgrunnlag,
+    avviksprosent,
+    sykepengegrunnlag,
     setAktivInntektskilde,
+    gjeldendeOrganisasjonsnummer,
 }: InntektsgrunnlaginnholdProps) => (
     <Container className="Inntektsgunnlaginnhold">
         <Table>
@@ -110,20 +115,14 @@ export const InntektsgrunnlagTable = ({
                 </tr>
             </thead>
             <tbody>
-                {inntektsgrunnlag.inntekter.map((inntekt, index) => (
+                {inntekter.map((inntekt, index) => (
                     <Inntektssammenligning
-                        onSetAktivInntektskilde={() => setAktivInntektskilde(inntekt)}
-                        key={inntekt.organisasjonsnummer + index}
-                        arbeidsgiver={
-                            anonymiseringEnabled
-                                ? `${getAnonymArbeidsgiverForOrgnr(inntekt.organisasjonsnummer).navn}`
-                                : inntekt.arbeidsgivernavn.toLowerCase() !== 'ikke tilgjengelig'
-                                ? `${inntekt.arbeidsgivernavn} (${inntekt.organisasjonsnummer})`
-                                : inntekt.organisasjonsnummer
-                        }
+                        key={index}
+                        organisasjonsnummer={inntekt.organisasjonsnummer}
                         omregnetÅrsinntekt={inntekt.omregnetÅrsinntekt}
                         sammenligningsgrunnlag={inntekt.sammenligningsgrunnlag}
-                        erGjeldende={aktivInntektskilde.organisasjonsnummer === inntekt.organisasjonsnummer}
+                        erGjeldende={gjeldendeOrganisasjonsnummer === inntekt.organisasjonsnummer}
+                        onSetAktivInntektskilde={() => setAktivInntektskilde(inntekt)}
                     />
                 ))}
             </tbody>
@@ -133,10 +132,10 @@ export const InntektsgrunnlagTable = ({
                         <Bold as="p">Total</Bold>
                     </td>
                     <td>
-                        <Bold as="p">{somPenger(inntektsgrunnlag.omregnetÅrsinntekt)}</Bold>
+                        <Bold as="p">{somPenger(omregnetÅrsinntekt)}</Bold>
                     </td>
                     <td>
-                        <Bold as="p">{somPenger(inntektsgrunnlag.sammenligningsgrunnlag)}</Bold>
+                        <Bold as="p">{somPenger(sammenligningsgrunnlag)}</Bold>
                     </td>
                 </tr>
             </tfoot>
@@ -148,7 +147,7 @@ export const InntektsgrunnlagTable = ({
                         <BodyShort>Total omregnet årsinntekt</BodyShort>
                     </td>
                     <td>
-                        <RightAligned as="p">{somPenger(inntektsgrunnlag.omregnetÅrsinntekt)}</RightAligned>
+                        <RightAligned as="p">{somPenger(omregnetÅrsinntekt)}</RightAligned>
                     </td>
                 </tr>
                 <tr>
@@ -156,7 +155,7 @@ export const InntektsgrunnlagTable = ({
                         <BodyShort>Total rapportert årsinntekt</BodyShort>
                     </td>
                     <td>
-                        <RightAligned as="p">{somPenger(inntektsgrunnlag.sammenligningsgrunnlag)}</RightAligned>
+                        <RightAligned as="p">{somPenger(sammenligningsgrunnlag)}</RightAligned>
                     </td>
                 </tr>
             </tbody>
@@ -167,7 +166,7 @@ export const InntektsgrunnlagTable = ({
                     </td>
                     <td>
                         <BoldRightAligned as="p">
-                            {inntektsgrunnlag.avviksprosent ? `${Math.floor(inntektsgrunnlag.avviksprosent)} %` : '-'}
+                            {avviksprosent ? `${Math.floor(avviksprosent)} %` : '-'}
                         </BoldRightAligned>
                     </td>
                 </tr>
@@ -176,7 +175,7 @@ export const InntektsgrunnlagTable = ({
                         <Bold as="p">Sykepengegrunnlag</Bold>
                     </td>
                     <td>
-                        <BoldRightAligned as="p">{somPenger(inntektsgrunnlag.sykepengegrunnlag)}</BoldRightAligned>
+                        <BoldRightAligned as="p">{somPenger(sykepengegrunnlag)}</BoldRightAligned>
                     </td>
                 </tr>
             </tfoot>

@@ -62,7 +62,7 @@ const useUtbetalingstatus = (): UtbetalingshistorikkElement['status'] | undefine
 };
 
 interface InntektProps {
-    omregnetÅrsinntekt?: OmregnetÅrsinntekt;
+    omregnetÅrsinntekt: ExternalOmregnetÅrsinntekt | null;
 }
 
 export const Inntekt = ({ omregnetÅrsinntekt }: InntektProps) => {

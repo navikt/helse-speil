@@ -17,26 +17,38 @@ const Strek = styled.span`
     margin: 0 2.5rem;
 `;
 
+const getInntekt = (
+    vilkårsgrunnlag: ExternalVilkårsgrunnlag,
+    organisasjonsnummer: string
+): ExternalArbeidsgiverinntekt =>
+    vilkårsgrunnlag.inntekter.find(
+        (it) => it.organisasjonsnummer === organisasjonsnummer
+    ) as ExternalArbeidsgiverinntekt;
+
 export interface UbehandletSykepengegrunnlagProps {
-    inntektsgrunnlag: Inntektsgrunnlag;
-    inntektskilde?: Arbeidsgiverinntekt;
-    anonymiseringEnabled: boolean;
+    vilkårsgrunnlag: ExternalSpleisVilkårsgrunnlag;
+    organisasjonsnummer: string;
 }
 
 export const UbehandletSykepengegrunnlag = ({
-    inntektsgrunnlag,
-    inntektskilde,
-    anonymiseringEnabled,
+    vilkårsgrunnlag,
+    organisasjonsnummer,
 }: UbehandletSykepengegrunnlagProps) => {
-    const [aktivInntektskilde, setAktivInntektskilde] = useState<Arbeidsgiverinntekt>(inntektskilde!);
+    const [aktivInntektskilde, setAktivInntektskilde] = useState<ExternalArbeidsgiverinntekt>(
+        getInntekt(vilkårsgrunnlag, organisasjonsnummer)
+    );
+
     return (
         <Container>
-            <Inntektskilderinnhold inntektskilde={aktivInntektskilde} anonymiseringEnabled={anonymiseringEnabled} />
+            <Inntektskilderinnhold inntekt={aktivInntektskilde} />
             <Strek />
             <InntektsgrunnlagTable
-                inntektsgrunnlag={inntektsgrunnlag}
-                anonymiseringEnabled={anonymiseringEnabled}
-                aktivInntektskilde={aktivInntektskilde}
+                inntekter={vilkårsgrunnlag.inntekter}
+                omregnetÅrsinntekt={vilkårsgrunnlag.omregnetÅrsinntekt}
+                sammenligningsgrunnlag={vilkårsgrunnlag.sammenligningsgrunnlag}
+                avviksprosent={vilkårsgrunnlag.avviksprosent}
+                sykepengegrunnlag={vilkårsgrunnlag.sykepengegrunnlag}
+                gjeldendeOrganisasjonsnummer={organisasjonsnummer}
                 setAktivInntektskilde={setAktivInntektskilde}
             />
         </Container>

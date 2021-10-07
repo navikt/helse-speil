@@ -11,6 +11,7 @@ import { useMaksdato } from '../../../modell/utbetalingshistorikkelement';
 import { useInnloggetSaksbehandler } from '../../../state/authentication';
 import { usePersondataSkalAnonymiseres } from '../../../state/person';
 import { useOppgavereferanse, useVedtaksperiode } from '../../../state/tidslinje';
+import { ISO_DATOFORMAT, NORSK_DATOFORMAT } from '../../../utils/date';
 
 import { AmplitudeProvider } from '../AmplitudeContext';
 import { getErrorMessage } from '../errorMessages';
@@ -95,7 +96,16 @@ export const SaksbildeFullstendigPeriode = ({ personTilBehandling, aktivPeriode 
                         </Route>
                         <Route path={`${path}/sykepengegrunnlag`}>
                             <RouteContainer>
-                                <Sykepengegrunnlag vedtaksperiode={vedtaksperiode} person={personTilBehandling} />
+                                {skjæringstidspunkt && aktivPeriode.vilkårsgrunnlaghistorikkId ? (
+                                    <Sykepengegrunnlag
+                                        vedtaksperiode={vedtaksperiode}
+                                        person={personTilBehandling}
+                                        skjæringstidspunkt={skjæringstidspunkt.format(ISO_DATOFORMAT)}
+                                        vilkårsgrunnlaghistorikkId={aktivPeriode.vilkårsgrunnlaghistorikkId}
+                                    />
+                                ) : (
+                                    <div>Ooops</div>
+                                )}
                             </RouteContainer>
                         </Route>
                         {vedtaksperiode.risikovurdering && (

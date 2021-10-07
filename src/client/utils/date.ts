@@ -24,3 +24,5 @@ export const findEarliest = (dates: Dayjs[]): Dayjs => {
         .sort((a, b) => (b.isBefore(a) ? -1 : a.isBefore(b) ? 1 : 0))
         .pop()!;
 };
+
+export const tilNorskDato = (dateString: DateString): string => dayjs(dateString).format(NORSK_DATOFORMAT);

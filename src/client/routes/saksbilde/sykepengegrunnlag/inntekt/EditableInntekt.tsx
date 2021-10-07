@@ -202,7 +202,7 @@ const usePostOverstyrtInntekt = (onFerdigKalkulert: () => void) => {
 };
 
 interface EditableInntektProps {
-    omregnetÅrsinntekt: OmregnetÅrsinntekt;
+    omregnetÅrsinntekt: ExternalOmregnetÅrsinntekt;
     close: () => void;
     onEndre: (erEndret: boolean) => void;
 }
