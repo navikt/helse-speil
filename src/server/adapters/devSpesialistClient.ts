@@ -113,7 +113,7 @@ const filenameForPersonId = (id: string) => {
             return 'vakker_ert_avventer_simulering_revurdering.json';
         case '09038418927':
         case '2259231372981':
-            return 'vakker_ert_en_utbetalt_periode.json';
+            return 'vakker_ert_enkel_forlengelse.json';
         case '30086320343':
         case '2315736979797':
             return 'lur_muldvarp_flere_ag_utbetalt.json';

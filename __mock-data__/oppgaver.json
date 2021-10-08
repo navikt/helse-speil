@@ -214,5 +214,27 @@
             "navn": "Vesten"
         },
         "inntektskilde": "FLERE_ARBEIDSGIVERE"
+    },
+    {
+        "oppgavereferanse": "2740",
+        "opprettet": "2021-02-01T23:04:09.454",
+        "fødselsnummer": "09038418927",
+        "aktørId": "2259231372981",
+        "personinfo": {
+            "fornavn": "Vakker",
+            "mellomnavn": null,
+            "etternavn": "Ert",
+            "fødselsdato": "1990-02-16",
+            "kjønn": "Mann"
+        },
+        "vedtaksperiodeId": "87c0469c-16a5-4986-b756-7e4a7cdfcd71",
+        "type": "FORLENGELSE",
+        "oppgavetype": "SØKNAD",
+        "antallVarsler": 0,
+        "boenhet": {
+            "id": "1938",
+            "navn": "Vesten"
+        },
+        "inntektskilde": "EN_ARBEIDSGIVER"
     }
 ]
