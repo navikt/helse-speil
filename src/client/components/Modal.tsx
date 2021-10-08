@@ -114,20 +114,18 @@ export const Modal: React.FunctionComponent<ModalProps> = ({
     contentLabel,
     shouldReturnFocusAfterClose,
 }) => (
-    <span onClick={(event) => event.stopPropagation()}>
-        <SpeilModal
-            id="modal"
-            className={className}
-            isOpen={isOpen}
-            contentLabel={contentLabel}
-            onRequestClose={onRequestClose}
-            shouldReturnFocusAfterClose={shouldReturnFocusAfterClose}
-        >
-            <Topprad>
-                <Lukknapp onClick={onRequestClose} />
-                {title}
-            </Topprad>
-            {children}
-        </SpeilModal>
-    </span>
+    <SpeilModal
+        id="modal"
+        className={className}
+        isOpen={isOpen}
+        contentLabel={contentLabel}
+        onRequestClose={onRequestClose}
+        shouldReturnFocusAfterClose={shouldReturnFocusAfterClose}
+    >
+        <Topprad>
+            <Lukknapp onClick={onRequestClose} />
+            {title}
+        </Topprad>
+        {children}
+    </SpeilModal>
 );
