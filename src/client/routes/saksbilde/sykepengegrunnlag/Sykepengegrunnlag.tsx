@@ -56,9 +56,8 @@ export const Sykepengegrunnlag = ({
                     )
                 ) : periodetype === 'infotrygdforlengelse' ? (
                     <SykepengegrunnlagFraInfogtrygd
-                        inntektsgrunnlag={inntektsgrunnlag}
-                        inntekt={arbeidsgiverinntekt!}
-                        anonymiseringEnabled={anonymiseringEnabled}
+                        vilkårsgrunnlag={vilkårsgrunnlag as ExternalInfotrygdVilkårsgrunnlag}
+                        organisasjonsnummer={organisasjonsnummer}
                     />
                 ) : (
                     <BehandletSykepengegrunnlag

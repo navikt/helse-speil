@@ -6,15 +6,9 @@ import { BodyShort } from '@navikt/ds-react';
 
 import { FlexColumn } from '../../../components/Flex';
 import { Kilde } from '../../../components/Kilde';
-import { usePersondataSkalAnonymiseres } from '../../../state/person';
+import { useArbeidsgivernavnRender } from '../../../state/person';
 import { getKildeType, kilde } from '../../../utils/inntektskilde';
 import { somPenger } from '../../../utils/locale';
-
-import { getAnonymArbeidsgiverForOrgnr } from '../../../agurkdata';
-
-interface SykepengegrunnlagInfotrygdProps {
-    inntektsgrunnlag: Inntektsgrunnlag;
-}
 
 const Container = styled(FlexColumn)`
     --fixed-column-width: 20rem;
@@ -102,8 +96,17 @@ const ArbeidsgiverRad = styled.tr<{ erGjeldende: boolean }>`
     }
 `;
 
-export const SykepengegrunnlagInfotrygd = ({ inntektsgrunnlag }: SykepengegrunnlagInfotrygdProps) => {
-    const anonymiseringEnabled = usePersondataSkalAnonymiseres();
+interface SykepengegrunnlagInfotrygdProps {
+    vilkårsgrunnlag: ExternalInfotrygdVilkårsgrunnlag;
+    organisasjonsnummer: string;
+}
+
+export const SykepengegrunnlagInfotrygd = ({
+    vilkårsgrunnlag,
+    organisasjonsnummer,
+}: SykepengegrunnlagInfotrygdProps) => {
+    const arbeidsgivernavn = useArbeidsgivernavnRender(organisasjonsnummer);
+
     return (
         <Container className="SykepengegrunnlagInfotrygd">
             <Table>
@@ -124,18 +127,13 @@ export const SykepengegrunnlagInfotrygd = ({ inntektsgrunnlag }: Sykepengegrunnl
                     </tr>
                 </thead>
                 <tbody>
-                    {inntektsgrunnlag.inntekter.map((inntekt, index) => (
-                        <ArbeidsgiverRad
-                            key={index}
-                            erGjeldende={inntektsgrunnlag.organisasjonsnummer === inntekt.organisasjonsnummer}
-                        >
+                    {vilkårsgrunnlag.inntekter.map((inntekt, index) => (
+                        <ArbeidsgiverRad key={index} erGjeldende={organisasjonsnummer === inntekt.organisasjonsnummer}>
                             <td>
                                 <BodyShort>
-                                    {anonymiseringEnabled
-                                        ? `${getAnonymArbeidsgiverForOrgnr(inntekt.organisasjonsnummer).navn}`
-                                        : inntekt.arbeidsgivernavn.toLowerCase() !== 'ikke tilgjengelig'
-                                        ? `${inntekt.arbeidsgivernavn} (${inntekt.organisasjonsnummer})`
-                                        : inntekt.organisasjonsnummer}
+                                    {arbeidsgivernavn.toLowerCase() === 'ikke tilgjengelig'
+                                        ? organisasjonsnummer
+                                        : `${arbeidsgivernavn} (${organisasjonsnummer})`}
                                 </BodyShort>
                             </td>
                             <td>
@@ -161,7 +159,7 @@ export const SykepengegrunnlagInfotrygd = ({ inntektsgrunnlag }: Sykepengegrunnl
                             <Bold as="p">Total</Bold>
                         </td>
                         <td>
-                            <Bold as="p">{somPenger(inntektsgrunnlag.omregnetÅrsinntekt)}</Bold>
+                            <Bold as="p">{somPenger(vilkårsgrunnlag.omregnetÅrsinntekt)}</Bold>
                         </td>
                     </tr>
                     <tr>
@@ -169,7 +167,7 @@ export const SykepengegrunnlagInfotrygd = ({ inntektsgrunnlag }: Sykepengegrunnl
                             <Bold as="p">Sykepengegrunnlag</Bold>
                         </td>
                         <td>
-                            <Bold as="p">{somPenger(inntektsgrunnlag.sykepengegrunnlag)}</Bold>
+                            <Bold as="p">{somPenger(vilkårsgrunnlag.sykepengegrunnlag)}</Bold>
                         </td>
                     </tr>
                 </tfoot>

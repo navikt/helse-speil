@@ -20,21 +20,28 @@ const Strek = styled.span`
 `;
 
 interface SykepengegrunnlagFraInfogtrygdProps {
-    inntektsgrunnlag: Inntektsgrunnlag;
-    inntekt: Arbeidsgiverinntekt;
-    anonymiseringEnabled: boolean;
+    vilkårsgrunnlag: ExternalInfotrygdVilkårsgrunnlag;
+    organisasjonsnummer: string;
 }
 
 export const SykepengegrunnlagFraInfogtrygd = ({
-    inntektsgrunnlag,
-    inntekt,
-    anonymiseringEnabled,
-}: SykepengegrunnlagFraInfogtrygdProps) => (
-    <BehandletAvInfotrygdVarsel tittel="Sykepengegrunnlag satt i Infotrygd">
-        <OversiktContainer>
-            <Inntektskilderinnhold inntekt={inntekt!} anonymiseringEnabled={anonymiseringEnabled} />
-            <Strek />
-            <SykepengegrunnlagInfotrygd inntektsgrunnlag={inntektsgrunnlag} />
-        </OversiktContainer>
-    </BehandletAvInfotrygdVarsel>
-);
+    vilkårsgrunnlag,
+    organisasjonsnummer,
+}: SykepengegrunnlagFraInfogtrygdProps) => {
+    const inntekt = vilkårsgrunnlag.inntekter.find(
+        (it) => it.organisasjonsnummer === organisasjonsnummer
+    ) as ExternalArbeidsgiverinntekt;
+
+    return (
+        <BehandletAvInfotrygdVarsel tittel="Sykepengegrunnlag satt i Infotrygd">
+            <OversiktContainer>
+                <Inntektskilderinnhold inntekt={inntekt} />
+                <Strek />
+                <SykepengegrunnlagInfotrygd
+                    vilkårsgrunnlag={vilkårsgrunnlag}
+                    organisasjonsnummer={organisasjonsnummer}
+                />
+            </OversiktContainer>
+        </BehandletAvInfotrygdVarsel>
+    );
+};
