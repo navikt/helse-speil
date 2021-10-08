@@ -1,7 +1,6 @@
 import React from 'react';
 
-import { BehandletAvInfotrygdVarsel } from '@navikt/helse-frontend-varsel';
-
+import { Infotrygdvurdering } from '../../../../components/Infotrygdvurdering';
 import { Vilkårdata } from '../../../../mapping/vilkår';
 
 import { BehandletVarselContent, Vilkårgrid, Vilkårgruppe } from '../Vilkår.styles';
@@ -12,7 +11,7 @@ interface VurdertIInfotrygdProps {
 }
 
 export const VurdertIInfotrygd = ({ vilkår }: VurdertIInfotrygdProps) => (
-    <BehandletAvInfotrygdVarsel tittel="Inngangsvilkår vurdert i Infotrygd">
+    <Infotrygdvurdering title="Inngangsvilkår vurdert i Infotrygd">
         <BehandletVarselContent data-testid="vurdert-i-infotrygd" aria-label="Vilkår vurdert i Infotrygd">
             {vilkår.map(({ tittel, paragraf, komponent, type }, i) => (
                 <Vilkårgruppe key={i}>
@@ -23,5 +22,5 @@ export const VurdertIInfotrygd = ({ vilkår }: VurdertIInfotrygdProps) => (
                 </Vilkårgruppe>
             ))}
         </BehandletVarselContent>
-    </BehandletAvInfotrygdVarsel>
+    </Infotrygdvurdering>
 );
