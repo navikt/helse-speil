@@ -86,7 +86,7 @@ const filenameForPersonId = (id: string) => {
             return 'kong-harald.json';
         case '87654321962123':
         case '12020042069':
-            return 'dronning-sonja_forlengelse-revurdering.json';
+            return 'dronning-sonja_infotrygdforlengelse.json';
         case '2836012894592':
         case '19047622436':
             return 'sniff_førstegangsbehandling_revurdering.json';
