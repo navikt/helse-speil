@@ -1,7 +1,7 @@
 {
     "utbetalinger": [],
     "aktørId": "87654321962123",
-    "fødselsnummer": "12020042069",
+    "fødselsnummer": "04073732100",
     "dødsdato": null,
     "personinfo": {
         "fornavn": "Dronning",
@@ -439,7 +439,7 @@
             "bransjer": [],
             "utbetalingshistorikk": [
                 {
-                    "beregningid": "697dfc0e-433c-4fc6-b559-98c5c6dd1b78",
+                    "beregningId": "697dfc0e-433c-4fc6-b559-98c5c6dd1b78",
                     "vilkårsgrunnlaghistorikkid": "6cbcd937-4b08-4ba6-916f-dd9b8d19eb72",
                     "beregnettidslinje": [
                         {
@@ -759,7 +759,7 @@
                         "arbeidsgiverNettoBeløp": 4200,
                         "arbeidsgiverFagsystemId": "MINFAGSYSTEMID",
                         "maksdato": "2022-07-07",
-                        "beregningid": "697dfc0e-433c-4fc6-b559-98c5c6dd1b78",
+                        "beregningId": "697dfc0e-433c-4fc6-b559-98c5c6dd1b78",
                         "utbetalingstidslinje": [
                             {
                                 "type": "NavHelgDag",
