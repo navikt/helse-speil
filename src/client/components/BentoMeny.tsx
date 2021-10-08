@@ -70,6 +70,10 @@ interface BentoLenkeProps {
     href: string;
 }
 
+interface AInntektRedirectLenkeProps {
+    person: Person | undefined;
+}
+
 const BentoLenke: React.FC<BentoLenkeProps> = ({ href, children }) => (
     <MenyLenke href={href} target="_blank">
         {children}
@@ -77,17 +81,32 @@ const BentoLenke: React.FC<BentoLenkeProps> = ({ href, children }) => (
     </MenyLenke>
 );
 
+const AInntektRedirigerLenke: React.FC<AInntektRedirectLenkeProps> = ({ person, children }) =>
+    person ? (
+        <MenyLenke onClick={() => redirigerTilAInntekt(person.fødselsnummer)}>{children}</MenyLenke>
+    ) : (
+        <MenyLenke href="https://arbeid-og-inntekt.nais.adeo.no" target="_blank">
+            {children}
+        </MenyLenke>
+    );
+
+const redirigerTilAInntekt = (fødselsnummer: string) => {
+    return fetch('https://arbeid-og-inntekt.nais.adeo.no/api/v2/redirect/sok/a-inntekt', {
+        method: 'GET',
+        headers: {
+            'Nav-Personident': fødselsnummer,
+        },
+    })
+        .then((response) => response.text())
+        .then((data) => window.open(data))
+        .catch(() => window.open('https://arbeid-og-inntekt.nais.adeo.no/api/v2/redirect/error'));
+};
+
 export const BentoMeny = () => {
     const [anchor, setAnchor] = useState<HTMLElement | null>(null);
     const person = usePerson();
 
     const links: { tekst: string; href: string }[] = [
-        {
-            tekst: 'A-inntekt',
-            href: person
-                ? `https://modapp.adeo.no/a-inntekt/person/${person.fødselsnummer}?4&soekekontekst=PERSON&modia.global.hent.person.begrunnet=false#!PersonInntektLamell`
-                : 'https://modapp.adeo.no/a-inntekt/',
-        },
         {
             tekst: 'Aa-registeret',
             href: person
@@ -130,6 +149,7 @@ export const BentoMeny = () => {
                 tabIndex={-1}
             >
                 <Tittel as="p">Systemer og oppslagsverk</Tittel>
+                <AInntektRedirigerLenke person={person}>A-Inntekt</AInntektRedirigerLenke>
                 {links.map(({ tekst, href }) => (
                     <BentoLenke key={href} href={href}>
                         {tekst}
