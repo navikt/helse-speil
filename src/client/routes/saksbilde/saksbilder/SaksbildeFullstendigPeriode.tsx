@@ -45,7 +45,6 @@ export const SaksbildeFullstendigPeriode = ({ personTilBehandling, aktivPeriode 
     const { path } = useRouteMatch();
     const vedtaksperiode = useVedtaksperiode(aktivPeriode.id) as Vedtaksperiode;
     const oppgavereferanse = useOppgavereferanse(aktivPeriode.beregningId);
-    const arbeidsgivernavn = useArbeidsgivernavn(aktivPeriode.organisasjonsnummer) ?? 'Ukjent';
     const arbeidsforhold = useArbeidsforhold(aktivPeriode.organisasjonsnummer) ?? [];
     const errorMelding = getErrorMessage(aktivPeriode.tilstand);
 
@@ -64,7 +63,6 @@ export const SaksbildeFullstendigPeriode = ({ personTilBehandling, aktivPeriode 
                 <VenstreMeny
                     aktivPeriode={aktivPeriode}
                     maksdato={maksdato}
-                    arbeidsgivernavn={arbeidsgivernavn}
                     organisasjonsnummer={aktivPeriode.organisasjonsnummer}
                     arbeidsforhold={arbeidsforhold}
                     anonymiseringEnabled={anonymiseringEnabled}

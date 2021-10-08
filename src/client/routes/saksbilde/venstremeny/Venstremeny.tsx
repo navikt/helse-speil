@@ -24,7 +24,6 @@ const Container = styled.section`
 
 interface VenstreMenyProps {
     aktivPeriode: Tidslinjeperiode;
-    arbeidsgivernavn: string;
     organisasjonsnummer: string;
     arbeidsforhold: Arbeidsforhold[];
     anonymiseringEnabled: boolean;
@@ -37,7 +36,6 @@ interface VenstreMenyProps {
 
 export const VenstreMeny = ({
     aktivPeriode,
-    arbeidsgivernavn,
     organisasjonsnummer,
     arbeidsforhold,
     anonymiseringEnabled,
@@ -60,13 +58,7 @@ export const VenstreMeny = ({
                 gjenståendeDager={gjenståendeDager}
                 over67år={over67År}
             />
-            <ArbeidsgiverCard
-                arbeidsgivernavn={arbeidsgivernavn}
-                organisasjonsnummer={organisasjonsnummer}
-                arbeidsforhold={arbeidsforhold}
-                anonymiseringEnabled={anonymiseringEnabled}
-                månedsbeløp={månedsbeløp}
-            />
+            <ArbeidsgiverCard organisasjonsnummer={organisasjonsnummer} månedsbeløp={månedsbeløp} />
             <VilkårCard aktivPeriode={aktivPeriode} />
             {skjæringstidspunkt && aktivPeriode.vilkårsgrunnlaghistorikkId && (
                 <UtbetalingCard
