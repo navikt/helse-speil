@@ -16,7 +16,14 @@ const UtbetalingView = ({ aktivPeriode }: { aktivPeriode: Tidslinjeperiode }) =>
     return (
         <RecoilRoot
             initializeState={({ set }) => {
-                set(personState, { person: { ...mappetPerson(), vilkårsgrunnlagHistorikk: {} } });
+                set(personState, {
+                    person: {
+                        ...mappetPerson(),
+                        vilkårsgrunnlagHistorikk: {},
+                        arbeidsgivereV2: [],
+                        arbeidsforhold: [],
+                    },
+                });
             }}
         >
             <MemoryRouter>

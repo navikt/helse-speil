@@ -61,6 +61,8 @@ describe('vilkårsgrunnlagHook', () => {
                                 vilkårsgrunnlagHistorikk: {
                                     id1: { '2020-10-21': etSpleisgrunnlag({ skjæringstidspunkt: '2020-10-21' }) },
                                 },
+                                arbeidsgivereV2: [],
+                                arbeidsforhold: [],
                             },
                         });
                     }}
@@ -81,6 +83,8 @@ describe('vilkårsgrunnlagHook', () => {
                             person: {
                                 ...mappetPerson(),
                                 vilkårsgrunnlagHistorikk: {},
+                                arbeidsgivereV2: [],
+                                arbeidsforhold: [],
                             },
                         });
                     }}
