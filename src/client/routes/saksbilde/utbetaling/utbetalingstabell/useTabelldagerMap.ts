@@ -33,7 +33,8 @@ export const useTabelldagerMap = (
 ): Map<string, UtbetalingstabellDag> =>
     useMemo(() => {
         const antallDagerIgjen =
-            gjenståendeDager ?? 0 + antallSykedagerTilOgMedMaksdato(periode.utbetalingstidslinje, maksdato);
+            (gjenståendeDager ? gjenståendeDager : 0) +
+            antallSykedagerTilOgMedMaksdato(periode.utbetalingstidslinje, maksdato);
 
         const dager: UtbetalingstabellDag[] = withDagerIgjen(periode.utbetalingstidslinje, antallDagerIgjen).map(
             (it, i) => ({
