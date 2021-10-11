@@ -2,6 +2,8 @@ import styled from '@emotion/styled';
 import React from 'react';
 import { Route, Switch, useRouteMatch } from 'react-router-dom';
 
+import { BodyLong } from '@navikt/ds-react';
+
 import { ErrorBoundary } from '../../../components/ErrorBoundary';
 import { Tooltip } from '../../../components/Tooltip';
 import { useSetVedtaksperiodeReferanserForNotater } from '../../../hooks/useSetVedtaksperiodeReferanserForNotater';
@@ -97,12 +99,15 @@ export const SaksbildeFullstendigPeriode = ({ personTilBehandling, aktivPeriode 
                                 {skjæringstidspunkt && aktivPeriode.vilkårsgrunnlaghistorikkId ? (
                                     <Sykepengegrunnlag
                                         vedtaksperiode={vedtaksperiode}
-                                        person={personTilBehandling}
+                                        aktivPeriode={aktivPeriode}
                                         skjæringstidspunkt={skjæringstidspunkt.format(ISO_DATOFORMAT)}
                                         vilkårsgrunnlaghistorikkId={aktivPeriode.vilkårsgrunnlaghistorikkId}
                                     />
                                 ) : (
-                                    <div>Ooops</div>
+                                    <BodyLong>
+                                        Mangler skjæringstidspunkt eller vilkårsgrunnlag-historikk. Ta kontakt med en
+                                        utvikler.
+                                    </BodyLong>
                                 )}
                             </RouteContainer>
                         </Route>

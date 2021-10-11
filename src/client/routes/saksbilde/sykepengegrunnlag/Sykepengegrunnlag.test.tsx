@@ -33,7 +33,7 @@ const wrapper: React.FC = ({ children }) => (
 
 describe('Sykepengegrunnlag', () => {
     test('rendrer ubehandlet sykepengegrunnlag', () => {
-        render(<Sykepengegrunnlag vedtaksperiode={enVedtaksperiodeIM} person={enPerson} />, { wrapper });
+        render(<Sykepengegrunnlag vedtaksperiode={enVedtaksperiodeIM} />, { wrapper });
         expect(screen.queryByText('Sykepengegrunnlag satt ved skjæringstidspunkt - 01.01.2020')).toBeNull();
         expectContainsStandardFields();
     });

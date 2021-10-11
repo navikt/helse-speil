@@ -45,6 +45,8 @@ const wrapper =
                                     person: {
                                         ...personTilBehandling,
                                         vilkårsgrunnlagHistorikk: {},
+                                        arbeidsgivereV2: [],
+                                        arbeidsforhold: [],
                                     },
                                 });
                             set(authState, {

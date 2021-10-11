@@ -2,13 +2,9 @@ import styled from '@emotion/styled';
 import React from 'react';
 
 import { AgurkErrorBoundary } from '../../../components/AgurkErrorBoundary';
-import { førsteVedtaksperiode, getSkjæringstidspunkt } from '../../../mapping/selectors';
-import {
-    useOrganisasjonsnummer,
-    usePersondataSkalAnonymiseres,
-    useVilkårsgrunnlaghistorikk,
-} from '../../../state/person';
-import { NORSK_DATOFORMAT } from '../../../utils/date';
+import { useArbeidsgiver } from '../../../modell/arbeidsgiver';
+import { useUtbetaling } from '../../../modell/utbetalingshistorikkelement';
+import { useOrganisasjonsnummer, useVilkårsgrunnlaghistorikk } from '../../../state/person';
 
 import { BehandletSykepengegrunnlag } from './BehandletSykepengegrunnlag';
 import { SykepengegrunnlagFraInfogtrygd } from './SykepengegrunnlagFraInfotrygd';
@@ -24,25 +20,36 @@ const Container = styled.section`
 
 interface SykepengegrunnlagProps {
     vedtaksperiode: Vedtaksperiode;
-    person: Person;
+    aktivPeriode: Tidslinjeperiode;
     vilkårsgrunnlaghistorikkId: UUID;
     skjæringstidspunkt: DateString;
 }
 
+const sorterAscending = (a: Tidslinjeperiode, b: Tidslinjeperiode) => a.fom.diff(b.fom);
+
+const useVurderingForSkjæringstidspunkt = (uniqueId: string, skjæringstidspunkt: string): Vurdering | undefined => {
+    const perioder = useArbeidsgiver()!.tidslinjeperioder.find((it) => it.find((it) => it.unique === uniqueId)!)!;
+
+    const førstePeriodeForSkjæringstidspunkt = [...perioder]
+        .sort(sorterAscending)
+        .filter((it) => it.skjæringstidspunkt === skjæringstidspunkt)
+        .shift()!;
+
+    return useUtbetaling(førstePeriodeForSkjæringstidspunkt.beregningId)?.vurdering;
+};
+
 export const Sykepengegrunnlag = ({
     vedtaksperiode,
-    person,
+    aktivPeriode,
     vilkårsgrunnlaghistorikkId,
     skjæringstidspunkt,
 }: SykepengegrunnlagProps) => {
     const organisasjonsnummer = useOrganisasjonsnummer();
     const vilkårsgrunnlag = useVilkårsgrunnlaghistorikk(skjæringstidspunkt, vilkårsgrunnlaghistorikkId);
-    const { periodetype, inntektsgrunnlag, behandlet } = vedtaksperiode;
-    const anonymiseringEnabled = usePersondataSkalAnonymiseres();
+    const { periodetype } = vedtaksperiode;
 
-    const arbeidsgiverinntekt = inntektsgrunnlag.inntekter.find(
-        (it) => it.organisasjonsnummer === inntektsgrunnlag.organisasjonsnummer
-    );
+    const vurdering = useVurderingForSkjæringstidspunkt(aktivPeriode.unique, aktivPeriode.skjæringstidspunkt!);
+    const behandlet = !!useUtbetaling(aktivPeriode.beregningId)?.vurdering;
 
     return (
         <Container className="Sykepengegrunnlag">
@@ -60,15 +67,13 @@ export const Sykepengegrunnlag = ({
                         organisasjonsnummer={organisasjonsnummer}
                     />
                 ) : (
-                    <BehandletSykepengegrunnlag
-                        førstePeriode={førsteVedtaksperiode(vedtaksperiode, person)}
-                        skjæringstidspunkt={
-                            getSkjæringstidspunkt(vedtaksperiode)?.format(NORSK_DATOFORMAT) ?? 'Ukjent dato'
-                        }
-                        inntektsgrunnlag={inntektsgrunnlag}
-                        inntektskilde={arbeidsgiverinntekt}
-                        anonymiseringEnabled={anonymiseringEnabled}
-                    />
+                    vurdering && (
+                        <BehandletSykepengegrunnlag
+                            vurdering={vurdering}
+                            vilkårsgrunnlag={vilkårsgrunnlag as ExternalSpleisVilkårsgrunnlag}
+                            organisasjonsnummer={organisasjonsnummer}
+                        />
+                    )
                 )}
             </AgurkErrorBoundary>
         </Container>

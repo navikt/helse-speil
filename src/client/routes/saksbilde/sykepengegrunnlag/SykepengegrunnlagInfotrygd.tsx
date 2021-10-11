@@ -6,7 +6,7 @@ import { BodyShort } from '@navikt/ds-react';
 
 import { FlexColumn } from '../../../components/Flex';
 import { Kilde } from '../../../components/Kilde';
-import { useArbeidsgivernavnRender } from '../../../state/person';
+import { useArbeidsgivernavnRender, useOrganisasjonsnummerRender } from '../../../state/person';
 import { getKildeType, kilde } from '../../../utils/inntektskilde';
 import { somPenger } from '../../../utils/locale';
 
@@ -106,6 +106,7 @@ export const SykepengegrunnlagInfotrygd = ({
     organisasjonsnummer,
 }: SykepengegrunnlagInfotrygdProps) => {
     const arbeidsgivernavn = useArbeidsgivernavnRender(organisasjonsnummer);
+    const renderedOrganisasjonsnummer = useOrganisasjonsnummerRender(organisasjonsnummer);
 
     return (
         <Container className="SykepengegrunnlagInfotrygd">
@@ -132,8 +133,8 @@ export const SykepengegrunnlagInfotrygd = ({
                             <td>
                                 <BodyShort>
                                     {arbeidsgivernavn.toLowerCase() === 'ikke tilgjengelig'
-                                        ? organisasjonsnummer
-                                        : `${arbeidsgivernavn} (${organisasjonsnummer})`}
+                                        ? renderedOrganisasjonsnummer
+                                        : `${arbeidsgivernavn} (${renderedOrganisasjonsnummer})`}
                                 </BodyShort>
                             </td>
                             <td>

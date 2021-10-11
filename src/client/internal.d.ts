@@ -70,12 +70,14 @@ declare type UtbetalingshistorikkElement = {
     arbeidsgiverFagsystemId: string;
     personNettobeløp: number;
     personFagsystemId: string;
-    vurdering?: {
-        godkjent: boolean;
-        tidsstempel: Dayjs;
-        automatisk: boolean;
-        ident: string;
-    };
+    vurdering?: Vurdering;
+};
+
+declare type Vurdering = {
+    godkjent: boolean;
+    tidsstempel: Dayjs;
+    automatisk: boolean;
+    ident: string;
 };
 
 declare type HistorikkElement = {

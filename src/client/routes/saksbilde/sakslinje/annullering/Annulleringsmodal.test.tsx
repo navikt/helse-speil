@@ -43,7 +43,9 @@ const renderAnnulleringsmodal = async () => {
     return render(
         <RecoilRoot
             initializeState={({ set }) => {
-                set(personState, { person: { ...person, vilkårsgrunnlagHistorikk: {} } });
+                set(personState, {
+                    person: { ...person, vilkårsgrunnlagHistorikk: {}, arbeidsgivereV2: [], arbeidsforhold: [] },
+                });
                 set(authState, authInfo);
             }}
         >
