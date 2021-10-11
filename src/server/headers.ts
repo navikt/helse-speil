@@ -5,7 +5,8 @@ import { Express } from 'express';
 const styleSource = 'https://fonts.googleapis.com';
 const fontSource = 'https://fonts.gstatic.com';
 const amplitudeSource = 'https://amplitude.nav.no';
-const cspString = `default-src 'self' data:; style-src 'self' ${styleSource} data: 'unsafe-inline'; connect-src 'self' blob: ${amplitudeSource}; font-src ${fontSource} 'self' data:`;
+const arbeidOgInntektSource = 'https://arbeid-og-inntekt.nais.adeo.no';
+const cspString = `default-src 'self' data:; style-src 'self' ${styleSource} data: 'unsafe-inline'; connect-src 'self' ${arbeidOgInntektSource} blob: ${amplitudeSource}; font-src ${fontSource} 'self' data:`;
 
 const setup = (app: Express) => {
     app.disable('x-powered-by');
