@@ -100,7 +100,7 @@ const setUpAuthentication = () => {
             })
             .catch((err: AuthError) => {
                 logger.warning(`Error caught during login: ${err.message} (se sikkerLog for detaljer)`);
-                logger.sikker.warning(`Error caught during login: ${err.message}`, err);
+                logger.sikker.warning(`Error caught during login: ${err.message}`, JSON.stringify(err));
                 authErrorCounter.inc();
                 session.destroy(() => {});
                 res.sendStatus(err.statusCode);
