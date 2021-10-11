@@ -108,7 +108,7 @@
         "viktighet": "Høy"
     },
     {
-        "varsel": "Inntektsmeldingen mangler ikke arbeidsgiverperiode. Vurder om vilkårene for sykepenger er oppfylt, og om det skal være arbeidsgiverperiode",
+        "varsel": "Inntektsmeldingen mangler arbeidsgiverperiode. Vurder om vilkårene for sykepenger er oppfylt, og om det skal være arbeidsgiverperiode",
         "betydning": "Selvforklarende. Oppstår dersom inntektsmelding kommer inn for et arbeidsforhold bruker ikke er sykmeldt i.",
         "løsning": "Kontrollér at det kun er én arbeidsgiver. Skal kun komme ved flere arbeidsforhold i samme virksomhet.",
         "viktighet": "Høy"
