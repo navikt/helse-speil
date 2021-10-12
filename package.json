@@ -89,7 +89,6 @@
         "request-promise-native": "^1.0.9",
         "reset-css": "^5.0.1",
         "snyk": "^1.733.0",
-        "src": "^1.1.2",
         "three": "^0.129.0",
         "tunnel": "0.0.6",
         "uuid": "^8.3.2",
