@@ -26,7 +26,8 @@ export const usePollEtterOpptegnelser = () => {
                     }
                 })
                 .catch((error) => {
-                    if (error.statusCode >= 500) {
+                    if (error.statusCode === 401) clearInterval(id);
+                    else if (error.statusCode >= 500) {
                         console.error(error);
                     }
                 });
