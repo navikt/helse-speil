@@ -24,7 +24,7 @@ const info = (message: string, ...meta: any[]) => {
     stdoutLogger.info(message, ...meta);
 };
 
-const warning = (message: string, ...meta: any[]) => {
+const warn = (message: string, ...meta: any[]) => {
     stdoutLogger.warn(message, ...meta);
 };
 
@@ -36,8 +36,8 @@ const sikkerInfo = (message: string, ...meta: any[]) => {
     sikkerLogger.info(message, ...meta);
 };
 
-const sikkerWarning = (message: string, ...meta: any[]) => {
-    sikkerLogger.warning(message, ...meta);
+const sikkerWarn = (message: string, ...meta: any[]) => {
+    sikkerLogger.warn(message, ...meta);
 };
 
 const sikkerError = (message: string, ...meta: any[]) => {
@@ -64,11 +64,11 @@ const requestMeta = (req: SpeilRequest) => {
 
 export default {
     info,
-    warning,
+    warn,
     error,
     sikker: {
         info: sikkerInfo,
-        warning: sikkerWarning,
+        warn: sikkerWarn,
         error: sikkerError,
     },
     requestMeta,

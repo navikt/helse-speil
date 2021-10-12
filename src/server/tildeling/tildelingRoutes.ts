@@ -16,7 +16,7 @@ export default ({ tildelingClient }: SetupOptions) => {
             .then(() => res.sendStatus(200))
             .catch((ex) => {
                 if (ex.statusCode === 409) {
-                    logger.warning(`Oppgaven er allerede tildelt. Svar fra spesialist: ${JSON.stringify(ex.error)}`);
+                    logger.warn(`Oppgaven er allerede tildelt. Svar fra spesialist: ${JSON.stringify(ex.error)}`);
                 } else {
                     logger.error(`Feil under tildeling: ${ex}`);
                 }

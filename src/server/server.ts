@@ -51,7 +51,7 @@ app.get('/isReady', (_, res) => {
     if (helsesjekk.redis) {
         return res.send('ready');
     } else {
-        logger.warning('Svarer not ready på isReady');
+        logger.warn('Svarer not ready på isReady');
         res.statusCode = 503;
         return res.send('NOT READY');
     }
@@ -99,8 +99,8 @@ const setUpAuthentication = () => {
                 res.redirect(303, '/');
             })
             .catch((err: AuthError) => {
-                logger.warning(`Error caught during login: ${err.message} (se sikkerLog for detaljer)`);
-                logger.sikker.warning(`Error caught during login: ${err.message}`, JSON.stringify(err));
+                logger.warn(`Error caught during login: ${err.message} (se sikkerLog for detaljer)`);
+                logger.sikker.warn(`Error caught during login: ${err.message}`, err);
                 authErrorCounter.inc();
                 session.destroy(() => {});
                 res.sendStatus(err.statusCode);
