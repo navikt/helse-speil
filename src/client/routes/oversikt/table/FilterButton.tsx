@@ -28,6 +28,7 @@ const Button = styled.button`
 
     > svg {
         margin-left: 0.5rem;
+        pointer-events: none;
     }
 `;
 
