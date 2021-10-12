@@ -2,18 +2,18 @@ export const umappetSimuleringsdata = {
     totalbeløp: 9999,
     perioder: [
         {
-            fom: '2020-01-01',
-            tom: '2020-01-02',
+            fom: '2018-01-01',
+            tom: '2018-01-02',
             utbetalinger: [
                 {
                     utbetalesTilId: '987654321',
                     utbetalesTilNavn: 'Koronavirus',
-                    forfall: '2020-01-03',
+                    forfall: '2018-01-03',
                     feilkonto: true,
                     detaljer: [
                         {
-                            faktiskFom: '2020-01-01',
-                            faktiskTom: '2020-01-02',
+                            faktiskFom: '2018-01-01',
+                            faktiskTom: '2018-01-02',
                             konto: '12345678910og1112',
                             beløp: 9999,
                             tilbakeføring: false,
@@ -37,18 +37,18 @@ export const mappetSimuleringsdata: Required<Vedtaksperiode>['simuleringsdata'] 
     totalbeløp: 9999,
     perioder: [
         {
-            fom: '2020-01-01',
-            tom: '2020-01-02',
+            fom: '2018-01-01',
+            tom: '2018-01-02',
             utbetalinger: [
                 {
                     utbetalesTilId: '987654321',
                     utbetalesTilNavn: 'Koronavirus',
-                    forfall: '2020-01-03',
+                    forfall: '2018-01-03',
                     feilkonto: true,
                     detaljer: [
                         {
-                            faktiskFom: '2020-01-01',
-                            faktiskTom: '2020-01-02',
+                            faktiskFom: '2018-01-01',
+                            faktiskTom: '2018-01-02',
                             konto: '12345678910og1112',
                             belop: 9999,
                             tilbakeforing: false,

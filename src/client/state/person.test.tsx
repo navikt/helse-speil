@@ -1,10 +1,10 @@
 import { renderHook } from '@testing-library/react-hooks';
-import dayjs from 'dayjs';
 import React from 'react';
-import { RecoilRoot } from 'recoil';
+import { MutableSnapshot, RecoilRoot } from 'recoil';
 import { mappetPerson } from 'test-data';
 
 import { umappetArbeidsgiver } from '../../test/data/arbeidsgiver';
+import { testBeregningId, testSkjæringstidspunkt, testVilkårsgrunnlagHistorikkId } from '../../test/data/person';
 import { umappetUtbetalingshistorikk } from '../../test/data/utbetalingshistorikk';
 import { umappetVedtaksperiode } from '../../test/data/vedtaksperiode';
 import { etSpleisgrunnlag } from '../../test/data/vilkårsgrunnlaghistorikk';
@@ -12,23 +12,27 @@ import { personState, useVilkårsgrunnlaghistorikk } from './person';
 
 const personActual = jest.requireActual('./person');
 
-const wrapper: React.FC = ({ children }) => <RecoilRoot>{children}</RecoilRoot>;
+const wrapper =
+    (initializer?: (mutableSnapshot: MutableSnapshot) => void): React.FC =>
+    ({ children }) =>
+        <RecoilRoot initializeState={initializer}>{children}</RecoilRoot>;
+
 const person = mappetPerson([
     umappetArbeidsgiver(
         [
             umappetVedtaksperiode({
                 id: 'uuid-1',
-                fom: dayjs('2020-01-01'),
-                tom: dayjs('2020-01-31'),
+                fom: '2018-01-01',
+                tom: '2018-01-31',
             }),
             umappetVedtaksperiode({
                 id: 'uuid-2',
-                fom: dayjs('2020-02-01'),
-                tom: dayjs('2020-02-14'),
+                fom: '2018-02-01',
+                tom: '2018-02-14',
             }),
         ],
         [],
-        [umappetUtbetalingshistorikk('id1', 'REVURDERING')]
+        [umappetUtbetalingshistorikk(testBeregningId, 'REVURDERING')]
     ),
 ]);
 
@@ -39,59 +43,49 @@ jest.mock('nanoid', () => ({
 describe('sykepengrunnlagHook', () => {
     it('henter sykepengegrunnlag', () => {
         personActual.usePerson = jest.fn(() => person);
-        const { result } = renderHook(
-            () => {
-                return personActual.useSykepengegrunnlag('id1');
-            },
-            { wrapper }
-        );
+        const { result } = renderHook(() => personActual.useSykepengegrunnlag(testBeregningId), { wrapper: wrapper() });
         expect(result.current?.sykepengegrunnlag).toEqual(372000);
     });
 });
 
 describe('vilkårsgrunnlagHook', () => {
     it('finner vilkårsgrunnlag', () => {
-        const { result } = renderHook(() => useVilkårsgrunnlaghistorikk('2020-10-21', 'id1'), {
-            wrapper: ({ children }) => (
-                <RecoilRoot
-                    initializeState={({ set }) => {
-                        set(personState, {
-                            person: {
-                                ...mappetPerson(),
-                                vilkårsgrunnlagHistorikk: {
-                                    id1: { '2020-10-21': etSpleisgrunnlag({ skjæringstidspunkt: '2020-10-21' }) },
+        const { result } = renderHook(
+            () => useVilkårsgrunnlaghistorikk(testSkjæringstidspunkt, testVilkårsgrunnlagHistorikkId),
+            {
+                wrapper: wrapper(({ set }) => {
+                    set(personState, {
+                        person: {
+                            ...mappetPerson(),
+                            vilkårsgrunnlagHistorikk: {
+                                [testVilkårsgrunnlagHistorikkId]: {
+                                    [testSkjæringstidspunkt]: etSpleisgrunnlag({
+                                        skjæringstidspunkt: testSkjæringstidspunkt,
+                                    }),
                                 },
-                                arbeidsgivereV2: [],
-                                arbeidsforhold: [],
                             },
-                        });
-                    }}
-                >
-                    {children}
-                </RecoilRoot>
-            ),
-        });
-        expect(result.current?.skjæringstidspunkt).toEqual('2020-10-21');
+                            arbeidsgivereV2: [],
+                            arbeidsforhold: [],
+                        },
+                    });
+                }),
+            }
+        );
+        expect(result.current?.skjæringstidspunkt).toEqual(testSkjæringstidspunkt);
     });
 
     it('finner ikke vilkårsgrunnlag', () => {
-        const { result } = renderHook(() => useVilkårsgrunnlaghistorikk('2020-01-01', 'id1'), {
-            wrapper: ({ children }) => (
-                <RecoilRoot
-                    initializeState={({ set }) => {
-                        set(personState, {
-                            person: {
-                                ...mappetPerson(),
-                                vilkårsgrunnlagHistorikk: {},
-                                arbeidsgivereV2: [],
-                                arbeidsforhold: [],
-                            },
-                        });
-                    }}
-                >
-                    {children}
-                </RecoilRoot>
-            ),
+        const { result } = renderHook(() => useVilkårsgrunnlaghistorikk('2020-01-01', testVilkårsgrunnlagHistorikkId), {
+            wrapper: wrapper(({ set }) => {
+                set(personState, {
+                    person: {
+                        ...mappetPerson(),
+                        vilkårsgrunnlagHistorikk: {},
+                        arbeidsgivereV2: [],
+                        arbeidsforhold: [],
+                    },
+                });
+            }),
         });
         expect(result.current).toBeNull();
     });

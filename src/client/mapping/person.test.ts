@@ -28,14 +28,14 @@ const enAktivitet = (
 });
 
 describe('personmapper', () => {
-    test('mapper person', async () => {
+    test('mapper person', () => {
         const { person } = mapPerson(umappetPerson());
         expect(person).toEqual(mappetPersonObject());
     });
 
-    test('mapper aktivitetslogg', async () => {
+    test('mapper aktivitetslogg', () => {
         const melding = 'Aktivitetsvarsel';
-        const tidsstempel = '2020-01-01T13:37:00.000Z';
+        const tidsstempel = '2018-01-01T13:37:00.000Z';
         const alvorlighetsgrad = 'W';
         const spleisAktivitet = enAktivitet(melding, tidsstempel, alvorlighetsgrad);
 
@@ -89,13 +89,13 @@ describe('personmapper', () => {
         expect(andreVvedtaksperiode.oppsummering.antallUtbetalingsdager).toEqual(4);
     });
 
-    test('Vedtaksperioder sorteres på fom i synkende rekkefølge', async () => {
+    test('Vedtaksperioder sorteres på fom i synkende rekkefølge', () => {
         const { person } = mapPerson(
             umappetPerson([
                 umappetArbeidsgiver([
                     medLedendeSykdomsdager(umappetVedtaksperiode(), [
                         {
-                            dagen: '2019-12-31',
+                            dagen: '2017-12-31',
                             type: 'SYKEDAG',
                             kilde: {
                                 kildeId: '1D7B00B8-216D-4090-8DEA-72E97183F8D7',
@@ -109,11 +109,11 @@ describe('personmapper', () => {
         );
 
         const vedtaksperioder = person.arbeidsgivere[0].vedtaksperioder;
-        expect(vedtaksperioder[0].fom.format('YYYY-MM-DD')).toStrictEqual('2020-01-01');
-        expect(vedtaksperioder[1].fom.format('YYYY-MM-DD')).toStrictEqual('2019-12-31');
+        expect(vedtaksperioder[0].fom.format('YYYY-MM-DD')).toStrictEqual('2018-01-01');
+        expect(vedtaksperioder[1].fom.format('YYYY-MM-DD')).toStrictEqual('2017-12-31');
     });
 
-    test('mapper overstyring av tidslinje', async () => {
+    test('mapper overstyring av tidslinje', () => {
         const saksbehandlerKildeId = '5B807A30-E197-474F-9AFB-D136649A02DB';
         const overstyrtDato = '2019-10-07';
         const ekstraDager: ExternalSykdomsdag[] = [

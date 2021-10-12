@@ -1,14 +1,16 @@
-export const umappetOverstyring: ExternalOverstyring = {
+import { testEnkelPeriodeFom } from './person';
+
+export const umappetOverstyring = (override?: Partial<ExternalOverstyring>): ExternalOverstyring => ({
     hendelseId: 'E6201F83-3104-4D85-840C-C7977B3E788D',
     begrunnelse: 'en begrunnelse',
     timestamp: '2020-01-01T12:00:00',
     saksbehandlerNavn: 'Sara Saksbehandler',
     saksbehandlerIdent: 'S123456',
-    overstyrteDager: [
+    overstyrteDager: override?.overstyrteDager ?? [
         {
-            dato: '2020-01-01',
+            dato: testEnkelPeriodeFom,
             dagtype: 'SYKEDAG',
             grad: 60,
         },
     ],
-};
+});

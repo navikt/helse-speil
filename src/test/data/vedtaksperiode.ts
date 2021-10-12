@@ -1,44 +1,47 @@
 import dayjs, { Dayjs } from 'dayjs';
 
 import { VedtaksperiodeBuilder } from '../../client/mapping/vedtaksperiode';
+import { ISO_DATOFORMAT } from '../../client/utils/date';
 
 import { aktivitetslogg } from './aktivitetslogg';
 import { umappetArbeidsgiver } from './arbeidsgiver';
 import { hendelser } from './hendelser';
 import { umappetInntektsgrunnlag } from './inntektsgrunnlag';
+import {
+    testBeregningId,
+    testEnkelPeriodeFom,
+    testEnkelPeriodeTom,
+    testArbeidsgiverfagsystemId,
+    testVedtaksperiodeId,
+} from './person';
 import { umappetSimuleringsdata } from './simulering';
-import { sykdomstidslinje } from './sykdomstidslinje';
+import { dateStringSykdomstidslinje } from './sykdomstidslinje';
 import { totalbeløpArbeidstaker, utbetalinger } from './utbetalinger';
 import { utbetalingstidslinje } from './utbetalingstidslinje';
 import { dataForVilkårsvurdering, umappedeVilkår } from './vilkår';
 
 type UmappetVedtaksperiodeOptions = {
-    fom?: Dayjs;
-    tom?: Dayjs;
-    aktivitetslogg?: ExternalAktivitet[];
-    varsler?: string[];
-    id?: string;
-    beregningIder?: string[];
     fagsystemId?: string;
-    inntektskilde?: ExternalVedtaksperiode['inntektskilde'];
 };
 
-export const umappetVedtaksperiode = (options?: UmappetVedtaksperiodeOptions): ExternalVedtaksperiode => {
-    const fom = options?.fom ?? dayjs('2020-01-01');
-    const tom = options?.tom ?? dayjs('2020-01-31');
-    const aktivitetsloggen = options?.aktivitetslogg ?? aktivitetslogg();
-    const varslene = options?.varsler ?? [];
-    const id = options?.id ?? 'fa02d7a5-daf2-488c-9798-2539edd7fe3f';
-    const beregningIder = options?.beregningIder ?? ['id1'];
+export const umappetVedtaksperiode = (
+    vedtaksperiode?: Partial<ExternalVedtaksperiode> & UmappetVedtaksperiodeOptions
+): ExternalVedtaksperiode => {
+    const fom = vedtaksperiode?.fom ?? testEnkelPeriodeFom;
+    const tom = vedtaksperiode?.tom ?? testEnkelPeriodeTom;
 
-    const sykdomsdager = sykdomstidslinje(fom, tom);
+    const sykdomsdager = dateStringSykdomstidslinje(fom, tom);
     const utbetalingsdager = utbetalingstidslinje(sykdomsdager, 1500);
-    const utbetalingene = utbetalinger(utbetalingsdager, true, false, options?.fagsystemId);
-    const inntektskilde = options?.inntektskilde ?? 'EN_ARBEIDSGIVER';
+    const utbetalingene = utbetalinger(
+        utbetalingsdager,
+        true,
+        false,
+        vedtaksperiode?.fagsystemId ?? testArbeidsgiverfagsystemId
+    );
     return {
-        id: id,
-        fom: fom.format('YYYY-MM-DD'),
-        tom: tom.format('YYYY-MM-DD'),
+        id: testVedtaksperiodeId,
+        fom: fom,
+        tom: tom,
         gruppeId: 'en-gruppeId',
         tilstand: 'Oppgaver',
         oppgavereferanse: 'en-oppgavereferanse',
@@ -55,14 +58,15 @@ export const umappetVedtaksperiode = (options?: UmappetVedtaksperiodeOptions): E
         hendelser: hendelser(sykdomsdager),
         dataForVilkårsvurdering: dataForVilkårsvurdering(),
         utbetalingslinjer: utbetalingene.arbeidsgiverUtbetaling?.linjer ?? [],
-        aktivitetslogg: aktivitetsloggen,
+        aktivitetslogg: aktivitetslogg(),
         forlengelseFraInfotrygd: 'NEI',
         periodetype: 'FØRSTEGANGSBEHANDLING',
         risikovurdering: { funn: [], kontrollertOk: [] },
-        varsler: varslene,
+        varsler: [],
         simuleringsdata: umappetSimuleringsdata,
-        inntektskilde: inntektskilde,
-        beregningIder: beregningIder,
+        inntektskilde: 'EN_ARBEIDSGIVER',
+        beregningIder: [testBeregningId],
+        ...vedtaksperiode,
     };
 };
 
@@ -87,13 +91,13 @@ export const medEkstraSykdomsdager = (vedtaksperiode: ExternalVedtaksperiode, sy
 });
 
 export const mappetVedtaksperiode = (
-    fom: Dayjs = dayjs('2020-01-01'),
-    tom: Dayjs = dayjs('2020-01-31'),
+    fom: Dayjs = dayjs('2018-01-01'),
+    tom: Dayjs = dayjs('2018-01-31'),
     overstyringer: ExternalOverstyring[] = [],
     inntektsgrunnlag: ExternalInntektsgrunnlag[] = [umappetInntektsgrunnlag()]
 ): Vedtaksperiode => {
     let { vedtaksperiode } = new VedtaksperiodeBuilder()
-        .setVedtaksperiode(umappetVedtaksperiode({ fom, tom }))
+        .setVedtaksperiode(umappetVedtaksperiode({ fom: fom.format(ISO_DATOFORMAT), tom: tom.format(ISO_DATOFORMAT) }))
         .setArbeidsgiver(umappetArbeidsgiver())
         .setOverstyringer(overstyringer)
         .setAnnullertUtbetalingshistorikk([])

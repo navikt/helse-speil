@@ -4,17 +4,20 @@ import React from 'react';
 import { NORSK_DATOFORMAT } from '../../../utils/date';
 
 import { StyledBehandletVarsel } from '../vilkår/Vilkår.styles';
-import { UbehandletSykepengegrunnlag, UbehandletSykepengegrunnlagProps } from './UbehandletSykepengegrunnlag';
+import { UbehandletSykepengegrunnlag } from './UbehandletSykepengegrunnlag';
 
-interface BehandletSykepengegrunnlagProps extends UbehandletSykepengegrunnlagProps {
+interface BehandletSykepengegrunnlagProps {
     vurdering: Vurdering;
+    vilkårsgrunnlag: ExternalSpleisVilkårsgrunnlag;
+    organisasjonsnummer: string;
 }
 
 export const BehandletSykepengegrunnlag = ({
     vurdering,
-    ...ubehandletSykepengegrunnlagProps
+    vilkårsgrunnlag,
+    organisasjonsnummer,
 }: BehandletSykepengegrunnlagProps) => {
-    const skjæringstidspunkt = dayjs(ubehandletSykepengegrunnlagProps.vilkårsgrunnlag.skjæringstidspunkt);
+    const skjæringstidspunkt = dayjs(vilkårsgrunnlag.skjæringstidspunkt);
     const renderedSkjæringstidspunkt = skjæringstidspunkt.format(NORSK_DATOFORMAT);
     return (
         <StyledBehandletVarsel
@@ -23,7 +26,11 @@ export const BehandletSykepengegrunnlag = ({
             vurderingsdato={vurdering.tidsstempel.format(NORSK_DATOFORMAT)}
             automatiskBehandlet={vurdering.automatisk}
         >
-            <UbehandletSykepengegrunnlag {...ubehandletSykepengegrunnlagProps} />
+            <UbehandletSykepengegrunnlag
+                vilkårsgrunnlag={vilkårsgrunnlag}
+                organisasjonsnummer={organisasjonsnummer}
+                data-testid="behandlet-sykepengegrunnlag"
+            />
         </StyledBehandletVarsel>
     );
 };

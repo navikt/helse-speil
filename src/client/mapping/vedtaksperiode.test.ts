@@ -7,6 +7,7 @@ import { ISO_TIDSPUNKTFORMAT, NORSK_DATOFORMAT } from '../utils/date';
 import { umappetArbeidsgiver } from '../../test/data/arbeidsgiver';
 import { umappetInntektsgrunnlag } from '../../test/data/inntektsgrunnlag';
 import { umappetOverstyring } from '../../test/data/overstyring';
+import { testArbeidsgiverfagsystemId } from '../../test/data/person';
 import { mappetSimuleringsdata } from '../../test/data/simulering';
 import { mappetVedtaksperiode, umappetVedtaksperiode } from '../../test/data/vedtaksperiode';
 import {
@@ -94,8 +95,8 @@ describe('VedtaksperiodeBuilder', () => {
         expect(vedtaksperiode).toEqual(mappetVedtaksperiode());
         expect(problems).toHaveLength(0);
         expect(vedtaksperiode.id).toEqual('fa02d7a5-daf2-488c-9798-2539edd7fe3f');
-        expect(vedtaksperiode.fom.format(NORSK_DATOFORMAT)).toEqual('01.01.2020');
-        expect(vedtaksperiode.tom.format(NORSK_DATOFORMAT)).toEqual('31.01.2020');
+        expect(vedtaksperiode.fom.format(NORSK_DATOFORMAT)).toEqual('01.01.2018');
+        expect(vedtaksperiode.tom.format(NORSK_DATOFORMAT)).toEqual('31.01.2018');
         expect(vedtaksperiode.gruppeId).toEqual('en-gruppeId');
         expect(vedtaksperiode.tilstand).toEqual('oppgaver');
         expect(vedtaksperiode.behandlet).toBeFalsy();
@@ -131,12 +132,12 @@ describe('VedtaksperiodeBuilder', () => {
 
         const utbetaling = vedtaksperiode.utbetalinger?.arbeidsgiverUtbetaling;
         expect(utbetaling).not.toBeUndefined();
-        expect(utbetaling?.fagsystemId).toEqual('en-fagsystem-id');
+        expect(utbetaling?.fagsystemId).toEqual(testArbeidsgiverfagsystemId);
         expect(utbetaling?.linjer).toHaveLength(1);
 
         const utbetalingslinje = utbetaling?.linjer.pop() as Utbetalingslinje;
-        expect(utbetalingslinje.fom.format(NORSK_DATOFORMAT)).toEqual('01.01.2020');
-        expect(utbetalingslinje.tom.format(NORSK_DATOFORMAT)).toEqual('31.01.2020');
+        expect(utbetalingslinje.fom.format(NORSK_DATOFORMAT)).toEqual('01.01.2018');
+        expect(utbetalingslinje.tom.format(NORSK_DATOFORMAT)).toEqual('31.01.2018');
         expect(utbetalingslinje.grad).toEqual(100);
         expect(utbetalingslinje.dagsats).toEqual(1500);
     });
@@ -154,7 +155,7 @@ describe('VedtaksperiodeBuilder', () => {
             .setVedtaksperiode(umappetVedtaksperiode())
             .setArbeidsgiver(umappetArbeidsgiver())
             .setAnnullertUtbetalingshistorikk([])
-            .setOverstyringer([umappetOverstyring])
+            .setOverstyringer([umappetOverstyring()])
             .build() as { vedtaksperiode: Vedtaksperiode; problems: Error[] };
 
         expect(problems).toHaveLength(0);
@@ -162,7 +163,7 @@ describe('VedtaksperiodeBuilder', () => {
 
         const mappetOverstyring = vedtaksperiode.overstyringer.pop() as Overstyring;
         expect(mappetOverstyring.overstyrteDager).toHaveLength(1);
-        expect(mappetOverstyring.overstyrteDager[0].dato.format(NORSK_DATOFORMAT)).toEqual('01.01.2020');
+        expect(mappetOverstyring.overstyrteDager[0].dato.format(NORSK_DATOFORMAT)).toEqual('01.01.2018');
         expect(mappetOverstyring.overstyrteDager[0].type).toEqual('Syk');
         expect(mappetOverstyring.overstyrteDager[0].grad).toEqual(60);
     });
@@ -180,7 +181,7 @@ describe('VedtaksperiodeBuilder', () => {
         const { inntektsgrunnlag } = vedtaksperiode;
         expect(Object.entries(inntektsgrunnlag ?? {})).toHaveLength(8);
         expect(inntektsgrunnlag.organisasjonsnummer).toEqual('987654321');
-        expect(inntektsgrunnlag.skjæringstidspunkt.format(NORSK_DATOFORMAT)).toEqual('01.01.2020');
+        expect(inntektsgrunnlag.skjæringstidspunkt.format(NORSK_DATOFORMAT)).toEqual('01.01.2018');
         expect(inntektsgrunnlag.sykepengegrunnlag).toEqual(372000);
         expect(inntektsgrunnlag.omregnetÅrsinntekt).toEqual(372000);
         expect(inntektsgrunnlag.sammenligningsgrunnlag).toBeUndefined();
@@ -218,7 +219,7 @@ describe('VedtaksperiodeBuilder', () => {
         const { inntektsgrunnlag } = vedtaksperiode;
         expect(Object.entries(inntektsgrunnlag ?? {})).toHaveLength(8);
         expect(inntektsgrunnlag.organisasjonsnummer).toEqual('987654321');
-        expect(inntektsgrunnlag.skjæringstidspunkt.format(NORSK_DATOFORMAT)).toEqual('01.01.2020');
+        expect(inntektsgrunnlag.skjæringstidspunkt.format(NORSK_DATOFORMAT)).toEqual('01.01.2018');
         expect(inntektsgrunnlag.sykepengegrunnlag).toEqual(372000);
         expect(inntektsgrunnlag.omregnetÅrsinntekt).toEqual(372000);
         expect(inntektsgrunnlag.sammenligningsgrunnlag).toEqual(372000);

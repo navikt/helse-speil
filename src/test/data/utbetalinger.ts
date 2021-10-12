@@ -1,3 +1,5 @@
+import { testArbeidsgiverfagsystemId } from './person';
+
 const utbetaling = (tidslinje: ExternalUtbetalingsdag[], fagsystemId: string): ExternalUtbetaling | undefined => {
     const førsteUtbetalingsdag = tidslinje.find(({ utbetaling }) => utbetaling !== undefined);
     const sisteUtbetalingsdag = [...tidslinje].reverse().find(({ utbetaling }) => utbetaling !== undefined);
@@ -21,7 +23,7 @@ export const utbetalinger = (
     tidslinje: ExternalUtbetalingsdag[],
     tilArbeidsgiver: boolean = false,
     tilPerson: boolean = false,
-    fagsystemId: string = 'en-fagsystem-id'
+    fagsystemId: string = testArbeidsgiverfagsystemId
 ) => ({
     arbeidsgiverUtbetaling: tilArbeidsgiver ? utbetaling(tidslinje, fagsystemId) : undefined,
     personUtbetaling: tilPerson ? utbetaling(tidslinje, fagsystemId) : undefined,

@@ -1,5 +1,7 @@
 import dayjs from 'dayjs';
 
+import { testSkjæringstidspunkt } from './person';
+
 export const mappetInntektsgrunnlag: Inntektsgrunnlag = {
     organisasjonsnummer: '987654321',
     skjæringstidspunkt: dayjs('2020-01-01T00:00:00.000Z'),
@@ -33,7 +35,7 @@ export const mappetInntektsgrunnlag: Inntektsgrunnlag = {
 export const umappetInntektsgrunnlag = (
     inntektskilde: ExternalInntektkilde = 'Inntektsmelding'
 ): ExternalInntektsgrunnlag => ({
-    skjæringstidspunkt: '2020-01-01',
+    skjæringstidspunkt: testSkjæringstidspunkt,
     sykepengegrunnlag: 372000.0,
     omregnetÅrsinntekt: 372000.0,
     sammenligningsgrunnlag: inntektskilde === 'Inntektsmelding' ? 372000.0 : undefined,
@@ -53,18 +55,18 @@ export const umappetInntektsgrunnlag = (
                     ? {
                           beløp: 372000.0,
                           inntekterFraAOrdningen: [
-                              { måned: '2019-01', sum: 31000.0 },
-                              { måned: '2019-02', sum: 31000.0 },
-                              { måned: '2019-03', sum: 31000.0 },
-                              { måned: '2019-04', sum: 31000.0 },
-                              { måned: '2019-05', sum: 31000.0 },
-                              { måned: '2019-06', sum: 31000.0 },
-                              { måned: '2019-07', sum: 31000.0 },
-                              { måned: '2019-08', sum: 31000.0 },
-                              { måned: '2019-09', sum: 31000.0 },
-                              { måned: '2019-10', sum: 31000.0 },
-                              { måned: '2019-11', sum: 31000.0 },
-                              { måned: '2019-12', sum: 31000.0 },
+                              { måned: '2017-01', sum: 31000.0 },
+                              { måned: '2017-02', sum: 31000.0 },
+                              { måned: '2017-03', sum: 31000.0 },
+                              { måned: '2017-04', sum: 31000.0 },
+                              { måned: '2017-05', sum: 31000.0 },
+                              { måned: '2017-06', sum: 31000.0 },
+                              { måned: '2017-07', sum: 31000.0 },
+                              { måned: '2017-08', sum: 31000.0 },
+                              { måned: '2017-09', sum: 31000.0 },
+                              { måned: '2017-10', sum: 31000.0 },
+                              { måned: '2017-11', sum: 31000.0 },
+                              { måned: '2017-12', sum: 31000.0 },
                           ],
                       }
                     : undefined,

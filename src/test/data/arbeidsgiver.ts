@@ -1,3 +1,4 @@
+import { testOrganisasjonsnummer } from './person';
 import { umappetUtbetalingshistorikk } from './utbetalingshistorikk';
 import { umappetVedtaksperiode } from './vedtaksperiode';
 
@@ -5,7 +6,7 @@ export const umappetArbeidsgiver = (
     vedtaksperioder: (ExternalVedtaksperiode | ExternalUfullstendigVedtaksperiode)[] = [umappetVedtaksperiode()],
     overstyringer: ExternalOverstyring[] = [],
     utbetalingshistorikk: ExternalHistorikkElement[] = [umappetUtbetalingshistorikk()],
-    organisasjonsnummer: string = '987654321'
+    organisasjonsnummer: string = testOrganisasjonsnummer
 ): ExternalArbeidsgiver => ({
     organisasjonsnummer: organisasjonsnummer,
     id: '3fb100f2-5d3d-4a89-84cd-e123544a4400',

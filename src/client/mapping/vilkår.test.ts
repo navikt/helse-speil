@@ -20,23 +20,23 @@ describe('mapVilkår', () => {
     test('mapper dager igjen', () => {
         const { dagerIgjen } = vilkår;
         expect(dagerIgjen.dagerBrukt).toEqual(3);
-        expect(dagerIgjen.førsteSykepengedag?.format(NORSK_DATOFORMAT)).toEqual('01.01.2020');
+        expect(dagerIgjen.førsteSykepengedag?.format(NORSK_DATOFORMAT)).toEqual('01.01.2018');
         expect(dagerIgjen.gjenståendeDager).toBeUndefined();
-        expect(dagerIgjen.maksdato?.format(NORSK_DATOFORMAT)).toEqual('07.10.2020');
-        expect(dagerIgjen.skjæringstidspunkt.format(NORSK_DATOFORMAT)).toEqual('01.01.2020');
+        expect(dagerIgjen.maksdato?.format(NORSK_DATOFORMAT)).toEqual('08.10.2018');
+        expect(dagerIgjen.skjæringstidspunkt.format(NORSK_DATOFORMAT)).toEqual('01.01.2018');
         expect(dagerIgjen.tidligerePerioder).toHaveLength(0);
         expect(dagerIgjen.oppfylt).toBeTruthy();
     });
     test('mapper søknadsfrist', () => {
         const { søknadsfrist } = vilkår;
-        expect(søknadsfrist?.sendtNav?.format(NORSK_DATOFORMAT)).toEqual('01.02.2020');
-        expect(søknadsfrist?.søknadFom?.format(NORSK_DATOFORMAT)).toEqual('01.01.2020');
+        expect(søknadsfrist?.sendtNav?.format(NORSK_DATOFORMAT)).toEqual('01.02.2018');
+        expect(søknadsfrist?.søknadFom?.format(NORSK_DATOFORMAT)).toEqual('01.01.2018');
         expect(søknadsfrist?.oppfylt).toBeTruthy();
     });
     test('mapper opptjening', () => {
         const { opptjening } = vilkår;
         expect((opptjening as Opptjening).antallOpptjeningsdagerErMinst).toEqual(3539);
-        expect((opptjening as Opptjening).opptjeningFra.format(NORSK_DATOFORMAT)).toEqual('24.04.2010');
+        expect((opptjening as Opptjening).opptjeningFra.format(NORSK_DATOFORMAT)).toEqual('24.04.2008');
         expect(opptjening?.oppfylt).toBeTruthy();
     });
     test('mapper medlemskap', () => {

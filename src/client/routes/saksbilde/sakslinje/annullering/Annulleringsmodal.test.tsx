@@ -11,6 +11,7 @@ import { AnnulleringDTO } from '../../../../io/types';
 import { authState } from '../../../../state/authentication';
 import { personState } from '../../../../state/person';
 
+import { testArbeidsgiverfagsystemId } from '../../../../../test/data/person';
 import { Annulleringsmodal } from './Annulleringsmodal';
 
 dayjs.extend(isSameOrAfter);
@@ -99,7 +100,7 @@ describe('Annulleringsmodal', () => {
             expect(cachedAnnullering?.aktørId).toEqual('1211109876233');
             expect(cachedAnnullering?.fødselsnummer).toEqual('01019000123');
             expect(cachedAnnullering?.organisasjonsnummer).toEqual('987654321');
-            expect(cachedAnnullering?.fagsystemId).toEqual('EN_FAGSYSTEMID');
+            expect(cachedAnnullering?.fagsystemId).toEqual(testArbeidsgiverfagsystemId);
             expect(cachedAnnullering?.begrunnelser?.length).toEqual(1);
             expect(cachedAnnullering?.gjelderSisteSkjæringstidspunkt).toEqual(true);
         });

@@ -5,6 +5,7 @@ import { AgurkErrorBoundary } from '../../../components/AgurkErrorBoundary';
 import { useArbeidsgiver } from '../../../modell/arbeidsgiver';
 import { useUtbetaling } from '../../../modell/utbetalingshistorikkelement';
 import { useOrganisasjonsnummer, useVilkårsgrunnlaghistorikk } from '../../../state/person';
+import { useAktivPeriode } from '../../../state/tidslinje';
 
 import { BehandletSykepengegrunnlag } from './BehandletSykepengegrunnlag';
 import { SykepengegrunnlagFraInfogtrygd } from './SykepengegrunnlagFraInfotrygd';
@@ -17,13 +18,6 @@ const Container = styled.section`
     box-sizing: border-box;
     overflow-x: scroll;
 `;
-
-interface SykepengegrunnlagProps {
-    vedtaksperiode: Vedtaksperiode;
-    aktivPeriode: Tidslinjeperiode;
-    vilkårsgrunnlaghistorikkId: UUID;
-    skjæringstidspunkt: DateString;
-}
 
 const sorterAscending = (a: Tidslinjeperiode, b: Tidslinjeperiode) => a.fom.diff(b.fom);
 
@@ -38,42 +32,39 @@ const useVurderingForSkjæringstidspunkt = (uniqueId: string, skjæringstidspunk
     return useUtbetaling(førstePeriodeForSkjæringstidspunkt.beregningId)?.vurdering;
 };
 
-export const Sykepengegrunnlag = ({
-    vedtaksperiode,
-    aktivPeriode,
-    vilkårsgrunnlaghistorikkId,
-    skjæringstidspunkt,
-}: SykepengegrunnlagProps) => {
+interface SykepengegrunnlagProps {
+    vilkårsgrunnlaghistorikkId: UUID;
+    skjæringstidspunkt: DateString;
+}
+
+export const Sykepengegrunnlag = ({ vilkårsgrunnlaghistorikkId, skjæringstidspunkt }: SykepengegrunnlagProps) => {
     const organisasjonsnummer = useOrganisasjonsnummer();
     const vilkårsgrunnlag = useVilkårsgrunnlaghistorikk(skjæringstidspunkt, vilkårsgrunnlaghistorikkId);
-    const { periodetype } = vedtaksperiode;
 
+    const aktivPeriode = useAktivPeriode()!;
     const vurdering = useVurderingForSkjæringstidspunkt(aktivPeriode.unique, aktivPeriode.skjæringstidspunkt!);
-    const behandlet = !!useUtbetaling(aktivPeriode.beregningId)?.vurdering;
 
     return (
         <Container className="Sykepengegrunnlag">
             <AgurkErrorBoundary>
-                {periodetype === 'førstegangsbehandling' && !behandlet ? (
-                    vilkårsgrunnlag?.vilkårsgrunnlagtype === 'SPLEIS' && (
-                        <UbehandletSykepengegrunnlag
-                            vilkårsgrunnlag={vilkårsgrunnlag as ExternalSpleisVilkårsgrunnlag}
-                            organisasjonsnummer={organisasjonsnummer}
-                        />
-                    )
-                ) : periodetype === 'infotrygdforlengelse' ? (
-                    <SykepengegrunnlagFraInfogtrygd
-                        vilkårsgrunnlag={vilkårsgrunnlag as ExternalInfotrygdVilkårsgrunnlag}
-                        organisasjonsnummer={organisasjonsnummer}
-                    />
-                ) : (
-                    vurdering && (
+                {vilkårsgrunnlag?.vilkårsgrunnlagtype === 'SPLEIS' ? (
+                    vurdering ? (
                         <BehandletSykepengegrunnlag
                             vurdering={vurdering}
                             vilkårsgrunnlag={vilkårsgrunnlag as ExternalSpleisVilkårsgrunnlag}
                             organisasjonsnummer={organisasjonsnummer}
                         />
+                    ) : (
+                        <UbehandletSykepengegrunnlag
+                            vilkårsgrunnlag={vilkårsgrunnlag as ExternalSpleisVilkårsgrunnlag}
+                            organisasjonsnummer={organisasjonsnummer}
+                        />
                     )
+                ) : (
+                    <SykepengegrunnlagFraInfogtrygd
+                        vilkårsgrunnlag={vilkårsgrunnlag as ExternalInfotrygdVilkårsgrunnlag}
+                        organisasjonsnummer={organisasjonsnummer}
+                    />
                 )}
             </AgurkErrorBoundary>
         </Container>

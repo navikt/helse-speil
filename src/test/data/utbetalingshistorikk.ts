@@ -1,12 +1,25 @@
 import dayjs, { Dayjs } from 'dayjs';
 
+import {
+    testBeregningId,
+    testArbeidsgiverfagsystemId,
+    testVilkårsgrunnlagHistorikkId,
+    testPersonfagsystemId,
+} from './person';
+
 export const umappetUtbetalingshistorikk = (
-    beregningId: string = 'id1',
-    vilkårsgrunnlaghistorikkId: string = 'vilkårsgrunnlaghistorikkId',
+    beregningId: string = testBeregningId,
+    vilkårsgrunnlaghistorikkId: string = testVilkårsgrunnlagHistorikkId,
     utbetalingtype: string = 'UTBETALING',
     utbetalingstatus: string = 'UTBETALT',
-    opprettet: Dayjs = dayjs('2020-01-01T00:00:00'),
-    dag: Dayjs = dayjs('2020-01-01')
+    opprettet: Dayjs = dayjs('2018-01-01T00:00:00'),
+    dag: Dayjs = dayjs('2018-01-01'),
+    vurdering: ExternalHistorikkElementUtbetaling['vurdering'] = {
+        godkjent: true,
+        ident: 'EN_IDENT',
+        tidsstempel: opprettet.toISOString(),
+        automatisk: true,
+    }
 ): ExternalHistorikkElement => ({
     beregningId: beregningId,
     vilkårsgrunnlagHistorikkId: vilkårsgrunnlaghistorikkId,
@@ -48,13 +61,8 @@ export const umappetUtbetalingshistorikk = (
         forbrukteSykedager: 0,
         arbeidsgiverNettoBeløp: 0,
         personNettoBeløp: 0,
-        arbeidsgiverFagsystemId: 'EN_FAGSYSTEMID',
-        personFagsystemId: 'EN_FAGSYSTEMID',
-        vurdering: {
-            godkjent: true,
-            ident: 'EN_IDENT',
-            tidsstempel: '2018-01-01',
-            automatisk: true,
-        },
+        arbeidsgiverFagsystemId: testArbeidsgiverfagsystemId,
+        personFagsystemId: testPersonfagsystemId,
+        vurdering: vurdering,
     },
 });

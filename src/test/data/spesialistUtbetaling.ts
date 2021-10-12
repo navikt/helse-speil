@@ -1,14 +1,16 @@
+import { testArbeidsgiverfagsystemId, testOrganisasjonsnummer, testPersonfagsystemId } from './person';
+
 export const umappetUtbetalinger = (): ExternalUtbetalingElement[] => [
     {
         status: 'UTBETALT',
         type: 'UTBETALING',
         arbeidsgiverOppdrag: {
-            organisasjonsnummer: '987654321',
-            fagsystemId: '6CFURRBEWJF3VGP5Q4BUTO6ABM',
+            organisasjonsnummer: testOrganisasjonsnummer,
+            fagsystemId: testArbeidsgiverfagsystemId,
             utbetalingslinjer: [
                 {
-                    fom: '2020-01-17',
-                    tom: '2020-01-20',
+                    fom: '2018-01-17',
+                    tom: '2018-01-20',
                 },
             ],
         },
@@ -19,12 +21,12 @@ export const umappetUtbetalinger = (): ExternalUtbetalingElement[] => [
         status: 'SENDT',
         type: 'UTBETALING',
         arbeidsgiverOppdrag: {
-            organisasjonsnummer: '987654321',
-            fagsystemId: '6CFURRBEWJF3VGP5Q4BUTO6ABM',
+            organisasjonsnummer: testOrganisasjonsnummer,
+            fagsystemId: testPersonfagsystemId,
             utbetalingslinjer: [
                 {
-                    fom: '2020-01-17',
-                    tom: '2020-01-25',
+                    fom: '2018-01-17',
+                    tom: '2018-01-25',
                 },
             ],
         },

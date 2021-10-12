@@ -1,4 +1,4 @@
-import { Dayjs } from 'dayjs';
+import dayjs, { Dayjs } from 'dayjs';
 
 const søknadId = 'D94DD20F-8B95-4769-87DA-80F8F3AE6576';
 
@@ -23,3 +23,6 @@ export const sykdomstidslinje = (fom: Dayjs, tom: Dayjs): ExternalSykdomsdag[] =
         .fill({})
         .map((_, i) => fom.add(i, 'day'))
         .map((datoen) => tilSykdomsdag(datoen));
+
+export const dateStringSykdomstidslinje = (fom: string, tom: string): ExternalSykdomsdag[] =>
+    sykdomstidslinje(dayjs(fom), dayjs(tom));

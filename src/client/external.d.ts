@@ -269,7 +269,7 @@ declare type ExternalOverstyring = {
     overstyrteDager: ExternalOverstyringsdag[];
 };
 
-declare type ExternalUtbetalingshistorikkElement = {
+declare type ExternalHistorikkElementUtbetaling = {
     status: string;
     type: string;
     utbetalingstidslinje: ExternalUtbetalingsdag[];
@@ -292,7 +292,7 @@ declare type ExternalHistorikkElement = {
     beregningId: string;
     beregnettidslinje: ExternalSykdomsdag[];
     hendelsetidslinje: ExternalSykdomsdag[];
-    utbetaling: ExternalUtbetalingshistorikkElement;
+    utbetaling: ExternalHistorikkElementUtbetaling;
     tidsstempel: string;
     vilkårsgrunnlagHistorikkId: string;
 };
@@ -652,3 +652,9 @@ declare type ExternalNotat = {
 };
 
 declare type Agurkifiserbar<T> = T;
+
+declare type SpeilApiV2 = {
+    vilkårsgrunnlagHistorikk: Record<UUID, Record<DateString, ExternalVilkårsgrunnlag>>;
+    arbeidsgivereV2: ExternalArbeidsgiver[];
+    arbeidsforhold: ExternalArbeidsforhold[];
+};

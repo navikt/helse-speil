@@ -9,12 +9,6 @@ import { getAnonymArbeidsgiverForOrgnr } from '../agurkdata';
 import { useInnloggetSaksbehandler } from './authentication';
 import { aktivPeriodeState, useAktivPeriode } from './tidslinje';
 
-type SpeilApiV2 = {
-    vilkårsgrunnlagHistorikk: Record<UUID, Record<DateString, ExternalVilkårsgrunnlag>>;
-    arbeidsgivereV2: ExternalArbeidsgiver[];
-    arbeidsforhold: ExternalArbeidsforhold[];
-};
-
 interface PersonState {
     problems?: Error[];
     person?: Person & SpeilApiV2;

@@ -1,5 +1,3 @@
-import dayjs from 'dayjs';
-
 import { NORSK_DATOFORMAT } from '../utils/date';
 
 import { umappetArbeidsgiver } from '../../test/data/arbeidsgiver';
@@ -12,12 +10,12 @@ describe('ArbeidsgiverBuilder', () => {
     test('markerer siste vedtaksperiode som nyeste', () => {
         const arbeidsgiverMedToVedtaksperioder = umappetArbeidsgiver([
             umappetVedtaksperiode({
-                fom: dayjs('2021-01-01'),
-                tom: dayjs('2021-01-10'),
+                fom: '2021-01-01',
+                tom: '2021-01-10',
             }),
             umappetVedtaksperiode({
-                fom: dayjs('2021-01-11'),
-                tom: dayjs('2021-01-20'),
+                fom: '2021-01-11',
+                tom: '2021-01-20',
             }),
         ]);
         const person = umappetPerson();

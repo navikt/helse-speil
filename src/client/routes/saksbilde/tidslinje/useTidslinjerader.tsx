@@ -45,24 +45,21 @@ export const useTidslinjerader = (
     fom: Dayjs,
     tom: Dayjs,
     skalAnonymisereData: boolean
-): { id: string; navn: string; rader: TidslinjeradObject[] }[] => {
-    return useMemo(
+): { id: string; navn: string; rader: TidslinjeradObject[] }[] =>
+    useMemo(
         () =>
-            person.arbeidsgivere.map((arbeidsgiver) => {
-                return {
-                    id: arbeidsgiver.organisasjonsnummer,
-                    navn: arbeidsgiverNavn(arbeidsgiver, skalAnonymisereData),
-                    rader: arbeidsgiver.tidslinjeperioder.map(
-                        (rad) =>
-                            ({
-                                id: nanoid(),
-                                perioder: toTidslinjeperioder(rad, fom, tom),
-                                arbeidsgiver: arbeidsgiverNavn(arbeidsgiver, skalAnonymisereData),
-                                erAktiv: false,
-                            } as TidslinjeradObject)
-                    ),
-                };
-            }),
+            person.arbeidsgivere.map((arbeidsgiver) => ({
+                id: arbeidsgiver.organisasjonsnummer,
+                navn: arbeidsgiverNavn(arbeidsgiver, skalAnonymisereData),
+                rader: arbeidsgiver.tidslinjeperioder.map(
+                    (rad) =>
+                        ({
+                            id: nanoid(),
+                            perioder: toTidslinjeperioder(rad, fom, tom),
+                            arbeidsgiver: arbeidsgiverNavn(arbeidsgiver, skalAnonymisereData),
+                            erAktiv: false,
+                        } as TidslinjeradObject)
+                ),
+            })),
         [person, fom, tom]
     );
-};

@@ -5,11 +5,12 @@ import dayjs from 'dayjs';
 import React from 'react';
 import { MemoryRouter } from 'react-router';
 import { Route } from 'react-router-dom';
-import { RecoilRoot } from 'recoil';
+import { MutableSnapshot, RecoilRoot } from 'recoil';
 import { mappetPerson } from 'test-data';
 
 import { authState } from '../../state/authentication';
 import { personState } from '../../state/person';
+import { ISO_DATOFORMAT } from '../../utils/date';
 
 import { umappetArbeidsgiver } from '../../../test/data/arbeidsgiver';
 import { umappetUfullstendigVedtaksperiode } from '../../../test/data/ufullstendigVedtaksperiode';
@@ -33,40 +34,50 @@ jest.mock('../../featureToggles', () => ({
 }));
 
 const wrapper =
-    (personTilBehandling?: Person): React.FC =>
+    (initializer?: (mutableSnapshot: MutableSnapshot) => void): React.FC =>
     ({ children }) =>
         (
             <MemoryRouter initialEntries={['/person/:aktorId/utbetaling']}>
                 <Route path="/person/:aktorId">
-                    <RecoilRoot
-                        initializeState={({ set }) => {
-                            personTilBehandling &&
-                                set(personState, {
-                                    person: {
-                                        ...personTilBehandling,
-                                        vilkårsgrunnlagHistorikk: {},
-                                        arbeidsgivereV2: [],
-                                        arbeidsforhold: [],
-                                    },
-                                });
-                            set(authState, {
-                                email: 'nav.navesen@nav.no',
-                                name: 'Nav Navesen',
-                                oid: 'oid',
-                                ident: 'NN12345',
-                                isLoggedIn: true,
-                            });
-                        }}
-                    >
-                        {children}
-                    </RecoilRoot>
+                    <RecoilRoot initializeState={initializer}>{children}</RecoilRoot>
                 </Route>
             </MemoryRouter>
         );
 
+const wrapperUtenPerson = () =>
+    wrapper(({ set }) => {
+        set(authState, {
+            email: 'nav.navesen@nav.no',
+            name: 'Nav Navesen',
+            oid: 'oid',
+            ident: 'NN12345',
+            isLoggedIn: true,
+        });
+    });
+
+const wrapperMedPerson = (arbeidsgivere?: ExternalArbeidsgiver[]) =>
+    wrapper(({ set }) => {
+        const umappetArbeidsgivere = arbeidsgivere ?? [umappetArbeidsgiver()];
+        set(personState, {
+            person: {
+                ...mappetPerson(umappetArbeidsgivere),
+                vilkårsgrunnlagHistorikk: {},
+                arbeidsgivereV2: umappetArbeidsgivere,
+                arbeidsforhold: [],
+            },
+        });
+        set(authState, {
+            email: 'nav.navesen@nav.no',
+            name: 'Nav Navesen',
+            oid: 'oid',
+            ident: 'NN12345',
+            isLoggedIn: true,
+        });
+    });
+
 describe('Saksbilde', () => {
     test('rendrer loading screen dersom det ikke finnes person', async () => {
-        render(<Saksbilde />, { wrapper: wrapper() });
+        render(<Saksbilde />, { wrapper: wrapperUtenPerson() });
 
         await waitFor(() => {
             expect(screen.queryByTestId('laster-saksbilde')).toBeVisible();
@@ -77,8 +88,7 @@ describe('Saksbilde', () => {
     });
 
     test('rendrer tomt saksbilde for personer uten vedtaksperioder', async () => {
-        const personUtenVedtaksperioder = mappetPerson([umappetArbeidsgiver([], [], [])]);
-        render(<Saksbilde />, { wrapper: wrapper(personUtenVedtaksperioder) });
+        render(<Saksbilde />, { wrapper: wrapperMedPerson([umappetArbeidsgiver([], [], [])]) });
 
         await waitFor(() => {
             expect(screen.queryByTestId('tomt-saksbilde')).toBeVisible();
@@ -89,18 +99,18 @@ describe('Saksbilde', () => {
     });
 
     test('rendrer saksbilde for ufullstendig vedtaksperiode', async () => {
-        const personMedUfullstendigVedtaksperiode = mappetPerson([
+        const arbeidsgiverMedUfullstendigPeriode = [
             umappetArbeidsgiver(
                 [
-                    umappetUfullstendigVedtaksperiode({ fom: dayjs('2020-02-01'), tom: dayjs('2020-02-28') }),
+                    umappetUfullstendigVedtaksperiode({ fom: dayjs('2018-02-01'), tom: dayjs('2018-02-28') }),
                     umappetVedtaksperiode(),
                 ],
                 [],
                 [umappetUtbetalingshistorikk()]
             ),
-        ]);
+        ];
 
-        render(<Saksbilde />, { wrapper: wrapper(personMedUfullstendigVedtaksperiode) });
+        render(<Saksbilde />, { wrapper: wrapperMedPerson(arbeidsgiverMedUfullstendigPeriode) });
         const perioder = screen.getAllByTestId('tidslinjeperiode', { exact: false });
         expect(perioder).toHaveLength(2);
         expect(perioder[0]).toBeVisible();
@@ -116,9 +126,7 @@ describe('Saksbilde', () => {
     });
 
     test('rendrer saksbilde med innhold dersom både person og vedtaksperioder finnes', async () => {
-        //
-        const person = mappetPerson();
-        render(<Saksbilde />, { wrapper: wrapper(person) });
+        render(<Saksbilde />, { wrapper: wrapperMedPerson() });
 
         await waitFor(() => {
             expect(screen.queryByTestId('saksbilde-content')).toBeVisible();
@@ -130,13 +138,13 @@ describe('Saksbilde', () => {
 
     test('rendrer saksbilde for revurdering', async () => {
         const dato = dayjs('2020-01-01');
-        const personMedUtbetalingshistorikk = mappetPerson([
+        const arbeidsgiverMedUtbetalingshistorikk = [
             umappetArbeidsgiver(
                 [
                     umappetVedtaksperiode({
                         id: 'uuid-1',
-                        fom: dato,
-                        tom: dato,
+                        fom: dato.format(ISO_DATOFORMAT),
+                        tom: dato.format(ISO_DATOFORMAT),
                         beregningIder: ['id1', 'id2'],
                     }),
                 ],
@@ -160,9 +168,9 @@ describe('Saksbilde', () => {
                     ),
                 ]
             ),
-        ]);
+        ];
 
-        render(<Saksbilde />, { wrapper: wrapper(personMedUtbetalingshistorikk) });
+        render(<Saksbilde />, { wrapper: wrapperMedPerson(arbeidsgiverMedUtbetalingshistorikk) });
         let perioder = screen.getAllByTestId('tidslinjeperiode', { exact: false });
         expect(perioder).toHaveLength(1);
         expect(perioder[0]).toBeVisible();
@@ -180,13 +188,13 @@ describe('Saksbilde', () => {
         const AG1 = '123456789';
         const AG2 = '987654321';
         const dato = dayjs('2020-01-01');
-        const personMedUtbetalingshistorikk = mappetPerson([
+        const arbeidsgivereMedUtbetalingshistorikk = [
             umappetArbeidsgiver(
                 [
                     umappetVedtaksperiode({
                         id: 'uuid-1',
-                        fom: dato,
-                        tom: dato,
+                        fom: dato.format(ISO_DATOFORMAT),
+                        tom: dato.format(ISO_DATOFORMAT),
                         beregningIder: ['id1'],
                         inntektskilde: 'FLERE_ARBEIDSGIVERE',
                     }),
@@ -208,8 +216,8 @@ describe('Saksbilde', () => {
                 [
                     umappetVedtaksperiode({
                         id: 'uuid-2',
-                        fom: dato,
-                        tom: dato,
+                        fom: dato.format(ISO_DATOFORMAT),
+                        tom: dato.format(ISO_DATOFORMAT),
                         beregningIder: ['id2'],
                         inntektskilde: 'FLERE_ARBEIDSGIVERE',
                     }),
@@ -227,9 +235,9 @@ describe('Saksbilde', () => {
                 ],
                 AG2
             ),
-        ]);
+        ];
 
-        render(<Saksbilde />, { wrapper: wrapper(personMedUtbetalingshistorikk) });
+        render(<Saksbilde />, { wrapper: wrapperMedPerson(arbeidsgivereMedUtbetalingshistorikk) });
         let perioder = screen.getAllByTestId('tidslinjeperiode', { exact: false });
         expect(perioder).toHaveLength(2);
         expect(perioder[0]).toBeVisible();
@@ -254,13 +262,13 @@ describe('Saksbilde', () => {
         const AG1 = '123456789';
         const AG2 = '987654321';
         const dato = dayjs('2020-01-01');
-        const personMedUtbetalingshistorikk = mappetPerson([
+        const arbeidsgivereMedUtbetalingshistorikk = [
             umappetArbeidsgiver(
                 [
                     umappetVedtaksperiode({
                         id: 'uuid-1',
-                        fom: dato,
-                        tom: dato,
+                        fom: dato.format(ISO_DATOFORMAT),
+                        tom: dato.format(ISO_DATOFORMAT),
                         beregningIder: ['id1', 'id2'],
                         inntektskilde: 'FLERE_ARBEIDSGIVERE',
                     }),
@@ -290,8 +298,8 @@ describe('Saksbilde', () => {
                 [
                     umappetVedtaksperiode({
                         id: 'uuid-2',
-                        fom: dato,
-                        tom: dato,
+                        fom: dato.format(ISO_DATOFORMAT),
+                        tom: dato.format(ISO_DATOFORMAT),
                         beregningIder: ['id3', 'id4'],
                         inntektskilde: 'FLERE_ARBEIDSGIVERE',
                     }),
@@ -317,9 +325,9 @@ describe('Saksbilde', () => {
                 ],
                 AG2
             ),
-        ]);
+        ];
 
-        render(<Saksbilde />, { wrapper: wrapper(personMedUtbetalingshistorikk) });
+        render(<Saksbilde />, { wrapper: wrapperMedPerson(arbeidsgivereMedUtbetalingshistorikk) });
         let perioder = screen.getAllByTestId('tidslinjeperiode', { exact: false });
         expect(perioder).toHaveLength(2);
         expect(perioder[0]).toBeVisible();
@@ -344,13 +352,13 @@ describe('Saksbilde', () => {
         const AG1 = '123456789';
         const AG2 = '987654321';
         const dato = dayjs('2020-01-01');
-        const personMedUtbetalingshistorikk = mappetPerson([
+        const arbeidsgivereMedUtbetalingshistorikk = [
             umappetArbeidsgiver(
                 [
                     umappetVedtaksperiode({
                         id: 'uuid-1',
-                        fom: dato,
-                        tom: dato,
+                        fom: dato.format(ISO_DATOFORMAT),
+                        tom: dato.format(ISO_DATOFORMAT),
                         beregningIder: ['id1', 'id2'],
                         inntektskilde: 'FLERE_ARBEIDSGIVERE',
                     }),
@@ -380,8 +388,8 @@ describe('Saksbilde', () => {
                 [
                     umappetVedtaksperiode({
                         id: 'uuid-2',
-                        fom: dato,
-                        tom: dato,
+                        fom: dato.format(ISO_DATOFORMAT),
+                        tom: dato.format(ISO_DATOFORMAT),
                         beregningIder: ['id3', 'id4'],
                         inntektskilde: 'FLERE_ARBEIDSGIVERE',
                     }),
@@ -407,9 +415,9 @@ describe('Saksbilde', () => {
                 ],
                 AG2
             ),
-        ]);
+        ];
 
-        render(<Saksbilde />, { wrapper: wrapper(personMedUtbetalingshistorikk) });
+        render(<Saksbilde />, { wrapper: wrapperMedPerson(arbeidsgivereMedUtbetalingshistorikk) });
         let perioder = screen.getAllByTestId('tidslinjeperiode', { exact: false });
         expect(perioder).toHaveLength(2);
         expect(perioder[0]).toBeVisible();
@@ -433,13 +441,13 @@ describe('Saksbilde', () => {
     test('viser overstyringsknapp for en periode til revurdering', async () => {
         const ORGNR = '123456789';
         const dato = dayjs('2020-01-01');
-        const personMedUtbetalingshistorikk = mappetPerson([
+        const arbeidsgiverMedUtbetalingshistorikk = [
             umappetArbeidsgiver(
                 [
                     umappetVedtaksperiode({
                         id: 'uuid-1',
-                        fom: dato,
-                        tom: dato,
+                        fom: dato.format(ISO_DATOFORMAT),
+                        tom: dato.format(ISO_DATOFORMAT),
                         beregningIder: ['id1', 'id2'],
                     }),
                 ],
@@ -464,9 +472,9 @@ describe('Saksbilde', () => {
                 ],
                 ORGNR
             ),
-        ]);
+        ];
 
-        render(<Saksbilde />, { wrapper: wrapper(personMedUtbetalingshistorikk) });
+        render(<Saksbilde />, { wrapper: wrapperMedPerson(arbeidsgiverMedUtbetalingshistorikk) });
         let perioder = screen.getAllByTestId('tidslinjeperiode', { exact: false });
         expect(perioder).toHaveLength(1);
         expect(perioder[0]).toBeVisible();
@@ -482,13 +490,13 @@ describe('Saksbilde', () => {
     test('viser overstyringsknapp for en avsluttet periode', async () => {
         const ORGNR = '123456789';
         const dato = dayjs('2020-01-01');
-        const personMedUtbetalingshistorikk = mappetPerson([
+        const arbeidsgiverMedUtbetalingshistorikk = [
             umappetArbeidsgiver(
                 [
                     umappetVedtaksperiode({
                         id: 'uuid-1',
-                        fom: dato,
-                        tom: dato,
+                        fom: dato.format(ISO_DATOFORMAT),
+                        tom: dato.format(ISO_DATOFORMAT),
                         beregningIder: ['id1'],
                     }),
                 ],
@@ -505,9 +513,9 @@ describe('Saksbilde', () => {
                 ],
                 ORGNR
             ),
-        ]);
+        ];
 
-        render(<Saksbilde />, { wrapper: wrapper(personMedUtbetalingshistorikk) });
+        render(<Saksbilde />, { wrapper: wrapperMedPerson(arbeidsgiverMedUtbetalingshistorikk) });
         let perioder = screen.getAllByTestId('tidslinjeperiode', { exact: false });
         expect(perioder).toHaveLength(1);
         expect(perioder[0]).toBeVisible();
@@ -523,13 +531,13 @@ describe('Saksbilde', () => {
     test('viser overstyringsknapp for en periode til godkjenning', async () => {
         const ORGNR = '123456789';
         const dato = dayjs('2020-01-01');
-        const personMedUtbetalingshistorikk = mappetPerson([
+        const arbeidsgiverMedUtbetalingshistorikk = [
             umappetArbeidsgiver(
                 [
                     umappetVedtaksperiode({
                         id: 'uuid-1',
-                        fom: dato,
-                        tom: dato,
+                        fom: dato.format(ISO_DATOFORMAT),
+                        tom: dato.format(ISO_DATOFORMAT),
                         beregningIder: ['id1'],
                     }),
                 ],
@@ -546,9 +554,9 @@ describe('Saksbilde', () => {
                 ],
                 ORGNR
             ),
-        ]);
+        ];
 
-        render(<Saksbilde />, { wrapper: wrapper(personMedUtbetalingshistorikk) });
+        render(<Saksbilde />, { wrapper: wrapperMedPerson(arbeidsgiverMedUtbetalingshistorikk) });
         let perioder = screen.getAllByTestId('tidslinjeperiode', { exact: false });
         expect(perioder).toHaveLength(1);
         expect(perioder[0]).toBeVisible();

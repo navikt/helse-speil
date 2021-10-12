@@ -1,5 +1,7 @@
 import dayjs, { Dayjs } from 'dayjs';
 
+import { testBeregningId } from './person';
+
 export const enTidslinjeperiode = (
     tilstand: Tidslinjetilstand = 'oppgaver',
     fom: Dayjs = dayjs('2021-01-01'),
@@ -8,7 +10,7 @@ export const enTidslinjeperiode = (
 ): Tidslinjeperiode => {
     return {
         id: 'fa02d7a5-daf2-488c-9798-2539edd7fe3f',
-        beregningId: 'id1',
+        beregningId: testBeregningId,
         unique: 'unique_id',
         fom: fom,
         tom: tom,

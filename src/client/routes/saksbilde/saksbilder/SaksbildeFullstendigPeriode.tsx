@@ -8,12 +8,12 @@ import { ErrorBoundary } from '../../../components/ErrorBoundary';
 import { Tooltip } from '../../../components/Tooltip';
 import { useSetVedtaksperiodeReferanserForNotater } from '../../../hooks/useSetVedtaksperiodeReferanserForNotater';
 import { erOver67År, getMånedsbeløp, getSkjæringstidspunkt } from '../../../mapping/selectors';
-import { useArbeidsforhold, useArbeidsgivernavn } from '../../../modell/arbeidsgiver';
+import { useArbeidsforhold } from '../../../modell/arbeidsgiver';
 import { useMaksdato } from '../../../modell/utbetalingshistorikkelement';
 import { useInnloggetSaksbehandler } from '../../../state/authentication';
 import { usePersondataSkalAnonymiseres } from '../../../state/person';
 import { useOppgavereferanse, useVedtaksperiode } from '../../../state/tidslinje';
-import { ISO_DATOFORMAT, NORSK_DATOFORMAT } from '../../../utils/date';
+import { ISO_DATOFORMAT } from '../../../utils/date';
 
 import { AmplitudeProvider } from '../AmplitudeContext';
 import { getErrorMessage } from '../errorMessages';
@@ -98,8 +98,6 @@ export const SaksbildeFullstendigPeriode = ({ personTilBehandling, aktivPeriode 
                             <RouteContainer>
                                 {skjæringstidspunkt && aktivPeriode.vilkårsgrunnlaghistorikkId ? (
                                     <Sykepengegrunnlag
-                                        vedtaksperiode={vedtaksperiode}
-                                        aktivPeriode={aktivPeriode}
                                         skjæringstidspunkt={skjæringstidspunkt.format(ISO_DATOFORMAT)}
                                         vilkårsgrunnlaghistorikkId={aktivPeriode.vilkårsgrunnlaghistorikkId}
                                     />
