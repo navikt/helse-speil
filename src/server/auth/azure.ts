@@ -23,6 +23,7 @@ const setup = (config: OidcConfig) => {
                     client_secret: config.clientSecret,
                     redirect_uris: [],
                     response_types: ['code'],
+                    revocation_endpoint: azure.metadata.revocation_endpoint,
                 });
 
                 if (proxyAgent) {
