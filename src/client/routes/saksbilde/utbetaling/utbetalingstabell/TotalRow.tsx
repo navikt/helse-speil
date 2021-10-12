@@ -20,16 +20,21 @@ const TotalText = styled(BodyShort)`
 `;
 
 interface TotalRowProps {
-    dager: [string, Utbetalingsdag][];
-    dagerIgjen: number;
+    dager: [string, UtbetalingstabellDag][];
 }
 
-export const TotalRow = React.memo(({ dager, dagerIgjen }: TotalRowProps) => {
+export const TotalRow = React.memo(({ dager }: TotalRowProps) => {
     const utbetalingsdager = dager
         .filter(([_, { utbetaling }]) => utbetaling && utbetaling > 0)
         .filter(([_, { type }]) => type !== 'Avslått') as [string, Required<UtbetalingstabellDag>][];
 
     const totalUtbetaling = utbetalingsdager.reduce((total, [_, { utbetaling }]) => total + utbetaling, 0);
+
+    const dagerIgjenPåSluttenAvPerioden = dager[dager.length - 1][1].dagerIgjen;
+
+    const dagerIgjenPåStartenAvPerioden = dagerIgjenPåSluttenAvPerioden
+        ? dagerIgjenPåSluttenAvPerioden + utbetalingsdager.length
+        : 0;
 
     return (
         <Container>
@@ -42,7 +47,7 @@ export const TotalRow = React.memo(({ dager, dagerIgjen }: TotalRowProps) => {
             <td />
             <UtbetalingCell style={{ fontWeight: 'bold' }} utbetaling={totalUtbetaling} />
             <td>
-                <TotalText as="p">{dagerIgjen}</TotalText>
+                <TotalText as="p">{dagerIgjenPåStartenAvPerioden}</TotalText>
             </td>
             <td />
         </Container>

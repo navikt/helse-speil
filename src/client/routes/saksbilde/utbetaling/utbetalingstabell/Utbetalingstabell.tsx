@@ -85,9 +85,7 @@ export const Utbetalingstabell = ({ fom, tom, dager, lokaleOverstyringer }: Utbe
                         </tr>
                     </thead>
                     <tbody>
-                        {dagerList.length > 0 && (
-                            <TotalRow dager={dagerList} dagerIgjen={dagerList[0][1].dagerIgjen ?? 0} />
-                        )}
+                        {dagerList.length > 0 && <TotalRow dager={dagerList} />}
                         {dagerList.map(([key, dag], i) => (
                             <Row type={dag.type} key={i}>
                                 <DateCell date={dag.dato} />
