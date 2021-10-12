@@ -20,4 +20,19 @@ describe('TotalRow', () => {
         expect(screen.getByText('3 dager')).toBeVisible();
         expect(screen.getByText('123')).toBeVisible();
     });
+
+    it('rendrer totalt antall dager igjen riktig når vi går tom for dager igjen', () => {
+        const dager = [
+            ['2021-01-01', { type: 'Syk', utbetaling: 1000, dagerIgjen: 2 }],
+            ['2021-01-02', { type: 'Syk', utbetaling: 1000, dagerIgjen: 1 }],
+            ['2021-01-03', { type: 'Avslått', utbetaling: 1000, dagerIgjen: 1 }],
+            ['2021-01-04', { type: 'Avslått', utbetaling: 1000, dagerIgjen: 1 }],
+            ['2021-01-05', { type: 'Syk', dagerIgjen: 1 }],
+            ['2021-01-06', { type: 'Syk', utbetaling: 1000, dagerIgjen: 0 }],
+        ] as [string, UtbetalingstabellDag][];
+        render(<TotalRow dager={dager} />);
+
+        expect(screen.getByText('3 dager')).toBeVisible();
+        expect(screen.getByText('3')).toBeVisible();
+    });
 });

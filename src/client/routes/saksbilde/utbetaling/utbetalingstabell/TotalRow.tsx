@@ -32,9 +32,7 @@ export const TotalRow = React.memo(({ dager }: TotalRowProps) => {
 
     const dagerIgjenPåSluttenAvPerioden = dager[dager.length - 1][1].dagerIgjen;
 
-    const dagerIgjenPåStartenAvPerioden = dagerIgjenPåSluttenAvPerioden
-        ? dagerIgjenPåSluttenAvPerioden + utbetalingsdager.length
-        : 0;
+    const dagerIgjenPåStartenAvPerioden = (dagerIgjenPåSluttenAvPerioden ?? 0) + utbetalingsdager.length;
 
     return (
         <Container>
