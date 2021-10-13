@@ -555,7 +555,7 @@ declare type ExternalArbeidsgiverinntekt = {
 declare type ExternalVilkårsgrunnlag = {
     vilkårsgrunnlagtype: 'SPLEIS' | 'INFOTRYGD';
     skjæringstidspunkt: DateString;
-    omregnetÅrsinntekt: number | null;
+    omregnetÅrsinntekt: number;
     sammenligningsgrunnlag: number | null;
     sykepengegrunnlag: number;
     inntekter: ExternalArbeidsgiverinntekt[];
@@ -564,9 +564,13 @@ declare type ExternalVilkårsgrunnlag = {
 declare type ExternalSpleisVilkårsgrunnlag = ExternalVilkårsgrunnlag & {
     vilkårsgrunnlagtype: 'SPLEIS';
     avviksprosent: number | null;
-    oppfyllerKravOmMinstelønn: boolean | null;
     grunnbeløp: number;
-    medlemskapstatus: 'JA' | 'NEI' | 'VET_IKKE';
+    sammenligningsgrunnlag: number;
+    antallOpptjeningsdagerErMinst: number;
+    opptjeningFra: DateString;
+    oppfyllerKravOmOpptjening: boolean;
+    oppfyllerKravOmMinstelønn: boolean;
+    oppfyllerKravOmMedlemskap: boolean | null;
 };
 
 declare type ExternalInfotrygdVilkårsgrunnlag = ExternalVilkårsgrunnlag & {

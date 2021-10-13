@@ -1,3 +1,5 @@
+import dayjs from 'dayjs';
+
 import { testOrganisasjonsnummer, testSkjæringstidspunkt } from './person';
 
 export const etSpleisgrunnlag = (grunnlag?: Partial<ExternalSpleisVilkårsgrunnlag>): ExternalSpleisVilkårsgrunnlag => {
@@ -19,9 +21,12 @@ export const etSpleisgrunnlag = (grunnlag?: Partial<ExternalSpleisVilkårsgrunnl
             },
         ],
         avviksprosent: 5.0,
-        oppfyllerKravOmMinstelønn: true,
         grunnbeløp: 106399,
-        medlemskapstatus: 'VET_IKKE',
+        oppfyllerKravOmMinstelønn: true,
+        oppfyllerKravOmMedlemskap: null,
+        oppfyllerKravOmOpptjening: true,
+        opptjeningFra: dayjs(testSkjæringstidspunkt).subtract(10, 'years').toISOString(),
+        antallOpptjeningsdagerErMinst: 365,
         vilkårsgrunnlagtype: 'SPLEIS',
         ...grunnlag,
     };
