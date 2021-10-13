@@ -56,6 +56,10 @@ const IconContainer = styled.div`
     transform: translateY(-50%);
 `;
 
+const StyledBag = styled(Bag)`
+    min-width: 16px;
+`;
+
 interface EnkelRadProps {
     rad?: TidslinjeradObject;
     navn: string;
@@ -64,7 +68,7 @@ interface EnkelRadProps {
 const EnkelRad: React.FC<EnkelRadProps> = ({ rad, navn }) => (
     <Flex alignItems="start">
         <Navn>
-            <Bag title="Arbeidsgiver" />
+            <StyledBag title="Arbeidsgiver" />
             <Flex style={{ overflow: 'hidden' }}>
                 <TekstMedEllipsis data-tip={navn}>{navn}</TekstMedEllipsis>
             </Flex>
@@ -83,7 +87,7 @@ const EkspanderbarRad: React.FC<EkspanderbarRadProps> = ({ rader, navn, id, togg
     <Flex alignItems="start">
         <EkspanderbartNavn onClick={() => toggleEkspanderbarRad(id)}>
             <IconContainer>{erEkspandert ? <Expand /> : <Next />}</IconContainer>
-            <Bag title="Arbeidsgiver" />
+            <StyledBag title="Arbeidsgiver" />
             <Flex style={{ overflow: 'hidden' }}>
                 <TekstMedEllipsis data-tip={navn}>{navn}</TekstMedEllipsis>
             </Flex>

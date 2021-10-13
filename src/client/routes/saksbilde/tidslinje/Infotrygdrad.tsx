@@ -33,11 +33,14 @@ interface InfotrygdradProps {
     rad: InfotrygdradObject;
     navn: string;
 }
+const StyledInfotrygdikon = styled(Infotrygdikon)`
+    min-width: 16px;
+`;
 
 export const Infotrygdrad = ({ rad, navn }: InfotrygdradProps) => (
     <Flex alignItems="start">
         <Navn>
-            <Infotrygdikon />
+            <StyledInfotrygdikon />
             <TekstMedEllipsis data-tip={navn}>{navn}</TekstMedEllipsis>
         </Navn>
         <Rader>
