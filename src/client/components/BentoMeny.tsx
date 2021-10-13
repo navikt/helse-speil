@@ -70,7 +70,8 @@ interface BentoLenkeProps {
     href: string;
 }
 
-interface AInntektRedirectLenkeProps {
+interface ArbeidOgInntektRedirectLenkeProps {
+    url: string;
     person: Person | undefined;
 }
 
@@ -81,17 +82,21 @@ const BentoLenke: React.FC<BentoLenkeProps> = ({ href, children }) => (
     </MenyLenke>
 );
 
-const AInntektRedirigerLenke: React.FC<AInntektRedirectLenkeProps> = ({ person, children }) =>
+const ArbeidOgInntektRedirigerLenke: React.FC<ArbeidOgInntektRedirectLenkeProps> = ({ url, person, children }) =>
     person ? (
-        <MenyLenke onClick={() => redirigerTilAInntekt(person.fødselsnummer)}>{children}</MenyLenke>
+        <MenyLenke onClick={() => redirigerTilArbeidOgInntektUrl(url, person.fødselsnummer)}>
+            {children}
+            <ExternalLink />
+        </MenyLenke>
     ) : (
         <MenyLenke href="https://arbeid-og-inntekt.nais.adeo.no" target="_blank">
             {children}
+            <ExternalLink />
         </MenyLenke>
     );
 
-const redirigerTilAInntekt = (fødselsnummer: string) => {
-    return fetch('https://arbeid-og-inntekt.nais.adeo.no/api/v2/redirect/sok/a-inntekt', {
+const redirigerTilArbeidOgInntektUrl = (url: string, fødselsnummer: string) => {
+    return fetch(url, {
         method: 'GET',
         headers: {
             'Nav-Personident': fødselsnummer,
@@ -106,13 +111,18 @@ export const BentoMeny = () => {
     const [anchor, setAnchor] = useState<HTMLElement | null>(null);
     const person = usePerson();
 
-    const links: { tekst: string; href: string }[] = [
+    const arbeidOgInntektLinks: { tekst: string; url: string }[] = [
+        {
+            tekst: 'A-inntekt',
+            url: 'https://arbeid-og-inntekt.nais.adeo.no/api/v2/redirect/sok/a-inntekt',
+        },
         {
             tekst: 'Aa-registeret',
-            href: person
-                ? `https://modapp.adeo.no/aareg-web/?2&rolle=arbeidstaker&ident=${person.fødselsnummer}#!arbeidsforhold`
-                : 'https://modapp.adeo.no/aareg-web/?2&rolle=arbeidstaker',
+            url: 'https://arbeid-og-inntekt.nais.adeo.no/api/v2/redirect/sok/arbeidstaker',
         },
+    ];
+
+    const links: { tekst: string; href: string }[] = [
         {
             tekst: 'Gosys',
             href: person
@@ -149,7 +159,11 @@ export const BentoMeny = () => {
                 tabIndex={-1}
             >
                 <Tittel as="p">Systemer og oppslagsverk</Tittel>
-                <AInntektRedirigerLenke person={person}>A-Inntekt</AInntektRedirigerLenke>
+                {arbeidOgInntektLinks.map(({ tekst, url }) => (
+                    <ArbeidOgInntektRedirigerLenke key={url} url={url} person={person}>
+                        {tekst}
+                    </ArbeidOgInntektRedirigerLenke>
+                ))}
                 {links.map(({ tekst, href }) => (
                     <BentoLenke key={href} href={href}>
                         {tekst}
