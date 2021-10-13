@@ -312,13 +312,19 @@ export class VedtaksperiodeBuilder {
                             ...arbeidsgiverinntekt.omregnetÅrsinntekt,
                             kilde: arbeidsgiverinntekt.omregnetÅrsinntekt.kilde,
                             inntekterFraAOrdningen:
-                                arbeidsgiverinntekt.omregnetÅrsinntekt.inntekterFraAOrdningen ?? undefined,
+                                arbeidsgiverinntekt.omregnetÅrsinntekt.inntekterFraAOrdningen !== null
+                                    ? this.sorterInntekterFraAOrdningen(
+                                          arbeidsgiverinntekt.omregnetÅrsinntekt.inntekterFraAOrdningen
+                                      )
+                                    : undefined,
                         }) ??
                         undefined,
                     sammenligningsgrunnlag:
                         (arbeidsgiverinntekt.sammenligningsgrunnlag && {
                             ...arbeidsgiverinntekt.sammenligningsgrunnlag,
-                            inntekterFraAOrdningen: arbeidsgiverinntekt.sammenligningsgrunnlag.inntekterFraAOrdningen,
+                            inntekterFraAOrdningen: this.sorterInntekterFraAOrdningen(
+                                arbeidsgiverinntekt.sammenligningsgrunnlag.inntekterFraAOrdningen
+                            ),
                         }) ??
                         undefined,
                     bransjer: arbeidsgiverForOrganisasjonsnummer(arbeidsgiverinntekt.arbeidsgiver)?.bransjer?.length
@@ -341,6 +347,20 @@ export class VedtaksperiodeBuilder {
             this.problems.push(error);
         }
     };
+
+    private sorterInntekterFraAOrdningen = (
+        inntekterFraAOrdningen: ExternalInntekterFraAOrdningen[]
+    ): ExternalInntekterFraAOrdningen[] =>
+        inntekterFraAOrdningen
+            .map((inntektFraAOrdningen) => ({
+                måned: dayjs(inntektFraAOrdningen.måned, 'YYYY-MM'),
+                sum: inntektFraAOrdningen.sum,
+            }))
+            .sort((a, b) => (a.måned.isAfter(b.måned) ? -1 : 1))
+            .map((it) => ({
+                måned: it.måned.format('YYYY-MM'),
+                sum: it.sum,
+            }));
 
     private erInfotrygdforlengelse = (): boolean => this.unmapped.forlengelseFraInfotrygd === 'JA';
 
