@@ -1,7 +1,6 @@
 import styled from '@emotion/styled';
 import React, { useContext, useState } from 'react';
 import { useHistory } from 'react-router';
-import { useSetRecoilState } from 'recoil';
 
 import { Loader } from '@navikt/ds-react';
 
@@ -11,7 +10,6 @@ import { useOperationErrorHandler } from '../../../state/varsler';
 import { ignorePromise } from '../../../utils/promise';
 
 import { NyttNotatModal } from '../../oversikt/table/rader/notat/NyttNotatModal';
-import { tabState, TabType } from '../../oversikt/tabs';
 
 export interface PåVentKnappProps {
     erPåVent?: boolean;
@@ -26,7 +24,6 @@ const Container = styled.span`
 `;
 
 export const PåVentKnapp = ({ erPåVent, oppgavereferanse, vedtaksperiodeId, personinfo }: PåVentKnappProps) => {
-    const setAktivTab = useSetRecoilState(tabState);
     const [isFetching, setIsFetching] = useState(false);
     const history = useHistory();
     const errorHandler = useOperationErrorHandler('Legg på vent');
@@ -44,7 +41,6 @@ export const PåVentKnapp = ({ erPåVent, oppgavereferanse, vedtaksperiodeId, pe
         setIsFetching(true);
         ignorePromise(
             leggPåVent({ oppgavereferanse }).then(() => {
-                setAktivTab(TabType.Ventende);
                 history.push('/');
             }),
             errorHandler
