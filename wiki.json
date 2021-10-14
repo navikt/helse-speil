@@ -200,7 +200,7 @@
     {
         "varsel": "Ikke registrert eller mangler samtykke i Kontakt- og reservasjonsregisteret, eventuell kommunikasjon må skje i brevform",
         "betydning": "Brukeren ikke har bekreftet valget om reservasjon de siste 18 månedene.",
-        "løsning": "Dersom vi ønsker å kommunisere med brukeren, enten for å sende et vedtak eller hente inn informasjon, må det være på brev og ikke i automatiske løsninger.<br><br><p>Dette er en ny paragraf</p>",
+        "løsning": "Dersom vi ønsker å kommunisere med brukeren, enten for å sende et vedtak eller hente inn informasjon, må det være på brev og ikke i automatiske løsninger.",
         "viktighet": "Lav"
     },
     {
