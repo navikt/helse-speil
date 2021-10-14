@@ -24,13 +24,23 @@ export const withDagerIgjen = (dager: Utbetalingsdag[], totaltAntallDagerIgjen: 
 export const antallSykedagerTilOgMedMaksdato = (dager: Utbetalingsdag[], maksdato?: Dayjs): number =>
     maksdato ? dager.filter((it) => it.type === 'Syk' && it.dato.isSameOrBefore(maksdato)).length : 0;
 
-export const useTabelldagerMap = (
-    periode: Tidslinjeperiode,
-    overstyringer: Overstyring[],
-    gjenståendeDager: number | null,
-    maksdato?: Dayjs,
-    skjæringstidspunkt?: Dayjs
-): Map<string, UtbetalingstabellDag> =>
+type UseTabelldagerMapOptions = {
+    periode: Tidslinjeperiode;
+    overstyringer: Overstyring[];
+    gjenståendeDager: number | null;
+    fødselsdato: Dayjs | null;
+    maksdato?: Dayjs;
+    skjæringstidspunkt?: Dayjs;
+};
+
+export const useTabelldagerMap = ({
+    periode,
+    overstyringer,
+    gjenståendeDager,
+    fødselsdato,
+    maksdato,
+    skjæringstidspunkt,
+}: UseTabelldagerMapOptions): Map<string, UtbetalingstabellDag> =>
     useMemo(() => {
         const antallDagerIgjen =
             (gjenståendeDager ? gjenståendeDager : 0) +
@@ -43,6 +53,7 @@ export const useTabelldagerMap = (
                     kilde: periode.sykdomstidslinje[i]?.kilde ?? 'Ukjent',
                     type: periode.sykdomstidslinje[i]?.type ?? it.type,
                 },
+                alderPåDagen: it.dato.diff(fødselsdato, 'year'),
             })
         ) as UtbetalingstabellDag[];
 

@@ -10,7 +10,7 @@ import { useRefreshPersonVedOpptegnelse } from '../../hooks/useRefreshPersonVedO
 import { useRefreshPersonVedUrlEndring } from '../../hooks/useRefreshPersonVedUrlEndring';
 import { usePollEtterOpptegnelser } from '../../io/polling';
 import { usePerson, usePersondataSkalAnonymiseres } from '../../state/person';
-import { useAktivPeriode } from '../../state/tidslinje';
+import { useMaybeAktivPeriode } from '../../state/tidslinje';
 import { Scopes, useVarselFilter } from '../../state/varsler';
 
 import { SaksbildeFullstendigPeriode } from './saksbilder/SaksbildeFullstendigPeriode';
@@ -38,8 +38,13 @@ const Container = styled.div`
     transition: 0.2s ease;
 `;
 
+const Saksbildevarsel = styled(Varsel)`
+    grid-column-start: venstremeny;
+    grid-column-end: høyremeny;
+`;
+
 const SaksbildeContent = React.memo(() => {
-    const aktivPeriode = useAktivPeriode();
+    const aktivPeriode = useMaybeAktivPeriode();
     const personTilBehandling = usePerson();
     const anonymiseringEnabled = usePersondataSkalAnonymiseres();
 
@@ -71,10 +76,16 @@ const SaksbildeContent = React.memo(() => {
                         </Route>
                         <Route>
                             {aktivPeriode.fullstendig ? (
-                                <SaksbildeFullstendigPeriode
-                                    personTilBehandling={personTilBehandling}
-                                    aktivPeriode={aktivPeriode}
-                                />
+                                <ErrorBoundary
+                                    fallback={(error) => (
+                                        <Saksbildevarsel type={Varseltype.Feil}>{error.message}</Saksbildevarsel>
+                                    )}
+                                >
+                                    <SaksbildeFullstendigPeriode
+                                        personTilBehandling={personTilBehandling}
+                                        aktivPeriode={aktivPeriode}
+                                    />
+                                </ErrorBoundary>
                             ) : (
                                 <SaksbildeUfullstendigPeriode aktivPeriode={aktivPeriode} />
                             )}

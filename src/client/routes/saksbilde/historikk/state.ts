@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { atom, selector, useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 
 import { useNotaterForVedtaksperiode } from '../../../state/notater';
-import { useAktivPeriode, useVedtaksperiode } from '../../../state/tidslinje';
+import { useMaybeAktivPeriode, useVedtaksperiode } from '../../../state/tidslinje';
 
 import { Hendelse, Hendelsetype } from './Historikk.types';
 import { useDokumenter, useNotater, useUtbetalinger, useUtbetalingsendringer } from './mapping';
@@ -43,7 +43,7 @@ type UseOppdaterHistorikkOptions = {
 
 export const useOppdaterHistorikk = ({ onClickNotat, onClickEndring }: UseOppdaterHistorikkOptions) => {
     const setHistorikk = useSetRecoilState(historikkState);
-    const aktivPeriode = useAktivPeriode();
+    const aktivPeriode = useMaybeAktivPeriode();
     const vedtaksperiode = useVedtaksperiode(aktivPeriode?.id);
     const notaterForVedtaksperiode = useNotaterForVedtaksperiode(vedtaksperiode?.id);
 

@@ -1,3 +1,4 @@
+import dayjs from 'dayjs';
 import React from 'react';
 
 import { BodyShort } from '@navikt/ds-react';
@@ -7,17 +8,25 @@ import { toKronerOgØre } from '../../../../utils/locale';
 
 import { Vilkårsgrupperad } from './Vilkårsgrupperad';
 
-export const Opptjeningstid = ({ dagerIgjen, opptjening }: Vilkår) => (
+interface OpptjeningstidProps {
+    skjæringstidspunkt: DateString;
+    opptjeningFra: ExternalSpleisVilkårsgrunnlag['opptjeningFra'];
+    antallOpptjeningsdagerErMinst: ExternalSpleisVilkårsgrunnlag['antallOpptjeningsdagerErMinst'];
+}
+
+export const Opptjeningstid = ({
+    skjæringstidspunkt,
+    opptjeningFra,
+    antallOpptjeningsdagerErMinst,
+}: OpptjeningstidProps) => (
     <>
         <Vilkårsgrupperad label="Skjæringstidspunkt">
-            {dagerIgjen.skjæringstidspunkt?.format(NORSK_DATOFORMAT) ?? 'Ikke funnet'}
+            {dayjs(skjæringstidspunkt).format(NORSK_DATOFORMAT) ?? 'Ikke funnet'}
         </Vilkårsgrupperad>
         <Vilkårsgrupperad label="Opptjening fra">
-            {(opptjening as Opptjening)?.opptjeningFra?.format(NORSK_DATOFORMAT) ?? 'ukjent'}
+            {dayjs(opptjeningFra).format(NORSK_DATOFORMAT) ?? 'ukjent'}
         </Vilkårsgrupperad>
-        <Vilkårsgrupperad label="Antall dager (>28)">{`${
-            (opptjening as Opptjening)?.antallOpptjeningsdagerErMinst ?? false
-        }`}</Vilkårsgrupperad>
+        <Vilkårsgrupperad label="Antall dager (>28)">{`${antallOpptjeningsdagerErMinst}`}</Vilkårsgrupperad>
     </>
 );
 
@@ -33,13 +42,21 @@ const Grunnbeløp = ({ grunnbeløp, alder }: GrunnbeløpProps) =>
         <BodyShort as="p">{`0,5G er ${toKronerOgØre(grunnbeløp / 2)} kr`}</BodyShort>
     );
 
-export const Sykepengegrunnlag = ({ sykepengegrunnlag, alder }: Vilkår) => (
+interface SykepengegrunnlagProps {
+    sykepengegrunnlag: ExternalSpleisVilkårsgrunnlag['sykepengegrunnlag'];
+    grunnbeløp: ExternalSpleisVilkårsgrunnlag['grunnbeløp'];
+    alderVedSkjæringstidspunkt: number;
+}
+
+export const Sykepengegrunnlag = ({
+    sykepengegrunnlag,
+    grunnbeløp,
+    alderVedSkjæringstidspunkt,
+}: SykepengegrunnlagProps) => (
     <>
         <Vilkårsgrupperad label="Sykepengegrunnlaget">
-            {sykepengegrunnlag.sykepengegrunnlag
-                ? `${toKronerOgØre(sykepengegrunnlag.sykepengegrunnlag)} kr`
-                : 'Ikke funnet'}
+            {sykepengegrunnlag ? `${toKronerOgØre(sykepengegrunnlag)} kr` : 'Ikke funnet'}
         </Vilkårsgrupperad>
-        <Grunnbeløp grunnbeløp={sykepengegrunnlag.grunnebeløp} alder={alder.alderSisteSykedag} />
+        <Grunnbeløp grunnbeløp={grunnbeløp} alder={alderVedSkjæringstidspunkt} />
     </>
 );

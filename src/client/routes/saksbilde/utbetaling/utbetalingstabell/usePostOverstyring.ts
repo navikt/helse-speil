@@ -12,7 +12,7 @@ import {
 } from '../../../../state/kalkuleringstoasts';
 import { useOpptegnelser, useSetOpptegnelserPollingRate } from '../../../../state/opptegnelser';
 import { usePerson } from '../../../../state/person';
-import { useAktivPeriode } from '../../../../state/tidslinje';
+import { useMaybeAktivPeriode } from '../../../../state/tidslinje';
 import { useAddToast, useRemoveToast } from '../../../../state/toasts';
 import { Scopes, useAddVarsel } from '../../../../state/varsler';
 
@@ -52,7 +52,7 @@ type UsePostOverstyringResult = {
 
 export const usePostOverstyring = (): UsePostOverstyringResult => {
     const person = usePerson() as Person;
-    const periode = useAktivPeriode() as Tidslinjeperiode;
+    const periode = useMaybeAktivPeriode() as Tidslinjeperiode;
     const addToast = useAddToast();
     const removeToast = useRemoveToast();
     const opptegnelser = useOpptegnelser();

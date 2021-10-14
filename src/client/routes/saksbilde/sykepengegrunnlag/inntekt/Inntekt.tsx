@@ -9,7 +9,7 @@ import { EditButton } from '../../../../components/EditButton';
 import { Flex, FlexColumn } from '../../../../components/Flex';
 import { Kilde } from '../../../../components/Kilde';
 import { useUtbetaling } from '../../../../modell/utbetalingshistorikkelement';
-import { useAktivPeriode } from '../../../../state/tidslinje';
+import { useMaybeAktivPeriode } from '../../../../state/tidslinje';
 import { getKildeType, kilde } from '../../../../utils/inntektskilde';
 
 import { overstyrInntektEnabled } from '../../../../featureToggles';
@@ -56,7 +56,7 @@ const Tittel = styled(BodyShort)`
 `;
 
 const useUtbetalingstatus = (): UtbetalingshistorikkElement['status'] | undefined => {
-    const periode = useAktivPeriode();
+    const periode = useMaybeAktivPeriode();
     const utbetaling = useUtbetaling(periode?.beregningId ?? '');
     return utbetaling?.status;
 };

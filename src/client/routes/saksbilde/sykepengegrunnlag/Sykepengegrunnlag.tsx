@@ -2,10 +2,12 @@ import styled from '@emotion/styled';
 import React from 'react';
 
 import { AgurkErrorBoundary } from '../../../components/AgurkErrorBoundary';
-import { useArbeidsgiver } from '../../../modell/arbeidsgiver';
-import { useUtbetaling } from '../../../modell/utbetalingshistorikkelement';
-import { useOrganisasjonsnummer, useVilkårsgrunnlaghistorikk } from '../../../state/person';
-import { useAktivPeriode } from '../../../state/tidslinje';
+import {
+    useOrganisasjonsnummer,
+    useVilkårsgrunnlaghistorikk,
+    useVurderingForSkjæringstidspunkt,
+} from '../../../state/person';
+import { useMaybeAktivPeriode } from '../../../state/tidslinje';
 
 import { BehandletSykepengegrunnlag } from './BehandletSykepengegrunnlag';
 import { SykepengegrunnlagFraInfogtrygd } from './SykepengegrunnlagFraInfotrygd';
@@ -18,19 +20,6 @@ const Container = styled.section`
     box-sizing: border-box;
 `;
 
-const sorterAscending = (a: Tidslinjeperiode, b: Tidslinjeperiode) => a.fom.diff(b.fom);
-
-const useVurderingForSkjæringstidspunkt = (uniqueId: string, skjæringstidspunkt: string): Vurdering | undefined => {
-    const perioder = useArbeidsgiver()!.tidslinjeperioder.find((it) => it.find((it) => it.unique === uniqueId)!)!;
-
-    const førstePeriodeForSkjæringstidspunkt = [...perioder]
-        .sort(sorterAscending)
-        .filter((it) => it.skjæringstidspunkt === skjæringstidspunkt)
-        .shift()!;
-
-    return useUtbetaling(førstePeriodeForSkjæringstidspunkt.beregningId)?.vurdering;
-};
-
 interface SykepengegrunnlagProps {
     vilkårsgrunnlaghistorikkId: UUID;
     skjæringstidspunkt: DateString;
@@ -40,7 +29,7 @@ export const Sykepengegrunnlag = ({ vilkårsgrunnlaghistorikkId, skjæringstidsp
     const organisasjonsnummer = useOrganisasjonsnummer();
     const vilkårsgrunnlag = useVilkårsgrunnlaghistorikk(skjæringstidspunkt, vilkårsgrunnlaghistorikkId);
 
-    const aktivPeriode = useAktivPeriode()!;
+    const aktivPeriode = useMaybeAktivPeriode()!;
     const vurdering = useVurderingForSkjæringstidspunkt(aktivPeriode.unique, aktivPeriode.skjæringstidspunkt!);
 
     return (

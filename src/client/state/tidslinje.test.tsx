@@ -7,7 +7,7 @@ import { umappetArbeidsgiver } from '../../test/data/arbeidsgiver';
 import { testBeregningId, testVedtaksperiodeId } from '../../test/data/person';
 import { umappetUtbetalingshistorikk } from '../../test/data/utbetalingshistorikk';
 import { umappetVedtaksperiode } from '../../test/data/vedtaksperiode';
-import { aktivPeriodeState, useAktivPeriode } from './tidslinje';
+import { aktivPeriodeState, useMaybeAktivPeriode } from './tidslinje';
 
 const wrapper =
     (initializer?: (mutableSnapshot: MutableSnapshot) => void): React.FC =>
@@ -45,12 +45,12 @@ jest.mock('nanoid', () => ({
 
 describe('tidslinjehook', () => {
     it('defaulter til siste periode om ikke en er aktiv', () => {
-        const { result } = renderHook(() => useAktivPeriode(), { wrapper: wrapper() });
+        const { result } = renderHook(() => useMaybeAktivPeriode(), { wrapper: wrapper() });
         expect(result.current?.id).toEqual('uuid-2');
     });
 
     it('finner periode', () => {
-        const { result } = renderHook(() => useAktivPeriode(), {
+        const { result } = renderHook(() => useMaybeAktivPeriode(), {
             wrapper: wrapper(({ set }) => {
                 set(aktivPeriodeState, `${testVedtaksperiodeId}+${testBeregningId}+nanoid`);
             }),

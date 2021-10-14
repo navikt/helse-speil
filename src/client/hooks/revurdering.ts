@@ -1,5 +1,5 @@
 import { usePerson } from '../state/person';
-import { useAktivPeriode } from '../state/tidslinje';
+import { useMaybeAktivPeriode } from '../state/tidslinje';
 
 import type { UtbetalingToggles } from '../featureToggles';
 
@@ -75,7 +75,7 @@ const alleOverlappendePerioderErTilRevurdering = (person: Person, aktivPeriode: 
 };
 
 export const useRevurderingIsEnabled = (toggles: UtbetalingToggles): boolean => {
-    const periode = useAktivPeriode();
+    const periode = useMaybeAktivPeriode();
     const person = usePerson();
 
     if (!person || !periode || !godkjentTilstander.includes(periode.tilstand)) {
@@ -90,7 +90,7 @@ export const useRevurderingIsEnabled = (toggles: UtbetalingToggles): boolean => 
 };
 
 export const useOverstyrRevurderingIsEnabled = (toggles: UtbetalingToggles) => {
-    const periode = useAktivPeriode();
+    const periode = useMaybeAktivPeriode();
     const person = usePerson();
 
     if (!person || !periode || periode.tilstand !== 'revurderes') {

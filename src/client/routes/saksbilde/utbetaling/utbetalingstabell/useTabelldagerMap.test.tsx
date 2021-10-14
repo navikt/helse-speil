@@ -48,7 +48,14 @@ describe('useTabelldagerMap', () => {
             sykdomstidslinje: dager,
         } as Tidslinjeperiode;
 
-        const { result } = renderHook(() => useTabelldagerMap(periode, [], 100, dayjs()));
+        const { result } = renderHook(() =>
+            useTabelldagerMap({
+                periode: periode,
+                overstyringer: [],
+                gjenståendeDager: 100,
+                fødselsdato: dayjs('1980-01-01'),
+            })
+        );
 
         expect(result.current.get('01.01.2021')?.type).toEqual('Syk');
         expect(result.current.get('02.01.2021')?.type).toEqual('Avslått');
@@ -73,7 +80,14 @@ describe('useTabelldagerMap', () => {
             },
         ];
 
-        const { result } = renderHook(() => useTabelldagerMap(periode, overstyringer, 100, dayjs()));
+        const { result } = renderHook(() =>
+            useTabelldagerMap({
+                periode: periode,
+                overstyringer: overstyringer,
+                gjenståendeDager: 100,
+                fødselsdato: dayjs('1980-01-01'),
+            })
+        );
 
         expect(result.current.get('01.01.2021')?.overstyringer).toBeUndefined();
         expect(result.current.get('02.01.2021')?.overstyringer?.[0].begrunnelse).toEqual('Fordi');

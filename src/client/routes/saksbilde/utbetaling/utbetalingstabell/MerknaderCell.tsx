@@ -7,6 +7,7 @@ import { LovdataLenke } from '../../../../components/LovdataLenke';
 import { Tooltip } from '../../../../components/Tooltip';
 
 import { CellContent } from '../../table/CellContent';
+import { UtbetalingstabellDag } from './Utbetalingstabell.types';
 
 const Container = styled.span`
     display: flex;
@@ -16,9 +17,11 @@ const Container = styled.span`
 
 interface MerknadProps {
     begrunnelse: Avvisning;
+    alderPåDagen?: number;
 }
 
-const Merknad = ({ begrunnelse }: MerknadProps) => {
+const Merknad: React.VFC<MerknadProps> = ({ begrunnelse, alderPåDagen }) => {
+    console.log(alderPåDagen);
     switch (begrunnelse.tekst) {
         case 'EtterDødsdato':
             return <BodyShort>Personen er død</BodyShort>;
@@ -79,16 +82,16 @@ const foreldetDagMerknad = (isForeldet: boolean): React.ReactNode | undefined =>
         </Container>
     ) : undefined;
 
-const avvisningsårsakerMerknad = (avvisningsårsaker?: Avvisning[]) =>
-    avvisningsårsaker?.map((it, i) => (
+const avvisningsårsakerMerknad = (dag: UtbetalingstabellDag) =>
+    dag.avvistÅrsaker?.map((it, i) => (
         <React.Fragment key={i}>
             {i !== 0 && <BodyShort>,&nbsp;</BodyShort>}
-            <Merknad begrunnelse={it} />
+            <Merknad begrunnelse={it} alderPåDagen={dag.alderPåDagen} />
         </React.Fragment>
     ));
 
 interface MerknaderCellProps extends React.HTMLAttributes<HTMLTableDataCellElement> {
-    dag: Utbetalingsdag;
+    dag: UtbetalingstabellDag;
     isMaksdato: boolean;
 }
 
@@ -97,7 +100,7 @@ export const MerknaderCell = ({ dag, isMaksdato, ...rest }: MerknaderCellProps) 
         <CellContent>
             {sisteUtbetalingsdagMerknad(isMaksdato) ??
                 foreldetDagMerknad(dag.type === 'Foreldet') ??
-                avvisningsårsakerMerknad(dag.avvistÅrsaker)}
+                avvisningsårsakerMerknad(dag)}
             <Tooltip effect="solid" />
         </CellContent>
     </td>

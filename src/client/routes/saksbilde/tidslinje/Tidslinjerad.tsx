@@ -4,7 +4,7 @@ import React from 'react';
 
 import { Row } from '@navikt/helse-frontend-timeline/lib';
 
-import { decomposedId, useAktivPeriode, useSetAktivPeriode } from '../../../state/tidslinje';
+import { decomposedId, useMaybeAktivPeriode, useSetAktivPeriode } from '../../../state/tidslinje';
 
 import { Tidslinjeperiode } from './Tidslinjeperiode';
 import { InfotrygdradObject } from './useInfotrygdrader';
@@ -32,7 +32,7 @@ interface TidslinjeradProps {
 
 export const Tidslinjerad = ({ rad, erKlikkbar = true, erForeldet = false }: TidslinjeradProps) => {
     const setAktivPeriode = useSetAktivPeriode();
-    const aktivPeriode = useAktivPeriode();
+    const aktivPeriode = useMaybeAktivPeriode();
 
     const erAktiv =
         erKlikkbar &&

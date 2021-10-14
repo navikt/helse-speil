@@ -4,10 +4,13 @@ import dayjs from 'dayjs';
 import React from 'react';
 
 import { MerknaderCell } from './MerknaderCell';
+import { UtbetalingstabellDag } from './Utbetalingstabell.types';
 
 const queryByDataTip = queryHelpers.queryByAttribute.bind(null, 'data-tip');
 
-const enUtbetalingsdag: Utbetalingsdag = {
+const enUtbetalingsdag: UtbetalingstabellDag = {
+    isMaksdato: false,
+    sykdomsdag: { kilde: undefined, type: 'Syk' },
     dato: dayjs(),
     type: 'Syk',
 };

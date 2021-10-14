@@ -12,22 +12,32 @@ import { Opptjeningstid, Sykepengegrunnlag } from './vilkårsgrupper/Vilkårsgru
 
 const VilkårManglerData = () => <BodyShort>Mangler data om vilkåret</BodyShort>;
 
-const opptjeningstid = (vilkår: Vilkår): Vilkårdata => {
-    try {
-        return {
-            type: Vilkårstype.Opptjeningstid,
-            oppfylt: vilkår.opptjening?.oppfylt,
-            tittel: 'Opptjeningstid',
-            paragraf: <LovdataLenke paragraf="8-2">§ 8-2</LovdataLenke>,
-            komponent: <Opptjeningstid {...vilkår} />,
-        };
-    } catch (error) {
-        return {
-            type: Vilkårstype.Opptjeningstid,
-            tittel: 'Opptjeningstid',
-            paragraf: <LovdataLenke paragraf="8-2">§ 8-2</LovdataLenke>,
-            komponent: <VilkårManglerData />,
-        };
+const opptjeningstid = (skjæringstidspunkt: DateString, vilkår: ExternalVilkårsgrunnlag): Vilkårdata => {
+    switch (vilkår.vilkårsgrunnlagtype) {
+        case 'SPLEIS': {
+            const spleisVilkår = vilkår as ExternalSpleisVilkårsgrunnlag;
+            return {
+                type: Vilkårstype.Opptjeningstid,
+                oppfylt: spleisVilkår.oppfyllerKravOmOpptjening,
+                tittel: 'Opptjeningstid',
+                paragraf: <LovdataLenke paragraf="8-2">§ 8-2</LovdataLenke>,
+                komponent: (
+                    <Opptjeningstid
+                        skjæringstidspunkt={skjæringstidspunkt}
+                        opptjeningFra={spleisVilkår.opptjeningFra}
+                        antallOpptjeningsdagerErMinst={spleisVilkår.antallOpptjeningsdagerErMinst}
+                    />
+                ),
+            };
+        }
+        case 'INFOTRYGD':
+            return {
+                type: Vilkårstype.Opptjeningstid,
+                tittel: 'Opptjeningstid',
+                paragraf: <LovdataLenke paragraf="8-2">§ 8-2</LovdataLenke>,
+                oppfylt: true,
+                komponent: <VilkårManglerData />,
+            };
     }
 };
 
@@ -42,55 +52,70 @@ const LovdataLenkeContainer = styled(BodyShort)`
     margin-left: 0.5rem;
 `;
 
-const sykepengegrunnlag = (vilkår: Vilkår): Vilkårdata => {
-    try {
-        const harEndretParagraf = vilkår.alder.alderSisteSykedag < 70 && vilkår.alder.alderSisteSykedag >= 67;
-        return {
-            type: Vilkårstype.Sykepengegrunnlag,
-            oppfylt: vilkår.sykepengegrunnlag.oppfylt,
-            tittel: 'Krav til minste sykepengegrunnlag',
-            paragraf: harEndretParagraf ? (
-                <EndretParagrafContainer alignItems="center">
-                    <IconContainer data-tip="Mellom 62 og 70 år - redusert antall sykepengedager">
-                        <Advarselikon
-                            alt="Mellom 62 og 70 år - redusert antall sykepengedager"
-                            height={16}
-                            width={16}
-                        />
-                    </IconContainer>
-                    <LovdataLenkeContainer as="p">
-                        <LovdataLenke paragraf="8-51">§ 8-51</LovdataLenke>
-                    </LovdataLenkeContainer>
-                </EndretParagrafContainer>
-            ) : (
-                <LovdataLenke paragraf="8-3">§ 8-3</LovdataLenke>
-            ),
-            komponent: <Sykepengegrunnlag {...vilkår} />,
-        };
-    } catch (_) {
-        return {
-            type: Vilkårstype.Sykepengegrunnlag,
-            tittel: 'Krav til minste sykepengegrunnlag',
-            paragraf: <LovdataLenke paragraf="8-3">§ 8-3</LovdataLenke>,
-            komponent: <VilkårManglerData />,
-        };
+const sykepengegrunnlag = (alderVedSkjæringstidspunkt: number, vilkår: ExternalVilkårsgrunnlag): Vilkårdata => {
+    const harEndretParagraf = alderVedSkjæringstidspunkt < 70 && alderVedSkjæringstidspunkt >= 67;
+    switch (vilkår.vilkårsgrunnlagtype) {
+        case 'SPLEIS': {
+            const spleisVilkår = vilkår as ExternalSpleisVilkårsgrunnlag;
+            return {
+                type: Vilkårstype.Sykepengegrunnlag,
+                oppfylt: spleisVilkår.oppfyllerKravOmMinstelønn,
+                tittel: 'Krav til minste sykepengegrunnlag',
+                paragraf: harEndretParagraf ? (
+                    <EndretParagrafContainer alignItems="center">
+                        <IconContainer data-tip="Mellom 62 og 70 år - redusert antall sykepengedager">
+                            <Advarselikon
+                                alt="Mellom 62 og 70 år - redusert antall sykepengedager"
+                                height={16}
+                                width={16}
+                            />
+                        </IconContainer>
+                        <LovdataLenkeContainer as="p">
+                            <LovdataLenke paragraf="8-51">§ 8-51</LovdataLenke>
+                        </LovdataLenkeContainer>
+                    </EndretParagrafContainer>
+                ) : (
+                    <LovdataLenke paragraf="8-3">§ 8-3</LovdataLenke>
+                ),
+                komponent: (
+                    <Sykepengegrunnlag
+                        sykepengegrunnlag={spleisVilkår.sykepengegrunnlag}
+                        grunnbeløp={spleisVilkår.grunnbeløp}
+                        alderVedSkjæringstidspunkt={alderVedSkjæringstidspunkt}
+                    />
+                ),
+            };
+        }
+        case 'INFOTRYGD': {
+            return {
+                type: Vilkårstype.Sykepengegrunnlag,
+                tittel: 'Krav til minste sykepengegrunnlag',
+                oppfylt: true,
+                paragraf: <LovdataLenke paragraf="8-3">§ 8-3</LovdataLenke>,
+                komponent: <VilkårManglerData />,
+            };
+        }
     }
 };
 
-const medlemskap = (vilkår: Vilkår): Vilkårdata => {
-    try {
-        return {
-            type: Vilkårstype.Medlemskap,
-            oppfylt: vilkår.medlemskap?.oppfylt,
-            tittel: 'Lovvalg og medlemskap',
-            komponent: null,
-        };
-    } catch (error) {
-        return {
-            type: Vilkårstype.Medlemskap,
-            tittel: 'Lovvalg og medlemskap',
-            komponent: <VilkårManglerData />,
-        };
+const medlemskap = (vilkårsgrunnlag: ExternalVilkårsgrunnlag): Vilkårdata => {
+    switch (vilkårsgrunnlag.vilkårsgrunnlagtype) {
+        case 'SPLEIS': {
+            return {
+                type: Vilkårstype.Medlemskap,
+                oppfylt: (vilkårsgrunnlag as ExternalSpleisVilkårsgrunnlag).oppfyllerKravOmMedlemskap,
+                tittel: 'Lovvalg og medlemskap',
+                komponent: null,
+            };
+        }
+        case 'INFOTRYGD': {
+            return {
+                type: Vilkårstype.Medlemskap,
+                oppfylt: true,
+                tittel: 'Lovvalg og medlemskap',
+                komponent: <VilkårManglerData />,
+            };
+        }
     }
 };
 
@@ -98,36 +123,31 @@ export interface KategoriserteVilkår {
     oppfylteVilkår?: Vilkårdata[];
     ikkeOppfylteVilkår?: Vilkårdata[];
     ikkeVurderteVilkår?: Vilkårdata[];
-    vilkårVurdertAvSaksbehandler?: Vilkårdata[];
-    vilkårVurdertAutomatisk?: Vilkårdata[];
     vilkårVurdertIInfotrygd?: Vilkårdata[];
-    vilkårVurdertFørstePeriode?: Vilkårdata[];
+    vilkårVurdertISpleis?: Vilkårdata[];
 }
 
-export const kategoriserteInngangsvilkår = ({
-    vilkår,
-    behandlet,
-    periodetype,
-    automatiskBehandlet,
-    forlengelseFraInfotrygd,
-}: Vedtaksperiode): KategoriserteVilkår => {
-    if (!vilkår) return {};
+export const kategoriserteInngangsvilkår = (
+    vilkårsgrunnlag: ExternalVilkårsgrunnlag,
+    periode: Tidslinjeperiode,
+    alderVedSkjæringstidspunkt: number,
+    vurdering?: Vurdering
+): KategoriserteVilkår => {
+    const vurdertIInfotrygd = vilkårsgrunnlag.vilkårsgrunnlagtype === 'INFOTRYGD';
+    const vurdertISpleis = !vurdertIInfotrygd && vurdering;
+    const ikkeVurdert = !vurdertIInfotrygd && !vurdertISpleis;
 
-    const vurdertIInfotrygd = forlengelseFraInfotrygd || periodetype === 'infotrygdforlengelse';
-    const vurdertAutomatisk = !vurdertIInfotrygd && behandlet && automatiskBehandlet;
-    const vurdertFørstePeriode = !vurdertIInfotrygd && !behandlet && periodetype === 'forlengelse';
-    const vurdertAvSaksbehandler = !vurdertIInfotrygd && behandlet && !automatiskBehandlet;
-    const ikkeVurdert = !vurdertIInfotrygd && !vurdertAutomatisk && !vurdertFørstePeriode && !vurdertAvSaksbehandler;
-
-    const inngangsvilkår = [opptjeningstid(vilkår), sykepengegrunnlag(vilkår), medlemskap(vilkår)];
+    const inngangsvilkår = [
+        opptjeningstid(vilkårsgrunnlag.skjæringstidspunkt, vilkårsgrunnlag),
+        sykepengegrunnlag(alderVedSkjæringstidspunkt, vilkårsgrunnlag),
+        medlemskap(vilkårsgrunnlag),
+    ];
 
     return {
         oppfylteVilkår: ikkeVurdert ? inngangsvilkår.filter((it) => it.oppfylt) : [],
         ikkeOppfylteVilkår: ikkeVurdert ? inngangsvilkår.filter((it) => it.oppfylt === false) : [],
-        ikkeVurderteVilkår: ikkeVurdert ? inngangsvilkår.filter((it) => it.oppfylt === undefined) : [],
-        vilkårVurdertAvSaksbehandler: vurdertAvSaksbehandler ? inngangsvilkår : [],
-        vilkårVurdertAutomatisk: vurdertAutomatisk ? inngangsvilkår : [],
+        ikkeVurderteVilkår: ikkeVurdert ? inngangsvilkår.filter((it) => it.oppfylt === null) : [],
         vilkårVurdertIInfotrygd: vurdertIInfotrygd ? inngangsvilkår : [],
-        vilkårVurdertFørstePeriode: vurdertFørstePeriode ? inngangsvilkår : [],
+        vilkårVurdertISpleis: vurdertISpleis ? inngangsvilkår : [],
     };
 };

@@ -1,18 +1,19 @@
 import styled from '@emotion/styled';
+import dayjs from 'dayjs';
 import React from 'react';
 
 import { AgurkErrorBoundary } from '../../../components/AgurkErrorBoundary';
 import { Flex, FlexColumn } from '../../../components/Flex';
-import { førsteVedtaksperiode } from '../../../mapping/selectors';
 import { Vilkårdata } from '../../../mapping/vilkår';
+import { usePersoninfo, useVilkårsgrunnlaghistorikk, useVurderingForSkjæringstidspunkt } from '../../../state/person';
+import { useAktivPeriode } from '../../../state/tidslinje';
 
 import { kategoriserteInngangsvilkår } from './kategoriserteInngangsvilkår';
 import { IkkeOppfylteVilkår } from './vilkårsgrupper/IkkeOppfylteVilkår';
 import { IkkeVurderteVilkår } from './vilkårsgrupper/IkkeVurderteVilkår';
 import { OppfylteVilkår } from './vilkårsgrupper/OppfylteVilkår';
-import { VurdertAutomatisk } from './vilkårsgrupper/VurdertAutomatisk';
-import { VurdertAvSaksbehandler } from './vilkårsgrupper/VurdertAvSaksbehandler';
 import { VurdertIInfotrygd } from './vilkårsgrupper/VurdertIInfotrygd';
+import { VurdertISpleis } from './vilkårsgrupper/VurdertISpleis';
 import { Yrkeskadeinfo } from './vilkårsgrupper/Yrkesskadeinfo';
 
 const Container = styled.div`
@@ -47,34 +48,34 @@ const YrkesskadeinfoContainer = styled.div`
 
 const harVilkår = (vilkår?: Vilkårdata[]) => vilkår && vilkår.length > 0;
 
-interface VilkårProps {
-    vedtaksperiode?: Vedtaksperiode;
-    person?: Person;
+interface InngangsvilkårProps {
+    skjæringstidspunkt: DateString;
+    vilkårsgrunnlagHistorikkId: UUID;
 }
 
-export const Inngangsvilkår = ({ vedtaksperiode, person }: VilkårProps) => {
-    if (!vedtaksperiode || person === undefined) return null;
+export const Inngangsvilkår = ({ skjæringstidspunkt, vilkårsgrunnlagHistorikkId }: InngangsvilkårProps) => {
+    const aktivPeriode = useAktivPeriode();
+    const vurderingForSkjæringstidspunkt = useVurderingForSkjæringstidspunkt(aktivPeriode.unique, skjæringstidspunkt);
+    const vilkårsgrunnlag = useVilkårsgrunnlaghistorikk(skjæringstidspunkt, vilkårsgrunnlagHistorikkId);
+    const fødselsdato = usePersoninfo().fødselsdato;
+    const alderVedSkjæringstidspunkt = dayjs(skjæringstidspunkt).diff(fødselsdato, 'year');
 
-    const {
-        oppfylteVilkår,
-        ikkeVurderteVilkår,
-        ikkeOppfylteVilkår,
-        vilkårVurdertAvSaksbehandler,
-        vilkårVurdertAutomatisk,
-        vilkårVurdertIInfotrygd,
-        vilkårVurdertFørstePeriode,
-    } = kategoriserteInngangsvilkår(vedtaksperiode);
+    if (!vilkårsgrunnlag) {
+        throw Error('Mangler vilkårsgrunnlag.');
+    }
 
-    const førstePeriode = førsteVedtaksperiode(vedtaksperiode, person!);
+    const { oppfylteVilkår, ikkeVurderteVilkår, ikkeOppfylteVilkår, vilkårVurdertIInfotrygd, vilkårVurdertISpleis } =
+        kategoriserteInngangsvilkår(
+            vilkårsgrunnlag,
+            aktivPeriode,
+            alderVedSkjæringstidspunkt,
+            vurderingForSkjæringstidspunkt
+        );
 
     const harBehandledeVilkår =
         harVilkår(ikkeVurderteVilkår) || harVilkår(ikkeOppfylteVilkår) || harVilkår(oppfylteVilkår);
 
-    const harAlleredeVurderteVilkår =
-        harVilkår(vilkårVurdertFørstePeriode) ||
-        harVilkår(vilkårVurdertIInfotrygd) ||
-        harVilkår(vilkårVurdertAvSaksbehandler) ||
-        harVilkår(vilkårVurdertAutomatisk);
+    const harAlleredeVurderteVilkår = harVilkår(vilkårVurdertISpleis) || harVilkår(vilkårVurdertIInfotrygd);
 
     return (
         <AgurkErrorBoundary sidenavn="Inngangsvilkår">
@@ -88,23 +89,13 @@ export const Inngangsvilkår = ({ vedtaksperiode, person }: VilkårProps) => {
                 )}
                 {harAlleredeVurderteVilkår && (
                     <VurderteVilkårContainer>
-                        {vilkårVurdertAutomatisk && vilkårVurdertAutomatisk.length > 0 && (
-                            <VurdertAutomatisk
-                                vilkår={vilkårVurdertAutomatisk}
-                                saksbehandler={vedtaksperiode.godkjentAv}
-                            />
-                        )}
-                        {vilkårVurdertAvSaksbehandler && vilkårVurdertAvSaksbehandler.length > 0 && (
-                            <VurdertAvSaksbehandler
-                                vilkår={vilkårVurdertAvSaksbehandler}
-                                saksbehandler={vedtaksperiode.godkjentAv}
-                            />
-                        )}
-                        {vilkårVurdertFørstePeriode && vilkårVurdertFørstePeriode.length > 0 && (
-                            <VurdertAvSaksbehandler
-                                vilkår={vilkårVurdertFørstePeriode}
-                                saksbehandler={førstePeriode.godkjentAv}
-                                skjæringstidspunkt={førstePeriode.vilkår!.dagerIgjen.skjæringstidspunkt}
+                        {vurderingForSkjæringstidspunkt && vilkårVurdertISpleis && (
+                            <VurdertISpleis
+                                vilkår={vilkårVurdertISpleis}
+                                ident={vurderingForSkjæringstidspunkt.ident}
+                                skjæringstidspunkt={skjæringstidspunkt}
+                                automatiskBehandlet={vurderingForSkjæringstidspunkt.automatisk}
+                                erForlengelse={aktivPeriode.fom.isAfter(skjæringstidspunkt)}
                             />
                         )}
                         {vilkårVurdertIInfotrygd && vilkårVurdertIInfotrygd.length > 0 && (

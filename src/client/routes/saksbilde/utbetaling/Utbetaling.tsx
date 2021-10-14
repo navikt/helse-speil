@@ -11,7 +11,8 @@ import { useOverstyrRevurderingIsEnabled, useRevurderingIsEnabled } from '../../
 import { useMap } from '../../../hooks/useMap';
 import { useOverstyringIsEnabled } from '../../../hooks/useOverstyringIsEnabled';
 import { useGjenståendeDager, useMaksdato } from '../../../modell/utbetalingshistorikkelement';
-import { useAktivPeriode, useVedtaksperiode } from '../../../state/tidslinje';
+import { useMaybePersoninfo } from '../../../state/person';
+import { useMaybeAktivPeriode, useVedtaksperiode } from '../../../state/tidslinje';
 import { NORSK_DATOFORMAT } from '../../../utils/date';
 
 import { defaultUtbetalingToggles } from '../../../featureToggles';
@@ -76,7 +77,7 @@ const OverstyrbarUtbetaling: React.FC<OverstyrbarUtbetalingProps> = ({ fom, tom,
     const [markerteDager, setMarkerteDager] = useMap<string, UtbetalingstabellDag>();
     const [overstyrteDager, setOverstyrteDager] = useMap<string, UtbetalingstabellDag>();
 
-    const vedtaksperiode = useVedtaksperiode(useAktivPeriode()?.id) as Vedtaksperiode;
+    const vedtaksperiode = useVedtaksperiode(useMaybeAktivPeriode()?.id) as Vedtaksperiode;
 
     const toggleOverstyring = () => {
         setMarkerteDager(new Map());
@@ -204,9 +205,18 @@ export const Utbetaling: React.FC<UtbetalingProps> = React.memo(({ periode, over
     const revurderingIsEnabled = useRevurderingIsEnabled(defaultUtbetalingToggles);
     const overstyrRevurderingIsEnabled = useOverstyrRevurderingIsEnabled(defaultUtbetalingToggles);
 
+    const fødselsdato = useMaybePersoninfo()?.fødselsdato ?? null;
     const gjenståendeDager = useGjenståendeDager(periode.beregningId);
     const maksdato = useMaksdato(periode.beregningId);
-    const dager = useTabelldagerMap(periode, overstyringer, gjenståendeDager, maksdato, skjæringstidspunkt);
+
+    const dager = useTabelldagerMap({
+        fødselsdato: fødselsdato,
+        gjenståendeDager: gjenståendeDager,
+        maksdato: maksdato,
+        overstyringer: overstyringer,
+        periode: periode,
+        skjæringstidspunkt: skjæringstidspunkt,
+    });
 
     return revurderingIsEnabled || overstyringIsEnabled || overstyrRevurderingIsEnabled ? (
         <OverstyrbarUtbetaling

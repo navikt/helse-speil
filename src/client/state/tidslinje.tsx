@@ -9,7 +9,7 @@ export const aktivPeriodeState = atom<string | undefined>({
 
 export const useSetAktivPeriode = () => useSetRecoilState(aktivPeriodeState);
 
-export const useAktivPeriode = (): Tidslinjeperiode | undefined => {
+export const useMaybeAktivPeriode = (): Tidslinjeperiode | undefined => {
     const person = usePerson();
     const periodeId = useRecoilValue(aktivPeriodeState);
 
@@ -28,6 +28,16 @@ export const useAktivPeriode = (): Tidslinjeperiode | undefined => {
     if (person) {
         return defaultTidslinjeperiode(person);
     } else return undefined;
+};
+
+export const useAktivPeriode = (): Tidslinjeperiode => {
+    const aktivPeriode = useMaybeAktivPeriode();
+
+    if (!aktivPeriode) {
+        throw Error('Forventet aktiv periode men fant ingen');
+    }
+
+    return aktivPeriode;
 };
 
 export const useVedtaksperiode = (vedtaksperiodeId?: string): Vedtaksperiode | undefined =>

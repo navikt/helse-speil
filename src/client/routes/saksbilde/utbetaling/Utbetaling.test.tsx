@@ -33,7 +33,7 @@ jest.mock('../../../modell/utbetalingshistorikkelement', () => ({
 }));
 
 jest.mock('../../../state/tidslinje', () => ({
-    useAktivPeriode: () => {},
+    useMaybeAktivPeriode: () => {},
     useVedtaksperiode: () => ({ erForkastet: false }),
 }));
 

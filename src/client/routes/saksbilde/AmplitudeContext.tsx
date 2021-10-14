@@ -2,7 +2,7 @@ import amplitude from 'amplitude-js';
 import dayjs, { Dayjs } from 'dayjs';
 import React, { PropsWithChildren, useEffect } from 'react';
 
-import { useAktivPeriode, useVedtaksperiode } from '../../state/tidslinje';
+import { useMaybeAktivPeriode, useVedtaksperiode } from '../../state/tidslinje';
 
 import { amplitudeEnabled } from '../../featureToggles';
 
@@ -53,7 +53,7 @@ const useStoreÅpnetTidspunkt = (oppgavereferanse?: string) => {
 };
 
 export const AmplitudeProvider: React.FC<PropsWithChildren<{}>> = ({ children }) => {
-    const aktivPeriode = useAktivPeriode();
+    const aktivPeriode = useMaybeAktivPeriode();
     if (aktivPeriode === undefined) throw Error('Mangler aktiv vedtaksperiode');
     const vedtaksperiode = useVedtaksperiode(aktivPeriode?.id);
 

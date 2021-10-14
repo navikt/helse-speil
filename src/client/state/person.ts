@@ -4,10 +4,12 @@ import { Varseltype } from '@navikt/helse-frontend-varsel';
 
 import { deletePåVent, getPerson, postLeggPåVent } from '../io/http';
 import { mapPerson } from '../mapping/person';
+import { useArbeidsgiver as useArbeidsgiverUtenParametre } from '../modell/arbeidsgiver';
+import { useUtbetaling } from '../modell/utbetalingshistorikkelement';
 
 import { getAnonymArbeidsgiverForOrgnr } from '../agurkdata';
 import { useInnloggetSaksbehandler } from './authentication';
-import { aktivPeriodeState, useAktivPeriode } from './tidslinje';
+import { aktivPeriodeState, useMaybeAktivPeriode } from './tidslinje';
 
 interface PersonState {
     problems?: Error[];
@@ -49,6 +51,11 @@ const hentPerson = (id: string): Promise<PersonState> =>
 export const personState = atom<PersonState | undefined>({
     key: 'personState',
     default: undefined,
+});
+
+const personinfo = selector<Personinfo | undefined>({
+    key: 'personinfo',
+    get: ({ get }) => get(personState)?.person?.personinfo,
 });
 
 const tildelingState = atom<Tildeling | undefined>({
@@ -123,8 +130,20 @@ export const usePerson = (): (Person & SpeilApiV2) | undefined => {
     );
 };
 
+export const useMaybePersoninfo = (): Personinfo | undefined => useRecoilValue(personinfo);
+
+export const usePersoninfo = (): Personinfo => {
+    const personinfo = useMaybePersoninfo();
+
+    if (!personinfo) {
+        throw Error('Forventet personinfo men fant ikke personen');
+    }
+
+    return personinfo;
+};
+
 export const usePersonnavn = (): string => {
-    const { fornavn, mellomnavn, etternavn } = usePerson()?.personinfo ?? {};
+    const { fornavn, mellomnavn, etternavn } = useMaybePersoninfo() ?? {};
     return [fornavn, mellomnavn, etternavn].filter(Boolean).join(' ');
 };
 
@@ -199,6 +218,24 @@ export const useFjernPåVent = () => {
     };
 };
 
+const sorterAscending = (a: Tidslinjeperiode, b: Tidslinjeperiode) => a.fom.diff(b.fom);
+
+export const useVurderingForSkjæringstidspunkt = (
+    uniqueId: string,
+    skjæringstidspunkt: string
+): Vurdering | undefined => {
+    const perioder = useArbeidsgiverUtenParametre()!.tidslinjeperioder.find(
+        (it) => it.find((it) => it.unique === uniqueId)!
+    )!;
+
+    const førstePeriodeForSkjæringstidspunkt = [...perioder]
+        .sort(sorterAscending)
+        .filter((it) => it.skjæringstidspunkt === skjæringstidspunkt)
+        .shift()!;
+
+    return useUtbetaling(førstePeriodeForSkjæringstidspunkt.beregningId)?.vurdering;
+};
+
 export const useVilkårsgrunnlaghistorikk = (
     skjæringstidspunkt: string,
     vilkårsgrunnlaghistorikkId: string
@@ -211,7 +248,7 @@ export const useVilkårsgrunnlaghistorikk = (
 };
 
 export const useOrganisasjonsnummer = (): string => {
-    const periode = useAktivPeriode();
+    const periode = useMaybeAktivPeriode();
 
     if (!periode) throw Error('Finner ikke organisasjonsnummer fordi aktiv periode mangler');
 

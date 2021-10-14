@@ -19,7 +19,7 @@ import {
 } from '../../../../state/kalkuleringstoasts';
 import { useOpptegnelser, useSetOpptegnelserPollingRate } from '../../../../state/opptegnelser';
 import { usePerson } from '../../../../state/person';
-import { useAktivPeriode, useVedtaksperiode } from '../../../../state/tidslinje';
+import { useMaybeAktivPeriode, useVedtaksperiode } from '../../../../state/tidslinje';
 import { useAddToast, useRemoveToast } from '../../../../state/toasts';
 import { ISO_DATOFORMAT } from '../../../../utils/date';
 import { somPenger, toKronerOgØre } from '../../../../utils/locale';
@@ -125,7 +125,7 @@ const FeiloppsummeringContainer = styled.div`
 
 const useGetOverstyrtInntekt = () => {
     const { aktørId, fødselsnummer } = usePerson() as Person;
-    const { id, organisasjonsnummer } = useAktivPeriode() as Tidslinjeperiode;
+    const { id, organisasjonsnummer } = useMaybeAktivPeriode() as Tidslinjeperiode;
     const { vilkår } = useVedtaksperiode(id) as Vedtaksperiode;
 
     return (begrunnelse: string, forklaring: string, månedligInntekt: number) => ({

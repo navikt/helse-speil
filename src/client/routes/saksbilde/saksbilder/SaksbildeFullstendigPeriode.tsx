@@ -2,8 +2,6 @@ import styled from '@emotion/styled';
 import React from 'react';
 import { Route, Switch, useRouteMatch } from 'react-router-dom';
 
-import { BodyLong } from '@navikt/ds-react';
-
 import { ErrorBoundary } from '../../../components/ErrorBoundary';
 import { Tooltip } from '../../../components/Tooltip';
 import { useSetVedtaksperiodeReferanserForNotater } from '../../../hooks/useSetVedtaksperiodeReferanserForNotater';
@@ -24,6 +22,13 @@ import { Utbetaling } from '../utbetaling/Utbetaling';
 import { Saksbildevarsler } from '../varsler/Saksbildevarsler';
 import { VenstreMeny } from '../venstremeny/Venstremeny';
 import { Inngangsvilkår } from '../vilkår/Inngangsvilkår';
+
+const guard = <T,>(message: string, value: T): NonNullable<T> => {
+    if (value === undefined && value === null) {
+        throw Error(message);
+    }
+    return value as NonNullable<T>;
+};
 
 const RouteContainer = styled.div`
     padding: 0 2rem;
@@ -59,6 +64,10 @@ export const SaksbildeFullstendigPeriode = ({ personTilBehandling, aktivPeriode 
     const skjæringstidspunkt = getSkjæringstidspunkt(vedtaksperiode);
     const saksbehandler = useInnloggetSaksbehandler();
 
+    if (!skjæringstidspunkt || !aktivPeriode.vilkårsgrunnlaghistorikkId) {
+        throw Error('Mangler skjæringstidspunkt eller vilkårsgrunnlag. Ta kontakt med en utvikler.');
+    }
+
     return (
         <ErrorBoundary key={vedtaksperiode.id} fallback={errorMelding}>
             <AmplitudeProvider>
@@ -91,22 +100,18 @@ export const SaksbildeFullstendigPeriode = ({ personTilBehandling, aktivPeriode 
                         </Route>
                         <Route path={`${path}/inngangsvilkår`}>
                             <RouteContainer>
-                                <Inngangsvilkår vedtaksperiode={vedtaksperiode} person={personTilBehandling} />
+                                <Inngangsvilkår
+                                    skjæringstidspunkt={skjæringstidspunkt.format(ISO_DATOFORMAT)}
+                                    vilkårsgrunnlagHistorikkId={aktivPeriode.vilkårsgrunnlaghistorikkId}
+                                />
                             </RouteContainer>
                         </Route>
                         <Route path={`${path}/sykepengegrunnlag`}>
                             <RouteContainer>
-                                {skjæringstidspunkt && aktivPeriode.vilkårsgrunnlaghistorikkId ? (
-                                    <Sykepengegrunnlag
-                                        skjæringstidspunkt={skjæringstidspunkt.format(ISO_DATOFORMAT)}
-                                        vilkårsgrunnlaghistorikkId={aktivPeriode.vilkårsgrunnlaghistorikkId}
-                                    />
-                                ) : (
-                                    <BodyLong>
-                                        Mangler skjæringstidspunkt eller vilkårsgrunnlag-historikk. Ta kontakt med en
-                                        utvikler.
-                                    </BodyLong>
-                                )}
+                                <Sykepengegrunnlag
+                                    skjæringstidspunkt={skjæringstidspunkt.format(ISO_DATOFORMAT)}
+                                    vilkårsgrunnlaghistorikkId={aktivPeriode.vilkårsgrunnlaghistorikkId}
+                                />
                             </RouteContainer>
                         </Route>
                         {vedtaksperiode.risikovurdering && (

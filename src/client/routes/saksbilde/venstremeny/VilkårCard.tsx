@@ -1,24 +1,24 @@
 import React from 'react';
 
-import { useVedtaksperiode } from '../../../state/tidslinje';
-
 import { Card } from './Card';
 import { CardTitle } from './CardTitle';
-import { Vilkårsoversikt } from './Vilkårsoversikt';
+import { VilkårList } from './VilkårList';
 
 interface VilkårCardProps {
     aktivPeriode: Tidslinjeperiode;
+    skjæringstidspunkt: DateString;
+    vilkårsgrunnlaghistorikkId: UUID;
 }
 
-export const VilkårCard = ({ aktivPeriode }: VilkårCardProps) => {
-    const vedtaksperiode = useVedtaksperiode(aktivPeriode.id);
-
-    if (!vedtaksperiode || !vedtaksperiode.fullstendig) return null;
-
+export const VilkårCard = ({ aktivPeriode, skjæringstidspunkt, vilkårsgrunnlaghistorikkId }: VilkårCardProps) => {
     return (
         <Card>
             <CardTitle>INNGANGSVILKÅR</CardTitle>
-            <Vilkårsoversikt vedtaksperiode={vedtaksperiode} />
+            <VilkårList
+                periode={aktivPeriode}
+                skjæringstidspunkt={skjæringstidspunkt}
+                vilkårsgrunnlaghistorikkId={vilkårsgrunnlaghistorikkId}
+            />
         </Card>
     );
 };

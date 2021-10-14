@@ -19,7 +19,7 @@ export interface Vilkårdata {
     type: Vilkårstype;
     tittel: string;
     komponent: ReactNode;
-    oppfylt?: boolean;
+    oppfylt: boolean | null;
     paragraf?: ReactNode;
 }
 

@@ -6,4 +6,5 @@ export type UtbetalingstabellDag = Utbetalingsdag & {
     };
     overstyringer?: Dagoverstyring[];
     dagerIgjen?: number;
+    alderPåDagen?: number;
 };

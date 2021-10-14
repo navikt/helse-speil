@@ -59,15 +59,21 @@ export const VenstreMeny = ({
                 over67år={over67År}
             />
             <ArbeidsgiverCard organisasjonsnummer={organisasjonsnummer} månedsbeløp={månedsbeløp} />
-            <VilkårCard aktivPeriode={aktivPeriode} />
-            {skjæringstidspunkt && aktivPeriode.vilkårsgrunnlaghistorikkId && (
+            {aktivPeriode.skjæringstidspunkt && aktivPeriode.vilkårsgrunnlaghistorikkId && (
+                <VilkårCard
+                    aktivPeriode={aktivPeriode}
+                    skjæringstidspunkt={aktivPeriode.skjæringstidspunkt}
+                    vilkårsgrunnlaghistorikkId={aktivPeriode.vilkårsgrunnlaghistorikkId}
+                />
+            )}
+            {aktivPeriode.skjæringstidspunkt && aktivPeriode.vilkårsgrunnlaghistorikkId && (
                 <UtbetalingCard
                     beregningId={aktivPeriode.beregningId}
                     ikkeUtbetaltEnda={ikkeUtbetaltEnda}
                     utbetalingsdagerTotalt={utbetalingsdagerTotalt}
                     simulering={simulering}
                     anonymiseringEnabled={anonymiseringEnabled}
-                    skjæringstidspunkt={skjæringstidspunkt.format('YYYY-MM-DD')}
+                    skjæringstidspunkt={aktivPeriode.skjæringstidspunkt}
                     vilkårsgrunnlaghistorikkId={aktivPeriode.vilkårsgrunnlaghistorikkId}
                 />
             )}
