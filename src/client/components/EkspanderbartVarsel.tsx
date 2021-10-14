@@ -45,13 +45,9 @@ const Container = styled(Accordion.Item)`
 `;
 
 const Content = styled(Accordion.Content)`
-    background: var(--navds-color-warning-background);
+    background-color: var(--speil-ekspandert-varsel-background);
     padding: 0.5rem 3.25rem;
     border-bottom: 1px solid var(--navds-color-warning-border);
-`;
-
-const Warning = styled(Alert)`
-    background: none;
 `;
 
 interface EkspanderbartVarselProps {
@@ -63,7 +59,7 @@ interface EkspanderbartVarselProps {
 export const EkspanderbartVarsel: React.FC<EkspanderbartVarselProps> = ({ label, children, type = 'warning' }) => {
     const [open, setOpen] = useState(false);
 
-    const heading = <Warning variant="warning">{label}</Warning>;
+    const heading = <Alert variant="warning">{label}</Alert>;
 
     return (
         <Container defaultOpen={open}>
