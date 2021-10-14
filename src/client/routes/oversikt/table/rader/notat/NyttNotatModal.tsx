@@ -109,6 +109,12 @@ export const NyttNotatModal = ({ onClose, personinfo, vedtaksperiodeId, leggSakP
         prøvPostNotat(notat);
     };
 
+    const textAreaClickHandler = () => {
+        return (event: React.MouseEvent) => {
+            event.stopPropagation();
+        };
+    };
+
     return (
         <StyledModal title={<Tittel>{tittel}</Tittel>} contentLabel="Notat" isOpen onRequestClose={closeModal}>
             <StyledUndertittel as="p">{undertittel}</StyledUndertittel>
@@ -128,6 +134,7 @@ export const NyttNotatModal = ({ onClose, personinfo, vedtaksperiodeId, leggSakP
                     onChange={(event: ChangeEvent) => {
                         setTekst((event.target as HTMLInputElement).value);
                     }}
+                    onClick={textAreaClickHandler()}
                     onKeyPress={keyboardEvent}
                     placeholder="Skriv hvorfor saken er lagt på vent, så det er lettere å starte igjen senere.&#10;Eks: Kontaktet arbeidsgiver, fikk ikke svar.&#10;Kommer ikke i vedtaksbrevet, men vil bli forevist bruker ved spørsmål om innsyn."
                     maxLength={tekstMaxLength}
