@@ -20,6 +20,7 @@ import { UtbetalingstabellDag } from './Utbetalingstabell.types';
 
 const Container = styled.section`
     display: flex;
+    overflow-x: scroll;
 `;
 
 const TabellContainer = styled.div`
@@ -27,7 +28,6 @@ const TabellContainer = styled.div`
     width: 400px;
     margin: 2rem;
     height: max-content;
-    overflow-x: scroll;
 
     > table {
         overflow-y: hidden;

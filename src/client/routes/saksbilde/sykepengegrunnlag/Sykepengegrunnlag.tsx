@@ -16,7 +16,6 @@ const Container = styled.section`
     height: 100%;
     padding-top: 2rem;
     box-sizing: border-box;
-    overflow-x: scroll;
 `;
 
 const sorterAscending = (a: Tidslinjeperiode, b: Tidslinjeperiode) => a.fom.diff(b.fom);

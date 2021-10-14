@@ -17,7 +17,6 @@ import { Yrkeskadeinfo } from './vilkårsgrupper/Yrkesskadeinfo';
 
 const Container = styled.div`
     margin-top: 2rem;
-    overflow-x: scroll;
     box-sizing: border-box;
 
     > div:first-of-type > *:not(:last-of-type) {
