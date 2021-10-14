@@ -65,7 +65,7 @@ interface OverstyrbarUtbetalingProps {
     fom: Dayjs;
     tom: Dayjs;
     dager: Map<string, UtbetalingstabellDag>;
-    skjæringstidspunkt?: Dayjs;
+    skjæringstidspunkt: string;
 }
 
 const OverstyrbarUtbetaling: React.FC<OverstyrbarUtbetalingProps> = ({ fom, tom, dager, skjæringstidspunkt }) => {
@@ -197,7 +197,7 @@ const ReadonlyUtbetaling: React.FC<ReadonlyUtbetalingProps> = ({ fom, tom, dager
 interface UtbetalingProps {
     periode: Tidslinjeperiode;
     overstyringer: Overstyring[];
-    skjæringstidspunkt?: Dayjs;
+    skjæringstidspunkt: string;
 }
 
 export const Utbetaling: React.FC<UtbetalingProps> = React.memo(({ periode, overstyringer, skjæringstidspunkt }) => {
@@ -215,7 +215,6 @@ export const Utbetaling: React.FC<UtbetalingProps> = React.memo(({ periode, over
         maksdato: maksdato,
         overstyringer: overstyringer,
         periode: periode,
-        skjæringstidspunkt: skjæringstidspunkt,
     });
 
     return revurderingIsEnabled || overstyringIsEnabled || overstyrRevurderingIsEnabled ? (

@@ -6,6 +6,7 @@ import { BodyShort, Heading } from '@navikt/ds-react';
 
 import { Grid } from '../../../../components/Grid';
 import { Modal } from '../../../../components/Modal';
+import { usePersondataSkalAnonymiseres } from '../../../../state/person';
 import { NORSK_DATOFORMAT } from '../../../../utils/date';
 import { somPenger } from '../../../../utils/locale';
 
@@ -128,45 +129,42 @@ interface SimuleringsmodalProps {
     simulering: Required<Vedtaksperiode>['simuleringsdata'];
     åpenModal: boolean;
     lukkModal: () => void;
-    anonymiseringEnabled: boolean;
 }
 
-export const SimuleringsinfoModal = ({
-    simulering,
-    åpenModal,
-    lukkModal,
-    anonymiseringEnabled,
-}: SimuleringsmodalProps) => (
-    <Modal isOpen={åpenModal} contentLabel="Simuleringsinfo" onRequestClose={lukkModal}>
-        <Modalinnhold>
-            <Grid gridTemplateColumns="1fr 1fr">
-                <Heading as="h2" size="medium">
-                    Simulering
-                </Heading>
-            </Grid>
-            {simulering.perioder.map((periode, index) => (
-                <Underliste gridTemplateColumns="1fr 1fr" key={`periode-${index}`}>
-                    <Luft />
-                    <BodyShort as="p">Periode</BodyShort>
-                    <BodyShort as="p">{`${formaterDato(periode.fom)} - ${formaterDato(periode.tom)}`}</BodyShort>
-                    <Luft />
-                    <BodyShort>Totalbeløp simulering</BodyShort>
-                    {simulering.totalbeløp < 0 ? (
-                        <NegativtBeløp as="p">{somPenger(simulering.totalbeløp)}</NegativtBeløp>
-                    ) : (
-                        <BodyShort>{somPenger(simulering.totalbeløp)}</BodyShort>
-                    )}
-                    <Luft />
-                    {periode.utbetalinger.map((utbetaling, index) => (
-                        <Utbetalingsvisning
-                            utbetaling={utbetaling}
-                            index={index}
-                            key={`utbetaling-${index}`}
-                            anonymiseringEnabled={anonymiseringEnabled}
-                        />
-                    ))}
-                </Underliste>
-            ))}
-        </Modalinnhold>
-    </Modal>
-);
+export const SimuleringsinfoModal = ({ simulering, åpenModal, lukkModal }: SimuleringsmodalProps) => {
+    const anonymiseringEnabled = usePersondataSkalAnonymiseres();
+    return (
+        <Modal isOpen={åpenModal} contentLabel="Simuleringsinfo" onRequestClose={lukkModal}>
+            <Modalinnhold>
+                <Grid gridTemplateColumns="1fr 1fr">
+                    <Heading as="h2" size="medium">
+                        Simulering
+                    </Heading>
+                </Grid>
+                {simulering.perioder.map((periode, index) => (
+                    <Underliste gridTemplateColumns="1fr 1fr" key={`periode-${index}`}>
+                        <Luft />
+                        <BodyShort as="p">Periode</BodyShort>
+                        <BodyShort as="p">{`${formaterDato(periode.fom)} - ${formaterDato(periode.tom)}`}</BodyShort>
+                        <Luft />
+                        <BodyShort>Totalbeløp simulering</BodyShort>
+                        {simulering.totalbeløp < 0 ? (
+                            <NegativtBeløp as="p">{somPenger(simulering.totalbeløp)}</NegativtBeløp>
+                        ) : (
+                            <BodyShort>{somPenger(simulering.totalbeløp)}</BodyShort>
+                        )}
+                        <Luft />
+                        {periode.utbetalinger.map((utbetaling, index) => (
+                            <Utbetalingsvisning
+                                utbetaling={utbetaling}
+                                index={index}
+                                key={`utbetaling-${index}`}
+                                anonymiseringEnabled={anonymiseringEnabled}
+                            />
+                        ))}
+                    </Underliste>
+                ))}
+            </Modalinnhold>
+        </Modal>
+    );
+};

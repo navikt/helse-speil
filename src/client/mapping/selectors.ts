@@ -31,9 +31,6 @@ export const maksdatoForPerson = (person: Person): Dayjs | undefined => {
     return sistePeriode && maksdatoForPeriode(sistePeriode);
 };
 
-export const getSkjæringstidspunkt = ({ vilkår }: Vedtaksperiode): Dayjs | undefined =>
-    vilkår?.dagerIgjen?.skjæringstidspunkt;
-
 export const sisteValgbarePeriode = (person: Person): Vedtaksperiode | undefined =>
     person.arbeidsgivere
         .flatMap(({ vedtaksperioder }) => vedtaksperioder)

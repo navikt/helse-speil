@@ -4,12 +4,10 @@ import React, { useState } from 'react';
 import { BodyShort } from '@navikt/ds-react';
 
 import { LinkButton } from '../../../components/LinkButton';
-import { useArbeidsgiver } from '../../../modell/arbeidsgiver';
 import { useUtbetaling } from '../../../modell/utbetalingshistorikkelement';
-import { usePersonnavn, useVilkårsgrunnlaghistorikk } from '../../../state/person';
+import { useArbeidsgivernavnRender, usePersonnavnRender, useVilkårsgrunnlaghistorikk } from '../../../state/person';
 import { somPenger } from '../../../utils/locale';
 
-import { anonymisertPersoninfo, getAnonymArbeidsgiverForOrgnr } from '../../../agurkdata';
 import { Card } from './Card';
 import { CardTitle } from './CardTitle';
 import { Utbetalingssum } from './Utbetalingssum';
@@ -37,9 +35,9 @@ interface UtbetalingCardProps {
     utbetalingsdagerTotalt: number;
     ikkeUtbetaltEnda: boolean;
     simulering?: Vedtaksperiode['simuleringsdata'];
-    anonymiseringEnabled: boolean;
     skjæringstidspunkt: DateString;
     vilkårsgrunnlaghistorikkId: UUID;
+    organisasjonsnummer: string;
 }
 
 export const UtbetalingCard = ({
@@ -47,9 +45,9 @@ export const UtbetalingCard = ({
     utbetalingsdagerTotalt,
     ikkeUtbetaltEnda,
     simulering,
-    anonymiseringEnabled,
     skjæringstidspunkt,
     vilkårsgrunnlaghistorikkId,
+    organisasjonsnummer,
 }: UtbetalingCardProps) => {
     const vilkårsgrunnlaghistorikk = useVilkårsgrunnlaghistorikk(skjæringstidspunkt, vilkårsgrunnlaghistorikkId);
     const [simuleringÅpen, setSimuleringÅpen] = useState(false);
@@ -59,16 +57,8 @@ export const UtbetalingCard = ({
         personNettobeløp: 0,
     };
 
-    const fornavnMellomnavnEtternavn = usePersonnavn();
-    const personnavn = anonymiseringEnabled
-        ? `${anonymisertPersoninfo.fornavn} ${anonymisertPersoninfo.etternavn}`
-        : fornavnMellomnavnEtternavn;
-
-    const arbeidsgiver = useArbeidsgiver();
-    const arbeidsgivernavn =
-        anonymiseringEnabled && arbeidsgiver
-            ? getAnonymArbeidsgiverForOrgnr(arbeidsgiver.organisasjonsnummer).navn
-            : arbeidsgiver?.navn ?? arbeidsgiver?.organisasjonsnummer;
+    const personnavn = usePersonnavnRender();
+    const arbeidsgivernavn = useArbeidsgivernavnRender(organisasjonsnummer);
 
     return (
         <Card>
@@ -93,7 +83,6 @@ export const UtbetalingCard = ({
                         simulering={simulering}
                         åpenModal={simuleringÅpen}
                         lukkModal={() => setSimuleringÅpen(false)}
-                        anonymiseringEnabled={anonymiseringEnabled}
                     />
                 </>
             ) : (

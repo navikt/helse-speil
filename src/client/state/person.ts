@@ -7,7 +7,7 @@ import { mapPerson } from '../mapping/person';
 import { useArbeidsgiver as useArbeidsgiverUtenParametre } from '../modell/arbeidsgiver';
 import { useUtbetaling } from '../modell/utbetalingshistorikkelement';
 
-import { getAnonymArbeidsgiverForOrgnr } from '../agurkdata';
+import { anonymisertPersoninfo, getAnonymArbeidsgiverForOrgnr } from '../agurkdata';
 import { useInnloggetSaksbehandler } from './authentication';
 import { aktivPeriodeState, useMaybeAktivPeriode } from './tidslinje';
 
@@ -145,6 +145,13 @@ export const usePersoninfo = (): Personinfo => {
 export const usePersonnavn = (): string => {
     const { fornavn, mellomnavn, etternavn } = useMaybePersoninfo() ?? {};
     return [fornavn, mellomnavn, etternavn].filter(Boolean).join(' ');
+};
+
+export const usePersonnavnRender = (): string => {
+    const anonymiseringIsEnabled = usePersondataSkalAnonymiseres();
+    const personnavn = usePersonnavn();
+
+    return anonymiseringIsEnabled ? `${anonymisertPersoninfo.fornavn} ${anonymisertPersoninfo.etternavn}` : personnavn;
 };
 
 export const useRefreshPerson = () => {

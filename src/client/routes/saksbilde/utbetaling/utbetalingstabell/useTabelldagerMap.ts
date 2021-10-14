@@ -30,7 +30,6 @@ type UseTabelldagerMapOptions = {
     gjenståendeDager: number | null;
     fødselsdato: Dayjs | null;
     maksdato?: Dayjs;
-    skjæringstidspunkt?: Dayjs;
 };
 
 export const useTabelldagerMap = ({
@@ -39,7 +38,6 @@ export const useTabelldagerMap = ({
     gjenståendeDager,
     fødselsdato,
     maksdato,
-    skjæringstidspunkt,
 }: UseTabelldagerMapOptions): Map<string, UtbetalingstabellDag> =>
     useMemo(() => {
         const antallDagerIgjen =

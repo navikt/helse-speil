@@ -5,6 +5,7 @@ import dayjs from 'dayjs';
 import React from 'react';
 import { RecoilRoot } from 'recoil';
 
+import { testSkjæringstidspunkt } from '../../../../test/data/person';
 import { Utbetaling } from './Utbetaling';
 import { UtbetalingstabellDag } from './utbetalingstabell/Utbetalingstabell.types';
 
@@ -66,7 +67,9 @@ describe('Utbetaling', () => {
         postOverstyringArguments = [];
     });
     test('overstyrer utbetalingstabell', async () => {
-        render(<Utbetaling periode={enPeriode()} overstyringer={[]} />, { wrapper });
+        render(<Utbetaling periode={enPeriode()} overstyringer={[]} skjæringstidspunkt={testSkjæringstidspunkt} />, {
+            wrapper,
+        });
 
         userEvent.click(screen.getByText('Endre'));
         userEvent.click(screen.getAllByRole('checkbox')[0]);

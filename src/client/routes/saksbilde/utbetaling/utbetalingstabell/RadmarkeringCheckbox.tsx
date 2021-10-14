@@ -30,7 +30,7 @@ interface RadmarkeringCheckboxProps extends Omit<React.InputHTMLAttributes<HTMLI
     index: number;
     dagtype: Dag['type'];
     dato: Dayjs;
-    skjæringstidspunkt?: Dayjs;
+    skjæringstidspunkt: string;
 }
 
 export const RadmarkeringCheckbox: React.FC<RadmarkeringCheckboxProps> = ({

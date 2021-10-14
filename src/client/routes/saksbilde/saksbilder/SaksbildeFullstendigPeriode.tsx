@@ -5,13 +5,12 @@ import { Route, Switch, useRouteMatch } from 'react-router-dom';
 import { ErrorBoundary } from '../../../components/ErrorBoundary';
 import { Tooltip } from '../../../components/Tooltip';
 import { useSetVedtaksperiodeReferanserForNotater } from '../../../hooks/useSetVedtaksperiodeReferanserForNotater';
-import { erOver67År, getMånedsbeløp, getSkjæringstidspunkt } from '../../../mapping/selectors';
+import { erOver67År, getMånedsbeløp } from '../../../mapping/selectors';
 import { useArbeidsforhold } from '../../../modell/arbeidsgiver';
 import { useMaksdato } from '../../../modell/utbetalingshistorikkelement';
 import { useInnloggetSaksbehandler } from '../../../state/authentication';
 import { usePersondataSkalAnonymiseres } from '../../../state/person';
 import { useOppgavereferanse, useVedtaksperiode } from '../../../state/tidslinje';
-import { ISO_DATOFORMAT } from '../../../utils/date';
 
 import { AmplitudeProvider } from '../AmplitudeContext';
 import { getErrorMessage } from '../errorMessages';
@@ -22,13 +21,6 @@ import { Utbetaling } from '../utbetaling/Utbetaling';
 import { Saksbildevarsler } from '../varsler/Saksbildevarsler';
 import { VenstreMeny } from '../venstremeny/Venstremeny';
 import { Inngangsvilkår } from '../vilkår/Inngangsvilkår';
-
-const guard = <T,>(message: string, value: T): NonNullable<T> => {
-    if (value === undefined && value === null) {
-        throw Error(message);
-    }
-    return value as NonNullable<T>;
-};
 
 const RouteContainer = styled.div`
     padding: 0 2rem;
@@ -61,10 +53,9 @@ export const SaksbildeFullstendigPeriode = ({ personTilBehandling, aktivPeriode 
 
     const over67år = erOver67År(vedtaksperiode);
     const månedsbeløp = getMånedsbeløp(vedtaksperiode, aktivPeriode.organisasjonsnummer);
-    const skjæringstidspunkt = getSkjæringstidspunkt(vedtaksperiode);
     const saksbehandler = useInnloggetSaksbehandler();
 
-    if (!skjæringstidspunkt || !aktivPeriode.vilkårsgrunnlaghistorikkId) {
+    if (!aktivPeriode.skjæringstidspunkt || !aktivPeriode.vilkårsgrunnlaghistorikkId) {
         throw Error('Mangler skjæringstidspunkt eller vilkårsgrunnlag. Ta kontakt med en utvikler.');
     }
 
@@ -80,7 +71,7 @@ export const SaksbildeFullstendigPeriode = ({ personTilBehandling, aktivPeriode 
                     over67År={over67år}
                     simulering={vedtaksperiode.simuleringsdata}
                     månedsbeløp={månedsbeløp}
-                    skjæringstidspunkt={skjæringstidspunkt}
+                    skjæringstidspunkt={aktivPeriode.skjæringstidspunkt}
                 />
                 <Content className="Content" data-testid="saksbilde-content">
                     <Saksbildevarsler
@@ -95,13 +86,13 @@ export const SaksbildeFullstendigPeriode = ({ personTilBehandling, aktivPeriode 
                             <Utbetaling
                                 periode={aktivPeriode}
                                 overstyringer={vedtaksperiode.overstyringer}
-                                skjæringstidspunkt={vedtaksperiode.vilkår?.dagerIgjen.skjæringstidspunkt}
+                                skjæringstidspunkt={aktivPeriode.skjæringstidspunkt}
                             />
                         </Route>
                         <Route path={`${path}/inngangsvilkår`}>
                             <RouteContainer>
                                 <Inngangsvilkår
-                                    skjæringstidspunkt={skjæringstidspunkt.format(ISO_DATOFORMAT)}
+                                    skjæringstidspunkt={aktivPeriode.skjæringstidspunkt}
                                     vilkårsgrunnlagHistorikkId={aktivPeriode.vilkårsgrunnlaghistorikkId}
                                 />
                             </RouteContainer>
@@ -109,7 +100,7 @@ export const SaksbildeFullstendigPeriode = ({ personTilBehandling, aktivPeriode 
                         <Route path={`${path}/sykepengegrunnlag`}>
                             <RouteContainer>
                                 <Sykepengegrunnlag
-                                    skjæringstidspunkt={skjæringstidspunkt.format(ISO_DATOFORMAT)}
+                                    skjæringstidspunkt={aktivPeriode.skjæringstidspunkt}
                                     vilkårsgrunnlaghistorikkId={aktivPeriode.vilkårsgrunnlaghistorikkId}
                                 />
                             </RouteContainer>

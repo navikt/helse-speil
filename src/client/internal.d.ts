@@ -139,7 +139,7 @@ declare type Tidslinjeperiode = {
     fagsystemId?: string;
     oppgavereferanse?: string;
     vilkårsgrunnlaghistorikkId: string | null;
-    skjæringstidspunkt: string | null;
+    skjæringstidspunkt: DateString | null;
 };
 
 declare type Basisvilkår = {

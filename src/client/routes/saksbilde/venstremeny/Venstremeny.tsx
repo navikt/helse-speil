@@ -4,7 +4,7 @@ import React from 'react';
 
 import { useGjenståendeDager } from '../../../modell/utbetalingshistorikkelement';
 import { harOppgave } from '../../../state/tidslinje';
-import { NORSK_DATOFORMAT, NORSK_DATOFORMAT_KORT } from '../../../utils/date';
+import { NORSK_DATOFORMAT_KORT, tilNorskDato } from '../../../utils/date';
 
 import { ArbeidsgiverCard } from './ArbeidsgiverCard';
 import { PeriodeCard } from './PeriodeCard';
@@ -31,7 +31,7 @@ interface VenstreMenyProps {
     simulering?: Vedtaksperiode['simuleringsdata'];
     månedsbeløp?: number;
     maksdato?: Dayjs;
-    skjæringstidspunkt?: Dayjs;
+    skjæringstidspunkt: string;
 }
 
 export const VenstreMeny = ({
@@ -54,7 +54,7 @@ export const VenstreMeny = ({
             <PeriodeCard
                 aktivPeriode={aktivPeriode}
                 maksdato={maksdato?.format(NORSK_DATOFORMAT_KORT) ?? 'Ukjent maksdato'}
-                skjæringstidspunkt={skjæringstidspunkt?.format(NORSK_DATOFORMAT) ?? 'Ukjent skjæringstidspunkt'}
+                skjæringstidspunkt={tilNorskDato(skjæringstidspunkt)}
                 gjenståendeDager={gjenståendeDager}
                 over67år={over67År}
             />
@@ -72,9 +72,9 @@ export const VenstreMeny = ({
                     ikkeUtbetaltEnda={ikkeUtbetaltEnda}
                     utbetalingsdagerTotalt={utbetalingsdagerTotalt}
                     simulering={simulering}
-                    anonymiseringEnabled={anonymiseringEnabled}
                     skjæringstidspunkt={aktivPeriode.skjæringstidspunkt}
                     vilkårsgrunnlaghistorikkId={aktivPeriode.vilkårsgrunnlaghistorikkId}
+                    organisasjonsnummer={organisasjonsnummer}
                 />
             )}
             <Utbetaling aktivPeriode={aktivPeriode} />

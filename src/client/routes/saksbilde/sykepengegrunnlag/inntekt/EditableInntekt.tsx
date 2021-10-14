@@ -19,9 +19,8 @@ import {
 } from '../../../../state/kalkuleringstoasts';
 import { useOpptegnelser, useSetOpptegnelserPollingRate } from '../../../../state/opptegnelser';
 import { usePerson } from '../../../../state/person';
-import { useMaybeAktivPeriode, useVedtaksperiode } from '../../../../state/tidslinje';
+import { useAktivPeriode } from '../../../../state/tidslinje';
 import { useAddToast, useRemoveToast } from '../../../../state/toasts';
-import { ISO_DATOFORMAT } from '../../../../utils/date';
 import { somPenger, toKronerOgØre } from '../../../../utils/locale';
 
 import { Begrunnelser } from './Begrunnelser';
@@ -125,8 +124,7 @@ const FeiloppsummeringContainer = styled.div`
 
 const useGetOverstyrtInntekt = () => {
     const { aktørId, fødselsnummer } = usePerson() as Person;
-    const { id, organisasjonsnummer } = useMaybeAktivPeriode() as Tidslinjeperiode;
-    const { vilkår } = useVedtaksperiode(id) as Vedtaksperiode;
+    const { id, organisasjonsnummer, skjæringstidspunkt } = useAktivPeriode();
 
     return (begrunnelse: string, forklaring: string, månedligInntekt: number) => ({
         aktørId: aktørId,
@@ -135,7 +133,7 @@ const useGetOverstyrtInntekt = () => {
         begrunnelse: begrunnelse,
         forklaring: forklaring,
         månedligInntekt: månedligInntekt,
-        skjæringstidspunkt: vilkår!.dagerIgjen.skjæringstidspunkt.format(ISO_DATOFORMAT),
+        skjæringstidspunkt: skjæringstidspunkt as string,
     });
 };
 
