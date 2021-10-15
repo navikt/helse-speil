@@ -11,7 +11,7 @@ const Høyrestilt = styled(BodyShort)`
     text-align: right;
 `;
 
-const Stillingstittel = styled(BodyShort)`
+const Stillingstittel = styled.div`
     display: flex;
     flex-wrap: nowrap;
     white-space: nowrap;
@@ -26,7 +26,7 @@ interface ArbeidsforholdProps {
 
 export const Arbeidsforhold = ({ stillingsprosent, stillingstittel, startdato, sluttdato }: ArbeidsforholdProps) => (
     <>
-        <Stillingstittel as="p">
+        <Stillingstittel>
             <TekstMedEllipsis>{stillingstittel}</TekstMedEllipsis>, {stillingsprosent} %
         </Stillingstittel>
         <Høyrestilt as="p">
