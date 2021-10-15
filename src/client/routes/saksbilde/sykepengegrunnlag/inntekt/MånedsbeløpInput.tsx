@@ -33,7 +33,7 @@ interface MånedsbeløpInputProps {
 export const MånedsbeløpInput = ({ initialMånedsbeløp }: MånedsbeløpInputProps) => {
     const form = useFormContext();
 
-    const { ref, onBlur, ...inputValidation } = form.register('månedsbeløp', {
+    const { ref, onBlur, ...inputValidation } = form.register('manedsbelop', {
         required: 'Månedsbeløp mangler',
         min: { value: 0, message: 'Månedsbeløp må være 0 eller større' },
         validate: {
@@ -46,18 +46,18 @@ export const MånedsbeløpInput = ({ initialMånedsbeløp }: MånedsbeløpInputP
     return (
         <>
             <Input
-                id="månedligInntekt"
+                id="manedsbelop"
                 ref={ref}
                 defaultValue={initialMånedsbeløp}
-                error={form.formState.errors.månedsbeløp?.message}
+                error={form.formState.errors.manedsbelop?.message}
                 onBlur={(event) => {
                     onBlur(event);
-                    form.trigger('månedligInntekt');
+                    form.trigger('manedsbelop');
                 }}
                 {...inputValidation}
             />
-            {form.formState.errors.månedsbeløp && (
-                <Feilmelding htmlFor="månedligInntekt">{form.formState.errors.månedsbeløp.message}</Feilmelding>
+            {form.formState.errors.manedsbelop && (
+                <Feilmelding htmlFor="manedsbelop">{form.formState.errors.manedsbelop.message}</Feilmelding>
             )}
         </>
     );
