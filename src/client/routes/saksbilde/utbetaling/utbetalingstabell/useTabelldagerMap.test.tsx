@@ -53,7 +53,6 @@ describe('useTabelldagerMap', () => {
                 periode: periode,
                 overstyringer: [],
                 gjenståendeDager: 100,
-                fødselsdato: dayjs('1980-01-01'),
             })
         );
 
@@ -85,7 +84,6 @@ describe('useTabelldagerMap', () => {
                 periode: periode,
                 overstyringer: overstyringer,
                 gjenståendeDager: 100,
-                fødselsdato: dayjs('1980-01-01'),
             })
         );
 

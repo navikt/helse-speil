@@ -40,14 +40,6 @@ jest.mock('nanoid', () => ({
     nanoid: () => 'nanoid',
 }));
 
-describe('sykepengrunnlagHook', () => {
-    it('henter sykepengegrunnlag', () => {
-        personActual.usePerson = jest.fn(() => person);
-        const { result } = renderHook(() => personActual.useSykepengegrunnlag(testBeregningId), { wrapper: wrapper() });
-        expect(result.current?.sykepengegrunnlag).toEqual(372000);
-    });
-});
-
 describe('vilkårsgrunnlagHook', () => {
     it('finner vilkårsgrunnlag', () => {
         const { result } = renderHook(
