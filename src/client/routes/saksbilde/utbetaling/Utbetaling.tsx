@@ -205,12 +205,10 @@ export const Utbetaling: React.FC<UtbetalingProps> = React.memo(({ periode, over
     const revurderingIsEnabled = useRevurderingIsEnabled(defaultUtbetalingToggles);
     const overstyrRevurderingIsEnabled = useOverstyrRevurderingIsEnabled(defaultUtbetalingToggles);
 
-    const fødselsdato = useMaybePersoninfo()?.fødselsdato ?? null;
     const gjenståendeDager = useGjenståendeDager(periode.beregningId);
     const maksdato = useMaksdato(periode.beregningId);
 
     const dager = useTabelldagerMap({
-        fødselsdato: fødselsdato,
         gjenståendeDager: gjenståendeDager,
         maksdato: maksdato,
         overstyringer: overstyringer,

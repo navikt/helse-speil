@@ -17,11 +17,9 @@ const Container = styled.span`
 
 interface MerknadProps {
     begrunnelse: Avvisning;
-    alderPåDagen?: number;
 }
 
-const Merknad: React.VFC<MerknadProps> = ({ begrunnelse, alderPåDagen }) => {
-    console.log(alderPåDagen);
+const Merknad: React.VFC<MerknadProps> = ({ begrunnelse }) => {
     switch (begrunnelse.tekst) {
         case 'EtterDødsdato':
             return <BodyShort>Personen er død</BodyShort>;
@@ -86,7 +84,7 @@ const avvisningsårsakerMerknad = (dag: UtbetalingstabellDag) =>
     dag.avvistÅrsaker?.map((it, i) => (
         <React.Fragment key={i}>
             {i !== 0 && <BodyShort>,&nbsp;</BodyShort>}
-            <Merknad begrunnelse={it} alderPåDagen={dag.alderPåDagen} />
+            <Merknad begrunnelse={it} />
         </React.Fragment>
     ));
 

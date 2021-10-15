@@ -28,7 +28,6 @@ type UseTabelldagerMapOptions = {
     periode: Tidslinjeperiode;
     overstyringer: Overstyring[];
     gjenståendeDager: number | null;
-    fødselsdato: Dayjs | null;
     maksdato?: Dayjs;
 };
 
@@ -36,7 +35,6 @@ export const useTabelldagerMap = ({
     periode,
     overstyringer,
     gjenståendeDager,
-    fødselsdato,
     maksdato,
 }: UseTabelldagerMapOptions): Map<string, UtbetalingstabellDag> =>
     useMemo(() => {
@@ -51,7 +49,6 @@ export const useTabelldagerMap = ({
                     kilde: periode.sykdomstidslinje[i]?.kilde ?? 'Ukjent',
                     type: periode.sykdomstidslinje[i]?.type ?? it.type,
                 },
-                alderPåDagen: it.dato.diff(fødselsdato, 'year'),
             })
         ) as UtbetalingstabellDag[];
 
