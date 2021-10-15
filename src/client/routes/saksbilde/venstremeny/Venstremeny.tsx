@@ -27,7 +27,7 @@ interface VenstreMenyProps {
     organisasjonsnummer: string;
     arbeidsforhold: Arbeidsforhold[];
     anonymiseringEnabled: boolean;
-    over67År: boolean;
+    alderVedSisteSykedag: number;
     simulering?: Vedtaksperiode['simuleringsdata'];
     månedsbeløp?: number;
     maksdato?: Dayjs;
@@ -39,7 +39,7 @@ export const VenstreMeny = ({
     organisasjonsnummer,
     arbeidsforhold,
     anonymiseringEnabled,
-    over67År,
+    alderVedSisteSykedag,
     simulering,
     månedsbeløp,
     maksdato,
@@ -56,7 +56,7 @@ export const VenstreMeny = ({
                 maksdato={maksdato?.format(NORSK_DATOFORMAT_KORT) ?? 'Ukjent maksdato'}
                 skjæringstidspunkt={tilNorskDato(skjæringstidspunkt)}
                 gjenståendeDager={gjenståendeDager}
-                over67år={over67År}
+                alderVedSisteSykedag={alderVedSisteSykedag}
             />
             <ArbeidsgiverCard organisasjonsnummer={organisasjonsnummer} månedsbeløp={månedsbeløp} />
             {aktivPeriode.skjæringstidspunkt && aktivPeriode.vilkårsgrunnlaghistorikkId && (

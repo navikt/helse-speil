@@ -55,20 +55,20 @@ const getTextForPeriodetype = (type: Periodetype): string => {
 
 const formatertDato = (dato: Dayjs): string => dato.format(NORSK_DATOFORMAT_KORT);
 
-interface PeriodeCardProps {
-    aktivPeriode: Tidslinjeperiode;
-    maksdato: string;
-    over67år: boolean;
-    gjenståendeDager: number | null;
-    skjæringstidspunkt: string;
-}
-
 const PeriodeCardTitle = styled(CardTitle)`
     margin-bottom: 0;
 `;
 
+interface PeriodeCardProps {
+    aktivPeriode: Tidslinjeperiode;
+    maksdato: string;
+    alderVedSisteSykedag: number;
+    gjenståendeDager: number | null;
+    skjæringstidspunkt: string;
+}
+
 export const PeriodeCard = React.memo(
-    ({ aktivPeriode, maksdato, over67år, skjæringstidspunkt, gjenståendeDager }: PeriodeCardProps) => {
+    ({ aktivPeriode, maksdato, alderVedSisteSykedag, skjæringstidspunkt, gjenståendeDager }: PeriodeCardProps) => {
         const vedtaksperiode = useVedtaksperiode(aktivPeriode.id) as Vedtaksperiode;
         const periodetype = aktivPeriode.type === 'REVURDERING' ? 'revurdering' : vedtaksperiode.periodetype;
         const periodetypeLabel = getTextForPeriodetype(periodetype);
@@ -93,19 +93,30 @@ export const PeriodeCard = React.memo(
                     </IconContainer>
                     <Flex justifyContent="space-between">
                         <BodyShort>{`${maksdato} (${gjenståendeDager ?? 'Ukjent antall'} dager igjen)`}</BodyShort>
-                        {over67år && (
+                        {alderVedSisteSykedag >= 70 ? (
                             <Flex alignItems="center">
-                                <IconContainer data-tip="Mellom 62 og 70 år - redusert antall sykepengedager">
-                                    <Advarselikon
-                                        alt="Mellom 62 og 70 år - redusert antall sykepengedager"
-                                        height={16}
-                                        width={16}
-                                    />
+                                <IconContainer data-tip="Over 70 år">
+                                    <Advarselikon alt="Over 70 år" height={16} width={16} />
                                 </IconContainer>
                                 <LovdataLenkeContainer as="p">
-                                    <LovdataLenke paragraf="8-51">§ 8-51</LovdataLenke>
+                                    <LovdataLenke paragraf="8-3">§ 8-3</LovdataLenke>
                                 </LovdataLenkeContainer>
                             </Flex>
+                        ) : (
+                            alderVedSisteSykedag >= 67 && (
+                                <Flex alignItems="center">
+                                    <IconContainer data-tip="Mellom 67 og 70 år - redusert antall sykepengedager">
+                                        <Advarselikon
+                                            alt="Mellom 67 og 70 år - redusert antall sykepengedager"
+                                            height={16}
+                                            width={16}
+                                        />
+                                    </IconContainer>
+                                    <LovdataLenkeContainer as="p">
+                                        <LovdataLenke paragraf="8-51">§ 8-51</LovdataLenke>
+                                    </LovdataLenkeContainer>
+                                </Flex>
+                            )
                         )}
                     </Flex>
                 </Grid>

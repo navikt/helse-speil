@@ -5,12 +5,13 @@ import { Route, Switch, useRouteMatch } from 'react-router-dom';
 import { ErrorBoundary } from '../../../components/ErrorBoundary';
 import { Tooltip } from '../../../components/Tooltip';
 import { useSetVedtaksperiodeReferanserForNotater } from '../../../hooks/useSetVedtaksperiodeReferanserForNotater';
-import { erOver67År, getMånedsbeløp } from '../../../mapping/selectors';
+import { getAlderVedSisteSykedag, getMånedsbeløp } from '../../../mapping/selectors';
 import { useArbeidsforhold } from '../../../modell/arbeidsgiver';
 import { useMaksdato } from '../../../modell/utbetalingshistorikkelement';
 import { useInnloggetSaksbehandler } from '../../../state/authentication';
 import { usePersondataSkalAnonymiseres } from '../../../state/person';
 import { useOppgavereferanse, useVedtaksperiode } from '../../../state/tidslinje';
+import { ISO_DATOFORMAT } from '../../../utils/date';
 
 import { AmplitudeProvider } from '../AmplitudeContext';
 import { getErrorMessage } from '../errorMessages';
@@ -51,7 +52,11 @@ export const SaksbildeFullstendigPeriode = ({ personTilBehandling, aktivPeriode 
     const anonymiseringEnabled = usePersondataSkalAnonymiseres();
     useSetVedtaksperiodeReferanserForNotater(vedtaksperiode.id ? [vedtaksperiode.id] : []);
 
-    const over67år = erOver67År(vedtaksperiode);
+    const alderVedSisteSykedag = getAlderVedSisteSykedag(
+        personTilBehandling.personinfo.fødselsdato!.format(ISO_DATOFORMAT),
+        aktivPeriode
+    );
+
     const månedsbeløp = getMånedsbeløp(vedtaksperiode, aktivPeriode.organisasjonsnummer);
     const saksbehandler = useInnloggetSaksbehandler();
 
@@ -68,7 +73,7 @@ export const SaksbildeFullstendigPeriode = ({ personTilBehandling, aktivPeriode 
                     organisasjonsnummer={aktivPeriode.organisasjonsnummer}
                     arbeidsforhold={arbeidsforhold}
                     anonymiseringEnabled={anonymiseringEnabled}
-                    over67År={over67år}
+                    alderVedSisteSykedag={alderVedSisteSykedag}
                     simulering={vedtaksperiode.simuleringsdata}
                     månedsbeløp={månedsbeløp}
                     skjæringstidspunkt={aktivPeriode.skjæringstidspunkt}

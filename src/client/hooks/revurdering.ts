@@ -22,13 +22,7 @@ const arbeidsgiversSisteSkjæringstidspunktErLikSkjæringstidspunktetTilPerioden
 
     if (!periodeFinnesISisteGenerasjon) return false;
 
-    const vedtaksperiode = person.arbeidsgivere
-        .flatMap((it) => it.vedtaksperioder)
-        .filter((it) => it.fullstendig)
-        .find((it) => it.id === periode.id) as Vedtaksperiode;
-
     const arbeidsgiver = person.arbeidsgivere.find((arb) => arb.organisasjonsnummer === periode.organisasjonsnummer);
-    const periodensSkjæringstidspunkt = vedtaksperiode?.vilkår?.dagerIgjen.skjæringstidspunkt;
     const arbeidsgiversSisteTidslinjeperiode = arbeidsgiver?.tidslinjeperioder[0].filter((it) => it.fullstendig)[0];
 
     const sisteVedtaksperiodeForArbeidsgiver = person.arbeidsgivere
@@ -39,8 +33,8 @@ const arbeidsgiversSisteSkjæringstidspunktErLikSkjæringstidspunktetTilPerioden
 
     const arbeidsgiversSisteSkjæringstidspunkt =
         sisteVedtaksperiodeForArbeidsgiver?.vilkår?.dagerIgjen.skjæringstidspunkt;
-    if (!periodensSkjæringstidspunkt) return false;
-    return arbeidsgiversSisteSkjæringstidspunkt?.isSame(periodensSkjæringstidspunkt, 'day') ?? false;
+    if (!periode.skjæringstidspunkt) return false;
+    return arbeidsgiversSisteSkjæringstidspunkt?.isSame(periode.skjæringstidspunkt, 'day') ?? false;
 };
 
 const overlapper = (periode: Tidslinjeperiode, other: Tidslinjeperiode) =>

@@ -63,9 +63,9 @@ const sykepengegrunnlag = (alderVedSkjæringstidspunkt: number, vilkår: Externa
                 tittel: 'Krav til minste sykepengegrunnlag',
                 paragraf: harEndretParagraf ? (
                     <EndretParagrafContainer alignItems="center">
-                        <IconContainer data-tip="Mellom 62 og 70 år - redusert antall sykepengedager">
+                        <IconContainer data-tip="Mellom 67 og 70 år - inntektsgrunnlaget må overstige 2G">
                             <Advarselikon
-                                alt="Mellom 62 og 70 år - redusert antall sykepengedager"
+                                alt="Mellom 67 og 70 år - inntektsgrunnlaget må overstige 2G"
                                 height={16}
                                 width={16}
                             />

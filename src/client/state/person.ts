@@ -187,14 +187,6 @@ export const useHentPerson = () => {
     };
 };
 
-export const useSykepengegrunnlag = (beregningId: string) => {
-    return (
-        usePerson()
-            ?.arbeidsgivere.flatMap((a) => a.vedtaksperioder)
-            .find((v) => v.beregningIder?.find((id) => id === beregningId)) as Vedtaksperiode
-    )?.vilkår?.sykepengegrunnlag;
-};
-
 export const useLeggPåVent = () => {
     const settLokalPåVentState = usePersonPåVent();
 

@@ -42,8 +42,11 @@ export const sisteValgbarePeriode = (person: Person): Vedtaksperiode | undefined
             undefined
         );
 
-export const erOver67År = (vedtaksperiode: Vedtaksperiode): boolean =>
-    (vedtaksperiode.vilkår?.alder.alderSisteSykedag ?? 0) >= 67;
+export const getAlderVedSisteSykedag = (fødselsdato: string, periode: Tidslinjeperiode): number =>
+    periode.utbetalingstidslinje
+        .filter((it) => it.type === 'Syk')
+        .reduce((sisteDag, dagen) => (dagen.dato.isAfter(sisteDag.dato) ? dagen : sisteDag))
+        .dato.diff(fødselsdato, 'year');
 
 export const getMånedsbeløp = (vedtaksperiode: Vedtaksperiode, organisasjonsnummer: string): number | undefined =>
     vedtaksperiode.inntektsgrunnlag?.inntekter?.find((it) => it.organisasjonsnummer === organisasjonsnummer)
