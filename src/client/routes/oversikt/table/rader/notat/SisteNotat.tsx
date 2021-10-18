@@ -3,7 +3,7 @@ import React from 'react';
 
 import { BodyShort } from '@navikt/ds-react';
 
-import { NORSK_DATOFORMAT, NORSK_KLOKKESLETT } from '../../../../../utils/date';
+import { NORSK_DATOFORMAT_MED_KLOKKESLETT } from '../../../../../utils/date';
 
 const NotatContainer = styled.li`
     margin: 0;
@@ -28,9 +28,9 @@ export const SisteNotat = ({ notater, multiline = false }: { notater: Notat[]; m
     if (!notater || notater.length < 1) return null;
     const notat = notater.sort((a, b) => (b.opprettet.isBefore(a.opprettet) ? 1 : -1))[notater.length - 1];
 
-    const tekst1 = `${notat.opprettet.format(NORSK_DATOFORMAT)} kl ${notat.opprettet.format(NORSK_KLOKKESLETT)}`;
-
+    const tekst1 = `${notat.opprettet.format(NORSK_DATOFORMAT_MED_KLOKKESLETT)}`;
     const tekst2 = `${notat.tekst}`;
+
     return (
         <ul>
             <NotatContainer key={notat.id}>

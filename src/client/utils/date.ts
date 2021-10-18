@@ -7,11 +7,11 @@ dayjs.extend(isoWeek);
 dayjs.extend(isSameOrBefore);
 dayjs.extend(isSameOrAfter);
 
+export const NORSK_DATOFORMAT_MED_KLOKKESLETT = 'DD.MM.YYYY kl HH:mm';
 export const NORSK_DATOFORMAT = 'DD.MM.YYYY';
 export const NORSK_DATOFORMAT_KORT = 'DD.MM.YY';
 export const ISO_DATOFORMAT = 'YYYY-MM-DD';
 export const ISO_TIDSPUNKTFORMAT = 'YYYY-MM-DDTHH:mm:ss';
-export const NORSK_KLOKKESLETT = 'HH:mm';
 
 export const findLatest = (dates: Dayjs[]): Dayjs => {
     return Array.from(dates)

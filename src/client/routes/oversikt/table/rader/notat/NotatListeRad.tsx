@@ -7,7 +7,7 @@ import { Link, Loader } from '@navikt/ds-react';
 import { putFeilregistrertNotat } from '../../../../../io/http';
 import { notaterStateRefetchKey } from '../../../../../state/notater';
 import { useOperationErrorHandler } from '../../../../../state/varsler';
-import { NORSK_DATOFORMAT, NORSK_KLOKKESLETT } from '../../../../../utils/date';
+import { NORSK_DATOFORMAT_MED_KLOKKESLETT } from '../../../../../utils/date';
 import { ignorePromise } from '../../../../../utils/promise';
 
 import { sleep } from '../../../../../../server/devHelpers';
@@ -49,7 +49,7 @@ export const NotatListeRad = ({ notat, vedtaksperiodeId, saksbehandler }: Props)
 
     const fellesRader = (
         <>
-            <td>{`${notat.opprettet.format(NORSK_DATOFORMAT)} kl ${notat.opprettet.format(NORSK_KLOKKESLETT)}`}</td>
+            <td>{`${notat.opprettet.format(NORSK_DATOFORMAT_MED_KLOKKESLETT)}`}</td>
             <td>{notat.saksbehandler.navn}</td>
             <td>{notat.tekst}</td>
         </>

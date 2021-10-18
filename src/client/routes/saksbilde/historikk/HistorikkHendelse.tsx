@@ -3,7 +3,7 @@ import React from 'react';
 
 import { BodyShort } from '@navikt/ds-react';
 
-import { NORSK_DATOFORMAT } from '../../../utils/date';
+import { NORSK_DATOFORMAT_MED_KLOKKESLETT } from '../../../utils/date';
 
 import { Hendelse } from './Historikk.types';
 
@@ -50,7 +50,7 @@ export const HistorikkHendelse = ({ icon, title, body, timestamp }: Hendelse) =>
             <ContentContainer>
                 <Bold as="p">{title}</Bold>
                 {body}
-                {timestamp && <Timestamp as="p">{timestamp.format(NORSK_DATOFORMAT)}</Timestamp>}
+                {timestamp && <Timestamp as="p">{timestamp.format(NORSK_DATOFORMAT_MED_KLOKKESLETT)}</Timestamp>}
             </ContentContainer>
         </Container>
     );
