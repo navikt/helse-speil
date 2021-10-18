@@ -46,7 +46,7 @@ export const getAlderVedSisteSykedag = (fødselsdato: string, periode: Tidslinje
     periode.utbetalingstidslinje
         .filter((it) => it.type === 'Syk')
         .reduce(
-            (sisteDag: Utbetalingsdag, dagen: Utbetalingsdag) =>
+            (sisteDag: Utbetalingsdag | undefined, dagen: Utbetalingsdag) =>
                 sisteDag && dagen.dato.isAfter(sisteDag.dato) ? dagen : sisteDag,
             undefined
         )

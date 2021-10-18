@@ -80,6 +80,7 @@ const anonymiserPersonStateToggle = atom<boolean>({
     default: localStorage.getItem('agurkmodus') === 'true',
 });
 
+// @ts-ignore
 export const persondataSkalAnonymiseres = selector<boolean>({
     key: 'persondataSkalAnonymiseres',
     get: ({ get }) => get(anonymiserPersonStateToggle),

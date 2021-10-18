@@ -8,4 +8,6 @@ import App from './App';
 import './config';
 import './tekster';
 
+window.global = window;
+
 render(<App />, document.getElementById('root'));

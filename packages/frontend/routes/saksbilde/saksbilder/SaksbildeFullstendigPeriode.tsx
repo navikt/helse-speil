@@ -14,7 +14,7 @@ import { usePersondataSkalAnonymiseres } from '../../../state/person';
 import { useOppgavereferanse, useVedtaksperiode } from '../../../state/tidslinje';
 import { ISO_DATOFORMAT } from '../../../utils/date';
 
-import { AmplitudeProvider } from '../AmplitudeContext';
+// import { AmplitudeProvider } from '../AmplitudeContext';
 import { getErrorMessage } from '../errorMessages';
 import { Faresignaler } from '../faresignaler/Faresignaler';
 import { Historikk } from '../historikk/Historikk';
@@ -68,64 +68,66 @@ export const SaksbildeFullstendigPeriode = ({ personTilBehandling, aktivPeriode 
 
     return (
         <ErrorBoundary key={vedtaksperiode.id} fallback={errorMelding}>
-            <AmplitudeProvider>
-                <VenstreMeny
+            {/*<AmplitudeProvider>*/}
+            <VenstreMeny
+                aktivPeriode={aktivPeriode}
+                maksdato={maksdato}
+                organisasjonsnummer={aktivPeriode.organisasjonsnummer}
+                arbeidsforhold={arbeidsforhold}
+                anonymiseringEnabled={anonymiseringEnabled}
+                alderVedSisteSykedag={alderVedSisteSykedag}
+                simulering={vedtaksperiode.simuleringsdata}
+                månedsbeløp={månedsbeløp}
+                skjæringstidspunkt={aktivPeriode.skjæringstidspunkt}
+            />
+            <Content className="Content" data-testid="saksbilde-content">
+                <Saksbildevarsler
                     aktivPeriode={aktivPeriode}
-                    maksdato={maksdato}
-                    organisasjonsnummer={aktivPeriode.organisasjonsnummer}
-                    arbeidsforhold={arbeidsforhold}
-                    anonymiseringEnabled={anonymiseringEnabled}
-                    alderVedSisteSykedag={alderVedSisteSykedag}
-                    simulering={vedtaksperiode.simuleringsdata}
-                    månedsbeløp={månedsbeløp}
-                    skjæringstidspunkt={aktivPeriode.skjæringstidspunkt}
+                    vedtaksperiode={vedtaksperiode}
+
+                    oppgavereferanse={oppgavereferanse}
+
                 />
-                <Content className="Content" data-testid="saksbilde-content">
-                    <Saksbildevarsler
-                        aktivPeriode={aktivPeriode}
-                        vedtaksperiode={vedtaksperiode}
-                        oppgavereferanse={oppgavereferanse}
-                    />
-                    <Switch>
-                        <Route path={`${path}/utbetaling`}>
-                            <Utbetaling
-                                periode={aktivPeriode}
-                                overstyringer={vedtaksperiode.overstyringer}
+                <Switch>
+                    <Route path={`${path}/utbetaling`}>
+                        <Utbetaling
+                            periode={aktivPeriode}
+                            overstyringer={vedtaksperiode.overstyringer}
+                            skjæringstidspunkt={aktivPeriode.skjæringstidspunkt}
+                        />
+                    </Route>
+                    <Route path={`${path}/inngangsvilkår`}>
+                        <RouteContainer>
+                            <Inngangsvilkår
                                 skjæringstidspunkt={aktivPeriode.skjæringstidspunkt}
+                                vilkårsgrunnlagHistorikkId={aktivPeriode.vilkårsgrunnlaghistorikkId}
                             />
-                        </Route>
-                        <Route path={`${path}/inngangsvilkår`}>
+                        </RouteContainer>
+                    </Route>
+                    <Route path={`${path}/sykepengegrunnlag`}>
+                        <RouteContainer>
+                            <Sykepengegrunnlag
+                                skjæringstidspunkt={aktivPeriode.skjæringstidspunkt}
+                                vilkårsgrunnlaghistorikkId={aktivPeriode.vilkårsgrunnlaghistorikkId}
+                            />
+                        </RouteContainer>
+                    </Route>
+                    {vedtaksperiode.risikovurdering && (
+                        <Route path={`${path}/faresignaler`}>
                             <RouteContainer>
-                                <Inngangsvilkår
-                                    skjæringstidspunkt={aktivPeriode.skjæringstidspunkt}
-                                    vilkårsgrunnlagHistorikkId={aktivPeriode.vilkårsgrunnlaghistorikkId}
-                                />
+                                <Faresignaler risikovurdering={vedtaksperiode.risikovurdering} />
                             </RouteContainer>
                         </Route>
-                        <Route path={`${path}/sykepengegrunnlag`}>
-                            <RouteContainer>
-                                <Sykepengegrunnlag
-                                    skjæringstidspunkt={aktivPeriode.skjæringstidspunkt}
-                                    vilkårsgrunnlaghistorikkId={aktivPeriode.vilkårsgrunnlaghistorikkId}
-                                />
-                            </RouteContainer>
-                        </Route>
-                        {vedtaksperiode.risikovurdering && (
-                            <Route path={`${path}/faresignaler`}>
-                                <RouteContainer>
-                                    <Faresignaler risikovurdering={vedtaksperiode.risikovurdering} />
-                                </RouteContainer>
-                            </Route>
-                        )}
-                    </Switch>
-                </Content>
-                <Historikk
-                    vedtaksperiodeId={vedtaksperiode.id}
-                    tildeling={personTilBehandling.tildeling}
-                    personinfo={personTilBehandling.personinfo}
-                />
-                <Tooltip effect="solid" />
-            </AmplitudeProvider>
+                    )}
+                </Switch>
+            </Content>
+            <Historikk
+                vedtaksperiodeId={vedtaksperiode.id}
+                tildeling={personTilBehandling.tildeling}
+                personinfo={personTilBehandling.personinfo}
+            />
+            <Tooltip effect="solid" />
+            {/*</AmplitudeProvider>*/}
         </ErrorBoundary>
     );
 };

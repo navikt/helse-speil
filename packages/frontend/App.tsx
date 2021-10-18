@@ -20,12 +20,9 @@ import './App.css';
 import { GlobalFeilside } from './GlobalFeilside';
 import { Routes } from './routes';
 
-// const Saksbilde = React.lazy(() => import('./routes/saksbilde/Saksbilde'));
-// const Oversikt = React.lazy(() => import('./routes/oversikt'));
-// const Agurk = React.lazy(() => import('./Agurk'));
-import Saksbilde from './routes/saksbilde/Saksbilde';
-import Oversikt from './routes/oversikt/Oversikt';
-import Agurk from './Agurk';
+const Saksbilde = React.lazy(() => import('./routes/saksbilde/Saksbilde'));
+const Oversikt = React.lazy(() => import('./routes/oversikt'));
+const Agurk = React.lazy(() => import('./Agurk'));
 
 ReactModal.setAppElement('#root');
 

@@ -2,6 +2,8 @@ import styled from '@emotion/styled';
 import React, { ReactNode } from 'react';
 import ReactModal from 'react-modal';
 
+console.log(process.env.NODE_ENV);
+
 if (process.env.NODE_ENV === 'production') {
     ReactModal.setAppElement('#root');
 }

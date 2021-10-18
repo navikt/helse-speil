@@ -4,8 +4,8 @@ import React from 'react';
 import { TabButton } from '../../../components/TabButton';
 
 import { Hendelsetype } from './Historikk.types';
-import IconDokumenter from './icons/IconDokumenter.svg';
-import IconHistorikk from './icons/IconHistorikk.svg';
+import iconDokumenter from './icons/IconDokumenter.svg';
+import iconHistorikk from './icons/IconHistorikk.svg';
 import { useFilterState, useShowHistorikkState } from './state';
 
 const Header = styled.div`
@@ -34,14 +34,14 @@ export const HistorikkHeader = () => {
                         onClick={() => setFilter(Hendelsetype.Historikk)}
                         title="Historikk"
                     >
-                        <IconHistorikk />
+                        <img src={iconHistorikk} />
                     </HistorikkTabButton>
                     <HistorikkTabButton
                         active={filter === Hendelsetype.Dokument}
                         onClick={() => setFilter(Hendelsetype.Dokument)}
                         title="Dokumenter"
                     >
-                        <IconDokumenter />
+                        <img src={iconDokumenter} />
                     </HistorikkTabButton>
                 </>
             ) : (
@@ -54,7 +54,7 @@ export const HistorikkHeader = () => {
                         }}
                         title="Historikk"
                     >
-                        <IconHistorikk />
+                        <img src={iconHistorikk} />
                     </HistorikkTabButton>
                     <HistorikkTabButton
                         active={false}
@@ -64,7 +64,7 @@ export const HistorikkHeader = () => {
                         }}
                         title="Dokumenter"
                     >
-                        <IconDokumenter />
+                        <img src={iconDokumenter} />
                     </HistorikkTabButton>
                 </>
             )}

@@ -30,6 +30,7 @@ const paginationPerTab = atom<PaginationPerTab>({
     },
 });
 
+// @ts-ignore
 const pagination = selector<Pagination | null>({
     key: 'pagination',
     get: ({ get }) => {

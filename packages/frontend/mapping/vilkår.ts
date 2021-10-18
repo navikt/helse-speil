@@ -92,7 +92,7 @@ export const mapVilkår = (
         try {
             return callback(unmapped);
         } catch (error) {
-            problems.push(error);
+            problems.push(error as Error);
         }
     };
 

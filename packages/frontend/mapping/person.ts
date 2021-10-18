@@ -11,7 +11,7 @@ export const mapPerson = (personFraSpesialist: ExternalPerson): { person: Person
 };
 
 export class PersonBuilder {
-    private unmapped: ExternalPerson;
+    private unmapped!: ExternalPerson;
     private person: Partial<Person> = {};
     private problems: Error[] = [];
 

@@ -28,10 +28,10 @@ const tidligerePeriodeINesteGenerasjonErRevurdering = (
 ) => nesteGenerasjon.find((periode) => erRevurdering(periode) && periode.fom.isBefore(gjeldende.fom)) !== undefined;
 
 export class ArbeidsgiverBuilder {
-    private unmapped: ExternalArbeidsgiver;
-    private person: ExternalPerson;
+    private unmapped!: ExternalArbeidsgiver;
+    private person!: ExternalPerson;
     private arbeidsgiver: Partial<Arbeidsgiver> = {};
-    private inntektsgrunnlag: ExternalInntektsgrunnlag[];
+    private inntektsgrunnlag!: ExternalInntektsgrunnlag[];
     private problems: Error[] = [];
 
     addPerson(person: ExternalPerson) {
@@ -241,7 +241,10 @@ export class ArbeidsgiverBuilder {
     };
 
     private sortVedtaksperioder = () => {
-        const reversert = (a: Vedtaksperiode, b: Vedtaksperiode) => dayjs(b.fom).valueOf() - dayjs(a.fom).valueOf();
+        const reversert = (
+            a: Vedtaksperiode | UfullstendigVedtaksperiode,
+            b: Vedtaksperiode | UfullstendigVedtaksperiode
+        ) => dayjs(b.fom).valueOf() - dayjs(a.fom).valueOf();
         this.arbeidsgiver.vedtaksperioder?.sort(reversert);
     };
 

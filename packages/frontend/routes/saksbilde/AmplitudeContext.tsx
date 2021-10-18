@@ -87,12 +87,12 @@ export const AmplitudeProvider: React.FC<PropsWithChildren<{}>> = ({ children })
 
     const logOppgaveForkastet = (begrunnelser: string[]) => logEvent('oppgave forkastet', begrunnelser);
 
-    useEffect(() => {
-        amplitudeEnabled &&
-            amplitude?.getInstance().setUserProperties({
-                skjermbredde: window.screen.width,
-            });
-    }, []);
+    // useEffect(() => {
+    //     amplitudeEnabled &&
+    //         amplitude?.getInstance().setUserProperties({
+    //             skjermbredde: window.screen.width,
+    //         });
+    // }, []);
 
     return (
         <AmplitudeContext.Provider

@@ -94,7 +94,9 @@ interface UtbetalingsdialogProps {
 const skalPolleEtterNestePeriode = (personTilBehandling: Person) =>
     personTilBehandling.arbeidsgivere
         .flatMap((arbeidsgiver: Arbeidsgiver) =>
-            arbeidsgiver.vedtaksperioder.flatMap((vedtaksperiode: Vedtaksperiode) => vedtaksperiode.tilstand)
+            arbeidsgiver.vedtaksperioder.flatMap(
+                (vedtaksperiode: Vedtaksperiode | UfullstendigVedtaksperiode) => vedtaksperiode.tilstand
+            )
         )
         .some((tilstand) => tilstand === 'venterPåKiling');
 

@@ -40,10 +40,10 @@ const mapUtbetaling = (
     };
 
 export class VedtaksperiodeBuilder {
-    private unmapped: ExternalVedtaksperiode;
-    private annullerteHistorikkelementer: HistorikkElement[];
-    private person: ExternalPerson;
-    private arbeidsgiver: ExternalArbeidsgiver;
+    private unmapped!: ExternalVedtaksperiode;
+    private annullerteHistorikkelementer!: HistorikkElement[];
+    private person!: ExternalPerson;
+    private arbeidsgiver!: ExternalArbeidsgiver;
     private overstyringer: ExternalOverstyring[] = [];
     private vedtaksperiode: Partial<Vedtaksperiode> = {};
     private inntektsgrunnlag?: ExternalInntektsgrunnlag;
@@ -346,7 +346,7 @@ export class VedtaksperiodeBuilder {
                 })),
             };
         } catch (error) {
-            this.problems.push(error);
+            this.problems.push(error as Error);
         }
     };
 
