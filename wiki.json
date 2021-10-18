@@ -328,5 +328,11 @@
         "betydning": "Det er lagt inn en ny inntekt som gir 25 % avvik. Skjønnsmessig fastsettelse av sykepengegrunnlaget støttes ikke i Speil.",
         "løsning": "Du kan endre inntekten en gang til hvis du har gjort noe feil. Dersom endringen skal gjennomføres må periodene annulleres i Speil og behandles i Infotrygd.",
         "viktighet": "Høy"
+    },
+    {
+        "varsel": "Fant ikke refusjonsgrad for perioden. Undersøk før du utbetaler.",
+        "betydning": "Fant ikke informasjon om det er refusjon i perioden. Refusjonen er satt til 100 % siden det samsvarer med siste utbetalte periode i Infotrygd.",
+        "løsning": "Undersøk hva som er riktig. Refusjonen er satt til 100 % siden det samsvarer med siste utbetalte periode i Infotrygd. Dersom refusjonen er satt feil må perioden behandles i Infotrygd.",
+        "viktighet": "Høy"
     }
 ]
