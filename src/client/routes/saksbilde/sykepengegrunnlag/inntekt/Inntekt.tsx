@@ -79,7 +79,7 @@ export const Inntekt = ({ omregnetÅrsinntekt }: InntektProps) => {
             <Header isEditing={editing}>
                 <Flex alignItems="center">
                     <Tittel as="h3">Inntekt</Tittel>
-                    {endret ? (
+                    {endret || omregnetÅrsinntekt?.kilde === 'Saksbehandler' ? (
                         <CaseworkerFilled height={20} width={20} />
                     ) : (
                         <Kilde type={getKildeType(omregnetÅrsinntekt?.kilde)}>{kilde(omregnetÅrsinntekt?.kilde)}</Kilde>
