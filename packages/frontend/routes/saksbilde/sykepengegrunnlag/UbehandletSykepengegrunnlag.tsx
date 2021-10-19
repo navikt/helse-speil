@@ -43,6 +43,10 @@ export const UbehandletSykepengegrunnlag = ({
         setAktivInntektskilde(inntekt);
     }, [inntekt]);
 
+    useEffect(() => {
+        setAktivInntektskilde(getInntekt(vilkårsgrunnlag, organisasjonsnummer));
+    }, [vilkårsgrunnlag, organisasjonsnummer]);
+
     return (
         <Container data-testid={rest['data-testid'] ?? 'ubehandlet-sykepengegrunnlag'}>
             <Inntektskilderinnhold inntekt={aktivInntektskilde} />

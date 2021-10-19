@@ -1,41 +1,42 @@
 {
-  "name": "helse-speil",
-  "version": "1.0.0",
-  "author": "Team Bømlo",
-  "description": "Innsyn i saksbehandling av sykepenger",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/navikt/helse-speil.git"
-  },
-  "license": "MIT",
-  "scripts": {
-    "dev-frontend": "lerna run dev-frontend",
-    "dev-backend": "lerna run dev-backend",
-    "dev-mock": "lerna run dev-mock",
-    "e2e-test": "e2e-tests/run.sh",
-    "e2e-test-local": "e2e-tests/run.sh; e2e-tests/stop.sh",
-    "prepare": "husky install"
-  },
-  "lint-staged": {
-    "*.{js,jsx,ts,tsx,css,json,md}": [
-      "prettier --write"
-    ],
-    "*.{js,jsx,ts,tsx}": [
-      "eslint --fix --rule react-hooks/exhaustive-deps:off"
-    ]
-  },
-  "devDependencies": {
-    "cypress": "^8.6.0",
-    "eslint": "^8.0.1",
-    "eslint-config-prettier": "^8.3.0",
-    "husky": "^7.0.2",
-    "lerna": "^4.0.0",
-    "lint-staged": "^11.2.3",
-    "prettier": "^2.4.1"
-  },
-  "engines": {
-    "node": ">=14.17.0",
-    "npm": ">=6.14.0"
-  },
-  "snyk": true,
+    "name": "helse-speil",
+    "version": "1.0.0",
+    "author": "Team Bømlo",
+    "description": "Innsyn i saksbehandling av sykepenger",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/navikt/helse-speil.git"
+    },
+    "license": "MIT",
+    "scripts": {
+        "dev": "lerna run dev --stream",
+        "serve": "lerna run serve --stream",
+        "mock": "lerna run mock --stream",
+        "build": "lerna run build --stream",
+        "e2e-test": "e2e-tests/run.sh",
+        "e2e-test-local": "e2e-tests/run.sh; e2e-tests/stop.sh",
+        "prepare": "husky install"
+    },
+    "lint-staged": {
+        "*.{js,jsx,ts,tsx,css,json,md}": [
+            "prettier --write"
+        ],
+        "*.{js,jsx,ts,tsx}": [
+            "eslint --fix --rule react-hooks/exhaustive-deps:off"
+        ]
+    },
+    "devDependencies": {
+        "cypress": "^8.6.0",
+        "eslint": "^8.0.1",
+        "eslint-config-prettier": "^8.3.0",
+        "husky": "^7.0.2",
+        "lerna": "^4.0.0",
+        "lint-staged": "^11.2.3",
+        "prettier": "^2.4.1"
+    },
+    "engines": {
+        "node": ">=14.17.0",
+        "npm": ">=6.14.0"
+    },
+    "snyk": true
 }

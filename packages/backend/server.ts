@@ -163,8 +163,8 @@ app.get('/*', (req, res, next) => {
 });
 
 // At the time of writing this comment, the setup of the static 'routes' has to be done in a particular order.
-app.use('/static', express.static('dist/client'));
-app.use('/*', express.static('dist/client/index.html'));
-app.use('/', express.static('dist/client/'));
+app.use('/static', express.static('../../dist/client/static'));
+app.use('/*', express.static('../../dist/client/index.html'));
+app.use('/', express.static('../../dist/client/'));
 
 app.listen(port, () => logger.info(`Speil backend listening on port ${port}`));

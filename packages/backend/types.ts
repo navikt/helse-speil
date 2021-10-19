@@ -68,3 +68,7 @@ export interface AuthError extends Error {
     statusCode: number;
     cause?: any;
 }
+
+export interface NotatDTO {
+    tekst: string;
+}

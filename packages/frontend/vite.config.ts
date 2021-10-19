@@ -1,9 +1,8 @@
 import { defineConfig } from 'vite';
-import reactPlugin from '@vitejs/plugin-react';
+import reactRefresh from '@vitejs/plugin-react-refresh';
 
-// https://vitejs.dev/config/
 export default defineConfig({
-    plugins: [reactPlugin()],
+    plugins: [reactRefresh()],
     build: {
         outDir: '../../dist/client',
         sourcemap: true,
