@@ -92,7 +92,7 @@ const filenameForPersonId = (id: string) => {
             return 'sniff_førstegangsbehandling_revurdering.json';
         case '2259231338047':
         case '09038400182':
-            return 'knerten_revurdering.json';
+            return 'luke_skywalker_revurdering.json';
         case '2287435975709':
         case '11117615091':
             return 'mummitrollet_revurdering_tre_perioder.json';

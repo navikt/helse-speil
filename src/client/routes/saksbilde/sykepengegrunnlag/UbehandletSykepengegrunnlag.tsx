@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { InntektsgrunnlagTable } from './InntektsgrunnlagTable';
 import { Inntektskilderinnhold } from './Inntektskilderinnhold';
@@ -36,9 +36,12 @@ export const UbehandletSykepengegrunnlag = ({
     organisasjonsnummer,
     ...rest
 }: UbehandletSykepengegrunnlagProps) => {
-    const [aktivInntektskilde, setAktivInntektskilde] = useState<ExternalArbeidsgiverinntekt>(
-        getInntekt(vilkårsgrunnlag, organisasjonsnummer)
-    );
+    const inntekt = getInntekt(vilkårsgrunnlag, organisasjonsnummer);
+    const [aktivInntektskilde, setAktivInntektskilde] = useState<ExternalArbeidsgiverinntekt>(inntekt);
+
+    useEffect(() => {
+        setAktivInntektskilde(inntekt);
+    }, [inntekt]);
 
     return (
         <Container data-testid={rest['data-testid'] ?? 'ubehandlet-sykepengegrunnlag'}>
