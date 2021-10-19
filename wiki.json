@@ -336,9 +336,9 @@
         "viktighet": "Høy"
     },
     {
-        "varsel": "Utbetalingen forlenger et tidligere oppdrag som opphørte alle utbetalte dager. Sjekk simuleringen.",
-        "betydning": "En endring i måten utbetalinger bygges på gjør at vi i en overgangsperiode ønsker å kontrollere utbetalinger som endrer på et tidligere opphørt oppdrag.",
-        "løsning": "Kontroller at simulering ser riktig ut.",
+        "varsel": "Utbetalingen forlenger en tidligere periode hvor alle utbetalte dager er opphørte. Kontroller simuleringen.",
+        "betydning": "En endring i måten utbetalinger bygges på, gjør at vi i en overgangsperiode ønsker å kontrollere utbetalinger som endrer på en tidligere opphørt periode.",
+        "løsning": "Kontroller at simuleringen ser riktig ut.",
         "viktighet": "Høy"
     }
 ]
