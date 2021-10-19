@@ -4,8 +4,6 @@ import { BodyShort } from '@navikt/ds-react';
 import { Varseltype } from '@navikt/helse-frontend-varsel';
 import '@navikt/helse-frontend-varsel/lib/main.css';
 
-import { capitalizeName } from '../../../utils/locale';
-
 import { Aktivitetsloggvarsler } from './Aktivetsloggvarsler';
 import { Saksbildevarsel } from './Saksbildevarsel';
 
@@ -71,35 +69,17 @@ const ukjentTilstandsvarsel = (tilstand: Tidslinjetilstand): VarselObject | null
         ? { grad: Varseltype.Feil, melding: 'Kunne ikke lese informasjon om sakens tilstand.' }
         : null;
 
-const tildelingsvarsel = (saksbehandlerOid: string, tildeling?: Tildeling): VarselObject | null => {
-    return tildeling && tildeling.saksbehandler.oid !== saksbehandlerOid
-        ? {
-              grad: Varseltype.Info,
-              melding: `Saken er allerede tildelt til ${capitalizeName(tildeling?.saksbehandler.navn ?? '')}`,
-          }
-        : null;
-};
-
 interface SaksbildevarslerProps {
     aktivPeriode: Tidslinjeperiode;
     vedtaksperiode: Vedtaksperiode;
-    saksbehandler: Saksbehandler;
     oppgavereferanse?: string;
-    tildeling?: Tildeling;
 }
 
-export const Saksbildevarsler = ({
-    aktivPeriode,
-    vedtaksperiode,
-    saksbehandler,
-    oppgavereferanse,
-    tildeling,
-}: SaksbildevarslerProps) => {
+export const Saksbildevarsler = ({ aktivPeriode, vedtaksperiode, oppgavereferanse }: SaksbildevarslerProps) => {
     const infoVarsler: VarselObject[] = [
         tilstandInfoVarsel(aktivPeriode.tilstand),
         utbetalingsvarsel(aktivPeriode.tilstand),
         vedtaksperiodeVenterVarsel(aktivPeriode.tilstand),
-        tildelingsvarsel(saksbehandler.oid, tildeling),
     ].filter((it) => it) as VarselObject[];
 
     const feilVarsler: VarselObject[] = [

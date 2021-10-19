@@ -5,6 +5,7 @@ import { Route, Switch, useRouteMatch } from 'react-router-dom';
 import { ErrorBoundary } from '../../../components/ErrorBoundary';
 import { Tooltip } from '../../../components/Tooltip';
 import { useSetVedtaksperiodeReferanserForNotater } from '../../../hooks/useSetVedtaksperiodeReferanserForNotater';
+import { useVarselOmSakErTildeltAnnenSaksbehandler } from '../../../hooks/useVarselOmSakErTildeltAnnenSaksbehandler';
 import { getAlderVedSisteSykedag, getMånedsbeløp } from '../../../mapping/selectors';
 import { useArbeidsforhold } from '../../../modell/arbeidsgiver';
 import { useMaksdato } from '../../../modell/utbetalingshistorikkelement';
@@ -59,6 +60,7 @@ export const SaksbildeFullstendigPeriode = ({ personTilBehandling, aktivPeriode 
 
     const månedsbeløp = getMånedsbeløp(vedtaksperiode, aktivPeriode.organisasjonsnummer);
     const saksbehandler = useInnloggetSaksbehandler();
+    useVarselOmSakErTildeltAnnenSaksbehandler(saksbehandler.oid, personTilBehandling);
 
     if (!aktivPeriode.skjæringstidspunkt || !aktivPeriode.vilkårsgrunnlaghistorikkId) {
         throw Error('Mangler skjæringstidspunkt eller vilkårsgrunnlag. Ta kontakt med en utvikler.');
@@ -82,9 +84,7 @@ export const SaksbildeFullstendigPeriode = ({ personTilBehandling, aktivPeriode 
                     <Saksbildevarsler
                         aktivPeriode={aktivPeriode}
                         vedtaksperiode={vedtaksperiode}
-                        saksbehandler={saksbehandler}
                         oppgavereferanse={oppgavereferanse}
-                        tildeling={personTilBehandling.tildeling}
                     />
                     <Switch>
                         <Route path={`${path}/utbetaling`}>
