@@ -9,7 +9,7 @@ import { EditButton } from '../../../../components/EditButton';
 import { Flex, FlexColumn } from '../../../../components/Flex';
 import { Kilde } from '../../../../components/Kilde';
 import { useUtbetaling } from '../../../../modell/utbetalingshistorikkelement';
-import { useMaybeAktivPeriode } from '../../../../state/tidslinje';
+import { useAktivPeriode, useMaybeAktivPeriode } from '../../../../state/tidslinje';
 import { getKildeType, kilde } from '../../../../utils/inntektskilde';
 
 import { overstyrInntektEnabled } from '../../../../featureToggles';
@@ -61,6 +61,8 @@ const useUtbetalingstatus = (): UtbetalingshistorikkElement['status'] | undefine
     return utbetaling?.status;
 };
 
+const useInntektskilde = (): Inntektskilde => useAktivPeriode().inntektskilde;
+
 interface InntektProps {
     omregnetÅrsinntekt: ExternalOmregnetÅrsinntekt | null;
 }
@@ -70,6 +72,7 @@ export const Inntekt = ({ omregnetÅrsinntekt }: InntektProps) => {
     const [endret, setEndret] = useState(false);
 
     const status = useUtbetalingstatus();
+    const harKunEnArbeidsgiver = useInntektskilde() === 'EN_ARBEIDSGIVER';
 
     return (
         <Container editing={editing}>
@@ -82,7 +85,7 @@ export const Inntekt = ({ omregnetÅrsinntekt }: InntektProps) => {
                         <Kilde type={getKildeType(omregnetÅrsinntekt?.kilde)}>{kilde(omregnetÅrsinntekt?.kilde)}</Kilde>
                     )}
                 </Flex>
-                {overstyrInntektEnabled && (
+                {overstyrInntektEnabled && harKunEnArbeidsgiver && (
                     <EditButton
                         isOpen={editing}
                         openText="Lukk"
