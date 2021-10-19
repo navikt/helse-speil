@@ -336,7 +336,7 @@
         "viktighet": "Høy"
     },
     {
-        "varsel": "Utbetalingen forlenger et tidligere oppdrag som opphørte alle utbetalte dager.",
+        "varsel": "Utbetalingen forlenger et tidligere oppdrag som opphørte alle utbetalte dager. Sjekk simuleringen.",
         "betydning": "En endring i måten utbetalinger bygges på gjør at vi i en overgangsperiode ønsker å kontrollere utbetalinger som endrer på et tidligere opphørt oppdrag.",
         "løsning": "Kontroller at simulering ser riktig ut.",
         "viktighet": "Høy"
