@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import React from 'react';
 
-import { Overstyringsindikator } from '../../../../components/Overstyringsindikator';
+import { Endringstrekant } from '../../../../components/Endringstrekant';
 import { somPenger } from '../../../../utils/locale';
 
 import { CellContent } from '../../table/CellContent';
@@ -18,7 +18,7 @@ interface UtbetalingCellProps extends React.HTMLAttributes<HTMLTableDataCellElem
 
 export const UtbetalingCell = ({ erOverstyrt, utbetaling, style }: UtbetalingCellProps) => (
     <Cell erOverstyrt={erOverstyrt} style={style}>
-        {erOverstyrt && <Overstyringsindikator />}
+        {erOverstyrt && <Endringstrekant />}
         {utbetaling && <ValueContainer>{somPenger(utbetaling)}</ValueContainer>}
     </Cell>
 );

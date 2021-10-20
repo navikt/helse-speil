@@ -101,7 +101,10 @@ export const Inntektskilderinnhold = ({ inntekt }: InntektskilderinnholdProps) =
                     />
                 ))}
             </ArbeidsforholdTabell>
-            <Inntekt omregnetÅrsinntekt={inntekt.omregnetÅrsinntekt} />
+            <Inntekt
+                omregnetÅrsinntekt={inntekt.omregnetÅrsinntekt}
+                organisasjonsnummer={inntekt.organisasjonsnummer}
+            />
             <Tooltip effect="solid" />
         </FlexColumn>
     );

@@ -5,7 +5,7 @@ import { useNotaterForVedtaksperiode } from '../../../state/notater';
 import { useMaybeAktivPeriode, useVedtaksperiode } from '../../../state/tidslinje';
 
 import { Hendelse, Hendelsetype } from './Historikk.types';
-import { useDokumenter, useNotater, useUtbetalinger, useUtbetalingsendringer } from './mapping';
+import { useDokumenter, useInntektendringer, useNotater, useTidslinjeendringer, useUtbetalinger } from './mapping';
 
 const historikkState = atom<Hendelse[]>({
     key: 'historikkState',
@@ -38,10 +38,15 @@ export const useFilterState = () => useRecoilState(filterState);
 
 type UseOppdaterHistorikkOptions = {
     onClickNotat: () => void;
-    onClickEndring: (overstyring: Overstyring) => void;
+    onClickTidslinjeendring: (overstyring: Overstyring) => void;
+    onClickInntektendring: (overstyring: ExternalInntektoverstyring) => void;
 };
 
-export const useOppdaterHistorikk = ({ onClickNotat, onClickEndring }: UseOppdaterHistorikkOptions) => {
+export const useOppdaterHistorikk = ({
+    onClickNotat,
+    onClickTidslinjeendring,
+    onClickInntektendring,
+}: UseOppdaterHistorikkOptions) => {
     const setHistorikk = useSetRecoilState(historikkState);
     const aktivPeriode = useMaybeAktivPeriode();
     const vedtaksperiode = useVedtaksperiode(aktivPeriode?.id);
@@ -50,11 +55,12 @@ export const useOppdaterHistorikk = ({ onClickNotat, onClickEndring }: UseOppdat
     const notater = useNotater(notaterForVedtaksperiode, onClickNotat);
     const dokumenter = useDokumenter(vedtaksperiode);
     const utbetalinger = useUtbetalinger(aktivPeriode);
-    const utbetalingsendringer = useUtbetalingsendringer(onClickEndring, vedtaksperiode);
+    const tidslinjeendringer = useTidslinjeendringer(onClickTidslinjeendring, vedtaksperiode);
+    const inntektoverstyringer = useInntektendringer(onClickInntektendring);
 
     useEffect(() => {
         setHistorikk(
-            [...dokumenter, ...utbetalingsendringer]
+            [...dokumenter, ...tidslinjeendringer, ...inntektoverstyringer]
                 .filter((it) => !aktivPeriode || it.timestamp?.isSameOrBefore(aktivPeriode.opprettet))
                 .concat(utbetalinger)
                 .concat(notater)

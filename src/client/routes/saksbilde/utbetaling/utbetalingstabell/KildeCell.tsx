@@ -9,7 +9,7 @@ import { Kilde } from '../../../../components/Kilde';
 import { Tooltip } from '../../../../components/Tooltip';
 
 import { CellContent } from '../../table/CellContent';
-import { OverstyringsindikatorSaksbehandler } from './OverstyringsindikatorSaksbehandler';
+import { EndringsloggTidslinjeButton } from './EndringsloggTidslinjeButton';
 
 const getKildeTypeIcon = (type?: Sykdomsdag['kilde'], overstyringer?: Dagoverstyring[]): ReactNode => {
     switch (type) {
@@ -21,7 +21,7 @@ const getKildeTypeIcon = (type?: Sykdomsdag['kilde'], overstyringer?: Dagoversty
             return <Kilde type="Inntektsmelding">IM</Kilde>;
         case 'Saksbehandler':
             return overstyringer ? (
-                <OverstyringsindikatorSaksbehandler overstyringer={overstyringer} />
+                <EndringsloggTidslinjeButton endringer={overstyringer} />
             ) : (
                 <Flex>
                     <CaseworkerFilled height={20} width={20} />

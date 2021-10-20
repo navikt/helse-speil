@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Overstyringsindikator } from '../../../../components/Overstyringsindikator';
+import { Endringstrekant } from '../../../../components/Endringstrekant';
 
 import { Cell } from './Cell';
 
@@ -11,7 +11,7 @@ interface GjenståendeDagerCellProps {
 
 export const GjenståendeDagerCell = ({ gjenståendeDager, erOverstyrt }: GjenståendeDagerCellProps) => (
     <Cell erOverstyrt={erOverstyrt}>
-        {erOverstyrt && <Overstyringsindikator />}
+        {erOverstyrt && <Endringstrekant />}
         {gjenståendeDager}
     </Cell>
 );

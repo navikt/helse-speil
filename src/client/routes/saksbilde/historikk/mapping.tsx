@@ -6,7 +6,7 @@ import { Notes } from '@navikt/ds-icons';
 
 import { Kilde } from '../../../components/Kilde';
 import { LinkButton } from '../../../components/LinkButton';
-import { usePerson } from '../../../state/person';
+import { useOrganisasjonsnummer, usePerson } from '../../../state/person';
 
 import { Hendelse, Hendelsetype } from './Historikk.types';
 
@@ -87,7 +87,7 @@ export const useUtbetalinger = (periode?: Tidslinjeperiode): Hendelse[] => {
         });
 };
 
-export const useUtbetalingsendringer = (
+export const useTidslinjeendringer = (
     onClickEndring: (overstyring: Overstyring) => void,
     vedtaksperiode?: Vedtaksperiode
 ): Hendelse[] =>
@@ -104,6 +104,29 @@ export const useUtbetalingsendringer = (
             ),
         }))) ||
     [];
+
+export const useInntektendringer = (onClickEndring: (overstyring: ExternalInntektoverstyring) => void): Hendelse[] => {
+    const organisasjonsnummer = useOrganisasjonsnummer();
+    const arbeidsgiver = usePerson()!.arbeidsgivereV2.find((it) => it.organisasjonsnummer === organisasjonsnummer);
+
+    if (!arbeidsgiver) {
+        throw Error(`Fant ikke arbeidsgiver med organisasjonsnummer ${organisasjonsnummer}`);
+    }
+
+    return arbeidsgiver.overstyringer
+        .filter((it) => it.type === 'Inntekt')
+        .map((it: ExternalInntektoverstyring) => ({
+            id: it.hendelseId,
+            timestamp: dayjs(it.timestamp),
+            title: <LinkButton onClick={() => onClickEndring(it)}>Endret inntekt</LinkButton>,
+            type: Hendelsetype.Historikk,
+            body: (
+                <BegrunnelseTekst>
+                    <p>{it.saksbehandlerIdent ?? it.saksbehandlerNavn}</p>
+                </BegrunnelseTekst>
+            ),
+        }));
+};
 
 export const useNotater = (notater: Notat[], onClickNotat: () => void): Hendelse[] =>
     useMemo(

@@ -2,17 +2,18 @@ import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import React, { useState } from 'react';
 
-import { CaseworkerFilled } from '@navikt/ds-icons';
 import { BodyShort } from '@navikt/ds-react';
 
 import { EditButton } from '../../../../components/EditButton';
 import { Flex, FlexColumn } from '../../../../components/Flex';
 import { Kilde } from '../../../../components/Kilde';
 import { useUtbetaling } from '../../../../modell/utbetalingshistorikkelement';
+import { useEndringer } from '../../../../state/person';
 import { useAktivPeriode, useMaybeAktivPeriode } from '../../../../state/tidslinje';
 import { getKildeType, kilde } from '../../../../utils/inntektskilde';
 
 import { overstyrInntektEnabled } from '../../../../featureToggles';
+import { EndringsloggInntektButton } from '../../utbetaling/utbetalingstabell/EndringsloggInntektButton';
 import { EditableInntekt } from './EditableInntekt';
 import { ReadOnlyInntekt } from './ReadOnlyInntekt';
 
@@ -65,14 +66,17 @@ const useInntektskilde = (): Inntektskilde => useAktivPeriode().inntektskilde;
 
 interface InntektProps {
     omregnetÅrsinntekt: ExternalOmregnetÅrsinntekt | null;
+    organisasjonsnummer: string;
 }
 
-export const Inntekt = ({ omregnetÅrsinntekt }: InntektProps) => {
+export const Inntekt = ({ omregnetÅrsinntekt, organisasjonsnummer }: InntektProps) => {
     const [editing, setEditing] = useState(false);
     const [endret, setEndret] = useState(false);
 
     const status = useUtbetalingstatus();
     const harKunEnArbeidsgiver = useInntektskilde() === 'EN_ARBEIDSGIVER';
+
+    const endringer = useEndringer(organisasjonsnummer);
 
     return (
         <Container editing={editing}>
@@ -80,7 +84,9 @@ export const Inntekt = ({ omregnetÅrsinntekt }: InntektProps) => {
                 <Flex alignItems="center">
                     <Tittel as="h3">Inntekt</Tittel>
                     {endret || omregnetÅrsinntekt?.kilde === 'Saksbehandler' ? (
-                        <CaseworkerFilled height={20} width={20} />
+                        <EndringsloggInntektButton
+                            endringer={endringer.filter((it) => it.type === 'Inntekt') as ExternalInntektoverstyring[]}
+                        />
                     ) : (
                         <Kilde type={getKildeType(omregnetÅrsinntekt?.kilde)}>{kilde(omregnetÅrsinntekt?.kilde)}</Kilde>
                     )}

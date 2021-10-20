@@ -5,10 +5,10 @@ import { FormProvider, useForm } from 'react-hook-form';
 
 import { BodyShort, Button as NavButton, ErrorSummary, ErrorSummaryItem, Loader } from '@navikt/ds-react';
 
+import { Endringstrekant } from '../../../../components/Endringstrekant';
 import { ErrorMessage } from '../../../../components/ErrorMessage';
 import { Flex, FlexColumn } from '../../../../components/Flex';
 import { OverstyringTimeoutModal } from '../../../../components/OverstyringTimeoutModal';
-import { Overstyringsindikator } from '../../../../components/Overstyringsindikator';
 import { postOverstyrtInntekt } from '../../../../io/http';
 import type { OverstyrtInntektDTO } from '../../../../io/types';
 import {
@@ -262,7 +262,7 @@ export const EditableInntekt = ({ omregnetÅrsinntekt, close, onEndre }: Editabl
                             </BodyShort>
                         </OmregnetTilÅrsinntekt>
                         <OmregnetTilÅrsinntektContainer harEndringer={harEndringer}>
-                            {harEndringer && <Overstyringsindikator />}
+                            {harEndringer && <Endringstrekant />}
                             <Bold as="p">{somPenger(omregnetÅrsinntekt.beløp)}</Bold>
                         </OmregnetTilÅrsinntektContainer>
                     </Tabell>

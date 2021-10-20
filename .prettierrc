@@ -8,5 +8,6 @@
         "/(components|hooks|io|mapping|modell|routes|state|utils|assets)/",
         "^[./]"
     ],
-    "importOrderSeparation": true
+    "importOrderSeparation": true,
+    "trailingCommas": "all"
 }

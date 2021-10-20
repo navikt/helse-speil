@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Overstyringsindikator } from '../../../../components/Overstyringsindikator';
+import { Endringstrekant } from '../../../../components/Endringstrekant';
 
 import { UtbetalingstabellDag } from './Utbetalingstabell.types';
 
@@ -20,7 +20,7 @@ export const GradCell: React.FC<GradCellProps> = ({ type, grad, overstyrtDag, ..
     const overstyringstekst = grad === undefined || grad === null ? 'Endret fra dag uten grad' : `Endret fra ${grad} %`;
     return (
         <td {...rest}>
-            {gradErOverstyrt && <Overstyringsindikator text={overstyringstekst} />}
+            {gradErOverstyrt && <Endringstrekant text={overstyringstekst} />}
             {dagtypeIsValid(overstyrtDag?.type ?? type) && renderGrad(overstyrtDag?.gradering ?? grad)}
         </td>
     );

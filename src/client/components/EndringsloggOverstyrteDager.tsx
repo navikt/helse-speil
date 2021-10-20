@@ -12,11 +12,14 @@ const Begrunnelse = styled(BodyShort)`
     max-width: 300px;
 `;
 
-interface EndringsloggProps extends ModalProps {
-    overstyringer: Dagoverstyring[];
+interface EndringsloggOverstyrteDagerProps extends ModalProps {
+    endringer: Dagoverstyring[];
 }
 
-export const Endringslogg: React.FC<EndringsloggProps> = ({ overstyringer, ...modalProps }) => (
+export const EndringsloggOverstyrteDager: React.FC<EndringsloggOverstyrteDagerProps> = ({
+    endringer,
+    ...modalProps
+}) => (
     <TableModal {...modalProps} title="Endringslogg" contentLabel="Endringslogg">
         <thead>
             <tr>
@@ -29,7 +32,7 @@ export const Endringslogg: React.FC<EndringsloggProps> = ({ overstyringer, ...mo
             </tr>
         </thead>
         <tbody>
-            {overstyringer.map(({ timestamp, ident, begrunnelse, grad, type, dato }, i) => (
+            {endringer.map(({ timestamp, ident, begrunnelse, grad, type, dato }, i) => (
                 <tr key={i}>
                     <td>{dato?.format(NORSK_DATOFORMAT)}</td>
                     <td>{type}</td>

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Overstyringsindikator } from '../../../../components/Overstyringsindikator';
+import { Endringstrekant } from '../../../../components/Endringstrekant';
 
 import { Cell } from './Cell';
 
@@ -18,7 +18,7 @@ export const TotalGradCell = ({ type, erOverstyrt, totalGradering }: TotalGradPr
 
     return (
         <Cell erOverstyrt={erOverstyrt}>
-            {erOverstyrt && <Overstyringsindikator />}
+            {erOverstyrt && <Endringstrekant />}
             {showTotalGradering && <>{`${totalGradering} %`}</>}
         </Cell>
     );

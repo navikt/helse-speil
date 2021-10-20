@@ -2,7 +2,8 @@ import styled from '@emotion/styled';
 import React, { useLayoutEffect, useState } from 'react';
 
 import { CloseButton } from '../../../components/CloseButton';
-import { Endringslogg } from '../../../components/Endringslogg';
+import { EndringsloggOverstyrtInntekt } from '../../../components/EndringsloggOverstyrtInntekt';
+import { EndringsloggOverstyrteDager } from '../../../components/EndringsloggOverstyrteDager';
 import { useVedtaksperiode } from '../../../state/tidslinje';
 
 import { NotatListeModal } from '../../oversikt/table/rader/notat/NotatListeModal';
@@ -44,8 +45,10 @@ export const Historikk = React.memo(({ vedtaksperiodeId, tildeling, personinfo }
     const [showNotatListeModal, setShowNotatListeModal] = useState(false);
     const [showNyttNotatModal, setShowNyttNotatModal] = useState(false);
     const [showEndringslogg, setShowEndringslogg] = useState(false);
+    const [showEndringsloggInntekt, setShowEndringsloggInntekt] = useState(false);
 
     const [endring, setEndring] = useState<Overstyring | null>(null);
+    const [inntektendring, setInntektendring] = useState<ExternalInntektoverstyring | null>(null);
 
     useLayoutEffect(() => {
         if (showHistorikk) {
@@ -57,7 +60,8 @@ export const Historikk = React.memo(({ vedtaksperiodeId, tildeling, personinfo }
 
     useOppdaterHistorikk({
         onClickNotat: () => setShowNotatListeModal(true),
-        onClickEndring: setEndring,
+        onClickTidslinjeendring: setEndring,
+        onClickInntektendring: setInntektendring,
     });
 
     return (
@@ -92,8 +96,8 @@ export const Historikk = React.memo(({ vedtaksperiodeId, tildeling, personinfo }
                     }}
                 />
             )}
-            <Endringslogg
-                overstyringer={
+            <EndringsloggOverstyrteDager
+                endringer={
                     endring?.overstyrteDager.map((it) => ({
                         timestamp: endring.timestamp,
                         navn: endring.saksbehandlerNavn,
@@ -107,6 +111,22 @@ export const Historikk = React.memo(({ vedtaksperiodeId, tildeling, personinfo }
                 isOpen={endring !== null}
                 onRequestClose={() => setEndring(null)}
             />
+            {inntektendring && (
+                <EndringsloggOverstyrtInntekt
+                    endringer={[
+                        {
+                            skjæringstidspunkt: inntektendring.overstyrtInntekt.skjæringstidspunkt,
+                            månedligInntekt: inntektendring.overstyrtInntekt.månedligInntekt,
+                            forklaring: inntektendring.overstyrtInntekt.forklaring,
+                            begrunnelse: inntektendring.begrunnelse,
+                            saksbehandlerIdent: inntektendring.saksbehandlerIdent ?? inntektendring.saksbehandlerNavn,
+                            timestamp: inntektendring.timestamp,
+                        },
+                    ]}
+                    isOpen={inntektendring !== null}
+                    onRequestClose={() => setInntektendring(null)}
+                />
+            )}
         </>
     );
 });

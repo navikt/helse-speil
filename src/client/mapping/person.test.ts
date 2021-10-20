@@ -140,6 +140,7 @@ describe('personmapper', () => {
                     [medEkstraSykdomsdager(umappetVedtaksperiode(), ekstraDager)],
                     [
                         {
+                            type: 'Dager',
                             begrunnelse: 'begrunnelse',
                             hendelseId: saksbehandlerKildeId,
                             timestamp: dayjs().format(ISO_TIDSPUNKTFORMAT),

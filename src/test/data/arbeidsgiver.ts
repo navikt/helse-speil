@@ -4,7 +4,7 @@ import { umappetVedtaksperiode } from './vedtaksperiode';
 
 export const umappetArbeidsgiver = (
     vedtaksperioder: (ExternalVedtaksperiode | ExternalUfullstendigVedtaksperiode)[] = [umappetVedtaksperiode()],
-    overstyringer: ExternalOverstyring[] = [],
+    overstyringer: ExternalTidslinjeoverstyring[] = [],
     utbetalingshistorikk: ExternalHistorikkElement[] = [umappetUtbetalingshistorikk()],
     organisasjonsnummer: string = testOrganisasjonsnummer
 ): ExternalArbeidsgiver => ({

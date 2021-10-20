@@ -721,7 +721,73 @@
                     ]
                 }
             ],
-            "overstyringer": [],
+            "overstyringer": [
+                {
+                    "hendelseId": "2f95124f-8df5-4817-b300-83adfaf757b6",
+                    "begrunnelse": "Korrigert inntektsmelding",
+                    "timestamp": "2021-10-11T09:37:25.689596",
+                    "saksbehandlerNavn": "Tholander, Morten",
+                    "saksbehandlerIdent": "T127350",
+                    "overstyrtInntekt": {
+                        "forklaring": "hallo",
+                        "månedligInntekt": 23500,
+                        "skjæringstidspunkt": "2021-02-01"
+                    },
+                    "type": "Inntekt"
+                },
+                {
+                    "hendelseId": "73958681-ea97-439c-b0b8-5d881d9d24d6",
+                    "begrunnelse": "Korrigert inntektsmelding",
+                    "timestamp": "2021-10-11T09:38:57.375051",
+                    "saksbehandlerNavn": "Tholander, Morten",
+                    "saksbehandlerIdent": "T127350",
+                    "overstyrtInntekt": {
+                        "forklaring": "k",
+                        "månedligInntekt": 23959,
+                        "skjæringstidspunkt": "2021-02-01"
+                    },
+                    "type": "Inntekt"
+                },
+                {
+                    "hendelseId": "d477d8ed-20ae-4586-8a07-1396d12ec4c3",
+                    "begrunnelse": "Korrigert inntektsmelding",
+                    "timestamp": "2021-10-11T09:41:46.954127",
+                    "saksbehandlerNavn": "Tholander, Morten",
+                    "saksbehandlerIdent": "T127350",
+                    "overstyrtInntekt": {
+                        "forklaring": "hallo",
+                        "månedligInntekt": 24379,
+                        "skjæringstidspunkt": "2021-02-01"
+                    },
+                    "type": "Inntekt"
+                },
+                {
+                    "hendelseId": "653d77fe-7d61-4611-8112-5620176bcd16",
+                    "begrunnelse": "Korrigert inntektsmelding",
+                    "timestamp": "2021-10-11T09:45:28.999102",
+                    "saksbehandlerNavn": "Tholander, Morten",
+                    "saksbehandlerIdent": "T127350",
+                    "overstyrtInntekt": {
+                        "forklaring": "j",
+                        "månedligInntekt": 35000,
+                        "skjæringstidspunkt": "2021-02-01"
+                    },
+                    "type": "Inntekt"
+                },
+                {
+                    "hendelseId": "d29e05b4-d327-4c51-bd07-e1bd2bacf2ca",
+                    "begrunnelse": "Korrigert inntektsmelding",
+                    "timestamp": "2021-10-11T09:48:10.253459",
+                    "saksbehandlerNavn": "Tholander, Morten",
+                    "saksbehandlerIdent": "T127350",
+                    "overstyrtInntekt": {
+                        "forklaring": "hll",
+                        "månedligInntekt": 1000,
+                        "skjæringstidspunkt": "2021-02-01"
+                    },
+                    "type": "Inntekt"
+                }
+            ],
             "bransjer": [],
             "utbetalingshistorikk": [
                 {

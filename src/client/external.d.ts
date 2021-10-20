@@ -261,12 +261,26 @@ declare type ExternalOverstyringsdag = {
 };
 
 declare type ExternalOverstyring = {
+    type: 'Inntekt' | 'Dager';
     hendelseId: string;
     begrunnelse: string;
     saksbehandlerNavn: string;
     saksbehandlerIdent?: string;
     timestamp: string;
+};
+
+declare type ExternalTidslinjeoverstyring = ExternalOverstyring & {
+    type: 'Dager';
     overstyrteDager: ExternalOverstyringsdag[];
+};
+
+declare type ExternalInntektoverstyring = ExternalOverstyring & {
+    type: 'Inntekt';
+    overstyrtInntekt: {
+        forklaring: string;
+        månedligInntekt: number;
+        skjæringstidspunkt: DateString;
+    };
 };
 
 declare type ExternalHistorikkElementUtbetaling = {

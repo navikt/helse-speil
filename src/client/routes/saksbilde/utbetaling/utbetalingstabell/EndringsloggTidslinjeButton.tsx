@@ -4,10 +4,10 @@ import React, { useRef, useState } from 'react';
 import { CaseworkerFilled } from '@navikt/ds-icons';
 import '@navikt/helse-frontend-tooltip/lib/main.css';
 
-import { Endringslogg } from '../../../../components/Endringslogg';
+import { EndringsloggOverstyrteDager } from '../../../../components/EndringsloggOverstyrteDager';
 import { useInteractOutside } from '../../../../hooks/useInteractOutside';
 
-const Overstyringknapp = styled.button`
+const Button = styled.button`
     position: relative;
     border: none;
     background: none;
@@ -19,11 +19,15 @@ const Overstyringknapp = styled.button`
     outline: none;
 `;
 
-interface OverstyringsindikatorProps {
-    overstyringer: Dagoverstyring[];
+interface EndringsloggTidslinjeButtonProps extends React.HTMLAttributes<HTMLButtonElement> {
+    endringer: Dagoverstyring[];
 }
 
-export const OverstyringsindikatorSaksbehandler = ({ overstyringer }: OverstyringsindikatorProps) => {
+export const EndringsloggTidslinjeButton: React.VFC<EndringsloggTidslinjeButtonProps> = ({
+    endringer,
+    className,
+    ...buttonProps
+}) => {
     const [visEndringslogg, setVisEndringslogg] = useState(false);
 
     const buttonRef = useRef<HTMLButtonElement>(null);
@@ -37,13 +41,19 @@ export const OverstyringsindikatorSaksbehandler = ({ overstyringer }: Overstyrin
     });
 
     return (
-        <Overstyringknapp type="button" ref={buttonRef} onClick={() => setVisEndringslogg((value) => !value)}>
+        <Button
+            type="button"
+            ref={buttonRef}
+            onClick={() => setVisEndringslogg((value) => !value)}
+            className={className}
+            {...buttonProps}
+        >
             <CaseworkerFilled height={20} width={20} />
-            <Endringslogg
-                overstyringer={overstyringer}
+            <EndringsloggOverstyrteDager
+                endringer={endringer}
                 isOpen={visEndringslogg}
                 onRequestClose={() => setVisEndringslogg(false)}
             />
-        </Overstyringknapp>
+        </Button>
     );
 };

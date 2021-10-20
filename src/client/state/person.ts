@@ -268,6 +268,11 @@ const useArbeidsgiver = (organisasjonsnummer: string): ExternalArbeidsgiver => {
     return person.arbeidsgivereV2.find((it) => it.organisasjonsnummer === organisasjonsnummer) as ExternalArbeidsgiver;
 };
 
+export const useEndringer = (organisasjonsnummer: string): ExternalOverstyring[] => {
+    const arbeidsgiver = useArbeidsgiver(organisasjonsnummer);
+    return arbeidsgiver.overstyringer;
+};
+
 export const useArbeidsgivernavnRender = (organisasjonsnummer: string): string => {
     const anonymiseringIsEnabled = usePersondataSkalAnonymiseres();
     const arbeidsgivernavn = useArbeidsgiver(organisasjonsnummer).navn;
