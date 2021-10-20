@@ -32,28 +32,26 @@ export const EndringsloggTidslinjeButton: React.VFC<EndringsloggTidslinjeButtonP
 
     const buttonRef = useRef<HTMLButtonElement>(null);
 
-    const toggleVisTooltip = () => setVisEndringslogg((prevState) => !prevState);
+    const close = () => setVisEndringslogg(false);
 
     useInteractOutside({
         ref: buttonRef,
         active: visEndringslogg,
-        onInteractOutside: toggleVisTooltip,
+        onInteractOutside: close,
     });
 
     return (
-        <Button
-            type="button"
-            ref={buttonRef}
-            onClick={() => setVisEndringslogg((value) => !value)}
-            className={className}
-            {...buttonProps}
-        >
-            <CaseworkerFilled height={20} width={20} />
-            <EndringsloggOverstyrteDager
-                endringer={endringer}
-                isOpen={visEndringslogg}
-                onRequestClose={() => setVisEndringslogg(false)}
-            />
-        </Button>
+        <>
+            <Button
+                type="button"
+                className={className}
+                ref={buttonRef}
+                {...buttonProps}
+                onClick={() => setVisEndringslogg(true)}
+            >
+                <CaseworkerFilled height={20} width={20} />
+            </Button>
+            <EndringsloggOverstyrteDager endringer={endringer} isOpen={visEndringslogg} onRequestClose={close} />
+        </>
     );
 };

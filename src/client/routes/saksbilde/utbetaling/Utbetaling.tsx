@@ -11,7 +11,6 @@ import { useOverstyrRevurderingIsEnabled, useRevurderingIsEnabled } from '../../
 import { useMap } from '../../../hooks/useMap';
 import { useOverstyringIsEnabled } from '../../../hooks/useOverstyringIsEnabled';
 import { useGjenståendeDager, useMaksdato } from '../../../modell/utbetalingshistorikkelement';
-import { useMaybePersoninfo } from '../../../state/person';
 import { useMaybeAktivPeriode, useVedtaksperiode } from '../../../state/tidslinje';
 import { NORSK_DATOFORMAT } from '../../../utils/date';
 

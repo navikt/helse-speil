@@ -44,10 +44,10 @@ export const EndringsloggInntektButton: React.VFC<EndringsloggInntektButtonProps
         <>
             <Button
                 type="button"
-                ref={buttonRef}
-                onClick={() => setVisEndringslogg(true)}
                 className={className}
+                ref={buttonRef}
                 {...buttonProps}
+                onClick={() => setVisEndringslogg(true)}
             >
                 <CaseworkerFilled height={20} width={20} />
             </Button>
