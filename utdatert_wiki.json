@@ -64,5 +64,11 @@
         "betydning": "Søknaden har kommet inn mer enn 3 måneder før dagen/dagene.",
         "løsning": "Hvis det ikke finnes noe unntak fra foreldelsesfristen skal du godkjenne i Speil og sende vedtak fra Infotrygd. Hvis forslaget er feil må du avvise saken i Speil og behandle i Infotrygd. Dersom dagen/dagene som er avslått er innenfor arbeidsgiverperioden trenger du ikke å sende avslag fra Infotrygd.",
         "viktighet": "Høy"
+    },
+    {
+        "varsel": "ArbeidsforholdsID er fylt ut i inntektsmeldingen. Kontroller om brukeren har flere arbeidsforhold i samme virksomhet. Flere arbeidsforhold støttes ikke av systemet foreløpig.",
+        "betydning": "ArbeidsforholdsID fra inntektsmeldingen er utfylt:",
+        "løsning": "Undersøk om inntekten som er oppgitt er lik det som er innrapportert de siste månedene i A-ordningen. Hvis innrapportert lønn avviker mye fra det arbeidsgiveren oppgir, så undersøk om det er flere stillinger hos samme arbeidsgiver i AA-registeret. Hvis det er flere arbeidsforhold og inntektsmeldingen kun gjelder for én av dem, må saken behandles i Infotrygd. I alle andre tilfeller kan saken behandles i Speil.",
+        "viktighet": "Høy"
     }
 ]
