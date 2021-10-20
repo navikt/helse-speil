@@ -83,7 +83,7 @@ describe('Sykepengegrunnlag', () => {
             }
         );
         expect(screen.getByTestId('ubehandlet-sykepengegrunnlag')).toBeVisible();
-        expect(screen.queryByText('Inntekt')).toBeVisible();
+        expect(screen.queryByText('Beregnet månedsinntekt')).toBeVisible();
     });
     test('rendrer behandlet periode', () => {
         render(
@@ -94,7 +94,7 @@ describe('Sykepengegrunnlag', () => {
             { wrapper: wrapper() }
         );
         expect(screen.getByTestId('behandlet-sykepengegrunnlag')).toBeVisible();
-        expect(screen.queryByText('Inntekt')).toBeVisible();
+        expect(screen.queryByText('Beregnet månedsinntekt')).toBeVisible();
     });
     test('rendrer infotrygdforlengelse', () => {
         render(
@@ -113,7 +113,7 @@ describe('Sykepengegrunnlag', () => {
             }
         );
         expect(screen.getByText('Sykepengegrunnlag satt i Infotrygd')).toBeVisible();
-        expect(screen.queryByText('Inntekt')).toBeVisible();
+        expect(screen.queryByText('Beregnet månedsinntekt')).toBeVisible();
         expect(screen.queryByText('Inntektsgrunnlag')).toBeVisible();
         expect(screen.queryByText('Sammenligningsgrunnlag')).toBeNull();
     });

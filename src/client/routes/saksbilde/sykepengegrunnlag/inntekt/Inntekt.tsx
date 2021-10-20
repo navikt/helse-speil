@@ -82,7 +82,7 @@ export const Inntekt = ({ omregnetÅrsinntekt, organisasjonsnummer }: InntektPro
         <Container editing={editing}>
             <Header isEditing={editing}>
                 <Flex alignItems="center">
-                    <Tittel as="h3">Inntekt</Tittel>
+                    <Tittel as="h1">Beregnet månedsinntekt</Tittel>
                     {endret || omregnetÅrsinntekt?.kilde === 'Saksbehandler' ? (
                         <EndringsloggInntektButton
                             endringer={endringer.filter((it) => it.type === 'Inntekt') as ExternalInntektoverstyring[]}
