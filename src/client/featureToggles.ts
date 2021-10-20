@@ -16,7 +16,7 @@ const fagkoordinatorer = [
     'A151722',
 ];
 const faktiskSupportsaksbehandlere = ['H104215', 'O130292', 'F111930'];
-const tilgangFlereArbeidsgivere = ['M139452', 'S109031'];
+const tilgangFlereArbeidsgivere = ['M139452', 'S109031', 'B136871', 'J104651', 'D123751'];
 
 const utvidetTilganger = [
     ...faktiskSupportsaksbehandlere,
@@ -53,6 +53,8 @@ const kanRevurdere = [
     'I104299',
     'R117524',
     'S109031',
+    'J104651',
+    'D123751',
 ];
 
 export const erLocal = () => location.hostname === 'localhost';
@@ -63,12 +65,11 @@ const erFaktiskSupportsaksbehandler = () => faktiskSupportsaksbehandlere.include
 const harUtvidetTilgang = () => utvidetTilganger.includes(extractIdent());
 const harTilgangFlereArbeidsgivere = () => tilgangFlereArbeidsgivere.includes(extractIdent());
 const erAnnulleringsbois = () => erKnudix() || erKevin();
-const erSpiceGirls = () => erMarthe() || erMarte() || erKevin() || erAnders() || erHegeir();
+const erSpiceGirls = () => erMarte() || erKevin() || erAnders() || erHegeir();
 const erKnudix = () => extractIdent() === 'N143409';
 const erDigimort = () => extractIdent() === 'T127350';
 const erVegard = () => extractIdent() === 'S144991';
 const erKevin = () => extractIdent() === 'S151890';
-const erMarthe = () => extractIdent() === 'S151399';
 const erMarte = () => extractIdent() === 'T141884';
 const erAnders = () => extractIdent() === 'O142910';
 const erHegeir = () => extractIdent() === 'H161007';
@@ -122,4 +123,4 @@ export const defaultUtbetalingToggles: UtbetalingToggles = {
     overstyreUtbetaltPeriodeEnabled: overstyreUtbetaltPeriodeEnabled,
 };
 
-export const overstyrInntektEnabled = overstyreUtbetaltPeriodeEnabled;
+export const overstyrInntektEnabled = erLocal() || erDev();
