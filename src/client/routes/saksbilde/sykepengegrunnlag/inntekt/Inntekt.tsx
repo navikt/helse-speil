@@ -7,6 +7,8 @@ import { BodyShort } from '@navikt/ds-react';
 import { EditButton } from '../../../../components/EditButton';
 import { Flex, FlexColumn } from '../../../../components/Flex';
 import { Kilde } from '../../../../components/Kilde';
+import { PopoverHjelpetekst } from '../../../../components/PopoverHjelpetekst';
+import { SortInfoikon } from '../../../../components/ikoner/SortInfoikon';
 import { useUtbetaling } from '../../../../modell/utbetalingshistorikkelement';
 import { useEndringer } from '../../../../state/person';
 import { useAktivPeriode, useMaybeAktivPeriode } from '../../../../state/tidslinje';
@@ -91,7 +93,7 @@ export const Inntekt = ({ omregnetÅrsinntekt, organisasjonsnummer }: InntektPro
                         <Kilde type={getKildeType(omregnetÅrsinntekt?.kilde)}>{kilde(omregnetÅrsinntekt?.kilde)}</Kilde>
                     )}
                 </Flex>
-                {overstyrInntektEnabled && harKunEnArbeidsgiver && (
+                {overstyrInntektEnabled && harKunEnArbeidsgiver ? (
                     <EditButton
                         isOpen={editing}
                         openText="Lukk"
@@ -100,6 +102,10 @@ export const Inntekt = ({ omregnetÅrsinntekt, organisasjonsnummer }: InntektPro
                         onClose={() => setEditing(false)}
                         style={{ justifySelf: 'flex-end' }}
                     />
+                ) : (
+                    <PopoverHjelpetekst ikon={<SortInfoikon />}>
+                        <p>Kan ikke endre inntekt, det er foreløpig ikke støtte for saker med flere arbeidsgivere</p>
+                    </PopoverHjelpetekst>
                 )}
             </Header>
             {editing ? (
