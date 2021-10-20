@@ -9,7 +9,7 @@ import { Endringstrekant } from '../../../../components/Endringstrekant';
 import { ErrorMessage } from '../../../../components/ErrorMessage';
 import { Flex, FlexColumn } from '../../../../components/Flex';
 import { OverstyringTimeoutModal } from '../../../../components/OverstyringTimeoutModal';
-import { postOverstyrtInntekt } from '../../../../io/http';
+import { postAbonnerPåAktør, postOverstyrtInntekt } from '../../../../io/http';
 import type { OverstyrtInntektDTO } from '../../../../io/types';
 import {
     kalkulererFerdigToastKey,
@@ -141,6 +141,7 @@ const usePostOverstyrtInntekt = (onFerdigKalkulert: () => void) => {
     const addToast = useAddToast();
     const removeToast = useRemoveToast();
     const opptegnelser = useOpptegnelser();
+    const { aktørId } = usePerson() as Person;
     const setPollingRate = useSetOpptegnelserPollingRate();
     const [isLoading, setIsLoading] = useState(false);
     const [calculating, setCalculating] = useState(false);
@@ -183,8 +184,8 @@ const usePostOverstyrtInntekt = (onFerdigKalkulert: () => void) => {
             postOverstyrtInntekt(overstyrtInntekt)
                 .then(() => {
                     setCalculating(true);
-                    setPollingRate(1000);
                     addToast(kalkulererToast({}));
+                    postAbonnerPåAktør(aktørId).then(() => setPollingRate(1000));
                 })
                 .catch((error) => {
                     switch (error.statusCode) {
