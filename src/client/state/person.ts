@@ -230,6 +230,13 @@ export const useVurderingForSkjæringstidspunkt = (
     uniqueId: string,
     skjæringstidspunkt: string
 ): Vurdering | undefined => {
+    return useUtbetalingForSkjæringstidspunkt(uniqueId, skjæringstidspunkt)?.vurdering;
+};
+
+export const useUtbetalingForSkjæringstidspunkt = (
+    uniqueId: string,
+    skjæringstidspunkt: string
+): UtbetalingshistorikkElement | undefined => {
     const perioder = useArbeidsgiverUtenParametre()!.tidslinjeperioder.find(
         (it) => it.find((it) => it.unique === uniqueId)!
     )!;
@@ -239,7 +246,7 @@ export const useVurderingForSkjæringstidspunkt = (
         .filter((it) => it.skjæringstidspunkt === skjæringstidspunkt)
         .shift()!;
 
-    return useUtbetaling(førstePeriodeForSkjæringstidspunkt.beregningId)?.vurdering;
+    return useUtbetaling(førstePeriodeForSkjæringstidspunkt.beregningId);
 };
 
 export const useVilkårsgrunnlaghistorikk = (

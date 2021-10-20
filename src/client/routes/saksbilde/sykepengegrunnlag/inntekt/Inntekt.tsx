@@ -9,9 +9,8 @@ import { Flex, FlexColumn } from '../../../../components/Flex';
 import { Kilde } from '../../../../components/Kilde';
 import { PopoverHjelpetekst } from '../../../../components/PopoverHjelpetekst';
 import { SortInfoikon } from '../../../../components/ikoner/SortInfoikon';
-import { useUtbetaling } from '../../../../modell/utbetalingshistorikkelement';
-import { useEndringer } from '../../../../state/person';
-import { useAktivPeriode, useMaybeAktivPeriode } from '../../../../state/tidslinje';
+import { useEndringer, useUtbetalingForSkjæringstidspunkt } from '../../../../state/person';
+import { useAktivPeriode } from '../../../../state/tidslinje';
 import { getKildeType, kilde } from '../../../../utils/inntektskilde';
 
 import { overstyrInntektEnabled } from '../../../../featureToggles';
@@ -58,10 +57,10 @@ const Tittel = styled(BodyShort)`
     color: var(--navds-color-text-primary);
 `;
 
-const useUtbetalingstatus = (): UtbetalingshistorikkElement['status'] | undefined => {
-    const periode = useMaybeAktivPeriode();
-    const utbetaling = useUtbetaling(periode?.beregningId ?? '');
-    return utbetaling?.status;
+const useIkkeUtbetaltVedSkjæringstidspunkt = (): boolean | undefined => {
+    const periode = useAktivPeriode();
+    const utbetaling = useUtbetalingForSkjæringstidspunkt(periode.unique, periode.skjæringstidspunkt!);
+    return utbetaling?.status === 'IKKE_UTBETALT' && utbetaling?.type === 'UTBETALING';
 };
 
 const useInntektskilde = (): Inntektskilde => useAktivPeriode().inntektskilde;
@@ -75,7 +74,7 @@ export const Inntekt = ({ omregnetÅrsinntekt, organisasjonsnummer }: InntektPro
     const [editing, setEditing] = useState(false);
     const [endret, setEndret] = useState(false);
 
-    const status = useUtbetalingstatus();
+    const ikkeUtbetaltVedSkjæringstidspunkt = useIkkeUtbetaltVedSkjæringstidspunkt();
     const harKunEnArbeidsgiver = useInntektskilde() === 'EN_ARBEIDSGIVER';
 
     const endringer = useEndringer(organisasjonsnummer);
@@ -97,7 +96,7 @@ export const Inntekt = ({ omregnetÅrsinntekt, organisasjonsnummer }: InntektPro
                     <EditButton
                         isOpen={editing}
                         openText="Lukk"
-                        closedText={status === 'UTBETALT' ? 'Revurder' : 'Endre'}
+                        closedText={ikkeUtbetaltVedSkjæringstidspunkt ? 'Endre' : 'Revurder'}
                         onOpen={() => setEditing(true)}
                         onClose={() => setEditing(false)}
                         style={{ justifySelf: 'flex-end' }}
