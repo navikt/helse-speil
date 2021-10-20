@@ -24,7 +24,7 @@ export const Utbetaling = ({ aktivPeriode }: UtbetalingProps) => {
             aktivPeriode={aktivPeriode}
             oppgavereferanse={oppgavereferanse}
             godkjenningsknappTekst={utbetalingsknappTekst}
-            kanAvvises={!erRevurdering}
+            erRevurdering={erRevurdering}
         />
     );
 };

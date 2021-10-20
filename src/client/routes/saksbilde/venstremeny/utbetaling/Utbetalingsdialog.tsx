@@ -88,7 +88,7 @@ interface UtbetalingsdialogProps {
     aktivPeriode: Tidslinjeperiode;
     oppgavereferanse: string;
     godkjenningsknappTekst: string;
-    kanAvvises: boolean;
+    erRevurdering: boolean;
 }
 
 const skalPolleEtterNestePeriode = (personTilBehandling: Person) =>
@@ -102,8 +102,9 @@ export const Utbetalingsdialog = ({
     aktivPeriode,
     oppgavereferanse,
     godkjenningsknappTekst,
-    kanAvvises,
+    erRevurdering,
 }: UtbetalingsdialogProps) => {
+    const kanAvvises = !erRevurdering;
     const history = useHistory();
     const personTilBehandling = usePerson() as Person;
     const { addUtbetalingstoast, addInfotrygdtoast } = useVedtakstoast();
@@ -129,7 +130,7 @@ export const Utbetalingsdialog = ({
             .then(() => {
                 logOppgaveGodkjent();
                 addUtbetalingstoast();
-                if (skalPolleEtterNestePeriode(personTilBehandling)) {
+                if (skalPolleEtterNestePeriode(personTilBehandling) || erRevurdering) {
                     lukkModal();
                     setIsSending(false);
                     postAbonnerPåAktør(personTilBehandling.aktørId).then(() => {
