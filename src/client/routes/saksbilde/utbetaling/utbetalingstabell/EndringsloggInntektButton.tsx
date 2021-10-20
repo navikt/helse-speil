@@ -41,14 +41,16 @@ export const EndringsloggInntektButton: React.VFC<EndringsloggInntektButtonProps
     });
 
     return (
-        <Button
-            type="button"
-            ref={buttonRef}
-            onClick={() => setVisEndringslogg((value) => !value)}
-            className={className}
-            {...buttonProps}
-        >
-            <CaseworkerFilled height={20} width={20} />
+        <>
+            <Button
+                type="button"
+                ref={buttonRef}
+                onClick={() => setVisEndringslogg(true)}
+                className={className}
+                {...buttonProps}
+            >
+                <CaseworkerFilled height={20} width={20} />
+            </Button>
             <EndringsloggOverstyrtInntekt
                 endringer={endringer.map((it) => ({
                     skjæringstidspunkt: it.overstyrtInntekt.skjæringstidspunkt,
@@ -61,6 +63,6 @@ export const EndringsloggInntektButton: React.VFC<EndringsloggInntektButtonProps
                 isOpen={visEndringslogg}
                 onRequestClose={close}
             />
-        </Button>
+        </>
     );
 };
