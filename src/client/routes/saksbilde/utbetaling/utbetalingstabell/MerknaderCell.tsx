@@ -5,6 +5,7 @@ import { BodyShort } from '@navikt/ds-react';
 
 import { LovdataLenke } from '../../../../components/LovdataLenke';
 import { Tooltip } from '../../../../components/Tooltip';
+import { useAlderVedSkjæringstidspunkt } from '../../../../state/person';
 
 import { CellContent } from '../../table/CellContent';
 import { UtbetalingstabellDag } from './Utbetalingstabell.types';
@@ -20,6 +21,7 @@ interface MerknadProps {
 }
 
 const Merknad: React.VFC<MerknadProps> = ({ begrunnelse }) => {
+    const alderVedSkjæringstidspunkt = useAlderVedSkjæringstidspunkt();
     switch (begrunnelse.tekst) {
         case 'EtterDødsdato':
             return <BodyShort>Personen er død</BodyShort>;
@@ -35,12 +37,14 @@ const Merknad: React.VFC<MerknadProps> = ({ begrunnelse }) => {
                     <LovdataLenke paragraf="8-13">§ 8-13</LovdataLenke>
                 </Container>
             );
-        case 'MinimumInntekt':
+        case 'MinimumInntekt': {
+            const paragraf = alderVedSkjæringstidspunkt >= 67 ? '8-51' : '8-3';
             return (
                 <Container data-tip="Inntekt under krav til minste sykepengegrunnlag">
-                    <LovdataLenke paragraf="8-3">§ 8-3</LovdataLenke>
+                    <LovdataLenke paragraf={paragraf}>§ {paragraf}</LovdataLenke>
                 </Container>
             );
+        }
         case 'ManglerOpptjening':
             return (
                 <Container data-tip="Krav til 4 ukers opptjening er ikke oppfylt">

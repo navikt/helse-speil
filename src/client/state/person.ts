@@ -1,3 +1,4 @@
+import dayjs from 'dayjs';
 import { atom, selector, useRecoilValue, useResetRecoilState, useSetRecoilState } from 'recoil';
 
 import { Varseltype } from '@navikt/helse-frontend-varsel';
@@ -9,7 +10,7 @@ import { useUtbetaling } from '../modell/utbetalingshistorikkelement';
 
 import { anonymisertPersoninfo, getAnonymArbeidsgiverForOrgnr } from '../agurkdata';
 import { useInnloggetSaksbehandler } from './authentication';
-import { aktivPeriodeState, useMaybeAktivPeriode } from './tidslinje';
+import { aktivPeriodeState, useAktivPeriode, useMaybeAktivPeriode } from './tidslinje';
 
 interface PersonState {
     problems?: Error[];
@@ -140,6 +141,12 @@ export const usePersoninfo = (): Personinfo => {
     }
 
     return personinfo;
+};
+
+export const useAlderVedSkjæringstidspunkt = (): number => {
+    const fødselsdato = usePersoninfo().fødselsdato;
+    const skjæringstidspunkt = useAktivPeriode().skjæringstidspunkt;
+    return dayjs(skjæringstidspunkt).diff(fødselsdato, 'year');
 };
 
 export const usePersonnavn = (): string => {
