@@ -37,7 +37,7 @@ const Merknad: React.VFC<MerknadProps> = ({ begrunnelse }) => {
             );
         case 'MinimumInntekt':
             return (
-                <Container data-tip="Over 70 år">
+                <Container data-tip="Inntekt under krav til minste sykepengegrunnlag">
                     <LovdataLenke paragraf="8-3">§ 8-3</LovdataLenke>
                 </Container>
             );
