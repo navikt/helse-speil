@@ -73,7 +73,7 @@ export const PåVentKnapp = ({ erPåVent, oppgavereferanse, vedtaksperiodeId, pe
                     onClose={() => setVisModal(false)}
                     personinfo={personinfo}
                     vedtaksperiodeId={vedtaksperiodeId}
-                    leggSakPåVent={settPåVent}
+                    onPostNotat={settPåVent}
                 />
             )}
         </Container>

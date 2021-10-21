@@ -1,75 +1,73 @@
+import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import React, { useState } from 'react';
-import { useSetRecoilState } from 'recoil';
 
-import { Link, Loader } from '@navikt/ds-react';
+import { Loader } from '@navikt/ds-react';
 
+import { LinkButton } from '../../../../../components/LinkButton';
 import { putFeilregistrertNotat } from '../../../../../io/http';
-import { notaterStateRefetchKey } from '../../../../../state/notater';
+import { useRefreshNotater } from '../../../../../state/notater';
 import { useOperationErrorHandler } from '../../../../../state/varsler';
 import { NORSK_DATOFORMAT_MED_KLOKKESLETT } from '../../../../../utils/date';
 import { ignorePromise } from '../../../../../utils/promise';
 
-import { sleep } from '../../../../../../server/devHelpers';
-
-const LenkeCell = styled(Link)`
+const FeilregistrerButton = styled(LinkButton)`
     color: var(--navds-color-text-primary);
-    cursor: pointer;
 `;
 
-const KursivCell = styled.td`
-    font-style: italic;
+const Row = styled.tr<{ error: boolean }>`
+    ${(props) =>
+        props.error &&
+        css`
+            > td {
+                background-color: #f9d2cc !important;
+            }
+
+            > td:last-of-type {
+                font-style: italic;
+            }
+        `}
 `;
 
-interface Props {
+const Cell = styled.td`
+    max-width: 22rem;
+`;
+
+interface NotatListeRadProps {
     notat: Notat;
     vedtaksperiodeId: string;
-    saksbehandler: Saksbehandler;
+    innloggetSaksbehandler: Saksbehandler;
 }
 
-export const NotatListeRad = ({ notat, vedtaksperiodeId, saksbehandler }: Props) => {
+export const NotatListeRad = ({ notat, vedtaksperiodeId, innloggetSaksbehandler }: NotatListeRadProps) => {
     const [isFetching, setIsFetching] = useState(false);
-    const refreshNotater = useSetRecoilState(notaterStateRefetchKey);
+    const refreshNotater = useRefreshNotater();
     const errorHandler = useOperationErrorHandler('Feilregistrering av Notat');
 
-    const prøvFeilregistrerNotat = (notatId: string) => {
+    const feilregistrerNotat = () => {
         setIsFetching(true);
         ignorePromise(
-            sleep(500)
-                .then(() => putFeilregistrertNotat(vedtaksperiodeId, notatId))
-                .then(() => {
-                    refreshNotater(new Date());
-                })
-                .finally(() => {
-                    setIsFetching(true);
-                }),
+            putFeilregistrertNotat(vedtaksperiodeId, notat.id)
+                .then(refreshNotater)
+                .finally(() => setIsFetching(false)),
             errorHandler
         );
     };
 
-    const fellesRader = (
-        <>
-            <td>{`${notat.opprettet.format(NORSK_DATOFORMAT_MED_KLOKKESLETT)}`}</td>
-            <td>{notat.saksbehandler.navn}</td>
-            <td>{notat.tekst}</td>
-        </>
-    );
-
-    return notat.feilregistrert ? (
-        <tr className="alert">
-            {fellesRader}
-            <KursivCell>Feilregistrert</KursivCell>
-        </tr>
-    ) : (
-        <tr>
-            {fellesRader}
-            <td>
-                {notat.saksbehandler.oid === saksbehandler.oid && (
-                    <LenkeCell as="a" onClick={() => prøvFeilregistrerNotat(notat.id)}>
-                        Feilregistrer {isFetching && <Loader size="xsmall" />}
-                    </LenkeCell>
-                )}
-            </td>
-        </tr>
+    return (
+        <Row error={notat.feilregistrert}>
+            <Cell>{`${notat.opprettet.format(NORSK_DATOFORMAT_MED_KLOKKESLETT)}`}</Cell>
+            <Cell>{notat.saksbehandler.navn}</Cell>
+            <Cell>{notat.tekst}</Cell>
+            <Cell>
+                {notat.feilregistrert
+                    ? 'Feilregistrert'
+                    : notat.saksbehandler.oid === innloggetSaksbehandler.oid && (
+                          <FeilregistrerButton onClick={feilregistrerNotat}>
+                              Feilregistrer {isFetching && <Loader size="xsmall" />}
+                          </FeilregistrerButton>
+                      )}
+            </Cell>
+        </Row>
     );
 };

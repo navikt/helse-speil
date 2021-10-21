@@ -7,4 +7,8 @@ export const Row = styled.tr`
     &:nth-of-type(2n + 1) {
         background-color: var(--speil-table-row-background-color-alternate);
     }
+
+    > td:last-of-type {
+        width: 100%;
+    }
 `;

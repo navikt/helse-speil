@@ -9,22 +9,21 @@ import { useSortation } from './state/sortation';
 
 import { TabType, useAktivTab } from '../tabs';
 import { Body } from './Body';
-import { Cell } from './Cell';
 import { FilterButton } from './FilterButton';
 import { Header } from './Header';
 import { LinkRow } from './LinkRow';
 import { Pagination } from './Pagination';
 import { SortButton } from './SortButton';
 import { Table } from './Table';
-import { Bosted } from './rader/Bosted';
-import { InntektskildeView } from './rader/InntektskildeView';
-import { Opprettet } from './rader/Opprettet';
-import { Sakstype } from './rader/Sakstype';
-import { Status } from './rader/Status';
-import { Søker } from './rader/Søker';
-import { TildelingView } from './rader/TildelingView';
-import { OptionsButton } from './rader/kjøttbolle/OptionsButton';
-import { NotatKnapp } from './rader/notat/NotatKnapp';
+import { BostedCell } from './rader/BostedCell';
+import { InntektskildeCell } from './rader/InntektskildeCell';
+import { OpprettetCell } from './rader/OpprettetCell';
+import { SakstypeCell } from './rader/SakstypeCell';
+import { StatusCell } from './rader/StatusCell';
+import { SøkerCell } from './rader/SøkerCell';
+import { TildelingCell } from './rader/TildelingCell';
+import { NotatCell } from './rader/notat/NotatCell';
+import { OptionsCell } from './rader/options/OptionsCell';
 
 const Container = styled.div`
     min-height: 300px;
@@ -146,44 +145,26 @@ export const OppgaverTable = React.memo(({ oppgaver }: { oppgaver: Oppgave[] }) 
                                     Opprettet
                                 </SortButton>
                             </Header>
-                            <Header scope="col" colSpan={1} />
-                            <Header scope="col" colSpan={1} />
+                            <Header scope="col" colSpan={1} aria-label="valg" />
+                            <Header scope="col" colSpan={1} aria-label="notater" />
                         </tr>
                     </thead>
                     <Body>
                         {paginatedRows.map((it) => (
                             <LinkRow onNavigate={onNavigate} aktørId={it.aktørId} key={it.oppgavereferanse}>
-                                <Cell>
-                                    <TildelingView oppgave={it} />
-                                </Cell>
-                                <Cell>
-                                    <Sakstype type={it.periodetype} />
-                                </Cell>
-                                <Cell>
-                                    <Bosted stedsnavn={it.boenhet.navn} oppgavereferanse={it.oppgavereferanse} />
-                                </Cell>
-                                <Cell>
-                                    <InntektskildeView type={it.inntektskilde} />
-                                </Cell>
-                                <Cell>
-                                    <Status numberOfWarnings={it.antallVarsler} />
-                                </Cell>
-                                <Cell>
-                                    <Søker personinfo={it.personinfo} oppgavereferanse={it.oppgavereferanse} />
-                                </Cell>
-                                <Cell>
-                                    <Opprettet date={it.opprettet} />
-                                </Cell>
-                                <Cell>
-                                    <OptionsButton oppgave={it} personinfo={it.personinfo} />
-                                </Cell>
-                                <Cell style={{ width: '100%' }}>
-                                    <NotatKnapp
-                                        tildeling={it.tildeling}
-                                        vedtaksperiodeId={it.vedtaksperiodeId}
-                                        personinfo={it.personinfo}
-                                    />
-                                </Cell>
+                                <TildelingCell oppgave={it} />
+                                <SakstypeCell type={it.periodetype} />
+                                <BostedCell stedsnavn={it.boenhet.navn} oppgavereferanse={it.oppgavereferanse} />
+                                <InntektskildeCell type={it.inntektskilde} />
+                                <StatusCell numberOfWarnings={it.antallVarsler} />
+                                <SøkerCell personinfo={it.personinfo} oppgavereferanse={it.oppgavereferanse} />
+                                <OpprettetCell date={it.opprettet} />
+                                <OptionsCell oppgave={it} personinfo={it.personinfo} />
+                                <NotatCell
+                                    vedtaksperiodeId={it.vedtaksperiodeId}
+                                    personinfo={it.personinfo}
+                                    erPåVent={it.tildeling?.påVent}
+                                />
                             </LinkRow>
                         ))}
                     </Body>

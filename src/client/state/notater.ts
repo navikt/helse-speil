@@ -1,5 +1,5 @@
 import dayjs from 'dayjs';
-import { atom, selector, useRecoilValueLoadable } from 'recoil';
+import { atom, selector, useRecoilValueLoadable, useSetRecoilState } from 'recoil';
 
 import { getNotater } from '../io/http';
 
@@ -7,6 +7,13 @@ export const notaterStateRefetchKey = atom<Date>({
     key: 'notaterStateRefetchKey',
     default: new Date(),
 });
+
+export const useRefreshNotater = () => {
+    const setKey = useSetRecoilState(notaterStateRefetchKey);
+    return () => {
+        setKey(new Date());
+    };
+};
 
 export const notaterState = selector<Notat[]>({
     key: 'spesialistNotaterState',

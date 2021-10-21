@@ -23,17 +23,13 @@ const Table = styled.table`
     tbody > tr:nth-of-type(2n-1) > td {
         background-color: var(--navds-color-gray-10);
     }
-
-    tbody tr.alert td {
-        background-color: #f9d2cc;
-    }
 `;
 
 const Modal = styled(SpeilModal)`
     width: max-content;
     padding: 18px 24px 24px;
 
-    > header {
+    header {
         font-size: 16px;
         font-weight: 600;
         margin-bottom: 24px;

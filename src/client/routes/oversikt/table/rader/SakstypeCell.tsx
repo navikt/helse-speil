@@ -5,6 +5,7 @@ import { BodyShort } from '@navikt/ds-react';
 import { Flex } from '../../../../components/Flex';
 import { Oppgaveetikett } from '../../../../components/Oppgaveetikett';
 
+import { Cell } from '../Cell';
 import { CellContent } from './CellContent';
 
 const getLabelForType = (type: Periodetype) => {
@@ -29,11 +30,13 @@ interface SakstypeProps {
     type: Periodetype;
 }
 
-export const Sakstype = React.memo(({ type }: SakstypeProps) => (
-    <CellContent width={128}>
-        <Flex alignItems="center">
-            <Oppgaveetikett type={type} />
-            <BodyShort style={{ marginLeft: '12px' }}>{getLabelForType(type)}</BodyShort>
-        </Flex>
-    </CellContent>
+export const SakstypeCell = React.memo(({ type }: SakstypeProps) => (
+    <Cell>
+        <CellContent width={128}>
+            <Flex alignItems="center">
+                <Oppgaveetikett type={type} />
+                <BodyShort style={{ marginLeft: '12px' }}>{getLabelForType(type)}</BodyShort>
+            </Flex>
+        </CellContent>
+    </Cell>
 ));

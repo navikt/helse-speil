@@ -71,7 +71,7 @@ export const LeggPåVentMenuButton = ({ oppgavereferanse, vedtaksperiodeId, pers
                     onClose={() => setVisModal(false)}
                     personinfo={personinfo}
                     vedtaksperiodeId={vedtaksperiodeId}
-                    leggSakPåVent={settPåVent}
+                    onPostNotat={settPåVent}
                 />
             )}
         </span>

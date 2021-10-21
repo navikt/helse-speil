@@ -4,10 +4,9 @@ import React, { useLayoutEffect, useState } from 'react';
 import { CloseButton } from '../../../components/CloseButton';
 import { EndringsloggOverstyrtInntekt } from '../../../components/EndringsloggOverstyrtInntekt';
 import { EndringsloggOverstyrteDager } from '../../../components/EndringsloggOverstyrteDager';
-import { useVedtaksperiode } from '../../../state/tidslinje';
+import { useNotaterForVedtaksperiode } from '../../../state/notater';
 
 import { NotatListeModal } from '../../oversikt/table/rader/notat/NotatListeModal';
-import { NyttNotatModal } from '../../oversikt/table/rader/notat/NyttNotatModal';
 import { HistorikkHendelse } from './HistorikkHendelse';
 import { useHistorikk, useOppdaterHistorikk, useShowHistorikkState } from './state';
 
@@ -40,12 +39,9 @@ interface HistorikkProps {
 
 export const Historikk = React.memo(({ vedtaksperiodeId, tildeling, personinfo }: HistorikkProps) => {
     const historikk = useHistorikk();
-    const vedtaksperiode = useVedtaksperiode(vedtaksperiodeId);
+    const notaterForPeriode = useNotaterForVedtaksperiode(vedtaksperiodeId);
     const [showHistorikk, setShowHistorikk] = useShowHistorikkState();
     const [showNotatListeModal, setShowNotatListeModal] = useState(false);
-    const [showNyttNotatModal, setShowNyttNotatModal] = useState(false);
-    const [showEndringslogg, setShowEndringslogg] = useState(false);
-    const [showEndringsloggInntekt, setShowEndringsloggInntekt] = useState(false);
 
     const [endring, setEndring] = useState<Overstyring | null>(null);
     const [inntektendring, setInntektendring] = useState<ExternalInntektoverstyring | null>(null);
@@ -79,21 +75,11 @@ export const Historikk = React.memo(({ vedtaksperiodeId, tildeling, personinfo }
             </Container>
             {showNotatListeModal && (
                 <NotatListeModal
+                    notater={notaterForPeriode}
+                    personinfo={personinfo}
                     vedtaksperiodeId={vedtaksperiodeId}
                     onClose={() => setShowNotatListeModal(false)}
-                    åpneNyttNotatModal={() => setShowNyttNotatModal(true)}
-                    tildeling={tildeling}
-                />
-            )}
-            {showNyttNotatModal && (
-                <NyttNotatModal
-                    vedtaksperiodeId={vedtaksperiodeId}
-                    onClose={() => setShowNyttNotatModal(false)}
-                    personinfo={personinfo}
-                    navigerTilbake={() => {
-                        setShowNotatListeModal(true);
-                        setShowNyttNotatModal(false);
-                    }}
+                    erPåVent={tildeling?.påVent}
                 />
             )}
             <EndringsloggOverstyrteDager

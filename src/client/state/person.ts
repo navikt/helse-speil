@@ -149,16 +149,43 @@ export const useAlderVedSkjæringstidspunkt = (): number => {
     return dayjs(skjæringstidspunkt).diff(fødselsdato, 'year');
 };
 
-export const usePersonnavn = (): string => {
-    const { fornavn, mellomnavn, etternavn } = useMaybePersoninfo() ?? {};
-    return [fornavn, mellomnavn, etternavn].filter(Boolean).join(' ');
-};
+const usePersonnavn = (): { fornavn: string | null; mellomnavn: string | null; etternavn: string | null } =>
+    useMaybePersoninfo() ?? {
+        fornavn: null,
+        mellomnavn: null,
+        etternavn: null,
+    };
 
-export const usePersonnavnRender = (): string => {
+type NameFormat = ('E' | 'F' | 'M' | ',')[];
+
+export const usePersonnavnRender = (format: NameFormat = ['F', 'M', 'E']): string => {
     const anonymiseringIsEnabled = usePersondataSkalAnonymiseres();
     const personnavn = usePersonnavn();
 
-    return anonymiseringIsEnabled ? `${anonymisertPersoninfo.fornavn} ${anonymisertPersoninfo.etternavn}` : personnavn;
+    return anonymiseringIsEnabled
+        ? `${anonymisertPersoninfo.fornavn} ${anonymisertPersoninfo.etternavn}`
+        : personnavn
+        ? getFormatertNavn(personnavn as Personinfo, format)
+        : 'Ukjent navn';
+};
+
+export const getFormatertNavn = (personinfo: Personinfo, format: NameFormat = ['F', 'M', 'E']): string => {
+    return format
+        .map((code) => {
+            switch (code) {
+                case 'E':
+                    return personinfo.etternavn;
+                case 'F':
+                    return personinfo.fornavn;
+                case 'M':
+                    return personinfo.mellomnavn;
+                case ',':
+                    return ',';
+            }
+        })
+        .filter((it) => it)
+        .map((it, i) => (i === 0 || it === ',' ? it : ` ${it}`))
+        .join('');
 };
 
 export const useRefreshPerson = () => {

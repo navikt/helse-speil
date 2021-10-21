@@ -22,7 +22,7 @@ const SpeilModal = styled(ReactModal)`
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    padding: 1rem;
+    padding: 1.5rem 1.75rem;
     border-radius: 4px;
     display: flex;
     flex-direction: column;
@@ -122,10 +122,12 @@ export const Modal: React.FunctionComponent<ModalProps> = ({
         onRequestClose={onRequestClose}
         shouldReturnFocusAfterClose={shouldReturnFocusAfterClose}
     >
-        <Topprad>
-            <Lukknapp onClick={onRequestClose} />
-            {title}
-        </Topprad>
-        {children}
+        <section onClick={(event) => event.stopPropagation()} onKeyPress={(event) => event.stopPropagation()}>
+            <Topprad>
+                <Lukknapp onClick={onRequestClose} />
+                {title}
+            </Topprad>
+            {children}
+        </section>
     </SpeilModal>
 );

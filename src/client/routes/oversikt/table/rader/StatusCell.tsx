@@ -3,6 +3,7 @@ import React from 'react';
 
 import { BodyShort } from '@navikt/ds-react';
 
+import { Cell } from '../Cell';
 import { CellContent } from './CellContent';
 
 const getFormattedWarningText = (antallVarsler?: number): string =>
@@ -16,8 +17,10 @@ interface StatusProps {
     numberOfWarnings: number;
 }
 
-export const Status = React.memo(({ numberOfWarnings }: StatusProps) => (
-    <CellContent width={100}>
-        <Text as="p">{getFormattedWarningText(numberOfWarnings)}</Text>
-    </CellContent>
+export const StatusCell = React.memo(({ numberOfWarnings }: StatusProps) => (
+    <Cell>
+        <CellContent width={100}>
+            <Text as="p">{getFormattedWarningText(numberOfWarnings)}</Text>
+        </CellContent>
+    </Cell>
 ));
