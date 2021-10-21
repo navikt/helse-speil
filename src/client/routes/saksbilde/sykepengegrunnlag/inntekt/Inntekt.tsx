@@ -95,7 +95,7 @@ export const Inntekt = ({ omregnetÅrsinntekt, organisasjonsnummer }: InntektPro
                 {overstyrInntektEnabled && harKunEnArbeidsgiver && (
                     <EditButton
                         isOpen={editing}
-                        openText="Lukk"
+                        openText="Avbryt"
                         closedText={ikkeUtbetaltVedSkjæringstidspunkt ? 'Endre' : 'Revurder'}
                         onOpen={() => setEditing(true)}
                         onClose={() => setEditing(false)}
