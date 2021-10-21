@@ -92,7 +92,7 @@ export const Inntekt = ({ omregnetÅrsinntekt, organisasjonsnummer }: InntektPro
                         <Kilde type={getKildeType(omregnetÅrsinntekt?.kilde)}>{kilde(omregnetÅrsinntekt?.kilde)}</Kilde>
                     )}
                 </Flex>
-                {overstyrInntektEnabled && harKunEnArbeidsgiver ? (
+                {overstyrInntektEnabled && harKunEnArbeidsgiver && (
                     <EditButton
                         isOpen={editing}
                         openText="Lukk"
@@ -101,7 +101,8 @@ export const Inntekt = ({ omregnetÅrsinntekt, organisasjonsnummer }: InntektPro
                         onClose={() => setEditing(false)}
                         style={{ justifySelf: 'flex-end' }}
                     />
-                ) : (
+                )}
+                {!harKunEnArbeidsgiver && (
                     <PopoverHjelpetekst ikon={<SortInfoikon />}>
                         <p>Kan ikke endre inntekt, det er foreløpig ikke støtte for saker med flere arbeidsgivere</p>
                     </PopoverHjelpetekst>
