@@ -9,7 +9,7 @@ import { Flex, FlexColumn } from '../../../../components/Flex';
 import { Kilde } from '../../../../components/Kilde';
 import { PopoverHjelpetekst } from '../../../../components/PopoverHjelpetekst';
 import { SortInfoikon } from '../../../../components/ikoner/SortInfoikon';
-import { useEndringer, useUtbetalingForSkjæringstidspunkt } from '../../../../state/person';
+import { useEndringerForPeriode, useUtbetalingForSkjæringstidspunkt } from '../../../../state/person';
 import { useAktivPeriode } from '../../../../state/tidslinje';
 import { getKildeType, kilde } from '../../../../utils/inntektskilde';
 
@@ -77,7 +77,7 @@ export const Inntekt = ({ omregnetÅrsinntekt, organisasjonsnummer }: InntektPro
     const ikkeUtbetaltVedSkjæringstidspunkt = useIkkeUtbetaltVedSkjæringstidspunkt();
     const harKunEnArbeidsgiver = useInntektskilde() === 'EN_ARBEIDSGIVER';
 
-    const endringer = useEndringer(organisasjonsnummer);
+    const endringer = useEndringerForPeriode(organisasjonsnummer);
 
     return (
         <Container editing={editing}>

@@ -2,13 +2,15 @@ import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import React from 'react';
 
-import { CaseworkerFilled } from '@navikt/ds-icons';
 import { BodyShort } from '@navikt/ds-react';
 
 import { Kilde } from '../../../components/Kilde';
-import { useArbeidsgivernavnRender } from '../../../state/person';
+import { useArbeidsgivernavnRender, useEndringerForPeriode } from '../../../state/person';
+import { useAktivPeriode } from '../../../state/tidslinje';
 import { getKildeType, kilde } from '../../../utils/inntektskilde';
 import { somPenger } from '../../../utils/locale';
+
+import { EndringsloggInntektButton } from '../utbetaling/utbetalingstabell/EndringsloggInntektButton';
 
 const ArbeidsgiverRad = styled.tr<{ erGjeldende: boolean }>`
     padding: 0.25rem;
@@ -57,6 +59,9 @@ export const Inntektssammenligning = ({
     onSetAktivInntektskilde,
 }: InntektssammenligningProps) => {
     const arbeidsgivernavn = useArbeidsgivernavnRender(organisasjonsnummer);
+    const endringer = useEndringerForPeriode(organisasjonsnummer);
+    const periode = useAktivPeriode();
+
     return (
         <ArbeidsgiverRad erGjeldende={erGjeldende} onClick={onSetAktivInntektskilde}>
             <td>
@@ -66,7 +71,9 @@ export const Inntektssammenligning = ({
                 <InntektMedKilde>
                     <BodyShort>{omregnetÅrsinntekt ? somPenger(omregnetÅrsinntekt.beløp) : 'Ukjent'}</BodyShort>
                     {omregnetÅrsinntekt?.kilde === 'Saksbehandler' ? (
-                        <CaseworkerFilled />
+                        <EndringsloggInntektButton
+                            endringer={endringer.filter((it) => it.type === 'Inntekt') as ExternalInntektoverstyring[]}
+                        />
                     ) : (
                         omregnetÅrsinntekt && (
                             <Kilde type={getKildeType(omregnetÅrsinntekt.kilde)}>
