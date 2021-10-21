@@ -2,6 +2,7 @@ import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import React from 'react';
 
+import { CaseworkerFilled } from '@navikt/ds-icons';
 import { BodyShort } from '@navikt/ds-react';
 
 import { Kilde } from '../../../components/Kilde';
@@ -59,13 +60,19 @@ export const Inntektssammenligning = ({
     return (
         <ArbeidsgiverRad erGjeldende={erGjeldende} onClick={onSetAktivInntektskilde}>
             <td>
-                <BodyShort>{organisasjonsnummer}</BodyShort>
+                <BodyShort>{arbeidsgivernavn}</BodyShort>
             </td>
             <td>
                 <InntektMedKilde>
                     <BodyShort>{omregnetÅrsinntekt ? somPenger(omregnetÅrsinntekt.beløp) : 'Ukjent'}</BodyShort>
-                    {omregnetÅrsinntekt && (
-                        <Kilde type={getKildeType(omregnetÅrsinntekt.kilde)}>{kilde(omregnetÅrsinntekt.kilde)}</Kilde>
+                    {omregnetÅrsinntekt?.kilde === 'Saksbehandler' ? (
+                        <CaseworkerFilled />
+                    ) : (
+                        omregnetÅrsinntekt && (
+                            <Kilde type={getKildeType(omregnetÅrsinntekt.kilde)}>
+                                {kilde(omregnetÅrsinntekt.kilde)}
+                            </Kilde>
+                        )
                     )}
                 </InntektMedKilde>
             </td>
