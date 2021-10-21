@@ -123,4 +123,4 @@ export const defaultUtbetalingToggles: UtbetalingToggles = {
     overstyreUtbetaltPeriodeEnabled: overstyreUtbetaltPeriodeEnabled,
 };
 
-export const overstyrInntektEnabled = erLocal() || erDev();
+export const overstyrInntektEnabled = overstyreUtbetaltPeriodeEnabled;
