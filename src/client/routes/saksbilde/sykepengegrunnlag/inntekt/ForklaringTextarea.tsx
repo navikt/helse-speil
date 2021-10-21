@@ -35,7 +35,7 @@ export const ForklaringTextarea = () => {
                 onChange(event);
                 setForklaring(event.target.value);
             }}
-            placeholder="Begrunn hvorfor det er gjort endringer i inntekten som legges til grunn. Kommer ikke i vedtaksbrevet, men vil bli forevist bruker ved spørsmål om innsyn."
+            placeholder="Begrunn hvorfor det er gjort endringer i inntekten som legges til grunn. &#10;Eks. Ny inntektsmelding kommet inn 18.10.2021 kommer ikke i vedtaksbrevet, men vil bli forevist bruker ved spørsmål om innsyn."
             maxLength={500}
             aria-labelledby="forklaring-label forklaring-feil"
             error={form.formState.errors.forklaring?.message}

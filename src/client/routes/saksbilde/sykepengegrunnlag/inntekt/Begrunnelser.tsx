@@ -2,9 +2,7 @@ import styled from '@emotion/styled';
 import React from 'react';
 import { useFormContext } from 'react-hook-form';
 
-import { RadioGroup, Radio } from '@navikt/ds-react';
-
-import { ErrorMessage } from '../../../../components/ErrorMessage';
+import { Radio, RadioGroup } from '@navikt/ds-react';
 
 const BegrunnelseFieldset = styled(RadioGroup)`
     > .navds-radio {
@@ -24,21 +22,17 @@ export const Begrunnelser = () => {
             name="begrunnelse"
             error={form.formState.errors['begrunnelse']?.message}
         >
-            <Radio ref={ref} value="Korrigert inntektsmelding" {...begrunnelseValidation}>
-                Korrigert inntektsmelding
+            <Radio ref={ref} value="Korrigert inntekt i inntektsmelding" {...begrunnelseValidation}>
+                Korrigert inntekt i inntektsmelding
             </Radio>
-            <Radio ref={ref} value="Tariffendring" {...begrunnelseValidation}>
-                Tariffendring
+            <Radio ref={ref} value="Tariffendring i inntektsmelding" {...begrunnelseValidation}>
+                Tariffendring i inntektsmelding
             </Radio>
-            <Radio
-                ref={ref}
-                value="Arbeidsgiver har oppgitt feil inntekt i inntektsmeldingen"
-                {...begrunnelseValidation}
-            >
-                Arbeidsgiver har oppgitt feil inntekt i inntektsmeldingen
+            <Radio ref={ref} value="Innrapportert feil inntekt til A-ordningen" {...begrunnelseValidation}>
+                Innrapportert feil inntekt til A-ordningen
             </Radio>
-            <Radio ref={ref} value="Arbeidsgiver har innrapportert feil til A-ordningen" {...begrunnelseValidation}>
-                Arbeidsgiver har innrapportert feil til A-ordningen
+            <Radio ref={ref} value="Annen kilde til endring" {...begrunnelseValidation}>
+                Annen kilde til endring
             </Radio>
         </BegrunnelseFieldset>
     );
