@@ -5,12 +5,12 @@ import { Link } from 'react-router-dom';
 
 import { BodyShort } from '@navikt/ds-react';
 
-import { usePersondataSkalAnonymiseres } from '../state/person';
+import { getFormatertNavn, useAktørIdRender, useEnhetRender, usePersoninfoRender } from '../state/person';
 import { NORSK_DATOFORMAT } from '../utils/date';
 import { capitalizeName } from '../utils/locale';
 
-import { anonymisertPersoninfo } from '../agurkdata';
 import { utbetalingsoversikt } from '../featureToggles';
+import { Bold } from './Bold';
 import { Clipboard } from './clipboard';
 import { KjønnsnøytraltIkon } from './ikoner/KjønnsnøytraltIkon';
 import { Kvinneikon } from './ikoner/Kvinneikon';
@@ -67,10 +67,6 @@ const DødsdatoEtikett = styled(Etikett)`
     color: var(--navds-color-text-inverse);
 `;
 
-const Bold = styled(BodyShort)`
-    font-weight: 600;
-`;
-
 const Kjønnsikon = ({ kjønn }: { kjønn: 'kvinne' | 'mann' | 'ukjent' }) => {
     switch (kjønn.toLowerCase()) {
         case 'kvinne':
@@ -122,33 +118,30 @@ export const LasterPersonlinje = () => (
 );
 
 interface PersonlinjeProps {
-    person?: Person;
+    person: Person;
 }
 
 export const Personlinje = ({ person }: PersonlinjeProps) => {
-    const anonymiseringEnabled = usePersondataSkalAnonymiseres();
-    if (!person) return <Container className="Personlinje" />;
-
-    const { aktørId, personinfo, enhet } = anonymiseringEnabled
-        ? { ...person, aktørId: '1000000000000', enhet: { id: 1000, navn: 'Agurkheim' } }
-        : person;
-    const { fornavn, mellomnavn, etternavn, kjønn, fnr, fødselsdato } = anonymiseringEnabled
-        ? anonymisertPersoninfo
-        : personinfo;
+    const personinfo = usePersoninfoRender();
+    const personnavn = getFormatertNavn(personinfo, ['E', ',', 'F', 'M']);
+    const aktørId = useAktørIdRender();
+    const enhet = useEnhetRender();
 
     return (
         <Container className="Personlinje">
-            <Kjønnsikon kjønn={kjønn} />
-            <Bold as="p">{capitalizeName(`${etternavn}, ${fornavn} ${mellomnavn ? `${mellomnavn} ` : ''}`)}</Bold>
-            <Bold as="p">&nbsp;{fødselsdato !== null && `(${dayjs().diff(fødselsdato, 'year')} år)`}</Bold>
+            <Kjønnsikon kjønn={personinfo.kjønn} />
+            <Bold>
+                {capitalizeName(personnavn)}
+                {personinfo.fødselsdato !== null && ` (${dayjs().diff(personinfo.fødselsdato, 'year')} år)`}
+            </Bold>
             <Separator as="p">/</Separator>
-            {fnr ? (
+            {personinfo.fnr ? (
                 <Clipboard
                     preserveWhitespace={false}
                     copyMessage="Fødselsnummer er kopiert"
                     dataTip="Kopier fødselsnummer"
                 >
-                    <BodyShort>{formatFnr(fnr)}</BodyShort>
+                    <BodyShort>{formatFnr(personinfo.fnr)}</BodyShort>
                 </Clipboard>
             ) : (
                 <BodyShort>Fødselsnummer ikke tilgjengelig</BodyShort>

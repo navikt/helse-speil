@@ -7,6 +7,8 @@ export const anonymisertPersoninfo: Personinfo = {
     fnr: '11001100111',
 };
 
+export const anonymisertBoenhet: Boenhet = { id: '1000', navn: 'Agurkheim' };
+
 const agurkArbeidsgivere = [
     { navn: 'Pølseboden', orgnr: '999999999' },
     { navn: 'CucumberService AS', orgnr: '888888888' },

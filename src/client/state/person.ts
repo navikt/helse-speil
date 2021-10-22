@@ -8,7 +8,7 @@ import { mapPerson } from '../mapping/person';
 import { useArbeidsgiver as useArbeidsgiverUtenParametre } from '../modell/arbeidsgiver';
 import { useUtbetaling } from '../modell/utbetalingshistorikkelement';
 
-import { anonymisertPersoninfo, getAnonymArbeidsgiverForOrgnr } from '../agurkdata';
+import { anonymisertBoenhet, anonymisertPersoninfo, getAnonymArbeidsgiverForOrgnr } from '../agurkdata';
 import { useInnloggetSaksbehandler } from './authentication';
 import { aktivPeriodeState, useAktivPeriode, useMaybeAktivPeriode } from './tidslinje';
 
@@ -141,6 +141,35 @@ export const usePersoninfo = (): Personinfo => {
     }
 
     return personinfo;
+};
+
+export const usePersoninfoRender = (): Personinfo => {
+    const anonymiseringIsEnabled = usePersondataSkalAnonymiseres();
+    const personinfo = usePersoninfo();
+
+    return anonymiseringIsEnabled ? anonymisertPersoninfo : personinfo;
+};
+
+export const useEnhetRender = (): Boenhet => {
+    const anonymiseringIsEnabled = usePersondataSkalAnonymiseres();
+    const person = usePerson();
+
+    if (!person) {
+        throw Error('Forventet boenhet men fant ikke personen');
+    }
+
+    return anonymiseringIsEnabled ? anonymisertBoenhet : person.enhet;
+};
+
+export const useAktørIdRender = (): string => {
+    const anonymiseringIsEnabled = usePersondataSkalAnonymiseres();
+    const person = usePerson();
+
+    if (!person) {
+        throw Error('Forventet boenhet men fant ikke personen');
+    }
+
+    return anonymiseringIsEnabled ? '1000000000000' : person.aktørId;
 };
 
 export const useAlderVedSkjæringstidspunkt = (): number => {
