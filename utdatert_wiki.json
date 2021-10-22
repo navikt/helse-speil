@@ -70,5 +70,11 @@
         "betydning": "ArbeidsforholdsID fra inntektsmeldingen er utfylt:",
         "løsning": "Undersøk om inntekten som er oppgitt er lik det som er innrapportert de siste månedene i A-ordningen. Hvis innrapportert lønn avviker mye fra det arbeidsgiveren oppgir, så undersøk om det er flere stillinger hos samme arbeidsgiver i AA-registeret. Hvis det er flere arbeidsforhold og inntektsmeldingen kun gjelder for én av dem, må saken behandles i Infotrygd. I alle andre tilfeller kan saken behandles i Speil.",
         "viktighet": "Høy"
+    },
+    {
+        "varsel": "ArbeidsforholdsID er fylt ut i inntektsmeldingen. Kontroller om brukeren har flere arbeidsforhold i samme virksomhet. Systemet har foreløpig begrenset støtte i forhold til dette.",
+        "betydning": "ArbeidsforholdsID fra inntektsmeldingen er utfylt:",
+        "løsning": "Undersøk om inntekten som er oppgitt er lik det som er innrapportert de siste månedene i A-ordningen. Hvis innrapportert lønn avviker mye fra det arbeidsgiveren oppgir, så undersøk om det er flere stillinger hos samme arbeidsgiver i AA-registeret. Hvis det er flere arbeidsforhold og inntektsmeldingen kun gjelder for én av dem, må saken behandles i Infotrygd. I alle andre tilfeller kan saken behandles i Speil.",
+        "viktighet": "Høy"
     }
 ]
