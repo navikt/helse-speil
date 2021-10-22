@@ -14,7 +14,10 @@ export const nyesteOpptegnelseMedTypeOppgaveState = selector<Opptegnelse | undef
     key: 'nyesteOpptegnelseMedTypeOppgaveState',
     get: ({ get }) =>
         get(nyesteOpptegnelserState).find(
-            (opptegnelse) => opptegnelse.type === 'NY_SAKSBEHANDLEROPPGAVE' || opptegnelse.type === 'REVURDERING_AVVIST'
+            (opptegnelse) =>
+                opptegnelse.type === 'NY_SAKSBEHANDLEROPPGAVE' ||
+                opptegnelse.type === 'REVURDERING_AVVIST' ||
+                opptegnelse.type === 'REVURDERING_FERDIGBEHANDLET'
         ),
 });
 
