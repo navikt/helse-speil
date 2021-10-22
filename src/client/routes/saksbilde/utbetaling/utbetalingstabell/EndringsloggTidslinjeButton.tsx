@@ -2,7 +2,6 @@ import styled from '@emotion/styled';
 import React, { useRef, useState } from 'react';
 
 import { CaseworkerFilled } from '@navikt/ds-icons';
-import '@navikt/helse-frontend-tooltip/lib/main.css';
 
 import { EndringsloggOverstyrteDager } from '../../../../components/EndringsloggOverstyrteDager';
 import { useInteractOutside } from '../../../../hooks/useInteractOutside';
