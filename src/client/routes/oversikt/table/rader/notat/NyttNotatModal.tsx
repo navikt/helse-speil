@@ -19,15 +19,11 @@ import { SisteNotat } from './SisteNotat';
 
 const Knappegruppe = styled.span`
     display: flex;
-    margin-top: 4em;
+    margin-top: 2em;
 
     > button:not(:last-of-type) {
         margin-right: 1rem;
     }
-`;
-
-const Content = styled.div`
-    padding: 1rem;
 `;
 
 const StyledUndertittel = styled(BodyShort)`
@@ -36,6 +32,7 @@ const StyledUndertittel = styled(BodyShort)`
 
 const StyledModal = styled(Modal)`
     width: 670px;
+    padding: 2rem;
 
     h1 {
         font-size: 24px;
@@ -52,6 +49,7 @@ const Tittel = styled.h1`
 const StyledTextarea = styled(Textarea)`
     width: 100%;
     min-height: 120px;
+    white-space: pre-line;
 `;
 
 interface Props {
@@ -117,8 +115,8 @@ export const NyttNotatModal = ({ onClose, personinfo, vedtaksperiodeId, leggSakP
 
     return (
         <StyledModal title={<Tittel>{tittel}</Tittel>} contentLabel="Notat" isOpen onRequestClose={closeModal}>
-            <StyledUndertittel as="p">{undertittel}</StyledUndertittel>
-            <Content>
+            <div>
+                <StyledUndertittel as="p">{undertittel}</StyledUndertittel>
                 {notaterForOppgave.length > 0 && (
                     <>
                         <SisteNotat notater={notaterForOppgave} multiline={false} />
@@ -126,8 +124,7 @@ export const NyttNotatModal = ({ onClose, personinfo, vedtaksperiodeId, leggSakP
                     </>
                 )}
                 <StyledTextarea
-                    label="Begrunnelse"
-                    hideLabel
+                    label=""
                     name="tekst"
                     value={tekst}
                     error={tekst.length > tekstMaxLength ? 'Det er kun tillatt med 100 tegn' : null}
@@ -136,7 +133,7 @@ export const NyttNotatModal = ({ onClose, personinfo, vedtaksperiodeId, leggSakP
                     }}
                     onClick={textAreaClickHandler()}
                     onKeyPress={keyboardEvent}
-                    placeholder="Skriv hvorfor saken er lagt på vent, så det er lettere å starte igjen senere.&#10;Eks: Kontaktet arbeidsgiver, fikk ikke svar.&#10;Kommer ikke i vedtaksbrevet, men vil bli forevist bruker ved spørsmål om innsyn."
+                    description={`Skriv hvorfor saken er lagt på vent, så det er lettere å starte igjen senere.\nEks: Kontaktet arbeidsgiver, fikk ikke svar.\nKommer ikke i vedtaksbrevet, men vil bli forevist bruker ved spørsmål om innsyn.`}
                     maxLength={tekstMaxLength}
                 />
                 <Knappegruppe>
@@ -158,7 +155,7 @@ export const NyttNotatModal = ({ onClose, personinfo, vedtaksperiodeId, leggSakP
                         </Button>
                     )}
                 </Knappegruppe>
-            </Content>
+            </div>
         </StyledModal>
     );
 };

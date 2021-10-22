@@ -14,6 +14,7 @@ const Container = styled.div`
 
 const BegrunnelseBox = styled(Textarea)`
     min-height: 120px;
+    white-space: pre-line;
 `;
 
 const ÅrsakFieldset = styled(Fieldset)`
@@ -116,7 +117,6 @@ export const Begrunnelsesskjema = ({ aktivPeriode }: BegrunnelsesskjemaProps) =>
                     <BegrunnelseBox
                         name="kommentar"
                         value={value}
-                        description="Må ikke inneholde personopplysninger"
                         label={`Begrunnelse ${annet ? '' : '(valgfri)'}`}
                         error={formState.errors.kommentar ? formState.errors.kommentar.message : null}
                         onChange={(event: ChangeEvent) => {
@@ -125,7 +125,7 @@ export const Begrunnelsesskjema = ({ aktivPeriode }: BegrunnelsesskjemaProps) =>
                         }}
                         aria-invalid={formState.errors.kommentar?.message}
                         aria-errormessage={formState.errors.kommentar?.message}
-                        placeholder="Gi en kort forklaring på hvorfor du ikke kan behandle saken. Eksempel: Oppgave om oppfølging"
+                        description={`Gi en kort forklaring på hvorfor du ikke kan behandle saken.\nEksempel: Oppgave om oppfølging.\nMå ikke inneholde personopplysninger.`}
                         maxLength={0}
                     />
                 )}

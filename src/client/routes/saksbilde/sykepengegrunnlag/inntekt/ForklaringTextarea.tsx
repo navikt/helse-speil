@@ -4,15 +4,8 @@ import { useFormContext } from 'react-hook-form';
 
 import { Textarea } from '@navikt/ds-react';
 
-const Label = styled.label`
-    > p:first-of-type {
-        margin-bottom: 1rem;
-    }
-
-    > .skjemaelement,
-    textarea {
-        min-height: 120px;
-    }
+const StyledTextarea = styled(Textarea)`
+    white-space: pre-line;
 `;
 
 export const ForklaringTextarea = () => {
@@ -26,7 +19,7 @@ export const ForklaringTextarea = () => {
     });
 
     return (
-        <Textarea
+        <StyledTextarea
             label="Forklaring"
             id="forklaring"
             value={forklaring}
@@ -35,7 +28,7 @@ export const ForklaringTextarea = () => {
                 onChange(event);
                 setForklaring(event.target.value);
             }}
-            placeholder="Begrunn hvorfor det er gjort endringer i inntekten som legges til grunn. &#10;Eks. Ny inntektsmelding kommet inn 18.10.2021 &#10;Kommer ikke i vedtaksbrevet, men vil bli forevist bruker ved spørsmål om innsyn."
+            description={`Begrunn hvorfor det er gjort endringer i inntekten som legges til grunn.\nEks. Ny inntektsmelding kommet inn 18.10.2021\nKommer ikke i vedtaksbrevet, men vil bli forevist bruker ved spørsmål om innsyn.`}
             maxLength={500}
             aria-labelledby="forklaring-label forklaring-feil"
             error={form.formState.errors.forklaring?.message}

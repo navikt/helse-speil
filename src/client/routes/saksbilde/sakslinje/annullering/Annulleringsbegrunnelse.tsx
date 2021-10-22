@@ -46,7 +46,7 @@ const Begrunnelse = styled(Textarea)`
     textarea {
         padding: 1rem;
     }
-
+    white-space: pre-line;
     margin-bottom: 2.5rem;
 `;
 
@@ -147,7 +147,7 @@ export const Annulleringsbegrunnelse = () => {
                         }}
                         aria-invalid={formState.errors.kommentar?.message}
                         aria-errormessage={formState.errors.kommentar?.message}
-                        placeholder="Gi en kort forklaring på hvorfor du annullerte. &#10;Eksempel: Korrigerte opplysninger om ferie"
+                        description={`Gi en kort forklaring på hvorfor du annullerte.\nEksempel: Korrigerte opplysninger om ferie`}
                         maxLength={0}
                     />
                 )}
