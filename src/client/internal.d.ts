@@ -39,6 +39,7 @@ declare type Avvisning = {
         | 'MinimumInntekt'
         | 'ManglerOpptjening'
         | 'ManglerMedlemskap'
+        | 'Over70'
         | 'SykepengedagerOppbrukt';
     paragraf?: string;
 };

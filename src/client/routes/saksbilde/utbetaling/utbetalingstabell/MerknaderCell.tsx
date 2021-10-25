@@ -69,6 +69,12 @@ const Merknad: React.VFC<MerknadProps> = ({ begrunnelse }) => {
                     </LovdataLenke>
                 </Container>
             );
+        case 'Over70':
+            return (
+                <Container data-tip="Personen er 70 år eller eldre">
+                    <LovdataLenke paragraf="8-3">§ 8-3</LovdataLenke>
+                </Container>
+            );
         default:
             return null;
     }

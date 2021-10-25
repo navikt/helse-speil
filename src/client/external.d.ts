@@ -347,6 +347,7 @@ declare type ExternalBegrunnelser =
     | 'MinimumSykdomsgrad'
     | 'EtterDødsdato'
     | 'ManglerMedlemskap'
+    | 'Over70'
     | 'ManglerOpptjening';
 
 declare type ExternalTidslinjedag = {
