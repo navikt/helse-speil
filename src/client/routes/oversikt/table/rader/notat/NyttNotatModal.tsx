@@ -116,6 +116,7 @@ export const NyttNotatModal = ({ onClose, personinfo, vedtaksperiodeId, onPostNo
                                 name={name}
                                 ref={ref}
                                 maxLength={100}
+                                autoFocus
                             />
                         )}
                     />
