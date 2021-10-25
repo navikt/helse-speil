@@ -20,7 +20,7 @@ import { UtbetalingstabellDag } from './Utbetalingstabell.types';
 
 const Container = styled.section`
     display: flex;
-    overflow-x: scroll;
+    overflow-x: auto;
 `;
 
 const TabellContainer = styled.div`

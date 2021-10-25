@@ -52,7 +52,12 @@ export const OverstyringForm: React.FC<OverstyringFormProps> = ({ overstyrteDage
                 id="begrunnelse"
                 label="Begrunnelse"
                 value={oppsummering}
-                description="Begrunn kort hvorfor det er gjort endringer på dager i sykdomstidslinjen. Bruk tydelig språk, denne vil bli vist for den sykmeldte og arbeidsgiver."
+                description={
+                    <span>
+                        Begrunn hvorfor det er gjort endringer i sykdomstidslinjen. <br />
+                        Kommer ikke i vedtaksbrevet, men vil bli forevist bruker ved spørsmål om innsyn.
+                    </span>
+                }
                 error={formState.errors.begrunnelse?.message}
                 aria-invalid={formState.errors.begrunnelse?.message}
                 aria-errormessage={formState.errors.begrunnelse?.message}
