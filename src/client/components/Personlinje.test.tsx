@@ -4,7 +4,7 @@ import React from 'react';
 import { MemoryRouter } from 'react-router';
 import { RecoilRoot } from 'recoil';
 
-import { persondataSkalAnonymiseres } from '../state/person';
+import { persondataSkalAnonymiseres, personState } from '../state/person';
 
 import { Personlinje } from './Personlinje';
 
@@ -26,12 +26,24 @@ describe('Personlinje', () => {
         } as Person;
         render(
             <MemoryRouter>
-                <RecoilRoot initializeState={({ set }) => set(persondataSkalAnonymiseres, false)}>
-                    <Personlinje person={person} />
+                <RecoilRoot
+                    initializeState={({ set }) => {
+                        set(persondataSkalAnonymiseres, false);
+                        set(personState, {
+                            person: {
+                                ...person,
+                                vilkårsgrunnlagHistorikk: {},
+                                arbeidsgivereV2: [],
+                                arbeidsforhold: [],
+                            },
+                        });
+                    }}
+                >
+                    <Personlinje dødsdato={person.dødsdato} />
                 </RecoilRoot>
             </MemoryRouter>
         );
-        expect(screen.getByText('Høiby, Marius Borg')).toBeVisible();
+        expect(screen.getByText('Høiby, Marius Borg', { exact: false })).toBeVisible();
         expect(screen.getByText('123456 78910')).toBeVisible();
         expect(screen.getByText('123456789')).toBeVisible();
         expect(screen.getByText('Boenhet: 123 (Huttiheiti)')).toBeVisible();

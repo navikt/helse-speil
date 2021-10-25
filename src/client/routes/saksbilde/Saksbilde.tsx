@@ -62,7 +62,7 @@ const SaksbildeContent = React.memo(() => {
 
     return (
         <Container className="Saksbilde">
-            <Personlinje person={personTilBehandling} />
+            <Personlinje dødsdato={personTilBehandling.dødsdato} />
             <Tidslinje person={personTilBehandling} />
             {aktivPeriode ? (
                 <>

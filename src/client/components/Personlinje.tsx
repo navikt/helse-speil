@@ -118,10 +118,10 @@ export const LasterPersonlinje = () => (
 );
 
 interface PersonlinjeProps {
-    person: Person;
+    dødsdato?: Dayjs;
 }
 
-export const Personlinje = ({ person }: PersonlinjeProps) => {
+export const Personlinje = ({ dødsdato }: PersonlinjeProps) => {
     const personinfo = usePersoninfoRender();
     const personnavn = getFormatertNavn(personinfo, ['E', ',', 'F', 'M']);
     const aktørId = useAktørIdRender();
@@ -158,13 +158,13 @@ export const Personlinje = ({ person }: PersonlinjeProps) => {
             {utbetalingsoversikt && (
                 <>
                     <Separator as="p">/</Separator>
-                    <Lenke to={`${person.aktørId}/../utbetalingshistorikk`}>Utbetalingsoversikt</Lenke>
+                    <Lenke to={`${aktørId}/../utbetalingshistorikk`}>Utbetalingsoversikt</Lenke>
                 </>
             )}
-            {person?.dødsdato && (
+            {dødsdato && (
                 <>
                     <Separator as="p">/</Separator>
-                    <DødsdatoEtikett>Død {person?.dødsdato?.format(NORSK_DATOFORMAT)}</DødsdatoEtikett>
+                    <DødsdatoEtikett>Død {dødsdato?.format(NORSK_DATOFORMAT)}</DødsdatoEtikett>
                 </>
             )}
         </Container>
