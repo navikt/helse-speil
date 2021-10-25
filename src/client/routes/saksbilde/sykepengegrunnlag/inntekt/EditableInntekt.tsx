@@ -56,9 +56,15 @@ const Bold = styled(BodyShort)`
     font-weight: 600;
 `;
 
-const OpprinneligMånedsbeløp = styled(BodyShort)`
-    text-decoration: line-through;
+const OpprinneligMånedsbeløp = styled(BodyShort)<{ harEndringer: boolean }>`
+    visibility: hidden;
     margin-left: 1rem;
+    text-decoration: line-through;
+    ${(props) =>
+        props.harEndringer &&
+        css`
+            visibility: visible;
+        `}
 `;
 
 const OmregnetTilÅrsinntekt = styled.div<{ harEndringer: boolean }>`
@@ -248,7 +254,7 @@ export const EditableInntekt = ({ omregnetÅrsinntekt, close, onEndre }: Editabl
                             <FlexColumn>
                                 <MånedsbeløpInput initialMånedsbeløp={omregnetÅrsinntekt.månedsbeløp} />
                             </FlexColumn>
-                            <OpprinneligMånedsbeløp as="p">
+                            <OpprinneligMånedsbeløp as="p" harEndringer={harEndringer}>
                                 {toKronerOgØre(omregnetÅrsinntekt.månedsbeløp)}
                             </OpprinneligMånedsbeløp>
                         </Flex>
