@@ -97,3 +97,14 @@ export const useOverstyrRevurderingIsEnabled = (toggles: UtbetalingToggles) => {
         arbeidsgiversSisteSkjæringstidspunktErLikSkjæringstidspunktetTilPerioden(person, periode)
     );
 };
+
+export const useErAktivPeriodeISisteSkjæringstidspunkt = (): boolean => {
+    const periode = useMaybeAktivPeriode();
+    const person = usePerson();
+
+    if (!person || !periode) {
+        return false;
+    }
+
+    return arbeidsgiversSisteSkjæringstidspunktErLikSkjæringstidspunktetTilPerioden(person, periode);
+};

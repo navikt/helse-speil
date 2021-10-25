@@ -9,6 +9,7 @@ import { Flex, FlexColumn } from '../../../../components/Flex';
 import { Kilde } from '../../../../components/Kilde';
 import { PopoverHjelpetekst } from '../../../../components/PopoverHjelpetekst';
 import { SortInfoikon } from '../../../../components/ikoner/SortInfoikon';
+import { useErAktivPeriodeISisteSkjæringstidspunkt } from '../../../../hooks/revurdering';
 import { useEndringerForPeriode, useUtbetalingForSkjæringstidspunkt } from '../../../../state/person';
 import { useAktivPeriode } from '../../../../state/tidslinje';
 import { getKildeType, kilde } from '../../../../utils/inntektskilde';
@@ -76,6 +77,7 @@ export const Inntekt = ({ omregnetÅrsinntekt, organisasjonsnummer }: InntektPro
 
     const ikkeUtbetaltVedSkjæringstidspunkt = useIkkeUtbetaltVedSkjæringstidspunkt();
     const harKunEnArbeidsgiver = useInntektskilde() === 'EN_ARBEIDSGIVER';
+    const erAktivPeriodeISisteSkjæringstidspunkt = useErAktivPeriodeISisteSkjæringstidspunkt();
 
     const endringer = useEndringerForPeriode(organisasjonsnummer);
 
@@ -102,9 +104,13 @@ export const Inntekt = ({ omregnetÅrsinntekt, organisasjonsnummer }: InntektPro
                         style={{ justifySelf: 'flex-end' }}
                     />
                 )}
-                {!harKunEnArbeidsgiver && (
+                {(!harKunEnArbeidsgiver || !erAktivPeriodeISisteSkjæringstidspunkt) && (
                     <PopoverHjelpetekst ikon={<SortInfoikon />}>
-                        <p>Kan ikke endre inntekt, det er foreløpig ikke støtte for saker med flere arbeidsgivere</p>
+                        <p>
+                            {!erAktivPeriodeISisteSkjæringstidspunkt
+                                ? 'Det er foreløpig ikke støtte for endringer i saker i tidligere skjæringstidspunkt'
+                                : 'Kan ikke endre inntekt, det er foreløpig ikke støtte for saker med flere arbeidsgivere'}
+                        </p>
                     </PopoverHjelpetekst>
                 )}
             </Header>
