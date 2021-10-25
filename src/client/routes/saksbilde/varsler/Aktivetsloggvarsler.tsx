@@ -15,6 +15,7 @@ type WikiEntry = {
     betydning: string;
     løsning: string;
     viktighet: string;
+    type?: 'error' | 'warning' | 'info' | 'success';
 };
 
 export const Aktivitetsloggvarsler = React.memo(({ varsler }: { varsler: string[] }) => {
@@ -25,7 +26,7 @@ export const Aktivitetsloggvarsler = React.memo(({ varsler }: { varsler: string[
                 const wikiAktivitet: WikiEntry | undefined = wikis.find((it) => it.varsel === aktivitet);
                 if (wikiAktivitet && (wikiAktivitet.betydning.length > 0 || wikiAktivitet.løsning.length > 0)) {
                     return (
-                        <EkspanderbartVarsel key={index} label={aktivitet}>
+                        <EkspanderbartVarsel key={index} label={aktivitet} type={wikiAktivitet.type}>
                             <Varselseksjon tittel="Hva betyr det?">{wikiAktivitet.betydning}</Varselseksjon>
                             <Varselseksjon tittel="Hva gjør du?">{wikiAktivitet.løsning}</Varselseksjon>
                         </EkspanderbartVarsel>
