@@ -35,6 +35,7 @@ const Tittel = styled.h1`
 const Textarea = styled(NavTextarea)`
     margin-top: 1rem;
     margin-bottom: 1rem;
+    white-space: pre-line;
 
     textarea {
         min-height: 120px;
@@ -107,9 +108,8 @@ export const NyttNotatModal = ({ onClose, personinfo, vedtaksperiodeId, onPostNo
                         render={({ field: { onChange, onBlur, value, name, ref }, fieldState: { error } }) => (
                             <Textarea
                                 label="Begrunnelse"
-                                hideLabel
                                 error={error?.message}
-                                placeholder="Skriv hvorfor saken er lagt på vent, så det er lettere å starte igjen senere.&#10;Eks: Kontaktet arbeidsgiver, fikk ikke svar.&#10;Kommer ikke i vedtaksbrevet, men vil bli forevist bruker ved spørsmål om innsyn."
+                                description={`Skriv hvorfor saken er lagt på vent, så det er lettere å starte igjen senere.\nEks: Kontaktet arbeidsgiver, fikk ikke svar.\nKommer ikke i vedtaksbrevet, men vil bli forevist bruker ved spørsmål om innsyn.`}
                                 onChange={onChange}
                                 onBlur={onBlur}
                                 value={value ?? ''}
