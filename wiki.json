@@ -331,9 +331,9 @@
         "type": "error"
     },
     {
-        "varsel": "Fant ikke refusjonsgrad for perioden. Undersøk før du utbetaler.",
+        "varsel": "Fant ikke refusjonsgrad for perioden. Undersøk oppgitt refusjon før du utbetaler.",
         "betydning": "Fant ikke informasjon om det er refusjon i perioden. Refusjonen er satt til 100 % siden det samsvarer med siste utbetalte periode i Infotrygd.",
-        "løsning": "Undersøk hva som er riktig. Refusjonen er satt til 100 % siden det samsvarer med siste utbetalte periode i Infotrygd. Dersom refusjonen er satt feil må perioden behandles i Infotrygd.",
+        "løsning": "Undersøk hva som er oppgitt i siste inntektsmelding og eventuell informasjon i Infotrygd. Dersom refusjonen er satt feil må perioden behandles i Infotrygd.",
         "viktighet": "Høy"
     },
     {
