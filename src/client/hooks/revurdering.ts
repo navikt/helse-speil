@@ -1,5 +1,7 @@
+import dayjs from 'dayjs';
+
 import { usePerson } from '../state/person';
-import { useMaybeAktivPeriode } from '../state/tidslinje';
+import { useAktivPeriode, useMaybeAktivPeriode } from '../state/tidslinje';
 
 import type { UtbetalingToggles } from '../featureToggles';
 
@@ -10,12 +12,19 @@ const godkjentTilstander: Tidslinjetilstand[] = [
     'revurdertIngenUtbetaling',
 ];
 
+const tidslinjeperioderISisteGenerasjon = (person: Person, periode: Tidslinjeperiode): Tidslinjeperiode[] =>
+    person.arbeidsgivere
+        .map((it) => it.tidslinjeperioder)
+        .filter((it) => it.length > 0)
+        .flatMap((it) => it[0]);
+
 const arbeidsgiversSisteSkjæringstidspunktErLikSkjæringstidspunktetTilPerioden = (
     person: Person,
     periode: Tidslinjeperiode
-) => {
-    const alleTidslinjeperioder = person.arbeidsgivere.map((it) => it.tidslinjeperioder).filter((it) => it.length > 0);
-    const alleTidslinjeperioderISisteGenerasjon = alleTidslinjeperioder.flatMap((it) => it[0]);
+): boolean => {
+    if (!periode.skjæringstidspunkt) return false;
+
+    const alleTidslinjeperioderISisteGenerasjon = tidslinjeperioderISisteGenerasjon(person, periode);
     const periodeFinnesISisteGenerasjon = alleTidslinjeperioderISisteGenerasjon.find(
         (it) => it.id === periode.id && it.beregningId === periode.beregningId && it.unique === periode.unique
     );
@@ -23,18 +32,11 @@ const arbeidsgiversSisteSkjæringstidspunktErLikSkjæringstidspunktetTilPerioden
     if (!periodeFinnesISisteGenerasjon) return false;
 
     const arbeidsgiver = person.arbeidsgivere.find((arb) => arb.organisasjonsnummer === periode.organisasjonsnummer);
-    const arbeidsgiversSisteTidslinjeperiode = arbeidsgiver?.tidslinjeperioder[0].filter((it) => it.fullstendig)[0];
+    const sistePeriode = arbeidsgiver?.tidslinjeperioder[0].filter((it) => it.fullstendig)[0];
 
-    const sisteVedtaksperiodeForArbeidsgiver = person.arbeidsgivere
-        .flatMap((it) => it.vedtaksperioder)
-        .filter((it) => it.fullstendig)
-        .map((it) => it as Vedtaksperiode)
-        .find((it) => it.id === arbeidsgiversSisteTidslinjeperiode?.id);
+    if (!sistePeriode?.skjæringstidspunkt) return false;
 
-    const arbeidsgiversSisteSkjæringstidspunkt =
-        sisteVedtaksperiodeForArbeidsgiver?.vilkår?.dagerIgjen.skjæringstidspunkt;
-    if (!periode.skjæringstidspunkt) return false;
-    return arbeidsgiversSisteSkjæringstidspunkt?.isSame(periode.skjæringstidspunkt, 'day') ?? false;
+    return dayjs(sistePeriode.skjæringstidspunkt).isSame(periode.skjæringstidspunkt, 'day');
 };
 
 const overlapper = (periode: Tidslinjeperiode, other: Tidslinjeperiode) =>
@@ -95,6 +97,19 @@ export const useOverstyrRevurderingIsEnabled = (toggles: UtbetalingToggles) => {
         toggles.overstyreUtbetaltPeriodeEnabled &&
         alleOverlappendePerioderErTilRevurdering(person, periode) &&
         arbeidsgiversSisteSkjæringstidspunktErLikSkjæringstidspunktetTilPerioden(person, periode)
+    );
+};
+
+export const useErAktivPeriodeISisteBehandledeSkjæringstidspunkt = (): boolean => {
+    const periode = useAktivPeriode();
+    const person = usePerson();
+
+    if (!person) throw Error('Forventet person, men fant ingen');
+
+    return (
+        tidslinjeperioderISisteGenerasjon(person, periode)
+            .filter((it) => dayjs(it.skjæringstidspunkt).isAfter(periode.skjæringstidspunkt))
+            .filter((it) => !['oppgaver', 'venter', 'venterPåKiling'].includes(it.tilstand)).length === 0
     );
 };
 

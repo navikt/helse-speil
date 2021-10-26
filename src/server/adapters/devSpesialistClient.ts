@@ -89,7 +89,7 @@ const filenameForPersonId = (id: string) => {
             return 'dronning-sonja_infotrygdforlengelse.json';
         case '2836012894592':
         case '19047622436':
-            return 'sniff_førstegangsbehandling_revurdering.json';
+            return 'sniff_to_skjæringstidspunkt_første_utbetalt.json';
         case '2259231338047':
         case '09038400182':
             return 'luke_skywalker_revurdering.json';
@@ -98,7 +98,7 @@ const filenameForPersonId = (id: string) => {
             return 'mummitrollet_revurdering_tre_perioder.json';
         case '1000000009872':
         case '21023701902':
-            return 'snorkfrøken_flere_arbeidsgivere.json';
+            return 'snorkfrøken_to_utbetalte_skjæringstidspunkt.json';
         case '05068821403':
         case '2446602102797':
             return 'hufsa_annullert.json';

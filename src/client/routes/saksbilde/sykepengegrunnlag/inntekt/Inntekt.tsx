@@ -9,7 +9,7 @@ import { Flex, FlexColumn } from '../../../../components/Flex';
 import { Kilde } from '../../../../components/Kilde';
 import { PopoverHjelpetekst } from '../../../../components/PopoverHjelpetekst';
 import { SortInfoikon } from '../../../../components/ikoner/SortInfoikon';
-import { useErAktivPeriodeISisteSkjæringstidspunkt } from '../../../../hooks/revurdering';
+import { useErAktivPeriodeISisteBehandledeSkjæringstidspunkt } from '../../../../hooks/revurdering';
 import { useEndringerForPeriode, useUtbetalingForSkjæringstidspunkt } from '../../../../state/person';
 import { useAktivPeriode } from '../../../../state/tidslinje';
 import { getKildeType, kilde } from '../../../../utils/inntektskilde';
@@ -77,7 +77,7 @@ export const Inntekt = ({ omregnetÅrsinntekt, organisasjonsnummer }: InntektPro
 
     const ikkeUtbetaltVedSkjæringstidspunkt = useIkkeUtbetaltVedSkjæringstidspunkt();
     const harKunEnArbeidsgiver = useInntektskilde() === 'EN_ARBEIDSGIVER';
-    const erAktivPeriodeISisteSkjæringstidspunkt = useErAktivPeriodeISisteSkjæringstidspunkt();
+    const erAktivPeriodeISisteBehandledeSkjæringstidspunkt = useErAktivPeriodeISisteBehandledeSkjæringstidspunkt();
 
     const endringer = useEndringerForPeriode(organisasjonsnummer);
 
@@ -94,25 +94,25 @@ export const Inntekt = ({ omregnetÅrsinntekt, organisasjonsnummer }: InntektPro
                         <Kilde type={getKildeType(omregnetÅrsinntekt?.kilde)}>{kilde(omregnetÅrsinntekt?.kilde)}</Kilde>
                     )}
                 </Flex>
-                {overstyrInntektEnabled && harKunEnArbeidsgiver && (
-                    <EditButton
-                        isOpen={editing}
-                        openText="Avbryt"
-                        closedText={ikkeUtbetaltVedSkjæringstidspunkt ? 'Endre' : 'Revurder'}
-                        onOpen={() => setEditing(true)}
-                        onClose={() => setEditing(false)}
-                        style={{ justifySelf: 'flex-end' }}
-                    />
-                )}
-                {(!harKunEnArbeidsgiver || !erAktivPeriodeISisteSkjæringstidspunkt) && (
-                    <PopoverHjelpetekst ikon={<SortInfoikon />}>
-                        <p>
-                            {!erAktivPeriodeISisteSkjæringstidspunkt
-                                ? 'Det er foreløpig ikke støtte for endringer i saker i tidligere skjæringstidspunkt'
-                                : 'Kan ikke endre inntekt, det er foreløpig ikke støtte for saker med flere arbeidsgivere'}
-                        </p>
-                    </PopoverHjelpetekst>
-                )}
+                {overstyrInntektEnabled &&
+                    (harKunEnArbeidsgiver && erAktivPeriodeISisteBehandledeSkjæringstidspunkt ? (
+                        <EditButton
+                            isOpen={editing}
+                            openText="Avbryt"
+                            closedText={ikkeUtbetaltVedSkjæringstidspunkt ? 'Endre' : 'Revurder'}
+                            onOpen={() => setEditing(true)}
+                            onClose={() => setEditing(false)}
+                            style={{ justifySelf: 'flex-end' }}
+                        />
+                    ) : (
+                        <PopoverHjelpetekst ikon={<SortInfoikon />}>
+                            <p>
+                                {!erAktivPeriodeISisteBehandledeSkjæringstidspunkt
+                                    ? 'Det er foreløpig ikke støtte for endringer i saker i tidligere skjæringstidspunkt'
+                                    : 'Kan ikke endre inntekt, det er foreløpig ikke støtte for saker med flere arbeidsgivere'}
+                            </p>
+                        </PopoverHjelpetekst>
+                    ))}
             </Header>
             {editing ? (
                 <EditableInntekt
