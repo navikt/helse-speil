@@ -341,5 +341,11 @@
         "betydning": "En endring i måten utbetalinger bygges på, gjør at vi i en overgangsperiode ønsker å kontrollere utbetalinger som endrer på en tidligere opphørt periode.",
         "løsning": "Kontroller at simuleringen ser riktig ut.",
         "viktighet": "Høy"
+    },
+    {
+        "varsel": "Bruker har flere inntektskilder de siste tre månedene enn arbeidsforhold som er oppdaget i Aa-registeret.",
+        "betydning": "Bruker kan være frilanser.",
+        "løsning": "Sjekk om bruker er kombinert arbeidstaker og frilanser. Hvis ja, send saken til Infotrygd.",
+        "viktighet": "Høy"
     }
 ]
