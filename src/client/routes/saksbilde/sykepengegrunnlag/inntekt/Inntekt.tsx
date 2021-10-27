@@ -9,7 +9,7 @@ import { Flex, FlexColumn } from '../../../../components/Flex';
 import { Kilde } from '../../../../components/Kilde';
 import { PopoverHjelpetekst } from '../../../../components/PopoverHjelpetekst';
 import { SortInfoikon } from '../../../../components/ikoner/SortInfoikon';
-import { useErAktivPeriodeISisteBehandledeSkjæringstidspunkt } from '../../../../hooks/revurdering';
+import { useErAktivPeriodeISisteSkjæringstidspunkt } from '../../../../hooks/revurdering';
 import { useEndringerForPeriode, useUtbetalingForSkjæringstidspunkt } from '../../../../state/person';
 import { useAktivPeriode } from '../../../../state/tidslinje';
 import { getKildeType, kilde } from '../../../../utils/inntektskilde';
@@ -77,7 +77,7 @@ export const Inntekt = ({ omregnetÅrsinntekt, organisasjonsnummer }: InntektPro
 
     const ikkeUtbetaltVedSkjæringstidspunkt = useIkkeUtbetaltVedSkjæringstidspunkt();
     const harKunEnArbeidsgiver = useInntektskilde() === 'EN_ARBEIDSGIVER';
-    const erAktivPeriodeISisteBehandledeSkjæringstidspunkt = useErAktivPeriodeISisteBehandledeSkjæringstidspunkt();
+    const erAktivPeriodeISisteSkjæringstidspunkt = useErAktivPeriodeISisteSkjæringstidspunkt();
 
     const endringer = useEndringerForPeriode(organisasjonsnummer);
 
@@ -95,7 +95,7 @@ export const Inntekt = ({ omregnetÅrsinntekt, organisasjonsnummer }: InntektPro
                     )}
                 </Flex>
                 {overstyrInntektEnabled &&
-                    (harKunEnArbeidsgiver && erAktivPeriodeISisteBehandledeSkjæringstidspunkt ? (
+                    (harKunEnArbeidsgiver && erAktivPeriodeISisteSkjæringstidspunkt ? (
                         <EditButton
                             isOpen={editing}
                             openText="Avbryt"
@@ -107,7 +107,7 @@ export const Inntekt = ({ omregnetÅrsinntekt, organisasjonsnummer }: InntektPro
                     ) : (
                         <PopoverHjelpetekst ikon={<SortInfoikon />}>
                             <p>
-                                {!erAktivPeriodeISisteBehandledeSkjæringstidspunkt
+                                {!erAktivPeriodeISisteSkjæringstidspunkt
                                     ? 'Det er foreløpig ikke støtte for endringer i saker i tidligere skjæringstidspunkt'
                                     : 'Kan ikke endre inntekt, det er foreløpig ikke støtte for saker med flere arbeidsgivere'}
                             </p>

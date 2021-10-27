@@ -104,7 +104,7 @@ const filenameForPersonId = (id: string) => {
             return 'hufsa_annullert.json';
         case '19026500128':
         case '2750243667998':
-            return 'stinky_stank_førstegangsbehandling.json';
+            return 'stinky_stank_to_skjæringstidspunkt_første_ingen_utbetaling.json';
         case '2750243667999':
         case '19026500129':
             return 'teknobasse_revurderer_revurderinger.json';

@@ -232,6 +232,7 @@ export const Utbetaling: React.FC<UtbetalingProps> = React.memo(({ periode, over
     const overstyringIsEnabled = useOverstyringIsEnabled();
     const revurderingIsEnabled = useRevurderingIsEnabled(defaultUtbetalingToggles);
     const overstyrRevurderingIsEnabled = useOverstyrRevurderingIsEnabled(defaultUtbetalingToggles);
+    const erAktivPeriodeISisteSkjæringstidspunkt = useErAktivPeriodeISisteSkjæringstidspunkt();
 
     const gjenståendeDager = useGjenståendeDager(periode.beregningId);
     const maksdato = useMaksdato(periode.beregningId);
@@ -243,7 +244,8 @@ export const Utbetaling: React.FC<UtbetalingProps> = React.memo(({ periode, over
         periode: periode,
     });
 
-    return revurderingIsEnabled || overstyringIsEnabled || overstyrRevurderingIsEnabled ? (
+    return (revurderingIsEnabled || overstyringIsEnabled || overstyrRevurderingIsEnabled) &&
+        erAktivPeriodeISisteSkjæringstidspunkt ? (
         <OverstyrbarUtbetaling
             fom={periode.fom}
             tom={periode.tom}
