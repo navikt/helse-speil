@@ -11,6 +11,7 @@ import { PopoverHjelpetekst } from '../../../components/PopoverHjelpetekst';
 import { SortInfoikon } from '../../../components/ikoner/SortInfoikon';
 import {
     useErAktivPeriodeISisteSkjæringstidspunkt,
+    useErTidslinjeperiodeISisteGenerasjon,
     useOverstyrRevurderingIsEnabled,
     useRevurderingIsEnabled,
 } from '../../../hooks/revurdering';
@@ -205,10 +206,11 @@ interface ReadonlyUtbetalingProps {
 
 const ReadonlyUtbetaling: React.FC<ReadonlyUtbetalingProps> = ({ fom, tom, dager }) => {
     const erAktivPeriodeISisteSkjæringstidspunkt = useErAktivPeriodeISisteSkjæringstidspunkt();
+    const erTidslinjeperiodeISisteGenerasjon = useErTidslinjeperiodeISisteGenerasjon();
 
     return (
         <Container>
-            {!erAktivPeriodeISisteSkjæringstidspunkt && (
+            {!erAktivPeriodeISisteSkjæringstidspunkt && erTidslinjeperiodeISisteGenerasjon && (
                 <InfobobleContainer>
                     <PopoverHjelpetekst ikon={<SortInfoikon />}>
                         <p>Det er foreløpig ikke støtte for endringer i saker i tidligere skjæringstidspunkt</p>

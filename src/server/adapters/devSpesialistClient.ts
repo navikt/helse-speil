@@ -101,7 +101,7 @@ const filenameForPersonId = (id: string) => {
             return 'snorkfrøken_to_utbetalte_skjæringstidspunkt.json';
         case '05068821403':
         case '2446602102797':
-            return 'hufsa_annullert.json';
+            return 'hufsa_flere_ag_forlengelse_første_utbetalt.json';
         case '19026500128':
         case '2750243667998':
             return 'stinky_stank_to_skjæringstidspunkt_første_ingen_utbetaling.json';

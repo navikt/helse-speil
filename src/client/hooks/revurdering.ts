@@ -18,18 +18,20 @@ const tidslinjeperioderISisteGenerasjon = (person: Person, periode: Tidslinjeper
         .filter((it) => it.length > 0)
         .flatMap((it) => it[0]);
 
+const periodeFinnesISisteGenerasjon = (person: Person, periode: Tidslinjeperiode): boolean =>
+    tidslinjeperioderISisteGenerasjon(person, periode).find(
+        (it) => it.id === periode.id && it.beregningId === periode.beregningId && it.unique === periode.unique
+    ) !== undefined;
+
 const arbeidsgiversSisteSkjæringstidspunktErLikSkjæringstidspunktetTilPerioden = (
     person: Person,
     periode: Tidslinjeperiode
 ): boolean => {
     if (!periode.skjæringstidspunkt) return false;
 
-    const alleTidslinjeperioderISisteGenerasjon = tidslinjeperioderISisteGenerasjon(person, periode);
-    const periodeFinnesISisteGenerasjon = alleTidslinjeperioderISisteGenerasjon.find(
-        (it) => it.id === periode.id && it.beregningId === periode.beregningId && it.unique === periode.unique
-    );
+    const periodenFinnesISisteGenerasjon = periodeFinnesISisteGenerasjon(person, periode);
 
-    if (!periodeFinnesISisteGenerasjon) return false;
+    if (!periodenFinnesISisteGenerasjon) return false;
 
     const arbeidsgiver = person.arbeidsgivere.find((arb) => arb.organisasjonsnummer === periode.organisasjonsnummer);
     const sistePeriode = arbeidsgiver?.tidslinjeperioder[0].filter((it) => it.fullstendig)[0];
@@ -100,17 +102,13 @@ export const useOverstyrRevurderingIsEnabled = (toggles: UtbetalingToggles) => {
     );
 };
 
-export const useErAktivPeriodeISisteBehandledeSkjæringstidspunkt = (): boolean => {
+export const useErTidslinjeperiodeISisteGenerasjon = (): boolean => {
     const periode = useAktivPeriode();
     const person = usePerson();
 
     if (!person) throw Error('Forventet person, men fant ingen');
 
-    return (
-        tidslinjeperioderISisteGenerasjon(person, periode)
-            .filter((it) => dayjs(it.skjæringstidspunkt).isAfter(periode.skjæringstidspunkt))
-            .filter((it) => !['oppgaver', 'venter', 'venterPåKiling'].includes(it.tilstand)).length === 0
-    );
+    return periodeFinnesISisteGenerasjon(person, periode);
 };
 
 export const useErAktivPeriodeISisteSkjæringstidspunkt = (): boolean => {
