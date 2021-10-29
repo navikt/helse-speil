@@ -175,7 +175,7 @@
     },
     {
         "varsel": "Ingenting ble simulert",
-        "betydning": "Når det er oppgitt ferieavvikling i hele søknadsperioden",
+        "betydning": "Det er oppgitt ferieavvikling i hele søknadsperioden",
         "løsning": "Sjekk om ferieavvikling er oppgitt i søknaden",
         "viktighet": "Lav"
     },
@@ -193,8 +193,8 @@
     },
     {
         "varsel": "Det finnes åpne oppgaver på sykepenger i Gosys",
-        "betydning": "Når det ligger aktiv Gosys oppgaver med tema sykepenger.",
-        "løsning": "Sjekk Gosys oppgaven(ene) og vurder om de påvirker saksbehandlingen.",
+        "betydning": "Det ligger aktive oppgaver med tema sykepenger i Gosys.",
+        "løsning": "Sjekk Gosys-oppgavene og vurder om de påvirker saksbehandlingen.",
         "viktighet": "Høy"
     },
     {
@@ -205,7 +205,7 @@
     },
     {
         "varsel": "Første fraværsdag oppgitt i inntektsmeldingen er ulik den systemet har beregnet. Utbetal kun hvis dagsatsen er korrekt",
-        "betydning": "Når det er forskjell mellom det arbeidsgiver oppgir som første fraværsdag og sykmeldings fra og med dato.",
+        "betydning": "Det er forskjell mellom det arbeidsgiver har oppgitt som første fraværsdag og sykmeldingens fra og med-dato.",
         "løsning": "Sjekk om dagsatsen er riktig, og om saken faktisk er under 25 prosent avvik med sammenligningsgrunnlaget.",
         "viktighet": "Lav"
     },
