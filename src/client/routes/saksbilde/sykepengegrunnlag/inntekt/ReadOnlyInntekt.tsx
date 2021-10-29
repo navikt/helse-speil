@@ -1,9 +1,10 @@
 import styled from '@emotion/styled';
 import React from 'react';
 
-import { InformationFilled } from '@navikt/ds-icons';
 import { BodyShort, Heading } from '@navikt/ds-react';
 
+import { PopoverHjelpetekst } from '../../../../components/PopoverHjelpetekst';
+import { SortInfoikon } from '../../../../components/ikoner/SortInfoikon';
 import { getKildeType } from '../../../../utils/inntektskilde';
 import { somPenger } from '../../../../utils/locale';
 
@@ -34,6 +35,10 @@ const Tittel = styled(Heading)`
     margin-bottom: 1.25rem;
 `;
 
+const Tittellinje = styled.div`
+    display: flex;
+`;
+
 const Divider = styled.hr`
     border: none;
     border-bottom: 1px solid #b7b1a9;
@@ -42,11 +47,17 @@ const Divider = styled.hr`
     margin: 38px 0 42px 0;
 `;
 
-const InformationIcon = styled(InformationFilled)`
-    color: var(--speil-info-ikon);
-    margin-left: 17px;
-    height: 24px;
-    width: 24px;
+const InfobobleContainer = styled.div`
+    min-height: 24px;
+    margin-left: 1rem;
+`;
+
+const Popovertekst = styled.div`
+    width: 30rem;
+
+    p {
+        line-height: 1.5rem;
+    }
 `;
 
 const getMonthName = (yearMonth: string) => {
@@ -70,10 +81,26 @@ const getMonthName = (yearMonth: string) => {
 const InntektFraAordningen = ({ omregnetÅrsinntekt }: { omregnetÅrsinntekt: ExternalOmregnetÅrsinntekt }) => {
     return (
         <>
-            <Tittel as="h3" size="medium">
-                Rapportert siste 3 måneder
-                <InformationIcon />
-            </Tittel>
+            <Tittellinje>
+                <Tittel as="h3" size="medium">
+                    Rapportert siste 3 måneder
+                </Tittel>
+                <InfobobleContainer>
+                    <PopoverHjelpetekst ikon={<SortInfoikon />}>
+                        <Popovertekst>
+                            <Bold as="p">
+                                Ved manglende inntektsmelding legges 3 siste måneders innrapporterte inntekt til grunn
+                            </Bold>
+                            <br />
+                            <p>
+                                Avviket regnes ut ved å ta 3 siste måneders innrapporte inntekt, regne det om til 12
+                                måneder - og sammenligne med 12 siste måneders innrapporterte inntekt. Avviket brukes
+                                for å sannsynliggjøre at inntekten som legges til grunn er normal.
+                            </p>
+                        </Popovertekst>
+                    </PopoverHjelpetekst>
+                </InfobobleContainer>
+            </Tittellinje>
             <Tabell>
                 {omregnetÅrsinntekt.inntekterFraAOrdningen?.map((inntekt, i) => {
                     return (
