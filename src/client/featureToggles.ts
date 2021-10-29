@@ -26,6 +26,8 @@ const tilgangFlereArbeidsgivere = [
     'D163344',
     'F131882',
     'I104299',
+    'F131883',
+    'J153777',
 ];
 
 const utvidetTilganger = [
@@ -48,6 +50,7 @@ const utvidetTilganger = [
     'W110120',
     'D163344',
     'A110417',
+    'J153777',
 ];
 
 const kanRevurdere = [
@@ -71,6 +74,7 @@ const kanRevurdere = [
     'W110120',
     'D163344',
     'A110417',
+    'J153777',
 ];
 
 export const erLocal = () => location.hostname === 'localhost';
