@@ -33,7 +33,7 @@ const Merknad: React.VFC<MerknadProps> = ({ begrunnelse }) => {
             );
         case 'MinimumSykdomsgrad':
             return (
-                <Container data-tip="Sykdomsgrad under 20%">
+                <Container data-tip="Sykdomsgrad under 20 %">
                     <LovdataLenke paragraf="8-13">§ 8-13</LovdataLenke>
                 </Container>
             );
@@ -42,6 +42,13 @@ const Merknad: React.VFC<MerknadProps> = ({ begrunnelse }) => {
             return (
                 <Container data-tip="Inntekt under krav til minste sykepengegrunnlag">
                     <LovdataLenke paragraf={paragraf}>§ {paragraf}</LovdataLenke>
+                </Container>
+            );
+        }
+        case 'MinimumInntektOver67': {
+            return (
+                <Container data-tip="Inntekt under krav til minste sykepengegrunnlag">
+                    <LovdataLenke paragraf="8-51">§ 8-51</LovdataLenke>
                 </Container>
             );
         }
@@ -59,6 +66,12 @@ const Merknad: React.VFC<MerknadProps> = ({ begrunnelse }) => {
                     <LovdataLenke paragraf="2-" harParagraf={false}>
                         kap. 2
                     </LovdataLenke>
+                </Container>
+            );
+        case 'SykepengedagerOppbruktOver67':
+            return (
+                <Container data-tip="Maks antall sykepengedager er nådd">
+                    <LovdataLenke paragraf="8-51">§ 8-51</LovdataLenke>
                 </Container>
             );
         case 'SykepengedagerOppbrukt':

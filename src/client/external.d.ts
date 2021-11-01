@@ -342,7 +342,9 @@ declare type ExternalUtbetalingsinfo = {
 
 declare type ExternalBegrunnelser =
     | 'SykepengedagerOppbrukt'
+    | 'SykepengedagerOppbruktOver67'
     | 'MinimumInntekt'
+    | 'MinimumInntektOver67'
     | 'EgenmeldingUtenforArbeidsgiverperiode'
     | 'MinimumSykdomsgrad'
     | 'EtterDødsdato'

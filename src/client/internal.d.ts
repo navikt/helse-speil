@@ -37,9 +37,11 @@ declare type Avvisning = {
         | 'EgenmeldingUtenforArbeidsgiverperiode'
         | 'MinimumSykdomsgrad'
         | 'MinimumInntekt'
+        | 'MinimumInntektOver67'
         | 'ManglerOpptjening'
         | 'ManglerMedlemskap'
         | 'Over70'
+        | 'SykepengedagerOppbruktOver67'
         | 'SykepengedagerOppbrukt';
     paragraf?: string;
 };
