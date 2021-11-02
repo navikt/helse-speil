@@ -28,6 +28,7 @@ const tilgangFlereArbeidsgivere = [
     'I104299',
     'F131883',
     'J153777',
+    'S135852',
 ];
 
 const utvidetTilganger = [
