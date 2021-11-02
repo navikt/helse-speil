@@ -30,14 +30,14 @@ const FetVerdi = styled(Bold)`
 
 const Tittel = styled(Heading)`
     display: flex;
-    align-items: center;
     font-size: 18px;
     color: var(--navds-color-text-primary);
-    margin-bottom: 1.25rem;
 `;
 
 const Tittellinje = styled.div`
     display: flex;
+    margin-bottom: 1.25rem;
+    align-items: center;
 `;
 
 const Divider = styled.hr`
@@ -51,14 +51,6 @@ const Divider = styled.hr`
 const InfobobleContainer = styled.div`
     min-height: 24px;
     margin-left: 1rem;
-`;
-
-const Popovertekst = styled.div`
-    width: 30rem;
-
-    p {
-        line-height: 1.5rem;
-    }
 `;
 
 const getMonthName = (yearMonth: string) => {
@@ -104,17 +96,10 @@ const InntektFraAordningen = ({ omregnetÅrsinntekt }: { omregnetÅrsinntekt: Ex
                 </Tittel>
                 <InfobobleContainer>
                     <PopoverHjelpetekst ikon={<SortInfoikon />}>
-                        <Popovertekst>
-                            <Bold as="p">
-                                Ved manglende inntektsmelding legges 3 siste måneders innrapporterte inntekt til grunn
-                            </Bold>
-                            <br />
-                            <p>
-                                Avviket regnes ut ved å ta 3 siste måneders innrapporte inntekt, regne det om til 12
-                                måneder - og sammenligne med 12 siste måneders innrapporterte inntekt. Avviket brukes
-                                for å sannsynliggjøre at inntekten som legges til grunn er normal.
-                            </p>
-                        </Popovertekst>
+                        <p>
+                            Ved manglende inntektsmelding legges 3 siste måneders innrapporterte inntekter fra
+                            A-ordningen til grunn
+                        </p>
                     </PopoverHjelpetekst>
                 </InfobobleContainer>
             </Tittellinje>
