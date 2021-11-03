@@ -1,5 +1,6 @@
 import dayjs from 'dayjs';
 
+import { useArbeidsgiver } from '../modell/arbeidsgiver';
 import { usePerson } from '../state/person';
 import { useAktivPeriode, useMaybeAktivPeriode } from '../state/tidslinje';
 
@@ -120,4 +121,27 @@ export const useErAktivPeriodeISisteSkjæringstidspunkt = (): boolean => {
     }
 
     return arbeidsgiversSisteSkjæringstidspunktErLikSkjæringstidspunktetTilPerioden(person, periode);
+};
+
+export const useHarKunEnFagsystemIdPåArbeidsgiverIAktivPeriode = (): boolean => {
+    const arbeidsgiver = useArbeidsgiver();
+    const aktivPeriode = useAktivPeriode();
+
+    return (
+        Object.keys(
+            groupBy(
+                arbeidsgiver.tidslinjeperioder[0].filter(
+                    (it) => it.skjæringstidspunkt === aktivPeriode.skjæringstidspunkt
+                ),
+                'fagsystemId'
+            )
+        ).length === 1 ?? false
+    );
+};
+
+const groupBy = (xs: any[], key: string): any[] => {
+    return xs.reduce((rv, x) => {
+        (rv[x[key]] = rv[x[key]] || []).push(x);
+        return rv;
+    }, {});
 };

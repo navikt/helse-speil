@@ -5,7 +5,7 @@ import { Varseltype } from '@navikt/helse-frontend-varsel';
 
 import { deletePåVent, getPerson, postLeggPåVent } from '../io/http';
 import { mapPerson } from '../mapping/person';
-import { useArbeidsgiver as useArbeidsgiverUtenParametre } from '../modell/arbeidsgiver';
+import { useMaybeArbeidsgiver as useArbeidsgiverUtenParametre } from '../modell/arbeidsgiver';
 import { useUtbetaling } from '../modell/utbetalingshistorikkelement';
 
 import { anonymisertBoenhet, anonymisertPersoninfo, getAnonymArbeidsgiverForOrgnr } from '../agurkdata';

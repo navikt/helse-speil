@@ -12,6 +12,7 @@ import { SortInfoikon } from '../../../../components/ikoner/SortInfoikon';
 import {
     useErAktivPeriodeISisteSkjæringstidspunkt,
     useErTidslinjeperiodeISisteGenerasjon,
+    useHarKunEnFagsystemIdPåArbeidsgiverIAktivPeriode,
 } from '../../../../hooks/revurdering';
 import {
     useEndringerForPeriode,
@@ -92,8 +93,12 @@ const RedigerInntekt = ({ setEditing, editing }: RedigerInntektProps) => {
     const erSpleisVilkårsgrunnlagtype =
         useVilkårsgrunnlaghistorikk(aktivPeriode.skjæringstidspunkt!, aktivPeriode.vilkårsgrunnlaghistorikkId!)
             ?.vilkårsgrunnlagtype === 'SPLEIS';
+    const erIkkePingPong = useHarKunEnFagsystemIdPåArbeidsgiverIAktivPeriode();
 
-    return harKunEnArbeidsgiver && erAktivPeriodeISisteSkjæringstidspunkt && erSpleisVilkårsgrunnlagtype ? (
+    return harKunEnArbeidsgiver &&
+        erAktivPeriodeISisteSkjæringstidspunkt &&
+        erSpleisVilkårsgrunnlagtype &&
+        erIkkePingPong ? (
         <EditButton
             isOpen={editing}
             openText="Avbryt"
@@ -109,7 +114,7 @@ const RedigerInntekt = ({ setEditing, editing }: RedigerInntektProps) => {
                     ? 'Kan ikke endre inntekt, det er foreløpig ikke støtte for endringer i saker i tidligere skjæringstidspunkt'
                     : !harKunEnArbeidsgiver
                     ? 'Kan ikke endre inntekt, det er foreløpig ikke støtte for saker med flere arbeidsgivere'
-                    : 'Kan ikke endre inntekt, det er foreløpig ikke støtte for endringer i saker som er førstegangsbehandlet i Infotrygd'}
+                    : 'Kan ikke endre inntekt, det er foreløpig ikke støtte for endringer i saker som har vært delvis behandlet i Infotrygd'}
             </p>
         </PopoverHjelpetekst>
     ) : (
