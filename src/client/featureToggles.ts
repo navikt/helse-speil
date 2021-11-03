@@ -52,6 +52,7 @@ const utvidetTilganger = [
     'D163344',
     'A110417',
     'J153777',
+    'D123751',
 ];
 
 const kanRevurdere = [
