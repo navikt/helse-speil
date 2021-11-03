@@ -1,6 +1,6 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
-import React, { useState } from 'react';
+import React, { Dispatch, SetStateAction, useState } from 'react';
 
 import { BodyShort } from '@navikt/ds-react';
 
@@ -13,7 +13,11 @@ import {
     useErAktivPeriodeISisteSkjæringstidspunkt,
     useErTidslinjeperiodeISisteGenerasjon,
 } from '../../../../hooks/revurdering';
-import { useEndringerForPeriode, useUtbetalingForSkjæringstidspunkt } from '../../../../state/person';
+import {
+    useEndringerForPeriode,
+    useUtbetalingForSkjæringstidspunkt,
+    useVilkårsgrunnlaghistorikk,
+} from '../../../../state/person';
 import { useAktivPeriode } from '../../../../state/tidslinje';
 import { getKildeType, kilde } from '../../../../utils/inntektskilde';
 
@@ -74,14 +78,48 @@ interface InntektProps {
     organisasjonsnummer: string;
 }
 
-export const Inntekt = ({ omregnetÅrsinntekt, organisasjonsnummer }: InntektProps) => {
-    const [editing, setEditing] = useState(false);
-    const [endret, setEndret] = useState(false);
+interface RedigerInntektProps {
+    setEditing: Dispatch<SetStateAction<boolean>>;
+    editing: boolean;
+}
 
+const RedigerInntekt = ({ setEditing, editing }: RedigerInntektProps) => {
     const ikkeUtbetaltVedSkjæringstidspunkt = useIkkeUtbetaltVedSkjæringstidspunkt();
     const harKunEnArbeidsgiver = useInntektskilde() === 'EN_ARBEIDSGIVER';
     const erAktivPeriodeISisteSkjæringstidspunkt = useErAktivPeriodeISisteSkjæringstidspunkt();
     const erTidslinjeperiodeISisteGenerasjon = useErTidslinjeperiodeISisteGenerasjon();
+    const aktivPeriode = useAktivPeriode();
+    const erSpleisVilkårsgrunnlagtype =
+        useVilkårsgrunnlaghistorikk(aktivPeriode.skjæringstidspunkt!, aktivPeriode.vilkårsgrunnlaghistorikkId!)
+            ?.vilkårsgrunnlagtype === 'SPLEIS';
+
+    return harKunEnArbeidsgiver && erAktivPeriodeISisteSkjæringstidspunkt && erSpleisVilkårsgrunnlagtype ? (
+        <EditButton
+            isOpen={editing}
+            openText="Avbryt"
+            closedText={ikkeUtbetaltVedSkjæringstidspunkt ? 'Endre' : 'Revurder'}
+            onOpen={() => setEditing(true)}
+            onClose={() => setEditing(false)}
+            style={{ justifySelf: 'flex-end' }}
+        />
+    ) : erTidslinjeperiodeISisteGenerasjon ? (
+        <PopoverHjelpetekst ikon={<SortInfoikon />}>
+            <p>
+                {!erAktivPeriodeISisteSkjæringstidspunkt
+                    ? 'Kan ikke endre inntekt, det er foreløpig ikke støtte for endringer i saker i tidligere skjæringstidspunkt'
+                    : !harKunEnArbeidsgiver
+                    ? 'Kan ikke endre inntekt, det er foreløpig ikke støtte for saker med flere arbeidsgivere'
+                    : 'Kan ikke endre inntekt, det er foreløpig ikke støtte for endringer i saker som er førstegangsbehandlet i Infotrygd'}
+            </p>
+        </PopoverHjelpetekst>
+    ) : (
+        <></>
+    );
+};
+
+export const Inntekt = ({ omregnetÅrsinntekt, organisasjonsnummer }: InntektProps) => {
+    const [editing, setEditing] = useState(false);
+    const [endret, setEndret] = useState(false);
 
     const endringer = useEndringerForPeriode(organisasjonsnummer);
 
@@ -98,27 +136,7 @@ export const Inntekt = ({ omregnetÅrsinntekt, organisasjonsnummer }: InntektPro
                         <Kilde type={getKildeType(omregnetÅrsinntekt?.kilde)}>{kilde(omregnetÅrsinntekt?.kilde)}</Kilde>
                     )}
                 </Flex>
-                {overstyrInntektEnabled &&
-                    (harKunEnArbeidsgiver && erAktivPeriodeISisteSkjæringstidspunkt ? (
-                        <EditButton
-                            isOpen={editing}
-                            openText="Avbryt"
-                            closedText={ikkeUtbetaltVedSkjæringstidspunkt ? 'Endre' : 'Revurder'}
-                            onOpen={() => setEditing(true)}
-                            onClose={() => setEditing(false)}
-                            style={{ justifySelf: 'flex-end' }}
-                        />
-                    ) : (
-                        erTidslinjeperiodeISisteGenerasjon && (
-                            <PopoverHjelpetekst ikon={<SortInfoikon />}>
-                                <p>
-                                    {!erAktivPeriodeISisteSkjæringstidspunkt
-                                        ? 'Det er foreløpig ikke støtte for endringer i saker i tidligere skjæringstidspunkt'
-                                        : 'Kan ikke endre inntekt, det er foreløpig ikke støtte for saker med flere arbeidsgivere'}
-                                </p>
-                            </PopoverHjelpetekst>
-                        )
-                    ))}
+                {overstyrInntektEnabled && <RedigerInntekt setEditing={setEditing} editing={editing} />}
             </Header>
             {editing ? (
                 <EditableInntekt
