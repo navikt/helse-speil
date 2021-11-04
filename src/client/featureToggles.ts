@@ -29,6 +29,14 @@ const tilgangFlereArbeidsgivere = [
     'F131883',
     'J153777',
     'S135852',
+    'S127865',
+    'A158665',
+    'B138607',
+    'L148406',
+    'L105506',
+    'M106091',
+    'P114783',
+    'S112395',
 ];
 
 const utvidetTilganger = [
