@@ -35,7 +35,7 @@ const tilgangFlereArbeidsgivere = [
     'L148406',
     'L105506',
     'M106091',
-    'P114783',
+    'P107343',
     'S112395',
 ];
 
