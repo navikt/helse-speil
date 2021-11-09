@@ -347,5 +347,11 @@
         "betydning": "Bruker kan være frilanser.",
         "løsning": "Sjekk om bruker er kombinert arbeidstaker og frilanser. Hvis ja, send saken til Infotrygd.",
         "viktighet": "Høy"
+    },
+    {
+        "varsel": "Det er oppgitt annen inntektskilde i søknaden. Vurder inntekt.",
+        "betydning": "Den sykmeldte har oppgitt «Annet» som annen inntektskilde i søknaden.",
+        "løsning": "Sjekk hva den andre inntektskilden består av og vurder om saken kan behandles i Speil. Hvis saken ikke kan behandles i Speil, må du behandle saken i Infotrygd.",
+        "viktighet": "Høy"
     }
 ]
