@@ -4,11 +4,21 @@
             "type": "UTBETALING",
             "status": "UTBETALT",
             "arbeidsgiverOppdrag": {
-                "organisasjonsnummer": "972674818",
+                "organisasjonsnummer": "987654321",
                 "fagsystemId": "Y2J5WSNB6NGRVGESZWZL77OOVQ",
                 "utbetalingslinjer": [
                     {
                         "fom": "2021-02-17",
+                        "tom": "2021-02-20"
+                    }
+                ]
+            },
+            "personOppdrag": {
+                "fødselsnummer": "12345678910",
+                "fagsystemId": "Y2J5WSNB6NGRVGESZWZL77OOVQ",
+                "utbetalingslinjer": [
+                    {
+                        "fom": "2021-02-21",
                         "tom": "2021-02-28"
                     }
                 ]

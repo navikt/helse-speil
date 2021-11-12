@@ -399,8 +399,13 @@ declare type Arbeidsgiver = {
 declare type UtbetalingshistorikkUtbetaling = {
     status: string;
     type: string;
-    arbeidsgiverOppdrag: {
+    arbeidsgiverOppdrag?: {
         orgnummer: string;
+        fagsystemId: string;
+        utbetalingslinjer: Periode[];
+    };
+    personOppdrag?: {
+        fødselsnummer: string;
         fagsystemId: string;
         utbetalingslinjer: Periode[];
     };

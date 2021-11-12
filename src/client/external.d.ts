@@ -536,14 +536,22 @@ declare type ExternalArbeidsgiverOppdrag = {
     utbetalingslinjer: ExternalPeriode[];
 };
 
+declare type ExternalPersonOppdrag = {
+    fødselsnummer: string;
+    fagsystemId: string;
+    utbetalingslinjer: ExternalPeriode[];
+};
+
 declare type ExternalUtbetalingElement = {
     status: string;
     type: string;
-    arbeidsgiverOppdrag: ExternalArbeidsgiverOppdrag;
+    arbeidsgiverOppdrag?: ExternalArbeidsgiverOppdrag;
+    personOppdrag?: ExternalPersonOppdrag;
     annullertAvSaksbehandler?: null | {
         annullertTidspunkt: string;
         saksbehandlerNavn: string;
     };
+
     totalbeløp: number | null;
 };
 
