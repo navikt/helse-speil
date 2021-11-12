@@ -37,6 +37,11 @@ const tilgangFlereArbeidsgivere = [
     'M106091',
     'P107343',
     'S112395',
+    'F140836',
+];
+
+const tilgangStikkprøver = [
+    'F140836',
 ];
 
 const utvidetTilganger = [
@@ -95,6 +100,7 @@ const harTilgangTilAlt = () => [...supersaksbehandlere, ...fagkoordinatorer].inc
 const erFaktiskSupportsaksbehandler = () => faktiskSupportsaksbehandlere.includes(extractIdent()); // ref @support på Slack
 const harUtvidetTilgang = () => utvidetTilganger.includes(extractIdent());
 const harTilgangFlereArbeidsgivere = () => tilgangFlereArbeidsgivere.includes(extractIdent());
+const harTilgangStikkprøver = () => tilgangStikkprøver.includes(extractIdent());
 const erAnnulleringsbois = () => erKnudix() || erKevin();
 const erSpiceGirls = () => erMarte() || erKevin() || erAnders() || erHegeir();
 const erKnudix = () => extractIdent() === 'N143409';
@@ -105,11 +111,10 @@ const erMarte = () => extractIdent() === 'T141884';
 const erAnders = () => extractIdent() === 'O142910';
 const erHegeir = () => extractIdent() === 'H161007';
 const erUtvikler = () => extractGroups().includes(groupIdForUtviklere);
-const erSolør = () => erJakob() || erJonas() || erSindre() || erErlend() || erPeter();
+const erSolør = () => erJakob() || erJonas() || erSindre() || erPeter();
 const erJonas = () => extractIdent() === 'H159657';
 const erPeter = () => extractIdent() === 'S159940';
 const erSindre = () => extractIdent() === 'B159939';
-const erErlend = () => extractIdent() === 'v159649';
 const erJakob = () => extractIdent() === 'E156407';
 
 export const overstyrPermisjonsdagerEnabled = erLocal() || erDev();
@@ -134,7 +139,7 @@ export const oppdaterPersondataEnabled =
     erSolør();
 export const amplitudeEnabled = true;
 export const utbetalingsoversikt = erUtvikler() || erLocal() || harTilgangTilAlt() || erDigimort();
-export const stikkprøve = harTilgangTilAlt() || erLocal() || erDev();
+export const stikkprøve = harTilgangStikkprøver() || harTilgangTilAlt() || erLocal() || erDev();
 export const flereArbeidsgivere =
     erSpiceGirls() ||
     erLocal() ||
