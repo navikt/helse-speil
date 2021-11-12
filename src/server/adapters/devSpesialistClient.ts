@@ -128,7 +128,7 @@ const filenameForPersonId = (id: string) => {
             return 'bråkete_konsoll_utbetalt_revurdering_kun_ferie.json';
         case '2287435975702':
         case '11117615092':
-            return 'feilende_opptjeningsvilkår.json';
+            return 'stor_bolle_feilende_opptjeningsvilkår.json';
         case '12020052345':
         case '42':
             return 'abel_tesfaye_ghost.json';

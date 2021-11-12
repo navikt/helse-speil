@@ -8,12 +8,12 @@ import { UtbetalingstabellDag } from './Utbetalingstabell.types';
 describe('TotalRow', () => {
     it('rendrer totalbeløp til utbetaling og totalt antall dager igjen', () => {
         const dager = [
-            ['2021-01-01', { type: 'Syk', utbetaling: 1000, dagerIgjen: 122 }],
-            ['2021-01-02', { type: 'Syk', utbetaling: 1000, dagerIgjen: 121 }],
-            ['2021-01-03', { type: 'Avslått', utbetaling: 1000, dagerIgjen: 121 }],
-            ['2021-01-04', { type: 'Avslått', utbetaling: 1000, dagerIgjen: 121 }],
+            ['2021-01-01', { type: 'Syk', personbeløp: 1000, dagerIgjen: 122 }],
+            ['2021-01-02', { type: 'Syk', personbeløp: 1000, dagerIgjen: 121 }],
+            ['2021-01-03', { type: 'Avslått', personbeløp: 1000, dagerIgjen: 121 }],
+            ['2021-01-04', { type: 'Avslått', personbeløp: 1000, dagerIgjen: 121 }],
             ['2021-01-05', { type: 'Syk', dagerIgjen: 121 }],
-            ['2021-01-06', { type: 'Syk', utbetaling: 1000, dagerIgjen: 120 }],
+            ['2021-01-06', { type: 'Syk', personbeløp: 1000, dagerIgjen: 120 }],
         ] as [string, UtbetalingstabellDag][];
         render(<TotalRow dager={dager} />);
 
@@ -23,12 +23,12 @@ describe('TotalRow', () => {
 
     it('rendrer totalt antall dager igjen riktig når vi går tom for dager igjen', () => {
         const dager = [
-            ['2021-01-01', { type: 'Syk', utbetaling: 1000, dagerIgjen: 2 }],
-            ['2021-01-02', { type: 'Syk', utbetaling: 1000, dagerIgjen: 1 }],
-            ['2021-01-03', { type: 'Avslått', utbetaling: 1000, dagerIgjen: 1 }],
-            ['2021-01-04', { type: 'Avslått', utbetaling: 1000, dagerIgjen: 1 }],
+            ['2021-01-01', { type: 'Syk', personbeløp: 1000, dagerIgjen: 2 }],
+            ['2021-01-02', { type: 'Syk', personbeløp: 1000, dagerIgjen: 1 }],
+            ['2021-01-03', { type: 'Avslått', personbeløp: 1000, dagerIgjen: 1 }],
+            ['2021-01-04', { type: 'Avslått', personbeløp: 1000, dagerIgjen: 1 }],
             ['2021-01-05', { type: 'Syk', dagerIgjen: 1 }],
-            ['2021-01-06', { type: 'Syk', utbetaling: 1000, dagerIgjen: 0 }],
+            ['2021-01-06', { type: 'Syk', personbeløp: 1000, dagerIgjen: 0 }],
         ] as [string, UtbetalingstabellDag][];
         render(<TotalRow dager={dager} />);
 
