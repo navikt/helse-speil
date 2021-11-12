@@ -28,11 +28,11 @@ export const UtbetalingshistorikkRow = ({
     return (
         <tr>
             <Cell>
-                <Bold>{oppdrag.utbetalingslinjer[0].fom.format(NORSK_DATOFORMAT_KORT)}</Bold>
+                <Bold>{oppdrag.utbetalingslinjer[0]?.fom.format(NORSK_DATOFORMAT_KORT)}</Bold>
             </Cell>
             <Cell>
                 <Bold>
-                    {oppdrag.utbetalingslinjer[oppdrag.utbetalingslinjer.length - 1].tom.format(NORSK_DATOFORMAT_KORT)}
+                    {oppdrag.utbetalingslinjer[oppdrag.utbetalingslinjer.length - 1]?.tom.format(NORSK_DATOFORMAT_KORT)}
                 </Bold>
             </Cell>
             <Cell>
