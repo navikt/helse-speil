@@ -49,6 +49,9 @@ declare type Avvisning = {
 declare type Utbetalingsdag = Dag & {
     totalGradering?: number;
     utbetaling?: number;
+    arbeidsgiverbeløp?: number;
+    personbeløp?: number;
+    refusjonsbeløp?: number;
     avvistÅrsaker?: Avvisning[];
 };
 

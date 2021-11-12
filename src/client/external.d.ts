@@ -26,6 +26,9 @@ declare type ExternalUtbetalingsdag = {
     inntekt: number;
     dato: string;
     utbetaling?: number;
+    personbeløp?: number;
+    arbeidsgiverbeløp?: number;
+    refusjonsbeløp?: number;
     grad?: number;
     totalGrad?: number;
     begrunnelser?: string[];
