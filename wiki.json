@@ -120,20 +120,20 @@
         "viktighet": "Lav"
     },
     {
-        "varsel": "Bruker har mottatt AAP innenfor 6 måneder av skjæringstidspunkt. Kontroller at brukeren har rett til sykepenger",
-        "betydning": "Bruker har mottatt AAP innenfor 6 måneder av første fraværsdag",
-        "løsning": "Kontrollér ny opptjeningstid etter maxdato",
+        "varsel": "Bruker har mottatt AAP innenfor 6 måneder før skjæringstidspunktet. Kontroller at brukeren har rett til sykepenger",
+        "betydning": "Bruker har mottatt AAP innenfor 6 måneder før skjæringstidspunktet",
+        "løsning": "Kontrollér ny opptjeningstid etter maksdato",
         "viktighet": "Høy"
     },
     {
         "varsel": "Arena inneholdt en eller flere AAP-perioder med ugyldig fom/tom",
         "betydning": "Det foreligger AAP-perioder med ugyldig fom/tom",
-        "løsning": "Kontrollér ny opptjeningstid etter maxdato",
+        "løsning": "Kontrollér ny opptjeningstid etter maksdato",
         "viktighet": "Høy"
     },
     {
-        "varsel": "Bruker har mottatt dagpenger innenfor 4 uker av skjæringstidspunkt. Kontroller om bruker er dagpengemottaker. Kombinerte ytelser støttes foreløpig ikke av systemet",
-        "betydning": "Bruker har mottatt dagpenger innenfor 4 uker av første fraværsdag:",
+        "varsel": "Bruker har mottatt dagpenger innenfor 4 uker før skjæringstidspunkt. Kontroller om bruker er dagpengemottaker. Kombinerte ytelser støttes foreløpig ikke av systemet",
+        "betydning": "Bruker har mottatt dagpenger innenfor 4 uker før skjæringstidspunktet",
         "løsning": "Sjekk om bruker er dagpengemottaker på sykmeldingstidspunktet. Hvis ja kan ikke saken behandles i dette systemet ennå.",
         "viktighet": "Høy"
     },
