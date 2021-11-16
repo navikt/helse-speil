@@ -38,6 +38,11 @@ const tilgangFlereArbeidsgivere = [
     'P107343',
     'S112395',
     'F140836',
+    'L157337',
+    'S109031',
+    'F160529',
+    'B137568',
+    'T144880',
 ];
 
 const tilgangStikkprøver = [
@@ -67,6 +72,11 @@ const utvidetTilganger = [
     'J153777',
     'D123751',
     'J104651',
+    'L157337',
+    'S109031',
+    'F160529',
+    'B137568',
+    'T144880',
 ];
 
 const kanRevurdere = [
@@ -91,6 +101,11 @@ const kanRevurdere = [
     'D163344',
     'A110417',
     'J153777',
+    'L157337',
+    'S109031',
+    'F160529',
+    'B137568',
+    'T144880',
 ];
 
 export const erLocal = () => location.hostname === 'localhost';
