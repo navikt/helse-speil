@@ -353,5 +353,11 @@
         "betydning": "Den sykmeldte har oppgitt «Annet» som annen inntektskilde i søknaden.",
         "løsning": "Sjekk hva den andre inntektskilden består av og vurder om saken kan behandles i Speil. Hvis saken ikke kan behandles i Speil, må du behandle saken i Infotrygd.",
         "viktighet": "Høy"
+    },
+    {
+        "varsel": "Første utbetalingsdag er i Infotrygd og mellom 1. og 16. mai. Kontroller at riktig grunnbeløp er brukt.",
+        "betydning": "Vi klarer ikke å lese riktig skjæringstidspunkt når saken har startet i Infotrygd. Vi må kontrollere at riktig grunnbeløp er brukt i saker med sykepengegrunnlag over 6G.",
+        "løsning": "Kontroller at dagsatsen samsvarer med grunnbeløpet som skal brukes.",
+        "viktighet": "Høy"
     }
 ]
