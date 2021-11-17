@@ -3,8 +3,7 @@ import { Dayjs } from 'dayjs';
 import { nanoid } from 'nanoid';
 import React, { useMemo } from 'react';
 
-import { getPositionedPeriods } from '@navikt/helse-frontend-timeline/lib';
-import { PeriodObject } from '@navikt/helse-frontend-timeline/lib';
+import { getPositionedPeriods, PeriodObject } from '@navikt/helse-frontend-timeline/lib';
 
 import { NORSK_DATOFORMAT } from '../../../utils/date';
 
@@ -44,6 +43,7 @@ type Infotrygdrader = { [arbeidsgiver: string]: InfotrygdperiodeObject[] };
 
 const hoverLabel = (infotrygdutbetaling: Infotrygdutbetaling) => (
     <Label>
+        <Tekst>Behandlet i Infotrygd</Tekst>
         <Tekst>
             {`Sykepenger (${infotrygdutbetaling.fom.format(NORSK_DATOFORMAT)} - ${infotrygdutbetaling.tom.format(
                 NORSK_DATOFORMAT
