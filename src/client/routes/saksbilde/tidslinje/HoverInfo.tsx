@@ -124,7 +124,10 @@ export const HoverInfo = ({ tidslinjeperiode }: HoverInfoProps) => {
     const utbetalingstidslinje = tidslinjeperiode.utbetalingstidslinje ?? [];
 
     const arbeidsgiverperiode = tilPeriodeTekst(utbetalingstidslinje, 'Arbeidsgiverperiode');
-    const utbetaltBeløp = utbetalingstidslinje.reduce((sum, dag) => sum + (dag.utbetaling ?? 0), 0);
+    const utbetaltBeløp = utbetalingstidslinje.reduce(
+        (sum, dag) => sum + (dag.arbeidsgiverbeløp ?? 0) + (dag.personbeløp ?? 0),
+        0
+    );
     const ferieperiode = tilPeriodeTekst(utbetalingstidslinje, 'Ferie');
     const permisjonsperiode = tilPeriodeTekst(utbetalingstidslinje, 'Permisjon');
 
