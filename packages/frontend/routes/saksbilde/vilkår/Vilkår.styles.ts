@@ -1,7 +1,5 @@
 import styled from '@emotion/styled';
 
-import { BehandletVarsel } from '@navikt/helse-frontend-varsel';
-
 export const Vilkårkolonne = styled.ul`
     list-style: none;
     padding: 0;
@@ -29,12 +27,6 @@ export const Vilkårgrid = styled.div`
 export const BehandletVarselContent = styled(Vilkårkolonne)`
     margin-top: 1rem;
     margin-bottom: 1rem;
-`;
-
-export const StyledBehandletVarsel = styled(BehandletVarsel)`
-    &:before {
-        box-sizing: unset;
-    }
 `;
 
 export const IkonContainer = styled.div`

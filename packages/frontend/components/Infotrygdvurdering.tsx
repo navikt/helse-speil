@@ -12,7 +12,7 @@ const Container = styled.div`
     gap: 1rem;
 
     &:before {
-        --top: 40px;
+        --top: 32px;
         content: '';
         position: absolute;
         width: 4px;

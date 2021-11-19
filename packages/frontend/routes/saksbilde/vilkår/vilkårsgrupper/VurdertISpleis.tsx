@@ -3,8 +3,19 @@ import React from 'react';
 import { Vilkårdata } from '../../../../mapping/vilkår';
 import { tilNorskDato } from '../../../../utils/date';
 
-import { BehandletVarselContent, StyledBehandletVarsel, Vilkårgrid, Vilkårgruppe } from '../Vilkår.styles';
+import { BehandletVarselContent, Vilkårgrid, Vilkårgruppe } from '../Vilkår.styles';
 import { Vilkårsgruppetittel } from '../vilkårstitler';
+import { Saksbehandlervurdering } from '../../../../components/Saksbehandlervurdering';
+import { AutomatiskVurdering } from '../../../../components/AutomatiskVurdering';
+
+const Vilkår = ({ tittel, paragraf, komponent, type }: Vilkårdata) => (
+    <Vilkårgruppe>
+        <Vilkårsgruppetittel type={type} oppfylt={true} paragraf={paragraf}>
+            {tittel}
+        </Vilkårsgruppetittel>
+        {komponent && <Vilkårgrid>{komponent}</Vilkårgrid>}
+    </Vilkårgruppe>
+);
 
 interface VurdertISpleisProps {
     vilkår: Vilkårdata[];
@@ -25,22 +36,21 @@ export const VurdertISpleis = ({
         ? `Vilkår vurdert ved skjæringstidspunkt - ${tilNorskDato(skjæringstidspunkt)}`
         : 'Vilkår vurdert denne perioden';
 
-    const testId = automatiskBehandlet ? 'vurdert-automatisk' : 'vurdert-av-saksbehandler';
-
-    const ariaLabel = automatiskBehandlet ? 'Vilkår vurdert automatisk' : 'Vilkår vurdert av saksbehandler';
-
-    return (
-        <StyledBehandletVarsel tittel={tittel} saksbehandler={ident} automatiskBehandlet={automatiskBehandlet}>
-            <BehandletVarselContent data-testid={testId} aria-label={ariaLabel}>
-                {vilkår.map(({ tittel, paragraf, komponent, type }, i) => (
-                    <Vilkårgruppe key={i}>
-                        <Vilkårsgruppetittel type={type} oppfylt={true} paragraf={paragraf}>
-                            {tittel}
-                        </Vilkårsgruppetittel>
-                        {komponent && <Vilkårgrid>{komponent}</Vilkårgrid>}
-                    </Vilkårgruppe>
+    return automatiskBehandlet ? (
+        <AutomatiskVurdering title={tittel} ident={ident}>
+            <BehandletVarselContent data-testid="vurdert-automatisk" aria-label="Vilkår vurdert automatisk">
+                {vilkår.map((props, i) => (
+                    <Vilkår key={i} {...props} />
                 ))}
             </BehandletVarselContent>
-        </StyledBehandletVarsel>
+        </AutomatiskVurdering>
+    ) : (
+        <Saksbehandlervurdering title={tittel} ident={ident}>
+            <BehandletVarselContent data-testid="vurdert-av-saksbehandler" aria-label="Vilkår vurdert av saksbehandler">
+                {vilkår.map((props, i) => (
+                    <Vilkår key={i} {...props} />
+                ))}
+            </BehandletVarselContent>
+        </Saksbehandlervurdering>
     );
 };
