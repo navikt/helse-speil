@@ -43,6 +43,7 @@ const tilgangFlereArbeidsgivere = [
     'F160529',
     'B137568',
     'T144880',
+    'S160466',
 ];
 
 const tilgangStikkprøver = [
