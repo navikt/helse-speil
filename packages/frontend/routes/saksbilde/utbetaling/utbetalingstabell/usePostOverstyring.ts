@@ -1,7 +1,5 @@
 import { useEffect, useState } from 'react';
 
-import { Varseltype } from '@navikt/helse-frontend-varsel';
-
 import { postAbonnerPåAktør, postOverstyrteDager } from '../../../../io/http';
 import { OverstyrtDagDTO } from '../../../../io/types';
 import {
@@ -70,7 +68,7 @@ export const usePostOverstyring = (): UsePostOverstyringResult => {
                     key: 'revurderingAvvist',
                     message: 'Revurderingen gikk ikke gjennom. Ta kontakt med support dersom du trenger hjelp.',
                     scope: Scopes.SAKSBILDE,
-                    type: Varseltype.Feil,
+                    type: 'feil',
                 });
             } else {
                 addToast(kalkuleringFerdigToast({ callback: () => removeToast(kalkulererFerdigToastKey) }));

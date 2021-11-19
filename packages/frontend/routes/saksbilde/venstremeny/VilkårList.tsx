@@ -2,7 +2,6 @@ import styled from '@emotion/styled';
 import React from 'react';
 
 import { BodyShort } from '@navikt/ds-react';
-import { Varsel, Varseltype } from '@navikt/helse-frontend-varsel';
 
 import { Advarselikon } from '../../../components/ikoner/Advarselikon';
 import { Feilikon } from '../../../components/ikoner/Feilikon';
@@ -10,6 +9,7 @@ import { Sjekkikon } from '../../../components/ikoner/Sjekkikon';
 import { usePersoninfo, useVilkårsgrunnlaghistorikk, useVurderingForSkjæringstidspunkt } from '../../../state/person';
 
 import { kategoriserteInngangsvilkår } from '../vilkår/kategoriserteInngangsvilkår';
+import { Varsel } from '../../../components/Varsel';
 
 const ListItem = styled.li`
     display: flex;
@@ -43,7 +43,7 @@ export const VilkårList = ({ periode, skjæringstidspunkt, vilkårsgrunnlaghist
     const vurdering = useVurderingForSkjæringstidspunkt(periode.unique, skjæringstidspunkt);
 
     if (!vilkårsgrunnlag) {
-        return <Varsel type={Varseltype.Feil}>Vilkår mangler</Varsel>;
+        return <Varsel variant="feil">Vilkår mangler</Varsel>;
     }
 
     const { ikkeVurderteVilkår, ikkeOppfylteVilkår, ...oppfylteVilkår } = kategoriserteInngangsvilkår(

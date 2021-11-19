@@ -1,12 +1,11 @@
 import React, { useContext, useState } from 'react';
 
 import { Loader } from '@navikt/ds-react';
-import { Varseltype } from '@navikt/helse-frontend-varsel';
 
 import { DropdownContext, DropdownMenyknapp } from '../../../components/dropdown/Dropdown';
 import { deleteTildeling, postTildeling } from '../../../io/http';
 import { useTildelPerson } from '../../../state/person';
-import { useAddVarsel, useRemoveVarsel } from '../../../state/varsler';
+import { useAddVarsel, useRemoveVarsel, VarselObject } from '../../../state/varsler';
 
 interface TildelingsknappProps {
     oppgavereferanse: string;
@@ -15,7 +14,7 @@ interface TildelingsknappProps {
 }
 
 const tildelingskey = 'tildeling';
-const tildelingsvarsel = (message: string) => ({ key: tildelingskey, message, type: Varseltype.Info });
+const tildelingsvarsel = (message: string): VarselObject => ({ key: tildelingskey, message, type: 'info' });
 
 export const Tildelingsknapp = ({ oppgavereferanse, tildeling, erTildeltInnloggetBruker }: TildelingsknappProps) => {
     const [isFetching, setIsFetching] = useState(false);

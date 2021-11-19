@@ -1,7 +1,5 @@
 import { useEffect } from 'react';
 
-import { Varseltype } from '@navikt/helse-frontend-varsel';
-
 import { Scopes, useAddVarsel } from '../state/varsler';
 import { capitalizeName } from '../utils/locale';
 
@@ -17,7 +15,7 @@ export const useVarselOmSakErTildeltAnnenSaksbehandler = (saksbehandlerOid: stri
         if (erTildeltAnnenSaksbehandler(saksbehandlerOid, personTilBehandling)) {
             addVarsel({
                 key: saksbehandlerOid + personTilBehandling.aktørId,
-                type: Varseltype.Info,
+                type: 'info',
                 message: `Saken er allerede tildelt til ${capitalizeName(
                     personTilBehandling.tildeling?.saksbehandler.navn ?? ''
                 )}`,

@@ -1,15 +1,13 @@
 import React, { useContext } from 'react';
 
-import { Varseltype } from '@navikt/helse-frontend-varsel';
-
 import { DropdownContext, DropdownMenyknapp } from '../../../components/dropdown/Dropdown';
 import { postForespørPersonoppdatering } from '../../../io/http';
 import { usePerson } from '../../../state/person';
-import { Scopes, useAddVarsel, useRemoveVarsel } from '../../../state/varsler';
+import { Scopes, useAddVarsel, useRemoveVarsel, VarselObject } from '../../../state/varsler';
 
 const personoppdateringvarselKey = 'personoppdatering';
 
-const personoppdateringvarsel = (message: string, type: Varseltype) => ({
+const personoppdateringvarsel = (message: string, type: VarselObject['type']) => ({
     key: personoppdateringvarselKey,
     message: message,
     type: type,
@@ -29,12 +27,12 @@ export const OppdaterPersondata = () => {
                 addVarsel(
                     personoppdateringvarsel(
                         'Opplysningene om personen vil bli oppdatert. Dette kan ta noe tid og du må oppdatere skjermbildet (F5) for å se resultatet.',
-                        Varseltype.Info
+                        'info'
                     )
                 );
             })
             .catch(() => {
-                addVarsel(personoppdateringvarsel('Personoppdatering feilet. Prøv igjen om litt.', Varseltype.Feil));
+                addVarsel(personoppdateringvarsel('Personoppdatering feilet. Prøv igjen om litt.', 'feil'));
             })
             .finally(lukk);
     };

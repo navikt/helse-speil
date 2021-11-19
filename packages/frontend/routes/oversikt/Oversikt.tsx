@@ -2,8 +2,6 @@ import styled from '@emotion/styled';
 import React, { useEffect, useState } from 'react';
 import { useRecoilValue, useRecoilValueLoadable, useResetRecoilState } from 'recoil';
 
-import { Varsel, Varseltype } from '@navikt/helse-frontend-varsel';
-
 import { Flex, FlexColumn } from '../../components/Flex';
 import { useLoadingToast } from '../../hooks/useLoadingToast';
 import { useInnloggetSaksbehandler } from '../../state/authentication';
@@ -16,6 +14,7 @@ import { IngenOppgaver } from './IngenOppgaver';
 import { Behandlingsstatistikk } from './behandlingsstatistikk/Behandlingsstatistikk';
 import { OppgaverTable } from './table/OppgaverTable';
 import { Tabs, tabState, TabType } from './tabs';
+import { Varsel } from '../../components/Varsel';
 
 const Container = styled.div`
     position: relative;
@@ -81,7 +80,7 @@ export const Oversikt = () => {
     return (
         <Container>
             {oppgaver.state === 'hasError' && (
-                <Varsel type={Varseltype.Advarsel}>{(oppgaver.contents as Error).message}</Varsel>
+                <Varsel variant="advarsel">{(oppgaver.contents as Error).message}</Varsel>
             )}
             <FlexColumn>
                 <Tabs />

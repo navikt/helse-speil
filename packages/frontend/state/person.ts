@@ -1,8 +1,6 @@
 import dayjs from 'dayjs';
 import { atom, selector, useRecoilValue, useResetRecoilState, useSetRecoilState } from 'recoil';
 
-import { Varseltype } from '@navikt/helse-frontend-varsel';
-
 import { deletePåVent, getPerson, postLeggPåVent } from '../io/http';
 import { mapPerson } from '../mapping/person';
 import { useArbeidsgiver as useArbeidsgiverUtenParametre } from '../modell/arbeidsgiver';
@@ -36,15 +34,15 @@ const hentPerson = (id: string): Promise<PersonState> =>
                 case 404:
                     return Promise.reject({
                         message: 'Personen har ingen perioder til godkjenning eller tidligere utbetalinger i Speil',
-                        type: Varseltype.Info,
+                        type: 'info',
                     });
                 case 401:
-                    return Promise.reject({ message: 'Du må logge inn for å utføre søk', type: Varseltype.Feil });
+                    return Promise.reject({ message: 'Du må logge inn for å utføre søk', type: 'feil' });
                 default:
                     console.error(error);
                     return Promise.reject({
                         message: 'Kunne ikke utføre søket. Prøv igjen senere',
-                        type: Varseltype.Feil,
+                        type: 'feil',
                     });
             }
         });

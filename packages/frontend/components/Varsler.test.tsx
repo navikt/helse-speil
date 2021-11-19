@@ -3,8 +3,6 @@ import { render, screen } from '@testing-library/react';
 import React from 'react';
 import { RecoilRoot } from 'recoil';
 
-import { Varseltype } from '@navikt/helse-frontend-varsel';
-
 import { varslerState } from '../state/varsler';
 
 import { Varsler } from './Varsler';
@@ -17,12 +15,12 @@ describe('Varsler', () => {
                     set(varslerState, [
                         {
                             key: 'test',
-                            type: Varseltype.Info,
+                            type: 'info',
                             message: 'Dette er et infovarsel',
                         },
                         {
                             key: 'test',
-                            type: Varseltype.Feil,
+                            type: 'feil',
                             message: 'Dette er et feilvarsel',
                         },
                     ]);

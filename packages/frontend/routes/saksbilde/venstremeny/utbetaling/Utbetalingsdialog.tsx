@@ -5,7 +5,6 @@ import { useHistory } from 'react-router';
 import { useSetRecoilState } from 'recoil';
 
 import { Button } from '@navikt/ds-react';
-import { Varseltype } from '@navikt/helse-frontend-varsel';
 
 import { ErrorMessage } from '../../../../components/ErrorMessage';
 import { postAbonnerPåAktør, postSendTilInfotrygd, postUtbetalingsgodkjenning } from '../../../../io/http';
@@ -62,7 +61,7 @@ const useVedtakstoast = () => {
             {
                 key: nanoid(),
                 message: 'Utbetalingen er sendt til oppdragssystemet.',
-                type: Varseltype.Suksess,
+                type: 'suksess',
                 scope: Scopes.GLOBAL,
             },
             timeToLiveMs
@@ -74,7 +73,7 @@ const useVedtakstoast = () => {
             {
                 key: nanoid(),
                 message: 'Saken er sendt til behandling i Infotrygd.',
-                type: Varseltype.Suksess,
+                type: 'suksess',
                 scope: Scopes.GLOBAL,
             },
             timeToLiveMs

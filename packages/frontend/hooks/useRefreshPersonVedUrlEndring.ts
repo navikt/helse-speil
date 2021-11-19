@@ -1,8 +1,6 @@
 import { useEffect } from 'react';
 import { useParams } from 'react-router';
 
-import { Varseltype } from '@navikt/helse-frontend-varsel';
-
 import { useHentPerson, usePerson } from '../state/person';
 import { Scopes, useAddVarsel, useRemoveVarsel } from '../state/varsler';
 
@@ -35,7 +33,7 @@ export const useRefreshPersonVedUrlEndring = () => {
                 key: feilvarselKey,
                 message: `'${aktorId}' er ikke en gyldig aktør-ID/fødselsnummer.`,
                 scope: Scopes.SAKSBILDE,
-                type: Varseltype.Feil,
+                type: 'feil',
             });
         }
     }, [aktorId]);

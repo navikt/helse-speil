@@ -4,7 +4,6 @@ import { Link, useHistory } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 
 import { InternalHeader, InternalHeaderTitle } from '@navikt/ds-react';
-import { Varseltype } from '@navikt/helse-frontend-varsel';
 
 import { erGyldigPersonId } from '../../hooks/useRefreshPersonVedUrlEndring';
 import { authState } from '../../state/authentication';
@@ -65,7 +64,7 @@ export const Header = () => {
             addVarsel({
                 key: key,
                 message: `"${personId}" er ikke en gyldig aktør-ID/fødselsnummer.`,
-                type: Varseltype.Feil,
+                type: 'feil',
             });
         } else {
             hentPerson(personId)

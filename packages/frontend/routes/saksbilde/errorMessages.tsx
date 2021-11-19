@@ -1,7 +1,6 @@
 import styled from '@emotion/styled';
 import React from 'react';
-
-import { Varsel, Varseltype } from '@navikt/helse-frontend-varsel';
+import { Varsel } from '../../components/Varsel';
 
 const ErrorVarsel = styled(Varsel)`
     grid-column-start: venstremeny;
@@ -11,7 +10,7 @@ const ErrorVarsel = styled(Varsel)`
 export const getErrorMessage = (tilstand: Tidslinjetilstand) => {
     const errorMessage = getErrorMessageForTidslinjetilstand(tilstand);
     return (error: Error) => {
-        return errorMessage ? errorMessage : <ErrorVarsel type={Varseltype.Feil}>{error.message}</ErrorVarsel>;
+        return errorMessage ? errorMessage : <ErrorVarsel variant="feil">{error.message}</ErrorVarsel>;
     };
 };
 
@@ -19,33 +18,33 @@ export const getErrorMessageForTidslinjetilstand = (tilstand: Tidslinjetilstand)
     switch (tilstand) {
         case 'venter':
             return (
-                <ErrorVarsel type={Varseltype.Info}>
+                <ErrorVarsel variant="info">
                     Kunne ikke vise informasjon om vedtaksperioden. Dette skyldes at perioden ikke er klar til
                     behandling.
                 </ErrorVarsel>
             );
         case 'kunFerie':
             return (
-                <ErrorVarsel type={Varseltype.Info}>
+                <ErrorVarsel variant="info">
                     Kunne ikke vise informasjon om vedtaksperioden. Perioden inneholder kun ferie.
                 </ErrorVarsel>
             );
         case 'kunPermisjon':
             return (
-                <ErrorVarsel type={Varseltype.Info}>
+                <ErrorVarsel variant="info">
                     Kunne ikke vise informasjon om vedtaksperioden. Perioden inneholder kun permisjon.
                 </ErrorVarsel>
             );
         case 'ingenUtbetaling':
             return (
-                <ErrorVarsel type={Varseltype.Info}>
+                <ErrorVarsel variant="info">
                     Kunne ikke vise informasjon om vedtaksperioden. Perioden har ingen utbetaling.
                 </ErrorVarsel>
             );
         case 'venterPåKiling':
-            return <ErrorVarsel type={Varseltype.Info}>Ikke klar til behandling - avventer system.</ErrorVarsel>;
+            return <ErrorVarsel variant="info">Ikke klar til behandling - avventer system.</ErrorVarsel>;
         case 'ukjent':
-            return <ErrorVarsel type={Varseltype.Feil}>Kunne ikke lese informasjon om sakens tilstand.</ErrorVarsel>;
+            return <ErrorVarsel variant="feil">Kunne ikke lese informasjon om sakens tilstand.</ErrorVarsel>;
         default:
             return undefined;
     }

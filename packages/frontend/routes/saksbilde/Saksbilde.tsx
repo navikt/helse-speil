@@ -2,8 +2,6 @@ import styled from '@emotion/styled';
 import React from 'react';
 import { Route, Switch, useRouteMatch } from 'react-router-dom';
 
-import { Varsel, Varseltype } from '@navikt/helse-frontend-varsel';
-
 import { ErrorBoundary } from '../../components/ErrorBoundary';
 import { LasterPersonlinje, Personlinje } from '../../components/Personlinje';
 import { useRefreshPersonVedOpptegnelse } from '../../hooks/useRefreshPersonVedOpptegnelse';
@@ -20,6 +18,7 @@ import { Sakslinje } from './sakslinje/Sakslinje';
 import { LasterTidslinje, Tidslinje } from './tidslinje';
 import { useKeyboardShortcuts } from './useKeyboardShortcuts';
 import { Utbetalingshistorikk } from './utbetalingshistorikk/Utbetalingshistorikk';
+import { Varsel } from '../../components/Varsel';
 
 const Container = styled.div`
     --content-width: calc(100% - var(--speil-venstremeny-width) - var(--speil-hoyremeny-width));
@@ -78,7 +77,7 @@ const SaksbildeContent = React.memo(() => {
                             {aktivPeriode.fullstendig ? (
                                 <ErrorBoundary
                                     fallback={(error) => (
-                                        <Saksbildevarsel type={Varseltype.Feil}>{error.message}</Saksbildevarsel>
+                                        <Saksbildevarsel variant="feil">{error.message}</Saksbildevarsel>
                                     )}
                                 >
                                     <SaksbildeFullstendigPeriode
@@ -107,7 +106,7 @@ const LasterSaksbilde = () => (
 );
 
 export const Saksbilde = () => (
-    <ErrorBoundary fallback={(error: Error) => <Varsel type={Varseltype.Advarsel}>{error.message}</Varsel>}>
+    <ErrorBoundary fallback={(error: Error) => <Varsel variant="advarsel">{error.message}</Varsel>}>
         <React.Suspense fallback={<LasterSaksbilde />}>
             <SaksbildeContent />
         </React.Suspense>

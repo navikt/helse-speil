@@ -3,9 +3,8 @@ import { AnimatePresence, motion } from 'framer-motion';
 import React from 'react';
 import { useRecoilValue } from 'recoil';
 
-import { Varsel } from '@navikt/helse-frontend-varsel';
-
 import { VarselObject, varslerForScope } from '../state/varsler';
+import { Varsel } from './Varsel';
 
 const Separator = styled.span`
     margin-left: 1rem;
@@ -24,7 +23,7 @@ const EphemeralContainer = styled.div`
 `;
 
 const TechnicalVarsel = ({ type, message, technical }: VarselObject) => (
-    <Varsel type={type}>
+    <Varsel variant={type}>
         {message}
         {technical && (
             <>

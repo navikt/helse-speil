@@ -1,7 +1,5 @@
 import { atom, selector, useRecoilValue, useRecoilValueLoadable, useSetRecoilState } from 'recoil';
 
-import { Varseltype } from '@navikt/helse-frontend-varsel';
-
 import { deletePåVent, deleteTildeling, getOppgaver, postLeggPåVent, postTildeling } from '../io/http';
 import { tilOppgave } from '../mapping/oppgaver/oppgaver';
 
@@ -106,7 +104,7 @@ const useRemoveTildelingsvarsel = () => {
 
 const useAddTildelingsvarsel = () => {
     const addVarsel = useAddVarsel();
-    return (message: string) => addVarsel({ key: 'tildeling', message: message, type: Varseltype.Info });
+    return (message: string) => addVarsel({ key: 'tildeling', message: message, type: 'info' });
 };
 
 export const useTildelOppgave = () => {

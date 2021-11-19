@@ -1,14 +1,13 @@
 import React from 'react';
 
 import { BodyShort } from '@navikt/ds-react';
-import { Varseltype } from '@navikt/helse-frontend-varsel';
-import '@navikt/helse-frontend-varsel/lib/main.css';
 
 import { Aktivitetsloggvarsler } from './Aktivetsloggvarsler';
-import { Saksbildevarsel } from './Saksbildevarsel';
+import { Varsel } from '../../../components/Varsel';
+import styled from '@emotion/styled';
 
 type VarselObject = {
-    grad: Varseltype;
+    grad: 'info' | 'suksess' | 'advarsel' | 'feil';
     melding: string;
 };
 
@@ -18,13 +17,13 @@ const tilstandInfoVarsel = (tilstand: Tidslinjetilstand): VarselObject | null =>
         case 'kunPermisjon':
         case 'revurdertIngenUtbetaling':
         case 'ingenUtbetaling':
-            return { grad: Varseltype.Info, melding: 'Perioden er godkjent, ingen utbetaling.' };
+            return { grad: 'info', melding: 'Perioden er godkjent, ingen utbetaling.' };
         case 'revurderes':
-            return { grad: Varseltype.Info, melding: 'Revurdering er igangsatt og må fullføres.' };
+            return { grad: 'info', melding: 'Revurdering er igangsatt og må fullføres.' };
         case 'annullert':
-            return { grad: Varseltype.Info, melding: 'Utbetalingen er annullert.' };
+            return { grad: 'info', melding: 'Utbetalingen er annullert.' };
         case 'tilAnnullering':
-            return { grad: Varseltype.Info, melding: 'Annullering venter.' };
+            return { grad: 'info', melding: 'Annullering venter.' };
         default:
             return null;
     }
@@ -33,9 +32,9 @@ const tilstandInfoVarsel = (tilstand: Tidslinjetilstand): VarselObject | null =>
 const tilstandFeilVarsel = (tilstand: Tidslinjetilstand): VarselObject | null => {
     switch (tilstand) {
         case 'annulleringFeilet':
-            return { grad: Varseltype.Feil, melding: 'Annulleringen feilet. Kontakt utviklerteamet.' };
+            return { grad: 'feil', melding: 'Annulleringen feilet. Kontakt utviklerteamet.' };
         case 'feilet':
-            return { grad: Varseltype.Feil, melding: 'Utbetalingen feilet.' };
+            return { grad: 'feil', melding: 'Utbetalingen feilet.' };
         default:
             return null;
     }
@@ -43,31 +42,35 @@ const tilstandFeilVarsel = (tilstand: Tidslinjetilstand): VarselObject | null =>
 
 const utbetalingsvarsel = (tilstand: Tidslinjetilstand): VarselObject | null =>
     ['tilUtbetaling', 'utbetalt', 'revurdert'].includes(tilstand)
-        ? { grad: Varseltype.Info, melding: 'Utbetalingen er sendt til oppdragsystemet.' }
+        ? { grad: 'info', melding: 'Utbetalingen er sendt til oppdragsystemet.' }
         : ['tilUtbetalingAutomatisk', 'utbetaltAutomatisk'].includes(tilstand)
-        ? { grad: Varseltype.Info, melding: 'Perioden er automatisk godkjent' }
+        ? { grad: 'info', melding: 'Perioden er automatisk godkjent' }
         : null;
 
 const vedtaksperiodeVenterVarsel = (tilstand: Tidslinjetilstand): VarselObject | null =>
     tilstand === 'venter'
-        ? { grad: Varseltype.Info, melding: 'Ikke klar til behandling - avventer system' }
+        ? { grad: 'info', melding: 'Ikke klar til behandling - avventer system' }
         : tilstand === 'venterPåKiling'
-        ? { grad: Varseltype.Info, melding: 'Ikke klar for utbetaling. Avventer behandling av tidligere periode.' }
+        ? { grad: 'info', melding: 'Ikke klar for utbetaling. Avventer behandling av tidligere periode.' }
         : null;
 
 const manglendeOppgavereferansevarsel = (tilstand: Tidslinjetilstand, oppgavereferanse?: string): VarselObject | null =>
     tilstand === 'oppgaver' && (!oppgavereferanse || oppgavereferanse.length === 0)
         ? {
-              grad: Varseltype.Feil,
+              grad: 'feil',
               melding: `Denne perioden kan ikke utbetales. Det kan skyldes at den allerede er 
               forsøkt utbetalt, men at det er forsinkelser i systemet.`,
           }
         : null;
 
 const ukjentTilstandsvarsel = (tilstand: Tidslinjetilstand): VarselObject | null =>
-    tilstand === 'ukjent'
-        ? { grad: Varseltype.Feil, melding: 'Kunne ikke lese informasjon om sakens tilstand.' }
-        : null;
+    tilstand === 'ukjent' ? { grad: 'feil', melding: 'Kunne ikke lese informasjon om sakens tilstand.' } : null;
+
+const Saksbildevarsel = styled(Varsel)`
+    border-top-style: none;
+    border-left-style: none;
+    border-right-style: none;
+`;
 
 interface SaksbildevarslerProps {
     aktivPeriode: Tidslinjeperiode;
@@ -91,13 +94,13 @@ export const Saksbildevarsler = ({ aktivPeriode, vedtaksperiode, oppgavereferans
     return (
         <div className="Saksbildevarsler">
             {infoVarsler.map(({ grad, melding }, index) => (
-                <Saksbildevarsel type={grad} key={index}>
+                <Saksbildevarsel variant={grad} key={index}>
                     <BodyShort>{melding}</BodyShort>
                 </Saksbildevarsel>
             ))}
             <Aktivitetsloggvarsler varsler={vedtaksperiode.aktivitetslog} />
             {feilVarsler.map(({ grad, melding }, index) => (
-                <Saksbildevarsel type={grad} key={index}>
+                <Saksbildevarsel variant={grad} key={index}>
                     <BodyShort>{melding}</BodyShort>
                 </Saksbildevarsel>
             ))}

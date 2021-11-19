@@ -1,8 +1,6 @@
 import { useEffect } from 'react';
 import { atom, selector, useResetRecoilState, useSetRecoilState } from 'recoil';
 
-import { Varseltype } from '@navikt/helse-frontend-varsel';
-
 export const Scopes = {
     GLOBAL: undefined,
     OVERSIKT: '/',
@@ -11,7 +9,7 @@ export const Scopes = {
 
 export interface VarselObject {
     key: string;
-    type: Varseltype;
+    type: 'info' | 'suksess' | 'advarsel' | 'feil';
     message: string;
     scope?: string;
     technical?: string;
@@ -57,7 +55,7 @@ export const useAddVarsel = () => {
 export const useOperationErrorHandler = (operasjon: string) => {
     const varsel: VarselObject = {
         key: operasjon,
-        type: Varseltype.Feil,
+        type: 'feil',
         message: `Det oppstod en feil. Handlingen som ikke ble utført: ${operasjon}`,
         scope: Scopes.GLOBAL,
     };
