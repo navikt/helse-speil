@@ -57,12 +57,9 @@ const Feilmelding = styled(BodyShort)`
 
 const getKey = (dag: UtbetalingstabellDag) => dag.dato.format(NORSK_DATOFORMAT);
 
-const erReellEndring = (endring: Partial<UtbetalingstabellDag>, dag: UtbetalingstabellDag): boolean => {
-    // @ts-ignore
-    return Object.entries(endring).some(
-        ([key, value]: [key: keyof UtbetalingstabellDag, value: any]) => dag[key] !== value
-    );
-};
+const erReellEndring = (endring: Partial<UtbetalingstabellDag>, dag: UtbetalingstabellDag): boolean =>
+    (endring.gradering !== undefined && endring.gradering !== dag.gradering) ||
+    (endring.type !== undefined && endring.type !== dag.type);
 
 interface OverstyrbarUtbetalingProps {
     fom: Dayjs;

@@ -113,19 +113,20 @@ export const useInntektendringer = (onClickEndring: (overstyring: ExternalInntek
         throw Error(`Fant ikke arbeidsgiver med organisasjonsnummer ${organisasjonsnummer}`);
     }
 
-    return arbeidsgiver.overstyringer
-        .filter((it) => it.type === 'Inntekt')
-        .map((it: ExternalInntektoverstyring) => ({
-            id: it.hendelseId,
-            timestamp: dayjs(it.timestamp),
-            title: <LinkButton onClick={() => onClickEndring(it)}>Endret inntekt</LinkButton>,
-            type: Hendelsetype.Historikk,
-            body: (
-                <BegrunnelseTekst>
-                    <p>{it.saksbehandlerIdent ?? it.saksbehandlerNavn}</p>
-                </BegrunnelseTekst>
-            ),
-        }));
+    const inntektoverstyringer = arbeidsgiver.overstyringer.filter(
+        (it) => it.type === 'Inntekt'
+    ) as ExternalInntektoverstyring[];
+    return inntektoverstyringer.map((it) => ({
+        id: it.hendelseId,
+        timestamp: dayjs(it.timestamp),
+        title: <LinkButton onClick={() => onClickEndring(it)}>Endret inntekt</LinkButton>,
+        type: Hendelsetype.Historikk,
+        body: (
+            <BegrunnelseTekst>
+                <p>{it.saksbehandlerIdent ?? it.saksbehandlerNavn}</p>
+            </BegrunnelseTekst>
+        ),
+    }));
 };
 
 export const useNotater = (notater: Notat[], onClickNotat: () => void): Hendelse[] =>

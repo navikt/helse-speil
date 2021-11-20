@@ -45,7 +45,7 @@ const Textarea = styled(NavTextarea)`
 `;
 
 interface NyttNotatModalProps {
-    onClose: (event?: React.SyntheticEvent) => void;
+    onClose: (event: React.SyntheticEvent) => void;
     personinfo: Personinfo;
     vedtaksperiodeId: string;
     onPostNotat?: () => void;
@@ -78,7 +78,7 @@ export const NyttNotatModal = ({ onClose, personinfo, vedtaksperiodeId, onPostNo
                 })
                 .finally(() => {
                     setIsFetching(false);
-                    onClose();
+                    onClose({} as React.SyntheticEvent);
                 }),
             errorHandler
         );

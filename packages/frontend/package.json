@@ -10,7 +10,7 @@
     "license": "MIT",
     "scripts": {
         "dev": "cross-env NODE_ENV=development vite --port 1234",
-        "test:eslint": "eslint src/ --ext .js --ext .jsx --ext .tsx --ext .ts",
+        "test:eslint": "eslint . --ext .js --ext .jsx --ext .tsx --ext .ts",
         "test": "cross-env TZ=UTC jest --maxWorkers=3 --env=jsdom",
         "tdd": "TZ=UTC jest --watch --maxWorkers=3",
         "validate-ts": "tsc --noEmit --project tsconfig.json",

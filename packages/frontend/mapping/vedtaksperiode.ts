@@ -259,18 +259,18 @@ export class VedtaksperiodeBuilder {
     };
 
     private mapOverstyringer = () => {
-        this.vedtaksperiode.overstyringer = this.overstyringer
-            .filter(
-                (it: ExternalOverstyring) =>
-                    it.type === 'Dager' &&
-                    (it as ExternalTidslinjeoverstyring).overstyrteDager
-                        ?.map((dag) => dayjs(dag.dato))
-                        .every(
-                            (dato) =>
-                                this.vedtaksperiode.fom?.isSameOrBefore(dato) &&
-                                this.vedtaksperiode.tom?.isSameOrAfter(dato)
-                        )
-            )
+        const tidslinjeoverstyringer = this.overstyringer.filter(
+            (it: ExternalOverstyring) =>
+                it.type === 'Dager' &&
+                (it as ExternalTidslinjeoverstyring).overstyrteDager
+                    ?.map((dag) => dayjs(dag.dato))
+                    .every(
+                        (dato) =>
+                            this.vedtaksperiode.fom?.isSameOrBefore(dato) &&
+                            this.vedtaksperiode.tom?.isSameOrAfter(dato)
+                    )
+        ) as ExternalTidslinjeoverstyring[];
+        this.vedtaksperiode.overstyringer = tidslinjeoverstyringer
             .map((overstyring: ExternalTidslinjeoverstyring) => ({
                 ...overstyring,
                 timestamp: dayjs(overstyring.timestamp),

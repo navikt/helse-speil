@@ -34,7 +34,7 @@ export const NotatListeModal = ({ notater, vedtaksperiodeId, personinfo, onClose
     const innloggetSaksbehandler = useInnloggetSaksbehandler();
     const søkernavn = getFormatertNavn(personinfo);
 
-    const closeModal = (event: React.MouseEvent) => {
+    const closeModal = (event: React.SyntheticEvent) => {
         onClose(event);
     };
 
