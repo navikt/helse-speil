@@ -14,7 +14,7 @@
         "noImplicitAny": true,
         "noImplicitThis": true,
         "isolatedModules": true,
-        "esModuleInterop": false,
+        "esModuleInterop": true,
         "strictNullChecks": true,
         "noImplicitReturns": true,
         "resolveJsonModule": true,

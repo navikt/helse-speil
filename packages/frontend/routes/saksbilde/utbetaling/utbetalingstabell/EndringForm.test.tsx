@@ -42,7 +42,7 @@ describe('EndringForm', () => {
         userEvent.selectOptions(screen.getByRole('combobox'), screen.getAllByRole('option')[1]);
 
         await waitFor(() => {
-            expect(screen.getByRole('textbox')).toBeDisabled();
+            expect(screen.getByTestId('gradvelger')).toBeDisabled();
             expect(screen.getByTestId('endre')).toBeEnabled();
         });
     });

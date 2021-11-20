@@ -85,7 +85,7 @@ describe('Utbetaling', () => {
         expect(screen.getByTestId('gradvelger')).not.toBeDisabled();
         userEvent.clear(screen.getByTestId('gradvelger'));
         userEvent.type(screen.getByTestId('gradvelger'), '80');
-        expect(screen.getByTestId('gradvelger')).toHaveValue('80');
+        expect(screen.getByTestId('gradvelger')).toHaveValue(80);
 
         userEvent.click(screen.getByTestId('endre'));
 
@@ -93,7 +93,7 @@ describe('Utbetaling', () => {
             expect(screen.getByTestId('oppdater')).not.toBeDisabled();
         });
 
-        userEvent.type(screen.getAllByRole('textbox')[1], 'En begrunnelse');
+        userEvent.type(screen.getByTestId('overstyring-begrunnelse'), 'En begrunnelse');
         userEvent.click(screen.getByTestId('oppdater'));
 
         await waitFor(() => {
