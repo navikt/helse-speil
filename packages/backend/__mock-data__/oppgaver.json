@@ -1,0 +1,240 @@
+[
+    {
+        "oppgavereferanse": "1",
+        "opprettet": "2018-02-27T08:38:00.728127",
+        "fødselsnummer": "25068609936",
+        "aktørId": "2469366399586",
+        "personinfo": {
+            "fornavn": "Kong",
+            "mellomnavn": null,
+            "etternavn": "Harald",
+            "fødselsdato": null,
+            "kjønn": null
+        },
+        "vedtaksperiodeId": "aaaaaaaa-6541-4dcf-aa53-8b466fc4ac87",
+        "type": "FØRSTEGANGSBEHANDLING",
+        "antallVarsler": 2,
+        "boenhet": {
+            "id": "0212",
+            "navn": "Skaugumsliaoppideretsted"
+        },
+        "inntektskilde": "EN_ARBEIDSGIVER"
+    },
+    {
+        "oppgavereferanse": "234",
+        "opprettet": "2018-02-10T08:38:00.728127",
+        "fødselsnummer": "04073732100",
+        "aktørId": "87654321962123",
+        "personinfo": {
+            "fornavn": "Dronning",
+            "mellomnavn": null,
+            "etternavn": "Sonja",
+            "fødselsdato": null,
+            "kjønn": null
+        },
+        "vedtaksperiodeId": "876f8c45-e9d1-4fd0-9c8c-9ee10f66b171",
+        "type": "FORLENGELSE",
+        "antallVarsler": 0,
+        "boenhet": {
+            "id": "1504",
+            "navn": "Skaugum"
+        }
+    },
+    {
+        "oppgavereferanse": "112",
+        "opprettet": "2021-02-01T23:04:09.454",
+        "fødselsnummer": "19047622436",
+        "aktørId": "2836012894592",
+        "personinfo": {
+            "fornavn": "SNIFF",
+            "mellomnavn": null,
+            "etternavn": "SNILLE",
+            "fødselsdato": "1980-05-03",
+            "kjønn": null
+        },
+        "vedtaksperiodeId": "fde0f314-a2d0-486b-9419-f508ab26c7bd",
+        "type": "FØRSTEGANGSBEHANDLING",
+        "antallVarsler": 0,
+        "boenhet": {
+            "id": "0228",
+            "navn": "Nav Utland"
+        },
+        "inntektskilde": "EN_ARBEIDSGIVER"
+    },
+    {
+        "oppgavereferanse": "2274",
+        "opprettet": "2021-02-01T23:04:09.454",
+        "fødselsnummer": "09038400182",
+        "aktørId": "2259231338047",
+        "personinfo": {
+            "fornavn": "KNERTEN",
+            "mellomnavn": "SIN",
+            "etternavn": "REVURDERING",
+            "fødselsdato": "1932-02-12",
+            "kjønn": null
+        },
+        "vedtaksperiodeId": "1e58f870-5d30-43de-a64a-3368f0f83fb5",
+        "type": "FØRSTEGANGSBEHANDLING",
+        "oppgavetype": "REVURDERING",
+        "antallVarsler": 0,
+        "boenhet": {
+            "id": "0228",
+            "navn": "Nav Utland"
+        },
+        "inntektskilde": "EN_ARBEIDSGIVER"
+    },
+    {
+        "oppgavereferanse": "2327",
+        "opprettet": "2021-02-01T23:04:09.454",
+        "fødselsnummer": "11117615091",
+        "aktørId": "2287435975709",
+        "personinfo": {
+            "fornavn": "MUMMI",
+            "mellomnavn": null,
+            "etternavn": "TROLLET",
+            "fødselsdato": "1932-02-12",
+            "kjønn": "Mann"
+        },
+        "vedtaksperiodeId": "264c9b8e-da54-4ae0-9b86-a7b3cc80c0ec",
+        "type": "FØRSTEGANGSBEHANDLING",
+        "oppgavetype": "REVURDERING",
+        "antallVarsler": 0,
+        "boenhet": {
+            "id": "0228",
+            "navn": "Mummidalen"
+        },
+        "inntektskilde": "EN_ARBEIDSGIVER"
+    },
+    {
+        "oppgavereferanse": "2",
+        "opprettet": "2021-02-01T23:04:09.454",
+        "fødselsnummer": "21023701902",
+        "aktørId": "1000000009872",
+        "personinfo": {
+            "fornavn": "SNORK",
+            "mellomnavn": null,
+            "etternavn": "FRØKEN",
+            "fødselsdato": "1932-02-12",
+            "kjønn": "Kvinne"
+        },
+        "vedtaksperiodeId": "766d47b6-dfac-4469-849d-8ba379025fd1",
+        "type": "FØRSTEGANGSBEHANDLING",
+        "oppgavetype": "SØKNAD",
+        "antallVarsler": 0,
+        "boenhet": {
+            "id": "0228",
+            "navn": "Mummidalen"
+        },
+        "inntektskilde": "FLERE_ARBEIDSGIVERE"
+    },
+    {
+        "oppgavereferanse": "3",
+        "opprettet": "2021-02-01T23:04:09.454",
+        "fødselsnummer": "05068821403",
+        "aktørId": "2446602102797",
+        "personinfo": {
+            "fornavn": "HUFSA",
+            "mellomnavn": null,
+            "etternavn": "SKUMLE",
+            "fødselsdato": "1932-02-12",
+            "kjønn": "Kvinne"
+        },
+        "vedtaksperiodeId": "3bdfa377-1c36-4971-8b01-d3a7d04e828f",
+        "type": "FØRSTEGANGSBEHANDLING",
+        "oppgavetype": "SØKNAD",
+        "antallVarsler": 0,
+        "boenhet": {
+            "id": "0228",
+            "navn": "Nav Utland"
+        },
+        "inntektskilde": "EN_ARBEIDSGIVER"
+    },
+    {
+        "oppgavereferanse": "4",
+        "opprettet": "2021-02-01T23:04:09.454",
+        "fødselsnummer": "19026500128",
+        "aktørId": "2750243667998",
+        "personinfo": {
+            "fornavn": "STINKY",
+            "mellomnavn": null,
+            "etternavn": "STANK",
+            "fødselsdato": "1932-02-12",
+            "kjønn": "Mann"
+        },
+        "vedtaksperiodeId": "fde0f314-a2d0-486b-9419-f508ab26c7be",
+        "type": "FØRSTEGANGSBEHANDLING",
+        "oppgavetype": "SØKNAD",
+        "antallVarsler": 0,
+        "boenhet": {
+            "id": "0228",
+            "navn": "Mummidalen"
+        },
+        "inntektskilde": "EN_ARBEIDSGIVER"
+    },
+    {
+        "oppgavereferanse": "klmsdflkm",
+        "opprettet": "2021-02-01T23:04:09.454",
+        "fødselsnummer": "11117615092",
+        "aktørId": "2287435975702",
+        "personinfo": {
+            "fornavn": "STOR",
+            "mellomnavn": null,
+            "etternavn": "BOLLE",
+            "fødselsdato": "1976-11-11",
+            "kjønn": "Kvinne"
+        },
+        "vedtaksperiodeId": "5ebbb4b5-f7d5-46d9-a09e-7748574c9128",
+        "type": "FØRSTEGANGSBEHANDLING",
+        "oppgavetype": "SØKNAD",
+        "antallVarsler": 0,
+        "boenhet": {
+            "id": "1938",
+            "navn": "Lyngen"
+        },
+        "inntektskilde": "EN_ARBEIDSGIVER"
+    },
+    {
+        "oppgavereferanse": "klmsdflkm2",
+        "opprettet": "2021-02-01T23:04:09.454",
+        "fødselsnummer": "12020052345",
+        "aktørId": "42",
+        "personinfo": {
+            "fornavn": "Abel",
+            "mellomnavn": null,
+            "etternavn": "Tesfaye",
+            "fødselsdato": "1990-02-16",
+            "kjønn": "Mann"
+        },
+        "vedtaksperiodeId": "87c0469c-16a5-4986-b756-7e4a7cdfcd71",
+        "type": "FØRSTEGANGSBEHANDLING",
+        "oppgavetype": "SØKNAD",
+        "antallVarsler": 0,
+        "boenhet": {
+            "id": "1938",
+            "navn": "Vesten"
+        },
+        "inntektskilde": "FLERE_ARBEIDSGIVERE"
+    },
+    {
+        "oppgavereferanse": "2740",
+        "opprettet": "2021-02-01T23:04:09.454",
+        "fødselsnummer": "09038418927",
+        "aktørId": "2259231372981",
+        "personinfo": {
+            "fornavn": "Vakker",
+            "mellomnavn": null,
+            "etternavn": "Ert",
+            "fødselsdato": "1990-02-16",
+            "kjønn": "Mann"
+        },
+        "vedtaksperiodeId": "87c0469c-16a5-4986-b756-7e4a7cdfcd71",
+        "type": "FORLENGELSE",
+        "oppgavetype": "SØKNAD",
+        "antallVarsler": 0,
+        "boenhet": {
+            "id": "1938",
+            "navn": "Vesten"
+        },
+        "inntektskilde": "EN_ARBEIDSGIVER"
+    }
+]

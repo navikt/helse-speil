@@ -41,14 +41,23 @@ jobs:
           restore-keys: ${{ runner.os }}-node-
       - name: set timezone
         run: export TZ=utc
-      - name: install deps
-        run: npm install
-      - name: validate ts
-        run: npm run validate-ts
-      - name: build client
+      - name: install root dependencies
+        run: npm ci --ignore-scripts
+      - name: install package dependencies
+        run: npx lerna bootstrap
+      - name: build
         run: npm run build
-      - name: build server
-        run: npm run build-server
+      - name: Cache Cypress binary
+        uses: actions/cache@v1
+        with:
+          path: ~/.cache/Cypress
+          key: |
+            cypress-${{ runner.os }}-cypress-${{ hashFiles('**/package.json') }}
+          # full invalidering for å unngå å ta vare på eldre versjoner
+          restore-keys: |
+            cypress-${{ runner.os }}-cypress-${{ hashFiles('**/package.json') }}
+      - name: install cypress
+        run: npx cypress install
       - name: run e2e-test
         run: npm run e2e-test
       - name: Archive Cypress artifacts

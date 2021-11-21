@@ -1,0 +1,31 @@
+{
+    "compilerOptions": {
+        "target": "ESNext",
+        "module": "ESNext",
+        "moduleResolution": "Node",
+        "outDir": "../..dist/client",
+        "lib": ["ESNext", "DOM", "DOM.Iterable"],
+        "jsx": "react-jsx",
+        "strict": true,
+        "noEmit": true,
+        "allowJs": false,
+        "sourceMap": true,
+        "skipLibCheck": false,
+        "noImplicitAny": true,
+        "noImplicitThis": true,
+        "isolatedModules": true,
+        "esModuleInterop": true,
+        "strictNullChecks": true,
+        "noImplicitReturns": true,
+        "resolveJsonModule": true,
+        "useDefineForClassFields": true,
+        "allowSyntheticDefaultImports": true,
+        "forceConsistentCasingInFileNames": true,
+        "baseUrl": "",
+        "paths": {
+            "test-data": ["./test/data"]
+        }
+    },
+    "exclude": ["./node_modules", "jest.config.js", "__mocks__"],
+    "types": ["typePatches"]
+}

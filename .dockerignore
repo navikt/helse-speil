@@ -2,10 +2,10 @@
 *
 
 # Allow files and directories
-!/node_modules/*
+!/packages/backend/node_modules/*
 !/dist/*
-!/wiki.json
-!/utdatert_wiki.json
+!/packages/frontend/wiki.json
+!/packages/frontend/utdatert_wiki.json
 
 # Ignore inside allowed directory
-node_modules/@snyk
+/packages/backend/node_modules/@snyk
