@@ -18,21 +18,23 @@ Prettier kan settes opp til å formatere kode automatisk on-save. Hvordan dette 
 
 Lokalt serveres frontend (det som kjører i browser) og backend (det som står for autentisering, sesjon og kommunikasjon med baksystem) hver for seg.
 
-### Kun frontend servert av Parcel
+### Både frontend og backend med én kommando
 
 ```
-npm start
+npm run dev
 ```
 
-Dersom du er på macOS og ønsker appen startet i Chrome:
+### Kun frontend servert av Vite
+
+Fra `packages/frontend`:
 
 ```
-npm run start-mac
+npm run dev
 ```
 
 ### Backend som server både API og frontend som statiske filer
 
-Lag en `.env`-fil med følgende innhold i rotkatalogen:
+Lag en `.env`-fil med følgende innhold i `packages/backend`:
 
 ```
 TENANT_ID=<Azure tenant id>
@@ -41,27 +43,19 @@ SESSION_SECRET=whatever
 SPESIALIST_BASE_URL=http://localhost:9001
 ```
 
-Starte backend:
+Fra `packages/backend`:
 
 ```
-npm run dev-express
+npm run dev
 ```
+
+Appen er nå tilgjengelig på http://localhost:3000.
 
 ### Bygge bundles
-
-For å bygge/pakke frontend:
 
 ```
 npm run build
 ```
-
-For å bygge/pakke backend:
-
-```
-npm run build-server
-```
-
-Appen er nå tilgjengelig på http://localhost:3000.
 
 ## Henvendelser
 
