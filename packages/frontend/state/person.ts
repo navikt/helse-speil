@@ -3,7 +3,7 @@ import { atom, selector, useRecoilValue, useResetRecoilState, useSetRecoilState 
 
 import { deletePåVent, getPerson, postLeggPåVent } from '../io/http';
 import { mapPerson } from '../mapping/person';
-import { useArbeidsgiver as useArbeidsgiverUtenParametre } from '../modell/arbeidsgiver';
+import { useMaybeArbeidsgiver as useArbeidsgiverUtenParametre } from '../modell/arbeidsgiver';
 import { useUtbetaling } from '../modell/utbetalingshistorikkelement';
 
 import { anonymisertBoenhet, anonymisertPersoninfo, getAnonymArbeidsgiverForOrgnr } from '../agurkdata';
@@ -309,10 +309,35 @@ export const useVilkårsgrunnlaghistorikk = (
     vilkårsgrunnlaghistorikkId: string
 ): ExternalVilkårsgrunnlag | null => {
     const person = useRecoilValue(personState)?.person;
+    const aktivPeriode = useAktivPeriode();
 
     if (!person) throw Error('Finner ikke vilkårsgrunnlaghistorikk fordi person mangler');
 
-    return person.vilkårsgrunnlagHistorikk[vilkårsgrunnlaghistorikkId]?.[skjæringstidspunkt] ?? null;
+    if (!person.vilkårsgrunnlagHistorikk[vilkårsgrunnlaghistorikkId]) {
+        return null;
+    }
+
+    return (
+        person.vilkårsgrunnlagHistorikk[vilkårsgrunnlaghistorikkId]?.[skjæringstidspunkt] ??
+        finnVilkårsgrunnlaghistorikkInnenforPeriodenNærmestSkjæringstidspunktet(
+            person.vilkårsgrunnlagHistorikk[vilkårsgrunnlaghistorikkId],
+            aktivPeriode
+        )
+    );
+};
+
+const finnVilkårsgrunnlaghistorikkInnenforPeriodenNærmestSkjæringstidspunktet = (
+    vilkårsgrunnlagHistorikk: Record<string, ExternalVilkårsgrunnlag>,
+    aktivPeriode: Tidslinjeperiode
+): ExternalVilkårsgrunnlag | null => {
+    const vilkårsgrunnlag = Object.entries(vilkårsgrunnlagHistorikk).filter(
+        ([key, value]) =>
+            dayjs(value.skjæringstidspunkt).isSameOrAfter(aktivPeriode.skjæringstidspunkt) &&
+            dayjs(value.skjæringstidspunkt).isSameOrBefore(aktivPeriode.tom)
+    );
+    return vilkårsgrunnlag.length > 0
+        ? vilkårsgrunnlag.sort((a, b) => (dayjs(a[0]).isAfter(b[0]) ? 1 : -1))[0][1]
+        : null;
 };
 
 export const useOrganisasjonsnummer = (): string => {

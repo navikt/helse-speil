@@ -26,6 +26,9 @@ declare type ExternalUtbetalingsdag = {
     inntekt: number;
     dato: string;
     utbetaling?: number;
+    personbeløp?: number;
+    arbeidsgiverbeløp?: number;
+    refusjonsbeløp?: number;
     grad?: number;
     totalGrad?: number;
     begrunnelser?: string[];
@@ -342,11 +345,14 @@ declare type ExternalUtbetalingsinfo = {
 
 declare type ExternalBegrunnelser =
     | 'SykepengedagerOppbrukt'
+    | 'SykepengedagerOppbruktOver67'
     | 'MinimumInntekt'
+    | 'MinimumInntektOver67'
     | 'EgenmeldingUtenforArbeidsgiverperiode'
     | 'MinimumSykdomsgrad'
     | 'EtterDødsdato'
     | 'ManglerMedlemskap'
+    | 'Over70'
     | 'ManglerOpptjening';
 
 declare type ExternalTidslinjedag = {
@@ -533,14 +539,22 @@ declare type ExternalArbeidsgiverOppdrag = {
     utbetalingslinjer: ExternalPeriode[];
 };
 
+declare type ExternalPersonOppdrag = {
+    fødselsnummer: string;
+    fagsystemId: string;
+    utbetalingslinjer: ExternalPeriode[];
+};
+
 declare type ExternalUtbetalingElement = {
     status: string;
     type: string;
-    arbeidsgiverOppdrag: ExternalArbeidsgiverOppdrag;
+    arbeidsgiverOppdrag?: ExternalArbeidsgiverOppdrag;
+    personOppdrag?: ExternalPersonOppdrag;
     annullertAvSaksbehandler?: null | {
         annullertTidspunkt: string;
         saksbehandlerNavn: string;
     };
+
     totalbeløp: number | null;
 };
 

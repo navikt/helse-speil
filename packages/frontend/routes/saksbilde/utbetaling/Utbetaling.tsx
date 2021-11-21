@@ -7,7 +7,14 @@ import { BodyShort } from '@navikt/ds-react';
 
 import { FlexColumn } from '../../../components/Flex';
 import { OverstyringTimeoutModal } from '../../../components/OverstyringTimeoutModal';
-import { useOverstyrRevurderingIsEnabled, useRevurderingIsEnabled } from '../../../hooks/revurdering';
+import { PopoverHjelpetekst } from '../../../components/PopoverHjelpetekst';
+import { SortInfoikon } from '../../../components/ikoner/SortInfoikon';
+import {
+    useErAktivPeriodeISisteSkjæringstidspunkt,
+    useErTidslinjeperiodeISisteGenerasjon,
+    useOverstyrRevurderingIsEnabled,
+    useRevurderingIsEnabled,
+} from '../../../hooks/revurdering';
 import { useMap } from '../../../hooks/useMap';
 import { useOverstyringIsEnabled } from '../../../hooks/useOverstyringIsEnabled';
 import { useGjenståendeDager, useMaksdato } from '../../../modell/utbetalingshistorikkelement';
@@ -53,6 +60,16 @@ const Feilmelding = styled(BodyShort)`
     margin-left: 2rem;
     color: var(--navds-color-text-error);
     font-weight: 600;
+`;
+
+const InfobobleContainer = styled.div`
+    margin-top: 1rem;
+    min-height: 24px;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    padding: 0 2rem;
+    width: 100%;
 `;
 
 const getKey = (dag: UtbetalingstabellDag) => dag.dato.format(NORSK_DATOFORMAT);
@@ -188,11 +205,25 @@ interface ReadonlyUtbetalingProps {
     dager: Map<string, UtbetalingstabellDag>;
 }
 
-const ReadonlyUtbetaling: React.FC<ReadonlyUtbetalingProps> = ({ fom, tom, dager }) => (
-    <UtbetalingstabellContainer data-testid="utbetaling">
-        <Utbetalingstabell fom={fom} tom={tom} dager={dager} />
-    </UtbetalingstabellContainer>
-);
+const ReadonlyUtbetaling: React.FC<ReadonlyUtbetalingProps> = ({ fom, tom, dager }) => {
+    const erAktivPeriodeISisteSkjæringstidspunkt = useErAktivPeriodeISisteSkjæringstidspunkt();
+    const erTidslinjeperiodeISisteGenerasjon = useErTidslinjeperiodeISisteGenerasjon();
+
+    return (
+        <Container>
+            {!erAktivPeriodeISisteSkjæringstidspunkt && erTidslinjeperiodeISisteGenerasjon && (
+                <InfobobleContainer>
+                    <PopoverHjelpetekst ikon={<SortInfoikon />}>
+                        <p>Det er foreløpig ikke støtte for endringer i saker i tidligere skjæringstidspunkt</p>
+                    </PopoverHjelpetekst>
+                </InfobobleContainer>
+            )}
+            <UtbetalingstabellContainer data-testid="utbetaling">
+                <Utbetalingstabell fom={fom} tom={tom} dager={dager} />
+            </UtbetalingstabellContainer>
+        </Container>
+    );
+};
 
 interface UtbetalingProps {
     periode: Tidslinjeperiode;
@@ -204,6 +235,7 @@ export const Utbetaling: React.FC<UtbetalingProps> = React.memo(({ periode, over
     const overstyringIsEnabled = useOverstyringIsEnabled();
     const revurderingIsEnabled = useRevurderingIsEnabled(defaultUtbetalingToggles);
     const overstyrRevurderingIsEnabled = useOverstyrRevurderingIsEnabled(defaultUtbetalingToggles);
+    const erAktivPeriodeISisteSkjæringstidspunkt = useErAktivPeriodeISisteSkjæringstidspunkt();
 
     const gjenståendeDager = useGjenståendeDager(periode.beregningId);
     const maksdato = useMaksdato(periode.beregningId);
@@ -215,7 +247,8 @@ export const Utbetaling: React.FC<UtbetalingProps> = React.memo(({ periode, over
         periode: periode,
     });
 
-    return revurderingIsEnabled || overstyringIsEnabled || overstyrRevurderingIsEnabled ? (
+    return (revurderingIsEnabled || overstyringIsEnabled || overstyrRevurderingIsEnabled) &&
+        erAktivPeriodeISisteSkjæringstidspunkt ? (
         <OverstyrbarUtbetaling
             fom={periode.fom}
             tom={periode.tom}

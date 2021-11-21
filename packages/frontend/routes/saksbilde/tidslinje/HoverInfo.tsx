@@ -124,7 +124,8 @@ export const HoverInfo = ({ tidslinjeperiode }: HoverInfoProps) => {
     const utbetalingstidslinje = tidslinjeperiode.utbetalingstidslinje ?? [];
 
     const arbeidsgiverperiode = tilPeriodeTekst(utbetalingstidslinje, 'Arbeidsgiverperiode');
-    const utbetaltBeløp = utbetalingstidslinje.reduce((sum, dag) => sum + (dag.utbetaling ?? 0), 0);
+    const utbetaltArbeidsgiver = utbetalingstidslinje.reduce((sum, dag) => sum + (dag.arbeidsgiverbeløp ?? 0), 0);
+    const utbetaltPerson = utbetalingstidslinje.reduce((sum, dag) => sum + (dag.personbeløp ?? 0), 0);
     const ferieperiode = tilPeriodeTekst(utbetalingstidslinje, 'Ferie');
     const permisjonsperiode = tilPeriodeTekst(utbetalingstidslinje, 'Permisjon');
 
@@ -143,10 +144,16 @@ export const HoverInfo = ({ tidslinjeperiode }: HoverInfoProps) => {
             {['utbetaltAutomatisk', 'utbetalt', 'revurdertIngenUtbetaling', 'revurdert', 'annullert'].includes(
                 tidslinjeperiode.tilstand
             ) && (
-                <Linje>
-                    <LinjeFelt as="p">Utbetalt: </LinjeFelt>
-                    <LinjeVerdi as="p">{somPenger(utbetaltBeløp)} </LinjeVerdi>
-                </Linje>
+                <>
+                    <Linje>
+                        <LinjeFelt as="p">Utbetalt til arbeidstaker: </LinjeFelt>
+                        <LinjeVerdi as="p">{somPenger(utbetaltPerson)} </LinjeVerdi>
+                    </Linje>
+                    <Linje>
+                        <LinjeFelt as="p">Utbetalt til arbeidsgiver: </LinjeFelt>
+                        <LinjeVerdi as="p">{somPenger(utbetaltArbeidsgiver)} </LinjeVerdi>
+                    </Linje>
+                </>
             )}
             {arbeidsgiverperiode && (
                 <Linje>

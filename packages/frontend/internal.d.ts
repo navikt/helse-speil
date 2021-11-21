@@ -37,8 +37,11 @@ declare type Avvisning = {
         | 'EgenmeldingUtenforArbeidsgiverperiode'
         | 'MinimumSykdomsgrad'
         | 'MinimumInntekt'
+        | 'MinimumInntektOver67'
         | 'ManglerOpptjening'
         | 'ManglerMedlemskap'
+        | 'Over70'
+        | 'SykepengedagerOppbruktOver67'
         | 'SykepengedagerOppbrukt';
     paragraf?: string;
 };
@@ -46,6 +49,9 @@ declare type Avvisning = {
 declare type Utbetalingsdag = Dag & {
     totalGradering?: number;
     utbetaling?: number;
+    arbeidsgiverbeløp?: number;
+    personbeløp?: number;
+    refusjonsbeløp?: number;
     avvistÅrsaker?: Avvisning[];
 };
 
@@ -396,8 +402,13 @@ declare type Arbeidsgiver = {
 declare type UtbetalingshistorikkUtbetaling = {
     status: string;
     type: string;
-    arbeidsgiverOppdrag: {
+    arbeidsgiverOppdrag?: {
         orgnummer: string;
+        fagsystemId: string;
+        utbetalingslinjer: Periode[];
+    };
+    personOppdrag?: {
+        fødselsnummer: string;
         fagsystemId: string;
         utbetalingslinjer: Periode[];
     };

@@ -52,6 +52,11 @@ const Feilmelding = styled(BodyShort)`
 
 const Utbetalingsgruppe = styled.div`
     margin-bottom: 2rem;
+
+    > p,
+    > ul > li {
+        margin-bottom: 0.5rem;
+    }
 `;
 
 export interface Annulleringslinje {

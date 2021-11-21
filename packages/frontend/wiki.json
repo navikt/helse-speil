@@ -120,20 +120,20 @@
         "viktighet": "Lav"
     },
     {
-        "varsel": "Bruker har mottatt AAP innenfor 6 måneder av skjæringstidspunkt. Kontroller at brukeren har rett til sykepenger",
-        "betydning": "Bruker har mottatt AAP innenfor 6 måneder av første fraværsdag",
-        "løsning": "Kontrollér ny opptjeningstid etter maxdato",
+        "varsel": "Bruker har mottatt AAP innenfor 6 måneder før skjæringstidspunktet. Kontroller at brukeren har rett til sykepenger",
+        "betydning": "Bruker har mottatt AAP innenfor 6 måneder før skjæringstidspunktet",
+        "løsning": "Kontrollér ny opptjeningstid etter maksdato",
         "viktighet": "Høy"
     },
     {
         "varsel": "Arena inneholdt en eller flere AAP-perioder med ugyldig fom/tom",
         "betydning": "Det foreligger AAP-perioder med ugyldig fom/tom",
-        "løsning": "Kontrollér ny opptjeningstid etter maxdato",
+        "løsning": "Kontrollér ny opptjeningstid etter maksdato",
         "viktighet": "Høy"
     },
     {
-        "varsel": "Bruker har mottatt dagpenger innenfor 4 uker av skjæringstidspunkt. Kontroller om bruker er dagpengemottaker. Kombinerte ytelser støttes foreløpig ikke av systemet",
-        "betydning": "Bruker har mottatt dagpenger innenfor 4 uker av første fraværsdag:",
+        "varsel": "Bruker har mottatt dagpenger innenfor 4 uker før skjæringstidspunktet. Kontroller om bruker er dagpengemottaker. Kombinerte ytelser støttes foreløpig ikke av systemet",
+        "betydning": "Bruker har mottatt dagpenger innenfor 4 uker før skjæringstidspunktet",
         "løsning": "Sjekk om bruker er dagpengemottaker på sykmeldingstidspunktet. Hvis ja kan ikke saken behandles i dette systemet ennå.",
         "viktighet": "Høy"
     },
@@ -175,7 +175,7 @@
     },
     {
         "varsel": "Ingenting ble simulert",
-        "betydning": "Når det er oppgitt ferieavvikling i hele søknadsperioden",
+        "betydning": "Det er oppgitt ferieavvikling i hele søknadsperioden",
         "løsning": "Sjekk om ferieavvikling er oppgitt i søknaden",
         "viktighet": "Lav"
     },
@@ -193,8 +193,8 @@
     },
     {
         "varsel": "Det finnes åpne oppgaver på sykepenger i Gosys",
-        "betydning": "Når det ligger aktiv Gosys oppgaver med tema sykepenger.",
-        "løsning": "Sjekk Gosys oppgaven(ene) og vurder om de påvirker saksbehandlingen.",
+        "betydning": "Det ligger aktive oppgaver med tema sykepenger i Gosys.",
+        "løsning": "Sjekk Gosys-oppgavene og vurder om de påvirker saksbehandlingen.",
         "viktighet": "Høy"
     },
     {
@@ -205,7 +205,7 @@
     },
     {
         "varsel": "Første fraværsdag oppgitt i inntektsmeldingen er ulik den systemet har beregnet. Utbetal kun hvis dagsatsen er korrekt",
-        "betydning": "Når det er forskjell mellom det arbeidsgiver oppgir som første fraværsdag og sykmeldings fra og med dato.",
+        "betydning": "Det er forskjell mellom det arbeidsgiver har oppgitt som første fraværsdag og sykmeldingens fra og med-dato.",
         "løsning": "Sjekk om dagsatsen er riktig, og om saken faktisk er under 25 prosent avvik med sammenligningsgrunnlaget.",
         "viktighet": "Lav"
     },
@@ -327,18 +327,37 @@
         "varsel": "Har mer enn 25 % avvik. Dette støttes foreløpig ikke i Speil. Du må derfor annullere periodene.",
         "betydning": "Det er lagt inn en ny inntekt som gir 25 % avvik. Skjønnsmessig fastsettelse av sykepengegrunnlaget støttes ikke i Speil.",
         "løsning": "Du kan endre inntekten en gang til hvis du har gjort noe feil. Dersom endringen skal gjennomføres må periodene annulleres i Speil og behandles i Infotrygd.",
-        "viktighet": "Høy"
+        "viktighet": "Høy",
+        "type": "error"
     },
     {
-        "varsel": "Fant ikke refusjonsgrad for perioden. Undersøk før du utbetaler.",
+        "varsel": "Fant ikke refusjonsgrad for perioden. Undersøk oppgitt refusjon før du utbetaler.",
         "betydning": "Fant ikke informasjon om det er refusjon i perioden. Refusjonen er satt til 100 % siden det samsvarer med siste utbetalte periode i Infotrygd.",
-        "løsning": "Undersøk hva som er riktig. Refusjonen er satt til 100 % siden det samsvarer med siste utbetalte periode i Infotrygd. Dersom refusjonen er satt feil må perioden behandles i Infotrygd.",
+        "løsning": "Undersøk hva som er oppgitt i siste inntektsmelding og eventuell informasjon i Infotrygd. Dersom refusjonen er satt feil må perioden behandles i Infotrygd.",
         "viktighet": "Høy"
     },
     {
         "varsel": "Utbetalingen forlenger en tidligere periode hvor alle utbetalte dager er opphørte. Kontroller simuleringen.",
         "betydning": "En endring i måten utbetalinger bygges på, gjør at vi i en overgangsperiode ønsker å kontrollere utbetalinger som endrer på en tidligere opphørt periode.",
         "løsning": "Kontroller at simuleringen ser riktig ut.",
+        "viktighet": "Høy"
+    },
+    {
+        "varsel": "Bruker har flere inntektskilder de siste tre månedene enn arbeidsforhold som er oppdaget i Aa-registeret.",
+        "betydning": "Bruker kan være frilanser.",
+        "løsning": "Sjekk om bruker er kombinert arbeidstaker og frilanser. Hvis ja, send saken til Infotrygd.",
+        "viktighet": "Høy"
+    },
+    {
+        "varsel": "Det er oppgitt annen inntektskilde i søknaden. Vurder inntekt.",
+        "betydning": "Den sykmeldte har oppgitt «Annet» som annen inntektskilde i søknaden.",
+        "løsning": "Sjekk hva den andre inntektskilden består av og vurder om saken kan behandles i Speil. Hvis saken ikke kan behandles i Speil, må du behandle saken i Infotrygd.",
+        "viktighet": "Høy"
+    },
+    {
+        "varsel": "Første utbetalingsdag er i Infotrygd og mellom 1. og 16. mai. Kontroller at riktig grunnbeløp er brukt.",
+        "betydning": "Vi klarer ikke å lese riktig skjæringstidspunkt når saken har startet i Infotrygd. Vi må kontrollere at riktig grunnbeløp er brukt i saker med sykepengegrunnlag over 6G.",
+        "løsning": "Kontroller at dagsatsen samsvarer med grunnbeløpet som skal brukes.",
         "viktighet": "Høy"
     }
 ]

@@ -156,6 +156,9 @@ export const mapUtbetalingsdag =
         gradering: somHeltall(dag.grad),
         totalGradering: somHeltall(dag.totalGrad),
         utbetaling: dag.utbetaling,
+        arbeidsgiverbeløp: dag.arbeidsgiverbeløp,
+        personbeløp: dag.personbeløp,
+        refusjonsbeløp: dag.refusjonsbeløp,
         avvistÅrsaker: dag.begrunnelser?.map((begrunnelse) => getAvvistÅrsak(begrunnelse, vilkår)) as Avvisning[],
     });
 

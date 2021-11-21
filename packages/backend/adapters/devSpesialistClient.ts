@@ -89,7 +89,7 @@ const filenameForPersonId = (id: string) => {
             return 'dronning-sonja_infotrygdforlengelse.json';
         case '2836012894592':
         case '19047622436':
-            return 'sniff_førstegangsbehandling_revurdering.json';
+            return 'sniff_to_skjæringstidspunkt_første_utbetalt.json';
         case '2259231338047':
         case '09038400182':
             return 'luke_skywalker_revurdering.json';
@@ -98,13 +98,13 @@ const filenameForPersonId = (id: string) => {
             return 'mummitrollet_revurdering_tre_perioder.json';
         case '1000000009872':
         case '21023701902':
-            return 'snorkfrøken_flere_arbeidsgivere.json';
+            return 'snorkfrøken_to_utbetalte_skjæringstidspunkt.json';
         case '05068821403':
         case '2446602102797':
-            return 'hufsa_annullert.json';
+            return 'hufsa_flere_ag_forlengelse_første_utbetalt.json';
         case '19026500128':
         case '2750243667998':
-            return 'stinky_stank_førstegangsbehandling.json';
+            return 'stinky_stank_to_skjæringstidspunkt_første_ingen_utbetaling.json';
         case '2750243667999':
         case '19026500129':
             return 'teknobasse_revurderer_revurderinger.json';
@@ -128,7 +128,7 @@ const filenameForPersonId = (id: string) => {
             return 'bråkete_konsoll_utbetalt_revurdering_kun_ferie.json';
         case '2287435975702':
         case '11117615092':
-            return 'feilende_opptjeningsvilkår.json';
+            return 'stor_bolle_feilende_opptjeningsvilkår.json';
         case '12020052345':
         case '42':
             return 'abel_tesfaye_ghost.json';

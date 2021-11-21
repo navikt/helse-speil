@@ -10,6 +10,7 @@ import { Oppgaveetikett } from '../../../components/Oppgaveetikett';
 import { Advarselikon } from '../../../components/ikoner/Advarselikon';
 import { Maksdatoikon } from '../../../components/ikoner/Maksdatoikon';
 import { Skjæringstidspunktikon } from '../../../components/ikoner/Skjæringstidspunktikon';
+import { SkjæringstidspunktikonInvert } from '../../../components/ikoner/SkjæringstidspunktikonInvert';
 import { Sykmeldingsperiodeikon } from '../../../components/ikoner/Sykmeldingsperiodeikon';
 import { useVedtaksperiode } from '../../../state/tidslinje';
 import { NORSK_DATOFORMAT_KORT } from '../../../utils/date';
@@ -71,6 +72,7 @@ export const PeriodeCard = React.memo(
     ({ aktivPeriode, maksdato, alderVedSisteSykedag, skjæringstidspunkt, gjenståendeDager }: PeriodeCardProps) => {
         const vedtaksperiode = useVedtaksperiode(aktivPeriode.id) as Vedtaksperiode;
         const periodetype = aktivPeriode.type === 'REVURDERING' ? 'revurdering' : vedtaksperiode.periodetype;
+        const infotrygdforlengelse = vedtaksperiode.forlengelseFraInfotrygd;
         const periodetypeLabel = getTextForPeriodetype(periodetype);
 
         return (
@@ -85,9 +87,15 @@ export const PeriodeCard = React.memo(
                     </IconContainer>
                     <BodyShort>{`${formatertDato(aktivPeriode.fom)} - ${formatertDato(aktivPeriode.tom)}`}</BodyShort>
                     <IconContainer data-tip="Skjæringstidspunkt">
-                        <Skjæringstidspunktikon alt="Skjæringstidspunkt" />
+                        {infotrygdforlengelse ? (
+                            <SkjæringstidspunktikonInvert alt="Skjæringstidspunkt" />
+                        ) : (
+                            <Skjæringstidspunktikon alt="Skjæringstidspunkt" />
+                        )}
                     </IconContainer>
-                    <BodyShort>{skjæringstidspunkt}</BodyShort>
+                    <BodyShort>
+                        {infotrygdforlengelse ? 'Skjæringstidspunkt i Infotrygd/Gosys' : skjæringstidspunkt}
+                    </BodyShort>
                     <IconContainer data-tip="Maksdato">
                         <Maksdatoikon alt="Maksdato" />
                     </IconContainer>

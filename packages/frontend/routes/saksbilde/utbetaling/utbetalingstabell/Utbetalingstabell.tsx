@@ -2,6 +2,10 @@ import styled from '@emotion/styled';
 import { Dayjs } from 'dayjs';
 import React, { useMemo } from 'react';
 
+import { Bag, People } from '@navikt/ds-icons';
+
+import { Flex } from '../../../../components/Flex';
+import { Tooltip } from '../../../../components/Tooltip';
 import { NORSK_DATOFORMAT } from '../../../../utils/date';
 
 import { Header } from '../../table/Header';
@@ -74,7 +78,14 @@ export const Utbetalingstabell = ({ fom, tom, dager, lokaleOverstyringer }: Utbe
                                 Total grad
                             </Header>
                             <Header scope="col" colSpan={1}>
-                                Utbetaling
+                                <Flex data-tip="Arbeidsgiver" alignItems="center">
+                                    <Bag style={{ marginRight: '0.5rem' }} /> Utbetaling
+                                </Flex>
+                            </Header>
+                            <Header scope="col" colSpan={1}>
+                                <Flex data-tip="Arbeidstaker" alignItems="center">
+                                    <People style={{ marginRight: '0.5rem' }} /> Utbetaling
+                                </Flex>
                             </Header>
                             <Header scope="col" colSpan={1}>
                                 Dager igjen
@@ -110,7 +121,11 @@ export const Utbetalingstabell = ({ fom, tom, dager, lokaleOverstyringer }: Utbe
                                     erOverstyrt={!!lokaleOverstyringer?.get(key)}
                                 />
                                 <UtbetalingCell
-                                    utbetaling={dag.utbetaling}
+                                    utbetaling={dag.arbeidsgiverbeløp}
+                                    erOverstyrt={!!lokaleOverstyringer?.get(key)}
+                                />
+                                <UtbetalingCell
+                                    utbetaling={dag.personbeløp}
                                     erOverstyrt={!!lokaleOverstyringer?.get(key)}
                                 />
                                 <GjenståendeDagerCell
@@ -123,6 +138,7 @@ export const Utbetalingstabell = ({ fom, tom, dager, lokaleOverstyringer }: Utbe
                     </tbody>
                 </Table>
             </TabellContainer>
+            <Tooltip id="utbetalingstabell" />
         </Container>
     );
 };

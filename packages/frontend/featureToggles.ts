@@ -16,7 +16,37 @@ const fagkoordinatorer = [
     'A151722',
 ];
 const faktiskSupportsaksbehandlere = ['H104215', 'O130292', 'F111930'];
-const tilgangFlereArbeidsgivere = ['M139452', 'S109031', 'B136871', 'J104651', 'D123751'];
+const tilgangFlereArbeidsgivere = [
+    'M139452',
+    'S109031',
+    'B136871',
+    'J104651',
+    'D123751',
+    'R117524',
+    'D163344',
+    'F131882',
+    'I104299',
+    'F131883',
+    'J153777',
+    'S135852',
+    'S127865',
+    'A158665',
+    'B138607',
+    'L148406',
+    'L105506',
+    'M106091',
+    'P107343',
+    'S112395',
+    'F140836',
+    'L157337',
+    'S109031',
+    'F160529',
+    'B137568',
+    'T144880',
+    'S160466',
+];
+
+const tilgangStikkprøver = ['F140836'];
 
 const utvidetTilganger = [
     ...faktiskSupportsaksbehandlere,
@@ -36,6 +66,16 @@ const utvidetTilganger = [
     'R117524',
     'S109031',
     'W110120',
+    'D163344',
+    'A110417',
+    'J153777',
+    'D123751',
+    'J104651',
+    'L157337',
+    'S109031',
+    'F160529',
+    'B137568',
+    'T144880',
 ];
 
 const kanRevurdere = [
@@ -57,6 +97,14 @@ const kanRevurdere = [
     'J104651',
     'D123751',
     'W110120',
+    'D163344',
+    'A110417',
+    'J153777',
+    'L157337',
+    'S109031',
+    'F160529',
+    'B137568',
+    'T144880',
 ];
 
 export const erLocal = () => location.hostname === 'localhost';
@@ -66,6 +114,7 @@ const harTilgangTilAlt = () => [...supersaksbehandlere, ...fagkoordinatorer].inc
 const erFaktiskSupportsaksbehandler = () => faktiskSupportsaksbehandlere.includes(extractIdent()); // ref @support på Slack
 const harUtvidetTilgang = () => utvidetTilganger.includes(extractIdent());
 const harTilgangFlereArbeidsgivere = () => tilgangFlereArbeidsgivere.includes(extractIdent());
+const harTilgangStikkprøver = () => tilgangStikkprøver.includes(extractIdent());
 const erAnnulleringsbois = () => erKnudix() || erKevin();
 const erSpiceGirls = () => erMarte() || erKevin() || erAnders() || erHegeir();
 const erKnudix = () => extractIdent() === 'N143409';
@@ -76,11 +125,10 @@ const erMarte = () => extractIdent() === 'T141884';
 const erAnders = () => extractIdent() === 'O142910';
 const erHegeir = () => extractIdent() === 'H161007';
 const erUtvikler = () => extractGroups().includes(groupIdForUtviklere);
-const erSolør = () => erJakob() || erJonas() || erSindre() || erErlend() || erPeter();
+const erSolør = () => erJakob() || erJonas() || erSindre() || erPeter();
 const erJonas = () => extractIdent() === 'H159657';
 const erPeter = () => extractIdent() === 'S159940';
 const erSindre = () => extractIdent() === 'B159939';
-const erErlend = () => extractIdent() === 'v159649';
 const erJakob = () => extractIdent() === 'E156407';
 
 export const overstyrPermisjonsdagerEnabled = erLocal() || erDev();
@@ -105,7 +153,7 @@ export const oppdaterPersondataEnabled =
     erSolør();
 export const amplitudeEnabled = true;
 export const utbetalingsoversikt = erUtvikler() || erLocal() || harTilgangTilAlt() || erDigimort();
-export const stikkprøve = harTilgangTilAlt() || erLocal() || erDev();
+export const stikkprøve = harTilgangStikkprøver() || harTilgangTilAlt() || erLocal() || erDev();
 export const flereArbeidsgivere =
     erSpiceGirls() ||
     erLocal() ||

@@ -1,9 +1,11 @@
 import styled from '@emotion/styled';
+import dayjs from 'dayjs';
 import React from 'react';
 
-import { InformationFilled } from '@navikt/ds-icons';
 import { BodyShort, Heading } from '@navikt/ds-react';
 
+import { PopoverHjelpetekst } from '../../../../components/PopoverHjelpetekst';
+import { SortInfoikon } from '../../../../components/ikoner/SortInfoikon';
 import { getKildeType } from '../../../../utils/inntektskilde';
 import { somPenger } from '../../../../utils/locale';
 
@@ -28,10 +30,14 @@ const FetVerdi = styled(Bold)`
 
 const Tittel = styled(Heading)`
     display: flex;
-    align-items: center;
     font-size: 18px;
     color: var(--navds-color-text-primary);
+`;
+
+const Tittellinje = styled.div`
+    display: flex;
     margin-bottom: 1.25rem;
+    align-items: center;
 `;
 
 const Divider = styled.hr`
@@ -42,11 +48,9 @@ const Divider = styled.hr`
     margin: 38px 0 42px 0;
 `;
 
-const InformationIcon = styled(InformationFilled)`
-    color: var(--speil-info-ikon);
-    margin-left: 17px;
-    height: 24px;
-    width: 24px;
+const InfobobleContainer = styled.div`
+    min-height: 24px;
+    margin-left: 1rem;
 `;
 
 const getMonthName = (yearMonth: string) => {
@@ -67,15 +71,40 @@ const getMonthName = (yearMonth: string) => {
     return monthNumberToMonthName[yearMonth.split('-')[1]] ?? 'Fant ikke måned';
 };
 
+const sorterInntekterFraAOrdningen = (
+    inntekterFraAOrdningen: ExternalInntekterFraAOrdningen[] | null
+): ExternalInntekterFraAOrdningen[] | null => {
+    if (inntekterFraAOrdningen == null) return null;
+    return inntekterFraAOrdningen
+        .map((inntektFraAOrdningen) => ({
+            måned: dayjs(inntektFraAOrdningen.måned, 'YYYY-MM'),
+            sum: inntektFraAOrdningen.sum,
+        }))
+        .sort((a, b) => (a.måned.isAfter(b.måned) ? -1 : 1))
+        .map((it) => ({
+            måned: it.måned.format('YYYY-MM'),
+            sum: it.sum,
+        }));
+};
+
 const InntektFraAordningen = ({ omregnetÅrsinntekt }: { omregnetÅrsinntekt: ExternalOmregnetÅrsinntekt }) => {
     return (
         <>
-            <Tittel as="h3" size="medium">
-                Rapportert siste 3 måneder
-                <InformationIcon />
-            </Tittel>
+            <Tittellinje>
+                <Tittel as="h3" size="medium">
+                    Rapportert siste 3 måneder
+                </Tittel>
+                <InfobobleContainer>
+                    <PopoverHjelpetekst ikon={<SortInfoikon />}>
+                        <p>
+                            Ved manglende inntektsmelding legges 3 siste måneders innrapporterte inntekter fra
+                            A-ordningen til grunn
+                        </p>
+                    </PopoverHjelpetekst>
+                </InfobobleContainer>
+            </Tittellinje>
             <Tabell>
-                {omregnetÅrsinntekt.inntekterFraAOrdningen?.map((inntekt, i) => {
+                {sorterInntekterFraAOrdningen(omregnetÅrsinntekt.inntekterFraAOrdningen)?.map((inntekt, i) => {
                     return (
                         <React.Fragment key={i}>
                             <BodyShort as="p"> {getMonthName(inntekt.måned)}</BodyShort>

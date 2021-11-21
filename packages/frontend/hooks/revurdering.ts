@@ -1,5 +1,8 @@
+import dayjs from 'dayjs';
+
+import { useArbeidsgiver } from '../modell/arbeidsgiver';
 import { usePerson } from '../state/person';
-import { useMaybeAktivPeriode } from '../state/tidslinje';
+import { useAktivPeriode, useMaybeAktivPeriode } from '../state/tidslinje';
 
 import type { UtbetalingToggles } from '../featureToggles';
 
@@ -10,31 +13,33 @@ const godkjentTilstander: Tidslinjetilstand[] = [
     'revurdertIngenUtbetaling',
 ];
 
+const tidslinjeperioderISisteGenerasjon = (person: Person, periode: Tidslinjeperiode): Tidslinjeperiode[] =>
+    person.arbeidsgivere
+        .map((it) => it.tidslinjeperioder)
+        .filter((it) => it.length > 0)
+        .flatMap((it) => it[0]);
+
+const periodeFinnesISisteGenerasjon = (person: Person, periode: Tidslinjeperiode): boolean =>
+    tidslinjeperioderISisteGenerasjon(person, periode).find(
+        (it) => it.id === periode.id && it.beregningId === periode.beregningId && it.unique === periode.unique
+    ) !== undefined;
+
 const arbeidsgiversSisteSkjæringstidspunktErLikSkjæringstidspunktetTilPerioden = (
     person: Person,
     periode: Tidslinjeperiode
-) => {
-    const alleTidslinjeperioder = person.arbeidsgivere.map((it) => it.tidslinjeperioder).filter((it) => it.length > 0);
-    const alleTidslinjeperioderISisteGenerasjon = alleTidslinjeperioder.flatMap((it) => it[0]);
-    const periodeFinnesISisteGenerasjon = alleTidslinjeperioderISisteGenerasjon.find(
-        (it) => it.id === periode.id && it.beregningId === periode.beregningId && it.unique === periode.unique
-    );
+): boolean => {
+    if (!periode.skjæringstidspunkt) return false;
 
-    if (!periodeFinnesISisteGenerasjon) return false;
+    const periodenFinnesISisteGenerasjon = periodeFinnesISisteGenerasjon(person, periode);
+
+    if (!periodenFinnesISisteGenerasjon) return false;
 
     const arbeidsgiver = person.arbeidsgivere.find((arb) => arb.organisasjonsnummer === periode.organisasjonsnummer);
-    const arbeidsgiversSisteTidslinjeperiode = arbeidsgiver?.tidslinjeperioder[0].filter((it) => it.fullstendig)[0];
+    const sistePeriode = arbeidsgiver?.tidslinjeperioder[0].filter((it) => it.fullstendig)[0];
 
-    const sisteVedtaksperiodeForArbeidsgiver = person.arbeidsgivere
-        .flatMap((it) => it.vedtaksperioder)
-        .filter((it) => it.fullstendig)
-        .map((it) => it as Vedtaksperiode)
-        .find((it) => it.id === arbeidsgiversSisteTidslinjeperiode?.id);
+    if (!sistePeriode?.skjæringstidspunkt) return false;
 
-    const arbeidsgiversSisteSkjæringstidspunkt =
-        sisteVedtaksperiodeForArbeidsgiver?.vilkår?.dagerIgjen.skjæringstidspunkt;
-    if (!periode.skjæringstidspunkt) return false;
-    return arbeidsgiversSisteSkjæringstidspunkt?.isSame(periode.skjæringstidspunkt, 'day') ?? false;
+    return dayjs(sistePeriode.skjæringstidspunkt).isSame(periode.skjæringstidspunkt, 'day');
 };
 
 const overlapper = (periode: Tidslinjeperiode, other: Tidslinjeperiode) =>
@@ -96,4 +101,47 @@ export const useOverstyrRevurderingIsEnabled = (toggles: UtbetalingToggles) => {
         alleOverlappendePerioderErTilRevurdering(person, periode) &&
         arbeidsgiversSisteSkjæringstidspunktErLikSkjæringstidspunktetTilPerioden(person, periode)
     );
+};
+
+export const useErTidslinjeperiodeISisteGenerasjon = (): boolean => {
+    const periode = useAktivPeriode();
+    const person = usePerson();
+
+    if (!person) throw Error('Forventet person, men fant ingen');
+
+    return periodeFinnesISisteGenerasjon(person, periode);
+};
+
+export const useErAktivPeriodeISisteSkjæringstidspunkt = (): boolean => {
+    const periode = useMaybeAktivPeriode();
+    const person = usePerson();
+
+    if (!person || !periode) {
+        return false;
+    }
+
+    return arbeidsgiversSisteSkjæringstidspunktErLikSkjæringstidspunktetTilPerioden(person, periode);
+};
+
+export const useHarKunEnFagsystemIdPåArbeidsgiverIAktivPeriode = (): boolean => {
+    const arbeidsgiver = useArbeidsgiver();
+    const aktivPeriode = useAktivPeriode();
+
+    return (
+        Object.keys(
+            groupBy(
+                arbeidsgiver.tidslinjeperioder[0].filter(
+                    (it) => it.skjæringstidspunkt === aktivPeriode.skjæringstidspunkt
+                ),
+                'fagsystemId'
+            )
+        ).length === 1 ?? false
+    );
+};
+
+const groupBy = (xs: any[], key: string): any[] => {
+    return xs.reduce((rv, x) => {
+        (rv[x[key]] = rv[x[key]] || []).push(x);
+        return rv;
+    }, {});
 };

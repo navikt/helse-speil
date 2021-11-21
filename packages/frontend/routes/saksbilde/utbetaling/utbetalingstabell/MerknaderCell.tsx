@@ -33,7 +33,7 @@ const Merknad: React.VFC<MerknadProps> = ({ begrunnelse }) => {
             );
         case 'MinimumSykdomsgrad':
             return (
-                <Container data-tip="Sykdomsgrad under 20%">
+                <Container data-tip="Sykdomsgrad under 20 %">
                     <LovdataLenke paragraf="8-13">§ 8-13</LovdataLenke>
                 </Container>
             );
@@ -42,6 +42,13 @@ const Merknad: React.VFC<MerknadProps> = ({ begrunnelse }) => {
             return (
                 <Container data-tip="Inntekt under krav til minste sykepengegrunnlag">
                     <LovdataLenke paragraf={paragraf}>§ {paragraf}</LovdataLenke>
+                </Container>
+            );
+        }
+        case 'MinimumInntektOver67': {
+            return (
+                <Container data-tip="Inntekt under krav til minste sykepengegrunnlag">
+                    <LovdataLenke paragraf="8-51">§ 8-51</LovdataLenke>
                 </Container>
             );
         }
@@ -61,12 +68,24 @@ const Merknad: React.VFC<MerknadProps> = ({ begrunnelse }) => {
                     </LovdataLenke>
                 </Container>
             );
+        case 'SykepengedagerOppbruktOver67':
+            return (
+                <Container data-tip="Maks antall sykepengedager er nådd">
+                    <LovdataLenke paragraf="8-51">§ 8-51</LovdataLenke>
+                </Container>
+            );
         case 'SykepengedagerOppbrukt':
             return (
                 <Container data-tip="Maks antall sykepengedager er nådd">
                     <LovdataLenke paragraf={begrunnelse.paragraf ?? '8-12'}>
                         § {begrunnelse.paragraf ?? '8-12'}
                     </LovdataLenke>
+                </Container>
+            );
+        case 'Over70':
+            return (
+                <Container data-tip="Personen er 70 år eller eldre">
+                    <LovdataLenke paragraf="8-3">§ 8-3</LovdataLenke>
                 </Container>
             );
         default:
