@@ -171,7 +171,7 @@ export const Periodeknapp = styled(Period, { shouldForwardProp: (prop) => prop !
         css`
             box-shadow: 0 0 0 2px var(--navds-text-focus);
             border-color: var(--navds-text-focus);
-            z-index: 20;
+            z-index: 20 !important;
         `}
 
     ${icon}
