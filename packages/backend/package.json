@@ -15,7 +15,7 @@
         "dev": "cross-env-shell NODE_ENV=development SESSION_SECRET=whatever ts-node-dev --respawn --transpile-only server.ts",
         "serve": "cross-env-shell NODE_ENV=development SESSION_SECRET=whatever ts-node-dev --respawn --transpile-only server.ts",
         "mock": "ts-node-dev spesialistMock.ts",
-        "test:eslint": "eslint src/ --ext .ts --ext .js",
+        "test:eslint": "eslint . --ext .ts --ext .js",
         "test": "cross-env TZ=UTC jest --maxWorkers=3",
         "tdd": "TZ=UTC jest --watch --maxWorkers=3",
         "validate-ts": "npx tsc --noEmit --project tsconfig.json",

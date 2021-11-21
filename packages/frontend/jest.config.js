@@ -19,7 +19,7 @@ module.exports = {
         '@navikt/ds-css(.*)': '<rootDir>/__mocks__/styleMock.js',
     },
     transformIgnorePatterns: ['<rootDir>/node_modules'],
-    watchPathIgnorePatterns: ['<rootDir>/dist', '<rootDir>/node_modules'],
+    watchPathIgnorePatterns: ['<rootDir>/node_modules'],
     setupFilesAfterEnv: ['<rootDir>/__mocks__/jest-setup.js'],
 };
 process.env.TZ = 'UTC';
