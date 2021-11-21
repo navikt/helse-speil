@@ -15,6 +15,7 @@ const Container = styled.div<{ variant: VarselVariant }>`
     padding: 8px 16px;
     border-width: 1px;
     border-style: solid;
+    height: max-content;
     ${(props) => {
         switch (props.variant) {
             case 'info':
