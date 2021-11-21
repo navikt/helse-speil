@@ -51,7 +51,7 @@ const usePlayerControls = () => {
 };
 
 const Player = () => {
-    const { scene, animations } = useLoader<any, any>(GLTFLoader, agurk);
+    const { scene, animations } = useLoader<any, any>(GLTFLoader, agurk.pathname);
     const mixer = useRef<AnimationMixer>();
     const playerRef = useRef<Mesh>();
     const movement = usePlayerControls();
