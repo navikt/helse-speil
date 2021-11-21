@@ -162,9 +162,11 @@ app.get('/*', (req, res, next) => {
     next();
 });
 
+const clientPath = process.env.NODE_ENV === 'development' ? '../../dist/client' : '/app/dist/client';
+
 // At the time of writing this comment, the setup of the static 'routes' has to be done in a particular order.
-app.use('/static', express.static('../../dist/client/static'));
-app.use('/*', express.static('../../dist/client/index.html'));
-app.use('/', express.static('../../dist/client/'));
+app.use('/static', express.static(`${clientPath}/static`));
+app.use('/*', express.static(`${clientPath}/index.html`));
+app.use('/', express.static(`${clientPath}/`));
 
 app.listen(port, () => logger.info(`Speil backend listening on port ${port}`));
