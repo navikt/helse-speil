@@ -45,6 +45,8 @@ jobs:
         run: npm ci --ignore-scripts
       - name: install package dependencies
         run: npx lerna bootstrap
+      - name: test
+        run: npm run test
       - name: build
         run: npm run build
       - name: Cache Cypress binary
