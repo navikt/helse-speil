@@ -2,7 +2,7 @@ import { extractIdent, extractGroups } from './utils/cookie';
 
 const groupIdForUtviklere = 'f787f900-6697-440d-a086-d5bb56e26a9c';
 const eminem = 'G103083';
-const supersaksbehandlere = [eminem, 'D117949', 'A148751', 'N115007', 'C117102', 'S145454'];
+const supersaksbehandlere = [eminem, 'D117949', 'A148751', 'N115007', 'C117102', 'S145454','E148846'];
 const fagkoordinatorer = [
     'J150708',
     'S108267',
