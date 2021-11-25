@@ -29,6 +29,7 @@ const Grid = styled.div`
 
 const IconContainer = styled.div`
     justify-self: center;
+    display: flex;
 `;
 
 const LovdataLenkeContainer = styled(BodyShort)`
