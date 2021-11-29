@@ -57,16 +57,25 @@ export const AvvisningButton: React.VFC<AvvisningButtonProps> = ({
             .then(() => {
                 amplitude.logOppgaveForkastet(begrunnelser);
                 addInfotrygdtoast();
-                onSuccess?.();
+                setIsSending(false);
                 closeModal();
+                onSuccess?.();
             })
-            .catch(onError)
-            .finally(() => setIsSending(false));
+            .catch((error) => {
+                setIsSending(false);
+                onError?.(error);
+            });
     };
 
     return (
         <>
-            <Button variant="secondary" size="small" {...buttonProps}>
+            <Button
+                variant="secondary"
+                size="small"
+                data-testid="avvisning-button"
+                onClick={() => setShowModal(true)}
+                {...buttonProps}
+            >
                 Kan ikke behandles her
             </Button>
             {showModal && (

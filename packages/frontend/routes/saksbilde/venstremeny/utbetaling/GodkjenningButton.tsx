@@ -58,16 +58,25 @@ export const GodkjenningButton: React.FC<GodkjenningButtonProps> = ({
             .then(() => {
                 amplitude.logOppgaveGodkjent();
                 addUtbetalingstoast();
-                onSuccess?.();
+                setIsSending(false);
                 closeModal();
+                onSuccess?.();
             })
-            .catch(onError)
-            .finally(() => setIsSending(false));
+            .catch((error) => {
+                setIsSending(false);
+                onError?.(error);
+            });
     };
 
     return (
         <>
-            <Button variant="primary" size="small" {...buttonProps}>
+            <Button
+                variant="primary"
+                size="small"
+                data-testid="godkjenning-button"
+                onClick={() => setShowModal(true)}
+                {...buttonProps}
+            >
                 {children}
             </Button>
             {showModal && <UtbetalingModal onClose={closeModal} onApprove={godkjennUtbetaling} isSending={isSending} />}

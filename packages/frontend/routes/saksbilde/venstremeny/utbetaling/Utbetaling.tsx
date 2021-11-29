@@ -10,6 +10,13 @@ import { opptegnelsePollingTimeState } from '../../../../state/opptegnelser';
 import { useHistory } from 'react-router';
 import { ErrorMessage } from '../../../../components/ErrorMessage';
 import { AvvisningButton } from './AvvisningButton';
+import styled from '@emotion/styled';
+import { BrukerutbetalingInfoMessage } from './BrukerutbetalingInfoMessage';
+
+const Buttons = styled.div`
+    display: flex;
+    gap: 1rem;
+`;
 
 const skalPolleEtterNestePeriode = (person: Person) =>
     person.arbeidsgivere
@@ -35,7 +42,10 @@ export const Utbetaling = ({ aktivPeriode }: UtbetalingProps) => {
     if (!person || !(harOppgave(aktivPeriode) && oppgavereferanse)) return null;
 
     const erRevurdering = aktivPeriode.type === 'REVURDERING';
-    const harBeløpTilUtbetaling = utbetaling?.arbeidsgiverNettobeløp ? utbetaling.arbeidsgiverNettobeløp !== 0 : false;
+    const harArbeidsgiverutbetaling = utbetaling?.arbeidsgiverNettobeløp
+        ? utbetaling.arbeidsgiverNettobeløp !== 0
+        : false;
+    const harBrukerutbetaling = utbetaling?.personNettobeløp ? utbetaling.personNettobeløp !== 0 : false;
 
     const navigerTilOversikten = () => history.push('/');
 
@@ -53,23 +63,28 @@ export const Utbetaling = ({ aktivPeriode }: UtbetalingProps) => {
 
     return (
         <>
-            <GodkjenningButton
-                oppgavereferanse={oppgavereferanse}
-                aktørId={person.aktørId}
-                onSuccess={onGodkjennUtbetaling}
-                onError={captureError}
-            >
-                {erRevurdering ? 'Revurder' : harBeløpTilUtbetaling ? 'Utbetal' : 'Godkjenn'}
-            </GodkjenningButton>
-            {!erRevurdering && (
-                <AvvisningButton
-                    aktivPeriode={aktivPeriode}
-                    oppgavereferanse={oppgavereferanse}
-                    aktørId={person.aktørId}
-                    onSuccess={navigerTilOversikten}
-                    onError={captureError}
-                />
-            )}
+            {harBrukerutbetaling && <BrukerutbetalingInfoMessage />}
+            <Buttons>
+                {!harBrukerutbetaling && (
+                    <GodkjenningButton
+                        oppgavereferanse={oppgavereferanse}
+                        aktørId={person.aktørId}
+                        onSuccess={onGodkjennUtbetaling}
+                        onError={captureError}
+                    >
+                        {erRevurdering ? 'Revurder' : harArbeidsgiverutbetaling ? 'Utbetal' : 'Godkjenn'}
+                    </GodkjenningButton>
+                )}
+                {!erRevurdering && (
+                    <AvvisningButton
+                        aktivPeriode={aktivPeriode}
+                        oppgavereferanse={oppgavereferanse}
+                        aktørId={person.aktørId}
+                        onSuccess={navigerTilOversikten}
+                        onError={captureError}
+                    />
+                )}
+            </Buttons>
             {error && (
                 <ErrorMessage>
                     {error.message || 'En feil har oppstått.'}
