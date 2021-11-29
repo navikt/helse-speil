@@ -10,7 +10,7 @@ import { personState } from '../../../../state/person';
 
 import '../../../../tekster';
 import { Utbetaling } from './Utbetaling';
-import { Avvisningsskjema } from './Utbetalingsdialog';
+import { Avvisningsskjema } from './AvvisningModal';
 
 const wrapper =
     (initializer?: (mutableSnapshot: MutableSnapshot) => void): React.FC =>

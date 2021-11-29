@@ -1,5 +1,3 @@
-import { Avvisningsskjema } from '../routes/saksbilde/venstremeny/utbetaling/Utbetalingsdialog';
-
 import {
     AnnulleringDTO,
     NotatDTO,
@@ -8,6 +6,7 @@ import {
     OverstyrtInntektDTO,
     PersonoppdateringDTO,
 } from './types';
+import { Avvisningsskjema } from '../routes/saksbilde/venstremeny/utbetaling/AvvisningModal';
 
 export const ResponseError = (statusCode: number, message?: string) => ({
     statusCode,

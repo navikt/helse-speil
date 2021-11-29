@@ -21,13 +21,13 @@ const Container = styled.div`
     margin-top: 1.5rem;
 `;
 
-interface Props {
+interface UtbetalingModalProps {
     isSending: boolean;
     onApprove: () => void;
     onClose: () => void;
 }
 
-export const Utbetalingsmodal = ({ isSending, onApprove, onClose }: Props) => (
+export const UtbetalingModal = ({ isSending, onApprove, onClose }: UtbetalingModalProps) => (
     <Modal
         isOpen
         title={

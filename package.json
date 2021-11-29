@@ -13,6 +13,7 @@
         "serve": "lerna run serve --stream",
         "mock": "lerna run mock --stream",
         "build": "lerna run build --stream",
+        "test": "lerna run test --stream",
         "e2e-test": "e2e-tests/run.sh",
         "e2e-test-local": "e2e-tests/run.sh; e2e-tests/stop.sh",
         "prepare": "husky install"

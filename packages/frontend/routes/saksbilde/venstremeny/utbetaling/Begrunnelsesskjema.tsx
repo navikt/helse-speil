@@ -5,8 +5,7 @@ import { Controller, useFormContext } from 'react-hook-form';
 import { Checkbox as NavCheckbox, Fieldset, Textarea } from '@navikt/ds-react';
 
 import { useVedtaksperiode } from '../../../../state/tidslinje';
-
-import { Begrunnelse } from './Utbetalingsdialog';
+import { Begrunnelse } from './AvvisningModal';
 
 const Container = styled.div`
     margin-top: 1.5rem;

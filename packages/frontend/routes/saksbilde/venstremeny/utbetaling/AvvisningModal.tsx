@@ -7,8 +7,22 @@ import { Button, Loader, Heading } from '@navikt/ds-react';
 import { Modal } from '../../../../components/Modal';
 
 import { Begrunnelsesskjema } from './Begrunnelsesskjema';
-import type { Avvisningsskjema } from './Utbetalingsdialog';
-import { Begrunnelse, Årsak } from './Utbetalingsdialog';
+
+export enum Årsak {
+    Feil = 'Feil vurdering og/eller beregning',
+    InfotrygdRiktig = 'Allerede behandlet i infotrygd - riktig vurdering',
+    InfotrygdFeil = 'Allerede behandlet i infotrygd - feil vurdering og/eller beregning',
+}
+
+export enum Begrunnelse {
+    Annet = 'Annet',
+}
+
+export type Avvisningsskjema = {
+    årsak: Årsak;
+    begrunnelser?: string[];
+    kommentar?: string;
+};
 
 const OkKnapp = styled(Button)`
     margin-top: 2rem;
@@ -25,14 +39,14 @@ const StyledModal = styled(Modal)`
     padding: 2.25rem 4.25rem;
 `;
 
-interface AvvisningsModalProps {
+interface AvvisningModalProps {
     aktivPeriode: Tidslinjeperiode;
     isSending: boolean;
     onApprove: (skjema: Avvisningsskjema) => void;
     onClose: () => void;
 }
 
-export const Avvisningsmodal = ({ aktivPeriode, isSending, onApprove, onClose }: AvvisningsModalProps) => {
+export const AvvisningModal = ({ aktivPeriode, isSending, onApprove, onClose }: AvvisningModalProps) => {
     const form = useForm();
     const kommentar = form.watch('kommentar');
     const begrunnelser = form.watch(`begrunnelser`);
