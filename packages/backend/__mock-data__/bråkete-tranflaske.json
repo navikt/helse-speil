@@ -1068,7 +1068,8 @@
                         "status": "IKKE_UTBETALT",
                         "gjenståendeSykedager": 238,
                         "forbrukteSykedager": 10,
-                        "arbeidsgiverNettoBeløp": 8880,
+                        "personNettoBeløp": 8880,
+                        "arbeidsgiverNettoBeløp": 0,
                         "arbeidsgiverFagsystemId": "FD3O7CYQFBBD5OZJ663EJUBCPY",
                         "maksdato": "2022-06-29",
                         "beregningId": "ac45daa6-2850-4319-bc5f-49a7d87d962b",
@@ -1078,6 +1079,8 @@
                                 "inntekt": 888,
                                 "dato": "2021-07-01",
                                 "utbetaling": null,
+                                "personbeløp": 0,
+                                "arbeidsgiveBbeløp": 0,
                                 "grad": null,
                                 "totalGrad": null,
                                 "begrunnelser": null
@@ -1087,6 +1090,8 @@
                                 "inntekt": 888,
                                 "dato": "2021-07-02",
                                 "utbetaling": null,
+                                "personbeløp": 0,
+                                "arbeidsgiverbeløp": 0,
                                 "grad": null,
                                 "totalGrad": null,
                                 "begrunnelser": null
@@ -1096,6 +1101,8 @@
                                 "inntekt": 888,
                                 "dato": "2021-07-03",
                                 "utbetaling": null,
+                                "personbeløp": 0,
+                                "arbeidsgiverbeløp": 0,
                                 "grad": null,
                                 "totalGrad": null,
                                 "begrunnelser": null
@@ -1105,6 +1112,8 @@
                                 "inntekt": 888,
                                 "dato": "2021-07-04",
                                 "utbetaling": null,
+                                "personbeløp": 0,
+                                "arbeidsgiverbeløp": 0,
                                 "grad": null,
                                 "totalGrad": null,
                                 "begrunnelser": null
@@ -1114,6 +1123,8 @@
                                 "inntekt": 888,
                                 "dato": "2021-07-05",
                                 "utbetaling": null,
+                                "personbeløp": 0,
+                                "arbeidsgiverbeløp": 0,
                                 "grad": null,
                                 "totalGrad": null,
                                 "begrunnelser": null
@@ -1123,6 +1134,8 @@
                                 "inntekt": 888,
                                 "dato": "2021-07-06",
                                 "utbetaling": null,
+                                "personbeløp": 0,
+                                "arbeidsgiverbeløp": 0,
                                 "grad": null,
                                 "totalGrad": null,
                                 "begrunnelser": null
@@ -1132,6 +1145,8 @@
                                 "inntekt": 888,
                                 "dato": "2021-07-07",
                                 "utbetaling": null,
+                                "personbeløp": 0,
+                                "arbeidsgiverbeløp": 0,
                                 "grad": null,
                                 "totalGrad": null,
                                 "begrunnelser": null
@@ -1141,6 +1156,8 @@
                                 "inntekt": 888,
                                 "dato": "2021-07-08",
                                 "utbetaling": null,
+                                "personbeløp": 0,
+                                "arbeidsgiverbeløp": 0,
                                 "grad": null,
                                 "totalGrad": null,
                                 "begrunnelser": null
@@ -1150,6 +1167,8 @@
                                 "inntekt": 888,
                                 "dato": "2021-07-09",
                                 "utbetaling": null,
+                                "personbeløp": 0,
+                                "arbeidsgiverbeløp": 0,
                                 "grad": null,
                                 "totalGrad": null,
                                 "begrunnelser": null
@@ -1159,6 +1178,8 @@
                                 "inntekt": 888,
                                 "dato": "2021-07-10",
                                 "utbetaling": null,
+                                "personbeløp": 0,
+                                "arbeidsgiverbeløp": 0,
                                 "grad": null,
                                 "totalGrad": null,
                                 "begrunnelser": null
@@ -1168,6 +1189,8 @@
                                 "inntekt": 888,
                                 "dato": "2021-07-11",
                                 "utbetaling": null,
+                                "personbeløp": 0,
+                                "arbeidsgiverbeløp": 0,
                                 "grad": null,
                                 "totalGrad": null,
                                 "begrunnelser": null
@@ -1177,6 +1200,8 @@
                                 "inntekt": 888,
                                 "dato": "2021-07-12",
                                 "utbetaling": null,
+                                "personbeløp": 0,
+                                "arbeidsgiverbeløp": 0,
                                 "grad": null,
                                 "totalGrad": null,
                                 "begrunnelser": null
@@ -1186,6 +1211,8 @@
                                 "inntekt": 888,
                                 "dato": "2021-07-13",
                                 "utbetaling": null,
+                                "personbeløp": 0,
+                                "arbeidsgiverbeløp": 0,
                                 "grad": null,
                                 "totalGrad": null,
                                 "begrunnelser": null
@@ -1195,6 +1222,8 @@
                                 "inntekt": 888,
                                 "dato": "2021-07-14",
                                 "utbetaling": null,
+                                "personbeløp": 0,
+                                "arbeidsgiverbeløp": 0,
                                 "grad": null,
                                 "totalGrad": null,
                                 "begrunnelser": null
@@ -1204,6 +1233,8 @@
                                 "inntekt": 888,
                                 "dato": "2021-07-15",
                                 "utbetaling": null,
+                                "personbeløp": 0,
+                                "arbeidsgiverbeløp": 0,
                                 "grad": null,
                                 "totalGrad": null,
                                 "begrunnelser": null
@@ -1213,6 +1244,8 @@
                                 "inntekt": 888,
                                 "dato": "2021-07-16",
                                 "utbetaling": null,
+                                "personbeløp": 0,
+                                "arbeidsgiverbeløp": 0,
                                 "grad": null,
                                 "totalGrad": null,
                                 "begrunnelser": null
@@ -1222,6 +1255,8 @@
                                 "inntekt": 0,
                                 "dato": "2021-07-17",
                                 "utbetaling": null,
+                                "personbeløp": 0,
+                                "arbeidsgiverbeløp": 0,
                                 "grad": 100,
                                 "totalGrad": null,
                                 "begrunnelser": null
@@ -1231,6 +1266,8 @@
                                 "inntekt": 0,
                                 "dato": "2021-07-18",
                                 "utbetaling": null,
+                                "personbeløp": 0,
+                                "arbeidsgiverbeløp": 0,
                                 "grad": 100,
                                 "totalGrad": null,
                                 "begrunnelser": null
@@ -1240,6 +1277,8 @@
                                 "inntekt": 888,
                                 "dato": "2021-07-19",
                                 "utbetaling": 888,
+                                "personbeløp": 888,
+                                "arbeidsgiverbeløp": 0,
                                 "grad": 100,
                                 "totalGrad": 100,
                                 "begrunnelser": null
@@ -1249,6 +1288,8 @@
                                 "inntekt": 888,
                                 "dato": "2021-07-20",
                                 "utbetaling": 888,
+                                "personbeløp": 888,
+                                "arbeidsgiverbeløp": 0,
                                 "grad": 100,
                                 "totalGrad": 100,
                                 "begrunnelser": null
@@ -1258,6 +1299,8 @@
                                 "inntekt": 888,
                                 "dato": "2021-07-21",
                                 "utbetaling": 888,
+                                "personbeløp": 888,
+                                "arbeidsgiverbeløp": 0,
                                 "grad": 100,
                                 "totalGrad": 100,
                                 "begrunnelser": null
@@ -1267,6 +1310,8 @@
                                 "inntekt": 888,
                                 "dato": "2021-07-22",
                                 "utbetaling": 888,
+                                "personbeløp": 888,
+                                "arbeidsgiverbeløp": 0,
                                 "grad": 100,
                                 "totalGrad": 100,
                                 "begrunnelser": null
@@ -1276,6 +1321,8 @@
                                 "inntekt": 888,
                                 "dato": "2021-07-23",
                                 "utbetaling": 888,
+                                "personbeløp": 888,
+                                "arbeidsgiverbeløp": 0,
                                 "grad": 100,
                                 "totalGrad": 100,
                                 "begrunnelser": null
@@ -1285,6 +1332,8 @@
                                 "inntekt": 0,
                                 "dato": "2021-07-24",
                                 "utbetaling": null,
+                                "personbeløp": 0,
+                                "arbeidsgiverbeløp": 0,
                                 "grad": 100,
                                 "totalGrad": null,
                                 "begrunnelser": null
@@ -1294,6 +1343,8 @@
                                 "inntekt": 0,
                                 "dato": "2021-07-25",
                                 "utbetaling": null,
+                                "personbeløp": 0,
+                                "arbeidsgiverbeløp": 0,
                                 "grad": 100,
                                 "totalGrad": null,
                                 "begrunnelser": null
@@ -1303,6 +1354,8 @@
                                 "inntekt": 888,
                                 "dato": "2021-07-26",
                                 "utbetaling": 888,
+                                "personbeløp": 888,
+                                "arbeidsgiverbeløp": 0,
                                 "grad": 100,
                                 "totalGrad": 100,
                                 "begrunnelser": null
@@ -1312,6 +1365,8 @@
                                 "inntekt": 888,
                                 "dato": "2021-07-27",
                                 "utbetaling": 888,
+                                "personbeløp": 888,
+                                "arbeidsgiverbeløp": 0,
                                 "grad": 100,
                                 "totalGrad": 100,
                                 "begrunnelser": null
@@ -1321,6 +1376,8 @@
                                 "inntekt": 888,
                                 "dato": "2021-07-28",
                                 "utbetaling": 888,
+                                "personbeløp": 888,
+                                "arbeidsgiverbeløp": 0,
                                 "grad": 100,
                                 "totalGrad": 100,
                                 "begrunnelser": null
@@ -1330,6 +1387,8 @@
                                 "inntekt": 888,
                                 "dato": "2021-07-29",
                                 "utbetaling": 888,
+                                "personbeløp": 888,
+                                "arbeidsgiverbeløp": 0,
                                 "grad": 100,
                                 "totalGrad": 100,
                                 "begrunnelser": null
@@ -1339,6 +1398,8 @@
                                 "inntekt": 888,
                                 "dato": "2021-07-30",
                                 "utbetaling": 888,
+                                "personbeløp": 888,
+                                "arbeidsgiverbeløp": 0,
                                 "grad": 100,
                                 "totalGrad": 100,
                                 "begrunnelser": null
@@ -1348,6 +1409,8 @@
                                 "inntekt": 0,
                                 "dato": "2021-07-31",
                                 "utbetaling": null,
+                                "personbeløp": 0,
+                                "arbeidsgiverbeløp": 0,
                                 "grad": 100,
                                 "totalGrad": null,
                                 "begrunnelser": null

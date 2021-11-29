@@ -83,7 +83,7 @@ const filenameForPersonId = (id: string) => {
     switch (id) {
         case '2469366399586':
         case '25068609936':
-            return 'kong-harald.json';
+            return 'bråkete-tranflaske.json';
         case '87654321962123':
         case '12020042069':
             return 'dronning-sonja_infotrygdforlengelse.json';
