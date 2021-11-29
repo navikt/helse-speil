@@ -15,8 +15,6 @@ import { Sykmeldingsperiodeikon } from '../../../components/ikoner/Sykmeldingspe
 import { useVedtaksperiode } from '../../../state/tidslinje';
 import { NORSK_DATOFORMAT_KORT } from '../../../utils/date';
 import { capitalize } from '../../../utils/locale';
-
-import { Card } from './Card';
 import { CardTitle } from './CardTitle';
 
 const Grid = styled.div`
@@ -77,7 +75,7 @@ export const PeriodeCard = React.memo(
         const periodetypeLabel = getTextForPeriodetype(periodetype);
 
         return (
-            <Card>
+            <section>
                 <Grid>
                     <IconContainer data-tip={capitalize(periodetypeLabel)}>
                         <Oppgaveetikett type={periodetype} tilstand={aktivPeriode.tilstand} />
@@ -130,7 +128,7 @@ export const PeriodeCard = React.memo(
                             ))}
                     </Flex>
                 </Grid>
-            </Card>
+            </section>
         );
     }
 );

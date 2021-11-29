@@ -7,8 +7,6 @@ import { LinkButton } from '../../../components/LinkButton';
 import { useUtbetaling } from '../../../modell/utbetalingshistorikkelement';
 import { useArbeidsgivernavnRender, usePersonnavnRender, useVilkårsgrunnlaghistorikk } from '../../../state/person';
 import { somPenger } from '../../../utils/locale';
-
-import { Card } from './Card';
 import { CardTitle } from './CardTitle';
 import { Utbetalingssum } from './Utbetalingssum';
 import { SimuleringsinfoModal } from './utbetaling/SimuleringsinfoModal';
@@ -61,7 +59,7 @@ export const UtbetalingCard = ({
     const arbeidsgivernavn = useArbeidsgivernavnRender(organisasjonsnummer);
 
     return (
-        <Card>
+        <section>
             <CardTitle>TIL UTBETALING</CardTitle>
             <Grid>
                 <BodyShort as="p">Sykepengegrunnlag</BodyShort>
@@ -88,6 +86,6 @@ export const UtbetalingCard = ({
             ) : (
                 <Feilmelding as="p">Mangler simulering</Feilmelding>
             )}
-        </Card>
+        </section>
     );
 };

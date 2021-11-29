@@ -1,6 +1,4 @@
 import React from 'react';
-
-import { Card } from './Card';
 import { CardTitle } from './CardTitle';
 import { VilkårList } from './VilkårList';
 
@@ -12,13 +10,13 @@ interface VilkårCardProps {
 
 export const VilkårCard = ({ aktivPeriode, skjæringstidspunkt, vilkårsgrunnlaghistorikkId }: VilkårCardProps) => {
     return (
-        <Card>
+        <section>
             <CardTitle>INNGANGSVILKÅR</CardTitle>
             <VilkårList
                 periode={aktivPeriode}
                 skjæringstidspunkt={skjæringstidspunkt}
                 vilkårsgrunnlaghistorikkId={vilkårsgrunnlaghistorikkId}
             />
-        </Card>
+        </section>
     );
 };

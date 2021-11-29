@@ -12,8 +12,6 @@ import {
 } from '../../../state/person';
 import { NORSK_DATOFORMAT } from '../../../utils/date';
 import { capitalize, somPenger } from '../../../utils/locale';
-
-import { Card } from './Card';
 import { CardTitle } from './CardTitle';
 
 interface ArbeidsgiverCardProps {
@@ -27,7 +25,7 @@ export const ArbeidsgiverCard = ({ organisasjonsnummer, månedsbeløp }: Arbeids
     const arbeidsforhold = useArbeidsforholdRender(organisasjonsnummer);
 
     return (
-        <Card>
+        <section>
             <CardTitle>{arbeidsgivernavn.toUpperCase()}</CardTitle>
             <Clipboard
                 preserveWhitespace={false}
@@ -49,6 +47,6 @@ export const ArbeidsgiverCard = ({ organisasjonsnummer, månedsbeløp }: Arbeids
                 <BodyShort>Månedsbeløp:</BodyShort>
                 {somPenger(månedsbeløp)}
             </Flex>
-        </Card>
+        </section>
     );
 };

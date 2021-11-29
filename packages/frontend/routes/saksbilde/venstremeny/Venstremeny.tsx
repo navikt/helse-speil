@@ -16,6 +16,7 @@ const Container = styled.section`
     grid-area: venstremeny;
     display: flex;
     flex-direction: column;
+    gap: 2rem;
     box-sizing: border-box;
     min-width: var(--speil-venstremeny-width);
     padding: 2rem 1.5rem;
