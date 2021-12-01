@@ -59,6 +59,7 @@ const Etikett = styled.div`
     padding: 0.25rem 0.5rem;
     border-radius: 0.25rem;
     width: max-content;
+    margin-left: 10px;
 `;
 
 const AdressebeskyttelseEtikett = styled(Etikett)`
@@ -168,17 +169,9 @@ export const Personlinje = ({ dødsdato }: PersonlinjeProps) => {
                 </>
             )}
             {personinfo.adressebeskyttelse === 'Fortrolig' && (
-                <>
-                    <Separator as="p">/</Separator>
-                    <AdressebeskyttelseEtikett>{personinfo.adressebeskyttelse}</AdressebeskyttelseEtikett>
-                </>
+                <AdressebeskyttelseEtikett>{personinfo.adressebeskyttelse} adresse</AdressebeskyttelseEtikett>
             )}
-            {dødsdato && (
-                <>
-                    <Separator as="p">/</Separator>
-                    <DødsdatoEtikett>Død {dødsdato?.format(NORSK_DATOFORMAT)}</DødsdatoEtikett>
-                </>
-            )}
+            {dødsdato && <DødsdatoEtikett>Død {dødsdato?.format(NORSK_DATOFORMAT)}</DødsdatoEtikett>}
         </Container>
     );
 };
