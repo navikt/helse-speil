@@ -32,6 +32,7 @@ export const umappetPerson = (
         etternavn: 'Krangel',
         fødselsdato: '1956-12-12T00:00:00.000Z',
         kjønn: 'Mannebjørn',
+        adressebeskyttelse: 'Ugradert',
     },
     dødsdato: null,
     infotrygdutbetalinger: [],
@@ -75,6 +76,7 @@ export const mappetPersonObject = (): Person => ({
         fødselsdato: dayjs('1956-12-12T00:00:00.000Z'),
         kjønn: 'Mannebjørn' as Personinfo['kjønn'],
         fnr: '01019000123',
+        adressebeskyttelse: 'Ugradert',
     },
     utbetalinger: [
         {

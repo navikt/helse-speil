@@ -5,6 +5,7 @@ export const anonymisertPersoninfo: Personinfo = {
     fødselsdato: null,
     kjønn: 'ukjent',
     fnr: '11001100111',
+    adressebeskyttelse: 'Ugradert',
 };
 
 export const anonymisertBoenhet: Boenhet = { id: '1000', navn: 'Agurkheim' };

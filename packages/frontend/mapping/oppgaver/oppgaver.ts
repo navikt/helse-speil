@@ -30,6 +30,7 @@ export const tilOppgave = (oppgave: ExternalOppgave): Oppgave => ({
         kjønn: kjønn(oppgave.personinfo.kjønn),
         fødselsdato: oppgave.personinfo.fødselsdato ? dayjs(oppgave.personinfo.fødselsdato) : null,
         fnr: undefined,
+        adressebeskyttelse: 'Ugradert',
     },
     fødselsnummer: oppgave.fødselsnummer,
     aktørId: oppgave.aktørId,

@@ -61,6 +61,12 @@ const Etikett = styled.div`
     width: max-content;
 `;
 
+const AdressebeskyttelseEtikett = styled(Etikett)`
+    background: var(--speil-etikett-adressebeskyttelse-background);
+    border: 1px solid var(--speil-etikett-adressebeskyttelse-border);
+    color: var(--navds-color-text-primary);
+`;
+
 const DødsdatoEtikett = styled(Etikett)`
     background: var(--speil-etikett-forlengelse-it-background);
     border: 1px solid var(--speil-etikett-forlengelse-it-border);
@@ -159,6 +165,12 @@ export const Personlinje = ({ dødsdato }: PersonlinjeProps) => {
                 <>
                     <Separator as="p">/</Separator>
                     <Lenke to={`${aktørId}/../utbetalingshistorikk`}>Utbetalingsoversikt</Lenke>
+                </>
+            )}
+            {personinfo.adressebeskyttelse === 'Fortrolig' && (
+                <>
+                    <Separator as="p">/</Separator>
+                    <AdressebeskyttelseEtikett>{personinfo.adressebeskyttelse}</AdressebeskyttelseEtikett>
                 </>
             )}
             {dødsdato && (

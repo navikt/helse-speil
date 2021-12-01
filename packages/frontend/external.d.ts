@@ -502,6 +502,7 @@ declare type ExternalPersoninfo = {
     etternavn: string;
     fødselsdato: DateString | null;
     kjønn: string | null;
+    adressebeskyttelse: string;
 };
 
 declare type ExternalArbeidsforhold = {

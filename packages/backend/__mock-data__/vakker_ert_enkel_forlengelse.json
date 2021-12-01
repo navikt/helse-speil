@@ -29,13 +29,14 @@
     ],
     "aktørId": "2259231372981",
     "fødselsnummer": "09038418927",
-    "dødsdato": null,
+    "dødsdato": "2010-01-01",
     "personinfo": {
         "fornavn": "ARTIG",
         "mellomnavn": null,
         "etternavn": "ERT",
         "fødselsdato": "1988-06-05",
-        "kjønn": "Kvinne"
+        "kjønn": "Kvinne",
+        "adressebeskyttelse": "Fortrolig"
     },
     "arbeidsgivere": [
         {

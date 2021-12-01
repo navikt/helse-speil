@@ -31,6 +31,7 @@ const enOppgave = (): Oppgave => ({
         etternavn: 'Omega',
         kjønn: 'kvinne',
         fødselsdato: dayjs('1980-01-01'),
+        adressebeskyttelse: 'Ugradert',
     },
     fødselsnummer: '12345678910',
     aktørId: '12345678910',

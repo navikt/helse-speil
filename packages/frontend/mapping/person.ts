@@ -62,6 +62,7 @@ export class PersonBuilder {
             fødselsdato: this.unmapped.personinfo.fødselsdato ? somDato(this.unmapped.personinfo.fødselsdato) : null,
             kjønn: (this.unmapped.personinfo.kjønn ?? 'ukjent') as Personinfo['kjønn'],
             fnr: this.unmapped.fødselsnummer,
+            adressebeskyttelse: this.unmapped.personinfo.adressebeskyttelse as Personinfo['adressebeskyttelse'],
         };
     };
 
