@@ -34,6 +34,12 @@ lerna bootstrap
 npm run dev
 ```
 
+### Kjør sesialistbackenden slik:
+
+```
+npm run mock
+```
+
 ### Kun frontend servert av Vite
 
 Fra `packages/frontend`:
