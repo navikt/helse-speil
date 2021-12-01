@@ -64,7 +64,7 @@ export const UtbetalingCard = ({
             <Grid>
                 <BodyShort as="p">Sykepengegrunnlag</BodyShort>
                 <Value as="p">{somPenger(vilkårsgrunnlaghistorikk?.sykepengegrunnlag)}</Value>
-                <BodyShort as="p">Utbetalingdager</BodyShort>
+                <BodyShort as="p">Utbetalingsdager</BodyShort>
                 <Value as="p">{utbetalingsdagerTotalt}</Value>
             </Grid>
             <Utbetalingssum
