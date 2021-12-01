@@ -19,6 +19,7 @@ import { LasterTidslinje, Tidslinje } from './tidslinje';
 import { useKeyboardShortcuts } from './useKeyboardShortcuts';
 import { Utbetalingshistorikk } from './utbetalingshistorikk/Utbetalingshistorikk';
 import { Varsel } from '../../components/Varsel';
+import { AmplitudeProvider } from './AmplitudeContext';
 
 const Container = styled.div`
     --content-width: calc(100% - var(--speil-venstremeny-width) - var(--speil-hoyremeny-width));
@@ -64,7 +65,7 @@ const SaksbildeContent = React.memo(() => {
             <Personlinje dødsdato={personTilBehandling.dødsdato} />
             <Tidslinje person={personTilBehandling} />
             {aktivPeriode ? (
-                <>
+                <AmplitudeProvider>
                     <Sakslinje aktivPeriode={aktivPeriode} />
                     <Switch>
                         <Route path={`${path}/utbetalingshistorikk`}>
@@ -90,7 +91,7 @@ const SaksbildeContent = React.memo(() => {
                             )}
                         </Route>
                     </Switch>
-                </>
+                </AmplitudeProvider>
             ) : (
                 <TomtSaksbilde />
             )}
