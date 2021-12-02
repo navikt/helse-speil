@@ -12,6 +12,7 @@ import { ErrorMessage } from '../../../../components/ErrorMessage';
 import { AvvisningButton } from './AvvisningButton';
 import styled from '@emotion/styled';
 import { BrukerutbetalingInfoMessage } from './BrukerutbetalingInfoMessage';
+import { erDev, erLocal } from '../../../../featureToggles';
 
 const Buttons = styled.div`
     display: flex;
@@ -46,6 +47,7 @@ export const Utbetaling = ({ aktivPeriode }: UtbetalingProps) => {
         ? utbetaling.arbeidsgiverNettobeløp !== 0
         : false;
     const harBrukerutbetaling = utbetaling?.personNettobeløp ? utbetaling.personNettobeløp !== 0 : false;
+    const kanBetaleTilBruker = erDev() || erLocal();
 
     const navigerTilOversikten = () => history.push('/');
 
@@ -63,16 +65,20 @@ export const Utbetaling = ({ aktivPeriode }: UtbetalingProps) => {
 
     return (
         <>
-            {harBrukerutbetaling && <BrukerutbetalingInfoMessage />}
+            {harBrukerutbetaling && !kanBetaleTilBruker && <BrukerutbetalingInfoMessage />}
             <Buttons>
-                {!harBrukerutbetaling && (
+                {(kanBetaleTilBruker || !harBrukerutbetaling) && (
                     <GodkjenningButton
                         oppgavereferanse={oppgavereferanse}
                         aktørId={person.aktørId}
                         onSuccess={onGodkjennUtbetaling}
                         onError={captureError}
                     >
-                        {erRevurdering ? 'Revurder' : harArbeidsgiverutbetaling ? 'Utbetal' : 'Godkjenn'}
+                        {erRevurdering
+                            ? 'Revurder'
+                            : harArbeidsgiverutbetaling || harBrukerutbetaling
+                            ? 'Utbetal'
+                            : 'Godkjenn'}
                     </GodkjenningButton>
                 )}
                 {!erRevurdering && (
