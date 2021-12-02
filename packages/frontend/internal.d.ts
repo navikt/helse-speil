@@ -333,6 +333,16 @@ declare type Utbetaling = {
     linjer: Utbetalingslinje[];
 };
 
+declare type Simulering = {
+    totalbeløp: number;
+    perioder: Simuleringsperiode[];
+};
+
+declare type Simuleringsdata = {
+    arbeidsgiver?: Simulering;
+    person?: Simulering;
+};
+
 declare type Vedtaksperiode = {
     id: string;
     fom: Dayjs;
@@ -362,10 +372,7 @@ declare type Vedtaksperiode = {
         antallUtbetalingsdager: number;
         totaltTilUtbetaling: number;
     };
-    simuleringsdata?: {
-        totalbeløp: number;
-        perioder: Simuleringsperiode[];
-    };
+    simuleringsdata?: Simuleringsdata;
     hendelser: Dokument[];
     aktivitetslog: string[];
     risikovurdering?: {

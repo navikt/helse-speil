@@ -122,6 +122,16 @@ declare type ExternalSimuleringsperiode = {
     utbetalinger: ExternalSimuleringsutbetaling[];
 };
 
+declare type ExternalSimulering = {
+    totalbeløp: number;
+    perioder: ExternalSimuleringsperiode[];
+};
+
+declare type ExternalSimuleringsdata = {
+    arbeidsgiver?: ExternalSimulering;
+    person?: ExternalSimulering;
+};
+
 declare type ExternalHendelse = {
     id: string;
     type: 'INNTEKTSMELDING' | 'NY_SØKNAD' | 'SENDT_SØKNAD_NAV' | 'SENDT_SØKNAD_ARBEIDSGIVER';
@@ -231,10 +241,7 @@ declare type ExternalVedtaksperiode = {
     };
     forlengelseFraInfotrygd: 'IKKE_ETTERSPURT' | 'JA' | 'NEI';
     periodetype: ExternalVedtaksperiodetype;
-    simuleringsdata?: {
-        totalbeløp: number;
-        perioder: ExternalSimuleringsperiode[];
-    };
+    simuleringsdata?: ExternalSimulering | ExternalSimuleringsdata;
     hendelser: ExternalHendelse[];
     utbetalingslinjer?: ExternalUtbetalingslinje[];
     aktivitetslogg: ExternalAktivitet[];

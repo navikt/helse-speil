@@ -662,38 +662,40 @@ export const mappetPersonObject = (): Person => ({
                     aktivitetslog: ['Aktivitetsloggvarsel'],
                     risikovurdering: { funn: [], kontrollertOk: [] },
                     simuleringsdata: {
-                        totalbeløp: 9999,
-                        perioder: [
-                            {
-                                fom: '2018-01-01',
-                                tom: '2018-01-02',
-                                utbetalinger: [
-                                    {
-                                        utbetalesTilId: testOrganisasjonsnummer,
-                                        utbetalesTilNavn: 'Koronavirus',
-                                        forfall: '2018-01-03',
-                                        feilkonto: true,
-                                        detaljer: [
-                                            {
-                                                faktiskFom: '2018-01-01',
-                                                faktiskTom: '2018-01-02',
-                                                konto: '12345678910og1112',
-                                                belop: 9999,
-                                                tilbakeforing: false,
-                                                sats: 1111,
-                                                typeSats: 'DAGLIG',
-                                                antallSats: 9,
-                                                uforegrad: 100,
-                                                klassekode: 'SPREFAG-IOP',
-                                                klassekodeBeskrivelse: 'Sykepenger, Refusjon arbeidsgiver',
-                                                utbetalingsType: 'YTELSE',
-                                                refunderesOrgNr: testOrganisasjonsnummer,
-                                            },
-                                        ],
-                                    },
-                                ],
-                            },
-                        ],
+                        arbeidsgiver: {
+                            totalbeløp: 9999,
+                            perioder: [
+                                {
+                                    fom: '2018-01-01',
+                                    tom: '2018-01-02',
+                                    utbetalinger: [
+                                        {
+                                            utbetalesTilId: testOrganisasjonsnummer,
+                                            utbetalesTilNavn: 'Koronavirus',
+                                            forfall: '2018-01-03',
+                                            feilkonto: true,
+                                            detaljer: [
+                                                {
+                                                    faktiskFom: '2018-01-01',
+                                                    faktiskTom: '2018-01-02',
+                                                    konto: '12345678910og1112',
+                                                    belop: 9999,
+                                                    tilbakeforing: false,
+                                                    sats: 1111,
+                                                    typeSats: 'DAGLIG',
+                                                    antallSats: 9,
+                                                    uforegrad: 100,
+                                                    klassekode: 'SPREFAG-IOP',
+                                                    klassekodeBeskrivelse: 'Sykepenger, Refusjon arbeidsgiver',
+                                                    utbetalingsType: 'YTELSE',
+                                                    refunderesOrgNr: testOrganisasjonsnummer,
+                                                },
+                                            ],
+                                        },
+                                    ],
+                                },
+                            ],
+                        },
                     },
                     automatiskBehandlet: false,
                     beregningIder: [testBeregningId],

@@ -2,14 +2,11 @@ import styled from '@emotion/styled';
 import React, { useState } from 'react';
 
 import { BodyShort } from '@navikt/ds-react';
-
-import { LinkButton } from '../../../components/LinkButton';
 import { useUtbetaling } from '../../../modell/utbetalingshistorikkelement';
 import { useArbeidsgivernavnRender, usePersonnavnRender, useVilkårsgrunnlaghistorikk } from '../../../state/person';
 import { somPenger } from '../../../utils/locale';
 import { CardTitle } from './CardTitle';
-import { Utbetalingssum } from './Utbetalingssum';
-import { SimuleringsinfoModal } from './utbetaling/SimuleringsinfoModal';
+import { Utbetalinger } from './Utbetalinger';
 
 const Feilmelding = styled(BodyShort)`
     color: var(--navds-color-text-error);
@@ -67,25 +64,15 @@ export const UtbetalingCard = ({
                 <BodyShort as="p">Utbetalingsdager</BodyShort>
                 <Value as="p">{utbetalingsdagerTotalt}</Value>
             </Grid>
-            <Utbetalingssum
+            <Utbetalinger
                 erUtbetalt={!ikkeUtbetaltEnda}
                 personNettobeløp={personNettobeløp ?? 0}
                 arbeidsgiverNettobeløp={arbeidsgiverNettobeløp ?? 0}
                 arbeidsgivernavn={arbeidsgivernavn ?? 'Arbeidsgiver'}
                 personnavn={personnavn}
+                simuleringsdata={simulering}
             />
-            {simulering ? (
-                <>
-                    <LinkButton onClick={() => setSimuleringÅpen(true)}>Simulering</LinkButton>
-                    <SimuleringsinfoModal
-                        simulering={simulering}
-                        åpenModal={simuleringÅpen}
-                        lukkModal={() => setSimuleringÅpen(false)}
-                    />
-                </>
-            ) : (
-                <Feilmelding as="p">Mangler simulering</Feilmelding>
-            )}
+            {!simulering && <Feilmelding as="p">Mangler simulering</Feilmelding>}
         </section>
     );
 };

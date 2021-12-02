@@ -33,10 +33,28 @@ const mapSimuleringsperioder = (perioder: ExternalSimuleringsperiode[]): Simuler
         utbetalinger: mapSimuleringsutbetalinger(spleisPeriode.utbetalinger),
     }));
 
-export const mapSimuleringsdata = (
-    data?: ExternalVedtaksperiode['simuleringsdata']
-): Vedtaksperiode['simuleringsdata'] | undefined =>
-    data && {
-        totalbeløp: data.totalbeløp,
-        perioder: mapSimuleringsperioder(data.perioder),
-    };
+export const mapSimuleringsdata = (data?: ExternalVedtaksperiode['simuleringsdata']): Simuleringsdata | undefined => {
+    const { arbeidsgiver, person } = (data as ExternalSimuleringsdata | undefined) ?? {};
+    if (arbeidsgiver || person) {
+        return {
+            arbeidsgiver: arbeidsgiver && {
+                totalbeløp: arbeidsgiver.totalbeløp,
+                perioder: mapSimuleringsperioder(arbeidsgiver.perioder),
+            },
+            person: person && {
+                totalbeløp: person.totalbeløp,
+                perioder: mapSimuleringsperioder(person.perioder),
+            },
+        };
+    } else if (data) {
+        const { totalbeløp, perioder } = data as ExternalSimulering;
+        return {
+            arbeidsgiver: {
+                totalbeløp: totalbeløp,
+                perioder: mapSimuleringsperioder(perioder),
+            },
+        };
+    } else {
+        return undefined;
+    }
+};

@@ -126,15 +126,14 @@ const Utbetalingsdetaljvisning = ({ detalj, index, anonymiseringEnabled }: Utbet
 );
 
 interface SimuleringsmodalProps {
-    simulering: Required<Vedtaksperiode>['simuleringsdata'];
-    åpenModal: boolean;
+    simulering: Simulering;
     lukkModal: () => void;
 }
 
-export const SimuleringsinfoModal = ({ simulering, åpenModal, lukkModal }: SimuleringsmodalProps) => {
+export const SimuleringsinfoModal = ({ simulering, lukkModal }: SimuleringsmodalProps) => {
     const anonymiseringEnabled = usePersondataSkalAnonymiseres();
     return (
-        <Modal isOpen={åpenModal} contentLabel="Simuleringsinfo" onRequestClose={lukkModal}>
+        <Modal isOpen contentLabel="Simuleringsinfo" onRequestClose={lukkModal}>
             <Modalinnhold>
                 <Grid gridTemplateColumns="1fr 1fr">
                     <Heading as="h2" size="medium">
