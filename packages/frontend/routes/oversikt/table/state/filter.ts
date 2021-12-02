@@ -70,10 +70,10 @@ const defaultFilters: Filter<Oppgave>[] = [
         column: 3,
     },
     {
-        label: 'Flere arbeidsgivere',
+        label: 'Fortrolig adr.',
         active: false,
-        function: (oppgave: Oppgave) => oppgave.inntektskilde === 'FLERE_ARBEIDSGIVERE',
-        column: 3,
+        function: (oppgave: Oppgave) => oppgave.periodetype === 'fortroligAdresse',
+        column: 1,
     },
 ];
 
