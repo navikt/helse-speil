@@ -30,7 +30,7 @@ export const tilOppgave = (oppgave: ExternalOppgave): Oppgave => ({
         kjønn: kjønn(oppgave.personinfo.kjønn),
         fødselsdato: oppgave.personinfo.fødselsdato ? dayjs(oppgave.personinfo.fødselsdato) : null,
         fnr: undefined,
-        adressebeskyttelse: 'Ugradert',
+        adressebeskyttelse: oppgave.personinfo.adressebeskyttelse,
     },
     fødselsnummer: oppgave.fødselsnummer,
     aktørId: oppgave.aktørId,
@@ -42,6 +42,8 @@ export const tilOppgave = (oppgave: ExternalOppgave): Oppgave => ({
             ? 'riskQa'
             : oppgave.oppgavetype === 'REVURDERING'
             ? 'revurdering'
+            : oppgave.oppgavetype === 'FORTROLIG_ADRESSE'
+            ? 'fortroligAdresse'
             : tilPeriodetype(oppgave.type),
     boenhet: oppgave.boenhet,
     inntektskilde: inntektskilde(oppgave.inntektskilde),

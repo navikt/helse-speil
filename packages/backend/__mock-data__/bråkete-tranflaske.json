@@ -8,7 +8,8 @@
         "mellomnavn": null,
         "etternavn": "TRANFLASKE",
         "fødselsdato": "1986-06-25",
-        "kjønn": "Mann"
+        "kjønn": "Mann",
+        "adressebeskyttelse": "Fortrolig"
     },
     "arbeidsgivere": [
         {

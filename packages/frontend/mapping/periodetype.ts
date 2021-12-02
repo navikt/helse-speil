@@ -12,5 +12,7 @@ export const tilPeriodetype = (type: ExternalPeriodetype): Periodetype => {
             return 'stikkprøve';
         case 'RISK_QA':
             return 'riskQa';
+        case 'FORTROLIG_ADRESSE':
+            return 'fortroligAdresse';
     }
 };

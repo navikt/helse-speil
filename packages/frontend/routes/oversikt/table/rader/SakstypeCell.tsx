@@ -23,6 +23,8 @@ const getLabelForType = (type: Periodetype) => {
             return 'Risk QA';
         case 'revurdering':
             return 'Revurdering';
+        case 'fortroligAdresse':
+            return 'Fortrolig adr.';
     }
 };
 

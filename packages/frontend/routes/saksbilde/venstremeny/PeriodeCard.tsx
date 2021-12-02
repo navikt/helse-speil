@@ -50,6 +50,8 @@ const getTextForPeriodetype = (type: Periodetype): string => {
             return 'RISK QA';
         case 'revurdering':
             return 'REVURDERING';
+        case 'fortroligAdresse':
+            return 'FORTROLIG ADRESSE';
     }
 };
 

@@ -13,6 +13,7 @@
         },
         "vedtaksperiodeId": "aaaaaaaa-6541-4dcf-aa53-8b466fc4ac87",
         "type": "FØRSTEGANGSBEHANDLING",
+        "oppgavetype": "FORTROLIG_ADRESSE",
         "antallVarsler": 2,
         "boenhet": {
             "id": "0212",

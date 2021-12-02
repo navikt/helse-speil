@@ -105,7 +105,8 @@ declare type Periodetype =
     | 'overgangFraIt'
     | 'stikkprøve'
     | 'riskQa'
-    | 'revurdering';
+    | 'revurdering'
+    | 'fortroligAdresse';
 
 declare type Periodetilstand =
     | 'tilUtbetaling'

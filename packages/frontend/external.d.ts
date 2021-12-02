@@ -502,7 +502,7 @@ declare type ExternalPersoninfo = {
     etternavn: string;
     fødselsdato: DateString | null;
     kjønn: string | null;
-    adressebeskyttelse: string;
+    adressebeskyttelse: 'Ugradert' | 'Fortrolig';
 };
 
 declare type ExternalArbeidsforhold = {
@@ -630,7 +630,8 @@ declare type ExternalPeriodetype =
     | 'INFOTRYGDFORLENGELSE'
     | 'OVERGANG_FRA_IT'
     | 'STIKKPRØVE'
-    | 'RISK_QA';
+    | 'RISK_QA'
+    | 'FORTROLIG_ADRESSE';
 
 declare type ExternalBehandlingstatistikkResponse = {
     statistikk: ExternalSpleisVilkårsgrunnlag;
@@ -652,7 +653,7 @@ declare type ExternalBehandlingstatistikk = {
     };
 };
 
-declare type ExternalOppgavetype = 'SØKNAD' | 'STIKKPRØVE' | 'RISK_QA' | 'REVURDERING';
+declare type ExternalOppgavetype = 'SØKNAD' | 'STIKKPRØVE' | 'RISK_QA' | 'REVURDERING' | 'FORTROLIG_ADRESSE';
 
 declare type ExternalOppgave = {
     oppgavereferanse: string;

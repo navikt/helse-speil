@@ -84,6 +84,16 @@ const StikkprøveEtikett = styled(Etikett)`
     }
 `;
 
+const FortroligAdresseEtikett = styled(Etikett)`
+    background: var(--speil-etikett-stikkprove-background);
+    border: 1px solid var(--speil-etikett-stikkprove-border);
+    color: var(--navds-color-text-inverse);
+
+    :before {
+        content: 'A';
+    }
+`;
+
 const RiskQaEtikett = styled(Etikett)`
     background: var(--speil-etikett-risk-background);
     border: 1px solid var(--speil-etikett-risk-border);
@@ -111,6 +121,8 @@ export const Oppgaveetikett = ({ type, tilstand, størrelse = 'l' }: Oppgaveetik
             return <InfotrygdforlengelseEtikett størrelse={størrelse} />;
         case 'stikkprøve':
             return <StikkprøveEtikett størrelse={størrelse} />;
+        case 'fortroligAdresse':
+            return <FortroligAdresseEtikett størrelse={størrelse} />;
         case 'riskQa':
             return <RiskQaEtikett størrelse={størrelse} />;
         case 'revurdering': {
