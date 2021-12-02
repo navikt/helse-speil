@@ -17,10 +17,15 @@ import { capitalize, somPenger } from '../../../utils/locale';
 import { CardTitle } from './CardTitle';
 import styled from '@emotion/styled';
 
-const ArbeidsgiverContainer = styled(Flex)`
+const ArbeidsgiverContainer = styled.div`
+    display: grid;
+    grid-template-columns: 1.25rem auto;
+    grid-column-gap: 0.75rem;
     align-items: start;
+
     & > svg {
-        margin: 0.125rem 0.75rem 0 0;
+        margin-top: 0.125rem;
+        justify-self: center;
     }
 `;
 
