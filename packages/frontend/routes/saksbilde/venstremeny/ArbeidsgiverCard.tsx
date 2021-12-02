@@ -1,6 +1,7 @@
 import dayjs from 'dayjs';
 import React from 'react';
 
+import { Bag } from '@navikt/ds-icons';
 import { BodyShort } from '@navikt/ds-react';
 
 import { Flex } from '../../../components/Flex';
@@ -12,7 +13,16 @@ import {
 } from '../../../state/person';
 import { NORSK_DATOFORMAT } from '../../../utils/date';
 import { capitalize, somPenger } from '../../../utils/locale';
+
 import { CardTitle } from './CardTitle';
+import styled from '@emotion/styled';
+
+const ArbeidsgiverContainer = styled(Flex)`
+    align-items: start;
+    & > svg {
+        margin: 0.125rem 0.75rem 0 0;
+    }
+`;
 
 interface ArbeidsgiverCardProps {
     organisasjonsnummer: string;
@@ -26,7 +36,10 @@ export const ArbeidsgiverCard = ({ organisasjonsnummer, månedsbeløp }: Arbeids
 
     return (
         <section>
-            <CardTitle>{arbeidsgivernavn.toUpperCase()}</CardTitle>
+            <ArbeidsgiverContainer>
+                <Bag data-tip="Arbeidsgiver" title="Arbeidsgiver" />
+                <CardTitle>{arbeidsgivernavn.toUpperCase()}</CardTitle>
+            </ArbeidsgiverContainer>
             <Clipboard
                 preserveWhitespace={false}
                 copyMessage="Organisasjonsnummer er kopiert"
