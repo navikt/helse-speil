@@ -31,6 +31,8 @@ jest.mock('../../featureToggles', () => ({
     defaultUtbetalingToggles: {
         overstyreUtbetaltPeriodeEnabled: true,
     },
+    erDev: () => true,
+    erLocal: () => true,
 }));
 
 const wrapper =

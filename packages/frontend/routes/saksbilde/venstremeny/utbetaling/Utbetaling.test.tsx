@@ -13,6 +13,11 @@ import { Utbetaling } from './Utbetaling';
 import { Avvisningsskjema } from './AvvisningModal';
 import { testBeregningId, testVilkårsgrunnlagHistorikkId } from '../../../../test/data/person';
 
+jest.mock('../../../../featureToggles', () => ({
+    erDev: () => false,
+    erLocal: () => false,
+}));
+
 const wrapper =
     (initializer?: (mutableSnapshot: MutableSnapshot) => void): React.FC =>
     ({ children }) =>
