@@ -67,7 +67,6 @@ const FørstegangsbehandlingEtikett = styled(Etikett)`
 const InfotrygdforlengelseEtikett = styled(Etikett)`
     background: var(--speil-etikett-forlengelse-it-background);
     border: 1px solid var(--speil-etikett-forlengelse-it-border);
-    color: var(--navds-color-text-inverse);
 
     :before {
         content: 'FI';
@@ -77,7 +76,6 @@ const InfotrygdforlengelseEtikett = styled(Etikett)`
 const StikkprøveEtikett = styled(Etikett)`
     background: var(--speil-etikett-stikkprove-background);
     border: 1px solid var(--speil-etikett-stikkprove-border);
-    color: var(--navds-color-text-inverse);
 
     :before {
         content: 'S';
@@ -87,7 +85,6 @@ const StikkprøveEtikett = styled(Etikett)`
 const FortroligAdresseEtikett = styled(Etikett)`
     background: var(--speil-etikett-stikkprove-background);
     border: 1px solid var(--speil-etikett-stikkprove-border);
-    color: var(--navds-color-text-inverse);
 
     :before {
         content: 'A';
@@ -97,7 +94,6 @@ const FortroligAdresseEtikett = styled(Etikett)`
 const RiskQaEtikett = styled(Etikett)`
     background: var(--speil-etikett-risk-background);
     border: 1px solid var(--speil-etikett-risk-border);
-    color: var(--navds-color-text-primary);
 
     :before {
         content: 'QA';
