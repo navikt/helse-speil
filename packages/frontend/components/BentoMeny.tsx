@@ -20,6 +20,7 @@ const Container = styled.div`
     > .navds-popover {
         padding: 16px 0;
         border-radius: 4px;
+        z-index: 1001;
 
         &:focus,
         &:focus-visible {
