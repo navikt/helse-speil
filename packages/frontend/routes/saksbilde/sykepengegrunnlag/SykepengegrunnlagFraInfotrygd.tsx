@@ -32,12 +32,12 @@ export const SykepengegrunnlagFraInfogtrygd = ({
     return (
         <Infotrygdvurdering title="Sykepengegrunnlag satt i Infotrygd">
             <Oversikt>
-                <Inntektskilderinnhold inntekt={inntekt} />
-                <Strek />
                 <SykepengegrunnlagInfotrygd
                     vilkårsgrunnlag={vilkårsgrunnlag}
                     organisasjonsnummer={organisasjonsnummer}
                 />
+                <Strek />
+                <Inntektskilderinnhold inntekt={inntekt} />
             </Oversikt>
         </Infotrygdvurdering>
     );

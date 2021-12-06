@@ -49,8 +49,6 @@ export const UbehandletSykepengegrunnlag = ({
 
     return (
         <Container data-testid={rest['data-testid'] ?? 'ubehandlet-sykepengegrunnlag'}>
-            <Inntektskilderinnhold inntekt={aktivInntektskilde} />
-            <Strek />
             <InntektsgrunnlagTable
                 inntekter={vilkårsgrunnlag.inntekter}
                 omregnetÅrsinntekt={vilkårsgrunnlag.omregnetÅrsinntekt}
@@ -60,6 +58,8 @@ export const UbehandletSykepengegrunnlag = ({
                 setAktivInntektskilde={setAktivInntektskilde}
                 aktivInntektskilde={aktivInntektskilde}
             />
+            <Strek />
+            <Inntektskilderinnhold inntekt={aktivInntektskilde} />
         </Container>
     );
 };
