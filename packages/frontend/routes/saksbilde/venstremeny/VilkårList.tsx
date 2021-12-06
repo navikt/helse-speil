@@ -57,7 +57,7 @@ export const VilkårList = ({ periode, skjæringstidspunkt, vilkårsgrunnlaghist
         <ul>
             {ikkeOppfylteVilkår?.map((vilkår, i) => (
                 <ListItem key={i}>
-                    <IconContainer>
+                    <IconContainer data-tip="Ikke oppfylt">
                         <Feilikon alt="Ikke oppfylt" />
                     </IconContainer>
                     <Navn as="p">{vilkår.tittel}</Navn>
@@ -65,7 +65,7 @@ export const VilkårList = ({ periode, skjæringstidspunkt, vilkårsgrunnlaghist
             ))}
             {ikkeVurderteVilkår?.map((vilkår, i) => (
                 <ListItem key={i}>
-                    <IconContainer>
+                    <IconContainer data-tip="Til vurdering">
                         <Advarselikon alt="Til vurdering" />
                     </IconContainer>
                     <Navn as="p">{vilkår.tittel}</Navn>
@@ -75,7 +75,7 @@ export const VilkårList = ({ periode, skjæringstidspunkt, vilkårsgrunnlaghist
                 .flat()
                 .map((vilkår, i) => (
                     <ListItem key={i}>
-                        <IconContainer>
+                        <IconContainer data-tip="Oppfylt">
                             <Sjekkikon alt="Oppfylt" />
                         </IconContainer>
                         <Navn as="p">{vilkår.tittel}</Navn>
