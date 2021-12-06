@@ -38,6 +38,11 @@ const hentPerson = (id: string): Promise<PersonState> =>
                     });
                 case 401:
                     return Promise.reject({ message: 'Du må logge inn for å utføre søk', type: 'feil' });
+                case 403:
+                    return Promise.reject({
+                        message: 'Du har ikke tilgang til å søke opp denne personen',
+                        type: 'info',
+                    });
                 default:
                     console.error(error);
                     return Promise.reject({
