@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import React, { Dispatch, SetStateAction } from 'react';
+import React, { Dispatch, SetStateAction, useState } from 'react';
 
 import { BodyShort } from '@navikt/ds-react';
 
@@ -78,7 +78,7 @@ interface InntektsgrunnlaginnholdProps {
     avviksprosent: number | null;
     sykepengegrunnlag: number;
     setAktivInntektskilde: Dispatch<SetStateAction<ExternalArbeidsgiverinntekt>>;
-    gjeldendeOrganisasjonsnummer: string;
+    aktivInntektskilde: ExternalArbeidsgiverinntekt;
 }
 
 export const InntektsgrunnlagTable = ({
@@ -88,97 +88,99 @@ export const InntektsgrunnlagTable = ({
     avviksprosent,
     sykepengegrunnlag,
     setAktivInntektskilde,
-    gjeldendeOrganisasjonsnummer,
-}: InntektsgrunnlaginnholdProps) => (
-    <Container className="Inntektsgunnlaginnhold">
-        <Table>
-            <thead>
-                <tr>
-                    <th />
-                    <th>
-                        <Bold as="p">Inntektsgrunnlag</Bold>
-                    </th>
-                    <th>
-                        <Bold as="p">Sammenligningsgrunnlag</Bold>
-                    </th>
-                </tr>
-                <tr>
-                    <th>
-                        <Kolonnetittel as="p">Inntektskilde</Kolonnetittel>
-                    </th>
-                    <th>
-                        <Kolonnetittel as="p">Omregnet årsinntekt</Kolonnetittel>
-                    </th>
-                    <th>
-                        <Kolonnetittel as="p">Rapportert årsinntekt</Kolonnetittel>
-                    </th>
-                </tr>
-            </thead>
-            <tbody>
-                {inntekter.map((inntekt, index) => (
-                    <Inntektssammenligning
-                        key={index}
-                        organisasjonsnummer={inntekt.organisasjonsnummer}
-                        omregnetÅrsinntekt={inntekt.omregnetÅrsinntekt}
-                        sammenligningsgrunnlag={inntekt.sammenligningsgrunnlag}
-                        erGjeldende={gjeldendeOrganisasjonsnummer === inntekt.organisasjonsnummer}
-                        onSetAktivInntektskilde={() => setAktivInntektskilde(inntekt)}
-                    />
-                ))}
-            </tbody>
-            <tfoot>
-                <tr>
-                    <td>
-                        <Bold as="p">Total</Bold>
-                    </td>
-                    <td>
-                        <Bold as="p">{somPenger(omregnetÅrsinntekt)}</Bold>
-                    </td>
-                    <td>
-                        <Bold as="p">{somPenger(sammenligningsgrunnlag)}</Bold>
-                    </td>
-                </tr>
-            </tfoot>
-        </Table>
-        <Table>
-            <tbody>
-                <tr>
-                    <td>
-                        <BodyShort>Total omregnet årsinntekt</BodyShort>
-                    </td>
-                    <td>
-                        <RightAligned as="p">{somPenger(omregnetÅrsinntekt)}</RightAligned>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <BodyShort>Total rapportert årsinntekt</BodyShort>
-                    </td>
-                    <td>
-                        <RightAligned as="p">{somPenger(sammenligningsgrunnlag)}</RightAligned>
-                    </td>
-                </tr>
-            </tbody>
-            <tfoot>
-                <tr>
-                    <td>
-                        <Bold as="p">Utregnet avvik</Bold>
-                    </td>
-                    <td>
-                        <BoldRightAligned as="p">
-                            {avviksprosent ? `${Math.floor(avviksprosent)} %` : '-'}
-                        </BoldRightAligned>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <Bold as="p">Sykepengegrunnlag</Bold>
-                    </td>
-                    <td>
-                        <BoldRightAligned as="p">{somPenger(sykepengegrunnlag)}</BoldRightAligned>
-                    </td>
-                </tr>
-            </tfoot>
-        </Table>
-    </Container>
-);
+    aktivInntektskilde,
+}: InntektsgrunnlaginnholdProps) => {
+    return (
+        <Container className="Inntektsgunnlaginnhold">
+            <Table>
+                <thead>
+                    <tr>
+                        <th />
+                        <th>
+                            <Bold as="p">Inntektsgrunnlag</Bold>
+                        </th>
+                        <th>
+                            <Bold as="p">Sammenligningsgrunnlag</Bold>
+                        </th>
+                    </tr>
+                    <tr>
+                        <th>
+                            <Kolonnetittel as="p">Inntektskilde</Kolonnetittel>
+                        </th>
+                        <th>
+                            <Kolonnetittel as="p">Omregnet årsinntekt</Kolonnetittel>
+                        </th>
+                        <th>
+                            <Kolonnetittel as="p">Rapportert årsinntekt</Kolonnetittel>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {inntekter.map((inntekt, index) => (
+                        <Inntektssammenligning
+                            key={index}
+                            organisasjonsnummer={inntekt.organisasjonsnummer}
+                            omregnetÅrsinntekt={inntekt.omregnetÅrsinntekt}
+                            sammenligningsgrunnlag={inntekt.sammenligningsgrunnlag}
+                            erGjeldende={aktivInntektskilde.organisasjonsnummer == inntekt.organisasjonsnummer}
+                            onSetAktivInntektskilde={() => setAktivInntektskilde(inntekt)}
+                        />
+                    ))}
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td>
+                            <Bold as="p">Total</Bold>
+                        </td>
+                        <td>
+                            <Bold as="p">{somPenger(omregnetÅrsinntekt)}</Bold>
+                        </td>
+                        <td>
+                            <Bold as="p">{somPenger(sammenligningsgrunnlag)}</Bold>
+                        </td>
+                    </tr>
+                </tfoot>
+            </Table>
+            <Table>
+                <tbody>
+                    <tr>
+                        <td>
+                            <BodyShort>Total omregnet årsinntekt</BodyShort>
+                        </td>
+                        <td>
+                            <RightAligned as="p">{somPenger(omregnetÅrsinntekt)}</RightAligned>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <BodyShort>Total rapportert årsinntekt</BodyShort>
+                        </td>
+                        <td>
+                            <RightAligned as="p">{somPenger(sammenligningsgrunnlag)}</RightAligned>
+                        </td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td>
+                            <Bold as="p">Utregnet avvik</Bold>
+                        </td>
+                        <td>
+                            <BoldRightAligned as="p">
+                                {avviksprosent ? `${Math.floor(avviksprosent)} %` : '-'}
+                            </BoldRightAligned>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <Bold as="p">Sykepengegrunnlag</Bold>
+                        </td>
+                        <td>
+                            <BoldRightAligned as="p">{somPenger(sykepengegrunnlag)}</BoldRightAligned>
+                        </td>
+                    </tr>
+                </tfoot>
+            </Table>
+        </Container>
+    );
+};

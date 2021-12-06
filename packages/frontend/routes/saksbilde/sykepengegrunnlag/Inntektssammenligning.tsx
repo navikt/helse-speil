@@ -60,7 +60,6 @@ export const Inntektssammenligning = ({
 }: InntektssammenligningProps) => {
     const arbeidsgivernavn = useArbeidsgivernavnRender(organisasjonsnummer);
     const endringer = useEndringerForPeriode(organisasjonsnummer);
-    const periode = useAktivPeriode();
 
     return (
         <ArbeidsgiverRad erGjeldende={erGjeldende} onClick={onSetAktivInntektskilde}>

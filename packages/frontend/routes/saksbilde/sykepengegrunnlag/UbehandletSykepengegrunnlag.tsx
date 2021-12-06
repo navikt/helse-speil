@@ -57,8 +57,8 @@ export const UbehandletSykepengegrunnlag = ({
                 sammenligningsgrunnlag={vilkårsgrunnlag.sammenligningsgrunnlag}
                 avviksprosent={vilkårsgrunnlag.avviksprosent}
                 sykepengegrunnlag={vilkårsgrunnlag.sykepengegrunnlag}
-                gjeldendeOrganisasjonsnummer={organisasjonsnummer}
                 setAktivInntektskilde={setAktivInntektskilde}
+                aktivInntektskilde={aktivInntektskilde}
             />
         </Container>
     );

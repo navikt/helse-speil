@@ -4232,6 +4232,16 @@
                     ]
                 }
             ]
+        },
+        {
+            "organisasjonsnummer": "987654321",
+            "navn": "RABATTJEGERNE AS",
+            "id": "927bd215-b69a-45a5-8cc8-5dfd37537916",
+            "vedtaksperioder": [],
+            "overstyringer": [],
+            "bransjer": [],
+            "utbetalingshistorikk": [],
+            "generasjoner": []
         }
     ],
     "infotrygdutbetalinger": [],
@@ -4441,6 +4451,16 @@
                             "inntekterFraAOrdningen": null
                         },
                         "sammenligningsgrunnlag": 462000
+                    },
+                    {
+                        "organisasjonsnummer": "987654321",
+                        "omregnetÅrsinntekt": {
+                            "kilde": "Inntektsmelding",
+                            "beløp": 450000,
+                            "månedsbeløp": 37500,
+                            "inntekterFraAOrdningen": null
+                        },
+                        "sammenligningsgrunnlag": 455000
                     }
                 ],
                 "avviksprosent": 0,
