@@ -78,6 +78,8 @@ const utvidetTilganger = [
     'B137568',
     'T144880',
     'M113770',
+    'A100343',
+    'L127690',
 ];
 
 const kanRevurdere = [
@@ -108,6 +110,8 @@ const kanRevurdere = [
     'B137568',
     'T144880',
     'M113770',
+    'A100343',
+    'L127690',
 ];
 
 export const erLocal = () => location.hostname === 'localhost';
