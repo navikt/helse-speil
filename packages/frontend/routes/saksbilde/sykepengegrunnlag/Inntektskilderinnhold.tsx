@@ -19,6 +19,10 @@ import {
 import { Arbeidsforhold } from '../Arbeidsforhold';
 import { Inntekt } from './inntekt/Inntekt';
 
+const Container = styled(FlexColumn)`
+    padding-right: 2rem;
+`;
+
 const Header = styled.div`
     display: flex;
     align-items: center;
@@ -71,7 +75,7 @@ export const Inntektskilderinnhold = ({ inntekt }: InntektskilderinnholdProps) =
     const arbeidsforhold = useArbeidsforholdRender(inntekt.organisasjonsnummer);
 
     return (
-        <FlexColumn>
+        <Container>
             <Header>
                 <Bag width={20} height={20} />
                 <Navn data-tip="Arbeidsgivernavn">
@@ -106,6 +110,6 @@ export const Inntektskilderinnhold = ({ inntekt }: InntektskilderinnholdProps) =
                 organisasjonsnummer={inntekt.organisasjonsnummer}
             />
             <Tooltip effect="solid" />
-        </FlexColumn>
+        </Container>
     );
 };
