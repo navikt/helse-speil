@@ -621,7 +621,245 @@
                         "Kunne ikke sjekke åpne oppgaver på sykepenger i Gosys",
                         "Ikke registrert eller mangler samtykke i Kontakt- og reservasjonsregisteret, eventuell kommunikasjon må skje i brevform",
                         "Kunne ikke sjekke åpne oppgaver på sykepenger i Gosys"
-                    ]
+                    ],
+                    "utbetaling": {
+                        "utbetalingId": "347a879e-d335-4794-b9ff-34c0a2fbec70",
+                        "korrelasjonsId": "8da989c1-88b7-4482-a930-50a403b9c9d9",
+                        "utbetalingstidslinje": [
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 46,
+                                "dato": "2021-02-01"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 46,
+                                "dato": "2021-02-02"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 46,
+                                "dato": "2021-02-03"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 46,
+                                "dato": "2021-02-04"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 46,
+                                "dato": "2021-02-05"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 46,
+                                "dato": "2021-02-06"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 46,
+                                "dato": "2021-02-07"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 46,
+                                "dato": "2021-02-08"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 46,
+                                "dato": "2021-02-09"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 46,
+                                "dato": "2021-02-10"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 46,
+                                "dato": "2021-02-11"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 46,
+                                "dato": "2021-02-12"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 46,
+                                "dato": "2021-02-13"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 46,
+                                "dato": "2021-02-14"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 46,
+                                "dato": "2021-02-15"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 46,
+                                "dato": "2021-02-16"
+                            },
+                            {
+                                "type": "AvvistDag",
+                                "inntekt": 0,
+                                "dato": "2021-02-17",
+                                "begrunnelser": ["MinimumInntekt"],
+                                "grad": 0
+                            },
+                            {
+                                "type": "AvvistDag",
+                                "inntekt": 0,
+                                "dato": "2021-02-18",
+                                "begrunnelser": ["MinimumInntekt"],
+                                "grad": 0
+                            },
+                            {
+                                "type": "AvvistDag",
+                                "inntekt": 0,
+                                "dato": "2021-02-19",
+                                "begrunnelser": ["MinimumInntekt"],
+                                "grad": 0
+                            },
+                            {
+                                "type": "NavHelgDag",
+                                "inntekt": 0,
+                                "dato": "2021-02-20",
+                                "grad": 100
+                            },
+                            {
+                                "type": "NavHelgDag",
+                                "inntekt": 0,
+                                "dato": "2021-02-21",
+                                "grad": 100
+                            },
+                            {
+                                "type": "AvvistDag",
+                                "inntekt": 0,
+                                "dato": "2021-02-22",
+                                "begrunnelser": ["MinimumInntekt"],
+                                "grad": 0
+                            },
+                            {
+                                "type": "AvvistDag",
+                                "inntekt": 0,
+                                "dato": "2021-02-23",
+                                "begrunnelser": ["MinimumInntekt"],
+                                "grad": 0
+                            },
+                            {
+                                "type": "AvvistDag",
+                                "inntekt": 0,
+                                "dato": "2021-02-24",
+                                "begrunnelser": ["MinimumInntekt"],
+                                "grad": 0
+                            },
+                            {
+                                "type": "AvvistDag",
+                                "inntekt": 0,
+                                "dato": "2021-02-25",
+                                "begrunnelser": ["MinimumInntekt"],
+                                "grad": 0
+                            },
+                            {
+                                "type": "AvvistDag",
+                                "inntekt": 0,
+                                "dato": "2021-02-26",
+                                "begrunnelser": ["MinimumInntekt"],
+                                "grad": 0
+                            },
+                            {
+                                "type": "NavHelgDag",
+                                "inntekt": 0,
+                                "dato": "2021-02-27",
+                                "grad": 100
+                            },
+                            {
+                                "type": "NavHelgDag",
+                                "inntekt": 0,
+                                "dato": "2021-02-28",
+                                "grad": 100
+                            }
+                        ],
+                        "beregningId": "f6193b58-56e5-404b-8c15-23749befb2d7",
+                        "type": "UTBETALING",
+                        "maksdato": "2022-02-09",
+                        "status": "UTBETALT",
+                        "gjenståendeSykedager": 248,
+                        "forbrukteSykedager": 0,
+                        "arbeidsgiverNettoBeløp": 0,
+                        "personNettoBeløp": 0,
+                        "arbeidsgiverOppdrag": {
+                            "fagsystemId": "OOTXWHOKRRAYHKXFBZIYGE7EPI",
+                            "utbetalingslinjer": null,
+                            "simuleringsResultat": {
+                                "totalbeløp": 4888,
+                                "perioder": [
+                                    {
+                                        "fom": "2021-02-17",
+                                        "tom": "2021-02-28",
+                                        "utbetalinger": [
+                                            {
+                                                "utbetalesTilId": "928497704",
+                                                "utbetalesTilNavn": "BESK KAFFE",
+                                                "forfall": "2021-10-11",
+                                                "feilkonto": false,
+                                                "detaljer": [
+                                                    {
+                                                        "faktiskFom": "2021-02-17",
+                                                        "faktiskTom": "2021-02-28",
+                                                        "konto": "2338020",
+                                                        "beløp": 12920,
+                                                        "tilbakeføring": false,
+                                                        "sats": 1615,
+                                                        "typeSats": "DAG",
+                                                        "antallSats": 8,
+                                                        "uføregrad": 100,
+                                                        "klassekode": "SPREFAG-IOP",
+                                                        "klassekodeBeskrivelse": "Sykepenger, Refusjon arbeidsgiver",
+                                                        "utbetalingstype": "YTEL",
+                                                        "refunderesOrgNr": "972674818"
+                                                    },
+                                                    {
+                                                        "faktiskFom": "2021-02-17",
+                                                        "faktiskTom": "2021-02-28",
+                                                        "konto": "2338020",
+                                                        "beløp": -8032,
+                                                        "tilbakeføring": true,
+                                                        "sats": 0,
+                                                        "typeSats": "",
+                                                        "antallSats": 0,
+                                                        "uføregrad": 100,
+                                                        "klassekode": "SPREFAG-IOP",
+                                                        "klassekodeBeskrivelse": "Sykepenger, Refusjon arbeidsgiver",
+                                                        "utbetalingstype": "YTEL",
+                                                        "refunderesOrgNr": "972674818"
+                                                    }
+                                                ]
+                                            }
+                                        ]
+                                    }
+                                ]
+                            }
+                        },
+                        "personOppdrag": {
+                            "fagsystemId": "GUYFINU6MNH3PCZKYQ47C7DGXU",
+                            "utbetalingslinjer": [],
+                            "simuleringsResultat": null
+                        },
+                        "vurdering": {
+                            "godkjent": true,
+                            "tidsstempel": "2021-10-11T09:42:29.894804142",
+                            "automatisk": false,
+                            "ident": "T127350"
+                        }
+                    }
                 },
                 {
                     "id": "fe6eb525-f34b-4ecc-a634-c894d5e7a96f",
@@ -718,7 +956,102 @@
                         "Kunne ikke sjekke åpne oppgaver på sykepenger i Gosys",
                         "Ikke registrert eller mangler samtykke i Kontakt- og reservasjonsregisteret, eventuell kommunikasjon må skje i brevform",
                         "Kunne ikke sjekke åpne oppgaver på sykepenger i Gosys"
-                    ]
+                    ],
+                    "utbetaling": {
+                        "utbetalingId": "02e67cfc-d396-455c-ac63-6edef3a86152",
+                        "korrelasjonsId": "d5d64e82-5330-4c51-9454-33b8560aabd7",
+                        "utbetalingstidslinje": [
+                            {
+                                "type": "NavDag",
+                                "dato": "2021-03-01",
+                                "inntekt": 0
+                            },
+                            {
+                                "type": "NavDag",
+                                "dato": "2021-03-02",
+                                "inntekt": 0
+                            },
+                            {
+                                "type": "NavDag",
+                                "dato": "2021-03-03",
+                                "inntekt": 0
+                            },
+                            {
+                                "type": "NavDag",
+                                "dato": "2021-03-04",
+                                "inntekt": 0
+                            },
+                            {
+                                "type": "NavDag",
+                                "dato": "2021-03-05",
+                                "inntekt": 0
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "dato": "2021-03-06",
+                                "inntekt": 0
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "dato": "2021-03-07",
+                                "inntekt": 0
+                            },
+                            {
+                                "type": "NavDag",
+                                "dato": "2021-03-08",
+                                "inntekt": 0
+                            },
+                            {
+                                "type": "NavDag",
+                                "dato": "2021-03-09",
+                                "inntekt": 0
+                            },
+                            {
+                                "type": "NavDag",
+                                "dato": "2021-03-10",
+                                "inntekt": 0
+                            },
+                            {
+                                "type": "NavDag",
+                                "dato": "2021-03-11",
+                                "inntekt": 0
+                            },
+                            {
+                                "type": "NavDag",
+                                "dato": "2021-03-12",
+                                "inntekt": 0
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "dato": "2021-03-13",
+                                "inntekt": 0
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "dato": "2021-03-14",
+                                "inntekt": 0
+                            }
+                        ],
+                        "beregningId": "dd372353-ac6e-4bb6-904b-523ce58965dc",
+                        "type": "UTBETALING",
+                        "maksdato": null,
+                        "status": "IKKE_UTBETALT",
+                        "gjenståendeSykedager": null,
+                        "forbrukteSykedager": null,
+                        "arbeidsgiverNettoBeløp": null,
+                        "personNettoBeløp": 0,
+                        "arbeidsgiverOppdrag": {
+                            "fagsystemId": "AZHWRQ7Z7FCTJFKE3BYA2HRZT4",
+                            "utbetalingslinjer": null,
+                            "simuleringsResultat": null
+                        },
+                        "personOppdrag": {
+                            "fagsystemId": "W37PTZJ6AVBURNYT7N7JBYTPJA",
+                            "utbetalingslinjer": [],
+                            "simuleringsResultat": null
+                        },
+                        "vurdering": null
+                    }
                 }
             ],
             "overstyringer": [

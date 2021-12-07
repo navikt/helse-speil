@@ -610,7 +610,196 @@
                         "Ikke registrert eller mangler samtykke i Kontakt- og reservasjonsregisteret, eventuell kommunikasjon må skje i brevform",
                         "Kunne ikke sjekke åpne oppgaver på sykepenger i Gosys",
                         "Vurder lovvalg og medlemskap"
-                    ]
+                    ],
+                    "utbetaling": {
+                        "utbetalingId": "637e32a3-c8fc-46a6-ae6f-4bf61ced9802",
+                        "korrelasjonsId": "25935112-83f4-4ded-92b4-4470e5d44e14",
+                        "utbetalingstidslinje": [
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 586,
+                                "dato": "2021-05-01"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 586,
+                                "dato": "2021-05-02"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 586,
+                                "dato": "2021-05-03"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 586,
+                                "dato": "2021-05-04"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 586,
+                                "dato": "2021-05-05"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 586,
+                                "dato": "2021-05-06"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 586,
+                                "dato": "2021-05-07"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 586,
+                                "dato": "2021-05-08"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 586,
+                                "dato": "2021-05-09"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 586,
+                                "dato": "2021-05-10"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 586,
+                                "dato": "2021-05-11"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 586,
+                                "dato": "2021-05-12"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 586,
+                                "dato": "2021-05-13"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 586,
+                                "dato": "2021-05-14"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 586,
+                                "dato": "2021-05-15"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 586,
+                                "dato": "2021-05-16"
+                            },
+                            {
+                                "type": "Feriedag",
+                                "inntekt": 0,
+                                "dato": "2021-05-17"
+                            },
+                            {
+                                "type": "Feriedag",
+                                "inntekt": 0,
+                                "dato": "2021-05-18"
+                            },
+                            {
+                                "type": "Feriedag",
+                                "inntekt": 0,
+                                "dato": "2021-05-19"
+                            },
+                            {
+                                "type": "Feriedag",
+                                "inntekt": 0,
+                                "dato": "2021-05-20"
+                            },
+                            {
+                                "type": "Feriedag",
+                                "inntekt": 0,
+                                "dato": "2021-05-21"
+                            },
+                            {
+                                "type": "NavHelgDag",
+                                "inntekt": 0,
+                                "dato": "2021-05-22",
+                                "grad": 100
+                            },
+                            {
+                                "type": "NavHelgDag",
+                                "inntekt": 0,
+                                "dato": "2021-05-23",
+                                "grad": 100
+                            },
+                            {
+                                "type": "Feriedag",
+                                "inntekt": 0,
+                                "dato": "2021-05-24"
+                            },
+                            {
+                                "type": "Feriedag",
+                                "inntekt": 0,
+                                "dato": "2021-05-25"
+                            },
+                            {
+                                "type": "Feriedag",
+                                "inntekt": 0,
+                                "dato": "2021-05-26"
+                            },
+                            {
+                                "type": "Feriedag",
+                                "inntekt": 0,
+                                "dato": "2021-05-27"
+                            },
+                            {
+                                "type": "Feriedag",
+                                "inntekt": 0,
+                                "dato": "2021-05-28"
+                            },
+                            {
+                                "type": "NavHelgDag",
+                                "inntekt": 0,
+                                "dato": "2021-05-29",
+                                "grad": 100
+                            },
+                            {
+                                "type": "NavHelgDag",
+                                "inntekt": 0,
+                                "dato": "2021-05-30",
+                                "grad": 100
+                            },
+                            {
+                                "type": "Feriedag",
+                                "inntekt": 0,
+                                "dato": "2021-05-31"
+                            }
+                        ],
+                        "beregningId": "f997c485-2414-4591-b326-d4e2917d0a54",
+                        "type": "UTBETALING",
+                        "maksdato": "2022-05-12",
+                        "status": "UTBETALT",
+                        "gjenståendeSykedager": 248,
+                        "forbrukteSykedager": 0,
+                        "arbeidsgiverNettoBeløp": -6446,
+                        "personNettoBeløp": 0,
+                        "arbeidsgiverOppdrag": {
+                            "fagsystemId": "PANNLYAPEFALZFW2GOBYF3KPEM",
+                            "utbetalingslinjer": [],
+                            "simuleringsResultat": null
+                        },
+                        "personOppdrag": {
+                            "fagsystemId": "PANNLYAPEFALZFW2GOBYF3KPEM",
+                            "utbetalingslinjer": [],
+                            "simuleringsResultat": null
+                        },
+                        "vurdering": {
+                            "godkjent": true,
+                            "tidsstempel": "2021-07-05T14:28:05.986610849",
+                            "automatisk": false,
+                            "ident": "S157803"
+                        }
+                    }
                 },
                 {
                     "id": "8e595564-09d1-4295-83aa-41ec9e8c0df3",
@@ -1163,7 +1352,195 @@
                         "Ikke registrert eller mangler samtykke i Kontakt- og reservasjonsregisteret, eventuell kommunikasjon må skje i brevform",
                         "Kunne ikke sjekke åpne oppgaver på sykepenger i Gosys",
                         "Vurder lovvalg og medlemskap"
-                    ]
+                    ],
+                    "utbetaling": {
+                        "utbetalingId": "544b7a38-a2d1-4f3a-967c-fa950508513e",
+                        "korrelasjonsId": "e8a48ae5-552f-4581-8583-84f208eb9f47",
+                        "utbetalingstidslinje": [
+                            {
+                                "type": "Feriedag",
+                                "inntekt": 0,
+                                "dato": "2021-06-01"
+                            },
+                            {
+                                "type": "Feriedag",
+                                "inntekt": 0,
+                                "dato": "2021-06-02"
+                            },
+                            {
+                                "type": "Feriedag",
+                                "inntekt": 0,
+                                "dato": "2021-06-03"
+                            },
+                            {
+                                "type": "Feriedag",
+                                "inntekt": 0,
+                                "dato": "2021-06-04"
+                            },
+                            {
+                                "type": "NavHelgDag",
+                                "inntekt": 0,
+                                "dato": "2021-06-05",
+                                "grad": 100
+                            },
+                            {
+                                "type": "NavHelgDag",
+                                "inntekt": 0,
+                                "dato": "2021-06-06",
+                                "grad": 100
+                            },
+                            {
+                                "type": "Feriedag",
+                                "inntekt": 0,
+                                "dato": "2021-06-07"
+                            },
+                            {
+                                "type": "Feriedag",
+                                "inntekt": 0,
+                                "dato": "2021-06-08"
+                            },
+                            {
+                                "type": "Feriedag",
+                                "inntekt": 0,
+                                "dato": "2021-06-09"
+                            },
+                            {
+                                "type": "Feriedag",
+                                "inntekt": 0,
+                                "dato": "2021-06-10"
+                            },
+                            {
+                                "type": "Feriedag",
+                                "inntekt": 0,
+                                "dato": "2021-06-11"
+                            },
+                            {
+                                "type": "NavHelgDag",
+                                "inntekt": 0,
+                                "dato": "2021-06-12",
+                                "grad": 100
+                            },
+                            {
+                                "type": "NavHelgDag",
+                                "inntekt": 0,
+                                "dato": "2021-06-13",
+                                "grad": 100
+                            },
+                            {
+                                "type": "Feriedag",
+                                "inntekt": 0,
+                                "dato": "2021-06-14"
+                            },
+                            {
+                                "type": "Feriedag",
+                                "inntekt": 0,
+                                "dato": "2021-06-15"
+                            },
+                            {
+                                "type": "Feriedag",
+                                "inntekt": 0,
+                                "dato": "2021-06-16"
+                            },
+                            {
+                                "type": "Feriedag",
+                                "inntekt": 0,
+                                "dato": "2021-06-17"
+                            },
+                            {
+                                "type": "Feriedag",
+                                "inntekt": 0,
+                                "dato": "2021-06-18"
+                            },
+                            {
+                                "type": "NavHelgDag",
+                                "inntekt": 0,
+                                "dato": "2021-06-19",
+                                "grad": 100
+                            },
+                            {
+                                "type": "NavHelgDag",
+                                "inntekt": 0,
+                                "dato": "2021-06-20",
+                                "grad": 100
+                            },
+                            {
+                                "type": "Feriedag",
+                                "inntekt": 0,
+                                "dato": "2021-06-21"
+                            },
+                            {
+                                "type": "Feriedag",
+                                "inntekt": 0,
+                                "dato": "2021-06-22"
+                            },
+                            {
+                                "type": "Feriedag",
+                                "inntekt": 0,
+                                "dato": "2021-06-23"
+                            },
+                            {
+                                "type": "Feriedag",
+                                "inntekt": 0,
+                                "dato": "2021-06-24"
+                            },
+                            {
+                                "type": "Feriedag",
+                                "inntekt": 0,
+                                "dato": "2021-06-25"
+                            },
+                            {
+                                "type": "NavHelgDag",
+                                "inntekt": 0,
+                                "dato": "2021-06-26",
+                                "grad": 100
+                            },
+                            {
+                                "type": "NavHelgDag",
+                                "inntekt": 0,
+                                "dato": "2021-06-27",
+                                "grad": 100
+                            },
+                            {
+                                "type": "Feriedag",
+                                "inntekt": 0,
+                                "dato": "2021-06-28"
+                            },
+                            {
+                                "type": "Feriedag",
+                                "inntekt": 0,
+                                "dato": "2021-06-29"
+                            },
+                            {
+                                "type": "Feriedag",
+                                "inntekt": 0,
+                                "dato": "2021-06-30"
+                            }
+                        ],
+                        "beregningId": "52f8b838-d96f-4426-9ba0-060593e897a3",
+                        "type": "UTBETALING",
+                        "maksdato": "2022-06-13",
+                        "status": "UTBETALT",
+                        "gjenståendeSykedager": 248,
+                        "forbrukteSykedager": 0,
+                        "arbeidsgiverNettoBeløp": -12892,
+                        "personNettoBeløp": 0,
+                        "arbeidsgiverOppdrag": {
+                            "fagsystemId": "EJ3BWOI3TVHERCUM4T45ZGCYOE",
+                            "utbetalingslinjer": [],
+                            "simuleringsResultat": null
+                        },
+                        "personOppdrag": {
+                            "fagsystemId": "EJ3BWOI3TVHERCUM4T45ZGCYOE",
+                            "utbetalingslinjer": [],
+                            "simuleringsResultat": null
+                        },
+                        "vurdering": {
+                            "godkjent": true,
+                            "tidsstempel": "2021-07-05T14:49:37.282455061",
+                            "automatisk": false,
+                            "ident": "S157803"
+                        }
+                    }
                 }
             ],
             "overstyringer": [

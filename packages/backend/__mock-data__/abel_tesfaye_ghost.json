@@ -1355,7 +1355,589 @@
                     ],
                     "forlengelseFraInfotrygd": "NEI",
                     "periodetype": "FØRSTEGANGSBEHANDLING",
-                    "beregningIder": ["cb6a6dab-65e5-4471-86e3-4ac2bcc59c3f"]
+                    "beregningIder": ["cb6a6dab-65e5-4471-86e3-4ac2bcc59c3f"],
+                    "utbetaling": {
+                        "utbetalingId": "faab5f16-df44-48ad-9165-da3f4c8a6ced",
+                        "korrelasjonsId": "384e7797-c48c-4ae3-b297-a0c6ee24fda3",
+                        "utbetalingstidslinje": [
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 1431,
+                                "dato": "2018-01-01"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 1431,
+                                "dato": "2018-01-02"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 1431,
+                                "dato": "2018-01-03"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 1431,
+                                "dato": "2018-01-04"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 1431,
+                                "dato": "2018-01-05"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 1431,
+                                "dato": "2018-01-06"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 1431,
+                                "dato": "2018-01-07"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 1431,
+                                "dato": "2018-01-08"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 1431,
+                                "dato": "2018-01-09"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 1431,
+                                "dato": "2018-01-10"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 1431,
+                                "dato": "2018-01-11"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 1431,
+                                "dato": "2018-01-12"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 1431,
+                                "dato": "2018-01-13"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 1431,
+                                "dato": "2018-01-14"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 1431,
+                                "dato": "2018-01-15"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 1431,
+                                "dato": "2018-01-16"
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 1431,
+                                "dato": "2018-01-17",
+                                "utbetaling": 1063,
+                                "grad": 100.0,
+                                "totalGrad": 49.2063492063492
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 1431,
+                                "dato": "2018-01-18",
+                                "utbetaling": 1063,
+                                "grad": 100.0,
+                                "totalGrad": 49.2063492063492
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 1431,
+                                "dato": "2018-01-19",
+                                "utbetaling": 1063,
+                                "grad": 100.0,
+                                "totalGrad": 49.2063492063492
+                            },
+                            {
+                                "type": "NavHelgDag",
+                                "inntekt": 0,
+                                "dato": "2018-01-20",
+                                "grad": 100.0
+                            },
+                            {
+                                "type": "NavHelgDag",
+                                "inntekt": 0,
+                                "dato": "2018-01-21",
+                                "grad": 100.0
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 1431,
+                                "dato": "2018-01-22",
+                                "utbetaling": 1063,
+                                "grad": 100.0,
+                                "totalGrad": 49.2063492063492
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 1431,
+                                "dato": "2018-01-23",
+                                "utbetaling": 1063,
+                                "grad": 100.0,
+                                "totalGrad": 49.2063492063492
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 1431,
+                                "dato": "2018-01-24",
+                                "utbetaling": 1063,
+                                "grad": 100.0,
+                                "totalGrad": 49.2063492063492
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 1431,
+                                "dato": "2018-01-25",
+                                "utbetaling": 1063,
+                                "grad": 100.0,
+                                "totalGrad": 49.2063492063492
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 1431,
+                                "dato": "2018-01-26",
+                                "utbetaling": 1063,
+                                "grad": 100.0,
+                                "totalGrad": 49.2063492063492
+                            },
+                            {
+                                "type": "NavHelgDag",
+                                "inntekt": 0,
+                                "dato": "2018-01-27",
+                                "grad": 100.0
+                            },
+                            {
+                                "type": "NavHelgDag",
+                                "inntekt": 0,
+                                "dato": "2018-01-28",
+                                "grad": 100.0
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 1431,
+                                "dato": "2018-01-29",
+                                "utbetaling": 1063,
+                                "grad": 100.0,
+                                "totalGrad": 49.2063492063492
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 1431,
+                                "dato": "2018-01-30",
+                                "utbetaling": 1063,
+                                "grad": 100.0,
+                                "totalGrad": 49.2063492063492
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 1431,
+                                "dato": "2018-01-31",
+                                "utbetaling": 1063,
+                                "grad": 100.0,
+                                "totalGrad": 49.2063492063492
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 1431,
+                                "dato": "2018-02-01",
+                                "utbetaling": 1063,
+                                "grad": 100.0,
+                                "totalGrad": 49.2063492063492
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 1431,
+                                "dato": "2018-02-02",
+                                "utbetaling": 1063,
+                                "grad": 100.0,
+                                "totalGrad": 49.2063492063492
+                            },
+                            {
+                                "type": "NavHelgDag",
+                                "inntekt": 0,
+                                "dato": "2018-02-03",
+                                "grad": 100.0
+                            },
+                            {
+                                "type": "NavHelgDag",
+                                "inntekt": 0,
+                                "dato": "2018-02-04",
+                                "grad": 100.0
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 1431,
+                                "dato": "2018-02-05",
+                                "utbetaling": 1063,
+                                "grad": 100.0,
+                                "totalGrad": 49.2063492063492
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 1431,
+                                "dato": "2018-02-06",
+                                "utbetaling": 1063,
+                                "grad": 100.0,
+                                "totalGrad": 49.2063492063492
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 1431,
+                                "dato": "2018-02-07",
+                                "utbetaling": 1063,
+                                "grad": 100.0,
+                                "totalGrad": 49.2063492063492
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 1431,
+                                "dato": "2018-02-08",
+                                "utbetaling": 1063,
+                                "grad": 100.0,
+                                "totalGrad": 49.2063492063492
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 1431,
+                                "dato": "2018-02-09",
+                                "utbetaling": 1063,
+                                "grad": 100.0,
+                                "totalGrad": 49.2063492063492
+                            },
+                            {
+                                "type": "NavHelgDag",
+                                "inntekt": 0,
+                                "dato": "2018-02-10",
+                                "grad": 100.0
+                            },
+                            {
+                                "type": "NavHelgDag",
+                                "inntekt": 0,
+                                "dato": "2018-02-11",
+                                "grad": 100.0
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 1431,
+                                "dato": "2018-02-12",
+                                "utbetaling": 1063,
+                                "grad": 100.0,
+                                "totalGrad": 49.2063492063492
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 1431,
+                                "dato": "2018-02-13",
+                                "utbetaling": 1063,
+                                "grad": 100.0,
+                                "totalGrad": 49.2063492063492
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 1431,
+                                "dato": "2018-02-14",
+                                "utbetaling": 1063,
+                                "grad": 100.0,
+                                "totalGrad": 49.2063492063492
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 1431,
+                                "dato": "2018-02-15",
+                                "utbetaling": 1063,
+                                "grad": 100.0,
+                                "totalGrad": 49.2063492063492
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 1431,
+                                "dato": "2018-02-16",
+                                "utbetaling": 1063,
+                                "grad": 100.0,
+                                "totalGrad": 49.2063492063492
+                            },
+                            {
+                                "type": "NavHelgDag",
+                                "inntekt": 0,
+                                "dato": "2018-02-17",
+                                "grad": 100.0
+                            },
+                            {
+                                "type": "NavHelgDag",
+                                "inntekt": 0,
+                                "dato": "2018-02-18",
+                                "grad": 100.0
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 1431,
+                                "dato": "2018-02-19",
+                                "utbetaling": 1063,
+                                "grad": 100.0,
+                                "totalGrad": 49.2063492063492
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 1431,
+                                "dato": "2018-02-20",
+                                "utbetaling": 1063,
+                                "grad": 100.0,
+                                "totalGrad": 49.2063492063492
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 1431,
+                                "dato": "2018-02-21",
+                                "utbetaling": 1063,
+                                "grad": 100.0,
+                                "totalGrad": 49.2063492063492
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 1431,
+                                "dato": "2018-02-22",
+                                "utbetaling": 1063,
+                                "grad": 100.0,
+                                "totalGrad": 49.2063492063492
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 1431,
+                                "dato": "2018-02-23",
+                                "utbetaling": 1063,
+                                "grad": 100.0,
+                                "totalGrad": 49.2063492063492
+                            },
+                            {
+                                "type": "NavHelgDag",
+                                "inntekt": 0,
+                                "dato": "2018-02-24",
+                                "grad": 100.0
+                            },
+                            {
+                                "type": "NavHelgDag",
+                                "inntekt": 0,
+                                "dato": "2018-02-25",
+                                "grad": 100.0
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 1431,
+                                "dato": "2018-02-26",
+                                "utbetaling": 1063,
+                                "grad": 100.0,
+                                "totalGrad": 49.2063492063492
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 1431,
+                                "dato": "2018-02-27",
+                                "utbetaling": 1063,
+                                "grad": 100.0,
+                                "totalGrad": 49.2063492063492
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 1431,
+                                "dato": "2018-02-28",
+                                "utbetaling": 1063,
+                                "grad": 100.0,
+                                "totalGrad": 49.2063492063492
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 1431,
+                                "dato": "2018-03-01",
+                                "utbetaling": 1063,
+                                "grad": 100.0,
+                                "totalGrad": 49.2063492063492
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 1431,
+                                "dato": "2018-03-02",
+                                "utbetaling": 1063,
+                                "grad": 100.0,
+                                "totalGrad": 49.2063492063492
+                            },
+                            {
+                                "type": "NavHelgDag",
+                                "inntekt": 0,
+                                "dato": "2018-03-03",
+                                "grad": 100.0
+                            },
+                            {
+                                "type": "NavHelgDag",
+                                "inntekt": 0,
+                                "dato": "2018-03-04",
+                                "grad": 100.0
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 1431,
+                                "dato": "2018-03-05",
+                                "utbetaling": 1063,
+                                "grad": 100.0,
+                                "totalGrad": 49.2063492063492
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 1431,
+                                "dato": "2018-03-06",
+                                "utbetaling": 1063,
+                                "grad": 100.0,
+                                "totalGrad": 49.2063492063492
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 1431,
+                                "dato": "2018-03-07",
+                                "utbetaling": 1063,
+                                "grad": 100.0,
+                                "totalGrad": 49.2063492063492
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 1431,
+                                "dato": "2018-03-08",
+                                "utbetaling": 1063,
+                                "grad": 100.0,
+                                "totalGrad": 49.2063492063492
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 1431,
+                                "dato": "2018-03-09",
+                                "utbetaling": 1063,
+                                "grad": 100.0,
+                                "totalGrad": 49.2063492063492
+                            },
+                            {
+                                "type": "NavHelgDag",
+                                "inntekt": 0,
+                                "dato": "2018-03-10",
+                                "grad": 100.0
+                            },
+                            {
+                                "type": "NavHelgDag",
+                                "inntekt": 0,
+                                "dato": "2018-03-11",
+                                "grad": 100.0
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 1431,
+                                "dato": "2018-03-12",
+                                "utbetaling": 1063,
+                                "grad": 100.0,
+                                "totalGrad": 49.2063492063492
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 1431,
+                                "dato": "2018-03-13",
+                                "utbetaling": 1063,
+                                "grad": 100.0,
+                                "totalGrad": 49.2063492063492
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 1431,
+                                "dato": "2018-03-14",
+                                "utbetaling": 1063,
+                                "grad": 100.0,
+                                "totalGrad": 49.2063492063492
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 1431,
+                                "dato": "2018-03-15",
+                                "utbetaling": 1063,
+                                "grad": 100.0,
+                                "totalGrad": 49.2063492063492
+                            }
+                        ],
+                        "beregningId": "176d3478-7dab-410c-91cd-b4e4dc1a9a34",
+                        "type": "UTBETALING",
+                        "maksdato": "2018-12-28",
+                        "status": "UTBETALT",
+                        "gjenståendeSykedager": 206,
+                        "forbrukteSykedager": 42,
+                        "arbeidsgiverNettoBeløp": 44646,
+                        "personNettoBeløp": 0,
+                        "arbeidsgiverOppdrag": {
+                            "fagsystemId": "IM7DXX37BBEULDLHO3NTJI2WWI",
+                            "utbetalingslinjer": [
+                                {
+                                    "fom": "2018-01-17",
+                                    "tom": "2018-03-15",
+                                    "dagsats": 1063,
+                                    "grad": 100.0
+                                }
+                            ],
+                            "simuleringsResultat": {
+                                "totalbeløp": 9999,
+                                "perioder": [
+                                    {
+                                        "fom": "2020-01-01",
+                                        "tom": "2020-01-02",
+                                        "utbetalinger": [
+                                            {
+                                                "utbetalesTilId": "987654321",
+                                                "utbetalesTilNavn": "Syk Nordmann",
+                                                "forfall": "2020-01-03",
+                                                "feilkonto": true,
+                                                "detaljer": [
+                                                    {
+                                                        "faktiskFom": "2020-01-01",
+                                                        "faktiskTom": "2020-01-02",
+                                                        "konto": "12345678910og1112",
+                                                        "beløp": 9999,
+                                                        "tilbakeføring": false,
+                                                        "sats": 1111,
+                                                        "typeSats": "DAGLIG",
+                                                        "antallSats": 9,
+                                                        "uføregrad": 100,
+                                                        "klassekode": "SPREFAG-IOP",
+                                                        "klassekodeBeskrivelse": "Sykepenger, Refusjon arbeidsgiver",
+                                                        "utbetalingstype": "YTELSE",
+                                                        "refunderesOrgNr": "987654321"
+                                                    }
+                                                ]
+                                            }
+                                        ]
+                                    }
+                                ]
+                            }
+                        },
+                        "personOppdrag": {
+                            "fagsystemId": "IM7DXX37BBEULDLHO3NTJI2WWI",
+                            "utbetalingslinjer": [],
+                            "simuleringsResultat": null
+                        },
+                        "vurdering": {
+                            "godkjent": true,
+                            "tidsstempel": "2021-07-30T14:29:40.103305",
+                            "automatisk": false,
+                            "ident": "en_saksbehandler_ident"
+                        }
+                    }
                 }
             ],
             "utbetalingshistorikk": [
