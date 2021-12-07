@@ -352,7 +352,112 @@
                         "Ikke registrert eller mangler samtykke i Kontakt- og reservasjonsregisteret, eventuell kommunikasjon må skje i brevform",
                         "Kunne ikke sjekke åpne oppgaver på sykepenger i Gosys",
                         "Vurder lovvalg og medlemskap"
-                    ]
+                    ],
+                    "utbetaling": {
+                        "utbetalingId": "b3015d6b-56d1-47b4-a81e-7345c3036889",
+                        "korrelasjonsId": "c9e4f6b3-d527-4de8-8d4b-f2bf204abe45",
+                        "utbetalingstidslinje": [
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 1777,
+                                "dato": "2021-07-01"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 1777,
+                                "dato": "2021-07-02"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 1777,
+                                "dato": "2021-07-03"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 1777,
+                                "dato": "2021-07-04"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 1777,
+                                "dato": "2021-07-05"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 1777,
+                                "dato": "2021-07-06"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 1777,
+                                "dato": "2021-07-07"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 1777,
+                                "dato": "2021-07-08"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 1777,
+                                "dato": "2021-07-09"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 1777,
+                                "dato": "2021-07-10"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 1777,
+                                "dato": "2021-07-11"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 1777,
+                                "dato": "2021-07-12"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 1777,
+                                "dato": "2021-07-13"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 1777,
+                                "dato": "2021-07-14"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 1777,
+                                "dato": "2021-07-15"
+                            }
+                        ],
+                        "beregningId": "a04b6305-640e-49a2-8af4-cb794d7604bf",
+                        "type": "UTBETALING",
+                        "maksdato": "2022-06-28",
+                        "status": "UTBETALT",
+                        "gjenståendeSykedager": 248,
+                        "forbrukteSykedager": 0,
+                        "arbeidsgiverNettoBeløp": 0,
+                        "personNettoBeløp": 0,
+                        "arbeidsgiverOppdrag": {
+                            "fagsystemId": "U2DJBPUDYZENTBSADQEX7QB5N4",
+                            "utbetalingslinjer": null,
+                            "simuleringsResultat": null
+                        },
+                        "personOppdrag": {
+                            "fagsystemId": "ALXAMDPNIJFI3K35E7WV4WJJ4M",
+                            "utbetalingslinjer": [],
+                            "simuleringsResultat": null
+                        },
+                        "vurdering": {
+                            "godkjent": true,
+                            "tidsstempel": "2021-10-27T08:13:43.918259753",
+                            "automatisk": false,
+                            "ident": "B154125"
+                        }
+                    }
                 },
                 {
                     "id": "4acd641c-1a89-4a5f-b6a7-263a3b3f8ce5",
@@ -844,7 +949,201 @@
                         "Ikke registrert eller mangler samtykke i Kontakt- og reservasjonsregisteret, eventuell kommunikasjon må skje i brevform",
                         "Kunne ikke sjekke åpne oppgaver på sykepenger i Gosys",
                         "Vurder lovvalg og medlemskap"
-                    ]
+                    ],
+                    "utbetaling": {
+                        "utbetalingId": "601dae85-ebcc-475d-bfe6-a0ada658fd0f",
+                        "korrelasjonsId": "1b8b0c26-93f2-4e7c-91c3-620837868abf",
+                        "utbetalingstidslinje": [
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 1777,
+                                "dato": "2021-08-19"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 1777,
+                                "dato": "2021-08-20"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 1777,
+                                "dato": "2021-08-21"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 1777,
+                                "dato": "2021-08-22"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 1777,
+                                "dato": "2021-08-23"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 1777,
+                                "dato": "2021-08-24"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 1777,
+                                "dato": "2021-08-25"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 1777,
+                                "dato": "2021-08-26"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 1777,
+                                "dato": "2021-08-27"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 1777,
+                                "dato": "2021-08-28"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 1777,
+                                "dato": "2021-08-29"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 1777,
+                                "dato": "2021-08-30"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 1777,
+                                "dato": "2021-08-31"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 1777,
+                                "dato": "2021-09-01"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 1777,
+                                "dato": "2021-09-02"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 1777,
+                                "dato": "2021-09-03"
+                            },
+                            {
+                                "type": "NavHelgDag",
+                                "inntekt": 0,
+                                "dato": "2021-09-04",
+                                "grad": 100
+                            },
+                            {
+                                "type": "NavHelgDag",
+                                "inntekt": 0,
+                                "dato": "2021-09-05",
+                                "grad": 100
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 1777,
+                                "dato": "2021-09-06",
+                                "utbetaling": 1777,
+                                "grad": 100,
+                                "totalGrad": 100
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 1777,
+                                "dato": "2021-09-07",
+                                "utbetaling": 1777,
+                                "grad": 100,
+                                "totalGrad": 100
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 1777,
+                                "dato": "2021-09-08",
+                                "utbetaling": 1777,
+                                "grad": 100,
+                                "totalGrad": 100
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 1777,
+                                "dato": "2021-09-09",
+                                "utbetaling": 1777,
+                                "grad": 100,
+                                "totalGrad": 100
+                            }
+                        ],
+                        "beregningId": "8e11a0a7-803c-49e0-94c5-816ad83d0b66",
+                        "type": "UTBETALING",
+                        "maksdato": "2022-08-17",
+                        "status": "UTBETALT",
+                        "gjenståendeSykedager": 244,
+                        "forbrukteSykedager": 4,
+                        "arbeidsgiverNettoBeløp": 7108,
+                        "personNettoBeløp": 0,
+                        "arbeidsgiverOppdrag": {
+                            "fagsystemId": "TVJCOXXK7RCN3JBFR2FSN6ZZA4",
+                            "utbetalingslinjer": [
+                                {
+                                    "fom": "2021-09-04",
+                                    "tom": "2021-09-09",
+                                    "dagsats": 1777,
+                                    "grad": 100
+                                }
+                            ],
+                            "simuleringsResultat": {
+                                "totalbeløp": 7108,
+                                "perioder": [
+                                    {
+                                        "fom": "2021-09-04",
+                                        "tom": "2021-09-09",
+                                        "utbetalinger": [
+                                            {
+                                                "utbetalesTilId": "928497704",
+                                                "utbetalesTilNavn": "BESK KAFFE",
+                                                "forfall": "2021-10-27",
+                                                "feilkonto": false,
+                                                "detaljer": [
+                                                    {
+                                                        "faktiskFom": "2021-09-04",
+                                                        "faktiskTom": "2021-09-09",
+                                                        "konto": "2338020",
+                                                        "beløp": 7108,
+                                                        "tilbakeføring": false,
+                                                        "sats": 1777,
+                                                        "typeSats": "DAG",
+                                                        "antallSats": 4,
+                                                        "uføregrad": 100,
+                                                        "klassekode": "SPREFAG-IOP",
+                                                        "klassekodeBeskrivelse": "Sykepenger, Refusjon arbeidsgiver",
+                                                        "utbetalingstype": "YTEL",
+                                                        "refunderesOrgNr": "972674818"
+                                                    }
+                                                ]
+                                            }
+                                        ]
+                                    }
+                                ]
+                            }
+                        },
+                        "personOppdrag": {
+                            "fagsystemId": "TVJCOXXK7RCN3JBFR2FSN6ZZA4",
+                            "utbetalingslinjer": [],
+                            "simuleringsResultat": null
+                        },
+                        "vurdering": {
+                            "godkjent": true,
+                            "tidsstempel": "2021-10-27T08:14:28.797657045",
+                            "automatisk": false,
+                            "ident": "B154125"
+                        }
+                    }
                 }
             ],
             "overstyringer": [],

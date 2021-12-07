@@ -683,7 +683,267 @@
                         "Kunne ikke sjekke åpne oppgaver på sykepenger i Gosys",
                         "Vurder lovvalg og medlemskap",
                         "Flere arbeidsgivere, ulikt starttidspunkt for sykefraværet eller ikke fravær fra alle arbeidsforhold"
-                    ]
+                    ],
+                    "utbetaling": {
+                        "utbetalingId": "ae336032-222c-4cd7-b95d-b80e2712bae6",
+                        "korrelasjonsId": "20bfa88d-dde9-456c-a1a5-a5153d0315d0",
+                        "utbetalingstidslinje": [
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 485,
+                                "dato": "2021-07-01"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 485,
+                                "dato": "2021-07-02"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 485,
+                                "dato": "2021-07-03"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 485,
+                                "dato": "2021-07-04"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 485,
+                                "dato": "2021-07-05"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 485,
+                                "dato": "2021-07-06"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 485,
+                                "dato": "2021-07-07"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 485,
+                                "dato": "2021-07-08"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 485,
+                                "dato": "2021-07-09"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 485,
+                                "dato": "2021-07-10"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 485,
+                                "dato": "2021-07-11"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 485,
+                                "dato": "2021-07-12"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 485,
+                                "dato": "2021-07-13"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 485,
+                                "dato": "2021-07-14"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 485,
+                                "dato": "2021-07-15"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 485,
+                                "dato": "2021-07-16"
+                            },
+                            {
+                                "type": "NavHelgDag",
+                                "inntekt": 0,
+                                "dato": "2021-07-17",
+                                "grad": 100
+                            },
+                            {
+                                "type": "NavHelgDag",
+                                "inntekt": 0,
+                                "dato": "2021-07-18",
+                                "grad": 100
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 485,
+                                "dato": "2021-07-19",
+                                "utbetaling": 485,
+                                "grad": 100,
+                                "totalGrad": 41.17647058823529
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 485,
+                                "dato": "2021-07-20",
+                                "utbetaling": 485,
+                                "grad": 100,
+                                "totalGrad": 41.17647058823529
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 485,
+                                "dato": "2021-07-21",
+                                "utbetaling": 485,
+                                "grad": 100,
+                                "totalGrad": 41.17647058823529
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 485,
+                                "dato": "2021-07-22",
+                                "utbetaling": 485,
+                                "grad": 100,
+                                "totalGrad": 41.17647058823529
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 485,
+                                "dato": "2021-07-23",
+                                "utbetaling": 485,
+                                "grad": 100,
+                                "totalGrad": 41.17647058823529
+                            },
+                            {
+                                "type": "NavHelgDag",
+                                "inntekt": 0,
+                                "dato": "2021-07-24",
+                                "grad": 100
+                            },
+                            {
+                                "type": "NavHelgDag",
+                                "inntekt": 0,
+                                "dato": "2021-07-25",
+                                "grad": 100
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 485,
+                                "dato": "2021-07-26",
+                                "utbetaling": 485,
+                                "grad": 100,
+                                "totalGrad": 41.17647058823529
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 485,
+                                "dato": "2021-07-27",
+                                "utbetaling": 485,
+                                "grad": 100,
+                                "totalGrad": 41.17647058823529
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 485,
+                                "dato": "2021-07-28",
+                                "utbetaling": 485,
+                                "grad": 100,
+                                "totalGrad": 41.17647058823529
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 485,
+                                "dato": "2021-07-29",
+                                "utbetaling": 485,
+                                "grad": 100,
+                                "totalGrad": 41.17647058823529
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 485,
+                                "dato": "2021-07-30",
+                                "utbetaling": 485,
+                                "grad": 100,
+                                "totalGrad": 41.17647058823529
+                            },
+                            {
+                                "type": "NavHelgDag",
+                                "inntekt": 0,
+                                "dato": "2021-07-31",
+                                "grad": 100
+                            }
+                        ],
+                        "beregningId": "96686d04-16d0-4fa6-9c02-93bcc56964d1",
+                        "type": "UTBETALING",
+                        "maksdato": "2022-06-29",
+                        "status": "UTBETALT",
+                        "gjenståendeSykedager": 238,
+                        "forbrukteSykedager": 10,
+                        "arbeidsgiverNettoBeløp": 4850,
+                        "personNettoBeløp": 0,
+                        "arbeidsgiverOppdrag": {
+                            "fagsystemId": "PV2VCS245VHXLK55AIDTZGC4VI",
+                            "utbetalingslinjer": [
+                                {
+                                    "fom": "2021-07-17",
+                                    "tom": "2021-07-31",
+                                    "dagsats": 485,
+                                    "grad": 100
+                                }
+                            ],
+                            "simuleringsResultat": {
+                                "totalbeløp": 4850,
+                                "perioder": [
+                                    {
+                                        "fom": "2021-07-17",
+                                        "tom": "2021-07-31",
+                                        "utbetalinger": [
+                                            {
+                                                "utbetalesTilId": "928497704",
+                                                "utbetalesTilNavn": "BESK KAFFE",
+                                                "forfall": "2021-10-27",
+                                                "feilkonto": false,
+                                                "detaljer": [
+                                                    {
+                                                        "faktiskFom": "2021-07-17",
+                                                        "faktiskTom": "2021-07-31",
+                                                        "konto": "2338020",
+                                                        "beløp": 4850,
+                                                        "tilbakeføring": false,
+                                                        "sats": 485,
+                                                        "typeSats": "DAG",
+                                                        "antallSats": 10,
+                                                        "uføregrad": 100,
+                                                        "klassekode": "SPREFAG-IOP",
+                                                        "klassekodeBeskrivelse": "Sykepenger, Refusjon arbeidsgiver",
+                                                        "utbetalingstype": "YTEL",
+                                                        "refunderesOrgNr": "805824352"
+                                                    }
+                                                ]
+                                            }
+                                        ]
+                                    }
+                                ]
+                            }
+                        },
+                        "personOppdrag": {
+                            "fagsystemId": "PV2VCS245VHXLK55AIDTZGC4VI",
+                            "utbetalingslinjer": [],
+                            "simuleringsResultat": null
+                        },
+                        "vurdering": {
+                            "godkjent": true,
+                            "tidsstempel": "2021-10-27T09:33:01.424977653",
+                            "automatisk": false,
+                            "ident": "T127350"
+                        }
+                    }
                 },
                 {
                     "id": "88b10865-6e21-4248-89a1-4e23efa7f4c1",
@@ -1074,7 +1334,191 @@
                         "Vurder lovvalg og medlemskap",
                         "Ikke registrert eller mangler samtykke i Kontakt- og reservasjonsregisteret, eventuell kommunikasjon må skje i brevform",
                         "Kunne ikke sjekke åpne oppgaver på sykepenger i Gosys"
-                    ]
+                    ],
+                    "utbetaling": {
+                        "utbetalingId": "cc1eafea-68ff-4cc5-95a6-ab771a374936",
+                        "korrelasjonsId": "fd88ab82-bbce-46c6-b9c9-3096fe874b6a",
+                        "utbetalingstidslinje": [
+                            {
+                                "type": "NavHelgDag",
+                                "inntekt": 0,
+                                "dato": "2021-08-01",
+                                "grad": 100
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 485,
+                                "dato": "2021-08-02",
+                                "utbetaling": 485,
+                                "grad": 100,
+                                "totalGrad": 41.17647058823529
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 485,
+                                "dato": "2021-08-03",
+                                "utbetaling": 485,
+                                "grad": 100,
+                                "totalGrad": 41.17647058823529
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 485,
+                                "dato": "2021-08-04",
+                                "utbetaling": 485,
+                                "grad": 100,
+                                "totalGrad": 41.17647058823529
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 485,
+                                "dato": "2021-08-05",
+                                "utbetaling": 485,
+                                "grad": 100,
+                                "totalGrad": 41.17647058823529
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 485,
+                                "dato": "2021-08-06",
+                                "utbetaling": 485,
+                                "grad": 100,
+                                "totalGrad": 41.17647058823529
+                            },
+                            {
+                                "type": "NavHelgDag",
+                                "inntekt": 0,
+                                "dato": "2021-08-07",
+                                "grad": 100
+                            },
+                            {
+                                "type": "NavHelgDag",
+                                "inntekt": 0,
+                                "dato": "2021-08-08",
+                                "grad": 100
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 485,
+                                "dato": "2021-08-09",
+                                "utbetaling": 485,
+                                "grad": 100,
+                                "totalGrad": 41.17647058823529
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 485,
+                                "dato": "2021-08-10",
+                                "utbetaling": 485,
+                                "grad": 100,
+                                "totalGrad": 41.17647058823529
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 485,
+                                "dato": "2021-08-11",
+                                "utbetaling": 485,
+                                "grad": 100,
+                                "totalGrad": 41.17647058823529
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 485,
+                                "dato": "2021-08-12",
+                                "utbetaling": 485,
+                                "grad": 100,
+                                "totalGrad": 41.17647058823529
+                            }
+                        ],
+                        "beregningId": "b045a4a5-9550-4012-acd0-4c85578dd989",
+                        "type": "UTBETALING",
+                        "maksdato": "2022-06-29",
+                        "status": "IKKE_UTBETALT",
+                        "gjenståendeSykedager": 229,
+                        "forbrukteSykedager": 19,
+                        "arbeidsgiverNettoBeløp": 4365,
+                        "personNettoBeløp": 0,
+                        "arbeidsgiverOppdrag": {
+                            "fagsystemId": "PV2VCS245VHXLK55AIDTZGC4VI",
+                            "utbetalingslinjer": [
+                                {
+                                    "fom": "2021-07-17",
+                                    "tom": "2021-07-31",
+                                    "dagsats": 485,
+                                    "grad": 100
+                                }
+                            ],
+                            "simuleringsResultat": {
+                                "totalbeløp": 9215,
+                                "perioder": [
+                                    {
+                                        "fom": "2021-07-17",
+                                        "tom": "2021-07-31",
+                                        "utbetalinger": [
+                                            {
+                                                "utbetalesTilId": "928497704",
+                                                "utbetalesTilNavn": "BESK KAFFE",
+                                                "forfall": "2021-10-27",
+                                                "feilkonto": false,
+                                                "detaljer": [
+                                                    {
+                                                        "faktiskFom": "2021-07-17",
+                                                        "faktiskTom": "2021-07-31",
+                                                        "konto": "2338020",
+                                                        "beløp": 4850,
+                                                        "tilbakeføring": false,
+                                                        "sats": 485,
+                                                        "typeSats": "DAG",
+                                                        "antallSats": 10,
+                                                        "uføregrad": 100,
+                                                        "klassekode": "SPREFAG-IOP",
+                                                        "klassekodeBeskrivelse": "Sykepenger, Refusjon arbeidsgiver",
+                                                        "utbetalingstype": "YTEL",
+                                                        "refunderesOrgNr": "805824352"
+                                                    }
+                                                ]
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "fom": "2021-08-01",
+                                        "tom": "2021-08-12",
+                                        "utbetalinger": [
+                                            {
+                                                "utbetalesTilId": "928497704",
+                                                "utbetalesTilNavn": "BESK KAFFE",
+                                                "forfall": "2021-10-27",
+                                                "feilkonto": false,
+                                                "detaljer": [
+                                                    {
+                                                        "faktiskFom": "2021-08-01",
+                                                        "faktiskTom": "2021-08-12",
+                                                        "konto": "2338020",
+                                                        "beløp": 4365,
+                                                        "tilbakeføring": false,
+                                                        "sats": 485,
+                                                        "typeSats": "DAG",
+                                                        "antallSats": 9,
+                                                        "uføregrad": 100,
+                                                        "klassekode": "SPREFAG-IOP",
+                                                        "klassekodeBeskrivelse": "Sykepenger, Refusjon arbeidsgiver",
+                                                        "utbetalingstype": "YTEL",
+                                                        "refunderesOrgNr": "805824352"
+                                                    }
+                                                ]
+                                            }
+                                        ]
+                                    }
+                                ]
+                            }
+                        },
+                        "personOppdrag": {
+                            "fagsystemId": "PV2VCS245VHXLK55AIDTZGC4VI",
+                            "utbetalingslinjer": [],
+                            "simuleringsResultat": null
+                        },
+                        "vurdering": null
+                    }
                 }
             ],
             "overstyringer": [],

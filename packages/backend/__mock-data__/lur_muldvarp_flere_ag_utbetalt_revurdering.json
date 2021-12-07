@@ -716,7 +716,275 @@
                         "Ikke registrert eller mangler samtykke i Kontakt- og reservasjonsregisteret, eventuell kommunikasjon må skje i brevform",
                         "Kunne ikke sjekke åpne oppgaver på sykepenger i Gosys",
                         "Vurder lovvalg og medlemskap"
-                    ]
+                    ],
+                    "utbetaling": {
+                        "utbetalingId": "c81a9a55-d373-4aa9-a12b-a6b6634d536b",
+                        "korrelasjonsId": "645c3e4d-ad26-44cf-a778-1dcd13bb3462",
+                        "utbetalingstidslinje": [
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 1962,
+                                "dato": "2021-05-01"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 1962,
+                                "dato": "2021-05-02"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 1962,
+                                "dato": "2021-05-03"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 1962,
+                                "dato": "2021-05-04"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 1962,
+                                "dato": "2021-05-05"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 1962,
+                                "dato": "2021-05-06"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 1962,
+                                "dato": "2021-05-07"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 1962,
+                                "dato": "2021-05-08"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 1962,
+                                "dato": "2021-05-09"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 1962,
+                                "dato": "2021-05-10"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 1962,
+                                "dato": "2021-05-11"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 1962,
+                                "dato": "2021-05-12"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 1962,
+                                "dato": "2021-05-13"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 1962,
+                                "dato": "2021-05-14"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 1962,
+                                "dato": "2021-05-15"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 1962,
+                                "dato": "2021-05-16"
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 1962,
+                                "dato": "2021-05-17",
+                                "utbetaling": 1228,
+                                "grad": 100,
+                                "totalGrad": 100
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 1962,
+                                "dato": "2021-05-18",
+                                "utbetaling": 1228,
+                                "grad": 100,
+                                "totalGrad": 100
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 1962,
+                                "dato": "2021-05-19",
+                                "utbetaling": 1228,
+                                "grad": 100,
+                                "totalGrad": 100
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 1962,
+                                "dato": "2021-05-20",
+                                "utbetaling": 1228,
+                                "grad": 100,
+                                "totalGrad": 100
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 1962,
+                                "dato": "2021-05-21",
+                                "utbetaling": 1228,
+                                "grad": 100,
+                                "totalGrad": 100
+                            },
+                            {
+                                "type": "NavHelgDag",
+                                "inntekt": 0,
+                                "dato": "2021-05-22",
+                                "grad": 100
+                            },
+                            {
+                                "type": "NavHelgDag",
+                                "inntekt": 0,
+                                "dato": "2021-05-23",
+                                "grad": 100
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 1962,
+                                "dato": "2021-05-24",
+                                "utbetaling": 1228,
+                                "grad": 100,
+                                "totalGrad": 100
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 1962,
+                                "dato": "2021-05-25",
+                                "utbetaling": 1228,
+                                "grad": 100,
+                                "totalGrad": 100
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 1962,
+                                "dato": "2021-05-26",
+                                "utbetaling": 1228,
+                                "grad": 100,
+                                "totalGrad": 100
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 1962,
+                                "dato": "2021-05-27",
+                                "utbetaling": 1228,
+                                "grad": 100,
+                                "totalGrad": 100
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 1962,
+                                "dato": "2021-05-28",
+                                "utbetaling": 1228,
+                                "grad": 100,
+                                "totalGrad": 100
+                            },
+                            {
+                                "type": "NavHelgDag",
+                                "inntekt": 0,
+                                "dato": "2021-05-29",
+                                "grad": 100
+                            },
+                            {
+                                "type": "NavHelgDag",
+                                "inntekt": 0,
+                                "dato": "2021-05-30",
+                                "grad": 100
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 1962,
+                                "dato": "2021-05-31",
+                                "utbetaling": 1228,
+                                "grad": 100,
+                                "totalGrad": 100
+                            }
+                        ],
+                        "beregningId": "d492da26-9aa6-4cfa-bedd-8ec5ecaf6772",
+                        "type": "UTBETALING",
+                        "maksdato": "2022-04-27",
+                        "status": "UTBETALT",
+                        "gjenståendeSykedager": 215,
+                        "forbrukteSykedager": 33,
+                        "arbeidsgiverNettoBeløp": 2456,
+                        "personNettoBeløp": 0,
+                        "arbeidsgiverOppdrag": {
+                            "fagsystemId": "4ADE2L26PVFYRHH5FG6OLRE37E",
+                            "utbetalingslinjer": [
+                                {
+                                    "fom": "2021-05-17",
+                                    "tom": "2021-06-16",
+                                    "dagsats": 1228,
+                                    "grad": 100
+                                },
+                                {
+                                    "fom": "2021-06-19",
+                                    "tom": "2021-06-30",
+                                    "dagsats": 1228,
+                                    "grad": 100
+                                }
+                            ],
+                            "simuleringsResultat": {
+                                "totalbeløp": 13508,
+                                "perioder": [
+                                    {
+                                        "fom": "2021-05-17",
+                                        "tom": "2021-05-31",
+                                        "utbetalinger": [
+                                            {
+                                                "utbetalesTilId": "928497704",
+                                                "utbetalesTilNavn": "BESK KAFFE",
+                                                "forfall": "2021-07-01",
+                                                "feilkonto": false,
+                                                "detaljer": [
+                                                    {
+                                                        "faktiskFom": "2021-05-17",
+                                                        "faktiskTom": "2021-05-31",
+                                                        "konto": "2338020",
+                                                        "beløp": 13508,
+                                                        "tilbakeføring": false,
+                                                        "sats": 1228,
+                                                        "typeSats": "DAG",
+                                                        "antallSats": 11,
+                                                        "uføregrad": 100,
+                                                        "klassekode": "SPREFAG-IOP",
+                                                        "klassekodeBeskrivelse": "Sykepenger, Refusjon arbeidsgiver",
+                                                        "utbetalingstype": "YTEL",
+                                                        "refunderesOrgNr": "947064649"
+                                                    }
+                                                ]
+                                            }
+                                        ]
+                                    }
+                                ]
+                            }
+                        },
+                        "personOppdrag": {
+                            "fagsystemId": "4ADE2L26PVFYRHH5FG6OLRE37E",
+                            "utbetalingslinjer": [],
+                            "simuleringsResultat": null
+                        },
+                        "vurdering": {
+                            "godkjent": true,
+                            "tidsstempel": "2021-07-01T14:10:22.872185096",
+                            "automatisk": false,
+                            "ident": "S157803"
+                        }
+                    }
                 },
                 {
                     "id": "2ada1123-c7d9-4a86-abc8-7c233e49927a",
@@ -1455,7 +1723,359 @@
                         "Kunne ikke sjekke åpne oppgaver på sykepenger i Gosys",
                         "Ikke registrert eller mangler samtykke i Kontakt- og reservasjonsregisteret, eventuell kommunikasjon må skje i brevform",
                         "Kunne ikke sjekke åpne oppgaver på sykepenger i Gosys"
-                    ]
+                    ],
+                    "utbetaling": {
+                        "utbetalingId": "1acc771d-0abe-4108-bb5c-0b311d3e843c",
+                        "korrelasjonsId": "8110aec1-b6ab-48fe-9277-6244bbb40535",
+                        "utbetalingstidslinje": [
+                            {
+                                "type": "NavDag",
+                                "inntekt": 1962,
+                                "dato": "2021-06-01",
+                                "utbetaling": 1228,
+                                "grad": 100,
+                                "totalGrad": 100
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 1962,
+                                "dato": "2021-06-02",
+                                "utbetaling": 1228,
+                                "grad": 100,
+                                "totalGrad": 100
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 1962,
+                                "dato": "2021-06-03",
+                                "utbetaling": 1228,
+                                "grad": 100,
+                                "totalGrad": 100
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 1962,
+                                "dato": "2021-06-04",
+                                "utbetaling": 1228,
+                                "grad": 100,
+                                "totalGrad": 100
+                            },
+                            {
+                                "type": "NavHelgDag",
+                                "inntekt": 0,
+                                "dato": "2021-06-05",
+                                "grad": 100
+                            },
+                            {
+                                "type": "NavHelgDag",
+                                "inntekt": 0,
+                                "dato": "2021-06-06",
+                                "grad": 100
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 1962,
+                                "dato": "2021-06-07",
+                                "utbetaling": 1228,
+                                "grad": 100,
+                                "totalGrad": 100
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 1962,
+                                "dato": "2021-06-08",
+                                "utbetaling": 1228,
+                                "grad": 100,
+                                "totalGrad": 100
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 1962,
+                                "dato": "2021-06-09",
+                                "utbetaling": 1228,
+                                "grad": 100,
+                                "totalGrad": 100
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 1962,
+                                "dato": "2021-06-10",
+                                "utbetaling": 1228,
+                                "grad": 100,
+                                "totalGrad": 100
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 1962,
+                                "dato": "2021-06-11",
+                                "utbetaling": 1228,
+                                "grad": 100,
+                                "totalGrad": 100
+                            },
+                            {
+                                "type": "NavHelgDag",
+                                "inntekt": 0,
+                                "dato": "2021-06-12",
+                                "grad": 100
+                            },
+                            {
+                                "type": "NavHelgDag",
+                                "inntekt": 0,
+                                "dato": "2021-06-13",
+                                "grad": 100
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 1962,
+                                "dato": "2021-06-14",
+                                "utbetaling": 1228,
+                                "grad": 100,
+                                "totalGrad": 100
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 1962,
+                                "dato": "2021-06-15",
+                                "utbetaling": 1228,
+                                "grad": 100,
+                                "totalGrad": 100
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 1962,
+                                "dato": "2021-06-16",
+                                "utbetaling": 1228,
+                                "grad": 100,
+                                "totalGrad": 100
+                            },
+                            {
+                                "type": "Feriedag",
+                                "inntekt": 0,
+                                "dato": "2021-06-17"
+                            },
+                            {
+                                "type": "Feriedag",
+                                "inntekt": 0,
+                                "dato": "2021-06-18"
+                            },
+                            {
+                                "type": "NavHelgDag",
+                                "inntekt": 0,
+                                "dato": "2021-06-19",
+                                "grad": 100
+                            },
+                            {
+                                "type": "NavHelgDag",
+                                "inntekt": 0,
+                                "dato": "2021-06-20",
+                                "grad": 100
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 1962,
+                                "dato": "2021-06-21",
+                                "utbetaling": 1228,
+                                "grad": 100,
+                                "totalGrad": 100
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 1962,
+                                "dato": "2021-06-22",
+                                "utbetaling": 1228,
+                                "grad": 100,
+                                "totalGrad": 100
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 1962,
+                                "dato": "2021-06-23",
+                                "utbetaling": 1228,
+                                "grad": 100,
+                                "totalGrad": 100
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 1962,
+                                "dato": "2021-06-24",
+                                "utbetaling": 1228,
+                                "grad": 100,
+                                "totalGrad": 100
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 1962,
+                                "dato": "2021-06-25",
+                                "utbetaling": 1228,
+                                "grad": 100,
+                                "totalGrad": 100
+                            },
+                            {
+                                "type": "NavHelgDag",
+                                "inntekt": 0,
+                                "dato": "2021-06-26",
+                                "grad": 100
+                            },
+                            {
+                                "type": "NavHelgDag",
+                                "inntekt": 0,
+                                "dato": "2021-06-27",
+                                "grad": 100
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 1962,
+                                "dato": "2021-06-28",
+                                "utbetaling": 1228,
+                                "grad": 100,
+                                "totalGrad": 100
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 1962,
+                                "dato": "2021-06-29",
+                                "utbetaling": 1228,
+                                "grad": 100,
+                                "totalGrad": 100
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 1962,
+                                "dato": "2021-06-30",
+                                "utbetaling": 1228,
+                                "grad": 100,
+                                "totalGrad": 100
+                            }
+                        ],
+                        "beregningId": "70fb6f5c-14ae-42d4-b30e-6a075344ea40",
+                        "type": "UTBETALING",
+                        "maksdato": "2022-04-27",
+                        "status": "UTBETALT",
+                        "gjenståendeSykedager": 215,
+                        "forbrukteSykedager": 33,
+                        "arbeidsgiverNettoBeløp": 2456,
+                        "personNettoBeløp": 0,
+                        "arbeidsgiverOppdrag": {
+                            "fagsystemId": "4ADE2L26PVFYRHH5FG6OLRE37E",
+                            "utbetalingslinjer": [
+                                {
+                                    "fom": "2021-05-17",
+                                    "tom": "2021-06-16",
+                                    "dagsats": 1228,
+                                    "grad": 100
+                                },
+                                {
+                                    "fom": "2021-06-19",
+                                    "tom": "2021-06-30",
+                                    "dagsats": 1228,
+                                    "grad": 100
+                                }
+                            ],
+                            "simuleringsResultat": {
+                                "totalbeløp": 38068,
+                                "perioder": [
+                                    {
+                                        "fom": "2021-05-17",
+                                        "tom": "2021-05-31",
+                                        "utbetalinger": [
+                                            {
+                                                "utbetalesTilId": "928497704",
+                                                "utbetalesTilNavn": "BESK KAFFE",
+                                                "forfall": "2021-07-01",
+                                                "feilkonto": false,
+                                                "detaljer": [
+                                                    {
+                                                        "faktiskFom": "2021-05-17",
+                                                        "faktiskTom": "2021-05-31",
+                                                        "konto": "2338020",
+                                                        "beløp": 13508,
+                                                        "tilbakeføring": false,
+                                                        "sats": 1228,
+                                                        "typeSats": "DAG",
+                                                        "antallSats": 11,
+                                                        "uføregrad": 100,
+                                                        "klassekode": "SPREFAG-IOP",
+                                                        "klassekodeBeskrivelse": "Sykepenger, Refusjon arbeidsgiver",
+                                                        "utbetalingstype": "YTEL",
+                                                        "refunderesOrgNr": "947064649"
+                                                    }
+                                                ]
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "fom": "2021-06-01",
+                                        "tom": "2021-06-16",
+                                        "utbetalinger": [
+                                            {
+                                                "utbetalesTilId": "928497704",
+                                                "utbetalesTilNavn": "BESK KAFFE",
+                                                "forfall": "2021-07-01",
+                                                "feilkonto": false,
+                                                "detaljer": [
+                                                    {
+                                                        "faktiskFom": "2021-06-01",
+                                                        "faktiskTom": "2021-06-16",
+                                                        "konto": "2338020",
+                                                        "beløp": 14736,
+                                                        "tilbakeføring": false,
+                                                        "sats": 1228,
+                                                        "typeSats": "DAG",
+                                                        "antallSats": 12,
+                                                        "uføregrad": 100,
+                                                        "klassekode": "SPREFAG-IOP",
+                                                        "klassekodeBeskrivelse": "Sykepenger, Refusjon arbeidsgiver",
+                                                        "utbetalingstype": "YTEL",
+                                                        "refunderesOrgNr": "947064649"
+                                                    }
+                                                ]
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "fom": "2021-06-19",
+                                        "tom": "2021-06-30",
+                                        "utbetalinger": [
+                                            {
+                                                "utbetalesTilId": "928497704",
+                                                "utbetalesTilNavn": "BESK KAFFE",
+                                                "forfall": "2021-07-01",
+                                                "feilkonto": false,
+                                                "detaljer": [
+                                                    {
+                                                        "faktiskFom": "2021-06-19",
+                                                        "faktiskTom": "2021-06-30",
+                                                        "konto": "2338020",
+                                                        "beløp": 9824,
+                                                        "tilbakeføring": false,
+                                                        "sats": 1228,
+                                                        "typeSats": "DAG",
+                                                        "antallSats": 8,
+                                                        "uføregrad": 100,
+                                                        "klassekode": "SPREFAG-IOP",
+                                                        "klassekodeBeskrivelse": "Sykepenger, Refusjon arbeidsgiver",
+                                                        "utbetalingstype": "YTEL",
+                                                        "refunderesOrgNr": "947064649"
+                                                    }
+                                                ]
+                                            }
+                                        ]
+                                    }
+                                ]
+                            }
+                        },
+                        "personOppdrag": {
+                            "fagsystemId": "4ADE2L26PVFYRHH5FG6OLRE37E",
+                            "utbetalingslinjer": [],
+                            "simuleringsResultat": null
+                        },
+                        "vurdering": {
+                            "godkjent": true,
+                            "tidsstempel": "2021-07-01T14:10:22.872185096",
+                            "automatisk": false,
+                            "ident": "S157803"
+                        }
+                    }
                 }
             ],
             "overstyringer": [
@@ -7746,7 +8366,281 @@
                         "Ikke registrert eller mangler samtykke i Kontakt- og reservasjonsregisteret, eventuell kommunikasjon må skje i brevform",
                         "Kunne ikke sjekke åpne oppgaver på sykepenger i Gosys",
                         "Vurder lovvalg og medlemskap"
-                    ]
+                    ],
+                    "utbetaling": {
+                        "utbetalingId": "f7db7ea5-fdbf-429a-ad71-5ff4395a9a2c",
+                        "korrelasjonsId": "b5ba7569-78a4-40d6-af0d-36e085fc1652",
+                        "utbetalingstidslinje": [
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 1962,
+                                "dato": "2021-05-01"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 1962,
+                                "dato": "2021-05-02"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 1962,
+                                "dato": "2021-05-03"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 1962,
+                                "dato": "2021-05-04"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 1962,
+                                "dato": "2021-05-05"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 1962,
+                                "dato": "2021-05-06"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 1962,
+                                "dato": "2021-05-07"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 1962,
+                                "dato": "2021-05-08"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 1962,
+                                "dato": "2021-05-09"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 1962,
+                                "dato": "2021-05-10"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 1962,
+                                "dato": "2021-05-11"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 1962,
+                                "dato": "2021-05-12"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 1962,
+                                "dato": "2021-05-13"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 1962,
+                                "dato": "2021-05-14"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 1962,
+                                "dato": "2021-05-15"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 1962,
+                                "dato": "2021-05-16"
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 1962,
+                                "dato": "2021-05-17",
+                                "utbetaling": 1227,
+                                "grad": 100,
+                                "totalGrad": 100
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 1962,
+                                "dato": "2021-05-18",
+                                "utbetaling": 1227,
+                                "grad": 100,
+                                "totalGrad": 100
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 1962,
+                                "dato": "2021-05-19",
+                                "utbetaling": 1227,
+                                "grad": 100,
+                                "totalGrad": 100
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 1962,
+                                "dato": "2021-05-20",
+                                "utbetaling": 1227,
+                                "grad": 100,
+                                "totalGrad": 100
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 1962,
+                                "dato": "2021-05-21",
+                                "utbetaling": 1227,
+                                "grad": 100,
+                                "totalGrad": 100
+                            },
+                            {
+                                "type": "NavHelgDag",
+                                "inntekt": 0,
+                                "dato": "2021-05-22",
+                                "grad": 100
+                            },
+                            {
+                                "type": "NavHelgDag",
+                                "inntekt": 0,
+                                "dato": "2021-05-23",
+                                "grad": 100
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 1962,
+                                "dato": "2021-05-24",
+                                "utbetaling": 1227,
+                                "grad": 100,
+                                "totalGrad": 100
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 1962,
+                                "dato": "2021-05-25",
+                                "utbetaling": 1227,
+                                "grad": 100,
+                                "totalGrad": 100
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 1962,
+                                "dato": "2021-05-26",
+                                "utbetaling": 1227,
+                                "grad": 100,
+                                "totalGrad": 100
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 1962,
+                                "dato": "2021-05-27",
+                                "utbetaling": 1227,
+                                "grad": 100,
+                                "totalGrad": 100
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 1962,
+                                "dato": "2021-05-28",
+                                "utbetaling": 1227,
+                                "grad": 100,
+                                "totalGrad": 100
+                            },
+                            {
+                                "type": "NavHelgDag",
+                                "inntekt": 0,
+                                "dato": "2021-05-29",
+                                "grad": 100
+                            },
+                            {
+                                "type": "NavHelgDag",
+                                "inntekt": 0,
+                                "dato": "2021-05-30",
+                                "grad": 100
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 1962,
+                                "dato": "2021-05-31",
+                                "utbetaling": 1227,
+                                "grad": 100,
+                                "totalGrad": 100
+                            }
+                        ],
+                        "beregningId": "90ed2941-4eb7-4849-a30f-78c1eba86def",
+                        "type": "UTBETALING",
+                        "maksdato": "2022-04-27",
+                        "status": "UTBETALT",
+                        "gjenståendeSykedager": 215,
+                        "forbrukteSykedager": 33,
+                        "arbeidsgiverNettoBeløp": -2,
+                        "personNettoBeløp": 0,
+                        "arbeidsgiverOppdrag": {
+                            "fagsystemId": "AOQ2I3UCVRH7NLF57EGZHYPK4A",
+                            "utbetalingslinjer": [
+                                {
+                                    "fom": "2021-05-17",
+                                    "tom": "2021-06-16",
+                                    "dagsats": 1227,
+                                    "grad": 100
+                                },
+                                {
+                                    "fom": "2021-06-17",
+                                    "tom": "2021-06-18",
+                                    "dagsats": 1228,
+                                    "grad": 100
+                                },
+                                {
+                                    "fom": "2021-06-19",
+                                    "tom": "2021-06-30",
+                                    "dagsats": 1227,
+                                    "grad": 100
+                                }
+                            ],
+                            "simuleringsResultat": {
+                                "totalbeløp": 13497,
+                                "perioder": [
+                                    {
+                                        "fom": "2021-05-17",
+                                        "tom": "2021-05-31",
+                                        "utbetalinger": [
+                                            {
+                                                "utbetalesTilId": "928497704",
+                                                "utbetalesTilNavn": "BESK KAFFE",
+                                                "forfall": "2021-07-01",
+                                                "feilkonto": false,
+                                                "detaljer": [
+                                                    {
+                                                        "faktiskFom": "2021-05-17",
+                                                        "faktiskTom": "2021-05-31",
+                                                        "konto": "2338020",
+                                                        "beløp": 13497,
+                                                        "tilbakeføring": false,
+                                                        "sats": 1227,
+                                                        "typeSats": "DAG",
+                                                        "antallSats": 11,
+                                                        "uføregrad": 100,
+                                                        "klassekode": "SPREFAG-IOP",
+                                                        "klassekodeBeskrivelse": "Sykepenger, Refusjon arbeidsgiver",
+                                                        "utbetalingstype": "YTEL",
+                                                        "refunderesOrgNr": "839942907"
+                                                    }
+                                                ]
+                                            }
+                                        ]
+                                    }
+                                ]
+                            }
+                        },
+                        "personOppdrag": {
+                            "fagsystemId": "AOQ2I3UCVRH7NLF57EGZHYPK4A",
+                            "utbetalingslinjer": [],
+                            "simuleringsResultat": null
+                        },
+                        "vurdering": {
+                            "godkjent": true,
+                            "tidsstempel": "2021-07-01T14:10:37.149598081",
+                            "automatisk": false,
+                            "ident": "S157803"
+                        }
+                    }
                 },
                 {
                     "id": "60e33af9-b951-465a-8435-a681fff91777",
@@ -8532,7 +9426,400 @@
                         "Kunne ikke sjekke åpne oppgaver på sykepenger i Gosys",
                         "Ikke registrert eller mangler samtykke i Kontakt- og reservasjonsregisteret, eventuell kommunikasjon må skje i brevform",
                         "Kunne ikke sjekke åpne oppgaver på sykepenger i Gosys"
-                    ]
+                    ],
+                    "utbetaling": {
+                        "utbetalingId": "f833e2b8-92d7-484d-8616-2c7454c00483",
+                        "korrelasjonsId": "3bbc5cc5-0f9a-453b-b258-e74673d735fe",
+                        "utbetalingstidslinje": [
+                            {
+                                "type": "NavDag",
+                                "inntekt": 1962,
+                                "dato": "2021-06-01",
+                                "utbetaling": 1227,
+                                "grad": 100,
+                                "totalGrad": 100
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 1962,
+                                "dato": "2021-06-02",
+                                "utbetaling": 1227,
+                                "grad": 100,
+                                "totalGrad": 100
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 1962,
+                                "dato": "2021-06-03",
+                                "utbetaling": 1227,
+                                "grad": 100,
+                                "totalGrad": 100
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 1962,
+                                "dato": "2021-06-04",
+                                "utbetaling": 1227,
+                                "grad": 100,
+                                "totalGrad": 100
+                            },
+                            {
+                                "type": "NavHelgDag",
+                                "inntekt": 0,
+                                "dato": "2021-06-05",
+                                "grad": 100
+                            },
+                            {
+                                "type": "NavHelgDag",
+                                "inntekt": 0,
+                                "dato": "2021-06-06",
+                                "grad": 100
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 1962,
+                                "dato": "2021-06-07",
+                                "utbetaling": 1227,
+                                "grad": 100,
+                                "totalGrad": 100
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 1962,
+                                "dato": "2021-06-08",
+                                "utbetaling": 1227,
+                                "grad": 100,
+                                "totalGrad": 100
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 1962,
+                                "dato": "2021-06-09",
+                                "utbetaling": 1227,
+                                "grad": 100,
+                                "totalGrad": 100
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 1962,
+                                "dato": "2021-06-10",
+                                "utbetaling": 1227,
+                                "grad": 100,
+                                "totalGrad": 100
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 1962,
+                                "dato": "2021-06-11",
+                                "utbetaling": 1227,
+                                "grad": 100,
+                                "totalGrad": 100
+                            },
+                            {
+                                "type": "NavHelgDag",
+                                "inntekt": 0,
+                                "dato": "2021-06-12",
+                                "grad": 100
+                            },
+                            {
+                                "type": "NavHelgDag",
+                                "inntekt": 0,
+                                "dato": "2021-06-13",
+                                "grad": 100
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 1962,
+                                "dato": "2021-06-14",
+                                "utbetaling": 1227,
+                                "grad": 100,
+                                "totalGrad": 100
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 1962,
+                                "dato": "2021-06-15",
+                                "utbetaling": 1227,
+                                "grad": 100,
+                                "totalGrad": 100
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 1962,
+                                "dato": "2021-06-16",
+                                "utbetaling": 1227,
+                                "grad": 100,
+                                "totalGrad": 100
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 1962,
+                                "dato": "2021-06-17",
+                                "utbetaling": 1228,
+                                "grad": 100,
+                                "totalGrad": 50
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 1962,
+                                "dato": "2021-06-18",
+                                "utbetaling": 1228,
+                                "grad": 100,
+                                "totalGrad": 50
+                            },
+                            {
+                                "type": "NavHelgDag",
+                                "inntekt": 0,
+                                "dato": "2021-06-19",
+                                "grad": 100
+                            },
+                            {
+                                "type": "NavHelgDag",
+                                "inntekt": 0,
+                                "dato": "2021-06-20",
+                                "grad": 100
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 1962,
+                                "dato": "2021-06-21",
+                                "utbetaling": 1227,
+                                "grad": 100,
+                                "totalGrad": 100
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 1962,
+                                "dato": "2021-06-22",
+                                "utbetaling": 1227,
+                                "grad": 100,
+                                "totalGrad": 100
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 1962,
+                                "dato": "2021-06-23",
+                                "utbetaling": 1227,
+                                "grad": 100,
+                                "totalGrad": 100
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 1962,
+                                "dato": "2021-06-24",
+                                "utbetaling": 1227,
+                                "grad": 100,
+                                "totalGrad": 100
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 1962,
+                                "dato": "2021-06-25",
+                                "utbetaling": 1227,
+                                "grad": 100,
+                                "totalGrad": 100
+                            },
+                            {
+                                "type": "NavHelgDag",
+                                "inntekt": 0,
+                                "dato": "2021-06-26",
+                                "grad": 100
+                            },
+                            {
+                                "type": "NavHelgDag",
+                                "inntekt": 0,
+                                "dato": "2021-06-27",
+                                "grad": 100
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 1962,
+                                "dato": "2021-06-28",
+                                "utbetaling": 1227,
+                                "grad": 100,
+                                "totalGrad": 100
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 1962,
+                                "dato": "2021-06-29",
+                                "utbetaling": 1227,
+                                "grad": 100,
+                                "totalGrad": 100
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 1962,
+                                "dato": "2021-06-30",
+                                "utbetaling": 1227,
+                                "grad": 100,
+                                "totalGrad": 100
+                            }
+                        ],
+                        "beregningId": "b66cd134-b8dd-47f5-ad2a-63478b15a6a3",
+                        "type": "UTBETALING",
+                        "maksdato": "2022-04-27",
+                        "status": "UTBETALT",
+                        "gjenståendeSykedager": 215,
+                        "forbrukteSykedager": 33,
+                        "arbeidsgiverNettoBeløp": -2,
+                        "personNettoBeløp": 0,
+                        "arbeidsgiverOppdrag": {
+                            "fagsystemId": "AOQ2I3UCVRH7NLF57EGZHYPK4A",
+                            "utbetalingslinjer": [
+                                {
+                                    "fom": "2021-05-17",
+                                    "tom": "2021-06-16",
+                                    "dagsats": 1227,
+                                    "grad": 100
+                                },
+                                {
+                                    "fom": "2021-06-17",
+                                    "tom": "2021-06-18",
+                                    "dagsats": 1228,
+                                    "grad": 100
+                                },
+                                {
+                                    "fom": "2021-06-19",
+                                    "tom": "2021-06-30",
+                                    "dagsats": 1227,
+                                    "grad": 100
+                                }
+                            ],
+                            "simuleringsResultat": {
+                                "totalbeløp": 40493,
+                                "perioder": [
+                                    {
+                                        "fom": "2021-05-17",
+                                        "tom": "2021-05-31",
+                                        "utbetalinger": [
+                                            {
+                                                "utbetalesTilId": "928497704",
+                                                "utbetalesTilNavn": "BESK KAFFE",
+                                                "forfall": "2021-07-01",
+                                                "feilkonto": false,
+                                                "detaljer": [
+                                                    {
+                                                        "faktiskFom": "2021-05-17",
+                                                        "faktiskTom": "2021-05-31",
+                                                        "konto": "2338020",
+                                                        "beløp": 13497,
+                                                        "tilbakeføring": false,
+                                                        "sats": 1227,
+                                                        "typeSats": "DAG",
+                                                        "antallSats": 11,
+                                                        "uføregrad": 100,
+                                                        "klassekode": "SPREFAG-IOP",
+                                                        "klassekodeBeskrivelse": "Sykepenger, Refusjon arbeidsgiver",
+                                                        "utbetalingstype": "YTEL",
+                                                        "refunderesOrgNr": "839942907"
+                                                    }
+                                                ]
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "fom": "2021-06-01",
+                                        "tom": "2021-06-16",
+                                        "utbetalinger": [
+                                            {
+                                                "utbetalesTilId": "928497704",
+                                                "utbetalesTilNavn": "BESK KAFFE",
+                                                "forfall": "2021-07-01",
+                                                "feilkonto": false,
+                                                "detaljer": [
+                                                    {
+                                                        "faktiskFom": "2021-06-01",
+                                                        "faktiskTom": "2021-06-16",
+                                                        "konto": "2338020",
+                                                        "beløp": 14724,
+                                                        "tilbakeføring": false,
+                                                        "sats": 1227,
+                                                        "typeSats": "DAG",
+                                                        "antallSats": 12,
+                                                        "uføregrad": 100,
+                                                        "klassekode": "SPREFAG-IOP",
+                                                        "klassekodeBeskrivelse": "Sykepenger, Refusjon arbeidsgiver",
+                                                        "utbetalingstype": "YTEL",
+                                                        "refunderesOrgNr": "839942907"
+                                                    }
+                                                ]
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "fom": "2021-06-17",
+                                        "tom": "2021-06-18",
+                                        "utbetalinger": [
+                                            {
+                                                "utbetalesTilId": "928497704",
+                                                "utbetalesTilNavn": "BESK KAFFE",
+                                                "forfall": "2021-07-01",
+                                                "feilkonto": false,
+                                                "detaljer": [
+                                                    {
+                                                        "faktiskFom": "2021-06-17",
+                                                        "faktiskTom": "2021-06-18",
+                                                        "konto": "2338020",
+                                                        "beløp": 2456,
+                                                        "tilbakeføring": false,
+                                                        "sats": 1228,
+                                                        "typeSats": "DAG",
+                                                        "antallSats": 2,
+                                                        "uføregrad": 100,
+                                                        "klassekode": "SPREFAG-IOP",
+                                                        "klassekodeBeskrivelse": "Sykepenger, Refusjon arbeidsgiver",
+                                                        "utbetalingstype": "YTEL",
+                                                        "refunderesOrgNr": "839942907"
+                                                    }
+                                                ]
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "fom": "2021-06-19",
+                                        "tom": "2021-06-30",
+                                        "utbetalinger": [
+                                            {
+                                                "utbetalesTilId": "928497704",
+                                                "utbetalesTilNavn": "BESK KAFFE",
+                                                "forfall": "2021-07-01",
+                                                "feilkonto": false,
+                                                "detaljer": [
+                                                    {
+                                                        "faktiskFom": "2021-06-19",
+                                                        "faktiskTom": "2021-06-30",
+                                                        "konto": "2338020",
+                                                        "beløp": 9816,
+                                                        "tilbakeføring": false,
+                                                        "sats": 1227,
+                                                        "typeSats": "DAG",
+                                                        "antallSats": 8,
+                                                        "uføregrad": 100,
+                                                        "klassekode": "SPREFAG-IOP",
+                                                        "klassekodeBeskrivelse": "Sykepenger, Refusjon arbeidsgiver",
+                                                        "utbetalingstype": "YTEL",
+                                                        "refunderesOrgNr": "839942907"
+                                                    }
+                                                ]
+                                            }
+                                        ]
+                                    }
+                                ]
+                            }
+                        },
+                        "personOppdrag": {
+                            "fagsystemId": "AOQ2I3UCVRH7NLF57EGZHYPK4A",
+                            "utbetalingslinjer": [],
+                            "simuleringsResultat": null
+                        },
+                        "vurdering": {
+                            "godkjent": true,
+                            "tidsstempel": "2021-07-01T14:10:37.149598081",
+                            "automatisk": false,
+                            "ident": "S157803"
+                        }
+                    }
                 }
             ],
             "overstyringer": [],

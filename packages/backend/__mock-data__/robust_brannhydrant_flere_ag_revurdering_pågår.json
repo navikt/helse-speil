@@ -686,7 +686,267 @@
                         "Vurder lovvalg og medlemskap",
                         "Ikke registrert eller mangler samtykke i Kontakt- og reservasjonsregisteret, eventuell kommunikasjon må skje i brevform",
                         "Kunne ikke sjekke åpne oppgaver på sykepenger i Gosys"
-                    ]
+                    ],
+                    "utbetaling": {
+                        "utbetalingId": "080f8f1c-0f75-4701-bc62-44dcef2d3fa5",
+                        "korrelasjonsId": "df0b8f77-17a1-46ac-9ad0-fbbc3df2936b",
+                        "utbetalingstidslinje": [
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 923,
+                                "dato": "2021-07-01"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 923,
+                                "dato": "2021-07-02"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 923,
+                                "dato": "2021-07-03"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 923,
+                                "dato": "2021-07-04"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 923,
+                                "dato": "2021-07-05"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 923,
+                                "dato": "2021-07-06"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 923,
+                                "dato": "2021-07-07"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 923,
+                                "dato": "2021-07-08"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 923,
+                                "dato": "2021-07-09"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 923,
+                                "dato": "2021-07-10"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 923,
+                                "dato": "2021-07-11"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 923,
+                                "dato": "2021-07-12"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 923,
+                                "dato": "2021-07-13"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 923,
+                                "dato": "2021-07-14"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 923,
+                                "dato": "2021-07-15"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 923,
+                                "dato": "2021-07-16"
+                            },
+                            {
+                                "type": "NavHelgDag",
+                                "inntekt": 0,
+                                "dato": "2021-07-17",
+                                "grad": 100
+                            },
+                            {
+                                "type": "NavHelgDag",
+                                "inntekt": 0,
+                                "dato": "2021-07-18",
+                                "grad": 100
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 923,
+                                "dato": "2021-07-19",
+                                "utbetaling": 923,
+                                "grad": 100,
+                                "totalGrad": 100
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 923,
+                                "dato": "2021-07-20",
+                                "utbetaling": 923,
+                                "grad": 100,
+                                "totalGrad": 100
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 923,
+                                "dato": "2021-07-21",
+                                "utbetaling": 923,
+                                "grad": 100,
+                                "totalGrad": 100
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 923,
+                                "dato": "2021-07-22",
+                                "utbetaling": 923,
+                                "grad": 100,
+                                "totalGrad": 100
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 923,
+                                "dato": "2021-07-23",
+                                "utbetaling": 923,
+                                "grad": 100,
+                                "totalGrad": 100
+                            },
+                            {
+                                "type": "NavHelgDag",
+                                "inntekt": 0,
+                                "dato": "2021-07-24",
+                                "grad": 100
+                            },
+                            {
+                                "type": "NavHelgDag",
+                                "inntekt": 0,
+                                "dato": "2021-07-25",
+                                "grad": 100
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 923,
+                                "dato": "2021-07-26",
+                                "utbetaling": 923,
+                                "grad": 100,
+                                "totalGrad": 100
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 923,
+                                "dato": "2021-07-27",
+                                "utbetaling": 923,
+                                "grad": 100,
+                                "totalGrad": 100
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 923,
+                                "dato": "2021-07-28",
+                                "utbetaling": 923,
+                                "grad": 100,
+                                "totalGrad": 100
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 923,
+                                "dato": "2021-07-29",
+                                "utbetaling": 923,
+                                "grad": 100,
+                                "totalGrad": 100
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 923,
+                                "dato": "2021-07-30",
+                                "utbetaling": 923,
+                                "grad": 100,
+                                "totalGrad": 100
+                            },
+                            {
+                                "type": "NavHelgDag",
+                                "inntekt": 0,
+                                "dato": "2021-07-31",
+                                "grad": 100
+                            }
+                        ],
+                        "beregningId": "7472727e-60b6-40e4-a2ba-e564c0f480b5",
+                        "type": "UTBETALING",
+                        "maksdato": "2022-06-29",
+                        "status": "UTBETALT",
+                        "gjenståendeSykedager": 238,
+                        "forbrukteSykedager": 10,
+                        "arbeidsgiverNettoBeløp": 9230,
+                        "personNettoBeløp": 0,
+                        "arbeidsgiverOppdrag": {
+                            "fagsystemId": "YA7POD4K5BC4FDIRNONB6UDZ6Y",
+                            "utbetalingslinjer": [
+                                {
+                                    "fom": "2021-07-17",
+                                    "tom": "2021-08-31",
+                                    "dagsats": 923,
+                                    "grad": 100
+                                }
+                            ],
+                            "simuleringsResultat": {
+                                "totalbeløp": 9230,
+                                "perioder": [
+                                    {
+                                        "fom": "2021-07-17",
+                                        "tom": "2021-07-31",
+                                        "utbetalinger": [
+                                            {
+                                                "utbetalesTilId": "928497704",
+                                                "utbetalesTilNavn": "BESK KAFFE",
+                                                "forfall": "2021-09-13",
+                                                "feilkonto": false,
+                                                "detaljer": [
+                                                    {
+                                                        "faktiskFom": "2021-07-17",
+                                                        "faktiskTom": "2021-07-31",
+                                                        "konto": "2338020",
+                                                        "beløp": 9230,
+                                                        "tilbakeføring": false,
+                                                        "sats": 923,
+                                                        "typeSats": "DAG",
+                                                        "antallSats": 10,
+                                                        "uføregrad": 100,
+                                                        "klassekode": "SPREFAG-IOP",
+                                                        "klassekodeBeskrivelse": "Sykepenger, Refusjon arbeidsgiver",
+                                                        "utbetalingstype": "YTEL",
+                                                        "refunderesOrgNr": "947064649"
+                                                    }
+                                                ]
+                                            }
+                                        ]
+                                    }
+                                ]
+                            }
+                        },
+                        "personOppdrag": {
+                            "fagsystemId": "YA7POD4K5BC4FDIRNONB6UDZ6Y",
+                            "utbetalingslinjer": [],
+                            "simuleringsResultat": null
+                        },
+                        "vurdering": {
+                            "godkjent": true,
+                            "tidsstempel": "2021-09-13T15:03:39.75675622",
+                            "automatisk": false,
+                            "ident": "H131243"
+                        }
+                    }
                 },
                 {
                     "id": "817c9b46-8f59-4930-9091-3c4ba7f07699",
@@ -1416,7 +1676,362 @@
                         "Vurder lovvalg og medlemskap",
                         "Ikke registrert eller mangler samtykke i Kontakt- og reservasjonsregisteret, eventuell kommunikasjon må skje i brevform",
                         "Kunne ikke sjekke åpne oppgaver på sykepenger i Gosys"
-                    ]
+                    ],
+                    "utbetaling": {
+                        "utbetalingId": "f0d0e94c-d336-4f57-a09c-ac62a85906eb",
+                        "korrelasjonsId": "a7517627-0a9f-400b-871a-9b85e40607fe",
+                        "utbetalingstidslinje": [
+                            {
+                                "type": "NavHelgDag",
+                                "inntekt": 0,
+                                "dato": "2021-08-01",
+                                "grad": 100
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 923,
+                                "dato": "2021-08-02",
+                                "utbetaling": 923,
+                                "grad": 100,
+                                "totalGrad": 100
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 923,
+                                "dato": "2021-08-03",
+                                "utbetaling": 923,
+                                "grad": 100,
+                                "totalGrad": 100
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 923,
+                                "dato": "2021-08-04",
+                                "utbetaling": 923,
+                                "grad": 100,
+                                "totalGrad": 100
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 923,
+                                "dato": "2021-08-05",
+                                "utbetaling": 923,
+                                "grad": 100,
+                                "totalGrad": 100
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 923,
+                                "dato": "2021-08-06",
+                                "utbetaling": 923,
+                                "grad": 100,
+                                "totalGrad": 100
+                            },
+                            {
+                                "type": "NavHelgDag",
+                                "inntekt": 0,
+                                "dato": "2021-08-07",
+                                "grad": 100
+                            },
+                            {
+                                "type": "NavHelgDag",
+                                "inntekt": 0,
+                                "dato": "2021-08-08",
+                                "grad": 100
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 923,
+                                "dato": "2021-08-09",
+                                "utbetaling": 923,
+                                "grad": 100,
+                                "totalGrad": 100
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 923,
+                                "dato": "2021-08-10",
+                                "utbetaling": 923,
+                                "grad": 100,
+                                "totalGrad": 100
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 923,
+                                "dato": "2021-08-11",
+                                "utbetaling": 923,
+                                "grad": 100,
+                                "totalGrad": 100
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 923,
+                                "dato": "2021-08-12",
+                                "utbetaling": 923,
+                                "grad": 100,
+                                "totalGrad": 100
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 923,
+                                "dato": "2021-08-13",
+                                "utbetaling": 923,
+                                "grad": 100,
+                                "totalGrad": 100
+                            },
+                            {
+                                "type": "NavHelgDag",
+                                "inntekt": 0,
+                                "dato": "2021-08-14",
+                                "grad": 100
+                            },
+                            {
+                                "type": "NavHelgDag",
+                                "inntekt": 0,
+                                "dato": "2021-08-15",
+                                "grad": 100
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 923,
+                                "dato": "2021-08-16",
+                                "utbetaling": 923,
+                                "grad": 100,
+                                "totalGrad": 100
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 923,
+                                "dato": "2021-08-17",
+                                "utbetaling": 923,
+                                "grad": 100,
+                                "totalGrad": 100
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 923,
+                                "dato": "2021-08-18",
+                                "utbetaling": 923,
+                                "grad": 100,
+                                "totalGrad": 100
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 923,
+                                "dato": "2021-08-19",
+                                "utbetaling": 923,
+                                "grad": 100,
+                                "totalGrad": 100
+                            },
+                            {
+                                "type": "Feriedag",
+                                "inntekt": 0,
+                                "dato": "2021-08-20"
+                            },
+                            {
+                                "type": "NavHelgDag",
+                                "inntekt": 0,
+                                "dato": "2021-08-21",
+                                "grad": 100
+                            },
+                            {
+                                "type": "NavHelgDag",
+                                "inntekt": 0,
+                                "dato": "2021-08-22",
+                                "grad": 100
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 923,
+                                "dato": "2021-08-23",
+                                "utbetaling": 923,
+                                "grad": 100,
+                                "totalGrad": 100
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 923,
+                                "dato": "2021-08-24",
+                                "utbetaling": 923,
+                                "grad": 100,
+                                "totalGrad": 100
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 923,
+                                "dato": "2021-08-25",
+                                "utbetaling": 923,
+                                "grad": 100,
+                                "totalGrad": 100
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 923,
+                                "dato": "2021-08-26",
+                                "utbetaling": 923,
+                                "grad": 100,
+                                "totalGrad": 100
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 923,
+                                "dato": "2021-08-27",
+                                "utbetaling": 923,
+                                "grad": 100,
+                                "totalGrad": 100
+                            },
+                            {
+                                "type": "NavHelgDag",
+                                "inntekt": 0,
+                                "dato": "2021-08-28",
+                                "grad": 100
+                            },
+                            {
+                                "type": "NavHelgDag",
+                                "inntekt": 0,
+                                "dato": "2021-08-29",
+                                "grad": 100
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 923,
+                                "dato": "2021-08-30",
+                                "utbetaling": 923,
+                                "grad": 100,
+                                "totalGrad": 100
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 923,
+                                "dato": "2021-08-31",
+                                "utbetaling": 923,
+                                "grad": 100,
+                                "totalGrad": 100
+                            }
+                        ],
+                        "beregningId": "8f351db8-bfaf-4ca8-99b0-188d15f78ee3",
+                        "type": "UTBETALING",
+                        "maksdato": "2022-06-29",
+                        "status": "UTBETALT",
+                        "gjenståendeSykedager": 216,
+                        "forbrukteSykedager": 32,
+                        "arbeidsgiverNettoBeløp": -923,
+                        "personNettoBeløp": 0,
+                        "arbeidsgiverOppdrag": {
+                            "fagsystemId": "YA7POD4K5BC4FDIRNONB6UDZ6Y",
+                            "utbetalingslinjer": [
+                                {
+                                    "fom": "2021-07-17",
+                                    "tom": "2021-08-31",
+                                    "dagsats": 923,
+                                    "grad": 100
+                                }
+                            ],
+                            "simuleringsResultat": {
+                                "totalbeløp": 28613,
+                                "perioder": [
+                                    {
+                                        "fom": "2021-07-17",
+                                        "tom": "2021-07-31",
+                                        "utbetalinger": [
+                                            {
+                                                "utbetalesTilId": "928497704",
+                                                "utbetalesTilNavn": "BESK KAFFE",
+                                                "forfall": "2021-09-13",
+                                                "feilkonto": false,
+                                                "detaljer": [
+                                                    {
+                                                        "faktiskFom": "2021-07-17",
+                                                        "faktiskTom": "2021-07-31",
+                                                        "konto": "2338020",
+                                                        "beløp": 9230,
+                                                        "tilbakeføring": false,
+                                                        "sats": 923,
+                                                        "typeSats": "DAG",
+                                                        "antallSats": 10,
+                                                        "uføregrad": 100,
+                                                        "klassekode": "SPREFAG-IOP",
+                                                        "klassekodeBeskrivelse": "Sykepenger, Refusjon arbeidsgiver",
+                                                        "utbetalingstype": "YTEL",
+                                                        "refunderesOrgNr": "947064649"
+                                                    }
+                                                ]
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "fom": "2021-08-01",
+                                        "tom": "2021-08-19",
+                                        "utbetalinger": [
+                                            {
+                                                "utbetalesTilId": "928497704",
+                                                "utbetalesTilNavn": "BESK KAFFE",
+                                                "forfall": "2021-09-13",
+                                                "feilkonto": false,
+                                                "detaljer": [
+                                                    {
+                                                        "faktiskFom": "2021-08-01",
+                                                        "faktiskTom": "2021-08-19",
+                                                        "konto": "2338020",
+                                                        "beløp": 12922,
+                                                        "tilbakeføring": false,
+                                                        "sats": 923,
+                                                        "typeSats": "DAG",
+                                                        "antallSats": 14,
+                                                        "uføregrad": 100,
+                                                        "klassekode": "SPREFAG-IOP",
+                                                        "klassekodeBeskrivelse": "Sykepenger, Refusjon arbeidsgiver",
+                                                        "utbetalingstype": "YTEL",
+                                                        "refunderesOrgNr": "947064649"
+                                                    }
+                                                ]
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "fom": "2021-08-21",
+                                        "tom": "2021-08-31",
+                                        "utbetalinger": [
+                                            {
+                                                "utbetalesTilId": "928497704",
+                                                "utbetalesTilNavn": "BESK KAFFE",
+                                                "forfall": "2021-09-13",
+                                                "feilkonto": false,
+                                                "detaljer": [
+                                                    {
+                                                        "faktiskFom": "2021-08-21",
+                                                        "faktiskTom": "2021-08-31",
+                                                        "konto": "2338020",
+                                                        "beløp": 6461,
+                                                        "tilbakeføring": false,
+                                                        "sats": 923,
+                                                        "typeSats": "DAG",
+                                                        "antallSats": 7,
+                                                        "uføregrad": 100,
+                                                        "klassekode": "SPREFAG-IOP",
+                                                        "klassekodeBeskrivelse": "Sykepenger, Refusjon arbeidsgiver",
+                                                        "utbetalingstype": "YTEL",
+                                                        "refunderesOrgNr": "947064649"
+                                                    }
+                                                ]
+                                            }
+                                        ]
+                                    }
+                                ]
+                            }
+                        },
+                        "personOppdrag": {
+                            "fagsystemId": "YA7POD4K5BC4FDIRNONB6UDZ6Y",
+                            "utbetalingslinjer": [],
+                            "simuleringsResultat": null
+                        },
+                        "vurdering": {
+                            "godkjent": true,
+                            "tidsstempel": "2021-09-13T15:07:08.834188355",
+                            "automatisk": false,
+                            "ident": "H131243"
+                        }
+                    }
                 }
             ],
             "overstyringer": [
@@ -5379,7 +5994,267 @@
                         "Ikke registrert eller mangler samtykke i Kontakt- og reservasjonsregisteret, eventuell kommunikasjon må skje i brevform",
                         "Kunne ikke sjekke åpne oppgaver på sykepenger i Gosys",
                         "Vurder lovvalg og medlemskap"
-                    ]
+                    ],
+                    "utbetaling": {
+                        "utbetalingId": "1191104d-2cd1-4764-89df-75e1e6b73163",
+                        "korrelasjonsId": "0cbcd67a-a871-46f9-b5f6-148f2cc77606",
+                        "utbetalingstidslinje": [
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 923,
+                                "dato": "2021-07-01"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 923,
+                                "dato": "2021-07-02"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 923,
+                                "dato": "2021-07-03"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 923,
+                                "dato": "2021-07-04"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 923,
+                                "dato": "2021-07-05"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 923,
+                                "dato": "2021-07-06"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 923,
+                                "dato": "2021-07-07"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 923,
+                                "dato": "2021-07-08"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 923,
+                                "dato": "2021-07-09"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 923,
+                                "dato": "2021-07-10"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 923,
+                                "dato": "2021-07-11"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 923,
+                                "dato": "2021-07-12"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 923,
+                                "dato": "2021-07-13"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 923,
+                                "dato": "2021-07-14"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 923,
+                                "dato": "2021-07-15"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 923,
+                                "dato": "2021-07-16"
+                            },
+                            {
+                                "type": "NavHelgDag",
+                                "inntekt": 0,
+                                "dato": "2021-07-17",
+                                "grad": 100
+                            },
+                            {
+                                "type": "NavHelgDag",
+                                "inntekt": 0,
+                                "dato": "2021-07-18",
+                                "grad": 100
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 923,
+                                "dato": "2021-07-19",
+                                "utbetaling": 923,
+                                "grad": 100,
+                                "totalGrad": 100
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 923,
+                                "dato": "2021-07-20",
+                                "utbetaling": 923,
+                                "grad": 100,
+                                "totalGrad": 100
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 923,
+                                "dato": "2021-07-21",
+                                "utbetaling": 923,
+                                "grad": 100,
+                                "totalGrad": 100
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 923,
+                                "dato": "2021-07-22",
+                                "utbetaling": 923,
+                                "grad": 100,
+                                "totalGrad": 100
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 923,
+                                "dato": "2021-07-23",
+                                "utbetaling": 923,
+                                "grad": 100,
+                                "totalGrad": 100
+                            },
+                            {
+                                "type": "NavHelgDag",
+                                "inntekt": 0,
+                                "dato": "2021-07-24",
+                                "grad": 100
+                            },
+                            {
+                                "type": "NavHelgDag",
+                                "inntekt": 0,
+                                "dato": "2021-07-25",
+                                "grad": 100
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 923,
+                                "dato": "2021-07-26",
+                                "utbetaling": 923,
+                                "grad": 100,
+                                "totalGrad": 100
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 923,
+                                "dato": "2021-07-27",
+                                "utbetaling": 923,
+                                "grad": 100,
+                                "totalGrad": 100
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 923,
+                                "dato": "2021-07-28",
+                                "utbetaling": 923,
+                                "grad": 100,
+                                "totalGrad": 100
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 923,
+                                "dato": "2021-07-29",
+                                "utbetaling": 923,
+                                "grad": 100,
+                                "totalGrad": 100
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 923,
+                                "dato": "2021-07-30",
+                                "utbetaling": 923,
+                                "grad": 100,
+                                "totalGrad": 100
+                            },
+                            {
+                                "type": "NavHelgDag",
+                                "inntekt": 0,
+                                "dato": "2021-07-31",
+                                "grad": 100
+                            }
+                        ],
+                        "beregningId": "867fc2d3-56a6-4d44-81b0-559c3b17e0c5",
+                        "type": "UTBETALING",
+                        "maksdato": "2022-06-29",
+                        "status": "UTBETALT",
+                        "gjenståendeSykedager": 238,
+                        "forbrukteSykedager": 10,
+                        "arbeidsgiverNettoBeløp": 9230,
+                        "personNettoBeløp": 0,
+                        "arbeidsgiverOppdrag": {
+                            "fagsystemId": "HH33CAR73BEMZL6UDZT2S27QHE",
+                            "utbetalingslinjer": [
+                                {
+                                    "fom": "2021-07-17",
+                                    "tom": "2021-08-31",
+                                    "dagsats": 923,
+                                    "grad": 100
+                                }
+                            ],
+                            "simuleringsResultat": {
+                                "totalbeløp": 9230,
+                                "perioder": [
+                                    {
+                                        "fom": "2021-07-17",
+                                        "tom": "2021-07-31",
+                                        "utbetalinger": [
+                                            {
+                                                "utbetalesTilId": "928497704",
+                                                "utbetalesTilNavn": "BESK KAFFE",
+                                                "forfall": "2021-09-13",
+                                                "feilkonto": false,
+                                                "detaljer": [
+                                                    {
+                                                        "faktiskFom": "2021-07-17",
+                                                        "faktiskTom": "2021-07-31",
+                                                        "konto": "2338020",
+                                                        "beløp": 9230,
+                                                        "tilbakeføring": false,
+                                                        "sats": 923,
+                                                        "typeSats": "DAG",
+                                                        "antallSats": 10,
+                                                        "uføregrad": 100,
+                                                        "klassekode": "SPREFAG-IOP",
+                                                        "klassekodeBeskrivelse": "Sykepenger, Refusjon arbeidsgiver",
+                                                        "utbetalingstype": "YTEL",
+                                                        "refunderesOrgNr": "967170232"
+                                                    }
+                                                ]
+                                            }
+                                        ]
+                                    }
+                                ]
+                            }
+                        },
+                        "personOppdrag": {
+                            "fagsystemId": "HH33CAR73BEMZL6UDZT2S27QHE",
+                            "utbetalingslinjer": [],
+                            "simuleringsResultat": null
+                        },
+                        "vurdering": {
+                            "godkjent": true,
+                            "tidsstempel": "2021-09-13T15:03:48.263897309",
+                            "automatisk": false,
+                            "ident": "H131243"
+                        }
+                    }
                 },
                 {
                     "id": "d4e52f30-0e56-4fbf-8b9f-ce54781a64d8",
@@ -6081,7 +6956,336 @@
                         "Ikke registrert eller mangler samtykke i Kontakt- og reservasjonsregisteret, eventuell kommunikasjon må skje i brevform",
                         "Kunne ikke sjekke åpne oppgaver på sykepenger i Gosys",
                         "Vurder lovvalg og medlemskap"
-                    ]
+                    ],
+                    "utbetaling": {
+                        "utbetalingId": "3e1c7aa2-5dd2-4bf3-8232-2d53b916b72c",
+                        "korrelasjonsId": "8756e856-b652-4db8-b4e4-4bc4596cdf84",
+                        "utbetalingstidslinje": [
+                            {
+                                "type": "NavHelgDag",
+                                "inntekt": 0,
+                                "dato": "2021-08-01",
+                                "grad": 100
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 923,
+                                "dato": "2021-08-02",
+                                "utbetaling": 923,
+                                "grad": 100,
+                                "totalGrad": 100
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 923,
+                                "dato": "2021-08-03",
+                                "utbetaling": 923,
+                                "grad": 100,
+                                "totalGrad": 100
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 923,
+                                "dato": "2021-08-04",
+                                "utbetaling": 923,
+                                "grad": 100,
+                                "totalGrad": 100
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 923,
+                                "dato": "2021-08-05",
+                                "utbetaling": 923,
+                                "grad": 100,
+                                "totalGrad": 100
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 923,
+                                "dato": "2021-08-06",
+                                "utbetaling": 923,
+                                "grad": 100,
+                                "totalGrad": 100
+                            },
+                            {
+                                "type": "NavHelgDag",
+                                "inntekt": 0,
+                                "dato": "2021-08-07",
+                                "grad": 100
+                            },
+                            {
+                                "type": "NavHelgDag",
+                                "inntekt": 0,
+                                "dato": "2021-08-08",
+                                "grad": 100
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 923,
+                                "dato": "2021-08-09",
+                                "utbetaling": 923,
+                                "grad": 100,
+                                "totalGrad": 100
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 923,
+                                "dato": "2021-08-10",
+                                "utbetaling": 923,
+                                "grad": 100,
+                                "totalGrad": 100
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 923,
+                                "dato": "2021-08-11",
+                                "utbetaling": 923,
+                                "grad": 100,
+                                "totalGrad": 100
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 923,
+                                "dato": "2021-08-12",
+                                "utbetaling": 923,
+                                "grad": 100,
+                                "totalGrad": 100
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 923,
+                                "dato": "2021-08-13",
+                                "utbetaling": 923,
+                                "grad": 100,
+                                "totalGrad": 100
+                            },
+                            {
+                                "type": "NavHelgDag",
+                                "inntekt": 0,
+                                "dato": "2021-08-14",
+                                "grad": 100
+                            },
+                            {
+                                "type": "NavHelgDag",
+                                "inntekt": 0,
+                                "dato": "2021-08-15",
+                                "grad": 100
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 923,
+                                "dato": "2021-08-16",
+                                "utbetaling": 923,
+                                "grad": 100,
+                                "totalGrad": 100
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 923,
+                                "dato": "2021-08-17",
+                                "utbetaling": 923,
+                                "grad": 100,
+                                "totalGrad": 100
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 923,
+                                "dato": "2021-08-18",
+                                "utbetaling": 923,
+                                "grad": 100,
+                                "totalGrad": 100
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 923,
+                                "dato": "2021-08-19",
+                                "utbetaling": 923,
+                                "grad": 100,
+                                "totalGrad": 100
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 923,
+                                "dato": "2021-08-20",
+                                "utbetaling": 923,
+                                "grad": 100,
+                                "totalGrad": 50
+                            },
+                            {
+                                "type": "NavHelgDag",
+                                "inntekt": 0,
+                                "dato": "2021-08-21",
+                                "grad": 100
+                            },
+                            {
+                                "type": "NavHelgDag",
+                                "inntekt": 0,
+                                "dato": "2021-08-22",
+                                "grad": 100
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 923,
+                                "dato": "2021-08-23",
+                                "utbetaling": 923,
+                                "grad": 100,
+                                "totalGrad": 100
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 923,
+                                "dato": "2021-08-24",
+                                "utbetaling": 923,
+                                "grad": 100,
+                                "totalGrad": 100
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 923,
+                                "dato": "2021-08-25",
+                                "utbetaling": 923,
+                                "grad": 100,
+                                "totalGrad": 100
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 923,
+                                "dato": "2021-08-26",
+                                "utbetaling": 923,
+                                "grad": 100,
+                                "totalGrad": 100
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 923,
+                                "dato": "2021-08-27",
+                                "utbetaling": 923,
+                                "grad": 100,
+                                "totalGrad": 100
+                            },
+                            {
+                                "type": "NavHelgDag",
+                                "inntekt": 0,
+                                "dato": "2021-08-28",
+                                "grad": 100
+                            },
+                            {
+                                "type": "NavHelgDag",
+                                "inntekt": 0,
+                                "dato": "2021-08-29",
+                                "grad": 100
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 923,
+                                "dato": "2021-08-30",
+                                "utbetaling": 923,
+                                "grad": 100,
+                                "totalGrad": 100
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 923,
+                                "dato": "2021-08-31",
+                                "utbetaling": 923,
+                                "grad": 100,
+                                "totalGrad": 100
+                            }
+                        ],
+                        "beregningId": "1fc2a27b-2fbd-4fec-966c-19afe1c9112c",
+                        "type": "UTBETALING",
+                        "maksdato": "2022-06-29",
+                        "status": "UTBETALT",
+                        "gjenståendeSykedager": 216,
+                        "forbrukteSykedager": 32,
+                        "arbeidsgiverNettoBeløp": 0,
+                        "personNettoBeløp": 0,
+                        "arbeidsgiverOppdrag": {
+                            "fagsystemId": "HH33CAR73BEMZL6UDZT2S27QHE",
+                            "utbetalingslinjer": [
+                                {
+                                    "fom": "2021-07-17",
+                                    "tom": "2021-08-31",
+                                    "dagsats": 923,
+                                    "grad": 100
+                                }
+                            ],
+                            "simuleringsResultat": {
+                                "totalbeløp": 29536,
+                                "perioder": [
+                                    {
+                                        "fom": "2021-07-17",
+                                        "tom": "2021-07-31",
+                                        "utbetalinger": [
+                                            {
+                                                "utbetalesTilId": "928497704",
+                                                "utbetalesTilNavn": "BESK KAFFE",
+                                                "forfall": "2021-09-13",
+                                                "feilkonto": false,
+                                                "detaljer": [
+                                                    {
+                                                        "faktiskFom": "2021-07-17",
+                                                        "faktiskTom": "2021-07-31",
+                                                        "konto": "2338020",
+                                                        "beløp": 9230,
+                                                        "tilbakeføring": false,
+                                                        "sats": 923,
+                                                        "typeSats": "DAG",
+                                                        "antallSats": 10,
+                                                        "uføregrad": 100,
+                                                        "klassekode": "SPREFAG-IOP",
+                                                        "klassekodeBeskrivelse": "Sykepenger, Refusjon arbeidsgiver",
+                                                        "utbetalingstype": "YTEL",
+                                                        "refunderesOrgNr": "967170232"
+                                                    }
+                                                ]
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "fom": "2021-08-01",
+                                        "tom": "2021-08-31",
+                                        "utbetalinger": [
+                                            {
+                                                "utbetalesTilId": "928497704",
+                                                "utbetalesTilNavn": "BESK KAFFE",
+                                                "forfall": "2021-09-13",
+                                                "feilkonto": false,
+                                                "detaljer": [
+                                                    {
+                                                        "faktiskFom": "2021-08-01",
+                                                        "faktiskTom": "2021-08-31",
+                                                        "konto": "2338020",
+                                                        "beløp": 20306,
+                                                        "tilbakeføring": false,
+                                                        "sats": 923,
+                                                        "typeSats": "DAG",
+                                                        "antallSats": 22,
+                                                        "uføregrad": 100,
+                                                        "klassekode": "SPREFAG-IOP",
+                                                        "klassekodeBeskrivelse": "Sykepenger, Refusjon arbeidsgiver",
+                                                        "utbetalingstype": "YTEL",
+                                                        "refunderesOrgNr": "967170232"
+                                                    }
+                                                ]
+                                            }
+                                        ]
+                                    }
+                                ]
+                            }
+                        },
+                        "personOppdrag": {
+                            "fagsystemId": "HH33CAR73BEMZL6UDZT2S27QHE",
+                            "utbetalingslinjer": [],
+                            "simuleringsResultat": null
+                        },
+                        "vurdering": {
+                            "godkjent": true,
+                            "tidsstempel": "2021-09-13T15:11:08.17382647",
+                            "automatisk": false,
+                            "ident": "H131243"
+                        }
+                    }
                 }
             ],
             "overstyringer": [],

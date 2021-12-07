@@ -211,7 +211,182 @@
                         "Kunne ikke sjekke åpne oppgaver på sykepenger i Gosys",
                         "Ikke registrert eller mangler samtykke i Kontakt- og reservasjonsregisteret, eventuell kommunikasjon må skje i brevform",
                         "Kunne ikke sjekke åpne oppgaver på sykepenger i Gosys"
-                    ]
+                    ],
+                    "utbetaling": {
+                        "utbetalingId": "7d3dc944-8f83-4c3f-9fea-fef678d812ea",
+                        "korrelasjonsId": "a5671a9b-5ec7-40e5-8571-c4fcbbd7d721",
+                        "utbetalingstidslinje": [
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "dato": "2021-04-01",
+                                "inntekt": 0
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "dato": "2021-04-02",
+                                "inntekt": 0
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "dato": "2021-04-03",
+                                "inntekt": 0
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "dato": "2021-04-04",
+                                "inntekt": 0
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "dato": "2021-04-05",
+                                "inntekt": 0
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "dato": "2021-04-06",
+                                "inntekt": 0
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "dato": "2021-04-07",
+                                "inntekt": 0
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "dato": "2021-04-08",
+                                "inntekt": 0
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "dato": "2021-04-09",
+                                "inntekt": 0
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "dato": "2021-04-10",
+                                "inntekt": 0
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "dato": "2021-04-11",
+                                "inntekt": 0
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "dato": "2021-04-12",
+                                "inntekt": 0
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "dato": "2021-04-13",
+                                "inntekt": 0
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "dato": "2021-04-14",
+                                "inntekt": 0
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "dato": "2021-04-15",
+                                "inntekt": 0
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "dato": "2021-04-16",
+                                "inntekt": 0
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "dato": "2021-04-17",
+                                "inntekt": 0
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "dato": "2021-04-18",
+                                "inntekt": 0
+                            },
+                            {
+                                "type": "NavDag",
+                                "dato": "2021-04-19",
+                                "inntekt": 0
+                            },
+                            {
+                                "type": "NavDag",
+                                "dato": "2021-04-20",
+                                "inntekt": 0
+                            },
+                            {
+                                "type": "NavDag",
+                                "dato": "2021-04-21",
+                                "inntekt": 0
+                            },
+                            {
+                                "type": "NavDag",
+                                "dato": "2021-04-22",
+                                "inntekt": 0
+                            },
+                            {
+                                "type": "NavDag",
+                                "dato": "2021-04-23",
+                                "inntekt": 0
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "dato": "2021-04-24",
+                                "inntekt": 0
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "dato": "2021-04-25",
+                                "inntekt": 0
+                            },
+                            {
+                                "type": "NavDag",
+                                "dato": "2021-04-26",
+                                "inntekt": 0
+                            },
+                            {
+                                "type": "NavDag",
+                                "dato": "2021-04-27",
+                                "inntekt": 0
+                            },
+                            {
+                                "type": "NavDag",
+                                "dato": "2021-04-28",
+                                "inntekt": 0
+                            },
+                            {
+                                "type": "NavDag",
+                                "dato": "2021-04-29",
+                                "inntekt": 0
+                            },
+                            {
+                                "type": "NavDag",
+                                "dato": "2021-04-30",
+                                "inntekt": 0
+                            }
+                        ],
+                        "beregningId": "1ea47048-6d43-4637-bfea-79435c2ea78d",
+                        "type": "UTBETALING",
+                        "maksdato": null,
+                        "status": "IKKE_UTBETALT",
+                        "gjenståendeSykedager": null,
+                        "forbrukteSykedager": null,
+                        "arbeidsgiverNettoBeløp": null,
+                        "personNettoBeløp": 0,
+                        "arbeidsgiverOppdrag": {
+                            "fagsystemId": "UORPWLHOEFHDBD5X6S2K4K5OVA",
+                            "utbetalingslinjer": null,
+                            "simuleringsResultat": null
+                        },
+                        "personOppdrag": {
+                            "fagsystemId": "EIJXB2EACBCHXJYL3TBGPDDYJY",
+                            "utbetalingslinjer": [],
+                            "simuleringsResultat": null
+                        },
+                        "vurdering": null
+                    }
                 }
             ],
             "overstyringer": [
