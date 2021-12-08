@@ -16,7 +16,7 @@ const Container = styled(Flex)`
     display: flex;
     flex-direction: row;
     justify-content: flex-end;
-    padding: 0 2rem;
+    padding: 0 0 0 2rem;
     width: 100%;
 `;
 

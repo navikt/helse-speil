@@ -14,6 +14,7 @@ import { UtbetalingstabellDag } from './Utbetalingstabell.types';
 const Container = styled.div`
     background-color: var(--navds-color-gray-10);
     padding: 2rem;
+    margin-right: -2rem;
 
     label {
         font-weight: normal;

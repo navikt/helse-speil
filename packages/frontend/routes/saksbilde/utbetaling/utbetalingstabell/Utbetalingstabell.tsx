@@ -10,7 +10,6 @@ import { NORSK_DATOFORMAT } from '../../../../utils/date';
 
 import { Header } from '../../table/Header';
 import { Row } from '../../table/Row';
-import { Table } from '../../table/Table';
 import { DagtypeCell } from './DagtypeCell';
 import { DateCell } from './DateCell';
 import { GjenståendeDagerCell } from './GjenståendeDagerCell';
@@ -27,10 +26,16 @@ const Container = styled.section`
     overflow-x: auto;
 `;
 
+export const Table = styled.table`
+    flex: 1;
+    white-space: nowrap;
+`;
+
 const TabellContainer = styled.div`
+    display: flex;
     flex: 1;
     width: 400px;
-    margin: 2rem;
+    padding: 2rem 0 2rem 2rem;
     height: max-content;
 
     > table {

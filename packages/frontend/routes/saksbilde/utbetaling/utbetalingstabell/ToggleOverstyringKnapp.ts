@@ -3,7 +3,7 @@ import styled from '@emotion/styled';
 export const ToggleOverstyringKnapp = styled.button`
     position: absolute;
     top: 1rem;
-    right: 2rem;
+    right: 0;
     border: none;
     background: none;
     display: flex;

@@ -73,19 +73,19 @@ const getMonthName = (yearMonth: string) => {
 
 const sorterInntekterFraAOrdningen = (
     inntekterFraAOrdningen: ExternalInntekterFraAOrdningen[] | null
-): ExternalInntekterFraAOrdningen[] | null => {
-    if (inntekterFraAOrdningen == null) return null;
-    return inntekterFraAOrdningen
-        .map((inntektFraAOrdningen) => ({
-            måned: dayjs(inntektFraAOrdningen.måned, 'YYYY-MM'),
-            sum: inntektFraAOrdningen.sum,
-        }))
-        .sort((a, b) => (a.måned.isAfter(b.måned) ? -1 : 1))
-        .map((it) => ({
-            måned: it.måned.format('YYYY-MM'),
-            sum: it.sum,
-        }));
-};
+): ExternalInntekterFraAOrdningen[] | null =>
+    inntekterFraAOrdningen == null
+        ? null
+        : inntekterFraAOrdningen
+              .map((inntektFraAOrdningen) => ({
+                  måned: dayjs(inntektFraAOrdningen.måned, 'YYYY-MM'),
+                  sum: inntektFraAOrdningen.sum,
+              }))
+              .sort((a, b) => (a.måned.isAfter(b.måned) ? -1 : 1))
+              .map((it) => ({
+                  måned: it.måned.format('YYYY-MM'),
+                  sum: it.sum,
+              }));
 
 const InntektFraAordningen = ({ omregnetÅrsinntekt }: { omregnetÅrsinntekt: ExternalOmregnetÅrsinntekt }) => {
     return (
@@ -104,14 +104,12 @@ const InntektFraAordningen = ({ omregnetÅrsinntekt }: { omregnetÅrsinntekt: Ex
                 </InfobobleContainer>
             </Tittellinje>
             <Tabell>
-                {sorterInntekterFraAOrdningen(omregnetÅrsinntekt.inntekterFraAOrdningen)?.map((inntekt, i) => {
-                    return (
-                        <React.Fragment key={i}>
-                            <BodyShort as="p"> {getMonthName(inntekt.måned)}</BodyShort>
-                            <Verdi as="p">{somPenger(inntekt.sum)}</Verdi>
-                        </React.Fragment>
-                    );
-                })}
+                {sorterInntekterFraAOrdningen(omregnetÅrsinntekt.inntekterFraAOrdningen)?.map((inntekt, i) => (
+                    <React.Fragment key={i}>
+                        <BodyShort as="p"> {getMonthName(inntekt.måned)}</BodyShort>
+                        <Verdi as="p">{somPenger(inntekt.sum)}</Verdi>
+                    </React.Fragment>
+                ))}
             </Tabell>
             <Divider />
             <Tabell>

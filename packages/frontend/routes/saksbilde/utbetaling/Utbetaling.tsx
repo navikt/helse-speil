@@ -35,6 +35,7 @@ import { useTabelldagerMap } from './utbetalingstabell/useTabelldagerMap';
 const Container = styled(FlexColumn)`
     position: relative;
     padding-bottom: 4rem;
+    padding-right: 2rem;
 `;
 
 const CheckboxContainer = styled.div`
