@@ -29,8 +29,8 @@ const Dagtypevelger = styled(Select)`
 `;
 
 const Gradvelger = styled(TextField)`
-    margin-right: 20px;
-    width: 57px;
+    margin-right: 0.7rem;
+    width: 2.5rem;
 
     input {
         height: 32px;
@@ -39,6 +39,12 @@ const Gradvelger = styled(TextField)`
     input:disabled {
         border-color: #b8b8b8;
     }
+
+    ::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+    }
+
+    -moz-appearance: textfield;
 `;
 
 const Knapp = styled(Button)`
