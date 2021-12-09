@@ -28,14 +28,17 @@
     --speil-etikett-forlengelse-border: #5690a2;
     --speil-etikett-forstegangs-background: #e0dae7;
     --speil-etikett-forstegangs-border: #634689;
-    --speil-etikett-forlengelse-it-background: #59514b;
-    --speil-etikett-forlengelse-it-border: #59514b;
+    --speil-etikett-forlengelse-it-background: #f1f1f1;
+    --speil-etikett-forlengelse-it-border: #6a6a6a;
     --speil-etikett-stikkprove-background: #f9d2cc;
     --speil-etikett-stikkprove-border: #a32a17;
     --speil-etikett-risk-background: #ffdbab;
     --speil-etikett-risk-border: #d87f0a;
+
     --speil-etikett-adressebeskyttelse-background: #f9d2cc;
     --speil-etikett-adressebeskyttelse-border: #ba3a26;
+    --speil-etikett-dødsdato-background: #59514b;
+    --speil-etikett-dødsdato-border: #59514b;
 
     --speil-color-infotrygd: #78706a;
     --speil-color-saksbehandler: #826ba1;

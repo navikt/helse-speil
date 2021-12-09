@@ -69,8 +69,8 @@ const AdressebeskyttelseEtikett = styled(Etikett)`
 `;
 
 const DødsdatoEtikett = styled(Etikett)`
-    background: var(--speil-etikett-forlengelse-it-background);
-    border: 1px solid var(--speil-etikett-forlengelse-it-border);
+    background: var(--speil-etikett-dødsdato-background);
+    border: 1px solid var(--speil-etikett-dødsdato-border);
     color: var(--navds-color-text-inverse);
 `;
 
