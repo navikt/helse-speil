@@ -141,6 +141,9 @@ const filenameForPersonId = (id: string) => {
         case '1624661706687':
         case '09128322661':
             return 'robust_brannhydrant_flere_ag_revurdering_pågår_én_periode_utbetalt.json';
+        case '1042000009872':
+        case '12029240045':
+            return 'whiteout_jakke_delvis_refusjon.json';
         default:
             throw new Error('Mangler oppsett i devSpesialistClient.ts');
     }

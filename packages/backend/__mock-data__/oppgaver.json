@@ -237,5 +237,27 @@
             "navn": "Vesten"
         },
         "inntektskilde": "EN_ARBEIDSGIVER"
+    },
+    {
+        "oppgavereferanse": "whiteout",
+        "opprettet": "2021-02-01T23:04:09.454",
+        "fødselsnummer": "12029240045",
+        "aktørId": "1042000009872",
+        "personinfo": {
+            "fornavn": "WHITEOUT",
+            "mellomnavn": null,
+            "etternavn": "JAKKE",
+            "fødselsdato": "1988-06-05",
+            "kjønn": "Kvinne"
+        },
+        "vedtaksperiodeId": "99ad1fde-c877-4675-882e-60e6a6c452cd",
+        "type": "FØRSTEGANGSBEHANDLING",
+        "oppgavetype": "SØKNAD",
+        "antallVarsler": 0,
+        "boenhet": {
+            "id": "1938",
+            "navn": "Vesten"
+        },
+        "inntektskilde": "EN_ARBEIDSGIVER"
     }
 ]
