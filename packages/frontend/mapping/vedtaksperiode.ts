@@ -39,6 +39,64 @@ const mapUtbetaling = (
         })),
     };
 
+const mapExternalUtbetalingV2 = (utbetaling?: ExternalUtbetalingV2): UtbetalingV2 | undefined =>
+    utbetaling ? somExternalUtbetalingV2(utbetaling) : undefined;
+
+const mapVurdering = (vurdering?: ExternalVurdering): Vurdering | undefined =>
+    vurdering
+        ? {
+              godkjent: vurdering.godkjent,
+              automatisk: vurdering.automatisk,
+              ident: vurdering.ident,
+              tidsstempel: somTidspunkt(vurdering.tidsstempel),
+          }
+        : undefined;
+
+const somExternalUtbetalingV2 = (utbetaling: ExternalUtbetalingV2): UtbetalingV2 => {
+    return {
+        utbetalingId: utbetaling.utbetalingId,
+        korrelasjonsId: utbetaling.korrelasjonsId,
+        beregningId: utbetaling.beregningId,
+        utbetalingstidslinje: utbetaling.utbetalingstidslinje.map((externalLinje: ExternalUtbetalingslinjeV2) => ({
+            type: externalLinje.type,
+            inntekt: externalLinje.inntekt,
+            dato: somDato(externalLinje.dato),
+        })),
+        status: utbetaling.status,
+        type: utbetaling.type,
+        maksdato: somDato(utbetaling.maksdato),
+        gjenståendeSykedager: utbetaling.gjenståendeSykedager,
+        forbrukteSykedager: utbetaling.forbrukteSykedager,
+        arbeidsgiverNettoBeløp: utbetaling.arbeidsgiverNettoBeløp,
+        personNettoBeløp: utbetaling.personNettoBeløp,
+        arbeidsgiverOppdrag: {
+            fagsystemId: utbetaling.arbeidsgiverOppdrag.fagsystemId,
+            utbetalingslinjer: utbetaling.arbeidsgiverOppdrag.utbetalingslinjer.map(
+                (externalLinje: ExternalOppdraglinje) => ({
+                    fom: externalLinje.fom,
+                    tom: externalLinje.tom,
+                    dagsats: externalLinje.dagsats,
+                    grad: externalLinje.grad,
+                })
+            ),
+            simuleringsResultat: utbetaling.arbeidsgiverOppdrag.simuleringsResultat,
+        },
+        personOppdrag: {
+            fagsystemId: utbetaling.personOppdrag.fagsystemId,
+            utbetalingslinjer: utbetaling.personOppdrag.utbetalingslinjer.map(
+                (externalLinje: ExternalOppdraglinje) => ({
+                    fom: externalLinje.fom,
+                    tom: externalLinje.tom,
+                    dagsats: externalLinje.dagsats,
+                    grad: externalLinje.grad,
+                })
+            ),
+            simuleringsResultat: utbetaling.personOppdrag.simuleringsResultat,
+        },
+        vurdering: mapVurdering(utbetaling.vurdering),
+    };
+};
+
 export class VedtaksperiodeBuilder {
     private unmapped!: ExternalVedtaksperiode;
     private annullerteHistorikkelementer!: HistorikkElement[];
@@ -121,6 +179,7 @@ export class VedtaksperiodeBuilder {
         this.mapSimulering();
         this.mapPeriodetype();
         this.mapUtbetalinger();
+        this.mapUtbetalingV2();
         this.mapOppsummering();
         this.mapInntektskilde();
         this.mapOverstyringer();
@@ -210,6 +269,10 @@ export class VedtaksperiodeBuilder {
 
     private mapSimulering = () => {
         this.vedtaksperiode.simuleringsdata = mapSimuleringsdata(this.unmapped.simuleringsdata);
+    };
+
+    private mapUtbetalingV2 = () => {
+        this.vedtaksperiode.utbetaling = mapExternalUtbetalingV2(this.unmapped.utbetaling);
     };
 
     private mapPeriodetype = () => {

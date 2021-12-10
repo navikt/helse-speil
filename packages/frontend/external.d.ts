@@ -10,6 +10,49 @@ declare type ExternalUtbetaling = {
     linjer: ExternalUtbetalingslinje[];
 };
 
+declare type ExternalOppdraglinje = {
+    fom: string;
+    tom: string;
+    dagsats: number;
+    grad: number;
+};
+
+declare type ExternalOppdrag = {
+    fagsystemId: string;
+    utbetalingslinjer: Oppdraglinje[];
+    simuleringsResultat?: Simulering;
+};
+
+declare type ExternalUtbetalingslinjeV2 = {
+    type: string;
+    inntekt: number;
+    dato: string;
+};
+
+declare type ExternalVurdering = {
+    godkjent: boolean;
+    tidsstempel: string;
+    automatisk: boolean;
+    ident: string;
+};
+
+declare type ExternalUtbetalingV2 = {
+    utbetalingId: string;
+    korrelasjonsId: string;
+    beregningId: string;
+    utbetalingstidslinje: ExternalUtbetalingslinjeV2[];
+    type: string;
+    maksdato: string;
+    status: string;
+    gjenståendeSykedager: number;
+    forbrukteSykedager: number;
+    arbeidsgiverNettoBeløp: number;
+    personNettoBeløp: number;
+    arbeidsgiverOppdrag: ExternalOppdrag;
+    personOppdrag: ExternalOppdrag;
+    vurdering?: ExternalVurdering;
+};
+
 declare type ExternalUtbetalingsdagtype =
     | 'ArbeidsgiverperiodeDag'
     | 'NavDag'
@@ -252,6 +295,7 @@ declare type ExternalVedtaksperiode = {
     varsler: string[];
     beregningIder?: string[];
     inntektskilde: 'EN_ARBEIDSGIVER' | 'FLERE_ARBEIDSGIVERE';
+    utbetaling?: ExternalUtbetalingV2;
 };
 
 declare type ExternalUfullstendigVedtaksperiode = {
