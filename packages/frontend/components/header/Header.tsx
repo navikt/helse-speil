@@ -15,6 +15,7 @@ import { EasterEgg } from '../../EasterEgg';
 import { BentoMeny } from '../BentoMeny';
 import { Brukermeny } from '../Brukermeny';
 import { SearchBar } from './SearchBar';
+import { Julegurken } from './Julegurken';
 
 const Container = styled.div`
     flex-shrink: 0;
@@ -89,6 +90,7 @@ export const Header = () => {
                     <Link to="/">NAV Sykepenger</Link>
                 </InternalHeaderTitle>
                 <SearchBar onSearch={onSøk} />
+                <Julegurken />
                 <EasterEgg />
                 <BentoMeny />
                 <Brukermeny navn={brukerinfo.navn} ident={brukerinfo.ident} />
