@@ -443,7 +443,7 @@
                         "personNettoBeløp": 0,
                         "arbeidsgiverOppdrag": {
                             "fagsystemId": "U2DJBPUDYZENTBSADQEX7QB5N4",
-                            "utbetalingslinjer": null,
+                            "utbetalingslinjer": [],
                             "simuleringsResultat": null
                         },
                         "personOppdrag": {

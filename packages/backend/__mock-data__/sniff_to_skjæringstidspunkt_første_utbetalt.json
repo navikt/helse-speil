@@ -1540,7 +1540,7 @@
                         "personNettoBeløp": 0,
                         "arbeidsgiverOppdrag": {
                             "fagsystemId": "ADOLLAWSK5D3FC2CA3BZB36BVU",
-                            "utbetalingslinjer": null,
+                            "utbetalingslinjer": [],
                             "simuleringsResultat": {
                                 "totalbeløp": 14216,
                                 "perioder": [

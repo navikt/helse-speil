@@ -834,7 +834,7 @@
                         "personNettoBeløp": 0,
                         "arbeidsgiverOppdrag": {
                             "fagsystemId": "JYMGFYIJKVDU3M5UV4ZDM2VBA4",
-                            "utbetalingslinjer": null,
+                            "utbetalingslinjer": [],
                             "simuleringsResultat": {
                                 "totalbeløp": 8880,
                                 "perioder": [
