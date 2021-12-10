@@ -9,6 +9,7 @@ WORKDIR /app
 COPY packages/backend/node_modules/ node_modules/
 COPY dist/server/ dist/server/
 COPY dist/client/ dist/client/
+COPY packages/frontend/assets/favicon.ico dist/client/
 COPY packages/frontend/wiki.json wiki.json
 COPY packages/frontend/utdatert_wiki.json utdatert_wiki.json
 
