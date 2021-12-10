@@ -333,6 +333,42 @@ declare type Utbetaling = {
     linjer: Utbetalingslinje[];
 };
 
+declare type Oppdraglinje = {
+    fom: string;
+    tom: string;
+    dagsats: number;
+    grad: number;
+};
+
+declare type Oppdrag = {
+    fagsystemId: string;
+    utbetalingslinjer: Oppdraglinje[];
+    simuleringsResultat?: Simulering;
+};
+
+declare type UtbetalingslinjeV2 = {
+    type: string;
+    inntekt: number;
+    dato: Dayjs;
+};
+
+declare type UtbetalingV2 = {
+    utbetalingId: string;
+    korrelasjonsId: string;
+    beregningId: string;
+    utbetalingstidslinje: UtbetalingslinjeV2[];
+    type: String;
+    maksdato: Dayjs;
+    status: String;
+    gjenståendeSykedager: number;
+    forbrukteSykedager: number;
+    arbeidsgiverNettoBeløp: number;
+    personNettoBeløp: number;
+    arbeidsgiverOppdrag: Oppdrag;
+    personOppdrag: Oppdrag;
+    vurdering?: Vurdering;
+};
+
 declare type Simulering = {
     totalbeløp: number;
     perioder: Simuleringsperiode[];
@@ -383,6 +419,7 @@ declare type Vedtaksperiode = {
     erNyeste: boolean;
     beregningIder: string[];
     inntektskilde: Inntektskilde;
+    utbetaling?: UtbetalingV2;
 };
 
 declare type UfullstendigVedtaksperiode = {

@@ -29,7 +29,7 @@ interface VenstreMenyProps {
     arbeidsforhold: Arbeidsforhold[];
     anonymiseringEnabled: boolean;
     alderVedSisteSykedag?: number;
-    simulering?: Vedtaksperiode['simuleringsdata'];
+    simulering?: Simuleringsdata;
     månedsbeløp?: number;
     maksdato?: Dayjs;
     skjæringstidspunkt: string;

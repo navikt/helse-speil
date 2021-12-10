@@ -58,6 +58,11 @@ export const SaksbildeFullstendigPeriode = ({ personTilBehandling, aktivPeriode 
         aktivPeriode
     );
 
+    const simulering: Simuleringsdata = {
+        arbeidsgiver: vedtaksperiode.utbetaling?.arbeidsgiverOppdrag.simuleringsResultat,
+        person: vedtaksperiode.utbetaling?.personOppdrag.simuleringsResultat,
+    };
+
     const månedsbeløp = getMånedsbeløp(vedtaksperiode, aktivPeriode.organisasjonsnummer);
     const saksbehandler = useInnloggetSaksbehandler();
     useVarselOmSakErTildeltAnnenSaksbehandler(saksbehandler.oid, personTilBehandling);
@@ -76,7 +81,7 @@ export const SaksbildeFullstendigPeriode = ({ personTilBehandling, aktivPeriode 
                 arbeidsforhold={arbeidsforhold}
                 anonymiseringEnabled={anonymiseringEnabled}
                 alderVedSisteSykedag={alderVedSisteSykedag}
-                simulering={vedtaksperiode.simuleringsdata}
+                simulering={simulering}
                 månedsbeløp={månedsbeløp}
                 skjæringstidspunkt={aktivPeriode.skjæringstidspunkt}
             />
@@ -84,9 +89,7 @@ export const SaksbildeFullstendigPeriode = ({ personTilBehandling, aktivPeriode 
                 <Saksbildevarsler
                     aktivPeriode={aktivPeriode}
                     vedtaksperiode={vedtaksperiode}
-
                     oppgavereferanse={oppgavereferanse}
-
                 />
                 <Switch>
                     <Route path={`${path}/utbetaling`}>
