@@ -144,6 +144,9 @@ const filenameForPersonId = (id: string) => {
         case '1042000009872':
         case '12029240045':
             return 'whiteout_jakke_delvis_refusjon.json';
+        case '2285145663954':
+        case '03058022887':
+            return 'lunken_trane_agp_før_periode.json';
         default:
             throw new Error('Mangler oppsett i devSpesialistClient.ts');
     }

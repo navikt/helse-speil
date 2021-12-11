@@ -259,5 +259,27 @@
             "navn": "Vesten"
         },
         "inntektskilde": "EN_ARBEIDSGIVER"
+    },
+    {
+        "oppgavereferanse": "lunken_trane",
+        "opprettet": "2021-12-11T09:00:00.100",
+        "fødselsnummer": "03058022887",
+        "aktørId": "2285145663954",
+        "personinfo": {
+            "fornavn": "LUNKEN",
+            "mellomnavn": null,
+            "etternavn": "TRANE",
+            "fødselsdato": "1980-05-03",
+            "kjønn": "Kvinne"
+        },
+        "vedtaksperiodeId": "456a0303-8c55-402e-9115-0e699d7ab9f5",
+        "type": "FØRSTEGANGSBEHANDLING",
+        "oppgavetype": "SØKNAD",
+        "antallVarsler": 0,
+        "boenhet": {
+            "id": "1120",
+            "navn": "Klepp"
+        },
+        "inntektskilde": "EN_ARBEIDSGIVER"
     }
 ]
