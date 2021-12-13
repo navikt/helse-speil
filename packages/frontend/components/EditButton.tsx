@@ -26,12 +26,12 @@ export const EditButton = ({ isOpen, openText, closedText, onOpen, onClose, ...r
     <BlueButton onClick={isOpen ? onClose : onOpen} {...rest}>
         {isOpen ? (
             <>
-                <Unlocked />
+                <Unlocked height={24} width={24} />
                 {openText}
             </>
         ) : (
             <>
-                <Locked />
+                <Locked height={24} width={24} />
                 {closedText}
             </>
         )}
