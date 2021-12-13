@@ -2,7 +2,7 @@ import { extractIdent, extractGroups } from './utils/cookie';
 
 const groupIdForUtviklere = 'f787f900-6697-440d-a086-d5bb56e26a9c';
 const eminem = 'G103083';
-const supersaksbehandlere = [eminem, 'D117949', 'A148751', 'N115007', 'C117102', 'S145454','E148846'];
+const supersaksbehandlere = [eminem, 'D117949', 'A148751', 'N115007', 'C117102', 'S145454', 'E148846'];
 const fagkoordinatorer = [
     'J150708',
     'S108267',
@@ -47,7 +47,7 @@ const tilgangFlereArbeidsgivere = [
     'W110120',
     'K105052',
     'K105430',
-// Klageinstansen start
+    // Klageinstansen start
     'T109423',
     'B138509',
     'H154142',
@@ -83,7 +83,7 @@ const tilgangFlereArbeidsgivere = [
     'M106066',
     'T109423',
     'L142009',
-// Klageinstansen end
+    // Klageinstansen end
 ];
 
 const tilgangStikkprøver = ['F140836'];
@@ -165,10 +165,13 @@ const harTilgangFlereArbeidsgivere = () => tilgangFlereArbeidsgivere.includes(ex
 const harTilgangStikkprøver = () => tilgangStikkprøver.includes(extractIdent());
 const erAnnulleringsbois = () => erKnudix() || erKevin();
 const erSpiceGirls = () => erMarte() || erKevin() || erAnders() || erHegeir();
+const erFabulous = () => erKevin() || erHegeir() || erSimen() || erHåkon();
 const erKnudix = () => extractIdent() === 'N143409';
 const erDigimort = () => extractIdent() === 'T127350';
 const erVegard = () => extractIdent() === 'S144991';
 const erKevin = () => extractIdent() === 'S151890';
+const erHåkon = () => extractIdent() === 'H131243';
+const erSimen = () => extractIdent() === 'U160607';
 const erMarte = () => extractIdent() === 'T141884';
 const erAnders = () => extractIdent() === 'O142910';
 const erHegeir = () => extractIdent() === 'H161007';
@@ -204,6 +207,8 @@ export const utbetalingsoversikt = erUtvikler() || erLocal() || harTilgangTilAlt
 export const stikkprøve = harTilgangStikkprøver() || harTilgangTilAlt() || erLocal() || erDev();
 export const flereArbeidsgivere =
     erSpiceGirls() ||
+    erFabulous() ||
+    erUtvikler() ||
     erLocal() ||
     erDev() ||
     erDigimort() ||
