@@ -303,5 +303,28 @@
             "navn": "Klepp"
         },
         "inntektskilde": "EN_ARBEIDSGIVER"
+    },
+    {
+        "oppgavereferanse": "smekker_konsoll",
+        "opprettet": "2021-12-11T09:00:00.100",
+        "aktørId": "2367127008792",
+        "fødselsnummer": "28128219910",
+        "personinfo": {
+            "fornavn": "SMEKKER",
+            "mellomnavn": null,
+            "etternavn": "KONSOLL",
+            "fødselsdato": "1982-12-28",
+            "kjønn": "Kvinne",
+            "adressebeskyttelse": "Ugradert"
+        },
+        "vedtaksperiodeId": "05943a50-cc60-49dd-8d92-cd4c8ca09ff6",
+        "type": "FØRSTEGANGSBEHANDLING",
+        "oppgavetype": "SØKNAD",
+        "antallVarsler": 0,
+        "boenhet": {
+            "id": "1120",
+            "navn": "Klepp"
+        },
+        "inntektskilde": "EN_ARBEIDSGIVER"
     }
 ]
