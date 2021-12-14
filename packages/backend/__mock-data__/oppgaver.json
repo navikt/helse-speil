@@ -281,5 +281,27 @@
             "navn": "Klepp"
         },
         "inntektskilde": "EN_ARBEIDSGIVER"
+    },
+    {
+        "oppgavereferanse": "god_gaselle",
+        "opprettet": "2021-12-11T09:00:00.100",
+        "fødselsnummer": "03038111204",
+        "aktørId": "2258733201004",
+        "personinfo": {
+            "fornavn": "GOD",
+            "mellomnavn": null,
+            "etternavn": "GASELLE",
+            "fødselsdato": "1981-03-03",
+            "kjønn": "Kvinne"
+        },
+        "vedtaksperiodeId": "f7857c2e-847d-474d-8ca7-4a1b77cbb1ef",
+        "type": "FØRSTEGANGSBEHANDLING",
+        "oppgavetype": "SØKNAD",
+        "antallVarsler": 0,
+        "boenhet": {
+            "id": "1120",
+            "navn": "Klepp"
+        },
+        "inntektskilde": "EN_ARBEIDSGIVER"
     }
 ]

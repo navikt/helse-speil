@@ -147,6 +147,9 @@ const filenameForPersonId = (id: string) => {
         case '2285145663954':
         case '03058022887':
             return 'lunken_trane_agp_før_periode.json';
+        case '2258733201004':
+        case '03038111204':
+            return 'god_gaselle_agp_før_periode_med_kort_periode_før.json';
         default:
             throw new Error('Mangler oppsett i devSpesialistClient.ts');
     }
