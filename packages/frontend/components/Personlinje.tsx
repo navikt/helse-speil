@@ -146,7 +146,7 @@ export const Personlinje = ({ dødsdato }: PersonlinjeProps) => {
                 <Clipboard
                     preserveWhitespace={false}
                     copyMessage="Fødselsnummer er kopiert"
-                    dataTip="Kopier fødselsnummer"
+                    dataTip="Kopier fødselsnummer (Alt + C)"
                 >
                     <BodyShort>{formatFnr(personinfo.fnr)}</BodyShort>
                 </Clipboard>
