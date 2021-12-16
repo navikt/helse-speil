@@ -644,55 +644,6 @@
                         "harOpptjening": true,
                         "medlemskapstatus": "VET_IKKE"
                     },
-                    "simuleringsdata": {
-                        "totalbeløp": 8921,
-                        "perioder": [
-                            {
-                                "fom": "2021-08-17",
-                                "tom": "2021-08-31",
-                                "utbetalinger": [
-                                    {
-                                        "utbetalesTilId": "09047606370",
-                                        "utbetalesTilNavn": "TRANFLASKE LITEN",
-                                        "forfall": "2021-11-11",
-                                        "feilkonto": false,
-                                        "detaljer": [
-                                            {
-                                                "faktiskFom": "2021-08-17",
-                                                "faktiskTom": "2021-08-31",
-                                                "konto": "0510000",
-                                                "beløp": -8921,
-                                                "tilbakeføring": false,
-                                                "sats": 0,
-                                                "typeSats": "DAG",
-                                                "antallSats": 11,
-                                                "uføregrad": 0,
-                                                "klassekode": "FSKTSKAT",
-                                                "klassekodeBeskrivelse": "Forskuddskatt",
-                                                "utbetalingstype": "SKAT",
-                                                "refunderesOrgNr": "           "
-                                            },
-                                            {
-                                                "faktiskFom": "2021-08-17",
-                                                "faktiskTom": "2021-08-31",
-                                                "konto": "2331000",
-                                                "beløp": 17842,
-                                                "tilbakeføring": false,
-                                                "sats": 1622,
-                                                "typeSats": "DAG",
-                                                "antallSats": 11,
-                                                "uføregrad": 100,
-                                                "klassekode": "SPATORD",
-                                                "klassekodeBeskrivelse": "Sykepenger, Arbeidstaker",
-                                                "utbetalingstype": "YTEL",
-                                                "refunderesOrgNr": "           "
-                                            }
-                                        ]
-                                    }
-                                ]
-                            }
-                        ]
-                    },
                     "aktivitetslogg": [
                         {
                             "vedtaksperiodeId": "d9961c58-8f1d-4f9f-be53-763eaf609061",

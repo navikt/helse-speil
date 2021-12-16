@@ -546,69 +546,6 @@
                         }
                     ],
                     "dataForVilkårsvurdering": null,
-                    "simuleringsdata": {
-                        "totalbeløp": 35000,
-                        "perioder": [
-                            {
-                                "fom": "2021-08-20",
-                                "tom": "2021-08-31",
-                                "utbetalinger": [
-                                    {
-                                        "utbetalesTilId": "972674818",
-                                        "utbetalesTilNavn": "Kongehuset",
-                                        "forfall": "2021-10-06",
-                                        "feilkonto": false,
-                                        "detaljer": [
-                                            {
-                                                "faktiskFom": "2021-08-20",
-                                                "faktiskTom": "2021-08-31",
-                                                "konto": "12345678",
-                                                "beløp": 14000,
-                                                "tilbakeføring": false,
-                                                "sats": 1500,
-                                                "typeSats": "DAG",
-                                                "antallSats": 8,
-                                                "uføregrad": 100,
-                                                "klassekode": "SPREFAG-IOP",
-                                                "klassekodeBeskrivelse": "Sykepenger, Refusjon arbeidsgiver",
-                                                "utbetalingstype": "YTEL",
-                                                "refunderesOrgNr": "972674818"
-                                            }
-                                        ]
-                                    }
-                                ]
-                            },
-                            {
-                                "fom": "2021-09-01",
-                                "tom": "2021-09-16",
-                                "utbetalinger": [
-                                    {
-                                        "utbetalesTilId": "972674818",
-                                        "utbetalesTilNavn": "Kongehuset",
-                                        "forfall": "2021-10-06",
-                                        "feilkonto": false,
-                                        "detaljer": [
-                                            {
-                                                "faktiskFom": "2021-09-01",
-                                                "faktiskTom": "2021-09-16",
-                                                "konto": "12345678",
-                                                "beløp": 18000,
-                                                "tilbakeføring": false,
-                                                "sats": 1500,
-                                                "typeSats": "DAG",
-                                                "antallSats": 12,
-                                                "uføregrad": 100,
-                                                "klassekode": "SPREFAG-IOP",
-                                                "klassekodeBeskrivelse": "Sykepenger, Refusjon arbeidsgiver",
-                                                "utbetalingstype": "YTEL",
-                                                "refunderesOrgNr": "972674818"
-                                            }
-                                        ]
-                                    }
-                                ]
-                            }
-                        ]
-                    },
                     "aktivitetslogg": [],
                     "forlengelseFraInfotrygd": "JA",
                     "periodetype": "OVERGANG_FRA_IT",

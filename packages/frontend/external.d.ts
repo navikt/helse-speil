@@ -19,8 +19,8 @@ declare type ExternalOppdraglinje = {
 
 declare type ExternalOppdrag = {
     fagsystemId: string;
-    utbetalingslinjer: Oppdraglinje[];
-    simuleringsResultat?: Simulering;
+    utbetalingslinjer: ExternalOppdraglinje[];
+    simuleringsResultat?: ExternalSimulering;
 };
 
 declare type ExternalUtbetalingslinjeV2 = {
@@ -284,7 +284,6 @@ declare type ExternalVedtaksperiode = {
     };
     forlengelseFraInfotrygd: 'IKKE_ETTERSPURT' | 'JA' | 'NEI';
     periodetype: ExternalVedtaksperiodetype;
-    simuleringsdata?: ExternalSimulering | ExternalSimuleringsdata;
     hendelser: ExternalHendelse[];
     utbetalingslinjer?: ExternalUtbetalingslinje[];
     aktivitetslogg: ExternalAktivitet[];
@@ -483,10 +482,6 @@ declare type ExternalBeregnetPeriode = ExternalUberegnetPeriode & {
     maksdato: DateString;
     utbetaling: ExternalPeriodeUtbetaling;
     hendelser: (ExternalSøknadNav | ExternalSøknadArbeidsgiver | ExternalSykmelding | ExternalInntektsmelding)[];
-    simulering: null | {
-        totalbeløp: number;
-        perioder: ExternalSimuleringsperiode[];
-    };
     vilkårsgrunnlagshistorikkId: UUID;
     periodevilkår: {
         sykepengedager: {

@@ -644,69 +644,6 @@
                         "harOpptjening": true,
                         "medlemskapstatus": "VET_IKKE"
                     },
-                    "simuleringsdata": {
-                        "totalbeløp": 6690,
-                        "perioder": [
-                            {
-                                "fom": "2021-05-17",
-                                "tom": "2021-05-18",
-                                "utbetalinger": [
-                                    {
-                                        "utbetalesTilId": "928497704",
-                                        "utbetalesTilNavn": "BESK KAFFE",
-                                        "forfall": "2021-06-16",
-                                        "feilkonto": false,
-                                        "detaljer": [
-                                            {
-                                                "faktiskFom": "2021-05-17",
-                                                "faktiskTom": "2021-05-18",
-                                                "konto": "2338020",
-                                                "beløp": 1338,
-                                                "tilbakeføring": false,
-                                                "sats": 669,
-                                                "typeSats": "DAG",
-                                                "antallSats": 2,
-                                                "uføregrad": 100,
-                                                "klassekode": "SPREFAG-IOP",
-                                                "klassekodeBeskrivelse": "Sykepenger, Refusjon arbeidsgiver",
-                                                "utbetalingstype": "YTEL",
-                                                "refunderesOrgNr": "972674818"
-                                            }
-                                        ]
-                                    }
-                                ]
-                            },
-                            {
-                                "fom": "2021-05-20",
-                                "tom": "2021-05-31",
-                                "utbetalinger": [
-                                    {
-                                        "utbetalesTilId": "928497704",
-                                        "utbetalesTilNavn": "BESK KAFFE",
-                                        "forfall": "2021-06-16",
-                                        "feilkonto": false,
-                                        "detaljer": [
-                                            {
-                                                "faktiskFom": "2021-05-20",
-                                                "faktiskTom": "2021-05-31",
-                                                "konto": "2338020",
-                                                "beløp": 5352,
-                                                "tilbakeføring": false,
-                                                "sats": 669,
-                                                "typeSats": "DAG",
-                                                "antallSats": 8,
-                                                "uføregrad": 100,
-                                                "klassekode": "SPREFAG-IOP",
-                                                "klassekodeBeskrivelse": "Sykepenger, Refusjon arbeidsgiver",
-                                                "utbetalingstype": "YTEL",
-                                                "refunderesOrgNr": "972674818"
-                                            }
-                                        ]
-                                    }
-                                ]
-                            }
-                        ]
-                    },
                     "aktivitetslogg": [
                         {
                             "vedtaksperiodeId": "5149270d-202d-4c6e-965a-d41e5a205d2b",

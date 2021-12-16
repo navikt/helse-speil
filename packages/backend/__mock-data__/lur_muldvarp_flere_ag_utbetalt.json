@@ -632,40 +632,6 @@
                         "harOpptjening": true,
                         "medlemskapstatus": "VET_IKKE"
                     },
-                    "simuleringsdata": {
-                        "totalbeløp": 13508,
-                        "perioder": [
-                            {
-                                "fom": "2021-05-17",
-                                "tom": "2021-05-31",
-                                "utbetalinger": [
-                                    {
-                                        "utbetalesTilId": "928497704",
-                                        "utbetalesTilNavn": "BESK KAFFE",
-                                        "forfall": "2021-07-01",
-                                        "feilkonto": false,
-                                        "detaljer": [
-                                            {
-                                                "faktiskFom": "2021-05-17",
-                                                "faktiskTom": "2021-05-31",
-                                                "konto": "2338020",
-                                                "beløp": 13508,
-                                                "tilbakeføring": false,
-                                                "sats": 1228,
-                                                "typeSats": "DAG",
-                                                "antallSats": 11,
-                                                "uføregrad": 100,
-                                                "klassekode": "SPREFAG-IOP",
-                                                "klassekodeBeskrivelse": "Sykepenger, Refusjon arbeidsgiver",
-                                                "utbetalingstype": "YTEL",
-                                                "refunderesOrgNr": "947064649"
-                                            }
-                                        ]
-                                    }
-                                ]
-                            }
-                        ]
-                    },
                     "aktivitetslogg": [
                         {
                             "vedtaksperiodeId": "87ce5745-aa74-487c-aa09-1d7d26725f05",
@@ -1557,69 +1523,6 @@
                         "antallOpptjeningsdagerErMinst": 7244,
                         "harOpptjening": true,
                         "medlemskapstatus": "VET_IKKE"
-                    },
-                    "simuleringsdata": {
-                        "totalbeløp": 40524,
-                        "perioder": [
-                            {
-                                "fom": "2021-05-17",
-                                "tom": "2021-05-31",
-                                "utbetalinger": [
-                                    {
-                                        "utbetalesTilId": "928497704",
-                                        "utbetalesTilNavn": "BESK KAFFE",
-                                        "forfall": "2021-07-01",
-                                        "feilkonto": false,
-                                        "detaljer": [
-                                            {
-                                                "faktiskFom": "2021-05-17",
-                                                "faktiskTom": "2021-05-31",
-                                                "konto": "2338020",
-                                                "beløp": 13508,
-                                                "tilbakeføring": false,
-                                                "sats": 1228,
-                                                "typeSats": "DAG",
-                                                "antallSats": 11,
-                                                "uføregrad": 100,
-                                                "klassekode": "SPREFAG-IOP",
-                                                "klassekodeBeskrivelse": "Sykepenger, Refusjon arbeidsgiver",
-                                                "utbetalingstype": "YTEL",
-                                                "refunderesOrgNr": "947064649"
-                                            }
-                                        ]
-                                    }
-                                ]
-                            },
-                            {
-                                "fom": "2021-06-01",
-                                "tom": "2021-06-30",
-                                "utbetalinger": [
-                                    {
-                                        "utbetalesTilId": "928497704",
-                                        "utbetalesTilNavn": "BESK KAFFE",
-                                        "forfall": "2021-07-01",
-                                        "feilkonto": false,
-                                        "detaljer": [
-                                            {
-                                                "faktiskFom": "2021-06-01",
-                                                "faktiskTom": "2021-06-30",
-                                                "konto": "2338020",
-                                                "beløp": 27016,
-                                                "tilbakeføring": false,
-                                                "sats": 1228,
-                                                "typeSats": "DAG",
-                                                "antallSats": 22,
-                                                "uføregrad": 100,
-                                                "klassekode": "SPREFAG-IOP",
-                                                "klassekodeBeskrivelse": "Sykepenger, Refusjon arbeidsgiver",
-                                                "utbetalingstype": "YTEL",
-                                                "refunderesOrgNr": "947064649"
-                                            }
-                                        ]
-                                    }
-                                ]
-                            }
-                        ]
                     },
                     "aktivitetslogg": [
                         {
@@ -4686,40 +4589,6 @@
                         "harOpptjening": true,
                         "medlemskapstatus": "VET_IKKE"
                     },
-                    "simuleringsdata": {
-                        "totalbeløp": 13497,
-                        "perioder": [
-                            {
-                                "fom": "2021-05-17",
-                                "tom": "2021-05-31",
-                                "utbetalinger": [
-                                    {
-                                        "utbetalesTilId": "928497704",
-                                        "utbetalesTilNavn": "BESK KAFFE",
-                                        "forfall": "2021-07-01",
-                                        "feilkonto": false,
-                                        "detaljer": [
-                                            {
-                                                "faktiskFom": "2021-05-17",
-                                                "faktiskTom": "2021-05-31",
-                                                "konto": "2338020",
-                                                "beløp": 13497,
-                                                "tilbakeføring": false,
-                                                "sats": 1227,
-                                                "typeSats": "DAG",
-                                                "antallSats": 11,
-                                                "uføregrad": 100,
-                                                "klassekode": "SPREFAG-IOP",
-                                                "klassekodeBeskrivelse": "Sykepenger, Refusjon arbeidsgiver",
-                                                "utbetalingstype": "YTEL",
-                                                "refunderesOrgNr": "839942907"
-                                            }
-                                        ]
-                                    }
-                                ]
-                            }
-                        ]
-                    },
                     "aktivitetslogg": [
                         {
                             "vedtaksperiodeId": "8444c90f-1636-4587-8e18-d274c599fc8a",
@@ -5611,69 +5480,6 @@
                         "antallOpptjeningsdagerErMinst": 7244,
                         "harOpptjening": true,
                         "medlemskapstatus": "VET_IKKE"
-                    },
-                    "simuleringsdata": {
-                        "totalbeløp": 40491,
-                        "perioder": [
-                            {
-                                "fom": "2021-05-17",
-                                "tom": "2021-05-31",
-                                "utbetalinger": [
-                                    {
-                                        "utbetalesTilId": "928497704",
-                                        "utbetalesTilNavn": "BESK KAFFE",
-                                        "forfall": "2021-07-01",
-                                        "feilkonto": false,
-                                        "detaljer": [
-                                            {
-                                                "faktiskFom": "2021-05-17",
-                                                "faktiskTom": "2021-05-31",
-                                                "konto": "2338020",
-                                                "beløp": 13497,
-                                                "tilbakeføring": false,
-                                                "sats": 1227,
-                                                "typeSats": "DAG",
-                                                "antallSats": 11,
-                                                "uføregrad": 100,
-                                                "klassekode": "SPREFAG-IOP",
-                                                "klassekodeBeskrivelse": "Sykepenger, Refusjon arbeidsgiver",
-                                                "utbetalingstype": "YTEL",
-                                                "refunderesOrgNr": "839942907"
-                                            }
-                                        ]
-                                    }
-                                ]
-                            },
-                            {
-                                "fom": "2021-06-01",
-                                "tom": "2021-06-30",
-                                "utbetalinger": [
-                                    {
-                                        "utbetalesTilId": "928497704",
-                                        "utbetalesTilNavn": "BESK KAFFE",
-                                        "forfall": "2021-07-01",
-                                        "feilkonto": false,
-                                        "detaljer": [
-                                            {
-                                                "faktiskFom": "2021-06-01",
-                                                "faktiskTom": "2021-06-30",
-                                                "konto": "2338020",
-                                                "beløp": 26994,
-                                                "tilbakeføring": false,
-                                                "sats": 1227,
-                                                "typeSats": "DAG",
-                                                "antallSats": 22,
-                                                "uføregrad": 100,
-                                                "klassekode": "SPREFAG-IOP",
-                                                "klassekodeBeskrivelse": "Sykepenger, Refusjon arbeidsgiver",
-                                                "utbetalingstype": "YTEL",
-                                                "refunderesOrgNr": "839942907"
-                                            }
-                                        ]
-                                    }
-                                ]
-                            }
-                        ]
                     },
                     "aktivitetslogg": [
                         {

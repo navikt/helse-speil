@@ -569,40 +569,6 @@
                         "harOpptjening": true,
                         "medlemskapstatus": "JA"
                     },
-                    "simuleringsdata": {
-                        "totalbeløp": 8032,
-                        "perioder": [
-                            {
-                                "fom": "2021-02-17",
-                                "tom": "2021-02-28",
-                                "utbetalinger": [
-                                    {
-                                        "utbetalesTilId": "928497704",
-                                        "utbetalesTilNavn": "BESK KAFFE",
-                                        "forfall": "2021-10-08",
-                                        "feilkonto": false,
-                                        "detaljer": [
-                                            {
-                                                "faktiskFom": "2021-02-17",
-                                                "faktiskTom": "2021-02-28",
-                                                "konto": "2338020",
-                                                "beløp": 8032,
-                                                "tilbakeføring": false,
-                                                "sats": 1004,
-                                                "typeSats": "DAG",
-                                                "antallSats": 8,
-                                                "uføregrad": 100,
-                                                "klassekode": "SPREFAG-IOP",
-                                                "klassekodeBeskrivelse": "Sykepenger, Refusjon arbeidsgiver",
-                                                "utbetalingstype": "YTEL",
-                                                "refunderesOrgNr": "972674818"
-                                            }
-                                        ]
-                                    }
-                                ]
-                            }
-                        ]
-                    },
                     "aktivitetslogg": [],
                     "forlengelseFraInfotrygd": "NEI",
                     "periodetype": "FØRSTEGANGSBEHANDLING",
@@ -1185,69 +1151,6 @@
                         "antallOpptjeningsdagerErMinst": 7269,
                         "harOpptjening": true,
                         "medlemskapstatus": "JA"
-                    },
-                    "simuleringsdata": {
-                        "totalbeløp": 18072,
-                        "perioder": [
-                            {
-                                "fom": "2021-02-17",
-                                "tom": "2021-02-28",
-                                "utbetalinger": [
-                                    {
-                                        "utbetalesTilId": "928497704",
-                                        "utbetalesTilNavn": "BESK KAFFE",
-                                        "forfall": "2021-10-08",
-                                        "feilkonto": false,
-                                        "detaljer": [
-                                            {
-                                                "faktiskFom": "2021-02-17",
-                                                "faktiskTom": "2021-02-28",
-                                                "konto": "2338020",
-                                                "beløp": 8032,
-                                                "tilbakeføring": false,
-                                                "sats": 1004,
-                                                "typeSats": "DAG",
-                                                "antallSats": 8,
-                                                "uføregrad": 100,
-                                                "klassekode": "SPREFAG-IOP",
-                                                "klassekodeBeskrivelse": "Sykepenger, Refusjon arbeidsgiver",
-                                                "utbetalingstype": "YTEL",
-                                                "refunderesOrgNr": "972674818"
-                                            }
-                                        ]
-                                    }
-                                ]
-                            },
-                            {
-                                "fom": "2021-03-01",
-                                "tom": "2021-03-14",
-                                "utbetalinger": [
-                                    {
-                                        "utbetalesTilId": "928497704",
-                                        "utbetalesTilNavn": "BESK KAFFE",
-                                        "forfall": "2021-10-08",
-                                        "feilkonto": false,
-                                        "detaljer": [
-                                            {
-                                                "faktiskFom": "2021-03-01",
-                                                "faktiskTom": "2021-03-14",
-                                                "konto": "2338020",
-                                                "beløp": 10040,
-                                                "tilbakeføring": false,
-                                                "sats": 1004,
-                                                "typeSats": "DAG",
-                                                "antallSats": 10,
-                                                "uføregrad": 100,
-                                                "klassekode": "SPREFAG-IOP",
-                                                "klassekodeBeskrivelse": "Sykepenger, Refusjon arbeidsgiver",
-                                                "utbetalingstype": "YTEL",
-                                                "refunderesOrgNr": "972674818"
-                                            }
-                                        ]
-                                    }
-                                ]
-                            }
-                        ]
                     },
                     "aktivitetslogg": [],
                     "forlengelseFraInfotrygd": "NEI",

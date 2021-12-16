@@ -585,7 +585,6 @@
                         "harOpptjening": true,
                         "medlemskapstatus": "VET_IKKE"
                     },
-                    "simuleringsdata": null,
                     "aktivitetslogg": [
                         {
                             "vedtaksperiodeId": "c76d3f0c-1b69-4534-9d16-b402ea856cae",
@@ -1327,7 +1326,6 @@
                         "harOpptjening": true,
                         "medlemskapstatus": "VET_IKKE"
                     },
-                    "simuleringsdata": null,
                     "aktivitetslogg": [
                         {
                             "vedtaksperiodeId": "8e595564-09d1-4295-83aa-41ec9e8c0df3",

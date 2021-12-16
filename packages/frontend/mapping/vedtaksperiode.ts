@@ -79,7 +79,7 @@ const somExternalUtbetalingV2 = (utbetaling: ExternalUtbetalingV2): UtbetalingV2
                     grad: externalLinje.grad,
                 })
             ),
-            simuleringsResultat: utbetaling.arbeidsgiverOppdrag.simuleringsResultat,
+            simuleringsResultat: mapSimuleringsdata(utbetaling.arbeidsgiverOppdrag.simuleringsResultat),
         },
         personOppdrag: {
             fagsystemId: utbetaling.personOppdrag.fagsystemId,
@@ -91,7 +91,7 @@ const somExternalUtbetalingV2 = (utbetaling: ExternalUtbetalingV2): UtbetalingV2
                     grad: externalLinje.grad,
                 })
             ),
-            simuleringsResultat: utbetaling.personOppdrag.simuleringsResultat,
+            simuleringsResultat: mapSimuleringsdata(utbetaling.personOppdrag.simuleringsResultat),
         },
         vurdering: mapVurdering(utbetaling.vurdering),
     };
@@ -176,7 +176,6 @@ export class VedtaksperiodeBuilder {
         this.mapFomOgTom();
         this.mapHendelser();
         this.mapTidslinjer();
-        this.mapSimulering();
         this.mapPeriodetype();
         this.mapUtbetalinger();
         this.mapUtbetalingV2();
@@ -265,10 +264,6 @@ export class VedtaksperiodeBuilder {
             this.unmapped.utbetalingstidslinje,
             this.unmapped.vilkår
         );
-    };
-
-    private mapSimulering = () => {
-        this.vedtaksperiode.simuleringsdata = mapSimuleringsdata(this.unmapped.simuleringsdata);
     };
 
     private mapUtbetalingV2 = () => {

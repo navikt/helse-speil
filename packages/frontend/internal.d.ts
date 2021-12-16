@@ -408,7 +408,6 @@ declare type Vedtaksperiode = {
         antallUtbetalingsdager: number;
         totaltTilUtbetaling: number;
     };
-    simuleringsdata?: Simuleringsdata;
     hendelser: Dokument[];
     aktivitetslog: string[];
     risikovurdering?: {

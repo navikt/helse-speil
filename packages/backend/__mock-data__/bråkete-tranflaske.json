@@ -572,40 +572,6 @@
                         "harOpptjening": true,
                         "medlemskapstatus": "VET_IKKE"
                     },
-                    "simuleringsdata": {
-                        "totalbeløp": 8880,
-                        "perioder": [
-                            {
-                                "fom": "2021-07-17",
-                                "tom": "2021-07-31",
-                                "utbetalinger": [
-                                    {
-                                        "utbetalesTilId": "928497704",
-                                        "utbetalesTilNavn": "BESK KAFFE",
-                                        "forfall": "2021-09-29",
-                                        "feilkonto": false,
-                                        "detaljer": [
-                                            {
-                                                "faktiskFom": "2021-07-17",
-                                                "faktiskTom": "2021-07-31",
-                                                "konto": "2338020",
-                                                "beløp": 8880,
-                                                "tilbakeføring": false,
-                                                "sats": 888,
-                                                "typeSats": "DAG",
-                                                "antallSats": 10,
-                                                "uføregrad": 100,
-                                                "klassekode": "SPREFAG-IOP",
-                                                "klassekodeBeskrivelse": "Sykepenger, Refusjon arbeidsgiver",
-                                                "utbetalingstype": "YTEL",
-                                                "refunderesOrgNr": "972674818"
-                                            }
-                                        ]
-                                    }
-                                ]
-                            }
-                        ]
-                    },
                     "aktivitetslogg": [
                         {
                             "vedtaksperiodeId": "0ccd74ab-e726-47e1-af44-ecb92f1a9b9e",

@@ -1281,40 +1281,6 @@
                     "godkjentAv": "Ola Nordmann",
                     "godkjenttidspunkt": "2021-12-10T11:32:58.197484",
                     "automatiskBehandlet": false,
-                    "simuleringsdata": {
-                        "totalbeløp": 2000,
-                        "perioder": [
-                            {
-                                "fom": "2018-01-17",
-                                "tom": "2018-01-20",
-                                "utbetalinger": [
-                                    {
-                                        "utbetalesTilId": "987654321",
-                                        "utbetalesTilNavn": "Org Orgesen AS",
-                                        "forfall": "2018-01-21",
-                                        "feilkonto": false,
-                                        "detaljer": [
-                                            {
-                                                "faktiskFom": "2018-01-17",
-                                                "faktiskTom": "2018-01-20",
-                                                "konto": "81549300",
-                                                "beløp": 2000,
-                                                "tilbakeføring": false,
-                                                "sats": 1000,
-                                                "typeSats": "DAG",
-                                                "antallSats": 2,
-                                                "uføregrad": 100,
-                                                "klassekode": "SPREFAG-IOP",
-                                                "klassekodeBeskrivelse": "Sykepenger, Refusjon arbeidsgiver",
-                                                "utbetalingstype": "YTEL",
-                                                "refunderesOrgNr": "987654321"
-                                            }
-                                        ]
-                                    }
-                                ]
-                            }
-                        ]
-                    },
                     "totalbeløpArbeidstaker": 15741,
                     "utbetalinger": {
                         "arbeidsgiverUtbetaling": {
