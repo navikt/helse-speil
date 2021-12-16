@@ -148,7 +148,10 @@ describe('VedtaksperiodeBuilder', () => {
             .setAnnullertUtbetalingshistorikk([])
             .build() as { vedtaksperiode: Vedtaksperiode };
 
-        expect(vedtaksperiode.simuleringsdata).toEqual(mappetSimuleringsdata);
+        const forventet: Simuleringsdata = {
+            arbeidsgiver: vedtaksperiode.utbetaling?.arbeidsgiverOppdrag.simuleringsResultat,
+        };
+        expect(forventet).toEqual(mappetSimuleringsdata);
     });
     test('mapper overstyringer', () => {
         const { vedtaksperiode, problems } = new VedtaksperiodeBuilder()

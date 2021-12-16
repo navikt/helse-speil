@@ -29,7 +29,7 @@ interface UtbetalingCardProps {
     beregningId: string;
     utbetalingsdagerTotalt: number;
     ikkeUtbetaltEnda: boolean;
-    simulering?: Vedtaksperiode['simuleringsdata'];
+    simulering?: Simuleringsdata;
     skjæringstidspunkt: DateString;
     vilkårsgrunnlaghistorikkId: UUID;
     organisasjonsnummer: string;

@@ -14,9 +14,8 @@ import {
     testArbeidsgiverfagsystemId,
     testVedtaksperiodeId,
 } from './person';
-import { umappetSimuleringsdata } from './simulering';
 import { dateStringSykdomstidslinje } from './sykdomstidslinje';
-import { totalbeløpArbeidstaker, utbetalinger } from './utbetalinger';
+import { totalbeløpArbeidstaker, utbetalinger, utbetalingV2 } from './utbetalinger';
 import { utbetalingstidslinje } from './utbetalingstidslinje';
 import { dataForVilkårsvurdering, umappedeVilkår } from './vilkår';
 
@@ -63,7 +62,7 @@ export const umappetVedtaksperiode = (
         periodetype: 'FØRSTEGANGSBEHANDLING',
         risikovurdering: { funn: [], kontrollertOk: [] },
         varsler: [],
-        simuleringsdata: umappetSimuleringsdata,
+        utbetaling: utbetalingV2(),
         inntektskilde: 'EN_ARBEIDSGIVER',
         beregningIder: [testBeregningId],
         ...vedtaksperiode,

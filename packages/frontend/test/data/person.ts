@@ -6,6 +6,7 @@ import { umappetArbeidsgiver } from './arbeidsgiver';
 import { umappetInntektsgrunnlag } from './inntektsgrunnlag';
 import { umappetUtbetalinger } from './spesialistUtbetaling';
 import { etSpleisgrunnlag } from './vilkårsgrunnlaghistorikk';
+import { umappetSimuleringsdata } from './simulering';
 
 export const testAktørId: string = '1211109876233';
 export const testFødselsnummer: string = '01019000123';
@@ -606,6 +607,61 @@ export const mappetPersonObject = (): Person => ({
                         },
                         personUtbetaling: undefined,
                     },
+                    utbetaling: {
+                        korrelasjonsId: 'korrelasjonsId',
+                        utbetalingId: 'utbetalingId',
+                        beregningId: 'beregningId',
+                        utbetalingstidslinje: [],
+                        type: 'type',
+                        maksdato: dayjs('1990-09-29'),
+                        status: 'status',
+                        gjenståendeSykedager: 1,
+                        forbrukteSykedager: 1,
+                        arbeidsgiverNettoBeløp: 1,
+                        personNettoBeløp: 1,
+                        personOppdrag: {
+                            fagsystemId: 'personOppdrag',
+                            utbetalingslinjer: [],
+                        },
+                        arbeidsgiverOppdrag: {
+                            fagsystemId: 'arbeidsgiverOppdrag',
+                            utbetalingslinjer: [],
+                            simuleringsResultat: {
+                                totalbeløp: 9999,
+                                perioder: [
+                                    {
+                                        fom: '2018-01-01',
+                                        tom: '2018-01-02',
+                                        utbetalinger: [
+                                            {
+                                                utbetalesTilId: testOrganisasjonsnummer,
+                                                utbetalesTilNavn: 'Koronavirus',
+                                                forfall: '2018-01-03',
+                                                feilkonto: true,
+                                                detaljer: [
+                                                    {
+                                                        faktiskFom: '2018-01-01',
+                                                        faktiskTom: '2018-01-02',
+                                                        konto: '12345678910og1112',
+                                                        belop: 9999,
+                                                        tilbakeforing: false,
+                                                        sats: 1111,
+                                                        typeSats: 'DAGLIG',
+                                                        antallSats: 9,
+                                                        uforegrad: 100,
+                                                        klassekode: 'SPREFAG-IOP',
+                                                        klassekodeBeskrivelse: 'Sykepenger, Refusjon arbeidsgiver',
+                                                        utbetalingsType: 'YTELSE',
+                                                        refunderesOrgNr: testOrganisasjonsnummer,
+                                                    },
+                                                ],
+                                            },
+                                        ],
+                                    },
+                                ],
+                            },
+                        },
+                    },
                     oppsummering: {
                         antallUtbetalingsdager: 23,
                         totaltTilUtbetaling: 34500,
@@ -661,42 +717,6 @@ export const mappetPersonObject = (): Person => ({
                     overstyringer: [],
                     aktivitetslog: ['Aktivitetsloggvarsel'],
                     risikovurdering: { funn: [], kontrollertOk: [] },
-                    simuleringsdata: {
-                        arbeidsgiver: {
-                            totalbeløp: 9999,
-                            perioder: [
-                                {
-                                    fom: '2018-01-01',
-                                    tom: '2018-01-02',
-                                    utbetalinger: [
-                                        {
-                                            utbetalesTilId: testOrganisasjonsnummer,
-                                            utbetalesTilNavn: 'Koronavirus',
-                                            forfall: '2018-01-03',
-                                            feilkonto: true,
-                                            detaljer: [
-                                                {
-                                                    faktiskFom: '2018-01-01',
-                                                    faktiskTom: '2018-01-02',
-                                                    konto: '12345678910og1112',
-                                                    belop: 9999,
-                                                    tilbakeforing: false,
-                                                    sats: 1111,
-                                                    typeSats: 'DAGLIG',
-                                                    antallSats: 9,
-                                                    uforegrad: 100,
-                                                    klassekode: 'SPREFAG-IOP',
-                                                    klassekodeBeskrivelse: 'Sykepenger, Refusjon arbeidsgiver',
-                                                    utbetalingsType: 'YTELSE',
-                                                    refunderesOrgNr: testOrganisasjonsnummer,
-                                                },
-                                            ],
-                                        },
-                                    ],
-                                },
-                            ],
-                        },
-                    },
                     automatiskBehandlet: false,
                     beregningIder: [testBeregningId],
                     inntektskilde: 'EN_ARBEIDSGIVER',

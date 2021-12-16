@@ -1,4 +1,5 @@
 import { testArbeidsgiverfagsystemId } from './person';
+import { umappetSimuleringsdata } from './simulering';
 
 const utbetaling = (tidslinje: ExternalUtbetalingsdag[], fagsystemId: string): ExternalUtbetaling | undefined => {
     const førsteUtbetalingsdag = tidslinje.find(({ utbetaling }) => utbetaling !== undefined);
@@ -35,3 +36,26 @@ export const totalbeløpArbeidstaker = (utbetalingsdager: ExternalUtbetalingsdag
             utbetaling ? totalbeløp + utbetaling : totalbeløp,
         0
     );
+
+export const utbetalingV2 = (): ExternalUtbetalingV2 => ({
+    korrelasjonsId: 'korrelasjonsId',
+    utbetalingId: 'utbetalingId',
+    beregningId: 'beregningId',
+    utbetalingstidslinje: [],
+    type: 'type',
+    maksdato: '1990-09-29',
+    status: 'status',
+    gjenståendeSykedager: 1,
+    forbrukteSykedager: 1,
+    arbeidsgiverNettoBeløp: 1,
+    personNettoBeløp: 1,
+    personOppdrag: {
+        fagsystemId: 'personOppdrag',
+        utbetalingslinjer: [],
+    },
+    arbeidsgiverOppdrag: {
+        fagsystemId: 'arbeidsgiverOppdrag',
+        utbetalingslinjer: [],
+        simuleringsResultat: umappetSimuleringsdata,
+    },
+});
