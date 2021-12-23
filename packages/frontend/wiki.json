@@ -359,5 +359,11 @@
         "betydning": "Vi klarer ikke å lese riktig skjæringstidspunkt når saken har startet i Infotrygd. Vi må kontrollere at riktig grunnbeløp er brukt i saker med sykepengegrunnlag over 6G.",
         "løsning": "Kontroller at dagsatsen samsvarer med grunnbeløpet som skal brukes.",
         "viktighet": "Høy"
+    },
+    {
+        "varsel": "Inntektsmeldingen og vedtaksløsningen er uenige om beregningen av arbeidsgiverperioden. Undersøk hva som er riktig arbeidsgiverperiode.",
+        "betydning": "Arbeidsgiver og vedtaksløsningen har beregnet arbeidsgiverperioden ulikt.",
+        "løsning": "Vurder hva som er riktig arbeidsgiverperiode. Hvis forslaget til vedtaksløsningen er feil, må saken behandles i Infotrygd.",
+        "viktighet": "Høy"
     }
 ]
