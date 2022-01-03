@@ -13,8 +13,8 @@ import { utbetalingsoversikt } from '../featureToggles';
 import { Bold } from './Bold';
 import { Clipboard } from './clipboard';
 import { KjønnsnøytraltIkon } from './ikoner/KjønnsnøytraltIkon';
-import { PepperkakedameIkon as Kvinneikon } from './ikoner/PepperkakedameIkon';
-import { PepperkakemannIkon as Manneikon } from './ikoner/PepperkakemannIkon';
+import { Kvinneikon } from './ikoner/Kvinneikon';
+import { Manneikon } from './ikoner/Manneikon';
 
 const formatFnr = (fnr: string) => fnr.slice(0, 6) + ' ' + fnr.slice(6);
 
