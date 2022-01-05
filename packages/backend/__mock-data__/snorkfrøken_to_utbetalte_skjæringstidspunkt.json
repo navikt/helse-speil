@@ -1302,7 +1302,7 @@
                         }
                     ],
                     "dataForVilkårsvurdering": {
-                        "beregnetÅrsinntektFraInntektskomponenten": 462000,
+                        "beregnetÅrsinntektFraInntektskomponenten": 46123,
                         "avviksprosent": 0,
                         "antallOpptjeningsdagerErMinst": 7331,
                         "harOpptjening": true,
@@ -4649,8 +4649,8 @@
     "inntektsgrunnlag": [
         {
             "skjæringstidspunkt": "2021-08-01",
-            "sykepengegrunnlag": 462000,
-            "omregnetÅrsinntekt": 462000,
+            "sykepengegrunnlag": 46123,
+            "omregnetÅrsinntekt": 46123,
             "sammenligningsgrunnlag": 441000,
             "avviksprosent": 4.761904761904762,
             "maksUtbetalingPerDag": 1776.923076923077,
@@ -4659,7 +4659,7 @@
                     "arbeidsgiver": "972674818",
                     "omregnetÅrsinntekt": {
                         "kilde": "Inntektsmelding",
-                        "beløp": 462000,
+                        "beløp": 46123,
                         "månedsbeløp": 38500,
                         "inntekterFraAOrdningen": null
                     },
@@ -4723,9 +4723,9 @@
         },
         {
             "skjæringstidspunkt": "2021-09-15",
-            "sykepengegrunnlag": 462000,
-            "omregnetÅrsinntekt": 462000,
-            "sammenligningsgrunnlag": 462000,
+            "sykepengegrunnlag": 46123,
+            "omregnetÅrsinntekt": 46123,
+            "sammenligningsgrunnlag": 46123,
             "avviksprosent": 0,
             "maksUtbetalingPerDag": 1776.923076923077,
             "inntekter": [
@@ -4733,12 +4733,12 @@
                     "arbeidsgiver": "972674818",
                     "omregnetÅrsinntekt": {
                         "kilde": "Inntektsmelding",
-                        "beløp": 462000,
+                        "beløp": 46123,
                         "månedsbeløp": 38500,
                         "inntekterFraAOrdningen": null
                     },
                     "sammenligningsgrunnlag": {
-                        "beløp": 462000,
+                        "beløp": 46123,
                         "inntekterFraAOrdningen": [
                             {
                                 "måned": "2020-12",
@@ -4800,15 +4800,15 @@
         "1beb0e0c-2e28-4a17-a896-3a46b101bf2e": {
             "2021-08-01": {
                 "skjæringstidspunkt": "2021-08-01",
-                "omregnetÅrsinntekt": 462000,
+                "omregnetÅrsinntekt": 46123,
                 "sammenligningsgrunnlag": 441000,
-                "sykepengegrunnlag": 462000,
+                "sykepengegrunnlag": 46123,
                 "inntekter": [
                     {
                         "organisasjonsnummer": "972674818",
                         "omregnetÅrsinntekt": {
                             "kilde": "Inntektsmelding",
-                            "beløp": 462000,
+                            "beløp": 46123,
                             "månedsbeløp": 38500,
                             "inntekterFraAOrdningen": null
                         },
@@ -4826,19 +4826,19 @@
             },
             "2021-09-15": {
                 "skjæringstidspunkt": "2021-09-15",
-                "omregnetÅrsinntekt": 462000,
-                "sammenligningsgrunnlag": 462000,
-                "sykepengegrunnlag": 462000,
+                "omregnetÅrsinntekt": 46123,
+                "sammenligningsgrunnlag": 46123,
+                "sykepengegrunnlag": 46123,
                 "inntekter": [
                     {
                         "organisasjonsnummer": "972674818",
                         "omregnetÅrsinntekt": {
                             "kilde": "Inntektsmelding",
-                            "beløp": 462000,
+                            "beløp": 46123,
                             "månedsbeløp": 38500,
                             "inntekterFraAOrdningen": null
                         },
-                        "sammenligningsgrunnlag": 462000
+                        "sammenligningsgrunnlag": 46123
                     },
                     {
                         "organisasjonsnummer": "987654321",
@@ -4864,15 +4864,15 @@
         "5b01640f-c180-4f09-b31d-c89bb87a8dc3": {
             "2021-08-01": {
                 "skjæringstidspunkt": "2021-08-01",
-                "omregnetÅrsinntekt": 462000,
+                "omregnetÅrsinntekt": 46123,
                 "sammenligningsgrunnlag": 441000,
-                "sykepengegrunnlag": 462000,
+                "sykepengegrunnlag": 46123,
                 "inntekter": [
                     {
                         "organisasjonsnummer": "972674818",
                         "omregnetÅrsinntekt": {
                             "kilde": "Inntektsmelding",
-                            "beløp": 462000,
+                            "beløp": 46123,
                             "månedsbeløp": 38500,
                             "inntekterFraAOrdningen": null
                         },

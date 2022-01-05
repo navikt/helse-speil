@@ -132,10 +132,10 @@ export const InntektsgrunnlagTable = ({
                         <td>
                             <Bold as="p">Total</Bold>
                         </td>
-                        <td>
+                        <td style={{ textAlign: 'right', paddingRight: '3.5rem' }}>
                             <Bold as="p">{somPenger(omregnetÅrsinntekt)}</Bold>
                         </td>
-                        <td>
+                        <td style={{ textAlign: 'right', paddingRight: '2.25rem' }}>
                             <Bold as="p">{somPenger(sammenligningsgrunnlag)}</Bold>
                         </td>
                     </tr>

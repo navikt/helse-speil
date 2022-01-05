@@ -37,6 +37,7 @@ const ArbeidsgiverRad = styled.tr<{ erGjeldende: boolean }>`
 const InntektMedKilde = styled.div`
     display: flex;
     align-items: center;
+    justify-content: right;
 
     > *:not(:last-child) {
         margin-right: 0.5rem;
