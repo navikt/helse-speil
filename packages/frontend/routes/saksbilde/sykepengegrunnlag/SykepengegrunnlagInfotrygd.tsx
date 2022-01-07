@@ -105,9 +105,6 @@ export const SykepengegrunnlagInfotrygd = ({
     vilkårsgrunnlag,
     organisasjonsnummer,
 }: SykepengegrunnlagInfotrygdProps) => {
-    const arbeidsgivernavn = useArbeidsgivernavnRender(organisasjonsnummer);
-    const renderedOrganisasjonsnummer = useOrganisasjonsnummerRender(organisasjonsnummer);
-
     return (
         <Container className="SykepengegrunnlagInfotrygd">
             <Table>
@@ -129,29 +126,7 @@ export const SykepengegrunnlagInfotrygd = ({
                 </thead>
                 <tbody>
                     {vilkårsgrunnlag.inntekter.map((inntekt, index) => (
-                        <ArbeidsgiverRad key={index} erGjeldende={organisasjonsnummer === inntekt.organisasjonsnummer}>
-                            <td>
-                                <BodyShort>
-                                    {arbeidsgivernavn.toLowerCase() === 'ikke tilgjengelig'
-                                        ? renderedOrganisasjonsnummer
-                                        : `${arbeidsgivernavn} (${renderedOrganisasjonsnummer})`}
-                                </BodyShort>
-                            </td>
-                            <td>
-                                <InntektMedKilde>
-                                    <BodyShort>
-                                        {inntekt.omregnetÅrsinntekt
-                                            ? somPenger(inntekt.omregnetÅrsinntekt.beløp)
-                                            : 'Ukjent'}
-                                    </BodyShort>
-                                    {inntekt.omregnetÅrsinntekt && (
-                                        <Kilde type={getKildeType(inntekt.omregnetÅrsinntekt.kilde)}>
-                                            {kilde(inntekt.omregnetÅrsinntekt.kilde)}
-                                        </Kilde>
-                                    )}
-                                </InntektMedKilde>
-                            </td>
-                        </ArbeidsgiverRad>
+                        <InfotrygdInntekt index={index} aktivtOrgnummer={organisasjonsnummer} inntekt={inntekt} />
                     ))}
                 </tbody>
                 <tfoot>
@@ -174,5 +149,39 @@ export const SykepengegrunnlagInfotrygd = ({
                 </tfoot>
             </Table>
         </Container>
+    );
+};
+
+interface InfotrygdInntektProps {
+    index: number;
+    aktivtOrgnummer: string;
+    inntekt: ExternalArbeidsgiverinntekt;
+}
+
+const InfotrygdInntekt = ({ index, aktivtOrgnummer, inntekt }: InfotrygdInntektProps) => {
+    const arbeidsgivernavn = useArbeidsgivernavnRender(inntekt.organisasjonsnummer);
+    const renderedOrganisasjonsnummer = useOrganisasjonsnummerRender(inntekt.organisasjonsnummer);
+    return (
+        <ArbeidsgiverRad key={index} erGjeldende={aktivtOrgnummer === inntekt.organisasjonsnummer}>
+            <td>
+                <BodyShort>
+                    {arbeidsgivernavn.toLowerCase() === 'ikke tilgjengelig'
+                        ? renderedOrganisasjonsnummer
+                        : `${arbeidsgivernavn} (${renderedOrganisasjonsnummer})`}
+                </BodyShort>
+            </td>
+            <td>
+                <InntektMedKilde>
+                    <BodyShort>
+                        {inntekt.omregnetÅrsinntekt ? somPenger(inntekt.omregnetÅrsinntekt.beløp) : 'Ukjent'}
+                    </BodyShort>
+                    {inntekt.omregnetÅrsinntekt && (
+                        <Kilde type={getKildeType(inntekt.omregnetÅrsinntekt.kilde)}>
+                            {kilde(inntekt.omregnetÅrsinntekt.kilde)}
+                        </Kilde>
+                    )}
+                </InntektMedKilde>
+            </td>
+        </ArbeidsgiverRad>
     );
 };
