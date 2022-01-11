@@ -326,5 +326,28 @@
             "navn": "Klepp"
         },
         "inntektskilde": "EN_ARBEIDSGIVER"
+    },
+    {
+        "oppgavereferanse": "bare_hege",
+        "opprettet": "2021-12-11T09:00:00.100",
+        "aktørId": "1000000001337",
+        "fødselsnummer": "20046913337",
+        "personinfo": {
+            "fornavn": "BARE",
+            "mellomnavn": null,
+            "etternavn": "HEGE",
+            "fødselsdato": "1969-04-20",
+            "kjønn": "Ukjent",
+            "adressebeskyttelse": "Ugradert"
+        },
+        "vedtaksperiodeId": "98260fc1-cd7d-4e82-b0d4-8c1a37603126",
+        "type": "FØRSTEGANGSBEHANDLING",
+        "oppgavetype": "SØKNAD",
+        "antallVarsler": 0,
+        "boenhet": {
+            "id": "1120",
+            "navn": "Bømlo"
+        },
+        "inntektskilde": "FLERE_ARBEIDSGIVERE"
     }
 ]
