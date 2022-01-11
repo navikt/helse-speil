@@ -127,7 +127,12 @@ declare type Periodetilstand =
     | 'utbetaltAutomatisk'
     | 'tilUtbetalingAutomatisk';
 
-declare type Tidslinjetilstand = Periodetilstand | 'revurderes' | 'revurdert' | 'revurdertIngenUtbetaling';
+declare type Tidslinjetilstand =
+    | Periodetilstand
+    | 'revurderes'
+    | 'revurdert'
+    | 'revurdertIngenUtbetaling'
+    | 'utenSykefravær';
 
 declare type Tidslinjeperiode = {
     id: string;
@@ -147,6 +152,12 @@ declare type Tidslinjeperiode = {
     oppgavereferanse?: string;
     vilkårsgrunnlaghistorikkId: string | null;
     skjæringstidspunkt: DateString | null;
+};
+
+declare type TidslinjeperiodeUtenSykefravær = {
+    fom: Dayjs;
+    tom: Dayjs;
+    tilstand: Tidslinjetilstand;
 };
 
 declare type Basisvilkår = {
@@ -439,6 +450,7 @@ declare type Arbeidsgiver = {
     navn: string;
     utbetalingshistorikk: HistorikkElement[];
     tidslinjeperioder: Tidslinjeperiode[][];
+    tidslinjeperioderUtenSykefravær: TidslinjeperiodeUtenSykefravær[];
     vedtaksperioder: (Vedtaksperiode | UfullstendigVedtaksperiode)[];
     arbeidsforhold: Arbeidsforhold[];
 };

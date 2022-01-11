@@ -807,6 +807,7 @@ export const mappetPersonObject = (): Person => ({
                     },
                 ],
             ],
+            tidslinjeperioderUtenSykefravær: [],
             arbeidsforhold: [
                 {
                     stillingstittel: 'Potetplukker',

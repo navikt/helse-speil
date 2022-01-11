@@ -212,6 +212,7 @@ describe('Saksbilde', () => {
                         dato
                     ),
                 ],
+                [],
                 AG1
             ),
             umappetArbeidsgiver(
@@ -235,6 +236,7 @@ describe('Saksbilde', () => {
                         dato
                     ),
                 ],
+                [],
                 AG2
             ),
         ];
@@ -294,6 +296,7 @@ describe('Saksbilde', () => {
                         dato
                     ),
                 ],
+                [],
                 AG1
             ),
             umappetArbeidsgiver(
@@ -325,6 +328,7 @@ describe('Saksbilde', () => {
                         dato
                     ),
                 ],
+                [],
                 AG2
             ),
         ];
@@ -384,6 +388,7 @@ describe('Saksbilde', () => {
                         dato
                     ),
                 ],
+                [],
                 AG1
             ),
             umappetArbeidsgiver(
@@ -415,6 +420,7 @@ describe('Saksbilde', () => {
                         dato
                     ),
                 ],
+                [],
                 AG2
             ),
         ];
@@ -472,6 +478,7 @@ describe('Saksbilde', () => {
                         dato
                     ),
                 ],
+                [],
                 ORGNR
             ),
         ];
@@ -513,6 +520,7 @@ describe('Saksbilde', () => {
                         dato
                     ),
                 ],
+                [],
                 ORGNR
             ),
         ];
@@ -554,6 +562,7 @@ describe('Saksbilde', () => {
                         dato
                     ),
                 ],
+                [],
                 ORGNR
             ),
         ];

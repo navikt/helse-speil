@@ -112,6 +112,25 @@ const LinjeVerdi = styled(BodyShort)`
     display: inline;
 `;
 
+interface HoverInfoForenkletProps {
+    fom: Dayjs;
+    tom: Dayjs;
+}
+export const HoverInfoUtenSykefravær = ({ fom, tom }: HoverInfoForenkletProps) => (
+    <Container>
+        <Linje>
+            <LinjeFelt as="p">Status: </LinjeFelt>
+            <LinjeVerdi as="p">Arbeidsforhold uten sykefravær</LinjeVerdi>
+        </Linje>
+        <Linje>
+            <LinjeFelt as="p">Periode: </LinjeFelt>
+            <LinjeVerdi as="p">
+                {fom.format(NORSK_DATOFORMAT)} - {tom.format(NORSK_DATOFORMAT)}
+            </LinjeVerdi>
+        </Linje>
+    </Container>
+);
+
 interface HoverInfoProps {
     tidslinjeperiode: Tidslinjeperiode;
 }

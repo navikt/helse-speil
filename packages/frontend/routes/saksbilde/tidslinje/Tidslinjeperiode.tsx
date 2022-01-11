@@ -59,6 +59,8 @@ const ariaLabel = (tilstand: Tidslinjetilstand | Infotrygdperiodetilstand, fom: 
             return `Ferieperiode hentet fra Infotrygd fra ${fomString} til ${tomString}`;
         case 'infotrygdukjent':
             return `Periode fra Infotrygd med ukjent tilstand fra ${fomString} til ${tomString}`;
+        case 'utenSykefravær':
+            return `Arbeidsforhold uten sykefravær ${fomString} til ${tomString}`;
     }
 };
 
@@ -121,9 +123,11 @@ export const Tidslinjeperiode = ({
             >
                 {skalVisePin && <PeriodePin />}
             </Periodeknapp>
-            <Tooltip anchorEl={anchor} open={anchor !== null} onClose={removeAnchor}>
-                {hoverLabel}
-            </Tooltip>
+            {hoverLabel && (
+                <Tooltip anchorEl={anchor} open={anchor !== null} onClose={removeAnchor}>
+                    {hoverLabel}
+                </Tooltip>
+            )}
         </div>
     );
 };

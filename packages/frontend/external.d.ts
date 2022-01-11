@@ -510,6 +510,11 @@ declare type ExternalGenerasjon = {
     perioder: ExternalBeregnetPeriode[];
 };
 
+declare type ExternalGhostperiode = {
+    fom: DateString;
+    tom: DateString;
+};
+
 declare type ExternalArbeidsgiver = {
     bransjer: string[];
     id: string;
@@ -517,6 +522,7 @@ declare type ExternalArbeidsgiver = {
     navn: string;
     vedtaksperioder: (ExternalVedtaksperiode | ExternalUfullstendigVedtaksperiode)[];
     utbetalingshistorikk: ExternalHistorikkElement[];
+    ghostPerioder: ExternalGhostperiode[];
     overstyringer: ExternalOverstyring[];
     generasjoner: ExternalGenerasjon[];
 };

@@ -52,6 +52,8 @@
 
     --nav-infotrygd-bakgrunn-stiplet: repeating-linear-gradient(-48deg, white, white 10px, #c9c9c9 11px, white 12px);
 
+    --nav-ghostpolse-bakgrunn: #ffffff;
+
     --speil-total-min-width: 1200px;
     --speil-venstremeny-width: 340px;
     --speil-hoyremeny-width: 272px;

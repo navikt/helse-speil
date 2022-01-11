@@ -1638,6 +1638,7 @@
                     "beregningId": "eadfe7ed-76ca-42b7-8ade-26c64bab0e3f"
                 }
             ],
+            "ghostPerioder": [],
             "generasjoner": null
         },
         {
@@ -4691,6 +4692,10 @@
                     "beregningId": "76a60a47-e5c6-4aef-aca3-6cf63c3f529f"
                 }
             ],
+            "ghostPerioder": [
+                { "fom": "2021-07-04", "tom": "2021-07-25" },
+                { "fom": "2021-08-01", "tom": "2021-08-25" }
+            ],
             "generasjoner": null
         },
         {
@@ -6346,6 +6351,7 @@
                     "beregningId": "8e3c35ef-c2e2-4edb-91f0-294235cb2de5"
                 }
             ],
+            "ghostPerioder": [{ "fom": "2021-07-04", "tom": "2021-07-25" }],
             "generasjoner": null,
             "overstyringer": [],
             "bransjer": []

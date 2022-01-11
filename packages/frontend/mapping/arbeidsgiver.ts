@@ -61,6 +61,7 @@ export class ArbeidsgiverBuilder {
         this.sortVedtaksperioder();
         this.markerNyestePeriode();
         this.mapTidslinjeperioder();
+        this.mapTidslinjeperioderUtenSykefravær();
         return { arbeidsgiver: this.arbeidsgiver as Arbeidsgiver, problems: this.problems };
     }
 
@@ -73,6 +74,18 @@ export class ArbeidsgiverBuilder {
                     ) ?? this.mapUfullstendigPeriode(periode)
             ) ?? []
         );
+    };
+
+    private mapTidslinjeperioderUtenSykefravær = () => {
+        this.arbeidsgiver.tidslinjeperioderUtenSykefravær =
+            this.unmapped.ghostPerioder?.map(
+                (ghostpølse) =>
+                    ({
+                        fom: dayjs(ghostpølse.fom),
+                        tom: dayjs(ghostpølse.tom),
+                        tilstand: 'utenSykefravær',
+                    } as TidslinjeperiodeUtenSykefravær)
+            ) ?? [];
     };
 
     private mapFullstendigPeriode = (beregningId: string, periode: Vedtaksperiode): Tidslinjeperiode => {

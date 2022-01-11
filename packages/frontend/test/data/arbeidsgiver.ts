@@ -6,6 +6,7 @@ export const umappetArbeidsgiver = (
     vedtaksperioder: (ExternalVedtaksperiode | ExternalUfullstendigVedtaksperiode)[] = [umappetVedtaksperiode()],
     overstyringer: ExternalTidslinjeoverstyring[] = [],
     utbetalingshistorikk: ExternalHistorikkElement[] = [umappetUtbetalingshistorikk()],
+    ghostPerioder: ExternalGhostperiode[] = [],
     organisasjonsnummer: string = testOrganisasjonsnummer
 ): ExternalArbeidsgiver => ({
     organisasjonsnummer: organisasjonsnummer,
@@ -16,4 +17,5 @@ export const umappetArbeidsgiver = (
     overstyringer: overstyringer,
     utbetalingshistorikk: utbetalingshistorikk,
     generasjoner: [],
+    ghostPerioder: ghostPerioder,
 });

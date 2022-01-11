@@ -92,6 +92,11 @@ const icon = css`
             no-repeat left center;
     }
 
+    &.${'utenSykefravær'}:before {
+        background: url("data:image/svg+xml,%3Csvg width='14' height='11' viewBox='0 0 14 11' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M4.35179 8.66675L12.6666 0.666748L13.6666 1.66675L4.35179 10.6667L0.333313 6.66675L1.33331 5.66675L4.35179 8.66675Z' fill='%23262626'/%3E%3C/svg%3E%0A")
+            no-repeat left center;
+    }
+
     &.${'annulleringFeilet'}:before,
         &.${'tilInfotrygd'}:before,
         &.${'feilet'}:before,
@@ -158,6 +163,10 @@ const background = css`
         &.infotrygdukjent {
             --period-background-color: var(--nav-infotrygd-bakgrunn-stiplet);
             --period-hover-color: var(--nav-infotrygd-bakgrunn-stiplet);
+        }
+
+        &.utenSykefravær {
+            --period-background-color: var(--nav-ghostpolse-bakgrunn);
         }
     }
 `;

@@ -4,7 +4,7 @@ import React, { useMemo } from 'react';
 
 import { getPositionedPeriods } from '@navikt/helse-frontend-timeline/lib';
 
-import { HoverInfo } from './HoverInfo';
+import { HoverInfo, HoverInfoUtenSykefravær } from './HoverInfo';
 import { arbeidsgiverNavn } from './Tidslinje';
 import { TidslinjeperiodeObject } from './Tidslinje.types';
 
@@ -23,6 +23,7 @@ const skalViseInfoPin = (tidslinje: Utbetalingsdag[]): boolean =>
 
 export const toTidslinjeperioder = (
     tidslinjeperioder: Tidslinjeperiode[],
+    tidslinjeperioderUtenSykefravær: TidslinjeperiodeUtenSykefravær[],
     fom: Dayjs,
     tom: Dayjs
 ): TidslinjeperiodeObject[] => {
@@ -38,7 +39,21 @@ export const toTidslinjeperioder = (
         };
     });
 
-    return getPositionedPeriods(fom.toDate(), tom.toDate(), perioder, 'right') as TidslinjeperiodeObject[];
+    const perioderUtenSykefravær = tidslinjeperioderUtenSykefravær.map((it) => ({
+        id: nanoid(), // TODO
+        start: it.fom.toDate(),
+        end: it.tom.toDate(),
+        tilstand: it.tilstand,
+        skalVisePin: false,
+        hoverLabel: <HoverInfoUtenSykefravær fom={it.fom} tom={it.tom} />,
+    }));
+
+    return getPositionedPeriods(
+        fom.toDate(),
+        tom.toDate(),
+        [...perioder, ...perioderUtenSykefravær],
+        'right'
+    ) as TidslinjeperiodeObject[];
 };
 export const useTidslinjerader = (
     person: Person,
@@ -55,7 +70,7 @@ export const useTidslinjerader = (
                     (rad) =>
                         ({
                             id: nanoid(),
-                            perioder: toTidslinjeperioder(rad, fom, tom),
+                            perioder: toTidslinjeperioder(rad, arbeidsgiver.tidslinjeperioderUtenSykefravær, fom, tom),
                             arbeidsgiver: arbeidsgiverNavn(arbeidsgiver, skalAnonymisereData),
                             erAktiv: false,
                         } as TidslinjeradObject)
