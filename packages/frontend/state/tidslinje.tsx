@@ -9,7 +9,7 @@ export const aktivPeriodeState = atom<string | undefined>({
 
 export const useSetAktivPeriode = () => useSetRecoilState(aktivPeriodeState);
 
-export const useMaybeAktivPeriode = (): Tidslinjeperiode | undefined => {
+export const useMaybeAktivPeriode = (): TidslinjeperiodeMedSykefravær | TidslinjeperiodeUtenSykefravær | undefined => {
     const person = usePerson();
     const periodeId = useRecoilValue(aktivPeriodeState);
 
@@ -22,7 +22,13 @@ export const useMaybeAktivPeriode = (): Tidslinjeperiode | undefined => {
                 .flatMap((perioder) => perioder)
                 .find(
                     (periode) => periode.id === id && periode.beregningId === beregningId && periode.unique === unique
-                ) ?? defaultTidslinjeperiode(person)
+                ) ??
+            person.arbeidsgivere
+                .find((arbeidsgiver) =>
+                    arbeidsgiver.tidslinjeperioderUtenSykefravær.some((periode) => periode.id === id)
+                )
+                ?.tidslinjeperioderUtenSykefravær.find((periode) => periode.id === id) ??
+            defaultTidslinjeperiode(person)
         );
     }
     if (person) {
@@ -30,7 +36,20 @@ export const useMaybeAktivPeriode = (): Tidslinjeperiode | undefined => {
     } else return undefined;
 };
 
-export const useAktivPeriode = (): Tidslinjeperiode => {
+export const useMaybeAktivArbeidsgiverUtenSykdom = (): Arbeidsgiver | undefined => {
+    const person = usePerson();
+    const periodeId = useRecoilValue(aktivPeriodeState);
+    if (person && periodeId) {
+        const { id, beregningId, unique } = decomposedId(periodeId);
+
+        return person.arbeidsgivere.find((arbeidsgiver) =>
+            arbeidsgiver.tidslinjeperioderUtenSykefravær.some((periode) => periode.id === id)
+        );
+    }
+    return undefined;
+};
+
+export const useAktivPeriode = (): TidslinjeperiodeMedSykefravær | TidslinjeperiodeUtenSykefravær => {
     const aktivPeriode = useMaybeAktivPeriode();
 
     if (!aktivPeriode) {
@@ -53,11 +72,11 @@ export const useOppgavereferanse = (beregningId: string): string | undefined => 
     return vedtaksperiode?.oppgavereferanse;
 };
 
-export const harOppgave = (tidslinjeperiode: Tidslinjeperiode) =>
+export const harOppgave = (tidslinjeperiode: TidslinjeperiodeMedSykefravær) =>
     ['oppgaver', 'revurderes'].includes(tidslinjeperiode.tilstand) && !!tidslinjeperiode.oppgavereferanse;
 
-const defaultTidslinjeperiode = (person: Person): Tidslinjeperiode | undefined => {
-    const valgbarePerioder: Tidslinjeperiode[] = person.arbeidsgivere
+const defaultTidslinjeperiode = (person: Person): TidslinjeperiodeMedSykefravær | undefined => {
+    const valgbarePerioder: TidslinjeperiodeMedSykefravær[] = person.arbeidsgivere
         .flatMap((arb) => arb.tidslinjeperioder)
         .flatMap((perioder) => perioder)
         .filter((periode) => periode.fullstendig)

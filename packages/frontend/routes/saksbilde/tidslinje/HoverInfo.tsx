@@ -132,7 +132,7 @@ export const HoverInfoUtenSykefravær = ({ fom, tom }: HoverInfoForenkletProps) 
 );
 
 interface HoverInfoProps {
-    tidslinjeperiode: Tidslinjeperiode;
+    tidslinjeperiode: TidslinjeperiodeMedSykefravær;
 }
 
 export const HoverInfo = ({ tidslinjeperiode }: HoverInfoProps) => {

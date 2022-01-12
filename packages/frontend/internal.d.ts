@@ -134,14 +134,10 @@ declare type Tidslinjetilstand =
     | 'revurdertIngenUtbetaling'
     | 'utenSykefravær';
 
-declare type Tidslinjeperiode = {
-    id: string;
+declare type TidslinjeperiodeMedSykefravær = Tidslinjeperiode & {
     unique: string;
     beregningId: string;
-    fom: Dayjs;
-    tom: Dayjs;
     type: 'VEDTAKSPERIODE' | 'REVURDERING' | 'ANNULLERT_PERIODE' | 'UFULLSTENDIG';
-    tilstand: Tidslinjetilstand;
     inntektskilde: Inntektskilde;
     utbetalingstidslinje: Utbetalingsdag[];
     sykdomstidslinje: Sykdomsdag[];
@@ -154,7 +150,10 @@ declare type Tidslinjeperiode = {
     skjæringstidspunkt: DateString | null;
 };
 
-declare type TidslinjeperiodeUtenSykefravær = {
+declare type TidslinjeperiodeUtenSykefravær = Tidslinjeperiode;
+
+declare type Tidslinjeperiode = {
+    id: string;
     fom: Dayjs;
     tom: Dayjs;
     tilstand: Tidslinjetilstand;
@@ -449,7 +448,7 @@ declare type Arbeidsgiver = {
     id: string;
     navn: string;
     utbetalingshistorikk: HistorikkElement[];
-    tidslinjeperioder: Tidslinjeperiode[][];
+    tidslinjeperioder: TidslinjeperiodeMedSykefravær[][];
     tidslinjeperioderUtenSykefravær: TidslinjeperiodeUtenSykefravær[];
     vedtaksperioder: (Vedtaksperiode | UfullstendigVedtaksperiode)[];
     arbeidsforhold: Arbeidsforhold[];

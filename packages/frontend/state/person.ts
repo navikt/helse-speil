@@ -284,7 +284,7 @@ export const useFjernPåVent = () => {
     };
 };
 
-const sorterAscending = (a: Tidslinjeperiode, b: Tidslinjeperiode) => a.fom.diff(b.fom);
+const sorterAscending = (a: TidslinjeperiodeMedSykefravær, b: TidslinjeperiodeMedSykefravær) => a.fom.diff(b.fom);
 
 export const useVurderingForSkjæringstidspunkt = (
     uniqueId: string,
@@ -333,7 +333,7 @@ export const useVilkårsgrunnlaghistorikk = (
 
 const finnVilkårsgrunnlaghistorikkInnenforPeriodenNærmestSkjæringstidspunktet = (
     vilkårsgrunnlagHistorikk: Record<string, ExternalVilkårsgrunnlag>,
-    aktivPeriode: Tidslinjeperiode
+    aktivPeriode: TidslinjeperiodeMedSykefravær
 ): ExternalVilkårsgrunnlag | null => {
     const vilkårsgrunnlag = Object.entries(vilkårsgrunnlagHistorikk).filter(
         ([key, value]) =>

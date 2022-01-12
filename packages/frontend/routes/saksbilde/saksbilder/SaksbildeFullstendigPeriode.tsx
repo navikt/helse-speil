@@ -39,7 +39,7 @@ const Content = styled.div`
 
 interface SaksbildeRevurderingProps {
     personTilBehandling: Person;
-    aktivPeriode: Tidslinjeperiode;
+    aktivPeriode: TidslinjeperiodeMedSykefravær;
 }
 
 export const SaksbildeFullstendigPeriode = ({ personTilBehandling, aktivPeriode }: SaksbildeRevurderingProps) => {

@@ -46,7 +46,7 @@ describe('useTabelldagerMap', () => {
         const periode = {
             utbetalingstidslinje: dager,
             sykdomstidslinje: dager,
-        } as Tidslinjeperiode;
+        } as TidslinjeperiodeMedSykefravær;
 
         const { result } = renderHook(() =>
             useTabelldagerMap({
@@ -65,7 +65,7 @@ describe('useTabelldagerMap', () => {
         const periode = {
             utbetalingstidslinje: dager,
             sykdomstidslinje: dager,
-        } as Tidslinjeperiode;
+        } as TidslinjeperiodeMedSykefravær;
 
         const timestamp = dayjs();
         const overstyringer: Overstyring[] = [

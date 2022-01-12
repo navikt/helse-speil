@@ -25,7 +25,7 @@ export const antallSykedagerTilOgMedMaksdato = (dager: Utbetalingsdag[], maksdat
     maksdato ? dager.filter((it) => it.type === 'Syk' && it.dato.isSameOrBefore(maksdato)).length : 0;
 
 type UseTabelldagerMapOptions = {
-    periode: Tidslinjeperiode;
+    periode: TidslinjeperiodeMedSykefravær;
     overstyringer: Overstyring[];
     gjenståendeDager: number | null;
     maksdato?: Dayjs;

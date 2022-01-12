@@ -54,7 +54,7 @@ export const BegrunnelseCheckbox = ({ begrunnelse, label }: { begrunnelse: strin
 };
 
 export interface BegrunnelsesskjemaProps {
-    aktivPeriode: Tidslinjeperiode;
+    aktivPeriode: TidslinjeperiodeMedSykefravær;
 }
 
 export const Begrunnelsesskjema = ({ aktivPeriode }: BegrunnelsesskjemaProps) => {

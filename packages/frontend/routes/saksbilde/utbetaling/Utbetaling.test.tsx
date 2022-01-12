@@ -47,7 +47,7 @@ const enDag = (overrides?: Partial<Dag>): Dag => ({
     gradering: overrides?.gradering ?? 100,
 });
 
-const enPeriode = (): Tidslinjeperiode =>
+const enPeriode = (): TidslinjeperiodeMedSykefravær =>
     ({
         fom: dayjs(),
         tom: dayjs(),
@@ -61,7 +61,7 @@ const enPeriode = (): Tidslinjeperiode =>
             enDag({ dato: dayjs('2021-01-02') }),
             enDag({ dato: dayjs('2021-01-03') }),
         ] as Sykdomsdag[],
-    } as Tidslinjeperiode);
+    } as TidslinjeperiodeMedSykefravær);
 
 describe('Utbetaling', () => {
     beforeEach(() => {

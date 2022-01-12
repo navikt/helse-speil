@@ -7,7 +7,7 @@ import { Annulleringsmodal } from './Annulleringsmodal';
 
 export interface AnnulleringProps {
     utbetaling: Utbetaling;
-    aktivPeriode: Tidslinjeperiode;
+    aktivPeriode: TidslinjeperiodeMedSykefravær;
 }
 
 export const Annullering = ({ utbetaling, aktivPeriode }: AnnulleringProps) => {

@@ -3,7 +3,7 @@ import React from 'react';
 
 import { Flex } from '../../../components/Flex';
 import { Location, useNavigation } from '../../../hooks/useNavigation';
-import { useVedtaksperiode } from '../../../state/tidslinje';
+import { useMaybeAktivArbeidsgiverUtenSykdom, useVedtaksperiode } from '../../../state/tidslinje';
 
 import { TabLink } from '../TabLink';
 import { HistorikkHeader } from '../historikk/HistorikkHeader';
@@ -29,28 +29,41 @@ const TabList = styled.span`
 `;
 
 interface SakslinjeProps {
-    aktivPeriode: Tidslinjeperiode;
+    aktivPeriode: TidslinjeperiodeMedSykefravær;
 }
 
 export const Sakslinje = ({ aktivPeriode }: SakslinjeProps) => {
     const { pathForLocation } = useNavigation();
     const vedtaksperiode = useVedtaksperiode(aktivPeriode.id) as Vedtaksperiode;
+    const arbeidsgiverUtenSykefravær = useMaybeAktivArbeidsgiverUtenSykdom();
 
     return (
         <Container className="Sakslinje">
             <Flex>
                 {(aktivPeriode?.type === 'VEDTAKSPERIODE' || aktivPeriode?.type === 'REVURDERING') && (
                     <TabList role="tablist">
-                        <TabLink to={pathForLocation(Location.Utbetaling)} title="Utbetaling" icon={<HjemIkon />}>
-                            Utbetaling
-                        </TabLink>
-                        <TabLink to={pathForLocation(Location.Inngangsvilkår)} title="Inngangsvilkår">
-                            Inngangsvilkår
-                        </TabLink>
-                        <TabLink to={pathForLocation(Location.Sykepengegrunnlag)} title="Sykepengegrunnlag">
+                        {!arbeidsgiverUtenSykefravær && (
+                            <>
+                                <TabLink
+                                    to={pathForLocation(Location.Utbetaling)}
+                                    title="Utbetaling"
+                                    icon={<HjemIkon />}
+                                >
+                                    Utbetaling
+                                </TabLink>
+                                <TabLink to={pathForLocation(Location.Inngangsvilkår)} title="Inngangsvilkår">
+                                    Inngangsvilkår
+                                </TabLink>
+                            </>
+                        )}
+                        <TabLink
+                            to={pathForLocation(Location.Sykepengegrunnlag)}
+                            title="Sykepengegrunnlag"
+                            icon={arbeidsgiverUtenSykefravær && <HjemIkon />}
+                        >
                             Sykepengegrunnlag
                         </TabLink>
-                        {vedtaksperiode.risikovurdering && (
+                        {vedtaksperiode.risikovurdering && !arbeidsgiverUtenSykefravær && (
                             <TabLink to={pathForLocation(Location.Faresignaler)} title="Faresignaler">
                                 Faresignaler
                             </TabLink>

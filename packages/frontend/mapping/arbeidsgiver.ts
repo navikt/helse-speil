@@ -13,18 +13,18 @@ import { VedtaksperiodeBuilder } from './vedtaksperiode';
 
 const SKAL_IKKE_KOPIERES = false;
 
-const erAnnullering = (periode: Tidslinjeperiode) => periode.type === 'ANNULLERT_PERIODE';
-const erRevurdering = (periode: Tidslinjeperiode) => periode.type === 'REVURDERING';
+const erAnnullering = (periode: TidslinjeperiodeMedSykefravær) => periode.type === 'ANNULLERT_PERIODE';
+const erRevurdering = (periode: TidslinjeperiodeMedSykefravær) => periode.type === 'REVURDERING';
 
-const periodeHarNyereGenerasjon = (id: string, nesteGenerasjon: Tidslinjeperiode[]) =>
+const periodeHarNyereGenerasjon = (id: string, nesteGenerasjon: TidslinjeperiodeMedSykefravær[]) =>
     nesteGenerasjon.flatMap((periode) => periode.id).includes(id);
 
-const nesteGenerasjonHarAnnullering = (nesteGenerasjon: Tidslinjeperiode[], fagsystemId?: string) =>
+const nesteGenerasjonHarAnnullering = (nesteGenerasjon: TidslinjeperiodeMedSykefravær[], fagsystemId?: string) =>
     nesteGenerasjon.find((periode) => erAnnullering(periode) && periode.fagsystemId === fagsystemId);
 
 const tidligerePeriodeINesteGenerasjonErRevurdering = (
-    nesteGenerasjon: Tidslinjeperiode[],
-    gjeldende: Tidslinjeperiode
+    nesteGenerasjon: TidslinjeperiodeMedSykefravær[],
+    gjeldende: TidslinjeperiodeMedSykefravær
 ) => nesteGenerasjon.find((periode) => erRevurdering(periode) && periode.fom.isBefore(gjeldende.fom)) !== undefined;
 
 export class ArbeidsgiverBuilder {
@@ -68,7 +68,7 @@ export class ArbeidsgiverBuilder {
     private mapTidslinjeperioder = () => {
         this.arbeidsgiver.tidslinjeperioder = this.flatten(
             this.arbeidsgiver.vedtaksperioder?.flatMap(
-                (periode): Tidslinjeperiode[] =>
+                (periode): TidslinjeperiodeMedSykefravær[] =>
                     periode.beregningIder?.map((beregningId) =>
                         this.mapFullstendigPeriode(beregningId, periode as Vedtaksperiode)
                     ) ?? this.mapUfullstendigPeriode(periode)
@@ -81,6 +81,7 @@ export class ArbeidsgiverBuilder {
             this.unmapped.ghostPerioder?.map(
                 (ghostpølse) =>
                     ({
+                        id: nanoid(),
                         fom: dayjs(ghostpølse.fom),
                         tom: dayjs(ghostpølse.tom),
                         tilstand: 'utenSykefravær',
@@ -88,13 +89,13 @@ export class ArbeidsgiverBuilder {
             ) ?? [];
     };
 
-    private mapFullstendigPeriode = (beregningId: string, periode: Vedtaksperiode): Tidslinjeperiode => {
+    private mapFullstendigPeriode = (beregningId: string, periode: Vedtaksperiode): TidslinjeperiodeMedSykefravær => {
         const element = this.arbeidsgiver.utbetalingshistorikk?.find((e) => e.id === beregningId)!;
         const tidslinje = mapTidslinjeMedAldersvilkår(
             utbetalingstidslinje(element.utbetaling, periode.fom, periode.tom),
             (periode as Vedtaksperiode)?.vilkår?.alder
         );
-        const periodetype = (): Tidslinjeperiode['type'] => {
+        const periodetype = (): TidslinjeperiodeMedSykefravær['type'] => {
             switch (element.utbetaling.type) {
                 case 'UTBETALING':
                     return 'VEDTAKSPERIODE';
@@ -135,7 +136,7 @@ export class ArbeidsgiverBuilder {
         };
     };
 
-    private mapUfullstendigPeriode = (periode: UfullstendigVedtaksperiode): Tidslinjeperiode[] => [
+    private mapUfullstendigPeriode = (periode: UfullstendigVedtaksperiode): TidslinjeperiodeMedSykefravær[] => [
         {
             id: periode.id,
             beregningId: nanoid(),
@@ -261,7 +262,7 @@ export class ArbeidsgiverBuilder {
         this.arbeidsgiver.vedtaksperioder?.sort(reversert);
     };
 
-    private flatten = (perioder: Tidslinjeperiode[]) => {
+    private flatten = (perioder: TidslinjeperiodeMedSykefravær[]) => {
         const result = [...perioder]
             .sort((a, b) => (b.opprettet.isBefore(a.opprettet) ? 1 : -1))
             .map((periode) => [periode])
@@ -324,10 +325,10 @@ export class ArbeidsgiverBuilder {
     };
 
     private perioderSomIkkeHarNyereGenerasjon = (
-        generasjon: Tidslinjeperiode[],
+        generasjon: TidslinjeperiodeMedSykefravær[],
         index: number,
-        nesteGenerasjon: Tidslinjeperiode[]
-    ): Tidslinjeperiode[] =>
+        nesteGenerasjon: TidslinjeperiodeMedSykefravær[]
+    ): TidslinjeperiodeMedSykefravær[] =>
         generasjon
             .filter((periode) => {
                 if (!erAnnullering(periode) && nesteGenerasjonHarAnnullering(nesteGenerasjon, periode.fagsystemId))
@@ -341,9 +342,9 @@ export class ArbeidsgiverBuilder {
             }));
 
     private leggUfullstendigePerioderPåSisteGenerasjon = (
-        generasjon: Tidslinjeperiode[],
+        generasjon: TidslinjeperiodeMedSykefravær[],
         index: number,
-        allePerioder: Tidslinjeperiode[]
+        allePerioder: TidslinjeperiodeMedSykefravær[]
     ) => {
         if (index === 0) {
             return [...generasjon, ...this.alleUfullstendigePerioder(allePerioder)];
@@ -351,20 +352,20 @@ export class ArbeidsgiverBuilder {
         return generasjon;
     };
 
-    private alleUfullstendigePerioder = (alleGenerasjoner: Tidslinjeperiode[]) =>
+    private alleUfullstendigePerioder = (alleGenerasjoner: TidslinjeperiodeMedSykefravær[]) =>
         alleGenerasjoner.filter((periode) => !periode.fullstendig);
 
-    private ufullstendigePerioder = (generasjon: Tidslinjeperiode[]) =>
+    private ufullstendigePerioder = (generasjon: TidslinjeperiodeMedSykefravær[]) =>
         generasjon.filter((periode) => !periode.fullstendig);
 
     private kopierTilNesteGenerasjon = (
-        nesteGenerasjon: Tidslinjeperiode[],
-        perioderSomSkalKopieres: Tidslinjeperiode[]
+        nesteGenerasjon: TidslinjeperiodeMedSykefravær[],
+        perioderSomSkalKopieres: TidslinjeperiodeMedSykefravær[]
     ) => [...nesteGenerasjon, ...perioderSomSkalKopieres];
 
     private tilstand = (
         utbetalingstatus: UtbetalingshistorikkElement['status'],
-        periodetype: Tidslinjeperiode['type'],
+        periodetype: TidslinjeperiodeMedSykefravær['type'],
         utbetalingstidslinje: Utbetalingsdag[],
         harOppgave: boolean,
         vurdering?: UtbetalingshistorikkElement['vurdering'],

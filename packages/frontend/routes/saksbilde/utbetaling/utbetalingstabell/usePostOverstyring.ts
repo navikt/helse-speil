@@ -50,7 +50,7 @@ type UsePostOverstyringResult = {
 
 export const usePostOverstyring = (): UsePostOverstyringResult => {
     const person = usePerson() as Person;
-    const periode = useMaybeAktivPeriode() as Tidslinjeperiode;
+    const periode = useMaybeAktivPeriode() as TidslinjeperiodeMedSykefravær;
     const addToast = useAddToast();
     const removeToast = useRemoveToast();
     const opptegnelser = useOpptegnelser();

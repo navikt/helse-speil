@@ -6,8 +6,8 @@ export const enTidslinjeperiode = (
     tilstand: Tidslinjetilstand = 'oppgaver',
     fom: Dayjs = dayjs('2021-01-01'),
     tom: Dayjs = dayjs('2021-01-31'),
-    periodetype: Tidslinjeperiode['type'] = 'VEDTAKSPERIODE'
-): Tidslinjeperiode => {
+    periodetype: TidslinjeperiodeMedSykefravær['type'] = 'VEDTAKSPERIODE'
+): TidslinjeperiodeMedSykefravær => {
     return {
         id: 'fa02d7a5-daf2-488c-9798-2539edd7fe3f',
         beregningId: testBeregningId,

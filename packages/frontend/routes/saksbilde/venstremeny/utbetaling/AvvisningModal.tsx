@@ -40,7 +40,7 @@ const StyledModal = styled(Modal)`
 `;
 
 interface AvvisningModalProps {
-    aktivPeriode: Tidslinjeperiode;
+    aktivPeriode: TidslinjeperiodeMedSykefravær;
     isSending: boolean;
     onApprove: (skjema: Avvisningsskjema) => void;
     onClose: () => void;

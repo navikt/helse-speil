@@ -129,7 +129,7 @@ export interface KategoriserteVilkår {
 
 export const kategoriserteInngangsvilkår = (
     vilkårsgrunnlag: ExternalVilkårsgrunnlag,
-    periode: Tidslinjeperiode,
+    periode: TidslinjeperiodeMedSykefravær,
     alderVedSkjæringstidspunkt: number,
     vurdering?: Vurdering
 ): KategoriserteVilkår => {

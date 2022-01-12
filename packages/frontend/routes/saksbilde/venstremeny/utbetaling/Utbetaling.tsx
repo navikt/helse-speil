@@ -29,7 +29,7 @@ const skalPolleEtterNestePeriode = (person: Person) =>
         .some((tilstand) => tilstand === 'venterPåKiling');
 
 interface UtbetalingProps {
-    aktivPeriode: Tidslinjeperiode;
+    aktivPeriode: TidslinjeperiodeMedSykefravær;
 }
 
 export const Utbetaling = ({ aktivPeriode }: UtbetalingProps) => {

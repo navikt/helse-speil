@@ -55,7 +55,7 @@ describe('tidslinjehook', () => {
                 set(aktivPeriodeState, `${testVedtaksperiodeId}+${testBeregningId}+nanoid`);
             }),
         });
-        const { id, beregningId, unique } = result.current as Tidslinjeperiode;
+        const { id, beregningId, unique } = result.current as TidslinjeperiodeMedSykefravær;
         expect(id).toEqual(testVedtaksperiodeId);
         expect(beregningId).toEqual(testBeregningId);
         expect(unique).toEqual('nanoid');

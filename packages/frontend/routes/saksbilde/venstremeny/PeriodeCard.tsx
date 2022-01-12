@@ -62,7 +62,7 @@ const PeriodeCardTitle = styled(CardTitle)`
 `;
 
 interface PeriodeCardProps {
-    aktivPeriode: Tidslinjeperiode;
+    aktivPeriode: TidslinjeperiodeMedSykefravær;
     maksdato: string;
     alderVedSisteSykedag?: number;
     gjenståendeDager: number | null;

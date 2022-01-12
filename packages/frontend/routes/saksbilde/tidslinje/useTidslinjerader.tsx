@@ -22,7 +22,7 @@ const skalViseInfoPin = (tidslinje: Utbetalingsdag[]): boolean =>
     harDagtyper(['Ferie', 'Arbeidsgiverperiode', 'Permisjon'], tidslinje);
 
 export const toTidslinjeperioder = (
-    tidslinjeperioder: Tidslinjeperiode[],
+    tidslinjeperioder: TidslinjeperiodeMedSykefravær[],
     tidslinjeperioderUtenSykefravær: TidslinjeperiodeUtenSykefravær[],
     fom: Dayjs,
     tom: Dayjs
@@ -40,7 +40,7 @@ export const toTidslinjeperioder = (
     });
 
     const perioderUtenSykefravær = tidslinjeperioderUtenSykefravær.map((it) => ({
-        id: nanoid(), // TODO
+        id: `${it.id}+_+_`,
         start: it.fom.toDate(),
         end: it.tom.toDate(),
         tilstand: it.tilstand,

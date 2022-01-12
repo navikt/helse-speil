@@ -51,7 +51,7 @@ export const sykdomstidslinje = (sykdomstidslinje: Sykdomsdag[], fom: Dayjs, tom
 export const utbetalingstidslinje = (utbetaling: UtbetalingshistorikkElement, fom: Dayjs, tom: Dayjs) =>
     utbetaling.utbetalingstidslinje.filter(({ dato }) => fom.isSameOrBefore(dato) && tom.isSameOrAfter(dato));
 
-export const erRevurderingsperiode = (periode: Tidslinjeperiode) => periode.type === 'REVURDERING';
+export const erRevurderingsperiode = (periode: TidslinjeperiodeMedSykefravær) => periode.type === 'REVURDERING';
 
 export const useMaksdato = (beregningId: string) => useUtbetaling(beregningId)?.maksdato;
 

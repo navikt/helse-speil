@@ -15,7 +15,7 @@ const ErrorContainer = styled.div`
 `;
 
 interface SaksbildeUfullstendigVedtaksperiodeProps {
-    aktivPeriode: Tidslinjeperiode;
+    aktivPeriode: TidslinjeperiodeMedSykefravær;
 }
 
 export const SaksbildeUfullstendigPeriode = ({ aktivPeriode }: SaksbildeUfullstendigVedtaksperiodeProps) => {

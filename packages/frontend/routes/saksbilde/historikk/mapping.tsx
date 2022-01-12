@@ -60,7 +60,7 @@ export const useDokumenter = (vedtaksperiode?: Vedtaksperiode): Hendelse[] =>
             }))) ||
     [];
 
-export const useUtbetalinger = (periode?: Tidslinjeperiode): Hendelse[] => {
+export const useUtbetalinger = (periode?: TidslinjeperiodeMedSykefravær): Hendelse[] => {
     const utbetalingshistorikk =
         usePerson()?.arbeidsgivere.find((it) => it.organisasjonsnummer === periode?.organisasjonsnummer)
             ?.utbetalingshistorikk ?? [];

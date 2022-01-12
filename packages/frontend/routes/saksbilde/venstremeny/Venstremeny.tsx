@@ -3,7 +3,7 @@ import { Dayjs } from 'dayjs';
 import React from 'react';
 
 import { useGjenståendeDager } from '../../../modell/utbetalingshistorikkelement';
-import { harOppgave } from '../../../state/tidslinje';
+import { harOppgave, useMaybeAktivArbeidsgiverUtenSykdom } from '../../../state/tidslinje';
 import { NORSK_DATOFORMAT_KORT, tilNorskDato } from '../../../utils/date';
 
 import { ArbeidsgiverCard } from './ArbeidsgiverCard';
@@ -24,7 +24,7 @@ const Container = styled.section`
 `;
 
 interface VenstreMenyProps {
-    aktivPeriode: Tidslinjeperiode;
+    aktivPeriode: TidslinjeperiodeMedSykefravær;
     organisasjonsnummer: string;
     arbeidsforhold: Arbeidsforhold[];
     anonymiseringEnabled: boolean;
@@ -49,36 +49,43 @@ export const VenstreMeny = ({
     const gjenståendeDager = useGjenståendeDager(aktivPeriode.beregningId);
     const utbetalingsdagerTotalt = aktivPeriode.utbetalingstidslinje.filter((dag) => dag.type === 'Syk').length;
     const ikkeUtbetaltEnda = harOppgave(aktivPeriode) || aktivPeriode.tilstand === 'venter';
+    const arbeidsgiverUtenSykefravær = useMaybeAktivArbeidsgiverUtenSykdom();
 
     return (
         <Container className="Venstremeny">
-            <PeriodeCard
-                aktivPeriode={aktivPeriode}
-                maksdato={maksdato?.format(NORSK_DATOFORMAT_KORT) ?? 'Ukjent maksdato'}
-                skjæringstidspunkt={tilNorskDato(skjæringstidspunkt)}
-                gjenståendeDager={gjenståendeDager}
-                alderVedSisteSykedag={alderVedSisteSykedag}
-            />
-            <ArbeidsgiverCard organisasjonsnummer={organisasjonsnummer} månedsbeløp={månedsbeløp} />
-            {aktivPeriode.skjæringstidspunkt && aktivPeriode.vilkårsgrunnlaghistorikkId && (
-                <VilkårCard
+            {!arbeidsgiverUtenSykefravær && (
+                <PeriodeCard
                     aktivPeriode={aktivPeriode}
-                    skjæringstidspunkt={aktivPeriode.skjæringstidspunkt}
-                    vilkårsgrunnlaghistorikkId={aktivPeriode.vilkårsgrunnlaghistorikkId}
+                    maksdato={maksdato?.format(NORSK_DATOFORMAT_KORT) ?? 'Ukjent maksdato'}
+                    skjæringstidspunkt={tilNorskDato(skjæringstidspunkt)}
+                    gjenståendeDager={gjenståendeDager}
+                    alderVedSisteSykedag={alderVedSisteSykedag}
                 />
             )}
-            {aktivPeriode.skjæringstidspunkt && aktivPeriode.vilkårsgrunnlaghistorikkId && (
-                <UtbetalingCard
-                    beregningId={aktivPeriode.beregningId}
-                    ikkeUtbetaltEnda={ikkeUtbetaltEnda}
-                    utbetalingsdagerTotalt={utbetalingsdagerTotalt}
-                    simulering={simulering}
-                    skjæringstidspunkt={aktivPeriode.skjæringstidspunkt}
-                    vilkårsgrunnlaghistorikkId={aktivPeriode.vilkårsgrunnlaghistorikkId}
-                    organisasjonsnummer={organisasjonsnummer}
-                />
+            <ArbeidsgiverCard organisasjonsnummer={organisasjonsnummer} månedsbeløp={månedsbeløp} />
+            {!arbeidsgiverUtenSykefravær && (
+                <>
+                    {aktivPeriode.skjæringstidspunkt && aktivPeriode.vilkårsgrunnlaghistorikkId && (
+                        <VilkårCard
+                            aktivPeriode={aktivPeriode}
+                            skjæringstidspunkt={aktivPeriode.skjæringstidspunkt}
+                            vilkårsgrunnlaghistorikkId={aktivPeriode.vilkårsgrunnlaghistorikkId}
+                        />
+                    )}
+                    {aktivPeriode.skjæringstidspunkt && aktivPeriode.vilkårsgrunnlaghistorikkId && (
+                        <UtbetalingCard
+                            beregningId={aktivPeriode.beregningId}
+                            ikkeUtbetaltEnda={ikkeUtbetaltEnda}
+                            utbetalingsdagerTotalt={utbetalingsdagerTotalt}
+                            simulering={simulering}
+                            skjæringstidspunkt={aktivPeriode.skjæringstidspunkt}
+                            vilkårsgrunnlaghistorikkId={aktivPeriode.vilkårsgrunnlaghistorikkId}
+                            organisasjonsnummer={organisasjonsnummer}
+                        />
+                    )}
+                    <Utbetaling aktivPeriode={aktivPeriode} />
+                </>
             )}
-            <Utbetaling aktivPeriode={aktivPeriode} />
         </Container>
     );
 };

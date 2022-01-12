@@ -31,7 +31,7 @@ const IconContainer = styled.span`
 `;
 
 interface VilkårListProps {
-    periode: Tidslinjeperiode;
+    periode: TidslinjeperiodeMedSykefravær;
     skjæringstidspunkt: DateString;
     vilkårsgrunnlaghistorikkId: UUID;
 }

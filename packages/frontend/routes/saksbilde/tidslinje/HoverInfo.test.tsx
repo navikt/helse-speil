@@ -47,7 +47,7 @@ describe('HoverInfo', () => {
         expect(screen.getByText('15 dager')).toBeVisible();
     });
     test('viser antall feriedager', () => {
-        const periodeMedFerie: Tidslinjeperiode = {
+        const periodeMedFerie: TidslinjeperiodeMedSykefravær = {
             ...enPeriode,
             utbetalingstidslinje: [...enPeriode.utbetalingstidslinje, { dato: dayjs('2020-01-01'), type: 'Ferie' }],
         };

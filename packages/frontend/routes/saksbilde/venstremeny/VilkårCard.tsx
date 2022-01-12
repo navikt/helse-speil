@@ -3,7 +3,7 @@ import { CardTitle } from './CardTitle';
 import { VilkårList } from './VilkårList';
 
 interface VilkårCardProps {
-    aktivPeriode: Tidslinjeperiode;
+    aktivPeriode: TidslinjeperiodeMedSykefravær;
     skjæringstidspunkt: DateString;
     vilkårsgrunnlaghistorikkId: UUID;
 }

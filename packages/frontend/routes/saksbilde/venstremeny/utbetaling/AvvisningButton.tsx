@@ -24,7 +24,7 @@ const useAddInfotrygdtoast = () => {
 };
 
 interface AvvisningButtonProps extends Omit<React.HTMLAttributes<HTMLButtonElement>, 'onError' | 'children'> {
-    aktivPeriode: Tidslinjeperiode;
+    aktivPeriode: TidslinjeperiodeMedSykefravær;
     oppgavereferanse: string;
     aktørId: string;
     onSuccess?: () => void;

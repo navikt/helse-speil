@@ -73,7 +73,7 @@ const Saksbildevarsel = styled(Varsel)`
 `;
 
 interface SaksbildevarslerProps {
-    aktivPeriode: Tidslinjeperiode;
+    aktivPeriode: TidslinjeperiodeMedSykefravær;
     vedtaksperiode: Vedtaksperiode;
     oppgavereferanse?: string;
 }

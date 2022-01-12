@@ -227,7 +227,7 @@ const ReadonlyUtbetaling: React.FC<ReadonlyUtbetalingProps> = ({ fom, tom, dager
 };
 
 interface UtbetalingProps {
-    periode: Tidslinjeperiode;
+    periode: TidslinjeperiodeMedSykefravær;
     overstyringer: Overstyring[];
     skjæringstidspunkt: string;
 }

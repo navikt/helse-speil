@@ -42,7 +42,10 @@ export const sisteValgbarePeriode = (person: Person): Vedtaksperiode | undefined
             undefined
         );
 
-export const getAlderVedSisteSykedag = (fødselsdato: string, periode: Tidslinjeperiode): number | undefined => {
+export const getAlderVedSisteSykedag = (
+    fødselsdato: string,
+    periode: TidslinjeperiodeMedSykefravær
+): number | undefined => {
     const sykedager = periode.utbetalingstidslinje.filter((it) => it.type === 'Syk');
 
     if (sykedager.length < 1) return undefined;

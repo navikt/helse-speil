@@ -27,7 +27,7 @@ const Container = styled(Dropdown)`
 `;
 
 export interface SakslinjemenyProps {
-    aktivPeriode: Tidslinjeperiode;
+    aktivPeriode: TidslinjeperiodeMedSykefravær;
 }
 
 export const Sakslinjemeny = ({ aktivPeriode }: SakslinjemenyProps) => {
