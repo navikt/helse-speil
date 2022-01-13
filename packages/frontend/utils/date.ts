@@ -7,7 +7,7 @@ dayjs.extend(isoWeek);
 dayjs.extend(isSameOrBefore);
 dayjs.extend(isSameOrAfter);
 
-export const NORSK_DATOFORMAT_MED_KLOKKESLETT = 'DD.MM.YYYY kl HH:mm';
+export const NORSK_DATOFORMAT_MED_KLOKKESLETT = 'DD.MM.YYYY kl HH.mm';
 export const NORSK_DATOFORMAT = 'DD.MM.YYYY';
 export const NORSK_DATOFORMAT_KORT = 'DD.MM.YY';
 export const ISO_DATOFORMAT = 'YYYY-MM-DD';
