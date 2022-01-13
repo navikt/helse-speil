@@ -1,12 +1,10 @@
 import { Route, Switch, useRouteMatch } from 'react-router-dom';
 import { useOppgavereferanse, useVedtaksperiode } from '../../../state/tidslinje';
-import { useArbeidsforhold } from '../../../modell/arbeidsgiver';
 import { useMaksdato } from '../../../modell/utbetalingshistorikkelement';
-import { usePersondataSkalAnonymiseres } from '../../../state/person';
 import { useSetVedtaksperiodeReferanserForNotater } from '../../../hooks/useSetVedtaksperiodeReferanserForNotater';
 import { getAlderVedSisteSykedag, getMånedsbeløp } from '../../../mapping/selectors';
 import { ISO_DATOFORMAT } from '../../../utils/date';
-import { VenstreMenyMedSykefravær } from '../venstremeny/Venstremeny';
+import { VenstreMenyMedSykefravær } from '../venstremeny/VenstremenyMedSykefravær';
 import { Saksbildevarsler } from '../varsler/Saksbildevarsler';
 import { Utbetaling } from '../utbetaling/Utbetaling';
 import { Inngangsvilkår } from '../vilkår/Inngangsvilkår';
@@ -34,10 +32,7 @@ export const SaksbildeFullstendigPeriodeMedSykefravær = ({
 
     const vedtaksperiode = useVedtaksperiode(aktivPeriode.id) as Vedtaksperiode;
     const oppgavereferanse = useOppgavereferanse(beregningId);
-    const arbeidsforhold = useArbeidsforhold(aktivPeriode.organisasjonsnummer) ?? [];
-
     const maksdato = useMaksdato(beregningId);
-    const anonymiseringEnabled = usePersondataSkalAnonymiseres();
     useSetVedtaksperiodeReferanserForNotater(vedtaksperiode?.id ? [vedtaksperiode.id] : []);
 
     const alderVedSisteSykedag = getAlderVedSisteSykedag(
@@ -57,8 +52,6 @@ export const SaksbildeFullstendigPeriodeMedSykefravær = ({
                 aktivPeriode={aktivPeriode as TidslinjeperiodeMedSykefravær}
                 maksdato={maksdato}
                 organisasjonsnummer={aktivPeriode.organisasjonsnummer}
-                arbeidsforhold={arbeidsforhold}
-                anonymiseringEnabled={anonymiseringEnabled}
                 alderVedSisteSykedag={alderVedSisteSykedag}
                 simulering={{
                     arbeidsgiver: vedtaksperiode!.utbetaling?.arbeidsgiverOppdrag.simuleringsResultat,

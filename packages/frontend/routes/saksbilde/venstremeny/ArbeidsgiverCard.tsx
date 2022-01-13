@@ -61,10 +61,12 @@ export const ArbeidsgiverCard = ({ organisasjonsnummer, månedsbeløp }: Arbeids
                     </BodyShort>
                 </React.Fragment>
             ))}
-            <Flex flexDirection="row" justifyContent="space-between">
-                <BodyShort>Månedsbeløp:</BodyShort>
-                {somPenger(månedsbeløp)}
-            </Flex>
+            {månedsbeløp && (
+                <Flex flexDirection="row" justifyContent="space-between">
+                    <BodyShort>Månedsbeløp:</BodyShort>
+                    {somPenger(månedsbeløp)}
+                </Flex>
+            )}
         </section>
     );
 };

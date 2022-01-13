@@ -11,7 +11,6 @@ import { PeriodeCard } from './PeriodeCard';
 import { UtbetalingCard } from './UtbetalingCard';
 import { VilkårCard } from './VilkårCard';
 import { Utbetaling } from './utbetaling/Utbetaling';
-import { InntektFraAordningenTabell } from '../sykepengegrunnlag/inntekt/ReadOnlyInntekt';
 
 const Container = styled.section`
     grid-area: venstremeny;
@@ -27,8 +26,6 @@ const Container = styled.section`
 interface VenstreMenyMedSykefraværProps {
     aktivPeriode: TidslinjeperiodeMedSykefravær;
     organisasjonsnummer: string;
-    arbeidsforhold: Arbeidsforhold[];
-    anonymiseringEnabled: boolean;
     alderVedSisteSykedag?: number;
     simulering?: Simuleringsdata;
     månedsbeløp?: number;
@@ -39,8 +36,6 @@ interface VenstreMenyMedSykefraværProps {
 export const VenstreMenyMedSykefravær = ({
     aktivPeriode,
     organisasjonsnummer,
-    arbeidsforhold,
-    anonymiseringEnabled,
     alderVedSisteSykedag,
     simulering,
     månedsbeløp,
@@ -87,23 +82,6 @@ export const VenstreMenyMedSykefravær = ({
                     <Utbetaling aktivPeriode={aktivPeriode} />
                 </>
             )}
-        </Container>
-    );
-};
-
-interface VenstreMenyUtenSykefraværProps {
-    organisasjonsnummer: string;
-    omregnetÅrsinntekt: ExternalOmregnetÅrsinntekt | null;
-}
-
-export const VenstreMenyUtenSykefravær = ({
-    organisasjonsnummer,
-    omregnetÅrsinntekt,
-}: VenstreMenyUtenSykefraværProps) => {
-    return (
-        <Container className="Venstremeny">
-            <ArbeidsgiverCard organisasjonsnummer={organisasjonsnummer} />
-            {omregnetÅrsinntekt && <InntektFraAordningenTabell omregnetÅrsinntekt={omregnetÅrsinntekt} />}
         </Container>
     );
 };

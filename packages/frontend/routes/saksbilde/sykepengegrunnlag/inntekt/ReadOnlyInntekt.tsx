@@ -1,5 +1,4 @@
 import styled from '@emotion/styled';
-import dayjs from 'dayjs';
 import React from 'react';
 
 import { BodyShort, Heading } from '@navikt/ds-react';
@@ -7,7 +6,8 @@ import { BodyShort, Heading } from '@navikt/ds-react';
 import { PopoverHjelpetekst } from '../../../../components/PopoverHjelpetekst';
 import { SortInfoikon } from '../../../../components/ikoner/SortInfoikon';
 import { getKildeType } from '../../../../utils/inntektskilde';
-import { somPenger } from '../../../../utils/locale';
+import { getMonthName, somPenger } from '../../../../utils/locale';
+import { sorterInntekterFraAOrdningen } from '../../../../utils/inntekt';
 
 const Tabell = styled.div`
     display: grid;
@@ -53,40 +53,6 @@ const InfobobleContainer = styled.div`
     margin-left: 1rem;
 `;
 
-const getMonthName = (yearMonth: string) => {
-    const monthNumberToMonthName: Record<string, string> = {
-        '01': 'Januar',
-        '02': 'Februar',
-        '03': 'Mars',
-        '04': 'April',
-        '05': 'Mai',
-        '06': 'Juni',
-        '07': 'Juli',
-        '08': 'August',
-        '09': 'September',
-        '10': 'Oktober',
-        '11': 'November',
-        '12': 'Desember',
-    };
-    return monthNumberToMonthName[yearMonth.split('-')[1]] ?? 'Fant ikke måned';
-};
-
-const sorterInntekterFraAOrdningen = (
-    inntekterFraAOrdningen: ExternalInntekterFraAOrdningen[] | null
-): ExternalInntekterFraAOrdningen[] | null =>
-    inntekterFraAOrdningen == null
-        ? null
-        : inntekterFraAOrdningen
-              .map((inntektFraAOrdningen) => ({
-                  måned: dayjs(inntektFraAOrdningen.måned, 'YYYY-MM'),
-                  sum: inntektFraAOrdningen.sum,
-              }))
-              .sort((a, b) => (a.måned.isAfter(b.måned) ? -1 : 1))
-              .map((it) => ({
-                  måned: it.måned.format('YYYY-MM'),
-                  sum: it.sum,
-              }));
-
 const InntektFraAordningen = ({ omregnetÅrsinntekt }: { omregnetÅrsinntekt: ExternalOmregnetÅrsinntekt }) => {
     return (
         <>
@@ -102,11 +68,7 @@ const InntektFraAordningen = ({ omregnetÅrsinntekt }: { omregnetÅrsinntekt: Ex
     );
 };
 
-export const InntektFraAordningenTabell = ({
-    omregnetÅrsinntekt,
-}: {
-    omregnetÅrsinntekt: ExternalOmregnetÅrsinntekt;
-}) => (
+const InntektFraAordningenTabell = ({ omregnetÅrsinntekt }: { omregnetÅrsinntekt: ExternalOmregnetÅrsinntekt }) => (
     <>
         <Tittellinje>
             <Tittel as="h3" size="medium">

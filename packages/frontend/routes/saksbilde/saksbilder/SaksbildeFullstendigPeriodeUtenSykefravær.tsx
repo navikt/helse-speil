@@ -2,7 +2,7 @@ import { Route, Switch, useRouteMatch } from 'react-router-dom';
 import { Location, useNavigation } from '../../../hooks/useNavigation';
 import React, { useEffect } from 'react';
 import { useVilkårsgrunnlaghistorikk } from '../../../state/person';
-import { VenstreMenyUtenSykefravær } from '../venstremeny/Venstremeny';
+import { VenstreMenyUtenSykefravær } from '../venstremeny/VenstremenyUtenSykefravær';
 import { Saksbildevarsler } from '../varsler/Saksbildevarsler';
 import { Sykepengegrunnlag } from '../sykepengegrunnlag/Sykepengegrunnlag';
 import { Tooltip } from '../../../components/Tooltip';
