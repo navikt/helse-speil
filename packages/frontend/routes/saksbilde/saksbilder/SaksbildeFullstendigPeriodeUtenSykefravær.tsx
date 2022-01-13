@@ -7,6 +7,7 @@ import { Saksbildevarsler } from '../varsler/Saksbildevarsler';
 import { Sykepengegrunnlag } from '../sykepengegrunnlag/Sykepengegrunnlag';
 import { Tooltip } from '../../../components/Tooltip';
 import { Content, RouteContainer } from './SaksbildeFullstendigPeriode';
+import { Historikk } from '../historikk/Historikk';
 
 interface SaksbildeFullstendigPeriodeUtenSykefraværProps {
     personTilBehandling: Person;
@@ -54,6 +55,7 @@ export const SaksbildeFullstendigPeriodeUtenSykefravær = ({
                     </Route>
                 </Switch>
             </Content>
+            <Historikk tildeling={personTilBehandling.tildeling} personinfo={personTilBehandling.personinfo} />
             <Tooltip effect="solid" />
         </>
     );

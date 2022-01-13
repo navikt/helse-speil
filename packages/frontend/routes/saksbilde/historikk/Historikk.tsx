@@ -32,9 +32,9 @@ const Hendelser = styled.ul`
 `;
 
 interface HistorikkProps {
-    vedtaksperiodeId: string;
     personinfo: Personinfo;
     tildeling?: Tildeling;
+    vedtaksperiodeId?: string;
 }
 
 export const Historikk = React.memo(({ vedtaksperiodeId, tildeling, personinfo }: HistorikkProps) => {
@@ -73,7 +73,7 @@ export const Historikk = React.memo(({ vedtaksperiodeId, tildeling, personinfo }
                     ))}
                 </Hendelser>
             </Container>
-            {showNotatListeModal && (
+            {vedtaksperiodeId && showNotatListeModal && (
                 <NotatListeModal
                     notater={notaterForPeriode}
                     personinfo={personinfo}
