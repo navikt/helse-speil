@@ -37,12 +37,15 @@ const Content = styled.div`
     height: 100%;
 `;
 
-interface SaksbildeRevurderingProps {
+interface SaksbildeFullstendigPeriodeProps {
     personTilBehandling: Person;
     aktivPeriode: TidslinjeperiodeMedSykefravær;
 }
 
-export const SaksbildeFullstendigPeriode = ({ personTilBehandling, aktivPeriode }: SaksbildeRevurderingProps) => {
+export const SaksbildeFullstendigPeriode = ({
+    personTilBehandling,
+    aktivPeriode,
+}: SaksbildeFullstendigPeriodeProps) => {
     const { path } = useRouteMatch();
     const vedtaksperiode = useVedtaksperiode(aktivPeriode.id) as Vedtaksperiode;
     const oppgavereferanse = useOppgavereferanse(aktivPeriode.beregningId);
