@@ -66,38 +66,40 @@ export const SaksbildeFullstendigPeriodeMedSykefravær = ({
                     vedtaksperiode={vedtaksperiode}
                     oppgavereferanse={oppgavereferanse}
                 />
-                <Switch>
-                    <Route path={`${path}/utbetaling`}>
-                        <Utbetaling
-                            periode={aktivPeriode as TidslinjeperiodeMedSykefravær}
-                            overstyringer={vedtaksperiode.overstyringer}
-                            skjæringstidspunkt={aktivPeriode.skjæringstidspunkt}
-                        />
-                    </Route>
-                    <Route path={`${path}/inngangsvilkår`}>
-                        <RouteContainer>
-                            <Inngangsvilkår
+                {aktivPeriode.type !== 'ANNULLERT_PERIODE' && (
+                    <Switch>
+                        <Route path={`${path}/utbetaling`}>
+                            <Utbetaling
+                                periode={aktivPeriode as TidslinjeperiodeMedSykefravær}
+                                overstyringer={vedtaksperiode.overstyringer}
                                 skjæringstidspunkt={aktivPeriode.skjæringstidspunkt}
-                                vilkårsgrunnlagHistorikkId={aktivPeriode.vilkårsgrunnlaghistorikkId}
                             />
-                        </RouteContainer>
-                    </Route>
-                    <Route path={`${path}/sykepengegrunnlag`}>
-                        <RouteContainer>
-                            <Sykepengegrunnlag
-                                skjæringstidspunkt={aktivPeriode.skjæringstidspunkt}
-                                vilkårsgrunnlaghistorikkId={aktivPeriode.vilkårsgrunnlaghistorikkId}
-                            />
-                        </RouteContainer>
-                    </Route>
-                    {vedtaksperiode?.risikovurdering && (
-                        <Route path={`${path}/faresignaler`}>
+                        </Route>
+                        <Route path={`${path}/inngangsvilkår`}>
                             <RouteContainer>
-                                <Faresignaler risikovurdering={vedtaksperiode.risikovurdering} />
+                                <Inngangsvilkår
+                                    skjæringstidspunkt={aktivPeriode.skjæringstidspunkt}
+                                    vilkårsgrunnlagHistorikkId={aktivPeriode.vilkårsgrunnlaghistorikkId}
+                                />
                             </RouteContainer>
                         </Route>
-                    )}
-                </Switch>
+                        <Route path={`${path}/sykepengegrunnlag`}>
+                            <RouteContainer>
+                                <Sykepengegrunnlag
+                                    skjæringstidspunkt={aktivPeriode.skjæringstidspunkt}
+                                    vilkårsgrunnlaghistorikkId={aktivPeriode.vilkårsgrunnlaghistorikkId}
+                                />
+                            </RouteContainer>
+                        </Route>
+                        {vedtaksperiode?.risikovurdering && (
+                            <Route path={`${path}/faresignaler`}>
+                                <RouteContainer>
+                                    <Faresignaler risikovurdering={vedtaksperiode.risikovurdering} />
+                                </RouteContainer>
+                            </Route>
+                        )}
+                    </Switch>
+                )}
             </Content>
             {vedtaksperiode && (
                 <Historikk
