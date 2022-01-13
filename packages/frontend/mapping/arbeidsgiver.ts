@@ -88,7 +88,7 @@ export class ArbeidsgiverBuilder {
                         organisasjonsnummer: this.arbeidsgiver.organisasjonsnummer,
                         skjæringstidspunkt: ghostpølse.skjæringstidspunkt,
                         inntektskilde: 'FLERE_ARBEIDSGIVERE',
-                        vilkårsgrunnlaghistorikkId: ghostpølse.vilkårsgrunnlagHistorikkId,
+                        vilkårsgrunnlaghistorikkId: ghostpølse.vilkårsgrunnlagHistorikkInnslagId,
                         fullstendig: true,
                     } as TidslinjeperiodeUtenSykefravær)
             ) ?? [];

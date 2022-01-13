@@ -4697,13 +4697,13 @@
                     "fom": "2021-07-04",
                     "tom": "2021-07-25",
                     "skjæringstidspunkt": "2021-07-04",
-                    "vilkårsgrunnlagHistorikkId": "0e261677-57fc-4cf0-b29e-fe89299b42ec"
+                    "vilkårsgrunnlagHistorikkInnslagId": "0e261677-57fc-4cf0-b29e-fe89299b42ec"
                 },
                 {
                     "fom": "2021-08-01",
                     "tom": "2021-08-25",
                     "skjæringstidspunkt": "2021-08-01",
-                    "vilkårsgrunnlagHistorikkId": "0e261677-57fc-4cf0-b29e-fe89299b42ec"
+                    "vilkårsgrunnlagHistorikkInnslagId": "0e261677-57fc-4cf0-b29e-fe89299b42ec"
                 }
             ],
             "generasjoner": null
@@ -6366,7 +6366,7 @@
                     "fom": "2021-07-04",
                     "tom": "2021-07-25",
                     "skjæringstidspunkt": "2021-07-04",
-                    "vilkårsgrunnlagHistorikkId": "0e261677-57fc-4cf0-b29e-fe89299b42ec"
+                    "vilkårsgrunnlagHistorikkInnslagId": "0e261677-57fc-4cf0-b29e-fe89299b42ec"
                 }
             ],
             "generasjoner": null,

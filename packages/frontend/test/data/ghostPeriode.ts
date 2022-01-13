@@ -7,5 +7,5 @@ export const umappetGhostPeriode = (
     fom: fom,
     tom: tom,
     skjæringstidspunkt: skjæringstidspunkt,
-    vilkårsgrunnlagHistorikkId: vilkårsgrunnlagHistorikkId,
+    vilkårsgrunnlagHistorikkInnslagId: vilkårsgrunnlagHistorikkId,
 });
