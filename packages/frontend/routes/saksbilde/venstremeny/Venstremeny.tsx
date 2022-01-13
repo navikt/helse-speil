@@ -11,6 +11,7 @@ import { PeriodeCard } from './PeriodeCard';
 import { UtbetalingCard } from './UtbetalingCard';
 import { VilkårCard } from './VilkårCard';
 import { Utbetaling } from './utbetaling/Utbetaling';
+import { InntektFraAordningenTabell } from '../sykepengegrunnlag/inntekt/ReadOnlyInntekt';
 
 const Container = styled.section`
     grid-area: venstremeny;
@@ -91,19 +92,18 @@ export const VenstreMenyMedSykefravær = ({
 };
 
 interface VenstreMenyUtenSykefraværProps {
-    aktivPeriode: TidslinjeperiodeUtenSykefravær;
     organisasjonsnummer: string;
-    månedsbeløp?: number;
+    omregnetÅrsinntekt: ExternalOmregnetÅrsinntekt | null;
 }
 
 export const VenstreMenyUtenSykefravær = ({
-    aktivPeriode,
     organisasjonsnummer,
-    månedsbeløp,
+    omregnetÅrsinntekt,
 }: VenstreMenyUtenSykefraværProps) => {
     return (
         <Container className="Venstremeny">
-            <ArbeidsgiverCard organisasjonsnummer={organisasjonsnummer} månedsbeløp={månedsbeløp} />
+            <ArbeidsgiverCard organisasjonsnummer={organisasjonsnummer} />
+            {omregnetÅrsinntekt && <InntektFraAordningenTabell omregnetÅrsinntekt={omregnetÅrsinntekt} />}
         </Container>
     );
 };

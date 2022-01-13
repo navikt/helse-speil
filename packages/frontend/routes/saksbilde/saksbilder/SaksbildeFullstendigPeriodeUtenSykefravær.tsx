@@ -28,18 +28,18 @@ export const SaksbildeFullstendigPeriodeUtenSykefravær = ({
         throw Error('Mangler skjæringstidspunkt eller vilkårsgrunnlag. Ta kontakt med en utvikler.');
     }
 
-    const månedsbeløp = useVilkårsgrunnlaghistorikk(
-        aktivPeriode.skjæringstidspunkt,
-        aktivPeriode.vilkårsgrunnlaghistorikkId
-    )?.inntekter.find((inntekt) => inntekt.organisasjonsnummer === aktivPeriode.organisasjonsnummer)?.omregnetÅrsinntekt
-        ?.månedsbeløp;
+    const omregnetÅrsinntekt =
+        useVilkårsgrunnlaghistorikk(
+            aktivPeriode.skjæringstidspunkt,
+            aktivPeriode.vilkårsgrunnlaghistorikkId
+        )?.inntekter.find((inntekt) => inntekt.organisasjonsnummer === aktivPeriode.organisasjonsnummer)
+            ?.omregnetÅrsinntekt ?? null;
 
     return (
         <>
             <VenstreMenyUtenSykefravær
-                aktivPeriode={aktivPeriode as TidslinjeperiodeUtenSykefravær}
                 organisasjonsnummer={aktivPeriode.organisasjonsnummer}
-                månedsbeløp={månedsbeløp}
+                omregnetÅrsinntekt={omregnetÅrsinntekt}
             />
             <Content className="Content" data-testid="saksbilde-content">
                 <Saksbildevarsler aktivPeriode={aktivPeriode} />

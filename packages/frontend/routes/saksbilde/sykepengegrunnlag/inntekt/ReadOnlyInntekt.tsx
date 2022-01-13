@@ -90,27 +90,7 @@ const sorterInntekterFraAOrdningen = (
 const InntektFraAordningen = ({ omregnetÅrsinntekt }: { omregnetÅrsinntekt: ExternalOmregnetÅrsinntekt }) => {
     return (
         <>
-            <Tittellinje>
-                <Tittel as="h3" size="medium">
-                    Rapportert siste 3 måneder
-                </Tittel>
-                <InfobobleContainer>
-                    <PopoverHjelpetekst ikon={<SortInfoikon />}>
-                        <p>
-                            Ved manglende inntektsmelding legges 3 siste måneders innrapporterte inntekter fra
-                            A-ordningen til grunn
-                        </p>
-                    </PopoverHjelpetekst>
-                </InfobobleContainer>
-            </Tittellinje>
-            <Tabell>
-                {sorterInntekterFraAOrdningen(omregnetÅrsinntekt.inntekterFraAOrdningen)?.map((inntekt, i) => (
-                    <React.Fragment key={i}>
-                        <BodyShort as="p"> {getMonthName(inntekt.måned)}</BodyShort>
-                        <Verdi as="p">{somPenger(inntekt.sum)}</Verdi>
-                    </React.Fragment>
-                ))}
-            </Tabell>
+            <InntektFraAordningenTabell omregnetÅrsinntekt={omregnetÅrsinntekt} />
             <Divider />
             <Tabell>
                 <BodyShort as="p">Gj.snittlig månedsinntekt</BodyShort>
@@ -121,6 +101,36 @@ const InntektFraAordningen = ({ omregnetÅrsinntekt }: { omregnetÅrsinntekt: Ex
         </>
     );
 };
+
+export const InntektFraAordningenTabell = ({
+    omregnetÅrsinntekt,
+}: {
+    omregnetÅrsinntekt: ExternalOmregnetÅrsinntekt;
+}) => (
+    <>
+        <Tittellinje>
+            <Tittel as="h3" size="medium">
+                Rapportert siste 3 måneder
+            </Tittel>
+            <InfobobleContainer>
+                <PopoverHjelpetekst ikon={<SortInfoikon />}>
+                    <p>
+                        Ved manglende inntektsmelding legges 3 siste måneders innrapporterte inntekter fra A-ordningen
+                        til grunn
+                    </p>
+                </PopoverHjelpetekst>
+            </InfobobleContainer>
+        </Tittellinje>
+        <Tabell>
+            {sorterInntekterFraAOrdningen(omregnetÅrsinntekt.inntekterFraAOrdningen)?.map((inntekt, i) => (
+                <React.Fragment key={i}>
+                    <BodyShort as="p"> {getMonthName(inntekt.måned)}</BodyShort>
+                    <Verdi as="p">{somPenger(inntekt.sum)}</Verdi>
+                </React.Fragment>
+            ))}
+        </Tabell>
+    </>
+);
 
 interface ReadOnlyInntektProps {
     omregnetÅrsinntekt: ExternalOmregnetÅrsinntekt | null;
