@@ -365,5 +365,11 @@
         "betydning": "Arbeidsgiver og vedtaksløsningen har beregnet arbeidsgiverperioden ulikt.",
         "løsning": "Vurder hva som er riktig arbeidsgiverperiode. Hvis forslaget til vedtaksløsningen er feil, må saken behandles i Infotrygd.",
         "viktighet": "Høy"
+    },
+    {
+        "varsel": "Registert fullmakt på personen.",
+        "betydning": "Dette kan bety at noen andre representerer denne personen",
+        "løsning": "Undersøk hva fullmakten innebærer, hvem som er fullmaktshaver, hvem som skal ha orientering om vedtak og om personen hadde rett til å søke på egne vegne.",
+        "viktighet": "Høy"
     }
 ]
