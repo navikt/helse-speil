@@ -2,7 +2,7 @@ import { Dayjs } from 'dayjs';
 
 import { usePerson } from '../state/person';
 
-const useHistorikkelement = (beregningId: string): HistorikkElement | undefined =>
+const useHistorikkelement = (beregningId: string | undefined): HistorikkElement | undefined =>
     usePerson()
         ?.arbeidsgivere.flatMap((arb: Arbeidsgiver) => arb.utbetalingshistorikk)
         .find((element: HistorikkElement) => element.id === beregningId);
@@ -24,17 +24,21 @@ export const utbetalingshistorikkelement = (
     tidsstempel: tidsstempel,
 });
 
-export const useUtbetaling = (beregningId: string): UtbetalingshistorikkElement | undefined => {
+export const useUtbetaling = (beregningId: string | undefined): UtbetalingshistorikkElement | undefined => {
     const element = useHistorikkelement(beregningId);
     if (!element) return undefined;
     return element.utbetaling;
 };
 
-export const useErAnnullert = (beregningId: string): boolean => {
+export const useErAnnullert = (beregningId: string | undefined): boolean => {
     const fagsystemId = useUtbetaling(beregningId)?.arbeidsgiverFagsystemId!;
     const annullerteFagsystemider = useAnnulleringer()?.flatMap(
         ({ utbetaling }: HistorikkElement) => utbetaling.arbeidsgiverFagsystemId
     );
+    if (!beregningId) {
+        return false;
+    }
+
     return annullerteFagsystemider?.includes(fagsystemId) ?? false;
 };
 
@@ -53,7 +57,7 @@ export const utbetalingstidslinje = (utbetaling: UtbetalingshistorikkElement, fo
 
 export const erRevurderingsperiode = (periode: TidslinjeperiodeMedSykefravær) => periode.type === 'REVURDERING';
 
-export const useMaksdato = (beregningId: string) => useUtbetaling(beregningId)?.maksdato;
+export const useMaksdato = (beregningId: string | undefined) => useUtbetaling(beregningId)?.maksdato;
 
 export const useGjenståendeDager = (beregningId: string): number | null =>
     useUtbetaling(beregningId)?.gjenståendeDager ?? null;

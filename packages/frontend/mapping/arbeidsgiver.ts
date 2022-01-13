@@ -60,12 +60,12 @@ export class ArbeidsgiverBuilder {
         this.mapVedtaksperioder();
         this.sortVedtaksperioder();
         this.markerNyestePeriode();
-        this.mapTidslinjeperioder();
+        this.mapTidslinjeperioderMedSykefravær();
         this.mapTidslinjeperioderUtenSykefravær();
         return { arbeidsgiver: this.arbeidsgiver as Arbeidsgiver, problems: this.problems };
     }
 
-    private mapTidslinjeperioder = () => {
+    private mapTidslinjeperioderMedSykefravær = () => {
         this.arbeidsgiver.tidslinjeperioder = this.flatten(
             this.arbeidsgiver.vedtaksperioder?.flatMap(
                 (periode): TidslinjeperiodeMedSykefravær[] =>
@@ -85,6 +85,11 @@ export class ArbeidsgiverBuilder {
                         fom: dayjs(ghostpølse.fom),
                         tom: dayjs(ghostpølse.tom),
                         tilstand: 'utenSykefravær',
+                        organisasjonsnummer: this.arbeidsgiver.organisasjonsnummer,
+                        skjæringstidspunkt: ghostpølse.skjæringstidspunkt,
+                        inntektskilde: 'FLERE_ARBEIDSGIVERE',
+                        vilkårsgrunnlaghistorikkId: ghostpølse.vilkårsgrunnlagHistorikkId,
+                        fullstendig: true,
                     } as TidslinjeperiodeUtenSykefravær)
             ) ?? [];
     };

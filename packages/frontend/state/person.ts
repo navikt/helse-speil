@@ -287,46 +287,50 @@ export const useFjernPåVent = () => {
 const sorterAscending = (a: TidslinjeperiodeMedSykefravær, b: TidslinjeperiodeMedSykefravær) => a.fom.diff(b.fom);
 
 export const useVurderingForSkjæringstidspunkt = (
-    uniqueId: string,
+    uniqueId: string | undefined,
     skjæringstidspunkt: string
 ): Vurdering | undefined => {
     return useUtbetalingForSkjæringstidspunkt(uniqueId, skjæringstidspunkt)?.vurdering;
 };
 
 export const useUtbetalingForSkjæringstidspunkt = (
-    uniqueId: string,
+    uniqueId: string | undefined,
     skjæringstidspunkt: string
 ): UtbetalingshistorikkElement | undefined => {
-    const perioder = useArbeidsgiverUtenParametre()!.tidslinjeperioder.find(
-        (it) => it.find((it) => it.unique === uniqueId)!
-    )!;
+    const perioder =
+        useArbeidsgiverUtenParametre()!.tidslinjeperioder.find((it) => it.find((it) => it.unique === uniqueId)!) ?? [];
 
     const førstePeriodeForSkjæringstidspunkt = [...perioder]
         .sort(sorterAscending)
         .filter((it) => it.skjæringstidspunkt === skjæringstidspunkt)
-        .shift()!;
+        .shift();
 
-    return useUtbetaling(førstePeriodeForSkjæringstidspunkt.beregningId);
+    const beregningId = førstePeriodeForSkjæringstidspunkt ? førstePeriodeForSkjæringstidspunkt.beregningId : undefined;
+
+    return useUtbetaling(beregningId);
 };
 
 export const useVilkårsgrunnlaghistorikk = (
-    skjæringstidspunkt: string,
-    vilkårsgrunnlaghistorikkId: string
+    skjæringstidspunkt: string | null,
+    vilkårsgrunnlaghistorikkId: string | null
 ): ExternalVilkårsgrunnlag | null => {
     const person = useRecoilValue(personState)?.person;
     const aktivPeriode = useAktivPeriode();
 
     if (!person) throw Error('Finner ikke vilkårsgrunnlaghistorikk fordi person mangler');
 
-    if (!person.vilkårsgrunnlagHistorikk[vilkårsgrunnlaghistorikkId]) {
+    if (!skjæringstidspunkt || !vilkårsgrunnlaghistorikkId) {
         return null;
     }
 
+    if (!person.vilkårsgrunnlagHistorikk[vilkårsgrunnlaghistorikkId]) {
+        return null;
+    }
     return (
         person.vilkårsgrunnlagHistorikk[vilkårsgrunnlaghistorikkId]?.[skjæringstidspunkt] ??
         finnVilkårsgrunnlaghistorikkInnenforPeriodenNærmestSkjæringstidspunktet(
             person.vilkårsgrunnlagHistorikk[vilkårsgrunnlaghistorikkId],
-            aktivPeriode
+            aktivPeriode as TidslinjeperiodeMedSykefravær
         )
     );
 };
@@ -376,7 +380,13 @@ export const useEndringerForPeriode = (organisasjonsnummer: string): ExternalOve
     const endringer = useEndringer(organisasjonsnummer);
     const periode = useAktivPeriode();
 
-    return endringer.filter((it) => dayjs(it.timestamp).isSameOrBefore(periode.opprettet));
+    if (periode.tilstand === 'utenSykefravær') {
+        return [];
+    }
+
+    return endringer.filter((it) =>
+        dayjs(it.timestamp).isSameOrBefore((periode as TidslinjeperiodeMedSykefravær).opprettet)
+    );
 };
 
 export const useArbeidsgivernavnRender = (organisasjonsnummer: string): string => {

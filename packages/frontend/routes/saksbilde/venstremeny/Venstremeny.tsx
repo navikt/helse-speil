@@ -23,7 +23,7 @@ const Container = styled.section`
     border-right: 1px solid var(--navds-color-border);
 `;
 
-interface VenstreMenyProps {
+interface VenstreMenyMedSykefraværProps {
     aktivPeriode: TidslinjeperiodeMedSykefravær;
     organisasjonsnummer: string;
     arbeidsforhold: Arbeidsforhold[];
@@ -35,7 +35,7 @@ interface VenstreMenyProps {
     skjæringstidspunkt: string;
 }
 
-export const VenstreMeny = ({
+export const VenstreMenyMedSykefravær = ({
     aktivPeriode,
     organisasjonsnummer,
     arbeidsforhold,
@@ -45,7 +45,7 @@ export const VenstreMeny = ({
     månedsbeløp,
     maksdato,
     skjæringstidspunkt,
-}: VenstreMenyProps) => {
+}: VenstreMenyMedSykefraværProps) => {
     const gjenståendeDager = useGjenståendeDager(aktivPeriode.beregningId);
     const utbetalingsdagerTotalt = aktivPeriode.utbetalingstidslinje.filter((dag) => dag.type === 'Syk').length;
     const ikkeUtbetaltEnda = harOppgave(aktivPeriode) || aktivPeriode.tilstand === 'venter';
@@ -86,6 +86,24 @@ export const VenstreMeny = ({
                     <Utbetaling aktivPeriode={aktivPeriode} />
                 </>
             )}
+        </Container>
+    );
+};
+
+interface VenstreMenyUtenSykefraværProps {
+    aktivPeriode: TidslinjeperiodeUtenSykefravær;
+    organisasjonsnummer: string;
+    månedsbeløp?: number;
+}
+
+export const VenstreMenyUtenSykefravær = ({
+    aktivPeriode,
+    organisasjonsnummer,
+    månedsbeløp,
+}: VenstreMenyUtenSykefraværProps) => {
+    return (
+        <Container className="Venstremeny">
+            <ArbeidsgiverCard organisasjonsnummer={organisasjonsnummer} månedsbeløp={månedsbeløp} />
         </Container>
     );
 };

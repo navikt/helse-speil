@@ -89,8 +89,11 @@ export const useRevurderingIsEnabled = (toggles: UtbetalingToggles): boolean => 
 
     return (
         toggles.overstyreUtbetaltPeriodeEnabled &&
-        alleOverlappendePerioderErAvsluttet(person, periode) &&
-        arbeidsgiversSisteSkjæringstidspunktErLikSkjæringstidspunktetTilPerioden(person, periode)
+        alleOverlappendePerioderErAvsluttet(person, periode as TidslinjeperiodeMedSykefravær) &&
+        arbeidsgiversSisteSkjæringstidspunktErLikSkjæringstidspunktetTilPerioden(
+            person,
+            periode as TidslinjeperiodeMedSykefravær
+        )
     );
 };
 
@@ -104,8 +107,11 @@ export const useOverstyrRevurderingIsEnabled = (toggles: UtbetalingToggles) => {
 
     return (
         toggles.overstyreUtbetaltPeriodeEnabled &&
-        alleOverlappendePerioderErTilRevurdering(person, periode) &&
-        arbeidsgiversSisteSkjæringstidspunktErLikSkjæringstidspunktetTilPerioden(person, periode)
+        alleOverlappendePerioderErTilRevurdering(person, periode as TidslinjeperiodeMedSykefravær) &&
+        arbeidsgiversSisteSkjæringstidspunktErLikSkjæringstidspunktetTilPerioden(
+            person,
+            periode as TidslinjeperiodeMedSykefravær
+        )
     );
 };
 
@@ -114,19 +120,23 @@ export const useErTidslinjeperiodeISisteGenerasjon = (): boolean => {
     const person = usePerson();
 
     if (!person) throw Error('Forventet person, men fant ingen');
+    if (periode.tilstand === 'utenSykefravær') return false;
 
-    return periodeFinnesISisteGenerasjon(person, periode);
+    return periodeFinnesISisteGenerasjon(person, periode as TidslinjeperiodeMedSykefravær);
 };
 
 export const useErAktivPeriodeISisteSkjæringstidspunkt = (): boolean => {
     const periode = useMaybeAktivPeriode();
     const person = usePerson();
 
-    if (!person || !periode) {
+    if (!person || !periode || periode.tilstand === 'utenSykefravær') {
         return false;
     }
 
-    return arbeidsgiversSisteSkjæringstidspunktErLikSkjæringstidspunktetTilPerioden(person, periode);
+    return arbeidsgiversSisteSkjæringstidspunktErLikSkjæringstidspunktetTilPerioden(
+        person,
+        periode as TidslinjeperiodeMedSykefravær
+    );
 };
 
 export const useHarKunEnFagsystemIdPåArbeidsgiverIAktivPeriode = (): boolean => {
@@ -137,7 +147,8 @@ export const useHarKunEnFagsystemIdPåArbeidsgiverIAktivPeriode = (): boolean =>
         Object.keys(
             groupBy(
                 arbeidsgiver.tidslinjeperioder[0].filter(
-                    (it) => it.skjæringstidspunkt === aktivPeriode.skjæringstidspunkt
+                    (it) =>
+                        it.skjæringstidspunkt === (aktivPeriode as TidslinjeperiodeMedSykefravær)?.skjæringstidspunkt
                 ),
                 'fagsystemId'
             )

@@ -1,8 +1,9 @@
 import { useMaybeAktivPeriode } from '../state/tidslinje';
 
-const kunEnArbeidsgiver = (periode: TidslinjeperiodeMedSykefravær) => periode.inntektskilde === 'EN_ARBEIDSGIVER';
+const kunEnArbeidsgiver = (periode: TidslinjeperiodeMedSykefravær | TidslinjeperiodeUtenSykefravær) =>
+    periode.inntektskilde === 'EN_ARBEIDSGIVER';
 
-const overstyringEnabled = (periode: TidslinjeperiodeMedSykefravær): boolean =>
+const overstyringEnabled = (periode: TidslinjeperiodeMedSykefravær | TidslinjeperiodeUtenSykefravær): boolean =>
     kunEnArbeidsgiver(periode) && ['oppgaver', 'avslag', 'ingenUtbetaling', 'feilet'].includes(periode.tilstand);
 
 export const useOverstyringIsEnabled = (): boolean => {

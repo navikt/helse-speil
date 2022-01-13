@@ -34,8 +34,13 @@ export const useNavigation = (): Navigation => {
 
     const canNavigateToPrevious = currentLocation !== 0;
 
-    const navigateTo = (location: Location, aktørId: string | undefined = personTilBehandling?.aktørId) =>
-        history.push(`/person/${aktørId}${locations[location]}`);
+    const navigateTo = (location: Location, aktørId: string | undefined = personTilBehandling?.aktørId) => {
+        const destination = `/person/${aktørId}${locations[location]}`;
+        const current = history.location.pathname;
+        if (destination !== current) {
+            history.push(destination);
+        }
+    };
 
     const pathForLocation = (location: Location, aktørId?: string) =>
         `/person/${aktørId ?? personTilBehandling?.aktørId}${locations[location]}`;

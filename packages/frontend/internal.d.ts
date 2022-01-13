@@ -138,25 +138,28 @@ declare type TidslinjeperiodeMedSykefravær = Tidslinjeperiode & {
     unique: string;
     beregningId: string;
     type: 'VEDTAKSPERIODE' | 'REVURDERING' | 'ANNULLERT_PERIODE' | 'UFULLSTENDIG';
-    inntektskilde: Inntektskilde;
     utbetalingstidslinje: Utbetalingsdag[];
     sykdomstidslinje: Sykdomsdag[];
-    organisasjonsnummer: string;
-    fullstendig: boolean;
     opprettet: Dayjs;
     fagsystemId?: string;
     oppgavereferanse?: string;
-    vilkårsgrunnlaghistorikkId: string | null;
     skjæringstidspunkt: DateString | null;
+    vilkårsgrunnlaghistorikkId: string | null;
 };
 
-declare type TidslinjeperiodeUtenSykefravær = Tidslinjeperiode;
+declare type TidslinjeperiodeUtenSykefravær = Tidslinjeperiode & {
+    skjæringstidspunkt: DateString;
+    vilkårsgrunnlaghistorikkId: string;
+};
 
 declare type Tidslinjeperiode = {
     id: string;
     fom: Dayjs;
     tom: Dayjs;
     tilstand: Tidslinjetilstand;
+    organisasjonsnummer: string;
+    inntektskilde: Inntektskilde;
+    fullstendig: boolean;
 };
 
 declare type Basisvilkår = {

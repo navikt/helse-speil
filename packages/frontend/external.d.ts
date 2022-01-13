@@ -513,6 +513,8 @@ declare type ExternalGenerasjon = {
 declare type ExternalGhostperiode = {
     fom: DateString;
     tom: DateString;
+    skjæringstidspunkt: DateString;
+    vilkårsgrunnlagHistorikkId: string;
 };
 
 declare type ExternalArbeidsgiver = {

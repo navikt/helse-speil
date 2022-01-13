@@ -55,7 +55,10 @@ interface InngangsvilkårProps {
 
 export const Inngangsvilkår = ({ skjæringstidspunkt, vilkårsgrunnlagHistorikkId }: InngangsvilkårProps) => {
     const aktivPeriode = useAktivPeriode();
-    const vurderingForSkjæringstidspunkt = useVurderingForSkjæringstidspunkt(aktivPeriode.unique, skjæringstidspunkt);
+    const unique =
+        aktivPeriode.tilstand === 'utenSykefravær' ? undefined : (aktivPeriode as TidslinjeperiodeMedSykefravær).unique;
+
+    const vurderingForSkjæringstidspunkt = useVurderingForSkjæringstidspunkt(unique, skjæringstidspunkt);
     const vilkårsgrunnlag = useVilkårsgrunnlaghistorikk(skjæringstidspunkt, vilkårsgrunnlagHistorikkId);
     const fødselsdato = usePersoninfo().fødselsdato;
     const alderVedSkjæringstidspunkt = dayjs(skjæringstidspunkt).diff(fødselsdato, 'year');
@@ -65,12 +68,7 @@ export const Inngangsvilkår = ({ skjæringstidspunkt, vilkårsgrunnlagHistorikk
     }
 
     const { oppfylteVilkår, ikkeVurderteVilkår, ikkeOppfylteVilkår, vilkårVurdertIInfotrygd, vilkårVurdertISpleis } =
-        kategoriserteInngangsvilkår(
-            vilkårsgrunnlag,
-            aktivPeriode,
-            alderVedSkjæringstidspunkt,
-            vurderingForSkjæringstidspunkt
-        );
+        kategoriserteInngangsvilkår(vilkårsgrunnlag, alderVedSkjæringstidspunkt, vurderingForSkjæringstidspunkt);
 
     const harBehandledeVilkår =
         harVilkår(ikkeVurderteVilkår) || harVilkår(ikkeOppfylteVilkår) || harVilkår(oppfylteVilkår);

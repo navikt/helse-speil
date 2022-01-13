@@ -68,7 +68,10 @@ const Tittel = styled(BodyShort)`
 
 const useIkkeUtbetaltVedSkjæringstidspunkt = (): boolean | undefined => {
     const periode = useAktivPeriode();
-    const utbetaling = useUtbetalingForSkjæringstidspunkt(periode.unique, periode.skjæringstidspunkt!);
+    const unique =
+        periode.tilstand === 'utenSykefravær' ? undefined : (periode as TidslinjeperiodeMedSykefravær).unique;
+
+    const utbetaling = useUtbetalingForSkjæringstidspunkt(unique, periode.skjæringstidspunkt!);
     return utbetaling?.status === 'IKKE_UTBETALT' && utbetaling?.type === 'UTBETALING';
 };
 
@@ -91,9 +94,15 @@ const RedigerInntekt = ({ setEditing, editing }: RedigerInntektProps) => {
     const erTidslinjeperiodeISisteGenerasjon = useErTidslinjeperiodeISisteGenerasjon();
     const aktivPeriode = useAktivPeriode();
     const erSpleisVilkårsgrunnlagtype =
-        useVilkårsgrunnlaghistorikk(aktivPeriode.skjæringstidspunkt!, aktivPeriode.vilkårsgrunnlaghistorikkId!)
-            ?.vilkårsgrunnlagtype === 'SPLEIS';
+        useVilkårsgrunnlaghistorikk(
+            (aktivPeriode as TidslinjeperiodeMedSykefravær)?.skjæringstidspunkt,
+            (aktivPeriode as TidslinjeperiodeMedSykefravær)?.vilkårsgrunnlaghistorikkId
+        )?.vilkårsgrunnlagtype === 'SPLEIS';
     const erIkkePingPong = useHarKunEnFagsystemIdPåArbeidsgiverIAktivPeriode();
+
+    if (aktivPeriode.tilstand === 'utenSykefravær') {
+        return <></>;
+    }
 
     return harKunEnArbeidsgiver &&
         erAktivPeriodeISisteSkjæringstidspunkt &&

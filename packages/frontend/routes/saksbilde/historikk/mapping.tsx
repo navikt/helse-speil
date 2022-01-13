@@ -60,19 +60,27 @@ export const useDokumenter = (vedtaksperiode?: Vedtaksperiode): Hendelse[] =>
             }))) ||
     [];
 
-export const useUtbetalinger = (periode?: TidslinjeperiodeMedSykefravær): Hendelse[] => {
+export const useUtbetalinger = (
+    periode?: TidslinjeperiodeMedSykefravær | TidslinjeperiodeUtenSykefravær
+): Hendelse[] => {
     const utbetalingshistorikk =
         usePerson()?.arbeidsgivere.find((it) => it.organisasjonsnummer === periode?.organisasjonsnummer)
             ?.utbetalingshistorikk ?? [];
 
+    if (periode?.tilstand === 'utenSykefravær') {
+        return [];
+    }
+
+    const beregningId = periode ? (periode as TidslinjeperiodeMedSykefravær).beregningId : undefined;
+
     return utbetalingshistorikk
-        .filter((it) => it.id === periode?.beregningId)
+        .filter((it) => it.id === beregningId)
         .filter((it) => it.utbetaling.vurdering)
         .map(({ utbetaling }: HistorikkElement, i) => {
             const { tidsstempel, automatisk, godkjent, ident } = (utbetaling as Required<UtbetalingshistorikkElement>)
                 .vurdering;
             return {
-                id: `utbetaling-${periode?.beregningId}-${i}`,
+                id: `utbetaling-${beregningId}-${i}`,
                 timestamp: tidsstempel,
                 title: automatisk
                     ? 'Automatisk godkjent'

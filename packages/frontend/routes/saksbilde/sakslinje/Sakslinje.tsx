@@ -3,7 +3,7 @@ import React from 'react';
 
 import { Flex } from '../../../components/Flex';
 import { Location, useNavigation } from '../../../hooks/useNavigation';
-import { useMaybeAktivArbeidsgiverUtenSykdom, useVedtaksperiode } from '../../../state/tidslinje';
+import { useVedtaksperiode } from '../../../state/tidslinje';
 
 import { TabLink } from '../TabLink';
 import { HistorikkHeader } from '../historikk/HistorikkHeader';
@@ -29,20 +29,26 @@ const TabList = styled.span`
 `;
 
 interface SakslinjeProps {
-    aktivPeriode: TidslinjeperiodeMedSykefravær;
+    aktivPeriode: TidslinjeperiodeMedSykefravær | TidslinjeperiodeUtenSykefravær;
 }
 
 export const Sakslinje = ({ aktivPeriode }: SakslinjeProps) => {
     const { pathForLocation } = useNavigation();
     const vedtaksperiode = useVedtaksperiode(aktivPeriode.id) as Vedtaksperiode;
-    const arbeidsgiverUtenSykefravær = useMaybeAktivArbeidsgiverUtenSykdom();
+    const erArbeidsgiverUtenSykefravær = aktivPeriode.tilstand === 'utenSykefravær';
+    const kanVises =
+        erArbeidsgiverUtenSykefravær ||
+        (aktivPeriode as TidslinjeperiodeMedSykefravær).type === 'VEDTAKSPERIODE' ||
+        (aktivPeriode as TidslinjeperiodeMedSykefravær).type === 'REVURDERING';
+
+    const kanViseFaresignaler = erArbeidsgiverUtenSykefravær ? false : vedtaksperiode.risikovurdering;
 
     return (
         <Container className="Sakslinje">
             <Flex>
-                {(aktivPeriode?.type === 'VEDTAKSPERIODE' || aktivPeriode?.type === 'REVURDERING') && (
+                {kanVises && (
                     <TabList role="tablist">
-                        {!arbeidsgiverUtenSykefravær && (
+                        {!erArbeidsgiverUtenSykefravær && (
                             <>
                                 <TabLink
                                     to={pathForLocation(Location.Utbetaling)}
@@ -59,11 +65,11 @@ export const Sakslinje = ({ aktivPeriode }: SakslinjeProps) => {
                         <TabLink
                             to={pathForLocation(Location.Sykepengegrunnlag)}
                             title="Sykepengegrunnlag"
-                            icon={arbeidsgiverUtenSykefravær && <HjemIkon />}
+                            icon={erArbeidsgiverUtenSykefravær && <HjemIkon />}
                         >
                             Sykepengegrunnlag
                         </TabLink>
-                        {vedtaksperiode.risikovurdering && !arbeidsgiverUtenSykefravær && (
+                        {kanViseFaresignaler && (
                             <TabLink to={pathForLocation(Location.Faresignaler)} title="Faresignaler">
                                 Faresignaler
                             </TabLink>

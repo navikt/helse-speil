@@ -73,8 +73,8 @@ const Saksbildevarsel = styled(Varsel)`
 `;
 
 interface SaksbildevarslerProps {
-    aktivPeriode: TidslinjeperiodeMedSykefravær;
-    vedtaksperiode: Vedtaksperiode;
+    aktivPeriode: TidslinjeperiodeMedSykefravær | TidslinjeperiodeUtenSykefravær;
+    vedtaksperiode?: Vedtaksperiode;
     oppgavereferanse?: string;
 }
 
@@ -91,6 +91,8 @@ export const Saksbildevarsler = ({ aktivPeriode, vedtaksperiode, oppgavereferans
         manglendeOppgavereferansevarsel(aktivPeriode.tilstand, oppgavereferanse),
     ].filter((it) => it) as VarselObject[];
 
+    const skalViseAktivtetsloggvarsler = aktivPeriode.tilstand !== 'utenSykefravær' && vedtaksperiode;
+
     return (
         <div className="Saksbildevarsler">
             {infoVarsler.map(({ grad, melding }, index) => (
@@ -98,7 +100,7 @@ export const Saksbildevarsler = ({ aktivPeriode, vedtaksperiode, oppgavereferans
                     <BodyShort>{melding}</BodyShort>
                 </Saksbildevarsel>
             ))}
-            <Aktivitetsloggvarsler varsler={vedtaksperiode.aktivitetslog} />
+            {skalViseAktivtetsloggvarsler && <Aktivitetsloggvarsler varsler={vedtaksperiode.aktivitetslog} />}
             {feilVarsler.map(({ grad, melding }, index) => (
                 <Saksbildevarsel variant={grad} key={index}>
                     <BodyShort>{melding}</BodyShort>

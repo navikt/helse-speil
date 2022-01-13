@@ -27,16 +27,22 @@ const Container = styled(Dropdown)`
 `;
 
 export interface SakslinjemenyProps {
-    aktivPeriode: TidslinjeperiodeMedSykefravær;
+    aktivPeriode: TidslinjeperiodeMedSykefravær | TidslinjeperiodeUtenSykefravær;
 }
 
 export const Sakslinjemeny = ({ aktivPeriode }: SakslinjemenyProps) => {
     const { oid } = useInnloggetSaksbehandler();
     const person = usePerson();
     const vedtaksperiode = useVedtaksperiode(aktivPeriode.id);
-    const oppgavereferanse = useOppgavereferanse(aktivPeriode.beregningId);
-    const vedtaksperiodeErAnnullert: boolean = useErAnnullert(aktivPeriode.beregningId);
+    const erPeriodeUtenSykefravær = aktivPeriode.tilstand !== 'utenSykefravær';
+    const beregningId = erPeriodeUtenSykefravær
+        ? undefined
+        : (aktivPeriode as TidslinjeperiodeMedSykefravær).beregningId;
+
+    const oppgavereferanse = useOppgavereferanse(beregningId);
+    const vedtaksperiodeErAnnullert: boolean = useErAnnullert(beregningId);
     const arbeidsgiverUtbetaling = vedtaksperiode?.utbetalinger?.arbeidsgiverUtbetaling;
+
     const showAnnullering = !vedtaksperiodeErAnnullert && annulleringerEnabled;
     const tildeltInnloggetBruker = person?.tildeling?.saksbehandler.oid === oid;
 
@@ -44,14 +50,14 @@ export const Sakslinjemeny = ({ aktivPeriode }: SakslinjemenyProps) => {
         <Container>
             {aktivPeriode && (
                 <>
-                    {oppgavereferanse && (
+                    {erPeriodeUtenSykefravær && oppgavereferanse && (
                         <Tildelingsknapp
                             oppgavereferanse={oppgavereferanse}
                             tildeling={person?.tildeling}
                             erTildeltInnloggetBruker={tildeltInnloggetBruker}
                         />
                     )}
-                    {person && tildeltInnloggetBruker && (
+                    {person && tildeltInnloggetBruker && erPeriodeUtenSykefravær && (
                         <PåVentKnapp
                             erPåVent={person?.tildeling?.påVent}
                             oppgavereferanse={oppgavereferanse}
@@ -64,8 +70,11 @@ export const Sakslinjemeny = ({ aktivPeriode }: SakslinjemenyProps) => {
             )}
             {oppdaterPersondataEnabled && <OppdaterPersondata />}
             <AnonymiserData />
-            {arbeidsgiverUtbetaling && showAnnullering && (
-                <Annullering utbetaling={arbeidsgiverUtbetaling} aktivPeriode={aktivPeriode} />
+            {arbeidsgiverUtbetaling && showAnnullering && erPeriodeUtenSykefravær && (
+                <Annullering
+                    utbetaling={arbeidsgiverUtbetaling}
+                    aktivPeriode={aktivPeriode as TidslinjeperiodeMedSykefravær}
+                />
             )}
         </Container>
     );

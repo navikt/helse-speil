@@ -64,8 +64,11 @@ export const useVedtaksperiode = (vedtaksperiodeId?: string): Vedtaksperiode | u
         ?.arbeidsgivere.flatMap((a) => a.vedtaksperioder)
         .find((p) => p.id === vedtaksperiodeId) as Vedtaksperiode | undefined;
 
-export const useOppgavereferanse = (beregningId: string): string | undefined => {
+export const useOppgavereferanse = (beregningId: string | undefined): string | undefined => {
     const person = usePerson();
+    if (!beregningId) {
+        return undefined;
+    }
     const vedtaksperiode = person?.arbeidsgivere
         .flatMap((a) => a.vedtaksperioder)
         .find((p) => p.beregningIder?.includes(beregningId)) as Vedtaksperiode | undefined;

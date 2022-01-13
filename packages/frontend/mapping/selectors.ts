@@ -1,4 +1,5 @@
 import dayjs, { Dayjs } from 'dayjs';
+import { useVilkårsgrunnlaghistorikk } from '../state/person';
 
 const trimLedendeArbeidsdager = (sykdomstidslinje: Dag[]): Dag[] => {
     const førsteIkkearbeidsdag = sykdomstidslinje.findIndex((dag) => dag.type !== 'Arbeidsdag') ?? 0;
@@ -44,9 +45,12 @@ export const sisteValgbarePeriode = (person: Person): Vedtaksperiode | undefined
 
 export const getAlderVedSisteSykedag = (
     fødselsdato: string,
-    periode: TidslinjeperiodeMedSykefravær
+    periode: TidslinjeperiodeMedSykefravær | TidslinjeperiodeUtenSykefravær
 ): number | undefined => {
-    const sykedager = periode.utbetalingstidslinje.filter((it) => it.type === 'Syk');
+    if (periode.tilstand === 'utenSykefravær') {
+        return undefined;
+    }
+    const sykedager = (periode as TidslinjeperiodeMedSykefravær).utbetalingstidslinje.filter((it) => it.type === 'Syk');
 
     if (sykedager.length < 1) return undefined;
     return sykedager
@@ -56,6 +60,9 @@ export const getAlderVedSisteSykedag = (
         .dato.diff(fødselsdato, 'year');
 };
 
-export const getMånedsbeløp = (vedtaksperiode: Vedtaksperiode, organisasjonsnummer: string): number | undefined =>
-    vedtaksperiode.inntektsgrunnlag?.inntekter?.find((it) => it.organisasjonsnummer === organisasjonsnummer)
+export const getMånedsbeløp = (
+    vedtaksperiode: Vedtaksperiode | undefined,
+    organisasjonsnummer: string
+): number | undefined =>
+    vedtaksperiode?.inntektsgrunnlag?.inntekter?.find((it) => it.organisasjonsnummer === organisasjonsnummer)
         ?.omregnetÅrsinntekt?.månedsbeløp;

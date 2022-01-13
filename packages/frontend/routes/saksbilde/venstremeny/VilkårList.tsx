@@ -48,7 +48,6 @@ export const VilkårList = ({ periode, skjæringstidspunkt, vilkårsgrunnlaghist
 
     const { ikkeVurderteVilkår, ikkeOppfylteVilkår, ...oppfylteVilkår } = kategoriserteInngangsvilkår(
         vilkårsgrunnlag,
-        periode,
         alderVedSkjæringstidspunkt,
         vurdering
     );

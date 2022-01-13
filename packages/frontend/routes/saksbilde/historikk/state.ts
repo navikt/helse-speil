@@ -61,7 +61,12 @@ export const useOppdaterHistorikk = ({
     useEffect(() => {
         setHistorikk(
             [...dokumenter, ...tidslinjeendringer, ...inntektoverstyringer]
-                .filter((it) => !aktivPeriode || it.timestamp?.isSameOrBefore(aktivPeriode.opprettet))
+                .filter(
+                    (it) =>
+                        !aktivPeriode ||
+                        (aktivPeriode.tilstand !== 'utenSykefravær' &&
+                            it.timestamp?.isSameOrBefore((aktivPeriode as TidslinjeperiodeMedSykefravær).opprettet))
+                )
                 .concat(utbetalinger)
                 .concat(notater)
                 .sort((a: Hendelse, b: Hendelse): number =>

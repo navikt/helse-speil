@@ -28,9 +28,10 @@ interface SykepengegrunnlagProps {
 export const Sykepengegrunnlag = ({ vilkårsgrunnlaghistorikkId, skjæringstidspunkt }: SykepengegrunnlagProps) => {
     const organisasjonsnummer = useOrganisasjonsnummer();
     const vilkårsgrunnlag = useVilkårsgrunnlaghistorikk(skjæringstidspunkt, vilkårsgrunnlaghistorikkId);
-
     const aktivPeriode = useMaybeAktivPeriode()!;
-    const vurdering = useVurderingForSkjæringstidspunkt(aktivPeriode.unique, aktivPeriode.skjæringstidspunkt!);
+    const unique =
+        aktivPeriode.tilstand === 'utenSykefravær' ? undefined : (aktivPeriode as TidslinjeperiodeMedSykefravær).unique;
+    const vurdering = useVurderingForSkjæringstidspunkt(unique, aktivPeriode.skjæringstidspunkt!);
 
     return (
         <Container className="Sykepengegrunnlag">

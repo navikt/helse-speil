@@ -4693,8 +4693,18 @@
                 }
             ],
             "ghostPerioder": [
-                { "fom": "2021-07-04", "tom": "2021-07-25" },
-                { "fom": "2021-08-01", "tom": "2021-08-25" }
+                {
+                    "fom": "2021-07-04",
+                    "tom": "2021-07-25",
+                    "skjæringstidspunkt": "2021-07-04",
+                    "vilkårsgrunnlagHistorikkId": "0e261677-57fc-4cf0-b29e-fe89299b42ec"
+                },
+                {
+                    "fom": "2021-08-01",
+                    "tom": "2021-08-25",
+                    "skjæringstidspunkt": "2021-08-01",
+                    "vilkårsgrunnlagHistorikkId": "0e261677-57fc-4cf0-b29e-fe89299b42ec"
+                }
             ],
             "generasjoner": null
         },
@@ -6351,7 +6361,14 @@
                     "beregningId": "8e3c35ef-c2e2-4edb-91f0-294235cb2de5"
                 }
             ],
-            "ghostPerioder": [{ "fom": "2021-07-04", "tom": "2021-07-25" }],
+            "ghostPerioder": [
+                {
+                    "fom": "2021-07-04",
+                    "tom": "2021-07-25",
+                    "skjæringstidspunkt": "2021-07-04",
+                    "vilkårsgrunnlagHistorikkId": "0e261677-57fc-4cf0-b29e-fe89299b42ec"
+                }
+            ],
             "generasjoner": null,
             "overstyringer": [],
             "bransjer": []
