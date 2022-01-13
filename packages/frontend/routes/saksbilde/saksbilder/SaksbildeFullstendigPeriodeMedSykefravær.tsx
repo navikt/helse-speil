@@ -67,7 +67,7 @@ export const SaksbildeFullstendigPeriodeMedSykefravær = ({
                 månedsbeløp={månedsbeløp}
                 skjæringstidspunkt={aktivPeriode.skjæringstidspunkt}
             />
-            <Content className="Content" data-testid="saksbilde-content">
+            <Content className="Content" data-testid="saksbilde-content-med-sykefravær">
                 <Saksbildevarsler
                     aktivPeriode={aktivPeriode}
                     vedtaksperiode={vedtaksperiode}

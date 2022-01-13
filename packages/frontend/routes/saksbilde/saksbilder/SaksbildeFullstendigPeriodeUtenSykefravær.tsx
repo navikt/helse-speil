@@ -41,7 +41,7 @@ export const SaksbildeFullstendigPeriodeUtenSykefravær = ({
                 organisasjonsnummer={aktivPeriode.organisasjonsnummer}
                 omregnetÅrsinntekt={omregnetÅrsinntekt}
             />
-            <Content className="Content" data-testid="saksbilde-content">
+            <Content className="Content" data-testid="saksbilde-content-uten-sykefravær">
                 <Saksbildevarsler aktivPeriode={aktivPeriode} />
                 <Switch>
                     <Route path={`${path}/sykepengegrunnlag`}>

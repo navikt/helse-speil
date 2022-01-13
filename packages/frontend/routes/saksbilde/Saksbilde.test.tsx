@@ -17,6 +17,8 @@ import { umappetUtbetalingshistorikk } from '../../test/data/utbetalingshistorik
 import { umappetVedtaksperiode } from '../../test/data/vedtaksperiode';
 import Saksbilde from './Saksbilde';
 import { mappetPerson } from '../../test/data';
+import { umappetGhostPeriode } from '../../test/data/ghostPeriode';
+import { umappetPerson } from '../../test/data/person';
 
 jest.mock('../../hooks/useRefreshPersonVedUrlEndring', () => ({
     useRefreshPersonVedUrlEndring: () => {},
@@ -60,10 +62,11 @@ const wrapperUtenPerson = () =>
 const wrapperMedPerson = (arbeidsgivere?: ExternalArbeidsgiver[]) =>
     wrapper(({ set }) => {
         const umappetArbeidsgivere = arbeidsgivere ?? [umappetArbeidsgiver()];
+        const umappetVilkårsgrunnlagHistorikk = umappetPerson().vilkårsgrunnlagHistorikk;
         set(personState, {
             person: {
                 ...mappetPerson(umappetArbeidsgivere),
-                vilkårsgrunnlagHistorikk: {},
+                vilkårsgrunnlagHistorikk: umappetVilkårsgrunnlagHistorikk,
                 arbeidsgivereV2: umappetArbeidsgivere,
                 arbeidsforhold: [],
             },
@@ -82,9 +85,9 @@ describe('Saksbilde', () => {
         render(<Saksbilde />, { wrapper: wrapperUtenPerson() });
 
         await waitFor(() => {
-            expect(screen.queryByTestId('laster-saksbilde')).toBeVisible();
+            expect(screen.getByTestId('laster-saksbilde')).toBeVisible();
             expect(screen.queryByTestId('tomt-saksbilde')).toBeNull();
-            expect(screen.queryByTestId('saksbilde-content')).toBeNull();
+            expect(screen.queryByTestId('saksbilde-content-med-sykefravær')).toBeNull();
             expect(screen.queryByTestId('saksbilde-ufullstendig-vedtaksperiode')).toBeNull();
         });
     });
@@ -93,9 +96,9 @@ describe('Saksbilde', () => {
         render(<Saksbilde />, { wrapper: wrapperMedPerson([umappetArbeidsgiver([], [], [])]) });
 
         await waitFor(() => {
-            expect(screen.queryByTestId('tomt-saksbilde')).toBeVisible();
+            expect(screen.getByTestId('tomt-saksbilde')).toBeVisible();
             expect(screen.queryByTestId('laster-saksbilde')).toBeNull();
-            expect(screen.queryByTestId('saksbilde-content')).toBeNull();
+            expect(screen.queryByTestId('saksbilde-content-med-sykefravær')).toBeNull();
             expect(screen.queryByTestId('saksbilde-ufullstendig-vedtaksperiode')).toBeNull();
         });
     });
@@ -121,7 +124,7 @@ describe('Saksbilde', () => {
 
         await waitFor(() => {
             expect(screen.getByTestId('saksbilde-ufullstendig-vedtaksperiode')).toBeVisible();
-            expect(screen.queryByTestId('saksbilde-content')).toBeNull();
+            expect(screen.queryByTestId('saksbilde-content-med-sykefravær')).toBeNull();
             expect(screen.queryByTestId('laster-saksbilde')).toBeNull();
             expect(screen.queryByTestId('tomt-saksbilde')).toBeNull();
         });
@@ -131,7 +134,61 @@ describe('Saksbilde', () => {
         render(<Saksbilde />, { wrapper: wrapperMedPerson() });
 
         await waitFor(() => {
-            expect(screen.queryByTestId('saksbilde-content')).toBeVisible();
+            expect(screen.getByTestId('saksbilde-content-med-sykefravær')).toBeVisible();
+            expect(screen.queryByTestId('saksbilde-ufullstendig-vedtaksperiode')).toBeNull();
+            expect(screen.queryByTestId('laster-saksbilde')).toBeNull();
+            expect(screen.queryByTestId('tomt-saksbilde')).toBeNull();
+        });
+    });
+
+    test('rendrer saksbilde for perioder uten sykefravær', async () => {
+        const ORGNR = '987654321';
+        const dato = dayjs('2018-01-01');
+        const vilkårsgrunnlaghistorikkid = '33612787-ca6c-45ba-bbd0-29ae6474d9c2';
+
+        const arbeidsgiverMedPeriodeUtenSykefravær = [
+            umappetArbeidsgiver(
+                [
+                    umappetVedtaksperiode({
+                        id: 'uuid-1',
+                        fom: dato.format(ISO_DATOFORMAT),
+                        tom: dato.format(ISO_DATOFORMAT),
+                        beregningIder: ['id1'],
+                    }),
+                ],
+                [],
+                [
+                    umappetUtbetalingshistorikk(
+                        'id1',
+                        vilkårsgrunnlaghistorikkid,
+                        'UTBETALING',
+                        'UTBETALT',
+                        dayjs('2020-01-01T00:00:00'),
+                        dato
+                    ),
+                ],
+                [
+                    umappetGhostPeriode(
+                        dato.format(ISO_DATOFORMAT),
+                        dato.format(ISO_DATOFORMAT),
+                        dato.format(ISO_DATOFORMAT),
+                        vilkårsgrunnlaghistorikkid
+                    ),
+                ],
+                ORGNR
+            ),
+        ];
+
+        render(<Saksbilde />, { wrapper: wrapperMedPerson(arbeidsgiverMedPeriodeUtenSykefravær) });
+
+        let perioder = screen.getAllByTestId('tidslinjeperiode', { exact: false });
+        expect(perioder).toHaveLength(2);
+        expect(perioder[0]).toBeVisible();
+        userEvent.click(perioder[0].getElementsByTagName('button')[0]);
+
+        await waitFor(() => {
+            expect(screen.getByTestId('saksbilde-content-uten-sykefravær')).toBeVisible();
+            expect(screen.queryByTestId('saksbilde-content-med-sykefravær')).toBeNull();
             expect(screen.queryByTestId('saksbilde-ufullstendig-vedtaksperiode')).toBeNull();
             expect(screen.queryByTestId('laster-saksbilde')).toBeNull();
             expect(screen.queryByTestId('tomt-saksbilde')).toBeNull();
@@ -179,7 +236,7 @@ describe('Saksbilde', () => {
         userEvent.click(perioder[0].getElementsByTagName('button')[0]);
 
         await waitFor(() => {
-            expect(screen.getByTestId('saksbilde-content')).toBeVisible();
+            expect(screen.getByTestId('saksbilde-content-med-sykefravær')).toBeVisible();
             expect(screen.queryByTestId('saksbilde-ufullstendig-vedtaksperiode')).toBeNull();
             expect(screen.queryByTestId('laster-saksbilde')).toBeNull();
             expect(screen.queryByTestId('tomt-saksbilde')).toBeNull();
