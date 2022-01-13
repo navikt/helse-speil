@@ -7,6 +7,7 @@ import { getPositionedPeriods } from '@navikt/helse-frontend-timeline/lib';
 import { HoverInfo, HoverInfoUtenSykefravær } from './HoverInfo';
 import { arbeidsgiverNavn } from './Tidslinje';
 import { TidslinjeperiodeObject } from './Tidslinje.types';
+import { ghostToggles } from '../../../featureToggles';
 
 export type TidslinjeradObject = {
     id: string;
@@ -27,7 +28,7 @@ export const toTidslinjeperioder = (
     fom: Dayjs,
     tom: Dayjs
 ): TidslinjeperiodeObject[] => {
-    const perioder = tidslinjeperioder.map((it) => {
+    const perioderMedSykefravær = tidslinjeperioder.map((it) => {
         return {
             id: `${it.id}+${it.beregningId}+${it.unique}`,
             start: it.fom.toDate(),
@@ -48,12 +49,11 @@ export const toTidslinjeperioder = (
         hoverLabel: <HoverInfoUtenSykefravær fom={it.fom} tom={it.tom} />,
     }));
 
-    return getPositionedPeriods(
-        fom.toDate(),
-        tom.toDate(),
-        [...perioder, ...perioderUtenSykefravær],
-        'right'
-    ) as TidslinjeperiodeObject[];
+    const perioderTilVisning = ghostToggles.viseGhostPølserEnabled
+        ? [...perioderMedSykefravær, ...perioderUtenSykefravær]
+        : perioderMedSykefravær;
+
+    return getPositionedPeriods(fom.toDate(), tom.toDate(), perioderTilVisning, 'right') as TidslinjeperiodeObject[];
 };
 export const useTidslinjerader = (
     person: Person,
