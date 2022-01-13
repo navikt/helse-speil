@@ -23,6 +23,9 @@ const Container = styled.div`
 `;
 
 const Dagtypevelger = styled(Select)`
+    .navds-select__input {
+        padding: 0.15rem;
+    }
     .navds-select__container {
         margin-right: 10px;
         width: 137px;
