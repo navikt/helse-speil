@@ -34,10 +34,10 @@ export const Sakslinjemeny = ({ aktivPeriode }: SakslinjemenyProps) => {
     const { oid } = useInnloggetSaksbehandler();
     const person = usePerson();
     const vedtaksperiode = useVedtaksperiode(aktivPeriode.id);
-    const erPeriodeUtenSykefravær = aktivPeriode.tilstand !== 'utenSykefravær';
-    const beregningId = erPeriodeUtenSykefravær
-        ? undefined
-        : (aktivPeriode as TidslinjeperiodeMedSykefravær).beregningId;
+    const erPeriodeMedSykefravær = aktivPeriode.tilstand !== 'utenSykefravær';
+    const beregningId = erPeriodeMedSykefravær
+        ? (aktivPeriode as TidslinjeperiodeMedSykefravær).beregningId
+        : undefined;
 
     const oppgavereferanse = useOppgavereferanse(beregningId);
     const vedtaksperiodeErAnnullert: boolean = useErAnnullert(beregningId);
@@ -50,14 +50,14 @@ export const Sakslinjemeny = ({ aktivPeriode }: SakslinjemenyProps) => {
         <Container>
             {aktivPeriode && (
                 <>
-                    {erPeriodeUtenSykefravær && oppgavereferanse && (
+                    {erPeriodeMedSykefravær && oppgavereferanse && (
                         <Tildelingsknapp
                             oppgavereferanse={oppgavereferanse}
                             tildeling={person?.tildeling}
                             erTildeltInnloggetBruker={tildeltInnloggetBruker}
                         />
                     )}
-                    {person && tildeltInnloggetBruker && erPeriodeUtenSykefravær && (
+                    {person && tildeltInnloggetBruker && erPeriodeMedSykefravær && (
                         <PåVentKnapp
                             erPåVent={person?.tildeling?.påVent}
                             oppgavereferanse={oppgavereferanse}
@@ -70,7 +70,7 @@ export const Sakslinjemeny = ({ aktivPeriode }: SakslinjemenyProps) => {
             )}
             {oppdaterPersondataEnabled && <OppdaterPersondata />}
             <AnonymiserData />
-            {arbeidsgiverUtbetaling && showAnnullering && erPeriodeUtenSykefravær && (
+            {arbeidsgiverUtbetaling && showAnnullering && erPeriodeMedSykefravær && (
                 <Annullering
                     utbetaling={arbeidsgiverUtbetaling}
                     aktivPeriode={aktivPeriode as TidslinjeperiodeMedSykefravær}
