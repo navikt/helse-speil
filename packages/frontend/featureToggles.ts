@@ -176,7 +176,6 @@ const kanRevurdere = [
 export const erLocal = () => location.hostname === 'localhost';
 export const erDev = () => location.hostname === 'speil.dev.intern.nav.no';
 
-const skalViseGhostPølser = () => erLocal() || erUtvikler();
 const harTilgangTilAlt = () => [...supersaksbehandlere, ...fagkoordinatorer].includes(extractIdent());
 const erFaktiskSupportsaksbehandler = () => faktiskSupportsaksbehandlere.includes(extractIdent()); // ref @support på Slack
 const harUtvidetTilgang = () => utvidetTilganger.includes(extractIdent());
