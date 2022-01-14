@@ -55,6 +55,47 @@ export const toTidslinjeperioder = (
 
     return getPositionedPeriods(fom.toDate(), tom.toDate(), perioderTilVisning, 'right') as TidslinjeperiodeObject[];
 };
+
+const toArbeidsgiverrader = (
+    arbeidsgiver: Arbeidsgiver,
+    fom: Dayjs,
+    tom: Dayjs,
+    skalAnonymisereData: boolean
+): TidslinjeradObject[] => {
+    const raderMedOgUtenSykdom = arbeidsgiver.tidslinjeperioder.map(
+        (periodeMedSykefravær) =>
+            ({
+                id: nanoid(),
+                perioder: toTidslinjeperioder(
+                    periodeMedSykefravær,
+                    arbeidsgiver.tidslinjeperioderUtenSykefravær,
+                    fom,
+                    tom
+                ),
+                arbeidsgiver: arbeidsgiverNavn(arbeidsgiver, skalAnonymisereData),
+                erAktiv: false,
+            } as TidslinjeradObject)
+    );
+    const orgnummereMedSykdom = arbeidsgiver.tidslinjeperioder.flat().map((tidslinje) => tidslinje.organisasjonsnummer);
+    const raderUtenSykdom = [
+        arbeidsgiver.tidslinjeperioderUtenSykefravær.filter(
+            (tidslinjeperiode) => !orgnummereMedSykdom.includes(tidslinjeperiode.organisasjonsnummer)
+        ),
+    ].map(
+        (periodeUtenSykefravær) =>
+            ({
+                id: nanoid(),
+                perioder: toTidslinjeperioder([], periodeUtenSykefravær, fom, tom),
+                arbeidsgiver: arbeidsgiverNavn(arbeidsgiver, skalAnonymisereData),
+                erAktiv: false,
+            } as TidslinjeradObject)
+    );
+
+    return [...raderMedOgUtenSykdom, ...raderUtenSykdom].filter(
+        (tidslinjeradObjekt) => tidslinjeradObjekt.perioder.length > 0
+    );
+};
+
 export const useTidslinjerader = (
     person: Person,
     fom: Dayjs,
@@ -66,15 +107,7 @@ export const useTidslinjerader = (
             person.arbeidsgivere.map((arbeidsgiver) => ({
                 id: arbeidsgiver.organisasjonsnummer,
                 navn: arbeidsgiverNavn(arbeidsgiver, skalAnonymisereData),
-                rader: arbeidsgiver.tidslinjeperioder.map(
-                    (rad) =>
-                        ({
-                            id: nanoid(),
-                            perioder: toTidslinjeperioder(rad, arbeidsgiver.tidslinjeperioderUtenSykefravær, fom, tom),
-                            arbeidsgiver: arbeidsgiverNavn(arbeidsgiver, skalAnonymisereData),
-                            erAktiv: false,
-                        } as TidslinjeradObject)
-                ),
+                rader: toArbeidsgiverrader(arbeidsgiver, fom, tom, skalAnonymisereData),
             })),
         [person, fom, tom]
     );

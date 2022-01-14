@@ -10,6 +10,12 @@ import { useTidslinjerader } from './useTidslinjerader';
 
 let person = mappetPerson();
 
+jest.mock('../../../featureToggles', () => ({
+    ghostToggles: {
+        viseGhostPølserEnabled: true,
+    },
+}));
+
 describe('useTidslinjerader', () => {
     beforeEach(() => {
         person = mappetPerson();
@@ -201,6 +207,32 @@ describe('useTidslinjerader', () => {
         expect(result.current[0].rader[1].perioder[1].tilstand).toEqual('utbetaltAutomatisk');
         expect(result.current[0].rader[0].perioder[0].tilstand).toEqual('revurdert');
         expect(result.current[0].rader[0].perioder[1].tilstand).toEqual('revurdert');
+    });
+
+    test('Arbeidsgiver uten sykdom som aldri har hatt en vedtaksperiode, skal fortsatt vise ghostpølser', () => {
+        const person = mappetPerson(
+            [
+                umappetArbeidsgiver(
+                    [],
+                    [],
+                    [],
+                    [
+                        {
+                            fom: '2018-01-01',
+                            tom: '2018-01-31',
+                            skjæringstidspunkt: '2018-01-01',
+                            vilkårsgrunnlagHistorikkInnslagId: 'yolo',
+                        },
+                    ]
+                ),
+            ],
+            [],
+            []
+        );
+
+        const { result } = renderHook(() => useTidslinjerader(person, dayjs('2018-01-01'), dayjs('2018-01-31'), false));
+        expect(result.current[0].rader.length).toEqual(1);
+        expect(result.current[0].rader[0].perioder.length).toEqual(1);
     });
 });
 

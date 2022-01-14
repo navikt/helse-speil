@@ -143,6 +143,9 @@ export const useHarKunEnFagsystemIdPåArbeidsgiverIAktivPeriode = (): boolean =>
     const arbeidsgiver = useArbeidsgiver();
     const aktivPeriode = useAktivPeriode();
 
+    if (aktivPeriode.tilstand === 'utenSykefravær' || arbeidsgiver.tidslinjeperioder.length == 0) {
+        return false;
+    }
     return (
         Object.keys(
             groupBy(
