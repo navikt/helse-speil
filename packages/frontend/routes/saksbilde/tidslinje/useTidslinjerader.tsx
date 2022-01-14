@@ -9,6 +9,9 @@ import { arbeidsgiverNavn } from './Tidslinje';
 import { TidslinjeperiodeObject } from './Tidslinje.types';
 import { ghostToggles } from '../../../featureToggles';
 
+const MANGLENDE_BEREGNINGID_VED_PERIDOE_UTEN_SYKEFRAVÆR = '_';
+const MANGLENDE_UNIQUEID_VED_PERIDOE_UTEN_SYKEFRAVÆR = '_';
+
 export type TidslinjeradObject = {
     id: string;
     perioder: TidslinjeperiodeObject[];
@@ -41,7 +44,7 @@ export const toTidslinjeperioder = (
     });
 
     const perioderUtenSykefravær = tidslinjeperioderUtenSykefravær.map((it) => ({
-        id: `${it.id}+_+_`,
+        id: `${it.id}+${MANGLENDE_BEREGNINGID_VED_PERIDOE_UTEN_SYKEFRAVÆR}+${MANGLENDE_UNIQUEID_VED_PERIDOE_UTEN_SYKEFRAVÆR}`,
         start: it.fom.toDate(),
         end: it.tom.toDate(),
         tilstand: it.tilstand,
