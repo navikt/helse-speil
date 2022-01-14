@@ -3,10 +3,17 @@ import dayjs, { Dayjs } from 'dayjs';
 import { mappetPerson } from 'test-data';
 
 import { umappetArbeidsgiver } from '../../../test/data/arbeidsgiver';
-import { testArbeidsgiverfagsystemId } from '../../../test/data/person';
+import {
+    testArbeidsgiverfagsystemId,
+    testBeregningId,
+    testOrganisasjonsnummer,
+    umappetPerson,
+} from '../../../test/data/person';
 import { umappetUtbetalingshistorikk } from '../../../test/data/utbetalingshistorikk';
 import { umappetVedtaksperiode } from '../../../test/data/vedtaksperiode';
 import { useTidslinjerader } from './useTidslinjerader';
+import { ArbeidsgiverBuilder } from '../../../mapping/arbeidsgiver';
+import { umappetInntektsgrunnlag } from '../../../test/data/inntektsgrunnlag';
 
 let person = mappetPerson();
 
@@ -207,6 +214,72 @@ describe('useTidslinjerader', () => {
         expect(result.current[0].rader[1].perioder[1].tilstand).toEqual('utbetaltAutomatisk');
         expect(result.current[0].rader[0].perioder[0].tilstand).toEqual('revurdert');
         expect(result.current[0].rader[0].perioder[1].tilstand).toEqual('revurdert');
+    });
+
+    test('Person med 3 arbeidsgivere med ulik ghostkombinasjoner - rendre riktig pølser i tidslinjen', () => {
+        const ag1 = umappetArbeidsgiver(
+            [
+                umappetVedtaksperiode({
+                    fom: '2021-07-01',
+                    tom: '2021-07-25',
+                }),
+            ],
+            [],
+            [umappetUtbetalingshistorikk(testBeregningId)],
+            [],
+            'a1'
+        );
+
+        const ag2 = umappetArbeidsgiver(
+            [
+                umappetVedtaksperiode({
+                    fom: '2021-09-01',
+                    tom: '2021-09-25',
+                }),
+            ],
+            [],
+            [umappetUtbetalingshistorikk(testBeregningId)],
+            [
+                {
+                    fom: '2021-08-01',
+                    tom: '2021-08-25',
+                    skjæringstidspunkt: '2021-08-01',
+                    vilkårsgrunnlagHistorikkInnslagId: 'yolo',
+                },
+                {
+                    fom: '2021-07-01',
+                    tom: '2021-07-25',
+                    skjæringstidspunkt: '2021-07-01',
+                    vilkårsgrunnlagHistorikkInnslagId: 'yolo',
+                },
+            ],
+            'a2'
+        );
+
+        const ag3 = umappetArbeidsgiver(
+            [],
+            [],
+            [umappetUtbetalingshistorikk(testBeregningId)],
+            [
+                {
+                    fom: '2021-07-01',
+                    tom: '2021-07-25',
+                    skjæringstidspunkt: '2021-07-01',
+                    vilkårsgrunnlagHistorikkInnslagId: 'yolo',
+                },
+            ],
+            'a3'
+        );
+        const person = mappetPerson([ag1, ag2, ag3]);
+        const { result } = renderHook(() => useTidslinjerader(person, dayjs('2021-01-01'), dayjs('2021-12-31'), false));
+
+        expect(result.current[0].rader.length).toEqual(1);
+        expect(result.current[1].rader.length).toEqual(1);
+        expect(result.current[2].rader.length).toEqual(1);
+
+        expect(result.current[0].rader[0].perioder.length).toEqual(1);
+        expect(result.current[1].rader[0].perioder.length).toEqual(3);
+        expect(result.current[2].rader[0].perioder.length).toEqual(1);
     });
 
     test('Arbeidsgiver uten sykdom som aldri har hatt en vedtaksperiode, skal fortsatt vise ghostpølser', () => {

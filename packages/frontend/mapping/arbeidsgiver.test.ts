@@ -57,7 +57,7 @@ describe('ArbeidsgiverBuilder', () => {
         expect(arbeidsgiver?.tidslinjeperioderUtenSykefravær).toEqual([]);
     });
 
-    test('mapper arbeidsgiver med ghostperioder riktig', () => {
+    test('mapper arbeidsgiver med ghostperioder riktig - happy case', () => {
         const arbeidsgiverMedToVedtaksperioder = umappetArbeidsgiver(
             [
                 umappetVedtaksperiode({
