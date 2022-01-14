@@ -7,7 +7,6 @@ import { getPositionedPeriods } from '@navikt/helse-frontend-timeline/lib';
 import { HoverInfo, HoverInfoUtenSykefravær } from './HoverInfo';
 import { arbeidsgiverNavn } from './Tidslinje';
 import { TidslinjeperiodeObject } from './Tidslinje.types';
-import { ghostToggles } from '../../../featureToggles';
 
 const MANGLENDE_BEREGNINGID_VED_PERIDOE_UTEN_SYKEFRAVÆR = '_';
 const MANGLENDE_UNIQUEID_VED_PERIDOE_UTEN_SYKEFRAVÆR = '_';
@@ -52,9 +51,7 @@ export const toTidslinjeperioder = (
         hoverLabel: <HoverInfoUtenSykefravær fom={it.fom} tom={it.tom} />,
     }));
 
-    const perioderTilVisning = ghostToggles.viseGhostPølserEnabled
-        ? [...perioderMedSykefravær, ...perioderUtenSykefravær]
-        : perioderMedSykefravær;
+    const perioderTilVisning = [...perioderMedSykefravær, ...perioderUtenSykefravær];
 
     return getPositionedPeriods(fom.toDate(), tom.toDate(), perioderTilVisning, 'right') as TidslinjeperiodeObject[];
 };

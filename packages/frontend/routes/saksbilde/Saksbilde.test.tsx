@@ -35,9 +35,6 @@ jest.mock('../../featureToggles', () => ({
     },
     erDev: () => true,
     erLocal: () => true,
-    ghostToggles: {
-        viseGhostPølserEnabled: true,
-    },
 }));
 
 const wrapper =

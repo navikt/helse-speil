@@ -17,12 +17,6 @@ import { umappetInntektsgrunnlag } from '../../../test/data/inntektsgrunnlag';
 
 let person = mappetPerson();
 
-jest.mock('../../../featureToggles', () => ({
-    ghostToggles: {
-        viseGhostPølserEnabled: true,
-    },
-}));
-
 describe('useTidslinjerader', () => {
     beforeEach(() => {
         person = mappetPerson();

@@ -228,7 +228,3 @@ export const defaultUtbetalingToggles: UtbetalingToggles = {
 };
 
 export const overstyrInntektEnabled = overstyreUtbetaltPeriodeEnabled;
-
-export const ghostToggles = {
-    viseGhostPølserEnabled: skalViseGhostPølser(),
-};
