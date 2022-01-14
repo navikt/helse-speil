@@ -50,11 +50,7 @@ export const Sakslinje = ({ aktivPeriode }: SakslinjeProps) => {
                     <TabList role="tablist">
                         {!erArbeidsgiverUtenSykefravær && (
                             <>
-                                <TabLink
-                                    to={pathForLocation(Location.Utbetaling)}
-                                    title="Utbetaling"
-                                    icon={<HjemIkon />}
-                                >
+                                <TabLink to={pathForLocation(Location.Utbetaling)} title="Utbetaling">
                                     Utbetaling
                                 </TabLink>
                                 <TabLink to={pathForLocation(Location.Inngangsvilkår)} title="Inngangsvilkår">
@@ -62,11 +58,7 @@ export const Sakslinje = ({ aktivPeriode }: SakslinjeProps) => {
                                 </TabLink>
                             </>
                         )}
-                        <TabLink
-                            to={pathForLocation(Location.Sykepengegrunnlag)}
-                            title="Sykepengegrunnlag"
-                            icon={erArbeidsgiverUtenSykefravær && <HjemIkon />}
-                        >
+                        <TabLink to={pathForLocation(Location.Sykepengegrunnlag)} title="Sykepengegrunnlag">
                             Sykepengegrunnlag
                         </TabLink>
                         {kanViseFaresignaler && (
