@@ -8,5 +8,8 @@ export default defineConfig({
         sourcemap: true,
         assetsDir: 'static',
         emptyOutDir: true,
+        commonjsOptions: {
+            transformMixedEsModules: true,
+        },
     },
 });
