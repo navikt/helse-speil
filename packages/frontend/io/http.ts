@@ -22,6 +22,7 @@ type Headers = { [key: string]: any };
 
 // eslint-disable-next-line no-undef
 const baseUrl = (process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : '') + '/api';
+const baseUrlGraphQL = (process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : '') + '/graphql';
 
 const getData = async (response: Response) => {
     try {
@@ -74,7 +75,6 @@ export const post = async (url: string, data: any, headere?: Headers): Promise<S
     });
     if (response.status !== 200 && response.status !== 204) {
         const message = await getErrorMessage(response);
-        console.log(response.status, message);
 
         throw ResponseError(response.status, message);
     }
@@ -191,4 +191,8 @@ export const postNotat = async (oppgavereferanse: string, notat: NotatDTO) => {
 
 export const putFeilregistrertNotat = async (vedtaksperiodeId: string, notatId: string) => {
     return put(`${baseUrl}/notater/${vedtaksperiodeId}/feilregistrer/${notatId}`, {});
+};
+
+export const postGraphQLQuery = async (operation: string) => {
+    return post(`${baseUrlGraphQL}`, JSON.parse(operation));
 };

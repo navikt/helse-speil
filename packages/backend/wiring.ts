@@ -25,6 +25,7 @@ import spesialistClient from './person/spesialistClient';
 import redisClient from './redisClient';
 import tildelingClient from './tildeling/tildelingClient';
 import { Helsesjekk } from './types';
+import graphQLClient from './graphql/graphQLClient';
 
 const getDependencies = (app: Express, helsesjekk: Helsesjekk) =>
     process.env.NODE_ENV === 'development' ? getDevDependencies(app) : getProdDependencies(app, helsesjekk);
@@ -34,6 +35,7 @@ const getDevDependencies = (app: Express) => {
     const _tildelingClient = tildelingClient(config.oidc, devOnBehalfOf);
     const _devSpesialistClient = devSpesialistClient(instrumentation);
     const _devPersonClient = devPersonClient(instrumentation);
+    const _devGraphQLClient = graphQLClient(config.oidc, devOnBehalfOf);
 
     return {
         person: {
@@ -49,6 +51,7 @@ const getDevDependencies = (app: Express) => {
         opptegnelse: { opptegnelseClient: devOpptegnelseClient },
         leggPåVent: { leggPåVentClient: devLeggPåVentClient },
         notat: { notatClient: devNotatClient },
+        graphql: { graphQLClient: _devGraphQLClient },
         instrumentation,
     };
 };
@@ -66,6 +69,7 @@ const getProdDependencies = (app: Express, helsesjekk: Helsesjekk) => {
     const _opptegnelseClient = opptegnelseClient(config.oidc, _onBehalfOf);
     const _leggPåVentClient = leggPåVentClient(config.oidc, _onBehalfOf);
     const _notatClient = notatClient(config.oidc, _onBehalfOf);
+    const _graphQLClient = graphQLClient(config.oidc, _onBehalfOf);
 
     return {
         person: {
@@ -81,6 +85,7 @@ const getProdDependencies = (app: Express, helsesjekk: Helsesjekk) => {
         opptegnelse: { opptegnelseClient: _opptegnelseClient },
         leggPåVent: { leggPåVentClient: _leggPåVentClient },
         notat: { notatClient: _notatClient },
+        graphql: { graphQLClient: _graphQLClient },
         instrumentation,
     };
 };

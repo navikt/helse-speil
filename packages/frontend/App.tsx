@@ -19,6 +19,7 @@ import { useIsLoadingPerson } from './state/person';
 import './App.css';
 import { GlobalFeilside } from './GlobalFeilside';
 import { Routes } from './routes';
+import { GraphQLPlayground } from './routes/playground/GraphQLPlayground';
 
 const Saksbilde = React.lazy(() => import('./routes/saksbilde/Saksbilde'));
 const Oversikt = React.lazy(() => import('./routes/oversikt'));
@@ -46,6 +47,9 @@ const App = () => {
                     </ProtectedRoute>
                     <ProtectedRoute path={Routes.Saksbilde}>
                         <Saksbilde />
+                    </ProtectedRoute>
+                    <ProtectedRoute path={Routes.Playground}>
+                        <GraphQLPlayground />
                     </ProtectedRoute>
                     <Route path="*">
                         <PageNotFound />

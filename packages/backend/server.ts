@@ -19,6 +19,7 @@ import person from './person/personRoutes';
 import { ipAddressFromRequest } from './requestData';
 import { sessionStore } from './sessionStore';
 import tildelingRoutes from './tildeling/tildelingRoutes';
+import graphQLRoutes from './graphql/graphQLRoutes';
 import { AuthError, SpeilRequest } from './types';
 import wiring from './wiring';
 
@@ -152,6 +153,7 @@ app.use('/api/opptegnelse', opptegnelseRoutes(dependencies.opptegnelse));
 app.use('/api/leggpaavent', oppgaveRoutes(dependencies.leggPåVent));
 app.use('/api/behandlingsstatistikk', behandlingsstatistikkRoutes(dependencies.person.spesialistClient));
 app.use('/api/notater', notatRoutes(dependencies.notat));
+app.use('/graphql', graphQLRoutes(dependencies.graphql));
 
 app.get('/*', (req, res, next) => {
     if (!req.accepts('html') && /\/api/.test(req.url)) {
