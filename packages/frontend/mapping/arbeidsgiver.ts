@@ -421,11 +421,16 @@ export class ArbeidsgiverBuilder {
                         return this.defaultTidslinjeTilstander(utbetalingstatus, utbetalingstidslinje);
                 }
             case 'UFULLSTENDIG':
-                return utbetalingstidslinje.length === 0 ||
-                    vedtaksperiodetilstand === 'venter' ||
-                    vedtaksperiodetilstand === 'venterPåKiling'
-                    ? 'venter'
-                    : this.defaultTidslinjeTilstander('GODKJENT_UTEN_UTBETALING', utbetalingstidslinje);
+                switch (vedtaksperiodetilstand) {
+                    case 'ingenUtbetaling':
+                        return vedtaksperiodetilstand;
+                    default:
+                        return utbetalingstidslinje.length === 0 ||
+                            vedtaksperiodetilstand === 'venter' ||
+                            vedtaksperiodetilstand === 'venterPåKiling'
+                            ? 'venter'
+                            : this.defaultTidslinjeTilstander('GODKJENT_UTEN_UTBETALING', utbetalingstidslinje);
+                }
         }
     };
 

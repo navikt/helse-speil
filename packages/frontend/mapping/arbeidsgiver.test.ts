@@ -57,6 +57,31 @@ describe('ArbeidsgiverBuilder', () => {
         expect(arbeidsgiver?.tidslinjeperioderUtenSykefravær).toEqual([]);
     });
 
+    test('vedtaksperiode innenfor arbeidsgiverperiode mapper til riktig vedtaksperiodetilstand', () => {
+        const arbeidsgiverMedEnKortPeriode = umappetArbeidsgiver(
+            [
+                umappetVedtaksperiode({
+                    fom: '2021-01-01',
+                    tom: '2021-01-10',
+                    fullstendig: false,
+                    tilstand: 'IngenUtbetaling',
+                }),
+            ],
+            [],
+            undefined,
+            []
+        );
+        const person = umappetPerson();
+        const { arbeidsgiver } = new ArbeidsgiverBuilder()
+            .addPerson(person)
+            .addArbeidsgiver(arbeidsgiverMedEnKortPeriode)
+            .addInntektsgrunnlag([umappetInntektsgrunnlag()])
+            .build();
+
+        expect(arbeidsgiver?.tidslinjeperioder[0][0].tilstand).toEqual('ingenUtbetaling');
+        expect(arbeidsgiver?.tidslinjeperioder[0][0].fullstendig).toBeFalsy();
+    });
+
     test('mapper arbeidsgiver med ghostperioder riktig - happy case', () => {
         const arbeidsgiverMedToVedtaksperioder = umappetArbeidsgiver(
             [

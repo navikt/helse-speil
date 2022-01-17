@@ -37,14 +37,16 @@ export const umappetVedtaksperiode = (
         false,
         vedtaksperiode?.fagsystemId ?? testArbeidsgiverfagsystemId
     );
+    const fullstendig = vedtaksperiode?.fullstendig ?? true;
+    const tilstand = vedtaksperiode?.tilstand ?? 'Oppgaver';
     return {
         id: testVedtaksperiodeId,
         fom: fom,
         tom: tom,
         gruppeId: 'en-gruppeId',
-        tilstand: 'Oppgaver',
+        tilstand: tilstand,
         oppgavereferanse: 'en-oppgavereferanse',
-        fullstendig: true,
+        fullstendig: fullstendig,
         erForkastet: false,
         utbetalingsreferanse: 'en-utbetalingsreferanse',
         utbetalingstidslinje: utbetalingsdager,
