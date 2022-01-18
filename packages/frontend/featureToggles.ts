@@ -212,15 +212,6 @@ export const overstyreUtbetaltPeriodeEnabled =
     erDev();
 export const annulleringerEnabled =
     erDev() || erLocal() || harUtvidetTilgang() || harTilgangTilAlt() || erAnnulleringsbois();
-export const oppdaterPersondataEnabled =
-    erDev() ||
-    erLocal() ||
-    erUtvikler() ||
-    harTilgangTilAlt() ||
-    erAnnulleringsbois() ||
-    erSpiceGirls() ||
-    harUtvidetTilgang() ||
-    erSolør();
 export const amplitudeEnabled = true;
 export const utbetalingsoversikt = erUtvikler() || erLocal() || harTilgangTilAlt() || erDigimort();
 export const stikkprøve = harTilgangStikkprøver() || harTilgangTilAlt() || erLocal() || erDev();

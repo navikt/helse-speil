@@ -7,7 +7,7 @@ import { useInnloggetSaksbehandler } from '../../../state/authentication';
 import { usePerson } from '../../../state/person';
 import { useOppgavereferanse, useVedtaksperiode } from '../../../state/tidslinje';
 
-import { annulleringerEnabled, oppdaterPersondataEnabled } from '../../../featureToggles';
+import { annulleringerEnabled } from '../../../featureToggles';
 import { AnonymiserData } from './AnonymiserData';
 import { OppdaterPersondata } from './OppdaterPersondata';
 import { PåVentKnapp } from './PåVentKnapp';
@@ -68,7 +68,7 @@ export const Sakslinjemeny = ({ aktivPeriode }: SakslinjemenyProps) => {
                     {oppgavereferanse && <Strek />}
                 </>
             )}
-            {oppdaterPersondataEnabled && <OppdaterPersondata />}
+            <OppdaterPersondata />
             <AnonymiserData />
             {arbeidsgiverUtbetaling && showAnnullering && erPeriodeMedSykefravær && (
                 <Annullering
@@ -81,5 +81,7 @@ export const Sakslinjemeny = ({ aktivPeriode }: SakslinjemenyProps) => {
 };
 
 export const VerktøylinjeForTomtSaksbilde = () => (
-    <Container>{oppdaterPersondataEnabled && <OppdaterPersondata />}</Container>
+    <Container>
+        <OppdaterPersondata />
+    </Container>
 );
