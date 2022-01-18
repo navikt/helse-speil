@@ -182,27 +182,13 @@ const erFaktiskSupportsaksbehandler = () => faktiskSupportsaksbehandlere.include
 const harUtvidetTilgang = () => utvidetTilganger.includes(extractIdent());
 const harTilgangFlereArbeidsgivere = () => tilgangFlereArbeidsgivere.includes(extractIdent());
 const harTilgangStikkprøver = () => tilgangStikkprøver.includes(extractIdent());
-const erAnnulleringsbois = () => erKnudix() || erKevin();
-const erSpiceGirls = () => erMarte() || erKevin() || erAnders() || erHegeir();
-const erFabulous = () => erKevin() || erHegeir() || erSimen() || erHåkon();
-const erKnudix = () => extractIdent() === 'N143409';
-const erDigimort = () => extractIdent() === 'T127350';
-const erVegard = () => extractIdent() === 'S144991';
-const erKevin = () => extractIdent() === 'S151890';
-const erHåkon = () => extractIdent() === 'H131243';
-const erSimen = () => extractIdent() === 'U160607';
-const erMarte = () => extractIdent() === 'T141884';
-const erAnders = () => extractIdent() === 'O142910';
-const erHegeir = () => extractIdent() === 'H161007';
+const Morten = 'T127350';
+const Vegard = 'S144991';
+
+const erProdukteier = () => [Morten, Vegard].includes(extractIdent());
 const erUtvikler = () => extractGroups().includes(groupIdForUtviklere);
-const erSolør = () => erJakob() || erJonas() || erSindre() || erPeter();
-const erJonas = () => extractIdent() === 'H159657';
-const erPeter = () => extractIdent() === 'S159940';
-const erSindre = () => extractIdent() === 'B159939';
-const erJakob = () => extractIdent() === 'E156407';
 
 export const overstyrPermisjonsdagerEnabled = erLocal() || erDev();
-export const overstyrbareTabellerEnabled = true;
 export const overstyreUtbetaltPeriodeEnabled =
     erUtvikler() ||
     harTilgangTilAlt() ||
@@ -210,19 +196,15 @@ export const overstyreUtbetaltPeriodeEnabled =
     kanRevurdere.includes(extractIdent()) ||
     erLocal() ||
     erDev();
-export const annulleringerEnabled =
-    erDev() || erLocal() || harUtvidetTilgang() || harTilgangTilAlt() || erAnnulleringsbois();
+export const annulleringerEnabled = erDev() || erLocal() || harUtvidetTilgang() || harTilgangTilAlt();
 export const amplitudeEnabled = true;
-export const utbetalingsoversikt = erUtvikler() || erLocal() || harTilgangTilAlt() || erDigimort();
+export const utbetalingsoversikt = erUtvikler() || erLocal() || harTilgangTilAlt() || erProdukteier();
 export const stikkprøve = harTilgangStikkprøver() || harTilgangTilAlt() || erLocal() || erDev();
 export const flereArbeidsgivere =
-    erSpiceGirls() ||
-    erFabulous() ||
-    erUtvikler() ||
     erLocal() ||
     erDev() ||
-    erDigimort() ||
-    erVegard() ||
+    erUtvikler() ||
+    erProdukteier() ||
     harTilgangTilAlt() ||
     erFaktiskSupportsaksbehandler() ||
     harTilgangFlereArbeidsgivere();
