@@ -20,18 +20,29 @@ interface EditButtonProps extends React.HTMLAttributes<HTMLButtonElement> {
     closedText: ReactNode;
     onOpen: () => void;
     onClose: () => void;
+    openIcon?: ReactNode;
+    closedIcon?: ReactNode;
 }
 
-export const EditButton = ({ isOpen, openText, closedText, onOpen, onClose, ...rest }: EditButtonProps) => (
+export const EditButton = ({
+    isOpen,
+    openText,
+    closedText,
+    onOpen,
+    onClose,
+    openIcon,
+    closedIcon,
+    ...rest
+}: EditButtonProps) => (
     <BlueButton onClick={isOpen ? onClose : onOpen} {...rest}>
         {isOpen ? (
             <>
-                <Unlocked height={24} width={24} />
+                {openIcon ?? <Unlocked height={24} width={24} />}
                 {openText}
             </>
         ) : (
             <>
-                <Locked height={24} width={24} />
+                {closedIcon ?? <Locked height={24} width={24} />}
                 {closedText}
             </>
         )}

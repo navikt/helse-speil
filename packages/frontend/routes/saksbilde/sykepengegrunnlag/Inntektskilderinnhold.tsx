@@ -18,9 +18,11 @@ import {
 
 import { Arbeidsforhold } from '../Arbeidsforhold';
 import { Inntekt } from './inntekt/Inntekt';
+import { OverstyrArbeidsforholdUtenSykdom } from './OverstyrArbeidsforholdUtenSykdom';
 
 const Container = styled(FlexColumn)`
     padding-right: 2rem;
+    width: 100%;
 `;
 
 const Header = styled.div`
@@ -74,6 +76,8 @@ export const Inntektskilderinnhold = ({ inntekt }: InntektskilderinnholdProps) =
     const bransjer = useArbeidsgiverbransjerRender(inntekt.organisasjonsnummer);
     const arbeidsforhold = useArbeidsforholdRender(inntekt.organisasjonsnummer);
 
+    const erGhost = true;
+
     return (
         <Container>
             <Header>
@@ -110,6 +114,7 @@ export const Inntektskilderinnhold = ({ inntekt }: InntektskilderinnholdProps) =
                 organisasjonsnummer={inntekt.organisasjonsnummer}
             />
             <Tooltip effect="solid" />
+            {erGhost && <OverstyrArbeidsforholdUtenSykdom />}
         </Container>
     );
 };

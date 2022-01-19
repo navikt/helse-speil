@@ -196,7 +196,6 @@ const usePostOverstyrtInntekt = (onFerdigKalkulert: () => void) => {
                 .catch((error) => {
                     switch (error.statusCode) {
                         default: {
-                            console.log(error);
                             setError('Kunne ikke overstyre inntekt. Prøv igjen senere. ');
                         }
                     }

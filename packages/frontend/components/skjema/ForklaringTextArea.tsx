@@ -1,15 +1,15 @@
 import styled from '@emotion/styled';
-import React, { useState } from 'react';
-import { useFormContext } from 'react-hook-form';
-
 import { Textarea } from '@navikt/ds-react';
+import { useFormContext } from 'react-hook-form';
+import React, { useState } from 'react';
 
 const StyledTextarea = styled(Textarea)`
     white-space: pre-line;
 `;
-
-// TODO: bruk ny komponent
-export const ForklaringTextarea = () => {
+interface ForklaringTextAreaProps {
+    description: string;
+}
+export const ForklaringTextarea = ({ description }: ForklaringTextAreaProps) => {
     const form = useFormContext();
 
     const [forklaring, setForklaring] = useState('');
@@ -29,7 +29,7 @@ export const ForklaringTextarea = () => {
                 onChange(event);
                 setForklaring(event.target.value);
             }}
-            description={`Begrunn hvorfor det er gjort endringer i inntekten som legges til grunn.\nEks. Ny inntektsmelding kommet inn 18.10.2021\nKommer ikke i vedtaksbrevet, men vil bli forevist bruker ved spørsmål om innsyn.`}
+            description={description}
             maxLength={500}
             aria-labelledby="forklaring-label forklaring-feil"
             error={form.formState.errors.forklaring?.message}
