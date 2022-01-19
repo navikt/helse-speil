@@ -50,7 +50,13 @@
     --nav-lime-gronn-lighten-80: #ecefcc;
     --nav-blaa-darken-20: #0056b4;
 
-    --nav-infotrygd-bakgrunn-stiplet: repeating-linear-gradient(-48deg, white, white 10px, #c9c9c9 11px, white 12px);
+    --nav-infotrygd-bakgrunn-stiplet: repeating-linear-gradient(
+        123deg,
+        white,
+        white 10px,
+        #c9c9c9 10px,
+        #c9c9c9 11.5px
+    );
 
     --nav-ghostpolse-bakgrunn: #ffffff;
 
