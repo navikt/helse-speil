@@ -12,7 +12,6 @@ const Container = styled.div`
     top: -4rem;
     left: 0;
     padding: 1rem;
-    background: #fff;
 
     > div {
         position: absolute;

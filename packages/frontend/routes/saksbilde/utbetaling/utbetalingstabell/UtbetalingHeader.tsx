@@ -20,8 +20,9 @@ const Container = styled(Flex)`
     width: 100%;
 `;
 
-const ToggleOverstyringKnapp = styled.button`
-    margin-top: 1rem;
+export const ToggleOverstyringKnapp = styled.button<{ overstyrer: boolean }>`
+    margin-top: ${(props) => (props.overstyrer ? '0' : '0.5rem')};
+    padding-right: ${(props) => (props.overstyrer ? '1rem' : '0')};
     border: none;
     background: none;
     display: flex;
@@ -62,7 +63,7 @@ export const UtbetalingHeader: React.FC<UtbetalingHeaderProps> = ({ periodeErFor
                     </PopoverHjelpetekst>
                 </InfobobleContainer>
             ) : (
-                <ToggleOverstyringKnapp onClick={toggleOverstyring} data-testid="overstyringsknapp">
+                <ToggleOverstyringKnapp onClick={toggleOverstyring} data-testid="overstyringsknapp" overstyrer={false}>
                     <Locked height={24} width={24} />
                     {revurderingIsEnabled ? 'Revurder' : 'Endre'}
                 </ToggleOverstyringKnapp>

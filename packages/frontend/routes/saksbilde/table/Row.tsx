@@ -1,9 +1,11 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import React from 'react';
+import { UtbetalingstabellDag } from '../utbetaling/utbetalingstabell/Utbetalingstabell.types';
 
 interface RowProps {
     type?: Dag['type'];
+    markertDag?: UtbetalingstabellDag;
 }
 
 const leftAlignedLine = (color: string) => css`
@@ -29,8 +31,8 @@ const helgStyle = (props: RowProps) =>
             123deg,
             var(--speil-light-hover),
             var(--speil-light-hover) 1px,
-            var(--navds-color-background) 1px,
-            var(--navds-color-background) 9px
+            transparent 1px,
+            transparent 9px
         );
     `;
 
@@ -44,8 +46,7 @@ const avvistStyle = (props: RowProps) =>
 const arbeidsgiverperiodeStyle = (props: RowProps) =>
     props.type === 'Arbeidsgiverperiode' &&
     css`
-        background-color: #f8f8f8;
-        ${leftAlignedLine('var(--navds-color-text-disabled)')}
+        background-color: transparent;
     `;
 
 export const Row = styled.tr<RowProps>`
@@ -58,6 +59,7 @@ export const Row = styled.tr<RowProps>`
         vertical-align: middle;
         box-sizing: border-box;
         border-bottom: 1px solid #c6c2bf;
+        background: ${(RowProps) => (RowProps.markertDag ? '#f1f1f1' : 'transparent')};
 
         &:not(:first-of-type):not(:last-of-type) {
             padding-right: 1rem;

@@ -23,6 +23,7 @@ export const Content = styled.div`
     display: flex;
     flex-direction: column;
     height: 100%;
+    margin-bottom: 4rem;
 `;
 
 interface SaksbildeFullstendigPeriodeProps {

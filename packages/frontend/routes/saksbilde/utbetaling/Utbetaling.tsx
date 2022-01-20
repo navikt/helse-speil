@@ -5,7 +5,7 @@ import { FormProvider, useForm } from 'react-hook-form';
 
 import { BodyShort } from '@navikt/ds-react';
 
-import { FlexColumn } from '../../../components/Flex';
+import { Flex, FlexColumn } from '../../../components/Flex';
 import { OverstyringTimeoutModal } from '../../../components/OverstyringTimeoutModal';
 import { PopoverHjelpetekst } from '../../../components/PopoverHjelpetekst';
 import { SortInfoikon } from '../../../components/ikoner/SortInfoikon';
@@ -26,23 +26,28 @@ import { EndringForm } from './utbetalingstabell/EndringForm';
 import { MarkerAlleDagerCheckbox } from './utbetalingstabell/MarkerAlleDagerCheckbox';
 import { OverstyringForm } from './utbetalingstabell/OverstyringForm';
 import { RadmarkeringCheckbox } from './utbetalingstabell/RadmarkeringCheckbox';
-import { UtbetalingHeader } from './utbetalingstabell/UtbetalingHeader';
+import { ToggleOverstyringKnapp, UtbetalingHeader } from './utbetalingstabell/UtbetalingHeader';
 import { Utbetalingstabell } from './utbetalingstabell/Utbetalingstabell';
 import type { UtbetalingstabellDag } from './utbetalingstabell/Utbetalingstabell.types';
 import { usePostOverstyring } from './utbetalingstabell/usePostOverstyring';
 import { useTabelldagerMap } from './utbetalingstabell/useTabelldagerMap';
+import { Unlocked } from '@navikt/ds-icons';
+import { Bold } from '../../../components/Bold';
 
-const Container = styled(FlexColumn)`
+const Container = styled(FlexColumn)<{ overstyrer: boolean }>`
     position: relative;
-    padding-bottom: 4rem;
-    padding-right: 2rem;
+    padding-right: ${(props) => (props.overstyrer ? '1rem' : '2rem')};
+    //padding-bottom: 4rem;
+    margin-left: ${(props) => (props.overstyrer ? '0.5rem' : '0')};
+    border-left: ${(props) => (props.overstyrer ? '6px solid #0067C5' : '0')};
+    margin-top: 1rem;
 `;
 
 const CheckboxContainer = styled.div`
     display: flex;
     flex-direction: column;
     position: absolute;
-    left: 0;
+    left: 13px;
     top: calc(28.5px + 64px);
 `;
 
@@ -52,9 +57,21 @@ const Sticky = styled.div`
     z-index: 10;
 `;
 
-const UtbetalingstabellContainer = styled(FlexColumn)`
+const OverstyringHeader = styled(Flex)`
+    min-height: 24px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 0.5rem 0 1.5rem 1rem;
+    width: 100%;
+    background-color: var(--speil-overstyring-background);
+`;
+
+const UtbetalingstabellContainer = styled(FlexColumn)<{ overstyrer: boolean }>`
     position: relative;
     height: 100%;
+    padding-top: 2rem;
+    background-color: ${(props) => (props.overstyrer ? 'var(--speil-overstyring-background)' : 'inherit')};
 `;
 
 const Feilmelding = styled(BodyShort)`
@@ -71,6 +88,12 @@ const InfobobleContainer = styled.div`
     justify-content: flex-end;
     padding: 0 2rem;
     width: 100%;
+`;
+
+const BegrunnelsesContainer = styled.div`
+    background: #fff;
+    padding-top: 2rem;
+    margin-bottom: -1px;
 `;
 
 const getKey = (dag: UtbetalingstabellDag) => dag.dato.format(NORSK_DATOFORMAT);
@@ -140,23 +163,30 @@ const OverstyrbarUtbetaling: React.FC<OverstyrbarUtbetalingProps> = ({ fom, tom,
     }, [state]);
 
     return (
-        <Container data-testid="utbetaling">
+        <Container data-testid="utbetaling" overstyrer={overstyrer}>
             {overstyrer ? (
-                <Sticky>
-                    <EndringForm
-                        markerteDager={markerteDager}
-                        toggleOverstyring={toggleOverstyring}
-                        onSubmitEndring={onSubmitEndring}
-                    />
-                </Sticky>
+                <OverstyringHeader>
+                    <Bold>Huk av for dagene som skal endres til samme verdi</Bold>
+                    <ToggleOverstyringKnapp type="button" onClick={toggleOverstyring} overstyrer={overstyrer}>
+                        <Unlocked height={24} width={24} />
+                        Avbryt
+                    </ToggleOverstyringKnapp>
+                </OverstyringHeader>
             ) : (
                 <UtbetalingHeader
                     periodeErForkastet={vedtaksperiode.erForkastet}
                     toggleOverstyring={toggleOverstyring}
                 />
             )}
-            <UtbetalingstabellContainer>
-                <Utbetalingstabell fom={fom} tom={tom} dager={dager} lokaleOverstyringer={overstyrteDager} />
+            <UtbetalingstabellContainer overstyrer={overstyrer}>
+                <Utbetalingstabell
+                    fom={fom}
+                    tom={tom}
+                    dager={dager}
+                    lokaleOverstyringer={overstyrteDager}
+                    markerteDager={markerteDager}
+                    overstyrer={overstyrer}
+                />
                 {overstyrer && (
                     <>
                         <CheckboxContainer>
@@ -178,15 +208,24 @@ const OverstyrbarUtbetaling: React.FC<OverstyrbarUtbetalingProps> = ({ fom, tom,
                                 />
                             ))}
                         </CheckboxContainer>
-                        <FormProvider {...form}>
-                            <form onSubmit={(event) => event.preventDefault()}>
-                                <OverstyringForm
-                                    overstyrteDager={overstyrteDager}
-                                    toggleOverstyring={toggleOverstyring}
-                                    onSubmit={onSubmitOverstyring}
-                                />
-                            </form>
-                        </FormProvider>
+                        <Sticky>
+                            <EndringForm
+                                markerteDager={markerteDager}
+                                toggleOverstyring={toggleOverstyring}
+                                onSubmitEndring={onSubmitEndring}
+                            />
+                        </Sticky>
+                        <BegrunnelsesContainer>
+                            <FormProvider {...form}>
+                                <form onSubmit={(event) => event.preventDefault()}>
+                                    <OverstyringForm
+                                        overstyrteDager={overstyrteDager}
+                                        toggleOverstyring={toggleOverstyring}
+                                        onSubmit={onSubmitOverstyring}
+                                    />
+                                </form>
+                            </FormProvider>
+                        </BegrunnelsesContainer>
                     </>
                 )}
             </UtbetalingstabellContainer>
@@ -211,7 +250,7 @@ const ReadonlyUtbetaling: React.FC<ReadonlyUtbetalingProps> = ({ fom, tom, dager
     const erTidslinjeperiodeISisteGenerasjon = useErTidslinjeperiodeISisteGenerasjon();
 
     return (
-        <Container>
+        <Container overstyrer={false}>
             {!erAktivPeriodeISisteSkjæringstidspunkt && erTidslinjeperiodeISisteGenerasjon && (
                 <InfobobleContainer>
                     <PopoverHjelpetekst ikon={<SortInfoikon />}>
@@ -219,7 +258,7 @@ const ReadonlyUtbetaling: React.FC<ReadonlyUtbetalingProps> = ({ fom, tom, dager
                     </PopoverHjelpetekst>
                 </InfobobleContainer>
             )}
-            <UtbetalingstabellContainer data-testid="utbetaling">
+            <UtbetalingstabellContainer data-testid="utbetaling" overstyrer={false}>
                 <Utbetalingstabell fom={fom} tom={tom} dager={dager} />
             </UtbetalingstabellContainer>
         </Container>

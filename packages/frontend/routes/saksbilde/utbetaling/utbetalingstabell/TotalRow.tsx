@@ -7,10 +7,9 @@ import { Row } from '../../table/Row';
 import { UtbetalingCell } from './UtbetalingCell';
 import { UtbetalingstabellDag } from './Utbetalingstabell.types';
 
-const Container = styled(Row)`
+const Container = styled(Row)<{ overstyrer?: boolean }>`
     > td {
-        background-color: var(--navds-layout-background-gray);
-        border-bottom-color: #b7b1a9;
+        border-color: ${(props) => (props.overstyrer ? 'transparent' : '#3e3832')};
     }
 `;
 
@@ -21,9 +20,10 @@ const TotalText = styled(BodyShort)`
 
 interface TotalRowProps {
     dager: [string, UtbetalingstabellDag][];
+    overstyrer?: boolean;
 }
 
-export const TotalRow = React.memo(({ dager }: TotalRowProps) => {
+export const TotalRow = React.memo(({ dager, overstyrer }: TotalRowProps) => {
     const utbetalingsdager = dager
         .filter(
             ([_, { personbeløp, arbeidsgiverbeløp }]) =>
@@ -42,8 +42,8 @@ export const TotalRow = React.memo(({ dager }: TotalRowProps) => {
     const dagerIgjenPåStartenAvPerioden = (dagerIgjenPåSluttenAvPerioden ?? 0) + utbetalingsdager.length;
 
     return (
-        <Container>
-            <td>TOTAL</td>
+        <Container overstyrer={overstyrer}>
+            <td style={{ fontWeight: 'bold' }}>TOTAL</td>
             <td>
                 <TotalText as="p">{utbetalingsdager.length} dager</TotalText>
             </td>

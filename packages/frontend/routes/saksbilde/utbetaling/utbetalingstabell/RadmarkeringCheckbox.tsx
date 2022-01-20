@@ -10,7 +10,6 @@ import { DisabledCheckbox } from './DisabledCheckbox';
 const Container = styled.div`
     position: relative;
     padding: 1rem;
-    background: #fff;
 
     > div {
         position: absolute;

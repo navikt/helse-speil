@@ -2,19 +2,18 @@ import styled from '@emotion/styled';
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 
-import { Unlocked } from '@navikt/ds-icons';
 import { Button, Select, TextField } from '@navikt/ds-react';
 
 import { useRevurderingIsEnabled } from '../../../../hooks/revurdering';
 
 import { defaultUtbetalingToggles, overstyrPermisjonsdagerEnabled } from '../../../../featureToggles';
-import { ToggleOverstyringKnapp } from './ToggleOverstyringKnapp';
 import { UtbetalingstabellDag } from './Utbetalingstabell.types';
+import { Bold } from '../../../../components/Bold';
 
 const Container = styled.div`
-    background-color: var(--navds-color-gray-10);
-    padding: 2rem;
-    margin-right: -2rem;
+    background-color: var(--speil-overstyring-background);
+    padding: 2rem 1rem;
+    border-top: 6px solid #fff;
 
     label {
         font-weight: normal;
@@ -60,6 +59,10 @@ const Knapp = styled(Button)`
 const InputContainer = styled.div`
     display: flex;
     align-items: start;
+`;
+
+const Form = styled.form`
+    padding-top: 0.5rem;
 `;
 
 const dagtyperUtenGradering: Dag['type'][] = ['Arbeidsdag', 'Ferie', 'Permisjon'];
@@ -130,7 +133,14 @@ export const EndringForm: React.FC<EndringFormProps> = ({ markerteDager, toggleO
     return (
         <>
             <Container>
-                <form onSubmit={form.handleSubmit(handleSubmit)}>
+                <Bold>
+                    Fyll inn hva{' '}
+                    {markerteDager.size === 1
+                        ? `den ${markerteDager.size} valgte dagen`
+                        : `de ${markerteDager.size} valgte dagene`}{' '}
+                    skal endres til
+                </Bold>
+                <Form onSubmit={form.handleSubmit(handleSubmit)}>
                     <InputContainer>
                         <Dagtypevelger
                             size="small"
@@ -161,17 +171,14 @@ export const EndringForm: React.FC<EndringFormProps> = ({ markerteDager, toggleO
                             as="button"
                             size="small"
                             type="submit"
+                            variant="secondary"
                             disabled={markerteDager.size === 0}
                             data-testid="endre"
                         >
                             Endre ({markerteDager.size})
                         </Knapp>
-                        <ToggleOverstyringKnapp type="button" onClick={toggleOverstyring}>
-                            <Unlocked height={24} width={24} />
-                            Avbryt
-                        </ToggleOverstyringKnapp>
                     </InputContainer>
-                </form>
+                </Form>
             </Container>
         </>
     );

@@ -7,7 +7,7 @@ import { Button, ErrorSummary, ErrorSummaryItem, Textarea } from '@navikt/ds-rea
 import { UtbetalingstabellDag } from './Utbetalingstabell.types';
 
 const Container = styled.div`
-    margin: 0 2rem 2rem;
+    margin: 0 1rem;
 `;
 
 const FeiloppsummeringContainer = styled.div`
@@ -50,7 +50,11 @@ export const OverstyringForm: React.FC<OverstyringFormProps> = ({ overstyrteDage
         <Container>
             <BegrunnelseInput
                 id="begrunnelse"
-                label="Begrunnelse"
+                label={`Begrunnelse for endringer ${
+                    overstyrteDager.size > 0
+                        ? '(totalt ' + overstyrteDager.size + (overstyrteDager.size === 1 ? ' dag' : ' dager') + ')'
+                        : ''
+                }`}
                 value={oppsummering}
                 description={
                     <span>

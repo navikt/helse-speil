@@ -21,9 +21,10 @@ import { TotalRow } from './TotalRow';
 import { UtbetalingCell } from './UtbetalingCell';
 import { UtbetalingstabellDag } from './Utbetalingstabell.types';
 
-const Container = styled.section`
+const Container = styled.section<{ overstyrer: boolean }>`
     display: flex;
     overflow-x: auto;
+    padding-left: ${(props) => (props.overstyrer ? '3rem' : '2rem')};
 `;
 
 export const Table = styled.table`
@@ -35,7 +36,6 @@ const TabellContainer = styled.div`
     display: flex;
     flex: 1;
     width: 400px;
-    padding: 2rem 0 2rem 2rem;
     height: max-content;
 
     > table {
@@ -52,9 +52,18 @@ interface UtbetalingstabellProps {
     tom: Dayjs;
     dager: Map<string, UtbetalingstabellDag>;
     lokaleOverstyringer?: Map<string, UtbetalingstabellDag>;
+    markerteDager?: Map<string, UtbetalingstabellDag>;
+    overstyrer?: boolean;
 }
 
-export const Utbetalingstabell = ({ fom, tom, dager, lokaleOverstyringer }: UtbetalingstabellProps) => {
+export const Utbetalingstabell = ({
+    fom,
+    tom,
+    dager,
+    lokaleOverstyringer,
+    markerteDager,
+    overstyrer = false,
+}: UtbetalingstabellProps) => {
     const label = `Utbetalinger for sykmeldingsperiode fra ${fom.format(NORSK_DATOFORMAT)} til ${tom.format(
         NORSK_DATOFORMAT
     )}`;
@@ -62,7 +71,7 @@ export const Utbetalingstabell = ({ fom, tom, dager, lokaleOverstyringer }: Utbe
     const dagerList: [string, UtbetalingstabellDag][] = useMemo(() => Array.from(dager.entries()), [dager]);
 
     return (
-        <Container>
+        <Container overstyrer={overstyrer}>
             <TabellContainer>
                 <Table aria-label={label}>
                     <thead>
@@ -101,9 +110,9 @@ export const Utbetalingstabell = ({ fom, tom, dager, lokaleOverstyringer }: Utbe
                         </tr>
                     </thead>
                     <tbody>
-                        {dagerList.length > 0 && <TotalRow dager={dagerList} />}
+                        {dagerList.length > 0 && <TotalRow dager={dagerList} overstyrer={overstyrer} />}
                         {dagerList.map(([key, dag], i) => (
-                            <Row type={dag.type} key={i}>
+                            <Row type={dag.type} key={i} markertDag={markerteDager?.get(key)}>
                                 <DateCell date={dag.dato} />
                                 <DagtypeCell
                                     typeUtbetalingsdag={dag.type}
