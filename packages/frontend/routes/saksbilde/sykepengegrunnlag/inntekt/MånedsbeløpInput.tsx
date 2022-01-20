@@ -32,6 +32,8 @@ interface MånedsbeløpInputProps {
 
 export const MånedsbeløpInput = ({ initialMånedsbeløp }: MånedsbeløpInputProps) => {
     const form = useFormContext();
+    const initialMånedsbeløpRounded =
+        initialMånedsbeløp && Math.round((initialMånedsbeløp + Number.EPSILON) * 100) / 100;
 
     const { ref, onBlur, ...inputValidation } = form.register('manedsbelop', {
         required: 'Månedsbeløp mangler',
@@ -39,7 +41,7 @@ export const MånedsbeløpInput = ({ initialMånedsbeløp }: MånedsbeløpInputP
         validate: {
             måVæreNumerisk: (value) => !isNaN(Number.parseInt(value)) || 'Månedsbeløp må være et beløp',
             måVæreEnEndring: (value) =>
-                Number.parseInt(value) !== initialMånedsbeløp || 'Kan ikke være likt gammelt beløp',
+                Number.parseInt(value) !== initialMånedsbeløpRounded || 'Kan ikke være likt gammelt beløp',
         },
     });
 
@@ -48,7 +50,7 @@ export const MånedsbeløpInput = ({ initialMånedsbeløp }: MånedsbeløpInputP
             <Input
                 id="manedsbelop"
                 ref={ref}
-                defaultValue={initialMånedsbeløp}
+                defaultValue={initialMånedsbeløpRounded}
                 error={form.formState.errors.manedsbelop?.message}
                 onBlur={(event) => {
                     onBlur(event);
