@@ -135,10 +135,8 @@ export const EndringForm: React.FC<EndringFormProps> = ({ markerteDager, toggleO
             <Container>
                 <Bold>
                     Fyll inn hva{' '}
-                    {markerteDager.size === 1
-                        ? `den ${markerteDager.size} valgte dagen`
-                        : `de ${markerteDager.size} valgte dagene`}{' '}
-                    skal endres til
+                    {markerteDager.size === 1 ? `den valgte dagen` : `de ${markerteDager.size} valgte dagene`} skal
+                    endres til
                 </Bold>
                 <Form onSubmit={form.handleSubmit(handleSubmit)}>
                     <InputContainer>
