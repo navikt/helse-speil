@@ -39,9 +39,19 @@ interface OverstyringInntektDTO {
     skjæringstidspunkt: string;
 }
 
+interface OverstyringArbeidsforholdDTO {
+    aktørId: string;
+    fødselsnummer: string;
+    organisasjonsnummer: string;
+    begrunnelse: string;
+    forklaring: number;
+    arbeidsforholdErAktivt: boolean;
+}
+
 export interface OverstyringClient {
     overstyrDager: (overstyring: OverstyringDTO, speilToken: string) => Promise<Response>;
     overstyrInntekt: (overstyring: OverstyringInntektDTO, speilToken: string) => Promise<Response>;
+    overstyrArbeidsforhold: (overstyring: OverstyringArbeidsforholdDTO, speilToken: string) => Promise<Response>;
 }
 
 export default (oidcConfig: OidcConfig, onBehalfOf: OnBehalfOf): OverstyringClient => ({
@@ -62,6 +72,22 @@ export default (oidcConfig: OidcConfig, onBehalfOf: OnBehalfOf): OverstyringClie
         const onBehalfOfToken = await onBehalfOf.hentFor(oidcConfig.clientIDSpesialist, speilToken);
         const options = {
             uri: `http://spesialist.tbd.svc.nais.local/api/overstyr/inntekt`,
+            headers: {
+                Authorization: `Bearer ${onBehalfOfToken}`,
+            },
+            body: overstyring,
+            resolveWithFullResponse: true,
+            json: true,
+        };
+        return request.post(options);
+    },
+    overstyrArbeidsforhold: async (
+        overstyring: OverstyringArbeidsforholdDTO,
+        speilToken: string
+    ): Promise<Response> => {
+        const onBehalfOfToken = await onBehalfOf.hentFor(oidcConfig.clientIDSpesialist, speilToken);
+        const options = {
+            uri: `http://spesialist.tbd.svc.nais.local/api/overstyr/arbeidsforhold`,
             headers: {
                 Authorization: `Bearer ${onBehalfOfToken}`,
             },

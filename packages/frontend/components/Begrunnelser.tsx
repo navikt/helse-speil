@@ -1,5 +1,3 @@
-// TODO: felles komponent for begge begrunnelser
-// TODO: se på validation
 import { useFormContext } from 'react-hook-form';
 import { Radio, RadioGroup } from '@navikt/ds-react';
 import React from 'react';
@@ -17,8 +15,6 @@ interface BegrunnelserProps {
     begrunnelser: string[];
 }
 
-// TODO: bruk denne der original begrunnelse er
-// TODO: generaliser enda mer? Til å være radiobuttons i stedet for begrunneølse?
 export const Begrunnelser = ({ begrunnelser }: BegrunnelserProps) => {
     const form = useFormContext();
     const { ref, ...begrunnelseValidation } = form.register('begrunnelse', { required: 'Velg en begrunnelse' });

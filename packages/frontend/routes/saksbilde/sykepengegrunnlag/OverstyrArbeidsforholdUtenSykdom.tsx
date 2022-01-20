@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { EditButton } from '../../../components/EditButton';
 import { Error } from '@navikt/ds-icons';
 import { FormProvider, useForm } from 'react-hook-form';
@@ -6,11 +6,22 @@ import styled from '@emotion/styled';
 import { BodyShort, ErrorSummary, ErrorSummaryItem, Loader } from '@navikt/ds-react';
 import { Flex, FlexColumn } from '../../../components/Flex';
 import { css } from '@emotion/react';
-import { Begrunnelser } from '../../../components/skjema/Begrunnelser';
-import { ForklaringTextarea } from '../../../components/skjema/ForklaringTextArea';
+import { Begrunnelser } from '../../../components/Begrunnelser';
+import { ForklaringTextarea } from '../../../components/ForklaringTextArea';
 import { Button as NavButton } from '@navikt/ds-react/esm/button';
 import { ErrorMessage } from '../../../components/ErrorMessage';
 import { OverstyringTimeoutModal } from '../../../components/OverstyringTimeoutModal';
+import { OverstyrtArbeidsforholdDTO } from '../../../io/types';
+import { postAbonnerPåAktør, postOverstyrtArbeidsforhold } from '../../../io/http';
+import { useAddToast, useRemoveToast } from '../../../state/toasts';
+import { useOpptegnelser, useSetOpptegnelserPollingRate } from '../../../state/opptegnelser';
+import { usePerson } from '../../../state/person';
+import {
+    kalkulererFerdigToastKey,
+    kalkulererToast,
+    kalkulererToastKey,
+    kalkuleringFerdigToast,
+} from '../../../state/kalkuleringstoasts';
 
 const Container = styled.div`
     display: flex;
@@ -86,8 +97,10 @@ const Button = styled(NavButton)`
         margin-left: 0.5rem;
     }
 `;
-
-export const OverstyrArbeidsforholdUtenSykdom = () => {
+interface OverstyrArbeidsforholdUtenSykdomProps {
+    organisasjonsnummer: string;
+}
+export const OverstyrArbeidsforholdUtenSykdom = ({ organisasjonsnummer }: OverstyrArbeidsforholdUtenSykdomProps) => {
     const [editing, setEditing] = useState(false);
 
     return (
@@ -109,23 +122,103 @@ export const OverstyrArbeidsforholdUtenSykdom = () => {
                     closedIcon={<Error />}
                 />
             </Header>
-            {editing && <OverstyrArbeidsforholdSkjema onClose={() => setEditing(false)} />}
+            {editing && (
+                <OverstyrArbeidsforholdSkjema
+                    onClose={() => setEditing(false)}
+                    organisasjonsnummer={organisasjonsnummer}
+                />
+            )}
         </FormContainer>
     );
 };
 
+const useGetOverstyrtArbeidsforhold = () => {
+    const { aktørId, fødselsnummer } = usePerson() as Person;
+
+    return (begrunnelse: string, forklaring: string, organisasjonsnummer: string, arbeidsforholdErAktivt: boolean) => ({
+        aktørId: aktørId,
+        fødselsnummer: fødselsnummer,
+        organisasjonsnummer: organisasjonsnummer,
+        begrunnelse: begrunnelse,
+        forklaring: forklaring,
+        arbeidsforholdErAktivt: arbeidsforholdErAktivt,
+    });
+};
+
+const usePostOverstyrtArbeidsforhold = (onFerdigKalkulert: () => void) => {
+    const addToast = useAddToast();
+    const removeToast = useRemoveToast();
+    const opptegnelser = useOpptegnelser(); // TODO: trenger vi opptegnelser?
+    const { aktørId } = usePerson() as Person;
+    const setPollingRate = useSetOpptegnelserPollingRate();
+
+    const [isLoading, setIsLoading] = useState(false);
+    const [calculating, setCalculating] = useState(false);
+    const [error, setError] = useState<string | null>();
+    const [timedOut, setTimedOut] = useState(false);
+
+    useEffect(() => {
+        if (opptegnelser && calculating) {
+            addToast(kalkuleringFerdigToast({ callback: () => removeToast(kalkulererFerdigToastKey) }));
+            setIsLoading(false);
+            setCalculating(false);
+            onFerdigKalkulert();
+        }
+    }, [opptegnelser]);
+
+    useEffect(() => {
+        const timeout: NodeJS.Timeout | number | null = calculating
+            ? setTimeout(() => {
+                  setTimedOut(true);
+              }, 15000)
+            : null;
+        return () => {
+            !!timeout && clearTimeout(timeout);
+        };
+    }, [calculating]);
+
+    useEffect(() => {
+        return () => {
+            calculating && removeToast(kalkulererToastKey);
+        };
+    }, [calculating]);
+
+    return {
+        isLoading,
+        error,
+        timedOut,
+        setTimedOut,
+        postOverstyring: (overstyrtArbeidsforhold: OverstyrtArbeidsforholdDTO) => {
+            setIsLoading(true);
+            postOverstyrtArbeidsforhold(overstyrtArbeidsforhold)
+                .then(() => {
+                    setCalculating(true);
+                    addToast(kalkulererToast({}));
+                    // postAbonnerPåAktør(aktørId).then(() => setPollingRate(1000)) // TODO: trenger vi dette?
+                })
+                .catch((error) => {
+                    switch (error.statusCode) {
+                        default: {
+                            setError('Kunne ikke overstyre arbeidsforhold. Prøv igjen senere. ');
+                        }
+                    }
+                    setIsLoading(false);
+                });
+        },
+    };
+};
+
 interface OverstyrArbeidsforholdSkjemaProps {
     onClose: () => void;
+    organisasjonsnummer: string;
 }
 
-const OverstyrArbeidsforholdSkjema = ({ onClose }: OverstyrArbeidsforholdSkjemaProps) => {
+const OverstyrArbeidsforholdSkjema = ({ onClose, organisasjonsnummer }: OverstyrArbeidsforholdSkjemaProps) => {
     const form = useForm({ shouldFocusError: false, mode: 'onBlur' });
     const feiloppsummeringRef = useRef<HTMLDivElement>(null);
+    const getOverstyrtArbeidsforhold = useGetOverstyrtArbeidsforhold();
 
-    // TODO:
-    const isLoading = false;
-    const error = 'todo';
-    const [timedOut, setTimedOut] = useState(false);
+    const { isLoading, error, timedOut, setTimedOut, postOverstyring } = usePostOverstyrtArbeidsforhold(onClose);
 
     const begrunnelser = [
         'Arbeidsforholdet er ikke aktivt på skjæringstidspunktet',
@@ -134,14 +227,15 @@ const OverstyrArbeidsforholdSkjema = ({ onClose }: OverstyrArbeidsforholdSkjemaP
         'Alternativ 4',
     ];
 
-    const confirmChanges = (e: React.SyntheticEvent) => {
-        e.preventDefault();
+    const confirmChanges = () => {
+        const { begrunnelse, forklaring } = form.getValues();
+        const overstyrtArbeidsforhold = getOverstyrtArbeidsforhold(begrunnelse, forklaring, organisasjonsnummer, false);
+        postOverstyring(overstyrtArbeidsforhold);
     };
 
-    // TODO: fiks feiloppsummering
     return (
         <FormProvider {...form}>
-            <form onSubmit={confirmChanges}>
+            <form onSubmit={form.handleSubmit(confirmChanges)}>
                 <Container>
                     <Begrunnelser begrunnelser={begrunnelser} />
                     <ForklaringTextarea

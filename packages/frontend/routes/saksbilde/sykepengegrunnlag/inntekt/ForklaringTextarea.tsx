@@ -8,7 +8,6 @@ const StyledTextarea = styled(Textarea)`
     white-space: pre-line;
 `;
 
-// TODO: bruk ny komponent
 export const ForklaringTextarea = () => {
     const form = useFormContext();
 

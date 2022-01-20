@@ -22,7 +22,6 @@ import { OverstyrArbeidsforholdUtenSykdom } from './OverstyrArbeidsforholdUtenSy
 
 const Container = styled(FlexColumn)`
     padding-right: 2rem;
-    width: 100%;
 `;
 
 const Header = styled.div`
@@ -76,7 +75,7 @@ export const Inntektskilderinnhold = ({ inntekt }: InntektskilderinnholdProps) =
     const bransjer = useArbeidsgiverbransjerRender(inntekt.organisasjonsnummer);
     const arbeidsforhold = useArbeidsforholdRender(inntekt.organisasjonsnummer);
 
-    const erGhost = true;
+    const erGhost = true; // TODO
 
     return (
         <Container>
@@ -114,7 +113,7 @@ export const Inntektskilderinnhold = ({ inntekt }: InntektskilderinnholdProps) =
                 organisasjonsnummer={inntekt.organisasjonsnummer}
             />
             <Tooltip effect="solid" />
-            {erGhost && <OverstyrArbeidsforholdUtenSykdom />}
+            {erGhost && <OverstyrArbeidsforholdUtenSykdom organisasjonsnummer={organisasjonsnummer} />}
         </Container>
     );
 };
