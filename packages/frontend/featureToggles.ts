@@ -1,4 +1,4 @@
-import { extractIdent, extractGroups } from './utils/cookie';
+import { extractGroups, extractIdent } from './utils/cookie';
 
 const groupIdForUtviklere = 'f787f900-6697-440d-a086-d5bb56e26a9c';
 const eminem = 'G103083';
@@ -209,12 +209,16 @@ export const flereArbeidsgivere =
     harTilgangFlereArbeidsgivere();
 export const kanFrigiAndresOppgaver = harTilgangTilAlt() || erLocal() || erDev();
 
+export const graphqlplayground = erLocal() || erDev() || erUtvikler();
+
 export interface UtbetalingToggles {
     overstyreUtbetaltPeriodeEnabled: boolean;
 }
 
+// @ts-ignore
 export const defaultUtbetalingToggles: UtbetalingToggles = {
     overstyreUtbetaltPeriodeEnabled: overstyreUtbetaltPeriodeEnabled,
 };
 
+// @ts-ignore
 export const overstyrInntektEnabled = overstyreUtbetaltPeriodeEnabled;

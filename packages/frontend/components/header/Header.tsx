@@ -15,6 +15,7 @@ import { EasterEgg } from '../../EasterEgg';
 import { BentoMeny } from '../BentoMeny';
 import { Brukermeny } from '../Brukermeny';
 import { SearchBar } from './SearchBar';
+import { graphqlplayground } from '../../featureToggles';
 
 const Container = styled.div`
     flex-shrink: 0;
@@ -90,6 +91,11 @@ export const Header = () => {
                 </InternalHeaderTitle>
                 <SearchBar onSearch={onSøk} />
                 <EasterEgg />
+                {graphqlplayground && (
+                    <InternalHeaderTitle>
+                        <Link to="/playground">GraphQL Playground</Link>
+                    </InternalHeaderTitle>
+                )}
                 <BentoMeny />
                 <Brukermeny navn={brukerinfo.navn} ident={brukerinfo.ident} />
             </InternalHeader>
