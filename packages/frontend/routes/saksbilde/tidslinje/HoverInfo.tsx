@@ -147,12 +147,19 @@ export const HoverInfo = ({ tidslinjeperiode }: HoverInfoProps) => {
     const utbetaltPerson = utbetalingstidslinje.reduce((sum, dag) => sum + (dag.personbeløp ?? 0), 0);
     const ferieperiode = tilPeriodeTekst(utbetalingstidslinje, 'Ferie');
     const permisjonsperiode = tilPeriodeTekst(utbetalingstidslinje, 'Permisjon');
-
     return (
         <Container>
             <Linje>
                 <LinjeFelt as="p">Status: </LinjeFelt>
                 <LinjeVerdi as="p"> {status} </LinjeVerdi>
+            </Linje>
+            <Linje>
+                <LinjeFelt as="p">Mottaker: </LinjeFelt>
+                <LinjeVerdi as="p">
+                    {utbetaltArbeidsgiver > 0 && 'Arbeidsgiver'}
+                    {utbetaltArbeidsgiver > 0 && utbetaltPerson > 0 && '/'}
+                    {utbetaltPerson > 0 && 'Sykmeldt'}
+                </LinjeVerdi>
             </Linje>
             <Linje>
                 <LinjeFelt as="p">Periode: </LinjeFelt>
@@ -164,14 +171,18 @@ export const HoverInfo = ({ tidslinjeperiode }: HoverInfoProps) => {
                 tidslinjeperiode.tilstand
             ) && (
                 <>
-                    <Linje>
-                        <LinjeFelt as="p">Utbetalt til arbeidstaker: </LinjeFelt>
-                        <LinjeVerdi as="p">{somPenger(utbetaltPerson)} </LinjeVerdi>
-                    </Linje>
-                    <Linje>
-                        <LinjeFelt as="p">Utbetalt til arbeidsgiver: </LinjeFelt>
-                        <LinjeVerdi as="p">{somPenger(utbetaltArbeidsgiver)} </LinjeVerdi>
-                    </Linje>
+                    {utbetaltPerson > 0 && (
+                        <Linje>
+                            <LinjeFelt as="p">Utbetalt til sykmeldt: </LinjeFelt>
+                            <LinjeVerdi as="p">{somPenger(utbetaltPerson)} </LinjeVerdi>
+                        </Linje>
+                    )}
+                    {utbetaltArbeidsgiver > 0 && (
+                        <Linje>
+                            <LinjeFelt as="p">Utbetalt til arbeidsgiver: </LinjeFelt>
+                            <LinjeVerdi as="p">{somPenger(utbetaltArbeidsgiver)} </LinjeVerdi>
+                        </Linje>
+                    )}
                 </>
             )}
             {arbeidsgiverperiode && (
