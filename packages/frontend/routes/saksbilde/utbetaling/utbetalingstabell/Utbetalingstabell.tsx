@@ -97,7 +97,7 @@ export const Utbetalingstabell = ({
                                 </Flex>
                             </Header>
                             <Header scope="col" colSpan={1}>
-                                <Flex data-tip="Arbeidstaker" alignItems="center">
+                                <Flex data-tip="Sykmeldt" alignItems="center">
                                     <People style={{ marginRight: '0.5rem' }} /> Utbetaling
                                 </Flex>
                             </Header>

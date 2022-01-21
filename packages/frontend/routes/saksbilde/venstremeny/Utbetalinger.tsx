@@ -115,7 +115,7 @@ export const Utbetalinger = ({
                 </SimuleringButton>
             )}
             <PersonIcon>
-                <People data-tip="Arbeidstaker" title="Arbeidstaker" />
+                <People data-tip="Sykmeldt" title="Arbeidstaker" />
             </PersonIcon>
             <PersonName>
                 <TekstMedEllipsis>{personnavn}</TekstMedEllipsis>
