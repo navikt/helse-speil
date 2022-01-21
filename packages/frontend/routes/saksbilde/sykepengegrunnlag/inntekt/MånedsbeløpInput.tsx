@@ -35,7 +35,7 @@ export const MånedsbeløpInput = ({ initialMånedsbeløp }: MånedsbeløpInputP
     const initialMånedsbeløpRounded =
         initialMånedsbeløp && Math.round((initialMånedsbeløp + Number.EPSILON) * 100) / 100;
 
-    const isNumeric = (input: string) => /^\d+$/.test(input);
+    const isNumeric = (input: string) => /^\d+(\.\d{1,2})?$/.test(input);
 
     const { ref, onBlur, ...inputValidation } = form.register('manedsbelop', {
         required: 'Månedsbeløp mangler',
