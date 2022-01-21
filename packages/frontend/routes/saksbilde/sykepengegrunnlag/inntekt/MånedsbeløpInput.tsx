@@ -35,14 +35,17 @@ export const MånedsbeløpInput = ({ initialMånedsbeløp }: MånedsbeløpInputP
     const initialMånedsbeløpRounded =
         initialMånedsbeløp && Math.round((initialMånedsbeløp + Number.EPSILON) * 100) / 100;
 
+    const isNumeric = (input: string) => /^\d+$/.test(input);
+
     const { ref, onBlur, ...inputValidation } = form.register('manedsbelop', {
         required: 'Månedsbeløp mangler',
         min: { value: 0, message: 'Månedsbeløp må være 0 eller større' },
         validate: {
-            måVæreNumerisk: (value) => !isNaN(Number.parseInt(value)) || 'Månedsbeløp må være et beløp',
+            måVæreNumerisk: (value) => isNumeric(value) || 'Månedsbeløp må være et beløp',
             måVæreEnEndring: (value) =>
                 Number.parseInt(value) !== initialMånedsbeløpRounded || 'Kan ikke være likt gammelt beløp',
         },
+        setValueAs: (value) => value.replaceAll(' ', ''),
     });
 
     return (
