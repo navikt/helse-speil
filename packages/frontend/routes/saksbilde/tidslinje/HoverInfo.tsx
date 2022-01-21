@@ -153,14 +153,16 @@ export const HoverInfo = ({ tidslinjeperiode }: HoverInfoProps) => {
                 <LinjeFelt as="p">Status: </LinjeFelt>
                 <LinjeVerdi as="p"> {status} </LinjeVerdi>
             </Linje>
-            <Linje>
-                <LinjeFelt as="p">Mottaker: </LinjeFelt>
-                <LinjeVerdi as="p">
-                    {utbetaltArbeidsgiver > 0 && 'Arbeidsgiver'}
-                    {utbetaltArbeidsgiver > 0 && utbetaltPerson > 0 && '/'}
-                    {utbetaltPerson > 0 && 'Sykmeldt'}
-                </LinjeVerdi>
-            </Linje>
+            {utbetaltArbeidsgiver + utbetaltPerson > 0 && (
+                <Linje>
+                    <LinjeFelt as="p">Mottaker: </LinjeFelt>
+                    <LinjeVerdi as="p">
+                        {utbetaltArbeidsgiver > 0 && 'Arbeidsgiver'}
+                        {utbetaltArbeidsgiver > 0 && utbetaltPerson > 0 && '/'}
+                        {utbetaltPerson > 0 && 'Sykmeldt'}
+                    </LinjeVerdi>
+                </Linje>
+            )}
             <Linje>
                 <LinjeFelt as="p">Periode: </LinjeFelt>
                 <LinjeVerdi as="p">
