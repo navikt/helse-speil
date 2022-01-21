@@ -169,19 +169,28 @@ export const HoverInfo = ({ tidslinjeperiode }: HoverInfoProps) => {
                     {fom} - {tom}
                 </LinjeVerdi>
             </Linje>
-            {['utbetaltAutomatisk', 'utbetalt', 'revurdertIngenUtbetaling', 'revurdert', 'annullert'].includes(
-                tidslinjeperiode.tilstand
-            ) && (
+            {[
+                'utbetaltAutomatisk',
+                'utbetalt',
+                'revurdertIngenUtbetaling',
+                'revurdert',
+                'annullert',
+                'oppgaver',
+            ].includes(tidslinjeperiode.tilstand) && (
                 <>
                     {utbetaltPerson > 0 && (
                         <Linje>
-                            <LinjeFelt as="p">Utbetalt til sykmeldt: </LinjeFelt>
+                            <LinjeFelt as="p">
+                                {tidslinjeperiode.tilstand === 'oppgaver' ? 'Utbetaling' : 'Utbetalt'} til sykmeldt:{' '}
+                            </LinjeFelt>
                             <LinjeVerdi as="p">{somPenger(utbetaltPerson)} </LinjeVerdi>
                         </Linje>
                     )}
                     {utbetaltArbeidsgiver > 0 && (
                         <Linje>
-                            <LinjeFelt as="p">Utbetalt til arbeidsgiver: </LinjeFelt>
+                            <LinjeFelt as="p">
+                                {tidslinjeperiode.tilstand === 'oppgaver' ? 'Utbetaling' : 'Utbetalt'} til arbeidsgiver:{' '}
+                            </LinjeFelt>
                             <LinjeVerdi as="p">{somPenger(utbetaltArbeidsgiver)} </LinjeVerdi>
                         </Linje>
                     )}
