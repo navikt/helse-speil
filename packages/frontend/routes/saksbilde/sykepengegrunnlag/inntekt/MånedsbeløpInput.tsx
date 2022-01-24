@@ -45,7 +45,7 @@ export const MånedsbeløpInput = ({ initialMånedsbeløp }: MånedsbeløpInputP
             måVæreEnEndring: (value) =>
                 Number.parseInt(value) !== initialMånedsbeløpRounded || 'Kan ikke være likt gammelt beløp',
         },
-        setValueAs: (value) => value.replaceAll(' ', ''),
+        setValueAs: (value) => value.replaceAll(' ', '').replaceAll(',', '.'),
     });
 
     return (
