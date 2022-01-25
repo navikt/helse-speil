@@ -43,7 +43,7 @@ export const MånedsbeløpInput = ({ initialMånedsbeløp }: MånedsbeløpInputP
         validate: {
             måVæreNumerisk: (value) => isNumeric(value) || 'Månedsbeløp må være et beløp',
             måVæreEnEndring: (value) =>
-                Number.parseInt(value) !== initialMånedsbeløpRounded || 'Kan ikke være likt gammelt beløp',
+                Number.parseFloat(value) !== initialMånedsbeløpRounded || 'Kan ikke være likt gammelt beløp',
         },
         setValueAs: (value) => value.replaceAll(' ', '').replaceAll(',', '.'),
     });

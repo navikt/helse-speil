@@ -226,11 +226,11 @@ export const EditableInntekt = ({ omregnetÅrsinntekt, close, onEndre }: Editabl
 
     const harFeil = !form.formState.isValid && form.formState.isSubmitted;
     const values = form.getValues();
-    const harEndringer = Number.parseInt(values.manedsbelop) !== omregnetÅrsinntekt.månedsbeløp;
+    const harEndringer = Number.parseFloat(values.manedsbelop) !== omregnetÅrsinntekt.månedsbeløp;
 
     useEffect(() => {
         if (!isNaN(values.manedsbelop)) {
-            onEndre(Number.parseInt(values.manedsbelop) !== omregnetÅrsinntekt.månedsbeløp);
+            onEndre(Number.parseFloat(values.manedsbelop) !== omregnetÅrsinntekt.månedsbeløp);
         }
     }, [values, omregnetÅrsinntekt]);
 
@@ -240,7 +240,7 @@ export const EditableInntekt = ({ omregnetÅrsinntekt, close, onEndre }: Editabl
 
     const confirmChanges = () => {
         const { begrunnelse, forklaring, manedsbelop } = form.getValues();
-        const overstyrtInntekt = getOverstyrtInntekt(begrunnelse, forklaring, Number.parseInt(manedsbelop));
+        const overstyrtInntekt = getOverstyrtInntekt(begrunnelse, forklaring, Number.parseFloat(manedsbelop));
         postOverstyring(overstyrtInntekt);
     };
 
