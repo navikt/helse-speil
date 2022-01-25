@@ -148,7 +148,7 @@ const useGetOverstyrtArbeidsforhold = () => {
 const usePostOverstyrtArbeidsforhold = (onFerdigKalkulert: () => void) => {
     const addToast = useAddToast();
     const removeToast = useRemoveToast();
-    const opptegnelser = useOpptegnelser(); // TODO: trenger vi opptegnelser?
+    const opptegnelser = useOpptegnelser();
     const { aktørId } = usePerson() as Person;
     const setPollingRate = useSetOpptegnelserPollingRate();
 
@@ -194,7 +194,7 @@ const usePostOverstyrtArbeidsforhold = (onFerdigKalkulert: () => void) => {
                 .then(() => {
                     setCalculating(true);
                     addToast(kalkulererToast({}));
-                    // postAbonnerPåAktør(aktørId).then(() => setPollingRate(1000)) // TODO: trenger vi dette?
+                    postAbonnerPåAktør(aktørId).then(() => setPollingRate(1000));
                 })
                 .catch((error) => {
                     switch (error.statusCode) {

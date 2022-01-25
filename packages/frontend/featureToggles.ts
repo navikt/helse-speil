@@ -199,6 +199,8 @@ export const overstyreUtbetaltPeriodeEnabled =
     kanRevurdere.includes(extractIdent()) ||
     erLocal() ||
     erDev();
+export const overstyreArbeidsforholdUtenSykdom = erLocal();
+
 export const annulleringerEnabled = erDev() || erLocal() || harUtvidetTilgang() || harTilgangTilAlt();
 export const amplitudeEnabled = true;
 export const utbetalingsoversikt = erUtvikler() || erLocal() || harTilgangTilAlt() || erProdukteier();

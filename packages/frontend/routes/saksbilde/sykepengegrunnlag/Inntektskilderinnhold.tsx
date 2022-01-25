@@ -19,6 +19,7 @@ import {
 import { Arbeidsforhold } from '../Arbeidsforhold';
 import { Inntekt } from './inntekt/Inntekt';
 import { OverstyrArbeidsforholdUtenSykdom } from './OverstyrArbeidsforholdUtenSykdom';
+import { overstyreArbeidsforholdUtenSykdom } from '../../../featureToggles';
 
 const Container = styled(FlexColumn)`
     padding-right: 2rem;
@@ -75,7 +76,8 @@ export const Inntektskilderinnhold = ({ inntekt }: InntektskilderinnholdProps) =
     const bransjer = useArbeidsgiverbransjerRender(inntekt.organisasjonsnummer);
     const arbeidsforhold = useArbeidsforholdRender(inntekt.organisasjonsnummer);
 
-    const erGhost = true; // TODO
+    // TODO: denne vises nå alltid lokalt, må sjekk om arbeidsforholdet er ghost
+    const skalViseOverstyringAvArbeidsforhold = overstyreArbeidsforholdUtenSykdom;
 
     return (
         <Container>
@@ -113,7 +115,9 @@ export const Inntektskilderinnhold = ({ inntekt }: InntektskilderinnholdProps) =
                 organisasjonsnummer={inntekt.organisasjonsnummer}
             />
             <Tooltip effect="solid" />
-            {erGhost && <OverstyrArbeidsforholdUtenSykdom organisasjonsnummer={organisasjonsnummer} />}
+            {skalViseOverstyringAvArbeidsforhold && (
+                <OverstyrArbeidsforholdUtenSykdom organisasjonsnummer={organisasjonsnummer} />
+            )}
         </Container>
     );
 };
