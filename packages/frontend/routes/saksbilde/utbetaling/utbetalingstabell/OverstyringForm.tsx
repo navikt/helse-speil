@@ -50,11 +50,7 @@ export const OverstyringForm: React.FC<OverstyringFormProps> = ({ overstyrteDage
         <Container>
             <BegrunnelseInput
                 id="begrunnelse"
-                label={`Begrunnelse for endringer ${
-                    overstyrteDager.size > 0
-                        ? '(totalt ' + overstyrteDager.size + (overstyrteDager.size === 1 ? ' dag' : ' dager') + ')'
-                        : ''
-                }`}
+                label="Begrunnelse for endringer"
                 value={oppsummering}
                 description={
                     <span>
