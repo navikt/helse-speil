@@ -160,11 +160,13 @@ export const OppgaverTable = React.memo(({ oppgaver }: { oppgaver: Oppgave[] }) 
                                 <SøkerCell personinfo={it.personinfo} oppgavereferanse={it.oppgavereferanse} />
                                 <OpprettetCell date={it.opprettet} />
                                 <OptionsCell oppgave={it} personinfo={it.personinfo} />
-                                <NotatCell
-                                    vedtaksperiodeId={it.vedtaksperiodeId}
-                                    personinfo={it.personinfo}
-                                    erPåVent={it.tildeling?.påVent}
-                                />
+                                {it.tildeling?.påVent && (
+                                    <NotatCell
+                                        vedtaksperiodeId={it.vedtaksperiodeId}
+                                        personinfo={it.personinfo}
+                                        erPåVent={it.tildeling?.påVent}
+                                    />
+                                )}
                             </LinkRow>
                         ))}
                     </Body>

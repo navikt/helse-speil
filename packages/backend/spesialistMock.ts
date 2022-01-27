@@ -96,6 +96,19 @@ const notater: { [vedtaksperiodereferanser: string]: SpesialistNotat[] } = {
             feilregistrert: false,
         },
     ],
+    '15694613-88ab-4490-a070-8a6bde970300': [
+        {
+            id: '12345678',
+            tekst: 'Revidert utgave 2',
+            opprettet: '2021-10-10T23:05:09.454',
+            saksbehandlerOid: '12345668',
+            saksbehandlerNavn: 'Bernt Bjelle 2',
+            saksbehandlerEpost: 'bernt.bjelle@nav.no',
+            saksbehandlerIdent: 'E123456',
+            vedtaksperiodeId: '15694613-88ab-4490-a070-8a6bde970300',
+            feilregistrert: false,
+        },
+    ],
 };
 
 const personer: { [aktørId: string]: string } = oppgaveFil

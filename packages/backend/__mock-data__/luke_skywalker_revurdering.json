@@ -7642,9 +7642,9 @@
         }
     },
     "tildeling": {
-        "navn": "Eriksen, Jakob Havstein",
-        "epost": "Jakob.Havstein.Eriksen@nav.no",
-        "oid": "ec4928ff-c9b2-4132-bb7f-d33e9ff5671f",
-        "påVent": false
+        "navn": "dev",
+        "epost": "dev@nav.no",
+        "oid": "uuid",
+        "påVent": true
     }
 }
