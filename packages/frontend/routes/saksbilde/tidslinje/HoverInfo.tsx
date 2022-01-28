@@ -146,6 +146,7 @@ export const HoverInfo = ({ tidslinjeperiode }: HoverInfoProps) => {
     const utbetaltArbeidsgiver = utbetalingstidslinje.reduce((sum, dag) => sum + (dag.arbeidsgiverbeløp ?? 0), 0);
     const utbetaltPerson = utbetalingstidslinje.reduce((sum, dag) => sum + (dag.personbeløp ?? 0), 0);
     const ferieperiode = tilPeriodeTekst(utbetalingstidslinje, 'Ferie');
+    const avslåttperiode = tilPeriodeTekst(utbetalingstidslinje, 'Avslått');
     const permisjonsperiode = tilPeriodeTekst(utbetalingstidslinje, 'Permisjon');
     return (
         <Container>
@@ -206,6 +207,12 @@ export const HoverInfo = ({ tidslinjeperiode }: HoverInfoProps) => {
                 <Linje>
                     <LinjeFelt as="p">Ferie: </LinjeFelt>
                     <LinjeVerdi as="p">{ferieperiode} </LinjeVerdi>
+                </Linje>
+            )}
+            {avslåttperiode && (
+                <Linje>
+                    <LinjeFelt as="p">Avslått: </LinjeFelt>
+                    <LinjeVerdi as="p">{avslåttperiode} </LinjeVerdi>
                 </Linje>
             )}
             {permisjonsperiode && (
