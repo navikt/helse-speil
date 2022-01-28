@@ -19,11 +19,11 @@ import { useIsLoadingPerson } from './state/person';
 import './App.css';
 import { GlobalFeilside } from './GlobalFeilside';
 import { Routes } from './routes';
-import { GraphQLPlayground } from './routes/playground/GraphQLPlayground';
 
 const Saksbilde = React.lazy(() => import('./routes/saksbilde/Saksbilde'));
 const Oversikt = React.lazy(() => import('./routes/oversikt'));
 const Agurk = React.lazy(() => import('./Agurk'));
+const GraphQLPlayground = React.lazy(() => import('./routes/playground/GraphQLPlayground'));
 
 ReactModal.setAppElement('#root');
 
