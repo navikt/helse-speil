@@ -8,7 +8,7 @@ import { Flex, FlexColumn } from '../../../components/Flex';
 import { css } from '@emotion/react';
 import { Begrunnelser } from '../../../components/Begrunnelser';
 import { ForklaringTextarea } from '../../../components/ForklaringTextArea';
-import { Button as NavButton } from '@navikt/ds-react/esm/button';
+import { Button as NavButton } from '@navikt/ds-react';
 import { ErrorMessage } from '../../../components/ErrorMessage';
 import { OverstyringTimeoutModal } from '../../../components/OverstyringTimeoutModal';
 import { OverstyrtArbeidsforholdDTO } from '../../../io/types';
