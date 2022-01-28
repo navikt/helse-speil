@@ -8,7 +8,9 @@ import { useNotaterForVedtaksperiode } from '../../../state/notater';
 
 import { NotatListeModal } from '../../oversikt/table/rader/notat/NotatListeModal';
 import { HistorikkHendelse } from './HistorikkHendelse';
-import { useHistorikk, useOppdaterHistorikk, useShowHistorikkState } from './state';
+import { filterState, useHistorikk, useOppdaterHistorikk, useShowHistorikkState } from './state';
+import { Hendelsetype } from './Historikk.types';
+import { useRecoilValue } from 'recoil';
 
 const Container = styled.div`
     grid-area: høyremeny;
@@ -42,6 +44,7 @@ export const Historikk = React.memo(({ vedtaksperiodeId, tildeling, personinfo }
     const notaterForPeriode = useNotaterForVedtaksperiode(vedtaksperiodeId);
     const [showHistorikk, setShowHistorikk] = useShowHistorikkState();
     const [showNotatListeModal, setShowNotatListeModal] = useState(false);
+    const filter = useRecoilValue(filterState);
 
     const [endring, setEndring] = useState<Overstyring | null>(null);
     const [inntektendring, setInntektendring] = useState<ExternalInntektoverstyring | null>(null);
@@ -60,12 +63,14 @@ export const Historikk = React.memo(({ vedtaksperiodeId, tildeling, personinfo }
         onClickInntektendring: setInntektendring,
     });
 
+    const tittel = Hendelsetype[filter] === 'Dokument' ? 'DOKUMENTER' : 'HISTORIKK';
+
     return (
         <>
             <Container>
                 <Hendelser>
                     <HistorikkTitle>
-                        HISTORIKK
+                        {tittel}
                         <CloseButton onClick={() => setShowHistorikk(false)} />
                     </HistorikkTitle>
                     {historikk.map((it) => (

@@ -12,7 +12,7 @@ const historikkState = atom<Hendelse[]>({
     default: [],
 });
 
-const filterState = atom<Hendelsetype>({
+export const filterState = atom<Hendelsetype>({
     key: 'filterState',
     default: Hendelsetype.Historikk,
 });
