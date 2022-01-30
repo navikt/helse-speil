@@ -95,6 +95,8 @@ const utbetalingstatus = (status: Tidslinjetilstand) => {
             return 'Avslag';
         case 'feilet':
             return 'Feilet';
+        case 'revurderingFeilet':
+            return 'Revurdering feilet';
         case 'tilInfotrygd':
             return 'Sendt til infotrygd';
         default:

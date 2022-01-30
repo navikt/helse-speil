@@ -404,6 +404,8 @@ export class ArbeidsgiverBuilder {
                     case 'UTBETALT':
                     case 'GODKJENT_UTEN_UTBETALING':
                         return this.harDagtype('Syk', utbetalingstidslinje) ? 'revurdert' : 'revurdertIngenUtbetaling';
+                    case 'UTBETALING_FEILET':
+                        return 'revurderingFeilet';
                     default:
                         return this.defaultTidslinjeTilstander(utbetalingstatus, utbetalingstidslinje);
                 }

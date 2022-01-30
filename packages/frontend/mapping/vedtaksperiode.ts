@@ -241,6 +241,8 @@ export class VedtaksperiodeBuilder {
                         return 'ingenUtbetaling';
                     case 'Feilet':
                         return 'feilet';
+                    case 'RevurderingFeilet':
+                        return 'revurderingFeilet';
                     case 'TilInfotrygd':
                         return 'tilInfotrygd';
                     default:

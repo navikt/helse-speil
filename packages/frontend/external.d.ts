@@ -125,6 +125,7 @@ declare type ExternalVedtaksperiodetilstand =
     | 'VenterPåKiling'
     | 'IngenUtbetaling'
     | 'Feilet'
+    | 'RevurderingFeilet'
     | 'TilInfotrygd';
 
 declare type ExternalVedtaksperiodetype =

@@ -119,6 +119,7 @@ declare type Periodetilstand =
     | 'kunFerie'
     | 'kunPermisjon'
     | 'feilet'
+    | 'revurderingFeilet'
     | 'ukjent'
     | 'tilInfotrygd'
     | 'annullert'

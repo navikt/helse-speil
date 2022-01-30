@@ -33,6 +33,8 @@ const ariaLabel = (tilstand: Tidslinjetilstand | Infotrygdperiodetilstand, fom: 
             return `Permisjonsperiode fra ${fomString} til ${tomString}`;
         case 'feilet':
             return `Periode med feil fra ${fomString} til ${tomString}`;
+        case 'revurderingFeilet':
+            return `Revurdert periode med feil fra ${fomString} til ${tomString}`;
         case 'tilInfotrygd':
             return `Periode som ble sendt til Infotrygd fra ${fomString} til ${tomString}`;
         case 'annullert':
