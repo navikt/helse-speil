@@ -22,6 +22,7 @@ import {
     kalkulererToastKey,
     kalkuleringFerdigToast,
 } from '../../../state/kalkuleringstoasts';
+import { kanOverstyreArbeidsforholdUtenSykdom } from '../../../featureToggles';
 
 const Container = styled.div`
     display: flex;
@@ -98,10 +99,17 @@ const Button = styled(NavButton)`
     }
 `;
 interface OverstyrArbeidsforholdUtenSykdomProps {
-    organisasjonsnummer: string;
+    organisasjonsnummerGhost: string;
 }
-export const OverstyrArbeidsforholdUtenSykdom = ({ organisasjonsnummer }: OverstyrArbeidsforholdUtenSykdomProps) => {
+export const OverstyrArbeidsforholdUtenSykdom = ({
+    organisasjonsnummerGhost,
+}: OverstyrArbeidsforholdUtenSykdomProps) => {
     const [editing, setEditing] = useState(false);
+
+    const organisasjonsnummerPeriodeTilGodkjenning = 'TODO';
+    const skjæringstidspunkt = 'TODO';
+
+    //const { organisasjonsnummerPeriodeTilGodkjenning, skjæringstidspunkt } = usePeriodeTilGodkjenning()
 
     return (
         <FormContainer editing={editing}>
@@ -125,7 +133,9 @@ export const OverstyrArbeidsforholdUtenSykdom = ({ organisasjonsnummer }: Overst
             {editing && (
                 <OverstyrArbeidsforholdSkjema
                     onClose={() => setEditing(false)}
-                    organisasjonsnummer={organisasjonsnummer}
+                    organisasjonsnummerGhost={organisasjonsnummerGhost}
+                    organisasjonsnummerPeriodeTilGodkjenning={organisasjonsnummerPeriodeTilGodkjenning}
+                    skjæringstidspunkt={skjæringstidspunkt}
                 />
             )}
         </FormContainer>
@@ -135,13 +145,26 @@ export const OverstyrArbeidsforholdUtenSykdom = ({ organisasjonsnummer }: Overst
 const useGetOverstyrtArbeidsforhold = () => {
     const { aktørId, fødselsnummer } = usePerson() as Person;
 
-    return (begrunnelse: string, forklaring: string, organisasjonsnummer: string, arbeidsforholdErAktivt: boolean) => ({
-        aktørId: aktørId,
+    return (
+        begrunnelse: string,
+        forklaring: string,
+        organisasjonsnummerPeriodeTilGodkjenning: string,
+        organisasjonsnummerGhost: string,
+        skjæringstidspunkt: string,
+        arbeidsforholdErAktivt: boolean
+    ) => ({
         fødselsnummer: fødselsnummer,
-        organisasjonsnummer: organisasjonsnummer,
-        begrunnelse: begrunnelse,
-        forklaring: forklaring,
-        arbeidsforholdErAktivt: arbeidsforholdErAktivt,
+        organisasjonsnummer: organisasjonsnummerPeriodeTilGodkjenning,
+        aktørId: aktørId,
+        skjæringstidspunkt: skjæringstidspunkt,
+        overstyrteArbeidsforhold: [
+            {
+                orgnummer: organisasjonsnummerGhost,
+                erAktivt: arbeidsforholdErAktivt,
+                begrunnelse: begrunnelse,
+                forklaring: forklaring,
+            },
+        ],
     });
 };
 
@@ -210,10 +233,17 @@ const usePostOverstyrtArbeidsforhold = (onFerdigKalkulert: () => void) => {
 
 interface OverstyrArbeidsforholdSkjemaProps {
     onClose: () => void;
-    organisasjonsnummer: string;
+    organisasjonsnummerPeriodeTilGodkjenning: string;
+    organisasjonsnummerGhost: string;
+    skjæringstidspunkt: string;
 }
 
-const OverstyrArbeidsforholdSkjema = ({ onClose, organisasjonsnummer }: OverstyrArbeidsforholdSkjemaProps) => {
+const OverstyrArbeidsforholdSkjema = ({
+    onClose,
+    organisasjonsnummerGhost,
+    organisasjonsnummerPeriodeTilGodkjenning,
+    skjæringstidspunkt,
+}: OverstyrArbeidsforholdSkjemaProps) => {
     const form = useForm({ shouldFocusError: false, mode: 'onBlur' });
     const feiloppsummeringRef = useRef<HTMLDivElement>(null);
     const getOverstyrtArbeidsforhold = useGetOverstyrtArbeidsforhold();
@@ -229,7 +259,14 @@ const OverstyrArbeidsforholdSkjema = ({ onClose, organisasjonsnummer }: Overstyr
 
     const confirmChanges = () => {
         const { begrunnelse, forklaring } = form.getValues();
-        const overstyrtArbeidsforhold = getOverstyrtArbeidsforhold(begrunnelse, forklaring, organisasjonsnummer, false);
+        const overstyrtArbeidsforhold = getOverstyrtArbeidsforhold(
+            begrunnelse,
+            forklaring,
+            organisasjonsnummerGhost,
+            organisasjonsnummerPeriodeTilGodkjenning,
+            skjæringstidspunkt,
+            false
+        );
         postOverstyring(overstyrtArbeidsforhold);
     };
 

@@ -26,8 +26,18 @@ export interface OverstyrtInntektDTO extends Overstyring {
     forklaring: string;
 }
 
-export interface OverstyrtArbeidsforholdDTO extends Overstyring {
-    arbeidsforholdErAktivt: boolean;
+export interface OverstyrtArbeidsforholdDTO {
+    fødselsnummer: string;
+    organisasjonsnummer: string;
+    aktørId: string;
+    skjæringstidspunkt: string;
+    overstyrteArbeidsforhold: OverstyrtArbeidsforholdElementDTO[];
+}
+
+export interface OverstyrtArbeidsforholdElementDTO {
+    orgnummer: string;
+    erAktivt: boolean;
+    begrunnelse: string;
     forklaring: string;
 }
 
