@@ -7,7 +7,7 @@ import { UtbetalingstabellDag } from './Utbetalingstabell.types';
 const dagtypeIsValid = (type: Dag['type']): boolean =>
     ['Helg', 'Arbeidsdag', 'Ferie', 'Permisjon'].every((it) => it !== type);
 
-const renderGrad = (grad?: number): string | false => !!grad && `${grad} %`;
+const renderGrad = (grad?: number): string | false => grad !== undefined && grad !== null && `${grad} %`;
 
 interface GradCellProps extends React.HTMLAttributes<HTMLTableDataCellElement> {
     type: Dag['type'];

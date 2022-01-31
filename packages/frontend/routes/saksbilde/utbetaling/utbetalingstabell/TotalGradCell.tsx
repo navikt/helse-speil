@@ -14,7 +14,7 @@ interface TotalGradProps {
 }
 
 export const TotalGradCell = ({ type, erOverstyrt, totalGradering }: TotalGradProps) => {
-    const showTotalGradering = totalGradering && dagtypeIsValid(type);
+    const showTotalGradering = totalGradering !== undefined && totalGradering !== null && dagtypeIsValid(type);
 
     return (
         <Cell erOverstyrt={erOverstyrt}>
