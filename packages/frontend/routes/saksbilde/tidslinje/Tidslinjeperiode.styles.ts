@@ -10,6 +10,7 @@ const icon = css`
         width: calc(100% - 1rem);
         height: 100%;
         margin-left: 0.25rem;
+        background-size: 24px !important;
     }
 
     &.infotrygdferie:before,
@@ -180,8 +181,8 @@ export const Periodeknapp = styled(Period, { shouldForwardProp: (prop) => prop !
             z-index: 20 !important;
         `}
 
-    ${icon}
-  ${background}
+    ${icon};
+    ${background};
 `;
 
 export const PeriodePin = styled.div`
