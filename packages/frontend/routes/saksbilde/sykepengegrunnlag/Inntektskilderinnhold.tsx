@@ -18,8 +18,9 @@ import {
 
 import { Arbeidsforhold } from '../Arbeidsforhold';
 import { Inntekt } from './inntekt/Inntekt';
-import { kanOverstyreArbeidsforholdUtenSykdom } from '../../../featureToggles';
+import { defaultOverstyrToggles } from '../../../featureToggles';
 import { OverstyrArbeidsforholdUtenSykdom } from './OverstyrArbeidsforholdUtenSykdom';
+import { useMaybeAktivPeriode, useMaybePeriodeTilGodkjenning } from '../../../state/tidslinje';
 
 const Container = styled(FlexColumn)`
     padding-right: 2rem;
@@ -76,9 +77,18 @@ export const Inntektskilderinnhold = ({ inntekt }: InntektskilderinnholdProps) =
     const bransjer = useArbeidsgiverbransjerRender(inntekt.organisasjonsnummer);
     const arbeidsforhold = useArbeidsforholdRender(inntekt.organisasjonsnummer);
 
-    // TODO: denne vises nå alltid lokalt/ i dev, må sjekk om arbeidsforholdet er ghost
-    //  må også sjekke at det er en periode til godkjenning
-    const skalViseOverstyringAvArbeidsforhold = kanOverstyreArbeidsforholdUtenSykdom;
+    const aktivPeriode = useMaybeAktivPeriode()!;
+    const erArbeidsgiverUtenSykefravær = aktivPeriode.tilstand === 'utenSykefravær';
+    const skjæringstidspunkt = aktivPeriode.skjæringstidspunkt!;
+    const periodeTilGodkjenning = useMaybePeriodeTilGodkjenning(skjæringstidspunkt);
+    const organisasjonsnummerPeriodeTilGodkjenning = periodeTilGodkjenning
+        ? periodeTilGodkjenning.organisasjonsnummer
+        : undefined;
+
+    const arbeidsforholdKanOverstyres =
+        defaultOverstyrToggles.overstyrArbeidsforholdUtenSykefraværEnabled &&
+        erArbeidsgiverUtenSykefravær &&
+        periodeTilGodkjenning;
 
     return (
         <Container>
@@ -116,8 +126,12 @@ export const Inntektskilderinnhold = ({ inntekt }: InntektskilderinnholdProps) =
                 organisasjonsnummer={inntekt.organisasjonsnummer}
             />
             <Tooltip effect="solid" />
-            {skalViseOverstyringAvArbeidsforhold && (
-                <OverstyrArbeidsforholdUtenSykdom organisasjonsnummer={organisasjonsnummer} />
+            {arbeidsforholdKanOverstyres && (
+                <OverstyrArbeidsforholdUtenSykdom
+                    organisasjonsnummerAktivPeriode={organisasjonsnummer}
+                    organisasjonsnummerPeriodeTilGodkjenning={organisasjonsnummerPeriodeTilGodkjenning!}
+                    skjæringstidspunkt={skjæringstidspunkt}
+                />
             )}
         </Container>
     );

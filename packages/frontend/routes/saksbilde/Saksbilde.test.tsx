@@ -18,7 +18,7 @@ import { umappetVedtaksperiode } from '../../test/data/vedtaksperiode';
 import Saksbilde from './Saksbilde';
 import { mappetPerson } from '../../test/data';
 import { umappetGhostPeriode } from '../../test/data/ghostPeriode';
-import { umappetPerson } from '../../test/data/person';
+import { testBeregningId, testVilkårsgrunnlagHistorikkId, umappetPerson } from '../../test/data/person';
 
 jest.mock('../../hooks/useRefreshPersonVedUrlEndring', () => ({
     useRefreshPersonVedUrlEndring: () => {},
@@ -32,6 +32,9 @@ jest.mock('../saksbilde/historikk/icons/IconHistorikk.svg', () => 'null');
 jest.mock('../../featureToggles', () => ({
     defaultUtbetalingToggles: {
         overstyreUtbetaltPeriodeEnabled: true,
+    },
+    defaultOverstyrToggles: {
+        overstyrArbeidsforholdUtenSykefraværEnabled: true,
     },
     erDev: () => true,
     erLocal: () => true,
@@ -192,6 +195,48 @@ describe('Saksbilde', () => {
             expect(screen.queryByTestId('saksbilde-ufullstendig-vedtaksperiode')).toBeNull();
             expect(screen.queryByTestId('laster-saksbilde')).toBeNull();
             expect(screen.queryByTestId('tomt-saksbilde')).toBeNull();
+        });
+    });
+
+    test('viser muligheten for å overstyre ghost arbeidsforhold', async () => {
+        render(<Saksbilde />, {
+            wrapper: wrapperMedPerson([
+                umappetArbeidsgiver(
+                    [umappetVedtaksperiode({ tilstand: 'Oppgaver' })],
+                    [],
+                    [
+                        umappetUtbetalingshistorikk(
+                            testBeregningId,
+                            testVilkårsgrunnlagHistorikkId,
+                            'UTBETALING',
+                            'IKKE_UTBETALT'
+                        ),
+                    ]
+                ),
+
+                umappetArbeidsgiver(
+                    [],
+                    [],
+                    [],
+                    [
+                        umappetGhostPeriode(
+                            '2018-01-01',
+                            '2018-01-01',
+                            '2018-01-01',
+                            '33612787-ca6c-45ba-bbd0-29ae6474d9c2'
+                        ),
+                    ]
+                ),
+            ]),
+        });
+        const perioder = screen.getAllByTestId('tidslinjeperiode', { exact: false });
+        expect(perioder).toHaveLength(2);
+        expect(perioder[0]).toBeVisible();
+        expect(perioder[1]).toBeVisible();
+        userEvent.click(perioder[1].getElementsByTagName('button')[0]);
+
+        await waitFor(() => {
+            expect(screen.queryByText('Ikke bruk inntekten i beregning')).toBeVisible();
         });
     });
 

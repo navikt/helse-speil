@@ -199,7 +199,7 @@ export const overstyreUtbetaltPeriodeEnabled =
     kanRevurdere.includes(extractIdent()) ||
     erLocal() ||
     erDev();
-export const kanOverstyreArbeidsforholdUtenSykdom = erLocal() || erDev();
+export const overstyrArbeidsforholdUtenSykefraværEnabled = erLocal() || erDev();
 
 export const annulleringerEnabled = erDev() || erLocal() || harUtvidetTilgang() || harTilgangTilAlt();
 export const amplitudeEnabled = true;
@@ -220,6 +220,14 @@ export const graphqlplayground = erLocal() || erDev() || erUtvikler();
 export interface UtbetalingToggles {
     overstyreUtbetaltPeriodeEnabled: boolean;
 }
+
+export interface overstyrArbeidsforholdToggles {
+    overstyrArbeidsforholdUtenSykefraværEnabled: boolean;
+}
+
+export const defaultOverstyrToggles: overstyrArbeidsforholdToggles = {
+    overstyrArbeidsforholdUtenSykefraværEnabled: overstyrArbeidsforholdUtenSykefraværEnabled,
+};
 
 // @ts-ignore
 export const defaultUtbetalingToggles: UtbetalingToggles = {

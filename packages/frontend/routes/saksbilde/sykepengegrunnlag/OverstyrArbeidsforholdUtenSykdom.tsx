@@ -22,7 +22,6 @@ import {
     kalkulererToastKey,
     kalkuleringFerdigToast,
 } from '../../../state/kalkuleringstoasts';
-import { kanOverstyreArbeidsforholdUtenSykdom } from '../../../featureToggles';
 
 const Container = styled.div`
     display: flex;
@@ -99,17 +98,16 @@ const Button = styled(NavButton)`
     }
 `;
 interface OverstyrArbeidsforholdUtenSykdomProps {
-    organisasjonsnummerGhost: string;
+    organisasjonsnummerAktivPeriode: string;
+    organisasjonsnummerPeriodeTilGodkjenning: string;
+    skjæringstidspunkt: string;
 }
 export const OverstyrArbeidsforholdUtenSykdom = ({
-    organisasjonsnummerGhost,
+    organisasjonsnummerAktivPeriode,
+    organisasjonsnummerPeriodeTilGodkjenning,
+    skjæringstidspunkt,
 }: OverstyrArbeidsforholdUtenSykdomProps) => {
     const [editing, setEditing] = useState(false);
-
-    const organisasjonsnummerPeriodeTilGodkjenning = 'TODO';
-    const skjæringstidspunkt = 'TODO';
-
-    //const { organisasjonsnummerPeriodeTilGodkjenning, skjæringstidspunkt } = usePeriodeTilGodkjenning()
 
     return (
         <FormContainer editing={editing}>
@@ -133,7 +131,7 @@ export const OverstyrArbeidsforholdUtenSykdom = ({
             {editing && (
                 <OverstyrArbeidsforholdSkjema
                     onClose={() => setEditing(false)}
-                    organisasjonsnummerGhost={organisasjonsnummerGhost}
+                    organisasjonsnummerAktivPeriode={organisasjonsnummerAktivPeriode}
                     organisasjonsnummerPeriodeTilGodkjenning={organisasjonsnummerPeriodeTilGodkjenning}
                     skjæringstidspunkt={skjæringstidspunkt}
                 />
@@ -233,14 +231,14 @@ const usePostOverstyrtArbeidsforhold = (onFerdigKalkulert: () => void) => {
 
 interface OverstyrArbeidsforholdSkjemaProps {
     onClose: () => void;
+    organisasjonsnummerAktivPeriode: string;
     organisasjonsnummerPeriodeTilGodkjenning: string;
-    organisasjonsnummerGhost: string;
     skjæringstidspunkt: string;
 }
 
 const OverstyrArbeidsforholdSkjema = ({
     onClose,
-    organisasjonsnummerGhost,
+    organisasjonsnummerAktivPeriode,
     organisasjonsnummerPeriodeTilGodkjenning,
     skjæringstidspunkt,
 }: OverstyrArbeidsforholdSkjemaProps) => {
@@ -262,8 +260,8 @@ const OverstyrArbeidsforholdSkjema = ({
         const overstyrtArbeidsforhold = getOverstyrtArbeidsforhold(
             begrunnelse,
             forklaring,
-            organisasjonsnummerGhost,
             organisasjonsnummerPeriodeTilGodkjenning,
+            organisasjonsnummerAktivPeriode,
             skjæringstidspunkt,
             false
         );

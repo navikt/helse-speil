@@ -49,6 +49,24 @@ export const useMaybeAktivArbeidsgiverUtenSykdom = (): Arbeidsgiver | undefined 
     return undefined;
 };
 
+export const useMaybePeriodeTilGodkjenning = (
+    skjæringstidspunkt: string
+): TidslinjeperiodeMedSykefravær | undefined => {
+    const person = usePerson();
+
+    if (person) {
+        return (
+            person.arbeidsgivere
+                .flatMap(({ tidslinjeperioder }) => tidslinjeperioder)
+                .flatMap((perioder) => perioder)
+                .find(
+                    (periode) => periode.skjæringstidspunkt === skjæringstidspunkt && periode.tilstand === 'oppgaver'
+                ) ?? undefined
+        );
+    }
+    return undefined;
+};
+
 export const useAktivPeriode = (): TidslinjeperiodeMedSykefravær | TidslinjeperiodeUtenSykefravær => {
     const aktivPeriode = useMaybeAktivPeriode();
 
