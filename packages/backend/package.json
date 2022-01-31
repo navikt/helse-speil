@@ -33,7 +33,7 @@
         "dotenv": "^8.2.0",
         "express": "^4.17.1",
         "express-session": "^1.17.1",
-        "nanoid": "^3.1.30",
+        "nanoid": "^3.1.31",
         "openid-client": "^3.15.10",
         "prom-client": "^13.1.0",
         "redis": "^3.1.0",
