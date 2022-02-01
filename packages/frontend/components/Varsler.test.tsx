@@ -8,7 +8,7 @@ import { varslerState } from '../state/varsler';
 import { Varsler } from './Varsler';
 
 describe('Varsler', () => {
-    test('rendrer alle varslerState fra state', () => {
+    test('rendrer alle varsler fra state', () => {
         render(
             <RecoilRoot
                 initializeState={({ set }) => {

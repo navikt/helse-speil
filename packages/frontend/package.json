@@ -101,7 +101,8 @@
     },
     "snyk": true,
     "alias": {
-        "test-data": "./test/data"
+        "test-data": "./test/data",
+        "@test-wrappers": "./test/wrappers"
     },
     "browserslist": "> 0.5%, last 2 Chrome versions, not dead"
 }

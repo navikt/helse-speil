@@ -6,7 +6,6 @@ import { Clipboard } from './Clipboard';
 
 let copiedText = '';
 
-// noinspection JSUnusedGlobalSymbols
 jest.mock('./writeToClipboard', () => ({
     __esModule: true,
     writeToClipboard: (data: string) => {
@@ -45,7 +44,7 @@ describe('Clipboard', () => {
         });
     });
     test('kopierer tekst fra kilderef om oppgitt', async () => {
-        const Container = () => {
+        const Container: React.FC = ({ children }) => {
             const copyRef = useRef<HTMLParagraphElement>(null);
             return (
                 <>

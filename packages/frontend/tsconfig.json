@@ -23,7 +23,8 @@
         "forceConsistentCasingInFileNames": true,
         "baseUrl": "",
         "paths": {
-            "test-data": ["./test/data"]
+            "test-data": ["./test/data"],
+            "@test-wrappers": ["./test/wrappers"]
         }
     },
     "exclude": ["./node_modules", "jest.config.js", "__mocks__"],
