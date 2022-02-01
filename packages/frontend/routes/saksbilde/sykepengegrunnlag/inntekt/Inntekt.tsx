@@ -29,7 +29,7 @@ import { ReadOnlyInntekt } from './ReadOnlyInntekt';
 
 const Container = styled(FlexColumn)<{ editing: boolean }>`
     box-sizing: border-box;
-    margin-bottom: 2rem;
+    margin-bottom: 24px;
 
     ${(props) =>
         props.editing &&

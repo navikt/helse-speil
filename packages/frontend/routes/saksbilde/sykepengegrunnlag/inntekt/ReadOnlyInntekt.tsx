@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import React from 'react';
 
-import { BodyShort, Heading } from '@navikt/ds-react';
+import { BodyShort } from '@navikt/ds-react';
 
 import { PopoverHjelpetekst } from '../../../../components/PopoverHjelpetekst';
 import { SortInfoikon } from '../../../../components/ikoner/SortInfoikon';
@@ -28,15 +28,13 @@ const FetVerdi = styled(Bold)`
     text-align: right;
 `;
 
-const Tittel = styled(Heading)`
-    display: flex;
-    font-size: 18px;
-    color: var(--navds-color-text-primary);
+const Tittel = styled(BodyShort)`
+    font-size: 14px;
+    color: var(--navds-color-text-disabled);
 `;
 
 const Tittellinje = styled.div`
     display: flex;
-    margin-bottom: 1.25rem;
     align-items: center;
 `;
 
@@ -45,7 +43,7 @@ const Divider = styled.hr`
     border-bottom: 1px solid #b7b1a9;
     grid-column-start: 1;
     grid-column-end: 3;
-    margin: 38px 0 42px 0;
+    margin: 12px 0 12px 0;
 `;
 
 const InfobobleContainer = styled.div`
@@ -71,9 +69,7 @@ const InntektFraAordningen = ({ omregnetÅrsinntekt }: { omregnetÅrsinntekt: Ex
 const InntektFraAordningenTabell = ({ omregnetÅrsinntekt }: { omregnetÅrsinntekt: ExternalOmregnetÅrsinntekt }) => (
     <>
         <Tittellinje>
-            <Tittel as="h3" size="medium">
-                Rapportert siste 3 måneder
-            </Tittel>
+            <Tittel as="h3">RAPPORTERT SISTE 3 MÅNEDER</Tittel>
             <InfobobleContainer>
                 <PopoverHjelpetekst ikon={<SortInfoikon />}>
                     <p>

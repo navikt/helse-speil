@@ -6,7 +6,6 @@ import { SortInfoikon } from '../../../components/ikoner/SortInfoikon';
 import { BodyShort } from '@navikt/ds-react';
 import { getMonthName, somPenger } from '../../../utils/locale';
 import { sorterInntekterFraAOrdningen } from '../../../utils/inntekt';
-import { CardTitle } from './CardTitle';
 
 const Container = styled.section`
     grid-area: venstremeny;
@@ -40,7 +39,7 @@ styled(Bold)`
 
 const Tittellinje = styled.div`
     display: flex;
-    margin-bottom: 1.25rem;
+    margin-bottom: 0.25rem;
     align-items: center;
 `;
 const InfobobleContainer = styled.div`
@@ -65,10 +64,14 @@ export const VenstreMenyUtenSykefravær = ({
     );
 };
 
+const Tittel = styled(BodyShort)`
+    font-weight: 600;
+`;
+
 const InntektFraAordningenTabell = ({ omregnetÅrsinntekt }: { omregnetÅrsinntekt: ExternalOmregnetÅrsinntekt }) => (
     <div>
         <Tittellinje>
-            <CardTitle>RAPPORTERT SISTE 3 MÅNEDER</CardTitle>
+            <Tittel as="p">Rapportert siste 3 måneder</Tittel>
             <InfobobleContainer>
                 <PopoverHjelpetekst ikon={<SortInfoikon />}>
                     <p>
