@@ -143,6 +143,10 @@ export const BentoMeny = () => {
         { tekst: 'Oppdrag', href: 'https://wasapp.adeo.no/oppdrag/venteregister/details.htm' },
         { tekst: 'Folketrygdloven kapittel 8', href: 'https://lovdata.no/nav/folketrygdloven/kap8' },
         { tekst: 'Brønnøysundregisteret', href: 'https://brreg.no' },
+        {
+            tekst: 'Rutiner for sykepenger',
+            href: 'https://navno.sharepoint.com/sites/fag-og-ytelser-arbeid-sykefravarsoppfolging-og-sykepenger/SitePages/Samhandlings--og-samordningsrutiner.aspx',
+        },
     ];
 
     return (
