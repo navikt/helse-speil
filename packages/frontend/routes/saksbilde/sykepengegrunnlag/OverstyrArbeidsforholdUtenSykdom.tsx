@@ -36,10 +36,10 @@ const Container = styled.div`
     }
 `;
 
-// TODO: kan disse slåes sammen mes  styling fra Inntekt.tsx
 const FormContainer = styled(FlexColumn)<{ editing: boolean }>`
     box-sizing: border-box;
     margin-bottom: 2rem;
+    min-width: 495px;
 
     ${(props) =>
         props.editing &&
