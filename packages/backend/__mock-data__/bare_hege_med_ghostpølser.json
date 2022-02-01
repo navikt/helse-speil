@@ -6366,7 +6366,8 @@
                     "fom": "2021-07-04",
                     "tom": "2021-07-25",
                     "skjæringstidspunkt": "2021-07-04",
-                    "vilkårsgrunnlagHistorikkInnslagId": "0e261677-57fc-4cf0-b29e-fe89299b42ec"
+                    "vilkårsgrunnlagHistorikkInnslagId": "0e261677-57fc-4cf0-b29e-fe89299b42ec",
+                    "deaktivert": true
                 }
             ],
             "generasjoner": null,

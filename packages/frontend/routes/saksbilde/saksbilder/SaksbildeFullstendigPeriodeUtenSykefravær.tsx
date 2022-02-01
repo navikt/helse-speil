@@ -41,6 +41,7 @@ export const SaksbildeFullstendigPeriodeUtenSykefravær = ({
             <VenstreMenyUtenSykefravær
                 organisasjonsnummer={aktivPeriode.organisasjonsnummer}
                 omregnetÅrsinntekt={omregnetÅrsinntekt}
+                deaktivert={aktivPeriode.deaktivert}
             />
             <Content className="Content" data-testid="saksbilde-content-uten-sykefravær">
                 <Saksbildevarsler aktivPeriode={aktivPeriode} />

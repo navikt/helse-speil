@@ -239,12 +239,14 @@ describe('useTidslinjerader', () => {
                     tom: '2021-08-25',
                     skjæringstidspunkt: '2021-08-01',
                     vilkårsgrunnlagHistorikkInnslagId: 'yolo',
+                    deaktivert: false,
                 },
                 {
                     fom: '2021-07-01',
                     tom: '2021-07-25',
                     skjæringstidspunkt: '2021-07-01',
                     vilkårsgrunnlagHistorikkInnslagId: 'yolo',
+                    deaktivert: false,
                 },
             ],
             'a2'
@@ -260,6 +262,7 @@ describe('useTidslinjerader', () => {
                     tom: '2021-07-25',
                     skjæringstidspunkt: '2021-07-01',
                     vilkårsgrunnlagHistorikkInnslagId: 'yolo',
+                    deaktivert: false,
                 },
             ],
             'a3'
@@ -289,6 +292,7 @@ describe('useTidslinjerader', () => {
                             tom: '2018-01-31',
                             skjæringstidspunkt: '2018-01-01',
                             vilkårsgrunnlagHistorikkInnslagId: 'yolo',
+                            deaktivert: false,
                         },
                     ]
                 ),

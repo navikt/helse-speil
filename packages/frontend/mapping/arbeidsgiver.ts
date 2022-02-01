@@ -90,6 +90,7 @@ export class ArbeidsgiverBuilder {
                         inntektskilde: 'FLERE_ARBEIDSGIVERE',
                         vilkårsgrunnlaghistorikkId: ghostpølse.vilkårsgrunnlagHistorikkInnslagId,
                         fullstendig: true,
+                        deaktivert: ghostpølse.deaktivert,
                     } as TidslinjeperiodeUtenSykefravær)
             ) ?? [];
     };

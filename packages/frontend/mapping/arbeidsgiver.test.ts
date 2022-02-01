@@ -102,6 +102,7 @@ describe('ArbeidsgiverBuilder', () => {
                     tom: '2018-01-10',
                     skjæringstidspunkt: '2018-01-01',
                     vilkårsgrunnlagHistorikkInnslagId: 'yolo',
+                    deaktivert: false,
                 },
             ]
         );

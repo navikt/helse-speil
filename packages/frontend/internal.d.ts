@@ -151,6 +151,7 @@ declare type TidslinjeperiodeMedSykefravær = Tidslinjeperiode & {
 declare type TidslinjeperiodeUtenSykefravær = Tidslinjeperiode & {
     skjæringstidspunkt: DateString;
     vilkårsgrunnlaghistorikkId: string;
+    deaktivert: boolean;
 };
 
 declare type Tidslinjeperiode = {

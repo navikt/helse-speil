@@ -175,7 +175,8 @@ describe('Saksbilde', () => {
                         dato.format(ISO_DATOFORMAT),
                         dato.format(ISO_DATOFORMAT),
                         dato.format(ISO_DATOFORMAT),
-                        vilkårsgrunnlaghistorikkid
+                        vilkårsgrunnlaghistorikkid,
+                        false
                     ),
                 ],
                 ORGNR
@@ -223,7 +224,8 @@ describe('Saksbilde', () => {
                             '2018-01-01',
                             '2018-01-01',
                             '2018-01-01',
-                            '33612787-ca6c-45ba-bbd0-29ae6474d9c2'
+                            '33612787-ca6c-45ba-bbd0-29ae6474d9c2',
+                            false
                         ),
                     ]
                 ),
