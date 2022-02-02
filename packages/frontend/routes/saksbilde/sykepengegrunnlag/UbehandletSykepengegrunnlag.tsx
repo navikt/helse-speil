@@ -14,7 +14,7 @@ const Strek = styled.span`
     border-right: 1px solid var(--navds-color-border);
     height: inherit;
     display: inline-block;
-    margin: 0 2.5rem;
+    margin: 0 50px 0 2.5rem;
 `;
 
 const getInntekt = (

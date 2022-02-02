@@ -26,8 +26,9 @@ import { overstyrInntektEnabled } from '../../../../featureToggles';
 import { EndringsloggInntektButton } from '../../utbetaling/utbetalingstabell/EndringsloggInntektButton';
 import { EditableInntekt } from './EditableInntekt';
 import { ReadOnlyInntekt } from './ReadOnlyInntekt';
+import { OverstyrArbeidsforholdUtenSykdom } from '../OverstyrArbeidsforholdUtenSykdom';
 
-const Container = styled(FlexColumn)<{ editing: boolean }>`
+const Container = styled(FlexColumn)<{ editing: boolean; inntektDeaktivert: boolean }>`
     box-sizing: border-box;
     margin-bottom: 24px;
 
@@ -38,6 +39,16 @@ const Container = styled(FlexColumn)<{ editing: boolean }>`
             border-left: 4px solid var(--navds-color-action-default);
             padding: 0.5rem 1rem;
         `};
+
+    ${(props) =>
+        props.inntektDeaktivert &&
+        css`
+            background-color: var(--nav-ghost-deaktivert-bakgrunn);
+            border: 1px solid var(--nav-ghost-deaktivert-border);
+            padding: 30px;
+            margin: 0 -31px;
+            position: relative;
+        `}
 `;
 
 const Header = styled.div<{ isEditing: boolean }>`
@@ -66,6 +77,19 @@ const Tittel = styled(BodyShort)`
     color: var(--navds-color-text-primary);
 `;
 
+const DeaktivertPille = styled.div`
+    position: absolute;
+    top: -14px;
+    left: 15px;
+    background-color: var(--nav-ghost-deaktivert-pille-bakgrunn);
+    border: 1px solid var(--nav-ghost-deaktivert-pille-border);
+    padding: 5px 10px;
+    border-radius: 4px;
+`;
+
+const InntektContainer = styled.div`
+    margin-bottom: 1.5rem;
+`;
 const useIkkeUtbetaltVedSkjæringstidspunkt = (): boolean | undefined => {
     const periode = useAktivPeriode();
     const unique =
@@ -80,6 +104,10 @@ const useInntektskilde = (): Inntektskilde => useAktivPeriode().inntektskilde;
 interface InntektProps {
     omregnetÅrsinntekt: ExternalOmregnetÅrsinntekt | null;
     organisasjonsnummer: string;
+    organisasjonsnummerPeriodeTilGodkjenning: string | undefined;
+    skjæringstidspunkt: string;
+    arbeidsforholdKanOverstyres: boolean;
+    arbeidsforholdErDeaktivert: boolean;
 }
 
 interface RedigerInntektProps {
@@ -131,14 +159,22 @@ const RedigerInntekt = ({ setEditing, editing }: RedigerInntektProps) => {
     );
 };
 
-export const Inntekt = ({ omregnetÅrsinntekt, organisasjonsnummer }: InntektProps) => {
+export const Inntekt = ({
+    omregnetÅrsinntekt,
+    organisasjonsnummer,
+    organisasjonsnummerPeriodeTilGodkjenning,
+    skjæringstidspunkt,
+    arbeidsforholdErDeaktivert,
+    arbeidsforholdKanOverstyres,
+}: InntektProps) => {
     const [editing, setEditing] = useState(false);
     const [endret, setEndret] = useState(false);
 
+    console.log(arbeidsforholdKanOverstyres);
     const endringer = useEndringerForPeriode(organisasjonsnummer);
-
     return (
-        <Container editing={editing}>
+        <Container editing={editing} inntektDeaktivert={arbeidsforholdErDeaktivert}>
+            {arbeidsforholdErDeaktivert && <DeaktivertPille>Brukes ikke i beregningen</DeaktivertPille>}
             <Header isEditing={editing}>
                 <Flex alignItems="center">
                     <Tittel as="h1">Beregnet månedsinntekt</Tittel>
@@ -152,14 +188,24 @@ export const Inntekt = ({ omregnetÅrsinntekt, organisasjonsnummer }: InntektPro
                 </Flex>
                 {overstyrInntektEnabled && <RedigerInntekt setEditing={setEditing} editing={editing} />}
             </Header>
-            {editing ? (
-                <EditableInntekt
-                    omregnetÅrsinntekt={omregnetÅrsinntekt!}
-                    close={() => setEditing(false)}
-                    onEndre={setEndret}
+            <InntektContainer>
+                {editing ? (
+                    <EditableInntekt
+                        omregnetÅrsinntekt={omregnetÅrsinntekt!}
+                        close={() => setEditing(false)}
+                        onEndre={setEndret}
+                    />
+                ) : (
+                    <ReadOnlyInntekt omregnetÅrsinntekt={omregnetÅrsinntekt} />
+                )}
+            </InntektContainer>
+            {arbeidsforholdKanOverstyres && (
+                <OverstyrArbeidsforholdUtenSykdom
+                    organisasjonsnummerAktivPeriode={organisasjonsnummer}
+                    organisasjonsnummerPeriodeTilGodkjenning={organisasjonsnummerPeriodeTilGodkjenning!}
+                    skjæringstidspunkt={skjæringstidspunkt}
+                    arbeidsforholdErDeaktivert={arbeidsforholdErDeaktivert}
                 />
-            ) : (
-                <ReadOnlyInntekt omregnetÅrsinntekt={omregnetÅrsinntekt} />
             )}
         </Container>
     );

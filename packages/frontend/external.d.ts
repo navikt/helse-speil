@@ -516,7 +516,7 @@ declare type ExternalGhostperiode = {
     tom: DateString;
     skjæringstidspunkt: DateString;
     vilkårsgrunnlagHistorikkInnslagId: string;
-    deaktivert: boolean;
+    deaktivert?: boolean;
 };
 
 declare type ExternalArbeidsgiver = {
