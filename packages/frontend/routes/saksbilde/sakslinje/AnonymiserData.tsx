@@ -1,16 +1,16 @@
 import React, { useContext } from 'react';
 
 import { DropdownContext, DropdownMenyknapp } from '../../../components/dropdown/Dropdown';
-import { usePersondataSkalAnonymiseres, useToggleAnonymiserPersondata } from '../../../state/person';
+import { useIsAnonymous, useToggleAnonymity } from '../../../state/anonymization';
 
 export const AnonymiserData = () => {
     const { lukk } = useContext(DropdownContext);
-    const persondataErAnonymisert = usePersondataSkalAnonymiseres();
-    const toggleAnonymiserPersondata = useToggleAnonymiserPersondata();
+    const persondataErAnonymisert = useIsAnonymous();
+    const toggleAnonymity = useToggleAnonymity();
 
     const anonymiserData = () => {
         lukk();
-        toggleAnonymiserPersondata();
+        toggleAnonymity();
     };
 
     return (

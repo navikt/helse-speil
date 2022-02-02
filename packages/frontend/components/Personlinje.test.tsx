@@ -23,24 +23,27 @@ describe('Personlinje', () => {
                 navn: 'Huttiheiti',
             },
         } as Person;
-        render(<Personlinje dødsdato={person.dødsdato} />, {
-            wrapper: ({ children }) => (
-                <RecoilAndRouterWrapper
-                    initializeState={({ set }) => {
-                        set(personState, {
-                            person: {
-                                ...person,
-                                vilkårsgrunnlagHistorikk: {},
-                                arbeidsgivereV2: [],
-                                arbeidsforhold: [],
-                            },
-                        });
-                    }}
-                >
-                    {children}
-                </RecoilAndRouterWrapper>
-            ),
-        });
+        render(
+            <Personlinje aktørId="123456789" enhet={{ id: '123', navn: 'Huttiheiti' }} dødsdato={person.dødsdato} />,
+            {
+                wrapper: ({ children }) => (
+                    <RecoilAndRouterWrapper
+                        initializeState={({ set }) => {
+                            set(personState, {
+                                person: {
+                                    ...person,
+                                    vilkårsgrunnlagHistorikk: {},
+                                    arbeidsgivereV2: [],
+                                    arbeidsforhold: [],
+                                },
+                            });
+                        }}
+                    >
+                        {children}
+                    </RecoilAndRouterWrapper>
+                ),
+            }
+        );
         expect(screen.getByText('Høiby, Marius Borg', { exact: false })).toBeVisible();
         expect(screen.getByText('123456 78910')).toBeVisible();
         expect(screen.getByText('123456789')).toBeVisible();

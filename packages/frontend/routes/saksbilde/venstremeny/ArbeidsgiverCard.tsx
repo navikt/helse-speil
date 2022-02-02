@@ -6,16 +6,15 @@ import { BodyShort } from '@navikt/ds-react';
 
 import { Flex } from '../../../components/Flex';
 import { Clipboard } from '../../../components/clipboard';
-import {
-    useArbeidsforholdRender,
-    useArbeidsgivernavnRender,
-    useOrganisasjonsnummerRender,
-} from '../../../state/person';
 import { NORSK_DATOFORMAT } from '../../../utils/date';
+import { useArbeidsgivernavn } from '../../../state/person';
 import { capitalize, somPenger } from '../../../utils/locale';
 
 import { CardTitle } from './CardTitle';
 import styled from '@emotion/styled';
+import { useArbeidsforhold } from '../../../modell/arbeidsgiver';
+import { AnonymizableText } from '../../../components/anonymizable/AnonymizableText';
+import { AnonymizableContainer } from '../../../components/anonymizable/AnonymizableContainer';
 
 const ArbeidsgiverContainer = styled.div`
     display: grid;
@@ -35,26 +34,27 @@ interface ArbeidsgiverCardProps {
 }
 
 export const ArbeidsgiverCard = ({ organisasjonsnummer, månedsbeløp }: ArbeidsgiverCardProps) => {
-    const arbeidsgivernavn = useArbeidsgivernavnRender(organisasjonsnummer);
-    const orgnummer = useOrganisasjonsnummerRender(organisasjonsnummer);
-    const arbeidsforhold = useArbeidsforholdRender(organisasjonsnummer);
+    const arbeidsgivernavn = useArbeidsgivernavn(organisasjonsnummer);
+    const arbeidsforhold = useArbeidsforhold(organisasjonsnummer);
 
     return (
         <section>
             <ArbeidsgiverContainer>
                 <Bag data-tip="Arbeidsgiver" title="Arbeidsgiver" />
-                <CardTitle>{arbeidsgivernavn.toUpperCase()}</CardTitle>
+                <AnonymizableContainer>
+                    <CardTitle>{arbeidsgivernavn.toUpperCase()}</CardTitle>
+                </AnonymizableContainer>
             </ArbeidsgiverContainer>
             <Clipboard
                 preserveWhitespace={false}
                 copyMessage="Organisasjonsnummer er kopiert"
                 dataTip="Kopier organisasjonsnummer"
             >
-                <BodyShort>{orgnummer}</BodyShort>
+                <AnonymizableText>{organisasjonsnummer}</AnonymizableText>
             </Clipboard>
             {arbeidsforhold.map(({ stillingstittel, stillingsprosent, startdato, sluttdato }, i) => (
                 <React.Fragment key={i}>
-                    <BodyShort>{`${capitalize(stillingstittel)}, ${stillingsprosent} %`}</BodyShort>
+                    <AnonymizableText>{`${capitalize(stillingstittel)}, ${stillingsprosent} %`}</AnonymizableText>
                     <BodyShort>
                         {dayjs(startdato).format(NORSK_DATOFORMAT)}
                         {sluttdato && ' - ' && dayjs(sluttdato).format(NORSK_DATOFORMAT)}

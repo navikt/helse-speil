@@ -6,7 +6,7 @@ import { Close } from '@navikt/ds-icons';
 import { Button } from '@navikt/ds-react';
 
 import { useRefreshPersonVedUrlEndring } from '../../../hooks/useRefreshPersonVedUrlEndring';
-import { useOrganisasjonsnummer, usePersoninfoRender } from '../../../state/person';
+import { useOrganisasjonsnummer, usePersoninfo } from '../../../state/person';
 
 import { Annulleringslinje, Annulleringsmodal } from '../sakslinje/annullering/Annulleringsmodal';
 import { UtbetalingshistorikkRow } from './UtbetalingshistorikkRow';
@@ -56,13 +56,12 @@ const Table = styled.table`
 
 interface UtbetalingshistorikkProps {
     person: Person;
-    anonymiseringEnabled: boolean;
 }
 
-export const Utbetalingshistorikk = ({ person, anonymiseringEnabled }: UtbetalingshistorikkProps) => {
+export const Utbetalingshistorikk = ({ person }: UtbetalingshistorikkProps) => {
     let { push } = useHistory();
 
-    const fødselsnummer = usePersoninfoRender().fnr;
+    const fødselsnummer = usePersoninfo().fnr;
     const organisasjonsnummer = useOrganisasjonsnummer();
     const [tilAnnullering, setTilAnnullering] = useState<UtbetalingshistorikkUtbetaling | undefined>();
     const [annulleringerInFlight, setAnnulleringerInFlight] = useState<FagsystemId[]>([]);

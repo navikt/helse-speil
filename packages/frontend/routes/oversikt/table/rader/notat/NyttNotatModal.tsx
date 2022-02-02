@@ -2,16 +2,17 @@ import styled from '@emotion/styled';
 import React, { useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 
-import { BodyShort, Button, Loader, Textarea as NavTextarea } from '@navikt/ds-react';
+import { Button, Loader, Textarea as NavTextarea } from '@navikt/ds-react';
 
 import { Modal } from '../../../../../components/Modal';
 import { postNotat } from '../../../../../io/http';
 import { useNotaterForVedtaksperiode, useRefreshNotater } from '../../../../../state/notater';
-import { getFormatertNavn, usePersondataSkalAnonymiseres } from '../../../../../state/person';
+import { getFormatertNavn } from '../../../../../state/person';
 import { useOperationErrorHandler } from '../../../../../state/varsler';
 import { ignorePromise } from '../../../../../utils/promise';
 
 import { SisteNotat } from './SisteNotat';
+import { AnonymizableText } from '../../../../../components/anonymizable/AnonymizableText';
 
 const Container = styled.section`
     display: flex;
@@ -55,7 +56,6 @@ export const NyttNotatModal = ({ onClose, personinfo, vedtaksperiodeId, onPostNo
     const notaterForOppgave = useNotaterForVedtaksperiode(vedtaksperiodeId);
     const refreshNotater = useRefreshNotater();
     const errorHandler = useOperationErrorHandler('Nytt Notat');
-    const anonymiseringEnabled = usePersondataSkalAnonymiseres();
     const søkernavn = getFormatertNavn(personinfo, ['E', ',', 'F', 'M']);
 
     const form = useForm();
@@ -92,7 +92,7 @@ export const NyttNotatModal = ({ onClose, personinfo, vedtaksperiodeId, onPostNo
             onRequestClose={closeModal}
         >
             <Container>
-                <BodyShort size="small">{`Søker: ${søkernavn}`}</BodyShort>
+                <AnonymizableText size="small">{`Søker: ${søkernavn}`}</AnonymizableText>
                 {sisteNotat && <SisteNotat notat={sisteNotat} />}
                 <form onSubmit={form.handleSubmit(submit)}>
                     <Controller

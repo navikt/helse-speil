@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { TekstMedEllipsis } from '../../../../components/TekstMedEllipsis';
+import { TextWithEllipsis } from '../../../../components/TextWithEllipsis';
 import { Tooltip } from '../../../../components/Tooltip';
 
 import { CellContent } from './CellContent';
@@ -15,7 +15,7 @@ export const Tildelt = ({ name, oppgavereferanse }: TildeltProps) => {
 
     return (
         <CellContent width={128} data-tip={name} data-for={id}>
-            <TekstMedEllipsis>{name}</TekstMedEllipsis>
+            <TextWithEllipsis>{name}</TextWithEllipsis>
             {name.length > 15 && <Tooltip id={id} />}
         </CellContent>
     );

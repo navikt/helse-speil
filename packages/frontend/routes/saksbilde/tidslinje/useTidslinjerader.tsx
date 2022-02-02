@@ -56,12 +56,7 @@ export const toTidslinjeperioder = (
     return getPositionedPeriods(fom.toDate(), tom.toDate(), perioderTilVisning, 'right') as TidslinjeperiodeObject[];
 };
 
-const toArbeidsgiverrader = (
-    arbeidsgiver: Arbeidsgiver,
-    fom: Dayjs,
-    tom: Dayjs,
-    skalAnonymisereData: boolean
-): TidslinjeradObject[] => {
+const toArbeidsgiverrader = (arbeidsgiver: Arbeidsgiver, fom: Dayjs, tom: Dayjs): TidslinjeradObject[] => {
     const raderMedOgUtenSykdom = arbeidsgiver.tidslinjeperioder.map(
         (periodeMedSykefravær) =>
             ({
@@ -72,7 +67,7 @@ const toArbeidsgiverrader = (
                     fom,
                     tom
                 ),
-                arbeidsgiver: arbeidsgiverNavn(arbeidsgiver, skalAnonymisereData),
+                arbeidsgiver: arbeidsgiverNavn(arbeidsgiver),
                 erAktiv: false,
             } as TidslinjeradObject)
     );
@@ -86,7 +81,7 @@ const toArbeidsgiverrader = (
             ({
                 id: nanoid(),
                 perioder: toTidslinjeperioder([], periodeUtenSykefravær, fom, tom),
-                arbeidsgiver: arbeidsgiverNavn(arbeidsgiver, skalAnonymisereData),
+                arbeidsgiver: arbeidsgiverNavn(arbeidsgiver),
                 erAktiv: false,
             } as TidslinjeradObject)
     );
@@ -99,15 +94,14 @@ const toArbeidsgiverrader = (
 export const useTidslinjerader = (
     person: Person,
     fom: Dayjs,
-    tom: Dayjs,
-    skalAnonymisereData: boolean
+    tom: Dayjs
 ): { id: string; navn: string; rader: TidslinjeradObject[] }[] =>
     useMemo(
         () =>
             person.arbeidsgivere.map((arbeidsgiver) => ({
                 id: arbeidsgiver.organisasjonsnummer,
-                navn: arbeidsgiverNavn(arbeidsgiver, skalAnonymisereData),
-                rader: toArbeidsgiverrader(arbeidsgiver, fom, tom, skalAnonymisereData),
+                navn: arbeidsgiverNavn(arbeidsgiver),
+                rader: toArbeidsgiverrader(arbeidsgiver, fom, tom),
             })),
         [person, fom, tom]
     );

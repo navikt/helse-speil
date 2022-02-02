@@ -1,11 +1,8 @@
 import React from 'react';
 
-import { TekstMedEllipsis } from '../../../../components/TekstMedEllipsis';
+import { AnonymizableTextWithEllipsis } from '../../../../components/TextWithEllipsis';
 import { Tooltip } from '../../../../components/Tooltip';
-import { usePersondataSkalAnonymiseres } from '../../../../state/person';
 import { capitalizeName } from '../../../../utils/locale';
-
-import { anonymisertPersoninfo } from '../../../../agurkdata';
 import { Cell } from '../Cell';
 import { CellContent } from './CellContent';
 
@@ -20,14 +17,13 @@ interface SøkerProps {
 }
 
 export const SøkerCell = React.memo(({ personinfo, oppgavereferanse }: SøkerProps) => {
-    const anonymiseringEnabled = usePersondataSkalAnonymiseres();
-    const formatertNavn = getFormattedName(anonymiseringEnabled ? anonymisertPersoninfo : personinfo);
+    const formatertNavn = getFormattedName(personinfo);
     const id = `søker-${oppgavereferanse}`;
 
     return (
         <Cell>
             <CellContent width={128} data-for={id} data-tip={formatertNavn}>
-                <TekstMedEllipsis>{formatertNavn}</TekstMedEllipsis>
+                <AnonymizableTextWithEllipsis>{formatertNavn}</AnonymizableTextWithEllipsis>
                 {formatertNavn.length > 19 && <Tooltip id={id} />}
             </CellContent>
         </Cell>

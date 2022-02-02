@@ -5,8 +5,6 @@ import { deletePåVent, getPerson, postLeggPåVent } from '../io/http';
 import { mapPerson } from '../mapping/person';
 import { useMaybeArbeidsgiver as useArbeidsgiverUtenParametre } from '../modell/arbeidsgiver';
 import { useUtbetaling } from '../modell/utbetalingshistorikkelement';
-
-import { anonymisertBoenhet, anonymisertPersoninfo, getAnonymArbeidsgiverForOrgnr } from '../agurkdata';
 import { useInnloggetSaksbehandler } from './authentication';
 import { aktivPeriodeState, useAktivPeriode, useMaybeAktivPeriode } from './tidslinje';
 
@@ -78,30 +76,6 @@ const loadingPersonState = atom<boolean>({
     default: false,
 });
 
-const anonymiserPersonStateToggle = atom<boolean>({
-    key: 'anonymiserPersonStateToggle',
-    default: localStorage.getItem('agurkmodus') === 'true',
-});
-
-// @ts-ignore
-export const persondataSkalAnonymiseres = selector<boolean>({
-    key: 'persondataSkalAnonymiseres',
-    get: ({ get }) => get(anonymiserPersonStateToggle),
-    set: ({ set }, newValue: boolean) => {
-        localStorage.setItem('agurkmodus', `${newValue}`);
-        set(anonymiserPersonStateToggle, newValue);
-    },
-});
-
-export const useToggleAnonymiserPersondata = () => {
-    const setAnonymiserPerson = useSetRecoilState(persondataSkalAnonymiseres);
-    return () => {
-        setAnonymiserPerson((erAnonymisert) => !erAnonymisert);
-    };
-};
-
-export const usePersondataSkalAnonymiseres = () => useRecoilValue(persondataSkalAnonymiseres);
-
 export const useTildelPerson = () => {
     const setTildeling = useSetRecoilState(tildelingState);
     const setFrontendOverstyrerTildeling = useSetRecoilState(frontendOverstyrerTildelingState);
@@ -147,59 +121,22 @@ export const usePersoninfo = (): Personinfo => {
     return personinfo;
 };
 
-export const usePersoninfoRender = (): Personinfo => {
-    const anonymiseringIsEnabled = usePersondataSkalAnonymiseres();
-    const personinfo = usePersoninfo();
-
-    return anonymiseringIsEnabled ? anonymisertPersoninfo : personinfo;
-};
-
-export const useEnhetRender = (): Boenhet => {
-    const anonymiseringIsEnabled = usePersondataSkalAnonymiseres();
-    const person = usePerson();
-
-    if (!person) {
-        throw Error('Forventet boenhet men fant ikke personen');
-    }
-
-    return anonymiseringIsEnabled ? anonymisertBoenhet : person.enhet;
-};
-
-export const useAktørIdRender = (): string => {
-    const anonymiseringIsEnabled = usePersondataSkalAnonymiseres();
-    const person = usePerson();
-
-    if (!person) {
-        throw Error('Forventet boenhet men fant ikke personen');
-    }
-
-    return anonymiseringIsEnabled ? '1000000000000' : person.aktørId;
-};
-
 export const useAlderVedSkjæringstidspunkt = (): number => {
     const fødselsdato = usePersoninfo().fødselsdato;
     const skjæringstidspunkt = useAktivPeriode().skjæringstidspunkt;
     return dayjs(skjæringstidspunkt).diff(fødselsdato, 'year');
 };
 
-const usePersonnavn = (): { fornavn: string | null; mellomnavn: string | null; etternavn: string | null } =>
-    useMaybePersoninfo() ?? {
+type NameFormat = ('E' | 'F' | 'M' | ',')[];
+
+export const usePersonnavn = (format: NameFormat = ['F', 'M', 'E']): string => {
+    const personnavn = useMaybePersoninfo() ?? {
         fornavn: null,
         mellomnavn: null,
         etternavn: null,
     };
 
-type NameFormat = ('E' | 'F' | 'M' | ',')[];
-
-export const usePersonnavnRender = (format: NameFormat = ['F', 'M', 'E']): string => {
-    const anonymiseringIsEnabled = usePersondataSkalAnonymiseres();
-    const personnavn = usePersonnavn();
-
-    return anonymiseringIsEnabled
-        ? `${anonymisertPersoninfo.fornavn} ${anonymisertPersoninfo.etternavn}`
-        : personnavn
-        ? getFormatertNavn(personnavn as Personinfo, format)
-        : 'Ukjent navn';
+    return personnavn ? getFormatertNavn(personnavn as Personinfo, format) : 'Ukjent navn';
 };
 
 export const getFormatertNavn = (personinfo: Personinfo, format: NameFormat = ['F', 'M', 'E']): string => {
@@ -357,12 +294,6 @@ export const useOrganisasjonsnummer = (): string => {
     return periode.organisasjonsnummer;
 };
 
-export const useOrganisasjonsnummerRender = (organisasjonsnummer: string): Agurkifiserbar<string> => {
-    const anonymiseringIsEnabled = usePersondataSkalAnonymiseres();
-
-    return anonymiseringIsEnabled ? getAnonymArbeidsgiverForOrgnr(organisasjonsnummer).orgnr : organisasjonsnummer;
-};
-
 const useArbeidsgiver = (organisasjonsnummer: string): ExternalArbeidsgiver => {
     const person = usePerson();
 
@@ -389,28 +320,12 @@ export const useEndringerForPeriode = (organisasjonsnummer: string): ExternalOve
     );
 };
 
-export const useArbeidsgivernavnRender = (organisasjonsnummer: string): string => {
-    const anonymiseringIsEnabled = usePersondataSkalAnonymiseres();
-    const arbeidsgivernavn = useArbeidsgiver(organisasjonsnummer).navn;
-
-    return anonymiseringIsEnabled ? getAnonymArbeidsgiverForOrgnr(organisasjonsnummer).navn : arbeidsgivernavn;
+export const useArbeidsgivernavn = (organisasjonsnummer: string): string => {
+    return useArbeidsgiver(organisasjonsnummer).navn;
 };
 
-export const useArbeidsgiverbransjerRender = (organisasjonsnummer: string): Agurkifiserbar<string[]> => {
-    const anonymiseringIsEnabled = usePersondataSkalAnonymiseres();
-    const bransjer = useArbeidsgiver(organisasjonsnummer).bransjer;
-
-    return anonymiseringIsEnabled ? bransjer.map((it) => 'Agurkifisert bransje') : bransjer;
-};
-
-export const useArbeidsforholdRender = (organisasjonsnummer: string): Agurkifiserbar<ExternalArbeidsforhold[]> => {
-    const anonymiseringIsEnabled = usePersondataSkalAnonymiseres();
-    const arbeidsforhold =
-        usePerson()?.arbeidsforhold.filter((it) => it.organisasjonsnummer === organisasjonsnummer) ?? [];
-
-    return anonymiseringIsEnabled
-        ? arbeidsforhold.map((it) => ({ ...it, stillingstittel: 'Agurkifisert stillingstittel' }))
-        : arbeidsforhold;
+export const useArbeidsgiverbransjer = (organisasjonsnummer: string): string[] => {
+    return useArbeidsgiver(organisasjonsnummer).bransjer ?? [];
 };
 
 export const useIsLoadingPerson = () => useRecoilValue(loadingPersonState);

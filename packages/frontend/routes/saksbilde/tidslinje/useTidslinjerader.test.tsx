@@ -3,17 +3,10 @@ import dayjs, { Dayjs } from 'dayjs';
 import { mappetPerson } from 'test-data';
 
 import { umappetArbeidsgiver } from '../../../test/data/arbeidsgiver';
-import {
-    testArbeidsgiverfagsystemId,
-    testBeregningId,
-    testOrganisasjonsnummer,
-    umappetPerson,
-} from '../../../test/data/person';
+import { testArbeidsgiverfagsystemId, testBeregningId } from '../../../test/data/person';
 import { umappetUtbetalingshistorikk } from '../../../test/data/utbetalingshistorikk';
 import { umappetVedtaksperiode } from '../../../test/data/vedtaksperiode';
 import { useTidslinjerader } from './useTidslinjerader';
-import { ArbeidsgiverBuilder } from '../../../mapping/arbeidsgiver';
-import { umappetInntektsgrunnlag } from '../../../test/data/inntektsgrunnlag';
 
 let person = mappetPerson();
 
@@ -30,7 +23,7 @@ describe('useTidslinjerader', () => {
                 [umappetUtbetalingshistorikk('1234')]
             ),
         ]);
-        const { result } = renderHook(() => useTidslinjerader(person, dayjs('2018-01-01'), dayjs('2018-01-31'), false));
+        const { result } = renderHook(() => useTidslinjerader(person, dayjs('2018-01-01'), dayjs('2018-01-31')));
         expect(result.current[0].rader.length).toEqual(1);
         expect(result.current[0].rader[0].perioder.length).toEqual(1);
         expect(result.current[0].rader[0].perioder[0].start.isSame(dayjs('2018-01-01'), 'day')).toBe(true);
@@ -46,7 +39,7 @@ describe('useTidslinjerader', () => {
             ),
         ]);
 
-        const { result } = renderHook(() => useTidslinjerader(person, dayjs('2018-01-01'), dayjs('2018-01-31'), false));
+        const { result } = renderHook(() => useTidslinjerader(person, dayjs('2018-01-01'), dayjs('2018-01-31')));
         expect(result.current[0].rader.length).toEqual(2);
         expect(result.current[0].rader[0].perioder.length).toEqual(1);
         expect(result.current[0].rader[1].perioder.length).toEqual(1);
@@ -88,7 +81,7 @@ describe('useTidslinjerader', () => {
             ),
         ]);
 
-        const { result } = renderHook(() => useTidslinjerader(person, dayjs('2018-01-01'), dayjs('2018-01-31'), false));
+        const { result } = renderHook(() => useTidslinjerader(person, dayjs('2018-01-01'), dayjs('2018-01-31')));
         expect(result.current[0].rader.length).toEqual(2);
         expect(result.current[0].rader[1].perioder.length).toEqual(1);
         expect(result.current[0].rader[0].perioder.length).toEqual(2);
@@ -134,7 +127,7 @@ describe('useTidslinjerader', () => {
             ),
         ]);
 
-        const { result } = renderHook(() => useTidslinjerader(person, dayjs('2018-01-01'), dayjs('2018-01-31'), false));
+        const { result } = renderHook(() => useTidslinjerader(person, dayjs('2018-01-01'), dayjs('2018-01-31')));
         expect(result.current[0].rader.length).toEqual(2);
         expect(result.current[0].rader[0].perioder.length).toEqual(2);
         expect(result.current[0].rader[1].perioder.length).toEqual(2);
@@ -200,7 +193,7 @@ describe('useTidslinjerader', () => {
             ),
         ]);
 
-        const { result } = renderHook(() => useTidslinjerader(person, dayjs('2018-01-01'), dayjs('2018-01-31'), false));
+        const { result } = renderHook(() => useTidslinjerader(person, dayjs('2018-01-01'), dayjs('2018-01-31')));
         expect(result.current[0].rader.length).toEqual(2);
         expect(result.current[0].rader[0].perioder.length).toEqual(2);
         expect(result.current[0].rader[1].perioder.length).toEqual(2);
@@ -268,7 +261,7 @@ describe('useTidslinjerader', () => {
             'a3'
         );
         const person = mappetPerson([ag1, ag2, ag3]);
-        const { result } = renderHook(() => useTidslinjerader(person, dayjs('2021-01-01'), dayjs('2021-12-31'), false));
+        const { result } = renderHook(() => useTidslinjerader(person, dayjs('2021-01-01'), dayjs('2021-12-31')));
 
         expect(result.current[0].rader.length).toEqual(1);
         expect(result.current[1].rader.length).toEqual(1);
@@ -301,7 +294,7 @@ describe('useTidslinjerader', () => {
             []
         );
 
-        const { result } = renderHook(() => useTidslinjerader(person, dayjs('2018-01-01'), dayjs('2018-01-31'), false));
+        const { result } = renderHook(() => useTidslinjerader(person, dayjs('2018-01-01'), dayjs('2018-01-31')));
         expect(result.current[0].rader.length).toEqual(1);
         expect(result.current[0].rader[0].perioder.length).toEqual(1);
     });

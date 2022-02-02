@@ -6,11 +6,9 @@ import { BodyShort, Heading } from '@navikt/ds-react';
 
 import { Grid } from '../../../../components/Grid';
 import { Modal } from '../../../../components/Modal';
-import { usePersondataSkalAnonymiseres } from '../../../../state/person';
 import { NORSK_DATOFORMAT } from '../../../../utils/date';
 import { somPenger } from '../../../../utils/locale';
-
-import { getAnonymArbeidsgiverForOrgnr } from '../../../../agurkdata';
+import { AnonymizableText } from '../../../../components/anonymizable/AnonymizableText';
 
 const Modalinnhold = styled.article`
     padding: 0 4rem 2rem 4rem;
@@ -42,35 +40,21 @@ const formaterDato = (forfall: string) => dayjs(forfall).format(NORSK_DATOFORMAT
 interface UtbetalingsvisningProps {
     utbetaling: Simuleringsutbetaling;
     index: number;
-    anonymiseringEnabled: boolean;
 }
 
-const Utbetalingsvisning = ({ utbetaling, index, anonymiseringEnabled }: UtbetalingsvisningProps) => (
+const Utbetalingsvisning = ({ utbetaling, index }: UtbetalingsvisningProps) => (
     <React.Fragment>
         {index > 0 && <Luft />}
         <BodyShort>Utbetales til ID</BodyShort>
-        <BodyShort>
-            {anonymiseringEnabled
-                ? getAnonymArbeidsgiverForOrgnr(utbetaling.utbetalesTilId).orgnr
-                : utbetaling.utbetalesTilId}
-        </BodyShort>
+        <AnonymizableText>{utbetaling.utbetalesTilId}</AnonymizableText>
         <BodyShort>Utbetales til navn</BodyShort>
-        <BodyShort>
-            {anonymiseringEnabled
-                ? getAnonymArbeidsgiverForOrgnr(utbetaling.utbetalesTilId).navn
-                : utbetaling.utbetalesTilNavn}
-        </BodyShort>
+        <AnonymizableText>{utbetaling.utbetalesTilNavn}</AnonymizableText>
         <BodyShort>Forfall</BodyShort>
         <BodyShort>{formaterDato(utbetaling.forfall)}</BodyShort>
         <BodyShort>Feilkonto</BodyShort>
         <BodyShort>{utbetaling.feilkonto ? 'Ja' : 'Nei'}</BodyShort>
         {utbetaling.detaljer.map((detalj: Simuleringsutbetalingdetalj, index: number) => (
-            <Utbetalingsdetaljvisning
-                detalj={detalj}
-                index={index}
-                key={`detalj-${index}`}
-                anonymiseringEnabled={anonymiseringEnabled}
-            />
+            <Utbetalingsdetaljvisning detalj={detalj} index={index} key={`detalj-${index}`} />
         ))}
     </React.Fragment>
 );
@@ -78,10 +62,9 @@ const Utbetalingsvisning = ({ utbetaling, index, anonymiseringEnabled }: Utbetal
 interface UtbetalingsdetaljvisningProps {
     detalj: Simuleringsutbetalingdetalj;
     index: number;
-    anonymiseringEnabled: boolean;
 }
 
-const Utbetalingsdetaljvisning = ({ detalj, index, anonymiseringEnabled }: UtbetalingsdetaljvisningProps) => (
+const Utbetalingsdetaljvisning = ({ detalj, index }: UtbetalingsdetaljvisningProps) => (
     <React.Fragment>
         {index > 0 && <Luft />}
         <BodyShort>Faktisk fom</BodyShort>
@@ -105,7 +88,7 @@ const Utbetalingsdetaljvisning = ({ detalj, index, anonymiseringEnabled }: Utbet
             <BodyShort>{somPenger(detalj.belop)}</BodyShort>
         )}
         <BodyShort>Konto</BodyShort>
-        <BodyShort>{anonymiseringEnabled ? 'Agurkifisert konto' : detalj.konto}</BodyShort>
+        <AnonymizableText>{detalj.konto}</AnonymizableText>
         <BodyShort>Klassekode</BodyShort>
         <BodyShort>{detalj.klassekode}</BodyShort>
         <BodyShort>Klassekodebeskrivelse</BodyShort>
@@ -115,11 +98,7 @@ const Utbetalingsdetaljvisning = ({ detalj, index, anonymiseringEnabled }: Utbet
         <BodyShort>Utbetalingstype</BodyShort>
         <BodyShort>{detalj.utbetalingsType}</BodyShort>
         <BodyShort>Refunderes orgnummer</BodyShort>
-        <BodyShort>
-            {anonymiseringEnabled
-                ? getAnonymArbeidsgiverForOrgnr(detalj.refunderesOrgNr).orgnr
-                : detalj.refunderesOrgNr}
-        </BodyShort>
+        <AnonymizableText>{detalj.refunderesOrgNr}</AnonymizableText>
         <BodyShort>Tilbakeføring</BodyShort>
         <BodyShort>{detalj.tilbakeforing ? 'Ja' : 'Nei'}</BodyShort>
     </React.Fragment>
@@ -131,7 +110,6 @@ interface SimuleringsmodalProps {
 }
 
 export const SimuleringsinfoModal = ({ simulering, lukkModal }: SimuleringsmodalProps) => {
-    const anonymiseringEnabled = usePersondataSkalAnonymiseres();
     return (
         <Modal isOpen contentLabel="Simuleringsinfo" onRequestClose={lukkModal}>
             <Modalinnhold>
@@ -154,12 +132,7 @@ export const SimuleringsinfoModal = ({ simulering, lukkModal }: Simuleringsmodal
                         )}
                         <Luft />
                         {periode.utbetalinger.map((utbetaling, index) => (
-                            <Utbetalingsvisning
-                                utbetaling={utbetaling}
-                                index={index}
-                                key={`utbetaling-${index}`}
-                                anonymiseringEnabled={anonymiseringEnabled}
-                            />
+                            <Utbetalingsvisning utbetaling={utbetaling} index={index} key={`utbetaling-${index}`} />
                         ))}
                     </Underliste>
                 ))}

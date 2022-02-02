@@ -2,9 +2,9 @@ import styled from '@emotion/styled';
 import React, { ReactNode } from 'react';
 
 import { Flex } from '../../../components/Flex';
-import { TekstMedEllipsis } from '../../../components/TekstMedEllipsis';
+import { TextWithEllipsis } from '../../../components/TextWithEllipsis';
 
-const Antall = styled(TekstMedEllipsis)`
+const Antall = styled(TextWithEllipsis)`
     width: 3rem;
     margin-right: 1rem;
 `;

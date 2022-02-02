@@ -2,8 +2,8 @@ import React from 'react';
 
 import { Ikon, IkonProps } from './Ikon';
 
-export const Manneikon = ({ alt }: IkonProps) => (
-    <Ikon width={24} height={24} viewBox="0 0 24 24" alt={alt}>
+export const Manneikon = ({ alt, ...rest }: IkonProps) => (
+    <Ikon width={24} height={24} viewBox="0 0 24 24" alt={alt} {...rest}>
         <g transform="translate(1.000000, 1.000000)">
             <circle fill="var(--navds-color-background)" cx="11" cy="11" r="11" />
             <path

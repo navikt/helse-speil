@@ -2,16 +2,16 @@ import styled from '@emotion/styled';
 import dayjs from 'dayjs';
 import React from 'react';
 
-import { BodyShort } from '@navikt/ds-react';
-
-import { TekstMedEllipsis } from '../../components/TekstMedEllipsis';
+import { TextWithEllipsis } from '../../components/TextWithEllipsis';
 import { NORSK_DATOFORMAT } from '../../utils/date';
+import { AnonymizableContainer } from '../../components/anonymizable/AnonymizableContainer';
+import { AnonymizableText } from '../../components/anonymizable/AnonymizableText';
 
-const Høyrestilt = styled(BodyShort)`
+const Høyrestilt = styled(AnonymizableText)`
     text-align: right;
 `;
 
-const Stillingstittel = styled.div`
+const Stillingstittel = styled(AnonymizableContainer)`
     display: flex;
     flex-wrap: nowrap;
     white-space: nowrap;
@@ -26,10 +26,10 @@ interface ArbeidsforholdProps {
 
 export const Arbeidsforhold = ({ stillingsprosent, stillingstittel, startdato, sluttdato }: ArbeidsforholdProps) => (
     <>
-        <Stillingstittel>
-            <TekstMedEllipsis>{stillingstittel}</TekstMedEllipsis>, {stillingsprosent} %
+        <Stillingstittel as="div">
+            <TextWithEllipsis>{stillingstittel}</TextWithEllipsis>, {stillingsprosent} %
         </Stillingstittel>
-        <Høyrestilt as="p">
+        <Høyrestilt>
             {dayjs(startdato).format(NORSK_DATOFORMAT)}
             {' - '}
             {sluttdato && dayjs(sluttdato).format(NORSK_DATOFORMAT)}

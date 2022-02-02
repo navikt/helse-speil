@@ -7,9 +7,6 @@ import { AxisLabels } from '@navikt/helse-frontend-timeline/lib';
 import '@navikt/helse-frontend-timeline/lib/main.css';
 
 import { FlexColumn } from '../../../components/Flex';
-import { usePersondataSkalAnonymiseres } from '../../../state/person';
-
-import { getAnonymArbeidsgiverForOrgnr } from '../../../agurkdata';
 import { Arbeidsgiverrad } from './Arbeidsgiverrad';
 import { Infotrygdrad } from './Infotrygdrad';
 import { Markeringer } from './Markeringer';
@@ -53,8 +50,7 @@ const RaderContainer = styled.div`
     }
 `;
 
-export const arbeidsgiverNavn = (arbeidsgiver: Arbeidsgiver, skalAnonymiseres: boolean): string => {
-    if (skalAnonymiseres) return getAnonymArbeidsgiverForOrgnr(arbeidsgiver.organisasjonsnummer).navn;
+export const arbeidsgiverNavn = (arbeidsgiver: Arbeidsgiver): string => {
     return arbeidsgiver.navn.toLowerCase() !== 'ukjent' && arbeidsgiver.navn.toLowerCase() !== 'ikke tilgjengelig'
         ? arbeidsgiver.navn
         : arbeidsgiver.organisasjonsnummer;
@@ -74,13 +70,12 @@ interface TidslinjeProps {
 
 export const Tidslinje = React.memo(({ person }: TidslinjeProps) => {
     const { utsnitt, aktivtUtsnitt, setAktivtUtsnitt } = useTidslinjeutsnitt(person);
-    const anonymiseringEnabled = usePersondataSkalAnonymiseres();
 
     const fom = utsnitt[aktivtUtsnitt].fom;
     const tom = utsnitt[aktivtUtsnitt].tom;
 
-    const tidslinjerader = useTidslinjerader(person, fom, tom, anonymiseringEnabled);
-    const infotrygdrader = useInfotrygdrader(person, fom, tom, anonymiseringEnabled);
+    const tidslinjerader = useTidslinjerader(person, fom, tom);
+    const infotrygdrader = useInfotrygdrader(person, fom, tom);
 
     const [ekspanderteRader, setEkspanderteRader] = useState<{ [key: string]: boolean }>({});
 

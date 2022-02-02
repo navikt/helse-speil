@@ -6,8 +6,6 @@ import React, { useMemo } from 'react';
 import { getPositionedPeriods, PeriodObject } from '@navikt/helse-frontend-timeline/lib';
 
 import { NORSK_DATOFORMAT } from '../../../utils/date';
-
-import { getAnonymArbeidsgiverForOrgnr } from '../../../agurkdata';
 import { arbeidsgiverNavn } from './Tidslinje';
 import { TidslinjeperiodeObject } from './Tidslinje.types';
 
@@ -60,12 +58,7 @@ export type InfotrygdradObject = {
     perioder: TidslinjeperiodeObject[];
 };
 
-export const useInfotrygdrader = (
-    person: Person,
-    fom: Dayjs,
-    tom: Dayjs,
-    anonymiseringEnabled: boolean
-): InfotrygdradObject[] =>
+export const useInfotrygdrader = (person: Person, fom: Dayjs, tom: Dayjs): InfotrygdradObject[] =>
     useMemo(() => {
         const infotrygdutbetalinger = person.infotrygdutbetalinger.reduce((rader: Infotrygdrader, utbetalingen) => {
             const infotrygdtidslinje = rader[utbetalingen.organisasjonsnummer];
@@ -92,14 +85,9 @@ export const useInfotrygdrader = (
                 arbeidsgivernavn: `Infotrygd - ${
                     person.arbeidsgivere
                         .filter((it) => it.organisasjonsnummer === organisasjonsnummer)
-                        .map((arb) => arbeidsgiverNavn(arb, anonymiseringEnabled))
-                        .pop() ??
-                    (organisasjonsnummer !== '0'
-                        ? anonymiseringEnabled
-                            ? getAnonymArbeidsgiverForOrgnr(organisasjonsnummer).navn
-                            : organisasjonsnummer
-                        : 'Ingen utbetaling')
+                        .map((arbeidsgiver) => arbeidsgiverNavn(arbeidsgiver))
+                        .pop() ?? (organisasjonsnummer !== '0' ? organisasjonsnummer : 'Ingen utbetaling')
                 }`,
                 perioder: getPositionedPeriods(fom.toDate(), tom.toDate(), perioder, 'right'),
             })) as InfotrygdradObject[];
-    }, [person, fom, tom, anonymiseringEnabled]);
+    }, [person, fom, tom]);

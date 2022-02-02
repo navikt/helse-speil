@@ -4,10 +4,11 @@ import React from 'react';
 import { Bag, Expand, Next } from '@navikt/ds-icons';
 
 import { Flex, FlexColumn } from '../../../components/Flex';
-import { TekstMedEllipsis } from '../../../components/TekstMedEllipsis';
+import { AnonymizableTextWithEllipsis, TextWithEllipsis } from '../../../components/TextWithEllipsis';
 
 import { Tidslinjerad } from './Tidslinjerad';
 import { TidslinjeradObject } from './useTidslinjerader';
+import { AnonymizableContainer } from '../../../components/anonymizable/AnonymizableContainer';
 
 const Navn = styled.div`
     position: relative;
@@ -70,7 +71,7 @@ const EnkelRad: React.FC<EnkelRadProps> = ({ rad, navn }) => (
         <Navn>
             <StyledBag title="Arbeidsgiver" />
             <Flex style={{ overflow: 'hidden' }}>
-                <TekstMedEllipsis data-tip={navn}>{navn}</TekstMedEllipsis>
+                <AnonymizableTextWithEllipsis data-tip={navn}>{navn}</AnonymizableTextWithEllipsis>
             </Flex>
         </Navn>
         {rad !== undefined && (
@@ -89,7 +90,9 @@ const EkspanderbarRad: React.FC<EkspanderbarRadProps> = ({ rader, navn, id, togg
             <IconContainer>{erEkspandert ? <Expand /> : <Next />}</IconContainer>
             <StyledBag title="Arbeidsgiver" />
             <Flex style={{ overflow: 'hidden' }}>
-                <TekstMedEllipsis data-tip={navn}>{navn}</TekstMedEllipsis>
+                <TextWithEllipsis data-tip={navn}>
+                    <AnonymizableContainer>{navn}</AnonymizableContainer>
+                </TextWithEllipsis>
             </Flex>
         </EkspanderbartNavn>
         {rader.length > 0 && (

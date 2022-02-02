@@ -2,25 +2,21 @@ import styled from '@emotion/styled';
 import React from 'react';
 
 import { Bag } from '@navikt/ds-icons';
-import { BodyShort } from '@navikt/ds-react';
 
 import { FlexColumn } from '../../../components/Flex';
 import { Kilde } from '../../../components/Kilde';
-import { TekstMedEllipsis } from '../../../components/TekstMedEllipsis';
+import { AnonymizableTextWithEllipsis } from '../../../components/TextWithEllipsis';
 import { Tooltip } from '../../../components/Tooltip';
 import { Clipboard } from '../../../components/clipboard';
-import {
-    useArbeidsforholdRender,
-    useArbeidsgiverbransjerRender,
-    useArbeidsgivernavnRender,
-    useOrganisasjonsnummerRender,
-} from '../../../state/person';
+import { useArbeidsgiverbransjer, useArbeidsgivernavn } from '../../../state/person';
 
 import { Arbeidsforhold } from '../Arbeidsforhold';
 import { Inntekt } from './inntekt/Inntekt';
 import { defaultOverstyrToggles } from '../../../featureToggles';
-import { OverstyrArbeidsforholdUtenSykdom } from './OverstyrArbeidsforholdUtenSykdom';
-import { useMaybeAktivPeriode, useMaybePeriodeTilGodkjenning } from '../../../state/tidslinje';
+import { useAktivPeriode, useMaybePeriodeTilGodkjenning } from '../../../state/tidslinje';
+import { AnonymizableText } from '../../../components/anonymizable/AnonymizableText';
+import { AnonymizableContainer } from '../../../components/anonymizable/AnonymizableContainer';
+import { useArbeidsforhold } from '../../../modell/arbeidsgiver';
 
 const Container = styled(FlexColumn)`
     padding-right: 2rem;
@@ -33,7 +29,7 @@ const Header = styled.div`
     gap: 1rem;
 `;
 
-const Bransjer = styled(BodyShort)`
+const Bransjer = styled(AnonymizableText)`
     font-size: 14px;
     margin-bottom: 0.5rem;
     color: var(--navds-color-text-disabled);
@@ -72,12 +68,11 @@ interface InntektskilderinnholdProps {
 }
 
 export const Inntektskilderinnhold = ({ inntekt }: InntektskilderinnholdProps) => {
-    const arbeidsgivernavn = useArbeidsgivernavnRender(inntekt.organisasjonsnummer);
-    const organisasjonsnummer = useOrganisasjonsnummerRender(inntekt.organisasjonsnummer);
-    const bransjer = useArbeidsgiverbransjerRender(inntekt.organisasjonsnummer);
-    const arbeidsforhold = useArbeidsforholdRender(inntekt.organisasjonsnummer);
+    const arbeidsgivernavn = useArbeidsgivernavn(inntekt.organisasjonsnummer);
+    const bransjer = useArbeidsgiverbransjer(inntekt.organisasjonsnummer);
+    const arbeidsforhold = useArbeidsforhold(inntekt.organisasjonsnummer);
 
-    const aktivPeriode = useMaybeAktivPeriode()!;
+    const aktivPeriode = useAktivPeriode();
     const erArbeidsgiverUtenSykefravær = aktivPeriode.tilstand === 'utenSykefravær';
     const skjæringstidspunkt = aktivPeriode.skjæringstidspunkt!;
     const periodeTilGodkjenning = useMaybePeriodeTilGodkjenning(skjæringstidspunkt);
@@ -98,18 +93,18 @@ export const Inntektskilderinnhold = ({ inntekt }: InntektskilderinnholdProps) =
             <Header>
                 <Bag width={20} height={20} />
                 <Navn data-tip="Arbeidsgivernavn">
-                    <TekstMedEllipsis>{arbeidsgivernavn}</TekstMedEllipsis>
+                    <AnonymizableTextWithEllipsis>{arbeidsgivernavn}</AnonymizableTextWithEllipsis>
                 </Navn>
                 <Organisasjonsnummer>
                     (
                     <Clipboard copyMessage="Organisasjonsnummer er kopiert" dataTip="Kopier organisasjonsnummer">
-                        {organisasjonsnummer}
+                        <AnonymizableContainer>{inntekt.organisasjonsnummer}</AnonymizableContainer>
                     </Clipboard>
                     )
                 </Organisasjonsnummer>
                 <Kilde type="Ainntekt">AA</Kilde>
             </Header>
-            <Bransjer as="p">
+            <Bransjer>
                 {`BRANSJE${bransjer.length > 1 ? 'R' : ''}: `}
                 {bransjer.join(', ')}
             </Bransjer>

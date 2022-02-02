@@ -74,6 +74,21 @@
     --speil-hoyremeny-width: 272px;
 }
 
+/* Sladding av sensitive data, f.eks. når man deler skjerm eller tar skjermbilder */
+:root {
+    --anonymous-background: var(--navds-color-gray-20);
+    --anonymous-color: var(--anonymous-background);
+    --anonymous-border-radius: 0.25rem;
+
+    --visible-color: unset;
+    --visible-background: unset;
+    --visible-border-radius: unset;
+
+    --anonymizable-background: unset;
+    --anonymizable-color: unset;
+    --anonymizable-border-radius: unset;
+}
+
 html,
 body {
     height: 100vh;

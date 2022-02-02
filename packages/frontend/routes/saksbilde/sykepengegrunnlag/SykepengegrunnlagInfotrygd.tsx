@@ -6,9 +6,10 @@ import { BodyShort } from '@navikt/ds-react';
 
 import { FlexColumn } from '../../../components/Flex';
 import { Kilde } from '../../../components/Kilde';
-import { useArbeidsgivernavnRender, useOrganisasjonsnummerRender } from '../../../state/person';
+import { useArbeidsgivernavn } from '../../../state/person';
 import { getKildeType, kilde } from '../../../utils/inntektskilde';
 import { somPenger } from '../../../utils/locale';
+import { AnonymizableText } from '../../../components/anonymizable/AnonymizableText';
 
 const Container = styled(FlexColumn)`
     --fixed-column-width: 20rem;
@@ -126,7 +127,7 @@ export const SykepengegrunnlagInfotrygd = ({
                 </thead>
                 <tbody>
                     {vilkårsgrunnlag.inntekter.map((inntekt, index) => (
-                        <InfotrygdInntekt index={index} aktivtOrgnummer={organisasjonsnummer} inntekt={inntekt} />
+                        <InfotrygdInntekt key={index} aktivtOrgnummer={organisasjonsnummer} inntekt={inntekt} />
                     ))}
                 </tbody>
                 <tfoot>
@@ -153,22 +154,20 @@ export const SykepengegrunnlagInfotrygd = ({
 };
 
 interface InfotrygdInntektProps {
-    index: number;
     aktivtOrgnummer: string;
     inntekt: ExternalArbeidsgiverinntekt;
 }
 
-const InfotrygdInntekt = ({ index, aktivtOrgnummer, inntekt }: InfotrygdInntektProps) => {
-    const arbeidsgivernavn = useArbeidsgivernavnRender(inntekt.organisasjonsnummer);
-    const renderedOrganisasjonsnummer = useOrganisasjonsnummerRender(inntekt.organisasjonsnummer);
+const InfotrygdInntekt = ({ aktivtOrgnummer, inntekt }: InfotrygdInntektProps) => {
+    const arbeidsgivernavn = useArbeidsgivernavn(inntekt.organisasjonsnummer);
     return (
-        <ArbeidsgiverRad key={index} erGjeldende={aktivtOrgnummer === inntekt.organisasjonsnummer}>
+        <ArbeidsgiverRad erGjeldende={aktivtOrgnummer === inntekt.organisasjonsnummer}>
             <td>
-                <BodyShort>
+                <AnonymizableText>
                     {arbeidsgivernavn.toLowerCase() === 'ikke tilgjengelig'
-                        ? renderedOrganisasjonsnummer
-                        : `${arbeidsgivernavn} (${renderedOrganisasjonsnummer})`}
-                </BodyShort>
+                        ? inntekt.organisasjonsnummer
+                        : `${arbeidsgivernavn} (${inntekt.organisasjonsnummer})`}
+                </AnonymizableText>
             </td>
             <td>
                 <InntektMedKilde>

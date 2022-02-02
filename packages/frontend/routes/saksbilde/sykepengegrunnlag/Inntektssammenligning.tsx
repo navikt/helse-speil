@@ -5,12 +5,12 @@ import React from 'react';
 import { BodyShort } from '@navikt/ds-react';
 
 import { Kilde } from '../../../components/Kilde';
-import { useArbeidsgivernavnRender, useEndringerForPeriode } from '../../../state/person';
-import { useAktivPeriode } from '../../../state/tidslinje';
+import { useArbeidsgivernavn, useEndringerForPeriode } from '../../../state/person';
 import { getKildeType, kilde } from '../../../utils/inntektskilde';
 import { somPenger } from '../../../utils/locale';
 
 import { EndringsloggInntektButton } from '../utbetaling/utbetalingstabell/EndringsloggInntektButton';
+import { AnonymizableText } from '../../../components/anonymizable/AnonymizableText';
 
 const ArbeidsgiverRad = styled.tr<{ erGjeldende: boolean }>`
     padding: 0.25rem;
@@ -59,13 +59,13 @@ export const Inntektssammenligning = ({
     erGjeldende,
     onSetAktivInntektskilde,
 }: InntektssammenligningProps) => {
-    const arbeidsgivernavn = useArbeidsgivernavnRender(organisasjonsnummer);
+    const arbeidsgivernavn = useArbeidsgivernavn(organisasjonsnummer);
     const endringer = useEndringerForPeriode(organisasjonsnummer);
 
     return (
         <ArbeidsgiverRad erGjeldende={erGjeldende} onClick={onSetAktivInntektskilde}>
             <td>
-                <BodyShort>{arbeidsgivernavn}</BodyShort>
+                <AnonymizableText>{arbeidsgivernavn}</AnonymizableText>
             </td>
             <td>
                 <InntektMedKilde>

@@ -7,7 +7,7 @@ import { LasterPersonlinje, Personlinje } from '../../components/Personlinje';
 import { useRefreshPersonVedOpptegnelse } from '../../hooks/useRefreshPersonVedOpptegnelse';
 import { useRefreshPersonVedUrlEndring } from '../../hooks/useRefreshPersonVedUrlEndring';
 import { usePollEtterOpptegnelser } from '../../io/polling';
-import { usePerson, usePersondataSkalAnonymiseres } from '../../state/person';
+import { usePerson } from '../../state/person';
 import { useMaybeAktivPeriode } from '../../state/tidslinje';
 import { Scopes, useVarselFilter } from '../../state/varsler';
 
@@ -46,7 +46,6 @@ const Saksbildevarsel = styled(Varsel)`
 const SaksbildeContent = React.memo(() => {
     const aktivPeriode = useMaybeAktivPeriode();
     const personTilBehandling = usePerson();
-    const anonymiseringEnabled = usePersondataSkalAnonymiseres();
 
     useRefreshPersonVedUrlEndring();
     useRefreshPersonVedOpptegnelse();
@@ -62,17 +61,18 @@ const SaksbildeContent = React.memo(() => {
 
     return (
         <Container className="Saksbilde">
-            <Personlinje dødsdato={personTilBehandling.dødsdato} />
+            <Personlinje
+                aktørId={personTilBehandling.aktørId}
+                enhet={personTilBehandling.enhet}
+                dødsdato={personTilBehandling.dødsdato}
+            />
             <Tidslinje person={personTilBehandling} />
             {aktivPeriode ? (
                 <AmplitudeProvider>
                     <Sakslinje aktivPeriode={aktivPeriode} />
                     <Switch>
                         <Route path={`${path}/utbetalingshistorikk`}>
-                            <Utbetalingshistorikk
-                                person={personTilBehandling}
-                                anonymiseringEnabled={anonymiseringEnabled}
-                            />
+                            <Utbetalingshistorikk person={personTilBehandling} />
                         </Route>
                         <Route>
                             {aktivPeriode.fullstendig ? (

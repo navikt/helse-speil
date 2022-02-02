@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 
 import { BodyShort } from '@navikt/ds-react';
 import { useUtbetaling } from '../../../modell/utbetalingshistorikkelement';
-import { useArbeidsgivernavnRender, usePersonnavnRender, useVilkårsgrunnlaghistorikk } from '../../../state/person';
+import { useArbeidsgivernavn, usePersonnavn, useVilkårsgrunnlaghistorikk } from '../../../state/person';
 import { somPenger } from '../../../utils/locale';
 import { CardTitle } from './CardTitle';
 import { Utbetalinger } from './Utbetalinger';
@@ -52,8 +52,8 @@ export const UtbetalingCard = ({
         personNettobeløp: 0,
     };
 
-    const personnavn = usePersonnavnRender();
-    const arbeidsgivernavn = useArbeidsgivernavnRender(organisasjonsnummer);
+    const personnavn = usePersonnavn();
+    const arbeidsgivernavn = useArbeidsgivernavn(organisasjonsnummer);
 
     return (
         <section>

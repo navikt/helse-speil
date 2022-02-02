@@ -1,177 +1,120 @@
-import styled from '@emotion/styled';
-import dayjs from 'dayjs';
 import React from 'react';
+import dayjs from 'dayjs';
 import { Link } from 'react-router-dom';
+import classNames from 'classnames';
 
 import { BodyShort } from '@navikt/ds-react';
 
-import { getFormatertNavn, useAktørIdRender, useEnhetRender, usePersoninfoRender } from '../state/person';
+import { getFormatertNavn, usePersoninfo } from '../state/person';
 import { NORSK_DATOFORMAT } from '../utils/date';
 import { capitalizeName } from '../utils/locale';
 
 import { utbetalingsoversikt } from '../featureToggles';
-import { Bold } from './Bold';
 import { Clipboard } from './clipboard';
 import { KjønnsnøytraltIkon } from './ikoner/KjønnsnøytraltIkon';
 import { Kvinneikon } from './ikoner/Kvinneikon';
 import { Manneikon } from './ikoner/Manneikon';
 
+import { useIsAnonymous } from '../state/anonymization';
+import { AnonymizableBold } from './anonymizable/AnonymizableBold';
+import { AnonymizableText } from './anonymizable/AnonymizableText';
+import { AnonymizableContainer } from './anonymizable/AnonymizableContainer';
+
+import styles from './Personlinje.module.css';
+
 const formatFnr = (fnr: string) => fnr.slice(0, 6) + ' ' + fnr.slice(6);
 
-const Container = styled.div`
-    grid-area: personlinje;
-    display: flex;
-    align-items: center;
-    height: 48px;
-    box-sizing: border-box;
-    padding: 0 2rem;
-    background: var(--speil-background-secondary);
-    border-bottom: 1px solid var(--navds-color-border);
-    color: var(--navds-color-text-primary);
+interface KjønnsikonProps extends React.SVGAttributes<SVGElement> {
+    kjønn: 'kvinne' | 'mann' | 'ukjent';
+}
 
-    > svg {
-        margin-right: 0.5rem;
-    }
-`;
-
-const Separator = styled(BodyShort)`
-    margin: 0 1rem;
-`;
-
-const Lenke = styled(Link)`
-    color: inherit;
-
-    &:hover {
-        text-decoration: none;
-    }
-
-    &:active,
-    &:focus-visible {
-        outline: none;
-        color: var(--navds-color-text-inverse);
-        text-decoration: none;
-        background-color: var(--navds-text-focus);
-        box-shadow: 0 0 0 2px var(--navds-text-focus);
-    }
-`;
-
-const Etikett = styled.div`
-    padding: 0.25rem 0.5rem;
-    border-radius: 0.25rem;
-    width: max-content;
-    margin-left: 10px;
-`;
-
-const AdressebeskyttelseEtikett = styled(Etikett)`
-    background: var(--speil-etikett-adressebeskyttelse-background);
-    border: 1px solid var(--speil-etikett-adressebeskyttelse-border);
-    color: var(--navds-color-text-primary);
-`;
-
-const DødsdatoEtikett = styled(Etikett)`
-    background: var(--speil-etikett-dødsdato-background);
-    border: 1px solid var(--speil-etikett-dødsdato-border);
-    color: var(--navds-color-text-inverse);
-`;
-
-const Kjønnsikon = ({ kjønn }: { kjønn: 'kvinne' | 'mann' | 'ukjent' }) => {
+const Kjønnsikon: React.VFC<KjønnsikonProps> = ({ kjønn, ...svgProps }) => {
     switch (kjønn.toLowerCase()) {
         case 'kvinne':
-            return <Kvinneikon alt="Kvinne" />;
+            return <Kvinneikon alt="Kvinne" {...svgProps} />;
         case 'mann':
-            return <Manneikon alt="Mann" />;
+            return <Manneikon alt="Mann" {...svgProps} />;
         default:
-            return <KjønnsnøytraltIkon alt="Ukjent" />;
+            return <KjønnsnøytraltIkon alt="Ukjent" {...svgProps} />;
     }
 };
 
-const LoadingText = styled.div`
-    @keyframes placeHolderShimmer {
-        0% {
-            background-position: -468px 0;
-        }
-        100% {
-            background-position: 468px 0;
-        }
-    }
+const LoadingText = () => <div className={styles.LoadingText} />;
 
-    animation-duration: 1.25s;
-    animation-fill-mode: forwards;
-    animation-iteration-count: infinite;
-    animation-name: placeHolderShimmer;
-    animation-timing-function: linear;
-    background: transparent;
-    background: linear-gradient(to right, transparent 0%, #eaeaea 16%, transparent 33%);
-    background-size: 800px 104px;
-    border-radius: 4px;
-    height: 22px;
-    width: 150px;
-    margin: 4px 0;
-`;
+const Separator = () => <BodyShort className={styles.Separator}>/</BodyShort>;
 
 export const LasterPersonlinje = () => (
-    <Container className="Personlinje">
+    <div className={styles.Personlinje}>
         <KjønnsnøytraltIkon />
         <LoadingText />
-        <Separator as="p">/</Separator>
+        <Separator />
         <LoadingText />
-        <Separator as="p">/</Separator>
+        <Separator />
         <LoadingText />
-        <Separator as="p">/</Separator>
+        <Separator />
         <LoadingText />
-        <Separator as="p">/</Separator>
+        <Separator />
         <LoadingText />
-    </Container>
+    </div>
 );
 
 interface PersonlinjeProps {
+    aktørId: string;
+    enhet: Boenhet;
     dødsdato?: Dayjs;
 }
 
-export const Personlinje = ({ dødsdato }: PersonlinjeProps) => {
-    const personinfo = usePersoninfoRender();
+export const Personlinje = ({ aktørId, enhet, dødsdato }: PersonlinjeProps) => {
+    const isAnonymous = useIsAnonymous();
+    const personinfo = usePersoninfo();
     const personnavn = getFormatertNavn(personinfo, ['E', ',', 'F', 'M']);
-    const aktørId = useAktørIdRender();
-    const enhet = useEnhetRender();
 
     return (
-        <Container className="Personlinje">
-            <Kjønnsikon kjønn={personinfo.kjønn} />
-            <Bold>
+        <div className={styles.Personlinje}>
+            <Kjønnsikon kjønn={isAnonymous ? 'ukjent' : personinfo.kjønn} />
+            <AnonymizableBold>
                 {capitalizeName(personnavn)}
                 {personinfo.fødselsdato !== null && ` (${dayjs().diff(personinfo.fødselsdato, 'year')} år)`}
-            </Bold>
-            <Separator as="p">/</Separator>
+            </AnonymizableBold>
+            <BodyShort className={styles.Separator}>/</BodyShort>
             {personinfo.fnr ? (
                 <Clipboard
                     preserveWhitespace={false}
                     copyMessage="Fødselsnummer er kopiert"
                     dataTip="Kopier fødselsnummer (Alt + C)"
                 >
-                    <BodyShort>{formatFnr(personinfo.fnr)}</BodyShort>
+                    <AnonymizableText>{formatFnr(personinfo.fnr)}</AnonymizableText>
                 </Clipboard>
             ) : (
                 <BodyShort>Fødselsnummer ikke tilgjengelig</BodyShort>
             )}
-            <Separator as="p">/</Separator>
-            <BodyShort>Aktør-ID:&nbsp;</BodyShort>
+            <BodyShort className={styles.Separator}>/</BodyShort>
+            <AnonymizableText>Aktør-ID:&nbsp;</AnonymizableText>
             <Clipboard preserveWhitespace={false} copyMessage="Aktør-ID er kopiert" dataTip="Kopier aktør-ID">
-                <BodyShort>{aktørId}</BodyShort>
+                <AnonymizableText>{aktørId}</AnonymizableText>
             </Clipboard>
-            <Separator as="p">/</Separator>
-            <BodyShort>
+            <BodyShort className={styles.Separator}>/</BodyShort>
+            <AnonymizableText>
                 Boenhet: {enhet.id} ({enhet.navn})
-            </BodyShort>
+            </AnonymizableText>
             {utbetalingsoversikt && (
                 <>
-                    <Separator as="p">/</Separator>
-                    <Lenke to={`${aktørId}/../utbetalingshistorikk`}>Utbetalingsoversikt</Lenke>
+                    <BodyShort className={styles.Separator}>/</BodyShort>
+                    <Link className={styles.Link} to={`${aktørId}/../utbetalingshistorikk`}>
+                        Utbetalingsoversikt
+                    </Link>
                 </>
             )}
             {personinfo.adressebeskyttelse === 'Fortrolig' && (
-                <AdressebeskyttelseEtikett>{personinfo.adressebeskyttelse} adresse</AdressebeskyttelseEtikett>
+                <AnonymizableContainer className={classNames(styles.Etikett, styles.adressebeskyttelse)}>
+                    {personinfo.adressebeskyttelse} adresse
+                </AnonymizableContainer>
             )}
-            {dødsdato && <DødsdatoEtikett>Død {dødsdato?.format(NORSK_DATOFORMAT)}</DødsdatoEtikett>}
-        </Container>
+            {dødsdato && (
+                <AnonymizableContainer className={classNames(styles.Etikett, styles.dødsdato)}>
+                    Død {dødsdato?.format(NORSK_DATOFORMAT)}
+                </AnonymizableContainer>
+            )}
+        </div>
     );
 };

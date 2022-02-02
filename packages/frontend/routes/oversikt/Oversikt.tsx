@@ -8,8 +8,6 @@ import { useInnloggetSaksbehandler } from '../../state/authentication';
 import { oppgaverState, useRefetchOppgaver } from '../../state/oppgaver';
 import { personState } from '../../state/person';
 import { Scopes, useVarselFilter } from '../../state/varsler';
-
-import { nullstillAgurkData } from '../../agurkdata';
 import { IngenOppgaver } from './IngenOppgaver';
 import { Behandlingsstatistikk } from './behandlingsstatistikk/Behandlingsstatistikk';
 import { OppgaverTable } from './table/OppgaverTable';
@@ -36,7 +34,6 @@ const useOppgaverFilteredByTab = () => {
     const aktivTab = useRecoilValue(tabState);
     const oppgaver = useRecoilValueLoadable<Oppgave[]>(oppgaverState);
     const [cache, setCache] = useState<Oppgave[]>([]);
-    nullstillAgurkData();
 
     const filtrer = (oppgaver: Oppgave[]): Oppgave[] =>
         aktivTab === TabType.TilGodkjenning

@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import React from 'react';
 
 import { Flex, FlexColumn } from '../../../components/Flex';
-import { TekstMedEllipsis } from '../../../components/TekstMedEllipsis';
+import { AnonymizableTextWithEllipsis } from '../../../components/TextWithEllipsis';
 import { Infotrygdikon } from '../../../components/ikoner/Infotrygdikon';
 
 import { Tidslinjerad } from './Tidslinjerad';
@@ -33,6 +33,7 @@ interface InfotrygdradProps {
     rad: InfotrygdradObject;
     navn: string;
 }
+
 const StyledInfotrygdikon = styled(Infotrygdikon)`
     min-width: 16px;
 `;
@@ -41,7 +42,7 @@ export const Infotrygdrad = ({ rad, navn }: InfotrygdradProps) => (
     <Flex alignItems="start">
         <Navn>
             <StyledInfotrygdikon />
-            <TekstMedEllipsis data-tip={navn}>{navn}</TekstMedEllipsis>
+            <AnonymizableTextWithEllipsis data-tip={navn}>{navn}</AnonymizableTextWithEllipsis>
         </Navn>
         <Rader>
             <Tidslinjerad rad={rad} erKlikkbar={false} />

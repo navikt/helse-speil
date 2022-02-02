@@ -170,7 +170,6 @@ export const Inntekt = ({
     const [editing, setEditing] = useState(false);
     const [endret, setEndret] = useState(false);
 
-    console.log(arbeidsforholdKanOverstyres);
     const endringer = useEndringerForPeriode(organisasjonsnummer);
     return (
         <Container editing={editing} inntektDeaktivert={arbeidsforholdErDeaktivert}>

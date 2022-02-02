@@ -1,0 +1,10 @@
+.Anonymous {
+    color: var(--anonymizable-color);
+    background-color: var(--anonymizable-color);
+    border-radius: var(--anonymizable-border-radius);
+}
+
+.Anonymous * {
+    color: var(--anonymizable-color) !important;
+    background-color: var(--anonymizable-color) !important;
+}

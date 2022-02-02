@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { TekstMedEllipsis } from '../../../../components/TekstMedEllipsis';
+import { TextWithEllipsis } from '../../../../components/TextWithEllipsis';
 
 import { Cell } from '../Cell';
 import { CellContent } from './CellContent';
@@ -12,7 +12,7 @@ interface InntektskildeProps {
 export const InntektskildeCell = React.memo(({ type }: InntektskildeProps) => (
     <Cell>
         <CellContent width={128}>
-            <TekstMedEllipsis>{type === 'EN_ARBEIDSGIVER' ? 'Én arbeidsgiver' : 'Flere arbeidsg.'}</TekstMedEllipsis>
+            <TextWithEllipsis>{type === 'EN_ARBEIDSGIVER' ? 'Én arbeidsgiver' : 'Flere arbeidsg.'}</TextWithEllipsis>
         </CellContent>
     </Cell>
 ));

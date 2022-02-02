@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import { Collapse, Expand } from '@navikt/ds-icons';
 import { BodyShort, Popover } from '@navikt/ds-react';
 
-import { TekstMedEllipsis } from './TekstMedEllipsis';
+import { TextWithEllipsis } from './TextWithEllipsis';
 import { DropdownMenyknapp } from './dropdown/Dropdown';
 
 const Container = styled.div`
@@ -49,7 +49,7 @@ const DropdownButton = styled.button`
     }
 `;
 
-const MenyNavn = styled(TekstMedEllipsis)`
+const MenyNavn = styled(TextWithEllipsis)`
     color: var(--navds-color-text-secondary);
     width: 190px;
 `;

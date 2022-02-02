@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import { Bag, People } from '@navikt/ds-icons';
 import { BodyShort } from '@navikt/ds-react';
 
-import { TekstMedEllipsis } from '../../../components/TekstMedEllipsis';
+import { AnonymizableTextWithEllipsis } from '../../../components/TextWithEllipsis';
 import { somPenger } from '../../../utils/locale';
 import { LinkButton } from '../../../components/LinkButton';
 import { SimuleringsinfoModal } from './utbetaling/SimuleringsinfoModal';
@@ -103,7 +103,7 @@ export const Utbetalinger = ({
                 <Bag data-tip="Arbeidsgiver" title="Arbeidsgiver" />
             </ArbeidsgiverIcon>
             <ArbeidsgiverName>
-                <TekstMedEllipsis>{arbeidsgivernavn}</TekstMedEllipsis>
+                <AnonymizableTextWithEllipsis>{arbeidsgivernavn}</AnonymizableTextWithEllipsis>
             </ArbeidsgiverName>
             <ArbeidsgiverSum as="p">{somPenger(arbeidsgiverNettobeløp)}</ArbeidsgiverSum>
             {simuleringsdata?.arbeidsgiver && (
@@ -118,7 +118,7 @@ export const Utbetalinger = ({
                 <People data-tip="Sykmeldt" title="Arbeidstaker" />
             </PersonIcon>
             <PersonName>
-                <TekstMedEllipsis>{personnavn}</TekstMedEllipsis>
+                <AnonymizableTextWithEllipsis>{personnavn}</AnonymizableTextWithEllipsis>
             </PersonName>
             <PersonSum as="p">{somPenger(personNettobeløp)}</PersonSum>
             {simuleringsdata?.person && (
