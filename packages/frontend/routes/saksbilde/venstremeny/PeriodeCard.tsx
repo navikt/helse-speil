@@ -52,6 +52,8 @@ const getTextForPeriodetype = (type: Periodetype): string => {
             return 'REVURDERING';
         case 'fortroligAdresse':
             return 'FORTROLIG ADRESSE';
+        case 'utbetalingTilSykmeldt':
+            return 'UTBETALING TIL SYKMELDT';
     }
 };
 

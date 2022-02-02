@@ -34,6 +34,7 @@ const devSpesialistClient = (_: Instrumentation): SpesialistClient => ({
                         { periodetypeForSpeil: 'FORLENGELSE', antall: 100 },
                         { periodetypeForSpeil: 'INFOTRYGDFORLENGELSE', antall: 150 },
                         { periodetypeForSpeil: 'OVERGANG_FRA_IT', antall: 250 },
+                        { periodetypeForSpeil: 'UTBETALING_TIL_SYKMELDT', antall: 2 },
                     ],
                 },
                 fullførteBehandlinger: {
@@ -49,6 +50,7 @@ const devSpesialistClient = (_: Instrumentation): SpesialistClient => ({
                         { periodetypeForSpeil: 'FORLENGELSE', antall: 15 },
                         { periodetypeForSpeil: 'INFOTRYGDFORLENGELSE', antall: 85 },
                         { periodetypeForSpeil: 'OVERGANG_FRA_IT', antall: 100 },
+                        { periodetypeForSpeil: 'UTBETALING_TIL_SYKMELDT', antall: 100 },
                     ],
                 },
             },

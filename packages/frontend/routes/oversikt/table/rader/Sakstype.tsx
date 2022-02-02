@@ -25,6 +25,8 @@ const getLabelForType = (type: Periodetype) => {
             return 'Revurdering';
         case 'fortroligAdresse':
             return 'Fortrolig adr.';
+        case 'utbetalingTilSykmeldt':
+            return 'Utbetaling til sykmeldt';
     }
 };
 

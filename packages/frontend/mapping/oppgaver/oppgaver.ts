@@ -44,6 +44,8 @@ export const tilOppgave = (oppgave: ExternalOppgave): Oppgave => ({
             ? 'revurdering'
             : oppgave.oppgavetype === 'FORTROLIG_ADRESSE'
             ? 'fortroligAdresse'
+            : oppgave.oppgavetype === 'UTBETALING_TIL_SYKMELDT'
+            ? 'utbetalingTilSykmeldt'
             : tilPeriodetype(oppgave.type),
     boenhet: oppgave.boenhet,
     inntektskilde: inntektskilde(oppgave.inntektskilde),

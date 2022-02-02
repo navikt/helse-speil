@@ -14,7 +14,7 @@ declare type ExternalPeriodetype =
     | 'STIKKPRØVE'
     | 'RISK_QA';
 
-declare type ExternalOppgavetype = 'SØKNAD' | 'STIKKPRØVE' | 'RISK_QA' | 'REVURDERING';
+declare type ExternalOppgavetype = 'SØKNAD' | 'STIKKPRØVE' | 'RISK_QA' | 'REVURDERING' | 'UTBETALING_TIL_SYKMELDT';
 
 declare type ExternalOppgave = {
     oppgavereferanse: string;

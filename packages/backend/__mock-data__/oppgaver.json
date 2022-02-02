@@ -252,7 +252,7 @@
         },
         "vedtaksperiodeId": "99ad1fde-c877-4675-882e-60e6a6c452cd",
         "type": "FØRSTEGANGSBEHANDLING",
-        "oppgavetype": "SØKNAD",
+        "oppgavetype": "UTBETALING_TIL_SYKMELDT",
         "antallVarsler": 0,
         "boenhet": {
             "id": "1938",

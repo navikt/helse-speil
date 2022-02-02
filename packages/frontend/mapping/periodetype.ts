@@ -14,5 +14,7 @@ export const tilPeriodetype = (type: ExternalPeriodetype): Periodetype => {
             return 'riskQa';
         case 'FORTROLIG_ADRESSE':
             return 'fortroligAdresse';
+        case 'UTBETALING_TIL_SYKMELDT':
+            return 'utbetalingTilSykmeldt';
     }
 };

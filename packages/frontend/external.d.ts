@@ -687,7 +687,8 @@ declare type ExternalPeriodetype =
     | 'OVERGANG_FRA_IT'
     | 'STIKKPRØVE'
     | 'RISK_QA'
-    | 'FORTROLIG_ADRESSE';
+    | 'FORTROLIG_ADRESSE'
+    | 'UTBETALING_TIL_SYKMELDT';
 
 declare type ExternalBehandlingstatistikkResponse = {
     statistikk: ExternalSpleisVilkårsgrunnlag;
@@ -709,7 +710,13 @@ declare type ExternalBehandlingstatistikk = {
     };
 };
 
-declare type ExternalOppgavetype = 'SØKNAD' | 'STIKKPRØVE' | 'RISK_QA' | 'REVURDERING' | 'FORTROLIG_ADRESSE';
+declare type ExternalOppgavetype =
+    | 'SØKNAD'
+    | 'STIKKPRØVE'
+    | 'RISK_QA'
+    | 'REVURDERING'
+    | 'FORTROLIG_ADRESSE'
+    | 'UTBETALING_TIL_SYKMELDT';
 
 declare type ExternalOppgave = {
     oppgavereferanse: string;
