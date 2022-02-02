@@ -5,12 +5,12 @@ import { Flex } from '../../../components/Flex';
 import { TekstMedEllipsis } from '../../../components/TekstMedEllipsis';
 
 const Antall = styled(TekstMedEllipsis)`
-    width: 35px;
-    margin-right: 20px;
+    width: 3rem;
+    margin-right: 1rem;
 `;
 
 const EtikettContainer = styled.span`
-    margin-right: 20px;
+    margin-right: 1rem;
 `;
 
 const Progress = styled.progress`
