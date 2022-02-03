@@ -315,7 +315,7 @@ declare type ExternalOverstyringsdag = {
 };
 
 declare type ExternalOverstyring = {
-    type: 'Inntekt' | 'Dager';
+    type: 'Inntekt' | 'Dager'; // TODO: arbeidsforhold
     hendelseId: string;
     begrunnelse: string;
     saksbehandlerNavn: string;

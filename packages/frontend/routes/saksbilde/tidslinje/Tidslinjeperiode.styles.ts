@@ -84,8 +84,13 @@ const icon = css`
             no-repeat left center;
     }
 
-    &.utenSykefravær:before {
+    &.utenSykefraværAktivert:before {
         background: url("data:image/svg+xml,%3C%3Fxml version='1.0' encoding='UTF-8'%3F%3E%3Csvg fill='none' viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='m9.3515 14.667 8.3148-8 1 1-9.3148 9-4.0185-4 1-1 3.0185 3z' clip-rule='evenodd' fill='%23262626' fill-rule='evenodd'/%3E%3C/svg%3E%0A")
+            no-repeat left center;
+    }
+
+    &.utenSykefraværDeaktivert:before {
+        background: url("data:image/svg+xml,%3Csvg viewBox='-5 -5 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M6.99939 0C3.14695 0 0.00730283 3.0733 -1.51524e-06 6.85165C-0.00365369 8.68561 0.720694 10.4109 2.04035 11.7106C3.36 13.0096 5.11669 13.7272 6.98661 13.7308H7C10.8518 13.7308 13.9921 10.6569 14 6.87792C14.0073 3.09301 10.8731 0.00716388 6.99939 0Z' fill='%233E3832'/%3E%3Cpath d='M6.9 5.9351L9.19289 3.6863C9.44616 3.4379 9.85678 3.4379 10.1101 3.6863C10.3633 3.93469 10.3633 4.33742 10.1101 4.58582L7.81716 6.83462L10.1101 9.08341C10.3633 9.33181 10.3633 9.73454 10.1101 9.98293C9.85678 10.2313 9.44616 10.2313 9.19289 9.98293L6.9 7.73414L4.60711 9.98293C4.35384 10.2313 3.94322 10.2313 3.68995 9.98293C3.43668 9.73454 3.43668 9.33181 3.68995 9.08341L5.98284 6.83462L3.68995 4.58582C3.43668 4.33742 3.43668 3.93469 3.68995 3.6863C3.94322 3.4379 4.35384 3.4379 4.60711 3.6863L6.9 5.9351Z' fill='white'/%3E%3C/svg%3E%0A")
             no-repeat left center;
     }
 
@@ -163,7 +168,8 @@ const background = css`
             --period-hover-color: var(--nav-infotrygd-bakgrunn-stiplet);
         }
 
-        &.utenSykefravær {
+        &.utenSykefraværDeaktivert,
+        &.utenSykefraværAktivert {
             --period-background-color: var(--nav-ghostpolse-bakgrunn);
         }
     }

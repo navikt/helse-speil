@@ -46,7 +46,7 @@ export const toTidslinjeperioder = (
         id: `${it.id}+${MANGLENDE_BEREGNINGID_VED_PERIDOE_UTEN_SYKEFRAVÆR}+${MANGLENDE_UNIQUEID_VED_PERIDOE_UTEN_SYKEFRAVÆR}`,
         start: it.fom.toDate(),
         end: it.tom.toDate(),
-        tilstand: it.tilstand,
+        tilstand: it.deaktivert ? 'utenSykefraværDeaktivert' : 'utenSykefraværAktivert',
         skalVisePin: false,
         hoverLabel: <HoverInfoUtenSykefravær fom={it.fom} tom={it.tom} />,
     }));
