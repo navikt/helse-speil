@@ -107,7 +107,8 @@ declare type Periodetype =
     | 'riskQa'
     | 'revurdering'
     | 'fortroligAdresse'
-    | 'utbetalingTilSykmeldt';
+    | 'utbetalingTilSykmeldt'
+    | 'delvisRefusjon';
 
 declare type Periodetilstand =
     | 'tilUtbetaling'

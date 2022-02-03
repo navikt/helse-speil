@@ -160,6 +160,8 @@ const getDataTipForPeriodetype = (periodetype: Periodetype) => {
             return 'RiskQaer';
         case 'utbetalingTilSykmeldt':
             return 'Utbetaling Til sykmeldt';
+        case 'delvisRefusjon':
+            return 'Delvis refusjon';
         default:
             return '';
     }

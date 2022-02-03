@@ -27,6 +27,8 @@ const getLabelForType = (type: Periodetype) => {
             return 'Fortrolig adr.';
         case 'utbetalingTilSykmeldt':
             return 'Utb. sykmeldt';
+        case 'delvisRefusjon':
+            return 'Delvis refusjon';
     }
 };
 
@@ -36,7 +38,7 @@ interface SakstypeProps {
 
 export const SakstypeCell = React.memo(({ type }: SakstypeProps) => (
     <Cell>
-        <CellContent width={128}>
+        <CellContent width={130}>
             <Flex alignItems="center">
                 <Oppgaveetikett type={type} />
                 <BodyShort style={{ marginLeft: '12px' }}>{getLabelForType(type)}</BodyShort>

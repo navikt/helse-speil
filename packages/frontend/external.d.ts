@@ -688,7 +688,8 @@ declare type ExternalPeriodetype =
     | 'STIKKPRØVE'
     | 'RISK_QA'
     | 'FORTROLIG_ADRESSE'
-    | 'UTBETALING_TIL_SYKMELDT';
+    | 'UTBETALING_TIL_SYKMELDT'
+    | 'DELVIS_REFUSJON';
 
 declare type ExternalBehandlingstatistikkResponse = {
     statistikk: ExternalSpleisVilkårsgrunnlag;
@@ -716,7 +717,8 @@ declare type ExternalOppgavetype =
     | 'RISK_QA'
     | 'REVURDERING'
     | 'FORTROLIG_ADRESSE'
-    | 'UTBETALING_TIL_SYKMELDT';
+    | 'UTBETALING_TIL_SYKMELDT'
+    | 'DELVIS_REFUSJON';
 
 declare type ExternalOppgave = {
     oppgavereferanse: string;

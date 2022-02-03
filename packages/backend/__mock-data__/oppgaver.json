@@ -252,7 +252,7 @@
         },
         "vedtaksperiodeId": "99ad1fde-c877-4675-882e-60e6a6c452cd",
         "type": "FØRSTEGANGSBEHANDLING",
-        "oppgavetype": "UTBETALING_TIL_SYKMELDT",
+        "oppgavetype": "DELVIS_REFUSJON",
         "antallVarsler": 0,
         "boenhet": {
             "id": "1938",

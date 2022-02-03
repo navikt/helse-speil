@@ -109,6 +109,15 @@ const UtbetalingTilSykmeldtEtikett = styled(Etikett)`
     }
 `;
 
+const DelvisRefusjonEtikett = styled(Etikett)`
+    background: var(--speil-etikett-uts-background);
+    border: 1px solid var(--speil-etikett-uts-border);
+
+    :before {
+        content: 'DR';
+    }
+`;
+
 interface OppgaveetikettProps extends EtikettProps {
     type: Periodetype;
     tilstand?: Tidslinjetilstand;
@@ -132,6 +141,8 @@ export const Oppgaveetikett = ({ type, tilstand, størrelse = 'l' }: Oppgaveetik
             return <RiskQaEtikett størrelse={størrelse} />;
         case 'utbetalingTilSykmeldt':
             return <UtbetalingTilSykmeldtEtikett størrelse={størrelse} />;
+        case 'delvisRefusjon':
+            return <DelvisRefusjonEtikett størrelse={størrelse} />;
         case 'revurdering': {
             if (tilstand === 'revurderes') {
                 return <RevurderesEtikett størrelse={størrelse} />;

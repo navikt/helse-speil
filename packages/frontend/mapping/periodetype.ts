@@ -16,5 +16,7 @@ export const tilPeriodetype = (type: ExternalPeriodetype): Periodetype => {
             return 'fortroligAdresse';
         case 'UTBETALING_TIL_SYKMELDT':
             return 'utbetalingTilSykmeldt';
+        case 'DELVIS_REFUSJON':
+            return 'delvisRefusjon';
     }
 };
