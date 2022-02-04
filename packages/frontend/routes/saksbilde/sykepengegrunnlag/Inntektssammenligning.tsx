@@ -10,6 +10,7 @@ import { getKildeType, kilde } from '../../../utils/inntektskilde';
 import { somPenger } from '../../../utils/locale';
 
 import { EndringsloggInntektButton } from '../utbetaling/utbetalingstabell/EndringsloggInntektButton';
+import { Bag } from '@navikt/ds-icons';
 import { AnonymizableText } from '../../../components/anonymizable/AnonymizableText';
 
 const ArbeidsgiverRad = styled.tr<{ erGjeldende: boolean }>`
@@ -44,6 +45,16 @@ const InntektMedKilde = styled.div`
     }
 `;
 
+const Arbeidsgivernavn = styled.div`
+    display: flex;
+`;
+const BagIcon = styled(Bag)`
+    width: 20px;
+    min-width: 20px;
+    height: 20px;
+    margin-right: 15px;
+`;
+
 interface InntektssammenligningProps {
     organisasjonsnummer: string;
     omregnetÅrsinntekt: ExternalOmregnetÅrsinntekt | null;
@@ -65,7 +76,10 @@ export const Inntektssammenligning = ({
     return (
         <ArbeidsgiverRad erGjeldende={erGjeldende} onClick={onSetAktivInntektskilde}>
             <td>
-                <AnonymizableText>{arbeidsgivernavn}</AnonymizableText>
+                <Arbeidsgivernavn>
+                    <BagIcon data-tip="Arbeidsgiver" title="Arbeidsgiver" />
+                    <AnonymizableText>{arbeidsgivernavn}</AnonymizableText>
+                </Arbeidsgivernavn>
             </td>
             <td>
                 <InntektMedKilde>
