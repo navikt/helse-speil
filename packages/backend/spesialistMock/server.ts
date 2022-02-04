@@ -3,8 +3,10 @@ import dayjs from 'dayjs';
 import express, { Request, Response } from 'express';
 import { nanoid } from 'nanoid';
 
-import oppgaveFil from './__mock-data__/oppgaver.json';
-import { sleep } from './devHelpers';
+import { sleep } from '../devHelpers';
+import { setupGraphQLMiddleware } from './graphql';
+
+import oppgaveFil from '../__mock-data__/oppgaver.json';
 
 const app = express();
 const port = 9001;
@@ -226,5 +228,7 @@ app.get('/api/v1/oppgave', (_req: Request, res: Response) => {
         res.sendStatus(404);
     }
 });
+
+setupGraphQLMiddleware(app);
 
 app.listen(port, () => console.log(`Spesialist-mock kjører på port ${port}`));

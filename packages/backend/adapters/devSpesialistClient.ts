@@ -163,6 +163,9 @@ const filenameForPersonId = (id: string) => {
         case '2000000001337':
         case '30042213337':
             return 'bare_kevin_med_ghostpølser.json';
+        case '20087106951':
+        case '2478276105402':
+            return 'robust_tvilende_staude.json';
         default:
             throw new Error('Mangler oppsett i devSpesialistClient.ts');
     }

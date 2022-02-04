@@ -372,5 +372,34 @@
             "navn": "Bømlo"
         },
         "inntektskilde": "FLERE_ARBEIDSGIVERE"
+    },
+    {
+        "oppgavereferanse": "3107",
+        "oppgavetype": "SØKNAD",
+        "opprettet": "2022-01-31T15:23:03.819159",
+        "vedtaksperiodeId": "e5edcaf1-57e6-440b-9087-f35b563be0e2",
+        "personinfo": {
+            "fornavn": "ROBUST",
+            "mellomnavn": "TVILENDE",
+            "etternavn": "STAUDE",
+            "fødselsdato": "1971-08-20",
+            "kjønn": "Mann",
+            "adressebeskyttelse": "Ugradert"
+        },
+        "fødselsnummer": "20087106951",
+        "aktørId": "2478276105402",
+        "antallVarsler": 4,
+        "type": "FORLENGELSE",
+        "inntektskilde": "EN_ARBEIDSGIVER",
+        "boenhet": {
+            "id": "0393",
+            "navn": "NAV oppfølging utland"
+        },
+        "tildeling": {
+            "navn": "Ramthun, Stephen",
+            "epost": "Stephen.Ramthun@nav.no",
+            "oid": "a7cf35df-7e86-4eee-b6c1-5c60dd18462f",
+            "påVent": false
+        }
     }
 ]
