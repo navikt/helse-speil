@@ -4,11 +4,10 @@ import React from 'react';
 import { Bag, Expand, Next } from '@navikt/ds-icons';
 
 import { Flex, FlexColumn } from '../../../components/Flex';
-import { AnonymizableTextWithEllipsis, TextWithEllipsis } from '../../../components/TextWithEllipsis';
+import { AnonymizableTextWithEllipsis } from '../../../components/TextWithEllipsis';
 
 import { Tidslinjerad } from './Tidslinjerad';
 import { TidslinjeradObject } from './useTidslinjerader';
-import { AnonymizableContainer } from '../../../components/anonymizable/AnonymizableContainer';
 
 const Navn = styled.div`
     position: relative;
@@ -90,9 +89,7 @@ const EkspanderbarRad: React.FC<EkspanderbarRadProps> = ({ rader, navn, id, togg
             <IconContainer>{erEkspandert ? <Expand /> : <Next />}</IconContainer>
             <StyledBag title="Arbeidsgiver" />
             <Flex style={{ overflow: 'hidden' }}>
-                <TextWithEllipsis data-tip={navn}>
-                    <AnonymizableContainer>{navn}</AnonymizableContainer>
-                </TextWithEllipsis>
+                <AnonymizableTextWithEllipsis data-tip={navn}>{navn}</AnonymizableTextWithEllipsis>
             </Flex>
         </EkspanderbartNavn>
         {rader.length > 0 && (
