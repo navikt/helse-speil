@@ -80,11 +80,11 @@ export const Inntektskilderinnhold = ({ inntekt }: InntektskilderinnholdProps) =
         ? periodeTilGodkjenning.organisasjonsnummer
         : undefined;
 
-    const arbeidsforholdKanOverstyres =
+    const aktivtArbeidsforholdKanOverstyres =
         defaultOverstyrToggles.overstyrArbeidsforholdUtenSykefraværEnabled &&
         erArbeidsgiverUtenSykefravær &&
         periodeTilGodkjenning !== undefined;
-    const arbeidsforholdErDeaktivert = erArbeidsgiverUtenSykefravær
+    const aktivtArbeidsforholdErDeaktivert = erArbeidsgiverUtenSykefravær
         ? (aktivPeriode as TidslinjeperiodeUtenSykefravær).deaktivert
         : false;
 
@@ -124,8 +124,8 @@ export const Inntektskilderinnhold = ({ inntekt }: InntektskilderinnholdProps) =
                 organisasjonsnummer={inntekt.organisasjonsnummer}
                 organisasjonsnummerPeriodeTilGodkjenning={organisasjonsnummerPeriodeTilGodkjenning}
                 skjæringstidspunkt={skjæringstidspunkt}
-                arbeidsforholdErDeaktivert={arbeidsforholdErDeaktivert}
-                arbeidsforholdKanOverstyres={arbeidsforholdKanOverstyres}
+                arbeidsforholdErDeaktivert={aktivtArbeidsforholdErDeaktivert}
+                arbeidsforholdKanOverstyres={aktivtArbeidsforholdKanOverstyres}
             />
             <Tooltip effect="solid" />
         </Container>

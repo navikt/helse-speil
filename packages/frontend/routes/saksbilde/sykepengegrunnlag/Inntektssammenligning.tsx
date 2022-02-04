@@ -12,6 +12,8 @@ import { somPenger } from '../../../utils/locale';
 import { EndringsloggInntektButton } from '../utbetaling/utbetalingstabell/EndringsloggInntektButton';
 import { Bag } from '@navikt/ds-icons';
 import { AnonymizableText } from '../../../components/anonymizable/AnonymizableText';
+import { useArbeidsforholdErDeaktivert } from '../../../modell/arbeidsgiver';
+import { Errorikon } from '../../../components/ikoner/Errorikon';
 
 const ArbeidsgiverRad = styled.tr<{ erGjeldende: boolean }>`
     padding: 0.25rem;
@@ -55,6 +57,11 @@ const BagIcon = styled(Bag)`
     margin-right: 15px;
 `;
 
+const ErrorIcon = styled(Errorikon)`
+    min-width: 20px;
+    margin-right: 15px;
+`;
+
 interface InntektssammenligningProps {
     organisasjonsnummer: string;
     omregnetÅrsinntekt: ExternalOmregnetÅrsinntekt | null;
@@ -72,12 +79,17 @@ export const Inntektssammenligning = ({
 }: InntektssammenligningProps) => {
     const arbeidsgivernavn = useArbeidsgivernavn(organisasjonsnummer);
     const endringer = useEndringerForPeriode(organisasjonsnummer);
+    const arbeidsforholdErDeaktivert = useArbeidsforholdErDeaktivert(organisasjonsnummer);
 
     return (
         <ArbeidsgiverRad erGjeldende={erGjeldende} onClick={onSetAktivInntektskilde}>
             <td>
                 <Arbeidsgivernavn>
-                    <BagIcon data-tip="Arbeidsgiver" title="Arbeidsgiver" />
+                    {arbeidsforholdErDeaktivert ? (
+                        <ErrorIcon data-tip="Arbeidsgiver" />
+                    ) : (
+                        <BagIcon data-tip="Arbeidsgiver" title="Arbeidsgiver" />
+                    )}
                     <AnonymizableText>{arbeidsgivernavn}</AnonymizableText>
                 </Arbeidsgivernavn>
             </td>
