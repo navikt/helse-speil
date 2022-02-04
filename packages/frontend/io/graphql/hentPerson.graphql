@@ -1,0 +1,209 @@
+query HentPerson($fnr: String!) {
+    person(fnr: $fnr) {
+        fodselsnummer,
+        dodsdato,
+        enhet {
+            id,
+            navn
+        },
+        infotrygdutbetalinger {
+            organisasjonsnummer,
+            dagsats,
+            fom,
+            tom,
+            grad,
+            typetekst
+        },
+        inntektsgrunnlag {
+            avviksprosent,
+            grunnbelop,
+            inntekter {
+                arbeidsgiver,
+                omregnetArsinntekt {
+                    belop,
+                    inntektFraAOrdningen {
+                        maned,
+                        sum
+                    },
+                    kilde,
+                    manedsbelop
+                },
+                sammenligningsgrunnlag {
+                    inntektFraAOrdningen {
+                        sum,
+                        maned
+                    },
+                    belop
+                }
+            },
+            sammenligningsgrunnlag,
+            omregnetArsinntekt,
+            maksUtbetalingPerDag,
+            oppfyllerKravOmMinstelonn,
+            skjaeringstidspunkt,
+            sykepengegrunnlag
+        },
+        personinfo {
+            fornavn,
+            mellomnavn,
+            etternavn,
+            adressebeskyttelse,
+            fodselsdato,
+            kjonn,
+        },
+        tildeling {
+            navn,
+            epost,
+            oid,
+            reservert
+        },
+        versjon,
+        vilkarsgrunnlaghistorikk {
+            id,
+            grunnlag {
+                sykepengegrunnlag,
+                skjaeringstidspunkt,
+                omregnetArsinntekt,
+                sammenligningsgrunnlag,
+                inntekter {
+                    sammenligningsgrunnlag {
+                        belop,
+                        inntektFraAOrdningen {
+                            maned,
+                            sum
+                        }
+                    },
+                    omregnetArsinntekt {
+                        inntektFraAOrdningen {
+                            maned,
+                            sum
+                        },
+                        belop,
+                        manedsbelop,
+                        kilde
+                    },
+                    arbeidsgiver
+                },
+                vilkarsgrunnlagtype
+            }
+        },
+        aktorId
+        arbeidsgivere {
+            bransjer
+            navn
+            organisasjonsnummer
+            arbeidsforhold {
+                sluttdato
+                startdato
+                stillingsprosent
+                stillingstittel
+            }
+            generasjoner {
+                id
+                perioder {
+                    fom
+                    tom
+                    behandlingstype
+                    erForkastet
+                    inntektstype
+                    opprettet
+                    periodetype
+                    tidslinje {
+                        dato
+                        grad
+                        kilde {
+                            id,
+                            type
+                        }
+                        sykdomsdagtype
+                        utbetalingsdagtype
+                        utbetalingsinfo {
+                            arbeidsgiverbelop
+                            inntekt
+                            personbelop
+                            refusjonsbelop
+                            totalGrad
+                            utbetaling
+                        }
+                    }
+                    vedtaksperiodeId
+                    ... on UberegnetPeriode {
+                        id
+                    }
+                    ... on BeregnetPeriode {
+                        id,
+                        aktivitetslogg {
+                            alvorlighetsgrad
+                            melding
+                            tidsstempel
+                            vedtaksperiodeId
+                        }
+                        beregningId
+                        forbrukteSykedager
+                        gjenstaendeSykedager
+                        hendelser {
+                            id
+                            type
+                        }
+                        maksdato
+                        periodevilkar {
+                            alder {
+                                alderSisteSykedag
+                                oppfylt
+                            }
+                            soknadsfrist {
+                                oppfylt
+                                sendtNav
+                                soknadFom
+                                soknadTom
+                            }
+                            sykepengedager {
+                                forbrukteSykedager
+                                gjenstaendeSykedager
+                                maksdato
+                                oppfylt
+                                skjaeringstidspunkt
+                            }
+                        }
+                        risikovurdering {
+                            funn {
+                                beskrivelse
+                                kategori
+                            }
+                            kontrollertOk {
+                                beskrivelse
+                                kategori
+                            }
+                        }
+                        skjaeringstidspunkt
+                        utbetaling {
+                            arbeidsgiverFagsystemId
+                            arbeidsgiverNettoBelop
+                            personFagsystemId
+                            personNettoBelop
+                            status
+                            type
+                            vurdering {
+                                automatisk
+                                godkjent
+                                ident
+                                tidsstempel
+                            }
+                        }
+                        varsler
+                        vilkarsgrunnlaghistorikkId
+                    }
+                }
+            }
+            overstyringer {
+                begrunnelse
+                hendelseId
+                saksbehandler {
+                    ident
+                    navn
+                }
+                timestamp
+            }
+        }
+    }
+}

@@ -1,0 +1,14 @@
+overwrite: true
+schema: "https://spesialist.dev.intern.nav.no/graphql"
+documents: "./packages/frontend/io/graphql/**/*.graphql"
+generates:
+  ./packages/frontend/io/graphql/generated/graphql.ts:
+    plugins:
+      - "typescript"
+      - "typescript-operations"
+  ./packages/frontend/graphql.schema.json:
+    plugins:
+      - "introspection"
+  ./packages/backend/graphql.schema.json:
+    plugins:
+      - "introspection"
