@@ -57,7 +57,7 @@ export const utbetalingstidslinje = (utbetaling: UtbetalingshistorikkElement, fo
 
 export const erRevurderingsperiode = (periode: TidslinjeperiodeMedSykefravær) => periode.type === 'REVURDERING';
 
-export const useMaksdato = (beregningId: string | undefined) => useUtbetaling(beregningId)?.maksdato;
+export const useMaksdato = (beregningId: string) => useUtbetaling(beregningId)?.maksdato;
 
 export const useGjenståendeDager = (beregningId: string): number | null =>
     useUtbetaling(beregningId)?.gjenståendeDager ?? null;

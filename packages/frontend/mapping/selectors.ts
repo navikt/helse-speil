@@ -1,5 +1,4 @@
 import dayjs, { Dayjs } from 'dayjs';
-import { useVilkårsgrunnlaghistorikk } from '../state/person';
 
 const trimLedendeArbeidsdager = (sykdomstidslinje: Dag[]): Dag[] => {
     const førsteIkkearbeidsdag = sykdomstidslinje.findIndex((dag) => dag.type !== 'Arbeidsdag') ?? 0;
@@ -45,12 +44,9 @@ export const sisteValgbarePeriode = (person: Person): Vedtaksperiode | undefined
 
 export const getAlderVedSisteSykedag = (
     fødselsdato: string,
-    periode: TidslinjeperiodeMedSykefravær | TidslinjeperiodeUtenSykefravær
+    periode: TidslinjeperiodeMedSykefravær
 ): number | undefined => {
-    if (periode.tilstand === 'utenSykefravær') {
-        return undefined;
-    }
-    const sykedager = (periode as TidslinjeperiodeMedSykefravær).utbetalingstidslinje.filter((it) => it.type === 'Syk');
+    const sykedager = periode.utbetalingstidslinje.filter((it) => it.type === 'Syk');
 
     if (sykedager.length < 1) return undefined;
     return sykedager

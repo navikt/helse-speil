@@ -25,10 +25,7 @@ export const SaksbildeFullstendigPeriodeMedSykefravær = ({
     aktivPeriode,
 }: SaksbildeFullstendigPeriodeMedSykefraværProps) => {
     const { path } = useRouteMatch();
-    const beregningId =
-        aktivPeriode.tilstand === 'utenSykefravær'
-            ? undefined
-            : (aktivPeriode as TidslinjeperiodeMedSykefravær).beregningId;
+    const beregningId = aktivPeriode.beregningId;
 
     const vedtaksperiode = useVedtaksperiode(aktivPeriode.id) as Vedtaksperiode;
     const oppgavereferanse = useOppgavereferanse(beregningId);

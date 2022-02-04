@@ -287,10 +287,6 @@ export const Utbetaling: React.FC<UtbetalingProps> = React.memo(({ periode, over
         periode: periode,
     });
 
-    if (periode.tilstand === 'utenSykefravær') {
-        throw Error('Har ikke utbetalinger for periode uten sykefravær.');
-    }
-
     return (revurderingIsEnabled || overstyringIsEnabled || overstyrRevurderingIsEnabled) &&
         erAktivPeriodeISisteSkjæringstidspunkt ? (
         <OverstyrbarUtbetaling
