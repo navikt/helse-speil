@@ -95,8 +95,10 @@ export const Inntektssammenligning = ({
             </td>
             <td>
                 <InntektMedKilde>
-                    <BodyShort>{omregnetÅrsinntekt ? somPenger(omregnetÅrsinntekt.beløp) : 'Ukjent'}</BodyShort>
-                    {omregnetÅrsinntekt?.kilde === 'Saksbehandler' ? (
+                    {!arbeidsforholdErDeaktivert && (
+                        <BodyShort>{omregnetÅrsinntekt ? somPenger(omregnetÅrsinntekt.beløp) : 'Ukjent'}</BodyShort>
+                    )}
+                    {omregnetÅrsinntekt?.kilde === 'Saksbehandler' || arbeidsforholdErDeaktivert ? (
                         <EndringsloggInntektButton
                             endringer={endringer.filter((it) => it.type === 'Inntekt') as ExternalInntektoverstyring[]}
                         />
