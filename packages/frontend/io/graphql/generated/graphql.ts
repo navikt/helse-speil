@@ -502,11 +502,11 @@ export type Vurdering = {
     tidsstempel: Scalars['String'];
 };
 
-export type HentPersonQueryVariables = Exact<{
+export type FetchPersonQueryVariables = Exact<{
     fnr: Scalars['String'];
 }>;
 
-export type HentPersonQuery = {
+export type FetchPersonQuery = {
     __typename?: 'Query';
     person?: {
         __typename?: 'Person';

@@ -24,7 +24,8 @@
         "baseUrl": "",
         "paths": {
             "test-data": ["./test/data"],
-            "@test-wrappers": ["./test/wrappers"]
+            "@test-wrappers": ["./test/wrappers"],
+            "@io/graphql": ["./io/graphql"]
         }
     },
     "exclude": ["./node_modules", "jest.config.js", "__mocks__"],

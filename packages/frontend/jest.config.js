@@ -15,6 +15,7 @@ module.exports = {
         'nav-(.*)-style': '<rootDir>/__mocks__/fileMock.js',
         'test-data': '<rootDir>/test/data',
         '@test-wrappers': '<rootDir>/test/wrappers',
+        '@io/graphql': '<rootDir>/io/graphql',
         '@navikt/ds-icons(.*)': '@navikt/ds-icons/cjs$1',
         '@navikt/ds-react(.*)': '@navikt/ds-react/cjs$1',
         '@navikt/ds-css(.*)': '<rootDir>/__mocks__/styleMock.js',

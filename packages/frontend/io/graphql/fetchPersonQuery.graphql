@@ -1,4 +1,4 @@
-query HentPerson($fnr: String!) {
+query FetchPerson($fnr: String!) {
     person(fnr: $fnr) {
         fodselsnummer,
         dodsdato,
