@@ -5,7 +5,14 @@ import { useNotaterForVedtaksperiode } from '../../../state/notater';
 import { useMaybeAktivPeriode, useVedtaksperiode } from '../../../state/tidslinje';
 
 import { Hendelse, Hendelsetype } from './Historikk.types';
-import { useDokumenter, useInntektendringer, useNotater, useTidslinjeendringer, useUtbetalinger } from './mapping';
+import {
+    useArbeidsforholdendringer,
+    useDokumenter,
+    useInntektendringer,
+    useNotater,
+    useTidslinjeendringer,
+    useUtbetalinger,
+} from './mapping';
 
 const historikkState = atom<Hendelse[]>({
     key: 'historikkState',
@@ -40,12 +47,14 @@ type UseOppdaterHistorikkOptions = {
     onClickNotat: () => void;
     onClickTidslinjeendring: (overstyring: Overstyring) => void;
     onClickInntektendring: (overstyring: ExternalInntektoverstyring) => void;
+    onClickArbeidsforholdendring: (overstyring: ExternalArbeidsforholdoverstyring) => void;
 };
 
 export const useOppdaterHistorikk = ({
     onClickNotat,
     onClickTidslinjeendring,
     onClickInntektendring,
+    onClickArbeidsforholdendring,
 }: UseOppdaterHistorikkOptions) => {
     const setHistorikk = useSetRecoilState(historikkState);
     const aktivPeriode = useMaybeAktivPeriode();
@@ -57,15 +66,16 @@ export const useOppdaterHistorikk = ({
     const utbetalinger = useUtbetalinger(aktivPeriode);
     const tidslinjeendringer = useTidslinjeendringer(onClickTidslinjeendring, vedtaksperiode);
     const inntektoverstyringer = useInntektendringer(onClickInntektendring);
+    const arbeidsforholdoverstyringer = useArbeidsforholdendringer(onClickArbeidsforholdendring);
 
     useEffect(() => {
+        if (!aktivPeriode) return;
         setHistorikk(
-            [...dokumenter, ...tidslinjeendringer, ...inntektoverstyringer]
-                .filter(
-                    (it) =>
-                        !aktivPeriode ||
-                        (aktivPeriode.tilstand !== 'utenSykefravær' &&
-                            it.timestamp?.isSameOrBefore((aktivPeriode as TidslinjeperiodeMedSykefravær).opprettet))
+            [...dokumenter, ...tidslinjeendringer, ...inntektoverstyringer, ...arbeidsforholdoverstyringer]
+                .filter((it) =>
+                    aktivPeriode.tilstand !== 'utenSykefravær'
+                        ? it.timestamp?.isSameOrBefore((aktivPeriode as TidslinjeperiodeMedSykefravær).opprettet)
+                        : true
                 )
                 .concat(utbetalinger)
                 .concat(notater)

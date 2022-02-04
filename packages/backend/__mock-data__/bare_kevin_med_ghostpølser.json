@@ -1358,7 +1358,21 @@
             "id": "ee423480-e205-4f68-b5f3-f1f5129a2724",
             "navn": "SURFESKOLEN",
             "vedtaksperioder": [],
-            "overstyringer": [],
+            "overstyringer": [
+                {
+                    "begrunnelse": "begrunnelse",
+                    "hendelseId": "d538fcf5-6f7e-42a8-b28e-d4192044c0c4",
+                    "overstyrtArbeidsforhold": {
+                        "forklaring": "dsds",
+                        "deaktivert": true,
+                        "skjæringstidspunkt": "2021-08-01"
+                    },
+                    "saksbehandlerIdent": "U160607",
+                    "saksbehandlerNavn": "Ullern, Simen",
+                    "timestamp": "2022-02-03T09:38:51.6319",
+                    "type": "Arbeidsforhold"
+                }
+            ],
             "bransjer": [],
             "utbetalingshistorikk": [],
             "ghostPerioder": [

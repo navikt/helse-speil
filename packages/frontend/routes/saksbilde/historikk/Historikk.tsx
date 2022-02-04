@@ -4,6 +4,7 @@ import React, { useLayoutEffect, useState } from 'react';
 import { CloseButton } from '../../../components/CloseButton';
 import { EndringsloggOverstyrtInntekt } from '../../../components/EndringsloggOverstyrtInntekt';
 import { EndringsloggOverstyrteDager } from '../../../components/EndringsloggOverstyrteDager';
+import { EndringsloggOverstyrtArbeidsforhold } from '../../../components/EndringsloggOverstyrtArbeidsforhold';
 import { useNotaterForVedtaksperiode } from '../../../state/notater';
 
 import { NotatListeModal } from '../../oversikt/table/rader/notat/NotatListeModal';
@@ -48,6 +49,7 @@ export const Historikk = React.memo(({ vedtaksperiodeId, tildeling, personinfo }
 
     const [endring, setEndring] = useState<Overstyring | null>(null);
     const [inntektendring, setInntektendring] = useState<ExternalInntektoverstyring | null>(null);
+    const [arbeidsforholdendring, setArbeidsforholdendring] = useState<ExternalArbeidsforholdoverstyring | null>(null);
 
     useLayoutEffect(() => {
         if (showHistorikk) {
@@ -61,6 +63,7 @@ export const Historikk = React.memo(({ vedtaksperiodeId, tildeling, personinfo }
         onClickNotat: () => setShowNotatListeModal(true),
         onClickTidslinjeendring: setEndring,
         onClickInntektendring: setInntektendring,
+        onClickArbeidsforholdendring: setArbeidsforholdendring,
     });
 
     const tittel = Hendelsetype[filter] === 'Dokument' ? 'DOKUMENTER' : 'HISTORIKK';
@@ -116,6 +119,23 @@ export const Historikk = React.memo(({ vedtaksperiodeId, tildeling, personinfo }
                     ]}
                     isOpen={inntektendring !== null}
                     onRequestClose={() => setInntektendring(null)}
+                />
+            )}
+            {arbeidsforholdendring && (
+                <EndringsloggOverstyrtArbeidsforhold
+                    endringer={[
+                        {
+                            skjæringstidspunkt: arbeidsforholdendring.overstyrtArbeidsforhold.skjæringstidspunkt,
+                            deaktivert: arbeidsforholdendring.overstyrtArbeidsforhold.deaktivert,
+                            forklaring: arbeidsforholdendring.overstyrtArbeidsforhold.forklaring,
+                            begrunnelse: arbeidsforholdendring.begrunnelse,
+                            saksbehandlerIdent:
+                                arbeidsforholdendring.saksbehandlerIdent ?? arbeidsforholdendring.saksbehandlerNavn,
+                            timestamp: arbeidsforholdendring.timestamp,
+                        },
+                    ]}
+                    isOpen={arbeidsforholdendring !== null}
+                    onRequestClose={() => setArbeidsforholdendring(null)}
                 />
             )}
         </>

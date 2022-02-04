@@ -137,6 +137,36 @@ export const useInntektendringer = (onClickEndring: (overstyring: ExternalInntek
     }));
 };
 
+export const useArbeidsforholdendringer = (
+    onClickEndring: (overstyring: ExternalArbeidsforholdoverstyring) => void
+): Hendelse[] => {
+    const organisasjonsnummer = useOrganisasjonsnummer();
+    const arbeidsgiver = usePerson()!.arbeidsgivereV2.find((it) => it.organisasjonsnummer === organisasjonsnummer);
+
+    if (!arbeidsgiver) {
+        throw Error(`Fant ikke arbeidsgiver med organisasjonsnummer ${organisasjonsnummer}`);
+    }
+
+    const arbeidsforholdoverstyringer = arbeidsgiver.overstyringer.filter(
+        (it) => it.type === 'Arbeidsforhold'
+    ) as ExternalArbeidsforholdoverstyring[];
+    return arbeidsforholdoverstyringer.map((it) => ({
+        id: it.hendelseId,
+        timestamp: dayjs(it.timestamp),
+        title: (
+            <LinkButton onClick={() => onClickEndring(it)}>
+                {it.overstyrtArbeidsforhold.deaktivert ? 'Brukes ikke i beregningen' : 'Brukes i beregningen'}
+            </LinkButton>
+        ),
+        type: Hendelsetype.Historikk,
+        body: (
+            <BegrunnelseTekst>
+                <p>{it.saksbehandlerIdent ?? it.saksbehandlerNavn}</p>
+            </BegrunnelseTekst>
+        ),
+    }));
+};
+
 export const useNotater = (notater: Notat[], onClickNotat: () => void): Hendelse[] =>
     useMemo(
         () =>

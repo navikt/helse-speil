@@ -315,7 +315,7 @@ declare type ExternalOverstyringsdag = {
 };
 
 declare type ExternalOverstyring = {
-    type: 'Inntekt' | 'Dager'; // TODO: arbeidsforhold
+    type: 'Inntekt' | 'Dager' | 'Arbeidsforhold';
     hendelseId: string;
     begrunnelse: string;
     saksbehandlerNavn: string;
@@ -333,6 +333,15 @@ declare type ExternalInntektoverstyring = ExternalOverstyring & {
     overstyrtInntekt: {
         forklaring: string;
         månedligInntekt: number;
+        skjæringstidspunkt: DateString;
+    };
+};
+
+declare type ExternalArbeidsforholdoverstyring = ExternalOverstyring & {
+    type: 'Arbeidsforhold';
+    overstyrtArbeidsforhold: {
+        forklaring: string;
+        deaktivert: boolean;
         skjæringstidspunkt: DateString;
     };
 };

@@ -3245,7 +3245,34 @@
                     }
                 }
             ],
-            "overstyringer": [],
+            "overstyringer": [
+                {
+                    "begrunnelse": "begrunnelse",
+                    "hendelseId": "d538fcf5-6f7e-42a8-b28e-d4192044c0c4",
+                    "overstyrtArbeidsforhold": {
+                        "forklaring": "Test",
+                        "deaktivert": true,
+                        "skjæringstidspunkt": "2021-08-01"
+                    },
+                    "saksbehandlerIdent": "U160607",
+                    "saksbehandlerNavn": "Ullern, Simen",
+                    "timestamp": "2021-07-30T09:38:51.6319",
+                    "type": "Arbeidsforhold"
+                },
+                {
+                    "begrunnelse": "begrunnelse",
+                    "hendelseId": "d538fcf5-6f7e-42a8-b28e-d4192044c0c4",
+                    "overstyrtArbeidsforhold": {
+                        "forklaring": "Trykket feil",
+                        "deaktivert": false,
+                        "skjæringstidspunkt": "2021-08-01"
+                    },
+                    "saksbehandlerIdent": "U160607",
+                    "saksbehandlerNavn": "Ullern, Simen",
+                    "timestamp": "2021-07-30T09:40:51.6319",
+                    "type": "Arbeidsforhold"
+                }
+            ],
             "bransjer": [],
             "utbetalingshistorikk": [
                 {
@@ -6371,7 +6398,21 @@
                 }
             ],
             "generasjoner": null,
-            "overstyringer": [],
+            "overstyringer": [
+                {
+                    "begrunnelse": "begrunnelse",
+                    "hendelseId": "d538fcf5-6f7e-42a8-b28e-d4192044c0c4",
+                    "overstyrtArbeidsforhold": {
+                        "forklaring": "dsds",
+                        "deaktivert": true,
+                        "skjæringstidspunkt": "2021-08-01"
+                    },
+                    "saksbehandlerIdent": "U160607",
+                    "saksbehandlerNavn": "Ullern, Simen",
+                    "timestamp": "2021-07-28T09:38:51.6319",
+                    "type": "Arbeidsforhold"
+                }
+            ],
             "bransjer": []
         }
     ],
