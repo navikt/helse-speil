@@ -34,7 +34,7 @@ export const EndringsloggOverstyrtArbeidsforhold: React.FC<EndringsloggOverstyrt
         <thead>
             <tr>
                 <th>Dato</th>
-                <th>Arbeidsforhold skal inngå i beregning</th>
+                <th />
                 <th>Skjæringstidspunkt</th>
                 <th>Begrunnelse</th>
                 <th>Forklaring</th>
@@ -47,7 +47,7 @@ export const EndringsloggOverstyrtArbeidsforhold: React.FC<EndringsloggOverstyrt
                 .map((it, i) => (
                     <tr key={i}>
                         <td>{dayjs(it.timestamp).format(NORSK_DATOFORMAT)}</td>
-                        <td>{it.deaktivert ? 'Skal ikke inngå' : 'Skal inngå'}</td>
+                        <td>{it.deaktivert ? 'Brukes ikke i beregningen' : 'Brukes i beregningen'}</td>
                         <td>{dayjs(it.skjæringstidspunkt).format(NORSK_DATOFORMAT)}</td>
                         <td>
                             <Begrunnelse as="p">{it.begrunnelse}</Begrunnelse>
