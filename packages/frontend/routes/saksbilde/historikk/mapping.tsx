@@ -117,25 +117,32 @@ export const useTidslinjeendringer = (
 export const useInntektendringer = (onClickEndring: (overstyring: ExternalInntektoverstyring) => void): Hendelse[] => {
     const organisasjonsnummer = useOrganisasjonsnummer();
     const arbeidsgiver = usePerson()!.arbeidsgivereV2.find((it) => it.organisasjonsnummer === organisasjonsnummer);
+    const aktivPeriode = useAktivPeriode();
 
     if (!arbeidsgiver) {
         throw Error(`Fant ikke arbeidsgiver med organisasjonsnummer ${organisasjonsnummer}`);
     }
 
+    if (!aktivPeriode.skjæringstidspunkt) {
+        throw Error(`Fant ikke periode for skjæringstidspunkt ${aktivPeriode.skjæringstidspunkt}`);
+    }
+
     const inntektoverstyringer = arbeidsgiver.overstyringer.filter(
         (it) => it.type === 'Inntekt'
     ) as ExternalInntektoverstyring[];
-    return inntektoverstyringer.map((it) => ({
-        id: it.hendelseId,
-        timestamp: dayjs(it.timestamp),
-        title: <LinkButton onClick={() => onClickEndring(it)}>Endret inntekt</LinkButton>,
-        type: Hendelsetype.Historikk,
-        body: (
-            <BegrunnelseTekst>
-                <p>{it.saksbehandlerIdent ?? it.saksbehandlerNavn}</p>
-            </BegrunnelseTekst>
-        ),
-    }));
+    return inntektoverstyringer
+        .filter((it) => it.overstyrtInntekt.skjæringstidspunkt === aktivPeriode.skjæringstidspunkt)
+        .map((it) => ({
+            id: it.hendelseId,
+            timestamp: dayjs(it.timestamp),
+            title: <LinkButton onClick={() => onClickEndring(it)}>Endret inntekt</LinkButton>,
+            type: Hendelsetype.Historikk,
+            body: (
+                <BegrunnelseTekst>
+                    <p>{it.saksbehandlerIdent ?? it.saksbehandlerNavn}</p>
+                </BegrunnelseTekst>
+            ),
+        }));
 };
 
 export const useArbeidsforholdendringer = (
