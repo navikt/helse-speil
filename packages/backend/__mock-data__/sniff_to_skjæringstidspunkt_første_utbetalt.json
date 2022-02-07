@@ -174,7 +174,7 @@
                             "totalGrad": 100
                         },
                         {
-                            "type": "NavDag",
+                            "type": "Arbeidsdag",
                             "inntekt": 1777,
                             "dato": "2021-08-24",
                             "utbetaling": 1777,
@@ -182,7 +182,7 @@
                             "totalGrad": 100
                         },
                         {
-                            "type": "NavDag",
+                            "type": "Arbeidsdag",
                             "inntekt": 1777,
                             "dato": "2021-08-25",
                             "utbetaling": 1777,
@@ -437,7 +437,7 @@
                         },
                         {
                             "dagen": "2021-08-24",
-                            "type": "SYKEDAG",
+                            "type": "ARBEIDSDAG",
                             "kilde": {
                                 "type": "Søknad",
                                 "kildeId": "75be49ce-d027-4d7e-bff0-fc3ace7f1ae0"
@@ -446,7 +446,7 @@
                         },
                         {
                             "dagen": "2021-08-25",
-                            "type": "SYKEDAG",
+                            "type": "ARBEIDSDAG",
                             "kilde": {
                                 "type": "Søknad",
                                 "kildeId": "75be49ce-d027-4d7e-bff0-fc3ace7f1ae0"
@@ -678,7 +678,7 @@
                                 "totalGrad": 100
                             },
                             {
-                                "type": "NavDag",
+                                "type": "Arbeidsdag",
                                 "inntekt": 1777,
                                 "dato": "2021-08-24",
                                 "utbetaling": 1777,
@@ -686,7 +686,7 @@
                                 "totalGrad": 100
                             },
                             {
-                                "type": "NavDag",
+                                "type": "Arbeidsdag",
                                 "inntekt": 1777,
                                 "dato": "2021-08-25",
                                 "utbetaling": 1777,
@@ -1733,7 +1733,7 @@
                         },
                         {
                             "dagen": "2021-08-24",
-                            "type": "SYKEDAG",
+                            "type": "ARBEIDSDAG",
                             "kilde": {
                                 "type": "Søknad",
                                 "kildeId": "75be49ce-d027-4d7e-bff0-fc3ace7f1ae0"
@@ -1742,7 +1742,7 @@
                         },
                         {
                             "dagen": "2021-08-25",
-                            "type": "SYKEDAG",
+                            "type": "ARBEIDSDAG",
                             "kilde": {
                                 "type": "Søknad",
                                 "kildeId": "75be49ce-d027-4d7e-bff0-fc3ace7f1ae0"
@@ -2546,7 +2546,7 @@
                                 "begrunnelser": null
                             },
                             {
-                                "type": "NavDag",
+                                "type": "Arbeidsdag",
                                 "inntekt": 1777,
                                 "dato": "2021-08-24",
                                 "utbetaling": 1777,
@@ -2555,7 +2555,7 @@
                                 "begrunnelser": null
                             },
                             {
-                                "type": "NavDag",
+                                "type": "Arbeidsdag",
                                 "inntekt": 1777,
                                 "dato": "2021-08-25",
                                 "utbetaling": 1777,
@@ -3214,7 +3214,7 @@
                         },
                         {
                             "dagen": "2021-08-24",
-                            "type": "SYKEDAG",
+                            "type": "ARBEIDSDAG",
                             "kilde": {
                                 "type": "Søknad",
                                 "kildeId": "75be49ce-d027-4d7e-bff0-fc3ace7f1ae0"
@@ -3223,7 +3223,7 @@
                         },
                         {
                             "dagen": "2021-08-25",
-                            "type": "SYKEDAG",
+                            "type": "ARBEIDSDAG",
                             "kilde": {
                                 "type": "Søknad",
                                 "kildeId": "75be49ce-d027-4d7e-bff0-fc3ace7f1ae0"
@@ -3595,7 +3595,7 @@
                                 "begrunnelser": null
                             },
                             {
-                                "type": "NavDag",
+                                "type": "Arbeidsdag",
                                 "inntekt": 1777,
                                 "dato": "2021-08-24",
                                 "utbetaling": 1777,
@@ -3604,7 +3604,7 @@
                                 "begrunnelser": null
                             },
                             {
-                                "type": "NavDag",
+                                "type": "Arbeidsdag",
                                 "inntekt": 1777,
                                 "dato": "2021-08-25",
                                 "utbetaling": 1777,
@@ -4411,8 +4411,8 @@
                                 },
                                 {
                                     "dagen": "2021-08-24",
-                                    "sykdomstidslinjedagtype": "SYKEDAG",
-                                    "utbetalingstidslinjedagtype": "NavDag",
+                                    "sykdomstidslinjedagtype": "ARBEIDSDAG",
+                                    "utbetalingstidslinjedagtype": "Arbeidsdag",
                                     "kilde": {
                                         "type": "Søknad",
                                         "id": "75be49ce-d027-4d7e-bff0-fc3ace7f1ae0"
@@ -4427,8 +4427,8 @@
                                 },
                                 {
                                     "dagen": "2021-08-25",
-                                    "sykdomstidslinjedagtype": "SYKEDAG",
-                                    "utbetalingstidslinjedagtype": "NavDag",
+                                    "sykdomstidslinjedagtype": "ARBEIDSDAG",
+                                    "utbetalingstidslinjedagtype": "Arbeidsdag",
                                     "kilde": {
                                         "type": "Søknad",
                                         "id": "75be49ce-d027-4d7e-bff0-fc3ace7f1ae0"

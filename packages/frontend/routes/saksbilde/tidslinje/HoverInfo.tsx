@@ -30,6 +30,12 @@ export const tilPeriodeTekst = (utbetalingstidslinje: Utbetalingsdag[], dagtype:
     return periodetekst(antallDager, split);
 };
 
+const førsteArbeidsdag = (utbetalingstidslinje: Utbetalingsdag[]): string | undefined => {
+    return utbetalingstidslinje
+        .find((utbetalingsdag) => utbetalingsdag.type === 'Arbeidsdag')
+        ?.dato.format(NORSK_DATOFORMAT);
+};
+
 const splitPerioderPåDagtype = (utbetalingstidslinje: Utbetalingsdag[], dagtype: Dag['type']): Periode[] => {
     let resultat: Periode[] = [];
     let påbegyntPeriode: Dayjs | undefined;
@@ -149,6 +155,7 @@ export const HoverInfo = ({ tidslinjeperiode }: HoverInfoProps) => {
     const utbetaltPerson = utbetalingstidslinje.reduce((sum, dag) => sum + (dag.personbeløp ?? 0), 0);
     const ferieperiode = tilPeriodeTekst(utbetalingstidslinje, 'Ferie');
     const avslåttperiode = tilPeriodeTekst(utbetalingstidslinje, 'Avslått');
+    const tilbakeIArbeidFra = førsteArbeidsdag(utbetalingstidslinje);
     const permisjonsperiode = tilPeriodeTekst(utbetalingstidslinje, 'Permisjon');
     return (
         <Container>
@@ -221,6 +228,12 @@ export const HoverInfo = ({ tidslinjeperiode }: HoverInfoProps) => {
                 <Linje>
                     <LinjeFelt as="p">Permisjon: </LinjeFelt>
                     <LinjeVerdi as="p">{permisjonsperiode} </LinjeVerdi>
+                </Linje>
+            )}
+            {tilbakeIArbeidFra && (
+                <Linje>
+                    <LinjeFelt as="p">Tilbake i arbeid fra: </LinjeFelt>
+                    <LinjeVerdi as="p">{tilbakeIArbeidFra} </LinjeVerdi>
                 </Linje>
             )}
             {gjenståendeDager !== null && (
