@@ -4,6 +4,13 @@ import { useMaybeAktivPeriode } from '../state/tidslinje';
 export const useArbeidsforhold = (organisasjonsnummer: string): ExternalArbeidsforhold[] =>
     usePerson()?.arbeidsforhold.filter((it) => it.organisasjonsnummer === organisasjonsnummer) ?? [];
 
+export const useHarDeaktiverArbeidsforholdFor = (organisasjonsnummer: string, skjæringstidspunkt: string) =>
+    usePerson()
+        ?.arbeidsgivere?.find((arbeidsgiver) => arbeidsgiver.organisasjonsnummer === organisasjonsnummer)
+        ?.tidslinjeperioderUtenSykefravær.some(
+            (periode) => periode.skjæringstidspunkt === skjæringstidspunkt && periode.deaktivert
+        ) ?? false;
+
 const arbeidsgiverErDeaktivertFor = (
     arbeidsgiver: Arbeidsgiver,
     skjæringstidspunkt: string,

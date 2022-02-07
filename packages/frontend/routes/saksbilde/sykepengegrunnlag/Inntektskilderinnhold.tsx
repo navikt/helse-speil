@@ -16,7 +16,7 @@ import { defaultOverstyrToggles } from '../../../featureToggles';
 import { useAktivPeriode, useMaybePeriodeTilGodkjenning } from '../../../state/tidslinje';
 import { AnonymizableText } from '../../../components/anonymizable/AnonymizableText';
 import { AnonymizableContainer } from '../../../components/anonymizable/AnonymizableContainer';
-import { useArbeidsforhold } from '../../../modell/arbeidsgiver';
+import { useArbeidsforhold, useHarDeaktiverArbeidsforholdFor } from '../../../modell/arbeidsgiver';
 
 const Container = styled(FlexColumn)`
     padding-right: 2rem;
@@ -73,20 +73,22 @@ export const Inntektskilderinnhold = ({ inntekt }: InntektskilderinnholdProps) =
     const arbeidsforhold = useArbeidsforhold(inntekt.organisasjonsnummer);
 
     const aktivPeriode = useAktivPeriode();
-    const erArbeidsgiverUtenSykefravær = aktivPeriode.tilstand === 'utenSykefravær';
+    const harDeaktivertArbeidsforhold = useHarDeaktiverArbeidsforholdFor(
+        inntekt.organisasjonsnummer,
+        aktivPeriode.skjæringstidspunkt!
+    );
+
     const skjæringstidspunkt = aktivPeriode.skjæringstidspunkt!;
     const periodeTilGodkjenning = useMaybePeriodeTilGodkjenning(skjæringstidspunkt);
     const organisasjonsnummerPeriodeTilGodkjenning = periodeTilGodkjenning
         ? periodeTilGodkjenning.organisasjonsnummer
         : undefined;
 
-    const aktivtArbeidsforholdKanOverstyres =
+    const arbeidsforholdKanOverstyres =
         defaultOverstyrToggles.overstyrArbeidsforholdUtenSykefraværEnabled &&
-        erArbeidsgiverUtenSykefravær &&
+        aktivPeriode.organisasjonsnummer === inntekt.organisasjonsnummer &&
+        aktivPeriode.tilstand === 'utenSykefravær' &&
         periodeTilGodkjenning !== undefined;
-    const aktivtArbeidsforholdErDeaktivert = erArbeidsgiverUtenSykefravær
-        ? (aktivPeriode as TidslinjeperiodeUtenSykefravær).deaktivert
-        : false;
 
     return (
         <Container>
@@ -124,8 +126,8 @@ export const Inntektskilderinnhold = ({ inntekt }: InntektskilderinnholdProps) =
                 organisasjonsnummer={inntekt.organisasjonsnummer}
                 organisasjonsnummerPeriodeTilGodkjenning={organisasjonsnummerPeriodeTilGodkjenning}
                 skjæringstidspunkt={skjæringstidspunkt}
-                arbeidsforholdErDeaktivert={aktivtArbeidsforholdErDeaktivert}
-                arbeidsforholdKanOverstyres={aktivtArbeidsforholdKanOverstyres}
+                arbeidsforholdErDeaktivert={harDeaktivertArbeidsforhold}
+                arbeidsforholdKanOverstyres={arbeidsforholdKanOverstyres}
             />
             <Tooltip effect="solid" />
         </Container>

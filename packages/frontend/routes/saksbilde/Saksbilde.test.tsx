@@ -19,6 +19,7 @@ import Saksbilde from './Saksbilde';
 import { mappetPerson } from '../../test/data';
 import { umappetGhostPeriode } from '../../test/data/ghostPeriode';
 import { testBeregningId, testVilkårsgrunnlagHistorikkId, umappetPerson } from '../../test/data/person';
+import { organisasjonsnummerForPeriode } from '../../mapping/selectors';
 
 jest.mock('../../hooks/useRefreshPersonVedUrlEndring', () => ({
     useRefreshPersonVedUrlEndring: () => {},
@@ -212,7 +213,9 @@ describe('Saksbilde', () => {
                             'UTBETALING',
                             'IKKE_UTBETALT'
                         ),
-                    ]
+                    ],
+                    [],
+                    '123456789'
                 ),
 
                 umappetArbeidsgiver(
