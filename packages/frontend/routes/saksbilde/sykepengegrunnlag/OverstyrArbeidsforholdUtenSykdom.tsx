@@ -171,10 +171,10 @@ const OverstyrArbeidsforholdSkjema = ({
     const { isLoading, error, timedOut, setTimedOut, postOverstyring } = usePostOverstyrtArbeidsforhold(onClose);
 
     const begrunnelser = [
-        'Arbeidsforholdet er ikke aktivt på skjæringstidspunktet',
-        'Alternativ 2',
-        'Alternativ 3',
-        'Alternativ 4',
+        '§ 8-15 - Avbrudd mer enn 14 dager (generell)',
+        '§ 8-15 - Avbrudd mer enn 14 dager (tilkallingsvikar/sporadiske vakter)',
+        '§ 8-15 - Arbeidsforhold opphørt',
+        'Annet',
     ];
 
     const confirmChanges = () => {
