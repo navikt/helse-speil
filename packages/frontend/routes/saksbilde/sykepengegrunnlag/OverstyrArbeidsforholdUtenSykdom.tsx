@@ -105,6 +105,7 @@ export const OverstyrArbeidsforholdUtenSykdom = ({
     arbeidsforholdErDeaktivert,
 }: OverstyrArbeidsforholdUtenSykdomProps) => {
     const [editing, setEditing] = useState(false);
+    const [angreButtonIsVisible, setAngreButtonIsVisible] = useState(arbeidsforholdErDeaktivert);
 
     const tittel = arbeidsforholdErDeaktivert
         ? 'Bruk inntekten i beregningen likevel'
@@ -118,13 +119,15 @@ export const OverstyrArbeidsforholdUtenSykdom = ({
                         <Tittel as="h1">{tittel}</Tittel>
                     </Flex>
                 )}
-                {arbeidsforholdErDeaktivert ? (
+                {angreButtonIsVisible && (
                     <AngreOverstyrArbeidsforholdUtenSykdom
                         organisasjonsnummerAktivPeriode={organisasjonsnummerAktivPeriode}
                         organisasjonsnummerPeriodeTilGodkjenning={organisasjonsnummerPeriodeTilGodkjenning}
                         skjæringstidspunkt={skjæringstidspunkt}
+                        setIsVisible={setAngreButtonIsVisible}
                     />
-                ) : (
+                )}
+                {!arbeidsforholdErDeaktivert && (
                     <EditButton
                         isOpen={editing}
                         openText="Avbryt"
@@ -212,7 +215,7 @@ const OverstyrArbeidsforholdSkjema = ({
                             Ferdig
                             {isLoading && <Loader size="xsmall" />}
                         </FormButton>
-                        <FormButton as="button" variant="tertiary" onClick={onClose}>
+                        <FormButton as="button" disabled={isLoading} variant="tertiary" onClick={onClose}>
                             Avbryt
                         </FormButton>
                     </Buttons>

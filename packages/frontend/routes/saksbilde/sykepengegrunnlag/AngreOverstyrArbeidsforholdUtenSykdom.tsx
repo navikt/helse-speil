@@ -1,12 +1,13 @@
 import styled from '@emotion/styled';
 import { Button } from '../../../components/Button';
-import React from 'react';
+import React, { SetStateAction } from 'react';
 import { useGetOverstyrtArbeidsforhold, usePostOverstyrtArbeidsforhold } from './OverstyrArbeidsforholdHooks';
 
 interface AngreOverstyrArbeidsforholdUtenSykdomProps {
     organisasjonsnummerAktivPeriode: string;
     organisasjonsnummerPeriodeTilGodkjenning: string;
     skjæringstidspunkt: string;
+    setIsVisible: React.Dispatch<SetStateAction<boolean>>;
 }
 
 const AngreButton = styled(Button)`
@@ -34,6 +35,7 @@ export const AngreOverstyrArbeidsforholdUtenSykdom = ({
     organisasjonsnummerAktivPeriode,
     organisasjonsnummerPeriodeTilGodkjenning,
     skjæringstidspunkt,
+    setIsVisible,
 }: AngreOverstyrArbeidsforholdUtenSykdomProps) => {
     const getOverstyrtArbeidsforhold = useGetOverstyrtArbeidsforhold();
     const { postOverstyring } = usePostOverstyrtArbeidsforhold();
@@ -47,7 +49,13 @@ export const AngreOverstyrArbeidsforholdUtenSykdom = ({
     );
 
     return (
-        <AngreButton as="button" onClick={() => postOverstyring(overstyrtArbeidsforhold)}>
+        <AngreButton
+            as="button"
+            onClick={() => {
+                setIsVisible(false);
+                postOverstyring(overstyrtArbeidsforhold);
+            }}
+        >
             <UndoIcon />
             Bruk inntekten i beregningen likevel
         </AngreButton>
