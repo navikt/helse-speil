@@ -1360,12 +1360,12 @@
             "vedtaksperioder": [],
             "overstyringer": [
                 {
-                    "begrunnelse": "begrunnelse",
+                    "begrunnelse": "§ 8-15 - Avbrudd mer enn 14 dager (tilkallingsvikar/sporadiske vakter)",
                     "hendelseId": "d538fcf5-6f7e-42a8-b28e-d4192044c0c4",
                     "overstyrtArbeidsforhold": {
-                        "forklaring": "dsds",
+                        "forklaring": "Kevin har aldri og kommer aldri til å jobbe...",
                         "deaktivert": true,
-                        "skjæringstidspunkt": "2021-08-01"
+                        "skjæringstidspunkt": "2021-07-04"
                     },
                     "saksbehandlerIdent": "U160607",
                     "saksbehandlerNavn": "Ullern, Simen",

@@ -9,6 +9,7 @@ import { LinkButton } from '../../../components/LinkButton';
 import { useOrganisasjonsnummer, usePerson } from '../../../state/person';
 
 import { Hendelse, Hendelsetype } from './Historikk.types';
+import { useAktivPeriode } from '../../../state/tidslinje';
 
 const BegrunnelseTekst = styled.div`
     margin-top: 0.25rem;
@@ -142,29 +143,36 @@ export const useArbeidsforholdendringer = (
 ): Hendelse[] => {
     const organisasjonsnummer = useOrganisasjonsnummer();
     const arbeidsgiver = usePerson()!.arbeidsgivereV2.find((it) => it.organisasjonsnummer === organisasjonsnummer);
+    const aktivPeriode = useAktivPeriode();
 
     if (!arbeidsgiver) {
         throw Error(`Fant ikke arbeidsgiver med organisasjonsnummer ${organisasjonsnummer}`);
     }
 
+    if (!aktivPeriode.skjæringstidspunkt) {
+        throw Error(`Fant ikke periode med skjæringstidspunkt ${aktivPeriode.skjæringstidspunkt}`);
+    }
+
     const arbeidsforholdoverstyringer = arbeidsgiver.overstyringer.filter(
         (it) => it.type === 'Arbeidsforhold'
     ) as ExternalArbeidsforholdoverstyring[];
-    return arbeidsforholdoverstyringer.map((it) => ({
-        id: it.hendelseId,
-        timestamp: dayjs(it.timestamp),
-        title: (
-            <LinkButton onClick={() => onClickEndring(it)}>
-                {it.overstyrtArbeidsforhold.deaktivert ? 'Brukes ikke i beregningen' : 'Brukes i beregningen'}
-            </LinkButton>
-        ),
-        type: Hendelsetype.Historikk,
-        body: (
-            <BegrunnelseTekst>
-                <p>{it.saksbehandlerIdent ?? it.saksbehandlerNavn}</p>
-            </BegrunnelseTekst>
-        ),
-    }));
+    return arbeidsforholdoverstyringer
+        .filter((it) => it.overstyrtArbeidsforhold.skjæringstidspunkt === aktivPeriode.skjæringstidspunkt)
+        .map((it) => ({
+            id: it.hendelseId,
+            timestamp: dayjs(it.timestamp),
+            title: (
+                <LinkButton onClick={() => onClickEndring(it)}>
+                    {it.overstyrtArbeidsforhold.deaktivert ? 'Brukes ikke i beregningen' : 'Brukes i beregningen'}
+                </LinkButton>
+            ),
+            type: Hendelsetype.Historikk,
+            body: (
+                <BegrunnelseTekst>
+                    <p>{it.saksbehandlerIdent ?? it.saksbehandlerNavn}</p>
+                </BegrunnelseTekst>
+            ),
+        }));
 };
 
 export const useNotater = (notater: Notat[], onClickNotat: () => void): Hendelse[] =>
