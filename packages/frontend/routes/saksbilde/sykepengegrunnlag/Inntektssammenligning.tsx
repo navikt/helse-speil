@@ -9,7 +9,7 @@ import { useArbeidsgivernavn, useEndringerForPeriode } from '../../../state/pers
 import { getKildeType, kilde } from '../../../utils/inntektskilde';
 import { somPenger } from '../../../utils/locale';
 
-import { EndringsloggInntektButton } from '../utbetaling/utbetalingstabell/EndringsloggInntektButton';
+import { EndringsloggInntektEllerArbeidsforholdButton } from '../utbetaling/utbetalingstabell/EndringsloggInntektEllerArbeidsforholdButton';
 import { Bag } from '@navikt/ds-icons';
 import { AnonymizableText } from '../../../components/anonymizable/AnonymizableText';
 import { useArbeidsforholdErDeaktivert } from '../../../modell/arbeidsgiver';
@@ -78,7 +78,8 @@ export const Inntektssammenligning = ({
     onSetAktivInntektskilde,
 }: InntektssammenligningProps) => {
     const arbeidsgivernavn = useArbeidsgivernavn(organisasjonsnummer);
-    const endringer = useEndringerForPeriode(organisasjonsnummer);
+    const { inntektsendringer, arbeidsforholdendringer } = useEndringerForPeriode(organisasjonsnummer);
+
     const arbeidsforholdErDeaktivert = useArbeidsforholdErDeaktivert(organisasjonsnummer);
 
     return (
@@ -99,8 +100,9 @@ export const Inntektssammenligning = ({
                         <BodyShort>{omregnetÅrsinntekt ? somPenger(omregnetÅrsinntekt.beløp) : 'Ukjent'}</BodyShort>
                     )}
                     {omregnetÅrsinntekt?.kilde === 'Saksbehandler' || arbeidsforholdErDeaktivert ? (
-                        <EndringsloggInntektButton
-                            endringer={endringer.filter((it) => it.type === 'Inntekt') as ExternalInntektoverstyring[]}
+                        <EndringsloggInntektEllerArbeidsforholdButton
+                            arbeidsforholdendringer={arbeidsforholdendringer}
+                            inntektsendringer={inntektsendringer}
                         />
                     ) : (
                         omregnetÅrsinntekt && (

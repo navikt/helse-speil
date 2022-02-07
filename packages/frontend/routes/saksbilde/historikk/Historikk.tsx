@@ -2,9 +2,8 @@ import styled from '@emotion/styled';
 import React, { useLayoutEffect, useState } from 'react';
 
 import { CloseButton } from '../../../components/CloseButton';
-import { EndringsloggOverstyrtInntekt } from '../../../components/EndringsloggOverstyrtInntekt';
+import { EndringsloggOverstyrtInntektEllerArbeidsforhold } from '../../../components/EndringsloggOverstyrtInntektEllerArbeidsforhold';
 import { EndringsloggOverstyrteDager } from '../../../components/EndringsloggOverstyrteDager';
-import { EndringsloggOverstyrtArbeidsforhold } from '../../../components/EndringsloggOverstyrtArbeidsforhold';
 import { useNotaterForVedtaksperiode } from '../../../state/notater';
 
 import { NotatListeModal } from '../../oversikt/table/rader/notat/NotatListeModal';
@@ -105,37 +104,48 @@ export const Historikk = React.memo(({ vedtaksperiodeId, tildeling, personinfo }
                 isOpen={endring !== null}
                 onRequestClose={() => setEndring(null)}
             />
-            {inntektendring && (
-                <EndringsloggOverstyrtInntekt
-                    endringer={[
-                        {
-                            skjæringstidspunkt: inntektendring.overstyrtInntekt.skjæringstidspunkt,
-                            månedligInntekt: inntektendring.overstyrtInntekt.månedligInntekt,
-                            forklaring: inntektendring.overstyrtInntekt.forklaring,
-                            begrunnelse: inntektendring.begrunnelse,
-                            saksbehandlerIdent: inntektendring.saksbehandlerIdent ?? inntektendring.saksbehandlerNavn,
-                            timestamp: inntektendring.timestamp,
-                        },
-                    ]}
-                    isOpen={inntektendring !== null}
-                    onRequestClose={() => setInntektendring(null)}
-                />
-            )}
-            {arbeidsforholdendring && (
-                <EndringsloggOverstyrtArbeidsforhold
-                    endringer={[
-                        {
-                            skjæringstidspunkt: arbeidsforholdendring.overstyrtArbeidsforhold.skjæringstidspunkt,
-                            deaktivert: arbeidsforholdendring.overstyrtArbeidsforhold.deaktivert,
-                            forklaring: arbeidsforholdendring.overstyrtArbeidsforhold.forklaring,
-                            begrunnelse: arbeidsforholdendring.begrunnelse,
-                            saksbehandlerIdent:
-                                arbeidsforholdendring.saksbehandlerIdent ?? arbeidsforholdendring.saksbehandlerNavn,
-                            timestamp: arbeidsforholdendring.timestamp,
-                        },
-                    ]}
-                    isOpen={arbeidsforholdendring !== null}
-                    onRequestClose={() => setArbeidsforholdendring(null)}
+
+            {(inntektendring || arbeidsforholdendring) && (
+                <EndringsloggOverstyrtInntektEllerArbeidsforhold
+                    inntektsendringer={
+                        inntektendring
+                            ? [
+                                  {
+                                      skjæringstidspunkt: inntektendring.overstyrtInntekt.skjæringstidspunkt,
+                                      månedligInntekt: inntektendring.overstyrtInntekt.månedligInntekt,
+                                      forklaring: inntektendring.overstyrtInntekt.forklaring,
+                                      begrunnelse: inntektendring.begrunnelse,
+                                      saksbehandlerIdent:
+                                          inntektendring.saksbehandlerIdent ?? inntektendring.saksbehandlerNavn,
+                                      timestamp: inntektendring.timestamp,
+                                      type: 'Inntekt',
+                                  },
+                              ]
+                            : []
+                    }
+                    arbeidsforholdendringer={
+                        arbeidsforholdendring
+                            ? [
+                                  {
+                                      skjæringstidspunkt:
+                                          arbeidsforholdendring.overstyrtArbeidsforhold.skjæringstidspunkt,
+                                      deaktivert: arbeidsforholdendring.overstyrtArbeidsforhold.deaktivert,
+                                      forklaring: arbeidsforholdendring.overstyrtArbeidsforhold.forklaring,
+                                      begrunnelse: arbeidsforholdendring.begrunnelse,
+                                      saksbehandlerIdent:
+                                          arbeidsforholdendring.saksbehandlerIdent ??
+                                          arbeidsforholdendring.saksbehandlerNavn,
+                                      timestamp: arbeidsforholdendring.timestamp,
+                                      type: 'Arbeidsforhold',
+                                  },
+                              ]
+                            : []
+                    }
+                    isOpen={inntektendring !== null || arbeidsforholdendring !== null}
+                    onRequestClose={() => {
+                        setInntektendring(null);
+                        setArbeidsforholdendring(null);
+                    }}
                 />
             )}
         </>

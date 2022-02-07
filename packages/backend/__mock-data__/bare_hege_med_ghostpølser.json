@@ -3261,7 +3261,7 @@
                 },
                 {
                     "begrunnelse": "Saksbehandler har angret den forrige overstyringen som deaktiverte arbeidsforholdet",
-                    "hendelseId": "d538fcf5-6f7e-42a8-b28e-d4192044c0c4",
+                    "hendelseId": "d538fcf5-6f7e-42a8-b28e-d4192044c0b4",
                     "overstyrtArbeidsforhold": {
                         "forklaring": "Saksbehandler har angret den forrige overstyringen som deaktiverte arbeidsforholdet",
                         "deaktivert": false,
@@ -6401,7 +6401,7 @@
             "overstyringer": [
                 {
                     "begrunnelse": "begrunnelse",
-                    "hendelseId": "d538fcf5-6f7e-42a8-b28e-d4192044c0c4",
+                    "hendelseId": "d538fcf5-633e-42a8-b28e-d4192044c0c4",
                     "overstyrtArbeidsforhold": {
                         "forklaring": "dsds",
                         "deaktivert": true,

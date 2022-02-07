@@ -23,7 +23,7 @@ import { useAktivPeriode } from '../../../../state/tidslinje';
 import { getKildeType, kilde } from '../../../../utils/inntektskilde';
 
 import { overstyrInntektEnabled } from '../../../../featureToggles';
-import { EndringsloggInntektButton } from '../../utbetaling/utbetalingstabell/EndringsloggInntektButton';
+import { EndringsloggInntektEllerArbeidsforholdButton } from '../../utbetaling/utbetalingstabell/EndringsloggInntektEllerArbeidsforholdButton';
 import { EditableInntekt } from './EditableInntekt';
 import { ReadOnlyInntekt } from './ReadOnlyInntekt';
 import { OverstyrArbeidsforholdUtenSykdom } from '../OverstyrArbeidsforholdUtenSykdom';
@@ -170,7 +170,7 @@ export const Inntekt = ({
     const [editing, setEditing] = useState(false);
     const [endret, setEndret] = useState(false);
 
-    const endringer = useEndringerForPeriode(organisasjonsnummer);
+    const { inntektsendringer, arbeidsforholdendringer } = useEndringerForPeriode(organisasjonsnummer);
     return (
         <Container editing={editing} inntektDeaktivert={arbeidsforholdErDeaktivert}>
             {arbeidsforholdErDeaktivert && <DeaktivertPille>Brukes ikke i beregningen</DeaktivertPille>}
@@ -178,8 +178,9 @@ export const Inntekt = ({
                 <Flex alignItems="center">
                     <Tittel as="h1">Beregnet månedsinntekt</Tittel>
                     {endret || omregnetÅrsinntekt?.kilde === 'Saksbehandler' ? (
-                        <EndringsloggInntektButton
-                            endringer={endringer.filter((it) => it.type === 'Inntekt') as ExternalInntektoverstyring[]}
+                        <EndringsloggInntektEllerArbeidsforholdButton
+                            inntektsendringer={inntektsendringer}
+                            arbeidsforholdendringer={arbeidsforholdendringer}
                         />
                     ) : (
                         <Kilde type={getKildeType(omregnetÅrsinntekt?.kilde)}>{kilde(omregnetÅrsinntekt?.kilde)}</Kilde>

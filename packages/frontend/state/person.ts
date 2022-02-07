@@ -307,17 +307,33 @@ const useEndringer = (organisasjonsnummer: string): ExternalOverstyring[] => {
     return arbeidsgiver.overstyringer;
 };
 
-export const useEndringerForPeriode = (organisasjonsnummer: string): ExternalOverstyring[] => {
+export const useEndringerForPeriode = (
+    organisasjonsnummer: string
+): {
+    inntektsendringer: ExternalInntektoverstyring[];
+    arbeidsforholdendringer: ExternalArbeidsforholdoverstyring[];
+    dagendringer: ExternalTidslinjeoverstyring[];
+} => {
     const endringer = useEndringer(organisasjonsnummer);
     const periode = useAktivPeriode();
 
     if (periode.tilstand === 'utenSykefravær') {
-        return [];
+        const arbeidsforhold = endringer
+            .filter((it) => dayjs(periode.skjæringstidspunkt).isSameOrBefore(it.timestamp))
+            .filter((it) => it.type === 'Arbeidsforhold') as ExternalArbeidsforholdoverstyring[];
+
+        return { inntektsendringer: [], arbeidsforholdendringer: arbeidsforhold, dagendringer: [] };
     }
 
-    return endringer.filter((it) =>
-        dayjs(it.timestamp).isSameOrBefore((periode as TidslinjeperiodeMedSykefravær).opprettet)
-    );
+    const inntekter = endringer
+        .filter((it) => dayjs(it.timestamp).isSameOrBefore((periode as TidslinjeperiodeMedSykefravær).opprettet))
+        .filter((it) => it.type === 'Inntekt') as ExternalInntektoverstyring[];
+
+    const dager = endringer
+        .filter((it) => dayjs(it.timestamp).isSameOrBefore((periode as TidslinjeperiodeMedSykefravær).opprettet))
+        .filter((it) => it.type === 'Dager') as ExternalTidslinjeoverstyring[];
+
+    return { inntektsendringer: inntekter, arbeidsforholdendringer: [], dagendringer: dager };
 };
 
 export const useArbeidsgivernavn = (organisasjonsnummer: string): string => {
