@@ -374,6 +374,29 @@
         "inntektskilde": "FLERE_ARBEIDSGIVERE"
     },
     {
+        "oppgavereferanse": "bare_simen",
+        "opprettet": "2021-12-11T09:00:00.100",
+        "aktørId": "2000000000042",
+        "fødselsnummer": "17058413337",
+        "personinfo": {
+            "fornavn": "BARE",
+            "mellomnavn": null,
+            "etternavn": "SIMEN",
+            "fødselsdato": "1814-05-17",
+            "kjønn": "Ukjent",
+            "adressebeskyttelse": "Ugradert"
+        },
+        "vedtaksperiodeId": "98260fc1-cd7d-4e82-b0d4-8c1a37603126",
+        "type": "FØRSTEGANGSBEHANDLING",
+        "oppgavetype": "SØKNAD",
+        "antallVarsler": 0,
+        "boenhet": {
+            "id": "1120",
+            "navn": "Bømlo"
+        },
+        "inntektskilde": "FLERE_ARBEIDSGIVERE"
+    },
+    {
         "oppgavereferanse": "3107",
         "oppgavetype": "SØKNAD",
         "opprettet": "2022-01-31T15:23:03.819159",
