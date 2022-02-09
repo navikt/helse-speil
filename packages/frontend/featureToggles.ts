@@ -230,6 +230,9 @@ export const flereArbeidsgivere =
     harTilgangTilAlt() ||
     erFaktiskSupportsaksbehandler() ||
     harTilgangFlereArbeidsgivere();
+export const utbetalingTilSykmeldt =
+    erLocal() || erDev() || erUtvikler() || erProdukteier() || harTilgangTilAlt() || erFaktiskSupportsaksbehandler();
+
 export const kanFrigiAndresOppgaver = harTilgangTilAlt() || erLocal() || erDev();
 
 export const graphqlplayground = erLocal() || erDev() || erUtvikler();

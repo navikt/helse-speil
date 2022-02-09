@@ -1,6 +1,7 @@
 import { atom, selector, useRecoilValue, useSetRecoilState } from 'recoil';
 
 import { tabState, TabType } from '../../tabs';
+import { utbetalingTilSykmeldt } from '../../../../featureToggles';
 
 export type Filter<T> = {
     label: string;
@@ -81,7 +82,19 @@ const defaultFilters: Filter<Oppgave>[] = [
         function: (oppgave: Oppgave) => oppgave.periodetype === 'fortroligAdresse',
         column: 1,
     },
-];
+    {
+        label: 'Utb. sykmeldt',
+        active: false,
+        function: (oppgave: Oppgave) => oppgave.periodetype === 'utbetalingTilSykmeldt',
+        column: 1,
+    },
+    {
+        label: 'Delvis refusjon',
+        active: false,
+        function: (oppgave: Oppgave) => oppgave.periodetype === 'delvisRefusjon',
+        column: 1,
+    },
+].filter((item) => utbetalingTilSykmeldt || (item.label != 'Utb. sykmeldt' && item.label != 'Delvis refusjon'));
 
 const makeFilterActive = (targetFilterLabel: string) => (it: Filter<Oppgave>) =>
     it.label === targetFilterLabel ? { ...it, active: true } : it;

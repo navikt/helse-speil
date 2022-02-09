@@ -3,7 +3,7 @@ import { atom, selector, useRecoilValue, useRecoilValueLoadable, useSetRecoilSta
 import { deletePåVent, deleteTildeling, getOppgaver, postLeggPåVent, postTildeling } from '../io/http';
 import { tilOppgave } from '../mapping/oppgaver/oppgaver';
 
-import { flereArbeidsgivere, stikkprøve } from '../featureToggles';
+import { flereArbeidsgivere, stikkprøve, utbetalingTilSykmeldt } from '../featureToggles';
 import { useInnloggetSaksbehandler } from './authentication';
 import { useAddVarsel, useRemoveVarsel } from './varsler';
 
@@ -61,6 +61,11 @@ export const oppgaverState = selector<Oppgave[]>({
         return oppgaver
             .filter((oppgave) => stikkprøve || oppgave.periodetype != 'stikkprøve')
             .filter((oppgave) => flereArbeidsgivere || oppgave.inntektskilde != 'FLERE_ARBEIDSGIVERE')
+            .filter(
+                (oppgave) =>
+                    utbetalingTilSykmeldt ||
+                    (oppgave.periodetype != 'utbetalingTilSykmeldt' && oppgave.periodetype != 'delvisRefusjon')
+            )
             .map((oppgave) => ({ ...oppgave, tildeling: tildelinger[oppgave.oppgavereferanse] }));
     },
 });
