@@ -20,6 +20,7 @@ import { useKeyboardShortcuts } from './useKeyboardShortcuts';
 import { Utbetalingshistorikk } from './utbetalingshistorikk/Utbetalingshistorikk';
 import { Varsel } from '../../components/Varsel';
 import { AmplitudeProvider } from './AmplitudeContext';
+import { VenterPåEndringProvider } from './VenterPåEndringContext';
 
 const Container = styled.div`
     --content-width: calc(100% - var(--speil-venstremeny-width) - var(--speil-hoyremeny-width));
@@ -69,28 +70,30 @@ const SaksbildeContent = React.memo(() => {
             <Tidslinje person={personTilBehandling} />
             {aktivPeriode ? (
                 <AmplitudeProvider>
-                    <Sakslinje aktivPeriode={aktivPeriode} />
-                    <Switch>
-                        <Route path={`${path}/utbetalingshistorikk`}>
-                            <Utbetalingshistorikk person={personTilBehandling} />
-                        </Route>
-                        <Route>
-                            {aktivPeriode.fullstendig ? (
-                                <ErrorBoundary
-                                    fallback={(error) => (
-                                        <Saksbildevarsel variant="feil">{error.message}</Saksbildevarsel>
-                                    )}
-                                >
-                                    <SaksbildeFullstendigPeriode
-                                        personTilBehandling={personTilBehandling}
-                                        aktivPeriode={aktivPeriode}
-                                    />
-                                </ErrorBoundary>
-                            ) : (
-                                <SaksbildeUfullstendigPeriode aktivPeriode={aktivPeriode} />
-                            )}
-                        </Route>
-                    </Switch>
+                    <VenterPåEndringProvider>
+                        <Sakslinje aktivPeriode={aktivPeriode} />
+                        <Switch>
+                            <Route path={`${path}/utbetalingshistorikk`}>
+                                <Utbetalingshistorikk person={personTilBehandling} />
+                            </Route>
+                            <Route>
+                                {aktivPeriode.fullstendig ? (
+                                    <ErrorBoundary
+                                        fallback={(error) => (
+                                            <Saksbildevarsel variant="feil">{error.message}</Saksbildevarsel>
+                                        )}
+                                    >
+                                        <SaksbildeFullstendigPeriode
+                                            personTilBehandling={personTilBehandling}
+                                            aktivPeriode={aktivPeriode}
+                                        />
+                                    </ErrorBoundary>
+                                ) : (
+                                    <SaksbildeUfullstendigPeriode aktivPeriode={aktivPeriode} />
+                                )}
+                            </Route>
+                        </Switch>
+                    </VenterPåEndringProvider>
                 </AmplitudeProvider>
             ) : (
                 <TomtSaksbilde />

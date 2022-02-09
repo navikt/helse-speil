@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useContext, useRef, useState } from 'react';
 import { EditButton } from '../../../components/EditButton';
 import { Error } from '@navikt/ds-icons';
 import { FormProvider, useForm } from 'react-hook-form';
@@ -12,6 +12,7 @@ import { ErrorMessage } from '../../../components/ErrorMessage';
 import { OverstyringTimeoutModal } from '../../../components/OverstyringTimeoutModal';
 import { AngreOverstyrArbeidsforholdUtenSykdom } from './AngreOverstyrArbeidsforholdUtenSykdom';
 import { useGetOverstyrtArbeidsforhold, usePostOverstyrtArbeidsforhold } from './OverstyrArbeidsforholdHooks';
+import { VenterPåEndringContext } from '../VenterPåEndringContext';
 import { Button } from '../../../components/Button';
 
 const Container = styled.div`
@@ -115,6 +116,11 @@ export const OverstyrArbeidsforholdUtenSykdom = ({
         ? 'Bruk inntekten i beregningen likevel'
         : 'Ikke bruk inntekten i beregning';
 
+    const { venterPåEndringState, oppdaterVenterPåEndringState } = useContext(VenterPåEndringContext);
+
+    const skalViseAngreknapp = venterPåEndringState.visAngreknapp && arbeidsforholdErDeaktivert;
+    const skalViseOverstyr = venterPåEndringState.visOverstyrKnapp && !arbeidsforholdErDeaktivert;
+
     return (
         <FormContainer editing={editing}>
             <Header>
@@ -123,13 +129,15 @@ export const OverstyrArbeidsforholdUtenSykdom = ({
                         <Tittel as="h1">{tittel}</Tittel>
                     </Flex>
                 )}
-                {arbeidsforholdErDeaktivert ? (
+                {skalViseAngreknapp && (
                     <AngreOverstyrArbeidsforholdUtenSykdom
                         organisasjonsnummerAktivPeriode={organisasjonsnummerAktivPeriode}
                         organisasjonsnummerPeriodeTilGodkjenning={organisasjonsnummerPeriodeTilGodkjenning}
                         skjæringstidspunkt={skjæringstidspunkt}
+                        onClick={() => oppdaterVenterPåEndringState({ visAngreknapp: false, visOverstyrKnapp: true })}
                     />
-                ) : (
+                )}
+                {skalViseOverstyr && (
                     <EditButtonContainer
                         isOpen={editing}
                         openText="Avbryt"
@@ -148,6 +156,7 @@ export const OverstyrArbeidsforholdUtenSykdom = ({
                     organisasjonsnummerPeriodeTilGodkjenning={organisasjonsnummerPeriodeTilGodkjenning}
                     skjæringstidspunkt={skjæringstidspunkt}
                     arbeidsforholdErDeaktivert={arbeidsforholdErDeaktivert}
+                    onSubmit={() => oppdaterVenterPåEndringState({ visAngreknapp: true, visOverstyrKnapp: false })}
                 />
             )}
         </FormContainer>
@@ -160,6 +169,7 @@ interface OverstyrArbeidsforholdSkjemaProps {
     organisasjonsnummerPeriodeTilGodkjenning: string;
     skjæringstidspunkt: string;
     arbeidsforholdErDeaktivert: boolean;
+    onSubmit: () => void;
 }
 
 const OverstyrArbeidsforholdSkjema = ({
@@ -168,6 +178,7 @@ const OverstyrArbeidsforholdSkjema = ({
     organisasjonsnummerPeriodeTilGodkjenning,
     skjæringstidspunkt,
     arbeidsforholdErDeaktivert,
+    onSubmit,
 }: OverstyrArbeidsforholdSkjemaProps) => {
     const form = useForm({ shouldFocusError: false, mode: 'onBlur' });
     const feiloppsummeringRef = useRef<HTMLDivElement>(null);
@@ -192,6 +203,7 @@ const OverstyrArbeidsforholdSkjema = ({
             skjæringstidspunkt,
             arbeidsforholdErDeaktivert
         );
+        onSubmit();
         postOverstyring(overstyrtArbeidsforhold);
     };
 

@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import { Button } from '../../../components/Button';
-import React, { SetStateAction } from 'react';
+import React from 'react';
 import { useGetOverstyrtArbeidsforhold, usePostOverstyrtArbeidsforhold } from './OverstyrArbeidsforholdHooks';
 import { OverstyringTimeoutModal } from '../../../components/OverstyringTimeoutModal';
 
@@ -8,6 +8,7 @@ interface AngreOverstyrArbeidsforholdUtenSykdomProps {
     organisasjonsnummerAktivPeriode: string;
     organisasjonsnummerPeriodeTilGodkjenning: string;
     skjæringstidspunkt: string;
+    onClick: () => void;
 }
 
 const AngreButton = styled(Button)`
@@ -35,9 +36,10 @@ export const AngreOverstyrArbeidsforholdUtenSykdom = ({
     organisasjonsnummerAktivPeriode,
     organisasjonsnummerPeriodeTilGodkjenning,
     skjæringstidspunkt,
+    onClick,
 }: AngreOverstyrArbeidsforholdUtenSykdomProps) => {
     const getOverstyrtArbeidsforhold = useGetOverstyrtArbeidsforhold();
-    const { postOverstyring, isLoading, timedOut, setTimedOut } = usePostOverstyrtArbeidsforhold();
+    const { postOverstyring, timedOut, setTimedOut } = usePostOverstyrtArbeidsforhold();
     const overstyrtArbeidsforhold = getOverstyrtArbeidsforhold(
         'Angret å ikke bruke det i beregningen',
         'Angret å ikke bruke det i beregningen',
@@ -46,20 +48,18 @@ export const AngreOverstyrArbeidsforholdUtenSykdom = ({
         skjæringstidspunkt,
         true
     );
-
     return (
         <>
-            {!isLoading && (
-                <AngreButton
-                    as="button"
-                    onClick={() => {
-                        postOverstyring(overstyrtArbeidsforhold);
-                    }}
-                >
-                    <UndoIcon />
-                    Bruk inntekten i beregningen likevel
-                </AngreButton>
-            )}
+            <AngreButton
+                as="button"
+                onClick={() => {
+                    onClick();
+                    postOverstyring(overstyrtArbeidsforhold);
+                }}
+            >
+                <UndoIcon />
+                Bruk inntekten i beregningen likevel
+            </AngreButton>
             {timedOut && <OverstyringTimeoutModal onRequestClose={() => setTimedOut(false)} />}
         </>
     );

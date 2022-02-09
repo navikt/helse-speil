@@ -1363,8 +1363,8 @@
                     "begrunnelse": "§ 8-15 - Avbrudd mer enn 14 dager (tilkallingsvikar/sporadiske vakter)",
                     "hendelseId": "d538fcf5-6f7e-42a8-b28e-d4192044c0c4",
                     "overstyrtArbeidsforhold": {
-                        "forklaring": "Kevin har aldri og kommer aldri til å jobbe...",
-                        "deaktivert": true,
+                        "forklaring": "Avbrudd mer enn 14 dager",
+                        "deaktivert": false,
                         "skjæringstidspunkt": "2021-07-04"
                     },
                     "saksbehandlerIdent": "U160607",
