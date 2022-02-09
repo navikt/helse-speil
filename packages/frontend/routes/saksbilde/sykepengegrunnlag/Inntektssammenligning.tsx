@@ -55,11 +55,18 @@ const BagIcon = styled(Bag)`
     min-width: 20px;
     height: 20px;
     margin-right: 15px;
+    position: relative;
+    top: 3px;
 `;
 
 const ErrorIcon = styled(Errorikon)`
     min-width: 20px;
     margin-right: 15px;
+    position: relative;
+    top: 3px;
+`;
+const Loky = styled(AnonymizableText)`
+    margin-top: 3px;
 `;
 
 interface InntektssammenligningProps {
@@ -91,7 +98,7 @@ export const Inntektssammenligning = ({
                     ) : (
                         <BagIcon data-tip="Arbeidsgiver" title="Arbeidsgiver" />
                     )}
-                    <AnonymizableText>{arbeidsgivernavn}</AnonymizableText>
+                    <Loky>{arbeidsgivernavn}</Loky>
                 </Arbeidsgivernavn>
             </td>
             <td>
