@@ -329,11 +329,15 @@ export const useEndringerForPeriode = (
         .filter((it) => dayjs(it.timestamp).isSameOrBefore((periode as TidslinjeperiodeMedSykefravær).opprettet))
         .filter((it) => it.type === 'Inntekt') as ExternalInntektoverstyring[];
 
+    const arbeidsforhold = endringer
+        .filter((it) => dayjs(periode.skjæringstidspunkt).isSameOrBefore(it.timestamp))
+        .filter((it) => it.type === 'Arbeidsforhold') as ExternalArbeidsforholdoverstyring[];
+
     const dager = endringer
         .filter((it) => dayjs(it.timestamp).isSameOrBefore((periode as TidslinjeperiodeMedSykefravær).opprettet))
         .filter((it) => it.type === 'Dager') as ExternalTidslinjeoverstyring[];
 
-    return { inntektsendringer: inntekter, arbeidsforholdendringer: [], dagendringer: dager };
+    return { inntektsendringer: inntekter, arbeidsforholdendringer: arbeidsforhold, dagendringer: dager };
 };
 
 export const useArbeidsgivernavn = (organisasjonsnummer: string): string => {
