@@ -15,6 +15,7 @@ import { useAktivPeriode, useMaybePeriodeTilGodkjenning } from '../../../state/t
 import { AnonymizableText } from '../../../components/anonymizable/AnonymizableText';
 import { AnonymizableContainer } from '../../../components/anonymizable/AnonymizableContainer';
 import { useArbeidsforhold, useHarDeaktiverArbeidsforholdFor } from '../../../modell/arbeidsgiver';
+import { useHarIngenUtbetaltePerioderFor } from '../../../hooks/revurdering';
 
 const Container = styled(FlexColumn)`
     padding-right: 2rem;
@@ -81,11 +82,13 @@ export const Inntektskilderinnhold = ({ inntekt }: InntektskilderinnholdProps) =
     const organisasjonsnummerPeriodeTilGodkjenning = periodeTilGodkjenning
         ? periodeTilGodkjenning.organisasjonsnummer
         : undefined;
+    const harIngenUtbetaltePerioder = useHarIngenUtbetaltePerioderFor(skjæringstidspunkt);
 
     const arbeidsforholdKanOverstyres =
         defaultOverstyrToggles.overstyrArbeidsforholdUtenSykefraværEnabled &&
         aktivPeriode.organisasjonsnummer === inntekt.organisasjonsnummer &&
         aktivPeriode.tilstand === 'utenSykefravær' &&
+        harIngenUtbetaltePerioder &&
         periodeTilGodkjenning !== undefined;
 
     return (

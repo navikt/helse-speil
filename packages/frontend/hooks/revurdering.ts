@@ -125,6 +125,18 @@ export const useErTidslinjeperiodeISisteGenerasjon = (): boolean => {
     return periodeFinnesISisteGenerasjon(person, periode as TidslinjeperiodeMedSykefravær);
 };
 
+export const useHarIngenUtbetaltePerioderFor = (skjæringstidspunkt: string): boolean => {
+    const person = usePerson();
+    return (
+        person?.arbeidsgivere.every((arbeidsgiver) => {
+            return arbeidsgiver.tidslinjeperioder
+                .flat()
+                .filter((periode) => periode.skjæringstidspunkt === skjæringstidspunkt)
+                .every((periode) => periode.tilstand === 'oppgaver' || periode.tilstand === 'venter');
+        }) ?? false
+    );
+};
+
 export const useErAktivPeriodeISisteSkjæringstidspunkt = (): boolean => {
     const periode = useMaybeAktivPeriode();
     const person = usePerson();
