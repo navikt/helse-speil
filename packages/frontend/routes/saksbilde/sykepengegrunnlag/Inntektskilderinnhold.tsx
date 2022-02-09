@@ -1,8 +1,6 @@
 import styled from '@emotion/styled';
 import React from 'react';
 
-import { Bag } from '@navikt/ds-icons';
-
 import { FlexColumn } from '../../../components/Flex';
 import { Kilde } from '../../../components/Kilde';
 import { AnonymizableTextWithEllipsis } from '../../../components/TextWithEllipsis';
@@ -93,7 +91,6 @@ export const Inntektskilderinnhold = ({ inntekt }: InntektskilderinnholdProps) =
     return (
         <Container>
             <Header>
-                <Bag width={20} height={20} />
                 <Navn data-tip="Arbeidsgivernavn">
                     <AnonymizableTextWithEllipsis>{arbeidsgivernavn}</AnonymizableTextWithEllipsis>
                 </Navn>
