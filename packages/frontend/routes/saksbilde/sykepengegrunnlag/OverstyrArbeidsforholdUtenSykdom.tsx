@@ -12,6 +12,7 @@ import { ErrorMessage } from '../../../components/ErrorMessage';
 import { OverstyringTimeoutModal } from '../../../components/OverstyringTimeoutModal';
 import { AngreOverstyrArbeidsforholdUtenSykdom } from './AngreOverstyrArbeidsforholdUtenSykdom';
 import { useGetOverstyrtArbeidsforhold, usePostOverstyrtArbeidsforhold } from './OverstyrArbeidsforholdHooks';
+import { Button } from '../../../components/Button';
 
 const Container = styled.div`
     display: flex;
@@ -92,6 +93,10 @@ const FeiloppsummeringContainer = styled.div`
     margin: 1.5rem 0 0.5rem;
 `;
 
+const EditButtonContainer = styled(EditButton)`
+    padding-top: 4px;
+`;
+
 interface OverstyrArbeidsforholdUtenSykdomProps {
     organisasjonsnummerAktivPeriode: string;
     organisasjonsnummerPeriodeTilGodkjenning: string;
@@ -125,7 +130,7 @@ export const OverstyrArbeidsforholdUtenSykdom = ({
                         skjæringstidspunkt={skjæringstidspunkt}
                     />
                 ) : (
-                    <EditButton
+                    <EditButtonContainer
                         isOpen={editing}
                         openText="Avbryt"
                         closedText="Ikke bruk inntekten i beregning"
