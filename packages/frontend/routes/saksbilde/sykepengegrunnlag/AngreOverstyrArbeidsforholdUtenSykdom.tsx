@@ -39,8 +39,8 @@ export const AngreOverstyrArbeidsforholdUtenSykdom = ({
     const getOverstyrtArbeidsforhold = useGetOverstyrtArbeidsforhold();
     const { postOverstyring, isLoading, timedOut, setTimedOut } = usePostOverstyrtArbeidsforhold();
     const overstyrtArbeidsforhold = getOverstyrtArbeidsforhold(
-        'Saksbehandler har angret den forrige overstyringen som deaktiverte arbeidsforholdet',
-        'Saksbehandler har angret den forrige overstyringen som deaktiverte arbeidsforholdet',
+        'Angret å ikke bruke det i beregningen',
+        'Angret å ikke bruke det i beregningen',
         organisasjonsnummerPeriodeTilGodkjenning,
         organisasjonsnummerAktivPeriode,
         skjæringstidspunkt,

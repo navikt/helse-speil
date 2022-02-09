@@ -3260,10 +3260,10 @@
                     "type": "Arbeidsforhold"
                 },
                 {
-                    "begrunnelse": "Saksbehandler har angret den forrige overstyringen som deaktiverte arbeidsforholdet",
+                    "begrunnelse": "Angret å ikke bruke det i beregningen",
                     "hendelseId": "d538fcf5-6f7e-42a8-b28e-d4192044c0b4",
                     "overstyrtArbeidsforhold": {
-                        "forklaring": "Saksbehandler har angret den forrige overstyringen som deaktiverte arbeidsforholdet",
+                        "forklaring": "Angret å ikke bruke det i beregningen",
                         "deaktivert": false,
                         "skjæringstidspunkt": "2021-08-01"
                     },
