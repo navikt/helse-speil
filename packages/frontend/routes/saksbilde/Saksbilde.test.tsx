@@ -18,8 +18,14 @@ import { umappetVedtaksperiode } from '../../test/data/vedtaksperiode';
 import Saksbilde from './Saksbilde';
 import { mappetPerson } from '../../test/data';
 import { umappetGhostPeriode } from '../../test/data/ghostPeriode';
-import { testBeregningId, testVilkårsgrunnlagHistorikkId, umappetPerson } from '../../test/data/person';
-import { organisasjonsnummerForPeriode } from '../../mapping/selectors';
+import {
+    testBeregningId,
+    testBeregningId2,
+    testVilkårsgrunnlagHistorikkId,
+    umappetPerson,
+} from '../../test/data/person';
+import { umappedeVilkår } from '../../test/data/vilkår';
+import { dateStringSykdomstidslinje } from '../../test/data/sykdomstidslinje';
 
 jest.mock('../../hooks/useRefreshPersonVedUrlEndring', () => ({
     useRefreshPersonVedUrlEndring: () => {},
@@ -200,7 +206,7 @@ describe('Saksbilde', () => {
         });
     });
 
-    test('viser muligheten for å overstyre ghost arbeidsforhold', async () => {
+    test('viser muligheten for å overstyre ghost arbeidsforhold ved førstegangsbehandling', async () => {
         render(<Saksbilde />, {
             wrapper: wrapperMedPerson([
                 umappetArbeidsgiver(
@@ -242,6 +248,74 @@ describe('Saksbilde', () => {
 
         await waitFor(() => {
             expect(screen.queryByText('Ikke bruk inntekten i beregning')).toBeVisible();
+        });
+    });
+
+    test('viser ikke muligheten for å overstyre ghost arbeidsforhold ved forlengelse', async () => {
+        render(<Saksbilde />, {
+            wrapper: wrapperMedPerson([
+                umappetArbeidsgiver(
+                    [
+                        umappetVedtaksperiode({
+                            tilstand: 'Oppgaver',
+                            fom: '2018-01-01',
+                            tom: '2018-01-31',
+                            beregningIder: [testBeregningId],
+                        }),
+                        umappetVedtaksperiode({
+                            tilstand: 'Utbetalt',
+                            fom: '2018-02-01',
+                            tom: '2018-02-28',
+                            beregningIder: [testBeregningId2],
+                            vilkår: umappedeVilkår(
+                                dateStringSykdomstidslinje('2018-02-01', '2018-02-28'),
+                                '2018-01-01'
+                            ),
+                        }),
+                    ],
+                    [],
+                    [
+                        umappetUtbetalingshistorikk(
+                            testBeregningId2,
+                            testVilkårsgrunnlagHistorikkId,
+                            'UTBETALING',
+                            'IKKE_UTBETALT'
+                        ),
+                        umappetUtbetalingshistorikk(
+                            testBeregningId,
+                            testVilkårsgrunnlagHistorikkId,
+                            'UTBETALING',
+                            'UTBETALT'
+                        ),
+                    ],
+                    [],
+                    '123456789'
+                ),
+
+                umappetArbeidsgiver(
+                    [],
+                    [],
+                    [],
+                    [
+                        umappetGhostPeriode(
+                            '2018-01-01',
+                            '2018-02-28',
+                            '2018-01-01',
+                            '33612787-ca6c-45ba-bbd0-29ae6474d9c2',
+                            false
+                        ),
+                    ]
+                ),
+            ]),
+        });
+        const perioder = screen.getAllByTestId('tidslinjeperiode', { exact: false });
+        expect(perioder).toHaveLength(2);
+        expect(perioder[0]).toBeVisible();
+        expect(perioder[1]).toBeVisible();
+        userEvent.click(perioder[1].getElementsByTagName('button')[0]);
+
+        await waitFor(() => {
+            expect(screen.queryByText('Ikke bruk inntekten i beregning')).toBeNull();
         });
     });
 

@@ -2,14 +2,17 @@ import dayjs from 'dayjs';
 
 import { somDato } from '../../mapping/vedtaksperiode';
 
-export const umappedeVilkår = (tidslinje: ExternalSykdomsdag[]): ExternalVedtaksperiode['vilkår'] => {
+export const umappedeVilkår = (
+    tidslinje: ExternalSykdomsdag[],
+    skjæringstidspunkt = tidslinje.find(({ type }) => type === 'SYKEDAG')!.dagen
+): ExternalVedtaksperiode['vilkår'] => {
     const førsteDag = tidslinje[0];
     const sisteDag = tidslinje.slice(-1).pop()!;
     const førsteSykedag = tidslinje.find(({ type }) => type === 'SYKEDAG')!;
     return {
         sykepengedager: {
             forbrukteSykedager: 3,
-            skjæringstidspunkt: førsteSykedag.dagen,
+            skjæringstidspunkt: skjæringstidspunkt,
             førsteSykepengedag: førsteSykedag.dagen,
             maksdato: dayjs(førsteSykedag.dagen).add(280, 'day').format('YYYY-MM-DD'),
             oppfylt: true,

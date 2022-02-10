@@ -12,6 +12,7 @@ export const testAktørId: string = '1211109876233';
 export const testFødselsnummer: string = '01019000123';
 export const testOrganisasjonsnummer: string = '987654321';
 export const testBeregningId: string = '817e21da-1284-49e0-ab2a-8191a672c90a';
+export const testBeregningId2: string = '928e21da-1284-49e0-ab2a-8191a672c81b';
 export const testArbeidsgiverfagsystemId: string = 'ENFAGSYSTEMID';
 export const testPersonfagsystemId: string = 'ENPERSONFAGSYSTEMID';
 export const testVedtaksperiodeId: string = 'fa02d7a5-daf2-488c-9798-2539edd7fe3f';
