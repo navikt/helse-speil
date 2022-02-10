@@ -133,9 +133,6 @@ const filenameForPersonId = (id: string) => {
         case '2287435975702':
         case '11117615092':
             return 'stor_bolle_feilende_opptjeningsvilkår.json';
-        case '12020052345':
-        case '42':
-            return 'abel_tesfaye_ghost.json';
         case '02126721911':
         case '2513379298794':
             return 'robust_mulvarp_revurdering_ghosts.json';
@@ -163,7 +160,7 @@ const filenameForPersonId = (id: string) => {
         case '2000000001337':
         case '30042213337':
             return 'bare_kevin_med_ghostpølser.json';
-        case '17058413337':
+        case '17051413337':
         case '2000000000042':
             return 'bare_simen_med_ghostpølser.json';
         case '20087106951':

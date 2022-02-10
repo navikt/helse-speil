@@ -4250,6 +4250,7 @@
                 "sykepengegrunnlag": 306000,
                 "inntekter": [
                     {
+                        "deaktivert": false,
                         "organisasjonsnummer": "805824352",
                         "omregnetÅrsinntekt": {
                             "kilde": "Inntektsmelding",
@@ -4260,6 +4261,7 @@
                         "sammenligningsgrunnlag": 135000
                     },
                     {
+                        "deaktivert": false,
                         "organisasjonsnummer": "947064649",
                         "omregnetÅrsinntekt": {
                             "kilde": "AOrdningen",

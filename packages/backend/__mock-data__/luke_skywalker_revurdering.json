@@ -7480,6 +7480,7 @@
                 "sykepengegrunnlag": 12000,
                 "inntekter": [
                     {
+                        "deaktivert": false,
                         "organisasjonsnummer": "972674818",
                         "omregnetÅrsinntekt": {
                             "kilde": "Saksbehandler",
@@ -7508,6 +7509,7 @@
                 "sykepengegrunnlag": 420000,
                 "inntekter": [
                     {
+                        "deaktivert": false,
                         "organisasjonsnummer": "972674818",
                         "omregnetÅrsinntekt": {
                             "kilde": "Saksbehandler",
@@ -7536,6 +7538,7 @@
                 "sykepengegrunnlag": 292548,
                 "inntekter": [
                     {
+                        "deaktivert": false,
                         "organisasjonsnummer": "972674818",
                         "omregnetÅrsinntekt": {
                             "kilde": "Saksbehandler",
@@ -7564,6 +7567,7 @@
                 "sykepengegrunnlag": 287508,
                 "inntekter": [
                     {
+                        "deaktivert": false,
                         "organisasjonsnummer": "972674818",
                         "omregnetÅrsinntekt": {
                             "kilde": "Saksbehandler",
@@ -7592,6 +7596,7 @@
                 "sykepengegrunnlag": 282000,
                 "inntekter": [
                     {
+                        "deaktivert": false,
                         "organisasjonsnummer": "972674818",
                         "omregnetÅrsinntekt": {
                             "kilde": "Saksbehandler",
@@ -7620,6 +7625,7 @@
                 "sykepengegrunnlag": 261000,
                 "inntekter": [
                     {
+                        "deaktivert": false,
                         "organisasjonsnummer": "972674818",
                         "omregnetÅrsinntekt": {
                             "kilde": "Inntektsmelding",

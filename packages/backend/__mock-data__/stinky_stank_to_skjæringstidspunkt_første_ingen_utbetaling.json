@@ -3859,6 +3859,7 @@
                 "sykepengegrunnlag": 462000,
                 "inntekter": [
                     {
+                        "deaktivert": false,
                         "organisasjonsnummer": "972674818",
                         "omregnetÅrsinntekt": {
                             "kilde": "Inntektsmelding",
@@ -3885,6 +3886,7 @@
                 "sykepengegrunnlag": 462000,
                 "inntekter": [
                     {
+                        "deaktivert": false,
                         "organisasjonsnummer": "972674818",
                         "omregnetÅrsinntekt": {
                             "kilde": "Inntektsmelding",
@@ -3913,6 +3915,7 @@
                 "sykepengegrunnlag": 462000,
                 "inntekter": [
                     {
+                        "deaktivert": false,
                         "organisasjonsnummer": "972674818",
                         "omregnetÅrsinntekt": {
                             "kilde": "Inntektsmelding",

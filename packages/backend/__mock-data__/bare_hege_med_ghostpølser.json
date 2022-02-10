@@ -6902,6 +6902,7 @@
                 "sykepengegrunnlag": 638394.0,
                 "inntekter": [
                     {
+                        "deaktivert": false,
                         "organisasjonsnummer": "321987654",
                         "omregnetÅrsinntekt": {
                             "kilde": "Inntektsmelding",
@@ -6912,14 +6913,15 @@
                         "sammenligningsgrunnlag": 396000.0
                     },
                     {
-                        "organisasjonsnummer": "654321987",
+                        "deaktivert": false,
+                        "organisasjonsnummer": "987654321",
                         "omregnetÅrsinntekt": {
                             "kilde": "AOrdningen",
                             "beløp": 372000.0,
                             "månedsbeløp": 31000.0,
                             "inntekterFraAOrdningen": [
                                 {
-                                    "måned": "2021-06",
+                                    "måned": "2021-04",
                                     "sum": 31000.0
                                 },
                                 {
@@ -6927,7 +6929,7 @@
                                     "sum": 31000.0
                                 },
                                 {
-                                    "måned": "2021-04",
+                                    "måned": "2021-06",
                                     "sum": 31000.0
                                 }
                             ]
@@ -6935,7 +6937,8 @@
                         "sammenligningsgrunnlag": 372000.0
                     },
                     {
-                        "organisasjonsnummer": "987654321",
+                        "deaktivert": true,
+                        "organisasjonsnummer": "654321987",
                         "omregnetÅrsinntekt": {
                             "kilde": "AOrdningen",
                             "beløp": 372000.0,
@@ -6974,6 +6977,7 @@
                 "sykepengegrunnlag": 638394.0,
                 "inntekter": [
                     {
+                        "deaktivert": false,
                         "organisasjonsnummer": "987654321",
                         "omregnetÅrsinntekt": {
                             "kilde": "AOrdningen",
@@ -6997,6 +7001,7 @@
                         "sammenligningsgrunnlag": 372000.0
                     },
                     {
+                        "deaktivert": false,
                         "organisasjonsnummer": "654321987",
                         "omregnetÅrsinntekt": {
                             "kilde": "Inntektsmelding",
@@ -7023,6 +7028,7 @@
                 "sykepengegrunnlag": 638394.0,
                 "inntekter": [
                     {
+                        "deaktivert": false,
                         "organisasjonsnummer": "987654321",
                         "omregnetÅrsinntekt": {
                             "kilde": "Inntektsmelding",
@@ -7051,6 +7057,7 @@
                 "sykepengegrunnlag": 638394.0,
                 "inntekter": [
                     {
+                        "deaktivert": false,
                         "organisasjonsnummer": "321987654",
                         "omregnetÅrsinntekt": {
                             "kilde": "Inntektsmelding",
@@ -7061,7 +7068,32 @@
                         "sammenligningsgrunnlag": 396000.0
                     },
                     {
+                        "deaktivert": false,
                         "organisasjonsnummer": "987654321",
+                        "omregnetÅrsinntekt": {
+                            "kilde": "AOrdningen",
+                            "beløp": 372000.0,
+                            "månedsbeløp": 31000.0,
+                            "inntekterFraAOrdningen": [
+                                {
+                                    "måned": "2021-04",
+                                    "sum": 31000.0
+                                },
+                                {
+                                    "måned": "2021-05",
+                                    "sum": 31000.0
+                                },
+                                {
+                                    "måned": "2021-06",
+                                    "sum": 31000.0
+                                }
+                            ]
+                        },
+                        "sammenligningsgrunnlag": 372000.0
+                    },
+                    {
+                        "deaktivert": true,
+                        "organisasjonsnummer": "654321987",
                         "omregnetÅrsinntekt": {
                             "kilde": "AOrdningen",
                             "beløp": 372000.0,
@@ -7100,6 +7132,7 @@
                 "sykepengegrunnlag": 638394.0,
                 "inntekter": [
                     {
+                        "deaktivert": false,
                         "organisasjonsnummer": "987654321",
                         "omregnetÅrsinntekt": {
                             "kilde": "AOrdningen",
@@ -7123,6 +7156,7 @@
                         "sammenligningsgrunnlag": 372000.0
                     },
                     {
+                        "deaktivert": false,
                         "organisasjonsnummer": "654321987",
                         "omregnetÅrsinntekt": {
                             "kilde": "Inntektsmelding",
@@ -7143,7 +7177,7 @@
                 "vilkårsgrunnlagtype": "SPLEIS"
             }
         },
-        "d4a3b665-aec7-4778-8a01-9abc2b5c176b": {
+        "bbb3b665-aec7-4778-8a01-9abc2b5c176b": {
             "2021-07-04": {
                 "skjæringstidspunkt": "2021-07-04",
                 "omregnetÅrsinntekt": 768000.0,
@@ -7151,6 +7185,7 @@
                 "sykepengegrunnlag": 638394.0,
                 "inntekter": [
                     {
+                        "deaktivert": false,
                         "organisasjonsnummer": "321987654",
                         "omregnetÅrsinntekt": {
                             "kilde": "Inntektsmelding",
@@ -7161,7 +7196,109 @@
                         "sammenligningsgrunnlag": 396000.0
                     },
                     {
+                        "deaktivert": false,
                         "organisasjonsnummer": "987654321",
+                        "omregnetÅrsinntekt": {
+                            "kilde": "AOrdningen",
+                            "beløp": 372000.0,
+                            "månedsbeløp": 31000.0,
+                            "inntekterFraAOrdningen": [
+                                {
+                                    "måned": "2021-04",
+                                    "sum": 31000.0
+                                },
+                                {
+                                    "måned": "2021-05",
+                                    "sum": 31000.0
+                                },
+                                {
+                                    "måned": "2021-06",
+                                    "sum": 31000.0
+                                }
+                            ]
+                        },
+                        "sammenligningsgrunnlag": 372000.0
+                    },
+                    {
+                        "deaktivert": true,
+                        "organisasjonsnummer": "654321987",
+                        "omregnetÅrsinntekt": {
+                            "kilde": "AOrdningen",
+                            "beløp": 372000.0,
+                            "månedsbeløp": 31000.0,
+                            "inntekterFraAOrdningen": [
+                                {
+                                    "måned": "2021-04",
+                                    "sum": 31000.0
+                                },
+                                {
+                                    "måned": "2021-05",
+                                    "sum": 31000.0
+                                },
+                                {
+                                    "måned": "2021-06",
+                                    "sum": 31000.0
+                                }
+                            ]
+                        },
+                        "sammenligningsgrunnlag": 372000.0
+                    }
+                ],
+                "avviksprosent": 0.0,
+                "grunnbeløp": 106399,
+                "antallOpptjeningsdagerErMinst": 18812,
+                "opptjeningFra": "1970-01-01",
+                "oppfyllerKravOmMinstelønn": true,
+                "oppfyllerKravOmOpptjening": true,
+                "oppfyllerKravOmMedlemskap": true,
+                "vilkårsgrunnlagtype": "SPLEIS"
+            }
+        },
+        "d4a3b665-aec7-4778-8a01-9abc2b5c176b": {
+            "2021-07-04": {
+                "skjæringstidspunkt": "2021-07-04",
+                "omregnetÅrsinntekt": 768000.0,
+                "sammenligningsgrunnlag": 768000.0,
+                "sykepengegrunnlag": 638394.0,
+                "inntekter": [
+                    {
+                        "deaktivert": false,
+                        "organisasjonsnummer": "321987654",
+                        "omregnetÅrsinntekt": {
+                            "kilde": "Inntektsmelding",
+                            "beløp": 396000.0,
+                            "månedsbeløp": 33000.0,
+                            "inntekterFraAOrdningen": null
+                        },
+                        "sammenligningsgrunnlag": 396000.0
+                    },
+                    {
+                        "deaktivert": false,
+                        "organisasjonsnummer": "987654321",
+                        "omregnetÅrsinntekt": {
+                            "kilde": "AOrdningen",
+                            "beløp": 372000.0,
+                            "månedsbeløp": 31000.0,
+                            "inntekterFraAOrdningen": [
+                                {
+                                    "måned": "2021-04",
+                                    "sum": 31000.0
+                                },
+                                {
+                                    "måned": "2021-05",
+                                    "sum": 31000.0
+                                },
+                                {
+                                    "måned": "2021-06",
+                                    "sum": 31000.0
+                                }
+                            ]
+                        },
+                        "sammenligningsgrunnlag": 372000.0
+                    },
+                    {
+                        "deaktivert": false,
+                        "organisasjonsnummer": "654321987",
                         "omregnetÅrsinntekt": {
                             "kilde": "AOrdningen",
                             "beløp": 372000.0,

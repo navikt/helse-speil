@@ -7197,6 +7197,7 @@
                 "sykepengegrunnlag": 360000,
                 "inntekter": [
                     {
+                        "deaktivert": false,
                         "organisasjonsnummer": "839942907",
                         "omregnetÅrsinntekt": {
                             "kilde": "Inntektsmelding",

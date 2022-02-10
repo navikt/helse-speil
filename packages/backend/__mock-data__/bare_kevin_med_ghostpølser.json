@@ -1729,6 +1729,7 @@
                 "sykepengegrunnlag": 638394.0,
                 "inntekter": [
                     {
+                        "deaktivert": false,
                         "organisasjonsnummer": "321987654",
                         "omregnetÅrsinntekt": {
                             "kilde": "Inntektsmelding",
@@ -1739,6 +1740,7 @@
                         "sammenligningsgrunnlag": 396000.0
                     },
                     {
+                        "deaktivert": true,
                         "organisasjonsnummer": "987654321",
                         "omregnetÅrsinntekt": {
                             "kilde": "AOrdningen",
@@ -1765,71 +1767,6 @@
                 "avviksprosent": 0.0,
                 "grunnbeløp": 106399,
                 "antallOpptjeningsdagerErMinst": 18812,
-                "opptjeningFra": "1970-01-01",
-                "oppfyllerKravOmMinstelønn": true,
-                "oppfyllerKravOmOpptjening": true,
-                "oppfyllerKravOmMedlemskap": true,
-                "vilkårsgrunnlagtype": "SPLEIS"
-            },
-            "2021-08-01": {
-                "skjæringstidspunkt": "2021-08-01",
-                "omregnetÅrsinntekt": 756000.0,
-                "sammenligningsgrunnlag": 756000.0,
-                "sykepengegrunnlag": 638394.0,
-                "inntekter": [
-                    {
-                        "organisasjonsnummer": "987654321",
-                        "omregnetÅrsinntekt": {
-                            "kilde": "AOrdningen",
-                            "beløp": 372000.0,
-                            "månedsbeløp": 31000.0,
-                            "inntekterFraAOrdningen": [
-                                {
-                                    "måned": "2021-05",
-                                    "sum": 31000.0
-                                },
-                                {
-                                    "måned": "2021-06",
-                                    "sum": 31000.0
-                                },
-                                {
-                                    "måned": "2021-07",
-                                    "sum": 31000.0
-                                }
-                            ]
-                        },
-                        "sammenligningsgrunnlag": 372000.0
-                    }
-                ],
-                "avviksprosent": 0.0,
-                "grunnbeløp": 106399,
-                "antallOpptjeningsdagerErMinst": 18840,
-                "opptjeningFra": "1970-01-01",
-                "oppfyllerKravOmMinstelønn": true,
-                "oppfyllerKravOmOpptjening": true,
-                "oppfyllerKravOmMedlemskap": true,
-                "vilkårsgrunnlagtype": "SPLEIS"
-            },
-            "2021-09-01": {
-                "skjæringstidspunkt": "2021-09-01",
-                "omregnetÅrsinntekt": 640000.0,
-                "sammenligningsgrunnlag": 693000.0,
-                "sykepengegrunnlag": 638394.0,
-                "inntekter": [
-                    {
-                        "organisasjonsnummer": "987654321",
-                        "omregnetÅrsinntekt": {
-                            "kilde": "Inntektsmelding",
-                            "beløp": 384000.0,
-                            "månedsbeløp": 32000.0,
-                            "inntekterFraAOrdningen": null
-                        },
-                        "sammenligningsgrunnlag": 341000.0
-                    }
-                ],
-                "avviksprosent": 7.6479076479076475,
-                "grunnbeløp": 106399,
-                "antallOpptjeningsdagerErMinst": 18871,
                 "opptjeningFra": "1970-01-01",
                 "oppfyllerKravOmMinstelønn": true,
                 "oppfyllerKravOmOpptjening": true,
@@ -1845,6 +1782,7 @@
                 "sykepengegrunnlag": 638394.0,
                 "inntekter": [
                     {
+                        "deaktivert": false,
                         "organisasjonsnummer": "321987654",
                         "omregnetÅrsinntekt": {
                             "kilde": "Inntektsmelding",
@@ -1855,106 +1793,7 @@
                         "sammenligningsgrunnlag": 396000.0
                     },
                     {
-                        "organisasjonsnummer": "987654321",
-                        "omregnetÅrsinntekt": {
-                            "kilde": "AOrdningen",
-                            "beløp": 372000.0,
-                            "månedsbeløp": 31000.0,
-                            "inntekterFraAOrdningen": [
-                                {
-                                    "måned": "2021-04",
-                                    "sum": 31000.0
-                                },
-                                {
-                                    "måned": "2021-05",
-                                    "sum": 31000.0
-                                },
-                                {
-                                    "måned": "2021-06",
-                                    "sum": 31000.0
-                                }
-                            ]
-                        },
-                        "sammenligningsgrunnlag": 372000.0
-                    }
-                ],
-                "avviksprosent": 0.0,
-                "grunnbeløp": 106399,
-                "antallOpptjeningsdagerErMinst": 18812,
-                "opptjeningFra": "1970-01-01",
-                "oppfyllerKravOmMinstelønn": true,
-                "oppfyllerKravOmOpptjening": true,
-                "oppfyllerKravOmMedlemskap": true,
-                "vilkårsgrunnlagtype": "SPLEIS"
-            },
-            "2021-08-01": {
-                "skjæringstidspunkt": "2021-08-01",
-                "omregnetÅrsinntekt": 756000.0,
-                "sammenligningsgrunnlag": 756000.0,
-                "sykepengegrunnlag": 638394.0,
-                "inntekter": [
-                    {
-                        "organisasjonsnummer": "987654321",
-                        "omregnetÅrsinntekt": {
-                            "kilde": "AOrdningen",
-                            "beløp": 372000.0,
-                            "månedsbeløp": 31000.0,
-                            "inntekterFraAOrdningen": [
-                                {
-                                    "måned": "2021-05",
-                                    "sum": 31000.0
-                                },
-                                {
-                                    "måned": "2021-06",
-                                    "sum": 31000.0
-                                },
-                                {
-                                    "måned": "2021-07",
-                                    "sum": 31000.0
-                                }
-                            ]
-                        },
-                        "sammenligningsgrunnlag": 372000.0
-                    },
-                    {
-                        "organisasjonsnummer": "654321987",
-                        "omregnetÅrsinntekt": {
-                            "kilde": "Inntektsmelding",
-                            "beløp": 384000.0,
-                            "månedsbeløp": 32000.0,
-                            "inntekterFraAOrdningen": null
-                        },
-                        "sammenligningsgrunnlag": 384000.0
-                    }
-                ],
-                "avviksprosent": 0.0,
-                "grunnbeløp": 106399,
-                "antallOpptjeningsdagerErMinst": 18840,
-                "opptjeningFra": "1970-01-01",
-                "oppfyllerKravOmMinstelønn": true,
-                "oppfyllerKravOmOpptjening": true,
-                "oppfyllerKravOmMedlemskap": true,
-                "vilkårsgrunnlagtype": "SPLEIS"
-            }
-        },
-        "d4a3b665-aec7-4778-8a01-9abc2b5c176b": {
-            "2021-07-04": {
-                "skjæringstidspunkt": "2021-07-04",
-                "omregnetÅrsinntekt": 768000.0,
-                "sammenligningsgrunnlag": 768000.0,
-                "sykepengegrunnlag": 638394.0,
-                "inntekter": [
-                    {
-                        "organisasjonsnummer": "321987654",
-                        "omregnetÅrsinntekt": {
-                            "kilde": "Inntektsmelding",
-                            "beløp": 396000.0,
-                            "månedsbeløp": 33000.0,
-                            "inntekterFraAOrdningen": null
-                        },
-                        "sammenligningsgrunnlag": 396000.0
-                    },
-                    {
+                        "deaktivert": false,
                         "organisasjonsnummer": "987654321",
                         "omregnetÅrsinntekt": {
                             "kilde": "AOrdningen",

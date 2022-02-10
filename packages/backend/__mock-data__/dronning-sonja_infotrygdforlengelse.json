@@ -2248,6 +2248,7 @@
                 "sykepengegrunnlag": 400000,
                 "inntekter": [
                     {
+                        "deaktivert": false,
                         "organisasjonsnummer": "972674818",
                         "omregnetÅrsinntekt": {
                             "kilde": "Infotrygd",
