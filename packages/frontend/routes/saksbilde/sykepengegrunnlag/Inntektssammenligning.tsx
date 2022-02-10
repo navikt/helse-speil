@@ -103,7 +103,7 @@ export const Inntektssammenligning = ({
             <td>
                 <InntektMedKilde>
                     {!arbeidsforholdErDeaktivert && (
-                        <BodyShort>{omregnetÅrsinntekt ? somPenger(omregnetÅrsinntekt.beløp) : 'Ukjent'}</BodyShort>
+                        <BodyShort>{omregnetÅrsinntekt ? somPenger(omregnetÅrsinntekt.beløp) : '_'}</BodyShort>
                     )}
                     {omregnetÅrsinntekt?.kilde === 'Saksbehandler' || arbeidsforholdErDeaktivert ? (
                         <EndringsloggInntektEllerArbeidsforholdButton
