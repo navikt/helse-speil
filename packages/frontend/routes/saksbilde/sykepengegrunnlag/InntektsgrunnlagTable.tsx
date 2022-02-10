@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import React, { Dispatch, SetStateAction, useState } from 'react';
+import React, { Dispatch, SetStateAction } from 'react';
 
 import { BodyShort } from '@navikt/ds-react';
 
@@ -122,6 +122,7 @@ export const InntektsgrunnlagTable = ({
                             organisasjonsnummer={inntekt.organisasjonsnummer}
                             omregnetÅrsinntekt={inntekt.omregnetÅrsinntekt}
                             sammenligningsgrunnlag={inntekt.sammenligningsgrunnlag}
+                            arbeidsforholdErDeaktivert={inntekt.deaktivert}
                             erGjeldende={aktivInntektskilde.organisasjonsnummer == inntekt.organisasjonsnummer}
                             onSetAktivInntektskilde={() => setAktivInntektskilde(inntekt)}
                         />

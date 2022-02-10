@@ -10,6 +10,7 @@ export const etSpleisgrunnlag = (grunnlag?: Partial<ExternalSpleisVilkårsgrunnl
         sykepengegrunnlag: 231000,
         inntekter: [
             {
+                deaktivert: false,
                 organisasjonsnummer: `${testOrganisasjonsnummer}`,
                 omregnetÅrsinntekt: {
                     kilde: 'Inntektsmelding',
@@ -42,6 +43,7 @@ export const etInfotrygdgrunnlag = (
         sykepengegrunnlag: 231000,
         inntekter: [
             {
+                deaktivert: false,
                 organisasjonsnummer: `${testOrganisasjonsnummer}`,
                 omregnetÅrsinntekt: {
                     kilde: 'Inntektsmelding',

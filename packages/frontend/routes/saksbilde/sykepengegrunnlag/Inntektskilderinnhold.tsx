@@ -14,7 +14,7 @@ import { defaultOverstyrToggles } from '../../../featureToggles';
 import { useAktivPeriode, useMaybePeriodeTilGodkjenning } from '../../../state/tidslinje';
 import { AnonymizableText } from '../../../components/anonymizable/AnonymizableText';
 import { AnonymizableContainer } from '../../../components/anonymizable/AnonymizableContainer';
-import { useArbeidsforhold, useHarDeaktiverArbeidsforholdFor } from '../../../modell/arbeidsgiver';
+import { useArbeidsforhold } from '../../../modell/arbeidsgiver';
 import { useHarIngenUtbetaltePerioderFor } from '../../../hooks/revurdering';
 
 const Container = styled(FlexColumn)`
@@ -72,10 +72,7 @@ export const Inntektskilderinnhold = ({ inntekt }: InntektskilderinnholdProps) =
     const arbeidsforhold = useArbeidsforhold(inntekt.organisasjonsnummer);
 
     const aktivPeriode = useAktivPeriode();
-    const harDeaktivertArbeidsforhold = useHarDeaktiverArbeidsforholdFor(
-        inntekt.organisasjonsnummer,
-        aktivPeriode.skjæringstidspunkt!
-    );
+    const harDeaktivertArbeidsforhold = inntekt.deaktivert ?? false;
 
     const skjæringstidspunkt = aktivPeriode.skjæringstidspunkt!;
     const periodeTilGodkjenning = useMaybePeriodeTilGodkjenning(skjæringstidspunkt);

@@ -644,6 +644,7 @@ declare type ExternalArbeidsgiverinntekt = {
     organisasjonsnummer: string;
     omregnetÅrsinntekt: ExternalOmregnetÅrsinntekt | null;
     sammenligningsgrunnlag: number | null;
+    deaktivert: boolean | null; // TODO: Ikke nullable når snapshot er oppdatert
 };
 
 declare type ExternalVilkårsgrunnlag = {

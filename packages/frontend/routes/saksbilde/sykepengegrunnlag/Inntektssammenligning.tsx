@@ -12,7 +12,6 @@ import { somPenger } from '../../../utils/locale';
 import { EndringsloggInntektEllerArbeidsforholdButton } from '../utbetaling/utbetalingstabell/EndringsloggInntektEllerArbeidsforholdButton';
 import { Bag } from '@navikt/ds-icons';
 import { AnonymizableText } from '../../../components/anonymizable/AnonymizableText';
-import { useArbeidsforholdErDeaktivert } from '../../../modell/arbeidsgiver';
 import { Errorikon } from '../../../components/ikoner/Errorikon';
 
 const ArbeidsgiverRad = styled.tr<{ erGjeldende: boolean }>`
@@ -73,6 +72,7 @@ interface InntektssammenligningProps {
     organisasjonsnummer: string;
     omregnetÅrsinntekt: ExternalOmregnetÅrsinntekt | null;
     sammenligningsgrunnlag: number | null;
+    arbeidsforholdErDeaktivert: boolean | null;
     erGjeldende: boolean;
     onSetAktivInntektskilde: () => void;
 }
@@ -81,13 +81,12 @@ export const Inntektssammenligning = ({
     organisasjonsnummer,
     omregnetÅrsinntekt,
     sammenligningsgrunnlag,
+    arbeidsforholdErDeaktivert,
     erGjeldende,
     onSetAktivInntektskilde,
 }: InntektssammenligningProps) => {
     const arbeidsgivernavn = useArbeidsgivernavn(organisasjonsnummer);
     const { inntektsendringer, arbeidsforholdendringer } = useEndringerForPeriode(organisasjonsnummer);
-
-    const arbeidsforholdErDeaktivert = useArbeidsforholdErDeaktivert(organisasjonsnummer);
 
     return (
         <ArbeidsgiverRad erGjeldende={erGjeldende} onClick={onSetAktivInntektskilde}>
