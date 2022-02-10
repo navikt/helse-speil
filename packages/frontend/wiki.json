@@ -371,5 +371,11 @@
         "betydning": "Dette kan bety at noen andre representerer denne personen",
         "løsning": "Undersøk hva fullmakten innebærer, hvem som er fullmaktshaver, hvem som skal ha orientering om vedtak og om personen hadde rett til å søke på egne vegne.",
         "viktighet": "Høy"
+    },
+    {
+        "varsel": "Vi har mottatt en inntektsmelding i en løpende sykmeldingsperiode med oppgitt første/bestemmende fraværsdag som er ulik tidligere fastsatt skjæringstidspunkt.",
+        "betydning": "Det kan bety at den sykmeldte har gjenopptatt arbeidet og så blitt sykmeldt igjen. Det kan derfor være et nytt skjæringstidspunkt.",
+        "løsning": "Undersøk om arbeidet er gjenopptatt slik at sykmeldingen avbrytes. Det må avklares om det blir et nytt skjæringstidspunkt. Hvis det blir nytt skjæringstidspunkt, må perioden med det nye skjæringstidspunktet avvises i vedtaksløsningen og saken må behandles i Infotrygd.",
+        "viktighet": "Høy"
     }
 ]
