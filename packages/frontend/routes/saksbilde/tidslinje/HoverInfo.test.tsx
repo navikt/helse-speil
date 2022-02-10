@@ -60,32 +60,6 @@ describe('HoverInfo', () => {
         expect(screen.getByText('Periode:')).toBeVisible();
         expect(screen.getByText('01.01.2021 - 31.01.2021')).toBeVisible();
     });
-    test('viser avslått periode', () => {
-        const periodeMedAvslag: TidslinjeperiodeMedSykefravær = {
-            ...enPeriode,
-            utbetalingstidslinje: [
-                ...enPeriode.utbetalingstidslinje,
-                { dato: dayjs('2021-01-01'), type: 'Avslått' },
-                { dato: dayjs('2021-01-02'), type: 'Avslått' },
-            ],
-        };
-        render(<HoverInfo tidslinjeperiode={periodeMedAvslag} />, { wrapper });
-        expect(screen.getByText('Avslått:')).toBeVisible();
-        expect(screen.getByText('01.01.2021 - 02.01.2021')).toBeVisible();
-    });
-    test('viser tilbake i arbeid fra', () => {
-        const periodeMedArbeidsdag: TidslinjeperiodeMedSykefravær = {
-            ...enPeriode,
-            utbetalingstidslinje: [
-                ...enPeriode.utbetalingstidslinje,
-                { dato: dayjs('2021-01-20'), type: 'Arbeidsdag' },
-                { dato: dayjs('2021-01-21'), type: 'Arbeidsdag' },
-            ],
-        };
-        render(<HoverInfo tidslinjeperiode={periodeMedArbeidsdag} />, { wrapper });
-        expect(screen.getByText('Tilbake i arbeid fra:')).toBeVisible();
-        expect(screen.getByText('20.01.2021')).toBeVisible();
-    });
 });
 
 describe('Periode til visning', () => {
