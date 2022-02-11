@@ -459,26 +459,7 @@ declare type Arbeidsgiver = {
     tidslinjeperioderUtenSykefravær: TidslinjeperiodeUtenSykefravær[];
     vedtaksperioder: (Vedtaksperiode | UfullstendigVedtaksperiode)[];
     arbeidsforhold: Arbeidsforhold[];
-};
-
-declare type UtbetalingshistorikkUtbetaling = {
-    status: string;
-    type: string;
-    arbeidsgiverOppdrag?: {
-        orgnummer: string;
-        fagsystemId: string;
-        utbetalingslinjer: Periode[];
-    };
-    personOppdrag?: {
-        fødselsnummer: string;
-        fagsystemId: string;
-        utbetalingslinjer: Periode[];
-    };
-    annullering?: {
-        annullertTidspunkt: Dayjs;
-        saksbehandlerNavn: string;
-    };
-    totalbeløp: number | null;
+    generasjoner: Array<ExternalGenerasjon>;
 };
 
 declare type Infotrygdutbetaling = {
@@ -519,7 +500,7 @@ declare type Tildeling = {
 declare type Person = {
     aktørId: string;
     arbeidsgivere: Arbeidsgiver[];
-    utbetalinger: UtbetalingshistorikkUtbetaling[];
+    utbetalinger: ExternalUtbetalingElement[];
     personinfo: Personinfo;
     fødselsnummer: string;
     infotrygdutbetalinger: Infotrygdutbetaling[];

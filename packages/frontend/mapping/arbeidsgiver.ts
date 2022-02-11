@@ -62,6 +62,7 @@ export class ArbeidsgiverBuilder {
         this.markerNyestePeriode();
         this.mapTidslinjeperioderMedSykefravær();
         this.mapTidslinjeperioderUtenSykefravær();
+        this.mapGenerasjoner();
         return { arbeidsgiver: this.arbeidsgiver as Arbeidsgiver, problems: this.problems };
     }
 
@@ -93,6 +94,10 @@ export class ArbeidsgiverBuilder {
                         deaktivert: ghostpølse.deaktivert ?? false,
                     } as TidslinjeperiodeUtenSykefravær)
             ) ?? [];
+    };
+
+    private mapGenerasjoner = () => {
+        this.arbeidsgiver.generasjoner = this.unmapped.generasjoner;
     };
 
     private mapFullstendigPeriode = (beregningId: string, periode: Vedtaksperiode): TidslinjeperiodeMedSykefravær => {

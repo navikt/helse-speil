@@ -1,5 +1,3 @@
-import dayjs from 'dayjs';
-
 import { utbetalingsoversikt } from '../featureToggles';
 import { ArbeidsgiverBuilder } from './arbeidsgiver';
 import { mapInfotrygdutbetaling } from './infotrygd';
@@ -88,34 +86,6 @@ export class PersonBuilder {
     };
 
     private mapUtbetalinger = () => {
-        this.person.utbetalinger = utbetalingsoversikt
-            ? this.unmapped.utbetalinger.map((utbetaling) => ({
-                  type: utbetaling.type,
-                  status: utbetaling.status,
-                  arbeidsgiverOppdrag: utbetaling.arbeidsgiverOppdrag && {
-                      orgnummer: utbetaling.arbeidsgiverOppdrag.organisasjonsnummer,
-                      fagsystemId: utbetaling.arbeidsgiverOppdrag.fagsystemId,
-                      utbetalingslinjer: utbetaling.arbeidsgiverOppdrag.utbetalingslinjer.map((linje) => ({
-                          fom: dayjs(linje.fom),
-                          tom: dayjs(linje.tom),
-                      })),
-                  },
-                  personOppdrag: utbetaling.personOppdrag && {
-                      fødselsnummer: utbetaling.personOppdrag.fødselsnummer,
-                      fagsystemId: utbetaling.personOppdrag.fagsystemId,
-                      utbetalingslinjer: utbetaling.personOppdrag.utbetalingslinjer.map((linje) => ({
-                          fom: dayjs(linje.fom),
-                          tom: dayjs(linje.tom),
-                      })),
-                  },
-                  annullering: utbetaling.annullertAvSaksbehandler
-                      ? {
-                            annullertTidspunkt: dayjs(utbetaling.annullertAvSaksbehandler.annullertTidspunkt),
-                            saksbehandlerNavn: utbetaling.annullertAvSaksbehandler.saksbehandlerNavn,
-                        }
-                      : undefined,
-                  totalbeløp: utbetaling.totalbeløp,
-              }))
-            : [];
+        this.person.utbetalinger = utbetalingsoversikt ? this.unmapped.utbetalinger : [];
     };
 }

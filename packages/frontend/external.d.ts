@@ -594,33 +594,33 @@ declare type ExternalTildeling = {
     navn: string;
 };
 
-declare type ExternalPeriode = {
+declare type ExternalOppdragUtbetalingslinje = {
     fom: string;
     tom: string;
+    totalbeløp: number | null;
 };
 
-declare type ExternalArbeidsgiverOppdrag = {
-    organisasjonsnummer: string;
+declare type ExternalArbeidsgiveroppdrag = {
     fagsystemId: string;
-    utbetalingslinjer: ExternalPeriode[];
+    utbetalingslinjer: ExternalOppdragUtbetalingslinje[];
+    mottaker: string;
 };
 
-declare type ExternalPersonOppdrag = {
-    fødselsnummer: string;
+declare type ExternalPersonoppdrag = {
     fagsystemId: string;
-    utbetalingslinjer: ExternalPeriode[];
+    utbetalingslinjer: ExternalOppdragUtbetalingslinje[];
+    mottaker: string;
 };
 
 declare type ExternalUtbetalingElement = {
     status: string;
     type: string;
-    arbeidsgiverOppdrag?: ExternalArbeidsgiverOppdrag;
-    personOppdrag?: ExternalPersonOppdrag;
+    arbeidsgiveroppdrag?: ExternalArbeidsgiveroppdrag;
+    personoppdrag?: ExternalPersonoppdrag;
     annullertAvSaksbehandler?: null | {
         annullertTidspunkt: string;
         saksbehandlerNavn: string;
     };
-
     totalbeløp: number | null;
 };
 

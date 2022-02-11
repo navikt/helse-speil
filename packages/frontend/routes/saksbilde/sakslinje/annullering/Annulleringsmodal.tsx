@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { Dayjs } from 'dayjs';
+import dayjs from 'dayjs';
 import React, { useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { useSetRecoilState } from 'recoil';
@@ -59,23 +59,19 @@ const Utbetalingsgruppe = styled.div`
     }
 `;
 
-export interface Annulleringslinje {
-    fom: Dayjs;
-    tom: Dayjs;
-    dagsats?: number;
-}
-
 interface AnnulleringsmodalProps {
-    person: Person;
+    fødselsnummer: string;
+    aktørId: string;
     organisasjonsnummer: string;
     fagsystemId: string;
-    linjer: Annulleringslinje[];
+    linjer: ExternalOppdragUtbetalingslinje[];
     onClose: () => void;
     onSuccess?: () => void;
 }
 
 export const Annulleringsmodal = ({
-    person,
+    fødselsnummer,
+    aktørId,
     organisasjonsnummer,
     fagsystemId,
     linjer,
@@ -95,8 +91,8 @@ export const Annulleringsmodal = ({
     const harFeil = () => Object.keys(form.formState.errors).length > 0;
 
     const annullering = (): AnnulleringDTO => ({
-        aktørId: person.aktørId,
-        fødselsnummer: person.fødselsnummer,
+        aktørId: aktørId,
+        fødselsnummer: fødselsnummer,
         organisasjonsnummer: organisasjonsnummer,
         fagsystemId: fagsystemId,
         begrunnelser: begrunnelser,
@@ -159,8 +155,9 @@ export const Annulleringsmodal = ({
                         <ul>
                             {linjer.map((linje, index) => (
                                 <li key={index}>
-                                    {linje.fom.format(NORSK_DATOFORMAT)} - {linje.tom.format(NORSK_DATOFORMAT)}
-                                    {linje.dagsats && ' - ' + somPenger(linje.dagsats)}
+                                    {dayjs(linje.fom).format(NORSK_DATOFORMAT)} -{' '}
+                                    {dayjs(linje.tom).format(NORSK_DATOFORMAT)}
+                                    {linje.totalbeløp ? ` - ${somPenger(linje.totalbeløp)}` : null}
                                 </li>
                             ))}
                         </ul>

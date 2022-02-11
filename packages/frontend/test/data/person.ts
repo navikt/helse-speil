@@ -6,7 +6,6 @@ import { umappetArbeidsgiver } from './arbeidsgiver';
 import { umappetInntektsgrunnlag } from './inntektsgrunnlag';
 import { umappetUtbetalinger } from './spesialistUtbetaling';
 import { etSpleisgrunnlag } from './vilkårsgrunnlaghistorikk';
-import { umappetSimuleringsdata } from './simulering';
 
 export const testAktørId: string = '1211109876233';
 export const testFødselsnummer: string = '01019000123';
@@ -23,7 +22,7 @@ export const testEnkelPeriodeTom: DateString = '2018-01-31';
 
 export const umappetPerson = (
     arbeidsgivere = [umappetArbeidsgiver()],
-    utbetalinger = umappetUtbetalinger(),
+    utbetalinger = [],
     inntektsgrunnlag = [umappetInntektsgrunnlag()]
 ): ExternalPerson => ({
     aktørId: testAktørId,
@@ -38,7 +37,7 @@ export const umappetPerson = (
     },
     dødsdato: null,
     infotrygdutbetalinger: [],
-    utbetalinger,
+    utbetalinger: utbetalinger,
     arbeidsgivere,
     enhet: { id: '', navn: '' },
     arbeidsforhold: [
@@ -60,9 +59,9 @@ export const umappetPerson = (
 
 export const mappetPerson = (
     arbeidsgivere = [umappetArbeidsgiver()],
-    utbetalinger = umappetUtbetalinger(),
+    utbetalinger = [],
     inntektsgrunnlag = [umappetInntektsgrunnlag()]
-) => mapPerson(umappetPerson(arbeidsgivere, utbetalinger, inntektsgrunnlag)).person;
+) => mapPerson(umappetPerson(arbeidsgivere, [], inntektsgrunnlag)).person;
 
 export const mappetPersonObject = (): Person => ({
     enhet: {
@@ -80,38 +79,7 @@ export const mappetPersonObject = (): Person => ({
         fnr: '01019000123',
         adressebeskyttelse: 'Ugradert',
     },
-    utbetalinger: [
-        {
-            status: 'UTBETALT',
-            type: 'UTBETALING',
-            arbeidsgiverOppdrag: {
-                orgnummer: testOrganisasjonsnummer,
-                fagsystemId: testArbeidsgiverfagsystemId,
-                utbetalingslinjer: [
-                    {
-                        fom: dayjs('2018-01-17'),
-                        tom: dayjs('2018-01-20'),
-                    },
-                ],
-            },
-            totalbeløp: null,
-        },
-        {
-            status: 'SENDT',
-            type: 'UTBETALING',
-            arbeidsgiverOppdrag: {
-                orgnummer: testOrganisasjonsnummer,
-                fagsystemId: testPersonfagsystemId,
-                utbetalingslinjer: [
-                    {
-                        fom: dayjs('2018-01-17'),
-                        tom: dayjs('2018-01-25'),
-                    },
-                ],
-            },
-            totalbeløp: null,
-        },
-    ],
+    utbetalinger: [],
     arbeidsgivere: [
         {
             navn: 'Potetsekk AS',
@@ -816,6 +784,7 @@ export const mappetPersonObject = (): Person => ({
                     startdato: dayjs('2018-01-01'),
                 },
             ],
+            generasjoner: [],
         },
     ],
     infotrygdutbetalinger: [],

@@ -13,6 +13,7 @@ import { personState } from '../../../../state/person';
 
 import { testArbeidsgiverfagsystemId } from '../../../../test/data/person';
 import { Annulleringsmodal } from './Annulleringsmodal';
+import { ISO_DATOFORMAT } from '../../../../utils/date';
 
 dayjs.extend(isSameOrAfter);
 
@@ -52,10 +53,16 @@ const renderAnnulleringsmodal = async () => {
         >
             {arbeidsgiverUtbetaling && (
                 <Annulleringsmodal
-                    person={person}
+                    fødselsnummer={person.fødselsnummer}
+                    aktørId={person.aktørId}
                     organisasjonsnummer={aktivPeriode.organisasjonsnummer}
                     fagsystemId={aktivPeriode.fagsystemId!}
-                    linjer={arbeidsgiverUtbetaling?.linjer}
+                    linjer={arbeidsgiverUtbetaling?.linjer.map((it) => ({
+                        ...it,
+                        fom: it.fom.format(ISO_DATOFORMAT),
+                        tom: it.tom.format(ISO_DATOFORMAT),
+                        totalbeløp: it.dagsats,
+                    }))}
                     onClose={() => null}
                 />
             )}

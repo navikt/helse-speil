@@ -1,45 +1,56 @@
 import React from 'react';
-
-import { Button } from '@navikt/ds-react';
-
+import { Cell } from './Cell';
 import { Bold } from '../../../components/Bold';
 import { NORSK_DATOFORMAT_KORT } from '../../../utils/date';
+import { toKronerOgØre } from '../../../utils/locale';
+import dayjs from 'dayjs';
 
-import { Cell } from './Cell';
-import type { Oppdrag } from './Utbetalingshistorikk';
+const getFom = (oppdrag: ExternalPersonoppdrag | ExternalArbeidsgiveroppdrag): Dayjs | undefined =>
+    oppdrag.utbetalingslinjer.length > 0
+        ? oppdrag.utbetalingslinjer.reduce(
+              (first, { fom }) => (first.isAfter(dayjs(fom)) ? dayjs(fom) : first),
+              dayjs()
+          )
+        : undefined;
+
+const getTom = (oppdrag: ExternalPersonoppdrag | ExternalArbeidsgiveroppdrag): Dayjs | undefined =>
+    oppdrag.utbetalingslinjer.length > 0
+        ? oppdrag.utbetalingslinjer.reduce((last, { tom }) => (last.isBefore(dayjs(tom)) ? dayjs(tom) : last), dayjs(0))
+        : undefined;
 
 interface UtbetalingshistorikkRowProps {
-    oppdrag: Oppdrag;
-    status: UtbetalingshistorikkUtbetaling['status'];
-    type: UtbetalingshistorikkUtbetaling['type'];
-    totalbeløp: number | null;
-    annulleringErForespurt: boolean;
-    onSetTilAnnullering?: () => void;
+    oppdrag: ExternalPersonoppdrag | ExternalArbeidsgiveroppdrag;
+    status: ExternalUtbetalingElement['status'];
+    type: ExternalUtbetalingElement['type'];
+    annulleringButton: React.ReactNode;
 }
 
-export const UtbetalingshistorikkRow = ({
+export const UtbetalingshistorikkRow: React.VFC<UtbetalingshistorikkRowProps> = ({
     oppdrag,
     status,
     type,
-    totalbeløp,
-    annulleringErForespurt,
-    onSetTilAnnullering,
-}: UtbetalingshistorikkRowProps) => {
+    annulleringButton,
+}) => {
+    const fom = getFom(oppdrag);
+    const tom = getTom(oppdrag);
+    const totalt = oppdrag.utbetalingslinjer.reduce((sum, { totalbeløp }) => sum + (totalbeløp ?? 0), 0);
+
     return (
         <tr>
             <Cell>
-                <Bold>{oppdrag.utbetalingslinjer[0]?.fom.format(NORSK_DATOFORMAT_KORT)}</Bold>
+                <Bold>{fom?.format(NORSK_DATOFORMAT_KORT) ?? '-'}</Bold>
             </Cell>
             <Cell>
-                <Bold>
-                    {oppdrag.utbetalingslinjer[oppdrag.utbetalingslinjer.length - 1]?.tom.format(NORSK_DATOFORMAT_KORT)}
-                </Bold>
+                <Bold>{tom?.format(NORSK_DATOFORMAT_KORT) ?? '-'}</Bold>
             </Cell>
             <Cell>
                 <Bold>{oppdrag.fagsystemId}</Bold>
             </Cell>
             <Cell>
-                <Bold>{totalbeløp ? `${totalbeløp} kr` : '-'}</Bold>
+                <Bold>{oppdrag.mottaker}</Bold>
+            </Cell>
+            <Cell>
+                <Bold>{totalt ? `${toKronerOgØre(totalt)} kr` : '-'}</Bold>
             </Cell>
             <Cell>
                 <Bold>{status}</Bold>
@@ -47,15 +58,7 @@ export const UtbetalingshistorikkRow = ({
             <Cell>
                 <Bold>{type}</Bold>
             </Cell>
-            <Cell>
-                {annulleringErForespurt ? (
-                    'Utbetalingen er forespurt annullert'
-                ) : onSetTilAnnullering ? (
-                    <Button size="small" onClick={onSetTilAnnullering}>
-                        Annuller
-                    </Button>
-                ) : null}
-            </Cell>
+            <Cell>{annulleringButton}</Cell>
         </tr>
     );
 };

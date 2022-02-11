@@ -4,18 +4,10 @@ import { useHistory } from 'react-router';
 
 import { Close } from '@navikt/ds-icons';
 import { Button } from '@navikt/ds-react';
+import { useOrganisasjonsnummer } from '../../../state/person';
 
-import { useRefreshPersonVedUrlEndring } from '../../../hooks/useRefreshPersonVedUrlEndring';
-import { useOrganisasjonsnummer, usePersoninfo } from '../../../state/person';
-
-import { Annulleringslinje, Annulleringsmodal } from '../sakslinje/annullering/Annulleringsmodal';
+import { Annulleringsmodal } from '../sakslinje/annullering/Annulleringsmodal';
 import { UtbetalingshistorikkRow } from './UtbetalingshistorikkRow';
-
-export type Oppdrag =
-    | Required<UtbetalingshistorikkUtbetaling>['arbeidsgiverOppdrag']
-    | Required<UtbetalingshistorikkUtbetaling>['personOppdrag'];
-
-type FagsystemId = string;
 
 const Container = styled.div`
     grid-column-start: venstremeny;
@@ -48,7 +40,7 @@ const Table = styled.table`
     > tbody > tr {
         height: 2rem;
 
-        &:nth-child(2n-1) {
+        &:nth-of-type(2n-1) {
             background-color: var(--navds-color-gray-10);
         }
     }
@@ -60,107 +52,86 @@ interface UtbetalingshistorikkProps {
 
 export const Utbetalingshistorikk = ({ person }: UtbetalingshistorikkProps) => {
     let { push } = useHistory();
-
-    const fødselsnummer = usePersoninfo().fnr;
     const organisasjonsnummer = useOrganisasjonsnummer();
-    const [tilAnnullering, setTilAnnullering] = useState<UtbetalingshistorikkUtbetaling | undefined>();
-    const [annulleringerInFlight, setAnnulleringerInFlight] = useState<FagsystemId[]>([]);
+    const [tilAnnullering, setTilAnnullering] = useState<
+        ExternalArbeidsgiveroppdrag | ExternalPersonoppdrag | undefined
+    >();
+    const [annulleringerInFlight, setAnnulleringerInFlight] = useState<Array<string>>([]);
 
-    useRefreshPersonVedUrlEndring();
+    const utbetalinger: Array<ExternalUtbetalingElement> = person.utbetalinger;
+
+    // useRefreshPersonVedUrlEndring();
 
     const lukkUtbetalingshistorikk = () => push(`/person/${person.aktørId}/utbetaling`);
 
     const annulleringErForespurt = (oppdrag: Oppdrag) => annulleringerInFlight.includes(oppdrag.fagsystemId);
 
-    const visAnnulleringsknapp = ({ status, type }: UtbetalingshistorikkUtbetaling) =>
-        status === 'UTBETALT' && type === 'UTBETALING';
+    const settValgtOppdragSomInFlight = (oppdrag: ExternalArbeidsgiveroppdrag | ExternalPersonoppdrag) => () => {
+        setAnnulleringerInFlight(annulleringerInFlight.concat([oppdrag.fagsystemId]));
+    };
 
-    const settValgtUtbetalingSomInFlight =
-        ({ arbeidsgiverOppdrag, personOppdrag }: UtbetalingshistorikkUtbetaling) =>
-        () => {
-            const fagsystemIder = [arbeidsgiverOppdrag?.fagsystemId, personOppdrag?.fagsystemId].filter(
-                (it) => it
-            ) as FagsystemId[];
-            if (fagsystemIder.length > 0) {
-                setAnnulleringerInFlight(annulleringerInFlight.concat(fagsystemIder));
-            }
-        };
-
-    const linjer = ({ arbeidsgiverOppdrag, personOppdrag }: UtbetalingshistorikkUtbetaling): Annulleringslinje[] =>
-        (
-            (
-                [arbeidsgiverOppdrag?.utbetalingslinjer, personOppdrag?.utbetalingslinjer] as (
-                    | undefined
-                    | Annulleringslinje[]
-                )[]
-            ).filter((it) => it) as Annulleringslinje[][]
-        ).flat() as Annulleringslinje[];
+    const annulleringButton = (
+        utbetaling: ExternalUtbetalingElement,
+        oppdrag: ExternalArbeidsgiveroppdrag | ExternalPersonoppdrag
+    ) =>
+        utbetaling.status === 'UTBETALT' && utbetaling.type === 'UTBETALING' ? (
+            <Button size="small" onClick={() => setTilAnnullering(oppdrag)}>
+                Annuller
+            </Button>
+        ) : null;
 
     return (
         <Container className="Utbetalingshistorikk">
             <CloseButton as="button" onClick={lukkUtbetalingshistorikk} size="small" variant="tertiary">
                 <Close /> Lukk utbetalingshistorikk
             </CloseButton>
-            <Table aria-label={`Utbetalingshistorikk for person med fødselsnummer ${fødselsnummer ?? '"Ukjent"'}`}>
+            <Table
+                aria-label={`Utbetalingshistorikk for person med fødselsnummer ${person.fødselsnummer ?? '"Ukjent"'}`}
+            >
                 <thead>
                     <tr>
                         <th>Fra</th>
                         <th>Til</th>
-                        <th>Fagstystem-ID</th>
-                        <th>Totalbeløp</th>
+                        <th>Fagsystem-ID</th>
+                        <th>Mottaker</th>
+                        <th>Totalt</th>
                         <th>Status</th>
                         <th>Type</th>
-                        <th>Annuller</th>
+                        <th />
                     </tr>
                 </thead>
                 <tbody>
-                    {person.utbetalinger.map((utbetaling, i) => {
-                        return (
-                            <React.Fragment key={i}>
-                                {utbetaling.arbeidsgiverOppdrag && (
-                                    <UtbetalingshistorikkRow
-                                        oppdrag={utbetaling.arbeidsgiverOppdrag}
-                                        type={utbetaling.type}
-                                        status={utbetaling.status}
-                                        totalbeløp={utbetaling.totalbeløp}
-                                        annulleringErForespurt={annulleringErForespurt(utbetaling.arbeidsgiverOppdrag)}
-                                        onSetTilAnnullering={
-                                            visAnnulleringsknapp(utbetaling)
-                                                ? () => setTilAnnullering(utbetaling)
-                                                : undefined
-                                        }
-                                    />
-                                )}
-                                {utbetaling.personOppdrag && (
-                                    <UtbetalingshistorikkRow
-                                        oppdrag={utbetaling.personOppdrag}
-                                        type={utbetaling.type}
-                                        status={utbetaling.status}
-                                        totalbeløp={utbetaling.totalbeløp}
-                                        annulleringErForespurt={annulleringErForespurt(utbetaling.personOppdrag)}
-                                        onSetTilAnnullering={
-                                            visAnnulleringsknapp(utbetaling)
-                                                ? () => setTilAnnullering(utbetaling)
-                                                : undefined
-                                        }
-                                    />
-                                )}
-                            </React.Fragment>
-                        );
-                    })}
+                    {utbetalinger.map((utbetaling, i) => (
+                        <React.Fragment key={i}>
+                            {utbetaling.personoppdrag && (
+                                <UtbetalingshistorikkRow
+                                    oppdrag={utbetaling.personoppdrag}
+                                    status={utbetaling.status}
+                                    type={utbetaling.type}
+                                    annulleringButton={annulleringButton(utbetaling, utbetaling.personoppdrag)}
+                                />
+                            )}
+                            {utbetaling.arbeidsgiveroppdrag && (
+                                <UtbetalingshistorikkRow
+                                    oppdrag={utbetaling.arbeidsgiveroppdrag}
+                                    status={utbetaling.status}
+                                    type={utbetaling.type}
+                                    annulleringButton={annulleringButton(utbetaling, utbetaling.arbeidsgiveroppdrag)}
+                                />
+                            )}
+                        </React.Fragment>
+                    ))}
                 </tbody>
             </Table>
             {tilAnnullering && (
                 <Annulleringsmodal
-                    person={person}
+                    fødselsnummer={person.fødselsnummer}
+                    aktørId={person.aktørId}
                     organisasjonsnummer={organisasjonsnummer}
-                    fagsystemId={
-                        (tilAnnullering.arbeidsgiverOppdrag?.fagsystemId ??
-                            tilAnnullering.personOppdrag?.fagsystemId) as FagsystemId
-                    }
-                    linjer={linjer(tilAnnullering)}
+                    fagsystemId={tilAnnullering.fagsystemId}
+                    linjer={tilAnnullering.utbetalingslinjer}
                     onClose={() => setTilAnnullering(undefined)}
-                    onSuccess={settValgtUtbetalingSomInFlight(tilAnnullering)}
+                    onSuccess={settValgtOppdragSomInFlight(tilAnnullering)}
                 />
             )}
         </Container>
