@@ -36,7 +36,7 @@ export interface OverstyrtArbeidsforholdDTO {
 
 export interface OverstyrtArbeidsforholdElementDTO {
     orgnummer: string;
-    erAktivt: boolean;
+    deaktivert: boolean;
     begrunnelse: string;
     forklaring: string;
 }

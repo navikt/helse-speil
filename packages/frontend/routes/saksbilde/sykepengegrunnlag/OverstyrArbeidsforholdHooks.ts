@@ -20,7 +20,7 @@ export const useGetOverstyrtArbeidsforhold = () => {
         organisasjonsnummerPeriodeTilGodkjenning: string,
         organisasjonsnummerGhost: string,
         skjæringstidspunkt: string,
-        arbeidsforholdSkalAktiveres: boolean
+        arbeidsforholdSkalDeaktiveres: boolean
     ) => ({
         fødselsnummer: fødselsnummer,
         organisasjonsnummer: organisasjonsnummerPeriodeTilGodkjenning,
@@ -29,7 +29,7 @@ export const useGetOverstyrtArbeidsforhold = () => {
         overstyrteArbeidsforhold: [
             {
                 orgnummer: organisasjonsnummerGhost,
-                erAktivt: arbeidsforholdSkalAktiveres,
+                deaktivert: arbeidsforholdSkalDeaktiveres,
                 begrunnelse: begrunnelse,
                 forklaring: forklaring,
             },

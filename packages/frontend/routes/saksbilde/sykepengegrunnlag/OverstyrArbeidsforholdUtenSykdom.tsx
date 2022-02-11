@@ -201,7 +201,7 @@ const OverstyrArbeidsforholdSkjema = ({
             organisasjonsnummerPeriodeTilGodkjenning,
             organisasjonsnummerAktivPeriode,
             skjæringstidspunkt,
-            arbeidsforholdErDeaktivert
+            true
         );
         onSubmit();
         postOverstyring(overstyrtArbeidsforhold);

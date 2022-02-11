@@ -46,7 +46,7 @@ export const AngreOverstyrArbeidsforholdUtenSykdom = ({
         organisasjonsnummerPeriodeTilGodkjenning,
         organisasjonsnummerAktivPeriode,
         skjæringstidspunkt,
-        true
+        false
     );
     return (
         <>
