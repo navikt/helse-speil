@@ -8,6 +8,7 @@ import { useOrganisasjonsnummer } from '../../../state/person';
 
 import { Annulleringsmodal } from '../sakslinje/annullering/Annulleringsmodal';
 import { UtbetalingshistorikkRow } from './UtbetalingshistorikkRow';
+import { useRefreshPersonVedUrlEndring } from '../../../hooks/useRefreshPersonVedUrlEndring';
 
 const Container = styled.div`
     grid-column-start: venstremeny;
@@ -60,7 +61,7 @@ export const Utbetalingshistorikk = ({ person }: UtbetalingshistorikkProps) => {
 
     const utbetalinger: Array<ExternalUtbetalingElement> = person.utbetalinger;
 
-    // useRefreshPersonVedUrlEndring();
+    useRefreshPersonVedUrlEndring();
 
     const lukkUtbetalingshistorikk = () => push(`/person/${person.aktørId}/utbetaling`);
 
