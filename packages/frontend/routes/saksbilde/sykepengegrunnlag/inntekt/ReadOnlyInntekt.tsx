@@ -3,11 +3,11 @@ import React from 'react';
 
 import { BodyShort } from '@navikt/ds-react';
 
-import { PopoverHjelpetekst } from '../../../../components/PopoverHjelpetekst';
-import { SortInfoikon } from '../../../../components/ikoner/SortInfoikon';
-import { getKildeType } from '../../../../utils/inntektskilde';
-import { getMonthName, somPenger } from '../../../../utils/locale';
-import { sorterInntekterFraAOrdningen } from '../../../../utils/inntekt';
+import { PopoverHjelpetekst } from '@components/PopoverHjelpetekst';
+import { SortInfoikon } from '@components/ikoner/SortInfoikon';
+import { getKildeType } from '@utils/inntektskilde';
+import { getMonthName, somPenger } from '@utils/locale';
+import { sorterInntekterFraAOrdningen } from '@utils/inntekt';
 
 const Tabell = styled.div`
     display: grid;

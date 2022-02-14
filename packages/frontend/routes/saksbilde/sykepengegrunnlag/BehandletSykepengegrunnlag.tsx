@@ -1,10 +1,11 @@
 import dayjs from 'dayjs';
 import React from 'react';
 
-import { NORSK_DATOFORMAT } from '../../../utils/date';
 import { UbehandletSykepengegrunnlag } from './UbehandletSykepengegrunnlag';
-import { AutomatiskVurdering } from '../../../components/AutomatiskVurdering';
-import { Saksbehandlervurdering } from '../../../components/Saksbehandlervurdering';
+
+import { NORSK_DATOFORMAT } from '@utils/date';
+import { AutomatiskVurdering } from '@components/AutomatiskVurdering';
+import { Saksbehandlervurdering } from '@components/Saksbehandlervurdering';
 
 interface BehandletSykepengegrunnlagProps {
     vurdering: Vurdering;

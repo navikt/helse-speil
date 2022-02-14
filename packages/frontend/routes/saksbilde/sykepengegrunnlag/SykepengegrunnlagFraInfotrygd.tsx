@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import React from 'react';
 
-import { Infotrygdvurdering } from '../../../components/Infotrygdvurdering';
+import { Infotrygdvurdering } from '@components/Infotrygdvurdering';
 
 import { Inntektskilderinnhold } from './Inntektskilderinnhold';
 import { SykepengegrunnlagInfotrygd } from './SykepengegrunnlagInfotrygd';

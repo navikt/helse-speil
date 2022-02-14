@@ -2,11 +2,14 @@ import styled from '@emotion/styled';
 import React, { useState } from 'react';
 
 import { BodyShort } from '@navikt/ds-react';
-import { useUtbetaling } from '../../../modell/utbetalingshistorikkelement';
-import { useArbeidsgivernavn, usePersonnavn, useVilkårsgrunnlaghistorikk } from '../../../state/person';
-import { somPenger } from '../../../utils/locale';
+
+import { useArbeidsgivernavn, usePersonnavn, useVilkårsgrunnlaghistorikk } from '@state/person';
+import { somPenger } from '@utils/locale';
+
 import { CardTitle } from './CardTitle';
 import { Utbetalinger } from './Utbetalinger';
+
+import { useUtbetaling } from '../../../modell/utbetalingshistorikkelement';
 
 const Feilmelding = styled(BodyShort)`
     color: var(--navds-color-text-error);

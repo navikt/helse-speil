@@ -4,11 +4,11 @@ import { useForm } from 'react-hook-form';
 
 import { Button, Select, TextField } from '@navikt/ds-react';
 
-import { useRevurderingIsEnabled } from '../../../../hooks/revurdering';
+import { useRevurderingIsEnabled } from '@hooks/revurdering';
+import { Bold } from '@components/Bold';
 
 import { defaultUtbetalingToggles, overstyrPermisjonsdagerEnabled } from '../../../../featureToggles';
 import { UtbetalingstabellDag } from './Utbetalingstabell.types';
-import { Bold } from '../../../../components/Bold';
 
 const Container = styled.div`
     background-color: var(--speil-overstyring-background);

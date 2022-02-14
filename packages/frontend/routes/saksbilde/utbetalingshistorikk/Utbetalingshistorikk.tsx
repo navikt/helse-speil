@@ -4,7 +4,7 @@ import { useHistory } from 'react-router';
 
 import { Close } from '@navikt/ds-icons';
 import { Button } from '@navikt/ds-react';
-import { useOrganisasjonsnummer } from '../../../state/person';
+import { useOrganisasjonsnummer } from '@state/person';
 import { UtbetalingshistorikkRow } from './UtbetalingshistorikkRow';
 import { Annulleringsmodal } from '../sakslinje/annullering/Annulleringsmodal';
 

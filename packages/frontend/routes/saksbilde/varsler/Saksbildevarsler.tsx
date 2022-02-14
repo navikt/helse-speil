@@ -1,10 +1,10 @@
 import React from 'react';
+import styled from '@emotion/styled';
 
 import { BodyShort } from '@navikt/ds-react';
 
 import { Aktivitetsloggvarsler } from './Aktivetsloggvarsler';
-import { Varsel } from '../../../components/Varsel';
-import styled from '@emotion/styled';
+import { Varsel } from '@components/Varsel';
 
 type VarselObject = {
     grad: 'info' | 'suksess' | 'advarsel' | 'feil';

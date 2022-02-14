@@ -1,10 +1,10 @@
 import styled from '@emotion/styled';
 import React, { useLayoutEffect, useState } from 'react';
 
-import { CloseButton } from '../../../components/CloseButton';
-import { EndringsloggOverstyrtInntektEllerArbeidsforhold } from '../../../components/EndringsloggOverstyrtInntektEllerArbeidsforhold';
-import { EndringsloggOverstyrteDager } from '../../../components/EndringsloggOverstyrteDager';
-import { useNotaterForVedtaksperiode } from '../../../state/notater';
+import { useNotaterForVedtaksperiode } from '@state/notater';
+import { CloseButton } from '@components/CloseButton';
+import { EndringsloggOverstyrteDager } from '@components/EndringsloggOverstyrteDager';
+import { EndringsloggOverstyrtInntektEllerArbeidsforhold } from '@components/EndringsloggOverstyrtInntektEllerArbeidsforhold';
 
 import { NotatListeModal } from '../../oversikt/table/rader/notat/NotatListeModal';
 import { HistorikkHendelse } from './HistorikkHendelse';

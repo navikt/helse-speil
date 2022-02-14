@@ -3,23 +3,26 @@ import { Dayjs } from 'dayjs';
 import React, { useEffect, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 
+import { Unlocked } from '@navikt/ds-icons';
 import { BodyShort } from '@navikt/ds-react';
 
-import { Flex, FlexColumn } from '../../../components/Flex';
-import { OverstyringTimeoutModal } from '../../../components/OverstyringTimeoutModal';
-import { PopoverHjelpetekst } from '../../../components/PopoverHjelpetekst';
-import { SortInfoikon } from '../../../components/ikoner/SortInfoikon';
+import { Bold } from '@components/Bold';
+import { Flex, FlexColumn } from '@components/Flex';
+import { OverstyringTimeoutModal } from '@components/OverstyringTimeoutModal';
+import { PopoverHjelpetekst } from '@components/PopoverHjelpetekst';
+import { SortInfoikon } from '@components/ikoner/SortInfoikon';
 import {
     useErAktivPeriodeISisteSkjæringstidspunkt,
     useErTidslinjeperiodeISisteGenerasjon,
     useOverstyrRevurderingIsEnabled,
     useRevurderingIsEnabled,
-} from '../../../hooks/revurdering';
-import { useMap } from '../../../hooks/useMap';
-import { useOverstyringIsEnabled } from '../../../hooks/useOverstyringIsEnabled';
+} from '@hooks/revurdering';
+import { useMap } from '@hooks/useMap';
+import { useOverstyringIsEnabled } from '@hooks/useOverstyringIsEnabled';
+import { useMaybeAktivPeriode, useVedtaksperiode } from '@state/tidslinje';
+import { NORSK_DATOFORMAT } from '@utils/date';
+
 import { useGjenståendeDager, useMaksdato } from '../../../modell/utbetalingshistorikkelement';
-import { useMaybeAktivPeriode, useVedtaksperiode } from '../../../state/tidslinje';
-import { NORSK_DATOFORMAT } from '../../../utils/date';
 
 import { defaultUtbetalingToggles } from '../../../featureToggles';
 import { EndringForm } from './utbetalingstabell/EndringForm';
@@ -31,8 +34,6 @@ import { Utbetalingstabell } from './utbetalingstabell/Utbetalingstabell';
 import type { UtbetalingstabellDag } from './utbetalingstabell/Utbetalingstabell.types';
 import { usePostOverstyring } from './utbetalingstabell/usePostOverstyring';
 import { useTabelldagerMap } from './utbetalingstabell/useTabelldagerMap';
-import { Unlocked } from '@navikt/ds-icons';
-import { Bold } from '../../../components/Bold';
 
 const Container = styled(FlexColumn)<{ overstyrer: boolean }>`
     position: relative;

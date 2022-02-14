@@ -1,6 +1,7 @@
 import React from 'react';
 
-import { Feilikon } from '../../../../components/ikoner/Feilikon';
+import { Feilikon } from '@components/ikoner/Feilikon';
+
 import { Vilkårdata } from '../../../../mapping/vilkår';
 
 import { Vilkårgrid, Vilkårgruppe, Vilkårkolonne } from '../Vilkår.styles';

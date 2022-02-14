@@ -3,11 +3,10 @@ import React, { ReactNode } from 'react';
 
 import { BodyShort } from '@navikt/ds-react';
 
-import { Flex } from '../../../components/Flex';
-
 import { IkonContainer } from './Vilkår.styles';
 
-const Container = styled(Flex)`
+const Container = styled.div`
+    display: flex;
     align-items: start;
     margin-bottom: 2rem;
 `;

@@ -1,12 +1,13 @@
 import React from 'react';
 
 import { Vilkårdata } from '../../../../mapping/vilkår';
-import { tilNorskDato } from '../../../../utils/date';
 
-import { BehandletVarselContent, Vilkårgrid, Vilkårgruppe } from '../Vilkår.styles';
+import { tilNorskDato } from '@utils/date';
+import { AutomatiskVurdering } from '@components/AutomatiskVurdering';
+import { Saksbehandlervurdering } from '@components/Saksbehandlervurdering';
+
 import { Vilkårsgruppetittel } from '../vilkårstitler';
-import { Saksbehandlervurdering } from '../../../../components/Saksbehandlervurdering';
-import { AutomatiskVurdering } from '../../../../components/AutomatiskVurdering';
+import { BehandletVarselContent, Vilkårgrid, Vilkårgruppe } from '../Vilkår.styles';
 
 const Vilkår = ({ tittel, paragraf, komponent, type }: Vilkårdata) => (
     <Vilkårgruppe>

@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import { Dayjs } from 'dayjs';
 import React from 'react';
 
-import { NORSK_DATOFORMAT } from '../../../../utils/date';
+import { NORSK_DATOFORMAT } from '@utils/date';
 
 const Cell = styled.td`
     &:after {

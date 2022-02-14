@@ -1,8 +1,8 @@
 import styled from '@emotion/styled';
 import React, { ReactNode } from 'react';
 
-import { Flex } from '../../../components/Flex';
-import { TextWithEllipsis } from '../../../components/TextWithEllipsis';
+import { Flex } from '@components/Flex';
+import { TextWithEllipsis } from '@components/TextWithEllipsis';
 
 const Antall = styled(TextWithEllipsis)`
     width: 3rem;

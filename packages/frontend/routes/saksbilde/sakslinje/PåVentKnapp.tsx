@@ -4,10 +4,10 @@ import { useHistory } from 'react-router';
 
 import { Loader } from '@navikt/ds-react';
 
-import { DropdownContext, DropdownMenyknapp } from '../../../components/dropdown/Dropdown';
-import { useFjernPåVent, useLeggPåVent } from '../../../state/person';
-import { useOperationErrorHandler } from '../../../state/varsler';
-import { ignorePromise } from '../../../utils/promise';
+import { DropdownContext, DropdownMenyknapp } from '@components/dropdown/Dropdown';
+import { useFjernPåVent, useLeggPåVent } from '@state/person';
+import { useOperationErrorHandler } from '@state/varsler';
+import { ignorePromise } from '@utils/promise';
 
 import { NyttNotatModal } from '../../oversikt/table/rader/notat/NyttNotatModal';
 

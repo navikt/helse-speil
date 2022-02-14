@@ -2,11 +2,12 @@ import styled from '@emotion/styled';
 import dayjs from 'dayjs';
 import React from 'react';
 
-import { AgurkErrorBoundary } from '../../../components/AgurkErrorBoundary';
-import { Flex, FlexColumn } from '../../../components/Flex';
 import { Vilkårdata } from '../../../mapping/vilkår';
-import { usePersoninfo, useVilkårsgrunnlaghistorikk, useVurderingForSkjæringstidspunkt } from '../../../state/person';
-import { useAktivPeriode } from '../../../state/tidslinje';
+
+import { AgurkErrorBoundary } from '@components/AgurkErrorBoundary';
+import { Flex, FlexColumn } from '@components/Flex';
+import { useAktivPeriode } from '@state/tidslinje';
+import { usePersoninfo, useVilkårsgrunnlaghistorikk, useVurderingForSkjæringstidspunkt } from '@state/person';
 
 import { kategoriserteInngangsvilkår } from './kategoriserteInngangsvilkår';
 import { IkkeOppfylteVilkår } from './vilkårsgrupper/IkkeOppfylteVilkår';

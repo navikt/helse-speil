@@ -5,20 +5,20 @@ import classNames from 'classnames';
 
 import { BodyShort } from '@navikt/ds-react';
 
-import { getFormatertNavn, usePersoninfo } from '../state/person';
-import { NORSK_DATOFORMAT } from '../utils/date';
-import { capitalizeName } from '../utils/locale';
+import { getFormatertNavn, usePersoninfo } from '@state/person';
+import { useIsAnonymous } from '@state/anonymization';
+import { NORSK_DATOFORMAT } from '@utils/date';
+import { capitalizeName } from '@utils/locale';
 
-import { utbetalingsoversikt } from '../featureToggles';
-import { Clipboard } from './clipboard';
-import { KjønnsnøytraltIkon } from './ikoner/KjønnsnøytraltIkon';
-import { Kvinneikon } from './ikoner/Kvinneikon';
-import { Manneikon } from './ikoner/Manneikon';
+import { Clipboard } from '@components/clipboard';
+import { Manneikon } from '@components/ikoner/Manneikon';
+import { Kvinneikon } from '@components/ikoner/Kvinneikon';
+import { KjønnsnøytraltIkon } from '@components/ikoner/KjønnsnøytraltIkon';
+import { AnonymizableBold } from '@components/anonymizable/AnonymizableBold';
+import { AnonymizableText } from '@components/anonymizable/AnonymizableText';
+import { AnonymizableContainer } from '@components/anonymizable/AnonymizableContainer';
 
-import { useIsAnonymous } from '../state/anonymization';
-import { AnonymizableBold } from './anonymizable/AnonymizableBold';
-import { AnonymizableText } from './anonymizable/AnonymizableText';
-import { AnonymizableContainer } from './anonymizable/AnonymizableContainer';
+import { utbetalingsoversikt } from '../../featureToggles';
 
 import styles from './Personlinje.module.css';
 

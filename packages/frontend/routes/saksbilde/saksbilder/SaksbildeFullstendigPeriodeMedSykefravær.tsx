@@ -1,9 +1,14 @@
+import React from 'react';
 import { Route, Switch, useRouteMatch } from 'react-router-dom';
-import { useOppgavereferanse, useVedtaksperiode } from '../../../state/tidslinje';
+
 import { useMaksdato } from '../../../modell/utbetalingshistorikkelement';
-import { useSetVedtaksperiodeReferanserForNotater } from '../../../hooks/useSetVedtaksperiodeReferanserForNotater';
 import { getAlderVedSisteSykedag, getMånedsbeløp } from '../../../mapping/selectors';
-import { ISO_DATOFORMAT } from '../../../utils/date';
+
+import { useOppgavereferanse, useVedtaksperiode } from '@state/tidslinje';
+import { useSetVedtaksperiodeReferanserForNotater } from '@hooks/useSetVedtaksperiodeReferanserForNotater';
+import { ISO_DATOFORMAT } from '@utils/date';
+import { Tooltip } from '@components/Tooltip';
+
 import { VenstreMenyMedSykefravær } from '../venstremeny/VenstremenyMedSykefravær';
 import { Saksbildevarsler } from '../varsler/Saksbildevarsler';
 import { Utbetaling } from '../utbetaling/Utbetaling';
@@ -11,8 +16,6 @@ import { Inngangsvilkår } from '../vilkår/Inngangsvilkår';
 import { Sykepengegrunnlag } from '../sykepengegrunnlag/Sykepengegrunnlag';
 import { Faresignaler } from '../faresignaler/Faresignaler';
 import { Historikk } from '../historikk/Historikk';
-import { Tooltip } from '../../../components/Tooltip';
-import React from 'react';
 import { Content, RouteContainer } from './SaksbildeFullstendigPeriode';
 
 interface SaksbildeFullstendigPeriodeMedSykefraværProps {

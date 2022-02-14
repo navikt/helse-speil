@@ -2,17 +2,17 @@ import styled from '@emotion/styled';
 import React, { useEffect, useState } from 'react';
 import { useRecoilValue, useRecoilValueLoadable, useResetRecoilState } from 'recoil';
 
-import { Flex, FlexColumn } from '../../components/Flex';
-import { useLoadingToast } from '../../hooks/useLoadingToast';
-import { useInnloggetSaksbehandler } from '../../state/authentication';
-import { oppgaverState, useRefetchOppgaver } from '../../state/oppgaver';
-import { personState } from '../../state/person';
-import { Scopes, useVarselFilter } from '../../state/varsler';
+import { Varsel } from '@components/Varsel';
+import { Flex, FlexColumn } from '@components/Flex';
+import { useLoadingToast } from '@hooks/useLoadingToast';
+import { personState } from '@state/person';
+import { Scopes, useVarselFilter } from '@state/varsler';
+import { useInnloggetSaksbehandler } from '@state/authentication';
+import { oppgaverState, useRefetchOppgaver } from '@state/oppgaver';
 import { IngenOppgaver } from './IngenOppgaver';
 import { Behandlingsstatistikk } from './behandlingsstatistikk/Behandlingsstatistikk';
 import { OppgaverTable } from './table/OppgaverTable';
 import { Tabs, tabState, TabType } from './tabs';
-import { Varsel } from '../../components/Varsel';
 
 const Container = styled.div`
     position: relative;

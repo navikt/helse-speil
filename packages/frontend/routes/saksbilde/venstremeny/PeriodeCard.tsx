@@ -4,17 +4,18 @@ import React from 'react';
 
 import { BodyShort } from '@navikt/ds-react';
 
-import { Flex } from '../../../components/Flex';
-import { LovdataLenke } from '../../../components/LovdataLenke';
-import { Oppgaveetikett } from '../../../components/Oppgaveetikett';
-import { Advarselikon } from '../../../components/ikoner/Advarselikon';
-import { Maksdatoikon } from '../../../components/ikoner/Maksdatoikon';
-import { Skjæringstidspunktikon } from '../../../components/ikoner/Skjæringstidspunktikon';
-import { SkjæringstidspunktikonInvert } from '../../../components/ikoner/SkjæringstidspunktikonInvert';
-import { Sykmeldingsperiodeikon } from '../../../components/ikoner/Sykmeldingsperiodeikon';
-import { useVedtaksperiode } from '../../../state/tidslinje';
-import { NORSK_DATOFORMAT_KORT } from '../../../utils/date';
-import { capitalize } from '../../../utils/locale';
+import { Flex } from '@components/Flex';
+import { LovdataLenke } from '@components/LovdataLenke';
+import { Oppgaveetikett } from '@components/Oppgaveetikett';
+import { Advarselikon } from '@components/ikoner/Advarselikon';
+import { Maksdatoikon } from '@components/ikoner/Maksdatoikon';
+import { Skjæringstidspunktikon } from '@components/ikoner/Skjæringstidspunktikon';
+import { SkjæringstidspunktikonInvert } from '@components/ikoner/SkjæringstidspunktikonInvert';
+import { Sykmeldingsperiodeikon } from '@components/ikoner/Sykmeldingsperiodeikon';
+import { useVedtaksperiode } from '@state/tidslinje';
+import { NORSK_DATOFORMAT_KORT } from '@utils/date';
+import { capitalize } from '@utils/locale';
+
 import { CardTitle } from './CardTitle';
 
 const Grid = styled.div`

@@ -2,14 +2,14 @@ import styled from '@emotion/styled';
 import React from 'react';
 import { Route, Switch, useRouteMatch } from 'react-router-dom';
 
-import { ErrorBoundary } from '../../components/ErrorBoundary';
-import { LasterPersonlinje, Personlinje } from '../../components/Personlinje';
-import { useRefreshPersonVedOpptegnelse } from '../../hooks/useRefreshPersonVedOpptegnelse';
-import { useRefreshPersonVedUrlEndring } from '../../hooks/useRefreshPersonVedUrlEndring';
-import { usePollEtterOpptegnelser } from '../../io/polling';
-import { usePerson } from '../../state/person';
-import { useMaybeAktivPeriode } from '../../state/tidslinje';
-import { Scopes, useVarselFilter } from '../../state/varsler';
+import { Varsel } from '@components/Varsel';
+import { ErrorBoundary } from '@components/ErrorBoundary';
+import { useRefreshPersonVedOpptegnelse } from '@hooks/useRefreshPersonVedOpptegnelse';
+import { useRefreshPersonVedUrlEndring } from '@hooks/useRefreshPersonVedUrlEndring';
+import { usePollEtterOpptegnelser } from '@io/http/polling';
+import { usePerson } from '@state/person';
+import { useMaybeAktivPeriode } from '@state/tidslinje';
+import { Scopes, useVarselFilter } from '@state/varsler';
 
 import { SaksbildeFullstendigPeriode } from './saksbilder/SaksbildeFullstendigPeriode';
 import { TomtSaksbilde } from './saksbilder/SaksbildeTomt';
@@ -18,9 +18,9 @@ import { Sakslinje } from './sakslinje/Sakslinje';
 import { LasterTidslinje, Tidslinje } from './tidslinje';
 import { useKeyboardShortcuts } from './useKeyboardShortcuts';
 import { Utbetalingshistorikk } from './utbetalingshistorikk/Utbetalingshistorikk';
-import { Varsel } from '../../components/Varsel';
 import { AmplitudeProvider } from './AmplitudeContext';
 import { VenterPåEndringProvider } from './VenterPåEndringContext';
+import { LasterPersonlinje, Personlinje } from './Personlinje';
 
 const Container = styled.div`
     --content-width: calc(100% - var(--speil-venstremeny-width) - var(--speil-hoyremeny-width));

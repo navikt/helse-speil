@@ -1,6 +1,6 @@
 import React, { CSSProperties, useEffect } from 'react';
 
-import { useRemoveToast } from '../../state/toasts';
+import { useRemoveToast } from '@state/toasts';
 
 import { AnimatedToast } from './AnimatedToast';
 import { ToastProps } from './Toast';

@@ -15,7 +15,11 @@ export default defineConfig({
     },
     resolve: {
         alias: {
-            '@io/graphql': path.resolve(__dirname, './io/graphql'),
+            '@io': path.resolve(__dirname, './io'),
+            '@hooks': path.resolve(__dirname, './hooks'),
+            '@state': path.resolve(__dirname, './state'),
+            '@utils': path.resolve(__dirname, './utils'),
+            '@components': path.resolve(__dirname, './components'),
         },
     },
 });

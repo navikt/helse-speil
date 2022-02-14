@@ -1,15 +1,16 @@
-import { usePerson } from '../../../state/person';
-import { useAddToast, useRemoveToast } from '../../../state/toasts';
-import { useOpptegnelser, useSetOpptegnelserPollingRate } from '../../../state/opptegnelser';
 import { useEffect, useState } from 'react';
+
+import { usePerson } from '@state/person';
+import { useAddToast, useRemoveToast } from '@state/toasts';
+import { useOpptegnelser, useSetOpptegnelserPollingRate } from '@state/opptegnelser';
 import {
     kalkulererFerdigToastKey,
     kalkulererToast,
     kalkulererToastKey,
     kalkuleringFerdigToast,
-} from '../../../state/kalkuleringstoasts';
-import { OverstyrtArbeidsforholdDTO } from '../../../io/types';
-import { postAbonnerPåAktør, postOverstyrtArbeidsforhold } from '../../../io/http';
+} from '@state/kalkuleringstoasts';
+import { OverstyrtArbeidsforholdDTO } from '@io/http/types';
+import { postAbonnerPåAktør, postOverstyrtArbeidsforhold } from '@io/http';
 
 export const useGetOverstyrtArbeidsforhold = () => {
     const { aktørId, fødselsnummer } = usePerson() as Person;

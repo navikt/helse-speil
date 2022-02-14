@@ -4,12 +4,12 @@ import React, { useMemo } from 'react';
 
 import { Notes } from '@navikt/ds-icons';
 
-import { Kilde } from '../../../components/Kilde';
-import { LinkButton } from '../../../components/LinkButton';
-import { useOrganisasjonsnummer, usePerson } from '../../../state/person';
+import { Kilde } from '@components/Kilde';
+import { LinkButton } from '@components/LinkButton';
+import { useAktivPeriode } from '@state/tidslinje';
+import { useOrganisasjonsnummer, usePerson } from '@state/person';
 
 import { Hendelse, Hendelsetype } from './Historikk.types';
-import { useAktivPeriode } from '../../../state/tidslinje';
 
 const BegrunnelseTekst = styled.div`
     margin-top: 0.25rem;

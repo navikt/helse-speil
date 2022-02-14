@@ -2,9 +2,10 @@ import styled from '@emotion/styled';
 import { Dayjs } from 'dayjs';
 import React from 'react';
 
+import { harOppgave, useMaybeAktivArbeidsgiverUtenSykdom } from '@state/tidslinje';
+import { NORSK_DATOFORMAT_KORT, tilNorskDato } from '@utils/date';
+
 import { useGjenståendeDager } from '../../../modell/utbetalingshistorikkelement';
-import { harOppgave, useMaybeAktivArbeidsgiverUtenSykdom } from '../../../state/tidslinje';
-import { NORSK_DATOFORMAT_KORT, tilNorskDato } from '../../../utils/date';
 
 import { ArbeidsgiverCard } from './ArbeidsgiverCard';
 import { PeriodeCard } from './PeriodeCard';

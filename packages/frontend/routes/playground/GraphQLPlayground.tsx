@@ -2,7 +2,7 @@ import React from 'react';
 import GraphiQL from 'graphiql';
 
 import 'graphiql/graphiql.min.css';
-import { postGraphQLQuery } from '../../io/http';
+import { postGraphQLQuery } from '@io/http';
 
 const graphQLFetcher = async (graphQLParams: any) => {
     const response = await postGraphQLQuery(JSON.stringify(graphQLParams));

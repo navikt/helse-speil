@@ -1,8 +1,8 @@
 import { useEffect } from 'react';
 import { useRecoilValue } from 'recoil';
 
-import { nyesteOpptegnelserState } from '../state/opptegnelser';
-import { personState, useRefreshPerson } from '../state/person';
+import { nyesteOpptegnelserState } from '@state/opptegnelser';
+import { personState, useRefreshPerson } from '@state/person';
 
 const personHarFåttOpptegnelse = (opptegnelser: Opptegnelse[], valgtAktørId: string): boolean =>
     opptegnelser.some((opptegnelse) => opptegnelse.aktørId.toString() === valgtAktørId);

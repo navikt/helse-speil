@@ -5,11 +5,12 @@ import { selector, useRecoilValueLoadable } from 'recoil';
 
 import { BodyShort } from '@navikt/ds-react';
 
-import { CloseButton } from '../../../components/CloseButton';
-import { Flex } from '../../../components/Flex';
-import { Oppgaveetikett } from '../../../components/Oppgaveetikett';
-import { Tooltip } from '../../../components/Tooltip';
-import { getBehandlingsstatistikk } from '../../../io/http';
+import { Flex } from '@components/Flex';
+import { Tooltip } from '@components/Tooltip';
+import { CloseButton } from '@components/CloseButton';
+import { Oppgaveetikett } from '@components/Oppgaveetikett';
+import { getBehandlingsstatistikk } from '@io/http';
+
 import { tilPeriodetype } from '../../../mapping/periodetype';
 
 import { Statistikkboks } from './Statistikkboks';

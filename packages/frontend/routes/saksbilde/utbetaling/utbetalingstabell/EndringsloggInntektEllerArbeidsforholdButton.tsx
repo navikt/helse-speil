@@ -6,8 +6,8 @@ import { CaseworkerFilled } from '@navikt/ds-icons';
 import {
     EndringsloggOverstyrtInntektEllerArbeidsforhold,
     Endringstype,
-} from '../../../../components/EndringsloggOverstyrtInntektEllerArbeidsforhold';
-import { useInteractOutside } from '../../../../hooks/useInteractOutside';
+} from '@components/EndringsloggOverstyrtInntektEllerArbeidsforhold';
+import { useInteractOutside } from '@hooks/useInteractOutside';
 
 const Button = styled.button`
     position: relative;

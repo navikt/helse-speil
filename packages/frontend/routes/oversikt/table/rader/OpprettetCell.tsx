@@ -3,7 +3,7 @@ import React from 'react';
 import { BodyShort } from '@navikt/ds-react';
 
 import { somDato } from '../../../../mapping/vedtaksperiode';
-import { NORSK_DATOFORMAT } from '../../../../utils/date';
+import { NORSK_DATOFORMAT } from '@utils/date';
 
 import { Cell } from '../Cell';
 import { CellContent } from './CellContent';

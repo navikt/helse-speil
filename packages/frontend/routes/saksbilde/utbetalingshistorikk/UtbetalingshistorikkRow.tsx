@@ -2,9 +2,9 @@ import React from 'react';
 import dayjs from 'dayjs';
 
 import { Cell } from './Cell';
-import { Bold } from '../../../components/Bold';
-import { NORSK_DATOFORMAT_KORT } from '../../../utils/date';
-import { toKronerOgØre } from '../../../utils/locale';
+import { Bold } from '@components/Bold';
+import { NORSK_DATOFORMAT_KORT } from '@utils/date';
+import { toKronerOgØre } from '@utils/locale';
 
 import { Arbeidsgiveroppdrag, Oppdrag, Personoppdrag, Spennoppdrag } from '@io/graphql';
 

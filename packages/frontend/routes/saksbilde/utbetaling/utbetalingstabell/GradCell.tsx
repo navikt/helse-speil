@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Endringstrekant } from '../../../../components/Endringstrekant';
+import { Endringstrekant } from '@components/Endringstrekant';
 
 import { UtbetalingstabellDag } from './Utbetalingstabell.types';
 

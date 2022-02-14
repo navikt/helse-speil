@@ -1,6 +1,7 @@
 import React from 'react';
 
-import { Advarselikon } from '../../../../components/ikoner/Advarselikon';
+import { Advarselikon } from '@components/ikoner/Advarselikon';
+
 import { Vilkårdata } from '../../../../mapping/vilkår';
 
 import { Vilkårgrid, Vilkårgruppe, Vilkårkolonne } from '../Vilkår.styles';

@@ -3,8 +3,8 @@ import React, { useState } from 'react';
 
 import { Button, Loader } from '@navikt/ds-react';
 
-import { useInnloggetSaksbehandler } from '../../../../state/authentication';
-import { useTildelOppgave } from '../../../../state/oppgaver';
+import { useInnloggetSaksbehandler } from '@state/authentication';
+import { useTildelOppgave } from '@state/oppgaver';
 
 import { CellContent } from './CellContent';
 

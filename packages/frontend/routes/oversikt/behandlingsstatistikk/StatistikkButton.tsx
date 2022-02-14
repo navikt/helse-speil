@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { RoundedButton } from '../../../components/RoundedButton';
+import { RoundedButton } from '@components/RoundedButton';
 
 import { IconStatistikk } from './IconStatistikk';
 import { useToggleStatistikk } from './state';

@@ -1,10 +1,10 @@
 import styled from '@emotion/styled';
 import React, { useState } from 'react';
 
-import { LinkButton } from '../../../../../components/LinkButton';
-import { TableModal } from '../../../../../components/TableModal';
-import { useInnloggetSaksbehandler } from '../../../../../state/authentication';
-import { getFormatertNavn } from '../../../../../state/person';
+import { LinkButton } from '@components/LinkButton';
+import { TableModal } from '@components/TableModal';
+import { getFormatertNavn } from '@state/person';
+import { useInnloggetSaksbehandler } from '@state/authentication';
 
 import { NotatListeRad } from './NotatListeRad';
 import { NyttNotatModal } from './NyttNotatModal';

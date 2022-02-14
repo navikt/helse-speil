@@ -3,8 +3,8 @@ import React from 'react';
 
 import { BodyShort } from '@navikt/ds-react';
 
-import { NORSK_DATOFORMAT } from '../../../../utils/date';
-import { toKronerOgØre } from '../../../../utils/locale';
+import { NORSK_DATOFORMAT } from '@utils/date';
+import { toKronerOgØre } from '@utils/locale';
 
 import { Vilkårsgrupperad } from './Vilkårsgrupperad';
 

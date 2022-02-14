@@ -4,29 +4,26 @@ import React, { Dispatch, SetStateAction, useState } from 'react';
 
 import { BodyShort } from '@navikt/ds-react';
 
-import { EditButton } from '../../../../components/EditButton';
-import { Flex, FlexColumn } from '../../../../components/Flex';
-import { Kilde } from '../../../../components/Kilde';
-import { PopoverHjelpetekst } from '../../../../components/PopoverHjelpetekst';
-import { SortInfoikon } from '../../../../components/ikoner/SortInfoikon';
+import { EditButton } from '@components/EditButton';
+import { Flex, FlexColumn } from '@components/Flex';
+import { Kilde } from '@components/Kilde';
+import { PopoverHjelpetekst } from '@components/PopoverHjelpetekst';
+import { SortInfoikon } from '@components/ikoner/SortInfoikon';
 import {
     useErAktivPeriodeISisteSkjæringstidspunkt,
     useErTidslinjeperiodeISisteGenerasjon,
     useHarKunEnFagsystemIdPåArbeidsgiverIAktivPeriode,
-} from '../../../../hooks/revurdering';
-import {
-    useEndringerForPeriode,
-    useUtbetalingForSkjæringstidspunkt,
-    useVilkårsgrunnlaghistorikk,
-} from '../../../../state/person';
-import { useAktivPeriode } from '../../../../state/tidslinje';
-import { getKildeType, kilde } from '../../../../utils/inntektskilde';
+} from '@hooks/revurdering';
+import { useEndringerForPeriode, useUtbetalingForSkjæringstidspunkt, useVilkårsgrunnlaghistorikk } from '@state/person';
+import { useAktivPeriode } from '@state/tidslinje';
+import { getKildeType, kilde } from '@utils/inntektskilde';
 
-import { overstyrInntektEnabled } from '../../../../featureToggles';
 import { EndringsloggInntektEllerArbeidsforholdButton } from '../../utbetaling/utbetalingstabell/EndringsloggInntektEllerArbeidsforholdButton';
 import { EditableInntekt } from './EditableInntekt';
 import { ReadOnlyInntekt } from './ReadOnlyInntekt';
 import { OverstyrArbeidsforholdUtenSykdom } from '../OverstyrArbeidsforholdUtenSykdom';
+
+import { overstyrInntektEnabled } from '../../../../featureToggles';
 
 const Container = styled(FlexColumn)<{ editing: boolean; inntektDeaktivert: boolean }>`
     box-sizing: border-box;

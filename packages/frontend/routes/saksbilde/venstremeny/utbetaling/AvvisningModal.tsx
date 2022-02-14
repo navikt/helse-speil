@@ -4,7 +4,7 @@ import { FormProvider, useForm } from 'react-hook-form';
 
 import { Button, Loader, Heading } from '@navikt/ds-react';
 
-import { Modal } from '../../../../components/Modal';
+import { Modal } from '@components/Modal';
 
 import { Begrunnelsesskjema } from './Begrunnelsesskjema';
 

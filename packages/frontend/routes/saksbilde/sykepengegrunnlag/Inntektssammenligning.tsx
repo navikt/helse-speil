@@ -2,17 +2,17 @@ import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import React from 'react';
 
+import { Bag } from '@navikt/ds-icons';
 import { BodyShort } from '@navikt/ds-react';
 
-import { Kilde } from '../../../components/Kilde';
-import { useArbeidsgivernavn, useEndringerForPeriode } from '../../../state/person';
-import { getKildeType, kilde } from '../../../utils/inntektskilde';
-import { somPenger } from '../../../utils/locale';
-
 import { EndringsloggInntektEllerArbeidsforholdButton } from '../utbetaling/utbetalingstabell/EndringsloggInntektEllerArbeidsforholdButton';
-import { Bag } from '@navikt/ds-icons';
-import { AnonymizableText } from '../../../components/anonymizable/AnonymizableText';
-import { Errorikon } from '../../../components/ikoner/Errorikon';
+
+import { Kilde } from '@components/Kilde';
+import { Errorikon } from '@components/ikoner/Errorikon';
+import { AnonymizableText } from '@components/anonymizable/AnonymizableText';
+import { somPenger } from '@utils/locale';
+import { getKildeType, kilde } from '@utils/inntektskilde';
+import { useArbeidsgivernavn, useEndringerForPeriode } from '@state/person';
 
 const ArbeidsgiverRad = styled.tr<{ erGjeldende: boolean }>`
     padding: 0.25rem;

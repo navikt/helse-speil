@@ -1,12 +1,12 @@
 import styled from '@emotion/styled';
 import React from 'react';
 
-import { ErrorBoundary } from '../../../components/ErrorBoundary';
+import { ErrorBoundary } from '@components/ErrorBoundary';
 
-import { useVarselOmSakErTildeltAnnenSaksbehandler } from '../../../hooks/useVarselOmSakErTildeltAnnenSaksbehandler';
+import { useVarselOmSakErTildeltAnnenSaksbehandler } from '@hooks/useVarselOmSakErTildeltAnnenSaksbehandler';
 
-import { useInnloggetSaksbehandler } from '../../../state/authentication';
-// import { AmplitudeProvider } from '../AmplitudeContext';
+import { useInnloggetSaksbehandler } from '@state/authentication';
+import { AmplitudeProvider } from '../AmplitudeContext';
 import { getErrorMessage } from '../errorMessages';
 import { nanoid } from 'nanoid';
 import { SaksbildeFullstendigPeriodeUtenSykefravær } from './SaksbildeFullstendigPeriodeUtenSykefravær';
@@ -41,19 +41,19 @@ export const SaksbildeFullstendigPeriode = ({
 
     return (
         <ErrorBoundary key={nanoid()} fallback={errorMelding}>
-            {/*</AmplitudeProvider>*/}
-            {aktivPeriode.tilstand === 'utenSykefravær' ? (
-                <SaksbildeFullstendigPeriodeUtenSykefravær
-                    personTilBehandling={personTilBehandling}
-                    aktivPeriode={aktivPeriode as TidslinjeperiodeUtenSykefravær}
-                />
-            ) : (
-                <SaksbildeFullstendigPeriodeMedSykefravær
-                    personTilBehandling={personTilBehandling}
-                    aktivPeriode={aktivPeriode as TidslinjeperiodeMedSykefravær}
-                />
-            )}
-            {/*</AmplitudeProvider>*/}
+            <AmplitudeProvider>
+                {aktivPeriode.tilstand === 'utenSykefravær' ? (
+                    <SaksbildeFullstendigPeriodeUtenSykefravær
+                        personTilBehandling={personTilBehandling}
+                        aktivPeriode={aktivPeriode as TidslinjeperiodeUtenSykefravær}
+                    />
+                ) : (
+                    <SaksbildeFullstendigPeriodeMedSykefravær
+                        personTilBehandling={personTilBehandling}
+                        aktivPeriode={aktivPeriode as TidslinjeperiodeMedSykefravær}
+                    />
+                )}
+            </AmplitudeProvider>
         </ErrorBoundary>
     );
 };

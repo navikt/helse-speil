@@ -1,6 +1,7 @@
 import React from 'react';
 
-import { Infotrygdvurdering } from '../../../../components/Infotrygdvurdering';
+import { Infotrygdvurdering } from '@components/Infotrygdvurdering';
+
 import { Vilkårdata } from '../../../../mapping/vilkår';
 
 import { BehandletVarselContent, Vilkårgrid, Vilkårgruppe } from '../Vilkår.styles';

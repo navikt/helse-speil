@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 
-import { Scopes, useAddVarsel, useRemoveVarsel } from '../state/varsler';
-import { capitalizeName } from '../utils/locale';
+import { Scopes, useAddVarsel, useRemoveVarsel } from '@state/varsler';
+import { capitalizeName } from '@utils/locale';
 
 const erTildeltAnnenSaksbehandler = (saksbehandlerOid: string, personTilBehandling: Person): boolean => {
     if (!personTilBehandling.tildeling) return false;

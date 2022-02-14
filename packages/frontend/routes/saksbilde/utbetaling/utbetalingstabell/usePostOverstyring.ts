@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 
-import { postAbonnerPåAktør, postOverstyrteDager } from '../../../../io/http';
-import { OverstyrtDagDTO } from '../../../../io/types';
+import { postAbonnerPåAktør, postOverstyrteDager } from '@io/http';
+import type { OverstyrtDagDTO } from '@io/http';
 import {
     kalkulererFerdigToastKey,
     kalkulererToast,

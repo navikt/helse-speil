@@ -3,8 +3,8 @@ import React, { useRef, useState } from 'react';
 
 import { CaseworkerFilled } from '@navikt/ds-icons';
 
-import { EndringsloggOverstyrteDager } from '../../../../components/EndringsloggOverstyrteDager';
-import { useInteractOutside } from '../../../../hooks/useInteractOutside';
+import { EndringsloggOverstyrteDager } from '@components/EndringsloggOverstyrteDager';
+import { useInteractOutside } from '@hooks/useInteractOutside';
 
 const Button = styled.button`
     position: relative;

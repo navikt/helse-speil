@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { TextWithEllipsis } from '../../../../components/TextWithEllipsis';
+import { TextWithEllipsis } from '@components/TextWithEllipsis';
 
 import { Cell } from '../Cell';
 import { CellContent } from './CellContent';

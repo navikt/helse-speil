@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 
-import { DropdownContext, DropdownMenyknapp } from '../../../components/dropdown/Dropdown';
-import { useIsAnonymous, useToggleAnonymity } from '../../../state/anonymization';
+import { DropdownContext, DropdownMenyknapp } from '@components/dropdown/Dropdown';
+import { useIsAnonymous, useToggleAnonymity } from '@state/anonymization';
 
 export const AnonymiserData = () => {
     const { lukk } = useContext(DropdownContext);

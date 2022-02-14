@@ -3,9 +3,9 @@ import React from 'react';
 
 import { BodyShort } from '@navikt/ds-react';
 
-import { LovdataLenke } from '../../../../components/LovdataLenke';
-import { Tooltip } from '../../../../components/Tooltip';
-import { useAlderVedSkjæringstidspunkt } from '../../../../state/person';
+import { LovdataLenke } from '@components/LovdataLenke';
+import { Tooltip } from '@components/Tooltip';
+import { useAlderVedSkjæringstidspunkt } from '@state/person';
 
 import { CellContent } from '../../table/CellContent';
 import { UtbetalingstabellDag } from './Utbetalingstabell.types';

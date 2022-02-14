@@ -1,13 +1,16 @@
 import React, { ReactNode, useContext, useState } from 'react';
-import { Button } from '@navikt/ds-react';
-import { UtbetalingModal } from './UtbetalingModal';
-import { postUtbetalingsgodkjenning } from '../../../../io/http';
-import { useSetRecoilState } from 'recoil';
-import { opptegnelsePollingTimeState } from '../../../../state/opptegnelser';
-import { AmplitudeContext } from '../../AmplitudeContext';
-import { Scopes, useAddEphemeralVarsel } from '../../../../state/varsler';
 import { nanoid } from 'nanoid';
 import { useHistory } from 'react-router';
+import { useSetRecoilState } from 'recoil';
+
+import { Button } from '@navikt/ds-react';
+
+import { UtbetalingModal } from './UtbetalingModal';
+import { postUtbetalingsgodkjenning } from '@io/http';
+import { opptegnelsePollingTimeState } from '@state/opptegnelser';
+import { Scopes, useAddEphemeralVarsel } from '@state/varsler';
+
+import { AmplitudeContext } from '../../AmplitudeContext';
 
 const useAddUtbetalingstoast = () => {
     const timeToLiveMs = 5000;

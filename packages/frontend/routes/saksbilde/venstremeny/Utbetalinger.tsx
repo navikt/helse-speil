@@ -4,9 +4,10 @@ import React, { useState } from 'react';
 import { Bag, People } from '@navikt/ds-icons';
 import { BodyShort } from '@navikt/ds-react';
 
-import { AnonymizableTextWithEllipsis } from '../../../components/TextWithEllipsis';
-import { somPenger } from '../../../utils/locale';
-import { LinkButton } from '../../../components/LinkButton';
+import { AnonymizableTextWithEllipsis } from '@components/TextWithEllipsis';
+import { somPenger } from '@utils/locale';
+import { LinkButton } from '@components/LinkButton';
+
 import { SimuleringsinfoModal } from './utbetaling/SimuleringsinfoModal';
 
 const Container = styled.div`

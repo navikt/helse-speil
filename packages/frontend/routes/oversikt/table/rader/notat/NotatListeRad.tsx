@@ -4,12 +4,12 @@ import React, { useState } from 'react';
 
 import { Loader } from '@navikt/ds-react';
 
-import { LinkButton } from '../../../../../components/LinkButton';
-import { putFeilregistrertNotat } from '../../../../../io/http';
-import { useRefreshNotater } from '../../../../../state/notater';
-import { useOperationErrorHandler } from '../../../../../state/varsler';
-import { NORSK_DATOFORMAT_MED_KLOKKESLETT } from '../../../../../utils/date';
-import { ignorePromise } from '../../../../../utils/promise';
+import { LinkButton } from '@components/LinkButton';
+import { putFeilregistrertNotat } from '@io/http';
+import { useRefreshNotater } from '@state/notater';
+import { useOperationErrorHandler } from '@state/varsler';
+import { NORSK_DATOFORMAT_MED_KLOKKESLETT } from '@utils/date';
+import { ignorePromise } from '@utils/promise';
 
 const FeilregistrerButton = styled(LinkButton)`
     color: var(--navds-color-text-primary);

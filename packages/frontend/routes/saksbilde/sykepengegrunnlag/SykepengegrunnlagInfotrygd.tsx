@@ -4,12 +4,12 @@ import React from 'react';
 
 import { BodyShort } from '@navikt/ds-react';
 
-import { FlexColumn } from '../../../components/Flex';
-import { Kilde } from '../../../components/Kilde';
-import { useArbeidsgivernavn } from '../../../state/person';
-import { getKildeType, kilde } from '../../../utils/inntektskilde';
-import { somPenger } from '../../../utils/locale';
-import { AnonymizableText } from '../../../components/anonymizable/AnonymizableText';
+import { Kilde } from '@components/Kilde';
+import { FlexColumn } from '@components/Flex';
+import { AnonymizableText } from '@components/anonymizable/AnonymizableText';
+import { useArbeidsgivernavn } from '@state/person';
+import { getKildeType, kilde } from '@utils/inntektskilde';
+import { somPenger } from '@utils/locale';
 
 const Container = styled(FlexColumn)`
     --fixed-column-width: 20rem;

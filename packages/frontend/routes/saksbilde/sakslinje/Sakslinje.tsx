@@ -1,9 +1,9 @@
 import styled from '@emotion/styled';
 import React from 'react';
 
-import { Flex } from '../../../components/Flex';
-import { Location, useNavigation } from '../../../hooks/useNavigation';
-import { useVedtaksperiode } from '../../../state/tidslinje';
+import { Flex } from '@components/Flex';
+import { Location, useNavigation } from '@hooks/useNavigation';
+import { useVedtaksperiode } from '@state/tidslinje';
 
 import { TabLink } from '../TabLink';
 import { HistorikkHeader } from '../historikk/HistorikkHeader';

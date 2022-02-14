@@ -4,8 +4,8 @@ import React from 'react';
 
 import { BodyShort } from '@navikt/ds-react';
 
-import { NORSK_DATOFORMAT } from '../utils/date';
-import { somPenger } from '../utils/locale';
+import { NORSK_DATOFORMAT } from '@utils/date';
+import { somPenger } from '@utils/locale';
 
 import { ModalProps } from './Modal';
 import { TableModal } from './TableModal';

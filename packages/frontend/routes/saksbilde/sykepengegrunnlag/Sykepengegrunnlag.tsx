@@ -1,13 +1,9 @@
 import styled from '@emotion/styled';
 import React from 'react';
 
-import { AgurkErrorBoundary } from '../../../components/AgurkErrorBoundary';
-import {
-    useOrganisasjonsnummer,
-    useVilkårsgrunnlaghistorikk,
-    useVurderingForSkjæringstidspunkt,
-} from '../../../state/person';
-import { useMaybeAktivPeriode } from '../../../state/tidslinje';
+import { AgurkErrorBoundary } from '@components/AgurkErrorBoundary';
+import { useOrganisasjonsnummer, useVilkårsgrunnlaghistorikk, useVurderingForSkjæringstidspunkt } from '@state/person';
+import { useMaybeAktivPeriode } from '@state/tidslinje';
 
 import { BehandletSykepengegrunnlag } from './BehandletSykepengegrunnlag';
 import { SykepengegrunnlagFraInfogtrygd } from './SykepengegrunnlagFraInfotrygd';

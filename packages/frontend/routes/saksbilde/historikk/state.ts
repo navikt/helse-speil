@@ -1,8 +1,8 @@
 import { useEffect } from 'react';
 import { atom, selector, useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 
-import { useNotaterForVedtaksperiode } from '../../../state/notater';
-import { useMaybeAktivPeriode, useVedtaksperiode } from '../../../state/tidslinje';
+import { useNotaterForVedtaksperiode } from '@state/notater';
+import { useMaybeAktivPeriode, useVedtaksperiode } from '@state/tidslinje';
 
 import { Hendelse, Hendelsetype } from './Historikk.types';
 import {

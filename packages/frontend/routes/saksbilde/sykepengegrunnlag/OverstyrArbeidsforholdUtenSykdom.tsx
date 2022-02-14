@@ -1,19 +1,21 @@
 import React, { useContext, useRef, useState } from 'react';
-import { EditButton } from '../../../components/EditButton';
-import { Error } from '@navikt/ds-icons';
-import { FormProvider, useForm } from 'react-hook-form';
-import styled from '@emotion/styled';
-import { BodyShort, Button as NavButton, ErrorSummary, ErrorSummaryItem, Loader } from '@navikt/ds-react';
-import { Flex, FlexColumn } from '../../../components/Flex';
 import { css } from '@emotion/react';
-import { Begrunnelser } from '../../../components/Begrunnelser';
-import { ForklaringTextarea } from '../../../components/ForklaringTextArea';
-import { ErrorMessage } from '../../../components/ErrorMessage';
-import { OverstyringTimeoutModal } from '../../../components/OverstyringTimeoutModal';
+import styled from '@emotion/styled';
+import { FormProvider, useForm } from 'react-hook-form';
+
+import { Error } from '@navikt/ds-icons';
+import { BodyShort, Button as NavButton, ErrorSummary, ErrorSummaryItem, Loader } from '@navikt/ds-react';
+
+import { EditButton } from '@components/EditButton';
+import { ErrorMessage } from '@components/ErrorMessage';
+import { Begrunnelser } from '@components/Begrunnelser';
+import { Flex, FlexColumn } from '@components/Flex';
+import { ForklaringTextarea } from '@components/ForklaringTextArea';
+import { OverstyringTimeoutModal } from '@components/OverstyringTimeoutModal';
+
+import { VenterPåEndringContext } from '../VenterPåEndringContext';
 import { AngreOverstyrArbeidsforholdUtenSykdom } from './AngreOverstyrArbeidsforholdUtenSykdom';
 import { useGetOverstyrtArbeidsforhold, usePostOverstyrtArbeidsforhold } from './OverstyrArbeidsforholdHooks';
-import { VenterPåEndringContext } from '../VenterPåEndringContext';
-import { Button } from '../../../components/Button';
 
 const Container = styled.div`
     display: flex;

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { useFjernTildeling } from '../../../../../state/oppgaver';
+import { useFjernTildeling } from '@state/oppgaver';
 
 import { AsyncMenuButton } from './AsyncMenuButton';
 

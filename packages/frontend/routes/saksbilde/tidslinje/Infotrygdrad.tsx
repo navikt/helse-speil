@@ -1,9 +1,9 @@
 import styled from '@emotion/styled';
 import React from 'react';
 
-import { Flex, FlexColumn } from '../../../components/Flex';
-import { AnonymizableTextWithEllipsis } from '../../../components/TextWithEllipsis';
-import { Infotrygdikon } from '../../../components/ikoner/Infotrygdikon';
+import { Infotrygdikon } from '@components/ikoner/Infotrygdikon';
+import { Flex, FlexColumn } from '@components/Flex';
+import { AnonymizableTextWithEllipsis } from '@components/TextWithEllipsis';
 
 import { Tidslinjerad } from './Tidslinjerad';
 import { InfotrygdradObject } from './useInfotrygdrader';

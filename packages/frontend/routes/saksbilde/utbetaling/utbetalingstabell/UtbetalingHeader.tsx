@@ -3,10 +3,10 @@ import React from 'react';
 
 import { Locked } from '@navikt/ds-icons';
 
-import { Flex } from '../../../../components/Flex';
-import { PopoverHjelpetekst } from '../../../../components/PopoverHjelpetekst';
-import { SortInfoikon } from '../../../../components/ikoner/SortInfoikon';
-import { useRevurderingIsEnabled } from '../../../../hooks/revurdering';
+import { Flex } from '@components/Flex';
+import { PopoverHjelpetekst } from '@components/PopoverHjelpetekst';
+import { SortInfoikon } from '@components/ikoner/SortInfoikon';
+import { useRevurderingIsEnabled } from '@hooks/revurdering';
 
 import { defaultUtbetalingToggles } from '../../../../featureToggles';
 

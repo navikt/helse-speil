@@ -7,7 +7,8 @@ import { Pins } from '@navikt/helse-frontend-timeline/lib';
 import { Pin } from '@navikt/helse-frontend-timeline/lib/components/types';
 
 import { maksdatoForPerson } from '../../../mapping/selectors';
-import { NORSK_DATOFORMAT } from '../../../utils/date';
+
+import { NORSK_DATOFORMAT } from '@utils/date';
 
 import { PinsTooltip } from './TidslinjeTooltip';
 

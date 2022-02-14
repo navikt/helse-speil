@@ -3,7 +3,7 @@ import React from 'react';
 
 import { BodyShort } from '@navikt/ds-react';
 
-import { NORSK_DATOFORMAT_MED_KLOKKESLETT } from '../../../utils/date';
+import { NORSK_DATOFORMAT_MED_KLOKKESLETT } from '@utils/date';
 
 import { Hendelse } from './Historikk.types';
 

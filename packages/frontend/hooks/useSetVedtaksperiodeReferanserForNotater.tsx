@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useSetRecoilState } from 'recoil';
 
-import { vedtaksperioderTilVisningState } from '../state/notater';
+import { vedtaksperioderTilVisningState } from '@state/notater';
 
 export const useSetVedtaksperiodeReferanserForNotater = (vedtaksperiodeIder: string[]) => {
     const setNotatVedtaksperioder = useSetRecoilState(vedtaksperioderTilVisningState);

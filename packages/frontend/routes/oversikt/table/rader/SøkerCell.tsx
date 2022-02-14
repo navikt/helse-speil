@@ -1,8 +1,8 @@
 import React from 'react';
 
-import { AnonymizableTextWithEllipsis } from '../../../../components/TextWithEllipsis';
-import { Tooltip } from '../../../../components/Tooltip';
-import { capitalizeName } from '../../../../utils/locale';
+import { AnonymizableTextWithEllipsis } from '@components/TextWithEllipsis';
+import { Tooltip } from '@components/Tooltip';
+import { capitalizeName } from '@utils/locale';
 import { Cell } from '../Cell';
 import { CellContent } from './CellContent';
 

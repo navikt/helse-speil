@@ -4,7 +4,7 @@ import React from 'react';
 import { BodyShort, Link, Heading } from '@navikt/ds-react';
 
 import nissemyra from '../assets/nissemyra.svg';
-import { FlexColumn } from '../components/Flex';
+import { FlexColumn } from '@components/Flex';
 
 const Container = styled.div`
     display: flex;

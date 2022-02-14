@@ -5,23 +5,23 @@ import { FormProvider, useForm } from 'react-hook-form';
 
 import { BodyShort, Button as NavButton, ErrorSummary, ErrorSummaryItem, Loader } from '@navikt/ds-react';
 
-import { Endringstrekant } from '../../../../components/Endringstrekant';
-import { ErrorMessage } from '../../../../components/ErrorMessage';
-import { Flex, FlexColumn } from '../../../../components/Flex';
-import { OverstyringTimeoutModal } from '../../../../components/OverstyringTimeoutModal';
-import { postAbonnerPåAktør, postOverstyrtInntekt } from '../../../../io/http';
-import type { OverstyrtInntektDTO } from '../../../../io/types';
+import { Endringstrekant } from '@components/Endringstrekant';
+import { ErrorMessage } from '@components/ErrorMessage';
+import { Flex, FlexColumn } from '@components/Flex';
+import { OverstyringTimeoutModal } from '@components/OverstyringTimeoutModal';
+import { postAbonnerPåAktør, postOverstyrtInntekt } from '@io/http';
+import type { OverstyrtInntektDTO } from '@io/http';
 import {
     kalkulererFerdigToastKey,
     kalkulererToast,
     kalkulererToastKey,
     kalkuleringFerdigToast,
-} from '../../../../state/kalkuleringstoasts';
-import { useOpptegnelser, useSetOpptegnelserPollingRate } from '../../../../state/opptegnelser';
-import { usePerson } from '../../../../state/person';
-import { useAktivPeriode } from '../../../../state/tidslinje';
-import { useAddToast, useRemoveToast } from '../../../../state/toasts';
-import { somPenger, toKronerOgØre } from '../../../../utils/locale';
+} from '@state/kalkuleringstoasts';
+import { useOpptegnelser, useSetOpptegnelserPollingRate } from '@state/opptegnelser';
+import { usePerson } from '@state/person';
+import { useAktivPeriode } from '@state/tidslinje';
+import { useAddToast, useRemoveToast } from '@state/toasts';
+import { somPenger, toKronerOgØre } from '@utils/locale';
 
 import { Begrunnelser } from './Begrunnelser';
 import { ForklaringTextarea } from './ForklaringTextarea';

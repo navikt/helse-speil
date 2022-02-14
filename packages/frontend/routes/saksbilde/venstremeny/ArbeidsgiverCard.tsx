@@ -1,20 +1,20 @@
 import dayjs from 'dayjs';
 import React from 'react';
+import styled from '@emotion/styled';
 
 import { Bag } from '@navikt/ds-icons';
 import { BodyShort } from '@navikt/ds-react';
 
-import { Flex } from '../../../components/Flex';
-import { Clipboard } from '../../../components/clipboard';
-import { NORSK_DATOFORMAT } from '../../../utils/date';
-import { useArbeidsgivernavn } from '../../../state/person';
-import { capitalize, somPenger } from '../../../utils/locale';
+import { Flex } from '@components/Flex';
+import { Clipboard } from '@components/clipboard';
+import { AnonymizableText } from '@components/anonymizable/AnonymizableText';
+import { AnonymizableContainer } from '@components/anonymizable/AnonymizableContainer';
+import { NORSK_DATOFORMAT } from '@utils/date';
+import { useArbeidsgivernavn } from '@state/person';
+import { capitalize, somPenger } from '@utils/locale';
 
 import { CardTitle } from './CardTitle';
-import styled from '@emotion/styled';
 import { useArbeidsforhold } from '../../../modell/arbeidsgiver';
-import { AnonymizableText } from '../../../components/anonymizable/AnonymizableText';
-import { AnonymizableContainer } from '../../../components/anonymizable/AnonymizableContainer';
 
 const ArbeidsgiverContainer = styled.div`
     display: grid;

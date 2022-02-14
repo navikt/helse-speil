@@ -4,8 +4,9 @@ import React, { Dispatch, SetStateAction, useMemo } from 'react';
 
 import { Checkbox as NavCheckbox } from '@navikt/ds-react';
 
-import { overstyrPermisjonsdagerEnabled } from '../../../../featureToggles';
 import { UtbetalingstabellDag } from './Utbetalingstabell.types';
+
+import { overstyrPermisjonsdagerEnabled } from '../../../../featureToggles';
 
 const Container = styled.div`
     position: absolute;

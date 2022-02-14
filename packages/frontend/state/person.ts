@@ -1,10 +1,12 @@
 import dayjs from 'dayjs';
 import { atom, selector, useRecoilValue, useResetRecoilState, useSetRecoilState } from 'recoil';
 
-import { deletePåVent, getPerson, postLeggPåVent } from '../io/http';
 import { mapPerson } from '../mapping/person';
-import { useMaybeArbeidsgiver as useArbeidsgiverUtenParametre } from '../modell/arbeidsgiver';
 import { useUtbetaling } from '../modell/utbetalingshistorikkelement';
+import { useMaybeArbeidsgiver as useArbeidsgiverUtenParametre } from '../modell/arbeidsgiver';
+
+import { deletePåVent, getPerson, postLeggPåVent } from '@io/http';
+
 import { useInnloggetSaksbehandler } from './authentication';
 import { aktivPeriodeState, useAktivPeriode, useMaybeAktivPeriode } from './tidslinje';
 

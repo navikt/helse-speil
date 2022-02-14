@@ -7,13 +7,13 @@ import React from 'react';
 import { RecoilRoot } from 'recoil';
 import { mappetPerson } from 'test-data';
 
-import { AnnulleringDTO } from '../../../../io/types';
-import { authState } from '../../../../state/authentication';
-import { personState } from '../../../../state/person';
+import type { AnnulleringDTO } from '@io/http/types';
+import { authState } from '@state/authentication';
+import { personState } from '@state/person';
+import { ISO_DATOFORMAT } from '@utils/date';
 
 import { testArbeidsgiverfagsystemId } from '../../../../test/data/person';
 import { Annulleringsmodal } from './Annulleringsmodal';
-import { ISO_DATOFORMAT } from '../../../../utils/date';
 
 dayjs.extend(isSameOrAfter);
 

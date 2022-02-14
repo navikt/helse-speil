@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import { Notes } from '@navikt/ds-icons';
 import { Button } from '@navikt/ds-react';
 
-import { useNotaterForVedtaksperiode } from '../../../../../state/notater';
+import { useNotaterForVedtaksperiode } from '@state/notater';
 
 import { Cell } from '../../Cell';
 import { NotatListeModal } from './NotatListeModal';

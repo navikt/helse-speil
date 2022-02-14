@@ -1,8 +1,9 @@
 import dayjs from 'dayjs';
 
 import { useArbeidsgiver } from '../modell/arbeidsgiver';
-import { usePerson } from '../state/person';
-import { useAktivPeriode, useMaybeAktivPeriode } from '../state/tidslinje';
+
+import { usePerson } from '@state/person';
+import { useAktivPeriode, useMaybeAktivPeriode } from '@state/tidslinje';
 
 import type { UtbetalingToggles } from '../featureToggles';
 

@@ -1,11 +1,12 @@
 import styled from '@emotion/styled';
 import React from 'react';
 
-import { Dropdown } from '../../../components/dropdown/Dropdown';
 import { useErAnnullert } from '../../../modell/utbetalingshistorikkelement';
-import { useInnloggetSaksbehandler } from '../../../state/authentication';
-import { usePerson } from '../../../state/person';
-import { useOppgavereferanse, useVedtaksperiode } from '../../../state/tidslinje';
+
+import { Dropdown } from '@components/dropdown/Dropdown';
+import { usePerson } from '@state/person';
+import { useInnloggetSaksbehandler } from '@state/authentication';
+import { useOppgavereferanse, useVedtaksperiode } from '@state/tidslinje';
 
 import { annulleringerEnabled } from '../../../featureToggles';
 import { AnonymiserData } from './AnonymiserData';

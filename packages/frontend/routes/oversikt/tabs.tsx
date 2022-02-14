@@ -5,10 +5,10 @@ import { atom, useRecoilState, useRecoilValue } from 'recoil';
 
 import { BodyShort } from '@navikt/ds-react';
 
-import { Flex } from '../../components/Flex';
-import { Dropdown } from '../../components/dropdown/Dropdown';
-import { useInnloggetSaksbehandler } from '../../state/authentication';
-import { useMineOppgaver, useOppgaver } from '../../state/oppgaver';
+import { Flex } from '@components/Flex';
+import { Dropdown } from '@components/dropdown/Dropdown';
+import { useInnloggetSaksbehandler } from '@state/authentication';
+import { useMineOppgaver, useOppgaver } from '@state/oppgaver';
 
 import { AnonymiserData } from '../saksbilde/sakslinje/AnonymiserData';
 import { StatistikkButton } from './behandlingsstatistikk/StatistikkButton';

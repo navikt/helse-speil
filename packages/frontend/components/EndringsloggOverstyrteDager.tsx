@@ -3,7 +3,7 @@ import React from 'react';
 
 import { BodyShort } from '@navikt/ds-react';
 
-import { NORSK_DATOFORMAT } from '../utils/date';
+import { NORSK_DATOFORMAT } from '@utils/date';
 
 import { ModalProps } from './Modal';
 import { TableModal } from './TableModal';

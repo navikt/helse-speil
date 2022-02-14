@@ -3,7 +3,7 @@ import React from 'react';
 
 import { BodyShort, Button, Loader, Heading } from '@navikt/ds-react';
 
-import { Modal } from '../../../../components/Modal';
+import { Modal } from '@components/Modal';
 
 const Buttons = styled.div`
     margin-top: 2rem;

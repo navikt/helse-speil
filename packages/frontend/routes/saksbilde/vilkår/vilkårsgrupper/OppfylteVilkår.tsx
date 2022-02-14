@@ -1,6 +1,7 @@
 import React from 'react';
 
-import { GrøntSjekkikon } from '../../../../components/ikoner/GrøntSjekkikon';
+import { GrøntSjekkikon } from '@components/ikoner/GrøntSjekkikon';
+
 import { Vilkårdata } from '../../../../mapping/vilkår';
 
 import { Vilkårgrid, Vilkårgruppe, Vilkårkolonne } from '../Vilkår.styles';

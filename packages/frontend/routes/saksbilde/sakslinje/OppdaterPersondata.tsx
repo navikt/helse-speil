@@ -1,9 +1,9 @@
 import React, { useContext } from 'react';
 
-import { DropdownContext, DropdownMenyknapp } from '../../../components/dropdown/Dropdown';
-import { postForespørPersonoppdatering } from '../../../io/http';
-import { usePerson } from '../../../state/person';
-import { Scopes, useAddVarsel, useRemoveVarsel, VarselObject } from '../../../state/varsler';
+import { DropdownContext, DropdownMenyknapp } from '@components/dropdown/Dropdown';
+import { postForespørPersonoppdatering } from '@io/http';
+import { usePerson } from '@state/person';
+import { Scopes, useAddVarsel, useRemoveVarsel, VarselObject } from '@state/varsler';
 
 const personoppdateringvarselKey = 'personoppdatering';
 

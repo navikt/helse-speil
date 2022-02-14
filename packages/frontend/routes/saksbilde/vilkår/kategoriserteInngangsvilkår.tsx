@@ -3,9 +3,10 @@ import React from 'react';
 
 import { BodyShort } from '@navikt/ds-react';
 
-import { Flex } from '../../../components/Flex';
-import { LovdataLenke } from '../../../components/LovdataLenke';
-import { Advarselikon } from '../../../components/ikoner/Advarselikon';
+import { Flex } from '@components/Flex';
+import { LovdataLenke } from '@components/LovdataLenke';
+import { Advarselikon } from '@components/ikoner/Advarselikon';
+
 import { Vilkårdata, Vilkårstype } from '../../../mapping/vilkår';
 
 import { Opptjeningstid, Sykepengegrunnlag } from './vilkårsgrupper/Vilkårsgrupper';

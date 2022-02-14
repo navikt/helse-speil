@@ -3,7 +3,7 @@ import React, { ReactNode } from 'react';
 
 import { BodyShort } from '@navikt/ds-react';
 
-import { FlexColumn } from '../../../components/Flex';
+import { FlexColumn } from '@components/Flex';
 
 const Container = styled(FlexColumn)`
     padding: 0.5rem 0;

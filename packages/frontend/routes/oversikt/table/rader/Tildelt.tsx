@@ -1,7 +1,7 @@
 import React from 'react';
 
-import { TextWithEllipsis } from '../../../../components/TextWithEllipsis';
-import { Tooltip } from '../../../../components/Tooltip';
+import { TextWithEllipsis } from '@components/TextWithEllipsis';
+import { Tooltip } from '@components/Tooltip';
 
 import { CellContent } from './CellContent';
 

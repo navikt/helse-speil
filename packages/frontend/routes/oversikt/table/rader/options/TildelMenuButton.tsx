@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { useTildelOppgave } from '../../../../../state/oppgaver';
+import { useTildelOppgave } from '@state/oppgaver';
 
 import { AsyncMenuButton } from './AsyncMenuButton';
 

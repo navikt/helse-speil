@@ -6,12 +6,12 @@ import { useSetRecoilState } from 'recoil';
 
 import { BodyShort, Button, Loader } from '@navikt/ds-react';
 
-import { Modal } from '../../../../components/Modal';
-import { postAbonnerPåAktør, postAnnullering } from '../../../../io/http';
-import { AnnulleringDTO } from '../../../../io/types';
-import { opptegnelsePollingTimeState } from '../../../../state/opptegnelser';
-import { NORSK_DATOFORMAT } from '../../../../utils/date';
-import { somPenger } from '../../../../utils/locale';
+import { Modal } from '@components/Modal';
+import type { AnnulleringDTO } from '@io/http/types';
+import { postAbonnerPåAktør, postAnnullering } from '@io/http';
+import { opptegnelsePollingTimeState } from '@state/opptegnelser';
+import { NORSK_DATOFORMAT } from '@utils/date';
+import { somPenger } from '@utils/locale';
 
 import { Annulleringsbegrunnelse } from './Annulleringsbegrunnelse';
 import { Annulleringsvarsel } from './Annulleringsvarsel';

@@ -25,7 +25,11 @@
         "paths": {
             "test-data": ["./test/data"],
             "@test-wrappers": ["./test/wrappers"],
-            "@io/graphql": ["./io/graphql"]
+            "@io/*": ["./io/*"],
+            "@utils/*": ["./utils/*"],
+            "@components/*": ["./components/*"],
+            "@state/*": ["./state/*"],
+            "@hooks/*": ["./hooks/*"]
         }
     },
     "exclude": ["./node_modules", "jest.config.js", "__mocks__"],

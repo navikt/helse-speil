@@ -4,9 +4,9 @@ import React, { ReactNode, useRef } from 'react';
 
 import { CaseworkerFilled } from '@navikt/ds-icons';
 
-import { Flex } from '../../../../components/Flex';
-import { Kilde } from '../../../../components/Kilde';
-import { Tooltip } from '../../../../components/Tooltip';
+import { Flex } from '@components/Flex';
+import { Kilde } from '@components/Kilde';
+import { Tooltip } from '@components/Tooltip';
 
 import { CellContent } from '../../table/CellContent';
 import { EndringsloggTidslinjeButton } from './EndringsloggTidslinjeButton';

@@ -2,7 +2,7 @@ import '@testing-library/jest-dom/extend-expect';
 import { render, screen } from '@testing-library/react';
 import React from 'react';
 
-import { personState } from '../state/person';
+import { personState } from '@state/person';
 
 import { Personlinje } from './Personlinje';
 import { RecoilAndRouterWrapper } from '@test-wrappers';

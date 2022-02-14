@@ -3,13 +3,13 @@ import React from 'react';
 
 import { BodyShort } from '@navikt/ds-react';
 
-import { Advarselikon } from '../../../components/ikoner/Advarselikon';
-import { Feilikon } from '../../../components/ikoner/Feilikon';
-import { Sjekkikon } from '../../../components/ikoner/Sjekkikon';
-import { usePersoninfo, useVilkårsgrunnlaghistorikk, useVurderingForSkjæringstidspunkt } from '../../../state/person';
+import { Varsel } from '@components/Varsel';
+import { Feilikon } from '@components/ikoner/Feilikon';
+import { Sjekkikon } from '@components/ikoner/Sjekkikon';
+import { Advarselikon } from '@components/ikoner/Advarselikon';
+import { usePersoninfo, useVilkårsgrunnlaghistorikk, useVurderingForSkjæringstidspunkt } from '@state/person';
 
 import { kategoriserteInngangsvilkår } from '../vilkår/kategoriserteInngangsvilkår';
-import { Varsel } from '../../../components/Varsel';
 
 const ListItem = styled.li`
     display: flex;

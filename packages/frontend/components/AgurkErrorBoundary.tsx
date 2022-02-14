@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import React, { PropsWithChildren, useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 
 import { BodyShort } from '@navikt/ds-react';
 
@@ -8,6 +8,7 @@ import { Clipboard } from './clipboard';
 
 const Container = styled.div`
     margin: 2rem;
+
     > *:not(:last-child) {
         margin-bottom: 2.5rem;
     }
@@ -15,6 +16,7 @@ const Container = styled.div`
 const Agurktekst = styled(BodyShort)`
     display: flex;
     align-items: center;
+
     &:before {
         content: '🥒';
         font-size: 30px;
@@ -25,6 +27,7 @@ const Utviklermelding = styled.span`
     display: flex;
     align-items: center;
     color: var(--navds-color-text-primary);
+
     :hover .Clipboard__children {
         border-bottom: none;
     }

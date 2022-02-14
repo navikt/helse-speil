@@ -2,10 +2,10 @@ import styled from '@emotion/styled';
 import dayjs from 'dayjs';
 import React from 'react';
 
-import { TextWithEllipsis } from '../../components/TextWithEllipsis';
-import { NORSK_DATOFORMAT } from '../../utils/date';
-import { AnonymizableContainer } from '../../components/anonymizable/AnonymizableContainer';
-import { AnonymizableText } from '../../components/anonymizable/AnonymizableText';
+import { TextWithEllipsis } from '@components/TextWithEllipsis';
+import { AnonymizableText } from '@components/anonymizable/AnonymizableText';
+import { AnonymizableContainer } from '@components/anonymizable/AnonymizableContainer';
+import { NORSK_DATOFORMAT } from '@utils/date';
 
 const Høyrestilt = styled(AnonymizableText)`
     text-align: right;

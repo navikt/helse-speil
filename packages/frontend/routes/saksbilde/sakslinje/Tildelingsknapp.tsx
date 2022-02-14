@@ -2,10 +2,10 @@ import React, { useContext, useState } from 'react';
 
 import { Loader } from '@navikt/ds-react';
 
-import { DropdownContext, DropdownMenyknapp } from '../../../components/dropdown/Dropdown';
-import { deleteTildeling, postTildeling } from '../../../io/http';
-import { useTildelPerson } from '../../../state/person';
-import { useAddVarsel, useRemoveVarsel, VarselObject } from '../../../state/varsler';
+import { DropdownContext, DropdownMenyknapp } from '@components/dropdown/Dropdown';
+import { deleteTildeling, postTildeling } from '@io/http';
+import { useTildelPerson } from '@state/person';
+import { useAddVarsel, useRemoveVarsel, VarselObject } from '@state/varsler';
 
 interface TildelingsknappProps {
     oppgavereferanse: string;

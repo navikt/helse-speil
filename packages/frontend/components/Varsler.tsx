@@ -3,7 +3,7 @@ import { AnimatePresence, motion } from 'framer-motion';
 import React from 'react';
 import { useRecoilValue } from 'recoil';
 
-import { VarselObject, varslerForScope } from '../state/varsler';
+import { VarselObject, varslerForScope } from '@state/varsler';
 import { Varsel } from './Varsel';
 
 const Separator = styled.span`

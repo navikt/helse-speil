@@ -1,6 +1,6 @@
 import { atom, selector, useRecoilValue, useRecoilValueLoadable, useSetRecoilState } from 'recoil';
 
-import { deletePåVent, deleteTildeling, getOppgaver, postLeggPåVent, postTildeling } from '../io/http';
+import { deletePåVent, deleteTildeling, getOppgaver, postLeggPåVent, postTildeling } from '@io/http';
 import { tilOppgave } from '../mapping/oppgaver/oppgaver';
 
 import { flereArbeidsgivere, stikkprøve, utbetalingTilSykmeldt } from '../featureToggles';

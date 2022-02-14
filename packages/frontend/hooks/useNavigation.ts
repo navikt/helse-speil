@@ -1,6 +1,6 @@
 import { useHistory } from 'react-router';
 
-import { usePerson } from '../state/person';
+import { usePerson } from '@state/person';
 
 export interface Navigation {
     toString: (location: Location) => string;

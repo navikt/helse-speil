@@ -4,9 +4,9 @@ import React, { useMemo } from 'react';
 
 import { Bag, People } from '@navikt/ds-icons';
 
-import { Flex } from '../../../../components/Flex';
-import { Tooltip } from '../../../../components/Tooltip';
-import { NORSK_DATOFORMAT } from '../../../../utils/date';
+import { Flex } from '@components/Flex';
+import { Tooltip } from '@components/Tooltip';
+import { NORSK_DATOFORMAT } from '@utils/date';
 
 import { Header } from '../../table/Header';
 import { Row } from '../../table/Row';

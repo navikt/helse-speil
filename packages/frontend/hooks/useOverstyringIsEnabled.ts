@@ -1,4 +1,4 @@
-import { useMaybeAktivPeriode } from '../state/tidslinje';
+import { useMaybeAktivPeriode } from '@state/tidslinje';
 
 const kunEnArbeidsgiver = (periode: TidslinjeperiodeMedSykefravær | TidslinjeperiodeUtenSykefravær) =>
     periode.inntektskilde === 'EN_ARBEIDSGIVER';

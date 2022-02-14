@@ -1,7 +1,7 @@
-import { copyString } from '../../components/clipboard/util';
-import { Key, useKeyboard } from '../../hooks/useKeyboard';
-import { useNavigation } from '../../hooks/useNavigation';
-import { ToastObject, useAddToast } from '../../state/toasts';
+import { copyString } from '@components/clipboard/util';
+import { Key, useKeyboard } from '@hooks/useKeyboard';
+import { useNavigation } from '@hooks/useNavigation';
+import { ToastObject, useAddToast } from '@state/toasts';
 
 const kopiertFødelsnummerToast = ({
     message = 'Fødselsnummer er kopiert',

@@ -1,7 +1,7 @@
 import { Dayjs } from 'dayjs';
 import { useMemo } from 'react';
 
-import { NORSK_DATOFORMAT } from '../../../../utils/date';
+import { NORSK_DATOFORMAT } from '@utils/date';
 
 import { UtbetalingstabellDag } from './Utbetalingstabell.types';
 

@@ -1,10 +1,14 @@
 import React, { useContext, useState } from 'react';
-import { Button } from '@navikt/ds-react';
-import { AvvisningModal, Avvisningsskjema } from './AvvisningModal';
-import { postSendTilInfotrygd } from '../../../../io/http';
-import { AmplitudeContext } from '../../AmplitudeContext';
-import { Scopes, useAddEphemeralVarsel } from '../../../../state/varsler';
 import { nanoid } from 'nanoid';
+
+import { Button } from '@navikt/ds-react';
+
+import { postSendTilInfotrygd } from '@io/http';
+import { Scopes, useAddEphemeralVarsel } from '@state/varsler';
+
+import { AvvisningModal, Avvisningsskjema } from './AvvisningModal';
+
+import { AmplitudeContext } from '../../AmplitudeContext';
 
 const useAddInfotrygdtoast = () => {
     const timeToLiveMs = 5000;

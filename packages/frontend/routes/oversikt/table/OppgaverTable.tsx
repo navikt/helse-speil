@@ -1,8 +1,8 @@
 import styled from '@emotion/styled';
 import React from 'react';
 
-import { useSetVedtaksperiodeReferanserForNotater } from '../../../hooks/useSetVedtaksperiodeReferanserForNotater';
-import { useRemoveAlleVarsler } from '../../../state/varsler';
+import { useSetVedtaksperiodeReferanserForNotater } from '@hooks/useSetVedtaksperiodeReferanserForNotater';
+import { useRemoveAlleVarsler } from '@state/varsler';
 import { Filter, useFilters } from './state/filter';
 import { usePagination } from './state/pagination';
 import { useSortation } from './state/sortation';

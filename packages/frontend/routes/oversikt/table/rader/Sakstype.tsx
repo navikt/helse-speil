@@ -2,8 +2,8 @@ import React from 'react';
 
 import { BodyShort } from '@navikt/ds-react';
 
-import { Flex } from '../../../../components/Flex';
-import { Oppgaveetikett } from '../../../../components/Oppgaveetikett';
+import { Flex } from '@components/Flex';
+import { Oppgaveetikett } from '@components/Oppgaveetikett';
 
 import { Cell } from '../Cell';
 import { CellContent } from './CellContent';

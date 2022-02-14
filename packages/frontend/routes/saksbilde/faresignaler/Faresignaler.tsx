@@ -3,12 +3,12 @@ import React, { ReactNode } from 'react';
 
 import { BodyShort } from '@navikt/ds-react';
 
-import { AgurkErrorBoundary } from '../../../components/AgurkErrorBoundary';
-import { FlexColumn } from '../../../components/Flex';
-import { Advarselikon } from '../../../components/ikoner/Advarselikon';
-import { GrøntSjekkikon } from '../../../components/ikoner/GrøntSjekkikon';
-import { Sjekkikon } from '../../../components/ikoner/Sjekkikon';
-import { Utropstegnikon } from '../../../components/ikoner/Utropstegnikon';
+import { Sjekkikon } from '@components/ikoner/Sjekkikon';
+import { FlexColumn } from '@components/Flex';
+import { Advarselikon } from '@components/ikoner/Advarselikon';
+import { GrøntSjekkikon } from '@components/ikoner/GrøntSjekkikon';
+import { Utropstegnikon } from '@components/ikoner/Utropstegnikon';
+import { AgurkErrorBoundary } from '@components/AgurkErrorBoundary';
 
 const Container = styled.div`
     margin-top: 2rem;

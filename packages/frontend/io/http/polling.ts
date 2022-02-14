@@ -6,7 +6,7 @@ import {
     opptegnelsePollingTimeState,
     sisteSekvensIdOpptegnelseState,
     useOpptegnelserPollingRate,
-} from '../state/opptegnelser';
+} from '@state/opptegnelser';
 
 import { getOpptegnelser } from './http';
 

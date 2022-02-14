@@ -3,16 +3,17 @@ import React, { useRef, useState } from 'react';
 
 import { Button as NavButton, Popover } from '@navikt/ds-react';
 
-import { Tooltip } from '../../../../../components/Tooltip';
-import { useInnloggetSaksbehandler } from '../../../../../state/authentication';
+import { Tooltip } from '@components/Tooltip';
+import { useInnloggetSaksbehandler } from '@state/authentication';
 
-import { kanFrigiAndresOppgaver } from '../../../../../featureToggles';
 import { Cell } from '../../Cell';
 import { CellContent } from '../CellContent';
 import { FjernFraPåVentMenuButton } from './FjernFraPåVentMenuButton';
 import { LeggPåVentMenuButton } from './LeggPåVentMenuButton';
 import { MeldAvMenuButton } from './MeldAvMenuButton';
 import { TildelMenuButton } from './TildelMenuButton';
+
+import { kanFrigiAndresOppgaver } from '../../../../../featureToggles';
 
 const Button = styled(NavButton)`
     margin: 0;

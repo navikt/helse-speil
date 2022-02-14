@@ -3,8 +3,8 @@ import React from 'react';
 
 import { Bag, Expand, Next } from '@navikt/ds-icons';
 
-import { Flex, FlexColumn } from '../../../components/Flex';
-import { AnonymizableTextWithEllipsis } from '../../../components/TextWithEllipsis';
+import { Flex, FlexColumn } from '@components/Flex';
+import { AnonymizableTextWithEllipsis } from '@components/TextWithEllipsis';
 
 import { Tidslinjerad } from './Tidslinjerad';
 import { TidslinjeradObject } from './useTidslinjerader';

@@ -6,7 +6,7 @@ import React, { ReactNode, useState } from 'react';
 import { Popover } from '@navikt/ds-react';
 import { PeriodProps } from '@navikt/helse-frontend-timeline/lib/components/Period';
 
-import { NORSK_DATOFORMAT } from '../../../utils/date';
+import { NORSK_DATOFORMAT } from '@utils/date';
 
 import { Periodeknapp, PeriodePin } from './Tidslinjeperiode.styles';
 

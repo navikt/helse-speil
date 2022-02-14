@@ -1,7 +1,7 @@
 import React from 'react';
 
-import { useFjernPåVent } from '../../../../../state/oppgaver';
-import { useOperationErrorHandler } from '../../../../../state/varsler';
+import { useFjernPåVent } from '@state/oppgaver';
+import { useOperationErrorHandler } from '@state/varsler';
 
 import { AsyncMenuButton } from './AsyncMenuButton';
 

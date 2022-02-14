@@ -1,8 +1,10 @@
-import styled from '@emotion/styled';
-import { Button } from '../../../components/Button';
 import React from 'react';
+import styled from '@emotion/styled';
+
 import { useGetOverstyrtArbeidsforhold, usePostOverstyrtArbeidsforhold } from './OverstyrArbeidsforholdHooks';
-import { OverstyringTimeoutModal } from '../../../components/OverstyringTimeoutModal';
+
+import { Button } from '@components/Button';
+import { OverstyringTimeoutModal } from '@components/OverstyringTimeoutModal';
 
 interface AngreOverstyrArbeidsforholdUtenSykdomProps {
     organisasjonsnummerAktivPeriode: string;

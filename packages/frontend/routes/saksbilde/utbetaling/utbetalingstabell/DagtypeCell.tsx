@@ -3,7 +3,7 @@ import React from 'react';
 
 import { BodyShort } from '@navikt/ds-react';
 
-import { Endringstrekant } from '../../../../components/Endringstrekant';
+import { Endringstrekant } from '@components/Endringstrekant';
 
 import { CellContent } from '../../table/CellContent';
 import { IconAnnullert } from '../../table/icons/IconAnnullert';

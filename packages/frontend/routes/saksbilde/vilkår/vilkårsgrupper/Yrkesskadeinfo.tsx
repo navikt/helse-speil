@@ -4,8 +4,8 @@ import React from 'react';
 import { Information } from '@navikt/ds-icons';
 import { BodyShort } from '@navikt/ds-react';
 
-import { Flex } from '../../../../components/Flex';
-import { LovdataLenke } from '../../../../components/LovdataLenke';
+import { Flex } from '@components/Flex';
+import { LovdataLenke } from '@components/LovdataLenke';
 
 import { Paragraf, Tittel } from '../vilkårstitler';
 

@@ -1,12 +1,15 @@
 import styled from '@emotion/styled';
 import React from 'react';
-import { ArbeidsgiverCard } from './ArbeidsgiverCard';
-import { PopoverHjelpetekst } from '../../../components/PopoverHjelpetekst';
-import { SortInfoikon } from '../../../components/ikoner/SortInfoikon';
-import { BodyShort } from '@navikt/ds-react';
-import { getMonthName, somPenger } from '../../../utils/locale';
-import { sorterInntekterFraAOrdningen } from '../../../utils/inntekt';
 import { css } from '@emotion/react';
+
+import { BodyShort } from '@navikt/ds-react';
+
+import { SortInfoikon } from '@components/ikoner/SortInfoikon';
+import { PopoverHjelpetekst } from '@components/PopoverHjelpetekst';
+import { getMonthName, somPenger } from '@utils/locale';
+import { sorterInntekterFraAOrdningen } from '@utils/inntekt';
+
+import { ArbeidsgiverCard } from './ArbeidsgiverCard';
 
 const Container = styled.section`
     grid-area: venstremeny;

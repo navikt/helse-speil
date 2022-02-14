@@ -3,9 +3,9 @@ import React, { useRef, useState } from 'react';
 
 import { Button as NavButton, Loader } from '@navikt/ds-react';
 
-import { useLeggPåVent } from '../../../../../state/oppgaver';
-import { useOperationErrorHandler } from '../../../../../state/varsler';
-import { ignorePromise } from '../../../../../utils/promise';
+import { useLeggPåVent } from '@state/oppgaver';
+import { useOperationErrorHandler } from '@state/varsler';
+import { ignorePromise } from '@utils/promise';
 
 import { NyttNotatModal } from '../notat/NyttNotatModal';
 

@@ -4,15 +4,15 @@ import { Controller, useForm } from 'react-hook-form';
 
 import { Button, Loader, Textarea as NavTextarea } from '@navikt/ds-react';
 
-import { Modal } from '../../../../../components/Modal';
-import { postNotat } from '../../../../../io/http';
-import { useNotaterForVedtaksperiode, useRefreshNotater } from '../../../../../state/notater';
-import { getFormatertNavn } from '../../../../../state/person';
-import { useOperationErrorHandler } from '../../../../../state/varsler';
-import { ignorePromise } from '../../../../../utils/promise';
+import { Modal } from '@components/Modal';
+import { AnonymizableText } from '@components/anonymizable/AnonymizableText';
+import { postNotat } from '@io/http';
+import { getFormatertNavn } from '@state/person';
+import { useOperationErrorHandler } from '@state/varsler';
+import { useNotaterForVedtaksperiode, useRefreshNotater } from '@state/notater';
+import { ignorePromise } from '@utils/promise';
 
 import { SisteNotat } from './SisteNotat';
-import { AnonymizableText } from '../../../../../components/anonymizable/AnonymizableText';
 
 const Container = styled.section`
     display: flex;

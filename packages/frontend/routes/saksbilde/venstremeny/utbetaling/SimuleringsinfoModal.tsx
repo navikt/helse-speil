@@ -4,11 +4,11 @@ import React from 'react';
 
 import { BodyShort, Heading } from '@navikt/ds-react';
 
-import { Grid } from '../../../../components/Grid';
-import { Modal } from '../../../../components/Modal';
-import { NORSK_DATOFORMAT } from '../../../../utils/date';
-import { somPenger } from '../../../../utils/locale';
-import { AnonymizableText } from '../../../../components/anonymizable/AnonymizableText';
+import { Grid } from '@components/Grid';
+import { Modal } from '@components/Modal';
+import { AnonymizableText } from '@components/anonymizable/AnonymizableText';
+import { somPenger } from '@utils/locale';
+import { NORSK_DATOFORMAT } from '@utils/date';
 
 const Modalinnhold = styled.article`
     padding: 0 4rem 2rem 4rem;

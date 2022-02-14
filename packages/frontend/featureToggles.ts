@@ -1,4 +1,4 @@
-import { extractGroups, extractIdent } from './utils/cookie';
+import { extractGroups, extractIdent } from '@utils/cookie';
 
 const groupIdForUtviklere = 'f787f900-6697-440d-a086-d5bb56e26a9c';
 const eminem = 'G103083';

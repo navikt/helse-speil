@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import React from 'react';
 
-import { TabButton } from '../../../components/TabButton';
+import { TabButton } from '@components/TabButton';
 
 import { Hendelsetype } from './Historikk.types';
 import iconDokumenter from './icons/IconDokumenter.svg';

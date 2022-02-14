@@ -6,7 +6,8 @@ import React, { useState } from 'react';
 import { AxisLabels } from '@navikt/helse-frontend-timeline/lib';
 import '@navikt/helse-frontend-timeline/lib/main.css';
 
-import { FlexColumn } from '../../../components/Flex';
+import { FlexColumn } from '@components/Flex';
+
 import { Arbeidsgiverrad } from './Arbeidsgiverrad';
 import { Infotrygdrad } from './Infotrygdrad';
 import { Markeringer } from './Markeringer';

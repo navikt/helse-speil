@@ -3,7 +3,7 @@ import React from 'react';
 
 import { BodyShort } from '@navikt/ds-react';
 
-import { somPenger } from '../../../utils/locale';
+import { somPenger } from '@utils/locale';
 
 interface Props {
     avvik?: number;

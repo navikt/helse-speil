@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import { ExternalLink, SystemFilled } from '@navikt/ds-icons';
 import { BodyShort, Popover } from '@navikt/ds-react';
 
-import { usePerson } from '../state/person';
+import { usePerson } from '@state/person';
 
 import { Button } from './Button';
 import { DropdownMenyknapp } from './dropdown/Dropdown';

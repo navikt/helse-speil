@@ -1,10 +1,10 @@
 import React, { useContext, useState } from 'react';
 
-import { DropdownContext, DropdownMenyknapp } from '../../../../components/dropdown/Dropdown';
-import { usePerson } from '../../../../state/person';
+import { DropdownContext, DropdownMenyknapp } from '@components/dropdown/Dropdown';
+import { usePerson } from '@state/person';
 
 import { Annulleringsmodal } from './Annulleringsmodal';
-import { ISO_DATOFORMAT } from '../../../../utils/date';
+import { ISO_DATOFORMAT } from '@utils/date';
 
 export interface AnnulleringProps {
     utbetaling: Utbetaling;

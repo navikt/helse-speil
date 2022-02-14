@@ -5,16 +5,16 @@ import { useRecoilValue } from 'recoil';
 
 import { InternalHeader, InternalHeaderTitle } from '@navikt/ds-react';
 
-import { erGyldigPersonId } from '../../hooks/useRefreshPersonVedUrlEndring';
-import { authState } from '../../state/authentication';
-import { useToggleEasterEgg } from '../../state/easterEgg';
-import { useHentPerson } from '../../state/person';
-import { useAddVarsel, useRemoveVarsel } from '../../state/varsler';
+import { erGyldigPersonId } from '@hooks/useRefreshPersonVedUrlEndring';
+import { authState } from '@state/authentication';
+import { useHentPerson } from '@state/person';
+import { useToggleEasterEgg } from '@state/easterEgg';
+import { useAddVarsel, useRemoveVarsel } from '@state/varsler';
+import { BentoMeny } from '@components/BentoMeny';
+import { Brukermeny } from '@components/Brukermeny';
 
-import { EasterEgg } from '../../EasterEgg';
-import { BentoMeny } from '../BentoMeny';
-import { Brukermeny } from '../Brukermeny';
 import { SearchBar } from './SearchBar';
+import { EasterEgg } from '../../EasterEgg';
 import { graphqlplayground } from '../../featureToggles';
 
 const Container = styled.div`

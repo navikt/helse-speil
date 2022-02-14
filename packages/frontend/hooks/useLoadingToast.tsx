@@ -4,7 +4,7 @@ import React, { ReactNode, useEffect, useRef } from 'react';
 
 import { Loader } from '@navikt/ds-react';
 
-import { useAddToast, useRemoveToast } from '../state/toasts';
+import { useAddToast, useRemoveToast } from '@state/toasts';
 
 import { useDebounce } from './useDebounce';
 

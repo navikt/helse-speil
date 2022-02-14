@@ -1,8 +1,8 @@
 import styled from '@emotion/styled';
 import React from 'react';
 
-import { Endringstrekant } from '../../../../components/Endringstrekant';
-import { somPenger } from '../../../../utils/locale';
+import { Endringstrekant } from '@components/Endringstrekant';
+import { somPenger } from '@utils/locale';
 
 import { CellContent } from '../../table/CellContent';
 import { Cell } from './Cell';

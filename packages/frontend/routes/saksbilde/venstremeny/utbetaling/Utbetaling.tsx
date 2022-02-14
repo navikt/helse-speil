@@ -1,18 +1,20 @@
 import React, { useState } from 'react';
-
-import { useUtbetaling } from '../../../../modell/utbetalingshistorikkelement';
-import { harOppgave, useOppgavereferanse } from '../../../../state/tidslinje';
-import { GodkjenningButton } from './GodkjenningButton';
-import { usePerson } from '../../../../state/person';
-import { postAbonnerPåAktør } from '../../../../io/http';
-import { useSetRecoilState } from 'recoil';
-import { opptegnelsePollingTimeState } from '../../../../state/opptegnelser';
-import { useHistory } from 'react-router';
-import { ErrorMessage } from '../../../../components/ErrorMessage';
-import { AvvisningButton } from './AvvisningButton';
 import styled from '@emotion/styled';
+import { useHistory } from 'react-router';
+import { useSetRecoilState } from 'recoil';
+
+import { postAbonnerPåAktør } from '@io/http';
+import { usePerson } from '@state/person';
+import { opptegnelsePollingTimeState } from '@state/opptegnelser';
+import { harOppgave, useOppgavereferanse } from '@state/tidslinje';
+import { ErrorMessage } from '@components/ErrorMessage';
+
+import { AvvisningButton } from './AvvisningButton';
+import { GodkjenningButton } from './GodkjenningButton';
 import { BrukerutbetalingInfoMessage } from './BrukerutbetalingInfoMessage';
+
 import { erDev, erLocal } from '../../../../featureToggles';
+import { useUtbetaling } from '../../../../modell/utbetalingshistorikkelement';
 
 const Buttons = styled.div`
     display: flex;

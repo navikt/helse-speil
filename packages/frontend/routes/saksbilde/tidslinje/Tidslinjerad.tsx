@@ -9,7 +9,7 @@ import {
     useMaybeAktivArbeidsgiverUtenSykdom,
     useMaybeAktivPeriode,
     useSetAktivPeriode,
-} from '../../../state/tidslinje';
+} from '@state/tidslinje';
 
 import { Tidslinjeperiode } from './Tidslinjeperiode';
 import { InfotrygdradObject } from './useInfotrygdrader';

@@ -3,7 +3,7 @@ import styled from '@emotion/styled';
 import React, { ReactNode } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 
-import { TabButton } from '../../components/TabButton';
+import { TabButton } from '@components/TabButton';
 
 const Content = styled.span`
     color: transparent;

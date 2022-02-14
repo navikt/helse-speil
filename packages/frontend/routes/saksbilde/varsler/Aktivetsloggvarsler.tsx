@@ -1,14 +1,15 @@
 import React from 'react';
+import styled from '@emotion/styled';
 
 import { BodyShort } from '@navikt/ds-react';
 
-import { EkspanderbartVarsel } from '../../../components/EkspanderbartVarsel';
+import { EkspanderbartVarsel } from '@components/EkspanderbartVarsel';
+import { Varsel } from '@components/Varsel';
+
+import { Varselseksjon } from './Varselseksjon';
 
 import utdatert_wiki from '../../../utdatert_wiki.json';
 import wiki from '../../../wiki.json';
-import { Varselseksjon } from './Varselseksjon';
-import { Varsel } from '../../../components/Varsel';
-import styled from '@emotion/styled';
 
 type WikiEntry = {
     varsel: string;

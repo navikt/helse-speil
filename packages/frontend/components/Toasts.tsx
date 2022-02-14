@@ -3,7 +3,7 @@ import { AnimatePresence } from 'framer-motion';
 import React from 'react';
 import { useRecoilValue } from 'recoil';
 
-import { toastsState } from '../state/toasts';
+import { toastsState } from '@state/toasts';
 
 import { TimeoutToast } from './toasts/TimeoutToast';
 import { Toast } from './toasts/Toast';

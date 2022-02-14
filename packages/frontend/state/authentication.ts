@@ -2,7 +2,7 @@ import fetchIntercept from 'fetch-intercept';
 import { useEffect } from 'react';
 import { atom, useRecoilState, useRecoilValue, useResetRecoilState } from 'recoil';
 
-import { extractValues, Keys } from '../utils/cookie';
+import { extractValues, Keys } from '@utils/cookie';
 
 interface AuthInfo {
     name: string;

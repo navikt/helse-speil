@@ -1,7 +1,7 @@
 import { nanoid } from 'nanoid';
 import React from 'react';
 
-import { ToastObject } from '../../state/toasts';
+import { ToastObject } from '@state/toasts';
 
 export const vedtaksstatusToastKey = 'vedtakstatus';
 
