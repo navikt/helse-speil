@@ -16,72 +16,72 @@
                         {
                             "arbeidsgiver": "839942907",
                             "omregnetArsinntekt": {
-                                "belop": 360000,
+                                "belop": 360000.0,
                                 "inntektFraAOrdningen": null,
                                 "kilde": "INNTEKTSMELDING",
-                                "manedsbelop": 30000
+                                "manedsbelop": 30000.0
                             },
                             "sammenligningsgrunnlag": {
                                 "inntektFraAOrdningen": [
                                     {
-                                        "sum": 30000,
+                                        "sum": 30000.0,
                                         "maned": "2020-12"
                                     },
                                     {
-                                        "sum": 30000,
+                                        "sum": 30000.0,
                                         "maned": "2021-07"
                                     },
                                     {
-                                        "sum": 30000,
+                                        "sum": 30000.0,
                                         "maned": "2021-05"
                                     },
                                     {
-                                        "sum": 30000,
+                                        "sum": 30000.0,
                                         "maned": "2021-09"
                                     },
                                     {
-                                        "sum": 30000,
+                                        "sum": 30000.0,
                                         "maned": "2021-11"
                                     },
                                     {
-                                        "sum": 30000,
+                                        "sum": 30000.0,
                                         "maned": "2021-02"
                                     },
                                     {
-                                        "sum": 30000,
+                                        "sum": 30000.0,
                                         "maned": "2021-04"
                                     },
                                     {
-                                        "sum": 30000,
+                                        "sum": 30000.0,
                                         "maned": "2021-06"
                                     },
                                     {
-                                        "sum": 60000,
+                                        "sum": 60000.0,
                                         "maned": "2021-01"
                                     },
                                     {
-                                        "sum": 30000,
+                                        "sum": 30000.0,
                                         "maned": "2021-08"
                                     },
                                     {
-                                        "sum": 30000,
+                                        "sum": 30000.0,
                                         "maned": "2021-03"
                                     },
                                     {
-                                        "sum": 30000,
+                                        "sum": 30000.0,
                                         "maned": "2021-10"
                                     }
                                 ],
-                                "belop": 390000
+                                "belop": 390000.0
                             }
                         }
                     ],
-                    "sammenligningsgrunnlag": 390000,
-                    "omregnetArsinntekt": 360000,
+                    "sammenligningsgrunnlag": 390000.0,
+                    "omregnetArsinntekt": 360000.0,
                     "maksUtbetalingPerDag": 1384.6153846153845,
                     "oppfyllerKravOmMinstelonn": true,
                     "skjaeringstidspunkt": "2021-12-01",
-                    "sykepengegrunnlag": 360000
+                    "sykepengegrunnlag": 360000.0
                 }
             ],
             "personinfo": {
@@ -92,32 +92,27 @@
                 "fodselsdato": "1971-08-20",
                 "kjonn": "Mann"
             },
-            "tildeling": {
-                "navn": "Ramthun, Stephen",
-                "epost": "Stephen.Ramthun@nav.no",
-                "oid": "a7cf35df-7e86-4eee-b6c1-5c60dd18462f",
-                "reservert": false
-            },
-            "versjon": 14,
+            "tildeling": null,
+            "versjon": 16,
             "vilkarsgrunnlaghistorikk": [
                 {
                     "id": "9f0e7dde-47c4-45f8-a1c3-800707f7a640",
                     "grunnlag": [
                         {
-                            "sykepengegrunnlag": 360000,
+                            "sykepengegrunnlag": 360000.0,
                             "skjaeringstidspunkt": "2021-12-01",
-                            "omregnetArsinntekt": 360000,
-                            "sammenligningsgrunnlag": 390000,
+                            "omregnetArsinntekt": 360000.0,
+                            "sammenligningsgrunnlag": 390000.0,
                             "inntekter": [
                                 {
                                     "sammenligningsgrunnlag": {
-                                        "belop": 390000,
+                                        "belop": 390000.0,
                                         "inntektFraAOrdningen": []
                                     },
                                     "omregnetArsinntekt": {
                                         "inntektFraAOrdningen": null,
-                                        "belop": 360000,
-                                        "manedsbelop": 30000,
+                                        "belop": 360000.0,
+                                        "manedsbelop": 30000.0,
                                         "kilde": "INNTEKTSMELDING"
                                     },
                                     "arbeidsgiver": "839942907"
@@ -144,7 +139,7 @@
                     ],
                     "generasjoner": [
                         {
-                            "id": "32e13679-dccf-452f-b818-409efd18401d",
+                            "id": "614b3892-79a4-49df-a858-3c1e8f778a03",
                             "perioder": [
                                 {
                                     "fom": "2022-01-01",
@@ -152,12 +147,12 @@
                                     "behandlingstype": "BEHANDLET",
                                     "erForkastet": false,
                                     "inntektstype": "ENARBEIDSGIVER",
-                                    "opprettet": "2022-01-31T15:22:58",
+                                    "opprettet": "2022-02-08T01:22:21",
                                     "periodetype": "FORLENGELSE",
                                     "tidslinje": [
                                         {
                                             "dato": "2022-01-01",
-                                            "grad": 100,
+                                            "grad": 100.0,
                                             "kilde": {
                                                 "id": "a855080e-df37-4242-ac86-89731cd6f35c",
                                                 "type": "SOKNAD"
@@ -168,7 +163,7 @@
                                         },
                                         {
                                             "dato": "2022-01-02",
-                                            "grad": 100,
+                                            "grad": 100.0,
                                             "kilde": {
                                                 "id": "a855080e-df37-4242-ac86-89731cd6f35c",
                                                 "type": "SOKNAD"
@@ -179,7 +174,7 @@
                                         },
                                         {
                                             "dato": "2022-01-03",
-                                            "grad": 100,
+                                            "grad": 100.0,
                                             "kilde": {
                                                 "id": "a855080e-df37-4242-ac86-89731cd6f35c",
                                                 "type": "SOKNAD"
@@ -191,13 +186,13 @@
                                                 "inntekt": 1385,
                                                 "personbelop": 1385,
                                                 "refusjonsbelop": 0,
-                                                "totalGrad": 100,
+                                                "totalGrad": 100.0,
                                                 "utbetaling": 0
                                             }
                                         },
                                         {
                                             "dato": "2022-01-04",
-                                            "grad": 100,
+                                            "grad": 100.0,
                                             "kilde": {
                                                 "id": "a855080e-df37-4242-ac86-89731cd6f35c",
                                                 "type": "SOKNAD"
@@ -209,13 +204,13 @@
                                                 "inntekt": 1385,
                                                 "personbelop": 1385,
                                                 "refusjonsbelop": 0,
-                                                "totalGrad": 100,
+                                                "totalGrad": 100.0,
                                                 "utbetaling": 0
                                             }
                                         },
                                         {
                                             "dato": "2022-01-05",
-                                            "grad": 100,
+                                            "grad": 100.0,
                                             "kilde": {
                                                 "id": "a855080e-df37-4242-ac86-89731cd6f35c",
                                                 "type": "SOKNAD"
@@ -227,13 +222,13 @@
                                                 "inntekt": 1385,
                                                 "personbelop": 1385,
                                                 "refusjonsbelop": 0,
-                                                "totalGrad": 100,
+                                                "totalGrad": 100.0,
                                                 "utbetaling": 0
                                             }
                                         },
                                         {
                                             "dato": "2022-01-06",
-                                            "grad": 0,
+                                            "grad": 0.0,
                                             "kilde": {
                                                 "id": "7cbd87b6-f255-47f4-8068-8b180fe5cea3",
                                                 "type": "SAKSBEHANDLER"
@@ -245,13 +240,13 @@
                                                 "inntekt": 0,
                                                 "personbelop": null,
                                                 "refusjonsbelop": null,
-                                                "totalGrad": 0,
+                                                "totalGrad": 0.0,
                                                 "utbetaling": null
                                             }
                                         },
                                         {
                                             "dato": "2022-01-07",
-                                            "grad": 0,
+                                            "grad": 0.0,
                                             "kilde": {
                                                 "id": "7cbd87b6-f255-47f4-8068-8b180fe5cea3",
                                                 "type": "SAKSBEHANDLER"
@@ -263,13 +258,13 @@
                                                 "inntekt": 0,
                                                 "personbelop": null,
                                                 "refusjonsbelop": null,
-                                                "totalGrad": 0,
+                                                "totalGrad": 0.0,
                                                 "utbetaling": null
                                             }
                                         },
                                         {
                                             "dato": "2022-01-08",
-                                            "grad": 100,
+                                            "grad": 100.0,
                                             "kilde": {
                                                 "id": "a855080e-df37-4242-ac86-89731cd6f35c",
                                                 "type": "SOKNAD"
@@ -280,7 +275,7 @@
                                         },
                                         {
                                             "dato": "2022-01-09",
-                                            "grad": 100,
+                                            "grad": 100.0,
                                             "kilde": {
                                                 "id": "a855080e-df37-4242-ac86-89731cd6f35c",
                                                 "type": "SOKNAD"
@@ -291,25 +286,25 @@
                                         },
                                         {
                                             "dato": "2022-01-10",
-                                            "grad": 100,
+                                            "grad": 80.0,
                                             "kilde": {
-                                                "id": "a855080e-df37-4242-ac86-89731cd6f35c",
-                                                "type": "SOKNAD"
+                                                "id": "7e4a8156-e37e-4d10-9bc9-05a222c737c6",
+                                                "type": "SAKSBEHANDLER"
                                             },
                                             "sykdomsdagtype": "SYKEDAG",
                                             "utbetalingsdagtype": "NAVDAG",
                                             "utbetalingsinfo": {
                                                 "arbeidsgiverbelop": 0,
                                                 "inntekt": 1385,
-                                                "personbelop": 1385,
+                                                "personbelop": 1108,
                                                 "refusjonsbelop": 0,
-                                                "totalGrad": 100,
+                                                "totalGrad": 80.0,
                                                 "utbetaling": 0
                                             }
                                         },
                                         {
                                             "dato": "2022-01-11",
-                                            "grad": 100,
+                                            "grad": 100.0,
                                             "kilde": {
                                                 "id": "a855080e-df37-4242-ac86-89731cd6f35c",
                                                 "type": "SOKNAD"
@@ -321,13 +316,13 @@
                                                 "inntekt": 1385,
                                                 "personbelop": 1385,
                                                 "refusjonsbelop": 0,
-                                                "totalGrad": 100,
+                                                "totalGrad": 100.0,
                                                 "utbetaling": 0
                                             }
                                         },
                                         {
                                             "dato": "2022-01-12",
-                                            "grad": 100,
+                                            "grad": 100.0,
                                             "kilde": {
                                                 "id": "a855080e-df37-4242-ac86-89731cd6f35c",
                                                 "type": "SOKNAD"
@@ -339,13 +334,13 @@
                                                 "inntekt": 1385,
                                                 "personbelop": 1385,
                                                 "refusjonsbelop": 0,
-                                                "totalGrad": 100,
+                                                "totalGrad": 100.0,
                                                 "utbetaling": 0
                                             }
                                         },
                                         {
                                             "dato": "2022-01-13",
-                                            "grad": 100,
+                                            "grad": 100.0,
                                             "kilde": {
                                                 "id": "a855080e-df37-4242-ac86-89731cd6f35c",
                                                 "type": "SOKNAD"
@@ -357,13 +352,13 @@
                                                 "inntekt": 1385,
                                                 "personbelop": 1385,
                                                 "refusjonsbelop": 0,
-                                                "totalGrad": 100,
+                                                "totalGrad": 100.0,
                                                 "utbetaling": 0
                                             }
                                         },
                                         {
                                             "dato": "2022-01-14",
-                                            "grad": 100,
+                                            "grad": 100.0,
                                             "kilde": {
                                                 "id": "a855080e-df37-4242-ac86-89731cd6f35c",
                                                 "type": "SOKNAD"
@@ -375,13 +370,13 @@
                                                 "inntekt": 1385,
                                                 "personbelop": 1385,
                                                 "refusjonsbelop": 0,
-                                                "totalGrad": 100,
+                                                "totalGrad": 100.0,
                                                 "utbetaling": 0
                                             }
                                         }
                                     ],
                                     "vedtaksperiodeId": "e5edcaf1-57e6-440b-9087-f35b563be0e2",
-                                    "id": "ab561778-c212-462d-b5d3-47db76a771d5",
+                                    "id": "04d4b0ae-d403-4233-a269-b77f49d71570",
                                     "aktivitetslogg": [
                                         {
                                             "alvorlighetsgrad": "W",
@@ -396,7 +391,7 @@
                                             "vedtaksperiodeId": "e5edcaf1-57e6-440b-9087-f35b563be0e2"
                                         }
                                     ],
-                                    "beregningId": "df19e11c-e6a4-4f01-b5f8-97e9a50c3122",
+                                    "beregningId": "8f243436-b689-4ed8-b817-e503321750c0",
                                     "forbrukteSykedager": 19,
                                     "gjenstaendeSykedager": 229,
                                     "hendelser": [
@@ -442,10 +437,15 @@
                                         "arbeidsgiverFagsystemId": "JEX2GC6ZBRHVFG3DUXIK4CM3P4",
                                         "arbeidsgiverNettoBelop": 0,
                                         "personFagsystemId": "TMWJ7WRR7FFXJLDW3HYJCPLF5Y",
-                                        "personNettoBelop": 11080,
-                                        "status": "Ubetalt",
+                                        "personNettoBelop": 10803,
+                                        "status": "Utbetalt",
                                         "type": "UTBETALING",
-                                        "vurdering": null
+                                        "vurdering": {
+                                            "automatisk": false,
+                                            "godkjent": true,
+                                            "ident": "T127350",
+                                            "tidsstempel": "2022-02-10T11:26:34"
+                                        }
                                     },
                                     "varsler": [
                                         "Ikke registrert eller mangler samtykke i Kontakt- og reservasjonsregisteret, eventuell kommunikasjon må skje i brevform",
@@ -455,6 +455,8 @@
                                         "Ikke registrert eller mangler samtykke i Kontakt- og reservasjonsregisteret, eventuell kommunikasjon må skje i brevform",
                                         "Kunne ikke sjekke åpne oppgaver på sykepenger i Gosys",
                                         "Mottatt flere inntektsmeldinger - den første inntektsmeldingen som ble mottatt er lagt til grunn. Utbetal kun hvis det blir korrekt.",
+                                        "Ikke registrert eller mangler samtykke i Kontakt- og reservasjonsregisteret, eventuell kommunikasjon må skje i brevform",
+                                        "Kunne ikke sjekke åpne oppgaver på sykepenger i Gosys",
                                         "Minst én dag uten utbetaling på grunn av sykdomsgrad under 20 %. Vurder å sende vedtaksbrev fra Infotrygd"
                                     ],
                                     "vilkarsgrunnlaghistorikkId": "9f0e7dde-47c4-45f8-a1c3-800707f7a640"
@@ -470,7 +472,7 @@
                                     "tidslinje": [
                                         {
                                             "dato": "2021-12-01",
-                                            "grad": 100,
+                                            "grad": 100.0,
                                             "kilde": {
                                                 "id": "83dd8d6b-635a-4bf4-8bce-69d3e225f9f5",
                                                 "type": "SOKNAD"
@@ -481,7 +483,7 @@
                                         },
                                         {
                                             "dato": "2021-12-02",
-                                            "grad": 100,
+                                            "grad": 100.0,
                                             "kilde": {
                                                 "id": "83dd8d6b-635a-4bf4-8bce-69d3e225f9f5",
                                                 "type": "SOKNAD"
@@ -492,7 +494,7 @@
                                         },
                                         {
                                             "dato": "2021-12-03",
-                                            "grad": 100,
+                                            "grad": 100.0,
                                             "kilde": {
                                                 "id": "83dd8d6b-635a-4bf4-8bce-69d3e225f9f5",
                                                 "type": "SOKNAD"
@@ -503,7 +505,7 @@
                                         },
                                         {
                                             "dato": "2021-12-04",
-                                            "grad": 100,
+                                            "grad": 100.0,
                                             "kilde": {
                                                 "id": "83dd8d6b-635a-4bf4-8bce-69d3e225f9f5",
                                                 "type": "SOKNAD"
@@ -514,7 +516,7 @@
                                         },
                                         {
                                             "dato": "2021-12-05",
-                                            "grad": 100,
+                                            "grad": 100.0,
                                             "kilde": {
                                                 "id": "83dd8d6b-635a-4bf4-8bce-69d3e225f9f5",
                                                 "type": "SOKNAD"
@@ -525,7 +527,7 @@
                                         },
                                         {
                                             "dato": "2021-12-06",
-                                            "grad": 100,
+                                            "grad": 100.0,
                                             "kilde": {
                                                 "id": "83dd8d6b-635a-4bf4-8bce-69d3e225f9f5",
                                                 "type": "SOKNAD"
@@ -536,7 +538,7 @@
                                         },
                                         {
                                             "dato": "2021-12-07",
-                                            "grad": 100,
+                                            "grad": 100.0,
                                             "kilde": {
                                                 "id": "83dd8d6b-635a-4bf4-8bce-69d3e225f9f5",
                                                 "type": "SOKNAD"
@@ -547,7 +549,7 @@
                                         },
                                         {
                                             "dato": "2021-12-08",
-                                            "grad": 100,
+                                            "grad": 100.0,
                                             "kilde": {
                                                 "id": "83dd8d6b-635a-4bf4-8bce-69d3e225f9f5",
                                                 "type": "SOKNAD"
@@ -558,7 +560,7 @@
                                         },
                                         {
                                             "dato": "2021-12-09",
-                                            "grad": 100,
+                                            "grad": 100.0,
                                             "kilde": {
                                                 "id": "83dd8d6b-635a-4bf4-8bce-69d3e225f9f5",
                                                 "type": "SOKNAD"
@@ -569,7 +571,7 @@
                                         },
                                         {
                                             "dato": "2021-12-10",
-                                            "grad": 100,
+                                            "grad": 100.0,
                                             "kilde": {
                                                 "id": "83dd8d6b-635a-4bf4-8bce-69d3e225f9f5",
                                                 "type": "SOKNAD"
@@ -580,7 +582,7 @@
                                         },
                                         {
                                             "dato": "2021-12-11",
-                                            "grad": 100,
+                                            "grad": 100.0,
                                             "kilde": {
                                                 "id": "83dd8d6b-635a-4bf4-8bce-69d3e225f9f5",
                                                 "type": "SOKNAD"
@@ -591,7 +593,7 @@
                                         },
                                         {
                                             "dato": "2021-12-12",
-                                            "grad": 100,
+                                            "grad": 100.0,
                                             "kilde": {
                                                 "id": "83dd8d6b-635a-4bf4-8bce-69d3e225f9f5",
                                                 "type": "SOKNAD"
@@ -602,7 +604,7 @@
                                         },
                                         {
                                             "dato": "2021-12-13",
-                                            "grad": 100,
+                                            "grad": 100.0,
                                             "kilde": {
                                                 "id": "83dd8d6b-635a-4bf4-8bce-69d3e225f9f5",
                                                 "type": "SOKNAD"
@@ -613,7 +615,7 @@
                                         },
                                         {
                                             "dato": "2021-12-14",
-                                            "grad": 100,
+                                            "grad": 100.0,
                                             "kilde": {
                                                 "id": "83dd8d6b-635a-4bf4-8bce-69d3e225f9f5",
                                                 "type": "SOKNAD"
@@ -624,7 +626,7 @@
                                         },
                                         {
                                             "dato": "2021-12-15",
-                                            "grad": 100,
+                                            "grad": 100.0,
                                             "kilde": {
                                                 "id": "83dd8d6b-635a-4bf4-8bce-69d3e225f9f5",
                                                 "type": "SOKNAD"
@@ -635,7 +637,7 @@
                                         },
                                         {
                                             "dato": "2021-12-16",
-                                            "grad": 100,
+                                            "grad": 100.0,
                                             "kilde": {
                                                 "id": "83dd8d6b-635a-4bf4-8bce-69d3e225f9f5",
                                                 "type": "SOKNAD"
@@ -646,7 +648,7 @@
                                         },
                                         {
                                             "dato": "2021-12-17",
-                                            "grad": 100,
+                                            "grad": 100.0,
                                             "kilde": {
                                                 "id": "83dd8d6b-635a-4bf4-8bce-69d3e225f9f5",
                                                 "type": "SOKNAD"
@@ -658,13 +660,13 @@
                                                 "inntekt": 1385,
                                                 "personbelop": 1385,
                                                 "refusjonsbelop": 0,
-                                                "totalGrad": 100,
+                                                "totalGrad": 100.0,
                                                 "utbetaling": 0
                                             }
                                         },
                                         {
                                             "dato": "2021-12-18",
-                                            "grad": 100,
+                                            "grad": 100.0,
                                             "kilde": {
                                                 "id": "83dd8d6b-635a-4bf4-8bce-69d3e225f9f5",
                                                 "type": "SOKNAD"
@@ -675,7 +677,7 @@
                                         },
                                         {
                                             "dato": "2021-12-19",
-                                            "grad": 100,
+                                            "grad": 100.0,
                                             "kilde": {
                                                 "id": "83dd8d6b-635a-4bf4-8bce-69d3e225f9f5",
                                                 "type": "SOKNAD"
@@ -686,7 +688,7 @@
                                         },
                                         {
                                             "dato": "2021-12-20",
-                                            "grad": 100,
+                                            "grad": 100.0,
                                             "kilde": {
                                                 "id": "83dd8d6b-635a-4bf4-8bce-69d3e225f9f5",
                                                 "type": "SOKNAD"
@@ -698,13 +700,13 @@
                                                 "inntekt": 1385,
                                                 "personbelop": 1385,
                                                 "refusjonsbelop": 0,
-                                                "totalGrad": 100,
+                                                "totalGrad": 100.0,
                                                 "utbetaling": 0
                                             }
                                         },
                                         {
                                             "dato": "2021-12-21",
-                                            "grad": 100,
+                                            "grad": 100.0,
                                             "kilde": {
                                                 "id": "83dd8d6b-635a-4bf4-8bce-69d3e225f9f5",
                                                 "type": "SOKNAD"
@@ -716,13 +718,13 @@
                                                 "inntekt": 1385,
                                                 "personbelop": 1385,
                                                 "refusjonsbelop": 0,
-                                                "totalGrad": 100,
+                                                "totalGrad": 100.0,
                                                 "utbetaling": 0
                                             }
                                         },
                                         {
                                             "dato": "2021-12-22",
-                                            "grad": 100,
+                                            "grad": 100.0,
                                             "kilde": {
                                                 "id": "83dd8d6b-635a-4bf4-8bce-69d3e225f9f5",
                                                 "type": "SOKNAD"
@@ -734,13 +736,13 @@
                                                 "inntekt": 1385,
                                                 "personbelop": 1385,
                                                 "refusjonsbelop": 0,
-                                                "totalGrad": 100,
+                                                "totalGrad": 100.0,
                                                 "utbetaling": 0
                                             }
                                         },
                                         {
                                             "dato": "2021-12-23",
-                                            "grad": 100,
+                                            "grad": 100.0,
                                             "kilde": {
                                                 "id": "83dd8d6b-635a-4bf4-8bce-69d3e225f9f5",
                                                 "type": "SOKNAD"
@@ -752,13 +754,13 @@
                                                 "inntekt": 1385,
                                                 "personbelop": 1385,
                                                 "refusjonsbelop": 0,
-                                                "totalGrad": 100,
+                                                "totalGrad": 100.0,
                                                 "utbetaling": 0
                                             }
                                         },
                                         {
                                             "dato": "2021-12-24",
-                                            "grad": 100,
+                                            "grad": 100.0,
                                             "kilde": {
                                                 "id": "83dd8d6b-635a-4bf4-8bce-69d3e225f9f5",
                                                 "type": "SOKNAD"
@@ -770,13 +772,13 @@
                                                 "inntekt": 1385,
                                                 "personbelop": 1385,
                                                 "refusjonsbelop": 0,
-                                                "totalGrad": 100,
+                                                "totalGrad": 100.0,
                                                 "utbetaling": 0
                                             }
                                         },
                                         {
                                             "dato": "2021-12-25",
-                                            "grad": 100,
+                                            "grad": 100.0,
                                             "kilde": {
                                                 "id": "83dd8d6b-635a-4bf4-8bce-69d3e225f9f5",
                                                 "type": "SOKNAD"
@@ -787,7 +789,7 @@
                                         },
                                         {
                                             "dato": "2021-12-26",
-                                            "grad": 100,
+                                            "grad": 100.0,
                                             "kilde": {
                                                 "id": "83dd8d6b-635a-4bf4-8bce-69d3e225f9f5",
                                                 "type": "SOKNAD"
@@ -798,7 +800,7 @@
                                         },
                                         {
                                             "dato": "2021-12-27",
-                                            "grad": 100,
+                                            "grad": 100.0,
                                             "kilde": {
                                                 "id": "83dd8d6b-635a-4bf4-8bce-69d3e225f9f5",
                                                 "type": "SOKNAD"
@@ -810,13 +812,13 @@
                                                 "inntekt": 1385,
                                                 "personbelop": 1385,
                                                 "refusjonsbelop": 0,
-                                                "totalGrad": 100,
+                                                "totalGrad": 100.0,
                                                 "utbetaling": 0
                                             }
                                         },
                                         {
                                             "dato": "2021-12-28",
-                                            "grad": 80,
+                                            "grad": 80.0,
                                             "kilde": {
                                                 "id": "94ca875c-d999-4914-9519-4588dced1bca",
                                                 "type": "SAKSBEHANDLER"
@@ -828,13 +830,13 @@
                                                 "inntekt": 1385,
                                                 "personbelop": 1108,
                                                 "refusjonsbelop": 0,
-                                                "totalGrad": 80,
+                                                "totalGrad": 80.0,
                                                 "utbetaling": 0
                                             }
                                         },
                                         {
                                             "dato": "2021-12-29",
-                                            "grad": 80,
+                                            "grad": 80.0,
                                             "kilde": {
                                                 "id": "94ca875c-d999-4914-9519-4588dced1bca",
                                                 "type": "SAKSBEHANDLER"
@@ -846,13 +848,13 @@
                                                 "inntekt": 1385,
                                                 "personbelop": 1108,
                                                 "refusjonsbelop": 0,
-                                                "totalGrad": 80,
+                                                "totalGrad": 80.0,
                                                 "utbetaling": 0
                                             }
                                         },
                                         {
                                             "dato": "2021-12-30",
-                                            "grad": 80,
+                                            "grad": 80.0,
                                             "kilde": {
                                                 "id": "94ca875c-d999-4914-9519-4588dced1bca",
                                                 "type": "SAKSBEHANDLER"
@@ -864,13 +866,13 @@
                                                 "inntekt": 1385,
                                                 "personbelop": 1108,
                                                 "refusjonsbelop": 0,
-                                                "totalGrad": 80,
+                                                "totalGrad": 80.0,
                                                 "utbetaling": 0
                                             }
                                         },
                                         {
                                             "dato": "2021-12-31",
-                                            "grad": 100,
+                                            "grad": 100.0,
                                             "kilde": {
                                                 "id": "83dd8d6b-635a-4bf4-8bce-69d3e225f9f5",
                                                 "type": "SOKNAD"
@@ -882,13 +884,13 @@
                                                 "inntekt": 1385,
                                                 "personbelop": 1385,
                                                 "refusjonsbelop": 0,
-                                                "totalGrad": 100,
+                                                "totalGrad": 100.0,
                                                 "utbetaling": 0
                                             }
                                         }
                                     ],
                                     "vedtaksperiodeId": "5931d596-a87e-4436-9156-0fb5fc39db63",
-                                    "id": "86415776-00ff-4fa2-8e8c-c5f585b46132",
+                                    "id": "94a556e7-9ad0-4743-854f-d24975c51061",
                                     "aktivitetslogg": [
                                         {
                                             "alvorlighetsgrad": "W",
@@ -966,7 +968,7 @@
                             ]
                         },
                         {
-                            "id": "f46b4c0a-4417-47c5-8fe3-0cc88341fd5f",
+                            "id": "17d97208-2a57-42d9-9bd3-8b0e1e101860",
                             "perioder": [
                                 {
                                     "fom": "2021-12-01",
@@ -979,7 +981,7 @@
                                     "tidslinje": [
                                         {
                                             "dato": "2021-12-01",
-                                            "grad": 100,
+                                            "grad": 100.0,
                                             "kilde": {
                                                 "id": "83dd8d6b-635a-4bf4-8bce-69d3e225f9f5",
                                                 "type": "SOKNAD"
@@ -990,7 +992,7 @@
                                         },
                                         {
                                             "dato": "2021-12-02",
-                                            "grad": 100,
+                                            "grad": 100.0,
                                             "kilde": {
                                                 "id": "83dd8d6b-635a-4bf4-8bce-69d3e225f9f5",
                                                 "type": "SOKNAD"
@@ -1001,7 +1003,7 @@
                                         },
                                         {
                                             "dato": "2021-12-03",
-                                            "grad": 100,
+                                            "grad": 100.0,
                                             "kilde": {
                                                 "id": "83dd8d6b-635a-4bf4-8bce-69d3e225f9f5",
                                                 "type": "SOKNAD"
@@ -1012,7 +1014,7 @@
                                         },
                                         {
                                             "dato": "2021-12-04",
-                                            "grad": 100,
+                                            "grad": 100.0,
                                             "kilde": {
                                                 "id": "83dd8d6b-635a-4bf4-8bce-69d3e225f9f5",
                                                 "type": "SOKNAD"
@@ -1023,7 +1025,7 @@
                                         },
                                         {
                                             "dato": "2021-12-05",
-                                            "grad": 100,
+                                            "grad": 100.0,
                                             "kilde": {
                                                 "id": "83dd8d6b-635a-4bf4-8bce-69d3e225f9f5",
                                                 "type": "SOKNAD"
@@ -1034,7 +1036,7 @@
                                         },
                                         {
                                             "dato": "2021-12-06",
-                                            "grad": 100,
+                                            "grad": 100.0,
                                             "kilde": {
                                                 "id": "83dd8d6b-635a-4bf4-8bce-69d3e225f9f5",
                                                 "type": "SOKNAD"
@@ -1045,7 +1047,7 @@
                                         },
                                         {
                                             "dato": "2021-12-07",
-                                            "grad": 100,
+                                            "grad": 100.0,
                                             "kilde": {
                                                 "id": "83dd8d6b-635a-4bf4-8bce-69d3e225f9f5",
                                                 "type": "SOKNAD"
@@ -1056,7 +1058,7 @@
                                         },
                                         {
                                             "dato": "2021-12-08",
-                                            "grad": 100,
+                                            "grad": 100.0,
                                             "kilde": {
                                                 "id": "83dd8d6b-635a-4bf4-8bce-69d3e225f9f5",
                                                 "type": "SOKNAD"
@@ -1067,7 +1069,7 @@
                                         },
                                         {
                                             "dato": "2021-12-09",
-                                            "grad": 100,
+                                            "grad": 100.0,
                                             "kilde": {
                                                 "id": "83dd8d6b-635a-4bf4-8bce-69d3e225f9f5",
                                                 "type": "SOKNAD"
@@ -1078,7 +1080,7 @@
                                         },
                                         {
                                             "dato": "2021-12-10",
-                                            "grad": 100,
+                                            "grad": 100.0,
                                             "kilde": {
                                                 "id": "83dd8d6b-635a-4bf4-8bce-69d3e225f9f5",
                                                 "type": "SOKNAD"
@@ -1089,7 +1091,7 @@
                                         },
                                         {
                                             "dato": "2021-12-11",
-                                            "grad": 100,
+                                            "grad": 100.0,
                                             "kilde": {
                                                 "id": "83dd8d6b-635a-4bf4-8bce-69d3e225f9f5",
                                                 "type": "SOKNAD"
@@ -1100,7 +1102,7 @@
                                         },
                                         {
                                             "dato": "2021-12-12",
-                                            "grad": 100,
+                                            "grad": 100.0,
                                             "kilde": {
                                                 "id": "83dd8d6b-635a-4bf4-8bce-69d3e225f9f5",
                                                 "type": "SOKNAD"
@@ -1111,7 +1113,7 @@
                                         },
                                         {
                                             "dato": "2021-12-13",
-                                            "grad": 100,
+                                            "grad": 100.0,
                                             "kilde": {
                                                 "id": "83dd8d6b-635a-4bf4-8bce-69d3e225f9f5",
                                                 "type": "SOKNAD"
@@ -1122,7 +1124,7 @@
                                         },
                                         {
                                             "dato": "2021-12-14",
-                                            "grad": 100,
+                                            "grad": 100.0,
                                             "kilde": {
                                                 "id": "83dd8d6b-635a-4bf4-8bce-69d3e225f9f5",
                                                 "type": "SOKNAD"
@@ -1133,7 +1135,7 @@
                                         },
                                         {
                                             "dato": "2021-12-15",
-                                            "grad": 100,
+                                            "grad": 100.0,
                                             "kilde": {
                                                 "id": "83dd8d6b-635a-4bf4-8bce-69d3e225f9f5",
                                                 "type": "SOKNAD"
@@ -1144,7 +1146,7 @@
                                         },
                                         {
                                             "dato": "2021-12-16",
-                                            "grad": 100,
+                                            "grad": 100.0,
                                             "kilde": {
                                                 "id": "83dd8d6b-635a-4bf4-8bce-69d3e225f9f5",
                                                 "type": "SOKNAD"
@@ -1155,7 +1157,7 @@
                                         },
                                         {
                                             "dato": "2021-12-17",
-                                            "grad": 100,
+                                            "grad": 100.0,
                                             "kilde": {
                                                 "id": "83dd8d6b-635a-4bf4-8bce-69d3e225f9f5",
                                                 "type": "SOKNAD"
@@ -1167,13 +1169,13 @@
                                                 "inntekt": 1385,
                                                 "personbelop": 1385,
                                                 "refusjonsbelop": 0,
-                                                "totalGrad": 100,
+                                                "totalGrad": 100.0,
                                                 "utbetaling": 0
                                             }
                                         },
                                         {
                                             "dato": "2021-12-18",
-                                            "grad": 100,
+                                            "grad": 100.0,
                                             "kilde": {
                                                 "id": "83dd8d6b-635a-4bf4-8bce-69d3e225f9f5",
                                                 "type": "SOKNAD"
@@ -1184,7 +1186,7 @@
                                         },
                                         {
                                             "dato": "2021-12-19",
-                                            "grad": 100,
+                                            "grad": 100.0,
                                             "kilde": {
                                                 "id": "83dd8d6b-635a-4bf4-8bce-69d3e225f9f5",
                                                 "type": "SOKNAD"
@@ -1195,7 +1197,7 @@
                                         },
                                         {
                                             "dato": "2021-12-20",
-                                            "grad": 100,
+                                            "grad": 100.0,
                                             "kilde": {
                                                 "id": "83dd8d6b-635a-4bf4-8bce-69d3e225f9f5",
                                                 "type": "SOKNAD"
@@ -1207,13 +1209,13 @@
                                                 "inntekt": 1385,
                                                 "personbelop": 1385,
                                                 "refusjonsbelop": 0,
-                                                "totalGrad": 100,
+                                                "totalGrad": 100.0,
                                                 "utbetaling": 0
                                             }
                                         },
                                         {
                                             "dato": "2021-12-21",
-                                            "grad": 100,
+                                            "grad": 100.0,
                                             "kilde": {
                                                 "id": "83dd8d6b-635a-4bf4-8bce-69d3e225f9f5",
                                                 "type": "SOKNAD"
@@ -1225,13 +1227,13 @@
                                                 "inntekt": 1385,
                                                 "personbelop": 1385,
                                                 "refusjonsbelop": 0,
-                                                "totalGrad": 100,
+                                                "totalGrad": 100.0,
                                                 "utbetaling": 0
                                             }
                                         },
                                         {
                                             "dato": "2021-12-22",
-                                            "grad": 100,
+                                            "grad": 100.0,
                                             "kilde": {
                                                 "id": "83dd8d6b-635a-4bf4-8bce-69d3e225f9f5",
                                                 "type": "SOKNAD"
@@ -1243,13 +1245,13 @@
                                                 "inntekt": 1385,
                                                 "personbelop": 1385,
                                                 "refusjonsbelop": 0,
-                                                "totalGrad": 100,
+                                                "totalGrad": 100.0,
                                                 "utbetaling": 0
                                             }
                                         },
                                         {
                                             "dato": "2021-12-23",
-                                            "grad": 100,
+                                            "grad": 100.0,
                                             "kilde": {
                                                 "id": "83dd8d6b-635a-4bf4-8bce-69d3e225f9f5",
                                                 "type": "SOKNAD"
@@ -1261,13 +1263,13 @@
                                                 "inntekt": 1385,
                                                 "personbelop": 1385,
                                                 "refusjonsbelop": 0,
-                                                "totalGrad": 100,
+                                                "totalGrad": 100.0,
                                                 "utbetaling": 0
                                             }
                                         },
                                         {
                                             "dato": "2021-12-24",
-                                            "grad": 100,
+                                            "grad": 100.0,
                                             "kilde": {
                                                 "id": "83dd8d6b-635a-4bf4-8bce-69d3e225f9f5",
                                                 "type": "SOKNAD"
@@ -1279,13 +1281,13 @@
                                                 "inntekt": 1385,
                                                 "personbelop": 1385,
                                                 "refusjonsbelop": 0,
-                                                "totalGrad": 100,
+                                                "totalGrad": 100.0,
                                                 "utbetaling": 0
                                             }
                                         },
                                         {
                                             "dato": "2021-12-25",
-                                            "grad": 100,
+                                            "grad": 100.0,
                                             "kilde": {
                                                 "id": "83dd8d6b-635a-4bf4-8bce-69d3e225f9f5",
                                                 "type": "SOKNAD"
@@ -1296,7 +1298,7 @@
                                         },
                                         {
                                             "dato": "2021-12-26",
-                                            "grad": 100,
+                                            "grad": 100.0,
                                             "kilde": {
                                                 "id": "83dd8d6b-635a-4bf4-8bce-69d3e225f9f5",
                                                 "type": "SOKNAD"
@@ -1307,7 +1309,7 @@
                                         },
                                         {
                                             "dato": "2021-12-27",
-                                            "grad": 100,
+                                            "grad": 100.0,
                                             "kilde": {
                                                 "id": "83dd8d6b-635a-4bf4-8bce-69d3e225f9f5",
                                                 "type": "SOKNAD"
@@ -1319,13 +1321,13 @@
                                                 "inntekt": 1385,
                                                 "personbelop": 1385,
                                                 "refusjonsbelop": 0,
-                                                "totalGrad": 100,
+                                                "totalGrad": 100.0,
                                                 "utbetaling": 0
                                             }
                                         },
                                         {
                                             "dato": "2021-12-28",
-                                            "grad": 100,
+                                            "grad": 100.0,
                                             "kilde": {
                                                 "id": "83dd8d6b-635a-4bf4-8bce-69d3e225f9f5",
                                                 "type": "SOKNAD"
@@ -1337,13 +1339,13 @@
                                                 "inntekt": 1385,
                                                 "personbelop": 1385,
                                                 "refusjonsbelop": 0,
-                                                "totalGrad": 100,
+                                                "totalGrad": 100.0,
                                                 "utbetaling": 0
                                             }
                                         },
                                         {
                                             "dato": "2021-12-29",
-                                            "grad": 100,
+                                            "grad": 100.0,
                                             "kilde": {
                                                 "id": "83dd8d6b-635a-4bf4-8bce-69d3e225f9f5",
                                                 "type": "SOKNAD"
@@ -1355,13 +1357,13 @@
                                                 "inntekt": 1385,
                                                 "personbelop": 1385,
                                                 "refusjonsbelop": 0,
-                                                "totalGrad": 100,
+                                                "totalGrad": 100.0,
                                                 "utbetaling": 0
                                             }
                                         },
                                         {
                                             "dato": "2021-12-30",
-                                            "grad": 100,
+                                            "grad": 100.0,
                                             "kilde": {
                                                 "id": "83dd8d6b-635a-4bf4-8bce-69d3e225f9f5",
                                                 "type": "SOKNAD"
@@ -1373,13 +1375,13 @@
                                                 "inntekt": 1385,
                                                 "personbelop": 1385,
                                                 "refusjonsbelop": 0,
-                                                "totalGrad": 100,
+                                                "totalGrad": 100.0,
                                                 "utbetaling": 0
                                             }
                                         },
                                         {
                                             "dato": "2021-12-31",
-                                            "grad": 100,
+                                            "grad": 100.0,
                                             "kilde": {
                                                 "id": "83dd8d6b-635a-4bf4-8bce-69d3e225f9f5",
                                                 "type": "SOKNAD"
@@ -1391,13 +1393,13 @@
                                                 "inntekt": 1385,
                                                 "personbelop": 1385,
                                                 "refusjonsbelop": 0,
-                                                "totalGrad": 100,
+                                                "totalGrad": 100.0,
                                                 "utbetaling": 0
                                             }
                                         }
                                     ],
                                     "vedtaksperiodeId": "5931d596-a87e-4436-9156-0fb5fc39db63",
-                                    "id": "942a78b1-d48a-480a-beeb-2c2e813b1c4d",
+                                    "id": "fc558fb5-6d90-4ff5-8f6a-8ba88ba642a6",
                                     "aktivitetslogg": [
                                         {
                                             "alvorlighetsgrad": "W",
@@ -1493,6 +1495,15 @@
                                 "navn": "Ramthun, Stephen"
                             },
                             "timestamp": "2022-01-31T15:22:58.090776"
+                        },
+                        {
+                            "begrunnelse": ".",
+                            "hendelseId": "7e4a8156-e37e-4d10-9bc9-05a222c737c6",
+                            "saksbehandler": {
+                                "ident": "H159657",
+                                "navn": "Hasle, Jonas"
+                            },
+                            "timestamp": "2022-02-08T01:22:20.428121"
                         }
                     ]
                 }

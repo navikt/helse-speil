@@ -1,15 +1,100 @@
 {
     "utbetalinger": [
         {
-            "type": "REVURDERING",
+            "type": "UTBETALING",
             "status": "UTBETALT",
-            "arbeidsgiverOppdrag": {
-                "organisasjonsnummer": "839942907",
+            "arbeidsgiveroppdrag": {
                 "fagsystemId": "JEX2GC6ZBRHVFG3DUXIK4CM3P4",
-                "utbetalingslinjer": []
+                "utbetalingslinjer": [],
+                "mottaker": "839942907"
+            },
+            "personoppdrag": {
+                "fagsystemId": "TMWJ7WRR7FFXJLDW3HYJCPLF5Y",
+                "utbetalingslinjer": [
+                    {
+                        "fom": "2021-12-17",
+                        "tom": "2021-12-31",
+                        "totalbeløp": 15235
+                    }
+                ],
+                "mottaker": "20087106951"
             },
             "annullertAvSaksbehandler": null,
-            "totalbeløp": 0
+            "totalbeløp": 15235
+        },
+        {
+            "type": "REVURDERING",
+            "status": "UTBETALT",
+            "arbeidsgiveroppdrag": {
+                "fagsystemId": "JEX2GC6ZBRHVFG3DUXIK4CM3P4",
+                "utbetalingslinjer": [],
+                "mottaker": "839942907"
+            },
+            "personoppdrag": {
+                "fagsystemId": "TMWJ7WRR7FFXJLDW3HYJCPLF5Y",
+                "utbetalingslinjer": [
+                    {
+                        "fom": "2021-12-17",
+                        "tom": "2021-12-27",
+                        "totalbeløp": 9695
+                    },
+                    {
+                        "fom": "2021-12-28",
+                        "tom": "2021-12-30",
+                        "totalbeløp": 3324
+                    },
+                    {
+                        "fom": "2021-12-31",
+                        "tom": "2021-12-31",
+                        "totalbeløp": 1385
+                    }
+                ],
+                "mottaker": "20087106951"
+            },
+            "annullertAvSaksbehandler": null,
+            "totalbeløp": 14404
+        },
+        {
+            "type": "UTBETALING",
+            "status": "UTBETALT",
+            "arbeidsgiveroppdrag": {
+                "fagsystemId": "JEX2GC6ZBRHVFG3DUXIK4CM3P4",
+                "utbetalingslinjer": [],
+                "mottaker": "839942907"
+            },
+            "personoppdrag": {
+                "fagsystemId": "TMWJ7WRR7FFXJLDW3HYJCPLF5Y",
+                "utbetalingslinjer": [
+                    {
+                        "fom": "2021-12-17",
+                        "tom": "2021-12-27",
+                        "totalbeløp": 9695
+                    },
+                    {
+                        "fom": "2021-12-28",
+                        "tom": "2021-12-30",
+                        "totalbeløp": 3324
+                    },
+                    {
+                        "fom": "2021-12-31",
+                        "tom": "2022-01-05",
+                        "totalbeløp": 5540
+                    },
+                    {
+                        "fom": "2022-01-10",
+                        "tom": "2022-01-10",
+                        "totalbeløp": 1108
+                    },
+                    {
+                        "fom": "2022-01-11",
+                        "tom": "2022-01-14",
+                        "totalbeløp": 5540
+                    }
+                ],
+                "mottaker": "20087106951"
+            },
+            "annullertAvSaksbehandler": null,
+            "totalbeløp": 25207
         }
     ],
     "aktørId": "2478276105402",
@@ -31,7 +116,7 @@
             "vedtaksperioder": [
                 {
                     "id": "5931d596-a87e-4436-9156-0fb5fc39db63",
-                    "gruppeId": "bacae5d1-6829-48d9-bd1f-5baaa412157a",
+                    "gruppeId": "8cb844f0-b67c-4475-aeb5-28cbb1a80287",
                     "fom": "2021-12-01",
                     "tom": "2021-12-31",
                     "tilstand": "Utbetalt",
@@ -682,7 +767,7 @@
                         "personFagsystemId": "TMWJ7WRR7FFXJLDW3HYJCPLF5Y"
                     },
                     "sisteUtbetaling": {
-                        "utbetalingId": "661ae911-90e9-4da9-b012-0e7d3b4e50d4",
+                        "utbetalingId": "af417bc6-9e3a-4e02-8dd6-d5fcc3772780",
                         "korrelasjonsId": "cffc1222-9e0e-478a-b688-fa115ca6cbbd",
                         "utbetalingstidslinje": [
                             {
@@ -909,47 +994,173 @@
                                 "refusjonsbeløp": 0,
                                 "grad": 100,
                                 "totalGrad": 100
+                            },
+                            {
+                                "type": "NavHelgDag",
+                                "inntekt": 0,
+                                "dato": "2022-01-01",
+                                "grad": 100
+                            },
+                            {
+                                "type": "NavHelgDag",
+                                "inntekt": 0,
+                                "dato": "2022-01-02",
+                                "grad": 100
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 1385,
+                                "dato": "2022-01-03",
+                                "utbetaling": 0,
+                                "personbeløp": 1385,
+                                "arbeidsgiverbeløp": 0,
+                                "refusjonsbeløp": 0,
+                                "grad": 100,
+                                "totalGrad": 100
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 1385,
+                                "dato": "2022-01-04",
+                                "utbetaling": 0,
+                                "personbeløp": 1385,
+                                "arbeidsgiverbeløp": 0,
+                                "refusjonsbeløp": 0,
+                                "grad": 100,
+                                "totalGrad": 100
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 1385,
+                                "dato": "2022-01-05",
+                                "utbetaling": 0,
+                                "personbeløp": 1385,
+                                "arbeidsgiverbeløp": 0,
+                                "refusjonsbeløp": 0,
+                                "grad": 100,
+                                "totalGrad": 100
+                            },
+                            {
+                                "type": "AvvistDag",
+                                "inntekt": 0,
+                                "dato": "2022-01-06",
+                                "begrunnelser": ["MinimumSykdomsgrad"],
+                                "grad": 0
+                            },
+                            {
+                                "type": "AvvistDag",
+                                "inntekt": 0,
+                                "dato": "2022-01-07",
+                                "begrunnelser": ["MinimumSykdomsgrad"],
+                                "grad": 0
+                            },
+                            {
+                                "type": "NavHelgDag",
+                                "inntekt": 0,
+                                "dato": "2022-01-08",
+                                "grad": 100
+                            },
+                            {
+                                "type": "NavHelgDag",
+                                "inntekt": 0,
+                                "dato": "2022-01-09",
+                                "grad": 100
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 1385,
+                                "dato": "2022-01-10",
+                                "utbetaling": 0,
+                                "personbeløp": 1108,
+                                "arbeidsgiverbeløp": 0,
+                                "refusjonsbeløp": 0,
+                                "grad": 80,
+                                "totalGrad": 80
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 1385,
+                                "dato": "2022-01-11",
+                                "utbetaling": 0,
+                                "personbeløp": 1385,
+                                "arbeidsgiverbeløp": 0,
+                                "refusjonsbeløp": 0,
+                                "grad": 100,
+                                "totalGrad": 100
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 1385,
+                                "dato": "2022-01-12",
+                                "utbetaling": 0,
+                                "personbeløp": 1385,
+                                "arbeidsgiverbeløp": 0,
+                                "refusjonsbeløp": 0,
+                                "grad": 100,
+                                "totalGrad": 100
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 1385,
+                                "dato": "2022-01-13",
+                                "utbetaling": 0,
+                                "personbeløp": 1385,
+                                "arbeidsgiverbeløp": 0,
+                                "refusjonsbeløp": 0,
+                                "grad": 100,
+                                "totalGrad": 100
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 1385,
+                                "dato": "2022-01-14",
+                                "utbetaling": 0,
+                                "personbeløp": 1385,
+                                "arbeidsgiverbeløp": 0,
+                                "refusjonsbeløp": 0,
+                                "grad": 100,
+                                "totalGrad": 100
                             }
                         ],
-                        "beregningId": "2c91904d-745a-4f04-92ce-93e03c81fc18",
-                        "type": "REVURDERING",
-                        "maksdato": "2022-11-29",
+                        "beregningId": "8f243436-b689-4ed8-b817-e503321750c0",
+                        "type": "UTBETALING",
+                        "maksdato": "2022-12-01",
                         "status": "UTBETALT",
-                        "gjenståendeSykedager": 237,
-                        "forbrukteSykedager": 11,
+                        "gjenståendeSykedager": 229,
+                        "forbrukteSykedager": 19,
                         "arbeidsgiverNettoBeløp": 0,
-                        "personNettoBeløp": -831,
+                        "personNettoBeløp": 10803,
                         "arbeidsgiverOppdrag": {
                             "fagsystemId": "JEX2GC6ZBRHVFG3DUXIK4CM3P4",
-                            "tidsstempel": "2022-01-29T14:15:21.431587623",
+                            "tidsstempel": "2022-02-08T01:22:21.673882412",
                             "simuleringsResultat": null,
                             "utbetalingslinjer": []
                         },
                         "personOppdrag": {
                             "fagsystemId": "TMWJ7WRR7FFXJLDW3HYJCPLF5Y",
-                            "tidsstempel": "2022-01-29T14:15:21.431696133",
+                            "tidsstempel": "2022-02-08T01:22:21.674415416",
                             "simuleringsResultat": {
-                                "totalbeløp": 7202,
+                                "totalbeløp": 5402,
                                 "perioder": [
                                     {
-                                        "fom": "2021-12-17",
-                                        "tom": "2021-12-27",
+                                        "fom": "2022-01-01",
+                                        "tom": "2022-01-05",
                                         "utbetalinger": [
                                             {
                                                 "utbetalesTilId": "20087106951",
                                                 "utbetalesTilNavn": "STAUDE ROBUST TVILENDE",
-                                                "forfall": "2022-01-29",
+                                                "forfall": "2022-02-08",
                                                 "feilkonto": false,
                                                 "detaljer": [
                                                     {
-                                                        "faktiskFom": "2021-12-17",
-                                                        "faktiskTom": "2021-12-27",
+                                                        "faktiskFom": "2022-01-01",
+                                                        "faktiskTom": "2022-01-05",
                                                         "konto": "0510000",
-                                                        "beløp": -4847,
+                                                        "beløp": -2077,
                                                         "tilbakeføring": false,
                                                         "sats": 0,
                                                         "typeSats": "DAG",
-                                                        "antallSats": 7,
+                                                        "antallSats": 3,
                                                         "uføregrad": 0,
                                                         "klassekode": "FSKTSKAT",
                                                         "klassekodeBeskrivelse": "Forskuddskatt",
@@ -957,14 +1168,14 @@
                                                         "refunderesOrgNr": "           "
                                                     },
                                                     {
-                                                        "faktiskFom": "2021-12-17",
-                                                        "faktiskTom": "2021-12-27",
+                                                        "faktiskFom": "2022-01-01",
+                                                        "faktiskTom": "2022-01-05",
                                                         "konto": "2331000",
-                                                        "beløp": 9695,
+                                                        "beløp": 4155,
                                                         "tilbakeføring": false,
                                                         "sats": 1385,
                                                         "typeSats": "DAG",
-                                                        "antallSats": 7,
+                                                        "antallSats": 3,
                                                         "uføregrad": 100,
                                                         "klassekode": "SPATORD",
                                                         "klassekodeBeskrivelse": "Sykepenger, Arbeidstaker",
@@ -976,24 +1187,24 @@
                                         ]
                                     },
                                     {
-                                        "fom": "2021-12-28",
-                                        "tom": "2021-12-30",
+                                        "fom": "2022-01-10",
+                                        "tom": "2022-01-10",
                                         "utbetalinger": [
                                             {
                                                 "utbetalesTilId": "20087106951",
                                                 "utbetalesTilNavn": "STAUDE ROBUST TVILENDE",
-                                                "forfall": "2022-01-29",
+                                                "forfall": "2022-02-08",
                                                 "feilkonto": false,
                                                 "detaljer": [
                                                     {
-                                                        "faktiskFom": "2021-12-28",
-                                                        "faktiskTom": "2021-12-30",
+                                                        "faktiskFom": "2022-01-10",
+                                                        "faktiskTom": "2022-01-10",
                                                         "konto": "0510000",
-                                                        "beløp": -1662,
+                                                        "beløp": -554,
                                                         "tilbakeføring": false,
                                                         "sats": 0,
                                                         "typeSats": "DAG",
-                                                        "antallSats": 3,
+                                                        "antallSats": 1,
                                                         "uføregrad": 0,
                                                         "klassekode": "FSKTSKAT",
                                                         "klassekodeBeskrivelse": "Forskuddskatt",
@@ -1001,14 +1212,14 @@
                                                         "refunderesOrgNr": "           "
                                                     },
                                                     {
-                                                        "faktiskFom": "2021-12-28",
-                                                        "faktiskTom": "2021-12-30",
+                                                        "faktiskFom": "2022-01-10",
+                                                        "faktiskTom": "2022-01-10",
                                                         "konto": "2331000",
-                                                        "beløp": 3324,
+                                                        "beløp": 1108,
                                                         "tilbakeføring": false,
                                                         "sats": 1108,
                                                         "typeSats": "DAG",
-                                                        "antallSats": 3,
+                                                        "antallSats": 1,
                                                         "uføregrad": 80,
                                                         "klassekode": "SPATORD",
                                                         "klassekodeBeskrivelse": "Sykepenger, Arbeidstaker",
@@ -1020,24 +1231,24 @@
                                         ]
                                     },
                                     {
-                                        "fom": "2021-12-31",
-                                        "tom": "2021-12-31",
+                                        "fom": "2022-01-11",
+                                        "tom": "2022-01-14",
                                         "utbetalinger": [
                                             {
                                                 "utbetalesTilId": "20087106951",
                                                 "utbetalesTilNavn": "STAUDE ROBUST TVILENDE",
-                                                "forfall": "2022-01-29",
+                                                "forfall": "2022-02-08",
                                                 "feilkonto": false,
                                                 "detaljer": [
                                                     {
-                                                        "faktiskFom": "2021-12-31",
-                                                        "faktiskTom": "2021-12-31",
+                                                        "faktiskFom": "2022-01-11",
+                                                        "faktiskTom": "2022-01-14",
                                                         "konto": "0510000",
-                                                        "beløp": -693,
+                                                        "beløp": -2770,
                                                         "tilbakeføring": false,
                                                         "sats": 0,
                                                         "typeSats": "DAG",
-                                                        "antallSats": 1,
+                                                        "antallSats": 4,
                                                         "uføregrad": 0,
                                                         "klassekode": "FSKTSKAT",
                                                         "klassekodeBeskrivelse": "Forskuddskatt",
@@ -1045,14 +1256,14 @@
                                                         "refunderesOrgNr": "           "
                                                     },
                                                     {
-                                                        "faktiskFom": "2021-12-31",
-                                                        "faktiskTom": "2021-12-31",
+                                                        "faktiskFom": "2022-01-11",
+                                                        "faktiskTom": "2022-01-14",
                                                         "konto": "2331000",
-                                                        "beløp": 1385,
+                                                        "beløp": 5540,
                                                         "tilbakeføring": false,
                                                         "sats": 1385,
                                                         "typeSats": "DAG",
-                                                        "antallSats": 1,
+                                                        "antallSats": 4,
                                                         "uføregrad": 100,
                                                         "klassekode": "SPATORD",
                                                         "klassekodeBeskrivelse": "Sykepenger, Arbeidstaker",
@@ -1080,18 +1291,30 @@
                                 },
                                 {
                                     "fom": "2021-12-31",
-                                    "tom": "2021-12-31",
+                                    "tom": "2022-01-05",
+                                    "dagsats": 1385,
+                                    "grad": 100
+                                },
+                                {
+                                    "fom": "2022-01-10",
+                                    "tom": "2022-01-10",
+                                    "dagsats": 1108,
+                                    "grad": 80
+                                },
+                                {
+                                    "fom": "2022-01-11",
+                                    "tom": "2022-01-14",
                                     "dagsats": 1385,
                                     "grad": 100
                                 }
                             ]
                         },
-                        "tidsstempel": "2022-01-29T14:15:21.431766635",
+                        "tidsstempel": "2022-02-08T01:22:21.674822781",
                         "vurdering": {
                             "godkjent": true,
-                            "tidsstempel": "2022-01-29T14:15:30.506774969",
+                            "tidsstempel": "2022-02-10T11:26:34.634406271",
                             "automatisk": false,
-                            "ident": "R154509"
+                            "ident": "T127350"
                         },
                         "arbeidsgiverFagsystemId": "JEX2GC6ZBRHVFG3DUXIK4CM3P4",
                         "personFagsystemId": "TMWJ7WRR7FFXJLDW3HYJCPLF5Y"
@@ -1474,7 +1697,19 @@
                                 },
                                 {
                                     "fom": "2021-12-31",
-                                    "tom": "2021-12-31",
+                                    "tom": "2022-01-05",
+                                    "dagsats": 1385,
+                                    "grad": 100
+                                },
+                                {
+                                    "fom": "2022-01-10",
+                                    "tom": "2022-01-10",
+                                    "dagsats": 1108,
+                                    "grad": 80
+                                },
+                                {
+                                    "fom": "2022-01-11",
+                                    "tom": "2022-01-14",
                                     "dagsats": 1385,
                                     "grad": 100
                                 }
@@ -1503,7 +1738,19 @@
                                 },
                                 {
                                     "fom": "2021-12-31",
-                                    "tom": "2021-12-31",
+                                    "tom": "2022-01-05",
+                                    "dagsats": 1385,
+                                    "grad": 100
+                                },
+                                {
+                                    "fom": "2022-01-10",
+                                    "tom": "2022-01-10",
+                                    "dagsats": 1108,
+                                    "grad": 80
+                                },
+                                {
+                                    "fom": "2022-01-11",
+                                    "tom": "2022-01-14",
                                     "dagsats": 1385,
                                     "grad": 100
                                 }
@@ -1529,10 +1776,10 @@
                 },
                 {
                     "id": "e5edcaf1-57e6-440b-9087-f35b563be0e2",
-                    "gruppeId": "bacae5d1-6829-48d9-bd1f-5baaa412157a",
+                    "gruppeId": "8cb844f0-b67c-4475-aeb5-28cbb1a80287",
                     "fom": "2022-01-01",
                     "tom": "2022-01-14",
-                    "tilstand": "Oppgaver",
+                    "tilstand": "Utbetalt",
                     "fullstendig": true,
                     "utbetalingstidslinje": [
                         {
@@ -1611,11 +1858,11 @@
                             "inntekt": 1385,
                             "dato": "2022-01-10",
                             "utbetaling": 0,
-                            "personbeløp": 1385,
+                            "personbeløp": 1108,
                             "arbeidsgiverbeløp": 0,
                             "refusjonsbeløp": 0,
-                            "grad": 100,
-                            "totalGrad": 100
+                            "grad": 80,
+                            "totalGrad": 80
                         },
                         {
                             "type": "NavDag",
@@ -1666,7 +1913,7 @@
                     "erForkastet": false,
                     "utbetalingsreferanse": null,
                     "utbetaling": {
-                        "utbetalingId": "d4d0cd9f-953f-4f66-be47-5f5386a0616f",
+                        "utbetalingId": "af417bc6-9e3a-4e02-8dd6-d5fcc3772780",
                         "korrelasjonsId": "cffc1222-9e0e-478a-b688-fa115ca6cbbd",
                         "utbetalingstidslinje": [
                             {
@@ -1970,11 +2217,11 @@
                                 "inntekt": 1385,
                                 "dato": "2022-01-10",
                                 "utbetaling": 0,
-                                "personbeløp": 1385,
+                                "personbeløp": 1108,
                                 "arbeidsgiverbeløp": 0,
                                 "refusjonsbeløp": 0,
-                                "grad": 100,
-                                "totalGrad": 100
+                                "grad": 80,
+                                "totalGrad": 80
                             },
                             {
                                 "type": "NavDag",
@@ -2021,158 +2268,26 @@
                                 "totalGrad": 100
                             }
                         ],
-                        "beregningId": "df19e11c-e6a4-4f01-b5f8-97e9a50c3122",
+                        "beregningId": "8f243436-b689-4ed8-b817-e503321750c0",
                         "type": "UTBETALING",
                         "maksdato": "2022-12-01",
-                        "status": "IKKE_UTBETALT",
+                        "status": "UTBETALT",
                         "gjenståendeSykedager": 229,
                         "forbrukteSykedager": 19,
                         "arbeidsgiverNettoBeløp": 0,
-                        "personNettoBeløp": 11080,
+                        "personNettoBeløp": 10803,
                         "arbeidsgiverOppdrag": {
                             "fagsystemId": "JEX2GC6ZBRHVFG3DUXIK4CM3P4",
-                            "tidsstempel": "2022-01-31T15:22:58.521320836",
+                            "tidsstempel": "2022-02-08T01:22:21.673882412",
                             "simuleringsResultat": null,
                             "utbetalingslinjer": []
                         },
                         "personOppdrag": {
                             "fagsystemId": "TMWJ7WRR7FFXJLDW3HYJCPLF5Y",
-                            "tidsstempel": "2022-01-31T15:22:58.521587975",
+                            "tidsstempel": "2022-02-08T01:22:21.674415416",
                             "simuleringsResultat": {
-                                "totalbeløp": 12742,
+                                "totalbeløp": 5402,
                                 "perioder": [
-                                    {
-                                        "fom": "2021-12-17",
-                                        "tom": "2021-12-27",
-                                        "utbetalinger": [
-                                            {
-                                                "utbetalesTilId": "20087106951",
-                                                "utbetalesTilNavn": "STAUDE ROBUST TVILENDE",
-                                                "forfall": "2022-01-31",
-                                                "feilkonto": false,
-                                                "detaljer": [
-                                                    {
-                                                        "faktiskFom": "2021-12-17",
-                                                        "faktiskTom": "2021-12-27",
-                                                        "konto": "0510000",
-                                                        "beløp": -4847,
-                                                        "tilbakeføring": false,
-                                                        "sats": 0,
-                                                        "typeSats": "DAG",
-                                                        "antallSats": 7,
-                                                        "uføregrad": 0,
-                                                        "klassekode": "FSKTSKAT",
-                                                        "klassekodeBeskrivelse": "Forskuddskatt",
-                                                        "utbetalingstype": "SKAT",
-                                                        "refunderesOrgNr": "           "
-                                                    },
-                                                    {
-                                                        "faktiskFom": "2021-12-17",
-                                                        "faktiskTom": "2021-12-27",
-                                                        "konto": "2331000",
-                                                        "beløp": 9695,
-                                                        "tilbakeføring": false,
-                                                        "sats": 1385,
-                                                        "typeSats": "DAG",
-                                                        "antallSats": 7,
-                                                        "uføregrad": 100,
-                                                        "klassekode": "SPATORD",
-                                                        "klassekodeBeskrivelse": "Sykepenger, Arbeidstaker",
-                                                        "utbetalingstype": "YTEL",
-                                                        "refunderesOrgNr": "           "
-                                                    }
-                                                ]
-                                            }
-                                        ]
-                                    },
-                                    {
-                                        "fom": "2021-12-28",
-                                        "tom": "2021-12-30",
-                                        "utbetalinger": [
-                                            {
-                                                "utbetalesTilId": "20087106951",
-                                                "utbetalesTilNavn": "STAUDE ROBUST TVILENDE",
-                                                "forfall": "2022-01-31",
-                                                "feilkonto": false,
-                                                "detaljer": [
-                                                    {
-                                                        "faktiskFom": "2021-12-28",
-                                                        "faktiskTom": "2021-12-30",
-                                                        "konto": "0510000",
-                                                        "beløp": -1662,
-                                                        "tilbakeføring": false,
-                                                        "sats": 0,
-                                                        "typeSats": "DAG",
-                                                        "antallSats": 3,
-                                                        "uføregrad": 0,
-                                                        "klassekode": "FSKTSKAT",
-                                                        "klassekodeBeskrivelse": "Forskuddskatt",
-                                                        "utbetalingstype": "SKAT",
-                                                        "refunderesOrgNr": "           "
-                                                    },
-                                                    {
-                                                        "faktiskFom": "2021-12-28",
-                                                        "faktiskTom": "2021-12-30",
-                                                        "konto": "2331000",
-                                                        "beløp": 3324,
-                                                        "tilbakeføring": false,
-                                                        "sats": 1108,
-                                                        "typeSats": "DAG",
-                                                        "antallSats": 3,
-                                                        "uføregrad": 80,
-                                                        "klassekode": "SPATORD",
-                                                        "klassekodeBeskrivelse": "Sykepenger, Arbeidstaker",
-                                                        "utbetalingstype": "YTEL",
-                                                        "refunderesOrgNr": "           "
-                                                    }
-                                                ]
-                                            }
-                                        ]
-                                    },
-                                    {
-                                        "fom": "2021-12-31",
-                                        "tom": "2021-12-31",
-                                        "utbetalinger": [
-                                            {
-                                                "utbetalesTilId": "20087106951",
-                                                "utbetalesTilNavn": "STAUDE ROBUST TVILENDE",
-                                                "forfall": "2022-01-31",
-                                                "feilkonto": false,
-                                                "detaljer": [
-                                                    {
-                                                        "faktiskFom": "2021-12-31",
-                                                        "faktiskTom": "2021-12-31",
-                                                        "konto": "0510000",
-                                                        "beløp": -693,
-                                                        "tilbakeføring": false,
-                                                        "sats": 0,
-                                                        "typeSats": "DAG",
-                                                        "antallSats": 1,
-                                                        "uføregrad": 0,
-                                                        "klassekode": "FSKTSKAT",
-                                                        "klassekodeBeskrivelse": "Forskuddskatt",
-                                                        "utbetalingstype": "SKAT",
-                                                        "refunderesOrgNr": "           "
-                                                    },
-                                                    {
-                                                        "faktiskFom": "2021-12-31",
-                                                        "faktiskTom": "2021-12-31",
-                                                        "konto": "2331000",
-                                                        "beløp": 1385,
-                                                        "tilbakeføring": false,
-                                                        "sats": 1385,
-                                                        "typeSats": "DAG",
-                                                        "antallSats": 1,
-                                                        "uføregrad": 100,
-                                                        "klassekode": "SPATORD",
-                                                        "klassekodeBeskrivelse": "Sykepenger, Arbeidstaker",
-                                                        "utbetalingstype": "YTEL",
-                                                        "refunderesOrgNr": "           "
-                                                    }
-                                                ]
-                                            }
-                                        ]
-                                    },
                                     {
                                         "fom": "2022-01-01",
                                         "tom": "2022-01-05",
@@ -2180,7 +2295,7 @@
                                             {
                                                 "utbetalesTilId": "20087106951",
                                                 "utbetalesTilNavn": "STAUDE ROBUST TVILENDE",
-                                                "forfall": "2022-01-31",
+                                                "forfall": "2022-02-08",
                                                 "feilkonto": false,
                                                 "detaljer": [
                                                     {
@@ -2218,24 +2333,24 @@
                                         ]
                                     },
                                     {
-                                        "fom": "2022-01-08",
-                                        "tom": "2022-01-14",
+                                        "fom": "2022-01-10",
+                                        "tom": "2022-01-10",
                                         "utbetalinger": [
                                             {
                                                 "utbetalesTilId": "20087106951",
                                                 "utbetalesTilNavn": "STAUDE ROBUST TVILENDE",
-                                                "forfall": "2022-01-31",
+                                                "forfall": "2022-02-08",
                                                 "feilkonto": false,
                                                 "detaljer": [
                                                     {
-                                                        "faktiskFom": "2022-01-08",
-                                                        "faktiskTom": "2022-01-14",
+                                                        "faktiskFom": "2022-01-10",
+                                                        "faktiskTom": "2022-01-10",
                                                         "konto": "0510000",
-                                                        "beløp": -3463,
+                                                        "beløp": -554,
                                                         "tilbakeføring": false,
                                                         "sats": 0,
                                                         "typeSats": "DAG",
-                                                        "antallSats": 5,
+                                                        "antallSats": 1,
                                                         "uføregrad": 0,
                                                         "klassekode": "FSKTSKAT",
                                                         "klassekodeBeskrivelse": "Forskuddskatt",
@@ -2243,14 +2358,58 @@
                                                         "refunderesOrgNr": "           "
                                                     },
                                                     {
-                                                        "faktiskFom": "2022-01-08",
+                                                        "faktiskFom": "2022-01-10",
+                                                        "faktiskTom": "2022-01-10",
+                                                        "konto": "2331000",
+                                                        "beløp": 1108,
+                                                        "tilbakeføring": false,
+                                                        "sats": 1108,
+                                                        "typeSats": "DAG",
+                                                        "antallSats": 1,
+                                                        "uføregrad": 80,
+                                                        "klassekode": "SPATORD",
+                                                        "klassekodeBeskrivelse": "Sykepenger, Arbeidstaker",
+                                                        "utbetalingstype": "YTEL",
+                                                        "refunderesOrgNr": "           "
+                                                    }
+                                                ]
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "fom": "2022-01-11",
+                                        "tom": "2022-01-14",
+                                        "utbetalinger": [
+                                            {
+                                                "utbetalesTilId": "20087106951",
+                                                "utbetalesTilNavn": "STAUDE ROBUST TVILENDE",
+                                                "forfall": "2022-02-08",
+                                                "feilkonto": false,
+                                                "detaljer": [
+                                                    {
+                                                        "faktiskFom": "2022-01-11",
+                                                        "faktiskTom": "2022-01-14",
+                                                        "konto": "0510000",
+                                                        "beløp": -2770,
+                                                        "tilbakeføring": false,
+                                                        "sats": 0,
+                                                        "typeSats": "DAG",
+                                                        "antallSats": 4,
+                                                        "uføregrad": 0,
+                                                        "klassekode": "FSKTSKAT",
+                                                        "klassekodeBeskrivelse": "Forskuddskatt",
+                                                        "utbetalingstype": "SKAT",
+                                                        "refunderesOrgNr": "           "
+                                                    },
+                                                    {
+                                                        "faktiskFom": "2022-01-11",
                                                         "faktiskTom": "2022-01-14",
                                                         "konto": "2331000",
-                                                        "beløp": 6925,
+                                                        "beløp": 5540,
                                                         "tilbakeføring": false,
                                                         "sats": 1385,
                                                         "typeSats": "DAG",
-                                                        "antallSats": 5,
+                                                        "antallSats": 4,
                                                         "uføregrad": 100,
                                                         "klassekode": "SPATORD",
                                                         "klassekodeBeskrivelse": "Sykepenger, Arbeidstaker",
@@ -2283,20 +2442,31 @@
                                     "grad": 100
                                 },
                                 {
-                                    "fom": "2022-01-08",
+                                    "fom": "2022-01-10",
+                                    "tom": "2022-01-10",
+                                    "dagsats": 1108,
+                                    "grad": 80
+                                },
+                                {
+                                    "fom": "2022-01-11",
                                     "tom": "2022-01-14",
                                     "dagsats": 1385,
                                     "grad": 100
                                 }
                             ]
                         },
-                        "tidsstempel": "2022-01-31T15:22:58.522052758",
-                        "vurdering": null,
+                        "tidsstempel": "2022-02-08T01:22:21.674822781",
+                        "vurdering": {
+                            "godkjent": true,
+                            "tidsstempel": "2022-02-10T11:26:34.634406271",
+                            "automatisk": false,
+                            "ident": "T127350"
+                        },
                         "arbeidsgiverFagsystemId": "JEX2GC6ZBRHVFG3DUXIK4CM3P4",
                         "personFagsystemId": "TMWJ7WRR7FFXJLDW3HYJCPLF5Y"
                     },
                     "sisteUtbetaling": {
-                        "utbetalingId": "661ae911-90e9-4da9-b012-0e7d3b4e50d4",
+                        "utbetalingId": "af417bc6-9e3a-4e02-8dd6-d5fcc3772780",
                         "korrelasjonsId": "cffc1222-9e0e-478a-b688-fa115ca6cbbd",
                         "utbetalingstidslinje": [
                             {
@@ -2523,47 +2693,173 @@
                                 "refusjonsbeløp": 0,
                                 "grad": 100,
                                 "totalGrad": 100
+                            },
+                            {
+                                "type": "NavHelgDag",
+                                "inntekt": 0,
+                                "dato": "2022-01-01",
+                                "grad": 100
+                            },
+                            {
+                                "type": "NavHelgDag",
+                                "inntekt": 0,
+                                "dato": "2022-01-02",
+                                "grad": 100
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 1385,
+                                "dato": "2022-01-03",
+                                "utbetaling": 0,
+                                "personbeløp": 1385,
+                                "arbeidsgiverbeløp": 0,
+                                "refusjonsbeløp": 0,
+                                "grad": 100,
+                                "totalGrad": 100
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 1385,
+                                "dato": "2022-01-04",
+                                "utbetaling": 0,
+                                "personbeløp": 1385,
+                                "arbeidsgiverbeløp": 0,
+                                "refusjonsbeløp": 0,
+                                "grad": 100,
+                                "totalGrad": 100
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 1385,
+                                "dato": "2022-01-05",
+                                "utbetaling": 0,
+                                "personbeløp": 1385,
+                                "arbeidsgiverbeløp": 0,
+                                "refusjonsbeløp": 0,
+                                "grad": 100,
+                                "totalGrad": 100
+                            },
+                            {
+                                "type": "AvvistDag",
+                                "inntekt": 0,
+                                "dato": "2022-01-06",
+                                "begrunnelser": ["MinimumSykdomsgrad"],
+                                "grad": 0
+                            },
+                            {
+                                "type": "AvvistDag",
+                                "inntekt": 0,
+                                "dato": "2022-01-07",
+                                "begrunnelser": ["MinimumSykdomsgrad"],
+                                "grad": 0
+                            },
+                            {
+                                "type": "NavHelgDag",
+                                "inntekt": 0,
+                                "dato": "2022-01-08",
+                                "grad": 100
+                            },
+                            {
+                                "type": "NavHelgDag",
+                                "inntekt": 0,
+                                "dato": "2022-01-09",
+                                "grad": 100
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 1385,
+                                "dato": "2022-01-10",
+                                "utbetaling": 0,
+                                "personbeløp": 1108,
+                                "arbeidsgiverbeløp": 0,
+                                "refusjonsbeløp": 0,
+                                "grad": 80,
+                                "totalGrad": 80
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 1385,
+                                "dato": "2022-01-11",
+                                "utbetaling": 0,
+                                "personbeløp": 1385,
+                                "arbeidsgiverbeløp": 0,
+                                "refusjonsbeløp": 0,
+                                "grad": 100,
+                                "totalGrad": 100
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 1385,
+                                "dato": "2022-01-12",
+                                "utbetaling": 0,
+                                "personbeløp": 1385,
+                                "arbeidsgiverbeløp": 0,
+                                "refusjonsbeløp": 0,
+                                "grad": 100,
+                                "totalGrad": 100
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 1385,
+                                "dato": "2022-01-13",
+                                "utbetaling": 0,
+                                "personbeløp": 1385,
+                                "arbeidsgiverbeløp": 0,
+                                "refusjonsbeløp": 0,
+                                "grad": 100,
+                                "totalGrad": 100
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 1385,
+                                "dato": "2022-01-14",
+                                "utbetaling": 0,
+                                "personbeløp": 1385,
+                                "arbeidsgiverbeløp": 0,
+                                "refusjonsbeløp": 0,
+                                "grad": 100,
+                                "totalGrad": 100
                             }
                         ],
-                        "beregningId": "2c91904d-745a-4f04-92ce-93e03c81fc18",
-                        "type": "REVURDERING",
-                        "maksdato": "2022-11-29",
+                        "beregningId": "8f243436-b689-4ed8-b817-e503321750c0",
+                        "type": "UTBETALING",
+                        "maksdato": "2022-12-01",
                         "status": "UTBETALT",
-                        "gjenståendeSykedager": 237,
-                        "forbrukteSykedager": 11,
+                        "gjenståendeSykedager": 229,
+                        "forbrukteSykedager": 19,
                         "arbeidsgiverNettoBeløp": 0,
-                        "personNettoBeløp": -831,
+                        "personNettoBeløp": 10803,
                         "arbeidsgiverOppdrag": {
                             "fagsystemId": "JEX2GC6ZBRHVFG3DUXIK4CM3P4",
-                            "tidsstempel": "2022-01-29T14:15:21.431587623",
+                            "tidsstempel": "2022-02-08T01:22:21.673882412",
                             "simuleringsResultat": null,
                             "utbetalingslinjer": []
                         },
                         "personOppdrag": {
                             "fagsystemId": "TMWJ7WRR7FFXJLDW3HYJCPLF5Y",
-                            "tidsstempel": "2022-01-29T14:15:21.431696133",
+                            "tidsstempel": "2022-02-08T01:22:21.674415416",
                             "simuleringsResultat": {
-                                "totalbeløp": 7202,
+                                "totalbeløp": 5402,
                                 "perioder": [
                                     {
-                                        "fom": "2021-12-17",
-                                        "tom": "2021-12-27",
+                                        "fom": "2022-01-01",
+                                        "tom": "2022-01-05",
                                         "utbetalinger": [
                                             {
                                                 "utbetalesTilId": "20087106951",
                                                 "utbetalesTilNavn": "STAUDE ROBUST TVILENDE",
-                                                "forfall": "2022-01-29",
+                                                "forfall": "2022-02-08",
                                                 "feilkonto": false,
                                                 "detaljer": [
                                                     {
-                                                        "faktiskFom": "2021-12-17",
-                                                        "faktiskTom": "2021-12-27",
+                                                        "faktiskFom": "2022-01-01",
+                                                        "faktiskTom": "2022-01-05",
                                                         "konto": "0510000",
-                                                        "beløp": -4847,
+                                                        "beløp": -2077,
                                                         "tilbakeføring": false,
                                                         "sats": 0,
                                                         "typeSats": "DAG",
-                                                        "antallSats": 7,
+                                                        "antallSats": 3,
                                                         "uføregrad": 0,
                                                         "klassekode": "FSKTSKAT",
                                                         "klassekodeBeskrivelse": "Forskuddskatt",
@@ -2571,14 +2867,14 @@
                                                         "refunderesOrgNr": "           "
                                                     },
                                                     {
-                                                        "faktiskFom": "2021-12-17",
-                                                        "faktiskTom": "2021-12-27",
+                                                        "faktiskFom": "2022-01-01",
+                                                        "faktiskTom": "2022-01-05",
                                                         "konto": "2331000",
-                                                        "beløp": 9695,
+                                                        "beløp": 4155,
                                                         "tilbakeføring": false,
                                                         "sats": 1385,
                                                         "typeSats": "DAG",
-                                                        "antallSats": 7,
+                                                        "antallSats": 3,
                                                         "uføregrad": 100,
                                                         "klassekode": "SPATORD",
                                                         "klassekodeBeskrivelse": "Sykepenger, Arbeidstaker",
@@ -2590,24 +2886,24 @@
                                         ]
                                     },
                                     {
-                                        "fom": "2021-12-28",
-                                        "tom": "2021-12-30",
+                                        "fom": "2022-01-10",
+                                        "tom": "2022-01-10",
                                         "utbetalinger": [
                                             {
                                                 "utbetalesTilId": "20087106951",
                                                 "utbetalesTilNavn": "STAUDE ROBUST TVILENDE",
-                                                "forfall": "2022-01-29",
+                                                "forfall": "2022-02-08",
                                                 "feilkonto": false,
                                                 "detaljer": [
                                                     {
-                                                        "faktiskFom": "2021-12-28",
-                                                        "faktiskTom": "2021-12-30",
+                                                        "faktiskFom": "2022-01-10",
+                                                        "faktiskTom": "2022-01-10",
                                                         "konto": "0510000",
-                                                        "beløp": -1662,
+                                                        "beløp": -554,
                                                         "tilbakeføring": false,
                                                         "sats": 0,
                                                         "typeSats": "DAG",
-                                                        "antallSats": 3,
+                                                        "antallSats": 1,
                                                         "uføregrad": 0,
                                                         "klassekode": "FSKTSKAT",
                                                         "klassekodeBeskrivelse": "Forskuddskatt",
@@ -2615,14 +2911,14 @@
                                                         "refunderesOrgNr": "           "
                                                     },
                                                     {
-                                                        "faktiskFom": "2021-12-28",
-                                                        "faktiskTom": "2021-12-30",
+                                                        "faktiskFom": "2022-01-10",
+                                                        "faktiskTom": "2022-01-10",
                                                         "konto": "2331000",
-                                                        "beløp": 3324,
+                                                        "beløp": 1108,
                                                         "tilbakeføring": false,
                                                         "sats": 1108,
                                                         "typeSats": "DAG",
-                                                        "antallSats": 3,
+                                                        "antallSats": 1,
                                                         "uføregrad": 80,
                                                         "klassekode": "SPATORD",
                                                         "klassekodeBeskrivelse": "Sykepenger, Arbeidstaker",
@@ -2634,24 +2930,24 @@
                                         ]
                                     },
                                     {
-                                        "fom": "2021-12-31",
-                                        "tom": "2021-12-31",
+                                        "fom": "2022-01-11",
+                                        "tom": "2022-01-14",
                                         "utbetalinger": [
                                             {
                                                 "utbetalesTilId": "20087106951",
                                                 "utbetalesTilNavn": "STAUDE ROBUST TVILENDE",
-                                                "forfall": "2022-01-29",
+                                                "forfall": "2022-02-08",
                                                 "feilkonto": false,
                                                 "detaljer": [
                                                     {
-                                                        "faktiskFom": "2021-12-31",
-                                                        "faktiskTom": "2021-12-31",
+                                                        "faktiskFom": "2022-01-11",
+                                                        "faktiskTom": "2022-01-14",
                                                         "konto": "0510000",
-                                                        "beløp": -693,
+                                                        "beløp": -2770,
                                                         "tilbakeføring": false,
                                                         "sats": 0,
                                                         "typeSats": "DAG",
-                                                        "antallSats": 1,
+                                                        "antallSats": 4,
                                                         "uføregrad": 0,
                                                         "klassekode": "FSKTSKAT",
                                                         "klassekodeBeskrivelse": "Forskuddskatt",
@@ -2659,14 +2955,14 @@
                                                         "refunderesOrgNr": "           "
                                                     },
                                                     {
-                                                        "faktiskFom": "2021-12-31",
-                                                        "faktiskTom": "2021-12-31",
+                                                        "faktiskFom": "2022-01-11",
+                                                        "faktiskTom": "2022-01-14",
                                                         "konto": "2331000",
-                                                        "beløp": 1385,
+                                                        "beløp": 5540,
                                                         "tilbakeføring": false,
                                                         "sats": 1385,
                                                         "typeSats": "DAG",
-                                                        "antallSats": 1,
+                                                        "antallSats": 4,
                                                         "uføregrad": 100,
                                                         "klassekode": "SPATORD",
                                                         "klassekodeBeskrivelse": "Sykepenger, Arbeidstaker",
@@ -2694,18 +2990,30 @@
                                 },
                                 {
                                     "fom": "2021-12-31",
-                                    "tom": "2021-12-31",
+                                    "tom": "2022-01-05",
+                                    "dagsats": 1385,
+                                    "grad": 100
+                                },
+                                {
+                                    "fom": "2022-01-10",
+                                    "tom": "2022-01-10",
+                                    "dagsats": 1108,
+                                    "grad": 80
+                                },
+                                {
+                                    "fom": "2022-01-11",
+                                    "tom": "2022-01-14",
                                     "dagsats": 1385,
                                     "grad": 100
                                 }
                             ]
                         },
-                        "tidsstempel": "2022-01-29T14:15:21.431766635",
+                        "tidsstempel": "2022-02-08T01:22:21.674822781",
                         "vurdering": {
                             "godkjent": true,
-                            "tidsstempel": "2022-01-29T14:15:30.506774969",
+                            "tidsstempel": "2022-02-10T11:26:34.634406271",
                             "automatisk": false,
-                            "ident": "R154509"
+                            "ident": "T127350"
                         },
                         "arbeidsgiverFagsystemId": "JEX2GC6ZBRHVFG3DUXIK4CM3P4",
                         "personFagsystemId": "TMWJ7WRR7FFXJLDW3HYJCPLF5Y"
@@ -2796,10 +3104,10 @@
                             "dagen": "2022-01-10",
                             "type": "SYKEDAG",
                             "kilde": {
-                                "type": "Søknad",
-                                "kildeId": "a855080e-df37-4242-ac86-89731cd6f35c"
+                                "type": "Saksbehandler",
+                                "kildeId": "7e4a8156-e37e-4d10-9bc9-05a222c737c6"
                             },
-                            "grad": 100
+                            "grad": 80
                         },
                         {
                             "dagen": "2022-01-11",
@@ -2914,12 +3222,12 @@
                     ],
                     "forlengelseFraInfotrygd": "NEI",
                     "periodetype": "FORLENGELSE",
-                    "beregningIder": ["df19e11c-e6a4-4f01-b5f8-97e9a50c3122"],
-                    "godkjentAv": null,
-                    "godkjenttidspunkt": null,
+                    "beregningIder": ["8f243436-b689-4ed8-b817-e503321750c0"],
+                    "godkjentAv": "T127350",
+                    "godkjenttidspunkt": "2022-02-10T11:26:34.634406271",
                     "automatiskBehandlet": false,
                     "simuleringsdata": null,
-                    "totalbeløpArbeidstaker": 11080,
+                    "totalbeløpArbeidstaker": 10803,
                     "utbetalinger": {
                         "arbeidsgiverUtbetaling": {
                             "linjer": [],
@@ -2941,7 +3249,19 @@
                                 },
                                 {
                                     "fom": "2021-12-31",
-                                    "tom": "2021-12-31",
+                                    "tom": "2022-01-05",
+                                    "dagsats": 1385,
+                                    "grad": 100
+                                },
+                                {
+                                    "fom": "2022-01-10",
+                                    "tom": "2022-01-10",
+                                    "dagsats": 1108,
+                                    "grad": 80
+                                },
+                                {
+                                    "fom": "2022-01-11",
+                                    "tom": "2022-01-14",
                                     "dagsats": 1385,
                                     "grad": 100
                                 }
@@ -2970,7 +3290,19 @@
                                 },
                                 {
                                     "fom": "2021-12-31",
-                                    "tom": "2021-12-31",
+                                    "tom": "2022-01-05",
+                                    "dagsats": 1385,
+                                    "grad": 100
+                                },
+                                {
+                                    "fom": "2022-01-10",
+                                    "tom": "2022-01-10",
+                                    "dagsats": 1108,
+                                    "grad": 80
+                                },
+                                {
+                                    "fom": "2022-01-11",
+                                    "tom": "2022-01-14",
                                     "dagsats": 1385,
                                     "grad": 100
                                 }
@@ -2978,7 +3310,7 @@
                             "fagsystemId": "TMWJ7WRR7FFXJLDW3HYJCPLF5Y"
                         }
                     },
-                    "oppgavereferanse": "3107",
+                    "oppgavereferanse": null,
                     "risikovurdering": {
                         "funn": [],
                         "kontrollertOk": [],
@@ -2993,6 +3325,8 @@
                         "Ikke registrert eller mangler samtykke i Kontakt- og reservasjonsregisteret, eventuell kommunikasjon må skje i brevform",
                         "Kunne ikke sjekke åpne oppgaver på sykepenger i Gosys",
                         "Mottatt flere inntektsmeldinger - den første inntektsmeldingen som ble mottatt er lagt til grunn. Utbetal kun hvis det blir korrekt.",
+                        "Ikke registrert eller mangler samtykke i Kontakt- og reservasjonsregisteret, eventuell kommunikasjon må skje i brevform",
+                        "Kunne ikke sjekke åpne oppgaver på sykepenger i Gosys",
                         "Minst én dag uten utbetaling på grunn av sykdomsgrad under 20 %. Vurder å sende vedtaksbrev fra Infotrygd"
                     ]
                 }
@@ -3042,12 +3376,27 @@
                         }
                     ],
                     "type": "Dager"
+                },
+                {
+                    "hendelseId": "7e4a8156-e37e-4d10-9bc9-05a222c737c6",
+                    "begrunnelse": ".",
+                    "timestamp": "2022-02-08T01:22:20.428121",
+                    "saksbehandlerNavn": "Hasle, Jonas",
+                    "saksbehandlerIdent": "H159657",
+                    "overstyrteDager": [
+                        {
+                            "dato": "2022-01-10",
+                            "dagtype": "Sykedag",
+                            "grad": 80
+                        }
+                    ],
+                    "type": "Dager"
                 }
             ],
             "bransjer": [],
             "utbetalingshistorikk": [
                 {
-                    "beregningId": "df19e11c-e6a4-4f01-b5f8-97e9a50c3122",
+                    "beregningId": "8f243436-b689-4ed8-b817-e503321750c0",
                     "vilkårsgrunnlagHistorikkId": "9f0e7dde-47c4-45f8-a1c3-800707f7a640",
                     "beregnettidslinje": [
                         {
@@ -3414,10 +3763,10 @@
                             "dagen": "2022-01-10",
                             "type": "SYKEDAG",
                             "kilde": {
-                                "type": "Søknad",
-                                "kildeId": "a855080e-df37-4242-ac86-89731cd6f35c"
+                                "type": "Saksbehandler",
+                                "kildeId": "7e4a8156-e37e-4d10-9bc9-05a222c737c6"
                             },
-                            "grad": 100
+                            "grad": 80
                         },
                         {
                             "dagen": "2022-01-11",
@@ -3458,35 +3807,26 @@
                     ],
                     "hendelsetidslinje": [
                         {
-                            "dagen": "2022-01-06",
+                            "dagen": "2022-01-10",
                             "type": "SYKEDAG",
                             "kilde": {
                                 "type": "Saksbehandler",
-                                "kildeId": "7cbd87b6-f255-47f4-8068-8b180fe5cea3"
+                                "kildeId": "7e4a8156-e37e-4d10-9bc9-05a222c737c6"
                             },
-                            "grad": 0
-                        },
-                        {
-                            "dagen": "2022-01-07",
-                            "type": "SYKEDAG",
-                            "kilde": {
-                                "type": "Saksbehandler",
-                                "kildeId": "7cbd87b6-f255-47f4-8068-8b180fe5cea3"
-                            },
-                            "grad": 0
+                            "grad": 80
                         }
                     ],
                     "utbetaling": {
                         "type": "UTBETALING",
-                        "status": "IKKE_UTBETALT",
+                        "status": "UTBETALT",
                         "gjenståendeSykedager": 229,
                         "forbrukteSykedager": 19,
                         "arbeidsgiverNettoBeløp": 0,
                         "arbeidsgiverFagsystemId": "JEX2GC6ZBRHVFG3DUXIK4CM3P4",
-                        "personNettoBeløp": 11080,
+                        "personNettoBeløp": 10803,
                         "personFagsystemId": "TMWJ7WRR7FFXJLDW3HYJCPLF5Y",
                         "maksdato": "2022-12-01",
-                        "beregningId": "df19e11c-e6a4-4f01-b5f8-97e9a50c3122",
+                        "beregningId": "8f243436-b689-4ed8-b817-e503321750c0",
                         "utbetalingstidslinje": [
                             {
                                 "type": "ArbeidsgiverperiodeDag",
@@ -3973,11 +4313,11 @@
                                 "inntekt": 1385,
                                 "dato": "2022-01-10",
                                 "utbetaling": 0,
-                                "personbeløp": 1385,
+                                "personbeløp": 1108,
                                 "arbeidsgiverbeløp": 0,
                                 "refusjonsbeløp": 0,
-                                "grad": 100,
-                                "totalGrad": 100,
+                                "grad": 80,
+                                "totalGrad": 80,
                                 "begrunnelser": null
                             },
                             {
@@ -4029,10 +4369,15 @@
                                 "begrunnelser": null
                             }
                         ],
-                        "tidsstempel": "2022-01-31T15:22:58.522052758",
-                        "vurdering": null
+                        "tidsstempel": "2022-02-08T01:22:21.674822781",
+                        "vurdering": {
+                            "godkjent": true,
+                            "tidsstempel": "2022-02-10T11:26:34.634406271",
+                            "automatisk": false,
+                            "ident": "T127350"
+                        }
                     },
-                    "tidsstempel": "2022-01-31T15:22:58.522052758"
+                    "tidsstempel": "2022-02-08T01:22:21.674822781"
                 },
                 {
                     "beregningId": "2c91904d-745a-4f04-92ce-93e03c81fc18",
@@ -5696,7 +6041,7 @@
             ],
             "generasjoner": [
                 {
-                    "id": "a4234d61-08a4-41e1-b75d-65291b41655d",
+                    "id": "8d9f845c-6cb0-43b1-b797-04d8bdc2a78a",
                     "perioder": [
                         {
                             "vedtaksperiodeId": "e5edcaf1-57e6-440b-9087-f35b563be0e2",
@@ -5851,17 +6196,17 @@
                                     "sykdomstidslinjedagtype": "SYKEDAG",
                                     "utbetalingstidslinjedagtype": "NavDag",
                                     "kilde": {
-                                        "type": "Søknad",
-                                        "id": "a855080e-df37-4242-ac86-89731cd6f35c"
+                                        "type": "Saksbehandler",
+                                        "id": "7e4a8156-e37e-4d10-9bc9-05a222c737c6"
                                     },
-                                    "grad": 100,
+                                    "grad": 80,
                                     "utbetalingsinfo": {
                                         "inntekt": 1385,
                                         "utbetaling": 0,
-                                        "personbeløp": 1385,
+                                        "personbeløp": 1108,
                                         "arbeidsgiverbeløp": 0,
                                         "refusjonsbeløp": 0,
-                                        "totalGrad": 100
+                                        "totalGrad": 80
                                     },
                                     "begrunnelser": null
                                 },
@@ -5946,21 +6291,26 @@
                             "erForkastet": false,
                             "periodetype": "FORLENGELSE",
                             "inntektskilde": "EN_ARBEIDSGIVER",
-                            "opprettet": "2022-01-31T15:22:58.522052758",
-                            "beregningId": "df19e11c-e6a4-4f01-b5f8-97e9a50c3122",
+                            "opprettet": "2022-02-08T01:22:21.674822781",
+                            "beregningId": "8f243436-b689-4ed8-b817-e503321750c0",
                             "gjenståendeSykedager": 229,
                             "forbrukteSykedager": 19,
                             "skjæringstidspunkt": "2021-12-01",
                             "maksdato": "2022-12-01",
                             "utbetaling": {
                                 "type": "UTBETALING",
-                                "status": "Ubetalt",
+                                "status": "Utbetalt",
                                 "arbeidsgiverNettoBeløp": 0,
-                                "personNettoBeløp": 11080,
+                                "personNettoBeløp": 10803,
                                 "arbeidsgiverFagsystemId": "JEX2GC6ZBRHVFG3DUXIK4CM3P4",
                                 "personFagsystemId": "TMWJ7WRR7FFXJLDW3HYJCPLF5Y",
-                                "vurdering": null,
-                                "id": "d4d0cd9f-953f-4f66-be47-5f5386a0616f"
+                                "vurdering": {
+                                    "godkjent": true,
+                                    "tidsstempel": "2022-02-10T11:26:34.634406271",
+                                    "automatisk": false,
+                                    "ident": "T127350"
+                                },
+                                "id": "af417bc6-9e3a-4e02-8dd6-d5fcc3772780"
                             },
                             "hendelser": [
                                 {
@@ -6019,7 +6369,7 @@
                                     "tidsstempel": "2022-01-31 15:22:58.518"
                                 }
                             ],
-                            "tidslinjeperiodeId": "c5e3abb3-fd90-4800-b09b-eca2d35ea6dd"
+                            "tidslinjeperiodeId": "feb326c6-44fb-4251-a8c0-64e078542f96"
                         },
                         {
                             "vedtaksperiodeId": "5931d596-a87e-4436-9156-0fb5fc39db63",
@@ -6552,12 +6902,12 @@
                                     "tidsstempel": "2022-01-29 14:15:05.908"
                                 }
                             ],
-                            "tidslinjeperiodeId": "18879ab7-1c9f-40c9-bfa9-0b94ff9c715e"
+                            "tidslinjeperiodeId": "9211c8bc-eeca-4648-aa2a-ac92acf3a364"
                         }
                     ]
                 },
                 {
-                    "id": "e61ec615-d580-4c34-b151-f6c2d7822357",
+                    "id": "6839f0a8-6d7c-46e5-88f8-14d2c405b632",
                     "perioder": [
                         {
                             "vedtaksperiodeId": "5931d596-a87e-4436-9156-0fb5fc39db63",
@@ -7090,7 +7440,7 @@
                                     "tidsstempel": "2022-01-29 14:15:05.908"
                                 }
                             ],
-                            "tidslinjeperiodeId": "85c43f3b-bd6b-41c0-ae69-6f1ca5113798"
+                            "tidslinjeperiodeId": "961f6c9e-d646-47e7-a639-9ac92e4e16a3"
                         }
                     ]
                 }
@@ -7197,7 +7547,6 @@
                 "sykepengegrunnlag": 360000,
                 "inntekter": [
                     {
-                        "deaktivert": false,
                         "organisasjonsnummer": "839942907",
                         "omregnetÅrsinntekt": {
                             "kilde": "Inntektsmelding",
@@ -7205,7 +7554,8 @@
                             "månedsbeløp": 30000,
                             "inntekterFraAOrdningen": null
                         },
-                        "sammenligningsgrunnlag": 390000
+                        "sammenligningsgrunnlag": 390000,
+                        "deaktivert": false
                     }
                 ],
                 "avviksprosent": 7.6923076923076925,
@@ -7219,10 +7569,5 @@
             }
         }
     },
-    "tildeling": {
-        "navn": "Ramthun, Stephen",
-        "epost": "Stephen.Ramthun@nav.no",
-        "oid": "a7cf35df-7e86-4eee-b6c1-5c60dd18462f",
-        "påVent": false
-    }
+    "tildeling": null
 }
