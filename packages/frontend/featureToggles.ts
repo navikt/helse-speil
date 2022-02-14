@@ -15,6 +15,7 @@ const fagkoordinatorer = [
     'H126784',
     'A151722',
     'M136300',
+    'L143099',
 ];
 const faktiskSupportsaksbehandlere = ['H104215', 'O130292', 'F111930'];
 const tilgangFlereArbeidsgivere = [
