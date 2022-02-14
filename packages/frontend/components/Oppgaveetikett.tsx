@@ -12,21 +12,13 @@ const Etikett = styled.div<EtikettProps>`
     justify-content: center;
     box-sizing: border-box;
     text-align: center;
-    padding: 0.5rem;
     font-weight: 600;
     border-radius: 0.25rem;
     pointer-events: none;
 
-    width: ${(props) => (props.størrelse === 'l' ? '20px' : '16px')};
-    height: ${(props) => (props.størrelse === 'l' ? '20px' : '16px')};
-    font-size: ${(props) => (props.størrelse === 'l' ? '14px' : '12px')};
-
-    :before {
-        position: absolute;
-        left: 50%;
-        top: 50%;
-        transform: translate(-50%, -50%);
-    }
+    width: ${(props) => (props.størrelse === 'l' ? '20px' : '18px')};
+    height: ${(props) => (props.størrelse === 'l' ? '20px' : '18px')};
+    font-size: ${(props) => (props.størrelse === 'l' ? '13px' : '12px')};
 `;
 
 const RevurderingEtikett = styled(Etikett)`
