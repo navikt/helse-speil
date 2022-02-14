@@ -11,7 +11,7 @@ module.exports = {
     moduleNameMapper: {
         '^@/(.*)$': '<rootDir>/$1',
         '\\.(css|less|sass|scss)$': '<rootDir>/__mocks__/styleMock.js',
-        '\\.(gif|ttf|eot|svg)$': '<rootDir>/__mocks__/fileMock.js',
+        '\\.(gif|ttf|eot|svg|graphql\\?raw)$': '<rootDir>/__mocks__/fileMock.js',
         'nav-(.*)-style': '<rootDir>/__mocks__/fileMock.js',
         'test-data': '<rootDir>/test/data',
         '@test-wrappers': '<rootDir>/test/wrappers',

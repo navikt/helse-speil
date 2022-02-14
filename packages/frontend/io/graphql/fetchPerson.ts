@@ -1,13 +1,14 @@
 import { gql, request } from 'graphql-request';
 
-import rawQuery from './fetchPersonQuery.graphql?raw';
+import { FetchPersonQuery } from './generated/graphql';
+import { baseUrl, validFødselsnummer } from './common';
 
-const baseUrlGraphQL = (process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : '') + '/graphql';
+import rawQuery from './fetchPersonQuery.graphql?raw';
 
 const fetchPersonQuery = gql`
     ${rawQuery}
 `;
 
-export const fetchPerson = (fødselsnummer: string) => {
-    return request(baseUrlGraphQL, fetchPersonQuery, { fnr: fødselsnummer });
+export const fetchPerson = (id: string): Promise<FetchPersonQuery> => {
+    return request(baseUrl, fetchPersonQuery, validFødselsnummer(id) ? { fnr: id } : { aktorId: id });
 };

@@ -34,6 +34,12 @@ export type Alder = {
     oppfylt: Scalars['Boolean'];
 };
 
+export type Annullering = {
+    __typename?: 'Annullering';
+    saksbehandler: Scalars['String'];
+    tidspunkt: Scalars['String'];
+};
+
 export type Arbeidsforhold = {
     __typename?: 'Arbeidsforhold';
     sluttdato?: Maybe<Scalars['String']>;
@@ -57,6 +63,13 @@ export type Arbeidsgiverinntekt = {
     arbeidsgiver: Scalars['String'];
     omregnetArsinntekt?: Maybe<OmregnetArsinntekt>;
     sammenligningsgrunnlag?: Maybe<Sammenligningsgrunnlag>;
+};
+
+export type Arbeidsgiveroppdrag = Spennoppdrag & {
+    __typename?: 'Arbeidsgiveroppdrag';
+    fagsystemId: Scalars['String'];
+    linjer: Array<Utbetalingslinje>;
+    organisasjonsnummer: Scalars['String'];
 };
 
 export enum Behandlingstype {
@@ -234,6 +247,30 @@ export type OmregnetArsinntekt = {
     manedsbelop: Scalars['Float'];
 };
 
+export type Oppdrag = {
+    __typename?: 'Oppdrag';
+    annullering?: Maybe<Annullering>;
+    arbeidsgiveroppdrag?: Maybe<Arbeidsgiveroppdrag>;
+    personoppdrag?: Maybe<Personoppdrag>;
+    status: Oppdragsstatus;
+    totalbelop?: Maybe<Scalars['Int']>;
+    type: Scalars['String'];
+};
+
+export enum Oppdragsstatus {
+    Annullert = 'ANNULLERT',
+    Forkastet = 'FORKASTET',
+    Godkjent = 'GODKJENT',
+    GodkjentUtenUtbetaling = 'GODKJENT_UTEN_UTBETALING',
+    IkkeGodkjent = 'IKKE_GODKJENT',
+    IkkeUtbetalt = 'IKKE_UTBETALT',
+    Overfort = 'OVERFORT',
+    Sendt = 'SENDT',
+    Ukjent = 'UKJENT',
+    UtbetalingFeilet = 'UTBETALING_FEILET',
+    Utbetalt = 'UTBETALT',
+}
+
 export type Overstyring = {
     begrunnelse: Scalars['String'];
     hendelseId: Scalars['String'];
@@ -306,13 +343,26 @@ export type Personinfo = {
     mellomnavn?: Maybe<Scalars['String']>;
 };
 
+export type Personoppdrag = Spennoppdrag & {
+    __typename?: 'Personoppdrag';
+    fagsystemId: Scalars['String'];
+    fodselsnummer: Scalars['String'];
+    linjer: Array<Utbetalingslinje>;
+};
+
 export type Query = {
     __typename?: 'Query';
+    oppdrag: Array<Oppdrag>;
     person?: Maybe<Person>;
 };
 
-export type QueryPersonArgs = {
+export type QueryOppdragArgs = {
     fnr: Scalars['String'];
+};
+
+export type QueryPersonArgs = {
+    aktorId?: InputMaybe<Scalars['String']>;
+    fnr?: InputMaybe<Scalars['String']>;
 };
 
 export type Risikovurdering = {
@@ -359,6 +409,11 @@ export type Soknadsfrist = {
     sendtNav: Scalars['String'];
     soknadFom: Scalars['String'];
     soknadTom: Scalars['String'];
+};
+
+export type Spennoppdrag = {
+    fagsystemId: Scalars['String'];
+    linjer: Array<Utbetalingslinje>;
 };
 
 export enum Sykdomsdagtype {
@@ -447,6 +502,13 @@ export type Utbetalingsinfo = {
     utbetaling?: Maybe<Scalars['Int']>;
 };
 
+export type Utbetalingslinje = {
+    __typename?: 'Utbetalingslinje';
+    fom: Scalars['String'];
+    tom: Scalars['String'];
+    totalbelop: Scalars['Int'];
+};
+
 export type Vilkarsgrunnlag = {
     inntekter: Array<Arbeidsgiverinntekt>;
     omregnetArsinntekt: Scalars['Float'];
@@ -502,8 +564,35 @@ export type Vurdering = {
     tidsstempel: Scalars['String'];
 };
 
-export type FetchPersonQueryVariables = Exact<{
+export type FetchOppdragQueryVariables = Exact<{
     fnr: Scalars['String'];
+}>;
+
+export type FetchOppdragQuery = {
+    __typename?: 'Query';
+    oppdrag: Array<{
+        __typename?: 'Oppdrag';
+        type: string;
+        status: Oppdragsstatus;
+        arbeidsgiveroppdrag?: {
+            __typename?: 'Arbeidsgiveroppdrag';
+            organisasjonsnummer: string;
+            fagsystemId: string;
+            linjer: Array<{ __typename?: 'Utbetalingslinje'; fom: string; tom: string; totalbelop: number }>;
+        } | null;
+        personoppdrag?: {
+            __typename?: 'Personoppdrag';
+            fodselsnummer: string;
+            fagsystemId: string;
+            linjer: Array<{ __typename?: 'Utbetalingslinje'; fom: string; tom: string; totalbelop: number }>;
+        } | null;
+        annullering?: { __typename?: 'Annullering'; saksbehandler: string; tidspunkt: string } | null;
+    }>;
+};
+
+export type FetchPersonQueryVariables = Exact<{
+    fnr?: InputMaybe<Scalars['String']>;
+    aktorId?: InputMaybe<Scalars['String']>;
 }>;
 
 export type FetchPersonQuery = {

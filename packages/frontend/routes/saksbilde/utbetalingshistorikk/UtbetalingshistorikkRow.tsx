@@ -1,27 +1,30 @@
 import React from 'react';
+import dayjs from 'dayjs';
+
 import { Cell } from './Cell';
 import { Bold } from '../../../components/Bold';
 import { NORSK_DATOFORMAT_KORT } from '../../../utils/date';
 import { toKronerOgØre } from '../../../utils/locale';
-import dayjs from 'dayjs';
 
-const getFom = (oppdrag: ExternalPersonoppdrag | ExternalArbeidsgiveroppdrag): Dayjs | undefined =>
-    oppdrag.utbetalingslinjer.length > 0
-        ? oppdrag.utbetalingslinjer.reduce(
-              (first, { fom }) => (first.isAfter(dayjs(fom)) ? dayjs(fom) : first),
-              dayjs()
-          )
+import { Arbeidsgiveroppdrag, Oppdrag, Personoppdrag, Spennoppdrag } from '@io/graphql';
+
+const getFom = (oppdrag: Spennoppdrag): Dayjs | undefined =>
+    oppdrag.linjer.length > 0
+        ? oppdrag.linjer.reduce((first, { fom }) => (first.isAfter(dayjs(fom)) ? dayjs(fom) : first), dayjs())
         : undefined;
 
-const getTom = (oppdrag: ExternalPersonoppdrag | ExternalArbeidsgiveroppdrag): Dayjs | undefined =>
-    oppdrag.utbetalingslinjer.length > 0
-        ? oppdrag.utbetalingslinjer.reduce((last, { tom }) => (last.isBefore(dayjs(tom)) ? dayjs(tom) : last), dayjs(0))
+const getTom = (oppdrag: Spennoppdrag): Dayjs | undefined =>
+    oppdrag.linjer.length > 0
+        ? oppdrag.linjer.reduce((last, { tom }) => (last.isBefore(dayjs(tom)) ? dayjs(tom) : last), dayjs(0))
         : undefined;
+
+const isPersonoppdrag = (oppdrag: Spennoppdrag): oppdrag is Personoppdrag =>
+    (oppdrag as Personoppdrag).fodselsnummer !== undefined;
 
 interface UtbetalingshistorikkRowProps {
-    oppdrag: ExternalPersonoppdrag | ExternalArbeidsgiveroppdrag;
-    status: ExternalUtbetalingElement['status'];
-    type: ExternalUtbetalingElement['type'];
+    oppdrag: Personoppdrag | Arbeidsgiveroppdrag;
+    status: Oppdrag['status'];
+    type: Oppdrag['type'];
     annulleringButton: React.ReactNode;
 }
 
@@ -33,7 +36,8 @@ export const UtbetalingshistorikkRow: React.VFC<UtbetalingshistorikkRowProps> = 
 }) => {
     const fom = getFom(oppdrag);
     const tom = getTom(oppdrag);
-    const totalt = oppdrag.utbetalingslinjer.reduce((sum, { totalbeløp }) => sum + (totalbeløp ?? 0), 0);
+    const totalt = oppdrag.linjer.reduce((sum, { totalbelop }) => sum + (totalbelop ?? 0), 0);
+    const mottaker = isPersonoppdrag(oppdrag) ? oppdrag.fodselsnummer : oppdrag.organisasjonsnummer;
 
     return (
         <tr>
@@ -47,7 +51,7 @@ export const UtbetalingshistorikkRow: React.VFC<UtbetalingshistorikkRowProps> = 
                 <Bold>{oppdrag.fagsystemId}</Bold>
             </Cell>
             <Cell>
-                <Bold>{oppdrag.mottaker}</Bold>
+                <Bold>{mottaker}</Bold>
             </Cell>
             <Cell>
                 <Bold>{totalt ? `${toKronerOgØre(totalt)} kr` : '-'}</Bold>

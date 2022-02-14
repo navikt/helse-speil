@@ -1,14 +1,14 @@
 import styled from '@emotion/styled';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router';
 
 import { Close } from '@navikt/ds-icons';
 import { Button } from '@navikt/ds-react';
 import { useOrganisasjonsnummer } from '../../../state/person';
-
-import { Annulleringsmodal } from '../sakslinje/annullering/Annulleringsmodal';
 import { UtbetalingshistorikkRow } from './UtbetalingshistorikkRow';
-import { useRefreshPersonVedUrlEndring } from '../../../hooks/useRefreshPersonVedUrlEndring';
+import { Annulleringsmodal } from '../sakslinje/annullering/Annulleringsmodal';
+
+import { fetchOppdrag, Oppdrag, Spennoppdrag } from '@io/graphql';
 
 const Container = styled.div`
     grid-column-start: venstremeny;
@@ -54,28 +54,28 @@ interface UtbetalingshistorikkProps {
 export const Utbetalingshistorikk = ({ person }: UtbetalingshistorikkProps) => {
     let { push } = useHistory();
     const organisasjonsnummer = useOrganisasjonsnummer();
-    const [tilAnnullering, setTilAnnullering] = useState<
-        ExternalArbeidsgiveroppdrag | ExternalPersonoppdrag | undefined
-    >();
+    const [tilAnnullering, setTilAnnullering] = useState<Spennoppdrag | undefined>();
     const [annulleringerInFlight, setAnnulleringerInFlight] = useState<Array<string>>([]);
+    const [oppdrag, setOppdrag] = useState<Array<Oppdrag>>([]);
 
-    const utbetalinger: Array<ExternalUtbetalingElement> = person.utbetalinger;
-
-    useRefreshPersonVedUrlEndring();
+    useEffect(() => {
+        fetchOppdrag(person.fødselsnummer)
+            .then(({ oppdrag }) => {
+                setOppdrag(oppdrag as Array<Oppdrag>);
+            })
+            .catch((err) => console.error(err));
+    }, [person]);
 
     const lukkUtbetalingshistorikk = () => push(`/person/${person.aktørId}/utbetaling`);
 
-    const annulleringErForespurt = (oppdrag: Oppdrag) => annulleringerInFlight.includes(oppdrag.fagsystemId);
+    const annulleringErForespurt = (oppdrag: Spennoppdrag) => annulleringerInFlight.includes(oppdrag.fagsystemId);
 
-    const settValgtOppdragSomInFlight = (oppdrag: ExternalArbeidsgiveroppdrag | ExternalPersonoppdrag) => () => {
+    const settValgtOppdragSomInFlight = (oppdrag: Spennoppdrag) => () => {
         setAnnulleringerInFlight(annulleringerInFlight.concat([oppdrag.fagsystemId]));
     };
 
-    const annulleringButton = (
-        utbetaling: ExternalUtbetalingElement,
-        oppdrag: ExternalArbeidsgiveroppdrag | ExternalPersonoppdrag
-    ) =>
-        utbetaling.status === 'UTBETALT' && utbetaling.type === 'UTBETALING' ? (
+    const annulleringButton = (status: Oppdrag['status'], type: Oppdrag['type'], oppdrag: Spennoppdrag) =>
+        status === 'UTBETALT' && type === 'UTBETALING' ? (
             <Button size="small" onClick={() => setTilAnnullering(oppdrag)}>
                 Annuller
             </Button>
@@ -102,22 +102,30 @@ export const Utbetalingshistorikk = ({ person }: UtbetalingshistorikkProps) => {
                     </tr>
                 </thead>
                 <tbody>
-                    {utbetalinger.map((utbetaling, i) => (
+                    {oppdrag.map((oppdrag, i) => (
                         <React.Fragment key={i}>
-                            {utbetaling.personoppdrag && (
+                            {oppdrag.personoppdrag && (
                                 <UtbetalingshistorikkRow
-                                    oppdrag={utbetaling.personoppdrag}
-                                    status={utbetaling.status}
-                                    type={utbetaling.type}
-                                    annulleringButton={annulleringButton(utbetaling, utbetaling.personoppdrag)}
+                                    oppdrag={oppdrag.personoppdrag}
+                                    status={oppdrag.status}
+                                    type={oppdrag.type}
+                                    annulleringButton={annulleringButton(
+                                        oppdrag.status,
+                                        oppdrag.type,
+                                        oppdrag.personoppdrag
+                                    )}
                                 />
                             )}
-                            {utbetaling.arbeidsgiveroppdrag && (
+                            {oppdrag.arbeidsgiveroppdrag && (
                                 <UtbetalingshistorikkRow
-                                    oppdrag={utbetaling.arbeidsgiveroppdrag}
-                                    status={utbetaling.status}
-                                    type={utbetaling.type}
-                                    annulleringButton={annulleringButton(utbetaling, utbetaling.arbeidsgiveroppdrag)}
+                                    oppdrag={oppdrag.arbeidsgiveroppdrag}
+                                    status={oppdrag.status}
+                                    type={oppdrag.type}
+                                    annulleringButton={annulleringButton(
+                                        oppdrag.status,
+                                        oppdrag.type,
+                                        oppdrag.arbeidsgiveroppdrag
+                                    )}
                                 />
                             )}
                         </React.Fragment>
@@ -130,7 +138,10 @@ export const Utbetalingshistorikk = ({ person }: UtbetalingshistorikkProps) => {
                     aktørId={person.aktørId}
                     organisasjonsnummer={organisasjonsnummer}
                     fagsystemId={tilAnnullering.fagsystemId}
-                    linjer={tilAnnullering.utbetalingslinjer}
+                    linjer={tilAnnullering.linjer.map((it) => ({
+                        ...it,
+                        totalbeløp: it.totalbelop,
+                    }))}
                     onClose={() => setTilAnnullering(undefined)}
                     onSuccess={settValgtOppdragSomInFlight(tilAnnullering)}
                 />

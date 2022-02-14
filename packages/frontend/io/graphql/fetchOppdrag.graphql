@@ -1,0 +1,28 @@
+query FetchOppdrag($fnr: String!) {
+    oppdrag(fnr: $fnr) {
+        type,
+        status,
+        arbeidsgiveroppdrag {
+            organisasjonsnummer,
+            fagsystemId,
+            linjer {
+                fom,
+                tom,
+                totalbelop
+            }
+        },
+        personoppdrag {
+            fodselsnummer,
+            fagsystemId,
+            linjer {
+                fom,
+                tom,
+                totalbelop
+            }
+        },
+        annullering {
+            saksbehandler,
+            tidspunkt
+        }
+    }
+}
