@@ -15,7 +15,7 @@ import { Brukermeny } from '@components/Brukermeny';
 
 import { SearchBar } from './SearchBar';
 import { EasterEgg } from '../../EasterEgg';
-import { graphqlplayground } from '../../featureToggles';
+import { graphqlplayground } from '@utils/featureToggles';
 
 const Container = styled.div`
     flex-shrink: 0;

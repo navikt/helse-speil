@@ -6,7 +6,7 @@ import { Checkbox } from '@navikt/ds-react';
 
 import { DisabledCheckbox } from './DisabledCheckbox';
 
-import { overstyrPermisjonsdagerEnabled } from '../../../../featureToggles';
+import { overstyrPermisjonsdagerEnabled } from '@utils/featureToggles';
 
 const Container = styled.div`
     position: relative;

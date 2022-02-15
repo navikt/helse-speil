@@ -8,7 +8,7 @@ import { PopoverHjelpetekst } from '@components/PopoverHjelpetekst';
 import { SortInfoikon } from '@components/ikoner/SortInfoikon';
 import { useRevurderingIsEnabled } from '@hooks/revurdering';
 
-import { defaultUtbetalingToggles } from '../../../../featureToggles';
+import { defaultUtbetalingToggles } from '@utils/featureToggles';
 
 const Container = styled(Flex)`
     min-height: 24px;

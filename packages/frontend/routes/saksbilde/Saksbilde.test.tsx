@@ -36,7 +36,7 @@ jest.mock('../../hooks/useSetVedtaksperiodeReferanserForNotater', () => ({
 
 jest.mock('../saksbilde/historikk/icons/IconDokumenter.svg', () => 'null');
 jest.mock('../saksbilde/historikk/icons/IconHistorikk.svg', () => 'null');
-jest.mock('../../featureToggles', () => ({
+jest.mock('@utils/featureToggles', () => ({
     defaultUtbetalingToggles: {
         overstyreUtbetaltPeriodeEnabled: true,
     },

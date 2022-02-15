@@ -1,19 +1,19 @@
 import styled from '@emotion/styled';
 import React from 'react';
 
-import { FlexColumn } from '../../../components/Flex';
-import { Kilde } from '../../../components/Kilde';
-import { AnonymizableTextWithEllipsis } from '../../../components/TextWithEllipsis';
-import { Tooltip } from '../../../components/Tooltip';
-import { Clipboard } from '../../../components/clipboard';
-import { useArbeidsgiverbransjer, useArbeidsgivernavn } from '../../../state/person';
+import { FlexColumn } from '@components/Flex';
+import { Kilde } from '@components/Kilde';
+import { AnonymizableTextWithEllipsis } from '@components/TextWithEllipsis';
+import { Tooltip } from '@components/Tooltip';
+import { Clipboard } from '@components/clipboard';
+import { useArbeidsgiverbransjer, useArbeidsgivernavn } from '@state/person';
 
 import { Arbeidsforhold } from '../Arbeidsforhold';
 import { Inntekt } from './inntekt/Inntekt';
-import { defaultOverstyrToggles } from '../../../featureToggles';
+import { defaultOverstyrToggles } from '@utils/featureToggles';
 import { useAktivPeriode, useMaybePeriodeTilGodkjenning } from '../../../state/tidslinje';
-import { AnonymizableText } from '../../../components/anonymizable/AnonymizableText';
-import { AnonymizableContainer } from '../../../components/anonymizable/AnonymizableContainer';
+import { AnonymizableText } from '@components/anonymizable/AnonymizableText';
+import { AnonymizableContainer } from '@components/anonymizable/AnonymizableContainer';
 import { useArbeidsforhold } from '../../../modell/arbeidsgiver';
 import { useHarIngenUtbetaltePerioderFor } from '../../../hooks/revurdering';
 

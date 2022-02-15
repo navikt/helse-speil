@@ -11,7 +11,7 @@ jest.mock('../../../../hooks/revurdering', () => ({
     useOverstyrRevurderingIsEnabled: () => true,
 }));
 
-jest.mock('../../../../featureToggles', () => ({
+jest.mock('@utils/featureToggles', () => ({
     overstyrPermisjonsdagerEnabled: true,
 }));
 

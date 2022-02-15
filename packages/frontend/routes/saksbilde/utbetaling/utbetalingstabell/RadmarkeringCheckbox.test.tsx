@@ -6,7 +6,7 @@ import React from 'react';
 
 import { RadmarkeringCheckbox } from './RadmarkeringCheckbox';
 
-jest.mock('../../../../featureToggles', () => ({
+jest.mock('@utils/featureToggles', () => ({
     overstyrPermisjonsdagerEnabled: true,
 }));
 

@@ -23,7 +23,7 @@ import { EditableInntekt } from './EditableInntekt';
 import { ReadOnlyInntekt } from './ReadOnlyInntekt';
 import { OverstyrArbeidsforholdUtenSykdom } from '../OverstyrArbeidsforholdUtenSykdom';
 
-import { overstyrInntektEnabled } from '../../../../featureToggles';
+import { overstyrInntektEnabled } from '@utils/featureToggles';
 
 const Container = styled(FlexColumn)<{ editing: boolean; inntektDeaktivert: boolean }>`
     box-sizing: border-box;

@@ -1,6 +1,7 @@
 import styled from '@emotion/styled';
 import React from 'react';
-import { Varsel } from './components/Varsel';
+
+import { Varsel } from '@components/Varsel';
 
 const Feiltekst = styled.div`
     padding-top: 2rem;

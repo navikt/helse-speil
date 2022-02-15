@@ -24,7 +24,7 @@ import { NORSK_DATOFORMAT } from '@utils/date';
 
 import { useGjenståendeDager, useMaksdato } from '../../../modell/utbetalingshistorikkelement';
 
-import { defaultUtbetalingToggles } from '../../../featureToggles';
+import { defaultUtbetalingToggles } from '@utils/featureToggles';
 import { EndringForm } from './utbetalingstabell/EndringForm';
 import { MarkerAlleDagerCheckbox } from './utbetalingstabell/MarkerAlleDagerCheckbox';
 import { OverstyringForm } from './utbetalingstabell/OverstyringForm';

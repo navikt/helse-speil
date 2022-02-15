@@ -13,7 +13,7 @@ import { AvvisningButton } from './AvvisningButton';
 import { GodkjenningButton } from './GodkjenningButton';
 import { BrukerutbetalingInfoMessage } from './BrukerutbetalingInfoMessage';
 
-import { erDev, erLocal } from '../../../../featureToggles';
+import { erDev, erLocal } from '@utils/featureToggles';
 import { useUtbetaling } from '../../../../modell/utbetalingshistorikkelement';
 
 const Buttons = styled.div`

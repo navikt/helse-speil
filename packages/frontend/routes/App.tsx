@@ -4,26 +4,26 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import { RecoilRoot } from 'recoil';
 import 'reset-css';
 
-import { ErrorBoundary } from './components/ErrorBoundary';
-import { ProtectedRoute } from './components/ProtectedRoute';
-import { Toasts } from './components/Toasts';
-import { Varsler } from './components/Varsler';
-import { Header } from './components/header/Header';
-import { useLoadingToast } from './hooks/useLoadingToast';
-import { IkkeLoggetInn } from './routes/IkkeLoggetInn';
-import { PageNotFound } from './routes/PageNotFound';
-import { useAuthentication } from './state/authentication';
-import { useEasterEggIsActive } from './state/easterEgg';
-import { useIsLoadingPerson } from './state/person';
+import { ErrorBoundary } from '@components/ErrorBoundary';
+import { ProtectedRoute } from '@components/ProtectedRoute';
+import { Toasts } from '@components/Toasts';
+import { Varsler } from '@components/Varsler';
+import { Header } from '@components/header/Header';
+import { useLoadingToast } from '@hooks/useLoadingToast';
+import { IkkeLoggetInn } from './IkkeLoggetInn';
+import { PageNotFound } from './PageNotFound';
+import { useAuthentication } from '@state/authentication';
+import { useEasterEggIsActive } from '@state/easterEgg';
+import { useIsLoadingPerson } from '@state/person';
 
 import './App.css';
 import { GlobalFeilside } from './GlobalFeilside';
-import { Routes } from './routes';
+import { Routes } from './index';
 
-const Saksbilde = React.lazy(() => import('./routes/saksbilde/Saksbilde'));
-const Oversikt = React.lazy(() => import('./routes/oversikt'));
-const Agurk = React.lazy(() => import('./Agurk'));
-const GraphQLPlayground = React.lazy(() => import('./routes/playground/GraphQLPlayground'));
+const Saksbilde = React.lazy(() => import('./saksbilde/Saksbilde'));
+const Oversikt = React.lazy(() => import('./oversikt'));
+const Agurk = React.lazy(() => import('../components/Agurk'));
+const GraphQLPlayground = React.lazy(() => import('./playground/GraphQLPlayground'));
 
 ReactModal.setAppElement('#root');
 

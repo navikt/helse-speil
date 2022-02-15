@@ -18,7 +18,7 @@ import { AnonymizableBold } from '@components/anonymizable/AnonymizableBold';
 import { AnonymizableText } from '@components/anonymizable/AnonymizableText';
 import { AnonymizableContainer } from '@components/anonymizable/AnonymizableContainer';
 
-import { utbetalingsoversikt } from '../../featureToggles';
+import { utbetalingsoversikt } from '@utils/featureToggles';
 
 import styles from './Personlinje.module.css';
 

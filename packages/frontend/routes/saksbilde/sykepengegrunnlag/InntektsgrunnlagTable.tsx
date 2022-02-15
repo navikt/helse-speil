@@ -3,8 +3,8 @@ import React, { Dispatch, SetStateAction } from 'react';
 
 import { BodyShort } from '@navikt/ds-react';
 
-import { FlexColumn } from '../../../components/Flex';
-import { somPenger } from '../../../utils/locale';
+import { FlexColumn } from '@components/Flex';
+import { somPenger } from '@utils/locale';
 
 import { Inntektssammenligning } from './Inntektssammenligning';
 

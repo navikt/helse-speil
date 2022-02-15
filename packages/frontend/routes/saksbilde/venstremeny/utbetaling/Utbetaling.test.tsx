@@ -13,7 +13,7 @@ import { Utbetaling } from './Utbetaling';
 import { Avvisningsskjema } from './AvvisningModal';
 import { testBeregningId, testVilkårsgrunnlagHistorikkId } from '../../../../test/data/person';
 
-jest.mock('../../../../featureToggles', () => ({
+jest.mock('@utils/featureToggles', () => ({
     erDev: () => false,
     erLocal: () => false,
 }));

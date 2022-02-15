@@ -5,7 +5,7 @@ import { useArbeidsgiver } from '../modell/arbeidsgiver';
 import { usePerson } from '@state/person';
 import { useAktivPeriode, useMaybeAktivPeriode } from '@state/tidslinje';
 
-import type { UtbetalingToggles } from '../featureToggles';
+import type { UtbetalingToggles } from '@utils/featureToggles';
 
 const godkjentTilstander: Tidslinjetilstand[] = [
     'utbetalt',

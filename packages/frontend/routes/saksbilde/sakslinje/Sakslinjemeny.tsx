@@ -8,7 +8,7 @@ import { usePerson } from '@state/person';
 import { useInnloggetSaksbehandler } from '@state/authentication';
 import { useOppgavereferanse, useVedtaksperiode } from '@state/tidslinje';
 
-import { annulleringerEnabled } from '../../../featureToggles';
+import { annulleringerEnabled } from '@utils/featureToggles';
 import { AnonymiserData } from './AnonymiserData';
 import { OppdaterPersondata } from './OppdaterPersondata';
 import { PåVentKnapp } from './PåVentKnapp';

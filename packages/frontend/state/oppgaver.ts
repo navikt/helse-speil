@@ -1,9 +1,9 @@
 import { atom, selector, useRecoilValue, useRecoilValueLoadable, useSetRecoilState } from 'recoil';
 
 import { deletePåVent, deleteTildeling, getOppgaver, postLeggPåVent, postTildeling } from '@io/http';
+import { flereArbeidsgivere, stikkprøve, utbetalingTilSykmeldt } from '@utils/featureToggles';
 import { tilOppgave } from '../mapping/oppgaver/oppgaver';
 
-import { flereArbeidsgivere, stikkprøve, utbetalingTilSykmeldt } from '../featureToggles';
 import { useInnloggetSaksbehandler } from './authentication';
 import { useAddVarsel, useRemoveVarsel } from './varsler';
 

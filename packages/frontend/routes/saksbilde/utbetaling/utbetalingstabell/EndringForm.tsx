@@ -7,7 +7,7 @@ import { Button, Select, TextField } from '@navikt/ds-react';
 import { useRevurderingIsEnabled } from '@hooks/revurdering';
 import { Bold } from '@components/Bold';
 
-import { defaultUtbetalingToggles, overstyrPermisjonsdagerEnabled } from '../../../../featureToggles';
+import { defaultUtbetalingToggles, overstyrPermisjonsdagerEnabled } from '@utils/featureToggles';
 import { UtbetalingstabellDag } from './Utbetalingstabell.types';
 
 const Container = styled.div`

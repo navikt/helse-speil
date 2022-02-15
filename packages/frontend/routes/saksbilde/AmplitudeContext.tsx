@@ -4,7 +4,7 @@ import React, { PropsWithChildren, useEffect } from 'react';
 
 import { useMaybeAktivPeriode, useVedtaksperiode } from '@state/tidslinje';
 
-import { amplitudeEnabled } from '../../featureToggles';
+import { amplitudeEnabled } from '@utils/featureToggles';
 
 amplitudeEnabled &&
     amplitude?.getInstance().init('default', '', {

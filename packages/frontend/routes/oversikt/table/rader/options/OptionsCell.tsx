@@ -13,7 +13,7 @@ import { LeggPåVentMenuButton } from './LeggPåVentMenuButton';
 import { MeldAvMenuButton } from './MeldAvMenuButton';
 import { TildelMenuButton } from './TildelMenuButton';
 
-import { kanFrigiAndresOppgaver } from '../../../../../featureToggles';
+import { kanFrigiAndresOppgaver } from '@utils/featureToggles';
 
 const Button = styled(NavButton)`
     margin: 0;

@@ -6,7 +6,7 @@ import { Checkbox as NavCheckbox } from '@navikt/ds-react';
 
 import { UtbetalingstabellDag } from './Utbetalingstabell.types';
 
-import { overstyrPermisjonsdagerEnabled } from '../../../../featureToggles';
+import { overstyrPermisjonsdagerEnabled } from '@utils/featureToggles';
 
 const Container = styled.div`
     position: absolute;

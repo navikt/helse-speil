@@ -1,4 +1,4 @@
-import { utbetalingsoversikt } from '../featureToggles';
+import { utbetalingsoversikt } from '@utils/featureToggles';
 import { ArbeidsgiverBuilder } from './arbeidsgiver';
 import { mapInfotrygdutbetaling } from './infotrygd';
 import { somDato } from './vedtaksperiode';
