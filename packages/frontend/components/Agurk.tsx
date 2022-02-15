@@ -3,7 +3,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { AnimationAction, AnimationClip, AnimationMixer, FrontSide, LoopOnce, Mesh } from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 
-const agurk = new URL('./assets/agurk.gltf', import.meta.url);
+const agurk = new URL('../assets/agurk.gltf', import.meta.url);
 
 type Animation = 'idle' | 'walk' | 'step' | 'point' | 'turn_head';
 
