@@ -8,8 +8,11 @@ import { Kilde } from '@components/Kilde';
 import { LinkButton } from '@components/LinkButton';
 import { useAktivPeriode } from '@state/tidslinje';
 import { useOrganisasjonsnummer, usePerson } from '@state/person';
+import { useOverstyrRevurderingIsEnabled, useRevurderingIsEnabled } from '@hooks/revurdering';
+import { defaultUtbetalingToggles } from '@utils/featureToggles';
 
 import { Hendelse, Hendelsetype } from './Historikk.types';
+import { useIkkeUtbetaltVedSkjæringstidspunkt } from '../sykepengegrunnlag/inntekt/Inntekt';
 
 const BegrunnelseTekst = styled.div`
     margin-top: 0.25rem;
@@ -99,25 +102,36 @@ export const useUtbetalinger = (
 export const useTidslinjeendringer = (
     onClickEndring: (overstyring: Overstyring) => void,
     vedtaksperiode?: Vedtaksperiode
-): Hendelse[] =>
-    (vedtaksperiode?.fullstendig &&
-        vedtaksperiode.overstyringer.map((overstyring: Overstyring) => ({
-            id: overstyring.hendelseId,
-            timestamp: dayjs(overstyring.timestamp),
-            title: <LinkButton onClick={() => onClickEndring(overstyring)}>Endret utbetalingsdager</LinkButton>,
-            type: Hendelsetype.Historikk,
-            body: (
-                <BegrunnelseTekst>
-                    <p>{overstyring.saksbehandlerIdent ?? overstyring.saksbehandlerNavn}</p>
-                </BegrunnelseTekst>
-            ),
-        }))) ||
-    [];
+): Hendelse[] => {
+    const revurderingIsEnabled = useRevurderingIsEnabled(defaultUtbetalingToggles);
+    const overstyrRevurderingIsEnabled = useOverstyrRevurderingIsEnabled(defaultUtbetalingToggles);
+
+    return (
+        (vedtaksperiode?.fullstendig &&
+            vedtaksperiode.overstyringer.map((overstyring: Overstyring) => ({
+                id: overstyring.hendelseId,
+                timestamp: dayjs(overstyring.timestamp),
+                title: (
+                    <LinkButton onClick={() => onClickEndring(overstyring)}>
+                        {revurderingIsEnabled || overstyrRevurderingIsEnabled ? 'Revurdert' : 'Endret'} utbetalingsdager
+                    </LinkButton>
+                ),
+                type: Hendelsetype.Historikk,
+                body: (
+                    <BegrunnelseTekst>
+                        <p>{overstyring.saksbehandlerIdent ?? overstyring.saksbehandlerNavn}</p>
+                    </BegrunnelseTekst>
+                ),
+            }))) ||
+        []
+    );
+};
 
 export const useInntektendringer = (onClickEndring: (overstyring: ExternalInntektoverstyring) => void): Hendelse[] => {
     const organisasjonsnummer = useOrganisasjonsnummer();
     const arbeidsgiver = usePerson()!.arbeidsgivereV2.find((it) => it.organisasjonsnummer === organisasjonsnummer);
     const aktivPeriode = useAktivPeriode();
+    const ikkeUtbetaltVedSkjæringstidspunkt = useIkkeUtbetaltVedSkjæringstidspunkt();
 
     if (!arbeidsgiver) {
         throw Error(`Fant ikke arbeidsgiver med organisasjonsnummer ${organisasjonsnummer}`);
@@ -135,7 +149,11 @@ export const useInntektendringer = (onClickEndring: (overstyring: ExternalInntek
         .map((it) => ({
             id: it.hendelseId,
             timestamp: dayjs(it.timestamp),
-            title: <LinkButton onClick={() => onClickEndring(it)}>Endret inntekt</LinkButton>,
+            title: (
+                <LinkButton onClick={() => onClickEndring(it)}>
+                    {ikkeUtbetaltVedSkjæringstidspunkt ? 'Endret' : 'Revurdert'} inntekt
+                </LinkButton>
+            ),
             type: Hendelsetype.Historikk,
             body: (
                 <BegrunnelseTekst>

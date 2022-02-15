@@ -87,7 +87,7 @@ const DeaktivertPille = styled.div`
 const InntektContainer = styled.div`
     margin-bottom: 1.5rem;
 `;
-const useIkkeUtbetaltVedSkjæringstidspunkt = (): boolean | undefined => {
+export const useIkkeUtbetaltVedSkjæringstidspunkt = (): boolean | undefined => {
     const periode = useAktivPeriode();
     const unique =
         periode.tilstand === 'utenSykefravær' ? undefined : (periode as TidslinjeperiodeMedSykefravær).unique;

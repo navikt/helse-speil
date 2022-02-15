@@ -7,9 +7,9 @@ import { MemoryRouter } from 'react-router';
 import { Route } from 'react-router-dom';
 import { MutableSnapshot, RecoilRoot } from 'recoil';
 
-import { authState } from '../../state/authentication';
-import { personState } from '../../state/person';
-import { ISO_DATOFORMAT } from '../../utils/date';
+import { authState } from '@state/authentication';
+import { personState } from '@state/person';
+import { ISO_DATOFORMAT } from '@utils/date';
 
 import { umappetArbeidsgiver } from '../../test/data/arbeidsgiver';
 import { umappetUfullstendigVedtaksperiode } from '../../test/data/ufullstendigVedtaksperiode';
@@ -616,14 +616,14 @@ describe('Saksbilde', () => {
         await waitFor(() => {
             expect(screen.queryByText(AG1)).toBeVisible();
             expect(screen.queryByTestId('utbetaling')).toBeVisible();
-            expect(screen.queryByTestId('overstyringsknapp')).toHaveTextContent('Endre');
+            expect(screen.queryByTestId('overstyringsknapp')).toHaveTextContent('Revurder');
         });
 
         userEvent.click(perioder[1].getElementsByTagName('button')[0]);
         await waitFor(() => {
             expect(screen.queryByText(AG2)).toBeVisible();
             expect(screen.queryByTestId('utbetaling')).toBeVisible();
-            expect(screen.queryByTestId('overstyringsknapp')).toHaveTextContent('Endre');
+            expect(screen.queryByTestId('overstyringsknapp')).toHaveTextContent('Revurder');
         });
     });
 
@@ -673,7 +673,7 @@ describe('Saksbilde', () => {
         await waitFor(() => {
             expect(screen.queryByText(ORGNR)).toBeVisible();
             expect(screen.queryByTestId('utbetaling')).toBeVisible();
-            expect(screen.queryByTestId('overstyringsknapp')).toHaveTextContent('Endre');
+            expect(screen.queryByTestId('overstyringsknapp')).toHaveTextContent('Revurder');
         });
     });
 

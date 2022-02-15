@@ -6,7 +6,7 @@ import { Locked } from '@navikt/ds-icons';
 import { Flex } from '@components/Flex';
 import { PopoverHjelpetekst } from '@components/PopoverHjelpetekst';
 import { SortInfoikon } from '@components/ikoner/SortInfoikon';
-import { useRevurderingIsEnabled } from '@hooks/revurdering';
+import { useOverstyrRevurderingIsEnabled, useRevurderingIsEnabled } from '@hooks/revurdering';
 
 import { defaultUtbetalingToggles } from '@utils/featureToggles';
 
@@ -54,6 +54,7 @@ interface UtbetalingHeaderProps {
 
 export const UtbetalingHeader: React.FC<UtbetalingHeaderProps> = ({ periodeErForkastet, toggleOverstyring }) => {
     const revurderingIsEnabled = useRevurderingIsEnabled(defaultUtbetalingToggles);
+    const overstyrRevurderingIsEnabled = useOverstyrRevurderingIsEnabled(defaultUtbetalingToggles);
     return (
         <Container>
             {periodeErForkastet ? (
@@ -65,7 +66,7 @@ export const UtbetalingHeader: React.FC<UtbetalingHeaderProps> = ({ periodeErFor
             ) : (
                 <ToggleOverstyringKnapp onClick={toggleOverstyring} data-testid="overstyringsknapp" overstyrer={false}>
                     <Locked height={24} width={24} />
-                    {revurderingIsEnabled ? 'Revurder' : 'Endre'}
+                    {revurderingIsEnabled || overstyrRevurderingIsEnabled ? 'Revurder' : 'Endre'}
                 </ToggleOverstyringKnapp>
             )}
         </Container>
