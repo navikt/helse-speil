@@ -1,0 +1,19 @@
+.EditButton {
+    display: flex;
+    align-items: center;
+    flex-wrap: nowrap;
+    color: var(--navds-color-action-default);
+}
+
+.EditButton > svg {
+    margin-right: 0.5rem;
+}
+
+.EditButton > p {
+    line-height: 16px;
+    text-decoration: underline;
+}
+
+.EditButton > p:hover {
+    text-decoration: none;
+}
