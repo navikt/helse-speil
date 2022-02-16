@@ -11,9 +11,6 @@ import { ErrorMessage } from '@components/ErrorMessage';
 
 import { AvvisningButton } from './AvvisningButton';
 import { GodkjenningButton } from './GodkjenningButton';
-import { BrukerutbetalingInfoMessage } from './BrukerutbetalingInfoMessage';
-
-import { erDev, erLocal } from '@utils/featureToggles';
 import { useUtbetaling } from '../../../../modell/utbetalingshistorikkelement';
 
 const Buttons = styled.div`
@@ -49,7 +46,6 @@ export const Utbetaling = ({ aktivPeriode }: UtbetalingProps) => {
         ? utbetaling.arbeidsgiverNettobeløp !== 0
         : false;
     const harBrukerutbetaling = utbetaling?.personNettobeløp ? utbetaling.personNettobeløp !== 0 : false;
-    const kanBetaleTilBruker = erDev() || erLocal();
 
     const navigerTilOversikten = () => history.push('/');
 
@@ -67,22 +63,19 @@ export const Utbetaling = ({ aktivPeriode }: UtbetalingProps) => {
 
     return (
         <>
-            {harBrukerutbetaling && !kanBetaleTilBruker && <BrukerutbetalingInfoMessage />}
             <Buttons>
-                {(kanBetaleTilBruker || !harBrukerutbetaling) && (
-                    <GodkjenningButton
-                        oppgavereferanse={oppgavereferanse}
-                        aktørId={person.aktørId}
-                        onSuccess={onGodkjennUtbetaling}
-                        onError={captureError}
-                    >
-                        {erRevurdering
-                            ? 'Revurder'
-                            : harArbeidsgiverutbetaling || harBrukerutbetaling
-                            ? 'Utbetal'
-                            : 'Godkjenn'}
-                    </GodkjenningButton>
-                )}
+                <GodkjenningButton
+                    oppgavereferanse={oppgavereferanse}
+                    aktørId={person.aktørId}
+                    onSuccess={onGodkjennUtbetaling}
+                    onError={captureError}
+                >
+                    {erRevurdering
+                        ? 'Revurder'
+                        : harArbeidsgiverutbetaling || harBrukerutbetaling
+                        ? 'Utbetal'
+                        : 'Godkjenn'}
+                </GodkjenningButton>
                 {!erRevurdering && (
                     <AvvisningButton
                         aktivPeriode={aktivPeriode}

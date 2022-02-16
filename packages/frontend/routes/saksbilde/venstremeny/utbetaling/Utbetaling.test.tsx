@@ -65,43 +65,4 @@ describe('Utbetaling', () => {
         expect(screen.queryAllByRole('button')).toHaveLength(1);
         expect(screen.getByText('Revurder')).toHaveTextContent('Revurder');
     });
-
-    test('viser ikke utbetalingsknapp når det finnes brukerutbetalinger', () => {
-        const person = mappetPerson();
-        const personMedBrukerutbetaling: Person = {
-            ...person,
-            arbeidsgivere: [
-                {
-                    ...person.arbeidsgivere[0],
-                    utbetalingshistorikk: [
-                        {
-                            id: testBeregningId,
-                            vilkårsgrunnlaghistorikkId: testVilkårsgrunnlagHistorikkId,
-                            beregnettidslinje: [],
-                            hendelsetidslinje: [],
-                            utbetaling: {
-                                status: 'IKKE_UTBETALT',
-                                type: 'UTBETALING',
-                                utbetalingstidslinje: [],
-                                maksdato: dayjs().add(200, 'day'),
-                                gjenståendeDager: 200,
-                                forbrukteDager: 10,
-                                arbeidsgiverNettobeløp: 0,
-                                arbeidsgiverFagsystemId: 'en-arbeidsgiver-fagsystemid',
-                                personNettobeløp: 54321,
-                                personFagsystemId: 'en-person-fagsystemid',
-                            },
-                            kilde: 'en-kilde',
-                            tidsstempel: dayjs(),
-                        },
-                    ],
-                },
-            ],
-        };
-        render(<Utbetaling aktivPeriode={enTidslinjeperiode()} />, {
-            wrapper: wrapperMedPerson(personMedBrukerutbetaling),
-        });
-
-        expect(screen.queryByTestId('godkjenning-button')).toBeNull();
-    });
 });
