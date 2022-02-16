@@ -249,6 +249,33 @@ export const useUtbetalingForSkjæringstidspunkt = (
     return useUtbetaling(beregningId);
 };
 
+export const useUtbetalingstidsstempelFørsteGenForPeriode = (): string => {
+    const vedtaksperiode = useAktivPeriode();
+
+    return (
+        useArbeidsgiverUtenParametre()
+            ?.generasjoner.map((element) => {
+                return element?.perioder.filter(
+                    (periode) =>
+                        periode.vedtaksperiodeId == vedtaksperiode?.id && periode.utbetaling.vurdering?.godkjent
+                )[0];
+            })
+            .pop()?.utbetaling.vurdering?.tidsstempel ?? ''
+    );
+};
+
+export const useFørsteUtbetalingstidsstempelFørsteGenISkjæringstidspunkt = (): string => {
+    const aktivPeriode = useAktivPeriode();
+    const førsteUtbetalingIFørsteGenForSkjæringstidspunkt = useArbeidsgiverUtenParametre()
+        ?.generasjoner.flatMap((it) =>
+            it.perioder.filter((periode) => periode.skjæringstidspunkt === aktivPeriode.skjæringstidspunkt)
+        )
+        ?.pop()?.utbetaling;
+    return førsteUtbetalingIFørsteGenForSkjæringstidspunkt?.vurdering?.godkjent
+        ? førsteUtbetalingIFørsteGenForSkjæringstidspunkt?.vurdering?.tidsstempel
+        : '';
+};
+
 export const useVilkårsgrunnlaghistorikk = (
     skjæringstidspunkt: string | null,
     vilkårsgrunnlaghistorikkId: string | null

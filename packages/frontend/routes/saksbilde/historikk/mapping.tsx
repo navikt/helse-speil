@@ -7,12 +7,14 @@ import { Notes } from '@navikt/ds-icons';
 import { Kilde } from '@components/Kilde';
 import { LinkButton } from '@components/LinkButton';
 import { useAktivPeriode } from '@state/tidslinje';
-import { useOrganisasjonsnummer, usePerson } from '@state/person';
-import { useOverstyrRevurderingIsEnabled, useRevurderingIsEnabled } from '@hooks/revurdering';
-import { defaultUtbetalingToggles } from '@utils/featureToggles';
+import {
+    useFørsteUtbetalingstidsstempelFørsteGenISkjæringstidspunkt,
+    useOrganisasjonsnummer,
+    usePerson,
+    useUtbetalingstidsstempelFørsteGenForPeriode,
+} from '@state/person';
 
 import { Hendelse, Hendelsetype } from './Historikk.types';
-import { useIkkeUtbetaltVedSkjæringstidspunkt } from '../sykepengegrunnlag/inntekt/Inntekt';
 
 const BegrunnelseTekst = styled.div`
     margin-top: 0.25rem;
@@ -103,8 +105,7 @@ export const useTidslinjeendringer = (
     onClickEndring: (overstyring: Overstyring) => void,
     vedtaksperiode?: Vedtaksperiode
 ): Hendelse[] => {
-    const revurderingIsEnabled = useRevurderingIsEnabled(defaultUtbetalingToggles);
-    const overstyrRevurderingIsEnabled = useOverstyrRevurderingIsEnabled(defaultUtbetalingToggles);
+    const utbetalingstidFørsteGenForPeriode = useUtbetalingstidsstempelFørsteGenForPeriode();
 
     return (
         (vedtaksperiode?.fullstendig &&
@@ -113,7 +114,8 @@ export const useTidslinjeendringer = (
                 timestamp: dayjs(overstyring.timestamp),
                 title: (
                     <LinkButton onClick={() => onClickEndring(overstyring)}>
-                        {revurderingIsEnabled || overstyrRevurderingIsEnabled ? 'Revurdert' : 'Endret'} utbetalingsdager
+                        {overstyring.timestamp.isAfter(utbetalingstidFørsteGenForPeriode) ? 'Revurdert' : 'Endret'}{' '}
+                        utbetalingsdager
                     </LinkButton>
                 ),
                 type: Hendelsetype.Historikk,
@@ -131,7 +133,8 @@ export const useInntektendringer = (onClickEndring: (overstyring: ExternalInntek
     const organisasjonsnummer = useOrganisasjonsnummer();
     const arbeidsgiver = usePerson()!.arbeidsgivereV2.find((it) => it.organisasjonsnummer === organisasjonsnummer);
     const aktivPeriode = useAktivPeriode();
-    const ikkeUtbetaltVedSkjæringstidspunkt = useIkkeUtbetaltVedSkjæringstidspunkt();
+    const førsteUtbetalingstidsstempelISkjæringstidspunkt =
+        useFørsteUtbetalingstidsstempelFørsteGenISkjæringstidspunkt();
 
     if (!arbeidsgiver) {
         throw Error(`Fant ikke arbeidsgiver med organisasjonsnummer ${organisasjonsnummer}`);
@@ -151,7 +154,10 @@ export const useInntektendringer = (onClickEndring: (overstyring: ExternalInntek
             timestamp: dayjs(it.timestamp),
             title: (
                 <LinkButton onClick={() => onClickEndring(it)}>
-                    {ikkeUtbetaltVedSkjæringstidspunkt ? 'Endret' : 'Revurdert'} inntekt
+                    {dayjs(it.timestamp).isAfter(førsteUtbetalingstidsstempelISkjæringstidspunkt)
+                        ? 'Revurdert'
+                        : 'Endret'}{' '}
+                    inntekt
                 </LinkButton>
             ),
             type: Hendelsetype.Historikk,

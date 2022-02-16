@@ -6,7 +6,7 @@ import { MemoryRouter } from 'react-router';
 import { MutableSnapshot, RecoilRoot } from 'recoil';
 import { enTidslinjeperiode, mappetPerson } from 'test-data';
 
-import { personState } from '../../../../state/person';
+import { personState } from '@state/person';
 
 import '../../../../tekster';
 import { Utbetaling } from './Utbetaling';
