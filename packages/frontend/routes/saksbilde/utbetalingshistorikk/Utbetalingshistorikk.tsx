@@ -9,6 +9,7 @@ import { UtbetalingshistorikkRow } from './UtbetalingshistorikkRow';
 import { Annulleringsmodal } from '../sakslinje/annullering/Annulleringsmodal';
 
 import { fetchOppdrag, Oppdrag, Spennoppdrag } from '@io/graphql';
+import { useOppdrag } from './state';
 
 const Container = styled.div`
     grid-column-start: venstremeny;
@@ -53,18 +54,10 @@ interface UtbetalingshistorikkProps {
 
 export const Utbetalingshistorikk = ({ person }: UtbetalingshistorikkProps) => {
     let { push } = useHistory();
+    const oppdrag = useOppdrag(person.fødselsnummer);
     const organisasjonsnummer = useOrganisasjonsnummer();
     const [tilAnnullering, setTilAnnullering] = useState<Spennoppdrag | undefined>();
     const [annulleringerInFlight, setAnnulleringerInFlight] = useState<Array<string>>([]);
-    const [oppdrag, setOppdrag] = useState<Array<Oppdrag>>([]);
-
-    useEffect(() => {
-        fetchOppdrag(person.fødselsnummer)
-            .then(({ oppdrag }) => {
-                setOppdrag(oppdrag as Array<Oppdrag>);
-            })
-            .catch((err) => console.error(err));
-    }, [person]);
 
     const lukkUtbetalingshistorikk = () => push(`/person/${person.aktørId}/utbetaling`);
 

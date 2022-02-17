@@ -74,7 +74,9 @@ const SaksbildeContent = React.memo(() => {
                         <Sakslinje aktivPeriode={aktivPeriode} />
                         <Switch>
                             <Route path={`${path}/utbetalingshistorikk`}>
-                                <Utbetalingshistorikk person={personTilBehandling} />
+                                <React.Suspense fallback={<div />}>
+                                    <Utbetalingshistorikk person={personTilBehandling} />
+                                </React.Suspense>
                             </Route>
                             <Route>
                                 {aktivPeriode.fullstendig ? (
