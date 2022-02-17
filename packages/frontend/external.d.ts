@@ -697,6 +697,7 @@ declare type ExternalPeriodetype =
     | 'OVERGANG_FRA_IT'
     | 'STIKKPRØVE'
     | 'RISK_QA'
+    | 'REVURDERING'
     | 'FORTROLIG_ADRESSE'
     | 'UTBETALING_TIL_SYKMELDT'
     | 'DELVIS_REFUSJON';

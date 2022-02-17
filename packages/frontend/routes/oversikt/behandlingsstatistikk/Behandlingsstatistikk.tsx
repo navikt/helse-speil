@@ -114,21 +114,21 @@ const toStatistikk = (eksternStatistikk: ExternalBehandlingstatistikk): Behandli
     ...eksternStatistikk,
     antallOppgaverTilGodkjenning: {
         ...eksternStatistikk.antallOppgaverTilGodkjenning,
-        perPeriodetype: eksternStatistikk.antallOppgaverTilGodkjenning.perPeriodetype.map(
-            ({ antall, periodetypeForSpeil }) => ({
+        perPeriodetype: eksternStatistikk.antallOppgaverTilGodkjenning.perPeriodetype
+            .sort((a, b) => a.periodetypeForSpeil.localeCompare(b.periodetypeForSpeil))
+            .map(({ antall, periodetypeForSpeil }) => ({
                 periodetype: tilPeriodetype(periodetypeForSpeil),
                 antall: antall,
-            })
-        ),
+            })),
     },
     antallTildelteOppgaver: {
         ...eksternStatistikk.antallTildelteOppgaver,
-        perPeriodetype: eksternStatistikk.antallTildelteOppgaver.perPeriodetype.map(
-            ({ antall, periodetypeForSpeil }) => ({
+        perPeriodetype: eksternStatistikk.antallTildelteOppgaver.perPeriodetype
+            .sort((a, b) => a.periodetypeForSpeil.localeCompare(b.periodetypeForSpeil))
+            .map(({ antall, periodetypeForSpeil }) => ({
                 periodetype: tilPeriodetype(periodetypeForSpeil),
                 antall: antall,
-            })
-        ),
+            })),
     },
 });
 

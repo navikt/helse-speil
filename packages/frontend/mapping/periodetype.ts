@@ -12,6 +12,8 @@ export const tilPeriodetype = (type: ExternalPeriodetype): Periodetype => {
             return 'stikkprøve';
         case 'RISK_QA':
             return 'riskQa';
+        case 'REVURDERING':
+            return 'revurdering';
         case 'FORTROLIG_ADRESSE':
             return 'fortroligAdresse';
         case 'UTBETALING_TIL_SYKMELDT':
