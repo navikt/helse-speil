@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 
 import { InntektsgrunnlagTable } from './InntektsgrunnlagTable';
 import { Inntektskilderinnhold } from './Inntektskilderinnhold';
+import { Refusjon } from '@io/graphql';
 
 const Container = styled.div`
     display: flex;
@@ -28,12 +29,14 @@ const getInntekt = (
 interface UbehandletSykepengegrunnlagProps {
     vilkårsgrunnlag: ExternalSpleisVilkårsgrunnlag;
     organisasjonsnummer: string;
+    refusjon?: Refusjon | null;
     'data-testid'?: string;
 }
 
 export const UbehandletSykepengegrunnlag = ({
     vilkårsgrunnlag,
     organisasjonsnummer,
+    refusjon,
     ...rest
 }: UbehandletSykepengegrunnlagProps) => {
     const inntekt = getInntekt(vilkårsgrunnlag, organisasjonsnummer);
@@ -59,7 +62,7 @@ export const UbehandletSykepengegrunnlag = ({
                 aktivInntektskilde={aktivInntektskilde}
             />
             <Strek />
-            <Inntektskilderinnhold inntekt={aktivInntektskilde} />
+            <Inntektskilderinnhold inntekt={aktivInntektskilde} refusjon={refusjon} />
         </Container>
     );
 };

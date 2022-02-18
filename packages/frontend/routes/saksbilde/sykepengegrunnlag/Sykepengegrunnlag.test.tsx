@@ -5,7 +5,7 @@ import React from 'react';
 import { RecoilRoot } from 'recoil';
 import { mappetPerson, mappetVedtaksperiode } from 'test-data';
 
-import { personState } from '../../../state/person';
+import { personState } from '@state/person';
 
 import { umappetArbeidsgiver } from '../../../test/data/arbeidsgiver';
 import { umappetInntektsgrunnlag } from '../../../test/data/inntektsgrunnlag';

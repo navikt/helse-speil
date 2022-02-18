@@ -7,6 +7,8 @@ export const aktivPeriodeState = atom<string | undefined>({
     default: undefined,
 });
 
+export const useAktivPeriodeId = () => useRecoilValue(aktivPeriodeState);
+
 export const useSetAktivPeriode = () => useSetRecoilState(aktivPeriodeState);
 
 export const useMaybeAktivPeriode = (): TidslinjeperiodeMedSykefravær | TidslinjeperiodeUtenSykefravær | undefined => {

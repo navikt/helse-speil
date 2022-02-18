@@ -1,0 +1,40 @@
+.Refusjonsoversikt {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.Header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.Tittel {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.Table {
+    margin-left: -2.5rem;
+    margin-right: -2.25rem;
+}
+
+.Table > tbody > tr:nth-of-type(2n + 1) {
+    background-color: var(--navds-color-gray-10);
+}
+
+.Table tr th:nth-of-type(2),
+.Table tr td:nth-of-type(2) {
+    text-align: right;
+}
+
+.Table td,
+.Table th {
+    text-align: start;
+    padding-left: 2.5rem;
+    padding-right: 2.5rem;
+    height: 2rem;
+    vertical-align: middle;
+}

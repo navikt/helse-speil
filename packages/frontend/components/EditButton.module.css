@@ -3,10 +3,11 @@
     align-items: center;
     flex-wrap: nowrap;
     color: var(--navds-color-action-default);
+    padding: 0;
 }
 
 .EditButton > svg {
-    margin-right: 0.5rem;
+    margin-right: 6px;
 }
 
 .EditButton > p {
@@ -14,6 +15,6 @@
     text-decoration: underline;
 }
 
-.EditButton > p:hover {
+.EditButton:hover > p {
     text-decoration: none;
 }

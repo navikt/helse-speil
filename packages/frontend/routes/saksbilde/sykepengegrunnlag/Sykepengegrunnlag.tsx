@@ -4,6 +4,7 @@ import React from 'react';
 import { AgurkErrorBoundary } from '@components/AgurkErrorBoundary';
 import { useOrganisasjonsnummer, useVilkårsgrunnlaghistorikk, useVurderingForSkjæringstidspunkt } from '@state/person';
 import { useMaybeAktivPeriode } from '@state/tidslinje';
+import { Refusjon } from '@io/graphql';
 
 import { BehandletSykepengegrunnlag } from './BehandletSykepengegrunnlag';
 import { SykepengegrunnlagFraInfogtrygd } from './SykepengegrunnlagFraInfotrygd';
@@ -19,9 +20,14 @@ const Container = styled.section`
 interface SykepengegrunnlagProps {
     vilkårsgrunnlaghistorikkId: UUID;
     skjæringstidspunkt: DateString;
+    refusjon?: Refusjon | null;
 }
 
-export const Sykepengegrunnlag = ({ vilkårsgrunnlaghistorikkId, skjæringstidspunkt }: SykepengegrunnlagProps) => {
+export const Sykepengegrunnlag = ({
+    vilkårsgrunnlaghistorikkId,
+    skjæringstidspunkt,
+    refusjon,
+}: SykepengegrunnlagProps) => {
     const organisasjonsnummer = useOrganisasjonsnummer();
     const vilkårsgrunnlag = useVilkårsgrunnlaghistorikk(skjæringstidspunkt, vilkårsgrunnlaghistorikkId);
     const aktivPeriode = useMaybeAktivPeriode()!;
@@ -38,11 +44,13 @@ export const Sykepengegrunnlag = ({ vilkårsgrunnlaghistorikkId, skjæringstidsp
                             vurdering={vurdering}
                             vilkårsgrunnlag={vilkårsgrunnlag as ExternalSpleisVilkårsgrunnlag}
                             organisasjonsnummer={organisasjonsnummer}
+                            refusjon={refusjon}
                         />
                     ) : (
                         <UbehandletSykepengegrunnlag
                             vilkårsgrunnlag={vilkårsgrunnlag as ExternalSpleisVilkårsgrunnlag}
                             organisasjonsnummer={organisasjonsnummer}
+                            refusjon={refusjon}
                         />
                     )
                 ) : (

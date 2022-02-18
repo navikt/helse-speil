@@ -841,6 +841,18 @@ export type FetchPersonQuery = {
                                   tidsstempel: string;
                               } | null;
                           };
+                          refusjon?: {
+                              __typename?: 'Refusjon';
+                              sisteRefusjonsdag?: string | null;
+                              forsteFravaersdag?: string | null;
+                              belop?: number | null;
+                              endringer: Array<{ __typename?: 'Endring'; dato: string; belop: number }>;
+                              arbeidsgiverperioder: Array<{
+                                  __typename?: 'Refusjonsperiode';
+                                  fom: string;
+                                  tom: string;
+                              }>;
+                          } | null;
                           tidslinje: Array<{
                               __typename?: 'Dag';
                               dato: string;

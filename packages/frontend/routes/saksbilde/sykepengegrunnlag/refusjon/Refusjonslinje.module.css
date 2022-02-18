@@ -1,0 +1,16 @@
+.Refusjonslinje.overlapperMedAG {
+    font-style: italic;
+    text-decoration-line: line-through;
+}
+
+.Refusjonslinje > td {
+    position: relative;
+}
+
+.Refusjonslinje > td > .Infotrekant {
+    left: 24px;
+}
+
+.Refusjonslinje > td > .Infotrekant > svg > path {
+    fill: var(--navds-color-action-default);
+}

@@ -1,7 +1,5 @@
-import styled from '@emotion/styled';
 import React from 'react';
 
-import { FlexColumn } from '@components/Flex';
 import { Kilde } from '@components/Kilde';
 import { AnonymizableTextWithEllipsis } from '@components/TextWithEllipsis';
 import { Tooltip } from '@components/Tooltip';
@@ -14,59 +12,19 @@ import { defaultOverstyrToggles } from '@utils/featureToggles';
 import { useAktivPeriode, useMaybePeriodeTilGodkjenning } from '../../../state/tidslinje';
 import { AnonymizableText } from '@components/anonymizable/AnonymizableText';
 import { AnonymizableContainer } from '@components/anonymizable/AnonymizableContainer';
+import type { Refusjon } from '@io/graphql';
 import { useArbeidsforhold } from '../../../modell/arbeidsgiver';
 import { useHarIngenUtbetaltePerioderFor } from '../../../hooks/revurdering';
 
-const Container = styled(FlexColumn)`
-    padding-right: 2rem;
-`;
-
-const Header = styled.div`
-    display: flex;
-    align-items: center;
-    margin-bottom: 1rem;
-    gap: 1rem;
-`;
-
-const Bransjer = styled(AnonymizableText)`
-    font-size: 14px;
-    margin-bottom: 0.5rem;
-    color: var(--navds-color-text-disabled);
-`;
-
-const Navn = styled.div`
-    display: flex;
-    white-space: nowrap;
-    max-width: 300px;
-    font-size: 18px;
-    font-weight: 600;
-`;
-
-const Organisasjonsnummer = styled.div`
-    display: flex;
-    align-items: center;
-    font-size: 18px;
-    font-weight: 600;
-`;
-
-const Tabell = styled.div`
-    display: grid;
-    grid-template-columns: 200px auto;
-    grid-column-gap: 1rem;
-    grid-row-gap: 0.5rem;
-    margin: 0.5rem 0 4rem;
-`;
-
-const ArbeidsforholdTabell = styled(Tabell)`
-    margin-top: 0;
-    margin-bottom: 2rem;
-`;
+import styles from './Inntektskilderinnhold.module.css';
+import { Refusjonsoversikt } from './refusjon/Refusjonsoversikt';
 
 interface InntektskilderinnholdProps {
     inntekt: ExternalArbeidsgiverinntekt;
+    refusjon?: Refusjon | null;
 }
 
-export const Inntektskilderinnhold = ({ inntekt }: InntektskilderinnholdProps) => {
+export const Inntektskilderinnhold = ({ inntekt, refusjon }: InntektskilderinnholdProps) => {
     const arbeidsgivernavn = useArbeidsgivernavn(inntekt.organisasjonsnummer);
     const bransjer = useArbeidsgiverbransjer(inntekt.organisasjonsnummer);
     const arbeidsforhold = useArbeidsforhold(inntekt.organisasjonsnummer);
@@ -89,25 +47,25 @@ export const Inntektskilderinnhold = ({ inntekt }: InntektskilderinnholdProps) =
         periodeTilGodkjenning !== undefined;
 
     return (
-        <Container>
-            <Header>
-                <Navn data-tip="Arbeidsgivernavn">
+        <div className={styles.Inntektskilderinnhold}>
+            <div className={styles.Header}>
+                <div className={styles.Arbeidsgivernavn} data-tip="Arbeidsgivernavn">
                     <AnonymizableTextWithEllipsis>{arbeidsgivernavn}</AnonymizableTextWithEllipsis>
-                </Navn>
-                <Organisasjonsnummer>
+                </div>
+                <div className={styles.Organisasjonsnummer}>
                     (
                     <Clipboard copyMessage="Organisasjonsnummer er kopiert" dataTip="Kopier organisasjonsnummer">
                         <AnonymizableContainer>{inntekt.organisasjonsnummer}</AnonymizableContainer>
                     </Clipboard>
                     )
-                </Organisasjonsnummer>
+                </div>
                 <Kilde type="Ainntekt">AA</Kilde>
-            </Header>
-            <Bransjer>
+            </div>
+            <AnonymizableText className={styles.Bransjer}>
                 {`BRANSJE${bransjer.length > 1 ? 'R' : ''}: `}
                 {bransjer.join(', ')}
-            </Bransjer>
-            <ArbeidsforholdTabell className="ArbeidsforholdTabell">
+            </AnonymizableText>
+            <div className={styles.Arbeidsforholdtabell}>
                 {arbeidsforhold.map((it, i) => (
                     <Arbeidsforhold
                         key={i}
@@ -117,7 +75,7 @@ export const Inntektskilderinnhold = ({ inntekt }: InntektskilderinnholdProps) =
                         stillingstittel={it.stillingstittel}
                     />
                 ))}
-            </ArbeidsforholdTabell>
+            </div>
             <Inntekt
                 omregnetÅrsinntekt={inntekt.omregnetÅrsinntekt}
                 organisasjonsnummer={inntekt.organisasjonsnummer}
@@ -126,7 +84,8 @@ export const Inntektskilderinnhold = ({ inntekt }: InntektskilderinnholdProps) =
                 arbeidsforholdErDeaktivert={harDeaktivertArbeidsforhold}
                 arbeidsforholdKanOverstyres={arbeidsforholdKanOverstyres}
             />
+            {refusjon && <Refusjonsoversikt refusjon={refusjon} />}
             <Tooltip effect="solid" />
-        </Container>
+        </div>
     );
 };

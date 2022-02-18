@@ -27,15 +27,17 @@ import {
 import { umappedeVilkår } from '../../test/data/vilkår';
 import { dateStringSykdomstidslinje } from '../../test/data/sykdomstidslinje';
 
-jest.mock('../../hooks/useRefreshPersonVedUrlEndring', () => ({
+jest.mock('@hooks/useRefreshPersonVedUrlEndring', () => ({
     useRefreshPersonVedUrlEndring: () => {},
 }));
-jest.mock('../../hooks/useSetVedtaksperiodeReferanserForNotater', () => ({
+
+jest.mock('@hooks/useSetVedtaksperiodeReferanserForNotater', () => ({
     useSetVedtaksperiodeReferanserForNotater: () => {},
 }));
 
 jest.mock('../saksbilde/historikk/icons/IconDokumenter.svg', () => 'null');
 jest.mock('../saksbilde/historikk/icons/IconHistorikk.svg', () => 'null');
+
 jest.mock('@utils/featureToggles', () => ({
     defaultUtbetalingToggles: {
         overstyreUtbetaltPeriodeEnabled: true,
@@ -45,6 +47,10 @@ jest.mock('@utils/featureToggles', () => ({
     },
     erDev: () => true,
     erLocal: () => true,
+}));
+
+jest.mock('@state/personGraphQL', () => ({
+    usePersonGraphQL: () => null,
 }));
 
 const wrapper =

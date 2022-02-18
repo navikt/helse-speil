@@ -191,7 +191,20 @@ query FetchPerson($fnr: String, $aktorId: String) {
                             }
                         }
                         varsler
-                        vilkarsgrunnlaghistorikkId
+                        vilkarsgrunnlaghistorikkId,
+                        refusjon {
+                            sisteRefusjonsdag,
+                            forsteFravaersdag,
+                            endringer {
+                                dato,
+                                belop
+                            },
+                            arbeidsgiverperioder {
+                                fom,
+                                tom
+                            },
+                            belop
+                        }
                     }
                 }
             }

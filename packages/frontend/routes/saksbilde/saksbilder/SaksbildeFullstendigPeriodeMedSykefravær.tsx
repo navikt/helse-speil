@@ -17,6 +17,8 @@ import { Sykepengegrunnlag } from '../sykepengegrunnlag/Sykepengegrunnlag';
 import { Faresignaler } from '../faresignaler/Faresignaler';
 import { Historikk } from '../historikk/Historikk';
 import { Content, RouteContainer } from './SaksbildeFullstendigPeriode';
+import { usePersonGraphQL } from '@state/personGraphQL';
+import { selectRefusjon } from '@state/selectors/person';
 
 interface SaksbildeFullstendigPeriodeMedSykefraværProps {
     personTilBehandling: Person;
@@ -29,6 +31,9 @@ export const SaksbildeFullstendigPeriodeMedSykefravær = ({
 }: SaksbildeFullstendigPeriodeMedSykefraværProps) => {
     const { path } = useRouteMatch();
     const beregningId = aktivPeriode.beregningId;
+
+    const personGraphQL = usePersonGraphQL(personTilBehandling.fødselsnummer);
+    const refusjon = personGraphQL ? selectRefusjon(personGraphQL, beregningId) : null;
 
     const vedtaksperiode = useVedtaksperiode(aktivPeriode.id) as Vedtaksperiode;
     const oppgavereferanse = useOppgavereferanse(beregningId);
@@ -88,6 +93,7 @@ export const SaksbildeFullstendigPeriodeMedSykefravær = ({
                                 <Sykepengegrunnlag
                                     skjæringstidspunkt={aktivPeriode.skjæringstidspunkt}
                                     vilkårsgrunnlaghistorikkId={aktivPeriode.vilkårsgrunnlaghistorikkId}
+                                    refusjon={refusjon}
                                 />
                             </RouteContainer>
                         </Route>

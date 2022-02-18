@@ -24,6 +24,7 @@ import { ReadOnlyInntekt } from './ReadOnlyInntekt';
 import { OverstyrArbeidsforholdUtenSykdom } from '../OverstyrArbeidsforholdUtenSykdom';
 
 import { overstyrInntektEnabled } from '@utils/featureToggles';
+import { Bold } from '@components/Bold';
 
 const Container = styled(FlexColumn)<{ editing: boolean; inntektDeaktivert: boolean }>`
     box-sizing: border-box;
@@ -52,11 +53,11 @@ const Header = styled.div<{ isEditing: boolean }>`
     display: flex;
     align-items: center;
     margin-bottom: 0.5rem;
-    justify-content: flex-start;
+    justify-content: space-between;
     width: 100%;
 
     > div > * {
-        margin-right: 1rem;
+        margin-right: 0.5rem;
     }
 
     ${(props) =>
@@ -64,14 +65,6 @@ const Header = styled.div<{ isEditing: boolean }>`
         css`
             justify-content: space-between;
         `}
-`;
-
-const Tittel = styled(BodyShort)`
-    display: flex;
-    align-items: center;
-    font-size: 18px;
-    font-weight: 600;
-    color: var(--navds-color-text-primary);
 `;
 
 const DeaktivertPille = styled.div`
@@ -173,7 +166,7 @@ export const Inntekt = ({
             {arbeidsforholdErDeaktivert && <DeaktivertPille>Brukes ikke i beregningen</DeaktivertPille>}
             <Header isEditing={editing}>
                 <Flex alignItems="center">
-                    <Tittel as="h1">Beregnet månedsinntekt</Tittel>
+                    <Bold>Beregnet månedsinntekt</Bold>
                     {endret || omregnetÅrsinntekt?.kilde === 'Saksbehandler' ? (
                         <EndringsloggInntektEllerArbeidsforholdButton
                             inntektsendringer={inntektsendringer}

@@ -484,6 +484,14 @@ declare type ExternalUberegnetPeriode = {
     tidslinjeperiodeId: UUID;
 };
 
+declare type ExternalRefusjon = {
+    arbeidsgiverperioder: Array<{ fom: DateString; tom: DateString }>;
+    endringer: Array<{ beløp: number; dato: DateString }>;
+    førsteFraværsdag: DateString | null;
+    sisteRefusjonsdag: DateString | null;
+    beløp: number | null;
+};
+
 declare type ExternalBeregnetPeriode = ExternalUberegnetPeriode & {
     beregningId: UUID;
     gjenståendeSykedager: number | null;
@@ -513,6 +521,7 @@ declare type ExternalBeregnetPeriode = ExternalUberegnetPeriode & {
         };
     };
     aktivitetslogg: ExternalAktivitet[];
+    refusjon?: ExternalRefusjon | null;
 };
 
 declare type ExternalGenerasjon = {
