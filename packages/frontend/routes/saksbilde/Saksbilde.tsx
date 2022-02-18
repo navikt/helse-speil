@@ -21,23 +21,9 @@ import { Utbetalingshistorikk } from './utbetalingshistorikk/Utbetalingshistorik
 import { AmplitudeProvider } from './AmplitudeContext';
 import { VenterPåEndringProvider } from './VenterPåEndringContext';
 import { LasterPersonlinje, Personlinje } from './Personlinje';
+import { Loader } from '@navikt/ds-react';
 
-const Container = styled.div`
-    --content-width: calc(100% - var(--speil-venstremeny-width) - var(--speil-hoyremeny-width));
-    display: grid;
-    max-width: 100vw;
-    min-width: var(--speil-total-min-width);
-    grid-template-columns: var(--speil-venstremeny-width) var(--content-width) var(--speil-hoyremeny-width);
-    grid-template-rows: max-content max-content max-content auto;
-    grid-template-areas:
-        'personlinje personlinje personlinje'
-        'tidslinje tidslinje tidslinje'
-        'sakslinje sakslinje sakslinje'
-        'venstremeny content høyremeny';
-    flex: 1;
-    height: max-content;
-    transition: 0.2s ease;
-`;
+import styles from './Saksbilde.module.css';
 
 const Saksbildevarsel = styled(Varsel)`
     grid-column-start: venstremeny;
@@ -61,7 +47,7 @@ const SaksbildeContent = React.memo(() => {
     }
 
     return (
-        <Container className="Saksbilde">
+        <div className={styles.Saksbilde}>
             <Personlinje
                 aktørId={personTilBehandling.aktørId}
                 enhet={personTilBehandling.enhet}
@@ -100,15 +86,16 @@ const SaksbildeContent = React.memo(() => {
             ) : (
                 <TomtSaksbilde />
             )}
-        </Container>
+        </div>
     );
 });
 
 const LasterSaksbilde = () => (
-    <Container className="saksbilde" data-testid="laster-saksbilde">
+    <div className={styles.Saksbilde} data-testid="laster-saksbilde">
         <LasterPersonlinje />
         <LasterTidslinje />
-    </Container>
+        <Loader className={styles.Loader} size="2xlarge" />
+    </div>
 );
 
 export const Saksbilde = () => (

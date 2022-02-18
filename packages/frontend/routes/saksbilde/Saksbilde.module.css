@@ -1,0 +1,22 @@
+.Saksbilde {
+    --content-width: calc(100% - var(--speil-venstremeny-width) - var(--speil-hoyremeny-width));
+    display: grid;
+    max-width: 100vw;
+    min-width: var(--speil-total-min-width);
+    grid-template-columns: var(--speil-venstremeny-width) var(--content-width) var(--speil-hoyremeny-width);
+    grid-template-rows: max-content max-content max-content auto;
+    grid-template-areas:
+        'personlinje personlinje personlinje'
+        'tidslinje tidslinje tidslinje'
+        'sakslinje sakslinje sakslinje'
+        'venstremeny content høyremeny';
+    flex: 1;
+    height: max-content;
+    transition: 0.2s ease;
+}
+
+.Loader {
+    position: absolute;
+    left: calc(50% - 2rem);
+    top: max(calc(50% - 2rem), 200px);
+}
