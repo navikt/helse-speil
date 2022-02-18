@@ -1,0 +1,11 @@
+.Infotrekant {
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.Text {
+    white-space: nowrap;
+    padding: 0.5rem 1rem;
+    font-style: normal;
+}

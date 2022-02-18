@@ -1,37 +1,27 @@
-import styled from '@emotion/styled';
 import React, { useRef, useState } from 'react';
 
 import { BodyShort, Popover } from '@navikt/ds-react';
 
-const Container = styled.span`
-    position: absolute;
-    top: 0;
-    left: 0;
-`;
+import styles from './Infotrekant.module.css';
+import classNames from 'classnames';
 
-const Text = styled(BodyShort)`
-    white-space: nowrap;
-    padding: 0.5rem 1rem;
-    font-style: normal;
-`;
-
-interface EndringstrekantProps {
-    text?: string;
+interface InfotrekantProps extends React.HTMLAttributes<HTMLSpanElement> {
+    text: string;
 }
 
-export const Endringstrekant: React.FC<EndringstrekantProps> = ({
-    text = 'Endringene vil oppdateres og kalkuleres etter du har trykket på ferdig',
-}) => {
+export const Infotrekant: React.VFC<InfotrekantProps> = ({ className, text, ...spanProps }) => {
     const [showPopover, setShowPopover] = useState(false);
     const containerRef = useRef<HTMLSpanElement>(null);
 
     return (
-        <Container
+        <span
             data-testid="infotrekant"
             ref={containerRef}
             onMouseOver={() => setShowPopover(true)}
             onMouseLeave={() => setShowPopover(false)}
             aria-label={text}
+            className={classNames(styles.Infotrekant, className)}
+            {...spanProps}
         >
             <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M0 16V0H16L0 16Z" fill="#FF9100" />
@@ -42,8 +32,8 @@ export const Endringstrekant: React.FC<EndringstrekantProps> = ({
                 onClose={() => setShowPopover(false)}
                 placement="top"
             >
-                <Text as="p">{text}</Text>
+                <BodyShort className={styles.Text}>{text}</BodyShort>
             </Popover>
-        </Container>
+        </span>
     );
 };

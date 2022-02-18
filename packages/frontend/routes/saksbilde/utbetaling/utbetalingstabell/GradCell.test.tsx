@@ -17,7 +17,7 @@ describe('GradCell', () => {
             sykdomsdag: { type: 'Syk', kilde: 'Sykmelding' },
         };
         render(<GradCell type="Syk" grad={100} overstyrtDag={overstyrtTilNullProsentSyk} />);
-        const indikator = screen.getByTestId('overstyringsindikator');
+        const indikator = screen.getByTestId('infotrekant');
         expect(indikator).toBeVisible();
 
         userEvent.hover(indikator);
@@ -33,15 +33,15 @@ describe('GradCell', () => {
             sykdomsdag: { type: 'Syk', kilde: 'Sykmelding' },
         };
         render(<GradCell type="Egenmelding" overstyrtDag={overstyrtTilHundreProsentSyk} />);
-        const indikator = screen.getByTestId('overstyringsindikator');
+        const indikator = screen.getByTestId('infotrekant');
         expect(indikator).toBeVisible();
 
         userEvent.hover(indikator);
         expect(screen.getByText('Endret fra dag uten grad')).toBeVisible();
     });
 
-    it('rendrer ikke overstyringsindikator når vi ikke overstyrer', () => {
+    it('rendrer ikke infotrekant når vi ikke overstyrer', () => {
         render(<GradCell type="Egenmelding" grad={100} />);
-        expect(screen.queryByTestId('overstyringsindikator')).toBeNull();
+        expect(screen.queryByTestId('infotrekant')).toBeNull();
     });
 });

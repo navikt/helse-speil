@@ -34,15 +34,15 @@ describe('DagtypeCell', () => {
     it('rendrer tekst for overstyringsindikatoren når vi overstyrer fra Syk til Ferie', () => {
         const dag: UtbetalingstabellDag = { type: 'Ferie' } as UtbetalingstabellDag;
         render(<DagtypeCell typeUtbetalingsdag="Syk" typeSykdomsdag="Syk" overstyrtDag={dag} />);
-        const indikator = screen.getByTestId('overstyringsindikator');
+        const indikator = screen.getByTestId('infotrekant');
         expect(indikator).toBeVisible();
 
         userEvent.hover(indikator);
         expect(screen.getByText('Endret fra Syk')).toBeVisible();
     });
 
-    it('rendrer ikke overstyringsindikator når vi ikke overstyrer', () => {
+    it('rendrer ikke infotrekant når vi ikke overstyrer', () => {
         render(<DagtypeCell typeUtbetalingsdag="Syk" typeSykdomsdag="Syk" />);
-        expect(screen.queryByTestId('overstyringsindikator')).toBeNull();
+        expect(screen.queryByTestId('infotrekant')).toBeNull();
     });
 });
