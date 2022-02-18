@@ -34,7 +34,7 @@ lerna bootstrap
 npm run dev
 ```
 
-### Kjør sesialistbackenden slik:
+### Kjør spesialistbackenden slik:
 
 ```
 npm run mock
