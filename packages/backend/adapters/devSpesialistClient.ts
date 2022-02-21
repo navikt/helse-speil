@@ -43,7 +43,20 @@ const devSpesialistClient = (_: Instrumentation): SpesialistClient => ({
                 },
                 fullførteBehandlinger: {
                     totalt: 6045,
-                    manuelt: 1000,
+                    manuelt: {
+                        totalt: 1000,
+                        perPeriodetype: [
+                            { periodetypeForSpeil: 'FØRSTEGANGSBEHANDLING', antall: 500 },
+                            { periodetypeForSpeil: 'FORLENGELSE', antall: 250 },
+                            { periodetypeForSpeil: 'UTBETALING_TIL_SYKMELDT', antall: 2 },
+                            { periodetypeForSpeil: 'OVERGANG_FRA_IT', antall: 250 },
+                            { periodetypeForSpeil: 'DELVIS_REFUSJON', antall: 1 },
+                            { periodetypeForSpeil: 'STIKKPRØVE', antall: 10 },
+                            { periodetypeForSpeil: 'RISK_QA', antall: 30 },
+                            { periodetypeForSpeil: 'REVURDERING', antall: 70 },
+                            { periodetypeForSpeil: 'FORTROLIG_ADRESSE', antall: 1 },
+                        ],
+                    },
                     automatisk: 5000,
                     annulleringer: 45,
                 },

@@ -45,13 +45,13 @@ const HeadingContainer = styled.div`
 
 interface HeadingProps {
     tittel: string;
-    tilgjengeligeSaker: number;
+    antallSaker: number;
 }
 
-const Heading = ({ tittel, tilgjengeligeSaker }: HeadingProps) => (
+const Heading = ({ tittel, antallSaker }: HeadingProps) => (
     <HeadingContainer>
         <BodyShort as="p">{tittel}</BodyShort>
-        <BodyShort as="p">{tilgjengeligeSaker}</BodyShort>
+        <BodyShort as="p">{antallSaker}</BodyShort>
     </HeadingContainer>
 );
 
@@ -60,22 +60,17 @@ interface StatistikkboksProps extends HeadingProps {
     visesByDefault?: boolean;
 }
 
-export const Statistikkboks = ({
-    tittel,
-    tilgjengeligeSaker,
-    elementer,
-    visesByDefault = false,
-}: StatistikkboksProps) => (
+export const Statistikkboks = ({ tittel, antallSaker, elementer, visesByDefault = false }: StatistikkboksProps) => (
     <Boks defaultOpen={visesByDefault}>
         <Accordion.Header>
-            <Heading tittel={tittel} tilgjengeligeSaker={tilgjengeligeSaker} />
+            <Heading tittel={tittel} antallSaker={antallSaker} />
         </Accordion.Header>
         <Accordion.Content>
             {elementer.map((element, index) => (
                 <Statistikklinje
                     key={index}
                     etikett={element.etikett}
-                    upperBound={tilgjengeligeSaker}
+                    upperBound={antallSaker}
                     currentValue={element.antall}
                 />
             ))}

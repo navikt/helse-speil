@@ -111,7 +111,18 @@ const AnnullertePerioderIkon = () => {
 };
 
 const toStatistikk = (eksternStatistikk: ExternalBehandlingstatistikk): Behandlingsstatistikk => ({
-    ...eksternStatistikk,
+    fullførteBehandlinger: {
+        ...eksternStatistikk.fullførteBehandlinger,
+        manuelt: {
+            ...eksternStatistikk.fullførteBehandlinger.manuelt,
+            perPeriodetype: eksternStatistikk.fullførteBehandlinger.manuelt.perPeriodetype
+                .sort((a, b) => a.periodetypeForSpeil.localeCompare(b.periodetypeForSpeil))
+                .map(({ antall, periodetypeForSpeil }) => ({
+                    periodetype: tilPeriodetype(periodetypeForSpeil),
+                    antall: antall,
+                })),
+        },
+    },
     antallOppgaverTilGodkjenning: {
         ...eksternStatistikk.antallOppgaverTilGodkjenning,
         perPeriodetype: eksternStatistikk.antallOppgaverTilGodkjenning.perPeriodetype
@@ -196,7 +207,7 @@ export const Behandlingsstatistikk = () => {
                     <>
                         <Statistikkboks
                             tittel="TILGJENGELIGE SAKER"
-                            tilgjengeligeSaker={statistikk.antallOppgaverTilGodkjenning.totalt}
+                            antallSaker={statistikk.antallOppgaverTilGodkjenning.totalt}
                             elementer={statistikk.antallOppgaverTilGodkjenning.perPeriodetype.map(
                                 ({ periodetype, antall }) => ({
                                     etikett: (
@@ -216,7 +227,7 @@ export const Behandlingsstatistikk = () => {
                         />
                         <Statistikkboks
                             tittel="TILDELTE SAKER"
-                            tilgjengeligeSaker={statistikk.antallTildelteOppgaver.totalt}
+                            antallSaker={statistikk.antallTildelteOppgaver.totalt}
                             elementer={statistikk.antallTildelteOppgaver.perPeriodetype.map(
                                 ({ periodetype, antall }) => ({
                                     etikett: <Oppgaveetikett type={periodetype} størrelse="s" />,
@@ -226,7 +237,7 @@ export const Behandlingsstatistikk = () => {
                         />
                         <Statistikkboks
                             tittel="FULLFØRTE BEHANDLINGER I DAG"
-                            tilgjengeligeSaker={statistikk.fullførteBehandlinger.totalt}
+                            antallSaker={statistikk.fullførteBehandlinger.totalt}
                             elementer={[
                                 {
                                     etikett: <AutomatiskUtbetaltePerioderIkon />,
@@ -234,7 +245,7 @@ export const Behandlingsstatistikk = () => {
                                 },
                                 {
                                     etikett: <UtbetaltePerioderIkon />,
-                                    antall: statistikk.fullførteBehandlinger.manuelt,
+                                    antall: statistikk.fullførteBehandlinger.manuelt.totalt,
                                 },
                                 {
                                     etikett: <AnnullertePerioderIkon />,

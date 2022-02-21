@@ -725,7 +725,10 @@ declare type ExternalBehandlingstatistikk = {
     };
     fullførteBehandlinger: {
         totalt: number;
-        manuelt: number;
+        manuelt: {
+            totalt: number;
+            perPeriodetype: [{ periodetypeForSpeil: ExternalPeriodetype; antall: number }];
+        };
         automatisk: number;
         annulleringer: number;
     };

@@ -540,7 +540,13 @@ declare type Behandlingsstatistikk = {
     };
     fullførteBehandlinger: {
         totalt: number;
-        manuelt: number;
+        manuelt: {
+            totalt: number;
+            perPeriodetype: {
+                periodetype: Periodetype;
+                antall: number;
+            }[];
+        };
         automatisk: number;
         annulleringer: number;
     };
