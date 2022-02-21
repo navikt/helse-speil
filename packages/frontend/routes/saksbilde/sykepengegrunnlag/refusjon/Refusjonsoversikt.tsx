@@ -14,13 +14,6 @@ import styles from './Refusjonsoversikt.module.css';
 
 const canEditRefusjon = false;
 
-const overlapperMedAG = (datoString: string, agPerioder: Array<Refusjonsperiode>): boolean => {
-    const dato = dayjs(datoString);
-    return agPerioder.some(
-        (periode) => dayjs(periode.fom).isSameOrBefore(dato) && dayjs(periode.tom).isSameOrAfter(dato)
-    );
-};
-
 interface RefusjonProps {
     refusjon: Refusjon;
 }
@@ -61,16 +54,8 @@ export const Refusjonsoversikt: React.VFC<RefusjonProps> = ({ refusjon }) => {
                 <tbody>
                     {refusjon.sisteRefusjonsdag && <Refusjonslinje dato={refusjon.sisteRefusjonsdag} />}
                     {sorterteEndringer.map((endring, i) => (
-                        <Refusjonslinje
-                            key={i}
-                            dato={endring.dato}
-                            beløp={endring.belop}
-                            overlapperMedAG={overlapperMedAG(endring.dato, refusjon.arbeidsgiverperioder)}
-                        />
+                        <Refusjonslinje key={i} dato={endring.dato} beløp={endring.belop} />
                     ))}
-                    {refusjon.forsteFravaersdag && (
-                        <Refusjonslinje dato={refusjon.forsteFravaersdag} beløp={refusjon.belop} overlapperMedAG />
-                    )}
                 </tbody>
             </table>
         </div>
