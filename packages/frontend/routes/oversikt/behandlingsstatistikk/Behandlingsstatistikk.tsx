@@ -115,12 +115,12 @@ const toStatistikk = (eksternStatistikk: ExternalBehandlingstatistikk): Behandli
         ...eksternStatistikk.fullførteBehandlinger,
         manuelt: {
             ...eksternStatistikk.fullførteBehandlinger.manuelt,
-            perPeriodetype: eksternStatistikk.fullførteBehandlinger.manuelt.perPeriodetype
-                .sort((a, b) => a.periodetypeForSpeil.localeCompare(b.periodetypeForSpeil))
-                .map(({ antall, periodetypeForSpeil }) => ({
+            perPeriodetype: eksternStatistikk.fullførteBehandlinger.manuelt.perPeriodetype.map(
+                ({ antall, periodetypeForSpeil }) => ({
                     periodetype: tilPeriodetype(periodetypeForSpeil),
                     antall: antall,
-                })),
+                })
+            ),
         },
     },
     antallOppgaverTilGodkjenning: {
