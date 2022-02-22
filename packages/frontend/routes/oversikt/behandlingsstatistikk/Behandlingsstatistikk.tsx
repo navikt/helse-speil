@@ -100,10 +100,10 @@ const AnnullertePerioderIkon = () => {
         <>
             <img
                 src={imageData}
-                aria-label="Perioder med fagsystem-id som er annullert"
-                alt="Perioder med fagsystem-id som er annullert"
+                aria-label="Perioder som er annullert"
+                alt="Perioder som er annullert"
                 data-for="annulert"
-                data-tip="Perioder med fagsystem-id som er annullert"
+                data-tip="Perioder som er annullert"
             />
             <Tooltip id="annulert" />
         </>
@@ -174,6 +174,10 @@ const getDataTipForPeriodetype = (periodetype: Periodetype) => {
             return 'Utbetaling Til sykmeldt';
         case 'delvisRefusjon':
             return 'Delvis refusjon';
+        case 'revurdering':
+            return 'Revurdering';
+        case 'fortroligAdresse':
+            return 'Fortrolig adresse';
         default:
             return '';
     }
@@ -230,7 +234,16 @@ export const Behandlingsstatistikk = () => {
                             antallSaker={statistikk.antallTildelteOppgaver.totalt}
                             elementer={statistikk.antallTildelteOppgaver.perPeriodetype.map(
                                 ({ periodetype, antall }) => ({
-                                    etikett: <Oppgaveetikett type={periodetype} størrelse="s" />,
+                                    etikett: (
+                                        <EtikettContainer
+                                            data-for={periodetype}
+                                            data-tip={getDataTipForPeriodetype(periodetype)}
+                                            title={getDataTipForPeriodetype(periodetype)}
+                                        >
+                                            <Tooltip id={periodetype} />
+                                            <Oppgaveetikett type={periodetype} størrelse="s" />
+                                        </EtikettContainer>
+                                    ),
                                     antall: antall,
                                 })
                             )}
@@ -252,7 +265,16 @@ export const Behandlingsstatistikk = () => {
                                     antall: statistikk.fullførteBehandlinger.manuelt.totalt,
                                     elementer: statistikk.fullførteBehandlinger.manuelt.perPeriodetype.map(
                                         ({ periodetype, antall }) => ({
-                                            etikett: <Oppgaveetikett type={periodetype} størrelse="s" />,
+                                            etikett: (
+                                                <EtikettContainer
+                                                    data-for={periodetype}
+                                                    data-tip={getDataTipForPeriodetype(periodetype)}
+                                                    title={getDataTipForPeriodetype(periodetype)}
+                                                >
+                                                    <Tooltip id={periodetype} />
+                                                    <Oppgaveetikett type={periodetype} størrelse="s" />
+                                                </EtikettContainer>
+                                            ),
                                             antall: antall,
                                         })
                                     ),
