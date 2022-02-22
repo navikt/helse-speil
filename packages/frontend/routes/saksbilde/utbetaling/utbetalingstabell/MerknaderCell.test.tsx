@@ -15,7 +15,7 @@ const queryByDataTip = queryHelpers.queryByAttribute.bind(null, 'data-tip');
 
 const enUtbetalingsdag: UtbetalingstabellDag = {
     isMaksdato: false,
-    sykdomsdag: { kilde: undefined, type: 'Syk' },
+    sykdomsdag: { kilde: undefined, type: 'Syk', grad: undefined },
     dato: dayjs(),
     type: 'Syk',
 };

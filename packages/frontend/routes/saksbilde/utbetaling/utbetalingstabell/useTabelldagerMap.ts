@@ -48,6 +48,7 @@ export const useTabelldagerMap = ({
                 sykdomsdag: {
                     kilde: periode.sykdomstidslinje[i]?.kilde ?? 'Ukjent',
                     type: periode.sykdomstidslinje[i]?.type ?? it.type,
+                    grad: periode.sykdomstidslinje[i]?.gradering,
                 },
             })
         ) as UtbetalingstabellDag[];

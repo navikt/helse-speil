@@ -20,6 +20,7 @@ const enUtbetalingstabelldag = (overrides?: Partial<UtbetalingstabellDag>): Utbe
     sykdomsdag: overrides?.sykdomsdag ?? {
         type: 'Syk',
         kilde: 'Sykmelding',
+        grad: undefined,
     },
 });
 

@@ -14,7 +14,7 @@ describe('GradCell', () => {
             gradering: 0,
             dato: dayjs(),
             isMaksdato: true,
-            sykdomsdag: { type: 'Syk', kilde: 'Sykmelding' },
+            sykdomsdag: { type: 'Syk', kilde: 'Sykmelding', grad: undefined },
         };
         render(<GradCell type="Syk" grad={100} overstyrtDag={overstyrtTilNullProsentSyk} />);
         const indikator = screen.getByTestId('infotrekant');
@@ -30,7 +30,7 @@ describe('GradCell', () => {
             gradering: 100,
             dato: dayjs(),
             isMaksdato: true,
-            sykdomsdag: { type: 'Syk', kilde: 'Sykmelding' },
+            sykdomsdag: { type: 'Syk', kilde: 'Sykmelding', grad: undefined },
         };
         render(<GradCell type="Egenmelding" overstyrtDag={overstyrtTilHundreProsentSyk} />);
         const indikator = screen.getByTestId('infotrekant');

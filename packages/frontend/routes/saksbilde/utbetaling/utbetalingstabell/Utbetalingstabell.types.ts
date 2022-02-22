@@ -3,6 +3,7 @@ export type UtbetalingstabellDag = Utbetalingsdag & {
     sykdomsdag: {
         type: Sykdomsdag['type'];
         kilde: Sykdomsdag['kilde'];
+        grad: Sykdomsdag['gradering'];
     };
     overstyringer?: Dagoverstyring[];
     dagerIgjen?: number;

@@ -121,7 +121,7 @@ export const Utbetalingstabell = ({
                                 />
                                 <GradCell
                                     type={dag.type}
-                                    grad={dag.gradering}
+                                    grad={dag.sykdomsdag.grad ?? dag.gradering}
                                     overstyrtDag={lokaleOverstyringer?.get(key)}
                                 />
                                 <KildeCell
