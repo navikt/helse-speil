@@ -244,12 +244,18 @@ export const Behandlingsstatistikk = () => {
                                     antall: statistikk.fullførteBehandlinger.automatisk,
                                 },
                                 {
-                                    etikett: <UtbetaltePerioderIkon />,
-                                    antall: statistikk.fullførteBehandlinger.manuelt.totalt,
-                                },
-                                {
                                     etikett: <AnnullertePerioderIkon />,
                                     antall: statistikk.fullførteBehandlinger.annulleringer,
+                                },
+                                {
+                                    etikett: <UtbetaltePerioderIkon />,
+                                    antall: statistikk.fullførteBehandlinger.manuelt.totalt,
+                                    elementer: statistikk.fullførteBehandlinger.manuelt.perPeriodetype.map(
+                                        ({ periodetype, antall }) => ({
+                                            etikett: <Oppgaveetikett type={periodetype} størrelse="s" />,
+                                            antall: antall,
+                                        })
+                                    ),
                                 },
                             ]}
                             visesByDefault

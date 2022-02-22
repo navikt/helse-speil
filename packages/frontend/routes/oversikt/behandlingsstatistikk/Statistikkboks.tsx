@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import React, { ReactNode } from 'react';
+import React, { Fragment, ReactNode } from 'react';
 
 import { Accordion, BodyShort } from '@navikt/ds-react';
 
@@ -24,6 +24,22 @@ const Boks = styled(Accordion.Item)`
 
     svg > path {
         fill: var(--navds-color-text-primary);
+    }
+`;
+
+const StyledInnerBoks = styled(Accordion.Item)`
+    > button {
+        margin-bottom: 4px;
+        border: none;
+        padding: 0px;
+
+        &:hover {
+            border: none;
+        }
+    }
+
+    progress {
+        width: 8em;
     }
 `;
 
@@ -55,8 +71,42 @@ const Heading = ({ tittel, antallSaker }: HeadingProps) => (
     </HeadingContainer>
 );
 
+interface InnerStatestikklinjeElementerProps {
+    etikett: ReactNode;
+    antall: number;
+}
+
+interface StatestikklinjeElementerProps {
+    etikett: ReactNode;
+    antall: number;
+    elementer?: InnerStatestikklinjeElementerProps[];
+}
+
+interface InnerBoksProps {
+    element: StatestikklinjeElementerProps;
+    antallSaker: number;
+}
+
+const InnerBoks = ({ element, antallSaker }: InnerBoksProps) => (
+    <StyledInnerBoks>
+        <Accordion.Header>
+            <Statistikklinje etikett={element.etikett} upperBound={antallSaker} currentValue={element.antall} />
+        </Accordion.Header>
+        <Accordion.Content>
+            {element.elementer?.map((perElementType, index) => (
+                <Statistikklinje
+                    key={index}
+                    etikett={perElementType.etikett}
+                    upperBound={element.antall}
+                    currentValue={perElementType.antall}
+                />
+            ))}
+        </Accordion.Content>
+    </StyledInnerBoks>
+);
+
 interface StatistikkboksProps extends HeadingProps {
-    elementer: { etikett: ReactNode; antall: number }[];
+    elementer: StatestikklinjeElementerProps[];
     visesByDefault?: boolean;
 }
 
@@ -67,12 +117,17 @@ export const Statistikkboks = ({ tittel, antallSaker, elementer, visesByDefault 
         </Accordion.Header>
         <Accordion.Content>
             {elementer.map((element, index) => (
-                <Statistikklinje
-                    key={index}
-                    etikett={element.etikett}
-                    upperBound={antallSaker}
-                    currentValue={element.antall}
-                />
+                <Fragment key={index}>
+                    {element.elementer ? (
+                        <InnerBoks element={element} antallSaker={antallSaker} />
+                    ) : (
+                        <Statistikklinje
+                            etikett={element.etikett}
+                            upperBound={antallSaker}
+                            currentValue={element.antall}
+                        />
+                    )}
+                </Fragment>
             ))}
         </Accordion.Content>
     </Boks>
