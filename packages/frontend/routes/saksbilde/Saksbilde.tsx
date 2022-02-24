@@ -24,6 +24,8 @@ import { LasterPersonlinje, Personlinje } from './Personlinje';
 import { Loader } from '@navikt/ds-react';
 
 import styles from './Saksbilde.module.css';
+import { Timeline } from './timeline/Timeline';
+import { usePersonGraphQL } from '@state/personGraphQL';
 
 const Saksbildevarsel = styled(Varsel)`
     grid-column-start: venstremeny;
@@ -33,6 +35,7 @@ const Saksbildevarsel = styled(Varsel)`
 const SaksbildeContent = React.memo(() => {
     const aktivPeriode = useMaybeAktivPeriode();
     const personTilBehandling = usePerson();
+    const personGraphQL = usePersonGraphQL(personTilBehandling?.fødselsnummer ?? '');
 
     useRefreshPersonVedUrlEndring();
     useRefreshPersonVedOpptegnelse();
@@ -53,6 +56,12 @@ const SaksbildeContent = React.memo(() => {
                 enhet={personTilBehandling.enhet}
                 dødsdato={personTilBehandling.dødsdato}
             />
+            {personGraphQL && (
+                <Timeline
+                    arbeidsgivere={personGraphQL.arbeidsgivere}
+                    infotrygdutbetalinger={personGraphQL.infotrygdutbetalinger ?? []}
+                />
+            )}
             <Tidslinje person={personTilBehandling} />
             {aktivPeriode ? (
                 <AmplitudeProvider>

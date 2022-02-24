@@ -115,9 +115,9 @@ const background = css`
         &.utbetalt,
         &.revurdert,
         &.utbetaltAutomatisk {
-            --period-background-color: var(--nav-lime-gronn-lighten-80);
-            --period-hover-color: #dade99;
-            --period-border-color: var(--nav-lime-gronn-darken-40);
+            --period-background-color: var(--navds-color-limegreen-10);
+            --period-hover-color: var(--navds-color-limegreen-20);
+            --period-border-color: var(--navds-color-limegreen-70);
         }
 
         &.avslag,

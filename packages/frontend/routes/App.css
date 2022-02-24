@@ -55,12 +55,14 @@
     --nav-lime-gronn-lighten-80: #ecefcc;
     --nav-blaa-darken-20: #0056b4;
 
-    --nav-infotrygd-bakgrunn-stiplet: repeating-linear-gradient(
-        123deg,
-        white,
-        white 10px,
-        #c9c9c9 10px,
-        #c9c9c9 11.5px
+    --nav-infotrygd-bakgrunn-stiplet: repeating-linear-gradient(132deg, #fff, #fff 6px, #e3e0df 6px, #e3e0df 7.5px);
+
+    --nav-infotrygd-bakgrunn-stiplet-hover: repeating-linear-gradient(
+        132deg,
+        var(--navds-color-gray-10),
+        var(--navds-color-gray-10) 6px,
+        #e3e0df 6px,
+        #e3e0df 7.5px
     );
 
     --nav-ghostpolse-bakgrunn: #ffffff;

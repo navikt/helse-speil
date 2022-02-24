@@ -1,0 +1,59 @@
+.TimelineRow {
+    position: relative;
+    display: flex;
+    min-height: 24px;
+    gap: 16px;
+}
+
+.Periods {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    background: #f8f8f8;
+    flex: 1;
+    gap: 0.25rem;
+}
+
+.Name {
+    width: var(--row-name-width);
+    height: 24px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    overflow: hidden;
+}
+
+.Name > svg {
+    flex-shrink: 0;
+}
+
+.Name > p {
+    white-space: nowrap;
+}
+
+.Expandable {
+    color: var(--navds-color-action-default);
+    outline: none;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.Expandable:focus-visible {
+    box-shadow: var(--navds-shadow-focus);
+}
+
+.Expandable:before {
+    content: '';
+    width: 8px;
+    height: 8px;
+    flex-shrink: 0;
+    background: #fff;
+    box-shadow: 1.5px 1.5px 0 0 var(--navds-color-action-default);
+    transform-origin: 80% 80%;
+    transform: translate(-50%, -30%) rotate(-45deg);
+}
+
+.Expandable.expanded:before {
+    transform: translate(-50%, -30%) rotate(45deg);
+}

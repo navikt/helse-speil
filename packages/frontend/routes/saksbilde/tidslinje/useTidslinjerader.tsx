@@ -87,9 +87,11 @@ const toArbeidsgiverrader = (arbeidsgiver: Arbeidsgiver, fom: Dayjs, tom: Dayjs)
             } as TidslinjeradObject)
     );
 
-    return [...raderMedOgUtenSykdom, ...raderUtenSykdom].filter(
+    const rader = [...raderMedOgUtenSykdom, ...raderUtenSykdom].filter(
         (tidslinjeradObjekt) => tidslinjeradObjekt.perioder.length > 0
     );
+
+    return rader;
 };
 
 export const useTidslinjerader = (person: Person, fom: Dayjs, tom: Dayjs): TidslinjeArbeidsgiver[] =>

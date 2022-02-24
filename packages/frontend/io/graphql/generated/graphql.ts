@@ -53,6 +53,7 @@ export type Arbeidsgiver = {
     arbeidsforhold: Array<Arbeidsforhold>;
     bransjer: Array<Scalars['String']>;
     generasjoner: Array<Generasjon>;
+    ghostPerioder: Array<GhostPeriode>;
     navn: Scalars['String'];
     organisasjonsnummer: Scalars['String'];
     overstyringer: Array<Overstyring>;
@@ -91,6 +92,7 @@ export type BeregnetPeriode = Periode & {
     id: Scalars['String'];
     inntektstype: Inntektstype;
     maksdato: Scalars['String'];
+    oppgavereferanse?: Maybe<Scalars['String']>;
     opprettet: Scalars['String'];
     periodetype: Periodetype;
     periodevilkar: Periodevilkar;
@@ -155,6 +157,15 @@ export type Generasjon = {
     perioder: Array<Periode>;
 };
 
+export type GhostPeriode = {
+    __typename?: 'GhostPeriode';
+    deaktivert: Scalars['Boolean'];
+    fom: Scalars['String'];
+    skjaeringstidspunkt: Scalars['String'];
+    tom: Scalars['String'];
+    vilkarsgrunnlaghistorikkId?: Maybe<Scalars['String']>;
+};
+
 export type Hendelse = {
     id: Scalars['String'];
     type: Hendelsetype;
@@ -208,6 +219,7 @@ export type Inntektsgrunnlag = {
 
 export enum Inntektskilde {
     Aordningen = 'AORDNINGEN',
+    IkkeRapportert = 'IKKE_RAPPORTERT',
     Infotrygd = 'INFOTRYGD',
     Inntektsmelding = 'INNTEKTSMELDING',
     Saksbehandler = 'SAKSBEHANDLER',
@@ -772,6 +784,7 @@ export type FetchPersonQuery = {
                           skjaeringstidspunkt: string;
                           varsler: Array<string>;
                           vilkarsgrunnlaghistorikkId: string;
+                          oppgavereferanse?: string | null;
                           fom: string;
                           tom: string;
                           behandlingstype: Behandlingstype;

@@ -204,7 +204,8 @@ query FetchPerson($fnr: String, $aktorId: String) {
                                 tom
                             },
                             belop
-                        }
+                        },
+                        oppgavereferanse
                     }
                 }
             }

@@ -1,0 +1,16 @@
+.Content {
+    display: grid;
+    grid-template-areas: 'title title';
+    grid-auto-rows: auto;
+    grid-column-gap: 1rem;
+    grid-row-gap: 0.125rem;
+}
+
+.Content > p:first-of-type {
+    grid-area: title;
+}
+
+.Error {
+    color: var(--navds-color-text-error);
+    font-style: italic;
+}
