@@ -50,9 +50,14 @@ const InfobobleContainer = styled.div`
 interface UtbetalingHeaderProps {
     periodeErForkastet: boolean;
     toggleOverstyring: () => void;
+    kunAgpEllerAvslåtteDager: boolean;
 }
 
-export const UtbetalingHeader: React.FC<UtbetalingHeaderProps> = ({ periodeErForkastet, toggleOverstyring }) => {
+export const UtbetalingHeader: React.FC<UtbetalingHeaderProps> = ({
+    periodeErForkastet,
+    toggleOverstyring,
+    kunAgpEllerAvslåtteDager,
+}) => {
     const revurderingIsEnabled = useRevurderingIsEnabled(defaultUtbetalingToggles);
     const overstyrRevurderingIsEnabled = useOverstyrRevurderingIsEnabled(defaultUtbetalingToggles);
     return (
@@ -61,6 +66,15 @@ export const UtbetalingHeader: React.FC<UtbetalingHeaderProps> = ({ periodeErFor
                 <InfobobleContainer>
                     <PopoverHjelpetekst ikon={<SortInfoikon />}>
                         <p>Kan ikke revurdere perioden på grunn av manglende datagrunnlag</p>
+                    </PopoverHjelpetekst>
+                </InfobobleContainer>
+            ) : kunAgpEllerAvslåtteDager ? (
+                <InfobobleContainer>
+                    <PopoverHjelpetekst ikon={<SortInfoikon />}>
+                        <p>
+                            Det er foreløpig ikke mulig å gjøre endringer i sykdomstidslinjen, når hele perioden består
+                            av avslåtte dager og/eller arbeidsgiverperiodedager
+                        </p>
                     </PopoverHjelpetekst>
                 </InfobobleContainer>
             ) : (

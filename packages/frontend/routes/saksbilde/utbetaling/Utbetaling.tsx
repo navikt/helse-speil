@@ -121,6 +121,10 @@ const OverstyrbarUtbetaling: React.FC<OverstyrbarUtbetalingProps> = ({ fom, tom,
 
     const vedtaksperiode = useVedtaksperiode(useMaybeAktivPeriode()?.id) as Vedtaksperiode;
 
+    const kunAgpEllerAvslåtteDager = vedtaksperiode.utbetalingstidslinje.every((dag) =>
+        ['Avslått', 'Arbeidsgiverperiode', 'Helg'].includes(dag.type)
+    );
+
     const toggleOverstyring = () => {
         setMarkerteDager(new Map());
         setOverstyrteDager(new Map());
@@ -177,6 +181,7 @@ const OverstyrbarUtbetaling: React.FC<OverstyrbarUtbetalingProps> = ({ fom, tom,
                 <UtbetalingHeader
                     periodeErForkastet={vedtaksperiode.erForkastet}
                     toggleOverstyring={toggleOverstyring}
+                    kunAgpEllerAvslåtteDager={kunAgpEllerAvslåtteDager}
                 />
             )}
             <UtbetalingstabellContainer overstyrer={overstyrer}>
