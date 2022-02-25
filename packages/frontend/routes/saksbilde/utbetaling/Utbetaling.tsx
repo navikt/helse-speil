@@ -122,7 +122,7 @@ const OverstyrbarUtbetaling: React.FC<OverstyrbarUtbetalingProps> = ({ fom, tom,
     const vedtaksperiode = useVedtaksperiode(useMaybeAktivPeriode()?.id) as Vedtaksperiode;
 
     const kunAgpEllerAvslåtteDager =
-        vedtaksperiode?.utbetalingstidslinje.every((dag) =>
+        vedtaksperiode?.utbetalingstidslinje?.every((dag) =>
             ['Avslått', 'Arbeidsgiverperiode', 'Helg'].includes(dag.type)
         ) ?? false;
 
