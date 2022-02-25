@@ -69,7 +69,7 @@ export const Tidslinjerad = ({ rad, erKlikkbar = true, erForeldet = false }: Tid
 
     return (
         <Container erAktiv={erAktivRad}>
-            {rad.perioder.map((it, i) => {
+            {rad.perioder.reverse().map((it, i) => {
                 const { id, beregningId, unique } = decomposedId(it.id);
                 return (
                     <Tidslinjeperiode

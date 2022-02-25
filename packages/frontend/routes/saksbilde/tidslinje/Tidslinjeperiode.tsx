@@ -115,6 +115,7 @@ export const Tidslinjeperiode = ({
     return (
         <div data-testid={`tidslinjeperiode-${props.id}`}>
             <Periodeknapp
+                tabIndex={0}
                 onMouseOver={assignAnchor}
                 onMouseOut={removeAnchor}
                 onClick={onClickWrapper}
