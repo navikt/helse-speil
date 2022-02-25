@@ -1,7 +1,9 @@
 import { useMemo } from 'react';
 import { Infotrygdutbetaling } from '@io/graphql';
 
-export const useInfotrygdPeriods = (infotrygdutbetalinger: Array<Infotrygdutbetaling>) =>
+export const useInfotrygdPeriods = (
+    infotrygdutbetalinger: Array<Infotrygdutbetaling>
+): Map<string, Array<InfotrygdPeriod>> =>
     useMemo(() => {
         const map = new Map<string, Array<InfotrygdPeriod>>();
 

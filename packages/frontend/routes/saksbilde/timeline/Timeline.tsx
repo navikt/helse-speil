@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 
 import { Pins } from './Pins';
 import { Labels } from './Labels';
@@ -11,6 +11,7 @@ import { ExpandableTimelineRow } from './ExpandableTimelineRow';
 import type { Arbeidsgiver, Infotrygdutbetaling } from '@io/graphql';
 
 import styles from './Timeline.module.css';
+import { InfotrygdRow } from './InfotrygdRow';
 
 interface TimelineProps {
     arbeidsgivere: Array<Arbeidsgiver>;
@@ -23,7 +24,15 @@ export const Timeline: React.VFC<TimelineProps> = ({ arbeidsgivere, infotrygdutb
     const start = activeWindow.fom.startOf('day');
     const end = activeWindow.tom.endOf('day');
 
-    const infotrygdperioder = useInfotrygdPeriods(infotrygdutbetalinger);
+    const infotrygdPeriods = useInfotrygdPeriods(infotrygdutbetalinger);
+
+    const infotrygdPeriodsWithoutEmployer: Array<InfotrygdPeriod> = useMemo(
+        () =>
+            Array.from(infotrygdPeriods.entries())
+                .filter(([orgnr]) => orgnr === '0')
+                .flatMap(([_, value]) => value),
+        [infotrygdPeriods]
+    );
 
     return (
         <div className={styles.Timeline}>
@@ -39,7 +48,7 @@ export const Timeline: React.VFC<TimelineProps> = ({ arbeidsgivere, infotrygdutb
                                 end={end}
                                 name={arbeidsgiver.navn ?? arbeidsgiver.organisasjonsnummer}
                                 generations={arbeidsgiver.generasjoner}
-                                infotrygdPeriods={infotrygdperioder.get(arbeidsgiver.organisasjonsnummer) ?? []}
+                                infotrygdPeriods={infotrygdPeriods.get(arbeidsgiver.organisasjonsnummer) ?? []}
                             />
                         );
                     } else {
@@ -50,11 +59,14 @@ export const Timeline: React.VFC<TimelineProps> = ({ arbeidsgivere, infotrygdutb
                                 end={end}
                                 name={arbeidsgiver.navn ?? arbeidsgiver.organisasjonsnummer}
                                 periods={arbeidsgiver.generasjoner[0]?.perioder ?? []}
-                                infotrygdPeriods={infotrygdperioder.get(arbeidsgiver.organisasjonsnummer) ?? []}
+                                infotrygdPeriods={infotrygdPeriods.get(arbeidsgiver.organisasjonsnummer) ?? []}
                             />
                         );
                     }
                 })}
+                {infotrygdPeriodsWithoutEmployer.length > 0 && (
+                    <InfotrygdRow start={start} end={end} periods={infotrygdPeriodsWithoutEmployer} />
+                )}
             </div>
             <WindowPicker
                 activeWindow={activeWindow}

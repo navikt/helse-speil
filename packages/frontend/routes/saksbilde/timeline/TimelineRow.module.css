@@ -39,6 +39,11 @@
     cursor: pointer;
 }
 
+.Expandable:focus-visible,
+.Expandable:hover {
+    text-decoration: underline;
+}
+
 .Expandable:focus-visible {
     box-shadow: var(--navds-shadow-focus);
 }
