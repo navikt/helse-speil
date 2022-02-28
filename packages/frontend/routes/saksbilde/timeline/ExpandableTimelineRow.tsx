@@ -3,7 +3,7 @@ import classNames from 'classnames';
 import { Bag } from '@navikt/ds-icons';
 
 import { AnonymizableTextWithEllipsis } from '@components/TextWithEllipsis';
-import type { Generasjon } from '@io/graphql';
+import type { Generasjon, GhostPeriode } from '@io/graphql';
 
 import { Periods } from './Periods';
 
@@ -14,7 +14,8 @@ interface ExpandableTimelineRowProp {
     end: Dayjs;
     name: string;
     generations: Array<Generasjon>;
-    infotrygdPeriods: Array<InfotrygdPeriod>;
+    infotrygdPeriods?: Array<InfotrygdPeriod>;
+    ghostPeriods?: Array<GhostPeriode>;
 }
 
 export const ExpandableTimelineRow: React.VFC<ExpandableTimelineRowProp> = ({
@@ -23,6 +24,7 @@ export const ExpandableTimelineRow: React.VFC<ExpandableTimelineRowProp> = ({
     name,
     generations,
     infotrygdPeriods,
+    ghostPeriods,
 }) => {
     const [isExpanded, setIsExpanded] = useState(false);
 
@@ -56,6 +58,7 @@ export const ExpandableTimelineRow: React.VFC<ExpandableTimelineRowProp> = ({
                                 end={end}
                                 periods={generation.perioder}
                                 infotrygdPeriods={infotrygdPeriods}
+                                ghostPeriods={ghostPeriods}
                                 notCurrent
                             />
                         ))}

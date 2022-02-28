@@ -6,9 +6,9 @@ import { BodyShort, Popover } from '@navikt/ds-react';
 
 import { somPenger } from '@utils/locale';
 import { NORSK_DATOFORMAT } from '@utils/date';
-import { BeregnetPeriode, Utbetalingsdagtype } from '@io/graphql';
+import { BeregnetPeriode, GhostPeriode, Utbetalingsdagtype } from '@io/graphql';
 
-import { getPeriodStateText, isBeregnetPeriode, isInfotrygdPeriod } from './mapping';
+import { getPeriodStateText, isBeregnetPeriode, isGhostPeriode, isInfotrygdPeriod } from './mapping';
 
 import styles from './PeriodPopover.module.css';
 import { ErrorBoundary } from '@components/ErrorBoundary';
@@ -159,6 +159,18 @@ const BeregnetPopover: React.VFC<SpleisPopoverProps> = ({ period, state, fom, to
     );
 };
 
+const GhostPopover: React.VFC<DatePeriod> = ({ fom, tom }) => {
+    return (
+        <>
+            <BodyShort size="small">Arbeidsforhold uten sykefravær</BodyShort>
+            <BodyShort size="small">Periode:</BodyShort>
+            <BodyShort size="small">
+                {fom} - {tom}
+            </BodyShort>
+        </>
+    );
+};
+
 const UberegnetPopover: React.VFC<DatePeriod> = ({ fom, tom }) => {
     return (
         <>
@@ -188,6 +200,8 @@ export const PeriodPopover: React.VFC<PeriodPopoverProps> = ({ period, state, ..
                         <InfotrygdPopover period={period} fom={fom} tom={tom} />
                     ) : isBeregnetPeriode(period) ? (
                         <BeregnetPopover period={period} state={state} fom={fom} tom={tom} />
+                    ) : isGhostPeriode(period) ? (
+                        <GhostPopover fom={fom} tom={tom} />
                     ) : (
                         <UberegnetPopover fom={fom} tom={tom} />
                     )}

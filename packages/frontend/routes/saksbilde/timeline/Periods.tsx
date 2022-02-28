@@ -1,6 +1,6 @@
 import React from 'react';
 
-import type { Periode } from '@io/graphql';
+import type { GhostPeriode, Periode } from '@io/graphql';
 
 import { Period } from './Period';
 import { usePeriodStyling } from './usePeriodStyling';
@@ -17,12 +17,22 @@ interface PeriodsProps {
     start: Dayjs;
     end: Dayjs;
     periods: Array<Periode>;
-    infotrygdPeriods: Array<InfotrygdPeriod>;
+    infotrygdPeriods?: Array<InfotrygdPeriod>;
+    ghostPeriods?: Array<GhostPeriode>;
     notCurrent?: boolean;
 }
 
-export const Periods: React.VFC<PeriodsProps> = ({ start, end, periods, infotrygdPeriods, notCurrent }) => {
-    const allPeriods = [...filterActivePeriods(periods), ...infotrygdPeriods].sort(byFomAscending);
+export const Periods: React.VFC<PeriodsProps> = ({
+    start,
+    end,
+    periods,
+    infotrygdPeriods,
+    ghostPeriods,
+    notCurrent,
+}) => {
+    const allPeriods = [...filterActivePeriods(periods), ...(infotrygdPeriods ?? []), ...(ghostPeriods ?? [])].sort(
+        byFomAscending
+    );
     const visiblePeriods = useVisiblePeriods(start, allPeriods);
     const positions = usePeriodStyling(start, end, visiblePeriods);
 

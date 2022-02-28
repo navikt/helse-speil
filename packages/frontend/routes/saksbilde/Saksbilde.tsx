@@ -23,9 +23,11 @@ import { VenterPåEndringProvider } from './VenterPåEndringContext';
 import { LasterPersonlinje, Personlinje } from './Personlinje';
 import { Loader } from '@navikt/ds-react';
 
-import styles from './Saksbilde.module.css';
 import { Timeline } from './timeline/Timeline';
-import { usePersonGraphQL } from '@state/personGraphQL';
+import { useFetchedPerson } from '@state/personGraphQL';
+import { useActivePeriod } from '@state/periodeGraphQL';
+
+import styles from './Saksbilde.module.css';
 
 const Saksbildevarsel = styled(Varsel)`
     grid-column-start: venstremeny;
@@ -34,8 +36,11 @@ const Saksbildevarsel = styled(Varsel)`
 
 const SaksbildeContent = React.memo(() => {
     const aktivPeriode = useMaybeAktivPeriode();
+    const activePeriod = useActivePeriod();
     const personTilBehandling = usePerson();
-    const personGraphQL = usePersonGraphQL(personTilBehandling?.fødselsnummer ?? '');
+    const personGraphQL = useFetchedPerson(personTilBehandling?.fødselsnummer ?? '');
+
+    console.log(activePeriod);
 
     useRefreshPersonVedUrlEndring();
     useRefreshPersonVedOpptegnelse();
@@ -62,7 +67,7 @@ const SaksbildeContent = React.memo(() => {
                     infotrygdutbetalinger={personGraphQL.infotrygdutbetalinger ?? []}
                 />
             )}
-            <Tidslinje person={personTilBehandling} />
+            {/*<Tidslinje person={personTilBehandling} />*/}
             {aktivPeriode ? (
                 <AmplitudeProvider>
                     <VenterPåEndringProvider>

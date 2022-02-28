@@ -1,4 +1,4 @@
-import type { BeregnetPeriode, Periode, UberegnetPeriode } from '@io/graphql';
+import type { BeregnetPeriode, GhostPeriode, Periode, UberegnetPeriode } from '@io/graphql';
 import { Sykdomsdagtype, Utbetalingsdagtype } from '@io/graphql';
 
 const hasOppgave = (period: BeregnetPeriode): boolean => typeof period.oppgavereferanse === 'string';
@@ -35,8 +35,11 @@ export const isInfotrygdPeriod = (period: Periode | DatePeriod): period is Infot
 export const isBeregnetPeriode = (period: Periode | DatePeriod): period is BeregnetPeriode =>
     (period as BeregnetPeriode)?.beregningId !== undefined && (period as BeregnetPeriode)?.beregningId !== null;
 
+export const isGhostPeriode = (period: GhostPeriode | DatePeriod): period is GhostPeriode =>
+    typeof (period as any).deaktivert === 'boolean';
+
 export const isUberegnetPeriode = (period: Periode | DatePeriod): period is UberegnetPeriode =>
-    !isBeregnetPeriode(period) && !isInfotrygdPeriod(period);
+    !isBeregnetPeriode(period) && !isInfotrygdPeriod(period) && !isGhostPeriode(period);
 
 const getInfotrygdPeriodState = (period: InfotrygdPeriod): PeriodState => {
     switch (period.typetekst) {
@@ -49,8 +52,12 @@ const getInfotrygdPeriodState = (period: InfotrygdPeriod): PeriodState => {
             return 'infotrygdUkjent';
     }
 };
+const getGhostPeriodState = (period: GhostPeriode): PeriodState => {
+    return period.deaktivert ? 'utenSykefraværDeaktivert' : 'utenSykefravær';
+};
 
 export const getPeriodState = (period: Periode | DatePeriod): PeriodState => {
+    if (isGhostPeriode(period)) return getGhostPeriodState(period);
     if (isInfotrygdPeriod(period)) return getInfotrygdPeriodState(period);
     if (!isBeregnetPeriode(period)) return 'venter';
 
@@ -128,6 +135,7 @@ export const getPeriodCategory = (periodState: PeriodState): PeriodCategory | nu
         case 'annulleringFeilet':
             return 'error';
         case 'utenSykefravær':
+        case 'utenSykefraværDeaktivert':
             return 'blank';
         case 'infotrygdUtbetalt':
         case 'infotrygdFerie':

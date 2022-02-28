@@ -770,6 +770,14 @@ export type FetchPersonQuery = {
                 stillingsprosent: number;
                 stillingstittel: string;
             }>;
+            ghostPerioder: Array<{
+                __typename?: 'GhostPeriode';
+                deaktivert: boolean;
+                vilkarsgrunnlaghistorikkId?: string | null;
+                skjaeringstidspunkt: string;
+                fom: string;
+                tom: string;
+            }>;
             generasjoner: Array<{
                 __typename?: 'Generasjon';
                 id: string;

@@ -8,7 +8,7 @@
     grid-template-areas:
         'personlinje personlinje personlinje'
         'timeline timeline timeline'
-        'tidslinje tidslinje tidslinje'
+        /*'tidslinje tidslinje tidslinje'*/
         'sakslinje sakslinje sakslinje'
         'venstremeny content høyremeny';
     flex: 1;

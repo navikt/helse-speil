@@ -1,8 +1,9 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 
 import { Pins } from './Pins';
 import { Labels } from './Labels';
 import { TimelineRow } from './TimelineRow';
+import { InfotrygdRow } from './InfotrygdRow';
 import { WindowPicker } from './WindowPicker';
 import { useTimelineWindow } from './useTimelineWindow';
 import { useInfotrygdPeriods } from './useInfotrygdPeriods';
@@ -11,7 +12,6 @@ import { ExpandableTimelineRow } from './ExpandableTimelineRow';
 import type { Arbeidsgiver, Infotrygdutbetaling } from '@io/graphql';
 
 import styles from './Timeline.module.css';
-import { InfotrygdRow } from './InfotrygdRow';
 
 interface TimelineProps {
     arbeidsgivere: Array<Arbeidsgiver>;
@@ -25,14 +25,6 @@ export const Timeline: React.VFC<TimelineProps> = ({ arbeidsgivere, infotrygdutb
     const end = activeWindow.tom.endOf('day');
 
     const infotrygdPeriods = useInfotrygdPeriods(infotrygdutbetalinger);
-
-    const infotrygdPeriodsWithoutEmployer: Array<InfotrygdPeriod> = useMemo(
-        () =>
-            Array.from(infotrygdPeriods.entries())
-                .filter(([orgnr]) => orgnr === '0')
-                .flatMap(([_, value]) => value),
-        [infotrygdPeriods]
-    );
 
     return (
         <div className={styles.Timeline}>
@@ -60,12 +52,13 @@ export const Timeline: React.VFC<TimelineProps> = ({ arbeidsgivere, infotrygdutb
                                 name={arbeidsgiver.navn ?? arbeidsgiver.organisasjonsnummer}
                                 periods={arbeidsgiver.generasjoner[0]?.perioder ?? []}
                                 infotrygdPeriods={infotrygdPeriods.get(arbeidsgiver.organisasjonsnummer) ?? []}
+                                ghostPeriods={arbeidsgiver.ghostPerioder}
                             />
                         );
                     }
                 })}
-                {infotrygdPeriodsWithoutEmployer.length > 0 && (
-                    <InfotrygdRow start={start} end={end} periods={infotrygdPeriodsWithoutEmployer} />
+                {infotrygdPeriods.has('0') && (
+                    <InfotrygdRow start={start} end={end} periods={infotrygdPeriods.get('0') ?? []} />
                 )}
             </div>
             <WindowPicker

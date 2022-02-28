@@ -40,6 +40,7 @@ declare type PeriodState =
     | 'revurdert'
     | 'revurdertIngenUtbetaling'
     | 'utenSykefravær'
+    | 'utenSykefraværDeaktivert'
     | 'infotrygdUtbetalt'
     | 'infotrygdFerie'
     | 'infotrygdUkjent';

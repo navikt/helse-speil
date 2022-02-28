@@ -2,7 +2,7 @@ import React from 'react';
 import { Bag } from '@navikt/ds-icons';
 
 import { AnonymizableTextWithEllipsis } from '@components/TextWithEllipsis';
-import type { Periode } from '@io/graphql';
+import type { GhostPeriode, Periode } from '@io/graphql';
 
 import { Periods } from './Periods';
 
@@ -13,10 +13,18 @@ interface TimelineRowProps {
     end: Dayjs;
     name: string;
     periods: Array<Periode>;
-    infotrygdPeriods: Array<InfotrygdPeriod>;
+    infotrygdPeriods?: Array<InfotrygdPeriod>;
+    ghostPeriods?: Array<GhostPeriode>;
 }
 
-export const TimelineRow: React.VFC<TimelineRowProps> = ({ start, end, name, periods, infotrygdPeriods }) => {
+export const TimelineRow: React.VFC<TimelineRowProps> = ({
+    start,
+    end,
+    name,
+    periods,
+    infotrygdPeriods,
+    ghostPeriods,
+}) => {
     return (
         <div className={styles.TimelineRow}>
             <div className={styles.Name}>
@@ -26,7 +34,13 @@ export const TimelineRow: React.VFC<TimelineRowProps> = ({ start, end, name, per
                 </AnonymizableTextWithEllipsis>
             </div>
             <div className={styles.Periods}>
-                <Periods periods={periods} start={start} end={end} infotrygdPeriods={infotrygdPeriods} />
+                <Periods
+                    periods={periods}
+                    start={start}
+                    end={end}
+                    infotrygdPeriods={infotrygdPeriods}
+                    ghostPeriods={ghostPeriods}
+                />
             </div>
         </div>
     );
