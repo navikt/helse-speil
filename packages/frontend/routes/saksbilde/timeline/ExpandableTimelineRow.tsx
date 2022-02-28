@@ -3,19 +3,15 @@ import classNames from 'classnames';
 import { Bag } from '@navikt/ds-icons';
 
 import { AnonymizableTextWithEllipsis } from '@components/TextWithEllipsis';
-import type { Generasjon, GhostPeriode } from '@io/graphql';
+import type { Generasjon } from '@io/graphql';
 
 import { Periods } from './Periods';
+import type { TimelineRowProps } from './TimelineRow';
 
 import styles from './TimelineRow.module.css';
 
-interface ExpandableTimelineRowProp {
-    start: Dayjs;
-    end: Dayjs;
-    name: string;
+interface ExpandableTimelineRowProp extends Omit<TimelineRowProps, 'periods'> {
     generations: Array<Generasjon>;
-    infotrygdPeriods?: Array<InfotrygdPeriod>;
-    ghostPeriods?: Array<GhostPeriode>;
 }
 
 export const ExpandableTimelineRow: React.VFC<ExpandableTimelineRowProp> = ({
@@ -25,6 +21,7 @@ export const ExpandableTimelineRow: React.VFC<ExpandableTimelineRowProp> = ({
     generations,
     infotrygdPeriods,
     ghostPeriods,
+    activePeriodId,
 }) => {
     const [isExpanded, setIsExpanded] = useState(false);
 
@@ -46,6 +43,7 @@ export const ExpandableTimelineRow: React.VFC<ExpandableTimelineRowProp> = ({
                         end={end}
                         periods={generations[0].perioder}
                         infotrygdPeriods={infotrygdPeriods}
+                        activePeriodId={activePeriodId}
                     />
                 )}
                 {isExpanded &&
@@ -60,6 +58,7 @@ export const ExpandableTimelineRow: React.VFC<ExpandableTimelineRowProp> = ({
                                 infotrygdPeriods={infotrygdPeriods}
                                 ghostPeriods={ghostPeriods}
                                 notCurrent
+                                activePeriodId={activePeriodId}
                             />
                         ))}
             </div>

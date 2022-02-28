@@ -8,24 +8,18 @@ import { Periods } from './Periods';
 
 import styles from './TimelineRow.module.css';
 
-interface TimelineRowProps {
+export interface TimelineRowProps {
     start: Dayjs;
     end: Dayjs;
     name: string;
     periods: Array<Periode>;
     infotrygdPeriods?: Array<InfotrygdPeriod>;
     ghostPeriods?: Array<GhostPeriode>;
+    activePeriodId?: string | null;
 }
 
-export const TimelineRow: React.VFC<TimelineRowProps> = ({
-    start,
-    end,
-    name,
-    periods,
-    infotrygdPeriods,
-    ghostPeriods,
-}) => {
-    return (
+export const TimelineRow: React.VFC<TimelineRowProps> = React.memo(
+    ({ start, end, name, periods, infotrygdPeriods, ghostPeriods, activePeriodId }) => (
         <div className={styles.TimelineRow}>
             <div className={styles.Name}>
                 <Bag height={16} width={16} />
@@ -43,5 +37,5 @@ export const TimelineRow: React.VFC<TimelineRowProps> = ({
                 />
             </div>
         </div>
-    );
-};
+    )
+);

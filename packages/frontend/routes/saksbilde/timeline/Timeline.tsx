@@ -9,6 +9,7 @@ import { useTimelineWindow } from './useTimelineWindow';
 import { useInfotrygdPeriods } from './useInfotrygdPeriods';
 import { ExpandableTimelineRow } from './ExpandableTimelineRow';
 
+import { useActivePeriod } from '@state/periodState';
 import type { Arbeidsgiver, Infotrygdutbetaling } from '@io/graphql';
 
 import styles from './Timeline.module.css';
@@ -26,37 +27,37 @@ export const Timeline: React.VFC<TimelineProps> = ({ arbeidsgivere, infotrygdutb
 
     const infotrygdPeriods = useInfotrygdPeriods(infotrygdutbetalinger);
 
+    const activePeriod = useActivePeriod();
+
     return (
         <div className={styles.Timeline}>
             <Pins start={start} end={end} arbeidsgivere={arbeidsgivere} />
             <Labels start={start} end={end} />
             <div className={styles.Rows}>
-                {arbeidsgivere.map((arbeidsgiver, i) => {
-                    if (arbeidsgiver.generasjoner.length > 1) {
-                        return (
-                            <ExpandableTimelineRow
-                                key={i}
-                                start={start}
-                                end={end}
-                                name={arbeidsgiver.navn ?? arbeidsgiver.organisasjonsnummer}
-                                generations={arbeidsgiver.generasjoner}
-                                infotrygdPeriods={infotrygdPeriods.get(arbeidsgiver.organisasjonsnummer) ?? []}
-                            />
-                        );
-                    } else {
-                        return (
-                            <TimelineRow
-                                key={i}
-                                start={start}
-                                end={end}
-                                name={arbeidsgiver.navn ?? arbeidsgiver.organisasjonsnummer}
-                                periods={arbeidsgiver.generasjoner[0]?.perioder ?? []}
-                                infotrygdPeriods={infotrygdPeriods.get(arbeidsgiver.organisasjonsnummer) ?? []}
-                                ghostPeriods={arbeidsgiver.ghostPerioder}
-                            />
-                        );
-                    }
-                })}
+                {arbeidsgivere.map((arbeidsgiver, i) =>
+                    arbeidsgiver.generasjoner.length > 1 ? (
+                        <ExpandableTimelineRow
+                            key={i}
+                            start={start}
+                            end={end}
+                            name={arbeidsgiver.navn ?? arbeidsgiver.organisasjonsnummer}
+                            generations={arbeidsgiver.generasjoner}
+                            infotrygdPeriods={infotrygdPeriods.get(arbeidsgiver.organisasjonsnummer) ?? []}
+                            activePeriodId={activePeriod?.id}
+                        />
+                    ) : (
+                        <TimelineRow
+                            key={i}
+                            start={start}
+                            end={end}
+                            name={arbeidsgiver.navn ?? arbeidsgiver.organisasjonsnummer}
+                            periods={arbeidsgiver.generasjoner[0]?.perioder ?? []}
+                            infotrygdPeriods={infotrygdPeriods.get(arbeidsgiver.organisasjonsnummer) ?? []}
+                            ghostPeriods={arbeidsgiver.ghostPerioder}
+                            activePeriodId={activePeriod?.id}
+                        />
+                    )
+                )}
                 {infotrygdPeriods.has('0') && (
                     <InfotrygdRow start={start} end={end} periods={infotrygdPeriods.get('0') ?? []} />
                 )}

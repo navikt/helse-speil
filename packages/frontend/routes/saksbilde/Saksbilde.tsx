@@ -24,8 +24,8 @@ import { LasterPersonlinje, Personlinje } from './Personlinje';
 import { Loader } from '@navikt/ds-react';
 
 import { Timeline } from './timeline/Timeline';
-import { useFetchedPerson } from '@state/personGraphQL';
-import { useActivePeriod } from '@state/periodeGraphQL';
+import { useCurrentPerson } from '@state/personState';
+import { useActivePeriod } from '@state/periodState';
 
 import styles from './Saksbilde.module.css';
 
@@ -38,9 +38,7 @@ const SaksbildeContent = React.memo(() => {
     const aktivPeriode = useMaybeAktivPeriode();
     const activePeriod = useActivePeriod();
     const personTilBehandling = usePerson();
-    const personGraphQL = useFetchedPerson(personTilBehandling?.fødselsnummer ?? '');
-
-    console.log(activePeriod);
+    const personGraphQL = useCurrentPerson();
 
     useRefreshPersonVedUrlEndring();
     useRefreshPersonVedOpptegnelse();

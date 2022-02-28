@@ -24,6 +24,7 @@
     z-index: 10;
 }
 
+.Period.active,
 .Period:active,
 .Period:focus-visible {
     box-shadow: var(--navds-shadow-focus);

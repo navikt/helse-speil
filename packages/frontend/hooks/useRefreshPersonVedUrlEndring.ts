@@ -3,6 +3,7 @@ import { useParams } from 'react-router';
 
 import { useHentPerson, usePerson } from '@state/person';
 import { Scopes, useAddVarsel, useRemoveVarsel } from '@state/varsler';
+import { useFetchPerson } from '@state/personState';
 
 const feilvarselKey = 'hent-person-error';
 
@@ -15,10 +16,13 @@ export const useRefreshPersonVedUrlEndring = () => {
     const hentPerson = useHentPerson();
     const person = usePerson();
 
+    const fetchPerson = useFetchPerson();
+
     useEffect(() => {
         if (aktorId && erGyldigPersonId(aktorId)) {
             if (person === undefined || person.aktørId !== aktorId) {
                 removeVarsel(feilvarselKey);
+                fetchPerson(aktorId);
                 hentPerson(aktorId).catch((error) => {
                     addVarsel({
                         key: feilvarselKey,

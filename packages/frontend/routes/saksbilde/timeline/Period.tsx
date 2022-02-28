@@ -1,7 +1,7 @@
 import React from 'react';
 import classNames from 'classnames';
 
-import { useSetActivePeriod } from '@state/periodeGraphQL';
+import { useSetActivePeriod } from '@state/periodState';
 import { Sykdomsdagtype, Utbetalingsdagtype } from '@io/graphql';
 
 import { PeriodPopover } from './PeriodPopover';
@@ -27,9 +27,10 @@ const shouldShowInfoPin = (period: DatePeriod): boolean => {
 interface PeriodProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
     period: DatePeriod;
     notCurrent?: boolean;
+    isActive?: boolean;
 }
 
-export const Period: React.VFC<PeriodProps> = ({ period, notCurrent, ...buttonProps }) => {
+export const Period: React.VFC<PeriodProps> = React.memo(({ period, notCurrent, isActive, ...buttonProps }) => {
     const setActivePeriod = useSetActivePeriod();
 
     const periodState = getPeriodState(period);
@@ -50,6 +51,7 @@ export const Period: React.VFC<PeriodProps> = ({ period, notCurrent, ...buttonPr
                 className={classNames(
                     styles.Period,
                     styles[periodState],
+                    isActive && styles.active,
                     periodCategory && styles[periodCategory],
                     notCurrent && styles.old
                 )}
@@ -63,4 +65,4 @@ export const Period: React.VFC<PeriodProps> = ({ period, notCurrent, ...buttonPr
             <PeriodPopover period={period} state={periodState} {...popoverProps} />
         </>
     );
-};
+});
