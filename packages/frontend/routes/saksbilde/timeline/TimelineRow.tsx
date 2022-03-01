@@ -18,24 +18,30 @@ export interface TimelineRowProps {
     activePeriodId?: string | null;
 }
 
-export const TimelineRow: React.VFC<TimelineRowProps> = React.memo(
-    ({ start, end, name, periods, infotrygdPeriods, ghostPeriods, activePeriodId }) => (
-        <div className={styles.TimelineRow}>
-            <div className={styles.Name}>
-                <Bag height={16} width={16} />
-                <AnonymizableTextWithEllipsis size="small" data-tip={name}>
-                    {name}
-                </AnonymizableTextWithEllipsis>
-            </div>
-            <div className={styles.Periods}>
-                <Periods
-                    periods={periods}
-                    start={start}
-                    end={end}
-                    infotrygdPeriods={infotrygdPeriods}
-                    ghostPeriods={ghostPeriods}
-                />
-            </div>
+export const TimelineRow: React.VFC<TimelineRowProps> = ({
+    start,
+    end,
+    name,
+    periods,
+    infotrygdPeriods,
+    ghostPeriods,
+    activePeriodId,
+}) => (
+    <div className={styles.TimelineRow}>
+        <div className={styles.Name}>
+            <Bag height={16} width={16} />
+            <AnonymizableTextWithEllipsis size="small" data-tip={name}>
+                {name}
+            </AnonymizableTextWithEllipsis>
         </div>
-    )
+        <div className={styles.Periods}>
+            <Periods
+                periods={periods}
+                start={start}
+                end={end}
+                infotrygdPeriods={infotrygdPeriods}
+                ghostPeriods={ghostPeriods}
+            />
+        </div>
+    </div>
 );

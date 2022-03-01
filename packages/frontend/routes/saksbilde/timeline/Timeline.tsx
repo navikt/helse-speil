@@ -9,25 +9,31 @@ import { useTimelineWindow } from './useTimelineWindow';
 import { useInfotrygdPeriods } from './useInfotrygdPeriods';
 import { ExpandableTimelineRow } from './ExpandableTimelineRow';
 
+import { ErrorBoundary } from '@components/ErrorBoundary';
 import { useActivePeriod } from '@state/periodState';
-import type { Arbeidsgiver, Infotrygdutbetaling } from '@io/graphql';
+import { useCurrentPerson } from '@state/personState';
 
 import styles from './Timeline.module.css';
+import classNames from 'classnames';
+import { Arbeidsgiver, Infotrygdutbetaling } from '@io/graphql';
 
-interface TimelineProps {
+interface TimelineWithContentProps {
     arbeidsgivere: Array<Arbeidsgiver>;
     infotrygdutbetalinger: Array<Infotrygdutbetaling>;
+    activePeriodId: string | null;
 }
 
-export const Timeline: React.VFC<TimelineProps> = ({ arbeidsgivere, infotrygdutbetalinger }) => {
+const TimelineWithContent: React.VFC<TimelineWithContentProps> = ({
+    arbeidsgivere,
+    infotrygdutbetalinger,
+    activePeriodId,
+}) => {
     const { availableWindows, activeWindow, setActiveWindow } = useTimelineWindow(arbeidsgivere, infotrygdutbetalinger);
 
     const start = activeWindow.fom.startOf('day');
     const end = activeWindow.tom.endOf('day');
 
     const infotrygdPeriods = useInfotrygdPeriods(infotrygdutbetalinger);
-
-    const activePeriod = useActivePeriod();
 
     return (
         <div className={styles.Timeline}>
@@ -43,7 +49,7 @@ export const Timeline: React.VFC<TimelineProps> = ({ arbeidsgivere, infotrygdutb
                             name={arbeidsgiver.navn ?? arbeidsgiver.organisasjonsnummer}
                             generations={arbeidsgiver.generasjoner}
                             infotrygdPeriods={infotrygdPeriods.get(arbeidsgiver.organisasjonsnummer) ?? []}
-                            activePeriodId={activePeriod?.id}
+                            activePeriodId={activePeriodId}
                         />
                     ) : (
                         <TimelineRow
@@ -54,7 +60,7 @@ export const Timeline: React.VFC<TimelineProps> = ({ arbeidsgivere, infotrygdutb
                             periods={arbeidsgiver.generasjoner[0]?.perioder ?? []}
                             infotrygdPeriods={infotrygdPeriods.get(arbeidsgiver.organisasjonsnummer) ?? []}
                             ghostPeriods={arbeidsgiver.ghostPerioder}
-                            activePeriodId={activePeriod?.id}
+                            activePeriodId={activePeriodId}
                         />
                     )
                 )}
@@ -71,3 +77,36 @@ export const Timeline: React.VFC<TimelineProps> = ({ arbeidsgivere, infotrygdutb
         </div>
     );
 };
+
+const TimelineContainer: React.VFC = () => {
+    const activePeriod = useActivePeriod();
+    const currentPerson = useCurrentPerson();
+    const arbeidsgivere = currentPerson?.arbeidsgivere;
+    const infotrygdutbetalinger = currentPerson?.infotrygdutbetalinger;
+
+    return arbeidsgivere ? (
+        <TimelineWithContent
+            arbeidsgivere={arbeidsgivere}
+            infotrygdutbetalinger={infotrygdutbetalinger ?? []}
+            activePeriodId={activePeriod?.id ?? null}
+        />
+    ) : (
+        <div className={styles.Timeline} />
+    );
+};
+
+const TimelineSkeleton: React.VFC = () => {
+    return <div className={styles.Timeline} />;
+};
+
+const TimelineError: React.VFC = () => {
+    return <div className={classNames(styles.Timeline, styles.Error)} />;
+};
+
+export const Timeline: React.VFC = () => (
+    <React.Suspense fallback={<TimelineSkeleton />}>
+        <ErrorBoundary fallback={<TimelineError />}>
+            <TimelineContainer />
+        </ErrorBoundary>
+    </React.Suspense>
+);

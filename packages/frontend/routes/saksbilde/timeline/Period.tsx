@@ -30,7 +30,7 @@ interface PeriodProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
     isActive?: boolean;
 }
 
-export const Period: React.VFC<PeriodProps> = React.memo(({ period, notCurrent, isActive, ...buttonProps }) => {
+export const Period: React.VFC<PeriodProps> = ({ period, notCurrent, isActive, ...buttonProps }) => {
     const setActivePeriod = useSetActivePeriod();
 
     const periodState = getPeriodState(period);
@@ -65,4 +65,4 @@ export const Period: React.VFC<PeriodProps> = React.memo(({ period, notCurrent, 
             <PeriodPopover period={period} state={periodState} {...popoverProps} />
         </>
     );
-});
+};

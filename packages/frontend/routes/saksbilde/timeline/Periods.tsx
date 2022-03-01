@@ -23,28 +23,32 @@ interface PeriodsProps {
     activePeriodId?: string | null;
 }
 
-export const Periods: React.VFC<PeriodsProps> = React.memo(
-    ({ start, end, periods, infotrygdPeriods, ghostPeriods, notCurrent, activePeriodId }) => {
-        const allPeriods = [...filterActivePeriods(periods), ...(infotrygdPeriods ?? []), ...(ghostPeriods ?? [])].sort(
-            byFomAscending
-        );
-        const visiblePeriods = useVisiblePeriods(start, allPeriods);
-        const positions = usePeriodStyling(start, end, visiblePeriods);
+export const Periods: React.VFC<PeriodsProps> = ({
+    start,
+    end,
+    periods,
+    infotrygdPeriods,
+    ghostPeriods,
+    notCurrent,
+    activePeriodId,
+}) => {
+    const allPeriods = [...filterActivePeriods(periods), ...(infotrygdPeriods ?? []), ...(ghostPeriods ?? [])].sort(
+        byFomAscending
+    );
+    const visiblePeriods = useVisiblePeriods(start, allPeriods);
+    const positions = usePeriodStyling(start, end, visiblePeriods);
 
-        return (
-            <div className={styles.Periods}>
-                {visiblePeriods.map((period, i) => (
-                    <Period
-                        key={i}
-                        period={period}
-                        style={positions.get(i) ?? {}}
-                        notCurrent={notCurrent}
-                        isActive={
-                            typeof activePeriodId === 'string' && activePeriodId === (period as BeregnetPeriode).id
-                        }
-                    />
-                ))}
-            </div>
-        );
-    }
-);
+    return (
+        <div className={styles.Periods}>
+            {visiblePeriods.map((period, i) => (
+                <Period
+                    key={i}
+                    period={period}
+                    style={positions.get(i) ?? {}}
+                    notCurrent={notCurrent}
+                    isActive={typeof activePeriodId === 'string' && activePeriodId === (period as BeregnetPeriode).id}
+                />
+            ))}
+        </div>
+    );
+};
