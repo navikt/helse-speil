@@ -129,7 +129,7 @@ const SaksbildeMenuBeregnetPeriode = ({ activePeriod }: SaksbildeMenuBeregnetPer
     );
 };
 
-const SaksbildeMenuContent: React.VFC = () => {
+const SaksbildeMenuContainer: React.VFC = () => {
     const activePeriod = useActivePeriod();
 
     if (isBeregnetPeriode(activePeriod)) {
@@ -171,7 +171,7 @@ export const SaksbildeMenu: React.VFC = () => {
     return (
         <React.Suspense fallback={<SaksbildeMenuSkeleton />}>
             <ErrorBoundary fallback={<SaksbildeMenuError />}>
-                <SaksbildeMenuSkeleton />
+                <SaksbildeMenuContainer />
             </ErrorBoundary>
         </React.Suspense>
     );

@@ -8,6 +8,11 @@ const oppdragState = selectorFamily<Array<Oppdrag>, string>({
     },
 });
 
-export const useOppdrag = (fødselsnummer: string) => {
+export const useOppdrag = (fødselsnummer: string): Array<Oppdrag> => {
     return useRecoilValue(oppdragState(fødselsnummer));
+};
+
+export const useArbeidsgiveroppdrag = (fødselsnummer: string, fagsystemId: string): Oppdrag | null => {
+    const oppdrag = useOppdrag(fødselsnummer);
+    return oppdrag.find((it) => it.arbeidsgiveroppdrag?.fagsystemId === fagsystemId) ?? null;
 };
