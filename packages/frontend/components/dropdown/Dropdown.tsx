@@ -36,7 +36,7 @@ const ToggleDropdownButton = styled(Button)`
     }
 `;
 
-export const DropdownMenyknapp = styled(Button)`
+export const DropdownButton = styled(Button)`
     all: unset;
     height: 32px;
     min-width: 180px;

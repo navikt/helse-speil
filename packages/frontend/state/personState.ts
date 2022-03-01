@@ -1,6 +1,6 @@
 import { atom, selector, useRecoilValue, useSetRecoilState } from 'recoil';
 
-import { fetchPerson, Person } from '@io/graphql';
+import { fetchPerson, Infotrygdutbetaling, Person, Personinfo } from '@io/graphql';
 
 export const currentPersonIdState = atom<string | null>({
     key: 'currentPersonId',

@@ -10,7 +10,7 @@ import { Dropdown } from '@components/dropdown/Dropdown';
 import { useInnloggetSaksbehandler } from '@state/authentication';
 import { useMineOppgaver, useOppgaver } from '@state/oppgaver';
 
-import { AnonymiserData } from '../saksbilde/sakslinje/AnonymiserData';
+import { AnonymiserDataDropdownMenuButton } from '../saksbilde/sakslinje/dropdown/AnonymiserDataDropdownMenuButton';
 import { StatistikkButton } from './behandlingsstatistikk/StatistikkButton';
 
 export enum TabType {
@@ -132,7 +132,7 @@ export const Tabs = () => (
             <MineSakerTab />
             <VentendeSakerTab />
             <Meny>
-                <AnonymiserData />
+                <AnonymiserDataDropdownMenuButton />
             </Meny>
         </NoWrap>
         <StatistikkButton />

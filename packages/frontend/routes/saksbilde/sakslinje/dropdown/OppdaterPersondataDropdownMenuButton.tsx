@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 
-import { DropdownContext, DropdownMenyknapp } from '@components/dropdown/Dropdown';
+import { DropdownButton, DropdownContext } from '@components/dropdown/Dropdown';
 import { postForespørPersonoppdatering } from '@io/http';
 import { usePerson } from '@state/person';
 import { Scopes, useAddVarsel, useRemoveVarsel, VarselObject } from '@state/varsler';
@@ -14,7 +14,7 @@ const personoppdateringvarsel = (message: string, type: VarselObject['type']) =>
     scope: Scopes.SAKSBILDE,
 });
 
-export const OppdaterPersondata = () => {
+export const OppdaterPersondataDropdownMenuButton: React.VFC = () => {
     const person = usePerson() as Person;
     const addVarsel = useAddVarsel();
     const removeVarsel = useRemoveVarsel();
@@ -37,5 +37,5 @@ export const OppdaterPersondata = () => {
             .finally(lukk);
     };
 
-    return <DropdownMenyknapp onClick={forespørPersonoppdatering}>Oppdater persondata</DropdownMenyknapp>;
+    return <DropdownButton onClick={forespørPersonoppdatering}>Oppdater persondata</DropdownButton>;
 };

@@ -1,9 +1,9 @@
 import React, { useContext } from 'react';
 
-import { DropdownContext, DropdownMenyknapp } from '@components/dropdown/Dropdown';
+import { DropdownButton, DropdownContext } from '@components/dropdown/Dropdown';
 import { useIsAnonymous, useToggleAnonymity } from '@state/anonymization';
 
-export const AnonymiserData = () => {
+export const AnonymiserDataDropdownMenuButton: React.VFC = () => {
     const { lukk } = useContext(DropdownContext);
     const persondataErAnonymisert = useIsAnonymous();
     const toggleAnonymity = useToggleAnonymity();
@@ -14,8 +14,8 @@ export const AnonymiserData = () => {
     };
 
     return (
-        <DropdownMenyknapp onClick={anonymiserData}>
+        <DropdownButton onClick={anonymiserData}>
             {persondataErAnonymisert ? 'Fjern anonymisering' : 'Anonymiser personopplysninger'}
-        </DropdownMenyknapp>
+        </DropdownButton>
     );
 };

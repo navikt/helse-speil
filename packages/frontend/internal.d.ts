@@ -490,7 +490,7 @@ declare type Personinfo = {
     fødselsdato: Dayjs | null;
     kjønn: 'mann' | 'kvinne' | 'ukjent';
     fnr?: string;
-    adressebeskyttelse: 'Ugradert' | 'Fortrolig';
+    adressebeskyttelse: 'Ugradert' | 'Fortrolig' | 'StrengtFortrolig' | 'StrengtFortroligUtland' | 'Ukjent';
 };
 
 declare type Tildeling = {

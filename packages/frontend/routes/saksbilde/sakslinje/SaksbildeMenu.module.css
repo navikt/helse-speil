@@ -1,0 +1,49 @@
+.SaksbildeMenu {
+    grid-area: sakslinje;
+    display: flex;
+    justify-content: space-between;
+    height: 48px;
+    box-sizing: border-box;
+    border-bottom: 1px solid var(--navds-color-border);
+    padding: 0 2rem 0 2rem;
+}
+
+.SaksbildeMenu.Error {
+    background: var(--navds-color-error-background);
+    display: flex;
+    align-items: center;
+}
+
+.SaksbildeMenu > div:first-of-type {
+    display: flex;
+}
+
+.SaksbildeMenu > div:last-of-type {
+    margin-left: 1rem;
+}
+
+.TabList {
+    display: flex;
+}
+
+.Dropdown {
+    display: flex;
+    align-items: center;
+    height: 100%;
+}
+
+.Strek {
+    width: 100%;
+    border: none;
+    border-top: 1px solid var(--navds-color-border);
+}
+
+.SaksbildeMenu.Skeleton > span > button > span {
+    background: var(--navds-color-gray-10);
+    box-shadow: 0 0 0 4px var(--navds-color-gray-10);
+    border-radius: 4px;
+}
+
+.SaksbildeMenu.Skeleton > span > button > span:after {
+    color: var(--navds-color-gray-10);
+}

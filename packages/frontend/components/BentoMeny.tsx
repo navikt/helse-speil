@@ -7,7 +7,7 @@ import { BodyShort, Popover } from '@navikt/ds-react';
 import { usePerson } from '@state/person';
 
 import { Button } from './Button';
-import { DropdownMenyknapp } from './dropdown/Dropdown';
+import { DropdownButton } from './dropdown/Dropdown';
 
 const Container = styled.div`
     display: flex;
@@ -49,7 +49,7 @@ const Tittel = styled(BodyShort)`
     padding: 4px 16px 16px;
 `;
 
-const MenyLenke = styled(DropdownMenyknapp)`
+const MenyLenke = styled(DropdownButton)`
     display: flex;
     align-items: center;
     color: var(--navds-color-text-link);

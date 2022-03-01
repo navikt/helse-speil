@@ -5,7 +5,7 @@ import { Collapse, Expand } from '@navikt/ds-icons';
 import { BodyShort, Popover } from '@navikt/ds-react';
 
 import { TextWithEllipsis } from './TextWithEllipsis';
-import { DropdownMenyknapp } from './dropdown/Dropdown';
+import { DropdownButton } from './dropdown/Dropdown';
 
 const Container = styled.div`
     margin-left: 16px;
@@ -27,7 +27,7 @@ const Container = styled.div`
     }
 `;
 
-const DropdownButton = styled.button`
+const Button = styled.button`
     height: 50px;
     width: 50px;
     margin: 0 16px;
@@ -59,7 +59,7 @@ const MenyTekst = styled(BodyShort)`
     padding: 4px 16px;
 `;
 
-const MenyLenke = styled(DropdownMenyknapp)`
+const MenyLenke = styled(DropdownButton)`
     display: flex;
     align-items: center;
     color: var(--navds-color-text-link);
@@ -94,7 +94,7 @@ export const Brukermeny: React.FC<BrukermenyProps> = ({ navn, ident }) => {
     return (
         <Container>
             <MenyNavn>{navn}</MenyNavn>
-            <DropdownButton onClick={toggleAnchor}>{anchor ? <Collapse /> : <Expand />}</DropdownButton>
+            <Button onClick={toggleAnchor}>{anchor ? <Collapse /> : <Expand />}</Button>
             <Popover
                 open={anchor !== null}
                 anchorEl={anchor}

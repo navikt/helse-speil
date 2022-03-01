@@ -2,37 +2,45 @@ import React, { useContext, useState } from 'react';
 
 import { Loader } from '@navikt/ds-react';
 
-import { DropdownContext, DropdownMenyknapp } from '@components/dropdown/Dropdown';
-import { deleteTildeling, postTildeling } from '@io/http';
+import { Tildeling } from '@io/graphql';
 import { useTildelPerson } from '@state/person';
 import { useAddVarsel, useRemoveVarsel, VarselObject } from '@state/varsler';
+import { DropdownButton, DropdownContext } from '@components/dropdown/Dropdown';
+import { deleteTildeling, postTildeling } from '@io/http';
 
-interface TildelingsknappProps {
+const TILDELINGSKEY = 'tildeling';
+
+const createTildelingsvarsel = (message: string): VarselObject => ({ key: TILDELINGSKEY, message, type: 'info' });
+
+interface TildelingDropdownMenuButtonProps {
     oppgavereferanse: string;
-    tildeling?: Tildeling;
+    tildeling?: Tildeling | null;
     erTildeltInnloggetBruker: boolean;
 }
 
-const tildelingskey = 'tildeling';
-const tildelingsvarsel = (message: string): VarselObject => ({ key: tildelingskey, message, type: 'info' });
-
-export const Tildelingsknapp = ({ oppgavereferanse, tildeling, erTildeltInnloggetBruker }: TildelingsknappProps) => {
-    const [isFetching, setIsFetching] = useState(false);
+export const TildelingDropdownMenuButton = ({
+    oppgavereferanse,
+    tildeling,
+    erTildeltInnloggetBruker,
+}: TildelingDropdownMenuButtonProps) => {
     const { tildelPerson, fjernTildeling } = useTildelPerson();
-    const addVarsel = useAddVarsel();
-    const removeVarsel = useRemoveVarsel();
     const { lukk } = useContext(DropdownContext);
 
+    const [isFetching, setIsFetching] = useState(false);
+
+    const addVarsel = useAddVarsel();
+    const removeVarsel = useRemoveVarsel();
+
     return erTildeltInnloggetBruker ? (
-        <DropdownMenyknapp
+        <DropdownButton
             onClick={() => {
                 setIsFetching(true);
-                removeVarsel(tildelingskey);
+                removeVarsel(TILDELINGSKEY);
                 deleteTildeling(oppgavereferanse)
                     .then(() => {
                         fjernTildeling();
                     })
-                    .catch(() => addVarsel(tildelingsvarsel('Kunne ikke fjerne tildeling av sak.')))
+                    .catch(() => addVarsel(createTildelingsvarsel('Kunne ikke fjerne tildeling av sak.')))
                     .finally(() => {
                         lukk();
                         setIsFetching(false);
@@ -41,13 +49,13 @@ export const Tildelingsknapp = ({ oppgavereferanse, tildeling, erTildeltInnlogge
         >
             Meld av
             {isFetching && <Loader size="xsmall" />}
-        </DropdownMenyknapp>
+        </DropdownButton>
     ) : (
-        <DropdownMenyknapp
-            disabled={tildeling !== undefined}
+        <DropdownButton
+            disabled={tildeling !== undefined && tildeling !== null}
             onClick={() => {
                 setIsFetching(true);
-                removeVarsel(tildelingskey);
+                removeVarsel(TILDELINGSKEY);
                 postTildeling(oppgavereferanse)
                     .then(() => {
                         tildelPerson();
@@ -56,9 +64,9 @@ export const Tildelingsknapp = ({ oppgavereferanse, tildeling, erTildeltInnlogge
                         if (error.statusCode === 409) {
                             const respons: any = await JSON.parse(error.message);
                             const { navn } = respons.kontekst.tildeling;
-                            addVarsel(tildelingsvarsel(`${navn} har allerede tatt saken.`));
+                            addVarsel(createTildelingsvarsel(`${navn} har allerede tatt saken.`));
                         } else {
-                            addVarsel(tildelingsvarsel('Kunne ikke tildele sak.'));
+                            addVarsel(createTildelingsvarsel('Kunne ikke tildele sak.'));
                         }
                     })
                     .finally(() => {
@@ -69,6 +77,6 @@ export const Tildelingsknapp = ({ oppgavereferanse, tildeling, erTildeltInnlogge
         >
             Tildel meg
             {isFetching && <Loader size="xsmall" />}
-        </DropdownMenyknapp>
+        </DropdownButton>
     );
 };

@@ -17,7 +17,7 @@ const activePeriod = selector<BeregnetPeriode | UberegnetPeriode | null>({
             return activePeriod;
         }
 
-        const person = get(currentPersonState);
+        const person = await get(currentPersonState);
         if (!person) {
             return null;
         }
