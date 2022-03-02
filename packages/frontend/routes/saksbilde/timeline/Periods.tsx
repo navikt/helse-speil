@@ -1,6 +1,7 @@
 import React from 'react';
 
-import type { BeregnetPeriode, GhostPeriode, Periode } from '@io/graphql';
+import { isBeregnetPeriode, isGhostPeriode, isUberegnetPeriode } from '@utils/typeguards';
+import type { GhostPeriode, Periode } from '@io/graphql';
 
 import { Period } from './Period';
 import { usePeriodStyling } from './usePeriodStyling';
@@ -13,14 +14,26 @@ const byFomAscending = (a: DatePeriod, b: DatePeriod) => new Date(b.fom).getTime
 const filterActivePeriods = (periods: Array<Periode>): Array<Periode> =>
     periods.filter((it) => !(it.erForkastet && it.behandlingstype === 'VENTER'));
 
+const isActive = (activePeriod: Periode, currentPeriod: Periode): boolean => {
+    if (isGhostPeriode(activePeriod) && isGhostPeriode(currentPeriod)) {
+        return activePeriod.vilkarsgrunnlaghistorikkId === currentPeriod.vilkarsgrunnlaghistorikkId;
+    } else if (isBeregnetPeriode(activePeriod) && isBeregnetPeriode(currentPeriod)) {
+        return activePeriod.id === currentPeriod.id;
+    } else if (isUberegnetPeriode(activePeriod) && isUberegnetPeriode(currentPeriod)) {
+        return activePeriod.id === currentPeriod.id;
+    } else {
+        return false;
+    }
+};
+
 interface PeriodsProps {
     start: Dayjs;
     end: Dayjs;
     periods: Array<Periode>;
+    activePeriod: TimelinePeriod | null;
     infotrygdPeriods?: Array<InfotrygdPeriod>;
     ghostPeriods?: Array<GhostPeriode>;
     notCurrent?: boolean;
-    activePeriodId?: string | null;
 }
 
 export const Periods: React.VFC<PeriodsProps> = ({
@@ -30,7 +43,7 @@ export const Periods: React.VFC<PeriodsProps> = ({
     infotrygdPeriods,
     ghostPeriods,
     notCurrent,
-    activePeriodId,
+    activePeriod,
 }) => {
     const allPeriods = [...filterActivePeriods(periods), ...(infotrygdPeriods ?? []), ...(ghostPeriods ?? [])].sort(
         byFomAscending
@@ -46,7 +59,7 @@ export const Periods: React.VFC<PeriodsProps> = ({
                     period={period}
                     style={positions.get(i) ?? {}}
                     notCurrent={notCurrent}
-                    isActive={typeof activePeriodId === 'string' && activePeriodId === (period as BeregnetPeriode).id}
+                    isActive={isActive(activePeriod as Periode, period as Periode)}
                 />
             ))}
         </div>

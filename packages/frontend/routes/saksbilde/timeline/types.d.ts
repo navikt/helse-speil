@@ -1,3 +1,7 @@
+declare type GhostPeriode = import('@io/graphql').GhostPeriode;
+declare type BeregnetPeriode = import('@io/graphql').BeregnetPeriode;
+declare type UberegnetPeriode = import('@io/graphql').UberegnetPeriode;
+
 declare type TimelineWindow = {
     fom: Dayjs;
     tom: Dayjs;
@@ -14,6 +18,8 @@ declare type InfotrygdPeriod = DatePeriod & {
     dagsats: number;
     typetekst: string;
 };
+
+declare type TimelinePeriod = GhostPeriode | BeregnetPeriode | UberegnetPeriode | InfotrygdPeriod | DatePeriod;
 
 declare type PeriodCategory = 'attention' | 'success' | 'error' | 'old' | 'legacy' | 'blank';
 

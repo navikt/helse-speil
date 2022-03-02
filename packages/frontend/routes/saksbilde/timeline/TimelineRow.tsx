@@ -14,8 +14,8 @@ export interface TimelineRowProps {
     name: string;
     periods: Array<Periode>;
     infotrygdPeriods?: Array<InfotrygdPeriod>;
+    activePeriod: TimelinePeriod | null;
     ghostPeriods?: Array<GhostPeriode>;
-    activePeriodId?: string | null;
 }
 
 export const TimelineRow: React.VFC<TimelineRowProps> = ({
@@ -25,7 +25,7 @@ export const TimelineRow: React.VFC<TimelineRowProps> = ({
     periods,
     infotrygdPeriods,
     ghostPeriods,
-    activePeriodId,
+    activePeriod,
 }) => (
     <div className={styles.TimelineRow}>
         <div className={styles.Name}>
@@ -41,6 +41,7 @@ export const TimelineRow: React.VFC<TimelineRowProps> = ({
                 end={end}
                 infotrygdPeriods={infotrygdPeriods}
                 ghostPeriods={ghostPeriods}
+                activePeriod={activePeriod}
             />
         </div>
     </div>

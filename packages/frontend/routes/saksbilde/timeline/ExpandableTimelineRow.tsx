@@ -21,7 +21,7 @@ export const ExpandableTimelineRow: React.VFC<ExpandableTimelineRowProp> = ({
     generations,
     infotrygdPeriods,
     ghostPeriods,
-    activePeriodId,
+    activePeriod,
 }) => {
     const [isExpanded, setIsExpanded] = useState(false);
 
@@ -43,7 +43,7 @@ export const ExpandableTimelineRow: React.VFC<ExpandableTimelineRowProp> = ({
                         end={end}
                         periods={generations[0].perioder}
                         infotrygdPeriods={infotrygdPeriods}
-                        activePeriodId={activePeriodId}
+                        activePeriod={activePeriod}
                     />
                 )}
                 {isExpanded &&
@@ -58,7 +58,7 @@ export const ExpandableTimelineRow: React.VFC<ExpandableTimelineRowProp> = ({
                                 infotrygdPeriods={infotrygdPeriods}
                                 ghostPeriods={ghostPeriods}
                                 notCurrent
-                                activePeriodId={activePeriodId}
+                                activePeriod={activePeriod}
                             />
                         ))}
             </div>

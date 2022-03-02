@@ -20,3 +20,8 @@
     align-self: flex-end;
     margin: 16px 0;
 }
+
+.Error {
+    background-color: var(--navds-color-error-background);
+    padding: var(--timeline-padding-top) var(--timeline-padding-horizontal);
+}

@@ -6,7 +6,7 @@ import { Sykdomsdagtype, Utbetalingsdagtype } from '@io/graphql';
 
 import { PeriodPopover } from './PeriodPopover';
 import { usePopoverAnchor } from './usePopoverAnchor';
-import { getPeriodCategory, getPeriodState, isBeregnetPeriode, isUberegnetPeriode } from './mapping';
+import { getPeriodCategory, getPeriodState, isBeregnetPeriode, isGhostPeriode, isUberegnetPeriode } from './mapping';
 
 import styles from './Periods.module.css';
 
@@ -40,7 +40,7 @@ export const Period: React.VFC<PeriodProps> = ({ period, notCurrent, isActive, .
 
     const onClick = (event: React.MouseEvent<HTMLButtonElement>) => {
         buttonProps.onClick?.(event);
-        if (isBeregnetPeriode(period) || isUberegnetPeriode(period)) {
+        if (isBeregnetPeriode(period) || isUberegnetPeriode(period) || isGhostPeriode(period)) {
             setActivePeriod(period);
         }
     };
