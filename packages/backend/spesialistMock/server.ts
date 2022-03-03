@@ -153,13 +153,13 @@ app.delete('/api/tildeling/:oppgavereferanse', (req: Request, res: Response) => 
     sleep(passeLenge()).then(() => res.sendStatus(200));
 });
 
-app.post('/api/leggpåvent/:oppgaveReferanse', (req: Request, res: Response) => {
+app.post('/api/leggpaavent/:oppgaveReferanse', (req: Request, res: Response) => {
     const oppgavereferanse = req.params.oppgaveReferanse;
     venter[oppgavereferanse] = true;
     res.sendStatus(200);
 });
 
-app.delete('/api/leggpåvent/:oppgaveReferanse', (req: Request, res: Response) => {
+app.delete('/api/leggpaavent/:oppgaveReferanse', (req: Request, res: Response) => {
     const oppgavereferanse = req.params.oppgaveReferanse;
     delete venter[oppgavereferanse];
     res.sendStatus(200);

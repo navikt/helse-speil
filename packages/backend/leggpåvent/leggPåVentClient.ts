@@ -11,7 +11,7 @@ export default (oidcConfig: OidcConfig, onBehalfOf: OnBehalfOf): LeggPåVentClie
     leggPåVent: async (speilToken: string, oppgaveReferanse: string): Promise<Response> => {
         const onBehalfOfToken = await onBehalfOf.hentFor(oidcConfig.clientIDSpesialist, speilToken);
         const options = {
-            uri: `http://spesialist.tbd.svc.nais.local/api/leggpåvent/${oppgaveReferanse}`,
+            uri: `http://spesialist.tbd.svc.nais.local/api/leggpaavent/${oppgaveReferanse}`,
             headers: {
                 Authorization: `Bearer ${onBehalfOfToken}`,
             },
@@ -24,7 +24,7 @@ export default (oidcConfig: OidcConfig, onBehalfOf: OnBehalfOf): LeggPåVentClie
     fjernPåVent: async (speilToken: string, oppgaveReferanse: string): Promise<Response> => {
         const onBehalfOfToken = await onBehalfOf.hentFor(oidcConfig.clientIDSpesialist, speilToken);
         const options = {
-            uri: `http://spesialist.tbd.svc.nais.local/api/leggpåvent/${oppgaveReferanse}`,
+            uri: `http://spesialist.tbd.svc.nais.local/api/leggpaavent/${oppgaveReferanse}`,
             headers: {
                 Authorization: `Bearer ${onBehalfOfToken}`,
             },
