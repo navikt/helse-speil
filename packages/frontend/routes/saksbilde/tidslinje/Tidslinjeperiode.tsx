@@ -80,6 +80,8 @@ interface TidslinjeperiodeProps extends PeriodProps {
     end: Dayjs;
     style: React.CSSProperties;
     tilstand: Tidslinjetilstand | Infotrygdperiodetilstand;
+    påtvingAvrundingPølseHøyre: boolean;
+    påtvingAvrundingPølseVenstre: boolean;
     erAktiv?: boolean;
     erForeldet?: boolean;
     hoverLabel?: ReactNode;
@@ -92,6 +94,8 @@ export const Tidslinjeperiode = ({
     hoverLabel,
     erAktiv,
     tilstand,
+    påtvingAvrundingPølseHøyre,
+    påtvingAvrundingPølseVenstre,
     erForeldet,
     skalVisePin,
     onClick,
@@ -120,6 +124,8 @@ export const Tidslinjeperiode = ({
                 onMouseOut={removeAnchor}
                 onClick={onClickWrapper}
                 active={erAktiv}
+                avrundhoyre={påtvingAvrundingPølseHøyre}
+                avrundvenstre={påtvingAvrundingPølseVenstre}
                 className={classNames(tilstand, erForeldet ? 'foreldet' : 'gjeldende')}
                 aria-label={ariaLabel(tilstand, start, end)}
                 {...props}

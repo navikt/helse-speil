@@ -35,6 +35,7 @@ export const toTidslinjeperioder = (
             id: `${it.id}+${it.beregningId}+${it.unique}`,
             start: it.fom.toDate(),
             end: it.tom.toDate(),
+            periodetype: it.periodetype,
             tilstand: it.tilstand,
             utbetalingstype: it.type.toString().toLowerCase(),
             skalVisePin: it.utbetalingstidslinje && skalViseInfoPin(it.utbetalingstidslinje),

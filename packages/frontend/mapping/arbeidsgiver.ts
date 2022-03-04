@@ -106,7 +106,7 @@ export class ArbeidsgiverBuilder {
             utbetalingstidslinje(element.utbetaling, periode.fom, periode.tom),
             (periode as Vedtaksperiode)?.vilkår?.alder
         );
-        const periodetype = (): TidslinjeperiodeMedSykefravær['type'] => {
+        const tidslinjeperiodetype = (): TidslinjeperiodeMedSykefravær['type'] => {
             switch (element.utbetaling.type) {
                 case 'UTBETALING':
                     return 'VEDTAKSPERIODE';
@@ -127,11 +127,12 @@ export class ArbeidsgiverBuilder {
             fagsystemId: element.utbetaling.arbeidsgiverFagsystemId,
             fom: periode.fom,
             tom: periode.tom,
-            type: periodetype(),
+            periodetype: periode.periodetype,
+            type: tidslinjeperiodetype(),
             inntektskilde: (periode as Vedtaksperiode).inntektskilde,
             tilstand: this.tilstand(
                 element.utbetaling.status,
-                periodetype(),
+                tidslinjeperiodetype(),
                 tidslinje,
                 harOppgave,
                 element.utbetaling.vurdering

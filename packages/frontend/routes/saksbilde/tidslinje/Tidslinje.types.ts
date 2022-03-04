@@ -11,6 +11,7 @@ export interface Tidslinjeutsnitt {
 
 export type TidslinjeperiodeObject = PositionedPeriod & {
     tilstand: Tidslinjetilstand;
+    periodetype: Periodetype;
     hoverLabel?: ReactNode;
     skalVisePin: boolean;
 };

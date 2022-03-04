@@ -4,7 +4,6 @@ import { mapPerson } from '../../mapping/person';
 
 import { umappetArbeidsgiver } from './arbeidsgiver';
 import { umappetInntektsgrunnlag } from './inntektsgrunnlag';
-import { umappetUtbetalinger } from './spesialistUtbetaling';
 import { etSpleisgrunnlag } from './vilkårsgrunnlaghistorikk';
 
 export const testAktørId: string = '1211109876233';
@@ -87,7 +86,7 @@ export const mappetPersonObject = (): Person => ({
             organisasjonsnummer: testOrganisasjonsnummer,
             vedtaksperioder: [
                 {
-                    id: 'fa02d7a5-daf2-488c-9798-2539edd7fe3f',
+                    id: testVedtaksperiodeId,
                     gruppeId: 'en-gruppeId',
                     arbeidsgivernavn: 'Potetsekk AS',
                     oppgavereferanse: 'en-oppgavereferanse',
@@ -770,6 +769,7 @@ export const mappetPersonObject = (): Person => ({
                             },
                         ],
                         organisasjonsnummer: testOrganisasjonsnummer,
+                        periodetype: 'førstegangsbehandling',
                         fullstendig: true,
                         skjæringstidspunkt: testSkjæringstidspunkt,
                         vilkårsgrunnlaghistorikkId: testVilkårsgrunnlagHistorikkId,

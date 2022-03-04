@@ -14,6 +14,7 @@ import {
 import { Tidslinjeperiode } from './Tidslinjeperiode';
 import { InfotrygdradObject } from './useInfotrygdrader';
 import { TidslinjeradObject } from './useTidslinjerader';
+import { TidslinjeperiodeObject } from './Tidslinje.types';
 
 const Container = styled(Row)<{ erAktiv?: boolean }>`
     box-sizing: border-box;
@@ -67,10 +68,18 @@ export const Tidslinjerad = ({ rad, erKlikkbar = true, erForeldet = false }: Tid
             }) !== undefined) ||
         arbeidsgiverUtenSykefravær !== undefined;
 
+    const reversertTidslinjeperiode = (a: TidslinjeperiodeObject, b: TidslinjeperiodeObject) =>
+        b.start.valueOf() - a.start.valueOf();
+
     return (
         <Container erAktiv={erAktivRad}>
-            {rad.perioder.reverse().map((it, i) => {
+            {rad.perioder.sort(reversertTidslinjeperiode).map((it, i) => {
                 const { id, beregningId, unique } = decomposedId(it.id);
+
+                const påtvingAvrundingPølseHøyre = it.periodetype === 'førstegangsbehandling';
+                const påtvingAvrundingPølseVenstre =
+                    i !== 0 ? rad.perioder[i - 1].periodetype === 'førstegangsbehandling' : false;
+
                 return (
                     <Tidslinjeperiode
                         key={`tidslinjeperiode-${i}`}
@@ -82,6 +91,8 @@ export const Tidslinjerad = ({ rad, erKlikkbar = true, erForeldet = false }: Tid
                         erForeldet={erForeldet}
                         hoverLabel={it.hoverLabel ? it.hoverLabel : undefined}
                         skalVisePin={!erForeldet ? it.skalVisePin : false}
+                        påtvingAvrundingPølseHøyre={påtvingAvrundingPølseHøyre}
+                        påtvingAvrundingPølseVenstre={påtvingAvrundingPølseVenstre}
                         onClick={() => onClick(it.id)}
                         erAktiv={erAktivPeriode(id, beregningId, unique)}
                     />

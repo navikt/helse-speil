@@ -175,7 +175,13 @@ const background = css`
     }
 `;
 
-export const Periodeknapp = styled(Period, { shouldForwardProp: (prop) => prop !== 'active' })<{ active?: boolean }>`
+export const Periodeknapp = styled(Period, {
+    shouldForwardProp: (prop) => prop !== 'active' && prop !== 'avrundhoyre' && prop !== 'avrundvenstre',
+})<{
+    active?: boolean;
+    avrundhoyre: boolean;
+    avrundvenstre: boolean;
+}>`
     display: flex;
     align-items: center;
 
@@ -185,6 +191,23 @@ export const Periodeknapp = styled(Period, { shouldForwardProp: (prop) => prop !
             box-shadow: 0 0 0 2px var(--navds-text-focus);
             border-color: var(--navds-text-focus) !important;
             z-index: 20 !important;
+        `}
+
+    ${({ avrundhoyre }) =>
+        avrundhoyre &&
+        css`
+            &[style] {
+                border-top-right-radius: 24px !important;
+                border-bottom-right-radius: 24px !important;
+            }
+        `}
+    ${({ avrundvenstre }) =>
+        avrundvenstre &&
+        css`
+            &&[style] {
+                border-top-left-radius: 24px !important;
+                border-bottom-left-radius: 24px !important;
+            }
         `}
 
     ${icon};

@@ -140,6 +140,7 @@ declare type Tidslinjetilstand =
 declare type TidslinjeperiodeMedSykefravær = Tidslinjeperiode & {
     unique: string;
     beregningId: string;
+    periodetype?: Periodetype;
     type: 'VEDTAKSPERIODE' | 'REVURDERING' | 'ANNULLERT_PERIODE' | 'UFULLSTENDIG';
     utbetalingstidslinje: Utbetalingsdag[];
     sykdomstidslinje: Sykdomsdag[];

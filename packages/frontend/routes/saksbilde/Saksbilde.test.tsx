@@ -201,7 +201,7 @@ describe('Saksbilde', () => {
         let perioder = screen.getAllByTestId('tidslinjeperiode', { exact: false });
         expect(perioder).toHaveLength(2);
         expect(perioder[0]).toBeVisible();
-        userEvent.click(perioder[1].getElementsByTagName('button')[0]);
+        userEvent.click(perioder[0].getElementsByTagName('button')[0]);
 
         await waitFor(() => {
             expect(screen.getByTestId('saksbilde-content-uten-sykefravær')).toBeVisible();
