@@ -5,7 +5,7 @@ import React, { useMemo } from 'react';
 import { getPositionedPeriods } from '@navikt/helse-frontend-timeline/lib';
 
 import { HoverInfo, HoverInfoUtenSykefravær } from './HoverInfo';
-import { arbeidsgiverNavn } from './Tidslinje';
+import { arbeidsgiverNavn, TidslinjeArbeidsgiver } from './Tidslinje';
 import { TidslinjeperiodeObject } from './Tidslinje.types';
 
 const MANGLENDE_BEREGNINGID_VED_PERIDOE_UTEN_SYKEFRAVÆR = '_';
@@ -92,11 +92,7 @@ const toArbeidsgiverrader = (arbeidsgiver: Arbeidsgiver, fom: Dayjs, tom: Dayjs)
     );
 };
 
-export const useTidslinjerader = (
-    person: Person,
-    fom: Dayjs,
-    tom: Dayjs
-): { id: string; navn: string; rader: TidslinjeradObject[] }[] =>
+export const useTidslinjerader = (person: Person, fom: Dayjs, tom: Dayjs): TidslinjeArbeidsgiver[] =>
     useMemo(
         () =>
             person.arbeidsgivere.map((arbeidsgiver) => ({

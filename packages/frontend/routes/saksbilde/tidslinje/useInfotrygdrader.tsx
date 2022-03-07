@@ -7,8 +7,8 @@ import { getPositionedPeriods, PeriodObject } from '@navikt/helse-frontend-timel
 
 import { NORSK_DATOFORMAT } from '@utils/date';
 
-import { arbeidsgiverNavn } from './Tidslinje';
 import { TidslinjeperiodeObject } from './Tidslinje.types';
+import { TidslinjeradObject } from './useTidslinjerader';
 
 const Label = styled.div`
     display: flex;
@@ -54,12 +54,7 @@ const hoverLabel = (infotrygdutbetaling: Infotrygdutbetaling) => (
     </Label>
 );
 
-export type InfotrygdradObject = {
-    arbeidsgivernavn: string;
-    perioder: TidslinjeperiodeObject[];
-};
-
-export const useInfotrygdrader = (person: Person, fom: Dayjs, tom: Dayjs): InfotrygdradObject[] =>
+export const useInfotrygdrader = (person: Person, fom: Dayjs, tom: Dayjs): TidslinjeradObject[] =>
     useMemo(() => {
         const infotrygdutbetalinger = person.infotrygdutbetalinger.reduce((rader: Infotrygdrader, utbetalingen) => {
             const infotrygdtidslinje = rader[utbetalingen.organisasjonsnummer];
@@ -82,13 +77,18 @@ export const useInfotrygdrader = (person: Person, fom: Dayjs, tom: Dayjs): Infot
                     person.arbeidsgivere?.findIndex((arb) => a[0] === arb.organisasjonsnummer) -
                     person.arbeidsgivere?.findIndex((arb) => b[0] === arb.organisasjonsnummer)
             )
-            .map(([organisasjonsnummer, perioder]) => ({
-                arbeidsgivernavn: `Infotrygd - ${
-                    person.arbeidsgivere
-                        .filter((it) => it.organisasjonsnummer === organisasjonsnummer)
-                        .map((arbeidsgiver) => arbeidsgiverNavn(arbeidsgiver))
-                        .pop() ?? (organisasjonsnummer !== '0' ? organisasjonsnummer : 'Ingen utbetaling')
-                }`,
-                perioder: getPositionedPeriods(fom.toDate(), tom.toDate(), perioder, 'right'),
-            })) as InfotrygdradObject[];
+            .map(([organisasjonsnummer, perioder]) => {
+                const arbeidsgiver = person.arbeidsgivere.find((it) => it.organisasjonsnummer === organisasjonsnummer);
+                return {
+                    id: organisasjonsnummer,
+                    arbeidsgiver: arbeidsgiver?.organisasjonsnummer ?? '',
+                    erAktiv: false,
+                    perioder: getPositionedPeriods(
+                        fom.toDate(),
+                        tom.toDate(),
+                        perioder,
+                        'right'
+                    ) as TidslinjeperiodeObject[],
+                };
+            }) as TidslinjeradObject[];
     }, [person, fom, tom]);

@@ -7,12 +7,28 @@ import { testArbeidsgiverfagsystemId, testBeregningId } from '../../../test/data
 import { umappetUtbetalingshistorikk } from '../../../test/data/utbetalingshistorikk';
 import { umappetVedtaksperiode } from '../../../test/data/vedtaksperiode';
 import { useTidslinjerader } from './useTidslinjerader';
+import { umappetInfotrygdutbetalinger } from '../../../test/data/infotrygdutbetalinger';
 
 let person = mappetPerson();
 
 describe('useTidslinjerader', () => {
     beforeEach(() => {
         person = mappetPerson();
+    });
+
+    test('infotrygdperioder vises sammen med arbeidsgiverperioder', () => {
+        person = mappetPerson(
+            [
+                umappetArbeidsgiver(
+                    [umappetVedtaksperiode({ beregningIder: ['1234'] })],
+                    [],
+                    [umappetUtbetalingshistorikk('1234')]
+                ),
+            ],
+            [],
+            [],
+            [umappetInfotrygdutbetalinger()]
+        );
     });
 
     test('ett utbetalingshistorikkelement medfører én tidslinjerad', () => {

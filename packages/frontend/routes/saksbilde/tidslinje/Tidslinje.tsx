@@ -9,11 +9,10 @@ import '@navikt/helse-frontend-timeline/lib/main.css';
 import { FlexColumn } from '@components/Flex';
 
 import { Arbeidsgiverrad } from './Arbeidsgiverrad';
-import { Infotrygdrad } from './Infotrygdrad';
 import { Markeringer } from './Markeringer';
 import { LasterUtsnittsvelger, Utsnittsvelger } from './Utsnittsvelger';
 import { useInfotrygdrader } from './useInfotrygdrader';
-import { useTidslinjerader } from './useTidslinjerader';
+import { TidslinjeradObject, useTidslinjerader } from './useTidslinjerader';
 import { useTidslinjeutsnitt } from './useTidslinjeutsnitt';
 
 dayjs.locale('nb');
@@ -69,14 +68,52 @@ interface TidslinjeProps {
     person: Person;
 }
 
+export type TidslinjeArbeidsgiver = {
+    id: string;
+    navn: string;
+    rader: TidslinjeradObject[];
+};
+
+const finnSammeArbeidsgiverIInfotrygd = (
+    infotrygdArbeidsgiver: TidslinjeradObject[],
+    speilArbeidsgiver: TidslinjeArbeidsgiver
+) => {
+    return infotrygdArbeidsgiver.find((arbeidsgiver) => arbeidsgiver.id === speilArbeidsgiver.id);
+};
+
+const integrerInfotrygdPølserISpeilArbeidsgiverTidslinjer = (
+    speilArbeidsgivere: TidslinjeArbeidsgiver[],
+    infotrygdArbeidsgivere: TidslinjeradObject[]
+): TidslinjeArbeidsgiver[] => {
+    return speilArbeidsgivere.map((speilArbeidsgiver) => {
+        const infotrygdArbeidsgiver = finnSammeArbeidsgiverIInfotrygd(infotrygdArbeidsgivere, speilArbeidsgiver);
+
+        return infotrygdArbeidsgiver !== undefined
+            ? {
+                  ...speilArbeidsgiver,
+                  rader: speilArbeidsgiver.rader.map((rad) => {
+                      return {
+                          ...rad,
+                          perioder: rad.perioder.concat(infotrygdArbeidsgiver.perioder),
+                      };
+                  }),
+              }
+            : speilArbeidsgiver;
+    });
+};
+
 export const Tidslinje = React.memo(({ person }: TidslinjeProps) => {
     const { utsnitt, aktivtUtsnitt, setAktivtUtsnitt } = useTidslinjeutsnitt(person);
 
     const fom = utsnitt[aktivtUtsnitt].fom;
     const tom = utsnitt[aktivtUtsnitt].tom;
 
-    const tidslinjerader = useTidslinjerader(person, fom, tom);
-    const infotrygdrader = useInfotrygdrader(person, fom, tom);
+    const speilArbeidsgivere = useTidslinjerader(person, fom, tom);
+    const infotrygdArbeidsgivere = useInfotrygdrader(person, fom, tom);
+    const arbeidsgivere = integrerInfotrygdPølserISpeilArbeidsgiverTidslinjer(
+        speilArbeidsgivere,
+        infotrygdArbeidsgivere
+    );
 
     const [ekspanderteRader, setEkspanderteRader] = useState<{ [key: string]: boolean }>({});
 
@@ -94,7 +131,7 @@ export const Tidslinje = React.memo(({ person }: TidslinjeProps) => {
                     <Markeringer person={person} fom={fom} tom={tom} />
                 </MarkeringerContainer>
                 <RaderContainer>
-                    {tidslinjerader.map(({ id, navn, rader }, i) => (
+                    {arbeidsgivere.map(({ id, navn, rader }, i) => (
                         <Arbeidsgiverrad
                             key={i}
                             navn={navn}
@@ -103,9 +140,6 @@ export const Tidslinje = React.memo(({ person }: TidslinjeProps) => {
                             erEkspandert={ekspanderteRader[id]}
                             toggleEkspanderbarRad={toggleEkspanderbarRad}
                         />
-                    ))}
-                    {infotrygdrader.map((it, i) => (
-                        <Infotrygdrad key={i} rad={it} navn={it.arbeidsgivernavn} />
                     ))}
                 </RaderContainer>
             </TidslinjeContainer>

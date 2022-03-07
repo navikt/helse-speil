@@ -5,6 +5,7 @@ import { mapPerson } from '../../mapping/person';
 import { umappetArbeidsgiver } from './arbeidsgiver';
 import { umappetInntektsgrunnlag } from './inntektsgrunnlag';
 import { etSpleisgrunnlag } from './vilkårsgrunnlaghistorikk';
+import { umappetInfotrygdutbetalinger } from './infotrygdutbetalinger';
 
 export const testAktørId: string = '1211109876233';
 export const testFødselsnummer: string = '01019000123';
@@ -22,7 +23,8 @@ export const testEnkelPeriodeTom: DateString = '2018-01-31';
 export const umappetPerson = (
     arbeidsgivere = [umappetArbeidsgiver()],
     utbetalinger = [],
-    inntektsgrunnlag = [umappetInntektsgrunnlag()]
+    inntektsgrunnlag = [umappetInntektsgrunnlag()],
+    infotrygdutbetalinger: ExternalInfotrygdutbetaling[] = []
 ): ExternalPerson => ({
     aktørId: testAktørId,
     fødselsnummer: testFødselsnummer,
@@ -35,7 +37,7 @@ export const umappetPerson = (
         adressebeskyttelse: 'Ugradert',
     },
     dødsdato: null,
-    infotrygdutbetalinger: [],
+    infotrygdutbetalinger: infotrygdutbetalinger,
     utbetalinger: utbetalinger,
     arbeidsgivere,
     enhet: { id: '', navn: '' },
@@ -59,8 +61,9 @@ export const umappetPerson = (
 export const mappetPerson = (
     arbeidsgivere = [umappetArbeidsgiver()],
     utbetalinger = [],
-    inntektsgrunnlag = [umappetInntektsgrunnlag()]
-) => mapPerson(umappetPerson(arbeidsgivere, [], inntektsgrunnlag)).person;
+    inntektsgrunnlag = [umappetInntektsgrunnlag()],
+    infotrygdutbetalinger: ExternalInfotrygdutbetaling[] = []
+) => mapPerson(umappetPerson(arbeidsgivere, [], inntektsgrunnlag, infotrygdutbetalinger)).person;
 
 export const mappetPersonObject = (): Person => ({
     enhet: {

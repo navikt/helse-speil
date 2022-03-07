@@ -12,7 +12,6 @@ import {
 } from '@state/tidslinje';
 
 import { Tidslinjeperiode } from './Tidslinjeperiode';
-import { InfotrygdradObject } from './useInfotrygdrader';
 import { TidslinjeradObject } from './useTidslinjerader';
 import { TidslinjeperiodeObject } from './Tidslinje.types';
 
@@ -31,7 +30,7 @@ const Container = styled(Row)<{ erAktiv?: boolean }>`
 `;
 
 interface TidslinjeradProps {
-    rad: TidslinjeradObject | InfotrygdradObject;
+    rad: TidslinjeradObject;
     erKlikkbar?: boolean;
     erForeldet?: boolean;
 }
