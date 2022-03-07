@@ -5,7 +5,6 @@ import { mapPerson } from '../../mapping/person';
 import { umappetArbeidsgiver } from './arbeidsgiver';
 import { umappetInntektsgrunnlag } from './inntektsgrunnlag';
 import { etSpleisgrunnlag } from './vilkårsgrunnlaghistorikk';
-import { umappetInfotrygdutbetalinger } from './infotrygdutbetalinger';
 
 export const testAktørId: string = '1211109876233';
 export const testFødselsnummer: string = '01019000123';

@@ -9,6 +9,7 @@ import { NORSK_DATOFORMAT } from '@utils/date';
 
 import { TidslinjeperiodeObject } from './Tidslinje.types';
 import { TidslinjeradObject } from './useTidslinjerader';
+import { arbeidsgiverNavn } from './Tidslinje';
 
 const Label = styled.div`
     display: flex;
@@ -78,10 +79,15 @@ export const useInfotrygdrader = (person: Person, fom: Dayjs, tom: Dayjs): Tidsl
                     person.arbeidsgivere?.findIndex((arb) => b[0] === arb.organisasjonsnummer)
             )
             .map(([organisasjonsnummer, perioder]) => {
-                const arbeidsgiver = person.arbeidsgivere.find((it) => it.organisasjonsnummer === organisasjonsnummer);
                 return {
                     id: organisasjonsnummer,
-                    arbeidsgiver: arbeidsgiver?.organisasjonsnummer ?? '',
+                    arbeidsgiver: `Infotrygd - ${
+                        // TODO skal vi beholde Infotrygd -
+                        person.arbeidsgivere
+                            .filter((it) => it.organisasjonsnummer === organisasjonsnummer)
+                            .map((arbeidsgiver) => arbeidsgiverNavn(arbeidsgiver))
+                            .pop() ?? (organisasjonsnummer !== '0' ? organisasjonsnummer : 'Ingen utbetaling')
+                    }`,
                     erAktiv: false,
                     perioder: getPositionedPeriods(
                         fom.toDate(),

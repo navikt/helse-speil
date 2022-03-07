@@ -74,21 +74,30 @@ export type TidslinjeArbeidsgiver = {
     rader: TidslinjeradObject[];
 };
 
-const finnSammeArbeidsgiverIInfotrygd = (
-    infotrygdArbeidsgiver: TidslinjeradObject[],
-    speilArbeidsgiver: TidslinjeArbeidsgiver
-) => {
-    return infotrygdArbeidsgiver.find((arbeidsgiver) => arbeidsgiver.id === speilArbeidsgiver.id);
-};
-
-const integrerInfotrygdPølserISpeilArbeidsgiverTidslinjer = (
+const finnArbeidsgivereKunIInfotrygd = (
     speilArbeidsgivere: TidslinjeArbeidsgiver[],
     infotrygdArbeidsgivere: TidslinjeradObject[]
 ): TidslinjeArbeidsgiver[] => {
-    return speilArbeidsgivere.map((speilArbeidsgiver) => {
-        const infotrygdArbeidsgiver = finnSammeArbeidsgiverIInfotrygd(infotrygdArbeidsgivere, speilArbeidsgiver);
+    return infotrygdArbeidsgivere
+        .filter((arbeidsgiver) => speilArbeidsgivere.find((annen) => annen.id === arbeidsgiver.id) === undefined)
+        .map((arbeidsgiver) => {
+            return {
+                id: arbeidsgiver.id,
+                navn: arbeidsgiver.arbeidsgiver,
+                rader: [arbeidsgiver],
+            } as TidslinjeArbeidsgiver;
+        });
+};
 
-        return infotrygdArbeidsgiver !== undefined
+const leggInfotrygdArbeidsgivereTilSpeilArbeidsgivere = (
+    speilArbeidsgivere: TidslinjeArbeidsgiver[],
+    infotrygdArbeidsgivere: TidslinjeradObject[]
+): TidslinjeArbeidsgiver[] =>
+    speilArbeidsgivere.map((speilArbeidsgiver) => {
+        const infotrygdArbeidsgiver = infotrygdArbeidsgivere.find(
+            (infotrygdArbeidsgiver) => infotrygdArbeidsgiver.id === speilArbeidsgiver.id
+        );
+        return infotrygdArbeidsgiver
             ? {
                   ...speilArbeidsgiver,
                   rader: speilArbeidsgiver.rader.map((rad) => {
@@ -100,6 +109,17 @@ const integrerInfotrygdPølserISpeilArbeidsgiverTidslinjer = (
               }
             : speilArbeidsgiver;
     });
+
+export const integrerInfotrygdPølserISpeilArbeidsgiverTidslinjer = (
+    speilArbeidsgivere: TidslinjeArbeidsgiver[],
+    infotrygdArbeidsgivere: TidslinjeradObject[]
+): TidslinjeArbeidsgiver[] => {
+    const arbeidsgiverKunIInfotrygd = finnArbeidsgivereKunIInfotrygd(speilArbeidsgivere, infotrygdArbeidsgivere);
+    const arbeidsgivereISpeil = leggInfotrygdArbeidsgivereTilSpeilArbeidsgivere(
+        speilArbeidsgivere,
+        infotrygdArbeidsgivere
+    );
+    return [...arbeidsgiverKunIInfotrygd, ...arbeidsgivereISpeil];
 };
 
 export const Tidslinje = React.memo(({ person }: TidslinjeProps) => {

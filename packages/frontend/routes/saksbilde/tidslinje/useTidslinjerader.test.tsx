@@ -8,6 +8,9 @@ import { umappetUtbetalingshistorikk } from '../../../test/data/utbetalingshisto
 import { umappetVedtaksperiode } from '../../../test/data/vedtaksperiode';
 import { useTidslinjerader } from './useTidslinjerader';
 import { umappetInfotrygdutbetalinger } from '../../../test/data/infotrygdutbetalinger';
+import { umappetInntektsgrunnlag } from '../../../test/data/inntektsgrunnlag';
+import { useInfotrygdrader } from './useInfotrygdrader';
+import { integrerInfotrygdPølserISpeilArbeidsgiverTidslinjer } from './Tidslinje';
 
 let person = mappetPerson();
 
@@ -26,9 +29,55 @@ describe('useTidslinjerader', () => {
                 ),
             ],
             [],
-            [],
+            [umappetInntektsgrunnlag()],
             [umappetInfotrygdutbetalinger()]
         );
+        const { result: tidslinjerader } = renderHook(() =>
+            useTidslinjerader(person, dayjs('2018-01-01'), dayjs('2018-01-31'))
+        );
+        const { result: infotrygdrader } = renderHook(() =>
+            useInfotrygdrader(person, dayjs('2017-12-01'), dayjs('2017-12-31'))
+        );
+        const { result: allerader } = renderHook(() =>
+            integrerInfotrygdPølserISpeilArbeidsgiverTidslinjer(tidslinjerader.current, infotrygdrader.current)
+        );
+
+        expect(allerader.current.length).toEqual(1);
+        expect(allerader.current[0].rader.length).toEqual(1);
+        expect(allerader.current[0].rader[0].perioder.length).toEqual(2);
+        expect(allerader.current[0].rader[0].perioder[0].start.isSame(dayjs('2018-01-01'), 'day')).toBe(true);
+        expect(allerader.current[0].rader[0].perioder[0].end.isSame(dayjs('2018-01-31'), 'day')).toBe(true);
+        expect(allerader.current[0].rader[0].perioder[1].start.isSame(dayjs('2017-12-01'), 'day')).toBe(true);
+        expect(allerader.current[0].rader[0].perioder[1].end.isSame(dayjs('2017-12-31'), 'day')).toBe(true);
+    });
+
+    test('infotrygdperioder vises selv om de ikke har en tilhørende arbeidsgiver i spleis', () => {
+        person = mappetPerson(
+            [
+                umappetArbeidsgiver(
+                    [umappetVedtaksperiode({ beregningIder: ['1234'] })],
+                    [],
+                    [umappetUtbetalingshistorikk('1234')]
+                ),
+            ],
+            [],
+            [umappetInntektsgrunnlag()],
+            [umappetInfotrygdutbetalinger('123123')]
+        );
+        const { result: tidslinjerader } = renderHook(() =>
+            useTidslinjerader(person, dayjs('2018-01-01'), dayjs('2018-01-31'))
+        );
+        const { result: infotrygdrader } = renderHook(() =>
+            useInfotrygdrader(person, dayjs('2017-12-01'), dayjs('2017-12-31'))
+        );
+        const { result: allerader } = renderHook(() =>
+            integrerInfotrygdPølserISpeilArbeidsgiverTidslinjer(tidslinjerader.current, infotrygdrader.current)
+        );
+
+        expect(allerader.current.length).toEqual(2);
+        expect(allerader.current[0].rader.length).toEqual(1);
+        expect(allerader.current[0].rader[0].perioder.length).toEqual(1);
+        expect(allerader.current[1].rader[0].perioder.length).toEqual(1);
     });
 
     test('ett utbetalingshistorikkelement medfører én tidslinjerad', () => {
