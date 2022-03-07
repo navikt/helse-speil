@@ -101,10 +101,7 @@ const setUpAuthentication = () => {
             })
             .catch((err: AuthError) => {
                 logger.warn(`Error caught during login: ${err.message} (se sikkerLog for detaljer)`);
-                logger.sikker.warn(
-                    `Error caught during login: ${err.message}. The request received: ${JSON.stringify(req)}`,
-                    err
-                );
+                logger.sikker.warn(`Error caught during login: ${err.message}. The request received: ${req}`, err);
                 authErrorCounter.inc();
                 session.destroy(() => {});
                 res.clearCookie('speil');
