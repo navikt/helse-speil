@@ -1,6 +1,7 @@
 import bodyParser from 'body-parser';
 import compression from 'compression';
 import cookieParser from 'cookie-parser';
+import util from 'util';
 import express, { Response } from 'express';
 import { Client, generators } from 'openid-client';
 
@@ -101,9 +102,16 @@ const setUpAuthentication = () => {
             })
             .catch((err: AuthError) => {
                 logger.warn(`Error caught during login: ${err.message} (se sikkerLog for detaljer)`);
-                logger.sikker.warn(`Error caught during login: ${err.message}. The request received: ${req}`, err);
+                logger.sikker.warn(
+                    `Error caught during login: ${err.message}. The request received: ${util.inspect(req)}`,
+                    err
+                );
                 authErrorCounter.inc();
-                session.destroy(() => {});
+                session.destroy((err) => {
+                    if (err) {
+                        return logger.sikker.warn(`Feil oppsto ifm sletting av sesjon: ${err}.`);
+                    }
+                });
                 res.clearCookie('speil');
                 res.sendStatus(err.statusCode);
             });
@@ -136,6 +144,8 @@ app.use('/*', async (req: SpeilRequest, res, next) => {
                 );
             }
             if (req.originalUrl === '/' || req.originalUrl.startsWith('/static')) {
+                const user = req.session.user;
+                req.session.destroy((err) => logger.info(`Sesjonen for '${user}' er slettet ifm redirect til /login.`));
                 res.redirect('/login');
             } else {
                 // these are xhr's, let the client decide how to handle
