@@ -201,8 +201,8 @@ const kanRevurdere = [
     'K104953',
 ];
 
-export const erLocal = () => true;
-export const erDev = () => false;
+export const erLocal = () => location.hostname === 'localhost';
+export const erDev = () => location.hostname === 'speil.dev.intern.nav.no';
 
 const harTilgangTilAlt = () => [...supersaksbehandlere, ...fagkoordinatorer].includes(extractIdent());
 const erFaktiskSupportsaksbehandler = () => faktiskSupportsaksbehandlere.includes(extractIdent()); // ref @support på Slack
