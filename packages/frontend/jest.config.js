@@ -8,6 +8,7 @@ module.exports = {
         '^.+\\.tsx$': 'ts-jest',
         '^.+\\.ts$': 'ts-jest',
     },
+    testEnvironment: 'jsdom',
     moduleNameMapper: {
         '^@/(.*)$': '<rootDir>/$1',
         '\\.(css|less|sass|scss)$': '<rootDir>/__mocks__/styleMock.js',
