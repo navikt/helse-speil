@@ -1639,7 +1639,7 @@
                 }
             ],
             "ghostPerioder": [],
-            "generasjoner": null
+            "generasjoner": []
         },
         {
             "organisasjonsnummer": "987654321",
@@ -4733,7 +4733,7 @@
                     "vilkårsgrunnlagHistorikkInnslagId": "0e261677-57fc-4cf0-b29e-fe89299b42ec"
                 }
             ],
-            "generasjoner": null
+            "generasjoner": []
         },
         {
             "organisasjonsnummer": "654321987",
@@ -6397,7 +6397,7 @@
                     "deaktivert": true
                 }
             ],
-            "generasjoner": null,
+            "generasjoner": [],
             "overstyringer": [
                 {
                     "begrunnelse": "begrunnelse",

@@ -1351,7 +1351,7 @@
                 }
             ],
             "ghostPerioder": [],
-            "generasjoner": null
+            "generasjoner": []
         },
         {
             "organisasjonsnummer": "987654321",
@@ -1384,7 +1384,7 @@
                     "deaktivert": true
                 }
             ],
-            "generasjoner": null
+            "generasjoner": []
         }
     ],
     "infotrygdutbetalinger": [],
