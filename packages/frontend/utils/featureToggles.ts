@@ -16,6 +16,7 @@ const fagkoordinatorer = [
     'A151722',
     'M136300',
     'L143099',
+    'F131883',
 ];
 const faktiskSupportsaksbehandlere = ['H104215', 'O130292', 'F111930'];
 const tilgangFlereArbeidsgivere = [
@@ -28,7 +29,6 @@ const tilgangFlereArbeidsgivere = [
     'D163344',
     'F131882',
     'I104299',
-    'F131883',
     'J153777',
     'S135852',
     'S127865',
@@ -117,7 +117,6 @@ const utvidetTilganger = [
     'P107343',
     'S160466',
     'V112769',
-    'F131883',
     'F160529',
     'I104299',
     'R117524',
@@ -166,7 +165,6 @@ const kanRevurdere = [
     'P107343',
     'M139452',
     'K105430',
-    'F131883',
     'V112769',
     'F160529',
     'I104299',
