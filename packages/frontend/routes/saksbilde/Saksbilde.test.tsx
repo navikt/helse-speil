@@ -253,7 +253,7 @@ describe('Saksbilde', () => {
         userEvent.click(perioder[1].getElementsByTagName('button')[0]);
 
         await waitFor(() => {
-            expect(screen.queryByText('Ikke bruk inntekten i beregning')).toBeVisible();
+            expect(screen.queryByText('Ikke bruk arbeidsforholdet i beregningen')).toBeVisible();
         });
     });
 
@@ -321,7 +321,7 @@ describe('Saksbilde', () => {
         userEvent.click(perioder[1].getElementsByTagName('button')[0]);
 
         await waitFor(() => {
-            expect(screen.queryByText('Ikke bruk inntekten i beregning')).toBeNull();
+            expect(screen.queryByText('Ikke bruk arbeidsforholdet i beregningen')).toBeNull();
         });
     });
 

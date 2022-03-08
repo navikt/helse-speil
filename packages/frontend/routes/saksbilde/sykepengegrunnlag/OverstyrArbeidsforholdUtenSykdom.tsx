@@ -115,8 +115,8 @@ export const OverstyrArbeidsforholdUtenSykdom = ({
     const [editing, setEditing] = useState(false);
 
     const tittel = arbeidsforholdErDeaktivert
-        ? 'Bruk inntekten i beregningen likevel'
-        : 'Ikke bruk inntekten i beregning';
+        ? 'Bruk arbeidsforholdet i beregningen likevel'
+        : 'Ikke bruk arbeidsforholdet i beregningen';
 
     const { venterPåEndringState, oppdaterVenterPåEndringState } = useContext(VenterPåEndringContext);
 
@@ -143,7 +143,7 @@ export const OverstyrArbeidsforholdUtenSykdom = ({
                     <EditButtonContainer
                         isOpen={editing}
                         openText="Avbryt"
-                        closedText="Ikke bruk inntekten i beregning"
+                        closedText="Ikke bruk arbeidsforholdet i beregningen"
                         onOpen={() => setEditing(true)}
                         onClose={() => setEditing(false)}
                         openIcon={<></>}

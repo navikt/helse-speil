@@ -60,7 +60,7 @@ export const AngreOverstyrArbeidsforholdUtenSykdom = ({
                 }}
             >
                 <UndoIcon />
-                Bruk inntekten i beregningen likevel
+                Bruk arbeidsforholdet i beregningen likevel
             </AngreButton>
             {timedOut && <OverstyringTimeoutModal onRequestClose={() => setTimedOut(false)} />}
         </>
