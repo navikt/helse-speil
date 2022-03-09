@@ -51,6 +51,17 @@ const InfobobleContainer = styled.div`
     margin-left: 1rem;
 `;
 
+const ArbeidsgiverUtenSykefraværContainer = styled.div`
+    display: flex;
+    margin-top: 42px;
+    font-size: 14px;
+    line-height: 20px;
+`;
+
+const SortInfoikonContainer = styled(SortInfoikon)`
+    margin-right: 16px;
+`;
+
 const InntektFraAordningen = ({ omregnetÅrsinntekt }: { omregnetÅrsinntekt: ExternalOmregnetÅrsinntekt }) => {
     return (
         <>
@@ -62,6 +73,14 @@ const InntektFraAordningen = ({ omregnetÅrsinntekt }: { omregnetÅrsinntekt: Ex
                 <Bold as="p">Omregnet rapportert årsinntekt</Bold>
                 <FetVerdi as="p">{somPenger(omregnetÅrsinntekt.beløp)}</FetVerdi>
             </Tabell>
+            <ArbeidsgiverUtenSykefraværContainer>
+                <SortInfoikonContainer />
+                <p>
+                    Arbeidsforholdet er tatt med i beregningsgrunnlaget fordi det er <br />
+                    innrapportert inntekt og/eller fordi arbeidsforholdet har startdato i <br />
+                    løpet av de to siste månedene før skjæringstidspunktet.
+                </p>
+            </ArbeidsgiverUtenSykefraværContainer>
         </>
     );
 };
