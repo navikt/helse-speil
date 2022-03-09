@@ -223,7 +223,7 @@ export const overstyreUtbetaltPeriodeEnabled =
     kanRevurdere.includes(extractIdent()) ||
     erLocal() ||
     erDev();
-export const overstyrArbeidsforholdUtenSykefraværEnabled = erLocal() || erDev();
+export const overstyrArbeidsforholdUtenSykefraværEnabled = true;
 
 export const annulleringerEnabled = erDev() || erLocal() || harUtvidetTilgang() || harTilgangTilAlt();
 export const amplitudeEnabled = true;
