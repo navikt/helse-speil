@@ -14,6 +14,7 @@ import { LasterUtsnittsvelger, Utsnittsvelger } from './Utsnittsvelger';
 import { useInfotrygdrader } from './useInfotrygdrader';
 import { TidslinjeradObject, useTidslinjerader } from './useTidslinjerader';
 import { useTidslinjeutsnitt } from './useTidslinjeutsnitt';
+import { TidslinjeperiodeObject } from './Tidslinje.types';
 
 dayjs.locale('nb');
 
@@ -89,25 +90,60 @@ const finnArbeidsgivereKunIInfotrygd = (
         });
 };
 
+const overlapper = (periode: TidslinjeperiodeObject, other: TidslinjeperiodeObject) =>
+    (periode.start.isSameOrAfter(other.start) && periode.start.isSameOrBefore(other.end)) ||
+    (periode.end.isSameOrAfter(other.start) && periode.end.isSameOrBefore(other.end));
+
+const overlapperSpeilOgInfotrygd = (
+    speilArbeidsgiver: TidslinjeArbeidsgiver,
+    infotrygdArbeidsgiver: TidslinjeradObject
+) => {
+    return infotrygdArbeidsgiver.perioder.some((infotrygdArbeidsgiverPeriode) => {
+        return speilArbeidsgiver.rader[0].perioder.some((speilArbeidsgiverPeriode) =>
+            overlapper(infotrygdArbeidsgiverPeriode, speilArbeidsgiverPeriode)
+        );
+    });
+};
+
 const leggInfotrygdArbeidsgivereTilSpeilArbeidsgivere = (
     speilArbeidsgivere: TidslinjeArbeidsgiver[],
     infotrygdArbeidsgivere: TidslinjeradObject[]
 ): TidslinjeArbeidsgiver[] =>
-    speilArbeidsgivere.map((speilArbeidsgiver) => {
+    speilArbeidsgivere.flatMap((speilArbeidsgiver) => {
         const infotrygdArbeidsgiver = infotrygdArbeidsgivere.find(
             (infotrygdArbeidsgiver) => infotrygdArbeidsgiver.id === speilArbeidsgiver.id
         );
-        return infotrygdArbeidsgiver
-            ? {
-                  ...speilArbeidsgiver,
-                  rader: speilArbeidsgiver.rader.map((rad) => {
-                      return {
-                          ...rad,
-                          perioder: rad.perioder.concat(infotrygdArbeidsgiver.perioder),
-                      };
-                  }),
-              }
-            : speilArbeidsgiver;
+
+        const visInfotrygdPåEgenRad =
+            infotrygdArbeidsgiver !== undefined && overlapperSpeilOgInfotrygd(speilArbeidsgiver, infotrygdArbeidsgiver);
+
+        if (visInfotrygdPåEgenRad) {
+            return [
+                { ...speilArbeidsgiver },
+                {
+                    id: infotrygdArbeidsgiver.id,
+                    navn: infotrygdArbeidsgiver.arbeidsgiver,
+                    rader: [
+                        {
+                            ...speilArbeidsgiver.rader[0],
+                            perioder: infotrygdArbeidsgiver.perioder,
+                        },
+                    ],
+                },
+            ];
+        } else if (infotrygdArbeidsgiver !== undefined) {
+            return {
+                ...speilArbeidsgiver,
+                rader: speilArbeidsgiver.rader.map((rad, index) => {
+                    return {
+                        ...rad,
+                        perioder: index === 0 ? rad.perioder.concat(infotrygdArbeidsgiver.perioder) : rad.perioder,
+                    };
+                }),
+            };
+        } else {
+            return speilArbeidsgiver;
+        }
     });
 
 export const integrerInfotrygdPølserISpeilArbeidsgiverTidslinjer = (
@@ -119,7 +155,7 @@ export const integrerInfotrygdPølserISpeilArbeidsgiverTidslinjer = (
         speilArbeidsgivere,
         infotrygdArbeidsgivere
     );
-    return [...arbeidsgiverKunIInfotrygd, ...arbeidsgivereISpeil];
+    return [...arbeidsgivereISpeil, ...arbeidsgiverKunIInfotrygd];
 };
 
 export const Tidslinje = React.memo(({ person }: TidslinjeProps) => {
