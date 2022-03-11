@@ -81,13 +81,11 @@ export const useInfotrygdrader = (person: Person, fom: Dayjs, tom: Dayjs): Tidsl
             .map(([organisasjonsnummer, perioder]) => {
                 return {
                     id: organisasjonsnummer,
-                    arbeidsgiver: `Infotrygd - ${
-                        // TODO skal vi beholde Infotrygd -
+                    arbeidsgiver:
                         person.arbeidsgivere
                             .filter((it) => it.organisasjonsnummer === organisasjonsnummer)
                             .map((arbeidsgiver) => arbeidsgiverNavn(arbeidsgiver))
-                            .pop() ?? (organisasjonsnummer !== '0' ? organisasjonsnummer : 'Ingen utbetaling')
-                    }`,
+                            .pop() ?? (organisasjonsnummer !== '0' ? organisasjonsnummer : 'Ingen utbetaling'),
                     erAktiv: false,
                     perioder: getPositionedPeriods(
                         fom.toDate(),
