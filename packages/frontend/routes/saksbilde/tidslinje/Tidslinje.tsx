@@ -1,3 +1,4 @@
+import { FlexColumn } from '@components/Flex';
 import styled from '@emotion/styled';
 import dayjs from 'dayjs';
 import 'dayjs/locale/nb';
@@ -6,15 +7,13 @@ import React, { useState } from 'react';
 import { AxisLabels } from '@navikt/helse-frontend-timeline/lib';
 import '@navikt/helse-frontend-timeline/lib/main.css';
 
-import { FlexColumn } from '@components/Flex';
-
 import { Arbeidsgiverrad } from './Arbeidsgiverrad';
 import { Markeringer } from './Markeringer';
+import { TidslinjeperiodeObject } from './Tidslinje.types';
 import { LasterUtsnittsvelger, Utsnittsvelger } from './Utsnittsvelger';
 import { useInfotrygdrader } from './useInfotrygdrader';
 import { TidslinjeradObject, useTidslinjerader } from './useTidslinjerader';
 import { useTidslinjeutsnitt } from './useTidslinjeutsnitt';
-import { TidslinjeperiodeObject } from './Tidslinje.types';
 
 dayjs.locale('nb');
 
@@ -115,7 +114,9 @@ const leggInfotrygdArbeidsgivereTilSpeilArbeidsgivere = (
         );
 
         const visInfotrygdPåEgenRad =
-            infotrygdArbeidsgiver !== undefined && overlapperSpeilOgInfotrygd(speilArbeidsgiver, infotrygdArbeidsgiver);
+            infotrygdArbeidsgiver !== undefined &&
+            speilArbeidsgiver.rader.length &&
+            overlapperSpeilOgInfotrygd(speilArbeidsgiver, infotrygdArbeidsgiver);
 
         if (visInfotrygdPåEgenRad) {
             return [
