@@ -17,6 +17,7 @@ const fagkoordinatorer = [
     'M136300',
     'L143099',
     'F131883',
+    'K104953',
 ];
 const faktiskSupportsaksbehandlere = ['H104215', 'O130292', 'F111930'];
 const tilgangFlereArbeidsgivere = [
@@ -56,7 +57,6 @@ const tilgangFlereArbeidsgivere = [
     'B160663',
     'O123659',
     'B152345',
-    'K104953',
     'C131310',
     'S161414',
     'V150075',
@@ -143,7 +143,6 @@ const utvidetTilganger = [
     'B160663',
     'O123659',
     'B152345',
-    'K104953',
     'B138607',
     'C131310',
     'S161414',
@@ -198,7 +197,6 @@ const kanRevurdere = [
     'O123659',
     'V149621',
     'B152345',
-    'K104953',
 ];
 
 export const erLocal = () => location.hostname === 'localhost';
