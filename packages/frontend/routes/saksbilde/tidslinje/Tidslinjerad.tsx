@@ -1,32 +1,26 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
-import React from 'react';
-
-import { Row } from '@navikt/helse-frontend-timeline/lib';
-
 import {
     decomposedId,
     useMaybeAktivArbeidsgiverUtenSykdom,
     useMaybeAktivPeriode,
     useSetAktivPeriode,
 } from '@state/tidslinje';
+import React from 'react';
 
+import { Row } from '@navikt/helse-frontend-timeline/lib';
+
+import { TidslinjeperiodeObject } from './Tidslinje.types';
 import { Tidslinjeperiode } from './Tidslinjeperiode';
 import { TidslinjeradObject } from './useTidslinjerader';
-import { TidslinjeperiodeObject } from './Tidslinje.types';
 
 const Container = styled(Row)<{ erAktiv?: boolean }>`
     box-sizing: border-box;
     ${({ erAktiv }) =>
-        erAktiv
-            ? css`
-                  background-color: #e5f3ff;
-              `
-            : css`
-                  button:hover {
-                      z-index: 20;
-                  }
-              `}
+        erAktiv &&
+        css`
+            background-color: #e5f3ff !important;
+        `}
 `;
 
 interface TidslinjeradProps {
@@ -65,7 +59,7 @@ export const Tidslinjerad = ({ rad, erKlikkbar = true, erForeldet = false }: Tid
                 const { id, beregningId, unique } = decomposedId(it.id);
                 return erAktivPeriode(id, beregningId, unique);
             }) !== undefined) ||
-        arbeidsgiverUtenSykefravær !== undefined;
+        arbeidsgiverUtenSykefravær?.navn === rad.arbeidsgiver;
 
     const reversertTidslinjeperiode = (a: TidslinjeperiodeObject, b: TidslinjeperiodeObject) =>
         b.start.valueOf() - a.start.valueOf();

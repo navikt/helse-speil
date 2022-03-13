@@ -34,7 +34,6 @@ const EkspanderbartNavn = styled(Navn)`
 `;
 
 const Rader = styled(FlexColumn)`
-    background-color: var(--speil-background-secondary);
     width: 100%;
     height: 100%;
     flex: 1;
