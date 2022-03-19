@@ -60,6 +60,8 @@ spec:
     - name: REDIS_PORT
       value: '6379'
     - name: CLIENT_ID_SPESIALIST
-      value: api://dev-fss.tbd.spesialist/.default
+      value: api://dev-gcp.tbd.spesialist/.default
     - name: LOGOUT_URL
       value: https://speil.dev.intern.nav.no
+    - name: SPESIALIST_BASE_URL
+      value: https://spesialist.dev.intern.nav.no
