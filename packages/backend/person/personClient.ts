@@ -2,6 +2,9 @@ import request from 'request-promise-native';
 
 import { Instrumentation } from '../instrumentation';
 import { OidcConfig, OnBehalfOf } from '../types';
+import config from '../config';
+
+const spesialistBaseUrl = config.server.spesialistBaseUrl;
 
 export interface PersonoppdateringOptions {
     fødselsnummer: string;
@@ -21,7 +24,7 @@ export const personClient = (
 
         const onBehalfOfToken = await onBehalfOf.hentFor(oidcConfig.clientIDSpesialist, speilToken);
         const options = {
-            uri: `http://spesialist.tbd.svc.nais.local/api/person/oppdater`,
+            uri: `${spesialistBaseUrl}/api/person/oppdater`,
             headers: {
                 Authorization: `Bearer ${onBehalfOfToken}`,
             },

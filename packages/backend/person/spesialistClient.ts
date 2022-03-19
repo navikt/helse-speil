@@ -2,6 +2,9 @@ import request from 'request-promise-native';
 
 import { Instrumentation } from '../instrumentation';
 import { OidcConfig, OnBehalfOf } from '../types';
+import config from '../config';
+
+const spesialistBaseUrl = config.server.spesialistBaseUrl;
 
 export interface SpesialistClient {
     behandlingerForPeriode: (onBehalfOfToken: string) => Promise<Response>;
@@ -17,7 +20,7 @@ export const spesialistClient = (
 ): SpesialistClient => ({
     behandlingerForPeriode: async (onBehalfOfToken): Promise<Response> => {
         const options = {
-            uri: `http://spesialist.tbd.svc.nais.local/api/oppgaver`,
+            uri: `${spesialistBaseUrl}/api/oppgaver`,
             headers: {
                 Authorization: `Bearer ${onBehalfOfToken}`,
             },
@@ -41,7 +44,7 @@ export const spesialistClient = (
 
     hentPersonByAktørId: async (aktørId, onBehalfOfToken): Promise<Response> => {
         const options = {
-            uri: `http://spesialist.tbd.svc.nais.local/api/person/aktorId/${aktørId}`,
+            uri: `${spesialistBaseUrl}/api/person/aktorId/${aktørId}`,
             headers: {
                 Authorization: `Bearer ${onBehalfOfToken}`,
             },
@@ -65,7 +68,7 @@ export const spesialistClient = (
 
     hentPersonByFødselsnummer: async (fødselsnummer, onBehalfOfToken): Promise<Response> => {
         const options = {
-            uri: `http://spesialist.tbd.svc.nais.local/api/person/fnr/${fødselsnummer}`,
+            uri: `${spesialistBaseUrl}/api/person/fnr/${fødselsnummer}`,
             headers: {
                 Authorization: `Bearer ${onBehalfOfToken}`,
             },
@@ -101,7 +104,7 @@ export const spesialistClient = (
 
 const getOptions = (onBehalfOfToken: string, endepunkt: string, body?: any) => {
     return {
-        uri: `http://spesialist.tbd.svc.nais.local/api/${endepunkt}`,
+        uri: `${spesialistBaseUrl}/api/${endepunkt}`,
         headers: {
             Authorization: `Bearer ${onBehalfOfToken}`,
         },

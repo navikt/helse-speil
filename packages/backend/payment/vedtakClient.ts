@@ -1,6 +1,9 @@
 import request from 'request-promise-native';
 
 import { OidcConfig, OnBehalfOf } from '../types';
+import config from '../config';
+
+const spesialistBaseUrl = config.server.spesialistBaseUrl;
 
 interface PostVedtakOptions {
     oppgavereferanse: string;
@@ -27,7 +30,7 @@ export default (oidcConfig: OidcConfig, onBehalfOf: OnBehalfOf) => ({
     postVedtak: async (params: PostVedtakOptions | PostVedtakAvslåttOptions) => {
         const onBehalfOfToken = await onBehalfOf.hentFor(oidcConfig.clientIDSpesialist, params.speilToken);
         const options = {
-            uri: `http://spesialist.tbd.svc.nais.local/api/vedtak`,
+            uri: `${spesialistBaseUrl}/api/vedtak`,
             headers: {
                 Authorization: `Bearer ${onBehalfOfToken}`,
             },

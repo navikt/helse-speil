@@ -1,6 +1,9 @@
 import request from 'request-promise-native';
 
 import { AppConfig, OnBehalfOf } from '../types';
+import config from '../config';
+
+const spesialistBaseUrl = config.server.spesialistBaseUrl;
 
 export interface PostAnnulleringOptions {
     aktørId: string;
@@ -34,7 +37,7 @@ export default (config: AppConfig, onBehalfOf: OnBehalfOf) => ({
     }: PostAnnulleringOptions) => {
         const onBehalfOfToken = await onBehalfOf.hentFor(config.oidc.clientIDSpesialist, speilToken);
         const options = {
-            uri: `http://spesialist.tbd.svc.nais.local/api/annullering`,
+            uri: `${spesialistBaseUrl}/api/annullering`,
             headers: { Authorization: `Bearer ${onBehalfOfToken}` },
             body: {
                 aktørId,

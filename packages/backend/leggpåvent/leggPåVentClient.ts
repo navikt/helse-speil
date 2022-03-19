@@ -1,6 +1,9 @@
 import request from 'request-promise-native';
 
 import { OidcConfig, OnBehalfOf } from '../types';
+import config from '../config';
+
+const spesialistBaseUrl = config.server.spesialistBaseUrl;
 
 export interface LeggPåVentClient {
     leggPåVent: (speilToken: string, oppgaveReferanse: string) => Promise<Response>;
@@ -11,7 +14,7 @@ export default (oidcConfig: OidcConfig, onBehalfOf: OnBehalfOf): LeggPåVentClie
     leggPåVent: async (speilToken: string, oppgaveReferanse: string): Promise<Response> => {
         const onBehalfOfToken = await onBehalfOf.hentFor(oidcConfig.clientIDSpesialist, speilToken);
         const options = {
-            uri: `http://spesialist.tbd.svc.nais.local/api/leggpaavent/${oppgaveReferanse}`,
+            uri: `${spesialistBaseUrl}/api/leggpaavent/${oppgaveReferanse}`,
             headers: {
                 Authorization: `Bearer ${onBehalfOfToken}`,
             },
@@ -24,7 +27,7 @@ export default (oidcConfig: OidcConfig, onBehalfOf: OnBehalfOf): LeggPåVentClie
     fjernPåVent: async (speilToken: string, oppgaveReferanse: string): Promise<Response> => {
         const onBehalfOfToken = await onBehalfOf.hentFor(oidcConfig.clientIDSpesialist, speilToken);
         const options = {
-            uri: `http://spesialist.tbd.svc.nais.local/api/leggpaavent/${oppgaveReferanse}`,
+            uri: `${spesialistBaseUrl}/api/leggpaavent/${oppgaveReferanse}`,
             headers: {
                 Authorization: `Bearer ${onBehalfOfToken}`,
             },

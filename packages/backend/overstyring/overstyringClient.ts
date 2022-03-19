@@ -1,6 +1,9 @@
 import request from 'request-promise-native';
 
 import { OidcConfig, OnBehalfOf } from '../types';
+import config from '../config';
+
+const spesialistBaseUrl = config.server.spesialistBaseUrl;
 
 // noinspection JSUnusedGlobalSymbols
 enum Dagtype {
@@ -58,7 +61,7 @@ export default (oidcConfig: OidcConfig, onBehalfOf: OnBehalfOf): OverstyringClie
     overstyrDager: async (overstyring: OverstyringDTO, speilToken: string): Promise<Response> => {
         const onBehalfOfToken = await onBehalfOf.hentFor(oidcConfig.clientIDSpesialist, speilToken);
         const options = {
-            uri: `http://spesialist.tbd.svc.nais.local/api/overstyr/dager`,
+            uri: `${spesialistBaseUrl}/api/overstyr/dager`,
             headers: {
                 Authorization: `Bearer ${onBehalfOfToken}`,
             },
@@ -71,7 +74,7 @@ export default (oidcConfig: OidcConfig, onBehalfOf: OnBehalfOf): OverstyringClie
     overstyrInntekt: async (overstyring: OverstyringInntektDTO, speilToken: string): Promise<Response> => {
         const onBehalfOfToken = await onBehalfOf.hentFor(oidcConfig.clientIDSpesialist, speilToken);
         const options = {
-            uri: `http://spesialist.tbd.svc.nais.local/api/overstyr/inntekt`,
+            uri: `${spesialistBaseUrl}/api/overstyr/inntekt`,
             headers: {
                 Authorization: `Bearer ${onBehalfOfToken}`,
             },
@@ -87,7 +90,7 @@ export default (oidcConfig: OidcConfig, onBehalfOf: OnBehalfOf): OverstyringClie
     ): Promise<Response> => {
         const onBehalfOfToken = await onBehalfOf.hentFor(oidcConfig.clientIDSpesialist, speilToken);
         const options = {
-            uri: `http://spesialist.tbd.svc.nais.local/api/overstyr/arbeidsforhold`,
+            uri: `${spesialistBaseUrl}/api/overstyr/arbeidsforhold`,
             headers: {
                 Authorization: `Bearer ${onBehalfOfToken}`,
             },

@@ -1,6 +1,9 @@
 import request from 'request-promise-native';
 
 import { OidcConfig, OnBehalfOf } from '../types';
+import config from '../config';
+
+const spesialistBaseUrl = config.server.spesialistBaseUrl;
 
 export interface OpptegnelseClient {
     abonnerPåAktør: (speilToken: string, aktorId: string) => Promise<Response>;
@@ -12,7 +15,7 @@ export default (oidcConfig: OidcConfig, onBehalfOf: OnBehalfOf): OpptegnelseClie
     abonnerPåAktør: async (speilToken: string, aktorId: string): Promise<Response> => {
         const onBehalfOfToken = await onBehalfOf.hentFor(oidcConfig.clientIDSpesialist, speilToken);
         const options = {
-            uri: `http://spesialist.tbd.svc.nais.local/api/opptegnelse/abonner/${aktorId}`,
+            uri: `${spesialistBaseUrl}/api/opptegnelse/abonner/${aktorId}`,
             headers: {
                 Authorization: `Bearer ${onBehalfOfToken}`,
             },
@@ -24,7 +27,7 @@ export default (oidcConfig: OidcConfig, onBehalfOf: OnBehalfOf): OpptegnelseClie
     getAlleOpptegnelser: async (speilToken: string): Promise<Response> => {
         const onBehalfOfToken = await onBehalfOf.hentFor(oidcConfig.clientIDSpesialist, speilToken);
         const options = {
-            uri: `http://spesialist.tbd.svc.nais.local/api/opptegnelse/hent`,
+            uri: `${spesialistBaseUrl}/api/opptegnelse/hent`,
             headers: {
                 Authorization: `Bearer ${onBehalfOfToken}`,
             },
@@ -36,7 +39,7 @@ export default (oidcConfig: OidcConfig, onBehalfOf: OnBehalfOf): OpptegnelseClie
     getOpptegnelser: async (speilToken: string, sisteSekvensId: number): Promise<Response> => {
         const onBehalfOfToken = await onBehalfOf.hentFor(oidcConfig.clientIDSpesialist, speilToken);
         const options = {
-            uri: `http://spesialist.tbd.svc.nais.local/api/opptegnelse/hent/${sisteSekvensId}`,
+            uri: `${spesialistBaseUrl}/api/opptegnelse/hent/${sisteSekvensId}`,
             headers: {
                 Authorization: `Bearer ${onBehalfOfToken}`,
             },

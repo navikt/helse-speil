@@ -1,12 +1,11 @@
 import request from 'request-promise-native';
 
 import { OidcConfig, OnBehalfOf } from '../types';
+import config from '../config';
 
-const baseUrl =
-    process.env.NODE_ENV === 'development'
-        ? 'http://localhost:9001'
-        : // ? 'https://spesialist.dev.intern.nav.no'
-          'http://spesialist.tbd.svc.nais.local';
+const spesialistBaseUrl = config.server.spesialistBaseUrl;
+
+const baseUrl = process.env.NODE_ENV === 'development' ? 'http://localhost:9001' : `${spesialistBaseUrl}`;
 
 export interface GraphQLClient {
     postGraphQLQuery: (speilToken: string, data: string) => Promise<request.FullResponse>;
