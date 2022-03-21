@@ -1,0 +1,19 @@
+.TomLinje {
+    grid-column-start: 1;
+    grid-column-end: span 2;
+    margin-bottom: 1rem;
+}
+
+.Ramme {
+    padding: 1rem;
+}
+
+.Grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+
+.NegativtBeløp {
+    color: var(--navds-color-text-error);
+    font-style: italic;
+}

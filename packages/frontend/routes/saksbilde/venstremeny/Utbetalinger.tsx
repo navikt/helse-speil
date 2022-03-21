@@ -9,6 +9,8 @@ import { somPenger } from '@utils/locale';
 import { LinkButton } from '@components/LinkButton';
 
 import { SimuleringsinfoModal } from './utbetaling/SimuleringsinfoModal';
+import { visSimuleringSomModal } from '@utils/featureToggles';
+import { NyttVinduSimuleringKnapp } from './utbetaling/SimuleringsinfoPopup';
 
 const Container = styled.div`
     display: grid;
@@ -107,14 +109,20 @@ export const Utbetalinger = ({
                 <AnonymizableTextWithEllipsis>{arbeidsgivernavn}</AnonymizableTextWithEllipsis>
             </ArbeidsgiverName>
             <ArbeidsgiverSum as="p">{somPenger(arbeidsgiverNettobeløp)}</ArbeidsgiverSum>
-            {simuleringsdata?.arbeidsgiver && (
-                <SimuleringButton
-                    style={{ gridArea: 'simuleringArbeidsgiver' }}
-                    onClick={() => setSimulering(simuleringsdata.arbeidsgiver)}
-                >
-                    Simulering
-                </SimuleringButton>
-            )}
+            {simuleringsdata?.arbeidsgiver &&
+                (visSimuleringSomModal ? (
+                    <SimuleringButton
+                        style={{ gridArea: 'simuleringArbeidsgiver' }}
+                        onClick={() => setSimulering(simuleringsdata.arbeidsgiver)}
+                    >
+                        Simulering
+                    </SimuleringButton>
+                ) : (
+                    <NyttVinduSimuleringKnapp
+                        style={{ gridArea: 'simuleringArbeidsgiver' }}
+                        data={simuleringsdata.arbeidsgiver}
+                    />
+                ))}
             <PersonIcon>
                 <People data-tip="Sykmeldt" title="Arbeidstaker" />
             </PersonIcon>
@@ -122,14 +130,17 @@ export const Utbetalinger = ({
                 <AnonymizableTextWithEllipsis>{personnavn}</AnonymizableTextWithEllipsis>
             </PersonName>
             <PersonSum as="p">{somPenger(personNettobeløp)}</PersonSum>
-            {simuleringsdata?.person && (
-                <SimuleringButton
-                    style={{ gridArea: 'simuleringPerson' }}
-                    onClick={() => setSimulering(simuleringsdata.person)}
-                >
-                    Simulering
-                </SimuleringButton>
-            )}
+            {simuleringsdata?.person &&
+                (visSimuleringSomModal ? (
+                    <SimuleringButton
+                        style={{ gridArea: 'simuleringPerson' }}
+                        onClick={() => setSimulering(simuleringsdata.person)}
+                    >
+                        Simulering
+                    </SimuleringButton>
+                ) : (
+                    <NyttVinduSimuleringKnapp style={{ gridArea: 'simuleringPerson' }} data={simuleringsdata.person} />
+                ))}
             {simulering && <SimuleringsinfoModal simulering={simulering} lukkModal={() => setSimulering(null)} />}
         </Container>
     );

@@ -240,6 +240,8 @@ export const utbetalingTilSykmeldt =
 
 export const kanFrigiAndresOppgaver = harTilgangTilAlt() || erLocal() || erDev();
 
+export const visSimuleringSomModal = !(erLocal() || erDev() || erUtvikler());
+
 export const graphqlplayground = erLocal() || erDev() || erUtvikler();
 
 export interface UtbetalingToggles {
