@@ -1,3 +1,40 @@
+fragment simulering on Simulering {
+    fagsystemId,
+    totalbelop,
+    tidsstempel,
+    utbetalingslinjer {
+        fom,
+        tom,
+        dagsats,
+        grad
+    },
+    perioder {
+        fom,
+        tom,
+        utbetalinger {
+            mottakerId,
+            mottakerNavn,
+            forfall,
+            feilkonto,
+            detaljer {
+                fom,
+                tom,
+                utbetalingstype,
+                uforegrad,
+                typeSats,
+                tilbakeforing,
+                sats,
+                refunderesOrgNr,
+                konto,
+                klassekode,
+                antallSats,
+                belop,
+                klassekodebeskrivelse
+            }
+        }
+    }
+}
+
 query FetchPerson($fnr: String, $aktorId: String) {
     person(fnr: $fnr, aktorId: $aktorId) {
         fodselsnummer,
@@ -84,7 +121,15 @@ query FetchPerson($fnr: String, $aktorId: String) {
                     },
                     arbeidsgiver
                 },
-                vilkarsgrunnlagtype
+                vilkarsgrunnlagtype,
+                ... on VilkarsgrunnlagSpleis {
+                    oppfyllerKravOmMinstelonn,
+                    oppfyllerKravOmMedlemskap,
+                    oppfyllerKravOmOpptjening,
+                    antallOpptjeningsdagerErMinst,
+                    grunnbelop,
+                    opptjeningFra
+                }
             }
         },
         aktorId
@@ -195,6 +240,12 @@ query FetchPerson($fnr: String, $aktorId: String) {
                                 godkjent
                                 ident
                                 tidsstempel
+                            },
+                            arbeidsgiversimulering {
+                                ...simulering
+                            },
+                            personsimulering {
+                                ...simulering
                             }
                         }
                         varsler
@@ -212,7 +263,8 @@ query FetchPerson($fnr: String, $aktorId: String) {
                             },
                             belop
                         },
-                        oppgavereferanse
+                        oppgavereferanse,
+                        tilstand
                     }
                 }
             }
@@ -224,6 +276,21 @@ query FetchPerson($fnr: String, $aktorId: String) {
                     navn
                 }
                 timestamp
+                __typename
+                ... on Dagoverstyring {
+                    dager {
+                        grad
+                        dato
+                        type
+                    }
+                },
+                ... on Inntektoverstyring {
+                    inntekt {
+                        skjaeringstidspunkt
+                        forklaring
+                        manedligInntekt
+                    }
+                }
             }
         }
     }

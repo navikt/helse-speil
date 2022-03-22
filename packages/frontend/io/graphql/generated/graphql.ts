@@ -100,6 +100,7 @@ export type BeregnetPeriode = Periode & {
     risikovurdering?: Maybe<Risikovurdering>;
     skjaeringstidspunkt: Scalars['String'];
     tidslinje: Array<Dag>;
+    tilstand: Periodetilstand;
     tom: Scalars['String'];
     utbetaling: Utbetaling;
     varsler: Array<Scalars['String']>;
@@ -285,7 +286,6 @@ export enum Oppdragsstatus {
     IkkeUtbetalt = 'IKKE_UTBETALT',
     Overfort = 'OVERFORT',
     Sendt = 'SENDT',
-    Ukjent = 'UKJENT',
     UtbetalingFeilet = 'UTBETALING_FEILET',
     Utbetalt = 'UTBETALT',
 }
@@ -322,6 +322,23 @@ export type Periode = {
     tom: Scalars['String'];
     vedtaksperiodeId: Scalars['String'];
 };
+
+export enum Periodetilstand {
+    AnnulleringFeilet = 'AnnulleringFeilet',
+    Annullert = 'Annullert',
+    Feilet = 'Feilet',
+    IngenUtbetaling = 'IngenUtbetaling',
+    KunFerie = 'KunFerie',
+    Oppgaver = 'Oppgaver',
+    RevurderingFeilet = 'RevurderingFeilet',
+    TilAnnullering = 'TilAnnullering',
+    TilInfotrygd = 'TilInfotrygd',
+    TilUtbetaling = 'TilUtbetaling',
+    Ukjent = 'Ukjent',
+    Utbetalt = 'Utbetalt',
+    Venter = 'Venter',
+    VenterPaKiling = 'VenterPaKiling',
+}
 
 export enum Periodetype {
     Forlengelse = 'FORLENGELSE',
@@ -417,6 +434,56 @@ export type Sammenligningsgrunnlag = {
     inntektFraAOrdningen: Array<InntektFraAOrdningen>;
 };
 
+export type Simulering = {
+    __typename?: 'Simulering';
+    fagsystemId: Scalars['String'];
+    perioder?: Maybe<Array<Simuleringsperiode>>;
+    tidsstempel: Scalars['String'];
+    totalbelop?: Maybe<Scalars['Int']>;
+    utbetalingslinjer: Array<Simuleringslinje>;
+};
+
+export type Simuleringsdetaljer = {
+    __typename?: 'Simuleringsdetaljer';
+    antallSats: Scalars['Int'];
+    belop: Scalars['Int'];
+    fom: Scalars['String'];
+    klassekode: Scalars['String'];
+    klassekodebeskrivelse: Scalars['String'];
+    konto: Scalars['String'];
+    refunderesOrgNr: Scalars['String'];
+    sats: Scalars['Float'];
+    tilbakeforing: Scalars['Boolean'];
+    tom: Scalars['String'];
+    typeSats: Scalars['String'];
+    uforegrad: Scalars['Int'];
+    utbetalingstype: Scalars['String'];
+};
+
+export type Simuleringslinje = {
+    __typename?: 'Simuleringslinje';
+    dagsats: Scalars['Int'];
+    fom: Scalars['String'];
+    grad: Scalars['Int'];
+    tom: Scalars['String'];
+};
+
+export type Simuleringsperiode = {
+    __typename?: 'Simuleringsperiode';
+    fom: Scalars['String'];
+    tom: Scalars['String'];
+    utbetalinger: Array<Simuleringsutbetaling>;
+};
+
+export type Simuleringsutbetaling = {
+    __typename?: 'Simuleringsutbetaling';
+    detaljer: Array<Simuleringsdetaljer>;
+    feilkonto: Scalars['Boolean'];
+    forfall: Scalars['String'];
+    mottakerId: Scalars['String'];
+    mottakerNavn: Scalars['String'];
+};
+
 export type SoknadArbeidsgiver = Hendelse & {
     __typename?: 'SoknadArbeidsgiver';
     fom: Scalars['String'];
@@ -507,8 +574,10 @@ export type Utbetaling = {
     __typename?: 'Utbetaling';
     arbeidsgiverFagsystemId: Scalars['String'];
     arbeidsgiverNettoBelop: Scalars['Int'];
+    arbeidsgiversimulering?: Maybe<Simulering>;
     personFagsystemId: Scalars['String'];
     personNettoBelop: Scalars['Int'];
+    personsimulering?: Maybe<Simulering>;
     status: Scalars['String'];
     type: Scalars['String'];
     vurdering?: Maybe<Vurdering>;
@@ -624,6 +693,48 @@ export type FetchOppdragQuery = {
     }>;
 };
 
+export type SimuleringFragment = {
+    __typename?: 'Simulering';
+    fagsystemId: string;
+    totalbelop?: number | null;
+    tidsstempel: string;
+    utbetalingslinjer: Array<{
+        __typename?: 'Simuleringslinje';
+        fom: string;
+        tom: string;
+        dagsats: number;
+        grad: number;
+    }>;
+    perioder?: Array<{
+        __typename?: 'Simuleringsperiode';
+        fom: string;
+        tom: string;
+        utbetalinger: Array<{
+            __typename?: 'Simuleringsutbetaling';
+            mottakerId: string;
+            mottakerNavn: string;
+            forfall: string;
+            feilkonto: boolean;
+            detaljer: Array<{
+                __typename?: 'Simuleringsdetaljer';
+                fom: string;
+                tom: string;
+                utbetalingstype: string;
+                uforegrad: number;
+                typeSats: string;
+                tilbakeforing: boolean;
+                sats: number;
+                refunderesOrgNr: string;
+                konto: string;
+                klassekode: string;
+                antallSats: number;
+                belop: number;
+                klassekodebeskrivelse: string;
+            }>;
+        }>;
+    }> | null;
+};
+
 export type FetchPersonQueryVariables = Exact<{
     fnr?: InputMaybe<Scalars['String']>;
     aktorId?: InputMaybe<Scalars['String']>;
@@ -726,6 +837,12 @@ export type FetchPersonQuery = {
                   }
                 | {
                       __typename?: 'VilkarsgrunnlagSpleis';
+                      oppfyllerKravOmMinstelonn: boolean;
+                      oppfyllerKravOmMedlemskap?: boolean | null;
+                      oppfyllerKravOmOpptjening: boolean;
+                      antallOpptjeningsdagerErMinst: number;
+                      grunnbelop: number;
+                      opptjeningFra: string;
                       sykepengegrunnlag: number;
                       skjaeringstidspunkt: string;
                       omregnetArsinntekt: number;
@@ -793,6 +910,7 @@ export type FetchPersonQuery = {
                           varsler: Array<string>;
                           vilkarsgrunnlaghistorikkId: string;
                           oppgavereferanse?: string | null;
+                          tilstand: Periodetilstand;
                           fom: string;
                           tom: string;
                           behandlingstype: Behandlingstype;
@@ -861,6 +979,88 @@ export type FetchPersonQuery = {
                                   ident: string;
                                   tidsstempel: string;
                               } | null;
+                              arbeidsgiversimulering?: {
+                                  __typename?: 'Simulering';
+                                  fagsystemId: string;
+                                  totalbelop?: number | null;
+                                  tidsstempel: string;
+                                  utbetalingslinjer: Array<{
+                                      __typename?: 'Simuleringslinje';
+                                      fom: string;
+                                      tom: string;
+                                      dagsats: number;
+                                      grad: number;
+                                  }>;
+                                  perioder?: Array<{
+                                      __typename?: 'Simuleringsperiode';
+                                      fom: string;
+                                      tom: string;
+                                      utbetalinger: Array<{
+                                          __typename?: 'Simuleringsutbetaling';
+                                          mottakerId: string;
+                                          mottakerNavn: string;
+                                          forfall: string;
+                                          feilkonto: boolean;
+                                          detaljer: Array<{
+                                              __typename?: 'Simuleringsdetaljer';
+                                              fom: string;
+                                              tom: string;
+                                              utbetalingstype: string;
+                                              uforegrad: number;
+                                              typeSats: string;
+                                              tilbakeforing: boolean;
+                                              sats: number;
+                                              refunderesOrgNr: string;
+                                              konto: string;
+                                              klassekode: string;
+                                              antallSats: number;
+                                              belop: number;
+                                              klassekodebeskrivelse: string;
+                                          }>;
+                                      }>;
+                                  }> | null;
+                              } | null;
+                              personsimulering?: {
+                                  __typename?: 'Simulering';
+                                  fagsystemId: string;
+                                  totalbelop?: number | null;
+                                  tidsstempel: string;
+                                  utbetalingslinjer: Array<{
+                                      __typename?: 'Simuleringslinje';
+                                      fom: string;
+                                      tom: string;
+                                      dagsats: number;
+                                      grad: number;
+                                  }>;
+                                  perioder?: Array<{
+                                      __typename?: 'Simuleringsperiode';
+                                      fom: string;
+                                      tom: string;
+                                      utbetalinger: Array<{
+                                          __typename?: 'Simuleringsutbetaling';
+                                          mottakerId: string;
+                                          mottakerNavn: string;
+                                          forfall: string;
+                                          feilkonto: boolean;
+                                          detaljer: Array<{
+                                              __typename?: 'Simuleringsdetaljer';
+                                              fom: string;
+                                              tom: string;
+                                              utbetalingstype: string;
+                                              uforegrad: number;
+                                              typeSats: string;
+                                              tilbakeforing: boolean;
+                                              sats: number;
+                                              refunderesOrgNr: string;
+                                              konto: string;
+                                              klassekode: string;
+                                              antallSats: number;
+                                              belop: number;
+                                              klassekodebeskrivelse: string;
+                                          }>;
+                                      }>;
+                                  }> | null;
+                              } | null;
                           };
                           refusjon?: {
                               __typename?: 'Refusjon';
@@ -925,17 +1125,24 @@ export type FetchPersonQuery = {
             }>;
             overstyringer: Array<
                 | {
-                      __typename?: 'Dagoverstyring';
+                      __typename: 'Dagoverstyring';
                       begrunnelse: string;
                       hendelseId: string;
                       timestamp: string;
+                      dager: Array<{ __typename?: 'OverstyrtDag'; grad?: number | null; dato: string; type: Dagtype }>;
                       saksbehandler: { __typename?: 'Saksbehandler'; ident?: string | null; navn: string };
                   }
                 | {
-                      __typename?: 'Inntektoverstyring';
+                      __typename: 'Inntektoverstyring';
                       begrunnelse: string;
                       hendelseId: string;
                       timestamp: string;
+                      inntekt: {
+                          __typename?: 'OverstyrtInntekt';
+                          skjaeringstidspunkt: string;
+                          forklaring: string;
+                          manedligInntekt: number;
+                      };
                       saksbehandler: { __typename?: 'Saksbehandler'; ident?: string | null; navn: string };
                   }
             >;
