@@ -1,4 +1,4 @@
-.Content {
+.RouteContainer {
     display: grid;
     grid-template-areas: 'title title';
     grid-auto-rows: auto;
@@ -6,7 +6,7 @@
     grid-row-gap: 0.125rem;
 }
 
-.Content > p:first-of-type {
+.RouteContainer > p:first-of-type {
     grid-area: title;
 }
 

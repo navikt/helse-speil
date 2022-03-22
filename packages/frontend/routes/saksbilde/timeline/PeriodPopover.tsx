@@ -6,12 +6,12 @@ import { BodyShort, Popover } from '@navikt/ds-react';
 
 import { somPenger } from '@utils/locale';
 import { NORSK_DATOFORMAT } from '@utils/date';
-import { BeregnetPeriode, GhostPeriode, Utbetalingsdagtype } from '@io/graphql';
-
-import { getPeriodStateText, isBeregnetPeriode, isGhostPeriode, isInfotrygdPeriod } from './mapping';
+import { BeregnetPeriode, Utbetalingsdagtype } from '@io/graphql';
+import { ErrorBoundary } from '@components/ErrorBoundary';
 
 import styles from './PeriodPopover.module.css';
-import { ErrorBoundary } from '@components/ErrorBoundary';
+import { getPeriodStateText } from '@utils/mapping';
+import { isBeregnetPeriode, isGhostPeriode, isInfotrygdPeriod } from '@utils/typeguards';
 
 const groupDayTypes = (period: BeregnetPeriode): Map<Utbetalingsdagtype, Array<DatePeriod>> => {
     const map = new Map<Utbetalingsdagtype, Array<DatePeriod>>();

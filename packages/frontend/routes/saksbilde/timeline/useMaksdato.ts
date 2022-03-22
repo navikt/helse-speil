@@ -1,6 +1,5 @@
 import { Arbeidsgiver } from '@io/graphql';
-
-import { isBeregnetPeriode } from './mapping';
+import { isBeregnetPeriode } from '@utils/typeguards';
 
 export const useMaksdato = (arbeidsgivere: Array<Arbeidsgiver>): DateString | undefined =>
     arbeidsgivere

@@ -2,11 +2,12 @@ import React from 'react';
 import classNames from 'classnames';
 
 import { useSetActivePeriod } from '@state/periodState';
+import { getPeriodCategory, getPeriodState } from '@utils/mapping';
 import { Sykdomsdagtype, Utbetalingsdagtype } from '@io/graphql';
+import { isBeregnetPeriode, isGhostPeriode, isUberegnetPeriode } from '@utils/typeguards';
 
 import { PeriodPopover } from './PeriodPopover';
 import { usePopoverAnchor } from './usePopoverAnchor';
-import { getPeriodCategory, getPeriodState, isBeregnetPeriode, isGhostPeriode, isUberegnetPeriode } from './mapping';
 
 import styles from './Periods.module.css';
 
