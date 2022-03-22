@@ -64,7 +64,6 @@ export const Refusjonsoversikt: React.VFC<RefusjonProps> = ({ refusjon }) => {
                     </tr>
                 </thead>
                 <tbody>
-                    {refusjon.sisteRefusjonsdag && <Refusjonslinje dato={refusjon.sisteRefusjonsdag} />}
                     {sorterteEndringer.map((endring, i) => (
                         <Refusjonslinje key={i} dato={endring.dato} beløp={endring.belop} />
                     ))}
