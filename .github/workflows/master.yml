@@ -102,6 +102,6 @@ jobs:
       - uses: nais/deploy/actions/deploy@v1
         env:
           APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
-          CLUSTER: prod-fss
-          RESOURCE: deploy/prod.yml,deploy/alerts-prod.yml,deploy/redis.yml
+          CLUSTER: prod-gcp
+          RESOURCE: deploy/prod.yml,deploy/alerts-prod.yml,deploy/redis-prod.yml
           VAR: "image=${{env.IMAGE}}:${{ needs.set_version.outputs.tag }},team=${{env.TEAM}},app=${{env.APP}}"
