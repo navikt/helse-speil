@@ -1,0 +1,12 @@
+.UberegnetPeriodeView {
+    display: flex;
+    justify-content: space-between;
+    grid-column-start: venstremeny;
+    grid-column-end: høyremeny;
+}
+
+.Message {
+    width: 100%;
+    grid-column-start: venstremeny;
+    grid-column-end: høyremeny;
+}

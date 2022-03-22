@@ -65,9 +65,9 @@ export const SaksbildeFullstendigPeriodeMedSykefravær = ({
                 månedsbeløp={månedsbeløp}
                 skjæringstidspunkt={aktivPeriode.skjæringstidspunkt}
             />
-            <Content className="Content" data-testid="saksbilde-content-med-sykefravær">
+            <Content className="RouteContainer" data-testid="saksbilde-content-med-sykefravær">
                 <Saksbildevarsler
-                    aktivPeriode={aktivPeriode}
+                    activePeriod={aktivPeriode}
                     vedtaksperiode={vedtaksperiode}
                     oppgavereferanse={oppgavereferanse}
                 />
@@ -75,7 +75,7 @@ export const SaksbildeFullstendigPeriodeMedSykefravær = ({
                     <Switch>
                         <Route path={`${path}/utbetaling`}>
                             <Utbetaling
-                                periode={aktivPeriode as TidslinjeperiodeMedSykefravær}
+                                period={aktivPeriode as TidslinjeperiodeMedSykefravær}
                                 overstyringer={vedtaksperiode.overstyringer}
                                 skjæringstidspunkt={aktivPeriode.skjæringstidspunkt}
                             />

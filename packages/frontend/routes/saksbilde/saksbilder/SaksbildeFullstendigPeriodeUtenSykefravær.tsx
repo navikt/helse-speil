@@ -45,8 +45,8 @@ export const SaksbildeFullstendigPeriodeUtenSykefravær = ({
                 omregnetÅrsinntekt={omregnetÅrsinntekt}
                 deaktivert={aktivPeriode.deaktivert}
             />
-            <Content className="Content" data-testid="saksbilde-content-uten-sykefravær">
-                <Saksbildevarsler aktivPeriode={aktivPeriode} />
+            <Content className="RouteContainer" data-testid="saksbilde-content-uten-sykefravær">
+                <Saksbildevarsler activePeriod={aktivPeriode} />
                 <Switch>
                     <Route path={`${path}/sykepengegrunnlag`}>
                         <RouteContainer>
