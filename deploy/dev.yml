@@ -6,11 +6,18 @@ metadata:
   labels:
     team: {{team}}
 spec:
+  accessPolicy:
+    outbound:
+      rules:
+        - application: spesialist
+          cluster: dev-gcp
+          namespace: tbd
+        - application: speil-redis
+          cluster: dev-gcp
+          namespace: tbd
   image: {{image}}
   port: 3000
   ingresses:
-    - https://speil.nais.preprod.local
-    - https://speil.dev-fss.nais.io
     - https://speil.dev.intern.nav.no
   liveness:
     failureThreshold: 10
