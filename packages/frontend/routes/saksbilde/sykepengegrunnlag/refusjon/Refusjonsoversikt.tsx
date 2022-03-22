@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import dayjs from 'dayjs';
 import { BodyShort } from '@navikt/ds-react';
 
-import { Refusjon, Refusjonsperiode } from '@io/graphql';
+import { Refusjon } from '@io/graphql';
 import { EditButton } from '@components/EditButton';
 import { Kilde } from '@components/Kilde';
 import { Bold } from '@components/Bold';
@@ -11,8 +11,15 @@ import { Refusjonslinje } from './Refusjonslinje';
 import { useRefusjonsendringer } from './useRefusjonsendringer';
 
 import styles from './Refusjonsoversikt.module.css';
+import { NORSK_DATOFORMAT } from '@utils/date';
+import styled from '@emotion/styled';
 
 const canEditRefusjon = false;
+
+const SisteRefusjonsdag = styled.div`
+    margin-top: 12px;
+    margin-bottom: 17px;
+`;
 
 interface RefusjonProps {
     refusjon: Refusjon;
@@ -40,6 +47,11 @@ export const Refusjonsoversikt: React.VFC<RefusjonProps> = ({ refusjon }) => {
                     />
                 )}
             </div>
+            {refusjon.sisteRefusjonsdag && (
+                <SisteRefusjonsdag>
+                    {`Siste dag med refusjon: ${dayjs(refusjon.sisteRefusjonsdag).format(NORSK_DATOFORMAT)}`}
+                </SisteRefusjonsdag>
+            )}
             <table className={styles.Table}>
                 <thead>
                     <tr>
