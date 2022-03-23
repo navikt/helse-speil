@@ -46,7 +46,8 @@ const avvistStyle = (props: RowProps) =>
 const arbeidsgiverperiodeStyle = (props: RowProps) =>
     props.type === 'Arbeidsgiverperiode' &&
     css`
-        background-color: transparent;
+        background-color: #f8f8f8;
+        ${leftAlignedLine('var(--navds-color-text-disabled)')}
     `;
 
 export const Row = styled.tr<RowProps>`
