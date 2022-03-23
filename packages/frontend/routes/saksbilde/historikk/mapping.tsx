@@ -6,15 +6,29 @@ import { Notes } from '@navikt/ds-icons';
 
 import { Kilde } from '@components/Kilde';
 import { LinkButton } from '@components/LinkButton';
-import { useAktivPeriode } from '@state/tidslinje';
 import {
     useFørsteUtbetalingstidsstempelFørsteGenISkjæringstidspunkt,
-    useOrganisasjonsnummer,
-    usePerson,
     useUtbetalingstidsstempelFørsteGenForPeriode,
 } from '@state/person';
 
 import { Hendelse, Hendelsetype } from './Historikk.types';
+import {
+    Arbeidsforholdoverstyring,
+    Dagoverstyring,
+    GhostPeriode,
+    Hendelse as ExternHendelse,
+    Inntektoverstyring,
+    Inntektsmelding,
+    Maybe,
+    Overstyring,
+    Periode,
+    SoknadArbeidsgiver,
+    SoknadNav,
+    Sykmelding,
+} from '@io/graphql';
+import { isBeregnetPeriode } from '@utils/typeguards';
+import { useActivePeriod } from '@state/periodState';
+import { ISO_TIDSPUNKTFORMAT } from '@utils/date';
 
 const BegrunnelseTekst = styled.div`
     margin-top: 0.25rem;
@@ -26,181 +40,163 @@ const BegrunnelseTekst = styled.div`
     }
 `;
 
-export const useDokumenter = (vedtaksperiode?: Vedtaksperiode): Hendelse[] =>
-    (vedtaksperiode?.fullstendig &&
-        vedtaksperiode.hendelser
-            ?.filter((hendelse) => hendelse?.id)
-            .map((hendelse: Dokument) => ({
-                id: hendelse.id,
-                timestamp:
-                    hendelse.type === 'Inntektsmelding'
-                        ? dayjs(hendelse.mottattTidspunkt)
-                        : hendelse.rapportertDato && dayjs(hendelse.rapportertDato),
-                title: (() => {
-                    switch (hendelse.type) {
-                        case 'Inntektsmelding':
-                            return 'Inntektsmelding mottatt';
-                        case 'Søknad':
-                            return 'Søknad mottatt';
-                        case 'Sykmelding':
-                            return 'Sykmelding mottatt';
-                        default:
-                            return 'Hendelse';
-                    }
-                })(),
-                type: Hendelsetype.Dokument,
-                icon: (
-                    <Kilde type={hendelse.type}>
-                        {(() => {
-                            switch (hendelse.type) {
-                                case 'Søknad':
-                                    return 'SØ';
-                                case 'Sykmelding':
-                                    return 'SM';
-                                case 'Inntektsmelding':
-                                    return 'IM';
-                            }
-                        })()}
-                    </Kilde>
-                ),
-            }))) ||
-    [];
+const isInntektsmelding = (hendelse: ExternHendelse): hendelse is Inntektsmelding =>
+    hendelse.type === 'INNTEKTSMELDING';
 
-export const useUtbetalinger = (
-    periode?: TidslinjeperiodeMedSykefravær | TidslinjeperiodeUtenSykefravær
-): Hendelse[] => {
-    const utbetalingshistorikk =
-        usePerson()?.arbeidsgivere.find((it) => it.organisasjonsnummer === periode?.organisasjonsnummer)
-            ?.utbetalingshistorikk ?? [];
+const isSykmelding = (hendelse: ExternHendelse): hendelse is Sykmelding => hendelse.type === 'NY_SOKNAD';
 
-    if (periode?.tilstand === 'utenSykefravær') {
+const isSøknadNav = (hendelse: ExternHendelse): hendelse is SoknadNav => hendelse.type === 'SENDT_SOKNAD_NAV';
+
+const isSøknadArbeidsgiver = (hendelse: ExternHendelse): hendelse is SoknadArbeidsgiver =>
+    hendelse.type === 'SENDT_SOKNAD_ARBEIDSGIVER';
+
+export const isDagoverstyring = (overstyring?: Maybe<Overstyring>): overstyring is Dagoverstyring =>
+    (overstyring as Dagoverstyring)?.__typename === 'Dagoverstyring';
+
+export const isInntektoverstyring = (overstyring?: Maybe<Overstyring>): overstyring is Inntektoverstyring =>
+    (overstyring as Inntektoverstyring)?.__typename === 'Inntektoverstyring';
+
+export const isArbeidsforholdoverstyring = (
+    overstyring?: Maybe<Overstyring>
+): overstyring is Arbeidsforholdoverstyring =>
+    (overstyring as Arbeidsforholdoverstyring)?.__typename === 'Arbeidsforholdoverstyring';
+
+export const useDokumenter = (period: Periode | GhostPeriode): Hendelse[] => {
+    if (!isBeregnetPeriode(period)) {
         return [];
     }
 
-    const beregningId = periode ? (periode as TidslinjeperiodeMedSykefravær).beregningId : undefined;
-
-    return utbetalingshistorikk
-        .filter((it) => it.id === beregningId)
-        .filter((it) => it.utbetaling.vurdering)
-        .map(({ utbetaling }: HistorikkElement, i) => {
-            const { tidsstempel, automatisk, godkjent, ident } = (utbetaling as Required<UtbetalingshistorikkElement>)
-                .vurdering;
-            return {
-                id: `utbetaling-${beregningId}-${i}`,
-                timestamp: tidsstempel,
-                title: automatisk
-                    ? 'Automatisk godkjent'
-                    : utbetaling.type === 'ANNULLERING'
-                    ? 'Annullert'
-                    : utbetaling.type === 'REVURDERING'
-                    ? 'Revurdert'
-                    : 'Sendt til utbetaling',
-                type: Hendelsetype.Historikk,
-                body: godkjent && !automatisk && <BegrunnelseTekst>{ident}</BegrunnelseTekst>,
-            };
-        });
+    return period.hendelser
+        .map((hendelse) => {
+            if (isInntektsmelding(hendelse)) {
+                return {
+                    id: hendelse.id,
+                    timestamp: hendelse.mottattDato,
+                    title: 'Inntektsmelding mottatt',
+                    type: Hendelsetype.Dokument,
+                    icon: <Kilde type="Inntektsmelding">IM</Kilde>,
+                };
+            } else if (isSykmelding(hendelse)) {
+                return {
+                    id: hendelse.id,
+                    timestamp: hendelse.rapportertDato,
+                    title: 'Sykmelding mottatt',
+                    type: Hendelsetype.Dokument,
+                    icon: <Kilde type="Sykmelding">SM</Kilde>,
+                };
+            } else if (isSøknadNav(hendelse) || isSøknadArbeidsgiver(hendelse)) {
+                return {
+                    id: hendelse.id,
+                    timestamp: hendelse.rapportertDato,
+                    title: 'Søknad mottatt',
+                    type: Hendelsetype.Dokument,
+                    icon: <Kilde type="Søknad">SØ</Kilde>,
+                };
+            } else {
+                return null;
+            }
+        })
+        .filter((it) => it !== null) as Hendelse[];
 };
 
-export const useTidslinjeendringer = (
+export const getUtbetalingshendelse = (periode: Periode | GhostPeriode): Hendelse | null => {
+    if (!isBeregnetPeriode(periode) || !periode.utbetaling.vurdering) {
+        return null;
+    }
+
+    const { automatisk, godkjent, tidsstempel, ident } = periode.utbetaling.vurdering;
+
+    return {
+        id: `utbetaling-${periode.beregningId}`,
+        timestamp: tidsstempel,
+        title: automatisk
+            ? 'Automatisk godkjent'
+            : periode.utbetaling.type === 'ANNULLERING'
+            ? 'Annullert'
+            : periode.utbetaling.type === 'REVURDERING'
+            ? 'Revurdert'
+            : 'Sendt til utbetaling',
+        type: Hendelsetype.Historikk,
+        body: godkjent && !automatisk && <BegrunnelseTekst>{ident}</BegrunnelseTekst>,
+    };
+};
+
+export const useDagoverstyringshendelser = (
     onClickEndring: (overstyring: Overstyring) => void,
-    vedtaksperiode?: Vedtaksperiode
+    overstyringer: Array<Overstyring>
 ): Hendelse[] => {
     const utbetalingstidFørsteGenForPeriode = useUtbetalingstidsstempelFørsteGenForPeriode();
 
-    return (
-        (vedtaksperiode?.fullstendig &&
-            vedtaksperiode.overstyringer.map((overstyring: Overstyring) => ({
-                id: overstyring.hendelseId,
-                timestamp: dayjs(overstyring.timestamp),
-                title: (
-                    <LinkButton onClick={() => onClickEndring(overstyring)}>
-                        {overstyring.timestamp.isAfter(utbetalingstidFørsteGenForPeriode) ? 'Revurdert' : 'Endret'}{' '}
-                        utbetalingsdager
-                    </LinkButton>
-                ),
-                type: Hendelsetype.Historikk,
-                body: (
-                    <BegrunnelseTekst>
-                        <p>{overstyring.saksbehandlerIdent ?? overstyring.saksbehandlerNavn}</p>
-                    </BegrunnelseTekst>
-                ),
-            }))) ||
-        []
-    );
+    return overstyringer.filter(isDagoverstyring).map((overstyring: Dagoverstyring) => ({
+        id: overstyring.hendelseId,
+        timestamp: overstyring.timestamp,
+        title: (
+            <LinkButton onClick={() => onClickEndring(overstyring)}>
+                {dayjs(overstyring.timestamp).isAfter(utbetalingstidFørsteGenForPeriode) ? 'Revurdert' : 'Endret'}{' '}
+                utbetalingsdager
+            </LinkButton>
+        ),
+        type: Hendelsetype.Historikk,
+        body: (
+            <BegrunnelseTekst>
+                <p>{overstyring.saksbehandler.ident ?? overstyring.saksbehandler.navn}</p>
+            </BegrunnelseTekst>
+        ),
+    }));
 };
 
-export const useInntektendringer = (onClickEndring: (overstyring: ExternalInntektoverstyring) => void): Hendelse[] => {
-    const organisasjonsnummer = useOrganisasjonsnummer();
-    const arbeidsgiver = usePerson()!.arbeidsgivereV2.find((it) => it.organisasjonsnummer === organisasjonsnummer);
-    const aktivPeriode = useAktivPeriode();
+export const useInntektsoverstyringshendelser = (
+    onClickEndring: (overstyring: Overstyring) => void,
+    overstyringer: Array<Overstyring>
+): Hendelse[] => {
     const førsteUtbetalingstidsstempelISkjæringstidspunkt =
         useFørsteUtbetalingstidsstempelFørsteGenISkjæringstidspunkt();
 
-    if (!arbeidsgiver) {
-        throw Error(`Fant ikke arbeidsgiver med organisasjonsnummer ${organisasjonsnummer}`);
-    }
-
-    if (!aktivPeriode.skjæringstidspunkt) {
-        throw Error(`Fant ikke periode for skjæringstidspunkt ${aktivPeriode.skjæringstidspunkt}`);
-    }
-
-    const inntektoverstyringer = arbeidsgiver.overstyringer.filter(
-        (it) => it.type === 'Inntekt'
-    ) as ExternalInntektoverstyring[];
-    return inntektoverstyringer
-        .filter((it) => it.overstyrtInntekt.skjæringstidspunkt === aktivPeriode.skjæringstidspunkt)
-        .map((it) => ({
-            id: it.hendelseId,
-            timestamp: dayjs(it.timestamp),
-            title: (
-                <LinkButton onClick={() => onClickEndring(it)}>
-                    {dayjs(it.timestamp).isAfter(førsteUtbetalingstidsstempelISkjæringstidspunkt)
-                        ? 'Revurdert'
-                        : 'Endret'}{' '}
-                    inntekt
-                </LinkButton>
-            ),
-            type: Hendelsetype.Historikk,
-            body: (
-                <BegrunnelseTekst>
-                    <p>{it.saksbehandlerIdent ?? it.saksbehandlerNavn}</p>
-                </BegrunnelseTekst>
-            ),
-        }));
+    return overstyringer.filter(isInntektoverstyring).map((overstyring: Inntektoverstyring) => ({
+        id: overstyring.hendelseId,
+        timestamp: overstyring.timestamp,
+        title: (
+            <LinkButton onClick={() => onClickEndring(overstyring)}>
+                {dayjs(overstyring.timestamp).isAfter(førsteUtbetalingstidsstempelISkjæringstidspunkt)
+                    ? 'Revurdert'
+                    : 'Endret'}{' '}
+                inntekt
+            </LinkButton>
+        ),
+        type: Hendelsetype.Historikk,
+        body: (
+            <BegrunnelseTekst>
+                <p>{overstyring.saksbehandler.ident ?? overstyring.saksbehandler.navn}</p>
+            </BegrunnelseTekst>
+        ),
+    }));
 };
 
-export const useArbeidsforholdendringer = (
-    onClickEndring: (overstyring: ExternalArbeidsforholdoverstyring) => void
+export const useArbeidsforholdoverstyringshendelser = (
+    onClickEndring: (overstyring: Overstyring) => void,
+    overstyringer: Array<Overstyring>
 ): Hendelse[] => {
-    const organisasjonsnummer = useOrganisasjonsnummer();
-    const arbeidsgiver = usePerson()!.arbeidsgivereV2.find((it) => it.organisasjonsnummer === organisasjonsnummer);
-    const aktivPeriode = useAktivPeriode();
+    const activePeriod = useActivePeriod();
 
-    if (!arbeidsgiver) {
-        throw Error(`Fant ikke arbeidsgiver med organisasjonsnummer ${organisasjonsnummer}`);
+    if (!isBeregnetPeriode(activePeriod)) {
+        return [];
     }
 
-    if (!aktivPeriode.skjæringstidspunkt) {
-        throw Error(`Fant ikke periode med skjæringstidspunkt ${aktivPeriode.skjæringstidspunkt}`);
-    }
-
-    const arbeidsforholdoverstyringer = arbeidsgiver.overstyringer.filter(
-        (it) => it.type === 'Arbeidsforhold'
-    ) as ExternalArbeidsforholdoverstyring[];
-    return arbeidsforholdoverstyringer
-        .filter((it) => it.overstyrtArbeidsforhold.skjæringstidspunkt === aktivPeriode.skjæringstidspunkt)
+    return overstyringer
+        .filter(isArbeidsforholdoverstyring)
+        .filter((it) => it.skjaeringstidspunkt === activePeriod.skjaeringstidspunkt)
         .map((it) => ({
             id: it.hendelseId,
-            timestamp: dayjs(it.timestamp),
+            timestamp: it.timestamp,
             title: (
                 <LinkButton onClick={() => onClickEndring(it)}>
-                    {it.overstyrtArbeidsforhold.deaktivert ? 'Brukes ikke i beregningen' : 'Brukes i beregningen'}
+                    {it.deaktivert ? 'Brukes ikke i beregningen' : 'Brukes i beregningen'}
                 </LinkButton>
             ),
             type: Hendelsetype.Historikk,
             body: (
                 <BegrunnelseTekst>
-                    <p>{it.saksbehandlerIdent ?? it.saksbehandlerNavn}</p>
+                    <p>{it.saksbehandler.ident ?? it.saksbehandler.navn}</p>
                 </BegrunnelseTekst>
             ),
         }));
@@ -211,7 +207,7 @@ export const useNotater = (notater: Notat[], onClickNotat: () => void): Hendelse
         () =>
             notater.map((notat: Notat) => ({
                 id: notat.id,
-                timestamp: dayjs(notat.opprettet),
+                timestamp: notat.opprettet.format(ISO_TIDSPUNKTFORMAT),
                 title: <LinkButton onClick={onClickNotat}>Lagt på vent</LinkButton>,
                 type: Hendelsetype.Historikk,
                 body: (

@@ -1,4 +1,3 @@
-import { Dayjs } from 'dayjs';
 import { ReactNode } from 'react';
 
 export enum Hendelsetype {
@@ -10,7 +9,7 @@ export type Hendelse = {
     id: string;
     title: ReactNode;
     type: Hendelsetype;
-    timestamp?: Dayjs;
+    timestamp?: DateString;
     body?: ReactNode;
     icon?: ReactNode;
 };

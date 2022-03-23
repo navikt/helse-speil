@@ -1,0 +1,24 @@
+.Historikk {
+    grid-area: høyremeny;
+    overflow: hidden;
+    transition: width 0.2s ease;
+}
+
+.Historikk > ul {
+    padding: 0 1.5rem 2rem;
+    box-sizing: border-box;
+    border-left: 1px solid var(--navds-color-border);
+    height: 100%;
+}
+
+.Historikk > ul > li:first-of-type {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 16px;
+    font-size: 14px;
+}
+
+.Error {
+    background-color: var(--navds-color-error-background);
+}

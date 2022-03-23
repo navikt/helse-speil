@@ -1,153 +1,168 @@
-import styled from '@emotion/styled';
 import React, { useLayoutEffect, useState } from 'react';
+import dayjs from 'dayjs';
+import classNames from 'classnames';
+import { BodyShort } from '@navikt/ds-react';
 
-import { useNotaterForVedtaksperiode } from '@state/notater';
 import { CloseButton } from '@components/CloseButton';
-import { EndringsloggOverstyrteDager } from '@components/EndringsloggOverstyrteDager';
-import { EndringsloggOverstyrtInntektEllerArbeidsforhold } from '@components/EndringsloggOverstyrtInntektEllerArbeidsforhold';
+import { ErrorBoundary } from '@components/ErrorBoundary';
+import { EndringsloggDager } from '@components/EndringsloggDager';
+import { EndringsloggInntekt } from '@components/EndringsloggInntekt';
+import { useActivePeriod } from '@state/periodState';
+import { useCurrentPerson } from '@state/personState';
+import { useNotaterForVedtaksperiode } from '@state/notater';
+import { GhostPeriode, Maybe, Overstyring, Periode, Personinfo, Tildeling } from '@io/graphql';
+import { isBeregnetPeriode, isGhostPeriode } from '@utils/typeguards';
 
-import { NotatListeModal } from '../../oversikt/table/rader/notat/NotatListeModal';
-import { HistorikkHendelse } from './HistorikkHendelse';
-import { filterState, useHistorikk, useOppdaterHistorikk, useShowHistorikkState } from './state';
 import { Hendelsetype } from './Historikk.types';
-import { useRecoilValue } from 'recoil';
+import { HistorikkHendelse } from './HistorikkHendelse';
+import { NotatListeModal } from '../../oversikt/table/rader/notat/NotatListeModal';
+import { useFilterState, useHistorikk, useOppdaterHistorikk, useShowHistorikkState } from './state';
 
-const Container = styled.div`
-    grid-area: høyremeny;
-    overflow: hidden;
-    transition: width 0.2s ease;
-`;
+import styles from './Historikk.module.css';
+import { isArbeidsforholdoverstyring, isDagoverstyring, isInntektoverstyring } from './mapping';
+import { EndringsloggArbeidsforhold } from '@components/EndringsloggArbeidsforhold';
 
-const HistorikkTitle = styled.li`
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding-top: 16px;
-    font-size: 14px;
-`;
-
-const Hendelser = styled.ul`
-    padding: 0 1.5rem 2rem;
-    box-sizing: border-box;
-    border-left: 1px solid var(--navds-color-border);
-    height: 100%;
-`;
-
-interface HistorikkProps {
+interface HistorikkWithContentProps {
+    activePeriod: Periode | GhostPeriode;
     personinfo: Personinfo;
-    tildeling?: Tildeling;
+    tildeling?: Maybe<Tildeling>;
     vedtaksperiodeId?: string;
 }
 
-export const Historikk = React.memo(({ vedtaksperiodeId, tildeling, personinfo }: HistorikkProps) => {
-    const historikk = useHistorikk();
-    const notaterForPeriode = useNotaterForVedtaksperiode(vedtaksperiodeId);
-    const [showHistorikk, setShowHistorikk] = useShowHistorikkState();
-    const [showNotatListeModal, setShowNotatListeModal] = useState(false);
-    const filter = useRecoilValue(filterState);
+export const HistorikkWithContent: React.VFC<HistorikkWithContentProps> = React.memo(
+    ({ activePeriod, vedtaksperiodeId, tildeling, personinfo }) => {
+        const historikk = useHistorikk();
+        const notaterForPeriode = useNotaterForVedtaksperiode(vedtaksperiodeId);
 
-    const [endring, setEndring] = useState<Overstyring | null>(null);
-    const [inntektendring, setInntektendring] = useState<ExternalInntektoverstyring | null>(null);
-    const [arbeidsforholdendring, setArbeidsforholdendring] = useState<ExternalArbeidsforholdoverstyring | null>(null);
+        const [showHistorikk, setShowHistorikk] = useShowHistorikkState();
+        const [showNotatListeModal, setShowNotatListeModal] = useState(false);
+        const [filter] = useFilterState();
 
-    useLayoutEffect(() => {
-        if (showHistorikk) {
-            document.documentElement.style.setProperty('--speil-hoyremeny-width', '272px');
-        } else {
-            document.documentElement.style.setProperty('--speil-hoyremeny-width', '0px');
-        }
-    }, [showHistorikk]);
+        const [endring, setEndring] = useState<Overstyring | null>(null);
 
-    useOppdaterHistorikk({
-        onClickNotat: () => setShowNotatListeModal(true),
-        onClickTidslinjeendring: setEndring,
-        onClickInntektendring: setInntektendring,
-        onClickArbeidsforholdendring: setArbeidsforholdendring,
-    });
+        useLayoutEffect(() => {
+            if (showHistorikk) {
+                document.documentElement.style.setProperty('--speil-hoyremeny-width', '272px');
+            } else {
+                document.documentElement.style.setProperty('--speil-hoyremeny-width', '0px');
+            }
+        }, [showHistorikk]);
 
-    const tittel = Hendelsetype[filter] === 'Dokument' ? 'DOKUMENTER' : 'HISTORIKK';
+        useOppdaterHistorikk({
+            vedtaksperiodeId: vedtaksperiodeId,
+            periode: activePeriod,
+            onClickNotat: () => setShowNotatListeModal(true),
+            onClickOverstyringshendelse: setEndring,
+        });
 
-    return (
-        <>
-            <Container>
-                <Hendelser>
-                    <HistorikkTitle>
-                        {tittel}
-                        <CloseButton onClick={() => setShowHistorikk(false)} />
-                    </HistorikkTitle>
-                    {historikk.map((it) => (
-                        <HistorikkHendelse key={it.id} {...it} />
-                    ))}
-                </Hendelser>
-            </Container>
-            {vedtaksperiodeId && showNotatListeModal && (
-                <NotatListeModal
-                    notater={notaterForPeriode}
-                    personinfo={personinfo}
-                    vedtaksperiodeId={vedtaksperiodeId}
-                    onClose={() => setShowNotatListeModal(false)}
-                    erPåVent={tildeling?.påVent}
-                />
-            )}
-            <EndringsloggOverstyrteDager
-                endringer={
-                    endring?.overstyrteDager.map((it) => ({
-                        timestamp: endring.timestamp,
-                        navn: endring.saksbehandlerNavn,
-                        ident: endring.saksbehandlerIdent,
-                        begrunnelse: endring.begrunnelse,
-                        grad: it.grad,
-                        type: it.type,
-                        dato: it.dato,
-                    })) ?? []
-                }
-                isOpen={endring !== null}
-                onRequestClose={() => setEndring(null)}
+        const tittel = Hendelsetype[filter] === 'Dokument' ? 'DOKUMENTER' : 'HISTORIKK';
+
+        return (
+            <>
+                <div className={styles.Historikk}>
+                    <ul>
+                        <li>
+                            {tittel}
+                            <CloseButton onClick={() => setShowHistorikk(false)} />
+                        </li>
+                        {historikk.map((it) => (
+                            <HistorikkHendelse key={it.id} {...it} />
+                        ))}
+                    </ul>
+                </div>
+                {vedtaksperiodeId && showNotatListeModal && (
+                    <NotatListeModal
+                        notater={notaterForPeriode}
+                        personinfo={{
+                            ...personinfo,
+                            mellomnavn: personinfo.mellomnavn ?? null,
+                            fødselsdato: dayjs(personinfo.fodselsdato),
+                            kjønn: (() => {
+                                switch (personinfo.kjonn) {
+                                    case 'Mann':
+                                        return 'mann';
+                                    case 'Kvinne':
+                                        return 'kvinne';
+                                    case 'Ukjent':
+                                    default:
+                                        return 'ukjent';
+                                }
+                            })(),
+                        }}
+                        vedtaksperiodeId={vedtaksperiodeId}
+                        onClose={() => setShowNotatListeModal(false)}
+                        erPåVent={tildeling?.reservert}
+                    />
+                )}
+                {isDagoverstyring(endring) && (
+                    <EndringsloggDager endring={endring} isOpen onRequestClose={() => setEndring(null)} />
+                )}
+                {isInntektoverstyring(endring) && (
+                    <EndringsloggInntekt endring={endring} isOpen onRequestClose={() => setEndring(null)} />
+                )}
+                {isArbeidsforholdoverstyring(endring) && (
+                    <EndringsloggArbeidsforhold endring={endring} isOpen onRequestClose={() => setEndring(null)} />
+                )}
+            </>
+        );
+    }
+);
+
+const HistorikkContainer = () => {
+    const period = useActivePeriod();
+    const person = useCurrentPerson();
+
+    if (!person) {
+        return null;
+    } else if (isBeregnetPeriode(period)) {
+        return (
+            <HistorikkWithContent
+                vedtaksperiodeId={period.vedtaksperiodeId}
+                activePeriod={period}
+                personinfo={person.personinfo}
+                tildeling={person.tildeling}
             />
+        );
+    } else if (isGhostPeriode(period)) {
+        return (
+            <HistorikkWithContent activePeriod={period} personinfo={person.personinfo} tildeling={person.tildeling} />
+        );
+    }
 
-            {(inntektendring || arbeidsforholdendring) && (
-                <EndringsloggOverstyrtInntektEllerArbeidsforhold
-                    inntektsendringer={
-                        inntektendring
-                            ? [
-                                  {
-                                      skjæringstidspunkt: inntektendring.overstyrtInntekt.skjæringstidspunkt,
-                                      månedligInntekt: inntektendring.overstyrtInntekt.månedligInntekt,
-                                      forklaring: inntektendring.overstyrtInntekt.forklaring,
-                                      begrunnelse: inntektendring.begrunnelse,
-                                      saksbehandlerIdent:
-                                          inntektendring.saksbehandlerIdent ?? inntektendring.saksbehandlerNavn,
-                                      timestamp: inntektendring.timestamp,
-                                      type: 'Inntekt',
-                                  },
-                              ]
-                            : []
-                    }
-                    arbeidsforholdendringer={
-                        arbeidsforholdendring
-                            ? [
-                                  {
-                                      skjæringstidspunkt:
-                                          arbeidsforholdendring.overstyrtArbeidsforhold.skjæringstidspunkt,
-                                      deaktivert: arbeidsforholdendring.overstyrtArbeidsforhold.deaktivert,
-                                      forklaring: arbeidsforholdendring.overstyrtArbeidsforhold.forklaring,
-                                      begrunnelse: arbeidsforholdendring.begrunnelse,
-                                      saksbehandlerIdent:
-                                          arbeidsforholdendring.saksbehandlerIdent ??
-                                          arbeidsforholdendring.saksbehandlerNavn,
-                                      timestamp: arbeidsforholdendring.timestamp,
-                                      type: 'Arbeidsforhold',
-                                  },
-                              ]
-                            : []
-                    }
-                    isOpen={inntektendring !== null || arbeidsforholdendring !== null}
-                    onRequestClose={() => {
-                        setInntektendring(null);
-                        setArbeidsforholdendring(null);
-                    }}
-                />
-            )}
-        </>
+    return null;
+};
+
+const HistorikkSkeleton = () => {
+    return (
+        <div className={styles.Historikk}>
+            <ul>
+                <li>
+                    HISTORIKK
+                    <CloseButton disabled />
+                </li>
+            </ul>
+        </div>
     );
-});
+};
+
+const HistorikkError = () => {
+    return (
+        <div className={classNames(styles.Historikk, styles.Error)}>
+            <ul>
+                <li>
+                    <BodyShort>Noe gikk galt. Kan ikke vise historikk for perioden.</BodyShort>
+                </li>
+            </ul>
+        </div>
+    );
+};
+
+export const Historikk = () => {
+    return (
+        <React.Suspense fallback={<HistorikkSkeleton />}>
+            <ErrorBoundary fallback={<HistorikkError />}>
+                <HistorikkContainer />
+            </ErrorBoundary>
+        </React.Suspense>
+    );
+};
