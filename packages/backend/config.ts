@@ -20,7 +20,7 @@ const oidc: OidcConfig = {
 const server: ServerConfig = {
     port: process.env.SPEIL_BACKEND_PORT ? parseInt(process.env.SPEIL_BACKEND_PORT) : 3000,
     sessionSecret: process.env.SESSION_SECRET,
-    spesialistBaseUrl: process.env.SPESIALIST_BASE_URL || 'http://spesialist.tbd.svc.cluster.local',
+    spesialistBaseUrl: process.env.SPESIALIST_BASE_URL || 'http://spesialist',
 };
 
 const redis = {
