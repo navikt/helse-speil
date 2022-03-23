@@ -52,6 +52,7 @@ export type Arbeidsforholdoverstyring = Overstyring & {
     __typename?: 'Arbeidsforholdoverstyring';
     begrunnelse: Scalars['String'];
     deaktivert: Scalars['Boolean'];
+    forklaring: Scalars['String'];
     hendelseId: Scalars['String'];
     saksbehandler: Saksbehandler;
     skjaeringstidspunkt: Scalars['String'];
@@ -1138,6 +1139,7 @@ export type FetchPersonQuery = {
                       __typename: 'Arbeidsforholdoverstyring';
                       deaktivert: boolean;
                       skjaeringstidspunkt: string;
+                      forklaring: string;
                       begrunnelse: string;
                       hendelseId: string;
                       timestamp: string;

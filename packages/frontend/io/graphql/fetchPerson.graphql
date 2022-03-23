@@ -196,6 +196,27 @@ query FetchPerson($fnr: String, $aktorId: String) {
                         hendelser {
                             id
                             type
+                            ... on Inntektsmelding {
+                                beregnetInntekt
+                                mottattDato
+                            }
+                            ... on Sykmelding {
+                                fom
+                                tom
+                                rapportertDato
+                            }
+                            ... on SoknadNav {
+                                fom
+                                tom
+                                rapportertDato
+                                sendtNav
+                            }
+                            ... on SoknadArbeidsgiver {
+                                fom
+                                tom
+                                rapportertDato
+                                sendtArbeidsgiver
+                            }
                         }
                         maksdato
                         periodevilkar {
@@ -292,8 +313,9 @@ query FetchPerson($fnr: String, $aktorId: String) {
                     }
                 }
                 ... on Arbeidsforholdoverstyring {
-                    deaktivert,
-                    skjaeringstidspunkt
+                    deaktivert
+                    skjaeringstidspunkt,
+                    forklaring
                 }
             }
         }
