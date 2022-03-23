@@ -63,7 +63,7 @@ spec:
     - name: DEBUG
       value: global-tunnel
     - name: REDIS_HOST
-      value: speil-redis.tbd.svc.cluster.local
+      value: speil-redis
     - name: REDIS_PORT
       value: '6379'
     - name: CLIENT_ID_SPESIALIST
@@ -71,4 +71,4 @@ spec:
     - name: LOGOUT_URL
       value: https://speil.intern.nav.no
     - name: SPESIALIST_BASE_URL
-      value: https://spesialist.intern.nav.no
+      value: http://spesialist
