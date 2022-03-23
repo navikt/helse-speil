@@ -57,25 +57,17 @@ const Utbetalingsdetaljvisning = ({ detalj, index }: UtbetalingsdetaljvisningPro
         <BodyShort>Faktisk tom</BodyShort>
         <BodyShort>{formaterDato(detalj.faktiskTom)}</BodyShort>
         <BodyShort>Sats</BodyShort>
-        {detalj.sats < 0 ? (
-            <BodyShort className={styles.NegativtBeløp} as="p">
-                {somPenger(detalj.sats)}
-            </BodyShort>
-        ) : (
-            <BodyShort>{somPenger(detalj.sats)}</BodyShort>
-        )}
+        <BodyShort className={detalj.sats < 0 ? styles.NegativtBeløp : ''} as="p">
+            {somPenger(detalj.sats)}
+        </BodyShort>
         <BodyShort>Antall sats</BodyShort>
         <BodyShort>{detalj.antallSats}</BodyShort>
         <BodyShort>Type sats</BodyShort>
         <BodyShort>{detalj.typeSats}</BodyShort>
         <BodyShort>Beløp</BodyShort>
-        {detalj.belop < 0 ? (
-            <BodyShort className={styles.NegativtBeløp} as="p">
-                {somPenger(detalj.belop)}
-            </BodyShort>
-        ) : (
-            <BodyShort>{somPenger(detalj.belop)}</BodyShort>
-        )}
+        <BodyShort className={detalj.belop < 0 ? styles.NegativtBeløp : ''} as="p">
+            {somPenger(detalj.belop)}
+        </BodyShort>
         <BodyShort>Konto</BodyShort>
         <AnonymizableText>{detalj.konto}</AnonymizableText>
         <BodyShort>Klassekode</BodyShort>
@@ -117,13 +109,9 @@ const SimuleringsinfoPopupInnhold = ({ simulering, utbetalingId, fnr, navn }: Si
                 <BodyShort as="p">{`${formaterDato(periode.fom)} - ${formaterDato(periode.tom)}`}</BodyShort>
                 <div className={styles.TomLinje} />
                 <BodyShort>Totalbeløp simulering</BodyShort>
-                {simulering.totalbeløp < 0 ? (
-                    <BodyShort className={styles.NegativtBeløp} as="p">
-                        {somPenger(simulering.totalbeløp)}
-                    </BodyShort>
-                ) : (
-                    <BodyShort>{somPenger(simulering.totalbeløp)}</BodyShort>
-                )}
+                <BodyShort className={simulering.totalbeløp < 0 ? styles.NegativtBeløp : ''} as="p">
+                    {somPenger(simulering.totalbeløp)}
+                </BodyShort>
                 <div className={styles.TomLinje} />
                 {periode.utbetalinger.map((utbetaling, index) => (
                     <Utbetalingsvisning utbetaling={utbetaling} index={index} key={`utbetaling-${index}`} />
