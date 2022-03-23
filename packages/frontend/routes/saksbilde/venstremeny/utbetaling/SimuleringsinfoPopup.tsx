@@ -12,6 +12,7 @@ import styled from '@emotion/styled';
 import { LinkButton } from '@components/LinkButton';
 
 import styles from './SimuleringsinfoPopupInnhold.module.css';
+import { AnonymizableContainer } from '@components/anonymizable/AnonymizableContainer';
 
 const formaterDato = (forfall: string) => dayjs(forfall).format(NORSK_DATOFORMAT);
 
@@ -104,9 +105,11 @@ const SimuleringsinfoPopupInnhold = ({ simulering, utbetalingId, fnr, navn }: Si
         <Heading as="h1" size="medium">
             Simulering
         </Heading>
-        <Heading as="h2" size="small">
-            {navn} ({fnr})
-        </Heading>
+        <AnonymizableContainer>
+            <Heading as="h2" size="small">
+                {navn} ({fnr})
+            </Heading>
+        </AnonymizableContainer>
         {simulering.perioder.map((periode, index) => (
             <div className={styles.Grid} key={`periode-${index}`}>
                 <div className={styles.TomLinje} />
