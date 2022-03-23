@@ -70,5 +70,3 @@ spec:
       value: api://dev-gcp.tbd.spesialist/.default
     - name: LOGOUT_URL
       value: https://speil.dev.intern.nav.no
-    - name: SPESIALIST_BASE_URL
-      value: https://spesialist.dev.intern.nav.no
