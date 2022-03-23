@@ -283,13 +283,17 @@ query FetchPerson($fnr: String, $aktorId: String) {
                         dato
                         type
                     }
-                },
+                }
                 ... on Inntektoverstyring {
                     inntekt {
                         skjaeringstidspunkt
                         forklaring
                         manedligInntekt
                     }
+                }
+                ... on Arbeidsforholdoverstyring {
+                    deaktivert,
+                    skjaeringstidspunkt
                 }
             }
         }

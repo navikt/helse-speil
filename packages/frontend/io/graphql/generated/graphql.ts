@@ -48,6 +48,16 @@ export type Arbeidsforhold = {
     stillingstittel: Scalars['String'];
 };
 
+export type Arbeidsforholdoverstyring = Overstyring & {
+    __typename?: 'Arbeidsforholdoverstyring';
+    begrunnelse: Scalars['String'];
+    deaktivert: Scalars['Boolean'];
+    hendelseId: Scalars['String'];
+    saksbehandler: Saksbehandler;
+    skjaeringstidspunkt: Scalars['String'];
+    timestamp: Scalars['String'];
+};
+
 export type Arbeidsgiver = {
     __typename?: 'Arbeidsgiver';
     arbeidsforhold: Array<Arbeidsforhold>;
@@ -1124,6 +1134,15 @@ export type FetchPersonQuery = {
                 >;
             }>;
             overstyringer: Array<
+                | {
+                      __typename: 'Arbeidsforholdoverstyring';
+                      deaktivert: boolean;
+                      skjaeringstidspunkt: string;
+                      begrunnelse: string;
+                      hendelseId: string;
+                      timestamp: string;
+                      saksbehandler: { __typename?: 'Saksbehandler'; ident?: string | null; navn: string };
+                  }
                 | {
                       __typename: 'Dagoverstyring';
                       begrunnelse: string;
