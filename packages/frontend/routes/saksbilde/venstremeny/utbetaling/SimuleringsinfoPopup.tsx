@@ -1,18 +1,18 @@
+import { LinkButton } from '@components/LinkButton';
+import { AnonymizableContainer } from '@components/anonymizable/AnonymizableContainer';
 import { AnonymizableText } from '@components/anonymizable/AnonymizableText';
+import styled from '@emotion/styled';
+import { getFormatertNavn, usePerson } from '@state/person';
+import { useAktivPeriode, useVedtaksperiode } from '@state/tidslinje';
 import { NORSK_DATOFORMAT } from '@utils/date';
 import { somPenger } from '@utils/locale';
 import dayjs from 'dayjs';
 import React, { CSSProperties } from 'react';
+import ReactDOM from 'react-dom';
 
 import { BodyShort, Heading } from '@navikt/ds-react';
-import ReactDOM from 'react-dom';
-import { useAktivPeriode, useVedtaksperiode } from '@state/tidslinje';
-import { getFormatertNavn, usePerson } from '@state/person';
-import styled from '@emotion/styled';
-import { LinkButton } from '@components/LinkButton';
 
 import styles from './SimuleringsinfoPopupInnhold.module.css';
-import { AnonymizableContainer } from '@components/anonymizable/AnonymizableContainer';
 
 const formaterDato = (forfall: string) => dayjs(forfall).format(NORSK_DATOFORMAT);
 
@@ -141,19 +141,21 @@ const visSimuleringINyttVindu = (data: Simulering, utbetalingId: string, fnr: st
         'scrollbars=no, resizable=no, status=no, location=no, toolbar=no, menubar=no, width=600, height=900'
     );
 
-    const html = document.getElementsByTagName('html')[0];
+    const html = document.querySelector('html')!;
     const anonymymiseringsstiler = html.getAttribute('style');
-    popup!.document.getElementsByTagName('html')[0].setAttribute('style', anonymymiseringsstiler ?? '');
-    const head = document.getElementsByTagName('head')[0];
+    popup!.document.querySelector('html')!.setAttribute('style', anonymymiseringsstiler ?? '');
+
     // Dette funker ikke med vanlig dev-bygg fordi stilene ikke blir hentet som ressurser. Hvis man vil teste lokalt kan man bygge frontend med 'vite build', og åpne speil på port 3000.
-    const stiler = Array.from(head.getElementsByTagName('link')).filter((link) => link.rel === 'stylesheet');
-    stiler.forEach((stil) => {
-        const href = stil.getAttribute('href')!;
-        if (!href.startsWith('http')) {
-            stil.setAttribute('href', document.location.origin + href);
-        }
-        popup!.document.head.appendChild(stil.cloneNode());
-    });
+    Array.from(document.head.querySelectorAll('head link'))
+        .map((node) => node.cloneNode() as HTMLLinkElement)
+        .filter((link) => link.rel === 'stylesheet')
+        .forEach((stil) => {
+            const href = stil.getAttribute('href')!;
+            if (!href.startsWith('http')) {
+                stil.setAttribute('href', document.location.origin + href);
+            }
+            popup!.document.head.appendChild(stil);
+        });
 
     popup!.document.body.innerHTML = container.innerHTML;
     popup!.document.title = 'Simulering';
