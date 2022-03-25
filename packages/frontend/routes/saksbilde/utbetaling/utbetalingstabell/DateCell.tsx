@@ -1,8 +1,7 @@
 import styled from '@emotion/styled';
-import { Dayjs } from 'dayjs';
 import React from 'react';
 
-import { NORSK_DATOFORMAT } from '@utils/date';
+import { getFormattedDateString } from '@utils/date';
 
 const Cell = styled.td`
     &:after {
@@ -18,9 +17,9 @@ const Cell = styled.td`
 `;
 
 interface DateCellProps {
-    date: Dayjs;
+    date: DateString;
     erOverstyrt?: boolean;
 }
 
 export const DateCell = ({ date, erOverstyrt }: DateCellProps) =>
-    erOverstyrt ? <Cell>{date.format(NORSK_DATOFORMAT)}</Cell> : <td>{date.format(NORSK_DATOFORMAT)}</td>;
+    erOverstyrt ? <Cell>{getFormattedDateString(date)}</Cell> : <td>{getFormattedDateString(date)}</td>;

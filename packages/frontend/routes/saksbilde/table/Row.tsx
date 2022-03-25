@@ -1,10 +1,11 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import React from 'react';
-import { UtbetalingstabellDag } from '../utbetaling/utbetalingstabell/Utbetalingstabell.types';
 
 interface RowProps {
-    type?: Dag['type'];
+    erAvvist: boolean;
+    erAGP: boolean;
+    type?: Utbetalingstabelldagtype;
     markertDag?: UtbetalingstabellDag;
 }
 
@@ -37,14 +38,14 @@ const helgStyle = (props: RowProps) =>
     `;
 
 const avvistStyle = (props: RowProps) =>
-    props.type === 'Avslått' &&
+    props.erAvvist &&
     css`
         background-color: #f9d2cc;
         ${leftAlignedLine('var(--navds-color-error-border)')}
     `;
 
 const arbeidsgiverperiodeStyle = (props: RowProps) =>
-    props.type === 'Arbeidsgiverperiode' &&
+    props.erAGP &&
     css`
         background-color: #f8f8f8;
         ${leftAlignedLine('var(--navds-color-text-disabled)')}

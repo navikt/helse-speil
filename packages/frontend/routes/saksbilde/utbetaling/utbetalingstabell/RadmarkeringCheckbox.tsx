@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { Dayjs } from 'dayjs';
+import dayjs from 'dayjs';
 import React from 'react';
 
 import { Checkbox } from '@navikt/ds-react';
@@ -7,6 +7,7 @@ import { Checkbox } from '@navikt/ds-react';
 import { DisabledCheckbox } from './DisabledCheckbox';
 
 import { overstyrPermisjonsdagerEnabled } from '@utils/featureToggles';
+import { Sykdomsdagtype, Utbetalingsdagtype } from '@io/graphql';
 
 const Container = styled.div`
     position: relative;
@@ -28,9 +29,9 @@ const Container = styled.div`
 
 interface RadmarkeringCheckboxProps extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'size' | 'value'> {
     index: number;
-    dagtype: Dag['type'];
-    dato: Dayjs;
-    skjæringstidspunkt: string;
+    dagtype: Utbetalingstabelldagtype;
+    dato: DateString;
+    skjæringstidspunkt: DateString;
 }
 
 export const RadmarkeringCheckbox: React.FC<RadmarkeringCheckboxProps> = ({
@@ -40,10 +41,11 @@ export const RadmarkeringCheckbox: React.FC<RadmarkeringCheckboxProps> = ({
     skjæringstidspunkt,
     ...rest
 }) => {
-    const erSkjæringstidspunkt: boolean = skjæringstidspunkt !== undefined && dato.isSame(skjæringstidspunkt, 'day');
+    const erSkjæringstidspunkt: boolean =
+        skjæringstidspunkt !== undefined && dayjs(dato).isSame(skjæringstidspunkt, 'day');
 
     const dagKanOverstyres =
-        (dagtype !== 'Helg' && ['Syk', 'Ferie', 'Egenmelding'].includes(dagtype)) ||
+        (!['Helg'].includes(dagtype) && ['Syk', 'Ferie', 'Egenmelding'].includes(dagtype)) ||
         (overstyrPermisjonsdagerEnabled && dagtype === 'Permisjon');
 
     if (!dagKanOverstyres) {

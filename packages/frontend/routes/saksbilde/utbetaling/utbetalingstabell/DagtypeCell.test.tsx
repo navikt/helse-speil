@@ -8,32 +8,32 @@ import { UtbetalingstabellDag } from './Utbetalingstabell.types';
 
 describe('DagtypeCell', () => {
     it('rendrer tekst for dagtype', () => {
-        render(<DagtypeCell typeUtbetalingsdag="Avslått" typeSykdomsdag="Syk" />);
+        render(<DagtypeCell utbetalingsdagtype="Avslått" sykdomsdagtype="Syk" />);
         expect(screen.getByText('Syk (Avslått)')).toBeVisible();
 
-        render(<DagtypeCell typeUtbetalingsdag="Foreldet" typeSykdomsdag="Syk" />);
+        render(<DagtypeCell utbetalingsdagtype="Foreldet" sykdomsdagtype="Syk" />);
         expect(screen.getByText('Syk (Foreldet)')).toBeVisible();
 
-        render(<DagtypeCell typeUtbetalingsdag="Arbeidsgiverperiode" typeSykdomsdag="Syk" />);
+        render(<DagtypeCell utbetalingsdagtype="Arbeidsgiverperiode" sykdomsdagtype="Syk" />);
         expect(screen.getByText('Syk (AGP)')).toBeVisible();
     });
 
     it('rendrer ikke dobbel typetekst dersom sykdomsdag og utbetalingsdag er samme type', () => {
-        render(<DagtypeCell typeUtbetalingsdag="Foreldet" typeSykdomsdag="Foreldet" />);
+        render(<DagtypeCell utbetalingsdagtype="Foreldet" sykdomsdagtype="Foreldet" />);
         expect(screen.queryByText('Foreldet (Foreldet)')).toBeNull();
         expect(screen.getByText('Foreldet')).toBeVisible();
     });
 
     it('prioriterer typen til den overstyrte dagen', () => {
         const dag: UtbetalingstabellDag = { type: 'Ferie' } as UtbetalingstabellDag;
-        render(<DagtypeCell typeUtbetalingsdag="Syk" typeSykdomsdag="Syk" overstyrtDag={dag} />);
+        render(<DagtypeCell utbetalingsdagtype="Syk" sykdomsdagtype="Syk" overstyrtDag={dag} />);
 
         expect(screen.getByText('Ferie')).toBeVisible();
     });
 
     it('rendrer tekst for overstyringsindikatoren når vi overstyrer fra Syk til Ferie', () => {
         const dag: UtbetalingstabellDag = { type: 'Ferie' } as UtbetalingstabellDag;
-        render(<DagtypeCell typeUtbetalingsdag="Syk" typeSykdomsdag="Syk" overstyrtDag={dag} />);
+        render(<DagtypeCell utbetalingsdagtype="Syk" sykdomsdagtype="Syk" overstyrtDag={dag} />);
         const indikator = screen.getByTestId('infotrekant');
         expect(indikator).toBeVisible();
 
@@ -42,7 +42,7 @@ describe('DagtypeCell', () => {
     });
 
     it('rendrer ikke infotrekant når vi ikke overstyrer', () => {
-        render(<DagtypeCell typeUtbetalingsdag="Syk" typeSykdomsdag="Syk" />);
+        render(<DagtypeCell utbetalingsdagtype="Syk" sykdomsdagtype="Syk" />);
         expect(screen.queryByTestId('infotrekant')).toBeNull();
     });
 });

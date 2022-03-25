@@ -1,34 +1,34 @@
 fragment simulering on Simulering {
-    fagsystemId,
-    totalbelop,
-    tidsstempel,
+    fagsystemId
+    totalbelop
+    tidsstempel
     utbetalingslinjer {
-        fom,
-        tom,
-        dagsats,
+        fom
+        tom
+        dagsats
         grad
-    },
+    }
     perioder {
-        fom,
-        tom,
+        fom
+        tom
         utbetalinger {
-            mottakerId,
-            mottakerNavn,
-            forfall,
-            feilkonto,
+            mottakerId
+            mottakerNavn
+            forfall
+            feilkonto
             detaljer {
-                fom,
-                tom,
-                utbetalingstype,
-                uforegrad,
-                typeSats,
-                tilbakeforing,
-                sats,
-                refunderesOrgNr,
-                konto,
-                klassekode,
-                antallSats,
-                belop,
+                fom
+                tom
+                utbetalingstype
+                uforegrad
+                typeSats
+                tilbakeforing
+                sats
+                refunderesOrgNr
+                konto
+                klassekode
+                antallSats
+                belop
                 klassekodebeskrivelse
             }
         }
@@ -37,101 +37,101 @@ fragment simulering on Simulering {
 
 query FetchPerson($fnr: String, $aktorId: String) {
     person(fnr: $fnr, aktorId: $aktorId) {
-        fodselsnummer,
-        dodsdato,
+        fodselsnummer
+        dodsdato
         enhet {
-            id,
+            id
             navn
-        },
+        }
         infotrygdutbetalinger {
-            organisasjonsnummer,
-            dagsats,
-            fom,
-            tom,
-            grad,
+            organisasjonsnummer
+            dagsats
+            fom
+            tom
+            grad
             typetekst
-        },
+        }
         inntektsgrunnlag {
-            avviksprosent,
-            grunnbelop,
+            avviksprosent
+            grunnbelop
             inntekter {
-                arbeidsgiver,
+                arbeidsgiver
                 omregnetArsinntekt {
-                    belop,
+                    belop
                     inntektFraAOrdningen {
-                        maned,
+                        maned
                         sum
-                    },
-                    kilde,
+                    }
+                    kilde
                     manedsbelop
-                },
+                }
                 sammenligningsgrunnlag {
                     inntektFraAOrdningen {
-                        sum,
+                        sum
                         maned
-                    },
+                    }
                     belop
                 }
-            },
-            sammenligningsgrunnlag,
-            omregnetArsinntekt,
-            maksUtbetalingPerDag,
-            oppfyllerKravOmMinstelonn,
-            skjaeringstidspunkt,
+            }
+            sammenligningsgrunnlag
+            omregnetArsinntekt
+            maksUtbetalingPerDag
+            oppfyllerKravOmMinstelonn
+            skjaeringstidspunkt
             sykepengegrunnlag
-        },
+        }
         personinfo {
-            fornavn,
-            mellomnavn,
-            etternavn,
-            adressebeskyttelse,
-            fodselsdato,
-            kjonn,
-        },
+            fornavn
+            mellomnavn
+            etternavn
+            adressebeskyttelse
+            fodselsdato
+            kjonn
+        }
         tildeling {
-            navn,
-            epost,
-            oid,
+            navn
+            epost
+            oid
             reservert
-        },
-        versjon,
+        }
+        versjon
         vilkarsgrunnlaghistorikk {
-            id,
+            id
             grunnlag {
-                sykepengegrunnlag,
-                skjaeringstidspunkt,
-                omregnetArsinntekt,
-                sammenligningsgrunnlag,
+                sykepengegrunnlag
+                skjaeringstidspunkt
+                omregnetArsinntekt
+                sammenligningsgrunnlag
                 inntekter {
                     sammenligningsgrunnlag {
-                        belop,
+                        belop
                         inntektFraAOrdningen {
-                            maned,
+                            maned
                             sum
                         }
-                    },
+                    }
                     omregnetArsinntekt {
                         inntektFraAOrdningen {
-                            maned,
+                            maned
                             sum
-                        },
-                        belop,
-                        manedsbelop,
+                        }
+                        belop
+                        manedsbelop
                         kilde
-                    },
+                    }
                     arbeidsgiver
-                },
-                vilkarsgrunnlagtype,
+                }
+                vilkarsgrunnlagtype
                 ... on VilkarsgrunnlagSpleis {
-                    oppfyllerKravOmMinstelonn,
-                    oppfyllerKravOmMedlemskap,
-                    oppfyllerKravOmOpptjening,
-                    antallOpptjeningsdagerErMinst,
-                    grunnbelop,
+                    oppfyllerKravOmMinstelonn
+                    oppfyllerKravOmMedlemskap
+                    oppfyllerKravOmOpptjening
+                    antallOpptjeningsdagerErMinst
+                    grunnbelop
                     opptjeningFra
                 }
             }
-        },
+        }
         aktorId
         arbeidsgivere {
             bransjer
@@ -142,14 +142,14 @@ query FetchPerson($fnr: String, $aktorId: String) {
                 startdato
                 stillingsprosent
                 stillingstittel
-            },
+            }
             ghostPerioder {
-                deaktivert,
-                vilkarsgrunnlaghistorikkId,
-                skjaeringstidspunkt,
-                fom,
+                deaktivert
+                vilkarsgrunnlaghistorikkId
+                skjaeringstidspunkt
+                fom
                 tom
-            },
+            }
             generasjoner {
                 id
                 perioder {
@@ -164,7 +164,7 @@ query FetchPerson($fnr: String, $aktorId: String) {
                         dato
                         grad
                         kilde {
-                            id,
+                            id
                             type
                         }
                         sykdomsdagtype
@@ -177,13 +177,14 @@ query FetchPerson($fnr: String, $aktorId: String) {
                             totalGrad
                             utbetaling
                         }
+                        begrunnelser
                     }
                     vedtaksperiodeId
                     ... on UberegnetPeriode {
                         id
                     }
                     ... on BeregnetPeriode {
-                        id,
+                        id
                         aktivitetslogg {
                             alvorlighetsgrad
                             melding
@@ -261,30 +262,30 @@ query FetchPerson($fnr: String, $aktorId: String) {
                                 godkjent
                                 ident
                                 tidsstempel
-                            },
+                            }
                             arbeidsgiversimulering {
                                 ...simulering
-                            },
+                            }
                             personsimulering {
                                 ...simulering
                             }
                         }
                         varsler
-                        vilkarsgrunnlaghistorikkId,
+                        vilkarsgrunnlaghistorikkId
                         refusjon {
-                            sisteRefusjonsdag,
-                            forsteFravaersdag,
+                            sisteRefusjonsdag
+                            forsteFravaersdag
                             endringer {
-                                dato,
+                                dato
                                 belop
-                            },
+                            }
                             arbeidsgiverperioder {
-                                fom,
+                                fom
                                 tom
-                            },
+                            }
                             belop
-                        },
-                        oppgavereferanse,
+                        }
+                        oppgavereferanse
                         tilstand
                     }
                 }
@@ -314,7 +315,7 @@ query FetchPerson($fnr: String, $aktorId: String) {
                 }
                 ... on Arbeidsforholdoverstyring {
                     deaktivert
-                    skjaeringstidspunkt,
+                    skjaeringstidspunkt
                     forklaring
                 }
             }

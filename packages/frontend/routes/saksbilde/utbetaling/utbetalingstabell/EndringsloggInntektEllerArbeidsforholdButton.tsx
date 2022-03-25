@@ -3,10 +3,7 @@ import React, { useRef, useState } from 'react';
 
 import { CaseworkerFilled } from '@navikt/ds-icons';
 
-import {
-    EndringsloggOverstyrtInntektEllerArbeidsforhold,
-    Endringstype,
-} from '@components/EndringsloggOverstyrtInntektEllerArbeidsforhold';
+import { EndringsloggInntekt, Endringstype } from '@components/EndringsloggInntekt';
 import { useInteractOutside } from '@hooks/useInteractOutside';
 
 const Button = styled.button`
@@ -75,7 +72,7 @@ export const EndringsloggInntektEllerArbeidsforholdButton: React.VFC<Endringslog
             >
                 <CaseworkerFilled height={20} width={20} />
             </Button>
-            <EndringsloggOverstyrtInntektEllerArbeidsforhold
+            <EndringsloggInntekt
                 inntektsendringer={inntekter}
                 arbeidsforholdendringer={arbeidsforhold}
                 isOpen={visEndringslogg}

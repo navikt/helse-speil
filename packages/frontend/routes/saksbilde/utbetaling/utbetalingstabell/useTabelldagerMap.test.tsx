@@ -2,7 +2,7 @@ import { renderHook } from '@testing-library/react-hooks';
 import dayjs from 'dayjs';
 import React from 'react';
 
-import { antallSykedagerTilOgMedMaksdato, useTabelldagerMap, withDagerIgjen } from './useTabelldagerMap';
+import { antallSykedagerTilOgMedMaksdato, useTabelldagerMap, createDagerMap } from './useTabelldagerMap';
 
 const dager: Dag[] = [
     { dato: dayjs('2021-01-01'), type: 'Syk' },
@@ -22,12 +22,12 @@ const dager: Dag[] = [
 
 describe('withDagerIgjen', () => {
     it('returnerer tom liste', () => {
-        const utbetalingsdager = withDagerIgjen([], 6).map((it) => it.dagerIgjen);
+        const utbetalingsdager = createDagerMap([], 6).map((it) => it.dagerIgjen);
         expect(utbetalingsdager).toHaveLength(0);
     });
 
     it('mapper ut riktig antall dager igjen', () => {
-        const utbetalingsdager = withDagerIgjen(dager, 6).map((it) => it.dagerIgjen);
+        const utbetalingsdager = createDagerMap(dager, 6).map((it) => it.dagerIgjen);
         expect(utbetalingsdager).toEqual([5, 5, 4, 4, 4, 3, 2, 2, 1, 0, 0, 0, 0]);
     });
 });

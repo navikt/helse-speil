@@ -84,6 +84,20 @@ export type Arbeidsgiveroppdrag = Spennoppdrag & {
     organisasjonsnummer: Scalars['String'];
 };
 
+export enum Begrunnelse {
+    EgenmeldingUtenforArbeidsgiverperiode = 'EGENMELDING_UTENFOR_ARBEIDSGIVERPERIODE',
+    EtterDodsdato = 'ETTER_DODSDATO',
+    ManglerMedlemskap = 'MANGLER_MEDLEMSKAP',
+    ManglerOpptjening = 'MANGLER_OPPTJENING',
+    MinimumInntekt = 'MINIMUM_INNTEKT',
+    MinimumInntektOver_67 = 'MINIMUM_INNTEKT_OVER_67',
+    MinimumSykdomsgrad = 'MINIMUM_SYKDOMSGRAD',
+    Over_70 = 'OVER_70',
+    SykepengedagerOppbrukt = 'SYKEPENGEDAGER_OPPBRUKT',
+    SykepengedagerOppbruktOver_67 = 'SYKEPENGEDAGER_OPPBRUKT_OVER_67',
+    Ukjent = 'UKJENT',
+}
+
 export enum Behandlingstype {
     Behandlet = 'BEHANDLET',
     Uberegnet = 'UBEREGNET',
@@ -121,6 +135,7 @@ export type BeregnetPeriode = Periode & {
 
 export type Dag = {
     __typename?: 'Dag';
+    begrunnelser?: Maybe<Array<Begrunnelse>>;
     dato: Scalars['String'];
     grad?: Maybe<Scalars['Float']>;
     kilde: Kilde;
@@ -938,10 +953,39 @@ export type FetchPersonQuery = {
                               vedtaksperiodeId: string;
                           }>;
                           hendelser: Array<
-                              | { __typename?: 'Inntektsmelding'; id: string; type: Hendelsetype }
-                              | { __typename?: 'SoknadArbeidsgiver'; id: string; type: Hendelsetype }
-                              | { __typename?: 'SoknadNav'; id: string; type: Hendelsetype }
-                              | { __typename?: 'Sykmelding'; id: string; type: Hendelsetype }
+                              | {
+                                    __typename?: 'Inntektsmelding';
+                                    beregnetInntekt: number;
+                                    mottattDato: string;
+                                    id: string;
+                                    type: Hendelsetype;
+                                }
+                              | {
+                                    __typename?: 'SoknadArbeidsgiver';
+                                    fom: string;
+                                    tom: string;
+                                    rapportertDato: string;
+                                    sendtArbeidsgiver: string;
+                                    id: string;
+                                    type: Hendelsetype;
+                                }
+                              | {
+                                    __typename?: 'SoknadNav';
+                                    fom: string;
+                                    tom: string;
+                                    rapportertDato: string;
+                                    sendtNav: string;
+                                    id: string;
+                                    type: Hendelsetype;
+                                }
+                              | {
+                                    __typename?: 'Sykmelding';
+                                    fom: string;
+                                    tom: string;
+                                    rapportertDato: string;
+                                    id: string;
+                                    type: Hendelsetype;
+                                }
                           >;
                           periodevilkar: {
                               __typename?: 'Periodevilkar';

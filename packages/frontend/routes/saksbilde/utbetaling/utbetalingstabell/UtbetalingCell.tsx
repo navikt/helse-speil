@@ -13,7 +13,7 @@ const ValueContainer = styled(CellContent)`
 
 interface UtbetalingCellProps extends React.HTMLAttributes<HTMLTableDataCellElement> {
     erOverstyrt?: boolean;
-    utbetaling?: number;
+    utbetaling?: Maybe<number>;
 }
 
 export const UtbetalingCell = ({ erOverstyrt, utbetaling, style }: UtbetalingCellProps) => (

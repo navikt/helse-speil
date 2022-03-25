@@ -1,6 +1,5 @@
 import styled from '@emotion/styled';
-import { Dayjs } from 'dayjs';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 
 import { Unlocked } from '@navikt/ds-icons';
@@ -20,9 +19,7 @@ import {
 import { useMap } from '@hooks/useMap';
 import { useOverstyringIsEnabled } from '@hooks/useOverstyringIsEnabled';
 import { useMaybeAktivPeriode, useVedtaksperiode } from '@state/tidslinje';
-import { NORSK_DATOFORMAT } from '@utils/date';
-
-import { useGjenståendeDager, useMaksdato } from '../../../modell/utbetalingshistorikkelement';
+import { getFormattedDateString } from '@utils/date';
 
 import { defaultUtbetalingToggles } from '@utils/featureToggles';
 import { EndringForm } from './utbetalingstabell/EndringForm';
@@ -31,9 +28,15 @@ import { OverstyringForm } from './utbetalingstabell/OverstyringForm';
 import { RadmarkeringCheckbox } from './utbetalingstabell/RadmarkeringCheckbox';
 import { ToggleOverstyringKnapp, UtbetalingHeader } from './utbetalingstabell/UtbetalingHeader';
 import { Utbetalingstabell } from './utbetalingstabell/Utbetalingstabell';
-import type { UtbetalingstabellDag } from './utbetalingstabell/Utbetalingstabell.types';
 import { usePostOverstyring } from './utbetalingstabell/usePostOverstyring';
 import { useTabelldagerMap } from './utbetalingstabell/useTabelldagerMap';
+import { Arbeidsgiver, BeregnetPeriode, Dagoverstyring, Overstyring } from '@io/graphql';
+import { ErrorBoundary } from '@components/ErrorBoundary';
+import { useActivePeriod } from '@state/periodState';
+import { useCurrentArbeidsgiver } from '@state/arbeidsgiverState';
+import dayjs from 'dayjs';
+import { isBeregnetPeriode } from '@utils/typeguards';
+import { Varsel } from '@components/Varsel';
 
 const Container = styled(FlexColumn)<{ overstyrer: boolean }>`
     position: relative;
@@ -97,17 +100,17 @@ const BegrunnelsesContainer = styled.div`
     margin-bottom: -1px;
 `;
 
-const getKey = (dag: UtbetalingstabellDag) => dag.dato.format(NORSK_DATOFORMAT);
+const getKey = (dag: UtbetalingstabellDag) => dag.dato;
 
 const erReellEndring = (endring: Partial<UtbetalingstabellDag>, dag: UtbetalingstabellDag): boolean =>
-    (endring.gradering !== undefined && endring.gradering !== dag.gradering) ||
-    (endring.type !== undefined && endring.type !== dag.type);
+    (typeof endring.grad === 'number' && endring.grad !== dag.grad) ||
+    (typeof endring.type === 'string' && endring.type !== dag.type);
 
 interface OverstyrbarUtbetalingProps {
-    fom: Dayjs;
-    tom: Dayjs;
+    fom: DateString;
+    tom: DateString;
     dager: Map<string, UtbetalingstabellDag>;
-    skjæringstidspunkt: string;
+    skjæringstidspunkt: DateString;
 }
 
 const OverstyrbarUtbetaling: React.FC<OverstyrbarUtbetalingProps> = ({ fom, tom, dager, skjæringstidspunkt }) => {
@@ -133,7 +136,7 @@ const OverstyrbarUtbetaling: React.FC<OverstyrbarUtbetalingProps> = ({ fom, tom,
     };
 
     const onSubmitOverstyring = () => {
-        postOverstyring(Array.from(overstyrteDager.values()), form.getValues('begrunnelse'));
+        // postOverstyring(Array.from(overstyrteDager.values()), form.getValues('begrunnelse'));
         setOverstyrer(!overstyrer);
     };
 
@@ -207,11 +210,11 @@ const OverstyrbarUtbetaling: React.FC<OverstyrbarUtbetalingProps> = ({ fom, tom,
                                 <RadmarkeringCheckbox
                                     key={i}
                                     index={i}
-                                    dato={dag.dato}
                                     dagtype={dag.type}
+                                    dato={dag.dato}
                                     skjæringstidspunkt={skjæringstidspunkt}
                                     onChange={toggleChecked(dag)}
-                                    checked={markerteDager.get(dag.dato.format(NORSK_DATOFORMAT)) !== undefined}
+                                    checked={markerteDager.get(getFormattedDateString(dag.dato)) !== undefined}
                                 />
                             ))}
                         </CheckboxContainer>
@@ -247,8 +250,8 @@ const OverstyrbarUtbetaling: React.FC<OverstyrbarUtbetalingProps> = ({ fom, tom,
 };
 
 interface ReadonlyUtbetalingProps {
-    fom: Dayjs;
-    tom: Dayjs;
+    fom: DateString;
+    tom: DateString;
     dager: Map<string, UtbetalingstabellDag>;
 }
 
@@ -272,37 +275,81 @@ const ReadonlyUtbetaling: React.FC<ReadonlyUtbetalingProps> = ({ fom, tom, dager
     );
 };
 
-interface UtbetalingProps {
-    periode: TidslinjeperiodeMedSykefravær;
-    overstyringer: Overstyring[];
-    skjæringstidspunkt: string;
+const isDagoverstyring = (overstyring: Overstyring): overstyring is Dagoverstyring =>
+    (overstyring as Dagoverstyring).__typename === 'Dagoverstyring';
+
+const useDagoverstyringer = (arbeidsgiver: Arbeidsgiver, fom: DateString, tom: DateString): Array<Dagoverstyring> => {
+    return useMemo(() => {
+        const start = dayjs(fom);
+        const end = dayjs(tom);
+        return arbeidsgiver.overstyringer.filter(isDagoverstyring).filter((overstyring) =>
+            overstyring.dager.some((dag) => {
+                const dato = dayjs(dag.dato);
+                return dato.isSameOrAfter(start) && dato.isSameOrBefore(end);
+            })
+        );
+    }, [arbeidsgiver, fom, tom]);
+};
+
+interface UtbetalingWithContentProps {
+    period: BeregnetPeriode;
+    arbeidsgiver: Arbeidsgiver;
 }
 
-export const Utbetaling: React.FC<UtbetalingProps> = React.memo(({ periode, overstyringer, skjæringstidspunkt }) => {
+const UtbetalingWithContent: React.FC<UtbetalingWithContentProps> = React.memo(({ period, arbeidsgiver }) => {
     const overstyringIsEnabled = useOverstyringIsEnabled();
     const revurderingIsEnabled = useRevurderingIsEnabled(defaultUtbetalingToggles);
     const overstyrRevurderingIsEnabled = useOverstyrRevurderingIsEnabled(defaultUtbetalingToggles);
     const erAktivPeriodeISisteSkjæringstidspunkt = useErAktivPeriodeISisteSkjæringstidspunkt();
+    const dagoverstyringer = useDagoverstyringer(arbeidsgiver, period.fom, period.tom);
 
-    const gjenståendeDager = useGjenståendeDager(periode.beregningId);
-    const maksdato = useMaksdato(periode.beregningId);
-
-    const dager = useTabelldagerMap({
-        gjenståendeDager: gjenståendeDager,
-        maksdato: maksdato,
-        overstyringer: overstyringer,
-        periode: periode,
+    const dager: Map<string, UtbetalingstabellDag> = useTabelldagerMap({
+        tidslinje: period.tidslinje,
+        gjenståendeDager: period.gjenstaendeSykedager,
+        overstyringer: dagoverstyringer,
+        maksdato: period.maksdato,
     });
 
     return (revurderingIsEnabled || overstyringIsEnabled || overstyrRevurderingIsEnabled) &&
         erAktivPeriodeISisteSkjæringstidspunkt ? (
         <OverstyrbarUtbetaling
-            fom={periode.fom}
-            tom={periode.tom}
+            fom={period.fom}
+            tom={period.tom}
             dager={dager}
-            skjæringstidspunkt={skjæringstidspunkt}
+            skjæringstidspunkt={period.skjaeringstidspunkt}
         />
     ) : (
-        <ReadonlyUtbetaling fom={periode.fom} tom={periode.tom} dager={dager} />
+        <ReadonlyUtbetaling fom={period.fom} tom={period.tom} dager={dager} />
     );
 });
+
+const UtbetalingContainer = () => {
+    const activePeriod = useActivePeriod();
+    const currentArbeidsgiver = useCurrentArbeidsgiver();
+
+    if (!activePeriod || !currentArbeidsgiver) {
+        return null;
+    } else if (isBeregnetPeriode(activePeriod)) {
+        return <UtbetalingWithContent period={activePeriod} arbeidsgiver={currentArbeidsgiver} />;
+    } else {
+        return null;
+    }
+};
+
+const UtbetalingSkeleton = () => {
+    return <div />;
+};
+
+const UtbetalingError = () => {
+    return <Varsel variant="feil">Noe gikk galt. Kan ikke vise utbetaling for denne perioden.</Varsel>;
+};
+
+export const Utbetaling = () => {
+    return (
+        <React.Suspense fallback={<UtbetalingSkeleton />}>
+            <ErrorBoundary fallback={<UtbetalingError />}>
+                <UtbetalingContainer />
+            </ErrorBoundary>
+        </React.Suspense>
+    );
+};

@@ -7,20 +7,42 @@ import { CloseButton } from '@components/CloseButton';
 import { ErrorBoundary } from '@components/ErrorBoundary';
 import { EndringsloggDager } from '@components/EndringsloggDager';
 import { EndringsloggInntekt } from '@components/EndringsloggInntekt';
-import { useActivePeriod } from '@state/periodState';
-import { useCurrentPerson } from '@state/personState';
-import { useNotaterForVedtaksperiode } from '@state/notater';
-import { GhostPeriode, Maybe, Overstyring, Periode, Personinfo, Tildeling } from '@io/graphql';
+import { EndringsloggArbeidsforhold } from '@components/EndringsloggArbeidsforhold';
+import { Dagoverstyring, Dagtype, GhostPeriode, Maybe, Overstyring, Periode, Personinfo, Tildeling } from '@io/graphql';
 import { isBeregnetPeriode, isGhostPeriode } from '@utils/typeguards';
+import { useNotaterForVedtaksperiode } from '@state/notater';
+import { useCurrentPerson } from '@state/personState';
+import { useActivePeriod } from '@state/periodState';
 
 import { Hendelsetype } from './Historikk.types';
 import { HistorikkHendelse } from './HistorikkHendelse';
 import { NotatListeModal } from '../../oversikt/table/rader/notat/NotatListeModal';
 import { useFilterState, useHistorikk, useOppdaterHistorikk, useShowHistorikkState } from './state';
+import { isArbeidsforholdoverstyring, isDagoverstyring, isInntektoverstyring } from './mapping';
 
 import styles from './Historikk.module.css';
-import { isArbeidsforholdoverstyring, isDagoverstyring, isInntektoverstyring } from './mapping';
-import { EndringsloggArbeidsforhold } from '@components/EndringsloggArbeidsforhold';
+
+const convertDagoverstyring = (overstyring: Dagoverstyring): Array<OverstyringerPrDag> => {
+    return overstyring.dager.map((it) => ({
+        begrunnelse: overstyring.begrunnelse,
+        saksbehandler: overstyring.saksbehandler,
+        timestamp: overstyring.timestamp,
+        type: (() => {
+            switch (it.type) {
+                case Dagtype.Egenmeldingsdag:
+                    return 'Egenmelding';
+                case Dagtype.Feriedag:
+                    return 'Ferie';
+                case Dagtype.Permisjonsdag:
+                    return 'Permisjon';
+                case Dagtype.Sykedag:
+                    return 'Syk';
+            }
+        })(),
+        dato: it.dato,
+        grad: it.grad,
+    }));
+};
 
 interface HistorikkWithContentProps {
     activePeriod: Periode | GhostPeriode;
@@ -95,7 +117,11 @@ export const HistorikkWithContent: React.VFC<HistorikkWithContentProps> = React.
                     />
                 )}
                 {isDagoverstyring(endring) && (
-                    <EndringsloggDager endring={endring} isOpen onRequestClose={() => setEndring(null)} />
+                    <EndringsloggDager
+                        endringer={convertDagoverstyring(endring)}
+                        isOpen
+                        onRequestClose={() => setEndring(null)}
+                    />
                 )}
                 {isInntektoverstyring(endring) && (
                     <EndringsloggInntekt endring={endring} isOpen onRequestClose={() => setEndring(null)} />

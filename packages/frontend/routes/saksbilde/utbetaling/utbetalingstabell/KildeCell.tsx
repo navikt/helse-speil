@@ -1,27 +1,31 @@
 import styled from '@emotion/styled';
 import { nanoid } from 'nanoid';
 import React, { ReactNode, useRef } from 'react';
-
 import { CaseworkerFilled } from '@navikt/ds-icons';
 
 import { Flex } from '@components/Flex';
 import { Kilde } from '@components/Kilde';
 import { Tooltip } from '@components/Tooltip';
+import { Kildetype } from '@io/graphql';
 
 import { CellContent } from '../../table/CellContent';
 import { EndringsloggTidslinjeButton } from './EndringsloggTidslinjeButton';
 
-const getKildeTypeIcon = (type?: Sykdomsdag['kilde'], overstyringer?: Dagoverstyring[]): ReactNode => {
-    switch (type) {
-        case 'Sykmelding':
+const getKildeTypeIcon = (
+    dato: DateString,
+    kilde?: Kildetype,
+    overstyringer?: Array<OverstyringerPrDag>
+): ReactNode => {
+    switch (kilde) {
+        case 'SYKMELDING':
             return <Kilde type="Sykmelding">SM</Kilde>;
-        case 'Søknad':
+        case 'SOKNAD':
             return <Kilde type="Søknad">SØ</Kilde>;
-        case 'Inntektsmelding':
+        case 'INNTEKTSMELDING':
             return <Kilde type="Inntektsmelding">IM</Kilde>;
-        case 'Saksbehandler':
+        case 'SAKSBEHANDLER':
             return overstyringer ? (
-                <EndringsloggTidslinjeButton endringer={overstyringer} />
+                <EndringsloggTidslinjeButton dato={dato} endringer={overstyringer} />
             ) : (
                 <Flex>
                     <CaseworkerFilled height={20} width={20} />
@@ -37,13 +41,14 @@ const Container = styled(CellContent)`
     justify-content: center;
 `;
 
-interface KildeCellProps extends React.HTMLAttributes<HTMLTableDataCellElement> {
-    type: Dag['type'];
-    kilde?: Sykdomsdag['kilde'];
-    overstyringer?: Dagoverstyring[];
+interface KildeCellProps extends React.HTMLAttributes<HTMLTableCellElement> {
+    type: Utbetalingstabelldagtype;
+    dato: DateString;
+    kilde?: Kildetype;
+    overstyringer?: Array<OverstyringerPrDag>;
 }
 
-export const KildeCell = ({ type, kilde, overstyringer, ...rest }: KildeCellProps) => {
+export const KildeCell = ({ type, dato, kilde, overstyringer, ...rest }: KildeCellProps) => {
     const tooltipId = useRef(nanoid()).current;
 
     return (
@@ -52,7 +57,7 @@ export const KildeCell = ({ type, kilde, overstyringer, ...rest }: KildeCellProp
                 {type !== 'Helg' && (
                     <>
                         <span data-tip={kilde} data-for={tooltipId}>
-                            {getKildeTypeIcon(kilde, overstyringer)}
+                            {getKildeTypeIcon(dato, kilde, overstyringer)}
                         </span>
                         <Tooltip id={tooltipId} effect="solid" />
                     </>

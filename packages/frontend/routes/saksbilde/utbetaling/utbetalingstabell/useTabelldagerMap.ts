@@ -1,82 +1,131 @@
-import { Dayjs } from 'dayjs';
+import dayjs from 'dayjs';
 import { useMemo } from 'react';
 
-import { NORSK_DATOFORMAT } from '@utils/date';
+import { Dag, Dagoverstyring, Dagtype, Maybe, OverstyrtDag, Sykdomsdagtype, Utbetalingsdagtype } from '@io/graphql';
 
-import { UtbetalingstabellDag } from './Utbetalingstabell.types';
-
-const mapKey = (dag: Utbetalingsdag): string => dag.dato.format(NORSK_DATOFORMAT);
-
-export const withDagerIgjen = (dager: Utbetalingsdag[], totaltAntallDagerIgjen: number): UtbetalingstabellDag[] => {
-    const getDagerIgjen = (dag: Utbetalingsdag, dagerIgjen: number) =>
-        dag.type === 'Syk' && dagerIgjen > 0 ? dagerIgjen - 1 : dagerIgjen;
-
-    return dager.length > 0
-        ? (dager
-              .slice(1)
-              .reduce(
-                  (alle, it, i) => alle.concat([{ ...it, dagerIgjen: getDagerIgjen(it, alle[i].dagerIgjen) }]),
-                  [{ ...dager[0], dagerIgjen: getDagerIgjen(dager[0], totaltAntallDagerIgjen) }]
-              ) as UtbetalingstabellDag[])
-        : [];
+const getUtbetalingstabelldagtypeFromOverstyrtDag = (dag: OverstyrtDag): Utbetalingstabelldagtype => {
+    switch (dag.type) {
+        case Dagtype.Egenmeldingsdag:
+            return 'Egenmelding';
+        case Dagtype.Feriedag:
+            return 'Ferie';
+        case Dagtype.Permisjonsdag:
+            return 'Permisjon';
+        case Dagtype.Sykedag:
+            return 'Syk';
+    }
 };
 
-export const antallSykedagerTilOgMedMaksdato = (dager: Utbetalingsdag[], maksdato?: Dayjs): number =>
-    maksdato ? dager.filter((it) => it.type === 'Syk' && it.dato.isSameOrBefore(maksdato)).length : 0;
+const getUtbetalingstabelldagtype = (dag: Dag): Utbetalingstabelldagtype => {
+    switch (dag.utbetalingsdagtype) {
+        case Utbetalingsdagtype.Arbeidsdag:
+            return 'Arbeid';
+        case Utbetalingsdagtype.Feriedag:
+            return 'Ferie';
+        case Utbetalingsdagtype.Navhelgdag:
+        case Utbetalingsdagtype.Helgedag:
+            return 'Helg';
+        case Utbetalingsdagtype.Navdag:
+            return 'Syk';
+        case Utbetalingsdagtype.UkjentDag:
+            return 'Ukjent';
+    }
+    switch (dag.sykdomsdagtype) {
+        case Sykdomsdagtype.Arbeidsdag:
+        case Sykdomsdagtype.Arbeidsgiverdag:
+            return 'Arbeid';
+        case Sykdomsdagtype.Feriedag:
+            return 'Ferie';
+        case Sykdomsdagtype.Permisjonsdag:
+            return 'Permisjon';
+        case Sykdomsdagtype.Sykedag:
+            return 'Syk';
+        case Sykdomsdagtype.SykHelgedag:
+        case Sykdomsdagtype.FriskHelgedag:
+            return 'Helg';
+        case Sykdomsdagtype.Ubestemtdag:
+        default:
+            return 'Ukjent';
+    }
+};
+
+export const createDagerMap = (
+    dager: Array<Dag>,
+    totaltAntallDagerIgjen: number,
+    maksdato?: DateString
+): Map<DateString, UtbetalingstabellDag> => {
+    const map = new Map<DateString, UtbetalingstabellDag>();
+    let dagerIgjen = totaltAntallDagerIgjen;
+
+    for (let i = 0; i < dager.length; i++) {
+        const currentDag = dager[i];
+        dagerIgjen = currentDag.utbetalingsdagtype === 'NAVDAG' ? dagerIgjen - 1 : dagerIgjen;
+
+        map.set(currentDag.dato, {
+            dato: currentDag.dato,
+            kilde: currentDag.kilde,
+            type: getUtbetalingstabelldagtype(currentDag),
+            erAGP: currentDag.utbetalingsdagtype === 'ARBEIDSGIVERPERIODEDAG',
+            erAvvist: currentDag.utbetalingsdagtype === 'AVVIST_DAG',
+            erForeldet: currentDag.utbetalingsdagtype === 'FORELDET_DAG',
+            erMaksdato: typeof maksdato === 'string' && dayjs(maksdato).isSame(currentDag.dato, 'day'),
+            grad: currentDag.grad,
+            dagerIgjen: dagerIgjen,
+            totalGradering: currentDag.utbetalingsinfo?.totalGrad,
+            arbeidsgiverbeløp: currentDag.utbetalingsinfo?.arbeidsgiverbelop,
+            personbeløp: currentDag.utbetalingsinfo?.personbelop,
+            begrunnelser: currentDag.begrunnelser,
+        });
+    }
+
+    return map;
+};
+
+export const antallSykedagerTilOgMedMaksdato = (dager: Array<Dag>, maksdato?: DateString): number =>
+    maksdato
+        ? dager.filter((it) => it.utbetalingsdagtype === 'NAVDAG' && dayjs(it.dato).isSameOrBefore(maksdato)).length
+        : 0;
 
 type UseTabelldagerMapOptions = {
-    periode: TidslinjeperiodeMedSykefravær;
-    overstyringer: Overstyring[];
-    gjenståendeDager: number | null;
-    maksdato?: Dayjs;
+    tidslinje: Array<Dag>;
+    gjenståendeDager?: Maybe<number>;
+    overstyringer?: Array<Dagoverstyring>;
+    maksdato?: DateString;
 };
 
 export const useTabelldagerMap = ({
-    periode,
-    overstyringer,
+    tidslinje,
     gjenståendeDager,
+    overstyringer = [],
     maksdato,
 }: UseTabelldagerMapOptions): Map<string, UtbetalingstabellDag> =>
     useMemo(() => {
         const antallDagerIgjen =
-            (gjenståendeDager ? gjenståendeDager : 0) +
-            antallSykedagerTilOgMedMaksdato(periode.utbetalingstidslinje, maksdato);
+            (typeof gjenståendeDager === 'number' ? gjenståendeDager : 0) +
+            antallSykedagerTilOgMedMaksdato(tidslinje, maksdato);
 
-        const dager: UtbetalingstabellDag[] = withDagerIgjen(periode.utbetalingstidslinje, antallDagerIgjen).map(
-            (it, i) => ({
-                ...it,
-                sykdomsdag: {
-                    kilde: periode.sykdomstidslinje[i]?.kilde ?? 'Ukjent',
-                    type: periode.sykdomstidslinje[i]?.type ?? it.type,
-                    grad: periode.sykdomstidslinje[i]?.gradering,
-                },
-            })
-        ) as UtbetalingstabellDag[];
+        const dager: Map<DateString, UtbetalingstabellDag> = createDagerMap(tidslinje, antallDagerIgjen);
 
-        const dagerMap: Map<string, UtbetalingstabellDag> = new Map(dager.map((it) => [mapKey(it), it]));
-
-        overstyringer.forEach((overstyring: Overstyring) => {
-            overstyring.overstyrteDager.forEach((dag: OverstyrtDag) => {
-                const existing = dagerMap.get(dag.dato.format(NORSK_DATOFORMAT));
+        for (const overstyring of overstyringer) {
+            for (const dag of overstyring.dager) {
+                const existing = dager.get(dag.dato);
                 if (existing) {
-                    dagerMap.set(dag.dato.format(NORSK_DATOFORMAT), {
+                    dager.set(dag.dato, {
                         ...existing,
-                        isMaksdato: (maksdato && dag.dato.isSame(maksdato)) ?? false,
                         overstyringer: (existing.overstyringer ?? []).concat([
                             {
                                 begrunnelse: overstyring.begrunnelse,
-                                ident: overstyring.saksbehandlerIdent,
-                                navn: overstyring.saksbehandlerNavn,
+                                saksbehandler: overstyring.saksbehandler,
                                 timestamp: overstyring.timestamp,
-                                dato: dag.dato,
-                                type: dag.type,
                                 grad: dag.grad,
+                                type: getUtbetalingstabelldagtypeFromOverstyrtDag(dag),
+                                dato: dag.dato,
                             },
                         ]),
                     });
                 }
-            });
-        });
+            }
+        }
 
-        return dagerMap;
-    }, [periode, overstyringer, gjenståendeDager, maksdato]);
+        return dager;
+    }, [tidslinje, overstyringer, gjenståendeDager, maksdato]);
