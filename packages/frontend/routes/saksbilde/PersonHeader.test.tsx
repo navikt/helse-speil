@@ -1,48 +1,28 @@
-import '@testing-library/jest-dom/extend-expect';
-import { render, screen } from '@testing-library/react';
 import React from 'react';
+import { render, screen } from '@testing-library/react';
+import '@testing-library/jest-dom/extend-expect';
 
-import { personState } from '@state/person';
+import { Adressebeskyttelse } from '@io/graphql';
+import { MemoryRouterWrapper } from '@test-wrappers';
 
-import { PersonHeader } from './PersonHeader';
-import { RecoilAndRouterWrapper } from '@test-wrappers';
+import { _PersonHeader } from './PersonHeader';
 
 describe('Personlinje', () => {
     test('rendrer personinfo', () => {
-        const person = {
-            aktørId: '123456789',
-            personinfo: {
-                fornavn: 'MARIUS',
-                mellomnavn: 'BORG',
-                etternavn: 'HØIBY',
-                fnr: '12345678910',
-                kjønn: 'mann',
-            },
-            enhet: {
-                id: '123',
-                navn: 'Huttiheiti',
-            },
-        } as Person;
         render(
-            <PersonHeader aktørId="123456789" enhet={{ id: '123', navn: 'Huttiheiti' }} dødsdato={person.dødsdato} />,
-            {
-                wrapper: ({ children }) => (
-                    <RecoilAndRouterWrapper
-                        initializeState={({ set }) => {
-                            set(personState, {
-                                person: {
-                                    ...person,
-                                    vilkårsgrunnlagHistorikk: {},
-                                    arbeidsgivereV2: [],
-                                    arbeidsforhold: [],
-                                },
-                            });
-                        }}
-                    >
-                        {children}
-                    </RecoilAndRouterWrapper>
-                ),
-            }
+            <_PersonHeader
+                fødselsnummer="12345678910"
+                aktørId="123456789"
+                enhet={{ id: '123', navn: 'Huttiheiti' }}
+                personinfo={{
+                    fornavn: 'MARIUS',
+                    mellomnavn: 'BORG',
+                    etternavn: 'HØIBY',
+                    adressebeskyttelse: Adressebeskyttelse.Ugradert,
+                }}
+                isAnonymous={false}
+            />,
+            { wrapper: MemoryRouterWrapper }
         );
         expect(screen.getByText('Høiby, Marius Borg', { exact: false })).toBeVisible();
         expect(screen.getByText('123456 78910')).toBeVisible();

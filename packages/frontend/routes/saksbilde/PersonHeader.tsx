@@ -167,3 +167,5 @@ export const PersonHeader: React.VFC = () => {
         </React.Suspense>
     );
 };
+
+export const _PersonHeader = PersonHeaderWithContent;
