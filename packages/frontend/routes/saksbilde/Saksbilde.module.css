@@ -21,3 +21,8 @@
     left: calc(50% - 2rem);
     top: max(calc(50% - 2rem), 200px);
 }
+
+.Warning {
+    grid-column-start: venstremeny;
+    grid-column-end: høyremeny;
+}

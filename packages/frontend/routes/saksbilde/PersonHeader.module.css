@@ -1,4 +1,4 @@
-.Personlinje {
+.PersonHeader {
     grid-area: personlinje;
     display: flex;
     align-items: center;
@@ -10,7 +10,11 @@
     color: var(--navds-color-text-primary);
 }
 
-.Personlinje > svg {
+.PersonHeader.Error {
+    background: var(--navds-color-error-background);
+}
+
+.PersonHeader > svg {
     margin-right: 0.5rem;
 }
 
@@ -35,20 +39,20 @@
     box-shadow: 0 0 0 2px var(--navds-text-focus);
 }
 
-.Etikett {
+.Tag {
     padding: 0.25rem 0.5rem;
     border-radius: 0.25rem;
     width: max-content;
     margin-left: 10px;
 }
 
-.Etikett.adressebeskyttelse {
+.Tag.adressebeskyttelse {
     background: var(--speil-etikett-adressebeskyttelse-background);
     border: 1px solid var(--speil-etikett-adressebeskyttelse-border);
     color: var(--navds-color-text-primary);
 }
 
-.Etikett.dødsdato {
+.Tag.dødsdato {
     background: var(--speil-etikett-dødsdato-background);
     border: 1px solid var(--speil-etikett-dødsdato-border);
     color: var(--navds-color-text-inverse);

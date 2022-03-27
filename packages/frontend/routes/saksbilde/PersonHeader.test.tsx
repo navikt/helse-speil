@@ -4,7 +4,7 @@ import React from 'react';
 
 import { personState } from '@state/person';
 
-import { Personlinje } from './Personlinje';
+import { PersonHeader } from './PersonHeader';
 import { RecoilAndRouterWrapper } from '@test-wrappers';
 
 describe('Personlinje', () => {
@@ -24,7 +24,7 @@ describe('Personlinje', () => {
             },
         } as Person;
         render(
-            <Personlinje aktørId="123456789" enhet={{ id: '123', navn: 'Huttiheiti' }} dødsdato={person.dødsdato} />,
+            <PersonHeader aktørId="123456789" enhet={{ id: '123', navn: 'Huttiheiti' }} dødsdato={person.dødsdato} />,
             {
                 wrapper: ({ children }) => (
                     <RecoilAndRouterWrapper
