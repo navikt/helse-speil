@@ -382,7 +382,7 @@ export class ArbeidsgiverBuilder {
         harOppgave: boolean,
         vurdering?: UtbetalingshistorikkElement['vurdering'],
         vedtaksperiodetilstand?: Periodetilstand
-    ): Tidslinjetilstand => {
+    ): PeriodState => {
         switch (periodetype) {
             case 'VEDTAKSPERIODE':
                 switch (utbetalingstatus) {
@@ -446,7 +446,7 @@ export class ArbeidsgiverBuilder {
     private defaultTidslinjeTilstander = (
         utbetalingstatus: UtbetalingshistorikkElement['status'],
         utbetalingstidslinje: Utbetalingsdag[]
-    ): Tidslinjetilstand => {
+    ): PeriodState => {
         switch (utbetalingstatus) {
             case 'GODKJENT_UTEN_UTBETALING':
                 return this.harUtelukkende(['Ferie', 'Helg'], utbetalingstidslinje)

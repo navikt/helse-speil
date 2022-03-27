@@ -61,7 +61,7 @@ const periodetekst = (antallDager: number, perioder: Periode[]): string | undefi
     return `${antallDager} dager`;
 };
 
-const utbetalingstatus = (status: Tidslinjetilstand) => {
+const utbetalingstatus = (status: PeriodState) => {
     switch (status) {
         case 'utbetaltAutomatisk':
             return 'Automatisk utbetalt';

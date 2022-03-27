@@ -68,7 +68,7 @@ describe('Utbetaling', () => {
         postOverstyringArguments = [];
     });
     test('overstyrer utbetalingstabell', async () => {
-        render(<Utbetaling periode={enPeriode()} overstyringer={[]} skjæringstidspunkt={testSkjæringstidspunkt} />, {
+        render(<Utbetaling period={enPeriode()} overstyringer={[]} skjæringstidspunkt={testSkjæringstidspunkt} />, {
             wrapper,
         });
 

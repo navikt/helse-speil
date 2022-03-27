@@ -130,12 +130,7 @@ declare type Periodetilstand =
     | 'utbetaltAutomatisk'
     | 'tilUtbetalingAutomatisk';
 
-declare type Tidslinjetilstand =
-    | Periodetilstand
-    | 'revurderes'
-    | 'revurdert'
-    | 'revurdertIngenUtbetaling'
-    | 'utenSykefravær';
+declare type PeriodState = Periodetilstand | 'revurderes' | 'revurdert' | 'revurdertIngenUtbetaling' | 'utenSykefravær';
 
 declare type TidslinjeperiodeMedSykefravær = Tidslinjeperiode & {
     unique: string;
@@ -161,7 +156,7 @@ declare type Tidslinjeperiode = {
     id: string;
     fom: Dayjs;
     tom: Dayjs;
-    tilstand: Tidslinjetilstand;
+    tilstand: PeriodState;
     organisasjonsnummer: string;
     inntektskilde: Inntektskilde;
     fullstendig: boolean;

@@ -1,5 +1,6 @@
 import styled from '@emotion/styled';
 import React from 'react';
+import { Periodetype as GraphQLPeriodetype } from '@io/graphql';
 
 interface EtikettProps {
     størrelse?: 's' | 'l';
@@ -111,19 +112,23 @@ const DelvisRefusjonEtikett = styled(Etikett)`
 `;
 
 interface OppgaveetikettProps extends EtikettProps {
-    type: Periodetype;
-    tilstand?: Tidslinjetilstand;
+    type: Periodetype | GraphQLPeriodetype | 'REVURDERING';
+    tilstand?: PeriodState;
 }
 
 export const Oppgaveetikett = ({ type, tilstand, størrelse = 'l' }: OppgaveetikettProps) => {
     switch (type) {
         case 'førstegangsbehandling':
+        case 'FORSTEGANGSBEHANDLING':
             return <FørstegangsbehandlingEtikett størrelse={størrelse} />;
         case 'forlengelse':
+        case 'FORLENGELSE':
             return <ForlengelseEtikett størrelse={størrelse} />;
         case 'infotrygdforlengelse':
+        case 'INFOTRYGDFORLENGELSE':
             return <ForlengelseEtikett størrelse={størrelse} />;
         case 'overgangFraIt':
+        case 'OVERGANG_FRA_IT':
             return <InfotrygdforlengelseEtikett størrelse={størrelse} />;
         case 'stikkprøve':
             return <StikkprøveEtikett størrelse={størrelse} />;
@@ -135,6 +140,7 @@ export const Oppgaveetikett = ({ type, tilstand, størrelse = 'l' }: Oppgaveetik
             return <UtbetalingTilSykmeldtEtikett størrelse={størrelse} />;
         case 'delvisRefusjon':
             return <DelvisRefusjonEtikett størrelse={størrelse} />;
+        case 'REVURDERING':
         case 'revurdering': {
             if (tilstand === 'revurderes') {
                 return <RevurderesEtikett størrelse={størrelse} />;

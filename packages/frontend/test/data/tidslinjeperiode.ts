@@ -3,7 +3,7 @@ import dayjs, { Dayjs } from 'dayjs';
 import { testBeregningId } from './person';
 
 export const enTidslinjeperiode = (
-    tilstand: Tidslinjetilstand = 'oppgaver',
+    tilstand: PeriodState = 'oppgaver',
     fom: Dayjs = dayjs('2021-01-01'),
     tom: Dayjs = dayjs('2021-01-31'),
     periodetype: TidslinjeperiodeMedSykefravær['type'] = 'VEDTAKSPERIODE'

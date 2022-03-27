@@ -2,6 +2,7 @@ import dayjs, { Dayjs } from 'dayjs';
 import isSameOrAfter from 'dayjs/plugin/isSameOrAfter';
 import isSameOrBefore from 'dayjs/plugin/isSameOrBefore';
 import isoWeek from 'dayjs/plugin/isoWeek';
+import { Maybe } from '@io/graphql';
 
 dayjs.extend(isoWeek);
 dayjs.extend(isSameOrBefore);
@@ -25,4 +26,8 @@ export const findEarliest = (dates: Dayjs[]): Dayjs => {
         .pop()!;
 };
 
-export const tilNorskDato = (dateString: DateString): string => dayjs(dateString).format(NORSK_DATOFORMAT);
+export const getFormattedDateString = (dateString?: Maybe<DateString>): string =>
+    typeof dateString === 'string' ? dayjs(dateString).format(NORSK_DATOFORMAT) : '';
+
+export const getFormattedDatetimeString = (dateString?: Maybe<DateString>): string =>
+    typeof dateString === 'string' ? dayjs(dateString).format(NORSK_DATOFORMAT) : '';

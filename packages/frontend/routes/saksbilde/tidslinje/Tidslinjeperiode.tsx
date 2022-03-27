@@ -10,7 +10,7 @@ import { NORSK_DATOFORMAT } from '@utils/date';
 
 import { Periodeknapp, PeriodePin } from './Tidslinjeperiode.styles';
 
-const ariaLabel = (tilstand: Tidslinjetilstand | Infotrygdperiodetilstand, fom: Dayjs, tom: Dayjs): string => {
+const ariaLabel = (tilstand: PeriodState | Infotrygdperiodetilstand, fom: Dayjs, tom: Dayjs): string => {
     const fomString = fom.format(NORSK_DATOFORMAT);
     const tomString = tom.format(NORSK_DATOFORMAT);
     switch (tilstand) {
@@ -79,9 +79,7 @@ interface TidslinjeperiodeProps extends PeriodProps {
     start: Dayjs;
     end: Dayjs;
     style: React.CSSProperties;
-    tilstand: Tidslinjetilstand | Infotrygdperiodetilstand;
-    påtvingAvrundingPølseHøyre: boolean;
-    påtvingAvrundingPølseVenstre: boolean;
+    tilstand: PeriodState | Infotrygdperiodetilstand;
     erAktiv?: boolean;
     erForeldet?: boolean;
     hoverLabel?: ReactNode;
@@ -94,8 +92,6 @@ export const Tidslinjeperiode = ({
     hoverLabel,
     erAktiv,
     tilstand,
-    påtvingAvrundingPølseHøyre,
-    påtvingAvrundingPølseVenstre,
     erForeldet,
     skalVisePin,
     onClick,
@@ -119,13 +115,10 @@ export const Tidslinjeperiode = ({
     return (
         <div data-testid={`tidslinjeperiode-${props.id}`}>
             <Periodeknapp
-                tabIndex={0}
                 onMouseOver={assignAnchor}
                 onMouseOut={removeAnchor}
                 onClick={onClickWrapper}
                 active={erAktiv}
-                avrundhoyre={påtvingAvrundingPølseHøyre}
-                avrundvenstre={påtvingAvrundingPølseVenstre}
                 className={classNames(tilstand, erForeldet ? 'foreldet' : 'gjeldende')}
                 aria-label={ariaLabel(tilstand, start, end)}
                 {...props}

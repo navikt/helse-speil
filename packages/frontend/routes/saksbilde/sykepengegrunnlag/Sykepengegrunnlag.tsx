@@ -10,24 +10,22 @@ import { BehandletSykepengegrunnlag } from './BehandletSykepengegrunnlag';
 import { SykepengegrunnlagFraInfogtrygd } from './SykepengegrunnlagFraInfotrygd';
 import { UbehandletSykepengegrunnlag } from './UbehandletSykepengegrunnlag';
 
-const Container = styled.section`
-    width: 100%;
-    height: 100%;
-    padding-top: 2rem;
-    box-sizing: border-box;
-`;
+import styles from './Sykepengegrunnlag.module.css';
+import classNames from 'classnames';
 
-interface SykepengegrunnlagProps {
+interface SykepengegrunnlagProps extends React.HTMLAttributes<HTMLElement> {
     vilkårsgrunnlaghistorikkId: UUID;
     skjæringstidspunkt: DateString;
     refusjon?: Refusjon | null;
 }
 
-export const Sykepengegrunnlag = ({
+export const Sykepengegrunnlag: React.VFC<SykepengegrunnlagProps> = ({
     vilkårsgrunnlaghistorikkId,
     skjæringstidspunkt,
     refusjon,
-}: SykepengegrunnlagProps) => {
+    className,
+    ...elementProps
+}) => {
     const organisasjonsnummer = useOrganisasjonsnummer();
     const vilkårsgrunnlag = useVilkårsgrunnlaghistorikk(skjæringstidspunkt, vilkårsgrunnlaghistorikkId);
     const aktivPeriode = useMaybeAktivPeriode()!;
@@ -36,7 +34,7 @@ export const Sykepengegrunnlag = ({
     const vurdering = useVurderingForSkjæringstidspunkt(unique, aktivPeriode.skjæringstidspunkt!);
 
     return (
-        <Container className="Sykepengegrunnlag">
+        <section className={classNames(styles.Sykepengegrunnlag, className)}>
             <AgurkErrorBoundary>
                 {vilkårsgrunnlag?.vilkårsgrunnlagtype === 'SPLEIS' ? (
                     vurdering ? (
@@ -60,6 +58,6 @@ export const Sykepengegrunnlag = ({
                     />
                 )}
             </AgurkErrorBoundary>
-        </Container>
+        </section>
     );
 };

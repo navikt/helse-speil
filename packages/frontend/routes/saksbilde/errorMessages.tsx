@@ -8,14 +8,14 @@ const ErrorVarsel = styled(Varsel)`
     grid-column-end: høyremeny;
 `;
 
-export const getErrorMessage = (tilstand: Tidslinjetilstand) => {
+export const getErrorMessage = (tilstand: PeriodState) => {
     const errorMessage = getErrorMessageForTidslinjetilstand(tilstand);
     return (error: Error) => {
         return errorMessage ? errorMessage : <ErrorVarsel variant="feil">{error.message}</ErrorVarsel>;
     };
 };
 
-export const getErrorMessageForTidslinjetilstand = (tilstand: Tidslinjetilstand) => {
+export const getErrorMessageForTidslinjetilstand = (tilstand: PeriodState) => {
     switch (tilstand) {
         case 'venter':
             return (

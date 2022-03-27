@@ -10,8 +10,8 @@ import { Kilde } from '@components/Kilde';
 import { PopoverHjelpetekst } from '@components/PopoverHjelpetekst';
 import { SortInfoikon } from '@components/ikoner/SortInfoikon';
 import {
-    useErAktivPeriodeISisteSkjæringstidspunkt,
-    useErTidslinjeperiodeISisteGenerasjon,
+    useActivePeriodHasLatestSkjæringstidspunkt,
+    useActiveGenerationIsLast,
     useHarKunEnFagsystemIdPåArbeidsgiverIAktivPeriode,
 } from '@hooks/revurdering';
 import { useEndringerForPeriode, useUtbetalingForSkjæringstidspunkt, useVilkårsgrunnlaghistorikk } from '@state/person';
@@ -108,8 +108,8 @@ interface RedigerInntektProps {
 const RedigerInntekt = ({ setEditing, editing }: RedigerInntektProps) => {
     const ikkeUtbetaltVedSkjæringstidspunkt = useIkkeUtbetaltVedSkjæringstidspunkt();
     const harKunEnArbeidsgiver = useInntektskilde() === 'EN_ARBEIDSGIVER';
-    const erAktivPeriodeISisteSkjæringstidspunkt = useErAktivPeriodeISisteSkjæringstidspunkt();
-    const erTidslinjeperiodeISisteGenerasjon = useErTidslinjeperiodeISisteGenerasjon();
+    const erAktivPeriodeISisteSkjæringstidspunkt = useActivePeriodHasLatestSkjæringstidspunkt();
+    const erTidslinjeperiodeISisteGenerasjon = useActiveGenerationIsLast();
     const aktivPeriode = useAktivPeriode();
     const erSpleisVilkårsgrunnlagtype =
         useVilkårsgrunnlaghistorikk(
