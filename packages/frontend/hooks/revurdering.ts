@@ -6,13 +6,12 @@ import { usePerson } from '@state/person';
 import { useAktivPeriode, useMaybeAktivPeriode } from '@state/tidslinje';
 
 import type { UtbetalingToggles } from '@utils/featureToggles';
+import { useActivePeriod } from '@state/periodState';
+import { useCurrentArbeidsgiver } from '@state/arbeidsgiverState';
+import { isBeregnetPeriode } from '@utils/typeguards';
+import { UberegnetPeriode } from '@io/graphql';
 
-const godkjentTilstander: Tidslinjetilstand[] = [
-    'utbetalt',
-    'utbetaltAutomatisk',
-    'revurdert',
-    'revurdertIngenUtbetaling',
-];
+const godkjentTilstander: PeriodState[] = ['utbetalt', 'utbetaltAutomatisk', 'revurdert', 'revurdertIngenUtbetaling'];
 
 const tidslinjeperioderISisteGenerasjon = (
     person: Person,
@@ -116,14 +115,15 @@ export const useOverstyrRevurderingIsEnabled = (toggles: UtbetalingToggles) => {
     );
 };
 
-export const useErTidslinjeperiodeISisteGenerasjon = (): boolean => {
-    const periode = useAktivPeriode();
-    const person = usePerson();
+export const useActiveGenerationIsLast = (): boolean => {
+    const period = useActivePeriod();
+    const arbeidsgiver = useCurrentArbeidsgiver();
 
-    if (!person) throw Error('Forventet person, men fant ingen');
-    if (periode.tilstand === 'utenSykefravær') return false;
+    if (!arbeidsgiver || !isBeregnetPeriode(period)) {
+        return false;
+    }
 
-    return periodeFinnesISisteGenerasjon(person, periode as TidslinjeperiodeMedSykefravær);
+    return arbeidsgiver.generasjoner[0].perioder.some((it) => (it as BeregnetPeriode).id === period.id);
 };
 
 export const useHarIngenUtbetaltePerioderFor = (skjæringstidspunkt: string): boolean => {
@@ -138,18 +138,17 @@ export const useHarIngenUtbetaltePerioderFor = (skjæringstidspunkt: string): bo
     );
 };
 
-export const useErAktivPeriodeISisteSkjæringstidspunkt = (): boolean => {
-    const periode = useMaybeAktivPeriode();
-    const person = usePerson();
+export const useActivePeriodHasLatestSkjæringstidspunkt = (): boolean => {
+    const period = useActivePeriod();
+    const arbeidsgiver = useCurrentArbeidsgiver();
 
-    if (!person || !periode || periode.tilstand === 'utenSykefravær') {
+    if (!period || !arbeidsgiver || !isBeregnetPeriode(period)) {
         return false;
     }
 
-    return arbeidsgiversSisteSkjæringstidspunktErLikSkjæringstidspunktetTilPerioden(
-        person,
-        periode as TidslinjeperiodeMedSykefravær
-    );
+    const lastBeregnetPeriode = arbeidsgiver.generasjoner[0].perioder.filter(isBeregnetPeriode)[0];
+
+    return lastBeregnetPeriode !== undefined && lastBeregnetPeriode.skjaeringstidspunkt === period.skjaeringstidspunkt;
 };
 
 export const useHarKunEnFagsystemIdPåArbeidsgiverIAktivPeriode = (): boolean => {

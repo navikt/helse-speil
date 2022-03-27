@@ -1,48 +1,32 @@
-import { css } from '@emotion/react';
-import styled from '@emotion/styled';
 import React, { Dispatch, SetStateAction, useMemo } from 'react';
-
-import { Checkbox as NavCheckbox } from '@navikt/ds-react';
-
-import { UtbetalingstabellDag } from './Utbetalingstabell.types';
+import dayjs from 'dayjs';
+import classNames from 'classnames';
+import { Checkbox } from '@navikt/ds-react';
 
 import { overstyrPermisjonsdagerEnabled } from '@utils/featureToggles';
 
-const Container = styled.div`
-    position: absolute;
-    top: -4rem;
-    left: 0;
-    padding: 1rem;
+import styles from './MarkerAlleDagerCheckbox.module.css';
 
-    > div {
-        position: absolute;
-        padding: 0;
-        left: 50%;
-        top: 50%;
-        transform: translate(-50%, -50%);
+const dagKanOverstyres = (type: Utbetalingstabelldagtype, dato: DateString, skjæringstidspunkt: DateString) =>
+    (!dayjs(dato).isSame(skjæringstidspunkt, 'day') &&
+        type !== 'Helg' &&
+        ['Syk', 'Ferie', 'Egenmelding'].includes(type)) ||
+    (overstyrPermisjonsdagerEnabled && type === 'Permisjon');
 
-        > input {
-            max-height: 2rem;
-            max-width: 2rem;
-        }
-    }
-`;
-
-const Checkbox = styled(NavCheckbox)<{ partial: boolean }>`
-    ${({ partial }) =>
-        partial &&
-        css`
-            > label:before {
-                content: '-';
-                font-size: 1.5rem;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                background-color: #c4c4c4;
-                border: none;
-            }
-        `}
-`;
+const useOverstyrbareDager = (
+    alleDager: Map<DateString, UtbetalingstabellDag>,
+    skjæringstidspunkt: DateString
+): Map<DateString, UtbetalingstabellDag> => {
+    return useMemo(
+        () =>
+            Array.from(alleDager.entries()).reduce(
+                (dager, [key, dag]) =>
+                    dagKanOverstyres(dag.type, dag.dato, skjæringstidspunkt) ? dager.set(key, dag) : dager,
+                new Map()
+            ),
+        [alleDager]
+    );
+};
 
 interface MarkerAlleDagerCheckboxProps extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'size' | 'value'> {
     alleDager: Map<string, UtbetalingstabellDag>;
@@ -58,20 +42,9 @@ export const MarkerAlleDagerCheckbox: React.FC<MarkerAlleDagerCheckboxProps> = (
     skjæringstidspunkt,
     ...rest
 }) => {
-    const dagKanOverstyres = (type: Dag['type'], dato: Dayjs) =>
-        (!dato.isSame(skjæringstidspunkt, 'day') &&
-            type !== 'Helg' &&
-            ['Syk', 'Ferie', 'Egenmelding'].includes(type)) ||
-        (overstyrPermisjonsdagerEnabled && type === 'Permisjon');
+    const overstyrbareDager = useOverstyrbareDager(alleDager, skjæringstidspunkt);
 
-    const overstyrbareDager = useMemo(
-        () =>
-            Array.from(alleDager.entries()).reduce(
-                (dager, [key, dag]) => (dagKanOverstyres(dag.type, dag.dato) ? dager.set(key, dag) : dager),
-                new Map()
-            ),
-        [alleDager]
-    );
+    const hasSelectedSome = markerteDager.size > 0 && markerteDager.size !== overstyrbareDager.size;
 
     const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         if (event.target.checked) {
@@ -81,12 +54,10 @@ export const MarkerAlleDagerCheckbox: React.FC<MarkerAlleDagerCheckboxProps> = (
         }
     };
 
-    const hasSelectedSome = markerteDager.size > 0 && markerteDager.size !== overstyrbareDager.size;
-
     return (
-        <Container>
+        <div className={styles.MarkerAlleDagerCheckbox}>
             <Checkbox
-                partial={hasSelectedSome}
+                className={classNames(styles.Checkbox, hasSelectedSome && styles.partial)}
                 onChange={onChange}
                 checked={overstyrbareDager.size === markerteDager.size}
                 {...rest}
@@ -94,6 +65,6 @@ export const MarkerAlleDagerCheckbox: React.FC<MarkerAlleDagerCheckboxProps> = (
             >
                 Marker alle dager
             </Checkbox>
-        </Container>
+        </div>
     );
 };

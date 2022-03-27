@@ -7,7 +7,6 @@ import { Checkbox } from '@navikt/ds-react';
 import { DisabledCheckbox } from './DisabledCheckbox';
 
 import { overstyrPermisjonsdagerEnabled } from '@utils/featureToggles';
-import { Sykdomsdagtype, Utbetalingsdagtype } from '@io/graphql';
 
 const Container = styled.div`
     position: relative;
@@ -31,6 +30,7 @@ interface RadmarkeringCheckboxProps extends Omit<React.InputHTMLAttributes<HTMLI
     index: number;
     dagtype: Utbetalingstabelldagtype;
     dato: DateString;
+    erAGP: boolean;
     skjæringstidspunkt: DateString;
 }
 
@@ -38,14 +38,14 @@ export const RadmarkeringCheckbox: React.FC<RadmarkeringCheckboxProps> = ({
     index,
     dagtype,
     dato,
+    erAGP,
     skjæringstidspunkt,
     ...rest
 }) => {
-    const erSkjæringstidspunkt: boolean =
-        skjæringstidspunkt !== undefined && dayjs(dato).isSame(skjæringstidspunkt, 'day');
+    const erSkjæringstidspunkt: boolean = dayjs(dato).isSame(skjæringstidspunkt, 'day');
 
     const dagKanOverstyres =
-        (!['Helg'].includes(dagtype) && ['Syk', 'Ferie', 'Egenmelding'].includes(dagtype)) ||
+        (!erAGP && !['Helg'].includes(dagtype) && ['Syk', 'Ferie', 'Egenmelding'].includes(dagtype)) ||
         (overstyrPermisjonsdagerEnabled && dagtype === 'Permisjon');
 
     if (!dagKanOverstyres) {

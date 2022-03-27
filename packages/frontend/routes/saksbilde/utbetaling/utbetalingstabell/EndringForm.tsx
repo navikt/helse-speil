@@ -4,11 +4,9 @@ import { useForm } from 'react-hook-form';
 
 import { Button, Select, TextField } from '@navikt/ds-react';
 
-import { useRevurderingIsEnabled } from '@hooks/revurdering';
 import { Bold } from '@components/Bold';
-
+import { useRevurderingIsEnabled } from '@hooks/revurdering';
 import { defaultUtbetalingToggles, overstyrPermisjonsdagerEnabled } from '@utils/featureToggles';
-import { UtbetalingstabellDag } from './Utbetalingstabell.types';
 
 const Container = styled.div`
     background-color: var(--speil-overstyring-background);
@@ -25,6 +23,7 @@ const Dagtypevelger = styled(Select)`
     .navds-select__input {
         padding: 0.15rem;
     }
+
     .navds-select__container {
         margin-right: 10px;
         width: 137px;
@@ -65,9 +64,9 @@ const Form = styled.form`
     padding-top: 0.5rem;
 `;
 
-const dagtyperUtenGradering: Dag['type'][] = ['Arbeidsdag', 'Ferie', 'Permisjon'];
+const dagtyperUtenGradering: Array<Utbetalingstabelldagtype> = ['Arbeid', 'Ferie', 'Permisjon'];
 
-export const lovligeTypeendringer = (revurderingIsEnabled: boolean): Dag['type'][] => {
+export const lovligeTypeendringer = (revurderingIsEnabled: boolean): Array<Utbetalingstabelldagtype> => {
     if (revurderingIsEnabled) {
         return ['Syk', 'Ferie'];
     } else if (overstyrPermisjonsdagerEnabled) {
@@ -78,9 +77,9 @@ export const lovligeTypeendringer = (revurderingIsEnabled: boolean): Dag['type']
 };
 
 const harEndring = (endring: Partial<UtbetalingstabellDag>): boolean =>
-    endring.type !== undefined || endring.gradering !== undefined;
+    typeof endring.type === 'string' || typeof endring.grad === 'number';
 
-const kanVelgeGrad = (type?: Dag['type']) => type && dagtyperUtenGradering.every((it) => it !== type);
+const kanVelgeGrad = (type?: Utbetalingstabelldagtype) => type && dagtyperUtenGradering.every((it) => it !== type);
 
 interface EndringFormProps {
     markerteDager: Map<string, UtbetalingstabellDag>;
@@ -108,16 +107,16 @@ export const EndringForm: React.FC<EndringFormProps> = ({ markerteDager, toggleO
     });
 
     const oppdaterDagtype = (event: React.ChangeEvent<HTMLSelectElement>) => {
-        if (lovligeTypeendringer(revurderingIsEnabled).includes(event.target.value as Dag['type'])) {
+        if (lovligeTypeendringer(revurderingIsEnabled).includes(event.target.value as Utbetalingstabelldagtype)) {
             form.clearErrors('dagtype');
-            const type = event.target.value as Dag['type'];
-            setEndring({ ...endring, type, gradering: kanVelgeGrad(type) ? endring.gradering : undefined });
+            const type = event.target.value as Utbetalingstabelldagtype;
+            setEndring({ ...endring, type, grad: kanVelgeGrad(type) ? endring.grad : undefined });
         }
     };
 
     const oppdaterGrad = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const gradering = Number.parseInt(event.target.value);
-        setEndring({ ...endring, gradering });
+        const grad = Number.parseInt(event.target.value);
+        setEndring({ ...endring, grad });
         onChangeGrad(event);
     };
 
@@ -148,7 +147,7 @@ export const EndringForm: React.FC<EndringFormProps> = ({ markerteDager, toggleO
                             error={form.formState.errors.dagtype?.message}
                             data-testid="dagtypevelger"
                         >
-                            {lovligeTypeendringer(revurderingIsEnabled).map((dagtype: Dag['type']) => (
+                            {lovligeTypeendringer(revurderingIsEnabled).map((dagtype) => (
                                 <option key={dagtype} value={dagtype}>
                                     {dagtype}
                                 </option>
@@ -161,7 +160,7 @@ export const EndringForm: React.FC<EndringFormProps> = ({ markerteDager, toggleO
                             onChange={oppdaterGrad}
                             disabled={!kanVelgeGrad(endring.type)}
                             data-testid="gradvelger"
-                            value={endring.gradering ?? ''}
+                            value={endring.grad ?? ''}
                             error={form.formState.errors.gradvelger?.message}
                             {...gradvelgervalidation}
                         />

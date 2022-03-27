@@ -1,0 +1,29 @@
+.MarkerAlleDagerCheckbox {
+    position: absolute;
+    top: -4rem;
+    left: 0;
+    padding: 1rem;
+}
+
+.MarkerAlleDagerCheckbox > div {
+    position: absolute;
+    padding: 0;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.MarkerAlleDagerCheckbox > div > input {
+    max-height: 2rem;
+    max-width: 2rem;
+}
+
+.Checkbox.partial > label:before {
+    content: '-';
+    font-size: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #c4c4c4;
+    border: none;
+}

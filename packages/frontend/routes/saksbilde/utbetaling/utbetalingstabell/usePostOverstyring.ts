@@ -1,22 +1,24 @@
 import { useEffect, useState } from 'react';
+import dayjs from 'dayjs';
 
-import { postAbonnerPåAktør, postOverstyrteDager } from '@io/http';
 import type { OverstyrtDagDTO } from '@io/http';
+import type { Arbeidsgiver, Person } from '@io/graphql';
+import { postAbonnerPåAktør, postOverstyrteDager } from '@io/http';
 import {
     kalkulererFerdigToastKey,
     kalkulererToast,
     kalkulererToastKey,
     kalkuleringFerdigToast,
-} from '../../../../state/kalkuleringstoasts';
-import { useOpptegnelser, useSetOpptegnelserPollingRate } from '../../../../state/opptegnelser';
-import { usePerson } from '../../../../state/person';
-import { useMaybeAktivPeriode } from '../../../../state/tidslinje';
-import { useAddToast, useRemoveToast } from '../../../../state/toasts';
-import { Scopes, useAddVarsel } from '../../../../state/varsler';
+} from '@state/kalkuleringstoasts';
+import { useOpptegnelser, useSetOpptegnelserPollingRate } from '@state/opptegnelser';
+import { useAddToast, useRemoveToast } from '@state/toasts';
+import { Scopes, useAddVarsel } from '@state/varsler';
+import { useCurrentPerson } from '@state/personState';
+import { useCurrentArbeidsgiver } from '@state/arbeidsgiverState';
 
 type OverstyrtDagtype = 'Sykedag' | 'Feriedag' | 'Egenmeldingsdag' | 'Permisjonsdag' | 'Avvist';
 
-const tilOverstyrtDagtype = (type: Dag['type']): OverstyrtDagtype => {
+const tilOverstyrtDagtype = (type: Utbetalingstabelldagtype): OverstyrtDagtype => {
     switch (type) {
         case 'Syk':
             return 'Sykedag';
@@ -26,31 +28,29 @@ const tilOverstyrtDagtype = (type: Dag['type']): OverstyrtDagtype => {
             return 'Permisjonsdag';
         case 'Egenmelding':
             return 'Egenmeldingsdag';
-        case 'Avslått':
-            return 'Avvist';
         default:
             throw Error(`Dag med type ${type} kan ikke overstyres.`);
     }
 };
 
-const tilOverstyrteDager = (dager: Dag[]): OverstyrtDagDTO[] =>
+const tilOverstyrteDager = (dager: Array<UtbetalingstabellDag>): OverstyrtDagDTO[] =>
     dager.map((dag) => ({
-        dato: dag.dato.format('YYYY-MM-DD'),
+        dato: dayjs(dag.dato).format('YYYY-MM-DD'),
         type: tilOverstyrtDagtype(dag.type),
-        grad: dag.gradering,
+        grad: dag.grad ?? undefined,
     }));
 
 type UsePostOverstyringState = 'loading' | 'hasValue' | 'hasError' | 'initial' | 'timedOut' | 'done';
 
 type UsePostOverstyringResult = {
-    postOverstyring: (dager: Dag[], begrunnelse: string, callback?: () => void) => void;
+    postOverstyring: (dager: Array<UtbetalingstabellDag>, begrunnelse: string, callback?: () => void) => void;
     state: UsePostOverstyringState;
     error?: string;
 };
 
 export const usePostOverstyring = (): UsePostOverstyringResult => {
-    const person = usePerson() as Person;
-    const periode = useMaybeAktivPeriode() as TidslinjeperiodeMedSykefravær;
+    const person = useCurrentPerson() as Person;
+    const arbeidsgiver = useCurrentArbeidsgiver() as Arbeidsgiver;
     const addToast = useAddToast();
     const removeToast = useRemoveToast();
     const opptegnelser = useOpptegnelser();
@@ -95,11 +95,11 @@ export const usePostOverstyring = (): UsePostOverstyringResult => {
         };
     }, [calculating]);
 
-    const _postOverstyring = (dager: Dag[], begrunnelse: string, callback?: () => void) => {
+    const _postOverstyring = (dager: Array<UtbetalingstabellDag>, begrunnelse: string, callback?: () => void) => {
         const overstyring = {
-            aktørId: person.aktørId,
-            fødselsnummer: person.fødselsnummer,
-            organisasjonsnummer: periode.organisasjonsnummer,
+            aktørId: person.aktorId,
+            fødselsnummer: person.fodselsnummer,
+            organisasjonsnummer: arbeidsgiver.organisasjonsnummer,
             dager: tilOverstyrteDager(dager),
             begrunnelse: begrunnelse,
         };
@@ -110,7 +110,7 @@ export const usePostOverstyring = (): UsePostOverstyringResult => {
                 addToast(kalkulererToast({}));
                 setCalculating(true);
                 callback?.();
-                postAbonnerPåAktør(person.aktørId).then(() => setPollingRate(1000));
+                postAbonnerPåAktør(person.aktorId).then(() => setPollingRate(1000));
             })
             .catch(() => {
                 setState('hasError');

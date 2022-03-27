@@ -1,5 +1,6 @@
 import styled from '@emotion/styled';
 import React, { useEffect, useMemo, useState } from 'react';
+import dayjs from 'dayjs';
 import { FormProvider, useForm } from 'react-hook-form';
 
 import { Unlocked } from '@navikt/ds-icons';
@@ -11,15 +12,14 @@ import { OverstyringTimeoutModal } from '@components/OverstyringTimeoutModal';
 import { PopoverHjelpetekst } from '@components/PopoverHjelpetekst';
 import { SortInfoikon } from '@components/ikoner/SortInfoikon';
 import {
-    useErAktivPeriodeISisteSkjæringstidspunkt,
-    useErTidslinjeperiodeISisteGenerasjon,
+    useActiveGenerationIsLast,
+    useActivePeriodHasLatestSkjæringstidspunkt,
     useOverstyrRevurderingIsEnabled,
     useRevurderingIsEnabled,
 } from '@hooks/revurdering';
 import { useMap } from '@hooks/useMap';
 import { useOverstyringIsEnabled } from '@hooks/useOverstyringIsEnabled';
 import { useMaybeAktivPeriode, useVedtaksperiode } from '@state/tidslinje';
-import { getFormattedDateString } from '@utils/date';
 
 import { defaultUtbetalingToggles } from '@utils/featureToggles';
 import { EndringForm } from './utbetalingstabell/EndringForm';
@@ -34,14 +34,12 @@ import { Arbeidsgiver, BeregnetPeriode, Dagoverstyring, Overstyring } from '@io/
 import { ErrorBoundary } from '@components/ErrorBoundary';
 import { useActivePeriod } from '@state/periodState';
 import { useCurrentArbeidsgiver } from '@state/arbeidsgiverState';
-import dayjs from 'dayjs';
 import { isBeregnetPeriode } from '@utils/typeguards';
 import { Varsel } from '@components/Varsel';
 
 const Container = styled(FlexColumn)<{ overstyrer: boolean }>`
     position: relative;
     padding-right: ${(props) => (props.overstyrer ? '1rem' : '2rem')};
-    //padding-bottom: 4rem;
     margin-left: ${(props) => (props.overstyrer ? '0.5rem' : '0')};
     border-left: ${(props) => (props.overstyrer ? '6px solid #0067C5' : '0')};
     margin-top: 1rem;
@@ -136,7 +134,7 @@ const OverstyrbarUtbetaling: React.FC<OverstyrbarUtbetalingProps> = ({ fom, tom,
     };
 
     const onSubmitOverstyring = () => {
-        // postOverstyring(Array.from(overstyrteDager.values()), form.getValues('begrunnelse'));
+        postOverstyring(Array.from(overstyrteDager.values()), form.getValues('begrunnelse'));
         setOverstyrer(!overstyrer);
     };
 
@@ -212,9 +210,10 @@ const OverstyrbarUtbetaling: React.FC<OverstyrbarUtbetalingProps> = ({ fom, tom,
                                     index={i}
                                     dagtype={dag.type}
                                     dato={dag.dato}
+                                    erAGP={dag.erAGP}
                                     skjæringstidspunkt={skjæringstidspunkt}
                                     onChange={toggleChecked(dag)}
-                                    checked={markerteDager.get(getFormattedDateString(dag.dato)) !== undefined}
+                                    checked={markerteDager.get(dag.dato) !== undefined}
                                 />
                             ))}
                         </CheckboxContainer>
@@ -256,12 +255,12 @@ interface ReadonlyUtbetalingProps {
 }
 
 const ReadonlyUtbetaling: React.FC<ReadonlyUtbetalingProps> = ({ fom, tom, dager }) => {
-    const erAktivPeriodeISisteSkjæringstidspunkt = useErAktivPeriodeISisteSkjæringstidspunkt();
-    const erTidslinjeperiodeISisteGenerasjon = useErTidslinjeperiodeISisteGenerasjon();
+    const hasLatestSkjæringstidspunkt = useActivePeriodHasLatestSkjæringstidspunkt();
+    const activeGenerationIsLast = useActiveGenerationIsLast();
 
     return (
         <Container overstyrer={false}>
-            {!erAktivPeriodeISisteSkjæringstidspunkt && erTidslinjeperiodeISisteGenerasjon && (
+            {!hasLatestSkjæringstidspunkt && activeGenerationIsLast && (
                 <InfobobleContainer>
                     <PopoverHjelpetekst ikon={<SortInfoikon />}>
                         <p>Det er foreløpig ikke støtte for endringer i saker i tidligere skjæringstidspunkt</p>
@@ -300,7 +299,7 @@ const UtbetalingWithContent: React.FC<UtbetalingWithContentProps> = React.memo((
     const overstyringIsEnabled = useOverstyringIsEnabled();
     const revurderingIsEnabled = useRevurderingIsEnabled(defaultUtbetalingToggles);
     const overstyrRevurderingIsEnabled = useOverstyrRevurderingIsEnabled(defaultUtbetalingToggles);
-    const erAktivPeriodeISisteSkjæringstidspunkt = useErAktivPeriodeISisteSkjæringstidspunkt();
+    const activePeriodHasLatestSkjæringstidspunkt = useActivePeriodHasLatestSkjæringstidspunkt();
     const dagoverstyringer = useDagoverstyringer(arbeidsgiver, period.fom, period.tom);
 
     const dager: Map<string, UtbetalingstabellDag> = useTabelldagerMap({
@@ -311,7 +310,7 @@ const UtbetalingWithContent: React.FC<UtbetalingWithContentProps> = React.memo((
     });
 
     return (revurderingIsEnabled || overstyringIsEnabled || overstyrRevurderingIsEnabled) &&
-        erAktivPeriodeISisteSkjæringstidspunkt ? (
+        activePeriodHasLatestSkjæringstidspunkt ? (
         <OverstyrbarUtbetaling
             fom={period.fom}
             tom={period.tom}
