@@ -92,11 +92,16 @@
                 "fodselsdato": "1971-08-20",
                 "kjonn": "Mann"
             },
-            "tildeling": null,
-            "versjon": 17,
+            "tildeling": {
+                "navn": "Ramthun, Stephen",
+                "epost": "Stephen.Ramthun@nav.no",
+                "oid": "a7cf35df-7e86-4eee-b6c1-5c60dd18462f",
+                "reservert": false
+            },
+            "versjon": 21,
             "vilkarsgrunnlaghistorikk": [
                 {
-                    "id": "3312168c-3844-4a06-ad5b-3160a008bf3c",
+                    "id": "e6070313-3b3e-4033-b0d5-ebfdec36bac3",
                     "grunnlag": [
                         {
                             "sykepengegrunnlag": 360000,
@@ -118,7 +123,13 @@
                                     "arbeidsgiver": "839942907"
                                 }
                             ],
-                            "vilkarsgrunnlagtype": "SPLEIS"
+                            "vilkarsgrunnlagtype": "SPLEIS",
+                            "oppfyllerKravOmMinstelonn": true,
+                            "oppfyllerKravOmMedlemskap": true,
+                            "oppfyllerKravOmOpptjening": true,
+                            "antallOpptjeningsdagerErMinst": 7277,
+                            "grunnbelop": 106399,
+                            "opptjeningFra": "2002-01-29"
                         }
                     ]
                 }
@@ -137,9 +148,10 @@
                             "stillingstittel": "FRISØR"
                         }
                     ],
+                    "ghostPerioder": [],
                     "generasjoner": [
                         {
-                            "id": "d60e7e47-7b52-4088-b75c-cc3350c8658b",
+                            "id": "e97e6f7b-d80b-4f8f-a0e0-dc97c1837197",
                             "perioder": [
                                 {
                                     "fom": "2022-01-01",
@@ -147,190 +159,206 @@
                                     "behandlingstype": "BEHANDLET",
                                     "erForkastet": false,
                                     "inntektstype": "ENARBEIDSGIVER",
-                                    "opprettet": "2022-02-16T13:47:37",
+                                    "opprettet": "2022-03-25T12:54:25",
                                     "periodetype": "FORSTEGANGSBEHANDLING",
                                     "tidslinje": [
                                         {
                                             "dato": "2022-01-01",
                                             "grad": 100,
                                             "kilde": {
-                                                "id": "60e85235-425e-4fde-9296-3373511f8a44",
+                                                "id": "8660ce9f-56dc-4d20-bf86-e4ba3475b57e",
                                                 "type": "SOKNAD"
                                             },
                                             "sykdomsdagtype": "SYK_HELGEDAG",
                                             "utbetalingsdagtype": "ARBEIDSGIVERPERIODEDAG",
-                                            "utbetalingsinfo": null
+                                            "utbetalingsinfo": null,
+                                            "begrunnelser": null
                                         },
                                         {
                                             "dato": "2022-01-02",
                                             "grad": 100,
                                             "kilde": {
-                                                "id": "60e85235-425e-4fde-9296-3373511f8a44",
+                                                "id": "8660ce9f-56dc-4d20-bf86-e4ba3475b57e",
                                                 "type": "SOKNAD"
                                             },
                                             "sykdomsdagtype": "SYK_HELGEDAG",
                                             "utbetalingsdagtype": "ARBEIDSGIVERPERIODEDAG",
-                                            "utbetalingsinfo": null
+                                            "utbetalingsinfo": null,
+                                            "begrunnelser": null
                                         },
                                         {
                                             "dato": "2022-01-03",
                                             "grad": 100,
                                             "kilde": {
-                                                "id": "60e85235-425e-4fde-9296-3373511f8a44",
+                                                "id": "8660ce9f-56dc-4d20-bf86-e4ba3475b57e",
                                                 "type": "SOKNAD"
                                             },
                                             "sykdomsdagtype": "SYKEDAG",
                                             "utbetalingsdagtype": "ARBEIDSGIVERPERIODEDAG",
-                                            "utbetalingsinfo": null
+                                            "utbetalingsinfo": null,
+                                            "begrunnelser": null
                                         },
                                         {
                                             "dato": "2022-01-04",
                                             "grad": 100,
                                             "kilde": {
-                                                "id": "60e85235-425e-4fde-9296-3373511f8a44",
+                                                "id": "8660ce9f-56dc-4d20-bf86-e4ba3475b57e",
                                                 "type": "SOKNAD"
                                             },
                                             "sykdomsdagtype": "SYKEDAG",
                                             "utbetalingsdagtype": "ARBEIDSGIVERPERIODEDAG",
-                                            "utbetalingsinfo": null
+                                            "utbetalingsinfo": null,
+                                            "begrunnelser": ["MINIMUM_INNTEKT"]
                                         },
                                         {
                                             "dato": "2022-01-05",
                                             "grad": 100,
                                             "kilde": {
-                                                "id": "60e85235-425e-4fde-9296-3373511f8a44",
+                                                "id": "8660ce9f-56dc-4d20-bf86-e4ba3475b57e",
                                                 "type": "SOKNAD"
                                             },
                                             "sykdomsdagtype": "SYKEDAG",
                                             "utbetalingsdagtype": "ARBEIDSGIVERPERIODEDAG",
-                                            "utbetalingsinfo": null
+                                            "utbetalingsinfo": null,
+                                            "begrunnelser": null
                                         },
                                         {
                                             "dato": "2022-01-06",
                                             "grad": 100,
                                             "kilde": {
-                                                "id": "60e85235-425e-4fde-9296-3373511f8a44",
+                                                "id": "8660ce9f-56dc-4d20-bf86-e4ba3475b57e",
                                                 "type": "SOKNAD"
                                             },
                                             "sykdomsdagtype": "SYKEDAG",
                                             "utbetalingsdagtype": "ARBEIDSGIVERPERIODEDAG",
-                                            "utbetalingsinfo": null
+                                            "utbetalingsinfo": null,
+                                            "begrunnelser": null
                                         },
                                         {
                                             "dato": "2022-01-07",
                                             "grad": 100,
                                             "kilde": {
-                                                "id": "60e85235-425e-4fde-9296-3373511f8a44",
+                                                "id": "8660ce9f-56dc-4d20-bf86-e4ba3475b57e",
                                                 "type": "SOKNAD"
                                             },
                                             "sykdomsdagtype": "SYKEDAG",
                                             "utbetalingsdagtype": "ARBEIDSGIVERPERIODEDAG",
-                                            "utbetalingsinfo": null
+                                            "utbetalingsinfo": null,
+                                            "begrunnelser": null
                                         },
                                         {
                                             "dato": "2022-01-08",
                                             "grad": 100,
                                             "kilde": {
-                                                "id": "60e85235-425e-4fde-9296-3373511f8a44",
+                                                "id": "8660ce9f-56dc-4d20-bf86-e4ba3475b57e",
                                                 "type": "SOKNAD"
                                             },
                                             "sykdomsdagtype": "SYK_HELGEDAG",
                                             "utbetalingsdagtype": "ARBEIDSGIVERPERIODEDAG",
-                                            "utbetalingsinfo": null
+                                            "utbetalingsinfo": null,
+                                            "begrunnelser": null
                                         },
                                         {
                                             "dato": "2022-01-09",
                                             "grad": 100,
                                             "kilde": {
-                                                "id": "60e85235-425e-4fde-9296-3373511f8a44",
+                                                "id": "8660ce9f-56dc-4d20-bf86-e4ba3475b57e",
                                                 "type": "SOKNAD"
                                             },
                                             "sykdomsdagtype": "SYK_HELGEDAG",
                                             "utbetalingsdagtype": "ARBEIDSGIVERPERIODEDAG",
-                                            "utbetalingsinfo": null
+                                            "utbetalingsinfo": null,
+                                            "begrunnelser": null
                                         },
                                         {
                                             "dato": "2022-01-10",
                                             "grad": 100,
                                             "kilde": {
-                                                "id": "60e85235-425e-4fde-9296-3373511f8a44",
+                                                "id": "8660ce9f-56dc-4d20-bf86-e4ba3475b57e",
                                                 "type": "SOKNAD"
                                             },
                                             "sykdomsdagtype": "SYKEDAG",
                                             "utbetalingsdagtype": "ARBEIDSGIVERPERIODEDAG",
-                                            "utbetalingsinfo": null
+                                            "utbetalingsinfo": null,
+                                            "begrunnelser": null
                                         },
                                         {
                                             "dato": "2022-01-11",
                                             "grad": 100,
                                             "kilde": {
-                                                "id": "60e85235-425e-4fde-9296-3373511f8a44",
+                                                "id": "8660ce9f-56dc-4d20-bf86-e4ba3475b57e",
                                                 "type": "SOKNAD"
                                             },
                                             "sykdomsdagtype": "SYKEDAG",
                                             "utbetalingsdagtype": "ARBEIDSGIVERPERIODEDAG",
-                                            "utbetalingsinfo": null
+                                            "utbetalingsinfo": null,
+                                            "begrunnelser": null
                                         },
                                         {
                                             "dato": "2022-01-12",
                                             "grad": 100,
                                             "kilde": {
-                                                "id": "60e85235-425e-4fde-9296-3373511f8a44",
+                                                "id": "8660ce9f-56dc-4d20-bf86-e4ba3475b57e",
                                                 "type": "SOKNAD"
                                             },
                                             "sykdomsdagtype": "SYKEDAG",
                                             "utbetalingsdagtype": "ARBEIDSGIVERPERIODEDAG",
-                                            "utbetalingsinfo": null
+                                            "utbetalingsinfo": null,
+                                            "begrunnelser": null
                                         },
                                         {
                                             "dato": "2022-01-13",
                                             "grad": 100,
                                             "kilde": {
-                                                "id": "60e85235-425e-4fde-9296-3373511f8a44",
+                                                "id": "8660ce9f-56dc-4d20-bf86-e4ba3475b57e",
                                                 "type": "SOKNAD"
                                             },
                                             "sykdomsdagtype": "SYKEDAG",
                                             "utbetalingsdagtype": "ARBEIDSGIVERPERIODEDAG",
-                                            "utbetalingsinfo": null
+                                            "utbetalingsinfo": null,
+                                            "begrunnelser": null
                                         },
                                         {
                                             "dato": "2022-01-14",
                                             "grad": 100,
                                             "kilde": {
-                                                "id": "60e85235-425e-4fde-9296-3373511f8a44",
+                                                "id": "8660ce9f-56dc-4d20-bf86-e4ba3475b57e",
                                                 "type": "SOKNAD"
                                             },
                                             "sykdomsdagtype": "SYKEDAG",
                                             "utbetalingsdagtype": "ARBEIDSGIVERPERIODEDAG",
-                                            "utbetalingsinfo": null
+                                            "utbetalingsinfo": null,
+                                            "begrunnelser": null
                                         },
                                         {
                                             "dato": "2022-01-15",
                                             "grad": 100,
                                             "kilde": {
-                                                "id": "60e85235-425e-4fde-9296-3373511f8a44",
+                                                "id": "8660ce9f-56dc-4d20-bf86-e4ba3475b57e",
                                                 "type": "SOKNAD"
                                             },
                                             "sykdomsdagtype": "SYK_HELGEDAG",
                                             "utbetalingsdagtype": "ARBEIDSGIVERPERIODEDAG",
-                                            "utbetalingsinfo": null
+                                            "utbetalingsinfo": null,
+                                            "begrunnelser": null
                                         },
                                         {
                                             "dato": "2022-01-16",
                                             "grad": 100,
                                             "kilde": {
-                                                "id": "60e85235-425e-4fde-9296-3373511f8a44",
+                                                "id": "8660ce9f-56dc-4d20-bf86-e4ba3475b57e",
                                                 "type": "SOKNAD"
                                             },
                                             "sykdomsdagtype": "SYK_HELGEDAG",
                                             "utbetalingsdagtype": "ARBEIDSGIVERPERIODEDAG",
-                                            "utbetalingsinfo": null
+                                            "utbetalingsinfo": null,
+                                            "begrunnelser": null
                                         },
                                         {
                                             "dato": "2022-01-17",
                                             "grad": 100,
                                             "kilde": {
-                                                "id": "60e85235-425e-4fde-9296-3373511f8a44",
+                                                "id": "8660ce9f-56dc-4d20-bf86-e4ba3475b57e",
                                                 "type": "SOKNAD"
                                             },
                                             "sykdomsdagtype": "SYKEDAG",
@@ -342,13 +370,14 @@
                                                 "refusjonsbelop": 1385,
                                                 "totalGrad": 100,
                                                 "utbetaling": 1385
-                                            }
+                                            },
+                                            "begrunnelser": null
                                         },
                                         {
                                             "dato": "2022-01-18",
                                             "grad": 100,
                                             "kilde": {
-                                                "id": "60e85235-425e-4fde-9296-3373511f8a44",
+                                                "id": "8660ce9f-56dc-4d20-bf86-e4ba3475b57e",
                                                 "type": "SOKNAD"
                                             },
                                             "sykdomsdagtype": "SYKEDAG",
@@ -360,13 +389,14 @@
                                                 "refusjonsbelop": 1385,
                                                 "totalGrad": 100,
                                                 "utbetaling": 1385
-                                            }
+                                            },
+                                            "begrunnelser": null
                                         },
                                         {
                                             "dato": "2022-01-19",
                                             "grad": 100,
                                             "kilde": {
-                                                "id": "60e85235-425e-4fde-9296-3373511f8a44",
+                                                "id": "8660ce9f-56dc-4d20-bf86-e4ba3475b57e",
                                                 "type": "SOKNAD"
                                             },
                                             "sykdomsdagtype": "SYKEDAG",
@@ -378,71 +408,76 @@
                                                 "refusjonsbelop": 1385,
                                                 "totalGrad": 100,
                                                 "utbetaling": 1385
-                                            }
+                                            },
+                                            "begrunnelser": null
                                         },
                                         {
                                             "dato": "2022-01-20",
-                                            "grad": 100,
+                                            "grad": 72,
                                             "kilde": {
-                                                "id": "60e85235-425e-4fde-9296-3373511f8a44",
-                                                "type": "SOKNAD"
+                                                "id": "9fc53d39-75d6-4f66-9949-cdd1581cb335",
+                                                "type": "SAKSBEHANDLER"
                                             },
                                             "sykdomsdagtype": "SYKEDAG",
                                             "utbetalingsdagtype": "NAVDAG",
                                             "utbetalingsinfo": {
-                                                "arbeidsgiverbelop": 1385,
+                                                "arbeidsgiverbelop": 997,
                                                 "inntekt": 1385,
                                                 "personbelop": 0,
                                                 "refusjonsbelop": 1385,
-                                                "totalGrad": 100,
-                                                "utbetaling": 1385
-                                            }
+                                                "totalGrad": 72,
+                                                "utbetaling": 997
+                                            },
+                                            "begrunnelser": null
                                         },
                                         {
                                             "dato": "2022-01-21",
-                                            "grad": 100,
+                                            "grad": 72,
                                             "kilde": {
-                                                "id": "60e85235-425e-4fde-9296-3373511f8a44",
-                                                "type": "SOKNAD"
+                                                "id": "9fc53d39-75d6-4f66-9949-cdd1581cb335",
+                                                "type": "SAKSBEHANDLER"
                                             },
                                             "sykdomsdagtype": "SYKEDAG",
                                             "utbetalingsdagtype": "NAVDAG",
                                             "utbetalingsinfo": {
-                                                "arbeidsgiverbelop": 1385,
+                                                "arbeidsgiverbelop": 997,
                                                 "inntekt": 1385,
                                                 "personbelop": 0,
                                                 "refusjonsbelop": 1385,
-                                                "totalGrad": 100,
-                                                "utbetaling": 1385
-                                            }
+                                                "totalGrad": 72,
+                                                "utbetaling": 997
+                                            },
+                                            "begrunnelser": null
                                         },
                                         {
                                             "dato": "2022-01-22",
                                             "grad": 100,
                                             "kilde": {
-                                                "id": "60e85235-425e-4fde-9296-3373511f8a44",
+                                                "id": "8660ce9f-56dc-4d20-bf86-e4ba3475b57e",
                                                 "type": "SOKNAD"
                                             },
                                             "sykdomsdagtype": "SYK_HELGEDAG",
                                             "utbetalingsdagtype": "NAVHELGDAG",
-                                            "utbetalingsinfo": null
+                                            "utbetalingsinfo": null,
+                                            "begrunnelser": null
                                         },
                                         {
                                             "dato": "2022-01-23",
                                             "grad": 100,
                                             "kilde": {
-                                                "id": "60e85235-425e-4fde-9296-3373511f8a44",
+                                                "id": "8660ce9f-56dc-4d20-bf86-e4ba3475b57e",
                                                 "type": "SOKNAD"
                                             },
                                             "sykdomsdagtype": "SYK_HELGEDAG",
                                             "utbetalingsdagtype": "NAVHELGDAG",
-                                            "utbetalingsinfo": null
+                                            "utbetalingsinfo": null,
+                                            "begrunnelser": null
                                         },
                                         {
                                             "dato": "2022-01-24",
                                             "grad": 100,
                                             "kilde": {
-                                                "id": "60e85235-425e-4fde-9296-3373511f8a44",
+                                                "id": "8660ce9f-56dc-4d20-bf86-e4ba3475b57e",
                                                 "type": "SOKNAD"
                                             },
                                             "sykdomsdagtype": "SYKEDAG",
@@ -454,13 +489,14 @@
                                                 "refusjonsbelop": 1385,
                                                 "totalGrad": 100,
                                                 "utbetaling": 1385
-                                            }
+                                            },
+                                            "begrunnelser": null
                                         },
                                         {
                                             "dato": "2022-01-25",
                                             "grad": 100,
                                             "kilde": {
-                                                "id": "60e85235-425e-4fde-9296-3373511f8a44",
+                                                "id": "8660ce9f-56dc-4d20-bf86-e4ba3475b57e",
                                                 "type": "SOKNAD"
                                             },
                                             "sykdomsdagtype": "SYKEDAG",
@@ -472,13 +508,14 @@
                                                 "refusjonsbelop": 1385,
                                                 "totalGrad": 100,
                                                 "utbetaling": 1385
-                                            }
+                                            },
+                                            "begrunnelser": null
                                         },
                                         {
                                             "dato": "2022-01-26",
                                             "grad": 100,
                                             "kilde": {
-                                                "id": "60e85235-425e-4fde-9296-3373511f8a44",
+                                                "id": "8660ce9f-56dc-4d20-bf86-e4ba3475b57e",
                                                 "type": "SOKNAD"
                                             },
                                             "sykdomsdagtype": "SYKEDAG",
@@ -490,31 +527,26 @@
                                                 "refusjonsbelop": 1385,
                                                 "totalGrad": 100,
                                                 "utbetaling": 1385
-                                            }
+                                            },
+                                            "begrunnelser": null
                                         },
                                         {
                                             "dato": "2022-01-27",
-                                            "grad": 100,
+                                            "grad": null,
                                             "kilde": {
-                                                "id": "60e85235-425e-4fde-9296-3373511f8a44",
-                                                "type": "SOKNAD"
+                                                "id": "ce4739a3-36b6-41ee-8fae-8d9b2e1ccc83",
+                                                "type": "SAKSBEHANDLER"
                                             },
-                                            "sykdomsdagtype": "SYKEDAG",
-                                            "utbetalingsdagtype": "NAVDAG",
-                                            "utbetalingsinfo": {
-                                                "arbeidsgiverbelop": 1385,
-                                                "inntekt": 1385,
-                                                "personbelop": 0,
-                                                "refusjonsbelop": 1385,
-                                                "totalGrad": 100,
-                                                "utbetaling": 1385
-                                            }
+                                            "sykdomsdagtype": "FERIEDAG",
+                                            "utbetalingsdagtype": "FERIEDAG",
+                                            "utbetalingsinfo": null,
+                                            "begrunnelser": null
                                         },
                                         {
                                             "dato": "2022-01-28",
                                             "grad": 100,
                                             "kilde": {
-                                                "id": "60e85235-425e-4fde-9296-3373511f8a44",
+                                                "id": "8660ce9f-56dc-4d20-bf86-e4ba3475b57e",
                                                 "type": "SOKNAD"
                                             },
                                             "sykdomsdagtype": "SYKEDAG",
@@ -526,35 +558,38 @@
                                                 "refusjonsbelop": 1385,
                                                 "totalGrad": 100,
                                                 "utbetaling": 1385
-                                            }
+                                            },
+                                            "begrunnelser": null
                                         },
                                         {
                                             "dato": "2022-01-29",
                                             "grad": 100,
                                             "kilde": {
-                                                "id": "60e85235-425e-4fde-9296-3373511f8a44",
+                                                "id": "8660ce9f-56dc-4d20-bf86-e4ba3475b57e",
                                                 "type": "SOKNAD"
                                             },
                                             "sykdomsdagtype": "SYK_HELGEDAG",
                                             "utbetalingsdagtype": "NAVHELGDAG",
-                                            "utbetalingsinfo": null
+                                            "utbetalingsinfo": null,
+                                            "begrunnelser": null
                                         },
                                         {
                                             "dato": "2022-01-30",
                                             "grad": 100,
                                             "kilde": {
-                                                "id": "60e85235-425e-4fde-9296-3373511f8a44",
+                                                "id": "8660ce9f-56dc-4d20-bf86-e4ba3475b57e",
                                                 "type": "SOKNAD"
                                             },
                                             "sykdomsdagtype": "SYK_HELGEDAG",
                                             "utbetalingsdagtype": "NAVHELGDAG",
-                                            "utbetalingsinfo": null
+                                            "utbetalingsinfo": null,
+                                            "begrunnelser": null
                                         },
                                         {
                                             "dato": "2022-01-31",
                                             "grad": 100,
                                             "kilde": {
-                                                "id": "60e85235-425e-4fde-9296-3373511f8a44",
+                                                "id": "8660ce9f-56dc-4d20-bf86-e4ba3475b57e",
                                                 "type": "SOKNAD"
                                             },
                                             "sykdomsdagtype": "SYKEDAG",
@@ -566,47 +601,40 @@
                                                 "refusjonsbelop": 1385,
                                                 "totalGrad": 100,
                                                 "utbetaling": 1385
-                                            }
+                                            },
+                                            "begrunnelser": null
                                         }
                                     ],
-                                    "vedtaksperiodeId": "66211c85-b9f8-4d71-b37b-88011846359b",
-                                    "id": "757b161e-7092-475f-8e97-4491939a9ab8",
-                                    "refusjon": {
-                                        "arbeidsgiverperioder": [
-                                            {
-                                                "fom": "2022-01-01",
-                                                "tom": "2022-01-16"
-                                            }
-                                        ],
-                                        "belop": 30000,
-                                        "endringer": [
-                                            {
-                                                "belop": 31000,
-                                                "dato": "2022-02-16"
-                                            }
-                                        ],
-                                        "forsteFravaersdag": "2022-01-01",
-                                        "sisteRefusjonsdag": "2022-03-01"
-                                    },
+                                    "vedtaksperiodeId": "72a9e40d-7012-44f6-80e8-b54f9d8f25df",
+                                    "id": "1d163729-ee91-444c-ba9b-b7f136339ef1",
                                     "aktivitetslogg": [],
-                                    "beregningId": "7f40cfca-4158-4a42-8455-9a89fdc8df9a",
-                                    "forbrukteSykedager": 11,
-                                    "gjenstaendeSykedager": 237,
+                                    "beregningId": "164395a7-f5e0-4322-a62b-e31414bd6d8a",
+                                    "forbrukteSykedager": 10,
+                                    "gjenstaendeSykedager": 238,
                                     "hendelser": [
                                         {
-                                            "id": "56df3dc2-ccf0-4fec-9ade-95015741bff3",
-                                            "type": "NY_SOKNAD"
+                                            "id": "bd8806e3-f64e-4ac8-b462-5b0929aea74d",
+                                            "type": "NY_SOKNAD",
+                                            "fom": "2022-01-01",
+                                            "tom": "2022-01-31",
+                                            "rapportertDato": "2022-03-22T14:44:05"
                                         },
                                         {
-                                            "id": "60e85235-425e-4fde-9296-3373511f8a44",
-                                            "type": "SENDT_SOKNAD_NAV"
+                                            "id": "8660ce9f-56dc-4d20-bf86-e4ba3475b57e",
+                                            "type": "SENDT_SOKNAD_NAV",
+                                            "fom": "2022-01-01",
+                                            "tom": "2022-01-31",
+                                            "rapportertDato": "2022-03-22T14:44:05",
+                                            "sendtNav": "2022-02-01T00:00:00"
                                         },
                                         {
-                                            "id": "45ad23c4-ea0f-4d67-9566-c5b7dbbcb212",
-                                            "type": "INNTEKTSMELDING"
+                                            "id": "68c21353-21a0-4ce7-862a-04d30706ab2f",
+                                            "type": "INNTEKTSMELDING",
+                                            "beregnetInntekt": 30000,
+                                            "mottattDato": "2022-03-22T14:44:05"
                                         }
                                     ],
-                                    "maksdato": "2022-12-28",
+                                    "maksdato": "2022-12-29",
                                     "periodevilkar": {
                                         "alder": {
                                             "alderSisteSykedag": 50,
@@ -619,9 +647,9 @@
                                             "soknadTom": "2022-01-31"
                                         },
                                         "sykepengedager": {
-                                            "forbrukteSykedager": 11,
-                                            "gjenstaendeSykedager": 237,
-                                            "maksdato": "2022-12-28",
+                                            "forbrukteSykedager": 10,
+                                            "gjenstaendeSykedager": 238,
+                                            "maksdato": "2022-12-29",
                                             "oppfylt": true,
                                             "skjaeringstidspunkt": "2022-01-01"
                                         }
@@ -632,29 +660,228 @@
                                     },
                                     "skjaeringstidspunkt": "2022-01-01",
                                     "utbetaling": {
-                                        "arbeidsgiverFagsystemId": "VEWVAETDTZBWRJSWSLRAGTJNFY",
-                                        "arbeidsgiverNettoBelop": 15235,
-                                        "personFagsystemId": "KSODO2Y44JDVXEXBDG3MIAAO6U",
+                                        "arbeidsgiverFagsystemId": "3FBIOB6OHJAPHLPIGFVWEQQ2SY",
+                                        "arbeidsgiverNettoBelop": 13074,
+                                        "personFagsystemId": "F7CD7KF3P5GQLDBLQR7I72H46U",
                                         "personNettoBelop": 0,
-                                        "status": "Utbetalt",
+                                        "status": "Ubetalt",
                                         "type": "UTBETALING",
-                                        "vurdering": {
-                                            "automatisk": false,
-                                            "godkjent": true,
-                                            "ident": "R154509",
-                                            "tidsstempel": "2022-02-16T13:47:54"
+                                        "vurdering": null,
+                                        "arbeidsgiversimulering": {
+                                            "fagsystemId": "3FBIOB6OHJAPHLPIGFVWEQQ2SY",
+                                            "totalbelop": 13074,
+                                            "tidsstempel": "2022-03-25T12:54:25",
+                                            "utbetalingslinjer": [],
+                                            "perioder": [
+                                                {
+                                                    "fom": "2022-01-17",
+                                                    "tom": "2022-01-19",
+                                                    "utbetalinger": [
+                                                        {
+                                                            "mottakerId": "928497704",
+                                                            "mottakerNavn": "BESK KAFFE",
+                                                            "forfall": "2022-03-25",
+                                                            "feilkonto": false,
+                                                            "detaljer": [
+                                                                {
+                                                                    "fom": "2022-01-17",
+                                                                    "tom": "2022-01-19",
+                                                                    "utbetalingstype": "YTEL",
+                                                                    "uforegrad": 100,
+                                                                    "typeSats": "DAG",
+                                                                    "tilbakeforing": false,
+                                                                    "sats": 1385,
+                                                                    "refunderesOrgNr": "839942907",
+                                                                    "konto": "2338020",
+                                                                    "klassekode": "SPREFAG-IOP",
+                                                                    "antallSats": 3,
+                                                                    "belop": 4155,
+                                                                    "klassekodebeskrivelse": "Sykepenger, Refusjon arbeidsgiver"
+                                                                }
+                                                            ]
+                                                        }
+                                                    ]
+                                                },
+                                                {
+                                                    "fom": "2022-01-20",
+                                                    "tom": "2022-01-21",
+                                                    "utbetalinger": [
+                                                        {
+                                                            "mottakerId": "928497704",
+                                                            "mottakerNavn": "BESK KAFFE",
+                                                            "forfall": "2022-03-25",
+                                                            "feilkonto": false,
+                                                            "detaljer": [
+                                                                {
+                                                                    "fom": "2022-01-20",
+                                                                    "tom": "2022-01-21",
+                                                                    "utbetalingstype": "YTEL",
+                                                                    "uforegrad": 72,
+                                                                    "typeSats": "DAG",
+                                                                    "tilbakeforing": false,
+                                                                    "sats": 997,
+                                                                    "refunderesOrgNr": "839942907",
+                                                                    "konto": "2338020",
+                                                                    "klassekode": "SPREFAG-IOP",
+                                                                    "antallSats": 2,
+                                                                    "belop": 1994,
+                                                                    "klassekodebeskrivelse": "Sykepenger, Refusjon arbeidsgiver"
+                                                                }
+                                                            ]
+                                                        }
+                                                    ]
+                                                },
+                                                {
+                                                    "fom": "2022-01-22",
+                                                    "tom": "2022-01-26",
+                                                    "utbetalinger": [
+                                                        {
+                                                            "mottakerId": "928497704",
+                                                            "mottakerNavn": "BESK KAFFE",
+                                                            "forfall": "2022-03-25",
+                                                            "feilkonto": false,
+                                                            "detaljer": [
+                                                                {
+                                                                    "fom": "2022-01-22",
+                                                                    "tom": "2022-01-26",
+                                                                    "utbetalingstype": "YTEL",
+                                                                    "uforegrad": 100,
+                                                                    "typeSats": "DAG",
+                                                                    "tilbakeforing": false,
+                                                                    "sats": 1385,
+                                                                    "refunderesOrgNr": "839942907",
+                                                                    "konto": "2338020",
+                                                                    "klassekode": "SPREFAG-IOP",
+                                                                    "antallSats": 3,
+                                                                    "belop": 4155,
+                                                                    "klassekodebeskrivelse": "Sykepenger, Refusjon arbeidsgiver"
+                                                                }
+                                                            ]
+                                                        }
+                                                    ]
+                                                },
+                                                {
+                                                    "fom": "2022-01-28",
+                                                    "tom": "2022-01-31",
+                                                    "utbetalinger": [
+                                                        {
+                                                            "mottakerId": "928497704",
+                                                            "mottakerNavn": "BESK KAFFE",
+                                                            "forfall": "2022-03-25",
+                                                            "feilkonto": false,
+                                                            "detaljer": [
+                                                                {
+                                                                    "fom": "2022-01-28",
+                                                                    "tom": "2022-01-31",
+                                                                    "utbetalingstype": "YTEL",
+                                                                    "uforegrad": 100,
+                                                                    "typeSats": "DAG",
+                                                                    "tilbakeforing": false,
+                                                                    "sats": 1385,
+                                                                    "refunderesOrgNr": "839942907",
+                                                                    "konto": "2338020",
+                                                                    "klassekode": "SPREFAG-IOP",
+                                                                    "antallSats": 2,
+                                                                    "belop": 2770,
+                                                                    "klassekodebeskrivelse": "Sykepenger, Refusjon arbeidsgiver"
+                                                                }
+                                                            ]
+                                                        }
+                                                    ]
+                                                }
+                                            ]
+                                        },
+                                        "personsimulering": {
+                                            "fagsystemId": "F7CD7KF3P5GQLDBLQR7I72H46U",
+                                            "totalbelop": null,
+                                            "tidsstempel": "2022-03-25T12:54:25",
+                                            "utbetalingslinjer": [],
+                                            "perioder": null
                                         }
                                     },
                                     "varsler": [
                                         "Ikke registrert eller mangler samtykke i Kontakt- og reservasjonsregisteret, eventuell kommunikasjon må skje i brevform",
-                                        "Kunne ikke sjekke åpne oppgaver på sykepenger i Gosys"
+                                        "Ikke registrert eller mangler samtykke i Kontakt- og reservasjonsregisteret, eventuell kommunikasjon må skje i brevform",
+                                        "Ikke registrert eller mangler samtykke i Kontakt- og reservasjonsregisteret, eventuell kommunikasjon må skje i brevform",
+                                        "Ikke registrert eller mangler samtykke i Kontakt- og reservasjonsregisteret, eventuell kommunikasjon må skje i brevform"
                                     ],
-                                    "vilkarsgrunnlaghistorikkId": "3312168c-3844-4a06-ad5b-3160a008bf3c"
+                                    "vilkarsgrunnlaghistorikkId": "e6070313-3b3e-4033-b0d5-ebfdec36bac3",
+                                    "refusjon": {
+                                        "sisteRefusjonsdag": null,
+                                        "forsteFravaersdag": "2022-01-01",
+                                        "endringer": [],
+                                        "arbeidsgiverperioder": [
+                                            {
+                                                "fom": "2022-01-01",
+                                                "tom": "2022-01-16"
+                                            }
+                                        ],
+                                        "belop": 30000
+                                    },
+                                    "oppgavereferanse": "3251",
+                                    "tilstand": "Oppgaver"
                                 }
                             ]
                         }
                     ],
-                    "overstyringer": []
+                    "overstyringer": [
+                        {
+                            "begrunnelse": "ok",
+                            "hendelseId": "ce4739a3-36b6-41ee-8fae-8d9b2e1ccc83",
+                            "saksbehandler": {
+                                "ident": "T127350",
+                                "navn": "Tholander, Morten"
+                            },
+                            "timestamp": "2022-03-25T12:54:24.571137",
+                            "__typename": "Dagoverstyring",
+                            "dager": [
+                                {
+                                    "grad": 0,
+                                    "dato": "2022-01-27",
+                                    "type": "Feriedag"
+                                }
+                            ]
+                        },
+                        {
+                            "begrunnelse": "72 har bedre feng shui enn 80",
+                            "hendelseId": "9fc53d39-75d6-4f66-9949-cdd1581cb335",
+                            "saksbehandler": {
+                                "ident": "R154509",
+                                "navn": "Ramthun, Stephen"
+                            },
+                            "timestamp": "2022-03-25T10:24:30.294186",
+                            "__typename": "Dagoverstyring",
+                            "dager": [
+                                {
+                                    "grad": 72,
+                                    "dato": "2022-01-20",
+                                    "type": "Sykedag"
+                                },
+                                {
+                                    "grad": 72,
+                                    "dato": "2022-01-21",
+                                    "type": "Sykedag"
+                                }
+                            ]
+                        },
+                        {
+                            "begrunnelse": "Fordi 80 er et fint, helt tall",
+                            "hendelseId": "b201a1d9-d7d9-48b1-b651-d733cbdfcc24",
+                            "saksbehandler": {
+                                "ident": "R154509",
+                                "navn": "Ramthun, Stephen"
+                            },
+                            "timestamp": "2022-03-25T10:23:27.455633",
+                            "__typename": "Dagoverstyring",
+                            "dager": [
+                                {
+                                    "grad": 80,
+                                    "dato": "2022-01-20",
+                                    "type": "Sykedag"
+                                }
+                            ]
+                        }
+                    ]
                 }
             ]
         }

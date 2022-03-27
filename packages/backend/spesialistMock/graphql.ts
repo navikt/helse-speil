@@ -143,7 +143,7 @@ const getResolvers = (): IResolvers => ({
     },
     Vilkarsgrunnlag: {
         __resolveType: (grunnlag: { grunnbelop?: number }) => {
-            return grunnlag.grunnbelop !== null ? 'VilkarsgrunnlagSpleis' : 'VilkarsgrunnlagInfotrygd';
+            return typeof grunnlag.grunnbelop === 'number' ? 'VilkarsgrunnlagSpleis' : 'VilkarsgrunnlagInfotrygd';
         },
     },
     Hendelse: {
