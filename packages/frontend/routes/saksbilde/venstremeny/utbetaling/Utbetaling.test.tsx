@@ -46,19 +46,19 @@ jest.mock('../../../../io/http', () => ({
 
 describe('Utbetaling', () => {
     test('viser ikke utbetalingsknapp ved tilstand "Utbetalt"', () => {
-        render(<Utbetaling aktivPeriode={enTidslinjeperiode('utbetalt')} />, { wrapper: wrapperMedPerson() });
+        render(<Utbetaling activePeriod={enTidslinjeperiode('utbetalt')} />, { wrapper: wrapperMedPerson() });
         expect(screen.queryAllByRole('button')).toHaveLength(0);
     });
 
     test('viser ikke utbetalingsknapp ved tilstand "Avslag"', () => {
-        render(<Utbetaling aktivPeriode={enTidslinjeperiode('avslag')} />, { wrapper: wrapperMedPerson() });
+        render(<Utbetaling activePeriod={enTidslinjeperiode('avslag')} />, { wrapper: wrapperMedPerson() });
         expect(screen.queryAllByRole('button')).toHaveLength(0);
     });
 
     test('viser revurderingsknapp ved tilstand "Revurdering"', () => {
         render(
             <Utbetaling
-                aktivPeriode={enTidslinjeperiode('revurderes', dayjs('2021-01-01'), dayjs('2021-01-31'), 'REVURDERING')}
+                activePeriod={enTidslinjeperiode('revurderes', dayjs('2021-01-01'), dayjs('2021-01-31'), 'REVURDERING')}
             />,
             { wrapper: wrapperMedPerson() }
         );
