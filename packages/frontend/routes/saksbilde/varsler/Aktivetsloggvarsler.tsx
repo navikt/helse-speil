@@ -10,7 +10,6 @@ import { Varselseksjon } from './Varselseksjon';
 
 import utdatert_wiki from '../../../utdatert_wiki.json';
 import wiki from '../../../wiki.json';
-import { Aktivitet } from '@io/graphql';
 
 type WikiEntry = {
     varsel: string;
@@ -27,7 +26,7 @@ const Aktivitetsloggvarsel = styled(Varsel)`
 `;
 
 interface AktivitetsloggvarslerProps {
-    varsler: Array<Aktivitet>;
+    varsler: Array<String>;
 }
 
 export const Aktivitetsloggvarsler: React.VFC<AktivitetsloggvarslerProps> = React.memo(({ varsler }) => {
@@ -35,10 +34,10 @@ export const Aktivitetsloggvarsler: React.VFC<AktivitetsloggvarslerProps> = Reac
         <>
             {varsler.map((aktivitet, index) => {
                 const wikis = [...wiki, ...utdatert_wiki];
-                const wikiAktivitet: WikiEntry | undefined = wikis.find((it) => it.varsel === aktivitet.melding);
+                const wikiAktivitet: WikiEntry | undefined = wikis.find((it) => it.varsel === aktivitet);
                 if (wikiAktivitet && (wikiAktivitet.betydning.length > 0 || wikiAktivitet.løsning.length > 0)) {
                     return (
-                        <EkspanderbartVarsel key={index} label={aktivitet.melding} type={wikiAktivitet.type}>
+                        <EkspanderbartVarsel key={index} label={aktivitet} type={wikiAktivitet.type}>
                             <Varselseksjon tittel="Hva betyr det?">{wikiAktivitet.betydning}</Varselseksjon>
                             <Varselseksjon tittel="Hva gjør du?">{wikiAktivitet.løsning}</Varselseksjon>
                         </EkspanderbartVarsel>
@@ -46,7 +45,7 @@ export const Aktivitetsloggvarsler: React.VFC<AktivitetsloggvarslerProps> = Reac
                 } else {
                     return (
                         <Aktivitetsloggvarsel key={index} variant="advarsel">
-                            <BodyShort as="p">{aktivitet.melding}</BodyShort>
+                            <BodyShort as="p">{aktivitet}</BodyShort>
                         </Aktivitetsloggvarsel>
                     );
                 }

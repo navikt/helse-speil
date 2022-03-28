@@ -104,7 +104,7 @@ export const Saksbildevarsler = ({ activePeriod }: SaksbildevarslerProps) => {
                     <BodyShort>{melding}</BodyShort>
                 </Saksbildevarsel>
             ))}
-            {skalViseAktivtetsloggvarsler && <Aktivitetsloggvarsler varsler={activePeriod.aktivitetslogg} />}
+            {skalViseAktivtetsloggvarsler && <Aktivitetsloggvarsler varsler={activePeriod.varsler} />}
             {feilVarsler.map(({ grad, melding }, index) => (
                 <Saksbildevarsel variant={grad} key={index}>
                     <BodyShort>{melding}</BodyShort>
