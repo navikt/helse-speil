@@ -1135,6 +1135,7 @@ export type FetchPersonQuery = {
                               grad?: number | null;
                               sykdomsdagtype: Sykdomsdagtype;
                               utbetalingsdagtype: Utbetalingsdagtype;
+                              begrunnelser?: Array<Begrunnelse> | null;
                               kilde: { __typename?: 'Kilde'; id: string; type: Kildetype };
                               utbetalingsinfo?: {
                                   __typename?: 'Utbetalingsinfo';
@@ -1164,6 +1165,7 @@ export type FetchPersonQuery = {
                               grad?: number | null;
                               sykdomsdagtype: Sykdomsdagtype;
                               utbetalingsdagtype: Utbetalingsdagtype;
+                              begrunnelser?: Array<Begrunnelse> | null;
                               kilde: { __typename?: 'Kilde'; id: string; type: Kildetype };
                               utbetalingsinfo?: {
                                   __typename?: 'Utbetalingsinfo';

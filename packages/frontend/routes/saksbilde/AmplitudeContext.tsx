@@ -53,7 +53,7 @@ const useStoreÅpnetTidspunkt = (oppgavereferanse?: string | null) => {
     }, [oppgavereferanse]);
 };
 
-export const AmplitudeProvider: React.FC<PropsWithChildren<{}>> = ({ children }) => {
+export const _AmplitudeProvider: React.FC<PropsWithChildren<{}>> = ({ children }) => {
     const activePeriod = useActivePeriod();
     const oppgavereferanse = getOppgavereferanse(activePeriod);
 
@@ -110,5 +110,13 @@ export const AmplitudeProvider: React.FC<PropsWithChildren<{}>> = ({ children })
         >
             {children}
         </AmplitudeContext.Provider>
+    );
+};
+
+export const AmplitudeProvider: React.FC = ({ children }) => {
+    return (
+        <React.Suspense fallback={<>{children}</>}>
+            <_AmplitudeProvider>{children}</_AmplitudeProvider>
+        </React.Suspense>
     );
 };

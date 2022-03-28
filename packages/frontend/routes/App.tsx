@@ -37,25 +37,29 @@ const App = () => {
         <ErrorBoundary fallback={GlobalFeilside}>
             <Header />
             <Varsler />
-            <React.Suspense fallback={<div />}>
-                <Switch>
-                    <Route path={Routes.Uautorisert}>
-                        <IkkeLoggetInn />
-                    </Route>
-                    <ProtectedRoute path={Routes.Oversikt} exact>
+            <Switch>
+                <Route path={Routes.Uautorisert}>
+                    <IkkeLoggetInn />
+                </Route>
+                <ProtectedRoute path={Routes.Oversikt} exact>
+                    <React.Suspense fallback={<div />}>
                         <Oversikt />
-                    </ProtectedRoute>
-                    <ProtectedRoute path={Routes.Saksbilde}>
+                    </React.Suspense>
+                </ProtectedRoute>
+                <ProtectedRoute path={Routes.Saksbilde}>
+                    <React.Suspense fallback={<div />}>
                         <Saksbilde />
-                    </ProtectedRoute>
-                    <ProtectedRoute path={Routes.Playground}>
+                    </React.Suspense>
+                </ProtectedRoute>
+                <ProtectedRoute path={Routes.Playground}>
+                    <React.Suspense fallback={<div />}>
                         <GraphQLPlayground />
-                    </ProtectedRoute>
-                    <Route path="*">
-                        <PageNotFound />
-                    </Route>
-                </Switch>
-            </React.Suspense>
+                    </React.Suspense>
+                </ProtectedRoute>
+                <Route path="*">
+                    <PageNotFound />
+                </Route>
+            </Switch>
             <Toasts />
             {easterEggIsActive('Agurk') && (
                 <React.Suspense fallback={null}>

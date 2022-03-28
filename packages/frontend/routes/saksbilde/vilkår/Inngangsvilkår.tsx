@@ -16,6 +16,7 @@ import { OppfylteVilkår } from './vilkårsgrupper/OppfylteVilkår';
 import { VurdertIInfotrygd } from './vilkårsgrupper/VurdertIInfotrygd';
 import { VurdertISpleis } from './vilkårsgrupper/VurdertISpleis';
 import { Yrkeskadeinfo } from './vilkårsgrupper/Yrkesskadeinfo';
+import { useActivePeriod } from '@state/periodState';
 
 const Container = styled.div`
     margin-top: 2rem;
@@ -56,6 +57,7 @@ interface InngangsvilkårProps {
 
 export const Inngangsvilkår = ({ skjæringstidspunkt, vilkårsgrunnlagHistorikkId }: InngangsvilkårProps) => {
     const aktivPeriode = useAktivPeriode();
+    const activePeriod = useActivePeriod();
     const unique =
         aktivPeriode.tilstand === 'utenSykefravær' ? undefined : (aktivPeriode as TidslinjeperiodeMedSykefravær).unique;
 

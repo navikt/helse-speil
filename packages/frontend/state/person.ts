@@ -9,6 +9,9 @@ import { deletePåVent, getPerson, postLeggPåVent } from '@io/http';
 
 import { useInnloggetSaksbehandler } from './authentication';
 import { aktivPeriodeState, useAktivPeriode, useMaybeAktivPeriode } from './tidslinje';
+import { useCurrentArbeidsgiver } from '@state/arbeidsgiverState';
+import { isBeregnetPeriode } from '@utils/typeguards';
+import { useActivePeriod } from '@state/periodState';
 
 interface PersonState {
     problems?: Error[];
@@ -250,30 +253,47 @@ export const useUtbetalingForSkjæringstidspunkt = (
 };
 
 export const useUtbetalingstidsstempelFørsteGenForPeriode = (): string => {
-    const vedtaksperiode = useAktivPeriode();
+    const activePeriod = useActivePeriod();
+    const currentArbeidsgiver = useCurrentArbeidsgiver();
 
-    return (
-        useArbeidsgiverUtenParametre()
-            ?.generasjoner.map((element) => {
-                return element?.perioder.filter(
-                    (periode) =>
-                        periode.vedtaksperiodeId == vedtaksperiode?.id && periode.utbetaling.vurdering?.godkjent
-                )[0];
-            })
-            .pop()?.utbetaling.vurdering?.tidsstempel ?? ''
-    );
+    if (!currentArbeidsgiver || !isBeregnetPeriode(activePeriod)) {
+        return '';
+    }
+
+    const periode = currentArbeidsgiver.generasjoner[currentArbeidsgiver.generasjoner.length - 1].perioder.filter(
+        (periode) =>
+            periode.vedtaksperiodeId === activePeriod.vedtaksperiodeId &&
+            isBeregnetPeriode(periode) &&
+            periode.utbetaling.vurdering?.godkjent
+    )[0];
+
+    return isBeregnetPeriode(periode) ? periode.utbetaling.vurdering?.tidsstempel ?? '' : '';
 };
 
 export const useFørsteUtbetalingstidsstempelFørsteGenISkjæringstidspunkt = (): string => {
-    const aktivPeriode = useAktivPeriode();
-    const førsteUtbetalingIFørsteGenForSkjæringstidspunkt = useArbeidsgiverUtenParametre()
-        ?.generasjoner.flatMap((it) =>
-            it.perioder.filter((periode) => periode.skjæringstidspunkt === aktivPeriode.skjæringstidspunkt)
+    const activePeriod = useActivePeriod();
+    const currentArbeidsgiver = useCurrentArbeidsgiver();
+
+    if (!isBeregnetPeriode(activePeriod) || !currentArbeidsgiver) {
+        return '';
+    }
+
+    const firstGeneration = currentArbeidsgiver.generasjoner[currentArbeidsgiver.generasjoner.length - 1];
+
+    const førsteUtbetaltePeriodeForSkjæringstidspunkt = firstGeneration.perioder
+        .filter(
+            (periode) => isBeregnetPeriode(periode) && periode.skjaeringstidspunkt === activePeriod.skjaeringstidspunkt
         )
-        ?.pop()?.utbetaling;
-    return førsteUtbetalingIFørsteGenForSkjæringstidspunkt?.vurdering?.godkjent
-        ? førsteUtbetalingIFørsteGenForSkjæringstidspunkt?.vurdering?.tidsstempel
-        : '';
+        ?.pop();
+
+    if (
+        isBeregnetPeriode(førsteUtbetaltePeriodeForSkjæringstidspunkt) &&
+        førsteUtbetaltePeriodeForSkjæringstidspunkt.utbetaling.vurdering?.godkjent
+    ) {
+        return førsteUtbetaltePeriodeForSkjæringstidspunkt.utbetaling.vurdering.tidsstempel;
+    } else {
+        return '';
+    }
 };
 
 export const useVilkårsgrunnlaghistorikk = (

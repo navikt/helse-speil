@@ -1,15 +1,15 @@
 import { atom, selector, useRecoilValue, useSetRecoilState } from 'recoil';
 
-import type { BeregnetPeriode, UberegnetPeriode } from '@io/graphql';
+import type { BeregnetPeriode, GhostPeriode, UberegnetPeriode } from '@io/graphql';
 import { currentPersonState } from '@state/personState';
 import { isBeregnetPeriode } from '@utils/typeguards';
 
-const activePeriodState = atom<BeregnetPeriode | UberegnetPeriode | null>({
+const activePeriodState = atom<BeregnetPeriode | UberegnetPeriode | GhostPeriode | null>({
     key: 'activePeriodState',
     default: null,
 });
 
-const activePeriod = selector<BeregnetPeriode | UberegnetPeriode | null>({
+const activePeriod = selector<BeregnetPeriode | UberegnetPeriode | GhostPeriode | null>({
     key: 'activePeriod',
     get: async ({ get }) => {
         const activePeriod = get(activePeriodState);

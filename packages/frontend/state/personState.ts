@@ -1,6 +1,6 @@
 import { atom, selector, useRecoilValue, useSetRecoilState } from 'recoil';
 
-import { fetchPerson, Infotrygdutbetaling, Person, Personinfo } from '@io/graphql';
+import { fetchPerson, Person, Vilkarsgrunnlag } from '@io/graphql';
 
 export const currentPersonIdState = atom<string | null>({
     key: 'currentPersonId',
@@ -26,4 +26,15 @@ export const useCurrentPerson = (): Person | null => {
 
 export const useFetchPerson = (): ((id: string) => void) => {
     return useSetRecoilState(currentPersonIdState);
+};
+
+export const useVilkårsgrunnlag = (id: string, skjæringstidspunkt: DateString): Vilkarsgrunnlag | null => {
+    const currentPerson = useCurrentPerson();
+
+    return (
+        currentPerson?.vilkarsgrunnlaghistorikk
+            .find((it) => it.id === id)
+            ?.grunnlag.filter((it) => it.skjaeringstidspunkt === skjæringstidspunkt)
+            ?.pop() ?? null
+    );
 };

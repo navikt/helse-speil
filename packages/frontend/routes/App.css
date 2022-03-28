@@ -81,14 +81,17 @@
     --anonymous-background: var(--navds-color-gray-20);
     --anonymous-color: var(--anonymous-background);
     --anonymous-border-radius: 0.25rem;
+    --anonymous-opacity: 0;
 
     --visible-color: unset;
     --visible-background: unset;
     --visible-border-radius: unset;
+    --visible-opacity: 1;
 
     --anonymizable-background: unset;
     --anonymizable-color: unset;
     --anonymizable-border-radius: unset;
+    --anonymizable-opacity: 1;
 }
 
 html,

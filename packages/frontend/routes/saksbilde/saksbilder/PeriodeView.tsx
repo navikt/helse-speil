@@ -1,5 +1,7 @@
 import React from 'react';
+import { Loader } from '@navikt/ds-react';
 
+import { Varsel } from '@components/Varsel';
 import { ErrorBoundary } from '@components/ErrorBoundary';
 import { useActivePeriod } from '@state/periodState';
 import { useCurrentPerson } from '@state/personState';
@@ -9,7 +11,6 @@ import { isBeregnetPeriode, isGhostPeriode, isUberegnetPeriode } from '@utils/ty
 import { GhostPeriodeView } from './GhostPeriodeView';
 import { UberegnetPeriodeView } from './UberegnetPeriodeView';
 import { BeregnetPeriodeView } from './BeregnetPeriodeView';
-import { Varsel } from '@components/Varsel';
 
 import styles from './PeriodeView.module.css';
 
@@ -44,7 +45,11 @@ const PeriodeViewContainer: React.VFC = () => {
 };
 
 const PeriodeViewSkeleton = () => {
-    return <div />;
+    return (
+        <div className={styles.Skeleton}>
+            <Loader size="xlarge" />
+        </div>
+    );
 };
 
 const PeriodeViewError: React.FC = ({ children }) => {
