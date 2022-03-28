@@ -10,6 +10,7 @@ import { Utbetaling } from '../utbetaling/Utbetaling';
 import { Inngangsvilkår } from '../vilkår/Inngangsvilkår';
 
 import styles from './PeriodeView.module.css';
+import { Faresignaler } from '../faresignaler/Faresignaler';
 
 interface BeregnetPeriodeViewProps {
     activePeriod: BeregnetPeriode;
@@ -48,13 +49,11 @@ export const BeregnetPeriodeView: React.VFC<BeregnetPeriodeViewProps> = ({ activ
                                 />
                             </div>
                         </Route>*/}
-                        {/*                        {activePeriod?.risikovurdering && (
-                            <Route path={`${path}/faresignaler`}>
-                                <div className={styles.RouteContainer}>
-                                    <Faresignaler risikovurdering={activePeriod.risikovurdering} />
-                                </div>
-                            </Route>
-                        )}*/}
+                        <Route path={`${path}/faresignaler`}>
+                            <div className={styles.RouteContainer}>
+                                <Faresignaler />
+                            </div>
+                        </Route>
                     </Switch>
                 )}
             </div>
