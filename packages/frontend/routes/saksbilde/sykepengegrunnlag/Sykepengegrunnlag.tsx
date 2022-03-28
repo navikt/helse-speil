@@ -1,17 +1,19 @@
-import styled from '@emotion/styled';
 import React from 'react';
 
 import { AgurkErrorBoundary } from '@components/AgurkErrorBoundary';
 import { useOrganisasjonsnummer, useVilkårsgrunnlaghistorikk, useVurderingForSkjæringstidspunkt } from '@state/person';
 import { useMaybeAktivPeriode } from '@state/tidslinje';
-import { Refusjon } from '@io/graphql';
+import { BeregnetPeriode, Refusjon, Vilkarsgrunnlagtype } from '@io/graphql';
 
 import { BehandletSykepengegrunnlag } from './BehandletSykepengegrunnlag';
 import { SykepengegrunnlagFraInfogtrygd } from './SykepengegrunnlagFraInfotrygd';
-import { UbehandletSykepengegrunnlag } from './UbehandletSykepengegrunnlag';
+import { SykepengegrunnlagFraSpleis } from './SykepengegrunnlagFraSpleis';
 
 import styles from './Sykepengegrunnlag.module.css';
 import classNames from 'classnames';
+import { ErrorBoundary } from '@components/ErrorBoundary';
+import { useActivePeriod } from '@state/periodState';
+import { useVilkårsgrunnlag } from '@state/personState';
 
 interface SykepengegrunnlagProps extends React.HTMLAttributes<HTMLElement> {
     vilkårsgrunnlaghistorikkId: UUID;
@@ -19,7 +21,7 @@ interface SykepengegrunnlagProps extends React.HTMLAttributes<HTMLElement> {
     refusjon?: Refusjon | null;
 }
 
-export const Sykepengegrunnlag: React.VFC<SykepengegrunnlagProps> = ({
+export const SykepengegrunnlagWithContent: React.VFC<SykepengegrunnlagProps> = ({
     vilkårsgrunnlaghistorikkId,
     skjæringstidspunkt,
     refusjon,
@@ -45,7 +47,7 @@ export const Sykepengegrunnlag: React.VFC<SykepengegrunnlagProps> = ({
                             refusjon={refusjon}
                         />
                     ) : (
-                        <UbehandletSykepengegrunnlag
+                        <SykepengegrunnlagFraSpleis
                             vilkårsgrunnlag={vilkårsgrunnlag as ExternalSpleisVilkårsgrunnlag}
                             organisasjonsnummer={organisasjonsnummer}
                             refusjon={refusjon}
@@ -59,5 +61,49 @@ export const Sykepengegrunnlag: React.VFC<SykepengegrunnlagProps> = ({
                 )}
             </AgurkErrorBoundary>
         </section>
+    );
+};
+
+const SykepengegrunnlagContainer = () => {
+    const activePeriod = useActivePeriod();
+    const vilkårsgrunnlag = useVilkårsgrunnlag(
+        (activePeriod as BeregnetPeriode).vilkarsgrunnlaghistorikkId,
+        (activePeriod as BeregnetPeriode).skjaeringstidspunkt
+    );
+
+    if (vilkårsgrunnlag?.vilkarsgrunnlagtype === Vilkarsgrunnlagtype.Spleis) {
+        return (
+            <BehandletSykepengegrunnlag
+                //vurdering={vurdering}
+                vilkårsgrunnlag={vilkårsgrunnlag as ExternalSpleisVilkårsgrunnlag}
+                organisasjonsnummer={organisasjonsnummer}
+                refusjon={refusjon}
+            />
+        );
+    } else {
+        <SykepengegrunnlagFraInfogtrygd
+            vilkårsgrunnlag={vilkårsgrunnlag as ExternalInfotrygdVilkårsgrunnlag}
+            organisasjonsnummer={organisasjonsnummer}
+        />;
+    }
+
+    return null;
+};
+
+const SykepengegrunnlagSkeleton = () => {
+    return <div />;
+};
+
+const SykepengegrunnlagError = () => {
+    return <div />;
+};
+
+export const Sykepengegrunnlag = () => {
+    return (
+        <React.Suspense fallback={<SykepengegrunnlagSkeleton />}>
+            <ErrorBoundary fallback={<SykepengegrunnlagError />}>
+                <SykepengegrunnlagContainer />
+            </ErrorBoundary>
+        </React.Suspense>
     );
 };

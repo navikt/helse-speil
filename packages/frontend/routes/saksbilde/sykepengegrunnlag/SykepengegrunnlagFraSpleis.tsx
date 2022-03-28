@@ -26,19 +26,19 @@ const getInntekt = (
         (it) => it.organisasjonsnummer === organisasjonsnummer
     ) as ExternalArbeidsgiverinntekt;
 
-interface UbehandletSykepengegrunnlagProps {
+interface SykepengegrunnlagFraSpleisProps {
     vilkårsgrunnlag: ExternalSpleisVilkårsgrunnlag;
     organisasjonsnummer: string;
     refusjon?: Refusjon | null;
     'data-testid'?: string;
 }
 
-export const UbehandletSykepengegrunnlag = ({
+export const SykepengegrunnlagFraSpleis = ({
     vilkårsgrunnlag,
     organisasjonsnummer,
     refusjon,
     ...rest
-}: UbehandletSykepengegrunnlagProps) => {
+}: SykepengegrunnlagFraSpleisProps) => {
     const inntekt = getInntekt(vilkårsgrunnlag, organisasjonsnummer);
     const [aktivInntektskilde, setAktivInntektskilde] = useState<ExternalArbeidsgiverinntekt>(inntekt);
 

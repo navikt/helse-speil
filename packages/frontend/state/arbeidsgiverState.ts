@@ -1,4 +1,4 @@
-import { Arbeidsgiver, BeregnetPeriode, GhostPeriode, Periode, UberegnetPeriode } from '@io/graphql';
+import { Arbeidsgiver, BeregnetPeriode, GhostPeriode, Periode, UberegnetPeriode, Vurdering } from '@io/graphql';
 import { useActivePeriod } from '@state/periodState';
 import { useCurrentPerson } from '@state/personState';
 import { isBeregnetPeriode, isGhostPeriode, isUberegnetPeriode } from '@utils/typeguards';
@@ -47,4 +47,20 @@ export const useCurrentArbeidsgiver = (): Arbeidsgiver | null => {
     } else {
         return null;
     }
+};
+
+export const useVurderingForSkjæringstidspunkt = (skjæringstidspunkt: DateString): Vurdering | null => {
+    const currentArbeidsgiver = useCurrentArbeidsgiver();
+
+    if (!currentArbeidsgiver) {
+        return null;
+    }
+
+    return (
+        Array.from(currentArbeidsgiver.generasjoner[0].perioder)
+            .filter(isBeregnetPeriode)
+            .reverse()
+            .find((beregnetPeriode) => beregnetPeriode.skjaeringstidspunkt === skjæringstidspunkt)?.utbetaling
+            .vurdering ?? null
+    );
 };

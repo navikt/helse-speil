@@ -11,6 +11,7 @@ import { Inngangsvilkår } from '../vilkår/Inngangsvilkår';
 
 import styles from './PeriodeView.module.css';
 import { Faresignaler } from '../faresignaler/Faresignaler';
+import { Sykepengegrunnlag } from '../sykepengegrunnlag/Sykepengegrunnlag';
 
 interface BeregnetPeriodeViewProps {
     activePeriod: BeregnetPeriode;
@@ -40,7 +41,7 @@ export const BeregnetPeriodeView: React.VFC<BeregnetPeriodeViewProps> = ({ activ
                                 <Inngangsvilkår />
                             </div>
                         </Route>
-                        {/*                        <Route path={`${path}/sykepengegrunnlag`}>
+                        <Route path={`${path}/sykepengegrunnlag`}>
                             <div className={styles.RouteContainer}>
                                 <Sykepengegrunnlag
                                     skjæringstidspunkt={activePeriod.skjæringstidspunkt}
@@ -48,7 +49,7 @@ export const BeregnetPeriodeView: React.VFC<BeregnetPeriodeViewProps> = ({ activ
                                     refusjon={refusjon}
                                 />
                             </div>
-                        </Route>*/}
+                        </Route>
                         <Route path={`${path}/faresignaler`}>
                             <div className={styles.RouteContainer}>
                                 <Faresignaler />
