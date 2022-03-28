@@ -138,7 +138,7 @@ export interface KategoriserteVilkår {
 export const kategoriserteInngangsvilkår = (
     vilkårsgrunnlag: Vilkarsgrunnlag,
     alderVedSkjæringstidspunkt: number,
-    vurdering: Vurdering | null
+    vurdering?: Vurdering | null
 ): KategoriserteVilkår => {
     const vurdertIInfotrygd = vilkårsgrunnlag.vilkarsgrunnlagtype === 'INFOTRYGD';
     const vurdertISpleis = !vurdertIInfotrygd && vurdering;

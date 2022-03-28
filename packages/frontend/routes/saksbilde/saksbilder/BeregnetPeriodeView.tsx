@@ -7,10 +7,7 @@ import { Saksbildevarsler } from '../varsler/Saksbildevarsler';
 import { Venstremeny } from '../venstremeny/Venstremeny';
 import { Historikk } from '../historikk/Historikk';
 import { Utbetaling } from '../utbetaling/Utbetaling';
-import { Faresignaler } from '../faresignaler/Faresignaler';
-import { RouteContainer } from './SaksbildeFullstendigPeriode';
 import { Inngangsvilkår } from '../vilkår/Inngangsvilkår';
-import { Sykepengegrunnlag } from '../sykepengegrunnlag/Sykepengegrunnlag';
 
 import styles from './PeriodeView.module.css';
 
@@ -37,30 +34,27 @@ export const BeregnetPeriodeView: React.VFC<BeregnetPeriodeViewProps> = ({ activ
                         <Route path={`${path}/utbetaling`}>
                             <Utbetaling />
                         </Route>
-                        {/*<Route path={`${path}/inngangsvilkår`}>*/}
-                        {/*    <RouteContainer>*/}
-                        {/*        <Inngangsvilkår*/}
-                        {/*            skjæringstidspunkt={aktivPeriode.skjæringstidspunkt}*/}
-                        {/*            vilkårsgrunnlagHistorikkId={aktivPeriode.vilkårsgrunnlaghistorikkId}*/}
-                        {/*        />*/}
-                        {/*    </RouteContainer>*/}
-                        {/*</Route>*/}
-                        {/*<Route path={`${path}/sykepengegrunnlag`}>*/}
-                        {/*    <RouteContainer>*/}
-                        {/*        <Sykepengegrunnlag*/}
-                        {/*            skjæringstidspunkt={aktivPeriode.skjæringstidspunkt}*/}
-                        {/*            vilkårsgrunnlaghistorikkId={aktivPeriode.vilkårsgrunnlaghistorikkId}*/}
-                        {/*            refusjon={refusjon}*/}
-                        {/*        />*/}
-                        {/*    </RouteContainer>*/}
-                        {/*</Route>*/}
-                        {/*{vedtaksperiode?.risikovurdering && (*/}
-                        {/*    <Route path={`${path}/faresignaler`}>*/}
-                        {/*        <RouteContainer>*/}
-                        {/*            <Faresignaler risikovurdering={vedtaksperiode.risikovurdering} />*/}
-                        {/*        </RouteContainer>*/}
-                        {/*    </Route>*/}
-                        {/*)}*/}
+                        <Route path={`${path}/inngangsvilkår`}>
+                            <div className={styles.RouteContainer}>
+                                <Inngangsvilkår />
+                            </div>
+                        </Route>
+                        {/*                        <Route path={`${path}/sykepengegrunnlag`}>
+                            <div className={styles.RouteContainer}>
+                                <Sykepengegrunnlag
+                                    skjæringstidspunkt={activePeriod.skjæringstidspunkt}
+                                    vilkårsgrunnlaghistorikkId={activePeriod.vilkårsgrunnlaghistorikkId}
+                                    refusjon={refusjon}
+                                />
+                            </div>
+                        </Route>*/}
+                        {/*                        {activePeriod?.risikovurdering && (
+                            <Route path={`${path}/faresignaler`}>
+                                <div className={styles.RouteContainer}>
+                                    <Faresignaler risikovurdering={activePeriod.risikovurdering} />
+                                </div>
+                            </Route>
+                        )}*/}
                     </Switch>
                 )}
             </div>
