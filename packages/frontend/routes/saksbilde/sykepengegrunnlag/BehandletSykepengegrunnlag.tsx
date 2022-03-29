@@ -1,18 +1,19 @@
-import dayjs from 'dayjs';
 import React from 'react';
 
 import { SykepengegrunnlagFraSpleis } from './SykepengegrunnlagFraSpleis';
 
-import { NORSK_DATOFORMAT } from '@utils/date';
+import { getFormattedDateString } from '@utils/date';
 import { AutomatiskVurdering } from '@components/AutomatiskVurdering';
 import { Saksbehandlervurdering } from '@components/Saksbehandlervurdering';
-import { Refusjon } from '@io/graphql';
+import { Inntektsgrunnlag, Refusjon, VilkarsgrunnlagSpleis, Vurdering } from '@io/graphql';
 
 interface BehandletSykepengegrunnlagProps {
     vurdering: Vurdering;
-    vilkårsgrunnlag: ExternalSpleisVilkårsgrunnlag;
+    vilkårsgrunnlag: VilkarsgrunnlagSpleis;
     organisasjonsnummer: string;
     refusjon?: Refusjon | null;
+    skjæringstidspunkt: DateString;
+    inntektsgrunnlag: Inntektsgrunnlag;
 }
 
 export const BehandletSykepengegrunnlag = ({
@@ -20,29 +21,21 @@ export const BehandletSykepengegrunnlag = ({
     vilkårsgrunnlag,
     organisasjonsnummer,
     refusjon,
+    skjæringstidspunkt,
+    inntektsgrunnlag,
 }: BehandletSykepengegrunnlagProps) => {
-    const skjæringstidspunkt = dayjs(vilkårsgrunnlag.skjæringstidspunkt);
-    const renderedSkjæringstidspunkt = skjæringstidspunkt.format(NORSK_DATOFORMAT);
+    const title = `Sykepengegrunnlag satt ved skjæringstidspunkt - ${getFormattedDateString(skjæringstidspunkt)}`;
+    const Wrapper = vurdering.automatisk ? AutomatiskVurdering : Saksbehandlervurdering;
 
-    const title = `Sykepengegrunnlag satt ved skjæringstidspunkt - ${renderedSkjæringstidspunkt}`;
-
-    return vurdering.automatisk ? (
-        <AutomatiskVurdering title={title} ident={vurdering.ident}>
+    return (
+        <Wrapper title={title} ident={vurdering.ident}>
             <SykepengegrunnlagFraSpleis
                 vilkårsgrunnlag={vilkårsgrunnlag}
                 organisasjonsnummer={organisasjonsnummer}
                 data-testid="behandlet-sykepengegrunnlag"
+                inntektsgrunnlag={inntektsgrunnlag}
                 refusjon={refusjon}
             />
-        </AutomatiskVurdering>
-    ) : (
-        <Saksbehandlervurdering title={title} ident={vurdering.ident}>
-            <SykepengegrunnlagFraSpleis
-                vilkårsgrunnlag={vilkårsgrunnlag}
-                organisasjonsnummer={organisasjonsnummer}
-                data-testid="behandlet-sykepengegrunnlag"
-                refusjon={refusjon}
-            />
-        </Saksbehandlervurdering>
+        </Wrapper>
     );
 };

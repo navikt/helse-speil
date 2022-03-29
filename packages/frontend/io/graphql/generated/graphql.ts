@@ -73,6 +73,7 @@ export type Arbeidsgiver = {
 export type Arbeidsgiverinntekt = {
     __typename?: 'Arbeidsgiverinntekt';
     arbeidsgiver: Scalars['String'];
+    deaktivert?: Maybe<Scalars['Boolean']>;
     omregnetArsinntekt?: Maybe<OmregnetArsinntekt>;
     sammenligningsgrunnlag?: Maybe<Sammenligningsgrunnlag>;
 };

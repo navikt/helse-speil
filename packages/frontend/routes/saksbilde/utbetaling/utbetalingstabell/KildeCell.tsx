@@ -14,15 +14,15 @@ import { EndringsloggTidslinjeButton } from './EndringsloggTidslinjeButton';
 const getKildeTypeIcon = (
     dato: DateString,
     kilde?: Kildetype,
-    overstyringer?: Array<OverstyringerPrDag>
+    overstyringer?: Array<OverstyringerPrDag>,
 ): ReactNode => {
     switch (kilde) {
         case 'SYKMELDING':
-            return <Kilde type="Sykmelding">SM</Kilde>;
+            return <Kilde type={Kildetype.Sykmelding}>SM</Kilde>;
         case 'SOKNAD':
-            return <Kilde type="Søknad">SØ</Kilde>;
+            return <Kilde type={Kildetype.Soknad}>SØ</Kilde>;
         case 'INNTEKTSMELDING':
-            return <Kilde type="Inntektsmelding">IM</Kilde>;
+            return <Kilde type={Kildetype.Inntektsmelding}>IM</Kilde>;
         case 'SAKSBEHANDLER':
             return overstyringer ? (
                 <EndringsloggTidslinjeButton dato={dato} endringer={overstyringer} />

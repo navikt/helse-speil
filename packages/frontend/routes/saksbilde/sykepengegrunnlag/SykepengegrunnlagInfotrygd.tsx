@@ -8,8 +8,9 @@ import { Kilde } from '@components/Kilde';
 import { FlexColumn } from '@components/Flex';
 import { AnonymizableText } from '@components/anonymizable/AnonymizableText';
 import { useArbeidsgivernavn } from '@state/person';
-import { getKildeType, kilde } from '@utils/inntektskilde';
+import { kildeForkortelse } from '@utils/inntektskilde';
 import { somPenger } from '@utils/locale';
+import { Arbeidsgiverinntekt, VilkarsgrunnlagInfotrygd } from '@io/graphql';
 
 const Container = styled(FlexColumn)`
     --fixed-column-width: 20rem;
@@ -98,7 +99,7 @@ const ArbeidsgiverRad = styled.tr<{ erGjeldende: boolean }>`
 `;
 
 interface SykepengegrunnlagInfotrygdProps {
-    vilkårsgrunnlag: ExternalInfotrygdVilkårsgrunnlag;
+    vilkårsgrunnlag: VilkarsgrunnlagInfotrygd;
     organisasjonsnummer: string;
 }
 
@@ -111,7 +112,7 @@ export const SykepengegrunnlagInfotrygd = ({
             <Table>
                 <thead>
                     <tr>
-                        <th></th>
+                        <th />
                         <th>
                             <Bold as="p">Inntektsgrunnlag</Bold>
                         </th>
@@ -136,7 +137,7 @@ export const SykepengegrunnlagInfotrygd = ({
                             <Bold as="p">Total</Bold>
                         </td>
                         <td>
-                            <Bold as="p">{somPenger(vilkårsgrunnlag.omregnetÅrsinntekt)}</Bold>
+                            <Bold as="p">{somPenger(vilkårsgrunnlag.omregnetArsinntekt)}</Bold>
                         </td>
                     </tr>
                     <tr>
@@ -155,28 +156,28 @@ export const SykepengegrunnlagInfotrygd = ({
 
 interface InfotrygdInntektProps {
     aktivtOrgnummer: string;
-    inntekt: ExternalArbeidsgiverinntekt;
+    inntekt: Arbeidsgiverinntekt;
 }
 
 const InfotrygdInntekt = ({ aktivtOrgnummer, inntekt }: InfotrygdInntektProps) => {
-    const arbeidsgivernavn = useArbeidsgivernavn(inntekt.organisasjonsnummer);
+    const arbeidsgivernavn = useArbeidsgivernavn(inntekt.arbeidsgiver);
     return (
-        <ArbeidsgiverRad erGjeldende={aktivtOrgnummer === inntekt.organisasjonsnummer}>
+        <ArbeidsgiverRad erGjeldende={aktivtOrgnummer === inntekt.arbeidsgiver}>
             <td>
                 <AnonymizableText>
                     {arbeidsgivernavn.toLowerCase() === 'ikke tilgjengelig'
-                        ? inntekt.organisasjonsnummer
-                        : `${arbeidsgivernavn} (${inntekt.organisasjonsnummer})`}
+                        ? inntekt.arbeidsgiver
+                        : `${arbeidsgivernavn} (${inntekt.arbeidsgiver})`}
                 </AnonymizableText>
             </td>
             <td>
                 <InntektMedKilde>
                     <BodyShort>
-                        {inntekt.omregnetÅrsinntekt ? somPenger(inntekt.omregnetÅrsinntekt.beløp) : 'Ukjent'}
+                        {inntekt.omregnetArsinntekt ? somPenger(inntekt.omregnetArsinntekt.belop) : 'Ukjent'}
                     </BodyShort>
-                    {inntekt.omregnetÅrsinntekt && (
-                        <Kilde type={getKildeType(inntekt.omregnetÅrsinntekt.kilde)}>
-                            {kilde(inntekt.omregnetÅrsinntekt.kilde)}
+                    {inntekt.omregnetArsinntekt && (
+                        <Kilde type={inntekt.omregnetArsinntekt.kilde}>
+                            {kildeForkortelse(inntekt.omregnetArsinntekt.kilde)}
                         </Kilde>
                     )}
                 </InntektMedKilde>

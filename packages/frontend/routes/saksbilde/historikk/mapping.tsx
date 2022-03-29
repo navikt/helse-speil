@@ -19,6 +19,7 @@ import {
     Hendelse as ExternHendelse,
     Inntektoverstyring,
     Inntektsmelding,
+    Kildetype,
     Maybe,
     Overstyring,
     Periode,
@@ -57,7 +58,7 @@ export const isInntektoverstyring = (overstyring?: Maybe<Overstyring>): overstyr
     (overstyring as Inntektoverstyring)?.__typename === 'Inntektoverstyring';
 
 export const isArbeidsforholdoverstyring = (
-    overstyring?: Maybe<Overstyring>
+    overstyring?: Maybe<Overstyring>,
 ): overstyring is Arbeidsforholdoverstyring =>
     (overstyring as Arbeidsforholdoverstyring)?.__typename === 'Arbeidsforholdoverstyring';
 
@@ -74,7 +75,7 @@ export const useDokumenter = (period: Periode | GhostPeriode): Hendelse[] => {
                     timestamp: hendelse.mottattDato,
                     title: 'Inntektsmelding mottatt',
                     type: Hendelsetype.Dokument,
-                    icon: <Kilde type="Inntektsmelding">IM</Kilde>,
+                    icon: <Kilde type={Kildetype.Inntektsmelding}>IM</Kilde>,
                 };
             } else if (isSykmelding(hendelse)) {
                 return {
@@ -82,7 +83,7 @@ export const useDokumenter = (period: Periode | GhostPeriode): Hendelse[] => {
                     timestamp: hendelse.rapportertDato,
                     title: 'Sykmelding mottatt',
                     type: Hendelsetype.Dokument,
-                    icon: <Kilde type="Sykmelding">SM</Kilde>,
+                    icon: <Kilde type={Kildetype.Sykmelding}>SM</Kilde>,
                 };
             } else if (isSøknadNav(hendelse) || isSøknadArbeidsgiver(hendelse)) {
                 return {
@@ -90,7 +91,7 @@ export const useDokumenter = (period: Periode | GhostPeriode): Hendelse[] => {
                     timestamp: hendelse.rapportertDato,
                     title: 'Søknad mottatt',
                     type: Hendelsetype.Dokument,
-                    icon: <Kilde type="Søknad">SØ</Kilde>,
+                    icon: <Kilde type={Kildetype.Soknad}>SØ</Kilde>,
                 };
             } else {
                 return null;
@@ -123,7 +124,7 @@ export const getUtbetalingshendelse = (periode: Periode | GhostPeriode): Hendels
 
 export const useDagoverstyringshendelser = (
     onClickEndring: (overstyring: Overstyring) => void,
-    overstyringer: Array<Overstyring>
+    overstyringer: Array<Overstyring>,
 ): Hendelse[] => {
     const utbetalingstidFørsteGenForPeriode = useUtbetalingstidsstempelFørsteGenForPeriode();
 
@@ -147,7 +148,7 @@ export const useDagoverstyringshendelser = (
 
 export const useInntektsoverstyringshendelser = (
     onClickEndring: (overstyring: Overstyring) => void,
-    overstyringer: Array<Overstyring>
+    overstyringer: Array<Overstyring>,
 ): Hendelse[] => {
     const førsteUtbetalingstidsstempelISkjæringstidspunkt =
         useFørsteUtbetalingstidsstempelFørsteGenISkjæringstidspunkt();
@@ -174,7 +175,7 @@ export const useInntektsoverstyringshendelser = (
 
 export const useArbeidsforholdoverstyringshendelser = (
     onClickEndring: (overstyring: Overstyring) => void,
-    overstyringer: Array<Overstyring>
+    overstyringer: Array<Overstyring>,
 ): Hendelse[] => {
     const activePeriod = useActivePeriod();
 
@@ -217,5 +218,5 @@ export const useNotater = (notater: Notat[], onClickNotat: () => void): Hendelse
                 ),
                 icon: <Notes />,
             })),
-        [JSON.stringify(notater.map((notat) => notat.id))]
+        [JSON.stringify(notater.map((notat) => notat.id))],
     );

@@ -5,9 +5,9 @@ import { BodyShort } from '@navikt/ds-react';
 
 import { PopoverHjelpetekst } from '@components/PopoverHjelpetekst';
 import { SortInfoikon } from '@components/ikoner/SortInfoikon';
-import { getKildeType } from '@utils/inntektskilde';
 import { getMonthName, somPenger } from '@utils/locale';
-import { sorterInntekterFraAOrdningen } from '@utils/inntekt';
+import { sorterInntekterFraAOrdningenNy } from '@utils/inntekt';
+import { Inntektskilde, OmregnetArsinntekt } from '@io/graphql';
 
 const Tabell = styled.div`
     display: grid;
@@ -62,16 +62,16 @@ const SortInfoikonContainer = styled(SortInfoikon)`
     margin-right: 16px;
 `;
 
-const InntektFraAordningen = ({ omregnetÅrsinntekt }: { omregnetÅrsinntekt: ExternalOmregnetÅrsinntekt }) => {
+const InntektFraAordningen = ({ omregnetÅrsinntekt }: { omregnetÅrsinntekt: OmregnetArsinntekt }) => {
     return (
         <>
             <InntektFraAordningenTabell omregnetÅrsinntekt={omregnetÅrsinntekt} />
             <Divider />
             <Tabell>
                 <BodyShort as="p">Gj.snittlig månedsinntekt</BodyShort>
-                <Verdi as="p">{somPenger(omregnetÅrsinntekt.månedsbeløp)}</Verdi>
+                <Verdi as="p">{somPenger(omregnetÅrsinntekt.manedsbelop)}</Verdi>
                 <Bold as="p">Omregnet rapportert årsinntekt</Bold>
-                <FetVerdi as="p">{somPenger(omregnetÅrsinntekt.beløp)}</FetVerdi>
+                <FetVerdi as="p">{somPenger(omregnetÅrsinntekt.belop)}</FetVerdi>
             </Tabell>
             <ArbeidsgiverUtenSykefraværContainer>
                 <SortInfoikonContainer />
@@ -85,7 +85,7 @@ const InntektFraAordningen = ({ omregnetÅrsinntekt }: { omregnetÅrsinntekt: Ex
     );
 };
 
-const InntektFraAordningenTabell = ({ omregnetÅrsinntekt }: { omregnetÅrsinntekt: ExternalOmregnetÅrsinntekt }) => (
+const InntektFraAordningenTabell = ({ omregnetÅrsinntekt }: { omregnetÅrsinntekt: OmregnetArsinntekt }) => (
     <>
         <Tittellinje>
             <Tittel as="h3">RAPPORTERT SISTE 3 MÅNEDER</Tittel>
@@ -99,9 +99,9 @@ const InntektFraAordningenTabell = ({ omregnetÅrsinntekt }: { omregnetÅrsinnte
             </InfobobleContainer>
         </Tittellinje>
         <Tabell>
-            {sorterInntekterFraAOrdningen(omregnetÅrsinntekt.inntekterFraAOrdningen)?.map((inntekt, i) => (
+            {sorterInntekterFraAOrdningenNy(omregnetÅrsinntekt.inntektFraAOrdningen)?.map((inntekt, i) => (
                 <React.Fragment key={i}>
-                    <BodyShort as="p"> {getMonthName(inntekt.måned)}</BodyShort>
+                    <BodyShort as="p"> {getMonthName(inntekt.maned)}</BodyShort>
                     <Verdi as="p">{somPenger(inntekt.sum)}</Verdi>
                 </React.Fragment>
             ))}
@@ -110,21 +110,23 @@ const InntektFraAordningenTabell = ({ omregnetÅrsinntekt }: { omregnetÅrsinnte
 );
 
 interface ReadOnlyInntektProps {
-    omregnetÅrsinntekt: ExternalOmregnetÅrsinntekt | null;
+    omregnetÅrsinntekt?: OmregnetArsinntekt | null;
 }
 
 export const ReadOnlyInntekt = ({ omregnetÅrsinntekt }: ReadOnlyInntektProps) => (
     <>
-        {getKildeType(omregnetÅrsinntekt?.kilde) === 'Aordningen' ? (
+        {omregnetÅrsinntekt?.kilde === Inntektskilde.Aordningen ? (
             <InntektFraAordningen omregnetÅrsinntekt={omregnetÅrsinntekt!} />
         ) : (
             <Tabell>
                 <BodyShort as="p">Månedsbeløp</BodyShort>
-                <Verdi as="p">{somPenger(omregnetÅrsinntekt?.månedsbeløp)}</Verdi>
+                <Verdi as="p">{somPenger(omregnetÅrsinntekt?.manedsbelop)}</Verdi>
                 <Bold as="p">
-                    {omregnetÅrsinntekt?.kilde === 'Infotrygd' ? 'Sykepengegrunnlag før 6G' : 'Omregnet til årsinntekt'}
+                    {omregnetÅrsinntekt?.kilde === Inntektskilde.Infotrygd
+                        ? 'Sykepengegrunnlag før 6G'
+                        : 'Omregnet til årsinntekt'}
                 </Bold>
-                <FetVerdi as="p">{somPenger(omregnetÅrsinntekt?.beløp)}</FetVerdi>
+                <FetVerdi as="p">{somPenger(omregnetÅrsinntekt?.belop)}</FetVerdi>
             </Tabell>
         )}
     </>

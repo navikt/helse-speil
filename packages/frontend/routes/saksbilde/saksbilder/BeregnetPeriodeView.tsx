@@ -43,11 +43,7 @@ export const BeregnetPeriodeView: React.VFC<BeregnetPeriodeViewProps> = ({ activ
                         </Route>
                         <Route path={`${path}/sykepengegrunnlag`}>
                             <div className={styles.RouteContainer}>
-                                <Sykepengegrunnlag
-                                    skjæringstidspunkt={activePeriod.skjæringstidspunkt}
-                                    vilkårsgrunnlaghistorikkId={activePeriod.vilkårsgrunnlaghistorikkId}
-                                    refusjon={refusjon}
-                                />
+                                <Sykepengegrunnlag />
                             </div>
                         </Route>
                         <Route path={`${path}/faresignaler`}>

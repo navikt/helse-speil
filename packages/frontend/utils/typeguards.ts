@@ -1,4 +1,14 @@
-import { BeregnetPeriode, GhostPeriode, Maybe, Periode, UberegnetPeriode } from '@io/graphql';
+import {
+    BeregnetPeriode,
+    GhostPeriode,
+    Maybe,
+    Periode,
+    UberegnetPeriode,
+    Vilkarsgrunnlag,
+    VilkarsgrunnlagInfotrygd,
+    VilkarsgrunnlagSpleis,
+    Vilkarsgrunnlagtype,
+} from '@io/graphql';
 
 export const isInfotrygdPeriod = (period?: Maybe<GhostPeriode | Periode | DatePeriod>): period is InfotrygdPeriod =>
     (period as InfotrygdPeriod)?.typetekst !== undefined && (period as InfotrygdPeriod)?.typetekst !== null;
@@ -15,3 +25,12 @@ export const isUberegnetPeriode = (period?: Maybe<GhostPeriode | Periode | DateP
     !isBeregnetPeriode(period) &&
     !isGhostPeriode(period) &&
     !isInfotrygdPeriod(period);
+
+export const isSpleisVilkarsgrunnlag = (
+    vilkårsgrunnlag?: Maybe<Vilkarsgrunnlag>,
+): vilkårsgrunnlag is VilkarsgrunnlagSpleis => vilkårsgrunnlag?.vilkarsgrunnlagtype === Vilkarsgrunnlagtype.Spleis;
+
+export const isInfotrygdVilkarsgrunnlag = (
+    vilkårsgrunnlag?: Maybe<Vilkarsgrunnlag>,
+): vilkårsgrunnlag is VilkarsgrunnlagInfotrygd =>
+    vilkårsgrunnlag?.vilkarsgrunnlagtype === Vilkarsgrunnlagtype.Infotrygd;

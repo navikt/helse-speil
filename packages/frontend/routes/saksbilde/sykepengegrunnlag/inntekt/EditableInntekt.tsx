@@ -26,6 +26,7 @@ import { somPenger, toKronerOgØre } from '@utils/locale';
 import { Begrunnelser } from './Begrunnelser';
 import { ForklaringTextarea } from './ForklaringTextarea';
 import { MånedsbeløpInput } from './MånedsbeløpInput';
+import { OmregnetArsinntekt } from '@io/graphql';
 
 const Container = styled.div`
     display: flex;
@@ -206,7 +207,7 @@ const usePostOverstyrtInntekt = (onFerdigKalkulert: () => void) => {
 };
 
 interface EditableInntektProps {
-    omregnetÅrsinntekt: ExternalOmregnetÅrsinntekt;
+    omregnetÅrsinntekt: OmregnetArsinntekt;
     close: () => void;
     onEndre: (erEndret: boolean) => void;
 }

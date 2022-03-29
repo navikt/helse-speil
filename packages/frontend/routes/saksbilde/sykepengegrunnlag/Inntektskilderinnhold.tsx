@@ -9,25 +9,25 @@ import { useArbeidsgiverbransjer, useArbeidsgivernavn } from '@state/person';
 import { Arbeidsforhold } from '../Arbeidsforhold';
 import { Inntekt } from './inntekt/Inntekt';
 import { defaultOverstyrToggles } from '@utils/featureToggles';
-import { useAktivPeriode, useMaybePeriodeTilGodkjenning } from '../../../state/tidslinje';
+import { useAktivPeriode, useMaybePeriodeTilGodkjenning } from '@state/tidslinje';
 import { AnonymizableText } from '@components/anonymizable/AnonymizableText';
 import { AnonymizableContainer } from '@components/anonymizable/AnonymizableContainer';
-import type { Refusjon } from '@io/graphql';
+import type { Refusjon, Arbeidsgiverinntekt } from '@io/graphql';
 import { useArbeidsforhold } from '../../../modell/arbeidsgiver';
-import { useHarIngenUtbetaltePerioderFor } from '../../../hooks/revurdering';
+import { useHarIngenUtbetaltePerioderFor } from '@hooks/revurdering';
 
 import styles from './Inntektskilderinnhold.module.css';
 import { Refusjonsoversikt } from './refusjon/Refusjonsoversikt';
 
 interface InntektskilderinnholdProps {
-    inntekt: ExternalArbeidsgiverinntekt;
+    inntekt: Arbeidsgiverinntekt;
     refusjon?: Refusjon | null;
 }
 
 export const Inntektskilderinnhold = ({ inntekt, refusjon }: InntektskilderinnholdProps) => {
-    const arbeidsgivernavn = useArbeidsgivernavn(inntekt.organisasjonsnummer);
-    const bransjer = useArbeidsgiverbransjer(inntekt.organisasjonsnummer);
-    const arbeidsforhold = useArbeidsforhold(inntekt.organisasjonsnummer);
+    const arbeidsgivernavn = useArbeidsgivernavn(inntekt.arbeidsgiver);
+    const bransjer = useArbeidsgiverbransjer(inntekt.arbeidsgiver);
+    const arbeidsforhold = useArbeidsforhold(inntekt.arbeidsgiver);
 
     const aktivPeriode = useAktivPeriode();
     const harDeaktivertArbeidsforhold = inntekt.deaktivert ?? false;
@@ -41,7 +41,7 @@ export const Inntektskilderinnhold = ({ inntekt, refusjon }: Inntektskilderinnho
 
     const arbeidsforholdKanOverstyres =
         defaultOverstyrToggles.overstyrArbeidsforholdUtenSykefraværEnabled &&
-        aktivPeriode.organisasjonsnummer === inntekt.organisasjonsnummer &&
+        aktivPeriode.organisasjonsnummer === inntekt.arbeidsgiver &&
         aktivPeriode.tilstand === 'utenSykefravær' &&
         harIngenUtbetaltePerioder &&
         periodeTilGodkjenning !== undefined;
@@ -55,11 +55,11 @@ export const Inntektskilderinnhold = ({ inntekt, refusjon }: Inntektskilderinnho
                 <div className={styles.Organisasjonsnummer}>
                     (
                     <Clipboard copyMessage="Organisasjonsnummer er kopiert" dataTip="Kopier organisasjonsnummer">
-                        <AnonymizableContainer>{inntekt.organisasjonsnummer}</AnonymizableContainer>
+                        <AnonymizableContainer>{inntekt.arbeidsgiver}</AnonymizableContainer>
                     </Clipboard>
                     )
                 </div>
-                <Kilde type="Ainntekt">AA</Kilde>
+                <Kilde type="AINNTEKT">AA</Kilde>
             </div>
             <AnonymizableText className={styles.Bransjer}>
                 {`BRANSJE${bransjer.length > 1 ? 'R' : ''}: `}
@@ -77,8 +77,8 @@ export const Inntektskilderinnhold = ({ inntekt, refusjon }: Inntektskilderinnho
                 ))}
             </div>
             <Inntekt
-                omregnetÅrsinntekt={inntekt.omregnetÅrsinntekt}
-                organisasjonsnummer={inntekt.organisasjonsnummer}
+                omregnetÅrsinntekt={inntekt.omregnetArsinntekt}
+                organisasjonsnummer={inntekt.arbeidsgiver}
                 organisasjonsnummerPeriodeTilGodkjenning={organisasjonsnummerPeriodeTilGodkjenning}
                 skjæringstidspunkt={skjæringstidspunkt}
                 arbeidsforholdErDeaktivert={harDeaktivertArbeidsforhold}

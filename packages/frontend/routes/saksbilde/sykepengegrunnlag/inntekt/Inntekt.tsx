@@ -16,7 +16,7 @@ import {
 } from '@hooks/revurdering';
 import { useEndringerForPeriode, useUtbetalingForSkjæringstidspunkt, useVilkårsgrunnlaghistorikk } from '@state/person';
 import { useAktivPeriode } from '@state/tidslinje';
-import { getKildeType, kilde } from '@utils/inntektskilde';
+import { kildeForkortelse } from '@utils/inntektskilde';
 
 import { EndringsloggInntektEllerArbeidsforholdButton } from '../../utbetaling/utbetalingstabell/EndringsloggInntektEllerArbeidsforholdButton';
 import { EditableInntekt } from './EditableInntekt';
@@ -25,6 +25,7 @@ import { OverstyrArbeidsforholdUtenSykdom } from '../OverstyrArbeidsforholdUtenS
 
 import { overstyrInntektEnabled } from '@utils/featureToggles';
 import { Bold } from '@components/Bold';
+import { Inntektskilde as GraphQLInntektskilde, OmregnetArsinntekt } from '@io/graphql';
 
 const Container = styled(FlexColumn)<{ editing: boolean; inntektDeaktivert: boolean }>`
     box-sizing: border-box;
@@ -92,7 +93,7 @@ export const useIkkeUtbetaltVedSkjæringstidspunkt = (): boolean | undefined => 
 const useInntektskilde = (): Inntektskilde => useAktivPeriode().inntektskilde;
 
 interface InntektProps {
-    omregnetÅrsinntekt: ExternalOmregnetÅrsinntekt | null;
+    omregnetÅrsinntekt?: OmregnetArsinntekt | null;
     organisasjonsnummer: string;
     organisasjonsnummerPeriodeTilGodkjenning: string | undefined;
     skjæringstidspunkt: string;
@@ -114,7 +115,7 @@ const RedigerInntekt = ({ setEditing, editing }: RedigerInntektProps) => {
     const erSpleisVilkårsgrunnlagtype =
         useVilkårsgrunnlaghistorikk(
             (aktivPeriode as TidslinjeperiodeMedSykefravær)?.skjæringstidspunkt,
-            (aktivPeriode as TidslinjeperiodeMedSykefravær)?.vilkårsgrunnlaghistorikkId
+            (aktivPeriode as TidslinjeperiodeMedSykefravær)?.vilkårsgrunnlaghistorikkId,
         )?.vilkårsgrunnlagtype === 'SPLEIS';
     const erIkkePingPong = useHarKunEnFagsystemIdPåArbeidsgiverIAktivPeriode();
 
@@ -167,13 +168,13 @@ export const Inntekt = ({
             <Header isEditing={editing}>
                 <Flex alignItems="center">
                     <Bold>Beregnet månedsinntekt</Bold>
-                    {endret || omregnetÅrsinntekt?.kilde === 'Saksbehandler' ? (
+                    {endret || omregnetÅrsinntekt?.kilde === GraphQLInntektskilde.Saksbehandler ? (
                         <EndringsloggInntektEllerArbeidsforholdButton
                             inntektsendringer={inntektsendringer}
                             arbeidsforholdendringer={arbeidsforholdendringer}
                         />
                     ) : (
-                        <Kilde type={getKildeType(omregnetÅrsinntekt?.kilde)}>{kilde(omregnetÅrsinntekt?.kilde)}</Kilde>
+                        <Kilde type={omregnetÅrsinntekt?.kilde}>{kildeForkortelse(omregnetÅrsinntekt?.kilde)}</Kilde>
                     )}
                 </Flex>
                 {overstyrInntektEnabled && <RedigerInntekt setEditing={setEditing} editing={editing} />}

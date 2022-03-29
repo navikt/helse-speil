@@ -5,6 +5,8 @@ import { Infotrygdvurdering } from '@components/Infotrygdvurdering';
 
 import { Inntektskilderinnhold } from './Inntektskilderinnhold';
 import { SykepengegrunnlagInfotrygd } from './SykepengegrunnlagInfotrygd';
+import { VilkarsgrunnlagInfotrygd } from '@io/graphql';
+import { getInntekt } from '@state/selectors/person';
 
 const Oversikt = styled.div`
     display: flex;
@@ -17,7 +19,7 @@ const Strek = styled.span`
 `;
 
 interface SykepengegrunnlagFraInfogtrygdProps {
-    vilkårsgrunnlag: ExternalInfotrygdVilkårsgrunnlag;
+    vilkårsgrunnlag: VilkarsgrunnlagInfotrygd;
     organisasjonsnummer: string;
 }
 
@@ -25,9 +27,7 @@ export const SykepengegrunnlagFraInfogtrygd = ({
     vilkårsgrunnlag,
     organisasjonsnummer,
 }: SykepengegrunnlagFraInfogtrygdProps) => {
-    const inntekt = vilkårsgrunnlag.inntekter.find(
-        (it) => it.organisasjonsnummer === organisasjonsnummer
-    ) as ExternalArbeidsgiverinntekt;
+    const inntekt = getInntekt(vilkårsgrunnlag, organisasjonsnummer);
 
     return (
         <Infotrygdvurdering title="Sykepengegrunnlag satt i Infotrygd">

@@ -7,6 +7,7 @@ import { FlexColumn } from '@components/Flex';
 import { somPenger } from '@utils/locale';
 
 import { Inntektssammenligning } from './Inntektssammenligning';
+import { Arbeidsgiverinntekt } from '@io/graphql';
 
 const Container = styled(FlexColumn)`
     --fixed-column-width: 14rem;
@@ -72,13 +73,13 @@ const Table = styled.table`
 `;
 
 interface InntektsgrunnlaginnholdProps {
-    inntekter: ExternalArbeidsgiverinntekt[];
-    omregnetÅrsinntekt: number | null;
-    sammenligningsgrunnlag: number | null;
-    avviksprosent: number | null;
+    inntekter: Arbeidsgiverinntekt[];
+    omregnetÅrsinntekt?: Maybe<number>;
+    sammenligningsgrunnlag?: Maybe<number>;
+    avviksprosent?: Maybe<number>;
     sykepengegrunnlag: number;
-    setAktivInntektskilde: Dispatch<SetStateAction<ExternalArbeidsgiverinntekt>>;
-    aktivInntektskilde: ExternalArbeidsgiverinntekt;
+    setAktivInntektskilde: Dispatch<SetStateAction<Arbeidsgiverinntekt>>;
+    aktivInntektskilde?: Arbeidsgiverinntekt;
 }
 
 export const InntektsgrunnlagTable = ({
@@ -119,11 +120,11 @@ export const InntektsgrunnlagTable = ({
                     {inntekter.map((inntekt, index) => (
                         <Inntektssammenligning
                             key={index}
-                            organisasjonsnummer={inntekt.organisasjonsnummer}
-                            omregnetÅrsinntekt={inntekt.omregnetÅrsinntekt}
+                            organisasjonsnummer={inntekt.arbeidsgiver}
+                            omregnetÅrsinntekt={inntekt.omregnetArsinntekt}
                             sammenligningsgrunnlag={inntekt.sammenligningsgrunnlag}
                             arbeidsforholdErDeaktivert={inntekt.deaktivert}
-                            erGjeldende={aktivInntektskilde.organisasjonsnummer == inntekt.organisasjonsnummer}
+                            erGjeldende={aktivInntektskilde?.arbeidsgiver == inntekt.arbeidsgiver}
                             onSetAktivInntektskilde={() => setAktivInntektskilde(inntekt)}
                         />
                     ))}

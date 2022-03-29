@@ -3,7 +3,8 @@ import React, { useEffect, useState } from 'react';
 
 import { InntektsgrunnlagTable } from './InntektsgrunnlagTable';
 import { Inntektskilderinnhold } from './Inntektskilderinnhold';
-import { Refusjon } from '@io/graphql';
+import { Arbeidsgiverinntekt, Inntektsgrunnlag, Refusjon, VilkarsgrunnlagSpleis } from '@io/graphql';
+import { getInntekt } from '@state/selectors/person';
 
 const Container = styled.div`
     display: flex;
@@ -18,29 +19,23 @@ const Strek = styled.span`
     margin: 0 50px 0 2.5rem;
 `;
 
-const getInntekt = (
-    vilkårsgrunnlag: ExternalVilkårsgrunnlag,
-    organisasjonsnummer: string
-): ExternalArbeidsgiverinntekt =>
-    vilkårsgrunnlag.inntekter.find(
-        (it) => it.organisasjonsnummer === organisasjonsnummer
-    ) as ExternalArbeidsgiverinntekt;
-
-interface SykepengegrunnlagFraSpleisProps {
-    vilkårsgrunnlag: ExternalSpleisVilkårsgrunnlag;
+interface SykepengegrunnlagFraSpleisProps extends HTMLAttributes<HTMLDivElement> {
+    vilkårsgrunnlag: VilkarsgrunnlagSpleis;
     organisasjonsnummer: string;
     refusjon?: Refusjon | null;
-    'data-testid'?: string;
+    inntektsgrunnlag: Inntektsgrunnlag;
 }
 
 export const SykepengegrunnlagFraSpleis = ({
     vilkårsgrunnlag,
     organisasjonsnummer,
     refusjon,
+    inntektsgrunnlag,
     ...rest
 }: SykepengegrunnlagFraSpleisProps) => {
     const inntekt = getInntekt(vilkårsgrunnlag, organisasjonsnummer);
-    const [aktivInntektskilde, setAktivInntektskilde] = useState<ExternalArbeidsgiverinntekt>(inntekt);
+
+    const [aktivInntektskilde, setAktivInntektskilde] = useState<Arbeidsgiverinntekt>(inntekt);
 
     useEffect(() => {
         setAktivInntektskilde(inntekt);
@@ -51,12 +46,12 @@ export const SykepengegrunnlagFraSpleis = ({
     }, [vilkårsgrunnlag, organisasjonsnummer]);
 
     return (
-        <Container data-testid={rest['data-testid'] ?? 'ubehandlet-sykepengegrunnlag'}>
+        <Container {...rest}>
             <InntektsgrunnlagTable
                 inntekter={vilkårsgrunnlag.inntekter}
-                omregnetÅrsinntekt={vilkårsgrunnlag.omregnetÅrsinntekt}
+                omregnetÅrsinntekt={vilkårsgrunnlag.omregnetArsinntekt}
                 sammenligningsgrunnlag={vilkårsgrunnlag.sammenligningsgrunnlag}
-                avviksprosent={vilkårsgrunnlag.avviksprosent}
+                avviksprosent={inntektsgrunnlag.avviksprosent}
                 sykepengegrunnlag={vilkårsgrunnlag.sykepengegrunnlag}
                 setAktivInntektskilde={setAktivInntektskilde}
                 aktivInntektskilde={aktivInntektskilde}

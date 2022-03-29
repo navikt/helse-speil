@@ -42,7 +42,7 @@ export const SaksbildeFullstendigPeriodeMedSykefravær = ({
 
     const alderVedSisteSykedag = getAlderVedSisteSykedag(
         personTilBehandling.personinfo.fødselsdato!.format(ISO_DATOFORMAT),
-        aktivPeriode
+        aktivPeriode,
     );
 
     const månedsbeløp = getMånedsbeløp(vedtaksperiode, aktivPeriode.organisasjonsnummer);
@@ -74,46 +74,29 @@ export const SaksbildeFullstendigPeriodeMedSykefravær = ({
                 {aktivPeriode.type !== 'ANNULLERT_PERIODE' && (
                     <Switch>
                         <Route path={`${path}/utbetaling`}>
-                            <Utbetaling
-                                period={aktivPeriode as TidslinjeperiodeMedSykefravær}
-                                overstyringer={vedtaksperiode.overstyringer}
-                                skjæringstidspunkt={aktivPeriode.skjæringstidspunkt}
-                            />
+                            <Utbetaling />
                         </Route>
                         <Route path={`${path}/inngangsvilkår`}>
                             <RouteContainer>
-                                <Inngangsvilkår
-                                    skjæringstidspunkt={aktivPeriode.skjæringstidspunkt}
-                                    vilkårsgrunnlagHistorikkId={aktivPeriode.vilkårsgrunnlaghistorikkId}
-                                />
+                                <Inngangsvilkår />
                             </RouteContainer>
                         </Route>
                         <Route path={`${path}/sykepengegrunnlag`}>
                             <RouteContainer>
-                                <Sykepengegrunnlag
-                                    skjæringstidspunkt={aktivPeriode.skjæringstidspunkt}
-                                    vilkårsgrunnlaghistorikkId={aktivPeriode.vilkårsgrunnlaghistorikkId}
-                                    refusjon={refusjon}
-                                />
+                                <Sykepengegrunnlag />
                             </RouteContainer>
                         </Route>
                         {vedtaksperiode?.risikovurdering && (
                             <Route path={`${path}/faresignaler`}>
                                 <RouteContainer>
-                                    <Faresignaler risikovurdering={vedtaksperiode.risikovurdering} />
+                                    <Faresignaler />
                                 </RouteContainer>
                             </Route>
                         )}
                     </Switch>
                 )}
             </Content>
-            {vedtaksperiode && (
-                <Historikk
-                    vedtaksperiodeId={vedtaksperiode.id}
-                    tildeling={personTilBehandling.tildeling}
-                    personinfo={personTilBehandling.personinfo}
-                />
-            )}
+            {vedtaksperiode && <Historikk />}
             <Tooltip effect="solid" />
         </>
     );

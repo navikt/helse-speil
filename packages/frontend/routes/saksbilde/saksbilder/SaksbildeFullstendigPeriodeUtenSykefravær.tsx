@@ -34,7 +34,7 @@ export const SaksbildeFullstendigPeriodeUtenSykefravær = ({
     const omregnetÅrsinntekt =
         useVilkårsgrunnlaghistorikk(
             aktivPeriode.skjæringstidspunkt,
-            aktivPeriode.vilkårsgrunnlaghistorikkId
+            aktivPeriode.vilkårsgrunnlaghistorikkId,
         )?.inntekter.find((inntekt) => inntekt.organisasjonsnummer === aktivPeriode.organisasjonsnummer)
             ?.omregnetÅrsinntekt ?? null;
 
@@ -50,15 +50,12 @@ export const SaksbildeFullstendigPeriodeUtenSykefravær = ({
                 <Switch>
                     <Route path={`${path}/sykepengegrunnlag`}>
                         <RouteContainer>
-                            <Sykepengegrunnlag
-                                skjæringstidspunkt={aktivPeriode.skjæringstidspunkt}
-                                vilkårsgrunnlaghistorikkId={aktivPeriode.vilkårsgrunnlaghistorikkId}
-                            />
+                            <Sykepengegrunnlag />
                         </RouteContainer>
                     </Route>
                 </Switch>
             </Content>
-            <Historikk tildeling={personTilBehandling.tildeling} personinfo={personTilBehandling.personinfo} />
+            <Historikk />
             <Tooltip effect="solid" />
         </>
     );

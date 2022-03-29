@@ -48,3 +48,9 @@ declare type PeriodState =
     | 'infotrygdUtbetalt'
     | 'infotrygdFerie'
     | 'infotrygdUkjent';
+
+declare type DataAttributeKey = `data-${string}`;
+
+declare type HTMLAttributes<T> = React.HTMLAttributes<T> & {
+    [dataAttribute: DataAttributeKey]: string | number | boolean;
+};

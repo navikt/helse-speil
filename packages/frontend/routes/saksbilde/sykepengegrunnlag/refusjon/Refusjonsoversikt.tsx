@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
-import dayjs from 'dayjs';
 import { BodyShort } from '@navikt/ds-react';
 
-import { Refusjon } from '@io/graphql';
+import { Kildetype, Refusjon } from '@io/graphql';
 import { EditButton } from '@components/EditButton';
 import { Kilde } from '@components/Kilde';
 import { Bold } from '@components/Bold';
@@ -35,7 +34,7 @@ export const Refusjonsoversikt: React.VFC<RefusjonProps> = ({ refusjon }) => {
             <div className={styles.Header}>
                 <div className={styles.Tittel}>
                     <Bold>Refusjon</Bold>
-                    <Kilde type="Inntektsmelding">IM</Kilde>
+                    <Kilde type={Kildetype.Inntektsmelding}>IM</Kilde>
                 </div>
                 {canEditRefusjon && (
                     <EditButton
