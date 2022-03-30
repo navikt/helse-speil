@@ -1,55 +1,20 @@
-import styled from '@emotion/styled';
 import React from 'react';
 
 import { BodyShort } from '@navikt/ds-react';
 
-import { PopoverHjelpetekst } from '@components/PopoverHjelpetekst';
+import { Bold } from '@components/Bold';
+import { Flex } from '@components/Flex';
 import { SortInfoikon } from '@components/ikoner/SortInfoikon';
+import { PopoverHjelpetekst } from '@components/PopoverHjelpetekst';
 import { getMonthName, somPenger } from '@utils/locale';
 import { sorterInntekterFraAOrdningenNy } from '@utils/inntekt';
 import { Inntektskilde, OmregnetArsinntekt } from '@io/graphql';
 
-const Tabell = styled.div`
-    display: grid;
-    grid-template-columns: 220px auto;
-    grid-column-gap: 1rem;
-    grid-row-gap: 0.25rem;
-`;
+import styles from './ReadOnlyInntekt.module.css';
 
-const Verdi = styled(BodyShort)`
-    text-align: right;
-`;
-
-const Bold = styled(BodyShort)`
-    font-weight: 600;
-`;
-
-const FetVerdi = styled(Bold)`
-    text-align: right;
-`;
-
-const Tittel = styled(BodyShort)`
-    font-size: 14px;
-    color: var(--navds-color-text-disabled);
-`;
-
-const Tittellinje = styled.div`
-    display: flex;
-    align-items: center;
-`;
-
-const Divider = styled.hr`
-    border: none;
-    border-bottom: 1px solid #b7b1a9;
-    grid-column-start: 1;
-    grid-column-end: 3;
-    margin: 12px 0 12px 0;
-`;
-
-const InfobobleContainer = styled.div`
-    min-height: 24px;
-    margin-left: 1rem;
-`;
+interface InntektFraAordningenProps {
+    omregnetÅrsinntekt: OmregnetArsinntekt;
+}
 
 const ArbeidsgiverUtenSykefraværContainer = styled.div`
     display: flex;
@@ -62,52 +27,44 @@ const SortInfoikonContainer = styled(SortInfoikon)`
     margin-right: 16px;
 `;
 
-const InntektFraAordningen = ({ omregnetÅrsinntekt }: { omregnetÅrsinntekt: OmregnetArsinntekt }) => {
+const InntektFraAordningen: React.VFC<InntektFraAordningenProps> = ({ omregnetÅrsinntekt }) => {
     return (
         <>
-            <InntektFraAordningenTabell omregnetÅrsinntekt={omregnetÅrsinntekt} />
-            <Divider />
-            <Tabell>
-                <BodyShort as="p">Gj.snittlig månedsinntekt</BodyShort>
-                <Verdi as="p">{somPenger(omregnetÅrsinntekt.manedsbelop)}</Verdi>
-                <Bold as="p">Omregnet rapportert årsinntekt</Bold>
-                <FetVerdi as="p">{somPenger(omregnetÅrsinntekt.belop)}</FetVerdi>
-            </Tabell>
-            <ArbeidsgiverUtenSykefraværContainer>
-                <SortInfoikonContainer />
-                <p>
-                    Arbeidsforholdet er tatt med i beregningsgrunnlaget fordi det er <br />
-                    innrapportert inntekt og/eller fordi arbeidsforholdet har startdato i <br />
-                    løpet av de to siste månedene før skjæringstidspunktet.
-                </p>
-            </ArbeidsgiverUtenSykefraværContainer>
-        </>
-    );
-};
-
-const InntektFraAordningenTabell = ({ omregnetÅrsinntekt }: { omregnetÅrsinntekt: OmregnetArsinntekt }) => (
-    <>
-        <Tittellinje>
-            <Tittel as="h3">RAPPORTERT SISTE 3 MÅNEDER</Tittel>
-            <InfobobleContainer>
-                <PopoverHjelpetekst ikon={<SortInfoikon />}>
+            <Flex alignItems="center">
+                <h3 className={styles.Title}>RAPPORTERT SISTE 3 MÅNEDER</h3>
+                <PopoverHjelpetekst className={styles.InfoIcon} ikon={<SortInfoikon />}>
                     <p>
                         Ved manglende inntektsmelding legges 3 siste måneders innrapporterte inntekter fra A-ordningen
                         til grunn
                     </p>
                 </PopoverHjelpetekst>
-            </InfobobleContainer>
-        </Tittellinje>
-        <Tabell>
-            {sorterInntekterFraAOrdningenNy(omregnetÅrsinntekt.inntektFraAOrdningen)?.map((inntekt, i) => (
-                <React.Fragment key={i}>
-                    <BodyShort as="p"> {getMonthName(inntekt.maned)}</BodyShort>
-                    <Verdi as="p">{somPenger(inntekt.sum)}</Verdi>
-                </React.Fragment>
-            ))}
-        </Tabell>
-    </>
-);
+            </Flex>
+            <div className={styles.Grid}>
+                {sorterInntekterFraAOrdningenNy(omregnetÅrsinntekt.inntektFraAOrdningen)?.map((inntekt, i) => (
+                    <React.Fragment key={i}>
+                        <BodyShort> {getMonthName(inntekt.maned)}</BodyShort>
+                        <BodyShort>{somPenger(inntekt.sum)}</BodyShort>
+                    </React.Fragment>
+                ))}
+            </div>
+            <hr className={styles.Divider} />
+            <div className={styles.Grid}>
+                <BodyShort>Gj.snittlig månedsinntekt</BodyShort>
+                <BodyShort>{somPenger(omregnetÅrsinntekt.manedsbelop)}</BodyShort>
+                <Bold>Omregnet rapportert årsinntekt</Bold>
+                <Bold>{somPenger(omregnetÅrsinntekt.belop)}</Bold>
+            </div>
+            <div className={styles.ArbeidsforholdInfoText}>
+                <SortInfoikon />
+                <p>
+                    Arbeidsforholdet er tatt med i beregningsgrunnlaget fordi det er <br />
+                    innrapportert inntekt og/eller fordi arbeidsforholdet har startdato i <br />
+                    løpet av de to siste månedene før skjæringstidspunktet.
+                </p>
+            </div>
+        </>
+    );
+};
 
 interface ReadOnlyInntektProps {
     omregnetÅrsinntekt?: OmregnetArsinntekt | null;
@@ -118,16 +75,16 @@ export const ReadOnlyInntekt = ({ omregnetÅrsinntekt }: ReadOnlyInntektProps) =
         {omregnetÅrsinntekt?.kilde === Inntektskilde.Aordningen ? (
             <InntektFraAordningen omregnetÅrsinntekt={omregnetÅrsinntekt!} />
         ) : (
-            <Tabell>
-                <BodyShort as="p">Månedsbeløp</BodyShort>
-                <Verdi as="p">{somPenger(omregnetÅrsinntekt?.manedsbelop)}</Verdi>
-                <Bold as="p">
+            <div className={styles.Grid}>
+                <BodyShort>Månedsbeløp</BodyShort>
+                <BodyShort>{somPenger(omregnetÅrsinntekt?.manedsbelop)}</BodyShort>
+                <Bold>
                     {omregnetÅrsinntekt?.kilde === Inntektskilde.Infotrygd
                         ? 'Sykepengegrunnlag før 6G'
                         : 'Omregnet til årsinntekt'}
                 </Bold>
-                <FetVerdi as="p">{somPenger(omregnetÅrsinntekt?.belop)}</FetVerdi>
-            </Tabell>
+                <Bold>{somPenger(omregnetÅrsinntekt?.belop)}</Bold>
+            </div>
         )}
     </>
 );

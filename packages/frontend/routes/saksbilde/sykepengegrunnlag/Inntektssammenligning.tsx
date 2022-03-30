@@ -65,6 +65,7 @@ const ErrorIcon = styled(Errorikon)`
     position: relative;
     top: 3px;
 `;
+
 const Loky = styled(AnonymizableText)`
     margin-top: 3px;
 `;
