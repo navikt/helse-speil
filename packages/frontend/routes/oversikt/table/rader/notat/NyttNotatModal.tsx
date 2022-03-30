@@ -109,7 +109,7 @@ export const NyttNotatModal = ({ onClose, personinfo, vedtaksperiodeId, onPostNo
                             <Textarea
                                 label="Begrunnelse"
                                 error={error?.message}
-                                description={`Skriv hvorfor saken er lagt på vent, så det er lettere å starte igjen senere.\nEks: Kontaktet arbeidsgiver, fikk ikke svar.\nKommer ikke i vedtaksbrevet, men vil bli forevist bruker ved spørsmål om innsyn.`}
+                                description={`Skriv hvorfor saken er lagt på vent, så det er lettere å starte igjen senere.\nEks: Kontaktet arbeidsgiver, fikk ikke svar.\nBlir ikke forevist den sykmeldte, med mindre den sykmeldte ber om innsyn.`}
                                 onChange={onChange}
                                 onBlur={onBlur}
                                 value={value ?? ''}
