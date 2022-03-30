@@ -1,11 +1,7 @@
-import { css } from '@emotion/react';
-import styled from '@emotion/styled';
 import React, { Dispatch, SetStateAction, useState } from 'react';
 
-import { BodyShort } from '@navikt/ds-react';
-
 import { EditButton } from '@components/EditButton';
-import { Flex, FlexColumn } from '@components/Flex';
+import { Flex } from '@components/Flex';
 import { Kilde } from '@components/Kilde';
 import { PopoverHjelpetekst } from '@components/PopoverHjelpetekst';
 import { SortInfoikon } from '@components/ikoner/SortInfoikon';
@@ -14,7 +10,7 @@ import {
     useActiveGenerationIsLast,
     useHarKunEnFagsystemIdPåArbeidsgiverIAktivPeriode,
 } from '@hooks/revurdering';
-import { useEndringerForPeriode, useUtbetalingForSkjæringstidspunkt, useVilkårsgrunnlaghistorikk } from '@state/person';
+import { useVilkårsgrunnlaghistorikk } from '@state/person';
 import { useAktivPeriode } from '@state/tidslinje';
 import { kildeForkortelse } from '@utils/inntektskilde';
 
@@ -26,88 +22,21 @@ import { OverstyrArbeidsforholdUtenSykdom } from '../OverstyrArbeidsforholdUtenS
 import { overstyrInntektEnabled } from '@utils/featureToggles';
 import { Bold } from '@components/Bold';
 import { Inntektskilde as GraphQLInntektskilde, OmregnetArsinntekt } from '@io/graphql';
+import { useEndringerForPeriode, useUtbetalingForSkjæringstidspunkt } from '@state/arbeidsgiverState';
+import { ErrorBoundary } from '@components/ErrorBoundary';
 
-const Container = styled(FlexColumn)<{ editing: boolean; inntektDeaktivert: boolean }>`
-    box-sizing: border-box;
-    margin-bottom: 24px;
-
-    ${(props) =>
-        props.editing &&
-        css`
-            background-color: var(--speil-background-secondary);
-            border-left: 4px solid var(--navds-color-action-default);
-            padding: 0.5rem 1rem;
-        `};
-
-    ${(props) =>
-        props.inntektDeaktivert &&
-        css`
-            background-color: var(--nav-ghost-deaktivert-bakgrunn);
-            border: 1px solid var(--nav-ghost-deaktivert-border);
-            padding: 30px;
-            margin: 0 -31px;
-            position: relative;
-        `}
-`;
-
-const Header = styled.div<{ isEditing: boolean }>`
-    display: flex;
-    align-items: center;
-    margin-bottom: 0.5rem;
-    justify-content: space-between;
-    width: 100%;
-
-    > div > * {
-        margin-right: 0.5rem;
-    }
-
-    ${(props) =>
-        props.isEditing &&
-        css`
-            justify-content: space-between;
-        `}
-`;
-
-const DeaktivertPille = styled.div`
-    position: absolute;
-    top: -14px;
-    left: 15px;
-    background-color: var(--nav-ghost-deaktivert-pille-bakgrunn);
-    border: 1px solid var(--nav-ghost-deaktivert-pille-border);
-    padding: 5px 10px;
-    border-radius: 4px;
-`;
-
-const InntektContainer = styled.div`
-    margin-bottom: 1.5rem;
-`;
-export const useIkkeUtbetaltVedSkjæringstidspunkt = (): boolean | undefined => {
-    const periode = useAktivPeriode();
-    const unique =
-        periode.tilstand === 'utenSykefravær' ? undefined : (periode as TidslinjeperiodeMedSykefravær).unique;
-
-    const utbetaling = useUtbetalingForSkjæringstidspunkt(unique, periode.skjæringstidspunkt!);
-    return utbetaling?.status === 'IKKE_UTBETALT' && utbetaling?.type === 'UTBETALING';
-};
+import styles from './Inntekt.module.css';
+import classNames from 'classnames';
 
 const useInntektskilde = (): Inntektskilde => useAktivPeriode().inntektskilde;
-
-interface InntektProps {
-    omregnetÅrsinntekt?: OmregnetArsinntekt | null;
-    organisasjonsnummer: string;
-    organisasjonsnummerPeriodeTilGodkjenning: string | undefined;
-    skjæringstidspunkt: string;
-    arbeidsforholdKanOverstyres: boolean;
-    arbeidsforholdErDeaktivert: boolean;
-}
 
 interface RedigerInntektProps {
     setEditing: Dispatch<SetStateAction<boolean>>;
     editing: boolean;
+    erRevurdering: boolean;
 }
 
-const RedigerInntekt = ({ setEditing, editing }: RedigerInntektProps) => {
-    const ikkeUtbetaltVedSkjæringstidspunkt = useIkkeUtbetaltVedSkjæringstidspunkt();
+const RedigerInntekt = ({ setEditing, editing, erRevurdering }: RedigerInntektProps) => {
     const harKunEnArbeidsgiver = useInntektskilde() === 'EN_ARBEIDSGIVER';
     const erAktivPeriodeISisteSkjæringstidspunkt = useActivePeriodHasLatestSkjæringstidspunkt();
     const erTidslinjeperiodeISisteGenerasjon = useActiveGenerationIsLast();
@@ -130,7 +59,7 @@ const RedigerInntekt = ({ setEditing, editing }: RedigerInntektProps) => {
         <EditButton
             isOpen={editing}
             openText="Avbryt"
-            closedText={ikkeUtbetaltVedSkjæringstidspunkt ? 'Endre' : 'Revurder'}
+            closedText={erRevurdering ? 'Revurder' : 'Endre'}
             onOpen={() => setEditing(true)}
             onClose={() => setEditing(false)}
             style={{ justifySelf: 'flex-end' }}
@@ -150,6 +79,15 @@ const RedigerInntekt = ({ setEditing, editing }: RedigerInntektProps) => {
     );
 };
 
+interface InntektProps {
+    omregnetÅrsinntekt?: OmregnetArsinntekt | null;
+    organisasjonsnummer: string;
+    organisasjonsnummerPeriodeTilGodkjenning: string | undefined;
+    skjæringstidspunkt: string;
+    arbeidsforholdKanOverstyres: boolean;
+    arbeidsforholdErDeaktivert: boolean;
+}
+
 export const Inntekt = ({
     omregnetÅrsinntekt,
     organisasjonsnummer,
@@ -160,12 +98,19 @@ export const Inntekt = ({
 }: InntektProps) => {
     const [editing, setEditing] = useState(false);
     const [endret, setEndret] = useState(false);
+    const erRevurdering = useUtbetalingForSkjæringstidspunkt(skjæringstidspunkt)?.status === 'Utbetalt';
 
     const { inntektsendringer, arbeidsforholdendringer } = useEndringerForPeriode(organisasjonsnummer);
     return (
-        <Container editing={editing} inntektDeaktivert={arbeidsforholdErDeaktivert}>
-            {arbeidsforholdErDeaktivert && <DeaktivertPille>Brukes ikke i beregningen</DeaktivertPille>}
-            <Header isEditing={editing}>
+        <div
+            className={classNames(
+                styles.Inntekt,
+                editing && styles.editing,
+                arbeidsforholdErDeaktivert && styles.deaktivert,
+            )}
+        >
+            {arbeidsforholdErDeaktivert && <div className={styles.Deaktivertpille}>Brukes ikke i beregningen</div>}
+            <div className={classNames(styles.Header, editing && styles.editing)}>
                 <Flex alignItems="center">
                     <Bold>Beregnet månedsinntekt</Bold>
                     {endret || omregnetÅrsinntekt?.kilde === GraphQLInntektskilde.Saksbehandler ? (
@@ -177,9 +122,11 @@ export const Inntekt = ({
                         <Kilde type={omregnetÅrsinntekt?.kilde}>{kildeForkortelse(omregnetÅrsinntekt?.kilde)}</Kilde>
                     )}
                 </Flex>
-                {overstyrInntektEnabled && <RedigerInntekt setEditing={setEditing} editing={editing} />}
-            </Header>
-            <InntektContainer>
+                {overstyrInntektEnabled && (
+                    <RedigerInntekt setEditing={setEditing} editing={editing} erRevurdering={erRevurdering} />
+                )}
+            </div>
+            <div className={styles.InntektContainer}>
                 {editing ? (
                     <EditableInntekt
                         omregnetÅrsinntekt={omregnetÅrsinntekt!}
@@ -189,7 +136,7 @@ export const Inntekt = ({
                 ) : (
                     <ReadOnlyInntekt omregnetÅrsinntekt={omregnetÅrsinntekt} />
                 )}
-            </InntektContainer>
+            </div>
             {arbeidsforholdKanOverstyres && (
                 <OverstyrArbeidsforholdUtenSykdom
                     organisasjonsnummerAktivPeriode={organisasjonsnummer}
@@ -198,6 +145,22 @@ export const Inntekt = ({
                     arbeidsforholdErDeaktivert={arbeidsforholdErDeaktivert}
                 />
             )}
-        </Container>
+        </div>
+    );
+};
+
+const InntektContainer = () => {
+    return null;
+};
+
+const InntektError = () => {
+    return <div />;
+};
+
+export const InntektNew = () => {
+    return (
+        <ErrorBoundary fallback={<InntektError />}>
+            <InntektContainer />
+        </ErrorBoundary>
     );
 };

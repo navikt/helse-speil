@@ -1,7 +1,11 @@
 import {
+    Arbeidsforholdoverstyring,
     BeregnetPeriode,
+    Dagoverstyring,
     GhostPeriode,
+    Inntektoverstyring,
     Maybe,
+    Overstyring,
     Periode,
     UberegnetPeriode,
     Vilkarsgrunnlag,
@@ -34,3 +38,14 @@ export const isInfotrygdVilkarsgrunnlag = (
     vilkårsgrunnlag?: Maybe<Vilkarsgrunnlag>,
 ): vilkårsgrunnlag is VilkarsgrunnlagInfotrygd =>
     vilkårsgrunnlag?.vilkarsgrunnlagtype === Vilkarsgrunnlagtype.Infotrygd;
+
+export const isDagoverstyring = (overstyring?: Maybe<Overstyring>): overstyring is Dagoverstyring =>
+    (overstyring as Dagoverstyring)?.__typename === 'Dagoverstyring';
+
+export const isInntektoverstyring = (overstyring?: Maybe<Overstyring>): overstyring is Inntektoverstyring =>
+    (overstyring as Inntektoverstyring)?.__typename === 'Inntektoverstyring';
+
+export const isArbeidsforholdoverstyring = (
+    overstyring?: Maybe<Overstyring>,
+): overstyring is Arbeidsforholdoverstyring =>
+    (overstyring as Arbeidsforholdoverstyring)?.__typename === 'Arbeidsforholdoverstyring';

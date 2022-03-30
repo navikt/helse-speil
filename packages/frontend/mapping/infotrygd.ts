@@ -1,10 +1,10 @@
-import { somDato } from './vedtaksperiode';
+import { somDato } from '@utils/date';
 
 export const erInfotrygdforlengelse = (vedtaksperiode: Vedtaksperiode) =>
     vedtaksperiode.periodetype === 'infotrygdforlengelse';
 
 export const tilTypetekst = (
-    spesialistInfotrygdtypetekst: ExternalInfotrygdutbetaling['typetekst']
+    spesialistInfotrygdtypetekst: ExternalInfotrygdutbetaling['typetekst'],
 ): Infotrygdutbetaling['typetekst'] => {
     switch (spesialistInfotrygdtypetekst) {
         case 'Ferie':
@@ -37,7 +37,7 @@ export const mapInfotrygdutbetalinger = (person: ExternalPerson): Infotrygdutbet
         .map(mapInfotrygdutbetaling) ?? [];
 
 export const mapForlengelseFraInfotrygd = (
-    value: ExternalVedtaksperiode['forlengelseFraInfotrygd']
+    value: ExternalVedtaksperiode['forlengelseFraInfotrygd'],
 ): boolean | undefined => {
     switch (value) {
         case 'JA':

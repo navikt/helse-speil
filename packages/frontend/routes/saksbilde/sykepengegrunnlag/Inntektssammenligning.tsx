@@ -12,8 +12,9 @@ import { Errorikon } from '@components/ikoner/Errorikon';
 import { AnonymizableText } from '@components/anonymizable/AnonymizableText';
 import { somPenger } from '@utils/locale';
 import { kildeForkortelse } from '@utils/inntektskilde';
-import { useArbeidsgivernavn, useEndringerForPeriode } from '@state/person';
+import { useArbeidsgivernavn } from '@state/person';
 import { Inntektskilde, OmregnetArsinntekt, Sammenligningsgrunnlag } from '@io/graphql';
+import { useEndringerForPeriode } from '@state/arbeidsgiverState';
 
 const ArbeidsgiverRad = styled.tr<{ erGjeldende: boolean }>`
     padding: 0.25rem;

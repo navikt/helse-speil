@@ -9,7 +9,13 @@ import { EndringsloggDager } from '@components/EndringsloggDager';
 import { EndringsloggInntekt } from '@components/EndringsloggInntekt';
 import { EndringsloggArbeidsforhold } from '@components/EndringsloggArbeidsforhold';
 import { Dagoverstyring, Dagtype, GhostPeriode, Maybe, Overstyring, Periode, Personinfo, Tildeling } from '@io/graphql';
-import { isBeregnetPeriode, isGhostPeriode } from '@utils/typeguards';
+import {
+    isArbeidsforholdoverstyring,
+    isBeregnetPeriode,
+    isDagoverstyring,
+    isGhostPeriode,
+    isInntektoverstyring,
+} from '@utils/typeguards';
 import { useNotaterForVedtaksperiode } from '@state/notater';
 import { useCurrentPerson } from '@state/personState';
 import { useActivePeriod } from '@state/periodState';
@@ -18,7 +24,6 @@ import { Hendelsetype } from './Historikk.types';
 import { HistorikkHendelse } from './HistorikkHendelse';
 import { NotatListeModal } from '../../oversikt/table/rader/notat/NotatListeModal';
 import { useFilterState, useHistorikk, useOppdaterHistorikk, useShowHistorikkState } from './state';
-import { isArbeidsforholdoverstyring, isDagoverstyring, isInntektoverstyring } from './mapping';
 
 import styles from './Historikk.module.css';
 
@@ -131,7 +136,7 @@ export const HistorikkWithContent: React.VFC<HistorikkWithContentProps> = React.
                 )}
             </>
         );
-    }
+    },
 );
 
 const HistorikkContainer = () => {

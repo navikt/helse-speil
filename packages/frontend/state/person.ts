@@ -2,7 +2,6 @@ import dayjs from 'dayjs';
 import { atom, selector, useRecoilValue, useResetRecoilState, useSetRecoilState } from 'recoil';
 
 import { mapPerson } from '../mapping/person';
-import { useUtbetaling } from '../modell/utbetalingshistorikkelement';
 import { useMaybeArbeidsgiver as useArbeidsgiverUtenParametre } from '../modell/arbeidsgiver';
 
 import { deletePåVent, getPerson, postLeggPåVent } from '@io/http';
@@ -230,14 +229,14 @@ const sorterAscending = (a: TidslinjeperiodeMedSykefravær, b: TidslinjeperiodeM
 
 export const useVurderingForSkjæringstidspunkt = (
     uniqueId: string | undefined,
-    skjæringstidspunkt: string
+    skjæringstidspunkt: string,
 ): Vurdering | undefined => {
     return useUtbetalingForSkjæringstidspunkt(uniqueId, skjæringstidspunkt)?.vurdering;
 };
 
 export const useUtbetalingForSkjæringstidspunkt = (
     uniqueId: string | undefined,
-    skjæringstidspunkt: string
+    skjæringstidspunkt: string,
 ): UtbetalingshistorikkElement | undefined => {
     const perioder =
         useArbeidsgiverUtenParametre()!.tidslinjeperioder.find((it) => it.find((it) => it.unique === uniqueId)!) ?? [];
@@ -264,7 +263,7 @@ export const useUtbetalingstidsstempelFørsteGenForPeriode = (): string => {
         (periode) =>
             periode.vedtaksperiodeId === activePeriod.vedtaksperiodeId &&
             isBeregnetPeriode(periode) &&
-            periode.utbetaling.vurdering?.godkjent
+            periode.utbetaling.vurdering?.godkjent,
     )[0];
 
     return isBeregnetPeriode(periode) ? periode.utbetaling.vurdering?.tidsstempel ?? '' : '';
@@ -282,7 +281,7 @@ export const useFørsteUtbetalingstidsstempelFørsteGenISkjæringstidspunkt = ()
 
     const førsteUtbetaltePeriodeForSkjæringstidspunkt = firstGeneration.perioder
         .filter(
-            (periode) => isBeregnetPeriode(periode) && periode.skjaeringstidspunkt === activePeriod.skjaeringstidspunkt
+            (periode) => isBeregnetPeriode(periode) && periode.skjaeringstidspunkt === activePeriod.skjaeringstidspunkt,
         )
         ?.pop();
 
@@ -298,7 +297,7 @@ export const useFørsteUtbetalingstidsstempelFørsteGenISkjæringstidspunkt = ()
 
 export const useVilkårsgrunnlaghistorikk = (
     skjæringstidspunkt: string | null,
-    vilkårsgrunnlaghistorikkId: string | null
+    vilkårsgrunnlaghistorikkId: string | null,
 ): ExternalVilkårsgrunnlag | null => {
     const person = useRecoilValue(personState)?.person;
     const aktivPeriode = useAktivPeriode();
@@ -316,19 +315,19 @@ export const useVilkårsgrunnlaghistorikk = (
         person.vilkårsgrunnlagHistorikk[vilkårsgrunnlaghistorikkId]?.[skjæringstidspunkt] ??
         finnVilkårsgrunnlaghistorikkInnenforPeriodenNærmestSkjæringstidspunktet(
             person.vilkårsgrunnlagHistorikk[vilkårsgrunnlaghistorikkId],
-            aktivPeriode as TidslinjeperiodeMedSykefravær
+            aktivPeriode as TidslinjeperiodeMedSykefravær,
         )
     );
 };
 
 const finnVilkårsgrunnlaghistorikkInnenforPeriodenNærmestSkjæringstidspunktet = (
     vilkårsgrunnlagHistorikk: Record<string, ExternalVilkårsgrunnlag>,
-    aktivPeriode: TidslinjeperiodeMedSykefravær
+    aktivPeriode: TidslinjeperiodeMedSykefravær,
 ): ExternalVilkårsgrunnlag | null => {
     const vilkårsgrunnlag = Object.entries(vilkårsgrunnlagHistorikk).filter(
         ([key, value]) =>
             dayjs(value.skjæringstidspunkt).isSameOrAfter(aktivPeriode.skjæringstidspunkt) &&
-            dayjs(value.skjæringstidspunkt).isSameOrBefore(aktivPeriode.tom)
+            dayjs(value.skjæringstidspunkt).isSameOrBefore(aktivPeriode.tom),
     );
     return vilkårsgrunnlag.length > 0
         ? vilkårsgrunnlag.sort((a, b) => (dayjs(a[0]).isAfter(b[0]) ? 1 : -1))[0][1]
@@ -349,44 +348,6 @@ const useArbeidsgiver = (organisasjonsnummer: string): ExternalArbeidsgiver => {
     if (!person) throw Error('Finner ikke arbeidsgiver fordi person mangler');
 
     return person.arbeidsgivereV2.find((it) => it.organisasjonsnummer === organisasjonsnummer) as ExternalArbeidsgiver;
-};
-
-const useEndringer = (organisasjonsnummer: string): ExternalOverstyring[] => {
-    const arbeidsgiver = useArbeidsgiver(organisasjonsnummer);
-    return arbeidsgiver.overstyringer;
-};
-
-export const useEndringerForPeriode = (
-    organisasjonsnummer: string
-): {
-    inntektsendringer: ExternalInntektoverstyring[];
-    arbeidsforholdendringer: ExternalArbeidsforholdoverstyring[];
-    dagendringer: ExternalTidslinjeoverstyring[];
-} => {
-    const endringer = useEndringer(organisasjonsnummer);
-    const periode = useAktivPeriode();
-
-    if (periode.tilstand === 'utenSykefravær') {
-        const arbeidsforhold = endringer
-            .filter((it) => dayjs(periode.skjæringstidspunkt).isSameOrBefore(it.timestamp))
-            .filter((it) => it.type === 'Arbeidsforhold') as ExternalArbeidsforholdoverstyring[];
-
-        return { inntektsendringer: [], arbeidsforholdendringer: arbeidsforhold, dagendringer: [] };
-    }
-
-    const inntekter = endringer
-        .filter((it) => dayjs(it.timestamp).isSameOrBefore((periode as TidslinjeperiodeMedSykefravær).opprettet))
-        .filter((it) => it.type === 'Inntekt') as ExternalInntektoverstyring[];
-
-    const arbeidsforhold = endringer
-        .filter((it) => dayjs(periode.skjæringstidspunkt).isSameOrBefore(it.timestamp))
-        .filter((it) => it.type === 'Arbeidsforhold') as ExternalArbeidsforholdoverstyring[];
-
-    const dager = endringer
-        .filter((it) => dayjs(it.timestamp).isSameOrBefore((periode as TidslinjeperiodeMedSykefravær).opprettet))
-        .filter((it) => it.type === 'Dager') as ExternalTidslinjeoverstyring[];
-
-    return { inntektsendringer: inntekter, arbeidsforholdendringer: arbeidsforhold, dagendringer: dager };
 };
 
 export const useArbeidsgivernavn = (organisasjonsnummer: string): string => {

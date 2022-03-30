@@ -13,21 +13,24 @@ import {
 
 import { Hendelse, Hendelsetype } from './Historikk.types';
 import {
-    Arbeidsforholdoverstyring,
     Dagoverstyring,
     GhostPeriode,
     Hendelse as ExternHendelse,
     Inntektoverstyring,
     Inntektsmelding,
     Kildetype,
-    Maybe,
     Overstyring,
     Periode,
     SoknadArbeidsgiver,
     SoknadNav,
     Sykmelding,
 } from '@io/graphql';
-import { isBeregnetPeriode } from '@utils/typeguards';
+import {
+    isArbeidsforholdoverstyring,
+    isBeregnetPeriode,
+    isDagoverstyring,
+    isInntektoverstyring,
+} from '@utils/typeguards';
 import { useActivePeriod } from '@state/periodState';
 import { ISO_TIDSPUNKTFORMAT } from '@utils/date';
 
@@ -50,17 +53,6 @@ const isSøknadNav = (hendelse: ExternHendelse): hendelse is SoknadNav => hendel
 
 const isSøknadArbeidsgiver = (hendelse: ExternHendelse): hendelse is SoknadArbeidsgiver =>
     hendelse.type === 'SENDT_SOKNAD_ARBEIDSGIVER';
-
-export const isDagoverstyring = (overstyring?: Maybe<Overstyring>): overstyring is Dagoverstyring =>
-    (overstyring as Dagoverstyring)?.__typename === 'Dagoverstyring';
-
-export const isInntektoverstyring = (overstyring?: Maybe<Overstyring>): overstyring is Inntektoverstyring =>
-    (overstyring as Inntektoverstyring)?.__typename === 'Inntektoverstyring';
-
-export const isArbeidsforholdoverstyring = (
-    overstyring?: Maybe<Overstyring>,
-): overstyring is Arbeidsforholdoverstyring =>
-    (overstyring as Arbeidsforholdoverstyring)?.__typename === 'Arbeidsforholdoverstyring';
 
 export const useDokumenter = (period: Periode | GhostPeriode): Hendelse[] => {
     if (!isBeregnetPeriode(period)) {

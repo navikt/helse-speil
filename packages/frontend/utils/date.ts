@@ -31,3 +31,5 @@ export const getFormattedDateString = (dateString?: Maybe<DateString>): string =
 
 export const getFormattedDatetimeString = (dateString?: Maybe<DateString>): string =>
     typeof dateString === 'string' ? dayjs(dateString).format(NORSK_DATOFORMAT) : '';
+
+export const somDato = (dato: string): Dayjs => dayjs(dato ?? null, ISO_DATOFORMAT);

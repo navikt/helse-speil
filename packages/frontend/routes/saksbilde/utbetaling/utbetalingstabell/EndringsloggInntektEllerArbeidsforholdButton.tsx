@@ -3,8 +3,9 @@ import React, { useRef, useState } from 'react';
 
 import { CaseworkerFilled } from '@navikt/ds-icons';
 
-import { EndringsloggInntekt, Endringstype } from '@components/EndringsloggInntekt';
+import { EndringsloggInntekt } from '@components/EndringsloggInntekt';
 import { useInteractOutside } from '@hooks/useInteractOutside';
+import { Arbeidsforholdoverstyring, Inntektoverstyring } from '@io/graphql';
 
 const Button = styled.button`
     position: relative;
@@ -19,8 +20,8 @@ const Button = styled.button`
 `;
 
 interface EndringsloggInntektButtonProps extends React.HTMLAttributes<HTMLButtonElement> {
-    arbeidsforholdendringer: ExternalArbeidsforholdoverstyring[];
-    inntektsendringer: ExternalInntektoverstyring[];
+    arbeidsforholdendringer: Arbeidsforholdoverstyring[];
+    inntektsendringer: Inntektoverstyring[];
 }
 
 export const EndringsloggInntektEllerArbeidsforholdButton: React.VFC<EndringsloggInntektButtonProps> = ({
@@ -42,23 +43,23 @@ export const EndringsloggInntektEllerArbeidsforholdButton: React.VFC<Endringslog
     });
 
     const inntekter = inntektsendringer.map((it) => ({
-        skjæringstidspunkt: it.overstyrtInntekt.skjæringstidspunkt,
-        månedligInntekt: it.overstyrtInntekt.månedligInntekt,
-        forklaring: it.overstyrtInntekt.forklaring,
+        skjæringstidspunkt: it.inntekt.skjaeringstidspunkt,
+        månedligInntekt: it.inntekt.manedligInntekt,
+        forklaring: it.inntekt.forklaring,
         begrunnelse: it.begrunnelse,
-        saksbehandlerIdent: it.saksbehandlerIdent ?? it.saksbehandlerNavn,
+        saksbehandlerIdent: it.saksbehandler.ident ?? it.saksbehandler.navn,
         timestamp: it.timestamp,
-        type: 'Inntekt' as Endringstype,
+        type: 'Inntekt',
     }));
 
     const arbeidsforhold = arbeidsforholdendringer.map((it) => ({
-        skjæringstidspunkt: it.overstyrtArbeidsforhold.skjæringstidspunkt,
-        deaktivert: it.overstyrtArbeidsforhold.deaktivert,
-        forklaring: it.overstyrtArbeidsforhold.forklaring,
+        skjæringstidspunkt: it.skjaeringstidspunkt,
+        deaktivert: it.deaktivert,
+        forklaring: it.forklaring,
         begrunnelse: it.begrunnelse,
-        saksbehandlerIdent: it.saksbehandlerIdent ?? it.saksbehandlerNavn,
+        saksbehandlerIdent: it.saksbehandler.ident ?? it.saksbehandler.navn,
         timestamp: it.timestamp,
-        type: 'Arbeidsforhold' as Endringstype,
+        type: 'Arbeidsforhold',
     }));
 
     return (

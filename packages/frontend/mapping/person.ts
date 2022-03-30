@@ -1,7 +1,7 @@
 import { utbetalingsoversikt } from '@utils/featureToggles';
 import { ArbeidsgiverBuilder } from './arbeidsgiver';
 import { mapInfotrygdutbetaling } from './infotrygd';
-import { somDato } from './vedtaksperiode';
+import { somDato } from '@utils/date';
 
 export const mapPerson = (personFraSpesialist: ExternalPerson): { person: Person; problems: Error[] } => {
     const { person, problems } = new PersonBuilder().addPerson(personFraSpesialist).build();

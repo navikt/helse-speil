@@ -1,10 +1,10 @@
 import dayjs from 'dayjs';
 
-import { somDato } from '../../mapping/vedtaksperiode';
+import { somDato } from '@utils/date';
 
 export const umappedeVilkår = (
     tidslinje: ExternalSykdomsdag[],
-    skjæringstidspunkt = tidslinje.find(({ type }) => type === 'SYKEDAG')!.dagen
+    skjæringstidspunkt = tidslinje.find(({ type }) => type === 'SYKEDAG')!.dagen,
 ): ExternalVedtaksperiode['vilkår'] => {
     const førsteDag = tidslinje[0];
     const sisteDag = tidslinje.slice(-1).pop()!;
