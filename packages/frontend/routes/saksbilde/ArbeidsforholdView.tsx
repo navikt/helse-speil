@@ -6,6 +6,7 @@ import { TextWithEllipsis } from '@components/TextWithEllipsis';
 import { AnonymizableText } from '@components/anonymizable/AnonymizableText';
 import { AnonymizableContainer } from '@components/anonymizable/AnonymizableContainer';
 import { NORSK_DATOFORMAT } from '@utils/date';
+import { Maybe } from '@io/graphql';
 
 const Høyrestilt = styled(AnonymizableText)`
     text-align: right;
@@ -21,10 +22,15 @@ interface ArbeidsforholdProps {
     stillingsprosent: number;
     stillingstittel: string;
     startdato: DateString;
-    sluttdato?: DateString;
+    sluttdato?: Maybe<DateString>;
 }
 
-export const Arbeidsforhold = ({ stillingsprosent, stillingstittel, startdato, sluttdato }: ArbeidsforholdProps) => (
+export const ArbeidsforholdView = ({
+    stillingsprosent,
+    stillingstittel,
+    startdato,
+    sluttdato,
+}: ArbeidsforholdProps) => (
     <>
         <Stillingstittel as="div">
             <TextWithEllipsis>{stillingstittel}</TextWithEllipsis>, {stillingsprosent} %

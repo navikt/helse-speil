@@ -4,40 +4,87 @@ import { Kilde } from '@components/Kilde';
 import { AnonymizableTextWithEllipsis } from '@components/TextWithEllipsis';
 import { Tooltip } from '@components/Tooltip';
 import { Clipboard } from '@components/clipboard';
-import { useArbeidsgiverbransjer, useArbeidsgivernavn } from '@state/person';
 
-import { Arbeidsforhold } from '../Arbeidsforhold';
+import { ArbeidsforholdView } from '../ArbeidsforholdView';
 import { Inntekt } from './inntekt/Inntekt';
 import { defaultOverstyrToggles } from '@utils/featureToggles';
-import { useAktivPeriode, useMaybePeriodeTilGodkjenning } from '@state/tidslinje';
+import { useAktivPeriode } from '@state/tidslinje';
 import { AnonymizableText } from '@components/anonymizable/AnonymizableText';
 import { AnonymizableContainer } from '@components/anonymizable/AnonymizableContainer';
-import type { Refusjon, Arbeidsgiverinntekt } from '@io/graphql';
-import { useArbeidsforhold } from '../../../modell/arbeidsgiver';
-import { useHarIngenUtbetaltePerioderFor } from '@hooks/revurdering';
+import type { Arbeidsforhold, Arbeidsgiverinntekt, BeregnetPeriode, Maybe, Person, Refusjon } from '@io/graphql';
+import { Periodetilstand } from '@io/graphql';
 
 import styles from './Inntektskilderinnhold.module.css';
 import { Refusjonsoversikt } from './refusjon/Refusjonsoversikt';
+import { ErrorBoundary } from '@components/ErrorBoundary';
+import { useActivePeriod } from '@state/periodState';
+import { isBeregnetPeriode, isGhostPeriode } from '@utils/typeguards';
+import { useCurrentPerson } from '@state/personState';
 
-interface InntektskilderinnholdProps {
+const maybePeriodeTilGodkjenning = (person: Person, skjæringstidspunkt: DateString): Maybe<BeregnetPeriode> => {
+    return (
+        person?.arbeidsgivere
+            .flatMap((it) => it.generasjoner[0].perioder)
+            .filter(isBeregnetPeriode)
+            .find((it) => it.tilstand === Periodetilstand.Oppgaver && it.skjaeringstidspunkt === skjæringstidspunkt) ??
+        null
+    );
+};
+
+const harIngenUtbetaltePerioderFor = (person: Person, skjæringstidspunkt: DateString): boolean => {
+    return (
+        person?.arbeidsgivere
+            .flatMap((it) => it.generasjoner[0].perioder)
+            .filter(isBeregnetPeriode)
+            .filter((it) => it.skjaeringstidspunkt === skjæringstidspunkt)
+            .every((it) => it.tilstand === Periodetilstand.Oppgaver || it.tilstand === Periodetilstand.Venter) ?? false
+    );
+};
+
+const useArbeidsforholdKanOverstyres = (): boolean => {
+    const person = useCurrentPerson();
+    const activePeriod = useActivePeriod();
+
+    if (!isGhostPeriode(activePeriod) || !person) {
+        return false;
+    }
+
+    const periodeTilGodkjenning = maybePeriodeTilGodkjenning(person, activePeriod.skjaeringstidspunkt);
+
+    const harIngenUtbetaltePerioder = harIngenUtbetaltePerioderFor(person, activePeriod.skjaeringstidspunkt);
+
+    const arbeidsforholdKanOverstyres =
+        defaultOverstyrToggles.overstyrArbeidsforholdUtenSykefraværEnabled &&
+        activePeriod.organisasjonsnummer === inntekt.arbeidsgiver &&
+        activePeriod.tilstand === 'utenSykefravær' &&
+        harIngenUtbetaltePerioder &&
+        periodeTilGodkjenning !== undefined;
+
+    return false;
+};
+
+interface InntektskilderinnholdWithContentProps {
     inntekt: Arbeidsgiverinntekt;
     refusjon?: Refusjon | null;
+    arbeidsgivernavn: string;
+    bransjer: string[];
+    arbeidsforhold: Arbeidsforhold[];
+    skjæringstidspunkt: DateString;
 }
 
-export const Inntektskilderinnhold = ({ inntekt, refusjon }: InntektskilderinnholdProps) => {
-    const arbeidsgivernavn = useArbeidsgivernavn(inntekt.arbeidsgiver);
-    const bransjer = useArbeidsgiverbransjer(inntekt.arbeidsgiver);
-    const arbeidsforhold = useArbeidsforhold(inntekt.arbeidsgiver);
-
+const InntektskilderinnholdWithContent = ({
+    inntekt,
+    refusjon,
+    arbeidsgivernavn,
+    bransjer,
+    arbeidsforhold,
+    skjæringstidspunkt,
+}: InntektskilderinnholdWithContentProps) => {
     const aktivPeriode = useAktivPeriode();
-    const harDeaktivertArbeidsforhold = inntekt.deaktivert ?? false;
 
-    const skjæringstidspunkt = aktivPeriode.skjæringstidspunkt!;
-    const periodeTilGodkjenning = useMaybePeriodeTilGodkjenning(skjæringstidspunkt);
-    const organisasjonsnummerPeriodeTilGodkjenning = periodeTilGodkjenning
-        ? periodeTilGodkjenning.organisasjonsnummer
-        : undefined;
-    const harIngenUtbetaltePerioder = useHarIngenUtbetaltePerioderFor(skjæringstidspunkt);
+    const periodeTilGodkjenning = maybePeriodeTilGodkjenning(skjæringstidspunkt);
+
+    const harIngenUtbetaltePerioder = harIngenUtbetaltePerioderFor(skjæringstidspunkt);
 
     const arbeidsforholdKanOverstyres =
         defaultOverstyrToggles.overstyrArbeidsforholdUtenSykefraværEnabled &&
@@ -67,7 +114,7 @@ export const Inntektskilderinnhold = ({ inntekt, refusjon }: Inntektskilderinnho
             </AnonymizableText>
             <div className={styles.Arbeidsforholdtabell}>
                 {arbeidsforhold.map((it, i) => (
-                    <Arbeidsforhold
+                    <ArbeidsforholdView
                         key={i}
                         startdato={it.startdato}
                         sluttdato={it.sluttdato}
@@ -81,11 +128,35 @@ export const Inntektskilderinnhold = ({ inntekt, refusjon }: Inntektskilderinnho
                 organisasjonsnummer={inntekt.arbeidsgiver}
                 organisasjonsnummerPeriodeTilGodkjenning={organisasjonsnummerPeriodeTilGodkjenning}
                 skjæringstidspunkt={skjæringstidspunkt}
-                arbeidsforholdErDeaktivert={harDeaktivertArbeidsforhold}
+                arbeidsforholdErDeaktivert={inntekt.deaktivert ?? false}
                 arbeidsforholdKanOverstyres={arbeidsforholdKanOverstyres}
             />
             {refusjon && <Refusjonsoversikt refusjon={refusjon} />}
             <Tooltip effect="solid" />
         </div>
+    );
+};
+
+interface InntektskilderinnholdContainerProps {
+    inntekt: Arbeidsgiverinntekt;
+}
+
+const InntektskilderinnholdContainer: React.VFC<InntektskilderinnholdContainerProps> = ({ inntekt }) => {
+    return null;
+};
+
+const InntektskilderinnholdError = () => {
+    return <div />;
+};
+
+interface InntektskilderinnholdProps {
+    inntekt: Arbeidsgiverinntekt;
+}
+
+export const Inntektskilderinnhold: React.VFC<InntektskilderinnholdProps> = ({ inntekt }) => {
+    return (
+        <ErrorBoundary fallback={<InntektskilderinnholdError />}>
+            <InntektskilderinnholdContainer inntekt={inntekt} />
+        </ErrorBoundary>
     );
 };
