@@ -1,0 +1,860 @@
+{
+    "data": {
+        "person": {
+            "fodselsnummer": "02126721911",
+            "dodsdato": null,
+            "enhet": {
+                "id": "1702",
+                "navn": "Steinkjer"
+            },
+            "infotrygdutbetalinger": [],
+            "inntektsgrunnlag": [
+                {
+                    "avviksprosent": 11.149228130360205,
+                    "grunnbelop": 106399,
+                    "inntekter": [
+                        {
+                            "arbeidsgiver": "972674818",
+                            "omregnetArsinntekt": {
+                                "belop": 396000,
+                                "inntektFraAOrdningen": null,
+                                "kilde": "INNTEKTSMELDING",
+                                "manedsbelop": 33000
+                            },
+                            "sammenligningsgrunnlag": {
+                                "inntektFraAOrdningen": [
+                                    {
+                                        "sum": 21000,
+                                        "maned": "2020-11"
+                                    },
+                                    {
+                                        "sum": 21000,
+                                        "maned": "2020-12"
+                                    },
+                                    {
+                                        "sum": 21000,
+                                        "maned": "2020-10"
+                                    },
+                                    {
+                                        "sum": 21000,
+                                        "maned": "2021-05"
+                                    },
+                                    {
+                                        "sum": 21000,
+                                        "maned": "2021-02"
+                                    },
+                                    {
+                                        "sum": 21000,
+                                        "maned": "2021-08"
+                                    },
+                                    {
+                                        "sum": 21000,
+                                        "maned": "2021-06"
+                                    },
+                                    {
+                                        "sum": 21000,
+                                        "maned": "2021-03"
+                                    },
+                                    {
+                                        "sum": 21000,
+                                        "maned": "2021-04"
+                                    },
+                                    {
+                                        "sum": 21000,
+                                        "maned": "2021-01"
+                                    },
+                                    {
+                                        "sum": 21000,
+                                        "maned": "2021-07"
+                                    }
+                                ],
+                                "belop": 231000
+                            }
+                        },
+                        {
+                            "arbeidsgiver": "839942907",
+                            "omregnetArsinntekt": {
+                                "belop": 252000,
+                                "inntektFraAOrdningen": [
+                                    {
+                                        "maned": "2021-08",
+                                        "sum": 21000
+                                    },
+                                    {
+                                        "maned": "2021-07",
+                                        "sum": 21000
+                                    },
+                                    {
+                                        "maned": "2021-06",
+                                        "sum": 21000
+                                    }
+                                ],
+                                "kilde": "AORDNINGEN",
+                                "manedsbelop": 21000
+                            },
+                            "sammenligningsgrunnlag": {
+                                "inntektFraAOrdningen": [
+                                    {
+                                        "sum": 21000,
+                                        "maned": "2020-11"
+                                    },
+                                    {
+                                        "sum": 21000,
+                                        "maned": "2020-12"
+                                    },
+                                    {
+                                        "sum": 21000,
+                                        "maned": "2020-10"
+                                    },
+                                    {
+                                        "sum": 21000,
+                                        "maned": "2021-05"
+                                    },
+                                    {
+                                        "sum": 21000,
+                                        "maned": "2021-02"
+                                    },
+                                    {
+                                        "sum": 21000,
+                                        "maned": "2021-08"
+                                    },
+                                    {
+                                        "sum": 21000,
+                                        "maned": "2021-06"
+                                    },
+                                    {
+                                        "sum": 21000,
+                                        "maned": "2021-03"
+                                    },
+                                    {
+                                        "sum": 21000,
+                                        "maned": "2021-04"
+                                    },
+                                    {
+                                        "sum": 21000,
+                                        "maned": "2021-01"
+                                    },
+                                    {
+                                        "sum": 21000,
+                                        "maned": "2021-07"
+                                    }
+                                ],
+                                "belop": 231000
+                            }
+                        },
+                        {
+                            "arbeidsgiver": "805824352",
+                            "omregnetArsinntekt": null,
+                            "sammenligningsgrunnlag": {
+                                "inntektFraAOrdningen": [
+                                    {
+                                        "sum": 11000,
+                                        "maned": "2020-11"
+                                    },
+                                    {
+                                        "sum": 11000,
+                                        "maned": "2020-12"
+                                    },
+                                    {
+                                        "sum": 11000,
+                                        "maned": "2020-10"
+                                    },
+                                    {
+                                        "sum": 11000,
+                                        "maned": "2021-05"
+                                    },
+                                    {
+                                        "sum": 11000,
+                                        "maned": "2021-02"
+                                    },
+                                    {
+                                        "sum": 11000,
+                                        "maned": "2021-08"
+                                    },
+                                    {
+                                        "sum": 11000,
+                                        "maned": "2021-06"
+                                    },
+                                    {
+                                        "sum": 11000,
+                                        "maned": "2021-03"
+                                    },
+                                    {
+                                        "sum": 11000,
+                                        "maned": "2021-04"
+                                    },
+                                    {
+                                        "sum": 11000,
+                                        "maned": "2021-01"
+                                    },
+                                    {
+                                        "sum": 11000,
+                                        "maned": "2021-07"
+                                    }
+                                ],
+                                "belop": 121000
+                            }
+                        }
+                    ],
+                    "sammenligningsgrunnlag": 583000,
+                    "omregnetArsinntekt": 648000,
+                    "maksUtbetalingPerDag": 2455.3615384615387,
+                    "oppfyllerKravOmMinstelonn": true,
+                    "skjaeringstidspunkt": "2021-09-01",
+                    "sykepengegrunnlag": 638394
+                }
+            ],
+            "personinfo": {
+                "fornavn": "ROBUST",
+                "mellomnavn": null,
+                "etternavn": "MULDVARP",
+                "adressebeskyttelse": "Ugradert",
+                "fodselsdato": "1967-12-02",
+                "kjonn": "Mann"
+            },
+            "tildeling": {
+                "navn": "Grieg, Solveig",
+                "epost": "Solveig.Grieg@nav.no",
+                "oid": "66dc5bd2-399f-4ace-9801-10ad98044987",
+                "reservert": false
+            },
+            "versjon": 22,
+            "vilkarsgrunnlaghistorikk": [
+                {
+                    "id": "fa17bfd8-9b90-4413-bb85-968034037826",
+                    "grunnlag": [
+                        {
+                            "sykepengegrunnlag": 638394,
+                            "skjaeringstidspunkt": "2021-09-01",
+                            "omregnetArsinntekt": 648000,
+                            "sammenligningsgrunnlag": 583000,
+                            "inntekter": [
+                                {
+                                    "sammenligningsgrunnlag": {
+                                        "belop": 231000,
+                                        "inntektFraAOrdningen": []
+                                    },
+                                    "omregnetArsinntekt": {
+                                        "inntektFraAOrdningen": null,
+                                        "belop": 396000,
+                                        "manedsbelop": 33000,
+                                        "kilde": "INNTEKTSMELDING"
+                                    },
+                                    "arbeidsgiver": "972674818"
+                                },
+                                {
+                                    "sammenligningsgrunnlag": {
+                                        "belop": 231000,
+                                        "inntektFraAOrdningen": []
+                                    },
+                                    "omregnetArsinntekt": {
+                                        "inntektFraAOrdningen": [
+                                            {
+                                                "maned": "2021-07",
+                                                "sum": 21000
+                                            },
+                                            {
+                                                "maned": "2021-06",
+                                                "sum": 21000
+                                            },
+                                            {
+                                                "maned": "2021-08",
+                                                "sum": 21000
+                                            }
+                                        ],
+                                        "belop": 252000,
+                                        "manedsbelop": 21000,
+                                        "kilde": "AORDNINGEN"
+                                    },
+                                    "arbeidsgiver": "839942907"
+                                },
+                                {
+                                    "sammenligningsgrunnlag": {
+                                        "belop": 121000,
+                                        "inntektFraAOrdningen": []
+                                    },
+                                    "omregnetArsinntekt": null,
+                                    "arbeidsgiver": "805824352"
+                                }
+                            ],
+                            "vilkarsgrunnlagtype": "SPLEIS",
+                            "oppfyllerKravOmMinstelonn": true,
+                            "oppfyllerKravOmMedlemskap": null,
+                            "oppfyllerKravOmOpptjening": true,
+                            "antallOpptjeningsdagerErMinst": 7153,
+                            "grunnbelop": 106399,
+                            "opptjeningFra": "2002-01-31"
+                        }
+                    ]
+                },
+                {
+                    "id": "fbaa75ba-6049-4439-87e0-d2b73ddbe861",
+                    "grunnlag": [
+                        {
+                            "sykepengegrunnlag": 396000,
+                            "skjaeringstidspunkt": "2021-09-01",
+                            "omregnetArsinntekt": 396000,
+                            "sammenligningsgrunnlag": 583000,
+                            "inntekter": [
+                                {
+                                    "sammenligningsgrunnlag": {
+                                        "belop": 231000,
+                                        "inntektFraAOrdningen": []
+                                    },
+                                    "omregnetArsinntekt": {
+                                        "inntektFraAOrdningen": null,
+                                        "belop": 396000,
+                                        "manedsbelop": 33000,
+                                        "kilde": "INNTEKTSMELDING"
+                                    },
+                                    "arbeidsgiver": "972674818"
+                                },
+                                {
+                                    "sammenligningsgrunnlag": {
+                                        "belop": 231000,
+                                        "inntektFraAOrdningen": []
+                                    },
+                                    "omregnetArsinntekt": {
+                                        "inntektFraAOrdningen": [
+                                            {
+                                                "maned": "2021-07",
+                                                "sum": 21000
+                                            },
+                                            {
+                                                "maned": "2021-06",
+                                                "sum": 21000
+                                            },
+                                            {
+                                                "maned": "2021-08",
+                                                "sum": 21000
+                                            }
+                                        ],
+                                        "belop": 252000,
+                                        "manedsbelop": 21000,
+                                        "kilde": "AORDNINGEN"
+                                    },
+                                    "arbeidsgiver": "839942907"
+                                },
+                                {
+                                    "sammenligningsgrunnlag": {
+                                        "belop": 121000,
+                                        "inntektFraAOrdningen": []
+                                    },
+                                    "omregnetArsinntekt": null,
+                                    "arbeidsgiver": "805824352"
+                                }
+                            ],
+                            "vilkarsgrunnlagtype": "SPLEIS",
+                            "oppfyllerKravOmMinstelonn": true,
+                            "oppfyllerKravOmMedlemskap": null,
+                            "oppfyllerKravOmOpptjening": true,
+                            "antallOpptjeningsdagerErMinst": 7153,
+                            "grunnbelop": 106399,
+                            "opptjeningFra": "2002-01-31"
+                        }
+                    ]
+                },
+                {
+                    "id": "6960ab21-5f27-456a-9d8b-9c223cb9ca5d",
+                    "grunnlag": [
+                        {
+                            "sykepengegrunnlag": 638394,
+                            "skjaeringstidspunkt": "2021-09-01",
+                            "omregnetArsinntekt": 648000,
+                            "sammenligningsgrunnlag": 583000,
+                            "inntekter": [
+                                {
+                                    "sammenligningsgrunnlag": {
+                                        "belop": 231000,
+                                        "inntektFraAOrdningen": []
+                                    },
+                                    "omregnetArsinntekt": {
+                                        "inntektFraAOrdningen": null,
+                                        "belop": 396000,
+                                        "manedsbelop": 33000,
+                                        "kilde": "INNTEKTSMELDING"
+                                    },
+                                    "arbeidsgiver": "972674818"
+                                },
+                                {
+                                    "sammenligningsgrunnlag": {
+                                        "belop": 231000,
+                                        "inntektFraAOrdningen": []
+                                    },
+                                    "omregnetArsinntekt": {
+                                        "inntektFraAOrdningen": [
+                                            {
+                                                "maned": "2021-07",
+                                                "sum": 21000
+                                            },
+                                            {
+                                                "maned": "2021-06",
+                                                "sum": 21000
+                                            },
+                                            {
+                                                "maned": "2021-08",
+                                                "sum": 21000
+                                            }
+                                        ],
+                                        "belop": 252000,
+                                        "manedsbelop": 21000,
+                                        "kilde": "AORDNINGEN"
+                                    },
+                                    "arbeidsgiver": "839942907"
+                                },
+                                {
+                                    "sammenligningsgrunnlag": {
+                                        "belop": 121000,
+                                        "inntektFraAOrdningen": []
+                                    },
+                                    "omregnetArsinntekt": null,
+                                    "arbeidsgiver": "805824352"
+                                }
+                            ],
+                            "vilkarsgrunnlagtype": "SPLEIS",
+                            "oppfyllerKravOmMinstelonn": true,
+                            "oppfyllerKravOmMedlemskap": null,
+                            "oppfyllerKravOmOpptjening": true,
+                            "antallOpptjeningsdagerErMinst": 7153,
+                            "grunnbelop": 106399,
+                            "opptjeningFra": "2002-01-31"
+                        }
+                    ]
+                }
+            ],
+            "aktorId": "2513379298794",
+            "arbeidsgivere": [
+                {
+                    "bransjer": [],
+                    "navn": "PENGELØS SPAREBANK",
+                    "organisasjonsnummer": "972674818",
+                    "arbeidsforhold": [
+                        {
+                            "sluttdato": null,
+                            "startdato": "2002-01-01",
+                            "stillingsprosent": 100,
+                            "stillingstittel": "FRISØR"
+                        },
+                        {
+                            "sluttdato": null,
+                            "startdato": "2002-01-01",
+                            "stillingsprosent": 100,
+                            "stillingstittel": "HØYSKOLELÆRER"
+                        }
+                    ],
+                    "ghostPerioder": [],
+                    "generasjoner": [
+                        {
+                            "id": "cce6c479-6012-48fd-bcca-19130a3d0f31",
+                            "perioder": [
+                                {
+                                    "fom": "2021-09-01",
+                                    "tom": "2021-09-17",
+                                    "behandlingstype": "BEHANDLET",
+                                    "erForkastet": false,
+                                    "inntektstype": "FLEREARBEIDSGIVERE",
+                                    "opprettet": "2022-03-21T15:21:01",
+                                    "periodetype": "FORSTEGANGSBEHANDLING",
+                                    "tidslinje": [
+                                        {
+                                            "dato": "2021-09-01",
+                                            "grad": 100,
+                                            "kilde": {
+                                                "id": "7a670cfa-6494-405e-bc2c-020274e176f5",
+                                                "type": "SOKNAD"
+                                            },
+                                            "sykdomsdagtype": "SYKEDAG",
+                                            "utbetalingsdagtype": "ARBEIDSGIVERPERIODEDAG",
+                                            "utbetalingsinfo": null,
+                                            "begrunnelser": null
+                                        },
+                                        {
+                                            "dato": "2021-09-02",
+                                            "grad": 100,
+                                            "kilde": {
+                                                "id": "7a670cfa-6494-405e-bc2c-020274e176f5",
+                                                "type": "SOKNAD"
+                                            },
+                                            "sykdomsdagtype": "SYKEDAG",
+                                            "utbetalingsdagtype": "ARBEIDSGIVERPERIODEDAG",
+                                            "utbetalingsinfo": null,
+                                            "begrunnelser": null
+                                        },
+                                        {
+                                            "dato": "2021-09-03",
+                                            "grad": 100,
+                                            "kilde": {
+                                                "id": "7a670cfa-6494-405e-bc2c-020274e176f5",
+                                                "type": "SOKNAD"
+                                            },
+                                            "sykdomsdagtype": "SYKEDAG",
+                                            "utbetalingsdagtype": "ARBEIDSGIVERPERIODEDAG",
+                                            "utbetalingsinfo": null,
+                                            "begrunnelser": null
+                                        },
+                                        {
+                                            "dato": "2021-09-04",
+                                            "grad": 100,
+                                            "kilde": {
+                                                "id": "7a670cfa-6494-405e-bc2c-020274e176f5",
+                                                "type": "SOKNAD"
+                                            },
+                                            "sykdomsdagtype": "SYK_HELGEDAG",
+                                            "utbetalingsdagtype": "ARBEIDSGIVERPERIODEDAG",
+                                            "utbetalingsinfo": null,
+                                            "begrunnelser": null
+                                        },
+                                        {
+                                            "dato": "2021-09-05",
+                                            "grad": 100,
+                                            "kilde": {
+                                                "id": "7a670cfa-6494-405e-bc2c-020274e176f5",
+                                                "type": "SOKNAD"
+                                            },
+                                            "sykdomsdagtype": "SYK_HELGEDAG",
+                                            "utbetalingsdagtype": "ARBEIDSGIVERPERIODEDAG",
+                                            "utbetalingsinfo": null,
+                                            "begrunnelser": null
+                                        },
+                                        {
+                                            "dato": "2021-09-06",
+                                            "grad": 100,
+                                            "kilde": {
+                                                "id": "7a670cfa-6494-405e-bc2c-020274e176f5",
+                                                "type": "SOKNAD"
+                                            },
+                                            "sykdomsdagtype": "SYKEDAG",
+                                            "utbetalingsdagtype": "ARBEIDSGIVERPERIODEDAG",
+                                            "utbetalingsinfo": null,
+                                            "begrunnelser": null
+                                        },
+                                        {
+                                            "dato": "2021-09-07",
+                                            "grad": 100,
+                                            "kilde": {
+                                                "id": "7a670cfa-6494-405e-bc2c-020274e176f5",
+                                                "type": "SOKNAD"
+                                            },
+                                            "sykdomsdagtype": "SYKEDAG",
+                                            "utbetalingsdagtype": "ARBEIDSGIVERPERIODEDAG",
+                                            "utbetalingsinfo": null,
+                                            "begrunnelser": null
+                                        },
+                                        {
+                                            "dato": "2021-09-08",
+                                            "grad": 100,
+                                            "kilde": {
+                                                "id": "7a670cfa-6494-405e-bc2c-020274e176f5",
+                                                "type": "SOKNAD"
+                                            },
+                                            "sykdomsdagtype": "SYKEDAG",
+                                            "utbetalingsdagtype": "ARBEIDSGIVERPERIODEDAG",
+                                            "utbetalingsinfo": null,
+                                            "begrunnelser": null
+                                        },
+                                        {
+                                            "dato": "2021-09-09",
+                                            "grad": 100,
+                                            "kilde": {
+                                                "id": "7a670cfa-6494-405e-bc2c-020274e176f5",
+                                                "type": "SOKNAD"
+                                            },
+                                            "sykdomsdagtype": "SYKEDAG",
+                                            "utbetalingsdagtype": "ARBEIDSGIVERPERIODEDAG",
+                                            "utbetalingsinfo": null,
+                                            "begrunnelser": null
+                                        },
+                                        {
+                                            "dato": "2021-09-10",
+                                            "grad": 100,
+                                            "kilde": {
+                                                "id": "7a670cfa-6494-405e-bc2c-020274e176f5",
+                                                "type": "SOKNAD"
+                                            },
+                                            "sykdomsdagtype": "SYKEDAG",
+                                            "utbetalingsdagtype": "ARBEIDSGIVERPERIODEDAG",
+                                            "utbetalingsinfo": null,
+                                            "begrunnelser": null
+                                        },
+                                        {
+                                            "dato": "2021-09-11",
+                                            "grad": 100,
+                                            "kilde": {
+                                                "id": "7a670cfa-6494-405e-bc2c-020274e176f5",
+                                                "type": "SOKNAD"
+                                            },
+                                            "sykdomsdagtype": "SYK_HELGEDAG",
+                                            "utbetalingsdagtype": "ARBEIDSGIVERPERIODEDAG",
+                                            "utbetalingsinfo": null,
+                                            "begrunnelser": null
+                                        },
+                                        {
+                                            "dato": "2021-09-12",
+                                            "grad": 100,
+                                            "kilde": {
+                                                "id": "7a670cfa-6494-405e-bc2c-020274e176f5",
+                                                "type": "SOKNAD"
+                                            },
+                                            "sykdomsdagtype": "SYK_HELGEDAG",
+                                            "utbetalingsdagtype": "ARBEIDSGIVERPERIODEDAG",
+                                            "utbetalingsinfo": null,
+                                            "begrunnelser": null
+                                        },
+                                        {
+                                            "dato": "2021-09-13",
+                                            "grad": 100,
+                                            "kilde": {
+                                                "id": "7a670cfa-6494-405e-bc2c-020274e176f5",
+                                                "type": "SOKNAD"
+                                            },
+                                            "sykdomsdagtype": "SYKEDAG",
+                                            "utbetalingsdagtype": "ARBEIDSGIVERPERIODEDAG",
+                                            "utbetalingsinfo": null,
+                                            "begrunnelser": null
+                                        },
+                                        {
+                                            "dato": "2021-09-14",
+                                            "grad": 100,
+                                            "kilde": {
+                                                "id": "7a670cfa-6494-405e-bc2c-020274e176f5",
+                                                "type": "SOKNAD"
+                                            },
+                                            "sykdomsdagtype": "SYKEDAG",
+                                            "utbetalingsdagtype": "ARBEIDSGIVERPERIODEDAG",
+                                            "utbetalingsinfo": null,
+                                            "begrunnelser": null
+                                        },
+                                        {
+                                            "dato": "2021-09-15",
+                                            "grad": 100,
+                                            "kilde": {
+                                                "id": "7a670cfa-6494-405e-bc2c-020274e176f5",
+                                                "type": "SOKNAD"
+                                            },
+                                            "sykdomsdagtype": "SYKEDAG",
+                                            "utbetalingsdagtype": "ARBEIDSGIVERPERIODEDAG",
+                                            "utbetalingsinfo": null,
+                                            "begrunnelser": null
+                                        },
+                                        {
+                                            "dato": "2021-09-16",
+                                            "grad": 100,
+                                            "kilde": {
+                                                "id": "7a670cfa-6494-405e-bc2c-020274e176f5",
+                                                "type": "SOKNAD"
+                                            },
+                                            "sykdomsdagtype": "SYKEDAG",
+                                            "utbetalingsdagtype": "ARBEIDSGIVERPERIODEDAG",
+                                            "utbetalingsinfo": null,
+                                            "begrunnelser": null
+                                        },
+                                        {
+                                            "dato": "2021-09-17",
+                                            "grad": 100,
+                                            "kilde": {
+                                                "id": "7a670cfa-6494-405e-bc2c-020274e176f5",
+                                                "type": "SOKNAD"
+                                            },
+                                            "sykdomsdagtype": "SYKEDAG",
+                                            "utbetalingsdagtype": "NAVDAG",
+                                            "utbetalingsinfo": {
+                                                "arbeidsgiverbelop": 1500,
+                                                "inntekt": 1523,
+                                                "personbelop": 0,
+                                                "refusjonsbelop": 1523,
+                                                "totalGrad": 61.111111111111114,
+                                                "utbetaling": 1500
+                                            },
+                                            "begrunnelser": null
+                                        }
+                                    ],
+                                    "vedtaksperiodeId": "74d6b87c-e121-4a41-9e28-4589b0e63970",
+                                    "id": "9f981b6f-2070-45ec-abe3-107c71b34560",
+                                    "aktivitetslogg": [
+                                        {
+                                            "alvorlighetsgrad": "W",
+                                            "melding": "Bruker har flere inntektskilder de siste tre månedene enn arbeidsforhold som er oppdaget i Aa-registeret.",
+                                            "tidsstempel": "2022-03-09 13:20:56.516",
+                                            "vedtaksperiodeId": "74d6b87c-e121-4a41-9e28-4589b0e63970"
+                                        },
+                                        {
+                                            "alvorlighetsgrad": "W",
+                                            "melding": "Vurder lovvalg og medlemskap",
+                                            "tidsstempel": "2022-03-09 13:20:56.516",
+                                            "vedtaksperiodeId": "74d6b87c-e121-4a41-9e28-4589b0e63970"
+                                        },
+                                        {
+                                            "alvorlighetsgrad": "W",
+                                            "melding": "Flere arbeidsgivere, ulikt starttidspunkt for sykefraværet eller ikke fravær fra alle arbeidsforhold",
+                                            "tidsstempel": "2022-03-09 13:20:57.471",
+                                            "vedtaksperiodeId": "74d6b87c-e121-4a41-9e28-4589b0e63970"
+                                        },
+                                        {
+                                            "alvorlighetsgrad": "W",
+                                            "melding": "Har mer enn 25 % avvik. Dette støttes foreløpig ikke i Speil. Du må derfor annullere periodene.",
+                                            "tidsstempel": "2022-03-09 13:21:32.939",
+                                            "vedtaksperiodeId": "74d6b87c-e121-4a41-9e28-4589b0e63970"
+                                        }
+                                    ],
+                                    "beregningId": "ac1cd201-a32f-4820-8373-f26d238bbe67",
+                                    "forbrukteSykedager": 1,
+                                    "gjenstaendeSykedager": 247,
+                                    "hendelser": [
+                                        {
+                                            "id": "7a670cfa-6494-405e-bc2c-020274e176f5",
+                                            "type": "SENDT_SOKNAD_NAV",
+                                            "fom": "2021-09-01",
+                                            "tom": "2021-09-17",
+                                            "rapportertDato": "2022-03-09T13:20:50",
+                                            "sendtNav": "2021-09-18T00:00:00"
+                                        },
+                                        {
+                                            "id": "3de6c343-b00a-4d55-b62d-a5eee5f4124c",
+                                            "type": "INNTEKTSMELDING",
+                                            "beregnetInntekt": 33000,
+                                            "mottattDato": "2022-03-09T13:20:50"
+                                        },
+                                        {
+                                            "id": "80c4163c-5f62-4c9f-ae64-3baae5f3270c",
+                                            "type": "NY_SOKNAD",
+                                            "fom": "2021-09-01",
+                                            "tom": "2021-09-17",
+                                            "rapportertDato": "2022-03-09T13:20:50"
+                                        }
+                                    ],
+                                    "maksdato": "2022-08-30",
+                                    "periodevilkar": {
+                                        "alder": {
+                                            "alderSisteSykedag": 53,
+                                            "oppfylt": true
+                                        },
+                                        "soknadsfrist": {
+                                            "oppfylt": true,
+                                            "sendtNav": "2021-09-18T00:00:00",
+                                            "soknadFom": "2021-09-01",
+                                            "soknadTom": "2021-09-17"
+                                        },
+                                        "sykepengedager": {
+                                            "forbrukteSykedager": 1,
+                                            "gjenstaendeSykedager": 247,
+                                            "maksdato": "2022-08-30",
+                                            "oppfylt": true,
+                                            "skjaeringstidspunkt": "2021-09-01"
+                                        }
+                                    },
+                                    "risikovurdering": {
+                                        "funn": [],
+                                        "kontrollertOk": []
+                                    },
+                                    "skjaeringstidspunkt": "2021-09-01",
+                                    "utbetaling": {
+                                        "arbeidsgiverFagsystemId": "OXDNCC6KSNERTEFBCZQXOZS3XM",
+                                        "arbeidsgiverNettoBelop": 1500,
+                                        "personFagsystemId": "LFU36ZXA25G23FKZTH76RATCDQ",
+                                        "personNettoBelop": 0,
+                                        "status": "Ubetalt",
+                                        "type": "UTBETALING",
+                                        "vurdering": null,
+                                        "arbeidsgiversimulering": {
+                                            "fagsystemId": "OXDNCC6KSNERTEFBCZQXOZS3XM",
+                                            "totalbelop": 1500,
+                                            "tidsstempel": "2022-03-21T15:21:01",
+                                            "utbetalingslinjer": [],
+                                            "perioder": [
+                                                {
+                                                    "fom": "2021-09-17",
+                                                    "tom": "2021-09-17",
+                                                    "utbetalinger": [
+                                                        {
+                                                            "mottakerId": "928497704",
+                                                            "mottakerNavn": "BESK KAFFE",
+                                                            "forfall": "2022-03-21",
+                                                            "feilkonto": false,
+                                                            "detaljer": [
+                                                                {
+                                                                    "fom": "2021-09-17",
+                                                                    "tom": "2021-09-17",
+                                                                    "utbetalingstype": "YTEL",
+                                                                    "uforegrad": 100,
+                                                                    "typeSats": "DAG",
+                                                                    "tilbakeforing": false,
+                                                                    "sats": 1500,
+                                                                    "refunderesOrgNr": "972674818",
+                                                                    "konto": "2338020",
+                                                                    "klassekode": "SPREFAG-IOP",
+                                                                    "antallSats": 1,
+                                                                    "belop": 1500,
+                                                                    "klassekodebeskrivelse": "Sykepenger, Refusjon arbeidsgiver"
+                                                                }
+                                                            ]
+                                                        }
+                                                    ]
+                                                }
+                                            ]
+                                        },
+                                        "personsimulering": {
+                                            "fagsystemId": "LFU36ZXA25G23FKZTH76RATCDQ",
+                                            "totalbelop": null,
+                                            "tidsstempel": "2022-03-21T15:21:01",
+                                            "utbetalingslinjer": [],
+                                            "perioder": null
+                                        }
+                                    },
+                                    "varsler": [
+                                        "Bruker har flere inntektskilder de siste tre månedene enn arbeidsforhold som er oppdaget i Aa-registeret.",
+                                        "Vurder lovvalg og medlemskap",
+                                        "Flere arbeidsgivere, ulikt starttidspunkt for sykefraværet eller ikke fravær fra alle arbeidsforhold",
+                                        "Har mer enn 25 % avvik. Dette støttes foreløpig ikke i Speil. Du må derfor annullere periodene.",
+                                        "Ikke registrert eller mangler samtykke i Kontakt- og reservasjonsregisteret, eventuell kommunikasjon må skje i brevform"
+                                    ],
+                                    "vilkarsgrunnlaghistorikkId": "fa17bfd8-9b90-4413-bb85-968034037826",
+                                    "refusjon": {
+                                        "sisteRefusjonsdag": null,
+                                        "forsteFravaersdag": "2021-09-01",
+                                        "endringer": [],
+                                        "arbeidsgiverperioder": [
+                                            {
+                                                "fom": "2021-09-01",
+                                                "tom": "2021-09-16"
+                                            }
+                                        ],
+                                        "belop": 33000
+                                    },
+                                    "oppgavereferanse": "3246",
+                                    "tilstand": "Oppgaver"
+                                }
+                            ]
+                        }
+                    ],
+                    "overstyringer": []
+                },
+                {
+                    "bransjer": [],
+                    "navn": "HÅRREISENDE FRISØR",
+                    "organisasjonsnummer": "839942907",
+                    "arbeidsforhold": [],
+                    "ghostPerioder": [
+                        {
+                            "deaktivert": false,
+                            "vilkarsgrunnlaghistorikkId": "fa17bfd8-9b90-4413-bb85-968034037826",
+                            "skjaeringstidspunkt": "2021-09-01",
+                            "fom": "2021-09-01",
+                            "tom": "2021-09-17"
+                        }
+                    ],
+                    "generasjoner": [],
+                    "overstyringer": []
+                },
+                {
+                    "bransjer": [],
+                    "navn": "VEGANSK SLAKTERI",
+                    "organisasjonsnummer": "805824352",
+                    "arbeidsforhold": [],
+                    "ghostPerioder": [],
+                    "generasjoner": [],
+                    "overstyringer": []
+                }
+            ]
+        }
+    }
+}

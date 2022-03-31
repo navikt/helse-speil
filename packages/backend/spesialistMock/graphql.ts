@@ -26,8 +26,6 @@ const fetchPersondata = (): Record<string, JSON> => {
     }, {});
 };
 
-const persondata = fetchPersondata();
-
 const oppdrag = [
     {
         type: 'UTBETALING',
@@ -130,7 +128,7 @@ const oppdrag = [
 const getResolvers = (): IResolvers => ({
     Query: {
         person: (_, { fnr, aktorId }: { fnr?: string; aktorId?: string }) => {
-            return persondata[fnr ?? aktorId ?? ''];
+            return fetchPersondata()[fnr ?? aktorId ?? ''];
         },
         oppdrag: (_, { fnr }: { fnr: string }) => {
             return oppdrag;
