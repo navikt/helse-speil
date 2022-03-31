@@ -7,7 +7,6 @@ import { InternalHeader, InternalHeaderTitle } from '@navikt/ds-react';
 
 import { erGyldigPersonId } from '@hooks/useRefreshPersonVedUrlEndring';
 import { authState } from '@state/authentication';
-import { useHentPerson } from '@state/person';
 import { useToggleEasterEgg } from '@state/easterEgg';
 import { useAddVarsel, useRemoveVarsel } from '@state/varsler';
 import { BentoMeny } from '@components/BentoMeny';
@@ -16,6 +15,7 @@ import { Brukermeny } from '@components/Brukermeny';
 import { SearchBar } from './SearchBar';
 import { EasterEgg } from '../../EasterEgg';
 import { graphqlplayground } from '@utils/featureToggles';
+import { useFetchPerson } from '@state/personState';
 
 const Container = styled.div`
     flex-shrink: 0;
@@ -44,7 +44,7 @@ const Container = styled.div`
 
 export const Header = () => {
     const history = useHistory();
-    const hentPerson = useHentPerson();
+    const fetchPerson = useFetchPerson();
     const removeVarsel = useRemoveVarsel();
     const addVarsel = useAddVarsel();
 
@@ -68,17 +68,18 @@ export const Header = () => {
                 type: 'feil',
             });
         } else {
-            hentPerson(personId)
-                .then(
-                    (res: { person?: Person }) => res.person && history.push(`/person/${res.person.aktørId}/utbetaling`)
-                )
-                .catch((error) =>
-                    addVarsel({
-                        key: key,
-                        message: error.message,
-                        type: error.type,
-                    })
-                );
+            fetchPerson(personId);
+            // Håndter dette i personState
+            // .then(
+            //     (res: { person?: Person }) => res.person && history.push(`/person/${res.person.aktørId}/utbetaling`)
+            // )
+            // .catch((error) =>
+            //     addVarsel({
+            //         key: key,
+            //         message: error.message,
+            //         type: error.type,
+            //     })
+            // );
         }
         return Promise.resolve();
     };
