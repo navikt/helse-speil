@@ -36,6 +36,11 @@ const StyledInnerBoks = styled(Accordion.Item)`
         &:hover {
             border: none;
         }
+
+        > div > p {
+            font-weight: 400;
+            font-size: 1rem;
+        }
     }
 
     progress {
