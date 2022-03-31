@@ -189,6 +189,7 @@ export type GhostPeriode = {
     __typename?: 'GhostPeriode';
     deaktivert: Scalars['Boolean'];
     fom: Scalars['String'];
+    organisasjonsnummer: Scalars['String'];
     skjaeringstidspunkt: Scalars['String'];
     tom: Scalars['String'];
     vilkarsgrunnlaghistorikkId?: Maybe<Scalars['String']>;
@@ -921,6 +922,7 @@ export type FetchPersonQuery = {
                 skjaeringstidspunkt: string;
                 fom: string;
                 tom: string;
+                organisasjonsnummer: string;
             }>;
             generasjoner: Array<{
                 __typename?: 'Generasjon';

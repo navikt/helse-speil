@@ -21,12 +21,14 @@ import { OverstyrArbeidsforholdUtenSykdom } from '../OverstyrArbeidsforholdUtenS
 
 import { overstyrInntektEnabled } from '@utils/featureToggles';
 import { Bold } from '@components/Bold';
-import { Inntektskilde as GraphQLInntektskilde, OmregnetArsinntekt } from '@io/graphql';
-import { useEndringerForPeriode, useUtbetalingForSkjæringstidspunkt } from '@state/arbeidsgiverState';
+import { Inntektskilde as GraphQLInntektskilde, Maybe, OmregnetArsinntekt } from '@io/graphql';
+import { useArbeidsgiver, useEndringerForPeriode, useUtbetalingForSkjæringstidspunkt } from '@state/arbeidsgiverState';
 import { ErrorBoundary } from '@components/ErrorBoundary';
 
 import styles from './Inntekt.module.css';
 import classNames from 'classnames';
+import { useActivePeriod } from '@state/periodState';
+import { isBeregnetPeriode, isGhostPeriode } from '@utils/typeguards';
 
 const useInntektskilde = (): Inntektskilde => useAktivPeriode().inntektskilde;
 
@@ -79,23 +81,12 @@ const RedigerInntekt = ({ setEditing, editing, erRevurdering }: RedigerInntektPr
     );
 };
 
-interface InntektProps {
+interface InntektBeregnetPeriodeProps {
     omregnetÅrsinntekt?: OmregnetArsinntekt | null;
     organisasjonsnummer: string;
-    organisasjonsnummerPeriodeTilGodkjenning: string | undefined;
-    skjæringstidspunkt: string;
-    arbeidsforholdKanOverstyres: boolean;
-    arbeidsforholdErDeaktivert: boolean;
 }
 
-export const Inntekt = ({
-    omregnetÅrsinntekt,
-    organisasjonsnummer,
-    organisasjonsnummerPeriodeTilGodkjenning,
-    skjæringstidspunkt,
-    arbeidsforholdErDeaktivert,
-    arbeidsforholdKanOverstyres,
-}: InntektProps) => {
+const InntektBeregnetPeriode = ({ omregnetÅrsinntekt, organisasjonsnummer }: InntektBeregnetPeriodeProps) => {
     const [editing, setEditing] = useState(false);
     const [endret, setEndret] = useState(false);
     const erRevurdering = useUtbetalingForSkjæringstidspunkt(skjæringstidspunkt)?.status === 'Utbetalt';
@@ -149,18 +140,103 @@ export const Inntekt = ({
     );
 };
 
-const InntektContainer = () => {
-    return null;
+interface InntektGhostPeriodeProps {
+    omregnetÅrsinntekt?: OmregnetArsinntekt | null;
+    organisasjonsnummer: string;
+}
+
+const InntektGhostPeriode = ({ omregnetÅrsinntekt, organisasjonsnummer }: InntektGhostPeriodeProps) => {
+    const [editing, setEditing] = useState(false);
+    const [endret, setEndret] = useState(false);
+
+    const erRevurdering = useUtbetalingForSkjæringstidspunkt(skjæringstidspunkt)?.status === 'Utbetalt';
+
+    const { inntektsendringer, arbeidsforholdendringer } = useEndringerForPeriode(organisasjonsnummer);
+    return (
+        <div
+            className={classNames(
+                styles.Inntekt,
+                editing && styles.editing,
+                arbeidsforholdErDeaktivert && styles.deaktivert,
+            )}
+        >
+            {arbeidsforholdErDeaktivert && <div className={styles.Deaktivertpille}>Brukes ikke i beregningen</div>}
+            <div className={classNames(styles.Header, editing && styles.editing)}>
+                <Flex alignItems="center">
+                    <Bold>Beregnet månedsinntekt</Bold>
+                    {endret || omregnetÅrsinntekt?.kilde === GraphQLInntektskilde.Saksbehandler ? (
+                        <EndringsloggInntektEllerArbeidsforholdButton
+                            inntektsendringer={inntektsendringer}
+                            arbeidsforholdendringer={arbeidsforholdendringer}
+                        />
+                    ) : (
+                        <Kilde type={omregnetÅrsinntekt?.kilde}>{kildeForkortelse(omregnetÅrsinntekt?.kilde)}</Kilde>
+                    )}
+                </Flex>
+                {overstyrInntektEnabled && (
+                    <RedigerInntekt setEditing={setEditing} editing={editing} erRevurdering={erRevurdering} />
+                )}
+            </div>
+            <div className={styles.InntektContainer}>
+                {editing ? (
+                    <EditableInntekt
+                        omregnetÅrsinntekt={omregnetÅrsinntekt!}
+                        close={() => setEditing(false)}
+                        onEndre={setEndret}
+                    />
+                ) : (
+                    <ReadOnlyInntekt omregnetÅrsinntekt={omregnetÅrsinntekt} />
+                )}
+            </div>
+            {arbeidsforholdKanOverstyres && (
+                <OverstyrArbeidsforholdUtenSykdom
+                    organisasjonsnummerAktivPeriode={organisasjonsnummer}
+                    organisasjonsnummerPeriodeTilGodkjenning={organisasjonsnummerPeriodeTilGodkjenning!}
+                    skjæringstidspunkt={skjæringstidspunkt}
+                    arbeidsforholdErDeaktivert={arbeidsforholdErDeaktivert}
+                />
+            )}
+        </div>
+    );
+};
+
+interface InntektContainerProps {
+    omregnetÅrsinntekt?: Maybe<OmregnetArsinntekt>;
+    organisasjonsnummer: string;
+}
+
+const InntektContainer: React.VFC<InntektContainerProps> = ({ omregnetÅrsinntekt, organisasjonsnummer }) => {
+    const periode = useActivePeriod();
+    const arbeidsforhold = useArbeidsgiver(organisasjonsnummer);
+
+    // Hva gjør vi med UberegnetPeriode?
+    if (isGhostPeriode(periode) || isBeregnetPeriode(periode)) {
+        const skjæringstidspunkt = periode.skjaeringstidspunkt;
+    }
+
+    // Arbeidsforholdoverstyring har deaktivert-felt
+    const arbeidsforholdErDeaktivert = false;
+
+    return isGhostPeriode(periode) ? (
+        <InntektGhostPeriode omregnetÅrsinntekt={omregnetÅrsinntekt} organisasjonsnummer={organisasjonsnummer} />
+    ) : (
+        <InntektBeregnetPeriode omregnetÅrsinntekt={omregnetÅrsinntekt} organisasjonsnummer={organisasjonsnummer} />
+    );
 };
 
 const InntektError = () => {
     return <div />;
 };
 
-export const InntektNew = () => {
+interface InntektProps {
+    omregnetÅrsinntekt?: Maybe<OmregnetArsinntekt>;
+    organisasjonsnummer: string;
+}
+
+export const Inntekt: React.VFC<InntektProps> = ({ omregnetÅrsinntekt, organisasjonsnummer }) => {
     return (
         <ErrorBoundary fallback={<InntektError />}>
-            <InntektContainer />
+            <InntektContainer omregnetÅrsinntekt={omregnetÅrsinntekt} organisasjonsnummer={organisasjonsnummer} />
         </ErrorBoundary>
     );
 };

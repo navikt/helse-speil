@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 
 import { InntektsgrunnlagTable } from './InntektsgrunnlagTable';
 import { Inntektskilderinnhold } from './Inntektskilderinnhold';
-import { Arbeidsgiverinntekt, Inntektsgrunnlag, Refusjon, VilkarsgrunnlagSpleis } from '@io/graphql';
+import { Arbeidsforhold, Arbeidsgiverinntekt, Inntektsgrunnlag, Refusjon, VilkarsgrunnlagSpleis } from '@io/graphql';
 import { getInntekt } from '@state/selectors/person';
 
 const Container = styled.div`
@@ -24,6 +24,10 @@ interface SykepengegrunnlagFraSpleisProps extends HTMLAttributes<HTMLDivElement>
     organisasjonsnummer: string;
     refusjon?: Refusjon | null;
     inntektsgrunnlag: Inntektsgrunnlag;
+    arbeidsgivernavn: string;
+    bransjer: string[];
+    arbeidsforhold: Arbeidsforhold[];
+    skjæringstidspunkt: DateString;
 }
 
 export const SykepengegrunnlagFraSpleis = ({
@@ -31,6 +35,10 @@ export const SykepengegrunnlagFraSpleis = ({
     organisasjonsnummer,
     refusjon,
     inntektsgrunnlag,
+    arbeidsgivernavn,
+    bransjer,
+    arbeidsforhold,
+    skjæringstidspunkt,
     ...rest
 }: SykepengegrunnlagFraSpleisProps) => {
     const inntekt = getInntekt(vilkårsgrunnlag, organisasjonsnummer);
@@ -57,7 +65,14 @@ export const SykepengegrunnlagFraSpleis = ({
                 aktivInntektskilde={aktivInntektskilde}
             />
             <Strek />
-            <Inntektskilderinnhold inntekt={aktivInntektskilde} refusjon={refusjon} />
+            <Inntektskilderinnhold
+                inntekt={aktivInntektskilde}
+                refusjon={refusjon}
+                arbeidsgivernavn={arbeidsgivernavn}
+                bransjer={bransjer}
+                arbeidsforhold={arbeidsforhold}
+                skjæringstidspunkt={skjæringstidspunkt}
+            />
         </Container>
     );
 };

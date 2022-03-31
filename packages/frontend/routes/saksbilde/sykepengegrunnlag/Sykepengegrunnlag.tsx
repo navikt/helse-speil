@@ -23,34 +23,45 @@ const SykepengegrunnlagContainer = () => {
     const vurdering = useVurderingForSkjæringstidspunkt((activePeriod as BeregnetPeriode).skjaeringstidspunkt);
     const arbeidsgiver = useCurrentArbeidsgiver();
 
-    if (isSpleisVilkarsgrunnlag(vilkårsgrunnlag) && isBeregnetPeriode(activePeriod) && arbeidsgiver && person) {
-        const inntektsgrunnlag = getInntektsgrunnlag(person, activePeriod.skjaeringstidspunkt);
+    if (isBeregnetPeriode(activePeriod) && arbeidsgiver && person) {
+        if (isSpleisVilkarsgrunnlag(vilkårsgrunnlag)) {
+            const inntektsgrunnlag = getInntektsgrunnlag(person, activePeriod.skjaeringstidspunkt);
 
-        return vurdering ? (
-            <BehandletSykepengegrunnlag
-                vurdering={vurdering}
-                vilkårsgrunnlag={vilkårsgrunnlag}
-                organisasjonsnummer={arbeidsgiver.organisasjonsnummer}
-                refusjon={activePeriod.refusjon}
-                skjæringstidspunkt={activePeriod.skjaeringstidspunkt}
-                inntektsgrunnlag={inntektsgrunnlag}
-            />
-        ) : (
-            <SykepengegrunnlagFraSpleis
-                vilkårsgrunnlag={vilkårsgrunnlag}
-                organisasjonsnummer={arbeidsgiver.organisasjonsnummer}
-                refusjon={activePeriod.refusjon}
-                inntektsgrunnlag={inntektsgrunnlag}
-                data-testid="ubehandlet-sykepengegrunnlag"
-            />
-        );
-    } else if (isInfotrygdVilkarsgrunnlag(vilkårsgrunnlag) && arbeidsgiver && person) {
-        return (
-            <SykepengegrunnlagFraInfogtrygd
-                vilkårsgrunnlag={vilkårsgrunnlag}
-                organisasjonsnummer={arbeidsgiver.organisasjonsnummer}
-            />
-        );
+            return vurdering ? (
+                <BehandletSykepengegrunnlag
+                    vurdering={vurdering}
+                    vilkårsgrunnlag={vilkårsgrunnlag}
+                    organisasjonsnummer={arbeidsgiver.organisasjonsnummer}
+                    refusjon={activePeriod.refusjon}
+                    skjæringstidspunkt={activePeriod.skjaeringstidspunkt}
+                    inntektsgrunnlag={inntektsgrunnlag}
+                />
+            ) : (
+                <SykepengegrunnlagFraSpleis
+                    vilkårsgrunnlag={vilkårsgrunnlag}
+                    organisasjonsnummer={arbeidsgiver.organisasjonsnummer}
+                    refusjon={activePeriod.refusjon}
+                    inntektsgrunnlag={inntektsgrunnlag}
+                    arbeidsgivernavn={arbeidsgiver.navn}
+                    bransjer={arbeidsgiver.bransjer}
+                    arbeidsforhold={arbeidsgiver.arbeidsforhold}
+                    skjæringstidspunkt={activePeriod.skjaeringstidspunkt}
+                    data-testid="ubehandlet-sykepengegrunnlag"
+                />
+            );
+        } else if (isInfotrygdVilkarsgrunnlag(vilkårsgrunnlag)) {
+            return (
+                <SykepengegrunnlagFraInfogtrygd
+                    vilkårsgrunnlag={vilkårsgrunnlag}
+                    organisasjonsnummer={arbeidsgiver.organisasjonsnummer}
+                    refusjon={activePeriod.refusjon}
+                    arbeidsgivernavn={arbeidsgiver.navn}
+                    bransjer={arbeidsgiver.bransjer}
+                    arbeidsforhold={arbeidsgiver.arbeidsforhold}
+                    skjæringstidspunkt={activePeriod.skjaeringstidspunkt}
+                />
+            );
+        }
     }
 
     return null;

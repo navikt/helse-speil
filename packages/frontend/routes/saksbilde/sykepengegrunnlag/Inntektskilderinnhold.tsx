@@ -8,7 +8,6 @@ import { Clipboard } from '@components/clipboard';
 import { ArbeidsforholdView } from '../ArbeidsforholdView';
 import { Inntekt } from './inntekt/Inntekt';
 import { defaultOverstyrToggles } from '@utils/featureToggles';
-import { useAktivPeriode } from '@state/tidslinje';
 import { AnonymizableText } from '@components/anonymizable/AnonymizableText';
 import { AnonymizableContainer } from '@components/anonymizable/AnonymizableContainer';
 import type { Arbeidsforhold, Arbeidsgiverinntekt, BeregnetPeriode, Maybe, Person, Refusjon } from '@io/graphql';
@@ -16,7 +15,6 @@ import { Periodetilstand } from '@io/graphql';
 
 import styles from './Inntektskilderinnhold.module.css';
 import { Refusjonsoversikt } from './refusjon/Refusjonsoversikt';
-import { ErrorBoundary } from '@components/ErrorBoundary';
 import { useActivePeriod } from '@state/periodState';
 import { isBeregnetPeriode, isGhostPeriode } from '@utils/typeguards';
 import { useCurrentPerson } from '@state/personState';
@@ -41,7 +39,7 @@ const harIngenUtbetaltePerioderFor = (person: Person, skjæringstidspunkt: DateS
     );
 };
 
-const useArbeidsforholdKanOverstyres = (): boolean => {
+const useArbeidsforholdKanOverstyres = (inntekt: Arbeidsgiverinntekt): boolean => {
     const person = useCurrentPerson();
     const activePeriod = useActivePeriod();
 
@@ -53,17 +51,15 @@ const useArbeidsforholdKanOverstyres = (): boolean => {
 
     const harIngenUtbetaltePerioder = harIngenUtbetaltePerioderFor(person, activePeriod.skjaeringstidspunkt);
 
-    const arbeidsforholdKanOverstyres =
+    return (
         defaultOverstyrToggles.overstyrArbeidsforholdUtenSykefraværEnabled &&
         activePeriod.organisasjonsnummer === inntekt.arbeidsgiver &&
-        activePeriod.tilstand === 'utenSykefravær' &&
         harIngenUtbetaltePerioder &&
-        periodeTilGodkjenning !== undefined;
-
-    return false;
+        periodeTilGodkjenning !== undefined
+    );
 };
 
-interface InntektskilderinnholdWithContentProps {
+interface InntektskilderinnholdProps {
     inntekt: Arbeidsgiverinntekt;
     refusjon?: Refusjon | null;
     arbeidsgivernavn: string;
@@ -72,27 +68,14 @@ interface InntektskilderinnholdWithContentProps {
     skjæringstidspunkt: DateString;
 }
 
-const InntektskilderinnholdWithContent = ({
+export const Inntektskilderinnhold = ({
     inntekt,
     refusjon,
     arbeidsgivernavn,
     bransjer,
     arbeidsforhold,
     skjæringstidspunkt,
-}: InntektskilderinnholdWithContentProps) => {
-    const aktivPeriode = useAktivPeriode();
-
-    const periodeTilGodkjenning = maybePeriodeTilGodkjenning(skjæringstidspunkt);
-
-    const harIngenUtbetaltePerioder = harIngenUtbetaltePerioderFor(skjæringstidspunkt);
-
-    const arbeidsforholdKanOverstyres =
-        defaultOverstyrToggles.overstyrArbeidsforholdUtenSykefraværEnabled &&
-        aktivPeriode.organisasjonsnummer === inntekt.arbeidsgiver &&
-        aktivPeriode.tilstand === 'utenSykefravær' &&
-        harIngenUtbetaltePerioder &&
-        periodeTilGodkjenning !== undefined;
-
+}: InntektskilderinnholdProps) => {
     return (
         <div className={styles.Inntektskilderinnhold}>
             <div className={styles.Header}>
@@ -123,40 +106,9 @@ const InntektskilderinnholdWithContent = ({
                     />
                 ))}
             </div>
-            <Inntekt
-                omregnetÅrsinntekt={inntekt.omregnetArsinntekt}
-                organisasjonsnummer={inntekt.arbeidsgiver}
-                organisasjonsnummerPeriodeTilGodkjenning={organisasjonsnummerPeriodeTilGodkjenning}
-                skjæringstidspunkt={skjæringstidspunkt}
-                arbeidsforholdErDeaktivert={inntekt.deaktivert ?? false}
-                arbeidsforholdKanOverstyres={arbeidsforholdKanOverstyres}
-            />
+            <Inntekt omregnetÅrsinntekt={inntekt.omregnetArsinntekt} organisasjonsnummer={inntekt.arbeidsgiver} />
             {refusjon && <Refusjonsoversikt refusjon={refusjon} />}
             <Tooltip effect="solid" />
         </div>
-    );
-};
-
-interface InntektskilderinnholdContainerProps {
-    inntekt: Arbeidsgiverinntekt;
-}
-
-const InntektskilderinnholdContainer: React.VFC<InntektskilderinnholdContainerProps> = ({ inntekt }) => {
-    return null;
-};
-
-const InntektskilderinnholdError = () => {
-    return <div />;
-};
-
-interface InntektskilderinnholdProps {
-    inntekt: Arbeidsgiverinntekt;
-}
-
-export const Inntektskilderinnhold: React.VFC<InntektskilderinnholdProps> = ({ inntekt }) => {
-    return (
-        <ErrorBoundary fallback={<InntektskilderinnholdError />}>
-            <InntektskilderinnholdContainer inntekt={inntekt} />
-        </ErrorBoundary>
     );
 };

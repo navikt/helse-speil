@@ -149,6 +149,7 @@ query FetchPerson($fnr: String, $aktorId: String) {
                 skjaeringstidspunkt
                 fom
                 tom
+                organisasjonsnummer
             }
             generasjoner {
                 id
