@@ -1,6 +1,4 @@
 import { useEffect, useState } from 'react';
-
-import { usePerson } from '@state/person';
 import { useAddToast, useRemoveToast } from '@state/toasts';
 import { useOpptegnelser, useSetOpptegnelserPollingRate } from '@state/opptegnelser';
 import {
@@ -11,21 +9,32 @@ import {
 } from '@state/kalkuleringstoasts';
 import { OverstyrtArbeidsforholdDTO } from '@io/http/types';
 import { postAbonnerPåAktør, postOverstyrtArbeidsforhold } from '@io/http';
+import { Person } from '@io/graphql';
+import { useCurrentPerson } from '@state/personState';
 
-export const useGetOverstyrtArbeidsforhold = () => {
-    const { aktørId, fødselsnummer } = usePerson() as Person;
+type OverstyrtArbeidsforholdGetter = (
+    begrunnelse: string,
+    forklaring: string,
+    organisasjonsnummerPeriodeTilGodkjenning: string,
+    organisasjonsnummerGhost: string,
+    skjæringstidspunkt: string,
+    arbeidsforholdSkalDeaktiveres: boolean,
+) => OverstyrtArbeidsforholdDTO;
+
+export const useGetOverstyrtArbeidsforhold = (): OverstyrtArbeidsforholdGetter => {
+    const person = useCurrentPerson() as Person;
 
     return (
-        begrunnelse: string,
-        forklaring: string,
-        organisasjonsnummerPeriodeTilGodkjenning: string,
-        organisasjonsnummerGhost: string,
-        skjæringstidspunkt: string,
-        arbeidsforholdSkalDeaktiveres: boolean
+        begrunnelse,
+        forklaring,
+        organisasjonsnummerPeriodeTilGodkjenning,
+        organisasjonsnummerGhost,
+        skjæringstidspunkt,
+        arbeidsforholdSkalDeaktiveres,
     ) => ({
-        fødselsnummer: fødselsnummer,
+        fødselsnummer: person?.fodselsnummer,
         organisasjonsnummer: organisasjonsnummerPeriodeTilGodkjenning,
-        aktørId: aktørId,
+        aktørId: person?.aktorId,
         skjæringstidspunkt: skjæringstidspunkt,
         overstyrteArbeidsforhold: [
             {
@@ -42,7 +51,7 @@ export const usePostOverstyrtArbeidsforhold = (onFerdigKalkulert?: () => void) =
     const addToast = useAddToast();
     const removeToast = useRemoveToast();
     const opptegnelser = useOpptegnelser();
-    const { aktørId } = usePerson() as Person;
+    const aktørId = useCurrentPerson()?.aktorId;
     const setPollingRate = useSetOpptegnelserPollingRate();
 
     const [isLoading, setIsLoading] = useState(false);
@@ -85,9 +94,11 @@ export const usePostOverstyrtArbeidsforhold = (onFerdigKalkulert?: () => void) =
             setIsLoading(true);
             postOverstyrtArbeidsforhold(overstyrtArbeidsforhold)
                 .then(() => {
-                    setCalculating(true);
-                    addToast(kalkulererToast({}));
-                    postAbonnerPåAktør(aktørId).then(() => setPollingRate(1000));
+                    if (aktørId) {
+                        setCalculating(true);
+                        addToast(kalkulererToast({}));
+                        postAbonnerPåAktør(aktørId).then(() => setPollingRate(1000));
+                    }
                 })
                 .catch((error) => {
                     switch (error.statusCode) {

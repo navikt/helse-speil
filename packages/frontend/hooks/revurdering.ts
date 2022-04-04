@@ -1,21 +1,19 @@
 import dayjs from 'dayjs';
 
-import { useArbeidsgiver } from '../modell/arbeidsgiver';
-
 import { usePerson } from '@state/person';
-import { useAktivPeriode, useMaybeAktivPeriode } from '@state/tidslinje';
+import { useMaybeAktivPeriode } from '@state/tidslinje';
 
 import type { UtbetalingToggles } from '@utils/featureToggles';
 import { useActivePeriod } from '@state/periodState';
 import { useCurrentArbeidsgiver } from '@state/arbeidsgiverState';
 import { isBeregnetPeriode } from '@utils/typeguards';
-import { UberegnetPeriode } from '@io/graphql';
+import { BeregnetPeriode } from '@io/graphql';
 
 const godkjentTilstander: PeriodState[] = ['utbetalt', 'utbetaltAutomatisk', 'revurdert', 'revurdertIngenUtbetaling'];
 
 const tidslinjeperioderISisteGenerasjon = (
     person: Person,
-    periode: TidslinjeperiodeMedSykefravær
+    periode: TidslinjeperiodeMedSykefravær,
 ): TidslinjeperiodeMedSykefravær[] =>
     person.arbeidsgivere
         .map((it) => it.tidslinjeperioder)
@@ -24,12 +22,12 @@ const tidslinjeperioderISisteGenerasjon = (
 
 const periodeFinnesISisteGenerasjon = (person: Person, periode: TidslinjeperiodeMedSykefravær): boolean =>
     tidslinjeperioderISisteGenerasjon(person, periode).find(
-        (it) => it.id === periode.id && it.beregningId === periode.beregningId && it.unique === periode.unique
+        (it) => it.id === periode.id && it.beregningId === periode.beregningId && it.unique === periode.unique,
     ) !== undefined;
 
 const arbeidsgiversSisteSkjæringstidspunktErLikSkjæringstidspunktetTilPerioden = (
     person: Person,
-    periode: TidslinjeperiodeMedSykefravær
+    periode: TidslinjeperiodeMedSykefravær,
 ): boolean => {
     if (!periode.skjæringstidspunkt) return false;
 
@@ -51,7 +49,7 @@ const overlapper = (periode: TidslinjeperiodeMedSykefravær, other: Tidslinjeper
 
 const alleTidslinjeperioder = (person: Person) =>
     person.arbeidsgivere.flatMap(
-        (arbeidsgiver) => arbeidsgiver.tidslinjeperioder?.[0]?.map((periode) => periode) ?? []
+        (arbeidsgiver) => arbeidsgiver.tidslinjeperioder?.[0]?.map((periode) => periode) ?? [],
     );
 
 const overlappendePerioder = (person: Person, periode: TidslinjeperiodeMedSykefravær) =>
@@ -68,7 +66,7 @@ const alleOverlappendePerioderErAvsluttet = (person: Person, aktivPeriode: Tidsl
 
 const alleOverlappendePerioderErTilRevurdering = (
     person: Person,
-    aktivPeriode: TidslinjeperiodeMedSykefravær
+    aktivPeriode: TidslinjeperiodeMedSykefravær,
 ): boolean => {
     const overlappende = overlappendePerioder(person, aktivPeriode);
 
@@ -92,7 +90,7 @@ export const useRevurderingIsEnabled = (toggles: UtbetalingToggles): boolean => 
         alleOverlappendePerioderErAvsluttet(person, periode as TidslinjeperiodeMedSykefravær) &&
         arbeidsgiversSisteSkjæringstidspunktErLikSkjæringstidspunktetTilPerioden(
             person,
-            periode as TidslinjeperiodeMedSykefravær
+            periode as TidslinjeperiodeMedSykefravær,
         )
     );
 };
@@ -110,7 +108,7 @@ export const useOverstyrRevurderingIsEnabled = (toggles: UtbetalingToggles) => {
         alleOverlappendePerioderErTilRevurdering(person, periode as TidslinjeperiodeMedSykefravær) &&
         arbeidsgiversSisteSkjæringstidspunktErLikSkjæringstidspunktetTilPerioden(
             person,
-            periode as TidslinjeperiodeMedSykefravær
+            periode as TidslinjeperiodeMedSykefravær,
         )
     );
 };
@@ -152,28 +150,33 @@ export const useActivePeriodHasLatestSkjæringstidspunkt = (): boolean => {
 };
 
 export const useHarKunEnFagsystemIdPåArbeidsgiverIAktivPeriode = (): boolean => {
-    const arbeidsgiver = useArbeidsgiver();
-    const aktivPeriode = useAktivPeriode();
+    const arbeidsgiver = useCurrentArbeidsgiver();
+    const periode = useActivePeriod();
 
-    if (aktivPeriode.tilstand === 'utenSykefravær' || arbeidsgiver.tidslinjeperioder.length == 0) {
+    if (!isBeregnetPeriode(periode) || !arbeidsgiver) {
         return false;
     }
+
     return (
         Object.keys(
-            groupBy(
-                arbeidsgiver.tidslinjeperioder[0].filter(
-                    (it) =>
-                        it.skjæringstidspunkt === (aktivPeriode as TidslinjeperiodeMedSykefravær)?.skjæringstidspunkt
-                ),
-                'fagsystemId'
-            )
+            groupByFagsystemId(
+                arbeidsgiver.generasjoner[0]?.perioder
+                    .filter(isBeregnetPeriode)
+                    .filter((it) => it.skjaeringstidspunkt === periode.skjaeringstidspunkt),
+            ),
         ).length === 1 ?? false
     );
 };
 
-const groupBy = (xs: any[], key: string): any[] => {
-    return xs.reduce((rv, x) => {
-        (rv[x[key]] = rv[x[key]] || []).push(x);
-        return rv;
-    }, {});
+type GroupByResult = Record<string, Array<BeregnetPeriode>>;
+
+const groupByFagsystemId = (perioder: Array<BeregnetPeriode>): GroupByResult => {
+    return perioder.reduce((result, it: BeregnetPeriode) => {
+        const fagsystemId = it.utbetaling.arbeidsgiverFagsystemId;
+        if (!result[fagsystemId]) {
+            result[fagsystemId] = [];
+        }
+        result[fagsystemId].push(it);
+        return result;
+    }, {} as GroupByResult);
 };

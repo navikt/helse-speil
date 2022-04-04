@@ -19,7 +19,6 @@ import {
 } from '@hooks/revurdering';
 import { useMap } from '@hooks/useMap';
 import { useOverstyringIsEnabled } from '@hooks/useOverstyringIsEnabled';
-import { useMaybeAktivPeriode, useVedtaksperiode } from '@state/tidslinje';
 
 import { defaultUtbetalingToggles } from '@utils/featureToggles';
 import { EndringForm } from './utbetalingstabell/EndringForm';
@@ -30,7 +29,7 @@ import { ToggleOverstyringKnapp, UtbetalingHeader } from './utbetalingstabell/Ut
 import { Utbetalingstabell } from './utbetalingstabell/Utbetalingstabell';
 import { usePostOverstyring } from './utbetalingstabell/usePostOverstyring';
 import { useTabelldagerMap } from './utbetalingstabell/useTabelldagerMap';
-import { Arbeidsgiver, BeregnetPeriode, Dagoverstyring, Overstyring } from '@io/graphql';
+import { Arbeidsgiver, BeregnetPeriode, Dagoverstyring, Overstyring, Utbetalingstatus } from '@io/graphql';
 import { ErrorBoundary } from '@components/ErrorBoundary';
 import { useActivePeriod } from '@state/periodState';
 import { useCurrentArbeidsgiver } from '@state/arbeidsgiverState';
@@ -120,7 +119,9 @@ const OverstyrbarUtbetaling: React.FC<OverstyrbarUtbetalingProps> = ({ fom, tom,
     const [markerteDager, setMarkerteDager] = useMap<string, UtbetalingstabellDag>();
     const [overstyrteDager, setOverstyrteDager] = useMap<string, UtbetalingstabellDag>();
 
-    const vedtaksperiode = useVedtaksperiode(useMaybeAktivPeriode()?.id) as Vedtaksperiode;
+    const periode = useActivePeriod();
+    const utbetalingErForkastet =
+        isBeregnetPeriode(periode) && periode.utbetaling.status === Utbetalingstatus.Forkastet;
 
     const kunAgpEllerAvslåtteDager =
         vedtaksperiode?.utbetalingstidslinje?.every((dag) =>
@@ -157,7 +158,7 @@ const OverstyrbarUtbetaling: React.FC<OverstyrbarUtbetalingProps> = ({ fom, tom,
                 }
                 return map;
             },
-            new Map(overstyrteDager)
+            new Map(overstyrteDager),
         );
         setOverstyrteDager(newOverstyrteDager);
         setMarkerteDager(new Map());
@@ -180,10 +181,7 @@ const OverstyrbarUtbetaling: React.FC<OverstyrbarUtbetalingProps> = ({ fom, tom,
                     </ToggleOverstyringKnapp>
                 </OverstyringHeader>
             ) : (
-                <UtbetalingHeader
-                    periodeErForkastet={vedtaksperiode.erForkastet}
-                    toggleOverstyring={toggleOverstyring}
-                    kunAgpEllerAvslåtteDager={kunAgpEllerAvslåtteDager}
+                <UtbetalingHeader periodeErForkastet={utbetalingErForkastet} toggleOverstyring={toggleOverstyring}kunAgpEllerAvslåtteDager={kunAgpEllerAvslåtteDager}
                 />
             )}
             <UtbetalingstabellContainer overstyrer={overstyrer}>
@@ -285,7 +283,7 @@ const useDagoverstyringer = (arbeidsgiver: Arbeidsgiver, fom: DateString, tom: D
             overstyring.dager.some((dag) => {
                 const dato = dayjs(dag.dato);
                 return dato.isSameOrAfter(start) && dato.isSameOrBefore(end);
-            })
+            }),
         );
     }, [arbeidsgiver, fom, tom]);
 };

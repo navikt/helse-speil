@@ -4,7 +4,7 @@ import { Bag, People } from '@navikt/ds-icons';
 
 import { somPenger } from '@utils/locale';
 import { useVilkårsgrunnlag } from '@state/personState';
-import { Maybe, Personinfo, Simulering, Utbetaling } from '@io/graphql';
+import { Maybe, Personinfo, Simulering, Utbetaling, Utbetalingstatus } from '@io/graphql';
 import { AnonymizableTextWithEllipsis } from '@components/TextWithEllipsis';
 import { LinkButton } from '@components/LinkButton';
 import { Bold } from '@components/Bold';
@@ -58,7 +58,9 @@ export const UtbetalingCard = ({
             </div>
             <div className={styles.TilUtbetaling}>
                 <div className={styles.Row}>
-                    <Bold>{utbetaling.status !== 'Ubetalt' ? 'Utbetalt beløp' : 'Beløp til utbetaling'}</Bold>
+                    <Bold>
+                        {utbetaling.status !== Utbetalingstatus.Ubetalt ? 'Utbetalt beløp' : 'Beløp til utbetaling'}
+                    </Bold>
                     <Bold className={styles.Total}>
                         {somPenger(utbetaling.arbeidsgiverNettoBelop + utbetaling.personNettoBelop)}
                     </Bold>

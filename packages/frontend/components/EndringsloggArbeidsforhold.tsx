@@ -11,10 +11,10 @@ import { TableModal } from './TableModal';
 import styles from './Endringslogg.module.css';
 
 interface EndringsloggArbeidsforholdProps extends ModalProps {
-    endring: Arbeidsforholdoverstyring;
+    endringer: Array<Arbeidsforholdoverstyring>;
 }
 
-export const EndringsloggArbeidsforhold: React.FC<EndringsloggArbeidsforholdProps> = ({ endring, ...modalProps }) => {
+export const EndringsloggArbeidsforhold: React.FC<EndringsloggArbeidsforholdProps> = ({ endringer, ...modalProps }) => {
     return (
         <TableModal {...modalProps} title="Endringslogg" contentLabel="Endringslogg">
             <thead>
@@ -28,18 +28,20 @@ export const EndringsloggArbeidsforhold: React.FC<EndringsloggArbeidsforholdProp
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>{getFormattedDateString(endring.timestamp)}</td>
-                    <td>{endring.deaktivert ? 'Brukes ikke i beregningen' : 'Brukes i beregningen'}</td>
-                    <td>{getFormattedDateString(endring.skjaeringstidspunkt)}</td>
-                    <td>
-                        <BodyShort className={styles.Begrunnelse}>{endring.begrunnelse}</BodyShort>
-                    </td>
-                    <td>
-                        <BodyShort className={styles.Begrunnelse}>{endring.forklaring}</BodyShort>
-                    </td>
-                    <td>{endring.saksbehandler.ident ?? endring.saksbehandler.navn}</td>
-                </tr>
+                {endringer.map((endring, i) => (
+                    <tr key={i}>
+                        <td>{getFormattedDateString(endring.timestamp)}</td>
+                        <td>{endring.deaktivert ? 'Brukes ikke i beregningen' : 'Brukes i beregningen'}</td>
+                        <td>{getFormattedDateString(endring.skjaeringstidspunkt)}</td>
+                        <td>
+                            <BodyShort className={styles.Begrunnelse}>{endring.begrunnelse}</BodyShort>
+                        </td>
+                        <td>
+                            <BodyShort className={styles.Begrunnelse}>{endring.forklaring}</BodyShort>
+                        </td>
+                        <td>{endring.saksbehandler.ident ?? endring.saksbehandler.navn}</td>
+                    </tr>
+                ))}
             </tbody>
         </TableModal>
     );

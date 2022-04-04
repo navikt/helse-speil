@@ -2,7 +2,6 @@ import dayjs from 'dayjs';
 import { atom, selector, useRecoilValue, useResetRecoilState, useSetRecoilState } from 'recoil';
 
 import { mapPerson } from '../mapping/person';
-import { useMaybeArbeidsgiver as useArbeidsgiverUtenParametre } from '../modell/arbeidsgiver';
 
 import { deletePåVent, getPerson, postLeggPåVent } from '@io/http';
 
@@ -226,30 +225,6 @@ export const useFjernPåVent = () => {
 };
 
 const sorterAscending = (a: TidslinjeperiodeMedSykefravær, b: TidslinjeperiodeMedSykefravær) => a.fom.diff(b.fom);
-
-export const useVurderingForSkjæringstidspunkt = (
-    uniqueId: string | undefined,
-    skjæringstidspunkt: string,
-): Vurdering | undefined => {
-    return useUtbetalingForSkjæringstidspunkt(uniqueId, skjæringstidspunkt)?.vurdering;
-};
-
-export const useUtbetalingForSkjæringstidspunkt = (
-    uniqueId: string | undefined,
-    skjæringstidspunkt: string,
-): UtbetalingshistorikkElement | undefined => {
-    const perioder =
-        useArbeidsgiverUtenParametre()!.tidslinjeperioder.find((it) => it.find((it) => it.unique === uniqueId)!) ?? [];
-
-    const førstePeriodeForSkjæringstidspunkt = [...perioder]
-        .sort(sorterAscending)
-        .filter((it) => it.skjæringstidspunkt === skjæringstidspunkt)
-        .shift();
-
-    const beregningId = førstePeriodeForSkjæringstidspunkt ? førstePeriodeForSkjæringstidspunkt.beregningId : undefined;
-
-    return useUtbetaling(beregningId);
-};
 
 export const useUtbetalingstidsstempelFørsteGenForPeriode = (): string => {
     const activePeriod = useActivePeriod();

@@ -13,10 +13,10 @@ import { TableModal } from './TableModal';
 import styles from './Endringslogg.module.css';
 
 interface EndringsloggInntektProps extends ModalProps {
-    endring: Inntektoverstyring;
+    endringer: Array<Inntektoverstyring>;
 }
 
-export const EndringsloggInntekt: React.FC<EndringsloggInntektProps> = ({ endring, ...modalProps }) => {
+export const EndringsloggInntekt: React.FC<EndringsloggInntektProps> = ({ endringer, ...modalProps }) => {
     return (
         <TableModal {...modalProps} title="Endringslogg" contentLabel="Endringslogg">
             <thead>
@@ -30,18 +30,20 @@ export const EndringsloggInntekt: React.FC<EndringsloggInntektProps> = ({ endrin
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>{dayjs(endring.timestamp).format(NORSK_DATOFORMAT)}</td>
-                    <td>{somPenger(endring.inntekt.manedligInntekt)}</td>
-                    <td>{getFormattedDateString(endring.inntekt.skjaeringstidspunkt)}</td>
-                    <td>
-                        <BodyShort className={styles.Begrunnelse}>{endring.begrunnelse}</BodyShort>
-                    </td>
-                    <td>
-                        <BodyShort className={styles.Begrunnelse}>{endring.inntekt.forklaring}</BodyShort>
-                    </td>
-                    <td>{endring.saksbehandler.ident ?? endring.saksbehandler.navn}</td>
-                </tr>
+                {endringer.map((endring, i) => (
+                    <tr key={i}>
+                        <td>{dayjs(endring.timestamp).format(NORSK_DATOFORMAT)}</td>
+                        <td>{somPenger(endring.inntekt.manedligInntekt)}</td>
+                        <td>{getFormattedDateString(endring.inntekt.skjaeringstidspunkt)}</td>
+                        <td>
+                            <BodyShort className={styles.Begrunnelse}>{endring.begrunnelse}</BodyShort>
+                        </td>
+                        <td>
+                            <BodyShort className={styles.Begrunnelse}>{endring.inntekt.forklaring}</BodyShort>
+                        </td>
+                        <td>{endring.saksbehandler.ident ?? endring.saksbehandler.navn}</td>
+                    </tr>
+                ))}
             </tbody>
         </TableModal>
     );

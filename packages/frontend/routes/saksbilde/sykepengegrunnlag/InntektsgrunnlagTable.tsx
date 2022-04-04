@@ -1,20 +1,16 @@
 import styled from '@emotion/styled';
 import React, { Dispatch, SetStateAction } from 'react';
-
 import { BodyShort } from '@navikt/ds-react';
 
 import { FlexColumn } from '@components/Flex';
+import { Bold } from '@components/Bold';
 import { somPenger } from '@utils/locale';
+import { Arbeidsgiverinntekt } from '@io/graphql';
 
 import { Inntektssammenligning } from './Inntektssammenligning';
-import { Arbeidsgiverinntekt } from '@io/graphql';
 
 const Container = styled(FlexColumn)`
     --fixed-column-width: 14rem;
-`;
-
-const Bold = styled(BodyShort)`
-    font-weight: 600;
 `;
 
 const RightAligned = styled(BodyShort)`
@@ -98,10 +94,10 @@ export const InntektsgrunnlagTable = ({
                     <tr>
                         <th />
                         <th>
-                            <Bold as="p">Inntektsgrunnlag</Bold>
+                            <Bold>Inntektsgrunnlag</Bold>
                         </th>
                         <th>
-                            <Bold as="p">Sammenligningsgrunnlag</Bold>
+                            <Bold>Sammenligningsgrunnlag</Bold>
                         </th>
                     </tr>
                     <tr>
@@ -132,13 +128,13 @@ export const InntektsgrunnlagTable = ({
                 <tfoot>
                     <tr>
                         <td>
-                            <Bold as="p">Total</Bold>
+                            <Bold>Total</Bold>
                         </td>
                         <td style={{ textAlign: 'right', paddingRight: '3.5rem' }}>
-                            <Bold as="p">{somPenger(omregnetÅrsinntekt)}</Bold>
+                            <Bold>{somPenger(omregnetÅrsinntekt)}</Bold>
                         </td>
                         <td style={{ textAlign: 'right', paddingRight: '2.25rem' }}>
-                            <Bold as="p">{somPenger(sammenligningsgrunnlag)}</Bold>
+                            <Bold>{somPenger(sammenligningsgrunnlag)}</Bold>
                         </td>
                     </tr>
                 </tfoot>
@@ -165,20 +161,20 @@ export const InntektsgrunnlagTable = ({
                 <tfoot>
                     <tr>
                         <td>
-                            <Bold as="p">Utregnet avvik</Bold>
+                            <Bold>Utregnet avvik</Bold>
                         </td>
                         <td>
-                            <BoldRightAligned as="p">
+                            <BoldRightAligned>
                                 {avviksprosent ? `${Math.floor(avviksprosent)} %` : '-'}
                             </BoldRightAligned>
                         </td>
                     </tr>
                     <tr>
                         <td>
-                            <Bold as="p">Sykepengegrunnlag</Bold>
+                            <Bold>Sykepengegrunnlag</Bold>
                         </td>
                         <td>
-                            <BoldRightAligned as="p">{somPenger(sykepengegrunnlag)}</BoldRightAligned>
+                            <BoldRightAligned>{somPenger(sykepengegrunnlag)}</BoldRightAligned>
                         </td>
                     </tr>
                 </tfoot>

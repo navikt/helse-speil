@@ -29,6 +29,7 @@ import styles from './Historikk.module.css';
 
 const convertDagoverstyring = (overstyring: Dagoverstyring): Array<OverstyringerPrDag> => {
     return overstyring.dager.map((it) => ({
+        hendelseId: overstyring.hendelseId,
         begrunnelse: overstyring.begrunnelse,
         saksbehandler: overstyring.saksbehandler,
         timestamp: overstyring.timestamp,
@@ -129,10 +130,10 @@ export const HistorikkWithContent: React.VFC<HistorikkWithContentProps> = React.
                     />
                 )}
                 {isInntektoverstyring(endring) && (
-                    <EndringsloggInntekt endring={endring} isOpen onRequestClose={() => setEndring(null)} />
+                    <EndringsloggInntekt endringer={[endring]} isOpen onRequestClose={() => setEndring(null)} />
                 )}
                 {isArbeidsforholdoverstyring(endring) && (
-                    <EndringsloggArbeidsforhold endring={endring} isOpen onRequestClose={() => setEndring(null)} />
+                    <EndringsloggArbeidsforhold endringer={[endring]} isOpen onRequestClose={() => setEndring(null)} />
                 )}
             </>
         );

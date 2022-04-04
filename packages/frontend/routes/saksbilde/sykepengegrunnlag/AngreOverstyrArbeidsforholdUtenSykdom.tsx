@@ -1,17 +1,10 @@
 import React from 'react';
 import styled from '@emotion/styled';
 
-import { useGetOverstyrtArbeidsforhold, usePostOverstyrtArbeidsforhold } from './OverstyrArbeidsforholdHooks';
+import { useGetOverstyrtArbeidsforhold, usePostOverstyrtArbeidsforhold } from './overstyrArbeidsforholdHooks';
 
 import { Button } from '@components/Button';
 import { OverstyringTimeoutModal } from '@components/OverstyringTimeoutModal';
-
-interface AngreOverstyrArbeidsforholdUtenSykdomProps {
-    organisasjonsnummerAktivPeriode: string;
-    organisasjonsnummerPeriodeTilGodkjenning: string;
-    skjæringstidspunkt: string;
-    onClick: () => void;
-}
 
 const AngreButton = styled(Button)`
     display: flex;
@@ -34,6 +27,13 @@ const UndoIcon = () => (
     </svg>
 );
 
+interface AngreOverstyrArbeidsforholdUtenSykdomProps {
+    organisasjonsnummerAktivPeriode: string;
+    organisasjonsnummerPeriodeTilGodkjenning: string;
+    skjæringstidspunkt: string;
+    onClick: () => void;
+}
+
 export const AngreOverstyrArbeidsforholdUtenSykdom = ({
     organisasjonsnummerAktivPeriode,
     organisasjonsnummerPeriodeTilGodkjenning,
@@ -48,7 +48,7 @@ export const AngreOverstyrArbeidsforholdUtenSykdom = ({
         organisasjonsnummerPeriodeTilGodkjenning,
         organisasjonsnummerAktivPeriode,
         skjæringstidspunkt,
-        false
+        false,
     );
     return (
         <>

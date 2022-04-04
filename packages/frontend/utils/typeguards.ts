@@ -42,10 +42,25 @@ export const isInfotrygdVilkarsgrunnlag = (
 export const isDagoverstyring = (overstyring?: Maybe<Overstyring>): overstyring is Dagoverstyring =>
     (overstyring as Dagoverstyring)?.__typename === 'Dagoverstyring';
 
+const isOverstyringPrDag = (overstyring?: Maybe<Overstyring>): overstyring is OverstyringerPrDag =>
+    typeof (overstyring as Dagoverstyring)?.__typename !== 'string' ?? false;
+
+export const isOverstyringerPrDag = (
+    overstyringer?: Maybe<Array<Overstyring>>,
+): overstyringer is Array<OverstyringerPrDag> => overstyringer?.every(isOverstyringPrDag) ?? false;
+
 export const isInntektoverstyring = (overstyring?: Maybe<Overstyring>): overstyring is Inntektoverstyring =>
     (overstyring as Inntektoverstyring)?.__typename === 'Inntektoverstyring';
+
+export const isInntektoverstyringer = (
+    overstyringer?: Maybe<Array<Overstyring>>,
+): overstyringer is Array<Inntektoverstyring> => overstyringer?.every(isInntektoverstyring) ?? false;
 
 export const isArbeidsforholdoverstyring = (
     overstyring?: Maybe<Overstyring>,
 ): overstyring is Arbeidsforholdoverstyring =>
     (overstyring as Arbeidsforholdoverstyring)?.__typename === 'Arbeidsforholdoverstyring';
+
+export const isArbeidsforholdoverstyringer = (
+    overstyringer?: Maybe<Array<Overstyring>>,
+): overstyringer is Array<Arbeidsforholdoverstyring> => overstyringer?.every(isArbeidsforholdoverstyring) ?? false;

@@ -18,44 +18,11 @@ const Button = styled.button`
     outline: none;
 `;
 
-const tilOverstyrtDagtype = (type: Utbetalingstabelldagtype): Dagtype => {
-    switch (type) {
-        case 'Ferie':
-            return Dagtype.Feriedag;
-        case 'Egenmelding':
-            return Dagtype.Egenmeldingsdag;
-        case 'Permisjon':
-            return Dagtype.Permisjonsdag;
-        case 'Syk':
-        default:
-            return Dagtype.Sykedag;
-    }
-};
-
-const tilDagoverstyring = (dato: DateString, overstyringer: Array<OverstyringerPrDag>): Dagoverstyring => {
-    const dager = overstyringer.map((it) => ({
-        dato: dato,
-        type: tilOverstyrtDagtype(it.type),
-        grad: it.grad,
-    }));
-
-    const { begrunnelse, saksbehandler, timestamp } = overstyringer[0];
-
-    return {
-        begrunnelse,
-        saksbehandler,
-        timestamp,
-        dager,
-    } as Dagoverstyring;
-};
-
 interface EndringsloggTidslinjeButtonProps extends React.HTMLAttributes<HTMLButtonElement> {
-    dato: DateString;
     endringer: Array<OverstyringerPrDag>;
 }
 
 export const EndringsloggTidslinjeButton: React.VFC<EndringsloggTidslinjeButtonProps> = ({
-    dato,
     endringer,
     className,
     ...buttonProps

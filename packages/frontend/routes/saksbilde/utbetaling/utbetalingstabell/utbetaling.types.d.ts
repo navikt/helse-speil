@@ -5,6 +5,7 @@ type Begrunnelse = import('@io/graphql').Begrunnelse;
 declare type Utbetalingstabelldagtype = 'Syk' | 'Ferie' | 'Helg' | 'Ukjent' | 'Egenmelding' | 'Permisjon' | 'Arbeid';
 
 type OverstyringerPrDag = {
+    hendelseId: string;
     begrunnelse: string;
     saksbehandler: {
         ident?: Maybe<string>;

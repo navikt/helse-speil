@@ -6,6 +6,7 @@ import { FormProvider, useForm } from 'react-hook-form';
 import { Error } from '@navikt/ds-icons';
 import { BodyShort, Button as NavButton, ErrorSummary, ErrorSummaryItem, Loader } from '@navikt/ds-react';
 
+import { Maybe } from '@io/graphql';
 import { EditButton } from '@components/EditButton';
 import { ErrorMessage } from '@components/ErrorMessage';
 import { Begrunnelser } from '@components/Begrunnelser';
@@ -15,7 +16,7 @@ import { OverstyringTimeoutModal } from '@components/OverstyringTimeoutModal';
 
 import { VenterPåEndringContext } from '../VenterPåEndringContext';
 import { AngreOverstyrArbeidsforholdUtenSykdom } from './AngreOverstyrArbeidsforholdUtenSykdom';
-import { useGetOverstyrtArbeidsforhold, usePostOverstyrtArbeidsforhold } from './OverstyrArbeidsforholdHooks';
+import { useGetOverstyrtArbeidsforhold, usePostOverstyrtArbeidsforhold } from './overstyrArbeidsforholdHooks';
 
 const Container = styled.div`
     display: flex;
@@ -104,8 +105,9 @@ interface OverstyrArbeidsforholdUtenSykdomProps {
     organisasjonsnummerAktivPeriode: string;
     organisasjonsnummerPeriodeTilGodkjenning: string;
     skjæringstidspunkt: string;
-    arbeidsforholdErDeaktivert: boolean;
+    arbeidsforholdErDeaktivert?: Maybe<boolean>;
 }
+
 export const OverstyrArbeidsforholdUtenSykdom = ({
     organisasjonsnummerAktivPeriode,
     organisasjonsnummerPeriodeTilGodkjenning,
@@ -170,7 +172,7 @@ interface OverstyrArbeidsforholdSkjemaProps {
     organisasjonsnummerAktivPeriode: string;
     organisasjonsnummerPeriodeTilGodkjenning: string;
     skjæringstidspunkt: string;
-    arbeidsforholdErDeaktivert: boolean;
+    arbeidsforholdErDeaktivert?: Maybe<boolean>;
     onSubmit: () => void;
 }
 
@@ -203,7 +205,7 @@ const OverstyrArbeidsforholdSkjema = ({
             organisasjonsnummerPeriodeTilGodkjenning,
             organisasjonsnummerAktivPeriode,
             skjæringstidspunkt,
-            true
+            true,
         );
         onSubmit();
         postOverstyring(overstyrtArbeidsforhold);

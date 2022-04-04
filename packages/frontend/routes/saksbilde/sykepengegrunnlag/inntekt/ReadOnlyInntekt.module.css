@@ -5,8 +5,9 @@
     grid-row-gap: 0.25rem;
 }
 
-.Grid > p:nth-child(2n + 1) {
+.Grid > p:nth-child(2n) {
     text-align: right;
+    white-space: nowrap;
 }
 
 .Title {

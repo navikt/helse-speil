@@ -6,10 +6,10 @@ import { CaseworkerFilled } from '@navikt/ds-icons';
 import { Flex } from '@components/Flex';
 import { Kilde } from '@components/Kilde';
 import { Tooltip } from '@components/Tooltip';
-import { Kildetype } from '@io/graphql';
+import { Kildetype, Overstyring } from '@io/graphql';
 
 import { CellContent } from '../../table/CellContent';
-import { EndringsloggTidslinjeButton } from './EndringsloggTidslinjeButton';
+import { EndringsloggButton } from '../../sykepengegrunnlag/inntekt/EndringsloggButton';
 
 const getKildeTypeIcon = (
     dato: DateString,
@@ -25,7 +25,7 @@ const getKildeTypeIcon = (
             return <Kilde type={Kildetype.Inntektsmelding}>IM</Kilde>;
         case 'SAKSBEHANDLER':
             return overstyringer ? (
-                <EndringsloggTidslinjeButton dato={dato} endringer={overstyringer} />
+                <EndringsloggButton endringer={overstyringer} />
             ) : (
                 <Flex>
                     <CaseworkerFilled height={20} width={20} />

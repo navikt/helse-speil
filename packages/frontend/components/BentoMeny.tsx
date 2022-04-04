@@ -108,7 +108,7 @@ const redirigerTilArbeidOgInntektUrl = (url: string, fødselsnummer: string) => 
         .catch(() => window.open('https://arbeid-og-inntekt.nais.adeo.no/api/v2/redirect/error'));
 };
 
-export const BentoMeny = () => {
+export const BentoMenyContent = () => {
     const [anchor, setAnchor] = useState<HTMLElement | null>(null);
     const person = useCurrentPerson();
 
@@ -176,5 +176,13 @@ export const BentoMeny = () => {
                 ))}
             </Popover>
         </Container>
+    );
+};
+
+export const BentoMeny: React.VFC = () => {
+    return (
+        <React.Suspense fallback={null}>
+            <BentoMenyContent />
+        </React.Suspense>
     );
 };

@@ -12,47 +12,15 @@ export const useAktivPeriodeId = () => useRecoilValue(aktivPeriodeState);
 export const useSetAktivPeriode = () => useSetRecoilState(aktivPeriodeState);
 
 export const useMaybeAktivPeriode = (): TidslinjeperiodeMedSykefravær | TidslinjeperiodeUtenSykefravær | undefined => {
-    const person = usePerson();
-    const periodeId = useRecoilValue(aktivPeriodeState);
-
-    if (person && periodeId) {
-        const { id, beregningId, unique } = decomposedId(periodeId);
-
-        return (
-            person.arbeidsgivere
-                .flatMap(({ tidslinjeperioder }) => tidslinjeperioder)
-                .flatMap((perioder) => perioder)
-                .find(
-                    (periode) => periode.id === id && periode.beregningId === beregningId && periode.unique === unique
-                ) ??
-            person.arbeidsgivere
-                .find((arbeidsgiver) =>
-                    arbeidsgiver.tidslinjeperioderUtenSykefravær.some((periode) => periode.id === id)
-                )
-                ?.tidslinjeperioderUtenSykefravær.find((periode) => periode.id === id) ??
-            defaultTidslinjeperiode(person)
-        );
-    }
-    if (person) {
-        return defaultTidslinjeperiode(person);
-    } else return undefined;
+    return undefined;
 };
 
 export const useMaybeAktivArbeidsgiverUtenSykdom = (): Arbeidsgiver | undefined => {
-    const person = usePerson();
-    const periodeId = useRecoilValue(aktivPeriodeState);
-    if (person && periodeId) {
-        const { id, beregningId, unique } = decomposedId(periodeId);
-
-        return person.arbeidsgivere.find((arbeidsgiver) =>
-            arbeidsgiver.tidslinjeperioderUtenSykefravær.some((periode) => periode.id === id)
-        );
-    }
     return undefined;
 };
 
 export const useMaybePeriodeTilGodkjenning = (
-    skjæringstidspunkt: string
+    skjæringstidspunkt: string,
 ): TidslinjeperiodeMedSykefravær | undefined => {
     const person = usePerson();
 
@@ -62,7 +30,7 @@ export const useMaybePeriodeTilGodkjenning = (
                 .flatMap(({ tidslinjeperioder }) => tidslinjeperioder)
                 .flatMap((perioder) => perioder)
                 .find(
-                    (periode) => periode.skjæringstidspunkt === skjæringstidspunkt && periode.tilstand === 'oppgaver'
+                    (periode) => periode.skjæringstidspunkt === skjæringstidspunkt && periode.tilstand === 'oppgaver',
                 ) ?? undefined
         );
     }
@@ -83,38 +51,3 @@ export const useVedtaksperiode = (vedtaksperiodeId?: string): Vedtaksperiode | u
     usePerson()
         ?.arbeidsgivere.flatMap((a) => a.vedtaksperioder)
         .find((p) => p.id === vedtaksperiodeId) as Vedtaksperiode | undefined;
-
-export const useOppgavereferanse = (beregningId: string | undefined): string | undefined => {
-    const person = usePerson();
-    if (!beregningId) {
-        return undefined;
-    }
-    const vedtaksperiode = person?.arbeidsgivere
-        .flatMap((a) => a.vedtaksperioder)
-        .find((p) => p.beregningIder?.includes(beregningId)) as Vedtaksperiode | undefined;
-    return vedtaksperiode?.oppgavereferanse;
-};
-
-export const harOppgave = (tidslinjeperiode: TidslinjeperiodeMedSykefravær) =>
-    ['oppgaver', 'revurderes'].includes(tidslinjeperiode.tilstand) && !!tidslinjeperiode.oppgavereferanse;
-
-const defaultTidslinjeperiode = (person: Person): TidslinjeperiodeMedSykefravær | undefined => {
-    const valgbarePerioder: TidslinjeperiodeMedSykefravær[] = person.arbeidsgivere
-        .flatMap((arb) => arb.tidslinjeperioder)
-        .flatMap((perioder) => perioder)
-        .filter((periode) => periode.fullstendig)
-        .sort((a, b) => (a.opprettet.isAfter(b.opprettet) ? 1 : -1))
-        .sort((a, b) => (a.fom.isBefore(b.fom) ? 1 : -1));
-    return (
-        valgbarePerioder.find((periode) => ['oppgaver', 'revurderes'].includes(periode.tilstand)) ?? valgbarePerioder[0]
-    );
-};
-
-export const decomposedId = (periodeId: String) => {
-    const res = periodeId.split('+');
-    return {
-        id: res[0],
-        beregningId: res[1],
-        unique: res[2],
-    };
-};

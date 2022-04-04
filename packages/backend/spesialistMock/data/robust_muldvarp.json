@@ -752,7 +752,7 @@
                                         "arbeidsgiverNettoBelop": 1500,
                                         "personFagsystemId": "LFU36ZXA25G23FKZTH76RATCDQ",
                                         "personNettoBelop": 0,
-                                        "status": "Ubetalt",
+                                        "status": "UBETALT",
                                         "type": "UTBETALING",
                                         "vurdering": null,
                                         "arbeidsgiversimulering": {

@@ -1,5 +1,4 @@
 import { utbetalingsoversikt } from '@utils/featureToggles';
-import { ArbeidsgiverBuilder } from './arbeidsgiver';
 import { mapInfotrygdutbetaling } from './infotrygd';
 import { somDato } from '@utils/date';
 
@@ -64,19 +63,7 @@ export class PersonBuilder {
         };
     };
 
-    private mapArbeidsgivere = () => {
-        this.person.arbeidsgivere = this.unmapped.arbeidsgivere
-            .map((unmappedArbeidsgiver) => {
-                const { arbeidsgiver, problems } = new ArbeidsgiverBuilder()
-                    .addPerson(this.unmapped)
-                    .addArbeidsgiver(unmappedArbeidsgiver)
-                    .addInntektsgrunnlag(this.unmapped.inntektsgrunnlag ?? [])
-                    .build();
-                this.problems.push(...problems);
-                return arbeidsgiver;
-            })
-            .filter((arbeidsgiver) => arbeidsgiver) as Arbeidsgiver[];
-    };
+    private mapArbeidsgivere = () => {};
 
     private mapInfotrygdutbetalinger = () => {
         this.person.infotrygdutbetalinger =

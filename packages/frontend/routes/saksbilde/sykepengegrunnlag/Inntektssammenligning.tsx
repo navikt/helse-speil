@@ -5,16 +5,16 @@ import React from 'react';
 import { Bag } from '@navikt/ds-icons';
 import { BodyShort } from '@navikt/ds-react';
 
-import { EndringsloggInntektEllerArbeidsforholdButton } from '../utbetaling/utbetalingstabell/EndringsloggInntektEllerArbeidsforholdButton';
-
 import { Kilde } from '@components/Kilde';
 import { Errorikon } from '@components/ikoner/Errorikon';
 import { AnonymizableText } from '@components/anonymizable/AnonymizableText';
-import { somPenger } from '@utils/locale';
-import { kildeForkortelse } from '@utils/inntektskilde';
 import { useArbeidsgivernavn } from '@state/person';
-import { Inntektskilde, OmregnetArsinntekt, Sammenligningsgrunnlag } from '@io/graphql';
 import { useEndringerForPeriode } from '@state/arbeidsgiverState';
+import { Inntektskilde, OmregnetArsinntekt, Sammenligningsgrunnlag } from '@io/graphql';
+import { kildeForkortelse } from '@utils/inntektskilde';
+import { somPenger } from '@utils/locale';
+
+import { EndringsloggButton } from './inntekt/EndringsloggButton';
 
 const ArbeidsgiverRad = styled.tr<{ erGjeldende: boolean }>`
     padding: 0.25rem;
@@ -109,10 +109,7 @@ export const Inntektssammenligning = ({
                         <BodyShort>{omregnetÅrsinntekt ? somPenger(omregnetÅrsinntekt.belop) : '_'}</BodyShort>
                     )}
                     {omregnetÅrsinntekt?.kilde === Inntektskilde.Saksbehandler || arbeidsforholdErDeaktivert ? (
-                        <EndringsloggInntektEllerArbeidsforholdButton
-                            arbeidsforholdendringer={arbeidsforholdendringer}
-                            inntektsendringer={inntektsendringer}
-                        />
+                        <EndringsloggButton endringer={[...inntektsendringer, ...arbeidsforholdendringer]} />
                     ) : (
                         omregnetÅrsinntekt && (
                             <Kilde type={omregnetÅrsinntekt.kilde}>{kildeForkortelse(omregnetÅrsinntekt.kilde)}</Kilde>

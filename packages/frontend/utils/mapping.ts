@@ -1,4 +1,12 @@
-import { BeregnetPeriode, GhostPeriode, Periode, Sykdomsdagtype, Utbetalingsdagtype } from '@io/graphql';
+import {
+    BeregnetPeriode,
+    GhostPeriode,
+    Periode,
+    Sykdomsdagtype,
+    Utbetalingsdagtype,
+    Utbetalingstatus,
+    Utbetalingtype,
+} from '@io/graphql';
 import { isBeregnetPeriode, isGhostPeriode, isInfotrygdPeriod } from '@utils/typeguards';
 
 const hasOppgave = (period: BeregnetPeriode): boolean => typeof period.oppgavereferanse === 'string';
@@ -8,7 +16,7 @@ const hasBeenAssessedAutomatically = (period: BeregnetPeriode): boolean =>
 
 const consistsOfOnly = (period: BeregnetPeriode, ...dayTypes: Sykdomsdagtype[]): boolean =>
     period.tidslinje.every(
-        (dag) => dag.utbetalingsdagtype === Utbetalingsdagtype.Helgedag || dayTypes.includes(dag.sykdomsdagtype)
+        (dag) => dag.utbetalingsdagtype === Utbetalingsdagtype.Helgedag || dayTypes.includes(dag.sykdomsdagtype),
     );
 
 const hasAtLeastOne = (period: BeregnetPeriode, dayType: Utbetalingsdagtype): boolean =>
@@ -16,13 +24,13 @@ const hasAtLeastOne = (period: BeregnetPeriode, dayType: Utbetalingsdagtype): bo
 
 const getDefaultPeriodState = (period: BeregnetPeriode): PeriodState => {
     switch (period.utbetaling.status) {
-        case 'GodkjentUtenUtbetaling':
+        case Utbetalingstatus.Godkjentutenutbetaling:
             return consistsOfOnly(period, Sykdomsdagtype.Feriedag)
                 ? 'kunFerie'
                 : consistsOfOnly(period, Sykdomsdagtype.Permisjonsdag)
                 ? 'kunPermisjon'
                 : 'ingenUtbetaling';
-        case 'UtbetalingFeilet':
+        case Utbetalingstatus.Utbetalingfeilet:
             return 'feilet';
         default:
             return 'ukjent';
@@ -51,49 +59,49 @@ export const getPeriodState = (period: Periode | DatePeriod): PeriodState => {
     if (!isBeregnetPeriode(period)) return 'venter';
 
     switch (period.utbetaling.type) {
-        case 'UTBETALING': {
+        case Utbetalingtype.Utbetaling: {
             switch (period.utbetaling.status) {
-                case 'Ubetalt':
+                case Utbetalingstatus.Ubetalt:
                     return hasOppgave(period) ? 'oppgaver' : 'venter';
-                case 'IkkeGodkjent':
+                case Utbetalingstatus.Ikkegodkjent:
                     return 'avslag';
-                case 'Godkjent':
-                case 'Sendt':
-                case 'Overført':
+                case Utbetalingstatus.Godkjent:
+                case Utbetalingstatus.Sendt:
+                case Utbetalingstatus.Overfort:
                     return hasBeenAssessedAutomatically(period) ? 'tilUtbetalingAutomatisk' : 'tilUtbetaling';
-                case 'Utbetalt':
+                case Utbetalingstatus.Utbetalt:
                     return hasBeenAssessedAutomatically(period) ? 'utbetaltAutomatisk' : 'utbetalt';
                 default:
                     return getDefaultPeriodState(period);
             }
         }
-        case 'REVURDERING': {
+        case Utbetalingtype.Revurdering: {
             switch (period.utbetaling.status) {
-                case 'Ubetalt':
+                case Utbetalingstatus.Ubetalt:
                     return 'revurderes';
-                case 'IkkeGodkjent':
+                case Utbetalingstatus.Ikkegodkjent:
                     return 'avslag';
-                case 'Godkjent':
-                case 'Sendt':
-                case 'Overført':
-                case 'Utbetalt':
-                case 'GodkjentUtenUtbetaling':
+                case Utbetalingstatus.Godkjent:
+                case Utbetalingstatus.Sendt:
+                case Utbetalingstatus.Overfort:
+                case Utbetalingstatus.Utbetalt:
+                case Utbetalingstatus.Godkjentutenutbetaling:
                     return hasAtLeastOne(period, Utbetalingsdagtype.Navdag) ? 'revurdert' : 'revurdertIngenUtbetaling';
-                case 'UtbetalingFeilet':
+                case Utbetalingstatus.Utbetalingfeilet:
                     return 'revurderingFeilet';
                 default:
                     return getDefaultPeriodState(period);
             }
         }
-        case 'ANNULLERING': {
+        case Utbetalingtype.Annullering: {
             switch (period.utbetaling.status) {
-                case 'Godkjent':
-                case 'Sendt':
-                case 'Overført':
+                case Utbetalingstatus.Godkjent:
+                case Utbetalingstatus.Sendt:
+                case Utbetalingstatus.Overfort:
                     return 'tilAnnullering';
-                case 'Annullert':
+                case Utbetalingstatus.Annullert:
                     return 'annullert';
-                case 'UtbetalingFeilet':
+                case Utbetalingstatus.Utbetalingfeilet:
                     return 'annulleringFeilet';
                 default:
                     return getDefaultPeriodState(period);
