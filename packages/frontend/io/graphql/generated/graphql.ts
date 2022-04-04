@@ -606,8 +606,8 @@ export type Utbetaling = {
     personFagsystemId: Scalars['String'];
     personNettoBelop: Scalars['Int'];
     personsimulering?: Maybe<Simulering>;
-    status: Scalars['String'];
-    type: Scalars['String'];
+    status: Utbetalingstatus;
+    type: Utbetalingtype;
     vurdering?: Maybe<Vurdering>;
 };
 
@@ -639,6 +639,29 @@ export type Utbetalingslinje = {
     tom: Scalars['String'];
     totalbelop: Scalars['Int'];
 };
+
+export enum Utbetalingstatus {
+    Annullert = 'ANNULLERT',
+    Forkastet = 'FORKASTET',
+    Godkjent = 'GODKJENT',
+    Godkjentutenutbetaling = 'GODKJENTUTENUTBETALING',
+    Ikkegodkjent = 'IKKEGODKJENT',
+    Overfort = 'OVERFORT',
+    Sendt = 'SENDT',
+    Ubetalt = 'UBETALT',
+    Ukjent = 'UKJENT',
+    Utbetalingfeilet = 'UTBETALINGFEILET',
+    Utbetalt = 'UTBETALT',
+}
+
+export enum Utbetalingtype {
+    Annullering = 'ANNULLERING',
+    Etterutbetaling = 'ETTERUTBETALING',
+    Feriepenger = 'FERIEPENGER',
+    Revurdering = 'REVURDERING',
+    Ukjent = 'UKJENT',
+    Utbetaling = 'UTBETALING',
+}
 
 export type Vilkarsgrunnlag = {
     inntekter: Array<Arbeidsgiverinntekt>;
@@ -1028,8 +1051,8 @@ export type FetchPersonQuery = {
                               arbeidsgiverNettoBelop: number;
                               personFagsystemId: string;
                               personNettoBelop: number;
-                              status: string;
-                              type: string;
+                              status: Utbetalingstatus;
+                              type: Utbetalingtype;
                               vurdering?: {
                                   __typename?: 'Vurdering';
                                   automatisk: boolean;
