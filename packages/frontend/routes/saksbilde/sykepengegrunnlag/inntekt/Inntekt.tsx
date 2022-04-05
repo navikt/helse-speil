@@ -2,7 +2,7 @@ import React from 'react';
 
 import { isBeregnetPeriode, isGhostPeriode } from '@utils/typeguards';
 import { Arbeidsgiverinntekt } from '@io/graphql';
-import { useActivePeriod } from '@state/periodState';
+import { useActivePeriod } from '@state/periode';
 import { ErrorBoundary } from '@components/ErrorBoundary';
 import { Varsel } from '@components/Varsel';
 

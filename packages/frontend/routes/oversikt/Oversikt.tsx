@@ -1,17 +1,18 @@
 import styled from '@emotion/styled';
 import React, { useEffect, useState } from 'react';
-import { useRecoilValue, useRecoilValueLoadable, useResetRecoilState } from 'recoil';
+import { Loadable, useRecoilValue, useRecoilValueLoadable } from 'recoil';
 
 import { Varsel } from '@components/Varsel';
 import { Flex, FlexColumn } from '@components/Flex';
 import { useLoadingToast } from '@hooks/useLoadingToast';
-import { personState } from '@state/person';
+import { useResetPerson } from '@state/person';
 import { Scopes, useVarselFilter } from '@state/varsler';
 import { useInnloggetSaksbehandler } from '@state/authentication';
 import { oppgaverState, useRefetchOppgaver } from '@state/oppgaver';
+
 import { IngenOppgaver } from './IngenOppgaver';
-import { Behandlingsstatistikk } from './behandlingsstatistikk/Behandlingsstatistikk';
 import { OppgaverTable } from './table/OppgaverTable';
+import { Behandlingsstatistikk } from './behandlingsstatistikk/Behandlingsstatistikk';
 import { Tabs, tabState, TabType } from './tabs';
 
 const Container = styled.div`
@@ -55,21 +56,31 @@ const useOppgaverFilteredByTab = () => {
     };
 };
 
-export const Oversikt = () => {
-    const hentOppgaver = useRefetchOppgaver();
-    const oppgaver = useOppgaverFilteredByTab();
-    const resetPerson = useResetRecoilState(personState);
-
-    useLoadingToast({ isLoading: oppgaver.state === 'loading', message: 'Henter oppgaver' });
-
-    useVarselFilter(Scopes.OVERSIKT);
+const useResetPersonOnMount = (): void => {
+    const resetPerson = useResetPerson();
 
     useEffect(() => {
         resetPerson();
-        if (oppgaver.state !== 'loading') {
+    }, []);
+};
+
+const useFetchOppgaver = (currentState: Loadable<Array<Oppgave>>['state']): void => {
+    const hentOppgaver = useRefetchOppgaver();
+
+    useEffect(() => {
+        if (currentState !== 'loading') {
             hentOppgaver();
         }
     }, []);
+};
+
+export const Oversikt = () => {
+    const oppgaver = useOppgaverFilteredByTab();
+
+    useLoadingToast({ isLoading: oppgaver.state === 'loading', message: 'Henter oppgaver' });
+    useVarselFilter(Scopes.OVERSIKT);
+    useResetPersonOnMount();
+    useFetchOppgaver(oppgaver.state);
 
     const hasData =
         (oppgaver.state === 'hasValue' && (oppgaver.contents as Oppgave[]).length > 0) || oppgaver.cache.length > 0;

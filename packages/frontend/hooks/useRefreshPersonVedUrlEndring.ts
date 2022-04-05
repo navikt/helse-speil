@@ -1,36 +1,43 @@
 import { useEffect } from 'react';
 import { useParams } from 'react-router';
 
-import { useHentPerson, usePerson } from '@state/person';
 import { Scopes, useAddVarsel, useRemoveVarsel } from '@state/varsler';
-import { useFetchPerson } from '@state/personState';
+import { useFetchPerson, usePersonLoadable } from '@state/person';
+import { Person } from '@io/graphql';
 
 const feilvarselKey = 'hent-person-error';
 
 export const erGyldigPersonId = (value: string) => value.match(/^\d{1,15}$/) !== null;
 
+const useAddVarselOnError = () => {
+    const { state, contents } = usePersonLoadable();
+    const addVarsel = useAddVarsel();
+
+    useEffect(() => {
+        if (state === 'hasError') {
+            addVarsel({
+                key: feilvarselKey,
+                message: contents.message,
+                scope: Scopes.SAKSBILDE,
+                type: contents.type,
+            });
+        }
+    }, [state]);
+};
+
 export const useRefreshPersonVedUrlEndring = () => {
     const { aktorId } = useParams<{ aktorId: string }>();
     const addVarsel = useAddVarsel();
     const removeVarsel = useRemoveVarsel();
-    const hentPerson = useHentPerson();
-    const person = usePerson();
+    const { state, contents } = usePersonLoadable();
 
     const fetchPerson = useFetchPerson();
 
     useEffect(() => {
         if (aktorId && erGyldigPersonId(aktorId)) {
-            if (person === undefined || person.aktørId !== aktorId) {
+            if (state === 'hasValue' && (contents === null || (contents as Person).aktorId !== aktorId)) {
                 removeVarsel(feilvarselKey);
                 fetchPerson(aktorId);
-                hentPerson(aktorId).catch((error) => {
-                    addVarsel({
-                        key: feilvarselKey,
-                        message: error.message,
-                        scope: Scopes.SAKSBILDE,
-                        type: error.type,
-                    });
-                });
             }
         } else {
             addVarsel({

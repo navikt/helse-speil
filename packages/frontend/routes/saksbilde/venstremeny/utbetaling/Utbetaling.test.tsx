@@ -6,7 +6,7 @@ import { MemoryRouter } from 'react-router';
 import { MutableSnapshot, RecoilRoot } from 'recoil';
 import { enTidslinjeperiode, mappetPerson } from 'test-data';
 
-import { personState } from '@state/person';
+import { personState } from '@state/utbetaling';
 
 import '../../../../tekster';
 import { Utbetaling } from './Utbetaling';
@@ -60,7 +60,7 @@ describe('Utbetaling', () => {
             <Utbetaling
                 activePeriod={enTidslinjeperiode('revurderes', dayjs('2021-01-01'), dayjs('2021-01-31'), 'REVURDERING')}
             />,
-            { wrapper: wrapperMedPerson() }
+            { wrapper: wrapperMedPerson() },
         );
         expect(screen.queryAllByRole('button')).toHaveLength(1);
         expect(screen.getByText('Revurder')).toHaveTextContent('Revurder');

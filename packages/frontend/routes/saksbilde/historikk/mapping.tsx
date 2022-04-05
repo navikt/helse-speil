@@ -9,7 +9,7 @@ import { LinkButton } from '@components/LinkButton';
 import {
     useFørsteUtbetalingstidsstempelFørsteGenISkjæringstidspunkt,
     useUtbetalingstidsstempelFørsteGenForPeriode,
-} from '@state/person';
+} from '@state/utbetaling';
 
 import { Hendelse, Hendelsetype } from './Historikk.types';
 import {
@@ -31,7 +31,7 @@ import {
     isDagoverstyring,
     isInntektoverstyring,
 } from '@utils/typeguards';
-import { useActivePeriod } from '@state/periodState';
+import { useActivePeriod } from '@state/periode';
 import { ISO_TIDSPUNKTFORMAT } from '@utils/date';
 
 const BegrunnelseTekst = styled.div`

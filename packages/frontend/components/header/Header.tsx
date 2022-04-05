@@ -15,7 +15,7 @@ import { Brukermeny } from '@components/Brukermeny';
 import { SearchBar } from './SearchBar';
 import { EasterEgg } from '../../EasterEgg';
 import { graphqlplayground } from '@utils/featureToggles';
-import { useFetchPerson } from '@state/personState';
+import { useFetchPerson } from '@state/person';
 
 const Container = styled.div`
     flex-shrink: 0;

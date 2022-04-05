@@ -4,7 +4,7 @@ import dayjs from 'dayjs';
 import React from 'react';
 import { MutableSnapshot, RecoilRoot } from 'recoil';
 
-import { personState } from '../../../state/person';
+import { personState } from '@state/utbetaling';
 
 import { umappetArbeidsgiver } from '../../../test/data/arbeidsgiver';
 import { mappetPerson, testSkjæringstidspunkt, testVilkårsgrunnlagHistorikkId } from '../../../test/data/person';
@@ -22,12 +22,12 @@ const enArbeidsgiver = umappetArbeidsgiver(
             ...utbetalingshistorikk,
             utbetaling: { ...utbetalingshistorikk.utbetaling, vurdering: undefined },
         },
-    ]
+    ],
 );
 const enPerson = mappetPerson([enArbeidsgiver]);
 
 const arbeidsgiverMedVurdering = (
-    vurdering?: ExternalHistorikkElementUtbetaling['vurdering']
+    vurdering?: ExternalHistorikkElementUtbetaling['vurdering'],
 ): ExternalArbeidsgiver => ({
     ...enArbeidsgiver,
     utbetalingshistorikk: [
@@ -61,14 +61,14 @@ const personMedVurdering = (vurdering?: Vurdering): Person => ({
 
 const personMedVilkårsgrunnlag = (
     vilkårsgrunnlag: ExternalSpleisVilkårsgrunnlag | ExternalInfotrygdVilkårsgrunnlag,
-    vurdering?: ExternalHistorikkElementUtbetaling['vurdering']
+    vurdering?: ExternalHistorikkElementUtbetaling['vurdering'],
 ) => ({
     person: {
         ...personMedVurdering(
             vurdering && {
                 ...vurdering,
                 tidsstempel: dayjs(vurdering.tidsstempel),
-            }
+            },
         ),
         arbeidsgivereV2: [arbeidsgiverMedVurdering(vurdering)],
         arbeidsforhold: [],
@@ -102,11 +102,11 @@ describe('Inngangsvilkår', () => {
                                 oppfyllerKravOmMedlemskap: true,
                                 oppfyllerKravOmMinstelønn: true,
                                 oppfyllerKravOmOpptjening: true,
-                            })
-                        )
+                            }),
+                        ),
                     );
                 }),
-            }
+            },
         );
 
         const gruppe = screen.getByTestId('oppfylte-vilkår');
@@ -131,11 +131,11 @@ describe('Inngangsvilkår', () => {
                                 oppfyllerKravOmMedlemskap: true,
                                 oppfyllerKravOmMinstelønn: true,
                                 oppfyllerKravOmOpptjening: false,
-                            })
-                        )
+                            }),
+                        ),
                     );
                 }),
-            }
+            },
         );
 
         const oppfylteVilkår = screen.getByTestId('oppfylte-vilkår');
@@ -171,11 +171,11 @@ describe('Inngangsvilkår', () => {
                                 ident: 'en-saksbehandler',
                                 automatisk: false,
                                 tidsstempel: '2020-01-01',
-                            }
-                        )
+                            },
+                        ),
                     );
                 }),
-            }
+            },
         );
 
         const gruppe = screen.getByTestId('vurdert-av-saksbehandler');
@@ -206,11 +206,11 @@ describe('Inngangsvilkår', () => {
                                 automatisk: true,
                                 ident: 'spleis',
                                 tidsstempel: '2020-01-01',
-                            }
-                        )
+                            },
+                        ),
                     );
                 }),
-            }
+            },
         );
 
         const gruppe = screen.getByTestId('vurdert-automatisk');
@@ -230,7 +230,7 @@ describe('Inngangsvilkår', () => {
                 wrapper: wrapper(({ set }) => {
                     set(personState, personMedVilkårsgrunnlag(etInfotrygdgrunnlag()));
                 }),
-            }
+            },
         );
 
         const gruppe = screen.getByTestId('vurdert-i-infotrygd');

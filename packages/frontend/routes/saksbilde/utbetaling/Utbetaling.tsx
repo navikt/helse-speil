@@ -31,8 +31,8 @@ import { usePostOverstyring } from './utbetalingstabell/usePostOverstyring';
 import { useTabelldagerMap } from './utbetalingstabell/useTabelldagerMap';
 import { Arbeidsgiver, BeregnetPeriode, Dagoverstyring, Overstyring, Utbetalingstatus } from '@io/graphql';
 import { ErrorBoundary } from '@components/ErrorBoundary';
-import { useActivePeriod } from '@state/periodState';
-import { useCurrentArbeidsgiver } from '@state/arbeidsgiverState';
+import { useActivePeriod } from '@state/periode';
+import { useCurrentArbeidsgiver } from '@state/arbeidsgiver';
 import { isBeregnetPeriode } from '@utils/typeguards';
 import { Varsel } from '@components/Varsel';
 

@@ -7,9 +7,9 @@ import { SykepengegrunnlagFraInfogtrygd } from './SykepengegrunnlagFraInfotrygd'
 import { SykepengegrunnlagFraSpleis } from './SykepengegrunnlagFraSpleis';
 
 import { ErrorBoundary } from '@components/ErrorBoundary';
-import { useActivePeriod } from '@state/periodState';
-import { useCurrentPerson, useVilkårsgrunnlag } from '@state/personState';
-import { useCurrentArbeidsgiver, useVurderingForSkjæringstidspunkt } from '@state/arbeidsgiverState';
+import { useActivePeriod } from '@state/periode';
+import { useCurrentPerson, useVilkårsgrunnlag } from '@state/person';
+import { useCurrentArbeidsgiver, useVurderingForSkjæringstidspunkt } from '@state/arbeidsgiver';
 import { isBeregnetPeriode, isInfotrygdVilkarsgrunnlag, isSpleisVilkarsgrunnlag } from '@utils/typeguards';
 import { getInntektsgrunnlag } from '@state/selectors/person';
 

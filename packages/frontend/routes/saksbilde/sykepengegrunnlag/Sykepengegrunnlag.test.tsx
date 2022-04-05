@@ -5,8 +5,6 @@ import React from 'react';
 import { RecoilRoot } from 'recoil';
 import { mappetPerson, mappetVedtaksperiode } from 'test-data';
 
-import { personState } from '@state/person';
-
 import { umappetArbeidsgiver } from '../../../test/data/arbeidsgiver';
 import { umappetInntektsgrunnlag } from '../../../test/data/inntektsgrunnlag';
 import {
@@ -75,11 +73,11 @@ describe('Sykepengegrunnlag', () => {
                                     ...umappetUtbetalingshistorikk(),
                                     utbetaling: { ...umappetUtbetalingshistorikk().utbetaling, vurdering: undefined },
                                 },
-                            ]
+                            ],
                         ),
                     ]),
                 }),
-            }
+            },
         );
         expect(screen.getByTestId('ubehandlet-sykepengegrunnlag')).toBeVisible();
         expect(screen.queryByText('Beregnet månedsinntekt')).toBeVisible();
@@ -90,7 +88,7 @@ describe('Sykepengegrunnlag', () => {
                 vilkårsgrunnlaghistorikkId={testVilkårsgrunnlagHistorikkId}
                 skjæringstidspunkt={testSkjæringstidspunkt}
             />,
-            { wrapper: wrapper() }
+            { wrapper: wrapper() },
         );
         expect(screen.getByTestId('behandlet-sykepengegrunnlag')).toBeVisible();
         expect(screen.queryByText('Beregnet månedsinntekt')).toBeVisible();
@@ -109,7 +107,7 @@ describe('Sykepengegrunnlag', () => {
                         },
                     },
                 }),
-            }
+            },
         );
         expect(screen.getByText('Sykepengegrunnlag satt i Infotrygd')).toBeVisible();
         expect(screen.queryByText('Beregnet månedsinntekt')).toBeVisible();

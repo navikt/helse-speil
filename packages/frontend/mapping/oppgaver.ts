@@ -1,7 +1,5 @@
 import dayjs from 'dayjs';
 
-import { tilPeriodetype } from '../periodetype';
-
 const kjønn = (kjønn: string | null): 'mann' | 'kvinne' | 'ukjent' => {
     if (!kjønn) return 'ukjent';
     switch (kjønn.toLowerCase()) {
@@ -19,6 +17,30 @@ export const inntektskilde = (inntektskilde?: ExternalVedtaksperiode['inntektski
         ? inntektskilde
         : 'EN_ARBEIDSGIVER';
 
+export const tilPeriodetype = (type: ExternalPeriodetype): Periodetype => {
+    switch (type) {
+        case 'FORLENGELSE':
+            return 'forlengelse';
+        case 'FØRSTEGANGSBEHANDLING':
+            return 'førstegangsbehandling';
+        case 'INFOTRYGDFORLENGELSE':
+            return 'infotrygdforlengelse';
+        case 'OVERGANG_FRA_IT':
+            return 'overgangFraIt';
+        case 'STIKKPRØVE':
+            return 'stikkprøve';
+        case 'RISK_QA':
+            return 'riskQa';
+        case 'REVURDERING':
+            return 'revurdering';
+        case 'FORTROLIG_ADRESSE':
+            return 'fortroligAdresse';
+        case 'UTBETALING_TIL_SYKMELDT':
+            return 'utbetalingTilSykmeldt';
+        case 'DELVIS_REFUSJON':
+            return 'delvisRefusjon';
+    }
+};
 export const tilOppgave = (oppgave: ExternalOppgave): Oppgave => ({
     oppgavereferanse: oppgave.oppgavereferanse,
     opprettet: oppgave.opprettet,

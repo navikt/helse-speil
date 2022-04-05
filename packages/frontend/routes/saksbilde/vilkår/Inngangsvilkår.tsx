@@ -5,8 +5,8 @@ import { Vilkårdata } from '../../../mapping/vilkår';
 
 import { Maybe, Vurdering } from '@io/graphql';
 import { isBeregnetPeriode } from '@utils/typeguards';
-import { useActivePeriod } from '@state/periodState';
-import { useCurrentPerson, useVilkårsgrunnlag } from '@state/personState';
+import { useActivePeriod } from '@state/periode';
+import { useCurrentPerson, useVilkårsgrunnlag } from '@state/person';
 import { ErrorBoundary } from '@components/ErrorBoundary';
 import { Varsel } from '@components/Varsel';
 

@@ -14,10 +14,10 @@ export const ResponseError = (statusCode: number, message?: string) => ({
     message,
 });
 
-interface SpeilResponse<T> {
+export type SpeilResponse<T = null> = {
     status: number;
-    data: T;
-}
+    data?: T;
+};
 
 type Headers = { [key: string]: any };
 
@@ -127,10 +127,10 @@ export const getPerson = async (personId?: string) =>
         headers: { 'nav-person-id': personId },
     });
 
-export const getOppgaver = async () =>
-    get<{ oppgaver: ExternalOppgave[] }>(`${baseUrl}/person/`).then((response) => response.data.oppgaver);
+export const getOppgaver = async (): Promise<Array<ExternalOppgave>> =>
+    get<{ oppgaver: Array<ExternalOppgave> }>(`${baseUrl}/person/`).then((response) => response.data!.oppgaver);
 
-export const getOpptegnelser = async (sisteSekvensId?: number) => {
+export const getOpptegnelser = async (sisteSekvensId?: number): Promise<SpeilResponse<Array<Opptegnelse>>> => {
     return sisteSekvensId
         ? get<Opptegnelse[]>(`${baseUrl}/opptegnelse/hent/${sisteSekvensId}`)
         : get<Opptegnelse[]>(`${baseUrl}/opptegnelse/hent`);
@@ -138,13 +138,13 @@ export const getOpptegnelser = async (sisteSekvensId?: number) => {
 
 export const getBehandlingsstatistikk = async (): Promise<ExternalBehandlingstatistikk> => {
     return get<{ behandlingsstatistikk: ExternalBehandlingstatistikk }>(`${baseUrl}/behandlingsstatistikk`).then(
-        (response) => response.data.behandlingsstatistikk
+        (response) => response.data!.behandlingsstatistikk,
     );
 };
 
 export const getNotater = async (vedtaksperiodeIder: string[]) => {
     return get<{ vedtaksperiodeId: ExternalNotat[] }>(
-        `${baseUrl}/notater?vedtaksperiodeId=${vedtaksperiodeIder.join('&vedtaksperiodeId=')}`
+        `${baseUrl}/notater?vedtaksperiodeId=${vedtaksperiodeIder.join('&vedtaksperiodeId=')}`,
     ).then((response) => response.data);
 };
 

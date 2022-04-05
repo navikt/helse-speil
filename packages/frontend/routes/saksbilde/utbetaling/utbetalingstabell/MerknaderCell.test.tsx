@@ -3,7 +3,7 @@ import { queries, queryHelpers, render, screen } from '@testing-library/react';
 import dayjs from 'dayjs';
 import React from 'react';
 
-import { useAlderVedSkjæringstidspunkt } from '../../../../state/person';
+import { useAlderVedSkjæringstidspunkt } from '@state/utbetaling';
 
 import { MerknaderCell } from './MerknaderCell';
 import { UtbetalingstabellDag } from './Utbetalingstabell.types';

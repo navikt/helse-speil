@@ -8,6 +8,7 @@ import { useNotaterForVedtaksperiode } from '@state/notater';
 
 import { Cell } from '../../Cell';
 import { NotatListeModal } from './NotatListeModal';
+import { convertToGraphQLPersoninfo } from '@utils/mapping';
 
 const OpenNotesButton = styled(Button)`
     padding: 0.25rem;
@@ -53,7 +54,7 @@ export const NotatCell: React.VFC<NotatCellProps> = ({ vedtaksperiodeId, personi
                 <NotatListeModal
                     notater={notater}
                     vedtaksperiodeId={vedtaksperiodeId}
-                    personinfo={personinfo}
+                    personinfo={convertToGraphQLPersoninfo(personinfo)}
                     onClose={toggleModal}
                     erPåVent={erPåVent}
                 />

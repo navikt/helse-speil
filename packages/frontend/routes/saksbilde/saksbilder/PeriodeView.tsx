@@ -3,9 +3,9 @@ import { Loader } from '@navikt/ds-react';
 
 import { Varsel } from '@components/Varsel';
 import { ErrorBoundary } from '@components/ErrorBoundary';
-import { useActivePeriod } from '@state/periodState';
-import { useCurrentPerson } from '@state/personState';
-import { useCurrentArbeidsgiver } from '@state/arbeidsgiverState';
+import { useActivePeriod } from '@state/periode';
+import { useCurrentPerson } from '@state/person';
+import { useCurrentArbeidsgiver } from '@state/arbeidsgiver';
 import { isBeregnetPeriode, isGhostPeriode, isUberegnetPeriode } from '@utils/typeguards';
 
 import { GhostPeriodeView } from './GhostPeriodeView';

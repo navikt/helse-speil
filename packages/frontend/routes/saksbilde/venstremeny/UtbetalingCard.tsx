@@ -3,7 +3,7 @@ import { BodyShort } from '@navikt/ds-react';
 import { Bag, People } from '@navikt/ds-icons';
 
 import { somPenger } from '@utils/locale';
-import { useVilkårsgrunnlag } from '@state/personState';
+import { useVilkårsgrunnlag } from '@state/person';
 import { Maybe, Personinfo, Simulering, Utbetaling, Utbetalingstatus } from '@io/graphql';
 import { AnonymizableTextWithEllipsis } from '@components/TextWithEllipsis';
 import { LinkButton } from '@components/LinkButton';

@@ -11,7 +11,7 @@ import { Utropstegnikon } from '@components/ikoner/Utropstegnikon';
 import { AgurkErrorBoundary } from '@components/AgurkErrorBoundary';
 import { Faresignal, Maybe, Risikovurdering } from '@io/graphql';
 import { ErrorBoundary } from '@components/ErrorBoundary';
-import { useActivePeriod } from '@state/periodState';
+import { useActivePeriod } from '@state/periode';
 import { isBeregnetPeriode } from '@utils/typeguards';
 
 const Container = styled.div`

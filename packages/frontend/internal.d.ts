@@ -14,28 +14,6 @@ declare type Periodetype =
     | 'utbetalingTilSykmeldt'
     | 'delvisRefusjon';
 
-declare type Periodetilstand =
-    | 'tilUtbetaling'
-    | 'utbetalt'
-    | 'oppgaver'
-    | 'venter'
-    | 'venterPåKiling'
-    | 'avslag'
-    | 'ingenUtbetaling'
-    | 'kunFerie'
-    | 'kunPermisjon'
-    | 'feilet'
-    | 'revurderingFeilet'
-    | 'ukjent'
-    | 'tilInfotrygd'
-    | 'annullert'
-    | 'tilAnnullering'
-    | 'annulleringFeilet'
-    | 'utbetaltAutomatisk'
-    | 'tilUtbetalingAutomatisk';
-
-declare type PeriodState = Periodetilstand | 'revurderes' | 'revurdert' | 'revurdertIngenUtbetaling' | 'utenSykefravær';
-
 declare type TidslinjeperiodeMedSykefravær = Tidslinjeperiode & {
     unique: string;
     beregningId: string;

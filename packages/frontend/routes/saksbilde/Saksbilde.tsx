@@ -4,29 +4,27 @@ import { Route, Switch, useRouteMatch } from 'react-router-dom';
 import { Varsel } from '@components/Varsel';
 import { ErrorBoundary } from '@components/ErrorBoundary';
 import { Scopes, useVarselFilter } from '@state/varsler';
-import { SaksbildeMenu } from './sakslinje/SaksbildeMenu';
-import { Utbetalingshistorikk } from './utbetalingshistorikk/Utbetalingshistorikk';
-import { AmplitudeProvider } from './AmplitudeContext';
-import { VenterPåEndringProvider } from './VenterPåEndringContext';
-import { PersonHeader } from './PersonHeader';
+import { useRefreshPersonVedUrlEndring } from '@hooks/useRefreshPersonVedUrlEndring';
+import { useRefreshPersonVedOpptegnelse } from '@hooks/useRefreshPersonVedOpptegnelse';
+import { usePollEtterOpptegnelser } from '@io/http';
 
 import { Timeline } from './timeline/Timeline';
+import { PeriodeView } from './saksbilder/PeriodeView';
+import { PersonHeader } from './PersonHeader';
+import { SaksbildeMenu } from './sakslinje/SaksbildeMenu';
+import { AmplitudeProvider } from './AmplitudeContext';
+import { useKeyboardShortcuts } from './useKeyboardShortcuts';
+import { Utbetalingshistorikk } from './utbetalingshistorikk/Utbetalingshistorikk';
+import { VenterPåEndringProvider } from './VenterPåEndringContext';
 
 import styles from './Saksbilde.module.css';
-import { PeriodeView } from './saksbilder/PeriodeView';
-import { useRefreshPersonVedUrlEndring } from '@hooks/useRefreshPersonVedUrlEndring';
 
 const SaksbildeContent = React.memo(() => {
-    // const aktivPeriode = useMaybeAktivPeriode();
-    // const activePeriod = useActivePeriod();
-    // const personTilBehandling = usePerson();
-    // const personGraphQL = useCurrentPerson();
-
     useRefreshPersonVedUrlEndring();
-    // useRefreshPersonVedOpptegnelse();
-    // usePollEtterOpptegnelser();
+    useRefreshPersonVedOpptegnelse();
+    usePollEtterOpptegnelser();
     useVarselFilter(Scopes.SAKSBILDE);
-    // useKeyboardShortcuts(personTilBehandling);
+    useKeyboardShortcuts();
 
     const { path } = useRouteMatch();
 

@@ -9,7 +9,7 @@ import { mappetPerson } from 'test-data';
 
 import type { AnnulleringDTO } from '@io/http/types';
 import { authState } from '@state/authentication';
-import { personState } from '@state/person';
+import { personState } from '@state/utbetaling';
 import { ISO_DATOFORMAT } from '@utils/date';
 
 import { testArbeidsgiverfagsystemId } from '../../../../test/data/person';
@@ -38,7 +38,7 @@ const renderAnnulleringsmodal = async () => {
     const arbeidsgiver = person.arbeidsgivere[0];
     const aktivPeriode = arbeidsgiver.tidslinjeperioder[0][0];
     const vedtaksperiode = arbeidsgiver.vedtaksperioder.find(
-        (vedtaksperiode) => vedtaksperiode.id === aktivPeriode.id
+        (vedtaksperiode) => vedtaksperiode.id === aktivPeriode.id,
     ) as Vedtaksperiode;
     const arbeidsgiverUtbetaling = vedtaksperiode.utbetalinger?.arbeidsgiverUtbetaling;
 
@@ -66,7 +66,7 @@ const renderAnnulleringsmodal = async () => {
                     onClose={() => null}
                 />
             )}
-        </RecoilRoot>
+        </RecoilRoot>,
     );
 };
 
@@ -93,8 +93,8 @@ describe('Annulleringsmodal', () => {
         await waitFor(() => {
             expect(
                 screen.queryByText(
-                    'Velg om endringen gjelder siste skjæringstidspunkt eller et tidligere skjæringstidspunkt'
-                )
+                    'Velg om endringen gjelder siste skjæringstidspunkt eller et tidligere skjæringstidspunkt',
+                ),
             ).not.toBeNull();
         });
     });

@@ -1,17 +1,16 @@
 import styled from '@emotion/styled';
-import dayjs from 'dayjs';
 import React, { useContext, useState } from 'react';
 import { useHistory } from 'react-router';
 
 import { Loader } from '@navikt/ds-react';
 
 import { DropdownButton, DropdownContext } from '@components/dropdown/Dropdown';
-import { useFjernPåVent, useLeggPåVent } from '@state/person';
 import { useOperationErrorHandler } from '@state/varsler';
 import { ignorePromise } from '@utils/promise';
 import { Personinfo } from '@io/graphql';
 
 import { NyttNotatModal } from '../../../oversikt/table/rader/notat/NyttNotatModal';
+import { useFjernPåVent, useLeggPåVent } from '@state/person';
 
 const Container = styled.span`
     display: flex;
@@ -44,21 +43,21 @@ export const PåVentDropdownMenuButton = ({
     const settPåVent = () => {
         setIsFetching(true);
         ignorePromise(
-            leggPåVent({ oppgavereferanse }).then(() => {
+            leggPåVent(oppgavereferanse).then(() => {
                 history.push('/');
             }),
-            errorHandler
+            errorHandler,
         );
     };
 
     const fjernFraPåVent = () => {
         setIsFetching(true);
         ignorePromise(
-            fjernPåVent({ oppgavereferanse }).finally(() => {
+            fjernPåVent(oppgavereferanse).finally(() => {
                 lukk();
                 setIsFetching(false);
             }),
-            errorHandler
+            errorHandler,
         );
     };
 
@@ -75,22 +74,7 @@ export const PåVentDropdownMenuButton = ({
             {visModal && (
                 <NyttNotatModal
                     onClose={() => setVisModal(false)}
-                    personinfo={{
-                        ...personinfo,
-                        mellomnavn: personinfo.mellomnavn ?? null,
-                        kjønn: (() => {
-                            switch (personinfo.kjonn) {
-                                case 'Mann':
-                                    return 'mann';
-                                case 'Kvinne':
-                                    return 'kvinne';
-                                case 'Ukjent':
-                                default:
-                                    return 'ukjent';
-                            }
-                        })(),
-                        fødselsdato: dayjs(personinfo.fodselsdato),
-                    }}
+                    personinfo={personinfo}
                     vedtaksperiodeId={vedtaksperiodeId}
                     onPostNotat={settPåVent}
                 />

@@ -17,8 +17,8 @@ import {
     isInntektoverstyring,
 } from '@utils/typeguards';
 import { useNotaterForVedtaksperiode } from '@state/notater';
-import { useCurrentPerson } from '@state/personState';
-import { useActivePeriod } from '@state/periodState';
+import { useCurrentPerson } from '@state/person';
+import { useActivePeriod } from '@state/periode';
 
 import { Hendelsetype } from './Historikk.types';
 import { HistorikkHendelse } from './HistorikkHendelse';

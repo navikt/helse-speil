@@ -8,7 +8,7 @@ import { Route } from 'react-router-dom';
 import { MutableSnapshot, RecoilRoot } from 'recoil';
 
 import { authState } from '@state/authentication';
-import { personState } from '@state/person';
+import { personState } from '@state/utbetaling';
 import { ISO_DATOFORMAT } from '@utils/date';
 
 import { umappetArbeidsgiver } from '../../test/data/arbeidsgiver';
@@ -127,7 +127,7 @@ describe('Saksbilde', () => {
                     umappetVedtaksperiode(),
                 ],
                 [],
-                [umappetUtbetalingshistorikk()]
+                [umappetUtbetalingshistorikk()],
             ),
         ];
 
@@ -180,7 +180,7 @@ describe('Saksbilde', () => {
                         'UTBETALING',
                         'UTBETALT',
                         dayjs('2020-01-01T00:00:00'),
-                        dato
+                        dato,
                     ),
                 ],
                 [
@@ -189,10 +189,10 @@ describe('Saksbilde', () => {
                         dato.format(ISO_DATOFORMAT),
                         dato.format(ISO_DATOFORMAT),
                         vilkårsgrunnlaghistorikkid,
-                        false
+                        false,
                     ),
                 ],
-                ORGNR
+                ORGNR,
             ),
         ];
 
@@ -223,11 +223,11 @@ describe('Saksbilde', () => {
                             testBeregningId,
                             testVilkårsgrunnlagHistorikkId,
                             'UTBETALING',
-                            'IKKE_UTBETALT'
+                            'IKKE_UTBETALT',
                         ),
                     ],
                     [],
-                    '123456789'
+                    '123456789',
                 ),
 
                 umappetArbeidsgiver(
@@ -240,9 +240,9 @@ describe('Saksbilde', () => {
                             '2018-01-01',
                             '2018-01-01',
                             '33612787-ca6c-45ba-bbd0-29ae6474d9c2',
-                            false
+                            false,
                         ),
-                    ]
+                    ],
                 ),
             ]),
         });
@@ -275,7 +275,7 @@ describe('Saksbilde', () => {
                             beregningIder: [testBeregningId2],
                             vilkår: umappedeVilkår(
                                 dateStringSykdomstidslinje('2018-02-01', '2018-02-28'),
-                                '2018-01-01'
+                                '2018-01-01',
                             ),
                         }),
                     ],
@@ -285,17 +285,17 @@ describe('Saksbilde', () => {
                             testBeregningId2,
                             testVilkårsgrunnlagHistorikkId,
                             'UTBETALING',
-                            'IKKE_UTBETALT'
+                            'IKKE_UTBETALT',
                         ),
                         umappetUtbetalingshistorikk(
                             testBeregningId,
                             testVilkårsgrunnlagHistorikkId,
                             'UTBETALING',
-                            'UTBETALT'
+                            'UTBETALT',
                         ),
                     ],
                     [],
-                    '123456789'
+                    '123456789',
                 ),
 
                 umappetArbeidsgiver(
@@ -308,9 +308,9 @@ describe('Saksbilde', () => {
                             '2018-02-28',
                             '2018-01-01',
                             '33612787-ca6c-45ba-bbd0-29ae6474d9c2',
-                            false
+                            false,
                         ),
-                    ]
+                    ],
                 ),
             ]),
         });
@@ -345,7 +345,7 @@ describe('Saksbilde', () => {
                         'UTBETALING',
                         'UTBETALT',
                         dayjs('2020-01-01T00:00:00'),
-                        dato
+                        dato,
                     ),
                     umappetUtbetalingshistorikk(
                         'id2',
@@ -353,9 +353,9 @@ describe('Saksbilde', () => {
                         'REVURDERING',
                         'UTBETALT',
                         dayjs('2020-01-02T00:00:00'),
-                        dato
+                        dato,
                     ),
-                ]
+                ],
             ),
         ];
 
@@ -396,11 +396,11 @@ describe('Saksbilde', () => {
                         'UTBETALING',
                         'UTBETALT',
                         dayjs('2020-01-01T00:00:00'),
-                        dato
+                        dato,
                     ),
                 ],
                 [],
-                AG1
+                AG1,
             ),
             umappetArbeidsgiver(
                 [
@@ -420,11 +420,11 @@ describe('Saksbilde', () => {
                         'UTBETALING',
                         'UTBETALT',
                         dayjs('2020-01-01T00:00:00'),
-                        dato
+                        dato,
                     ),
                 ],
                 [],
-                AG2
+                AG2,
             ),
         ];
 
@@ -472,7 +472,7 @@ describe('Saksbilde', () => {
                         'UTBETALING',
                         'UTBETALT',
                         dayjs('2020-01-01T00:00:00'),
-                        dato
+                        dato,
                     ),
                     umappetUtbetalingshistorikk(
                         'id2',
@@ -480,11 +480,11 @@ describe('Saksbilde', () => {
                         'REVURDERING',
                         'UTBETALT',
                         dayjs('2020-01-02T00:00:00'),
-                        dato
+                        dato,
                     ),
                 ],
                 [],
-                AG1
+                AG1,
             ),
             umappetArbeidsgiver(
                 [
@@ -504,7 +504,7 @@ describe('Saksbilde', () => {
                         'UTBETALING',
                         'UTBETALT',
                         dayjs('2020-01-01T00:00:00'),
-                        dato
+                        dato,
                     ),
                     umappetUtbetalingshistorikk(
                         'id4',
@@ -512,11 +512,11 @@ describe('Saksbilde', () => {
                         'REVURDERING',
                         'IKKE_UTBETALT',
                         dayjs('2020-01-02T00:00:00'),
-                        dato
+                        dato,
                     ),
                 ],
                 [],
-                AG2
+                AG2,
             ),
         ];
 
@@ -564,7 +564,7 @@ describe('Saksbilde', () => {
                         'UTBETALING',
                         'UTBETALT',
                         dayjs('2020-01-01T00:00:00'),
-                        dato
+                        dato,
                     ),
                     umappetUtbetalingshistorikk(
                         'id2',
@@ -572,11 +572,11 @@ describe('Saksbilde', () => {
                         'REVURDERING',
                         'IKKE_UTBETALT',
                         dayjs('2020-01-02T00:00:00'),
-                        dato
+                        dato,
                     ),
                 ],
                 [],
-                AG1
+                AG1,
             ),
             umappetArbeidsgiver(
                 [
@@ -596,7 +596,7 @@ describe('Saksbilde', () => {
                         'UTBETALING',
                         'UTBETALT',
                         dayjs('2020-01-01T00:00:00'),
-                        dato
+                        dato,
                     ),
                     umappetUtbetalingshistorikk(
                         'id4',
@@ -604,11 +604,11 @@ describe('Saksbilde', () => {
                         'REVURDERING',
                         'IKKE_UTBETALT',
                         dayjs('2020-01-02T00:00:00'),
-                        dato
+                        dato,
                     ),
                 ],
                 [],
-                AG2
+                AG2,
             ),
         ];
 
@@ -654,7 +654,7 @@ describe('Saksbilde', () => {
                         'UTBETALING',
                         'UTBETALT',
                         dayjs('2020-01-01T00:00:00'),
-                        dato
+                        dato,
                     ),
                     umappetUtbetalingshistorikk(
                         'id2',
@@ -662,11 +662,11 @@ describe('Saksbilde', () => {
                         'REVURDERING',
                         'IKKE_UTBETALT',
                         dayjs('2020-01-02T00:00:00'),
-                        dato
+                        dato,
                     ),
                 ],
                 [],
-                ORGNR
+                ORGNR,
             ),
         ];
 
@@ -704,11 +704,11 @@ describe('Saksbilde', () => {
                         'UTBETALING',
                         'UTBETALT',
                         dayjs('2020-01-01T00:00:00'),
-                        dato
+                        dato,
                     ),
                 ],
                 [],
-                ORGNR
+                ORGNR,
             ),
         ];
 
@@ -746,11 +746,11 @@ describe('Saksbilde', () => {
                         'UTBETALING',
                         'IKKE_UTBETALT',
                         dayjs('2020-01-01T00:00:00'),
-                        dato
+                        dato,
                     ),
                 ],
                 [],
-                ORGNR
+                ORGNR,
             ),
         ];
 

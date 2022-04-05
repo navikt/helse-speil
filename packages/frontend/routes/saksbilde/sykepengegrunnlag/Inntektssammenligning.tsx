@@ -8,13 +8,13 @@ import { BodyShort } from '@navikt/ds-react';
 import { Kilde } from '@components/Kilde';
 import { Errorikon } from '@components/ikoner/Errorikon';
 import { AnonymizableText } from '@components/anonymizable/AnonymizableText';
-import { useArbeidsgivernavn } from '@state/person';
-import { useEndringerForPeriode } from '@state/arbeidsgiverState';
+import { useArbeidsgiver, useEndringerForPeriode } from '@state/arbeidsgiver';
 import { Inntektskilde, OmregnetArsinntekt, Sammenligningsgrunnlag } from '@io/graphql';
 import { kildeForkortelse } from '@utils/inntektskilde';
 import { somPenger } from '@utils/locale';
 
 import { EndringsloggButton } from './inntekt/EndringsloggButton';
+import { useCurrentPerson } from '@state/person';
 
 const ArbeidsgiverRad = styled.tr<{ erGjeldende: boolean }>`
     padding: 0.25rem;
@@ -88,7 +88,7 @@ export const Inntektssammenligning = ({
     erGjeldende,
     onSetAktivInntektskilde,
 }: InntektssammenligningProps) => {
-    const arbeidsgivernavn = useArbeidsgivernavn(organisasjonsnummer);
+    const arbeidsgivernavn = useArbeidsgiver(organisasjonsnummer)?.navn;
     const { inntektsendringer, arbeidsforholdendringer } = useEndringerForPeriode(organisasjonsnummer);
 
     return (

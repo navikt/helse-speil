@@ -10,8 +10,8 @@ import {
     Utbetaling,
     Vurdering,
 } from '@io/graphql';
-import { useActivePeriod } from '@state/periodState';
-import { useCurrentPerson } from '@state/personState';
+import { useActivePeriod } from '@state/periode';
+import { useCurrentPerson } from '@state/person';
 import {
     isArbeidsforholdoverstyring,
     isBeregnetPeriode,

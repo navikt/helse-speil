@@ -11,8 +11,8 @@ import { useInfotrygdPeriods } from './useInfotrygdPeriods';
 import { ExpandableTimelineRow } from './ExpandableTimelineRow';
 
 import { ErrorBoundary } from '@components/ErrorBoundary';
-import { useActivePeriod } from '@state/periodState';
-import { useCurrentPerson } from '@state/personState';
+import { useActivePeriod } from '@state/periode';
+import { useCurrentPerson } from '@state/person';
 import { Arbeidsgiver, Infotrygdutbetaling } from '@io/graphql';
 
 import styles from './Timeline.module.css';
@@ -63,7 +63,7 @@ const TimelineWithContent: React.VFC<TimelineWithContentProps> = ({
                             ghostPeriods={arbeidsgiver.ghostPerioder}
                             activePeriod={activePeriod}
                         />
-                    )
+                    ),
                 )}
                 {infotrygdPeriods.has('0') && (
                     <InfotrygdRow start={start} end={end} periods={infotrygdPeriods.get('0') ?? []} />

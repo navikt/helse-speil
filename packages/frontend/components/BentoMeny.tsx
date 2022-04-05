@@ -6,7 +6,7 @@ import { BodyShort, Popover } from '@navikt/ds-react';
 
 import { Button } from './Button';
 import { DropdownButton } from './dropdown/Dropdown';
-import { useCurrentPerson } from '@state/personState';
+import { useCurrentPerson } from '@state/person';
 import { Person } from '@io/graphql';
 
 const Container = styled.div`

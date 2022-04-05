@@ -1,13 +1,19 @@
-import { useMaybeAktivPeriode } from '@state/tidslinje';
+import { useActivePeriod } from '@state/periode';
+import { isBeregnetPeriode } from '@utils/typeguards';
+import { Inntektstype } from '@io/graphql';
+import { getPeriodState } from '@utils/mapping';
 
-const kunEnArbeidsgiver = (periode: TidslinjeperiodeMedSykefravær | TidslinjeperiodeUtenSykefravær) =>
-    periode.inntektskilde === 'EN_ARBEIDSGIVER';
+const kunEnArbeidsgiver = (periode: BeregnetPeriode) => periode.inntektstype === Inntektstype.Enarbeidsgiver;
 
-const overstyringEnabled = (periode: TidslinjeperiodeMedSykefravær | TidslinjeperiodeUtenSykefravær): boolean =>
-    kunEnArbeidsgiver(periode) && ['oppgaver', 'avslag', 'ingenUtbetaling', 'feilet'].includes(periode.tilstand);
+const overstyringEnabled = (periode: BeregnetPeriode): boolean =>
+    kunEnArbeidsgiver(periode) && ['oppgaver', 'avslag', 'ingenUtbetaling', 'feilet'].includes(getPeriodState(periode));
 
 export const useOverstyringIsEnabled = (): boolean => {
-    const periode = useMaybeAktivPeriode();
+    const periode = useActivePeriod();
+
+    if (!isBeregnetPeriode(periode)) {
+        return false;
+    }
 
     return periode !== undefined && overstyringEnabled(periode);
 };

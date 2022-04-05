@@ -3,7 +3,7 @@ import dayjs, { Dayjs } from 'dayjs';
 import React, { PropsWithChildren, useEffect } from 'react';
 
 import { amplitudeEnabled } from '@utils/featureToggles';
-import { useActivePeriod } from '@state/periodState';
+import { useActivePeriod } from '@state/periode';
 import { getOppgavereferanse } from '@state/selectors/period';
 import { isBeregnetPeriode } from '@utils/typeguards';
 

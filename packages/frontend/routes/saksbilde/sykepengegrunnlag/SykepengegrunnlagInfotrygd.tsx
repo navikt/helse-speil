@@ -7,10 +7,10 @@ import { BodyShort } from '@navikt/ds-react';
 import { Kilde } from '@components/Kilde';
 import { FlexColumn } from '@components/Flex';
 import { AnonymizableText } from '@components/anonymizable/AnonymizableText';
-import { useArbeidsgivernavn } from '@state/person';
 import { kildeForkortelse } from '@utils/inntektskilde';
 import { somPenger } from '@utils/locale';
 import { Arbeidsgiverinntekt, VilkarsgrunnlagInfotrygd } from '@io/graphql';
+import { useArbeidsgiver } from '@state/arbeidsgiver';
 
 const Container = styled(FlexColumn)`
     --fixed-column-width: 20rem;
@@ -160,7 +160,7 @@ interface InfotrygdInntektProps {
 }
 
 const InfotrygdInntekt = ({ aktivtOrgnummer, inntekt }: InfotrygdInntektProps) => {
-    const arbeidsgivernavn = useArbeidsgivernavn(inntekt.arbeidsgiver);
+    const arbeidsgivernavn = useArbeidsgiver(inntekt.arbeidsgiver)?.navn;
     return (
         <ArbeidsgiverRad erGjeldende={aktivtOrgnummer === inntekt.arbeidsgiver}>
             <td>

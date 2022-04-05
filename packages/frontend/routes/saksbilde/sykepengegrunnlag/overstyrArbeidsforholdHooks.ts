@@ -10,7 +10,7 @@ import {
 import { OverstyrtArbeidsforholdDTO } from '@io/http/types';
 import { postAbonnerPåAktør, postOverstyrtArbeidsforhold } from '@io/http';
 import { Person } from '@io/graphql';
-import { useCurrentPerson } from '@state/personState';
+import { useCurrentPerson } from '@state/person';
 
 type OverstyrtArbeidsforholdGetter = (
     begrunnelse: string,

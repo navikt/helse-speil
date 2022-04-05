@@ -7,8 +7,8 @@ import { Flex } from '@components/Flex';
 import { Tooltip } from '@components/Tooltip';
 import { getFormattedDateString } from '@utils/date';
 import { isBeregnetPeriode } from '@utils/typeguards';
-import { useCurrentPerson } from '@state/personState';
-import { useActivePeriod } from '@state/periodState';
+import { useCurrentPerson } from '@state/person';
+import { useActivePeriod } from '@state/periode';
 
 import { Row } from '../../table/Row';
 import { Header } from '../../table/Header';

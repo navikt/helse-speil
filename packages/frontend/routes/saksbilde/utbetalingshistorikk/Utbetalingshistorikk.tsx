@@ -4,14 +4,14 @@ import { useHistory } from 'react-router';
 
 import { Close } from '@navikt/ds-icons';
 import { Button } from '@navikt/ds-react';
-import { useOrganisasjonsnummer } from '@state/person';
 import { UtbetalingshistorikkRow } from './UtbetalingshistorikkRow';
 import { Annulleringsmodal } from '../sakslinje/annullering/Annulleringsmodal';
 
 import { Oppdrag, Spennoppdrag } from '@io/graphql';
 import { useOppdrag } from './state';
-import { useCurrentPerson } from '@state/personState';
+import { useCurrentPerson } from '@state/person';
 import { ErrorBoundary } from '@components/ErrorBoundary';
+import { useCurrentArbeidsgiver } from '@state/arbeidsgiver';
 
 const Container = styled.div`
     grid-column-start: venstremeny;
@@ -52,16 +52,17 @@ const Table = styled.table`
 
 interface UtbetalingshistorikkWithContentProps {
     fødselsnummer: string;
+    organisasjonsnummer: string;
     aktørId: string;
 }
 
 const UtbetalingshistorikkWithContent: React.VFC<UtbetalingshistorikkWithContentProps> = ({
     fødselsnummer,
+    organisasjonsnummer,
     aktørId,
 }) => {
     let { push } = useHistory();
     const oppdrag = useOppdrag(fødselsnummer);
-    const organisasjonsnummer = useOrganisasjonsnummer();
     const [tilAnnullering, setTilAnnullering] = useState<Spennoppdrag | undefined>();
     const [annulleringerInFlight, setAnnulleringerInFlight] = useState<Array<string>>([]);
 
@@ -109,7 +110,7 @@ const UtbetalingshistorikkWithContent: React.VFC<UtbetalingshistorikkWithContent
                                     annulleringButton={annulleringButton(
                                         oppdrag.status,
                                         oppdrag.type,
-                                        oppdrag.personoppdrag
+                                        oppdrag.personoppdrag,
                                     )}
                                 />
                             )}
@@ -121,7 +122,7 @@ const UtbetalingshistorikkWithContent: React.VFC<UtbetalingshistorikkWithContent
                                     annulleringButton={annulleringButton(
                                         oppdrag.status,
                                         oppdrag.type,
-                                        oppdrag.arbeidsgiveroppdrag
+                                        oppdrag.arbeidsgiveroppdrag,
                                     )}
                                 />
                             )}
@@ -149,13 +150,15 @@ const UtbetalingshistorikkWithContent: React.VFC<UtbetalingshistorikkWithContent
 
 const UtbetalingshistorikkContainer: React.VFC = () => {
     const currentPerson = useCurrentPerson();
+    const currentArbeidsgiver = useCurrentArbeidsgiver();
 
-    if (!currentPerson) {
+    if (!currentPerson || !currentArbeidsgiver) {
         return null;
     } else {
         return (
             <UtbetalingshistorikkWithContent
                 fødselsnummer={currentPerson.fodselsnummer}
+                organisasjonsnummer={currentArbeidsgiver.organisasjonsnummer}
                 aktørId={currentPerson.aktorId}
             />
         );

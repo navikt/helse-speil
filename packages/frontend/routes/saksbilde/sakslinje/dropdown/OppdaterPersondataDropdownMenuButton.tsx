@@ -2,8 +2,9 @@ import React, { useContext } from 'react';
 
 import { DropdownButton, DropdownContext } from '@components/dropdown/Dropdown';
 import { postForespørPersonoppdatering } from '@io/http';
-import { usePerson } from '@state/person';
+import { useCurrentPerson } from '@state/person';
 import { Scopes, useAddVarsel, useRemoveVarsel, VarselObject } from '@state/varsler';
+import { isPerson } from '@utils/typeguards';
 
 const personoppdateringvarselKey = 'personoppdatering';
 
@@ -15,20 +16,25 @@ const personoppdateringvarsel = (message: string, type: VarselObject['type']) =>
 });
 
 export const OppdaterPersondataDropdownMenuButton: React.VFC = () => {
-    const person = usePerson() as Person;
+    const person = useCurrentPerson();
+
+    if (!isPerson(person)) {
+        throw Error('Mangler persondata.');
+    }
+
     const addVarsel = useAddVarsel();
     const removeVarsel = useRemoveVarsel();
     const { lukk } = useContext(DropdownContext);
 
     const forespørPersonoppdatering = () => {
         removeVarsel(personoppdateringvarselKey);
-        postForespørPersonoppdatering({ fødselsnummer: person.fødselsnummer })
+        postForespørPersonoppdatering({ fødselsnummer: person.fodselsnummer })
             .then(() => {
                 addVarsel(
                     personoppdateringvarsel(
                         'Opplysningene om personen vil bli oppdatert. Dette kan ta noe tid og du må oppdatere skjermbildet (F5) for å se resultatet.',
-                        'info'
-                    )
+                        'info',
+                    ),
                 );
             })
             .catch(() => {

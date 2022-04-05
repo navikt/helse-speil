@@ -18,7 +18,7 @@ import { utbetalingsoversikt } from '@utils/featureToggles';
 import { NORSK_DATOFORMAT } from '@utils/date';
 import { capitalizeName } from '@utils/locale';
 import { useIsAnonymous } from '@state/anonymization';
-import { useCurrentPerson } from '@state/personState';
+import { useCurrentPerson } from '@state/person';
 import { Enhet, Kjonn, Maybe, Personinfo } from '@io/graphql';
 
 import styles from './PersonHeader.module.css';

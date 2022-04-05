@@ -1,7 +1,7 @@
 import { atom, selector, useRecoilValue, useSetRecoilState } from 'recoil';
 
 import type { BeregnetPeriode, GhostPeriode, UberegnetPeriode } from '@io/graphql';
-import { currentPersonState } from '@state/personState';
+import { currentPersonState } from '@state/person';
 import { isBeregnetPeriode } from '@utils/typeguards';
 
 const activePeriodState = atom<BeregnetPeriode | UberegnetPeriode | GhostPeriode | null>({
@@ -28,7 +28,7 @@ const activePeriod = selector<BeregnetPeriode | UberegnetPeriode | GhostPeriode 
                 (periode) =>
                     isBeregnetPeriode(periode) &&
                     periode.behandlingstype === 'BEHANDLET' &&
-                    typeof periode.oppgavereferanse === 'string'
+                    typeof periode.oppgavereferanse === 'string',
             );
 
         const periode = firstAvailablePeriod ?? person.arbeidsgivere[0]?.generasjoner[0]?.perioder[0];

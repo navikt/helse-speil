@@ -1,6 +1,6 @@
 import { useHistory } from 'react-router';
-
-import { usePerson } from '@state/person';
+import { useCurrentPerson, usePersonLoadable } from '@state/person';
+import { isPerson } from '@utils/typeguards';
 
 export interface Navigation {
     toString: (location: Location) => string;
@@ -24,9 +24,15 @@ const locationFromCurrentPath = (path: string, locations: string[]) => {
     return locations.findIndex((location) => location.slice(1) === currentPathName);
 };
 
+const useCurrentAktørId = (): string | null => {
+    const person = usePersonLoadable();
+
+    return person.state === 'hasValue' && isPerson(person.contents) ? person.contents.aktorId : null;
+};
+
 export const useNavigation = (): Navigation => {
     const history = useHistory();
-    const personTilBehandling = usePerson();
+    const currentAktørId = useCurrentAktørId();
 
     const currentLocation = locationFromCurrentPath(decodeURIComponent(history.location.pathname), locations);
 
@@ -34,7 +40,7 @@ export const useNavigation = (): Navigation => {
 
     const canNavigateToPrevious = currentLocation !== 0;
 
-    const navigateTo = (location: Location, aktørId: string | undefined = personTilBehandling?.aktørId) => {
+    const navigateTo = (location: Location, aktørId: string | null = currentAktørId) => {
         const destination = `/person/${aktørId}${locations[location]}`;
         const current = history.location.pathname;
         if (destination !== current) {
@@ -43,7 +49,7 @@ export const useNavigation = (): Navigation => {
     };
 
     const pathForLocation = (location: Location, aktørId?: string) =>
-        `/person/${aktørId ?? personTilBehandling?.aktørId}${locations[location]}`;
+        `/person/${aktørId ?? currentAktørId}${locations[location]}`;
 
     const toString = (location: Location) => locations[location];
 

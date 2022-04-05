@@ -8,7 +8,7 @@ import { SortInfoikon } from '@components/ikoner/SortInfoikon';
 import { PopoverHjelpetekst } from '@components/PopoverHjelpetekst';
 import { Arbeidsgiver, Arbeidsgiverinntekt, InntektFraAOrdningen, Person } from '@io/graphql';
 import { getMonthName, somPenger } from '@utils/locale';
-import { useVilkårsgrunnlag } from '@state/personState';
+import { useVilkårsgrunnlag } from '@state/person';
 
 import { ArbeidsgiverCard } from './ArbeidsgiverCard';
 
@@ -17,7 +17,7 @@ import styles from './Venstremeny.module.css';
 const useInntekterFraAOrdningen = (
     vilkårsgrunnlagId: string,
     skjæringstidspunkt: DateString,
-    organisasjonsnummer: string
+    organisasjonsnummer: string,
 ): Array<InntektFraAOrdningen> => {
     const inntekter: Array<Arbeidsgiverinntekt> =
         useVilkårsgrunnlag(vilkårsgrunnlagId, skjæringstidspunkt)?.inntekter ?? [];
@@ -26,7 +26,7 @@ const useInntekterFraAOrdningen = (
         inntekter.find((it) => it.arbeidsgiver === organisasjonsnummer)?.omregnetArsinntekt?.inntektFraAOrdningen ?? [];
 
     return Array.from(inntektFraAOrdningen).sort((a, b) =>
-        dayjs(a.maned, 'YYYY-MM').isAfter(dayjs(b.maned, 'YYYY-MM')) ? -1 : 1
+        dayjs(a.maned, 'YYYY-MM').isAfter(dayjs(b.maned, 'YYYY-MM')) ? -1 : 1,
     );
 };
 
@@ -48,7 +48,7 @@ export const VenstremenyGhostPeriode: React.VFC<VenstremenyGhostPeriodeProps> = 
     const inntekter = useInntekterFraAOrdningen(
         activePeriod.vilkarsgrunnlaghistorikkId,
         activePeriod.skjaeringstidspunkt,
-        currentArbeidsgiver.organisasjonsnummer
+        currentArbeidsgiver.organisasjonsnummer,
     );
 
     return (

@@ -1,5 +1,6 @@
 import {
     Arbeidsforholdoverstyring,
+    Arbeidsgiver,
     BeregnetPeriode,
     Dagoverstyring,
     GhostPeriode,
@@ -7,6 +8,7 @@ import {
     Maybe,
     Overstyring,
     Periode,
+    Person,
     UberegnetPeriode,
     Vilkarsgrunnlag,
     VilkarsgrunnlagInfotrygd,
@@ -64,3 +66,11 @@ export const isArbeidsforholdoverstyring = (
 export const isArbeidsforholdoverstyringer = (
     overstyringer?: Maybe<Array<Overstyring>>,
 ): overstyringer is Array<Arbeidsforholdoverstyring> => overstyringer?.every(isArbeidsforholdoverstyring) ?? false;
+
+export const isPerson = (person?: Maybe<Person>): person is Person => {
+    return person !== undefined && person !== null;
+};
+
+export const isArbeidsgiver = (arbeidsgiver?: Maybe<Arbeidsgiver>): arbeidsgiver is Arbeidsgiver => {
+    return arbeidsgiver !== undefined && arbeidsgiver !== null;
+};

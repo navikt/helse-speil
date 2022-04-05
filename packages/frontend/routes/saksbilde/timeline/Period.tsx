@@ -1,7 +1,7 @@
 import React from 'react';
 import classNames from 'classnames';
 
-import { useSetActivePeriod } from '@state/periodState';
+import { useSetActivePeriod } from '@state/periode';
 import { getPeriodCategory, getPeriodState } from '@utils/mapping';
 import { Sykdomsdagtype, Utbetalingsdagtype } from '@io/graphql';
 import { isBeregnetPeriode, isGhostPeriode, isUberegnetPeriode } from '@utils/typeguards';
@@ -54,7 +54,7 @@ export const Period: React.VFC<PeriodProps> = ({ period, notCurrent, isActive, .
                     styles[periodState],
                     isActive && styles.active,
                     periodCategory && styles[periodCategory],
-                    notCurrent && styles.old
+                    notCurrent && styles.old,
                 )}
                 {...buttonProps}
                 onMouseOver={onMouseOver}

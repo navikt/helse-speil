@@ -5,6 +5,8 @@ type BasicValue = 'normal' | 'stretch';
 
 type GlobalValue = 'inherit' | 'initial' | 'unset';
 
+type UnitValue = `${number}${'px' | 'rem' | 'em'}`;
+
 type PositionalValue =
     | 'center'
     | 'start'
@@ -26,6 +28,7 @@ interface FlexProps {
     justifyContent?: AlignValue;
     flexDirection?: 'row' | 'row-reverse' | 'column' | 'column-reverse' | GlobalValue;
     flex?: number;
+    gap?: UnitValue;
 }
 
 export const Flex = styled.div<FlexProps>`
@@ -36,6 +39,7 @@ export const Flex = styled.div<FlexProps>`
     ${({ justifyContent }) => justifyContent && `justify-content: ${justifyContent};`}
     ${({ flexDirection }) => flexDirection && `flex-direction: ${flexDirection};`}
     ${({ flex }) => flex !== undefined && `flex: ${flex};`}
+    ${({ gap }) => gap !== undefined && `gap: ${gap};`}
 `;
 
 export const FlexColumn = styled(Flex)`

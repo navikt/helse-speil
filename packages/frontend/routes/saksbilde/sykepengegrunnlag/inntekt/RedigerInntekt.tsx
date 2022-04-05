@@ -8,7 +8,7 @@ import { EditButton } from '@components/EditButton';
 import { PopoverHjelpetekst } from '@components/PopoverHjelpetekst';
 import { SortInfoikon } from '@components/ikoner/SortInfoikon';
 import { Inntektstype, Vilkarsgrunnlagtype } from '@io/graphql';
-import { useVilkårsgrunnlag } from '@state/personState';
+import { useVilkårsgrunnlag } from '@state/person';
 
 interface RedigerInntektProps {
     setEditing: Dispatch<SetStateAction<boolean>>;

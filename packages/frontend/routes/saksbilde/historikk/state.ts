@@ -3,7 +3,7 @@ import { atom, selector, useRecoilState, useRecoilValue, useSetRecoilState } fro
 import dayjs from 'dayjs';
 
 import { useNotaterForVedtaksperiode } from '@state/notater';
-import { useCurrentArbeidsgiver } from '@state/arbeidsgiverState';
+import { useCurrentArbeidsgiver } from '@state/arbeidsgiver';
 import { GhostPeriode, Overstyring, Periode } from '@io/graphql';
 import { isGhostPeriode } from '@utils/typeguards';
 
@@ -71,7 +71,7 @@ export const useOppdaterHistorikk = ({
     const inntektoverstyringer = useInntektsoverstyringshendelser(onClickOverstyringshendelse, overstyringer);
     const arbeidsforholdoverstyringer = useArbeidsforholdoverstyringshendelser(
         onClickOverstyringshendelse,
-        overstyringer
+        overstyringer,
     );
 
     useEffect(() => {
@@ -81,7 +81,7 @@ export const useOppdaterHistorikk = ({
                     .filter(
                         (it: Hendelse) =>
                             isGhostPeriode(periode) ||
-                            (it.timestamp && dayjs(it.timestamp).isSameOrBefore(periode.opprettet))
+                            (it.timestamp && dayjs(it.timestamp).isSameOrBefore(periode.opprettet)),
                     )
                     .concat(utbetaling ? [utbetaling] : [])
                     .concat(notater)
@@ -90,8 +90,8 @@ export const useOppdaterHistorikk = ({
                             ? -1
                             : typeof b.timestamp !== 'string'
                             ? 1
-                            : dayjs(b.timestamp).diff(dayjs(a.timestamp))
-                    )
+                            : dayjs(b.timestamp).diff(dayjs(a.timestamp)),
+                    ),
             );
         }
     }, [periode, notater]);

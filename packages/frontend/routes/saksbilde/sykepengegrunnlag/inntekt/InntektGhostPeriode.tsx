@@ -9,9 +9,9 @@ import {
     Person,
     Utbetalingstatus,
 } from '@io/graphql';
-import { useActivePeriod } from '@state/periodState';
-import { useCurrentPerson } from '@state/personState';
-import { useEndringerForPeriode, useUtbetalingForSkjæringstidspunkt } from '@state/arbeidsgiverState';
+import { useActivePeriod } from '@state/periode';
+import { useCurrentPerson } from '@state/person';
+import { useEndringerForPeriode, useUtbetalingForSkjæringstidspunkt } from '@state/arbeidsgiver';
 import { defaultOverstyrToggles } from '@utils/featureToggles';
 import { isBeregnetPeriode, isGhostPeriode } from '@utils/typeguards';
 import { kildeForkortelse } from '@utils/inntektskilde';

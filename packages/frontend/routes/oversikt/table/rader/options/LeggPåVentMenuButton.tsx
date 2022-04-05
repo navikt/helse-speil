@@ -8,6 +8,7 @@ import { useOperationErrorHandler } from '@state/varsler';
 import { ignorePromise } from '@utils/promise';
 
 import { NyttNotatModal } from '../notat/NyttNotatModal';
+import { convertToGraphQLPersoninfo } from '@utils/mapping';
 
 const Button = styled(NavButton)`
     all: unset;
@@ -69,7 +70,7 @@ export const LeggPåVentMenuButton = ({ oppgavereferanse, vedtaksperiodeId, pers
             {visModal && (
                 <NyttNotatModal
                     onClose={() => setVisModal(false)}
-                    personinfo={personinfo}
+                    personinfo={convertToGraphQLPersoninfo(personinfo)}
                     vedtaksperiodeId={vedtaksperiodeId}
                     onPostNotat={settPåVent}
                 />

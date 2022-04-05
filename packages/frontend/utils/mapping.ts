@@ -1,13 +1,17 @@
 import {
+    Adressebeskyttelse,
     BeregnetPeriode,
     GhostPeriode,
+    Kjonn,
     Periode,
+    Personinfo as GraphQLPersoninfo,
     Sykdomsdagtype,
     Utbetalingsdagtype,
     Utbetalingstatus,
     Utbetalingtype,
 } from '@io/graphql';
 import { isBeregnetPeriode, isGhostPeriode, isInfotrygdPeriod } from '@utils/typeguards';
+import { ISO_DATOFORMAT } from '@utils/date';
 
 const hasOppgave = (period: BeregnetPeriode): boolean => typeof period.oppgavereferanse === 'string';
 
@@ -53,7 +57,8 @@ const getGhostPeriodState = (period: GhostPeriode): PeriodState => {
     return period.deaktivert ? 'utenSykefraværDeaktivert' : 'utenSykefravær';
 };
 
-export const getPeriodState = (period: Periode | DatePeriod): PeriodState => {
+export const getPeriodState = (period?: Maybe<Periode | DatePeriod>): PeriodState => {
+    if (!period) return 'ukjent';
     if (isGhostPeriode(period)) return getGhostPeriodState(period);
     if (isInfotrygdPeriod(period)) return getInfotrygdPeriodState(period);
     if (!isBeregnetPeriode(period)) return 'venter';
@@ -193,4 +198,15 @@ export const getPeriodStateText = (state: PeriodState): string => {
         default:
             return 'Ukjent';
     }
+};
+
+export const convertToGraphQLPersoninfo = (personinfo: Personinfo): GraphQLPersoninfo => {
+    return {
+        adressebeskyttelse: Adressebeskyttelse[personinfo.adressebeskyttelse],
+        etternavn: personinfo.etternavn,
+        fornavn: personinfo.fornavn,
+        mellomnavn: personinfo.mellomnavn,
+        kjonn: personinfo.kjønn === 'mann' ? Kjonn.Mann : personinfo.kjønn === 'kvinne' ? Kjonn.Kvinne : Kjonn.Ukjent,
+        fodselsdato: personinfo.fødselsdato?.format(ISO_DATOFORMAT),
+    };
 };

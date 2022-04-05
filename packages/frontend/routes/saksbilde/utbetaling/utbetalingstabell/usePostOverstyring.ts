@@ -13,8 +13,8 @@ import {
 import { useOpptegnelser, useSetOpptegnelserPollingRate } from '@state/opptegnelser';
 import { useAddToast, useRemoveToast } from '@state/toasts';
 import { Scopes, useAddVarsel } from '@state/varsler';
-import { useCurrentPerson } from '@state/personState';
-import { useCurrentArbeidsgiver } from '@state/arbeidsgiverState';
+import { useCurrentPerson } from '@state/person';
+import { useCurrentArbeidsgiver } from '@state/arbeidsgiver';
 
 type OverstyrtDagtype = 'Sykedag' | 'Feriedag' | 'Egenmeldingsdag' | 'Permisjonsdag' | 'Avvist';
 

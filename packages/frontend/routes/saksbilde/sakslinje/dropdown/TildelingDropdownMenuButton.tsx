@@ -3,10 +3,10 @@ import React, { useContext, useState } from 'react';
 import { Loader } from '@navikt/ds-react';
 
 import { Tildeling } from '@io/graphql';
-import { useTildelPerson } from '@state/person';
 import { useAddVarsel, useRemoveVarsel, VarselObject } from '@state/varsler';
 import { DropdownButton, DropdownContext } from '@components/dropdown/Dropdown';
 import { deleteTildeling, postTildeling } from '@io/http';
+import { useFjernTildelingFraPerson, useTildelPerson } from '@state/person';
 
 const TILDELINGSKEY = 'tildeling';
 
@@ -23,7 +23,8 @@ export const TildelingDropdownMenuButton = ({
     tildeling,
     erTildeltInnloggetBruker,
 }: TildelingDropdownMenuButtonProps) => {
-    const { tildelPerson, fjernTildeling } = useTildelPerson();
+    const tildelPerson = useTildelPerson();
+    const fjernTildeling = useFjernTildelingFraPerson();
     const { lukk } = useContext(DropdownContext);
 
     const [isFetching, setIsFetching] = useState(false);

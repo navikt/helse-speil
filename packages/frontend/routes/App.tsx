@@ -14,11 +14,11 @@ import { IkkeLoggetInn } from './IkkeLoggetInn';
 import { PageNotFound } from './PageNotFound';
 import { useAuthentication } from '@state/authentication';
 import { useEasterEggIsActive } from '@state/easterEgg';
-import { useIsLoadingPerson } from '@state/person';
 
 import './App.css';
 import { GlobalFeilside } from './GlobalFeilside';
 import { Routes } from './index';
+import { usePersonLoadable } from '@state/person';
 
 const Saksbilde = React.lazy(() => import('./saksbilde/Saksbilde'));
 const Oversikt = React.lazy(() => import('./oversikt'));
@@ -28,7 +28,7 @@ const GraphQLPlayground = React.lazy(() => import('./playground/GraphQLPlaygroun
 ReactModal.setAppElement('#root');
 
 const App = () => {
-    useLoadingToast({ isLoading: useIsLoadingPerson(), message: 'Henter person' });
+    useLoadingToast({ isLoading: usePersonLoadable().state === 'loading', message: 'Henter person' });
     useAuthentication();
 
     const easterEggIsActive = useEasterEggIsActive();

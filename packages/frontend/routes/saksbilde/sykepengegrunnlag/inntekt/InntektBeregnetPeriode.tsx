@@ -6,7 +6,7 @@ import { Bold } from '@components/Bold';
 import { Kilde } from '@components/Kilde';
 import { kildeForkortelse } from '@utils/inntektskilde';
 import { overstyrInntektEnabled } from '@utils/featureToggles';
-import { useEndringerForPeriode, useUtbetalingForSkjæringstidspunkt } from '@state/arbeidsgiverState';
+import { useEndringerForPeriode, useUtbetalingForSkjæringstidspunkt } from '@state/arbeidsgiver';
 import { Inntektskilde as GraphQLInntektskilde, Inntektstype, OmregnetArsinntekt, Utbetalingstatus } from '@io/graphql';
 
 import { RedigerInntekt } from './RedigerInntekt';
@@ -59,17 +59,15 @@ export const InntektBeregnetPeriode = ({
                     />
                 )}
             </div>
-            <div className={styles.InntektContainer}>
-                {editing ? (
-                    <EditableInntekt
-                        omregnetÅrsinntekt={omregnetÅrsinntekt!}
-                        close={() => setEditing(false)}
-                        onEndre={setEndret}
-                    />
-                ) : (
-                    <ReadOnlyInntekt omregnetÅrsinntekt={omregnetÅrsinntekt} />
-                )}
-            </div>
+            {editing ? (
+                <EditableInntekt
+                    omregnetÅrsinntekt={omregnetÅrsinntekt!}
+                    close={() => setEditing(false)}
+                    onEndre={setEndret}
+                />
+            ) : (
+                <ReadOnlyInntekt omregnetÅrsinntekt={omregnetÅrsinntekt} />
+            )}
         </div>
     );
 };
