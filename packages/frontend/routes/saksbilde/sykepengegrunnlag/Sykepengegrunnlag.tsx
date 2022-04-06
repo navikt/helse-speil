@@ -31,21 +31,18 @@ const SykepengegrunnlagContainer = () => {
                 <BehandletSykepengegrunnlag
                     vurdering={vurdering}
                     vilkårsgrunnlag={vilkårsgrunnlag}
-                    organisasjonsnummer={arbeidsgiver.organisasjonsnummer}
                     refusjon={activePeriod.refusjon}
                     skjæringstidspunkt={activePeriod.skjaeringstidspunkt}
                     inntektsgrunnlag={inntektsgrunnlag}
+                    arbeidsgiver={arbeidsgiver}
                 />
             ) : (
                 <SykepengegrunnlagFraSpleis
                     vilkårsgrunnlag={vilkårsgrunnlag}
-                    organisasjonsnummer={arbeidsgiver.organisasjonsnummer}
-                    refusjon={activePeriod.refusjon}
                     inntektsgrunnlag={inntektsgrunnlag}
-                    arbeidsgivernavn={arbeidsgiver.navn}
-                    bransjer={arbeidsgiver.bransjer}
-                    arbeidsforhold={arbeidsgiver.arbeidsforhold}
                     skjæringstidspunkt={activePeriod.skjaeringstidspunkt}
+                    arbeidsgiver={arbeidsgiver}
+                    refusjon={activePeriod.refusjon}
                     data-testid="ubehandlet-sykepengegrunnlag"
                 />
             );
