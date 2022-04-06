@@ -51,7 +51,7 @@ const getDayTypesRender = (dayType: Utbetalingsdagtype, map: Map<Utbetalingsdagt
     }
     const antallDager = periods.reduce(
         (count, period) => count + dayjs(period.tom).diff(dayjs(period.fom), 'day') + 1,
-        0
+        0,
     );
     return `${antallDager} dager`;
 };
@@ -194,7 +194,7 @@ export const PeriodPopover: React.VFC<PeriodPopoverProps> = ({ period, state, ..
 
     return (
         <Popover {...popoverProps}>
-            <Popover.Content className={styles.Content}>
+            <Popover.Content className={styles.RouteContainer}>
                 <ErrorBoundary fallback={<div />}>
                     {isInfotrygdPeriod(period) ? (
                         <InfotrygdPopover period={period} fom={fom} tom={tom} />

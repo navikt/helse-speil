@@ -1,5 +1,4 @@
 import React, { useLayoutEffect, useState } from 'react';
-import dayjs from 'dayjs';
 import classNames from 'classnames';
 import { BodyShort } from '@navikt/ds-react';
 
@@ -101,22 +100,7 @@ export const HistorikkWithContent: React.VFC<HistorikkWithContentProps> = React.
                 {vedtaksperiodeId && showNotatListeModal && (
                     <NotatListeModal
                         notater={notaterForPeriode}
-                        personinfo={{
-                            ...personinfo,
-                            mellomnavn: personinfo.mellomnavn ?? null,
-                            fødselsdato: dayjs(personinfo.fodselsdato),
-                            kjønn: (() => {
-                                switch (personinfo.kjonn) {
-                                    case 'Mann':
-                                        return 'mann';
-                                    case 'Kvinne':
-                                        return 'kvinne';
-                                    case 'Ukjent':
-                                    default:
-                                        return 'ukjent';
-                                }
-                            })(),
-                        }}
+                        personinfo={personinfo}
                         vedtaksperiodeId={vedtaksperiodeId}
                         onClose={() => setShowNotatListeModal(false)}
                         erPåVent={tildeling?.reservert}

@@ -36,11 +36,7 @@ const SaksbildeMenuEmpty: React.VFC = () => {
     );
 };
 
-interface SaksbildeMenuGhostPeriodeProps {
-    activePeriod: GhostPeriode;
-}
-
-const SaksbildeMenuGhostPeriode: React.VFC<SaksbildeMenuGhostPeriodeProps> = ({ activePeriod }) => {
+const SaksbildeMenuGhostPeriode: React.VFC = () => {
     const { pathForLocation } = useNavigation();
 
     return (
@@ -135,7 +131,7 @@ const SaksbildeMenuContainer: React.VFC = () => {
     if (isBeregnetPeriode(activePeriod)) {
         return <SaksbildeMenuBeregnetPeriode activePeriod={activePeriod} />;
     } else if (isGhostPeriode(activePeriod)) {
-        return <SaksbildeMenuGhostPeriode activePeriod={activePeriod} />;
+        return <SaksbildeMenuGhostPeriode />;
     } else {
         return <SaksbildeMenuEmpty />;
     }
