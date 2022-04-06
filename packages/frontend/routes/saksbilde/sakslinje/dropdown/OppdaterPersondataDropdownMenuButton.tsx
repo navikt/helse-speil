@@ -18,17 +18,13 @@ const personoppdateringvarsel = (message: string, type: VarselObject['type']) =>
 export const OppdaterPersondataDropdownMenuButton: React.VFC = () => {
     const person = useCurrentPerson();
 
-    if (!isPerson(person)) {
-        throw Error('Mangler persondata.');
-    }
-
     const addVarsel = useAddVarsel();
     const removeVarsel = useRemoveVarsel();
     const { lukk } = useContext(DropdownContext);
 
-    const forespørPersonoppdatering = () => {
+    const forespørPersonoppdatering = (fødselsnummer: string) => () => {
         removeVarsel(personoppdateringvarselKey);
-        postForespørPersonoppdatering({ fødselsnummer: person.fodselsnummer })
+        postForespørPersonoppdatering({ fødselsnummer })
             .then(() => {
                 addVarsel(
                     personoppdateringvarsel(
@@ -43,5 +39,11 @@ export const OppdaterPersondataDropdownMenuButton: React.VFC = () => {
             .finally(lukk);
     };
 
-    return <DropdownButton onClick={forespørPersonoppdatering}>Oppdater persondata</DropdownButton>;
+    if (!isPerson(person)) {
+        return null;
+    }
+
+    return (
+        <DropdownButton onClick={forespørPersonoppdatering(person.fodselsnummer)}>Oppdater persondata</DropdownButton>
+    );
 };
