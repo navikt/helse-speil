@@ -29,6 +29,8 @@ const getUtbetalingstabelldagtype = (dag: Dag): Utbetalingstabelldagtype => {
             return 'Syk';
         case Utbetalingsdagtype.UkjentDag:
             return 'Ukjent';
+        case Utbetalingsdagtype.AvvistDag:
+            return 'Avslått';
     }
     switch (dag.sykdomsdagtype) {
         case Sykdomsdagtype.Arbeidsdag:
@@ -43,6 +45,8 @@ const getUtbetalingstabelldagtype = (dag: Dag): Utbetalingstabelldagtype => {
         case Sykdomsdagtype.SykHelgedag:
         case Sykdomsdagtype.FriskHelgedag:
             return 'Helg';
+        case Sykdomsdagtype.Avslatt:
+            return 'Avslått';
         case Sykdomsdagtype.Ubestemtdag:
         default:
             return 'Ukjent';
@@ -52,7 +56,7 @@ const getUtbetalingstabelldagtype = (dag: Dag): Utbetalingstabelldagtype => {
 export const createDagerMap = (
     dager: Array<Dag>,
     totaltAntallDagerIgjen: number,
-    maksdato?: DateString
+    maksdato?: DateString,
 ): Map<DateString, UtbetalingstabellDag> => {
     const map = new Map<DateString, UtbetalingstabellDag>();
     let dagerIgjen = totaltAntallDagerIgjen;
@@ -70,7 +74,7 @@ export const createDagerMap = (
             erForeldet: currentDag.utbetalingsdagtype === 'FORELDET_DAG',
             erMaksdato: typeof maksdato === 'string' && dayjs(maksdato).isSame(currentDag.dato, 'day'),
             grad: currentDag.grad,
-            dagerIgjen: dagerIgjen,
+            dagerIgjen: Math.max(dagerIgjen, 0),
             totalGradering: currentDag.utbetalingsinfo?.totalGrad,
             arbeidsgiverbeløp: currentDag.utbetalingsinfo?.arbeidsgiverbelop,
             personbeløp: currentDag.utbetalingsinfo?.personbelop,
@@ -114,6 +118,7 @@ export const useTabelldagerMap = ({
                         ...existing,
                         overstyringer: (existing.overstyringer ?? []).concat([
                             {
+                                hendelseId: overstyring.hendelseId,
                                 begrunnelse: overstyring.begrunnelse,
                                 saksbehandler: overstyring.saksbehandler,
                                 timestamp: overstyring.timestamp,

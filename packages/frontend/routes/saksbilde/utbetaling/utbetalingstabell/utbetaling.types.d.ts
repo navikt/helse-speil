@@ -2,7 +2,15 @@ type Maybe<T> = import('@io/graphql').Maybe<T>;
 type Kilde = import('@io/graphql').Kilde;
 type Begrunnelse = import('@io/graphql').Begrunnelse;
 
-declare type Utbetalingstabelldagtype = 'Syk' | 'Ferie' | 'Helg' | 'Ukjent' | 'Egenmelding' | 'Permisjon' | 'Arbeid';
+declare type Utbetalingstabelldagtype =
+    | 'Syk'
+    | 'Ferie'
+    | 'Helg'
+    | 'Ukjent'
+    | 'Egenmelding'
+    | 'Permisjon'
+    | 'Arbeid'
+    | 'Avslått';
 
 type OverstyringerPrDag = {
     hendelseId: string;
