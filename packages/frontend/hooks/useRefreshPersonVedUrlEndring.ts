@@ -35,7 +35,6 @@ export const useRefreshPersonVedUrlEndring = () => {
 
     useEffect(() => {
         if (aktorId && erGyldigPersonId(aktorId)) {
-            console.log(aktorId, state, contents);
             if (state !== 'hasValue' || contents === null || (contents as Person).aktorId !== aktorId) {
                 removeVarsel(feilvarselKey);
                 fetchPerson(aktorId);

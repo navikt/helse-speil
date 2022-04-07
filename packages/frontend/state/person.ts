@@ -40,7 +40,6 @@ export const currentPersonState = selector<Person | null>({
 
 export const useCurrentPerson = (): Person | null => {
     const person = useRecoilValue(currentPersonState);
-    console.log(person);
     const localTildeling = useRecoilValue(localTildelingState);
 
     return (

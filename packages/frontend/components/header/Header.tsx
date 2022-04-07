@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 
@@ -15,7 +15,8 @@ import { Brukermeny } from '@components/Brukermeny';
 import { SearchBar } from './SearchBar';
 import { EasterEgg } from '../../EasterEgg';
 import { graphqlplayground } from '@utils/featureToggles';
-import { useFetchPerson } from '@state/person';
+import { useFetchPerson, usePersonLoadable } from '@state/person';
+import { isPerson } from '@utils/typeguards';
 
 const Container = styled.div`
     flex-shrink: 0;
@@ -42,11 +43,41 @@ const Container = styled.div`
     }
 `;
 
-export const Header = () => {
+const useNavigateOnFetch = () => {
+    const person = usePersonLoadable();
     const history = useHistory();
+    const addVarsel = useAddVarsel();
+    const hasFetched = useRef(false);
+
+    const hasFetchedSuccessfully = () => {
+        return hasFetched.current && person.state === 'hasValue' && isPerson(person.contents);
+    };
+
+    const hasFetchedWithNoPersonInResult = () => {
+        return hasFetched.current && person.state !== 'loading' && !isPerson(person.contents);
+    };
+
+    useEffect(() => {
+        if (hasFetchedSuccessfully()) {
+            hasFetched.current = false;
+            history.push(`/person/${person.contents.aktorId}/utbetaling`);
+        } else if (hasFetchedWithNoPersonInResult()) {
+            addVarsel({
+                key: 'ugyldig-søk',
+                message: 'Personen har ingen perioder til godkjenning eller tidligere utbetalinger i Speil',
+                type: 'info',
+            });
+        }
+    }, [person, hasFetched]);
+
+    return hasFetched;
+};
+
+export const Header = () => {
     const fetchPerson = useFetchPerson();
     const removeVarsel = useRemoveVarsel();
     const addVarsel = useAddVarsel();
+    const hasFetched = useNavigateOnFetch();
 
     const toggleEasterEgg = useToggleEasterEgg();
 
@@ -68,18 +99,8 @@ export const Header = () => {
                 type: 'feil',
             });
         } else {
+            hasFetched.current = true;
             fetchPerson(personId);
-            // Håndter dette i personState
-            // .then(
-            //     (res: { person?: Person }) => res.person && history.push(`/person/${res.person.aktørId}/utbetaling`)
-            // )
-            // .catch((error) =>
-            //     addVarsel({
-            //         key: key,
-            //         message: error.message,
-            //         type: error.type,
-            //     })
-            // );
         }
         return Promise.resolve();
     };
