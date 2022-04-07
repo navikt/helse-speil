@@ -68,8 +68,6 @@ describe('Utbetaling', () => {
             { wrapper: RecoilWrapper },
         );
 
-        const meh = screen;
-
         userEvent.click(screen.getByText('Endre'));
         userEvent.click(screen.getAllByRole('checkbox')[0]);
         userEvent.click(screen.getAllByRole('checkbox')[1]);
