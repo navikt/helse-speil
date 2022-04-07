@@ -4,6 +4,7 @@ import { Route, Switch, useRouteMatch } from 'react-router-dom';
 import { Location } from '@hooks/useNavigation';
 import { useNavigateOnMount } from '@hooks/useNavigateOnMount';
 import type { Arbeidsgiver, GhostPeriode, Person } from '@io/graphql';
+import { getPeriodState } from '@utils/mapping';
 
 import { Historikk } from '../historikk/Historikk';
 import { Venstremeny } from '../venstremeny/Venstremeny';
@@ -35,7 +36,7 @@ export const GhostPeriodeView: React.VFC<GhostPeriodeViewProps> = ({
         <>
             <Venstremeny />
             <div className={styles.Content} data-testid="saksbilde-content-uten-sykefravær">
-                <Saksbildevarsler activePeriod={activePeriod} />
+                <Saksbildevarsler periodState={getPeriodState(activePeriod)} />
                 <Switch>
                     <Route path={`${path}/sykepengegrunnlag`}>
                         <Sykepengegrunnlag />

@@ -1,6 +1,7 @@
 import React from 'react';
 import { Route, Switch, useRouteMatch } from 'react-router-dom';
 
+import { getPeriodState } from '@utils/mapping';
 import { Arbeidsgiver, BeregnetPeriode, Person } from '@io/graphql';
 
 import { Saksbildevarsler } from '../varsler/Saksbildevarsler';
@@ -8,10 +9,10 @@ import { Venstremeny } from '../venstremeny/Venstremeny';
 import { Historikk } from '../historikk/Historikk';
 import { Utbetaling } from '../utbetaling/Utbetaling';
 import { Inngangsvilkår } from '../vilkår/Inngangsvilkår';
-
-import styles from './PeriodeView.module.css';
 import { Faresignaler } from '../faresignaler/Faresignaler';
 import { Sykepengegrunnlag } from '../sykepengegrunnlag/Sykepengegrunnlag';
+
+import styles from './PeriodeView.module.css';
 
 interface BeregnetPeriodeViewProps {
     activePeriod: BeregnetPeriode;
@@ -30,7 +31,11 @@ export const BeregnetPeriodeView: React.VFC<BeregnetPeriodeViewProps> = ({ activ
         <>
             <Venstremeny />
             <div className={styles.Content} data-testid="saksbilde-content-med-sykefravær">
-                <Saksbildevarsler activePeriod={activePeriod} />
+                <Saksbildevarsler
+                    periodState={getPeriodState(activePeriod)}
+                    oppgavereferanse={activePeriod.oppgavereferanse}
+                    varsler={activePeriod.varsler}
+                />
                 {activePeriod.tilstand !== 'Annullert' && (
                     <Switch>
                         <Route path={`${path}/utbetaling`}>

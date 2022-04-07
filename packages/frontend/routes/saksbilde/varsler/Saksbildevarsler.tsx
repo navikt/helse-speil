@@ -3,9 +3,7 @@ import styled from '@emotion/styled';
 import { BodyShort } from '@navikt/ds-react';
 
 import { Varsel } from '@components/Varsel';
-import { GhostPeriode, Periode } from '@io/graphql';
-import { getPeriodState } from '@utils/mapping';
-import { isBeregnetPeriode } from '@utils/typeguards';
+import { Maybe } from '@io/graphql';
 
 import { Aktivitetsloggvarsler } from './Aktivetsloggvarsler';
 
@@ -76,13 +74,12 @@ const Saksbildevarsel = styled(Varsel)`
 `;
 
 interface SaksbildevarslerProps {
-    activePeriod: Periode | GhostPeriode;
+    periodState: PeriodState;
+    oppgavereferanse?: Maybe<string>;
+    varsler?: Maybe<Array<string>>;
 }
 
-export const Saksbildevarsler = ({ activePeriod }: SaksbildevarslerProps) => {
-    const periodState = getPeriodState(activePeriod);
-    const oppgavereferanse = isBeregnetPeriode(activePeriod) ? activePeriod.oppgavereferanse : null;
-
+export const Saksbildevarsler = ({ periodState, oppgavereferanse, varsler }: SaksbildevarslerProps) => {
     const infoVarsler: VarselObject[] = [
         tilstandInfoVarsel(periodState),
         utbetalingsvarsel(periodState),
@@ -95,8 +92,6 @@ export const Saksbildevarsler = ({ activePeriod }: SaksbildevarslerProps) => {
         manglendeOppgavereferansevarsel(periodState, oppgavereferanse),
     ].filter((it) => it) as VarselObject[];
 
-    const skalViseAktivtetsloggvarsler = isBeregnetPeriode(activePeriod);
-
     return (
         <div className="Saksbildevarsler">
             {infoVarsler.map(({ grad, melding }, index) => (
@@ -104,7 +99,7 @@ export const Saksbildevarsler = ({ activePeriod }: SaksbildevarslerProps) => {
                     <BodyShort>{melding}</BodyShort>
                 </Saksbildevarsel>
             ))}
-            {skalViseAktivtetsloggvarsler && <Aktivitetsloggvarsler varsler={activePeriod.varsler} />}
+            {varsler && <Aktivitetsloggvarsler varsler={varsler} />}
             {feilVarsler.map(({ grad, melding }, index) => (
                 <Saksbildevarsel variant={grad} key={index}>
                     <BodyShort>{melding}</BodyShort>
