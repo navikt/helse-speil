@@ -29,7 +29,14 @@ import { ToggleOverstyringKnapp, UtbetalingHeader } from './utbetalingstabell/Ut
 import { Utbetalingstabell } from './utbetalingstabell/Utbetalingstabell';
 import { usePostOverstyring } from './utbetalingstabell/usePostOverstyring';
 import { useTabelldagerMap } from './utbetalingstabell/useTabelldagerMap';
-import { Arbeidsgiver, BeregnetPeriode, Dagoverstyring, Overstyring, Utbetalingstatus } from '@io/graphql';
+import {
+    Arbeidsgiver,
+    BeregnetPeriode,
+    Dagoverstyring,
+    Overstyring,
+    Utbetaling as UtbetalingObject,
+    Utbetalingstatus,
+} from '@io/graphql';
 import { ErrorBoundary } from '@components/ErrorBoundary';
 import { useActivePeriod } from '@state/periode';
 import { useCurrentArbeidsgiver } from '@state/arbeidsgiver';
@@ -108,9 +115,20 @@ interface OverstyrbarUtbetalingProps {
     tom: DateString;
     dager: Map<string, UtbetalingstabellDag>;
     skjæringstidspunkt: DateString;
+    utbetaling: UtbetalingObject;
+    revurderingIsEnabled: boolean;
+    overstyrRevurderingIsEnabled: boolean;
 }
 
-const OverstyrbarUtbetaling: React.FC<OverstyrbarUtbetalingProps> = ({ fom, tom, dager, skjæringstidspunkt }) => {
+export const OverstyrbarUtbetaling: React.FC<OverstyrbarUtbetalingProps> = ({
+    fom,
+    tom,
+    dager,
+    skjæringstidspunkt,
+    utbetaling,
+    revurderingIsEnabled,
+    overstyrRevurderingIsEnabled,
+}) => {
     const form = useForm({ mode: 'onBlur', shouldFocusError: false });
 
     const [overstyrer, setOverstyrer] = useState(false);
@@ -118,15 +136,6 @@ const OverstyrbarUtbetaling: React.FC<OverstyrbarUtbetalingProps> = ({ fom, tom,
 
     const [markerteDager, setMarkerteDager] = useMap<string, UtbetalingstabellDag>();
     const [overstyrteDager, setOverstyrteDager] = useMap<string, UtbetalingstabellDag>();
-
-    const periode = useActivePeriod();
-    const utbetalingErForkastet =
-        isBeregnetPeriode(periode) && periode.utbetaling.status === Utbetalingstatus.Forkastet;
-
-    const kunAgpEllerAvslåtteDager =
-        vedtaksperiode?.utbetalingstidslinje?.every((dag) =>
-            ['Avslått', 'Arbeidsgiverperiode', 'Helg'].includes(dag.type)
-        ) ?? false;
 
     const toggleOverstyring = () => {
         setMarkerteDager(new Map());
@@ -181,7 +190,11 @@ const OverstyrbarUtbetaling: React.FC<OverstyrbarUtbetalingProps> = ({ fom, tom,
                     </ToggleOverstyringKnapp>
                 </OverstyringHeader>
             ) : (
-                <UtbetalingHeader periodeErForkastet={utbetalingErForkastet} toggleOverstyring={toggleOverstyring}kunAgpEllerAvslåtteDager={kunAgpEllerAvslåtteDager}
+                <UtbetalingHeader
+                    periodeErForkastet={utbetaling.status === Utbetalingstatus.Forkastet}
+                    toggleOverstyring={toggleOverstyring}
+                    revurderingIsEnabled={revurderingIsEnabled}
+                    overstyrRevurderingIsEnabled={overstyrRevurderingIsEnabled}
                 />
             )}
             <UtbetalingstabellContainer overstyrer={overstyrer}>
@@ -220,6 +233,7 @@ const OverstyrbarUtbetaling: React.FC<OverstyrbarUtbetalingProps> = ({ fom, tom,
                                 markerteDager={markerteDager}
                                 toggleOverstyring={toggleOverstyring}
                                 onSubmitEndring={onSubmitEndring}
+                                revurderingIsEnabled={revurderingIsEnabled}
                             />
                         </Sticky>
                         <BegrunnelsesContainer>
@@ -314,6 +328,9 @@ const UtbetalingWithContent: React.FC<UtbetalingWithContentProps> = React.memo((
             tom={period.tom}
             dager={dager}
             skjæringstidspunkt={period.skjaeringstidspunkt}
+            utbetaling={period.utbetaling}
+            revurderingIsEnabled={revurderingIsEnabled}
+            overstyrRevurderingIsEnabled={overstyrRevurderingIsEnabled}
         />
     ) : (
         <ReadonlyUtbetaling fom={period.fom} tom={period.tom} dager={dager} />

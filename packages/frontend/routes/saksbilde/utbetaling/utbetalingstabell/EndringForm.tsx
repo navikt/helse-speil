@@ -5,8 +5,7 @@ import { useForm } from 'react-hook-form';
 import { Button, Select, TextField } from '@navikt/ds-react';
 
 import { Bold } from '@components/Bold';
-import { useRevurderingIsEnabled } from '@hooks/revurdering';
-import { defaultUtbetalingToggles, overstyrPermisjonsdagerEnabled } from '@utils/featureToggles';
+import { overstyrPermisjonsdagerEnabled } from '@utils/featureToggles';
 
 const Container = styled.div`
     background-color: var(--speil-overstyring-background);
@@ -85,10 +84,15 @@ interface EndringFormProps {
     markerteDager: Map<string, UtbetalingstabellDag>;
     toggleOverstyring: () => void;
     onSubmitEndring: (endring: Partial<UtbetalingstabellDag>) => void;
+    revurderingIsEnabled: boolean;
 }
 
-export const EndringForm: React.FC<EndringFormProps> = ({ markerteDager, toggleOverstyring, onSubmitEndring }) => {
-    const revurderingIsEnabled = useRevurderingIsEnabled(defaultUtbetalingToggles);
+export const EndringForm: React.FC<EndringFormProps> = ({
+    markerteDager,
+    toggleOverstyring,
+    onSubmitEndring,
+    revurderingIsEnabled,
+}) => {
     const defaultEndring = { type: lovligeTypeendringer(revurderingIsEnabled)[0] };
     const [endring, setEndring] = useState<Partial<UtbetalingstabellDag>>(defaultEndring);
 

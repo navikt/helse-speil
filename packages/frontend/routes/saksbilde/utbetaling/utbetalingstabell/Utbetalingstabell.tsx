@@ -6,9 +6,7 @@ import { Bag, People } from '@navikt/ds-icons';
 import { Flex } from '@components/Flex';
 import { Tooltip } from '@components/Tooltip';
 import { getFormattedDateString } from '@utils/date';
-import { isBeregnetPeriode } from '@utils/typeguards';
-import { useCurrentPerson } from '@state/person';
-import { useActivePeriod } from '@state/periode';
+import { useAlderVedSkjæringstidspunkt } from '@hooks/useAlderVedSkjæringstidspunkt';
 
 import { Row } from '../../table/Row';
 import { Header } from '../../table/Header';
@@ -23,17 +21,6 @@ import { UtbetalingCell } from './UtbetalingCell';
 import { GjenståendeDagerCell } from './GjenståendeDagerCell';
 
 import styles from './Utbetalingstabell.module.css';
-
-const useAlderVedSkjæringstidspunkt = (): number | null => {
-    const birthDate = useCurrentPerson()?.personinfo.fodselsdato;
-    const period = useActivePeriod();
-
-    if (typeof birthDate === 'string' && isBeregnetPeriode(period)) {
-        return dayjs(period.skjaeringstidspunkt).diff(birthDate, 'year');
-    } else {
-        return null;
-    }
-};
 
 interface UtbetalingstabellProps {
     fom: DateString;
@@ -55,7 +42,7 @@ export const Utbetalingstabell = ({
     const formattedFom = getFormattedDateString(fom);
     const formattedTom = getFormattedDateString(tom);
 
-    const dagerList: [string, UtbetalingstabellDag][] = useMemo(() => Array.from(dager.entries()), [dager]);
+    const dagerList: Array<UtbetalingstabellDag> = useMemo(() => Array.from(dager.values()), [dager]);
 
     const alderVedSkjæringstidspunkt = useAlderVedSkjæringstidspunkt();
 
@@ -103,17 +90,17 @@ export const Utbetalingstabell = ({
                     </thead>
                     <tbody>
                         {dagerList.length > 0 && <TotalRow dager={dagerList} overstyrer={overstyrer} />}
-                        {dagerList.map(([key, dag], i) => (
+                        {dagerList.map((dag, i) => (
                             <Row
                                 erAvvist={dag.erAvvist}
                                 erAGP={dag.erAGP}
                                 type={dag.type}
                                 key={i}
-                                markertDag={markerteDager?.get(key)}
+                                markertDag={markerteDager?.get(dag.dato)}
                             >
                                 <DateCell date={dag.dato} />
-                                <DagtypeCell dag={dag} overstyrtDag={lokaleOverstyringer?.get(key)} />
-                                <GradCell dag={dag} overstyrtDag={lokaleOverstyringer?.get(key)} />
+                                <DagtypeCell dag={dag} overstyrtDag={lokaleOverstyringer?.get(dag.dato)} />
+                                <GradCell dag={dag} overstyrtDag={lokaleOverstyringer?.get(dag.dato)} />
                                 <KildeCell
                                     dato={dag.dato}
                                     type={dag.type}
@@ -123,19 +110,19 @@ export const Utbetalingstabell = ({
                                 <TotalGradCell
                                     type={dag.type}
                                     totalGradering={dag.totalGradering}
-                                    erOverstyrt={!!lokaleOverstyringer?.get(key)}
+                                    erOverstyrt={!!lokaleOverstyringer?.get(dag.dato)}
                                 />
                                 <UtbetalingCell
                                     utbetaling={dag.arbeidsgiverbeløp}
-                                    erOverstyrt={!!lokaleOverstyringer?.get(key)}
+                                    erOverstyrt={!!lokaleOverstyringer?.get(dag.dato)}
                                 />
                                 <UtbetalingCell
                                     utbetaling={dag.personbeløp}
-                                    erOverstyrt={!!lokaleOverstyringer?.get(key)}
+                                    erOverstyrt={!!lokaleOverstyringer?.get(dag.dato)}
                                 />
                                 <GjenståendeDagerCell
                                     gjenståendeDager={dag.dagerIgjen}
-                                    erOverstyrt={!!lokaleOverstyringer?.get(key)}
+                                    erOverstyrt={!!lokaleOverstyringer?.get(dag.dato)}
                                 />
                                 <MerknaderCell
                                     style={{ width: '100%' }}

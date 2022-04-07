@@ -3,8 +3,8 @@ import styled from '@emotion/styled';
 import React from 'react';
 
 interface RowProps {
-    erAvvist: boolean;
-    erAGP: boolean;
+    erAvvist?: boolean;
+    erAGP?: boolean;
     type?: Utbetalingstabelldagtype;
     markertDag?: UtbetalingstabellDag;
 }

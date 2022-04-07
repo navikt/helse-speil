@@ -50,16 +50,16 @@ const InfobobleContainer = styled.div`
 interface UtbetalingHeaderProps {
     periodeErForkastet: boolean;
     toggleOverstyring: () => void;
-    kunAgpEllerAvslåtteDager: boolean;
+    revurderingIsEnabled: boolean;
+    overstyrRevurderingIsEnabled: boolean;
 }
 
 export const UtbetalingHeader: React.FC<UtbetalingHeaderProps> = ({
     periodeErForkastet,
     toggleOverstyring,
-    kunAgpEllerAvslåtteDager,
+    revurderingIsEnabled,
+    overstyrRevurderingIsEnabled,
 }) => {
-    const revurderingIsEnabled = useRevurderingIsEnabled(defaultUtbetalingToggles);
-    const overstyrRevurderingIsEnabled = useOverstyrRevurderingIsEnabled(defaultUtbetalingToggles);
     return (
         <Container>
             {periodeErForkastet ? (

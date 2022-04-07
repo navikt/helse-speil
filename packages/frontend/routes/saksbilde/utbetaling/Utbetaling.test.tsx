@@ -1,13 +1,12 @@
-import '@testing-library/jest-dom/extend-expect';
-import { render, screen, waitFor } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
-import dayjs from 'dayjs';
 import React from 'react';
-import { RecoilRoot } from 'recoil';
+import userEvent from '@testing-library/user-event';
+import { render, screen, waitFor } from '@testing-library/react';
+import '@testing-library/jest-dom/extend-expect';
 
-import { testSkjæringstidspunkt } from '../../../test/data/person';
-import { Utbetaling } from './Utbetaling';
-import { UtbetalingstabellDag } from './utbetalingstabell/Utbetalingstabell.types';
+import { Kildetype, Utbetaling, Utbetalingstatus, Utbetalingtype } from '@io/graphql';
+import { RecoilWrapper } from '@test-wrappers';
+
+import { OverstyrbarUtbetaling } from './Utbetaling';
 
 let postOverstyringArguments: [UtbetalingstabellDag[], string] | [] = [];
 
@@ -19,58 +18,57 @@ jest.mock('./utbetalingstabell/usePostOverstyring', () => ({
     }),
 }));
 
-jest.mock('../../../hooks/useOverstyringIsEnabled', () => ({
-    useOverstyringIsEnabled: () => true,
+jest.mock('@hooks/useAlderVedSkjæringstidspunkt', () => ({
+    useAlderVedSkjæringstidspunkt: () => 30,
 }));
 
-jest.mock('../../../hooks/revurdering', () => ({
-    useRevurderingIsEnabled: () => false,
-    useOverstyrRevurderingIsEnabled: () => false,
-    useErAktivPeriodeISisteSkjæringstidspunkt: () => true,
-}));
-
-jest.mock('../../../modell/utbetalingshistorikkelement', () => ({
-    useMaksdato: () => dayjs(),
-    useGjenståendeDager: () => 100,
-}));
-
-jest.mock('../../../state/tidslinje', () => ({
-    useMaybeAktivPeriode: () => {},
-    useVedtaksperiode: () => ({ erForkastet: false }),
-}));
-
-const wrapper: React.FC = ({ children }) => <RecoilRoot>{children}</RecoilRoot>;
-
-const enDag = (overrides?: Partial<Dag>): Dag => ({
-    type: overrides?.type ?? 'Syk',
-    dato: overrides?.dato ?? dayjs(),
-    gradering: overrides?.gradering ?? 100,
+const getUtbetaling = (overrides?: Partial<Utbetaling>): Utbetaling => ({
+    arbeidsgiverFagsystemId: '123',
+    arbeidsgiverNettoBelop: 30000,
+    personFagsystemId: '234',
+    personNettoBelop: 0,
+    status: Utbetalingstatus.Ubetalt,
+    type: Utbetalingtype.Utbetaling,
+    ...overrides,
 });
 
-const enPeriode = (): TidslinjeperiodeMedSykefravær =>
-    ({
-        fom: dayjs(),
-        tom: dayjs(),
-        utbetalingstidslinje: [
-            enDag({ dato: dayjs('2021-01-01') }),
-            enDag({ dato: dayjs('2021-01-02'), type: 'Egenmelding' }),
-            enDag({ dato: dayjs('2021-01-03'), type: 'Ferie' }),
-        ] as Utbetalingsdag[],
-        sykdomstidslinje: [
-            enDag({ dato: dayjs('2021-01-01') }),
-            enDag({ dato: dayjs('2021-01-02') }),
-            enDag({ dato: dayjs('2021-01-03') }),
-        ] as Sykdomsdag[],
-    } as TidslinjeperiodeMedSykefravær);
+const getDag = (dato: DateString, overrides?: Partial<UtbetalingstabellDag>): UtbetalingstabellDag => ({
+    dato: dato,
+    kilde: { id: '123', type: Kildetype.Inntektsmelding },
+    type: 'Syk',
+    erAGP: false,
+    erAvvist: false,
+    erForeldet: false,
+    erMaksdato: false,
+    ...overrides,
+});
 
 describe('Utbetaling', () => {
     beforeEach(() => {
         postOverstyringArguments = [];
     });
     test('overstyrer utbetalingstabell', async () => {
-        render(<Utbetaling period={enPeriode()} overstyringer={[]} skjæringstidspunkt={testSkjæringstidspunkt} />, {
-            wrapper,
-        });
+        const dager = new Map<string, UtbetalingstabellDag>([
+            ['2022-01-01', getDag('2022-01-01')],
+            ['2022-01-02', getDag('2022-01-02')],
+            ['2022-01-03', getDag('2022-01-03')],
+            ['2022-01-04', getDag('2022-01-04')],
+            ['2022-01-05', getDag('2022-01-05')],
+        ]);
+        render(
+            <OverstyrbarUtbetaling
+                fom="2022-01-01"
+                tom="2022-01-31"
+                dager={dager}
+                skjæringstidspunkt="2022-01-01"
+                utbetaling={getUtbetaling()}
+                revurderingIsEnabled={false}
+                overstyrRevurderingIsEnabled={false}
+            />,
+            { wrapper: RecoilWrapper },
+        );
+
+        const meh = screen;
 
         userEvent.click(screen.getByText('Endre'));
         userEvent.click(screen.getAllByRole('checkbox')[0]);
@@ -101,7 +99,7 @@ describe('Utbetaling', () => {
             expect(postOverstyringArguments).toHaveLength(2);
             postOverstyringArguments[0]?.forEach((it) => {
                 expect(it.type).toEqual('Syk');
-                expect(it.gradering).toEqual(80);
+                expect(it.grad).toEqual(80);
             });
         });
     });
