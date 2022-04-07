@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react';
 
 import { DropdownButton, DropdownContext } from '@components/dropdown/Dropdown';
-import { Utbetaling } from '@io/graphql';
+import { Utbetaling, Utbetalingstatus } from '@io/graphql';
 
 import { Annulleringsmodal } from '../annullering/Annulleringsmodal';
 import { useArbeidsgiveroppdrag } from '../../utbetalingshistorikk/state';
@@ -25,9 +25,7 @@ export const AnnulleringDropdownMenuButton = ({
 
     const { lukk } = useContext(DropdownContext);
 
-    const isAnnullert = utbetaling.status === 'Annullert';
-
-    if (!oppdrag?.arbeidsgiveroppdrag || isAnnullert) {
+    if (!oppdrag?.arbeidsgiveroppdrag || utbetaling.status === Utbetalingstatus.Annullert) {
         return null;
     }
 
@@ -40,12 +38,7 @@ export const AnnulleringDropdownMenuButton = ({
                     aktørId={aktørId}
                     organisasjonsnummer={organisasjonsnummer}
                     fagsystemId={utbetaling.arbeidsgiverFagsystemId}
-                    linjer={oppdrag.arbeidsgiveroppdrag.linjer.map((it) => ({
-                        ...it,
-                        fom: it.fom,
-                        tom: it.tom,
-                        totalbeløp: it.totalbelop,
-                    }))}
+                    linjer={oppdrag.arbeidsgiveroppdrag.linjer}
                     onClose={() => {
                         setShowModal(false);
                         lukk();
