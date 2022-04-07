@@ -142,10 +142,10 @@ export const getBehandlingsstatistikk = async (): Promise<ExternalBehandlingstat
     );
 };
 
-export const getNotater = async (vedtaksperiodeIder: string[]) => {
+export const getNotater = async (vedtaksperiodeIder: string[]): Promise<{ vedtaksperiodeId: Array<ExternalNotat> }> => {
     return get<{ vedtaksperiodeId: ExternalNotat[] }>(
         `${baseUrl}/notater?vedtaksperiodeId=${vedtaksperiodeIder.join('&vedtaksperiodeId=')}`,
-    ).then((response) => response.data);
+    ).then((response) => response.data!);
 };
 
 const postVedtak = async (oppgavereferanse: string, aktørId: string, godkjent: boolean, skjema?: Avvisningsskjema) =>
