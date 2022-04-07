@@ -24,8 +24,21 @@ export const getInntekt = (vilkårsgrunnlag: Vilkarsgrunnlag, organisasjonsnumme
         throw Error('Fant ikke inntekt');
     })();
 
-export const getInntektsgrunnlag = (person: Person, skjaeringstidspunkt: DateString): Inntektsgrunnlag =>
-    person?.inntektsgrunnlag.find((inntektsgrunnlag) => inntektsgrunnlag.skjaeringstidspunkt === skjaeringstidspunkt) ??
+export const getInntektsgrunnlag = (person: Person, skjæringstidspunkt: DateString): Inntektsgrunnlag =>
+    person.inntektsgrunnlag.find((inntektsgrunnlag) => inntektsgrunnlag.skjaeringstidspunkt === skjæringstidspunkt) ??
     (() => {
         throw Error('Fant ikke inntektsgrunnlag');
+    })();
+
+export const getVilkårsgrunnlag = (
+    person: Person,
+    vilkårsgrunnlagId: string,
+    skjæringstidspunkt: DateString,
+): Vilkarsgrunnlag =>
+    person.vilkarsgrunnlaghistorikk
+        .find(({ id }) => id === vilkårsgrunnlagId)
+        ?.grunnlag.filter((grunnlag) => grunnlag.skjaeringstidspunkt === skjæringstidspunkt)
+        .pop() ??
+    (() => {
+        throw Error('Fant ikke vilkårsgrunnlag');
     })();

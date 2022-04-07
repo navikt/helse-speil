@@ -3,10 +3,11 @@ import React from 'react';
 
 import { Vilkårdata } from '../../../mapping/vilkår';
 
-import { Maybe, Vurdering } from '@io/graphql';
+import { Maybe, Vilkarsgrunnlag, Vurdering } from '@io/graphql';
 import { isBeregnetPeriode } from '@utils/typeguards';
 import { useActivePeriod } from '@state/periode';
-import { useCurrentPerson, useVilkårsgrunnlag } from '@state/person';
+import { getVilkårsgrunnlag } from '@state/selectors/person';
+import { useCurrentPerson } from '@state/person';
 import { ErrorBoundary } from '@components/ErrorBoundary';
 import { Varsel } from '@components/Varsel';
 
@@ -23,27 +24,19 @@ import styles from './Inngangsvilkår.module.css';
 const harVilkår = (vilkår?: Vilkårdata[]) => vilkår && vilkår.length > 0;
 
 interface InngangsvilkårWithContentProps {
-    vurdering?: Maybe<Vurdering>;
     periodeFom: DateString;
-    skjæringstidspunkt: DateString;
-    vilkårsgrunnlagHistorikkId: UUID;
+    vilkårsgrunnlag: Vilkarsgrunnlag;
     fødselsdato: DateString;
+    vurdering?: Maybe<Vurdering>;
 }
 
 export const InngangsvilkårWithContent = ({
-    vurdering,
     periodeFom,
-    skjæringstidspunkt,
-    vilkårsgrunnlagHistorikkId,
+    vilkårsgrunnlag,
     fødselsdato,
+    vurdering,
 }: InngangsvilkårWithContentProps) => {
-    const vilkårsgrunnlag = useVilkårsgrunnlag(vilkårsgrunnlagHistorikkId, skjæringstidspunkt);
-
-    if (!vilkårsgrunnlag) {
-        throw Error('Mangler vilkårsgrunnlag.');
-    }
-
-    const alderVedSkjæringstidspunkt = dayjs(skjæringstidspunkt).diff(fødselsdato, 'year');
+    const alderVedSkjæringstidspunkt = dayjs(vilkårsgrunnlag.skjaeringstidspunkt).diff(fødselsdato, 'year');
 
     const { oppfylteVilkår, ikkeVurderteVilkår, ikkeOppfylteVilkår, vilkårVurdertIInfotrygd, vilkårVurdertISpleis } =
         kategoriserteInngangsvilkår(vilkårsgrunnlag, alderVedSkjæringstidspunkt, vurdering);
@@ -68,9 +61,9 @@ export const InngangsvilkårWithContent = ({
                         <VurdertISpleis
                             vilkår={vilkårVurdertISpleis}
                             ident={vurdering.ident}
-                            skjæringstidspunkt={skjæringstidspunkt}
+                            skjæringstidspunkt={vilkårsgrunnlag.skjaeringstidspunkt}
                             automatiskBehandlet={vurdering.automatisk}
-                            erForlengelse={dayjs(periodeFom).isAfter(skjæringstidspunkt)}
+                            erForlengelse={dayjs(periodeFom).isAfter(vilkårsgrunnlag.skjaeringstidspunkt)}
                         />
                     )}
                     {vilkårVurdertIInfotrygd && vilkårVurdertIInfotrygd.length > 0 && (
@@ -92,12 +85,16 @@ const InngangsvilkårContainer = () => {
     if (!activePeriod || !person?.personinfo.fodselsdato) {
         return null;
     } else if (isBeregnetPeriode(activePeriod)) {
+        const vilkårsgrunnlag = getVilkårsgrunnlag(
+            person,
+            activePeriod.vilkarsgrunnlaghistorikkId,
+            activePeriod.skjaeringstidspunkt,
+        );
         return (
             <InngangsvilkårWithContent
                 vurdering={activePeriod.utbetaling.vurdering}
                 periodeFom={activePeriod.fom}
-                skjæringstidspunkt={activePeriod.skjaeringstidspunkt}
-                vilkårsgrunnlagHistorikkId={activePeriod.vilkarsgrunnlaghistorikkId}
+                vilkårsgrunnlag={vilkårsgrunnlag}
                 fødselsdato={person.personinfo.fodselsdato}
             />
         );

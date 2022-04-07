@@ -1,112 +1,42 @@
 import '@testing-library/jest-dom/extend-expect';
 import { render, screen, within } from '@testing-library/react';
-import dayjs from 'dayjs';
 import React from 'react';
-import { MutableSnapshot, RecoilRoot } from 'recoil';
 
-import { personState } from '@state/utbetaling';
+import { Inngangsvilkår, InngangsvilkårWithContent } from './Inngangsvilkår';
+import { VilkarsgrunnlagSpleis, Vilkarsgrunnlagtype, Vurdering } from '@io/graphql';
 
-import { umappetArbeidsgiver } from '../../../test/data/arbeidsgiver';
-import { mappetPerson, testSkjæringstidspunkt, testVilkårsgrunnlagHistorikkId } from '../../../test/data/person';
-import { umappetUtbetalingshistorikk } from '../../../test/data/utbetalingshistorikk';
-import { umappetVedtaksperiode } from '../../../test/data/vedtaksperiode';
-import { etInfotrygdgrunnlag, etSpleisgrunnlag } from '../../../test/data/vilkårsgrunnlaghistorikk';
-import { Inngangsvilkår } from './Inngangsvilkår';
-
-const utbetalingshistorikk = umappetUtbetalingshistorikk();
-const enArbeidsgiver = umappetArbeidsgiver(
-    [umappetVedtaksperiode()],
-    [],
-    [
-        {
-            ...utbetalingshistorikk,
-            utbetaling: { ...utbetalingshistorikk.utbetaling, vurdering: undefined },
-        },
-    ],
-);
-const enPerson = mappetPerson([enArbeidsgiver]);
-
-const arbeidsgiverMedVurdering = (
-    vurdering?: ExternalHistorikkElementUtbetaling['vurdering'],
-): ExternalArbeidsgiver => ({
-    ...enArbeidsgiver,
-    utbetalingshistorikk: [
-        {
-            ...enArbeidsgiver.utbetalingshistorikk[0],
-            utbetaling: {
-                ...enArbeidsgiver.utbetalingshistorikk[0].utbetaling,
-                vurdering,
-            },
-        },
-    ],
+const getVilkårsgrunnlagSpleis = (overrides?: Partial<VilkarsgrunnlagSpleis>): VilkarsgrunnlagSpleis => ({
+    antallOpptjeningsdagerErMinst: 100,
+    grunnbelop: 100000,
+    inntekter: [],
+    omregnetArsinntekt: 1234567,
+    oppfyllerKravOmMedlemskap: true,
+    oppfyllerKravOmMinstelonn: true,
+    oppfyllerKravOmOpptjening: true,
+    opptjeningFra: '2000-01-01',
+    sammenligningsgrunnlag: 1234567,
+    skjaeringstidspunkt: '2022-01-01',
+    sykepengegrunnlag: 1234567,
+    vilkarsgrunnlagtype: Vilkarsgrunnlagtype.Spleis,
+    ...overrides,
 });
 
-const personMedVurdering = (vurdering?: Vurdering): Person => ({
-    ...enPerson,
-    arbeidsgivere: [
-        {
-            ...enPerson.arbeidsgivere[0],
-            utbetalingshistorikk: [
-                {
-                    ...enPerson.arbeidsgivere[0].utbetalingshistorikk[0],
-                    utbetaling: {
-                        ...enPerson.arbeidsgivere[0].utbetalingshistorikk[0].utbetaling,
-                        vurdering,
-                    },
-                },
-            ],
-        },
-    ],
+const getVurdering = (overrides?: Partial<Vurdering>): Vurdering => ({
+    godkjent: true,
+    ident: 'en-saksbehandler',
+    automatisk: false,
+    tidsstempel: '2020-01-01',
+    ...overrides,
 });
-
-const personMedVilkårsgrunnlag = (
-    vilkårsgrunnlag: ExternalSpleisVilkårsgrunnlag | ExternalInfotrygdVilkårsgrunnlag,
-    vurdering?: ExternalHistorikkElementUtbetaling['vurdering'],
-) => ({
-    person: {
-        ...personMedVurdering(
-            vurdering && {
-                ...vurdering,
-                tidsstempel: dayjs(vurdering.tidsstempel),
-            },
-        ),
-        arbeidsgivereV2: [arbeidsgiverMedVurdering(vurdering)],
-        arbeidsforhold: [],
-        vilkårsgrunnlagHistorikk: {
-            [testVilkårsgrunnlagHistorikkId]: {
-                [testSkjæringstidspunkt]: vilkårsgrunnlag,
-            },
-        },
-    },
-});
-
-const wrapper =
-    (initializer?: (mutableSnapshot: MutableSnapshot) => void): React.FC =>
-    ({ children }) => {
-        return <RecoilRoot initializeState={initializer}>{children}</RecoilRoot>;
-    };
 
 describe('Inngangsvilkår', () => {
     it('rendrer oppfylte vilkår', () => {
         render(
-            <Inngangsvilkår
-                skjæringstidspunkt={testSkjæringstidspunkt}
-                vilkårsgrunnlagHistorikkId={testVilkårsgrunnlagHistorikkId}
+            <InngangsvilkårWithContent
+                periodeFom="2022-01-01"
+                vilkårsgrunnlag={getVilkårsgrunnlagSpleis()}
+                fødselsdato="1900-01-01"
             />,
-            {
-                wrapper: wrapper(({ set }) => {
-                    set(
-                        personState,
-                        personMedVilkårsgrunnlag(
-                            etSpleisgrunnlag({
-                                oppfyllerKravOmMedlemskap: true,
-                                oppfyllerKravOmMinstelønn: true,
-                                oppfyllerKravOmOpptjening: true,
-                            }),
-                        ),
-                    );
-                }),
-            },
         );
 
         const gruppe = screen.getByTestId('oppfylte-vilkår');
@@ -118,24 +48,11 @@ describe('Inngangsvilkår', () => {
 
     it('rendrer ikke oppfylte vilkår', () => {
         render(
-            <Inngangsvilkår
-                skjæringstidspunkt={testSkjæringstidspunkt}
-                vilkårsgrunnlagHistorikkId={testVilkårsgrunnlagHistorikkId}
+            <InngangsvilkårWithContent
+                periodeFom="2022-01-01"
+                vilkårsgrunnlag={getVilkårsgrunnlagSpleis({ oppfyllerKravOmOpptjening: false })}
+                fødselsdato="1900-01-01"
             />,
-            {
-                wrapper: wrapper(({ set }) => {
-                    set(
-                        personState,
-                        personMedVilkårsgrunnlag(
-                            etSpleisgrunnlag({
-                                oppfyllerKravOmMedlemskap: true,
-                                oppfyllerKravOmMinstelønn: true,
-                                oppfyllerKravOmOpptjening: false,
-                            }),
-                        ),
-                    );
-                }),
-            },
         );
 
         const oppfylteVilkår = screen.getByTestId('oppfylte-vilkår');
@@ -152,30 +69,12 @@ describe('Inngangsvilkår', () => {
 
     it('rendrer vilkår vurdert av saksbehandler', async () => {
         render(
-            <Inngangsvilkår
-                skjæringstidspunkt={testSkjæringstidspunkt}
-                vilkårsgrunnlagHistorikkId={testVilkårsgrunnlagHistorikkId}
+            <InngangsvilkårWithContent
+                periodeFom="2022-01-01"
+                vilkårsgrunnlag={getVilkårsgrunnlagSpleis()}
+                fødselsdato="1900-01-01"
+                vurdering={getVurdering()}
             />,
-            {
-                wrapper: wrapper(({ set }) => {
-                    set(
-                        personState,
-                        personMedVilkårsgrunnlag(
-                            etSpleisgrunnlag({
-                                oppfyllerKravOmMedlemskap: true,
-                                oppfyllerKravOmMinstelønn: true,
-                                oppfyllerKravOmOpptjening: true,
-                            }),
-                            {
-                                godkjent: true,
-                                ident: 'en-saksbehandler',
-                                automatisk: false,
-                                tidsstempel: '2020-01-01',
-                            },
-                        ),
-                    );
-                }),
-            },
         );
 
         const gruppe = screen.getByTestId('vurdert-av-saksbehandler');
@@ -187,30 +86,12 @@ describe('Inngangsvilkår', () => {
 
     it('rendrer automatisk vurderte vilkår', async () => {
         render(
-            <Inngangsvilkår
-                skjæringstidspunkt={testSkjæringstidspunkt}
-                vilkårsgrunnlagHistorikkId={testVilkårsgrunnlagHistorikkId}
+            <InngangsvilkårWithContent
+                periodeFom="2022-01-01"
+                vilkårsgrunnlag={getVilkårsgrunnlagSpleis()}
+                fødselsdato="1900-01-01"
+                vurdering={getVurdering({ automatisk: true })}
             />,
-            {
-                wrapper: wrapper(({ set }) => {
-                    set(
-                        personState,
-                        personMedVilkårsgrunnlag(
-                            etSpleisgrunnlag({
-                                oppfyllerKravOmMedlemskap: true,
-                                oppfyllerKravOmMinstelønn: true,
-                                oppfyllerKravOmOpptjening: true,
-                            }),
-                            {
-                                godkjent: true,
-                                automatisk: true,
-                                ident: 'spleis',
-                                tidsstempel: '2020-01-01',
-                            },
-                        ),
-                    );
-                }),
-            },
         );
 
         const gruppe = screen.getByTestId('vurdert-automatisk');
@@ -222,15 +103,11 @@ describe('Inngangsvilkår', () => {
 
     it('rendrer vilkår vurdert i Infotrygd', async () => {
         render(
-            <Inngangsvilkår
-                skjæringstidspunkt={testSkjæringstidspunkt}
-                vilkårsgrunnlagHistorikkId={testVilkårsgrunnlagHistorikkId}
+            <InngangsvilkårWithContent
+                periodeFom="2022-01-01"
+                vilkårsgrunnlag={getVilkårsgrunnlagSpleis({ vilkarsgrunnlagtype: Vilkarsgrunnlagtype.Infotrygd })}
+                fødselsdato="1900-01-01"
             />,
-            {
-                wrapper: wrapper(({ set }) => {
-                    set(personState, personMedVilkårsgrunnlag(etInfotrygdgrunnlag()));
-                }),
-            },
         );
 
         const gruppe = screen.getByTestId('vurdert-i-infotrygd');
