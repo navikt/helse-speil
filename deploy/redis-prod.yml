@@ -8,6 +8,7 @@ metadata:
   annotations:
     nais.io/run-as-group: "0"
     nais.io/read-only-file-system: "false"
+    config.alpha.linkerd.io/proxy-wait-before-exit-seconds: "10"
 spec:
   accessPolicy:
     inbound:
