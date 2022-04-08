@@ -30,7 +30,9 @@ interface RadmarkeringCheckboxProps extends Omit<React.InputHTMLAttributes<HTMLI
     index: number;
     dagtype: Utbetalingstabelldagtype;
     dato: DateString;
-    erAGP: boolean;
+    erAGP?: boolean;
+    erAvvist?: boolean;
+    erForeldet?: boolean;
     skjæringstidspunkt: DateString;
 }
 
@@ -39,13 +41,19 @@ export const RadmarkeringCheckbox: React.FC<RadmarkeringCheckboxProps> = ({
     dagtype,
     dato,
     erAGP,
+    erAvvist,
+    erForeldet,
     skjæringstidspunkt,
     ...rest
 }) => {
     const erSkjæringstidspunkt: boolean = dayjs(dato).isSame(skjæringstidspunkt, 'day');
 
     const dagKanOverstyres =
-        (!erAGP && !['Helg'].includes(dagtype) && ['Syk', 'Ferie', 'Egenmelding'].includes(dagtype)) ||
+        (!erAGP &&
+            erAvvist &&
+            erForeldet &&
+            !['Helg'].includes(dagtype) &&
+            ['Syk', 'Ferie', 'Egenmelding'].includes(dagtype)) ||
         (overstyrPermisjonsdagerEnabled && dagtype === 'Permisjon');
 
     if (!dagKanOverstyres) {
