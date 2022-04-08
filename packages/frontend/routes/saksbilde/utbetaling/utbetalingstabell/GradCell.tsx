@@ -14,7 +14,7 @@ interface GradCellProps extends React.HTMLAttributes<HTMLTableCellElement> {
 
 export const GradCell: React.FC<GradCellProps> = ({ dag, overstyrtDag, ...rest }) => {
     const gradErOverstyrt = overstyrtDag && overstyrtDag.grad !== dag.grad;
-    const overstyringstekst = typeof dag.grad === 'number' ? 'Endret fra dag uten grad' : `Endret fra ${dag.grad} %`;
+    const overstyringstekst = typeof dag.grad === 'number' ? `Endret fra ${dag.grad} %` : 'Endret fra dag uten grad';
 
     return (
         <td {...rest}>

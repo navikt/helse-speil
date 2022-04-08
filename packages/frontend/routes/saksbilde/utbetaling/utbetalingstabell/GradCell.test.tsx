@@ -1,22 +1,19 @@
-import '@testing-library/jest-dom/extend-expect';
-import { render, screen } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
-import dayjs from 'dayjs';
 import React from 'react';
+import userEvent from '@testing-library/user-event';
+import { render, screen } from '@testing-library/react';
+import '@testing-library/jest-dom/extend-expect';
 
 import { GradCell } from './GradCell';
-import { UtbetalingstabellDag } from './Utbetalingstabell.types';
+import { getUtbetalingstabellDag } from '@test-data/utbetalingstabell';
 
 describe('GradCell', () => {
     it('skal tegne en overstyringstrekant med tekst når grad går fra 100 % til 0 %', () => {
-        const overstyrtTilNullProsentSyk: UtbetalingstabellDag = {
-            type: 'Syk',
-            gradering: 0,
-            dato: dayjs(),
-            isMaksdato: true,
-            sykdomsdag: { type: 'Syk', kilde: 'Sykmelding', grad: undefined },
-        };
-        render(<GradCell type="Syk" grad={100} overstyrtDag={overstyrtTilNullProsentSyk} />);
+        render(
+            <GradCell
+                dag={getUtbetalingstabellDag({ grad: 100 })}
+                overstyrtDag={getUtbetalingstabellDag({ grad: 0 })}
+            />,
+        );
         const indikator = screen.getByTestId('infotrekant');
         expect(indikator).toBeVisible();
 
@@ -25,14 +22,7 @@ describe('GradCell', () => {
     });
 
     it('skal tegne en overstyringstrekant med tekst når grad går fra null til 100 %', () => {
-        const overstyrtTilHundreProsentSyk: UtbetalingstabellDag = {
-            type: 'Syk',
-            gradering: 100,
-            dato: dayjs(),
-            isMaksdato: true,
-            sykdomsdag: { type: 'Syk', kilde: 'Sykmelding', grad: undefined },
-        };
-        render(<GradCell type="Egenmelding" overstyrtDag={overstyrtTilHundreProsentSyk} />);
+        render(<GradCell dag={getUtbetalingstabellDag({ grad: null })} overstyrtDag={getUtbetalingstabellDag()} />);
         const indikator = screen.getByTestId('infotrekant');
         expect(indikator).toBeVisible();
 
@@ -41,7 +31,7 @@ describe('GradCell', () => {
     });
 
     it('rendrer ikke infotrekant når vi ikke overstyrer', () => {
-        render(<GradCell type="Egenmelding" grad={100} />);
+        render(<GradCell dag={getUtbetalingstabellDag()} />);
         expect(screen.queryByTestId('infotrekant')).toBeNull();
     });
 });

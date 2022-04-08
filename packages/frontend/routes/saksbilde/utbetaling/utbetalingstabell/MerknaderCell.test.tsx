@@ -3,7 +3,8 @@ import { queries, queryHelpers, render, screen } from '@testing-library/react';
 import React from 'react';
 
 import { MerknaderCell } from './MerknaderCell';
-import { Begrunnelse, Kildetype } from '@io/graphql';
+import { Begrunnelse } from '@io/graphql';
+import { getUtbetalingstabellDag } from '@test-data/utbetalingstabell';
 
 const defaultRenderOptions = {
     queries: {
@@ -12,17 +13,6 @@ const defaultRenderOptions = {
         queryAllByDataTip: queryHelpers.queryAllByAttribute.bind(null, 'data-tip'),
     },
 };
-
-const getUtbetalingstabellDag = (overrides?: Partial<UtbetalingstabellDag>): UtbetalingstabellDag => ({
-    dato: '2022-01-01',
-    kilde: { id: '123', type: Kildetype.Inntektsmelding },
-    type: 'Syk',
-    erAGP: false,
-    erAvvist: false,
-    erForeldet: false,
-    erMaksdato: false,
-    ...overrides,
-});
 
 describe('MerknaderCell', () => {
     test('rendrer merknad om siste utbetalingsdag', () => {
