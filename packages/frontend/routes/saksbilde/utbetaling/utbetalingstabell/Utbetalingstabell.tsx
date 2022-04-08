@@ -1,6 +1,5 @@
 import React, { useMemo } from 'react';
 import classNames from 'classnames';
-import dayjs from 'dayjs';
 import { Bag, People } from '@navikt/ds-icons';
 
 import { Flex } from '@components/Flex';

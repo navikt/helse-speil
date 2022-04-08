@@ -22,6 +22,9 @@ jest.mock('@hooks/useAlderVedSkjæringstidspunkt', () => ({
     useAlderVedSkjæringstidspunkt: () => 30,
 }));
 
+//TODO this is bad, need to make it go faster
+jest.setTimeout(7000);
+
 const getUtbetaling = (overrides?: Partial<Utbetaling>): Utbetaling => ({
     arbeidsgiverFagsystemId: '123',
     arbeidsgiverNettoBelop: 30000,
