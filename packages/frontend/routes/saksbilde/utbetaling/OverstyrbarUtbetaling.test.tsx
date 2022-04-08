@@ -6,7 +6,7 @@ import '@testing-library/jest-dom/extend-expect';
 import { Kildetype, Utbetaling, Utbetalingstatus, Utbetalingtype } from '@io/graphql';
 import { RecoilWrapper } from '@test-wrappers';
 
-import { OverstyrbarUtbetaling } from './Utbetaling';
+import { OverstyrbarUtbetaling } from './OverstyrbarUtbetaling';
 
 let postOverstyringArguments: [UtbetalingstabellDag[], string] | [] = [];
 
@@ -43,18 +43,16 @@ const getDag = (dato: DateString, overrides?: Partial<UtbetalingstabellDag>): Ut
     ...overrides,
 });
 
+const dager = new Map<string, UtbetalingstabellDag>([
+    ['2022-01-01', getDag('2022-01-01')],
+    ['2022-01-02', getDag('2022-01-02')],
+    ['2022-01-03', getDag('2022-01-03')],
+    ['2022-01-04', getDag('2022-01-04')],
+    ['2022-01-05', getDag('2022-01-05')],
+]);
+
 describe('Utbetaling', () => {
-    beforeEach(() => {
-        postOverstyringArguments = [];
-    });
     test('overstyrer utbetalingstabell', async () => {
-        const dager = new Map<string, UtbetalingstabellDag>([
-            ['2022-01-01', getDag('2022-01-01')],
-            ['2022-01-02', getDag('2022-01-02')],
-            ['2022-01-03', getDag('2022-01-03')],
-            ['2022-01-04', getDag('2022-01-04')],
-            ['2022-01-05', getDag('2022-01-05')],
-        ]);
         render(
             <OverstyrbarUtbetaling
                 fom="2022-01-01"
@@ -69,9 +67,11 @@ describe('Utbetaling', () => {
         );
 
         userEvent.click(screen.getByText('Endre'));
-        userEvent.click(screen.getAllByRole('checkbox')[0]);
-        userEvent.click(screen.getAllByRole('checkbox')[1]);
-        userEvent.click(screen.getAllByRole('checkbox')[2]);
+
+        const checkboxes = screen.getAllByRole('checkbox');
+        userEvent.click(checkboxes[1]);
+        userEvent.click(checkboxes[2]);
+        userEvent.click(checkboxes[3]);
 
         expect(screen.getAllByRole('option')).toHaveLength(4);
         expect(screen.getByTestId('dagtypevelger')).not.toBeDisabled();
@@ -86,8 +86,9 @@ describe('Utbetaling', () => {
 
         userEvent.click(screen.getByTestId('endre'));
 
+        const ferdigButton = screen.getByTestId('oppdater');
         await waitFor(() => {
-            expect(screen.getByTestId('oppdater')).not.toBeDisabled();
+            expect(ferdigButton).not.toBeDisabled();
         });
 
         userEvent.type(screen.getByTestId('overstyring-begrunnelse'), 'En begrunnelse');
