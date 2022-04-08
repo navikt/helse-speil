@@ -23,8 +23,8 @@
         "forceConsistentCasingInFileNames": true,
         "baseUrl": "",
         "paths": {
-            "test-data": ["./test/data"],
             "@test-wrappers": ["./test/wrappers"],
+            "@test-data/*": ["./test/data/*"],
             "@io/*": ["./io/*"],
             "@utils/*": ["./utils/*"],
             "@components/*": ["./components/*"],
