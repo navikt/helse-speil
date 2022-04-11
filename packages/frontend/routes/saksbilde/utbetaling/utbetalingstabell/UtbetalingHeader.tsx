@@ -1,14 +1,11 @@
 import styled from '@emotion/styled';
-import React from 'react';
+import React, { useMemo } from 'react';
 
 import { Locked } from '@navikt/ds-icons';
 
 import { Flex } from '@components/Flex';
 import { PopoverHjelpetekst } from '@components/PopoverHjelpetekst';
 import { SortInfoikon } from '@components/ikoner/SortInfoikon';
-import { useOverstyrRevurderingIsEnabled, useRevurderingIsEnabled } from '@hooks/revurdering';
-
-import { defaultUtbetalingToggles } from '@utils/featureToggles';
 
 const Container = styled(Flex)`
     min-height: 24px;
@@ -50,16 +47,23 @@ const InfobobleContainer = styled.div`
 interface UtbetalingHeaderProps {
     periodeErForkastet: boolean;
     toggleOverstyring: () => void;
-    revurderingIsEnabled: boolean;
-    overstyrRevurderingIsEnabled: boolean;
+    dager: Map<string, UtbetalingstabellDag>;
+    revurderingIsEnabled?: boolean;
+    overstyrRevurderingIsEnabled?: boolean;
 }
 
 export const UtbetalingHeader: React.FC<UtbetalingHeaderProps> = ({
     periodeErForkastet,
     toggleOverstyring,
+    dager,
     revurderingIsEnabled,
     overstyrRevurderingIsEnabled,
 }) => {
+    const dagerInneholderKunAGPEllerAvvisteDager = useMemo(
+        () => Array.from(dager.values()).every((it) => it.erAGP || it.erAvvist || it.type === 'Helg'),
+        [dager],
+    );
+
     return (
         <Container>
             {periodeErForkastet ? (
@@ -68,7 +72,7 @@ export const UtbetalingHeader: React.FC<UtbetalingHeaderProps> = ({
                         <p>Kan ikke revurdere perioden på grunn av manglende datagrunnlag</p>
                     </PopoverHjelpetekst>
                 </InfobobleContainer>
-            ) : kunAgpEllerAvslåtteDager ? (
+            ) : dagerInneholderKunAGPEllerAvvisteDager ? (
                 <InfobobleContainer>
                     <PopoverHjelpetekst ikon={<SortInfoikon />}>
                         <p>

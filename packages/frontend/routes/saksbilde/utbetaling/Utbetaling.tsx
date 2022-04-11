@@ -1,7 +1,6 @@
 import styled from '@emotion/styled';
 import React, { useMemo } from 'react';
 import dayjs from 'dayjs';
-import { BodyShort } from '@navikt/ds-react';
 import { FlexColumn } from '@components/Flex';
 import { PopoverHjelpetekst } from '@components/PopoverHjelpetekst';
 import { SortInfoikon } from '@components/ikoner/SortInfoikon';

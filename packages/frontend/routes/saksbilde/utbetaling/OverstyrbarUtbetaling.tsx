@@ -158,6 +158,7 @@ export const OverstyrbarUtbetaling: React.FC<OverstyrbarUtbetalingProps> = ({
                 <UtbetalingHeader
                     periodeErForkastet={utbetaling.status === Utbetalingstatus.Forkastet}
                     toggleOverstyring={toggleOverstyring}
+                    dager={dager}
                     revurderingIsEnabled={revurderingIsEnabled}
                     overstyrRevurderingIsEnabled={overstyrRevurderingIsEnabled}
                 />
