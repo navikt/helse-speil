@@ -72,8 +72,6 @@ export const _AmplitudeProvider: React.FC<PropsWithChildren<{}>> = ({ children }
         } else {
             return {
                 varighet: dayjs().diff(åpnetTidspunkt),
-                type: activePeriod?.periodetype,
-                inntektskilde: activePeriod?.inntektstype,
                 begrunnelser: begrunnelser,
             };
         }

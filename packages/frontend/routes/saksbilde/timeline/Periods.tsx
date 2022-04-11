@@ -30,7 +30,7 @@ interface PeriodsProps {
     start: Dayjs;
     end: Dayjs;
     periods: Array<Periode>;
-    activePeriod: TimelinePeriod | null;
+    activePeriod?: Maybe<TimelinePeriod>;
     infotrygdPeriods?: Array<InfotrygdPeriod>;
     ghostPeriods?: Array<GhostPeriode>;
     notCurrent?: boolean;
@@ -46,7 +46,7 @@ export const Periods: React.VFC<PeriodsProps> = ({
     activePeriod,
 }) => {
     const allPeriods = [...filterActivePeriods(periods), ...(infotrygdPeriods ?? []), ...(ghostPeriods ?? [])].sort(
-        byFomAscending
+        byFomAscending,
     );
     const visiblePeriods = useVisiblePeriods(start, allPeriods);
     const positions = usePeriodStyling(start, end, visiblePeriods);

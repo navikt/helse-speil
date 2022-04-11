@@ -165,7 +165,7 @@ const InfotrygdInntekt = ({ aktivtOrgnummer, inntekt }: InfotrygdInntektProps) =
         <ArbeidsgiverRad erGjeldende={aktivtOrgnummer === inntekt.arbeidsgiver}>
             <td>
                 <AnonymizableText>
-                    {arbeidsgivernavn.toLowerCase() === 'ikke tilgjengelig'
+                    {arbeidsgivernavn?.toLowerCase() === 'ikke tilgjengelig'
                         ? inntekt.arbeidsgiver
                         : `${arbeidsgivernavn} (${inntekt.arbeidsgiver})`}
                 </AnonymizableText>

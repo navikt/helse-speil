@@ -50,8 +50,8 @@ export const RadmarkeringCheckbox: React.FC<RadmarkeringCheckboxProps> = ({
 
     const dagKanOverstyres =
         (!erAGP &&
-            erAvvist &&
-            erForeldet &&
+            !erAvvist &&
+            !erForeldet &&
             !['Helg'].includes(dagtype) &&
             ['Syk', 'Ferie', 'Egenmelding'].includes(dagtype)) ||
         (overstyrPermisjonsdagerEnabled && dagtype === 'Permisjon');

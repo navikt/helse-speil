@@ -33,14 +33,13 @@ describe('RadmarkeringCheckbox', () => {
             </>,
         );
 
-        expect(screen.getAllByRole('checkbox')).toHaveLength(1);
+        expect(screen.getAllByRole('checkbox')).toHaveLength(4);
     });
 
     it('rendrer ikke checkbox for ikke-overstyrbare dager', () => {
         render(
             <>
                 <RadmarkeringCheckbox index={0} dagtype="Helg" dato="2021-01-01" skjæringstidspunkt="" />
-                <RadmarkeringCheckbox index={0} dagtype="Avslått" dato="2021-01-01" skjæringstidspunkt="" />
                 <RadmarkeringCheckbox index={0} dagtype="Ukjent" dato="2021-01-01" skjæringstidspunkt="" />
                 <RadmarkeringCheckbox index={0} dagtype="Arbeid" dato="2021-01-01" skjæringstidspunkt="" />
                 <RadmarkeringCheckbox index={0} dagtype="Syk" dato="2021-01-01" skjæringstidspunkt="" erAGP />

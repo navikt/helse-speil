@@ -10,7 +10,12 @@ import { RecoilAndRouterWrapper } from '@test-wrappers';
 
 let cachedVarsel: VarselObject | null = null;
 
-jest.mock('../../state/varsler', () => ({
+jest.mock('graphql-request', () => ({
+    request: () => Promise.resolve({}),
+    gql: () => null,
+}));
+
+jest.mock('@state/varsler', () => ({
     __esModule: true,
     Scopes: { GLOBAL: '/' },
     useAddVarsel: () => (varsel: VarselObject) => {

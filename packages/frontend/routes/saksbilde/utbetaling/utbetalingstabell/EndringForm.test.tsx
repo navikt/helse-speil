@@ -3,13 +3,7 @@ import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import React from 'react';
 
-import { EndringForm, lovligeTypeendringer } from './EndringForm';
-import { UtbetalingstabellDag } from './Utbetalingstabell.types';
-
-jest.mock('../../../../hooks/revurdering', () => ({
-    useRevurderingIsEnabled: () => true,
-    useOverstyrRevurderingIsEnabled: () => true,
-}));
+import { EndringForm, getLovligeTypeendringer } from './EndringForm';
 
 jest.mock('@utils/featureToggles', () => ({
     overstyrPermisjonsdagerEnabled: true,
@@ -17,11 +11,11 @@ jest.mock('@utils/featureToggles', () => ({
 
 describe('lovligeTypeendringer', () => {
     it('returnerer lovlige typeendringer for dagtypevelgeren under revurdering', () => {
-        expect(lovligeTypeendringer(true)).toEqual(['Syk', 'Ferie']);
+        expect(getLovligeTypeendringer({ revurderingIsEnabled: true })).toEqual(['Syk', 'Ferie']);
     });
 
     it('returnerer lovlige typeendringer for dagtypevelgeren under overstyring', () => {
-        expect(lovligeTypeendringer(false)).toEqual(['Syk', 'Ferie', 'Egenmelding', 'Permisjon']);
+        expect(getLovligeTypeendringer()).toEqual(['Syk', 'Ferie', 'Egenmelding', 'Permisjon']);
     });
 });
 
@@ -36,7 +30,7 @@ describe('EndringForm', () => {
     it('disabler grad når feil dagtyper velges', async () => {
         const markerteDager = new Map([['2020-01-01', { type: 'Ferie' } as UtbetalingstabellDag]]);
         render(
-            <EndringForm markerteDager={markerteDager} onSubmitEndring={() => null} toggleOverstyring={() => null} />
+            <EndringForm markerteDager={markerteDager} onSubmitEndring={() => null} toggleOverstyring={() => null} />,
         );
 
         userEvent.selectOptions(screen.getByRole('combobox'), screen.getAllByRole('option')[1]);

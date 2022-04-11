@@ -2,21 +2,20 @@ import styled from '@emotion/styled';
 import React, { useEffect, useRef } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
-
 import { InternalHeader, InternalHeaderTitle } from '@navikt/ds-react';
 
-import { erGyldigPersonId } from '@hooks/useRefreshPersonVedUrlEndring';
 import { authState } from '@state/authentication';
 import { useToggleEasterEgg } from '@state/easterEgg';
 import { useAddVarsel, useRemoveVarsel } from '@state/varsler';
-import { BentoMeny } from '@components/BentoMeny';
+import { useFetchPerson, usePersonLoadable } from '@state/person';
+import { erGyldigPersonId } from '@hooks/useRefreshPersonVedUrlEndring';
 import { Brukermeny } from '@components/Brukermeny';
+import { BentoMeny } from '@components/BentoMeny';
+import { isPerson } from '@utils/typeguards';
+import { graphqlplayground } from '@utils/featureToggles';
 
 import { SearchBar } from './SearchBar';
 import { EasterEgg } from '../../EasterEgg';
-import { graphqlplayground } from '@utils/featureToggles';
-import { useFetchPerson, usePersonLoadable } from '@state/person';
-import { isPerson } from '@utils/typeguards';
 
 const Container = styled.div`
     flex-shrink: 0;

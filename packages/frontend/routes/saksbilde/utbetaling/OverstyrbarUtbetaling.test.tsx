@@ -7,6 +7,7 @@ import { Kildetype, Utbetaling, Utbetalingstatus, Utbetalingtype } from '@io/gra
 import { RecoilWrapper } from '@test-wrappers';
 
 import { OverstyrbarUtbetaling } from './OverstyrbarUtbetaling';
+import { getUtbetalingstabellDag } from '@test-data/utbetalingstabell';
 
 let postOverstyringArguments: [UtbetalingstabellDag[], string] | [] = [];
 
@@ -35,23 +36,12 @@ const getUtbetaling = (overrides?: Partial<Utbetaling>): Utbetaling => ({
     ...overrides,
 });
 
-const getDag = (dato: DateString, overrides?: Partial<UtbetalingstabellDag>): UtbetalingstabellDag => ({
-    dato: dato,
-    kilde: { id: '123', type: Kildetype.Inntektsmelding },
-    type: 'Syk',
-    erAGP: false,
-    erAvvist: false,
-    erForeldet: false,
-    erMaksdato: false,
-    ...overrides,
-});
-
 const dager = new Map<string, UtbetalingstabellDag>([
-    ['2022-01-01', getDag('2022-01-01')],
-    ['2022-01-02', getDag('2022-01-02')],
-    ['2022-01-03', getDag('2022-01-03')],
-    ['2022-01-04', getDag('2022-01-04')],
-    ['2022-01-05', getDag('2022-01-05')],
+    ['2022-01-01', getUtbetalingstabellDag({ dato: '2022-01-01' })],
+    ['2022-01-02', getUtbetalingstabellDag({ dato: '2022-01-02' })],
+    ['2022-01-03', getUtbetalingstabellDag({ dato: '2022-01-03' })],
+    ['2022-01-04', getUtbetalingstabellDag({ dato: '2022-01-04' })],
+    ['2022-01-05', getUtbetalingstabellDag({ dato: '2022-01-05' })],
 ]);
 
 describe('Utbetaling', () => {

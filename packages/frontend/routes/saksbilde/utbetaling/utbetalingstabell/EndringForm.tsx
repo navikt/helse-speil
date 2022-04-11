@@ -65,7 +65,13 @@ const Form = styled.form`
 
 const dagtyperUtenGradering: Array<Utbetalingstabelldagtype> = ['Arbeid', 'Ferie', 'Permisjon'];
 
-export const lovligeTypeendringer = (revurderingIsEnabled: boolean): Array<Utbetalingstabelldagtype> => {
+type GetLovligeTypeendringerOptions = {
+    revurderingIsEnabled?: boolean;
+};
+
+export const getLovligeTypeendringer = ({
+    revurderingIsEnabled,
+}: GetLovligeTypeendringerOptions = {}): Array<Utbetalingstabelldagtype> => {
     if (revurderingIsEnabled) {
         return ['Syk', 'Ferie'];
     } else if (overstyrPermisjonsdagerEnabled) {
@@ -84,16 +90,16 @@ interface EndringFormProps {
     markerteDager: Map<string, UtbetalingstabellDag>;
     toggleOverstyring: () => void;
     onSubmitEndring: (endring: Partial<UtbetalingstabellDag>) => void;
-    revurderingIsEnabled: boolean;
+    revurderingIsEnabled?: boolean;
 }
 
 export const EndringForm: React.FC<EndringFormProps> = ({
     markerteDager,
     toggleOverstyring,
     onSubmitEndring,
-    revurderingIsEnabled,
+    revurderingIsEnabled = false,
 }) => {
-    const defaultEndring = { type: lovligeTypeendringer(revurderingIsEnabled)[0] };
+    const defaultEndring = { type: getLovligeTypeendringer({ revurderingIsEnabled })[0] };
     const [endring, setEndring] = useState<Partial<UtbetalingstabellDag>>(defaultEndring);
 
     const form = useForm();
@@ -111,7 +117,9 @@ export const EndringForm: React.FC<EndringFormProps> = ({
     });
 
     const oppdaterDagtype = (event: React.ChangeEvent<HTMLSelectElement>) => {
-        if (lovligeTypeendringer(revurderingIsEnabled).includes(event.target.value as Utbetalingstabelldagtype)) {
+        if (
+            getLovligeTypeendringer({ revurderingIsEnabled }).includes(event.target.value as Utbetalingstabelldagtype)
+        ) {
             form.clearErrors('dagtype');
             const type = event.target.value as Utbetalingstabelldagtype;
             setEndring({ ...endring, type, grad: kanVelgeGrad(type) ? endring.grad : undefined });
@@ -151,7 +159,7 @@ export const EndringForm: React.FC<EndringFormProps> = ({
                             error={form.formState.errors.dagtype?.message}
                             data-testid="dagtypevelger"
                         >
-                            {lovligeTypeendringer(revurderingIsEnabled).map((dagtype) => (
+                            {getLovligeTypeendringer({ revurderingIsEnabled }).map((dagtype) => (
                                 <option key={dagtype} value={dagtype}>
                                     {dagtype}
                                 </option>
