@@ -5,7 +5,7 @@ import { ExternalLink, SystemFilled } from '@navikt/ds-icons';
 import { BodyShort, Popover } from '@navikt/ds-react';
 
 import { Button } from './Button';
-import { DropdownButton } from './dropdown/Dropdown';
+import { DropdownButton } from './dropdown';
 import { useCurrentPerson } from '@state/person';
 import { Person } from '@io/graphql';
 

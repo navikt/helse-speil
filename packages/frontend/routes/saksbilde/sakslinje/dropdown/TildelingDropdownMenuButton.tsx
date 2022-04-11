@@ -4,7 +4,7 @@ import { Loader } from '@navikt/ds-react';
 
 import { Tildeling } from '@io/graphql';
 import { useAddVarsel, useRemoveVarsel, VarselObject } from '@state/varsler';
-import { DropdownButton, DropdownContext } from '@components/dropdown/Dropdown';
+import { DropdownButton, DropdownContext } from '@components/dropdown';
 import { deleteTildeling, postTildeling } from '@io/http';
 import { useFjernTildelingFraPerson, useTildelPerson } from '@state/person';
 

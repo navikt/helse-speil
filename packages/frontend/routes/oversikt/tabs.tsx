@@ -6,7 +6,7 @@ import { atom, useRecoilState, useRecoilValue } from 'recoil';
 import { BodyShort } from '@navikt/ds-react';
 
 import { Flex } from '@components/Flex';
-import { Dropdown } from '@components/dropdown/Dropdown';
+import { Dropdown } from '@components/dropdown';
 import { useInnloggetSaksbehandler } from '@state/authentication';
 import { useMineOppgaver, useOppgaver } from '@state/oppgaver';
 

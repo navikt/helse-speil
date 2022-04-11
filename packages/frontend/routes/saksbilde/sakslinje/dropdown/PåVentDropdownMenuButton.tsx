@@ -4,7 +4,7 @@ import { useHistory } from 'react-router';
 
 import { Loader } from '@navikt/ds-react';
 
-import { DropdownButton, DropdownContext } from '@components/dropdown/Dropdown';
+import { DropdownButton, DropdownContext } from '@components/dropdown';
 import { useOperationErrorHandler } from '@state/varsler';
 import { ignorePromise } from '@utils/promise';
 import { Personinfo } from '@io/graphql';

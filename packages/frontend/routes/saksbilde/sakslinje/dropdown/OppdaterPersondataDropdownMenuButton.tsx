@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 
-import { DropdownButton, DropdownContext } from '@components/dropdown/Dropdown';
+import { DropdownButton, DropdownContext } from '@components/dropdown';
 import { postForespørPersonoppdatering } from '@io/http';
 import { useCurrentPerson } from '@state/person';
 import { Scopes, useAddVarsel, useRemoveVarsel, VarselObject } from '@state/varsler';

@@ -3,7 +3,7 @@ import classNames from 'classnames';
 import { BodyShort } from '@navikt/ds-react';
 
 import { Location, useNavigation } from '@hooks/useNavigation';
-import { Dropdown } from '@components/dropdown/Dropdown';
+import { Dropdown } from '@components/dropdown';
 import { ErrorBoundary } from '@components/ErrorBoundary';
 import { useActivePeriod } from '@state/periode';
 import { useCurrentPerson } from '@state/person';

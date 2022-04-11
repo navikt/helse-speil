@@ -1,6 +1,6 @@
 import React, { useContext, useState } from 'react';
 
-import { DropdownButton, DropdownContext } from '@components/dropdown/Dropdown';
+import { DropdownButton, DropdownContext } from '@components/dropdown';
 import { Utbetaling, Utbetalingstatus } from '@io/graphql';
 
 import { Annulleringsmodal } from '../annullering/Annulleringsmodal';

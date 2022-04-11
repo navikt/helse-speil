@@ -5,7 +5,7 @@ import { Collapse, Expand } from '@navikt/ds-icons';
 import { BodyShort, Popover } from '@navikt/ds-react';
 
 import { TextWithEllipsis } from './TextWithEllipsis';
-import { DropdownButton } from './dropdown/Dropdown';
+import { DropdownButton } from './dropdown';
 
 const Container = styled.div`
     margin-left: 16px;

@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 
-import { DropdownButton, DropdownContext } from '@components/dropdown/Dropdown';
+import { DropdownButton, DropdownContext } from '@components/dropdown';
 import { useIsAnonymous, useToggleAnonymity } from '@state/anonymization';
 
 export const AnonymiserDataDropdownMenuButton: React.VFC = () => {
