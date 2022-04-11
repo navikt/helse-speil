@@ -1,5 +1,6 @@
 import { useMemo } from 'react';
 import dayjs, { Dayjs } from 'dayjs';
+import { BeregnetPeriode, Periodetype } from '@io/graphql';
 
 type PeriodBorderRadius = {
     borderTopLeftRadius?: number;
@@ -13,24 +14,37 @@ type PeriodStyling = PeriodBorderRadius & {
     width: string;
 };
 
-type DayjsPeriod = {
+type StyledPeriod = {
     fom: Dayjs;
     tom: Dayjs;
+    type?: Maybe<Periodetype>;
 };
 
 const withinADay = (a: Dayjs, b: Dayjs): boolean => Math.abs(a.diff(b, 'day')) < 1;
 
-const getBorderRadii = <T extends DayjsPeriod>(period: T, i: number, allPeriods: Array<T>): PeriodBorderRadius => {
-    const left =
-        i > 0 && withinADay(allPeriods[i - 1].fom, period.tom)
+const isFørstegangsbehandling = (period: StyledPeriod): boolean => {
+    return period.type === Periodetype.Forstegangsbehandling;
+};
+
+const hasLeftNeighbour = (i: number, periods: Array<StyledPeriod>): boolean => {
+    return i > 0 && withinADay(periods[i - 1].fom, periods[i].tom);
+};
+
+const hasRightNeighbour = (i: number, periods: Array<StyledPeriod>): boolean => {
+    return i < periods.length - 1 && withinADay(periods[i].fom, periods[i + 1].tom);
+};
+
+const getBorderRadii = <T extends StyledPeriod>(period: T, i: number, allPeriods: Array<T>): PeriodBorderRadius => {
+    const leftSideRadii =
+        hasLeftNeighbour(i, allPeriods) && !isFørstegangsbehandling(allPeriods[i - 1])
             ? {
                   borderBottomLeftRadius: 0,
                   borderTopLeftRadius: 0,
               }
             : undefined;
 
-    const right =
-        i < allPeriods.length - 1 && withinADay(period.fom, allPeriods[i + 1].tom)
+    const rightSideRadii =
+        hasRightNeighbour(i, allPeriods) && !isFørstegangsbehandling(period)
             ? {
                   borderBottomRightRadius: 0,
                   borderTopRightRadius: 0,
@@ -38,8 +52,8 @@ const getBorderRadii = <T extends DayjsPeriod>(period: T, i: number, allPeriods:
             : undefined;
 
     return {
-        ...left,
-        ...right,
+        ...leftSideRadii,
+        ...rightSideRadii,
     };
 };
 
@@ -52,13 +66,14 @@ export const getPosition = (date: Dayjs, start: Dayjs, end: Dayjs): number => {
 export const usePeriodStyling = <T extends DatePeriod>(
     start: Dayjs,
     end: Dayjs,
-    periods: Array<T>
+    periods: Array<T>,
 ): Map<number, PeriodStyling> =>
     useMemo(() => {
         const map = new Map<number, PeriodStyling>();
         const datePeriods = periods.map((period) => ({
             fom: dayjs(period.fom).startOf('day'),
             tom: dayjs(period.tom).endOf('day'),
+            type: (period as unknown as BeregnetPeriode).periodetype,
         }));
 
         for (const [i, period] of datePeriods.entries()) {
