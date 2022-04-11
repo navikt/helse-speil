@@ -39,7 +39,9 @@ export const GhostPeriodeView: React.VFC<GhostPeriodeViewProps> = ({
                 <Saksbildevarsler periodState={getPeriodState(activePeriod)} />
                 <Switch>
                     <Route path={`${path}/sykepengegrunnlag`}>
-                        <Sykepengegrunnlag />
+                        <div className={styles.RouteContainer}>
+                            <Sykepengegrunnlag />
+                        </div>
                     </Route>
                 </Switch>
             </div>

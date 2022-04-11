@@ -74,7 +74,7 @@ export const useArbeidsgiver = (organisasjonsnummer: string): Arbeidsgiver | nul
 export const useUtbetalingForSkjæringstidspunkt = (skjæringstidspunkt: DateString): Utbetaling | null => {
     const currentArbeidsgiver = useCurrentArbeidsgiver();
 
-    if (!currentArbeidsgiver) {
+    if (!currentArbeidsgiver?.generasjoner[0]?.perioder) {
         return null;
     }
 

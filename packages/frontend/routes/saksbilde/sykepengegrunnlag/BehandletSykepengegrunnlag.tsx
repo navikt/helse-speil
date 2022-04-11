@@ -5,7 +5,7 @@ import { SykepengegrunnlagFraSpleis } from './SykepengegrunnlagFraSpleis';
 import { getFormattedDateString } from '@utils/date';
 import { AutomatiskVurdering } from '@components/AutomatiskVurdering';
 import { Saksbehandlervurdering } from '@components/Saksbehandlervurdering';
-import { Arbeidsgiver, Inntektsgrunnlag, Refusjon, VilkarsgrunnlagSpleis, Vurdering } from '@io/graphql';
+import { Arbeidsgiver, Inntektsgrunnlag, Maybe, Refusjon, VilkarsgrunnlagSpleis, Vurdering } from '@io/graphql';
 
 interface BehandletSykepengegrunnlagProps {
     vurdering: Vurdering;
@@ -13,7 +13,7 @@ interface BehandletSykepengegrunnlagProps {
     skjæringstidspunkt: DateString;
     inntektsgrunnlag: Inntektsgrunnlag;
     arbeidsgiver: Omit<Arbeidsgiver, 'generasjoner' | 'ghostPerioder' | 'overstyringer'>;
-    refusjon?: Refusjon | null;
+    refusjon?: Maybe<Refusjon>;
 }
 
 export const BehandletSykepengegrunnlag = ({

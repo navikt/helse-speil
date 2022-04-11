@@ -10,7 +10,12 @@ import { ErrorBoundary } from '@components/ErrorBoundary';
 import { useActivePeriod } from '@state/periode';
 import { useCurrentPerson, useVilkårsgrunnlag } from '@state/person';
 import { useCurrentArbeidsgiver, useVurderingForSkjæringstidspunkt } from '@state/arbeidsgiver';
-import { isBeregnetPeriode, isInfotrygdVilkarsgrunnlag, isSpleisVilkarsgrunnlag } from '@utils/typeguards';
+import {
+    isBeregnetPeriode,
+    isGhostPeriode,
+    isInfotrygdVilkarsgrunnlag,
+    isSpleisVilkarsgrunnlag,
+} from '@utils/typeguards';
 import { getInntektsgrunnlag } from '@state/selectors/person';
 
 const SykepengegrunnlagContainer = () => {
@@ -23,7 +28,7 @@ const SykepengegrunnlagContainer = () => {
     const vurdering = useVurderingForSkjæringstidspunkt((activePeriod as BeregnetPeriode).skjaeringstidspunkt);
     const arbeidsgiver = useCurrentArbeidsgiver();
 
-    if (isBeregnetPeriode(activePeriod) && arbeidsgiver && person) {
+    if ((isGhostPeriode(activePeriod) || isBeregnetPeriode(activePeriod)) && arbeidsgiver && person) {
         if (isSpleisVilkarsgrunnlag(vilkårsgrunnlag)) {
             const inntektsgrunnlag = getInntektsgrunnlag(person, activePeriod.skjaeringstidspunkt);
 
@@ -31,7 +36,7 @@ const SykepengegrunnlagContainer = () => {
                 <BehandletSykepengegrunnlag
                     vurdering={vurdering}
                     vilkårsgrunnlag={vilkårsgrunnlag}
-                    refusjon={activePeriod.refusjon}
+                    refusjon={isBeregnetPeriode(activePeriod) ? activePeriod.refusjon : null}
                     skjæringstidspunkt={activePeriod.skjaeringstidspunkt}
                     inntektsgrunnlag={inntektsgrunnlag}
                     arbeidsgiver={arbeidsgiver}
@@ -42,7 +47,7 @@ const SykepengegrunnlagContainer = () => {
                     inntektsgrunnlag={inntektsgrunnlag}
                     skjæringstidspunkt={activePeriod.skjaeringstidspunkt}
                     arbeidsgiver={arbeidsgiver}
-                    refusjon={activePeriod.refusjon}
+                    refusjon={isBeregnetPeriode(activePeriod) ? activePeriod.refusjon : null}
                     data-testid="ubehandlet-sykepengegrunnlag"
                 />
             );
@@ -51,7 +56,7 @@ const SykepengegrunnlagContainer = () => {
                 <SykepengegrunnlagFraInfogtrygd
                     vilkårsgrunnlag={vilkårsgrunnlag}
                     organisasjonsnummer={arbeidsgiver.organisasjonsnummer}
-                    refusjon={activePeriod.refusjon}
+                    refusjon={isBeregnetPeriode(activePeriod) ? activePeriod.refusjon : null}
                     arbeidsgivernavn={arbeidsgiver.navn}
                     bransjer={arbeidsgiver.bransjer}
                     arbeidsforhold={arbeidsgiver.arbeidsforhold}

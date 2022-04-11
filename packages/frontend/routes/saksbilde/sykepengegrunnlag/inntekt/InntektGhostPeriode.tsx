@@ -28,7 +28,7 @@ import styles from './Inntekt.module.css';
 const maybePeriodeTilGodkjenning = (person: Person, skjæringstidspunkt: DateString): Maybe<BeregnetPeriode> => {
     return (
         person?.arbeidsgivere
-            .flatMap((it) => it.generasjoner[0].perioder)
+            .flatMap((it) => it.generasjoner[0]?.perioder)
             .filter(isBeregnetPeriode)
             .find((it) => it.tilstand === Periodetilstand.Oppgaver && it.skjaeringstidspunkt === skjæringstidspunkt) ??
         null
@@ -38,7 +38,7 @@ const maybePeriodeTilGodkjenning = (person: Person, skjæringstidspunkt: DateStr
 const harIngenUtbetaltePerioderFor = (person: Person, skjæringstidspunkt: DateString): boolean => {
     return (
         person?.arbeidsgivere
-            .flatMap((it) => it.generasjoner[0].perioder)
+            .flatMap((it) => it.generasjoner[0]?.perioder)
             .filter(isBeregnetPeriode)
             .filter((it) => it.skjaeringstidspunkt === skjæringstidspunkt)
             .every((it) => it.tilstand === Periodetilstand.Oppgaver || it.tilstand === Periodetilstand.Venter) ?? false
