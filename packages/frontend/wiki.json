@@ -377,5 +377,11 @@
         "betydning": "Det kan bety at den sykmeldte har gjenopptatt arbeidet og så blitt sykmeldt igjen. Det kan derfor være et nytt skjæringstidspunkt.",
         "løsning": "Undersøk om arbeidet er gjenopptatt slik at sykmeldingen avbrytes. Det må avklares om det blir et nytt skjæringstidspunkt. Hvis det blir nytt skjæringstidspunkt, må perioden med det nye skjæringstidspunktet avvises i vedtaksløsningen og saken må behandles i Infotrygd.",
         "viktighet": "Høy"
+    },
+    {
+        "varsel": "Den sykmeldte har oppgitt å ha andre arbeidsforhold med sykmelding i søknaden.",
+        "betydning": "Ved mottak av søknaden kjente vi bare til sykdom hos én arbeidsgiver.",
+        "løsning": "Hvis sykepengegrunnlaget er fastsatt feil, eller det er sykmelding for flere arbeidsforhold som ikke er lagt til grunn, må saken behandles i Infotrygd.",
+        "viktighet": "Høy"
     }
 ]
