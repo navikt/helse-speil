@@ -252,6 +252,7 @@ query FetchPerson($fnr: String, $aktorId: String) {
                         }
                         skjaeringstidspunkt
                         utbetaling {
+                            id,
                             arbeidsgiverFagsystemId
                             arbeidsgiverNettoBelop
                             personFagsystemId

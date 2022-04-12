@@ -603,6 +603,7 @@ export type Utbetaling = {
     arbeidsgiverFagsystemId: Scalars['String'];
     arbeidsgiverNettoBelop: Scalars['Int'];
     arbeidsgiversimulering?: Maybe<Simulering>;
+    id: Scalars['String'];
     personFagsystemId: Scalars['String'];
     personNettoBelop: Scalars['Int'];
     personsimulering?: Maybe<Simulering>;
@@ -1047,6 +1048,7 @@ export type FetchPersonQuery = {
                           } | null;
                           utbetaling: {
                               __typename?: 'Utbetaling';
+                              id: string;
                               arbeidsgiverFagsystemId: string;
                               arbeidsgiverNettoBelop: number;
                               personFagsystemId: string;

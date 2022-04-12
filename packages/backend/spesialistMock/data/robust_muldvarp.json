@@ -748,6 +748,7 @@
                                     },
                                     "skjaeringstidspunkt": "2021-09-01",
                                     "utbetaling": {
+                                        "id": "5eb87046-6279-4346-9a4f-f5d1d344348f",
                                         "arbeidsgiverFagsystemId": "OXDNCC6KSNERTEFBCZQXOZS3XM",
                                         "arbeidsgiverNettoBelop": 1500,
                                         "personFagsystemId": "LFU36ZXA25G23FKZTH76RATCDQ",
