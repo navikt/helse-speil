@@ -17,3 +17,9 @@
     color: var(--navds-color-text-error);
     font-style: italic;
 }
+
+.SimuleringButton {
+    margin-top: -0.25rem;
+    margin-bottom: 0.25rem;
+    width: max-content;
+}

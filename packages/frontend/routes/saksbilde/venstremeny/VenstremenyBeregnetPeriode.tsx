@@ -41,6 +41,7 @@ export const VenstremenyBeregnetPeriode: React.VFC<VenstremenyBeregnetPeriodePro
             />
             <VilkårCard activePeriod={activePeriod} currentPerson={currentPerson} />
             <UtbetalingCard
+                fødselsnummer={currentPerson.fodselsnummer}
                 skjæringstidspunkt={activePeriod.skjaeringstidspunkt}
                 vilkårsgrunnlaghistorikkId={activePeriod.vilkarsgrunnlaghistorikkId}
                 antallUtbetalingsdager={getNumberOfDaysWithType(activePeriod.tidslinje, Utbetalingsdagtype.Navdag)}
