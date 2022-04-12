@@ -3,11 +3,12 @@ import userEvent from '@testing-library/user-event';
 import { render, screen, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 
-import { Kildetype, Utbetaling, Utbetalingstatus, Utbetalingtype } from '@io/graphql';
+import { Utbetaling, Utbetalingstatus, Utbetalingtype } from '@io/graphql';
 import { RecoilWrapper } from '@test-wrappers';
 
 import { OverstyrbarUtbetaling } from './OverstyrbarUtbetaling';
 import { getUtbetalingstabellDag } from '@test-data/utbetalingstabell';
+import { nanoid } from 'nanoid';
 
 let postOverstyringArguments: [UtbetalingstabellDag[], string] | [] = [];
 
@@ -27,6 +28,7 @@ jest.mock('@hooks/useAlderVedSkjæringstidspunkt', () => ({
 jest.setTimeout(7000);
 
 const getUtbetaling = (overrides?: Partial<Utbetaling>): Utbetaling => ({
+    id: nanoid(),
     arbeidsgiverFagsystemId: '123',
     arbeidsgiverNettoBelop: 30000,
     personFagsystemId: '234',
