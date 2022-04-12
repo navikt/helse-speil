@@ -16,17 +16,6 @@ interface InntektFraAordningenProps {
     omregnetÅrsinntekt: OmregnetArsinntekt;
 }
 
-const ArbeidsgiverUtenSykefraværContainer = styled.div`
-    display: flex;
-    margin-top: 42px;
-    font-size: 14px;
-    line-height: 20px;
-`;
-
-const SortInfoikonContainer = styled(SortInfoikon)`
-    margin-right: 16px;
-`;
-
 const InntektFraAordningen: React.VFC<InntektFraAordningenProps> = ({ omregnetÅrsinntekt }) => {
     return (
         <>
