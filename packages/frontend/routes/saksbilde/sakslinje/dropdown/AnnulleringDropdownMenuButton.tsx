@@ -1,29 +1,36 @@
 import React, { useContext, useState } from 'react';
 
-import { DropdownButton, DropdownContext } from '@components/dropdown';
+import { useActivePeriod } from '@state/periode';
+import { useCurrentPerson } from '@state/person';
+import { useCurrentArbeidsgiver } from '@state/arbeidsgiver';
 import { Utbetaling, Utbetalingstatus } from '@io/graphql';
+import { DropdownButton, DropdownContext } from '@components/dropdown';
+import { isArbeidsgiver, isBeregnetPeriode, isPerson } from '@utils/typeguards';
+import { annulleringerEnabled } from '@utils/featureToggles';
 
 import { Annulleringsmodal } from '../annullering/Annulleringsmodal';
 import { useArbeidsgiveroppdrag } from '../../utbetalingshistorikk/state';
 
-export interface AnnulleringDropdownMenuButtonProps {
+interface AnnullerButtonWithContentProps {
     utbetaling: Utbetaling;
     aktørId: string;
     fødselsnummer: string;
     organisasjonsnummer: string;
 }
 
-export const AnnulleringDropdownMenuButton = ({
+const AnnullerButtonWithContent: React.VFC<AnnullerButtonWithContentProps> = ({
     utbetaling,
     aktørId,
     fødselsnummer,
     organisasjonsnummer,
-}: AnnulleringDropdownMenuButtonProps) => {
+}) => {
     const [showModal, setShowModal] = useState(false);
 
     const oppdrag = useArbeidsgiveroppdrag(fødselsnummer, utbetaling.arbeidsgiverFagsystemId);
 
     const { lukk } = useContext(DropdownContext);
+
+    console.log('meh');
 
     if (!oppdrag?.arbeidsgiveroppdrag || utbetaling.status === Utbetalingstatus.Annullert) {
         return null;
@@ -46,5 +53,32 @@ export const AnnulleringDropdownMenuButton = ({
                 />
             )}
         </>
+    );
+};
+
+const AnnullerButtonContainer: React.VFC = () => {
+    const person = useCurrentPerson();
+    const arbeidsgiver = useCurrentArbeidsgiver();
+    const period = useActivePeriod();
+
+    if (!annulleringerEnabled || !isPerson(person) || !isArbeidsgiver(arbeidsgiver) || !isBeregnetPeriode(period)) {
+        return null;
+    } else {
+        return (
+            <AnnullerButtonWithContent
+                utbetaling={period.utbetaling}
+                aktørId={person.aktorId}
+                fødselsnummer={person.fodselsnummer}
+                organisasjonsnummer={arbeidsgiver.organisasjonsnummer}
+            />
+        );
+    }
+};
+
+export const AnnullerButton: React.VFC = () => {
+    return (
+        <React.Suspense fallback={null}>
+            <AnnullerButtonContainer />
+        </React.Suspense>
     );
 };

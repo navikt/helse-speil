@@ -9,14 +9,13 @@ import { useActivePeriod } from '@state/periode';
 import { useCurrentPerson } from '@state/person';
 import { useCurrentArbeidsgiver } from '@state/arbeidsgiver';
 import { useInnloggetSaksbehandler } from '@state/authentication';
-import { BeregnetPeriode, GhostPeriode } from '@io/graphql';
+import { BeregnetPeriode } from '@io/graphql';
 import { isBeregnetPeriode, isGhostPeriode } from '@utils/typeguards';
-import { annulleringerEnabled } from '@utils/featureToggles';
 
 import { TabLink } from '../TabLink';
 import { PåVentDropdownMenuButton } from './dropdown/PåVentDropdownMenuButton';
 import { TildelingDropdownMenuButton } from './dropdown/TildelingDropdownMenuButton';
-import { AnnulleringDropdownMenuButton } from './dropdown/AnnulleringDropdownMenuButton';
+import { AnnullerButton } from './dropdown/AnnulleringDropdownMenuButton';
 import { AnonymiserDataDropdownMenuButton } from './dropdown/AnonymiserDataDropdownMenuButton';
 import { OppdaterPersondataDropdownMenuButton } from './dropdown/OppdaterPersondataDropdownMenuButton';
 import { HistorikkHeader } from '../historikk/HistorikkHeader';
@@ -27,7 +26,7 @@ const SaksbildeMenuEmpty: React.VFC = () => {
     return (
         <div className={styles.SaksbildeMenu}>
             <div>
-                <Dropdown className={styles.Dropdown}>
+                <Dropdown className={styles.Dropdown} title="Meny">
                     <OppdaterPersondataDropdownMenuButton />
                 </Dropdown>
             </div>
@@ -47,7 +46,7 @@ const SaksbildeMenuGhostPeriode: React.VFC = () => {
                         Sykepengegrunnlag
                     </TabLink>
                 </span>
-                <Dropdown className={styles.Dropdown}>
+                <Dropdown className={styles.Dropdown} title="Meny">
                     <OppdaterPersondataDropdownMenuButton />
                     <AnonymiserDataDropdownMenuButton />
                 </Dropdown>
@@ -90,7 +89,7 @@ const SaksbildeMenuBeregnetPeriode = ({ activePeriod }: SaksbildeMenuBeregnetPer
                         </TabLink>
                     )}
                 </span>
-                <Dropdown className={styles.Dropdown}>
+                <Dropdown className={styles.Dropdown} title="Meny">
                     {activePeriod.oppgavereferanse && (
                         <>
                             <TildelingDropdownMenuButton
@@ -110,14 +109,7 @@ const SaksbildeMenuBeregnetPeriode = ({ activePeriod }: SaksbildeMenuBeregnetPer
                     )}
                     <OppdaterPersondataDropdownMenuButton />
                     <AnonymiserDataDropdownMenuButton />
-                    {annulleringerEnabled && currentArbeidsgiver && currentPerson && (
-                        <AnnulleringDropdownMenuButton
-                            utbetaling={activePeriod.utbetaling}
-                            fødselsnummer={currentPerson.fodselsnummer}
-                            aktørId={currentPerson.aktorId}
-                            organisasjonsnummer={currentArbeidsgiver.organisasjonsnummer}
-                        />
-                    )}
+                    <AnnullerButton />
                 </Dropdown>
             </div>
             <HistorikkHeader />

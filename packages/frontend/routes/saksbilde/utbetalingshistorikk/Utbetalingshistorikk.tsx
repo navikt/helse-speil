@@ -174,3 +174,5 @@ export const Utbetalingshistorikk: React.VFC = () => {
         </React.Suspense>
     );
 };
+
+export default Utbetalingshistorikk;

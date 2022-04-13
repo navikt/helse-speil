@@ -131,7 +131,7 @@ export const Tabs = () => (
             <AlleSakerTab />
             <MineSakerTab />
             <VentendeSakerTab />
-            <Meny>
+            <Meny title="Meny">
                 <AnonymiserDataDropdownMenuButton />
             </Meny>
         </NoWrap>

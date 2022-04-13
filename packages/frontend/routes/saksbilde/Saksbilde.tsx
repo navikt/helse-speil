@@ -14,8 +14,9 @@ import { PersonHeader } from './PersonHeader';
 import { SaksbildeMenu } from './sakslinje/SaksbildeMenu';
 import { AmplitudeProvider } from './AmplitudeContext';
 import { useKeyboardShortcuts } from './useKeyboardShortcuts';
-import { Utbetalingshistorikk } from './utbetalingshistorikk/Utbetalingshistorikk';
 import { VenterPåEndringProvider } from './VenterPåEndringContext';
+
+const Utbetalingshistorikk = React.lazy(() => import('./utbetalingshistorikk/Utbetalingshistorikk'));
 
 import styles from './Saksbilde.module.css';
 
