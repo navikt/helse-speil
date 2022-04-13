@@ -823,6 +823,7 @@ export type FetchPersonQuery = {
             inntekter: Array<{
                 __typename?: 'Arbeidsgiverinntekt';
                 arbeidsgiver: string;
+                deaktivert?: boolean | null;
                 omregnetArsinntekt?: {
                     __typename?: 'OmregnetArsinntekt';
                     belop: number;
@@ -865,6 +866,7 @@ export type FetchPersonQuery = {
                       inntekter: Array<{
                           __typename?: 'Arbeidsgiverinntekt';
                           arbeidsgiver: string;
+                          deaktivert?: boolean | null;
                           sammenligningsgrunnlag?: {
                               __typename?: 'Sammenligningsgrunnlag';
                               belop: number;
@@ -903,6 +905,7 @@ export type FetchPersonQuery = {
                       inntekter: Array<{
                           __typename?: 'Arbeidsgiverinntekt';
                           arbeidsgiver: string;
+                          deaktivert?: boolean | null;
                           sammenligningsgrunnlag?: {
                               __typename?: 'Sammenligningsgrunnlag';
                               belop: number;

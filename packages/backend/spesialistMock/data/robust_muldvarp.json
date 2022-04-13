@@ -140,7 +140,8 @@
                                     }
                                 ],
                                 "belop": 231000
-                            }
+                            },
+                            "deaktivert": true
                         },
                         {
                             "arbeidsgiver": "805824352",
@@ -266,7 +267,8 @@
                                         "manedsbelop": 21000,
                                         "kilde": "AORDNINGEN"
                                     },
-                                    "arbeidsgiver": "839942907"
+                                    "arbeidsgiver": "839942907",
+                                    "deaktivert": true
                                 },
                                 {
                                     "sammenligningsgrunnlag": {
@@ -429,12 +431,6 @@
                     "navn": "PENGELØS SPAREBANK",
                     "organisasjonsnummer": "972674818",
                     "arbeidsforhold": [
-                        {
-                            "sluttdato": null,
-                            "startdato": "2002-01-01",
-                            "stillingsprosent": 100,
-                            "stillingstittel": "FRISØR"
-                        },
                         {
                             "sluttdato": null,
                             "startdato": "2002-01-01",
@@ -833,10 +829,17 @@
                     "bransjer": [],
                     "navn": "HÅRREISENDE FRISØR",
                     "organisasjonsnummer": "839942907",
-                    "arbeidsforhold": [],
+                    "arbeidsforhold": [
+                        {
+                            "sluttdato": null,
+                            "startdato": "2002-01-01",
+                            "stillingsprosent": 100,
+                            "stillingstittel": "FRISØR"
+                        }
+                    ],
                     "ghostPerioder": [
                         {
-                            "deaktivert": false,
+                            "deaktivert": true,
                             "vilkarsgrunnlaghistorikkId": "fa17bfd8-9b90-4413-bb85-968034037826",
                             "skjaeringstidspunkt": "2021-09-01",
                             "fom": "2021-09-01",

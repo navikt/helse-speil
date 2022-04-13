@@ -72,6 +72,7 @@ query FetchPerson($fnr: String, $aktorId: String) {
                     }
                     belop
                 }
+                deaktivert
             }
             sammenligningsgrunnlag
             omregnetArsinntekt
@@ -120,6 +121,7 @@ query FetchPerson($fnr: String, $aktorId: String) {
                         kilde
                     }
                     arbeidsgiver
+                    deaktivert
                 }
                 vilkarsgrunnlagtype
                 ... on VilkarsgrunnlagSpleis {
