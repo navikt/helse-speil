@@ -3,13 +3,11 @@ import dayjs from 'dayjs';
 
 import { ISO_DATOFORMAT } from '@utils/date';
 
-import type { Endring, Refusjon } from '@io/graphql';
-
-type Arbeidsgiverperioder = ExternalRefusjon['arbeidsgiverperioder'];
+import type { Endring, Refusjon, Refusjonsperiode } from '@io/graphql';
 
 const descendingEndring = (a: Endring, b: Endring): number => new Date(b.dato).getTime() - new Date(a.dato).getTime();
 
-const getDatoUtenOverlapp = (dateString: DateString, arbeidsgiverperioder: Arbeidsgiverperioder): DateString => {
+const getDatoUtenOverlapp = (dateString: DateString, arbeidsgiverperioder: Array<Refusjonsperiode>): DateString => {
     let dato = dayjs(dateString);
 
     for (const periode of arbeidsgiverperioder) {

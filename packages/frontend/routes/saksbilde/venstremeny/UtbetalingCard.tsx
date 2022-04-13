@@ -26,7 +26,7 @@ const getFormattedName = (personinfo: Personinfo): string => {
 interface UtbetalingCardProps {
     fødselsnummer: string;
     skjæringstidspunkt: DateString;
-    vilkårsgrunnlaghistorikkId: UUID;
+    vilkårsgrunnlaghistorikkId: string;
     antallUtbetalingsdager: number;
     organisasjonsnummer: string;
     utbetaling: Utbetaling;

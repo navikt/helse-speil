@@ -8,6 +8,8 @@ declare module '*.svg' {
     const value: any;
 }
 
+declare type DateString = string;
+
 declare type DatePeriod = {
     fom: string;
     tom: string;

@@ -1,4 +1,5 @@
 import React from 'react';
+import dayjs from 'dayjs';
 
 import { BodyShort } from '@navikt/ds-react';
 
@@ -7,10 +8,15 @@ import { Flex } from '@components/Flex';
 import { SortInfoikon } from '@components/ikoner/SortInfoikon';
 import { PopoverHjelpetekst } from '@components/PopoverHjelpetekst';
 import { getMonthName, somPenger } from '@utils/locale';
-import { sorterInntekterFraAOrdningenNy } from '@utils/inntekt';
-import { Inntektskilde, Maybe, OmregnetArsinntekt } from '@io/graphql';
+import { InntektFraAOrdningen, Inntektskilde, Maybe, OmregnetArsinntekt } from '@io/graphql';
 
 import styles from './ReadOnlyInntekt.module.css';
+
+const getSorterteInntekter = (inntekterFraAOrdningen: Array<InntektFraAOrdningen>): Array<InntektFraAOrdningen> => {
+    return inntekterFraAOrdningen.sort((a, b) =>
+        dayjs(a.maned, 'YYYY-MM').isAfter(dayjs(b.maned, 'YYYY-MM')) ? -1 : 1,
+    );
+};
 
 interface InntektFraAordningenProps {
     omregnetÅrsinntekt: OmregnetArsinntekt;
@@ -29,14 +35,16 @@ const InntektFraAordningen: React.VFC<InntektFraAordningenProps> = ({ omregnetÅ
                     </p>
                 </PopoverHjelpetekst>
             </Flex>
-            <div className={styles.Grid}>
-                {sorterInntekterFraAOrdningenNy(omregnetÅrsinntekt.inntektFraAOrdningen)?.map((inntekt, i) => (
-                    <React.Fragment key={i}>
-                        <BodyShort> {getMonthName(inntekt.maned)}</BodyShort>
-                        <BodyShort>{somPenger(inntekt.sum)}</BodyShort>
-                    </React.Fragment>
-                ))}
-            </div>
+            {omregnetÅrsinntekt.inntektFraAOrdningen && (
+                <div className={styles.Grid}>
+                    {getSorterteInntekter(omregnetÅrsinntekt.inntektFraAOrdningen).map((inntekt, i) => (
+                        <React.Fragment key={i}>
+                            <BodyShort> {getMonthName(inntekt.maned)}</BodyShort>
+                            <BodyShort>{somPenger(inntekt.sum)}</BodyShort>
+                        </React.Fragment>
+                    ))}
+                </div>
+            )}
             <hr className={styles.Divider} />
             <div className={styles.Grid}>
                 <BodyShort>Gj.snittlig månedsinntekt</BodyShort>

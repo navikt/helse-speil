@@ -12,7 +12,7 @@ const kjønn = (kjønn: string | null): 'mann' | 'kvinne' | 'ukjent' => {
     }
 };
 
-export const inntektskilde = (inntektskilde?: ExternalVedtaksperiode['inntektskilde']): Inntektskilde =>
+export const inntektskilde = (inntektskilde?: 'EN_ARBEIDSGIVER' | 'FLERE_ARBEIDSGIVERE'): Inntektskilde =>
     inntektskilde && ['EN_ARBEIDSGIVER', 'FLERE_ARBEIDSGIVERE'].includes(inntektskilde)
         ? inntektskilde
         : 'EN_ARBEIDSGIVER';

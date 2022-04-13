@@ -10,15 +10,15 @@ import { Vilkårsgrupperad } from './Vilkårsgrupperad';
 
 interface OpptjeningstidProps {
     skjæringstidspunkt: DateString;
-    opptjeningFra: ExternalSpleisVilkårsgrunnlag['opptjeningFra'];
-    antallOpptjeningsdagerErMinst: ExternalSpleisVilkårsgrunnlag['antallOpptjeningsdagerErMinst'];
+    opptjeningFra: string;
+    antallOpptjeningsdagerErMinst: number;
 }
 
-export const Opptjeningstid = ({
+export const Opptjeningstid: React.VFC<OpptjeningstidProps> = ({
     skjæringstidspunkt,
     opptjeningFra,
     antallOpptjeningsdagerErMinst,
-}: OpptjeningstidProps) => (
+}) => (
     <>
         <Vilkårsgrupperad label="Skjæringstidspunkt">
             {dayjs(skjæringstidspunkt).format(NORSK_DATOFORMAT) ?? 'Ikke funnet'}
@@ -43,16 +43,16 @@ const Grunnbeløp = ({ grunnbeløp, alder }: GrunnbeløpProps) =>
     );
 
 interface SykepengegrunnlagProps {
-    sykepengegrunnlag: ExternalSpleisVilkårsgrunnlag['sykepengegrunnlag'];
-    grunnbeløp: ExternalSpleisVilkårsgrunnlag['grunnbeløp'];
+    sykepengegrunnlag: number;
+    grunnbeløp: number;
     alderVedSkjæringstidspunkt: number;
 }
 
-export const Sykepengegrunnlag = ({
+export const Sykepengegrunnlag: React.VFC<SykepengegrunnlagProps> = ({
     sykepengegrunnlag,
     grunnbeløp,
     alderVedSkjæringstidspunkt,
-}: SykepengegrunnlagProps) => (
+}) => (
     <>
         <Vilkårsgrupperad label="Sykepengegrunnlaget">
             {sykepengegrunnlag ? `${toKronerOgØre(sykepengegrunnlag)} kr` : 'Ikke funnet'}
