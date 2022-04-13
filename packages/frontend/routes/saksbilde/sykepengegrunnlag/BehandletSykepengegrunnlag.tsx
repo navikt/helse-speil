@@ -34,7 +34,7 @@ export const BehandletSykepengegrunnlag = ({
                 data-testid="behandlet-sykepengegrunnlag"
                 inntektsgrunnlag={inntektsgrunnlag}
                 skjæringstidspunkt={skjæringstidspunkt}
-                arbeidsgiver={arbeidsgiver}
+                organisasjonsnummer={arbeidsgiver.organisasjonsnummer}
                 refusjon={refusjon}
             />
         </Wrapper>

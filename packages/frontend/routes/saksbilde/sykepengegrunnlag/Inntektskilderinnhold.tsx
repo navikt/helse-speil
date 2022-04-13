@@ -16,20 +16,20 @@ import styles from './Inntektskilderinnhold.module.css';
 
 interface InntektskilderinnholdProps {
     inntekt: Arbeidsgiverinntekt;
-    refusjon?: Refusjon | null;
     arbeidsgivernavn: string;
     bransjer: string[];
     arbeidsforhold: Arbeidsforhold[];
     skjæringstidspunkt: DateString;
+    refusjon?: Maybe<Refusjon>;
 }
 
 export const Inntektskilderinnhold = ({
     inntekt,
-    refusjon,
     arbeidsgivernavn,
     bransjer,
     arbeidsforhold,
     skjæringstidspunkt,
+    refusjon,
 }: InntektskilderinnholdProps) => {
     return (
         <div className={styles.Inntektskilderinnhold}>

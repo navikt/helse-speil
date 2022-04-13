@@ -7,7 +7,7 @@ import { Kilde } from '@components/Kilde';
 import { kildeForkortelse } from '@utils/inntektskilde';
 import { overstyrInntektEnabled } from '@utils/featureToggles';
 import { useEndringerForPeriode, useUtbetalingForSkjæringstidspunkt } from '@state/arbeidsgiver';
-import { Inntektskilde as GraphQLInntektskilde, Inntektstype, OmregnetArsinntekt, Utbetalingstatus } from '@io/graphql';
+import { Inntektskilde, Inntektstype, Maybe, OmregnetArsinntekt, Utbetalingstatus } from '@io/graphql';
 
 import { RedigerInntekt } from './RedigerInntekt';
 import { EditableInntekt } from './EditableInntekt';
@@ -16,21 +16,23 @@ import { EndringsloggButton } from './EndringsloggButton';
 
 import styles from './Inntekt.module.css';
 
-interface InntektBeregnetPeriodeProps {
+interface InntektMedSykefraværProps {
     skjæringstidspunkt: DateString;
-    omregnetÅrsinntekt?: OmregnetArsinntekt | null;
     organisasjonsnummer: string;
-    vilkårsgrunnlagId: string;
-    inntektstype: Inntektstype;
+    omregnetÅrsinntekt?: Maybe<OmregnetArsinntekt>;
+    vilkårsgrunnlagId?: string;
+    inntektstype?: Inntektstype;
+    erDeaktivert?: Maybe<boolean>;
 }
 
-export const InntektBeregnetPeriode = ({
+export const InntektMedSykefravær = ({
     skjæringstidspunkt,
     omregnetÅrsinntekt,
     organisasjonsnummer,
     vilkårsgrunnlagId,
     inntektstype,
-}: InntektBeregnetPeriodeProps) => {
+    erDeaktivert,
+}: InntektMedSykefraværProps) => {
     const [editing, setEditing] = useState(false);
     const [endret, setEndret] = useState(false);
 
@@ -42,13 +44,13 @@ export const InntektBeregnetPeriode = ({
             <div className={classNames(styles.Header, editing && styles.editing)}>
                 <Flex alignItems="center">
                     <Bold>Beregnet månedsinntekt</Bold>
-                    {endret || omregnetÅrsinntekt?.kilde === GraphQLInntektskilde.Saksbehandler ? (
+                    {endret || omregnetÅrsinntekt?.kilde === Inntektskilde.Saksbehandler ? (
                         <EndringsloggButton endringer={inntektsendringer} />
                     ) : (
                         <Kilde type={omregnetÅrsinntekt?.kilde}>{kildeForkortelse(omregnetÅrsinntekt?.kilde)}</Kilde>
                     )}
                 </Flex>
-                {overstyrInntektEnabled && (
+                {overstyrInntektEnabled && inntektstype && vilkårsgrunnlagId && (
                     <RedigerInntekt
                         setEditing={setEditing}
                         editing={editing}
@@ -66,7 +68,7 @@ export const InntektBeregnetPeriode = ({
                     onEndre={setEndret}
                 />
             ) : (
-                <ReadOnlyInntekt omregnetÅrsinntekt={omregnetÅrsinntekt} />
+                <ReadOnlyInntekt omregnetÅrsinntekt={omregnetÅrsinntekt} deaktivert={erDeaktivert} />
             )}
         </div>
     );

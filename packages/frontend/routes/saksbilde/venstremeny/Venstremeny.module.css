@@ -29,9 +29,6 @@
 }
 
 .Deactivated {
-    position: absolute;
-    top: -14px;
-    left: 15px;
     background-color: var(--nav-ghost-deaktivert-pille-bakgrunn);
     border: 1px solid var(--nav-ghost-deaktivert-pille-border);
     padding: 5px 10px;

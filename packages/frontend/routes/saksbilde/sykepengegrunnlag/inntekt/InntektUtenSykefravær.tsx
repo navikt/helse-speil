@@ -1,17 +1,10 @@
 import React, { useState } from 'react';
 import classNames from 'classnames';
 
-import {
-    Inntektskilde as GraphQLInntektskilde,
-    Maybe,
-    OmregnetArsinntekt,
-    Periodetilstand,
-    Person,
-    Utbetalingstatus,
-} from '@io/graphql';
+import { Inntektskilde, Maybe, OmregnetArsinntekt, Periodetilstand, Person } from '@io/graphql';
 import { useActivePeriod } from '@state/periode';
 import { useCurrentPerson } from '@state/person';
-import { useEndringerForPeriode, useUtbetalingForSkjæringstidspunkt } from '@state/arbeidsgiver';
+import { useEndringerForPeriode } from '@state/arbeidsgiver';
 import { defaultOverstyrToggles } from '@utils/featureToggles';
 import { isBeregnetPeriode, isGhostPeriode } from '@utils/typeguards';
 import { kildeForkortelse } from '@utils/inntektskilde';
@@ -82,34 +75,32 @@ const useOrganisasjonsnummerTilPeriodenSomErTilGodkjenning = (): Maybe<string> =
     );
 };
 
-interface InntektGhostPeriodeProps {
+interface InntektUtenSykefraværProps {
     organisasjonsnummer: string;
     skjæringstidspunkt: DateString;
     erDeaktivert?: Maybe<boolean>;
     omregnetÅrsinntekt?: Maybe<OmregnetArsinntekt>;
 }
 
-export const InntektGhostPeriode = ({
+export const InntektUtenSykefravær = ({
     organisasjonsnummer,
     skjæringstidspunkt,
     erDeaktivert,
     omregnetÅrsinntekt,
-}: InntektGhostPeriodeProps) => {
+}: InntektUtenSykefraværProps) => {
     const [editing, setEditing] = useState(false);
     const [endret, setEndret] = useState(false);
 
-    const erRevurdering = useUtbetalingForSkjæringstidspunkt(skjæringstidspunkt)?.status === Utbetalingstatus.Utbetalt;
     const arbeidsforholdKanOverstyres = useArbeidsforholdKanOverstyres(organisasjonsnummer);
     const organisasjonsnummerForPeriodeTilGodkjenning = useOrganisasjonsnummerTilPeriodenSomErTilGodkjenning();
     const { arbeidsforholdendringer } = useEndringerForPeriode(organisasjonsnummer);
 
     return (
         <div className={classNames(styles.Inntekt, editing && styles.editing, erDeaktivert && styles.deaktivert)}>
-            {erDeaktivert && <div className={styles.Deaktivertpille}>Brukes ikke i beregningen</div>}
             <div className={classNames(styles.Header, editing && styles.editing)}>
                 <Flex alignItems="center">
                     <Bold>Beregnet månedsinntekt</Bold>
-                    {endret || omregnetÅrsinntekt?.kilde === GraphQLInntektskilde.Saksbehandler ? (
+                    {endret || omregnetÅrsinntekt?.kilde === Inntektskilde.Saksbehandler ? (
                         <EndringsloggButton endringer={arbeidsforholdendringer} />
                     ) : (
                         <Kilde type={omregnetÅrsinntekt?.kilde}>{kildeForkortelse(omregnetÅrsinntekt?.kilde)}</Kilde>
@@ -117,7 +108,7 @@ export const InntektGhostPeriode = ({
                 </Flex>
             </div>
             <div className={styles.InntektContainer}>
-                <ReadOnlyInntekt omregnetÅrsinntekt={omregnetÅrsinntekt} />
+                <ReadOnlyInntekt omregnetÅrsinntekt={omregnetÅrsinntekt} deaktivert={erDeaktivert} />
             </div>
             {arbeidsforholdKanOverstyres && organisasjonsnummerForPeriodeTilGodkjenning && (
                 <OverstyrArbeidsforholdUtenSykdom

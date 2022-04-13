@@ -33,7 +33,7 @@ const Container = styled.div`
 
 const FormContainer = styled(FlexColumn)<{ editing: boolean }>`
     box-sizing: border-box;
-    margin-bottom: 2rem;
+    margin-top: 1rem;
     min-width: 495px;
 
     ${(props) =>
@@ -97,10 +97,6 @@ const FeiloppsummeringContainer = styled.div`
     margin: 1.5rem 0 0.5rem;
 `;
 
-const EditButtonContainer = styled(EditButton)`
-    padding-top: 4px;
-`;
-
 interface OverstyrArbeidsforholdUtenSykdomProps {
     organisasjonsnummerAktivPeriode: string;
     organisasjonsnummerPeriodeTilGodkjenning: string;
@@ -142,7 +138,7 @@ export const OverstyrArbeidsforholdUtenSykdom = ({
                     />
                 )}
                 {skalViseOverstyr && (
-                    <EditButtonContainer
+                    <EditButton
                         isOpen={editing}
                         openText="Avbryt"
                         closedText="Ikke bruk arbeidsforholdet i beregningen"

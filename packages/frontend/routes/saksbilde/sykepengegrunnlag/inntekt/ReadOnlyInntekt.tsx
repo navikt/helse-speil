@@ -8,15 +8,16 @@ import { SortInfoikon } from '@components/ikoner/SortInfoikon';
 import { PopoverHjelpetekst } from '@components/PopoverHjelpetekst';
 import { getMonthName, somPenger } from '@utils/locale';
 import { sorterInntekterFraAOrdningenNy } from '@utils/inntekt';
-import { Inntektskilde, OmregnetArsinntekt } from '@io/graphql';
+import { Inntektskilde, Maybe, OmregnetArsinntekt } from '@io/graphql';
 
 import styles from './ReadOnlyInntekt.module.css';
 
 interface InntektFraAordningenProps {
     omregnetÅrsinntekt: OmregnetArsinntekt;
+    deaktivert?: Maybe<boolean>;
 }
 
-const InntektFraAordningen: React.VFC<InntektFraAordningenProps> = ({ omregnetÅrsinntekt }) => {
+const InntektFraAordningen: React.VFC<InntektFraAordningenProps> = ({ omregnetÅrsinntekt, deaktivert }) => {
     return (
         <>
             <Flex alignItems="center">
@@ -43,26 +44,28 @@ const InntektFraAordningen: React.VFC<InntektFraAordningenProps> = ({ omregnetÅ
                 <Bold>Omregnet rapportert årsinntekt</Bold>
                 <Bold>{somPenger(omregnetÅrsinntekt.belop)}</Bold>
             </div>
-            <div className={styles.ArbeidsforholdInfoText}>
-                <SortInfoikon />
-                <p>
-                    Arbeidsforholdet er tatt med i beregningsgrunnlaget fordi det er <br />
-                    innrapportert inntekt og/eller fordi arbeidsforholdet har startdato i <br />
-                    løpet av de to siste månedene før skjæringstidspunktet.
-                </p>
-            </div>
+            {!deaktivert && (
+                <div className={styles.ArbeidsforholdInfoText}>
+                    <p>
+                        Arbeidsforholdet er tatt med i beregningsgrunnlaget fordi det er <br />
+                        innrapportert inntekt og/eller fordi arbeidsforholdet har startdato i <br />
+                        løpet av de to siste månedene før skjæringstidspunktet.
+                    </p>
+                </div>
+            )}
         </>
     );
 };
 
 interface ReadOnlyInntektProps {
-    omregnetÅrsinntekt?: OmregnetArsinntekt | null;
+    omregnetÅrsinntekt?: Maybe<OmregnetArsinntekt>;
+    deaktivert?: Maybe<boolean>;
 }
 
-export const ReadOnlyInntekt = ({ omregnetÅrsinntekt }: ReadOnlyInntektProps) => (
+export const ReadOnlyInntekt: React.VFC<ReadOnlyInntektProps> = ({ omregnetÅrsinntekt, deaktivert }) => (
     <>
         {omregnetÅrsinntekt?.kilde === Inntektskilde.Aordningen ? (
-            <InntektFraAordningen omregnetÅrsinntekt={omregnetÅrsinntekt!} />
+            <InntektFraAordningen omregnetÅrsinntekt={omregnetÅrsinntekt!} deaktivert={deaktivert} />
         ) : (
             <div className={styles.Grid}>
                 <BodyShort>Månedsbeløp</BodyShort>

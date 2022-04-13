@@ -3,15 +3,9 @@ import React, { useEffect, useState } from 'react';
 
 import { InntektsgrunnlagTable } from './InntektsgrunnlagTable';
 import { Inntektskilderinnhold } from './Inntektskilderinnhold';
-import {
-    Arbeidsforhold,
-    Arbeidsgiver,
-    Arbeidsgiverinntekt,
-    Inntektsgrunnlag,
-    Refusjon,
-    VilkarsgrunnlagSpleis,
-} from '@io/graphql';
+import { Arbeidsgiverinntekt, Inntektsgrunnlag, Refusjon, VilkarsgrunnlagSpleis } from '@io/graphql';
 import { getInntekt } from '@state/selectors/person';
+import { useArbeidsgiver } from '@state/arbeidsgiver';
 
 const Container = styled.div`
     display: flex;
@@ -30,7 +24,7 @@ interface SykepengegrunnlagFraSpleisProps extends HTMLAttributes<HTMLDivElement>
     vilkårsgrunnlag: VilkarsgrunnlagSpleis;
     inntektsgrunnlag: Inntektsgrunnlag;
     skjæringstidspunkt: DateString;
-    arbeidsgiver: Omit<Arbeidsgiver, 'generasjoner' | 'ghostPerioder' | 'overstyringer'>;
+    organisasjonsnummer: string;
     refusjon?: Refusjon | null;
 }
 
@@ -38,21 +32,29 @@ export const SykepengegrunnlagFraSpleis = ({
     vilkårsgrunnlag,
     inntektsgrunnlag,
     skjæringstidspunkt,
-    arbeidsgiver,
+    organisasjonsnummer,
     refusjon,
     ...rest
 }: SykepengegrunnlagFraSpleisProps) => {
-    const inntekt = getInntekt(vilkårsgrunnlag, arbeidsgiver.organisasjonsnummer);
+    const inntekt = getInntekt(vilkårsgrunnlag, organisasjonsnummer);
 
     const [aktivInntektskilde, setAktivInntektskilde] = useState<Arbeidsgiverinntekt>(inntekt);
+
+    const aktivArbeidsgiver = useArbeidsgiver(aktivInntektskilde.arbeidsgiver);
 
     useEffect(() => {
         setAktivInntektskilde(inntekt);
     }, [inntekt]);
 
     useEffect(() => {
-        setAktivInntektskilde(getInntekt(vilkårsgrunnlag, arbeidsgiver.organisasjonsnummer));
-    }, [vilkårsgrunnlag, arbeidsgiver.organisasjonsnummer]);
+        if (aktivArbeidsgiver) {
+            setAktivInntektskilde(getInntekt(vilkårsgrunnlag, aktivArbeidsgiver.organisasjonsnummer));
+        }
+    }, [vilkårsgrunnlag, aktivArbeidsgiver]);
+
+    if (!aktivArbeidsgiver) {
+        return null;
+    }
 
     return (
         <Container {...rest}>
@@ -68,11 +70,11 @@ export const SykepengegrunnlagFraSpleis = ({
             <Strek />
             <Inntektskilderinnhold
                 inntekt={aktivInntektskilde}
-                refusjon={refusjon}
-                arbeidsgivernavn={arbeidsgiver.navn}
-                bransjer={arbeidsgiver.bransjer}
-                arbeidsforhold={arbeidsgiver.arbeidsforhold}
+                arbeidsgivernavn={aktivArbeidsgiver.navn}
+                bransjer={aktivArbeidsgiver.bransjer}
+                arbeidsforhold={aktivArbeidsgiver.arbeidsforhold}
                 skjæringstidspunkt={skjæringstidspunkt}
+                refusjon={refusjon}
             />
         </Container>
     );

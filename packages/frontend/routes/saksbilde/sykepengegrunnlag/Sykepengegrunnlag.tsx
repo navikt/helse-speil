@@ -46,7 +46,7 @@ const SykepengegrunnlagContainer = () => {
                     vilkårsgrunnlag={vilkårsgrunnlag}
                     inntektsgrunnlag={inntektsgrunnlag}
                     skjæringstidspunkt={activePeriod.skjaeringstidspunkt}
-                    arbeidsgiver={arbeidsgiver}
+                    organisasjonsnummer={arbeidsgiver.organisasjonsnummer}
                     refusjon={isBeregnetPeriode(activePeriod) ? activePeriod.refusjon : null}
                     data-testid="ubehandlet-sykepengegrunnlag"
                 />
