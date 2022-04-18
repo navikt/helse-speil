@@ -20,12 +20,23 @@
     margin-left: 1rem;
 }
 
-.InntektFraAOrdningen.deaktivert {
+.InntektFraAOrdningen.deactivated {
+    position: relative;
     background-color: var(--nav-ghost-deaktivert-bakgrunn);
     border: 1px solid var(--nav-ghost-deaktivert-border);
-    padding: 2.25rem 1rem;
-    position: relative;
-    margin: 14px -15px;
+    padding: 1.75rem 1rem 1.25rem;
+    margin: 1rem -1rem;
+}
+
+.InntektFraAOrdningen.deactivated:after {
+    content: 'Brukes ikke i beregningen';
+    position: absolute;
+    background-color: var(--nav-ghost-deaktivert-pille-bakgrunn);
+    border: 1px solid var(--nav-ghost-deaktivert-pille-border);
+    padding: 5px 10px;
+    border-radius: 4px;
+    top: 0;
+    transform: translateY(-50%);
 }
 
 .Deactivated {

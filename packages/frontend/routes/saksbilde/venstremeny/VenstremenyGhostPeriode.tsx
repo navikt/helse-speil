@@ -13,6 +13,7 @@ import { useVilkårsgrunnlag } from '@state/person';
 import { ArbeidsgiverCard } from './ArbeidsgiverCard';
 
 import styles from './Venstremeny.module.css';
+import classNames from 'classnames';
 
 const useInntekterFraAOrdningen = (
     vilkårsgrunnlagId: string,
@@ -59,8 +60,7 @@ export const VenstremenyGhostPeriode: React.VFC<VenstremenyGhostPeriodeProps> = 
                 arbeidsforhold={currentArbeidsgiver.arbeidsforhold}
             />
             {inntekter && (
-                <div className={styles.InntektFraAOrdningen}>
-                    {activePeriod.deaktivert && <div className={styles.Deactivated}>Brukes ikke i beregningen</div>}
+                <div className={classNames(styles.InntektFraAOrdningen, activePeriod.deaktivert && styles.deactivated)}>
                     <div className={styles.Title}>
                         <Bold>Rapportert siste 3 måneder</Bold>
                         <div className={styles.InfoButtonContainer}>
