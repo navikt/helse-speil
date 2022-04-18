@@ -10,7 +10,7 @@
             "infotrygdutbetalinger": [],
             "inntektsgrunnlag": [
                 {
-                    "avviksprosent": 11.149228130360205,
+                    "avviksprosent": 32.075471698113205,
                     "grunnbelop": 106399,
                     "inntekter": [
                         {
@@ -69,29 +69,12 @@
                                     }
                                 ],
                                 "belop": 231000
-                            }
+                            },
+                            "deaktivert": null
                         },
                         {
                             "arbeidsgiver": "839942907",
-                            "omregnetArsinntekt": {
-                                "belop": 252000,
-                                "inntektFraAOrdningen": [
-                                    {
-                                        "maned": "2021-08",
-                                        "sum": 21000
-                                    },
-                                    {
-                                        "maned": "2021-07",
-                                        "sum": 21000
-                                    },
-                                    {
-                                        "maned": "2021-06",
-                                        "sum": 21000
-                                    }
-                                ],
-                                "kilde": "AORDNINGEN",
-                                "manedsbelop": 21000
-                            },
+                            "omregnetArsinntekt": null,
                             "sammenligningsgrunnlag": {
                                 "inntektFraAOrdningen": [
                                     {
@@ -141,7 +124,7 @@
                                 ],
                                 "belop": 231000
                             },
-                            "deaktivert": true
+                            "deaktivert": null
                         },
                         {
                             "arbeidsgiver": "805824352",
@@ -194,15 +177,16 @@
                                     }
                                 ],
                                 "belop": 121000
-                            }
+                            },
+                            "deaktivert": null
                         }
                     ],
                     "sammenligningsgrunnlag": 583000,
-                    "omregnetArsinntekt": 648000,
-                    "maksUtbetalingPerDag": 2455.3615384615387,
+                    "omregnetArsinntekt": 396000,
+                    "maksUtbetalingPerDag": 1523.076923076923,
                     "oppfyllerKravOmMinstelonn": true,
                     "skjaeringstidspunkt": "2021-09-01",
-                    "sykepengegrunnlag": 638394
+                    "sykepengegrunnlag": 396000
                 }
             ],
             "personinfo": {
@@ -213,21 +197,16 @@
                 "fodselsdato": "1967-12-02",
                 "kjonn": "Mann"
             },
-            "tildeling": {
-                "navn": "Grieg, Solveig",
-                "epost": "Solveig.Grieg@nav.no",
-                "oid": "66dc5bd2-399f-4ace-9801-10ad98044987",
-                "reservert": false
-            },
-            "versjon": 22,
+            "tildeling": null,
+            "versjon": 23,
             "vilkarsgrunnlaghistorikk": [
                 {
-                    "id": "fa17bfd8-9b90-4413-bb85-968034037826",
+                    "id": "ba7a70cc-2dd7-4629-b4a8-10698b7be2f2",
                     "grunnlag": [
                         {
-                            "sykepengegrunnlag": 638394,
+                            "sykepengegrunnlag": 396000,
                             "skjaeringstidspunkt": "2021-09-01",
-                            "omregnetArsinntekt": 648000,
+                            "omregnetArsinntekt": 396000,
                             "sammenligningsgrunnlag": 583000,
                             "inntekter": [
                                 {
@@ -241,7 +220,8 @@
                                         "manedsbelop": 33000,
                                         "kilde": "INNTEKTSMELDING"
                                     },
-                                    "arbeidsgiver": "972674818"
+                                    "arbeidsgiver": "972674818",
+                                    "deaktivert": false
                                 },
                                 {
                                     "sammenligningsgrunnlag": {
@@ -276,7 +256,78 @@
                                         "inntektFraAOrdningen": []
                                     },
                                     "omregnetArsinntekt": null,
-                                    "arbeidsgiver": "805824352"
+                                    "arbeidsgiver": "805824352",
+                                    "deaktivert": false
+                                }
+                            ],
+                            "vilkarsgrunnlagtype": "SPLEIS",
+                            "oppfyllerKravOmMinstelonn": true,
+                            "oppfyllerKravOmMedlemskap": null,
+                            "oppfyllerKravOmOpptjening": true,
+                            "antallOpptjeningsdagerErMinst": 7153,
+                            "grunnbelop": 106399,
+                            "opptjeningFra": "2002-01-31"
+                        }
+                    ]
+                },
+                {
+                    "id": "fa17bfd8-9b90-4413-bb85-968034037826",
+                    "grunnlag": [
+                        {
+                            "sykepengegrunnlag": 638394,
+                            "skjaeringstidspunkt": "2021-09-01",
+                            "omregnetArsinntekt": 648000,
+                            "sammenligningsgrunnlag": 583000,
+                            "inntekter": [
+                                {
+                                    "sammenligningsgrunnlag": {
+                                        "belop": 231000,
+                                        "inntektFraAOrdningen": []
+                                    },
+                                    "omregnetArsinntekt": {
+                                        "inntektFraAOrdningen": null,
+                                        "belop": 396000,
+                                        "manedsbelop": 33000,
+                                        "kilde": "INNTEKTSMELDING"
+                                    },
+                                    "arbeidsgiver": "972674818",
+                                    "deaktivert": false
+                                },
+                                {
+                                    "sammenligningsgrunnlag": {
+                                        "belop": 231000,
+                                        "inntektFraAOrdningen": []
+                                    },
+                                    "omregnetArsinntekt": {
+                                        "inntektFraAOrdningen": [
+                                            {
+                                                "maned": "2021-07",
+                                                "sum": 21000
+                                            },
+                                            {
+                                                "maned": "2021-06",
+                                                "sum": 21000
+                                            },
+                                            {
+                                                "maned": "2021-08",
+                                                "sum": 21000
+                                            }
+                                        ],
+                                        "belop": 252000,
+                                        "manedsbelop": 21000,
+                                        "kilde": "AORDNINGEN"
+                                    },
+                                    "arbeidsgiver": "839942907",
+                                    "deaktivert": false
+                                },
+                                {
+                                    "sammenligningsgrunnlag": {
+                                        "belop": 121000,
+                                        "inntektFraAOrdningen": []
+                                    },
+                                    "omregnetArsinntekt": null,
+                                    "arbeidsgiver": "805824352",
+                                    "deaktivert": false
                                 }
                             ],
                             "vilkarsgrunnlagtype": "SPLEIS",
@@ -309,7 +360,8 @@
                                         "manedsbelop": 33000,
                                         "kilde": "INNTEKTSMELDING"
                                     },
-                                    "arbeidsgiver": "972674818"
+                                    "arbeidsgiver": "972674818",
+                                    "deaktivert": false
                                 },
                                 {
                                     "sammenligningsgrunnlag": {
@@ -335,7 +387,8 @@
                                         "manedsbelop": 21000,
                                         "kilde": "AORDNINGEN"
                                     },
-                                    "arbeidsgiver": "839942907"
+                                    "arbeidsgiver": "839942907",
+                                    "deaktivert": true
                                 },
                                 {
                                     "sammenligningsgrunnlag": {
@@ -343,7 +396,8 @@
                                         "inntektFraAOrdningen": []
                                     },
                                     "omregnetArsinntekt": null,
-                                    "arbeidsgiver": "805824352"
+                                    "arbeidsgiver": "805824352",
+                                    "deaktivert": false
                                 }
                             ],
                             "vilkarsgrunnlagtype": "SPLEIS",
@@ -376,7 +430,8 @@
                                         "manedsbelop": 33000,
                                         "kilde": "INNTEKTSMELDING"
                                     },
-                                    "arbeidsgiver": "972674818"
+                                    "arbeidsgiver": "972674818",
+                                    "deaktivert": false
                                 },
                                 {
                                     "sammenligningsgrunnlag": {
@@ -402,7 +457,8 @@
                                         "manedsbelop": 21000,
                                         "kilde": "AORDNINGEN"
                                     },
-                                    "arbeidsgiver": "839942907"
+                                    "arbeidsgiver": "839942907",
+                                    "deaktivert": false
                                 },
                                 {
                                     "sammenligningsgrunnlag": {
@@ -410,7 +466,8 @@
                                         "inntektFraAOrdningen": []
                                     },
                                     "omregnetArsinntekt": null,
-                                    "arbeidsgiver": "805824352"
+                                    "arbeidsgiver": "805824352",
+                                    "deaktivert": false
                                 }
                             ],
                             "vilkarsgrunnlagtype": "SPLEIS",
@@ -435,13 +492,19 @@
                             "sluttdato": null,
                             "startdato": "2002-01-01",
                             "stillingsprosent": 100,
+                            "stillingstittel": "FRISØR"
+                        },
+                        {
+                            "sluttdato": null,
+                            "startdato": "2002-01-01",
+                            "stillingsprosent": 100,
                             "stillingstittel": "HØYSKOLELÆRER"
                         }
                     ],
                     "ghostPerioder": [],
                     "generasjoner": [
                         {
-                            "id": "cce6c479-6012-48fd-bcca-19130a3d0f31",
+                            "id": "311f8655-5530-49ae-8263-4b4456ce540f",
                             "perioder": [
                                 {
                                     "fom": "2021-09-01",
@@ -449,7 +512,7 @@
                                     "behandlingstype": "BEHANDLET",
                                     "erForkastet": false,
                                     "inntektstype": "FLEREARBEIDSGIVERE",
-                                    "opprettet": "2022-03-21T15:21:01",
+                                    "opprettet": "2022-04-04T15:37:04",
                                     "periodetype": "FORSTEGANGSBEHANDLING",
                                     "tidslinje": [
                                         {
@@ -654,18 +717,18 @@
                                             "sykdomsdagtype": "SYKEDAG",
                                             "utbetalingsdagtype": "NAVDAG",
                                             "utbetalingsinfo": {
-                                                "arbeidsgiverbelop": 1500,
+                                                "arbeidsgiverbelop": 1523,
                                                 "inntekt": 1523,
                                                 "personbelop": 0,
                                                 "refusjonsbelop": 1523,
-                                                "totalGrad": 61.111111111111114,
-                                                "utbetaling": 1500
+                                                "totalGrad": 100,
+                                                "utbetaling": 1523
                                             },
                                             "begrunnelser": null
                                         }
                                     ],
                                     "vedtaksperiodeId": "74d6b87c-e121-4a41-9e28-4589b0e63970",
-                                    "id": "9f981b6f-2070-45ec-abe3-107c71b34560",
+                                    "id": "7a2136b0-cfc0-4c8a-9f0b-ccb3fed25434",
                                     "aktivitetslogg": [
                                         {
                                             "alvorlighetsgrad": "W",
@@ -692,7 +755,7 @@
                                             "vedtaksperiodeId": "74d6b87c-e121-4a41-9e28-4589b0e63970"
                                         }
                                     ],
-                                    "beregningId": "ac1cd201-a32f-4820-8373-f26d238bbe67",
+                                    "beregningId": "99d13298-0410-45bb-ab70-d4f6b95bb0b6",
                                     "forbrukteSykedager": 1,
                                     "gjenstaendeSykedager": 247,
                                     "hendelser": [
@@ -744,18 +807,18 @@
                                     },
                                     "skjaeringstidspunkt": "2021-09-01",
                                     "utbetaling": {
-                                        "id": "5eb87046-6279-4346-9a4f-f5d1d344348f",
-                                        "arbeidsgiverFagsystemId": "OXDNCC6KSNERTEFBCZQXOZS3XM",
-                                        "arbeidsgiverNettoBelop": 1500,
-                                        "personFagsystemId": "LFU36ZXA25G23FKZTH76RATCDQ",
+                                        "id": "f71b34a2-6939-4150-aedd-dede184e4f2e",
+                                        "arbeidsgiverFagsystemId": "3K7GGE3SG5BFVG7BIEJDKQ2FTI",
+                                        "arbeidsgiverNettoBelop": 1523,
+                                        "personFagsystemId": "AHHIDDZJQNGGLK363OQKSXQ3RM",
                                         "personNettoBelop": 0,
                                         "status": "UBETALT",
                                         "type": "UTBETALING",
                                         "vurdering": null,
                                         "arbeidsgiversimulering": {
-                                            "fagsystemId": "OXDNCC6KSNERTEFBCZQXOZS3XM",
-                                            "totalbelop": 1500,
-                                            "tidsstempel": "2022-03-21T15:21:01",
+                                            "fagsystemId": "3K7GGE3SG5BFVG7BIEJDKQ2FTI",
+                                            "totalbelop": 1523,
+                                            "tidsstempel": "2022-04-04T15:37:04",
                                             "utbetalingslinjer": [],
                                             "perioder": [
                                                 {
@@ -765,7 +828,7 @@
                                                         {
                                                             "mottakerId": "928497704",
                                                             "mottakerNavn": "BESK KAFFE",
-                                                            "forfall": "2022-03-21",
+                                                            "forfall": "2022-04-04",
                                                             "feilkonto": false,
                                                             "detaljer": [
                                                                 {
@@ -775,12 +838,12 @@
                                                                     "uforegrad": 100,
                                                                     "typeSats": "DAG",
                                                                     "tilbakeforing": false,
-                                                                    "sats": 1500,
+                                                                    "sats": 1523,
                                                                     "refunderesOrgNr": "972674818",
                                                                     "konto": "2338020",
                                                                     "klassekode": "SPREFAG-IOP",
                                                                     "antallSats": 1,
-                                                                    "belop": 1500,
+                                                                    "belop": 1523,
                                                                     "klassekodebeskrivelse": "Sykepenger, Refusjon arbeidsgiver"
                                                                 }
                                                             ]
@@ -790,21 +853,21 @@
                                             ]
                                         },
                                         "personsimulering": {
-                                            "fagsystemId": "LFU36ZXA25G23FKZTH76RATCDQ",
+                                            "fagsystemId": "AHHIDDZJQNGGLK363OQKSXQ3RM",
                                             "totalbelop": null,
-                                            "tidsstempel": "2022-03-21T15:21:01",
+                                            "tidsstempel": "2022-04-04T15:37:04",
                                             "utbetalingslinjer": [],
                                             "perioder": null
                                         }
                                     },
                                     "varsler": [
+                                        "Ikke registrert eller mangler samtykke i Kontakt- og reservasjonsregisteret, eventuell kommunikasjon må skje i brevform",
                                         "Bruker har flere inntektskilder de siste tre månedene enn arbeidsforhold som er oppdaget i Aa-registeret.",
                                         "Vurder lovvalg og medlemskap",
                                         "Flere arbeidsgivere, ulikt starttidspunkt for sykefraværet eller ikke fravær fra alle arbeidsforhold",
-                                        "Har mer enn 25 % avvik. Dette støttes foreløpig ikke i Speil. Du må derfor annullere periodene.",
-                                        "Ikke registrert eller mangler samtykke i Kontakt- og reservasjonsregisteret, eventuell kommunikasjon må skje i brevform"
+                                        "Har mer enn 25 % avvik. Dette støttes foreløpig ikke i Speil. Du må derfor annullere periodene."
                                     ],
-                                    "vilkarsgrunnlaghistorikkId": "fa17bfd8-9b90-4413-bb85-968034037826",
+                                    "vilkarsgrunnlaghistorikkId": "ba7a70cc-2dd7-4629-b4a8-10698b7be2f2",
                                     "refusjon": {
                                         "sisteRefusjonsdag": null,
                                         "forsteFravaersdag": "2021-09-01",
@@ -817,7 +880,7 @@
                                         ],
                                         "belop": 33000
                                     },
-                                    "oppgavereferanse": "3246",
+                                    "oppgavereferanse": "3323",
                                     "tilstand": "Oppgaver"
                                 }
                             ]
@@ -829,18 +892,11 @@
                     "bransjer": [],
                     "navn": "HÅRREISENDE FRISØR",
                     "organisasjonsnummer": "839942907",
-                    "arbeidsforhold": [
-                        {
-                            "sluttdato": null,
-                            "startdato": "2002-01-01",
-                            "stillingsprosent": 100,
-                            "stillingstittel": "FRISØR"
-                        }
-                    ],
+                    "arbeidsforhold": [],
                     "ghostPerioder": [
                         {
                             "deaktivert": true,
-                            "vilkarsgrunnlaghistorikkId": "fa17bfd8-9b90-4413-bb85-968034037826",
+                            "vilkarsgrunnlaghistorikkId": "ba7a70cc-2dd7-4629-b4a8-10698b7be2f2",
                             "skjaeringstidspunkt": "2021-09-01",
                             "fom": "2021-09-01",
                             "tom": "2021-09-17",
@@ -848,7 +904,21 @@
                         }
                     ],
                     "generasjoner": [],
-                    "overstyringer": []
+                    "overstyringer": [
+                        {
+                            "begrunnelse": "§ 8-15 - Avbrudd mer enn 14 dager (generell)",
+                            "hendelseId": "1c235433-124d-4e98-a319-d034af74e0c1",
+                            "saksbehandler": {
+                                "ident": "R154509",
+                                "navn": "Ramthun, Stephen"
+                            },
+                            "timestamp": "2022-04-04T11:34:30.37697",
+                            "__typename": "Arbeidsforholdoverstyring",
+                            "deaktivert": true,
+                            "skjaeringstidspunkt": "2021-09-01",
+                            "forklaring": "Fordi"
+                        }
+                    ]
                 },
                 {
                     "bransjer": [],
