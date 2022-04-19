@@ -27,8 +27,8 @@ export default ({ opptegnelseClient }: SetupOptions) => {
             .getAlleOpptegnelser(req.session!.speilToken)
             .then((it) => res.status(200).send(it.body))
             .catch((err) => {
-                logger.error(`Feil under henting av opptegnelser (se sikkerLogg for detaljer)`);
-                logger.sikker.error(`Feil under henting av opptegnelser: ${err}`, { error: err });
+                logger.warn(`Feil under henting av opptegnelser (se sikkerLogg for detaljer)`);
+                logger.sikker.warn(`Feil under henting av opptegnelser: ${err}`, { error: err });
                 res.status(500).send('Feil under henting av opptegnelser');
             });
     });
@@ -38,8 +38,8 @@ export default ({ opptegnelseClient }: SetupOptions) => {
             .getOpptegnelser(req.session!.speilToken, Number(req.params['sisteSekvensId']))
             .then((it) => res.status(200).send(it.body))
             .catch((err) => {
-                logger.error(`Feil under henting av opptegnelser med sisteSekvensId (se sikkerLogg for detaljer)`);
-                logger.sikker.error(`Feil under henting av opptegnelser med sisteSekvensId: ${err}`, { error: err });
+                logger.warn(`Feil under henting av opptegnelser med sisteSekvensId (se sikkerLogg for detaljer)`);
+                logger.sikker.warn(`Feil under henting av opptegnelser med sisteSekvensId: ${err}`, { error: err });
                 res.status(500).send('Feil under henting av opptegnelser med sisteSekvensId');
             });
     });
