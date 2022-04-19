@@ -1,3 +1,5 @@
+import { OpptegnelseClient } from './opptegnelseClient';
+
 const opptegnelse = {
     aktørId: 12341234,
     sekvensnummer: 12121212,
@@ -27,7 +29,7 @@ const blokkerSvarPåOpptegnelser = () => {
     }, 5000);
 };
 
-export default {
+const devOpptegnelseClient: OpptegnelseClient = {
     abonnerPåAktør: async (): Promise<any> => {
         blokkerSvarPåOpptegnelser();
         return;
@@ -51,3 +53,5 @@ export default {
             : Promise.resolve({ status: 200, body: [] });
     },
 };
+
+export default devOpptegnelseClient;
