@@ -6,7 +6,6 @@ import '@navikt/ds-tokens/dist/tokens.css';
 
 import App from './routes/App';
 import './config';
-import './tekster';
 
 window.global = window;
 
