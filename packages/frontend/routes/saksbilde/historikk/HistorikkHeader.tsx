@@ -4,9 +4,10 @@ import React from 'react';
 import { TabButton } from '@components/TabButton';
 
 import { Hendelsetype } from './Historikk.types';
+import { useFilterState, useShowHistorikkState } from './state';
+
 import iconDokumenter from './icons/IconDokumenter.svg';
 import iconHistorikk from './icons/IconHistorikk.svg';
-import { useFilterState, useShowHistorikkState } from './state';
 
 const Header = styled.div`
     --historikk-header-height: 48px;
@@ -21,6 +22,10 @@ const HistorikkTabButton = styled(TabButton)`
     width: var(--historikk-header-height);
 `;
 
+const TabButtonIcon: React.VFC<React.ImgHTMLAttributes<HTMLImageElement>> = (props) => {
+    return <img alt="" {...props} width={22} height={22} />;
+};
+
 export const HistorikkHeader = () => {
     const [filter, setFilter] = useFilterState();
     const [showHistorikk, setShowHistorikk] = useShowHistorikkState();
@@ -34,14 +39,14 @@ export const HistorikkHeader = () => {
                         onClick={() => setFilter(Hendelsetype.Historikk)}
                         title="Historikk"
                     >
-                        <img alt="" src={iconHistorikk} />
+                        <TabButtonIcon src={iconHistorikk} />
                     </HistorikkTabButton>
                     <HistorikkTabButton
                         active={filter === Hendelsetype.Dokument}
                         onClick={() => setFilter(Hendelsetype.Dokument)}
                         title="Dokumenter"
                     >
-                        <img alt="" src={iconDokumenter} />
+                        <TabButtonIcon src={iconDokumenter} />
                     </HistorikkTabButton>
                 </>
             ) : (
@@ -54,7 +59,7 @@ export const HistorikkHeader = () => {
                         }}
                         title="Historikk"
                     >
-                        <img alt="" src={iconHistorikk} />
+                        <TabButtonIcon src={iconHistorikk} />
                     </HistorikkTabButton>
                     <HistorikkTabButton
                         active={false}
@@ -64,10 +69,12 @@ export const HistorikkHeader = () => {
                         }}
                         title="Dokumenter"
                     >
-                        <img alt="" src={iconDokumenter} />
+                        <TabButtonIcon src={iconDokumenter} />
                     </HistorikkTabButton>
                 </>
             )}
         </Header>
     );
 };
+
+export default HistorikkHeader;

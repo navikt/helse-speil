@@ -82,3 +82,5 @@ export const PåVentDropdownMenuButton = ({
         </Container>
     );
 };
+
+export default PåVentDropdownMenuButton;

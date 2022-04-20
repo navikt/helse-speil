@@ -155,3 +155,5 @@ export const Utbetaling = () => {
         </React.Suspense>
     );
 };
+
+export default Utbetaling;

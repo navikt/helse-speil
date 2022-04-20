@@ -19,3 +19,5 @@ export const AnonymiserDataDropdownMenuButton: React.VFC = () => {
         </DropdownButton>
     );
 };
+
+export default AnonymiserDataDropdownMenuButton;

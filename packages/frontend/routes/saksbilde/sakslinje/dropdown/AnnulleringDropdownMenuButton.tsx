@@ -82,3 +82,5 @@ export const AnnullerButton: React.VFC = () => {
         </React.Suspense>
     );
 };
+
+export default AnnullerButton;

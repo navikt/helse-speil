@@ -86,3 +86,5 @@ export const Sykepengegrunnlag = () => {
         </React.Suspense>
     );
 };
+
+export default Sykepengegrunnlag;

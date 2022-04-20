@@ -120,3 +120,5 @@ export const Inngangsvilkår = () => {
         </React.Suspense>
     );
 };
+
+export default Inngangsvilkår;

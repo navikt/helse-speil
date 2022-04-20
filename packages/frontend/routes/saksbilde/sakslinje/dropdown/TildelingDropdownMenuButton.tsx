@@ -81,3 +81,5 @@ export const TildelingDropdownMenuButton = ({
         </DropdownButton>
     );
 };
+
+export default TildelingDropdownMenuButton;

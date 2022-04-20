@@ -15,7 +15,7 @@ const personoppdateringvarsel = (message: string, type: VarselObject['type']) =>
     scope: Scopes.SAKSBILDE,
 });
 
-export const OppdaterPersondataDropdownMenuButton: React.VFC = () => {
+export const OppdaterPersondataButton: React.VFC = () => {
     const person = useCurrentPerson();
 
     const addVarsel = useAddVarsel();
@@ -47,3 +47,5 @@ export const OppdaterPersondataDropdownMenuButton: React.VFC = () => {
         <DropdownButton onClick={forespørPersonoppdatering(person.fodselsnummer)}>Oppdater persondata</DropdownButton>
     );
 };
+
+export default OppdaterPersondataButton;

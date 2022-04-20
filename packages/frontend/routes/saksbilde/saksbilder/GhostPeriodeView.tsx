@@ -49,3 +49,5 @@ export const GhostPeriodeView: React.VFC<GhostPeriodeViewProps> = ({
         </>
     );
 };
+
+export default GhostPeriodeView;

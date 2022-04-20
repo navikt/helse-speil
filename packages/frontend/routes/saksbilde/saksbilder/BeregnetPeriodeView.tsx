@@ -7,12 +7,13 @@ import { Arbeidsgiver, BeregnetPeriode, Person } from '@io/graphql';
 import { Saksbildevarsler } from '../varsler/Saksbildevarsler';
 import { Venstremeny } from '../venstremeny/Venstremeny';
 import { Historikk } from '../historikk/Historikk';
-import { Utbetaling } from '../utbetaling/Utbetaling';
-import { Inngangsvilkår } from '../vilkår/Inngangsvilkår';
-import { Faresignaler } from '../faresignaler/Faresignaler';
-import { Sykepengegrunnlag } from '../sykepengegrunnlag/Sykepengegrunnlag';
 
 import styles from './PeriodeView.module.css';
+
+const Utbetaling = React.lazy(() => import('../utbetaling/Utbetaling'));
+const Inngangsvilkår = React.lazy(() => import('../vilkår/Inngangsvilkår'));
+const Faresignaler = React.lazy(() => import('../faresignaler/Faresignaler'));
+const Sykepengegrunnlag = React.lazy(() => import('../sykepengegrunnlag/Sykepengegrunnlag'));
 
 interface BeregnetPeriodeViewProps {
     activePeriod: BeregnetPeriode;
@@ -63,3 +64,5 @@ export const BeregnetPeriodeView: React.VFC<BeregnetPeriodeViewProps> = ({ activ
         </>
     );
 };
+
+export default BeregnetPeriodeView;

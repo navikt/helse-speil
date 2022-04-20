@@ -67,3 +67,5 @@ export const UberegnetPeriodeView = ({ activePeriod }: UberegnetPeriodeViewProps
         </div>
     );
 };
+
+export default UberegnetPeriodeView;

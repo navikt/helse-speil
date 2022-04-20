@@ -129,3 +129,5 @@ export const Faresignaler = () => {
         </React.Suspense>
     );
 };
+
+export default Faresignaler;

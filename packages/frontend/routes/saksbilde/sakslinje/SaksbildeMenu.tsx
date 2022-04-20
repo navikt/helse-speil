@@ -13,21 +13,22 @@ import { BeregnetPeriode } from '@io/graphql';
 import { isBeregnetPeriode, isGhostPeriode } from '@utils/typeguards';
 
 import { TabLink } from '../TabLink';
-import { PåVentDropdownMenuButton } from './dropdown/PåVentDropdownMenuButton';
-import { TildelingDropdownMenuButton } from './dropdown/TildelingDropdownMenuButton';
-import { AnnullerButton } from './dropdown/AnnulleringDropdownMenuButton';
-import { AnonymiserDataDropdownMenuButton } from './dropdown/AnonymiserDataDropdownMenuButton';
-import { OppdaterPersondataDropdownMenuButton } from './dropdown/OppdaterPersondataDropdownMenuButton';
-import { HistorikkHeader } from '../historikk/HistorikkHeader';
 
 import styles from './SaksbildeMenu.module.css';
+
+const PåVentDropdownMenuButton = React.lazy(() => import('./dropdown/PåVentDropdownMenuButton'));
+const TildelingDropdownMenuButton = React.lazy(() => import('./dropdown/TildelingDropdownMenuButton'));
+const AnnullerButton = React.lazy(() => import('./dropdown/AnnulleringDropdownMenuButton'));
+const AnonymiserDataDropdownMenuButton = React.lazy(() => import('./dropdown/AnonymiserDataDropdownMenuButton'));
+const OppdaterPersondataButton = React.lazy(() => import('./dropdown/OppdaterPersondataButton'));
+const HistorikkHeader = React.lazy(() => import('../historikk/HistorikkHeader'));
 
 const SaksbildeMenuEmpty: React.VFC = () => {
     return (
         <div className={styles.SaksbildeMenu}>
             <div>
                 <Dropdown className={styles.Dropdown} title="Meny">
-                    <OppdaterPersondataDropdownMenuButton />
+                    <OppdaterPersondataButton />
                 </Dropdown>
             </div>
             <HistorikkHeader />
@@ -47,7 +48,7 @@ const SaksbildeMenuGhostPeriode: React.VFC = () => {
                     </TabLink>
                 </span>
                 <Dropdown className={styles.Dropdown} title="Meny">
-                    <OppdaterPersondataDropdownMenuButton />
+                    <OppdaterPersondataButton />
                     <AnonymiserDataDropdownMenuButton />
                 </Dropdown>
             </div>
@@ -107,7 +108,7 @@ const SaksbildeMenuBeregnetPeriode = ({ activePeriod }: SaksbildeMenuBeregnetPer
                             <hr className={styles.Strek} />
                         </>
                     )}
-                    <OppdaterPersondataDropdownMenuButton />
+                    <OppdaterPersondataButton />
                     <AnonymiserDataDropdownMenuButton />
                     <AnnullerButton />
                 </Dropdown>

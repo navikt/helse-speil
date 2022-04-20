@@ -1,5 +1,6 @@
 import React from 'react';
 import classNames from 'classnames';
+import { BodyShort } from '@navikt/ds-react';
 
 import { Pins } from './Pins';
 import { Labels } from './Labels';
@@ -16,7 +17,6 @@ import { useCurrentPerson } from '@state/person';
 import { Arbeidsgiver, Infotrygdutbetaling } from '@io/graphql';
 
 import styles from './Timeline.module.css';
-import { BodyShort } from '@navikt/ds-react';
 
 interface TimelineWithContentProps {
     arbeidsgivere: Array<Arbeidsgiver>;

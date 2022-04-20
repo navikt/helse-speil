@@ -8,9 +8,9 @@ import { useCurrentPerson } from '@state/person';
 import { useCurrentArbeidsgiver } from '@state/arbeidsgiver';
 import { isBeregnetPeriode, isGhostPeriode, isUberegnetPeriode } from '@utils/typeguards';
 
-import { GhostPeriodeView } from './GhostPeriodeView';
-import { UberegnetPeriodeView } from './UberegnetPeriodeView';
-import { BeregnetPeriodeView } from './BeregnetPeriodeView';
+const GhostPeriodeView = React.lazy(() => import('./GhostPeriodeView'));
+const UberegnetPeriodeView = React.lazy(() => import('./UberegnetPeriodeView'));
+const BeregnetPeriodeView = React.lazy(() => import('./BeregnetPeriodeView'));
 
 import styles from './PeriodeView.module.css';
 
