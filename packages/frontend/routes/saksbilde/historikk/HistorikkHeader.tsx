@@ -34,14 +34,14 @@ export const HistorikkHeader = () => {
                         onClick={() => setFilter(Hendelsetype.Historikk)}
                         title="Historikk"
                     >
-                        <img src={iconHistorikk} />
+                        <img alt="" src={iconHistorikk} />
                     </HistorikkTabButton>
                     <HistorikkTabButton
                         active={filter === Hendelsetype.Dokument}
                         onClick={() => setFilter(Hendelsetype.Dokument)}
                         title="Dokumenter"
                     >
-                        <img src={iconDokumenter} />
+                        <img alt="" src={iconDokumenter} />
                     </HistorikkTabButton>
                 </>
             ) : (
@@ -54,7 +54,7 @@ export const HistorikkHeader = () => {
                         }}
                         title="Historikk"
                     >
-                        <img src={iconHistorikk} />
+                        <img alt="" src={iconHistorikk} />
                     </HistorikkTabButton>
                     <HistorikkTabButton
                         active={false}
@@ -64,7 +64,7 @@ export const HistorikkHeader = () => {
                         }}
                         title="Dokumenter"
                     >
-                        <img src={iconDokumenter} />
+                        <img alt="" src={iconDokumenter} />
                     </HistorikkTabButton>
                 </>
             )}
