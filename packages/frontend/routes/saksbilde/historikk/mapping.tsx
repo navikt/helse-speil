@@ -172,7 +172,7 @@ export const useArbeidsforholdoverstyringshendelser = (
 ): Hendelse[] => {
     const activePeriod = useActivePeriod();
 
-    if (!isGhostPeriode(activePeriod) || !isBeregnetPeriode(activePeriod)) {
+    if (!isGhostPeriode(activePeriod) && !isBeregnetPeriode(activePeriod)) {
         return [];
     }
 
