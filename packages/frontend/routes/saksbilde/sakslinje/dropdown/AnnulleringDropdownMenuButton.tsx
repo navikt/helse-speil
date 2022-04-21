@@ -30,8 +30,6 @@ const AnnullerButtonWithContent: React.VFC<AnnullerButtonWithContentProps> = ({
 
     const { lukk } = useContext(DropdownContext);
 
-    console.log('meh');
-
     if (!oppdrag?.arbeidsgiveroppdrag || utbetaling.status === Utbetalingstatus.Annullert) {
         return null;
     }
