@@ -29,6 +29,7 @@ import {
     isArbeidsforholdoverstyring,
     isBeregnetPeriode,
     isDagoverstyring,
+    isGhostPeriode,
     isInntektoverstyring,
 } from '@utils/typeguards';
 import { useActivePeriod } from '@state/periode';
@@ -171,7 +172,7 @@ export const useArbeidsforholdoverstyringshendelser = (
 ): Hendelse[] => {
     const activePeriod = useActivePeriod();
 
-    if (!isBeregnetPeriode(activePeriod)) {
+    if (!isGhostPeriode(activePeriod) || !isBeregnetPeriode(activePeriod)) {
         return [];
     }
 
