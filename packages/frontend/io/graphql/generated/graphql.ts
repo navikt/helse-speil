@@ -945,6 +945,7 @@ export type FetchPersonQuery = {
             }>;
             ghostPerioder: Array<{
                 __typename?: 'GhostPeriode';
+                id: string;
                 deaktivert: boolean;
                 vilkarsgrunnlaghistorikkId?: string | null;
                 skjaeringstidspunkt: string;
