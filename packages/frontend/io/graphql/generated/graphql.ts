@@ -189,6 +189,7 @@ export type GhostPeriode = {
     __typename?: 'GhostPeriode';
     deaktivert: Scalars['Boolean'];
     fom: Scalars['String'];
+    id: Scalars['String'];
     organisasjonsnummer: Scalars['String'];
     skjaeringstidspunkt: Scalars['String'];
     tom: Scalars['String'];

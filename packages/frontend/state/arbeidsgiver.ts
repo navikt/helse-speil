@@ -23,19 +23,12 @@ import {
 import dayjs from 'dayjs';
 
 const findArbeidsgiverWithGhostPeriode = (
-    period: GhostPeriode | Periode,
+    period: GhostPeriode,
     arbeidsgivere: Array<Arbeidsgiver>,
-): Arbeidsgiver | null => {
-    if (!isGhostPeriode(period)) {
-        return null;
-    }
-
+): Maybe<Arbeidsgiver> => {
     return (
-        arbeidsgivere.find((arbeidsgiver) =>
-            arbeidsgiver.ghostPerioder.find(
-                (periode) => periode.vilkarsgrunnlaghistorikkId === period.vilkarsgrunnlaghistorikkId,
-            ),
-        ) ?? null
+        arbeidsgivere.find((arbeidsgiver) => arbeidsgiver.ghostPerioder.find((periode) => periode.id === period.id)) ??
+        null
     );
 };
 

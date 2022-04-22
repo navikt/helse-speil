@@ -16,7 +16,7 @@ const filterActivePeriods = (periods: Array<Periode>): Array<Periode> =>
 
 const isActive = (activePeriod: Periode, currentPeriod: Periode): boolean => {
     if (isGhostPeriode(activePeriod) && isGhostPeriode(currentPeriod)) {
-        return activePeriod.vilkarsgrunnlaghistorikkId === currentPeriod.vilkarsgrunnlaghistorikkId;
+        return activePeriod.id === currentPeriod.id;
     } else if (isBeregnetPeriode(activePeriod) && isBeregnetPeriode(currentPeriod)) {
         return activePeriod.id === currentPeriod.id;
     } else if (isUberegnetPeriode(activePeriod) && isUberegnetPeriode(currentPeriod)) {

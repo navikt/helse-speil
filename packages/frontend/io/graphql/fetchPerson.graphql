@@ -146,6 +146,7 @@ query FetchPerson($fnr: String, $aktorId: String) {
                 stillingstittel
             }
             ghostPerioder {
+                id
                 deaktivert
                 vilkarsgrunnlaghistorikkId
                 skjaeringstidspunkt

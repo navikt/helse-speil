@@ -895,6 +895,7 @@
                     "arbeidsforhold": [],
                     "ghostPerioder": [
                         {
+                            "id": "897194bf-007c-49de-80c2-a726c93b9bfs",
                             "deaktivert": true,
                             "vilkarsgrunnlaghistorikkId": "ba7a70cc-2dd7-4629-b4a8-10698b7be2f2",
                             "skjaeringstidspunkt": "2021-09-01",
