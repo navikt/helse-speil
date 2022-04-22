@@ -47,6 +47,7 @@ export const GodkjenningButton: React.FC<GodkjenningButtonProps> = ({
 }) => {
     const [showModal, setShowModal] = useState(false);
     const [isSending, setIsSending] = useState(false);
+    const [alleredeUtbetalt, setAlleredeUtbetalt] = useState(false);
 
     const history = useHistory();
     const amplitude = useContext(AmplitudeContext);
@@ -61,19 +62,24 @@ export const GodkjenningButton: React.FC<GodkjenningButtonProps> = ({
             .then(() => {
                 amplitude.logOppgaveGodkjent();
                 addUtbetalingstoast();
-                setIsSending(false);
-                closeModal();
                 onSuccess?.();
             })
             .catch((error) => {
+                if (error.statusCode === 409) {
+                    onError?.({ ...error, message: 'Saken er allerede utbetalt.' });
+                    setAlleredeUtbetalt(true);
+                } else onError?.(error);
+            })
+            .finally(() => {
                 setIsSending(false);
-                onError?.(error);
+                closeModal();
             });
     };
 
     return (
         <>
             <Button
+                disabled={alleredeUtbetalt}
                 variant="primary"
                 size="small"
                 data-testid="godkjenning-button"

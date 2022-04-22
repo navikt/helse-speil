@@ -51,7 +51,9 @@ export default ({ vedtakClient, annulleringClient }: SetupOptions) => {
                 logger.error(
                     `Feil under fatting av vedtak for ${saksbehandlerIdent}, oppgavereferanse ${oppgavereferanse}: ${err}`
                 );
-                res.status(500).send('Feil under fatting av vedtak');
+
+                const statusCode = err.statusCode === 409 ? 409 : 500;
+                res.status(statusCode).send('Feil under fatting av vedtak.');
             });
     });
 
