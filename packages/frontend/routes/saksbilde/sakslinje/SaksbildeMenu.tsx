@@ -91,26 +91,28 @@ const SaksbildeMenuBeregnetPeriode = ({ activePeriod }: SaksbildeMenuBeregnetPer
                     )}
                 </span>
                 <Dropdown className={styles.Dropdown} title="Meny">
-                    {activePeriod.oppgavereferanse && (
-                        <>
-                            <TildelingDropdownMenuButton
-                                oppgavereferanse={activePeriod.oppgavereferanse}
-                                erTildeltInnloggetBruker={personIsAssignedUser}
-                                tildeling={currentPerson?.tildeling}
-                            />
-                            {currentPerson !== null && personIsAssignedUser && (
-                                <PåVentDropdownMenuButton
+                    <React.Suspense fallback={null}>
+                        {activePeriod.oppgavereferanse && (
+                            <>
+                                <TildelingDropdownMenuButton
                                     oppgavereferanse={activePeriod.oppgavereferanse}
-                                    vedtaksperiodeId={activePeriod.vedtaksperiodeId}
-                                    personinfo={currentPerson.personinfo}
+                                    erTildeltInnloggetBruker={personIsAssignedUser}
+                                    tildeling={currentPerson?.tildeling}
                                 />
-                            )}
-                            <hr className={styles.Strek} />
-                        </>
-                    )}
-                    <OppdaterPersondataButton />
-                    <AnonymiserDataDropdownMenuButton />
-                    <AnnullerButton />
+                                {currentPerson !== null && personIsAssignedUser && (
+                                    <PåVentDropdownMenuButton
+                                        oppgavereferanse={activePeriod.oppgavereferanse}
+                                        vedtaksperiodeId={activePeriod.vedtaksperiodeId}
+                                        personinfo={currentPerson.personinfo}
+                                    />
+                                )}
+                                <hr className={styles.Strek} />
+                            </>
+                        )}
+                        <OppdaterPersondataButton />
+                        <AnonymiserDataDropdownMenuButton />
+                        <AnnullerButton />
+                    </React.Suspense>
                 </Dropdown>
             </div>
             <HistorikkHeader />
