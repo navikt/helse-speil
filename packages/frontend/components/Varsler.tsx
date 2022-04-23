@@ -20,6 +20,7 @@ const Container = styled.div`
 const EphemeralContainer = styled.div`
     position: absolute;
     overflow-y: hidden;
+    width: 100vw;
 `;
 
 const TechnicalVarsel = ({ type, message, technical }: VarselObject) => (
