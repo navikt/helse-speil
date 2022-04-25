@@ -1,13 +1,9 @@
 import React from 'react';
 
 import { BeregnetPeriode } from '@io/graphql';
-
-import { BehandletSykepengegrunnlag } from './BehandletSykepengegrunnlag';
-import { SykepengegrunnlagFraInfogtrygd } from './SykepengegrunnlagFraInfotrygd';
-import { SykepengegrunnlagFraSpleis } from './SykepengegrunnlagFraSpleis';
-
 import { ErrorBoundary } from '@components/ErrorBoundary';
 import { useActivePeriod } from '@state/periode';
+import { getInntektsgrunnlag } from '@state/selectors/person';
 import { useCurrentPerson, useVilkårsgrunnlag } from '@state/person';
 import { useCurrentArbeidsgiver, useVurderingForSkjæringstidspunkt } from '@state/arbeidsgiver';
 import {
@@ -16,7 +12,10 @@ import {
     isInfotrygdVilkarsgrunnlag,
     isSpleisVilkarsgrunnlag,
 } from '@utils/typeguards';
-import { getInntektsgrunnlag } from '@state/selectors/person';
+
+import { BehandletSykepengegrunnlag } from './BehandletSykepengegrunnlag';
+import { SykepengegrunnlagFraInfogtrygd } from './SykepengegrunnlagFraInfotrygd';
+import { SykepengegrunnlagFraSpleis } from './SykepengegrunnlagFraSpleis';
 
 const SykepengegrunnlagContainer = () => {
     const person = useCurrentPerson();
