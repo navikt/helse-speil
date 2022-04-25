@@ -26,6 +26,10 @@ const isFørstegangsbehandling = (period: StyledPeriod): boolean => {
     return period.type === Periodetype.Forstegangsbehandling;
 };
 
+const isOvergangFraInfotrygd = (period: StyledPeriod): boolean => {
+    return period.type === Periodetype.OvergangFraIt;
+};
+
 const hasLeftNeighbour = (i: number, periods: Array<StyledPeriod>): boolean => {
     return i > 0 && withinADay(periods[i - 1].fom, periods[i].tom);
 };
@@ -36,7 +40,9 @@ const hasRightNeighbour = (i: number, periods: Array<StyledPeriod>): boolean => 
 
 const getBorderRadii = <T extends StyledPeriod>(period: T, i: number, allPeriods: Array<T>): PeriodBorderRadius => {
     const leftSideRadii =
-        hasLeftNeighbour(i, allPeriods) && !isFørstegangsbehandling(allPeriods[i - 1])
+        hasLeftNeighbour(i, allPeriods) &&
+        !isFørstegangsbehandling(allPeriods[i - 1]) &&
+        !isOvergangFraInfotrygd(allPeriods[i - 1])
             ? {
                   borderBottomLeftRadius: 0,
                   borderTopLeftRadius: 0,
@@ -44,7 +50,7 @@ const getBorderRadii = <T extends StyledPeriod>(period: T, i: number, allPeriods
             : undefined;
 
     const rightSideRadii =
-        hasRightNeighbour(i, allPeriods) && !isFørstegangsbehandling(period)
+        hasRightNeighbour(i, allPeriods) && !isFørstegangsbehandling(period) && !isOvergangFraInfotrygd(period)
             ? {
                   borderBottomRightRadius: 0,
                   borderTopRightRadius: 0,

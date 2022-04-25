@@ -41,30 +41,32 @@ const TimelineWithContent: React.VFC<TimelineWithContentProps> = ({
             <Pins start={start} end={end} arbeidsgivere={arbeidsgivere} />
             <Labels start={start} end={end} />
             <div className={styles.Rows}>
-                {arbeidsgivere.map((arbeidsgiver, i) =>
-                    arbeidsgiver.generasjoner.length > 1 ? (
-                        <ExpandableTimelineRow
-                            key={i}
-                            start={start}
-                            end={end}
-                            name={arbeidsgiver.navn ?? arbeidsgiver.organisasjonsnummer}
-                            generations={arbeidsgiver.generasjoner}
-                            infotrygdPeriods={infotrygdPeriods.get(arbeidsgiver.organisasjonsnummer) ?? []}
-                            activePeriod={activePeriod}
-                        />
-                    ) : (
-                        <TimelineRow
-                            key={i}
-                            start={start}
-                            end={end}
-                            name={arbeidsgiver.navn ?? arbeidsgiver.organisasjonsnummer}
-                            periods={arbeidsgiver.generasjoner[0]?.perioder ?? []}
-                            infotrygdPeriods={infotrygdPeriods.get(arbeidsgiver.organisasjonsnummer) ?? []}
-                            ghostPeriods={arbeidsgiver.ghostPerioder}
-                            activePeriod={activePeriod}
-                        />
-                    ),
-                )}
+                {arbeidsgivere
+                    .filter((it) => it.generasjoner.length > 0 || it.ghostPerioder.length > 0)
+                    .map((arbeidsgiver, i) =>
+                        arbeidsgiver.generasjoner.length > 1 ? (
+                            <ExpandableTimelineRow
+                                key={i}
+                                start={start}
+                                end={end}
+                                name={arbeidsgiver.navn ?? arbeidsgiver.organisasjonsnummer}
+                                generations={arbeidsgiver.generasjoner}
+                                infotrygdPeriods={infotrygdPeriods.get(arbeidsgiver.organisasjonsnummer) ?? []}
+                                activePeriod={activePeriod}
+                            />
+                        ) : (
+                            <TimelineRow
+                                key={i}
+                                start={start}
+                                end={end}
+                                name={arbeidsgiver.navn ?? arbeidsgiver.organisasjonsnummer}
+                                periods={arbeidsgiver.generasjoner[0]?.perioder ?? []}
+                                infotrygdPeriods={infotrygdPeriods.get(arbeidsgiver.organisasjonsnummer) ?? []}
+                                ghostPeriods={arbeidsgiver.ghostPerioder}
+                                activePeriod={activePeriod}
+                            />
+                        ),
+                    )}
                 {infotrygdPeriods.has('0') && (
                     <InfotrygdRow start={start} end={end} periods={infotrygdPeriods.get('0') ?? []} />
                 )}
