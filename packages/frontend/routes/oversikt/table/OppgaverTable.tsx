@@ -24,6 +24,7 @@ import { SøkerCell } from './rader/SøkerCell';
 import { TildelingCell } from './rader/TildelingCell';
 import { NotatCell } from './rader/notat/NotatCell';
 import { OptionsCell } from './rader/options/OptionsCell';
+import { extractIdent } from '@utils/cookie';
 
 const Container = styled.div`
     min-height: 300px;
@@ -51,6 +52,7 @@ export const OppgaverTable = React.memo(({ oppgaver }: { oppgaver: Oppgave[] }) 
     const sortation = useSortation();
     const filters = useFilters();
     const tab = useAktivTab();
+    const ident = extractIdent();
 
     const activeFilters = filters.filter((it) => it.active);
     const groupedFilters = groupFiltersByColumn(activeFilters);
@@ -59,6 +61,11 @@ export const OppgaverTable = React.memo(({ oppgaver }: { oppgaver: Oppgave[] }) 
         activeFilters.length > 0
             ? oppgaver.filter((oppgave) => groupedFilters.every((it) => it.some((it) => it.function(oppgave))))
             : oppgaver;
+
+    if (ident === 'F131883' || ident === 'E156407') {
+        console.log('Filtre: ' + JSON.stringify(activeFilters));
+        if (visibleRows.length < 20) console.table(visibleRows);
+    }
 
     const sortedRows = sortation ? [...visibleRows].sort(sortation.function) : visibleRows;
 
