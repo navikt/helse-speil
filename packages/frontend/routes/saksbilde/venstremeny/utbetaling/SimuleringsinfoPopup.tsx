@@ -1,6 +1,6 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import classNames from 'classnames';
+import { createRoot } from 'react-dom/client';
 import { BodyShort, Heading } from '@navikt/ds-react';
 
 import { somPenger } from '@utils/locale';
@@ -166,10 +166,9 @@ const visSimuleringINyttVindu = (data: Simulering, utbetalingId: string, fnr: st
     copyStyleAttribute({ from: window, to: popup, selector: 'html' });
     copyStylesheets({ from: window, to: popup });
 
-    ReactDOM.render(
-        <SimuleringsinfoPopupInnhold simulering={data} utbetalingId={utbetalingId} fnr={fnr} navn={navn} />,
-        popup.document.body,
-    );
+    const root = createRoot(popup.document.body);
+
+    root.render(<SimuleringsinfoPopupInnhold simulering={data} utbetalingId={utbetalingId} fnr={fnr} navn={navn} />);
 };
 
 interface ShowSimuleringButtonProps extends Omit<React.HTMLAttributes<HTMLAnchorElement>, 'children'> {
