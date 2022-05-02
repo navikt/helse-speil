@@ -24,6 +24,9 @@ const Pin: React.FC<PinProps> = ({ children, ...divProps }) => {
     );
 };
 
+const shouldShowPin = (position?: Maybe<number>): boolean =>
+    typeof position === 'number' && position >= 0 && position <= 100;
+
 interface PinsProps {
     start: Dayjs;
     end: Dayjs;
@@ -32,10 +35,11 @@ interface PinsProps {
 
 export const Pins: React.VFC<PinsProps> = ({ arbeidsgivere, start, end }) => {
     const maksdato = useMaksdato(arbeidsgivere);
+    const maksdatoPosition = maksdato ? getPosition(dayjs(maksdato), start, end) : -1;
 
     return (
         <div className={styles.Pins}>
-            {maksdato && (
+            {shouldShowPin(maksdatoPosition) && (
                 <Pin className={styles.Pin} style={{ right: `${getPosition(dayjs(maksdato), start, end)}%` }}>
                     <BodyShort size="small">Maksdato:</BodyShort>
                     <BodyShort size="small">{maksdato}</BodyShort>
