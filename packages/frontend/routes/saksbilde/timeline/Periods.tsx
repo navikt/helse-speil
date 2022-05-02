@@ -8,11 +8,15 @@ import { usePeriodStyling } from './usePeriodStyling';
 import { useVisiblePeriods } from './useVisiblePeriods';
 
 import styles from './Periods.module.css';
+import { Periodetilstand } from '@io/graphql';
 
 const byFomAscending = (a: DatePeriod, b: DatePeriod) => new Date(b.fom).getTime() - new Date(a.fom).getTime();
 
 const filterActivePeriods = (periods: Array<Periode>): Array<Periode> =>
     periods.filter((it) => !(it.erForkastet && it.behandlingstype === 'VENTER'));
+
+const filterValidPeriods = (periods: Array<DatePeriod>): Array<DatePeriod> =>
+    periods.filter((it) => (isBeregnetPeriode(it) ? it.tilstand !== Periodetilstand.TilInfotrygd : true));
 
 const isActive = (activePeriod: Periode, currentPeriod: Periode): boolean => {
     if (isGhostPeriode(activePeriod) && isGhostPeriode(currentPeriod)) {
@@ -48,7 +52,7 @@ export const Periods: React.VFC<PeriodsProps> = ({
     const allPeriods = [...filterActivePeriods(periods), ...(infotrygdPeriods ?? []), ...(ghostPeriods ?? [])].sort(
         byFomAscending,
     );
-    const visiblePeriods = useVisiblePeriods(start, allPeriods);
+    const visiblePeriods = filterValidPeriods(useVisiblePeriods(start, allPeriods));
     const positions = usePeriodStyling(start, end, visiblePeriods);
 
     return (
