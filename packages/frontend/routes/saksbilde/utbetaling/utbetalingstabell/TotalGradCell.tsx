@@ -19,7 +19,7 @@ export const TotalGradCell = ({ type, erOverstyrt, totalGradering }: TotalGradPr
     return (
         <Cell erOverstyrt={erOverstyrt}>
             {erOverstyrt && <Endringstrekant />}
-            {showTotalGradering && <>{`${totalGradering} %`}</>}
+            {showTotalGradering && <>{`${Math.floor(totalGradering)} %`}</>}
         </Cell>
     );
 };

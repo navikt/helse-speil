@@ -5,7 +5,7 @@ import { Endringstrekant } from '@components/Endringstrekant';
 const dagtypeIsValid = (type: Utbetalingstabelldagtype): boolean =>
     ['Helg', 'Arbeid', 'Ferie', 'Permisjon'].every((it) => it !== type);
 
-const renderGrad = (grad?: Maybe<number>): string | false => typeof grad === 'number' && `${grad} %`;
+const renderGrad = (grad?: Maybe<number>): string | false => typeof grad === 'number' && `${Math.floor(grad)} %`;
 
 interface GradCellProps extends React.HTMLAttributes<HTMLTableCellElement> {
     dag: UtbetalingstabellDag;
