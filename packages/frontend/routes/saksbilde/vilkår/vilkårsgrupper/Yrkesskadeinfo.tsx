@@ -31,12 +31,13 @@ const TitleContainer = styled(Flex)`
 
 const TextContainer = styled.div`
     grid-area: text;
+
     > p {
         margin-bottom: 0.125rem;
     }
 `;
 
-export const Yrkeskadeinfo: React.FC<React.HTMLAttributes<HTMLDivElement>> = (props) => (
+export const Yrkeskadeinfo: React.FC<React.HTMLAttributes<HTMLDivElement> & ChildrenProps> = (props) => (
     <Container data-testid="yrkesskade" {...props}>
         <IconContainer>
             <Information width={20} height={20} />

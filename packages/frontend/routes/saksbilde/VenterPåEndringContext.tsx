@@ -1,4 +1,4 @@
-import React, { createContext, FunctionComponent, useState } from 'react';
+import React, { createContext, useState } from 'react';
 
 interface VenterPåEndringState {
     visAngreknapp: boolean;
@@ -20,7 +20,7 @@ const initialVenterPåEndringContextState: VenterPåEndringContextState = {
 
 export const VenterPåEndringContext = createContext<VenterPåEndringContextState>(initialVenterPåEndringContextState);
 
-export const VenterPåEndringProvider: FunctionComponent = ({ children }) => {
+export const VenterPåEndringProvider: React.FC<ChildrenProps> = ({ children }) => {
     const [venterPåEndringState, oppdaterVenterPåEndringState] = useState<VenterPåEndringState>({
         visAngreknapp: true,
         visOverstyrKnapp: true,

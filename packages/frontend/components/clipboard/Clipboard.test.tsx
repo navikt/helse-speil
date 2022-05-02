@@ -27,7 +27,7 @@ describe('Clipboard', () => {
         render(
             <Clipboard>
                 <p>Denne skal kopieres</p>
-            </Clipboard>
+            </Clipboard>,
         );
         await act(async () => {
             const button = screen.getByRole('button');
@@ -44,7 +44,7 @@ describe('Clipboard', () => {
         });
     });
     test('kopierer tekst fra kilderef om oppgitt', async () => {
-        const Container: React.FC = ({ children }) => {
+        const Container: React.FC<ChildrenProps> = ({ children }) => {
             const copyRef = useRef<HTMLParagraphElement>(null);
             return (
                 <>

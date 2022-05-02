@@ -21,6 +21,10 @@ declare type InfotrygdPeriod = DatePeriod & {
     typetekst: string;
 };
 
+declare type ChildrenProps = {
+    children?: React.ReactNode;
+};
+
 declare type PeriodCategory = 'attention' | 'success' | 'error' | 'old' | 'legacy' | 'blank';
 
 declare type PeriodState =

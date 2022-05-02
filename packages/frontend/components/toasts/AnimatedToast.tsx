@@ -23,7 +23,7 @@ const spring: Spring = {
     stiffness: 300,
 };
 
-interface AnimatedToastProps {
+interface AnimatedToastProps extends ChildrenProps {
     toastKey: string;
     containerStyles?: CSSProperties;
     className?: string;

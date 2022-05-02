@@ -18,7 +18,7 @@ const Tittel = styled(BodyShort)`
     font-weight: 600;
 `;
 
-interface VarselseksjonProps {
+interface VarselseksjonProps extends ChildrenProps {
     tittel: ReactNode;
 }
 

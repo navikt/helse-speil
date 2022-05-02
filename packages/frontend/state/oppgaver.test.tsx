@@ -2,7 +2,7 @@ import '@testing-library/jest-dom/extend-expect';
 import { act, renderHook } from '@testing-library/react-hooks';
 import dayjs from 'dayjs';
 import React from 'react';
-import { Loadable, RecoilRoot, useRecoilValueLoadable } from 'recoil';
+import { RecoilRoot, useRecoilValueLoadable } from 'recoil';
 
 import { oppgaverState, useFjernTildeling, useTildelOppgave } from './oppgaver';
 
@@ -77,11 +77,11 @@ const mockTildelingsfeil = () =>
         });
     }));
 
-const wrapper: React.FC = ({ children }) => <RecoilRoot>{children}</RecoilRoot>;
+const wrapper: React.FC<ChildrenProps> = ({ children }) => <RecoilRoot>{children}</RecoilRoot>;
 
 async function settOppOppgaver() {
     mockHentOppgaver();
-    const { result, waitFor } = renderHook<React.FC, Loadable<Oppgave[]>>(() => useRecoilValueLoadable(oppgaverState), {
+    const { result, waitFor } = renderHook(() => useRecoilValueLoadable(oppgaverState), {
         wrapper,
     });
     await waitFor(() => {

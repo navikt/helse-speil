@@ -111,7 +111,7 @@ export const _AmplitudeProvider: React.FC<PropsWithChildren<{}>> = ({ children }
     );
 };
 
-export const AmplitudeProvider: React.FC = ({ children }) => {
+export const AmplitudeProvider: React.FC<ChildrenProps> = ({ children }) => {
     return (
         <React.Suspense fallback={<>{children}</>}>
             <_AmplitudeProvider>{children}</_AmplitudeProvider>

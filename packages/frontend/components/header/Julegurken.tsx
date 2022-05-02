@@ -5,7 +5,7 @@ const JulegurkenContainer = styled.svg`
     margin-left: 1.5rem;
 `;
 
-export const Julegurken: React.FC = () => (
+export const Julegurken: React.VFC = () => (
     <JulegurkenContainer pointerEvents="none" aria-labelledby="title" width="310" height="45" viewBox="0 0 310 45">
         <title id="title">"julepynt"</title>
         <g clipPath="url(#clip0_617_4256)">

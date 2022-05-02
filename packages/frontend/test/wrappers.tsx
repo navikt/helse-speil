@@ -3,6 +3,7 @@ import { MutableSnapshot, RecoilRoot } from 'recoil';
 import { MemoryRouter } from 'react-router';
 
 interface RecoilProps {
+    children?: React.ReactNode;
     initializeState?: (mutableSnapshot: MutableSnapshot) => void;
 }
 
@@ -10,7 +11,7 @@ export const RecoilWrapper: React.FC<RecoilProps> = ({ children, initializeState
     return <RecoilRoot initializeState={initializeState}>{children}</RecoilRoot>;
 };
 
-export const MemoryRouterWrapper: React.FC = ({ children }) => {
+export const MemoryRouterWrapper: React.FC<ChildrenProps> = ({ children }) => {
     return <MemoryRouter>{children}</MemoryRouter>;
 };
 

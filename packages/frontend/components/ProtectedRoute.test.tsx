@@ -10,21 +10,24 @@ import { RecoilAndRouterWrapper } from '@test-wrappers';
 describe('ProtectedRoute', () => {
     test('redirecter hvis bruker ikke er logget inn', () => {
         const notLoggedIn = { name: '', ident: '', email: '', isLoggedIn: false };
+
+        const wrapper: React.FC<ChildrenProps> = ({ children }) => (
+            <RecoilAndRouterWrapper
+                initializeState={({ set }) => {
+                    set(authState, notLoggedIn);
+                }}
+            >
+                {children}
+            </RecoilAndRouterWrapper>
+        );
+
         render(
             <ProtectedRoute>
                 <span>Denne skal ikke være synlig</span>
             </ProtectedRoute>,
             {
-                wrapper: ({ children }) => (
-                    <RecoilAndRouterWrapper
-                        initializeState={({ set }) => {
-                            set(authState, notLoggedIn);
-                        }}
-                    >
-                        {children}
-                    </RecoilAndRouterWrapper>
-                ),
-            }
+                wrapper,
+            },
         );
         expect(screen.queryByText('Denne skal ikke være synlig')).toBeNull();
     });
@@ -33,7 +36,7 @@ describe('ProtectedRoute', () => {
             <ProtectedRoute>
                 <span>Denne skal være synlig</span>
             </ProtectedRoute>,
-            { wrapper: RecoilAndRouterWrapper }
+            { wrapper: RecoilAndRouterWrapper },
         );
         expect(screen.queryByText('Denne skal være synlig')).toBeVisible();
     });

@@ -52,7 +52,7 @@ const PeriodeViewSkeleton = () => {
     );
 };
 
-const PeriodeViewError: React.FC = ({ children }) => {
+const PeriodeViewError: React.FC<ChildrenProps> = ({ children }) => {
     return (
         <Varsel variant="feil" className={styles.Error}>
             {children}

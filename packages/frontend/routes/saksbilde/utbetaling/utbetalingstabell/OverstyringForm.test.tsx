@@ -6,7 +6,7 @@ import { FormProvider, useForm } from 'react-hook-form';
 
 import { OverstyringForm } from './OverstyringForm';
 
-const FormWrapper: React.FC = ({ children }) => {
+const FormWrapper: React.FC<ChildrenProps> = ({ children }) => {
     const form = useForm();
     return (
         <FormProvider {...form}>

@@ -8,7 +8,7 @@ interface ErrorBoundaryState {
 type ErrorBoundaryProps = {
     fallback: ReactNode | ((error: Error) => ReactNode);
     onError?: (error: Error) => void;
-};
+} & ChildrenProps;
 
 export class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoundaryState> {
     errorMessageRef: React.RefObject<HTMLParagraphElement>;

@@ -96,7 +96,7 @@ const Topprad = styled.header`
     align-items: flex-start;
 `;
 
-export interface ModalProps {
+export interface ModalProps extends ChildrenProps {
     isOpen: boolean;
     onRequestClose: (event: React.MouseEvent | React.KeyboardEvent) => void;
     title?: ReactNode;
@@ -105,7 +105,7 @@ export interface ModalProps {
     shouldReturnFocusAfterClose?: boolean;
 }
 
-export const Modal: React.FunctionComponent<ModalProps> = ({
+export const Modal: React.FC<ModalProps> = ({
     isOpen,
     onRequestClose,
     title,

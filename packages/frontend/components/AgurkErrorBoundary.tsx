@@ -66,7 +66,7 @@ const ErrorInnhold: React.FC<ErrorInnholdProps> = ({ sidenavn, errormelding }) =
     );
 };
 
-interface AgurkErrorBoundaryProps {
+interface AgurkErrorBoundaryProps extends ChildrenProps {
     sidenavn?: string;
 }
 

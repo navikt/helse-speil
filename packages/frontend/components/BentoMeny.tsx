@@ -67,11 +67,11 @@ const MenyLenke = styled(DropdownButton)`
     }
 `.withComponent('a');
 
-interface BentoLenkeProps {
+interface BentoLenkeProps extends ChildrenProps {
     href: string;
 }
 
-interface ArbeidOgInntektRedirectLenkeProps {
+interface ArbeidOgInntektRedirectLenkeProps extends ChildrenProps {
     url: string;
     person?: Maybe<Person>;
 }
