@@ -104,6 +104,7 @@ const SaksbildeMenuBeregnetPeriode = ({ activePeriod }: SaksbildeMenuBeregnetPer
                                         oppgavereferanse={activePeriod.oppgavereferanse}
                                         vedtaksperiodeId={activePeriod.vedtaksperiodeId}
                                         personinfo={currentPerson.personinfo}
+                                        erPåVent={currentPerson.tildeling?.reservert}
                                     />
                                 )}
                                 <hr className={styles.Strek} />

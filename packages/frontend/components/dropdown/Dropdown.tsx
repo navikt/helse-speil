@@ -47,7 +47,7 @@ export const Dropdown: React.FC<DropdownProps> = ({ title, className, onClick, c
                 onClose={lukk}
                 offset={0}
             >
-                {anchor !== null && <ul className={styles.List}>{children}</ul>}
+                <ul className={styles.List}>{children}</ul>
             </Popover>
         </div>
     );

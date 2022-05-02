@@ -92,12 +92,7 @@
                 "fodselsdato": "1971-08-20",
                 "kjonn": "Mann"
             },
-            "tildeling": {
-                "navn": "Ramthun, Stephen",
-                "epost": "Stephen.Ramthun@nav.no",
-                "oid": "a7cf35df-7e86-4eee-b6c1-5c60dd18462f",
-                "reservert": false
-            },
+            "tildeling": null,
             "versjon": 21,
             "vilkarsgrunnlaghistorikk": [
                 {
