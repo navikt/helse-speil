@@ -21,7 +21,8 @@ import { Yrkeskadeinfo } from './vilkårsgrupper/Yrkesskadeinfo';
 
 import styles from './Inngangsvilkår.module.css';
 
-const harVilkår = (vilkår?: Vilkårdata[]) => vilkår && vilkår.length > 0;
+const harVilkår = (vilkår?: Array<Vilkårdata>): vilkår is Array<Vilkårdata> =>
+    vilkår !== undefined && vilkår !== null && vilkår.length > 0;
 
 interface InngangsvilkårWithContentProps {
     periodeFom: DateString;
@@ -57,7 +58,7 @@ export const InngangsvilkårWithContent = ({
             )}
             {harAlleredeVurderteVilkår && (
                 <div className={styles.VurderteVilkår}>
-                    {vilkårVurdertISpleis && vurdering && (
+                    {harVilkår(vilkårVurdertISpleis) && vurdering && (
                         <VurdertISpleis
                             vilkår={vilkårVurdertISpleis}
                             ident={vurdering.ident}
