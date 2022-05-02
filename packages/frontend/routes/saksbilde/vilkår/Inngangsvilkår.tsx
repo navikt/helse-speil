@@ -89,6 +89,7 @@ const InngangsvilkårContainer = () => {
             person,
             activePeriod.vilkarsgrunnlaghistorikkId,
             activePeriod.skjaeringstidspunkt,
+            activePeriod.tom,
         );
         return (
             <InngangsvilkårWithContent

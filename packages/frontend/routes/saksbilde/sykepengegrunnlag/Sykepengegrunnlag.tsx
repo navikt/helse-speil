@@ -16,6 +16,7 @@ import {
 import { BehandletSykepengegrunnlag } from './BehandletSykepengegrunnlag';
 import { SykepengegrunnlagFraInfogtrygd } from './SykepengegrunnlagFraInfotrygd';
 import { SykepengegrunnlagFraSpleis } from './SykepengegrunnlagFraSpleis';
+import { Varsel } from '@components/Varsel';
 
 const SykepengegrunnlagContainer = () => {
     const person = useCurrentPerson();
@@ -29,7 +30,7 @@ const SykepengegrunnlagContainer = () => {
 
     if ((isGhostPeriode(activePeriod) || isBeregnetPeriode(activePeriod)) && arbeidsgiver && person) {
         if (isSpleisVilkarsgrunnlag(vilkårsgrunnlag)) {
-            const inntektsgrunnlag = getInntektsgrunnlag(person, activePeriod.skjaeringstidspunkt);
+            const inntektsgrunnlag = getInntektsgrunnlag(person, activePeriod.skjaeringstidspunkt, activePeriod.tom);
 
             return vurdering ? (
                 <BehandletSykepengegrunnlag
@@ -73,7 +74,7 @@ const SykepengegrunnlagSkeleton = () => {
 };
 
 const SykepengegrunnlagError = () => {
-    return <div />;
+    return <Varsel variant="feil">Noe gikk galt. Kan ikke vise sykepengegrunnlag for denne perioden.</Varsel>;
 };
 
 export const Sykepengegrunnlag = () => {

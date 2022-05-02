@@ -1,9 +1,11 @@
+import dayjs from 'dayjs';
 import { atom, Loadable, selector, useRecoilValue, useRecoilValueLoadable, useSetRecoilState } from 'recoil';
 
-import type { Maybe, Person, Tildeling, Vilkarsgrunnlag } from '@io/graphql';
-import { fetchPerson } from '@io/graphql';
 import { useInnloggetSaksbehandler } from '@state/authentication';
+import { useActivePeriod } from '@state/periode';
+import { fetchPerson } from '@io/graphql';
 import { deletePåVent, postLeggPåVent, SpeilResponse } from '@io/http';
+import type { Maybe, Person, Tildeling, Vilkarsgrunnlag } from '@io/graphql';
 
 const currentPersonIdState = atom<string | null>({
     key: 'currentPersonId',
@@ -113,11 +115,18 @@ export const useFjernPåVent = (): ((oppgavereferanse: string) => Promise<SpeilR
 
 export const useVilkårsgrunnlag = (id: string, skjæringstidspunkt: DateString): Vilkarsgrunnlag | null => {
     const currentPerson = useCurrentPerson();
+    const activePeriod = useActivePeriod();
 
     return (
-        currentPerson?.vilkarsgrunnlaghistorikk
-            .find((it) => it.id === id)
-            ?.grunnlag.filter((it) => it.skjaeringstidspunkt === skjæringstidspunkt)
-            ?.pop() ?? null
+        (activePeriod &&
+            currentPerson?.vilkarsgrunnlaghistorikk
+                .find((it) => it.id === id)
+                ?.grunnlag.filter(
+                    (it) =>
+                        dayjs(it.skjaeringstidspunkt).isSameOrAfter(skjæringstidspunkt) &&
+                        dayjs(it.skjaeringstidspunkt).isSameOrBefore(activePeriod.tom),
+                )
+                ?.pop()) ??
+        null
     );
 };

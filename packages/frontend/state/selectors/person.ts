@@ -1,3 +1,5 @@
+import dayjs from 'dayjs';
+
 import {
     Arbeidsgiverinntekt,
     BeregnetPeriode,
@@ -24,8 +26,16 @@ export const getInntekt = (vilkårsgrunnlag: Vilkarsgrunnlag, organisasjonsnumme
         throw Error('Fant ikke inntekt');
     })();
 
-export const getInntektsgrunnlag = (person: Person, skjæringstidspunkt: DateString): Inntektsgrunnlag =>
-    person.inntektsgrunnlag.find((inntektsgrunnlag) => inntektsgrunnlag.skjaeringstidspunkt === skjæringstidspunkt) ??
+export const getInntektsgrunnlag = (
+    person: Person,
+    skjæringstidspunkt: DateString,
+    periodeTom: DateString,
+): Inntektsgrunnlag =>
+    person.inntektsgrunnlag.find(
+        (inntektsgrunnlag) =>
+            dayjs(inntektsgrunnlag.skjaeringstidspunkt).isSameOrAfter(skjæringstidspunkt) &&
+            dayjs(inntektsgrunnlag.skjaeringstidspunkt).isSameOrBefore(periodeTom),
+    ) ??
     (() => {
         throw Error('Fant ikke inntektsgrunnlag');
     })();
@@ -34,10 +44,15 @@ export const getVilkårsgrunnlag = (
     person: Person,
     vilkårsgrunnlagId: string,
     skjæringstidspunkt: DateString,
+    periodeTom: DateString,
 ): Vilkarsgrunnlag =>
     person.vilkarsgrunnlaghistorikk
         .find(({ id }) => id === vilkårsgrunnlagId)
-        ?.grunnlag.filter((grunnlag) => grunnlag.skjaeringstidspunkt === skjæringstidspunkt)
+        ?.grunnlag.filter(
+            (grunnlag) =>
+                dayjs(grunnlag.skjaeringstidspunkt).isSameOrAfter(skjæringstidspunkt) &&
+                dayjs(grunnlag.skjaeringstidspunkt).isSameOrBefore(periodeTom),
+        )
         .pop() ??
     (() => {
         throw Error('Fant ikke vilkårsgrunnlag');

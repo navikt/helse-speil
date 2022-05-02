@@ -8,19 +8,12 @@ import { Feilikon } from '@components/ikoner/Feilikon';
 import { Sjekkikon } from '@components/ikoner/Sjekkikon';
 import { Advarselikon } from '@components/ikoner/Advarselikon';
 import { BeregnetPeriode, Person, Vilkarsgrunnlag } from '@io/graphql';
+import { getVilkårsgrunnlag } from '@state/selectors/person';
 
 import { CardTitle } from './CardTitle';
 import { kategoriserteInngangsvilkår } from '../vilkår/kategoriserteInngangsvilkår';
 
 import styles from './VilkårCard.module.css';
-
-const getVilkårsgrunnlag = (period: BeregnetPeriode, person: Person): Vilkarsgrunnlag | null => {
-    return (
-        person.vilkarsgrunnlaghistorikk
-            .find((it) => it.id === period.vilkarsgrunnlaghistorikkId)
-            ?.grunnlag.find((it) => it.skjaeringstidspunkt === period.skjaeringstidspunkt) ?? null
-    );
-};
 
 const getAlderVedSkjæringstidspunkt = (period: BeregnetPeriode, person: Person): number => {
     return dayjs(person.personinfo.fodselsdato).diff(dayjs(period.skjaeringstidspunkt), 'year');
@@ -32,7 +25,12 @@ interface VilkårCardProps {
 }
 
 export const VilkårCard = ({ activePeriod, currentPerson }: VilkårCardProps) => {
-    const vilkårsgrunnlag = getVilkårsgrunnlag(activePeriod, currentPerson);
+    const vilkårsgrunnlag = getVilkårsgrunnlag(
+        currentPerson,
+        activePeriod.vilkarsgrunnlaghistorikkId,
+        activePeriod.skjaeringstidspunkt,
+        activePeriod.tom,
+    );
 
     if (!vilkårsgrunnlag) {
         return <Varsel variant="feil">Vilkår mangler</Varsel>;
@@ -43,7 +41,7 @@ export const VilkårCard = ({ activePeriod, currentPerson }: VilkårCardProps) =
     const { ikkeVurderteVilkår, ikkeOppfylteVilkår, ...oppfylteVilkår } = kategoriserteInngangsvilkår(
         vilkårsgrunnlag,
         alderVedSkjæringstidspunkt,
-        activePeriod.utbetaling.vurdering ?? null
+        activePeriod.utbetaling.vurdering ?? null,
     );
 
     return (
