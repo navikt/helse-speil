@@ -17,7 +17,7 @@ import styles from './Utbetaling.module.css';
 
 const skalPolleEtterNestePeriode = (person: Person) =>
     person.arbeidsgivere
-        .flatMap((arbeidsgiver) => arbeidsgiver.generasjoner[0].perioder)
+        .flatMap((arbeidsgiver) => arbeidsgiver.generasjoner[0]?.perioder)
         .some((periode) => isBeregnetPeriode(periode) && periode.tilstand === Periodetilstand.VenterPaKiling);
 
 const hasOppgave = (period: BeregnetPeriode): boolean =>

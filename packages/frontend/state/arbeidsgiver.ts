@@ -72,7 +72,7 @@ export const useUtbetalingForSkjæringstidspunkt = (skjæringstidspunkt: DateStr
     }
 
     return (
-        Array.from(currentArbeidsgiver.generasjoner[0].perioder)
+        Array.from(currentArbeidsgiver.generasjoner[0]?.perioder)
             .filter(isBeregnetPeriode)
             .reverse()
             .find((beregnetPeriode) => beregnetPeriode.skjaeringstidspunkt === skjæringstidspunkt)?.utbetaling ?? null

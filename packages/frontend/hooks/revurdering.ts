@@ -68,7 +68,7 @@ const alleOverlappendePerioderErTilRevurdering = (person: Person, periode: Perio
 };
 
 const getArbeidsgiverMedPeriode = (periode: Periode, person: Person): Arbeidsgiver | null => {
-    return person.arbeidsgivere.find((it) => it.generasjoner[0].perioder.find((it) => it === periode)) ?? null;
+    return person.arbeidsgivere.find((it) => it.generasjoner[0]?.perioder.find((it) => it === periode)) ?? null;
 };
 
 export const useRevurderingIsEnabled = (toggles: UtbetalingToggles): boolean => {
@@ -117,7 +117,7 @@ export const useActiveGenerationIsLast = (): boolean => {
         return false;
     }
 
-    return arbeidsgiver.generasjoner[0].perioder.some((it) => (it as BeregnetPeriode).id === period.id);
+    return arbeidsgiver.generasjoner[0]?.perioder.some((it) => (it as BeregnetPeriode).id === period.id);
 };
 
 export const useActivePeriodHasLatestSkjæringstidspunkt = (): boolean => {
@@ -128,7 +128,7 @@ export const useActivePeriodHasLatestSkjæringstidspunkt = (): boolean => {
         return false;
     }
 
-    const lastBeregnetPeriode = arbeidsgiver.generasjoner[0].perioder.filter(isBeregnetPeriode)[0];
+    const lastBeregnetPeriode = arbeidsgiver.generasjoner[0]?.perioder.filter(isBeregnetPeriode)[0];
 
     return lastBeregnetPeriode !== undefined && lastBeregnetPeriode.skjaeringstidspunkt === period.skjaeringstidspunkt;
 };
@@ -141,7 +141,7 @@ export const useHarKunEnFagsystemIdPåArbeidsgiverIAktivPeriode = (): boolean =>
         return false;
     }
 
-    const beregnedePerioder = arbeidsgiver.generasjoner[0].perioder
+    const beregnedePerioder = arbeidsgiver.generasjoner[0]?.perioder
         .filter(isBeregnetPeriode)
         .filter((it) => it.skjaeringstidspunkt === periode.skjaeringstidspunkt);
 
