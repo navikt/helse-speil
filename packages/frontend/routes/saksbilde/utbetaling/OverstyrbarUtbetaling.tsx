@@ -1,73 +1,23 @@
 import React, { useEffect, useState } from 'react';
-import styled from '@emotion/styled';
+import classNames from 'classnames';
 import { FormProvider, useForm } from 'react-hook-form';
 import { Unlocked } from '@navikt/ds-icons';
-
-import { Bold } from '@components/Bold';
-import { Flex, FlexColumn } from '@components/Flex';
-import { OverstyringTimeoutModal } from '@components/OverstyringTimeoutModal';
-import { Utbetaling, Utbetalingstatus } from '@io/graphql';
-import { useMap } from '@hooks/useMap';
-
-import { usePostOverstyring } from './utbetalingstabell/usePostOverstyring';
-import { ToggleOverstyringKnapp, UtbetalingHeader } from './utbetalingstabell/UtbetalingHeader';
-import { Utbetalingstabell } from './utbetalingstabell/Utbetalingstabell';
-import { MarkerAlleDagerCheckbox } from './utbetalingstabell/MarkerAlleDagerCheckbox';
-import { RadmarkeringCheckbox } from './utbetalingstabell/RadmarkeringCheckbox';
-import { EndringForm } from './utbetalingstabell/EndringForm';
-import { OverstyringForm } from './utbetalingstabell/OverstyringForm';
 import { BodyShort } from '@navikt/ds-react';
 
-const Container = styled(FlexColumn)<{ overstyrer: boolean }>`
-    position: relative;
-    padding-right: ${(props) => (props.overstyrer ? '1rem' : '2rem')};
-    margin-left: ${(props) => (props.overstyrer ? '0.5rem' : '0')};
-    border-left: ${(props) => (props.overstyrer ? '6px solid #0067C5' : '0')};
-    margin-top: 1rem;
-`;
+import { useMap } from '@hooks/useMap';
+import { Utbetaling, Utbetalingstatus } from '@io/graphql';
+import { OverstyringTimeoutModal } from '@components/OverstyringTimeoutModal';
+import { Bold } from '@components/Bold';
 
-const UtbetalingstabellContainer = styled(FlexColumn)<{ overstyrer: boolean }>`
-    position: relative;
-    height: 100%;
-    padding-top: 2rem;
-    background-color: ${(props) => (props.overstyrer ? 'var(--speil-overstyring-background)' : 'inherit')};
-`;
+import { EndringForm } from './utbetalingstabell/EndringForm';
+import { OverstyringForm } from './utbetalingstabell/OverstyringForm';
+import { Utbetalingstabell } from './utbetalingstabell/Utbetalingstabell';
+import { usePostOverstyring } from './utbetalingstabell/usePostOverstyring';
+import { RadmarkeringCheckbox } from './utbetalingstabell/RadmarkeringCheckbox';
+import { MarkerAlleDagerCheckbox } from './utbetalingstabell/MarkerAlleDagerCheckbox';
+import { ToggleOverstyringKnapp, UtbetalingHeader } from './utbetalingstabell/UtbetalingHeader';
 
-const CheckboxContainer = styled.div`
-    display: flex;
-    flex-direction: column;
-    position: absolute;
-    left: 13px;
-    top: calc(28.5px + 64px);
-`;
-
-const Sticky = styled.div`
-    position: sticky;
-    top: 0;
-    z-index: 10;
-`;
-
-const Feilmelding = styled(BodyShort)`
-    margin-left: 2rem;
-    color: var(--navds-color-text-error);
-    font-weight: 600;
-`;
-
-const OverstyringHeader = styled(Flex)`
-    min-height: 24px;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    padding: 0.5rem 0 1.5rem 1rem;
-    width: 100%;
-    background-color: var(--speil-overstyring-background);
-`;
-
-const BegrunnelsesContainer = styled.div`
-    background: #fff;
-    padding-top: 2rem;
-    margin-bottom: -1px;
-`;
+import styles from './OverstyrbarUtbetaling.module.css';
 
 const getKey = (dag: UtbetalingstabellDag) => dag.dato;
 
@@ -145,15 +95,18 @@ export const OverstyrbarUtbetaling: React.FC<OverstyrbarUtbetalingProps> = ({
     }, [state]);
 
     return (
-        <Container data-testid="utbetaling" overstyrer={overstyrer}>
+        <div
+            className={classNames(styles.OverstyrbarUtbetaling, overstyrer && styles.overstyrer)}
+            data-testid="utbetaling"
+        >
             {overstyrer ? (
-                <OverstyringHeader>
+                <div className={styles.OverstyringHeader}>
                     <Bold>Huk av for dagene som skal endres til samme verdi</Bold>
                     <ToggleOverstyringKnapp type="button" onClick={toggleOverstyring} overstyrer={overstyrer}>
                         <Unlocked height={24} width={24} />
                         Avbryt
                     </ToggleOverstyringKnapp>
-                </OverstyringHeader>
+                </div>
             ) : (
                 <UtbetalingHeader
                     periodeErForkastet={utbetaling.status === Utbetalingstatus.Forkastet}
@@ -163,7 +116,7 @@ export const OverstyrbarUtbetaling: React.FC<OverstyrbarUtbetalingProps> = ({
                     overstyrRevurderingIsEnabled={overstyrRevurderingIsEnabled}
                 />
             )}
-            <UtbetalingstabellContainer overstyrer={overstyrer}>
+            <div className={classNames(styles.TableContainer, overstyrer && styles.overstyrer)}>
                 <Utbetalingstabell
                     fom={fom}
                     tom={tom}
@@ -174,7 +127,7 @@ export const OverstyrbarUtbetaling: React.FC<OverstyrbarUtbetalingProps> = ({
                 />
                 {overstyrer && (
                     <>
-                        <CheckboxContainer>
+                        <div className={styles.CheckboxContainer}>
                             <MarkerAlleDagerCheckbox
                                 alleDager={dager}
                                 markerteDager={markerteDager}
@@ -193,16 +146,16 @@ export const OverstyrbarUtbetaling: React.FC<OverstyrbarUtbetalingProps> = ({
                                     checked={markerteDager.get(dag.dato) !== undefined}
                                 />
                             ))}
-                        </CheckboxContainer>
-                        <Sticky>
+                        </div>
+                        <div className={styles.Sticky}>
                             <EndringForm
                                 markerteDager={markerteDager}
                                 toggleOverstyring={toggleOverstyring}
                                 onSubmitEndring={onSubmitEndring}
                                 revurderingIsEnabled={revurderingIsEnabled}
                             />
-                        </Sticky>
-                        <BegrunnelsesContainer>
+                        </div>
+                        <div className={styles.BegrunnelseContainer}>
                             <FormProvider {...form}>
                                 <form onSubmit={(event) => event.preventDefault()}>
                                     <OverstyringForm
@@ -212,16 +165,16 @@ export const OverstyrbarUtbetaling: React.FC<OverstyrbarUtbetalingProps> = ({
                                     />
                                 </form>
                             </FormProvider>
-                        </BegrunnelsesContainer>
+                        </div>
                     </>
                 )}
-            </UtbetalingstabellContainer>
+            </div>
             {state === 'timedOut' && <OverstyringTimeoutModal onRequestClose={() => null} />}
             {state === 'hasError' && error && (
-                <Feilmelding as="p" role="alert">
+                <BodyShort className={styles.ErrorMessage} role="alert">
                     {error}
-                </Feilmelding>
+                </BodyShort>
             )}
-        </Container>
+        </div>
     );
 };

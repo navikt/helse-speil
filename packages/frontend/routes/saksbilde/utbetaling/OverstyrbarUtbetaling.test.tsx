@@ -46,7 +46,7 @@ const dager = new Map<string, UtbetalingstabellDag>([
     ['2022-01-05', getUtbetalingstabellDag({ dato: '2022-01-05' })],
 ]);
 
-describe('Utbetaling', () => {
+describe('OverstyrbarUtbetaling', () => {
     test('overstyrer utbetalingstabell', async () => {
         render(
             <OverstyrbarUtbetaling
@@ -81,9 +81,8 @@ describe('Utbetaling', () => {
 
         userEvent.click(screen.getByTestId('endre'));
 
-        const ferdigButton = screen.getByTestId('oppdater');
         await waitFor(() => {
-            expect(ferdigButton).not.toBeDisabled();
+            expect(screen.getByTestId('oppdater')).not.toBeDisabled();
         });
 
         userEvent.type(screen.getByTestId('overstyring-begrunnelse'), 'En begrunnelse');

@@ -1,0 +1,63 @@
+.OverstyrbarUtbetaling {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    padding-right: 2rem;
+    margin-top: 1rem;
+    margin-left: 0;
+    border-left: 0;
+}
+
+.OverstyrbarUtbetaling.overstyrer {
+    padding-right: 1rem;
+    margin-left: 0.5rem;
+    border-left: 6px solid var(--navds-color-action-default);
+}
+
+.TableContainer {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    height: 100%;
+    padding-top: 2rem;
+}
+
+.TableContainer.overstyrer {
+    background-color: var(--speil-overstyring-background);
+}
+
+.CheckboxContainer {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    left: 13px;
+    top: calc(28.5px + 64px);
+}
+
+.Sticky {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+.ErrorMessage {
+    margin-left: 2rem;
+    color: var(--navds-color-text-error);
+    font-weight: 600;
+}
+
+.OverstyringHeader {
+    min-height: 24px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 0.5rem 0 1.5rem 1rem;
+    width: 100%;
+    background-color: var(--speil-overstyring-background);
+}
+
+.BegrunnelseContainer {
+    background: #fff;
+    padding-top: 2rem;
+    margin-bottom: -1px;
+}
