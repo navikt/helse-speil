@@ -7,7 +7,8 @@
     grid-template-rows: max-content max-content max-content auto;
     grid-template-areas:
         'personlinje personlinje personlinje'
-        'tidslinje tidslinje tidslinje'
+        'timeline timeline timeline'
+        /*'tidslinje tidslinje tidslinje'*/
         'sakslinje sakslinje sakslinje'
         'venstremeny content høyremeny';
     flex: 1;
@@ -19,4 +20,9 @@
     position: absolute;
     left: calc(50% - 2rem);
     top: max(calc(50% - 2rem), 200px);
+}
+
+.Warning {
+    grid-column-start: venstremeny;
+    grid-column-end: høyremeny;
 }

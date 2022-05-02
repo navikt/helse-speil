@@ -1,19 +1,16 @@
 import styled from '@emotion/styled';
 import React, { Dispatch, SetStateAction } from 'react';
-
 import { BodyShort } from '@navikt/ds-react';
 
 import { FlexColumn } from '@components/Flex';
+import { Bold } from '@components/Bold';
 import { somPenger } from '@utils/locale';
+import { Arbeidsgiverinntekt } from '@io/graphql';
 
 import { Inntektssammenligning } from './Inntektssammenligning';
 
 const Container = styled(FlexColumn)`
     --fixed-column-width: 14rem;
-`;
-
-const Bold = styled(BodyShort)`
-    font-weight: 600;
 `;
 
 const RightAligned = styled(BodyShort)`
@@ -72,13 +69,13 @@ const Table = styled.table`
 `;
 
 interface InntektsgrunnlaginnholdProps {
-    inntekter: ExternalArbeidsgiverinntekt[];
-    omregnetÅrsinntekt: number | null;
-    sammenligningsgrunnlag: number | null;
-    avviksprosent: number | null;
+    inntekter: Arbeidsgiverinntekt[];
+    omregnetÅrsinntekt?: Maybe<number>;
+    sammenligningsgrunnlag?: Maybe<number>;
+    avviksprosent?: Maybe<number>;
     sykepengegrunnlag: number;
-    setAktivInntektskilde: Dispatch<SetStateAction<ExternalArbeidsgiverinntekt>>;
-    aktivInntektskilde: ExternalArbeidsgiverinntekt;
+    setAktivInntektskilde: Dispatch<SetStateAction<Arbeidsgiverinntekt>>;
+    aktivInntektskilde?: Arbeidsgiverinntekt;
 }
 
 export const InntektsgrunnlagTable = ({
@@ -97,10 +94,10 @@ export const InntektsgrunnlagTable = ({
                     <tr>
                         <th />
                         <th>
-                            <Bold as="p">Inntektsgrunnlag</Bold>
+                            <Bold>Inntektsgrunnlag</Bold>
                         </th>
                         <th>
-                            <Bold as="p">Sammenligningsgrunnlag</Bold>
+                            <Bold>Sammenligningsgrunnlag</Bold>
                         </th>
                     </tr>
                     <tr>
@@ -119,11 +116,11 @@ export const InntektsgrunnlagTable = ({
                     {inntekter.map((inntekt, index) => (
                         <Inntektssammenligning
                             key={index}
-                            organisasjonsnummer={inntekt.organisasjonsnummer}
-                            omregnetÅrsinntekt={inntekt.omregnetÅrsinntekt}
+                            organisasjonsnummer={inntekt.arbeidsgiver}
+                            omregnetÅrsinntekt={inntekt.omregnetArsinntekt}
                             sammenligningsgrunnlag={inntekt.sammenligningsgrunnlag}
                             arbeidsforholdErDeaktivert={inntekt.deaktivert}
-                            erGjeldende={aktivInntektskilde.organisasjonsnummer == inntekt.organisasjonsnummer}
+                            erGjeldende={aktivInntektskilde?.arbeidsgiver == inntekt.arbeidsgiver}
                             onSetAktivInntektskilde={() => setAktivInntektskilde(inntekt)}
                         />
                     ))}
@@ -131,13 +128,13 @@ export const InntektsgrunnlagTable = ({
                 <tfoot>
                     <tr>
                         <td>
-                            <Bold as="p">Total</Bold>
+                            <Bold>Total</Bold>
                         </td>
                         <td style={{ textAlign: 'right', paddingRight: '3.5rem' }}>
-                            <Bold as="p">{somPenger(omregnetÅrsinntekt)}</Bold>
+                            <Bold>{somPenger(omregnetÅrsinntekt)}</Bold>
                         </td>
                         <td style={{ textAlign: 'right', paddingRight: '2.25rem' }}>
-                            <Bold as="p">{somPenger(sammenligningsgrunnlag)}</Bold>
+                            <Bold>{somPenger(sammenligningsgrunnlag)}</Bold>
                         </td>
                     </tr>
                 </tfoot>
@@ -164,20 +161,20 @@ export const InntektsgrunnlagTable = ({
                 <tfoot>
                     <tr>
                         <td>
-                            <Bold as="p">Utregnet avvik</Bold>
+                            <Bold>Utregnet avvik</Bold>
                         </td>
                         <td>
-                            <BoldRightAligned as="p">
+                            <BoldRightAligned>
                                 {avviksprosent ? `${Math.floor(avviksprosent)} %` : '-'}
                             </BoldRightAligned>
                         </td>
                     </tr>
                     <tr>
                         <td>
-                            <Bold as="p">Sykepengegrunnlag</Bold>
+                            <Bold>Sykepengegrunnlag</Bold>
                         </td>
                         <td>
-                            <BoldRightAligned as="p">{somPenger(sykepengegrunnlag)}</BoldRightAligned>
+                            <BoldRightAligned>{somPenger(sykepengegrunnlag)}</BoldRightAligned>
                         </td>
                     </tr>
                 </tfoot>

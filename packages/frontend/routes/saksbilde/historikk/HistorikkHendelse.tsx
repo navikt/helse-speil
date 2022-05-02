@@ -3,9 +3,10 @@ import React from 'react';
 
 import { BodyShort } from '@navikt/ds-react';
 
-import { NORSK_DATOFORMAT_MED_KLOKKESLETT } from '@utils/date';
+import { getFormattedDatetimeString } from '@utils/date';
 
 import { Hendelse } from './Historikk.types';
+import { Bold } from '@components/Bold';
 
 const Container = styled.li`
     margin: 0;
@@ -35,22 +36,14 @@ const EmptyIcon = styled.div`
     height: 20px;
 `;
 
-const Bold = styled(BodyShort)`
-    font-weight: 600;
-`;
-
-const Timestamp = styled(BodyShort)`
-    font-size: 14px;
-`;
-
 export const HistorikkHendelse = ({ icon, title, body, timestamp }: Hendelse) => {
     return (
         <Container>
             <IconContainer>{icon ?? <EmptyIcon />}</IconContainer>
             <ContentContainer>
-                <Bold as="p">{title}</Bold>
+                <Bold>{title}</Bold>
                 {body}
-                {timestamp && <Timestamp as="p">{timestamp.format(NORSK_DATOFORMAT_MED_KLOKKESLETT)}</Timestamp>}
+                {timestamp && <BodyShort size="small">{getFormattedDatetimeString(timestamp)}</BodyShort>}
             </ContentContainer>
         </Container>
     );

@@ -1,15 +1,17 @@
 import styled from '@emotion/styled';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useHistory } from 'react-router';
 
 import { Close } from '@navikt/ds-icons';
 import { Button } from '@navikt/ds-react';
-import { useOrganisasjonsnummer } from '@state/person';
 import { UtbetalingshistorikkRow } from './UtbetalingshistorikkRow';
 import { Annulleringsmodal } from '../sakslinje/annullering/Annulleringsmodal';
 
-import { fetchOppdrag, Oppdrag, Spennoppdrag } from '@io/graphql';
+import { Oppdrag, Spennoppdrag } from '@io/graphql';
 import { useOppdrag } from './state';
+import { useCurrentPerson } from '@state/person';
+import { ErrorBoundary } from '@components/ErrorBoundary';
+import { useCurrentArbeidsgiver } from '@state/arbeidsgiver';
 
 const Container = styled.div`
     grid-column-start: venstremeny;
@@ -48,18 +50,23 @@ const Table = styled.table`
     }
 `;
 
-interface UtbetalingshistorikkProps {
-    person: Person;
+interface UtbetalingshistorikkWithContentProps {
+    fødselsnummer: string;
+    organisasjonsnummer: string;
+    aktørId: string;
 }
 
-export const Utbetalingshistorikk = ({ person }: UtbetalingshistorikkProps) => {
+const UtbetalingshistorikkWithContent: React.VFC<UtbetalingshistorikkWithContentProps> = ({
+    fødselsnummer,
+    organisasjonsnummer,
+    aktørId,
+}) => {
     let { push } = useHistory();
-    const oppdrag = useOppdrag(person.fødselsnummer);
-    const organisasjonsnummer = useOrganisasjonsnummer();
+    const oppdrag = useOppdrag(fødselsnummer);
     const [tilAnnullering, setTilAnnullering] = useState<Spennoppdrag | undefined>();
     const [annulleringerInFlight, setAnnulleringerInFlight] = useState<Array<string>>([]);
 
-    const lukkUtbetalingshistorikk = () => push(`/person/${person.aktørId}/utbetaling`);
+    const lukkUtbetalingshistorikk = () => push(`/person/${aktørId}/utbetaling`);
 
     const annulleringErForespurt = (oppdrag: Spennoppdrag) => annulleringerInFlight.includes(oppdrag.fagsystemId);
 
@@ -79,9 +86,7 @@ export const Utbetalingshistorikk = ({ person }: UtbetalingshistorikkProps) => {
             <CloseButton as="button" onClick={lukkUtbetalingshistorikk} size="small" variant="tertiary">
                 <Close /> Lukk utbetalingshistorikk
             </CloseButton>
-            <Table
-                aria-label={`Utbetalingshistorikk for person med fødselsnummer ${person.fødselsnummer ?? '"Ukjent"'}`}
-            >
+            <Table aria-label={`Utbetalingshistorikk for person med fødselsnummer ${fødselsnummer ?? '"Ukjent"'}`}>
                 <thead>
                     <tr>
                         <th>Fra</th>
@@ -105,7 +110,7 @@ export const Utbetalingshistorikk = ({ person }: UtbetalingshistorikkProps) => {
                                     annulleringButton={annulleringButton(
                                         oppdrag.status,
                                         oppdrag.type,
-                                        oppdrag.personoppdrag
+                                        oppdrag.personoppdrag,
                                     )}
                                 />
                             )}
@@ -117,7 +122,7 @@ export const Utbetalingshistorikk = ({ person }: UtbetalingshistorikkProps) => {
                                     annulleringButton={annulleringButton(
                                         oppdrag.status,
                                         oppdrag.type,
-                                        oppdrag.arbeidsgiveroppdrag
+                                        oppdrag.arbeidsgiveroppdrag,
                                     )}
                                 />
                             )}
@@ -127,8 +132,8 @@ export const Utbetalingshistorikk = ({ person }: UtbetalingshistorikkProps) => {
             </Table>
             {tilAnnullering && (
                 <Annulleringsmodal
-                    fødselsnummer={person.fødselsnummer}
-                    aktørId={person.aktørId}
+                    fødselsnummer={fødselsnummer}
+                    aktørId={aktørId}
                     organisasjonsnummer={organisasjonsnummer}
                     fagsystemId={tilAnnullering.fagsystemId}
                     linjer={tilAnnullering.linjer.map((it) => ({
@@ -142,3 +147,32 @@ export const Utbetalingshistorikk = ({ person }: UtbetalingshistorikkProps) => {
         </Container>
     );
 };
+
+const UtbetalingshistorikkContainer: React.VFC = () => {
+    const currentPerson = useCurrentPerson();
+    const currentArbeidsgiver = useCurrentArbeidsgiver();
+
+    if (!currentPerson || !currentArbeidsgiver) {
+        return null;
+    } else {
+        return (
+            <UtbetalingshistorikkWithContent
+                fødselsnummer={currentPerson.fodselsnummer}
+                organisasjonsnummer={currentArbeidsgiver.organisasjonsnummer}
+                aktørId={currentPerson.aktorId}
+            />
+        );
+    }
+};
+
+export const Utbetalingshistorikk: React.VFC = () => {
+    return (
+        <React.Suspense fallback={<div />}>
+            <ErrorBoundary fallback={<div />}>
+                <UtbetalingshistorikkContainer />
+            </ErrorBoundary>
+        </React.Suspense>
+    );
+};
+
+export default Utbetalingshistorikk;

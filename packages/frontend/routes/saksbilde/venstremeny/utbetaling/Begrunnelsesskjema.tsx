@@ -1,43 +1,19 @@
-import styled from '@emotion/styled';
 import React, { ChangeEvent, ReactNode } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
+import { Checkbox, Fieldset, Textarea } from '@navikt/ds-react';
 
-import { Checkbox as NavCheckbox, Fieldset, Textarea } from '@navikt/ds-react';
-
-import { useVedtaksperiode } from '@state/tidslinje';
+import { BeregnetPeriode } from '@io/graphql';
 
 import { Begrunnelse } from './AvvisningModal';
 
-const Container = styled.div`
-    margin-top: 1.5rem;
-`;
+import styles from './Begrunnelsesskjema.module.css';
 
-const BegrunnelseBox = styled(Textarea)`
-    min-height: 120px;
-    white-space: pre-line;
-`;
+interface BegrunnelseCheckboxProps {
+    begrunnelse: string;
+    label?: ReactNode;
+}
 
-const ÅrsakFieldset = styled(Fieldset)`
-    margin-bottom: 2rem;
-`;
-
-const Checkbox = styled(NavCheckbox)`
-    display: flex;
-    padding: 0;
-    margin: 0;
-
-    input {
-        width: 1.5rem;
-        height: 1.5rem;
-        left: 0;
-    }
-
-    p {
-        padding-left: 0.5rem;
-    }
-`;
-
-export const BegrunnelseCheckbox = ({ begrunnelse, label }: { begrunnelse: string; label?: ReactNode }) => {
+const BegrunnelseCheckbox: React.VFC<BegrunnelseCheckboxProps> = ({ begrunnelse, label }) => {
     const { register, clearErrors } = useFormContext();
 
     const { onChange, ...begrunnelserValidation } = register('begrunnelser');
@@ -48,44 +24,41 @@ export const BegrunnelseCheckbox = ({ begrunnelse, label }: { begrunnelse: strin
     };
 
     return (
-        <Checkbox value={begrunnelse} onChange={onCheck} {...begrunnelserValidation}>
+        <Checkbox className={styles.Checkbox} value={begrunnelse} onChange={onCheck} {...begrunnelserValidation}>
             {label ? label : begrunnelse}
         </Checkbox>
     );
 };
 
-export interface BegrunnelsesskjemaProps {
-    aktivPeriode: TidslinjeperiodeMedSykefravær;
+interface BegrunnelsesskjemaProps {
+    activePeriod: BeregnetPeriode;
 }
 
-export const Begrunnelsesskjema = ({ aktivPeriode }: BegrunnelsesskjemaProps) => {
+export const Begrunnelsesskjema: React.VFC<BegrunnelsesskjemaProps> = ({ activePeriod }) => {
     const { formState, clearErrors, watch } = useFormContext();
-    const vedtaksperiode = useVedtaksperiode(aktivPeriode.id);
-    const warnings = vedtaksperiode?.aktivitetslog;
-    const funnetRisikovurderinger = vedtaksperiode?.risikovurdering?.funn;
-
     const begrunnelser = watch(`begrunnelser`);
     const annet = begrunnelser ? begrunnelser.includes(Begrunnelse.Annet) : false;
 
     return (
-        <Container>
-            <ÅrsakFieldset
+        <div className={styles.Begrunnelsesskjema}>
+            <Fieldset
+                className={styles.Fieldset}
                 legend="Årsak til at saken ikke kan behandles"
                 error={formState.errors.begrunnelser ? formState.errors.begrunnelser.message : null}
             >
-                {warnings?.map((advarsel, index) => {
-                    switch (advarsel) {
+                {activePeriod.aktivitetslogg.map((aktivitet, index) => {
+                    switch (aktivitet.melding) {
                         case 'Arbeidsuførhet, aktivitetsplikt og/eller medvirkning må vurderes. Se forklaring på vilkårs-siden.':
-                            return funnetRisikovurderinger
+                            return activePeriod.risikovurdering?.funn
                                 ?.filter((it) => it.kategori.includes('8-4'))
                                 .map((arbeidsuførhet, index2) => {
                                     return (
                                         <BegrunnelseCheckbox
                                             key={`${index}-${index2}-checkbox`}
-                                            begrunnelse={`${advarsel} ${arbeidsuførhet.beskrivelse}`}
+                                            begrunnelse={`${aktivitet.melding} ${arbeidsuførhet.beskrivelse}`}
                                             label={
                                                 <p>
-                                                    {advarsel}
+                                                    {aktivitet.melding}
                                                     <br />
                                                     {arbeidsuførhet.beskrivelse}
                                                 </p>
@@ -94,7 +67,7 @@ export const Begrunnelsesskjema = ({ aktivPeriode }: BegrunnelsesskjemaProps) =>
                                     );
                                 });
                         case 'Faresignaler oppdaget. Kontroller om faresignalene påvirker retten til sykepenger.':
-                            return funnetRisikovurderinger
+                            return activePeriod.risikovurdering?.funn
                                 ?.filter((it) => !it.kategori.includes('8-4'))
                                 .map((faresignaler, index2) => {
                                     return (
@@ -105,16 +78,17 @@ export const Begrunnelsesskjema = ({ aktivPeriode }: BegrunnelsesskjemaProps) =>
                                     );
                                 });
                         default:
-                            return <BegrunnelseCheckbox key={`${index}-checkbox`} begrunnelse={advarsel} />;
+                            return <BegrunnelseCheckbox key={`${index}-checkbox`} begrunnelse={aktivitet.melding} />;
                     }
                 })}
                 <BegrunnelseCheckbox begrunnelse="Annet" />
-            </ÅrsakFieldset>
+            </Fieldset>
             <Controller
                 name="kommentar"
                 defaultValue=""
                 render={({ field: { value, onChange } }) => (
-                    <BegrunnelseBox
+                    <Textarea
+                        className={styles.Textarea}
                         name="kommentar"
                         value={value}
                         label={`Begrunnelse ${annet ? '' : '(valgfri)'}`}
@@ -130,6 +104,6 @@ export const Begrunnelsesskjema = ({ aktivPeriode }: BegrunnelsesskjemaProps) =>
                     />
                 )}
             />
-        </Container>
+        </div>
     );
 };

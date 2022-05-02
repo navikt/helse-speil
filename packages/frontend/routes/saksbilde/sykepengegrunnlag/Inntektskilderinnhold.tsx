@@ -1,51 +1,36 @@
 import React from 'react';
 
 import { Kilde } from '@components/Kilde';
-import { AnonymizableTextWithEllipsis } from '@components/TextWithEllipsis';
 import { Tooltip } from '@components/Tooltip';
 import { Clipboard } from '@components/clipboard';
-import { useArbeidsgiverbransjer, useArbeidsgivernavn } from '@state/person';
-
-import { Arbeidsforhold } from '../Arbeidsforhold';
-import { Inntekt } from './inntekt/Inntekt';
-import { defaultOverstyrToggles } from '@utils/featureToggles';
-import { useAktivPeriode, useMaybePeriodeTilGodkjenning } from '../../../state/tidslinje';
 import { AnonymizableText } from '@components/anonymizable/AnonymizableText';
 import { AnonymizableContainer } from '@components/anonymizable/AnonymizableContainer';
-import type { Refusjon } from '@io/graphql';
-import { useArbeidsforhold } from '../../../modell/arbeidsgiver';
-import { useHarIngenUtbetaltePerioderFor } from '../../../hooks/revurdering';
+import { AnonymizableTextWithEllipsis } from '@components/TextWithEllipsis';
+import type { Arbeidsforhold, Arbeidsgiverinntekt, Refusjon } from '@io/graphql';
+
+import { ArbeidsforholdView } from '../ArbeidsforholdView';
+import { Refusjonsoversikt } from './refusjon/Refusjonsoversikt';
+import { Inntekt } from './inntekt/Inntekt';
 
 import styles from './Inntektskilderinnhold.module.css';
-import { Refusjonsoversikt } from './refusjon/Refusjonsoversikt';
 
 interface InntektskilderinnholdProps {
-    inntekt: ExternalArbeidsgiverinntekt;
-    refusjon?: Refusjon | null;
+    inntekt: Arbeidsgiverinntekt;
+    arbeidsgivernavn: string;
+    bransjer: string[];
+    arbeidsforhold: Arbeidsforhold[];
+    skjæringstidspunkt: DateString;
+    refusjon?: Maybe<Refusjon>;
 }
 
-export const Inntektskilderinnhold = ({ inntekt, refusjon }: InntektskilderinnholdProps) => {
-    const arbeidsgivernavn = useArbeidsgivernavn(inntekt.organisasjonsnummer);
-    const bransjer = useArbeidsgiverbransjer(inntekt.organisasjonsnummer);
-    const arbeidsforhold = useArbeidsforhold(inntekt.organisasjonsnummer);
-
-    const aktivPeriode = useAktivPeriode();
-    const harDeaktivertArbeidsforhold = inntekt.deaktivert ?? false;
-
-    const skjæringstidspunkt = aktivPeriode.skjæringstidspunkt!;
-    const periodeTilGodkjenning = useMaybePeriodeTilGodkjenning(skjæringstidspunkt);
-    const organisasjonsnummerPeriodeTilGodkjenning = periodeTilGodkjenning
-        ? periodeTilGodkjenning.organisasjonsnummer
-        : undefined;
-    const harIngenUtbetaltePerioder = useHarIngenUtbetaltePerioderFor(skjæringstidspunkt);
-
-    const arbeidsforholdKanOverstyres =
-        defaultOverstyrToggles.overstyrArbeidsforholdUtenSykefraværEnabled &&
-        aktivPeriode.organisasjonsnummer === inntekt.organisasjonsnummer &&
-        aktivPeriode.tilstand === 'utenSykefravær' &&
-        harIngenUtbetaltePerioder &&
-        periodeTilGodkjenning !== undefined;
-
+export const Inntektskilderinnhold = ({
+    inntekt,
+    arbeidsgivernavn,
+    bransjer,
+    arbeidsforhold,
+    skjæringstidspunkt,
+    refusjon,
+}: InntektskilderinnholdProps) => {
     return (
         <div className={styles.Inntektskilderinnhold}>
             <div className={styles.Header}>
@@ -55,11 +40,11 @@ export const Inntektskilderinnhold = ({ inntekt, refusjon }: Inntektskilderinnho
                 <div className={styles.Organisasjonsnummer}>
                     (
                     <Clipboard copyMessage="Organisasjonsnummer er kopiert" dataTip="Kopier organisasjonsnummer">
-                        <AnonymizableContainer>{inntekt.organisasjonsnummer}</AnonymizableContainer>
+                        <AnonymizableContainer>{inntekt.arbeidsgiver}</AnonymizableContainer>
                     </Clipboard>
                     )
                 </div>
-                <Kilde type="Ainntekt">AA</Kilde>
+                <Kilde type="AINNTEKT">AA</Kilde>
             </div>
             <AnonymizableText className={styles.Bransjer}>
                 {`BRANSJE${bransjer.length > 1 ? 'R' : ''}: `}
@@ -67,7 +52,7 @@ export const Inntektskilderinnhold = ({ inntekt, refusjon }: Inntektskilderinnho
             </AnonymizableText>
             <div className={styles.Arbeidsforholdtabell}>
                 {arbeidsforhold.map((it, i) => (
-                    <Arbeidsforhold
+                    <ArbeidsforholdView
                         key={i}
                         startdato={it.startdato}
                         sluttdato={it.sluttdato}
@@ -76,14 +61,7 @@ export const Inntektskilderinnhold = ({ inntekt, refusjon }: Inntektskilderinnho
                     />
                 ))}
             </div>
-            <Inntekt
-                omregnetÅrsinntekt={inntekt.omregnetÅrsinntekt}
-                organisasjonsnummer={inntekt.organisasjonsnummer}
-                organisasjonsnummerPeriodeTilGodkjenning={organisasjonsnummerPeriodeTilGodkjenning}
-                skjæringstidspunkt={skjæringstidspunkt}
-                arbeidsforholdErDeaktivert={harDeaktivertArbeidsforhold}
-                arbeidsforholdKanOverstyres={arbeidsforholdKanOverstyres}
-            />
+            <Inntekt inntekt={inntekt} />
             {refusjon && <Refusjonsoversikt refusjon={refusjon} />}
             <Tooltip effect="solid" />
         </div>

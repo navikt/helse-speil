@@ -1,91 +1,90 @@
 import '@testing-library/jest-dom/extend-expect';
 import { queries, queryHelpers, render, screen } from '@testing-library/react';
-import dayjs from 'dayjs';
 import React from 'react';
 
-import { useAlderVedSkjæringstidspunkt } from '../../../../state/person';
-
 import { MerknaderCell } from './MerknaderCell';
-import { UtbetalingstabellDag } from './Utbetalingstabell.types';
+import { Begrunnelse } from '@io/graphql';
+import { getUtbetalingstabellDag } from '@test-data/utbetalingstabell';
 
-jest.mock('../../../../state/person', () => ({ useAlderVedSkjæringstidspunkt: jest.fn() }));
-const mockUseAlderVedSkjæringstidspunkt = useAlderVedSkjæringstidspunkt as jest.Mock;
-
-const queryByDataTip = queryHelpers.queryByAttribute.bind(null, 'data-tip');
-
-const enUtbetalingsdag: UtbetalingstabellDag = {
-    isMaksdato: false,
-    sykdomsdag: { kilde: undefined, type: 'Syk', grad: undefined },
-    dato: dayjs(),
-    type: 'Syk',
+const defaultRenderOptions = {
+    queries: {
+        ...queries,
+        queryByDataTip: queryHelpers.queryByAttribute.bind(null, 'data-tip'),
+        queryAllByDataTip: queryHelpers.queryAllByAttribute.bind(null, 'data-tip'),
+    },
 };
 
 describe('MerknaderCell', () => {
     test('rendrer merknad om siste utbetalingsdag', () => {
-        render(<MerknaderCell dag={enUtbetalingsdag} isMaksdato={true} />);
+        render(<MerknaderCell dag={getUtbetalingstabellDag({ erMaksdato: true })} alderVedSkjæringstidspunkt={30} />);
         expect(screen.getByText('Siste utbetalingsdag for sykepenger')).toBeVisible();
     });
 
     test('rendrer merknad om foreldet dag', () => {
-        const screen = render(<MerknaderCell dag={{ ...enUtbetalingsdag, type: 'Foreldet' }} isMaksdato={false} />, {
-            queries: { queryByDataTip },
-        });
+        const screen = render(
+            <MerknaderCell dag={getUtbetalingstabellDag({ erForeldet: true })} alderVedSkjæringstidspunkt={30} />,
+            defaultRenderOptions,
+        );
         expect(screen.queryByDataTip('Foreldet')).toBeVisible();
     });
 
     test('rendrer avvisningsårsaker', () => {
-        let avvistÅrsaker = [
-            { tekst: 'EtterDødsdato' },
-            { tekst: 'EgenmeldingUtenforArbeidsgiverperiode' },
-            { tekst: 'MinimumSykdomsgrad' },
-            { tekst: 'MinimumInntekt' },
-            { tekst: 'ManglerOpptjening' },
-            { tekst: 'ManglerMedlemskap' },
-            { tekst: 'SykepengedagerOppbrukt' },
-        ] as Avvisning[];
+        const begrunnelser: Array<Begrunnelse> = [
+            Begrunnelse.EtterDodsdato,
+            Begrunnelse.EgenmeldingUtenforArbeidsgiverperiode,
+            Begrunnelse.MinimumSykdomsgrad,
+            Begrunnelse.MinimumInntekt,
+            Begrunnelse.MinimumInntektOver_67,
+            Begrunnelse.ManglerOpptjening,
+            Begrunnelse.ManglerMedlemskap,
+            Begrunnelse.SykepengedagerOppbrukt,
+            Begrunnelse.SykepengedagerOppbruktOver_67,
+            Begrunnelse.Over_70,
+        ];
 
-        const screen = render(<MerknaderCell dag={{ ...enUtbetalingsdag, avvistÅrsaker }} isMaksdato={false} />, {
-            queries: { ...queries, queryByDataTip },
-        });
+        const screen = render(
+            <MerknaderCell dag={getUtbetalingstabellDag({ begrunnelser })} alderVedSkjæringstidspunkt={30} />,
+            defaultRenderOptions,
+        );
 
         expect(screen.getByText('Personen er død')).toBeVisible();
         expect(screen.queryByDataTip('Egenmelding utenfor arbeidsgiverperioden')).toBeVisible();
         expect(screen.queryByDataTip('Sykdomsgrad under 20 %')).toBeVisible();
-        expect(screen.queryByDataTip('Inntekt under krav til minste sykepengegrunnlag')).toBeVisible();
         expect(screen.queryByDataTip('Krav til 4 ukers opptjening er ikke oppfylt')).toBeVisible();
         expect(screen.queryByDataTip('Krav til medlemskap er ikke oppfylt')).toBeVisible();
-        expect(screen.queryByDataTip('Maks antall sykepengedager er nådd')).toBeVisible();
+        expect(screen.queryByDataTip('Personen er 70 år eller eldre')).toBeVisible();
 
-        // rendrer disse på nytt for seg selv fordi de har lik data-tip som under 67-variantene, det liker ikke testing-library (naturlig nok)
-        avvistÅrsaker = [{ tekst: 'MinimumInntektOver67' }, { tekst: 'SykepengedagerOppbruktOver67' }];
-        screen.rerender(<MerknaderCell dag={{ ...enUtbetalingsdag, avvistÅrsaker }} isMaksdato={false} />);
-        expect(screen.queryByText('Personen er død')).not.toBeInTheDocument(); // Sanity check
-        expect(screen.queryByDataTip('Inntekt under krav til minste sykepengegrunnlag')).toBeVisible();
-        expect(screen.queryByDataTip('Maks antall sykepengedager er nådd')).toBeVisible();
+        expect(screen.queryAllByDataTip('Inntekt under krav til minste sykepengegrunnlag')).toHaveLength(2);
+        expect(screen.queryAllByDataTip('Maks antall sykepengedager er nådd')).toHaveLength(2);
     });
 
     test('rendrer riktig for forskjellige varianter av minimum inntekt', () => {
-        function dagProps(avvistÅrsak: string) {
-            return {
-                ...enUtbetalingsdag,
-                avvistÅrsaker: [{ tekst: avvistÅrsak }] as Avvisning[],
-            };
-        }
+        const screen = render(
+            <MerknaderCell
+                dag={getUtbetalingstabellDag({ begrunnelser: [Begrunnelse.MinimumInntekt] })}
+                alderVedSkjæringstidspunkt={69}
+            />,
+            defaultRenderOptions,
+        );
 
-        mockUseAlderVedSkjæringstidspunkt.mockImplementation(() => 69);
-        const screen = render(<MerknaderCell dag={dagProps('MinimumInntekt')} isMaksdato={false} />, {
-            queries: { ...queries, queryByDataTip },
-        });
         expect(screen.queryByDataTip('Inntekt under krav til minste sykepengegrunnlag')).toBeVisible();
         expect(screen.queryByText('§ 8-51')).toBeVisible();
 
-        mockUseAlderVedSkjæringstidspunkt.mockImplementation(() => 66);
-        screen.rerender(<MerknaderCell dag={dagProps('MinimumInntekt')} isMaksdato={false} />);
+        screen.rerender(
+            <MerknaderCell
+                dag={getUtbetalingstabellDag({ begrunnelser: [Begrunnelse.MinimumInntekt] })}
+                alderVedSkjæringstidspunkt={66}
+            />,
+        );
         expect(screen.queryByDataTip('Inntekt under krav til minste sykepengegrunnlag')).toBeVisible();
         expect(screen.queryByText('§ 8-3')).toBeVisible();
 
-        mockUseAlderVedSkjæringstidspunkt.mockImplementation(() => 69);
-        screen.rerender(<MerknaderCell dag={dagProps('MinimumInntektOver67')} isMaksdato={false} />);
+        screen.rerender(
+            <MerknaderCell
+                dag={getUtbetalingstabellDag({ begrunnelser: [Begrunnelse.MinimumInntektOver_67] })}
+                alderVedSkjæringstidspunkt={69}
+            />,
+        );
         expect(screen.queryByDataTip('Inntekt under krav til minste sykepengegrunnlag')).toBeVisible();
         expect(screen.queryByText('§ 8-51')).toBeVisible();
     });

@@ -8,7 +8,7 @@ import {
     useOpptegnelserPollingRate,
 } from '@state/opptegnelser';
 
-import { getOpptegnelser } from './http';
+import { getOpptegnelser, SpeilResponse } from './http';
 
 export const usePollEtterOpptegnelser = () => {
     const setOpptegnelser = useSetRecoilState(nyesteOpptegnelserState);
@@ -19,9 +19,9 @@ export const usePollEtterOpptegnelser = () => {
     useEffect(() => {
         function tick() {
             getOpptegnelser(sisteSekvensId)
-                .then((response) => {
-                    if (response.data.length > 0) {
-                        setOpptegnelser(response.data);
+                .then((response: SpeilResponse<Array<Opptegnelse>>) => {
+                    if (response.data!.length > 0) {
+                        setOpptegnelser(response.data!);
                         resetPollefrekvens();
                     }
                 })
@@ -32,6 +32,7 @@ export const usePollEtterOpptegnelser = () => {
                     }
                 });
         }
+
         let id = setInterval(tick, opptegnelsePollingTime);
         return () => clearInterval(id);
     }, [opptegnelsePollingTime, sisteSekvensId]);

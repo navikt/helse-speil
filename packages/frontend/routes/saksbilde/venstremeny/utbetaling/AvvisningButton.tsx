@@ -1,8 +1,8 @@
 import React, { useContext, useState } from 'react';
 import { nanoid } from 'nanoid';
-
 import { Button } from '@navikt/ds-react';
 
+import { BeregnetPeriode } from '@io/graphql';
 import { postSendTilInfotrygd } from '@io/http';
 import { Scopes, useAddEphemeralVarsel } from '@state/varsler';
 
@@ -28,16 +28,14 @@ const useAddInfotrygdtoast = () => {
 };
 
 interface AvvisningButtonProps extends Omit<React.HTMLAttributes<HTMLButtonElement>, 'onError' | 'children'> {
-    aktivPeriode: TidslinjeperiodeMedSykefravær;
-    oppgavereferanse: string;
+    activePeriod: BeregnetPeriode;
     aktørId: string;
     onSuccess?: () => void;
     onError?: (error: Error) => void;
 }
 
 export const AvvisningButton: React.VFC<AvvisningButtonProps> = ({
-    aktivPeriode,
-    oppgavereferanse,
+    activePeriod,
     aktørId,
     onSuccess,
     onError,
@@ -57,7 +55,7 @@ export const AvvisningButton: React.VFC<AvvisningButtonProps> = ({
         const skjemaKommentar: string[] = skjema.kommentar ? [skjema.kommentar] : [];
         const begrunnelser: string[] = [skjema.årsak.valueOf(), ...skjemaBegrunnelser, ...skjemaKommentar];
 
-        postSendTilInfotrygd(oppgavereferanse, aktørId, skjema)
+        postSendTilInfotrygd(activePeriod.oppgavereferanse!, aktørId, skjema)
             .then(() => {
                 amplitude.logOppgaveForkastet(begrunnelser);
                 addInfotrygdtoast();
@@ -87,7 +85,7 @@ export const AvvisningButton: React.VFC<AvvisningButtonProps> = ({
                     onClose={closeModal}
                     onApprove={avvisUtbetaling}
                     isSending={isSending}
-                    aktivPeriode={aktivPeriode}
+                    activePeriod={activePeriod}
                 />
             )}
         </>

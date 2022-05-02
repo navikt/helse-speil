@@ -1,6 +1,7 @@
 import styled from '@emotion/styled';
-import { AnonymizableText } from './anonymizable/AnonymizableText';
 import { css } from '@emotion/react';
+
+import { AnonymizableText } from './anonymizable/AnonymizableText';
 
 const ellipsis = css`
     white-space: nowrap;

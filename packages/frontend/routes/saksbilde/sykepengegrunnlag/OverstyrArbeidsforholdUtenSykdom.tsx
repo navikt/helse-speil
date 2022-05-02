@@ -6,6 +6,7 @@ import { FormProvider, useForm } from 'react-hook-form';
 import { Error } from '@navikt/ds-icons';
 import { BodyShort, Button as NavButton, ErrorSummary, ErrorSummaryItem, Loader } from '@navikt/ds-react';
 
+import { Maybe } from '@io/graphql';
 import { EditButton } from '@components/EditButton';
 import { ErrorMessage } from '@components/ErrorMessage';
 import { Begrunnelser } from '@components/Begrunnelser';
@@ -15,7 +16,7 @@ import { OverstyringTimeoutModal } from '@components/OverstyringTimeoutModal';
 
 import { VenterPåEndringContext } from '../VenterPåEndringContext';
 import { AngreOverstyrArbeidsforholdUtenSykdom } from './AngreOverstyrArbeidsforholdUtenSykdom';
-import { useGetOverstyrtArbeidsforhold, usePostOverstyrtArbeidsforhold } from './OverstyrArbeidsforholdHooks';
+import { useGetOverstyrtArbeidsforhold, usePostOverstyrtArbeidsforhold } from './overstyrArbeidsforholdHooks';
 
 const Container = styled.div`
     display: flex;
@@ -32,7 +33,7 @@ const Container = styled.div`
 
 const FormContainer = styled(FlexColumn)<{ editing: boolean }>`
     box-sizing: border-box;
-    margin-bottom: 2rem;
+    margin-top: 1rem;
     min-width: 495px;
 
     ${(props) =>
@@ -96,16 +97,13 @@ const FeiloppsummeringContainer = styled.div`
     margin: 1.5rem 0 0.5rem;
 `;
 
-const EditButtonContainer = styled(EditButton)`
-    padding-top: 4px;
-`;
-
 interface OverstyrArbeidsforholdUtenSykdomProps {
     organisasjonsnummerAktivPeriode: string;
     organisasjonsnummerPeriodeTilGodkjenning: string;
     skjæringstidspunkt: string;
-    arbeidsforholdErDeaktivert: boolean;
+    arbeidsforholdErDeaktivert?: Maybe<boolean>;
 }
+
 export const OverstyrArbeidsforholdUtenSykdom = ({
     organisasjonsnummerAktivPeriode,
     organisasjonsnummerPeriodeTilGodkjenning,
@@ -140,7 +138,7 @@ export const OverstyrArbeidsforholdUtenSykdom = ({
                     />
                 )}
                 {skalViseOverstyr && (
-                    <EditButtonContainer
+                    <EditButton
                         isOpen={editing}
                         openText="Avbryt"
                         closedText="Ikke bruk arbeidsforholdet i beregningen"
@@ -170,7 +168,7 @@ interface OverstyrArbeidsforholdSkjemaProps {
     organisasjonsnummerAktivPeriode: string;
     organisasjonsnummerPeriodeTilGodkjenning: string;
     skjæringstidspunkt: string;
-    arbeidsforholdErDeaktivert: boolean;
+    arbeidsforholdErDeaktivert?: Maybe<boolean>;
     onSubmit: () => void;
 }
 
@@ -203,7 +201,7 @@ const OverstyrArbeidsforholdSkjema = ({
             organisasjonsnummerPeriodeTilGodkjenning,
             organisasjonsnummerAktivPeriode,
             skjæringstidspunkt,
-            true
+            true,
         );
         onSubmit();
         postOverstyring(overstyrtArbeidsforhold);

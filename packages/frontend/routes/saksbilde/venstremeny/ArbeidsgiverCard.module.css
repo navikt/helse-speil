@@ -1,0 +1,20 @@
+.Title {
+    display: grid;
+    grid-template-columns: 1.25rem auto;
+    grid-column-gap: 0.75rem;
+    align-items: start;
+}
+
+.Title > svg {
+    margin-top: 0.125rem;
+    justify-self: center;
+}
+
+.Arbeidsforhold {
+    display: flex;
+    flex-wrap: nowrap;
+}
+
+.Arbeidsforhold > p {
+    white-space: nowrap;
+}

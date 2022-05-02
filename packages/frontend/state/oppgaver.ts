@@ -2,7 +2,7 @@ import { atom, selector, useRecoilValue, useRecoilValueLoadable, useSetRecoilSta
 
 import { deletePåVent, deleteTildeling, getOppgaver, postLeggPåVent, postTildeling } from '@io/http';
 import { flereArbeidsgivere, stikkprøve, utbetalingTilSykmeldt } from '@utils/featureToggles';
-import { tilOppgave } from '../mapping/oppgaver/oppgaver';
+import { tilOppgave } from '../mapping/oppgaver';
 
 import { useInnloggetSaksbehandler } from './authentication';
 import { useAddVarsel, useRemoveVarsel } from './varsler';
@@ -47,7 +47,7 @@ const tildelingerState = selector<TildelingStateType>({
                 tildelinger[oppgavereferanse] = tildeling;
                 return tildelinger;
             },
-            {}
+            {},
         );
         return { ...remote, ...local };
     },
@@ -64,7 +64,7 @@ export const oppgaverState = selector<Oppgave[]>({
             .filter(
                 (oppgave) =>
                     utbetalingTilSykmeldt ||
-                    (oppgave.periodetype != 'utbetalingTilSykmeldt' && oppgave.periodetype != 'delvisRefusjon')
+                    (oppgave.periodetype != 'utbetalingTilSykmeldt' && oppgave.periodetype != 'delvisRefusjon'),
             )
             .map((oppgave) => ({ ...oppgave, tildeling: tildelinger[oppgave.oppgavereferanse] }));
     },

@@ -1,9 +1,9 @@
-import { defineConfig } from 'vite';
+import { defineConfig, splitVendorChunkPlugin } from 'vite';
 import reactRefresh from '@vitejs/plugin-react-refresh';
 import path from 'path';
 
 export default defineConfig({
-    plugins: [reactRefresh()],
+    plugins: [reactRefresh(), splitVendorChunkPlugin()],
     build: {
         outDir: '../../dist/client',
         sourcemap: true,
@@ -11,6 +11,13 @@ export default defineConfig({
         emptyOutDir: true,
         commonjsOptions: {
             transformMixedEsModules: true,
+        },
+        rollupOptions: {
+            output: {
+                manualChunks: {
+                    react: ['react', 'react-dom'],
+                },
+            },
         },
     },
     resolve: {

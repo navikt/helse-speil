@@ -1,0 +1,48 @@
+.WindowPicker {
+    position: relative;
+    display: flex;
+    flex-wrap: nowrap;
+}
+
+.Picker {
+    background: #fff;
+    border: none;
+    box-shadow: 0 0 0 1px #c6c2bf;
+    color: var(--navds-color-text-primary);
+    font-size: 14px;
+    outline: none;
+    height: 24px;
+    padding: 0 8px;
+    margin: 1px;
+}
+
+.Picker:hover,
+.Picker:focus-visible {
+    background: var(--navds-color-gray-10);
+}
+
+.Picker:active {
+    background: var(--navds-color-gray-20);
+}
+
+.Picker:focus-visible {
+    box-shadow: var(--navds-shadow-focus);
+    z-index: 3;
+}
+
+.Picker:not(:last-of-type) {
+    margin-right: 0;
+}
+
+.Picker:first-of-type {
+    border-radius: 4px 0 0 4px;
+}
+
+.Picker:last-of-type {
+    border-radius: 0 4px 4px 0;
+}
+
+.Picker.active {
+    background: var(--navds-color-text-primary);
+    color: #fff;
+}

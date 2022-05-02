@@ -9,6 +9,10 @@ import { Advarselikon } from '@components/ikoner/Advarselikon';
 import { GrøntSjekkikon } from '@components/ikoner/GrøntSjekkikon';
 import { Utropstegnikon } from '@components/ikoner/Utropstegnikon';
 import { AgurkErrorBoundary } from '@components/AgurkErrorBoundary';
+import { Faresignal, Maybe, Risikovurdering } from '@io/graphql';
+import { ErrorBoundary } from '@components/ErrorBoundary';
+import { useActivePeriod } from '@state/periode';
+import { isBeregnetPeriode } from '@utils/typeguards';
 
 const Container = styled.div`
     margin-top: 2rem;
@@ -45,28 +49,9 @@ const Kolonne = styled(FlexColumn)`
     }
 `;
 
-export const Faresignaler = ({ risikovurdering }: { risikovurdering: Vedtaksperiode['risikovurdering'] }) => (
-    <AgurkErrorBoundary sidenavn="Faresignaler">
-        <Container className="faresignaler">
-            {risikovurdering && (risikovurdering.funn?.length ?? 0) > 0 && (
-                <Faresignalkategori
-                    ikon={<Advarselikon />}
-                    overskrift="Faresignaler oppdaget"
-                    faresignaler={risikovurdering.funn}
-                    vurderingIkon={<Utropstegnikon alt="Oppdaget" />}
-                />
-            )}
-            {risikovurdering && (risikovurdering.kontrollertOk?.length ?? 0) > 0 && (
-                <Faresignalkategori
-                    ikon={<GrøntSjekkikon />}
-                    overskrift="Faresignaler kontrollert"
-                    faresignaler={risikovurdering.kontrollertOk}
-                    vurderingIkon={<Sjekkikon alt="Kontrollert" />}
-                />
-            )}
-        </Container>
-    </AgurkErrorBoundary>
-);
+const harFunn = (funn?: Maybe<Faresignal[]>): funn is Faresignal[] => {
+    return typeof funn === 'object';
+};
 
 interface FaresignalkategoriProps {
     ikon: ReactNode;
@@ -89,3 +74,60 @@ const Faresignalkategori = ({ ikon, overskrift, faresignaler, vurderingIkon }: F
         ))}
     </Kolonne>
 );
+
+interface FaresignalerWithContentProps {
+    risikovurdering: Risikovurdering;
+}
+
+export const FaresignalerWithContent: React.VFC<FaresignalerWithContentProps> = ({ risikovurdering }) => (
+    <AgurkErrorBoundary sidenavn="Faresignaler">
+        <Container className="faresignaler">
+            {risikovurdering && harFunn(risikovurdering.funn) && risikovurdering.funn.length > 0 && (
+                <Faresignalkategori
+                    ikon={<Advarselikon />}
+                    overskrift="Faresignaler oppdaget"
+                    faresignaler={risikovurdering.funn}
+                    vurderingIkon={<Utropstegnikon alt="Oppdaget" />}
+                />
+            )}
+            {risikovurdering && (risikovurdering.kontrollertOk?.length ?? 0) > 0 && (
+                <Faresignalkategori
+                    ikon={<GrøntSjekkikon />}
+                    overskrift="Faresignaler kontrollert"
+                    faresignaler={risikovurdering.kontrollertOk}
+                    vurderingIkon={<Sjekkikon alt="Kontrollert" />}
+                />
+            )}
+        </Container>
+    </AgurkErrorBoundary>
+);
+
+const FaresignalerContainer = () => {
+    const activePeriod = useActivePeriod();
+
+    if (isBeregnetPeriode(activePeriod) && activePeriod.risikovurdering) {
+        return <FaresignalerWithContent risikovurdering={activePeriod.risikovurdering} />;
+    }
+
+    return null;
+};
+
+const FaresignalerSkeleton = () => {
+    return <div />;
+};
+
+const FaresignalerError = () => {
+    return <div />;
+};
+
+export const Faresignaler = () => {
+    return (
+        <React.Suspense fallback={<FaresignalerSkeleton />}>
+            <ErrorBoundary fallback={<FaresignalerError />}>
+                <FaresignalerContainer />
+            </ErrorBoundary>
+        </React.Suspense>
+    );
+};
+
+export default Faresignaler;

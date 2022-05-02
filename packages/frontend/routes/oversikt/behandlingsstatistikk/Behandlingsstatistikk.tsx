@@ -11,10 +11,9 @@ import { CloseButton } from '@components/CloseButton';
 import { Oppgaveetikett } from '@components/Oppgaveetikett';
 import { getBehandlingsstatistikk } from '@io/http';
 
-import { tilPeriodetype } from '../../../mapping/periodetype';
-
 import { Statistikkboks } from './Statistikkboks';
 import { useShowStatistikkState } from './state';
+import { tilPeriodetype } from '../../../mapping/oppgaver';
 
 const Container = styled.div`
     min-width: max-content;
@@ -225,7 +224,7 @@ export const Behandlingsstatistikk = () => {
                                         </EtikettContainer>
                                     ),
                                     antall: antall,
-                                })
+                                }),
                             )}
                             visesByDefault
                         />
@@ -245,7 +244,7 @@ export const Behandlingsstatistikk = () => {
                                         </EtikettContainer>
                                     ),
                                     antall: antall,
-                                })
+                                }),
                             )}
                         />
                         <Statistikkboks
@@ -276,7 +275,7 @@ export const Behandlingsstatistikk = () => {
                                                 </EtikettContainer>
                                             ),
                                             antall: antall,
-                                        })
+                                        }),
                                     ),
                                 },
                             ]}

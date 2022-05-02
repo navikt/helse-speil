@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import dayjs from 'dayjs';
 import { BodyShort } from '@navikt/ds-react';
 
-import { Refusjon } from '@io/graphql';
+import { Kildetype, Refusjon } from '@io/graphql';
+import { getFormattedDateString } from '@utils/date';
 import { EditButton } from '@components/EditButton';
 import { Kilde } from '@components/Kilde';
 import { Bold } from '@components/Bold';
@@ -11,15 +11,8 @@ import { Refusjonslinje } from './Refusjonslinje';
 import { useRefusjonsendringer } from './useRefusjonsendringer';
 
 import styles from './Refusjonsoversikt.module.css';
-import { NORSK_DATOFORMAT } from '@utils/date';
-import styled from '@emotion/styled';
 
 const canEditRefusjon = false;
-
-const SisteRefusjonsdag = styled.div`
-    margin-top: 12px;
-    margin-bottom: 17px;
-`;
 
 interface RefusjonProps {
     refusjon: Refusjon;
@@ -35,7 +28,7 @@ export const Refusjonsoversikt: React.VFC<RefusjonProps> = ({ refusjon }) => {
             <div className={styles.Header}>
                 <div className={styles.Tittel}>
                     <Bold>Refusjon</Bold>
-                    <Kilde type="Inntektsmelding">IM</Kilde>
+                    <Kilde type={Kildetype.Inntektsmelding}>IM</Kilde>
                 </div>
                 {canEditRefusjon && (
                     <EditButton
@@ -48,9 +41,9 @@ export const Refusjonsoversikt: React.VFC<RefusjonProps> = ({ refusjon }) => {
                 )}
             </div>
             {refusjon.sisteRefusjonsdag && (
-                <SisteRefusjonsdag>
-                    {`Siste dag med refusjon: ${dayjs(refusjon.sisteRefusjonsdag).format(NORSK_DATOFORMAT)}`}
-                </SisteRefusjonsdag>
+                <div className={styles.SisteRefusjonsdag}>
+                    {`Siste dag med refusjon: ${getFormattedDateString(refusjon.sisteRefusjonsdag)}`}
+                </div>
             )}
             <table className={styles.Table}>
                 <thead>

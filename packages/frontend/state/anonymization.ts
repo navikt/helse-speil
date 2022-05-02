@@ -7,6 +7,7 @@ const anonymize = () => {
     root.style.setProperty('--anonymizable-background', 'var(--anonymous-background)');
     root.style.setProperty('--anonymizable-color', 'var(--anonymous-color)');
     root.style.setProperty('--anonymizable-border-radius', 'var(--anonymous-border-radius)');
+    root.style.setProperty('--anonymizable-opacity', 'var(--anonymous-opacity)');
 };
 
 const deanonymize = () => {
@@ -14,6 +15,7 @@ const deanonymize = () => {
     root.style.setProperty('--anonymizable-background', 'var(--visible-background)');
     root.style.setProperty('--anonymizable-color', 'var(--visible-color)');
     root.style.setProperty('--anonymizable-border-radius', 'var(--visible-border-radius)');
+    root.style.setProperty('--anonymizable-opacity', 'var(--visible-opacity)');
 };
 
 const isAnonymous = (): boolean => {

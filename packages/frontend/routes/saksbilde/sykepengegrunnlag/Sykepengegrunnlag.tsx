@@ -1,65 +1,89 @@
-import styled from '@emotion/styled';
 import React from 'react';
 
-import { AgurkErrorBoundary } from '@components/AgurkErrorBoundary';
-import { useOrganisasjonsnummer, useVilkårsgrunnlaghistorikk, useVurderingForSkjæringstidspunkt } from '@state/person';
-import { useMaybeAktivPeriode } from '@state/tidslinje';
-import { Refusjon } from '@io/graphql';
+import { BeregnetPeriode } from '@io/graphql';
+import { ErrorBoundary } from '@components/ErrorBoundary';
+import { useActivePeriod } from '@state/periode';
+import { getInntektsgrunnlag } from '@state/selectors/person';
+import { useCurrentPerson, useVilkårsgrunnlag } from '@state/person';
+import { useCurrentArbeidsgiver, useVurderingForSkjæringstidspunkt } from '@state/arbeidsgiver';
+import {
+    isBeregnetPeriode,
+    isGhostPeriode,
+    isInfotrygdVilkarsgrunnlag,
+    isSpleisVilkarsgrunnlag,
+} from '@utils/typeguards';
 
 import { BehandletSykepengegrunnlag } from './BehandletSykepengegrunnlag';
 import { SykepengegrunnlagFraInfogtrygd } from './SykepengegrunnlagFraInfotrygd';
-import { UbehandletSykepengegrunnlag } from './UbehandletSykepengegrunnlag';
+import { SykepengegrunnlagFraSpleis } from './SykepengegrunnlagFraSpleis';
 
-const Container = styled.section`
-    width: 100%;
-    height: 100%;
-    padding-top: 2rem;
-    box-sizing: border-box;
-`;
+const SykepengegrunnlagContainer = () => {
+    const person = useCurrentPerson();
+    const activePeriod = useActivePeriod();
+    const vilkårsgrunnlag = useVilkårsgrunnlag(
+        (activePeriod as BeregnetPeriode).vilkarsgrunnlaghistorikkId,
+        (activePeriod as BeregnetPeriode).skjaeringstidspunkt,
+    );
+    const vurdering = useVurderingForSkjæringstidspunkt((activePeriod as BeregnetPeriode).skjaeringstidspunkt);
+    const arbeidsgiver = useCurrentArbeidsgiver();
 
-interface SykepengegrunnlagProps {
-    vilkårsgrunnlaghistorikkId: UUID;
-    skjæringstidspunkt: DateString;
-    refusjon?: Refusjon | null;
-}
+    if ((isGhostPeriode(activePeriod) || isBeregnetPeriode(activePeriod)) && arbeidsgiver && person) {
+        if (isSpleisVilkarsgrunnlag(vilkårsgrunnlag)) {
+            const inntektsgrunnlag = getInntektsgrunnlag(person, activePeriod.skjaeringstidspunkt);
 
-export const Sykepengegrunnlag = ({
-    vilkårsgrunnlaghistorikkId,
-    skjæringstidspunkt,
-    refusjon,
-}: SykepengegrunnlagProps) => {
-    const organisasjonsnummer = useOrganisasjonsnummer();
-    const vilkårsgrunnlag = useVilkårsgrunnlaghistorikk(skjæringstidspunkt, vilkårsgrunnlaghistorikkId);
-    const aktivPeriode = useMaybeAktivPeriode()!;
-    const unique =
-        aktivPeriode.tilstand === 'utenSykefravær' ? undefined : (aktivPeriode as TidslinjeperiodeMedSykefravær).unique;
-    const vurdering = useVurderingForSkjæringstidspunkt(unique, aktivPeriode.skjæringstidspunkt!);
+            return vurdering ? (
+                <BehandletSykepengegrunnlag
+                    vurdering={vurdering}
+                    vilkårsgrunnlag={vilkårsgrunnlag}
+                    refusjon={isBeregnetPeriode(activePeriod) ? activePeriod.refusjon : null}
+                    skjæringstidspunkt={activePeriod.skjaeringstidspunkt}
+                    inntektsgrunnlag={inntektsgrunnlag}
+                    arbeidsgiver={arbeidsgiver}
+                />
+            ) : (
+                <SykepengegrunnlagFraSpleis
+                    vilkårsgrunnlag={vilkårsgrunnlag}
+                    inntektsgrunnlag={inntektsgrunnlag}
+                    skjæringstidspunkt={activePeriod.skjaeringstidspunkt}
+                    organisasjonsnummer={arbeidsgiver.organisasjonsnummer}
+                    refusjon={isBeregnetPeriode(activePeriod) ? activePeriod.refusjon : null}
+                    data-testid="ubehandlet-sykepengegrunnlag"
+                />
+            );
+        } else if (isInfotrygdVilkarsgrunnlag(vilkårsgrunnlag)) {
+            return (
+                <SykepengegrunnlagFraInfogtrygd
+                    vilkårsgrunnlag={vilkårsgrunnlag}
+                    organisasjonsnummer={arbeidsgiver.organisasjonsnummer}
+                    refusjon={isBeregnetPeriode(activePeriod) ? activePeriod.refusjon : null}
+                    arbeidsgivernavn={arbeidsgiver.navn}
+                    bransjer={arbeidsgiver.bransjer}
+                    arbeidsforhold={arbeidsgiver.arbeidsforhold}
+                    skjæringstidspunkt={activePeriod.skjaeringstidspunkt}
+                />
+            );
+        }
+    }
 
+    return null;
+};
+
+const SykepengegrunnlagSkeleton = () => {
+    return <div />;
+};
+
+const SykepengegrunnlagError = () => {
+    return <div />;
+};
+
+export const Sykepengegrunnlag = () => {
     return (
-        <Container className="Sykepengegrunnlag">
-            <AgurkErrorBoundary>
-                {vilkårsgrunnlag?.vilkårsgrunnlagtype === 'SPLEIS' ? (
-                    vurdering ? (
-                        <BehandletSykepengegrunnlag
-                            vurdering={vurdering}
-                            vilkårsgrunnlag={vilkårsgrunnlag as ExternalSpleisVilkårsgrunnlag}
-                            organisasjonsnummer={organisasjonsnummer}
-                            refusjon={refusjon}
-                        />
-                    ) : (
-                        <UbehandletSykepengegrunnlag
-                            vilkårsgrunnlag={vilkårsgrunnlag as ExternalSpleisVilkårsgrunnlag}
-                            organisasjonsnummer={organisasjonsnummer}
-                            refusjon={refusjon}
-                        />
-                    )
-                ) : (
-                    <SykepengegrunnlagFraInfogtrygd
-                        vilkårsgrunnlag={vilkårsgrunnlag as ExternalInfotrygdVilkårsgrunnlag}
-                        organisasjonsnummer={organisasjonsnummer}
-                    />
-                )}
-            </AgurkErrorBoundary>
-        </Container>
+        <React.Suspense fallback={<SykepengegrunnlagSkeleton />}>
+            <ErrorBoundary fallback={<SykepengegrunnlagError />}>
+                <SykepengegrunnlagContainer />
+            </ErrorBoundary>
+        </React.Suspense>
     );
 };
+
+export default Sykepengegrunnlag;

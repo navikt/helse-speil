@@ -1,81 +1,107 @@
-import styled from '@emotion/styled';
 import React, { useState } from 'react';
-
 import { BodyShort } from '@navikt/ds-react';
+import { Bag, People } from '@navikt/ds-icons';
 
-import { useArbeidsgivernavn, usePersonnavn, useVilkårsgrunnlaghistorikk } from '@state/person';
 import { somPenger } from '@utils/locale';
+import { useVilkårsgrunnlag } from '@state/person';
+import { Maybe, Personinfo, Simulering, Utbetaling, Utbetalingstatus } from '@io/graphql';
+import { AnonymizableTextWithEllipsis } from '@components/TextWithEllipsis';
+import { Bold } from '@components/Bold';
 
 import { CardTitle } from './CardTitle';
-import { Utbetalinger } from './Utbetalinger';
+import { ShowSimuleringButton } from './utbetaling/SimuleringsinfoPopup';
 
-import { useUtbetaling } from '../../../modell/utbetalingshistorikkelement';
+import styles from './UtbetalingCard.module.css';
 
-const Feilmelding = styled(BodyShort)`
-    color: var(--navds-color-text-error);
-    font-weight: 600;
-`;
+const isSimulering = (simulering?: Maybe<Simulering>): simulering is Simulering => {
+    return Array.isArray(simulering?.perioder);
+};
 
-const Grid = styled.div`
-    display: grid;
-    grid-template-columns: auto auto;
-    grid-column-gap: 0.5rem;
-    grid-row-gap: 0.125rem;
-    justify-items: flex-start;
-`;
-
-const Value = styled(BodyShort)`
-    justify-self: flex-end;
-`;
+const getFormattedName = (personinfo: Personinfo): string => {
+    return `${personinfo.fornavn} ${
+        personinfo.mellomnavn ? `${personinfo.mellomnavn} ${personinfo.etternavn}` : personinfo.etternavn
+    }`;
+};
 
 interface UtbetalingCardProps {
-    beregningId: string;
-    utbetalingsdagerTotalt: number;
-    ikkeUtbetaltEnda: boolean;
-    simulering?: Simuleringsdata;
+    fødselsnummer: string;
     skjæringstidspunkt: DateString;
-    vilkårsgrunnlaghistorikkId: UUID;
+    vilkårsgrunnlaghistorikkId: string;
+    antallUtbetalingsdager: number;
     organisasjonsnummer: string;
+    utbetaling: Utbetaling;
+    arbeidsgiver: string;
+    personinfo: Personinfo;
+    arbeidsgiversimulering?: Maybe<Simulering>;
+    personsimulering?: Maybe<Simulering>;
 }
 
 export const UtbetalingCard = ({
-    beregningId,
-    utbetalingsdagerTotalt,
-    ikkeUtbetaltEnda,
-    simulering,
+    fødselsnummer,
     skjæringstidspunkt,
     vilkårsgrunnlaghistorikkId,
+    antallUtbetalingsdager,
     organisasjonsnummer,
+    utbetaling,
+    arbeidsgiver,
+    personinfo,
+    arbeidsgiversimulering,
+    personsimulering,
 }: UtbetalingCardProps) => {
-    const vilkårsgrunnlaghistorikk = useVilkårsgrunnlaghistorikk(skjæringstidspunkt, vilkårsgrunnlaghistorikkId);
-    const [simuleringÅpen, setSimuleringÅpen] = useState(false);
+    const [simulering, setSimulering] = useState<Simulering | null>();
 
-    const { arbeidsgiverNettobeløp, personNettobeløp } = useUtbetaling(beregningId) ?? {
-        arbeidsgiverNettobeløp: 0,
-        personNettobeløp: 0,
-    };
-
-    const personnavn = usePersonnavn();
-    const arbeidsgivernavn = useArbeidsgivernavn(organisasjonsnummer);
+    const vilkårsgrunnlaghistorikk = useVilkårsgrunnlag(vilkårsgrunnlaghistorikkId, skjæringstidspunkt);
 
     return (
         <section>
             <CardTitle>TIL UTBETALING</CardTitle>
-            <Grid>
-                <BodyShort as="p">Sykepengegrunnlag</BodyShort>
-                <Value as="p">{somPenger(vilkårsgrunnlaghistorikk?.sykepengegrunnlag)}</Value>
-                <BodyShort as="p">Utbetalingsdager</BodyShort>
-                <Value as="p">{utbetalingsdagerTotalt}</Value>
-            </Grid>
-            <Utbetalinger
-                erUtbetalt={!ikkeUtbetaltEnda}
-                personNettobeløp={personNettobeløp ?? 0}
-                arbeidsgiverNettobeløp={arbeidsgiverNettobeløp ?? 0}
-                arbeidsgivernavn={arbeidsgivernavn ?? 'Arbeidsgiver'}
-                personnavn={personnavn}
-                simuleringsdata={simulering}
-            />
-            {!simulering && <Feilmelding as="p">Mangler simulering</Feilmelding>}
+            <div className={styles.Grid}>
+                <BodyShort>Sykepengegrunnlag</BodyShort>
+                <BodyShort>{somPenger(vilkårsgrunnlaghistorikk?.sykepengegrunnlag)}</BodyShort>
+                <BodyShort>Utbetalingsdager</BodyShort>
+                <BodyShort>{antallUtbetalingsdager}</BodyShort>
+            </div>
+            <div className={styles.TilUtbetaling}>
+                <div className={styles.Row}>
+                    <Bold>
+                        {utbetaling.status !== Utbetalingstatus.Ubetalt ? 'Utbetalt beløp' : 'Beløp til utbetaling'}
+                    </Bold>
+                    <Bold className={styles.Total}>
+                        {somPenger(utbetaling.arbeidsgiverNettoBelop + utbetaling.personNettoBelop)}
+                    </Bold>
+                </div>
+                <div className={styles.Row}>
+                    <Bag data-tip="Arbeidsgiver" title="Arbeidsgiver" />
+                    <AnonymizableTextWithEllipsis>{arbeidsgiver}</AnonymizableTextWithEllipsis>
+                    <BodyShort>{somPenger(utbetaling.arbeidsgiverNettoBelop)}</BodyShort>
+                </div>
+                {isSimulering(arbeidsgiversimulering) && (
+                    <ShowSimuleringButton
+                        data={arbeidsgiversimulering}
+                        utbetaling={utbetaling}
+                        personinfo={personinfo}
+                        fødselsnummer={fødselsnummer}
+                        className={styles.SimuleringButton}
+                    />
+                )}
+                <div className={styles.Row}>
+                    <People data-tip="Sykmeldt" title="Arbeidstaker" />
+                    <AnonymizableTextWithEllipsis>{getFormattedName(personinfo)}</AnonymizableTextWithEllipsis>
+                    <BodyShort>{somPenger(utbetaling.personNettoBelop)}</BodyShort>
+                </div>
+                {isSimulering(personsimulering) && (
+                    <ShowSimuleringButton
+                        data={personsimulering}
+                        utbetaling={utbetaling}
+                        personinfo={personinfo}
+                        fødselsnummer={fødselsnummer}
+                        className={styles.SimuleringButton}
+                    />
+                )}
+            </div>
+            {!arbeidsgiversimulering && !personsimulering && (
+                <BodyShort className={styles.ErrorMessage}>Mangler simulering</BodyShort>
+            )}
         </section>
     );
 };

@@ -3,7 +3,7 @@ import { gql, request } from 'graphql-request';
 import { FetchPersonQuery } from './generated/graphql';
 import { baseUrl, validFødselsnummer } from './common';
 
-import rawQuery from './fetchPersonQuery.graphql?raw';
+import rawQuery from './fetchPerson.graphql?raw';
 
 const fetchPersonQuery = gql`
     ${rawQuery}

@@ -1,0 +1,15 @@
+.ListItem {
+    display: flex;
+    align-items: flex-start;
+    line-height: 22px;
+    gap: 1rem;
+}
+
+.IconContainer {
+    display: flex;
+    flex-shrink: 0;
+    width: 16px;
+    height: 22px;
+    align-items: center;
+    justify-content: center;
+}

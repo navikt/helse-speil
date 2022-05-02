@@ -4,8 +4,6 @@ import { useFormContext } from 'react-hook-form';
 
 import { Button, ErrorSummary, ErrorSummaryItem, Textarea } from '@navikt/ds-react';
 
-import { UtbetalingstabellDag } from './Utbetalingstabell.types';
-
 const Container = styled.div`
     margin: 0 1rem;
 `;

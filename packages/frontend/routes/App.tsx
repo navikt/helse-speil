@@ -14,11 +14,11 @@ import { IkkeLoggetInn } from './IkkeLoggetInn';
 import { PageNotFound } from './PageNotFound';
 import { useAuthentication } from '@state/authentication';
 import { useEasterEggIsActive } from '@state/easterEgg';
-import { useIsLoadingPerson } from '@state/person';
 
 import './App.css';
 import { GlobalFeilside } from './GlobalFeilside';
 import { Routes } from './index';
+import { usePersonLoadable } from '@state/person';
 
 const Saksbilde = React.lazy(() => import('./saksbilde/Saksbilde'));
 const Oversikt = React.lazy(() => import('./oversikt'));
@@ -28,7 +28,7 @@ const GraphQLPlayground = React.lazy(() => import('./playground/GraphQLPlaygroun
 ReactModal.setAppElement('#root');
 
 const App = () => {
-    useLoadingToast({ isLoading: useIsLoadingPerson(), message: 'Henter person' });
+    useLoadingToast({ isLoading: usePersonLoadable().state === 'loading', message: 'Henter person' });
     useAuthentication();
 
     const easterEggIsActive = useEasterEggIsActive();
@@ -37,25 +37,29 @@ const App = () => {
         <ErrorBoundary fallback={GlobalFeilside}>
             <Header />
             <Varsler />
-            <React.Suspense fallback={<div />}>
-                <Switch>
-                    <Route path={Routes.Uautorisert}>
-                        <IkkeLoggetInn />
-                    </Route>
-                    <ProtectedRoute path={Routes.Oversikt} exact>
+            <Switch>
+                <Route path={Routes.Uautorisert}>
+                    <IkkeLoggetInn />
+                </Route>
+                <ProtectedRoute path={Routes.Oversikt} exact>
+                    <React.Suspense fallback={<div />}>
                         <Oversikt />
-                    </ProtectedRoute>
-                    <ProtectedRoute path={Routes.Saksbilde}>
+                    </React.Suspense>
+                </ProtectedRoute>
+                <ProtectedRoute path={Routes.Saksbilde}>
+                    <React.Suspense fallback={<div />}>
                         <Saksbilde />
-                    </ProtectedRoute>
-                    <ProtectedRoute path={Routes.Playground}>
+                    </React.Suspense>
+                </ProtectedRoute>
+                <ProtectedRoute path={Routes.Playground}>
+                    <React.Suspense fallback={<div />}>
                         <GraphQLPlayground />
-                    </ProtectedRoute>
-                    <Route path="*">
-                        <PageNotFound />
-                    </Route>
-                </Switch>
-            </React.Suspense>
+                    </React.Suspense>
+                </ProtectedRoute>
+                <Route path="*">
+                    <PageNotFound />
+                </Route>
+            </Switch>
             <Toasts />
             {easterEggIsActive('Agurk') && (
                 <React.Suspense fallback={null}>

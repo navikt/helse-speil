@@ -2,9 +2,10 @@ import amplitude from 'amplitude-js';
 import dayjs, { Dayjs } from 'dayjs';
 import React, { PropsWithChildren, useEffect } from 'react';
 
-import { useMaybeAktivPeriode, useVedtaksperiode } from '@state/tidslinje';
-
 import { amplitudeEnabled } from '@utils/featureToggles';
+import { useActivePeriod } from '@state/periode';
+import { getOppgavereferanse } from '@state/selectors/period';
+import { isBeregnetPeriode } from '@utils/typeguards';
 
 amplitudeEnabled &&
     amplitude?.getInstance().init('default', '', {
@@ -41,7 +42,7 @@ const removeÅpnetOppgaveTidspunkt = (oppgaveId: string): void => {
 
 const logEventCallback = (oppgaveId: string) => () => removeÅpnetOppgaveTidspunkt(oppgaveId);
 
-const useStoreÅpnetTidspunkt = (oppgavereferanse?: string) => {
+const useStoreÅpnetTidspunkt = (oppgavereferanse?: string | null) => {
     useEffect(() => {
         if (oppgavereferanse) {
             const åpnetTidspunkt = getÅpnetOppgaveTidspunkt(oppgavereferanse);
@@ -52,34 +53,38 @@ const useStoreÅpnetTidspunkt = (oppgavereferanse?: string) => {
     }, [oppgavereferanse]);
 };
 
-export const AmplitudeProvider: React.FC<PropsWithChildren<{}>> = ({ children }) => {
-    const aktivPeriode = useMaybeAktivPeriode();
-    if (aktivPeriode === undefined) throw Error('Mangler aktiv vedtaksperiode');
-    const vedtaksperiode = useVedtaksperiode(aktivPeriode?.id);
+export const _AmplitudeProvider: React.FC<PropsWithChildren<{}>> = ({ children }) => {
+    const activePeriod = useActivePeriod();
+    const oppgavereferanse = getOppgavereferanse(activePeriod);
 
-    useStoreÅpnetTidspunkt(vedtaksperiode?.oppgavereferanse);
+    useStoreÅpnetTidspunkt(oppgavereferanse);
 
-    const eventProperties = (åpnetTidspunkt: Dayjs, begrunnelser: string[] | undefined = undefined) => ({
-        varighet: dayjs().diff(åpnetTidspunkt),
-        type: vedtaksperiode?.periodetype,
-        inntektskilde: vedtaksperiode?.inntektskilde,
-        warnings: vedtaksperiode?.aktivitetslog,
-        antallWarnings: vedtaksperiode?.aktivitetslog.length,
-        begrunnelser: begrunnelser,
-    });
+    const eventProperties = (åpnetTidspunkt: Dayjs, begrunnelser: string[] | undefined = undefined) => {
+        if (isBeregnetPeriode(activePeriod)) {
+            return {
+                varighet: dayjs().diff(åpnetTidspunkt),
+                type: activePeriod.periodetype,
+                inntektskilde: activePeriod.inntektstype,
+                warnings: activePeriod.aktivitetslogg,
+                antallWarnings: activePeriod.aktivitetslogg.length,
+                begrunnelser: begrunnelser,
+            };
+        } else {
+            return {
+                varighet: dayjs().diff(åpnetTidspunkt),
+                begrunnelser: begrunnelser,
+            };
+        }
+    };
 
     const logEvent = (event: 'oppgave godkjent' | 'oppgave forkastet', begrunnelser?: string[]) => {
-        if (amplitudeEnabled && vedtaksperiode?.oppgavereferanse) {
-            const åpnetTidspunkt = getÅpnetOppgaveTidspunkt(vedtaksperiode.oppgavereferanse);
+        if (amplitudeEnabled && oppgavereferanse) {
+            const åpnetTidspunkt = getÅpnetOppgaveTidspunkt(oppgavereferanse);
 
             åpnetTidspunkt &&
                 amplitude
                     ?.getInstance()
-                    .logEvent(
-                        event,
-                        eventProperties(åpnetTidspunkt, begrunnelser),
-                        logEventCallback(vedtaksperiode.oppgavereferanse!)
-                    );
+                    .logEvent(event, eventProperties(åpnetTidspunkt, begrunnelser), logEventCallback(oppgavereferanse));
         }
     };
 
@@ -103,5 +108,13 @@ export const AmplitudeProvider: React.FC<PropsWithChildren<{}>> = ({ children })
         >
             {children}
         </AmplitudeContext.Provider>
+    );
+};
+
+export const AmplitudeProvider: React.FC = ({ children }) => {
+    return (
+        <React.Suspense fallback={<>{children}</>}>
+            <_AmplitudeProvider>{children}</_AmplitudeProvider>
+        </React.Suspense>
     );
 };

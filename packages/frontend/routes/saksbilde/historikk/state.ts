@@ -1,17 +1,20 @@
 import { useEffect } from 'react';
 import { atom, selector, useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
+import dayjs from 'dayjs';
 
 import { useNotaterForVedtaksperiode } from '@state/notater';
-import { useMaybeAktivPeriode, useVedtaksperiode } from '@state/tidslinje';
+import { useCurrentArbeidsgiver } from '@state/arbeidsgiver';
+import { GhostPeriode, Overstyring, Periode } from '@io/graphql';
+import { isGhostPeriode } from '@utils/typeguards';
 
 import { Hendelse, Hendelsetype } from './Historikk.types';
 import {
-    useArbeidsforholdendringer,
+    getUtbetalingshendelse,
+    useArbeidsforholdoverstyringshendelser,
+    useDagoverstyringshendelser,
     useDokumenter,
-    useInntektendringer,
+    useInntektsoverstyringshendelser,
     useNotater,
-    useTidslinjeendringer,
-    useUtbetalinger,
 } from './mapping';
 
 const historikkState = atom<Hendelse[]>({
@@ -19,7 +22,7 @@ const historikkState = atom<Hendelse[]>({
     default: [],
 });
 
-export const filterState = atom<Hendelsetype>({
+const filterState = atom<Hendelsetype>({
     key: 'filterState',
     default: Hendelsetype.Historikk,
 });
@@ -44,44 +47,52 @@ export const useHistorikk = () => useRecoilValue(historikk);
 export const useFilterState = () => useRecoilState(filterState);
 
 type UseOppdaterHistorikkOptions = {
+    periode: Periode | GhostPeriode;
     onClickNotat: () => void;
-    onClickTidslinjeendring: (overstyring: Overstyring) => void;
-    onClickInntektendring: (overstyring: ExternalInntektoverstyring) => void;
-    onClickArbeidsforholdendring: (overstyring: ExternalArbeidsforholdoverstyring) => void;
+    onClickOverstyringshendelse: (overstyring: Overstyring) => void;
+    vedtaksperiodeId?: string;
 };
 
 export const useOppdaterHistorikk = ({
+    vedtaksperiodeId,
+    periode,
     onClickNotat,
-    onClickTidslinjeendring,
-    onClickInntektendring,
-    onClickArbeidsforholdendring,
+    onClickOverstyringshendelse,
 }: UseOppdaterHistorikkOptions) => {
     const setHistorikk = useSetRecoilState(historikkState);
-    const aktivPeriode = useMaybeAktivPeriode();
-    const vedtaksperiode = useVedtaksperiode(aktivPeriode?.id);
-    const notaterForVedtaksperiode = useNotaterForVedtaksperiode(vedtaksperiode?.id);
+    const overstyringer = useCurrentArbeidsgiver()?.overstyringer ?? [];
 
+    const notaterForVedtaksperiode = useNotaterForVedtaksperiode(vedtaksperiodeId);
     const notater = useNotater(notaterForVedtaksperiode, onClickNotat);
-    const dokumenter = useDokumenter(vedtaksperiode);
-    const utbetalinger = useUtbetalinger(aktivPeriode);
-    const tidslinjeendringer = useTidslinjeendringer(onClickTidslinjeendring, vedtaksperiode);
-    const inntektoverstyringer = useInntektendringer(onClickInntektendring);
-    const arbeidsforholdoverstyringer = useArbeidsforholdendringer(onClickArbeidsforholdendring);
+    const dokumenter = useDokumenter(periode);
+    const utbetaling = getUtbetalingshendelse(periode);
+
+    const tidslinjeendringer = useDagoverstyringshendelser(onClickOverstyringshendelse, overstyringer);
+    const inntektoverstyringer = useInntektsoverstyringshendelser(onClickOverstyringshendelse, overstyringer);
+    const arbeidsforholdoverstyringer = useArbeidsforholdoverstyringshendelser(
+        onClickOverstyringshendelse,
+        overstyringer,
+    );
 
     useEffect(() => {
-        if (!aktivPeriode) return;
-        setHistorikk(
-            [...dokumenter, ...tidslinjeendringer, ...inntektoverstyringer, ...arbeidsforholdoverstyringer]
-                .filter((it) =>
-                    aktivPeriode.tilstand !== 'utenSykefravær'
-                        ? it.timestamp?.isSameOrBefore((aktivPeriode as TidslinjeperiodeMedSykefravær).opprettet)
-                        : true
-                )
-                .concat(utbetalinger)
-                .concat(notater)
-                .sort((a: Hendelse, b: Hendelse): number =>
-                    a.timestamp === undefined ? -1 : b.timestamp === undefined ? 1 : b.timestamp.diff(a.timestamp)
-                )
-        );
-    }, [aktivPeriode, notater]);
+        if (periode) {
+            setHistorikk(
+                [...dokumenter, ...tidslinjeendringer, ...inntektoverstyringer, ...arbeidsforholdoverstyringer]
+                    .filter(
+                        (it: Hendelse) =>
+                            isGhostPeriode(periode) ||
+                            (it.timestamp && dayjs(it.timestamp).isSameOrBefore(periode.opprettet)),
+                    )
+                    .concat(utbetaling ? [utbetaling] : [])
+                    .concat(notater)
+                    .sort((a: Hendelse, b: Hendelse): number =>
+                        typeof a.timestamp !== 'string'
+                            ? -1
+                            : typeof b.timestamp !== 'string'
+                            ? 1
+                            : dayjs(b.timestamp).diff(dayjs(a.timestamp)),
+                    ),
+            );
+        }
+    }, [periode, notater]);
 };

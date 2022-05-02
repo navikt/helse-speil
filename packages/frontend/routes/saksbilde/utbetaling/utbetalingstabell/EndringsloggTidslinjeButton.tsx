@@ -1,10 +1,10 @@
 import styled from '@emotion/styled';
 import React, { useRef, useState } from 'react';
-
 import { CaseworkerFilled } from '@navikt/ds-icons';
 
-import { EndringsloggOverstyrteDager } from '@components/EndringsloggOverstyrteDager';
+import { EndringsloggDager } from '@components/EndringsloggDager';
 import { useInteractOutside } from '@hooks/useInteractOutside';
+import { Dagoverstyring, Dagtype } from '@io/graphql';
 
 const Button = styled.button`
     position: relative;
@@ -19,7 +19,7 @@ const Button = styled.button`
 `;
 
 interface EndringsloggTidslinjeButtonProps extends React.HTMLAttributes<HTMLButtonElement> {
-    endringer: Dagoverstyring[];
+    endringer: Array<OverstyringerPrDag>;
 }
 
 export const EndringsloggTidslinjeButton: React.VFC<EndringsloggTidslinjeButtonProps> = ({
@@ -39,6 +39,10 @@ export const EndringsloggTidslinjeButton: React.VFC<EndringsloggTidslinjeButtonP
         onInteractOutside: close,
     });
 
+    if (endringer.length === 0) {
+        return null;
+    }
+
     return (
         <>
             <Button
@@ -50,7 +54,7 @@ export const EndringsloggTidslinjeButton: React.VFC<EndringsloggTidslinjeButtonP
             >
                 <CaseworkerFilled height={20} width={20} />
             </Button>
-            <EndringsloggOverstyrteDager endringer={endringer} isOpen={visEndringslogg} onRequestClose={close} />
+            <EndringsloggDager endringer={endringer} isOpen={visEndringslogg} onRequestClose={close} />
         </>
     );
 };

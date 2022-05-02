@@ -4,17 +4,17 @@ import { Endringstrekant } from '@components/Endringstrekant';
 
 import { Cell } from './Cell';
 
-const dagtypeIsValid = (type: Dag['type']): boolean =>
-    ['Helg', 'Arbeidsdag', 'Ferie', 'Permisjon'].every((it) => it !== type);
+const dagtypeIsValid = (type: Utbetalingstabelldagtype): boolean =>
+    ['Helg', 'Arbeid', 'Ferie', 'Permisjon'].every((it) => it !== type);
 
 interface TotalGradProps {
-    type: Dag['type'];
+    type: Utbetalingstabelldagtype;
     erOverstyrt?: boolean;
-    totalGradering?: number;
+    totalGradering?: Maybe<number>;
 }
 
 export const TotalGradCell = ({ type, erOverstyrt, totalGradering }: TotalGradProps) => {
-    const showTotalGradering = totalGradering !== undefined && totalGradering !== null && dagtypeIsValid(type);
+    const showTotalGradering = typeof totalGradering === 'number' && dagtypeIsValid(type);
 
     return (
         <Cell erOverstyrt={erOverstyrt}>

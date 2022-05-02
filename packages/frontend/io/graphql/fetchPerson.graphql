@@ -1,0 +1,329 @@
+fragment simulering on Simulering {
+    fagsystemId
+    totalbelop
+    tidsstempel
+    utbetalingslinjer {
+        fom
+        tom
+        dagsats
+        grad
+    }
+    perioder {
+        fom
+        tom
+        utbetalinger {
+            mottakerId
+            mottakerNavn
+            forfall
+            feilkonto
+            detaljer {
+                fom
+                tom
+                utbetalingstype
+                uforegrad
+                typeSats
+                tilbakeforing
+                sats
+                refunderesOrgNr
+                konto
+                klassekode
+                antallSats
+                belop
+                klassekodebeskrivelse
+            }
+        }
+    }
+}
+
+query FetchPerson($fnr: String, $aktorId: String) {
+    person(fnr: $fnr, aktorId: $aktorId) {
+        fodselsnummer
+        dodsdato
+        enhet {
+            id
+            navn
+        }
+        infotrygdutbetalinger {
+            organisasjonsnummer
+            dagsats
+            fom
+            tom
+            grad
+            typetekst
+        }
+        inntektsgrunnlag {
+            avviksprosent
+            grunnbelop
+            inntekter {
+                arbeidsgiver
+                omregnetArsinntekt {
+                    belop
+                    inntektFraAOrdningen {
+                        maned
+                        sum
+                    }
+                    kilde
+                    manedsbelop
+                }
+                sammenligningsgrunnlag {
+                    inntektFraAOrdningen {
+                        sum
+                        maned
+                    }
+                    belop
+                }
+                deaktivert
+            }
+            sammenligningsgrunnlag
+            omregnetArsinntekt
+            maksUtbetalingPerDag
+            oppfyllerKravOmMinstelonn
+            skjaeringstidspunkt
+            sykepengegrunnlag
+        }
+        personinfo {
+            fornavn
+            mellomnavn
+            etternavn
+            adressebeskyttelse
+            fodselsdato
+            kjonn
+        }
+        tildeling {
+            navn
+            epost
+            oid
+            reservert
+        }
+        versjon
+        vilkarsgrunnlaghistorikk {
+            id
+            grunnlag {
+                sykepengegrunnlag
+                skjaeringstidspunkt
+                omregnetArsinntekt
+                sammenligningsgrunnlag
+                inntekter {
+                    sammenligningsgrunnlag {
+                        belop
+                        inntektFraAOrdningen {
+                            maned
+                            sum
+                        }
+                    }
+                    omregnetArsinntekt {
+                        inntektFraAOrdningen {
+                            maned
+                            sum
+                        }
+                        belop
+                        manedsbelop
+                        kilde
+                    }
+                    arbeidsgiver
+                    deaktivert
+                }
+                vilkarsgrunnlagtype
+                ... on VilkarsgrunnlagSpleis {
+                    oppfyllerKravOmMinstelonn
+                    oppfyllerKravOmMedlemskap
+                    oppfyllerKravOmOpptjening
+                    antallOpptjeningsdagerErMinst
+                    grunnbelop
+                    opptjeningFra
+                }
+            }
+        }
+        aktorId
+        arbeidsgivere {
+            bransjer
+            navn
+            organisasjonsnummer
+            arbeidsforhold {
+                sluttdato
+                startdato
+                stillingsprosent
+                stillingstittel
+            }
+            ghostPerioder {
+                id
+                deaktivert
+                vilkarsgrunnlaghistorikkId
+                skjaeringstidspunkt
+                fom
+                tom
+                organisasjonsnummer
+            }
+            generasjoner {
+                id
+                perioder {
+                    fom
+                    tom
+                    behandlingstype
+                    erForkastet
+                    inntektstype
+                    opprettet
+                    periodetype
+                    tidslinje {
+                        dato
+                        grad
+                        kilde {
+                            id
+                            type
+                        }
+                        sykdomsdagtype
+                        utbetalingsdagtype
+                        utbetalingsinfo {
+                            arbeidsgiverbelop
+                            inntekt
+                            personbelop
+                            refusjonsbelop
+                            totalGrad
+                            utbetaling
+                        }
+                        begrunnelser
+                    }
+                    vedtaksperiodeId
+                    ... on UberegnetPeriode {
+                        id
+                    }
+                    ... on BeregnetPeriode {
+                        id
+                        aktivitetslogg {
+                            alvorlighetsgrad
+                            melding
+                            tidsstempel
+                            vedtaksperiodeId
+                        }
+                        beregningId
+                        forbrukteSykedager
+                        gjenstaendeSykedager
+                        hendelser {
+                            id
+                            type
+                            ... on Inntektsmelding {
+                                beregnetInntekt
+                                mottattDato
+                            }
+                            ... on Sykmelding {
+                                fom
+                                tom
+                                rapportertDato
+                            }
+                            ... on SoknadNav {
+                                fom
+                                tom
+                                rapportertDato
+                                sendtNav
+                            }
+                            ... on SoknadArbeidsgiver {
+                                fom
+                                tom
+                                rapportertDato
+                                sendtArbeidsgiver
+                            }
+                        }
+                        maksdato
+                        periodevilkar {
+                            alder {
+                                alderSisteSykedag
+                                oppfylt
+                            }
+                            soknadsfrist {
+                                oppfylt
+                                sendtNav
+                                soknadFom
+                                soknadTom
+                            }
+                            sykepengedager {
+                                forbrukteSykedager
+                                gjenstaendeSykedager
+                                maksdato
+                                oppfylt
+                                skjaeringstidspunkt
+                            }
+                        }
+                        risikovurdering {
+                            funn {
+                                beskrivelse
+                                kategori
+                            }
+                            kontrollertOk {
+                                beskrivelse
+                                kategori
+                            }
+                        }
+                        skjaeringstidspunkt
+                        utbetaling {
+                            id,
+                            arbeidsgiverFagsystemId
+                            arbeidsgiverNettoBelop
+                            personFagsystemId
+                            personNettoBelop
+                            status
+                            type
+                            vurdering {
+                                automatisk
+                                godkjent
+                                ident
+                                tidsstempel
+                            }
+                            arbeidsgiversimulering {
+                                ...simulering
+                            }
+                            personsimulering {
+                                ...simulering
+                            }
+                        }
+                        varsler
+                        vilkarsgrunnlaghistorikkId
+                        refusjon {
+                            sisteRefusjonsdag
+                            forsteFravaersdag
+                            endringer {
+                                dato
+                                belop
+                            }
+                            arbeidsgiverperioder {
+                                fom
+                                tom
+                            }
+                            belop
+                        }
+                        oppgavereferanse
+                        tilstand
+                    }
+                }
+            }
+            overstyringer {
+                begrunnelse
+                hendelseId
+                saksbehandler {
+                    ident
+                    navn
+                }
+                timestamp
+                __typename
+                ... on Dagoverstyring {
+                    dager {
+                        grad
+                        dato
+                        type
+                    }
+                }
+                ... on Inntektoverstyring {
+                    inntekt {
+                        skjaeringstidspunkt
+                        forklaring
+                        manedligInntekt
+                    }
+                }
+                ... on Arbeidsforholdoverstyring {
+                    deaktivert
+                    skjaeringstidspunkt
+                    forklaring
+                }
+            }
+        }
+    }
+}

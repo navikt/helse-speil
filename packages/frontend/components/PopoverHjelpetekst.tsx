@@ -21,18 +21,18 @@ const Ikon = styled.div`
     cursor: pointer;
 `;
 
-interface PopoverHjelpetekstProps extends Pick<PopoverProps, 'offset'> {
+interface PopoverHjelpetekstProps extends Pick<PopoverProps, 'offset'>, React.HTMLAttributes<HTMLDivElement> {
     ikon: ReactNode;
 }
 
-export const PopoverHjelpetekst: React.FC<PopoverHjelpetekstProps> = ({ children, ikon, ...rest }) => {
+export const PopoverHjelpetekst: React.FC<PopoverHjelpetekstProps> = ({ children, ikon, offset, ...divProps }) => {
     const ref = useRef<HTMLDivElement>(null);
     const [anchor, setAnchor] = useState<HTMLDivElement | null>(null);
 
     const close = () => setAnchor(null);
 
     return (
-        <div>
+        <div {...divProps}>
             <Ikon
                 ref={ref}
                 onClick={() => {
@@ -41,7 +41,7 @@ export const PopoverHjelpetekst: React.FC<PopoverHjelpetekstProps> = ({ children
             >
                 {ikon}
             </Ikon>
-            <StyledPopover open={anchor !== null} anchorEl={anchor} {...rest} onClose={close} placement="top">
+            <StyledPopover open={anchor !== null} anchorEl={anchor} offset={offset} onClose={close} placement="top">
                 {children}
             </StyledPopover>
         </div>

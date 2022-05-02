@@ -1,0 +1,27 @@
+.Content {
+    grid-area: content;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    margin-bottom: 4rem;
+}
+
+.RouteContainer {
+    padding: 2rem;
+    overflow-x: scroll;
+    box-sizing: border-box;
+}
+
+.Error {
+    grid-column-start: venstremeny;
+    grid-column-end: høyremeny;
+}
+
+.Skeleton {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    grid-column-start: venstremeny;
+    grid-column-end: høyremeny;
+}

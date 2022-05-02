@@ -2,7 +2,7 @@ import React from 'react';
 
 import { Vilkårdata } from '../../../../mapping/vilkår';
 
-import { tilNorskDato } from '@utils/date';
+import { getFormattedDateString } from '@utils/date';
 import { AutomatiskVurdering } from '@components/AutomatiskVurdering';
 import { Saksbehandlervurdering } from '@components/Saksbehandlervurdering';
 
@@ -34,7 +34,7 @@ export const VurdertISpleis = ({
     erForlengelse,
 }: VurdertISpleisProps) => {
     const tittel = erForlengelse
-        ? `Vilkår vurdert ved skjæringstidspunkt - ${tilNorskDato(skjæringstidspunkt)}`
+        ? `Vilkår vurdert ved skjæringstidspunkt - ${getFormattedDateString(skjæringstidspunkt)}`
         : 'Vilkår vurdert denne perioden';
 
     return automatiskBehandlet ? (

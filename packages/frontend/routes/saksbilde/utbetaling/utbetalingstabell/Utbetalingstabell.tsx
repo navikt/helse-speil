@@ -1,55 +1,29 @@
-import styled from '@emotion/styled';
-import { Dayjs } from 'dayjs';
 import React, { useMemo } from 'react';
-
+import classNames from 'classnames';
 import { Bag, People } from '@navikt/ds-icons';
 
 import { Flex } from '@components/Flex';
 import { Tooltip } from '@components/Tooltip';
-import { NORSK_DATOFORMAT } from '@utils/date';
+import { getFormattedDateString } from '@utils/date';
+import { useAlderVedSkjæringstidspunkt } from '@hooks/useAlderVedSkjæringstidspunkt';
 
-import { Header } from '../../table/Header';
 import { Row } from '../../table/Row';
-import { DagtypeCell } from './DagtypeCell';
+import { Header } from '../../table/Header';
 import { DateCell } from './DateCell';
-import { GjenståendeDagerCell } from './GjenståendeDagerCell';
 import { GradCell } from './GradCell';
+import { TotalRow } from './TotalRow';
 import { KildeCell } from './KildeCell';
+import { DagtypeCell } from './DagtypeCell';
 import { MerknaderCell } from './MerknaderCell';
 import { TotalGradCell } from './TotalGradCell';
-import { TotalRow } from './TotalRow';
 import { UtbetalingCell } from './UtbetalingCell';
-import { UtbetalingstabellDag } from './Utbetalingstabell.types';
+import { GjenståendeDagerCell } from './GjenståendeDagerCell';
 
-const Container = styled.section<{ overstyrer: boolean }>`
-    display: flex;
-    overflow-x: auto;
-    padding-left: ${(props) => (props.overstyrer ? '3rem' : '2rem')};
-`;
-
-export const Table = styled.table`
-    flex: 1;
-    white-space: nowrap;
-`;
-
-const TabellContainer = styled.div`
-    display: flex;
-    flex: 1;
-    width: 400px;
-    height: max-content;
-
-    > table {
-        overflow-y: hidden;
-    }
-
-    * {
-        box-sizing: border-box;
-    }
-`;
+import styles from './Utbetalingstabell.module.css';
 
 interface UtbetalingstabellProps {
-    fom: Dayjs;
-    tom: Dayjs;
+    fom: DateString;
+    tom: DateString;
     dager: Map<string, UtbetalingstabellDag>;
     lokaleOverstyringer?: Map<string, UtbetalingstabellDag>;
     markerteDager?: Map<string, UtbetalingstabellDag>;
@@ -64,16 +38,20 @@ export const Utbetalingstabell = ({
     markerteDager,
     overstyrer = false,
 }: UtbetalingstabellProps) => {
-    const label = `Utbetalinger for sykmeldingsperiode fra ${fom.format(NORSK_DATOFORMAT)} til ${tom.format(
-        NORSK_DATOFORMAT
-    )}`;
+    const formattedFom = getFormattedDateString(fom);
+    const formattedTom = getFormattedDateString(tom);
 
-    const dagerList: [string, UtbetalingstabellDag][] = useMemo(() => Array.from(dager.entries()), [dager]);
+    const dagerList: Array<UtbetalingstabellDag> = useMemo(() => Array.from(dager.values()), [dager]);
+
+    const alderVedSkjæringstidspunkt = useAlderVedSkjæringstidspunkt();
 
     return (
-        <Container overstyrer={overstyrer}>
-            <TabellContainer>
-                <Table aria-label={label}>
+        <section className={classNames(styles.Container, overstyrer && styles.overstyrer)}>
+            <div className={styles.TableContainer}>
+                <table
+                    className={styles.Table}
+                    aria-label={`Utbetalinger for sykmeldingsperiode fra ${formattedFom} til ${formattedTom}`}
+                >
                     <thead>
                         <tr>
                             <Header scope="col" colSpan={1}>
@@ -111,48 +89,51 @@ export const Utbetalingstabell = ({
                     </thead>
                     <tbody>
                         {dagerList.length > 0 && <TotalRow dager={dagerList} overstyrer={overstyrer} />}
-                        {dagerList.map(([key, dag], i) => (
-                            <Row type={dag.type} key={i} markertDag={markerteDager?.get(key)}>
+                        {dagerList.map((dag, i) => (
+                            <Row
+                                erAvvist={dag.erAvvist}
+                                erAGP={dag.erAGP}
+                                type={dag.type}
+                                key={i}
+                                markertDag={markerteDager?.get(dag.dato)}
+                            >
                                 <DateCell date={dag.dato} />
-                                <DagtypeCell
-                                    typeUtbetalingsdag={dag.type}
-                                    typeSykdomsdag={dag.sykdomsdag.type}
-                                    overstyrtDag={lokaleOverstyringer?.get(key)}
-                                />
-                                <GradCell
-                                    type={dag.type}
-                                    grad={dag.sykdomsdag.grad ?? dag.gradering}
-                                    overstyrtDag={lokaleOverstyringer?.get(key)}
-                                />
+                                <DagtypeCell dag={dag} overstyrtDag={lokaleOverstyringer?.get(dag.dato)} />
+                                <GradCell dag={dag} overstyrtDag={lokaleOverstyringer?.get(dag.dato)} />
                                 <KildeCell
-                                    type={dag.sykdomsdag.type}
-                                    kilde={dag.sykdomsdag.kilde}
+                                    dato={dag.dato}
+                                    type={dag.type}
+                                    kilde={dag.kilde.type}
                                     overstyringer={dag.overstyringer}
                                 />
                                 <TotalGradCell
                                     type={dag.type}
                                     totalGradering={dag.totalGradering}
-                                    erOverstyrt={!!lokaleOverstyringer?.get(key)}
+                                    erOverstyrt={!!lokaleOverstyringer?.get(dag.dato)}
                                 />
                                 <UtbetalingCell
                                     utbetaling={dag.arbeidsgiverbeløp}
-                                    erOverstyrt={!!lokaleOverstyringer?.get(key)}
+                                    erOverstyrt={!!lokaleOverstyringer?.get(dag.dato)}
                                 />
                                 <UtbetalingCell
                                     utbetaling={dag.personbeløp}
-                                    erOverstyrt={!!lokaleOverstyringer?.get(key)}
+                                    erOverstyrt={!!lokaleOverstyringer?.get(dag.dato)}
                                 />
                                 <GjenståendeDagerCell
                                     gjenståendeDager={dag.dagerIgjen}
-                                    erOverstyrt={!!lokaleOverstyringer?.get(key)}
+                                    erOverstyrt={!!lokaleOverstyringer?.get(dag.dato)}
                                 />
-                                <MerknaderCell style={{ width: '100%' }} dag={dag} isMaksdato={dag.isMaksdato} />
+                                <MerknaderCell
+                                    style={{ width: '100%' }}
+                                    dag={dag}
+                                    alderVedSkjæringstidspunkt={alderVedSkjæringstidspunkt}
+                                />
                             </Row>
                         ))}
                     </tbody>
-                </Table>
-            </TabellContainer>
+                </table>
+            </div>
             <Tooltip id="utbetalingstabell" />
-        </Container>
+        </section>
     );
 };

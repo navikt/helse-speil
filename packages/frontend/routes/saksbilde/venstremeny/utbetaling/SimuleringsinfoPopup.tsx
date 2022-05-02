@@ -1,83 +1,70 @@
-import { LinkButton } from '@components/LinkButton';
-import { AnonymizableContainer } from '@components/anonymizable/AnonymizableContainer';
-import { AnonymizableText } from '@components/anonymizable/AnonymizableText';
-import styled from '@emotion/styled';
-import { getFormatertNavn, usePerson } from '@state/person';
-import { useAktivPeriode, useVedtaksperiode } from '@state/tidslinje';
-import { NORSK_DATOFORMAT } from '@utils/date';
-import { somPenger } from '@utils/locale';
-import dayjs from 'dayjs';
-import React, { CSSProperties } from 'react';
+import React from 'react';
 import ReactDOM from 'react-dom';
-
+import classNames from 'classnames';
 import { BodyShort, Heading } from '@navikt/ds-react';
 
+import { somPenger } from '@utils/locale';
+import { getFormatertNavn } from '@utils/string';
+import { getFormattedDateString } from '@utils/date';
+import { Personinfo, Simulering, Simuleringsdetaljer, Simuleringsutbetaling, Utbetaling } from '@io/graphql';
+import { AnonymizableContainer } from '@components/anonymizable/AnonymizableContainer';
+import { AnonymizableText } from '@components/anonymizable/AnonymizableText';
+import { LinkButton } from '@components/LinkButton';
+
 import styles from './SimuleringsinfoPopupInnhold.module.css';
-
-const formaterDato = (forfall: string) => dayjs(forfall).format(NORSK_DATOFORMAT);
-
-const SimuleringButton = styled(LinkButton)`
-    margin-top: -0.25rem;
-    margin-bottom: 0.25rem;
-    width: max-content;
-`;
 
 interface UtbetalingsvisningProps {
     utbetaling: Simuleringsutbetaling;
     index: number;
 }
 
-const Utbetalingsvisning = ({ utbetaling, index }: UtbetalingsvisningProps) => (
+const Utbetalingsvisning: React.VFC<UtbetalingsvisningProps> = ({ utbetaling, index }) => (
     <React.Fragment>
         {index > 0 && <div className={styles.TomLinje} />}
         <BodyShort>Utbetales til ID</BodyShort>
-        <AnonymizableText>{utbetaling.utbetalesTilId}</AnonymizableText>
+        <AnonymizableText>{utbetaling.mottakerId}</AnonymizableText>
         <BodyShort>Utbetales til navn</BodyShort>
-        <AnonymizableText>{utbetaling.utbetalesTilNavn}</AnonymizableText>
+        <AnonymizableText>{utbetaling.mottakerNavn}</AnonymizableText>
         <BodyShort>Forfall</BodyShort>
-        <BodyShort>{formaterDato(utbetaling.forfall)}</BodyShort>
+        <BodyShort>{getFormattedDateString(utbetaling.forfall)}</BodyShort>
         <BodyShort>Feilkonto</BodyShort>
         <BodyShort>{utbetaling.feilkonto ? 'Ja' : 'Nei'}</BodyShort>
-        {utbetaling.detaljer.map((detalj: Simuleringsutbetalingdetalj, index: number) => (
+        {utbetaling.detaljer.map((detalj: Simuleringsdetaljer, index: number) => (
             <Utbetalingsdetaljvisning detalj={detalj} index={index} key={`detalj-${index}`} />
         ))}
     </React.Fragment>
 );
 
 interface UtbetalingsdetaljvisningProps {
-    detalj: Simuleringsutbetalingdetalj;
+    detalj: Simuleringsdetaljer;
     index: number;
 }
 
-const Utbetalingsdetaljvisning = ({ detalj, index }: UtbetalingsdetaljvisningProps) => (
+const Utbetalingsdetaljvisning: React.VFC<UtbetalingsdetaljvisningProps> = ({ detalj, index }) => (
     <React.Fragment>
         {index > 0 && <div className={styles.TomLinje} />}
         <BodyShort>Faktisk fom</BodyShort>
-        <BodyShort>{formaterDato(detalj.faktiskFom)}</BodyShort>
+        <BodyShort>{getFormattedDateString(detalj.fom)}</BodyShort>
         <BodyShort>Faktisk tom</BodyShort>
-        <BodyShort>{formaterDato(detalj.faktiskTom)}</BodyShort>
+        <BodyShort>{getFormattedDateString(detalj.tom)}</BodyShort>
         <BodyShort>Sats</BodyShort>
-        <BodyShort className={detalj.sats < 0 ? styles.NegativtBeløp : ''} as="p">
-            {somPenger(detalj.sats)}
-        </BodyShort>
+        <BodyShort className={detalj.sats < 0 ? styles.NegativtBeløp : ''}>{somPenger(detalj.sats)}</BodyShort>
         <BodyShort>Antall sats</BodyShort>
         <BodyShort>{detalj.antallSats}</BodyShort>
         <BodyShort>Type sats</BodyShort>
         <BodyShort>{detalj.typeSats}</BodyShort>
         <BodyShort>Beløp</BodyShort>
-        <BodyShort className={detalj.belop < 0 ? styles.NegativtBeløp : ''} as="p">
-            {somPenger(detalj.belop)}
-        </BodyShort>
+        <BodyShort className={detalj.belop < 0 ? styles.NegativtBeløp : ''}>{somPenger(detalj.belop)}</BodyShort>
         <BodyShort>Konto</BodyShort>
         <AnonymizableText>{detalj.konto}</AnonymizableText>
         <BodyShort>Klassekode</BodyShort>
         <BodyShort>{detalj.klassekode}</BodyShort>
         <BodyShort>Klassekodebeskrivelse</BodyShort>
-        <BodyShort>{detalj.klassekodeBeskrivelse}</BodyShort>
+        <BodyShort>{detalj.klassekodebeskrivelse}</BodyShort>
         <BodyShort>Uføregrad</BodyShort>
         <BodyShort>{detalj.uforegrad}</BodyShort>
         <BodyShort>Utbetalingstype</BodyShort>
-        <BodyShort>{detalj.utbetalingsType}</BodyShort>
+        <BodyShort>{detalj.utbetalingstype}</BodyShort>
         <BodyShort>Refunderes orgnummer</BodyShort>
         <AnonymizableText>{detalj.refunderesOrgNr}</AnonymizableText>
         <BodyShort>Tilbakeføring</BodyShort>
@@ -92,7 +79,7 @@ interface SimuleringsPopupProps {
     navn: string;
 }
 
-const SimuleringsinfoPopupInnhold = ({ simulering, utbetalingId, fnr, navn }: SimuleringsPopupProps) => (
+const SimuleringsinfoPopupInnhold: React.VFC<SimuleringsPopupProps> = ({ simulering, utbetalingId, fnr, navn }) => (
     <div className={styles.Ramme}>
         <Heading as="h1" size="medium">
             Simulering
@@ -102,15 +89,17 @@ const SimuleringsinfoPopupInnhold = ({ simulering, utbetalingId, fnr, navn }: Si
                 {navn} ({fnr})
             </Heading>
         </AnonymizableContainer>
-        {simulering.perioder.map((periode, index) => (
+        {simulering.perioder?.map((periode, index) => (
             <div className={styles.Grid} key={`periode-${index}`}>
                 <div className={styles.TomLinje} />
-                <BodyShort as="p">Periode</BodyShort>
-                <BodyShort as="p">{`${formaterDato(periode.fom)} - ${formaterDato(periode.tom)}`}</BodyShort>
+                <BodyShort>Periode</BodyShort>
+                <BodyShort>{`${getFormattedDateString(periode.fom)} - ${getFormattedDateString(
+                    periode.tom,
+                )}`}</BodyShort>
                 <div className={styles.TomLinje} />
                 <BodyShort>Totalbeløp simulering</BodyShort>
-                <BodyShort className={simulering.totalbeløp < 0 ? styles.NegativtBeløp : ''} as="p">
-                    {somPenger(simulering.totalbeløp)}
+                <BodyShort className={(simulering.totalbelop ?? 0) < 0 ? styles.NegativtBeløp : ''}>
+                    {somPenger(simulering.totalbelop)}
                 </BodyShort>
                 <div className={styles.TomLinje} />
                 {periode.utbetalinger.map((utbetaling, index) => (
@@ -121,56 +110,90 @@ const SimuleringsinfoPopupInnhold = ({ simulering, utbetalingId, fnr, navn }: Si
 
         <div className={styles.Grid}>
             <div className={styles.TomLinje} />
-            <BodyShort as="p">UtbetalingId</BodyShort>
-            <BodyShort as="p">{utbetalingId}</BodyShort>
+            <BodyShort>UtbetalingId</BodyShort>
+            <BodyShort>{utbetalingId}</BodyShort>
         </div>
     </div>
 );
 
-const visSimuleringINyttVindu = (data: Simulering, utbetalingId: string, fnr: string, navn: string) => {
-    const container = document.createElement('div');
-
-    ReactDOM.render(
-        React.createElement(SimuleringsinfoPopupInnhold, { simulering: data, utbetalingId, fnr, navn }, null),
-        container
-    );
-
-    const popup = window.open(
-        '',
-        '_blank',
-        'scrollbars=no, resizable=no, status=no, location=no, toolbar=no, menubar=no, width=600, height=900'
-    );
-
-    const html = document.querySelector('html')!;
-    const anonymymiseringsstiler = html.getAttribute('style');
-    popup!.document.querySelector('html')!.setAttribute('style', anonymymiseringsstiler ?? '');
-
-    // Dette funker ikke med vanlig dev-bygg fordi stilene ikke blir hentet som ressurser. Hvis man vil teste lokalt kan man bygge frontend med 'vite build', og åpne speil på port 3000.
-    Array.from(document.head.querySelectorAll('head link'))
-        .map((node) => node.cloneNode() as HTMLLinkElement)
-        .filter((link) => link.rel === 'stylesheet')
-        .forEach((stil) => {
-            const href = stil.getAttribute('href')!;
-            if (!href.startsWith('http')) {
-                stil.setAttribute('href', document.location.origin + href);
-            }
-            popup!.document.head.appendChild(stil);
-        });
-
-    popup!.document.body.innerHTML = container.innerHTML;
-    popup!.document.title = 'Simulering';
+type CopyStyleAttributeOptions = {
+    selector: string;
+    from: WindowProxy;
+    to: WindowProxy;
 };
 
-export const NyttVinduSimuleringKnapp = ({ data, style }: { data: Simulering; style: CSSProperties }) => {
-    const aktivPeriode = useAktivPeriode();
-    const utbetalingId = useVedtaksperiode(aktivPeriode.id)?.utbetaling?.utbetalingId ?? 'Ukjent';
-    const person = usePerson();
-    if (!person) return null;
-    const fnr = person.fødselsnummer;
-    const navn = getFormatertNavn(person.personinfo);
+const copyStyleAttribute = ({ selector, from, to }: CopyStyleAttributeOptions): void => {
+    const sourceStyle = from.document.querySelector(selector)?.getAttribute('style');
+
+    if (sourceStyle) {
+        to.document.querySelector(selector)?.setAttribute('style', sourceStyle);
+    }
+};
+
+type CopyStylesheetsOptions = {
+    from: WindowProxy;
+    to: WindowProxy;
+};
+
+const isStylesheetLink = (node: Node): node is HTMLLinkElement => {
+    return (node as HTMLLinkElement).rel === 'stylesheet';
+};
+
+// Dette funker ikke med vanlig dev-bygg fordi stilene ikke blir hentet som ressurser.
+// Hvis man vil teste lokalt kan man bygge frontend med 'vite build' og åpne speil på port 3000.
+const copyStylesheets = ({ from, to }: CopyStylesheetsOptions) => {
+    const linkNodes = from.document.head.querySelectorAll('head link');
+
+    for (const node of linkNodes) {
+        if (isStylesheetLink(node)) {
+            const copy = node.cloneNode() as HTMLLinkElement;
+            const href = copy.getAttribute('href');
+
+            if (!href?.startsWith('http')) {
+                copy.setAttribute('href', from.document.location.origin + href);
+            }
+
+            to.document.head.appendChild(copy);
+        }
+    }
+};
+
+const visSimuleringINyttVindu = (data: Simulering, utbetalingId: string, fnr: string, navn: string) => {
+    const popup: WindowProxy = window.open('', '_blank', 'width=600, height=900') as WindowProxy;
+
+    popup.document.title = 'Simulering';
+
+    copyStyleAttribute({ from: window, to: popup, selector: 'html' });
+    copyStylesheets({ from: window, to: popup });
+
+    ReactDOM.render(
+        <SimuleringsinfoPopupInnhold simulering={data} utbetalingId={utbetalingId} fnr={fnr} navn={navn} />,
+        popup.document.body,
+    );
+};
+
+interface ShowSimuleringButtonProps extends Omit<React.HTMLAttributes<HTMLAnchorElement>, 'children'> {
+    data: Simulering;
+    personinfo: Personinfo;
+    utbetaling: Utbetaling;
+    fødselsnummer: string;
+}
+
+export const ShowSimuleringButton: React.VFC<ShowSimuleringButtonProps> = ({
+    data,
+    personinfo,
+    utbetaling,
+    fødselsnummer,
+    className,
+    ...anchorProps
+}) => {
     return (
-        <SimuleringButton style={style} onClick={() => visSimuleringINyttVindu(data, utbetalingId, fnr, navn)}>
+        <LinkButton
+            onClick={() => visSimuleringINyttVindu(data, utbetaling.id, fødselsnummer, getFormatertNavn(personinfo))}
+            className={classNames(styles.SimuleringButton, className)}
+            {...anchorProps}
+        >
             Simulering
-        </SimuleringButton>
+        </LinkButton>
     );
 };

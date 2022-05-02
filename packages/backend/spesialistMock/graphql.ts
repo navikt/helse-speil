@@ -26,8 +26,6 @@ const fetchPersondata = (): Record<string, JSON> => {
     }, {});
 };
 
-const persondata = fetchPersondata();
-
 const oppdrag = [
     {
         type: 'UTBETALING',
@@ -130,7 +128,7 @@ const oppdrag = [
 const getResolvers = (): IResolvers => ({
     Query: {
         person: (_, { fnr, aktorId }: { fnr?: string; aktorId?: string }) => {
-            return persondata[fnr ?? aktorId ?? ''];
+            return fetchPersondata()[fnr ?? aktorId ?? ''];
         },
         oppdrag: (_, { fnr }: { fnr: string }) => {
             return oppdrag;
@@ -143,7 +141,7 @@ const getResolvers = (): IResolvers => ({
     },
     Vilkarsgrunnlag: {
         __resolveType: (grunnlag: { grunnbelop?: number }) => {
-            return grunnlag.grunnbelop !== null ? 'VilkarsgrunnlagSpleis' : 'VilkarsgrunnlagInfotrygd';
+            return typeof grunnlag.grunnbelop === 'number' ? 'VilkarsgrunnlagSpleis' : 'VilkarsgrunnlagInfotrygd';
         },
     },
     Hendelse: {
@@ -165,8 +163,12 @@ const getResolvers = (): IResolvers => ({
         },
     },
     Overstyring: {
-        __resolveType: (overstyring: { dager?: Array<object> }) => {
-            return overstyring.dager ? 'Dagoverstyring' : 'Inntektoverstyring';
+        __resolveType: (overstyring: { dager?: Array<object>; inntekt?: object }) => {
+            return overstyring.dager
+                ? 'Dagoverstyring'
+                : overstyring.inntekt
+                ? 'Inntektoverstyring'
+                : 'Arbeidsforholdoverstyring';
         },
     },
 });

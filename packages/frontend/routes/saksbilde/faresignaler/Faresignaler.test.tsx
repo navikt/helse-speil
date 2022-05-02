@@ -2,7 +2,7 @@ import '@testing-library/jest-dom/extend-expect';
 import { render, screen } from '@testing-library/react';
 import React from 'react';
 
-import { Faresignaler } from './Faresignaler';
+import { Faresignaler, FaresignalerWithContent } from './Faresignaler';
 
 describe('Faresignaler', () => {
     test('rendrer Faresignaler oppdaget og kontrollert', async () => {
@@ -27,7 +27,7 @@ describe('Faresignaler', () => {
                 },
             ],
         };
-        render(<Faresignaler risikovurdering={enRisikovurdering} />);
+        render(<FaresignalerWithContent risikovurdering={enRisikovurdering} />);
         expect(screen.queryByText('Faresignaler oppdaget')).toBeVisible();
         expect(screen.queryByText('Faresignaler kontrollert')).toBeVisible();
         expect(screen.queryAllByText('Går alltid med solbriller')).toHaveLength(1);
@@ -40,7 +40,7 @@ describe('Faresignaler', () => {
             kontrollertOk: [],
             funn: [],
         };
-        render(<Faresignaler risikovurdering={enRisikovurdering} />);
+        render(<FaresignalerWithContent risikovurdering={enRisikovurdering} />);
         expect(screen.queryByText('Faresignaler oppdaget')).toBeNull();
         expect(screen.queryByText('Faresignaler kontrollert')).toBeNull();
         expect(screen.queryAllByText('Går alltid med solbriller')).toHaveLength(0);

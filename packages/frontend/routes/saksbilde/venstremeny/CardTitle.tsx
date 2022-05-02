@@ -10,10 +10,10 @@ const Title = styled(BodyShort)`
     align-items: center;
     margin-bottom: 0.25rem;
     letter-spacing: 0.4px;
-    color: #59514b;
+    color: var(--navds-color-gray-60);
 
     a {
-        color: inherit;
+        color: var(--navds-color-gray-60);
 
         &:hover {
             text-decoration: none;

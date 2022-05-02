@@ -1,12 +1,11 @@
 import styled from '@emotion/styled';
-import React from 'react';
-
+import React, { ReactNode } from 'react';
 import { BodyShort } from '@navikt/ds-react';
 
 import { Endringstrekant } from '@components/Endringstrekant';
+import { Dagtype, Sykdomsdagtype, Utbetalingsdagtype } from '@io/graphql';
 
 import { CellContent } from '../../table/CellContent';
-import { IconAnnullert } from '../../table/icons/IconAnnullert';
 import { IconArbeidsdag } from '../../table/icons/IconArbeidsdag';
 import { IconArbeidsgiverperiode } from '../../table/icons/IconArbeidsgiverperiode';
 import { IconEgenmelding } from '../../table/icons/IconEgenmelding';
@@ -14,7 +13,6 @@ import { IconFailure } from '../../table/icons/IconFailure';
 import { IconFerie } from '../../table/icons/IconFerie';
 import { IconPermisjon } from '../../table/icons/IconPermisjon';
 import { IconSyk } from '../../table/icons/IconSyk';
-import { UtbetalingstabellDag } from './Utbetalingstabell.types';
 
 const IconContainer = styled.div`
     width: 1rem;
@@ -24,72 +22,141 @@ const IconContainer = styled.div`
     flex-shrink: 0;
 `;
 
-const dagtypeIcon = (type: Dag['type']) => {
-    switch (type) {
+const getTypeIcon = (dag: UtbetalingstabellDag): ReactNode => {
+    if (dag.erForeldet || dag.erAvvist) {
+        return <IconFailure />;
+    }
+    if (dag.erAGP) {
+        return <IconArbeidsgiverperiode />;
+    }
+
+    // Mangler annullert dag
+    switch (dag.type) {
         case 'Syk':
             return <IconSyk />;
         case 'Ferie':
             return <IconFerie />;
-        case 'Avslått':
-        case 'Foreldet':
-            return <IconFailure />;
         case 'Egenmelding':
             return <IconEgenmelding />;
-        case 'Arbeidsdag':
-            return <IconArbeidsdag />;
-        case 'Arbeidsgiverperiode':
-            return <IconArbeidsgiverperiode />;
-        case 'Annullert':
-            return <IconAnnullert />;
         case 'Permisjon':
             return <IconPermisjon />;
-        case 'Ubestemt':
+        case 'Arbeid':
+            return <IconArbeidsdag />;
         case 'Helg':
+        case 'Ukjent':
         default:
             return null;
     }
 };
 
-const textForType = (typeUtbetalingsdag: Dag['type'], typeSykdomsdag: Dag['type']): string => {
-    if (typeUtbetalingsdag === typeSykdomsdag) {
-        return typeUtbetalingsdag;
-    } else {
-        switch (typeUtbetalingsdag) {
-            case 'Avslått':
-                return `${typeSykdomsdag} (Avslått)`;
-            case 'Foreldet':
-                return `${typeSykdomsdag} (Foreldet)`;
-            case 'Arbeidsgiverperiode':
-                return `${typeSykdomsdag} (AGP)`;
-            default:
-                return typeSykdomsdag;
-        }
+const daytypesAreEqual = (
+    utbetalingsdagtype: Utbetalingsdagtype,
+    overstyrtDagtype: Utbetalingstabelldagtype
+): boolean => {
+    switch (utbetalingsdagtype) {
+        case Utbetalingsdagtype.Arbeidsdag:
+            return overstyrtDagtype === 'Arbeid';
+        case Utbetalingsdagtype.Feriedag:
+            return overstyrtDagtype === 'Ferie';
+        case Utbetalingsdagtype.Navhelgdag:
+        case Utbetalingsdagtype.Helgedag:
+            return overstyrtDagtype === 'Helg';
+        case Utbetalingsdagtype.Navdag:
+            return overstyrtDagtype === 'Syk';
+        case Utbetalingsdagtype.UkjentDag:
+            return overstyrtDagtype === 'Ukjent';
+        default:
+            return false;
     }
 };
 
-interface DagtypeCellProps extends React.HTMLAttributes<HTMLTableDataCellElement> {
-    typeUtbetalingsdag: Dag['type'];
-    typeSykdomsdag: Dag['type'];
+const getDisplayTextForUtbetalingsdagtype = (type: Utbetalingsdagtype): string => {
+    switch (type) {
+        case Utbetalingsdagtype.Arbeidsdag:
+            return 'Arbeidsdag';
+        case Utbetalingsdagtype.Arbeidsgiverperiodedag:
+            return 'Arbeidsgiverperiodedag';
+        case Utbetalingsdagtype.AvvistDag:
+            return 'Avvist';
+        case Utbetalingsdagtype.Feriedag:
+            return 'Ferie';
+        case Utbetalingsdagtype.ForeldetDag:
+            return 'Foreldet';
+        case Utbetalingsdagtype.Helgedag:
+        case Utbetalingsdagtype.Navhelgdag:
+            return 'Helg';
+        case Utbetalingsdagtype.Navdag:
+            return 'Syk';
+        case Utbetalingsdagtype.UkjentDag:
+            return 'Ukjent';
+    }
+};
+
+const getDisplayTextForSykdomsdagtype = (type: Sykdomsdagtype): string => {
+    switch (type) {
+        case Sykdomsdagtype.Arbeidsdag:
+            return 'Arbeidsdag';
+        case Sykdomsdagtype.Arbeidsgiverdag:
+            return 'Arbeidsgiverdag';
+        case Sykdomsdagtype.Avslatt:
+            return 'Avvist';
+        case Sykdomsdagtype.Feriedag:
+            return 'Ferie';
+        case Sykdomsdagtype.ForeldetSykedag:
+            return 'Foreldet';
+        case Sykdomsdagtype.SykHelgedag:
+        case Sykdomsdagtype.FriskHelgedag:
+            return 'Helg';
+        case Sykdomsdagtype.Permisjonsdag:
+            return 'Permisjon';
+        case Sykdomsdagtype.Sykedag:
+            return 'Syk';
+        case Sykdomsdagtype.Ubestemtdag:
+            return 'Ukjent';
+    }
+};
+
+const getDisplayText = (dag?: UtbetalingstabellDag): string | null => {
+    if (!dag) {
+        return null;
+    } else if (dag.erAvvist) {
+        return `${dag.type} (Avslått)`;
+    } else if (dag.erAGP) {
+        return `${dag.type} (AGP)`;
+    } else if (dag.erForeldet) {
+        return `${dag.type} (Foreldet)`;
+    } else {
+        return dag.type;
+    }
+};
+
+const getDisplayTextForOverstyrtDagtype = (type: Dagtype): string => {
+    switch (type) {
+        case Dagtype.Egenmeldingsdag:
+            return 'Egenmelding';
+        case Dagtype.Feriedag:
+            return 'Ferie';
+        case Dagtype.Permisjonsdag:
+            return 'Permisjon';
+        case Dagtype.Sykedag:
+            return 'Syk';
+    }
+};
+
+interface DagtypeCellProps extends React.HTMLAttributes<HTMLTableCellElement> {
+    dag: UtbetalingstabellDag;
     overstyrtDag?: UtbetalingstabellDag;
 }
 
-export const DagtypeCell: React.FC<DagtypeCellProps> = ({
-    typeUtbetalingsdag,
-    typeSykdomsdag,
-    overstyrtDag,
-    ...rest
-}) => {
-    const text = textForType(typeUtbetalingsdag, overstyrtDag?.type ?? typeSykdomsdag);
-    const type = ['Avvist', 'Foreldet'].includes(typeUtbetalingsdag)
-        ? typeUtbetalingsdag
-        : overstyrtDag?.type ?? typeSykdomsdag;
-    const dagtypeErOverstyrt = overstyrtDag && overstyrtDag.type !== typeUtbetalingsdag;
+export const DagtypeCell: React.FC<DagtypeCellProps> = ({ dag, overstyrtDag, ...rest }) => {
+    const text = getDisplayText(overstyrtDag) ?? getDisplayText(dag);
+    const dagtypeErOverstyrt = overstyrtDag && dag.type !== overstyrtDag.type;
 
     return (
         <td {...rest}>
-            {dagtypeErOverstyrt && <Endringstrekant text={`Endret fra ${typeUtbetalingsdag}`} />}
+            {dagtypeErOverstyrt && <Endringstrekant text={`Endret fra ${dag.type}`} />}
             <CellContent>
-                <IconContainer>{dagtypeIcon(type)}</IconContainer>
+                <IconContainer>{getTypeIcon(dag)}</IconContainer>
                 <BodyShort>{text}</BodyShort>
             </CellContent>
         </td>

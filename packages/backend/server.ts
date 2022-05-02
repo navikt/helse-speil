@@ -113,6 +113,7 @@ const setUpAuthentication = () => {
                     }
                 });
                 res.clearCookie('speil');
+                res.clearCookie('speil');
                 res.sendStatus(err.statusCode);
             });
     });

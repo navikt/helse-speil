@@ -1,91 +1,90 @@
 import React, { useState } from 'react';
-import styled from '@emotion/styled';
 import { useHistory } from 'react-router';
 import { useSetRecoilState } from 'recoil';
 
-import { postAbonnerPåAktør } from '@io/http';
-import { usePerson } from '@state/person';
-import { opptegnelsePollingTimeState } from '@state/opptegnelser';
-import { harOppgave, useOppgavereferanse } from '@state/tidslinje';
 import { ErrorMessage } from '@components/ErrorMessage';
+import { postAbonnerPåAktør } from '@io/http';
+import { BeregnetPeriode, Periodetilstand, Person } from '@io/graphql';
+import { opptegnelsePollingTimeState } from '@state/opptegnelser';
+import { isBeregnetPeriode } from '@utils/typeguards';
+import { getPeriodState } from '@utils/mapping';
+import { isRevurdering } from '@utils/period';
 
 import { AvvisningButton } from './AvvisningButton';
 import { GodkjenningButton } from './GodkjenningButton';
-import { useUtbetaling } from '../../../../modell/utbetalingshistorikkelement';
 
-const Buttons = styled.div`
-    display: flex;
-    gap: 1rem;
-`;
+import styles from './Utbetaling.module.css';
 
 const skalPolleEtterNestePeriode = (person: Person) =>
     person.arbeidsgivere
-        .flatMap((arbeidsgiver: Arbeidsgiver) =>
-            arbeidsgiver.vedtaksperioder.flatMap(
-                (vedtaksperiode: Vedtaksperiode | UfullstendigVedtaksperiode) => vedtaksperiode.tilstand
-            )
-        )
-        .some((tilstand) => tilstand === 'venterPåKiling');
+        .flatMap((arbeidsgiver) => arbeidsgiver.generasjoner[0].perioder)
+        .some((periode) => isBeregnetPeriode(periode) && periode.tilstand === Periodetilstand.VenterPaKiling);
 
-interface UtbetalingProps {
-    aktivPeriode: TidslinjeperiodeMedSykefravær;
-}
+const hasOppgave = (period: BeregnetPeriode): boolean =>
+    typeof period.oppgavereferanse === 'string' && ['oppgaver', 'revurderes'].includes(getPeriodState(period));
 
-export const Utbetaling = ({ aktivPeriode }: UtbetalingProps) => {
-    const person = usePerson();
+const useOnGodkjenn = (period: BeregnetPeriode, person: Person): (() => void) => {
     const history = useHistory();
-    const utbetaling = useUtbetaling(aktivPeriode.beregningId);
-    const oppgavereferanse = useOppgavereferanse(aktivPeriode.beregningId);
     const setOpptegnelsePollingTime = useSetRecoilState(opptegnelsePollingTimeState);
-    const [error, setError] = useState<SpeilError | null>();
-
-    if (!person || !(harOppgave(aktivPeriode) && oppgavereferanse)) return null;
-
-    const erRevurdering = aktivPeriode.type === 'REVURDERING';
-    const harArbeidsgiverutbetaling = utbetaling?.arbeidsgiverNettobeløp
-        ? utbetaling.arbeidsgiverNettobeløp !== 0
-        : false;
-    const harBrukerutbetaling = utbetaling?.personNettobeløp ? utbetaling.personNettobeløp !== 0 : false;
-
-    const navigerTilOversikten = () => history.push('/');
 
     const onGodkjennUtbetaling = () => {
-        if (skalPolleEtterNestePeriode(person) || erRevurdering) {
-            postAbonnerPåAktør(person.aktørId).then(() => {
+        if (skalPolleEtterNestePeriode(person) || isRevurdering(period)) {
+            postAbonnerPåAktør(person.aktorId).then(() => {
                 setOpptegnelsePollingTime(1000);
             });
         } else {
-            navigerTilOversikten();
+            history.push('/');
         }
     };
 
-    const captureError = (error: Error) => setError(error);
+    return onGodkjennUtbetaling;
+};
+
+const useOnAvvis = (): (() => void) => {
+    const history = useHistory();
+    return () => history.push('/');
+};
+
+interface UtbetalingProps {
+    activePeriod: BeregnetPeriode;
+    currentPerson: Person;
+}
+
+export const Utbetaling = ({ activePeriod, currentPerson }: UtbetalingProps) => {
+    const [error, setError] = useState<SpeilError | null>();
+    const onGodkjennUtbetaling = useOnGodkjenn(activePeriod, currentPerson);
+    const onAvvisUtbetaling = useOnAvvis();
+
+    if (!hasOppgave(activePeriod)) return null;
+
+    const isRevurdering = activePeriod.utbetaling.type === 'REVURDERING';
+    const harArbeidsgiverutbetaling = activePeriod.utbetaling.arbeidsgiverNettoBelop !== 0;
+    const harBrukerutbetaling = activePeriod.utbetaling.personNettoBelop !== 0;
 
     return (
         <>
-            <Buttons>
+            <div className={styles.Buttons}>
                 <GodkjenningButton
-                    oppgavereferanse={oppgavereferanse}
-                    aktørId={person.aktørId}
+                    oppgavereferanse={activePeriod.oppgavereferanse!}
+                    aktørId={currentPerson.aktorId}
                     onSuccess={onGodkjennUtbetaling}
-                    onError={captureError}
+                    onError={setError}
                 >
-                    {erRevurdering
+                    {isRevurdering
                         ? 'Revurder'
                         : harArbeidsgiverutbetaling || harBrukerutbetaling
                         ? 'Utbetal'
                         : 'Godkjenn'}
                 </GodkjenningButton>
-                {!erRevurdering && (
+                {!isRevurdering && (
                     <AvvisningButton
-                        aktivPeriode={aktivPeriode}
-                        oppgavereferanse={oppgavereferanse}
-                        aktørId={person.aktørId}
-                        onSuccess={navigerTilOversikten}
-                        onError={captureError}
+                        activePeriod={activePeriod}
+                        aktørId={currentPerson.aktorId}
+                        onSuccess={onAvvisUtbetaling}
+                        onError={setError}
                     />
                 )}
-            </Buttons>
+            </div>
             {error && (
                 <ErrorMessage>
                     {error.message || 'En feil har oppstått.'}

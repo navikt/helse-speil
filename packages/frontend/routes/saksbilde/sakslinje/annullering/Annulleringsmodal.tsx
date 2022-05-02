@@ -15,6 +15,7 @@ import { somPenger } from '@utils/locale';
 
 import { Annulleringsbegrunnelse } from './Annulleringsbegrunnelse';
 import { Annulleringsvarsel } from './Annulleringsvarsel';
+import { Utbetalingslinje } from '@io/graphql';
 
 const ModalContainer = styled(Modal)`
     max-width: 48rem;
@@ -64,7 +65,7 @@ interface AnnulleringsmodalProps {
     aktørId: string;
     organisasjonsnummer: string;
     fagsystemId: string;
-    linjer: ExternalOppdragUtbetalingslinje[];
+    linjer: Array<Utbetalingslinje>;
     onClose: () => void;
     onSuccess?: () => void;
 }
@@ -157,7 +158,7 @@ export const Annulleringsmodal = ({
                                 <li key={index}>
                                     {dayjs(linje.fom).format(NORSK_DATOFORMAT)} -{' '}
                                     {dayjs(linje.tom).format(NORSK_DATOFORMAT)}
-                                    {linje.totalbeløp ? ` - ${somPenger(linje.totalbeløp)}` : null}
+                                    {linje.totalbelop ? ` - ${somPenger(linje.totalbelop)}` : null}
                                 </li>
                             ))}
                         </ul>

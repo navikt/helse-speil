@@ -5,7 +5,6 @@ import React from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 
 import { OverstyringForm } from './OverstyringForm';
-import { UtbetalingstabellDag } from './Utbetalingstabell.types';
 
 const FormWrapper: React.FC = ({ children }) => {
     const form = useForm();
@@ -31,7 +30,7 @@ describe('OverstyringForm', () => {
             <OverstyringForm overstyrteDager={overstyrteDager} toggleOverstyring={() => null} onSubmit={() => null} />,
             {
                 wrapper: FormWrapper,
-            }
+            },
         );
 
         expect(screen.getAllByRole('button')[0]).not.toBeDisabled();

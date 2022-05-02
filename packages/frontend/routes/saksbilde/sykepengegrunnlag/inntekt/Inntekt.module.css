@@ -1,0 +1,58 @@
+.Inntekt {
+    position: relative;
+    box-sizing: border-box;
+    margin-bottom: 24px;
+}
+
+.Inntekt.editing {
+    background-color: var(--speil-background-secondary);
+    border-left: 4px solid var(--navds-color-action-default);
+    padding: 0.5rem 1rem;
+}
+
+.Inntekt.deaktivert {
+    margin-right: 1rem;
+    margin-top: 2rem;
+    margin-bottom: 48px;
+}
+
+.Inntekt.deaktivert:before {
+    --margin: -32px;
+    content: '';
+    position: absolute;
+    background-color: var(--nav-ghost-deaktivert-bakgrunn);
+    border: 1px solid var(--nav-ghost-deaktivert-border);
+    top: var(--margin);
+    right: var(--margin);
+    bottom: var(--margin);
+    left: var(--margin);
+    z-index: -1;
+}
+
+.Inntekt.deaktivert:after {
+    --margin: -32px;
+    content: 'Brukes ikke i beregningen';
+    position: absolute;
+    background-color: var(--nav-ghost-deaktivert-pille-bakgrunn);
+    border: 1px solid var(--nav-ghost-deaktivert-pille-border);
+    padding: 5px 10px;
+    border-radius: 4px;
+    top: var(--margin);
+    transform: translateY(-50%);
+}
+
+.Header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 0.5rem;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.Header > div > * {
+    margin-right: 0.5rem;
+}
+
+.Header.editing {
+    justify-content: space-between;
+}

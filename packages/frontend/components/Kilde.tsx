@@ -1,37 +1,38 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import React from 'react';
+import { Inntektskilde, Kildetype } from '@io/graphql';
 
 interface KildeProps {
-    type?: Sykdomsdag['kilde'];
+    type?: Kildetype | Inntektskilde | 'AINNTEKT';
 }
 
 const ainntektStyle = (props: KildeProps) =>
-    props.type === 'Ainntekt' &&
+    props.type === 'AINNTEKT' &&
     css`
         background-color: #cce2f0;
     `;
 
 const aordningenStyle = (props: KildeProps) =>
-    props.type === 'Aordningen' &&
+    props.type === Inntektskilde.Aordningen &&
     css`
         background-color: #ccf1d6;
     `;
 
 const sykmeldingStyle = (props: KildeProps) =>
-    props.type === 'Sykmelding' &&
+    props.type === Kildetype.Sykmelding &&
     css`
         background-color: #d8f9ff;
     `;
 
 const søknadStyle = (props: KildeProps) =>
-    props.type === 'Søknad' &&
+    props.type === Kildetype.Soknad &&
     css`
         background-color: #e0dae7;
     `;
 
 const inntektsmeldingStyle = (props: KildeProps) =>
-    props.type === 'Inntektsmelding' &&
+    props.type === Kildetype.Inntektsmelding &&
     css`
         background-color: #ecefcc;
     `;

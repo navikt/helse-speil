@@ -1,0 +1,37 @@
+.Grid {
+    display: grid;
+    grid-template-columns: 220px auto;
+    grid-column-gap: 1rem;
+    grid-row-gap: 0.25rem;
+}
+
+.Grid > p:nth-child(2n) {
+    text-align: right;
+    white-space: nowrap;
+}
+
+.Title {
+    font-size: 14px;
+    color: var(--navds-color-text-disabled);
+}
+
+.Divider {
+    border: none;
+    border-bottom: 1px solid #b7b1a9;
+    grid-column-start: 1;
+    grid-column-end: 3;
+    margin: 12px 0 12px 0;
+}
+
+.InfoIcon {
+    min-height: 24px;
+    margin-left: 1rem;
+}
+
+.ArbeidsforholdInfoText {
+    display: flex;
+    margin-top: 32px;
+    font-size: 14px;
+    line-height: 20px;
+    gap: 1rem;
+}

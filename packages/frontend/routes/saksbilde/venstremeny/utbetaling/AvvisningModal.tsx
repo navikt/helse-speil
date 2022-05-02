@@ -1,14 +1,15 @@
-import styled from '@emotion/styled';
 import React from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
-
-import { Button, Loader, Heading } from '@navikt/ds-react';
+import { Button, Heading, Loader } from '@navikt/ds-react';
 
 import { Modal } from '@components/Modal';
+import { BeregnetPeriode } from '@io/graphql';
 
 import { Begrunnelsesskjema } from './Begrunnelsesskjema';
 
-export enum Årsak {
+import styles from './AvvisningModal.module.css';
+
+enum Årsak {
     Feil = 'Feil vurdering og/eller beregning',
     InfotrygdRiktig = 'Allerede behandlet i infotrygd - riktig vurdering',
     InfotrygdFeil = 'Allerede behandlet i infotrygd - feil vurdering og/eller beregning',
@@ -24,29 +25,14 @@ export type Avvisningsskjema = {
     kommentar?: string;
 };
 
-const OkKnapp = styled(Button)`
-    margin-top: 2rem;
-    width: max-content;
-    margin-right: 1rem;
-`;
-
-const AvbrytKnapp = styled(Button)`
-    margin-top: 2rem;
-    width: max-content;
-`;
-
-const StyledModal = styled(Modal)`
-    padding: 2.25rem 4.25rem;
-`;
-
 interface AvvisningModalProps {
-    aktivPeriode: TidslinjeperiodeMedSykefravær;
+    activePeriod: BeregnetPeriode;
     isSending: boolean;
     onApprove: (skjema: Avvisningsskjema) => void;
     onClose: () => void;
 }
 
-export const AvvisningModal = ({ aktivPeriode, isSending, onApprove, onClose }: AvvisningModalProps) => {
+export const AvvisningModal = ({ activePeriod, isSending, onApprove, onClose }: AvvisningModalProps) => {
     const form = useForm();
     const kommentar = form.watch('kommentar');
     const begrunnelser = form.watch(`begrunnelser`);
@@ -76,7 +62,8 @@ export const AvvisningModal = ({ aktivPeriode, isSending, onApprove, onClose }: 
     };
 
     return (
-        <StyledModal
+        <Modal
+            className={styles.AvvisningModal}
             isOpen
             title={
                 <Heading as="h2" size="large">
@@ -88,18 +75,18 @@ export const AvvisningModal = ({ aktivPeriode, isSending, onApprove, onClose }: 
         >
             <FormProvider {...form}>
                 <form onSubmit={form.handleSubmit(submit)}>
-                    <Begrunnelsesskjema aktivPeriode={aktivPeriode} />
-                    <div>
-                        <OkKnapp as="button" disabled={isSending}>
+                    <Begrunnelsesskjema activePeriod={activePeriod} />
+                    <div className={styles.Buttons}>
+                        <Button disabled={isSending}>
                             Kan ikke behandles her
                             {isSending && <Loader size="xsmall" />}
-                        </OkKnapp>
-                        <AvbrytKnapp as="button" variant="secondary" onClick={onClose}>
+                        </Button>
+                        <Button variant="secondary" onClick={onClose}>
                             Avbryt
-                        </AvbrytKnapp>
+                        </Button>
                     </div>
                 </form>
             </FormProvider>
-        </StyledModal>
+        </Modal>
     );
 };

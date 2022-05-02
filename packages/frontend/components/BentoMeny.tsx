@@ -4,10 +4,10 @@ import React, { useState } from 'react';
 import { ExternalLink, SystemFilled } from '@navikt/ds-icons';
 import { BodyShort, Popover } from '@navikt/ds-react';
 
-import { usePerson } from '@state/person';
-
 import { Button } from './Button';
-import { DropdownMenyknapp } from './dropdown/Dropdown';
+import { DropdownButton } from './dropdown';
+import { useCurrentPerson } from '@state/person';
+import { Person } from '@io/graphql';
 
 const Container = styled.div`
     display: flex;
@@ -49,7 +49,7 @@ const Tittel = styled(BodyShort)`
     padding: 4px 16px 16px;
 `;
 
-const MenyLenke = styled(DropdownMenyknapp)`
+const MenyLenke = styled(DropdownButton)`
     display: flex;
     align-items: center;
     color: var(--navds-color-text-link);
@@ -73,7 +73,7 @@ interface BentoLenkeProps {
 
 interface ArbeidOgInntektRedirectLenkeProps {
     url: string;
-    person: Person | undefined;
+    person?: Maybe<Person>;
 }
 
 const BentoLenke: React.FC<BentoLenkeProps> = ({ href, children }) => (
@@ -85,7 +85,7 @@ const BentoLenke: React.FC<BentoLenkeProps> = ({ href, children }) => (
 
 const ArbeidOgInntektRedirigerLenke: React.FC<ArbeidOgInntektRedirectLenkeProps> = ({ url, person, children }) =>
     person ? (
-        <MenyLenke onClick={() => redirigerTilArbeidOgInntektUrl(url, person.fødselsnummer)}>
+        <MenyLenke onClick={() => redirigerTilArbeidOgInntektUrl(url, person.fodselsnummer)}>
             {children}
             <ExternalLink />
         </MenyLenke>
@@ -108,9 +108,9 @@ const redirigerTilArbeidOgInntektUrl = (url: string, fødselsnummer: string) => 
         .catch(() => window.open('https://arbeid-og-inntekt.nais.adeo.no/api/v2/redirect/error'));
 };
 
-export const BentoMeny = () => {
+export const BentoMenyContent = () => {
     const [anchor, setAnchor] = useState<HTMLElement | null>(null);
-    const person = usePerson();
+    const person = useCurrentPerson();
 
     const arbeidOgInntektLinks: { tekst: string; url: string }[] = [
         {
@@ -127,18 +127,18 @@ export const BentoMeny = () => {
         {
             tekst: 'Gosys',
             href: person
-                ? `https://gosys.intern.nav.no/gosys/personoversikt/fnr=${person.fødselsnummer}`
+                ? `https://gosys.intern.nav.no/gosys/personoversikt/fnr=${person.fodselsnummer}`
                 : 'https://gosys.intern.nav.no/gosys/',
         },
         {
             tekst: 'Modia Personoversikt',
             href: person
-                ? `https://app.adeo.no/modiapersonoversikt/person/${person.fødselsnummer}`
+                ? `https://app.adeo.no/modiapersonoversikt/person/${person.fodselsnummer}`
                 : 'https://app.adeo.no/modiapersonoversikt',
         },
         {
             tekst: 'Modia Sykefraværsoppfølging',
-            href: `https://syfomodiaperson.intern.nav.no/sykefravaer/${person ? person.fødselsnummer : ''}`,
+            href: `https://syfomodiaperson.intern.nav.no/sykefravaer/${person ? person.fodselsnummer : ''}`,
         },
         { tekst: 'Oppdrag', href: 'https://wasapp.adeo.no/oppdrag/venteregister/details.htm' },
         { tekst: 'Folketrygdloven kapittel 8', href: 'https://lovdata.no/nav/folketrygdloven/kap8' },
@@ -176,5 +176,13 @@ export const BentoMeny = () => {
                 ))}
             </Popover>
         </Container>
+    );
+};
+
+export const BentoMeny: React.VFC = () => {
+    return (
+        <React.Suspense fallback={null}>
+            <BentoMenyContent />
+        </React.Suspense>
     );
 };

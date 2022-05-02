@@ -5,14 +5,16 @@ import React from 'react';
 import { Bag } from '@navikt/ds-icons';
 import { BodyShort } from '@navikt/ds-react';
 
-import { EndringsloggInntektEllerArbeidsforholdButton } from '../utbetaling/utbetalingstabell/EndringsloggInntektEllerArbeidsforholdButton';
-
 import { Kilde } from '@components/Kilde';
 import { Errorikon } from '@components/ikoner/Errorikon';
 import { AnonymizableText } from '@components/anonymizable/AnonymizableText';
+import { useArbeidsgiver, useEndringerForPeriode } from '@state/arbeidsgiver';
+import { Inntektskilde, OmregnetArsinntekt, Sammenligningsgrunnlag } from '@io/graphql';
+import { kildeForkortelse } from '@utils/inntektskilde';
 import { somPenger } from '@utils/locale';
-import { getKildeType, kilde } from '@utils/inntektskilde';
-import { useArbeidsgivernavn, useEndringerForPeriode } from '@state/person';
+
+import { EndringsloggButton } from './inntekt/EndringsloggButton';
+import { useCurrentPerson } from '@state/person';
 
 const ArbeidsgiverRad = styled.tr<{ erGjeldende: boolean }>`
     padding: 0.25rem;
@@ -64,15 +66,16 @@ const ErrorIcon = styled(Errorikon)`
     position: relative;
     top: 3px;
 `;
+
 const Loky = styled(AnonymizableText)`
     margin-top: 3px;
 `;
 
 interface InntektssammenligningProps {
     organisasjonsnummer: string;
-    omregnetÅrsinntekt: ExternalOmregnetÅrsinntekt | null;
-    sammenligningsgrunnlag: number | null;
-    arbeidsforholdErDeaktivert: boolean | null;
+    omregnetÅrsinntekt?: Maybe<OmregnetArsinntekt>;
+    sammenligningsgrunnlag?: Maybe<Sammenligningsgrunnlag>;
+    arbeidsforholdErDeaktivert?: Maybe<boolean>;
     erGjeldende: boolean;
     onSetAktivInntektskilde: () => void;
 }
@@ -85,7 +88,7 @@ export const Inntektssammenligning = ({
     erGjeldende,
     onSetAktivInntektskilde,
 }: InntektssammenligningProps) => {
-    const arbeidsgivernavn = useArbeidsgivernavn(organisasjonsnummer);
+    const arbeidsgivernavn = useArbeidsgiver(organisasjonsnummer)?.navn;
     const { inntektsendringer, arbeidsforholdendringer } = useEndringerForPeriode(organisasjonsnummer);
 
     return (
@@ -103,26 +106,21 @@ export const Inntektssammenligning = ({
             <td>
                 <InntektMedKilde>
                     {!arbeidsforholdErDeaktivert && (
-                        <BodyShort>{omregnetÅrsinntekt ? somPenger(omregnetÅrsinntekt.beløp) : '_'}</BodyShort>
+                        <BodyShort>{omregnetÅrsinntekt ? somPenger(omregnetÅrsinntekt.belop) : '_'}</BodyShort>
                     )}
-                    {omregnetÅrsinntekt?.kilde === 'Saksbehandler' || arbeidsforholdErDeaktivert ? (
-                        <EndringsloggInntektEllerArbeidsforholdButton
-                            arbeidsforholdendringer={arbeidsforholdendringer}
-                            inntektsendringer={inntektsendringer}
-                        />
+                    {omregnetÅrsinntekt?.kilde === Inntektskilde.Saksbehandler || arbeidsforholdErDeaktivert ? (
+                        <EndringsloggButton endringer={[...inntektsendringer, ...arbeidsforholdendringer]} />
                     ) : (
                         omregnetÅrsinntekt && (
-                            <Kilde type={getKildeType(omregnetÅrsinntekt.kilde)}>
-                                {kilde(omregnetÅrsinntekt.kilde)}
-                            </Kilde>
+                            <Kilde type={omregnetÅrsinntekt.kilde}>{kildeForkortelse(omregnetÅrsinntekt.kilde)}</Kilde>
                         )
                     )}
                 </InntektMedKilde>
             </td>
             <td>
                 <InntektMedKilde>
-                    <BodyShort>{somPenger(sammenligningsgrunnlag)}</BodyShort>
-                    <Kilde type="Aordningen">AO</Kilde>
+                    <BodyShort>{somPenger(sammenligningsgrunnlag?.belop)}</BodyShort>
+                    <Kilde type={Inntektskilde.Aordningen}>AO</Kilde>
                 </InntektMedKilde>
             </td>
         </ArbeidsgiverRad>
