@@ -67,9 +67,7 @@ export const InngangsvilkårWithContent = ({
                             erForlengelse={dayjs(periodeFom).isAfter(vilkårsgrunnlag.skjaeringstidspunkt)}
                         />
                     )}
-                    {vilkårVurdertIInfotrygd && vilkårVurdertIInfotrygd.length > 0 && (
-                        <VurdertIInfotrygd vilkår={vilkårVurdertIInfotrygd} />
-                    )}
+                    {harVilkår(vilkårVurdertIInfotrygd) && <VurdertIInfotrygd vilkår={vilkårVurdertIInfotrygd} />}
                     <div className={styles.Yrkesskadeinfo}>
                         <Yrkeskadeinfo />
                     </div>
