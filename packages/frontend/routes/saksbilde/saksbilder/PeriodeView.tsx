@@ -7,10 +7,11 @@ import { useActivePeriod } from '@state/periode';
 import { useCurrentPerson } from '@state/person';
 import { useCurrentArbeidsgiver } from '@state/arbeidsgiver';
 import { isBeregnetPeriode, isGhostPeriode, isUberegnetPeriode } from '@utils/typeguards';
+import { LazyLoadPendingError, onLazyLoadFail } from '@utils/error';
 
-const GhostPeriodeView = React.lazy(() => import('./GhostPeriodeView'));
-const UberegnetPeriodeView = React.lazy(() => import('./UberegnetPeriodeView'));
-const BeregnetPeriodeView = React.lazy(() => import('./BeregnetPeriodeView'));
+const GhostPeriodeView = React.lazy(() => import('./GhostPeriodeView').catch(onLazyLoadFail));
+const UberegnetPeriodeView = React.lazy(() => import('./UberegnetPeriodeView').catch(onLazyLoadFail));
+const BeregnetPeriodeView = React.lazy(() => import('./BeregnetPeriodeView').catch(onLazyLoadFail));
 
 import styles from './PeriodeView.module.css';
 
@@ -52,10 +53,18 @@ const PeriodeViewSkeleton = () => {
     );
 };
 
-const PeriodeViewError: React.FC<ChildrenProps> = ({ children }) => {
+interface PeriodeViewErrorProps {
+    error: Error;
+}
+
+const PeriodeViewError: React.FC<PeriodeViewErrorProps> = ({ error }) => {
+    if (error instanceof LazyLoadPendingError) {
+        return <PeriodeViewSkeleton />;
+    }
+
     return (
         <Varsel variant="feil" className={styles.Error}>
-            {children}
+            {error.message}
         </Varsel>
     );
 };
@@ -63,7 +72,7 @@ const PeriodeViewError: React.FC<ChildrenProps> = ({ children }) => {
 export const PeriodeView: React.VFC = () => {
     return (
         <React.Suspense fallback={<PeriodeViewSkeleton />}>
-            <ErrorBoundary fallback={(error) => <PeriodeViewError>{error.message}</PeriodeViewError>}>
+            <ErrorBoundary fallback={(error) => <PeriodeViewError error={error} />}>
                 <PeriodeViewContainer />
             </ErrorBoundary>
         </React.Suspense>

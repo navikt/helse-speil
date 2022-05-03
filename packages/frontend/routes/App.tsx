@@ -4,26 +4,28 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import { RecoilRoot } from 'recoil';
 import 'reset-css';
 
+import { Toasts } from '@components/Toasts';
+import { Header } from '@components/header/Header';
+import { Varsler } from '@components/Varsler';
 import { ErrorBoundary } from '@components/ErrorBoundary';
 import { ProtectedRoute } from '@components/ProtectedRoute';
-import { Toasts } from '@components/Toasts';
-import { Varsler } from '@components/Varsler';
-import { Header } from '@components/header/Header';
 import { useLoadingToast } from '@hooks/useLoadingToast';
-import { IkkeLoggetInn } from './IkkeLoggetInn';
-import { PageNotFound } from './PageNotFound';
+import { usePersonLoadable } from '@state/person';
 import { useAuthentication } from '@state/authentication';
 import { useEasterEggIsActive } from '@state/easterEgg';
+import { onLazyLoadFail } from '@utils/error';
 
-import './App.css';
+import { PageNotFound } from './PageNotFound';
+import { IkkeLoggetInn } from './IkkeLoggetInn';
 import { GlobalFeilside } from './GlobalFeilside';
 import { Routes } from './index';
-import { usePersonLoadable } from '@state/person';
 
-const Saksbilde = React.lazy(() => import('./saksbilde/Saksbilde'));
-const Oversikt = React.lazy(() => import('./oversikt'));
-const Agurk = React.lazy(() => import('../components/Agurk'));
-const GraphQLPlayground = React.lazy(() => import('./playground/GraphQLPlayground'));
+import './App.css';
+
+const Saksbilde = React.lazy(() => import('./saksbilde/Saksbilde').catch(onLazyLoadFail));
+const Oversikt = React.lazy(() => import('./oversikt').catch(onLazyLoadFail));
+const Agurk = React.lazy(() => import('../components/Agurk').catch(onLazyLoadFail));
+const GraphQLPlayground = React.lazy(() => import('./playground/GraphQLPlayground').catch(onLazyLoadFail));
 
 ReactModal.setAppElement('#root');
 

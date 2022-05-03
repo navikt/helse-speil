@@ -11,17 +11,22 @@ import { useCurrentArbeidsgiver } from '@state/arbeidsgiver';
 import { useInnloggetSaksbehandler } from '@state/authentication';
 import { BeregnetPeriode } from '@io/graphql';
 import { isBeregnetPeriode, isGhostPeriode } from '@utils/typeguards';
+import { onLazyLoadFail } from '@utils/error';
 
 import { TabLink } from '../TabLink';
 
 import styles from './SaksbildeMenu.module.css';
 
-const PåVentDropdownMenuButton = React.lazy(() => import('./dropdown/PåVentDropdownMenuButton'));
-const TildelingDropdownMenuButton = React.lazy(() => import('./dropdown/TildelingDropdownMenuButton'));
-const AnnullerButton = React.lazy(() => import('./dropdown/AnnulleringDropdownMenuButton'));
-const AnonymiserDataDropdownMenuButton = React.lazy(() => import('./dropdown/AnonymiserDataDropdownMenuButton'));
-const OppdaterPersondataButton = React.lazy(() => import('./dropdown/OppdaterPersondataButton'));
-const HistorikkHeader = React.lazy(() => import('../historikk/HistorikkHeader'));
+const PåVentDropdownMenuButton = React.lazy(() => import('./dropdown/PåVentDropdownMenuButton').catch(onLazyLoadFail));
+const TildelingDropdownMenuButton = React.lazy(() =>
+    import('./dropdown/TildelingDropdownMenuButton').catch(onLazyLoadFail),
+);
+const AnnullerButton = React.lazy(() => import('./dropdown/AnnulleringDropdownMenuButton').catch(onLazyLoadFail));
+const AnonymiserDataDropdownMenuButton = React.lazy(() =>
+    import('./dropdown/AnonymiserDataDropdownMenuButton').catch(onLazyLoadFail),
+);
+const OppdaterPersondataButton = React.lazy(() => import('./dropdown/OppdaterPersondataButton').catch(onLazyLoadFail));
+const HistorikkHeader = React.lazy(() => import('../historikk/HistorikkHeader').catch(onLazyLoadFail));
 
 const SaksbildeMenuEmpty: React.VFC = () => {
     return (

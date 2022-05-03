@@ -2,6 +2,7 @@ import React from 'react';
 import { Route, Switch, useRouteMatch } from 'react-router-dom';
 import { Loader } from '@navikt/ds-react';
 
+import { onLazyLoadFail } from '@utils/error';
 import { getPeriodState } from '@utils/mapping';
 import { Arbeidsgiver, BeregnetPeriode, Person } from '@io/graphql';
 
@@ -11,10 +12,10 @@ import { Historikk } from '../historikk/Historikk';
 
 import styles from './PeriodeView.module.css';
 
-const Utbetaling = React.lazy(() => import('../utbetaling/Utbetaling'));
-const Inngangsvilkår = React.lazy(() => import('../vilkår/Inngangsvilkår'));
-const Faresignaler = React.lazy(() => import('../faresignaler/Faresignaler'));
-const Sykepengegrunnlag = React.lazy(() => import('../sykepengegrunnlag/Sykepengegrunnlag'));
+const Utbetaling = React.lazy(() => import('../utbetaling/Utbetaling').catch(onLazyLoadFail));
+const Inngangsvilkår = React.lazy(() => import('../vilkår/Inngangsvilkår').catch(onLazyLoadFail));
+const Faresignaler = React.lazy(() => import('../faresignaler/Faresignaler').catch(onLazyLoadFail));
+const Sykepengegrunnlag = React.lazy(() => import('../sykepengegrunnlag/Sykepengegrunnlag').catch(onLazyLoadFail));
 
 const BeregnetPeriodeViewLoader: React.VFC = () => {
     return (
