@@ -5,6 +5,7 @@ import {
     GhostPeriode,
     Kjonn,
     Periode,
+    Periodetilstand,
     Personinfo as GraphQLPersoninfo,
     Sykdomsdagtype,
     Utbetalingsdagtype,
@@ -78,6 +79,8 @@ export const getPeriodState = (period?: Maybe<Periode | DatePeriod>): PeriodStat
     if (isInfotrygdPeriod(period)) return getInfotrygdPeriodState(period);
     if (isUberegnetPeriode(period)) return getUberegnetPeriodState(period);
     if (!isBeregnetPeriode(period)) return 'ukjent';
+
+    if (period.tilstand === Periodetilstand.Venter) return 'venter';
 
     switch (period.utbetaling.type) {
         case Utbetalingtype.Utbetaling: {
