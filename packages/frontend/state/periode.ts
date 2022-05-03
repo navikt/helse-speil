@@ -1,6 +1,7 @@
 import { atom, selector, useRecoilValue, useSetRecoilState } from 'recoil';
 
 import type { BeregnetPeriode, GhostPeriode, Person, UberegnetPeriode } from '@io/graphql';
+import { Periodetilstand } from '@io/graphql';
 import { currentPersonState } from '@state/person';
 import { isBeregnetPeriode } from '@utils/typeguards';
 
@@ -33,19 +34,18 @@ const activePeriod = selector<ActivePeriod | null>({
             return activePeriod;
         }
 
-        const allPeriods = person.arbeidsgivere.flatMap((arbeidsgiver) => arbeidsgiver.generasjoner[0]?.perioder ?? []);
+        const allPeriods = person.arbeidsgivere
+            .flatMap((arbeidsgiver) => arbeidsgiver.generasjoner[0]?.perioder ?? [])
+            .sort((a, b) => new Date(b.fom).getTime() - new Date(a.fom).getTime())
+            .filter(isBeregnetPeriode)
+            .filter((it) => it.tilstand !== Periodetilstand.TilInfotrygd);
 
         const periodWithOppgave: Maybe<BeregnetPeriode> =
-            allPeriods
-                .filter(isBeregnetPeriode)
-                .find(
-                    (periode) =>
-                        isBeregnetPeriode(periode) &&
-                        periode.behandlingstype === 'BEHANDLET' &&
-                        typeof periode.oppgavereferanse === 'string',
-                ) ?? null;
+            allPeriods.find(
+                (periode) => periode.behandlingstype === 'BEHANDLET' && typeof periode.oppgavereferanse === 'string',
+            ) ?? null;
 
-        const periode = periodWithOppgave ?? person.arbeidsgivere[0]?.generasjoner[0]?.perioder[0];
+        const periode = periodWithOppgave ?? allPeriods[0];
 
         return isBeregnetPeriode(periode) ? periode : null;
     },
