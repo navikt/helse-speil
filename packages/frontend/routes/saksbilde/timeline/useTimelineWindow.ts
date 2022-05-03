@@ -45,7 +45,7 @@ export const useTimelineWindow = (
 ): UseTimelineWindowResult => {
     const latestDate = useMemo(() => {
         const perioder = [
-            ...arbeidsgivere.flatMap((it) => it.generasjoner[0]?.perioder ?? []),
+            ...arbeidsgivere.flatMap((it) => it.generasjoner.flatMap((it) => it.perioder) ?? []),
             ...arbeidsgivere.flatMap((it) => it.ghostPerioder),
             ...infotrygdutbetalinger,
         ];
