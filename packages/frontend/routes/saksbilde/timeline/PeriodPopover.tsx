@@ -171,10 +171,26 @@ const GhostPopover: React.VFC<DatePeriod> = ({ fom, tom }) => {
     );
 };
 
-const UberegnetPopover: React.VFC<DatePeriod> = ({ fom, tom }) => {
+interface UberegnetPopoverProps extends DatePeriod {
+    state: PeriodState;
+}
+
+const UberegnetPopover: React.VFC<UberegnetPopoverProps> = ({ fom, tom, state }) => {
+    const stateText = (() => {
+        switch (state) {
+            case 'ingenUtbetaling':
+                return 'Ingen utbetaling';
+            case 'venter':
+                return 'Venter';
+            case 'ukjent':
+            default:
+                return 'Ukjent';
+        }
+    })();
+
     return (
         <>
-            <BodyShort size="small">Venter</BodyShort>
+            <BodyShort size="small">{stateText}</BodyShort>
             <BodyShort size="small">Periode:</BodyShort>
             <BodyShort size="small">
                 {fom} - {tom}
@@ -203,7 +219,7 @@ export const PeriodPopover: React.VFC<PeriodPopoverProps> = ({ period, state, ..
                     ) : isGhostPeriode(period) ? (
                         <GhostPopover fom={fom} tom={tom} />
                     ) : (
-                        <UberegnetPopover fom={fom} tom={tom} />
+                        <UberegnetPopover state={state} fom={fom} tom={tom} />
                     )}
                 </ErrorBoundary>
             </Popover.Content>

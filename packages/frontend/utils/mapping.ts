@@ -1,5 +1,6 @@
 import {
     Adressebeskyttelse,
+    Behandlingstype,
     BeregnetPeriode,
     GhostPeriode,
     Kjonn,
@@ -10,7 +11,7 @@ import {
     Utbetalingstatus,
     Utbetalingtype,
 } from '@io/graphql';
-import { isBeregnetPeriode, isGhostPeriode, isInfotrygdPeriod } from '@utils/typeguards';
+import { isBeregnetPeriode, isGhostPeriode, isInfotrygdPeriod, isUberegnetPeriode } from '@utils/typeguards';
 import { ISO_DATOFORMAT } from '@utils/date';
 
 const hasOppgave = (period: BeregnetPeriode): boolean => typeof period.oppgavereferanse === 'string';
@@ -57,11 +58,26 @@ const getGhostPeriodState = (period: GhostPeriode): PeriodState => {
     return period.deaktivert ? 'utenSykefraværDeaktivert' : 'utenSykefravær';
 };
 
+const getUberegnetPeriodState = (period: UberegnetPeriode): PeriodState => {
+    switch (period.behandlingstype) {
+        case Behandlingstype.Uberegnet: {
+            if (period.tidslinje.every((it) => !it.utbetalingsinfo)) {
+                return 'ingenUtbetaling';
+            } else {
+                return 'ukjent';
+            }
+        }
+        case Behandlingstype.Venter:
+        default:
+            return 'venter';
+    }
+};
+
 export const getPeriodState = (period?: Maybe<Periode | DatePeriod>): PeriodState => {
-    if (!period) return 'ukjent';
     if (isGhostPeriode(period)) return getGhostPeriodState(period);
     if (isInfotrygdPeriod(period)) return getInfotrygdPeriodState(period);
-    if (!isBeregnetPeriode(period)) return 'venter';
+    if (isUberegnetPeriode(period)) return getUberegnetPeriodState(period);
+    if (!isBeregnetPeriode(period)) return 'ukjent';
 
     switch (period.utbetaling.type) {
         case Utbetalingtype.Utbetaling: {
