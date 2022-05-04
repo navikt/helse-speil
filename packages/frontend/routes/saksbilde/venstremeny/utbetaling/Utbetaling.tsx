@@ -4,9 +4,8 @@ import { useSetRecoilState } from 'recoil';
 
 import { ErrorMessage } from '@components/ErrorMessage';
 import { postAbonnerPåAktør } from '@io/http';
-import { BeregnetPeriode, Periodetilstand, Person } from '@io/graphql';
+import { Behandlingstype, BeregnetPeriode, Person } from '@io/graphql';
 import { opptegnelsePollingTimeState } from '@state/opptegnelser';
-import { isBeregnetPeriode } from '@utils/typeguards';
 import { getPeriodState } from '@utils/mapping';
 import { isRevurdering } from '@utils/period';
 
@@ -17,8 +16,8 @@ import styles from './Utbetaling.module.css';
 
 const skalPolleEtterNestePeriode = (person: Person) =>
     person.arbeidsgivere
-        .flatMap((arbeidsgiver) => arbeidsgiver.generasjoner[0]?.perioder)
-        .some((periode) => isBeregnetPeriode(periode) && periode.tilstand === Periodetilstand.VenterPaKiling);
+        .flatMap((arbeidsgiver) => arbeidsgiver.generasjoner[0]?.perioder ?? [])
+        .some((periode) => periode.behandlingstype === Behandlingstype.Venter);
 
 const hasOppgave = (period: BeregnetPeriode): boolean =>
     typeof period.oppgavereferanse === 'string' && ['oppgaver', 'revurderes'].includes(getPeriodState(period));
