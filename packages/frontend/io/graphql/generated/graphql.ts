@@ -103,7 +103,7 @@ export enum Behandlingstype {
     Behandlet = 'BEHANDLET',
     Uberegnet = 'UBEREGNET',
     Venter = 'VENTER',
-    VenterPåInformasjon = 'VENTER_PA_INFORMASJON',
+    VenterPaInformasjon = 'VENTER_PA_INFORMASJON',
 }
 
 export type BeregnetPeriode = Periode & {
