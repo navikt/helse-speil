@@ -2,7 +2,7 @@ import React, { ChangeEvent, ReactNode } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
 import { Checkbox, Fieldset, Textarea } from '@navikt/ds-react';
 
-import { BeregnetPeriode } from '@io/graphql';
+import { BeregnetPeriode, Faresignal } from '@io/graphql';
 
 import { Begrunnelse } from './AvvisningModal';
 
@@ -30,6 +30,10 @@ const BegrunnelseCheckbox: React.VFC<BegrunnelseCheckboxProps> = ({ begrunnelse,
     );
 };
 
+const harFunn = (funn?: Maybe<Faresignal[]>): funn is Faresignal[] => {
+    return typeof funn === 'object';
+};
+
 interface BegrunnelsesskjemaProps {
     activePeriod: BeregnetPeriode;
 }
@@ -46,6 +50,19 @@ export const Begrunnelsesskjema: React.VFC<BegrunnelsesskjemaProps> = ({ activeP
                 legend="Årsak til at saken ikke kan behandles"
                 error={formState.errors.begrunnelser ? formState.errors.begrunnelser.message : null}
             >
+                {activePeriod.risikovurdering &&
+                    harFunn(activePeriod.risikovurdering.funn) &&
+                    activePeriod.risikovurdering.funn.length > 0 &&
+                    activePeriod.risikovurdering?.funn
+                        ?.filter((it) => !it.kategori.includes('8-4'))
+                        .map((faresignaler, index2) => {
+                            return (
+                                <BegrunnelseCheckbox
+                                    key={`$risikovurdering-${index2}-checkbox`}
+                                    begrunnelse={`\n${faresignaler.beskrivelse}`}
+                                />
+                            );
+                        })}
                 {activePeriod.aktivitetslogg.map((aktivitet, index) => {
                     switch (aktivitet.melding) {
                         case 'Arbeidsuførhet, aktivitetsplikt og/eller medvirkning må vurderes. Se forklaring på vilkårs-siden.':
@@ -63,17 +80,6 @@ export const Begrunnelsesskjema: React.VFC<BegrunnelsesskjemaProps> = ({ activeP
                                                     {arbeidsuførhet.beskrivelse}
                                                 </p>
                                             }
-                                        />
-                                    );
-                                });
-                        case 'Faresignaler oppdaget. Kontroller om faresignalene påvirker retten til sykepenger.':
-                            return activePeriod.risikovurdering?.funn
-                                ?.filter((it) => !it.kategori.includes('8-4'))
-                                .map((faresignaler, index2) => {
-                                    return (
-                                        <BegrunnelseCheckbox
-                                            key={`${index}-${index2}-checkbox`}
-                                            begrunnelse={`\n${faresignaler.beskrivelse}`}
                                         />
                                     );
                                 });

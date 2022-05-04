@@ -802,8 +802,78 @@
                                         }
                                     },
                                     "risikovurdering": {
-                                        "funn": [],
-                                        "kontrollertOk": []
+                                        "funn": [
+                                            {
+                                                "beskrivelse": "Sykmeldt har rolle i selskapet (DAGL,LEDE)",
+                                                "kategori": []
+                                            },
+                                            {
+                                                "beskrivelse": "Liten bedrift (1 ansatte)",
+                                                "kategori": []
+                                            },
+                                            {
+                                                "beskrivelse": "Arbeidsgiver er i en \"risikobransje\".",
+                                                "kategori": []
+                                            }
+                                        ],
+                                        "kontrollertOk": [
+                                            {
+                                                "beskrivelse": "Fant ingen meldinger fra veiledere om å stanse automatisk behandling",
+                                                "kategori": ["8-4"]
+                                            },
+                                            {
+                                                "beskrivelse": "Ikke registrert at enhet er konkurs eller under avvikling",
+                                                "kategori": []
+                                            },
+                                            {
+                                                "beskrivelse": "Ikke spesielt nyregistrert bedrift (89 måneder før sykmeldt)",
+                                                "kategori": []
+                                            },
+                                            {
+                                                "beskrivelse": "Intet avvik i inntektsmelding i fht siste 3 mnd innrapportert før sykmeldt",
+                                                "kategori": []
+                                            },
+                                            {
+                                                "beskrivelse": "Ingen spesielt runde tall i innrapportert inntekt før første fraværsmåned",
+                                                "kategori": []
+                                            },
+                                            {
+                                                "beskrivelse": "Ingen markant inntektsøkning siste 3 mnd før sykdom i forhold til de forutgående 9 mnd (0%)",
+                                                "kategori": []
+                                            },
+                                            {
+                                                "beskrivelse": "Lønnsavvik fra måned til måned er ikke over 0%",
+                                                "kategori": []
+                                            },
+                                            {
+                                                "beskrivelse": "Arbeidsforhold ble etterregistrert, men det skjedde over to år før første fraværsdag.",
+                                                "kategori": []
+                                            },
+                                            {
+                                                "beskrivelse": "Sykmeldt var ansatt i minst ett år før sykmeldt.",
+                                                "kategori": []
+                                            },
+                                            {
+                                                "beskrivelse": "Har ikke sammenlagt stillingsprosent på over 120%",
+                                                "kategori": []
+                                            },
+                                            {
+                                                "beskrivelse": "Totale lønnsutgifter fra siste regnskap er ikke lavere enn den sykmeldtes inntekt",
+                                                "kategori": []
+                                            },
+                                            {
+                                                "beskrivelse": "Intet voldsomt avvik mellom inntekter og kostnader i regnskapet",
+                                                "kategori": []
+                                            },
+                                            {
+                                                "beskrivelse": "Inntekter siste 6 måneder før sykmeldt er ikke innmeldt senere enn 6 dager etter utbetalingsmåneden",
+                                                "kategori": []
+                                            },
+                                            {
+                                                "beskrivelse": "Eventuelt etterregistrert inntekt øker ikke snittmånedslønn for siste 6 mnd med mer enn 0%",
+                                                "kategori": []
+                                            }
+                                        ]
                                     },
                                     "skjaeringstidspunkt": "2021-09-01",
                                     "utbetaling": {
