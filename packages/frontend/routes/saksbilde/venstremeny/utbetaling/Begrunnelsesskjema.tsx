@@ -63,8 +63,8 @@ export const Begrunnelsesskjema: React.VFC<BegrunnelsesskjemaProps> = ({ activeP
                                 />
                             );
                         })}
-                {activePeriod.aktivitetslogg.map((aktivitet, index) => {
-                    switch (aktivitet.melding) {
+                {activePeriod.varsler.map((varsel, index) => {
+                    switch (varsel) {
                         case 'Arbeidsuførhet, aktivitetsplikt og/eller medvirkning må vurderes. Se forklaring på vilkårs-siden.':
                             return activePeriod.risikovurdering?.funn
                                 ?.filter((it) => it.kategori.includes('8-4'))
@@ -72,19 +72,13 @@ export const Begrunnelsesskjema: React.VFC<BegrunnelsesskjemaProps> = ({ activeP
                                     return (
                                         <BegrunnelseCheckbox
                                             key={`${index}-${index2}-checkbox`}
-                                            begrunnelse={`${aktivitet.melding} ${arbeidsuførhet.beskrivelse}`}
-                                            label={
-                                                <p>
-                                                    {aktivitet.melding}
-                                                    <br />
-                                                    {arbeidsuførhet.beskrivelse}
-                                                </p>
-                                            }
+                                            begrunnelse={`${varsel}`}
+                                            label={<p>{varsel}</p>}
                                         />
                                     );
                                 });
                         default:
-                            return <BegrunnelseCheckbox key={`${index}-checkbox`} begrunnelse={aktivitet.melding} />;
+                            return <BegrunnelseCheckbox key={`${index}-checkbox`} begrunnelse={varsel} />;
                     }
                 })}
                 <BegrunnelseCheckbox begrunnelse="Annet" />
