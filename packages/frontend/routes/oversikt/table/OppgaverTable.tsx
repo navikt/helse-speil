@@ -64,7 +64,7 @@ export const OppgaverTable = React.memo(({ oppgaver }: { oppgaver: Oppgave[] }) 
 
     if (ident === 'F131883' || ident === 'E156407') {
         console.log('Filtre: ' + JSON.stringify(activeFilters));
-        if (visibleRows.length < 20) console.table(visibleRows);
+        if (visibleRows.length < 40) console.table(visibleRows);
     }
 
     const sortedRows = sortation ? [...visibleRows].sort(sortation.function) : visibleRows;
