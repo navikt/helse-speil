@@ -34,12 +34,12 @@ const getUtbetalingstabelldagtype = (dag: Dag): Utbetalingstabelldagtype => {
     }
     switch (dag.sykdomsdagtype) {
         case Sykdomsdagtype.Arbeidsdag:
-        case Sykdomsdagtype.Arbeidsgiverdag:
             return 'Arbeid';
         case Sykdomsdagtype.Feriedag:
             return 'Ferie';
         case Sykdomsdagtype.Permisjonsdag:
             return 'Permisjon';
+        case Sykdomsdagtype.Arbeidsgiverdag:
         case Sykdomsdagtype.Sykedag:
             return 'Syk';
         case Sykdomsdagtype.SykHelgedag:
