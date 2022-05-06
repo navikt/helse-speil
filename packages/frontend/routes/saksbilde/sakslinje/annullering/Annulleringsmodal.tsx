@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { useSetRecoilState } from 'recoil';
 
-import { BodyShort, Button, Loader } from '@navikt/ds-react';
+import { Alert, BodyShort, Button, Loader } from '@navikt/ds-react';
 
 import { Modal } from '@components/Modal';
 import type { AnnulleringDTO } from '@io/http/types';
@@ -14,8 +14,9 @@ import { NORSK_DATOFORMAT } from '@utils/date';
 import { somPenger } from '@utils/locale';
 
 import { Annulleringsbegrunnelse } from './Annulleringsbegrunnelse';
-import { Annulleringsvarsel } from './Annulleringsvarsel';
 import { Utbetalingslinje } from '@io/graphql';
+
+import styles from './Annulleringsmodal.module.css';
 
 const ModalContainer = styled(Modal)`
     max-width: 48rem;
@@ -32,7 +33,7 @@ const Form = styled.form`
 const Tittel = styled.h2`
     font-size: 1.5rem;
     font-weight: 600;
-    color: var(--navds-color-text-primary);
+    color: var(--navds-semantic-color-text);
     margin-bottom: 2rem;
 `;
 
@@ -45,7 +46,7 @@ const AnnullerKnapp = styled(Button)`
 `;
 
 const Feilmelding = styled(BodyShort)`
-    color: var(--navds-color-text-error);
+    color: var(--navds-semantic-color-feedback-danger-text);
     font-size: 1rem;
     font-weight: 600;
     margin-top: 0.625rem;
@@ -146,19 +147,21 @@ export const Annulleringsmodal = ({
                 onRequestClose={onClose}
             >
                 <Form onSubmit={form.handleSubmit(() => sendAnnullering(annullering()))}>
-                    <Annulleringsvarsel variant="warning">
+                    <Alert inline variant="warning" className={styles.Warning}>
                         Hvis du annullerer, vil utbetalinger fjernes fra oppdragssystemet og du må behandle saken i
                         Infotrygd.
-                    </Annulleringsvarsel>
+                    </Alert>
                     <Tittel>Annullering</Tittel>
                     <Utbetalingsgruppe>
                         <BodyShort>Følgende utbetalinger annulleres:</BodyShort>
                         <ul>
                             {linjer.map((linje, index) => (
                                 <li key={index}>
-                                    {dayjs(linje.fom).format(NORSK_DATOFORMAT)} -{' '}
-                                    {dayjs(linje.tom).format(NORSK_DATOFORMAT)}
-                                    {linje.totalbelop ? ` - ${somPenger(linje.totalbelop)}` : null}
+                                    <BodyShort>
+                                        {dayjs(linje.fom).format(NORSK_DATOFORMAT)} -{' '}
+                                        {dayjs(linje.tom).format(NORSK_DATOFORMAT)}
+                                        {linje.totalbelop ? ` - ${somPenger(linje.totalbelop)}` : null}
+                                    </BodyShort>
                                 </li>
                             ))}
                         </ul>

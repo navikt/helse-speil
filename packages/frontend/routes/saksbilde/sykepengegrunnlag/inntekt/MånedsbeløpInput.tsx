@@ -6,7 +6,7 @@ import { useFormContext } from 'react-hook-form';
 const Input = styled.input<{ error?: boolean }>`
     height: 2rem;
     border-radius: 3px;
-    border: 1px solid var(--navds-color-border);
+    border: 1px solid var(--navds-semantic-color-border);
     outline: none;
 
     &:focus-visible {
@@ -17,13 +17,13 @@ const Input = styled.input<{ error?: boolean }>`
         error &&
         css`
             border-width: 2px;
-            border-color: var(--navds-color-text-error);
+            border-color: var(--navds-semantic-color-feedback-danger-text);
         `}
 `;
 
 const Feilmelding = styled.label`
     margin: 0.25rem 0;
-    color: var(--navds-color-text-error);
+    color: var(--navds-semantic-color-feedback-danger-text);
 `;
 
 interface MånedsbeløpInputProps {

@@ -1,0 +1,15 @@
+.Header {
+    min-width: var(--speil-total-min-width);
+    flex-shrink: 0;
+}
+
+.Link {
+    color: var(--navdsi-header-color-text);
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.SearchForm {
+    align-self: center;
+    margin-left: 24px;
+}

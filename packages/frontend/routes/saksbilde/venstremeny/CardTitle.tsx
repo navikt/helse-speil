@@ -10,10 +10,10 @@ const Title = styled(BodyShort)`
     align-items: center;
     margin-bottom: 0.25rem;
     letter-spacing: 0.4px;
-    color: var(--navds-color-gray-60);
+    color: var(--navds-global-color-gray-600);
 
     a {
-        color: var(--navds-color-gray-60);
+        color: var(--navds-global-color-gray-600);
 
         &:hover {
             text-decoration: none;
@@ -22,10 +22,10 @@ const Title = styled(BodyShort)`
         &:active,
         &:focus {
             outline: none;
-            color: var(--navds-color-text-inverse);
+            color: var(--navds-semantic-color-text-inverted);
             text-decoration: none;
-            background-color: var(--navds-text-focus);
-            box-shadow: 0 0 0 2px var(--navds-text-focus);
+            background-color: var(--navds-semantic-color-focus);
+            box-shadow: 0 0 0 2px var(--navds-semantic-color-focus);
         }
     }
 `;

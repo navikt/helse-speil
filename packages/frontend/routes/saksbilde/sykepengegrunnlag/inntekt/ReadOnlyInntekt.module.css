@@ -12,7 +12,7 @@
 
 .Title {
     font-size: 14px;
-    color: var(--navds-color-text-disabled);
+    color: var(--navds-semantic-color-text-muted);
 }
 
 .Divider {

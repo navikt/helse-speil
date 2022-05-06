@@ -1,15 +1,14 @@
 import React from 'react';
-import styled from '@emotion/styled';
-
-import { BodyShort } from '@navikt/ds-react';
+import { Alert, BodyShort } from '@navikt/ds-react';
 
 import { EkspanderbartVarsel } from '@components/EkspanderbartVarsel';
-import { Varsel } from '@components/Varsel';
 
 import { Varselseksjon } from './Varselseksjon';
 
 import utdatert_wiki from '../../../utdatert_wiki.json';
 import wiki from '../../../wiki.json';
+
+import styles from './Saksbildevarsler.module.css';
 
 type WikiEntry = {
     varsel: string;
@@ -18,12 +17,6 @@ type WikiEntry = {
     viktighet: string;
     type?: 'error' | 'warning' | 'info' | 'success';
 };
-
-const Aktivitetsloggvarsel = styled(Varsel)`
-    border-top: none;
-    border-left: none;
-    border-right: none;
-`;
 
 interface AktivitetsloggvarslerProps {
     varsler: Array<String>;
@@ -44,9 +37,9 @@ export const Aktivitetsloggvarsler: React.VFC<AktivitetsloggvarslerProps> = Reac
                     );
                 } else {
                     return (
-                        <Aktivitetsloggvarsel key={index} variant="advarsel">
+                        <Alert className={styles.Varsel} key={index} variant="warning">
                             <BodyShort as="p">{aktivitet}</BodyShort>
-                        </Aktivitetsloggvarsel>
+                        </Alert>
                     );
                 }
             })}

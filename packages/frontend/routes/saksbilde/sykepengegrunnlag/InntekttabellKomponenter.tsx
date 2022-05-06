@@ -27,7 +27,7 @@ export const ArbeidsgiverRad = styled.button<{ erGjeldende: boolean }>`
     }
 
     &:hover > * {
-        background-color: var(--navds-color-gray-10);
+        background-color: var(--navds-global-color-gray-100);
         cursor: pointer;
         ${({ erGjeldende }) =>
             erGjeldende &&
@@ -44,7 +44,7 @@ export const ArbeidsgiverRad = styled.button<{ erGjeldende: boolean }>`
 
 const BoldTitle = styled(BodyShort)`
     font-weight: 600;
-    color: var(--navds-color-gray-80);
+    color: var(--navds-global-color-gray-800);
     margin-bottom: 1rem;
 `;
 
@@ -66,7 +66,7 @@ export const Kolonnetittel: React.FC<React.HTMLAttributes<HTMLParagraphElement>>
 
 export const Divider = styled.hr`
     border: none;
-    border-bottom: 1px solid var(--navds-color-text-primary);
+    border-bottom: 1px solid var(--navds-semantic-color-text);
     grid-column-start: 1;
     grid-column-end: 4;
     margin: 0.25rem 0;

@@ -5,11 +5,11 @@ import { CaseworkerFilled } from '@navikt/ds-icons';
 
 import { Flex } from '@components/Flex';
 import { Kilde } from '@components/Kilde';
-import { Tooltip } from '@components/Tooltip';
-import { Kildetype, Overstyring } from '@io/graphql';
+import { Kildetype } from '@io/graphql';
 
 import { CellContent } from '../../table/CellContent';
 import { EndringsloggButton } from '../../sykepengegrunnlag/inntekt/EndringsloggButton';
+import { Tooltip } from '@navikt/ds-react';
 
 const getKildeTypeIcon = (
     dato: DateString,
@@ -36,6 +36,21 @@ const getKildeTypeIcon = (
     }
 };
 
+const getKildeTypeTooltip = (kilde?: Kildetype): string => {
+    switch (kilde) {
+        case Kildetype.Inntektsmelding:
+            return 'Inntektsmelding';
+        case Kildetype.Soknad:
+            return 'Søknad';
+        case Kildetype.Sykmelding:
+            return 'Sykmelding';
+        case Kildetype.Saksbehandler:
+            return 'Saksbehandler';
+        default:
+            return 'Ukjent';
+    }
+};
+
 const Container = styled(CellContent)`
     width: 2rem;
     justify-content: center;
@@ -56,10 +71,9 @@ export const KildeCell = ({ type, dato, kilde, overstyringer, ...rest }: KildeCe
             <Container>
                 {type !== 'Helg' && (
                     <>
-                        <span data-tip={kilde} data-for={tooltipId}>
-                            {getKildeTypeIcon(dato, kilde, overstyringer)}
-                        </span>
-                        <Tooltip id={tooltipId} effect="solid" />
+                        <Tooltip content={getKildeTypeTooltip(kilde)}>
+                            <span>{getKildeTypeIcon(dato, kilde, overstyringer)}</span>
+                        </Tooltip>
                     </>
                 )}
             </Container>

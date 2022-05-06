@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import React, { useEffect, useRef, useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 
-import { Button, ErrorSummary, ErrorSummaryItem, Textarea } from '@navikt/ds-react';
+import { Button, ErrorSummary, Textarea } from '@navikt/ds-react';
 
 const Container = styled.div`
     margin: 0 1rem;
@@ -71,9 +71,9 @@ export const OverstyringForm: React.FC<OverstyringFormProps> = ({ overstyrteDage
                 <FeiloppsummeringContainer>
                     <ErrorSummary ref={oppsummeringRef} heading="Skjemaet inneholder følgende feil:">
                         {Object.entries(formState.errors).map(([id, error]) => (
-                            <ErrorSummaryItem onClick={() => document.getElementById(id)?.focus()} key={id}>
+                            <ErrorSummary.Item onClick={() => document.getElementById(id)?.focus()} key={id}>
                                 {error.message}
-                            </ErrorSummaryItem>
+                            </ErrorSummary.Item>
                         ))}
                     </ErrorSummary>
                 </FeiloppsummeringContainer>

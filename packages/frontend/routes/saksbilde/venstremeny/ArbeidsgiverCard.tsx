@@ -2,10 +2,9 @@ import dayjs from 'dayjs';
 import React from 'react';
 
 import { Bag } from '@navikt/ds-icons';
-import { BodyShort } from '@navikt/ds-react';
+import { BodyShort, Tooltip } from '@navikt/ds-react';
 
 import { Flex } from '@components/Flex';
-import { Tooltip } from '@components/Tooltip';
 import { Clipboard } from '@components/clipboard';
 import { AnonymizableText } from '@components/anonymizable/AnonymizableText';
 import { AnonymizableContainer } from '@components/anonymizable/AnonymizableContainer';
@@ -25,7 +24,9 @@ interface TitleRowProps {
 const TitleRow: React.VFC<TitleRowProps> = ({ navn }) => {
     return (
         <div className={styles.Title}>
-            <Bag tabIndex={-1} data-tip="Arbeidsgiver" title="Arbeidsgiver" />
+            <Tooltip content="Arbeidsgiver">
+                <Bag tabIndex={-1} title="Arbeidsgiver" />
+            </Tooltip>
             <AnonymizableContainer>
                 <CardTitle>{navn.toUpperCase()}</CardTitle>
             </AnonymizableContainer>
@@ -42,7 +43,7 @@ const OrganisasjonsnummerRow: React.VFC<OrganisasjonsnummerRowProps> = ({ organi
         <Clipboard
             preserveWhitespace={false}
             copyMessage="Organisasjonsnummer er kopiert"
-            dataTip="Kopier organisasjonsnummer"
+            tooltip={{ content: 'Kopier organisasjonsnummer' }}
         >
             <AnonymizableText>{organisasjonsnummer}</AnonymizableText>
         </Clipboard>
@@ -63,13 +64,14 @@ const ArbeidsforholdRow: React.VFC<ArbeidsforholdRowProps> = ({ arbeidsforhold }
 
                 return (
                     <React.Fragment key={i}>
-                        <div className={styles.Arbeidsforhold}>
-                            <AnonymizableTextWithEllipsis data-tip={stillingstittel}>
-                                {`${capitalize(stillingstittel)}`}
-                            </AnonymizableTextWithEllipsis>
-                            <AnonymizableText>{`, ${arbeidsforhold.stillingsprosent} %`}</AnonymizableText>
-                        </div>
-                        <Tooltip effect="solid" />
+                        <Tooltip content={`${stillingstittel}, ${arbeidsforhold.stillingsprosent} %`}>
+                            <div className={styles.Arbeidsforhold}>
+                                <AnonymizableTextWithEllipsis>
+                                    {`${capitalize(stillingstittel)}`}
+                                </AnonymizableTextWithEllipsis>
+                                <AnonymizableText>{`, ${arbeidsforhold.stillingsprosent} %`}</AnonymizableText>
+                            </div>
+                        </Tooltip>
                         <BodyShort>
                             {fom}
                             {tom && ' - ' && tom}

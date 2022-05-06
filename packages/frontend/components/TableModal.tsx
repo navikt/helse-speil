@@ -17,11 +17,11 @@ const Table = styled.table`
         text-align: left;
         font-weight: 400;
         font-size: 14px;
-        color: var(--navds-color-gray-80);
+        color: var(--navds-global-color-gray-800);
     }
 
     tbody > tr:nth-of-type(2n-1) > td {
-        background-color: var(--navds-color-gray-10);
+        background-color: var(--navds-global-color-gray-100);
     }
 `;
 

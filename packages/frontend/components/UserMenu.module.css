@@ -1,0 +1,10 @@
+.MenuItem {
+    padding: 0.5rem 1rem;
+}
+
+.Divider {
+    border: none;
+    height: 1px;
+    background-color: var(--navds-global-color-gray-400);
+    margin: 0.5rem 0;
+}

@@ -1,9 +1,8 @@
 import styled from '@emotion/styled';
 import React from 'react';
-import { BodyShort } from '@navikt/ds-react';
+import { BodyShort, Tooltip } from '@navikt/ds-react';
 
 import { LovdataLenke } from '@components/LovdataLenke';
-import { Tooltip } from '@components/Tooltip';
 
 import { CellContent } from '../../table/CellContent';
 
@@ -24,65 +23,83 @@ const Merknad: React.VFC<MerknadProps> = ({ begrunnelse, alderVedSkjæringstidsp
             return <BodyShort>Personen er død</BodyShort>;
         case 'EGENMELDING_UTENFOR_ARBEIDSGIVERPERIODE':
             return (
-                <Container data-tip="Egenmelding utenfor arbeidsgiverperioden">
-                    <LovdataLenke paragraf="8-23">§ 8-23</LovdataLenke>
-                </Container>
+                <Tooltip content="Egenmelding utenfor arbeidsgiverperioden">
+                    <Container data-testid="Egenmelding utenfor arbeidsgiverperioden">
+                        <LovdataLenke paragraf="8-23">§ 8-23</LovdataLenke>
+                    </Container>
+                </Tooltip>
             );
         case 'MINIMUM_SYKDOMSGRAD':
             return (
-                <Container data-tip="Sykdomsgrad under 20 %">
-                    <LovdataLenke paragraf="8-13">§ 8-13</LovdataLenke>
-                </Container>
+                <Tooltip content="Sykdomsgrad under 20 %">
+                    <Container data-testid="Sykdomsgrad under 20 %">
+                        <LovdataLenke paragraf="8-13">§ 8-13</LovdataLenke>
+                    </Container>
+                </Tooltip>
             );
         case 'MINIMUM_INNTEKT': {
             const paragraf = (alderVedSkjæringstidspunkt ?? 0) >= 67 ? '8-51' : '8-3';
             return (
-                <Container data-tip="Inntekt under krav til minste sykepengegrunnlag">
-                    <LovdataLenke paragraf={paragraf}>§ {paragraf}</LovdataLenke>
-                </Container>
+                <Tooltip content="Inntekt under krav til minste sykepengegrunnlag">
+                    <Container data-testid="Inntekt under krav til minste sykepengegrunnlag">
+                        <LovdataLenke paragraf={paragraf}>§ {paragraf}</LovdataLenke>
+                    </Container>
+                </Tooltip>
             );
         }
         case 'MINIMUM_INNTEKT_OVER_67': {
             return (
-                <Container data-tip="Inntekt under krav til minste sykepengegrunnlag">
-                    <LovdataLenke paragraf="8-51">§ 8-51</LovdataLenke>
-                </Container>
+                <Tooltip content="Inntekt under krav til minste sykepengegrunnlag">
+                    <Container data-testid="Inntekt under krav til minste sykepengegrunnlag">
+                        <LovdataLenke paragraf="8-51">§ 8-51</LovdataLenke>
+                    </Container>
+                </Tooltip>
             );
         }
         case 'MANGLER_OPPTJENING':
             return (
-                <Container data-tip="Krav til 4 ukers opptjening er ikke oppfylt">
-                    <LovdataLenke paragraf="8-2">§ 8-2</LovdataLenke>
-                </Container>
+                <Tooltip content="Krav til 4 ukers opptjening er ikke oppfylt">
+                    <Container data-testid="Krav til 4 ukers opptjening er ikke oppfylt">
+                        <LovdataLenke paragraf="8-2">§ 8-2</LovdataLenke>
+                    </Container>
+                </Tooltip>
             );
         case 'MANGLER_MEDLEMSKAP':
             return (
-                <Container data-tip="Krav til medlemskap er ikke oppfylt">
-                    <LovdataLenke paragraf="8-2">§ 8-2</LovdataLenke>
-                    <BodyShort> og </BodyShort>
-                    <LovdataLenke paragraf="2-" harParagraf={false}>
-                        kap. 2
-                    </LovdataLenke>
-                </Container>
+                <Tooltip content="Krav til medlemskap er ikke oppfylt">
+                    <Container data-testid="Krav til medlemskap er ikke oppfylt">
+                        <LovdataLenke paragraf="8-2">§ 8-2</LovdataLenke>
+                        <BodyShort> og </BodyShort>
+                        <LovdataLenke paragraf="2-" harParagraf={false}>
+                            kap. 2
+                        </LovdataLenke>
+                    </Container>
+                </Tooltip>
             );
         case 'SYKEPENGEDAGER_OPPBRUKT_OVER_67':
             return (
-                <Container data-tip="Maks antall sykepengedager er nådd">
-                    <LovdataLenke paragraf="8-51">§ 8-51</LovdataLenke>
-                </Container>
+                <Tooltip content="Maks antall sykepengedager er nådd">
+                    <Container data-testid="Maks antall sykepengedager er nådd">
+                        <LovdataLenke paragraf="8-51">§ 8-51</LovdataLenke>
+                    </Container>
+                </Tooltip>
             );
         case 'SYKEPENGEDAGER_OPPBRUKT': {
             return (
-                <Container data-tip="Maks antall sykepengedager er nådd">
-                    <LovdataLenke paragraf="8-12">§ 8-12</LovdataLenke>
-                </Container>
+                <Tooltip content="Maks antall sykepengedager er nådd">
+                    <Container data-testid="Maks antall sykepengedager er nådd">
+                        <LovdataLenke paragraf="8-12">§ 8-12</LovdataLenke>
+                    </Container>
+                </Tooltip>
             );
         }
         case 'OVER_70':
             return (
-                <Container data-tip="Personen er 70 år eller eldre">
-                    <LovdataLenke paragraf="8-3">§ 8-3</LovdataLenke>
-                </Container>
+                <Tooltip content="Personen er 70 år eller eldre">
+                    <Container data-testid="Personen er 70 år eller eldre">
+                        <LovdataLenke paragraf="8-3">§ 8-3</LovdataLenke>
+                    </Container>
+                </Tooltip>
             );
         default:
             return null;
@@ -94,9 +111,11 @@ const sisteUtbetalingsdagMerknad = (isMaksdato: boolean): React.ReactNode | unde
 
 const foreldetDagMerknad = (isForeldet: boolean): React.ReactNode | undefined =>
     isForeldet ? (
-        <Container data-tip="Foreldet">
-            <LovdataLenke paragraf="22-13">§ 22-13</LovdataLenke>
-        </Container>
+        <Tooltip content="Foreldet">
+            <Container data-testid="Foreldet">
+                <LovdataLenke paragraf="22-13">§ 22-13</LovdataLenke>
+            </Container>
+        </Tooltip>
     ) : undefined;
 
 const avvisningsårsakerMerknad = (dag: UtbetalingstabellDag, alderVedSkjæringstidspunkt?: Maybe<number>) =>
@@ -118,7 +137,6 @@ export const MerknaderCell = ({ dag, alderVedSkjæringstidspunkt, ...rest }: Mer
             {sisteUtbetalingsdagMerknad(dag.erMaksdato) ??
                 foreldetDagMerknad(dag.erForeldet) ??
                 avvisningsårsakerMerknad(dag, alderVedSkjæringstidspunkt)}
-            <Tooltip effect="solid" />
         </CellContent>
     </td>
 );

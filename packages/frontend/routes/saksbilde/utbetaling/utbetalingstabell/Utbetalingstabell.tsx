@@ -1,9 +1,9 @@
 import React, { useMemo } from 'react';
 import classNames from 'classnames';
+import { Tooltip } from '@navikt/ds-react';
 import { Bag, People } from '@navikt/ds-icons';
 
 import { Flex } from '@components/Flex';
-import { Tooltip } from '@components/Tooltip';
 import { getFormattedDateString } from '@utils/date';
 import { useAlderVedSkjæringstidspunkt } from '@hooks/useAlderVedSkjæringstidspunkt';
 
@@ -69,15 +69,19 @@ export const Utbetalingstabell = ({
                             <Header scope="col" colSpan={1}>
                                 Total grad
                             </Header>
-                            <Header scope="col" colSpan={1}>
-                                <Flex data-tip="Arbeidsgiver" alignItems="center">
-                                    <Bag style={{ marginRight: '0.5rem' }} /> Utbetaling
-                                </Flex>
+                            <Header scope="col" colSpan={1} className={styles.TableHeader}>
+                                <Tooltip content="Arbeidsgiver">
+                                    <div className={styles.HeaderContent}>
+                                        <Bag /> Utbetaling
+                                    </div>
+                                </Tooltip>
                             </Header>
                             <Header scope="col" colSpan={1}>
-                                <Flex data-tip="Sykmeldt" alignItems="center">
-                                    <People style={{ marginRight: '0.5rem' }} /> Utbetaling
-                                </Flex>
+                                <Tooltip content="Sykmeldt">
+                                    <Flex className={styles.HeaderContent}>
+                                        <People /> Utbetaling
+                                    </Flex>
+                                </Tooltip>
                             </Header>
                             <Header scope="col" colSpan={1}>
                                 Dager igjen
@@ -133,7 +137,6 @@ export const Utbetalingstabell = ({
                     </tbody>
                 </table>
             </div>
-            <Tooltip id="utbetalingstabell" />
         </section>
     );
 };

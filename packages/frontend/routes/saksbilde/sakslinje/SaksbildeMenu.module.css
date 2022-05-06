@@ -4,12 +4,12 @@
     justify-content: space-between;
     height: 48px;
     box-sizing: border-box;
-    border-bottom: 1px solid var(--navds-color-border);
+    border-bottom: 1px solid var(--navds-semantic-color-border);
     padding: 0 2rem 0 2rem;
 }
 
 .SaksbildeMenu.Error {
-    background: var(--navds-color-error-background);
+    background: var(--navds-semantic-color-feedback-danger-background);
     display: flex;
     align-items: center;
 }
@@ -35,15 +35,15 @@
 .Strek {
     width: 100%;
     border: none;
-    border-top: 1px solid var(--navds-color-border);
+    border-top: 1px solid var(--navds-semantic-color-border);
 }
 
 .SaksbildeMenu.Skeleton > span > button > span {
-    background: var(--navds-color-gray-10);
-    box-shadow: 0 0 0 4px var(--navds-color-gray-10);
+    background: var(--navds-global-color-gray-100);
+    box-shadow: 0 0 0 4px var(--navds-global-color-gray-100);
     border-radius: 4px;
 }
 
 .SaksbildeMenu.Skeleton > span > button > span:after {
-    color: var(--navds-color-gray-10);
+    color: var(--navds-global-color-gray-100);
 }

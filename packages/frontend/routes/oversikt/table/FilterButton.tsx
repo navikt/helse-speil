@@ -14,7 +14,7 @@ const Button = styled.button`
     cursor: pointer;
     background: none;
     user-select: none;
-    color: var(--navds-color-text-primary);
+    color: var(--navds-semantic-color-text);
     border: 1px solid #78706a;
     padding: 0 0.5rem;
     height: 2rem;

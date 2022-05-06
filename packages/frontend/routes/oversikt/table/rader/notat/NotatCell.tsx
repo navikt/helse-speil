@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import React, { useState } from 'react';
 
 import { Notes } from '@navikt/ds-icons';
-import { Button } from '@navikt/ds-react';
+import { Button, Tooltip } from '@navikt/ds-react';
 
 import { useNotaterForVedtaksperiode } from '@state/notater';
 
@@ -17,12 +17,12 @@ const OpenNotesButton = styled(Button)`
     background: none;
 
     svg > path {
-        fill: var(--navds-color-action-default);
+        fill: var(--navds-semantic-color-interaction-primary);
     }
 
     &:hover svg > path,
     &:active svg > path {
-        fill: var(--navds-color-text-inverse);
+        fill: var(--navds-semantic-color-text-inverted);
     }
 `;
 
@@ -43,11 +43,13 @@ export const NotatCell: React.VFC<NotatCellProps> = ({ vedtaksperiodeId, personi
 
     return (
         <>
-            <Cell {...cellProps} data-tip="Notater">
+            <Cell {...cellProps}>
                 {notater.length > 0 && (
-                    <OpenNotesButton as="button" onClick={toggleModal} onKeyPress={toggleModal}>
-                        <Notes height={20} width={20} />
-                    </OpenNotesButton>
+                    <Tooltip content="Notater">
+                        <OpenNotesButton as="button" onClick={toggleModal} onKeyPress={toggleModal}>
+                            <Notes height={20} width={20} />
+                        </OpenNotesButton>
+                    </Tooltip>
                 )}
             </Cell>
             {showModal && (

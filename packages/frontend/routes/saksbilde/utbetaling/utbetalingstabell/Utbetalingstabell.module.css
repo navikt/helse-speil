@@ -24,3 +24,10 @@
     white-space: nowrap;
     overflow-y: hidden;
 }
+
+.HeaderContent {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    box-sizing: border-box;
+}

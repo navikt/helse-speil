@@ -24,7 +24,7 @@ const Container = styled.div`
 const Content = styled.div`
     margin: 1.5rem;
     padding: 0;
-    color: var(--navds-color-text-primary);
+    color: var(--navds-semantic-color-text);
     overflow: auto hidden;
     box-sizing: border-box;
     flex: 1;

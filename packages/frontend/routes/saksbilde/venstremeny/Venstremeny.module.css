@@ -6,7 +6,7 @@
     box-sizing: border-box;
     min-width: var(--speil-venstremeny-width);
     padding: 2rem 1.5rem;
-    border-right: 1px solid var(--navds-color-border);
+    border-right: 1px solid var(--navds-semantic-color-border);
 }
 
 .Title {
@@ -71,7 +71,7 @@
 }
 
 .Error {
-    background-color: var(--navds-color-error-background);
+    background-color: var(--navds-semantic-color-feedback-danger-background);
 }
 
 .Skeleton {

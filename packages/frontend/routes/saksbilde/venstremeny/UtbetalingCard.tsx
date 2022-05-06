@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { BodyShort } from '@navikt/ds-react';
+import { BodyShort, Tooltip } from '@navikt/ds-react';
 import { Bag, People } from '@navikt/ds-icons';
 
 import { somPenger } from '@utils/locale';
@@ -71,7 +71,9 @@ export const UtbetalingCard = ({
                     </Bold>
                 </div>
                 <div className={styles.Row}>
-                    <Bag data-tip="Arbeidsgiver" title="Arbeidsgiver" />
+                    <Tooltip content="Arbeidsgiver">
+                        <Bag title="Arbeidsgiver" />
+                    </Tooltip>
                     <AnonymizableTextWithEllipsis>{arbeidsgiver}</AnonymizableTextWithEllipsis>
                     <BodyShort>{somPenger(utbetaling.arbeidsgiverNettoBelop)}</BodyShort>
                 </div>
@@ -85,7 +87,9 @@ export const UtbetalingCard = ({
                     />
                 )}
                 <div className={styles.Row}>
-                    <People data-tip="Sykmeldt" title="Arbeidstaker" />
+                    <Tooltip content="Sykmeldt">
+                        <People title="Sykmeldt" />
+                    </Tooltip>
                     <AnonymizableTextWithEllipsis>{getFormattedName(personinfo)}</AnonymizableTextWithEllipsis>
                     <BodyShort>{somPenger(utbetaling.personNettoBelop)}</BodyShort>
                 </div>

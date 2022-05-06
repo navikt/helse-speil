@@ -3,10 +3,10 @@ import React from 'react';
 
 const StyledSelect = styled.select`
     width: 100%;
-    background: var(--navds-color-background);
+    background: var(--navds-semantic-color-canvas-background-light);
     border-radius: 3px;
-    border: 1px solid var(--navds-color-border);
-    color: var(--navds-color-text-primary);
+    border: 1px solid var(--navds-semantic-color-border);
+    color: var(--navds-semantic-color-text);
     font-size: 16px;
     font-family: 'Source Sans Pro', Arial, Helvetica, sans-serif;
     appearance: none;
@@ -18,7 +18,7 @@ const StyledSelect = styled.select`
     }
 
     &:focus {
-        box-shadow: 0 0 0 2px var(--navds-text-focus);
+        box-shadow: 0 0 0 2px var(--navds-semantic-color-focus);
     }
 `;
 
@@ -28,7 +28,7 @@ const chevron = (angle: number, right: number) => `
     width: 10px;
     height: 2px;
     border-radius: 2px;
-    background: var(--navds-color-text-primary);
+    background: var(--navds-semantic-color-text);
     right: ${right}px;
     top: calc(50% + 1px);
     transform: translateY(-50%) rotate(${angle}deg);

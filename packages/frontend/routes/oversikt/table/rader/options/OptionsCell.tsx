@@ -1,9 +1,8 @@
 import styled from '@emotion/styled';
 import React, { useRef, useState } from 'react';
 
-import { Button as NavButton, Popover } from '@navikt/ds-react';
+import { Button as NavButton, Popover, Tooltip } from '@navikt/ds-react';
 
-import { Tooltip } from '@components/Tooltip';
 import { useInnloggetSaksbehandler } from '@state/authentication';
 
 import { Cell } from '../../Cell';
@@ -30,7 +29,7 @@ const Button = styled(NavButton)`
     border-radius: 50%;
     min-width: unset;
     background: transparent;
-    box-shadow: inset 0 0 0 2px var(--navds-color-action-default);
+    box-shadow: inset 0 0 0 2px var(--navds-semantic-color-interaction-primary);
 
     > span {
         display: flex;
@@ -44,12 +43,12 @@ const Button = styled(NavButton)`
         width: 4px;
         height: 4px;
         border-radius: 50%;
-        background: var(--navds-color-action-default);
+        background: var(--navds-semantic-color-interaction-primary);
     }
 
     &:hover > span > div,
     &:active > span > div {
-        background: var(--navds-color-text-inverse);
+        background: var(--navds-semantic-color-text-inverted);
     }
 `;
 
@@ -84,8 +83,6 @@ export const OptionsCell = React.memo(({ oppgave, personinfo }: OptionsButtonPro
     const erTildeltInnloggetBruker = oppgave.tildeling?.saksbehandler?.oid === innloggetSaksbehandler.oid;
     const skalViseAvmeldingsknapp = erTildeltInnloggetBruker || (oppgave.tildeling && kanFrigiAndresOppgaver);
 
-    const id = `options-${oppgave.oppgavereferanse}`;
-
     const togglePopover = (event: React.SyntheticEvent) => {
         event.stopPropagation();
         setPopoverIsActive((active) => !active);
@@ -98,44 +95,47 @@ export const OptionsCell = React.memo(({ oppgave, personinfo }: OptionsButtonPro
     return (
         <Cell>
             <CellContent>
-                <Container data-tip="Mer" data-for={id}>
-                    <OptionsButton
-                        ref={buttonRef}
-                        onClick={togglePopover}
-                        onKeyPress={(event) => {
-                            event.stopPropagation();
-                            event.code === 'Space' || (event.code === 'Return' && togglePopover(event));
-                        }}
-                    />
-                    <Popover
-                        anchorEl={buttonRef.current}
-                        open={popoverIsActive}
-                        onClose={closePopover}
-                        placement="bottom"
-                        arrow={false}
-                        offset={0}
-                    >
-                        {!erTildeltInnloggetBruker && (
-                            <TildelMenuButton
-                                oppgavereferanse={oppgave.oppgavereferanse}
-                                saksbehandler={innloggetSaksbehandler}
-                                tildeling={oppgave.tildeling}
-                            />
-                        )}
-                        {erTildeltInnloggetBruker &&
-                            (oppgave.tildeling!.påVent ? (
-                                <FjernFraPåVentMenuButton oppgavereferanse={oppgave.oppgavereferanse} />
-                            ) : (
-                                <LeggPåVentMenuButton
+                <Tooltip content="Mer">
+                    <Container>
+                        <OptionsButton
+                            ref={buttonRef}
+                            onClick={togglePopover}
+                            onKeyPress={(event) => {
+                                event.stopPropagation();
+                                event.code === 'Space' || (event.code === 'Return' && togglePopover(event));
+                            }}
+                        />
+                        <Popover
+                            anchorEl={buttonRef.current}
+                            open={popoverIsActive}
+                            onClose={closePopover}
+                            placement="bottom"
+                            arrow={false}
+                            offset={0}
+                        >
+                            {!erTildeltInnloggetBruker && (
+                                <TildelMenuButton
                                     oppgavereferanse={oppgave.oppgavereferanse}
-                                    vedtaksperiodeId={oppgave.vedtaksperiodeId}
-                                    personinfo={personinfo}
+                                    saksbehandler={innloggetSaksbehandler}
+                                    tildeling={oppgave.tildeling}
                                 />
-                            ))}
-                        {skalViseAvmeldingsknapp && <MeldAvMenuButton oppgavereferanse={oppgave.oppgavereferanse} />}
-                    </Popover>
-                </Container>
-                <Tooltip id={id} effect="solid" offset={{ top: -10 }} />
+                            )}
+                            {erTildeltInnloggetBruker &&
+                                (oppgave.tildeling!.påVent ? (
+                                    <FjernFraPåVentMenuButton oppgavereferanse={oppgave.oppgavereferanse} />
+                                ) : (
+                                    <LeggPåVentMenuButton
+                                        oppgavereferanse={oppgave.oppgavereferanse}
+                                        vedtaksperiodeId={oppgave.vedtaksperiodeId}
+                                        personinfo={personinfo}
+                                    />
+                                ))}
+                            {skalViseAvmeldingsknapp && (
+                                <MeldAvMenuButton oppgavereferanse={oppgave.oppgavereferanse} />
+                            )}
+                        </Popover>
+                    </Container>
+                </Tooltip>
             </CellContent>
         </Cell>
     );

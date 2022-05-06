@@ -2,9 +2,9 @@ import styled from '@emotion/styled';
 import React, { ChangeEvent } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
 
-import { Checkbox as NavCheckbox, Fieldset, Radio, RadioGroup, Textarea } from '@navikt/ds-react';
+import { Alert, Checkbox as NavCheckbox, Fieldset, Radio, RadioGroup, Textarea } from '@navikt/ds-react';
 
-import { Annulleringsvarsel } from './Annulleringsvarsel';
+import styles from './Annulleringsmodal.module.css';
 
 const Container = styled.div``;
 
@@ -73,7 +73,7 @@ export const Annulleringsbegrunnelse = () => {
 
     const { onChange: onChangeBegrunnelser, ...begrunnelserValidation } = register('begrunnelser');
     const { onChange: onChangeSkjæringstidspunkt, ...skjæringstidspunktValidation } = register(
-        'gjelder_siste_skjæringstidspunkt'
+        'gjelder_siste_skjæringstidspunkt',
     );
 
     const onChangeRadioButton = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -83,11 +83,11 @@ export const Annulleringsbegrunnelse = () => {
     return (
         <Container>
             <Undertittel>Årsak til annullering</Undertittel>
-            <Annulleringsvarsel variant="info" style={{ marginBottom: '2.5rem' }}>
+            <Alert inline variant="info" className={styles.Warning}>
                 Årsakene og begrunnelsen du fyller ut her, finner du ikke igjen i saksbehandlingssystemet etterpå.
                 <br />
                 Informasjonen som fylles inn skal brukes til å forbedre løsningen.
-            </Annulleringsvarsel>
+            </Alert>
 
             <RadioContainer
                 legend="Gjelder endringen det siste skjæringtidspunktet?"
@@ -102,6 +102,7 @@ export const Annulleringsbegrunnelse = () => {
                     value="siste_skjæringstidspunkt"
                     onChange={onChangeRadioButton}
                     {...skjæringstidspunktValidation}
+                    className={styles.Radio}
                 >
                     Ja, det siste skjæringstidspunktet
                 </Radio>
@@ -109,6 +110,7 @@ export const Annulleringsbegrunnelse = () => {
                     value="tidligere_skjæringstidspunkt"
                     onChange={onChangeRadioButton}
                     {...skjæringstidspunktValidation}
+                    className={styles.Radio}
                 >
                     Nei, et tidligere skjæringstidspunkt
                 </Radio>
@@ -127,6 +129,7 @@ export const Annulleringsbegrunnelse = () => {
                             clearErrors('begrunnelser');
                         }}
                         {...begrunnelserValidation}
+                        className={styles.Checkbox}
                     >
                         <p>{value}</p>
                     </Checkbox>

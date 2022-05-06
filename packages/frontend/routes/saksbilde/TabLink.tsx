@@ -14,13 +14,13 @@ const Content = styled.span`
         position: absolute;
         left: 50%;
         transform: translateX(-50%);
-        color: var(--navds-color-text-primary);
+        color: var(--navds-semantic-color-text);
     }
 `;
 
 const DisabledTabLink = styled(TabButton)`
     height: 48px;
-    color: var(--navds-color-text-disabled);
+    color: var(--navds-semantic-color-text-muted);
 `;
 
 const TabLinkButton = styled(TabButton)`

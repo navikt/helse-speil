@@ -24,7 +24,7 @@ const Button = styled(NavButton)`
     &:hover,
     &:focus {
         background: var(--speil-light-hover);
-        color: var(--navds-primary-text);
+        color: var(--navds-semantic-color-text);
         cursor: pointer;
     }
 
@@ -32,7 +32,7 @@ const Button = styled(NavButton)`
         &,
         &:hover {
             background-color: transparent;
-            color: var(--navds-color-text-disabled);
+            color: var(--navds-semantic-color-text-muted);
         }
     }
 `;

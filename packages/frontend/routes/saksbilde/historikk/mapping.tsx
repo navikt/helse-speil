@@ -37,7 +37,7 @@ import { ISO_TIDSPUNKTFORMAT } from '@utils/date';
 
 const BegrunnelseTekst = styled.div`
     margin-top: 0.25rem;
-    color: var(--navds-color-text-primary);
+    color: var(--navds-semantic-color-text);
     line-height: 1.375rem;
 
     > p:last-of-type {

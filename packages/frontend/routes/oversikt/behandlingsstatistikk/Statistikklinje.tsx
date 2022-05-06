@@ -21,7 +21,7 @@ const Progress = styled.progress`
     height: 0.5rem;
 
     ::-webkit-progress-bar {
-        background-color: var(--navds-color-gray-10);
+        background-color: var(--navds-global-color-gray-100);
         color: #3484d1;
     }
 

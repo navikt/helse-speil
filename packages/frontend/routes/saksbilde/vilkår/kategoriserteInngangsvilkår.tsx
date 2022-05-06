@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import React from 'react';
 
-import { BodyShort } from '@navikt/ds-react';
+import { BodyShort, Tooltip } from '@navikt/ds-react';
 
 import { Flex } from '@components/Flex';
 import { LovdataLenke } from '@components/LovdataLenke';
@@ -67,13 +67,15 @@ const sykepengegrunnlag = (alderVedSkjæringstidspunkt: number, vilkår: Vilkars
                 tittel: 'Krav til minste sykepengegrunnlag',
                 paragraf: harEndretParagraf ? (
                     <EndretParagrafContainer alignItems="center">
-                        <IconContainer data-tip="Mellom 67 og 70 år - inntektsgrunnlaget må overstige 2G">
-                            <Advarselikon
-                                alt="Mellom 67 og 70 år - inntektsgrunnlaget må overstige 2G"
-                                height={16}
-                                width={16}
-                            />
-                        </IconContainer>
+                        <Tooltip content="Mellom 67 og 70 år - inntektsgrunnlaget må overstige 2G">
+                            <IconContainer>
+                                <Advarselikon
+                                    alt="Mellom 67 og 70 år - inntektsgrunnlaget må overstige 2G"
+                                    height={16}
+                                    width={16}
+                                />
+                            </IconContainer>
+                        </Tooltip>
                         <LovdataLenkeContainer as="p">
                             <LovdataLenke paragraf="8-51">§ 8-51</LovdataLenke>
                         </LovdataLenkeContainer>
@@ -138,7 +140,7 @@ export interface KategoriserteVilkår {
 export const kategoriserteInngangsvilkår = (
     vilkårsgrunnlag: Vilkarsgrunnlag,
     alderVedSkjæringstidspunkt: number,
-    vurdering?: Vurdering | null
+    vurdering?: Vurdering | null,
 ): KategoriserteVilkår => {
     const vurdertIInfotrygd = vilkårsgrunnlag.vilkarsgrunnlagtype === 'INFOTRYGD';
     const vurdertISpleis = !vurdertIInfotrygd && vurdering;

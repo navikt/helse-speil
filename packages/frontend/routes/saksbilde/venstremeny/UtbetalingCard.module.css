@@ -11,7 +11,7 @@
 }
 
 .ErrorMessage {
-    color: var(--navds-color-text-error);
+    color: var(--navds-semantic-color-feedback-danger-text);
     font-weight: 600;
     margin-top: 1rem;
 }

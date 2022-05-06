@@ -3,6 +3,7 @@ import ReactModal from 'react-modal';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import { RecoilRoot } from 'recoil';
 import 'reset-css';
+import './App.css';
 
 import { Toasts } from '@components/Toasts';
 import { Header } from '@components/header/Header';
@@ -19,8 +20,6 @@ import { PageNotFound } from './PageNotFound';
 import { IkkeLoggetInn } from './IkkeLoggetInn';
 import { GlobalFeilside } from './GlobalFeilside';
 import { Routes } from './index';
-
-import './App.css';
 
 const Saksbilde = React.lazy(() => import('./saksbilde/Saksbilde').catch(onLazyLoadFail));
 const Oversikt = React.lazy(() => import('./oversikt').catch(onLazyLoadFail));

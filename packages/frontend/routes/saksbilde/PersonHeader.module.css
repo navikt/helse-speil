@@ -6,12 +6,12 @@
     box-sizing: border-box;
     padding: 0 2rem;
     background: var(--speil-background-secondary);
-    border-bottom: 1px solid var(--navds-color-border);
-    color: var(--navds-color-text-primary);
+    border-bottom: 1px solid var(--navds-semantic-color-border);
+    color: var(--navds-semantic-color-text);
 }
 
 .PersonHeader.Error {
-    background: var(--navds-color-error-background);
+    background: var(--navds-semantic-color-feedback-danger-background);
 }
 
 .PersonHeader > svg {
@@ -33,10 +33,10 @@
 .Link:active,
 .Link:focus-visible {
     outline: none;
-    color: var(--navds-color-text-inverse);
+    color: var(--navds-semantic-color-text-inverted);
     text-decoration: none;
-    background-color: var(--navds-text-focus);
-    box-shadow: 0 0 0 2px var(--navds-text-focus);
+    background-color: var(--navds-semantic-color-focus);
+    box-shadow: 0 0 0 2px var(--navds-semantic-color-focus);
 }
 
 .Tag {
@@ -49,13 +49,13 @@
 .Tag.adressebeskyttelse {
     background: var(--speil-etikett-adressebeskyttelse-background);
     border: 1px solid var(--speil-etikett-adressebeskyttelse-border);
-    color: var(--navds-color-text-primary);
+    color: var(--navds-semantic-color-text);
 }
 
 .Tag.dødsdato {
     background: var(--speil-etikett-dødsdato-background);
     border: 1px solid var(--speil-etikett-dødsdato-border);
-    color: var(--navds-color-text-inverse);
+    color: var(--navds-semantic-color-text-inverted);
 }
 
 @keyframes placeHolderShimmer {

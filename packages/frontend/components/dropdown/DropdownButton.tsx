@@ -15,21 +15,21 @@ export const DropdownButton = styled(Button)`
 
     &:hover,
     &:focus {
-        background: var(--navds-color-blue-10);
-        color: var(--navds-primary-text);
+        background: var(--navds-global-color-blue-100);
+        color: var(--navds-semantic-color-text);
         cursor: pointer;
     }
 
     &:focus-visible,
     &:focus {
-        box-shadow: inset 0 0 0 2px var(--navds-text-focus);
+        box-shadow: inset 0 0 0 2px var(--navds-semantic-color-focus);
     }
 
     &:disabled {
         &,
         &:hover {
             background-color: transparent;
-            color: var(--navds-color-text-disabled);
+            color: var(--navds-semantic-color-text-muted);
         }
     }
 `;

@@ -2,13 +2,13 @@ import React from 'react';
 
 import { isBeregnetPeriode, isGhostPeriode, isUberegnetPeriode } from '@utils/typeguards';
 import type { GhostPeriode, Periode } from '@io/graphql';
+import { Periodetilstand } from '@io/graphql';
 
 import { Period } from './Period';
 import { usePeriodStyling } from './usePeriodStyling';
 import { useVisiblePeriods } from './useVisiblePeriods';
 
 import styles from './Periods.module.css';
-import { Periodetilstand } from '@io/graphql';
 
 const byFomAscending = (a: DatePeriod, b: DatePeriod) => new Date(b.fom).getTime() - new Date(a.fom).getTime();
 

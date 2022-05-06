@@ -1,7 +1,6 @@
 import React from 'react';
 
 import { Kilde } from '@components/Kilde';
-import { Tooltip } from '@components/Tooltip';
 import { Clipboard } from '@components/clipboard';
 import { AnonymizableText } from '@components/anonymizable/AnonymizableText';
 import { AnonymizableContainer } from '@components/anonymizable/AnonymizableContainer';
@@ -13,6 +12,7 @@ import { Refusjonsoversikt } from './refusjon/Refusjonsoversikt';
 import { Inntekt } from './inntekt/Inntekt';
 
 import styles from './Inntektskilderinnhold.module.css';
+import { Tooltip } from '@navikt/ds-react';
 
 interface InntektskilderinnholdProps {
     inntekt: Arbeidsgiverinntekt;
@@ -34,12 +34,17 @@ export const Inntektskilderinnhold = ({
     return (
         <div className={styles.Inntektskilderinnhold}>
             <div className={styles.Header}>
-                <div className={styles.Arbeidsgivernavn} data-tip="Arbeidsgivernavn">
-                    <AnonymizableTextWithEllipsis>{arbeidsgivernavn}</AnonymizableTextWithEllipsis>
-                </div>
+                <Tooltip content="Arbeidsgivernavn">
+                    <div className={styles.Arbeidsgivernavn}>
+                        <AnonymizableTextWithEllipsis>{arbeidsgivernavn}</AnonymizableTextWithEllipsis>
+                    </div>
+                </Tooltip>
                 <div className={styles.Organisasjonsnummer}>
                     (
-                    <Clipboard copyMessage="Organisasjonsnummer er kopiert" dataTip="Kopier organisasjonsnummer">
+                    <Clipboard
+                        copyMessage="Organisasjonsnummer er kopiert"
+                        tooltip={{ content: 'Kopier organisasjonsnummer' }}
+                    >
                         <AnonymizableContainer>{inntekt.arbeidsgiver}</AnonymizableContainer>
                     </Clipboard>
                     )
@@ -63,7 +68,6 @@ export const Inntektskilderinnhold = ({
             </div>
             <Inntekt inntekt={inntekt} />
             {refusjon && <Refusjonsoversikt refusjon={refusjon} />}
-            <Tooltip effect="solid" />
         </div>
     );
 };

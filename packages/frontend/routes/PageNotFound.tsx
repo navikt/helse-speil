@@ -28,7 +28,7 @@ const Feilkodetekst = styled(BodyShort)`
 `;
 
 const Oppgavelenke = styled(Link)`
-    color: var(--navds-color-text-primary);
+    color: var(--navds-semantic-color-text);
     font-weight: 600;
     line-height: 1.5rem;
     margin-top: 1.5rem;

@@ -3,7 +3,7 @@ import { AnimatePresence, motion } from 'framer-motion';
 import React, { ReactChild, useEffect, useRef, useState } from 'react';
 
 import { Copy } from '@navikt/ds-icons';
-import { BodyShort } from '@navikt/ds-react';
+import { BodyShort, Tooltip, TooltipProps } from '@navikt/ds-react';
 
 import { Flex } from '../Flex';
 import { copyContentsToClipboard } from './util';
@@ -18,19 +18,19 @@ const Button = styled.button`
     border-radius: 1px;
 
     &:hover {
-        background: var(--navds-color-hover);
+        background: var(--navds-semantic-color-interaction-primary-hover-subtle);
     }
 
     &:focus,
     &:active {
-        outline: solid var(--navds-color-blue-80);
+        outline: solid var(--navds-global-color-blue-800);
     }
 `;
 
 const Popover = styled(BodyShort)`
     position: absolute;
     padding: 6px 8px;
-    border: 1px solid var(--navds-color-border);
+    border: 1px solid var(--navds-semantic-color-border);
     background: white;
     border-radius: 2px;
     white-space: nowrap;
@@ -40,8 +40,8 @@ const Popover = styled(BodyShort)`
         position: absolute;
         content: '';
         background: white;
-        border-top: 1px solid var(--navds-color-border);
-        border-left: 1px solid var(--navds-color-border);
+        border-top: 1px solid var(--navds-semantic-color-border);
+        border-left: 1px solid var(--navds-semantic-color-border);
         transform: rotate(45deg);
         height: 10px;
         width: 10px;
@@ -54,15 +54,28 @@ const Container = styled(Flex)`
     position: relative;
 `;
 
+interface TooltipWrapperProps {
+    props?: Omit<TooltipProps, 'children'>;
+    children: React.ReactElement;
+}
+
+const TooltipWrapper: React.FC<TooltipWrapperProps> = ({ props, children }) => {
+    if (!props) {
+        return <>{children}</>;
+    }
+
+    return <Tooltip {...props}>{children}</Tooltip>;
+};
+
 interface Props {
     children: ReactChild;
     copySource?: React.RefObject<HTMLElement>;
     preserveWhitespace?: boolean;
     copyMessage?: string;
-    dataTip?: string;
+    tooltip?: Omit<TooltipProps, 'children'>;
 }
 
-export const Clipboard = ({ children, copySource, preserveWhitespace = true, copyMessage, dataTip }: Props) => {
+export const Clipboard = ({ children, copySource, preserveWhitespace = true, copyMessage, tooltip }: Props) => {
     const [didCopy, setDidCopy] = useState(false);
     const contentRef = useRef<HTMLDivElement>(null);
 
@@ -71,7 +84,7 @@ export const Clipboard = ({ children, copySource, preserveWhitespace = true, cop
             setDidCopy(
                 copySource?.current
                     ? await copyContentsToClipboard(copySource.current, preserveWhitespace)
-                    : await copyContentsToClipboard(contentRef?.current?.firstChild as HTMLElement, preserveWhitespace)
+                    : await copyContentsToClipboard(contentRef?.current?.firstChild as HTMLElement, preserveWhitespace),
             );
         }
     };
@@ -89,27 +102,29 @@ export const Clipboard = ({ children, copySource, preserveWhitespace = true, cop
     return (
         <Container as="span" alignItems="center">
             <div ref={contentRef}>{children}</div>
-            <Button onClick={copy} data-tip={dataTip}>
-                <Copy aria-label={dataTip} />
-                <AnimatePresence>
-                    {didCopy && (
-                        <motion.span
-                            key="popover"
-                            initial={{ opacity: 0, y: -5 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            exit={{ opacity: 0 }}
-                            transition={{ type: 'tween', duration: 0.15 }}
-                            style={{
-                                position: 'absolute',
-                                bottom: -10,
-                                left: -2,
-                            }}
-                        >
-                            <Popover as="p">{copyMessage ?? 'Kopiert!'}</Popover>
-                        </motion.span>
-                    )}
-                </AnimatePresence>
-            </Button>
+            <TooltipWrapper props={tooltip}>
+                <Button onClick={copy}>
+                    <Copy aria-label={tooltip?.content} />
+                    <AnimatePresence>
+                        {didCopy && (
+                            <motion.span
+                                key="popover"
+                                initial={{ opacity: 0, y: -5 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                exit={{ opacity: 0 }}
+                                transition={{ type: 'tween', duration: 0.15 }}
+                                style={{
+                                    position: 'absolute',
+                                    bottom: -10,
+                                    left: -2,
+                                }}
+                            >
+                                <Popover as="p">{copyMessage ?? 'Kopiert!'}</Popover>
+                            </motion.span>
+                        )}
+                    </AnimatePresence>
+                </Button>
+            </TooltipWrapper>
         </Container>
     );
 };

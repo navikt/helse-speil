@@ -77,7 +77,7 @@ const PersonHeaderWithContent: React.VFC<PersonHeaderWithContentProps> = ({
                 <Clipboard
                     preserveWhitespace={false}
                     copyMessage="Fødselsnummer er kopiert"
-                    dataTip="Kopier fødselsnummer (Alt + C)"
+                    tooltip={{ content: 'Kopier fødselsnummer', keys: ['alt', 'c'] }}
                 >
                     <AnonymizableText>{getFormattedFødselsnummer(fødselsnummer)}</AnonymizableText>
                 </Clipboard>
@@ -86,7 +86,11 @@ const PersonHeaderWithContent: React.VFC<PersonHeaderWithContentProps> = ({
             )}
             <BodyShort className={styles.Separator}>/</BodyShort>
             <AnonymizableText>Aktør-ID:&nbsp;</AnonymizableText>
-            <Clipboard preserveWhitespace={false} copyMessage="Aktør-ID er kopiert" dataTip="Kopier aktør-ID">
+            <Clipboard
+                preserveWhitespace={false}
+                copyMessage="Aktør-ID er kopiert"
+                tooltip={{ content: 'Kopier aktør-ID' }}
+            >
                 <AnonymizableText>{aktørId}</AnonymizableText>
             </Clipboard>
             <BodyShort className={styles.Separator}>/</BodyShort>

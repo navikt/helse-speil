@@ -6,7 +6,7 @@
 
 .Inntekt.editing {
     background-color: var(--speil-background-secondary);
-    border-left: 4px solid var(--navds-color-action-default);
+    border-left: 4px solid var(--navds-semantic-color-interaction-primary);
     padding: 0.5rem 1rem;
 }
 

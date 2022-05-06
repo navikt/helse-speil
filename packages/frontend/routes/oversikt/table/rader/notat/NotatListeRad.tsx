@@ -12,7 +12,7 @@ import { NORSK_DATOFORMAT_MED_KLOKKESLETT } from '@utils/date';
 import { ignorePromise } from '@utils/promise';
 
 const FeilregistrerButton = styled(LinkButton)`
-    color: var(--navds-color-text-primary);
+    color: var(--navds-semantic-color-text);
 `;
 
 const Row = styled.tr<{ error: boolean }>`
@@ -50,7 +50,7 @@ export const NotatListeRad = ({ notat, vedtaksperiodeId, innloggetSaksbehandler 
             putFeilregistrertNotat(vedtaksperiodeId, notat.id)
                 .then(refreshNotater)
                 .finally(() => setIsFetching(false)),
-            errorHandler
+            errorHandler,
         );
     };
 

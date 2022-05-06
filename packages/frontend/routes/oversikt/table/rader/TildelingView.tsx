@@ -9,8 +9,8 @@ interface TildelingProps {
 
 export const TildelingView = React.memo(({ oppgave }: TildelingProps) =>
     oppgave.tildeling ? (
-        <Tildelt name={oppgave.tildeling.saksbehandler.navn} oppgavereferanse={oppgave.oppgavereferanse} />
+        <Tildelt name={oppgave.tildeling.saksbehandler.navn} />
     ) : (
         <IkkeTildelt oppgavereferanse={oppgave.oppgavereferanse} />
-    )
+    ),
 );

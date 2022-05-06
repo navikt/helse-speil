@@ -4,7 +4,7 @@ import styled from '@emotion/styled';
 import { FormProvider, useForm } from 'react-hook-form';
 
 import { Error } from '@navikt/ds-icons';
-import { BodyShort, Button as NavButton, ErrorSummary, ErrorSummaryItem, Loader } from '@navikt/ds-react';
+import { BodyShort, Button as NavButton, ErrorSummary, Loader } from '@navikt/ds-react';
 
 import { Maybe } from '@io/graphql';
 import { EditButton } from '@components/EditButton';
@@ -40,7 +40,7 @@ const FormContainer = styled(FlexColumn)<{ editing: boolean }>`
         props.editing &&
         css`
             background-color: var(--speil-background-secondary);
-            border-left: 4px solid var(--navds-color-action-default);
+            border-left: 4px solid var(--navds-semantic-color-interaction-primary);
             padding: 0.5rem 1rem;
         `};
 `;
@@ -62,7 +62,7 @@ const Tittel = styled(BodyShort)`
     align-items: center;
     font-size: 18px;
     font-weight: 600;
-    color: var(--navds-color-text-primary);
+    color: var(--navds-semantic-color-text);
 `;
 
 const Buttons = styled.span`
@@ -84,7 +84,7 @@ const FormButton = styled(NavButton)`
     &:disabled,
     &.navds-button:disabled {
         border-width: 2px;
-        border-color: var(--navds-color-disabled);
+        border-color: var(--navds-semantic-color-border-muted);
         padding: 5px 23px;
     }
 
@@ -219,7 +219,7 @@ const OverstyrArbeidsforholdSkjema = ({
                         <FeiloppsummeringContainer>
                             <ErrorSummary ref={feiloppsummeringRef} heading="Skjemaet inneholder følgende feil:">
                                 {Object.entries(form.formState.errors).map(([id, error]) => (
-                                    <ErrorSummaryItem key={id}>{error.message}</ErrorSummaryItem>
+                                    <ErrorSummary.Item key={id}>{error.message}</ErrorSummary.Item>
                                 ))}
                             </ErrorSummary>
                         </FeiloppsummeringContainer>

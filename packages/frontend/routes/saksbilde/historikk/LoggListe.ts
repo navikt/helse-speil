@@ -10,8 +10,8 @@ export const LoggListe = styled.ul`
     .Inntektsmelding:before {
         position: absolute;
         font-size: 14px;
-        border: 1px solid var(--navds-color-text-primary);
-        color: var(--navds-color-text-primary);
+        border: 1px solid var(--navds-semantic-color-text);
+        color: var(--navds-semantic-color-text);
         border-radius: 4px;
         width: 28px;
         height: 18px;

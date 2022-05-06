@@ -1,14 +1,14 @@
 import React from 'react';
-import styled from '@emotion/styled';
-import { BodyShort } from '@navikt/ds-react';
+import { Alert, BodyShort } from '@navikt/ds-react';
 
-import { Varsel } from '@components/Varsel';
 import { Maybe } from '@io/graphql';
 
 import { Aktivitetsloggvarsler } from './Aktivetsloggvarsler';
 
+import styles from './Saksbildevarsler.module.css';
+
 type VarselObject = {
-    grad: 'info' | 'suksess' | 'advarsel' | 'feil';
+    grad: 'info' | 'success' | 'warning' | 'error';
     melding: string;
 };
 
@@ -33,9 +33,9 @@ const tilstandInfoVarsel = (state: PeriodState): VarselObject | null => {
 const tilstandFeilVarsel = (state: PeriodState): VarselObject | null => {
     switch (state) {
         case 'annulleringFeilet':
-            return { grad: 'feil', melding: 'Annulleringen feilet. Kontakt utviklerteamet.' };
+            return { grad: 'error', melding: 'Annulleringen feilet. Kontakt utviklerteamet.' };
         case 'feilet':
-            return { grad: 'feil', melding: 'Utbetalingen feilet.' };
+            return { grad: 'error', melding: 'Utbetalingen feilet.' };
         default:
             return null;
     }
@@ -58,20 +58,14 @@ const vedtaksperiodeVenterVarsel = (state: PeriodState): VarselObject | null =>
 const manglendeOppgavereferansevarsel = (state: PeriodState, oppgavereferanse?: string | null): VarselObject | null =>
     state === 'oppgaver' && (!oppgavereferanse || oppgavereferanse.length === 0)
         ? {
-              grad: 'feil',
+              grad: 'error',
               melding: `Denne perioden kan ikke utbetales. Det kan skyldes at den allerede er 
               forsøkt utbetalt, men at det er forsinkelser i systemet.`,
           }
         : null;
 
 const ukjentTilstandsvarsel = (state: PeriodState): VarselObject | null =>
-    state === 'ukjent' ? { grad: 'feil', melding: 'Kunne ikke lese informasjon om sakens tilstand.' } : null;
-
-const Saksbildevarsel = styled(Varsel)`
-    border-top-style: none;
-    border-left-style: none;
-    border-right-style: none;
-`;
+    state === 'ukjent' ? { grad: 'error', melding: 'Kunne ikke lese informasjon om sakens tilstand.' } : null;
 
 interface SaksbildevarslerProps {
     periodState: PeriodState;
@@ -95,15 +89,15 @@ export const Saksbildevarsler = ({ periodState, oppgavereferanse, varsler }: Sak
     return (
         <div className="Saksbildevarsler">
             {infoVarsler.map(({ grad, melding }, index) => (
-                <Saksbildevarsel variant={grad} key={index}>
+                <Alert className={styles.Varsel} variant={grad} key={index}>
                     <BodyShort>{melding}</BodyShort>
-                </Saksbildevarsel>
+                </Alert>
             ))}
             {varsler && <Aktivitetsloggvarsler varsler={varsler} />}
             {feilVarsler.map(({ grad, melding }, index) => (
-                <Saksbildevarsel variant={grad} key={index}>
+                <Alert className={styles.Varsel} variant={grad} key={index}>
                     <BodyShort>{melding}</BodyShort>
-                </Saksbildevarsel>
+                </Alert>
             ))}
         </div>
     );

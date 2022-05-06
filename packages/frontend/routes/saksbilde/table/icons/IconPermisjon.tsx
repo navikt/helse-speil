@@ -1,6 +1,6 @@
 import React from 'react';
 
-export const IconPermisjon = ({ width = 11, height = 16, fill = 'var(--navds-color-text-primary)' }) => (
+export const IconPermisjon = ({ width = 11, height = 16, fill = 'var(--navds-semantic-color-text)' }) => (
     <svg
         width={width}
         height={height}

@@ -7,6 +7,7 @@ import type { GhostPeriode, Periode } from '@io/graphql';
 import { Periods } from './Periods';
 
 import styles from './TimelineRow.module.css';
+import { Tooltip } from '@navikt/ds-react';
 
 export interface TimelineRowProps {
     start: Dayjs;
@@ -28,12 +29,12 @@ export const TimelineRow: React.VFC<TimelineRowProps> = ({
     activePeriod,
 }) => (
     <div className={styles.TimelineRow}>
-        <div className={styles.Name}>
-            <Bag height={16} width={16} />
-            <AnonymizableTextWithEllipsis size="small" data-tip={name}>
-                {name}
-            </AnonymizableTextWithEllipsis>
-        </div>
+        <Tooltip content={name}>
+            <div className={styles.Name}>
+                <Bag height={16} width={16} />
+                <AnonymizableTextWithEllipsis size="small">{name}</AnonymizableTextWithEllipsis>
+            </div>
+        </Tooltip>
         <div className={styles.Periods}>
             <Periods
                 periods={periods}

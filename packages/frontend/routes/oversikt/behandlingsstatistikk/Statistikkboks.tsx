@@ -20,10 +20,15 @@ const Boks = styled(Accordion.Item)`
     > button,
     .navds-accordion__content {
         padding: 4px;
+        border-bottom: none;
     }
 
     svg > path {
-        fill: var(--navds-color-text-primary);
+        fill: var(--navds-semantic-color-text);
+    }
+
+    &.navds-accordion__item--open > .navds-accordion__header {
+        background-color: unset;
     }
 `;
 
@@ -60,7 +65,7 @@ const HeadingContainer = styled.div`
     }
 
     > p {
-        color: var(--navds-color-gray-80);
+        color: var(--navds-global-color-gray-800);
     }
 `;
 

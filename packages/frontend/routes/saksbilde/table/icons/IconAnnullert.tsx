@@ -1,6 +1,6 @@
 import React from 'react';
 
-export const IconAnnullert = ({ width = 16, height = 18, fill = 'var(--navds-color-text-primary)' }) => (
+export const IconAnnullert = ({ width = 16, height = 18, fill = 'var(--navds-semantic-color-text)' }) => (
     <svg
         width={width}
         height={height}

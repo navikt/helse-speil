@@ -11,7 +11,7 @@
 .OverstyrbarUtbetaling.overstyrer {
     padding-right: 1rem;
     margin-left: 0.5rem;
-    border-left: 6px solid var(--navds-color-action-default);
+    border-left: 6px solid var(--navds-semantic-color-interaction-primary);
 }
 
 .TableContainer {
@@ -42,7 +42,7 @@
 
 .ErrorMessage {
     margin-left: 2rem;
-    color: var(--navds-color-text-error);
+    color: var(--navds-semantic-color-feedback-danger-text);
     font-weight: 600;
 }
 

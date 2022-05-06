@@ -8,6 +8,7 @@ export class LazyLoadError extends Error {
 }
 
 export const onLazyLoadFail = (error: Error): Promise<never> => {
+    console.log(error.message);
     const numberOfTimesFailed = Number(window.sessionStorage.getItem(error.message));
 
     if (numberOfTimesFailed < 2) {

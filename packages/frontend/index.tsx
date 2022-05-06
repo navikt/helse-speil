@@ -1,6 +1,7 @@
 import React from 'react';
 
 import '@navikt/ds-css';
+import '@navikt/ds-css-internal';
 import '@navikt/ds-tokens/dist/tokens.css';
 import './config';
 

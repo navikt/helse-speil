@@ -41,14 +41,14 @@ const avvistStyle = (props: RowProps) =>
     props.erAvvist &&
     css`
         background-color: #f9d2cc;
-        ${leftAlignedLine('var(--navds-color-error-border)')}
+        ${leftAlignedLine('var(--navds-semantic-color-feedback-danger-border)')}
     `;
 
 const arbeidsgiverperiodeStyle = (props: RowProps) =>
     props.erAGP &&
     css`
         background-color: #f8f8f8;
-        ${leftAlignedLine('var(--navds-color-text-disabled)')}
+        ${leftAlignedLine('var(--navds-semantic-color-text-muted)')}
     `;
 
 export const Row = styled.tr<RowProps>`

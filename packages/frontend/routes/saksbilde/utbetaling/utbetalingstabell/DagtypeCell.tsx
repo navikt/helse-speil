@@ -7,7 +7,6 @@ import { Dagtype, Sykdomsdagtype, Utbetalingsdagtype } from '@io/graphql';
 
 import { CellContent } from '../../table/CellContent';
 import { IconArbeidsdag } from '../../table/icons/IconArbeidsdag';
-import { IconArbeidsgiverperiode } from '../../table/icons/IconArbeidsgiverperiode';
 import { IconEgenmelding } from '../../table/icons/IconEgenmelding';
 import { IconFailure } from '../../table/icons/IconFailure';
 import { IconFerie } from '../../table/icons/IconFerie';
@@ -26,11 +25,7 @@ const getTypeIcon = (dag: UtbetalingstabellDag): ReactNode => {
     if (dag.erForeldet || dag.erAvvist) {
         return <IconFailure />;
     }
-    if (dag.erAGP) {
-        return <IconArbeidsgiverperiode />;
-    }
 
-    // Mangler annullert dag
     switch (dag.type) {
         case 'Syk':
             return <IconSyk />;
@@ -51,7 +46,7 @@ const getTypeIcon = (dag: UtbetalingstabellDag): ReactNode => {
 
 const daytypesAreEqual = (
     utbetalingsdagtype: Utbetalingsdagtype,
-    overstyrtDagtype: Utbetalingstabelldagtype
+    overstyrtDagtype: Utbetalingstabelldagtype,
 ): boolean => {
     switch (utbetalingsdagtype) {
         case Utbetalingsdagtype.Arbeidsdag:

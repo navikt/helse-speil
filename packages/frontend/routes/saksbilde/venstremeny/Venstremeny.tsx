@@ -2,7 +2,6 @@ import React from 'react';
 import classNames from 'classnames';
 import { BodyShort, Loader } from '@navikt/ds-react';
 
-import { Tooltip } from '@components/Tooltip';
 import { ErrorBoundary } from '@components/ErrorBoundary';
 import { useActivePeriod } from '@state/periode';
 import { useCurrentPerson } from '@state/person';
@@ -63,7 +62,6 @@ export const Venstremeny: React.VFC = () => {
         <React.Suspense fallback={<VenstremenySkeleton />}>
             <ErrorBoundary fallback={<VenstremenyError />}>
                 <VenstremenyContainer />
-                <Tooltip effect="solid" />
             </ErrorBoundary>
         </React.Suspense>
     );

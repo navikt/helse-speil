@@ -161,10 +161,10 @@ export const OppgaverTable = React.memo(({ oppgaver }: { oppgaver: Oppgave[] }) 
                             <LinkRow onNavigate={onNavigate} aktørId={it.aktørId} key={it.oppgavereferanse}>
                                 <TildelingCell oppgave={it} />
                                 <SakstypeCell type={it.periodetype} />
-                                <BostedCell stedsnavn={it.boenhet.navn} oppgavereferanse={it.oppgavereferanse} />
+                                <BostedCell stedsnavn={it.boenhet.navn} />
                                 <InntektskildeCell type={it.inntektskilde} />
                                 <StatusCell numberOfWarnings={it.antallVarsler} />
-                                <SøkerCell personinfo={it.personinfo} oppgavereferanse={it.oppgavereferanse} />
+                                <SøkerCell personinfo={it.personinfo} />
                                 <OpprettetCell date={it.opprettet} />
                                 <OptionsCell oppgave={it} personinfo={it.personinfo} />
                                 {it.tildeling?.påVent && (

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import classNames from 'classnames';
 import { Bag } from '@navikt/ds-icons';
+import { Tooltip } from '@navikt/ds-react';
 
 import { AnonymizableTextWithEllipsis } from '@components/TextWithEllipsis';
 import type { Generasjon } from '@io/graphql';
@@ -27,15 +28,15 @@ export const ExpandableTimelineRow: React.VFC<ExpandableTimelineRowProp> = ({
 
     return (
         <div className={styles.TimelineRow}>
-            <button
-                className={classNames(styles.Name, styles.Expandable, isExpanded && styles.expanded)}
-                onClick={() => setIsExpanded((prevState) => !prevState)}
-            >
-                <Bag height={16} width={16} />
-                <AnonymizableTextWithEllipsis size="small" data-tip={name}>
-                    {name}
-                </AnonymizableTextWithEllipsis>
-            </button>
+            <Tooltip content={name}>
+                <button
+                    className={classNames(styles.Name, styles.Expandable, isExpanded && styles.expanded)}
+                    onClick={() => setIsExpanded((prevState) => !prevState)}
+                >
+                    <Bag height={16} width={16} />
+                    <AnonymizableTextWithEllipsis size="small">{name}</AnonymizableTextWithEllipsis>
+                </button>
+            </Tooltip>
             <div className={classNames(styles.Periods)}>
                 {generations[0] && (
                     <Periods

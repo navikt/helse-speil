@@ -1,6 +1,6 @@
 import React from 'react';
 
-export const IconFerie = ({ width = 16, height = 16, fill = 'var(--navds-color-text-primary)' }) => (
+export const IconFerie = ({ width = 16, height = 16, fill = 'var(--navds-semantic-color-text)' }) => (
     <svg
         width={width}
         height={height}

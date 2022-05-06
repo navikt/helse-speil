@@ -22,7 +22,7 @@ const BoldRightAligned = styled(Bold)`
 `;
 
 const Kolonnetittel = styled(BodyShort)`
-    color: var(--navds-color-gray-60);
+    color: var(--navds-global-color-gray-600);
     font-size: 14px;
 `;
 
@@ -64,7 +64,7 @@ const Table = styled.table`
 
     tfoot > tr:first-of-type > td {
         padding: 0.75rem 0.5rem;
-        border-top: 1px solid var(--navds-color-text-primary);
+        border-top: 1px solid var(--navds-semantic-color-text);
     }
 `;
 

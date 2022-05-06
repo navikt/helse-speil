@@ -4,7 +4,7 @@ import React from 'react';
 import { BodyShort } from '@navikt/ds-react';
 
 const Text = styled(BodyShort)`
-    color: var(--navds-color-text-error);
+    color: var(--navds-semantic-color-feedback-danger-text);
     font-weight: 600;
 `;
 

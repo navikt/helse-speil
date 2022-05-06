@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import classNames from 'classnames';
 
-import { BodyShort, Button, ErrorSummary, ErrorSummaryItem, Loader } from '@navikt/ds-react';
+import { BodyShort, Button, ErrorSummary, Loader } from '@navikt/ds-react';
 
 import { Endringstrekant } from '@components/Endringstrekant';
 import { ErrorMessage } from '@components/ErrorMessage';
@@ -212,7 +212,7 @@ export const EditableInntekt = ({ omregnetÅrsinntekt, close, onEndre }: Editabl
                         <div className={styles.Feiloppsummering}>
                             <ErrorSummary ref={feiloppsummeringRef} heading="Skjemaet inneholder følgende feil:">
                                 {Object.entries(form.formState.errors).map(([id, error]) => (
-                                    <ErrorSummaryItem key={id}>{error.message}</ErrorSummaryItem>
+                                    <ErrorSummary.Item key={id}>{error.message}</ErrorSummary.Item>
                                 ))}
                             </ErrorSummary>
                         </div>

@@ -1,25 +1,23 @@
 import React from 'react';
+import { Tooltip } from '@navikt/ds-react';
 
 import { AnonymizableTextWithEllipsis } from '@components/TextWithEllipsis';
-import { Tooltip } from '@components/Tooltip';
 
 import { Cell } from '../Cell';
 import { CellContent } from './CellContent';
 
 interface BostedProps {
     stedsnavn: string;
-    oppgavereferanse: string;
 }
 
-export const BostedCell = React.memo(({ stedsnavn, oppgavereferanse }: BostedProps) => {
-    const id = `bosted-${oppgavereferanse}`;
-
+export const BostedCell = React.memo(({ stedsnavn }: BostedProps) => {
     return (
         <Cell>
-            <CellContent width={128} data-for={id} data-tip={stedsnavn}>
-                <AnonymizableTextWithEllipsis>{stedsnavn}</AnonymizableTextWithEllipsis>
-                {stedsnavn.length > 18 && <Tooltip id={id} />}
-            </CellContent>
+            <Tooltip content={stedsnavn}>
+                <CellContent width={128}>
+                    <AnonymizableTextWithEllipsis>{stedsnavn}</AnonymizableTextWithEllipsis>
+                </CellContent>
+            </Tooltip>
         </Cell>
     );
 });

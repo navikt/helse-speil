@@ -7,7 +7,7 @@ import { FlexColumn } from '@components/Flex';
 
 const Container = styled(FlexColumn)`
     padding: 0.5rem 0;
-    max-width: 75%;
+    max-width: 120ch;
 
     &:not(:last-of-type) {
         margin-bottom: 1rem;

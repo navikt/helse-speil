@@ -8,7 +8,7 @@
     background: #fff;
     border: none;
     box-shadow: 0 0 0 1px #c6c2bf;
-    color: var(--navds-color-text-primary);
+    color: var(--navds-semantic-color-text);
     font-size: 14px;
     outline: none;
     height: 24px;
@@ -18,11 +18,11 @@
 
 .Picker:hover,
 .Picker:focus-visible {
-    background: var(--navds-color-gray-10);
+    background: var(--navds-global-color-gray-100);
 }
 
 .Picker:active {
-    background: var(--navds-color-gray-20);
+    background: var(--navds-global-color-gray-200);
 }
 
 .Picker:focus-visible {
@@ -43,6 +43,6 @@
 }
 
 .Picker.active {
-    background: var(--navds-color-text-primary);
+    background: var(--navds-semantic-color-text);
     color: #fff;
 }

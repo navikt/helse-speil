@@ -21,6 +21,6 @@
 }
 
 .Negative {
-    color: var(--navds-color-text-error);
+    color: var(--navds-semantic-color-feedback-danger-text);
     font-style: italic;
 }

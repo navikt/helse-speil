@@ -45,7 +45,7 @@ export const Kilde = styled.div<KildeProps>`
     font-size: 14px;
     border-radius: 2px;
     background-color: transparent;
-    color: var(--navds-color-action-default);
+    color: var(--navds-semantic-color-interaction-primary);
     width: 1.25rem;
     height: 0.875rem;
     line-height: 0.875rem;

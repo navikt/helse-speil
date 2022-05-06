@@ -11,6 +11,7 @@
 }
 
 .Arbeidsforhold {
+    max-width: max-content;
     display: flex;
     flex-wrap: nowrap;
 }

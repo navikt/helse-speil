@@ -16,7 +16,7 @@ if (ReactModal.defaultStyles.content) {
 }
 
 const SpeilModal = styled(ReactModal)`
-    background: var(--navds-color-background);
+    background: var(--navds-semantic-color-canvas-background-light);
     width: max-content;
     position: absolute;
     top: 50%;
@@ -32,14 +32,14 @@ const SpeilModal = styled(ReactModal)`
     overflow: auto;
 
     &:focus {
-        box-shadow: 0 0 0 3px var(--navds-text-focus);
+        box-shadow: 0 0 0 3px var(--navds-semantic-color-focus);
     }
 `;
 
 const Lukknapp = styled.button`
     position: relative;
     cursor: pointer;
-    color: var(--navds-color-action-default);
+    color: var(--navds-semantic-color-interaction-primary);
     height: 2rem;
     width: 2rem;
     padding: 0;
@@ -71,11 +71,11 @@ const Lukknapp = styled.button`
 
     &:hover,
     &:focus {
-        background: var(--navds-color-action-default);
+        background: var(--navds-semantic-color-interaction-primary);
     }
 
     &:active {
-        background: var(--navds-text-focus);
+        background: var(--navds-semantic-color-focus);
     }
 
     &:hover:before,
@@ -84,7 +84,7 @@ const Lukknapp = styled.button`
     &:focus:after,
     &:active:before,
     &:active:after {
-        background: var(--navds-color-background);
+        background: var(--navds-semantic-color-canvas-background-light);
     }
 `;
 

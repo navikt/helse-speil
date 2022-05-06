@@ -26,7 +26,7 @@ export const ToggleOverstyringKnapp = styled.button<{ overstyrer: boolean }>`
     align-items: flex-end;
     outline: none;
     cursor: pointer;
-    color: var(--navds-color-action-default);
+    color: var(--navds-semantic-color-interaction-primary);
     font-size: 1rem;
     font-family: inherit;
 

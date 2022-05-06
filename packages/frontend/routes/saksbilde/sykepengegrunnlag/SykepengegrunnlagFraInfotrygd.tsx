@@ -15,7 +15,7 @@ const Oversikt = styled.div`
 `;
 
 const Strek = styled.span`
-    border-right: 1px solid var(--navds-color-border);
+    border-right: 1px solid var(--navds-semantic-color-border);
 `;
 
 interface SykepengegrunnlagFraInfogtrygdProps {

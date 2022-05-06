@@ -11,7 +11,7 @@ interface TildelingProps {
 export const TildelingCell = React.memo(({ oppgave }: TildelingProps) => (
     <Cell>
         {oppgave.tildeling ? (
-            <Tildelt name={oppgave.tildeling.saksbehandler.navn} oppgavereferanse={oppgave.oppgavereferanse} />
+            <Tildelt name={oppgave.tildeling.saksbehandler.navn} />
         ) : (
             <IkkeTildelt oppgavereferanse={oppgave.oppgavereferanse} />
         )}

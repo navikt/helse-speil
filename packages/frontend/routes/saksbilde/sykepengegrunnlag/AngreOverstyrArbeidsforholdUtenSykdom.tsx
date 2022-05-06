@@ -9,7 +9,7 @@ import { OverstyringTimeoutModal } from '@components/OverstyringTimeoutModal';
 const AngreButton = styled(Button)`
     display: flex;
     align-items: center;
-    color: var(--navds-color-action-default);
+    color: var(--navds-semantic-color-interaction-primary);
 
     > svg {
         margin-right: 0.5rem;

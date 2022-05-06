@@ -30,7 +30,7 @@ const TekstContainer = styled.div`
 export const Tittel = styled(BodyShort)`
     display: flex;
     align-items: center;
-    color: var(--navds-color-text-primary);
+    color: var(--navds-semantic-color-text);
     font-size: 18px;
     font-weight: 600;
     margin-right: 0.5rem;
@@ -42,7 +42,7 @@ export const Paragraf = styled(BodyShort)`
     font-size: 14px;
     display: flex;
     align-items: center;
-    color: var(--navds-color-text-disabled);
+    color: var(--navds-semantic-color-text-muted);
     white-space: nowrap;
     min-height: 1.5rem;
 `;

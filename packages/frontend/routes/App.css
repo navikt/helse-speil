@@ -6,15 +6,15 @@
 }
 
 :root {
-    --navds-font-size-title-2xl: 2.2222222222222223rem;
-    --navds-font-size-title-xl: 1.7777777777777777rem;
-    --navds-font-size-title-l: 1.5555555555555556rem;
-    --navds-font-size-title-m: 1.3333333333333333rem;
-    --navds-font-size-title-s: 1.1111111111111112rem;
-    --navds-font-size-xl: 1.1111111111111112rem;
-    --navds-font-size-l: 1rem;
-    --navds-font-size-m: 0.8888888888888888rem;
-    --navds-font-size-s: 0.7777777777777778rem;
+    --navds-font-size-heading-2xlarge: 2.2222222222222223rem;
+    --navds-font-size-heading-xlarge: 1.7777777777777777rem;
+    --navds-font-size-heading-large: 1.5555555555555556rem;
+    --navds-font-size-heading-medium: 1.3333333333333333rem;
+    --navds-font-size-heading-small: 1.1111111111111112rem;
+    --navds-font-size-xlarge: 1.1111111111111112rem;
+    --navds-font-size-large: 1rem;
+    --navds-font-size-medium: 0.8888888888888888rem;
+    --navds-font-size-small: 0.7777777777777778rem;
 
     --speil-background-secondary: #f8f8f8;
     --speil-light-hover: #e9e7e7;
@@ -22,7 +22,7 @@
     --speil-ekspandert-info-background: #f7fdff;
     --speil-ekspandert-success-background: #f4fcf6;
     --speil-ekspandert-warning-background: #fffaf3;
-    --speil-ekspandert-error-background: #fdf6f4;
+    --speil-ekspandert-danger-background: #fdf6f4;
 
     --speil-etikett-forlengelse-background: #e0f5fb;
     --speil-etikett-forlengelse-border: #5690a2;
@@ -59,8 +59,8 @@
 
     --nav-infotrygd-bakgrunn-stiplet-hover: repeating-linear-gradient(
         132deg,
-        var(--navds-color-gray-10),
-        var(--navds-color-gray-10) 6px,
+        var(--navds-global-color-gray-100),
+        var(--navds-global-color-gray-100) 6px,
         #e3e0df 6px,
         #e3e0df 7.5px
     );
@@ -78,7 +78,7 @@
 
 /* Sladding av sensitive data, f.eks. når man deler skjerm eller tar skjermbilder */
 :root {
-    --anonymous-background: var(--navds-color-gray-20);
+    --anonymous-background: var(--navds-global-color-gray-200);
     --anonymous-color: var(--anonymous-background);
     --anonymous-border-radius: 0.25rem;
     --anonymous-opacity: 0;
@@ -100,7 +100,7 @@ body {
 }
 
 body {
-    background-color: var(--navds-color-background);
+    background-color: var(--navds-semantic-color-canvas-background-light);
     font-family: 'Source Sans Pro', Helvetica, sans-serif;
     font-size: 1rem;
     display: flex;
@@ -112,5 +112,5 @@ body {
 }
 
 .typo-normal {
-    color: var(--navds-color-text-primary);
+    color: var(--navds-semantic-color-text);
 }

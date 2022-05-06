@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import dayjs from 'dayjs';
 import React from 'react';
 
-import { BodyShort } from '@navikt/ds-react';
+import { BodyShort, Tooltip } from '@navikt/ds-react';
 
 import { Flex } from '@components/Flex';
 import { LovdataLenke } from '@components/LovdataLenke';
@@ -54,9 +54,11 @@ const PeriodetypeRow: React.VFC<RowProps> = ({ activePeriod }) => {
 
     return (
         <>
-            <div className={styles.IconContainer} data-tip={capitalize(periodetypeLabel)}>
-                <Oppgaveetikett type={periodetype} tilstand={periodState} />
-            </div>
+            <Tooltip content={capitalize(periodetypeLabel)}>
+                <div className={styles.IconContainer}>
+                    <Oppgaveetikett type={periodetype} tilstand={periodState} />
+                </div>
+            </Tooltip>
             <CardTitle className={styles.Title}>{periodetypeLabel}</CardTitle>
         </>
     );
@@ -68,9 +70,11 @@ const SykmeldingsperiodeRow: React.VFC<RowProps> = ({ activePeriod }) => {
 
     return (
         <>
-            <div className={styles.IconContainer} data-tip="Sykmeldingsperiode">
-                <Sykmeldingsperiodeikon alt="Sykmeldingsperiode" />
-            </div>
+            <Tooltip content="Sykmeldingsperiode">
+                <div className={styles.IconContainer}>
+                    <Sykmeldingsperiodeikon alt="Sykmeldingsperiode" />
+                </div>
+            </Tooltip>
             <BodyShort>{`${fom} - ${tom}`}</BodyShort>
         </>
     );
@@ -82,18 +86,22 @@ const SkjæringstidspunktRow: React.VFC<RowProps> = ({ activePeriod }) => {
     if (activePeriod.periodetype === 'OVERGANG_FRA_IT') {
         return (
             <>
-                <div className={styles.IconContainer} data-tip="Skjæringstidspunkt">
-                    <SkjæringstidspunktikonInvert alt="Skjæringstidspunkt" />
-                </div>
+                <Tooltip content="Skjæringstidspunkt">
+                    <div className={styles.IconContainer}>
+                        <SkjæringstidspunktikonInvert alt="Skjæringstidspunkt" />
+                    </div>
+                </Tooltip>
                 <BodyShort>Skjæringstidspunkt i Infotrygd/Gosys</BodyShort>
             </>
         );
     } else {
         return (
             <>
-                <div className={styles.IconContainer} data-tip="Skjæringstidspunkt">
-                    <Skjæringstidspunktikon alt="Skjæringstidspunkt" />
-                </div>
+                <Tooltip content="Skjæringstidspunkt">
+                    <div className={styles.IconContainer}>
+                        <Skjæringstidspunktikon alt="Skjæringstidspunkt" />
+                    </div>
+                </Tooltip>
                 <BodyShort>{skjæringstidspunkt}</BodyShort>
             </>
         );
@@ -106,9 +114,11 @@ const MaksdatoRow: React.VFC<RowProps> = ({ activePeriod }) => {
 
     return (
         <>
-            <div className={styles.IconContainer} data-tip="Maksdato">
-                <Maksdatoikon alt="Maksdato" />
-            </div>
+            <Tooltip content="Maksdato">
+                <div className={styles.IconContainer}>
+                    <Maksdatoikon alt="Maksdato" />
+                </div>
+            </Tooltip>
             <Flex justifyContent="space-between">
                 <BodyShort>{`${maksdato} (${
                     activePeriod.gjenstaendeSykedager ?? 'Ukjent antall'
@@ -116,9 +126,11 @@ const MaksdatoRow: React.VFC<RowProps> = ({ activePeriod }) => {
                 {alderVedSisteSykedag &&
                     (alderVedSisteSykedag >= 70 ? (
                         <Flex alignItems="center">
-                            <div className={styles.IconContainer} data-tip="Over 70 år">
-                                <Advarselikon alt="Over 70 år" height={16} width={16} />
-                            </div>
+                            <Tooltip content="Over 70 år">
+                                <div className={styles.IconContainer}>
+                                    <Advarselikon alt="Over 70 år" height={16} width={16} />
+                                </div>
+                            </Tooltip>
                             <LovdataLenkeContainer as="p">
                                 <LovdataLenke paragraf="8-3">§ 8-3</LovdataLenke>
                             </LovdataLenkeContainer>
@@ -126,16 +138,15 @@ const MaksdatoRow: React.VFC<RowProps> = ({ activePeriod }) => {
                     ) : (
                         alderVedSisteSykedag >= 67 && (
                             <Flex alignItems="center">
-                                <div
-                                    className={styles.IconContainer}
-                                    data-tip="Mellom 67 og 70 år - redusert antall sykepengedager"
-                                >
-                                    <Advarselikon
-                                        alt="Mellom 67 og 70 år - redusert antall sykepengedager"
-                                        height={16}
-                                        width={16}
-                                    />
-                                </div>
+                                <Tooltip content="Mellom 67 og 70 år - redusert antall sykepengedager">
+                                    <div className={styles.IconContainer}>
+                                        <Advarselikon
+                                            alt="Mellom 67 og 70 år - redusert antall sykepengedager"
+                                            height={16}
+                                            width={16}
+                                        />
+                                    </div>
+                                </Tooltip>
                                 <LovdataLenkeContainer as="p">
                                     <LovdataLenke paragraf="8-51">§ 8-51</LovdataLenke>
                                 </LovdataLenkeContainer>

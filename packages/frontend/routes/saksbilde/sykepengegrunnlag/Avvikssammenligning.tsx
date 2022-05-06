@@ -24,7 +24,7 @@ const Sammenligning = styled.div`
 
 const Divider = styled.hr`
     border: none;
-    border-bottom: 1px solid var(--navds-color-text-primary);
+    border-bottom: 1px solid var(--navds-semantic-color-text);
     grid-column-start: 1;
     grid-column-end: 3;
     margin: 0.25rem 0;

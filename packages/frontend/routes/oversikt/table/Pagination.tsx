@@ -38,24 +38,24 @@ const PageButton = styled.button<{ active?: boolean }>`
     min-width: 2rem;
 
     &:focus {
-        box-shadow: 0 0 0 3px var(--navds-text-focus);
+        box-shadow: 0 0 0 3px var(--navds-semantic-color-focus);
     }
 
     &:hover && :not(:disabled) {
-        color: var(--navds-color-text-inverse);
-        background: var(--navds-color-action-default);
+        color: var(--navds-semantic-color-text-inverted);
+        background: var(--navds-semantic-color-interaction-primary);
     }
 
     &:active {
-        color: var(--navds-color-text-inverse);
-        background: var(--navds-text-focus);
+        color: var(--navds-semantic-color-text-inverted);
+        background: var(--navds-semantic-color-focus);
     }
 
     ${({ active }) =>
         active &&
         `
-        background: var(--navds-color-action-default);
-        color: var(--navds-color-text-inverse);
+        background: var(--navds-semantic-color-interaction-primary);
+        color: var(--navds-semantic-color-text-inverted);
         `}
 `;
 
@@ -91,7 +91,7 @@ export const Pagination = ({ numberOfEntries }: PaginationProps) => {
                         <PageButton onClick={() => setPage(element)} active={currentPage === element} key={element}>
                             {element}
                         </PageButton>
-                    )
+                    ),
                 )}
                 <PageButton
                     disabled={numberOfEntries <= entriesPerPage || currentPage === numberOfPages}

@@ -29,7 +29,7 @@ export const RoundedButton = styled.button`
     }
 
     &:active {
-        background-color: var(--navds-color-action-default);
+        background-color: var(--navds-semantic-color-interaction-primary);
         > svg > g,
         > svg > path {
             fill: #fff;

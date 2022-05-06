@@ -22,6 +22,7 @@ module.exports = {
         '@state/(.*)$': '<rootDir>/state/$1',
         '@hooks/(.*)$': '<rootDir>/hooks/$1',
         '@navikt/ds-icons(.*)': '@navikt/ds-icons/cjs$1',
+        '@navikt/ds-react-internal(.*)': '@navikt/ds-react-internal/cjs$1',
         '@navikt/ds-react(.*)': '@navikt/ds-react/cjs$1',
         '@navikt/ds-css(.*)': '<rootDir>/__mocks__/styleMock.js',
     },

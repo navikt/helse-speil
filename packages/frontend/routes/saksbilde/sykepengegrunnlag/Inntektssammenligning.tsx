@@ -3,7 +3,7 @@ import styled from '@emotion/styled';
 import React from 'react';
 
 import { Bag } from '@navikt/ds-icons';
-import { BodyShort } from '@navikt/ds-react';
+import { BodyShort, Tooltip } from '@navikt/ds-react';
 
 import { Kilde } from '@components/Kilde';
 import { Errorikon } from '@components/ikoner/Errorikon';
@@ -14,7 +14,6 @@ import { kildeForkortelse } from '@utils/inntektskilde';
 import { somPenger } from '@utils/locale';
 
 import { EndringsloggButton } from './inntekt/EndringsloggButton';
-import { useCurrentPerson } from '@state/person';
 
 const ArbeidsgiverRad = styled.tr<{ erGjeldende: boolean }>`
     padding: 0.25rem;
@@ -28,7 +27,7 @@ const ArbeidsgiverRad = styled.tr<{ erGjeldende: boolean }>`
     }
 
     &:hover > * {
-        background-color: var(--navds-color-gray-10);
+        background-color: var(--navds-global-color-gray-100);
         cursor: pointer;
         ${({ erGjeldende }) =>
             erGjeldende &&
@@ -42,10 +41,7 @@ const InntektMedKilde = styled.div`
     display: flex;
     align-items: center;
     justify-content: right;
-
-    > *:not(:last-child) {
-        margin-right: 0.5rem;
-    }
+    gap: 0.5rem;
 `;
 
 const Arbeidsgivernavn = styled.div`
@@ -95,18 +91,18 @@ export const Inntektssammenligning = ({
         <ArbeidsgiverRad erGjeldende={erGjeldende} onClick={onSetAktivInntektskilde}>
             <td>
                 <Arbeidsgivernavn>
-                    {arbeidsforholdErDeaktivert ? (
-                        <ErrorIcon data-tip="Arbeidsgiver" />
-                    ) : (
-                        <BagIcon data-tip="Arbeidsgiver" title="Arbeidsgiver" />
-                    )}
+                    <Tooltip content="Arbeidsgiver">
+                        {arbeidsforholdErDeaktivert ? <ErrorIcon /> : <BagIcon title="Arbeidsgiver" />}
+                    </Tooltip>
                     <Loky>{arbeidsgivernavn}</Loky>
                 </Arbeidsgivernavn>
             </td>
             <td>
                 <InntektMedKilde>
-                    {!arbeidsforholdErDeaktivert && (
-                        <BodyShort>{omregnetÅrsinntekt ? somPenger(omregnetÅrsinntekt.belop) : '_'}</BodyShort>
+                    {arbeidsforholdErDeaktivert ? (
+                        <BodyShort>-</BodyShort>
+                    ) : (
+                        <BodyShort>{omregnetÅrsinntekt ? somPenger(omregnetÅrsinntekt.belop) : '-'}</BodyShort>
                     )}
                     {omregnetÅrsinntekt?.kilde === Inntektskilde.Saksbehandler || arbeidsforholdErDeaktivert ? (
                         <EndringsloggButton endringer={[...inntektsendringer, ...arbeidsforholdendringer]} />

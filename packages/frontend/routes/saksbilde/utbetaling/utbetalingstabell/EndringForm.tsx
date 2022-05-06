@@ -41,15 +41,17 @@ const Gradvelger = styled(TextField)`
         border-color: #b8b8b8;
     }
 
-    ::-webkit-inner-spin-button {
+    input[type='number']::-webkit-inner-spin-button,
+    input[type='number']::-webkit-outer-spin-button {
         -webkit-appearance: none;
+        appearance: none;
     }
 
     -moz-appearance: textfield;
 `;
 
 const Knapp = styled(Button)`
-    margin-top: 24px;
+    align-self: flex-end;
     margin-right: 10px;
     font-size: 1rem;
 `;
@@ -172,7 +174,7 @@ export const EndringForm: React.FC<EndringFormProps> = ({
                             onChange={oppdaterGrad}
                             disabled={!kanVelgeGrad(endring.type)}
                             data-testid="gradvelger"
-                            value={endring.grad ?? ''}
+                            value={typeof endring.grad === 'number' ? `${endring.grad}` : ''}
                             error={form.formState.errors.gradvelger?.message}
                             {...gradvelgervalidation}
                         />

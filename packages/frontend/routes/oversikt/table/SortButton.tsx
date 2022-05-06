@@ -8,7 +8,7 @@ const Button = styled.button<{ state: SortationState }>`
     cursor: pointer;
     background: none;
     user-select: none;
-    color: var(--navds-color-text-primary);
+    color: var(--navds-semantic-color-text);
     padding: 0 1.25rem 0 0;
     position: relative;
 
@@ -16,8 +16,8 @@ const Button = styled.button<{ state: SortationState }>`
     &:after {
         pointer-events: none;
         content: '';
-        border-left: 0.25rem solid var(--navds-color-background);
-        border-right: 0.25rem solid var(--navds-color-background);
+        border-left: 0.25rem solid var(--navds-semantic-color-canvas-background-light);
+        border-right: 0.25rem solid var(--navds-semantic-color-canvas-background-light);
         position: absolute;
         right: 0.25rem;
         top: 50%;
@@ -26,13 +26,13 @@ const Button = styled.button<{ state: SortationState }>`
     &:before {
         border-bottom: 0.25rem solid #b7b1a9;
         transform: translateY(calc(-50% - 0.25rem));
-        ${(props) => props.state === 'descending' && `border-bottom-color: var(--navds-color-text-primary)`}
+        ${(props) => props.state === 'descending' && `border-bottom-color: var(--navds-semantic-color-text)`}
     }
 
     &:after {
         border-top: 0.25rem solid #b7b1a9;
         transform: translateY(calc(-50% + 0.25rem));
-        ${(props) => props.state === 'ascending' && `border-top-color: var(--navds-color-text-primary)`}
+        ${(props) => props.state === 'ascending' && `border-top-color: var(--navds-semantic-color-text)`}
     }
 `;
 

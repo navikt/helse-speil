@@ -1,0 +1,12 @@
+.SystemIcon {
+    font-size: 1.5rem;
+}
+
+.DropdownContent {
+    width: max-content;
+}
+
+.ExternalLink {
+    padding: 0.5rem 1rem;
+    white-space: nowrap;
+}

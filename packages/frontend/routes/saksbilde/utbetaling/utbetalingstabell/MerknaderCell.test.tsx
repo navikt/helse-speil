@@ -1,18 +1,10 @@
 import '@testing-library/jest-dom/extend-expect';
-import { queries, queryHelpers, render, screen } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import React from 'react';
 
 import { MerknaderCell } from './MerknaderCell';
 import { Begrunnelse } from '@io/graphql';
 import { getUtbetalingstabellDag } from '@test-data/utbetalingstabell';
-
-const defaultRenderOptions = {
-    queries: {
-        ...queries,
-        queryByDataTip: queryHelpers.queryByAttribute.bind(null, 'data-tip'),
-        queryAllByDataTip: queryHelpers.queryAllByAttribute.bind(null, 'data-tip'),
-    },
-};
 
 describe('MerknaderCell', () => {
     test('rendrer merknad om siste utbetalingsdag', () => {
@@ -23,9 +15,8 @@ describe('MerknaderCell', () => {
     test('rendrer merknad om foreldet dag', () => {
         const screen = render(
             <MerknaderCell dag={getUtbetalingstabellDag({ erForeldet: true })} alderVedSkjæringstidspunkt={30} />,
-            defaultRenderOptions,
         );
-        expect(screen.queryByDataTip('Foreldet')).toBeVisible();
+        expect(screen.queryByTestId('Foreldet')).toBeVisible();
     });
 
     test('rendrer avvisningsårsaker', () => {
@@ -44,18 +35,17 @@ describe('MerknaderCell', () => {
 
         const screen = render(
             <MerknaderCell dag={getUtbetalingstabellDag({ begrunnelser })} alderVedSkjæringstidspunkt={30} />,
-            defaultRenderOptions,
         );
 
         expect(screen.getByText('Personen er død')).toBeVisible();
-        expect(screen.queryByDataTip('Egenmelding utenfor arbeidsgiverperioden')).toBeVisible();
-        expect(screen.queryByDataTip('Sykdomsgrad under 20 %')).toBeVisible();
-        expect(screen.queryByDataTip('Krav til 4 ukers opptjening er ikke oppfylt')).toBeVisible();
-        expect(screen.queryByDataTip('Krav til medlemskap er ikke oppfylt')).toBeVisible();
-        expect(screen.queryByDataTip('Personen er 70 år eller eldre')).toBeVisible();
+        expect(screen.queryByTestId('Egenmelding utenfor arbeidsgiverperioden')).toBeVisible();
+        expect(screen.queryByTestId('Sykdomsgrad under 20 %')).toBeVisible();
+        expect(screen.queryByTestId('Krav til 4 ukers opptjening er ikke oppfylt')).toBeVisible();
+        expect(screen.queryByTestId('Krav til medlemskap er ikke oppfylt')).toBeVisible();
+        expect(screen.queryByTestId('Personen er 70 år eller eldre')).toBeVisible();
 
-        expect(screen.queryAllByDataTip('Inntekt under krav til minste sykepengegrunnlag')).toHaveLength(2);
-        expect(screen.queryAllByDataTip('Maks antall sykepengedager er nådd')).toHaveLength(2);
+        expect(screen.queryAllByTestId('Inntekt under krav til minste sykepengegrunnlag')).toHaveLength(2);
+        expect(screen.queryAllByTestId('Maks antall sykepengedager er nådd')).toHaveLength(2);
     });
 
     test('rendrer riktig for forskjellige varianter av minimum inntekt', () => {
@@ -64,10 +54,9 @@ describe('MerknaderCell', () => {
                 dag={getUtbetalingstabellDag({ begrunnelser: [Begrunnelse.MinimumInntekt] })}
                 alderVedSkjæringstidspunkt={69}
             />,
-            defaultRenderOptions,
         );
 
-        expect(screen.queryByDataTip('Inntekt under krav til minste sykepengegrunnlag')).toBeVisible();
+        expect(screen.queryByTestId('Inntekt under krav til minste sykepengegrunnlag')).toBeVisible();
         expect(screen.queryByText('§ 8-51')).toBeVisible();
 
         screen.rerender(
@@ -76,7 +65,7 @@ describe('MerknaderCell', () => {
                 alderVedSkjæringstidspunkt={66}
             />,
         );
-        expect(screen.queryByDataTip('Inntekt under krav til minste sykepengegrunnlag')).toBeVisible();
+        expect(screen.queryByTestId('Inntekt under krav til minste sykepengegrunnlag')).toBeVisible();
         expect(screen.queryByText('§ 8-3')).toBeVisible();
 
         screen.rerender(
@@ -85,7 +74,7 @@ describe('MerknaderCell', () => {
                 alderVedSkjæringstidspunkt={69}
             />,
         );
-        expect(screen.queryByDataTip('Inntekt under krav til minste sykepengegrunnlag')).toBeVisible();
+        expect(screen.queryByTestId('Inntekt under krav til minste sykepengegrunnlag')).toBeVisible();
         expect(screen.queryByText('§ 8-51')).toBeVisible();
     });
 });
