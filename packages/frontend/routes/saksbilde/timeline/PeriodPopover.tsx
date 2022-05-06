@@ -6,12 +6,12 @@ import { BodyShort, Popover } from '@navikt/ds-react';
 
 import { somPenger } from '@utils/locale';
 import { NORSK_DATOFORMAT } from '@utils/date';
+import { getPeriodStateText } from '@utils/mapping';
+import { isBeregnetPeriode, isGhostPeriode, isInfotrygdPeriod } from '@utils/typeguards';
 import { BeregnetPeriode, Utbetalingsdagtype } from '@io/graphql';
 import { ErrorBoundary } from '@components/ErrorBoundary';
 
 import styles from './PeriodPopover.module.css';
-import { getPeriodStateText } from '@utils/mapping';
-import { isBeregnetPeriode, isGhostPeriode, isInfotrygdPeriod } from '@utils/typeguards';
 
 const groupDayTypes = (period: BeregnetPeriode): Map<Utbetalingsdagtype, Array<DatePeriod>> => {
     const map = new Map<Utbetalingsdagtype, Array<DatePeriod>>();
@@ -71,7 +71,7 @@ const InfotrygdPopover: React.VFC<InfotrygdPopoverProps> = ({ period, fom, tom }
             <BodyShort size="small">Type:</BodyShort>
             <BodyShort size="small">{period.typetekst}</BodyShort>
             <BodyShort size="small">Grad:</BodyShort>
-            <BodyShort size="small">{period.grad} %</BodyShort>
+            <BodyShort size="small">{Math.floor(Number(period.grad))} %</BodyShort>
             <BodyShort size="small">Dagsats:</BodyShort>
             <BodyShort size="small">{somPenger(period.dagsats)}</BodyShort>
         </>
@@ -89,7 +89,6 @@ const BeregnetPopover: React.VFC<SpleisPopoverProps> = ({ period, state, fom, to
     const arbeidsgiverperiode = getDayTypesRender(Utbetalingsdagtype.Arbeidsgiverperiodedag, dayTypes);
     const ferieperiode = getDayTypesRender(Utbetalingsdagtype.Feriedag, dayTypes);
     const avslåttperiode = getDayTypesRender(Utbetalingsdagtype.AvvistDag, dayTypes);
-    // const permisjonsperiode = getDayTypesRender(Utbetalingsdagtype.Permisjonsdag, dayTypes);
 
     return (
         <>
@@ -139,12 +138,6 @@ const BeregnetPopover: React.VFC<SpleisPopoverProps> = ({ period, state, fom, to
                     <BodyShort size="small">{avslåttperiode}</BodyShort>
                 </>
             )}
-            {/*{permisjonsperiode && (*/}
-            {/*    <>*/}
-            {/*        <BodyShort size='small'>Permisjon:</BodyShort>*/}
-            {/*        <BodyShort size='small'>{permisjonsperiode}</BodyShort>*/}
-            {/*    </>*/}
-            {/*)}*/}
             {period.gjenstaendeSykedager !== null && period.gjenstaendeSykedager !== undefined && (
                 <>
                     <BodyShort className={classNames(period.gjenstaendeSykedager <= 0 && styles.Error)} size="small">
