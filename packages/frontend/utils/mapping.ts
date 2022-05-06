@@ -80,7 +80,12 @@ export const getPeriodState = (period?: Maybe<Periode | DatePeriod>): PeriodStat
     if (isUberegnetPeriode(period)) return getUberegnetPeriodState(period);
     if (!isBeregnetPeriode(period)) return 'ukjent';
 
-    if (period.tilstand === Periodetilstand.Venter) return 'venter';
+    switch (period.tilstand) {
+        case Periodetilstand.Venter:
+            return 'venter';
+        case Periodetilstand.RevurderingFeilet:
+            return 'revurderingFeilet';
+    }
 
     switch (period.utbetaling.type) {
         case Utbetalingtype.Utbetaling: {
@@ -147,12 +152,12 @@ export const getPeriodCategory = (periodState: PeriodState): PeriodCategory | nu
             return 'success';
         case 'oppgaver':
         case 'revurderes':
+        case 'revurderingFeilet':
             return 'attention';
         case 'feilet':
         case 'avslag':
         case 'annullert':
         case 'tilAnnullering':
-        case 'revurderingFeilet':
         case 'annulleringFeilet':
             return 'error';
         case 'utenSykefravær':
