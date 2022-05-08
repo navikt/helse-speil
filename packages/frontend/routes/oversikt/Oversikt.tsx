@@ -5,7 +5,7 @@ import { Loadable, useRecoilValue, useRecoilValueLoadable } from 'recoil';
 import { Varsel } from '@components/Varsel';
 import { Flex, FlexColumn } from '@components/Flex';
 import { useLoadingToast } from '@hooks/useLoadingToast';
-import { useResetPerson } from '@state/person';
+import { useFjernTildelingFraPerson, useResetPerson } from '@state/person';
 import { Scopes, useVarselFilter } from '@state/varsler';
 import { useInnloggetSaksbehandler } from '@state/authentication';
 import { oppgaverState, useRefetchOppgaver } from '@state/oppgaver';
@@ -74,12 +74,21 @@ const useFetchOppgaver = (currentState: Loadable<Array<Oppgave>>['state']): void
     }, []);
 };
 
+const useFjernTildelingOnMount = (): void => {
+    const fjernTildeling = useFjernTildelingFraPerson();
+
+    useEffect(() => {
+        fjernTildeling();
+    }, []);
+};
+
 export const Oversikt = () => {
     const oppgaver = useOppgaverFilteredByTab();
 
     useLoadingToast({ isLoading: oppgaver.state === 'loading', message: 'Henter oppgaver' });
     useVarselFilter(Scopes.OVERSIKT);
     useResetPersonOnMount();
+    useFjernTildelingOnMount();
     useFetchOppgaver(oppgaver.state);
 
     const hasData =
