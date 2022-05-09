@@ -1,13 +1,10 @@
 import React, { ReactNode, useContext, useState } from 'react';
 import { nanoid } from 'nanoid';
-import { useHistory } from 'react-router';
-import { useSetRecoilState } from 'recoil';
 
 import { Button } from '@navikt/ds-react';
 
 import { UtbetalingModal } from './UtbetalingModal';
 import { postUtbetalingsgodkjenning } from '@io/http';
-import { opptegnelsePollingTimeState } from '@state/opptegnelser';
 import { Scopes, useAddEphemeralVarsel } from '@state/varsler';
 
 import { AmplitudeContext } from '../../AmplitudeContext';
@@ -24,7 +21,7 @@ const useAddUtbetalingstoast = () => {
                 type: 'suksess',
                 scope: Scopes.GLOBAL,
             },
-            timeToLiveMs
+            timeToLiveMs,
         );
     };
 };
@@ -49,10 +46,8 @@ export const GodkjenningButton: React.FC<GodkjenningButtonProps> = ({
     const [isSending, setIsSending] = useState(false);
     const [alleredeUtbetalt, setAlleredeUtbetalt] = useState(false);
 
-    const history = useHistory();
     const amplitude = useContext(AmplitudeContext);
     const addUtbetalingstoast = useAddUtbetalingstoast();
-    const setOpptegnelsePollingTime = useSetRecoilState(opptegnelsePollingTimeState);
 
     const closeModal = () => setShowModal(false);
 
