@@ -1,7 +1,7 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import React from 'react';
-import { atom, selector, useRecoilState, useRecoilValue } from 'recoil';
+import { atom, useRecoilState, useRecoilValue } from 'recoil';
 
 import { BodyShort } from '@navikt/ds-react';
 
@@ -32,7 +32,7 @@ export const tabState = atom<TabType>({
     effects: [
         ({ onSet }) => {
             onSet((newValue) => {
-                sessionStorage.setItem(sistBesøkteTabKey, newValue.toString());
+                sessionStorage.setItem(sistBesøkteTabKey, newValue);
             });
         },
     ],
