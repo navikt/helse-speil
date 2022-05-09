@@ -1,7 +1,7 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import React from 'react';
-import { atom, useRecoilState, useRecoilValue } from 'recoil';
+import { atom, selector, useRecoilState, useRecoilValue } from 'recoil';
 
 import { BodyShort } from '@navikt/ds-react';
 
@@ -19,9 +19,23 @@ export enum TabType {
     Ventende = 'ventende',
 }
 
+const sistBesøkteTabKey = 'sistBesøkteTab';
+
+const hentFraSessionStorage = (): TabType => {
+    const fromSession = sessionStorage.getItem(sistBesøkteTabKey);
+    return fromSession ? (fromSession as TabType) : TabType.TilGodkjenning;
+};
+
 export const tabState = atom<TabType>({
     key: 'tabState',
-    default: TabType.TilGodkjenning,
+    default: hentFraSessionStorage(),
+    effects: [
+        ({ onSet }) => {
+            onSet((newValue) => {
+                sessionStorage.setItem(sistBesøkteTabKey, newValue.toString());
+            });
+        },
+    ],
 });
 
 export const useAktivTab = () => useRecoilValue(tabState);
