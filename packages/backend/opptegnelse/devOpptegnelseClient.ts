@@ -8,14 +8,14 @@ const opptegnelse = {
 };
 
 const opptegnelse2 = {
-    aktørId: 1000000009871,
+    aktørId: 2568043185108,
     sekvensnummer: 12121213,
     type: 'UTBETALING_ANNULLERING_FEILET',
     payload: 'payload2',
 };
 
 const opptegnelse3 = {
-    aktørId: 1000000009871,
+    aktørId: 2568043185108,
     sekvensnummer: 12121214,
     type: 'NY_SAKSBEHANDLEROPPGAVE',
     payload: 'payload3',
