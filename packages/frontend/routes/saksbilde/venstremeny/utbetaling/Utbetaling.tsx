@@ -13,6 +13,17 @@ import { AvvisningButton } from './AvvisningButton';
 import { GodkjenningButton } from './GodkjenningButton';
 
 import styles from './Utbetaling.module.css';
+import { BodyShort, Loader } from '@navikt/ds-react';
+import styled from '@emotion/styled';
+
+const InfoText = styled(BodyShort)`
+    color: var(--navds-semantic-color-text);
+    display: flex;
+`;
+
+const Spinner = styled(Loader)`
+    margin-right: 0.5rem;
+`;
 
 const skalPolleEtterNestePeriode = (person: Person) =>
     person.arbeidsgivere
@@ -50,8 +61,13 @@ interface UtbetalingProps {
 }
 
 export const Utbetaling = ({ activePeriod, currentPerson }: UtbetalingProps) => {
+    const [periodenErUtbetaltEllerAvvist, setPeriodenErUtbetaltEllerAvvist] = useState(false);
     const [error, setError] = useState<SpeilError | null>();
-    const onGodkjennUtbetaling = useOnGodkjenn(activePeriod, currentPerson);
+    const ventEllerHopp = useOnGodkjenn(activePeriod, currentPerson);
+    const onGodkjennUtbetaling = () => {
+        setPeriodenErUtbetaltEllerAvvist(true);
+        ventEllerHopp();
+    };
     const onAvvisUtbetaling = useOnAvvis();
 
     if (!hasOppgave(activePeriod)) return null;
@@ -66,6 +82,7 @@ export const Utbetaling = ({ activePeriod, currentPerson }: UtbetalingProps) => 
                 <GodkjenningButton
                     oppgavereferanse={activePeriod.oppgavereferanse!}
                     aktørId={currentPerson.aktorId}
+                    disabled={periodenErUtbetaltEllerAvvist}
                     onSuccess={onGodkjennUtbetaling}
                     onError={setError}
                 >
@@ -77,6 +94,7 @@ export const Utbetaling = ({ activePeriod, currentPerson }: UtbetalingProps) => 
                 </GodkjenningButton>
                 {!isRevurdering && (
                     <AvvisningButton
+                        disabled={periodenErUtbetaltEllerAvvist}
                         activePeriod={activePeriod}
                         aktørId={currentPerson.aktorId}
                         onSuccess={onAvvisUtbetaling}
@@ -89,6 +107,12 @@ export const Utbetaling = ({ activePeriod, currentPerson }: UtbetalingProps) => 
                     {error.message || 'En feil har oppstått.'}
                     {error.statusCode === 401 && <a href="/"> Logg inn</a>}
                 </ErrorMessage>
+            )}
+            {periodenErUtbetaltEllerAvvist && (
+                <InfoText as="p">
+                    <Spinner />
+                    <span>{isRevurdering ? 'Revurdering ferdigstilles' : 'Neste periode klargjøres'}</span>
+                </InfoText>
             )}
         </>
     );

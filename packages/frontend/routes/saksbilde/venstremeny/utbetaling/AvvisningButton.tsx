@@ -22,7 +22,7 @@ const useAddInfotrygdtoast = () => {
                 type: 'suksess',
                 scope: Scopes.GLOBAL,
             },
-            timeToLiveMs
+            timeToLiveMs,
         );
     };
 };
@@ -30,6 +30,7 @@ const useAddInfotrygdtoast = () => {
 interface AvvisningButtonProps extends Omit<React.HTMLAttributes<HTMLButtonElement>, 'onError' | 'children'> {
     activePeriod: BeregnetPeriode;
     aktørId: string;
+    disabled: boolean;
     onSuccess?: () => void;
     onError?: (error: Error) => void;
 }
@@ -37,6 +38,7 @@ interface AvvisningButtonProps extends Omit<React.HTMLAttributes<HTMLButtonEleme
 export const AvvisningButton: React.VFC<AvvisningButtonProps> = ({
     activePeriod,
     aktørId,
+    disabled = false,
     onSuccess,
     onError,
     ...buttonProps
@@ -72,6 +74,7 @@ export const AvvisningButton: React.VFC<AvvisningButtonProps> = ({
     return (
         <>
             <Button
+                disabled={disabled}
                 variant="secondary"
                 size="small"
                 data-testid="avvisning-button"

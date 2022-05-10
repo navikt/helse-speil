@@ -30,6 +30,7 @@ interface GodkjenningButtonProps extends Omit<React.HTMLAttributes<HTMLButtonEle
     children: ReactNode;
     oppgavereferanse: string;
     aktørId: string;
+    disabled: boolean;
     onSuccess?: () => void;
     onError?: (error: Error) => void;
 }
@@ -38,13 +39,13 @@ export const GodkjenningButton: React.FC<GodkjenningButtonProps> = ({
     children,
     oppgavereferanse,
     aktørId,
+    disabled = false,
     onSuccess,
     onError,
     ...buttonProps
 }) => {
     const [showModal, setShowModal] = useState(false);
     const [isSending, setIsSending] = useState(false);
-    const [alleredeUtbetalt, setAlleredeUtbetalt] = useState(false);
 
     const amplitude = useContext(AmplitudeContext);
     const addUtbetalingstoast = useAddUtbetalingstoast();
@@ -62,7 +63,6 @@ export const GodkjenningButton: React.FC<GodkjenningButtonProps> = ({
             .catch((error) => {
                 if (error.statusCode === 409) {
                     onError?.({ ...error, message: 'Saken er allerede utbetalt.' });
-                    setAlleredeUtbetalt(true);
                 } else onError?.(error);
             })
             .finally(() => {
@@ -74,7 +74,7 @@ export const GodkjenningButton: React.FC<GodkjenningButtonProps> = ({
     return (
         <>
             <Button
-                disabled={alleredeUtbetalt}
+                disabled={disabled}
                 variant="primary"
                 size="small"
                 data-testid="godkjenning-button"
