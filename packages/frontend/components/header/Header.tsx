@@ -95,7 +95,7 @@ export const Header = () => {
                 </Link>
             </InternalHeader.Title>
             <form className={styles.SearchForm} onSubmit={onSøk}>
-                <Search label="Søk" size="small" variant="simple" placeholder="Søk" ref={searchRef} />
+                <Search label="Søk" size="small" variant="secondary" placeholder="Søk" ref={searchRef} />
             </form>
             <EasterEgg />
             {graphqlplayground && (
