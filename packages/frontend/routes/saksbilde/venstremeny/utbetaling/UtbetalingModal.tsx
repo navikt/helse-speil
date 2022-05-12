@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import React from 'react';
 
-import { BodyShort, Button, Loader, Heading } from '@navikt/ds-react';
+import { BodyShort, Button, Heading, Loader } from '@navikt/ds-react';
 
 import { Modal } from '@components/Modal';
 
@@ -25,9 +25,10 @@ interface UtbetalingModalProps {
     isSending: boolean;
     onApprove: () => void;
     onClose: () => void;
+    totrinnsvurdering: boolean;
 }
 
-export const UtbetalingModal = ({ isSending, onApprove, onClose }: UtbetalingModalProps) => (
+export const UtbetalingModal = ({ isSending, onApprove, onClose, totrinnsvurdering }: UtbetalingModalProps) => (
     <Modal
         isOpen
         title={
@@ -39,7 +40,12 @@ export const UtbetalingModal = ({ isSending, onApprove, onClose }: UtbetalingMod
         onRequestClose={onClose}
     >
         <Container>
-            <BodyShort>Når du trykker ja blir utbetalingen sendt til oppdragsystemet.</BodyShort>
+            <BodyShort>
+                Når du trykker ja{' '}
+                {totrinnsvurdering
+                    ? 'sendes saken til beslutter for godkjenning.'
+                    : 'blir utbetalingen sendt til oppdragsystemet.'}
+            </BodyShort>
             <Buttons>
                 <Button variant="primary" onClick={onApprove} disabled={isSending}>
                     Ja

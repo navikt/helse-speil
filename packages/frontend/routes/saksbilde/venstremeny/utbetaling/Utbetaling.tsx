@@ -8,13 +8,16 @@ import { Behandlingstype, BeregnetPeriode, Person } from '@io/graphql';
 import { opptegnelsePollingTimeState } from '@state/opptegnelser';
 import { getPeriodState } from '@utils/mapping';
 import { isRevurdering } from '@utils/period';
+import { totrinnsvurdering } from '@utils/featureToggles';
 
 import { AvvisningButton } from './AvvisningButton';
 import { GodkjenningButton } from './GodkjenningButton';
+import { SendTilGodkjenningButton } from './SendTilGodkjenningButton';
 
 import styles from './Utbetaling.module.css';
 import { BodyShort, Loader } from '@navikt/ds-react';
 import styled from '@emotion/styled';
+import { useInnloggetSaksbehandler } from '@state/authentication';
 
 const InfoText = styled(BodyShort)`
     color: var(--navds-semantic-color-text);
@@ -61,12 +64,18 @@ interface UtbetalingProps {
 }
 
 export const Utbetaling = ({ activePeriod, currentPerson }: UtbetalingProps) => {
-    const [periodenErUtbetaltEllerAvvist, setPeriodenErUtbetaltEllerAvvist] = useState(false);
+    const [periodenErSendt, setPeriodenErSendt] = useState(false);
     const [error, setError] = useState<SpeilError | null>();
     const ventEllerHopp = useOnGodkjenn(activePeriod, currentPerson);
+    const history = useHistory();
+    const { oid } = useInnloggetSaksbehandler();
     const onGodkjennUtbetaling = () => {
-        setPeriodenErUtbetaltEllerAvvist(true);
+        setPeriodenErSendt(true);
         ventEllerHopp();
+    };
+    const onSendTilGodkjenning = () => {
+        setPeriodenErSendt(true);
+        history.push('/');
     };
     const onAvvisUtbetaling = useOnAvvis();
 
@@ -75,26 +84,41 @@ export const Utbetaling = ({ activePeriod, currentPerson }: UtbetalingProps) => 
     const isRevurdering = activePeriod.utbetaling.type === 'REVURDERING';
     const harArbeidsgiverutbetaling = activePeriod.utbetaling.arbeidsgiverNettoBelop !== 0;
     const harBrukerutbetaling = activePeriod.utbetaling.personNettoBelop !== 0;
+    const trengerTotrinnsvurdering = totrinnsvurdering && (activePeriod?.trengerTotrinnsvurdering ?? false);
 
     return (
         <>
             <div className={styles.Buttons}>
-                <GodkjenningButton
-                    oppgavereferanse={activePeriod.oppgavereferanse!}
-                    aktørId={currentPerson.aktorId}
-                    disabled={periodenErUtbetaltEllerAvvist}
-                    onSuccess={onGodkjennUtbetaling}
-                    onError={setError}
-                >
-                    {isRevurdering
-                        ? 'Revurder'
-                        : harArbeidsgiverutbetaling || harBrukerutbetaling
-                        ? 'Utbetal'
-                        : 'Godkjenn'}
-                </GodkjenningButton>
+                {trengerTotrinnsvurdering ? (
+                    <SendTilGodkjenningButton
+                        aktørId={currentPerson.aktorId}
+                        fødselsnummer={currentPerson.fodselsnummer}
+                        saksbehandlerIdent={oid}
+                        vedtaksperiodeId={activePeriod.vedtaksperiodeId}
+                        disabled={periodenErSendt}
+                        onSuccess={onSendTilGodkjenning}
+                        onError={setError}
+                    >
+                        Send til godkjenning
+                    </SendTilGodkjenningButton>
+                ) : (
+                    <GodkjenningButton
+                        oppgavereferanse={activePeriod.oppgavereferanse!}
+                        aktørId={currentPerson.aktorId}
+                        disabled={periodenErSendt}
+                        onSuccess={onGodkjennUtbetaling}
+                        onError={setError}
+                    >
+                        {isRevurdering
+                            ? 'Revurder'
+                            : harArbeidsgiverutbetaling || harBrukerutbetaling
+                            ? 'Utbetal'
+                            : 'Godkjenn'}
+                    </GodkjenningButton>
+                )}
                 {!isRevurdering && (
                     <AvvisningButton
-                        disabled={periodenErUtbetaltEllerAvvist}
+                        disabled={periodenErSendt}
                         activePeriod={activePeriod}
                         aktørId={currentPerson.aktorId}
                         onSuccess={onAvvisUtbetaling}
@@ -108,10 +132,16 @@ export const Utbetaling = ({ activePeriod, currentPerson }: UtbetalingProps) => 
                     {error.statusCode === 401 && <a href="/"> Logg inn</a>}
                 </ErrorMessage>
             )}
-            {periodenErUtbetaltEllerAvvist && (
+            {periodenErSendt && (
                 <InfoText as="p">
                     <Spinner />
-                    <span>{isRevurdering ? 'Revurdering ferdigstilles' : 'Neste periode klargjøres'}</span>
+                    <span>
+                        {isRevurdering
+                            ? 'Revurdering ferdigstilles'
+                            : trengerTotrinnsvurdering
+                            ? 'Perioden sendes til godkjenning'
+                            : 'Neste periode klargjøres'}
+                    </span>
                 </InfoText>
             )}
         </>

@@ -133,6 +133,7 @@ export type BeregnetPeriode = Periode & {
     varsler: Array<Scalars['String']>;
     vedtaksperiodeId: Scalars['String'];
     vilkarsgrunnlaghistorikkId: Scalars['String'];
+    trengerTotrinnsvurdering?: Maybe<Scalars['Boolean']>;
 };
 
 export type Dag = {

@@ -3,14 +3,16 @@ import { Response, Router } from 'express';
 import logger from '../logging';
 import { SpeilRequest } from '../types';
 import { AnnulleringClient } from './annulleringClient';
+import { TotrinnsvurderingClient } from './totrinnsvurderingClient';
 import { VedtakClient } from './vedtakClient';
 
 interface SetupOptions {
     vedtakClient: VedtakClient;
     annulleringClient: AnnulleringClient;
+    totrinnsvurderingClient: TotrinnsvurderingClient;
 }
 
-export default ({ vedtakClient, annulleringClient }: SetupOptions) => {
+export default ({ vedtakClient, annulleringClient, totrinnsvurderingClient }: SetupOptions) => {
     const router = Router();
 
     router.post('/vedtak', (req: SpeilRequest, res: Response) => {
@@ -74,6 +76,29 @@ export default ({ vedtakClient, annulleringClient }: SetupOptions) => {
                 begrunnelser: req.body.begrunnelser,
                 kommentar: req.body.kommentar,
                 gjelderSisteSkjæringstidspunkt: req.body.gjelderSisteSkjæringstidspunkt,
+            })
+            .then(() => {
+                res.sendStatus(204);
+            })
+            .catch((err) => {
+                res.status(err.statusCode || 500).send('Feil under annullering');
+            });
+    });
+
+    router.post('/totrinnsvurdering', (req: SpeilRequest, res: Response) => {
+        logger.info(`Sender til totrinnsvurdering for vedtaksperiodeId ${req.body.vedtaksperiodeId}`);
+        logger.sikker.info(
+            `Sender til totrinnsvurdering for vedtaksperiodeId ${
+                req.body.vedtaksperiodeId
+            } med payload ${JSON.stringify(req.body)}`
+        );
+        totrinnsvurderingClient
+            .totrinnsvurdering({
+                aktørId: req.body.aktørId,
+                fødselsnummer: req.body.fødselsnummer,
+                saksbehandlerIdent: req.session!.user,
+                speilToken: req.session!.speilToken,
+                vedtaksperiodeId: req.body.vedtaksperiodeId,
             })
             .then(() => {
                 res.sendStatus(204);

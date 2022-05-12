@@ -256,3 +256,5 @@ export const defaultUtbetalingToggles: UtbetalingToggles = {
 
 // @ts-ignore
 export const overstyrInntektEnabled = overstyreUtbetaltPeriodeEnabled;
+
+export const totrinnsvurdering = erLocal() || erDev() || erUtvikler();

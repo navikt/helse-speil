@@ -1,44 +1,27 @@
-import React, { ReactNode, useContext, useState } from 'react';
-import { nanoid } from 'nanoid';
+import React, { ReactNode, useState } from 'react';
 
 import { Button } from '@navikt/ds-react';
 
 import { UtbetalingModal } from './UtbetalingModal';
-import { postUtbetalingsgodkjenning } from '@io/http';
-import { Scopes, useAddEphemeralVarsel } from '@state/varsler';
+import { postUtbetalingTilTotrinnsvurdering } from '@io/http';
 
-import { AmplitudeContext } from '../../AmplitudeContext';
-
-const useAddUtbetalingstoast = () => {
-    const timeToLiveMs = 5000;
-    const addVarsel = useAddEphemeralVarsel();
-
-    return () => {
-        addVarsel(
-            {
-                key: nanoid(),
-                message: 'Utbetalingen er sendt til oppdragssystemet.',
-                type: 'suksess',
-                scope: Scopes.GLOBAL,
-            },
-            timeToLiveMs,
-        );
-    };
-};
-
-interface GodkjenningButtonProps extends Omit<React.HTMLAttributes<HTMLButtonElement>, 'onError'> {
+interface SendTilGodkjenningButtonProps extends Omit<React.HTMLAttributes<HTMLButtonElement>, 'onError'> {
     children: ReactNode;
-    oppgavereferanse: string;
     aktørId: string;
+    fødselsnummer: string;
+    saksbehandlerIdent: string;
+    vedtaksperiodeId: string;
     disabled: boolean;
     onSuccess?: () => void;
     onError?: (error: Error) => void;
 }
 
-export const GodkjenningButton: React.FC<GodkjenningButtonProps> = ({
+export const SendTilGodkjenningButton: React.FC<SendTilGodkjenningButtonProps> = ({
     children,
-    oppgavereferanse,
     aktørId,
+    fødselsnummer,
+    saksbehandlerIdent,
+    vedtaksperiodeId,
     disabled = false,
     onSuccess,
     onError,
@@ -47,17 +30,12 @@ export const GodkjenningButton: React.FC<GodkjenningButtonProps> = ({
     const [showModal, setShowModal] = useState(false);
     const [isSending, setIsSending] = useState(false);
 
-    const amplitude = useContext(AmplitudeContext);
-    const addUtbetalingstoast = useAddUtbetalingstoast();
-
     const closeModal = () => setShowModal(false);
 
-    const godkjennUtbetaling = () => {
+    const sendTilGodkjenning = () => {
         setIsSending(true);
-        postUtbetalingsgodkjenning(oppgavereferanse, aktørId)
+        postUtbetalingTilTotrinnsvurdering(aktørId, fødselsnummer, saksbehandlerIdent, vedtaksperiodeId)
             .then(() => {
-                amplitude.logOppgaveGodkjent();
-                addUtbetalingstoast();
                 onSuccess?.();
             })
             .catch((error) => {
@@ -86,9 +64,9 @@ export const GodkjenningButton: React.FC<GodkjenningButtonProps> = ({
             {showModal && (
                 <UtbetalingModal
                     onClose={closeModal}
-                    onApprove={godkjennUtbetaling}
+                    onApprove={sendTilGodkjenning}
                     isSending={isSending}
-                    totrinnsvurdering={false}
+                    totrinnsvurdering={true}
                 />
             )}
         </>

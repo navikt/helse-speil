@@ -18,6 +18,7 @@ import devOverstyringClient from './overstyring/devOverstyringClient';
 import overstyringClient from './overstyring/overstyringClient';
 import annulleringClient from './payment/annulleringClient';
 import devAnnulleringClient from './payment/devAnnulleringClient';
+import totrinnsvurderingClient from './payment/totrinnsvurderingClient';
 import devVedtakClient from './payment/devVedtakClient';
 import vedtakClient from './payment/vedtakClient';
 import { personClient } from './person/personClient';
@@ -36,6 +37,7 @@ const getDevDependencies = (app: Express) => {
     const _devSpesialistClient = devSpesialistClient(instrumentation);
     const _devPersonClient = devPersonClient(instrumentation);
     const _devGraphQLClient = graphQLClient(config.oidc, devOnBehalfOf);
+    const _totrinnsvurderingClient = totrinnsvurderingClient(config.oidc, devOnBehalfOf);
 
     return {
         person: {
@@ -44,7 +46,11 @@ const getDevDependencies = (app: Express) => {
             onBehalfOf: devOnBehalfOf,
             config,
         },
-        payments: { vedtakClient: devVedtakClient, annulleringClient: devAnnulleringClient },
+        payments: {
+            vedtakClient: devVedtakClient,
+            annulleringClient: devAnnulleringClient,
+            totrinnsvurderingClient: _totrinnsvurderingClient,
+        },
         redisClient: devRedisClient,
         overstyring: { overstyringClient: devOverstyringClient },
         tildeling: { tildelingClient: _tildelingClient },
@@ -70,6 +76,7 @@ const getProdDependencies = (app: Express, helsesjekk: Helsesjekk) => {
     const _leggPåVentClient = leggPåVentClient(config.oidc, _onBehalfOf);
     const _notatClient = notatClient(config.oidc, _onBehalfOf);
     const _graphQLClient = graphQLClient(config.oidc, _onBehalfOf);
+    const _totrinnsvurderingClient = totrinnsvurderingClient(config.oidc, _onBehalfOf);
 
     return {
         person: {
@@ -78,7 +85,11 @@ const getProdDependencies = (app: Express, helsesjekk: Helsesjekk) => {
             onBehalfOf: _onBehalfOf,
             config,
         },
-        payments: { vedtakClient: _vedtakClient, annulleringClient: _annulleringClient },
+        payments: {
+            vedtakClient: _vedtakClient,
+            annulleringClient: _annulleringClient,
+            totrinnsvurderingClient: _totrinnsvurderingClient,
+        },
         redisClient: _redisClient,
         overstyring: { overstyringClient: _overstyringClient },
         tildeling: { tildelingClient: _tildelingClient },
