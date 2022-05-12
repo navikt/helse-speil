@@ -1,4 +1,3 @@
-import bodyParser from 'body-parser';
 import dayjs from 'dayjs';
 import express, { Request, Response } from 'express';
 import { nanoid } from 'nanoid';
@@ -15,8 +14,8 @@ const passeLenge = () => Math.random() * 500 + 200;
 
 app.disable('x-powered-by');
 
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
 app.use((_req, res, next) => {
     res.header('Access-Control-Allow-Origin', 'http://localhost:1234');
     res.header(
@@ -214,19 +213,6 @@ app.get('/api/mock/personstatus/:aktorId', (req: Request, res: Response) => {
     const påVent = venter[oppgavereferanse] || false;
     const oid = tildelinger[oppgavereferanse];
     res.send(oid ? { påVent, oid, epost: 'dev@nav.no', navn: 'dev' } : undefined);
-});
-
-let pollCounter = 0;
-const pollLimit = 3;
-
-app.get('/api/v1/oppgave', (_req: Request, res: Response) => {
-    pollCounter += 1;
-    if (pollCounter === pollLimit) {
-        pollCounter = 0;
-        res.send({ oppgavereferanse: 'hunter2' });
-    } else {
-        res.sendStatus(404);
-    }
 });
 
 setupGraphQLMiddleware(app);
