@@ -7,10 +7,7 @@ import { postUtbetalingTilTotrinnsvurdering } from '@io/http';
 
 interface SendTilGodkjenningButtonProps extends Omit<React.HTMLAttributes<HTMLButtonElement>, 'onError'> {
     children: ReactNode;
-    aktørId: string;
-    fødselsnummer: string;
-    saksbehandlerIdent: string;
-    vedtaksperiodeId: string;
+    oppgavereferanse: string;
     disabled: boolean;
     onSuccess?: () => void;
     onError?: (error: Error) => void;
@@ -18,10 +15,7 @@ interface SendTilGodkjenningButtonProps extends Omit<React.HTMLAttributes<HTMLBu
 
 export const SendTilGodkjenningButton: React.FC<SendTilGodkjenningButtonProps> = ({
     children,
-    aktørId,
-    fødselsnummer,
-    saksbehandlerIdent,
-    vedtaksperiodeId,
+    oppgavereferanse,
     disabled = false,
     onSuccess,
     onError,
@@ -34,7 +28,7 @@ export const SendTilGodkjenningButton: React.FC<SendTilGodkjenningButtonProps> =
 
     const sendTilGodkjenning = () => {
         setIsSending(true);
-        postUtbetalingTilTotrinnsvurdering(aktørId, fødselsnummer, saksbehandlerIdent, vedtaksperiodeId)
+        postUtbetalingTilTotrinnsvurdering(oppgavereferanse)
             .then(() => {
                 onSuccess?.();
             })

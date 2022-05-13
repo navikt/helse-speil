@@ -85,26 +85,15 @@ export default ({ vedtakClient, annulleringClient, totrinnsvurderingClient }: Se
             });
     });
 
-    router.post('/totrinnsvurdering', (req: SpeilRequest, res: Response) => {
-        logger.info(`Sender til totrinnsvurdering for vedtaksperiodeId ${req.body.vedtaksperiodeId}`);
-        logger.sikker.info(
-            `Sender til totrinnsvurdering for vedtaksperiodeId ${
-                req.body.vedtaksperiodeId
-            } med payload ${JSON.stringify(req.body)}`
-        );
+    router.post('/totrinnsvurdering/:oppgavereferanse', (req: SpeilRequest, res: Response) => {
+        logger.info(`Sender til totrinnsvurdering for oppgavereferanse ${req.params.oppgavereferanse}`);
         totrinnsvurderingClient
-            .totrinnsvurdering({
-                aktørId: req.body.aktørId,
-                fødselsnummer: req.body.fødselsnummer,
-                saksbehandlerIdent: req.session!.user,
-                speilToken: req.session!.speilToken,
-                vedtaksperiodeId: req.body.vedtaksperiodeId,
-            })
+            .totrinnsvurdering(req.session!.speilToken, req.params.oppgavereferanse)
             .then(() => {
                 res.sendStatus(204);
             })
             .catch((err) => {
-                res.status(err.statusCode || 500).send('Feil under annullering');
+                res.status(err.statusCode || 500).send('Feil under sending av totrinnsvurdering');
             });
     });
     return router;

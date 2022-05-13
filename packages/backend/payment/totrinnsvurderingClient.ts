@@ -14,27 +14,16 @@ export interface PostTotrinnsvurderingParams {
 }
 
 export interface TotrinnsvurderingClient {
-    totrinnsvurdering: (body: PostTotrinnsvurderingParams, accessToken?: string) => Promise<Response>;
+    totrinnsvurdering: (speilToken: string, oppgaveReferanse: string) => Promise<Response>;
 }
 
-export default (oidcConfig: OidcConfig, onBehalfOf: OnBehalfOf) => ({
-    totrinnsvurdering: async ({
-        aktørId,
-        fødselsnummer,
-        saksbehandlerIdent,
-        speilToken,
-        vedtaksperiodeId,
-    }: PostTotrinnsvurderingParams) => {
+export default (oidcConfig: OidcConfig, onBehalfOf: OnBehalfOf): TotrinnsvurderingClient => ({
+    totrinnsvurdering: async (speilToken: string, oppgaveReferanse: string): Promise<Response> => {
         const onBehalfOfToken = await onBehalfOf.hentFor(oidcConfig.clientIDSpesialist, speilToken);
         const options = {
-            uri: `${spesialistBaseUrl}/api/totrinnsvurdering`,
+            uri: `${spesialistBaseUrl}/api/totrinnsvurdering/${oppgaveReferanse}`,
             headers: { Authorization: `Bearer ${onBehalfOfToken}` },
-            body: {
-                aktørId,
-                fødselsnummer,
-                saksbehandlerIdent,
-                vedtaksperiodeId,
-            },
+            resolveWithFullResponse: true,
             json: true,
         };
 

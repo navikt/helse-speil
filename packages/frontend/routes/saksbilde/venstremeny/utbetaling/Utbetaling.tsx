@@ -17,7 +17,6 @@ import { SendTilGodkjenningButton } from './SendTilGodkjenningButton';
 import styles from './Utbetaling.module.css';
 import { BodyShort, Loader } from '@navikt/ds-react';
 import styled from '@emotion/styled';
-import { useInnloggetSaksbehandler } from '@state/authentication';
 
 const InfoText = styled(BodyShort)`
     color: var(--navds-semantic-color-text);
@@ -68,7 +67,7 @@ export const Utbetaling = ({ activePeriod, currentPerson }: UtbetalingProps) => 
     const [error, setError] = useState<SpeilError | null>();
     const ventEllerHopp = useOnGodkjenn(activePeriod, currentPerson);
     const history = useHistory();
-    const { oid } = useInnloggetSaksbehandler();
+
     const onGodkjennUtbetaling = () => {
         setPeriodenErSendt(true);
         ventEllerHopp();
@@ -91,10 +90,7 @@ export const Utbetaling = ({ activePeriod, currentPerson }: UtbetalingProps) => 
             <div className={styles.Buttons}>
                 {trengerTotrinnsvurdering ? (
                     <SendTilGodkjenningButton
-                        aktørId={currentPerson.aktorId}
-                        fødselsnummer={currentPerson.fodselsnummer}
-                        saksbehandlerIdent={oid}
-                        vedtaksperiodeId={activePeriod.vedtaksperiodeId}
+                        oppgavereferanse={activePeriod.oppgavereferanse!!}
                         disabled={periodenErSendt}
                         onSuccess={onSendTilGodkjenning}
                         onError={setError}
