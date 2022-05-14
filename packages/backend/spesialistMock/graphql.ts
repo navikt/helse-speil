@@ -8,6 +8,7 @@ import { makeExecutableSchema } from '@graphql-tools/schema';
 import { IResolvers } from '@graphql-tools/utils';
 
 import spesialistSchema from '../graphql.schema.json';
+import { NotFoundError } from './errors';
 
 const fetchPersondata = (): Record<string, JSON> => {
     const url = path.join(__dirname, '/data');
@@ -128,7 +129,11 @@ const oppdrag = [
 const getResolvers = (): IResolvers => ({
     Query: {
         person: (_, { fnr, aktorId }: { fnr?: string; aktorId?: string }) => {
-            return fetchPersondata()[fnr ?? aktorId ?? ''];
+            const person = fetchPersondata()[fnr ?? aktorId ?? ''];
+            if (!person) {
+                throw new NotFoundError(`Finner ikke data for person med fødselsnummer ${fnr ?? aktorId}`, 'person');
+            }
+            return person;
         },
         oppdrag: (_, { fnr }: { fnr: string }) => {
             return oppdrag;
