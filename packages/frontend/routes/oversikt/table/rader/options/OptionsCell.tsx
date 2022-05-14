@@ -80,7 +80,9 @@ export const OptionsCell = React.memo(({ oppgave, personinfo }: OptionsButtonPro
     const buttonRef = useRef<HTMLButtonElement>(null);
 
     const innloggetSaksbehandler = useInnloggetSaksbehandler();
-    const erTildeltInnloggetBruker = oppgave.tildeling?.saksbehandler?.oid === innloggetSaksbehandler.oid;
+    const erTildeltInnloggetBruker =
+        typeof oppgave.tildeling?.saksbehandler?.oid === 'string' &&
+        oppgave.tildeling?.saksbehandler.oid === innloggetSaksbehandler.oid;
     const skalViseAvmeldingsknapp = erTildeltInnloggetBruker || (oppgave.tildeling && kanFrigiAndresOppgaver);
 
     const togglePopover = (event: React.SyntheticEvent) => {
