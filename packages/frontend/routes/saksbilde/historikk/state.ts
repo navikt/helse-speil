@@ -4,7 +4,7 @@ import dayjs from 'dayjs';
 
 import { useNotaterForVedtaksperiode } from '@state/notater';
 import { useCurrentArbeidsgiver } from '@state/arbeidsgiver';
-import { GhostPeriode, Overstyring, Periode } from '@io/graphql';
+import { GhostPeriode, Overstyring } from '@io/graphql';
 import { isGhostPeriode } from '@utils/typeguards';
 
 import { Hendelse, Hendelsetype } from './Historikk.types';
@@ -13,6 +13,7 @@ import {
     useArbeidsforholdoverstyringshendelser,
     useDagoverstyringshendelser,
     useDokumenter,
+    usePeriodehistorikk,
     useInntektsoverstyringshendelser,
     useNotater,
 } from './mapping';
@@ -47,7 +48,7 @@ export const useHistorikk = () => useRecoilValue(historikk);
 export const useFilterState = () => useRecoilState(filterState);
 
 type UseOppdaterHistorikkOptions = {
-    periode: Periode | GhostPeriode;
+    periode: BeregnetPeriode | GhostPeriode;
     onClickNotat: () => void;
     onClickOverstyringshendelse: (overstyring: Overstyring) => void;
     vedtaksperiodeId?: string;
@@ -66,6 +67,7 @@ export const useOppdaterHistorikk = ({
     const notater = useNotater(notaterForVedtaksperiode, onClickNotat);
     const dokumenter = useDokumenter(periode);
     const utbetaling = getUtbetalingshendelse(periode);
+    const periodehistorikk = usePeriodehistorikk(periode);
 
     const tidslinjeendringer = useDagoverstyringshendelser(onClickOverstyringshendelse, overstyringer);
     const inntektoverstyringer = useInntektsoverstyringshendelser(onClickOverstyringshendelse, overstyringer);
@@ -85,6 +87,7 @@ export const useOppdaterHistorikk = ({
                     )
                     .concat(utbetaling ? [utbetaling] : [])
                     .concat(notater)
+                    .concat(periodehistorikk)
                     .sort((a: Hendelse, b: Hendelse): number =>
                         typeof a.timestamp !== 'string'
                             ? -1

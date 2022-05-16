@@ -7,7 +7,7 @@ import { ErrorBoundary } from '@components/ErrorBoundary';
 import { EndringsloggDager } from '@components/EndringsloggDager';
 import { EndringsloggInntekt } from '@components/EndringsloggInntekt';
 import { EndringsloggArbeidsforhold } from '@components/EndringsloggArbeidsforhold';
-import { Dagoverstyring, Dagtype, GhostPeriode, Maybe, Overstyring, Periode, Personinfo, Tildeling } from '@io/graphql';
+import { Dagoverstyring, Dagtype, GhostPeriode, Maybe, Overstyring, Personinfo, Tildeling } from '@io/graphql';
 import {
     isArbeidsforholdoverstyring,
     isBeregnetPeriode,
@@ -50,7 +50,7 @@ const convertDagoverstyring = (overstyring: Dagoverstyring): Array<Overstyringer
 };
 
 interface HistorikkWithContentProps {
-    activePeriod: Periode | GhostPeriode;
+    activePeriod: BeregnetPeriode | GhostPeriode;
     personinfo: Personinfo;
     tildeling?: Maybe<Tildeling>;
     vedtaksperiodeId?: string;
