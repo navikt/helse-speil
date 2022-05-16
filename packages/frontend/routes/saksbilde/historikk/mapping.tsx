@@ -93,23 +93,25 @@ export const useDokumenter = (period: Periode | GhostPeriode): Hendelse[] => {
         .filter((it) => it !== null) as Hendelse[];
 };
 
-export const usePeriodehistorikk = (periode: BeregnetPeriode | GhostPeriode): [Hendelse] => {
+export const usePeriodehistorikk = (periode: BeregnetPeriode | GhostPeriode): Array<Hendelse> => {
     if (!isBeregnetPeriode(periode)) {
         return [];
     }
 
-    return (
-        periode?.periodehistorikk?.map((historikkelement) => {
-            return {
-                id: historikkelement.id,
-                timestamp: historikkelement.timestamp,
-                title: historikkelement.title,
-                type: Hendelsetype.Historikk,
-                icon: <Kilde type={Kildetype.Saksbehandler}>Saksbehandler</Kilde>,
-                body: <BegrunnelseTekst>{historikkelement.ident}</BegrunnelseTekst>,
-            };
-        }) ?? []
-    );
+    return [];
+    // return (
+    //   periode.periodehistorikk
+    //     .map((historikkelement) => {
+    //       return {
+    //         id: historikkelement.id,
+    //         timestamp: historikkelement.timestamp,
+    //         title: historikkelement.title,
+    //         type: Hendelsetype.Historikk,
+    //         icon: <Kilde type={Kildetype.Saksbehandler}>Saksbehandler</Kilde>,
+    //         body: <BegrunnelseTekst>{historikkelement.ident}</BegrunnelseTekst>
+    //       } as Hendelse;
+    //     })
+    // );
 };
 
 export const getUtbetalingshendelse = (periode: Periode | GhostPeriode): Hendelse | null => {
