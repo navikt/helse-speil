@@ -85,10 +85,15 @@ export default ({ vedtakClient, annulleringClient, totrinnsvurderingClient }: Se
             });
     });
 
-    router.post('/totrinnsvurdering/:oppgavereferanse', (req: SpeilRequest, res: Response) => {
-        logger.info(`Sender til totrinnsvurdering for oppgavereferanse ${req.params.oppgavereferanse}`);
+    router.post('/totrinnsvurdering', (req: SpeilRequest, res: Response) => {
+        logger.info(
+            `Sender til totrinnsvurdering for oppgavereferanse ${req.body.oppgavereferanse} og periodeId: ${req.body.oppgaveId}`
+        );
         totrinnsvurderingClient
-            .totrinnsvurdering(req.session!.speilToken, req.params.oppgavereferanse)
+            .totrinnsvurdering(req.session!.speilToken, {
+                oppgavereferanse: req.body.oppgavereferanse,
+                periodeId: req.body.periodeId,
+            })
             .then(() => {
                 res.sendStatus(204);
             })

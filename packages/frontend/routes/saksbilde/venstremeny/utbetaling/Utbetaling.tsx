@@ -17,6 +17,7 @@ import { SendTilGodkjenningButton } from './SendTilGodkjenningButton';
 import styles from './Utbetaling.module.css';
 import { BodyShort, Loader } from '@navikt/ds-react';
 import styled from '@emotion/styled';
+import { isBeregnetPeriode } from '@utils/typeguards';
 
 const InfoText = styled(BodyShort)`
     color: var(--navds-semantic-color-text);
@@ -83,14 +84,16 @@ export const Utbetaling = ({ activePeriod, currentPerson }: UtbetalingProps) => 
     const isRevurdering = activePeriod.utbetaling.type === 'REVURDERING';
     const harArbeidsgiverutbetaling = activePeriod.utbetaling.arbeidsgiverNettoBelop !== 0;
     const harBrukerutbetaling = activePeriod.utbetaling.personNettoBelop !== 0;
-    const trengerTotrinnsvurdering = totrinnsvurdering && (activePeriod?.trengerTotrinnsvurdering ?? false);
+    const trengerTotrinnsvurdering =
+        totrinnsvurdering && (activePeriod?.trengerTotrinnsvurdering ?? false) && isBeregnetPeriode(activePeriod);
 
     return (
         <>
             <div className={styles.Buttons}>
                 {trengerTotrinnsvurdering ? (
                     <SendTilGodkjenningButton
-                        oppgavereferanse={activePeriod.oppgavereferanse!!}
+                        oppgavereferanse={activePeriod.oppgavereferanse!}
+                        periodeId={activePeriod.id}
                         disabled={periodenErSendt}
                         onSuccess={onSendTilGodkjenning}
                         onError={setError}

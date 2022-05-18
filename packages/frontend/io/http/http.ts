@@ -152,8 +152,8 @@ export const postUtbetalingsgodkjenning = async (oppgavereferanse: string, aktø
 export const postSendTilInfotrygd = async (oppgavereferanse: string, aktørId: string, skjema: Avvisningsskjema) =>
     postVedtak(oppgavereferanse, aktørId, false, skjema);
 
-export const postUtbetalingTilTotrinnsvurdering = async (oppgavereferanse: string) =>
-    post(`${baseUrl}/payments/totrinnsvurdering/${oppgavereferanse}`, {});
+export const postUtbetalingTilTotrinnsvurdering = async (oppgavereferanse: string, periodeId: string) =>
+    post(`${baseUrl}/payments/totrinnsvurdering`, { oppgavereferanse, periodeId });
 
 export const postAnnullering = async (annullering: AnnulleringDTO) =>
     post(`${baseUrl}/payments/annullering`, annullering);
