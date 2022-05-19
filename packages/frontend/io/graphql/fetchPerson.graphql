@@ -198,6 +198,12 @@ query FetchPerson($fnr: String, $aktorId: String) {
                         beregningId
                         forbrukteSykedager
                         gjenstaendeSykedager
+                        periodehistorikk {
+                            type
+                            timestamp
+                            saksbehandler_ident
+                            notat_id
+                        }
                         hendelser {
                             id
                             type

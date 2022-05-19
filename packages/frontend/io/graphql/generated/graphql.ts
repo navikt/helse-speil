@@ -111,7 +111,9 @@ export type BeregnetPeriode = Periode & {
     aktivitetslogg: Array<Aktivitet>;
     behandlingstype: Behandlingstype;
     beregningId: Scalars['String'];
+    erBeslutterOppgave: Scalars['Boolean'];
     erForkastet: Scalars['Boolean'];
+    erReturOppgave: Scalars['Boolean'];
     fom: Scalars['String'];
     forbrukteSykedager?: Maybe<Scalars['Int']>;
     gjenstaendeSykedager?: Maybe<Scalars['Int']>;
@@ -121,6 +123,7 @@ export type BeregnetPeriode = Periode & {
     maksdato: Scalars['String'];
     oppgavereferanse?: Maybe<Scalars['String']>;
     opprettet: Scalars['String'];
+    periodehistorikk: Array<PeriodeHistorikkElement>;
     periodetype: Periodetype;
     periodevilkar: Periodevilkar;
     refusjon?: Maybe<Refusjon>;
@@ -129,11 +132,11 @@ export type BeregnetPeriode = Periode & {
     tidslinje: Array<Dag>;
     tilstand: Periodetilstand;
     tom: Scalars['String'];
+    trengerTotrinnsvurdering: Maybe<Scalars['Boolean']>;
     utbetaling: Utbetaling;
     varsler: Array<Scalars['String']>;
     vedtaksperiodeId: Scalars['String'];
     vilkarsgrunnlaghistorikkId: Scalars['String'];
-    trengerTotrinnsvurdering?: Maybe<Scalars['Boolean']>;
 };
 
 export type Dag = {
@@ -353,6 +356,19 @@ export type Periode = {
     tom: Scalars['String'];
     vedtaksperiodeId: Scalars['String'];
 };
+
+export type PeriodeHistorikkElement = {
+    __typename?: 'PeriodeHistorikkElement';
+    notat_id?: Maybe<Scalars['Int']>;
+    saksbehandler_ident: Scalars['String'];
+    timestamp: Scalars['String'];
+    type: PeriodehistorikkType;
+};
+
+export enum PeriodehistorikkType {
+    TotrinnsvurderingRetur = 'TOTRINNSVURDERING_RETUR',
+    TotrinnsvurderingTilGodkjenning = 'TOTRINNSVURDERING_TIL_GODKJENNING',
+}
 
 export enum Periodetilstand {
     AnnulleringFeilet = 'AnnulleringFeilet',

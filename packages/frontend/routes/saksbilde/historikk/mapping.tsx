@@ -21,6 +21,7 @@ import {
     Kildetype,
     Overstyring,
     Periode,
+    PeriodehistorikkType,
     SoknadArbeidsgiver,
     SoknadNav,
     Sykmelding,
@@ -93,25 +94,42 @@ export const useDokumenter = (period: Periode | GhostPeriode): Hendelse[] => {
         .filter((it) => it !== null) as Hendelse[];
 };
 
-export const usePeriodehistorikk = (periode: BeregnetPeriode | GhostPeriode): Array<Hendelse> => {
+const getPeriodehistorikkTitle = (
+    type: PeriodehistorikkType,
+    onClickNotat: () => void,
+    notat_id?: Maybe<number>,
+): String | JSX.Element => {
+    const title = (() => {
+        switch (type) {
+            case PeriodehistorikkType.TotrinnsvurderingTilGodkjenning:
+                return 'Til Godkjenning';
+            case PeriodehistorikkType.TotrinnsvurderingRetur:
+                return 'Retur';
+            default:
+                return '';
+        }
+    })();
+
+    return notat_id ? <LinkButton onClick={() => onClickNotat}>{title}</LinkButton> : title;
+};
+
+export const usePeriodehistorikk = (
+    periode: BeregnetPeriode | GhostPeriode,
+    onClickNotat: () => void,
+): Array<Hendelse> => {
     if (!isBeregnetPeriode(periode)) {
         return [];
     }
 
-    return [];
-    // return (
-    //   periode.periodehistorikk
-    //     .map((historikkelement) => {
-    //       return {
-    //         id: historikkelement.id,
-    //         timestamp: historikkelement.timestamp,
-    //         title: historikkelement.title,
-    //         type: Hendelsetype.Historikk,
-    //         icon: <Kilde type={Kildetype.Saksbehandler}>Saksbehandler</Kilde>,
-    //         body: <BegrunnelseTekst>{historikkelement.ident}</BegrunnelseTekst>
-    //       } as Hendelse;
-    //     })
-    // );
+    return periode.periodehistorikk.map((historikkelement, index) => {
+        return {
+            id: index.toString(),
+            timestamp: historikkelement.timestamp as DateString,
+            title: getPeriodehistorikkTitle(historikkelement.type, onClickNotat, historikkelement.notat_id),
+            type: Hendelsetype.Historikk,
+            body: <BegrunnelseTekst>{historikkelement.saksbehandler_ident}</BegrunnelseTekst>,
+        } as Hendelse;
+    });
 };
 
 export const getUtbetalingshendelse = (periode: Periode | GhostPeriode): Hendelse | null => {

@@ -603,6 +603,7 @@
                                     "beregningId": "859c3822-5ad9-4c42-ba5b-593bee07506b",
                                     "forbrukteSykedager": 10,
                                     "gjenstaendeSykedager": 238,
+                                    "periodehistorikk": [],
                                     "hendelser": [
                                         {
                                             "id": "58bef78d-c706-44a9-b635-c5b995fe6316",
@@ -1238,6 +1239,7 @@
                                     "beregningId": "d1af1d5d-6aa8-436e-af1c-e1fe5e3e8625",
                                     "forbrukteSykedager": 10,
                                     "gjenstaendeSykedager": 238,
+                                    "periodehistorikk": [],
                                     "hendelser": [
                                         {
                                             "id": "58bef78d-c706-44a9-b635-c5b995fe6316",

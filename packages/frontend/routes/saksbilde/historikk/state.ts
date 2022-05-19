@@ -67,7 +67,7 @@ export const useOppdaterHistorikk = ({
     const notater = useNotater(notaterForVedtaksperiode, onClickNotat);
     const dokumenter = useDokumenter(periode);
     const utbetaling = getUtbetalingshendelse(periode);
-    const periodehistorikk = usePeriodehistorikk(periode);
+    const periodehistorikk = usePeriodehistorikk(periode, onClickNotat);
 
     const tidslinjeendringer = useDagoverstyringshendelser(onClickOverstyringshendelse, overstyringer);
     const inntektoverstyringer = useInntektsoverstyringshendelser(onClickOverstyringshendelse, overstyringer);

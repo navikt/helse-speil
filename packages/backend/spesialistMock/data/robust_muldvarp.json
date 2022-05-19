@@ -758,6 +758,7 @@
                                     "beregningId": "99d13298-0410-45bb-ab70-d4f6b95bb0b6",
                                     "forbrukteSykedager": 1,
                                     "gjenstaendeSykedager": 247,
+                                    "periodehistorikk": [],
                                     "hendelser": [
                                         {
                                             "id": "7a670cfa-6494-405e-bc2c-020274e176f5",
