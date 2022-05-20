@@ -38,7 +38,7 @@ export const BeregnetPeriodeView: React.VFC<BeregnetPeriodeViewProps> = ({ activ
     }
 
     const { path } = useRouteMatch();
-    useSetVedtaksperiodeReferanserForNotater([activePeriod.id]);
+    useSetVedtaksperiodeReferanserForNotater([activePeriod.vedtaksperiodeId]);
 
     return (
         <>

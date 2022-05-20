@@ -3,7 +3,6 @@ import { Route, Switch, useRouteMatch } from 'react-router-dom';
 
 import { Location } from '@hooks/useNavigation';
 import { useNavigateOnMount } from '@hooks/useNavigateOnMount';
-import { useSetVedtaksperiodeReferanserForNotater } from '@hooks/useSetVedtaksperiodeReferanserForNotater';
 import type { Arbeidsgiver, GhostPeriode, Person } from '@io/graphql';
 import { getPeriodState } from '@utils/mapping';
 
@@ -30,8 +29,6 @@ export const GhostPeriodeView: React.VFC<GhostPeriodeViewProps> = ({
     }
 
     const { path } = useRouteMatch();
-
-    useSetVedtaksperiodeReferanserForNotater([activePeriod.id]);
     useNavigateOnMount(Location.Sykepengegrunnlag, currentPerson.aktorId);
 
     return (
