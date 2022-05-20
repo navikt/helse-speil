@@ -2,6 +2,7 @@ import React from 'react';
 import { Route, Switch, useRouteMatch } from 'react-router-dom';
 import { Loader } from '@navikt/ds-react';
 
+import { useSetVedtaksperiodeReferanserForNotater } from '@hooks/useSetVedtaksperiodeReferanserForNotater';
 import { onLazyLoadFail } from '@utils/error';
 import { getPeriodState } from '@utils/mapping';
 import { Arbeidsgiver, BeregnetPeriode, Person } from '@io/graphql';
@@ -37,6 +38,7 @@ export const BeregnetPeriodeView: React.VFC<BeregnetPeriodeViewProps> = ({ activ
     }
 
     const { path } = useRouteMatch();
+    useSetVedtaksperiodeReferanserForNotater([activePeriod.id]);
 
     return (
         <>

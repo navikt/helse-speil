@@ -66,7 +66,8 @@ export const OppgaverTable = React.memo(({ oppgaver }: { oppgaver: Oppgave[] }) 
         ? sortedRows.slice(pagination.firstVisibleEntry, pagination.lastVisibleEntry + 1)
         : sortedRows;
 
-    useSetVedtaksperiodeReferanserForNotater(paginatedRows.map((t) => t.vedtaksperiodeId));
+    const vedtaksperiodeIder = paginatedRows.map((t) => t.vedtaksperiodeId);
+    useSetVedtaksperiodeReferanserForNotater(vedtaksperiodeIder);
 
     const onNavigate = () => removeVarsler();
 
