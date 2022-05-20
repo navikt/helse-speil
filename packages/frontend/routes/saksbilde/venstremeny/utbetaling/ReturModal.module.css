@@ -1,0 +1,28 @@
+.ReturModal {
+    padding: 1.5rem 1.75rem;
+}
+
+.Buttons {
+    display: flex;
+    gap: 1rem;
+    margin-top: 2rem;
+}
+
+.Buttons > button {
+    width: max-content;
+}
+
+.Begrunnelsesskjema {
+    margin-top: 1.5rem;
+}
+
+.Textarea {
+    min-height: 120px;
+    white-space: pre-line;
+    margin-bottom: 2rem;
+}
+
+.Soker {
+    display: flex;
+    gap: 0.25rem;
+}

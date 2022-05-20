@@ -101,5 +101,24 @@ export default ({ vedtakClient, annulleringClient, totrinnsvurderingClient }: Se
                 res.status(err.statusCode || 500).send('Feil under sending av totrinnsvurdering');
             });
     });
+
+    router.post('/totrinnsvurdering/retur', (req: SpeilRequest, res: Response) => {
+        logger.info(
+            `Sender beslutteroppgave i retur for oppgavereferanse ${req.body.oppgavereferanse} og periodeId: ${req.body.oppgaveId}`
+        );
+        totrinnsvurderingClient
+            .beslutteroppgaveretur(req.session!.speilToken, {
+                oppgavereferanse: req.body.oppgavereferanse,
+                periodeId: req.body.periodeId,
+                notat: req.body.notat,
+            })
+            .then(() => {
+                res.sendStatus(204);
+            })
+            .catch((err) => {
+                res.status(err.statusCode || 500).send('Feil under sending av beslutteroppgave i retur');
+            });
+    });
+
     return router;
 };

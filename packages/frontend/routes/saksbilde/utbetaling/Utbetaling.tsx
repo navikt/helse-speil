@@ -22,6 +22,7 @@ import { useCurrentArbeidsgiver } from '@state/arbeidsgiver';
 import { isBeregnetPeriode } from '@utils/typeguards';
 import { Varsel } from '@components/Varsel';
 import { OverstyrbarUtbetaling } from './OverstyrbarUtbetaling';
+import { useBeslutterOppgaveIsEnabled } from '@hooks/useBeslutterOppgaveIsEnabled';
 
 const Container = styled(FlexColumn)<{ overstyrer: boolean }>`
     position: relative;
@@ -101,6 +102,7 @@ const UtbetalingWithContent: React.FC<UtbetalingWithContentProps> = React.memo((
     const overstyrRevurderingIsEnabled = useOverstyrRevurderingIsEnabled(defaultUtbetalingToggles);
     const activePeriodHasLatestSkjæringstidspunkt = useActivePeriodHasLatestSkjæringstidspunkt();
     const dagoverstyringer = useDagoverstyringer(arbeidsgiver, period.fom, period.tom);
+    const isBeslutterOppgave = useBeslutterOppgaveIsEnabled();
 
     const dager: Map<string, UtbetalingstabellDag> = useTabelldagerMap({
         tidslinje: period.tidslinje,
@@ -110,7 +112,8 @@ const UtbetalingWithContent: React.FC<UtbetalingWithContentProps> = React.memo((
     });
 
     return (revurderingIsEnabled || overstyringIsEnabled || overstyrRevurderingIsEnabled) &&
-        activePeriodHasLatestSkjæringstidspunkt ? (
+        activePeriodHasLatestSkjæringstidspunkt &&
+        !isBeslutterOppgave ? (
         <OverstyrbarUtbetaling
             fom={period.fom}
             tom={period.tom}

@@ -258,3 +258,4 @@ export const defaultUtbetalingToggles: UtbetalingToggles = {
 export const overstyrInntektEnabled = overstyreUtbetaltPeriodeEnabled;
 
 export const totrinnsvurdering = erLocal() || erDev() || erUtvikler();
+export const erBeslutterOppgave = erLocal() || erDev() || erUtvikler();

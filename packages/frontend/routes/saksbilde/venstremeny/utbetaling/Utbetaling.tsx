@@ -18,6 +18,8 @@ import styles from './Utbetaling.module.css';
 import { BodyShort, Loader } from '@navikt/ds-react';
 import styled from '@emotion/styled';
 import { isBeregnetPeriode } from '@utils/typeguards';
+import { ReturButton } from './ReturButton';
+import { useBeslutterOppgaveIsEnabled } from '@hooks/useBeslutterOppgaveIsEnabled';
 
 const InfoText = styled(BodyShort)`
     color: var(--navds-semantic-color-text);
@@ -68,6 +70,7 @@ export const Utbetaling = ({ activePeriod, currentPerson }: UtbetalingProps) => 
     const [error, setError] = useState<SpeilError | null>();
     const ventEllerHopp = useOnGodkjenn(activePeriod, currentPerson);
     const history = useHistory();
+    const isBeslutterOppgave = useBeslutterOppgaveIsEnabled();
 
     const onGodkjennUtbetaling = () => {
         setPeriodenErSendt(true);
@@ -108,18 +111,28 @@ export const Utbetaling = ({ activePeriod, currentPerson }: UtbetalingProps) => 
                         onSuccess={onGodkjennUtbetaling}
                         onError={setError}
                     >
-                        {isRevurdering
+                        {isBeslutterOppgave
+                            ? 'Godkjenn og utbetal'
+                            : isRevurdering
                             ? 'Revurder'
                             : harArbeidsgiverutbetaling || harBrukerutbetaling
                             ? 'Utbetal'
                             : 'Godkjenn'}
                     </GodkjenningButton>
                 )}
-                {!isRevurdering && (
+                {!isRevurdering && !isBeslutterOppgave && (
                     <AvvisningButton
                         disabled={periodenErSendt}
                         activePeriod={activePeriod}
                         aktørId={currentPerson.aktorId}
+                        onSuccess={onAvvisUtbetaling}
+                        onError={setError}
+                    />
+                )}
+                {isBeslutterOppgave && (
+                    <ReturButton
+                        disabled={periodenErSendt}
+                        activePeriod={activePeriod}
                         onSuccess={onAvvisUtbetaling}
                         onError={setError}
                     />
