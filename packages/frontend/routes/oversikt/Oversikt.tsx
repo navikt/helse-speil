@@ -5,7 +5,12 @@ import { Loadable, useRecoilValue, useRecoilValueLoadable } from 'recoil';
 import { Varsel } from '@components/Varsel';
 import { Flex, FlexColumn } from '@components/Flex';
 import { useLoadingToast } from '@hooks/useLoadingToast';
-import { useFjernTildelingFraPerson, useResetPerson } from '@state/person';
+import {
+    useMarkerPersonSomIkkeTildelt,
+    useResetPerson,
+    useTilbakestillTildeling,
+    useTildelPerson,
+} from '@state/person';
 import { Scopes, useVarselFilter } from '@state/varsler';
 import { useInnloggetSaksbehandler } from '@state/authentication';
 import { oppgaverState, useRefetchOppgaver } from '@state/oppgaver';
@@ -75,10 +80,12 @@ const useFetchOppgaver = (currentState: Loadable<Array<Oppgave>>['state']): void
 };
 
 const useFjernTildelingOnMount = (): void => {
-    const fjernTildeling = useFjernTildelingFraPerson();
+    const markerPersonSomIkkeTildelt = useMarkerPersonSomIkkeTildelt();
+    const tilbakestillTildeling = useTilbakestillTildeling();
 
     useEffect(() => {
-        fjernTildeling();
+        markerPersonSomIkkeTildelt();
+        return () => tilbakestillTildeling();
     }, []);
 };
 

@@ -1,5 +1,13 @@
 import dayjs from 'dayjs';
-import { atom, Loadable, selector, useRecoilValue, useRecoilValueLoadable, useSetRecoilState } from 'recoil';
+import {
+    atom,
+    Loadable,
+    selector,
+    useRecoilValue,
+    useRecoilValueLoadable,
+    useResetRecoilState,
+    useSetRecoilState,
+} from 'recoil';
 
 import { useInnloggetSaksbehandler } from '@state/authentication';
 import { useActivePeriod } from '@state/periode';
@@ -83,11 +91,20 @@ export const useTildelPerson = (): ((påVent?: boolean) => void) => {
     };
 };
 
-export const useFjernTildelingFraPerson = (): (() => void) => {
+// Tilbakestiller tildeling-state til opprinnelig, slik at tildeling-info i hentet data "vinner"
+export const useMarkerPersonSomIkkeTildelt = (): (() => void) => {
+    const resetTildeling = useResetRecoilState(localTildelingState);
+
+    return () => {
+        resetTildeling();
+    };
+};
+
+export const useTilbakestillTildeling = (): (() => void) => {
     const setTildeling = useSetRecoilState(localTildelingState);
 
     return () => {
-        setTildeling(null);
+        setTildeling(undefined);
     };
 };
 

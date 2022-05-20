@@ -6,7 +6,7 @@ import { Tildeling } from '@io/graphql';
 import { useAddVarsel, useRemoveVarsel, VarselObject } from '@state/varsler';
 import { DropdownButton, DropdownContext } from '@components/dropdown';
 import { deleteTildeling, postTildeling } from '@io/http';
-import { useFjernTildelingFraPerson, useTildelPerson } from '@state/person';
+import { useMarkerPersonSomIkkeTildelt, useTildelPerson } from '@state/person';
 
 const TILDELINGSKEY = 'tildeling';
 
@@ -24,7 +24,7 @@ export const TildelingDropdownMenuButton = ({
     erTildeltInnloggetBruker,
 }: TildelingDropdownMenuButtonProps) => {
     const tildelPerson = useTildelPerson();
-    const fjernTildeling = useFjernTildelingFraPerson();
+    const markerPersonSomIkkeTildelt = useMarkerPersonSomIkkeTildelt();
     const { lukk } = useContext(DropdownContext);
 
     const [isFetching, setIsFetching] = useState(false);
@@ -39,7 +39,7 @@ export const TildelingDropdownMenuButton = ({
                 removeVarsel(TILDELINGSKEY);
                 deleteTildeling(oppgavereferanse)
                     .then(() => {
-                        fjernTildeling();
+                        markerPersonSomIkkeTildelt();
                     })
                     .catch(() => addVarsel(createTildelingsvarsel('Kunne ikke fjerne tildeling av sak.')))
                     .finally(() => {
