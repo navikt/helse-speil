@@ -15,7 +15,7 @@ amplitudeEnabled &&
     });
 
 interface AmplitudeContextValue {
-    logOppgaveGodkjent: () => void;
+    logOppgaveGodkjent: (erBeslutteroppgave: boolean) => void;
     logOppgaveForkastet: (begrunnelser: string[]) => void;
     logTotrinnsoppgaveReturnert: () => void;
 }
@@ -79,7 +79,11 @@ export const _AmplitudeProvider: React.FC<PropsWithChildren<{}>> = ({ children }
         }
     };
 
-    type LogEventType = 'oppgave godkjent' | 'oppgave forkastet' | 'totrinnsoppgave returnert';
+    type LogEventType =
+        | 'oppgave godkjent'
+        | 'oppgave forkastet'
+        | 'totrinnsoppgave returnert'
+        | 'totrinnsoppgave attestert';
 
     const logEvent = (event: LogEventType, begrunnelser?: string[]) => {
         if (amplitudeEnabled && oppgavereferanse) {
@@ -92,7 +96,8 @@ export const _AmplitudeProvider: React.FC<PropsWithChildren<{}>> = ({ children }
         }
     };
 
-    const logOppgaveGodkjent = () => logEvent('oppgave godkjent');
+    const logOppgaveGodkjent = (erBeslutteroppgave: boolean) =>
+        logEvent(erBeslutteroppgave ? 'totrinnsoppgave attestert' : 'oppgave godkjent');
 
     const logOppgaveForkastet = (begrunnelser: string[]) => logEvent('oppgave forkastet', begrunnelser);
 

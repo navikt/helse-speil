@@ -30,6 +30,7 @@ interface GodkjenningButtonProps extends Omit<React.HTMLAttributes<HTMLButtonEle
     children: ReactNode;
     oppgavereferanse: string;
     aktørId: string;
+    erBeslutteroppgave: boolean;
     disabled: boolean;
     onSuccess?: () => void;
     onError?: (error: Error) => void;
@@ -39,6 +40,7 @@ export const GodkjenningButton: React.FC<GodkjenningButtonProps> = ({
     children,
     oppgavereferanse,
     aktørId,
+    erBeslutteroppgave,
     disabled = false,
     onSuccess,
     onError,
@@ -56,7 +58,7 @@ export const GodkjenningButton: React.FC<GodkjenningButtonProps> = ({
         setIsSending(true);
         postUtbetalingsgodkjenning(oppgavereferanse, aktørId)
             .then(() => {
-                amplitude.logOppgaveGodkjent();
+                amplitude.logOppgaveGodkjent(erBeslutteroppgave);
                 addUtbetalingstoast();
                 onSuccess?.();
             })

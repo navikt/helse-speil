@@ -107,6 +107,7 @@ export const Utbetaling = ({ activePeriod, currentPerson }: UtbetalingProps) => 
                     <GodkjenningButton
                         oppgavereferanse={activePeriod.oppgavereferanse!}
                         aktørId={currentPerson.aktorId}
+                        erBeslutteroppgave={isBeslutterOppgave}
                         disabled={periodenErSendt}
                         onSuccess={onGodkjennUtbetaling}
                         onError={setError}
