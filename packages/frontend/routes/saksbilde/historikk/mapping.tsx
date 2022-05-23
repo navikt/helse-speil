@@ -146,6 +146,8 @@ export const getUtbetalingshendelse = (periode: Periode | GhostPeriode): Hendels
             ? 'Automatisk godkjent'
             : periode.utbetaling.type === 'ANNULLERING'
             ? 'Annullert'
+            : periode.erBeslutterOppgave
+            ? 'Attestert'
             : periode.utbetaling.type === 'REVURDERING'
             ? 'Revurdert'
             : 'Sendt til utbetaling',
