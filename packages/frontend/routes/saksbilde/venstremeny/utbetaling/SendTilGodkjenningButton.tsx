@@ -1,9 +1,10 @@
-import React, { ReactNode, useState } from 'react';
+import React, { ReactNode, useContext, useState } from 'react';
 
 import { Button } from '@navikt/ds-react';
+import { postUtbetalingTilTotrinnsvurdering } from '@io/http';
 
 import { UtbetalingModal } from './UtbetalingModal';
-import { postUtbetalingTilTotrinnsvurdering } from '@io/http';
+import { AmplitudeContext } from '../../AmplitudeContext';
 
 interface SendTilGodkjenningButtonProps extends Omit<React.HTMLAttributes<HTMLButtonElement>, 'onError'> {
     children: ReactNode;
@@ -25,6 +26,7 @@ export const SendTilGodkjenningButton: React.FC<SendTilGodkjenningButtonProps> =
 }) => {
     const [showModal, setShowModal] = useState(false);
     const [isSending, setIsSending] = useState(false);
+    const amplitude = useContext(AmplitudeContext);
 
     const closeModal = () => setShowModal(false);
 
@@ -32,6 +34,7 @@ export const SendTilGodkjenningButton: React.FC<SendTilGodkjenningButtonProps> =
         setIsSending(true);
         postUtbetalingTilTotrinnsvurdering(oppgavereferanse, periodeId)
             .then(() => {
+                amplitude.logTotrinnsoppgaveTilGodkjenning();
                 onSuccess?.();
             })
             .catch((error) => {
