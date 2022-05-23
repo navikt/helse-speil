@@ -20,8 +20,6 @@ const getUtbetalingstabelldagtype = (dag: Dag): Utbetalingstabelldagtype => {
     switch (dag.utbetalingsdagtype) {
         case Utbetalingsdagtype.Arbeidsdag:
             return 'Arbeid';
-        case Utbetalingsdagtype.Feriedag:
-            return 'Ferie';
         case Utbetalingsdagtype.Navhelgdag:
         case Utbetalingsdagtype.Helgedag:
             return 'Helg';

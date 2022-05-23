@@ -480,8 +480,8 @@
                                                 "id": "8660ce9f-56dc-4d20-bf86-e4ba3475b57e",
                                                 "type": "SOKNAD"
                                             },
-                                            "sykdomsdagtype": "SYKEDAG",
-                                            "utbetalingsdagtype": "NAVDAG",
+                                            "sykdomsdagtype": "PERMISJONSDAG",
+                                            "utbetalingsdagtype": "FERIEDAG",
                                             "utbetalingsinfo": {
                                                 "arbeidsgiverbelop": 1385,
                                                 "inntekt": 1385,
