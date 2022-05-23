@@ -1,0 +1,10 @@
+.Pagination {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 1rem;
+}
+
+.Pagination :global(.navds-pagination--invisible) {
+    visibility: visible;
+}

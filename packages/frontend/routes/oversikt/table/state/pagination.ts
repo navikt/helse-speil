@@ -81,38 +81,9 @@ export const useRefreshPagination = (numberOfEntries: number) => {
                 pagination && {
                     ...pagination,
                     numberOfPages: Math.ceil(numberOfEntries / pagination.entriesPerPage),
-                }
+                },
         );
     }, [numberOfEntries]);
-};
-
-export const useToPreviousPage = () => {
-    const setPagination = useSetPagination();
-    return () => {
-        setPagination(
-            (pagination) =>
-                pagination && {
-                    ...pagination,
-                    currentPage: pagination.currentPage - 1 < 1 ? 1 : pagination.currentPage - 1,
-                }
-        );
-    };
-};
-
-export const useToNextPage = () => {
-    const setPagination = useSetPagination();
-    return () => {
-        setPagination(
-            (pagination) =>
-                pagination && {
-                    ...pagination,
-                    currentPage:
-                        pagination.currentPage + 1 > pagination.numberOfPages
-                            ? pagination.numberOfPages
-                            : pagination.currentPage + 1,
-                }
-        );
-    };
 };
 
 export const useSetPage = () => {
