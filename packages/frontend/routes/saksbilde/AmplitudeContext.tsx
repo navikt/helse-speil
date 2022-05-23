@@ -17,11 +17,13 @@ amplitudeEnabled &&
 interface AmplitudeContextValue {
     logOppgaveGodkjent: () => void;
     logOppgaveForkastet: (begrunnelser: string[]) => void;
+    logTotrinnsoppgaveReturnert: () => void;
 }
 
 export const AmplitudeContext = React.createContext<AmplitudeContextValue>({
     logOppgaveGodkjent(): void {},
     logOppgaveForkastet(): void {},
+    logTotrinnsoppgaveReturnert(): void {},
 });
 
 const getKey = (oppgaveId: string): string => `oppgave.${oppgaveId}.åpnet`;
@@ -77,7 +79,9 @@ export const _AmplitudeProvider: React.FC<PropsWithChildren<{}>> = ({ children }
         }
     };
 
-    const logEvent = (event: 'oppgave godkjent' | 'oppgave forkastet', begrunnelser?: string[]) => {
+    type LogEventType = 'oppgave godkjent' | 'oppgave forkastet' | 'totrinnsoppgave returnert';
+
+    const logEvent = (event: LogEventType, begrunnelser?: string[]) => {
         if (amplitudeEnabled && oppgavereferanse) {
             const åpnetTidspunkt = getÅpnetOppgaveTidspunkt(oppgavereferanse);
 
@@ -92,6 +96,8 @@ export const _AmplitudeProvider: React.FC<PropsWithChildren<{}>> = ({ children }
 
     const logOppgaveForkastet = (begrunnelser: string[]) => logEvent('oppgave forkastet', begrunnelser);
 
+    const logTotrinnsoppgaveReturnert = () => logEvent('totrinnsoppgave returnert');
+
     useEffect(() => {
         amplitudeEnabled &&
             amplitude?.getInstance().setUserProperties({
@@ -104,6 +110,7 @@ export const _AmplitudeProvider: React.FC<PropsWithChildren<{}>> = ({ children }
             value={{
                 logOppgaveGodkjent: logOppgaveGodkjent,
                 logOppgaveForkastet: logOppgaveForkastet,
+                logTotrinnsoppgaveReturnert: logTotrinnsoppgaveReturnert,
             }}
         >
             {children}

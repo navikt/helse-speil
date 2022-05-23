@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { nanoid } from 'nanoid';
 import { Button } from '@navikt/ds-react';
 
@@ -6,6 +6,7 @@ import { BeregnetPeriode } from '@io/graphql';
 import { postSendTilbakeTilSaksbehandler } from '@io/http';
 import { Scopes, useAddEphemeralVarsel } from '@state/varsler';
 
+import { AmplitudeContext } from '../../AmplitudeContext';
 import { ReturModal, Returskjema } from './ReturModal';
 
 const useAddInfotrygdtoast = () => {
@@ -43,6 +44,7 @@ export const ReturButton: React.VFC<ReturButtonProps> = ({
     const [isSending, setIsSending] = useState(false);
 
     const addInfotrygdtoast = useAddInfotrygdtoast();
+    const amplitude = useContext(AmplitudeContext);
 
     const closeModal = () => setShowModal(false);
 
@@ -52,6 +54,7 @@ export const ReturButton: React.VFC<ReturButtonProps> = ({
 
         postSendTilbakeTilSaksbehandler(activePeriod.oppgavereferanse!, activePeriod.id, notat)
             .then(() => {
+                amplitude.logTotrinnsoppgaveReturnert();
                 addInfotrygdtoast();
                 setIsSending(false);
                 closeModal();
