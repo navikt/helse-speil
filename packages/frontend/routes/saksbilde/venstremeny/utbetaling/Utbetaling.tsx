@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router';
 import { useSetRecoilState } from 'recoil';
 
 import { ErrorMessage } from '@components/ErrorMessage';
 import { postAbonnerPåAktør } from '@io/http';
-import { Behandlingstype, BeregnetPeriode, Person } from '@io/graphql';
+import { Behandlingstype, BeregnetPeriode, Periodetilstand, Person } from '@io/graphql';
 import { opptegnelsePollingTimeState } from '@state/opptegnelser';
 import { getPeriodState } from '@utils/mapping';
 import { isRevurdering } from '@utils/period';
@@ -66,24 +66,31 @@ interface UtbetalingProps {
 }
 
 export const Utbetaling = ({ activePeriod, currentPerson }: UtbetalingProps) => {
-    const [periodenErSendt, setPeriodenErSendt] = useState(false);
+    const [godkjentPeriode, setGodkjentPeriode] = useState<string | undefined>();
     const [error, setError] = useState<SpeilError | null>();
     const ventEllerHopp = useOnGodkjenn(activePeriod, currentPerson);
     const history = useHistory();
     const isBeslutterOppgave = useBeslutterOppgaveIsEnabled();
 
     const onGodkjennUtbetaling = () => {
-        setPeriodenErSendt(true);
+        setGodkjentPeriode(activePeriod.vedtaksperiodeId);
         ventEllerHopp();
     };
     const onSendTilGodkjenning = () => {
-        setPeriodenErSendt(true);
+        setGodkjentPeriode(activePeriod.vedtaksperiodeId);
         history.push('/');
     };
     const onAvvisUtbetaling = useOnAvvis();
 
+    useEffect(() => {
+        if (godkjentPeriode === activePeriod.vedtaksperiodeId && activePeriod.tilstand !== Periodetilstand.Oppgaver) {
+            setGodkjentPeriode(undefined);
+        }
+    }, [activePeriod.vedtaksperiodeId, activePeriod.tilstand]);
+
     if (!hasOppgave(activePeriod)) return null;
 
+    const periodenErSendt = !!godkjentPeriode;
     const isRevurdering = activePeriod.utbetaling.type === 'REVURDERING';
     const harArbeidsgiverutbetaling = activePeriod.utbetaling.arbeidsgiverNettoBelop !== 0;
     const harBrukerutbetaling = activePeriod.utbetaling.personNettoBelop !== 0;

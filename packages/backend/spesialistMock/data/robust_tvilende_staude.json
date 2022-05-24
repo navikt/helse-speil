@@ -154,6 +154,55 @@
                             "id": "e97e6f7b-d80b-4f8f-a0e0-dc97c1837197",
                             "perioder": [
                                 {
+                                    "fom": "2022-02-01",
+                                    "tom": "2022-02-03",
+                                    "behandlingstype": "VENTER",
+                                    "erForkastet": false,
+                                    "inntektstype": "ENARBEIDSGIVER",
+                                    "opprettet": "2022-05-24T17:59:10",
+                                    "periodetype": "FORLENGELSE",
+                                    "tidslinje": [
+                                        {
+                                            "dato": "2022-02-01",
+                                            "grad": 100,
+                                            "kilde": {
+                                                "id": "7bc50c5d-2dfd-4a56-acfd-3ba476b026df",
+                                                "type": "SOKNAD"
+                                            },
+                                            "sykdomsdagtype": "SYKEDAG",
+                                            "utbetalingsdagtype": "UKJENT_DAG",
+                                            "utbetalingsinfo": null,
+                                            "begrunnelser": null
+                                        },
+                                        {
+                                            "dato": "2022-02-02",
+                                            "grad": 100,
+                                            "kilde": {
+                                                "id": "7bc50c5d-2dfd-4a56-acfd-3ba476b026df",
+                                                "type": "SOKNAD"
+                                            },
+                                            "sykdomsdagtype": "SYKEDAG",
+                                            "utbetalingsdagtype": "UKJENT_DAG",
+                                            "utbetalingsinfo": null,
+                                            "begrunnelser": null
+                                        },
+                                        {
+                                            "dato": "2022-02-03",
+                                            "grad": 100,
+                                            "kilde": {
+                                                "id": "7bc50c5d-2dfd-4a56-acfd-3ba476b026df",
+                                                "type": "SOKNAD"
+                                            },
+                                            "sykdomsdagtype": "SYK_HELGEDAG",
+                                            "utbetalingsdagtype": "UKJENT_DAG",
+                                            "utbetalingsinfo": null,
+                                            "begrunnelser": null
+                                        }
+                                    ],
+                                    "vedtaksperiodeId": "57841d28-35c7-4c20-98c5-95a93da865c9",
+                                    "id": "51a6bf0e-4a64-45f1-9a1e-2a0be51b411a"
+                                },
+                                {
                                     "fom": "2022-01-01",
                                     "tom": "2022-01-31",
                                     "behandlingstype": "BEHANDLET",
