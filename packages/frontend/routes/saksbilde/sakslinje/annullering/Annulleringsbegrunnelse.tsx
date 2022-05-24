@@ -84,9 +84,9 @@ export const Annulleringsbegrunnelse = () => {
         <Container>
             <Undertittel>Årsak til annullering</Undertittel>
             <Alert inline variant="info" className={styles.Warning}>
-                Årsakene og begrunnelsen du fyller ut her, finner du ikke igjen i saksbehandlingssystemet etterpå.
+                Årsakene og begrunnelsen du fyller ut her finner du ikke igjen i saksbehandlingssystemet etterpå.
                 <br />
-                Informasjonen som fylles inn skal brukes til å forbedre løsningen.
+                Informasjonen brukes til å forbedre løsningen.
             </Alert>
 
             <RadioContainer

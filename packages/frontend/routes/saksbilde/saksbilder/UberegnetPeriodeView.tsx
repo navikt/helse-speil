@@ -18,7 +18,7 @@ const getErrorMessage = (period: UberegnetPeriode): ReactNode => {
     if (period.behandlingstype === 'VENTER') {
         return (
             <Varsel className={styles.Message} variant="info">
-                Kunne ikke vise informasjon om vedtaksperioden. Dette skyldes at perioden ikke er klar til behandling.
+                Vedtaksperioden kan ikke vises, den ikke er klar til behandling ennå.
             </Varsel>
         );
     }

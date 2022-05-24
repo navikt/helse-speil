@@ -93,11 +93,11 @@ export const Annulleringsmodal = ({
     const harFeil = () => Object.keys(form.formState.errors).length > 0;
 
     const annullering = (): AnnulleringDTO => ({
-        aktørId: aktørId,
-        fødselsnummer: fødselsnummer,
-        organisasjonsnummer: organisasjonsnummer,
-        fagsystemId: fagsystemId,
-        begrunnelser: begrunnelser,
+        aktørId,
+        fødselsnummer,
+        organisasjonsnummer,
+        fagsystemId,
+        begrunnelser,
         gjelderSisteSkjæringstidspunkt: gjelderSisteSkjæringstidspunkt === 'siste_skjæringstidspunkt',
         kommentar: kommentar ? (kommentar.trim() === '' ? undefined : kommentar.trim()) : undefined,
     });
@@ -122,7 +122,7 @@ export const Annulleringsmodal = ({
             });
         }
 
-        if (!harFeil()) {
+        function startSubmit() {
             setIsSending(true);
             setPostAnnulleringFeil(undefined);
             postAnnullering(annullering)
@@ -136,6 +136,9 @@ export const Annulleringsmodal = ({
                 .catch(() => setPostAnnulleringFeil('Noe gikk galt. Prøv igjen senere eller kontakt en utvikler.'))
                 .finally(() => setIsSending(false));
         }
+        setTimeout(() => {
+            if (!harFeil()) startSubmit();
+        }, 0);
     };
 
     return (
@@ -148,7 +151,7 @@ export const Annulleringsmodal = ({
             >
                 <Form onSubmit={form.handleSubmit(() => sendAnnullering(annullering()))}>
                     <Alert inline variant="warning" className={styles.Warning}>
-                        Hvis du annullerer, vil utbetalinger fjernes fra oppdragssystemet og du må behandle saken i
+                        Hvis du annullerer vil utbetalinger fjernes fra oppdragssystemet og du må behandle saken i
                         Infotrygd.
                     </Alert>
                     <Tittel>Annullering</Tittel>

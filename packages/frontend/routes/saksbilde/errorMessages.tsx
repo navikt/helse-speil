@@ -20,8 +20,7 @@ export const getErrorMessageForTidslinjetilstand = (tilstand: PeriodState) => {
         case 'venter':
             return (
                 <ErrorVarsel variant="info">
-                    Kunne ikke vise informasjon om vedtaksperioden. Dette skyldes at perioden ikke er klar til
-                    behandling.
+                    Kan ikke vise informasjon om vedtaksperioden, fordi den ikke er klar til behandling.
                 </ErrorVarsel>
             );
         case 'kunFerie':
