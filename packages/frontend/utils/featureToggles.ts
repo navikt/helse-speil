@@ -64,6 +64,7 @@ const tilgangFlereArbeidsgivere = [
     'K162139',
     'V149621',
     'G157538',
+    'A110417',
     // Klageinstansen start
     'T109423',
     'B138509',
