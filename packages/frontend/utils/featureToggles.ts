@@ -1,6 +1,7 @@
 import { extractGroups, extractIdent } from '@utils/cookie';
 
 const groupIdForUtviklere = 'f787f900-6697-440d-a086-d5bb56e26a9c';
+const groupIdForBesluttere = '59f26eef-0a4f-4038-bf46-3a5b2f252155';
 const eminem = 'G103083';
 const supersaksbehandlere = [eminem, 'D117949', 'A148751', 'N115007', 'C117102', 'S145454', 'E148846'];
 const fagkoordinatorer = [
@@ -258,5 +259,6 @@ export const defaultUtbetalingToggles: UtbetalingToggles = {
 // @ts-ignore
 export const overstyrInntektEnabled = overstyreUtbetaltPeriodeEnabled;
 
+export const erBeslutter = extractGroups().includes(groupIdForBesluttere);
 export const totrinnsvurdering = erLocal() || erDev() || erUtvikler();
 export const erBeslutterOppgave = erLocal() || erDev() || erUtvikler();

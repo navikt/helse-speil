@@ -13,16 +13,17 @@ import {
 import { useOverstyringIsEnabled } from '@hooks/useOverstyringIsEnabled';
 
 import { defaultUtbetalingToggles } from '@utils/featureToggles';
-import { Utbetalingstabell } from './utbetalingstabell/Utbetalingstabell';
-import { useTabelldagerMap } from './utbetalingstabell/useTabelldagerMap';
 import { Arbeidsgiver, BeregnetPeriode, Dagoverstyring, Overstyring } from '@io/graphql';
 import { ErrorBoundary } from '@components/ErrorBoundary';
 import { useActivePeriod } from '@state/periode';
 import { useCurrentArbeidsgiver } from '@state/arbeidsgiver';
 import { isBeregnetPeriode } from '@utils/typeguards';
 import { Varsel } from '@components/Varsel';
-import { OverstyrbarUtbetaling } from './OverstyrbarUtbetaling';
 import { useBeslutterOppgaveIsEnabled } from '@hooks/useBeslutterOppgaveIsEnabled';
+import { useErBeslutteroppgaveOgErTidligereSaksbehandler } from '@hooks/useErBeslutteroppgaveOgErTidligereSaksbehandler';
+import { Utbetalingstabell } from './utbetalingstabell/Utbetalingstabell';
+import { useTabelldagerMap } from './utbetalingstabell/useTabelldagerMap';
+import { OverstyrbarUtbetaling } from './OverstyrbarUtbetaling';
 
 const Container = styled(FlexColumn)<{ overstyrer: boolean }>`
     position: relative;
@@ -103,6 +104,7 @@ const UtbetalingWithContent: React.FC<UtbetalingWithContentProps> = React.memo((
     const activePeriodHasLatestSkjæringstidspunkt = useActivePeriodHasLatestSkjæringstidspunkt();
     const dagoverstyringer = useDagoverstyringer(arbeidsgiver, period.fom, period.tom);
     const isBeslutterOppgave = useBeslutterOppgaveIsEnabled();
+    const erBeslutteroppgaveOgErTidligereSaksbehandler = useErBeslutteroppgaveOgErTidligereSaksbehandler();
 
     const dager: Map<string, UtbetalingstabellDag> = useTabelldagerMap({
         tidslinje: period.tidslinje,
@@ -113,7 +115,8 @@ const UtbetalingWithContent: React.FC<UtbetalingWithContentProps> = React.memo((
 
     return (revurderingIsEnabled || overstyringIsEnabled || overstyrRevurderingIsEnabled) &&
         activePeriodHasLatestSkjæringstidspunkt &&
-        !isBeslutterOppgave ? (
+        !isBeslutterOppgave &&
+        !erBeslutteroppgaveOgErTidligereSaksbehandler ? (
         <OverstyrbarUtbetaling
             fom={period.fom}
             tom={period.tom}

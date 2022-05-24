@@ -9,6 +9,7 @@ import { overstyrInntektEnabled } from '@utils/featureToggles';
 import { useEndringerForPeriode, useUtbetalingForSkjæringstidspunkt } from '@state/arbeidsgiver';
 import { Inntektskilde, Inntektstype, Maybe, OmregnetArsinntekt, Utbetalingstatus } from '@io/graphql';
 import { useBeslutterOppgaveIsEnabled } from '@hooks/useBeslutterOppgaveIsEnabled';
+import { useErBeslutteroppgaveOgErTidligereSaksbehandler } from '@hooks/useErBeslutteroppgaveOgErTidligereSaksbehandler';
 
 import { RedigerInntekt } from './RedigerInntekt';
 import { EditableInntekt } from './EditableInntekt';
@@ -40,6 +41,7 @@ export const InntektMedSykefravær = ({
     const erRevurdering = useUtbetalingForSkjæringstidspunkt(skjæringstidspunkt)?.status === Utbetalingstatus.Utbetalt;
     const { inntektsendringer } = useEndringerForPeriode(organisasjonsnummer);
     const isBeslutterOppgave = useBeslutterOppgaveIsEnabled();
+    const erBeslutteroppgaveOgErTidligereSaksbehandler = useErBeslutteroppgaveOgErTidligereSaksbehandler();
 
     return (
         <div className={classNames(styles.Inntekt, editing && styles.editing)}>
@@ -52,16 +54,20 @@ export const InntektMedSykefravær = ({
                         <Kilde type={omregnetÅrsinntekt?.kilde}>{kildeForkortelse(omregnetÅrsinntekt?.kilde)}</Kilde>
                     )}
                 </Flex>
-                {overstyrInntektEnabled && inntektstype && vilkårsgrunnlagId && !isBeslutterOppgave && (
-                    <RedigerInntekt
-                        setEditing={setEditing}
-                        editing={editing}
-                        erRevurdering={erRevurdering}
-                        inntektstype={inntektstype}
-                        skjæringstidspunkt={skjæringstidspunkt}
-                        vilkårsgrunnlagId={vilkårsgrunnlagId}
-                    />
-                )}
+                {overstyrInntektEnabled &&
+                    inntektstype &&
+                    vilkårsgrunnlagId &&
+                    !isBeslutterOppgave &&
+                    !erBeslutteroppgaveOgErTidligereSaksbehandler && (
+                        <RedigerInntekt
+                            setEditing={setEditing}
+                            editing={editing}
+                            erRevurdering={erRevurdering}
+                            inntektstype={inntektstype}
+                            skjæringstidspunkt={skjæringstidspunkt}
+                            vilkårsgrunnlagId={vilkårsgrunnlagId}
+                        />
+                    )}
             </div>
             {editing ? (
                 <EditableInntekt

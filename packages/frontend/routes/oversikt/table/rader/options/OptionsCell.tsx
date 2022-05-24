@@ -4,6 +4,8 @@ import React, { useRef, useState } from 'react';
 import { Button as NavButton, Popover, Tooltip } from '@navikt/ds-react';
 
 import { useInnloggetSaksbehandler } from '@state/authentication';
+import { kanFrigiAndresOppgaver } from '@utils/featureToggles';
+import { useErBeslutteroppgaveOgErTidligereSaksbehandler } from '@hooks/useErBeslutteroppgaveOgErTidligereSaksbehandler';
 
 import { Cell } from '../../Cell';
 import { CellContent } from '../CellContent';
@@ -11,8 +13,6 @@ import { FjernFraPåVentMenuButton } from './FjernFraPåVentMenuButton';
 import { LeggPåVentMenuButton } from './LeggPåVentMenuButton';
 import { MeldAvMenuButton } from './MeldAvMenuButton';
 import { TildelMenuButton } from './TildelMenuButton';
-
-import { kanFrigiAndresOppgaver } from '@utils/featureToggles';
 
 const Button = styled(NavButton)`
     margin: 0;
@@ -80,6 +80,7 @@ export const OptionsCell = React.memo(({ oppgave, personinfo }: OptionsButtonPro
     const buttonRef = useRef<HTMLButtonElement>(null);
 
     const innloggetSaksbehandler = useInnloggetSaksbehandler();
+    const erBeslutteroppgaveOgErTidligereSaksbehandler = useErBeslutteroppgaveOgErTidligereSaksbehandler();
     const erTildeltInnloggetBruker =
         typeof oppgave.tildeling?.saksbehandler?.oid === 'string' &&
         oppgave.tildeling?.saksbehandler.oid === innloggetSaksbehandler.oid;
@@ -115,7 +116,7 @@ export const OptionsCell = React.memo(({ oppgave, personinfo }: OptionsButtonPro
                             arrow={false}
                             offset={0}
                         >
-                            {!erTildeltInnloggetBruker && (
+                            {!erTildeltInnloggetBruker && !erBeslutteroppgaveOgErTidligereSaksbehandler && (
                                 <TildelMenuButton
                                     oppgavereferanse={oppgave.oppgavereferanse}
                                     saksbehandler={innloggetSaksbehandler}

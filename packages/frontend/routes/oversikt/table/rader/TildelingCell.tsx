@@ -6,14 +6,16 @@ import { Tildelt } from './Tildelt';
 
 interface TildelingProps {
     oppgave: Oppgave;
+    kanTildeles: boolean;
 }
 
-export const TildelingCell = React.memo(({ oppgave }: TildelingProps) => (
+export const TildelingCell = React.memo(({ oppgave, kanTildeles }: TildelingProps) => (
     <Cell>
-        {oppgave.tildeling ? (
-            <Tildelt name={oppgave.tildeling.saksbehandler.navn} />
-        ) : (
-            <IkkeTildelt oppgavereferanse={oppgave.oppgavereferanse} />
-        )}
+        {kanTildeles &&
+            (oppgave.tildeling ? (
+                <Tildelt name={oppgave.tildeling.saksbehandler.navn} />
+            ) : (
+                <IkkeTildelt oppgavereferanse={oppgave.oppgavereferanse} />
+            ))}
     </Cell>
 ));

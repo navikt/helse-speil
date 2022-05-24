@@ -24,6 +24,7 @@ import { SøkerCell } from './rader/SøkerCell';
 import { TildelingCell } from './rader/TildelingCell';
 import { NotatCell } from './rader/notat/NotatCell';
 import { OptionsCell } from './rader/options/OptionsCell';
+import { useErBeslutteroppgaveOgErTidligereSaksbehandler } from '@hooks/useErBeslutteroppgaveOgErTidligereSaksbehandler';
 
 const Container = styled.div`
     min-height: 300px;
@@ -51,6 +52,7 @@ export const OppgaverTable = React.memo(({ oppgaver }: { oppgaver: Oppgave[] }) 
     const sortation = useSortation();
     const filters = useFilters();
     const tab = useAktivTab();
+    const erBeslutteroppgaveOgErTidligereSaksbehandler = useErBeslutteroppgaveOgErTidligereSaksbehandler();
 
     const activeFilters = filters.filter((it) => it.active);
     const groupedFilters = groupFiltersByColumn(activeFilters);
@@ -153,7 +155,10 @@ export const OppgaverTable = React.memo(({ oppgaver }: { oppgaver: Oppgave[] }) 
                     <Body>
                         {paginatedRows.map((it) => (
                             <LinkRow onNavigate={onNavigate} aktørId={it.aktørId} key={it.oppgavereferanse}>
-                                <TildelingCell oppgave={it} />
+                                <TildelingCell
+                                    oppgave={it}
+                                    kanTildeles={!erBeslutteroppgaveOgErTidligereSaksbehandler}
+                                />
                                 <SakstypeCell type={it.periodetype} />
                                 <BostedCell stedsnavn={it.boenhet.navn} />
                                 <InntektskildeCell type={it.inntektskilde} />

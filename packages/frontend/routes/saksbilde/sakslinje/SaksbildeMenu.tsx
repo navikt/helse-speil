@@ -7,11 +7,11 @@ import { Dropdown } from '@components/dropdown';
 import { ErrorBoundary } from '@components/ErrorBoundary';
 import { useActivePeriod } from '@state/periode';
 import { useCurrentPerson } from '@state/person';
-import { useCurrentArbeidsgiver } from '@state/arbeidsgiver';
 import { useInnloggetSaksbehandler } from '@state/authentication';
 import { BeregnetPeriode } from '@io/graphql';
 import { isBeregnetPeriode, isGhostPeriode } from '@utils/typeguards';
 import { onLazyLoadFail } from '@utils/error';
+import { useErBeslutteroppgaveOgErTidligereSaksbehandler } from '@hooks/useErBeslutteroppgaveOgErTidligereSaksbehandler';
 
 import { TabLink } from '../TabLink';
 
@@ -71,7 +71,7 @@ const SaksbildeMenuBeregnetPeriode = ({ activePeriod }: SaksbildeMenuBeregnetPer
 
     const currentUser = useInnloggetSaksbehandler();
     const currentPerson = useCurrentPerson();
-    const currentArbeidsgiver = useCurrentArbeidsgiver();
+    const erBeslutteroppgaveOgErTidligereSaksbehandler = useErBeslutteroppgaveOgErTidligereSaksbehandler();
 
     const personIsAssignedUser =
         (currentPerson?.tildeling && currentPerson?.tildeling?.oid === currentUser.oid) ?? false;
@@ -97,7 +97,7 @@ const SaksbildeMenuBeregnetPeriode = ({ activePeriod }: SaksbildeMenuBeregnetPer
                 </span>
                 <Dropdown className={styles.Dropdown} title="Meny">
                     <React.Suspense fallback={null}>
-                        {activePeriod.oppgavereferanse && (
+                        {activePeriod.oppgavereferanse && !erBeslutteroppgaveOgErTidligereSaksbehandler && (
                             <>
                                 <TildelingDropdownMenuButton
                                     oppgavereferanse={activePeriod.oppgavereferanse}

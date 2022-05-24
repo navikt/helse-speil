@@ -121,6 +121,7 @@ export type BeregnetPeriode = Periode & {
     id: Scalars['String'];
     inntektstype: Inntektstype;
     maksdato: Scalars['String'];
+    notater: Array<Notat>;
     oppgavereferanse?: Maybe<Scalars['String']>;
     opprettet: Scalars['String'];
     periodehistorikk: Array<PeriodeHistorikkElement>;
@@ -132,11 +133,12 @@ export type BeregnetPeriode = Periode & {
     tidslinje: Array<Dag>;
     tilstand: Periodetilstand;
     tom: Scalars['String'];
-    trengerTotrinnsvurdering: Maybe<Scalars['Boolean']>;
     utbetaling: Utbetaling;
     varsler: Array<Scalars['String']>;
     vedtaksperiodeId: Scalars['String'];
     vilkarsgrunnlaghistorikkId: Scalars['String'];
+    tidligereSaksbehandler?: Maybe<Scalars['String']>;
+    trengerTotrinnsvurdering?: Maybe<Scalars['Boolean']>;
 };
 
 export type Dag = {
@@ -292,6 +294,19 @@ export enum Kjonn {
     Mann = 'Mann',
     Ukjent = 'Ukjent',
 }
+
+export type Notat = {
+    __typename?: 'Notat';
+    feilregistrert: Scalars['Boolean'];
+    feilregistrert_tidspunkt?: Maybe<Scalars['String']>;
+    id: Scalars['Int'];
+    opprettet: Scalars['String'];
+    saksbehandlerEpost: Scalars['String'];
+    saksbehandlerNavn: Scalars['String'];
+    saksbehandlerOid: Scalars['String'];
+    tekst: Scalars['String'];
+    vedtaksperiodeId: Scalars['String'];
+};
 
 export type OmregnetArsinntekt = {
     __typename?: 'OmregnetArsinntekt';
@@ -1001,6 +1016,13 @@ export type FetchPersonQuery = {
                               melding: string;
                               tidsstempel: string;
                               vedtaksperiodeId: string;
+                          }>;
+                          periodehistorikk: Array<{
+                              __typename?: 'PeriodeHistorikkElement';
+                              type: PeriodehistorikkType;
+                              timestamp: string;
+                              saksbehandler_ident: string;
+                              notat_id?: number | null;
                           }>;
                           hendelser: Array<
                               | {
