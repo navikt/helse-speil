@@ -25,6 +25,7 @@ import { TildelingCell } from './rader/TildelingCell';
 import { NotatCell } from './rader/notat/NotatCell';
 import { OptionsCell } from './rader/options/OptionsCell';
 import { useErBeslutteroppgaveOgErTidligereSaksbehandler } from '@hooks/useErBeslutteroppgaveOgErTidligereSaksbehandler';
+import { Cell } from './Cell';
 
 const Container = styled.div`
     min-height: 300px;
@@ -166,12 +167,14 @@ export const OppgaverTable = React.memo(({ oppgaver }: { oppgaver: Oppgave[] }) 
                                 <SøkerCell personinfo={it.personinfo} />
                                 <OpprettetCell date={it.opprettet} />
                                 <OptionsCell oppgave={it} personinfo={it.personinfo} />
-                                {it.tildeling?.påVent && (
+                                {it.tildeling?.påVent ? (
                                     <NotatCell
                                         vedtaksperiodeId={it.vedtaksperiodeId}
                                         personinfo={it.personinfo}
-                                        erPåVent={it.tildeling?.påVent}
+                                        erPåVent={it.tildeling.påVent}
                                     />
+                                ) : (
+                                    <Cell />
                                 )}
                             </LinkRow>
                         ))}
