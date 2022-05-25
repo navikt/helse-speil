@@ -241,19 +241,6 @@ export type Inntektoverstyring = Overstyring & {
     timestamp: Scalars['String'];
 };
 
-export type Inntektsgrunnlag = {
-    __typename?: 'Inntektsgrunnlag';
-    avviksprosent?: Maybe<Scalars['Float']>;
-    grunnbelop: Scalars['Int'];
-    inntekter: Array<Arbeidsgiverinntekt>;
-    maksUtbetalingPerDag?: Maybe<Scalars['Float']>;
-    omregnetArsinntekt?: Maybe<Scalars['Float']>;
-    oppfyllerKravOmMinstelonn?: Maybe<Scalars['Boolean']>;
-    sammenligningsgrunnlag?: Maybe<Scalars['Float']>;
-    skjaeringstidspunkt: Scalars['String'];
-    sykepengegrunnlag?: Maybe<Scalars['Float']>;
-};
-
 export enum Inntektskilde {
     Aordningen = 'AORDNINGEN',
     IkkeRapportert = 'IKKE_RAPPORTERT',
@@ -424,7 +411,6 @@ export type Person = {
     enhet: Enhet;
     fodselsnummer: Scalars['String'];
     infotrygdutbetalinger?: Maybe<Array<Infotrygdutbetaling>>;
-    inntektsgrunnlag: Array<Inntektsgrunnlag>;
     personinfo: Personinfo;
     tildeling?: Maybe<Tildeling>;
     versjon: Scalars['Int'];
@@ -845,38 +831,6 @@ export type FetchPersonQuery = {
             grad: string;
             typetekst: string;
         }> | null;
-        inntektsgrunnlag: Array<{
-            __typename?: 'Inntektsgrunnlag';
-            avviksprosent?: number | null;
-            grunnbelop: number;
-            sammenligningsgrunnlag?: number | null;
-            omregnetArsinntekt?: number | null;
-            maksUtbetalingPerDag?: number | null;
-            oppfyllerKravOmMinstelonn?: boolean | null;
-            skjaeringstidspunkt: string;
-            sykepengegrunnlag?: number | null;
-            inntekter: Array<{
-                __typename?: 'Arbeidsgiverinntekt';
-                arbeidsgiver: string;
-                deaktivert?: boolean | null;
-                omregnetArsinntekt?: {
-                    __typename?: 'OmregnetArsinntekt';
-                    belop: number;
-                    kilde: Inntektskilde;
-                    manedsbelop: number;
-                    inntektFraAOrdningen?: Array<{
-                        __typename?: 'InntektFraAOrdningen';
-                        maned: string;
-                        sum: number;
-                    }> | null;
-                } | null;
-                sammenligningsgrunnlag?: {
-                    __typename?: 'Sammenligningsgrunnlag';
-                    belop: number;
-                    inntektFraAOrdningen: Array<{ __typename?: 'InntektFraAOrdningen'; sum: number; maned: string }>;
-                } | null;
-            }>;
-        }>;
         personinfo: {
             __typename?: 'Personinfo';
             fornavn: string;

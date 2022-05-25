@@ -51,36 +51,6 @@ query FetchPerson($fnr: String, $aktorId: String) {
             grad
             typetekst
         }
-        inntektsgrunnlag {
-            avviksprosent
-            grunnbelop
-            inntekter {
-                arbeidsgiver
-                omregnetArsinntekt {
-                    belop
-                    inntektFraAOrdningen {
-                        maned
-                        sum
-                    }
-                    kilde
-                    manedsbelop
-                }
-                sammenligningsgrunnlag {
-                    inntektFraAOrdningen {
-                        sum
-                        maned
-                    }
-                    belop
-                }
-                deaktivert
-            }
-            sammenligningsgrunnlag
-            omregnetArsinntekt
-            maksUtbetalingPerDag
-            oppfyllerKravOmMinstelonn
-            skjaeringstidspunkt
-            sykepengegrunnlag
-        }
         personinfo {
             fornavn
             mellomnavn
