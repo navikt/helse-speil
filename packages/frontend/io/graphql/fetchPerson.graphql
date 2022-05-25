@@ -130,6 +130,7 @@ query FetchPerson($fnr: String, $aktorId: String) {
                     oppfyllerKravOmOpptjening
                     antallOpptjeningsdagerErMinst
                     grunnbelop
+                    avviksprosent
                     opptjeningFra
                 }
             }

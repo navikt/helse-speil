@@ -9,6 +9,7 @@ import { ArbeidsgiverCard } from './ArbeidsgiverCard';
 
 import styles from './Venstremeny.module.css';
 import { Utbetaling } from './utbetaling/Utbetaling';
+import { useCurrentVilkårsgrunnlag } from '@state/periode';
 
 const getNumberOfDaysWithType = (timeline: Array<Dag>, type: Utbetalingsdagtype): number => {
     return timeline.filter((it) => it.utbetalingsdagtype === type).length;
@@ -27,10 +28,9 @@ export const VenstremenyBeregnetPeriode: React.VFC<VenstremenyBeregnetPeriodePro
     currentArbeidsgiver,
     erBeslutteroppgaveOgErTidligereSaksbehandler,
 }) => {
-    const månedsbeløp = currentPerson.inntektsgrunnlag
-        .find((it) => it.skjaeringstidspunkt === activePeriod.skjaeringstidspunkt)
-        ?.inntekter.find((it) => it.arbeidsgiver === currentArbeidsgiver.organisasjonsnummer)
-        ?.omregnetArsinntekt?.manedsbelop;
+    const månedsbeløp = useCurrentVilkårsgrunnlag()?.inntekter.find(
+        (it) => it.arbeidsgiver === currentArbeidsgiver.organisasjonsnummer,
+    )?.omregnetArsinntekt?.manedsbelop;
 
     return (
         <section className={styles.Venstremeny}>

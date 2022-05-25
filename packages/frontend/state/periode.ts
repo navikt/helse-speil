@@ -1,9 +1,9 @@
 import { atom, selector, useRecoilValue, useSetRecoilState } from 'recoil';
 
 import type { BeregnetPeriode, GhostPeriode, Person, UberegnetPeriode } from '@io/graphql';
-import { Periodetilstand } from '@io/graphql';
-import { currentPersonState } from '@state/person';
-import { isBeregnetPeriode } from '@utils/typeguards';
+import { Periodetilstand, Vilkarsgrunnlag } from '@io/graphql';
+import { currentPersonState, useCurrentPerson } from '@state/person';
+import { isBeregnetPeriode, isGhostPeriode, isUberegnetPeriode } from '@utils/typeguards';
 
 type ActivePeriod = BeregnetPeriode | UberegnetPeriode | GhostPeriode;
 
@@ -54,3 +54,18 @@ const activePeriod = selector<ActivePeriod | null>({
 export const useActivePeriod = () => useRecoilValue(activePeriod);
 
 export const useSetActivePeriod = () => useSetRecoilState(activePeriodState);
+
+export const useCurrentVilkårsgrunnlag = (): Vilkarsgrunnlag | null => {
+    const activePeriod = useActivePeriod();
+    const currentPerson = useCurrentPerson();
+
+    if (!currentPerson || !activePeriod || isUberegnetPeriode(activePeriod) || isGhostPeriode(activePeriod))
+        return null;
+
+    const periode = activePeriod as BeregnetPeriode;
+    return (
+        currentPerson?.vilkarsgrunnlaghistorikk
+            .find((it) => it.id === periode.vilkarsgrunnlaghistorikkId)
+            ?.grunnlag.find((it) => it.skjaeringstidspunkt === periode.skjaeringstidspunkt) ?? null
+    );
+};

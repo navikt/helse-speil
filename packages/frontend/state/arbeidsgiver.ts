@@ -5,7 +5,6 @@ import {
     Dagoverstyring,
     GhostPeriode,
     Inntektoverstyring,
-    Periode,
     UberegnetPeriode,
     Utbetaling,
     Vurdering,

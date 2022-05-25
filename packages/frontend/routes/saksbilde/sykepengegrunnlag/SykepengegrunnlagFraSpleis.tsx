@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 
 import { InntektsgrunnlagTable } from './InntektsgrunnlagTable';
 import { Inntektskilderinnhold } from './Inntektskilderinnhold';
-import { Arbeidsgiverinntekt, Inntektsgrunnlag, Refusjon, VilkarsgrunnlagSpleis } from '@io/graphql';
+import { Arbeidsgiverinntekt, Refusjon, VilkarsgrunnlagSpleis } from '@io/graphql';
 import { getInntekt } from '@state/selectors/person';
 import { useArbeidsgiver } from '@state/arbeidsgiver';
 
@@ -22,7 +22,6 @@ const Strek = styled.span`
 
 interface SykepengegrunnlagFraSpleisProps extends HTMLAttributes<HTMLDivElement> {
     vilkårsgrunnlag: VilkarsgrunnlagSpleis;
-    inntektsgrunnlag: Inntektsgrunnlag;
     skjæringstidspunkt: DateString;
     organisasjonsnummer: string;
     refusjon?: Refusjon | null;
@@ -30,7 +29,6 @@ interface SykepengegrunnlagFraSpleisProps extends HTMLAttributes<HTMLDivElement>
 
 export const SykepengegrunnlagFraSpleis = ({
     vilkårsgrunnlag,
-    inntektsgrunnlag,
     skjæringstidspunkt,
     organisasjonsnummer,
     refusjon,
@@ -62,7 +60,7 @@ export const SykepengegrunnlagFraSpleis = ({
                 inntekter={vilkårsgrunnlag.inntekter}
                 omregnetÅrsinntekt={vilkårsgrunnlag.omregnetArsinntekt}
                 sammenligningsgrunnlag={vilkårsgrunnlag.sammenligningsgrunnlag}
-                avviksprosent={inntektsgrunnlag.avviksprosent}
+                avviksprosent={vilkårsgrunnlag.avviksprosent}
                 sykepengegrunnlag={vilkårsgrunnlag.sykepengegrunnlag}
                 setAktivInntektskilde={setAktivInntektskilde}
                 aktivInntektskilde={aktivInntektskilde}

@@ -931,6 +931,7 @@ export type FetchPersonQuery = {
                       oppfyllerKravOmOpptjening: boolean;
                       antallOpptjeningsdagerErMinst: number;
                       grunnbelop: number;
+                      avviksprosent?: number | null;
                       opptjeningFra: string;
                       sykepengegrunnlag: number;
                       skjaeringstidspunkt: string;
