@@ -130,15 +130,15 @@ export type BeregnetPeriode = Periode & {
     refusjon?: Maybe<Refusjon>;
     risikovurdering?: Maybe<Risikovurdering>;
     skjaeringstidspunkt: Scalars['String'];
+    tidligereSaksbehandlerOid?: Maybe<Scalars['String']>;
     tidslinje: Array<Dag>;
     tilstand: Periodetilstand;
     tom: Scalars['String'];
+    trengerTotrinnsvurdering: Scalars['Boolean'];
     utbetaling: Utbetaling;
     varsler: Array<Scalars['String']>;
     vedtaksperiodeId: Scalars['String'];
     vilkarsgrunnlaghistorikkId: Scalars['String'];
-    tidligereSaksbehandler?: Maybe<Scalars['String']>;
-    trengerTotrinnsvurdering?: Maybe<Scalars['Boolean']>;
 };
 
 export type Dag = {
@@ -720,6 +720,7 @@ export type VilkarsgrunnlagInfotrygd = Vilkarsgrunnlag & {
 export type VilkarsgrunnlagSpleis = Vilkarsgrunnlag & {
     __typename?: 'VilkarsgrunnlagSpleis';
     antallOpptjeningsdagerErMinst: Scalars['Int'];
+    avviksprosent?: Maybe<Scalars['Float']>;
     grunnbelop: Scalars['Int'];
     inntekter: Array<Arbeidsgiverinntekt>;
     omregnetArsinntekt: Scalars['Float'];
@@ -996,6 +997,10 @@ export type FetchPersonQuery = {
                           beregningId: string;
                           forbrukteSykedager?: number | null;
                           gjenstaendeSykedager?: number | null;
+                          trengerTotrinnsvurdering: boolean;
+                          erReturOppgave: boolean;
+                          erBeslutterOppgave: boolean;
+                          tidligereSaksbehandlerOid?: string | null;
                           maksdato: string;
                           skjaeringstidspunkt: string;
                           varsler: Array<string>;

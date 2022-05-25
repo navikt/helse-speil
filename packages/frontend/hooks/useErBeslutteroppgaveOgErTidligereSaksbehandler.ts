@@ -12,5 +12,5 @@ export const useErBeslutteroppgaveOgErTidligereSaksbehandler = (): boolean => {
         return false;
     }
 
-    return isBeslutteroppgave && activePeriod.tidligereSaksbehandler === currentSaksbehandler.oid;
+    return isBeslutteroppgave && activePeriod.tidligereSaksbehandlerOid === currentSaksbehandler.oid;
 };

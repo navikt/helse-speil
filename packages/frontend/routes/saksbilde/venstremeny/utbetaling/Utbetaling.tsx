@@ -95,7 +95,7 @@ export const Utbetaling = ({ activePeriod, currentPerson }: UtbetalingProps) => 
     const harArbeidsgiverutbetaling = activePeriod.utbetaling.arbeidsgiverNettoBelop !== 0;
     const harBrukerutbetaling = activePeriod.utbetaling.personNettoBelop !== 0;
     const trengerTotrinnsvurdering =
-        totrinnsvurdering && (activePeriod?.trengerTotrinnsvurdering ?? false) && isBeregnetPeriode(activePeriod);
+        totrinnsvurdering && isBeregnetPeriode(activePeriod) && activePeriod.trengerTotrinnsvurdering;
 
     return (
         <>

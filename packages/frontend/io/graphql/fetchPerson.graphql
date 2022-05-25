@@ -198,6 +198,10 @@ query FetchPerson($fnr: String, $aktorId: String) {
                         beregningId
                         forbrukteSykedager
                         gjenstaendeSykedager
+                        trengerTotrinnsvurdering
+                        erReturOppgave
+                        erBeslutterOppgave
+                        tidligereSaksbehandlerOid
                         periodehistorikk {
                             type
                             timestamp
