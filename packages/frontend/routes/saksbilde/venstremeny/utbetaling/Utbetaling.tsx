@@ -83,7 +83,7 @@ export const Utbetaling = ({ activePeriod, currentPerson }: UtbetalingProps) => 
     const onAvvisUtbetaling = useOnAvvis();
 
     useEffect(() => {
-        if (godkjentPeriode === activePeriod.vedtaksperiodeId && activePeriod.tilstand !== Periodetilstand.Oppgaver) {
+        if (godkjentPeriode !== activePeriod.vedtaksperiodeId && activePeriod.tilstand === Periodetilstand.Oppgaver) {
             setGodkjentPeriode(undefined);
         }
     }, [activePeriod.vedtaksperiodeId, activePeriod.tilstand]);
