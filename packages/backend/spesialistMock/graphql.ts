@@ -9,22 +9,27 @@ import { IResolvers } from '@graphql-tools/utils';
 
 import spesialistSchema from '../graphql.schema.json';
 import { NotFoundError } from './errors';
-import { oppgaveTildelinger } from './server';
+import { oppgaverPåVent, oppgaveTildelinger } from './server';
 
 const leggTilTildeling = (person: any) => {
-    const erTildelt = person.arbeidsgivere.any((arbeidsgiver: any) => {
-        arbeidsgiver.generasjoner.any((generasjon: any) => {
-            generasjon.perioder.any(
-                (periode: any) => periode.oppgavereferanse && oppgaveTildelinger[periode.oppgavereferanse]
-            );
+    let erTildelt = false;
+    let erPåVent = false;
+
+    person.arbeidsgivere.map((arbeidsgiver: any) => {
+        arbeidsgiver.generasjoner.map((generasjon: any) => {
+            generasjon.perioder.map((periode: any) => {
+                erTildelt = periode.oppgavereferanse && oppgaveTildelinger[periode.oppgavereferanse];
+                erPåVent = periode.oppgavereferanse && oppgaverPåVent[periode.oppgavereferanse];
+            });
         });
     });
+
     const tildeling = erTildelt
         ? {
               epost: 'epost@nav.no',
               navn: 'Utvikler, Lokal',
               oid: 'uuid',
-              reservert: false,
+              reservert: erPåVent ?? false,
           }
         : person.tildeling;
 
