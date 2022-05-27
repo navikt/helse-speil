@@ -26,12 +26,12 @@ app.use((_req, res, next) => {
     next();
 });
 
-const tildelinger: { [oppgavereferanse: string]: string } = {
+export const oppgaveTildelinger: { [oppgavereferanse: string]: string } = {
     '2327': 'uuid',
     '2274': 'uuid',
 };
 
-const venter: { [oppgavereferanse: string]: boolean } = {
+export const oppgaverPåVent: { [oppgavereferanse: string]: boolean } = {
     '2274': true,
 };
 
@@ -137,7 +137,7 @@ app.post('/api/tildeling/:oppgavereferanse', (req: Request, res: Response) => {
     sleep(passeLenge()).then(() => {
         if (Math.random() < 1) {
             const oppgavereferanse = req.params.oppgavereferanse;
-            tildelinger[oppgavereferanse] = 'uuid';
+            oppgaveTildelinger[oppgavereferanse] = 'uuid';
             res.sendStatus(200);
         } else {
             res.status(409).json(feilresponsForTildeling);
@@ -147,20 +147,20 @@ app.post('/api/tildeling/:oppgavereferanse', (req: Request, res: Response) => {
 
 app.delete('/api/tildeling/:oppgavereferanse', (req: Request, res: Response) => {
     const oppgavereferanse = req.params.oppgavereferanse;
-    delete tildelinger[oppgavereferanse];
-    delete venter[oppgavereferanse];
+    delete oppgaveTildelinger[oppgavereferanse];
+    delete oppgaverPåVent[oppgavereferanse];
     sleep(passeLenge()).then(() => res.sendStatus(200));
 });
 
 app.post('/api/leggpaavent/:oppgaveReferanse', (req: Request, res: Response) => {
     const oppgavereferanse = req.params.oppgaveReferanse;
-    venter[oppgavereferanse] = true;
+    oppgaverPåVent[oppgavereferanse] = true;
     res.sendStatus(200);
 });
 
 app.delete('/api/leggpaavent/:oppgaveReferanse', (req: Request, res: Response) => {
     const oppgavereferanse = req.params.oppgaveReferanse;
-    delete venter[oppgavereferanse];
+    delete oppgaverPåVent[oppgavereferanse];
     res.sendStatus(200);
 });
 
@@ -210,8 +210,8 @@ app.get('/api/notater', (req: Request, res: Response) => {
 app.get('/api/mock/personstatus/:aktorId', (req: Request, res: Response) => {
     const aktørId = req.params.aktorId;
     const oppgavereferanse = personer[aktørId];
-    const påVent = venter[oppgavereferanse] || false;
-    const oid = tildelinger[oppgavereferanse];
+    const påVent = oppgaverPåVent[oppgavereferanse] || false;
+    const oid = oppgaveTildelinger[oppgavereferanse];
     res.send(oid ? { påVent, oid, epost: 'dev@nav.no', navn: 'dev' } : undefined);
 });
 
