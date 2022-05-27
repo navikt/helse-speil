@@ -39,6 +39,10 @@ const getTextForPeriodetype = (type: Periodetype | 'REVURDERING'): string | null
     }
 };
 
+const getPeriodetypePostfix = (activePeriod: BeregnetPeriode) => {
+    return activePeriod.erReturOppgave ? '(RETUR)' : activePeriod.erBeslutterOppgave ? '(BESLUTTER)' : '';
+};
+
 interface RowProps {
     activePeriod: BeregnetPeriode;
 }
@@ -46,6 +50,7 @@ interface RowProps {
 const PeriodetypeRow: React.VFC<RowProps> = ({ activePeriod }) => {
     const periodetype = activePeriod.utbetaling.type === 'REVURDERING' ? 'REVURDERING' : activePeriod.periodetype;
     const periodetypeLabel = getTextForPeriodetype(periodetype);
+    const periodetypeLabelPostfix = getPeriodetypePostfix(activePeriod);
     const periodState = getPeriodState(activePeriod);
 
     if (!periodetypeLabel) {
@@ -59,7 +64,9 @@ const PeriodetypeRow: React.VFC<RowProps> = ({ activePeriod }) => {
                     <Oppgaveetikett type={periodetype} tilstand={periodState} />
                 </div>
             </Tooltip>
-            <CardTitle className={styles.Title}>{periodetypeLabel}</CardTitle>
+            <CardTitle className={styles.Title}>
+                {periodetypeLabel} {periodetypeLabelPostfix}
+            </CardTitle>
         </>
     );
 };
