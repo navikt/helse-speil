@@ -91,6 +91,14 @@ export const useTildelPerson = (): ((påVent?: boolean) => void) => {
     };
 };
 
+export const useMeldAvLokalTildeling = (): (() => void) => {
+    const setTildeling = useSetRecoilState(localTildelingState);
+
+    return () => {
+        setTildeling(null);
+    };
+};
+
 // Tilbakestiller tildeling-state til opprinnelig, slik at tildeling-info i hentet data "vinner"
 export const useMarkerPersonSomIkkeTildelt = (): (() => void) => {
     const resetTildeling = useResetRecoilState(localTildelingState);
