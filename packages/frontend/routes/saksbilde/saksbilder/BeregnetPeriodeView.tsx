@@ -48,6 +48,7 @@ export const BeregnetPeriodeView: React.VFC<BeregnetPeriodeViewProps> = ({ activ
                     periodState={getPeriodState(activePeriod)}
                     oppgavereferanse={activePeriod.oppgavereferanse}
                     varsler={activePeriod.varsler}
+                    erBeslutterOppgave={activePeriod.erBeslutterOppgave}
                 />
                 {activePeriod.tilstand !== 'Annullert' && (
                     <Switch>

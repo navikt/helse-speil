@@ -2,6 +2,7 @@ import React from 'react';
 import { Alert, BodyShort } from '@navikt/ds-react';
 
 import { Maybe } from '@io/graphql';
+import { erBeslutter } from '@utils/featureToggles';
 
 import { Aktivitetsloggvarsler } from './Aktivetsloggvarsler';
 
@@ -10,6 +11,13 @@ import styles from './Saksbildevarsler.module.css';
 type VarselObject = {
     grad: 'info' | 'success' | 'warning' | 'error';
     melding: string;
+};
+
+const tilgangInfoVarsel = (erBeslutterOppgave?: boolean): VarselObject | null => {
+    if (erBeslutterOppgave && !erBeslutter) {
+        return { grad: 'info', melding: 'Saken er sendt til beslutter, du har ikke tilgang' };
+    }
+    return null;
 };
 
 const tilstandInfoVarsel = (state: PeriodState): VarselObject | null => {
@@ -71,10 +79,17 @@ interface SaksbildevarslerProps {
     periodState: PeriodState;
     oppgavereferanse?: Maybe<string>;
     varsler?: Maybe<Array<string>>;
+    erBeslutterOppgave?: boolean;
 }
 
-export const Saksbildevarsler = ({ periodState, oppgavereferanse, varsler }: SaksbildevarslerProps) => {
+export const Saksbildevarsler = ({
+    periodState,
+    oppgavereferanse,
+    varsler,
+    erBeslutterOppgave,
+}: SaksbildevarslerProps) => {
     const infoVarsler: VarselObject[] = [
+        tilgangInfoVarsel(erBeslutterOppgave),
         tilstandInfoVarsel(periodState),
         utbetalingsvarsel(periodState),
         vedtaksperiodeVenterVarsel(periodState),
