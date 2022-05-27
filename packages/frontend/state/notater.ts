@@ -2,6 +2,7 @@ import dayjs from 'dayjs';
 import { atom, selector, useRecoilValueLoadable, useSetRecoilState } from 'recoil';
 
 import { getNotater } from '@io/http';
+import { Notat as GraphQLNotat } from '@io/graphql';
 
 export const notaterStateRefetchKey = atom<Date>({
     key: 'notaterStateRefetchKey',
@@ -44,8 +45,8 @@ export const useNotaterForVedtaksperiode = (vedtaksperiodeId?: string) => {
         : [];
 };
 
-const toNotat = (spesialistNotat: ExternalNotat): Notat => ({
-    id: spesialistNotat.id,
+export const toNotat = (spesialistNotat: ExternalNotat | GraphQLNotat): Notat => ({
+    id: spesialistNotat.id.toString(),
     tekst: spesialistNotat.tekst,
     saksbehandler: {
         navn: spesialistNotat.saksbehandlerNavn,

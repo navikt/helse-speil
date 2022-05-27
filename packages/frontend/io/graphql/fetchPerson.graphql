@@ -173,6 +173,17 @@ query FetchPerson($fnr: String, $aktorId: String) {
                         erReturOppgave
                         erBeslutterOppgave
                         tidligereSaksbehandlerOid
+                        notater {
+                            id
+                            tekst
+                            opprettet
+                            saksbehandlerOid
+                            saksbehandlerNavn
+                            saksbehandlerEpost
+                            vedtaksperiodeId
+                            feilregistrert
+                            feilregistrert_tidspunkt
+                        }
                         periodehistorikk {
                             type
                             timestamp

@@ -15,7 +15,7 @@ import {
     isGhostPeriode,
     isInntektoverstyring,
 } from '@utils/typeguards';
-import { useNotaterForVedtaksperiode } from '@state/notater';
+import { toNotat } from '@state/notater';
 import { useCurrentPerson } from '@state/person';
 import { useActivePeriod } from '@state/periode';
 
@@ -59,7 +59,7 @@ interface HistorikkWithContentProps {
 export const HistorikkWithContent: React.VFC<HistorikkWithContentProps> = React.memo(
     ({ activePeriod, vedtaksperiodeId, tildeling, personinfo }) => {
         const historikk = useHistorikk();
-        const notaterForPeriode = useNotaterForVedtaksperiode(vedtaksperiodeId);
+        const notaterForPeriode = isBeregnetPeriode(activePeriod) ? activePeriod.notater.map(toNotat) : [];
 
         const [showHistorikk, setShowHistorikk] = useShowHistorikkState();
         const [showNotatListeModal, setShowNotatListeModal] = useState(false);
