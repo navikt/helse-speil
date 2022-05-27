@@ -608,6 +608,7 @@
                                     "erBeslutterOppgave": false,
                                     "tidligereSaksbehandlerOid": null,
                                     "periodehistorikk": [],
+                                    "notater": [],
                                     "hendelser": [
                                         {
                                             "id": "58bef78d-c706-44a9-b635-c5b995fe6316",
@@ -1248,6 +1249,7 @@
                                     "erBeslutterOppgave": false,
                                     "tidligereSaksbehandlerOid": null,
                                     "periodehistorikk": [],
+                                    "notater": [],
                                     "hendelser": [
                                         {
                                             "id": "58bef78d-c706-44a9-b635-c5b995fe6316",

@@ -586,6 +586,7 @@
                                     "erBeslutterOppgave": false,
                                     "tidligereSaksbehandlerOid": null,
                                     "periodehistorikk": [],
+                                    "notater": [],
                                     "hendelser": [
                                         {
                                             "id": "7150cc2c-3884-4f81-addf-972f62d309c0",

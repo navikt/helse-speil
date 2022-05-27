@@ -760,9 +760,10 @@
                                     "gjenstaendeSykedager": 247,
                                     "trengerTotrinnsvurdering": false,
                                     "erReturOppgave": false,
-                                    "erBeslutterOppgave": false,
+                                    "erBeslutterOppgave": true,
                                     "tidligereSaksbehandlerOid": null,
                                     "periodehistorikk": [],
+                                    "notater": [],
                                     "hendelser": [
                                         {
                                             "id": "7a670cfa-6494-405e-bc2c-020274e176f5",
