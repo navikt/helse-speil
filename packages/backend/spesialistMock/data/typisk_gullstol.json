@@ -603,6 +603,10 @@
                                     "beregningId": "859c3822-5ad9-4c42-ba5b-593bee07506b",
                                     "forbrukteSykedager": 10,
                                     "gjenstaendeSykedager": 238,
+                                    "trengerTotrinnsvurdering": false,
+                                    "erReturOppgave": false,
+                                    "erBeslutterOppgave": false,
+                                    "tidligereSaksbehandlerOid": null,
                                     "periodehistorikk": [],
                                     "hendelser": [
                                         {
@@ -1239,6 +1243,10 @@
                                     "beregningId": "d1af1d5d-6aa8-436e-af1c-e1fe5e3e8625",
                                     "forbrukteSykedager": 10,
                                     "gjenstaendeSykedager": 238,
+                                    "trengerTotrinnsvurdering": false,
+                                    "erReturOppgave": false,
+                                    "erBeslutterOppgave": false,
+                                    "tidligereSaksbehandlerOid": null,
                                     "periodehistorikk": [],
                                     "hendelser": [
                                         {

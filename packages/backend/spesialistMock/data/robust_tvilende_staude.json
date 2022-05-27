@@ -660,6 +660,10 @@
                                     "beregningId": "164395a7-f5e0-4322-a62b-e31414bd6d8a",
                                     "forbrukteSykedager": 10,
                                     "gjenstaendeSykedager": 238,
+                                    "trengerTotrinnsvurdering": false,
+                                    "erReturOppgave": false,
+                                    "erBeslutterOppgave": false,
+                                    "tidligereSaksbehandlerOid": null,
                                     "periodehistorikk": [
                                         {
                                             "type": "TOTRINNSVURDERING_TIL_GODKJENNING",

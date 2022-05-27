@@ -804,6 +804,10 @@
                                     "beregningId": "922b88e3-8434-44d7-a831-040357a09d49",
                                     "forbrukteSykedager": 11,
                                     "gjenstaendeSykedager": 237,
+                                    "trengerTotrinnsvurdering": false,
+                                    "erReturOppgave": false,
+                                    "erBeslutterOppgave": false,
+                                    "tidligereSaksbehandlerOid": null,
                                     "periodehistorikk": [],
                                     "hendelser": [
                                         {
