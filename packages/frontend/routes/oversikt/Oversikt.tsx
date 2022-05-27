@@ -7,9 +7,9 @@ import { Flex, FlexColumn } from '@components/Flex';
 import { useLoadingToast } from '@hooks/useLoadingToast';
 import {
     useMarkerPersonSomIkkeTildelt,
+    useRefetchPerson,
     useResetPerson,
     useTilbakestillTildeling,
-    useTildelPerson,
 } from '@state/person';
 import { Scopes, useVarselFilter } from '@state/varsler';
 import { useInnloggetSaksbehandler } from '@state/authentication';
@@ -63,9 +63,11 @@ const useOppgaverFilteredByTab = () => {
 
 const useResetPersonOnMount = (): void => {
     const resetPerson = useResetPerson();
+    const resetPersonFetchKey = useRefetchPerson();
 
     useEffect(() => {
         resetPerson();
+        resetPersonFetchKey();
     }, []);
 };
 
