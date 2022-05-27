@@ -9,6 +9,30 @@ import { IResolvers } from '@graphql-tools/utils';
 
 import spesialistSchema from '../graphql.schema.json';
 import { NotFoundError } from './errors';
+import { oppgaveTildelinger } from './server';
+
+const leggTilTildeling = (person: any) => {
+    const erTildelt = person.arbeidsgivere.any((arbeidsgiver: any) => {
+        arbeidsgiver.generasjoner.any((generasjon: any) => {
+            generasjon.perioder.any(
+                (periode: any) => periode.oppgavereferanse && oppgaveTildelinger[periode.oppgavereferanse]
+            );
+        });
+    });
+    const tildeling = erTildelt
+        ? {
+              epost: 'epost@nav.no',
+              navn: 'Utvikler, Lokal',
+              oid: 'uuid',
+              reservert: false,
+          }
+        : person.tildeling;
+
+    return {
+        ...person,
+        tildeling,
+    };
+};
 
 const fetchPersondata = (): Record<string, JSON> => {
     const url = path.join(__dirname, '/data');
@@ -18,7 +42,7 @@ const fetchPersondata = (): Record<string, JSON> => {
         return JSON.parse(raw);
     });
     return files.reduce((data, file) => {
-        const person = file.data.person;
+        const person = leggTilTildeling(file.data.person);
         return {
             ...data,
             [person.aktorId]: person,
