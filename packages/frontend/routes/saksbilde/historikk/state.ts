@@ -2,10 +2,10 @@ import { useEffect } from 'react';
 import { atom, selector, useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import dayjs from 'dayjs';
 
-import { useNotaterForVedtaksperiode } from '@state/notater';
+import { toNotat } from '@state/notater';
 import { useCurrentArbeidsgiver } from '@state/arbeidsgiver';
 import { GhostPeriode, Overstyring } from '@io/graphql';
-import { isGhostPeriode } from '@utils/typeguards';
+import { isBeregnetPeriode, isGhostPeriode } from '@utils/typeguards';
 
 import { Hendelse, Hendelsetype } from './Historikk.types';
 import {
@@ -51,11 +51,9 @@ type UseOppdaterHistorikkOptions = {
     periode: BeregnetPeriode | GhostPeriode;
     onClickNotat: () => void;
     onClickOverstyringshendelse: (overstyring: Overstyring) => void;
-    vedtaksperiodeId?: string;
 };
 
 export const useOppdaterHistorikk = ({
-    vedtaksperiodeId,
     periode,
     onClickNotat,
     onClickOverstyringshendelse,
@@ -63,8 +61,8 @@ export const useOppdaterHistorikk = ({
     const setHistorikk = useSetRecoilState(historikkState);
     const overstyringer = useCurrentArbeidsgiver()?.overstyringer ?? [];
 
-    const notaterForVedtaksperiode = useNotaterForVedtaksperiode(vedtaksperiodeId);
-    const notater = useNotater(notaterForVedtaksperiode, onClickNotat);
+    const notaterForPeriode = isBeregnetPeriode(periode) ? periode.notater.map(toNotat) : [];
+    const notater = useNotater(notaterForPeriode, onClickNotat);
     const dokumenter = useDokumenter(periode);
     const utbetaling = getUtbetalingshendelse(periode);
     const periodehistorikk = usePeriodehistorikk(periode, onClickNotat);

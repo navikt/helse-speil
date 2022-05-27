@@ -76,7 +76,6 @@ export const HistorikkWithContent: React.VFC<HistorikkWithContentProps> = React.
         }, [showHistorikk]);
 
         useOppdaterHistorikk({
-            vedtaksperiodeId: vedtaksperiodeId,
             periode: activePeriod,
             onClickNotat: () => setShowNotatListeModal(true),
             onClickOverstyringshendelse: setEndring,
