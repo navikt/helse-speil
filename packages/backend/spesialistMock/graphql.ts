@@ -12,28 +12,28 @@ import { NotFoundError } from './errors';
 import { oppgaveTildelinger } from './server';
 
 const leggTilTildeling = (person: any) => {
-    let erTildelt = false;
-    person.arbeidsgivere.map((arbeidsgiver: any) => {
-        arbeidsgiver.generasjoner.map((generasjon: any) => {
-            generasjon.perioder.map((periode: any) => {
-                if (periode.oppgavereferanse && oppgaveTildelinger[periode.oppgavereferanse]) {
-                    erTildelt = true;
-                }
-            });
+    const erTildelt = person.arbeidsgivere.any((arbeidsgiver: any) => {
+        arbeidsgiver.generasjoner.any((generasjon: any) => {
+            generasjon.perioder.any(
+                (periode: any) => periode.oppgavereferanse && oppgaveTildelinger[periode.oppgavereferanse]
+            );
         });
     });
-    return erTildelt
+    const tildeling = erTildelt
         ? {
-              ...person,
-              tildeling: {
-                  epost: 'epost@nav.no',
-                  navn: 'Utvikler, Lokal',
-                  oid: 'uuid',
-                  reservert: false,
-              },
+              epost: 'epost@nav.no',
+              navn: 'Utvikler, Lokal',
+              oid: 'uuid',
+              reservert: false,
           }
-        : person;
+        : person.tildeling;
+
+    return {
+        ...person,
+        tildeling,
+    };
 };
+
 const fetchPersondata = (): Record<string, JSON> => {
     const url = path.join(__dirname, '/data');
     const filenames = fs.readdirSync(url);
