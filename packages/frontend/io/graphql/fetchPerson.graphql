@@ -183,6 +183,7 @@ query FetchPerson($fnr: String, $aktorId: String) {
                             vedtaksperiodeId
                             feilregistrert
                             feilregistrert_tidspunkt
+                            type
                         }
                         periodehistorikk {
                             type

@@ -83,4 +83,5 @@ declare type ExternalNotat = {
     vedtaksperiodeId: string;
     feilregistrert: boolean;
     saksbehandlerIdent?: string;
+    type: 'PaaVent' | 'Retur' | 'Generelt';
 };

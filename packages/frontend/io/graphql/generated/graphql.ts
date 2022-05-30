@@ -292,8 +292,15 @@ export type Notat = {
     saksbehandlerNavn: Scalars['String'];
     saksbehandlerOid: Scalars['String'];
     tekst: Scalars['String'];
+    type: NotatType;
     vedtaksperiodeId: Scalars['String'];
 };
+
+export enum NotatType {
+    Generelt = 'Generelt',
+    PaaVent = 'PaaVent',
+    Retur = 'Retur',
+}
 
 export type OmregnetArsinntekt = {
     __typename?: 'OmregnetArsinntekt';
@@ -976,6 +983,19 @@ export type FetchPersonQuery = {
                               melding: string;
                               tidsstempel: string;
                               vedtaksperiodeId: string;
+                          }>;
+                          notater: Array<{
+                              __typename?: 'Notat';
+                              id: number;
+                              tekst: string;
+                              opprettet: string;
+                              saksbehandlerOid: string;
+                              saksbehandlerNavn: string;
+                              saksbehandlerEpost: string;
+                              vedtaksperiodeId: string;
+                              feilregistrert: boolean;
+                              feilregistrert_tidspunkt?: string | null;
+                              type: NotatType;
                           }>;
                           periodehistorikk: Array<{
                               __typename?: 'PeriodeHistorikkElement';
