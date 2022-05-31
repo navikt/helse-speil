@@ -1,6 +1,5 @@
 import dayjs from 'dayjs';
 import express, { Request, Response } from 'express';
-import { nanoid } from 'nanoid';
 
 import { sleep } from '../devHelpers';
 import { setupGraphQLMiddleware } from './graphql';
@@ -36,7 +35,7 @@ export const oppgaverTilBeslutter: { [oppgavereferanse: string]: boolean } = {};
 
 export const oppgaverTilRetur: { [oppgavereferanse: string]: boolean } = {};
 
-export const notater: { [vedtaksperiodereferanser: string]: SpesialistNotat[] } = {};
+export const vedtaksperiodenotater: { [vedtaksperiodereferanser: string]: SpesialistNotat[] } = {};
 
 interface SpesialistNotat {
     id: string;
@@ -85,6 +84,17 @@ const feilresponsForTildeling = {
     },
 };
 
+const leggTilNotat = (vedtaksperiodeId: string, overrides: any) => {
+    const antallNotater = Object.keys(vedtaksperiodenotater).length;
+    const nyttNotat: SpesialistNotat = {
+        ...mockNotat,
+        id: antallNotater + 1,
+        opprettet: dayjs().format('YYYY-MM-DDTHH:mm:ss'),
+        ...overrides,
+    };
+    vedtaksperiodenotater[vedtaksperiodeId] = [...(vedtaksperiodenotater[vedtaksperiodeId] || []), nyttNotat];
+};
+
 app.post('/api/tildeling/:oppgavereferanse', (req: Request, res: Response) => {
     sleep(passeLenge()).then(() => {
         if (Math.random() < 1) {
@@ -104,29 +114,30 @@ app.delete('/api/tildeling/:oppgavereferanse', (req: Request, res: Response) => 
     sleep(passeLenge()).then(() => res.sendStatus(200));
 });
 
-app.post('/api/leggpaavent/:oppgaveReferanse', (req: Request, res: Response) => {
-    const oppgavereferanse = req.params.oppgaveReferanse;
-    const notatDto = req.body;
+app.post('/api/leggpaavent/:oppgavereferanse', (req: Request, res: Response) => {
+    const oppgavereferanse = req.params.oppgavereferanse;
     oppgaverPåVent[oppgavereferanse] = true;
+    leggTilNotat(oppgavereferanse, {
+        vedtaksperiodeId: oppgavereferanse,
+        tekst: req.body.tekst,
+        type: req.body.type,
+    });
     res.sendStatus(200);
 });
 
-app.delete('/api/leggpaavent/:oppgaveReferanse', (req: Request, res: Response) => {
-    const oppgavereferanse = req.params.oppgaveReferanse;
+app.delete('/api/leggpaavent/:oppgavereferanse', (req: Request, res: Response) => {
+    const oppgavereferanse = req.params.oppgavereferanse;
     delete oppgaverPåVent[oppgavereferanse];
     res.sendStatus(200);
 });
 
 app.post('/api/notater/:vedtaksperiodeId', (req: Request, res: Response) => {
     const vedtaksperiodeId = req.params.vedtaksperiodeId;
-    const nyttNotat: SpesialistNotat = {
-        ...mockNotat,
-        vedtaksperiodeId: vedtaksperiodeId,
-        id: nanoid(),
+    leggTilNotat(vedtaksperiodeId, {
+        vedtaksperiodeId,
         tekst: req.body.tekst,
-        opprettet: dayjs().format('YYYY-MM-DDTHH:mm:ss'),
-    };
-    notater[vedtaksperiodeId] = [...(notater[vedtaksperiodeId] || []), nyttNotat];
+        type: req.body.type,
+    });
     res.sendStatus(200);
 });
 
@@ -134,16 +145,17 @@ app.put('/api/notater/:vedtaksperiodeId/feilregistrer/:notatId', (req: Request, 
     const vedtaksperiodeId = req.params.vedtaksperiodeId;
     const notatId = req.params.notatId;
 
-    const notat = notater[vedtaksperiodeId].find((notat) => notat.id === notatId)!!;
+    const notat = vedtaksperiodenotater[vedtaksperiodeId].find((notat) => notat.id === notatId)!!;
+    const gamleNotater = vedtaksperiodenotater[vedtaksperiodeId].filter((notat) => notat.id !== notatId);
 
-    const nyttNotat: SpesialistNotat = {
-        ...notat,
-        feilregistrert: true,
-    };
+    vedtaksperiodenotater[vedtaksperiodeId] = [
+        ...gamleNotater,
+        {
+            ...notat,
+            feilregistrert: true,
+        },
+    ];
 
-    const gamleNotater = notater[vedtaksperiodeId].filter((notat) => notat.id !== notatId);
-
-    notater[vedtaksperiodeId] = [...gamleNotater, nyttNotat];
     res.sendStatus(200);
 });
 
@@ -155,16 +167,21 @@ app.get('/api/notater', (req: Request, res: Response) => {
     let response: { [oppgaveref: string]: SpesialistNotat[] } = {};
     vedtaksperioderIderArray.forEach((ref) => {
         const string_ref = ref as string; // todo: fjern as string
-        response[string_ref] = notater[string_ref] ?? [];
+        response[string_ref] = vedtaksperiodenotater[string_ref] ?? [];
     });
     res.send(response);
 });
 
 app.post('/api/totrinnsvurdering/retur', (req: Request, res: Response) => {
-    // mangler å legge til returnotat
     const oppgavereferanse = req.body.oppgavereferanse;
     oppgaverTilRetur[oppgavereferanse] = true;
     oppgaverTilBeslutter[oppgavereferanse] = false;
+
+    leggTilNotat(oppgavereferanse, {
+        vedtaksperiodeId: oppgavereferanse,
+        tekst: req.body.tekst,
+        type: req.body.type,
+    });
     res.sendStatus(200);
 });
 

@@ -9,55 +9,76 @@ import { IResolvers } from '@graphql-tools/utils';
 
 import spesialistSchema from '../graphql.schema.json';
 import { NotFoundError } from './errors';
-import { oppgaverPåVent, oppgaverTilBeslutter, oppgaverTilRetur, oppgaveTildelinger } from './server';
+import {
+    oppgaverPåVent,
+    oppgaverTilBeslutter,
+    oppgaverTilRetur,
+    oppgaveTildelinger,
+    vedtaksperiodenotater,
+} from './server';
+
+const erTildelt = (periode: any) =>
+    periode.oppgavereferanse && oppgaveTildelinger[periode.oppgavereferanse] !== undefined;
+
+const erPåVent = (periode: any) =>
+    periode.oppgavereferanse &&
+    oppgaverPåVent[periode.oppgavereferanse] !== undefined &&
+    oppgaverPåVent[periode.oppgavereferanse];
+
+const erBeslutterOppgave = (periode: any) =>
+    periode.oppgavereferanse && oppgaverTilBeslutter[periode.oppgavereferanse] !== undefined
+        ? oppgaverTilBeslutter[periode.oppgavereferanse]
+        : periode.erBeslutterOppgave;
+
+const erReturOppgave = (periode: any) =>
+    periode.oppgavereferanse && oppgaverTilRetur[periode.oppgavereferanse] !== undefined
+        ? oppgaverTilRetur[periode.oppgavereferanse]
+        : periode.erReturOppgave;
+
+const getTildeltTildeling = (periode: any) => {
+    return {
+        epost: 'epost@nav.no',
+        navn: 'Utvikler, Lokal',
+        oid: 'uuid',
+        reservert: erPåVent(periode) ?? false,
+    };
+};
+
+const getNotater = (periode: any) => {
+    const notaterFraFil = [...(periode.notater || [])];
+    const notaterPåVedtaksperiodeId =
+        periode.vedtaksperiodeId && vedtaksperiodenotater[periode.vedtaksperiodeId] !== undefined
+            ? vedtaksperiodenotater[periode.vedtaksperiodeId]
+            : [];
+    // Dette er kun for mockens skyld. I noen av kallene hvor vi oppretter notater har vi ikke vedtaksperiodeId, så da lagrer vi på oppgavereferanse.
+    const notaterPåOppgavereferanse =
+        periode.oppgavereferanse && vedtaksperiodenotater[periode.oppgavereferanse] !== undefined
+            ? vedtaksperiodenotater[periode.oppgavereferanse]
+            : [];
+
+    return [...notaterFraFil, ...notaterPåVedtaksperiodeId, ...notaterPåOppgavereferanse];
+};
 
 const leggTilLagretData = (person: any) => {
     let tildeling = person.tildeling;
 
     const modifisertPerson = {
         ...person,
-        arbeidsgivere: person.arbeidsgivere.map((arbeidsgiver: any) => {
-            return {
-                ...arbeidsgiver,
-                generasjoner: arbeidsgiver.generasjoner.map((generasjon: any) => {
+        arbeidsgivere: person.arbeidsgivere.map((arbeidsgiver: any) => ({
+            ...arbeidsgiver,
+            generasjoner: arbeidsgiver.generasjoner.map((generasjon: any) => ({
+                ...generasjon,
+                perioder: generasjon.perioder.map((periode: any) => {
+                    if (erTildelt(periode)) tildeling = getTildeltTildeling(periode);
                     return {
-                        ...generasjon,
-                        perioder: generasjon.perioder.map((periode: any) => {
-                            const erTildelt =
-                                periode.oppgavereferanse && oppgaveTildelinger[periode.oppgavereferanse] !== undefined;
-                            const erPåVent =
-                                periode.oppgavereferanse &&
-                                oppgaverPåVent[periode.oppgavereferanse] !== undefined &&
-                                oppgaverPåVent[periode.oppgavereferanse];
-
-                            if (erTildelt) {
-                                tildeling = {
-                                    epost: 'epost@nav.no',
-                                    navn: 'Utvikler, Lokal',
-                                    oid: 'uuid',
-                                    reservert: erPåVent ?? false,
-                                };
-                            }
-
-                            const erBeslutterOppgave =
-                                periode.oppgavereferanse && oppgaverTilBeslutter[periode.oppgavereferanse] !== undefined
-                                    ? oppgaverTilBeslutter[periode.oppgavereferanse]
-                                    : periode.erBeslutterOppgave;
-                            const erReturOppgave =
-                                periode.oppgavereferanse && oppgaverTilRetur[periode.oppgavereferanse] !== undefined
-                                    ? oppgaverTilRetur[periode.oppgavereferanse]
-                                    : periode.erReturOppgave;
-
-                            return {
-                                ...periode,
-                                erBeslutterOppgave,
-                                erReturOppgave,
-                            };
-                        }),
+                        ...periode,
+                        notater: getNotater(periode),
+                        erBeslutterOppgave: erBeslutterOppgave(periode),
+                        erReturOppgave: erReturOppgave(periode),
                     };
                 }),
-            };
-        }),
+            })),
+        })),
     };
 
     return {
