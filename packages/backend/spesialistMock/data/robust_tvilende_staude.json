@@ -92,12 +92,7 @@
                 "fodselsdato": "1971-08-20",
                 "kjonn": "Mann"
             },
-            "tildeling": {
-                "navn": "Klipp, Kari",
-                "epost": "kari.klipp@dev.nav.no",
-                "oid": "d33e9fff-c9b2-4132-bb7f-ec4928f5671f",
-                "reservert": false
-            },
+            "tildeling": null,
             "versjon": 21,
             "vilkarsgrunnlaghistorikk": [
                 {
@@ -878,7 +873,7 @@
                                         ],
                                         "belop": 30000
                                     },
-                                    "oppgavereferanse": "3251",
+                                    "oppgavereferanse": "3107",
                                     "tilstand": "Oppgaver"
                                 }
                             ]

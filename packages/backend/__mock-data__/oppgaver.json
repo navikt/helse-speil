@@ -49,12 +49,7 @@
             "id": "0393",
             "navn": "NAV oppfølging utland"
         },
-        "tildeling": {
-            "navn": "Ramthun, Stephen",
-            "epost": "Stephen.Ramthun@nav.no",
-            "oid": "a7cf35df-7e86-4eee-b6c1-5c60dd18462f",
-            "påVent": false
-        }
+        "tildeling": null
     },
     {
         "oppgavereferanse": "3378",
