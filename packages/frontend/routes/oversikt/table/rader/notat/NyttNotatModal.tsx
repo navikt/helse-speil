@@ -14,6 +14,7 @@ import { ignorePromise } from '@utils/promise';
 import { SisteNotat } from './SisteNotat';
 import { getFormatertNavn } from '@utils/string';
 import { Personinfo } from '@io/graphql';
+import { useRefetchPerson } from '@state/person';
 
 const Container = styled.section`
     display: flex;
@@ -94,6 +95,7 @@ export const NyttNotatModal = ({
 }: NyttNotatModalProps) => {
     const notaterForOppgave = useNotaterForVedtaksperiode(vedtaksperiodeId);
     const refreshNotater = useRefreshNotater();
+    const refetchPerson = useRefetchPerson();
     const errorHandler = useOperationErrorHandler('Nytt Notat');
     const søkernavn = getFormatertNavn(personinfo, ['E', ',', 'F', 'M']);
 
@@ -120,7 +122,8 @@ export const NyttNotatModal = ({
             ignorePromise(
                 postNotat(vedtaksperiodeId, { tekst: form.getValues().tekst, type: notattype })
                     .then(() => {
-                        refreshNotater();
+                        refreshNotater(); // Refresher for oversikten, for REST
+                        refetchPerson(); // Refresher for saksbildet, for GraphQL
                     })
                     .finally(() => {
                         setIsFetching(false);
