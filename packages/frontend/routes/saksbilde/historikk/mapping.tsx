@@ -94,29 +94,20 @@ export const useDokumenter = (period: Periode | GhostPeriode): Hendelse[] => {
         .filter((it) => it !== null) as Hendelse[];
 };
 
-const getPeriodehistorikkTitle = (
-    type: PeriodehistorikkType,
-    onClickNotat: () => void,
-    notat_id?: Maybe<number>,
-): String | JSX.Element => {
+const getPeriodehistorikkTitle = (type: PeriodehistorikkType): String | JSX.Element => {
     const title = (() => {
         switch (type) {
             case PeriodehistorikkType.TotrinnsvurderingTilGodkjenning:
                 return 'Til Godkjenning';
-            case PeriodehistorikkType.TotrinnsvurderingRetur:
-                return 'Retur';
             default:
                 return '';
         }
     })();
 
-    return notat_id ? <LinkButton onClick={() => onClickNotat}>{title}</LinkButton> : title;
+    return title;
 };
 
-export const usePeriodehistorikk = (
-    periode: BeregnetPeriode | GhostPeriode,
-    onClickNotat: () => void,
-): Array<Hendelse> => {
+export const usePeriodehistorikk = (periode: BeregnetPeriode | GhostPeriode): Array<Hendelse> => {
     if (!isBeregnetPeriode(periode)) {
         return [];
     }
@@ -125,7 +116,7 @@ export const usePeriodehistorikk = (
         return {
             id: index.toString(),
             timestamp: historikkelement.timestamp as DateString,
-            title: getPeriodehistorikkTitle(historikkelement.type, onClickNotat, historikkelement.notat_id),
+            title: getPeriodehistorikkTitle(historikkelement.type),
             type: Hendelsetype.Historikk,
             body: <BegrunnelseTekst>{historikkelement.saksbehandler_ident}</BegrunnelseTekst>,
         } as Hendelse;
@@ -237,13 +228,24 @@ export const useArbeidsforholdoverstyringshendelser = (
         }));
 };
 
-export const useNotater = (notater: Notat[], onClickNotat: () => void): Hendelse[] =>
+const notattittel = (notattype: NotatType) => {
+    switch (notattype) {
+        case 'PaaVent':
+            return 'Lagt på vent';
+        case 'Retur':
+            return 'Retur';
+        default:
+            return 'Notat';
+    }
+};
+
+export const useNotater = (notater: Notat[], onClickNotat: (notattype: NotatType) => void): Hendelse[] =>
     useMemo(
         () =>
             notater.map((notat: Notat) => ({
                 id: notat.id,
                 timestamp: notat.opprettet.format(ISO_TIDSPUNKTFORMAT),
-                title: <LinkButton onClick={onClickNotat}>Lagt på vent</LinkButton>,
+                title: <LinkButton onClick={() => onClickNotat(notat.type)}>{notattittel(notat.type)}</LinkButton>,
                 type: Hendelsetype.Historikk,
                 body: (
                     <BegrunnelseTekst key={notat.id}>

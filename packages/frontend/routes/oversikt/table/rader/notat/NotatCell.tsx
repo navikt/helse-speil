@@ -59,6 +59,7 @@ export const NotatCell: React.VFC<NotatCellProps> = ({ vedtaksperiodeId, personi
                     personinfo={convertToGraphQLPersoninfo(personinfo)}
                     onClose={toggleModal}
                     erPåVent={erPåVent}
+                    notattype="PaaVent"
                 />
             )}
         </>

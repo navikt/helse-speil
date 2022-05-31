@@ -85,6 +85,8 @@ declare type Behandlingsstatistikk = {
     };
 };
 
+declare type NotatType = 'PaaVent' | 'Retur' | 'Generelt';
+
 declare type Notat = {
     id: string;
     tekst: string;
@@ -92,6 +94,7 @@ declare type Notat = {
     opprettet: Dayjs;
     vedtaksperiodeId: string;
     feilregistrert: boolean;
+    type: NotatType;
 };
 
 declare type SpeilError = {

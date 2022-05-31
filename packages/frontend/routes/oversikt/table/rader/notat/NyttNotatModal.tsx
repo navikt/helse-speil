@@ -50,10 +50,48 @@ interface NyttNotatModalProps {
     onClose: (event: React.SyntheticEvent) => void;
     personinfo: Personinfo;
     vedtaksperiodeId: string;
-    onPostNotat?: () => void;
+    onSubmitOverride?: (notattekst: string) => void;
+    notattype: NotatType;
 }
 
-export const NyttNotatModal = ({ onClose, personinfo, vedtaksperiodeId, onPostNotat }: NyttNotatModalProps) => {
+interface Notattekster {
+    tittel: string;
+    description: string;
+    submitTekst: string;
+}
+
+const notattypeTekster = (notattype: NotatType): Notattekster => {
+    switch (notattype) {
+        case 'PaaVent':
+            return {
+                tittel: 'Legg på vent',
+                description:
+                    'Skriv hvorfor saken er lagt på vent, så det er lettere å starte igjen senere.\nEks: Kontaktet arbeidsgiver, fikk ikke svar.\nBlir ikke forevist den sykmeldte, med mindre den sykmeldte ber om innsyn.',
+                submitTekst: 'Legg på vent',
+            };
+        case 'Retur':
+            return {
+                tittel: 'Retur',
+                description:
+                    'Skriv hvorfor saken returneres, så det er enkelt å forstå hva som må vurderes og gjøres om.\nEksempel: Ferie for 01.07.2022 må korrigeres.\nBlir ikke forevist den sykmeldte, med mindre den sykmeldte ber om innsyn.',
+                submitTekst: 'Returner',
+            };
+        default:
+            return {
+                tittel: 'Notat',
+                description: 'Blir ikke forevist den sykmeldte, med mindre den sykmeldte ber om innsyn.',
+                submitTekst: 'Legg til notat',
+            };
+    }
+};
+
+export const NyttNotatModal = ({
+    onClose,
+    personinfo,
+    vedtaksperiodeId,
+    onSubmitOverride,
+    notattype,
+}: NyttNotatModalProps) => {
     const notaterForOppgave = useNotaterForVedtaksperiode(vedtaksperiodeId);
     const refreshNotater = useRefreshNotater();
     const errorHandler = useOperationErrorHandler('Nytt Notat');
@@ -63,7 +101,12 @@ export const NyttNotatModal = ({ onClose, personinfo, vedtaksperiodeId, onPostNo
 
     const [isFetching, setIsFetching] = useState(false);
 
-    const sisteNotat = [...notaterForOppgave].sort((a, b) => b.opprettet.diff(a.opprettet, 'millisecond')).shift();
+    const notattekst = notattypeTekster(notattype);
+
+    const sisteNotat = [...notaterForOppgave]
+        .filter((it) => it.type === notattype)
+        .sort((a, b) => b.opprettet.diff(a.opprettet, 'millisecond'))
+        .shift();
 
     const closeModal = (event: React.SyntheticEvent) => {
         onClose(event);
@@ -71,24 +114,27 @@ export const NyttNotatModal = ({ onClose, personinfo, vedtaksperiodeId, onPostNo
 
     const submit = () => {
         setIsFetching(true);
-        ignorePromise(
-            postNotat(vedtaksperiodeId, { tekst: form.getValues().tekst })
-                .then(() => {
-                    refreshNotater();
-                    onPostNotat?.();
-                })
-                .finally(() => {
-                    setIsFetching(false);
-                    onClose({} as React.SyntheticEvent);
-                }),
-            errorHandler,
-        );
+        if (onSubmitOverride) {
+            onSubmitOverride(form.getValues().tekst);
+        } else {
+            ignorePromise(
+                postNotat(vedtaksperiodeId, { tekst: form.getValues().tekst, type: notattype })
+                    .then(() => {
+                        refreshNotater();
+                    })
+                    .finally(() => {
+                        setIsFetching(false);
+                        onClose({} as React.SyntheticEvent);
+                    }),
+                errorHandler,
+            );
+        }
     };
 
     return (
         <Modal
-            title={<Tittel>{onPostNotat ? 'Legg på vent' : 'Lagt på vent - ny kommentar'}</Tittel>}
-            contentLabel={onPostNotat ? 'Legg på vent' : 'Lagt på vent - ny kommentar'}
+            title={<Tittel>{notattekst.tittel}</Tittel>}
+            contentLabel={notattekst.tittel}
             isOpen
             onRequestClose={closeModal}
         >
@@ -110,7 +156,7 @@ export const NyttNotatModal = ({ onClose, personinfo, vedtaksperiodeId, onPostNo
                             <Textarea
                                 label="Begrunnelse"
                                 error={error?.message}
-                                description={`Skriv hvorfor saken er lagt på vent, så det er lettere å starte igjen senere.\nEks: Kontaktet arbeidsgiver, fikk ikke svar.\nBlir ikke forevist den sykmeldte, med mindre den sykmeldte ber om innsyn.`}
+                                description={notattekst.description}
                                 onChange={onChange}
                                 onBlur={onBlur}
                                 value={value ?? ''}
@@ -123,10 +169,10 @@ export const NyttNotatModal = ({ onClose, personinfo, vedtaksperiodeId, onPostNo
                     />
                     <Buttons>
                         <Button size="small" disabled={isFetching} type="submit">
-                            {onPostNotat ? 'Legg på vent' : 'Lagre'}
+                            {onSubmitOverride ? notattekst.submitTekst : 'Lagre'}
                             {isFetching && <Loader size="xsmall" />}
                         </Button>
-                        {onPostNotat ? (
+                        {onSubmitOverride ? (
                             <Button size="small" variant="secondary" onClick={closeModal} type="button">
                                 Avbryt
                             </Button>

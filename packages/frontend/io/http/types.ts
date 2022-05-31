@@ -57,4 +57,5 @@ export interface PersonoppdateringDTO {
 
 export interface NotatDTO {
     tekst: string;
+    type: ExternalNotatType;
 }

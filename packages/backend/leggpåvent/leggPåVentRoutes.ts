@@ -13,7 +13,7 @@ export default ({ leggPåVentClient }: SetupOptions) => {
 
     router.post('/:oppgaveReferanse', (req: SpeilRequest, res: Response) => {
         leggPåVentClient
-            .leggPåVent(req.session!.speilToken, req.params.oppgaveReferanse)
+            .leggPåVent(req.session!.speilToken, req.params.oppgaveReferanse, req.body)
             .then(() => res.sendStatus(200))
             .catch((err) => {
                 logger.error(`Feil under legg på vent: ${err}`);

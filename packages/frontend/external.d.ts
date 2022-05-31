@@ -73,6 +73,8 @@ declare type ExternalOppgave = {
     tildeling?: ExternalTildeling;
 };
 
+declare type ExternalNotatType = 'PaaVent' | 'Retur' | 'Generelt';
+
 declare type ExternalNotat = {
     id: string;
     tekst: string;
@@ -83,5 +85,5 @@ declare type ExternalNotat = {
     vedtaksperiodeId: string;
     feilregistrert: boolean;
     saksbehandlerIdent?: string;
-    type: 'PaaVent' | 'Retur' | 'Generelt';
+    type: ExternalNotatType;
 };

@@ -13,9 +13,9 @@ import {
     useArbeidsforholdoverstyringshendelser,
     useDagoverstyringshendelser,
     useDokumenter,
-    usePeriodehistorikk,
     useInntektsoverstyringshendelser,
     useNotater,
+    usePeriodehistorikk,
 } from './mapping';
 
 const historikkState = atom<Hendelse[]>({
@@ -49,7 +49,7 @@ export const useFilterState = () => useRecoilState(filterState);
 
 type UseOppdaterHistorikkOptions = {
     periode: BeregnetPeriode | GhostPeriode;
-    onClickNotat: () => void;
+    onClickNotat: (notattype: NotatType) => void;
     onClickOverstyringshendelse: (overstyring: Overstyring) => void;
 };
 
@@ -65,7 +65,7 @@ export const useOppdaterHistorikk = ({
     const notater = useNotater(notaterForPeriode, onClickNotat);
     const dokumenter = useDokumenter(periode);
     const utbetaling = getUtbetalingshendelse(periode);
-    const periodehistorikk = usePeriodehistorikk(periode, onClickNotat);
+    const periodehistorikk = usePeriodehistorikk(periode);
 
     const tidslinjeendringer = useDagoverstyringshendelser(onClickOverstyringshendelse, overstyringer);
     const inntektoverstyringer = useInntektsoverstyringshendelser(onClickOverstyringshendelse, overstyringer);

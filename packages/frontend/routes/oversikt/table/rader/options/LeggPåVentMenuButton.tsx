@@ -9,6 +9,7 @@ import { ignorePromise } from '@utils/promise';
 
 import { NyttNotatModal } from '../notat/NyttNotatModal';
 import { convertToGraphQLPersoninfo } from '@utils/mapping';
+import { NotatDTO } from '@io/http';
 
 const Button = styled(NavButton)`
     all: unset;
@@ -49,16 +50,19 @@ export const LeggPåVentMenuButton = ({ oppgavereferanse, vedtaksperiodeId, pers
     const [isFetching, setIsFetching] = useState(false);
     const errorHandler = useOperationErrorHandler('Legg på vent');
 
-    const leggPåVent = useLeggPåVent();
+    const leggPåVentMedNotat = useLeggPåVent();
 
     const åpneModal = async (event: React.MouseEvent) => {
         event.stopPropagation();
         setVisModal(true);
     };
 
-    const settPåVent = () => {
+    const settPåVent = (notattekst: string) => {
         setIsFetching(true);
-        ignorePromise(leggPåVent({ oppgavereferanse }), errorHandler);
+        ignorePromise(
+            leggPåVentMedNotat(oppgavereferanse, { tekst: notattekst, type: 'PaaVent' } as NotatDTO),
+            errorHandler,
+        );
     };
 
     return (
@@ -72,7 +76,8 @@ export const LeggPåVentMenuButton = ({ oppgavereferanse, vedtaksperiodeId, pers
                     onClose={() => setVisModal(false)}
                     personinfo={convertToGraphQLPersoninfo(personinfo)}
                     vedtaksperiodeId={vedtaksperiodeId}
-                    onPostNotat={settPåVent}
+                    onSubmitOverride={settPåVent}
+                    notattype="PaaVent"
                 />
             )}
         </span>

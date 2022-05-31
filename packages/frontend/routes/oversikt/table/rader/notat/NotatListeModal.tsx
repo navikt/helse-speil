@@ -28,12 +28,32 @@ interface NotatListeModalProps {
     personinfo: Personinfo;
     onClose: (event: React.SyntheticEvent) => void;
     erPåVent?: boolean;
+    notattype: NotatType;
 }
 
-export const NotatListeModal = ({ notater, vedtaksperiodeId, personinfo, onClose, erPåVent }: NotatListeModalProps) => {
+const getModalTittel = (notattype: NotatType): string => {
+    switch (notattype) {
+        case 'PaaVent':
+            return 'Lagt på vent - notater';
+        case 'Retur':
+            return 'Retur - notater';
+        default:
+            return 'Notater';
+    }
+};
+
+export const NotatListeModal = ({
+    notater,
+    vedtaksperiodeId,
+    personinfo,
+    onClose,
+    erPåVent,
+    notattype,
+}: NotatListeModalProps) => {
     const [showNyttNotatModal, setShowNyttNotatModal] = useState(false);
     const innloggetSaksbehandler = useInnloggetSaksbehandler();
     const søkernavn = getFormatertNavn(personinfo);
+    const modalTittel = getModalTittel(notattype);
 
     const closeModal = (event: React.SyntheticEvent) => {
         onClose(event);
@@ -48,16 +68,17 @@ export const NotatListeModal = ({ notater, vedtaksperiodeId, personinfo, onClose
             onClose={toggleShowNyttNotatModal}
             personinfo={personinfo}
             vedtaksperiodeId={vedtaksperiodeId}
+            notattype={notattype}
         />
     ) : (
         <TableModal
             title={
                 <Title>
-                    <p>Lagt på vent - notater</p>
+                    <p>{modalTittel}</p>
                     <p>Søker: {søkernavn}</p>
                 </Title>
             }
-            contentLabel="Lagt på vent - notater"
+            contentLabel={modalTittel}
             isOpen
             onRequestClose={closeModal}
         >
@@ -70,20 +91,22 @@ export const NotatListeModal = ({ notater, vedtaksperiodeId, personinfo, onClose
                 </tr>
             </thead>
             <tbody>
-                {notater.map((notat) => (
-                    <NotatListeRad
-                        key={notat.id}
-                        notat={notat}
-                        vedtaksperiodeId={vedtaksperiodeId}
-                        innloggetSaksbehandler={innloggetSaksbehandler}
-                    />
-                ))}
+                {notater
+                    .filter((it) => it.type === notattype)
+                    .map((notat) => (
+                        <NotatListeRad
+                            key={notat.id}
+                            notat={notat}
+                            vedtaksperiodeId={vedtaksperiodeId}
+                            innloggetSaksbehandler={innloggetSaksbehandler}
+                        />
+                    ))}
             </tbody>
-            {erPåVent && (
+            {erPåVent && notattype === 'PaaVent' && (
                 <tfoot>
                     <tr>
                         <td colSpan={4} style={{ textAlign: 'right', paddingTop: '1.5rem' }}>
-                            <LinkButton onClick={toggleShowNyttNotatModal}>Legg til ny kommentar</LinkButton>
+                            <LinkButton onClick={toggleShowNyttNotatModal}>Legg til nytt notat</LinkButton>
                         </td>
                     </tr>
                 </tfoot>

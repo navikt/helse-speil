@@ -11,9 +11,9 @@ import {
 
 import { useInnloggetSaksbehandler } from '@state/authentication';
 import { useActivePeriod } from '@state/periode';
-import { fetchPerson } from '@io/graphql';
-import { deletePåVent, postLeggPåVent, SpeilResponse } from '@io/http';
 import type { Maybe, Person, Tildeling, Vilkarsgrunnlag } from '@io/graphql';
+import { fetchPerson } from '@io/graphql';
+import { deletePåVent, NotatDTO, postLeggPåVent, SpeilResponse } from '@io/http';
 
 const currentPersonIdState = atom<string | null>({
     key: 'currentPersonId',
@@ -116,11 +116,11 @@ export const useTilbakestillTildeling = (): (() => void) => {
     };
 };
 
-export const useLeggPåVent = (): ((oppgavereferanse: string) => Promise<SpeilResponse>) => {
+export const useLeggPåVent = (): ((oppgavereferanse: string, notat: NotatDTO) => Promise<SpeilResponse>) => {
     const tildelPerson = useTildelPerson();
 
-    return (oppgavereferanse) => {
-        return postLeggPåVent(oppgavereferanse).then((response) => {
+    return (oppgavereferanse, notat) => {
+        return postLeggPåVent(oppgavereferanse, notat).then((response) => {
             tildelPerson(true);
             return Promise.resolve(response);
         });

@@ -56,4 +56,5 @@ export const toNotat = (spesialistNotat: ExternalNotat | GraphQLNotat): Notat =>
     opprettet: dayjs(spesialistNotat.opprettet),
     vedtaksperiodeId: spesialistNotat.vedtaksperiodeId,
     feilregistrert: spesialistNotat.feilregistrert,
+    type: spesialistNotat.type,
 });

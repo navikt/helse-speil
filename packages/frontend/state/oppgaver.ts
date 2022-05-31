@@ -1,6 +1,6 @@
 import { atom, selector, useRecoilValue, useRecoilValueLoadable, useSetRecoilState } from 'recoil';
 
-import { deletePåVent, deleteTildeling, getOppgaver, postLeggPåVent, postTildeling } from '@io/http';
+import { deletePåVent, deleteTildeling, getOppgaver, NotatDTO, postLeggPåVent, postTildeling } from '@io/http';
 import { flereArbeidsgivere, stikkprøve, utbetalingTilSykmeldt } from '@utils/featureToggles';
 import { tilOppgave } from '../mapping/oppgaver';
 
@@ -167,9 +167,9 @@ export const useLeggPåVent = () => {
     const addTildelingsvarsel = useAddTildelingsvarsel();
     const removeTildelingsvarsel = useRemoveTildelingsvarsel();
 
-    return ({ oppgavereferanse }: Pick<Oppgave, 'oppgavereferanse'>) => {
+    return (oppgavereferanse: string, notat: NotatDTO) => {
         removeTildelingsvarsel();
-        return postLeggPåVent(oppgavereferanse)
+        return postLeggPåVent(oppgavereferanse, notat)
             .then((response) => {
                 setLokaleTildelinger({
                     ...tildelinger,

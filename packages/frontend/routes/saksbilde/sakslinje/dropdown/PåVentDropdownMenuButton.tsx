@@ -34,16 +34,16 @@ export const PåVentDropdownMenuButton = ({
     const [visModal, setVisModal] = useState(false);
 
     const history = useHistory();
-    const leggPåVent = useLeggPåVent();
+    const leggPåVentMedNotat = useLeggPåVent();
     const fjernPåVent = useFjernPåVent();
     const errorHandler = useOperationErrorHandler('Legg på vent');
 
     const { lukk } = useContext(DropdownContext);
 
-    const settPåVent = () => {
+    const settPåVent = (notattekst: string) => {
         setIsFetching(true);
         ignorePromise(
-            leggPåVent(oppgavereferanse).then(() => {
+            leggPåVentMedNotat(oppgavereferanse, { tekst: notattekst, type: 'PaaVent' }).then(() => {
                 history.push('/');
             }),
             errorHandler,
@@ -76,7 +76,8 @@ export const PåVentDropdownMenuButton = ({
                     onClose={() => setVisModal(false)}
                     personinfo={personinfo}
                     vedtaksperiodeId={vedtaksperiodeId}
-                    onPostNotat={settPåVent}
+                    onSubmitOverride={settPåVent}
+                    notattype="PaaVent"
                 />
             )}
         </Container>

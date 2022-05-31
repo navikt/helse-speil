@@ -173,8 +173,8 @@ export const postOverstyrtArbeidsforhold = async (overstyring: OverstyrtArbeidsf
 export const postForespørPersonoppdatering = async (oppdatering: PersonoppdateringDTO) =>
     post(`${baseUrl}/person/oppdater`, oppdatering);
 
-export const postLeggPåVent = async (oppgavereferanse: string) =>
-    post(`${baseUrl}/leggpaavent/${oppgavereferanse}`, {});
+export const postLeggPåVent = async (oppgavereferanse: string, notat: NotatDTO) =>
+    post(`${baseUrl}/leggpaavent/${oppgavereferanse}`, notat);
 
 export const deletePåVent = async (oppgavereferanse: string) => del(`${baseUrl}/leggpaavent/${oppgavereferanse}`, {});
 

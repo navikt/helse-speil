@@ -71,4 +71,5 @@ export interface AuthError extends Error {
 
 export interface NotatDTO {
     tekst: string;
+    type?: 'PaaVent' | 'Retur' | 'Generelt';
 }

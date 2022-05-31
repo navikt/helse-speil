@@ -62,7 +62,7 @@ export const HistorikkWithContent: React.VFC<HistorikkWithContentProps> = React.
         const notaterForPeriode = isBeregnetPeriode(activePeriod) ? activePeriod.notater.map(toNotat) : [];
 
         const [showHistorikk, setShowHistorikk] = useShowHistorikkState();
-        const [showNotatListeModal, setShowNotatListeModal] = useState(false);
+        const [notattype, setNotattype] = useState<NotatType | null>(null);
         const [filter] = useFilterState();
 
         const [endring, setEndring] = useState<Overstyring | null>(null);
@@ -77,7 +77,7 @@ export const HistorikkWithContent: React.VFC<HistorikkWithContentProps> = React.
 
         useOppdaterHistorikk({
             periode: activePeriod,
-            onClickNotat: () => setShowNotatListeModal(true),
+            onClickNotat: (notattype: NotatType) => setNotattype(notattype),
             onClickOverstyringshendelse: setEndring,
         });
 
@@ -96,13 +96,14 @@ export const HistorikkWithContent: React.VFC<HistorikkWithContentProps> = React.
                         ))}
                     </ul>
                 </div>
-                {vedtaksperiodeId && showNotatListeModal && (
+                {vedtaksperiodeId && notattype && (
                     <NotatListeModal
                         notater={notaterForPeriode}
                         personinfo={personinfo}
                         vedtaksperiodeId={vedtaksperiodeId}
-                        onClose={() => setShowNotatListeModal(false)}
+                        onClose={() => setNotattype(null)}
                         erPåVent={tildeling?.reservert}
+                        notattype={notattype}
                     />
                 )}
                 {isDagoverstyring(endring) && (
