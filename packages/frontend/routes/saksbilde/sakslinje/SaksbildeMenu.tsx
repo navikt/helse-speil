@@ -11,6 +11,7 @@ import { useInnloggetSaksbehandler } from '@state/authentication';
 import { BeregnetPeriode } from '@io/graphql';
 import { isBeregnetPeriode, isGhostPeriode } from '@utils/typeguards';
 import { onLazyLoadFail } from '@utils/error';
+import { genereltNotat } from '@utils/featureToggles';
 import { useErBeslutteroppgaveOgErTidligereSaksbehandler } from '@hooks/useErBeslutteroppgaveOgErTidligereSaksbehandler';
 
 import { TabLink } from '../TabLink';
@@ -18,6 +19,9 @@ import { TabLink } from '../TabLink';
 import styles from './SaksbildeMenu.module.css';
 
 const PåVentDropdownMenuButton = React.lazy(() => import('./dropdown/PåVentDropdownMenuButton').catch(onLazyLoadFail));
+const SkrivGenereltNotatDropdownMenuButton = React.lazy(() =>
+    import('./dropdown/SkrivGenereltNotatDropdownMenuButton').catch(onLazyLoadFail),
+);
 const TildelingDropdownMenuButton = React.lazy(() =>
     import('./dropdown/TildelingDropdownMenuButton').catch(onLazyLoadFail),
 );
@@ -99,6 +103,12 @@ const SaksbildeMenuBeregnetPeriode = ({ activePeriod }: SaksbildeMenuBeregnetPer
                     <React.Suspense fallback={null}>
                         {activePeriod.oppgavereferanse && !erBeslutteroppgaveOgErTidligereSaksbehandler && (
                             <>
+                                {currentPerson !== null && personIsAssignedUser && genereltNotat && (
+                                    <SkrivGenereltNotatDropdownMenuButton
+                                        vedtaksperiodeId={activePeriod.vedtaksperiodeId}
+                                        personinfo={currentPerson.personinfo}
+                                    />
+                                )}
                                 <TildelingDropdownMenuButton
                                     oppgavereferanse={activePeriod.oppgavereferanse}
                                     erTildeltInnloggetBruker={personIsAssignedUser}

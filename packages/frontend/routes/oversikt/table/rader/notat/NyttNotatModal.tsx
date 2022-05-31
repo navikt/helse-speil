@@ -154,7 +154,7 @@ export const NyttNotatModal = ({
                         }}
                         render={({ field: { onChange, onBlur, value, name, ref }, fieldState: { error } }) => (
                             <Textarea
-                                label="Begrunnelse"
+                                label=""
                                 error={error?.message}
                                 description={notattekst.description}
                                 onChange={onChange}
