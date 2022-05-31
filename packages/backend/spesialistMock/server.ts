@@ -26,14 +26,17 @@ app.use((_req, res, next) => {
     next();
 });
 
-export const oppgaveTildelinger: { [oppgavereferanse: string]: string } = {
-    '2327': 'uuid',
-    '2274': 'uuid',
-};
+export const oppgaveTildelinger: { [oppgavereferanse: string]: string } = {};
 
-export const oppgaverPåVent: { [oppgavereferanse: string]: boolean } = {
-    '2274': true,
-};
+export const oppgaverPåVent: { [oppgavereferanse: string]: boolean } = {};
+
+export const oppgaverTrengerTotrinnsvurdering: { [oppgavereferanse: string]: boolean } = {};
+
+export const oppgaverTilBeslutter: { [oppgavereferanse: string]: boolean } = {};
+
+export const oppgaverTilRetur: { [oppgavereferanse: string]: boolean } = {};
+
+export const notater: { [vedtaksperiodereferanser: string]: SpesialistNotat[] } = {};
 
 interface SpesialistNotat {
     id: string;
@@ -45,6 +48,7 @@ interface SpesialistNotat {
     saksbehandlerIdent?: string;
     vedtaksperiodeId: string;
     feilregistrert: boolean;
+    type: 'PaaVent' | 'Retur' | 'Generelt';
 }
 
 const mockNotat: SpesialistNotat = {
@@ -57,59 +61,7 @@ const mockNotat: SpesialistNotat = {
     saksbehandlerIdent: 'E123456',
     vedtaksperiodeId: '87c0469c-16a5-4986-b756-7e4a7cdfcd71',
     feilregistrert: false,
-};
-
-const notater: { [vedtaksperiodereferanser: string]: SpesialistNotat[] } = {
-    '87c0469c-16a5-4986-b756-7e4a7cdfcd71': [
-        {
-            id: '123456',
-            tekst: 'Revidert utgave 2',
-            opprettet: '2021-02-01T23:04:09.454',
-            saksbehandlerOid: '12345668',
-            saksbehandlerNavn: 'Bernt Bjelle 2',
-            saksbehandlerEpost: 'bernt.bjelle@nav.no',
-            saksbehandlerIdent: 'E123456',
-            vedtaksperiodeId: '87c0469c-16a5-4986-b756-7e4a7cdfcd71',
-            feilregistrert: false,
-        },
-    ],
-    'aaaaaaaa-6541-4dcf-aa53-8b466fc4ac87': [
-        {
-            id: '1234567',
-            tekst: 'Revidert utgave 1',
-            opprettet: '2021-06-06T23:04:09.454',
-            saksbehandlerOid: '12345668',
-            saksbehandlerNavn: 'Bernt Bjelle 2',
-            saksbehandlerEpost: 'bernt.bjelle@nav.no',
-            saksbehandlerIdent: 'E123456',
-            vedtaksperiodeId: 'aaaaaaaa-6541-4dcf-aa53-8b466fc4ac87',
-            feilregistrert: false,
-        },
-        {
-            id: '12345678',
-            tekst: 'Revidert utgave 2',
-            opprettet: '2021-06-06T23:05:09.454',
-            saksbehandlerOid: '12345668',
-            saksbehandlerNavn: 'Bernt Bjelle 2',
-            saksbehandlerEpost: 'bernt.bjelle@nav.no',
-            saksbehandlerIdent: 'E123456',
-            vedtaksperiodeId: 'aaaaaaaa-6541-4dcf-aa53-8b466fc4ac87',
-            feilregistrert: false,
-        },
-    ],
-    '15694613-88ab-4490-a070-8a6bde970300': [
-        {
-            id: '12345678',
-            tekst: 'Revidert utgave 2',
-            opprettet: '2021-10-10T23:05:09.454',
-            saksbehandlerOid: '12345668',
-            saksbehandlerNavn: 'Bernt Bjelle 2',
-            saksbehandlerEpost: 'bernt.bjelle@nav.no',
-            saksbehandlerIdent: 'E123456',
-            vedtaksperiodeId: '15694613-88ab-4490-a070-8a6bde970300',
-            feilregistrert: false,
-        },
-    ],
+    type: 'PaaVent',
 };
 
 const personer: { [aktørId: string]: string } = oppgaveFil
@@ -154,6 +106,7 @@ app.delete('/api/tildeling/:oppgavereferanse', (req: Request, res: Response) => 
 
 app.post('/api/leggpaavent/:oppgaveReferanse', (req: Request, res: Response) => {
     const oppgavereferanse = req.params.oppgaveReferanse;
+    const notatDto = req.body;
     oppgaverPåVent[oppgavereferanse] = true;
     res.sendStatus(200);
 });
@@ -205,6 +158,22 @@ app.get('/api/notater', (req: Request, res: Response) => {
         response[string_ref] = notater[string_ref] ?? [];
     });
     res.send(response);
+});
+
+app.post('/api/totrinnsvurdering/retur', (req: Request, res: Response) => {
+    // mangler å legge til returnotat
+    const oppgavereferanse = req.body.oppgavereferanse;
+    oppgaverTilRetur[oppgavereferanse] = true;
+    oppgaverTilBeslutter[oppgavereferanse] = false;
+    res.sendStatus(200);
+});
+
+app.post('/api/totrinnsvurdering', (req: Request, res: Response) => {
+    // mangler å legge til periodehistorikk
+    const oppgavereferanse = req.body.oppgavereferanse;
+    oppgaverTilRetur[oppgavereferanse] = false;
+    oppgaverTilBeslutter[oppgavereferanse] = true;
+    res.sendStatus(200);
 });
 
 app.get('/api/mock/personstatus/:aktorId', (req: Request, res: Response) => {

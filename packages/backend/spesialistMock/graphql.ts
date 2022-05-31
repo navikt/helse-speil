@@ -9,32 +9,59 @@ import { IResolvers } from '@graphql-tools/utils';
 
 import spesialistSchema from '../graphql.schema.json';
 import { NotFoundError } from './errors';
-import { oppgaverPåVent, oppgaveTildelinger } from './server';
+import { oppgaverPåVent, oppgaverTilBeslutter, oppgaverTilRetur, oppgaveTildelinger } from './server';
 
-const leggTilTildeling = (person: any) => {
-    let erTildelt = false;
-    let erPåVent = false;
+const leggTilLagretData = (person: any) => {
+    let tildeling = person.tildeling;
 
-    person.arbeidsgivere.map((arbeidsgiver: any) => {
-        arbeidsgiver.generasjoner.map((generasjon: any) => {
-            generasjon.perioder.map((periode: any) => {
-                erTildelt = periode.oppgavereferanse && oppgaveTildelinger[periode.oppgavereferanse];
-                erPåVent = periode.oppgavereferanse && oppgaverPåVent[periode.oppgavereferanse];
-            });
-        });
-    });
+    const modifisertPerson = {
+        ...person,
+        arbeidsgivere: person.arbeidsgivere.map((arbeidsgiver: any) => {
+            return {
+                ...arbeidsgiver,
+                generasjoner: arbeidsgiver.generasjoner.map((generasjon: any) => {
+                    return {
+                        ...generasjon,
+                        perioder: generasjon.perioder.map((periode: any) => {
+                            const erTildelt =
+                                periode.oppgavereferanse && oppgaveTildelinger[periode.oppgavereferanse] !== undefined;
+                            const erPåVent =
+                                periode.oppgavereferanse &&
+                                oppgaverPåVent[periode.oppgavereferanse] !== undefined &&
+                                oppgaverPåVent[periode.oppgavereferanse];
 
-    const tildeling = erTildelt
-        ? {
-              epost: 'epost@nav.no',
-              navn: 'Utvikler, Lokal',
-              oid: 'uuid',
-              reservert: erPåVent ?? false,
-          }
-        : person.tildeling;
+                            if (erTildelt) {
+                                tildeling = {
+                                    epost: 'epost@nav.no',
+                                    navn: 'Utvikler, Lokal',
+                                    oid: 'uuid',
+                                    reservert: erPåVent ?? false,
+                                };
+                            }
+
+                            const erBeslutterOppgave =
+                                periode.oppgavereferanse && oppgaverTilBeslutter[periode.oppgavereferanse] !== undefined
+                                    ? oppgaverTilBeslutter[periode.oppgavereferanse]
+                                    : periode.erBeslutterOppgave;
+                            const erReturOppgave =
+                                periode.oppgavereferanse && oppgaverTilRetur[periode.oppgavereferanse] !== undefined
+                                    ? oppgaverTilRetur[periode.oppgavereferanse]
+                                    : periode.erReturOppgave;
+
+                            return {
+                                ...periode,
+                                erBeslutterOppgave,
+                                erReturOppgave,
+                            };
+                        }),
+                    };
+                }),
+            };
+        }),
+    };
 
     return {
-        ...person,
+        ...modifisertPerson,
         tildeling,
     };
 };
@@ -47,7 +74,7 @@ const fetchPersondata = (): Record<string, JSON> => {
         return JSON.parse(raw);
     });
     return files.reduce((data, file) => {
-        const person = leggTilTildeling(file.data.person);
+        const person = leggTilLagretData(file.data.person);
         return {
             ...data,
             [person.aktorId]: person,
