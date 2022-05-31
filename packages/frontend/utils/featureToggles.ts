@@ -108,6 +108,9 @@ const tilgangStikkprøver = [
     'F140836',
     'H104215',
     'S109031',
+    'O123659',
+    'S160466',
+    'K104953',
 ];
 
 const utvidetTilganger = [
