@@ -87,7 +87,7 @@ export default ({ vedtakClient, annulleringClient, totrinnsvurderingClient }: Se
 
     router.post('/totrinnsvurdering', (req: SpeilRequest, res: Response) => {
         logger.info(
-            `Sender til totrinnsvurdering for oppgavereferanse ${req.body.oppgavereferanse} og periodeId: ${req.body.oppgaveId}`
+            `Sender til totrinnsvurdering for oppgavereferanse ${req.body.oppgavereferanse} og periodeId: ${req.body.periodeId}`
         );
         totrinnsvurderingClient
             .totrinnsvurdering(req.session!.speilToken, {
@@ -104,7 +104,7 @@ export default ({ vedtakClient, annulleringClient, totrinnsvurderingClient }: Se
 
     router.post('/totrinnsvurdering/retur', (req: SpeilRequest, res: Response) => {
         logger.info(
-            `Sender beslutteroppgave i retur for oppgavereferanse ${req.body.oppgavereferanse} og periodeId: ${req.body.oppgaveId}`
+            `Sender beslutteroppgave i retur for oppgavereferanse ${req.body.oppgavereferanse} og periodeId: ${req.body.periodeId}`
         );
         totrinnsvurderingClient
             .beslutteroppgaveretur(req.session!.speilToken, {
