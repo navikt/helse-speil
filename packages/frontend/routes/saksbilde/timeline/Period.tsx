@@ -25,6 +25,12 @@ const shouldShowInfoPin = (period: DatePeriod): boolean => {
     return false;
 };
 
+const shouldShowNotatPin = (period: DatePeriod): boolean => {
+    if (!isBeregnetPeriode(period)) return false;
+
+    return period.notater.filter((notat) => notat.type === 'Generelt').length > 0;
+};
+
 interface PeriodProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
     period: DatePeriod;
     notCurrent?: boolean;
@@ -61,7 +67,11 @@ export const Period: React.VFC<PeriodProps> = ({ period, notCurrent, isActive, .
                 onMouseOut={onMouseOut}
                 onClick={onClick}
             >
-                {!notCurrent && shouldShowInfoPin(period) && <div className={styles.InfoPin} />}
+                {shouldShowNotatPin(period) ? (
+                    <div className={styles.NotatPin} />
+                ) : (
+                    !notCurrent && shouldShowInfoPin(period) && <div className={styles.InfoPin} />
+                )}
             </button>
             <PeriodPopover period={period} state={periodState} {...popoverProps} />
         </>

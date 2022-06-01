@@ -70,6 +70,41 @@
     transform: translateX(-50%);
 }
 
+.NotatPin {
+    position: absolute;
+    width: 2px;
+    height: 6px;
+    background: var(--navds-semantic-color-interaction-primary);
+    left: 50%;
+    top: -7px;
+    transform: translateX(-50%);
+    pointer-events: none;
+}
+
+.NotatPin:before {
+    content: '';
+    position: absolute;
+    top: -10px;
+    left: 50%;
+    width: 12px;
+    height: 12px;
+    border-radius: 10px;
+    border: 2px solid var(--navds-semantic-color-interaction-primary);
+    transform: translateX(-50%);
+}
+
+.NotatPin:after {
+    content: '';
+    position: absolute;
+    top: -6px;
+    left: 50%;
+    width: 4px;
+    height: 4px;
+    border-radius: 10px;
+    background-color: var(--navds-semantic-color-interaction-primary);
+    transform: translateX(-50%);
+}
+
 /*Farger*/
 
 .Period.attention {
