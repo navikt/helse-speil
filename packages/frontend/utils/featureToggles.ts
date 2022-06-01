@@ -263,7 +263,7 @@ export const defaultUtbetalingToggles: UtbetalingToggles = {
 // @ts-ignore
 export const overstyrInntektEnabled = overstyreUtbetaltPeriodeEnabled;
 
-export const erBeslutter = extractGroups().includes(groupIdForBesluttere);
+export const erBeslutter = extractGroups().includes(groupIdForBesluttere) || erDev() || erLocal();
 export const totrinnsvurdering = erLocal() || erDev() || erUtvikler();
 export const erBeslutterOppgave = erLocal() || erDev() || erUtvikler();
 export const genereltNotat = erLocal() || erDev() || erUtvikler();
