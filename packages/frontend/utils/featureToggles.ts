@@ -263,7 +263,9 @@ export const defaultUtbetalingToggles: UtbetalingToggles = {
 // @ts-ignore
 export const overstyrInntektEnabled = overstyreUtbetaltPeriodeEnabled;
 
-export const erBeslutter = extractGroups().includes(groupIdForBesluttere) || erDev() || erLocal();
-export const totrinnsvurdering = erLocal() || erDev() || erUtvikler();
-export const erBeslutterOppgave = erLocal() || erDev() || erUtvikler();
+const jonas = 'H159657';
+const kanTesteTotrinnsIDev = [jonas].includes(extractIdent());
+export const erBeslutter = extractGroups().includes(groupIdForBesluttere);
+export const totrinnsvurdering = erLocal() || (erDev() && kanTesteTotrinnsIDev);
+export const erBeslutterOppgave = erLocal() || (erDev() && kanTesteTotrinnsIDev);
 export const genereltNotat = erLocal() || erDev() || erUtvikler();
