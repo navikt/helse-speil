@@ -96,15 +96,9 @@ const leggTilNotat = (vedtaksperiodeId: string, overrides: any) => {
 };
 
 app.post('/api/tildeling/:oppgavereferanse', (req: Request, res: Response) => {
-    sleep(passeLenge()).then(() => {
-        if (Math.random() < 1) {
-            const oppgavereferanse = req.params.oppgavereferanse;
-            oppgaveTildelinger[oppgavereferanse] = 'uuid';
-            res.sendStatus(200);
-        } else {
-            res.status(409).json(feilresponsForTildeling);
-        }
-    });
+    const oppgavereferanse = req.params.oppgavereferanse;
+    oppgaveTildelinger[oppgavereferanse] = 'uuid';
+    res.sendStatus(200);
 });
 
 app.delete('/api/tildeling/:oppgavereferanse', (req: Request, res: Response) => {
@@ -173,10 +167,11 @@ app.get('/api/notater', (req: Request, res: Response) => {
 });
 
 app.post('/api/totrinnsvurdering/retur', (req: Request, res: Response) => {
+    // mangler å sette tidligereSaksbehandlerOid
+
     const oppgavereferanse = req.body.oppgavereferanse;
     oppgaverTilRetur[oppgavereferanse] = true;
     oppgaverTilBeslutter[oppgavereferanse] = false;
-
     leggTilNotat(oppgavereferanse, {
         vedtaksperiodeId: oppgavereferanse,
         tekst: req.body.tekst,
@@ -187,6 +182,7 @@ app.post('/api/totrinnsvurdering/retur', (req: Request, res: Response) => {
 
 app.post('/api/totrinnsvurdering', (req: Request, res: Response) => {
     // mangler å legge til periodehistorikk
+    // mangler å sette tidligereSaksbehandlerOid
     const oppgavereferanse = req.body.oppgavereferanse;
     oppgaverTilRetur[oppgavereferanse] = false;
     oppgaverTilBeslutter[oppgavereferanse] = true;
