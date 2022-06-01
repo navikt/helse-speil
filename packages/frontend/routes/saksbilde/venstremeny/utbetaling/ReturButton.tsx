@@ -7,7 +7,8 @@ import { postSendTilbakeTilSaksbehandler } from '@io/http';
 import { Scopes, useAddEphemeralVarsel } from '@state/varsler';
 
 import { AmplitudeContext } from '../../AmplitudeContext';
-import { ReturModal, Returskjema } from './ReturModal';
+import { NyttNotatModal } from '../../../oversikt/table/rader/notat/NyttNotatModal';
+import { useCurrentPerson } from '@state/person';
 
 const useAddInfotrygdtoast = () => {
     const timeToLiveMs = 5000;
@@ -44,15 +45,23 @@ export const ReturButton: React.VFC<ReturButtonProps> = ({
     const [isSending, setIsSending] = useState(false);
 
     const addInfotrygdtoast = useAddInfotrygdtoast();
+    const person = useCurrentPerson();
     const amplitude = useContext(AmplitudeContext);
 
     const closeModal = () => setShowModal(false);
 
-    const returnerUtbetaling = (skjema: Returskjema) => {
-        setIsSending(true);
-        const notat: string = skjema.notat;
+    if (!person) {
+        return null;
+    }
+    const personinfo = person.personinfo;
 
-        postSendTilbakeTilSaksbehandler(activePeriod.oppgavereferanse!, activePeriod.id, notat)
+    const returnerUtbetaling = (notattekst: string) => {
+        setIsSending(true);
+
+        postSendTilbakeTilSaksbehandler(activePeriod.oppgavereferanse!, activePeriod.id, {
+            tekst: notattekst,
+            type: 'Retur',
+        })
             .then(() => {
                 amplitude.logTotrinnsoppgaveReturnert();
                 addInfotrygdtoast();
@@ -78,7 +87,15 @@ export const ReturButton: React.VFC<ReturButtonProps> = ({
             >
                 Returner
             </Button>
-            {showModal && <ReturModal onClose={closeModal} onApprove={returnerUtbetaling} isSending={isSending} />}
+            {showModal && (
+                <NyttNotatModal
+                    onClose={() => setShowModal(false)}
+                    personinfo={personinfo}
+                    vedtaksperiodeId={activePeriod.vedtaksperiodeId}
+                    onSubmitOverride={returnerUtbetaling}
+                    notattype="Retur"
+                />
+            )}
         </>
     );
 };

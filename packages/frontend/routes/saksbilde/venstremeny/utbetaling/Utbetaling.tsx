@@ -100,7 +100,7 @@ export const Utbetaling = ({ activePeriod, currentPerson }: UtbetalingProps) => 
     return (
         <>
             <div className={styles.Buttons}>
-                {trengerTotrinnsvurdering ? (
+                {trengerTotrinnsvurdering && !isBeslutterOppgave ? (
                     <SendTilGodkjenningButton
                         oppgavereferanse={activePeriod.oppgavereferanse!}
                         periodeId={activePeriod.id}

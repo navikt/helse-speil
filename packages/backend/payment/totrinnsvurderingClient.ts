@@ -1,6 +1,6 @@
 import request from 'request-promise-native';
 
-import { OidcConfig, OnBehalfOf } from '../types';
+import { NotatDTO, OidcConfig, OnBehalfOf } from '../types';
 import config from '../config';
 
 const spesialistBaseUrl = config.server.spesialistBaseUrl;
@@ -12,7 +12,7 @@ export interface PostTotrinnsvurderingParams {
 export interface PostBeslutteroppgaveReturParams {
     oppgavereferanse: string;
     periodeId: string;
-    notat: string;
+    notat: NotatDTO;
 }
 
 export interface TotrinnsvurderingClient {

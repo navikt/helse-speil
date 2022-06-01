@@ -59,6 +59,7 @@ interface Notattekster {
     tittel: string;
     description: string;
     submitTekst: string;
+    errorTekst?: string;
 }
 
 const notattypeTekster = (notattype: NotatType): Notattekster => {
@@ -76,6 +77,7 @@ const notattypeTekster = (notattype: NotatType): Notattekster => {
                 description:
                     'Skriv hvorfor saken returneres, så det er enkelt å forstå hva som må vurderes og gjøres om.\nEksempel: Ferie for 01.07.2022 må korrigeres.\nBlir ikke forevist den sykmeldte, med mindre den sykmeldte ber om innsyn.',
                 submitTekst: 'Returner',
+                errorTekst: 'Du må skrive et returnotat hvis du vil sende oppgaven i retur til saksbehandler.',
             };
         default:
             return {
@@ -149,10 +151,10 @@ export const NyttNotatModal = ({
                         control={form.control}
                         name="tekst"
                         rules={{
-                            required: 'Begrunnelse må fylles ut',
+                            required: notattekst.errorTekst ?? 'Notat må fylles ut',
                             maxLength: {
-                                value: 100,
-                                message: 'Det er kun tillatt med 100 tegn',
+                                value: 500,
+                                message: 'Det er kun tillatt med 500 tegn',
                             },
                         }}
                         render={({ field: { onChange, onBlur, value, name, ref }, fieldState: { error } }) => (
@@ -165,7 +167,7 @@ export const NyttNotatModal = ({
                                 value={value ?? ''}
                                 name={name}
                                 ref={ref}
-                                maxLength={100}
+                                maxLength={500}
                                 autoFocus
                             />
                         )}

@@ -168,14 +168,13 @@ app.get('/api/notater', (req: Request, res: Response) => {
 
 app.post('/api/totrinnsvurdering/retur', (req: Request, res: Response) => {
     // mangler å sette tidligereSaksbehandlerOid
-
     const oppgavereferanse = req.body.oppgavereferanse;
     oppgaverTilRetur[oppgavereferanse] = true;
     oppgaverTilBeslutter[oppgavereferanse] = false;
     leggTilNotat(oppgavereferanse, {
         vedtaksperiodeId: oppgavereferanse,
-        tekst: req.body.tekst,
-        type: req.body.type,
+        tekst: req.body.notat.tekst,
+        type: req.body.notat.type,
     });
     res.sendStatus(200);
 });
