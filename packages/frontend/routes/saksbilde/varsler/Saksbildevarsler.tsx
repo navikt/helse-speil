@@ -13,8 +13,8 @@ type VarselObject = {
     melding: string;
 };
 
-const tilgangInfoVarsel = (erBeslutterOppgave?: boolean): VarselObject | null => {
-    if (erBeslutterOppgave && !erBeslutter) {
+const tilgangInfoVarsel = (beslutterOppgaveIsEnabled?: boolean): VarselObject | null => {
+    if (beslutterOppgaveIsEnabled) {
         return { grad: 'info', melding: 'Saken er sendt til beslutter, du har ikke tilgang' };
     }
     return null;
@@ -79,17 +79,17 @@ interface SaksbildevarslerProps {
     periodState: PeriodState;
     oppgavereferanse?: Maybe<string>;
     varsler?: Maybe<Array<string>>;
-    erBeslutterOppgave?: boolean;
+    beslutterOppgaveIsEnabled?: boolean;
 }
 
 export const Saksbildevarsler = ({
     periodState,
     oppgavereferanse,
     varsler,
-    erBeslutterOppgave,
+    beslutterOppgaveIsEnabled,
 }: SaksbildevarslerProps) => {
     const infoVarsler: VarselObject[] = [
-        tilgangInfoVarsel(erBeslutterOppgave),
+        tilgangInfoVarsel(beslutterOppgaveIsEnabled),
         tilstandInfoVarsel(periodState),
         utbetalingsvarsel(periodState),
         vedtaksperiodeVenterVarsel(periodState),

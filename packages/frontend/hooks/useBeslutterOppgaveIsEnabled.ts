@@ -9,5 +9,7 @@ export const useBeslutterOppgaveIsEnabled = (): boolean => {
         return false;
     }
 
+    // Når vi skrur på toggle kan vi bytte ut erBeslutterOppgave med erBeslutter
+
     return erBeslutterOppgave && periode.erBeslutterOppgave;
 };
