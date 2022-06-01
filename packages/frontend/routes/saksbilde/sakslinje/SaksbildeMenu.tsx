@@ -103,7 +103,7 @@ const SaksbildeMenuBeregnetPeriode = ({ activePeriod }: SaksbildeMenuBeregnetPer
                     <React.Suspense fallback={null}>
                         {activePeriod.oppgavereferanse && !erBeslutteroppgaveOgErTidligereSaksbehandler && (
                             <>
-                                {currentPerson !== null && personIsAssignedUser && genereltNotat && (
+                                {currentPerson !== null && genereltNotat && (
                                     <SkrivGenereltNotatDropdownMenuButton
                                         vedtaksperiodeId={activePeriod.vedtaksperiodeId}
                                         personinfo={currentPerson.personinfo}
