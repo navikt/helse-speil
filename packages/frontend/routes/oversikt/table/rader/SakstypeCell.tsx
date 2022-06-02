@@ -45,7 +45,7 @@ export const SakstypeCell = React.memo(({ type, erReturOppgave, erBeslutterOppga
     <Cell>
         <CellContent width={130}>
             <Flex alignItems="center">
-                <Oppgaveetikett type={type} />
+                <Oppgaveetikett type={type} erReturOppgave={erReturOppgave} erBeslutterOppgave={erBeslutterOppgave} />
                 <BodyShort style={{ marginLeft: '12px' }}>
                     {getLabel(type, erReturOppgave, erBeslutterOppgave)}
                 </BodyShort>

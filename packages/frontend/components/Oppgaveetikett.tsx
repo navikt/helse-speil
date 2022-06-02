@@ -48,6 +48,24 @@ const ForlengelseEtikett = styled(Etikett)`
     }
 `;
 
+const BeslutterEtikett = styled(Etikett)`
+    background: var(--speil-etikett-beslutter-background);
+    border: 1px solid var(--speil-etikett-beslutter-border);
+
+    :before {
+        content: 'B';
+    }
+`;
+
+const ReturEtikett = styled(Etikett)`
+    background: var(--speil-etikett-retur-background);
+    border: 1px solid var(--speil-etikett-retur-border);
+
+    :before {
+        content: 'B';
+    }
+`;
+
 const FørstegangsbehandlingEtikett = styled(Etikett)`
     background: var(--speil-etikett-forstegangs-background);
     border: 1px solid var(--speil-etikett-forstegangs-border);
@@ -113,10 +131,20 @@ const DelvisRefusjonEtikett = styled(Etikett)`
 
 interface OppgaveetikettProps extends EtikettProps {
     type: Periodetype | GraphQLPeriodetype | 'REVURDERING';
+    erBeslutterOppgave?: boolean;
+    erReturOppgave?: boolean;
     tilstand?: PeriodState;
 }
 
-export const Oppgaveetikett = ({ type, tilstand, størrelse = 'l' }: OppgaveetikettProps) => {
+export const Oppgaveetikett = ({
+    type,
+    tilstand,
+    erBeslutterOppgave = false,
+    erReturOppgave = false,
+    størrelse = 'l',
+}: OppgaveetikettProps) => {
+    if (erBeslutterOppgave) return <BeslutterEtikett størrelse={størrelse} />;
+    if (erReturOppgave) return <ReturEtikett størrelse={størrelse} />;
     switch (type) {
         case 'førstegangsbehandling':
         case 'FORSTEGANGSBEHANDLING':
