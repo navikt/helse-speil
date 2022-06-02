@@ -1,7 +1,7 @@
 import { atom, selector, useRecoilValue, useSetRecoilState } from 'recoil';
 
 import { tabState, TabType } from '../../tabs';
-import { beslutteroppgaveAktiv, harBeslutterRolle, utbetalingTilSykmeldt } from '@utils/featureToggles';
+import { utbetalingTilSykmeldt } from '@utils/featureToggles';
 
 export type Filter<T> = {
     key: string;
@@ -76,14 +76,14 @@ const defaultFilters: Filter<Oppgave>[] = [
     {
         key: 'BESLUTTER',
         label: 'Beslutter',
-        active: beslutteroppgaveAktiv && harBeslutterRolle,
+        active: false,
         function: (oppgave: Oppgave) => oppgave.erBeslutterOppgave,
         column: 1,
     },
     {
         key: 'RETUR',
         label: 'Retur',
-        active: beslutteroppgaveAktiv,
+        active: false,
         function: (oppgave: Oppgave) => oppgave.erReturOppgave,
         column: 1,
     },
