@@ -89,7 +89,7 @@ interface MånedsbeløpRowProps {
 
 const MånedsbeløpRow: React.VFC<MånedsbeløpRowProps> = ({ månedsbeløp }) => {
     return (
-        <Flex flexDirection="row" justifyContent="space-between">
+        <Flex flexDirection="row" justifyContent="space-between" alignItems="center">
             <BodyShort>Månedsbeløp:</BodyShort>
             {somPenger(månedsbeløp)}
         </Flex>
