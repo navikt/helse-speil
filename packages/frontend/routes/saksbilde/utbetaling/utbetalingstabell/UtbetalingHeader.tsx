@@ -79,8 +79,8 @@ export const UtbetalingHeader: React.FC<UtbetalingHeaderProps> = ({
                 <InfobobleContainer>
                     <PopoverHjelpetekst ikon={<SortInfoikon />}>
                         <p>
-                            Det er foreløpig ikke mulig å gjøre endringer i sykdomstidslinjen, når hele perioden består
-                            av avslåtte dager og/eller arbeidsgiverperiodedager
+                            Det er foreløpig ikke mulig å gjøre endringer når hele perioden består av avslåtte dager
+                            og/eller arbeidsgiverperiodedager
                         </p>
                     </PopoverHjelpetekst>
                 </InfobobleContainer>
@@ -88,8 +88,7 @@ export const UtbetalingHeader: React.FC<UtbetalingHeaderProps> = ({
                 <InfobobleContainer>
                     <PopoverHjelpetekst ikon={<SortInfoikon />}>
                         <p>
-                            Sykdomstidslinjen kan ikke endres. Det er foreløpig ikke støtte for endringer i saker som
-                            har vært delvis behandlet i Infotrygd
+                            Det er foreløpig ikke støtte for endringer i saker som har vært delvis behandlet i Infotrygd
                         </p>
                     </PopoverHjelpetekst>
                 </InfobobleContainer>
