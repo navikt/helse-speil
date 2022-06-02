@@ -104,16 +104,7 @@ const tilgangFlereArbeidsgivere = [
     // Klageinstansen end
 ];
 
-const tilgangStikkprøver = [
-    'F140836',
-    'H104215',
-    'S109031',
-    'O123659',
-    'S160466',
-    'K104953',
-    'J153777',
-    'V149621',
-];
+const tilgangStikkprøver = ['F140836', 'H104215', 'S109031', 'O123659', 'S160466', 'K104953', 'J153777', 'V149621'];
 
 const utvidetTilganger = [
     ...faktiskSupportsaksbehandlere,
@@ -272,8 +263,11 @@ export const defaultUtbetalingToggles: UtbetalingToggles = {
 // @ts-ignore
 export const overstyrInntektEnabled = overstyreUtbetaltPeriodeEnabled;
 
-const jonas = 'H159657';
-const kanTesteTotrinnsIDev = [jonas].includes(extractIdent());
+const jonasNavIdent = 'H159657';
+const joakimNavIdent = 'K143566';
+const sindreNavIdent = 'B159939';
+
+const kanTesteTotrinnsIDev = [jonasNavIdent, joakimNavIdent, sindreNavIdent].includes(extractIdent());
 export const erBeslutter = extractGroups().includes(groupIdForBesluttere);
 export const totrinnsvurdering = erLocal() || (erDev() && kanTesteTotrinnsIDev);
 export const erBeslutterOppgave = erLocal() || (erDev() && kanTesteTotrinnsIDev);
