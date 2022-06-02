@@ -196,6 +196,16 @@ app.get('/api/mock/personstatus/:aktorId', (req: Request, res: Response) => {
     res.send(oid ? { påVent, oid, epost: 'dev@nav.no', navn: 'dev' } : undefined);
 });
 
+app.get('/api/mock/erbeslutteroppgave/:oppgavereferanse', (req: Request, res: Response) => {
+    const oppgavereferanse = req.params.oppgavereferanse;
+    res.send(oppgaverTilBeslutter[oppgavereferanse]);
+});
+
+app.get('/api/mock/erreturoppgave/:oppgavereferanse', (req: Request, res: Response) => {
+    const oppgavereferanse = req.params.oppgavereferanse;
+    res.send(oppgaverTilRetur[oppgavereferanse]);
+});
+
 setupGraphQLMiddleware(app);
 
 app.listen(port, () => console.log(`Spesialist-mock kjører på port ${port}`));

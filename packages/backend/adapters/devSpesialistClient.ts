@@ -10,7 +10,9 @@ const devSpesialistClient = (_: Instrumentation): SpesialistClient => ({
         const oppgaver = await Promise.all(
             JSON.parse(fromFile).map(async (oppgave: ExternalOppgave) => {
                 const tildeling = await hentPersonStatus(oppgave.aktørId);
-                return { ...oppgave, tildeling };
+                const erBeslutterOppgave = await hentErBeslutterOppgave(oppgave.oppgavereferanse);
+                const erReturOppgave = await hentErReturOppgave(oppgave.oppgavereferanse);
+                return { ...oppgave, tildeling, erBeslutterOppgave, erReturOppgave };
             })
         );
         return Promise.resolve({
@@ -94,6 +96,25 @@ const hentPersonStatus = async (aktørId: string): Promise<any> => {
         uri: `http://localhost:9001/api/mock/personstatus/${aktørId}`,
         resolveWithFullResponse: true,
     };
+    return await hentMockdata(options);
+};
+
+const hentErBeslutterOppgave = async (oppgavereferanse: string): Promise<any> => {
+    const options = {
+        uri: `http://localhost:9001/api/mock/erbeslutteroppgave/${oppgavereferanse}`,
+        resolveWithFullResponse: true,
+    };
+    return await hentMockdata(options);
+};
+const hentErReturOppgave = async (oppgavereferanse: string): Promise<any> => {
+    const options = {
+        uri: `http://localhost:9001/api/mock/erreturoppgave/${oppgavereferanse}`,
+        resolveWithFullResponse: true,
+    };
+    return await hentMockdata(options);
+};
+
+const hentMockdata = async (options: any): Promise<any> => {
     try {
         const res = await request.get(options);
         return JSON.parse(res.body);

@@ -38,4 +38,8 @@ declare type ExternalOppgave = {
     };
     inntektskilde?: 'EN_ARBEIDSGIVER' | 'FLERE_ARBEIDSGIVERE';
     tildeling?: ExternalTildeling;
+    erBeslutterOppgave: boolean;
+    erReturOppgave: boolean;
+    trengerTotrinnsvurdering: boolean;
+    tidligereSaksbehandlerOid: string;
 };
