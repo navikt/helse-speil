@@ -35,6 +35,8 @@ export const oppgaverTilBeslutter: { [oppgavereferanse: string]: boolean } = {};
 
 export const oppgaverTilRetur: { [oppgavereferanse: string]: boolean } = {};
 
+export const tidligereSaksbehandlerForOppgave: { [oppgavereferanse: string]: string } = {};
+
 export const vedtaksperiodenotater: { [vedtaksperiodereferanser: string]: SpesialistNotat[] } = {};
 
 interface SpesialistNotat {
@@ -171,6 +173,8 @@ app.post('/api/totrinnsvurdering/retur', (req: Request, res: Response) => {
     const oppgavereferanse = req.body.oppgavereferanse;
     oppgaverTilRetur[oppgavereferanse] = true;
     oppgaverTilBeslutter[oppgavereferanse] = false;
+    if (tidligereSaksbehandlerForOppgave[oppgavereferanse] === 'uuid') oppgaveTildelinger[oppgavereferanse] = 'uuid';
+    tidligereSaksbehandlerForOppgave[oppgavereferanse] = 'uuid';
     leggTilNotat(oppgavereferanse, {
         vedtaksperiodeId: oppgavereferanse,
         tekst: req.body.notat.tekst,
@@ -185,6 +189,8 @@ app.post('/api/totrinnsvurdering', (req: Request, res: Response) => {
     const oppgavereferanse = req.body.oppgavereferanse;
     oppgaverTilRetur[oppgavereferanse] = false;
     oppgaverTilBeslutter[oppgavereferanse] = true;
+    if (tidligereSaksbehandlerForOppgave[oppgavereferanse] === 'uuid') oppgaveTildelinger[oppgavereferanse] = 'uuid';
+    tidligereSaksbehandlerForOppgave[oppgavereferanse] = 'uuid';
     res.sendStatus(200);
 });
 
