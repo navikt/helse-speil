@@ -88,8 +88,8 @@ export const UtbetalingHeader: React.FC<UtbetalingHeaderProps> = ({
                 <InfobobleContainer>
                     <PopoverHjelpetekst ikon={<SortInfoikon />}>
                         <p>
-                            Kan ikke endre sykdomstidslinjen, det er foreløpig ikke støtte for endringer i saker som har
-                            vært delvis behandlet i Infotrygd
+                            Sykdomstidslinjen kan ikke endres. Det er foreløpig ikke støtte for endringer i saker som
+                            har vært delvis behandlet i Infotrygd
                         </p>
                     </PopoverHjelpetekst>
                 </InfobobleContainer>
