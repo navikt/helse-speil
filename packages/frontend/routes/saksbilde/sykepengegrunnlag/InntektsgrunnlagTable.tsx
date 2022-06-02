@@ -5,9 +5,10 @@ import { BodyShort } from '@navikt/ds-react';
 import { FlexColumn } from '@components/Flex';
 import { Bold } from '@components/Bold';
 import { somPenger } from '@utils/locale';
-import { Arbeidsgiverinntekt } from '@io/graphql';
+import { Arbeidsgiverinntekt, Sykepengegrunnlagsgrense } from '@io/graphql';
 
 import { Inntektssammenligning } from './Inntektssammenligning';
+import { SykepengegrunnlagsgrenseView } from './SykepengegrunnlagsgrenseView';
 
 const Container = styled(FlexColumn)`
     --fixed-column-width: 14rem;
@@ -76,6 +77,7 @@ interface InntektsgrunnlaginnholdProps {
     sykepengegrunnlag: number;
     setAktivInntektskilde: Dispatch<SetStateAction<Arbeidsgiverinntekt>>;
     aktivInntektskilde?: Arbeidsgiverinntekt;
+    sykepengegrunnlagsgrense: Sykepengegrunnlagsgrense;
 }
 
 export const InntektsgrunnlagTable = ({
@@ -86,6 +88,7 @@ export const InntektsgrunnlagTable = ({
     sykepengegrunnlag,
     setAktivInntektskilde,
     aktivInntektskilde,
+    sykepengegrunnlagsgrense,
 }: InntektsgrunnlaginnholdProps) => {
     return (
         <Container className="Inntektsgunnlaginnhold">
@@ -139,7 +142,7 @@ export const InntektsgrunnlagTable = ({
                     </tr>
                 </tfoot>
             </Table>
-            <Table>
+            <Table style={{ marginBottom: '0' }}>
                 <tbody>
                     <tr>
                         <td>
@@ -169,13 +172,25 @@ export const InntektsgrunnlagTable = ({
                             </BoldRightAligned>
                         </td>
                     </tr>
+                    <br />
+                    <br />
                     <tr>
-                        <td>
+                        <td style={{ paddingBottom: 0 }}>
                             <Bold>Sykepengegrunnlag</Bold>
                         </td>
-                        <td>
+                        <td style={{ paddingBottom: 0 }}>
                             <BoldRightAligned>{somPenger(sykepengegrunnlag)}</BoldRightAligned>
                         </td>
+                    </tr>
+                    <tr>
+                        {omregnetÅrsinntekt != null && (
+                            <td colSpan={4} style={{ paddingTop: 0 }}>
+                                <SykepengegrunnlagsgrenseView
+                                    sykepengegrunnlagsgrense={sykepengegrunnlagsgrense}
+                                    omregnetÅrsinntekt={omregnetÅrsinntekt}
+                                />
+                            </td>
+                        )}
                     </tr>
                 </tfoot>
             </Table>

@@ -64,6 +64,7 @@ export const SykepengegrunnlagFraSpleis = ({
                 sykepengegrunnlag={vilkårsgrunnlag.sykepengegrunnlag}
                 setAktivInntektskilde={setAktivInntektskilde}
                 aktivInntektskilde={aktivInntektskilde}
+                sykepengegrunnlagsgrense={vilkårsgrunnlag.sykepengegrunnlagsgrense}
             />
             <Strek />
             <Inntektskilderinnhold

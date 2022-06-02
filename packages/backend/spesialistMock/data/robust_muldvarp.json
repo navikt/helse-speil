@@ -266,7 +266,12 @@
                             "oppfyllerKravOmOpptjening": true,
                             "antallOpptjeningsdagerErMinst": 7153,
                             "grunnbelop": 106399,
-                            "opptjeningFra": "2002-01-31"
+                            "opptjeningFra": "2002-01-31",
+                            "sykepengegrunnlagsgrense": {
+                                "grunnbelop": 106399,
+                                "grense": 638394,
+                                "virkningstidspunkt": "2021-05-01"
+                            }
                         }
                     ]
                 },
@@ -336,7 +341,12 @@
                             "oppfyllerKravOmOpptjening": true,
                             "antallOpptjeningsdagerErMinst": 7153,
                             "grunnbelop": 106399,
-                            "opptjeningFra": "2002-01-31"
+                            "opptjeningFra": "2002-01-31",
+                            "sykepengegrunnlagsgrense": {
+                                "grunnbelop": 106399,
+                                "grense": 638394,
+                                "virkningstidspunkt": "2021-05-01"
+                            }
                         }
                     ]
                 },
@@ -406,7 +416,12 @@
                             "oppfyllerKravOmOpptjening": true,
                             "antallOpptjeningsdagerErMinst": 7153,
                             "grunnbelop": 106399,
-                            "opptjeningFra": "2002-01-31"
+                            "opptjeningFra": "2002-01-31",
+                            "sykepengegrunnlagsgrense": {
+                                "grunnbelop": 106399,
+                                "grense": 638394,
+                                "virkningstidspunkt": "2021-05-01"
+                            }
                         }
                     ]
                 },
@@ -476,7 +491,12 @@
                             "oppfyllerKravOmOpptjening": true,
                             "antallOpptjeningsdagerErMinst": 7153,
                             "grunnbelop": 106399,
-                            "opptjeningFra": "2002-01-31"
+                            "opptjeningFra": "2002-01-31",
+                            "sykepengegrunnlagsgrense": {
+                                "grunnbelop": 106399,
+                                "grense": 638394,
+                                "virkningstidspunkt": "2021-05-01"
+                            }
                         }
                     ]
                 }

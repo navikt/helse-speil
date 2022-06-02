@@ -594,6 +594,13 @@ export type Sykepengedager = {
     skjaeringstidspunkt: Scalars['String'];
 };
 
+export type Sykepengegrunnlagsgrense = {
+    __typename?: 'Sykepengegrunnlagsgrense';
+    grense: Scalars['Int'];
+    grunnbelop: Scalars['Int'];
+    virkningstidspunkt: Scalars['String'];
+};
+
 export type Sykmelding = Hendelse & {
     __typename?: 'Sykmelding';
     fom: Scalars['String'];
@@ -724,6 +731,7 @@ export type VilkarsgrunnlagSpleis = Vilkarsgrunnlag & {
     sammenligningsgrunnlag?: Maybe<Scalars['Float']>;
     skjaeringstidspunkt: Scalars['String'];
     sykepengegrunnlag: Scalars['Float'];
+    sykepengegrunnlagsgrense: Sykepengegrunnlagsgrense;
     vilkarsgrunnlagtype: Vilkarsgrunnlagtype;
 };
 

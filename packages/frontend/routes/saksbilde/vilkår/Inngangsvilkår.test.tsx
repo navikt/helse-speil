@@ -17,6 +17,7 @@ const getVilkårsgrunnlagSpleis = (overrides?: Partial<VilkarsgrunnlagSpleis>): 
     sammenligningsgrunnlag: 1234567,
     skjaeringstidspunkt: '2022-01-01',
     sykepengegrunnlag: 1234567,
+    sykepengegrunnlagsgrense: { grunnbelop: 106399, grense: 6 * 106399, virkningstidspunkt: '2021-05-01' },
     vilkarsgrunnlagtype: Vilkarsgrunnlagtype.Spleis,
     ...overrides,
 });

@@ -17,7 +17,7 @@ export default ({ graphQLClient }: SetupOptions) => {
                 res.status(200).send(it.body);
             })
             .catch(({ error }) => {
-                logger.error(`Feil ved GraphQL-sending: ${error}`);
+                logger.error(`Feil ved GraphQL-sending`, error);
                 res.status(200).send(error);
             });
     });

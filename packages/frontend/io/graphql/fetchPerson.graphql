@@ -102,6 +102,11 @@ query FetchPerson($fnr: String, $aktorId: String) {
                     grunnbelop
                     avviksprosent
                     opptjeningFra
+                    sykepengegrunnlagsgrense {
+                        grunnbelop
+                        grense
+                        virkningstidspunkt
+                    }
                 }
             }
         }

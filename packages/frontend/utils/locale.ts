@@ -1,6 +1,9 @@
 export const somPenger = (value?: number | null) =>
     value !== undefined && value !== null ? `${toKronerOgØre(value)} kr` : '-';
 
+export const somPengerUtenDesimaler = (value?: number | null) =>
+    value !== undefined && value !== null ? `${toKronerOgØre(value, 0)} kr` : '-';
+
 export const toKronerOgØre = (value: string | number, decimals = 2, locale = 'nb-NO'): string =>
     Number.parseFloat(`${value}`).toLocaleString(locale, {
         maximumFractionDigits: decimals,
