@@ -160,7 +160,11 @@ export const OppgaverTable = React.memo(({ oppgaver }: { oppgaver: Oppgave[] }) 
                                     oppgave={it}
                                     kanTildeles={!erBeslutteroppgaveOgErTidligereSaksbehandler}
                                 />
-                                <SakstypeCell type={it.periodetype} />
+                                <SakstypeCell
+                                    type={it.periodetype}
+                                    erBeslutterOppgave={it.erBeslutterOppgave}
+                                    erReturOppgave={it.erReturOppgave}
+                                />
                                 <BostedCell stedsnavn={it.boenhet.navn} />
                                 <InntektskildeCell type={it.inntektskilde} />
                                 <StatusCell numberOfWarnings={it.antallVarsler} />

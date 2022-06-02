@@ -43,6 +43,10 @@ const enOppgave = (): Oppgave => ({
     },
     inntektskilde: 'EN_ARBEIDSGIVER',
     tildeling: undefined,
+    erBeslutterOppgave: false,
+    erReturOppgave: false,
+    trengerTotrinnsvurdering: false,
+    tidligereSaksbehandlerOid: 'uuid',
 });
 
 const mockHentOppgaver = () =>

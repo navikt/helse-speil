@@ -71,6 +71,10 @@ declare type ExternalOppgave = {
     };
     inntektskilde?: 'EN_ARBEIDSGIVER' | 'FLERE_ARBEIDSGIVERE';
     tildeling?: ExternalTildeling;
+    erBeslutterOppgave: boolean;
+    erReturOppgave: boolean;
+    trengerTotrinnsvurdering: boolean;
+    tidligereSaksbehandlerOid: string;
 };
 
 declare type ExternalNotatType = 'PaaVent' | 'Retur' | 'Generelt';

@@ -59,6 +59,10 @@ const oppgaveUtenTildeling: ExternalOppgave = {
     },
     inntektskilde: 'EN_ARBEIDSGIVER',
     tildeling: undefined,
+    erBeslutterOppgave: false,
+    erReturOppgave: false,
+    trengerTotrinnsvurdering: false,
+    tidligereSaksbehandlerOid: 'uuid',
 };
 
 const oppgaveMedildeling: ExternalOppgave = {
@@ -89,4 +93,8 @@ const oppgaveMedildeling: ExternalOppgave = {
         påVent: false,
         navn: 'saksbehandler',
     },
+    erBeslutterOppgave: false,
+    erReturOppgave: false,
+    trengerTotrinnsvurdering: false,
+    tidligereSaksbehandlerOid: 'uuid',
 };

@@ -8,7 +8,10 @@ import { Oppgaveetikett } from '@components/Oppgaveetikett';
 import { Cell } from '../Cell';
 import { CellContent } from './CellContent';
 
-const getLabelForType = (type: Periodetype) => {
+const getLabel = (type: Periodetype, erReturOppgave: boolean, erBeslutterOppgave: boolean) => {
+    if (erReturOppgave) return 'Retur';
+    if (erBeslutterOppgave) return 'Beslutter';
+
     switch (type) {
         case 'forlengelse':
         case 'infotrygdforlengelse':
@@ -34,14 +37,18 @@ const getLabelForType = (type: Periodetype) => {
 
 interface SakstypeProps {
     type: Periodetype;
+    erBeslutterOppgave: boolean;
+    erReturOppgave: boolean;
 }
 
-export const SakstypeCell = React.memo(({ type }: SakstypeProps) => (
+export const SakstypeCell = React.memo(({ type, erReturOppgave, erBeslutterOppgave }: SakstypeProps) => (
     <Cell>
         <CellContent width={130}>
             <Flex alignItems="center">
                 <Oppgaveetikett type={type} />
-                <BodyShort style={{ marginLeft: '12px' }}>{getLabelForType(type)}</BodyShort>
+                <BodyShort style={{ marginLeft: '12px' }}>
+                    {getLabel(type, erReturOppgave, erBeslutterOppgave)}
+                </BodyShort>
             </Flex>
         </CellContent>
     </Cell>

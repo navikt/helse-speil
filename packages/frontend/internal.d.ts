@@ -54,6 +54,10 @@ declare type Oppgave = {
     inntektskilde: Inntektskilde;
     boenhet: Boenhet;
     tildeling?: Tildeling;
+    erBeslutterOppgave: boolean;
+    erReturOppgave: boolean;
+    trengerTotrinnsvurdering: boolean;
+    tidligereSaksbehandlerOid: string;
 };
 
 declare type Behandlingsstatistikk = {

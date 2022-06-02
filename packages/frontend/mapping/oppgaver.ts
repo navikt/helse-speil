@@ -83,4 +83,8 @@ export const tilOppgave = (oppgave: ExternalOppgave): Oppgave => ({
               påVent: oppgave.tildeling.påVent,
           }
         : undefined,
+    erBeslutterOppgave: oppgave.erBeslutterOppgave,
+    erReturOppgave: oppgave.erReturOppgave,
+    trengerTotrinnsvurdering: oppgave.trengerTotrinnsvurdering,
+    tidligereSaksbehandlerOid: oppgave.tidligereSaksbehandlerOid,
 });
