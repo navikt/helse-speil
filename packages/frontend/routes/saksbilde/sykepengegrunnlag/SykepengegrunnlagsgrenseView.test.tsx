@@ -12,8 +12,8 @@ describe('Sykepengegrunnlagsgrense', () => {
                 omregnetÅrsinntekt={600_000}
             />,
         );
-        expect(screen.getByText('Grunnbeløp (G) ved skjæringstidspunkt: 106 399 kr (01. May 2021)')).toBeVisible();
-        expect(screen.queryByText('Sykepengegrunnlaget er begrenset til 6G: 638 394 kr')).toBeNull();
+        expect(screen.queryByText('Grunnbeløp (G) ved skjæringstidspunkt:', { exact: false })).toBeVisible();
+        expect(screen.queryByText('Sykepengegrunnlaget er begrenset til 6G:', { exact: false })).toBeNull();
     });
     test('rendrer SykepengegrunnlagsgrenseView med begrenset sykepengegrunnlag', () => {
         render(
@@ -22,7 +22,7 @@ describe('Sykepengegrunnlagsgrense', () => {
                 omregnetÅrsinntekt={650_000}
             />,
         );
-        expect(screen.getByText('Grunnbeløp (G) ved skjæringstidspunkt: 106 399 kr (01. May 2021)')).toBeVisible();
-        expect(screen.queryByText('Sykepengegrunnlaget er begrenset til 6G: 638 394 kr')).toBeVisible();
+        expect(screen.queryByText('Grunnbeløp (G) ved skjæringstidspunkt:', { exact: false })).toBeVisible();
+        expect(screen.queryByText('Sykepengegrunnlaget er begrenset til 6G:', { exact: false })).toBeVisible();
     });
 });
