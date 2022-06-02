@@ -6,6 +6,7 @@ import { ErrorBoundary } from '@components/ErrorBoundary';
 import { Scopes, useVarselFilter } from '@state/varsler';
 import { useRefreshPersonVedUrlEndring } from '@hooks/useRefreshPersonVedUrlEndring';
 import { useRefreshPersonVedOpptegnelse } from '@hooks/useRefreshPersonVedOpptegnelse';
+import { useVarselOmSakErTildeltAnnenSaksbehandler } from '@hooks/useVarselOmSakErTildeltAnnenSaksbehandler';
 import { usePollEtterOpptegnelser } from '@io/http';
 
 import { Timeline } from './timeline/Timeline';
@@ -25,6 +26,7 @@ const SaksbildeContent = React.memo(() => {
     useRefreshPersonVedOpptegnelse();
     usePollEtterOpptegnelser();
     useVarselFilter(Scopes.SAKSBILDE);
+    useVarselOmSakErTildeltAnnenSaksbehandler();
     useKeyboardShortcuts();
 
     const { path } = useRouteMatch();
