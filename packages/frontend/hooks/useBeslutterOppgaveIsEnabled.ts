@@ -1,6 +1,6 @@
 import { useActivePeriod } from '@state/periode';
 import { isBeregnetPeriode } from '@utils/typeguards';
-import { erBeslutterOppgave } from '@utils/featureToggles';
+import { beslutteroppgaveAktiv } from '@utils/featureToggles';
 
 export const useBeslutterOppgaveIsEnabled = (): boolean => {
     const periode = useActivePeriod();
@@ -9,7 +9,6 @@ export const useBeslutterOppgaveIsEnabled = (): boolean => {
         return false;
     }
 
-    // Når vi skrur på toggle kan vi bytte ut erBeslutterOppgave med erBeslutter
-
-    return erBeslutterOppgave && periode.erBeslutterOppgave;
+    // Når vi skrur på toggle kan vi bytte ut beslutteroppgaveAktiv med harBeslutterRolle
+    return beslutteroppgaveAktiv && periode.erBeslutterOppgave;
 };

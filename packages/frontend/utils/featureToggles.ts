@@ -268,7 +268,7 @@ const joakimNavIdent = 'K143566';
 const sindreNavIdent = 'B159939';
 
 const kanTesteTotrinnsIDev = [jonasNavIdent, joakimNavIdent, sindreNavIdent].includes(extractIdent());
-export const erBeslutter = extractGroups().includes(groupIdForBesluttere);
-export const totrinnsvurdering = erLocal() || (erDev() && kanTesteTotrinnsIDev);
-export const erBeslutterOppgave = erLocal() || (erDev() && kanTesteTotrinnsIDev);
+export const harBeslutterRolle = extractGroups().includes(groupIdForBesluttere);
+export const totrinnsvurderingAktiv = erLocal() || (erDev() && kanTesteTotrinnsIDev);
+export const beslutteroppgaveAktiv = erLocal() || (erDev() && kanTesteTotrinnsIDev);
 export const genereltNotat = erLocal() || erDev() || erUtvikler();

@@ -8,7 +8,7 @@ import { Behandlingstype, BeregnetPeriode, Periodetilstand, Person } from '@io/g
 import { opptegnelsePollingTimeState } from '@state/opptegnelser';
 import { getPeriodState } from '@utils/mapping';
 import { isRevurdering } from '@utils/period';
-import { totrinnsvurdering } from '@utils/featureToggles';
+import { totrinnsvurderingAktiv } from '@utils/featureToggles';
 
 import { AvvisningButton } from './AvvisningButton';
 import { GodkjenningButton } from './GodkjenningButton';
@@ -95,7 +95,7 @@ export const Utbetaling = ({ activePeriod, currentPerson }: UtbetalingProps) => 
     const harArbeidsgiverutbetaling = activePeriod.utbetaling.arbeidsgiverNettoBelop !== 0;
     const harBrukerutbetaling = activePeriod.utbetaling.personNettoBelop !== 0;
     const trengerTotrinnsvurdering =
-        totrinnsvurdering && isBeregnetPeriode(activePeriod) && activePeriod.trengerTotrinnsvurdering;
+        totrinnsvurderingAktiv && isBeregnetPeriode(activePeriod) && activePeriod.trengerTotrinnsvurdering;
 
     return (
         <>

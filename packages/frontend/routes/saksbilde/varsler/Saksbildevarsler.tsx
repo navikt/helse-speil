@@ -2,7 +2,6 @@ import React from 'react';
 import { Alert, BodyShort } from '@navikt/ds-react';
 
 import { Maybe } from '@io/graphql';
-import { erBeslutter } from '@utils/featureToggles';
 
 import { Aktivitetsloggvarsler } from './Aktivetsloggvarsler';
 
