@@ -101,7 +101,7 @@ const UtbetalingWithContent: React.FC<UtbetalingWithContentProps> = React.memo((
     const overstyringIsEnabled = useOverstyringIsEnabled();
     const revurderingIsEnabled = useRevurderingIsEnabled(defaultUtbetalingToggles);
     const overstyrRevurderingIsEnabled = useOverstyrRevurderingIsEnabled(defaultUtbetalingToggles);
-    const activePeriodHasLatestSkjæringstidspunkt = useActivePeriodHasLatestSkjæringstidspunkt();
+    const erAktivPeriodeISisteSkjæringstidspunkt = useActivePeriodHasLatestSkjæringstidspunkt();
     const dagoverstyringer = useDagoverstyringer(arbeidsgiver, period.fom, period.tom);
     const isBeslutterOppgave = useBeslutterOppgaveIsEnabled();
     const erBeslutteroppgaveOgErTidligereSaksbehandler = useErBeslutteroppgaveOgErTidligereSaksbehandler();
@@ -114,7 +114,7 @@ const UtbetalingWithContent: React.FC<UtbetalingWithContentProps> = React.memo((
     });
 
     return (revurderingIsEnabled || overstyringIsEnabled || overstyrRevurderingIsEnabled) &&
-        activePeriodHasLatestSkjæringstidspunkt &&
+        erAktivPeriodeISisteSkjæringstidspunkt &&
         !isBeslutterOppgave &&
         !erBeslutteroppgaveOgErTidligereSaksbehandler ? (
         <OverstyrbarUtbetaling

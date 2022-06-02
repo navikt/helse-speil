@@ -6,6 +6,7 @@ import { Locked } from '@navikt/ds-icons';
 import { Flex } from '@components/Flex';
 import { PopoverHjelpetekst } from '@components/PopoverHjelpetekst';
 import { SortInfoikon } from '@components/ikoner/SortInfoikon';
+import { useActivePeriodHasLatestFagsystemIdForSkjæringstidspunkt } from '@hooks/revurdering';
 
 const Container = styled(Flex)`
     min-height: 24px;
@@ -64,6 +65,8 @@ export const UtbetalingHeader: React.FC<UtbetalingHeaderProps> = ({
         [dager],
     );
 
+    const hørerTilSisteFagsystemIdISkjæringstidspunkt = useActivePeriodHasLatestFagsystemIdForSkjæringstidspunkt();
+
     return (
         <Container>
             {periodeErForkastet ? (
@@ -78,6 +81,15 @@ export const UtbetalingHeader: React.FC<UtbetalingHeaderProps> = ({
                         <p>
                             Det er foreløpig ikke mulig å gjøre endringer i sykdomstidslinjen, når hele perioden består
                             av avslåtte dager og/eller arbeidsgiverperiodedager
+                        </p>
+                    </PopoverHjelpetekst>
+                </InfobobleContainer>
+            ) : !hørerTilSisteFagsystemIdISkjæringstidspunkt ? (
+                <InfobobleContainer>
+                    <PopoverHjelpetekst ikon={<SortInfoikon />}>
+                        <p>
+                            Kan ikke endre sykdomstidslinjen, det er foreløpig ikke støtte for endringer i saker som har
+                            vært delvis behandlet i Infotrygd
                         </p>
                     </PopoverHjelpetekst>
                 </InfobobleContainer>

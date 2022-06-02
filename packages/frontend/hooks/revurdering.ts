@@ -153,3 +153,22 @@ export const useHarKunEnFagsystemIdPåArbeidsgiverIAktivPeriode = (): boolean =>
 
     return fagsystemIder.size === 1;
 };
+
+const byFomDescending = (a: Periode, b: Periode): number => {
+    return new Date(b.fom).getTime() - new Date(a.fom).getTime();
+};
+
+export const useActivePeriodHasLatestFagsystemIdForSkjæringstidspunkt = (): boolean => {
+    const arbeidsgiver = useCurrentArbeidsgiver();
+    const periode = useActivePeriod();
+
+    if (!isBeregnetPeriode(periode) || !arbeidsgiver) return false;
+
+    const fagsystemiderSorted = arbeidsgiver.generasjoner[0]?.perioder
+        .filter(isBeregnetPeriode)
+        .filter((it) => it.skjaeringstidspunkt === periode.skjaeringstidspunkt)
+        .sort(byFomDescending)
+        .map((it) => it.utbetaling.arbeidsgiverFagsystemId);
+
+    return periode.utbetaling.arbeidsgiverFagsystemId === fagsystemiderSorted[0];
+};
