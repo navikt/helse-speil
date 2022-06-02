@@ -1,7 +1,7 @@
 import { atom, selector, useRecoilValue, useSetRecoilState } from 'recoil';
 
 import { tabState, TabType } from '../../tabs';
-import { utbetalingTilSykmeldt } from '@utils/featureToggles';
+import { beslutteroppgaveAktiv, harBeslutterRolle, utbetalingTilSykmeldt } from '@utils/featureToggles';
 
 export type Filter<T> = {
     key: string;
@@ -74,6 +74,20 @@ const defaultFilters: Filter<Oppgave>[] = [
         column: 1,
     },
     {
+        key: 'BESLUTTER',
+        label: 'Beslutter',
+        active: beslutteroppgaveAktiv && harBeslutterRolle,
+        function: (oppgave: Oppgave) => oppgave.erBeslutterOppgave,
+        column: 1,
+    },
+    {
+        key: 'RETUR',
+        label: 'Retur',
+        active: beslutteroppgaveAktiv,
+        function: (oppgave: Oppgave) => oppgave.erReturOppgave,
+        column: 1,
+    },
+    {
         key: 'EN_ARBEIDSGIVER',
         label: 'Én arbeidsgiver',
         active: false,
@@ -131,7 +145,7 @@ const allFilters = atom<ActiveFiltersPerTab>({
     default: {
         [TabType.TilGodkjenning]: hentValgteFiltre(
             TabType.TilGodkjenning,
-            defaultFilters.map(makeFilterActive('Ufordelte saker'))
+            defaultFilters.map(makeFilterActive('Ufordelte saker')),
         ),
         [TabType.Mine]: hentValgteFiltre(TabType.Mine, defaultFilters),
         [TabType.Ventende]: hentValgteFiltre(TabType.Ventende, defaultFilters),
