@@ -12,6 +12,7 @@ import { useOppdrag } from './state';
 import { useCurrentPerson } from '@state/person';
 import { ErrorBoundary } from '@components/ErrorBoundary';
 import { useCurrentArbeidsgiver } from '@state/arbeidsgiver';
+import { useBeslutterOppgaveIsEnabled } from '@hooks/useBeslutterOppgaveIsEnabled';
 
 const Container = styled.div`
     grid-column-start: venstremeny;
@@ -65,6 +66,7 @@ const UtbetalingshistorikkWithContent: React.VFC<UtbetalingshistorikkWithContent
     const oppdrag = useOppdrag(fødselsnummer);
     const [tilAnnullering, setTilAnnullering] = useState<Spennoppdrag | undefined>();
     const [annulleringerInFlight, setAnnulleringerInFlight] = useState<Array<string>>([]);
+    const erBeslutterOppgave = useBeslutterOppgaveIsEnabled();
 
     const lukkUtbetalingshistorikk = () => push(`/person/${aktørId}/utbetaling`);
 
@@ -112,6 +114,7 @@ const UtbetalingshistorikkWithContent: React.VFC<UtbetalingshistorikkWithContent
                                         oppdrag.type,
                                         oppdrag.personoppdrag,
                                     )}
+                                    erBeslutterOppgave={erBeslutterOppgave}
                                 />
                             )}
                             {oppdrag.arbeidsgiveroppdrag && (
@@ -124,6 +127,7 @@ const UtbetalingshistorikkWithContent: React.VFC<UtbetalingshistorikkWithContent
                                         oppdrag.type,
                                         oppdrag.arbeidsgiveroppdrag,
                                     )}
+                                    erBeslutterOppgave={erBeslutterOppgave}
                                 />
                             )}
                         </React.Fragment>

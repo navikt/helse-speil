@@ -26,6 +26,7 @@ interface UtbetalingshistorikkRowProps {
     status: Oppdrag['status'];
     type: Oppdrag['type'];
     annulleringButton: React.ReactNode;
+    erBeslutterOppgave: boolean;
 }
 
 export const UtbetalingshistorikkRow: React.VFC<UtbetalingshistorikkRowProps> = ({
@@ -33,6 +34,7 @@ export const UtbetalingshistorikkRow: React.VFC<UtbetalingshistorikkRowProps> = 
     status,
     type,
     annulleringButton,
+    erBeslutterOppgave,
 }) => {
     const fom = getFom(oppdrag);
     const tom = getTom(oppdrag);
@@ -62,7 +64,7 @@ export const UtbetalingshistorikkRow: React.VFC<UtbetalingshistorikkRowProps> = 
             <Cell>
                 <Bold>{type}</Bold>
             </Cell>
-            <Cell>{annulleringButton}</Cell>
+            {!erBeslutterOppgave ? <Cell>{annulleringButton}</Cell> : <Cell />}
         </tr>
     );
 };
