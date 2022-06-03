@@ -1117,6 +1117,22 @@
                         "deprecationReason": null
                     },
                     {
+                        "name": "periodetilstand",
+                        "description": null,
+                        "args": [],
+                        "type": {
+                            "kind": "NON_NULL",
+                            "name": null,
+                            "ofType": {
+                                "kind": "ENUM",
+                                "name": "Periodetilstand",
+                                "ofType": null
+                            }
+                        },
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
+                    {
                         "name": "periodetype",
                         "description": null,
                         "args": [],
@@ -3290,6 +3306,22 @@
                         "deprecationReason": null
                     },
                     {
+                        "name": "periodetilstand",
+                        "description": null,
+                        "args": [],
+                        "type": {
+                            "kind": "NON_NULL",
+                            "name": null,
+                            "ofType": {
+                                "kind": "ENUM",
+                                "name": "Periodetilstand",
+                                "ofType": null
+                            }
+                        },
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
+                    {
                         "name": "periodetype",
                         "description": null,
                         "args": [],
@@ -3499,6 +3531,12 @@
                         "deprecationReason": null
                     },
                     {
+                        "name": "ForberederGodkjenning",
+                        "description": null,
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
+                    {
                         "name": "IngenUtbetaling",
                         "description": null,
                         "isDeprecated": false,
@@ -3506,6 +3544,12 @@
                     },
                     {
                         "name": "KunFerie",
+                        "description": null,
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
+                    {
+                        "name": "ManglerInformasjon",
                         "description": null,
                         "isDeprecated": false,
                         "deprecationReason": null
@@ -3529,6 +3573,12 @@
                         "deprecationReason": null
                     },
                     {
+                        "name": "TilGodkjenning",
+                        "description": null,
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
+                    {
                         "name": "TilInfotrygd",
                         "description": null,
                         "isDeprecated": false,
@@ -3547,6 +3597,12 @@
                         "deprecationReason": null
                     },
                     {
+                        "name": "UtbetalingFeilet",
+                        "description": null,
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
+                    {
                         "name": "Utbetalt",
                         "description": null,
                         "isDeprecated": false,
@@ -3554,6 +3610,12 @@
                     },
                     {
                         "name": "Venter",
+                        "description": null,
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
+                    {
+                        "name": "VenterPaEnAnnenPeriode",
                         "description": null,
                         "isDeprecated": false,
                         "deprecationReason": null
@@ -5792,6 +5854,22 @@
                             "ofType": {
                                 "kind": "SCALAR",
                                 "name": "String",
+                                "ofType": null
+                            }
+                        },
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
+                    {
+                        "name": "periodetilstand",
+                        "description": null,
+                        "args": [],
+                        "type": {
+                            "kind": "NON_NULL",
+                            "name": null,
+                            "ofType": {
+                                "kind": "ENUM",
+                                "name": "Periodetilstand",
                                 "ofType": null
                             }
                         },

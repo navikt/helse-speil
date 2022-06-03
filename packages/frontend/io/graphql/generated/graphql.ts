@@ -125,6 +125,7 @@ export type BeregnetPeriode = Periode & {
     oppgavereferanse?: Maybe<Scalars['String']>;
     opprettet: Scalars['String'];
     periodehistorikk: Array<PeriodeHistorikkElement>;
+    periodetilstand: Periodetilstand;
     periodetype: Periodetype;
     periodevilkar: Periodevilkar;
     refusjon?: Maybe<Refusjon>;
@@ -360,6 +361,7 @@ export type Periode = {
     fom: Scalars['String'];
     inntektstype: Inntektstype;
     opprettet: Scalars['String'];
+    periodetilstand: Periodetilstand;
     periodetype: Periodetype;
     tidslinje: Array<Dag>;
     tom: Scalars['String'];
@@ -383,16 +385,21 @@ export enum Periodetilstand {
     AnnulleringFeilet = 'AnnulleringFeilet',
     Annullert = 'Annullert',
     Feilet = 'Feilet',
+    ForberederGodkjenning = 'ForberederGodkjenning',
     IngenUtbetaling = 'IngenUtbetaling',
     KunFerie = 'KunFerie',
+    ManglerInformasjon = 'ManglerInformasjon',
     Oppgaver = 'Oppgaver',
     RevurderingFeilet = 'RevurderingFeilet',
     TilAnnullering = 'TilAnnullering',
+    TilGodkjenning = 'TilGodkjenning',
     TilInfotrygd = 'TilInfotrygd',
     TilUtbetaling = 'TilUtbetaling',
     Ukjent = 'Ukjent',
+    UtbetalingFeilet = 'UtbetalingFeilet',
     Utbetalt = 'Utbetalt',
     Venter = 'Venter',
+    VenterPaEnAnnenPeriode = 'VenterPaEnAnnenPeriode',
     VenterPaKiling = 'VenterPaKiling',
 }
 
@@ -626,6 +633,7 @@ export type UberegnetPeriode = Periode & {
     id: Scalars['String'];
     inntektstype: Inntektstype;
     opprettet: Scalars['String'];
+    periodetilstand: Periodetilstand;
     periodetype: Periodetype;
     tidslinje: Array<Dag>;
     tom: Scalars['String'];
@@ -907,6 +915,12 @@ export type FetchPersonQuery = {
                       omregnetArsinntekt: number;
                       sammenligningsgrunnlag?: number | null;
                       vilkarsgrunnlagtype: Vilkarsgrunnlagtype;
+                      sykepengegrunnlagsgrense: {
+                          __typename?: 'Sykepengegrunnlagsgrense';
+                          grunnbelop: number;
+                          grense: number;
+                          virkningstidspunkt: string;
+                      };
                       inntekter: Array<{
                           __typename?: 'Arbeidsgiverinntekt';
                           arbeidsgiver: string;
@@ -977,6 +991,7 @@ export type FetchPersonQuery = {
                           vilkarsgrunnlaghistorikkId: string;
                           oppgavereferanse?: string | null;
                           tilstand: Periodetilstand;
+                          periodetilstand: Periodetilstand;
                           fom: string;
                           tom: string;
                           behandlingstype: Behandlingstype;

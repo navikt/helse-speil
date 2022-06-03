@@ -290,6 +290,7 @@ query FetchPerson($fnr: String, $aktorId: String) {
                         }
                         oppgavereferanse
                         tilstand
+                        periodetilstand
                     }
                 }
             }
