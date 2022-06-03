@@ -991,7 +991,6 @@ export type FetchPersonQuery = {
                           vilkarsgrunnlaghistorikkId: string;
                           oppgavereferanse?: string | null;
                           tilstand: Periodetilstand;
-                          periodetilstand: Periodetilstand;
                           fom: string;
                           tom: string;
                           behandlingstype: Behandlingstype;
@@ -1000,6 +999,7 @@ export type FetchPersonQuery = {
                           opprettet: string;
                           periodetype: Periodetype;
                           vedtaksperiodeId: string;
+                          periodetilstand: Periodetilstand;
                           aktivitetslogg: Array<{
                               __typename?: 'Aktivitet';
                               alvorlighetsgrad: string;
@@ -1235,6 +1235,7 @@ export type FetchPersonQuery = {
                           opprettet: string;
                           periodetype: Periodetype;
                           vedtaksperiodeId: string;
+                          periodetilstand: Periodetilstand;
                           tidslinje: Array<{
                               __typename?: 'Dag';
                               dato: string;

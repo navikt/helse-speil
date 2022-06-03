@@ -160,6 +160,7 @@ query FetchPerson($fnr: String, $aktorId: String) {
                         begrunnelser
                     }
                     vedtaksperiodeId
+                    periodetilstand
                     ... on UberegnetPeriode {
                         id
                     }
@@ -290,7 +291,6 @@ query FetchPerson($fnr: String, $aktorId: String) {
                         }
                         oppgavereferanse
                         tilstand
-                        periodetilstand
                     }
                 }
             }
