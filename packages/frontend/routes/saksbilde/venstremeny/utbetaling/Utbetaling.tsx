@@ -4,7 +4,7 @@ import { useSetRecoilState } from 'recoil';
 
 import { ErrorMessage } from '@components/ErrorMessage';
 import { postAbonnerPåAktør } from '@io/http';
-import { Behandlingstype, BeregnetPeriode, Periodetilstand, Person } from '@io/graphql';
+import { BeregnetPeriode, Periodetilstand, Person } from '@io/graphql';
 import { opptegnelsePollingTimeState } from '@state/opptegnelser';
 import { getPeriodState } from '@utils/mapping';
 import { isRevurdering } from '@utils/period';
@@ -33,10 +33,14 @@ const Spinner = styled(Loader)`
 const skalPolleEtterNestePeriode = (person: Person) =>
     person.arbeidsgivere
         .flatMap((arbeidsgiver) => arbeidsgiver.generasjoner[0]?.perioder ?? [])
-        .some((periode) => periode.behandlingstype === Behandlingstype.Venter);
+        .some((periode) =>
+            [Periodetilstand.VenterPaEnAnnenPeriode, Periodetilstand.ForberederGodkjenning].includes(
+                periode.periodetilstand,
+            ),
+        );
 
 const hasOppgave = (period: BeregnetPeriode): boolean =>
-    typeof period.oppgavereferanse === 'string' && ['oppgaver', 'revurderes'].includes(getPeriodState(period));
+    typeof period.oppgavereferanse === 'string' && ['tilGodkjenning', 'revurderes'].includes(getPeriodState(period));
 
 const useOnGodkjenn = (period: BeregnetPeriode, person: Person): (() => void) => {
     const history = useHistory();
@@ -83,10 +87,13 @@ export const Utbetaling = ({ activePeriod, currentPerson }: UtbetalingProps) => 
     const onAvvisUtbetaling = useOnAvvis();
 
     useEffect(() => {
-        if (godkjentPeriode !== activePeriod.vedtaksperiodeId && activePeriod.tilstand === Periodetilstand.Oppgaver) {
+        if (
+            godkjentPeriode !== activePeriod.vedtaksperiodeId &&
+            activePeriod.periodetilstand === Periodetilstand.TilGodkjenning
+        ) {
             setGodkjentPeriode(undefined);
         }
-    }, [activePeriod.vedtaksperiodeId, activePeriod.tilstand]);
+    }, [activePeriod.vedtaksperiodeId, activePeriod.periodetilstand]);
 
     if (!hasOppgave(activePeriod)) return null;
 

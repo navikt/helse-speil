@@ -16,7 +16,7 @@ const filterActivePeriods = (periods: Array<Periode>): Array<Periode> =>
     periods.filter((it) => !(it.erForkastet && it.behandlingstype === 'VENTER'));
 
 const filterValidPeriods = (periods: Array<DatePeriod>): Array<DatePeriod> =>
-    periods.filter((it) => (isBeregnetPeriode(it) ? it.tilstand !== Periodetilstand.TilInfotrygd : true));
+    periods.filter((it) => (isBeregnetPeriode(it) ? it.periodetilstand !== Periodetilstand.TilInfotrygd : true));
 
 const isActive = (activePeriod: Periode, currentPeriod: Periode): boolean => {
     if (isGhostPeriode(activePeriod) && isGhostPeriode(currentPeriod)) {

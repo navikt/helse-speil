@@ -5,7 +5,7 @@ import { Loader } from '@navikt/ds-react';
 import { useSetVedtaksperiodeReferanserForNotater } from '@hooks/useSetVedtaksperiodeReferanserForNotater';
 import { onLazyLoadFail } from '@utils/error';
 import { getPeriodState } from '@utils/mapping';
-import { Arbeidsgiver, BeregnetPeriode, Person } from '@io/graphql';
+import { Arbeidsgiver, BeregnetPeriode, Periodetilstand, Person } from '@io/graphql';
 
 import { Saksbildevarsler } from '../varsler/Saksbildevarsler';
 import { Venstremeny } from '../venstremeny/Venstremeny';
@@ -33,7 +33,7 @@ interface BeregnetPeriodeViewProps {
     currentArbeidsgiver: Arbeidsgiver;
 }
 
-export const BeregnetPeriodeView: React.VFC<BeregnetPeriodeViewProps> = ({ activePeriod, currentPerson }) => {
+export const BeregnetPeriodeView: React.VFC<BeregnetPeriodeViewProps> = ({ activePeriod }) => {
     if (!activePeriod.skjaeringstidspunkt || !activePeriod.vilkarsgrunnlaghistorikkId) {
         throw Error('Mangler skjæringstidspunkt eller vilkårsgrunnlag. Ta kontakt med en utvikler.');
     }
@@ -52,7 +52,9 @@ export const BeregnetPeriodeView: React.VFC<BeregnetPeriodeViewProps> = ({ activ
                     varsler={activePeriod.varsler}
                     beslutterOppgaveIsEnabled={beslutterOppgaveIsEnabled}
                 />
-                {activePeriod.tilstand !== 'Annullert' && (
+                {![Periodetilstand.Annullert, Periodetilstand.TilAnnullering].includes(
+                    activePeriod.periodetilstand,
+                ) && (
                     <Switch>
                         <React.Suspense fallback={<BeregnetPeriodeViewLoader />}>
                             <Route path={`${path}/utbetaling`}>

@@ -6,7 +6,8 @@ import { getPeriodState } from '@utils/mapping';
 const kunEnArbeidsgiver = (periode: BeregnetPeriode) => periode.inntektstype === Inntektstype.Enarbeidsgiver;
 
 const overstyringEnabled = (periode: BeregnetPeriode): boolean =>
-    kunEnArbeidsgiver(periode) && ['oppgaver', 'avslag', 'ingenUtbetaling', 'feilet'].includes(getPeriodState(periode));
+    kunEnArbeidsgiver(periode) &&
+    ['tilGodkjenning', 'avslag', 'ingenUtbetaling', 'utbetalingFeilet'].includes(getPeriodState(periode));
 
 export const useOverstyringIsEnabled = (): boolean => {
     const periode = useActivePeriod();

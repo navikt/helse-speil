@@ -28,6 +28,34 @@
         "tidligereSaksbehandlerOid": null
     },
     {
+        "oppgavereferanse": "3549",
+        "oppgavetype": "SØKNAD",
+        "opprettet": "2022-05-13T19:25:14.77507",
+        "vedtaksperiodeId": "0ffc7209-63ea-4c86-8ee6-857f41d4f377",
+        "personinfo": {
+            "fornavn": "Fjång",
+            "mellomnavn": null,
+            "etternavn": "Kakaobønne",
+            "fødselsdato": "1991-03-27",
+            "kjønn": "Mann",
+            "adressebeskyttelse": "Ugradert"
+        },
+        "fødselsnummer": "02018008451",
+        "aktørId": "2717906011878",
+        "antallVarsler": 2,
+        "type": "FØRSTEGANGSBEHANDLING",
+        "inntektskilde": "FLERE_ARBEIDSGIVERE",
+        "boenhet": {
+            "id": "1515",
+            "navn": "Herøy"
+        },
+        "tildeling": null,
+        "erBeslutterOppgave": false,
+        "erReturOppgave": false,
+        "trengerTotrinnsvurdering": false,
+        "tidligereSaksbehandlerOid": null
+    },
+    {
         "oppgavereferanse": "3107",
         "oppgavetype": "SØKNAD",
         "opprettet": "2022-01-31T15:23:03.819159",

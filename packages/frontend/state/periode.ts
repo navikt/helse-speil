@@ -38,11 +38,13 @@ const activePeriod = selector<ActivePeriod | null>({
             .flatMap((arbeidsgiver) => arbeidsgiver.generasjoner[0]?.perioder ?? [])
             .sort((a, b) => new Date(b.fom).getTime() - new Date(a.fom).getTime())
             .filter(isBeregnetPeriode)
-            .filter((it) => it.tilstand !== Periodetilstand.TilInfotrygd);
+            .filter((it) => it.periodetilstand !== Periodetilstand.TilInfotrygd);
 
         const periodWithOppgave: Maybe<BeregnetPeriode> =
             allPeriods.find(
-                (periode) => periode.behandlingstype === 'BEHANDLET' && typeof periode.oppgavereferanse === 'string',
+                (periode) =>
+                    periode.periodetilstand === Periodetilstand.TilGodkjenning &&
+                    typeof periode.oppgavereferanse === 'string',
             ) ?? null;
 
         const periode = periodWithOppgave ?? allPeriods[0];

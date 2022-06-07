@@ -109,14 +109,16 @@ const BeregnetPopover: React.VFC<SpleisPopoverProps> = ({ period, state, fom, to
             </BodyShort>
             {period.utbetaling.personNettoBelop !== 0 && (
                 <>
-                    <BodyShort size="small">{state === 'oppgaver' ? 'Utbetaling' : 'Utbetalt'} til sykmeldt:</BodyShort>
+                    <BodyShort size="small">
+                        {state === 'tilGodkjenning' ? 'Utbetaling' : 'Utbetalt'} til sykmeldt:
+                    </BodyShort>
                     <BodyShort size="small">{somPenger(period.utbetaling.personNettoBelop)}</BodyShort>
                 </>
             )}
             {period.utbetaling.arbeidsgiverNettoBelop !== 0 && (
                 <>
                     <BodyShort size="small">
-                        {state === 'oppgaver' ? 'Utbetaling' : 'Utbetalt'} til arbeidsgiver:
+                        {state === 'tilGodkjenning' ? 'Utbetaling' : 'Utbetalt'} til arbeidsgiver:
                     </BodyShort>
                     <BodyShort size="small">{somPenger(period.utbetaling.arbeidsgiverNettoBelop)}</BodyShort>
                 </>
@@ -175,17 +177,7 @@ interface UberegnetPopoverProps extends DatePeriod {
 }
 
 const UberegnetPopover: React.VFC<UberegnetPopoverProps> = ({ fom, tom, state }) => {
-    const stateText = (() => {
-        switch (state) {
-            case 'ingenUtbetaling':
-                return 'Ingen utbetaling';
-            case 'venter':
-                return 'Venter';
-            case 'ukjent':
-            default:
-                return 'Ukjent';
-        }
-    })();
+    const stateText = getPeriodStateText(state);
 
     return (
         <>

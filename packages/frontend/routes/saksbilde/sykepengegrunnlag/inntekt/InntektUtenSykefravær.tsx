@@ -23,8 +23,11 @@ const maybePeriodeTilGodkjenning = (person: Person, skjæringstidspunkt: DateStr
         person?.arbeidsgivere
             .flatMap((it) => it.generasjoner[0]?.perioder)
             .filter(isBeregnetPeriode)
-            .find((it) => it.tilstand === Periodetilstand.Oppgaver && it.skjaeringstidspunkt === skjæringstidspunkt) ??
-        null
+            .find(
+                (it) =>
+                    it.periodetilstand === Periodetilstand.TilGodkjenning &&
+                    it.skjaeringstidspunkt === skjæringstidspunkt,
+            ) ?? null
     );
 };
 
@@ -34,7 +37,14 @@ const harIngenUtbetaltePerioderFor = (person: Person, skjæringstidspunkt: DateS
             .flatMap((it) => it.generasjoner[0]?.perioder)
             .filter(isBeregnetPeriode)
             .filter((it) => it.skjaeringstidspunkt === skjæringstidspunkt)
-            .every((it) => it.tilstand === Periodetilstand.Oppgaver || it.tilstand === Periodetilstand.Venter) ?? false
+            .every((it) =>
+                [
+                    Periodetilstand.TilGodkjenning,
+                    Periodetilstand.VenterPaEnAnnenPeriode,
+                    Periodetilstand.ForberederGodkjenning,
+                    Periodetilstand.ManglerInformasjon,
+                ].includes(it.periodetilstand),
+            ) ?? false
     );
 };
 
@@ -70,7 +80,7 @@ const useOrganisasjonsnummerTilPeriodenSomErTilGodkjenning = (): Maybe<string> =
         person.arbeidsgivere.find((it) =>
             it.generasjoner[0]?.perioder
                 .filter(isBeregnetPeriode)
-                .some((it) => it.tilstand === Periodetilstand.Oppgaver),
+                .some((it) => it.periodetilstand === Periodetilstand.TilGodkjenning),
         )?.organisasjonsnummer ?? null
     );
 };

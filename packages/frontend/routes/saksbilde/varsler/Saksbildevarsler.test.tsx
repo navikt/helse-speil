@@ -34,7 +34,7 @@ describe('Saksbildevarsler', () => {
         expect(screen.getByText('Perioden er godkjent, ingen utbetaling.')).toBeVisible();
     });
     test('viser feilvarsel om utbetaling har feilet', () => {
-        render(<Saksbildevarsler periodState="feilet" />);
+        render(<Saksbildevarsler periodState="utbetalingFeilet" />);
         expect(screen.getByText('Utbetalingen feilet.')).toBeVisible();
     });
     test('viser infovarsel om saken er annullert', () => {
@@ -50,7 +50,7 @@ describe('Saksbildevarsler', () => {
         expect(screen.getByText('Annulleringen feilet. Kontakt utviklerteamet.')).toBeVisible();
     });
     test('viser feilvarsel om saken har en aktiv oppgave men mangler oppgavereferanse', () => {
-        render(<Saksbildevarsler periodState="oppgaver" />);
+        render(<Saksbildevarsler periodState="tilGodkjenning" />);
         expect(
             screen.getByText(
                 `Denne perioden kan ikke utbetales. Det kan skyldes at den allerede er forsøkt utbetalt, men at det er forsinkelser i systemet.`,

@@ -41,7 +41,7 @@ const tilstandFeilVarsel = (state: PeriodState): VarselObject | null => {
     switch (state) {
         case 'annulleringFeilet':
             return { grad: 'error', melding: 'Annulleringen feilet. Kontakt utviklerteamet.' };
-        case 'feilet':
+        case 'utbetalingFeilet':
             return { grad: 'error', melding: 'Utbetalingen feilet.' };
         default:
             return null;
@@ -63,7 +63,7 @@ const vedtaksperiodeVenterVarsel = (state: PeriodState): VarselObject | null =>
         : null;
 
 const manglendeOppgavereferansevarsel = (state: PeriodState, oppgavereferanse?: string | null): VarselObject | null =>
-    state === 'oppgaver' && (!oppgavereferanse || oppgavereferanse.length === 0)
+    state === 'tilGodkjenning' && (!oppgavereferanse || oppgavereferanse.length === 0)
         ? {
               grad: 'error',
               melding: `Denne perioden kan ikke utbetales. Det kan skyldes at den allerede er 
