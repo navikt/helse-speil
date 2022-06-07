@@ -25,7 +25,7 @@ export const useVarselOmSakErTildeltAnnenSaksbehandler = () => {
             addVarsel({
                 key: key,
                 type: 'info',
-                message: `Saken er allerede tildelt til ${capitalizeName(personTilBehandling.tildeling?.navn ?? '')}`,
+                message: `Saken er tildelt ${capitalizeName(personTilBehandling.tildeling?.navn ?? '')}`,
                 scope: Scopes.SAKSBILDE,
             });
         }
