@@ -8,7 +8,7 @@ import { somPenger } from '@utils/locale';
 import { NORSK_DATOFORMAT } from '@utils/date';
 import { getPeriodStateText } from '@utils/mapping';
 import { isBeregnetPeriode, isGhostPeriode, isInfotrygdPeriod } from '@utils/typeguards';
-import { BeregnetPeriode, Utbetalingsdagtype } from '@io/graphql';
+import { BeregnetPeriode, NotatType, Utbetalingsdagtype } from '@io/graphql';
 import { ErrorBoundary } from '@components/ErrorBoundary';
 
 import styles from './PeriodPopover.module.css';
@@ -89,6 +89,7 @@ const BeregnetPopover: React.VFC<SpleisPopoverProps> = ({ period, state, fom, to
     const arbeidsgiverperiode = getDayTypesRender(Utbetalingsdagtype.Arbeidsgiverperiodedag, dayTypes);
     const ferieperiode = getDayTypesRender(Utbetalingsdagtype.Feriedag, dayTypes);
     const avslåttperiode = getDayTypesRender(Utbetalingsdagtype.AvvistDag, dayTypes);
+    const harGenereltNotat = period.notater.filter((notat) => notat.type === NotatType.Generelt).length > 0;
 
     return (
         <>
@@ -146,6 +147,11 @@ const BeregnetPopover: React.VFC<SpleisPopoverProps> = ({ period, state, fom, to
                     <BodyShort className={classNames(period.gjenstaendeSykedager <= 0 && styles.Error)} size="small">
                         {period.gjenstaendeSykedager}
                     </BodyShort>
+                </>
+            )}
+            {harGenereltNotat && (
+                <>
+                    <BodyShort size="small">Notat</BodyShort>
                 </>
             )}
         </>
