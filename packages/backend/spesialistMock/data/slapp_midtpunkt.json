@@ -165,7 +165,12 @@
                             "oppfyllerKravOmOpptjening": true,
                             "antallOpptjeningsdagerErMinst": 7252,
                             "grunnbelop": 106399,
-                            "opptjeningFra": "2002-02-23"
+                            "opptjeningFra": "2002-02-23",
+                            "sykepengegrunnlagsgrense": {
+                                "grunnbelop": 106399,
+                                "grense": 638394,
+                                "virkningstidspunkt": "2021-02-23"
+                            }
                         }
                     ]
                 }
@@ -568,6 +573,7 @@
                                         }
                                     ],
                                     "vedtaksperiodeId": "f482b470-6ae7-4183-a9ce-d36ddd9251b7",
+                                    "periodetilstand": "TilGodkjenning",
                                     "id": "d635191b-ca38-4d0d-8bb3-96fa3f8e95e7",
                                     "aktivitetslogg": [
                                         {

@@ -606,6 +606,7 @@
                                         }
                                     ],
                                     "vedtaksperiodeId": "055f244d-5148-4d83-94fd-15c337d79749",
+                                    "periodetilstand": "VenterPaEnAnnenPeriode",
                                     "id": "a17f676b-7609-4d92-be90-4c181b8ecc0e"
                                 },
                                 {
@@ -1061,6 +1062,7 @@
                                         }
                                     ],
                                     "vedtaksperiodeId": "0ffc7209-63ea-4c86-8ee6-857f41d4f377",
+                                    "periodetilstand": "TilGodkjenning",
                                     "id": "5f292161-ec7d-4fa5-9b2a-911f3d33005b",
                                     "aktivitetslogg": [
                                         {

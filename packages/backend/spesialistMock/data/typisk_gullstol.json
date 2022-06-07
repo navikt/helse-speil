@@ -596,6 +596,7 @@
                                         }
                                     ],
                                     "vedtaksperiodeId": "05ca6134-e474-4fae-80a5-56670a5216b2",
+                                    "periodetilstand": "TilGodkjenning",
                                     "id": "7f5905a6-d7f7-43a0-a3b7-33c2ab65027a",
                                     "aktivitetslogg": [
                                         {
@@ -1237,6 +1238,7 @@
                                         }
                                     ],
                                     "vedtaksperiodeId": "05ca6134-e474-4fae-80a5-56670a5216b2",
+                                    "periodetilstand": "TilGodkjenning",
                                     "id": "a3c11ba6-b2ee-4a09-85f5-2fce97520bb1",
                                     "aktivitetslogg": [
                                         {
