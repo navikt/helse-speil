@@ -2,8 +2,6 @@ import styled from '@emotion/styled';
 import dayjs from 'dayjs';
 import React, { useMemo } from 'react';
 
-import { Notes } from '@navikt/ds-icons';
-
 import { Kilde } from '@components/Kilde';
 import { LinkButton } from '@components/LinkButton';
 import {
@@ -252,7 +250,6 @@ export const useNotater = (notater: Notat[], onClickNotat: (notattype: NotatType
                         <p>{notat.saksbehandler.navn}</p>
                     </BegrunnelseTekst>
                 ),
-                icon: <Notes />,
             })),
         [JSON.stringify(notater.map((notat) => notat.id))],
     );
