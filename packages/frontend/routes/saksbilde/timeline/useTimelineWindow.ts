@@ -1,4 +1,4 @@
-import { useLayoutEffect, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import dayjs from 'dayjs';
 
 import type { Arbeidsgiver, Infotrygdutbetaling } from '@io/graphql';
@@ -8,12 +8,11 @@ type Periode = {
     tom: DateString;
 };
 
-const getLatestDate = (perioder: Array<Periode>): Dayjs => {
-    return perioder.reduce((latest: Dayjs, periode: Periode) => {
+const getLatestDate = (perioder: Array<Periode>): Dayjs =>
+    perioder.reduce((latest: Dayjs, periode: Periode) => {
         const dato = dayjs(periode.tom);
         return dato.isAfter(latest) ? dato : latest;
     }, dayjs(0));
-};
 
 const getAvailableWindows = (latestDate: Dayjs): Array<TimelineWindow> => [
     {
@@ -53,10 +52,6 @@ export const useTimelineWindow = (
     }, [arbeidsgivere, infotrygdutbetalinger]);
 
     const [activeWindow, setActiveWindow] = useState<TimelineWindow>(getAvailableWindows(latestDate)[0]);
-
-    useLayoutEffect(() => {
-        setActiveWindow(getAvailableWindows(latestDate)[0]);
-    }, [latestDate]);
 
     return {
         availableWindows: getAvailableWindows(latestDate),
