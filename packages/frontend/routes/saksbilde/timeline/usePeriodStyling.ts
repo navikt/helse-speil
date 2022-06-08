@@ -1,7 +1,6 @@
 import { useMemo } from 'react';
 import dayjs, { Dayjs } from 'dayjs';
-import { BeregnetPeriode, Periodetype } from '@io/graphql';
-import { isUberegnetPeriode } from '@utils/typeguards';
+import { Periode, Periodetype } from '@io/graphql';
 
 type PeriodBorderRadius = {
     borderTopLeftRadius?: number;
@@ -77,7 +76,7 @@ const overlaps = (period: DatePeriod, skjæringstidspunkt: DateString): boolean 
     return fom <= date && tom >= date;
 };
 
-const periodetype = (period: BeregnetPeriode): Periodetype =>
+const periodetype = (period: Periode): Periodetype =>
     period.periodetype === Periodetype.OvergangFraIt
         ? Periodetype.OvergangFraIt
         : overlaps(period, period.skjaeringstidspunkt)
@@ -95,9 +94,7 @@ export const usePeriodStyling = <T extends DatePeriod>(
             return {
                 fom: dayjs(period.fom).startOf('day'),
                 tom: dayjs(period.tom).endOf('day'),
-                type: isUberegnetPeriode(period)
-                    ? period.periodetype
-                    : periodetype(period as unknown as BeregnetPeriode),
+                type: periodetype(period as unknown as Periode),
             };
         });
 

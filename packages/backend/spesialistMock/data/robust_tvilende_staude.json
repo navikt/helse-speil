@@ -201,7 +201,8 @@
                                     ],
                                     "vedtaksperiodeId": "57841d28-35c7-4c20-98c5-95a93da865c9",
                                     "periodetilstand": "VenterPaEnAnnenPeriode",
-                                    "id": "51a6bf0e-4a64-45f1-9a1e-2a0be51b411a"
+                                    "id": "51a6bf0e-4a64-45f1-9a1e-2a0be51b411a",
+                                    "skjaeringstidspunkt": "2022-01-01"
                                 },
                                 {
                                     "fom": "2022-01-01",

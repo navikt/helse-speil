@@ -353,6 +353,7 @@ export type Periode = {
     opprettet: Scalars['String'];
     periodetilstand: Periodetilstand;
     periodetype: Periodetype;
+    skjaeringstidspunkt: Scalars['String'];
     tidslinje: Array<Dag>;
     tom: Scalars['String'];
     vedtaksperiodeId: Scalars['String'];
@@ -619,6 +620,7 @@ export type UberegnetPeriode = Periode & {
     opprettet: Scalars['String'];
     periodetilstand: Periodetilstand;
     periodetype: Periodetype;
+    skjaeringstidspunkt: Scalars['String'];
     tidslinje: Array<Dag>;
     tom: Scalars['String'];
     vedtaksperiodeId: Scalars['String'];
@@ -970,7 +972,6 @@ export type FetchPersonQuery = {
                           erBeslutterOppgave: boolean;
                           tidligereSaksbehandlerOid?: string | null;
                           maksdato: string;
-                          skjaeringstidspunkt: string;
                           varsler: Array<string>;
                           vilkarsgrunnlaghistorikkId: string;
                           oppgavereferanse?: string | null;
@@ -982,6 +983,7 @@ export type FetchPersonQuery = {
                           periodetype: Periodetype;
                           vedtaksperiodeId: string;
                           periodetilstand: Periodetilstand;
+                          skjaeringstidspunkt: string;
                           aktivitetslogg: Array<{
                               __typename?: 'Aktivitet';
                               alvorlighetsgrad: string;
@@ -1217,6 +1219,7 @@ export type FetchPersonQuery = {
                           periodetype: Periodetype;
                           vedtaksperiodeId: string;
                           periodetilstand: Periodetilstand;
+                          skjaeringstidspunkt: string;
                           tidslinje: Array<{
                               __typename?: 'Dag';
                               dato: string;
