@@ -14,6 +14,8 @@ import { ISO_DATOFORMAT } from '@utils/date';
 const hasBeenAssessedAutomatically = (period: BeregnetPeriode): boolean =>
     period.utbetaling.vurdering?.automatisk ?? false;
 
+const hasOppgave = (period: BeregnetPeriode): boolean => typeof period.oppgavereferanse === 'string';
+
 const getInfotrygdPeriodState = (period: InfotrygdPeriod): PeriodState => {
     switch (period.typetekst) {
         case 'Utbetaling':
@@ -80,7 +82,7 @@ export const getPeriodState = (period?: Maybe<Periode | DatePeriod>): PeriodStat
                 case Utbetalingtype.Revurdering:
                     return 'revurderes';
                 case Utbetalingtype.Utbetaling:
-                    return 'tilGodkjenning';
+                    return hasOppgave(period) ? 'tilGodkjenning' : 'venter';
                 default:
                     return 'ukjent';
             }
