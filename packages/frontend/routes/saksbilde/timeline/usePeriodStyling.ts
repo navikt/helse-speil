@@ -1,6 +1,7 @@
 import { useMemo } from 'react';
 import dayjs, { Dayjs } from 'dayjs';
 import { BeregnetPeriode, Periodetype } from '@io/graphql';
+import { isUberegnetPeriode } from '@utils/typeguards';
 
 type PeriodBorderRadius = {
     borderTopLeftRadius?: number;
@@ -69,6 +70,20 @@ export const getPosition = (date: Dayjs, start: Dayjs, end: Dayjs): number => {
     return position > 0 ? position : 0;
 };
 
+const overlaps = (period: DatePeriod, skjæringstidspunkt: DateString): boolean => {
+    const date = Date.parse(skjæringstidspunkt);
+    const fom = Date.parse(period.fom);
+    const tom = Date.parse(period.tom);
+    return fom <= date && tom >= date;
+};
+
+const periodetype = (period: BeregnetPeriode): Periodetype =>
+    period.periodetype === Periodetype.OvergangFraIt
+        ? Periodetype.OvergangFraIt
+        : overlaps(period, period.skjaeringstidspunkt)
+        ? Periodetype.Forstegangsbehandling
+        : Periodetype.Forlengelse;
+
 export const usePeriodStyling = <T extends DatePeriod>(
     start: Dayjs,
     end: Dayjs,
@@ -76,11 +91,15 @@ export const usePeriodStyling = <T extends DatePeriod>(
 ): Map<number, PeriodStyling> =>
     useMemo(() => {
         const map = new Map<number, PeriodStyling>();
-        const datePeriods = periods.map((period) => ({
-            fom: dayjs(period.fom).startOf('day'),
-            tom: dayjs(period.tom).endOf('day'),
-            type: (period as unknown as BeregnetPeriode).periodetype,
-        }));
+        const datePeriods = periods.map((period) => {
+            return {
+                fom: dayjs(period.fom).startOf('day'),
+                tom: dayjs(period.tom).endOf('day'),
+                type: isUberegnetPeriode(period)
+                    ? period.periodetype
+                    : periodetype(period as unknown as BeregnetPeriode),
+            };
+        });
 
         for (const [i, period] of datePeriods.entries()) {
             const right = getPosition(period.fom, start, end);
