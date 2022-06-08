@@ -4,6 +4,7 @@ import type { BeregnetPeriode, GhostPeriode, Person, UberegnetPeriode } from '@i
 import { Periodetilstand, Vilkarsgrunnlag } from '@io/graphql';
 import { currentPersonState, useCurrentPerson } from '@state/person';
 import { isBeregnetPeriode, isGhostPeriode, isUberegnetPeriode } from '@utils/typeguards';
+import dayjs from 'dayjs';
 
 type ActivePeriod = BeregnetPeriode | UberegnetPeriode | GhostPeriode;
 
@@ -57,6 +58,10 @@ export const useActivePeriod = () => useRecoilValue(activePeriod);
 
 export const useSetActivePeriod = () => useSetRecoilState(activePeriodState);
 
+const bySkjæringstidspunktDescending = (a: Vilkarsgrunnlag, b: Vilkarsgrunnlag): number => {
+    return new Date(b.skjaeringstidspunkt).getTime() - new Date(a.skjaeringstidspunkt).getTime();
+};
+
 export const useCurrentVilkårsgrunnlag = (): Vilkarsgrunnlag | null => {
     const activePeriod = useActivePeriod();
     const currentPerson = useCurrentPerson();
@@ -68,6 +73,12 @@ export const useCurrentVilkårsgrunnlag = (): Vilkarsgrunnlag | null => {
     return (
         currentPerson?.vilkarsgrunnlaghistorikk
             .find((it) => it.id === periode.vilkarsgrunnlaghistorikkId)
-            ?.grunnlag.find((it) => it.skjaeringstidspunkt === periode.skjaeringstidspunkt) ?? null
+            ?.grunnlag.filter(
+                (it) =>
+                    dayjs(it.skjaeringstidspunkt).isSameOrAfter(periode.skjaeringstidspunkt) &&
+                    dayjs(it.skjaeringstidspunkt).isSameOrBefore(activePeriod.tom),
+            )
+            .sort(bySkjæringstidspunktDescending)
+            .pop() ?? null
     );
 };

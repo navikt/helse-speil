@@ -138,6 +138,10 @@ export const useFjernPåVent = (): ((oppgavereferanse: string) => Promise<SpeilR
     };
 };
 
+const bySkjæringstidspunktDescending = (a: Vilkarsgrunnlag, b: Vilkarsgrunnlag): number => {
+    return new Date(b.skjaeringstidspunkt).getTime() - new Date(a.skjaeringstidspunkt).getTime();
+};
+
 export const useVilkårsgrunnlag = (id: string, skjæringstidspunkt: DateString): Vilkarsgrunnlag | null => {
     const currentPerson = useCurrentPerson();
     const activePeriod = useActivePeriod();
@@ -151,7 +155,8 @@ export const useVilkårsgrunnlag = (id: string, skjæringstidspunkt: DateString)
                         dayjs(it.skjaeringstidspunkt).isSameOrAfter(skjæringstidspunkt) &&
                         dayjs(it.skjaeringstidspunkt).isSameOrBefore(activePeriod.tom),
                 )
-                ?.pop()) ??
+                .sort(bySkjæringstidspunktDescending)
+                .pop()) ??
         null
     );
 };
