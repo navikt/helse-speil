@@ -133,7 +133,6 @@ export type BeregnetPeriode = Periode & {
     skjaeringstidspunkt: Scalars['String'];
     tidligereSaksbehandlerOid?: Maybe<Scalars['String']>;
     tidslinje: Array<Dag>;
-    tilstand: Periodetilstand;
     tom: Scalars['String'];
     trengerTotrinnsvurdering: Scalars['Boolean'];
     utbetaling: Utbetaling;
@@ -990,7 +989,6 @@ export type FetchPersonQuery = {
                           varsler: Array<string>;
                           vilkarsgrunnlaghistorikkId: string;
                           oppgavereferanse?: string | null;
-                          tilstand: Periodetilstand;
                           fom: string;
                           tom: string;
                           behandlingstype: Behandlingstype;

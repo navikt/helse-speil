@@ -290,7 +290,6 @@ query FetchPerson($fnr: String, $aktorId: String) {
                             belop
                         }
                         oppgavereferanse
-                        tilstand
                     }
                 }
             }
