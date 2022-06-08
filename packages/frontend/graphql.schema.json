@@ -1241,22 +1241,6 @@
                         "deprecationReason": null
                     },
                     {
-                        "name": "tilstand",
-                        "description": null,
-                        "args": [],
-                        "type": {
-                            "kind": "NON_NULL",
-                            "name": null,
-                            "ofType": {
-                                "kind": "ENUM",
-                                "name": "Periodetilstand",
-                                "ofType": null
-                            }
-                        },
-                        "isDeprecated": false,
-                        "deprecationReason": null
-                    },
-                    {
                         "name": "tom",
                         "description": null,
                         "args": [],
@@ -3525,12 +3509,6 @@
                         "deprecationReason": null
                     },
                     {
-                        "name": "Feilet",
-                        "description": null,
-                        "isDeprecated": false,
-                        "deprecationReason": null
-                    },
-                    {
                         "name": "ForberederGodkjenning",
                         "description": null,
                         "isDeprecated": false,
@@ -3543,19 +3521,7 @@
                         "deprecationReason": null
                     },
                     {
-                        "name": "KunFerie",
-                        "description": null,
-                        "isDeprecated": false,
-                        "deprecationReason": null
-                    },
-                    {
                         "name": "ManglerInformasjon",
-                        "description": null,
-                        "isDeprecated": false,
-                        "deprecationReason": null
-                    },
-                    {
-                        "name": "Oppgaver",
                         "description": null,
                         "isDeprecated": false,
                         "deprecationReason": null
@@ -3609,19 +3575,7 @@
                         "deprecationReason": null
                     },
                     {
-                        "name": "Venter",
-                        "description": null,
-                        "isDeprecated": false,
-                        "deprecationReason": null
-                    },
-                    {
                         "name": "VenterPaEnAnnenPeriode",
-                        "description": null,
-                        "isDeprecated": false,
-                        "deprecationReason": null
-                    },
-                    {
-                        "name": "VenterPaKiling",
                         "description": null,
                         "isDeprecated": false,
                         "deprecationReason": null

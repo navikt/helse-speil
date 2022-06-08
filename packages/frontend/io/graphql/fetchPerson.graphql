@@ -135,7 +135,6 @@ query FetchPerson($fnr: String, $aktorId: String) {
                 perioder {
                     fom
                     tom
-                    behandlingstype
                     erForkastet
                     inntektstype
                     opprettet

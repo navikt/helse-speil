@@ -4,7 +4,7 @@ import { isBeregnetPeriode, isGhostPeriode, isUberegnetPeriode } from '@utils/ty
 import type { GhostPeriode, Periode } from '@io/graphql';
 import { Periodetilstand } from '@io/graphql';
 
-import { Period } from './Period';
+import { Period, periodIsVenting } from './Period';
 import { usePeriodStyling } from './usePeriodStyling';
 import { useVisiblePeriods } from './useVisiblePeriods';
 
@@ -13,7 +13,7 @@ import styles from './Periods.module.css';
 const byFomAscending = (a: DatePeriod, b: DatePeriod) => new Date(b.fom).getTime() - new Date(a.fom).getTime();
 
 const filterActivePeriods = (periods: Array<Periode>): Array<Periode> =>
-    periods.filter((it) => !(it.erForkastet && it.behandlingstype === 'VENTER'));
+    periods.filter((it) => !(it.erForkastet && periodIsVenting(it)));
 
 const filterValidPeriods = (periods: Array<DatePeriod>): Array<DatePeriod> =>
     periods.filter((it) => (isBeregnetPeriode(it) ? it.periodetilstand !== Periodetilstand.TilInfotrygd : true));

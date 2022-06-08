@@ -99,17 +99,9 @@ export enum Begrunnelse {
     Ukjent = 'UKJENT',
 }
 
-export enum Behandlingstype {
-    Behandlet = 'BEHANDLET',
-    Uberegnet = 'UBEREGNET',
-    Venter = 'VENTER',
-    VenterPaInformasjon = 'VENTER_PA_INFORMASJON',
-}
-
 export type BeregnetPeriode = Periode & {
     __typename?: 'BeregnetPeriode';
     aktivitetslogg: Array<Aktivitet>;
-    behandlingstype: Behandlingstype;
     beregningId: Scalars['String'];
     erBeslutterOppgave: Scalars['Boolean'];
     erForkastet: Scalars['Boolean'];
@@ -355,7 +347,6 @@ export type OverstyrtInntekt = {
 };
 
 export type Periode = {
-    behandlingstype: Behandlingstype;
     erForkastet: Scalars['Boolean'];
     fom: Scalars['String'];
     inntektstype: Inntektstype;
@@ -621,7 +612,6 @@ export type Tildeling = {
 
 export type UberegnetPeriode = Periode & {
     __typename?: 'UberegnetPeriode';
-    behandlingstype: Behandlingstype;
     erForkastet: Scalars['Boolean'];
     fom: Scalars['String'];
     id: Scalars['String'];
@@ -986,7 +976,6 @@ export type FetchPersonQuery = {
                           oppgavereferanse?: string | null;
                           fom: string;
                           tom: string;
-                          behandlingstype: Behandlingstype;
                           erForkastet: boolean;
                           inntektstype: Inntektstype;
                           opprettet: string;
@@ -1222,7 +1211,6 @@ export type FetchPersonQuery = {
                           id: string;
                           fom: string;
                           tom: string;
-                          behandlingstype: Behandlingstype;
                           erForkastet: boolean;
                           inntektstype: Inntektstype;
                           opprettet: string;
