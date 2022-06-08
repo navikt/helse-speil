@@ -785,41 +785,6 @@
                 "possibleTypes": null
             },
             {
-                "kind": "ENUM",
-                "name": "Behandlingstype",
-                "description": null,
-                "fields": null,
-                "inputFields": null,
-                "interfaces": null,
-                "enumValues": [
-                    {
-                        "name": "BEHANDLET",
-                        "description": null,
-                        "isDeprecated": false,
-                        "deprecationReason": null
-                    },
-                    {
-                        "name": "UBEREGNET",
-                        "description": null,
-                        "isDeprecated": false,
-                        "deprecationReason": null
-                    },
-                    {
-                        "name": "VENTER",
-                        "description": null,
-                        "isDeprecated": false,
-                        "deprecationReason": null
-                    },
-                    {
-                        "name": "VENTER_PA_INFORMASJON",
-                        "description": null,
-                        "isDeprecated": false,
-                        "deprecationReason": null
-                    }
-                ],
-                "possibleTypes": null
-            },
-            {
                 "kind": "OBJECT",
                 "name": "BeregnetPeriode",
                 "description": null,
@@ -843,22 +808,6 @@
                                         "ofType": null
                                     }
                                 }
-                            }
-                        },
-                        "isDeprecated": false,
-                        "deprecationReason": null
-                    },
-                    {
-                        "name": "behandlingstype",
-                        "description": null,
-                        "args": [],
-                        "type": {
-                            "kind": "NON_NULL",
-                            "name": null,
-                            "ofType": {
-                                "kind": "ENUM",
-                                "name": "Behandlingstype",
-                                "ofType": null
                             }
                         },
                         "isDeprecated": false,
@@ -3209,22 +3158,6 @@
                 "name": "Periode",
                 "description": null,
                 "fields": [
-                    {
-                        "name": "behandlingstype",
-                        "description": null,
-                        "args": [],
-                        "type": {
-                            "kind": "NON_NULL",
-                            "name": null,
-                            "ofType": {
-                                "kind": "ENUM",
-                                "name": "Behandlingstype",
-                                "ofType": null
-                            }
-                        },
-                        "isDeprecated": false,
-                        "deprecationReason": null
-                    },
                     {
                         "name": "erForkastet",
                         "description": null,
@@ -5718,22 +5651,6 @@
                 "name": "UberegnetPeriode",
                 "description": null,
                 "fields": [
-                    {
-                        "name": "behandlingstype",
-                        "description": null,
-                        "args": [],
-                        "type": {
-                            "kind": "NON_NULL",
-                            "name": null,
-                            "ofType": {
-                                "kind": "ENUM",
-                                "name": "Behandlingstype",
-                                "ofType": null
-                            }
-                        },
-                        "isDeprecated": false,
-                        "deprecationReason": null
-                    },
                     {
                         "name": "erForkastet",
                         "description": null,
