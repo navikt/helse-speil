@@ -383,12 +383,9 @@ export enum PeriodehistorikkType {
 export enum Periodetilstand {
     AnnulleringFeilet = 'AnnulleringFeilet',
     Annullert = 'Annullert',
-    Feilet = 'Feilet',
     ForberederGodkjenning = 'ForberederGodkjenning',
     IngenUtbetaling = 'IngenUtbetaling',
-    KunFerie = 'KunFerie',
     ManglerInformasjon = 'ManglerInformasjon',
-    Oppgaver = 'Oppgaver',
     RevurderingFeilet = 'RevurderingFeilet',
     TilAnnullering = 'TilAnnullering',
     TilGodkjenning = 'TilGodkjenning',
@@ -397,9 +394,7 @@ export enum Periodetilstand {
     Ukjent = 'Ukjent',
     UtbetalingFeilet = 'UtbetalingFeilet',
     Utbetalt = 'Utbetalt',
-    Venter = 'Venter',
     VenterPaEnAnnenPeriode = 'VenterPaEnAnnenPeriode',
-    VenterPaKiling = 'VenterPaKiling',
 }
 
 export enum Periodetype {
