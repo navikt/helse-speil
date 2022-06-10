@@ -81,7 +81,7 @@ export const useOppdaterHistorikk = ({
                     .filter(
                         (it: Hendelse) =>
                             isGhostPeriode(periode) ||
-                            (it.timestamp && dayjs(it.timestamp).isSameOrBefore(periode.opprettet)),
+                            (it.timestamp && dayjs(it.timestamp).startOf('s').isSameOrBefore(periode.opprettet)),
                     )
                     .concat(utbetaling ? [utbetaling] : [])
                     .concat(notater)
