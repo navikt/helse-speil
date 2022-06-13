@@ -271,4 +271,3 @@ const kanTesteTotrinnsIDev = [jonasNavIdent, joakimNavIdent, sindreNavIdent].inc
 export const harBeslutterRolle = extractGroups().includes(groupIdForBesluttere);
 export const totrinnsvurderingAktiv = erLocal() || (erDev() && kanTesteTotrinnsIDev);
 export const beslutteroppgaveAktiv = erLocal() || (erDev() && kanTesteTotrinnsIDev);
-export const genereltNotat = erLocal() || erDev() || erUtvikler();

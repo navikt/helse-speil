@@ -11,7 +11,6 @@ import { useInnloggetSaksbehandler } from '@state/authentication';
 import { BeregnetPeriode } from '@io/graphql';
 import { isBeregnetPeriode, isGhostPeriode } from '@utils/typeguards';
 import { onLazyLoadFail } from '@utils/error';
-import { genereltNotat } from '@utils/featureToggles';
 import { useErBeslutteroppgaveOgErTidligereSaksbehandler } from '@hooks/useErBeslutteroppgaveOgErTidligereSaksbehandler';
 
 import { TabLink } from '../TabLink';
@@ -103,7 +102,7 @@ const SaksbildeMenuBeregnetPeriode = ({ activePeriod }: SaksbildeMenuBeregnetPer
                     <React.Suspense fallback={null}>
                         {activePeriod.oppgavereferanse && !erBeslutteroppgaveOgErTidligereSaksbehandler && (
                             <>
-                                {currentPerson !== null && genereltNotat && (
+                                {currentPerson !== null && (
                                     <SkrivGenereltNotatDropdownMenuButton
                                         vedtaksperiodeId={activePeriod.vedtaksperiodeId}
                                         personinfo={currentPerson.personinfo}
