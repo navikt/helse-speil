@@ -41,7 +41,9 @@ export const currentPersonState = selector<Person | null>({
         const id = get(currentPersonIdState);
 
         if (typeof id === 'string') {
-            return fetchPerson(id).then((res) => res.person ?? null);
+            return fetchPerson(id)
+                .then((res) => res.person ?? null)
+                .catch(() => Promise.resolve(null));
         } else {
             return Promise.resolve(null);
         }
