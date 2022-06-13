@@ -43,7 +43,12 @@ export const currentPersonState = selector<Person | null>({
         if (typeof id === 'string') {
             return fetchPerson(id)
                 .then((res) => res.person ?? null)
-                .catch(() => Promise.resolve(null));
+                .catch((e) => {
+                    if (e.response.errors[0].extensions.code == 403) {
+                        throw new Error('Du har ikke tilgang til å søke opp denne personen');
+                    }
+                    return Promise.resolve(null);
+                });
         } else {
             return Promise.resolve(null);
         }
