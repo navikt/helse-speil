@@ -9,6 +9,7 @@ import { getPosition } from './usePeriodStyling';
 import { usePopoverAnchor } from './usePopoverAnchor';
 
 import styles from './Pins.module.css';
+import { getFormattedDateString } from '@utils/date';
 
 interface PinProps extends React.HTMLAttributes<HTMLDivElement> {}
 
@@ -42,7 +43,7 @@ export const Pins: React.VFC<PinsProps> = ({ arbeidsgivere, start, end }) => {
             {shouldShowPin(maksdatoPosition) && (
                 <Pin className={styles.Pin} style={{ right: `${getPosition(dayjs(maksdato), start, end)}%` }}>
                     <BodyShort size="small">Maksdato:</BodyShort>
-                    <BodyShort size="small">{maksdato}</BodyShort>
+                    <BodyShort size="small">{getFormattedDateString(maksdato)}</BodyShort>
                 </Pin>
             )}
         </div>

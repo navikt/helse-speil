@@ -2,7 +2,7 @@
     position: relative;
     width: calc(100% - var(--row-name-width) - 1rem);
     margin-left: calc(var(--row-name-width) + 1rem);
-    height: 1rem;
+    height: 1.8rem;
     margin-bottom: 1rem;
 }
 

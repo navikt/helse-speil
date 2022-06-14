@@ -7,7 +7,7 @@
 }
 
 .Pin {
-    --pin-top: 0.5rem;
+    --pin-top: 1.3rem;
     position: absolute;
     top: var(--pin-top);
     height: calc(100% - var(--pin-top));
