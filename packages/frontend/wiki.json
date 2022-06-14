@@ -455,5 +455,35 @@
         "betydning": "Denne sakstypen tas normalt ikke inn i Speil. Det kan ha skjedd en endring fra saken ble behandlet første gang til den nå skal revurderes.",
         "løsning": "Undersøk om saken kan revurderes i Speil og at utbetalingen blir riktig. Hvis saken ikke kan revurderes i Speil, må du annullere og behandle saken i Infotrygd.",
         "viktighet": "Høy"
+    },
+    {
+        "varsel": "Det er utbetalt foreldrepenger i samme periode.",
+        "betydning": "Det er utbetalt foreldrepenger i Infotrygd etter at perioden ble godkjent i Speil.",
+        "løsning": "Undersøk hvilken ytelse som er riktig. Hvis utbetalingene i Speil må avslås på grunn av andre ytelser må du annullere og behandle i Infotrygd.",
+        "viktighet": "Høy"
+    },
+    {
+        "varsel": "Det er utbetalt pleiepenger i samme periode.",
+        "betydning": "Det er utbetalt pleiepenger i Infotrygd etter at perioden ble godkjent i Speil.",
+        "løsning": "Undersøk hvilken ytelse som er riktig. Hvis utbetalingene i Speil må avslås på grunn av andre ytelser må du annullere og behandle i Infotrygd.",
+        "viktighet": "Høy"
+    },
+    {
+        "varsel": "Det er utbetalt omsorgspenger i samme periode.",
+        "betydning": "Det er utbetalt omsorgspenger i Infotrygd etter at perioden ble godkjent i Speil.",
+        "løsning": "Undersøk hvilken ytelse som er riktig. Hvis utbetalingene i Speil må avslås på grunn av andre ytelser må du annullere og behandle i Infotrygd.",
+        "viktighet": "Høy"
+    },
+    {
+        "varsel": "Det er utbetalt opplæringspenger i samme periode.",
+        "betydning": "Det er utbetalt opplæringspenger i Infotrygd etter at perioden ble godkjent i Speil.",
+        "løsning": "Undersøk hvilken ytelse som er riktig. Hvis utbetalingene i Speil må avslås på grunn av andre ytelser må du annullere og behandle i Infotrygd.",
+        "viktighet": "Høy"
+    },
+    {
+        "varsel": "Det er institusjonsopphold i perioden. Vurder retten til sykepenger.",
+        "betydning": "Vi henter inn opplysninger om institusjonsopphold. Det har kommet informasjon om at den sykmeldte oppholdt seg i institusjon (sykehus eller fengsel) i perioden.",
+        "løsning": "Undersøk om institusjonsoppholdet er forenlig med å motta sykepenger. Dersom en periode skal avslås på grunn av institusjonsopphold må saken annulleres og behandles i Infotrygd.",
+        "viktighet": "Høy"
     }
 ]
