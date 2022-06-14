@@ -35,6 +35,7 @@ declare type Saksbehandler = {
     oid: string;
     epost: string;
     navn: string;
+    ident?: string;
 };
 
 declare type Tildeling = {

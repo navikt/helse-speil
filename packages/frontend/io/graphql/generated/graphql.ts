@@ -281,6 +281,7 @@ export type Notat = {
     id: Scalars['Int'];
     opprettet: Scalars['String'];
     saksbehandlerEpost: Scalars['String'];
+    saksbehandlerIdent: Scalars['String'];
     saksbehandlerNavn: Scalars['String'];
     saksbehandlerOid: Scalars['String'];
     tekst: Scalars['String'];

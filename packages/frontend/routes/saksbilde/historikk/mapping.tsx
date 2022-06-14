@@ -247,7 +247,7 @@ export const useNotater = (notater: Notat[], onClickNotat: (notattype: NotatType
                 type: Hendelsetype.Historikk,
                 body: (
                     <BegrunnelseTekst key={notat.id}>
-                        <p>{notat.saksbehandler.navn}</p>
+                        <p>{notat.saksbehandler.ident}</p>
                     </BegrunnelseTekst>
                 ),
             })),
