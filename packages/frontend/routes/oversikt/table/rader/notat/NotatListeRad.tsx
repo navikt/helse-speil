@@ -57,7 +57,7 @@ export const NotatListeRad = ({ notat, vedtaksperiodeId, innloggetSaksbehandler 
     return (
         <Row error={notat.feilregistrert}>
             <Cell>{`${notat.opprettet.format(NORSK_DATOFORMAT_MED_KLOKKESLETT)}`}</Cell>
-            <Cell>{notat.saksbehandler.navn}</Cell>
+            <Cell>{notat.saksbehandler.ident}</Cell>
             <Cell>{notat.tekst}</Cell>
             <Cell>
                 {notat.feilregistrert
