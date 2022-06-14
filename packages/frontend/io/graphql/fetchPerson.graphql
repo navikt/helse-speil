@@ -186,6 +186,7 @@ query FetchPerson($fnr: String, $aktorId: String) {
                             saksbehandlerOid
                             saksbehandlerNavn
                             saksbehandlerEpost
+                            saksbehandlerIdent
                             vedtaksperiodeId
                             feilregistrert
                             feilregistrert_tidspunkt
