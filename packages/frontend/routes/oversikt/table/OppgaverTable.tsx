@@ -24,7 +24,7 @@ import { SøkerCell } from './rader/SøkerCell';
 import { TildelingCell } from './rader/TildelingCell';
 import { NotatCell } from './rader/notat/NotatCell';
 import { OptionsCell } from './rader/options/OptionsCell';
-import { useErBeslutteroppgaveOgErTidligereSaksbehandler } from '@hooks/useErBeslutteroppgaveOgErTidligereSaksbehandler';
+import { useReadOnlyOppgave } from '@hooks/useReadOnlyOppgave';
 import { Cell } from './Cell';
 
 const Container = styled.div`
@@ -53,7 +53,7 @@ export const OppgaverTable = React.memo(({ oppgaver }: { oppgaver: Oppgave[] }) 
     const sortation = useSortation();
     const filters = useFilters();
     const tab = useAktivTab();
-    const erBeslutteroppgaveOgErTidligereSaksbehandler = useErBeslutteroppgaveOgErTidligereSaksbehandler();
+    const readOnly = useReadOnlyOppgave();
 
     const activeFilters = filters.filter((it) => it.active);
     const groupedFilters = groupFiltersByColumn(activeFilters);
@@ -156,10 +156,7 @@ export const OppgaverTable = React.memo(({ oppgaver }: { oppgaver: Oppgave[] }) 
                     <Body>
                         {paginatedRows.map((it) => (
                             <LinkRow onNavigate={onNavigate} aktørId={it.aktørId} key={it.oppgavereferanse}>
-                                <TildelingCell
-                                    oppgave={it}
-                                    kanTildeles={!erBeslutteroppgaveOgErTidligereSaksbehandler}
-                                />
+                                <TildelingCell oppgave={it} kanTildeles={!readOnly} />
                                 <SakstypeCell
                                     type={it.periodetype}
                                     erBeslutterOppgave={it.erBeslutterOppgave}

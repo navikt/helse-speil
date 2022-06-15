@@ -7,7 +7,7 @@ import { useActivePeriod } from '@state/periode';
 import { useCurrentPerson } from '@state/person';
 import { useCurrentArbeidsgiver } from '@state/arbeidsgiver';
 import { isBeregnetPeriode, isGhostPeriode } from '@utils/typeguards';
-import { useErBeslutteroppgaveOgErTidligereSaksbehandler } from '@hooks/useErBeslutteroppgaveOgErTidligereSaksbehandler';
+import { useReadOnlyOppgave } from '@hooks/useReadOnlyOppgave';
 
 import { VenstremenyGhostPeriode } from './VenstremenyGhostPeriode';
 import { VenstremenyBeregnetPeriode } from './VenstremenyBeregnetPeriode';
@@ -18,7 +18,7 @@ const VenstremenyContainer: React.VFC = () => {
     const activePeriod = useActivePeriod();
     const currentPerson = useCurrentPerson();
     const currentArbeidsgiver = useCurrentArbeidsgiver();
-    const erBeslutteroppgaveOgErTidligereSaksbehandler = useErBeslutteroppgaveOgErTidligereSaksbehandler();
+    const readOnly = useReadOnlyOppgave();
 
     if (!currentPerson || !currentArbeidsgiver) {
         return null;
@@ -36,7 +36,7 @@ const VenstremenyContainer: React.VFC = () => {
                 activePeriod={activePeriod}
                 currentPerson={currentPerson}
                 currentArbeidsgiver={currentArbeidsgiver}
-                erBeslutteroppgaveOgErTidligereSaksbehandler={erBeslutteroppgaveOgErTidligereSaksbehandler}
+                readOnly={readOnly}
             />
         );
     } else {

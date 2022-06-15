@@ -11,7 +11,7 @@ import { useInnloggetSaksbehandler } from '@state/authentication';
 import { BeregnetPeriode } from '@io/graphql';
 import { isBeregnetPeriode, isGhostPeriode } from '@utils/typeguards';
 import { onLazyLoadFail } from '@utils/error';
-import { useErBeslutteroppgaveOgErTidligereSaksbehandler } from '@hooks/useErBeslutteroppgaveOgErTidligereSaksbehandler';
+import { useReadOnlyOppgave } from '@hooks/useReadOnlyOppgave';
 
 import { TabLink } from '../TabLink';
 
@@ -74,7 +74,7 @@ const SaksbildeMenuBeregnetPeriode = ({ activePeriod }: SaksbildeMenuBeregnetPer
 
     const currentUser = useInnloggetSaksbehandler();
     const currentPerson = useCurrentPerson();
-    const erBeslutteroppgaveOgErTidligereSaksbehandler = useErBeslutteroppgaveOgErTidligereSaksbehandler();
+    const readOnly = useReadOnlyOppgave();
 
     const personIsAssignedUser =
         (currentPerson?.tildeling && currentPerson?.tildeling?.oid === currentUser.oid) ?? false;
@@ -100,7 +100,7 @@ const SaksbildeMenuBeregnetPeriode = ({ activePeriod }: SaksbildeMenuBeregnetPer
                 </span>
                 <Dropdown className={styles.Dropdown} title="Meny">
                     <React.Suspense fallback={null}>
-                        {activePeriod.oppgavereferanse && !erBeslutteroppgaveOgErTidligereSaksbehandler && (
+                        {activePeriod.oppgavereferanse && !readOnly && (
                             <>
                                 {currentPerson !== null && (
                                     <SkrivGenereltNotatDropdownMenuButton

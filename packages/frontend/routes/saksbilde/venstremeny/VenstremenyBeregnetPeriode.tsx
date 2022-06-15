@@ -19,14 +19,14 @@ interface VenstremenyBeregnetPeriodeProps {
     activePeriod: BeregnetPeriode;
     currentPerson: Person;
     currentArbeidsgiver: Arbeidsgiver;
-    erBeslutteroppgaveOgErTidligereSaksbehandler: boolean;
+    readOnly: boolean;
 }
 
 export const VenstremenyBeregnetPeriode: React.VFC<VenstremenyBeregnetPeriodeProps> = ({
     activePeriod,
     currentPerson,
     currentArbeidsgiver,
-    erBeslutteroppgaveOgErTidligereSaksbehandler,
+    readOnly,
 }) => {
     const månedsbeløp = useCurrentVilkårsgrunnlag()?.inntekter.find(
         (it) => it.arbeidsgiver === currentArbeidsgiver.organisasjonsnummer,
@@ -54,9 +54,7 @@ export const VenstremenyBeregnetPeriode: React.VFC<VenstremenyBeregnetPeriodePro
                 arbeidsgiversimulering={activePeriod.utbetaling.arbeidsgiversimulering}
                 personsimulering={activePeriod.utbetaling.personsimulering}
             />
-            {!erBeslutteroppgaveOgErTidligereSaksbehandler && (
-                <Utbetaling activePeriod={activePeriod} currentPerson={currentPerson} />
-            )}
+            {!readOnly && <Utbetaling activePeriod={activePeriod} currentPerson={currentPerson} />}
         </section>
     );
 };
