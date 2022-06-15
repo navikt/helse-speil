@@ -19,7 +19,7 @@ import { useActivePeriod } from '@state/periode';
 import { useCurrentArbeidsgiver } from '@state/arbeidsgiver';
 import { isBeregnetPeriode } from '@utils/typeguards';
 import { Varsel } from '@components/Varsel';
-import { useBeslutterOppgaveIsEnabled } from '@hooks/useBeslutterOppgaveIsEnabled';
+import { useErBeslutteroppgaveOgHarTilgang } from '@hooks/useErBeslutteroppgaveOgHarTilgang';
 import { useReadOnlyOppgave } from '@hooks/useReadOnlyOppgave';
 import { Utbetalingstabell } from './utbetalingstabell/Utbetalingstabell';
 import { useTabelldagerMap } from './utbetalingstabell/useTabelldagerMap';
@@ -103,7 +103,7 @@ const UtbetalingWithContent: React.FC<UtbetalingWithContentProps> = React.memo((
     const overstyrRevurderingIsEnabled = useOverstyrRevurderingIsEnabled(defaultUtbetalingToggles);
     const erAktivPeriodeISisteSkjæringstidspunkt = useActivePeriodHasLatestSkjæringstidspunkt();
     const dagoverstyringer = useDagoverstyringer(arbeidsgiver, period.fom, period.tom);
-    const isBeslutterOppgave = useBeslutterOppgaveIsEnabled();
+    const erBeslutteroppgaveOgHarTilgang = useErBeslutteroppgaveOgHarTilgang();
     const readOnly = useReadOnlyOppgave();
 
     const dager: Map<string, UtbetalingstabellDag> = useTabelldagerMap({
@@ -115,7 +115,7 @@ const UtbetalingWithContent: React.FC<UtbetalingWithContentProps> = React.memo((
 
     return (revurderingIsEnabled || overstyringIsEnabled || overstyrRevurderingIsEnabled) &&
         erAktivPeriodeISisteSkjæringstidspunkt &&
-        !isBeslutterOppgave &&
+        !erBeslutteroppgaveOgHarTilgang &&
         !readOnly ? (
         <OverstyrbarUtbetaling
             fom={period.fom}

@@ -18,7 +18,7 @@ import { BodyShort, Loader } from '@navikt/ds-react';
 import styled from '@emotion/styled';
 import { isBeregnetPeriode } from '@utils/typeguards';
 import { ReturButton } from './ReturButton';
-import { useBeslutterOppgaveIsEnabled } from '@hooks/useBeslutterOppgaveIsEnabled';
+import { useErBeslutteroppgaveOgHarTilgang } from '@hooks/useErBeslutteroppgaveOgHarTilgang';
 import { toggleTotrinnsvurderingAktiv } from '@state/toggles';
 
 const InfoText = styled(BodyShort)`
@@ -74,7 +74,7 @@ export const Utbetaling = ({ activePeriod, currentPerson }: UtbetalingProps) => 
     const [error, setError] = useState<SpeilError | null>();
     const ventEllerHopp = useOnGodkjenn(activePeriod, currentPerson);
     const history = useHistory();
-    const isBeslutterOppgave = useBeslutterOppgaveIsEnabled();
+    const erBeslutteroppgaveOgHarTilgang = useErBeslutteroppgaveOgHarTilgang();
     const totrinnsvurderingAktiv = useRecoilValue(toggleTotrinnsvurderingAktiv);
 
     const onGodkjennUtbetaling = () => {
@@ -108,7 +108,7 @@ export const Utbetaling = ({ activePeriod, currentPerson }: UtbetalingProps) => 
     return (
         <>
             <div className={styles.Buttons}>
-                {trengerTotrinnsvurdering && !isBeslutterOppgave ? (
+                {trengerTotrinnsvurdering && !erBeslutteroppgaveOgHarTilgang ? (
                     <SendTilGodkjenningButton
                         oppgavereferanse={activePeriod.oppgavereferanse!}
                         periodeId={activePeriod.id}
@@ -122,12 +122,12 @@ export const Utbetaling = ({ activePeriod, currentPerson }: UtbetalingProps) => 
                     <GodkjenningButton
                         oppgavereferanse={activePeriod.oppgavereferanse!}
                         aktørId={currentPerson.aktorId}
-                        erBeslutteroppgave={isBeslutterOppgave}
+                        erBeslutteroppgave={erBeslutteroppgaveOgHarTilgang}
                         disabled={periodenErSendt}
                         onSuccess={onGodkjennUtbetaling}
                         onError={setError}
                     >
-                        {isBeslutterOppgave
+                        {erBeslutteroppgaveOgHarTilgang
                             ? 'Godkjenn og utbetal'
                             : isRevurdering
                             ? 'Revurder'
@@ -136,7 +136,7 @@ export const Utbetaling = ({ activePeriod, currentPerson }: UtbetalingProps) => 
                             : 'Godkjenn'}
                     </GodkjenningButton>
                 )}
-                {!isRevurdering && !isBeslutterOppgave && (
+                {!isRevurdering && !erBeslutteroppgaveOgHarTilgang && (
                     <AvvisningButton
                         disabled={periodenErSendt}
                         activePeriod={activePeriod}
@@ -145,7 +145,7 @@ export const Utbetaling = ({ activePeriod, currentPerson }: UtbetalingProps) => 
                         onError={setError}
                     />
                 )}
-                {isBeslutterOppgave && (
+                {erBeslutteroppgaveOgHarTilgang && (
                     <ReturButton
                         disabled={periodenErSendt}
                         activePeriod={activePeriod}
