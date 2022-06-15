@@ -4,7 +4,6 @@ import React, { useRef, useState } from 'react';
 import { Button as NavButton, Popover, Tooltip } from '@navikt/ds-react';
 
 import { useInnloggetSaksbehandler } from '@state/authentication';
-import { kanFrigiAndresOppgaver } from '@utils/featureToggles';
 import { useErBeslutteroppgaveOgErTidligereSaksbehandler } from '@hooks/useErBeslutteroppgaveOgErTidligereSaksbehandler';
 
 import { Cell } from '../../Cell';
@@ -13,6 +12,8 @@ import { FjernFraPåVentMenuButton } from './FjernFraPåVentMenuButton';
 import { LeggPåVentMenuButton } from './LeggPåVentMenuButton';
 import { MeldAvMenuButton } from './MeldAvMenuButton';
 import { TildelMenuButton } from './TildelMenuButton';
+import { toggleKanFrigiAndresOppgaver } from '@state/toggles';
+import { useRecoilValue } from 'recoil';
 
 const Button = styled(NavButton)`
     margin: 0;
@@ -84,6 +85,7 @@ export const OptionsCell = React.memo(({ oppgave, personinfo }: OptionsButtonPro
     const erTildeltInnloggetBruker =
         typeof oppgave.tildeling?.saksbehandler?.oid === 'string' &&
         oppgave.tildeling?.saksbehandler.oid === innloggetSaksbehandler.oid;
+    const kanFrigiAndresOppgaver = useRecoilValue(toggleKanFrigiAndresOppgaver);
     const skalViseAvmeldingsknapp = erTildeltInnloggetBruker || (oppgave.tildeling && kanFrigiAndresOppgaver);
 
     const togglePopover = (event: React.SyntheticEvent) => {

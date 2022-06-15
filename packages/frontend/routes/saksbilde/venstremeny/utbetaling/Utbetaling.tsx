@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router';
-import { useSetRecoilState } from 'recoil';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 
 import { ErrorMessage } from '@components/ErrorMessage';
 import { postAbonnerPåAktør } from '@io/http';
@@ -8,7 +8,6 @@ import { BeregnetPeriode, Periodetilstand, Person } from '@io/graphql';
 import { opptegnelsePollingTimeState } from '@state/opptegnelser';
 import { getPeriodState } from '@utils/mapping';
 import { isRevurdering } from '@utils/period';
-import { totrinnsvurderingAktiv } from '@utils/featureToggles';
 
 import { AvvisningButton } from './AvvisningButton';
 import { GodkjenningButton } from './GodkjenningButton';
@@ -20,6 +19,7 @@ import styled from '@emotion/styled';
 import { isBeregnetPeriode } from '@utils/typeguards';
 import { ReturButton } from './ReturButton';
 import { useBeslutterOppgaveIsEnabled } from '@hooks/useBeslutterOppgaveIsEnabled';
+import { toggleTotrinnsvurderingAktiv } from '@state/toggles';
 
 const InfoText = styled(BodyShort)`
     color: var(--navds-semantic-color-text);
@@ -75,6 +75,7 @@ export const Utbetaling = ({ activePeriod, currentPerson }: UtbetalingProps) => 
     const ventEllerHopp = useOnGodkjenn(activePeriod, currentPerson);
     const history = useHistory();
     const isBeslutterOppgave = useBeslutterOppgaveIsEnabled();
+    const totrinnsvurderingAktiv = useRecoilValue(toggleTotrinnsvurderingAktiv);
 
     const onGodkjennUtbetaling = () => {
         setGodkjentPeriode(activePeriod.vedtaksperiodeId);

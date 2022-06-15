@@ -1,9 +1,11 @@
 import { useActivePeriod } from '@state/periode';
 import { isBeregnetPeriode } from '@utils/typeguards';
-import { beslutteroppgaveAktiv } from '@utils/featureToggles';
+import { toggleBeslutteroppgaveAktiv } from '@state/toggles';
+import { useRecoilValue } from 'recoil';
 
 export const useBeslutterOppgaveIsEnabled = (): boolean => {
     const periode = useActivePeriod();
+    const beslutteroppgaveAktiv = useRecoilValue(toggleBeslutteroppgaveAktiv);
 
     if (!isBeregnetPeriode(periode)) {
         return false;

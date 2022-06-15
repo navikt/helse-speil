@@ -12,11 +12,12 @@ import { erGyldigPersonId } from '@hooks/useRefreshPersonVedUrlEndring';
 import { UserMenu } from '@components/UserMenu';
 import { SystemMenu } from '@components/SystemMenu';
 import { isPerson } from '@utils/typeguards';
-import { graphqlplayground } from '@utils/featureToggles';
+import { graphqlplayground, toggleMeny } from '@utils/featureToggles';
 
 import { EasterEgg } from '../../EasterEgg';
 
 import styles from './Header.module.css';
+import { ToggleMenyButton } from '@components/header/ToggleMeny/ToggleMenyButton';
 
 const useNavigateOnFetch = () => {
     const person = usePersonLoadable();
@@ -98,6 +99,7 @@ export const Header = () => {
                 <Search label="Søk" size="small" variant="secondary" placeholder="Søk" ref={searchRef} />
             </form>
             <EasterEgg />
+            {toggleMeny && <ToggleMenyButton />}
             {graphqlplayground && (
                 <InternalHeader.Title as="h1">
                     <Link to="/playground" className={styles.Link}>

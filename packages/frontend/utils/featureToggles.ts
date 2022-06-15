@@ -267,7 +267,13 @@ const jonasNavIdent = 'H159657';
 const joakimNavIdent = 'K143566';
 const sindreNavIdent = 'B159939';
 
-const kanTesteTotrinnsIDev = [jonasNavIdent, joakimNavIdent, sindreNavIdent].includes(extractIdent());
-export const harBeslutterRolle = extractGroups().includes(groupIdForBesluttere);
-export const totrinnsvurderingAktiv = erLocal() || (erDev() && kanTesteTotrinnsIDev);
-export const beslutteroppgaveAktiv = erLocal() || (erDev() && kanTesteTotrinnsIDev);
+export const toggleMeny: boolean = erLocal() || ([sindreNavIdent].includes(extractIdent()) && erDev());
+
+export const harBeslutterRolle: boolean = extractGroups().includes(groupIdForBesluttere);
+export const kanBeslutteEgenBeslutteroppgave: boolean =
+    erDev() && [jonasNavIdent, joakimNavIdent, sindreNavIdent].includes(extractIdent());
+
+export const kanTesteTotrinnsIDev: boolean =
+    erDev() && [jonasNavIdent, joakimNavIdent, sindreNavIdent].includes(extractIdent());
+export const totrinnsvurderingAktiv: boolean = erLocal() || kanTesteTotrinnsIDev;
+export const beslutteroppgaveAktiv: boolean = erLocal() || kanTesteTotrinnsIDev;
