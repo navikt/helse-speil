@@ -74,11 +74,12 @@ export const Period: React.VFC<PeriodProps> = ({ period, notCurrent, isActive, .
                 onMouseOut={onMouseOut}
                 onClick={onClick}
             >
-                {shouldShowNotatPin(period) ? (
-                    <div className={styles.NotatPin} />
-                ) : (
-                    !notCurrent && shouldShowInfoPin(period) && <div className={styles.InfoPin} />
-                )}
+                {!notCurrent &&
+                    (shouldShowNotatPin(period) ? (
+                        <div className={styles.NotatPin} />
+                    ) : (
+                        shouldShowInfoPin(period) && <div className={styles.InfoPin} />
+                    ))}
             </button>
             <PeriodPopover period={period} state={periodState} {...popoverProps} />
         </>
