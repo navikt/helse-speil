@@ -5,6 +5,8 @@ import {
     toggleHarBeslutterRolle,
     toggleKanBeslutteEgenBeslutteroppgave,
     toggleKanFrigiAndresOppgaver,
+    toggleReadOnly,
+    toggleReadOnlyOverride,
     toggleTotrinnsvurderingAktiv,
 } from '@state/toggles';
 
@@ -53,6 +55,9 @@ export const ToggleMeny = ({ modalOpen, onCloseModal }: ToggleMenyProps) => {
 
     const [kanFrigiAndresOppgaver, setKanFrigiAndresOppgaver] = useRecoilState(toggleKanFrigiAndresOppgaver);
 
+    const [readOnlyOverride, setReadOnlyOverride] = useRecoilState(toggleReadOnlyOverride);
+    const [readOnly, setReadOnly] = useRecoilState(toggleReadOnly);
+
     return (
         <Modal isOpen={modalOpen} onRequestClose={onCloseModal}>
             <Section label="Totrinnsvurdering">
@@ -75,6 +80,11 @@ export const ToggleMeny = ({ modalOpen, onCloseModal }: ToggleMenyProps) => {
                     checked={kanFrigiAndresOppgaver}
                     setValue={setKanFrigiAndresOppgaver}
                 />
+            </Section>
+
+            <Section label="Read only">
+                <Toggle label="Override read-only" checked={readOnlyOverride} setValue={setReadOnlyOverride} />
+                {readOnlyOverride && <Toggle label="Oppgave er read-only" checked={readOnly} setValue={setReadOnly} />}
             </Section>
         </Modal>
     );

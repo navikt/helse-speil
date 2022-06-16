@@ -27,3 +27,14 @@ export const toggleKanFrigiAndresOppgaver = atom<boolean>({
     key: 'toggleKanFrigiAndresOppgaver',
     default: kanFrigiAndresOppgaver,
 });
+
+// Read only
+export const toggleReadOnlyOverride = atom<boolean>({
+    key: 'toggleReadOnlyOverride',
+    default: false,
+});
+
+export const toggleReadOnly = atom<boolean>({
+    key: 'toggleReadOnly',
+    default: false,
+});
