@@ -74,8 +74,18 @@ const manglendeOppgavereferansevarsel = (state: PeriodState, oppgavereferanse?: 
 const ukjentTilstandsvarsel = (state: PeriodState): VarselObject | null =>
     state === 'ukjent' ? { grad: 'error', melding: 'Kunne ikke lese informasjon om sakens tilstand.' } : null;
 
-const fjernVarselOmBeslutteroppgave = (varsler: Array<string>) => {
-    return varsler.filter((varsel) => !varsel.includes('Beslutteroppgave: '));
+const beslutteroppgaveVarsel = (varsler?: Maybe<Array<string>>, totrinnsvurderingAktiv?: boolean) => {
+    if (totrinnsvurderingAktiv && varsler) {
+        const beslutteroppgavevarsel = varsler.find((varsel) => varsel.includes('Beslutteroppgave:'));
+        if (beslutteroppgavevarsel) {
+            return { grad: 'info', melding: beslutteroppgavevarsel };
+        }
+    }
+    return null;
+};
+
+const filtrerVarsler = (varsler: Array<string>) => {
+    return varsler.filter((varsel) => !varsel.includes('Beslutteroppgave:'));
 };
 
 interface SaksbildevarslerProps {
@@ -98,6 +108,7 @@ export const Saksbildevarsler = ({
         tilstandInfoVarsel(periodState),
         utbetalingsvarsel(periodState),
         vedtaksperiodeVenterVarsel(periodState),
+        beslutteroppgaveVarsel(varsler, totrinnsvurderingAktiv),
     ].filter((it) => it) as VarselObject[];
 
     const feilVarsler: VarselObject[] = [
@@ -113,11 +124,7 @@ export const Saksbildevarsler = ({
                     <BodyShort>{melding}</BodyShort>
                 </Alert>
             ))}
-            {varsler && (
-                <Aktivitetsloggvarsler
-                    varsler={totrinnsvurderingAktiv ? varsler : fjernVarselOmBeslutteroppgave(varsler)}
-                />
-            )}
+            {varsler && <Aktivitetsloggvarsler varsler={filtrerVarsler(varsler)} />}
             {feilVarsler.map(({ grad, melding }, index) => (
                 <Alert className={styles.Varsel} variant={grad} key={index}>
                     <BodyShort>{melding}</BodyShort>
