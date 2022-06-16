@@ -48,6 +48,16 @@ const harIngenUtbetaltePerioderFor = (person: Person, skjæringstidspunkt: DateS
     );
 };
 
+const harIngenPerioderTilBeslutterFor = (person: Person, skjæringstidspunkt: DateString): boolean => {
+    return (
+        person?.arbeidsgivere
+            .flatMap((it) => it.generasjoner[0]?.perioder)
+            .filter(isBeregnetPeriode)
+            .filter((it) => it.skjaeringstidspunkt === skjæringstidspunkt)
+            .every((it) => !it.erBeslutterOppgave) ?? false
+    );
+};
+
 const useArbeidsforholdKanOverstyres = (organisasjonsnummer: string): boolean => {
     const person = useCurrentPerson();
     const activePeriod = useActivePeriod();
@@ -60,10 +70,13 @@ const useArbeidsforholdKanOverstyres = (organisasjonsnummer: string): boolean =>
 
     const harIngenUtbetaltePerioder = harIngenUtbetaltePerioderFor(person, activePeriod.skjaeringstidspunkt);
 
+    const harIngenPerioderTilBeslutter = harIngenPerioderTilBeslutterFor(person, activePeriod.skjaeringstidspunkt);
+
     return (
         defaultOverstyrToggles.overstyrArbeidsforholdUtenSykefraværEnabled &&
         activePeriod.organisasjonsnummer === organisasjonsnummer &&
         harIngenUtbetaltePerioder &&
+        harIngenPerioderTilBeslutter &&
         periodeTilGodkjenning !== undefined
     );
 };
