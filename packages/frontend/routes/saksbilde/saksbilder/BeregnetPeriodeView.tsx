@@ -2,6 +2,7 @@ import React from 'react';
 import { Route, Switch, useRouteMatch } from 'react-router-dom';
 import { Loader } from '@navikt/ds-react';
 
+import { useErTidligereSaksbehandler } from '@hooks/useErTidligereSaksbehandler';
 import { useSetVedtaksperiodeReferanserForNotater } from '@hooks/useSetVedtaksperiodeReferanserForNotater';
 import { onLazyLoadFail } from '@utils/error';
 import { getPeriodState } from '@utils/mapping';
@@ -12,7 +13,6 @@ import { Venstremeny } from '../venstremeny/Venstremeny';
 import { Historikk } from '../historikk/Historikk';
 
 import styles from './PeriodeView.module.css';
-import { useErBeslutteroppgaveOgErTidligereSaksbehandler } from '@hooks/useErBeslutteroppgaveOgErTidligereSaksbehandler';
 
 const Utbetaling = React.lazy(() => import('../utbetaling/Utbetaling').catch(onLazyLoadFail));
 const Inngangsvilkår = React.lazy(() => import('../vilkår/Inngangsvilkår').catch(onLazyLoadFail));
@@ -40,7 +40,8 @@ export const BeregnetPeriodeView: React.VFC<BeregnetPeriodeViewProps> = ({ activ
 
     const { path } = useRouteMatch();
     useSetVedtaksperiodeReferanserForNotater([activePeriod.vedtaksperiodeId]);
-    const erBeslutteroppgaveOgErTidligereSaksbehandler = useErBeslutteroppgaveOgErTidligereSaksbehandler();
+
+    const erTidligereSaksbehandler = useErTidligereSaksbehandler();
 
     return (
         <>
@@ -50,7 +51,9 @@ export const BeregnetPeriodeView: React.VFC<BeregnetPeriodeViewProps> = ({ activ
                     periodState={getPeriodState(activePeriod)}
                     oppgavereferanse={activePeriod.oppgavereferanse}
                     varsler={activePeriod.varsler}
-                    erBeslutteroppgaveOgErTidligereSaksbehandler={erBeslutteroppgaveOgErTidligereSaksbehandler}
+                    erBeslutteroppgaveOgErTidligereSaksbehandler={
+                        activePeriod.erBeslutterOppgave && erTidligereSaksbehandler
+                    }
                 />
                 {![Periodetilstand.Annullert, Periodetilstand.TilAnnullering].includes(
                     activePeriod.periodetilstand,

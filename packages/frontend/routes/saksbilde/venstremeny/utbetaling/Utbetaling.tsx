@@ -20,6 +20,7 @@ import { isBeregnetPeriode } from '@utils/typeguards';
 import { ReturButton } from './ReturButton';
 import { useErBeslutteroppgaveOgHarTilgang } from '@hooks/useErBeslutteroppgaveOgHarTilgang';
 import { toggleTotrinnsvurderingAktiv } from '@state/toggles';
+import { useReadOnlyOppgave } from '@hooks/useReadOnlyOppgave';
 
 const InfoText = styled(BodyShort)`
     color: var(--navds-semantic-color-text);
@@ -74,6 +75,7 @@ export const Utbetaling = ({ activePeriod, currentPerson }: UtbetalingProps) => 
     const [error, setError] = useState<SpeilError | null>();
     const ventEllerHopp = useOnGodkjenn(activePeriod, currentPerson);
     const history = useHistory();
+    const readOnly = useReadOnlyOppgave();
     const erBeslutteroppgaveOgHarTilgang = useErBeslutteroppgaveOgHarTilgang();
     const totrinnsvurderingAktiv = useRecoilValue(toggleTotrinnsvurderingAktiv);
 
@@ -108,7 +110,7 @@ export const Utbetaling = ({ activePeriod, currentPerson }: UtbetalingProps) => 
     return (
         <>
             <div className={styles.Buttons}>
-                {trengerTotrinnsvurdering && !erBeslutteroppgaveOgHarTilgang ? (
+                {trengerTotrinnsvurdering && !readOnly ? (
                     <SendTilGodkjenningButton
                         oppgavereferanse={activePeriod.oppgavereferanse!}
                         beregningId={activePeriod.beregningId}
@@ -136,7 +138,7 @@ export const Utbetaling = ({ activePeriod, currentPerson }: UtbetalingProps) => 
                             : 'Godkjenn'}
                     </GodkjenningButton>
                 )}
-                {!isRevurdering && !erBeslutteroppgaveOgHarTilgang && (
+                {!isRevurdering && !readOnly && !activePeriod.erBeslutterOppgave && (
                     <AvvisningButton
                         disabled={periodenErSendt}
                         activePeriod={activePeriod}

@@ -268,9 +268,10 @@ const joakimNavIdent = 'K143566';
 const sindreNavIdent = 'B159939';
 const totrinnsgutta = [jonasNavIdent, joakimNavIdent, sindreNavIdent].includes(extractIdent());
 
-export const toggleMeny: boolean = erLocal() || (erDev() && totrinnsgutta);
+export const toggleMeny: boolean = erLocal() || erDev();
 
-export const harBeslutterRolle: boolean = extractGroups().includes(groupIdForBesluttere);
+export const harBeslutterRolle: boolean =
+    extractGroups().includes(groupIdForBesluttere) || erLocal() || (erDev() && totrinnsgutta);
 export const kanTesteTotrinnsIDev: boolean = erDev() && totrinnsgutta;
 export const totrinnsvurderingAktiv: boolean = erLocal() || kanTesteTotrinnsIDev;
 export const kanBeslutteEgenBeslutteroppgave: boolean = erLocal() || kanTesteTotrinnsIDev;

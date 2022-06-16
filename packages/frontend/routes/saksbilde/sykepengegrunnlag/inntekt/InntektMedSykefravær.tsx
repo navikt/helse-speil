@@ -8,7 +8,6 @@ import { kildeForkortelse } from '@utils/inntektskilde';
 import { overstyrInntektEnabled } from '@utils/featureToggles';
 import { useEndringerForPeriode, useUtbetalingForSkjæringstidspunkt } from '@state/arbeidsgiver';
 import { Inntektskilde, Inntektstype, Maybe, OmregnetArsinntekt, Utbetalingstatus } from '@io/graphql';
-import { useErBeslutteroppgaveOgHarTilgang } from '@hooks/useErBeslutteroppgaveOgHarTilgang';
 import { useReadOnlyOppgave } from '@hooks/useReadOnlyOppgave';
 
 import { RedigerInntekt } from './RedigerInntekt';
@@ -40,7 +39,6 @@ export const InntektMedSykefravær = ({
 
     const erRevurdering = useUtbetalingForSkjæringstidspunkt(skjæringstidspunkt)?.status === Utbetalingstatus.Utbetalt;
     const { inntektsendringer } = useEndringerForPeriode(organisasjonsnummer);
-    const erBeslutteroppgaveOgHarTilgang = useErBeslutteroppgaveOgHarTilgang();
     const readOnly = useReadOnlyOppgave();
 
     return (
@@ -54,20 +52,16 @@ export const InntektMedSykefravær = ({
                         <Kilde type={omregnetÅrsinntekt?.kilde}>{kildeForkortelse(omregnetÅrsinntekt?.kilde)}</Kilde>
                     )}
                 </Flex>
-                {overstyrInntektEnabled &&
-                    inntektstype &&
-                    vilkårsgrunnlagId &&
-                    !erBeslutteroppgaveOgHarTilgang &&
-                    !readOnly && (
-                        <RedigerInntekt
-                            setEditing={setEditing}
-                            editing={editing}
-                            erRevurdering={erRevurdering}
-                            inntektstype={inntektstype}
-                            skjæringstidspunkt={skjæringstidspunkt}
-                            vilkårsgrunnlagId={vilkårsgrunnlagId}
-                        />
-                    )}
+                {overstyrInntektEnabled && inntektstype && vilkårsgrunnlagId && !readOnly && (
+                    <RedigerInntekt
+                        setEditing={setEditing}
+                        editing={editing}
+                        erRevurdering={erRevurdering}
+                        inntektstype={inntektstype}
+                        skjæringstidspunkt={skjæringstidspunkt}
+                        vilkårsgrunnlagId={vilkårsgrunnlagId}
+                    />
+                )}
             </div>
             {editing ? (
                 <EditableInntekt
