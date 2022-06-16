@@ -14,6 +14,8 @@
         "mock": "lerna run mock --stream",
         "build": "lerna run build --stream",
         "test": "lerna run test --stream",
+        "clean": "rm -rf node_modules && lerna run clean --stream",
+        "bootstrap": "npm i && lerna bootstrap -- --legacy-peer-deps",
         "e2e-test": "e2e-tests/run.sh",
         "e2e-test-local": "e2e-tests/run.sh; e2e-tests/stop.sh",
         "generate-graphql": "graphql-codegen --config graphql-codegen.yml",
