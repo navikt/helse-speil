@@ -169,7 +169,6 @@ app.get('/api/notater', (req: Request, res: Response) => {
 });
 
 app.post('/api/totrinnsvurdering/retur', (req: Request, res: Response) => {
-    // mangler å sette tidligereSaksbehandlerOid
     const oppgavereferanse = req.body.oppgavereferanse;
     oppgaverTilRetur[oppgavereferanse] = true;
     oppgaverTilBeslutter[oppgavereferanse] = false;
@@ -185,7 +184,6 @@ app.post('/api/totrinnsvurdering/retur', (req: Request, res: Response) => {
 
 app.post('/api/totrinnsvurdering', (req: Request, res: Response) => {
     // mangler å legge til periodehistorikk
-    // mangler å sette tidligereSaksbehandlerOid
     const oppgavereferanse = req.body.oppgavereferanse;
     oppgaverTilRetur[oppgavereferanse] = false;
     oppgaverTilBeslutter[oppgavereferanse] = true;

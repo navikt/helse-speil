@@ -14,6 +14,7 @@ import {
     oppgaverTilBeslutter,
     oppgaverTilRetur,
     oppgaveTildelinger,
+    tidligereSaksbehandlerForOppgave,
     vedtaksperiodenotater,
 } from './server';
 
@@ -34,6 +35,11 @@ const erReturOppgave = (periode: any) =>
     periode.oppgavereferanse && oppgaverTilRetur[periode.oppgavereferanse] !== undefined
         ? oppgaverTilRetur[periode.oppgavereferanse]
         : periode.erReturOppgave;
+
+const getTidligereSaksbehandlerOid = (periode: any) =>
+    periode.oppgavereferanse && tidligereSaksbehandlerForOppgave[periode.oppgavereferanse] !== undefined
+        ? tidligereSaksbehandlerForOppgave[periode.oppgavereferanse]
+        : periode.tidligereSaksbehandlerOid;
 
 const getTildeltTildeling = (periode: any) => {
     return {
@@ -75,6 +81,7 @@ const leggTilLagretData = (person: any) => {
                         notater: getNotater(periode),
                         erBeslutterOppgave: erBeslutterOppgave(periode),
                         erReturOppgave: erReturOppgave(periode),
+                        tidligereSaksbehandlerOid: getTidligereSaksbehandlerOid(periode),
                     };
                 }),
             })),
