@@ -76,7 +76,9 @@ const ukjentTilstandsvarsel = (state: PeriodState): VarselObject | null =>
 
 const beslutteroppgaveVarsel = (varsler?: Maybe<Array<string>>, totrinnsvurderingAktiv?: boolean) => {
     if (totrinnsvurderingAktiv && varsler) {
-        const beslutteroppgavevarsel = varsler.find((varsel) => varsel.includes('Beslutteroppgave:'));
+        const beslutteroppgavevarsel = Array.from(varsler)
+            .reverse()
+            .find((varsel) => varsel.includes('Beslutteroppgave:'));
         if (beslutteroppgavevarsel) {
             return { grad: 'info', melding: beslutteroppgavevarsel };
         }
