@@ -3439,6 +3439,12 @@
                 "interfaces": null,
                 "enumValues": [
                     {
+                        "name": "TOTRINNSVURDERING_ATTESTERT",
+                        "description": null,
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
+                    {
                         "name": "TOTRINNSVURDERING_RETUR",
                         "description": null,
                         "isDeprecated": false,

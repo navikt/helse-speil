@@ -369,6 +369,7 @@ export type PeriodeHistorikkElement = {
 };
 
 export enum PeriodehistorikkType {
+    TotrinnsvurderingAttestert = 'TOTRINNSVURDERING_ATTESTERT',
     TotrinnsvurderingRetur = 'TOTRINNSVURDERING_RETUR',
     TotrinnsvurderingTilGodkjenning = 'TOTRINNSVURDERING_TIL_GODKJENNING',
 }
@@ -1000,6 +1001,7 @@ export type FetchPersonQuery = {
                               saksbehandlerOid: string;
                               saksbehandlerNavn: string;
                               saksbehandlerEpost: string;
+                              saksbehandlerIdent: string;
                               vedtaksperiodeId: string;
                               feilregistrert: boolean;
                               feilregistrert_tidspunkt?: string | null;

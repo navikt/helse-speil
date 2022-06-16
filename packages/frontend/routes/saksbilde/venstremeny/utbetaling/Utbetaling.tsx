@@ -111,7 +111,7 @@ export const Utbetaling = ({ activePeriod, currentPerson }: UtbetalingProps) => 
                 {trengerTotrinnsvurdering && !erBeslutteroppgaveOgHarTilgang ? (
                     <SendTilGodkjenningButton
                         oppgavereferanse={activePeriod.oppgavereferanse!}
-                        periodeId={activePeriod.id}
+                        beregningId={activePeriod.beregningId}
                         disabled={periodenErSendt}
                         onSuccess={onSendTilGodkjenning}
                         onError={setError}

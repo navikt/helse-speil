@@ -7,11 +7,11 @@ const spesialistBaseUrl = config.server.spesialistBaseUrl;
 
 export interface PostTotrinnsvurderingParams {
     oppgavereferanse: string;
-    periodeId: string;
+    beregningId: string;
 }
 export interface PostBeslutteroppgaveReturParams {
     oppgavereferanse: string;
-    periodeId: string;
+    beregningId: string;
     notat: NotatDTO;
 }
 
@@ -26,7 +26,7 @@ export default (oidcConfig: OidcConfig, onBehalfOf: OnBehalfOf): Totrinnsvurderi
         const options = {
             uri: `${spesialistBaseUrl}/api/totrinnsvurdering`,
             headers: { Authorization: `Bearer ${onBehalfOfToken}` },
-            body: { oppgavereferanse: body.oppgavereferanse, periodeId: body.periodeId },
+            body: { oppgavereferanse: body.oppgavereferanse, beregningId: body.beregningId },
             resolveWithFullResponse: true,
             json: true,
         };
@@ -38,7 +38,7 @@ export default (oidcConfig: OidcConfig, onBehalfOf: OnBehalfOf): Totrinnsvurderi
         const options = {
             uri: `${spesialistBaseUrl}/api/totrinnsvurdering/retur`,
             headers: { Authorization: `Bearer ${onBehalfOfToken}` },
-            body: { oppgavereferanse: body.oppgavereferanse, periodeId: body.periodeId, notat: body.notat },
+            body: { oppgavereferanse: body.oppgavereferanse, beregningId: body.beregningId, notat: body.notat },
             resolveWithFullResponse: true,
             json: true,
         };
