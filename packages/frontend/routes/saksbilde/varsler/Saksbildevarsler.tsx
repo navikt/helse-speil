@@ -115,7 +115,7 @@ export const Saksbildevarsler = ({
             ))}
             {varsler && (
                 <Aktivitetsloggvarsler
-                    varsler={totrinnsvurderingAktiv ? fjernVarselOmBeslutteroppgave(varsler) : varsler}
+                    varsler={totrinnsvurderingAktiv ? varsler : fjernVarselOmBeslutteroppgave(varsler)}
                 />
             )}
             {feilVarsler.map(({ grad, melding }, index) => (
