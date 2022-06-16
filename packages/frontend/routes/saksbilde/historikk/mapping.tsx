@@ -97,6 +97,10 @@ const getPeriodehistorikkTitle = (type: PeriodehistorikkType): String | JSX.Elem
         switch (type) {
             case PeriodehistorikkType.TotrinnsvurderingTilGodkjenning:
                 return 'Til Godkjenning';
+            case PeriodehistorikkType.TotrinnsvurderingRetur:
+                return 'Retur';
+            case PeriodehistorikkType.TotrinnsvurderingAttestert:
+                return 'Attestert';
             default:
                 return '';
         }
@@ -110,19 +114,27 @@ export const usePeriodehistorikk = (periode: BeregnetPeriode | GhostPeriode): Ar
         return [];
     }
 
-    return periode.periodehistorikk.map((historikkelement, index) => {
-        return {
-            id: index.toString(),
-            timestamp: historikkelement.timestamp as DateString,
-            title: getPeriodehistorikkTitle(historikkelement.type),
-            type: Hendelsetype.Historikk,
-            body: <BegrunnelseTekst>{historikkelement.saksbehandler_ident}</BegrunnelseTekst>,
-        } as Hendelse;
-    });
+    return periode.periodehistorikk
+        .filter((historikkelement) => historikkelement.type !== PeriodehistorikkType.TotrinnsvurderingRetur)
+        .map((historikkelement, index) => {
+            return {
+                id: index.toString(),
+                timestamp: historikkelement.timestamp as DateString,
+                title: getPeriodehistorikkTitle(historikkelement.type),
+                type: Hendelsetype.Historikk,
+                body: <BegrunnelseTekst>{historikkelement.saksbehandler_ident}</BegrunnelseTekst>,
+            } as Hendelse;
+        });
+};
+
+const periodeErAttestert = (periode: BeregnetPeriode): boolean => {
+    return periode.periodehistorikk.some(
+        (historikkelement) => historikkelement.type === PeriodehistorikkType.TotrinnsvurderingAttestert,
+    );
 };
 
 export const getUtbetalingshendelse = (periode: Periode | GhostPeriode): Hendelse | null => {
-    if (!isBeregnetPeriode(periode) || !periode.utbetaling.vurdering) {
+    if (!isBeregnetPeriode(periode) || !periode.utbetaling.vurdering || periodeErAttestert(periode)) {
         return null;
     }
 
@@ -135,8 +147,6 @@ export const getUtbetalingshendelse = (periode: Periode | GhostPeriode): Hendels
             ? 'Automatisk godkjent'
             : periode.utbetaling.type === 'ANNULLERING'
             ? 'Annullert'
-            : periode.erBeslutterOppgave
-            ? 'Attestert'
             : periode.utbetaling.type === 'REVURDERING'
             ? 'Revurdert'
             : 'Sendt til utbetaling',
