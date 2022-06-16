@@ -12,7 +12,7 @@ import { Venstremeny } from '../venstremeny/Venstremeny';
 import { Historikk } from '../historikk/Historikk';
 
 import styles from './PeriodeView.module.css';
-import { useErBeslutteroppgaveOgHarTilgang } from '@hooks/useErBeslutteroppgaveOgHarTilgang';
+import { useErBeslutteroppgaveOgErTidligereSaksbehandler } from '@hooks/useErBeslutteroppgaveOgErTidligereSaksbehandler';
 
 const Utbetaling = React.lazy(() => import('../utbetaling/Utbetaling').catch(onLazyLoadFail));
 const Inngangsvilkår = React.lazy(() => import('../vilkår/Inngangsvilkår').catch(onLazyLoadFail));
@@ -40,7 +40,7 @@ export const BeregnetPeriodeView: React.VFC<BeregnetPeriodeViewProps> = ({ activ
 
     const { path } = useRouteMatch();
     useSetVedtaksperiodeReferanserForNotater([activePeriod.vedtaksperiodeId]);
-    const erBeslutteroppgaveOgHarTilgang = useErBeslutteroppgaveOgHarTilgang();
+    const erBeslutteroppgaveOgErTidligereSaksbehandler = useErBeslutteroppgaveOgErTidligereSaksbehandler();
 
     return (
         <>
@@ -50,7 +50,7 @@ export const BeregnetPeriodeView: React.VFC<BeregnetPeriodeViewProps> = ({ activ
                     periodState={getPeriodState(activePeriod)}
                     oppgavereferanse={activePeriod.oppgavereferanse}
                     varsler={activePeriod.varsler}
-                    erBeslutteroppgaveOgHarTilgang={erBeslutteroppgaveOgHarTilgang}
+                    erBeslutteroppgaveOgErTidligereSaksbehandler={erBeslutteroppgaveOgErTidligereSaksbehandler}
                 />
                 {![Periodetilstand.Annullert, Periodetilstand.TilAnnullering].includes(
                     activePeriod.periodetilstand,
