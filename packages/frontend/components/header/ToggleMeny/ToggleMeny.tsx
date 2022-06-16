@@ -2,7 +2,6 @@ import React, { ReactNode } from 'react';
 import { Modal } from '@components/Modal';
 import { SetterOrUpdater, useRecoilState } from 'recoil';
 import {
-    toggleBeslutteroppgaveAktiv,
     toggleHarBeslutterRolle,
     toggleKanBeslutteEgenBeslutteroppgave,
     toggleKanFrigiAndresOppgaver,
@@ -48,7 +47,6 @@ interface ToggleMenyProps {
 export const ToggleMeny = ({ modalOpen, onCloseModal }: ToggleMenyProps) => {
     const [harBeslutterRolle, setHarBeslutterRolle] = useRecoilState(toggleHarBeslutterRolle);
     const [harTotrinnsvurderingAktiv, setHarTotrinnsvurderingAktiv] = useRecoilState(toggleTotrinnsvurderingAktiv);
-    const [harBeslutteroppgaveAktiv, setHarBeslutteroppgaveAktiv] = useRecoilState(toggleBeslutteroppgaveAktiv);
     const [kanBeslutteEgenBeslutteroppgave, setKanBeslutteEgenBeslutteroppgave] = useRecoilState(
         toggleKanBeslutteEgenBeslutteroppgave,
     );
@@ -63,11 +61,6 @@ export const ToggleMeny = ({ modalOpen, onCloseModal }: ToggleMenyProps) => {
                     label="Totrinnsvurdering aktiv"
                     checked={harTotrinnsvurderingAktiv}
                     setValue={setHarTotrinnsvurderingAktiv}
-                />
-                <Toggle
-                    label="Beslutteroppgave aktiv"
-                    checked={harBeslutteroppgaveAktiv}
-                    setValue={setHarBeslutteroppgaveAktiv}
                 />
                 <Toggle
                     label="Kan beslutte egen beslutteroppgave"

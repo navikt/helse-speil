@@ -1,16 +1,16 @@
 import { useActivePeriod } from '@state/periode';
 import { isBeregnetPeriode } from '@utils/typeguards';
-import { toggleBeslutteroppgaveAktiv } from '@state/toggles';
+import { toggleTotrinnsvurderingAktiv } from '@state/toggles';
 import { useRecoilValue } from 'recoil';
 
 export const useErBeslutteroppgaveOgHarTilgang = (): boolean => {
     const periode = useActivePeriod();
-    const beslutteroppgaveAktiv = useRecoilValue(toggleBeslutteroppgaveAktiv);
+    const totrinnvurderingAktiv = useRecoilValue(toggleTotrinnsvurderingAktiv);
+    // TODO const harBeslutterRolle = useRecoilValue(toggleHarBeslutterRolle);
 
     if (!isBeregnetPeriode(periode)) {
         return false;
     }
 
-    // Når vi skrur på toggle kan vi bytte ut beslutteroppgaveAktiv med harBeslutterRolle
-    return beslutteroppgaveAktiv && periode.erBeslutterOppgave;
+    return totrinnvurderingAktiv && periode.erBeslutterOppgave;
 };

@@ -266,14 +266,11 @@ export const overstyrInntektEnabled = overstyreUtbetaltPeriodeEnabled;
 const jonasNavIdent = 'H159657';
 const joakimNavIdent = 'K143566';
 const sindreNavIdent = 'B159939';
+const totrinnsgutta = [jonasNavIdent, joakimNavIdent, sindreNavIdent].includes(extractIdent());
 
-export const toggleMeny: boolean = erLocal() || ([sindreNavIdent].includes(extractIdent()) && erDev());
+export const toggleMeny: boolean = erLocal() || (erDev() && totrinnsgutta);
 
 export const harBeslutterRolle: boolean = extractGroups().includes(groupIdForBesluttere);
-export const kanBeslutteEgenBeslutteroppgave: boolean =
-    erDev() && [jonasNavIdent, joakimNavIdent, sindreNavIdent].includes(extractIdent());
-
-export const kanTesteTotrinnsIDev: boolean =
-    erDev() && [jonasNavIdent, joakimNavIdent, sindreNavIdent].includes(extractIdent());
+export const kanTesteTotrinnsIDev: boolean = erDev() && totrinnsgutta;
 export const totrinnsvurderingAktiv: boolean = erLocal() || kanTesteTotrinnsIDev;
-export const beslutteroppgaveAktiv: boolean = erLocal() || kanTesteTotrinnsIDev;
+export const kanBeslutteEgenBeslutteroppgave: boolean = erLocal() || kanTesteTotrinnsIDev;
