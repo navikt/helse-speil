@@ -1,14 +1,12 @@
 import React from 'react';
 import { Route, Switch, useRouteMatch } from 'react-router-dom';
 import { Loader } from '@navikt/ds-react';
-import { useRecoilValue } from 'recoil';
 
 import { useErTidligereSaksbehandler } from '@hooks/useErTidligereSaksbehandler';
 import { useSetVedtaksperiodeReferanserForNotater } from '@hooks/useSetVedtaksperiodeReferanserForNotater';
 import { onLazyLoadFail } from '@utils/error';
 import { getPeriodState } from '@utils/mapping';
 import { Arbeidsgiver, BeregnetPeriode, Periodetilstand, Person } from '@io/graphql';
-import { toggleTotrinnsvurderingAktiv } from '@state/toggles';
 
 import { Saksbildevarsler } from '../varsler/Saksbildevarsler';
 import { Venstremeny } from '../venstremeny/Venstremeny';
@@ -44,7 +42,6 @@ export const BeregnetPeriodeView: React.VFC<BeregnetPeriodeViewProps> = ({ activ
     useSetVedtaksperiodeReferanserForNotater([activePeriod.vedtaksperiodeId]);
 
     const erTidligereSaksbehandler = useErTidligereSaksbehandler();
-    const totrinnsvurderingAktiv = useRecoilValue(toggleTotrinnsvurderingAktiv);
 
     return (
         <>
@@ -57,7 +54,7 @@ export const BeregnetPeriodeView: React.VFC<BeregnetPeriodeViewProps> = ({ activ
                     erBeslutteroppgaveOgErTidligereSaksbehandler={
                         activePeriod.erBeslutterOppgave && erTidligereSaksbehandler
                     }
-                    totrinnsvurderingAktiv={totrinnsvurderingAktiv}
+                    erBeslutteroppgave={activePeriod.erBeslutterOppgave}
                 />
                 {![Periodetilstand.Annullert, Periodetilstand.TilAnnullering].includes(
                     activePeriod.periodetilstand,

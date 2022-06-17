@@ -72,8 +72,12 @@ const manglendeOppgavereferansevarsel = (state: PeriodState, oppgavereferanse?: 
 const ukjentTilstandsvarsel = (state: PeriodState): VarselObject | null =>
     state === 'ukjent' ? { grad: 'error', melding: 'Kunne ikke lese informasjon om sakens tilstand.' } : null;
 
-const beslutteroppgaveVarsel = (varsler?: Maybe<Array<string>>, totrinnsvurderingAktiv?: boolean) => {
-    if (totrinnsvurderingAktiv && varsler) {
+const beslutteroppgaveVarsel = (
+    periodState: PeriodState,
+    varsler?: Maybe<Array<string>>,
+    erBeslutteroppgave?: boolean,
+) => {
+    if (erBeslutteroppgave && varsler && ['tilGodkjenning', 'revurderes'].includes(periodState)) {
         const beslutteroppgavevarsel = Array.from(varsler)
             .reverse()
             .find((varsel) => varsel.includes('Beslutteroppgave:'));
@@ -93,7 +97,7 @@ interface SaksbildevarslerProps {
     oppgavereferanse?: Maybe<string>;
     varsler?: Maybe<Array<string>>;
     erBeslutteroppgaveOgErTidligereSaksbehandler?: boolean;
-    totrinnsvurderingAktiv?: boolean;
+    erBeslutteroppgave?: boolean;
 }
 
 export const Saksbildevarsler = ({
@@ -101,14 +105,14 @@ export const Saksbildevarsler = ({
     oppgavereferanse,
     varsler,
     erBeslutteroppgaveOgErTidligereSaksbehandler,
-    totrinnsvurderingAktiv,
+    erBeslutteroppgave,
 }: SaksbildevarslerProps) => {
     const infoVarsler: VarselObject[] = [
         tilgangInfoVarsel(erBeslutteroppgaveOgErTidligereSaksbehandler),
         tilstandInfoVarsel(periodState),
         utbetalingsvarsel(periodState),
         vedtaksperiodeVenterVarsel(periodState),
-        beslutteroppgaveVarsel(varsler, totrinnsvurderingAktiv),
+        beslutteroppgaveVarsel(periodState, varsler, erBeslutteroppgave),
     ].filter((it) => it) as VarselObject[];
 
     const feilVarsler: VarselObject[] = [
