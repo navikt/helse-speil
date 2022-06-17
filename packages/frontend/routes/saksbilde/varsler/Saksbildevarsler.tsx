@@ -26,8 +26,6 @@ const tilstandInfoVarsel = (state: PeriodState): VarselObject | null => {
         case 'revurdertIngenUtbetaling':
         case 'ingenUtbetaling':
             return { grad: 'info', melding: 'Perioden er godkjent, ingen utbetaling.' };
-        case 'revurderes':
-            return { grad: 'info', melding: 'Revurdering er igangsatt og må fullføres.' };
         case 'annullert':
             return { grad: 'info', melding: 'Utbetalingen er annullert.' };
         case 'tilAnnullering':
