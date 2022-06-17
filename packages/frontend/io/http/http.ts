@@ -143,11 +143,16 @@ export const getNotater = async (vedtaksperiodeIder: string[]): Promise<{ vedtak
     ).then((response) => response.data!);
 };
 
-const postVedtak = async (oppgavereferanse: string, aktørId: string, godkjent: boolean, skjema?: Avvisningsskjema) =>
-    post(`${baseUrl}/payments/vedtak`, { oppgavereferanse, aktørId, godkjent, skjema });
+const postVedtak = async (
+    oppgavereferanse: string,
+    aktørId: string,
+    godkjent: boolean,
+    skjema?: Avvisningsskjema,
+    beregningId?: string,
+) => post(`${baseUrl}/payments/vedtak`, { oppgavereferanse, aktørId, godkjent, skjema, beregningId });
 
-export const postUtbetalingsgodkjenning = async (oppgavereferanse: string, aktørId: string) =>
-    postVedtak(oppgavereferanse, aktørId, true);
+export const postUtbetalingsgodkjenning = async (oppgavereferanse: string, aktørId: string, beregningId: string) =>
+    postVedtak(oppgavereferanse, aktørId, true, undefined, beregningId);
 
 export const postSendTilInfotrygd = async (oppgavereferanse: string, aktørId: string, skjema: Avvisningsskjema) =>
     postVedtak(oppgavereferanse, aktørId, false, skjema);

@@ -31,6 +31,7 @@ export default ({ vedtakClient, annulleringClient, totrinnsvurderingClient }: Se
             ? {
                   oppgavereferanse,
                   godkjent: true,
+                  beregningId: req.body.beregningId,
                   speilToken: req.session!.speilToken,
                   saksbehandlerIdent,
               }
