@@ -9,7 +9,6 @@ import { AmplitudeContext } from '../../AmplitudeContext';
 interface SendTilGodkjenningButtonProps extends Omit<React.HTMLAttributes<HTMLButtonElement>, 'onError'> {
     children: ReactNode;
     oppgavereferanse: string;
-    beregningId: string;
     disabled: boolean;
     onSuccess?: () => void;
     onError?: (error: Error) => void;
@@ -18,7 +17,6 @@ interface SendTilGodkjenningButtonProps extends Omit<React.HTMLAttributes<HTMLBu
 export const SendTilGodkjenningButton: React.FC<SendTilGodkjenningButtonProps> = ({
     children,
     oppgavereferanse,
-    beregningId,
     disabled = false,
     onSuccess,
     onError,
@@ -32,7 +30,7 @@ export const SendTilGodkjenningButton: React.FC<SendTilGodkjenningButtonProps> =
 
     const sendTilGodkjenning = () => {
         setIsSending(true);
-        postUtbetalingTilTotrinnsvurdering(oppgavereferanse, beregningId)
+        postUtbetalingTilTotrinnsvurdering(oppgavereferanse)
             .then(() => {
                 amplitude.logTotrinnsoppgaveTilGodkjenning();
                 onSuccess?.();

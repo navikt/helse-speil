@@ -58,7 +58,7 @@ export const ReturButton: React.VFC<ReturButtonProps> = ({
     const returnerUtbetaling = (notattekst: string) => {
         setIsSending(true);
 
-        postSendTilbakeTilSaksbehandler(activePeriod.oppgavereferanse!, activePeriod.beregningId, {
+        postSendTilbakeTilSaksbehandler(activePeriod.oppgavereferanse!, {
             tekst: notattekst,
             type: 'Retur',
         })

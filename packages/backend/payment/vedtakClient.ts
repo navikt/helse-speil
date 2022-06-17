@@ -8,7 +8,6 @@ const spesialistBaseUrl = config.server.spesialistBaseUrl;
 interface PostVedtakOptions {
     oppgavereferanse: string;
     godkjent: boolean;
-    beregningId: string;
     speilToken: string;
     saksbehandlerIdent: string;
 }

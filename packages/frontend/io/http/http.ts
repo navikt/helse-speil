@@ -151,17 +151,17 @@ const postVedtak = async (
     beregningId?: string,
 ) => post(`${baseUrl}/payments/vedtak`, { oppgavereferanse, aktørId, godkjent, skjema, beregningId });
 
-export const postUtbetalingsgodkjenning = async (oppgavereferanse: string, aktørId: string, beregningId: string) =>
-    postVedtak(oppgavereferanse, aktørId, true, undefined, beregningId);
+export const postUtbetalingsgodkjenning = async (oppgavereferanse: string, aktørId: string) =>
+    postVedtak(oppgavereferanse, aktørId, true, undefined);
 
 export const postSendTilInfotrygd = async (oppgavereferanse: string, aktørId: string, skjema: Avvisningsskjema) =>
     postVedtak(oppgavereferanse, aktørId, false, skjema);
 
-export const postSendTilbakeTilSaksbehandler = async (oppgavereferanse: string, beregningId: string, notat: NotatDTO) =>
-    post(`${baseUrl}/payments/totrinnsvurdering/retur`, { oppgavereferanse, beregningId, notat });
+export const postSendTilbakeTilSaksbehandler = async (oppgavereferanse: string, notat: NotatDTO) =>
+    post(`${baseUrl}/payments/totrinnsvurdering/retur`, { oppgavereferanse, notat });
 
-export const postUtbetalingTilTotrinnsvurdering = async (oppgavereferanse: string, beregningId: string) =>
-    post(`${baseUrl}/payments/totrinnsvurdering`, { oppgavereferanse, beregningId });
+export const postUtbetalingTilTotrinnsvurdering = async (oppgavereferanse: string) =>
+    post(`${baseUrl}/payments/totrinnsvurdering`, { oppgavereferanse });
 
 export const postAnnullering = async (annullering: AnnulleringDTO) =>
     post(`${baseUrl}/payments/annullering`, annullering);

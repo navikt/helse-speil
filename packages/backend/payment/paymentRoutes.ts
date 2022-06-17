@@ -31,7 +31,6 @@ export default ({ vedtakClient, annulleringClient, totrinnsvurderingClient }: Se
             ? {
                   oppgavereferanse,
                   godkjent: true,
-                  beregningId: req.body.beregningId,
                   speilToken: req.session!.speilToken,
                   saksbehandlerIdent,
               }
@@ -87,13 +86,10 @@ export default ({ vedtakClient, annulleringClient, totrinnsvurderingClient }: Se
     });
 
     router.post('/totrinnsvurdering', (req: SpeilRequest, res: Response) => {
-        logger.info(
-            `Sender til totrinnsvurdering for oppgavereferanse ${req.body.oppgavereferanse} og beregningId: ${req.body.beregningId}`
-        );
+        logger.info(`Sender til totrinnsvurdering for oppgavereferanse ${req.body.oppgavereferanse}`);
         totrinnsvurderingClient
             .totrinnsvurdering(req.session!.speilToken, {
                 oppgavereferanse: req.body.oppgavereferanse,
-                beregningId: req.body.beregningId,
             })
             .then(() => {
                 res.sendStatus(204);
@@ -104,13 +100,10 @@ export default ({ vedtakClient, annulleringClient, totrinnsvurderingClient }: Se
     });
 
     router.post('/totrinnsvurdering/retur', (req: SpeilRequest, res: Response) => {
-        logger.info(
-            `Sender beslutteroppgave i retur for oppgavereferanse ${req.body.oppgavereferanse} og beregningId: ${req.body.beregningId}`
-        );
+        logger.info(`Sender beslutteroppgave i retur for oppgavereferanse ${req.body.oppgavereferanse}`);
         totrinnsvurderingClient
             .beslutteroppgaveretur(req.session!.speilToken, {
                 oppgavereferanse: req.body.oppgavereferanse,
-                beregningId: req.body.beregningId,
                 notat: req.body.notat,
             })
             .then(() => {
