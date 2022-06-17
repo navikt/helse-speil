@@ -17,10 +17,6 @@ describe('Saksbildevarsler', () => {
         render(<Saksbildevarsler periodState="revurdert" />);
         expect(screen.getByText('Utbetalingen er sendt til oppdragsystemet.')).toBeVisible();
     });
-    test('viser infovarsel når saken er til revurdering', () => {
-        render(<Saksbildevarsler periodState="revurderes" />);
-        expect(screen.getByText('Revurdering er igangsatt og må fullføres.')).toBeVisible();
-    });
     test('viser infovarsel når saken er godkjent uten utbetaling', () => {
         render(<Saksbildevarsler periodState="ingenUtbetaling" />);
         expect(screen.getByText('Perioden er godkjent, ingen utbetaling.')).toBeVisible();
