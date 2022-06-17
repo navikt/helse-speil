@@ -383,5 +383,59 @@
         "betydning": "Ved mottak av søknaden kjente vi bare til sykdom hos én arbeidsgiver.",
         "løsning": "Hvis sykepengegrunnlaget er fastsatt feil, eller det er sykmelding for flere arbeidsforhold som ikke er lagt til grunn, må saken behandles i Infotrygd.",
         "viktighet": "Høy"
+    },
+    {
+        "varsel": "Det er en ugyldig utbetalingsperiode i Infotrygd",
+        "betydning": "Det er lest inn en utbetalingsperiode fra Infotrygd som er mangelfull. Det er fire ulike årsaker til at dette kan skje: Utbetalingsperioden mangler f.o.m. eller t.o.m. dato. F.o.m. er nyere enn t.o.m. Utbetalingsgrad mangler. Utbetalingsgrad er mindre eller lik 0",
+        "løsning": "Undersøk om saken kan revurderes i Speil og at utbetalingen blir riktig. Hvis saken ikke kan revurderes i Speil, må du annullere og behandle saken i Infotrygd.",
+        "viktighet": "Høy"
+    },
+    {
+        "varsel": "Det er lagt inn statslønn i Infotrygd. Undersøk at utbetalingen blir riktig.",
+        "betydning": "Denne sakstypen tas normalt ikke inn i Speil. Det kan ha skjedd en endring fra saken ble behandlet første gang til den nå skal revurderes.",
+        "løsning": "Undersøk om saken kan revurderes i Speil og at utbetalingen blir riktig. Hvis saken ikke kan revurderes i Speil, må du annullere og behandle saken i Infotrygd.",
+        "viktighet": "Høy"
+    },
+    {
+        "varsel": "Utbetaling i Infotrygd overlapper med vedtaksperioden",
+        "betydning": "Denne sakstypen tas normalt ikke inn i Speil. Det kan ha skjedd en endring fra saken ble behandlet første gang til den nå skal revurderes.",
+        "løsning": "Undersøk om saken kan revurderes i Speil og at utbetalingen blir riktig. Hvis saken ikke kan revurderes i Speil, må du annullere og behandle saken i Infotrygd.",
+        "viktighet": "Høy"
+    },
+    {
+        "varsel": "Det er registrert utbetaling på nødnummer",
+        "betydning": "Denne sakstypen tas normalt ikke inn i Speil. Det kan ha skjedd en endring fra saken ble behandlet første gang til den nå skal revurderes.",
+        "løsning": "Undersøk om saken kan revurderes i Speil og at utbetalingen blir riktig. Hvis saken ikke kan revurderes i Speil, må du annullere og behandle saken i Infotrygd.",
+        "viktighet": "Høy"
+    },
+    {
+        "varsel": "Organisasjonsnummer for inntektsopplysning fra Infotrygd mangler",
+        "betydning": "Denne sakstypen tas normalt ikke inn i Speil. Det kan ha skjedd en endring fra saken ble behandlet første gang til den nå skal revurderes.",
+        "løsning": "Undersøk om saken kan revurderes i Speil og at utbetalingen blir riktig. Hvis saken ikke kan revurderes i Speil, må du annullere og behandle saken i Infotrygd.",
+        "viktighet": "Høy"
+    },
+    {
+        "varsel": "Det er registrert bruk av på nødnummer.",
+        "betydning": "Denne sakstypen tas normalt ikke inn i Speil. Det kan ha skjedd en endring fra saken ble behandlet første gang til den nå skal revurderes.",
+        "løsning": "Undersøk om saken kan revurderes i Speil og at utbetalingen blir riktig. Hvis saken ikke kan revurderes i Speil, må du annullere og behandle saken i Infotrygd.",
+        "viktighet": "Høy"
+    },
+    {
+        "varsel": "Støtter ikke overgang fra infotrygd for flere arbeidsgivere",
+        "betydning": "Denne sakstypen tas normalt ikke inn i Speil. Det kan ha skjedd en endring fra saken ble behandlet første gang til den nå skal revurderes.",
+        "løsning": "Undersøk om saken kan revurderes i Speil og at utbetalingen blir riktig. Hvis saken ikke kan revurderes i Speil, må du annullere og behandle saken i Infotrygd.",
+        "viktighet": "Høy"
+    },
+    {
+        "varsel": "Mangler inntekt for første utbetalingsdag i en av infotrygdperiodene",
+        "betydning": "Denne sakstypen tas normalt ikke inn i Speil. Det kan ha skjedd en endring fra saken ble behandlet første gang til den nå skal revurderes.",
+        "løsning": "Undersøk om saken kan revurderes i Speil og at utbetalingen blir riktig. Hvis saken ikke kan revurderes i Speil, må du annullere og behandle saken i Infotrygd.",
+        "viktighet": "Høy"
+    },
+    {
+        "varsel": "Personen er ikke registrert som normal arbeidstaker i Infotrygd",
+        "betydning": "Denne sakstypen tas normalt ikke inn i Speil. Det kan ha skjedd en endring fra saken ble behandlet første gang til den nå skal revurderes.",
+        "løsning": "Undersøk om saken kan revurderes i Speil og at utbetalingen blir riktig. Hvis saken ikke kan revurderes i Speil, må du annullere og behandle saken i Infotrygd.",
+        "viktighet": "Høy"
     }
 ]
