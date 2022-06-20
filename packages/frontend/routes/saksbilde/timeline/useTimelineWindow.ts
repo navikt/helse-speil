@@ -1,4 +1,4 @@
-import { useLayoutEffect, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import dayjs from 'dayjs';
 
 import type { Arbeidsgiver, Infotrygdutbetaling } from '@io/graphql';
@@ -6,13 +6,6 @@ import type { Arbeidsgiver, Infotrygdutbetaling } from '@io/graphql';
 type Periode = {
     fom: DateString;
     tom: DateString;
-};
-
-const getLatestDate = (perioder: Array<Periode>): Dayjs => {
-    return perioder.reduce((latest: Dayjs, periode: Periode) => {
-        const dato = dayjs(periode.tom);
-        return dato.isAfter(latest) ? dato : latest;
-    }, dayjs(0));
 };
 
 const getAvailableWindows = (latestDate: Dayjs): Array<TimelineWindow> => [
@@ -38,17 +31,15 @@ const getAvailableWindows = (latestDate: Dayjs): Array<TimelineWindow> => [
     },
 ];
 
-type UseTimelineWindowResult = {
-    availableWindows: Array<TimelineWindow>;
-    activeWindow: TimelineWindow;
-    setActiveWindow: (window: TimelineWindow) => void;
+const getLatestDate = (perioder: Array<Periode>): Dayjs => {
+    return perioder.reduce((latest: Dayjs, periode: Periode) => {
+        const dato = dayjs(periode.tom);
+        return dato.isAfter(latest) ? dato : latest;
+    }, dayjs(0));
 };
 
-export const useTimelineWindow = (
-    arbeidsgivere: Array<Arbeidsgiver>,
-    infotrygdutbetalinger: Array<Infotrygdutbetaling>,
-): UseTimelineWindowResult => {
-    const latestDate = useMemo(() => {
+const useLatestDate = (arbeidsgivere: Array<Arbeidsgiver>, infotrygdutbetalinger: Array<Infotrygdutbetaling>) => {
+    return useMemo(() => {
         const perioder = [
             ...arbeidsgivere.flatMap((it) => it.generasjoner.flatMap((it) => it.perioder) ?? []),
             ...arbeidsgivere.flatMap((it) => it.ghostPerioder),
@@ -56,16 +47,28 @@ export const useTimelineWindow = (
         ];
         return getLatestDate(perioder);
     }, [arbeidsgivere, infotrygdutbetalinger]);
+};
 
-    const [activeWindow, setActiveWindow] = useState<TimelineWindow>(getAvailableWindows(latestDate)[1]);
+const useAvailableWindows = (latestDate: Dayjs) => useMemo(() => getAvailableWindows(latestDate), [latestDate]);
 
-    useLayoutEffect(() => {
-        setActiveWindow(getAvailableWindows(latestDate)[1]);
-    }, [latestDate]);
+type UseTimelineWindowResult = {
+    availableWindows: Array<TimelineWindow>;
+    activeWindow: TimelineWindow;
+    setActiveWindow: (index: number) => void;
+};
+
+export const useTimelineWindow = (
+    arbeidsgivere: Array<Arbeidsgiver>,
+    infotrygdutbetalinger: Array<Infotrygdutbetaling>,
+): UseTimelineWindowResult => {
+    const [activeWindowIndex, setActiveWindow] = useState<number>(1);
+
+    const latestDate = useLatestDate(arbeidsgivere, infotrygdutbetalinger);
+    const availableWindows = useAvailableWindows(latestDate);
 
     return {
         availableWindows: getAvailableWindows(latestDate),
-        activeWindow,
+        activeWindow: availableWindows[activeWindowIndex],
         setActiveWindow,
     };
 };

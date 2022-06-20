@@ -24,62 +24,63 @@ interface TimelineWithContentProps {
     activePeriod: TimelinePeriod | null;
 }
 
-const TimelineWithContent: React.VFC<TimelineWithContentProps> = ({
-    arbeidsgivere,
-    infotrygdutbetalinger,
-    activePeriod,
-}) => {
-    const { availableWindows, activeWindow, setActiveWindow } = useTimelineWindow(arbeidsgivere, infotrygdutbetalinger);
+const TimelineWithContent: React.VFC<TimelineWithContentProps> = React.memo(
+    ({ arbeidsgivere, infotrygdutbetalinger, activePeriod }) => {
+        const { availableWindows, activeWindow, setActiveWindow } = useTimelineWindow(
+            arbeidsgivere,
+            infotrygdutbetalinger,
+        );
 
-    const start = activeWindow.fom.startOf('day');
-    const end = activeWindow.tom.endOf('day');
+        const start = activeWindow.fom.startOf('day');
+        const end = activeWindow.tom.endOf('day');
 
-    const infotrygdPeriods = useInfotrygdPeriods(infotrygdutbetalinger);
+        const infotrygdPeriods = useInfotrygdPeriods(infotrygdutbetalinger);
 
-    return (
-        <div className={styles.Timeline}>
-            <Pins start={start} end={end} arbeidsgivere={arbeidsgivere} />
-            <Labels start={start} end={end} />
-            <div className={styles.Rows}>
-                {arbeidsgivere
-                    .filter((it) => it.generasjoner.length > 0 || it.ghostPerioder.length > 0)
-                    .map((arbeidsgiver, i) =>
-                        arbeidsgiver.generasjoner.length > 1 ? (
-                            <ExpandableTimelineRow
-                                key={i}
-                                start={start}
-                                end={end}
-                                name={arbeidsgiver.navn ?? arbeidsgiver.organisasjonsnummer}
-                                generations={arbeidsgiver.generasjoner}
-                                infotrygdPeriods={infotrygdPeriods.get(arbeidsgiver.organisasjonsnummer) ?? []}
-                                activePeriod={activePeriod}
-                            />
-                        ) : (
-                            <TimelineRow
-                                key={i}
-                                start={start}
-                                end={end}
-                                name={arbeidsgiver.navn ?? arbeidsgiver.organisasjonsnummer}
-                                periods={arbeidsgiver.generasjoner[0]?.perioder ?? []}
-                                infotrygdPeriods={infotrygdPeriods.get(arbeidsgiver.organisasjonsnummer) ?? []}
-                                ghostPeriods={arbeidsgiver.ghostPerioder}
-                                activePeriod={activePeriod}
-                            />
-                        ),
+        return (
+            <div className={styles.Timeline}>
+                <Pins start={start} end={end} arbeidsgivere={arbeidsgivere} />
+                <Labels start={start} end={end} />
+                <div className={styles.Rows}>
+                    {arbeidsgivere
+                        .filter((it) => it.generasjoner.length > 0 || it.ghostPerioder.length > 0)
+                        .map((arbeidsgiver, i) =>
+                            arbeidsgiver.generasjoner.length > 1 ? (
+                                <ExpandableTimelineRow
+                                    key={i}
+                                    start={start}
+                                    end={end}
+                                    name={arbeidsgiver.navn ?? arbeidsgiver.organisasjonsnummer}
+                                    generations={arbeidsgiver.generasjoner}
+                                    infotrygdPeriods={infotrygdPeriods.get(arbeidsgiver.organisasjonsnummer) ?? []}
+                                    activePeriod={activePeriod}
+                                />
+                            ) : (
+                                <TimelineRow
+                                    key={i}
+                                    start={start}
+                                    end={end}
+                                    name={arbeidsgiver.navn ?? arbeidsgiver.organisasjonsnummer}
+                                    periods={arbeidsgiver.generasjoner[0]?.perioder ?? []}
+                                    infotrygdPeriods={infotrygdPeriods.get(arbeidsgiver.organisasjonsnummer) ?? []}
+                                    ghostPeriods={arbeidsgiver.ghostPerioder}
+                                    activePeriod={activePeriod}
+                                />
+                            ),
+                        )}
+                    {infotrygdPeriods.has('0') && (
+                        <InfotrygdRow start={start} end={end} periods={infotrygdPeriods.get('0') ?? []} />
                     )}
-                {infotrygdPeriods.has('0') && (
-                    <InfotrygdRow start={start} end={end} periods={infotrygdPeriods.get('0') ?? []} />
-                )}
+                </div>
+                <WindowPicker
+                    activeWindow={activeWindow}
+                    availableWindows={availableWindows}
+                    setActiveWindow={setActiveWindow}
+                    className={styles.WindowPicker}
+                />
             </div>
-            <WindowPicker
-                activeWindow={activeWindow}
-                availableWindows={availableWindows}
-                setActiveWindow={setActiveWindow}
-                className={styles.WindowPicker}
-            />
-        </div>
-    );
-};
+        );
+    },
+);
 
 const TimelineContainer: React.VFC = () => {
     const activePeriod = useActivePeriod();

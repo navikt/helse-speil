@@ -6,7 +6,7 @@ import styles from './WindowPicker.module.css';
 interface WindowPickerProps extends React.HTMLAttributes<HTMLDivElement> {
     availableWindows: Array<TimelineWindow>;
     activeWindow: TimelineWindow;
-    setActiveWindow: (window: TimelineWindow) => void;
+    setActiveWindow: (index: number) => void;
 }
 
 export const WindowPicker: React.VFC<WindowPickerProps> = ({
@@ -18,11 +18,11 @@ export const WindowPicker: React.VFC<WindowPickerProps> = ({
 }) => {
     return (
         <div className={classNames(styles.WindowPicker, className)} {...divProps}>
-            {availableWindows.map((window) => (
+            {availableWindows.map((window, i) => (
                 <button
                     key={window.label}
                     className={classNames(styles.Picker, window.label === activeWindow.label && styles.active)}
-                    onClick={() => setActiveWindow(window)}
+                    onClick={() => setActiveWindow(i)}
                 >
                     {window.label}
                 </button>
