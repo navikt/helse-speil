@@ -33,3 +33,9 @@ export const getFormattedDatetimeString = (dateString?: Maybe<DateString>): stri
     typeof dateString === 'string' ? dayjs(dateString).format(NORSK_DATOFORMAT_MED_KLOKKESLETT) : '';
 
 export const somDato = (dato: string): Dayjs => dayjs(dato ?? null, ISO_DATOFORMAT);
+
+export const getNextDay = (dateString: DateString): DateString =>
+    dayjs(dateString).add(1, 'day').format(ISO_DATOFORMAT);
+
+export const getPreviousDay = (dateString: DateString): DateString =>
+    dayjs(dateString).subtract(1, 'day').format(ISO_DATOFORMAT);

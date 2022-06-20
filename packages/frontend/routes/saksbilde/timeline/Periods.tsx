@@ -1,6 +1,8 @@
 import React from 'react';
+import dayjs from 'dayjs';
 
 import { isBeregnetPeriode, isGhostPeriode, isUberegnetPeriode } from '@utils/typeguards';
+import { getNextDay, getPreviousDay } from '@utils/date';
 import type { GhostPeriode, Periode } from '@io/graphql';
 import { Periodetilstand } from '@io/graphql';
 
@@ -10,12 +12,12 @@ import { useVisiblePeriods } from './useVisiblePeriods';
 
 import styles from './Periods.module.css';
 
-const byFomAscending = (a: DatePeriod, b: DatePeriod) => new Date(b.fom).getTime() - new Date(a.fom).getTime();
+const byFomAscending = (a: DatePeriod, b: DatePeriod): number => new Date(b.fom).getTime() - new Date(a.fom).getTime();
 
-const filterActivePeriods = (periods: Array<Periode>): Array<Periode> =>
+const filterPeriodsForDisplay = (periods: Array<Periode>): Array<Periode> =>
     periods.filter((it) => !(it.erForkastet && periodIsVenting(it)));
 
-const filterValidPeriods = (periods: Array<DatePeriod>): Array<DatePeriod> =>
+const filterVisiblePeriods = (periods: Array<DatePeriod>): Array<DatePeriod> =>
     periods.filter((it) => (isBeregnetPeriode(it) ? it.periodetilstand !== Periodetilstand.TilInfotrygd : true));
 
 const isActive = (activePeriod: Periode, currentPeriod: Periode): boolean => {
@@ -28,6 +30,65 @@ const isActive = (activePeriod: Periode, currentPeriod: Periode): boolean => {
     } else {
         return false;
     }
+};
+
+const containsDate = (period: DatePeriod, date: DateString): boolean => {
+    return dayjs(period.fom).isSameOrBefore(date) && dayjs(period.tom).isSameOrAfter(date);
+};
+
+const containsPeriod = (container: DatePeriod, maybeContained: DatePeriod): boolean => {
+    return (
+        dayjs(container.fom).isSameOrBefore(maybeContained.fom) &&
+        dayjs(container.tom).isSameOrAfter(maybeContained.tom)
+    );
+};
+
+export const trimOverlappingPeriods = (
+    periodsToCompare: Array<DatePeriod>,
+    periodsToTrim: Array<DatePeriod>,
+): Array<DatePeriod> => {
+    const result: Array<DatePeriod> = [];
+
+    trim: for (const toTrim of periodsToTrim) {
+        const trimmed: DatePeriod = { ...toTrim };
+
+        for (const period of periodsToCompare) {
+            if (containsPeriod(trimmed, period)) {
+                result.push(
+                    ...trimOverlappingPeriods(periodsToCompare, [
+                        {
+                            ...trimmed,
+                            fom: trimmed.fom,
+                            tom: getPreviousDay(period.fom),
+                        },
+                    ]),
+                );
+                result.push(
+                    ...trimOverlappingPeriods(periodsToCompare, [
+                        {
+                            ...trimmed,
+                            fom: getNextDay(period.tom),
+                            tom: trimmed.tom,
+                        },
+                    ]),
+                );
+                continue trim;
+            }
+            if (containsPeriod(period, trimmed)) {
+                continue trim;
+            }
+            if (containsDate(trimmed, period.fom)) {
+                trimmed.tom = getPreviousDay(period.fom);
+            }
+            if (containsDate(trimmed, period.tom)) {
+                trimmed.fom = getNextDay(period.tom);
+            }
+        }
+
+        result.push(trimmed);
+    }
+
+    return result;
 };
 
 interface PeriodsProps {
@@ -44,15 +105,20 @@ export const Periods: React.VFC<PeriodsProps> = ({
     start,
     end,
     periods,
-    infotrygdPeriods,
-    ghostPeriods,
+    infotrygdPeriods = [],
+    ghostPeriods = [],
     notCurrent,
     activePeriod,
 }) => {
-    const allPeriods = [...filterActivePeriods(periods), ...(infotrygdPeriods ?? []), ...(ghostPeriods ?? [])].sort(
-        byFomAscending,
-    );
-    const visiblePeriods = filterValidPeriods(useVisiblePeriods(start, allPeriods));
+    const periodsForDisplay = filterPeriodsForDisplay(periods);
+
+    const allPeriods = [
+        ...periodsForDisplay,
+        ...trimOverlappingPeriods(periodsForDisplay, infotrygdPeriods),
+        ...ghostPeriods,
+    ].sort(byFomAscending);
+
+    const visiblePeriods = filterVisiblePeriods(useVisiblePeriods(start, allPeriods));
     const positions = usePeriodStyling(start, end, visiblePeriods);
 
     return (
