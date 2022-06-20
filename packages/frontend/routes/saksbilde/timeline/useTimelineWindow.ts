@@ -17,6 +17,11 @@ const getLatestDate = (perioder: Array<Periode>): Dayjs => {
 
 const getAvailableWindows = (latestDate: Dayjs): Array<TimelineWindow> => [
     {
+        fom: latestDate.subtract(2, 'month'),
+        tom: latestDate,
+        label: '2 mnd',
+    },
+    {
         fom: latestDate.subtract(6, 'month'),
         tom: latestDate,
         label: '6 mnd',
@@ -52,10 +57,10 @@ export const useTimelineWindow = (
         return getLatestDate(perioder);
     }, [arbeidsgivere, infotrygdutbetalinger]);
 
-    const [activeWindow, setActiveWindow] = useState<TimelineWindow>(getAvailableWindows(latestDate)[0]);
+    const [activeWindow, setActiveWindow] = useState<TimelineWindow>(getAvailableWindows(latestDate)[1]);
 
     useLayoutEffect(() => {
-        setActiveWindow(getAvailableWindows(latestDate)[0]);
+        setActiveWindow(getAvailableWindows(latestDate)[1]);
     }, [latestDate]);
 
     return {
