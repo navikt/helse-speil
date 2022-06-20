@@ -13,6 +13,7 @@ import { useCurrentPerson } from '@state/person';
 import { ErrorBoundary } from '@components/ErrorBoundary';
 import { useCurrentArbeidsgiver } from '@state/arbeidsgiver';
 import { useReadOnlyOppgave } from '@hooks/useReadOnlyOppgave';
+import { useActivePeriod } from '@state/periode';
 
 const Container = styled.div`
     grid-column-start: venstremeny;
@@ -67,6 +68,7 @@ const UtbetalingshistorikkWithContent: React.VFC<UtbetalingshistorikkWithContent
     const [tilAnnullering, setTilAnnullering] = useState<Spennoppdrag | undefined>();
     const [annulleringerInFlight, setAnnulleringerInFlight] = useState<Array<string>>([]);
     const readOnly = useReadOnlyOppgave();
+    const activePeriod = useActivePeriod();
 
     const lukkUtbetalingshistorikk = () => push(`/person/${aktørId}/utbetaling`);
 
@@ -115,6 +117,7 @@ const UtbetalingshistorikkWithContent: React.VFC<UtbetalingshistorikkWithContent
                                         oppdrag.personoppdrag,
                                     )}
                                     readOnly={readOnly}
+                                    erBeslutteroppgave={(activePeriod as BeregnetPeriode)?.erBeslutterOppgave ?? false}
                                 />
                             )}
                             {oppdrag.arbeidsgiveroppdrag && (
@@ -128,6 +131,7 @@ const UtbetalingshistorikkWithContent: React.VFC<UtbetalingshistorikkWithContent
                                         oppdrag.arbeidsgiveroppdrag,
                                     )}
                                     readOnly={readOnly}
+                                    erBeslutteroppgave={(activePeriod as BeregnetPeriode)?.erBeslutterOppgave ?? false}
                                 />
                             )}
                         </React.Fragment>

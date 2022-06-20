@@ -36,6 +36,7 @@ const InntektContainer: React.VFC<InntektContainerProps> = ({ inntekt }) => {
                 vilkårsgrunnlagId={(period as BeregnetPeriode).vilkarsgrunnlaghistorikkId}
                 inntektstype={(period as BeregnetPeriode).inntektstype}
                 erDeaktivert={inntekt.deaktivert}
+                erBeslutteroppgave={(period as BeregnetPeriode).erBeslutterOppgave}
             />
         );
     } else {

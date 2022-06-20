@@ -24,6 +24,7 @@ interface InntektMedSykefraværProps {
     vilkårsgrunnlagId?: string;
     inntektstype?: Inntektstype;
     erDeaktivert?: Maybe<boolean>;
+    erBeslutteroppgave: boolean;
 }
 
 export const InntektMedSykefravær = ({
@@ -33,6 +34,7 @@ export const InntektMedSykefravær = ({
     vilkårsgrunnlagId,
     inntektstype,
     erDeaktivert,
+    erBeslutteroppgave,
 }: InntektMedSykefraværProps) => {
     const [editing, setEditing] = useState(false);
     const [endret, setEndret] = useState(false);
@@ -52,7 +54,7 @@ export const InntektMedSykefravær = ({
                         <Kilde type={omregnetÅrsinntekt?.kilde}>{kildeForkortelse(omregnetÅrsinntekt?.kilde)}</Kilde>
                     )}
                 </Flex>
-                {overstyrInntektEnabled && inntektstype && vilkårsgrunnlagId && !readOnly && (
+                {overstyrInntektEnabled && inntektstype && vilkårsgrunnlagId && !readOnly && !erBeslutteroppgave && (
                     <RedigerInntekt
                         setEditing={setEditing}
                         editing={editing}

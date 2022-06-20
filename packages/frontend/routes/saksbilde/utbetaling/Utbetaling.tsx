@@ -113,7 +113,8 @@ const UtbetalingWithContent: React.FC<UtbetalingWithContentProps> = React.memo((
 
     return (revurderingIsEnabled || overstyringIsEnabled || overstyrRevurderingIsEnabled) &&
         erAktivPeriodeISisteSkjæringstidspunkt &&
-        !readOnly ? (
+        !readOnly &&
+        !period.erBeslutterOppgave ? (
         <OverstyrbarUtbetaling
             fom={period.fom}
             tom={period.tom}
