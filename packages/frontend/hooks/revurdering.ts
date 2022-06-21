@@ -4,7 +4,7 @@ import { useCurrentArbeidsgiver } from '@state/arbeidsgiver';
 import { useCurrentPerson } from '@state/person';
 import { useActivePeriod } from '@state/periode';
 import { getPeriodState } from '@utils/mapping';
-import { isBeregnetPeriode } from '@utils/typeguards';
+import { isBeregnetPeriode, isForkastetPeriode } from '@utils/typeguards';
 import type { UtbetalingToggles } from '@utils/featureToggles';
 import type { Arbeidsgiver, BeregnetPeriode, GhostPeriode, Periode, Person } from '@io/graphql';
 
@@ -83,6 +83,7 @@ export const useRevurderingIsEnabled = (toggles: UtbetalingToggles): boolean => 
     const arbeidsgiver = getArbeidsgiverMedPeriode(periode, person);
 
     return (
+        !isForkastetPeriode(periode) &&
         arbeidsgiver !== null &&
         toggles.overstyreUtbetaltPeriodeEnabled &&
         alleOverlappendePerioderErAvsluttet(person, periode) &&
