@@ -11,6 +11,7 @@ import { annulleringerEnabled } from '@utils/featureToggles';
 import { Annulleringsmodal } from '../annullering/Annulleringsmodal';
 import { useArbeidsgiveroppdrag } from '../../utbetalingshistorikk/state';
 import { useErBeslutteroppgaveOgHarTilgang } from '@hooks/useErBeslutteroppgaveOgHarTilgang';
+import { useReadOnlyOppgave } from '@hooks/useReadOnlyOppgave';
 
 interface AnnullerButtonWithContentProps {
     utbetaling: Utbetaling;
@@ -60,13 +61,15 @@ const AnnullerButtonContainer: React.VFC = () => {
     const arbeidsgiver = useCurrentArbeidsgiver();
     const period = useActivePeriod();
     const erBeslutteroppgaveOgHarTilgang = useErBeslutteroppgaveOgHarTilgang();
+    const readonly = useReadOnlyOppgave();
 
     if (
         !annulleringerEnabled ||
         !isPerson(person) ||
         !isArbeidsgiver(arbeidsgiver) ||
         !isBeregnetPeriode(period) ||
-        erBeslutteroppgaveOgHarTilgang
+        erBeslutteroppgaveOgHarTilgang ||
+        readonly
     ) {
         return null;
     } else {
