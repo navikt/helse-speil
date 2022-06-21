@@ -5,9 +5,10 @@ import { BodyShort } from '@navikt/ds-react';
 import { Pins } from './Pins';
 import { Labels } from './Labels';
 import { TimelineRow } from './TimelineRow';
+import { ScrollButtons } from './ScrollButtons';
 import { InfotrygdRow } from './InfotrygdRow';
 import { ZoomLevelPicker } from './ZoomLevelPicker';
-import { useTimelineZoom } from './useTimelineZoom';
+import { useTimelineControls } from './useTimelineControls';
 import { useInfotrygdPeriods } from './useInfotrygdPeriods';
 import { ExpandableTimelineRow } from './ExpandableTimelineRow';
 
@@ -26,10 +27,15 @@ interface TimelineWithContentProps {
 
 const TimelineWithContent: React.VFC<TimelineWithContentProps> = React.memo(
     ({ arbeidsgivere, infotrygdutbetalinger, activePeriod }) => {
-        const { zoomLevels, currentZoomLevel, setCurrentZoomLevel } = useTimelineZoom(
-            arbeidsgivere,
-            infotrygdutbetalinger,
-        );
+        const {
+            zoomLevels,
+            currentZoomLevel,
+            setCurrentZoomLevel,
+            navigateForwards,
+            navigateBackwards,
+            canNavigateForwards,
+            canNavigateBackwards,
+        } = useTimelineControls(arbeidsgivere, infotrygdutbetalinger);
 
         const start = currentZoomLevel.fom.startOf('day');
         const end = currentZoomLevel.tom.endOf('day');
@@ -71,12 +77,19 @@ const TimelineWithContent: React.VFC<TimelineWithContentProps> = React.memo(
                         <InfotrygdRow start={start} end={end} periods={infotrygdPeriods.get('0') ?? []} />
                     )}
                 </div>
-                <ZoomLevelPicker
-                    currentZoomLevel={currentZoomLevel}
-                    availableZoomLevels={zoomLevels}
-                    setActiveZoomLevel={setCurrentZoomLevel}
-                    className={styles.ZoomLevelPicker}
-                />
+                <div className={styles.TimelineControls}>
+                    <ScrollButtons
+                        navigateForwards={navigateForwards}
+                        navigateBackwards={navigateBackwards}
+                        canNavigateForwards={canNavigateForwards}
+                        canNavigateBackwards={canNavigateBackwards}
+                    />
+                    <ZoomLevelPicker
+                        currentZoomLevel={currentZoomLevel}
+                        availableZoomLevels={zoomLevels}
+                        setActiveZoomLevel={setCurrentZoomLevel}
+                    />
+                </div>
             </div>
         );
     },

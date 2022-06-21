@@ -16,7 +16,10 @@
     gap: 24px;
 }
 
-.ZoomLevelPicker {
+.TimelineControls {
+    display: flex;
+    align-items: center;
+    gap: 24px;
     align-self: flex-end;
     margin: 16px 0;
 }

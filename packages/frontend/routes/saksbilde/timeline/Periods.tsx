@@ -6,18 +6,22 @@ import { getNextDay, getPreviousDay } from '@utils/date';
 import type { GhostPeriode, Periode } from '@io/graphql';
 import { Periodetilstand } from '@io/graphql';
 
-import { Period, periodIsVenting } from './Period';
+import { isNotReady, Period } from './Period';
 import { usePeriodStyling } from './usePeriodStyling';
 import { useVisiblePeriods } from './useVisiblePeriods';
 
 import styles from './Periods.module.css';
 
+type TimelinePeriod = DatePeriod & {
+    isFirst?: boolean;
+};
+
 const byFomAscending = (a: DatePeriod, b: DatePeriod): number => new Date(b.fom).getTime() - new Date(a.fom).getTime();
 
-const filterPeriodsForDisplay = (periods: Array<Periode>): Array<Periode> =>
-    periods.filter((it) => !(it.erForkastet && periodIsVenting(it)));
+const filterReadyPeriods = (periods: Array<Periode>): Array<Periode> =>
+    periods.filter((it) => !(it.erForkastet && isNotReady(it)));
 
-const filterVisiblePeriods = (periods: Array<DatePeriod>): Array<DatePeriod> =>
+const filterValidPeriods = (periods: Array<DatePeriod>): Array<DatePeriod> =>
     periods.filter((it) => (isBeregnetPeriode(it) ? it.periodetilstand !== Periodetilstand.TilInfotrygd : true));
 
 const isActive = (activePeriod: Periode, currentPeriod: Periode): boolean => {
@@ -91,6 +95,16 @@ export const trimOverlappingPeriods = (
     return result;
 };
 
+const mergePeriods = (
+    fromSpleis: Array<Periode>,
+    fromInfotrygd: Array<InfotrygdPeriod>,
+    ghostPeriods: Array<GhostPeriode>,
+): Array<TimelinePeriod> => {
+    const periodsFromSpleis = filterReadyPeriods(fromSpleis);
+    const periodsFromInfotrygd = trimOverlappingPeriods(periodsFromSpleis, fromInfotrygd);
+    return [...periodsFromSpleis, ...periodsFromInfotrygd, ...ghostPeriods].sort(byFomAscending);
+};
+
 interface PeriodsProps {
     start: Dayjs;
     end: Dayjs;
@@ -110,20 +124,22 @@ export const Periods: React.VFC<PeriodsProps> = ({
     notCurrent,
     activePeriod,
 }) => {
-    const periodsForDisplay = filterPeriodsForDisplay(periods);
+    const allPeriods = mergePeriods(periods, infotrygdPeriods, ghostPeriods);
 
-    const allPeriods = [
-        ...periodsForDisplay,
-        ...trimOverlappingPeriods(periodsForDisplay, infotrygdPeriods),
-        ...ghostPeriods,
-    ].sort(byFomAscending);
+    if (allPeriods[0]) {
+        allPeriods[0] = {
+            ...allPeriods[0],
+            isFirst: true,
+        };
+    }
 
-    const visiblePeriods = filterVisiblePeriods(useVisiblePeriods(start, allPeriods));
-    const positions = usePeriodStyling(start, end, visiblePeriods);
+    const visiblePeriods = useVisiblePeriods(end, start, allPeriods);
+    const validPeriods = filterValidPeriods(visiblePeriods);
+    const positions = usePeriodStyling(start, end, validPeriods);
 
     return (
         <div className={styles.Periods}>
-            {visiblePeriods.map((period, i) => (
+            {validPeriods.map((period, i) => (
                 <Period
                     key={i}
                     period={period}

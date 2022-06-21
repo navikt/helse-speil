@@ -1,4 +1,7 @@
 import { useMemo } from 'react';
 
-export const useVisiblePeriods = <T extends DatePeriod>(start: Dayjs, periods: Array<T>): Array<T> =>
-    useMemo(() => periods.filter((it) => start.isSameOrBefore(it.tom)), [start, periods]);
+export const useVisiblePeriods = <T extends DatePeriod>(end: Dayjs, start: Dayjs, periods: Array<T>): Array<T> =>
+    useMemo(
+        () => periods.filter((it) => end.isSameOrAfter(it.fom) && start.isSameOrBefore(it.tom)),
+        [end, start, periods],
+    );

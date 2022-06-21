@@ -18,6 +18,7 @@ type StyledPeriod = {
     fom: Dayjs;
     tom: Dayjs;
     type?: Maybe<Periodetype>;
+    isFirst?: boolean;
 };
 
 const withinADay = (a: Dayjs, b: Dayjs): boolean => Math.abs(a.diff(b, 'day')) < 1;
@@ -66,7 +67,7 @@ const getBorderRadii = <T extends StyledPeriod>(period: T, i: number, allPeriods
 export const getPosition = (date: Dayjs, start: Dayjs, end: Dayjs): number => {
     const diff = end.diff(start);
     const position = (date.diff(start) / diff) * 100;
-    return position > 0 ? position : 0;
+    return position > 0 ? (position < 100 ? position : 100) : 0;
 };
 
 const overlaps = (period: DatePeriod, skjæringstidspunkt: DateString): boolean => {
@@ -90,8 +91,9 @@ export const usePeriodStyling = <T extends DatePeriod>(
 ): Map<number, PeriodStyling> =>
     useMemo(() => {
         const map = new Map<number, PeriodStyling>();
-        const datePeriods = periods.map((period) => {
+        const datePeriods: Array<StyledPeriod> = periods.map((period) => {
             return {
+                ...period,
                 fom: dayjs(period.fom).startOf('day'),
                 tom: dayjs(period.tom).endOf('day'),
                 type: periodetype(period as unknown as Periode),
@@ -106,6 +108,11 @@ export const usePeriodStyling = <T extends DatePeriod>(
             if (right === 0) {
                 borderRadii.borderTopRightRadius = 0;
                 borderRadii.borderBottomRightRadius = 0;
+            }
+
+            if (right + width === 100 && !period.isFirst) {
+                borderRadii.borderTopLeftRadius = 0;
+                borderRadii.borderBottomLeftRadius = 0;
             }
 
             const style = {

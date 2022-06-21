@@ -1,15 +1,15 @@
 import React from 'react';
 import dayjs from 'dayjs';
+import { BodyShort, Popover } from '@navikt/ds-react';
 
 import { Arbeidsgiver } from '@io/graphql';
-import { BodyShort, Popover } from '@navikt/ds-react';
+import { getFormattedDateString } from '@utils/date';
 
 import { useMaksdato } from './useMaksdato';
 import { getPosition } from './usePeriodStyling';
 import { usePopoverAnchor } from './usePopoverAnchor';
 
 import styles from './Pins.module.css';
-import { getFormattedDateString } from '@utils/date';
 
 interface PinProps extends React.HTMLAttributes<HTMLDivElement> {}
 
@@ -26,7 +26,7 @@ const Pin: React.FC<PinProps> = ({ children, ...divProps }) => {
 };
 
 const shouldShowPin = (position?: Maybe<number>): boolean =>
-    typeof position === 'number' && position >= 0 && position <= 100;
+    typeof position === 'number' && position > 0 && position < 100;
 
 interface PinsProps {
     start: Dayjs;

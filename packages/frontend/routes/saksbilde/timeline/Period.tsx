@@ -37,7 +37,7 @@ interface PeriodProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
     isActive?: boolean;
 }
 
-export const periodIsVenting = (period: Periode) =>
+export const isNotReady = (period: Periode) =>
     [
         Periodetilstand.VenterPaEnAnnenPeriode,
         Periodetilstand.ForberederGodkjenning,

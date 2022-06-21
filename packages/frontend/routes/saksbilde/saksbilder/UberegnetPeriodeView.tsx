@@ -3,8 +3,9 @@ import React, { ReactNode } from 'react';
 import { Varsel } from '@components/Varsel';
 import { Dag, Sykdomsdagtype, UberegnetPeriode } from '@io/graphql';
 
+import { isNotReady } from '../timeline/Period';
+
 import styles from './UberegnetPeriodeView.module.css';
-import { periodIsVenting } from '../timeline/Period';
 
 const containsOnly = (days: Array<Dag>, ...dayTypes: Array<Sykdomsdagtype>): boolean => {
     const weekends = [Sykdomsdagtype.SykHelgedag, Sykdomsdagtype.FriskHelgedag];
@@ -16,7 +17,7 @@ const containsPayment = (days: Array<Dag>): boolean => {
 };
 
 const getErrorMessage = (period: UberegnetPeriode): ReactNode => {
-    if (periodIsVenting(period)) {
+    if (isNotReady(period)) {
         return (
             <Varsel className={styles.Message} variant="info">
                 Vedtaksperioden kan ikke vises, den ikke er klar til behandling ennå.
