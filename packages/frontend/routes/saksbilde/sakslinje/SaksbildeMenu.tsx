@@ -11,7 +11,7 @@ import { useInnloggetSaksbehandler } from '@state/authentication';
 import { BeregnetPeriode } from '@io/graphql';
 import { isBeregnetPeriode, isGhostPeriode } from '@utils/typeguards';
 import { onLazyLoadFail } from '@utils/error';
-import { useReadOnlyOppgave } from '@hooks/useReadOnlyOppgave';
+import { useIsReadOnlyOppgave } from '@hooks/useIsReadOnlyOppgave';
 
 import { TabLink } from '../TabLink';
 
@@ -74,7 +74,7 @@ const SaksbildeMenuBeregnetPeriode = ({ activePeriod }: SaksbildeMenuBeregnetPer
 
     const currentUser = useInnloggetSaksbehandler();
     const currentPerson = useCurrentPerson();
-    const readOnly = useReadOnlyOppgave();
+    const readOnly = useIsReadOnlyOppgave();
 
     const personIsAssignedUser =
         (currentPerson?.tildeling && currentPerson?.tildeling?.oid === currentUser.oid) ?? false;

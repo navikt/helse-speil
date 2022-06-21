@@ -19,7 +19,7 @@ import { useActivePeriod } from '@state/periode';
 import { useCurrentArbeidsgiver } from '@state/arbeidsgiver';
 import { isBeregnetPeriode } from '@utils/typeguards';
 import { Varsel } from '@components/Varsel';
-import { useReadOnlyOppgave } from '@hooks/useReadOnlyOppgave';
+import { useIsReadOnlyOppgave } from '@hooks/useIsReadOnlyOppgave';
 import { Utbetalingstabell } from './utbetalingstabell/Utbetalingstabell';
 import { useTabelldagerMap } from './utbetalingstabell/useTabelldagerMap';
 import { OverstyrbarUtbetaling } from './OverstyrbarUtbetaling';
@@ -102,7 +102,7 @@ const UtbetalingWithContent: React.FC<UtbetalingWithContentProps> = React.memo((
     const overstyrRevurderingIsEnabled = useOverstyrRevurderingIsEnabled(defaultUtbetalingToggles);
     const erAktivPeriodeISisteSkjæringstidspunkt = useActivePeriodHasLatestSkjæringstidspunkt();
     const dagoverstyringer = useDagoverstyringer(arbeidsgiver, period.fom, period.tom);
-    const readOnly = useReadOnlyOppgave();
+    const readOnly = useIsReadOnlyOppgave();
 
     const dager: Map<string, UtbetalingstabellDag> = useTabelldagerMap({
         tidslinje: period.tidslinje,

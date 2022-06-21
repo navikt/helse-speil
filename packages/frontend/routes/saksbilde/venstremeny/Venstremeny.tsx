@@ -7,7 +7,7 @@ import { useActivePeriod } from '@state/periode';
 import { useCurrentPerson } from '@state/person';
 import { useCurrentArbeidsgiver } from '@state/arbeidsgiver';
 import { isBeregnetPeriode, isGhostPeriode } from '@utils/typeguards';
-import { useReadOnlyOppgave } from '@hooks/useReadOnlyOppgave';
+import { useIsReadOnlyOppgave } from '@hooks/useIsReadOnlyOppgave';
 
 import { VenstremenyGhostPeriode } from './VenstremenyGhostPeriode';
 import { VenstremenyBeregnetPeriode } from './VenstremenyBeregnetPeriode';
@@ -18,7 +18,7 @@ const VenstremenyContainer: React.VFC = () => {
     const activePeriod = useActivePeriod();
     const currentPerson = useCurrentPerson();
     const currentArbeidsgiver = useCurrentArbeidsgiver();
-    const readOnly = useReadOnlyOppgave();
+    const readOnly = useIsReadOnlyOppgave();
 
     if (!currentPerson || !currentArbeidsgiver) {
         return null;

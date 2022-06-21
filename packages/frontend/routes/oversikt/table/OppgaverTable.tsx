@@ -24,7 +24,7 @@ import { SøkerCell } from './rader/SøkerCell';
 import { TildelingCell } from './rader/TildelingCell';
 import { NotatCell } from './rader/notat/NotatCell';
 import { OptionsCell } from './rader/options/OptionsCell';
-import { useReadOnlyOppgave } from '@hooks/useReadOnlyOppgave';
+import { useIsReadOnlyOppgave } from '@hooks/useIsReadOnlyOppgave';
 import { Cell } from './Cell';
 
 const Container = styled.div`
@@ -53,7 +53,7 @@ export const OppgaverTable = React.memo(({ oppgaver }: { oppgaver: Oppgave[] }) 
     const sortation = useSortation();
     const filters = useFilters();
     const tab = useAktivTab();
-    const readOnly = useReadOnlyOppgave();
+    const readOnly = useIsReadOnlyOppgave();
 
     const activeFilters = filters.filter((it) => it.active);
     const groupedFilters = groupFiltersByColumn(activeFilters);

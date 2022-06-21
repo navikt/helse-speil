@@ -5,10 +5,16 @@ import { Flex } from '@components/Flex';
 import { Bold } from '@components/Bold';
 import { Kilde } from '@components/Kilde';
 import { kildeForkortelse } from '@utils/inntektskilde';
+import { isBeregnetPeriode, isForkastetPeriode } from '@utils/typeguards';
 import { overstyrInntektEnabled } from '@utils/featureToggles';
-import { useEndringerForPeriode, useUtbetalingForSkjæringstidspunkt } from '@state/arbeidsgiver';
+import { useActivePeriod } from '@state/periode';
+import {
+    useEndringerForPeriode,
+    usePeriodForSkjæringstidspunkt,
+    useUtbetalingForSkjæringstidspunkt,
+} from '@state/arbeidsgiver';
 import { Inntektskilde, Inntektstype, Maybe, OmregnetArsinntekt, Utbetalingstatus } from '@io/graphql';
-import { useReadOnlyOppgave } from '@hooks/useReadOnlyOppgave';
+import { useIsReadOnlyOppgave } from '@hooks/useIsReadOnlyOppgave';
 
 import { RedigerInntekt } from './RedigerInntekt';
 import { EditableInntekt } from './EditableInntekt';
@@ -17,6 +23,25 @@ import { EndringsloggButton } from './EndringsloggButton';
 
 import styles from './Inntekt.module.css';
 
+const useIsBeslutteroppgave = (): boolean => {
+    const activePeriod = useActivePeriod();
+
+    return isBeregnetPeriode(activePeriod) && activePeriod.erBeslutterOppgave;
+};
+
+const useInntektKanRevurderes = (skjæringstidspunkt: DateString): boolean => {
+    const periodeVedSkjæringstidspunkt = usePeriodForSkjæringstidspunkt(skjæringstidspunkt);
+    const isReadOnlyOppgave = useIsReadOnlyOppgave();
+    const isBeslutteroppgave = useIsBeslutteroppgave();
+
+    return (
+        overstyrInntektEnabled &&
+        !isForkastetPeriode(periodeVedSkjæringstidspunkt) &&
+        !isReadOnlyOppgave &&
+        !isBeslutteroppgave
+    );
+};
+
 interface InntektMedSykefraværProps {
     skjæringstidspunkt: DateString;
     organisasjonsnummer: string;
@@ -24,7 +49,6 @@ interface InntektMedSykefraværProps {
     vilkårsgrunnlagId?: string;
     inntektstype?: Inntektstype;
     erDeaktivert?: Maybe<boolean>;
-    erBeslutteroppgave: boolean;
 }
 
 export const InntektMedSykefravær = ({
@@ -34,14 +58,14 @@ export const InntektMedSykefravær = ({
     vilkårsgrunnlagId,
     inntektstype,
     erDeaktivert,
-    erBeslutteroppgave,
 }: InntektMedSykefraværProps) => {
     const [editing, setEditing] = useState(false);
     const [endret, setEndret] = useState(false);
 
     const erRevurdering = useUtbetalingForSkjæringstidspunkt(skjæringstidspunkt)?.status === Utbetalingstatus.Utbetalt;
     const { inntektsendringer } = useEndringerForPeriode(organisasjonsnummer);
-    const readOnly = useReadOnlyOppgave();
+
+    const kanRevurderes = useInntektKanRevurderes(skjæringstidspunkt);
 
     return (
         <div className={classNames(styles.Inntekt, editing && styles.editing)}>
@@ -54,7 +78,7 @@ export const InntektMedSykefravær = ({
                         <Kilde type={omregnetÅrsinntekt?.kilde}>{kildeForkortelse(omregnetÅrsinntekt?.kilde)}</Kilde>
                     )}
                 </Flex>
-                {overstyrInntektEnabled && inntektstype && vilkårsgrunnlagId && !readOnly && !erBeslutteroppgave && (
+                {inntektstype && vilkårsgrunnlagId && kanRevurderes && (
                     <RedigerInntekt
                         setEditing={setEditing}
                         editing={editing}

@@ -75,6 +75,8 @@ export const isArbeidsgiver = (arbeidsgiver?: Maybe<Arbeidsgiver>): arbeidsgiver
     return arbeidsgiver !== undefined && arbeidsgiver !== null;
 };
 
-export const isForkastetPeriode = (periode?: Maybe<BeregnetPeriode | UberegnetPeriode | GhostPeriode>): boolean => {
+export const isForkastetPeriode = (
+    periode?: Maybe<Periode | BeregnetPeriode | UberegnetPeriode | GhostPeriode>,
+): boolean => {
     return (isBeregnetPeriode(periode) || isUberegnetPeriode(periode)) && periode.erForkastet;
 };

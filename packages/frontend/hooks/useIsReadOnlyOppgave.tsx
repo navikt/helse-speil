@@ -6,7 +6,7 @@ import { toggleReadOnly, toggleReadOnlyOverride } from '@state/toggles';
 import { useActivePeriod } from '@state/periode';
 import { isBeregnetPeriode } from '@utils/typeguards';
 
-export const useReadOnlyOppgave = (): boolean => {
+export const useIsReadOnlyOppgave = (): boolean => {
     const periode = useActivePeriod();
     const erTidligereSaksbehandler = useErTidligereSaksbehandler();
     const harBeslutteroppgavetilgang = useHarBeslutteroppgavetilgang();

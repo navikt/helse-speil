@@ -54,7 +54,7 @@ const activePeriod = selector<ActivePeriod | null>({
     },
 });
 
-export const useActivePeriod = () => useRecoilValue(activePeriod);
+export const useActivePeriod = (): ActivePeriod | null => useRecoilValue(activePeriod);
 
 export const useSetActivePeriod = () => useSetRecoilState(activePeriodState);
 

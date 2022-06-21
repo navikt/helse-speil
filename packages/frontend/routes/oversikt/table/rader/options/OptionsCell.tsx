@@ -4,7 +4,7 @@ import React, { useRef, useState } from 'react';
 import { Button as NavButton, Popover, Tooltip } from '@navikt/ds-react';
 
 import { useInnloggetSaksbehandler } from '@state/authentication';
-import { useReadOnlyOppgave } from '@hooks/useReadOnlyOppgave';
+import { useIsReadOnlyOppgave } from '@hooks/useIsReadOnlyOppgave';
 
 import { Cell } from '../../Cell';
 import { CellContent } from '../CellContent';
@@ -81,7 +81,7 @@ export const OptionsCell = React.memo(({ oppgave, personinfo }: OptionsButtonPro
     const buttonRef = useRef<HTMLButtonElement>(null);
 
     const innloggetSaksbehandler = useInnloggetSaksbehandler();
-    const readOnly = useReadOnlyOppgave();
+    const readOnly = useIsReadOnlyOppgave();
     const erTildeltInnloggetBruker =
         typeof oppgave.tildeling?.saksbehandler?.oid === 'string' &&
         oppgave.tildeling?.saksbehandler.oid === innloggetSaksbehandler.oid;

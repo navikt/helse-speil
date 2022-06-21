@@ -20,7 +20,7 @@ import { isBeregnetPeriode } from '@utils/typeguards';
 import { ReturButton } from './ReturButton';
 import { useErBeslutteroppgaveOgHarTilgang } from '@hooks/useErBeslutteroppgaveOgHarTilgang';
 import { toggleTotrinnsvurderingAktiv } from '@state/toggles';
-import { useReadOnlyOppgave } from '@hooks/useReadOnlyOppgave';
+import { useIsReadOnlyOppgave } from '@hooks/useIsReadOnlyOppgave';
 
 const InfoText = styled(BodyShort)`
     color: var(--navds-semantic-color-text);
@@ -47,7 +47,7 @@ const useOnGodkjenn = (period: BeregnetPeriode, person: Person): (() => void) =>
     const history = useHistory();
     const setOpptegnelsePollingTime = useSetRecoilState(opptegnelsePollingTimeState);
 
-    const onGodkjennUtbetaling = () => {
+    return () => {
         if (skalPolleEtterNestePeriode(person) || isRevurdering(period)) {
             postAbonnerPåAktør(person.aktorId).then(() => {
                 setOpptegnelsePollingTime(1000);
@@ -56,8 +56,6 @@ const useOnGodkjenn = (period: BeregnetPeriode, person: Person): (() => void) =>
             history.push('/');
         }
     };
-
-    return onGodkjennUtbetaling;
 };
 
 const useOnAvvis = (): (() => void) => {
@@ -75,7 +73,7 @@ export const Utbetaling = ({ activePeriod, currentPerson }: UtbetalingProps) => 
     const [error, setError] = useState<SpeilError | null>();
     const ventEllerHopp = useOnGodkjenn(activePeriod, currentPerson);
     const history = useHistory();
-    const readOnly = useReadOnlyOppgave();
+    const readOnly = useIsReadOnlyOppgave();
     const erBeslutteroppgaveOgHarTilgang = useErBeslutteroppgaveOgHarTilgang();
     const totrinnsvurderingAktiv = useRecoilValue(toggleTotrinnsvurderingAktiv);
 
