@@ -8,7 +8,7 @@ type Periode = {
     tom: DateString;
 };
 
-const getAvailableWindows = (latestDate: Dayjs): Array<TimelineWindow> => [
+const getAvailableZoomLevels = (latestDate: Dayjs): Array<TimelineZoomLevel> => [
     {
         fom: latestDate.subtract(2, 'month'),
         tom: latestDate,
@@ -49,26 +49,26 @@ const useLatestDate = (arbeidsgivere: Array<Arbeidsgiver>, infotrygdutbetalinger
     }, [arbeidsgivere, infotrygdutbetalinger]);
 };
 
-const useAvailableWindows = (latestDate: Dayjs) => useMemo(() => getAvailableWindows(latestDate), [latestDate]);
+const useAvailableZoomLevels = (latestDate: Dayjs) => useMemo(() => getAvailableZoomLevels(latestDate), [latestDate]);
 
-type UseTimelineWindowResult = {
-    availableWindows: Array<TimelineWindow>;
-    activeWindow: TimelineWindow;
-    setActiveWindow: (index: number) => void;
+type UseTimelineZoomResult = {
+    zoomLevels: Array<TimelineZoomLevel>;
+    currentZoomLevel: TimelineZoomLevel;
+    setCurrentZoomLevel: (index: number) => void;
 };
 
-export const useTimelineWindow = (
+export const useTimelineZoom = (
     arbeidsgivere: Array<Arbeidsgiver>,
     infotrygdutbetalinger: Array<Infotrygdutbetaling>,
-): UseTimelineWindowResult => {
-    const [activeWindowIndex, setActiveWindow] = useState<number>(1);
+): UseTimelineZoomResult => {
+    const [currentZoomIndex, setCurrentZoomIndex] = useState<number>(1);
 
     const latestDate = useLatestDate(arbeidsgivere, infotrygdutbetalinger);
-    const availableWindows = useAvailableWindows(latestDate);
+    const availableZoomLevels = useAvailableZoomLevels(latestDate);
 
     return {
-        availableWindows: getAvailableWindows(latestDate),
-        activeWindow: availableWindows[activeWindowIndex],
-        setActiveWindow,
+        zoomLevels: getAvailableZoomLevels(latestDate),
+        currentZoomLevel: availableZoomLevels[currentZoomIndex],
+        setCurrentZoomLevel: setCurrentZoomIndex,
     };
 };

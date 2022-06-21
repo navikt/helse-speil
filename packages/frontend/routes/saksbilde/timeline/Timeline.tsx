@@ -6,8 +6,8 @@ import { Pins } from './Pins';
 import { Labels } from './Labels';
 import { TimelineRow } from './TimelineRow';
 import { InfotrygdRow } from './InfotrygdRow';
-import { WindowPicker } from './WindowPicker';
-import { useTimelineWindow } from './useTimelineWindow';
+import { ZoomLevelPicker } from './ZoomLevelPicker';
+import { useTimelineZoom } from './useTimelineZoom';
 import { useInfotrygdPeriods } from './useInfotrygdPeriods';
 import { ExpandableTimelineRow } from './ExpandableTimelineRow';
 
@@ -26,13 +26,13 @@ interface TimelineWithContentProps {
 
 const TimelineWithContent: React.VFC<TimelineWithContentProps> = React.memo(
     ({ arbeidsgivere, infotrygdutbetalinger, activePeriod }) => {
-        const { availableWindows, activeWindow, setActiveWindow } = useTimelineWindow(
+        const { zoomLevels, currentZoomLevel, setCurrentZoomLevel } = useTimelineZoom(
             arbeidsgivere,
             infotrygdutbetalinger,
         );
 
-        const start = activeWindow.fom.startOf('day');
-        const end = activeWindow.tom.endOf('day');
+        const start = currentZoomLevel.fom.startOf('day');
+        const end = currentZoomLevel.tom.endOf('day');
 
         const infotrygdPeriods = useInfotrygdPeriods(infotrygdutbetalinger);
 
@@ -71,11 +71,11 @@ const TimelineWithContent: React.VFC<TimelineWithContentProps> = React.memo(
                         <InfotrygdRow start={start} end={end} periods={infotrygdPeriods.get('0') ?? []} />
                     )}
                 </div>
-                <WindowPicker
-                    activeWindow={activeWindow}
-                    availableWindows={availableWindows}
-                    setActiveWindow={setActiveWindow}
-                    className={styles.WindowPicker}
+                <ZoomLevelPicker
+                    currentZoomLevel={currentZoomLevel}
+                    availableZoomLevels={zoomLevels}
+                    setActiveZoomLevel={setCurrentZoomLevel}
+                    className={styles.ZoomLevelPicker}
                 />
             </div>
         );
