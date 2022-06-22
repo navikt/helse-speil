@@ -1,7 +1,7 @@
 import { atom, selector, useRecoilValue, useSetRecoilState } from 'recoil';
 
 import type { BeregnetPeriode, GhostPeriode, Person, UberegnetPeriode } from '@io/graphql';
-import { Periodetilstand, Vilkarsgrunnlag } from '@io/graphql';
+import { Periode, Periodetilstand, Vilkarsgrunnlag } from '@io/graphql';
 import { currentPersonState, useCurrentPerson } from '@state/person';
 import { isBeregnetPeriode, isGhostPeriode, isUberegnetPeriode } from '@utils/typeguards';
 import dayjs from 'dayjs';
@@ -16,6 +16,13 @@ const personHasPeriod = (person: Person, period: ActivePeriod): boolean => {
         person.arbeidsgivere.flatMap((it) => it.ghostPerioder).find((it) => it.id === period.id) !== undefined
     );
 };
+
+export const isNotReady = (period: Periode) =>
+    [
+        Periodetilstand.VenterPaEnAnnenPeriode,
+        Periodetilstand.ForberederGodkjenning,
+        Periodetilstand.ManglerInformasjon,
+    ].includes(period.periodetilstand);
 
 const activePeriodState = atom<ActivePeriod | null>({
     key: 'activePeriodState',

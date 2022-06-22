@@ -9,7 +9,7 @@ import { useRefreshPersonVedOpptegnelse } from '@hooks/useRefreshPersonVedOppteg
 import { useVarselOmSakErTildeltAnnenSaksbehandler } from '@hooks/useVarselOmSakErTildeltAnnenSaksbehandler';
 import { usePollEtterOpptegnelser } from '@io/http';
 
-import { Timeline } from './timeline/Timeline';
+import { Timeline } from './timeline';
 import { PeriodeView } from './saksbilder/PeriodeView';
 import { PersonHeader } from './PersonHeader';
 import { SaksbildeMenu } from './sakslinje/SaksbildeMenu';

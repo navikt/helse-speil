@@ -1,9 +1,8 @@
 import React, { ReactNode } from 'react';
 
 import { Varsel } from '@components/Varsel';
+import { isNotReady } from '@state/periode';
 import { Dag, Sykdomsdagtype, UberegnetPeriode } from '@io/graphql';
-
-import { isNotReady } from '../timeline/Period';
 
 import styles from './UberegnetPeriodeView.module.css';
 

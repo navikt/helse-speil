@@ -5,16 +5,13 @@ import { isBeregnetPeriode, isGhostPeriode, isUberegnetPeriode } from '@utils/ty
 import { getNextDay, getPreviousDay } from '@utils/date';
 import type { GhostPeriode, Periode } from '@io/graphql';
 import { Periodetilstand } from '@io/graphql';
+import { isNotReady } from '@state/periode';
 
-import { isNotReady, Period } from './Period';
+import { Period } from './Period';
 import { usePeriodStyling } from './usePeriodStyling';
 import { useVisiblePeriods } from './useVisiblePeriods';
 
 import styles from './Periods.module.css';
-
-type TimelinePeriod = DatePeriod & {
-    isFirst?: boolean;
-};
 
 const byFomAscending = (a: DatePeriod, b: DatePeriod): number => new Date(b.fom).getTime() - new Date(a.fom).getTime();
 
@@ -105,6 +102,15 @@ const mergePeriods = (
     return [...periodsFromSpleis, ...periodsFromInfotrygd, ...ghostPeriods].sort(byFomAscending);
 };
 
+const markFirstPeriod = (periods: Array<TimelinePeriod>) => {
+    if (periods[0]) {
+        periods[0] = {
+            ...periods[0],
+            isFirst: true,
+        };
+    }
+};
+
 interface PeriodsProps {
     start: Dayjs;
     end: Dayjs;
@@ -126,12 +132,7 @@ export const Periods: React.VFC<PeriodsProps> = ({
 }) => {
     const allPeriods = mergePeriods(periods, infotrygdPeriods, ghostPeriods);
 
-    if (allPeriods[0]) {
-        allPeriods[0] = {
-            ...allPeriods[0],
-            isFirst: true,
-        };
-    }
+    markFirstPeriod(allPeriods);
 
     const visiblePeriods = useVisiblePeriods(end, start, allPeriods);
     const validPeriods = filterValidPeriods(visiblePeriods);

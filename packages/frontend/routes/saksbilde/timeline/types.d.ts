@@ -8,4 +8,6 @@ declare type TimelineZoomLevel = {
     label: string;
 };
 
-declare type TimelinePeriod = GhostPeriode | BeregnetPeriode | UberegnetPeriode | InfotrygdPeriod | DatePeriod;
+declare type TimelinePeriod = (GhostPeriode | BeregnetPeriode | UberegnetPeriode | InfotrygdPeriod | DatePeriod) & {
+    isFirst?: boolean;
+};

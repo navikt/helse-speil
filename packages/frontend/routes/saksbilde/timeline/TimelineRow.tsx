@@ -1,5 +1,6 @@
 import React from 'react';
 import { Bag } from '@navikt/ds-icons';
+import { Tooltip } from '@navikt/ds-react';
 
 import { AnonymizableTextWithEllipsis } from '@components/TextWithEllipsis';
 import type { GhostPeriode, Periode } from '@io/graphql';
@@ -7,7 +8,6 @@ import type { GhostPeriode, Periode } from '@io/graphql';
 import { Periods } from './Periods';
 
 import styles from './TimelineRow.module.css';
-import { Tooltip } from '@navikt/ds-react';
 
 export interface TimelineRowProps {
     start: Dayjs;

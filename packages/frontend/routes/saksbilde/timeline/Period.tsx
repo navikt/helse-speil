@@ -3,7 +3,7 @@ import classNames from 'classnames';
 
 import { useSetActivePeriod } from '@state/periode';
 import { getPeriodCategory, getPeriodState } from '@utils/mapping';
-import { Periode, Periodetilstand, Sykdomsdagtype, Utbetalingsdagtype } from '@io/graphql';
+import { Sykdomsdagtype, Utbetalingsdagtype } from '@io/graphql';
 import { isBeregnetPeriode, isGhostPeriode, isUberegnetPeriode } from '@utils/typeguards';
 
 import { PeriodPopover } from './PeriodPopover';
@@ -36,13 +36,6 @@ interface PeriodProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
     notCurrent?: boolean;
     isActive?: boolean;
 }
-
-export const isNotReady = (period: Periode) =>
-    [
-        Periodetilstand.VenterPaEnAnnenPeriode,
-        Periodetilstand.ForberederGodkjenning,
-        Periodetilstand.ManglerInformasjon,
-    ].includes(period.periodetilstand);
 
 export const Period: React.VFC<PeriodProps> = ({ period, notCurrent, isActive, ...buttonProps }) => {
     const setActivePeriod = useSetActivePeriod();
