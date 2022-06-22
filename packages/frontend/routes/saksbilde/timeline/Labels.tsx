@@ -47,7 +47,7 @@ const getMonthLabels = (start: Dayjs, end: Dayjs): Array<Label> => {
         const width = getPosition(month.add(1, 'month'), start, end) - right;
         return {
             style: { right, width },
-            text: capitalize(month.format('MMM').slice(0, 3)),
+            text: `${capitalize(month.format('MMM')).slice(0, 3)} ${month.format('YY')}`,
             date: month,
         };
     });
