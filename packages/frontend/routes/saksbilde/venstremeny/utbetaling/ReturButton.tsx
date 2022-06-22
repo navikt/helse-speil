@@ -6,7 +6,7 @@ import { BeregnetPeriode } from '@io/graphql';
 import { postSendTilbakeTilSaksbehandler } from '@io/http';
 import { Scopes, useAddEphemeralVarsel } from '@state/varsler';
 
-import { AmplitudeContext } from '../../AmplitudeContext';
+import { AmplitudeContext } from '@io/amplitude';
 import { NyttNotatModal } from '../../../oversikt/table/rader/notat/NyttNotatModal';
 import { useCurrentPerson } from '@state/person';
 
@@ -42,7 +42,7 @@ export const ReturButton: React.VFC<ReturButtonProps> = ({
     ...buttonProps
 }) => {
     const [showModal, setShowModal] = useState(false);
-    const [isSending, setIsSending] = useState(false);
+    const [_isSending, setIsSending] = useState(false);
 
     const addInfotrygdtoast = useAddInfotrygdtoast();
     const person = useCurrentPerson();

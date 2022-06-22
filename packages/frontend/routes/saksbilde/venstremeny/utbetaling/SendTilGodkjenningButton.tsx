@@ -4,7 +4,7 @@ import { Button } from '@navikt/ds-react';
 import { postUtbetalingTilTotrinnsvurdering } from '@io/http';
 
 import { UtbetalingModal } from './UtbetalingModal';
-import { AmplitudeContext } from '../../AmplitudeContext';
+import { AmplitudeContext } from '@io/amplitude';
 
 interface SendTilGodkjenningButtonProps extends Omit<React.HTMLAttributes<HTMLButtonElement>, 'onError'> {
     children: ReactNode;

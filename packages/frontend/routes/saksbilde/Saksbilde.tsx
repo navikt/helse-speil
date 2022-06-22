@@ -8,12 +8,12 @@ import { useRefreshPersonVedUrlEndring } from '@hooks/useRefreshPersonVedUrlEndr
 import { useRefreshPersonVedOpptegnelse } from '@hooks/useRefreshPersonVedOpptegnelse';
 import { useVarselOmSakErTildeltAnnenSaksbehandler } from '@hooks/useVarselOmSakErTildeltAnnenSaksbehandler';
 import { usePollEtterOpptegnelser } from '@io/http';
+import { AmplitudeProvider } from '@io/amplitude';
 
 import { Timeline } from './timeline';
 import { PeriodeView } from './saksbilder/PeriodeView';
 import { PersonHeader } from './PersonHeader';
 import { SaksbildeMenu } from './sakslinje/SaksbildeMenu';
-import { AmplitudeProvider } from './AmplitudeContext';
 import { useKeyboardShortcuts } from './useKeyboardShortcuts';
 import { VenterPåEndringProvider } from './VenterPåEndringContext';
 

@@ -7,7 +7,7 @@ import { UtbetalingModal } from './UtbetalingModal';
 import { postUtbetalingsgodkjenning } from '@io/http';
 import { Scopes, useAddEphemeralVarsel } from '@state/varsler';
 
-import { AmplitudeContext } from '../../AmplitudeContext';
+import { AmplitudeContext } from '@io/amplitude';
 
 const useAddUtbetalingstoast = () => {
     const timeToLiveMs = 5000;

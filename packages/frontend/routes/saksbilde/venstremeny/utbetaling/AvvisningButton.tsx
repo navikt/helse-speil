@@ -8,7 +8,7 @@ import { Scopes, useAddEphemeralVarsel } from '@state/varsler';
 
 import { AvvisningModal, Avvisningsskjema } from './AvvisningModal';
 
-import { AmplitudeContext } from '../../AmplitudeContext';
+import { AmplitudeContext } from '@io/amplitude';
 
 const useAddInfotrygdtoast = () => {
     const timeToLiveMs = 5000;
