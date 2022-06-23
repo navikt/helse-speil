@@ -8,7 +8,10 @@
 
 .IconContainer {
     justify-self: center;
+    align-self: start;
     display: flex;
+    align-items: center;
+    height: var(--navds-font-line-height-large);
 }
 
 .Title {
