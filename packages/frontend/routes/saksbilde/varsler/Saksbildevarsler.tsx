@@ -96,7 +96,7 @@ interface SaksbildevarslerProps {
     periodState: PeriodState;
     oppgavereferanse?: Maybe<string>;
     varsler?: Maybe<Array<string>>;
-    erBeslutteroppgaveOgErTidligereSaksbehandler?: boolean;
+    erTidligereSaksbehandler?: boolean;
     erBeslutteroppgave?: boolean;
 }
 
@@ -104,11 +104,11 @@ export const Saksbildevarsler = ({
     periodState,
     oppgavereferanse,
     varsler,
-    erBeslutteroppgaveOgErTidligereSaksbehandler,
+    erTidligereSaksbehandler,
     erBeslutteroppgave,
 }: SaksbildevarslerProps) => {
     const infoVarsler: VarselObject[] = [
-        tilgangInfoVarsel(erBeslutteroppgaveOgErTidligereSaksbehandler),
+        tilgangInfoVarsel(erTidligereSaksbehandler && erBeslutteroppgave),
         tilstandInfoVarsel(periodState),
         utbetalingsvarsel(periodState),
         vedtaksperiodeVenterVarsel(periodState),

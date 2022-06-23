@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import React from 'react';
 
-import { useSetVedtaksperiodeReferanserForNotater } from '@hooks/useSetVedtaksperiodeReferanserForNotater';
+import { useSyncNotater } from '@state/notater';
 import { useRemoveAlleVarsler } from '@state/varsler';
 import { Filter, useFilters } from './state/filter';
 import { usePagination } from './state/pagination';
@@ -70,7 +70,7 @@ export const OppgaverTable = React.memo(({ oppgaver }: { oppgaver: Oppgave[] }) 
         : sortedRows;
 
     const vedtaksperiodeIder = paginatedRows.map((t) => t.vedtaksperiodeId);
-    useSetVedtaksperiodeReferanserForNotater(vedtaksperiodeIder);
+    useSyncNotater(vedtaksperiodeIder);
 
     const onNavigate = () => removeVarsler();
 

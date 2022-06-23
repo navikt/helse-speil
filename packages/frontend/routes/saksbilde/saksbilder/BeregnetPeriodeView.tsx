@@ -2,10 +2,10 @@ import React from 'react';
 import { Route, Switch, useRouteMatch } from 'react-router-dom';
 import { Loader } from '@navikt/ds-react';
 
-import { useErTidligereSaksbehandler } from '@hooks/useErTidligereSaksbehandler';
-import { useSetVedtaksperiodeReferanserForNotater } from '@hooks/useSetVedtaksperiodeReferanserForNotater';
+import { useSyncNotater } from '@state/notater';
 import { onLazyLoadFail } from '@utils/error';
 import { getPeriodState } from '@utils/mapping';
+import { useErTidligereSaksbehandler } from '@hooks/useErTidligereSaksbehandler';
 import { Arbeidsgiver, BeregnetPeriode, Person } from '@io/graphql';
 
 import { Saksbildevarsler } from '../varsler/Saksbildevarsler';
@@ -39,7 +39,8 @@ export const BeregnetPeriodeView: React.VFC<BeregnetPeriodeViewProps> = ({ activ
     }
 
     const { path } = useRouteMatch();
-    useSetVedtaksperiodeReferanserForNotater([activePeriod.vedtaksperiodeId]);
+
+    useSyncNotater([activePeriod.vedtaksperiodeId]);
 
     const erTidligereSaksbehandler = useErTidligereSaksbehandler();
 
@@ -51,9 +52,7 @@ export const BeregnetPeriodeView: React.VFC<BeregnetPeriodeViewProps> = ({ activ
                     periodState={getPeriodState(activePeriod)}
                     oppgavereferanse={activePeriod.oppgavereferanse}
                     varsler={activePeriod.varsler}
-                    erBeslutteroppgaveOgErTidligereSaksbehandler={
-                        activePeriod.erBeslutterOppgave && erTidligereSaksbehandler
-                    }
+                    erTidligereSaksbehandler={erTidligereSaksbehandler}
                     erBeslutteroppgave={activePeriod.erBeslutterOppgave}
                 />
                 <Switch>

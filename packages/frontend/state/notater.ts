@@ -3,8 +3,9 @@ import { atom, selector, useRecoilValueLoadable, useSetRecoilState } from 'recoi
 
 import { getNotater } from '@io/http';
 import { Notat as GraphQLNotat } from '@io/graphql';
+import { useEffect } from 'react';
 
-export const notaterStateRefetchKey = atom<Date>({
+const notaterStateRefetchKey = atom<Date>({
     key: 'notaterStateRefetchKey',
     default: new Date(),
 });
@@ -16,26 +17,36 @@ export const useRefreshNotater = () => {
     };
 };
 
-export const notaterState = selector<Notat[]>({
-    key: 'spesialistNotaterState',
-    get: async ({ get }) => {
-        get(notaterStateRefetchKey);
-        const vedtaksperiodeIder = get(vedtaksperioderTilVisningState);
-        if (vedtaksperiodeIder.length < 1) return [];
+const vedtaksperiodeIderState = atom<string[]>({
+    key: 'vedtaksperiodeIderState',
+    default: [],
+});
 
-        const notater = await getNotater(get(vedtaksperioderTilVisningState)).then((res) => {
+export const useSyncNotater = (vedtaksperiodeIder: string[]) => {
+    const setNotatVedtaksperioder = useSetRecoilState(vedtaksperiodeIderState);
+
+    useEffect(() => {
+        setNotatVedtaksperioder(vedtaksperiodeIder);
+    }, [JSON.stringify(vedtaksperiodeIder)]);
+};
+
+const notaterState = selector<Notat[]>({
+    key: 'notaterState',
+    get: ({ get }) => {
+        get(notaterStateRefetchKey);
+        const vedtaksperiodeIder = get(vedtaksperiodeIderState);
+
+        if (vedtaksperiodeIder.length < 1) {
+            return Promise.resolve([]);
+        }
+
+        return getNotater(vedtaksperiodeIder).then((res) => {
             return Object.values(res)
                 .flat()
                 .map(toNotat)
                 .sort((a, b) => (a.opprettet < b.opprettet ? 1 : -1));
         });
-        return notater;
     },
-});
-
-export const vedtaksperioderTilVisningState = atom<string[]>({
-    key: 'vedtaksperioderTilVisningState',
-    default: [],
 });
 
 export const useNotaterForVedtaksperiode = (vedtaksperiodeId?: string) => {
