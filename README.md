@@ -21,11 +21,7 @@ Lokalt serveres frontend (det som kjører i browser) og backend (det som står f
 ### Installere avhengigheter
 
 ```shell
-# Først denne
-npm i
-
-# Så denne
-lerna bootstrap
+npm run bootstrap
 ```
 
 ### Både frontend og backend med én kommando
