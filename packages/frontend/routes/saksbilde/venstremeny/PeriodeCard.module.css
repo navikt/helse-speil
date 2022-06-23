@@ -14,6 +14,15 @@
     height: var(--navds-font-line-height-large);
 }
 
+.NoWrap {
+    white-space: nowrap;
+}
+
+.Tag {
+    height: 24px;
+    min-height: 24px;
+}
+
 .Title {
     margin-bottom: 0;
 }

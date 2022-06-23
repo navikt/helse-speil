@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import dayjs from 'dayjs';
 import React from 'react';
 
-import { BodyShort, Tooltip } from '@navikt/ds-react';
+import { BodyShort, Tag, Tooltip } from '@navikt/ds-react';
 
 import { Flex } from '@components/Flex';
 import { LovdataLenke } from '@components/LovdataLenke';
@@ -115,6 +115,15 @@ const SkjæringstidspunktRow: React.VFC<RowProps> = ({ activePeriod }) => {
     }
 };
 
+const harRedusertAntallSykepengedager = (periode: BeregnetPeriode): boolean => {
+    const { forbrukteSykedager, gjenstaendeSykedager } = periode.periodevilkar.sykepengedager;
+    return (
+        typeof forbrukteSykedager === 'number' &&
+        typeof gjenstaendeSykedager === 'number' &&
+        forbrukteSykedager + gjenstaendeSykedager < 248
+    );
+};
+
 const MaksdatoRow: React.VFC<RowProps> = ({ activePeriod }) => {
     const maksdato = dayjs(activePeriod.maksdato).format(NORSK_DATOFORMAT_KORT);
     const alderVedSisteSykedag = activePeriod.periodevilkar.alder.alderSisteSykedag ?? null;
@@ -126,8 +135,8 @@ const MaksdatoRow: React.VFC<RowProps> = ({ activePeriod }) => {
                     <Maksdatoikon alt="Maksdato" />
                 </div>
             </Tooltip>
-            <Flex justifyContent="space-between">
-                <BodyShort>{`${maksdato} (${
+            <Flex gap="10px">
+                <BodyShort className={styles.NoWrap}>{`${maksdato} (${
                     activePeriod.gjenstaendeSykedager ?? 'Ukjent antall'
                 } dager igjen)`}</BodyShort>
                 {alderVedSisteSykedag &&
@@ -143,20 +152,13 @@ const MaksdatoRow: React.VFC<RowProps> = ({ activePeriod }) => {
                             </LovdataLenkeContainer>
                         </Flex>
                     ) : (
-                        alderVedSisteSykedag >= 67 && (
+                        harRedusertAntallSykepengedager(activePeriod) && (
                             <Flex alignItems="center">
-                                <Tooltip content="Mellom 67 og 70 år - redusert antall sykepengedager">
-                                    <div className={styles.IconContainer}>
-                                        <Advarselikon
-                                            alt="Mellom 67 og 70 år - redusert antall sykepengedager"
-                                            height={16}
-                                            width={16}
-                                        />
-                                    </div>
+                                <Tooltip content="Over 67 år - redusert antall sykepengedager">
+                                    <Tag className={styles.Tag} variant="info" size="small">
+                                        Over 67 år
+                                    </Tag>
                                 </Tooltip>
-                                <LovdataLenkeContainer as="p">
-                                    <LovdataLenke paragraf="8-51">§ 8-51</LovdataLenke>
-                                </LovdataLenkeContainer>
                             </Flex>
                         )
                     ))}
