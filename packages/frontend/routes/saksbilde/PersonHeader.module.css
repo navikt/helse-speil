@@ -39,17 +39,16 @@
     box-shadow: 0 0 0 2px var(--navds-semantic-color-focus);
 }
 
-.Tag {
-    padding: 0.25rem 0.5rem;
-    border-radius: 0.25rem;
-    width: max-content;
+.Tags {
     margin-left: 10px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
 }
 
-.Tag.adressebeskyttelse {
-    background: var(--speil-etikett-adressebeskyttelse-background);
-    border: 1px solid var(--speil-etikett-adressebeskyttelse-border);
-    color: var(--navds-semantic-color-text);
+.Tag {
+    height: 24px;
+    min-height: 24px;
 }
 
 .Tag.dødsdato {
