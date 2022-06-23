@@ -220,7 +220,7 @@ const getResolvers = (): IResolvers => ({
             return person;
         },
         oppdrag: (_, { fnr }: { fnr: string }) => {
-            return oppdrag;
+            return getMockOppdrag();
         },
     },
     Periode: {
