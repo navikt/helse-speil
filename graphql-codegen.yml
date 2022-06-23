@@ -12,3 +12,6 @@ generates:
   ./packages/backend/graphql.schema.json:
     plugins:
       - "introspection"
+  ./packages/backend/spesialistMock/schemaTypes.ts:
+    plugins:
+      - "typescript"

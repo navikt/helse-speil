@@ -320,6 +320,7 @@ export enum Oppdragsstatus {
     GodkjentUtenUtbetaling = 'GODKJENT_UTEN_UTBETALING',
     IkkeGodkjent = 'IKKE_GODKJENT',
     IkkeUtbetalt = 'IKKE_UTBETALT',
+    Ny = 'NY',
     Overfort = 'OVERFORT',
     Sendt = 'SENDT',
     UtbetalingFeilet = 'UTBETALING_FEILET',
