@@ -3,17 +3,21 @@ import { Loader } from '@navikt/ds-react';
 
 import { Varsel } from '@components/Varsel';
 import { ErrorBoundary } from '@components/ErrorBoundary';
+import { Periodetilstand } from '@io/graphql';
 import { useActivePeriod } from '@state/periode';
 import { useCurrentPerson } from '@state/person';
 import { useCurrentArbeidsgiver } from '@state/arbeidsgiver';
-import { isBeregnetPeriode, isGhostPeriode, isUberegnetPeriode } from '@utils/typeguards';
 import { LazyLoadPendingError, onLazyLoadFail } from '@utils/error';
+import { isBeregnetPeriode, isGhostPeriode, isUberegnetPeriode } from '@utils/typeguards';
+
+import { AnnullertPeriodeView } from './AnnullertPeriodeView';
+import { PeriodeTilAnnulleringView } from './PeriodeTilAnnulleringView';
+
+import styles from './PeriodeView.module.css';
 
 const GhostPeriodeView = React.lazy(() => import('./GhostPeriodeView').catch(onLazyLoadFail));
 const UberegnetPeriodeView = React.lazy(() => import('./UberegnetPeriodeView').catch(onLazyLoadFail));
 const BeregnetPeriodeView = React.lazy(() => import('./BeregnetPeriodeView').catch(onLazyLoadFail));
-
-import styles from './PeriodeView.module.css';
 
 const PeriodeViewContainer: React.VFC = () => {
     const activePeriod = useActivePeriod();
@@ -23,13 +27,20 @@ const PeriodeViewContainer: React.VFC = () => {
     if (!activePeriod || !currentPerson || !currentArbeidsgiver) {
         return null;
     } else if (isBeregnetPeriode(activePeriod)) {
-        return (
-            <BeregnetPeriodeView
-                activePeriod={activePeriod}
-                currentArbeidsgiver={currentArbeidsgiver}
-                currentPerson={currentPerson}
-            />
-        );
+        switch (activePeriod.periodetilstand) {
+            case Periodetilstand.Annullert:
+                return <AnnullertPeriodeView />;
+            case Periodetilstand.TilAnnullering:
+                return <PeriodeTilAnnulleringView />;
+            default:
+                return (
+                    <BeregnetPeriodeView
+                        activePeriod={activePeriod}
+                        currentPerson={currentPerson}
+                        currentArbeidsgiver={currentArbeidsgiver}
+                    />
+                );
+        }
     } else if (isGhostPeriode(activePeriod)) {
         return (
             <GhostPeriodeView
