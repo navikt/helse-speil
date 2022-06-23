@@ -1,10 +1,12 @@
-import dayjs from 'dayjs';
 import express, { Request, Response } from 'express';
 
 import { sleep } from '../devHelpers';
 import { setupGraphQLMiddleware } from './graphql';
 
 import oppgaveFil from '../__mock-data__/oppgaver.json';
+import { OppgaveMock } from './storage/oppgave';
+import { NotatMock } from './storage/notat';
+import { Notat } from './schemaTypes';
 
 const app = express();
 const port = 9001;
@@ -25,46 +27,6 @@ app.use((_req, res, next) => {
     next();
 });
 
-export const oppgaveTildelinger: { [oppgavereferanse: string]: string } = {};
-
-export const oppgaverPåVent: { [oppgavereferanse: string]: boolean } = {};
-
-export const oppgaverTrengerTotrinnsvurdering: { [oppgavereferanse: string]: boolean } = {};
-
-export const oppgaverTilBeslutter: { [oppgavereferanse: string]: boolean } = {};
-
-export const oppgaverTilRetur: { [oppgavereferanse: string]: boolean } = {};
-
-export const tidligereSaksbehandlerForOppgave: { [oppgavereferanse: string]: string } = {};
-
-export const vedtaksperiodenotater: { [vedtaksperiodereferanser: string]: SpesialistNotat[] } = {};
-
-interface SpesialistNotat {
-    id: string;
-    tekst: string;
-    opprettet: string;
-    saksbehandlerOid: string;
-    saksbehandlerNavn: string;
-    saksbehandlerEpost: string;
-    saksbehandlerIdent?: string;
-    vedtaksperiodeId: string;
-    feilregistrert: boolean;
-    type: 'PaaVent' | 'Retur' | 'Generelt';
-}
-
-const mockNotat: SpesialistNotat = {
-    id: '123456',
-    tekst: 'Revidert utgave 2',
-    opprettet: '2021-02-01T23:04:09.454',
-    saksbehandlerOid: 'uuid',
-    saksbehandlerNavn: 'Bernt Bjelle 2',
-    saksbehandlerEpost: 'bernt.bjelle@nav.no',
-    saksbehandlerIdent: 'E123456',
-    vedtaksperiodeId: '87c0469c-16a5-4986-b756-7e4a7cdfcd71',
-    feilregistrert: false,
-    type: 'PaaVent',
-};
-
 const personer: { [aktørId: string]: string } = oppgaveFil
     .map(({ aktørId, oppgavereferanse }: { aktørId: string; oppgavereferanse: string }) => [aktørId, oppgavereferanse])
     .reduce((acc, [aktørId, oppgavereferanse]) => {
@@ -74,140 +36,146 @@ const personer: { [aktørId: string]: string } = oppgaveFil
         return ret;
     }, {});
 
-const feilresponsForTildeling = {
-    feilkode: 'oppgave_er_allerede_tildelt',
-    kildesystem: 'mockSpesialist',
-    kontekst: {
-        tildeling: {
-            navn: 'Saksbehandler Frank',
-            epost: 'frank@nav.no',
-            oid: 'en annen oid',
-        },
-    },
-};
-
-const leggTilNotat = (vedtaksperiodeId: string, overrides: any) => {
-    const antallNotater = Object.keys(vedtaksperiodenotater).length;
-    const nyttNotat: SpesialistNotat = {
-        ...mockNotat,
-        id: antallNotater + 1,
-        opprettet: dayjs().format('YYYY-MM-DDTHH:mm:ss'),
-        ...overrides,
-    };
-    vedtaksperiodenotater[vedtaksperiodeId] = [...(vedtaksperiodenotater[vedtaksperiodeId] || []), nyttNotat];
-};
-
 app.post('/api/tildeling/:oppgavereferanse', (req: Request, res: Response) => {
     const oppgavereferanse = req.params.oppgavereferanse;
-    oppgaveTildelinger[oppgavereferanse] = 'uuid';
+
+    OppgaveMock.addOrUpdateOppgave(oppgavereferanse, { tildelt: 'uuid' });
+
     res.sendStatus(200);
 });
 
 app.delete('/api/tildeling/:oppgavereferanse', (req: Request, res: Response) => {
     const oppgavereferanse = req.params.oppgavereferanse;
-    delete oppgaveTildelinger[oppgavereferanse];
-    delete oppgaverPåVent[oppgavereferanse];
+
+    OppgaveMock.addOrUpdateOppgave(oppgavereferanse, {
+        tildelt: undefined,
+        erPåVent: false,
+    });
+
     sleep(passeLenge()).then(() => res.sendStatus(200));
 });
 
 app.post('/api/leggpaavent/:oppgavereferanse', (req: Request, res: Response) => {
     const oppgavereferanse = req.params.oppgavereferanse;
-    oppgaverPåVent[oppgavereferanse] = true;
-    leggTilNotat(oppgavereferanse, {
+
+    OppgaveMock.addOrUpdateOppgave(oppgavereferanse, { erPåVent: true });
+    NotatMock.addNotat(oppgavereferanse, {
         vedtaksperiodeId: oppgavereferanse,
         tekst: req.body.tekst,
         type: req.body.type,
     });
+
     res.sendStatus(200);
 });
 
 app.delete('/api/leggpaavent/:oppgavereferanse', (req: Request, res: Response) => {
     const oppgavereferanse = req.params.oppgavereferanse;
-    delete oppgaverPåVent[oppgavereferanse];
+
+    OppgaveMock.addOrUpdateOppgave(oppgavereferanse, { erPåVent: false });
+
     res.sendStatus(200);
 });
 
 app.post('/api/notater/:vedtaksperiodeId', (req: Request, res: Response) => {
     const vedtaksperiodeId = req.params.vedtaksperiodeId;
-    leggTilNotat(vedtaksperiodeId, {
-        vedtaksperiodeId,
+
+    NotatMock.addNotat(vedtaksperiodeId, {
+        vedtaksperiodeId: vedtaksperiodeId,
         tekst: req.body.tekst,
         type: req.body.type,
     });
+
     res.sendStatus(200);
 });
 
 app.put('/api/notater/:vedtaksperiodeId/feilregistrer/:notatId', (req: Request, res: Response) => {
     const vedtaksperiodeId = req.params.vedtaksperiodeId;
-    const notatId = req.params.notatId;
+    const notatId = Number.parseInt(req.params.notatId);
 
-    const notat = vedtaksperiodenotater[vedtaksperiodeId].find((notat) => notat.id === notatId)!!;
-    const gamleNotater = vedtaksperiodenotater[vedtaksperiodeId].filter((notat) => notat.id !== notatId);
-
-    vedtaksperiodenotater[vedtaksperiodeId] = [
-        ...gamleNotater,
-        {
-            ...notat,
-            feilregistrert: true,
-        },
-    ];
+    NotatMock.updateNotat(vedtaksperiodeId, notatId, { feilregistrert: true });
 
     res.sendStatus(200);
 });
 
 app.get('/api/notater', (req: Request, res: Response) => {
-    const vedtaksperioderIder = req.query.vedtaksperiode_id;
-    if (vedtaksperioderIder === undefined) res.sendStatus(400);
+    const vedtaksperioderIdQueryParameter = req.query.vedtaksperiode_id as string | Array<string>;
 
-    const vedtaksperioderIderArray = Array.isArray(vedtaksperioderIder) ? vedtaksperioderIder : [vedtaksperioderIder];
-    let response: { [oppgaveref: string]: SpesialistNotat[] } = {};
-    vedtaksperioderIderArray.forEach((ref) => {
-        const string_ref = ref as string; // todo: fjern as string
-        response[string_ref] = vedtaksperiodenotater[string_ref] ?? [];
-    });
+    if (vedtaksperioderIdQueryParameter === undefined) {
+        res.sendStatus(400);
+        return;
+    }
+
+    const vedtaksperiodeIder: Array<string> = Array.isArray(vedtaksperioderIdQueryParameter)
+        ? vedtaksperioderIdQueryParameter
+        : [vedtaksperioderIdQueryParameter];
+
+    const response: { [oppgaveref: string]: Array<Notat> } = {};
+
+    for (const id of vedtaksperiodeIder) {
+        response[id] = NotatMock.getNotater(id) ?? [];
+    }
+
     res.send(response);
 });
 
 app.post('/api/totrinnsvurdering/retur', (req: Request, res: Response) => {
     const oppgavereferanse = req.body.oppgavereferanse;
-    oppgaverTilRetur[oppgavereferanse] = true;
-    oppgaverTilBeslutter[oppgavereferanse] = false;
-    if (tidligereSaksbehandlerForOppgave[oppgavereferanse] === 'uuid') oppgaveTildelinger[oppgavereferanse] = 'uuid';
-    tidligereSaksbehandlerForOppgave[oppgavereferanse] = 'uuid';
-    leggTilNotat(oppgavereferanse, {
+    const tidligereSaksbehandler = OppgaveMock.getOppgave(oppgavereferanse)?.tidligereSaksbehandler;
+    const oppgave: Oppgave = {
+        erRetur: true,
+        erBeslutter: false,
+        tidligereSaksbehandler: 'uuid',
+        tildelt: tidligereSaksbehandler === 'uuid' ? 'uuid' : tidligereSaksbehandler,
+    };
+
+    OppgaveMock.addOrUpdateOppgave(oppgavereferanse, oppgave);
+
+    NotatMock.addNotat(oppgavereferanse, {
         vedtaksperiodeId: oppgavereferanse,
         tekst: req.body.notat.tekst,
         type: req.body.notat.type,
     });
+
     res.sendStatus(200);
 });
 
 app.post('/api/totrinnsvurdering', (req: Request, res: Response) => {
     // mangler å legge til periodehistorikk
     const oppgavereferanse = req.body.oppgavereferanse;
-    oppgaverTilRetur[oppgavereferanse] = false;
-    oppgaverTilBeslutter[oppgavereferanse] = true;
-    if (tidligereSaksbehandlerForOppgave[oppgavereferanse] === 'uuid') oppgaveTildelinger[oppgavereferanse] = 'uuid';
-    tidligereSaksbehandlerForOppgave[oppgavereferanse] = 'uuid';
+    const tidligereSaksbehandler = OppgaveMock.getOppgave(oppgavereferanse)?.tidligereSaksbehandler;
+    const oppgave: Oppgave = {
+        erRetur: false,
+        erBeslutter: true,
+        tildelt: tidligereSaksbehandler === 'uuid' ? 'uuid' : tidligereSaksbehandler,
+        tidligereSaksbehandler: 'uuid',
+    };
+
+    OppgaveMock.addOrUpdateOppgave(oppgavereferanse, oppgave);
+
     res.sendStatus(200);
 });
 
 app.get('/api/mock/personstatus/:aktorId', (req: Request, res: Response) => {
     const aktørId = req.params.aktorId;
     const oppgavereferanse = personer[aktørId];
-    const påVent = oppgaverPåVent[oppgavereferanse] || false;
-    const oid = oppgaveTildelinger[oppgavereferanse];
-    res.send(oid ? { påVent, oid, epost: 'dev@nav.no', navn: 'dev' } : undefined);
+    const påVent = OppgaveMock.getOppgave(oppgavereferanse)?.erPåVent || false;
+    const oid = OppgaveMock.getOppgave(oppgavereferanse)?.tildelt;
+
+    if (oid) {
+        res.send({ påVent, oid, epost: 'dev@nav.no', navn: 'dev' });
+    } else {
+        res.send(undefined);
+    }
 });
 
 app.get('/api/mock/erbeslutteroppgave/:oppgavereferanse', (req: Request, res: Response) => {
     const oppgavereferanse = req.params.oppgavereferanse;
-    res.send(oppgaverTilBeslutter[oppgavereferanse]);
+    res.send(OppgaveMock.getOppgave(oppgavereferanse)?.erBeslutter);
 });
 
 app.get('/api/mock/erreturoppgave/:oppgavereferanse', (req: Request, res: Response) => {
     const oppgavereferanse = req.params.oppgavereferanse;
-    res.send(oppgaverTilRetur[oppgavereferanse]);
+    res.send(OppgaveMock.getOppgave(oppgavereferanse)?.erRetur);
 });
 
 setupGraphQLMiddleware(app);

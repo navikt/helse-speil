@@ -1,5 +1,3 @@
-import { Extension } from './types';
-
 export class NotFoundError extends Error {
     extensions: Extension;
 
