@@ -19,30 +19,37 @@ type WikiEntry = {
 };
 
 interface AktivitetsloggvarslerProps {
-    varsler: Array<String>;
+    varsler: Array<string>;
 }
 
 export const Aktivitetsloggvarsler: React.VFC<AktivitetsloggvarslerProps> = React.memo(({ varsler }) => {
+    const reservasjonsvarsel =
+        'Ikke registrert eller mangler samtykke i Kontakt- og reservasjonsregisteret, eventuell kommunikasjon må skje i brevform';
+
+    const varslerSomIkkeSkalVises = [reservasjonsvarsel];
+
     return (
         <>
-            {varsler.map((aktivitet, index) => {
-                const wikis = [...wiki, ...utdatert_wiki];
-                const wikiAktivitet: WikiEntry | undefined = wikis.find((it) => it.varsel === aktivitet);
-                if (wikiAktivitet && (wikiAktivitet.betydning.length > 0 || wikiAktivitet.løsning.length > 0)) {
-                    return (
-                        <EkspanderbartVarsel key={index} label={aktivitet} type={wikiAktivitet.type}>
-                            <Varselseksjon tittel="Hva betyr det?">{wikiAktivitet.betydning}</Varselseksjon>
-                            <Varselseksjon tittel="Hva gjør du?">{wikiAktivitet.løsning}</Varselseksjon>
-                        </EkspanderbartVarsel>
-                    );
-                } else {
-                    return (
-                        <Alert className={styles.Varsel} key={index} variant="warning">
-                            <BodyShort as="p">{aktivitet}</BodyShort>
-                        </Alert>
-                    );
-                }
-            })}
+            {varsler
+                .filter((it) => !varslerSomIkkeSkalVises.includes(it))
+                .map((aktivitet, index) => {
+                    const wikis = [...wiki, ...utdatert_wiki];
+                    const wikiAktivitet: WikiEntry | undefined = wikis.find((it) => it.varsel === aktivitet);
+                    if (wikiAktivitet && (wikiAktivitet.betydning.length > 0 || wikiAktivitet.løsning.length > 0)) {
+                        return (
+                            <EkspanderbartVarsel key={index} label={aktivitet} type={wikiAktivitet.type}>
+                                <Varselseksjon tittel="Hva betyr det?">{wikiAktivitet.betydning}</Varselseksjon>
+                                <Varselseksjon tittel="Hva gjør du?">{wikiAktivitet.løsning}</Varselseksjon>
+                            </EkspanderbartVarsel>
+                        );
+                    } else {
+                        return (
+                            <Alert className={styles.Varsel} key={index} variant="warning">
+                                <BodyShort as="p">{aktivitet}</BodyShort>
+                            </Alert>
+                        );
+                    }
+                })}
         </>
     );
 });
