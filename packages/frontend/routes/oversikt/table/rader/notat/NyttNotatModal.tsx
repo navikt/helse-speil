@@ -177,15 +177,9 @@ export const NyttNotatModal = ({
                             {onSubmitOverride ? notattekst.submitTekst : 'Lagre'}
                             {isFetching && <Loader size="xsmall" />}
                         </Button>
-                        {onSubmitOverride ? (
-                            <Button size="small" variant="secondary" onClick={closeModal} type="button">
-                                Avbryt
-                            </Button>
-                        ) : (
-                            <Button variant="secondary" size="small" onClick={closeModal} type="button">
-                                Tilbake
-                            </Button>
-                        )}
+                        <Button size="small" variant="secondary" onClick={closeModal} type="button">
+                            Avbryt
+                        </Button>
                     </Buttons>
                 </form>
             </Container>
