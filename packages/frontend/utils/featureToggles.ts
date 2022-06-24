@@ -255,12 +255,10 @@ export const defaultOverstyrToggles: overstyrArbeidsforholdToggles = {
     overstyrArbeidsforholdUtenSykefraværEnabled: overstyrArbeidsforholdUtenSykefraværEnabled,
 };
 
-// @ts-ignore
 export const defaultUtbetalingToggles: UtbetalingToggles = {
     overstyreUtbetaltPeriodeEnabled: overstyreUtbetaltPeriodeEnabled,
 };
 
-// @ts-ignore
 export const overstyrInntektEnabled = overstyreUtbetaltPeriodeEnabled;
 
 const jonasNavIdent = 'H159657';
