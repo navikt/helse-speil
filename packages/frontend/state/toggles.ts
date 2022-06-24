@@ -1,12 +1,7 @@
 import { atom } from 'recoil';
-import {
-    harBeslutterRolle,
-    kanBeslutteEgenBeslutteroppgave,
-    kanFrigiAndresOppgaver,
-    totrinnsvurderingAktiv,
-} from '@utils/featureToggles';
+import { harBeslutterRolle, kanFrigiAndresOppgaver, totrinnsvurderingAktiv } from '@utils/featureToggles';
 
-// Totrinnstoggles
+// Totrinnsvurdering
 export const toggleHarBeslutterRolle = atom<boolean>({
     key: 'toggleHarBeslutterRolle',
     default: harBeslutterRolle,
@@ -19,7 +14,7 @@ export const toggleTotrinnsvurderingAktiv = atom<boolean>({
 
 export const toggleKanBeslutteEgenBeslutteroppgave = atom<boolean>({
     key: 'toggleKanBeslutteEgenBeslutteroppgave',
-    default: kanBeslutteEgenBeslutteroppgave,
+    default: false,
 });
 
 // Tildeling
