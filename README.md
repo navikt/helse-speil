@@ -24,6 +24,10 @@ Lokalt serveres frontend (det som kjører i browser) og backend (det som står f
 npm run bootstrap
 ```
 
+### Opprett fil med miljøvariabler
+
+`echo "SPESIALIST_BASE_URL=http://127.0.0.1:9001" > packages/backend/.env`
+
 ### Både frontend og backend med én kommando
 
 ```
@@ -46,7 +50,7 @@ npm run dev
 
 ### Backend som server både API og frontend som statiske filer
 
-Lag en `.env`-fil med følgende innhold i `packages/backend`:
+Lag eller utvid en `.env`-fil med følgende innhold i `packages/backend`:
 
 ```
 TENANT_ID=<Azure tenant id>
