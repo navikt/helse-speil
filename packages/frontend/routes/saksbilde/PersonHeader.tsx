@@ -3,7 +3,7 @@ import dayjs from 'dayjs';
 import { Link } from 'react-router-dom';
 import classNames from 'classnames';
 
-import { BodyShort, Tag } from '@navikt/ds-react';
+import { BodyShort, Tag, Tooltip } from '@navikt/ds-react';
 
 import { Clipboard } from '@components/clipboard';
 import { Manneikon } from '@components/ikoner/Manneikon';
@@ -118,9 +118,14 @@ const PersonHeaderWithContent: React.VFC<PersonHeaderWithContentProps> = ({
                     </AnonymizableContainer>
                 )}
                 {ikkeRegistrertKRR && (
-                    <Tag variant="warning" size="small" className={styles.Tag}>
-                        Ikke registrert KRR
-                    </Tag>
+                    <Tooltip
+                        content="Ikke registrert eller mangler samtykke i Kontakt- og reservasjonsregisteret, eventuell kommunikasjon må skje i brevform"
+                        maxChar={120}
+                    >
+                        <Tag variant="warning" size="small" className={styles.Tag}>
+                            Ikke registrert KRR
+                        </Tag>
+                    </Tooltip>
                 )}
                 {dødsdato && (
                     <AnonymizableContainer>
