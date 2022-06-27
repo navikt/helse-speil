@@ -1,4 +1,4 @@
-import { extractGroups, extractIdent } from '@utils/cookie';
+import { extractGroupsStartsWithSpeil, extractIdent, extractAllGroups } from '@utils/cookie';
 
 const groupIdForUtviklere = 'f787f900-6697-440d-a086-d5bb56e26a9c';
 const groupIdForBesluttere = '59f26eef-0a4f-4038-bf46-3a5b2f252155';
@@ -212,7 +212,7 @@ const Morten = 'T127350';
 const Vegard = 'S144991';
 
 const erProdukteier = () => [Morten, Vegard].includes(extractIdent());
-const erUtvikler = () => extractGroups().includes(groupIdForUtviklere);
+const erUtvikler = () => extractGroupsStartsWithSpeil().includes(groupIdForUtviklere);
 
 export const overstyrPermisjonsdagerEnabled = erLocal() || erDev();
 export const overstyreUtbetaltPeriodeEnabled =
@@ -267,8 +267,7 @@ const sindreNavIdent = 'B159939';
 const totrinnsgutta = [jonasNavIdent, joakimNavIdent, sindreNavIdent].includes(extractIdent());
 const totrinnsbeta = ['S108267', 'C117102', 'N115007'].includes(extractIdent());
 
-export const harBeslutterRolle: boolean = extractGroups().includes(groupIdForBesluttere);
-console.log('extractGroups(): ' + extractGroups());
+export const harBeslutterRolle: boolean = extractAllGroups().includes(groupIdForBesluttere);
 export const totrinnsvurderingAktiv: boolean = erLocal() || totrinnsgutta || totrinnsbeta;
 
 export const toggleMeny: boolean = erLocal() || erDev();

@@ -21,7 +21,7 @@ if (process.env.NODE_ENV === 'development') {
             email: 'dev@nav.no',
             oid: 'uuid',
             groups: ['gruppe1', 'gruppe2'],
-        })
+        }),
     )}.ignored-part`;
 }
 
@@ -35,7 +35,7 @@ const transformToUtf8 = (token: string) =>
         atob(token)
             .split('')
             .map((char: any) => '%' + ('00' + char.charCodeAt(0).toString(16)).slice(-2))
-            .join('')
+            .join(''),
     );
 
 const decode = (cookie: string) => {
@@ -58,7 +58,7 @@ const extractTokenFromCookie = (tokenName: string): string =>
 
 export const extractSpeilToken = (): string => extractTokenFromCookie('speil');
 
-export const extractValues = (values: ArrayLike<any>) => {
+export const extractStartsWithSpeilValues = (values: ArrayLike<any>) => {
     const decodedCookie = document.cookie
         .split(';')
         .filter((item) => item.trim().startsWith('speil='))
@@ -68,8 +68,16 @@ export const extractValues = (values: ArrayLike<any>) => {
     return decodedCookie ? Array.from(values).map((val) => decodedCookie[val]) : [];
 };
 
-export const extractName = () => extractValues([CookieKey.Name]);
+export const extractValues = (values: ArrayLike<any>) => {
+    const decodedCookie = document.cookie.split(';').map(decode).pop();
 
-export const extractIdent = (): string => extractValues([CookieKey.Ident]).pop();
+    return decodedCookie ? Array.from(values).map((val) => decodedCookie[val]) : [];
+};
 
-export const extractGroups = () => extractValues([CookieKey.Groups]).pop() ?? [];
+export const extractName = () => extractStartsWithSpeilValues([CookieKey.Name]);
+
+export const extractIdent = (): string => extractStartsWithSpeilValues([CookieKey.Ident]).pop();
+
+export const extractGroupsStartsWithSpeil = () => extractStartsWithSpeilValues([CookieKey.Groups]).pop() ?? [];
+
+export const extractAllGroups = () => extractValues([CookieKey.Groups]).pop() ?? [];
