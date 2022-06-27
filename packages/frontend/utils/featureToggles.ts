@@ -268,6 +268,7 @@ const totrinnsgutta = [jonasNavIdent, joakimNavIdent, sindreNavIdent].includes(e
 const totrinnsbeta = ['S108267', 'C117102', 'N115007'].includes(extractIdent());
 
 export const harBeslutterRolle: boolean = extractGroups().includes(groupIdForBesluttere);
+console.log('extractGroups(): ' + extractGroups());
 export const totrinnsvurderingAktiv: boolean = erLocal() || totrinnsgutta || totrinnsbeta;
 
 export const toggleMeny: boolean = erLocal() || erDev();

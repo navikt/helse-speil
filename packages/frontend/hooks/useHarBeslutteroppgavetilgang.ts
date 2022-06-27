@@ -8,9 +8,5 @@ export const useHarBeslutteroppgavetilgang = (): boolean => {
     const totrinnvurderingAktiv = useRecoilValue(toggleTotrinnsvurderingAktiv);
     const erTidligereSaksbehandler = useErTidligereSaksbehandler();
 
-    console.log('harBeslutterRolle er: ' + harBeslutterRolle);
-    console.log('totrinnvurderingAktiv er: ' + totrinnvurderingAktiv);
-    console.log('!erTidligereSaksbehandler er: ' + !erTidligereSaksbehandler);
-
     return totrinnvurderingAktiv && harBeslutterRolle && !erTidligereSaksbehandler;
 };
