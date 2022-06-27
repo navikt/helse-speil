@@ -1,30 +1,15 @@
-import styled from '@emotion/styled';
 import React, { useState } from 'react';
 
 import { Notes } from '@navikt/ds-icons';
 import { Button, Tooltip } from '@navikt/ds-react';
 
 import { useNotaterForVedtaksperiode } from '@state/notater';
+import { convertToGraphQLPersoninfo } from '@utils/mapping';
 
 import { Cell } from '../../Cell';
 import { NotatListeModal } from './NotatListeModal';
-import { convertToGraphQLPersoninfo } from '@utils/mapping';
 
-const OpenNotesButton = styled(Button)`
-    padding: 0.25rem;
-    margin: 0;
-    min-width: max-content;
-    background: none;
-
-    svg > path {
-        fill: var(--navds-semantic-color-interaction-primary);
-    }
-
-    &:hover svg > path,
-    &:active svg > path {
-        fill: var(--navds-semantic-color-text-inverted);
-    }
-`;
+import styles from './NotatCell.module.css';
 
 interface NotatCellProps extends React.HTMLAttributes<HTMLTableCellElement> {
     vedtaksperiodeId: string;
@@ -46,9 +31,9 @@ export const NotatCell: React.VFC<NotatCellProps> = ({ vedtaksperiodeId, personi
             <Cell {...cellProps}>
                 {notater.length > 0 && (
                     <Tooltip content="Notater">
-                        <OpenNotesButton as="button" onClick={toggleModal} onKeyPress={toggleModal}>
+                        <Button className={styles.NotatButton} onClick={toggleModal} onKeyPress={toggleModal}>
                             <Notes height={20} width={20} />
-                        </OpenNotesButton>
+                        </Button>
                     </Tooltip>
                 )}
             </Cell>
