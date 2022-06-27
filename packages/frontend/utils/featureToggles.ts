@@ -1,4 +1,4 @@
-import { extractIdent, extractAllGroups, extractGroups } from '@utils/cookie';
+import { extractIdent, extractGroups } from '@utils/cookie';
 
 const groupIdForUtviklere = 'f787f900-6697-440d-a086-d5bb56e26a9c';
 const groupIdForBesluttere = '59f26eef-0a4f-4038-bf46-3a5b2f252155';
@@ -267,7 +267,8 @@ const sindreNavIdent = 'B159939';
 const totrinnsgutta = [jonasNavIdent, joakimNavIdent, sindreNavIdent].includes(extractIdent());
 const totrinnsbeta = ['S108267', 'C117102', 'N115007'].includes(extractIdent());
 
-export const harBeslutterRolle: boolean = extractAllGroups().includes(groupIdForBesluttere);
+export const harBeslutterRolle: boolean = extractGroups().includes(groupIdForBesluttere);
+console.log('extractGroups(): ' + extractGroups());
 export const totrinnsvurderingAktiv: boolean = erLocal() || totrinnsgutta || totrinnsbeta;
 
 export const toggleMeny: boolean = erLocal() || erDev();

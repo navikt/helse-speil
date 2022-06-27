@@ -36,7 +36,7 @@ export const useInnloggetSaksbehandler = (): Saksbehandler => {
 export const useAuthentication = () => {
     const [authInfo, setAuthInfo] = useRecoilState(authState);
     const resetAuthInfo = useResetRecoilState(authState);
-    const [name, ident, email, oid] = extractValues([Keys.NAME, Keys.IDENT, Keys.EMAIL, Keys.OID], true);
+    const [name, ident, email, oid] = extractValues([Keys.NAME, Keys.IDENT, Keys.EMAIL, Keys.OID]);
 
     useEffect(() => {
         if (name && name !== authInfo.name) {
