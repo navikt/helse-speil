@@ -58,26 +58,25 @@ const extractTokenFromCookie = (tokenName: string): string =>
 
 export const extractSpeilToken = (): string => extractTokenFromCookie('speil');
 
-export const extractStartsWithSpeilValues = (values: ArrayLike<any>) => {
-    const decodedCookie = document.cookie
-        .split(';')
-        .filter((item) => item.trim().startsWith('speil='))
-        .map(decode)
-        .pop();
+export const extractValues = (values: ArrayLike<any>, speiGroupsFilter: boolean) => {
+    let decodedCookie: { [x: string]: any };
+    if (speiGroupsFilter) {
+        decodedCookie = document.cookie
+            .split(';')
+            .filter((item) => item.trim().startsWith('speil='))
+            .map(decode)
+            .pop();
+    } else {
+        decodedCookie = document.cookie.split(';').map(decode).pop();
+    }
 
     return decodedCookie ? Array.from(values).map((val) => decodedCookie[val]) : [];
 };
 
-export const extractValues = (values: ArrayLike<any>) => {
-    const decodedCookie = document.cookie.split(';').map(decode).pop();
+export const extractName = () => extractValues([CookieKey.Name], true);
 
-    return decodedCookie ? Array.from(values).map((val) => decodedCookie[val]) : [];
-};
+export const extractIdent = (): string => extractValues([CookieKey.Ident], true).pop();
 
-export const extractName = () => extractStartsWithSpeilValues([CookieKey.Name]);
+export const extractGroups = () => extractValues([CookieKey.Groups], true).pop() ?? [];
 
-export const extractIdent = (): string => extractStartsWithSpeilValues([CookieKey.Ident]).pop();
-
-export const extractGroupsStartsWithSpeil = () => extractStartsWithSpeilValues([CookieKey.Groups]).pop() ?? [];
-
-export const extractAllGroups = () => extractValues([CookieKey.Groups]).pop() ?? [];
+export const extractAllGroups = () => extractValues([CookieKey.Groups], false).pop() ?? [];

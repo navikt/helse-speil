@@ -1,4 +1,4 @@
-import { extractGroupsStartsWithSpeil, extractIdent, extractAllGroups } from '@utils/cookie';
+import { extractIdent, extractAllGroups, extractGroups } from '@utils/cookie';
 
 const groupIdForUtviklere = 'f787f900-6697-440d-a086-d5bb56e26a9c';
 const groupIdForBesluttere = '59f26eef-0a4f-4038-bf46-3a5b2f252155';
@@ -212,7 +212,7 @@ const Morten = 'T127350';
 const Vegard = 'S144991';
 
 const erProdukteier = () => [Morten, Vegard].includes(extractIdent());
-const erUtvikler = () => extractGroupsStartsWithSpeil().includes(groupIdForUtviklere);
+const erUtvikler = () => extractGroups().includes(groupIdForUtviklere);
 
 export const overstyrPermisjonsdagerEnabled = erLocal() || erDev();
 export const overstyreUtbetaltPeriodeEnabled =
