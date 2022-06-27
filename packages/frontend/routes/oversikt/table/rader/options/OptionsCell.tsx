@@ -1,10 +1,11 @@
 import styled from '@emotion/styled';
 import React, { useRef, useState } from 'react';
 
-import { Button as NavButton, Popover, Tooltip } from '@navikt/ds-react';
+import { Popover, Tooltip } from '@navikt/ds-react';
 
 import { useInnloggetSaksbehandler } from '@state/authentication';
 import { useIsReadOnlyOppgave } from '@hooks/useIsReadOnlyOppgave';
+import { KebabButton } from '@components/KebabButton';
 
 import { Cell } from '../../Cell';
 import { CellContent } from '../CellContent';
@@ -14,52 +15,6 @@ import { MeldAvMenuButton } from './MeldAvMenuButton';
 import { TildelMenuButton } from './TildelMenuButton';
 import { toggleKanFrigiAndresOppgaver } from '@state/toggles';
 import { useRecoilValue } from 'recoil';
-
-const Button = styled(NavButton)`
-    margin: 0;
-    padding: 0;
-    border: 0;
-    outline: none;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    cursor: pointer;
-    box-sizing: border-box;
-    width: 20px;
-    height: 20px;
-    border-radius: 50%;
-    min-width: unset;
-    background: transparent;
-    box-shadow: inset 0 0 0 2px var(--navds-semantic-color-interaction-primary);
-
-    > span {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 2px;
-        transform: scale(65%);
-    }
-
-    > span > div {
-        width: 4px;
-        height: 4px;
-        border-radius: 50%;
-        background: var(--navds-semantic-color-interaction-primary);
-    }
-
-    &:hover > span > div,
-    &:active > span > div {
-        background: var(--navds-semantic-color-text-inverted);
-    }
-`;
-
-const OptionsButton = React.forwardRef<HTMLButtonElement, React.HTMLAttributes<HTMLButtonElement>>((props, ref) => (
-    <Button as="button" ref={ref} {...props}>
-        <div />
-        <div />
-        <div />
-    </Button>
-));
 
 const Container = styled.span`
     > .navds-popover {
@@ -102,7 +57,7 @@ export const OptionsCell = React.memo(({ oppgave, personinfo }: OptionsButtonPro
             <CellContent>
                 <Tooltip content="Mer">
                     <Container>
-                        <OptionsButton
+                        <KebabButton
                             ref={buttonRef}
                             onClick={togglePopover}
                             onKeyPress={(event) => {
