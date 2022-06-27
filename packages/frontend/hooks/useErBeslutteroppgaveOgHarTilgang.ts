@@ -11,8 +11,13 @@ export const useErBeslutteroppgaveOgHarTilgang = (): boolean => {
     const harBeslutteroppgaveTilgang = useHarBeslutteroppgavetilgang();
 
     if (!isBeregnetPeriode(periode)) {
+        console.log('!isBeregnetPeriode(periode) er: false');
         return false;
     }
+
+    console.log('totrinnvurderingAktiv er: ' + totrinnvurderingAktiv);
+    console.log('periode.erBeslutterOppgave: ' + periode.erBeslutterOppgave);
+    console.log('harBeslutteroppgaveTilgang: ' + harBeslutteroppgaveTilgang);
 
     return totrinnvurderingAktiv && periode.erBeslutterOppgave && harBeslutteroppgaveTilgang;
 };
