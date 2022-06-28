@@ -21,6 +21,7 @@ import { ReturButton } from './ReturButton';
 import { useErBeslutteroppgaveOgHarTilgang } from '@hooks/useErBeslutteroppgaveOgHarTilgang';
 import { toggleTotrinnsvurderingAktiv } from '@state/toggles';
 import { useIsReadOnlyOppgave } from '@hooks/useIsReadOnlyOppgave';
+import { useHarVurderLovvalgOgMedlemskapVarsel } from '@hooks/useHarVurderLovvalgOgMedlemskapVarsel';
 
 const InfoText = styled(BodyShort)`
     color: var(--navds-semantic-color-text);
@@ -75,6 +76,7 @@ export const Utbetaling = ({ activePeriod, currentPerson }: UtbetalingProps) => 
     const history = useHistory();
     const readOnly = useIsReadOnlyOppgave();
     const erBeslutteroppgaveOgHarTilgang = useErBeslutteroppgaveOgHarTilgang();
+    const harVurderLovvalgOgMedlemskapVarsel = useHarVurderLovvalgOgMedlemskapVarsel();
     const totrinnsvurderingAktiv = useRecoilValue(toggleTotrinnsvurderingAktiv);
 
     const onGodkjennUtbetaling = () => {
@@ -108,7 +110,8 @@ export const Utbetaling = ({ activePeriod, currentPerson }: UtbetalingProps) => 
     return (
         <>
             <div className={styles.Buttons}>
-                {trengerTotrinnsvurdering && !readOnly && !activePeriod.erBeslutterOppgave ? (
+                {(trengerTotrinnsvurdering && !readOnly && !activePeriod.erBeslutterOppgave) ||
+                (totrinnsvurderingAktiv && !readOnly && harVurderLovvalgOgMedlemskapVarsel) ? (
                     <SendTilGodkjenningButton
                         oppgavereferanse={activePeriod.oppgavereferanse!}
                         disabled={periodenErSendt}
