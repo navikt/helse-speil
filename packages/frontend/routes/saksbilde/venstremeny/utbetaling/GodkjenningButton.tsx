@@ -1,28 +1,20 @@
 import React, { ReactNode, useContext, useState } from 'react';
-import { nanoid } from 'nanoid';
 
 import { Button } from '@navikt/ds-react';
 
-import { UtbetalingModal } from './UtbetalingModal';
 import { postUtbetalingsgodkjenning } from '@io/http';
-import { Scopes, useAddEphemeralVarsel } from '@state/varsler';
-
 import { AmplitudeContext } from '@io/amplitude';
+import { useAddVarsel } from '@state/varsler';
+import { SuccessAlert } from '@utils/error';
+
+import { UtbetalingModal } from './UtbetalingModal';
 
 const useAddUtbetalingstoast = () => {
-    const timeToLiveMs = 5000;
-    const addVarsel = useAddEphemeralVarsel();
+    const timeToLiveMS = 5000;
+    const addVarsel = useAddVarsel();
 
     return () => {
-        addVarsel(
-            {
-                key: nanoid(),
-                message: 'Utbetalingen er sendt til oppdragssystemet.',
-                type: 'suksess',
-                scope: Scopes.GLOBAL,
-            },
-            timeToLiveMs,
-        );
+        addVarsel(new SuccessAlert('Utbetalingen er sendt til oppdragssystemet.', { timeToLiveMS, scope: '/' }));
     };
 };
 

@@ -9,40 +9,30 @@ import { useToggleEasterEgg } from '@state/easterEgg';
 import { useAddVarsel, useRemoveVarsel } from '@state/varsler';
 import { useFetchPerson, usePersonLoadable } from '@state/person';
 import { erGyldigPersonId } from '@hooks/useRefreshPersonVedUrlEndring';
-import { UserMenu } from '@components/UserMenu';
 import { SystemMenu } from '@components/SystemMenu';
+import { UserMenu } from '@components/UserMenu';
 import { isPerson } from '@utils/typeguards';
+import { SpeilError } from '@utils/error';
 import { graphqlplayground, toggleMeny } from '@utils/featureToggles';
 
+import { ToggleMenyButton } from './ToggleMeny/ToggleMenyButton';
 import { EasterEgg } from '../../EasterEgg';
 
 import styles from './Header.module.css';
-import { ToggleMenyButton } from '@components/header/ToggleMeny/ToggleMenyButton';
 
 const useNavigateOnFetch = () => {
     const person = usePersonLoadable();
     const history = useHistory();
-    const addVarsel = useAddVarsel();
     const hasFetched = useRef(false);
 
     const hasFetchedSuccessfully = () => {
         return hasFetched.current && person.state === 'hasValue' && isPerson(person.contents);
     };
 
-    const hasFetchedWithNoPersonInResult = () => {
-        return hasFetched.current && person.state !== 'loading' && !isPerson(person.contents);
-    };
-
     useEffect(() => {
         if (hasFetchedSuccessfully()) {
             hasFetched.current = false;
             history.push(`/person/${person.contents.aktorId}/utbetaling`);
-        } else if (hasFetchedWithNoPersonInResult()) {
-            addVarsel({
-                key: 'ugyldig-søk',
-                message: 'Personen har ingen perioder til godkjenning eller tidligere utbetalinger i Speil',
-                type: 'info',
-            });
         }
     }, [person, hasFetched]);
 
@@ -77,11 +67,7 @@ export const Header = () => {
         }
 
         if (!erGyldigPersonId(personId)) {
-            addVarsel({
-                key: 'ugyldig-søk',
-                message: `"${personId}" er ikke en gyldig aktør-ID/fødselsnummer.`,
-                type: 'feil',
-            });
+            addVarsel(new SpeilError(`"${personId}" er ikke en gyldig aktør-ID/fødselsnummer.`));
         } else {
             hasFetched.current = true;
             fetchPerson(personId);

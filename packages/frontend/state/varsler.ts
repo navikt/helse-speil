@@ -1,89 +1,47 @@
-import { useEffect } from 'react';
-import { atom, selector, useResetRecoilState, useSetRecoilState } from 'recoil';
+import { atom, useRecoilValue, useSetRecoilState } from 'recoil';
 
-export const Scopes = {
-    GLOBAL: undefined,
-    OVERSIKT: '/',
-    SAKSBILDE: '/*',
-};
+import { SpeilError } from '@utils/error';
 
-export interface VarselObject {
-    key: string;
-    type: 'info' | 'suksess' | 'advarsel' | 'feil';
-    message: string;
-    scope?: string;
-    technical?: string;
-    ephemeral?: boolean;
-}
-
-export const varslerState = atom<VarselObject[]>({
+export const varslerState = atom<Array<SpeilError>>({
     key: 'varslerState',
     default: [],
 });
 
-export const varselFilterState = atom<string | undefined>({
-    key: 'varselFilter',
-    default: Scopes.GLOBAL,
-});
-
-export const varslerForScope = selector({
-    key: 'varslerForScope',
-    get: ({ get }) => {
-        // Må hente listen før filter, bug i recoil?
-        const varsler = get(varslerState);
-        const varselFilter = get(varselFilterState);
-        return varsler.filter(({ scope }) => scope === Scopes.GLOBAL || scope === varselFilter);
-    },
-});
-
-export const useVarselFilter = (scope?: string) => {
-    const setVarselFilter = useSetRecoilState(varselFilterState);
-
-    useEffect(() => {
-        setVarselFilter(scope);
-    }, []);
+export const useVarsler = (): Array<SpeilError> => {
+    return useRecoilValue(varslerState);
 };
 
-export const useAddVarsel = () => {
+export const useAddVarsel = (): ((varsel: SpeilError) => void) => {
     const setVarsler = useSetRecoilState(varslerState);
+    const removeVarsel = useRemoveVarsel();
 
-    return (varsel: VarselObject) => {
-        setVarsler((varsler) => [...varsler.filter((it) => it.key !== varsel.key), varsel]);
+    return (varsel: SpeilError) => {
+        setVarsler((varsler) => [...varsler.filter((it) => it.name !== varsel.name), varsel]);
+        if (typeof varsel.timeToLiveMS === 'number') {
+            setTimeout(() => removeVarsel(varsel.name), varsel.timeToLiveMS);
+        }
     };
 };
 
 export const useOperationErrorHandler = (operasjon: string) => {
-    const varsel: VarselObject = {
-        key: operasjon,
-        type: 'feil',
-        message: `Det oppstod en feil. Handlingen som ikke ble utført: ${operasjon}`,
-        scope: Scopes.GLOBAL,
-    };
+    const varsel: SpeilError = new SpeilError(`Det oppstod en feil. Handlingen som ikke ble utført: ${operasjon}`);
 
     const setVarsler = useSetRecoilState(varslerState);
 
     return (ex: Error) => {
         console.log(`Feil ved ${operasjon}. ${ex.message}`);
-        setVarsler((varsler) => [...varsler.filter((it) => it.key !== varsel.key), varsel]);
+        setVarsler((varsler) => [...varsler.filter((it) => it.name !== varsel.name), varsel]);
     };
 };
 
 export const useRemoveVarsel = () => {
     const setVarsler = useSetRecoilState(varslerState);
 
-    return (key: string) => {
-        setVarsler((varsler) => varsler.filter((it) => it.key !== key));
+    return (name: string) => {
+        setVarsler((varsler) => varsler.filter((it) => it.name !== name));
     };
 };
 
-export const useAddEphemeralVarsel = () => {
-    const addVarsel = useAddVarsel();
-    const removeVarsel = useRemoveVarsel();
-
-    return (varsel: VarselObject, timeToLiveMs: number) => {
-        addVarsel({ ...varsel, ephemeral: true });
-        setTimeout(() => removeVarsel(varsel.key), timeToLiveMs);
-    };
+export const useSetVarsler = () => {
+    return useSetRecoilState(varslerState);
 };
-
-export const useRemoveAlleVarsler = () => useResetRecoilState(varslerState);

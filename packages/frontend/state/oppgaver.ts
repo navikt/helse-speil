@@ -2,10 +2,11 @@ import { atom, selector, useRecoilValue, useRecoilValueLoadable, useSetRecoilSta
 
 import { deletePåVent, deleteTildeling, getOppgaver, NotatDTO, postLeggPåVent, postTildeling } from '@io/http';
 import { flereArbeidsgivere, stikkprøve, utbetalingTilSykmeldt } from '@utils/featureToggles';
-import { tilOppgave } from '../mapping/oppgaver';
+import { InfoAlert } from '@utils/error';
 
 import { useInnloggetSaksbehandler } from './authentication';
 import { useAddVarsel, useRemoveVarsel } from './varsler';
+import { tilOppgave } from '../mapping/oppgaver';
 
 const oppgaverStateRefetchKey = atom<Date>({
     key: 'oppgaverStateRefetchKey',
@@ -102,6 +103,10 @@ type TildelingError = {
     };
 };
 
+class TildelingAlert extends InfoAlert {
+    name = 'tildeling';
+}
+
 const useRemoveTildelingsvarsel = () => {
     const removeVarsel = useRemoveVarsel();
     return () => removeVarsel('tildeling');
@@ -109,7 +114,7 @@ const useRemoveTildelingsvarsel = () => {
 
 const useAddTildelingsvarsel = () => {
     const addVarsel = useAddVarsel();
-    return (message: string) => addVarsel({ key: 'tildeling', message: message, type: 'info' });
+    return (message: string) => addVarsel(new TildelingAlert(message));
 };
 
 export const useTildelOppgave = () => {

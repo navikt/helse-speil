@@ -3,7 +3,6 @@ import { Route, Switch, useRouteMatch } from 'react-router-dom';
 
 import { Varsel } from '@components/Varsel';
 import { ErrorBoundary } from '@components/ErrorBoundary';
-import { Scopes, useVarselFilter } from '@state/varsler';
 import { useRefreshPersonVedUrlEndring } from '@hooks/useRefreshPersonVedUrlEndring';
 import { useRefreshPersonVedOpptegnelse } from '@hooks/useRefreshPersonVedOpptegnelse';
 import { useVarselOmSakErTildeltAnnenSaksbehandler } from '@hooks/useVarselOmSakErTildeltAnnenSaksbehandler';
@@ -25,7 +24,6 @@ const SaksbildeContent = React.memo(() => {
     useRefreshPersonVedUrlEndring();
     useRefreshPersonVedOpptegnelse();
     usePollEtterOpptegnelser();
-    useVarselFilter(Scopes.SAKSBILDE);
     useVarselOmSakErTildeltAnnenSaksbehandler();
     useKeyboardShortcuts();
 
@@ -53,7 +51,7 @@ const SaksbildeContent = React.memo(() => {
 });
 
 const Saksbilde = () => (
-    <ErrorBoundary fallback={(error: Error) => <Varsel variant="advarsel">{error.message}</Varsel>}>
+    <ErrorBoundary fallback={(error: Error) => <Varsel variant="warning">{error.message}</Varsel>}>
         <SaksbildeContent />
     </ErrorBoundary>
 );

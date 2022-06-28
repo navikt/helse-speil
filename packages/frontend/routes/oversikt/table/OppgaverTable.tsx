@@ -2,29 +2,28 @@ import styled from '@emotion/styled';
 import React from 'react';
 
 import { useSyncNotater } from '@state/notater';
-import { useRemoveAlleVarsler } from '@state/varsler';
+import { useIsReadOnlyOppgave } from '@hooks/useIsReadOnlyOppgave';
+
 import { Filter, useFilters } from './state/filter';
 import { usePagination } from './state/pagination';
 import { useSortation } from './state/sortation';
-
-import { TabType, useAktivTab } from '../tabs';
 import { Body } from './Body';
-import { FilterButton } from './FilterButton';
+import { Table } from './Table';
 import { Header } from './Header';
 import { LinkRow } from './LinkRow';
 import { Pagination } from './Pagination';
 import { SortButton } from './SortButton';
-import { Table } from './Table';
-import { BostedCell } from './rader/BostedCell';
+import { FilterButton } from './FilterButton';
+import { TabType, useAktivTab } from '../tabs';
 import { InntektskildeCell } from './rader/InntektskildeCell';
+import { TildelingCell } from './rader/TildelingCell';
 import { OpprettetCell } from './rader/OpprettetCell';
 import { SakstypeCell } from './rader/SakstypeCell';
+import { OptionsCell } from './rader/options/OptionsCell';
+import { BostedCell } from './rader/BostedCell';
 import { StatusCell } from './rader/StatusCell';
 import { SøkerCell } from './rader/SøkerCell';
-import { TildelingCell } from './rader/TildelingCell';
 import { NotatCell } from './rader/notat/NotatCell';
-import { OptionsCell } from './rader/options/OptionsCell';
-import { useIsReadOnlyOppgave } from '@hooks/useIsReadOnlyOppgave';
 import { Cell } from './Cell';
 
 const Container = styled.div`
@@ -48,7 +47,6 @@ const groupFiltersByColumn = (filters: Filter<Oppgave>[]): Filter<Oppgave>[][] =
 };
 
 export const OppgaverTable = React.memo(({ oppgaver }: { oppgaver: Oppgave[] }) => {
-    const removeVarsler = useRemoveAlleVarsler();
     const pagination = usePagination();
     const sortation = useSortation();
     const filters = useFilters();
@@ -71,8 +69,6 @@ export const OppgaverTable = React.memo(({ oppgaver }: { oppgaver: Oppgave[] }) 
 
     const vedtaksperiodeIder = paginatedRows.map((t) => t.vedtaksperiodeId);
     useSyncNotater(vedtaksperiodeIder);
-
-    const onNavigate = () => removeVarsler();
 
     return (
         <Container>
@@ -155,7 +151,7 @@ export const OppgaverTable = React.memo(({ oppgaver }: { oppgaver: Oppgave[] }) 
                     </thead>
                     <Body>
                         {paginatedRows.map((it) => (
-                            <LinkRow onNavigate={onNavigate} aktørId={it.aktørId} key={it.oppgavereferanse}>
+                            <LinkRow aktørId={it.aktørId} key={it.oppgavereferanse}>
                                 <TildelingCell oppgave={it} kanTildeles={!readOnly} />
                                 <SakstypeCell
                                     type={it.periodetype}

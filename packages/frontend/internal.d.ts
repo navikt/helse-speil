@@ -102,12 +102,6 @@ declare type Notat = {
     type: NotatType;
 };
 
-declare type SpeilError = {
-    message: string;
-    statusCode?: number;
-    technical?: string;
-};
-
 declare type OpptegnelseType =
     | 'UTBETALING_ANNULLERING_FEILET'
     | 'UTBETALING_ANNULLERING_OK'

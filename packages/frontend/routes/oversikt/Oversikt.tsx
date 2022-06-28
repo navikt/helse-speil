@@ -11,7 +11,6 @@ import {
     useResetPerson,
     useTilbakestillTildeling,
 } from '@state/person';
-import { Scopes, useVarselFilter } from '@state/varsler';
 import { useInnloggetSaksbehandler } from '@state/authentication';
 import { oppgaverState, useRefetchOppgaver } from '@state/oppgaver';
 
@@ -95,7 +94,7 @@ export const Oversikt = () => {
     const oppgaver = useOppgaverFilteredByTab();
 
     useLoadingToast({ isLoading: oppgaver.state === 'loading', message: 'Henter oppgaver' });
-    useVarselFilter(Scopes.OVERSIKT);
+
     useResetPersonOnMount();
     useFjernTildelingOnMount();
     useFetchOppgaver(oppgaver.state);
@@ -105,9 +104,7 @@ export const Oversikt = () => {
 
     return (
         <Container>
-            {oppgaver.state === 'hasError' && (
-                <Varsel variant="advarsel">{(oppgaver.contents as Error).message}</Varsel>
-            )}
+            {oppgaver.state === 'hasError' && <Varsel variant="warning">{(oppgaver.contents as Error).message}</Varsel>}
             <FlexColumn>
                 <Tabs />
                 <Flex style={{ height: '100%' }}>

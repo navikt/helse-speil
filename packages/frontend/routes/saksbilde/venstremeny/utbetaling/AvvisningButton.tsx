@@ -1,29 +1,21 @@
 import React, { useContext, useState } from 'react';
-import { nanoid } from 'nanoid';
 import { Button } from '@navikt/ds-react';
 
 import { BeregnetPeriode } from '@io/graphql';
 import { postSendTilInfotrygd } from '@io/http';
-import { Scopes, useAddEphemeralVarsel } from '@state/varsler';
+import { useAddVarsel } from '@state/varsler';
 
 import { AvvisningModal, Avvisningsskjema } from './AvvisningModal';
 
 import { AmplitudeContext } from '@io/amplitude';
+import { SuccessAlert } from '@utils/error';
 
 const useAddInfotrygdtoast = () => {
-    const timeToLiveMs = 5000;
-    const addVarsel = useAddEphemeralVarsel();
+    const timeToLiveMS = 5000;
+    const addVarsel = useAddVarsel();
 
     return () => {
-        addVarsel(
-            {
-                key: nanoid(),
-                message: 'Saken er sendt til behandling i Infotrygd.',
-                type: 'suksess',
-                scope: Scopes.GLOBAL,
-            },
-            timeToLiveMs,
-        );
+        addVarsel(new SuccessAlert('Saken er sendt til behandling i Infotrygd.', { timeToLiveMS }));
     };
 };
 

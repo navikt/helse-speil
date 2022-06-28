@@ -1,9 +1,10 @@
 import styled from '@emotion/styled';
 import { AnimatePresence, motion } from 'framer-motion';
 import React from 'react';
-import { useRecoilValue } from 'recoil';
 
-import { VarselObject, varslerForScope } from '@state/varsler';
+import { useVarsler } from '@state/varsler';
+import { SpeilError } from '@utils/error';
+
 import { Varsel } from './Varsel';
 
 const Separator = styled.span`
@@ -17,13 +18,19 @@ const Container = styled.div`
     z-index: 1000;
 `;
 
-const EphemeralContainer = styled.div`
+const DisappearingVarslerContainer = styled.div`
     position: absolute;
     overflow-y: hidden;
 `;
 
-const TechnicalVarsel = ({ type, message, technical }: VarselObject) => (
-    <Varsel variant={type}>
+interface TechnicalVarselProps {
+    severity: SpeilError['severity'];
+    message: string;
+    technical?: boolean;
+}
+
+const TechnicalVarsel = ({ severity, message, technical }: TechnicalVarselProps) => (
+    <Varsel variant={severity}>
         {message}
         {technical && (
             <>
@@ -35,19 +42,20 @@ const TechnicalVarsel = ({ type, message, technical }: VarselObject) => (
 );
 
 export const Varsler = () => {
-    const varsler = useRecoilValue(varslerForScope).filter((it) => it);
-    const constant = varsler.filter((it) => !it.ephemeral);
-    const ephemeral = varsler.filter((it) => it.ephemeral);
+    const varsler = useVarsler();
+    const constant = varsler.filter((it) => typeof it.timeToLiveMS !== 'number');
+    const disappearing = varsler.filter((it) => typeof it.timeToLiveMS === 'number');
+
     return (
         <Container>
-            {constant.map(({ key, type, message, technical }) => (
-                <TechnicalVarsel key={key} type={type} message={message} technical={technical} />
+            {constant.map(({ name, severity, message }) => (
+                <TechnicalVarsel key={name} severity={severity} message={message} technical={false} />
             ))}
-            <EphemeralContainer>
+            <DisappearingVarslerContainer>
                 <AnimatePresence>
-                    {ephemeral.map(({ key, type, message, technical }) => (
+                    {disappearing.map(({ name, severity, message }) => (
                         <motion.div
-                            key={key}
+                            key={name}
                             initial={{ y: -100 }}
                             animate={{ y: 0 }}
                             exit={{ y: -100 }}
@@ -56,11 +64,11 @@ export const Varsler = () => {
                                 ease: 'easeInOut',
                             }}
                         >
-                            <TechnicalVarsel key={key} type={type} message={message} technical={technical} />
+                            <TechnicalVarsel key={name} severity={severity} message={message} technical={false} />
                         </motion.div>
                     ))}
                 </AnimatePresence>
-            </EphemeralContainer>
+            </DisappearingVarslerContainer>
         </Container>
     );
 };

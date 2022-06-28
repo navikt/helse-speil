@@ -1,27 +1,27 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { BodyShort, Loader } from '@navikt/ds-react';
+import styled from '@emotion/styled';
 
 import { ErrorMessage } from '@components/ErrorMessage';
-import { postAbonnerPåAktør } from '@io/http';
-import { BeregnetPeriode, Periodetilstand, Person } from '@io/graphql';
+import { useIsReadOnlyOppgave } from '@hooks/useIsReadOnlyOppgave';
+import { useErBeslutteroppgaveOgHarTilgang } from '@hooks/useErBeslutteroppgaveOgHarTilgang';
+import { useHarVurderLovvalgOgMedlemskapVarsel } from '@hooks/useHarVurderLovvalgOgMedlemskapVarsel';
+import { toggleTotrinnsvurderingAktiv } from '@state/toggles';
 import { opptegnelsePollingTimeState } from '@state/opptegnelser';
+import { isBeregnetPeriode } from '@utils/typeguards';
 import { getPeriodState } from '@utils/mapping';
 import { isRevurdering } from '@utils/period';
+import { postAbonnerPåAktør } from '@io/http';
+import { BeregnetPeriode, Periodetilstand, Person } from '@io/graphql';
 
+import { ReturButton } from './ReturButton';
 import { AvvisningButton } from './AvvisningButton';
 import { GodkjenningButton } from './GodkjenningButton';
 import { SendTilGodkjenningButton } from './SendTilGodkjenningButton';
 
 import styles from './Utbetaling.module.css';
-import { BodyShort, Loader } from '@navikt/ds-react';
-import styled from '@emotion/styled';
-import { isBeregnetPeriode } from '@utils/typeguards';
-import { ReturButton } from './ReturButton';
-import { useErBeslutteroppgaveOgHarTilgang } from '@hooks/useErBeslutteroppgaveOgHarTilgang';
-import { toggleTotrinnsvurderingAktiv } from '@state/toggles';
-import { useIsReadOnlyOppgave } from '@hooks/useIsReadOnlyOppgave';
-import { useHarVurderLovvalgOgMedlemskapVarsel } from '@hooks/useHarVurderLovvalgOgMedlemskapVarsel';
 
 const InfoText = styled(BodyShort)`
     color: var(--navds-semantic-color-text);
@@ -62,6 +62,12 @@ const useOnGodkjenn = (period: BeregnetPeriode, person: Person): (() => void) =>
 const useOnAvvis = (): (() => void) => {
     const history = useHistory();
     return () => history.push('/');
+};
+
+type SpeilError = {
+    message: string;
+    statusCode?: number;
+    technical?: string;
 };
 
 interface UtbetalingProps {

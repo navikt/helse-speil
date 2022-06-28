@@ -62,8 +62,9 @@ const getResolvers = (): IResolvers => ({
         person: (_, { fnr, aktorId }: { fnr?: string; aktorId?: string }) => {
             const person = fetchPersondata()[fnr ?? aktorId ?? ''];
             if (!person) {
-                throw new NotFoundError(`Finner ikke data for person med fødselsnummer ${fnr ?? aktorId}`, 'person');
+                throw new NotFoundError(fnr ?? aktorId ?? '');
             }
+
             return person;
         },
         oppdrag: (_, { fnr }: { fnr: string }) => {

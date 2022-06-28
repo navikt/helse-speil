@@ -1,10 +1,11 @@
 import { useEffect } from 'react';
 
-import { Scopes, useAddVarsel, useRemoveVarsel } from '@state/varsler';
+import { Person } from '@io/graphql';
+import { InfoAlert } from '@utils/error';
 import { capitalizeName } from '@utils/locale';
 import { useCurrentPerson } from '@state/person';
 import { useInnloggetSaksbehandler } from '@state/authentication';
-import { Person } from '@io/graphql';
+import { useAddVarsel, useRemoveVarsel } from '@state/varsler';
 
 const erTildeltAnnenSaksbehandler = (saksbehandlerOid: string, personTilBehandling: Person): boolean => {
     if (!personTilBehandling.tildeling) return false;
@@ -22,12 +23,7 @@ export const useVarselOmSakErTildeltAnnenSaksbehandler = () => {
     useEffect(() => {
         removeVarsel(key);
         if (personTilBehandling && erTildeltAnnenSaksbehandler(saksbehandler.oid, personTilBehandling)) {
-            addVarsel({
-                key: key,
-                type: 'info',
-                message: `Saken er tildelt ${capitalizeName(personTilBehandling.tildeling?.navn ?? '')}`,
-                scope: Scopes.SAKSBILDE,
-            });
+            addVarsel(new InfoAlert(`Saken er tildelt ${capitalizeName(personTilBehandling.tildeling?.navn ?? '')}`));
         }
     }, [saksbehandler.oid, personTilBehandling]);
 };

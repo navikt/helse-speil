@@ -15,14 +15,12 @@ const HighlightOnHoverRow = styled(Row)`
 
 interface LinkRowProps extends React.HTMLAttributes<HTMLTableRowElement> {
     aktørId: string;
-    onNavigate?: () => void;
 }
 
-export const LinkRow = ({ aktørId, onNavigate, children, ...rest }: LinkRowProps) => {
+export const LinkRow = ({ aktørId, children, ...rest }: LinkRowProps) => {
     const history = useHistory();
 
     const navigate = (event: React.KeyboardEvent | React.MouseEvent) => {
-        onNavigate?.();
         const destinationUrl = `/person/${aktørId}/utbetaling`;
         const pressedModifierKey = event.ctrlKey || event.metaKey;
         const clickedMiddleMouseButton = (event as React.MouseEvent).button === 1;

@@ -12,9 +12,10 @@ import {
 } from '@state/kalkuleringstoasts';
 import { useOpptegnelser, useSetOpptegnelserPollingRate } from '@state/opptegnelser';
 import { useAddToast, useRemoveToast } from '@state/toasts';
-import { Scopes, useAddVarsel } from '@state/varsler';
-import { useCurrentPerson } from '@state/person';
 import { useCurrentArbeidsgiver } from '@state/arbeidsgiver';
+import { useCurrentPerson } from '@state/person';
+import { useAddVarsel } from '@state/varsler';
+import { ErrorAlert } from '@utils/error';
 
 type OverstyrtDagtype = 'Sykedag' | 'Feriedag' | 'Egenmeldingsdag' | 'Permisjonsdag' | 'Avvist';
 
@@ -64,12 +65,9 @@ export const usePostOverstyring = (): UsePostOverstyringResult => {
         if (opptegnelser && calculating) {
             if (opptegnelser.type === 'REVURDERING_AVVIST') {
                 removeToast(kalkulererFerdigToastKey);
-                addVarsel({
-                    key: 'revurderingAvvist',
-                    message: 'Revurderingen gikk ikke gjennom. Ta kontakt med support dersom du trenger hjelp.',
-                    scope: Scopes.SAKSBILDE,
-                    type: 'feil',
-                });
+                addVarsel(
+                    new ErrorAlert('Revurderingen gikk ikke gjennom. Ta kontakt med support dersom du trenger hjelp.'),
+                );
             } else {
                 addToast(kalkuleringFerdigToast({ callback: () => removeToast(kalkulererFerdigToastKey) }));
             }

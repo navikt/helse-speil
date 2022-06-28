@@ -3,14 +3,22 @@ import React, { useContext, useState } from 'react';
 import { Loader } from '@navikt/ds-react';
 
 import { Tildeling } from '@io/graphql';
-import { useAddVarsel, useRemoveVarsel, VarselObject } from '@state/varsler';
-import { DropdownButton, DropdownContext } from '@components/dropdown';
 import { deleteTildeling, postTildeling } from '@io/http';
+import { DropdownButton, DropdownContext } from '@components/dropdown';
 import { useMeldAvLokalTildeling, useTildelPerson } from '@state/person';
+import { useAddVarsel, useRemoveVarsel } from '@state/varsler';
+import { SpeilError } from '@utils/error';
 
 const TILDELINGSKEY = 'tildeling';
 
-const createTildelingsvarsel = (message: string): VarselObject => ({ key: TILDELINGSKEY, message, type: 'info' });
+class TildelingAlert extends SpeilError {
+    name = TILDELINGSKEY;
+
+    constructor(message: string) {
+        super(message);
+        this.severity = 'info';
+    }
+}
 
 interface TildelingDropdownMenuButtonProps {
     oppgavereferanse: string;
@@ -41,7 +49,7 @@ export const TildelingDropdownMenuButton = ({
                     .then(() => {
                         fjernTildeling();
                     })
-                    .catch(() => addVarsel(createTildelingsvarsel('Kunne ikke fjerne tildeling av sak.')))
+                    .catch(() => addVarsel(new TildelingAlert('Kunne ikke fjerne tildeling av sak.')))
                     .finally(() => {
                         lukk();
                         setIsFetching(false);
@@ -65,9 +73,9 @@ export const TildelingDropdownMenuButton = ({
                         if (error.statusCode === 409) {
                             const respons: any = await JSON.parse(error.message);
                             const { navn } = respons.kontekst.tildeling;
-                            addVarsel(createTildelingsvarsel(`${navn} har allerede tatt saken.`));
+                            addVarsel(new TildelingAlert(`${navn} har allerede tatt saken.`));
                         } else {
-                            addVarsel(createTildelingsvarsel('Kunne ikke tildele sak.'));
+                            addVarsel(new TildelingAlert('Kunne ikke tildele sak.'));
                         }
                     })
                     .finally(() => {

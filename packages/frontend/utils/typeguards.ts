@@ -67,8 +67,8 @@ export const isArbeidsforholdoverstyringer = (
     overstyringer?: Maybe<Array<Overstyring>>,
 ): overstyringer is Array<Arbeidsforholdoverstyring> => overstyringer?.every(isArbeidsforholdoverstyring) ?? false;
 
-export const isPerson = (person?: Maybe<Person>): person is Person => {
-    return person !== undefined && person !== null;
+export const isPerson = (person?: Maybe<Person | any>): person is Person => {
+    return person !== undefined && person !== null && typeof person['fodselsnummer'] === 'string';
 };
 
 export const isArbeidsgiver = (arbeidsgiver?: Maybe<Arbeidsgiver>): arbeidsgiver is Arbeidsgiver => {

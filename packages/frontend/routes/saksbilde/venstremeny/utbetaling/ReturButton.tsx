@@ -1,29 +1,21 @@
 import React, { useContext, useState } from 'react';
-import { nanoid } from 'nanoid';
 import { Button } from '@navikt/ds-react';
 
 import { BeregnetPeriode } from '@io/graphql';
-import { postSendTilbakeTilSaksbehandler } from '@io/http';
-import { Scopes, useAddEphemeralVarsel } from '@state/varsler';
-
 import { AmplitudeContext } from '@io/amplitude';
-import { NyttNotatModal } from '../../../oversikt/table/rader/notat/NyttNotatModal';
+import { postSendTilbakeTilSaksbehandler } from '@io/http';
 import { useCurrentPerson } from '@state/person';
+import { useAddVarsel } from '@state/varsler';
+import { SuccessAlert } from '@utils/error';
+
+import { NyttNotatModal } from '../../../oversikt/table/rader/notat/NyttNotatModal';
 
 const useAddInfotrygdtoast = () => {
-    const timeToLiveMs = 5000;
-    const addVarsel = useAddEphemeralVarsel();
+    const timeToLiveMS = 5000;
+    const addVarsel = useAddVarsel();
 
     return () => {
-        addVarsel(
-            {
-                key: nanoid(),
-                message: 'Saken er sendt i retur til saksbehandler.',
-                type: 'suksess',
-                scope: Scopes.GLOBAL,
-            },
-            timeToLiveMs,
-        );
+        addVarsel(new SuccessAlert('Saken er sendt i retur til saksbehandler.', { timeToLiveMS }));
     };
 };
 

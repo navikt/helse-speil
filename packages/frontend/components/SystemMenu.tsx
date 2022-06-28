@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Dropdown, Header } from '@navikt/ds-react-internal';
 import { ExternalLink, System } from '@navikt/ds-icons';
 
@@ -19,10 +19,9 @@ const redirigerTilArbeidOgInntektUrl = (url: string, fødselsnummer: string) => 
 };
 
 export const SystemMenuContent = () => {
-    const [anchor, setAnchor] = useState<HTMLElement | null>(null);
     const person = useCurrentPerson();
 
-    const arbeidOgInntektLinks: { tekst: string; url: string }[] = [
+    const arbeidOgInntektLinks: Array<{ tekst: string; url: string }> = [
         {
             tekst: 'A-inntekt',
             url: 'https://arbeid-og-inntekt.nais.adeo.no/api/v2/redirect/sok/a-inntekt',
@@ -33,7 +32,7 @@ export const SystemMenuContent = () => {
         },
     ];
 
-    const links: { tekst: string; href: string }[] = [
+    const links: Array<{ tekst: string; href: string }> = [
         {
             tekst: 'Gosys',
             href: person

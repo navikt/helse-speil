@@ -1,3 +1,47 @@
+type Severity = 'warning' | 'error' | 'info' | 'success';
+
+type SpeilErrorOptions = {
+    severity?: Severity;
+    timeToLiveMS?: number;
+    scope?: string;
+};
+
+export class SpeilError extends Error {
+    name = 'speilError';
+    severity: Severity = 'error';
+    scope: string = window.location.pathname;
+    timeToLiveMS: number | null = null;
+
+    constructor(message?: string, options?: SpeilErrorOptions) {
+        super(message);
+        if (options) {
+            this.severity = options.severity ?? this.severity;
+            this.timeToLiveMS = options.timeToLiveMS ?? null;
+            this.scope = options.scope ?? this.scope;
+        }
+    }
+}
+
+export class ErrorAlert extends SpeilError {}
+
+export class SuccessAlert extends SpeilError {
+    name = 'success';
+
+    constructor(message: string, options?: Omit<SpeilErrorOptions, 'severity'>) {
+        super(message, options);
+        this.severity = 'success';
+    }
+}
+
+export class InfoAlert extends SpeilError {
+    name = 'info';
+
+    constructor(message: string, options?: Omit<SpeilErrorOptions, 'severity'>) {
+        super(message, options);
+        this.severity = 'info';
+    }
+}
+
 export class LazyLoadPendingError extends Error {}
 
 export class LazyLoadError extends Error {
@@ -8,7 +52,6 @@ export class LazyLoadError extends Error {
 }
 
 export const onLazyLoadFail = (error: Error): Promise<never> => {
-    console.log(error.message);
     const numberOfTimesFailed = Number(window.sessionStorage.getItem(error.message));
 
     if (numberOfTimesFailed < 2) {

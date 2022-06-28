@@ -3,17 +3,15 @@ import React, { useContext } from 'react';
 import { DropdownButton, DropdownContext } from '@components/dropdown';
 import { postForespørPersonoppdatering } from '@io/http';
 import { useCurrentPerson } from '@state/person';
-import { Scopes, useAddVarsel, useRemoveVarsel, VarselObject } from '@state/varsler';
+import { useAddVarsel, useRemoveVarsel } from '@state/varsler';
 import { isPerson } from '@utils/typeguards';
+import { SpeilError } from '@utils/error';
 
-const personoppdateringvarselKey = 'personoppdatering';
+const PERSONOPPDATERING_VARSEL_KEY = 'personoppdatering';
 
-const personoppdateringvarsel = (message: string, type: VarselObject['type']) => ({
-    key: personoppdateringvarselKey,
-    message: message,
-    type: type,
-    scope: Scopes.SAKSBILDE,
-});
+class PersonoppdateringAlert extends SpeilError {
+    name = PERSONOPPDATERING_VARSEL_KEY;
+}
 
 export const OppdaterPersondataButton: React.VFC = () => {
     const person = useCurrentPerson();
@@ -23,18 +21,20 @@ export const OppdaterPersondataButton: React.VFC = () => {
     const { lukk } = useContext(DropdownContext);
 
     const forespørPersonoppdatering = (fødselsnummer: string) => () => {
-        removeVarsel(personoppdateringvarselKey);
+        removeVarsel(PERSONOPPDATERING_VARSEL_KEY);
         postForespørPersonoppdatering({ fødselsnummer })
             .then(() => {
                 addVarsel(
-                    personoppdateringvarsel(
+                    new PersonoppdateringAlert(
                         'Opplysningene om personen vil bli oppdatert. Dette kan ta noe tid og du må oppdatere skjermbildet (F5) for å se resultatet.',
-                        'info',
+                        { severity: 'info' },
                     ),
                 );
             })
             .catch(() => {
-                addVarsel(personoppdateringvarsel('Personoppdatering feilet. Prøv igjen om litt.', 'feil'));
+                addVarsel(
+                    new PersonoppdateringAlert('Personoppdatering feilet. Prøv igjen om litt.', { severity: 'error' }),
+                );
             })
             .finally(lukk);
     };

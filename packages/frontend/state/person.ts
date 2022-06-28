@@ -8,12 +8,15 @@ import {
     useResetRecoilState,
     useSetRecoilState,
 } from 'recoil';
+import { GraphQLError } from 'graphql';
 
-import { useInnloggetSaksbehandler } from '@state/authentication';
 import { useActivePeriod } from '@state/periode';
-import type { Maybe, Person, Tildeling, Vilkarsgrunnlag } from '@io/graphql';
-import { fetchPerson } from '@io/graphql';
+import { useInnloggetSaksbehandler } from '@state/authentication';
+import { FetchError, isFetchErrorArray, NotFoundError, ProtectedError } from '@io/graphql/errors';
+import { fetchPerson, Maybe, Person, Tildeling, Vilkarsgrunnlag } from '@io/graphql';
 import { deletePåVent, NotatDTO, postLeggPåVent, SpeilResponse } from '@io/http';
+import { SpeilError } from '@utils/error';
+import { isPerson } from '@utils/typeguards';
 
 const currentPersonIdState = atom<string | null>({
     key: 'currentPersonId',
@@ -34,7 +37,7 @@ const localTildelingState = atom<Maybe<Tildeling> | undefined>({
     default: undefined,
 });
 
-const fetchedPersonState = selector<Person | null>({
+const fetchedPersonState = selector<Person | Array<FetchError> | null>({
     key: 'fetchedPersonState',
     get: ({ get }) => {
         get(personRefetchKeyState);
@@ -44,10 +47,19 @@ const fetchedPersonState = selector<Person | null>({
             return fetchPerson(id)
                 .then((res) => res.person ?? null)
                 .catch((e) => {
-                    if (e.response.errors[0].extensions.code == 403) {
-                        throw new Error('Du har ikke tilgang til å søke opp denne personen');
-                    }
-                    return Promise.resolve(null);
+                    return e.response.errors.map((error: GraphQLError) => {
+                        switch (error.extensions.code) {
+                            case 403: {
+                                return new ProtectedError();
+                            }
+                            case 404: {
+                                return new NotFoundError();
+                            }
+                            default: {
+                                return new FetchError();
+                            }
+                        }
+                    });
                 });
         } else {
             return Promise.resolve(null);
@@ -85,8 +97,24 @@ export const useRefetchPerson = (): (() => void) => {
     };
 };
 
+export const useFetchErrors = (): Array<SpeilError> | null => {
+    const personState = useRecoilValueLoadable(currentPersonState);
+
+    if (personState.state === 'hasValue' && isFetchErrorArray(personState.contents)) {
+        return personState.contents;
+    }
+
+    return null;
+};
+
 export const usePersonLoadable = (): Loadable<Person | null> => {
-    return useRecoilValueLoadable(currentPersonState);
+    const loadable = useRecoilValueLoadable(currentPersonState);
+
+    if (loadable.state === 'hasValue' && isFetchErrorArray(loadable.contents)) {
+        return { ...loadable, contents: null } as Loadable<null>;
+    }
+
+    return loadable as Loadable<Person | null>;
 };
 
 export const useResetPerson = (): (() => void) => {

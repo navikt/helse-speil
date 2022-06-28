@@ -1,29 +1,18 @@
 import { useEffect } from 'react';
 import { useParams } from 'react-router';
 
-import { Scopes, useAddVarsel, useRemoveVarsel } from '@state/varsler';
+import { useAddVarsel, useRemoveVarsel } from '@state/varsler';
 import { useFetchPerson, usePersonLoadable } from '@state/person';
+import { SpeilError } from '@utils/error';
 import { Person } from '@io/graphql';
 
-const feilvarselKey = 'hent-person-error';
+const HENT_PERSON_ERROR_KEY = 'hent-person-error';
+
+class HentPersonError extends SpeilError {
+    name = HENT_PERSON_ERROR_KEY;
+}
 
 export const erGyldigPersonId = (value: string) => value.match(/^\d{1,15}$/) !== null;
-
-const useAddVarselOnError = () => {
-    const { state, contents } = usePersonLoadable();
-    const addVarsel = useAddVarsel();
-
-    useEffect(() => {
-        if (state === 'hasError') {
-            addVarsel({
-                key: feilvarselKey,
-                message: contents.message,
-                scope: Scopes.SAKSBILDE,
-                type: contents.type,
-            });
-        }
-    }, [state]);
-};
 
 export const useRefreshPersonVedUrlEndring = () => {
     const { aktorId } = useParams<{ aktorId: string }>();
@@ -36,16 +25,11 @@ export const useRefreshPersonVedUrlEndring = () => {
     useEffect(() => {
         if (aktorId && erGyldigPersonId(aktorId)) {
             if (state !== 'hasValue' || contents === null || (contents as Person).aktorId !== aktorId) {
-                removeVarsel(feilvarselKey);
+                removeVarsel(HENT_PERSON_ERROR_KEY);
                 fetchPerson(aktorId);
             }
         } else {
-            addVarsel({
-                key: feilvarselKey,
-                message: `'${aktorId}' er ikke en gyldig aktør-ID/fødselsnummer.`,
-                scope: Scopes.SAKSBILDE,
-                type: 'feil',
-            });
+            addVarsel(new HentPersonError(`'${aktorId}' er ikke en gyldig aktør-ID/fødselsnummer.`));
         }
     }, [aktorId]);
 };
