@@ -13,6 +13,7 @@ import { Venstremeny } from '../venstremeny/Venstremeny';
 import { Historikk } from '../historikk/Historikk';
 
 import styles from './PeriodeView.module.css';
+import { useHarVurderLovvalgOgMedlemskapVarsel } from '@hooks/useHarVurderLovvalgOgMedlemskapVarsel';
 
 const Utbetaling = React.lazy(() => import('../utbetaling/Utbetaling').catch(onLazyLoadFail));
 const Inngangsvilkår = React.lazy(() => import('../vilkår/Inngangsvilkår').catch(onLazyLoadFail));
@@ -43,6 +44,7 @@ export const BeregnetPeriodeView: React.VFC<BeregnetPeriodeViewProps> = ({ activ
     useSyncNotater([activePeriod.vedtaksperiodeId]);
 
     const erTidligereSaksbehandler = useErTidligereSaksbehandler();
+    const harVurderLovvalgOgMedlemskapVarsel = useHarVurderLovvalgOgMedlemskapVarsel();
 
     return (
         <>
@@ -54,6 +56,7 @@ export const BeregnetPeriodeView: React.VFC<BeregnetPeriodeViewProps> = ({ activ
                     varsler={activePeriod.varsler}
                     erTidligereSaksbehandler={erTidligereSaksbehandler}
                     erBeslutteroppgave={activePeriod.erBeslutterOppgave}
+                    harVurderLovvalgOgMedlemskapVarsel={harVurderLovvalgOgMedlemskapVarsel}
                 />
                 <Switch>
                     <React.Suspense fallback={<BeregnetPeriodeViewLoader />}>

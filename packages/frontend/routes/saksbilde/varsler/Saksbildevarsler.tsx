@@ -76,6 +76,7 @@ const beslutteroppgaveVarsel = (
     periodState: PeriodState,
     varsler?: Maybe<Array<string>>,
     erBeslutteroppgave?: boolean,
+    harVurderLovvalgOgMedlemskapVarsel?: boolean,
 ) => {
     if (erBeslutteroppgave && varsler && ['tilGodkjenning', 'revurderes'].includes(periodState)) {
         const beslutteroppgavevarsel = Array.from(varsler)
@@ -83,6 +84,8 @@ const beslutteroppgaveVarsel = (
             .find((varsel) => varsel.includes('Beslutteroppgave:'));
         if (beslutteroppgavevarsel) {
             return { grad: 'info', melding: beslutteroppgavevarsel };
+        } else if (harVurderLovvalgOgMedlemskapVarsel) {
+            return { grad: 'info', melding: 'Beslutteroppgave: Lovvalg og medlemskap' };
         }
     }
     return null;
@@ -98,6 +101,7 @@ interface SaksbildevarslerProps {
     varsler?: Maybe<Array<string>>;
     erTidligereSaksbehandler?: boolean;
     erBeslutteroppgave?: boolean;
+    harVurderLovvalgOgMedlemskapVarsel?: boolean;
 }
 
 export const Saksbildevarsler = ({
@@ -106,13 +110,14 @@ export const Saksbildevarsler = ({
     varsler,
     erTidligereSaksbehandler,
     erBeslutteroppgave,
+    harVurderLovvalgOgMedlemskapVarsel,
 }: SaksbildevarslerProps) => {
     const infoVarsler: VarselObject[] = [
         tilgangInfoVarsel(erTidligereSaksbehandler && erBeslutteroppgave),
         tilstandInfoVarsel(periodState),
         utbetalingsvarsel(periodState),
         vedtaksperiodeVenterVarsel(periodState),
-        beslutteroppgaveVarsel(periodState, varsler, erBeslutteroppgave),
+        beslutteroppgaveVarsel(periodState, varsler, erBeslutteroppgave, harVurderLovvalgOgMedlemskapVarsel),
     ].filter((it) => it) as VarselObject[];
 
     const feilVarsler: VarselObject[] = [

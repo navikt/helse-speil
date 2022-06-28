@@ -105,16 +105,21 @@ export const Utbetaling = ({ activePeriod, currentPerson }: UtbetalingProps) => 
     const harArbeidsgiverutbetaling = activePeriod.utbetaling.arbeidsgiverNettoBelop !== 0;
     const harBrukerutbetaling = activePeriod.utbetaling.personNettoBelop !== 0;
     const trengerTotrinnsvurdering =
-        totrinnsvurderingAktiv && isBeregnetPeriode(activePeriod) && activePeriod.trengerTotrinnsvurdering;
+        totrinnsvurderingAktiv &&
+        isBeregnetPeriode(activePeriod) &&
+        activePeriod.trengerTotrinnsvurdering &&
+        !readOnly &&
+        !activePeriod.erBeslutterOppgave;
+    const harLovvalgOgMedlemskapVarselOgErIkkeMarkertAlt =
+        !activePeriod.erBeslutterOppgave &&
+        !activePeriod.trengerTotrinnsvurdering &&
+        !readOnly &&
+        harVurderLovvalgOgMedlemskapVarsel;
 
     return (
         <>
             <div className={styles.Buttons}>
-                {(trengerTotrinnsvurdering && !readOnly && !activePeriod.erBeslutterOppgave) ||
-                (totrinnsvurderingAktiv &&
-                    !readOnly &&
-                    !activePeriod.erBeslutterOppgave &&
-                    harVurderLovvalgOgMedlemskapVarsel) ? (
+                {trengerTotrinnsvurdering || harLovvalgOgMedlemskapVarselOgErIkkeMarkertAlt ? (
                     <SendTilGodkjenningButton
                         oppgavereferanse={activePeriod.oppgavereferanse!}
                         disabled={periodenErSendt}
@@ -171,7 +176,7 @@ export const Utbetaling = ({ activePeriod, currentPerson }: UtbetalingProps) => 
                     <span>
                         {isRevurdering
                             ? 'Revurdering ferdigstilles'
-                            : trengerTotrinnsvurdering
+                            : trengerTotrinnsvurdering || harLovvalgOgMedlemskapVarselOgErIkkeMarkertAlt
                             ? 'Perioden sendes til godkjenning'
                             : 'Neste periode klargjøres'}
                     </span>
