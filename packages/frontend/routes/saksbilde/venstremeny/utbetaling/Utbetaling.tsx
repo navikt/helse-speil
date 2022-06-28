@@ -111,7 +111,10 @@ export const Utbetaling = ({ activePeriod, currentPerson }: UtbetalingProps) => 
         <>
             <div className={styles.Buttons}>
                 {(trengerTotrinnsvurdering && !readOnly && !activePeriod.erBeslutterOppgave) ||
-                (totrinnsvurderingAktiv && !readOnly && harVurderLovvalgOgMedlemskapVarsel) ? (
+                (totrinnsvurderingAktiv &&
+                    !readOnly &&
+                    !activePeriod.erBeslutterOppgave &&
+                    harVurderLovvalgOgMedlemskapVarsel) ? (
                     <SendTilGodkjenningButton
                         oppgavereferanse={activePeriod.oppgavereferanse!}
                         disabled={periodenErSendt}
