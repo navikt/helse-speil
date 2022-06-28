@@ -1,0 +1,21 @@
+.SimuleringView {
+    padding: 1.25rem 2rem 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.NegativtBeløp {
+    color: var(--navds-semantic-color-feedback-danger-text);
+    font-style: italic;
+}
+
+.SimuleringValueContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.SimuleringValue > p:first-of-type {
+    font-weight: 600;
+}

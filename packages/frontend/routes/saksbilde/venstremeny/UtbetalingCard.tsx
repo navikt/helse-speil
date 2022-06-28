@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { BodyShort, Tooltip } from '@navikt/ds-react';
 import { Bag, People } from '@navikt/ds-icons';
 
@@ -9,7 +9,7 @@ import { AnonymizableTextWithEllipsis } from '@components/TextWithEllipsis';
 import { Bold } from '@components/Bold';
 
 import { CardTitle } from './CardTitle';
-import { ShowSimuleringButton } from './utbetaling/SimuleringsinfoPopup';
+import { OpenSimuleringButton } from './utbetaling/simulering/OpenSimuleringButton';
 
 import styles from './UtbetalingCard.module.css';
 
@@ -24,32 +24,28 @@ const getFormattedName = (personinfo: Personinfo): string => {
 };
 
 interface UtbetalingCardProps {
-    fødselsnummer: string;
     skjæringstidspunkt: DateString;
     vilkårsgrunnlaghistorikkId: string;
     antallUtbetalingsdager: number;
-    organisasjonsnummer: string;
     utbetaling: Utbetaling;
     arbeidsgiver: string;
     personinfo: Personinfo;
+    harRefusjon: boolean;
     arbeidsgiversimulering?: Maybe<Simulering>;
     personsimulering?: Maybe<Simulering>;
 }
 
 export const UtbetalingCard = ({
-    fødselsnummer,
     skjæringstidspunkt,
     vilkårsgrunnlaghistorikkId,
     antallUtbetalingsdager,
-    organisasjonsnummer,
     utbetaling,
     arbeidsgiver,
     personinfo,
+    harRefusjon,
     arbeidsgiversimulering,
     personsimulering,
 }: UtbetalingCardProps) => {
-    const [simulering, setSimulering] = useState<Simulering | null>();
-
     const vilkårsgrunnlaghistorikk = useVilkårsgrunnlag(vilkårsgrunnlaghistorikkId, skjæringstidspunkt);
 
     return (
@@ -78,12 +74,11 @@ export const UtbetalingCard = ({
                     <BodyShort>{somPenger(utbetaling.arbeidsgiverNettoBelop)}</BodyShort>
                 </div>
                 {isSimulering(arbeidsgiversimulering) && (
-                    <ShowSimuleringButton
-                        data={arbeidsgiversimulering}
+                    <OpenSimuleringButton
+                        simulering={arbeidsgiversimulering}
                         utbetaling={utbetaling}
-                        personinfo={personinfo}
-                        fødselsnummer={fødselsnummer}
                         className={styles.SimuleringButton}
+                        harRefusjon={harRefusjon}
                     />
                 )}
                 <div className={styles.Row}>
@@ -94,12 +89,11 @@ export const UtbetalingCard = ({
                     <BodyShort>{somPenger(utbetaling.personNettoBelop)}</BodyShort>
                 </div>
                 {isSimulering(personsimulering) && (
-                    <ShowSimuleringButton
-                        data={personsimulering}
+                    <OpenSimuleringButton
+                        simulering={personsimulering}
                         utbetaling={utbetaling}
-                        personinfo={personinfo}
-                        fødselsnummer={fødselsnummer}
                         className={styles.SimuleringButton}
+                        harRefusjon={harRefusjon}
                     />
                 )}
             </div>
