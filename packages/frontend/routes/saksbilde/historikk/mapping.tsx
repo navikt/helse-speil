@@ -96,11 +96,11 @@ const getPeriodehistorikkTitle = (type: PeriodehistorikkType): String | JSX.Elem
     const title = (() => {
         switch (type) {
             case PeriodehistorikkType.TotrinnsvurderingTilGodkjenning:
-                return 'Til Godkjenning';
+                return 'Sendt til godkjenning';
             case PeriodehistorikkType.TotrinnsvurderingRetur:
-                return 'Retur';
+                return 'Returnert';
             case PeriodehistorikkType.TotrinnsvurderingAttestert:
-                return 'Attestert';
+                return 'Godkjent og utbetalt';
             default:
                 return '';
         }
@@ -241,7 +241,7 @@ const notattittel = (notattype: NotatType) => {
         case 'PaaVent':
             return 'Lagt på vent';
         case 'Retur':
-            return 'Retur';
+            return 'Returnert';
         default:
             return 'Notat';
     }
