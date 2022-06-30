@@ -16,7 +16,8 @@ const periodeErIArbeidsgiversSisteSkjæringstidspunkt = (
     periode: BeregnetPeriode,
 ): boolean => {
     const periodenFinnesISisteGenerasjon =
-        arbeidsgiver.generasjoner[0]?.perioder.find((it) => it === periode) !== undefined;
+        arbeidsgiver.generasjoner[0]?.perioder.find((it) => it.vedtaksperiodeId === periode.vedtaksperiodeId) !==
+        undefined;
 
     if (!periodenFinnesISisteGenerasjon) return false;
 
