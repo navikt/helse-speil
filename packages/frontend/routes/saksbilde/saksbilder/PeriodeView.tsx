@@ -74,7 +74,7 @@ const PeriodeViewError: React.FC<PeriodeViewErrorProps> = ({ error }) => {
     }
 
     return (
-        <Varsel variant="feil" className={styles.Error}>
+        <Varsel variant="error" className={styles.Error}>
             {error.message}
         </Varsel>
     );

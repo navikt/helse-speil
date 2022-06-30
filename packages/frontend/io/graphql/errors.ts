@@ -24,6 +24,7 @@ export class ProtectedError extends FetchError {
 export const isFetchErrorArray = (errors: any): errors is Array<FetchError> => {
     return (
         Array.isArray(errors) &&
+        errors.length > 0 &&
         errors.every((it) => it instanceof FetchError || it instanceof NotFoundError || it instanceof ProtectedError)
     );
 };

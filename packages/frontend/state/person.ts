@@ -18,6 +18,11 @@ import { deletePåVent, NotatDTO, postLeggPåVent, SpeilResponse } from '@io/htt
 import { SpeilError } from '@utils/error';
 import { isPerson } from '@utils/typeguards';
 
+type PersonState = {
+    person: Maybe<Person>;
+    errors: Array<SpeilError>;
+};
+
 const currentPersonIdState = atom<string | null>({
     key: 'currentPersonId',
     default: null,
@@ -37,7 +42,7 @@ const localTildelingState = atom<Maybe<Tildeling> | undefined>({
     default: undefined,
 });
 
-const fetchedPersonState = selector<Person | Array<FetchError> | null>({
+const fetchedPersonState = selector<PersonState>({
     key: 'fetchedPersonState',
     get: ({ get }) => {
         get(personRefetchKeyState);
@@ -45,9 +50,14 @@ const fetchedPersonState = selector<Person | Array<FetchError> | null>({
 
         if (typeof id === 'string') {
             return fetchPerson(id)
-                .then((res) => res.person ?? null)
+                .then((res) => {
+                    return Promise.resolve({
+                        person: res.person ?? null,
+                        errors: [],
+                    });
+                })
                 .catch((e) => {
-                    return e.response.errors.map((error: GraphQLError) => {
+                    const errors = e.response.errors.map((error: GraphQLError) => {
                         switch (error.extensions.code) {
                             case 403: {
                                 return new ProtectedError();
@@ -60,9 +70,16 @@ const fetchedPersonState = selector<Person | Array<FetchError> | null>({
                             }
                         }
                     });
+                    return Promise.resolve({
+                        person: null,
+                        errors: errors,
+                    });
                 });
         } else {
-            return Promise.resolve(null);
+            return Promise.resolve({
+                person: null,
+                errors: [],
+            });
         }
     },
 });
@@ -100,8 +117,8 @@ export const useRefetchPerson = (): (() => void) => {
 export const useFetchErrors = (): Array<SpeilError> | null => {
     const personState = useRecoilValueLoadable(currentPersonState);
 
-    if (personState.state === 'hasValue' && isFetchErrorArray(personState.contents)) {
-        return personState.contents;
+    if (personState.state === 'hasValue' && isFetchErrorArray(personState.contents.errors)) {
+        return personState.contents.errors;
     }
 
     return null;
@@ -110,11 +127,11 @@ export const useFetchErrors = (): Array<SpeilError> | null => {
 export const usePersonLoadable = (): Loadable<Person | null> => {
     const loadable = useRecoilValueLoadable(currentPersonState);
 
-    if (loadable.state === 'hasValue' && isFetchErrorArray(loadable.contents)) {
-        return { ...loadable, contents: null } as Loadable<null>;
+    if (loadable.state === 'hasValue' && isFetchErrorArray(loadable.contents.errors)) {
+        return { state: 'hasValue', contents: null } as Loadable<null>;
     }
 
-    return loadable as Loadable<Person | null>;
+    return { state: loadable.state, contents: loadable.contents.person ?? null } as Loadable<Person | null>;
 };
 
 export const useResetPerson = (): (() => void) => {

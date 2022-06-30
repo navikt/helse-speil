@@ -32,7 +32,7 @@ const activePeriodState = atom<ActivePeriod | null>({
 const activePeriod = selector<ActivePeriod | null>({
     key: 'activePeriod',
     get: ({ get }) => {
-        const person = get(currentPersonState);
+        const { person } = get(currentPersonState);
         if (!isPerson(person)) {
             return null;
         }
