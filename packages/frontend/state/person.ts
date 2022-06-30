@@ -59,12 +59,13 @@ export const useCurrentPerson = (): Person | null => {
     const person = useRecoilValue(currentPersonState);
     const localTildeling = useRecoilValue(localTildelingState);
 
-    return (
-        person && {
-            ...person,
-            tildeling: localTildeling === undefined ? person.tildeling : localTildeling,
-        }
-    );
+    if (!person) return null;
+    return localTildeling === undefined
+        ? person
+        : {
+              ...person,
+              tildeling: localTildeling,
+          };
 };
 
 export const useFetchPerson = (): ((id: string) => void) => {

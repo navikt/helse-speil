@@ -16,8 +16,7 @@ const periodeErIArbeidsgiversSisteSkjæringstidspunkt = (
     periode: BeregnetPeriode,
 ): boolean => {
     const periodenFinnesISisteGenerasjon =
-        arbeidsgiver.generasjoner[0]?.perioder.find((it) => it.vedtaksperiodeId === periode.vedtaksperiodeId) !==
-        undefined;
+        arbeidsgiver.generasjoner[0]?.perioder.find((it) => it === periode) !== undefined;
 
     if (!periodenFinnesISisteGenerasjon) return false;
 
@@ -70,11 +69,7 @@ const alleOverlappendePerioderErTilRevurdering = (person: Person, periode: Perio
 };
 
 const getArbeidsgiverMedPeriode = (periode: Periode, person: Person): Arbeidsgiver | null => {
-    return (
-        person.arbeidsgivere.find((it) =>
-            it.generasjoner[0]?.perioder.find((it) => it.vedtaksperiodeId === periode.vedtaksperiodeId),
-        ) ?? null
-    );
+    return person.arbeidsgivere.find((it) => it.generasjoner[0]?.perioder.find((it) => it === periode)) ?? null;
 };
 
 export const useRevurderingIsEnabled = (toggles: UtbetalingToggles): boolean => {
