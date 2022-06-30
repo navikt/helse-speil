@@ -34,8 +34,8 @@ const localTildelingState = atom<Maybe<Tildeling> | undefined>({
     default: undefined,
 });
 
-export const currentPersonState = selector<Person | null>({
-    key: 'currentPersonState',
+const fetchedPersonState = selector<Person | null>({
+    key: 'fetchedPersonState',
     get: ({ get }) => {
         get(personRefetchKeyState);
         const id = get(currentPersonIdState);
@@ -55,18 +55,24 @@ export const currentPersonState = selector<Person | null>({
     },
 });
 
-export const useCurrentPerson = (): Person | null => {
-    const person = useRecoilValue(currentPersonState);
-    const localTildeling = useRecoilValue(localTildelingState);
+export const currentPersonState = selector<Person | null>({
+    key: 'currentPersonState',
+    get: ({ get }) => {
+        const person = get(fetchedPersonState);
+        if (!person) return null;
 
-    if (!person) return null;
-    return localTildeling === undefined
-        ? person
-        : {
-              ...person,
-              tildeling: localTildeling,
-          };
-};
+        const localTildeling = get(localTildelingState);
+        if (localTildeling !== undefined) {
+            return {
+                ...person,
+                tildeling: localTildeling,
+            };
+        }
+
+        return person;
+    },
+});
+export const useCurrentPerson = (): Person | null => useRecoilValue(currentPersonState);
 
 export const useFetchPerson = (): ((id: string) => void) => {
     return useSetRecoilState(currentPersonIdState);
