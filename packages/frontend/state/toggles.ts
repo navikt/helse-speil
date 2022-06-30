@@ -1,5 +1,5 @@
 import { atom } from 'recoil';
-import { harBeslutterRolle, kanFrigiAndresOppgaver, totrinnsvurderingAktiv } from '@utils/featureToggles';
+import { harBeslutterRolle, kanFrigiAndresOppgaver } from '@utils/featureToggles';
 
 // Totrinnsvurdering
 export const toggleHarBeslutterRolle = atom<boolean>({
@@ -9,7 +9,7 @@ export const toggleHarBeslutterRolle = atom<boolean>({
 
 export const toggleTotrinnsvurderingAktiv = atom<boolean>({
     key: 'toggleTotrinnsvurderingAktiv',
-    default: totrinnsvurderingAktiv,
+    default: true,
 });
 
 export const toggleKanBeslutteEgenBeslutteroppgave = atom<boolean>({

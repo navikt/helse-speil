@@ -261,14 +261,7 @@ export const defaultUtbetalingToggles: UtbetalingToggles = {
 
 export const overstyrInntektEnabled = overstyreUtbetaltPeriodeEnabled;
 
-const jonasNavIdent = 'H159657';
-const joakimNavIdent = 'K143566';
-const sindreNavIdent = 'B159939';
-const totrinnsgutta = [jonasNavIdent, joakimNavIdent, sindreNavIdent].includes(extractIdent());
-const totrinnsbeta = ['S108267', 'C117102', 'N115007'].includes(extractIdent());
-
 const erBeslutter = () => extractGroups().includes(groupIdForBesluttere);
 export const harBeslutterRolle: boolean = erBeslutter();
-export const totrinnsvurderingAktiv: boolean = erLocal() || totrinnsgutta || totrinnsbeta;
 
 export const toggleMeny: boolean = erLocal() || erDev();
