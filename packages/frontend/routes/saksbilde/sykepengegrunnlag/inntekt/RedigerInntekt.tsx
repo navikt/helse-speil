@@ -9,6 +9,7 @@ import { PopoverHjelpetekst } from '@components/PopoverHjelpetekst';
 import { SortInfoikon } from '@components/ikoner/SortInfoikon';
 import { Inntektstype, Vilkarsgrunnlagtype } from '@io/graphql';
 import { useVilkårsgrunnlag } from '@state/person';
+import { erDev, erLocal } from '@utils/featureToggles';
 
 interface RedigerInntektProps {
     setEditing: Dispatch<SetStateAction<boolean>>;
@@ -35,10 +36,11 @@ export const RedigerInntekt = ({
         useVilkårsgrunnlag(vilkårsgrunnlagId, skjæringstidspunkt)?.vilkarsgrunnlagtype === Vilkarsgrunnlagtype.Spleis;
     const erIkkePingPong = useHarKunEnFagsystemIdPåArbeidsgiverIAktivPeriode();
 
-    return harKunEnArbeidsgiver &&
-        erAktivPeriodeISisteSkjæringstidspunkt &&
-        erSpleisVilkårsgrunnlagtype &&
-        erIkkePingPong ? (
+    if (!erTidslinjeperiodeISisteGenerasjon) return null;
+
+    const revurdereTidligereUtbetalinger = erDev() || erLocal() || erAktivPeriodeISisteSkjæringstidspunkt;
+
+    return harKunEnArbeidsgiver && revurdereTidligereUtbetalinger && erSpleisVilkårsgrunnlagtype && erIkkePingPong ? (
         <EditButton
             isOpen={editing}
             openText="Avbryt"
@@ -50,7 +52,7 @@ export const RedigerInntekt = ({
     ) : erTidslinjeperiodeISisteGenerasjon ? (
         <PopoverHjelpetekst ikon={<SortInfoikon />}>
             <p>
-                {!erAktivPeriodeISisteSkjæringstidspunkt
+                {!revurdereTidligereUtbetalinger
                     ? 'Kan ikke endre inntekt, det er foreløpig ikke støtte for endringer i saker i tidligere skjæringstidspunkt'
                     : !harKunEnArbeidsgiver
                     ? 'Kan ikke endre inntekt, det er foreløpig ikke støtte for saker med flere arbeidsgivere'
