@@ -91,12 +91,13 @@ export const usePeriodStyling = <T extends DatePeriod>(
 ): Map<number, PeriodStyling> =>
     useMemo(() => {
         const map = new Map<number, PeriodStyling>();
-        const datePeriods: Array<StyledPeriod> = periods.map((period) => {
+        const datePeriods: Array<StyledPeriod> = periods.map((period, index) => {
             return {
                 ...period,
                 fom: dayjs(period.fom).startOf('day'),
                 tom: dayjs(period.tom).endOf('day'),
                 type: periodetype(period as unknown as Periode),
+                isFirst: index === 0,
             };
         });
 

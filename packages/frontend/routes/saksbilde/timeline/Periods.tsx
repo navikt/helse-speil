@@ -102,15 +102,6 @@ const mergePeriods = (
     return [...periodsFromSpleis, ...periodsFromInfotrygd, ...ghostPeriods].sort(byFomAscending);
 };
 
-const markFirstPeriod = (periods: Array<TimelinePeriod>) => {
-    if (periods[0]) {
-        periods[0] = {
-            ...periods[0],
-            isFirst: true,
-        };
-    }
-};
-
 interface PeriodsProps {
     start: Dayjs;
     end: Dayjs;
@@ -131,8 +122,6 @@ export const Periods: React.VFC<PeriodsProps> = ({
     activePeriod,
 }) => {
     const allPeriods = mergePeriods(periods, infotrygdPeriods, ghostPeriods);
-
-    markFirstPeriod(allPeriods);
 
     const visiblePeriods = useVisiblePeriods(end, start, allPeriods);
     const validPeriods = filterValidPeriods(visiblePeriods);

@@ -31,8 +31,8 @@ const activePeriodState = atom<ActivePeriod | null>({
 
 const activePeriod = selector<ActivePeriod | null>({
     key: 'activePeriod',
-    get: async ({ get }) => {
-        const person = await get(currentPersonState);
+    get: ({ get }) => {
+        const person = get(currentPersonState);
         if (!person) {
             return null;
         }
