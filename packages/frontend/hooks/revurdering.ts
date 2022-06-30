@@ -7,6 +7,7 @@ import { getPeriodState } from '@utils/mapping';
 import { isBeregnetPeriode, isForkastetPeriode } from '@utils/typeguards';
 import type { UtbetalingToggles } from '@utils/featureToggles';
 import type { Arbeidsgiver, BeregnetPeriode, GhostPeriode, Periode, Person } from '@io/graphql';
+import { erDev, erLocal } from '@utils/featureToggles';
 
 const godkjentTilstander: PeriodState[] = ['utbetalt', 'utbetaltAutomatisk', 'revurdert', 'revurdertIngenUtbetaling'];
 
@@ -68,7 +69,11 @@ const alleOverlappendePerioderErTilRevurdering = (person: Person, periode: Perio
 };
 
 const getArbeidsgiverMedPeriode = (periode: Periode, person: Person): Arbeidsgiver | null => {
-    return person.arbeidsgivere.find((it) => it.generasjoner[0]?.perioder.find((it) => it === periode)) ?? null;
+    return (
+        person.arbeidsgivere.find((it) =>
+            it.generasjoner[0]?.perioder.find((it) => it.vedtaksperiodeId === periode.vedtaksperiodeId),
+        ) ?? null
+    );
 };
 
 export const useRevurderingIsEnabled = (toggles: UtbetalingToggles): boolean => {
@@ -82,13 +87,13 @@ export const useRevurderingIsEnabled = (toggles: UtbetalingToggles): boolean => 
 
     const arbeidsgiver = getArbeidsgiverMedPeriode(periode, person);
 
-    return (
-        !isForkastetPeriode(periode) &&
-        arbeidsgiver !== null &&
-        toggles.overstyreUtbetaltPeriodeEnabled &&
-        alleOverlappendePerioderErAvsluttet(person, periode) &&
-        periodeErIArbeidsgiversSisteSkjæringstidspunkt(arbeidsgiver, periode)
-    );
+    if (arbeidsgiver === null) return false;
+    if (isForkastetPeriode(periode)) return false;
+    if (!toggles.overstyreUtbetaltPeriodeEnabled) return false;
+    if (!alleOverlappendePerioderErAvsluttet(person, periode)) return false;
+    if (!(erDev() || erLocal()) && !periodeErIArbeidsgiversSisteSkjæringstidspunkt(arbeidsgiver, periode)) return false;
+
+    return true;
 };
 
 export const useOverstyrRevurderingIsEnabled = (toggles: UtbetalingToggles) => {

@@ -12,7 +12,7 @@ import {
 } from '@hooks/revurdering';
 import { useOverstyringIsEnabled } from '@hooks/useOverstyringIsEnabled';
 
-import { defaultUtbetalingToggles } from '@utils/featureToggles';
+import { defaultUtbetalingToggles, erDev, erLocal } from '@utils/featureToggles';
 import { Arbeidsgiver, BeregnetPeriode, Dagoverstyring, Overstyring } from '@io/graphql';
 import { ErrorBoundary } from '@components/ErrorBoundary';
 import { useActivePeriod } from '@state/periode';
@@ -112,7 +112,7 @@ const UtbetalingWithContent: React.FC<UtbetalingWithContentProps> = React.memo((
     });
 
     return (revurderingIsEnabled || overstyringIsEnabled || overstyrRevurderingIsEnabled) &&
-        erAktivPeriodeISisteSkjæringstidspunkt &&
+        (erDev() || erLocal() || erAktivPeriodeISisteSkjæringstidspunkt) &&
         !readOnly &&
         !period.erBeslutterOppgave ? (
         <OverstyrbarUtbetaling
