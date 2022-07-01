@@ -3,12 +3,12 @@ import { fireEvent, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import React from 'react';
 
-import { VarselObject } from '../../state/varsler';
+import { SpeilError } from '@utils/error';
 
 import { Header } from './Header';
 import { RecoilAndRouterWrapper } from '@test-wrappers';
 
-let cachedVarsel: VarselObject | null = null;
+let cachedVarsel: SpeilError | null = null;
 
 jest.mock('graphql-request', () => ({
     request: () => Promise.resolve({}),
@@ -18,7 +18,7 @@ jest.mock('graphql-request', () => ({
 jest.mock('@state/varsler', () => ({
     __esModule: true,
     Scopes: { GLOBAL: '/' },
-    useAddVarsel: () => (varsel: VarselObject) => {
+    useAddVarsel: () => (varsel: SpeilError) => {
         cachedVarsel = varsel;
     },
     useRemoveVarsel: () => (_: string) => {
