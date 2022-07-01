@@ -84,24 +84,33 @@ const fetchedPersonState = selector<PersonState>({
     },
 });
 
-export const currentPersonState = selector<Person | null>({
+export const currentPersonState = selector<PersonState>({
     key: 'currentPersonState',
     get: ({ get }) => {
-        const person = get(fetchedPersonState);
-        if (!person) return null;
+        const { person, ...rest } = get(fetchedPersonState);
+        if (!isPerson(person)) {
+            return {
+                person: null,
+                ...rest,
+            };
+        }
 
         const localTildeling = get(localTildelingState);
         if (localTildeling !== undefined) {
             return {
-                ...person,
-                tildeling: localTildeling,
+                person: {
+                    ...person,
+                    tildeling: localTildeling,
+                },
+                ...rest,
             };
         }
 
-        return person;
+        return { person, ...rest };
     },
 });
-export const useCurrentPerson = (): Person | null => useRecoilValue(currentPersonState);
+
+export const useCurrentPerson = (): Person | null => useRecoilValue(currentPersonState).person;
 
 export const useFetchPerson = (): ((id: string) => void) => {
     return useSetRecoilState(currentPersonIdState);
