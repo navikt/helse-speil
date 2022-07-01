@@ -7,7 +7,7 @@ import { Varsel } from '@components/Varsel';
 import { Feilikon } from '@components/ikoner/Feilikon';
 import { Sjekkikon } from '@components/ikoner/Sjekkikon';
 import { Advarselikon } from '@components/ikoner/Advarselikon';
-import { BeregnetPeriode, Person, Vilkarsgrunnlag } from '@io/graphql';
+import { BeregnetPeriode, Person } from '@io/graphql';
 import { getVilkårsgrunnlag } from '@state/selectors/person';
 
 import { CardTitle } from './CardTitle';
@@ -33,7 +33,7 @@ export const VilkårCard = ({ activePeriod, currentPerson }: VilkårCardProps) =
     );
 
     if (!vilkårsgrunnlag) {
-        return <Varsel variant="feil">Vilkår mangler</Varsel>;
+        return <Varsel variant="error">Vilkår mangler</Varsel>;
     }
 
     const alderVedSkjæringstidspunkt = getAlderVedSkjæringstidspunkt(activePeriod, currentPerson);

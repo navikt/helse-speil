@@ -147,7 +147,7 @@ const UtbetalingSkeleton = () => {
 };
 
 const UtbetalingError = () => {
-    return <Varsel variant="feil">Noe gikk galt. Kan ikke vise utbetaling for denne perioden.</Varsel>;
+    return <Varsel variant="error">Noe gikk galt. Kan ikke vise utbetaling for denne perioden.</Varsel>;
 };
 
 export const Utbetaling = () => {

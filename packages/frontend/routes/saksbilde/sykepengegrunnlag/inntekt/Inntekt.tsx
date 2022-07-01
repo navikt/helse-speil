@@ -51,7 +51,7 @@ const InntektContainer: React.VFC<InntektContainerProps> = ({ inntekt }) => {
 };
 
 const InntektError = () => {
-    return <Varsel variant="feil">Det har skjedd en feil. Kunne ikke vise inntekt for denne perioden.</Varsel>;
+    return <Varsel variant="error">Det har skjedd en feil. Kunne ikke vise inntekt for denne perioden.</Varsel>;
 };
 
 interface InntektProps {

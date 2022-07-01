@@ -1,7 +1,7 @@
 import dayjs from 'dayjs';
 import React from 'react';
 
-import { Vilkårdata } from '../../../mapping/vilkår';
+import { Vilkårdata } from 'mapping/vilkår';
 
 import { Maybe, Vilkarsgrunnlag, Vurdering } from '@io/graphql';
 import { isBeregnetPeriode } from '@utils/typeguards';
@@ -108,7 +108,7 @@ const InngangsvilkårSkeleton = () => {
 };
 
 const InngangsvilkårError = () => {
-    return <Varsel variant="feil">Noe gikk galt. Kan ikke vise inngangsvilkår for denne perioden.</Varsel>;
+    return <Varsel variant="error">Noe gikk galt. Kan ikke vise inngangsvilkår for denne perioden.</Varsel>;
 };
 
 export const Inngangsvilkår = () => {

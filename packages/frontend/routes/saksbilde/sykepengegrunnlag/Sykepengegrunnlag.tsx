@@ -69,7 +69,7 @@ const SykepengegrunnlagSkeleton = () => {
 };
 
 const SykepengegrunnlagError = () => {
-    return <Varsel variant="feil">Noe gikk galt. Kan ikke vise sykepengegrunnlag for denne perioden.</Varsel>;
+    return <Varsel variant="error">Noe gikk galt. Kan ikke vise sykepengegrunnlag for denne perioden.</Varsel>;
 };
 
 export const Sykepengegrunnlag = () => {

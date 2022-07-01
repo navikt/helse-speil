@@ -36,7 +36,7 @@ const Agurktekst = styled.p`
 
 export const GlobalFeilside = (error: Error) => (
     <>
-        <Varsel variant="advarsel">Siden kan dessverre ikke vises</Varsel>
+        <Varsel variant="warning">Siden kan dessverre ikke vises</Varsel>
         <Feiltekst>
             <Agurktekst>
                 Du kan forsøke å laste siden på nytt, eller lukke nettleservinduet og logge inn på nytt.

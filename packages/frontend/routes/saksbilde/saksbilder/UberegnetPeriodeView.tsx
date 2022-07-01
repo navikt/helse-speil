@@ -49,7 +49,7 @@ const getErrorMessage = (period: UberegnetPeriode): ReactNode => {
     }
 
     return (
-        <Varsel className={styles.Message} variant="feil">
+        <Varsel className={styles.Message} variant="error">
             Kunne ikke lese informasjon om sakens tilstand.
         </Varsel>
     );
