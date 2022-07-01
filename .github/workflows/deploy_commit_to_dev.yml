@@ -10,7 +10,7 @@ on:
 env:
   APP: speil
   TEAM: tbd
-  IMAGE: docker.pkg.github.com/${{ github.repository }}/speil
+  IMAGE: ghcr.io/${{ github.repository }}/speil
 
 jobs:
   set_version:
@@ -74,7 +74,7 @@ jobs:
       - name: Login to GitHub Pkg Registry
         uses: docker/login-action@v1
         with:
-          registry: docker.pkg.github.com
+          registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
       - name: push docker image

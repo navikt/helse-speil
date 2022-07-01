@@ -7,7 +7,7 @@ on:
 env:
   APP: speil
   TEAM: tbd
-  IMAGE: docker.pkg.github.com/${{ github.repository }}/speil
+  IMAGE: ghcr.io/${{ github.repository }}/speil
 
 jobs:
   set_version:
@@ -75,7 +75,7 @@ jobs:
           docker build . --pull -t ${{ env.IMAGE }}:${{ needs.set_version.outputs.tag }}
       - name: push docker image
         run: |
-          echo "$GITHUB_TOKEN" | docker login --username "$GITHUB_REPOSITORY" --password-stdin https://docker.pkg.github.com
+          echo "$GITHUB_TOKEN" | docker login --username "$GITHUB_REPOSITORY" --password-stdin ghcr.io
           docker push ${{ env.IMAGE }}:${{ needs.set_version.outputs.tag }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
