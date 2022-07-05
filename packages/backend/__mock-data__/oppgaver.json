@@ -128,6 +128,30 @@
         "tildeling": null
     },
     {
+        "oppgavereferanse": "3324",
+        "oppgavetype": "SØKNAD",
+        "opprettet": "2022-04-25T16:34:55.313606",
+        "vedtaksperiodeId": "2a0b254b-5fd1-4763-b8c8-2bdf2df8963b",
+        "personinfo": {
+            "fornavn": "USTABIL",
+            "mellomnavn": null,
+            "etternavn": "MULDVARP",
+            "fødselsdato": "1967-12-02",
+            "kjønn": "Mann",
+            "adressebeskyttelse": "Ugradert"
+        },
+        "fødselsnummer": "02126721912",
+        "aktørId": "2513379298795",
+        "antallVarsler": 1,
+        "type": "FØRSTEGANGSBEHANDLING",
+        "inntektskilde": "FLERE_ARBEIDSGIVERE",
+        "boenhet": {
+            "id": "1702",
+            "navn": "Steinkjer"
+        },
+        "tildeling": null
+    },
+    {
         "oppgavereferanse": "3314",
         "oppgavetype": "SØKNAD",
         "opprettet": "2022-03-30T18:45:02.943839",

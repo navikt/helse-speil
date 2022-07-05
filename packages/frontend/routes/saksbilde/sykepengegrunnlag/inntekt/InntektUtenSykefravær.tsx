@@ -17,6 +17,8 @@ import { EndringsloggButton } from './EndringsloggButton';
 import { OverstyrArbeidsforholdUtenSykdom } from '../OverstyrArbeidsforholdUtenSykdom';
 
 import styles from './Inntekt.module.css';
+import { EditableInntekt } from './EditableInntekt';
+import { RedigerGhostInntekt } from './RedigerGhostInntekt';
 
 const maybePeriodeTilGodkjenning = (person: Person, skjæringstidspunkt: DateString): Maybe<BeregnetPeriode> => {
     return (
@@ -81,6 +83,29 @@ const useArbeidsforholdKanOverstyres = (organisasjonsnummer: string): boolean =>
     );
 };
 
+const useGhostInntektKanOverstyres = (organisasjonsnummer: string): boolean => {
+    const person = useCurrentPerson();
+    const activePeriod = useActivePeriod();
+
+    if (!isGhostPeriode(activePeriod) || !person) {
+        return false;
+    }
+
+    const periodeTilGodkjenning = maybePeriodeTilGodkjenning(person, activePeriod.skjaeringstidspunkt);
+
+    const harIngenUtbetaltePerioder = harIngenUtbetaltePerioderFor(person, activePeriod.skjaeringstidspunkt);
+
+    const harIngenPerioderTilBeslutter = harIngenPerioderTilBeslutterFor(person, activePeriod.skjaeringstidspunkt);
+
+    return (
+        defaultOverstyrToggles.overstyrGhostInntektEnabled &&
+        activePeriod.organisasjonsnummer === organisasjonsnummer &&
+        harIngenUtbetaltePerioder &&
+        harIngenPerioderTilBeslutter &&
+        periodeTilGodkjenning !== undefined
+    );
+};
+
 const useOrganisasjonsnummerTilPeriodenSomErTilGodkjenning = (): Maybe<string> => {
     const person = useCurrentPerson();
     const activePeriod = useActivePeriod();
@@ -103,6 +128,7 @@ interface InntektUtenSykefraværProps {
     skjæringstidspunkt: DateString;
     erDeaktivert?: Maybe<boolean>;
     omregnetÅrsinntekt?: Maybe<OmregnetArsinntekt>;
+    vilkårsgrunnlagId?: Maybe<string>;
 }
 
 export const InntektUtenSykefravær = ({
@@ -110,11 +136,13 @@ export const InntektUtenSykefravær = ({
     skjæringstidspunkt,
     erDeaktivert,
     omregnetÅrsinntekt,
+    vilkårsgrunnlagId,
 }: InntektUtenSykefraværProps) => {
     const [editing, setEditing] = useState(false);
     const [endret, setEndret] = useState(false);
 
     const arbeidsforholdKanOverstyres = useArbeidsforholdKanOverstyres(organisasjonsnummer);
+    const inntektKanOverstyres = useGhostInntektKanOverstyres(organisasjonsnummer);
     const organisasjonsnummerForPeriodeTilGodkjenning = useOrganisasjonsnummerTilPeriodenSomErTilGodkjenning();
     const { arbeidsforholdendringer } = useEndringerForPeriode(organisasjonsnummer);
 
@@ -129,10 +157,19 @@ export const InntektUtenSykefravær = ({
                         <Kilde type={omregnetÅrsinntekt?.kilde}>{kildeForkortelse(omregnetÅrsinntekt?.kilde)}</Kilde>
                     )}
                 </Flex>
+                {vilkårsgrunnlagId && inntektKanOverstyres && (
+                    <RedigerGhostInntekt setEditing={setEditing} editing={editing} />
+                )}
             </div>
-            <div className={styles.InntektContainer}>
+            {editing ? (
+                <EditableInntekt
+                    omregnetÅrsinntekt={omregnetÅrsinntekt!}
+                    close={() => setEditing(false)}
+                    onEndre={setEndret}
+                />
+            ) : (
                 <ReadOnlyInntekt omregnetÅrsinntekt={omregnetÅrsinntekt} deaktivert={erDeaktivert} />
-            </div>
+            )}
             {arbeidsforholdKanOverstyres && organisasjonsnummerForPeriodeTilGodkjenning && (
                 <OverstyrArbeidsforholdUtenSykdom
                     organisasjonsnummerAktivPeriode={organisasjonsnummer}

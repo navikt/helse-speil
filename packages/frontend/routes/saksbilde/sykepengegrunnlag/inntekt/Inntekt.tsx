@@ -45,6 +45,7 @@ const InntektContainer: React.VFC<InntektContainerProps> = ({ inntekt }) => {
                 omregnetÅrsinntekt={inntekt.omregnetArsinntekt}
                 organisasjonsnummer={inntekt.arbeidsgiver}
                 erDeaktivert={inntekt.deaktivert}
+                vilkårsgrunnlagId={period.vilkarsgrunnlaghistorikkId}
             />
         );
     }

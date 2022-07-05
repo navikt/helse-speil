@@ -223,6 +223,7 @@ export const overstyreUtbetaltPeriodeEnabled =
     erLocal() ||
     erDev();
 export const overstyrArbeidsforholdUtenSykefraværEnabled = true;
+export const overstyrGhostInntektEnabled = erDev() || erLocal();
 
 export const annulleringerEnabled = erDev() || erLocal() || harUtvidetTilgang() || harTilgangTilAlt();
 export const amplitudeEnabled = true;
@@ -247,12 +248,14 @@ export interface UtbetalingToggles {
     overstyreUtbetaltPeriodeEnabled: boolean;
 }
 
-export interface overstyrArbeidsforholdToggles {
+export interface overstyrGhostToggles {
     overstyrArbeidsforholdUtenSykefraværEnabled: boolean;
+    overstyrGhostInntektEnabled: boolean;
 }
 
-export const defaultOverstyrToggles: overstyrArbeidsforholdToggles = {
+export const defaultOverstyrToggles: overstyrGhostToggles = {
     overstyrArbeidsforholdUtenSykefraværEnabled: overstyrArbeidsforholdUtenSykefraværEnabled,
+    overstyrGhostInntektEnabled: overstyrGhostInntektEnabled,
 };
 
 export const defaultUtbetalingToggles: UtbetalingToggles = {

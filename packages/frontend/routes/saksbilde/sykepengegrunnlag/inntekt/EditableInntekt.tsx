@@ -27,7 +27,7 @@ import { Inntektskilde, OmregnetArsinntekt } from '@io/graphql';
 import { useCurrentPerson } from '@state/person';
 import { useActivePeriod } from '@state/periode';
 import { useCurrentArbeidsgiver } from '@state/arbeidsgiver';
-import { isArbeidsgiver, isBeregnetPeriode, isPerson } from '@utils/typeguards';
+import { isArbeidsgiver, isBeregnetPeriode, isGhostPeriode, isPerson } from '@utils/typeguards';
 import { Bold } from '@components/Bold';
 
 import styles from './EditableInntekt.module.css';
@@ -44,7 +44,7 @@ const useOverstyrtInntektMetadata = (): OverstyrtInntektMetadata => {
     const period = useActivePeriod();
     const arbeidsgiver = useCurrentArbeidsgiver();
 
-    if (!isPerson(person) || !isArbeidsgiver(arbeidsgiver) || !isBeregnetPeriode(period)) {
+    if (!isPerson(person) || !isArbeidsgiver(arbeidsgiver) || !(isBeregnetPeriode(period) || isGhostPeriode(period))) {
         throw Error('Mangler data for å kunne overstyre inntekt.');
     }
 
