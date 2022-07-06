@@ -9,7 +9,7 @@ import { PopoverHjelpetekst } from '@components/PopoverHjelpetekst';
 import { SortInfoikon } from '@components/ikoner/SortInfoikon';
 import { Inntektstype, Vilkarsgrunnlagtype } from '@io/graphql';
 import { useVilkårsgrunnlag } from '@state/person';
-import { erDev, erLocal } from '@utils/featureToggles';
+import { defaultOverstyrToggles, erDev, erLocal } from '@utils/featureToggles';
 
 interface RedigerInntektProps {
     setEditing: Dispatch<SetStateAction<boolean>>;
@@ -40,7 +40,10 @@ export const RedigerInntekt = ({
 
     const revurdereTidligereUtbetalinger = erDev() || erLocal() || erAktivPeriodeISisteSkjæringstidspunkt;
 
-    return harKunEnArbeidsgiver && revurdereTidligereUtbetalinger && erSpleisVilkårsgrunnlagtype && erIkkePingPong ? (
+    return (harKunEnArbeidsgiver || defaultOverstyrToggles.overstyrInntektFlereArbeidsgivereEnabled) &&
+        revurdereTidligereUtbetalinger &&
+        erSpleisVilkårsgrunnlagtype &&
+        erIkkePingPong ? (
         <EditButton
             isOpen={editing}
             openText="Avbryt"
