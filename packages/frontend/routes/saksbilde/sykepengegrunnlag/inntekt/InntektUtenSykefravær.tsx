@@ -138,7 +138,7 @@ export const InntektUtenSykefravær = ({
     omregnetÅrsinntekt,
     vilkårsgrunnlagId,
 }: InntektUtenSykefraværProps) => {
-    const [editing, setEditing] = useState(false);
+    const [editingInntekt, setEditingInntekt] = useState(false);
     const [endret, setEndret] = useState(false);
 
     const arbeidsforholdKanOverstyres = useArbeidsforholdKanOverstyres(organisasjonsnummer);
@@ -147,8 +147,10 @@ export const InntektUtenSykefravær = ({
     const { arbeidsforholdendringer } = useEndringerForPeriode(organisasjonsnummer);
 
     return (
-        <div className={classNames(styles.Inntekt, editing && styles.editing, erDeaktivert && styles.deaktivert)}>
-            <div className={classNames(styles.Header, editing && styles.editing)}>
+        <div
+            className={classNames(styles.Inntekt, editingInntekt && styles.editing, erDeaktivert && styles.deaktivert)}
+        >
+            <div className={classNames(styles.Header, editingInntekt && styles.editing)}>
                 <Flex alignItems="center">
                     <Bold>Beregnet månedsinntekt</Bold>
                     {endret || omregnetÅrsinntekt?.kilde === Inntektskilde.Saksbehandler ? (
@@ -158,19 +160,19 @@ export const InntektUtenSykefravær = ({
                     )}
                 </Flex>
                 {vilkårsgrunnlagId && inntektKanOverstyres && (
-                    <RedigerGhostInntekt setEditing={setEditing} editing={editing} />
+                    <RedigerGhostInntekt setEditing={setEditingInntekt} editing={editingInntekt} />
                 )}
             </div>
-            {editing ? (
+            {editingInntekt ? (
                 <EditableInntekt
                     omregnetÅrsinntekt={omregnetÅrsinntekt!}
-                    close={() => setEditing(false)}
+                    close={() => setEditingInntekt(false)}
                     onEndre={setEndret}
                 />
             ) : (
                 <ReadOnlyInntekt omregnetÅrsinntekt={omregnetÅrsinntekt} deaktivert={erDeaktivert} />
             )}
-            {arbeidsforholdKanOverstyres && organisasjonsnummerForPeriodeTilGodkjenning && (
+            {!editingInntekt && arbeidsforholdKanOverstyres && organisasjonsnummerForPeriodeTilGodkjenning && (
                 <OverstyrArbeidsforholdUtenSykdom
                     organisasjonsnummerAktivPeriode={organisasjonsnummer}
                     organisasjonsnummerPeriodeTilGodkjenning={organisasjonsnummerForPeriodeTilGodkjenning}

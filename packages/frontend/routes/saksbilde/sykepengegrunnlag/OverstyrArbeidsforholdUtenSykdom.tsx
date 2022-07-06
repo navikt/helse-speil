@@ -110,7 +110,7 @@ export const OverstyrArbeidsforholdUtenSykdom = ({
     skjæringstidspunkt,
     arbeidsforholdErDeaktivert,
 }: OverstyrArbeidsforholdUtenSykdomProps) => {
-    const [editing, setEditing] = useState(false);
+    const [editingArbeidsforhold, setEditingArbeidsforhold] = useState(false);
 
     const tittel = arbeidsforholdErDeaktivert
         ? 'Bruk arbeidsforholdet i beregningen likevel'
@@ -122,9 +122,9 @@ export const OverstyrArbeidsforholdUtenSykdom = ({
     const skalViseOverstyr = venterPåEndringState.visOverstyrKnapp && !arbeidsforholdErDeaktivert;
 
     return (
-        <FormContainer editing={editing}>
+        <FormContainer editing={editingArbeidsforhold}>
             <Header>
-                {editing && (
+                {editingArbeidsforhold && (
                     <Flex alignItems="center">
                         <Tittel as="h1">{tittel}</Tittel>
                     </Flex>
@@ -139,19 +139,19 @@ export const OverstyrArbeidsforholdUtenSykdom = ({
                 )}
                 {skalViseOverstyr && (
                     <EditButton
-                        isOpen={editing}
+                        isOpen={editingArbeidsforhold}
                         openText="Avbryt"
                         closedText="Ikke bruk arbeidsforholdet i beregningen"
-                        onOpen={() => setEditing(true)}
-                        onClose={() => setEditing(false)}
+                        onOpen={() => setEditingArbeidsforhold(true)}
+                        onClose={() => setEditingArbeidsforhold(false)}
                         openIcon={<></>}
                         closedIcon={<Error />}
                     />
                 )}
             </Header>
-            {editing && (
+            {editingArbeidsforhold && (
                 <OverstyrArbeidsforholdSkjema
-                    onClose={() => setEditing(false)}
+                    onClose={() => setEditingArbeidsforhold(false)}
                     organisasjonsnummerAktivPeriode={organisasjonsnummerAktivPeriode}
                     organisasjonsnummerPeriodeTilGodkjenning={organisasjonsnummerPeriodeTilGodkjenning}
                     skjæringstidspunkt={skjæringstidspunkt}
