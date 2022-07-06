@@ -117,7 +117,11 @@ export const useEndringerForPeriode = (organisasjonsnummer: string): UseEndringe
             .filter((it) => dayjs(periode.skjaeringstidspunkt).isSameOrBefore(it.timestamp))
             .filter(isArbeidsforholdoverstyring);
 
-        return { inntektsendringer: [], arbeidsforholdendringer: arbeidsforhold, dagendringer: [] };
+        const inntekter = endringer
+            .filter((it) => dayjs(periode.skjaeringstidspunkt).isSameOrBefore(it.timestamp))
+            .filter(isInntektoverstyring);
+
+        return { inntektsendringer: inntekter, arbeidsforholdendringer: arbeidsforhold, dagendringer: [] };
     }
 
     const inntekter = endringer
