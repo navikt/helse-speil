@@ -159,7 +159,7 @@ export const InntektUtenSykefravær = ({
                         <Kilde type={omregnetÅrsinntekt?.kilde}>{kildeForkortelse(omregnetÅrsinntekt?.kilde)}</Kilde>
                     )}
                 </Flex>
-                {vilkårsgrunnlagId && inntektKanOverstyres && (
+                {vilkårsgrunnlagId && inntektKanOverstyres && !erDeaktivert && (
                     <RedigerGhostInntekt setEditing={setEditingInntekt} editing={editingInntekt} />
                 )}
             </div>
