@@ -223,7 +223,7 @@ export const overstyreUtbetaltPeriodeEnabled =
     erLocal() ||
     erDev();
 export const overstyrArbeidsforholdUtenSykefraværEnabled = true;
-export const overstyrGhostInntektEnabled = true;
+export const overstyrGhostInntektEnabled = erDev() || erLocal();
 export const overstyrInntektFlereArbeidsgivereEnabled = erDev() || erLocal();
 
 export const annulleringerEnabled = erDev() || erLocal() || harUtvidetTilgang() || harTilgangTilAlt();
