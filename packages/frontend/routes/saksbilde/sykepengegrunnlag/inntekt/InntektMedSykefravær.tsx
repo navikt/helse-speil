@@ -42,6 +42,13 @@ const useInntektKanRevurderes = (skjæringstidspunkt: DateString): boolean => {
     );
 };
 
+const endreInntektMedSykefraværBegrunnelser = [
+    'Korrigert inntekt i inntektsmelding',
+    'Tariffendring i inntektsmelding',
+    'Innrapportert feil inntekt til A-ordningen',
+    'Annen kilde til endring',
+];
+
 interface InntektMedSykefraværProps {
     skjæringstidspunkt: DateString;
     organisasjonsnummer: string;
@@ -94,6 +101,7 @@ export const InntektMedSykefravær = ({
                     omregnetÅrsinntekt={omregnetÅrsinntekt!}
                     close={() => setEditing(false)}
                     onEndre={setEndret}
+                    begrunnelser={endreInntektMedSykefraværBegrunnelser}
                 />
             ) : (
                 <ReadOnlyInntekt omregnetÅrsinntekt={omregnetÅrsinntekt} deaktivert={erDeaktivert} />

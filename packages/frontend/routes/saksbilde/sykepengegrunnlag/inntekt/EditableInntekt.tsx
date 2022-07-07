@@ -125,11 +125,12 @@ const usePostOverstyrtInntekt = (onFerdigKalkulert: () => void) => {
 
 interface EditableInntektProps {
     omregnetÅrsinntekt: OmregnetArsinntekt;
+    begrunnelser: string[];
     close: () => void;
     onEndre: (erEndret: boolean) => void;
 }
 
-export const EditableInntekt = ({ omregnetÅrsinntekt, close, onEndre }: EditableInntektProps) => {
+export const EditableInntekt = ({ omregnetÅrsinntekt, begrunnelser, close, onEndre }: EditableInntektProps) => {
     const form = useForm({ shouldFocusError: false, mode: 'onBlur' });
     const feiloppsummeringRef = useRef<HTMLDivElement>(null);
     const metadata = useOverstyrtInntektMetadata();
@@ -206,7 +207,7 @@ export const EditableInntekt = ({ omregnetÅrsinntekt, close, onEndre }: Editabl
                             <Bold>{somPenger(omregnetÅrsinntekt.belop)}</Bold>
                         </div>
                     </div>
-                    <Begrunnelser />
+                    <Begrunnelser begrunnelser={begrunnelser} />
                     <ForklaringTextarea />
                     {!form.formState.isValid && form.formState.isSubmitted && (
                         <div className={styles.Feiloppsummering}>

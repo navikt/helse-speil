@@ -83,6 +83,14 @@ const useArbeidsforholdKanOverstyres = (organisasjonsnummer: string): boolean =>
     );
 };
 
+const endreInntektUtenSykefraværBegrunnelser = [
+    '§ 8-28 (3) b - Arbeidsforhold har vart kortere enn 3 måneder',
+    '§ 8-28 (3) c - Varig lønnsendring',
+    '§ 8-28 (5) - Innrapportert feil inntekt til A-ordningen',
+    '§ 8-28 (6) - Timelønnet arbeidstaker',
+    'Annen kilde til endring',
+];
+
 const useGhostInntektKanOverstyres = (organisasjonsnummer: string): boolean => {
     const person = useCurrentPerson();
     const activePeriod = useActivePeriod();
@@ -168,6 +176,7 @@ export const InntektUtenSykefravær = ({
                     omregnetÅrsinntekt={omregnetÅrsinntekt!}
                     close={() => setEditingInntekt(false)}
                     onEndre={setEndret}
+                    begrunnelser={endreInntektUtenSykefraværBegrunnelser}
                 />
             ) : (
                 <ReadOnlyInntekt omregnetÅrsinntekt={omregnetÅrsinntekt} deaktivert={erDeaktivert} />

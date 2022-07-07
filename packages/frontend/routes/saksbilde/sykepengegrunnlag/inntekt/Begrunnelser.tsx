@@ -12,7 +12,11 @@ const BegrunnelseFieldset = styled(RadioGroup)`
     margin-bottom: 2rem;
 `;
 
-export const Begrunnelser = () => {
+interface BegrunnelserProps {
+    begrunnelser: string[];
+}
+
+export const Begrunnelser = ({ begrunnelser }: BegrunnelserProps) => {
     const form = useFormContext();
     const { ref, ...begrunnelseValidation } = form.register('begrunnelse', { required: 'Velg en begrunnelse' });
     return (
@@ -22,18 +26,11 @@ export const Begrunnelser = () => {
             name="begrunnelse"
             error={form.formState.errors['begrunnelse']?.message}
         >
-            <Radio ref={ref} value="Korrigert inntekt i inntektsmelding" {...begrunnelseValidation}>
-                Korrigert inntekt i inntektsmelding
-            </Radio>
-            <Radio ref={ref} value="Tariffendring i inntektsmelding" {...begrunnelseValidation}>
-                Tariffendring i inntektsmelding
-            </Radio>
-            <Radio ref={ref} value="Innrapportert feil inntekt til A-ordningen" {...begrunnelseValidation}>
-                Innrapportert feil inntekt til A-ordningen
-            </Radio>
-            <Radio ref={ref} value="Annen kilde til endring" {...begrunnelseValidation}>
-                Annen kilde til endring
-            </Radio>
+            {begrunnelser.map((begrunnelse, index) => (
+                <Radio ref={ref} value={begrunnelse} key={index} {...begrunnelseValidation}>
+                    {begrunnelse}
+                </Radio>
+            ))}
         </BegrunnelseFieldset>
     );
 };
