@@ -39,11 +39,13 @@ export const RedigerInntekt = ({
     if (!erTidslinjeperiodeISisteGenerasjon) return null;
 
     const revurdereTidligereUtbetalinger = erDev() || erLocal() || erAktivPeriodeISisteSkjæringstidspunkt;
+    const erIkkeRevurderingAvFlereArbeidsgivere = inntektstype !== 'FLEREARBEIDSGIVERE' || !erRevurdering;
 
     return (harKunEnArbeidsgiver || defaultOverstyrToggles.overstyrInntektFlereArbeidsgivereEnabled) &&
         revurdereTidligereUtbetalinger &&
         erSpleisVilkårsgrunnlagtype &&
-        erIkkePingPong ? (
+        erIkkePingPong &&
+        erIkkeRevurderingAvFlereArbeidsgivere ? (
         <EditButton
             isOpen={editing}
             openText="Avbryt"
