@@ -22,6 +22,7 @@ import { ReadOnlyInntekt } from './ReadOnlyInntekt';
 import { EndringsloggButton } from './EndringsloggButton';
 
 import styles from './Inntekt.module.css';
+import { BegrunnelseForOverstyring } from '../overstyring.types';
 
 const useIsBeslutteroppgave = (): boolean => {
     const activePeriod = useActivePeriod();
@@ -42,11 +43,11 @@ const useInntektKanRevurderes = (skjæringstidspunkt: DateString): boolean => {
     );
 };
 
-const endreInntektMedSykefraværBegrunnelser = [
-    'Korrigert inntekt i inntektsmelding',
-    'Tariffendring i inntektsmelding',
-    'Innrapportert feil inntekt til A-ordningen',
-    'Annen kilde til endring',
+const endreInntektMedSykefraværBegrunnelser: BegrunnelseForOverstyring[] = [
+    { id: '0', forklaring: 'Korrigert inntekt i inntektsmelding' },
+    { id: '1', forklaring: 'Tariffendring i inntektsmelding' },
+    { id: '2', forklaring: 'Innrapportert feil inntekt til A-ordningen' },
+    { id: '3', forklaring: 'Annen kilde til endring' },
 ];
 
 interface InntektMedSykefraværProps {

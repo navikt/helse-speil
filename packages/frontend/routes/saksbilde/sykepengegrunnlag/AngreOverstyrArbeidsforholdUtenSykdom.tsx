@@ -5,6 +5,7 @@ import { useGetOverstyrtArbeidsforhold, usePostOverstyrtArbeidsforhold } from '.
 
 import { Button } from '@components/Button';
 import { OverstyringTimeoutModal } from '@components/OverstyringTimeoutModal';
+import { BegrunnelseForOverstyring } from './overstyring.types';
 
 const AngreButton = styled(Button)`
     display: flex;
@@ -42,13 +43,17 @@ export const AngreOverstyrArbeidsforholdUtenSykdom = ({
 }: AngreOverstyrArbeidsforholdUtenSykdomProps) => {
     const getOverstyrtArbeidsforhold = useGetOverstyrtArbeidsforhold();
     const { postOverstyring, timedOut, setTimedOut } = usePostOverstyrtArbeidsforhold();
+    const begrunnelse: BegrunnelseForOverstyring = {
+        id: '',
+        forklaring: 'Angret å ikke bruke det i beregningen',
+    };
     const overstyrtArbeidsforhold = getOverstyrtArbeidsforhold(
-        'Angret å ikke bruke det i beregningen',
-        'Angret å ikke bruke det i beregningen',
         organisasjonsnummerPeriodeTilGodkjenning,
         organisasjonsnummerAktivPeriode,
         skjæringstidspunkt,
         false,
+        'Saksbehandler angret å deaktivere arbeidsforholdet i beregningen',
+        begrunnelse,
     );
     return (
         <>

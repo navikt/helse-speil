@@ -31,6 +31,7 @@ import { isArbeidsgiver, isBeregnetPeriode, isGhostPeriode, isPerson } from '@ut
 import { Bold } from '@components/Bold';
 
 import styles from './EditableInntekt.module.css';
+import { BegrunnelseForOverstyring } from '../overstyring.types';
 
 type OverstyrtInntektMetadata = {
     aktørId: string;
@@ -125,7 +126,7 @@ const usePostOverstyrtInntekt = (onFerdigKalkulert: () => void) => {
 
 interface EditableInntektProps {
     omregnetÅrsinntekt: OmregnetArsinntekt;
-    begrunnelser: string[];
+    begrunnelser: BegrunnelseForOverstyring[];
     close: () => void;
     onEndre: (erEndret: boolean) => void;
 }
@@ -159,12 +160,20 @@ export const EditableInntekt = ({ omregnetÅrsinntekt, begrunnelser, close, onEn
     }, [harFeil]);
 
     const confirmChanges = () => {
-        const { begrunnelse, forklaring, manedsbelop } = form.getValues();
-        const overstyrtInntekt = {
+        const { begrunnelseId, forklaring, manedsbelop } = form.getValues();
+        const begrunnelse = begrunnelser.find((begrunnelse) => begrunnelse.id === begrunnelseId)!!;
+        const overstyrtInntekt: OverstyrtInntektDTO = {
             ...metadata,
-            begrunnelse,
+            begrunnelse: begrunnelse.forklaring,
             forklaring,
             månedligInntekt: Number.parseFloat(manedsbelop),
+            ...(begrunnelse.subsumsjon?.paragraf && {
+                subsumsjon: {
+                    paragraf: begrunnelse.subsumsjon.paragraf,
+                    ledd: begrunnelse.subsumsjon.ledd,
+                    bokstav: begrunnelse.subsumsjon.bokstav,
+                },
+            }),
         };
         postOverstyring(overstyrtInntekt);
     };

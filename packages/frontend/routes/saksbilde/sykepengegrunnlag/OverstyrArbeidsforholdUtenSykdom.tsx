@@ -9,7 +9,7 @@ import { BodyShort, Button as NavButton, ErrorSummary, Loader } from '@navikt/ds
 import { Maybe } from '@io/graphql';
 import { EditButton } from '@components/EditButton';
 import { ErrorMessage } from '@components/ErrorMessage';
-import { Begrunnelser } from '@components/Begrunnelser';
+import { Begrunnelser } from './inntekt/Begrunnelser';
 import { Flex, FlexColumn } from '@components/Flex';
 import { ForklaringTextarea } from '@components/ForklaringTextArea';
 import { OverstyringTimeoutModal } from '@components/OverstyringTimeoutModal';
@@ -17,6 +17,7 @@ import { OverstyringTimeoutModal } from '@components/OverstyringTimeoutModal';
 import { VenterPåEndringContext } from '../VenterPåEndringContext';
 import { AngreOverstyrArbeidsforholdUtenSykdom } from './AngreOverstyrArbeidsforholdUtenSykdom';
 import { useGetOverstyrtArbeidsforhold, usePostOverstyrtArbeidsforhold } from './overstyrArbeidsforholdHooks';
+import { BegrunnelseForOverstyring } from './overstyring.types';
 
 const Container = styled.div`
     display: flex;
@@ -172,6 +173,29 @@ interface OverstyrArbeidsforholdSkjemaProps {
     onSubmit: () => void;
 }
 
+const begrunnelser: BegrunnelseForOverstyring[] = [
+    {
+        id: '0',
+        forklaring: 'Avbrudd mer enn 14 dager (generell)',
+        subsumsjon: { paragraf: '8-15' },
+    },
+    {
+        id: '1',
+        forklaring: 'Avbrudd mer enn 14 dager (tilkallingsvikar/sporadiske vakter)',
+        subsumsjon: { paragraf: '8-15' },
+    },
+    {
+        id: '2',
+        forklaring: 'Arbeidsforhold opphørt',
+        subsumsjon: { paragraf: '8-15' },
+    },
+    {
+        id: '3',
+        forklaring: 'Annet',
+        subsumsjon: { paragraf: '8-15' },
+    },
+];
+
 const OverstyrArbeidsforholdSkjema = ({
     onClose,
     organisasjonsnummerAktivPeriode,
@@ -186,22 +210,16 @@ const OverstyrArbeidsforholdSkjema = ({
 
     const { isLoading, error, timedOut, setTimedOut, postOverstyring } = usePostOverstyrtArbeidsforhold(onClose);
 
-    const begrunnelser = [
-        '§ 8-15 - Avbrudd mer enn 14 dager (generell)',
-        '§ 8-15 - Avbrudd mer enn 14 dager (tilkallingsvikar/sporadiske vakter)',
-        '§ 8-15 - Arbeidsforhold opphørt',
-        'Annet',
-    ];
-
     const confirmChanges = () => {
-        const { begrunnelse, forklaring } = form.getValues();
+        const { begrunnelseId, forklaring } = form.getValues();
+        const begrunnelse = begrunnelser.find((begrunnelse) => begrunnelse.id === begrunnelseId)!!;
         const overstyrtArbeidsforhold = getOverstyrtArbeidsforhold(
-            begrunnelse,
-            forklaring,
             organisasjonsnummerPeriodeTilGodkjenning,
             organisasjonsnummerAktivPeriode,
             skjæringstidspunkt,
             true,
+            forklaring,
+            begrunnelse,
         );
         onSubmit();
         postOverstyring(overstyrtArbeidsforhold);

@@ -11,26 +11,30 @@ import { OverstyrtArbeidsforholdDTO } from '@io/http/types';
 import { postAbonnerPåAktør, postOverstyrtArbeidsforhold } from '@io/http';
 import { Person } from '@io/graphql';
 import { useCurrentPerson } from '@state/person';
+import { BegrunnelseForOverstyring } from './overstyring.types';
 
 type OverstyrtArbeidsforholdGetter = (
-    begrunnelse: string,
-    forklaring: string,
     organisasjonsnummerPeriodeTilGodkjenning: string,
     organisasjonsnummerGhost: string,
     skjæringstidspunkt: string,
     arbeidsforholdSkalDeaktiveres: boolean,
+    forklaring: string,
+    begrunnelse: BegrunnelseForOverstyring,
+    paragraf?: string,
+    ledd?: string,
+    bokstav?: string,
 ) => OverstyrtArbeidsforholdDTO;
 
 export const useGetOverstyrtArbeidsforhold = (): OverstyrtArbeidsforholdGetter => {
     const person = useCurrentPerson() as Person;
 
     return (
-        begrunnelse,
-        forklaring,
         organisasjonsnummerPeriodeTilGodkjenning,
         organisasjonsnummerGhost,
         skjæringstidspunkt,
         arbeidsforholdSkalDeaktiveres,
+        forklaring,
+        begrunnelse,
     ) => ({
         fødselsnummer: person?.fodselsnummer,
         organisasjonsnummer: organisasjonsnummerPeriodeTilGodkjenning,
@@ -40,8 +44,8 @@ export const useGetOverstyrtArbeidsforhold = (): OverstyrtArbeidsforholdGetter =
             {
                 orgnummer: organisasjonsnummerGhost,
                 deaktivert: arbeidsforholdSkalDeaktiveres,
-                begrunnelse: begrunnelse,
                 forklaring: forklaring,
+                begrunnelse: begrunnelse.forklaring,
             },
         ],
     });

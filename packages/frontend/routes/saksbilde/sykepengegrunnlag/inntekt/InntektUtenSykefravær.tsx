@@ -19,6 +19,7 @@ import { OverstyrArbeidsforholdUtenSykdom } from '../OverstyrArbeidsforholdUtenS
 import styles from './Inntekt.module.css';
 import { EditableInntekt } from './EditableInntekt';
 import { RedigerGhostInntekt } from './RedigerGhostInntekt';
+import { BegrunnelseForOverstyring } from '../overstyring.types';
 
 const maybePeriodeTilGodkjenning = (person: Person, skjæringstidspunkt: DateString): Maybe<BeregnetPeriode> => {
     return (
@@ -83,11 +84,27 @@ const useArbeidsforholdKanOverstyres = (organisasjonsnummer: string): boolean =>
     );
 };
 
-const endreInntektUtenSykefraværBegrunnelser = [
-    '§ 8-28 (3) b - Arbeidsforhold har vart kortere enn 3 måneder',
-    '§ 8-28 (3) c - Varig lønnsendring',
-    '§ 8-28 (5) - Innrapportert feil inntekt til A-ordningen',
-    'Annen kilde til endring',
+const endreInntektUtenSykefraværBegrunnelser: BegrunnelseForOverstyring[] = [
+    {
+        id: '0',
+        forklaring: 'Arbeidsforhold har vart kortere enn 3 måneder',
+        subsumsjon: { paragraf: '8-28', ledd: '3', bokstav: 'b' },
+    },
+    {
+        id: '1',
+        forklaring: 'Varig lønnsendring',
+        subsumsjon: { paragraf: '8-28', ledd: '3', bokstav: 'c' },
+    },
+    {
+        id: '2',
+        forklaring: 'Innrapportert feil inntekt til A-ordningen',
+        subsumsjon: { paragraf: '8-28', ledd: '5' },
+    },
+    {
+        id: '3',
+        forklaring: 'Annen kilde til endring',
+        subsumsjon: { paragraf: '8-28' },
+    },
 ];
 
 const useGhostInntektKanOverstyres = (organisasjonsnummer: string): boolean => {

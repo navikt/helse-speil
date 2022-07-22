@@ -1,3 +1,5 @@
+import { Subsumsjon } from '../../routes/saksbilde/sykepengegrunnlag/overstyring.types';
+
 export interface Options {
     method?: string;
     headers?: { [key: string]: any };
@@ -24,6 +26,7 @@ export interface OverstyrtInntektDTO extends Overstyring {
     månedligInntekt: number;
     skjæringstidspunkt: string;
     forklaring: string;
+    subsumsjon?: Subsumsjon;
 }
 
 export interface OverstyrtArbeidsforholdDTO {
@@ -37,8 +40,9 @@ export interface OverstyrtArbeidsforholdDTO {
 export interface OverstyrtArbeidsforholdElementDTO {
     orgnummer: string;
     deaktivert: boolean;
-    begrunnelse: string;
     forklaring: string;
+    begrunnelse: string;
+    subsumsjon?: Subsumsjon;
 }
 
 export interface AnnulleringDTO {
