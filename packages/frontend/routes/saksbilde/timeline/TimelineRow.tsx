@@ -29,7 +29,7 @@ export const TimelineRow: React.VFC<TimelineRowProps> = ({
     activePeriod,
 }) => (
     <div className={styles.TimelineRow}>
-        <Tooltip content={name}>
+        <Tooltip content={name} maxChar={name.length}>
             <div className={styles.Name}>
                 <Bag height={16} width={16} />
                 <AnonymizableTextWithEllipsis size="small">{name}</AnonymizableTextWithEllipsis>
