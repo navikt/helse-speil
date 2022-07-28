@@ -104,7 +104,17 @@ const tilgangFlereArbeidsgivere = [
     // Klageinstansen end
 ];
 
-const tilgangStikkprøver = ['F140836', 'H104215', 'S109031', 'O123659', 'S160466', 'K104953', 'J153777', 'V149621'];
+const tilgangStikkprøver = [
+    'F140836',
+    'H104215',
+    'S109031',
+    'O123659',
+    'S160466',
+    'K104953',
+    'J153777',
+    'V149621',
+    'D163344',
+];
 
 const utvidetTilganger = [
     ...faktiskSupportsaksbehandlere,
