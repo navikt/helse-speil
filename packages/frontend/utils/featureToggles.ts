@@ -114,6 +114,7 @@ const tilgangStikkprøver = [
     'J153777',
     'V149621',
     'D163344',
+    'B138607',
 ];
 
 const utvidetTilganger = [
