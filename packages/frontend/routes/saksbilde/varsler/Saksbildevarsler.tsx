@@ -1,7 +1,9 @@
 import React from 'react';
-import { Alert, BodyShort } from '@navikt/ds-react';
+import dayjs from 'dayjs';
 
-import { Maybe } from '@io/graphql';
+import { Alert, BodyShort } from '@navikt/ds-react';
+import { Maybe, Overstyring } from '@io/graphql';
+import { isArbeidsforholdoverstyring, isDagoverstyring, isInntektoverstyring } from '@utils/typeguards';
 
 import { Aktivitetsloggvarsler } from './Aktivetsloggvarsler';
 
@@ -77,15 +79,26 @@ const beslutteroppgaveVarsel = (
     varsler?: Maybe<Array<string>>,
     erBeslutteroppgave?: boolean,
     harVurderLovvalgOgMedlemskapVarsel?: boolean,
+    endringerEtterNyesteUtbetalingPåPerson?: Maybe<Array<Overstyring>>,
+    harDagOverstyringer?: boolean,
+    activePeriodTom?: string,
 ) => {
-    if (erBeslutteroppgave && varsler && ['tilGodkjenning', 'revurderes'].includes(periodState)) {
-        const beslutteroppgavevarsel = Array.from(varsler)
-            .reverse()
-            .find((varsel) => varsel.includes('Beslutteroppgave:'));
-        if (beslutteroppgavevarsel) {
-            return { grad: 'info', melding: beslutteroppgavevarsel };
-        } else if (harVurderLovvalgOgMedlemskapVarsel) {
-            return { grad: 'info', melding: 'Beslutteroppgave: Lovvalg og medlemskap' };
+    if (erBeslutteroppgave && ['tilGodkjenning', 'revurderes'].includes(periodState)) {
+        const overstyringÅrsak = [];
+        (endringerEtterNyesteUtbetalingPåPerson?.some(
+            (it) => isDagoverstyring(it) && dayjs(it.dager[0].dato).isSameOrBefore(activePeriodTom),
+        ) ||
+            harDagOverstyringer) &&
+            overstyringÅrsak.push('Overstyring av utbetalingsdager');
+        endringerEtterNyesteUtbetalingPåPerson?.some((it) => isInntektoverstyring(it)) &&
+            overstyringÅrsak.push('Overstyring av inntekt');
+        endringerEtterNyesteUtbetalingPåPerson?.some((it) => isArbeidsforholdoverstyring(it)) &&
+            overstyringÅrsak.push('Overstyring av annet arbeidsforhold');
+        harVurderLovvalgOgMedlemskapVarsel && overstyringÅrsak.push('Lovvalg og medlemskap');
+
+        if (overstyringÅrsak.length > 0) {
+            const overstyringÅrsaker = overstyringÅrsak.join(', ').replace(/,(?=[^,]*$)/, ' og');
+            return { grad: 'info', melding: `Beslutteroppgave: ${overstyringÅrsaker}` };
         }
     }
     return null;
@@ -102,6 +115,9 @@ interface SaksbildevarslerProps {
     erTidligereSaksbehandler?: boolean;
     erBeslutteroppgave?: boolean;
     harVurderLovvalgOgMedlemskapVarsel?: boolean;
+    endringerEtterNyesteUtbetalingPåPerson?: Maybe<Array<Overstyring>>;
+    harDagOverstyringer?: boolean;
+    activePeriodTom?: string;
 }
 
 export const Saksbildevarsler = ({
@@ -111,13 +127,24 @@ export const Saksbildevarsler = ({
     erTidligereSaksbehandler,
     erBeslutteroppgave,
     harVurderLovvalgOgMedlemskapVarsel,
+    endringerEtterNyesteUtbetalingPåPerson,
+    harDagOverstyringer,
+    activePeriodTom,
 }: SaksbildevarslerProps) => {
     const infoVarsler: VarselObject[] = [
         tilgangInfoVarsel(erTidligereSaksbehandler && erBeslutteroppgave),
         tilstandInfoVarsel(periodState),
         utbetalingsvarsel(periodState),
         vedtaksperiodeVenterVarsel(periodState),
-        beslutteroppgaveVarsel(periodState, varsler, erBeslutteroppgave, harVurderLovvalgOgMedlemskapVarsel),
+        beslutteroppgaveVarsel(
+            periodState,
+            varsler,
+            erBeslutteroppgave,
+            harVurderLovvalgOgMedlemskapVarsel,
+            endringerEtterNyesteUtbetalingPåPerson,
+            harDagOverstyringer,
+            activePeriodTom,
+        ),
     ].filter((it) => it) as VarselObject[];
 
     const feilVarsler: VarselObject[] = [

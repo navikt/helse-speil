@@ -78,8 +78,14 @@ const ReadonlyUtbetaling: React.FC<ReadonlyUtbetalingProps> = ({ fom, tom, dager
 const isDagoverstyring = (overstyring: Overstyring): overstyring is Dagoverstyring =>
     (overstyring as Dagoverstyring).__typename === 'Dagoverstyring';
 
-const useDagoverstyringer = (arbeidsgiver: Arbeidsgiver, fom: DateString, tom: DateString): Array<Dagoverstyring> => {
+export const useDagoverstyringer = (
+    fom: DateString,
+    tom: DateString,
+    arbeidsgiver?: Maybe<Arbeidsgiver>,
+): Array<Dagoverstyring> => {
     return useMemo(() => {
+        if (!arbeidsgiver) return [];
+
         const start = dayjs(fom);
         const end = dayjs(tom);
         return arbeidsgiver.overstyringer.filter(isDagoverstyring).filter((overstyring) =>
@@ -101,7 +107,7 @@ const UtbetalingWithContent: React.FC<UtbetalingWithContentProps> = React.memo((
     const revurderingIsEnabled = useRevurderingIsEnabled(defaultUtbetalingToggles);
     const overstyrRevurderingIsEnabled = useOverstyrRevurderingIsEnabled(defaultUtbetalingToggles);
     const erAktivPeriodeISisteSkjæringstidspunkt = useActivePeriodHasLatestSkjæringstidspunkt();
-    const dagoverstyringer = useDagoverstyringer(arbeidsgiver, period.fom, period.tom);
+    const dagoverstyringer = useDagoverstyringer(period.fom, period.tom, arbeidsgiver);
     const readOnly = useIsReadOnlyOppgave();
 
     const dager: Map<string, UtbetalingstabellDag> = useTabelldagerMap({

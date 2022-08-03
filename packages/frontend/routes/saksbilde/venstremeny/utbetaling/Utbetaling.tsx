@@ -8,8 +8,10 @@ import { ErrorMessage } from '@components/ErrorMessage';
 import { useIsReadOnlyOppgave } from '@hooks/useIsReadOnlyOppgave';
 import { useErBeslutteroppgaveOgHarTilgang } from '@hooks/useErBeslutteroppgaveOgHarTilgang';
 import { useHarVurderLovvalgOgMedlemskapVarsel } from '@hooks/useHarVurderLovvalgOgMedlemskapVarsel';
-import { toggleTotrinnsvurderingAktiv } from '@state/toggles';
 import { opptegnelsePollingTimeState } from '@state/opptegnelser';
+import { useHarDagOverstyringer } from '@state/arbeidsgiver';
+import { toggleTotrinnsvurderingAktiv } from '@state/toggles';
+import { useHarEndringerEtterNyesteUtbetaltetidsstempel } from '@state/person';
 import { isBeregnetPeriode } from '@utils/typeguards';
 import { getPeriodState } from '@utils/mapping';
 import { isRevurdering } from '@utils/period';
@@ -82,8 +84,10 @@ export const Utbetaling = ({ activePeriod, currentPerson }: UtbetalingProps) => 
     const history = useHistory();
     const readOnly = useIsReadOnlyOppgave();
     const erBeslutteroppgaveOgHarTilgang = useErBeslutteroppgaveOgHarTilgang();
-    const harVurderLovvalgOgMedlemskapVarsel = useHarVurderLovvalgOgMedlemskapVarsel();
     const totrinnsvurderingAktiv = useRecoilValue(toggleTotrinnsvurderingAktiv);
+    const harVurderLovvalgOgMedlemskapVarsel = useHarVurderLovvalgOgMedlemskapVarsel();
+    const harEndringerEtterNyesteUtbetaltetidsstempel = useHarEndringerEtterNyesteUtbetaltetidsstempel();
+    const harDagOverstyringer = useHarDagOverstyringer(activePeriod);
 
     const onGodkjennUtbetaling = () => {
         setGodkjentPeriode(activePeriod.vedtaksperiodeId);
@@ -110,22 +114,17 @@ export const Utbetaling = ({ activePeriod, currentPerson }: UtbetalingProps) => 
     const isRevurdering = activePeriod.utbetaling.type === 'REVURDERING';
     const harArbeidsgiverutbetaling = activePeriod.utbetaling.arbeidsgiverNettoBelop !== 0;
     const harBrukerutbetaling = activePeriod.utbetaling.personNettoBelop !== 0;
-    const trengerTotrinnsvurdering =
-        totrinnsvurderingAktiv &&
-        isBeregnetPeriode(activePeriod) &&
-        activePeriod.trengerTotrinnsvurdering &&
-        !readOnly &&
-        !activePeriod.erBeslutterOppgave;
-    const harLovvalgOgMedlemskapVarselOgErIkkeMarkertAlt =
-        !activePeriod.erBeslutterOppgave &&
-        !activePeriod.trengerTotrinnsvurdering &&
-        !readOnly &&
-        harVurderLovvalgOgMedlemskapVarsel;
+    const kanSendesTilTotrinnsvurdering =
+        totrinnsvurderingAktiv && isBeregnetPeriode(activePeriod) && !readOnly && !activePeriod.erBeslutterOppgave;
 
     return (
         <>
             <div className={styles.Buttons}>
-                {trengerTotrinnsvurdering || harLovvalgOgMedlemskapVarselOgErIkkeMarkertAlt ? (
+                {kanSendesTilTotrinnsvurdering &&
+                (harVurderLovvalgOgMedlemskapVarsel ||
+                    isRevurdering ||
+                    harEndringerEtterNyesteUtbetaltetidsstempel ||
+                    harDagOverstyringer) ? (
                     <SendTilGodkjenningButton
                         oppgavereferanse={activePeriod.oppgavereferanse!}
                         disabled={periodenErSendt}
@@ -145,8 +144,6 @@ export const Utbetaling = ({ activePeriod, currentPerson }: UtbetalingProps) => 
                     >
                         {erBeslutteroppgaveOgHarTilgang
                             ? 'Godkjenn og utbetal'
-                            : isRevurdering
-                            ? 'Revurder'
                             : harArbeidsgiverutbetaling || harBrukerutbetaling
                             ? 'Utbetal'
                             : 'Godkjenn'}
@@ -180,9 +177,11 @@ export const Utbetaling = ({ activePeriod, currentPerson }: UtbetalingProps) => 
                 <InfoText as="p">
                     <Spinner />
                     <span>
-                        {isRevurdering
-                            ? 'Revurdering ferdigstilles'
-                            : trengerTotrinnsvurdering || harLovvalgOgMedlemskapVarselOgErIkkeMarkertAlt
+                        {kanSendesTilTotrinnsvurdering &&
+                        (harVurderLovvalgOgMedlemskapVarsel ||
+                            isRevurdering ||
+                            harEndringerEtterNyesteUtbetaltetidsstempel ||
+                            harDagOverstyringer)
                             ? 'Perioden sendes til godkjenning'
                             : 'Neste periode klargjøres'}
                     </span>

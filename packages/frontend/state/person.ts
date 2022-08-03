@@ -12,8 +12,9 @@ import { GraphQLError } from 'graphql';
 
 import { useActivePeriod } from '@state/periode';
 import { useInnloggetSaksbehandler } from '@state/authentication';
+import { useNyesteUtbetalingstidsstempelForSkjæringstidspunkt } from '@state/utbetaling';
 import { FetchError, isFetchErrorArray, NotFoundError, ProtectedError } from '@io/graphql/errors';
-import { fetchPerson, Maybe, Person, Tildeling, Vilkarsgrunnlag } from '@io/graphql';
+import { fetchPerson, Maybe, Overstyring, Person, Tildeling, Vilkarsgrunnlag } from '@io/graphql';
 import { deletePåVent, NotatDTO, postLeggPåVent, SpeilResponse } from '@io/http';
 import { SpeilError } from '@utils/error';
 import { isPerson } from '@utils/typeguards';
@@ -227,4 +228,23 @@ export const useVilkårsgrunnlag = (id: string, skjæringstidspunkt: DateString)
                 .pop()) ??
         null
     );
+};
+
+export const useEndringerForPerson = (): Array<Overstyring> =>
+    useCurrentPerson()?.arbeidsgivere?.flatMap((arbeidsgiver) => arbeidsgiver.overstyringer) ?? [];
+
+export const useEndringerEtterNyesteUtbetaltetidsstempel = (): Array<Overstyring> => {
+    const nyesteUtbetalingstidsstempelForSkjæringstidspunkt = useNyesteUtbetalingstidsstempelForSkjæringstidspunkt();
+
+    return (
+        useEndringerForPerson().filter((overstyring) =>
+            dayjs(overstyring.timestamp).isAfter(nyesteUtbetalingstidsstempelForSkjæringstidspunkt),
+        ) ?? []
+    );
+};
+
+export const useHarEndringerEtterNyesteUtbetaltetidsstempel = (): boolean => {
+    const endringerEtterNyesteUtbetaltetidsstempel = useEndringerEtterNyesteUtbetaltetidsstempel();
+
+    return endringerEtterNyesteUtbetaltetidsstempel.length > 0;
 };

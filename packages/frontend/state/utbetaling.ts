@@ -1,6 +1,9 @@
+import dayjs from 'dayjs';
+
 import { useCurrentArbeidsgiver } from '@state/arbeidsgiver';
-import { isBeregnetPeriode } from '@utils/typeguards';
 import { useActivePeriod } from '@state/periode';
+import { useCurrentPerson } from '@state/person';
+import { isBeregnetPeriode } from '@utils/typeguards';
 
 export const useUtbetalingstidsstempelFørsteGenForPeriode = (): string => {
     const activePeriod = useActivePeriod();
@@ -44,4 +47,31 @@ export const useFørsteUtbetalingstidsstempelFørsteGenISkjæringstidspunkt = ()
     } else {
         return '';
     }
+};
+
+export const useNyesteUtbetalingstidsstempelForSkjæringstidspunkt = (): Dayjs => {
+    const activePeriod = useActivePeriod();
+    const currentPerson = useCurrentPerson();
+
+    const MIN_DATE = dayjs('1970-01-01');
+
+    if (!isBeregnetPeriode(activePeriod) || !currentPerson) {
+        return MIN_DATE;
+    }
+
+    const nyesteUtbetalingstidsstempel =
+        currentPerson.arbeidsgivere
+            .flatMap((arbeidsgiver) => arbeidsgiver.generasjoner)
+            ?.flatMap((generasjon) => generasjon.perioder)
+            .filter(
+                (periode) =>
+                    isBeregnetPeriode(periode) &&
+                    periode.skjaeringstidspunkt === activePeriod.skjaeringstidspunkt &&
+                    periode.utbetaling.vurdering?.godkjent,
+            )
+            .map((periode) =>
+                isBeregnetPeriode(periode) ? dayjs(periode.utbetaling.vurdering?.tidsstempel) : MIN_DATE,
+            ) ?? MIN_DATE;
+
+    return dayjs.max([...nyesteUtbetalingstidsstempel, MIN_DATE]);
 };

@@ -1,3 +1,5 @@
+import dayjs from 'dayjs';
+
 import {
     Arbeidsforholdoverstyring,
     Arbeidsgiver,
@@ -20,7 +22,9 @@ import {
     isInntektoverstyring,
     isUberegnetPeriode,
 } from '@utils/typeguards';
-import dayjs from 'dayjs';
+import { useUtbetalingstidsstempelFørsteGenForPeriode } from '@state/utbetaling';
+
+import { useDagoverstyringer } from '../routes/saksbilde/utbetaling/Utbetaling';
 
 const findArbeidsgiverWithGhostPeriode = (
     period: GhostPeriode,
@@ -137,4 +141,12 @@ export const useEndringerForPeriode = (organisasjonsnummer: string): UseEndringe
         .filter(isDagoverstyring);
 
     return { inntektsendringer: inntekter, arbeidsforholdendringer: arbeidsforhold, dagendringer: dager };
+};
+
+export const useHarDagOverstyringer = (periode: BeregnetPeriode): boolean => {
+    const utbetalingstidsstempelFørsteGenForPeriode = useUtbetalingstidsstempelFørsteGenForPeriode();
+    const arbeidsgiver = useCurrentArbeidsgiver();
+    const dagendringer = useDagoverstyringer(periode.fom, periode.tom, arbeidsgiver);
+
+    return utbetalingstidsstempelFørsteGenForPeriode === '' && (dagendringer?.length ?? 0) > 0;
 };

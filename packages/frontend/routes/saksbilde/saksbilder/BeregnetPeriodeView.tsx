@@ -14,6 +14,8 @@ import { Historikk } from '../historikk/Historikk';
 
 import styles from './PeriodeView.module.css';
 import { useHarVurderLovvalgOgMedlemskapVarsel } from '@hooks/useHarVurderLovvalgOgMedlemskapVarsel';
+import { useEndringerEtterNyesteUtbetaltetidsstempel } from '@state/person';
+import { useHarDagOverstyringer } from '@state/arbeidsgiver';
 
 const Utbetaling = React.lazy(() => import('../utbetaling/Utbetaling').catch(onLazyLoadFail));
 const Inngangsvilkår = React.lazy(() => import('../vilkår/Inngangsvilkår').catch(onLazyLoadFail));
@@ -45,6 +47,8 @@ export const BeregnetPeriodeView: React.VFC<BeregnetPeriodeViewProps> = ({ activ
 
     const erTidligereSaksbehandler = useErTidligereSaksbehandler();
     const harVurderLovvalgOgMedlemskapVarsel = useHarVurderLovvalgOgMedlemskapVarsel();
+    const saksbehandlerendringerEtterNyesteUtbetalingPåPerson = useEndringerEtterNyesteUtbetaltetidsstempel();
+    const harDagOverstyringer = useHarDagOverstyringer(activePeriod);
 
     return (
         <>
@@ -57,6 +61,9 @@ export const BeregnetPeriodeView: React.VFC<BeregnetPeriodeViewProps> = ({ activ
                     erTidligereSaksbehandler={erTidligereSaksbehandler}
                     erBeslutteroppgave={activePeriod.erBeslutterOppgave}
                     harVurderLovvalgOgMedlemskapVarsel={harVurderLovvalgOgMedlemskapVarsel}
+                    endringerEtterNyesteUtbetalingPåPerson={saksbehandlerendringerEtterNyesteUtbetalingPåPerson}
+                    harDagOverstyringer={harDagOverstyringer}
+                    activePeriodTom={activePeriod.tom}
                 />
                 <Switch>
                     <React.Suspense fallback={<BeregnetPeriodeViewLoader />}>
