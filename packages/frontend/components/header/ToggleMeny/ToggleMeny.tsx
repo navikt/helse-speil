@@ -7,6 +7,7 @@ import {
     toggleKanFrigiAndresOppgaver,
     toggleReadOnly,
     toggleReadOnlyOverride,
+    toggleSkalSjekkeIsRevurderingForTotrinn,
     toggleTotrinnsvurderingAktiv,
 } from '@state/toggles';
 
@@ -58,6 +59,10 @@ export const ToggleMeny = ({ modalOpen, onCloseModal }: ToggleMenyProps) => {
     const [readOnlyOverride, setReadOnlyOverride] = useRecoilState(toggleReadOnlyOverride);
     const [readOnly, setReadOnly] = useRecoilState(toggleReadOnly);
 
+    const [skalSjekkeIsRevurderingForTotrinn, setSkalSjekkeIsRevurderingForTotrinn] = useRecoilState(
+        toggleSkalSjekkeIsRevurderingForTotrinn,
+    );
+
     return (
         <Modal isOpen={modalOpen} onRequestClose={onCloseModal}>
             <Section label="Totrinnsvurdering">
@@ -85,6 +90,14 @@ export const ToggleMeny = ({ modalOpen, onCloseModal }: ToggleMenyProps) => {
             <Section label="Read only">
                 <Toggle label="Override read-only" checked={readOnlyOverride} setValue={setReadOnlyOverride} />
                 {readOnlyOverride && <Toggle label="Oppgave er read-only" checked={readOnly} setValue={setReadOnly} />}
+            </Section>
+
+            <Section label="Revurdering">
+                <Toggle
+                    label="Skal sjekke isRevurdering for totrinn"
+                    checked={skalSjekkeIsRevurderingForTotrinn}
+                    setValue={setSkalSjekkeIsRevurderingForTotrinn}
+                />
             </Section>
         </Modal>
     );

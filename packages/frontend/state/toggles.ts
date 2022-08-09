@@ -33,3 +33,9 @@ export const toggleReadOnly = atom<boolean>({
     key: 'toggleReadOnly',
     default: false,
 });
+
+// Revurdering
+export const toggleSkalSjekkeIsRevurderingForTotrinn = atom<boolean>({
+    key: 'toggleSkalSjekkeIsRevurderingForTotrinn',
+    default: true,
+});

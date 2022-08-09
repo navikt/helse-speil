@@ -10,7 +10,7 @@ import { useErBeslutteroppgaveOgHarTilgang } from '@hooks/useErBeslutteroppgaveO
 import { useHarVurderLovvalgOgMedlemskapVarsel } from '@hooks/useHarVurderLovvalgOgMedlemskapVarsel';
 import { opptegnelsePollingTimeState } from '@state/opptegnelser';
 import { useHarDagOverstyringer } from '@state/arbeidsgiver';
-import { toggleTotrinnsvurderingAktiv } from '@state/toggles';
+import { toggleSkalSjekkeIsRevurderingForTotrinn, toggleTotrinnsvurderingAktiv } from '@state/toggles';
 import { useHarEndringerEtterNyesteUtbetaltetidsstempel } from '@state/person';
 import { isBeregnetPeriode } from '@utils/typeguards';
 import { getPeriodState } from '@utils/mapping';
@@ -85,6 +85,7 @@ export const Utbetaling = ({ activePeriod, currentPerson }: UtbetalingProps) => 
     const readOnly = useIsReadOnlyOppgave();
     const erBeslutteroppgaveOgHarTilgang = useErBeslutteroppgaveOgHarTilgang();
     const totrinnsvurderingAktiv = useRecoilValue(toggleTotrinnsvurderingAktiv);
+    const skalSjekkeIsRevurderingForTotrinn = useRecoilValue(toggleSkalSjekkeIsRevurderingForTotrinn);
     const harVurderLovvalgOgMedlemskapVarsel = useHarVurderLovvalgOgMedlemskapVarsel();
     const harEndringerEtterNyesteUtbetaltetidsstempel = useHarEndringerEtterNyesteUtbetaltetidsstempel();
     const harDagOverstyringer = useHarDagOverstyringer(activePeriod);
@@ -122,7 +123,7 @@ export const Utbetaling = ({ activePeriod, currentPerson }: UtbetalingProps) => 
             <div className={styles.Buttons}>
                 {kanSendesTilTotrinnsvurdering &&
                 (harVurderLovvalgOgMedlemskapVarsel ||
-                    isRevurdering ||
+                    (isRevurdering && skalSjekkeIsRevurderingForTotrinn) ||
                     harEndringerEtterNyesteUtbetaltetidsstempel ||
                     harDagOverstyringer) ? (
                     <SendTilGodkjenningButton
@@ -179,7 +180,7 @@ export const Utbetaling = ({ activePeriod, currentPerson }: UtbetalingProps) => 
                     <span>
                         {kanSendesTilTotrinnsvurdering &&
                         (harVurderLovvalgOgMedlemskapVarsel ||
-                            isRevurdering ||
+                            (isRevurdering && skalSjekkeIsRevurderingForTotrinn) ||
                             harEndringerEtterNyesteUtbetaltetidsstempel ||
                             harDagOverstyringer)
                             ? 'Perioden sendes til godkjenning'
