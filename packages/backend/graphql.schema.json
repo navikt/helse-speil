@@ -3921,6 +3921,18 @@
                         },
                         "isDeprecated": false,
                         "deprecationReason": null
+                    },
+                    {
+                        "name": "reservasjon",
+                        "description": null,
+                        "args": [],
+                        "type": {
+                            "kind": "OBJECT",
+                            "name": "Reservasjon",
+                            "ofType": null
+                        },
+                        "isDeprecated": false,
+                        "deprecationReason": null
                     }
                 ],
                 "inputFields": null,
@@ -4216,6 +4228,49 @@
                             "ofType": {
                                 "kind": "SCALAR",
                                 "name": "String",
+                                "ofType": null
+                            }
+                        },
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    }
+                ],
+                "inputFields": null,
+                "interfaces": [],
+                "enumValues": null,
+                "possibleTypes": null
+            },
+            {
+                "kind": "OBJECT",
+                "name": "Reservasjon",
+                "description": null,
+                "fields": [
+                    {
+                        "name": "kanVarsles",
+                        "description": null,
+                        "args": [],
+                        "type": {
+                            "kind": "NON_NULL",
+                            "name": null,
+                            "ofType": {
+                                "kind": "SCALAR",
+                                "name": "Boolean",
+                                "ofType": null
+                            }
+                        },
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
+                    {
+                        "name": "reservert",
+                        "description": null,
+                        "args": [],
+                        "type": {
+                            "kind": "NON_NULL",
+                            "name": null,
+                            "ofType": {
+                                "kind": "SCALAR",
+                                "name": "Boolean",
                                 "ofType": null
                             }
                         },
@@ -7923,13 +7978,13 @@
         "directives": [
             {
                 "name": "deprecated",
-                "description": "Marks an element of a GraphQL schema as no longer supported.",
+                "description": "Marks the field, argument, input field or enum value as deprecated",
                 "isRepeatable": false,
-                "locations": ["ARGUMENT_DEFINITION", "ENUM_VALUE", "FIELD_DEFINITION", "INPUT_FIELD_DEFINITION"],
+                "locations": ["ARGUMENT_DEFINITION", "ENUM_VALUE", "FIELD_DEFINITION", "VARIABLE_DEFINITION"],
                 "args": [
                     {
                         "name": "reason",
-                        "description": "Explains why this element was deprecated, usually also including a suggestion for how to access supported similar data. Formatted using the Markdown syntax, as specified by [CommonMark](https://commonmark.org/).",
+                        "description": "The reason for the deprecation",
                         "type": {
                             "kind": "SCALAR",
                             "name": "String",
@@ -7943,7 +7998,7 @@
             },
             {
                 "name": "include",
-                "description": "Directs the executor to include this field or fragment only when the `if` argument is true.",
+                "description": "Directs the executor to include this field or fragment only when the `if` argument is true",
                 "isRepeatable": false,
                 "locations": ["FIELD", "FRAGMENT_SPREAD", "INLINE_FRAGMENT"],
                 "args": [
@@ -7967,7 +8022,7 @@
             },
             {
                 "name": "skip",
-                "description": "Directs the executor to skip this field or fragment when the `if` argument is true.",
+                "description": "Directs the executor to skip this field or fragment when the `if`'argument is true.",
                 "isRepeatable": false,
                 "locations": ["FIELD", "FRAGMENT_SPREAD", "INLINE_FRAGMENT"],
                 "args": [

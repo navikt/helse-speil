@@ -428,6 +428,7 @@ export type Personinfo = {
     fornavn: Scalars['String'];
     kjonn?: Maybe<Kjonn>;
     mellomnavn?: Maybe<Scalars['String']>;
+    reservasjon?: Maybe<Reservasjon>;
 };
 
 export type Personoppdrag = Spennoppdrag & {
@@ -465,6 +466,12 @@ export type Refusjonsperiode = {
     __typename?: 'Refusjonsperiode';
     fom: Scalars['String'];
     tom: Scalars['String'];
+};
+
+export type Reservasjon = {
+    __typename?: 'Reservasjon';
+    kanVarsles: Scalars['Boolean'];
+    reservert: Scalars['Boolean'];
 };
 
 export type Risikovurdering = {

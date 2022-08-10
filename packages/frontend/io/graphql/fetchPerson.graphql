@@ -58,6 +58,10 @@ query FetchPerson($fnr: String, $aktorId: String) {
             adressebeskyttelse
             fodselsdato
             kjonn
+            reservasjon {
+                kanVarsles
+                reservert
+            }
         }
         tildeling {
             navn
