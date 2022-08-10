@@ -5,7 +5,7 @@ import '@testing-library/jest-dom/extend-expect';
 import { Adressebeskyttelse } from '@io/graphql';
 import { MemoryRouterWrapper } from '@test-wrappers';
 
-import { _PersonHeader } from 'routes/saksbilde/personHeader/PersonHeader';
+import { _PersonHeader } from './PersonHeader';
 
 describe('Personlinje', () => {
     test('rendrer personinfo', () => {

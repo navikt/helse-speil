@@ -3,7 +3,7 @@ import { Tag, Tooltip } from '@navikt/ds-react';
 
 import { Reservasjon } from '@io/graphql';
 
-import styles from 'routes/saksbilde/personHeader/PersonHeader.module.css';
+import styles from './PersonHeader.module.css';
 
 interface ReservasjonTagProps {
     reservasjon?: Maybe<Reservasjon>;
@@ -27,7 +27,7 @@ export const ReservasjonTag: React.FC<ReservasjonTagProps> = ({ reservasjon }) =
         return (
             <Tooltip
                 content="Bruker har reservert seg mot digital kommunikasjon i Kontakt- og reservasjonsregisteret, eventuell kommunikasjon må skje i brevform"
-                maxChar={120}
+                maxChar={132}
             >
                 <Tag variant="warning" size="small" className={styles.Tag}>
                     Reservert KRR
