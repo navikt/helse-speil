@@ -11,14 +11,14 @@ import { AmplitudeProvider } from '@io/amplitude';
 
 import { Timeline } from './timeline';
 import { PeriodeView } from './saksbilder/PeriodeView';
-import { PersonHeader } from './PersonHeader';
+import { PersonHeader } from './personHeader';
 import { SaksbildeMenu } from './sakslinje/SaksbildeMenu';
 import { useKeyboardShortcuts } from './useKeyboardShortcuts';
 import { VenterPåEndringProvider } from './VenterPåEndringContext';
 
-const Utbetalingshistorikk = React.lazy(() => import('./utbetalingshistorikk/Utbetalingshistorikk'));
-
 import styles from './Saksbilde.module.css';
+
+const Utbetalingshistorikk = React.lazy(() => import('./utbetalingshistorikk/Utbetalingshistorikk'));
 
 const SaksbildeContent = React.memo(() => {
     useRefreshPersonVedUrlEndring();

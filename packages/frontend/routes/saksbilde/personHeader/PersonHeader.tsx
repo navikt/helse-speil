@@ -3,7 +3,7 @@ import dayjs from 'dayjs';
 import { Link } from 'react-router-dom';
 import classNames from 'classnames';
 
-import { BodyShort, Tag, Tooltip } from '@navikt/ds-react';
+import { BodyShort, Tag } from '@navikt/ds-react';
 
 import { Clipboard } from '@components/clipboard';
 import { Manneikon } from '@components/ikoner/Manneikon';
@@ -15,13 +15,13 @@ import { KjønnsnøytraltIkon } from '@components/ikoner/KjønnsnøytraltIkon';
 import { AnonymizableContainer } from '@components/anonymizable/AnonymizableContainer';
 
 import { utbetalingsoversikt } from '@utils/featureToggles';
-import { isBeregnetPeriode } from '@utils/typeguards';
 import { NORSK_DATOFORMAT } from '@utils/date';
 import { capitalizeName } from '@utils/locale';
 import { useIsAnonymous } from '@state/anonymization';
-import { useActivePeriod } from '@state/periode';
 import { useCurrentPerson } from '@state/person';
-import { Enhet, Kjonn, Maybe, Periode, Personinfo } from '@io/graphql';
+import { Enhet, Kjonn, Maybe, Personinfo } from '@io/graphql';
+
+import { ReservasjonTag } from './ReservasjonTag';
 
 import styles from './PersonHeader.module.css';
 
@@ -55,7 +55,6 @@ interface PersonHeaderWithContentProps {
     personinfo: Personinfo;
     isAnonymous: boolean;
     dødsdato?: Maybe<DateString>;
-    ikkeRegistrertKRR?: boolean;
 }
 
 const PersonHeaderWithContent: React.VFC<PersonHeaderWithContentProps> = ({
@@ -65,7 +64,6 @@ const PersonHeaderWithContent: React.VFC<PersonHeaderWithContentProps> = ({
     personinfo,
     isAnonymous,
     dødsdato,
-    ikkeRegistrertKRR,
 }) => {
     const formattedName = capitalizeName(getFormattedName(personinfo));
     const formattedAge = personinfo.fodselsdato !== null && ` (${dayjs().diff(personinfo.fodselsdato, 'year')} år)`;
@@ -117,16 +115,7 @@ const PersonHeaderWithContent: React.VFC<PersonHeaderWithContentProps> = ({
                         </Tag>
                     </AnonymizableContainer>
                 )}
-                {ikkeRegistrertKRR && (
-                    <Tooltip
-                        content="Ikke registrert eller mangler samtykke i Kontakt- og reservasjonsregisteret, eventuell kommunikasjon må skje i brevform"
-                        maxChar={120}
-                    >
-                        <Tag variant="warning" size="small" className={styles.Tag}>
-                            Ikke registrert KRR
-                        </Tag>
-                    </Tooltip>
-                )}
+                <ReservasjonTag reservasjon={personinfo.reservasjon} />
                 {dødsdato && (
                     <AnonymizableContainer>
                         <Tag variant="info" size="small" className={classNames(styles.Tag, styles.dødsdato)}>
@@ -139,15 +128,8 @@ const PersonHeaderWithContent: React.VFC<PersonHeaderWithContentProps> = ({
     );
 };
 
-const harIkkeRegistrertKRR = (periode?: Maybe<Periode | GhostPeriode>): boolean => {
-    const reservasjonsvarsel =
-        'Ikke registrert eller mangler samtykke i Kontakt- og reservasjonsregisteret, eventuell kommunikasjon må skje i brevform';
-    return isBeregnetPeriode(periode) && periode.varsler.includes(reservasjonsvarsel);
-};
-
 const PersonHeaderContainer: React.VFC = () => {
     const currentPerson = useCurrentPerson();
-    const activePeriod = useActivePeriod();
     const isAnonymous = useIsAnonymous();
 
     return !currentPerson ? (
@@ -160,7 +142,6 @@ const PersonHeaderContainer: React.VFC = () => {
             personinfo={currentPerson.personinfo}
             isAnonymous={isAnonymous}
             dødsdato={currentPerson.dodsdato}
-            ikkeRegistrertKRR={harIkkeRegistrertKRR(activePeriod)}
         />
     );
 };
