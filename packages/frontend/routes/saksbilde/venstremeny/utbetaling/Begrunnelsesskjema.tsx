@@ -1,11 +1,10 @@
+import { BeregnetPeriode, Faresignal } from '@io/graphql';
 import React, { ChangeEvent, ReactNode } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
+
 import { Checkbox, Fieldset, Textarea } from '@navikt/ds-react';
 
-import { BeregnetPeriode, Faresignal } from '@io/graphql';
-
 import { Begrunnelse } from './AvvisningModal';
-
 import styles from './Begrunnelsesskjema.module.css';
 
 interface BegrunnelseCheckboxProps {
@@ -48,7 +47,9 @@ export const Begrunnelsesskjema: React.VFC<BegrunnelsesskjemaProps> = ({ activeP
             <Fieldset
                 className={styles.Fieldset}
                 legend="Årsak til at saken ikke kan behandles"
-                error={formState.errors.begrunnelser ? formState.errors.begrunnelser.message : null}
+                error={
+                    (formState.errors.begrunnelser ? formState.errors.begrunnelser.message : null) as React.ReactNode
+                }
             >
                 {activePeriod.risikovurdering &&
                     harFunn(activePeriod.risikovurdering.funn) &&
@@ -94,13 +95,17 @@ export const Begrunnelsesskjema: React.VFC<BegrunnelsesskjemaProps> = ({ activeP
                         name="kommentar"
                         value={value}
                         label={`Begrunnelse ${annet ? '' : '(valgfri)'}`}
-                        error={formState.errors.kommentar ? formState.errors.kommentar.message : null}
+                        error={
+                            (formState.errors.kommentar
+                                ? formState.errors.kommentar.message
+                                : null) as unknown as string
+                        }
                         onChange={(event: ChangeEvent) => {
                             clearErrors('kommentar');
                             onChange(event);
                         }}
-                        aria-invalid={formState.errors.kommentar?.message}
-                        aria-errormessage={formState.errors.kommentar?.message}
+                        aria-invalid={formState.errors.kommentar?.message as unknown as 'false' | 'true'}
+                        aria-errormessage={formState.errors.kommentar?.message as unknown as string}
                         description={`Gi en kort forklaring på hvorfor du ikke kan behandle saken.\nEksempel: Oppgave om oppfølging.\nMå ikke inneholde personopplysninger.`}
                         maxLength={0}
                     />

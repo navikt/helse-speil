@@ -1,23 +1,22 @@
-import React, { useEffect, useState } from 'react';
+import { Bold } from '@components/Bold';
+import { OverstyringTimeoutModal } from '@components/OverstyringTimeoutModal';
+import { useMap } from '@hooks/useMap';
+import { Utbetaling, Utbetalingstatus } from '@io/graphql';
 import classNames from 'classnames';
+import React, { useEffect, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
+
 import { Unlocked } from '@navikt/ds-icons';
 import { BodyShort } from '@navikt/ds-react';
 
-import { useMap } from '@hooks/useMap';
-import { Utbetaling, Utbetalingstatus } from '@io/graphql';
-import { OverstyringTimeoutModal } from '@components/OverstyringTimeoutModal';
-import { Bold } from '@components/Bold';
-
+import styles from './OverstyrbarUtbetaling.module.css';
 import { EndringForm } from './utbetalingstabell/EndringForm';
+import { MarkerAlleDagerCheckbox } from './utbetalingstabell/MarkerAlleDagerCheckbox';
 import { OverstyringForm } from './utbetalingstabell/OverstyringForm';
+import { RadmarkeringCheckbox } from './utbetalingstabell/RadmarkeringCheckbox';
+import { ToggleOverstyringKnapp, UtbetalingHeader } from './utbetalingstabell/UtbetalingHeader';
 import { Utbetalingstabell } from './utbetalingstabell/Utbetalingstabell';
 import { usePostOverstyring } from './utbetalingstabell/usePostOverstyring';
-import { RadmarkeringCheckbox } from './utbetalingstabell/RadmarkeringCheckbox';
-import { MarkerAlleDagerCheckbox } from './utbetalingstabell/MarkerAlleDagerCheckbox';
-import { ToggleOverstyringKnapp, UtbetalingHeader } from './utbetalingstabell/UtbetalingHeader';
-
-import styles from './OverstyrbarUtbetaling.module.css';
 
 const getKey = (dag: UtbetalingstabellDag) => dag.dato;
 
@@ -150,7 +149,6 @@ export const OverstyrbarUtbetaling: React.FC<OverstyrbarUtbetalingProps> = ({
                         <div className={styles.Sticky}>
                             <EndringForm
                                 markerteDager={markerteDager}
-                                toggleOverstyring={toggleOverstyring}
                                 onSubmitEndring={onSubmitEndring}
                                 revurderingIsEnabled={revurderingIsEnabled}
                             />

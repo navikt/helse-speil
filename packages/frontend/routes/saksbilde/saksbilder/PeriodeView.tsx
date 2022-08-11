@@ -1,18 +1,17 @@
-import React from 'react';
-import { Loader } from '@navikt/ds-react';
-
-import { Varsel } from '@components/Varsel';
 import { ErrorBoundary } from '@components/ErrorBoundary';
+import { Varsel } from '@components/Varsel';
 import { Periodetilstand } from '@io/graphql';
+import { useCurrentArbeidsgiver } from '@state/arbeidsgiver';
 import { useActivePeriod } from '@state/periode';
 import { useCurrentPerson } from '@state/person';
-import { useCurrentArbeidsgiver } from '@state/arbeidsgiver';
 import { LazyLoadPendingError, onLazyLoadFail } from '@utils/error';
 import { isBeregnetPeriode, isGhostPeriode, isUberegnetPeriode } from '@utils/typeguards';
+import React from 'react';
+
+import { Loader } from '@navikt/ds-react';
 
 import { AnnullertPeriodeView } from './AnnullertPeriodeView';
 import { PeriodeTilAnnulleringView } from './PeriodeTilAnnulleringView';
-
 import styles from './PeriodeView.module.css';
 
 const GhostPeriodeView = React.lazy(() => import('./GhostPeriodeView').catch(onLazyLoadFail));
@@ -33,13 +32,7 @@ const PeriodeViewContainer: React.VFC = () => {
             case Periodetilstand.TilAnnullering:
                 return <PeriodeTilAnnulleringView />;
             default:
-                return (
-                    <BeregnetPeriodeView
-                        activePeriod={activePeriod}
-                        currentPerson={currentPerson}
-                        currentArbeidsgiver={currentArbeidsgiver}
-                    />
-                );
+                return <BeregnetPeriodeView activePeriod={activePeriod} />;
         }
     } else if (isGhostPeriode(activePeriod)) {
         return (

@@ -54,7 +54,7 @@ export const MånedsbeløpInput = ({ initialMånedsbeløp }: MånedsbeløpInputP
                 id="manedsbelop"
                 ref={ref}
                 defaultValue={initialMånedsbeløpRounded}
-                error={form.formState.errors.manedsbelop?.message}
+                error={form.formState.errors.manedsbelop?.message as boolean | undefined}
                 onBlur={(event) => {
                     onBlur(event);
                     form.trigger('manedsbelop');
@@ -62,7 +62,9 @@ export const MånedsbeløpInput = ({ initialMånedsbeløp }: MånedsbeløpInputP
                 {...inputValidation}
             />
             {form.formState.errors.manedsbelop && (
-                <Feilmelding htmlFor="manedsbelop">{form.formState.errors.manedsbelop.message}</Feilmelding>
+                <Feilmelding htmlFor="manedsbelop">
+                    {form.formState.errors.manedsbelop.message as React.ReactNode}
+                </Feilmelding>
             )}
         </>
     );

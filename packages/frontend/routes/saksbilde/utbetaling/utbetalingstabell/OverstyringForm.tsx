@@ -56,9 +56,9 @@ export const OverstyringForm: React.FC<OverstyringFormProps> = ({ overstyrteDage
                         Kommer ikke i vedtaksbrevet, men vil bli forevist bruker ved spørsmål om innsyn.
                     </span>
                 }
-                error={formState.errors.begrunnelse?.message}
-                aria-invalid={formState.errors.begrunnelse?.message}
-                aria-errormessage={formState.errors.begrunnelse?.message}
+                error={formState.errors.begrunnelse?.message as React.ReactNode}
+                aria-invalid={formState.errors.begrunnelse?.message as unknown as boolean}
+                aria-errormessage={formState.errors.begrunnelse?.message as unknown as string}
                 data-testid="overstyring-begrunnelse"
                 maxLength={500}
                 {...begrunnelseValidation}
@@ -72,7 +72,7 @@ export const OverstyringForm: React.FC<OverstyringFormProps> = ({ overstyrteDage
                     <ErrorSummary ref={oppsummeringRef} heading="Skjemaet inneholder følgende feil:">
                         {Object.entries(formState.errors).map(([id, error]) => (
                             <ErrorSummary.Item onClick={() => document.getElementById(id)?.focus()} key={id}>
-                                {error.message}
+                                {error?.message as React.ReactNode}
                             </ErrorSummary.Item>
                         ))}
                     </ErrorSummary>

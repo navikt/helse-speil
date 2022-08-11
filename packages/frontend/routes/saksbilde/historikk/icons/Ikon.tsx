@@ -1,7 +1,6 @@
 import React, { ReactNode } from 'react';
 
 export interface IkonProps {
-    color?: string;
     width?: number;
     height?: number;
     viewBox?: string;
