@@ -3,37 +3,35 @@ name: prs
 on: [pull_request]
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
-    timeout-minutes: 15
-    steps:
-    - uses: actions/checkout@v1
-    - uses: actions/setup-node@v1
-      with:
-        node-version: '14.x'
-    - name: install root dependencies
-      run: npm ci --ignore-scripts
-    - name: install package dependencies
-      run: npm i
-    - name: test
-      run: npm run test
-    - name: build
-      run: npm run build
-    - name: Cache Cypress binary
-      uses: actions/cache@v1
-      with:
-        path: ~/.cache/Cypress
-        key: |
-          cypress-${{ runner.os }}-cypress-${{ hashFiles('**/package.json') }}
-        # full invalidering for å unngå å ta vare på eldre versjoner
-        restore-keys: |
-          cypress-${{ runner.os }}-cypress-${{ hashFiles('**/package.json') }}
-    - name: install cypress
-      run: npx cypress install
-    - name: run e2e-test
-      run: npm run e2e-test
-    - name: Archive Cypress artifacts
-      uses: actions/upload-artifact@v1
-      with:
-        name: videos
-        path: e2e-tests/cypress/videos
+    build:
+        runs-on: ubuntu-latest
+        timeout-minutes: 15
+        steps:
+            - uses: actions/checkout@v1
+            - uses: actions/setup-node@v1
+              with:
+                  node-version: '14.x'
+            - name: install dependencies
+              run: npm i
+            - name: test
+              run: npm run test
+            - name: build
+              run: npm run build
+            - name: Cache Cypress binary
+              uses: actions/cache@v1
+              with:
+                  path: ~/.cache/Cypress
+                  key: |
+                      cypress-${{ runner.os }}-cypress-${{ hashFiles('**/package.json') }}
+                  # full invalidering for å unngå å ta vare på eldre versjoner
+                  restore-keys: |
+                      cypress-${{ runner.os }}-cypress-${{ hashFiles('**/package.json') }}
+            - name: install cypress
+              run: npx cypress install
+            - name: run e2e-test
+              run: npm run e2e-test
+            - name: Archive Cypress artifacts
+              uses: actions/upload-artifact@v1
+              with:
+                  name: videos
+                  path: e2e-tests/cypress/videos
