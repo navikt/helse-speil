@@ -144,14 +144,16 @@ export const getUtbetalingshendelse = (periode: Periode | GhostPeriode): Hendels
         id: `utbetaling-${periode.beregningId}`,
         timestamp: tidsstempel,
         title: automatisk
-            ? 'Automatisk godkjent'
+            ? godkjent
+                ? 'Automatisk godkjent'
+                : 'Kunne ikke behandles her'
             : periode.utbetaling.type === 'ANNULLERING'
             ? 'Annullert'
             : periode.utbetaling.type === 'REVURDERING'
             ? 'Revurdert'
             : 'Sendt til utbetaling',
         type: Hendelsetype.Historikk,
-        body: godkjent && !automatisk && <BegrunnelseTekst>{ident}</BegrunnelseTekst>,
+        body: godkjent && <BegrunnelseTekst>{ident}</BegrunnelseTekst>,
     };
 };
 
