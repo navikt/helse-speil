@@ -1,6 +1,6 @@
 import { extractGroups, extractIdent } from '@utils/cookie';
 
-const groupIdForUtviklere = 'f787f900-6697-440d-a086-d5bb56e26a9c';
+const groupIdForTbd = 'f787f900-6697-440d-a086-d5bb56e26a9c';
 const groupIdForBesluttere = '59f26eef-0a4f-4038-bf46-3a5b2f252155';
 const eminem = 'G103083';
 const supersaksbehandlere = [eminem, 'D117949', 'A148751', 'N115007', 'C117102', 'S145454', 'E148846'];
@@ -226,11 +226,11 @@ const Morten = 'T127350';
 const Vegard = 'S144991';
 
 const erProdukteier = () => [Morten, Vegard].includes(extractIdent());
-const erUtvikler = () => extractGroups().includes(groupIdForUtviklere);
+const erPåTeamBømlo = () => extractGroups().includes(groupIdForTbd);
 
 export const overstyrPermisjonsdagerEnabled = erLocal() || erDev();
 export const overstyreUtbetaltPeriodeEnabled =
-    erUtvikler() ||
+    erPåTeamBømlo() ||
     harTilgangTilAlt() ||
     erFaktiskSupportsaksbehandler() ||
     kanRevurdere.includes(extractIdent()) ||
@@ -242,22 +242,22 @@ export const overstyrInntektFlereArbeidsgivereEnabled = true;
 
 export const annulleringerEnabled = erDev() || erLocal() || harUtvidetTilgang() || harTilgangTilAlt();
 export const amplitudeEnabled = true;
-export const utbetalingsoversikt = erUtvikler() || erLocal() || harTilgangTilAlt() || erProdukteier();
+export const utbetalingsoversikt = erPåTeamBømlo() || erLocal() || harTilgangTilAlt() || erProdukteier();
 export const stikkprøve = harTilgangStikkprøver() || harTilgangTilAlt() || erLocal() || erDev();
 export const flereArbeidsgivere =
     erLocal() ||
     erDev() ||
-    erUtvikler() ||
+    erPåTeamBømlo() ||
     erProdukteier() ||
     harTilgangTilAlt() ||
     erFaktiskSupportsaksbehandler() ||
     harTilgangFlereArbeidsgivere();
 export const utbetalingTilSykmeldt =
-    erLocal() || erDev() || erUtvikler() || erProdukteier() || harTilgangTilAlt() || erFaktiskSupportsaksbehandler();
+    erLocal() || erDev() || erPåTeamBømlo() || erProdukteier() || harTilgangTilAlt() || erFaktiskSupportsaksbehandler();
 
 export const kanFrigiAndresOppgaver = harTilgangTilAlt() || erLocal() || erDev();
 
-export const graphqlplayground = erLocal() || erDev() || erUtvikler();
+export const graphqlplayground = erLocal() || erDev() || erPåTeamBømlo();
 
 export interface UtbetalingToggles {
     overstyreUtbetaltPeriodeEnabled: boolean;
