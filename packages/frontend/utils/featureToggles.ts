@@ -222,10 +222,7 @@ const erFaktiskSupportsaksbehandler = () => faktiskSupportsaksbehandlere.include
 const harUtvidetTilgang = () => utvidetTilganger.includes(extractIdent());
 const harTilgangFlereArbeidsgivere = () => tilgangFlereArbeidsgivere.includes(extractIdent());
 const harTilgangStikkprøver = () => tilgangStikkprøver.includes(extractIdent());
-const Morten = 'T127350';
-const Vegard = 'S144991';
 
-const erProdukteier = () => [Morten, Vegard].includes(extractIdent());
 const erPåTeamBømlo = () => extractGroups().includes(groupIdForTbd);
 
 export const overstyrPermisjonsdagerEnabled = erLocal() || erDev();
@@ -242,18 +239,17 @@ export const overstyrInntektFlereArbeidsgivereEnabled = true;
 
 export const annulleringerEnabled = erDev() || erLocal() || harUtvidetTilgang() || harTilgangTilAlt();
 export const amplitudeEnabled = true;
-export const utbetalingsoversikt = erPåTeamBømlo() || erLocal() || harTilgangTilAlt() || erProdukteier();
+export const utbetalingsoversikt = erPåTeamBømlo() || erLocal() || harTilgangTilAlt();
 export const stikkprøve = harTilgangStikkprøver() || harTilgangTilAlt() || erLocal() || erDev();
 export const flereArbeidsgivere =
     erLocal() ||
     erDev() ||
     erPåTeamBømlo() ||
-    erProdukteier() ||
     harTilgangTilAlt() ||
     erFaktiskSupportsaksbehandler() ||
     harTilgangFlereArbeidsgivere();
 export const utbetalingTilSykmeldt =
-    erLocal() || erDev() || erPåTeamBømlo() || erProdukteier() || harTilgangTilAlt() || erFaktiskSupportsaksbehandler();
+    erLocal() || erDev() || erPåTeamBømlo() || harTilgangTilAlt() || erFaktiskSupportsaksbehandler();
 
 export const kanFrigiAndresOppgaver = harTilgangTilAlt() || erLocal() || erDev();
 
