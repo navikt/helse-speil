@@ -44,7 +44,7 @@ jobs:
       - name: install root dependencies
         run: npm ci --ignore-scripts
       - name: install package dependencies
-        run: npm i
+        run: npx lerna bootstrap
       - name: test
         run: npm run test
       - name: build

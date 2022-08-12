@@ -9,12 +9,13 @@
     },
     "license": "MIT",
     "scripts": {
-        "dev": "turbo run dev --parallel --no-cache",
-        "serve": "turbo run serve",
-        "mock": "turbo run mock",
-        "build": "turbo run build --parallel",
-        "test": "turbo run test",
-        "clean": "rm -rf node_modules && turbo run clean --parallel",
+        "dev": "lerna run dev --stream",
+        "serve": "lerna run serve --stream",
+        "mock": "lerna run mock --stream",
+        "build": "lerna run build --stream",
+        "test": "lerna run test --stream",
+        "clean": "rm -rf node_modules && lerna run clean --stream",
+        "bootstrap": "npm i && lerna bootstrap -- --legacy-peer-deps",
         "e2e-test": "e2e-tests/run.sh",
         "e2e-test-local": "e2e-tests/run.sh; e2e-tests/stop.sh",
         "generate-graphql": "graphql-codegen --config graphql-codegen.yml",
@@ -37,16 +38,13 @@
         "eslint": "^8.0.1",
         "eslint-config-prettier": "^8.3.0",
         "husky": "^7.0.2",
+        "lerna": "^5.3.0",
         "lint-staged": "^11.2.3",
-        "prettier": "^2.4.1",
-        "turbo": "^1.4.3"
+        "prettier": "^2.4.1"
     },
     "engines": {
         "node": ">=14.17.0",
         "npm": ">=6.14.0"
     },
-    "snyk": true,
-    "workspaces": [
-        "packages/*"
-    ]
+    "snyk": true
 }
