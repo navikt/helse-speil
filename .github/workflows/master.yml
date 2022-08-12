@@ -44,7 +44,7 @@ jobs:
             - name: set timezone
               run: export TZ=utc
             - name: install dependencies
-              run: npm i --legacy-peer-deps
+              run: npm i
             - name: test
               run: npm run test
             - name: build
