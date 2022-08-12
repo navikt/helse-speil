@@ -1,20 +1,21 @@
-import { useErTidligereSaksbehandler } from '@hooks/useErTidligereSaksbehandler';
-import { useHarVurderLovvalgOgMedlemskapVarsel } from '@hooks/useHarVurderLovvalgOgMedlemskapVarsel';
-import { BeregnetPeriode } from '@io/graphql';
-import { useHarDagOverstyringer } from '@state/arbeidsgiver';
-import { useSyncNotater } from '@state/notater';
-import { useEndringerEtterNyesteUtbetaltetidsstempel } from '@state/person';
-import { onLazyLoadFail } from '@utils/error';
-import { getPeriodState } from '@utils/mapping';
 import React from 'react';
 import { Route, Switch, useRouteMatch } from 'react-router-dom';
-
 import { Loader } from '@navikt/ds-react';
 
-import { Historikk } from '../historikk/Historikk';
+import { useSyncNotater } from '@state/notater';
+import { onLazyLoadFail } from '@utils/error';
+import { getPeriodState } from '@utils/mapping';
+import { useErTidligereSaksbehandler } from '@hooks/useErTidligereSaksbehandler';
+import { Arbeidsgiver, BeregnetPeriode, Person } from '@io/graphql';
+
 import { Saksbildevarsler } from '../varsler/Saksbildevarsler';
 import { Venstremeny } from '../venstremeny/Venstremeny';
+import { Historikk } from '../historikk/Historikk';
+
 import styles from './PeriodeView.module.css';
+import { useHarVurderLovvalgOgMedlemskapVarsel } from '@hooks/useHarVurderLovvalgOgMedlemskapVarsel';
+import { useEndringerEtterNyesteUtbetaltetidsstempel } from '@state/person';
+import { useHarDagOverstyringer } from '@state/arbeidsgiver';
 
 const Utbetaling = React.lazy(() => import('../utbetaling/Utbetaling').catch(onLazyLoadFail));
 const Inngangsvilkår = React.lazy(() => import('../vilkår/Inngangsvilkår').catch(onLazyLoadFail));
@@ -31,6 +32,8 @@ const BeregnetPeriodeViewLoader: React.VFC = () => {
 
 interface BeregnetPeriodeViewProps {
     activePeriod: BeregnetPeriode;
+    currentPerson: Person;
+    currentArbeidsgiver: Arbeidsgiver;
 }
 
 export const BeregnetPeriodeView: React.VFC<BeregnetPeriodeViewProps> = ({ activePeriod }) => {

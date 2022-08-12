@@ -31,7 +31,7 @@ export const ForklaringTextarea = () => {
             description={`Begrunn hvorfor det er gjort endringer i inntekten som legges til grunn.\nEks. Ny inntektsmelding kommet inn 18.10.2021\nKommer ikke i vedtaksbrevet, men vil bli forevist bruker ved spørsmål om innsyn.`}
             maxLength={500}
             aria-labelledby="forklaring-label forklaring-feil"
-            error={form.formState.errors.forklaring?.message as React.ReactNode}
+            error={form.formState.errors.forklaring?.message}
             {...textareaValidation}
         />
     );

@@ -3,7 +3,6 @@ import React from 'react';
 import { useFormContext } from 'react-hook-form';
 
 import { Radio, RadioGroup } from '@navikt/ds-react';
-
 import { BegrunnelseForOverstyring } from '../overstyring.types';
 
 const BegrunnelseFieldset = styled(RadioGroup)`
@@ -35,7 +34,7 @@ export const Begrunnelser = ({ begrunnelser }: BegrunnelserProps) => {
             legend="Begrunnelse"
             id="begrunnelseId"
             name="begrunnelseId"
-            error={form.formState.errors['begrunnelse']?.message as React.ReactNode}
+            error={form.formState.errors['begrunnelse']?.message}
         >
             {begrunnelser.map((begrunnelse, index) => (
                 <Radio ref={ref} value={begrunnelse.id} key={index} {...begrunnelseValidation}>

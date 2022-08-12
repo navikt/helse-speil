@@ -21,7 +21,7 @@ describe('lovligeTypeendringer', () => {
 
 describe('EndringForm', () => {
     it('disabler endringsknapp når ingen dager er markert', async () => {
-        render(<EndringForm markerteDager={new Map()} onSubmitEndring={() => null} />);
+        render(<EndringForm markerteDager={new Map()} toggleOverstyring={() => null} onSubmitEndring={() => null} />);
 
         await waitFor(() => {
             expect(screen.getByTestId('endre')).toBeDisabled();
@@ -29,7 +29,9 @@ describe('EndringForm', () => {
     });
     it('disabler grad når feil dagtyper velges', async () => {
         const markerteDager = new Map([['2020-01-01', { type: 'Ferie' } as UtbetalingstabellDag]]);
-        render(<EndringForm markerteDager={markerteDager} onSubmitEndring={() => null} />);
+        render(
+            <EndringForm markerteDager={markerteDager} onSubmitEndring={() => null} toggleOverstyring={() => null} />,
+        );
 
         userEvent.selectOptions(screen.getByRole('combobox'), screen.getAllByRole('option')[1]);
 

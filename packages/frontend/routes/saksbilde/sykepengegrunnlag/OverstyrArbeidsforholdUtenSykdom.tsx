@@ -1,20 +1,21 @@
-import { EditButton } from '@components/EditButton';
-import { ErrorMessage } from '@components/ErrorMessage';
-import { Flex, FlexColumn } from '@components/Flex';
-import { ForklaringTextarea } from '@components/ForklaringTextArea';
-import { OverstyringTimeoutModal } from '@components/OverstyringTimeoutModal';
+import React, { useContext, useRef, useState } from 'react';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
-import { Maybe } from '@io/graphql';
-import React, { useContext, useRef, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 
 import { Error } from '@navikt/ds-icons';
 import { BodyShort, Button as NavButton, ErrorSummary, Loader } from '@navikt/ds-react';
 
+import { Maybe } from '@io/graphql';
+import { EditButton } from '@components/EditButton';
+import { ErrorMessage } from '@components/ErrorMessage';
+import { Begrunnelser } from './inntekt/Begrunnelser';
+import { Flex, FlexColumn } from '@components/Flex';
+import { ForklaringTextarea } from '@components/ForklaringTextArea';
+import { OverstyringTimeoutModal } from '@components/OverstyringTimeoutModal';
+
 import { VenterPåEndringContext } from '../VenterPåEndringContext';
 import { AngreOverstyrArbeidsforholdUtenSykdom } from './AngreOverstyrArbeidsforholdUtenSykdom';
-import { Begrunnelser } from './inntekt/Begrunnelser';
 import { useGetOverstyrtArbeidsforhold, usePostOverstyrtArbeidsforhold } from './overstyrArbeidsforholdHooks';
 import { BegrunnelseForOverstyring } from './overstyring.types';
 
@@ -155,6 +156,7 @@ export const OverstyrArbeidsforholdUtenSykdom = ({
                     organisasjonsnummerAktivPeriode={organisasjonsnummerAktivPeriode}
                     organisasjonsnummerPeriodeTilGodkjenning={organisasjonsnummerPeriodeTilGodkjenning}
                     skjæringstidspunkt={skjæringstidspunkt}
+                    arbeidsforholdErDeaktivert={arbeidsforholdErDeaktivert}
                     onSubmit={() => oppdaterVenterPåEndringState({ visAngreknapp: true, visOverstyrKnapp: false })}
                 />
             )}
@@ -167,6 +169,7 @@ interface OverstyrArbeidsforholdSkjemaProps {
     organisasjonsnummerAktivPeriode: string;
     organisasjonsnummerPeriodeTilGodkjenning: string;
     skjæringstidspunkt: string;
+    arbeidsforholdErDeaktivert?: Maybe<boolean>;
     onSubmit: () => void;
 }
 
@@ -198,6 +201,7 @@ const OverstyrArbeidsforholdSkjema = ({
     organisasjonsnummerAktivPeriode,
     organisasjonsnummerPeriodeTilGodkjenning,
     skjæringstidspunkt,
+    arbeidsforholdErDeaktivert,
     onSubmit,
 }: OverstyrArbeidsforholdSkjemaProps) => {
     const form = useForm({ shouldFocusError: false, mode: 'onBlur' });
@@ -233,7 +237,7 @@ const OverstyrArbeidsforholdSkjema = ({
                         <FeiloppsummeringContainer>
                             <ErrorSummary ref={feiloppsummeringRef} heading="Skjemaet inneholder følgende feil:">
                                 {Object.entries(form.formState.errors).map(([id, error]) => (
-                                    <ErrorSummary.Item key={id}>{error?.message as React.ReactNode}</ErrorSummary.Item>
+                                    <ErrorSummary.Item key={id}>{error.message}</ErrorSummary.Item>
                                 ))}
                             </ErrorSummary>
                         </FeiloppsummeringContainer>

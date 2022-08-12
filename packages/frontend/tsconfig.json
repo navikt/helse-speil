@@ -10,7 +10,7 @@
         "noEmit": true,
         "allowJs": false,
         "sourceMap": true,
-        "skipLibCheck": true,
+        "skipLibCheck": false,
         "noImplicitAny": true,
         "noImplicitThis": true,
         "isolatedModules": true,
@@ -21,7 +21,7 @@
         "useDefineForClassFields": true,
         "allowSyntheticDefaultImports": true,
         "forceConsistentCasingInFileNames": true,
-        "baseUrl": ".",
+        "baseUrl": "",
         "paths": {
             "@test-wrappers": ["./test/wrappers"],
             "@test-data/*": ["./test/data/*"],
@@ -32,6 +32,6 @@
             "@hooks/*": ["./hooks/*"]
         }
     },
-    "exclude": ["node_modules", "jest.config.js", "__mocks__"],
+    "exclude": ["./node_modules", "jest.config.js", "__mocks__"],
     "types": ["typePatches"]
 }

@@ -92,9 +92,9 @@ export const Annulleringsbegrunnelse = () => {
             <RadioContainer
                 legend="Gjelder endringen det siste skjæringtidspunktet?"
                 error={
-                    (formState.errors.gjelder_siste_skjæringstidspunkt
+                    formState.errors.gjelder_siste_skjæringstidspunkt
                         ? formState.errors.gjelder_siste_skjæringstidspunkt.message
-                        : null) as React.ReactNode
+                        : null
                 }
                 name="gjelder_siste_skjæringstidspunkt"
             >
@@ -118,9 +118,7 @@ export const Annulleringsbegrunnelse = () => {
 
             <CheckboxContainer
                 legend="Hvorfor kunne ikke vedtaket revurderes?"
-                error={
-                    (formState.errors.begrunnelser ? formState.errors.begrunnelser.message : null) as React.ReactNode
-                }
+                error={formState.errors.begrunnelser ? formState.errors.begrunnelser.message : null}
             >
                 {Object.entries(begrunnelser).map(([key, value], index) => (
                     <Checkbox
@@ -145,15 +143,13 @@ export const Annulleringsbegrunnelse = () => {
                         name="kommentar"
                         value={value}
                         label={`Begrunnelse ${annet ? '' : '(valgfri)'}`}
-                        error={
-                            (formState.errors.kommentar ? formState.errors.kommentar.message : null) as React.ReactNode
-                        }
+                        error={formState.errors.kommentar ? formState.errors.kommentar.message : null}
                         onChange={(event: ChangeEvent) => {
                             clearErrors('kommentar');
                             onChange(event);
                         }}
-                        aria-invalid={formState.errors.kommentar?.message as unknown as boolean}
-                        aria-errormessage={formState.errors.kommentar?.message as unknown as string}
+                        aria-invalid={formState.errors.kommentar?.message}
+                        aria-errormessage={formState.errors.kommentar?.message}
                         description={`Gi en kort forklaring på hvorfor du annullerte.\nEksempel: Korrigerte opplysninger om ferie`}
                         maxLength={0}
                     />

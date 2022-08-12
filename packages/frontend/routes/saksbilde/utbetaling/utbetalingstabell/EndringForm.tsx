@@ -1,10 +1,11 @@
-import { Bold } from '@components/Bold';
 import styled from '@emotion/styled';
-import { overstyrPermisjonsdagerEnabled } from '@utils/featureToggles';
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 
 import { Button, Select, TextField } from '@navikt/ds-react';
+
+import { Bold } from '@components/Bold';
+import { overstyrPermisjonsdagerEnabled } from '@utils/featureToggles';
 
 const Container = styled.div`
     background-color: var(--speil-overstyring-background);
@@ -89,12 +90,14 @@ const kanVelgeGrad = (type?: Utbetalingstabelldagtype) => type && dagtyperUtenGr
 
 interface EndringFormProps {
     markerteDager: Map<string, UtbetalingstabellDag>;
+    toggleOverstyring: () => void;
     onSubmitEndring: (endring: Partial<UtbetalingstabellDag>) => void;
     revurderingIsEnabled?: boolean;
 }
 
 export const EndringForm: React.FC<EndringFormProps> = ({
     markerteDager,
+    toggleOverstyring,
     onSubmitEndring,
     revurderingIsEnabled = false,
 }) => {
@@ -154,8 +157,8 @@ export const EndringForm: React.FC<EndringFormProps> = ({
                             size="small"
                             label="Utbet. dager"
                             onChange={oppdaterDagtype}
-                            aria-invalid={form.formState.errors.dagtype as unknown as boolean}
-                            error={form.formState.errors.dagtype?.message as React.ReactNode}
+                            aria-invalid={form.formState.errors.dagtype}
+                            error={form.formState.errors.dagtype?.message}
                             data-testid="dagtypevelger"
                         >
                             {getLovligeTypeendringer({ revurderingIsEnabled }).map((dagtype) => (
@@ -172,7 +175,7 @@ export const EndringForm: React.FC<EndringFormProps> = ({
                             disabled={!kanVelgeGrad(endring.type)}
                             data-testid="gradvelger"
                             value={typeof endring.grad === 'number' ? `${endring.grad}` : ''}
-                            error={form.formState.errors.gradvelger?.message as React.ReactNode}
+                            error={form.formState.errors.gradvelger?.message}
                             {...gradvelgervalidation}
                         />
                         <Knapp
