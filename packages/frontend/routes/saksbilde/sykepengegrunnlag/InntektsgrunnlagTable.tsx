@@ -1,8 +1,6 @@
-import styled from '@emotion/styled';
 import React, { Dispatch, SetStateAction } from 'react';
 import { BodyShort } from '@navikt/ds-react';
 
-import { FlexColumn } from '@components/Flex';
 import { Bold } from '@components/Bold';
 import { somPenger } from '@utils/locale';
 import { Arbeidsgiverinntekt, Sykepengegrunnlagsgrense } from '@io/graphql';
@@ -10,66 +8,9 @@ import { Arbeidsgiverinntekt, Sykepengegrunnlagsgrense } from '@io/graphql';
 import { Inntektssammenligning } from './Inntektssammenligning';
 import { SykepengegrunnlagsgrenseView } from './SykepengegrunnlagsgrenseView';
 
-const Container = styled(FlexColumn)`
-    --fixed-column-width: 14rem;
-`;
+import styles from './InntektsgrunnlagTable.module.css';
 
-const RightAligned = styled(BodyShort)`
-    text-align: right;
-`;
-
-const BoldRightAligned = styled(Bold)`
-    text-align: right;
-`;
-
-const Kolonnetittel = styled(BodyShort)`
-    color: var(--navds-global-color-gray-600);
-    font-size: 14px;
-`;
-
-const Table = styled.table`
-    text-align: left;
-    border-collapse: collapse;
-    width: max-content;
-    margin-bottom: 1.75rem;
-
-    td,
-    th {
-        padding: 0.25rem 0.5rem;
-
-        &:not(:last-of-type) {
-            padding-right: 1.75rem;
-        }
-    }
-
-    tr > th:first-of-type,
-    tr > td:first-of-type {
-        width: var(--fixed-column-width);
-    }
-
-    thead > tr:first-of-type > th {
-        padding-bottom: 0.75rem;
-    }
-
-    tbody:before {
-        content: '';
-        display: block;
-        height: 0.5rem;
-    }
-
-    tfoot:before {
-        content: '';
-        display: block;
-        height: 1.75rem;
-    }
-
-    tfoot > tr:first-of-type > td {
-        padding: 0.75rem 0.5rem;
-        border-top: 1px solid var(--navds-semantic-color-text);
-    }
-`;
-
-interface InntektsgrunnlaginnholdProps {
+interface InntektsgrunnlagTableProps {
     inntekter: Arbeidsgiverinntekt[];
     omregnetÅrsinntekt?: Maybe<number>;
     sammenligningsgrunnlag?: Maybe<number>;
@@ -80,7 +21,7 @@ interface InntektsgrunnlaginnholdProps {
     sykepengegrunnlagsgrense: Sykepengegrunnlagsgrense;
 }
 
-export const InntektsgrunnlagTable = ({
+export const InntektsgrunnlagTable: React.FC<InntektsgrunnlagTableProps> = ({
     inntekter,
     omregnetÅrsinntekt,
     sammenligningsgrunnlag,
@@ -89,10 +30,10 @@ export const InntektsgrunnlagTable = ({
     setAktivInntektskilde,
     aktivInntektskilde,
     sykepengegrunnlagsgrense,
-}: InntektsgrunnlaginnholdProps) => {
+}) => {
     return (
-        <Container className="Inntektsgunnlaginnhold">
-            <Table>
+        <div className={styles.InntektsgrunnlagTable}>
+            <table className={styles.Table}>
                 <thead>
                     <tr>
                         <th />
@@ -105,13 +46,13 @@ export const InntektsgrunnlagTable = ({
                     </tr>
                     <tr>
                         <th>
-                            <Kolonnetittel as="p">Inntektskilde</Kolonnetittel>
+                            <BodyShort className={styles.ColumnTitle}>Inntektskilde</BodyShort>
                         </th>
                         <th>
-                            <Kolonnetittel as="p">Omregnet årsinntekt</Kolonnetittel>
+                            <BodyShort className={styles.ColumnTitle}>Omregnet årsinntekt</BodyShort>
                         </th>
                         <th>
-                            <Kolonnetittel as="p">Rapportert årsinntekt</Kolonnetittel>
+                            <BodyShort className={styles.ColumnTitle}>Rapportert årsinntekt</BodyShort>
                         </th>
                     </tr>
                 </thead>
@@ -141,15 +82,15 @@ export const InntektsgrunnlagTable = ({
                         </td>
                     </tr>
                 </tfoot>
-            </Table>
-            <Table style={{ marginBottom: '0' }}>
+            </table>
+            <table className={styles.Table} style={{ marginBottom: '0' }}>
                 <tbody>
                     <tr>
                         <td>
                             <BodyShort>Total omregnet årsinntekt</BodyShort>
                         </td>
                         <td>
-                            <RightAligned as="p">{somPenger(omregnetÅrsinntekt)}</RightAligned>
+                            <BodyShort className={styles.rightAligned}>{somPenger(omregnetÅrsinntekt)}</BodyShort>
                         </td>
                     </tr>
                     <tr>
@@ -157,29 +98,27 @@ export const InntektsgrunnlagTable = ({
                             <BodyShort>Total rapportert årsinntekt</BodyShort>
                         </td>
                         <td>
-                            <RightAligned as="p">{somPenger(sammenligningsgrunnlag)}</RightAligned>
+                            <BodyShort className={styles.rightAligned}>{somPenger(sammenligningsgrunnlag)}</BodyShort>
                         </td>
                     </tr>
                 </tbody>
                 <tfoot>
-                    <tr>
+                    <tr className={styles.PaddedRow}>
                         <td>
                             <Bold>Utregnet avvik</Bold>
                         </td>
                         <td>
-                            <BoldRightAligned>
+                            <Bold className={styles.rightAligned}>
                                 {avviksprosent ? `${Math.floor(avviksprosent)} %` : '-'}
-                            </BoldRightAligned>
+                            </Bold>
                         </td>
                     </tr>
-                    <br />
-                    <br />
                     <tr>
                         <td style={{ paddingBottom: 0 }}>
                             <Bold>Sykepengegrunnlag</Bold>
                         </td>
                         <td style={{ paddingBottom: 0 }}>
-                            <BoldRightAligned>{somPenger(sykepengegrunnlag)}</BoldRightAligned>
+                            <Bold className={styles.rightAligned}>{somPenger(sykepengegrunnlag)}</Bold>
                         </td>
                     </tr>
                     <tr>
@@ -193,7 +132,7 @@ export const InntektsgrunnlagTable = ({
                         )}
                     </tr>
                 </tfoot>
-            </Table>
-        </Container>
+            </table>
+        </div>
     );
 };

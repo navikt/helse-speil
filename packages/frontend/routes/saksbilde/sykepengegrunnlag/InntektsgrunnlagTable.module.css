@@ -1,0 +1,49 @@
+.InntektsgrunnlagTable {
+    display: flex;
+    flex-direction: column;
+    --fixed-column-width: 14rem;
+    gap: 1.75rem;
+}
+
+.Table {
+    text-align: left;
+    border-collapse: collapse;
+    width: max-content;
+}
+
+.Table td,
+.Table th {
+    padding: 0.25rem 0.5rem;
+}
+
+.Table td:not(:last-of-type),
+.Table th:not(:last-of-type) {
+    padding-right: 1.75rem;
+}
+
+.Table tr > th:first-of-type,
+.Table tr > td:first-of-type {
+    width: var(--fixed-column-width);
+}
+
+.Table thead > tr:first-of-type > th {
+    padding-bottom: 0.75rem;
+}
+
+.Table tfoot > tr:first-of-type > td {
+    padding: 0.75rem 0.5rem;
+    border-top: 1px solid var(--navds-semantic-color-text);
+}
+
+.PaddedRow > td {
+    padding-bottom: 2rem !important;
+}
+
+.ColumnTitle {
+    color: var(--navds-global-color-gray-600);
+    font-size: 14px;
+}
+
+.rightAligned {
+    text-align: right;
+}
