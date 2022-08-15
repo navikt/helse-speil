@@ -108,7 +108,7 @@ export const NyttNotatModal = ({
     const notattekst = notattypeTekster(notattype);
 
     const sisteNotat = [...notaterForOppgave]
-        .filter((it) => it.type === notattype)
+        .filter((it) => !it.feilregistrert && it.type === notattype)
         .sort((a, b) => b.opprettet.diff(a.opprettet, 'millisecond'))
         .shift();
 
