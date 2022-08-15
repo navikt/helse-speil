@@ -3,9 +3,11 @@ import React, { useEffect, useState } from 'react';
 
 import { InntektsgrunnlagTable } from './InntektsgrunnlagTable';
 import { Inntektskilderinnhold } from './Inntektskilderinnhold';
-import { Arbeidsgiverinntekt, Refusjon, VilkarsgrunnlagSpleis } from '@io/graphql';
+import { Arbeidsgiver, Arbeidsgiverinntekt, Refusjon, VilkarsgrunnlagSpleis } from '@io/graphql';
 import { getInntekt } from '@state/selectors/person';
 import { useArbeidsgiver } from '@state/arbeidsgiver';
+import { useActivePeriod } from '@state/periode';
+import { isBeregnetPeriode } from '@utils/typeguards';
 
 const Container = styled.div`
     display: flex;
@@ -19,6 +21,18 @@ const Strek = styled.span`
     display: inline-block;
     margin: 0 50px 0 2.5rem;
 `;
+
+const useSkalViseRefusjon = (refusjon?: Maybe<Refusjon>, arbeidsgiver?: Maybe<Arbeidsgiver>): boolean => {
+    const aktivPeriode = useActivePeriod();
+
+    if (!isBeregnetPeriode(aktivPeriode) || !refusjon || !arbeidsgiver) {
+        return false;
+    }
+
+    return (
+        arbeidsgiver.generasjoner.find((gen) => gen.perioder.find((periode) => periode === aktivPeriode)) !== undefined
+    );
+};
 
 interface SykepengegrunnlagFraSpleisProps extends HTMLAttributes<HTMLDivElement> {
     vilkårsgrunnlag: VilkarsgrunnlagSpleis;
@@ -39,6 +53,8 @@ export const SykepengegrunnlagFraSpleis = ({
     const [aktivInntektskilde, setAktivInntektskilde] = useState<Arbeidsgiverinntekt>(inntekt);
 
     const aktivArbeidsgiver = useArbeidsgiver(aktivInntektskilde.arbeidsgiver);
+
+    const skalViseRefusjon = useSkalViseRefusjon(refusjon, aktivArbeidsgiver);
 
     useEffect(() => {
         setAktivInntektskilde(inntekt);
@@ -73,7 +89,7 @@ export const SykepengegrunnlagFraSpleis = ({
                 bransjer={aktivArbeidsgiver.bransjer}
                 arbeidsforhold={aktivArbeidsgiver.arbeidsforhold}
                 skjæringstidspunkt={skjæringstidspunkt}
-                refusjon={refusjon}
+                refusjon={skalViseRefusjon ? refusjon : null}
             />
         </Container>
     );
