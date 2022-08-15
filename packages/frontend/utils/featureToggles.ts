@@ -102,6 +102,7 @@ const tilgangFlereArbeidsgivere = [
     'T109423',
     'L142009',
     // Klageinstansen end
+    'O146470',
 ];
 
 const tilgangStikkprøver = [
