@@ -14,5 +14,5 @@ export const useOppdrag = (fødselsnummer: string): Array<Oppdrag> => {
 
 export const useArbeidsgiveroppdrag = (fødselsnummer: string, fagsystemId: string): Oppdrag | null => {
     const oppdrag = useOppdrag(fødselsnummer);
-    return oppdrag.reverse().find((it) => it.arbeidsgiveroppdrag?.fagsystemId === fagsystemId) ?? null;
+    return [...oppdrag].reverse().find((it) => it.arbeidsgiveroppdrag?.fagsystemId === fagsystemId) ?? null;
 };
