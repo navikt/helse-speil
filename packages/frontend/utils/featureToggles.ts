@@ -65,6 +65,7 @@ const tilgangFlereArbeidsgivere = [
     'V149621',
     'G157538',
     'A110417',
+    'F102552',
     // Klageinstansen start
     'T109423',
     'B138509',
@@ -166,6 +167,7 @@ const utvidetTilganger = [
     'G157538',
     'S112395',
     'A160730',
+    'F102552',
 ];
 
 const kanRevurdere = [
@@ -213,6 +215,7 @@ const kanRevurdere = [
     'F102306',
     'S112395',
     'A160730',
+    'F102552',
 ];
 
 export const erLocal = () => location.hostname === 'localhost';
