@@ -133,6 +133,12 @@ export type BeregnetPeriode = Periode & {
     vilkarsgrunnlaghistorikkId: Scalars['String'];
 };
 
+export type Boenhet = {
+    __typename?: 'Boenhet';
+    id: Scalars['String'];
+    navn: Scalars['String'];
+};
+
 export type Dag = {
     __typename?: 'Dag';
     begrunnelser?: Maybe<Array<Begrunnelse>>;
@@ -327,6 +333,42 @@ export enum Oppdragsstatus {
     Utbetalt = 'UTBETALT',
 }
 
+export type OppgaveForOversiktsvisning = {
+    __typename?: 'OppgaveForOversiktsvisning';
+    aktorId: Scalars['String'];
+    antallVarsler: Scalars['Int'];
+    boenhet: Boenhet;
+    erBeslutter: Scalars['Boolean'];
+    erRetur: Scalars['Boolean'];
+    flereArbeidsgivere: Scalars['Boolean'];
+    fodselsnummer: Scalars['String'];
+    id: Scalars['String'];
+    opprettet: Scalars['String'];
+    periodetype?: Maybe<Periodetype>;
+    personinfo: Personinfo;
+    tidligereSaksbehandler?: Maybe<Scalars['String']>;
+    tildeling?: Maybe<Tildeling>;
+    trengerTotrinnsvurdering: Scalars['Boolean'];
+    type: Oppgavetype;
+    vedtaksperiodeId: Scalars['String'];
+};
+
+export type Oppgaver = {
+    __typename?: 'Oppgaver';
+    oppgaver: Array<OppgaveForOversiktsvisning>;
+    pagination: Pagination;
+};
+
+export enum Oppgavetype {
+    DelvisRefusjon = 'DELVIS_REFUSJON',
+    FortroligAdresse = 'FORTROLIG_ADRESSE',
+    Revurdering = 'REVURDERING',
+    RiskQa = 'RISK_QA',
+    Soknad = 'SOKNAD',
+    Stikkprove = 'STIKKPROVE',
+    UtbetalingTilSykmeldt = 'UTBETALING_TIL_SYKMELDT',
+}
+
 export type Overstyring = {
     begrunnelse: Scalars['String'];
     hendelseId: Scalars['String'];
@@ -346,6 +388,13 @@ export type OverstyrtInntekt = {
     forklaring: Scalars['String'];
     manedligInntekt: Scalars['Float'];
     skjaeringstidspunkt: Scalars['String'];
+};
+
+export type Pagination = {
+    __typename?: 'Pagination';
+    currentPage: Scalars['Int'];
+    cursor: Scalars['String'];
+    totalPages: Scalars['Int'];
 };
 
 export type Periode = {
@@ -441,11 +490,17 @@ export type Personoppdrag = Spennoppdrag & {
 export type Query = {
     __typename?: 'Query';
     oppdrag: Array<Oppdrag>;
+    oppgaver: Oppgaver;
     person?: Maybe<Person>;
 };
 
 export type QueryOppdragArgs = {
     fnr: Scalars['String'];
+};
+
+export type QueryOppgaverArgs = {
+    after: Scalars['String'];
+    first: Scalars['Int'];
 };
 
 export type QueryPersonArgs = {
