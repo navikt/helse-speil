@@ -1,140 +1,99 @@
 import dayjs from 'dayjs';
-import {
-    atom,
-    Loadable,
-    selector,
-    useRecoilValue,
-    useRecoilValueLoadable,
-    useResetRecoilState,
-    useSetRecoilState,
-} from 'recoil';
+import { atom, Loadable, useRecoilValue, useRecoilValueLoadable, useResetRecoilState, useSetRecoilState } from 'recoil';
 import { GraphQLError } from 'graphql';
 
 import { useActivePeriod } from '@state/periode';
 import { useInnloggetSaksbehandler } from '@state/authentication';
+import { useAddVarsel, useRemoveVarsel } from '@state/varsler';
+import { fetchPerson, Maybe, Overstyring, Person, Vilkarsgrunnlag } from '@io/graphql';
 import { FetchError, isFetchErrorArray, NotFoundError, ProtectedError } from '@io/graphql/errors';
-import { fetchPerson, Maybe, Overstyring, Person, Tildeling, Vilkarsgrunnlag } from '@io/graphql';
-import { deletePåVent, NotatDTO, postLeggPåVent, SpeilResponse } from '@io/http';
+import { deletePåVent, deleteTildeling, NotatDTO, postLeggPåVent, postTildeling, SpeilResponse } from '@io/http';
+import { isBeregnetPeriode } from '@utils/typeguards';
 import { SpeilError } from '@utils/error';
-import { isBeregnetPeriode, isPerson } from '@utils/typeguards';
+
+const TILDELINGSKEY = 'tildeling';
+
+class TildelingAlert extends SpeilError {
+    name = TILDELINGSKEY;
+
+    constructor(message: string) {
+        super(message);
+        this.severity = 'info';
+    }
+}
 
 type PersonState = {
     person: Maybe<Person>;
     errors: Array<SpeilError>;
 };
 
-const currentPersonIdState = atom<string | null>({
-    key: 'currentPersonId',
-    default: null,
-});
-
-const personRefetchKeyState = atom<Date>({
-    key: 'personRefetchKeyState',
-    default: new Date(),
-});
-
-/* Når denne er satt til "undefined" vil det si at vi ønsker å bruke tildelingen fra
- * personobjektet. "null" eller et tildelingsobjekt betyr at vi ønsker å bruke den
- * lokale tildelingen.
- */
-const localTildelingState = atom<Maybe<Tildeling> | undefined>({
-    key: 'localTildeling',
-    default: undefined,
-});
-
-const fetchedPersonState = selector<PersonState>({
-    key: 'fetchedPersonState',
-    get: ({ get }) => {
-        get(personRefetchKeyState);
-        const id = get(currentPersonIdState);
-
-        if (typeof id === 'string') {
-            return fetchPerson(id)
-                .then((res) => {
-                    return Promise.resolve({
-                        person: res.person ?? null,
-                        errors: [],
-                    });
-                })
-                .catch((e) => {
-                    const errors = e.response.errors.map((error: GraphQLError) => {
-                        switch (error.extensions.code) {
-                            case 403: {
-                                return new ProtectedError();
-                            }
-                            case 404: {
-                                return new NotFoundError();
-                            }
-                            default: {
-                                return new FetchError();
-                            }
-                        }
-                    });
-                    return Promise.resolve({
-                        person: null,
-                        errors: errors,
-                    });
-                });
-        } else {
+const fetchPersonState = (id: string): Promise<PersonState> => {
+    return fetchPerson(id)
+        .then((res) => {
             return Promise.resolve({
-                person: null,
+                person: res.person ?? null,
                 errors: [],
             });
-        }
-    },
-});
-
-export const currentPersonState = selector<PersonState>({
-    key: 'currentPersonState',
-    get: ({ get }) => {
-        const { person, ...rest } = get(fetchedPersonState);
-        if (!isPerson(person)) {
-            return {
+        })
+        .catch((e) => {
+            const errors = e.response.errors.map((error: GraphQLError) => {
+                switch (error.extensions.code) {
+                    case 403: {
+                        return new ProtectedError();
+                    }
+                    case 404: {
+                        return new NotFoundError();
+                    }
+                    default: {
+                        return new FetchError();
+                    }
+                }
+            });
+            return Promise.resolve({
                 person: null,
-                ...rest,
-            };
-        }
-
-        const localTildeling = get(localTildelingState);
-        if (localTildeling !== undefined) {
-            return {
-                person: {
-                    ...person,
-                    tildeling: localTildeling,
-                },
-                ...rest,
-            };
-        }
-
-        return { person, ...rest };
-    },
-});
-
-export const useCurrentPerson = (): Person | null => useRecoilValue(currentPersonState).person;
-
-export const useFetchPerson = (): ((id: string) => void) => {
-    return useSetRecoilState(currentPersonIdState);
+                errors: errors,
+            });
+        });
 };
 
-export const useRefetchPerson = (): (() => void) => {
-    const setKey = useSetRecoilState(personRefetchKeyState);
-    return () => {
-        setKey(new Date());
+const emptyPersonState = (): PersonState => ({
+    person: null,
+    errors: [],
+});
+
+export const personState = atom<PersonState>({
+    key: 'CurrentPerson',
+    default: emptyPersonState(),
+});
+
+export const useCurrentPerson = (): Person | null => useRecoilValue(personState).person;
+
+export const usePersonErrors = (): Array<SpeilError> => {
+    return useRecoilValue(personState).errors;
+};
+
+export const useFetchPerson = (): ((id: string) => void) => {
+    const setPersonState = useSetRecoilState(personState);
+    return async (id: string) => {
+        return fetchPersonState(id).then((state) => {
+            setPersonState(state);
+            return Promise.resolve(state);
+        });
     };
 };
 
-export const useFetchErrors = (): Array<SpeilError> | null => {
-    const personState = useRecoilValueLoadable(currentPersonState);
-
-    if (personState.state === 'hasValue' && isFetchErrorArray(personState.contents.errors)) {
-        return personState.contents.errors;
-    }
-
-    return null;
+export const useRefetchPerson = (): (() => void) => {
+    const personId = useRecoilValue(personState).person?.fodselsnummer;
+    const fetchPerson = useFetchPerson();
+    return () => {
+        if (personId) {
+            fetchPerson(personId);
+        }
+    };
 };
 
 export const usePersonLoadable = (): Loadable<Person | null> => {
-    const loadable = useRecoilValueLoadable(currentPersonState);
+    const loadable = useRecoilValueLoadable(personState);
 
     if (loadable.state === 'hasValue' && isFetchErrorArray(loadable.contents.errors)) {
         return { state: 'hasValue', contents: null } as Loadable<null>;
@@ -144,63 +103,101 @@ export const usePersonLoadable = (): Loadable<Person | null> => {
 };
 
 export const useResetPerson = (): (() => void) => {
-    const setPersonId = useSetRecoilState(currentPersonIdState);
+    const resetPerson = useResetRecoilState(personState);
     return () => {
-        setPersonId(null);
+        resetPerson();
     };
 };
 
-export const useTildelPerson = (): ((påVent?: boolean) => void) => {
-    const setTildeling = useSetRecoilState(localTildelingState);
+export const useTildelPerson = (): ((oppgavereferanse: string) => Promise<void>) => {
+    const addVarsel = useAddVarsel();
+    const removeVarsel = useRemoveVarsel();
+    const setPersonState = useSetRecoilState(personState);
     const innloggetSaksbehandler = useInnloggetSaksbehandler();
 
-    return (påVent = false) => {
-        setTildeling({ ...innloggetSaksbehandler, reservert: påVent });
+    return async (oppgavereferanse: string) => {
+        removeVarsel(TILDELINGSKEY);
+        return postTildeling(oppgavereferanse)
+            .then(() => {
+                setPersonState((prevState) => ({
+                    ...prevState,
+                    person: prevState.person && {
+                        ...prevState.person,
+                        tildeling: {
+                            ...innloggetSaksbehandler,
+                            reservert: false,
+                        },
+                    },
+                }));
+            })
+            .catch(async (error) => {
+                if (error.statusCode === 409) {
+                    const respons: any = await JSON.parse(error.message);
+                    const { navn } = respons.kontekst.tildeling;
+                    addVarsel(new TildelingAlert(`${navn} har allerede tatt saken.`));
+                } else {
+                    addVarsel(new TildelingAlert('Kunne ikke tildele sak.'));
+                }
+            });
     };
 };
 
-export const useMeldAvLokalTildeling = (): (() => void) => {
-    const setTildeling = useSetRecoilState(localTildelingState);
+export const useFjernTildeling = (): ((oppgavereferanse: string) => Promise<void>) => {
+    const addVarsel = useAddVarsel();
+    const removeVarsel = useRemoveVarsel();
+    const setPersonState = useSetRecoilState(personState);
 
-    return () => {
-        setTildeling(null);
-    };
-};
-
-// Tilbakestiller tildeling-state til opprinnelig, slik at tildeling-info i hentet data "vinner"
-export const useMarkerPersonSomIkkeTildelt = (): (() => void) => {
-    const resetTildeling = useResetRecoilState(localTildelingState);
-
-    return () => {
-        resetTildeling();
-    };
-};
-
-export const useTilbakestillTildeling = (): (() => void) => {
-    const setTildeling = useSetRecoilState(localTildelingState);
-
-    return () => {
-        setTildeling(undefined);
+    return async (oppgavereferanse: string) => {
+        removeVarsel(TILDELINGSKEY);
+        return deleteTildeling(oppgavereferanse)
+            .then(() => {
+                setPersonState((prevState) => ({
+                    ...prevState,
+                    person: prevState.person && {
+                        ...prevState.person,
+                        tildeling: null,
+                    },
+                }));
+            })
+            .catch(() => addVarsel(new TildelingAlert('Kunne ikke fjerne tildeling av sak.')));
     };
 };
 
 export const useLeggPåVent = (): ((oppgavereferanse: string, notat: NotatDTO) => Promise<SpeilResponse>) => {
-    const tildelPerson = useTildelPerson();
+    const setPersonState = useSetRecoilState(personState);
 
-    return (oppgavereferanse, notat) => {
+    return (oppgavereferanse: string, notat: NotatDTO) => {
         return postLeggPåVent(oppgavereferanse, notat).then((response) => {
-            tildelPerson(true);
+            setPersonState((prevState) => ({
+                ...prevState,
+                person: prevState.person && {
+                    ...prevState.person,
+                    tildeling: prevState.person.tildeling && {
+                        ...prevState.person.tildeling,
+                        reservert: true,
+                    },
+                },
+            }));
             return Promise.resolve(response);
         });
     };
 };
 
 export const useFjernPåVent = (): ((oppgavereferanse: string) => Promise<SpeilResponse>) => {
-    const tildelPerson = useTildelPerson();
+    const setPersonState = useSetRecoilState(personState);
 
     return (oppgavereferanse) => {
         return deletePåVent(oppgavereferanse).then((response) => {
-            tildelPerson(false);
+            setPersonState((prevState) => ({
+                ...prevState,
+                person: prevState.person && {
+                    ...prevState.person,
+                    tildeling: prevState.person.tildeling && {
+                        ...prevState.person.tildeling,
+                        reservert: false,
+                    },
+                },
+            }));
             return Promise.resolve(response);
         });
     };

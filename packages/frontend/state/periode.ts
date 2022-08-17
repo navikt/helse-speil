@@ -4,7 +4,7 @@ import dayjs from 'dayjs';
 import { isBeregnetPeriode, isGhostPeriode, isPerson, isUberegnetPeriode } from '@utils/typeguards';
 import type { BeregnetPeriode, GhostPeriode, Person, UberegnetPeriode } from '@io/graphql';
 import { Periode, Periodetilstand, Vilkarsgrunnlag } from '@io/graphql';
-import { currentPersonState, useCurrentPerson } from '@state/person';
+import { personState, useCurrentPerson } from '@state/person';
 
 type ActivePeriod = BeregnetPeriode | UberegnetPeriode | GhostPeriode;
 
@@ -32,7 +32,7 @@ const activePeriodState = atom<ActivePeriod | null>({
 const activePeriod = selector<ActivePeriod | null>({
     key: 'activePeriod',
     get: ({ get }) => {
-        const { person } = get(currentPersonState);
+        const { person } = get(personState);
         if (!isPerson(person)) {
             return null;
         }

@@ -5,12 +5,7 @@ import { Loadable, useRecoilValue, useRecoilValueLoadable } from 'recoil';
 import { Varsel } from '@components/Varsel';
 import { Flex, FlexColumn } from '@components/Flex';
 import { useLoadingToast } from '@hooks/useLoadingToast';
-import {
-    useMarkerPersonSomIkkeTildelt,
-    useRefetchPerson,
-    useResetPerson,
-    useTilbakestillTildeling,
-} from '@state/person';
+import { useResetPerson } from '@state/person';
 import { useInnloggetSaksbehandler } from '@state/authentication';
 import { oppgaverState, useRefetchOppgaver } from '@state/oppgaver';
 
@@ -62,11 +57,9 @@ const useOppgaverFilteredByTab = () => {
 
 const useResetPersonOnMount = (): void => {
     const resetPerson = useResetPerson();
-    const resetPersonFetchKey = useRefetchPerson();
 
     useEffect(() => {
         resetPerson();
-        resetPersonFetchKey();
     }, []);
 };
 
@@ -80,23 +73,12 @@ const useFetchOppgaver = (currentState: Loadable<Array<Oppgave>>['state']): void
     }, []);
 };
 
-const useFjernTildelingOnMount = (): void => {
-    const markerPersonSomIkkeTildelt = useMarkerPersonSomIkkeTildelt();
-    const tilbakestillTildeling = useTilbakestillTildeling();
-
-    useEffect(() => {
-        markerPersonSomIkkeTildelt();
-        return () => tilbakestillTildeling();
-    }, []);
-};
-
 export const Oversikt = () => {
     const oppgaver = useOppgaverFilteredByTab();
 
     useLoadingToast({ isLoading: oppgaver.state === 'loading', message: 'Henter oppgaver' });
 
     useResetPersonOnMount();
-    useFjernTildelingOnMount();
     useFetchOppgaver(oppgaver.state);
 
     const hasData =

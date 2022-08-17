@@ -11,7 +11,7 @@ import { Varsler } from '@components/Varsler';
 import { ErrorBoundary } from '@components/ErrorBoundary';
 import { ProtectedRoute } from '@components/ProtectedRoute';
 import { useLoadingToast } from '@hooks/useLoadingToast';
-import { useFetchErrors, usePersonLoadable } from '@state/person';
+import { usePersonErrors, usePersonLoadable } from '@state/person';
 import { useAddVarsel, useSetVarsler } from '@state/varsler';
 import { useEasterEggIsActive } from '@state/easterEgg';
 import { useAuthentication } from '@state/authentication';
@@ -31,7 +31,7 @@ const GraphQLPlayground = React.lazy(() => import('./playground/GraphQLPlaygroun
 ReactModal.setAppElement('#root');
 
 const useSyncFetchAlerts = () => {
-    const fetchErrors = useFetchErrors();
+    const fetchErrors = usePersonErrors();
     const addAlert = useAddVarsel();
 
     useEffect(() => {
