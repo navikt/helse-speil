@@ -5,17 +5,15 @@ import dayjs, { Dayjs } from 'dayjs';
 import { useActivePeriod } from '@state/periode';
 import { getOppgavereferanse } from '@state/selectors/period';
 import { isBeregnetPeriode } from '@utils/typeguards';
-import { amplitudeEnabled } from '@utils/featureToggles';
 import { Periode } from '@io/graphql';
 import { AmplitudeContext } from '@io/amplitude/AmplitudeContext';
 import { AmplitudeStorageHandler } from '@io/amplitude/AmplitudeStorageHandler';
 
-amplitudeEnabled &&
-    amplitude?.getInstance().init('default', '', {
-        apiEndpoint: 'amplitude.nav.no/collect-auto',
-        saveEvents: false,
-        platform: window.location.origin.toString(),
-    });
+amplitude?.getInstance().init('default', '', {
+    apiEndpoint: 'amplitude.nav.no/collect-auto',
+    saveEvents: false,
+    platform: window.location.origin.toString(),
+});
 
 const logEventCallback = (oppgaveId: string) => () => AmplitudeStorageHandler.removeÅpnetOppgaveTidspunkt(oppgaveId);
 
@@ -60,7 +58,7 @@ const useLogEvent = (): ((event: Amplitude.LogEvent, begrunnelser?: Array<string
     const oppgavereferanse = getOppgavereferanse(activePeriod);
 
     return (event: Amplitude.LogEvent, begrunnelser?: string[]) => {
-        if (amplitudeEnabled && oppgavereferanse) {
+        if (oppgavereferanse) {
             const åpnetTidspunkt = AmplitudeStorageHandler.getÅpnetOppgaveTidspunkt(oppgavereferanse);
 
             åpnetTidspunkt &&
@@ -90,10 +88,9 @@ const _AmplitudeProvider: React.FC<PropsWithChildren<{}>> = ({ children }) => {
     const logTotrinnsoppgaveTilGodkjenning = () => logEvent('totrinnsoppgave til godkjenning');
 
     useEffect(() => {
-        amplitudeEnabled &&
-            amplitude?.getInstance().setUserProperties({
-                skjermbredde: window.screen.width,
-            });
+        amplitude?.getInstance().setUserProperties({
+            skjermbredde: window.screen.width,
+        });
     }, []);
 
     return (

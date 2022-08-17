@@ -5,7 +5,6 @@ import { Inntektskilde, Maybe, OmregnetArsinntekt, Periodetilstand, Person } fro
 import { useActivePeriod } from '@state/periode';
 import { useCurrentPerson } from '@state/person';
 import { useEndringerForPeriode } from '@state/arbeidsgiver';
-import { defaultOverstyrToggles } from '@utils/featureToggles';
 import { isBeregnetPeriode, isGhostPeriode } from '@utils/typeguards';
 import { kildeForkortelse } from '@utils/inntektskilde';
 import { Flex } from '@components/Flex';
@@ -76,7 +75,6 @@ const useArbeidsforholdKanOverstyres = (organisasjonsnummer: string): boolean =>
     const harIngenPerioderTilBeslutter = harIngenPerioderTilBeslutterFor(person, activePeriod.skjaeringstidspunkt);
 
     return (
-        defaultOverstyrToggles.overstyrArbeidsforholdUtenSykefraværEnabled &&
         activePeriod.organisasjonsnummer === organisasjonsnummer &&
         harIngenUtbetaltePerioder &&
         harIngenPerioderTilBeslutter &&
@@ -122,7 +120,6 @@ const useGhostInntektKanOverstyres = (organisasjonsnummer: string): boolean => {
     const harIngenPerioderTilBeslutter = harIngenPerioderTilBeslutterFor(person, activePeriod.skjaeringstidspunkt);
 
     return (
-        defaultOverstyrToggles.overstyrGhostInntektEnabled &&
         activePeriod.organisasjonsnummer === organisasjonsnummer &&
         harIngenUtbetaltePerioder &&
         harIngenPerioderTilBeslutter &&

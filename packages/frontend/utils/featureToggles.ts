@@ -237,12 +237,8 @@ export const overstyreUtbetaltPeriodeEnabled =
     kanRevurdere.includes(extractIdent()) ||
     erLocal() ||
     erDev();
-export const overstyrArbeidsforholdUtenSykefraværEnabled = true;
-export const overstyrGhostInntektEnabled = true;
-export const overstyrInntektFlereArbeidsgivereEnabled = true;
 
 export const annulleringerEnabled = erDev() || erLocal() || harUtvidetTilgang() || harTilgangTilAlt();
-export const amplitudeEnabled = true;
 export const utbetalingsoversikt = erPåTeamBømlo() || erLocal() || harTilgangTilAlt();
 export const stikkprøve = harTilgangStikkprøver() || harTilgangTilAlt() || erLocal() || erDev();
 export const flereArbeidsgivere =
@@ -263,25 +259,12 @@ export interface UtbetalingToggles {
     overstyreUtbetaltPeriodeEnabled: boolean;
 }
 
-export interface overstyrToggles {
-    overstyrArbeidsforholdUtenSykefraværEnabled: boolean;
-    overstyrGhostInntektEnabled: boolean;
-    overstyrInntektFlereArbeidsgivereEnabled: boolean;
-}
-
-export const defaultOverstyrToggles: overstyrToggles = {
-    overstyrArbeidsforholdUtenSykefraværEnabled: overstyrArbeidsforholdUtenSykefraværEnabled,
-    overstyrGhostInntektEnabled: overstyrGhostInntektEnabled,
-    overstyrInntektFlereArbeidsgivereEnabled: overstyrInntektFlereArbeidsgivereEnabled,
-};
-
 export const defaultUtbetalingToggles: UtbetalingToggles = {
     overstyreUtbetaltPeriodeEnabled: overstyreUtbetaltPeriodeEnabled,
 };
 
 export const overstyrInntektEnabled = overstyreUtbetaltPeriodeEnabled;
 
-const erBeslutter = () => extractGroups().includes(groupIdForBesluttere);
-export const harBeslutterRolle: boolean = erBeslutter();
+export const harBeslutterRolle: boolean = extractGroups().includes(groupIdForBesluttere);
 
 export const toggleMeny: boolean = erLocal() || erDev();
