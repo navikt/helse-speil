@@ -3,6 +3,8 @@ import styled from '@emotion/styled';
 import { Button } from '@components/Button';
 
 export const DropdownButton = styled(Button)`
+    display: flex;
+    gap: 0.5rem;
     all: unset;
     height: 32px;
     min-width: 180px;
