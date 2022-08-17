@@ -8,6 +8,8 @@
     background: var(--speil-background-secondary);
     border-bottom: 1px solid var(--navds-semantic-color-border);
     color: var(--navds-semantic-color-text);
+    white-space: nowrap;
+    min-width: max-content;
 }
 
 .PersonHeader.Error {
