@@ -268,3 +268,5 @@ export const overstyrInntektEnabled = overstyreUtbetaltPeriodeEnabled;
 export const harBeslutterRolle: boolean = extractGroups().includes(groupIdForBesluttere);
 
 export const toggleMeny: boolean = erLocal() || erDev();
+
+export const pølsebonansaEnabled = erDev() || erLocal();
