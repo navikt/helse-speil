@@ -1,47 +1,32 @@
-import styled from '@emotion/styled';
 import React from 'react';
 
+import { Bold } from '@components/Bold';
 import { Varsel } from '@components/Varsel';
+import { Header } from '@navikt/ds-react-internal';
 
-const Feiltekst = styled.div`
-    padding-top: 2rem;
+import styles from './GlobalFeilside.module.css';
 
-    * {
-        padding: 1rem;
-    }
-`;
-
-const KomiskSans = styled.pre`
-    font-family: 'Comic Sans MS', serif;
-`;
-
-const Agurktekst = styled.p`
-    display: flex;
-    align-items: center;
-
-    &:before,
-    &:after {
-        content: '🥒';
-        font-size: 55px;
-    }
-
-    &:after {
-        margin-left: 1.5rem;
-    }
-
-    &:before {
-        margin-right: 1.5rem;
-    }
-`;
-
-export const GlobalFeilside = (error: Error) => (
-    <>
-        <Varsel variant="warning">Siden kan dessverre ikke vises</Varsel>
-        <Feiltekst>
-            <Agurktekst>
-                Du kan forsøke å laste siden på nytt, eller lukke nettleservinduet og logge inn på nytt.
-            </Agurktekst>
-            <KomiskSans>{error.stack}</KomiskSans>
-        </Feiltekst>
-    </>
-);
+export const GlobalFeilside = (error: Error) => {
+    console.log(error.stack, error.name);
+    return (
+        <>
+            <Header>
+                <Header.Title as="h1" className={styles.Title}>
+                    NAV Sykepenger
+                </Header.Title>
+            </Header>
+            <Varsel variant="error">Det har skjedd en feil. Siden kan dessverre ikke vises</Varsel>
+            <main className={styles.Content}>
+                <p>
+                    Du kan forsøke å laste siden på nytt, eller lukke nettleservinduet og logge inn på nytt.
+                    <br />
+                    Ta kontakt med en utvikler hvis feilen fortsetter.
+                </p>
+                <pre className={styles.TechnicalErrorMessage}>
+                    <Bold>Teknisk feilmelding for utviklere:</Bold>
+                    {error.stack}
+                </pre>
+            </main>
+        </>
+    );
+};

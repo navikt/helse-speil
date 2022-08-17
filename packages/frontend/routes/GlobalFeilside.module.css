@@ -1,0 +1,22 @@
+.Title {
+    font-weight: 600;
+}
+
+.Content {
+    margin: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    line-height: var(--navds-font-line-height-large);
+}
+
+.TechnicalErrorMessage {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    width: max-content;
+    padding: 2rem;
+    background: var(--navds-error-summary-color-background);
+    border: 1px solid var(--navds-error-summary-color-border);
+    line-height: var(--navds-font-line-height-medium);
+}
