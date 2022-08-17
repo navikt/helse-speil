@@ -1,8 +1,10 @@
 import styled from '@emotion/styled';
-import React from 'react';
+import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 
 import { Row } from './Row';
+import { useFetchPerson } from '@state/person';
+import { useLoadingToast } from '@hooks/useLoadingToast';
 
 const HighlightOnHoverRow = styled(Row)`
     &:hover,
@@ -19,17 +21,32 @@ interface LinkRowProps extends React.HTMLAttributes<HTMLTableRowElement> {
 
 export const LinkRow = ({ aktørId, children, ...rest }: LinkRowProps) => {
     const history = useHistory();
+    const fetchPerson = useFetchPerson();
+    const [isFetching, setIsFetching] = useState(false);
+
+    useLoadingToast({ isLoading: isFetching, message: 'Henter person' });
 
     const navigate = (event: React.KeyboardEvent | React.MouseEvent) => {
+        if (isFetching) {
+            return;
+        }
+
         const destinationUrl = `/person/${aktørId}/utbetaling`;
         const pressedModifierKey = event.ctrlKey || event.metaKey;
         const clickedMiddleMouseButton = (event as React.MouseEvent).button === 1;
 
-        if (pressedModifierKey || clickedMiddleMouseButton) {
-            window.open(destinationUrl, '_blank');
-        } else {
-            history.push(destinationUrl);
-        }
+        setIsFetching(true);
+        fetchPerson(aktørId)
+            .then(() => {
+                if (pressedModifierKey || clickedMiddleMouseButton) {
+                    window.open(destinationUrl, '_blank');
+                } else {
+                    history.push(destinationUrl);
+                }
+            })
+            .finally(() => {
+                setIsFetching(false);
+            });
     };
 
     const onKeyPress = (event: React.KeyboardEvent) => {

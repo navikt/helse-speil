@@ -72,7 +72,7 @@ export const usePersonErrors = (): Array<SpeilError> => {
     return useRecoilValue(personState).errors;
 };
 
-export const useFetchPerson = (): ((id: string) => void) => {
+export const useFetchPerson = (): ((id: string) => Promise<PersonState>) => {
     const setPersonState = useSetRecoilState(personState);
     return async (id: string) => {
         return fetchPersonState(id).then((state) => {
