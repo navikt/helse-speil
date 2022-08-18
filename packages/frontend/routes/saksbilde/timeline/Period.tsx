@@ -7,7 +7,7 @@ import { Sykdomsdagtype, Utbetalingsdagtype } from '@io/graphql';
 import { isBeregnetPeriode, isGhostPeriode, isUberegnetPeriode } from '@utils/typeguards';
 
 import { PeriodPopover } from './PeriodPopover';
-import { usePopoverAnchor } from './usePopoverAnchor';
+import { usePopoverAnchor } from './hooks/usePopoverAnchor';
 
 import styles from './Periods.module.css';
 

@@ -5,9 +5,9 @@ import { BodyShort, Popover } from '@navikt/ds-react';
 import { Arbeidsgiver } from '@io/graphql';
 import { getFormattedDateString } from '@utils/date';
 
-import { useMaksdato } from './useMaksdato';
-import { getPosition } from './usePeriodStyling';
-import { usePopoverAnchor } from './usePopoverAnchor';
+import { useMaksdato } from './hooks/useMaksdato';
+import { getPosition } from './hooks/usePeriodStyling';
+import { usePopoverAnchor } from './hooks/usePopoverAnchor';
 
 import styles from './Pins.module.css';
 

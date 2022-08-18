@@ -8,8 +8,8 @@ import { Periodetilstand } from '@io/graphql';
 import { isNotReady } from '@state/periode';
 
 import { Period } from './Period';
-import { usePeriodStyling } from './usePeriodStyling';
-import { useVisiblePeriods } from './useVisiblePeriods';
+import { usePeriodStyling } from './hooks/usePeriodStyling';
+import { useVisiblePeriods } from './hooks/useVisiblePeriods';
 
 import styles from './Periods.module.css';
 

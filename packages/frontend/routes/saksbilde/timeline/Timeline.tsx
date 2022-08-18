@@ -8,8 +8,8 @@ import { TimelineRow } from './TimelineRow';
 import { ScrollButtons } from './ScrollButtons';
 import { InfotrygdRow } from './InfotrygdRow';
 import { ZoomLevelPicker } from './ZoomLevelPicker';
-import { useTimelineControls } from './useTimelineControls';
-import { useInfotrygdPeriods } from './useInfotrygdPeriods';
+import { useTimelineControls } from './hooks/useTimelineControls';
+import { useInfotrygdPeriods } from './hooks/useInfotrygdPeriods';
 import { ExpandableTimelineRow } from './ExpandableTimelineRow';
 
 import { ErrorBoundary } from '@components/ErrorBoundary';

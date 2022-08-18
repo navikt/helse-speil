@@ -3,7 +3,7 @@ import { BodyShort } from '@navikt/ds-react';
 
 import { capitalize } from '@utils/locale';
 
-import { getPosition } from './usePeriodStyling';
+import { getPosition } from './hooks/usePeriodStyling';
 
 import styles from './Labels.module.css';
 
