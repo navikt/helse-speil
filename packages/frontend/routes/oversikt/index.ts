@@ -1,4 +1,3 @@
-import OversiktDefault, { Oversikt } from './Oversikt';
+import Oversikt from './Oversikt';
 
-export { Oversikt };
-export default OversiktDefault;
+export default Oversikt;
