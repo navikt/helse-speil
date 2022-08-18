@@ -27,7 +27,7 @@
 .Period.active,
 .Period:active,
 .Period:focus-visible {
-    box-shadow: 0 0 0 2px #00347d;
+    box-shadow: 0 0 0 2px var(--navds-semantic-color-focus);
     border-color: var(--navds-semantic-color-focus);
     z-index: 20;
 }

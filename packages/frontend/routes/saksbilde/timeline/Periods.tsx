@@ -1,12 +1,14 @@
 import React from 'react';
 import dayjs from 'dayjs';
 
-import { isBeregnetPeriode, isGhostPeriode, isUberegnetPeriode } from '@utils/typeguards';
+import { pølsebonansaEnabled } from '@utils/featureToggles';
 import { getNextDay, getPreviousDay } from '@utils/date';
-import type { GhostPeriode, Periode } from '@io/graphql';
+import { isBeregnetPeriode, isGhostPeriode, isUberegnetPeriode } from '@utils/typeguards';
+import { GhostPeriode, Periode } from '@io/graphql';
 import { Periodetilstand } from '@io/graphql';
 import { isNotReady } from '@state/periode';
 
+import { Pølse } from './Pølse';
 import { Period } from './Period';
 import { usePeriodStyling } from './hooks/usePeriodStyling';
 import { useVisiblePeriods } from './hooks/useVisiblePeriods';
@@ -129,15 +131,25 @@ export const Periods: React.VFC<PeriodsProps> = ({
 
     return (
         <div className={styles.Periods}>
-            {validPeriods.map((period, i) => (
-                <Period
-                    key={i}
-                    period={period}
-                    style={positions.get(i) ?? {}}
-                    notCurrent={notCurrent}
-                    isActive={isActive(activePeriod as Periode, period as Periode)}
-                />
-            ))}
+            {validPeriods.map((period, i) =>
+                pølsebonansaEnabled ? (
+                    <Pølse
+                        key={i}
+                        period={period}
+                        style={positions.get(i) ?? {}}
+                        notCurrent={notCurrent}
+                        isActive={isActive(activePeriod as Periode, period as Periode)}
+                    />
+                ) : (
+                    <Period
+                        key={i}
+                        period={period}
+                        style={positions.get(i) ?? {}}
+                        notCurrent={notCurrent}
+                        isActive={isActive(activePeriod as Periode, period as Periode)}
+                    />
+                ),
+            )}
         </div>
     );
 };
