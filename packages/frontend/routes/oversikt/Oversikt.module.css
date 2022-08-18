@@ -1,0 +1,18 @@
+.Oversikt {
+    position: relative;
+    flex: 1;
+    overflow-x: hidden;
+}
+
+.Content {
+    margin: 1.5rem;
+    padding: 0;
+    color: var(--navds-semantic-color-text);
+    overflow: auto hidden;
+    box-sizing: border-box;
+    flex: 1;
+}
+
+.fullHeight {
+    height: 100%;
+}

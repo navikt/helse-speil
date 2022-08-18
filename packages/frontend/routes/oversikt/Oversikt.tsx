@@ -1,4 +1,3 @@
-import styled from '@emotion/styled';
 import React, { useEffect, useState } from 'react';
 import { Loadable, useRecoilValue, useRecoilValueLoadable } from 'recoil';
 
@@ -14,20 +13,7 @@ import { OppgaverTable } from './table/OppgaverTable';
 import { Behandlingsstatistikk } from './behandlingsstatistikk/Behandlingsstatistikk';
 import { Tabs, tabState, TabType } from './tabs';
 
-const Container = styled.div`
-    position: relative;
-    flex: 1;
-    overflow-x: hidden;
-`;
-
-const Content = styled.div`
-    margin: 1.5rem;
-    padding: 0;
-    color: var(--navds-semantic-color-text);
-    overflow: auto hidden;
-    box-sizing: border-box;
-    flex: 1;
-`;
+import styles from './Oversikt.module.css';
 
 const useOppgaverFilteredByTab = () => {
     const { oid } = useInnloggetSaksbehandler();
@@ -85,12 +71,12 @@ export const Oversikt = () => {
         (oppgaver.state === 'hasValue' && (oppgaver.contents as Oppgave[]).length > 0) || oppgaver.cache.length > 0;
 
     return (
-        <Container>
+        <div className={styles.Oversikt}>
             {oppgaver.state === 'hasError' && <Varsel variant="warning">{(oppgaver.contents as Error).message}</Varsel>}
-            <FlexColumn>
+            <FlexColumn className={styles.fullHeight}>
                 <Tabs />
-                <Flex style={{ height: '100%' }}>
-                    <Content>
+                <Flex className={styles.fullHeight}>
+                    <div className={styles.Content}>
                         {hasData ? (
                             <OppgaverTable
                                 oppgaver={
@@ -100,11 +86,11 @@ export const Oversikt = () => {
                         ) : oppgaver.state !== 'loading' ? (
                             <IngenOppgaver />
                         ) : null}
-                    </Content>
+                    </div>
                     <Behandlingsstatistikk />
                 </Flex>
             </FlexColumn>
-        </Container>
+        </div>
     );
 };
 
