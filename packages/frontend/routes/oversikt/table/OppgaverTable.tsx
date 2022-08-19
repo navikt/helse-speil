@@ -1,4 +1,3 @@
-import styled from '@emotion/styled';
 import React from 'react';
 
 import { useSyncNotater } from '@state/notater';
@@ -26,16 +25,7 @@ import { SøkerCell } from './rader/SøkerCell';
 import { NotatCell } from './rader/notat/NotatCell';
 import { Cell } from './Cell';
 
-const Container = styled.div`
-    min-height: 300px;
-`;
-
-const ScrollableX = styled.div`
-    margin: 0;
-    padding: 0;
-    height: calc(100% - 50px);
-    width: 100%;
-`;
+import styles from './OppgaverTable.module.css';
 
 const groupFiltersByColumn = (filters: Filter<Oppgave>[]): Filter<Oppgave>[][] => {
     const groups = filters.reduce((groups: { [key: string]: Filter<Oppgave>[] }, filter: Filter<Oppgave>) => {
@@ -71,114 +61,120 @@ export const OppgaverTable = React.memo(({ oppgaver }: { oppgaver: Oppgave[] }) 
     useSyncNotater(vedtaksperiodeIder);
 
     return (
-        <Container>
-            <ScrollableX>
-                <Table
-                    aria-label={
-                        tab === TabType.TilGodkjenning
-                            ? 'Saker som er klare for behandling'
-                            : tab === TabType.Mine
-                            ? 'Saker som er tildelt meg'
-                            : 'Saker som er tildelt meg og satt på vent'
-                    }
-                >
-                    <thead>
-                        <tr>
-                            <Header scope="col" colSpan={1}>
-                                {tab === TabType.TilGodkjenning ? (
-                                    <FilterButton filters={filters.filter((it) => it.column === 0)}>
-                                        Tildelt
+        <div className={styles.OppgaverTable}>
+            <div className={styles.Content}>
+                <div className={styles.Scrollable}>
+                    <Table
+                        aria-label={
+                            tab === TabType.TilGodkjenning
+                                ? 'Saker som er klare for behandling'
+                                : tab === TabType.Mine
+                                ? 'Saker som er tildelt meg'
+                                : 'Saker som er tildelt meg og satt på vent'
+                        }
+                    >
+                        <thead>
+                            <tr>
+                                <Header scope="col" colSpan={1}>
+                                    {tab === TabType.TilGodkjenning ? (
+                                        <FilterButton filters={filters.filter((it) => it.column === 0)}>
+                                            Tildelt
+                                        </FilterButton>
+                                    ) : (
+                                        'Tildelt'
+                                    )}
+                                </Header>
+                                <Header scope="col" colSpan={1}>
+                                    <FilterButton filters={filters.filter((it) => it.column === 1)}>
+                                        Sakstype
                                     </FilterButton>
-                                ) : (
-                                    'Tildelt'
-                                )}
-                            </Header>
-                            <Header scope="col" colSpan={1}>
-                                <FilterButton filters={filters.filter((it) => it.column === 1)}>Sakstype</FilterButton>
-                            </Header>
-                            <Header
-                                scope="col"
-                                colSpan={1}
-                                aria-sort={sortation?.label === 'bosted' ? sortation.state : 'none'}
-                            >
-                                <SortButton
-                                    label="bosted"
-                                    onSort={(a: Oppgave, b: Oppgave) => a.boenhet.navn.localeCompare(b.boenhet.navn)}
-                                    state={sortation?.label === 'bosted' ? sortation.state : 'none'}
+                                </Header>
+                                <Header
+                                    scope="col"
+                                    colSpan={1}
+                                    aria-sort={sortation?.label === 'bosted' ? sortation.state : 'none'}
                                 >
-                                    Bosted
-                                </SortButton>
-                            </Header>
-                            <Header scope="col" colSpan={1}>
-                                <FilterButton filters={filters.filter((it) => it.column === 3)}>
-                                    Inntektskilde
-                                </FilterButton>
-                            </Header>
-                            <Header
-                                scope="col"
-                                colSpan={1}
-                                aria-sort={sortation?.label === 'status' ? sortation.state : 'none'}
-                            >
-                                <SortButton
-                                    label="status"
-                                    onSort={(a: Oppgave, b: Oppgave) => a.antallVarsler - b.antallVarsler}
-                                    state={sortation?.label === 'status' ? sortation.state : 'none'}
+                                    <SortButton
+                                        label="bosted"
+                                        onSort={(a: Oppgave, b: Oppgave) =>
+                                            a.boenhet.navn.localeCompare(b.boenhet.navn)
+                                        }
+                                        state={sortation?.label === 'bosted' ? sortation.state : 'none'}
+                                    >
+                                        Bosted
+                                    </SortButton>
+                                </Header>
+                                <Header scope="col" colSpan={1}>
+                                    <FilterButton filters={filters.filter((it) => it.column === 3)}>
+                                        Inntektskilde
+                                    </FilterButton>
+                                </Header>
+                                <Header
+                                    scope="col"
+                                    colSpan={1}
+                                    aria-sort={sortation?.label === 'status' ? sortation.state : 'none'}
                                 >
-                                    Status
-                                </SortButton>
-                            </Header>
-                            <Header scope="col" colSpan={1}>
-                                Søker
-                            </Header>
-                            <Header
-                                scope="col"
-                                colSpan={1}
-                                aria-sort={sortation?.label === 'opprettet' ? sortation.state : 'none'}
-                            >
-                                <SortButton
-                                    label="opprettet"
-                                    onSort={(a: Oppgave, b: Oppgave) =>
-                                        new Date(a.opprettet).getTime() - new Date(b.opprettet).getTime()
-                                    }
-                                    state={sortation?.label === 'opprettet' ? sortation.state : 'none'}
+                                    <SortButton
+                                        label="status"
+                                        onSort={(a: Oppgave, b: Oppgave) => a.antallVarsler - b.antallVarsler}
+                                        state={sortation?.label === 'status' ? sortation.state : 'none'}
+                                    >
+                                        Status
+                                    </SortButton>
+                                </Header>
+                                <Header scope="col" colSpan={1}>
+                                    Søker
+                                </Header>
+                                <Header
+                                    scope="col"
+                                    colSpan={1}
+                                    aria-sort={sortation?.label === 'opprettet' ? sortation.state : 'none'}
                                 >
-                                    Opprettet
-                                </SortButton>
-                            </Header>
-                            <Header scope="col" colSpan={1} aria-label="valg" />
-                            <Header scope="col" colSpan={1} aria-label="notater" />
-                        </tr>
-                    </thead>
-                    <Body>
-                        {paginatedRows.map((it) => (
-                            <LinkRow aktørId={it.aktørId} key={it.oppgavereferanse}>
-                                <TildelingCell oppgave={it} kanTildeles={!readOnly} />
-                                <SakstypeCell
-                                    type={it.periodetype}
-                                    erBeslutterOppgave={it.erBeslutterOppgave}
-                                    erReturOppgave={it.erReturOppgave}
-                                />
-                                <BostedCell stedsnavn={it.boenhet.navn} />
-                                <InntektskildeCell type={it.inntektskilde} />
-                                <StatusCell numberOfWarnings={it.antallVarsler} />
-                                <SøkerCell personinfo={it.personinfo} />
-                                <OpprettetCell date={it.opprettet} />
-                                <OptionsCell oppgave={it} personinfo={it.personinfo} />
-                                {it.tildeling?.påVent ? (
-                                    <NotatCell
-                                        vedtaksperiodeId={it.vedtaksperiodeId}
-                                        personinfo={it.personinfo}
-                                        erPåVent={it.tildeling.påVent}
+                                    <SortButton
+                                        label="opprettet"
+                                        onSort={(a: Oppgave, b: Oppgave) =>
+                                            new Date(a.opprettet).getTime() - new Date(b.opprettet).getTime()
+                                        }
+                                        state={sortation?.label === 'opprettet' ? sortation.state : 'none'}
+                                    >
+                                        Opprettet
+                                    </SortButton>
+                                </Header>
+                                <Header scope="col" colSpan={1} aria-label="valg" />
+                                <Header scope="col" colSpan={1} aria-label="notater" />
+                            </tr>
+                        </thead>
+                        <Body>
+                            {paginatedRows.map((it) => (
+                                <LinkRow aktørId={it.aktørId} key={it.oppgavereferanse}>
+                                    <TildelingCell oppgave={it} kanTildeles={!readOnly} />
+                                    <SakstypeCell
+                                        type={it.periodetype}
+                                        erBeslutterOppgave={it.erBeslutterOppgave}
+                                        erReturOppgave={it.erReturOppgave}
                                     />
-                                ) : (
-                                    <Cell />
-                                )}
-                            </LinkRow>
-                        ))}
-                    </Body>
-                </Table>
-            </ScrollableX>
+                                    <BostedCell stedsnavn={it.boenhet.navn} />
+                                    <InntektskildeCell type={it.inntektskilde} />
+                                    <StatusCell numberOfWarnings={it.antallVarsler} />
+                                    <SøkerCell personinfo={it.personinfo} />
+                                    <OpprettetCell date={it.opprettet} />
+                                    <OptionsCell oppgave={it} personinfo={it.personinfo} />
+                                    {it.tildeling?.påVent ? (
+                                        <NotatCell
+                                            vedtaksperiodeId={it.vedtaksperiodeId}
+                                            personinfo={it.personinfo}
+                                            erPåVent={it.tildeling.påVent}
+                                        />
+                                    ) : (
+                                        <Cell />
+                                    )}
+                                </LinkRow>
+                            ))}
+                        </Body>
+                    </Table>
+                </div>
+            </div>
             <Pagination numberOfEntries={visibleRows.length} />
-        </Container>
+        </div>
     );
 });

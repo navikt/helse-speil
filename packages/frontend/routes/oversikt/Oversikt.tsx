@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Loadable, useRecoilValue, useRecoilValueLoadable } from 'recoil';
 
 import { Varsel } from '@components/Varsel';
-import { Flex, FlexColumn } from '@components/Flex';
+import { Flex } from '@components/Flex';
 import { useLoadingToast } from '@hooks/useLoadingToast';
 import { useResetPerson } from '@state/person';
 import { useInnloggetSaksbehandler } from '@state/authentication';
@@ -73,23 +73,19 @@ export const Oversikt = () => {
     return (
         <div className={styles.Oversikt}>
             {oppgaver.state === 'hasError' && <Varsel variant="warning">{(oppgaver.contents as Error).message}</Varsel>}
-            <FlexColumn className={styles.fullHeight}>
-                <Tabs />
-                <Flex className={styles.fullHeight}>
-                    <div className={styles.Content}>
-                        {hasData ? (
-                            <OppgaverTable
-                                oppgaver={
-                                    oppgaver.state === 'hasValue' ? (oppgaver.contents as Oppgave[]) : oppgaver.cache
-                                }
-                            />
-                        ) : oppgaver.state !== 'loading' ? (
-                            <IngenOppgaver />
-                        ) : null}
-                    </div>
-                    <Behandlingsstatistikk />
-                </Flex>
-            </FlexColumn>
+            <Tabs />
+            <Flex className={styles.fullHeight}>
+                <div className={styles.Content}>
+                    {hasData ? (
+                        <OppgaverTable
+                            oppgaver={oppgaver.state === 'hasValue' ? (oppgaver.contents as Oppgave[]) : oppgaver.cache}
+                        />
+                    ) : oppgaver.state !== 'loading' ? (
+                        <IngenOppgaver />
+                    ) : null}
+                </div>
+                <Behandlingsstatistikk />
+            </Flex>
         </div>
     );
 };

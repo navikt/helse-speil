@@ -1,14 +1,10 @@
-.Oversikt {
+.OppgaverTable {
     display: flex;
     flex-direction: column;
-    position: relative;
-    flex: 1;
-    overflow-x: hidden;
     height: 100%;
 }
 
 .Content {
-    margin: 1.5rem;
     padding: 0;
     color: var(--navds-semantic-color-text);
     overflow: auto hidden;
@@ -16,6 +12,14 @@
     flex: 1;
 }
 
+.Scrollable {
+    margin: 0;
+    padding: 0;
+    height: calc(100% - 50px);
+    width: 100%;
+}
+
 .fullHeight {
+    flex-direction: column;
     height: 100%;
 }
