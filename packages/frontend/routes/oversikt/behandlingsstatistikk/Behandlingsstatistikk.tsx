@@ -155,7 +155,9 @@ export const Behandlingsstatistikk = () => {
                                 ({ periodetypeForSpeil, antall }) => ({
                                     etikett: (
                                         <Tooltip content={getDataTipForPeriodetype(periodetypeForSpeil)}>
-                                            <Oppgaveetikett type={periodetypeForSpeil} størrelse="s" />
+                                            <div>
+                                                <Oppgaveetikett type={periodetypeForSpeil} størrelse="s" />
+                                            </div>
                                         </Tooltip>
                                     ),
                                     antall: antall,
@@ -181,7 +183,9 @@ export const Behandlingsstatistikk = () => {
                                         ({ periodetypeForSpeil, antall }) => ({
                                             etikett: (
                                                 <Tooltip content={getDataTipForPeriodetype(periodetypeForSpeil)}>
-                                                    <Oppgaveetikett type={periodetypeForSpeil} størrelse="s" />
+                                                    <div>
+                                                        <Oppgaveetikett type={periodetypeForSpeil} størrelse="s" />
+                                                    </div>
                                                 </Tooltip>
                                             ),
                                             antall: antall,
