@@ -231,7 +231,7 @@ const OverstyrArbeidsforholdSkjema = ({
                 <Container>
                     <Begrunnelser begrunnelser={begrunnelser} />
                     <ForklaringTextarea
-                        description={`Begrunn hvorfor inntekt ikke skal brukes i beregningen. \nKommer ikke i vedtaksbrevet, men vil bli forevist bruker ved \nspørsmål om innsyn.`}
+                        description={`Begrunn hvorfor inntekt ikke skal brukes i beregningen. \nBlir ikke forevist den sykmeldte, med mindre den sykmeldte ber om innsyn.`}
                     />
                     {!form.formState.isValid && form.formState.isSubmitted && (
                         <FeiloppsummeringContainer>

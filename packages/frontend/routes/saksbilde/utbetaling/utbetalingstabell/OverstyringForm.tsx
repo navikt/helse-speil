@@ -53,7 +53,7 @@ export const OverstyringForm: React.FC<OverstyringFormProps> = ({ overstyrteDage
                 description={
                     <span>
                         Begrunn hvorfor det er gjort endringer i sykdomstidslinjen. <br />
-                        Kommer ikke i vedtaksbrevet, men vil bli forevist bruker ved spørsmål om innsyn.
+                        Blir ikke forevist den sykmeldte, med mindre den sykmeldte ber om innsyn..
                     </span>
                 }
                 error={formState.errors.begrunnelse?.message}
