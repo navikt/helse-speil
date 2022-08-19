@@ -11,7 +11,7 @@ import { oppgaverState, useRefetchOppgaver } from '@state/oppgaver';
 import { IngenOppgaver } from './IngenOppgaver';
 import { OppgaverTable } from './table/OppgaverTable';
 import { Behandlingsstatistikk } from './behandlingsstatistikk/Behandlingsstatistikk';
-import { Tabs, tabState, TabType } from './tabs';
+import { Tabs, tabState, TabType } from './Tabs';
 
 import styles from './Oversikt.module.css';
 

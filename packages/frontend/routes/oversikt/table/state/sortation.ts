@@ -1,6 +1,6 @@
 import { atom, selector, useRecoilValue, useSetRecoilState } from 'recoil';
 
-import { tabState, TabType } from '../../tabs';
+import { tabState, TabType } from '../../Tabs';
 
 export type SortationState = 'ascending' | 'descending' | 'none';
 

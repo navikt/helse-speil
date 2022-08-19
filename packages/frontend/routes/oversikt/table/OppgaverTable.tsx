@@ -13,7 +13,7 @@ import { LinkRow } from './LinkRow';
 import { Pagination } from './Pagination';
 import { SortButton } from './SortButton';
 import { FilterButton } from './FilterButton';
-import { TabType, useAktivTab } from '../tabs';
+import { TabType, useAktivTab } from '../Tabs';
 import { InntektskildeCell } from './rader/InntektskildeCell';
 import { TildelingCell } from './rader/TildelingCell';
 import { OpprettetCell } from './rader/OpprettetCell';

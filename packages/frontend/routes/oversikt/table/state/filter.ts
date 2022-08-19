@@ -1,6 +1,6 @@
 import { atom, selector, useRecoilValue, useSetRecoilState } from 'recoil';
 
-import { tabState, TabType } from '../../tabs';
+import { tabState, TabType } from '../../Tabs';
 import { utbetalingTilSykmeldt } from '@utils/featureToggles';
 
 export type Filter<T> = {

@@ -8,7 +8,7 @@ import agurk from '../../assets/ingen-oppgaver-agurk.png';
 import fredagstaco from '../../assets/ingen-oppgaver-fredagstaco.png';
 import brevkasse from '../../assets/ingen-oppgaver.png';
 
-import { useAktivTab } from './tabs';
+import { useAktivTab } from './Tabs';
 
 const Container = styled.div`
     align-self: flex-start;
