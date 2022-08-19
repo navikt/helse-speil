@@ -163,7 +163,7 @@ export const Behandlingsstatistikk = () => {
                             )}
                         />
                         <Statistikkpanel
-                            tittel="FULLFØRTE BEHANDLINGER I DAG"
+                            tittel="FULLFØRTE SAKER I DAG"
                             antallSaker={statistikk.fullførteBehandlinger.totalt}
                             elementer={[
                                 {
