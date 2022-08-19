@@ -64,3 +64,15 @@
 .Button > svg {
     transform: translateY(-1px);
 }
+
+.Button > svg > path {
+    transition: fill 0.1s ease;
+}
+
+.Button.active {
+    background: var(--navds-semantic-color-interaction-primary);
+}
+
+.Button.active > svg > path {
+    fill: #ffffff;
+}

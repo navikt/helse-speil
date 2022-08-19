@@ -10,7 +10,7 @@ import { useInnloggetSaksbehandler } from '@state/authentication';
 import { useMineOppgaver, useOppgaver } from '@state/oppgaver';
 
 import { AnonymiserDataDropdownMenuButton } from '../saksbilde/sakslinje/dropdown/AnonymiserDataDropdownMenuButton';
-import { useToggleStatistikk } from './behandlingsstatistikk/state';
+import { useShowStatistikk, useToggleStatistikk } from './behandlingsstatistikk/state';
 
 import styles from './Tabs.module.css';
 
@@ -78,6 +78,7 @@ const VentendeSakerTab = () => {
 
 export const Tabs = () => {
     const toggleStatistikk = useToggleStatistikk();
+    const showStatistikk = useShowStatistikk();
 
     return (
         <div className={styles.Tabs}>
@@ -90,7 +91,7 @@ export const Tabs = () => {
                 </Dropdown>
             </span>
             <RoundedButton
-                className={styles.Button}
+                className={classNames(styles.Button, showStatistikk && styles.active)}
                 aria-label="Toggle visning av behandlingsstatistikk"
                 onClick={toggleStatistikk}
             >

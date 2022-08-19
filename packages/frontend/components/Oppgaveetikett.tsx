@@ -130,53 +130,55 @@ const DelvisRefusjonEtikett = styled(Etikett)`
 `;
 
 interface OppgaveetikettProps extends EtikettProps {
-    type: Periodetype | GraphQLPeriodetype | 'REVURDERING';
+    type: Periodetype | GraphQLPeriodetype | 'REVURDERING' | ExternalPeriodetype;
     erBeslutterOppgave?: boolean;
     erReturOppgave?: boolean;
     tilstand?: PeriodState;
 }
 
-export const Oppgaveetikett = ({
-    type,
-    tilstand,
-    erBeslutterOppgave = false,
-    erReturOppgave = false,
-    størrelse = 'l',
-}: OppgaveetikettProps) => {
-    if (erBeslutterOppgave) return <BeslutterEtikett størrelse={størrelse} />;
-    if (erReturOppgave) return <ReturEtikett størrelse={størrelse} />;
-    switch (type) {
-        case 'førstegangsbehandling':
-        case 'FORSTEGANGSBEHANDLING':
-            return <FørstegangsbehandlingEtikett størrelse={størrelse} />;
-        case 'forlengelse':
-        case 'FORLENGELSE':
-            return <ForlengelseEtikett størrelse={størrelse} />;
-        case 'infotrygdforlengelse':
-        case 'INFOTRYGDFORLENGELSE':
-            return <ForlengelseEtikett størrelse={størrelse} />;
-        case 'overgangFraIt':
-        case 'OVERGANG_FRA_IT':
-            return <InfotrygdforlengelseEtikett størrelse={størrelse} />;
-        case 'stikkprøve':
-            return <StikkprøveEtikett størrelse={størrelse} />;
-        case 'fortroligAdresse':
-            return <FortroligAdresseEtikett størrelse={størrelse} />;
-        case 'riskQa':
-            return <RiskQaEtikett størrelse={størrelse} />;
-        case 'utbetalingTilSykmeldt':
-            return <UtbetalingTilSykmeldtEtikett størrelse={størrelse} />;
-        case 'delvisRefusjon':
-            return <DelvisRefusjonEtikett størrelse={størrelse} />;
-        case 'REVURDERING':
-        case 'revurdering': {
-            if (tilstand === 'revurderes') {
-                return <RevurderesEtikett størrelse={størrelse} />;
-            } else {
-                return <RevurderingEtikett størrelse={størrelse} />;
+export const Oppgaveetikett = React.forwardRef<HTMLDivElement, OppgaveetikettProps>(
+    ({ type, tilstand, erBeslutterOppgave = false, erReturOppgave = false, størrelse = 'l' }, ref) => {
+        if (erBeslutterOppgave) return <BeslutterEtikett ref={ref} størrelse={størrelse} />;
+        if (erReturOppgave) return <ReturEtikett ref={ref} størrelse={størrelse} />;
+        switch (type) {
+            case 'førstegangsbehandling':
+            case 'FORSTEGANGSBEHANDLING':
+            case 'FØRSTEGANGSBEHANDLING':
+                return <FørstegangsbehandlingEtikett ref={ref} størrelse={størrelse} />;
+            case 'forlengelse':
+            case 'FORLENGELSE':
+                return <ForlengelseEtikett ref={ref} størrelse={størrelse} />;
+            case 'infotrygdforlengelse':
+            case 'INFOTRYGDFORLENGELSE':
+                return <ForlengelseEtikett ref={ref} størrelse={størrelse} />;
+            case 'overgangFraIt':
+            case 'OVERGANG_FRA_IT':
+                return <InfotrygdforlengelseEtikett ref={ref} størrelse={størrelse} />;
+            case 'stikkprøve':
+            case 'STIKKPRØVE':
+                return <StikkprøveEtikett ref={ref} størrelse={størrelse} />;
+            case 'fortroligAdresse':
+            case 'FORTROLIG_ADRESSE':
+                return <FortroligAdresseEtikett ref={ref} størrelse={størrelse} />;
+            case 'riskQa':
+            case 'RISK_QA':
+                return <RiskQaEtikett ref={ref} størrelse={størrelse} />;
+            case 'utbetalingTilSykmeldt':
+            case 'UTBETALING_TIL_SYKMELDT':
+                return <UtbetalingTilSykmeldtEtikett ref={ref} størrelse={størrelse} />;
+            case 'delvisRefusjon':
+            case 'DELVIS_REFUSJON':
+                return <DelvisRefusjonEtikett ref={ref} størrelse={størrelse} />;
+            case 'REVURDERING':
+            case 'revurdering': {
+                if (tilstand === 'revurderes') {
+                    return <RevurderesEtikett ref={ref} størrelse={størrelse} />;
+                } else {
+                    return <RevurderingEtikett ref={ref} størrelse={størrelse} />;
+                }
             }
+            default:
+                return null;
         }
-        default:
-            return null;
-    }
-};
+    },
+);

@@ -61,35 +61,6 @@ declare type Oppgave = {
     tidligereSaksbehandlerOid: string;
 };
 
-declare type Behandlingsstatistikk = {
-    antallOppgaverTilGodkjenning: {
-        totalt: number;
-        perPeriodetype: {
-            periodetype: Periodetype;
-            antall: number;
-        }[];
-    };
-    antallTildelteOppgaver: {
-        totalt: number;
-        perPeriodetype: {
-            periodetype: Periodetype;
-            antall: number;
-        }[];
-    };
-    fullførteBehandlinger: {
-        totalt: number;
-        manuelt: {
-            totalt: number;
-            perPeriodetype: {
-                periodetype: Periodetype;
-                antall: number;
-            }[];
-        };
-        automatisk: number;
-        annulleringer: number;
-    };
-};
-
 declare type NotatType = 'PaaVent' | 'Retur' | 'Generelt';
 
 declare type Notat = {

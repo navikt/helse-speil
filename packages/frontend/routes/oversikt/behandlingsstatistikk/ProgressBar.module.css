@@ -1,0 +1,24 @@
+.ProgressBar {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    border: none;
+    height: 0.5rem;
+    width: 100%;
+}
+
+.ProgressBar::-webkit-progress-bar {
+    background-color: var(--navds-global-color-gray-100);
+    color: var(--navds-global-color-blue-300);
+    border-radius: 2px;
+}
+
+.ProgressBar::-moz-progress-bar {
+    color: var(--navds-global-color-blue-300);
+    border-radius: 2px;
+}
+
+.ProgressBar::-webkit-progress-value {
+    background-color: var(--navds-global-color-blue-300);
+    border-radius: 2px;
+}

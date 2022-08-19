@@ -1,28 +1,20 @@
-import { atom, selector, useRecoilState, useSetRecoilState } from 'recoil';
+import { atom, AtomEffect, useRecoilValue, useSetRecoilState } from 'recoil';
 
-const getDefaultFromStorage = (): boolean | null => {
-    switch (localStorage.getItem('showStatistikk')) {
-        case 'true':
-            return true;
-        case 'false':
-            return false;
-        default:
-            return null;
+const syncWithLocalStorageEffect: AtomEffect<boolean> = ({ onSet, setSelf }) => {
+    const key = 'showStatistikk';
+    const savedValue = localStorage.getItem(key);
+    if (savedValue) {
+        setSelf(savedValue === 'true');
     }
+    onSet((newValue) => {
+        localStorage.setItem(key, `${newValue}`);
+    });
 };
 
-const _showStatistikk = atom<boolean>({
-    key: '_showStatistikk',
-    default: getDefaultFromStorage() ?? true,
-});
-
-const showStatistikk = selector<boolean>({
+const showStatistikk = atom<boolean>({
     key: 'showStatistikk',
-    get: ({ get }) => get(_showStatistikk),
-    set: ({ set }, newValue) => {
-        localStorage.setItem('showStatistikk', `${newValue}`);
-        set(_showStatistikk, newValue);
-    },
+    default: true,
+    effects: [syncWithLocalStorageEffect],
 });
 
 export const useToggleStatistikk = () => {
@@ -30,4 +22,4 @@ export const useToggleStatistikk = () => {
     return () => setShow((show) => !show);
 };
 
-export const useShowStatistikkState = () => useRecoilState(showStatistikk);
+export const useShowStatistikk = () => useRecoilValue(showStatistikk);

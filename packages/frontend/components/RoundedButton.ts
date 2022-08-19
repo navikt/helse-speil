@@ -10,6 +10,7 @@ export const RoundedButton = styled.button`
     align-items: center;
     justify-content: center;
     border-radius: 50%;
+    transition: background 0.1s ease;
 
     > svg {
         flex-shrink: 0;
