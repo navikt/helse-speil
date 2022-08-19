@@ -1,4 +1,4 @@
-import React, { HTMLAttributes, useState } from 'react';
+import React, { HTMLAttributes, ReactNode, useState } from 'react';
 import classNames from 'classnames';
 import { Collapse, Expand } from '@navikt/ds-icons';
 import { Popover } from '@navikt/ds-react';
@@ -15,8 +15,8 @@ export const DropdownContext = React.createContext<DropdownContextValue>({
     lukk: () => {},
 });
 
-interface DropdownProps extends HTMLAttributes<HTMLButtonElement> {
-    title: string;
+interface DropdownProps extends Omit<HTMLAttributes<HTMLButtonElement>, 'title'> {
+    title: ReactNode;
 }
 
 export const Dropdown: React.FC<DropdownProps> = ({ title, className, onClick, children, ...buttonProps }) => {

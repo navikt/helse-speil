@@ -50,13 +50,16 @@
     color: var(--navds-semantic-color-interaction-primary);
 }
 
+.Tab:focus-visible {
+    box-shadow: inset var(--navds-shadow-focus);
+}
+
 .Tab.active:before {
     height: 4px;
 }
 
 .Meny {
-    height: var(--navds-font-line-height-large);
-    padding: 4px 8px;
+    padding: 16px;
     margin: 0 6px;
 }
 
