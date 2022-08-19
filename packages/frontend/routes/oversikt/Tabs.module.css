@@ -72,8 +72,12 @@
     transition: fill 0.1s ease;
 }
 
-.Button.active {
+.Button:active {
     background: var(--navds-semantic-color-interaction-primary);
+}
+
+.Button.active:not(:active) {
+    background: var(--navds-semantic-color-interaction-primary-selected);
 }
 
 .Button.active > svg > path {

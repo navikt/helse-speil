@@ -128,7 +128,7 @@ export const Behandlingsstatistikk = () => {
             }}
             style={{ overflow: 'visible' }}
         >
-            <div className={styles.Behandlingsstatistikk}>
+            <div className={styles.Behandlingsstatistikk} role="region" aria-labelledby="behandlingsstatistikk-toggle">
                 {statistikk ? (
                     <>
                         <Statistikkpanel

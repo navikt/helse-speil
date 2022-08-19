@@ -92,8 +92,10 @@ export const Tabs = () => {
                 </Dropdown>
             </span>
             <RoundedButton
+                id="behandlingsstatistikk-toggle"
                 className={classNames(styles.Button, showStatistikk && styles.active)}
                 aria-label="Toggle visning av behandlingsstatistikk"
+                aria-expanded={showStatistikk}
                 onClick={toggleStatistikk}
             >
                 <Data />
