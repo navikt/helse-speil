@@ -21,6 +21,7 @@ const fagkoordinatorer = [
     'K104953',
     'A147735',
 ];
+const enhetsledere = ['B138607'];
 const faktiskSupportsaksbehandlere = ['H104215', 'O130292', 'F111930'];
 const tilgangFlereArbeidsgivere = [
     'M139452',
@@ -35,7 +36,6 @@ const tilgangFlereArbeidsgivere = [
     'S135852',
     'S127865',
     'A158665',
-    'B138607',
     'L148406',
     'L105506',
     'M106091',
@@ -116,7 +116,6 @@ const tilgangStikkprøver = [
     'J153777',
     'V149621',
     'D163344',
-    'B138607',
 ];
 
 const utvidetTilganger = [
@@ -155,7 +154,6 @@ const utvidetTilganger = [
     'B160663',
     'O123659',
     'B152345',
-    'B138607',
     'C131310',
     'S161414',
     'V150075',
@@ -198,7 +196,6 @@ const kanRevurdere = [
     'A100343',
     'L127690',
     'K105052',
-    'B138607',
     'S124729',
     'O145552',
     'C131310',
@@ -221,7 +218,7 @@ const kanRevurdere = [
 export const erLocal = () => location.hostname === 'localhost';
 export const erDev = () => location.hostname === 'speil.dev.intern.nav.no';
 
-const harTilgangTilAlt = () => [...supersaksbehandlere, ...fagkoordinatorer].includes(extractIdent());
+const harTilgangTilAlt = () => [...supersaksbehandlere, ...fagkoordinatorer, ...enhetsledere].includes(extractIdent());
 const erFaktiskSupportsaksbehandler = () => faktiskSupportsaksbehandlere.includes(extractIdent()); // ref @support på Slack
 const harUtvidetTilgang = () => utvidetTilganger.includes(extractIdent());
 const harTilgangFlereArbeidsgivere = () => tilgangFlereArbeidsgivere.includes(extractIdent());
