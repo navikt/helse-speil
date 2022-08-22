@@ -134,7 +134,7 @@ export const EndringForm: React.FC<EndringFormProps> = ({
     const handleSubmit = () => {
         if (harEndring(endring)) {
             onSubmitEndring(endring);
-            setEndring(defaultEndring);
+            setEndring((prevState) => ({ ...prevState, grad: undefined }));
         } else {
             form.setError('dagtype', { message: 'Velg en dagtype' });
         }
