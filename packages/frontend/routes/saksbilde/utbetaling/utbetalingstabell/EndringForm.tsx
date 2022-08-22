@@ -1,4 +1,3 @@
-import styled from '@emotion/styled';
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 
@@ -7,62 +6,7 @@ import { Button, Select, TextField } from '@navikt/ds-react';
 import { Bold } from '@components/Bold';
 import { overstyrPermisjonsdagerEnabled } from '@utils/featureToggles';
 
-const Container = styled.div`
-    background-color: var(--speil-overstyring-background);
-    padding: 0 2rem;
-
-    label {
-        font-weight: normal;
-        font-size: 1rem;
-    }
-`;
-
-const Dagtypevelger = styled(Select)`
-    .navds-select__input {
-        padding: 0.15rem;
-    }
-
-    .navds-select__container {
-        margin-right: 10px;
-        width: 137px;
-    }
-`;
-
-const Gradvelger = styled(TextField)`
-    margin-right: 0.7rem;
-    width: 2.5rem;
-
-    input {
-        height: 32px;
-    }
-
-    input:disabled {
-        border-color: #b8b8b8;
-    }
-
-    input[type='number']::-webkit-inner-spin-button,
-    input[type='number']::-webkit-outer-spin-button {
-        -webkit-appearance: none;
-        appearance: none;
-    }
-
-    -moz-appearance: textfield;
-`;
-
-const Knapp = styled(Button)`
-    align-self: flex-end;
-    margin-right: 10px;
-    font-size: 1rem;
-`;
-
-const InputContainer = styled.div`
-    display: flex;
-    align-items: start;
-`;
-
-const Form = styled.form`
-    padding-top: 0.5rem;
-`;
+import styles from './EndringForm.module.css';
 
 const dagtyperUtenGradering: Array<Utbetalingstabelldagtype> = ['Arbeid', 'Ferie', 'Permisjon'];
 
@@ -142,15 +86,16 @@ export const EndringForm: React.FC<EndringFormProps> = ({
 
     return (
         <>
-            <Container>
+            <div className={styles.EndringForm}>
                 <Bold>
                     Fyll inn hva{' '}
                     {markerteDager.size === 1 ? `den valgte dagen` : `de ${markerteDager.size} valgte dagene`} skal
                     endres til
                 </Bold>
-                <Form onSubmit={form.handleSubmit(handleSubmit)}>
-                    <InputContainer>
-                        <Dagtypevelger
+                <form onSubmit={form.handleSubmit(handleSubmit)}>
+                    <div className={styles.Inputs}>
+                        <Select
+                            className={styles.Dagtypevelger}
                             size="small"
                             label="Utbet. dager"
                             onChange={oppdaterDagtype}
@@ -163,8 +108,9 @@ export const EndringForm: React.FC<EndringFormProps> = ({
                                     {dagtype}
                                 </option>
                             ))}
-                        </Dagtypevelger>
-                        <Gradvelger
+                        </Select>
+                        <TextField
+                            className={styles.Gradvelger}
                             size="small"
                             type="number"
                             label="Grad"
@@ -175,8 +121,7 @@ export const EndringForm: React.FC<EndringFormProps> = ({
                             error={form.formState.errors.gradvelger?.message}
                             {...gradvelgervalidation}
                         />
-                        <Knapp
-                            as="button"
+                        <Button
                             size="small"
                             type="submit"
                             variant="secondary"
@@ -184,10 +129,10 @@ export const EndringForm: React.FC<EndringFormProps> = ({
                             data-testid="endre"
                         >
                             Endre ({markerteDager.size})
-                        </Knapp>
-                    </InputContainer>
-                </Form>
-            </Container>
+                        </Button>
+                    </div>
+                </form>
+            </div>
         </>
     );
 };

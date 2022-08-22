@@ -1,0 +1,53 @@
+.EndringForm {
+    background-color: var(--speil-overstyring-background);
+    padding: 0 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.EndringForm label {
+    font-weight: normal;
+    font-size: 1rem;
+}
+
+.Inputs {
+    display: flex;
+    gap: 12px;
+    align-items: flex-end;
+}
+
+.Inputs > button {
+    height: max-content;
+}
+
+.Gradvelger {
+    width: 2.5rem;
+    -moz-appearance: textfield;
+}
+
+.Gradvelger input {
+    height: 32px;
+}
+
+.Gradvelger input:disabled {
+    opacity: 0.3;
+}
+
+.Gradvelger > div {
+    position: absolute;
+}
+
+.Gradvelger input[type='number']::-webkit-inner-spin-button,
+.Gradvelger input[type='number']::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    appearance: none;
+}
+
+.Dagtypevelger :global(.navds-select__input) {
+    padding: 0.15rem;
+}
+
+.Dagtypevelger :global(.navds-select__container) {
+    width: 137px;
+}
