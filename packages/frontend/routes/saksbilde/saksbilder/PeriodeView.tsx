@@ -42,13 +42,7 @@ const PeriodeViewContainer: React.VFC = () => {
                 );
         }
     } else if (isGhostPeriode(activePeriod)) {
-        return (
-            <GhostPeriodeView
-                activePeriod={activePeriod}
-                currentPerson={currentPerson}
-                currentArbeidsgiver={currentArbeidsgiver}
-            />
-        );
+        return <GhostPeriodeView activePeriod={activePeriod} currentPerson={currentPerson} />;
     } else if (isUberegnetPeriode(activePeriod)) {
         return <UberegnetPeriodeView activePeriod={activePeriod} />;
     } else {

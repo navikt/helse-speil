@@ -11,7 +11,6 @@ import { isBeregnetPeriode } from '@utils/typeguards';
 
 const Container = styled.div`
     display: flex;
-    margin-top: 1rem;
     align-content: space-between;
 `;
 
