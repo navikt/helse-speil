@@ -1,6 +1,6 @@
-import React, { ReactNode } from 'react';
+import React from 'react';
 import { Modal } from '@components/Modal';
-import { SetterOrUpdater, useRecoilState } from 'recoil';
+import { useRecoilState } from 'recoil';
 import {
     toggleHarBeslutterRolle,
     toggleKanBeslutteEgenBeslutteroppgave,
@@ -10,37 +10,9 @@ import {
     toggleSkalSjekkeIsRevurderingForTotrinn,
     toggleTotrinnsvurderingAktiv,
 } from '@state/toggles';
+import { Checkbox, CheckboxGroup } from '@navikt/ds-react';
 
 import styles from './ToggleMeny.module.css';
-
-interface SectionProps {
-    label: string;
-    children: ReactNode | ReactNode[];
-}
-
-const Section = ({ label, children }: SectionProps) => {
-    return (
-        <div className={styles.section}>
-            <p className={styles.p}>{label}</p>
-            {children}
-        </div>
-    );
-};
-
-interface ToggleProps {
-    label: string;
-    checked: boolean;
-    setValue: SetterOrUpdater<boolean>;
-}
-
-const Toggle = ({ label, checked, setValue }: ToggleProps) => {
-    return (
-        <div className={styles.Toggle}>
-            <p>{label}</p>
-            <input type="checkbox" checked={checked} onChange={(_) => setValue(!checked)} />
-        </div>
-    );
-};
 
 interface ToggleMenyProps {
     modalOpen: boolean;
@@ -49,7 +21,7 @@ interface ToggleMenyProps {
 
 export const ToggleMeny = ({ modalOpen, onCloseModal }: ToggleMenyProps) => {
     const [harBeslutterRolle, setHarBeslutterRolle] = useRecoilState(toggleHarBeslutterRolle);
-    const [harTotrinnsvurderingAktiv, setHarTotrinnsvurderingAktiv] = useRecoilState(toggleTotrinnsvurderingAktiv);
+    const [totrinnsvurderingErAktiv, setTotrinnsvurderingErAktiv] = useRecoilState(toggleTotrinnsvurderingAktiv);
     const [kanBeslutteEgenBeslutteroppgave, setKanBeslutteEgenBeslutteroppgave] = useRecoilState(
         toggleKanBeslutteEgenBeslutteroppgave,
     );
@@ -65,40 +37,60 @@ export const ToggleMeny = ({ modalOpen, onCloseModal }: ToggleMenyProps) => {
 
     return (
         <Modal isOpen={modalOpen} onRequestClose={onCloseModal}>
-            <Section label="Totrinnsvurdering">
-                <Toggle label="Har beslutterrolle" checked={harBeslutterRolle} setValue={setHarBeslutterRolle} />
-                <Toggle
-                    label="Totrinnsvurdering aktiv"
-                    checked={harTotrinnsvurderingAktiv}
-                    setValue={setHarTotrinnsvurderingAktiv}
-                />
-                <Toggle
-                    label="Kan beslutte egen beslutteroppgave"
-                    checked={kanBeslutteEgenBeslutteroppgave}
-                    setValue={setKanBeslutteEgenBeslutteroppgave}
-                />
-            </Section>
+            <form className={styles.ToggleMeny}>
+                <CheckboxGroup legend="Totrinnsvurdering">
+                    <Checkbox
+                        checked={harBeslutterRolle}
+                        onChange={() => setHarBeslutterRolle((prevState) => !prevState)}
+                    >
+                        Har beslutterrolle
+                    </Checkbox>
+                    <Checkbox
+                        checked={totrinnsvurderingErAktiv}
+                        onChange={() => setTotrinnsvurderingErAktiv((prevState) => !prevState)}
+                    >
+                        Totrinnsvurdering aktiv
+                    </Checkbox>
+                    <Checkbox
+                        checked={kanBeslutteEgenBeslutteroppgave}
+                        onChange={() => setKanBeslutteEgenBeslutteroppgave((prevState) => !prevState)}
+                    >
+                        Kan beslutte egen beslutteroppgave
+                    </Checkbox>
+                </CheckboxGroup>
 
-            <Section label="Tildeling">
-                <Toggle
-                    label="Kan frigi andres oppgaver"
-                    checked={kanFrigiAndresOppgaver}
-                    setValue={setKanFrigiAndresOppgaver}
-                />
-            </Section>
+                <CheckboxGroup legend="Tildeling">
+                    <Checkbox
+                        checked={kanFrigiAndresOppgaver}
+                        onChange={() => setKanFrigiAndresOppgaver((prevState) => !prevState)}
+                    >
+                        Kan frigi andres oppgaver
+                    </Checkbox>
+                </CheckboxGroup>
 
-            <Section label="Read only">
-                <Toggle label="Override read-only" checked={readOnlyOverride} setValue={setReadOnlyOverride} />
-                {readOnlyOverride && <Toggle label="Oppgave er read-only" checked={readOnly} setValue={setReadOnly} />}
-            </Section>
+                <CheckboxGroup legend="Read only">
+                    <Checkbox
+                        checked={readOnlyOverride}
+                        onChange={() => setReadOnlyOverride((prevState) => !prevState)}
+                    >
+                        Override read-only
+                    </Checkbox>
+                    {readOnlyOverride && (
+                        <Checkbox checked={readOnly} onChange={() => setReadOnly((prevState) => !prevState)}>
+                            Oppgave er read-only
+                        </Checkbox>
+                    )}
+                </CheckboxGroup>
 
-            <Section label="Revurdering">
-                <Toggle
-                    label="Skal sjekke isRevurdering for totrinn"
-                    checked={skalSjekkeIsRevurderingForTotrinn}
-                    setValue={setSkalSjekkeIsRevurderingForTotrinn}
-                />
-            </Section>
+                <CheckboxGroup legend="Revurdering">
+                    <Checkbox
+                        checked={skalSjekkeIsRevurderingForTotrinn}
+                        onChange={() => setSkalSjekkeIsRevurderingForTotrinn((prevState) => !prevState)}
+                    >
+                        Skal sjekke isRevurdering for totrinn
+                    </Checkbox>
+                </CheckboxGroup>
+            </form>
         </Modal>
     );
 };

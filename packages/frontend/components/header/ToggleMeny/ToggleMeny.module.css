@@ -1,15 +1,9 @@
-.Toggle {
+.ToggleMeny {
     display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    gap: 4em;
-    margin: 1em 0;
+    flex-direction: column;
+    gap: 1.5rem;
 }
 
-.p {
-    font-weight: bold;
-}
-
-.section:not(:nth-last-of-type(1)) {
-    margin-bottom: 2em;
+.ToggleMeny label {
+    padding: var(--navds-spacing-2) 0;
 }
