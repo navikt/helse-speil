@@ -7,7 +7,6 @@ import { Header } from '@navikt/ds-react-internal';
 import styles from './GlobalFeilside.module.css';
 
 export const GlobalFeilside = (error: Error) => {
-    console.log(error.stack, error.name);
     return (
         <>
             <Header>
