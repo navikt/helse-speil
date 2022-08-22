@@ -56,7 +56,7 @@ interface HistorikkWithContentProps {
     vedtaksperiodeId?: string;
 }
 
-export const HistorikkWithContent: React.VFC<HistorikkWithContentProps> = React.memo(
+const HistorikkWithContent: React.VFC<HistorikkWithContentProps> = React.memo(
     ({ activePeriod, vedtaksperiodeId, tildeling, personinfo }) => {
         const historikk = useHistorikk();
         const notaterForPeriode = isBeregnetPeriode(activePeriod) ? activePeriod.notater.map(toNotat) : [];

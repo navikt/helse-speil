@@ -76,5 +76,3 @@ export const HistorikkHeader = () => {
         </Header>
     );
 };
-
-export default HistorikkHeader;

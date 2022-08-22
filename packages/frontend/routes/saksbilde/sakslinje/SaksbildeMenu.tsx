@@ -29,7 +29,7 @@ const AnonymiserDataDropdownMenuButton = React.lazy(() =>
     import('./dropdown/AnonymiserDataDropdownMenuButton').catch(onLazyLoadFail),
 );
 const OppdaterPersondataButton = React.lazy(() => import('./dropdown/OppdaterPersondataButton').catch(onLazyLoadFail));
-const HistorikkHeader = React.lazy(() => import('../historikk/HistorikkHeader').catch(onLazyLoadFail));
+const HistorikkHeader = React.lazy(() => import('../historikk').catch(onLazyLoadFail));
 
 const SaksbildeMenuEmpty: React.VFC = () => {
     return (

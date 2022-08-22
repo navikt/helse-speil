@@ -10,7 +10,7 @@ import { Arbeidsgiver, BeregnetPeriode, Person } from '@io/graphql';
 
 import { Saksbildevarsler } from '../varsler/Saksbildevarsler';
 import { Venstremeny } from '../venstremeny/Venstremeny';
-import { Historikk } from '../historikk/Historikk';
+import { Historikk } from '../historikk';
 
 import styles from './PeriodeView.module.css';
 import { useHarVurderLovvalgOgMedlemskapVarsel } from '@hooks/useHarVurderLovvalgOgMedlemskapVarsel';

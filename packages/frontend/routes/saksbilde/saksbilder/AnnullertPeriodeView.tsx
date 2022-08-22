@@ -2,7 +2,7 @@ import React from 'react';
 import { Alert } from '@navikt/ds-react';
 
 import { Venstremeny } from '../venstremeny/Venstremeny';
-import { Historikk } from '../historikk/Historikk';
+import { Historikk } from '../historikk';
 
 import styles from './PeriodeView.module.css';
 

@@ -3,10 +3,10 @@ import { Route, Switch, useRouteMatch } from 'react-router-dom';
 
 import { Location } from '@hooks/useNavigation';
 import { useNavigateOnMount } from '@hooks/useNavigateOnMount';
-import type { Arbeidsgiver, GhostPeriode, Person } from '@io/graphql';
+import type { GhostPeriode, Person } from '@io/graphql';
 import { getPeriodState } from '@utils/mapping';
 
-import { Historikk } from '../historikk/Historikk';
+import { Historikk } from '../historikk';
 import { Venstremeny } from '../venstremeny/Venstremeny';
 import { Saksbildevarsler } from '../varsler/Saksbildevarsler';
 import { Sykepengegrunnlag } from '../sykepengegrunnlag/Sykepengegrunnlag';
@@ -16,14 +16,9 @@ import styles from './PeriodeView.module.css';
 interface GhostPeriodeViewProps {
     activePeriod: GhostPeriode;
     currentPerson: Person;
-    currentArbeidsgiver: Arbeidsgiver;
 }
 
-export const GhostPeriodeView: React.VFC<GhostPeriodeViewProps> = ({
-    activePeriod,
-    currentPerson,
-    currentArbeidsgiver,
-}) => {
+export const GhostPeriodeView: React.VFC<GhostPeriodeViewProps> = ({ activePeriod, currentPerson }) => {
     if (!activePeriod.skjaeringstidspunkt || !activePeriod.vilkarsgrunnlaghistorikkId) {
         throw Error('Mangler skjæringstidspunkt eller vilkårsgrunnlag. Ta kontakt med en utvikler.');
     }
