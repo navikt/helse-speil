@@ -9,8 +9,7 @@ import { overstyrPermisjonsdagerEnabled } from '@utils/featureToggles';
 
 const Container = styled.div`
     background-color: var(--speil-overstyring-background);
-    padding: 2rem 1rem;
-    border-top: 6px solid #fff;
+    padding: 0 2rem;
 
     label {
         font-weight: normal;
@@ -90,14 +89,12 @@ const kanVelgeGrad = (type?: Utbetalingstabelldagtype) => type && dagtyperUtenGr
 
 interface EndringFormProps {
     markerteDager: Map<string, UtbetalingstabellDag>;
-    toggleOverstyring: () => void;
     onSubmitEndring: (endring: Partial<UtbetalingstabellDag>) => void;
     revurderingIsEnabled?: boolean;
 }
 
 export const EndringForm: React.FC<EndringFormProps> = ({
     markerteDager,
-    toggleOverstyring,
     onSubmitEndring,
     revurderingIsEnabled = false,
 }) => {

@@ -4,7 +4,8 @@
     flex-direction: column;
     gap: 2rem;
     box-sizing: border-box;
-    min-width: var(--speil-venstremeny-width);
+    min-width: max-content;
+    max-width: max-content;
     padding: 2rem 1.5rem;
     border-right: 1px solid var(--navds-semantic-color-border);
 }

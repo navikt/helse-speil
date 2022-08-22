@@ -9,8 +9,7 @@ import { SortInfoikon } from '@components/ikoner/SortInfoikon';
 import { useActivePeriodHasLatestFagsystemIdForSkjæringstidspunkt } from '@hooks/revurdering';
 
 const Container = styled(Flex)`
-    min-height: 24px;
-    margin-bottom: 1rem;
+    height: 24px;
     display: flex;
     flex-direction: row;
     justify-content: flex-end;
@@ -18,9 +17,7 @@ const Container = styled(Flex)`
     width: 100%;
 `;
 
-export const ToggleOverstyringKnapp = styled.button<{ overstyrer: boolean }>`
-    margin-top: ${(props) => (props.overstyrer ? '0' : '0.5rem')};
-    padding-right: ${(props) => (props.overstyrer ? '1rem' : '0')};
+export const ToggleOverstyringKnapp = styled.button`
     border: none;
     background: none;
     display: flex;
@@ -93,7 +90,7 @@ export const UtbetalingHeader: React.FC<UtbetalingHeaderProps> = ({
                     </PopoverHjelpetekst>
                 </InfobobleContainer>
             ) : (
-                <ToggleOverstyringKnapp onClick={toggleOverstyring} data-testid="overstyringsknapp" overstyrer={false}>
+                <ToggleOverstyringKnapp onClick={toggleOverstyring} data-testid="overstyringsknapp">
                     <Locked height={24} width={24} />
                     {revurderingIsEnabled || overstyrRevurderingIsEnabled ? 'Revurder' : 'Endre'}
                 </ToggleOverstyringKnapp>

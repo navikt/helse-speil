@@ -44,7 +44,7 @@ const tilOverstyrteDager = (dager: Array<UtbetalingstabellDag>): OverstyrtDagDTO
 type UsePostOverstyringState = 'loading' | 'hasValue' | 'hasError' | 'initial' | 'timedOut' | 'done';
 
 type UsePostOverstyringResult = {
-    postOverstyring: (dager: Array<UtbetalingstabellDag>, begrunnelse: string, callback?: () => void) => void;
+    postOverstyring: (dager: Array<UtbetalingstabellDag>, begrunnelse: string, callback?: () => void) => Promise<void>;
     state: UsePostOverstyringState;
     error?: string;
 };
@@ -93,7 +93,11 @@ export const usePostOverstyring = (): UsePostOverstyringResult => {
         };
     }, [calculating]);
 
-    const _postOverstyring = (dager: Array<UtbetalingstabellDag>, begrunnelse: string, callback?: () => void) => {
+    const _postOverstyring = (
+        dager: Array<UtbetalingstabellDag>,
+        begrunnelse: string,
+        callback?: () => void,
+    ): Promise<void> => {
         const overstyring = {
             aktørId: person.aktorId,
             fødselsnummer: person.fodselsnummer,
@@ -102,7 +106,7 @@ export const usePostOverstyring = (): UsePostOverstyringResult => {
             begrunnelse: begrunnelse,
         };
 
-        postOverstyrteDager(overstyring)
+        return postOverstyrteDager(overstyring)
             .then(() => {
                 setState('hasValue');
                 addToast(kalkulererToast({}));

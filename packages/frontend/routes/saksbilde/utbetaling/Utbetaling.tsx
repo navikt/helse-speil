@@ -24,13 +24,7 @@ import { Utbetalingstabell } from './utbetalingstabell/Utbetalingstabell';
 import { useTabelldagerMap } from './utbetalingstabell/useTabelldagerMap';
 import { OverstyrbarUtbetaling } from './OverstyrbarUtbetaling';
 
-const Container = styled(FlexColumn)<{ overstyrer: boolean }>`
-    position: relative;
-    padding-right: ${(props) => (props.overstyrer ? '1rem' : '2rem')};
-    margin-left: ${(props) => (props.overstyrer ? '0.5rem' : '0')};
-    border-left: ${(props) => (props.overstyrer ? '6px solid #0067C5' : '0')};
-    margin-top: 1rem;
-`;
+import styles from './Utbetaling.module.css';
 
 const UtbetalingstabellContainer = styled(FlexColumn)<{ overstyrer: boolean }>`
     position: relative;
@@ -60,7 +54,7 @@ const ReadonlyUtbetaling: React.FC<ReadonlyUtbetalingProps> = ({ fom, tom, dager
     const activeGenerationIsLast = useActiveGenerationIsLast();
 
     return (
-        <Container overstyrer={false}>
+        <div className={styles.Utbetaling}>
             {!hasLatestSkjæringstidspunkt && activeGenerationIsLast && (
                 <InfobobleContainer>
                     <PopoverHjelpetekst ikon={<SortInfoikon />}>
@@ -71,7 +65,7 @@ const ReadonlyUtbetaling: React.FC<ReadonlyUtbetalingProps> = ({ fom, tom, dager
             <UtbetalingstabellContainer data-testid="utbetaling" overstyrer={false}>
                 <Utbetalingstabell fom={fom} tom={tom} dager={dager} />
             </UtbetalingstabellContainer>
-        </Container>
+        </div>
     );
 };
 

@@ -1,4 +1,4 @@
-import React, { useLayoutEffect, useState } from 'react';
+import React, { useState } from 'react';
 import classNames from 'classnames';
 import { BodyShort } from '@navikt/ds-react';
 
@@ -25,6 +25,7 @@ import { NotatListeModal } from '../../oversikt/table/rader/notat/NotatListeModa
 import { useFilterState, useHistorikk, useOppdaterHistorikk, useShowHistorikkState } from './state';
 
 import styles from './Historikk.module.css';
+import { motion } from 'framer-motion';
 
 const convertDagoverstyring = (overstyring: Dagoverstyring): Array<OverstyringerPrDag> => {
     return overstyring.dager.map((it) => ({
@@ -67,14 +68,6 @@ const HistorikkWithContent: React.VFC<HistorikkWithContentProps> = React.memo(
 
         const [endring, setEndring] = useState<Overstyring | null>(null);
 
-        useLayoutEffect(() => {
-            if (showHistorikk) {
-                document.documentElement.style.setProperty('--speil-hoyremeny-width', '272px');
-            } else {
-                document.documentElement.style.setProperty('--speil-hoyremeny-width', '0px');
-            }
-        }, [showHistorikk]);
-
         useOppdaterHistorikk({
             periode: activePeriod,
             onClickNotat: (notattype: NotatType) => setNotattype(notattype),
@@ -85,17 +78,29 @@ const HistorikkWithContent: React.VFC<HistorikkWithContentProps> = React.memo(
 
         return (
             <>
-                <div className={styles.Historikk}>
-                    <ul>
-                        <li>
-                            {tittel}
-                            <CloseButton onClick={() => setShowHistorikk(false)} />
-                        </li>
-                        {historikk.map((it) => (
-                            <HistorikkHendelse key={it.id} {...it} />
-                        ))}
-                    </ul>
-                </div>
+                <motion.div
+                    key="behandlingsstatistikk"
+                    initial={{ width: showHistorikk ? 'max-content' : 0 }}
+                    animate={{ width: showHistorikk ? 'max-content' : 0 }}
+                    transition={{
+                        type: 'tween',
+                        duration: 0.2,
+                        ease: 'easeInOut',
+                    }}
+                    style={{ overflow: 'hidden' }}
+                >
+                    <div className={styles.Historikk}>
+                        <ul>
+                            <li>
+                                {tittel}
+                                <CloseButton onClick={() => setShowHistorikk(false)} />
+                            </li>
+                            {historikk.map((it) => (
+                                <HistorikkHendelse key={it.id} {...it} />
+                            ))}
+                        </ul>
+                    </div>
+                </motion.div>
                 {vedtaksperiodeId && notattype && (
                     <NotatListeModal
                         notater={notaterForPeriode}

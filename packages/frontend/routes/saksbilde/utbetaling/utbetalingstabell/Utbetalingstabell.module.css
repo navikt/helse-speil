@@ -1,18 +1,17 @@
 .Container {
     display: flex;
     overflow-x: auto;
-    padding-left: 2rem;
 }
 
 .Container.overstyrer {
-    padding-left: 3rem;
+    margin-left: 2rem;
 }
 
 .TableContainer {
     display: flex;
     flex: 1;
     width: 400px;
-    height: max-content;
+    height: 100%;
 }
 
 .TableContainer * {

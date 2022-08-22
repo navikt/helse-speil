@@ -2,20 +2,20 @@ import React from 'react';
 import { Route, Switch, useRouteMatch } from 'react-router-dom';
 import { Loader } from '@navikt/ds-react';
 
-import { useSyncNotater } from '@state/notater';
 import { onLazyLoadFail } from '@utils/error';
 import { getPeriodState } from '@utils/mapping';
-import { useErTidligereSaksbehandler } from '@hooks/useErTidligereSaksbehandler';
+import { useSyncNotater } from '@state/notater';
+import { useHarDagOverstyringer } from '@state/arbeidsgiver';
+import { useEndringerEtterNyesteUtbetaltetidsstempel } from '@state/person';
 import { Arbeidsgiver, BeregnetPeriode, Person } from '@io/graphql';
+import { useHarVurderLovvalgOgMedlemskapVarsel } from '@hooks/useHarVurderLovvalgOgMedlemskapVarsel';
+import { useErTidligereSaksbehandler } from '@hooks/useErTidligereSaksbehandler';
 
 import { Saksbildevarsler } from '../varsler/Saksbildevarsler';
 import { Venstremeny } from '../venstremeny/Venstremeny';
 import { Historikk } from '../historikk';
 
 import styles from './PeriodeView.module.css';
-import { useHarVurderLovvalgOgMedlemskapVarsel } from '@hooks/useHarVurderLovvalgOgMedlemskapVarsel';
-import { useEndringerEtterNyesteUtbetaltetidsstempel } from '@state/person';
-import { useHarDagOverstyringer } from '@state/arbeidsgiver';
 
 const Utbetaling = React.lazy(() => import('../utbetaling/Utbetaling').catch(onLazyLoadFail));
 const Inngangsvilkår = React.lazy(() => import('../vilkår/Inngangsvilkår').catch(onLazyLoadFail));
@@ -65,28 +65,24 @@ export const BeregnetPeriodeView: React.VFC<BeregnetPeriodeViewProps> = ({ activ
                     harDagOverstyringer={harDagOverstyringer}
                     activePeriodTom={activePeriod.tom}
                 />
-                <Switch>
-                    <React.Suspense fallback={<BeregnetPeriodeViewLoader />}>
-                        <Route path={`${path}/utbetaling`}>
-                            <Utbetaling />
-                        </Route>
-                        <Route path={`${path}/inngangsvilkår`}>
-                            <div className={styles.RouteContainer}>
+                <div className={styles.RouteContainer}>
+                    <Switch>
+                        <React.Suspense fallback={<BeregnetPeriodeViewLoader />}>
+                            <Route path={`${path}/utbetaling`}>
+                                <Utbetaling />
+                            </Route>
+                            <Route path={`${path}/inngangsvilkår`}>
                                 <Inngangsvilkår />
-                            </div>
-                        </Route>
-                        <Route path={`${path}/sykepengegrunnlag`}>
-                            <div className={styles.RouteContainer}>
+                            </Route>
+                            <Route path={`${path}/sykepengegrunnlag`}>
                                 <Sykepengegrunnlag />
-                            </div>
-                        </Route>
-                        <Route path={`${path}/faresignaler`}>
-                            <div className={styles.RouteContainer}>
+                            </Route>
+                            <Route path={`${path}/faresignaler`}>
                                 <Faresignaler />
-                            </div>
-                        </Route>
-                    </React.Suspense>
-                </Switch>
+                            </Route>
+                        </React.Suspense>
+                    </Switch>
+                </div>
             </div>
             <Historikk />
         </>

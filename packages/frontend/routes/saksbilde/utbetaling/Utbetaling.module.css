@@ -1,0 +1,7 @@
+.Utbetaling {
+    position: relative;
+}
+
+.Utbetaling.overstyrer {
+    border-left: 6px solid var(--navds-semantic-color-interaction-primary);
+}

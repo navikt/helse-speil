@@ -2,6 +2,8 @@
     grid-area: høyremeny;
     overflow: hidden;
     transition: width 0.2s ease;
+    height: 100%;
+    width: max-content;
 }
 
 .Historikk > ul {

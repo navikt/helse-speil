@@ -5,7 +5,7 @@ import { useFormContext } from 'react-hook-form';
 import { Button, ErrorSummary, Textarea } from '@navikt/ds-react';
 
 const Container = styled.div`
-    margin: 0 1rem;
+    margin: 0 2rem;
 `;
 
 const FeiloppsummeringContainer = styled.div`

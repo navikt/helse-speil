@@ -59,8 +59,9 @@ export const OverstyrbarUtbetaling: React.FC<OverstyrbarUtbetalingProps> = ({
     };
 
     const onSubmitOverstyring = () => {
-        postOverstyring(Array.from(overstyrteDager.values()), form.getValues('begrunnelse'));
-        setOverstyrer(!overstyrer);
+        postOverstyring(Array.from(overstyrteDager.values()), form.getValues('begrunnelse'), () =>
+            setOverstyrer(!overstyrer),
+        );
     };
 
     const toggleChecked = (dag: UtbetalingstabellDag) => (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -102,7 +103,7 @@ export const OverstyrbarUtbetaling: React.FC<OverstyrbarUtbetalingProps> = ({
             {overstyrer ? (
                 <div className={styles.OverstyringHeader}>
                     <Bold>Huk av for dagene som skal endres til samme verdi</Bold>
-                    <ToggleOverstyringKnapp type="button" onClick={toggleOverstyring} overstyrer={overstyrer}>
+                    <ToggleOverstyringKnapp type="button" onClick={toggleOverstyring}>
                         <Unlocked height={24} width={24} />
                         Avbryt
                     </ToggleOverstyringKnapp>
@@ -116,7 +117,7 @@ export const OverstyrbarUtbetaling: React.FC<OverstyrbarUtbetalingProps> = ({
                     overstyrRevurderingIsEnabled={overstyrRevurderingIsEnabled}
                 />
             )}
-            <div className={classNames(styles.TableContainer, overstyrer && styles.overstyrer)}>
+            <div className={classNames(styles.TableContainer)}>
                 <Utbetalingstabell
                     fom={fom}
                     tom={tom}
@@ -147,25 +148,20 @@ export const OverstyrbarUtbetaling: React.FC<OverstyrbarUtbetalingProps> = ({
                                 />
                             ))}
                         </div>
-                        <div className={styles.Sticky}>
-                            <EndringForm
-                                markerteDager={markerteDager}
-                                toggleOverstyring={toggleOverstyring}
-                                onSubmitEndring={onSubmitEndring}
-                                revurderingIsEnabled={revurderingIsEnabled}
-                            />
-                        </div>
-                        <div className={styles.BegrunnelseContainer}>
-                            <FormProvider {...form}>
-                                <form onSubmit={(event) => event.preventDefault()}>
-                                    <OverstyringForm
-                                        overstyrteDager={overstyrteDager}
-                                        toggleOverstyring={toggleOverstyring}
-                                        onSubmit={onSubmitOverstyring}
-                                    />
-                                </form>
-                            </FormProvider>
-                        </div>
+                        <EndringForm
+                            markerteDager={markerteDager}
+                            onSubmitEndring={onSubmitEndring}
+                            revurderingIsEnabled={revurderingIsEnabled}
+                        />
+                        <FormProvider {...form}>
+                            <form onSubmit={(event) => event.preventDefault()}>
+                                <OverstyringForm
+                                    overstyrteDager={overstyrteDager}
+                                    toggleOverstyring={toggleOverstyring}
+                                    onSubmit={onSubmitOverstyring}
+                                />
+                            </form>
+                        </FormProvider>
                     </>
                 )}
             </div>
