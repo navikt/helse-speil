@@ -66,12 +66,6 @@ export const ToggleMeny = ({ modalOpen, onCloseModal }: ToggleMenyProps) => {
                         Skal sjekke isRevurdering for totrinn
                     </Checkbox>
                 </CheckboxGroup>
-
-                <CheckboxGroup legend="Theme">
-                    <Checkbox checked={theme === 'dark'} onChange={toggleTheme}>
-                        Dark mode
-                    </Checkbox>
-                </CheckboxGroup>
             </form>
         </Modal>
     );
