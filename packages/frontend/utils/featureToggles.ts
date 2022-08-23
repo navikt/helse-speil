@@ -262,16 +262,10 @@ export const defaultUtbetalingToggles: UtbetalingToggles = {
 
 export const overstyrInntektEnabled = overstyreUtbetaltPeriodeEnabled;
 
-export const harBeslutterRolle: boolean = extractGroups().includes(groupIdForBesluttere);
+export const harBeslutterrolle: boolean = extractGroups().includes(groupIdForBesluttere);
 
 export const toggleMeny: boolean = erLocal() || erDev();
 
-const saksbehandlereMedNyPølsevisning = [
-    'N115007',
-    'A160730',
-    'O123659',
-    'ACB4402',
-    'S160466',
-];
+const saksbehandlereMedNyPølsevisning = ['N115007', 'A160730', 'O123659', 'ACB4402', 'S160466'];
 
 export const pølsebonansaEnabled = erDev() || erLocal() || saksbehandlereMedNyPølsevisning.includes(extractIdent());

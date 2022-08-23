@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { useSetRecoilState } from 'recoil';
 import { BodyShort, Loader } from '@navikt/ds-react';
 import styled from '@emotion/styled';
 
@@ -10,7 +10,7 @@ import { useErBeslutteroppgaveOgHarTilgang } from '@hooks/useErBeslutteroppgaveO
 import { useHarVurderLovvalgOgMedlemskapVarsel } from '@hooks/useHarVurderLovvalgOgMedlemskapVarsel';
 import { opptegnelsePollingTimeState } from '@state/opptegnelser';
 import { useHarDagOverstyringer } from '@state/arbeidsgiver';
-import { toggleSkalSjekkeIsRevurderingForTotrinn, toggleTotrinnsvurderingAktiv } from '@state/toggles';
+import { useSkalSjekkeRevurderingForTotrinn, useTotrinnsvurderingErAktiv } from '@state/toggles';
 import { useHarEndringerEtterNyesteUtbetaltetidsstempel } from '@state/person';
 import { isBeregnetPeriode } from '@utils/typeguards';
 import { getPeriodState } from '@utils/mapping';
@@ -84,8 +84,8 @@ export const Utbetaling = ({ activePeriod, currentPerson }: UtbetalingProps) => 
     const history = useHistory();
     const readOnly = useIsReadOnlyOppgave();
     const erBeslutteroppgaveOgHarTilgang = useErBeslutteroppgaveOgHarTilgang();
-    const totrinnsvurderingAktiv = useRecoilValue(toggleTotrinnsvurderingAktiv);
-    const skalSjekkeIsRevurderingForTotrinn = useRecoilValue(toggleSkalSjekkeIsRevurderingForTotrinn);
+    const totrinnsvurderingAktiv = useTotrinnsvurderingErAktiv();
+    const skalSjekkeIsRevurderingForTotrinn = useSkalSjekkeRevurderingForTotrinn();
     const harVurderLovvalgOgMedlemskapVarsel = useHarVurderLovvalgOgMedlemskapVarsel();
     const harEndringerEtterNyesteUtbetaltetidsstempel = useHarEndringerEtterNyesteUtbetaltetidsstempel();
     const harDagOverstyringer = useHarDagOverstyringer(activePeriod);

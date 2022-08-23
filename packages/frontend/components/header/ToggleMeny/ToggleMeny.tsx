@@ -1,16 +1,15 @@
 import React from 'react';
-import { Modal } from '@components/Modal';
-import { useRecoilState } from 'recoil';
 import {
-    toggleHarBeslutterRolle,
-    toggleKanBeslutteEgenBeslutteroppgave,
-    toggleKanFrigiAndresOppgaver,
-    toggleReadOnly,
-    toggleReadOnlyOverride,
-    toggleSkalSjekkeIsRevurderingForTotrinn,
-    toggleTotrinnsvurderingAktiv,
+    useToggleKanFrigiOppgaver,
+    useToggleReadonly,
+    useToggleReadonlyOverride,
+    useToggleSkalSjekkeRevurderingForTotrinn,
+    useToggleTotrinnsvurdering,
+    useTotrinnsvurdering,
 } from '@state/toggles';
 import { Checkbox, CheckboxGroup } from '@navikt/ds-react';
+
+import { Modal } from '@components/Modal';
 
 import styles from './ToggleMeny.module.css';
 
@@ -20,74 +19,57 @@ interface ToggleMenyProps {
 }
 
 export const ToggleMeny = ({ modalOpen, onCloseModal }: ToggleMenyProps) => {
-    const [harBeslutterRolle, setHarBeslutterRolle] = useRecoilState(toggleHarBeslutterRolle);
-    const [totrinnsvurderingErAktiv, setTotrinnsvurderingErAktiv] = useRecoilState(toggleTotrinnsvurderingAktiv);
-    const [kanBeslutteEgenBeslutteroppgave, setKanBeslutteEgenBeslutteroppgave] = useRecoilState(
-        toggleKanBeslutteEgenBeslutteroppgave,
-    );
+    const totrinn = useTotrinnsvurdering();
+    const toggleTotrinn = useToggleTotrinnsvurdering();
 
-    const [kanFrigiAndresOppgaver, setKanFrigiAndresOppgaver] = useRecoilState(toggleKanFrigiAndresOppgaver);
+    const [kanFrigiOppgaver, toggleKanFrigiOppgaver] = useToggleKanFrigiOppgaver();
 
-    const [readOnlyOverride, setReadOnlyOverride] = useRecoilState(toggleReadOnlyOverride);
-    const [readOnly, setReadOnly] = useRecoilState(toggleReadOnly);
+    const [readonlyOverride, toggleReadonlyOverride] = useToggleReadonlyOverride();
+    const [readOnly, toggleReadonly] = useToggleReadonly();
 
-    const [skalSjekkeIsRevurderingForTotrinn, setSkalSjekkeIsRevurderingForTotrinn] = useRecoilState(
-        toggleSkalSjekkeIsRevurderingForTotrinn,
-    );
+    const [skalSjekkeRevurdering, toggleSkalSjekkeRevurdering] = useToggleSkalSjekkeRevurderingForTotrinn();
 
     return (
         <Modal isOpen={modalOpen} onRequestClose={onCloseModal}>
             <form className={styles.ToggleMeny}>
                 <CheckboxGroup legend="Totrinnsvurdering">
-                    <Checkbox
-                        checked={harBeslutterRolle}
-                        onChange={() => setHarBeslutterRolle((prevState) => !prevState)}
-                    >
+                    <Checkbox checked={totrinn.harBeslutterrolle} onChange={toggleTotrinn('harBeslutterrolle')}>
                         Har beslutterrolle
                     </Checkbox>
-                    <Checkbox
-                        checked={totrinnsvurderingErAktiv}
-                        onChange={() => setTotrinnsvurderingErAktiv((prevState) => !prevState)}
-                    >
+                    <Checkbox checked={totrinn.erAktiv} onChange={toggleTotrinn('erAktiv')}>
                         Totrinnsvurdering aktiv
                     </Checkbox>
-                    <Checkbox
-                        checked={kanBeslutteEgenBeslutteroppgave}
-                        onChange={() => setKanBeslutteEgenBeslutteroppgave((prevState) => !prevState)}
-                    >
+                    <Checkbox checked={totrinn.kanBeslutteEgne} onChange={toggleTotrinn('kanBeslutteEgne')}>
                         Kan beslutte egen beslutteroppgave
                     </Checkbox>
                 </CheckboxGroup>
 
                 <CheckboxGroup legend="Tildeling">
-                    <Checkbox
-                        checked={kanFrigiAndresOppgaver}
-                        onChange={() => setKanFrigiAndresOppgaver((prevState) => !prevState)}
-                    >
+                    <Checkbox checked={kanFrigiOppgaver} onChange={toggleKanFrigiOppgaver}>
                         Kan frigi andres oppgaver
                     </Checkbox>
                 </CheckboxGroup>
 
                 <CheckboxGroup legend="Read only">
-                    <Checkbox
-                        checked={readOnlyOverride}
-                        onChange={() => setReadOnlyOverride((prevState) => !prevState)}
-                    >
+                    <Checkbox checked={readonlyOverride} onChange={toggleReadonlyOverride}>
                         Override read-only
                     </Checkbox>
-                    {readOnlyOverride && (
-                        <Checkbox checked={readOnly} onChange={() => setReadOnly((prevState) => !prevState)}>
+                    {readonlyOverride && (
+                        <Checkbox checked={readOnly} onChange={toggleReadonly}>
                             Oppgave er read-only
                         </Checkbox>
                     )}
                 </CheckboxGroup>
 
                 <CheckboxGroup legend="Revurdering">
-                    <Checkbox
-                        checked={skalSjekkeIsRevurderingForTotrinn}
-                        onChange={() => setSkalSjekkeIsRevurderingForTotrinn((prevState) => !prevState)}
-                    >
+                    <Checkbox checked={skalSjekkeRevurdering} onChange={toggleSkalSjekkeRevurdering}>
                         Skal sjekke isRevurdering for totrinn
+                    </Checkbox>
+                </CheckboxGroup>
+
+                <CheckboxGroup legend="Theme">
+                    <Checkbox checked={theme === 'dark'} onChange={toggleTheme}>
+                        Dark mode
                     </Checkbox>
                 </CheckboxGroup>
             </form>

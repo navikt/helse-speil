@@ -13,8 +13,8 @@ import { FjernFraPåVentMenuButton } from './FjernFraPåVentMenuButton';
 import { LeggPåVentMenuButton } from './LeggPåVentMenuButton';
 import { MeldAvMenuButton } from './MeldAvMenuButton';
 import { TildelMenuButton } from './TildelMenuButton';
-import { toggleKanFrigiAndresOppgaver } from '@state/toggles';
-import { useRecoilValue } from 'recoil';
+import { useKanFrigiOppgaver } from '@state/toggles';
+import { Maybe } from '@io/graphql';
 
 const Container = styled.span`
     > .navds-popover {
@@ -25,6 +25,10 @@ const Container = styled.span`
     display: flex;
     align-items: center;
 `;
+
+const erLike = (a?: Maybe<Saksbehandler>, b?: Maybe<Saksbehandler>): boolean => {
+    return typeof a?.oid === 'string' && typeof b?.oid === 'string' && a.oid === b.oid;
+};
 
 interface OptionsButtonProps {
     oppgave: Oppgave;
@@ -37,10 +41,8 @@ export const OptionsCell = React.memo(({ oppgave, personinfo }: OptionsButtonPro
 
     const innloggetSaksbehandler = useInnloggetSaksbehandler();
     const readOnly = useIsReadOnlyOppgave();
-    const erTildeltInnloggetBruker =
-        typeof oppgave.tildeling?.saksbehandler?.oid === 'string' &&
-        oppgave.tildeling?.saksbehandler.oid === innloggetSaksbehandler.oid;
-    const kanFrigiAndresOppgaver = useRecoilValue(toggleKanFrigiAndresOppgaver);
+    const erTildeltInnloggetBruker = erLike(oppgave.tildeling?.saksbehandler, innloggetSaksbehandler);
+    const kanFrigiAndresOppgaver = useKanFrigiOppgaver();
     const skalViseAvmeldingsknapp = erTildeltInnloggetBruker || (oppgave.tildeling && kanFrigiAndresOppgaver);
 
     const togglePopover = (event: React.SyntheticEvent) => {
