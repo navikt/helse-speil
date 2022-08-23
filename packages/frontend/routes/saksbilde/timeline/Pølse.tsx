@@ -88,6 +88,7 @@ const getClassNames = (period: DatePeriod, notCurrent?: boolean, isActive?: bool
         isActive && styles.active,
         notCurrent && styles.old,
         isInfotrygdPeriod(period) && styles.legacy,
+        isGhostPeriode(period) && styles.blank,
     );
 };
 
