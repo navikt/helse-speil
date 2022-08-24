@@ -2,9 +2,7 @@ import React from 'react';
 import {
     useToggleKanFrigiOppgaver,
     useToggleReadonly,
-    useToggleReadonlyOverride,
     useToggleSkalSjekkeRevurderingForTotrinn,
-    useToggleTotrinnsvurdering,
     useTotrinnsvurdering,
 } from '@state/toggles';
 import { Checkbox, CheckboxGroup } from '@navikt/ds-react';
@@ -19,50 +17,68 @@ interface ToggleMenyProps {
 }
 
 export const ToggleMeny = ({ modalOpen, onCloseModal }: ToggleMenyProps) => {
-    const totrinn = useTotrinnsvurdering();
-    const toggleTotrinn = useToggleTotrinnsvurdering();
-
+    const [totrinn, toggleTotrinn] = useTotrinnsvurdering();
+    const [readOnly, toggleReadonly, toggleOverride] = useToggleReadonly();
     const [kanFrigiOppgaver, toggleKanFrigiOppgaver] = useToggleKanFrigiOppgaver();
-
-    const [readonlyOverride, toggleReadonlyOverride] = useToggleReadonlyOverride();
-    const [readOnly, toggleReadonly] = useToggleReadonly();
-
     const [skalSjekkeRevurdering, toggleSkalSjekkeRevurdering] = useToggleSkalSjekkeRevurderingForTotrinn();
 
     return (
         <Modal isOpen={modalOpen} onRequestClose={onCloseModal}>
             <form className={styles.ToggleMeny}>
                 <CheckboxGroup legend="Totrinnsvurdering">
-                    <Checkbox checked={totrinn.harBeslutterrolle} onChange={toggleTotrinn('harBeslutterrolle')}>
+                    <Checkbox
+                        value="Har beslutterrolle"
+                        checked={totrinn.harBeslutterrolle}
+                        onChange={toggleTotrinn('harBeslutterrolle')}
+                    >
                         Har beslutterrolle
                     </Checkbox>
-                    <Checkbox checked={totrinn.erAktiv} onChange={toggleTotrinn('erAktiv')}>
+                    <Checkbox
+                        value="Totrinnsvurdering aktiv"
+                        checked={totrinn.erAktiv}
+                        onChange={toggleTotrinn('erAktiv')}
+                    >
                         Totrinnsvurdering aktiv
                     </Checkbox>
-                    <Checkbox checked={totrinn.kanBeslutteEgne} onChange={toggleTotrinn('kanBeslutteEgne')}>
+                    <Checkbox
+                        value="Kan beslutte egen beslutteroppgave"
+                        checked={totrinn.kanBeslutteEgne}
+                        onChange={toggleTotrinn('kanBeslutteEgne')}
+                    >
                         Kan beslutte egen beslutteroppgave
                     </Checkbox>
                 </CheckboxGroup>
 
                 <CheckboxGroup legend="Tildeling">
-                    <Checkbox checked={kanFrigiOppgaver} onChange={toggleKanFrigiOppgaver}>
+                    <Checkbox
+                        value="Kan frigi andres oppgaver"
+                        checked={kanFrigiOppgaver}
+                        onChange={toggleKanFrigiOppgaver}
+                    >
                         Kan frigi andres oppgaver
                     </Checkbox>
                 </CheckboxGroup>
 
                 <CheckboxGroup legend="Read only">
-                    <Checkbox checked={readonlyOverride} onChange={toggleReadonlyOverride}>
-                        Override read-only
+                    <Checkbox value="Override readonly" checked={readOnly.override} onChange={toggleOverride}>
+                        Override readonly
                     </Checkbox>
-                    {readonlyOverride && (
-                        <Checkbox checked={readOnly} onChange={toggleReadonly}>
-                            Oppgave er read-only
-                        </Checkbox>
-                    )}
+                    <Checkbox
+                        value="Oppgave er readonly"
+                        checked={readOnly.value}
+                        onChange={toggleReadonly}
+                        disabled={!readOnly.override}
+                    >
+                        Oppgave er readonly
+                    </Checkbox>
                 </CheckboxGroup>
 
                 <CheckboxGroup legend="Revurdering">
-                    <Checkbox checked={skalSjekkeRevurdering} onChange={toggleSkalSjekkeRevurdering}>
+                    <Checkbox
+                        value="Skal sjekke isRevurdering for totrinn"
+                        checked={skalSjekkeRevurdering}
+                        onChange={toggleSkalSjekkeRevurdering}
+                    >
                         Skal sjekke isRevurdering for totrinn
                     </Checkbox>
                 </CheckboxGroup>

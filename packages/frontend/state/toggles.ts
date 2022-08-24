@@ -1,4 +1,4 @@
-import { atom, useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
+import { atom, useRecoilState, useRecoilValue } from 'recoil';
 import { harBeslutterrolle, kanFrigiAndresOppgaver } from '@utils/featureToggles';
 
 // Totrinnsvurdering
@@ -17,31 +17,32 @@ const totrinnsvurderingState = atom<TotrinnsvurderingState>({
     },
 });
 
-export const useTotrinnsvurdering = (): TotrinnsvurderingState => {
-    return useRecoilValue(totrinnsvurderingState);
-};
+export const useTotrinnsvurdering = (): [
+    value: TotrinnsvurderingState,
+    toggle: (property: keyof TotrinnsvurderingState) => () => void,
+] => {
+    const [totrinnsvurdering, setTotrinnsvurdering] = useRecoilState(totrinnsvurderingState);
 
-export const useToggleTotrinnsvurdering = (): ((property: keyof TotrinnsvurderingState) => () => void) => {
-    const setTotrinnsvurderingState = useSetRecoilState(totrinnsvurderingState);
-
-    return (property: keyof TotrinnsvurderingState) => () => {
-        setTotrinnsvurderingState((prevState) => ({
-            ...prevState,
-            [property]: !prevState[property],
-        }));
-    };
+    return [
+        totrinnsvurdering,
+        (property: keyof TotrinnsvurderingState) => () =>
+            setTotrinnsvurdering((prevState) => ({
+                ...prevState,
+                [property]: !prevState[property],
+            })),
+    ];
 };
 
 export const useHarBeslutterrolle = (): boolean => {
-    return useTotrinnsvurdering().harBeslutterrolle;
+    return useTotrinnsvurdering()[0].harBeslutterrolle;
 };
 
 export const useTotrinnsvurderingErAktiv = (): boolean => {
-    return useTotrinnsvurdering().erAktiv;
+    return useTotrinnsvurdering()[0].erAktiv;
 };
 
 export const useKanBeslutteEgneOppgaver = (): boolean => {
-    return useTotrinnsvurdering().kanBeslutteEgne;
+    return useTotrinnsvurdering()[0].kanBeslutteEgne;
 };
 
 // Tildeling
@@ -61,34 +62,37 @@ export const useToggleKanFrigiOppgaver = (): [value: boolean, toggle: () => void
 };
 
 // Read only
-const readonlyOverrideState = atom<boolean>({
-    key: 'readonlyOverrideState',
-    default: false,
-});
-
-export const useReadonlyOverride = (): boolean => {
-    return useRecoilValue(readonlyOverrideState);
+type ReadonlyState = {
+    value: boolean;
+    override: boolean;
 };
 
-export const useToggleReadonlyOverride = (): [value: boolean, toggle: () => void] => {
-    const [readonlyOverride, setReadonlyOverride] = useRecoilState(readonlyOverrideState);
-
-    return [readonlyOverride, () => setReadonlyOverride((prevState) => !prevState)];
-};
-
-const readonlyState = atom<boolean>({
+const readonlyState = atom<ReadonlyState>({
     key: 'readonlyState',
-    default: false,
+    default: {
+        value: false,
+        override: false,
+    },
 });
 
-export const useReadonly = (): boolean => {
+export const useReadonly = (): ReadonlyState => {
     return useRecoilValue(readonlyState);
 };
 
-export const useToggleReadonly = (): [value: boolean, toggle: () => void] => {
+export const useToggleReadonly = (): [value: ReadonlyState, toggleValue: () => void, toggleOverride: () => void] => {
     const [readonly, setReadonly] = useRecoilState(readonlyState);
 
-    return [readonly, () => setReadonly((prevState) => !prevState)];
+    const toggleValue = (): void => {
+        if (readonly.override) {
+            setReadonly((prevState) => ({ ...prevState, value: !prevState.value }));
+        }
+    };
+
+    const toggleOverride = (): void => {
+        setReadonly((prevState) => ({ ...prevState, override: !prevState.override }));
+    };
+
+    return [readonly, toggleValue, toggleOverride];
 };
 
 // Revurdering
