@@ -20,6 +20,7 @@ const fagkoordinatorer = [
     'F131883',
     'K104953',
     'A147735',
+    'A160730',
 ];
 const enhetsledere = ['B138607'];
 const faktiskSupportsaksbehandlere = ['H104215', 'O130292', 'F111930'];
@@ -104,6 +105,8 @@ const tilgangFlereArbeidsgivere = [
     'L142009',
     // Klageinstansen end
     'O146470',
+    'T142719',
+    'K162139',
 ];
 
 const tilgangStikkprøver = [
@@ -166,6 +169,8 @@ const utvidetTilganger = [
     'S112395',
     'A160730',
     'F102552',
+    'T142719',
+    'K162139',
 ];
 
 const kanRevurdere = [
@@ -213,6 +218,8 @@ const kanRevurdere = [
     'S112395',
     'A160730',
     'F102552',
+    'T142719',
+    'K162139',
 ];
 
 export const erLocal = () => location.hostname === 'localhost';
