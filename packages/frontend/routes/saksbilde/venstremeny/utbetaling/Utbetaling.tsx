@@ -5,7 +5,6 @@ import { BodyShort, Loader } from '@navikt/ds-react';
 import styled from '@emotion/styled';
 
 import { ErrorMessage } from '@components/ErrorMessage';
-import { useIsReadOnlyOppgave } from '@hooks/useIsReadOnlyOppgave';
 import { useErBeslutteroppgaveOgHarTilgang } from '@hooks/useErBeslutteroppgaveOgHarTilgang';
 import { useHarVurderLovvalgOgMedlemskapVarsel } from '@hooks/useHarVurderLovvalgOgMedlemskapVarsel';
 import { opptegnelsePollingTimeState } from '@state/opptegnelser';
@@ -82,7 +81,6 @@ export const Utbetaling = ({ activePeriod, currentPerson }: UtbetalingProps) => 
     const [error, setError] = useState<SpeilError | null>();
     const ventEllerHopp = useOnGodkjenn(activePeriod, currentPerson);
     const history = useHistory();
-    const readOnly = useIsReadOnlyOppgave();
     const erBeslutteroppgaveOgHarTilgang = useErBeslutteroppgaveOgHarTilgang();
     const totrinnsvurderingAktiv = useTotrinnsvurderingErAktiv();
     const skalSjekkeIsRevurderingForTotrinn = useSkalSjekkeRevurderingForTotrinn();
@@ -116,7 +114,7 @@ export const Utbetaling = ({ activePeriod, currentPerson }: UtbetalingProps) => 
     const harArbeidsgiverutbetaling = activePeriod.utbetaling.arbeidsgiverNettoBelop !== 0;
     const harBrukerutbetaling = activePeriod.utbetaling.personNettoBelop !== 0;
     const kanSendesTilTotrinnsvurdering =
-        totrinnsvurderingAktiv && isBeregnetPeriode(activePeriod) && !readOnly && !activePeriod.erBeslutterOppgave;
+        totrinnsvurderingAktiv && isBeregnetPeriode(activePeriod) && !activePeriod.erBeslutterOppgave;
 
     return (
         <>
@@ -150,7 +148,7 @@ export const Utbetaling = ({ activePeriod, currentPerson }: UtbetalingProps) => 
                             : 'Godkjenn'}
                     </GodkjenningButton>
                 )}
-                {!isRevurdering && !readOnly && !activePeriod.erBeslutterOppgave && (
+                {!isRevurdering && !activePeriod.erBeslutterOppgave && (
                     <AvvisningButton
                         disabled={periodenErSendt}
                         activePeriod={activePeriod}
