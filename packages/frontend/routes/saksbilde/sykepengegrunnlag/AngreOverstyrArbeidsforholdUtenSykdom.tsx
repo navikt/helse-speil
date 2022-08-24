@@ -30,14 +30,12 @@ const UndoIcon = () => (
 
 interface AngreOverstyrArbeidsforholdUtenSykdomProps {
     organisasjonsnummerAktivPeriode: string;
-    organisasjonsnummerPeriodeTilGodkjenning: string;
     skjæringstidspunkt: string;
     onClick: () => void;
 }
 
 export const AngreOverstyrArbeidsforholdUtenSykdom = ({
     organisasjonsnummerAktivPeriode,
-    organisasjonsnummerPeriodeTilGodkjenning,
     skjæringstidspunkt,
     onClick,
 }: AngreOverstyrArbeidsforholdUtenSykdomProps) => {
@@ -48,7 +46,6 @@ export const AngreOverstyrArbeidsforholdUtenSykdom = ({
         forklaring: 'Angret å ikke bruke det i beregningen',
     };
     const overstyrtArbeidsforhold = getOverstyrtArbeidsforhold(
-        organisasjonsnummerPeriodeTilGodkjenning,
         organisasjonsnummerAktivPeriode,
         skjæringstidspunkt,
         false,

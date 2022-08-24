@@ -19,6 +19,7 @@ import styles from './Inntekt.module.css';
 import { EditableInntekt } from './EditableInntekt';
 import { RedigerGhostInntekt } from './RedigerGhostInntekt';
 import { BegrunnelseForOverstyring } from '../overstyring.types';
+import { erDev } from '@utils/featureToggles';
 
 const maybePeriodeTilGodkjenning = (person: Person, skjæringstidspunkt: DateString): Maybe<BeregnetPeriode> => {
     return (
@@ -30,6 +31,15 @@ const maybePeriodeTilGodkjenning = (person: Person, skjæringstidspunkt: DateStr
                     it.periodetilstand === Periodetilstand.TilGodkjenning &&
                     it.skjaeringstidspunkt === skjæringstidspunkt,
             ) ?? null
+    );
+};
+
+const maybePeriodeForSkjæringstidspunkt = (person: Person, skjæringstidspunkt: DateString): Maybe<BeregnetPeriode> => {
+    return (
+        person?.arbeidsgivere
+            .flatMap((it) => it.generasjoner[0]?.perioder)
+            .filter(isBeregnetPeriode)
+            .find((it) => it.skjaeringstidspunkt === skjæringstidspunkt) ?? null
     );
 };
 
@@ -70,15 +80,21 @@ const useArbeidsforholdKanOverstyres = (organisasjonsnummer: string): boolean =>
 
     const periodeTilGodkjenning = maybePeriodeTilGodkjenning(person, activePeriod.skjaeringstidspunkt);
 
+    const periodeForSkjæringstidspunkt = maybePeriodeForSkjæringstidspunkt(person, activePeriod.skjaeringstidspunkt);
+
     const harIngenUtbetaltePerioder = harIngenUtbetaltePerioderFor(person, activePeriod.skjaeringstidspunkt);
 
     const harIngenPerioderTilBeslutter = harIngenPerioderTilBeslutterFor(person, activePeriod.skjaeringstidspunkt);
 
     return (
-        activePeriod.organisasjonsnummer === organisasjonsnummer &&
-        harIngenUtbetaltePerioder &&
-        harIngenPerioderTilBeslutter &&
-        periodeTilGodkjenning !== undefined
+        (activePeriod.organisasjonsnummer === organisasjonsnummer &&
+            harIngenUtbetaltePerioder &&
+            harIngenPerioderTilBeslutter &&
+            periodeTilGodkjenning !== undefined) ||
+        (erDev() &&
+            activePeriod.organisasjonsnummer === organisasjonsnummer &&
+            harIngenPerioderTilBeslutter &&
+            periodeForSkjæringstidspunkt !== undefined)
     );
 };
 
@@ -127,23 +143,6 @@ const useGhostInntektKanOverstyres = (organisasjonsnummer: string): boolean => {
     );
 };
 
-const useOrganisasjonsnummerTilPeriodenSomErTilGodkjenning = (): Maybe<string> => {
-    const person = useCurrentPerson();
-    const activePeriod = useActivePeriod();
-
-    if (!isGhostPeriode(activePeriod) || !person) {
-        return null;
-    }
-
-    return (
-        person.arbeidsgivere.find((it) =>
-            it.generasjoner[0]?.perioder
-                .filter(isBeregnetPeriode)
-                .some((it) => it.periodetilstand === Periodetilstand.TilGodkjenning),
-        )?.organisasjonsnummer ?? null
-    );
-};
-
 interface InntektUtenSykefraværProps {
     organisasjonsnummer: string;
     skjæringstidspunkt: DateString;
@@ -164,7 +163,6 @@ export const InntektUtenSykefravær = ({
 
     const arbeidsforholdKanOverstyres = useArbeidsforholdKanOverstyres(organisasjonsnummer);
     const inntektKanOverstyres = useGhostInntektKanOverstyres(organisasjonsnummer);
-    const organisasjonsnummerForPeriodeTilGodkjenning = useOrganisasjonsnummerTilPeriodenSomErTilGodkjenning();
     const { arbeidsforholdendringer } = useEndringerForPeriode(organisasjonsnummer);
 
     return (
@@ -194,10 +192,9 @@ export const InntektUtenSykefravær = ({
             ) : (
                 <ReadOnlyInntekt omregnetÅrsinntekt={omregnetÅrsinntekt} deaktivert={erDeaktivert} />
             )}
-            {!editingInntekt && arbeidsforholdKanOverstyres && organisasjonsnummerForPeriodeTilGodkjenning && (
+            {!editingInntekt && arbeidsforholdKanOverstyres && (
                 <OverstyrArbeidsforholdUtenSykdom
                     organisasjonsnummerAktivPeriode={organisasjonsnummer}
-                    organisasjonsnummerPeriodeTilGodkjenning={organisasjonsnummerForPeriodeTilGodkjenning}
                     skjæringstidspunkt={skjæringstidspunkt}
                     arbeidsforholdErDeaktivert={erDeaktivert}
                 />

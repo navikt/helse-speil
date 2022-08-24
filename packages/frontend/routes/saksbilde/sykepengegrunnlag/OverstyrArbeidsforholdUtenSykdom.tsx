@@ -100,14 +100,12 @@ const FeiloppsummeringContainer = styled.div`
 
 interface OverstyrArbeidsforholdUtenSykdomProps {
     organisasjonsnummerAktivPeriode: string;
-    organisasjonsnummerPeriodeTilGodkjenning: string;
     skjæringstidspunkt: string;
     arbeidsforholdErDeaktivert?: Maybe<boolean>;
 }
 
 export const OverstyrArbeidsforholdUtenSykdom = ({
     organisasjonsnummerAktivPeriode,
-    organisasjonsnummerPeriodeTilGodkjenning,
     skjæringstidspunkt,
     arbeidsforholdErDeaktivert,
 }: OverstyrArbeidsforholdUtenSykdomProps) => {
@@ -133,7 +131,6 @@ export const OverstyrArbeidsforholdUtenSykdom = ({
                 {skalViseAngreknapp && (
                     <AngreOverstyrArbeidsforholdUtenSykdom
                         organisasjonsnummerAktivPeriode={organisasjonsnummerAktivPeriode}
-                        organisasjonsnummerPeriodeTilGodkjenning={organisasjonsnummerPeriodeTilGodkjenning}
                         skjæringstidspunkt={skjæringstidspunkt}
                         onClick={() => oppdaterVenterPåEndringState({ visAngreknapp: false, visOverstyrKnapp: true })}
                     />
@@ -154,9 +151,7 @@ export const OverstyrArbeidsforholdUtenSykdom = ({
                 <OverstyrArbeidsforholdSkjema
                     onClose={() => setEditingArbeidsforhold(false)}
                     organisasjonsnummerAktivPeriode={organisasjonsnummerAktivPeriode}
-                    organisasjonsnummerPeriodeTilGodkjenning={organisasjonsnummerPeriodeTilGodkjenning}
                     skjæringstidspunkt={skjæringstidspunkt}
-                    arbeidsforholdErDeaktivert={arbeidsforholdErDeaktivert}
                     onSubmit={() => oppdaterVenterPåEndringState({ visAngreknapp: true, visOverstyrKnapp: false })}
                 />
             )}
@@ -167,9 +162,7 @@ export const OverstyrArbeidsforholdUtenSykdom = ({
 interface OverstyrArbeidsforholdSkjemaProps {
     onClose: () => void;
     organisasjonsnummerAktivPeriode: string;
-    organisasjonsnummerPeriodeTilGodkjenning: string;
     skjæringstidspunkt: string;
-    arbeidsforholdErDeaktivert?: Maybe<boolean>;
     onSubmit: () => void;
 }
 
@@ -199,9 +192,7 @@ const begrunnelser: BegrunnelseForOverstyring[] = [
 const OverstyrArbeidsforholdSkjema = ({
     onClose,
     organisasjonsnummerAktivPeriode,
-    organisasjonsnummerPeriodeTilGodkjenning,
     skjæringstidspunkt,
-    arbeidsforholdErDeaktivert,
     onSubmit,
 }: OverstyrArbeidsforholdSkjemaProps) => {
     const form = useForm({ shouldFocusError: false, mode: 'onBlur' });
@@ -214,7 +205,6 @@ const OverstyrArbeidsforholdSkjema = ({
         const { begrunnelseId, forklaring } = form.getValues();
         const begrunnelse = begrunnelser.find((begrunnelse) => begrunnelse.id === begrunnelseId)!!;
         const overstyrtArbeidsforhold = getOverstyrtArbeidsforhold(
-            organisasjonsnummerPeriodeTilGodkjenning,
             organisasjonsnummerAktivPeriode,
             skjæringstidspunkt,
             true,

@@ -14,7 +14,6 @@ import { useCurrentPerson } from '@state/person';
 import { BegrunnelseForOverstyring } from './overstyring.types';
 
 type OverstyrtArbeidsforholdGetter = (
-    organisasjonsnummerPeriodeTilGodkjenning: string,
     organisasjonsnummerGhost: string,
     skjæringstidspunkt: string,
     arbeidsforholdSkalDeaktiveres: boolean,
@@ -28,16 +27,8 @@ type OverstyrtArbeidsforholdGetter = (
 export const useGetOverstyrtArbeidsforhold = (): OverstyrtArbeidsforholdGetter => {
     const person = useCurrentPerson() as Person;
 
-    return (
-        organisasjonsnummerPeriodeTilGodkjenning,
-        organisasjonsnummerGhost,
-        skjæringstidspunkt,
-        arbeidsforholdSkalDeaktiveres,
-        forklaring,
-        begrunnelse,
-    ) => ({
+    return (organisasjonsnummerGhost, skjæringstidspunkt, arbeidsforholdSkalDeaktiveres, forklaring, begrunnelse) => ({
         fødselsnummer: person?.fodselsnummer,
-        organisasjonsnummer: organisasjonsnummerPeriodeTilGodkjenning,
         aktørId: person?.aktorId,
         skjæringstidspunkt: skjæringstidspunkt,
         overstyrteArbeidsforhold: [
