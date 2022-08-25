@@ -222,6 +222,8 @@ const kanRevurdere = [
     'K162139',
 ];
 
+const jobberINavØkonomi = ['R107838'];
+
 export const erLocal = () => location.hostname === 'localhost';
 export const erDev = () => location.hostname === 'speil.dev.intern.nav.no';
 
@@ -230,6 +232,7 @@ const erFaktiskSupportsaksbehandler = () => faktiskSupportsaksbehandlere.include
 const harUtvidetTilgang = () => utvidetTilganger.includes(extractIdent());
 const harTilgangFlereArbeidsgivere = () => tilgangFlereArbeidsgivere.includes(extractIdent());
 const harTilgangStikkprøver = () => tilgangStikkprøver.includes(extractIdent());
+const erØkonomifokusert = () => jobberINavØkonomi.includes(extractIdent());
 
 const erPåTeamBømlo = () => extractGroups().includes(groupIdForTbd);
 
@@ -243,7 +246,7 @@ export const overstyreUtbetaltPeriodeEnabled =
     erDev();
 
 export const annulleringerEnabled = erDev() || erLocal() || harUtvidetTilgang() || harTilgangTilAlt();
-export const utbetalingsoversikt = erPåTeamBømlo() || erLocal() || harTilgangTilAlt();
+export const utbetalingsoversikt = erPåTeamBømlo() || erLocal() || harTilgangTilAlt() || erØkonomifokusert();
 export const stikkprøve = harTilgangStikkprøver() || harTilgangTilAlt() || erLocal() || erDev();
 export const flereArbeidsgivere =
     erLocal() ||
