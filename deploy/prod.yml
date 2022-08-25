@@ -18,7 +18,6 @@ spec:
   image: {{image}}
   port: 3000
   ingresses:
-    - https://speil.nais.adeo.no
     - https://speil.intern.nav.no
   liveness:
     failureThreshold: 10
