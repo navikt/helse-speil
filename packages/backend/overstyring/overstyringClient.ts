@@ -42,19 +42,24 @@ interface OverstyringInntektDTO {
     skjæringstidspunkt: string;
 }
 
-interface OverstyringArbeidsforholdDTO {
-    aktørId: string;
+interface OverstyrtArbeidsforholdDTO {
     fødselsnummer: string;
-    organisasjonsnummer: string;
+    aktørId: string;
+    skjæringstidspunkt: string;
+    overstyrteArbeidsforhold: OverstyrtArbeidsforholdElementDTO[];
+}
+
+interface OverstyrtArbeidsforholdElementDTO {
+    orgnummer: string;
+    deaktivert: boolean;
+    forklaring: string;
     begrunnelse: string;
-    forklaring: number;
-    arbeidsforholdErAktivt: boolean;
 }
 
 export interface OverstyringClient {
     overstyrDager: (overstyring: OverstyringDTO, speilToken: string) => Promise<Response>;
     overstyrInntekt: (overstyring: OverstyringInntektDTO, speilToken: string) => Promise<Response>;
-    overstyrArbeidsforhold: (overstyring: OverstyringArbeidsforholdDTO, speilToken: string) => Promise<Response>;
+    overstyrArbeidsforhold: (overstyring: OverstyrtArbeidsforholdDTO, speilToken: string) => Promise<Response>;
 }
 
 export default (oidcConfig: OidcConfig, onBehalfOf: OnBehalfOf): OverstyringClient => ({
@@ -84,10 +89,7 @@ export default (oidcConfig: OidcConfig, onBehalfOf: OnBehalfOf): OverstyringClie
         };
         return request.post(options);
     },
-    overstyrArbeidsforhold: async (
-        overstyring: OverstyringArbeidsforholdDTO,
-        speilToken: string
-    ): Promise<Response> => {
+    overstyrArbeidsforhold: async (overstyring: OverstyrtArbeidsforholdDTO, speilToken: string): Promise<Response> => {
         const onBehalfOfToken = await onBehalfOf.hentFor(oidcConfig.clientIDSpesialist, speilToken);
         const options = {
             uri: `${spesialistBaseUrl}/api/overstyr/arbeidsforhold`,
