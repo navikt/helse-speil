@@ -1,0 +1,31 @@
+.Content {
+    display: flex;
+    flex-direction: column;
+    margin: 8px 0;
+}
+
+.Grid {
+    padding: 8px;
+    margin: 0 -8px;
+    position: relative;
+    display: grid;
+    grid-template-columns: max-content max-content;
+    column-gap: 8px;
+}
+
+.Grid {
+    border-top: 1px solid var(--navds-semantic-color-border);
+}
+
+.Grid:last-of-type {
+    border-bottom: 1px solid var(--navds-semantic-color-border);
+}
+
+.Grid:nth-child(2n + 1) {
+    background: var(--navds-semantic-color-component-background-alternate);
+}
+
+.Grid p {
+    font-size: var(--navds-font-size-medium);
+    line-height: var(--navds-font-line-height-medium);
+}

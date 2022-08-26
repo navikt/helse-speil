@@ -2,7 +2,7 @@
     margin: 0;
     padding: 16px 0;
     display: flex;
-    gap: 8px;
+    gap: 16px;
 }
 
 .Hendelse:not(:last-of-type) {

@@ -109,6 +109,8 @@ export const getDagoverstyringer = (period: BeregnetPeriode, arbeidsgiver: Arbei
         erRevurdering: dayjs(overstyring.timestamp).isAfter(vurderingstidsstempel),
         saksbehandler: overstyring.saksbehandler.ident ?? overstyring.saksbehandler.navn,
         timestamp: overstyring.timestamp,
+        begrunnelse: overstyring.begrunnelse,
+        dager: overstyring.dager,
     }));
 };
 

@@ -1,3 +1,4 @@
+type OverstyrtDag = import('@io/graphql').OverstyrtDag;
 type PeriodehistorikkType = import('@io/graphql').PeriodehistorikkType;
 type Utbetalingtype = import('@io/graphql').Utbetalingtype;
 type ReactNode = import('react').ReactNode;
@@ -25,6 +26,8 @@ declare type DagoverstyringhendelseObject = BaseHendelseObject & {
     erRevurdering: boolean;
     saksbehandler: string;
     timestamp: string;
+    begrunnelse: string;
+    dager: Array<OverstyrtDag>;
 };
 
 declare type ArbeidsforholdoverstyringhendelseObject = BaseHendelseObject & {
