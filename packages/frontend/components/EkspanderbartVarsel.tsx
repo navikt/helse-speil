@@ -4,8 +4,6 @@ import { Accordion, Alert } from '@navikt/ds-react';
 
 import styles from './EkspanderbartVarsel.module.css';
 
-type ContentType = 'warning' | 'success' | 'info' | 'danger';
-
 interface EkspanderbartVarselProps {
     label: ReactNode;
     children: ReactNode;
