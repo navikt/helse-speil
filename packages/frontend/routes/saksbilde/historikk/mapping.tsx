@@ -163,6 +163,8 @@ export const getInntektoverstyringer = (
         erRevurdering: dayjs(overstyring.timestamp).isAfter(vurdering?.tidsstempel),
         saksbehandler: overstyring.saksbehandler.ident ?? overstyring.saksbehandler.navn,
         timestamp: overstyring.timestamp,
+        begrunnelse: overstyring.begrunnelse,
+        inntekt: overstyring.inntekt,
     }));
 };
 
@@ -177,8 +179,11 @@ export const getArbeidsforholdoverstyringhendelser = (
             id: it.hendelseId,
             type: 'Arbeidsforholdoverstyring',
             erDeaktivert: it.deaktivert,
-            timestamp: it.timestamp,
             saksbehandler: it.saksbehandler.ident ?? it.saksbehandler.navn,
+            timestamp: it.timestamp,
+            begrunnelse: it.begrunnelse,
+            forklaring: it.forklaring,
+            skjæringstidspunkt: it.skjaeringstidspunkt,
         }));
 };
 

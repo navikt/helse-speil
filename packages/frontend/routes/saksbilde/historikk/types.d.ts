@@ -1,4 +1,5 @@
 type OverstyrtDag = import('@io/graphql').OverstyrtDag;
+type OverstyrtInntekt = import('@io/graphql').OverstyrtInntekt;
 type PeriodehistorikkType = import('@io/graphql').PeriodehistorikkType;
 type Utbetalingtype = import('@io/graphql').Utbetalingtype;
 type ReactNode = import('react').ReactNode;
@@ -25,7 +26,7 @@ declare type DagoverstyringhendelseObject = BaseHendelseObject & {
     type: 'Dagoverstyring';
     erRevurdering: boolean;
     saksbehandler: string;
-    timestamp: string;
+    timestamp: DateString;
     begrunnelse: string;
     dager: Array<OverstyrtDag>;
 };
@@ -34,20 +35,25 @@ declare type ArbeidsforholdoverstyringhendelseObject = BaseHendelseObject & {
     type: 'Arbeidsforholdoverstyring';
     erDeaktivert: boolean;
     saksbehandler: string;
-    timestamp: string;
+    timestamp: DateString;
+    begrunnelse: string;
+    forklaring: string;
+    skjæringstidspunkt: DateString;
 };
 
 declare type InntektoverstyringhendelseObject = BaseHendelseObject & {
     type: 'Inntektoverstyring';
     erRevurdering: boolean;
     saksbehandler: string;
-    timestamp: string;
+    timestamp: DateString;
+    begrunnelse: string;
+    inntekt: OverstyrtInntekt;
 };
 
 declare type DokumenthendelseObject = BaseHendelseObject & {
     type: 'Dokument';
     dokumenttype: 'Inntektsmelding' | 'Sykmelding' | 'Søknad';
-    timestamp: string;
+    timestamp: DateString;
 };
 
 declare type NotathendelseObject = BaseHendelseObject & {
@@ -55,7 +61,7 @@ declare type NotathendelseObject = BaseHendelseObject & {
     tekst: string;
     notattype: NotatType;
     saksbehandler: string;
-    timestamp: string;
+    timestamp: DateString;
 };
 
 declare type UtbetalinghendelseObject = BaseHendelseObject & {
@@ -64,14 +70,14 @@ declare type UtbetalinghendelseObject = BaseHendelseObject & {
     godkjent: boolean;
     utbetalingstype: Utbetalingtype;
     saksbehandler: string;
-    timestamp: string;
+    timestamp: DateString;
 };
 
 declare type HistorikkhendelseObject = BaseHendelseObject & {
     type: 'Historikk';
     historikktype: PeriodehistorikkType;
     saksbehandler: string;
-    timestamp: string;
+    timestamp: DateString;
 };
 
 declare type HendelseObject =

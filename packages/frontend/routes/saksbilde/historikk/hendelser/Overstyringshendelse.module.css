@@ -1,0 +1,11 @@
+.Grid {
+    display: grid;
+    column-gap: 8px;
+    grid-template-columns: max-content auto;
+}
+
+.Grid p {
+    font-size: var(--navds-font-size-medium);
+    line-height: var(--navds-font-line-height-medium);
+    word-break: break-word;
+}
