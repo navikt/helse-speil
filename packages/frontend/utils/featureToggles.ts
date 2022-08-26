@@ -101,7 +101,6 @@ const tilgangFlereArbeidsgivere = [
     'L142009',
     // Klageinstansen end
     'O146470',
-    'T142719',
     'K162139',
 ];
 
@@ -120,7 +119,6 @@ const tilgangStikkprøver = [
 const utvidetTilganger = [
     ...faktiskSupportsaksbehandlere,
     'O146470',
-    'T142719',
     'N116980',
     'K105430',
     'M106091',
@@ -165,6 +163,7 @@ const utvidetTilganger = [
     'A160730',
     'F102552',
     'K162139',
+    'T140846',
 ];
 
 const kanRevurdere = [
@@ -211,8 +210,8 @@ const kanRevurdere = [
     'S112395',
     'A160730',
     'F102552',
-    'T142719',
     'K162139',
+    'T140846',
 ];
 
 const jobberINavØkonomi = ['R107838'];
