@@ -18,6 +18,20 @@ import { useFilteredHistorikk, useFilterState, useShowHistorikkState } from './s
 
 import styles from './Historikk.module.css';
 
+const getHistorikkTitle = (type: Filtertype): string => {
+    switch (type) {
+        case 'Dokument': {
+            return 'DOKUMENTER';
+        }
+        case 'Historikk': {
+            return 'HISTORIKK';
+        }
+        case 'Notat': {
+            return 'NOTATER';
+        }
+    }
+};
+
 const HistorikkWithContent: React.FC = () => {
     const historikk = useFilteredHistorikk();
     const [filter] = useFilterState();
@@ -40,7 +54,7 @@ const HistorikkWithContent: React.FC = () => {
                 <div className={styles.Historikk}>
                     <ul>
                         <li>
-                            {filter === 'Dokument' ? 'DOKUMENTER' : 'HISTORIKK'}
+                            {getHistorikkTitle(filter)}
                             <CloseButton onClick={() => setShowHistorikk(false)} />
                         </li>
                         {historikk.map((it: HendelseObject) => {

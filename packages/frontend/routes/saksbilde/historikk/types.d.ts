@@ -4,7 +4,7 @@ type PeriodehistorikkType = import('@io/graphql').PeriodehistorikkType;
 type Utbetalingtype = import('@io/graphql').Utbetalingtype;
 type ReactNode = import('react').ReactNode;
 
-declare type Filtertype = 'Dokument' | 'Historikk';
+declare type Filtertype = 'Dokument' | 'Historikk' | 'Notat';
 
 declare type Hendelsetype =
     | 'Dagoverstyring'

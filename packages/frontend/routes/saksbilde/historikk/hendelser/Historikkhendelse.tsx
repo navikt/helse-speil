@@ -1,4 +1,5 @@
 import React from 'react';
+import { Cancel, Send, Success } from '@navikt/ds-icons';
 import { Hendelse } from './Hendelse';
 import { PeriodehistorikkType } from '@io/graphql';
 
@@ -15,8 +16,29 @@ const getTitle = (type: PeriodehistorikkType): string => {
     }
 };
 
+const getIcon = (type: PeriodehistorikkType): ReactNode => {
+    switch (type) {
+        case PeriodehistorikkType.TotrinnsvurderingAttestert: {
+            return <Success height={20} width={20} />;
+        }
+        case PeriodehistorikkType.TotrinnsvurderingRetur: {
+            return <Cancel height={20} width={20} />;
+        }
+        case PeriodehistorikkType.TotrinnsvurderingTilGodkjenning: {
+            return <Send height={20} width={20} />;
+        }
+    }
+};
+
 interface HistorikkhendelseProps extends Omit<HistorikkhendelseObject, 'type' | 'id'> {}
 
 export const Historikkhendelse: React.FC<HistorikkhendelseProps> = ({ historikktype, saksbehandler, timestamp }) => {
-    return <Hendelse title={getTitle(historikktype)} ident={saksbehandler} timestamp={timestamp} />;
+    return (
+        <Hendelse
+            title={getTitle(historikktype)}
+            icon={getIcon(historikktype)}
+            ident={saksbehandler}
+            timestamp={timestamp}
+        />
+    );
 };

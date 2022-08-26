@@ -18,11 +18,7 @@ import { activePeriod } from '@state/periode';
 import { personState } from '@state/person';
 
 const byTimestamp = (a: HendelseObject, b: HendelseObject): number => {
-    return typeof a.timestamp !== 'string'
-        ? -1
-        : typeof b.timestamp !== 'string'
-        ? 1
-        : dayjs(b.timestamp).diff(dayjs(a.timestamp));
+    return dayjs(b.timestamp).diff(dayjs(a.timestamp));
 };
 
 const getHendelserForBeregnetPeriode = (period: BeregnetPeriode, person: Person): Array<HendelseObject> => {
@@ -81,15 +77,23 @@ const filterState = atom<Filtertype>({
 });
 
 const filterMap: Record<Filtertype, Array<Hendelsetype>> = {
-    Historikk: [], // Historikk inkluderer alle hendelsestyper
+    Historikk: [
+        'Dagoverstyring',
+        'Arbeidsforholdoverstyring',
+        'Inntektoverstyring',
+        'Dokument',
+        'Utbetaling',
+        'Historikk',
+    ],
     Dokument: ['Dokument'],
+    Notat: ['Notat'],
 };
 
 const filteredHistorikkState = selector<Array<HendelseObject>>({
     key: 'historikk',
     get: ({ get }) => {
         const filter = get(filterState);
-        return get(historikkState).filter((it) => filter === 'Historikk' || filterMap[filter].includes(it.type));
+        return get(historikkState).filter((it) => filterMap[filter].includes(it.type));
     },
 });
 
@@ -103,3 +107,7 @@ export const useShowHistorikkState = () => useRecoilState(showHistorikkState);
 export const useFilteredHistorikk = (): Array<HendelseObject> => useRecoilValue(filteredHistorikkState);
 
 export const useFilterState = () => useRecoilState(filterState);
+
+export const useNumberOfItemsOfType = (type: Filtertype): number => {
+    return useRecoilValue(historikkState).filter((it) => filterMap[type].includes(it.type)).length;
+};
