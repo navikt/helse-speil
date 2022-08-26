@@ -62,6 +62,7 @@ declare type NotathendelseObject = BaseHendelseObject & {
     notattype: NotatType;
     saksbehandler: string;
     timestamp: DateString;
+    feilregistrert: boolean;
 };
 
 declare type UtbetalinghendelseObject = BaseHendelseObject & {

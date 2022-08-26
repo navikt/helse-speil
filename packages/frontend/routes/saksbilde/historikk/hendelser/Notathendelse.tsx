@@ -4,24 +4,45 @@ import { BodyShort } from '@navikt/ds-react';
 
 import { Hendelse } from './Hendelse';
 import { ExpandableHistorikkContent } from './ExpandableHistorikkContent';
+import classNames from 'classnames';
 
-const getNotattittel = (type: NotatType) => {
+import styles from './Notathendelse.module.css';
+
+const getNotattittel = (type: NotatType, feilregistrert: boolean) => {
+    let title: string;
     switch (type) {
         case 'PaaVent':
-            return 'Lagt på vent';
+            title = 'Lagt på vent';
+            break;
         case 'Retur':
-            return 'Returnert';
+            title = 'Returnert';
+            break;
         default:
-            return 'Notat';
+            title = 'Notat';
+            break;
     }
+
+    return feilregistrert ? `${title} (feilregistrert)` : title;
 };
 
 interface NotathendelseProps extends Omit<NotathendelseObject, 'type' | 'id'> {}
 
-export const Notathendelse: React.FC<NotathendelseProps> = ({ tekst, notattype, saksbehandler, timestamp }) => {
+export const Notathendelse: React.FC<NotathendelseProps> = ({
+    tekst,
+    notattype,
+    saksbehandler,
+    timestamp,
+    feilregistrert,
+}) => {
+    const title = (
+        <span className={classNames(feilregistrert && styles.Feilregistrert)}>
+            {getNotattittel(notattype, feilregistrert)}
+        </span>
+    );
+
     return (
         <Hendelse
-            title={getNotattittel(notattype)}
+            title={title}
             icon={<DialogDots width={20} height={20} />}
             timestamp={timestamp}
             ident={saksbehandler}
