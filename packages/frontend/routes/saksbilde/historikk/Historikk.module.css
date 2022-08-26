@@ -3,7 +3,8 @@
     overflow: hidden;
     transition: width 0.2s ease;
     height: 100%;
-    width: max-content;
+    width: 260px;
+    min-width: 260px;
 }
 
 .Historikk > ul {

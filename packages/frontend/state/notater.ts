@@ -57,7 +57,7 @@ export const useNotaterForVedtaksperiode = (vedtaksperiodeId?: string) => {
 };
 
 export const toNotat = (spesialistNotat: ExternalNotat | GraphQLNotat): Notat => ({
-    id: spesialistNotat.id.toString(),
+    id: `${spesialistNotat.id}`,
     tekst: spesialistNotat.tekst,
     saksbehandler: {
         navn: spesialistNotat.saksbehandlerNavn,

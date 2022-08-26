@@ -1,0 +1,12 @@
+.HistorikkHeader {
+    --size: 48px;
+    display: flex;
+    justify-content: flex-end;
+    height: var(--size);
+    box-sizing: border-box;
+}
+
+.FilterButton {
+    height: var(--size);
+    width: var(--size);
+}

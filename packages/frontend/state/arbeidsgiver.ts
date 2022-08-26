@@ -26,7 +26,7 @@ import { useUtbetalingstidsstempelFørsteGenForPeriode } from '@state/utbetaling
 
 import { useDagoverstyringer } from '../routes/saksbilde/utbetaling/Utbetaling';
 
-const findArbeidsgiverWithGhostPeriode = (
+export const findArbeidsgiverWithGhostPeriode = (
     period: GhostPeriode,
     arbeidsgivere: Array<Arbeidsgiver>,
 ): Maybe<Arbeidsgiver> => {
@@ -36,7 +36,7 @@ const findArbeidsgiverWithGhostPeriode = (
     );
 };
 
-const findArbeidsgiverWithPeriode = (
+export const findArbeidsgiverWithPeriode = (
     period: BeregnetPeriode | UberegnetPeriode,
     arbeidsgivere: Array<Arbeidsgiver>,
 ): Arbeidsgiver | null => {

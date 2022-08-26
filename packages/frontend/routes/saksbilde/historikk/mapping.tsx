@@ -1,130 +1,115 @@
-import styled from '@emotion/styled';
+import React from 'react';
 import dayjs from 'dayjs';
-import React, { useMemo } from 'react';
 
-import { Kilde } from '@components/Kilde';
-import { LinkButton } from '@components/LinkButton';
 import {
-    useFørsteUtbetalingstidsstempelFørsteGenISkjæringstidspunkt,
-    useUtbetalingstidsstempelFørsteGenForPeriode,
-} from '@state/utbetaling';
-
-import { Hendelse, Hendelsetype } from './Historikk.types';
-import {
-    Dagoverstyring,
+    Arbeidsgiver,
+    BeregnetPeriode,
     GhostPeriode,
-    Hendelse as ExternHendelse,
+    Hendelse,
     Inntektoverstyring,
     Inntektsmelding,
-    Kildetype,
-    Overstyring,
     Periode,
     PeriodehistorikkType,
     SoknadArbeidsgiver,
     SoknadNav,
     Sykmelding,
+    Vurdering,
 } from '@io/graphql';
+import { ISO_TIDSPUNKTFORMAT } from '@utils/date';
 import {
     isArbeidsforholdoverstyring,
     isBeregnetPeriode,
     isDagoverstyring,
-    isGhostPeriode,
     isInntektoverstyring,
 } from '@utils/typeguards';
-import { useActivePeriod } from '@state/periode';
-import { ISO_TIDSPUNKTFORMAT } from '@utils/date';
 
-const BegrunnelseTekst = styled.div`
-    margin-top: 0.25rem;
-    color: var(--navds-semantic-color-text);
-    line-height: 1.375rem;
+const isInntektsmelding = (hendelse: Hendelse): hendelse is Inntektsmelding => {
+    return hendelse.type === 'INNTEKTSMELDING';
+};
 
-    > p:last-of-type {
-        margin-bottom: 0.25rem;
-    }
-`;
+const isSykmelding = (hendelse: Hendelse): hendelse is Sykmelding => {
+    return hendelse.type === 'NY_SOKNAD';
+};
 
-const isInntektsmelding = (hendelse: ExternHendelse): hendelse is Inntektsmelding =>
-    hendelse.type === 'INNTEKTSMELDING';
+const isSøknadNav = (hendelse: Hendelse): hendelse is SoknadNav => {
+    return hendelse.type === 'SENDT_SOKNAD_NAV';
+};
 
-const isSykmelding = (hendelse: ExternHendelse): hendelse is Sykmelding => hendelse.type === 'NY_SOKNAD';
+const isSøknadArbeidsgiver = (hendelse: Hendelse): hendelse is SoknadArbeidsgiver => {
+    return hendelse.type === 'SENDT_SOKNAD_ARBEIDSGIVER';
+};
 
-const isSøknadNav = (hendelse: ExternHendelse): hendelse is SoknadNav => hendelse.type === 'SENDT_SOKNAD_NAV';
+const isDokument = (hendelse: Hendelse): hendelse is Inntektsmelding | Sykmelding | SoknadNav => {
+    return (
+        isInntektsmelding(hendelse) || isSykmelding(hendelse) || isSøknadNav(hendelse) || isSøknadArbeidsgiver(hendelse)
+    );
+};
 
-const isSøknadArbeidsgiver = (hendelse: ExternHendelse): hendelse is SoknadArbeidsgiver =>
-    hendelse.type === 'SENDT_SOKNAD_ARBEIDSGIVER';
-
-export const useDokumenter = (period: Periode | GhostPeriode): Hendelse[] => {
+export const getDokumenter = (period: Periode | GhostPeriode): Array<HendelseObject> => {
     if (!isBeregnetPeriode(period)) {
         return [];
     }
 
-    return period.hendelser
-        .map((hendelse) => {
-            if (isInntektsmelding(hendelse)) {
-                return {
-                    id: hendelse.id,
-                    timestamp: hendelse.mottattDato,
-                    title: 'Inntektsmelding mottatt',
-                    type: Hendelsetype.Dokument,
-                    icon: <Kilde type={Kildetype.Inntektsmelding}>IM</Kilde>,
-                };
-            } else if (isSykmelding(hendelse)) {
-                return {
-                    id: hendelse.id,
-                    timestamp: hendelse.rapportertDato,
-                    title: 'Sykmelding mottatt',
-                    type: Hendelsetype.Dokument,
-                    icon: <Kilde type={Kildetype.Sykmelding}>SM</Kilde>,
-                };
-            } else if (isSøknadNav(hendelse) || isSøknadArbeidsgiver(hendelse)) {
-                return {
-                    id: hendelse.id,
-                    timestamp: hendelse.rapportertDato,
-                    title: 'Søknad mottatt',
-                    type: Hendelsetype.Dokument,
-                    icon: <Kilde type={Kildetype.Soknad}>SØ</Kilde>,
-                };
-            } else {
-                return null;
-            }
-        })
-        .filter((it) => it !== null) as Hendelse[];
-};
-
-const getPeriodehistorikkTitle = (type: PeriodehistorikkType): String | JSX.Element => {
-    const title = (() => {
-        switch (type) {
-            case PeriodehistorikkType.TotrinnsvurderingTilGodkjenning:
-                return 'Sendt til godkjenning';
-            case PeriodehistorikkType.TotrinnsvurderingRetur:
-                return 'Returnert';
-            case PeriodehistorikkType.TotrinnsvurderingAttestert:
-                return 'Godkjent og utbetalt';
-            default:
-                return '';
+    return period.hendelser.filter(isDokument).map((hendelse) => {
+        if (isInntektsmelding(hendelse)) {
+            return {
+                id: hendelse.id,
+                type: 'Dokument',
+                dokumenttype: 'Inntektsmelding',
+                timestamp: hendelse.mottattDato,
+            };
+        } else if (isSykmelding(hendelse)) {
+            return {
+                id: hendelse.id,
+                type: 'Dokument',
+                dokumenttype: 'Sykmelding',
+                timestamp: hendelse.rapportertDato,
+            };
+        } else {
+            return {
+                id: hendelse.id,
+                type: 'Dokument',
+                dokumenttype: 'Søknad',
+                timestamp: hendelse.rapportertDato,
+            };
         }
-    })();
-
-    return title;
+    });
 };
 
-export const usePeriodehistorikk = (periode: BeregnetPeriode | GhostPeriode): Array<Hendelse> => {
-    if (!isBeregnetPeriode(periode)) {
-        return [];
-    }
-
+export const getPeriodehistorikk = (periode: BeregnetPeriode): Array<HistorikkhendelseObject> => {
     return periode.periodehistorikk
         .filter((historikkelement) => historikkelement.type !== PeriodehistorikkType.TotrinnsvurderingRetur)
-        .map((historikkelement, index) => {
-            return {
-                id: index.toString(),
-                timestamp: historikkelement.timestamp as DateString,
-                title: getPeriodehistorikkTitle(historikkelement.type),
-                type: Hendelsetype.Historikk,
-                body: <BegrunnelseTekst>{historikkelement.saksbehandler_ident}</BegrunnelseTekst>,
-            } as Hendelse;
-        });
+        .map((historikkelement, index) => ({
+            id: `periodehistorikk-${index}`,
+            type: 'Historikk',
+            historikktype: historikkelement.type,
+            saksbehandler: historikkelement.saksbehandler_ident,
+            timestamp: historikkelement.timestamp as DateString,
+        }));
+};
+
+const getVurderingstidsstempelForTilsvarendePeriodeIFørsteGenerasjon = (
+    period: BeregnetPeriode,
+    arbeidsgiver: Arbeidsgiver,
+): string | null => {
+    return (
+        arbeidsgiver.generasjoner[arbeidsgiver.generasjoner.length - 1].perioder
+            .filter(isBeregnetPeriode)
+            .find((it) => it.vedtaksperiodeId === period.vedtaksperiodeId && it.utbetaling.vurdering?.godkjent)
+            ?.utbetaling.vurdering?.tidsstempel ?? null
+    );
+};
+
+export const getDagoverstyringer = (period: BeregnetPeriode, arbeidsgiver: Arbeidsgiver): Array<HendelseObject> => {
+    const vurderingstidsstempel = getVurderingstidsstempelForTilsvarendePeriodeIFørsteGenerasjon(period, arbeidsgiver);
+
+    return arbeidsgiver.overstyringer.filter(isDagoverstyring).map((overstyring) => ({
+        id: overstyring.hendelseId,
+        type: 'Dagoverstyring',
+        erRevurdering: dayjs(overstyring.timestamp).isAfter(vurderingstidsstempel),
+        saksbehandler: overstyring.saksbehandler.ident ?? overstyring.saksbehandler.navn,
+        timestamp: overstyring.timestamp,
+    }));
 };
 
 const periodeErAttestert = (periode: BeregnetPeriode): boolean => {
@@ -133,8 +118,8 @@ const periodeErAttestert = (periode: BeregnetPeriode): boolean => {
     );
 };
 
-export const getUtbetalingshendelse = (periode: Periode | GhostPeriode): Hendelse | null => {
-    if (!isBeregnetPeriode(periode) || !periode.utbetaling.vurdering || periodeErAttestert(periode)) {
+export const getUtbetalingshendelse = (periode: BeregnetPeriode): UtbetalinghendelseObject | null => {
+    if (!periode.utbetaling.vurdering || periodeErAttestert(periode)) {
         return null;
     }
 
@@ -142,126 +127,65 @@ export const getUtbetalingshendelse = (periode: Periode | GhostPeriode): Hendels
 
     return {
         id: `utbetaling-${periode.beregningId}`,
+        type: 'Utbetaling',
+        automatisk: automatisk,
+        godkjent: godkjent,
+        utbetalingstype: periode.utbetaling.type,
+        saksbehandler: ident,
         timestamp: tidsstempel,
-        title: automatisk
-            ? godkjent
-                ? 'Automatisk godkjent'
-                : 'Kunne ikke behandles her'
-            : periode.utbetaling.type === 'ANNULLERING'
-            ? 'Annullert'
-            : periode.utbetaling.type === 'REVURDERING'
-            ? 'Revurdert'
-            : 'Sendt til utbetaling',
-        type: Hendelsetype.Historikk,
-        body: godkjent && <BegrunnelseTekst>{ident}</BegrunnelseTekst>,
     };
 };
 
-export const useDagoverstyringshendelser = (
-    onClickEndring: (overstyring: Overstyring) => void,
-    overstyringer: Array<Overstyring>,
-): Hendelse[] => {
-    const utbetalingstidFørsteGenForPeriode = useUtbetalingstidsstempelFørsteGenForPeriode();
+const getOpprinneligVurderingForFørstePeriodeISkjæringstidspunkt = (
+    period: BeregnetPeriode,
+    arbeidsgiver: Arbeidsgiver,
+): Vurdering | null => {
+    const førsteGenerasjon = arbeidsgiver.generasjoner[arbeidsgiver.generasjoner.length - 1];
+    const førsteVurdertePeriodeForSkjæringstidspunktet = førsteGenerasjon.perioder
+        .filter(isBeregnetPeriode)
+        .filter((it) => it.skjaeringstidspunkt === period.skjaeringstidspunkt)
+        .pop();
 
-    return overstyringer.filter(isDagoverstyring).map((overstyring: Dagoverstyring) => ({
+    return førsteVurdertePeriodeForSkjæringstidspunktet?.utbetaling.vurdering ?? null;
+};
+
+export const getInntektoverstyringer = (
+    period: BeregnetPeriode,
+    arbeidsgiver: Arbeidsgiver,
+): Array<InntektoverstyringhendelseObject> => {
+    const vurdering = getOpprinneligVurderingForFørstePeriodeISkjæringstidspunkt(period, arbeidsgiver);
+
+    return arbeidsgiver.overstyringer.filter(isInntektoverstyring).map((overstyring: Inntektoverstyring) => ({
         id: overstyring.hendelseId,
+        type: 'Inntektoverstyring',
+        erRevurdering: dayjs(overstyring.timestamp).isAfter(vurdering?.tidsstempel),
+        saksbehandler: overstyring.saksbehandler.ident ?? overstyring.saksbehandler.navn,
         timestamp: overstyring.timestamp,
-        title: (
-            <LinkButton onClick={() => onClickEndring(overstyring)}>
-                {dayjs(overstyring.timestamp).isAfter(utbetalingstidFørsteGenForPeriode) ? 'Revurdert' : 'Endret'}{' '}
-                utbetalingsdager
-            </LinkButton>
-        ),
-        type: Hendelsetype.Historikk,
-        body: (
-            <BegrunnelseTekst>
-                <p>{overstyring.saksbehandler.ident ?? overstyring.saksbehandler.navn}</p>
-            </BegrunnelseTekst>
-        ),
     }));
 };
 
-export const useInntektsoverstyringshendelser = (
-    onClickEndring: (overstyring: Overstyring) => void,
-    overstyringer: Array<Overstyring>,
-): Hendelse[] => {
-    const førsteUtbetalingstidsstempelISkjæringstidspunkt =
-        useFørsteUtbetalingstidsstempelFørsteGenISkjæringstidspunkt();
-
-    return overstyringer.filter(isInntektoverstyring).map((overstyring: Inntektoverstyring) => ({
-        id: overstyring.hendelseId,
-        timestamp: overstyring.timestamp,
-        title: (
-            <LinkButton onClick={() => onClickEndring(overstyring)}>
-                {dayjs(overstyring.timestamp).isAfter(førsteUtbetalingstidsstempelISkjæringstidspunkt)
-                    ? 'Revurdert'
-                    : 'Endret'}{' '}
-                inntekt
-            </LinkButton>
-        ),
-        type: Hendelsetype.Historikk,
-        body: (
-            <BegrunnelseTekst>
-                <p>{overstyring.saksbehandler.ident ?? overstyring.saksbehandler.navn}</p>
-            </BegrunnelseTekst>
-        ),
-    }));
-};
-
-export const useArbeidsforholdoverstyringshendelser = (
-    onClickEndring: (overstyring: Overstyring) => void,
-    overstyringer: Array<Overstyring>,
-): Hendelse[] => {
-    const activePeriod = useActivePeriod();
-
-    if (!isGhostPeriode(activePeriod) && !isBeregnetPeriode(activePeriod)) {
-        return [];
-    }
-
-    return overstyringer
+export const getArbeidsforholdoverstyringhendelser = (
+    period: BeregnetPeriode | GhostPeriode,
+    arbeidsgiver: Arbeidsgiver,
+): Array<ArbeidsforholdoverstyringhendelseObject> => {
+    return arbeidsgiver.overstyringer
         .filter(isArbeidsforholdoverstyring)
-        .filter((it) => it.skjaeringstidspunkt === activePeriod.skjaeringstidspunkt)
+        .filter((it) => it.skjaeringstidspunkt === period.skjaeringstidspunkt)
         .map((it) => ({
             id: it.hendelseId,
+            type: 'Arbeidsforholdoverstyring',
+            erDeaktivert: it.deaktivert,
             timestamp: it.timestamp,
-            title: (
-                <LinkButton onClick={() => onClickEndring(it)}>
-                    {it.deaktivert ? 'Brukes ikke i beregningen' : 'Brukes i beregningen'}
-                </LinkButton>
-            ),
-            type: Hendelsetype.Historikk,
-            body: (
-                <BegrunnelseTekst>
-                    <p>{it.saksbehandler.ident ?? it.saksbehandler.navn}</p>
-                </BegrunnelseTekst>
-            ),
+            saksbehandler: it.saksbehandler.ident ?? it.saksbehandler.navn,
         }));
 };
 
-const notattittel = (notattype: NotatType) => {
-    switch (notattype) {
-        case 'PaaVent':
-            return 'Lagt på vent';
-        case 'Retur':
-            return 'Returnert';
-        default:
-            return 'Notat';
-    }
-};
-
-export const useNotater = (notater: Notat[], onClickNotat: (notattype: NotatType) => void): Hendelse[] =>
-    useMemo(
-        () =>
-            notater.map((notat: Notat) => ({
-                id: notat.id,
-                timestamp: notat.opprettet.format(ISO_TIDSPUNKTFORMAT),
-                title: <LinkButton onClick={() => onClickNotat(notat.type)}>{notattittel(notat.type)}</LinkButton>,
-                type: Hendelsetype.Historikk,
-                body: (
-                    <BegrunnelseTekst key={notat.id}>
-                        <p>{notat.saksbehandler.ident}</p>
-                    </BegrunnelseTekst>
-                ),
-            })),
-        [JSON.stringify(notater.map((notat) => notat.id))],
-    );
+export const getNotathendelser = (notater: Array<Notat>): Array<NotathendelseObject> =>
+    notater.map((notat: Notat) => ({
+        id: notat.id,
+        type: 'Notat',
+        tekst: notat.tekst,
+        notattype: notat.type,
+        saksbehandler: notat.saksbehandler.ident ?? notat.saksbehandler.navn,
+        timestamp: notat.opprettet.format(ISO_TIDSPUNKTFORMAT),
+    }));

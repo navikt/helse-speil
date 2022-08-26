@@ -29,7 +29,7 @@ const activePeriodState = atom<ActivePeriod | null>({
     default: null,
 });
 
-const activePeriod = selector<ActivePeriod | null>({
+export const activePeriod = selector<ActivePeriod | null>({
     key: 'activePeriod',
     get: ({ get }) => {
         const { person } = get(personState);

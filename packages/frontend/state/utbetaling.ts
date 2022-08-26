@@ -19,29 +19,3 @@ export const useUtbetalingstidsstempelFørsteGenForPeriode = (): string => {
 
     return isBeregnetPeriode(periode) ? periode.utbetaling.vurdering?.tidsstempel ?? '' : '';
 };
-
-export const useFørsteUtbetalingstidsstempelFørsteGenISkjæringstidspunkt = (): string => {
-    const activePeriod = useActivePeriod();
-    const currentArbeidsgiver = useCurrentArbeidsgiver();
-
-    if (!isBeregnetPeriode(activePeriod) || !currentArbeidsgiver) {
-        return '';
-    }
-
-    const firstGeneration = currentArbeidsgiver.generasjoner[currentArbeidsgiver.generasjoner.length - 1];
-
-    const førsteUtbetaltePeriodeForSkjæringstidspunkt = firstGeneration.perioder
-        .filter(
-            (periode) => isBeregnetPeriode(periode) && periode.skjaeringstidspunkt === activePeriod.skjaeringstidspunkt,
-        )
-        ?.pop();
-
-    if (
-        isBeregnetPeriode(førsteUtbetaltePeriodeForSkjæringstidspunkt) &&
-        førsteUtbetaltePeriodeForSkjæringstidspunkt.utbetaling.vurdering?.godkjent
-    ) {
-        return førsteUtbetaltePeriodeForSkjæringstidspunkt.utbetaling.vurdering.tidsstempel;
-    } else {
-        return '';
-    }
-};

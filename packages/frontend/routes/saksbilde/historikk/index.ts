@@ -1,5 +1,5 @@
-export { Historikk } from './Historikk';
+import { Historikk, HistorikkSkeleton } from './Historikk';
 import { HistorikkHeader } from './HistorikkHeader';
 
-export { HistorikkHeader };
+export { Historikk, HistorikkSkeleton, HistorikkHeader };
 export default HistorikkHeader;
