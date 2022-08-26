@@ -100,7 +100,6 @@ const tilgangFlereArbeidsgivere = [
     'T158780',
     'B134670',
     'M106066',
-    'T109423',
     'L142009',
     // Klageinstansen end
     'O146470',
@@ -168,7 +167,6 @@ const utvidetTilganger = [
     'S112395',
     'A160730',
     'F102552',
-    'T142719',
     'K162139',
 ];
 
