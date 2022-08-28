@@ -1,3 +1,9 @@
+.ToggleButton {
+    width: max-content;
+    position: absolute;
+    right: 0;
+}
+
 .Feilregistrert {
     color: var(--navds-semantic-color-feedback-danger-text);
 }

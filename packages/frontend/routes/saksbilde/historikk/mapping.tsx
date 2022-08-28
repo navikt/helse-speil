@@ -194,6 +194,8 @@ export const getNotathendelser = (notater: Array<Notat>): Array<NotathendelseObj
         tekst: notat.tekst,
         notattype: notat.type,
         saksbehandler: notat.saksbehandler.ident ?? notat.saksbehandler.navn,
+        saksbehandlerOid: notat.saksbehandler.oid,
         timestamp: notat.opprettet.format(ISO_TIDSPUNKTFORMAT),
         feilregistrert: notat.feilregistrert,
+        vedtaksperiodeId: notat.vedtaksperiodeId,
     }));
