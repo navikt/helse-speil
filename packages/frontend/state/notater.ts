@@ -1,21 +1,9 @@
 import dayjs from 'dayjs';
-import { atom, selector, useRecoilValueLoadable, useSetRecoilState } from 'recoil';
+import { atom, AtomEffect, useRecoilValueLoadable, useResetRecoilState, useSetRecoilState } from 'recoil';
 
 import { getNotater } from '@io/http';
 import { Notat as GraphQLNotat } from '@io/graphql';
 import { useEffect } from 'react';
-
-const notaterStateRefetchKey = atom<Date>({
-    key: 'notaterStateRefetchKey',
-    default: new Date(),
-});
-
-export const useRefreshNotater = () => {
-    const setKey = useSetRecoilState(notaterStateRefetchKey);
-    return () => {
-        setKey(new Date());
-    };
-};
 
 const vedtaksperiodeIderState = atom<string[]>({
     key: 'vedtaksperiodeIderState',
@@ -30,24 +18,29 @@ export const useSyncNotater = (vedtaksperiodeIder: string[]) => {
     }, [JSON.stringify(vedtaksperiodeIder)]);
 };
 
-const notaterState = selector<Notat[]>({
-    key: 'notaterState',
-    get: ({ get }) => {
-        get(notaterStateRefetchKey);
-        const vedtaksperiodeIder = get(vedtaksperiodeIderState);
-
-        if (vedtaksperiodeIder.length < 1) {
+const initializeNotaterEffect: AtomEffect<Array<Notat>> = ({ getPromise }) => {
+    getPromise(vedtaksperiodeIderState).then((ider) => {
+        if (ider.length < 1) {
             return Promise.resolve([]);
         }
-
-        return getNotater(vedtaksperiodeIder).then((res) => {
+        return getNotater(ider).then((res) => {
             return Object.values(res)
                 .flat()
                 .map(toNotat)
                 .sort((a, b) => (a.opprettet < b.opprettet ? 1 : -1));
         });
-    },
+    });
+};
+
+const notaterState = atom<Array<Notat>>({
+    key: 'notaterState',
+    default: [],
+    effects: [initializeNotaterEffect],
 });
+
+export const useRefreshNotater = () => {
+    return useResetRecoilState(notaterState);
+};
 
 export const useNotaterForVedtaksperiode = (vedtaksperiodeId?: string) => {
     const notater = useRecoilValueLoadable<Notat[]>(notaterState);

@@ -4,16 +4,17 @@ import { DialogDots, EllipsisH } from '@navikt/ds-icons';
 import { BodyShort, Button, Loader } from '@navikt/ds-react';
 import { Dropdown } from '@navikt/ds-react-internal';
 
-import { useInnloggetSaksbehandler } from '@state/authentication';
 import { putFeilregistrertNotat } from '@io/http';
 import { ignorePromise } from '@utils/promise';
+import { useRefetchPerson } from '@state/person';
+import { useRefreshNotater } from '@state/notater';
+import { useOperationErrorHandler } from '@state/varsler';
+import { useInnloggetSaksbehandler } from '@state/authentication';
 
 import { Hendelse } from './Hendelse';
 import { ExpandableHistorikkContent } from './ExpandableHistorikkContent';
 
 import styles from './Notathendelse.module.css';
-import { useRefreshNotater } from '@state/notater';
-import { useOperationErrorHandler } from '@state/varsler';
 
 const getNotattittel = (type: NotatType, feilregistrert: boolean) => {
     let title: string;
@@ -46,6 +47,7 @@ export const Notathendelse: React.FC<NotathendelseProps> = ({
 }) => {
     const [isFetching, setIsFetching] = useState(false);
     const refreshNotater = useRefreshNotater();
+    const refetchPerson = useRefetchPerson();
     const errorHandler = useOperationErrorHandler('Feilregistrering av Notat');
 
     const title = (
@@ -60,7 +62,10 @@ export const Notathendelse: React.FC<NotathendelseProps> = ({
         setIsFetching(true);
         ignorePromise(
             putFeilregistrertNotat(vedtaksperiodeId, id)
-                .then(refreshNotater)
+                .then(() => {
+                    refreshNotater();
+                    refetchPerson();
+                })
                 .finally(() => setIsFetching(false)),
             errorHandler,
         );
