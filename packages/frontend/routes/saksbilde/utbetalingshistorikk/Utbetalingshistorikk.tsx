@@ -5,7 +5,7 @@ import { useHistory } from 'react-router';
 import { Close } from '@navikt/ds-icons';
 import { Button } from '@navikt/ds-react';
 import { UtbetalingshistorikkRow } from './UtbetalingshistorikkRow';
-import { Annulleringsmodal } from '../sakslinje/annullering/Annulleringsmodal';
+import { Annulleringsmodal } from '../saksbildeMenu/annullering/Annulleringsmodal';
 
 import { Oppdrag, Spennoppdrag } from '@io/graphql';
 import { useOppdrag } from './state';

@@ -12,7 +12,7 @@ import { AmplitudeProvider } from '@io/amplitude';
 import { Timeline } from './timeline';
 import { PeriodeView } from './saksbilder/PeriodeView';
 import { PersonHeader } from './personHeader';
-import { SaksbildeMenu } from './sakslinje/SaksbildeMenu';
+import { SaksbildeMenu } from './saksbildeMenu/SaksbildeMenu';
 import { useKeyboardShortcuts } from './useKeyboardShortcuts';
 import { VenterPåEndringProvider } from './VenterPåEndringContext';
 

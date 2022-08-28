@@ -10,7 +10,7 @@ import { RoundedButton } from '@components/RoundedButton';
 import { useInnloggetSaksbehandler } from '@state/authentication';
 import { useMineOppgaver, useOppgaver } from '@state/oppgaver';
 
-import { AnonymiserDataDropdownMenuButton } from '../saksbilde/sakslinje/dropdown/AnonymiserDataDropdownMenuButton';
+import { AnonymiserDataDropdownMenuButton } from '../saksbilde/saksbildeMenu/dropdown/AnonymiserDataDropdownMenuButton';
 import { useShowStatistikk, useToggleStatistikk } from './behandlingsstatistikk/state';
 
 import styles from './Tabs.module.css';
