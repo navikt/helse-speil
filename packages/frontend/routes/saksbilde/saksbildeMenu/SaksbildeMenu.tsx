@@ -3,41 +3,24 @@ import classNames from 'classnames';
 import { BodyShort } from '@navikt/ds-react';
 
 import { Location, useNavigation } from '@hooks/useNavigation';
-import { Dropdown } from '@components/dropdown';
 import { ErrorBoundary } from '@components/ErrorBoundary';
 import { useActivePeriod } from '@state/periode';
-import { useCurrentPerson } from '@state/person';
-import { useInnloggetSaksbehandler } from '@state/authentication';
 import { BeregnetPeriode } from '@io/graphql';
 import { isBeregnetPeriode, isGhostPeriode } from '@utils/typeguards';
 import { onLazyLoadFail } from '@utils/error';
-import { useIsReadOnlyOppgave } from '@hooks/useIsReadOnlyOppgave';
 
 import { TabLink } from '../TabLink';
+import { DropdownMenu } from './dropdown/DropdownMenu';
 
 import styles from './SaksbildeMenu.module.css';
 
-const PåVentDropdownMenuButton = React.lazy(() => import('./dropdown/PåVentDropdownMenuButton').catch(onLazyLoadFail));
-const SkrivGenereltNotatDropdownMenuButton = React.lazy(() =>
-    import('./dropdown/SkrivGenereltNotatDropdownMenuButton').catch(onLazyLoadFail),
-);
-const TildelingDropdownMenuButton = React.lazy(() =>
-    import('./dropdown/TildelingDropdownMenuButton').catch(onLazyLoadFail),
-);
-const AnnullerButton = React.lazy(() => import('./dropdown/AnnulleringDropdownMenuButton').catch(onLazyLoadFail));
-const AnonymiserDataDropdownMenuButton = React.lazy(() =>
-    import('./dropdown/AnonymiserDataDropdownMenuButton').catch(onLazyLoadFail),
-);
-const OppdaterPersondataButton = React.lazy(() => import('./dropdown/OppdaterPersondataButton').catch(onLazyLoadFail));
 const HistorikkHeader = React.lazy(() => import('../historikk').catch(onLazyLoadFail));
 
 const SaksbildeMenuEmpty: React.VFC = () => {
     return (
         <div className={styles.SaksbildeMenu}>
             <div>
-                <Dropdown className={styles.Dropdown} title="Meny">
-                    <OppdaterPersondataButton />
-                </Dropdown>
+                <DropdownMenu />
             </div>
             <HistorikkHeader />
         </div>
@@ -55,10 +38,7 @@ const SaksbildeMenuGhostPeriode: React.VFC = () => {
                         Sykepengegrunnlag
                     </TabLink>
                 </span>
-                <Dropdown className={styles.Dropdown} title="Meny">
-                    <OppdaterPersondataButton />
-                    <AnonymiserDataDropdownMenuButton />
-                </Dropdown>
+                <DropdownMenu />
             </div>
             <HistorikkHeader />
         </div>
@@ -71,13 +51,6 @@ interface SaksbildeMenuBeregnetPeriodeProps {
 
 const SaksbildeMenuBeregnetPeriode = ({ activePeriod }: SaksbildeMenuBeregnetPeriodeProps) => {
     const { pathForLocation } = useNavigation();
-
-    const currentUser = useInnloggetSaksbehandler();
-    const currentPerson = useCurrentPerson();
-    const readOnly = useIsReadOnlyOppgave();
-
-    const personIsAssignedUser =
-        (currentPerson?.tildeling && currentPerson?.tildeling?.oid === currentUser.oid) ?? false;
 
     return (
         <div className={styles.SaksbildeMenu}>
@@ -98,37 +71,7 @@ const SaksbildeMenuBeregnetPeriode = ({ activePeriod }: SaksbildeMenuBeregnetPer
                         </TabLink>
                     )}
                 </span>
-                <Dropdown className={styles.Dropdown} title="Meny">
-                    <React.Suspense fallback={null}>
-                        {activePeriod.oppgavereferanse && !readOnly && (
-                            <>
-                                {currentPerson !== null && (
-                                    <SkrivGenereltNotatDropdownMenuButton
-                                        vedtaksperiodeId={activePeriod.vedtaksperiodeId}
-                                        personinfo={currentPerson.personinfo}
-                                    />
-                                )}
-                                <TildelingDropdownMenuButton
-                                    oppgavereferanse={activePeriod.oppgavereferanse}
-                                    erTildeltInnloggetBruker={personIsAssignedUser}
-                                    tildeling={currentPerson?.tildeling}
-                                />
-                                {currentPerson !== null && personIsAssignedUser && (
-                                    <PåVentDropdownMenuButton
-                                        oppgavereferanse={activePeriod.oppgavereferanse}
-                                        vedtaksperiodeId={activePeriod.vedtaksperiodeId}
-                                        personinfo={currentPerson.personinfo}
-                                        erPåVent={currentPerson.tildeling?.reservert}
-                                    />
-                                )}
-                                <hr className={styles.Strek} />
-                            </>
-                        )}
-                        <OppdaterPersondataButton />
-                        <AnonymiserDataDropdownMenuButton />
-                        <AnnullerButton />
-                    </React.Suspense>
-                </Dropdown>
+                <DropdownMenu />
             </div>
             <HistorikkHeader />
         </div>

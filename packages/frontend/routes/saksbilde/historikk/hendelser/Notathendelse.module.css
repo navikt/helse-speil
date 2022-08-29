@@ -13,3 +13,11 @@
 .Feilregistrert {
     color: var(--navds-semantic-color-feedback-danger-text);
 }
+
+.ListItem {
+    height: 32px;
+}
+
+.Notat {
+    font-size: var(--navds-font-size-medium);
+}

@@ -147,12 +147,12 @@ export const useTildelOppgave = () => {
     };
 };
 
-export const useFjernTildeling = () => {
+export const useFjernTildeling = (): ((oppgavereferanse: string) => () => Promise<Response>) => {
     const setTildelinger = useSetRecoilState(_tildelingerState);
     const addTildelingsvarsel = useAddTildelingsvarsel();
     const removeTildelingsvarsel = useRemoveTildelingsvarsel();
 
-    return ({ oppgavereferanse }: Pick<Oppgave, 'oppgavereferanse'>) => {
+    return (oppgavereferanse) => () => {
         removeTildelingsvarsel();
         return deleteTildeling(oppgavereferanse)
             .then((response) => {
@@ -191,13 +191,13 @@ export const useLeggPåVent = () => {
     };
 };
 
-export const useFjernPåVent = () => {
+export const useFjernPåVent = (): ((oppgavereferanse: string) => () => Promise<Response>) => {
     const tildelinger = useRecoilValue(tildelingerState);
     const setLokaleTildelinger = useSetRecoilState(_tildelingerState);
     const addTildelingsvarsel = useAddTildelingsvarsel();
     const removeTildelingsvarsel = useRemoveTildelingsvarsel();
 
-    return ({ oppgavereferanse }: Pick<Oppgave, 'oppgavereferanse'>) => {
+    return (oppgavereferanse) => () => {
         removeTildelingsvarsel();
         return deletePåVent(oppgavereferanse)
             .then((response) => {

@@ -2,10 +2,9 @@ import React, { useContext } from 'react';
 
 import { DropdownButton, DropdownContext } from '@components/dropdown';
 import { postForespørPersonoppdatering } from '@io/http';
-import { useCurrentPerson } from '@state/person';
 import { useAddVarsel, useRemoveVarsel } from '@state/varsler';
-import { isPerson } from '@utils/typeguards';
 import { SpeilError } from '@utils/error';
+import { Person } from '@io/graphql';
 
 const PERSONOPPDATERING_VARSEL_KEY = 'personoppdatering';
 
@@ -13,9 +12,11 @@ class PersonoppdateringAlert extends SpeilError {
     name = PERSONOPPDATERING_VARSEL_KEY;
 }
 
-export const OppdaterPersondataButton: React.VFC = () => {
-    const person = useCurrentPerson();
+interface OppdaterPersondataButtonProps {
+    person: Person;
+}
 
+export const OppdaterPersondataButton: React.FC<OppdaterPersondataButtonProps> = ({ person }) => {
     const addVarsel = useAddVarsel();
     const removeVarsel = useRemoveVarsel();
     const { lukk } = useContext(DropdownContext);
@@ -38,10 +39,6 @@ export const OppdaterPersondataButton: React.VFC = () => {
             })
             .finally(lukk);
     };
-
-    if (!isPerson(person)) {
-        return null;
-    }
 
     return (
         <DropdownButton onClick={forespørPersonoppdatering(person.fodselsnummer)}>Oppdater persondata</DropdownButton>

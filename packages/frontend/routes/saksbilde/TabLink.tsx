@@ -33,10 +33,10 @@ const TabLinkButton = styled(TabButton)`
                 font-weight: 600;
             }
         `}
-`;
 
-const IconContainer = styled.span`
-    margin-right: 0.5rem;
+    &:active > span:after {
+        color: var(--navds-semantic-color-text-inverted);
+    }
 `;
 
 interface TabLinkProps {
@@ -44,21 +44,18 @@ interface TabLinkProps {
     to?: string;
     title?: string;
     disabled?: boolean;
-    icon?: ReactNode;
 }
 
-export const TabLink = ({ children, to, disabled, title, icon }: TabLinkProps) => {
+export const TabLink = ({ children, to, disabled, title }: TabLinkProps) => {
     const location = useLocation();
     const history = useHistory();
 
     return disabled || !to ? (
         <DisabledTabLink disabled>
-            {icon && <IconContainer>{icon}</IconContainer>}
             <Content title={title}>{children}</Content>
         </DisabledTabLink>
     ) : (
         <TabLinkButton role="link" data-href={to} onClick={() => history.push(to)} active={location.pathname === to}>
-            {icon && <IconContainer>{icon}</IconContainer>}
             <Content className="content" title={title}>
                 {children}
             </Content>

@@ -1,42 +1,16 @@
-import styled from '@emotion/styled';
-import React, { useRef, useState } from 'react';
-
-import { Button as NavButton, Loader } from '@navikt/ds-react';
+import React, { useState } from 'react';
+import { Loader } from '@navikt/ds-react';
+import { Dropdown } from '@navikt/ds-react-internal';
 
 import { useLeggPåVent } from '@state/oppgaver';
 import { useOperationErrorHandler } from '@state/varsler';
-import { ignorePromise } from '@utils/promise';
-
-import { NyttNotatModal } from '../notat/NyttNotatModal';
 import { convertToGraphQLPersoninfo } from '@utils/mapping';
+import { ignorePromise } from '@utils/promise';
 import { NotatDTO } from '@io/http';
 
-const Button = styled(NavButton)`
-    all: unset;
-    height: 30px;
-    min-width: 180px;
-    font-size: 1rem;
-    white-space: nowrap;
-    text-align: left;
-    padding: 0.25rem 1rem;
-    width: 100%;
-    box-sizing: border-box;
+import { NyttNotatModal } from '../notat/NyttNotatModal';
 
-    &:hover,
-    &:focus {
-        background: var(--speil-light-hover);
-        color: var(--navds-semantic-color-text);
-        cursor: pointer;
-    }
-
-    &:disabled {
-        &,
-        &:hover {
-            background-color: transparent;
-            color: var(--navds-semantic-color-text-muted);
-        }
-    }
-`;
+import styles from './OptionsCell.module.css';
 
 interface LeggPåVentMenuButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
     oppgavereferanse: string;
@@ -45,15 +19,13 @@ interface LeggPåVentMenuButtonProps extends React.ButtonHTMLAttributes<HTMLButt
 }
 
 export const LeggPåVentMenuButton = ({ oppgavereferanse, vedtaksperiodeId, personinfo }: LeggPåVentMenuButtonProps) => {
-    const containerRef = useRef<HTMLSpanElement>(null);
     const [visModal, setVisModal] = useState(false);
     const [isFetching, setIsFetching] = useState(false);
     const errorHandler = useOperationErrorHandler('Legg på vent');
 
     const leggPåVentMedNotat = useLeggPåVent();
 
-    const åpneModal = async (event: React.MouseEvent) => {
-        event.stopPropagation();
+    const åpneModal = () => {
         setVisModal(true);
     };
 
@@ -66,11 +38,11 @@ export const LeggPåVentMenuButton = ({ oppgavereferanse, vedtaksperiodeId, pers
     };
 
     return (
-        <span ref={containerRef}>
-            <Button as="button" onClick={(e) => åpneModal(e)}>
+        <>
+            <Dropdown.Menu.List.Item onClick={åpneModal} className={styles.MenuButton}>
                 Legg på vent
                 {isFetching && <Loader size="xsmall" />}
-            </Button>
+            </Dropdown.Menu.List.Item>
             {visModal && (
                 <NyttNotatModal
                     onClose={() => setVisModal(false)}
@@ -80,6 +52,6 @@ export const LeggPåVentMenuButton = ({ oppgavereferanse, vedtaksperiodeId, pers
                     notattype="PaaVent"
                 />
             )}
-        </span>
+        </>
     );
 };

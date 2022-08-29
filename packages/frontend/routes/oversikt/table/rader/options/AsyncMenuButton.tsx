@@ -1,38 +1,10 @@
-import styled from '@emotion/styled';
 import React, { useState } from 'react';
+import classNames from 'classnames';
 
-import { Button as NavButton, Loader } from '@navikt/ds-react';
+import { Loader } from '@navikt/ds-react';
+import { Dropdown } from '@navikt/ds-react-internal';
 
-const Button = styled(NavButton)`
-    all: unset;
-    height: 30px;
-    min-width: 180px;
-    font-size: 1rem;
-    white-space: nowrap;
-    text-align: left;
-    padding: 0.25rem 1rem;
-    width: 100%;
-    box-sizing: border-box;
-
-    &:hover,
-    &:focus {
-        background: var(--navds-global-color-blue-100);
-        color: var(--navds-semantic-color-text);
-        cursor: pointer;
-    }
-
-    &:disabled {
-        &,
-        &:hover {
-            background-color: transparent;
-            color: var(--navds-semantic-color-text-muted);
-        }
-    }
-
-    > svg {
-        margin-left: 0.5rem;
-    }
-`;
+import styles from './AsyncMenuButton.module.css';
 
 interface AsyncMenuButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
     asyncOperation: () => Promise<any>;
@@ -41,14 +13,15 @@ interface AsyncMenuButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElem
     swallorErrors?: boolean;
 }
 
-export const AsyncMenuButton = ({
+export const AsyncMenuButton: React.FC<AsyncMenuButtonProps> = ({
     children,
     asyncOperation,
     onSuccess,
     onFail,
     swallorErrors = true,
-    ...rest
-}: AsyncMenuButtonProps) => {
+    className,
+    ...buttonProps
+}) => {
     const [isPerformingAsyncOperation, setIsPerformingAsyncOperation] = useState(false);
 
     const onClick = (event: React.MouseEvent) => {
@@ -67,9 +40,13 @@ export const AsyncMenuButton = ({
     };
 
     return (
-        <Button as="button" onClick={onClick} {...rest}>
+        <Dropdown.Menu.List.Item
+            onClick={onClick}
+            className={classNames(styles.AsyncMenuButton, className)}
+            {...buttonProps}
+        >
             {children}
             {isPerformingAsyncOperation && <Loader size="xsmall" />}
-        </Button>
+        </Dropdown.Menu.List.Item>
     );
 };

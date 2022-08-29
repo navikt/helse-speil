@@ -26,18 +26,6 @@
     display: flex;
 }
 
-.Dropdown {
-    display: flex;
-    align-items: center;
-    height: 100%;
-}
-
-.Strek {
-    width: 100%;
-    border: none;
-    border-top: 1px solid var(--navds-semantic-color-border);
-}
-
 .SaksbildeMenu.Skeleton > span > button > span {
     background: var(--navds-global-color-gray-100);
     box-shadow: 0 0 0 4px var(--navds-global-color-gray-100);

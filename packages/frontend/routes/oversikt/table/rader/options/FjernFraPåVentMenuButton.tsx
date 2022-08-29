@@ -14,7 +14,7 @@ export const FjernFraPåVentMenuButton = ({ oppgavereferanse, ...rest }: FjernFr
     const errorHandler = useOperationErrorHandler('Legg på vent');
 
     return (
-        <AsyncMenuButton asyncOperation={() => fjernPåVent({ oppgavereferanse })} onFail={errorHandler} {...rest}>
+        <AsyncMenuButton asyncOperation={fjernPåVent(oppgavereferanse)} onFail={errorHandler} {...rest}>
             Fjern fra på vent
         </AsyncMenuButton>
     );

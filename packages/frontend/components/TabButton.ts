@@ -19,11 +19,15 @@ export const TabButton = styled.button<{ active?: boolean; disabled?: boolean }>
         !props.disabled &&
         css`
             &:hover {
-                background-color: var(--navds-global-color-gray-100);
+                background-color: var(--navds-semantic-color-interaction-primary-hover-subtle);
             }
 
             &:active {
-                background-color: var(--navds-global-color-gray-200);
+                background-color: var(--navds-semantic-color-interaction-primary-selected);
+
+                path {
+                    fill: white;
+                }
             }
 
             &:focus-visible {

@@ -10,7 +10,12 @@ interface TildelMenuButtonProps extends React.ButtonHTMLAttributes<HTMLButtonEle
     tildeling?: Tildeling;
 }
 
-export const TildelMenuButton = ({ oppgavereferanse, saksbehandler, tildeling, ...rest }: TildelMenuButtonProps) => {
+export const TildelMenuButton: React.FC<TildelMenuButtonProps> = ({
+    oppgavereferanse,
+    saksbehandler,
+    tildeling,
+    ...rest
+}) => {
     const tildelOppgave = useTildelOppgave();
     return (
         <AsyncMenuButton

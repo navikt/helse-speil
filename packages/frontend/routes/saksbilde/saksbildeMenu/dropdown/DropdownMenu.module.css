@@ -1,0 +1,15 @@
+.DropdownMenu {
+    width: max-content;
+}
+
+.MenuButton {
+    color: var(--navds-semantic-color-interaction-primary);
+    font-weight: var(--navds-font-weight-bold);
+    height: 48px;
+    display: flex;
+    gap: 8px;
+}
+
+.MenuButton:active {
+    color: var(--navds-semantic-color-text-inverted);
+}

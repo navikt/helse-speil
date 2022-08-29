@@ -85,7 +85,7 @@ export const Notathendelse: React.FC<NotathendelseProps> = ({
                     </Button>
                     <Dropdown.Menu>
                         <Dropdown.Menu.List>
-                            <Dropdown.Menu.List.Item onClick={feilregistrerNotat}>
+                            <Dropdown.Menu.List.Item onClick={feilregistrerNotat} className={styles.ListItem}>
                                 Feilregistrer {isFetching && <Loader size="xsmall" />}
                             </Dropdown.Menu.List.Item>
                         </Dropdown.Menu.List>
@@ -93,7 +93,7 @@ export const Notathendelse: React.FC<NotathendelseProps> = ({
                 </Dropdown>
             )}
             <ExpandableHistorikkContent>
-                <BodyShort>{tekst}</BodyShort>
+                <BodyShort className={styles.Notat}>{tekst}</BodyShort>
             </ExpandableHistorikkContent>
         </Hendelse>
     );

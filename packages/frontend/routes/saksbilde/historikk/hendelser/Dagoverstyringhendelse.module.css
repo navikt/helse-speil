@@ -6,7 +6,6 @@
 
 .Grid {
     padding: 8px;
-    margin: 0 -8px;
     position: relative;
     display: grid;
     grid-template-columns: max-content max-content;

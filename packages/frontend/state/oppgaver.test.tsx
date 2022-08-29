@@ -124,7 +124,7 @@ describe('oppgavetildeling', () => {
             const { result } = renderHook(() => useFjernTildeling(), { wrapper });
 
             act(async () => {
-                expect(await result.current(enOppgave())).toHaveProperty('status', 200);
+                expect(await result.current(enOppgave().oppgavereferanse)()).toHaveProperty('status', 200);
             });
         });
 
@@ -133,7 +133,7 @@ describe('oppgavetildeling', () => {
             const { result } = renderHook(() => useFjernTildeling(), { wrapper });
 
             act(() => {
-                expect(async () => await result.current(enOppgave())).rejects.toBeUndefined();
+                expect(async () => await result.current(enOppgave().oppgavereferanse)()).rejects.toBeUndefined();
             });
         });
     });
