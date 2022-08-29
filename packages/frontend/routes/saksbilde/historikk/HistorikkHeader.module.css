@@ -11,26 +11,3 @@
     height: var(--size);
     width: var(--size);
 }
-
-.Counter {
-    position: relative;
-}
-
-.Counter:after {
-    counter-reset: antall-notater var(--antall-notater);
-    content: counter(antall-notater);
-    position: absolute;
-    top: 4px;
-    left: 4px;
-    background: var(--navds-semantic-color-interaction-primary);
-    font-size: var(--navds-font-size-medium);
-    line-height: var(--navds-font-line-height-medium);
-    font-family: var(--navds-font-family);
-    width: 20px;
-    height: 20px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--navds-semantic-color-text-inverted);
-}

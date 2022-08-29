@@ -4,20 +4,13 @@ import { Clock, DialogDots, Folder } from '@navikt/ds-icons';
 
 import { TabButton } from '@components/TabButton';
 
-import { useFilterState, useNumberOfItemsOfType, useShowHistorikkState } from './state';
+import { useFilterState, useShowHistorikkState } from './state';
 
 import styles from './HistorikkHeader.module.css';
-
-declare module 'csstype' {
-    interface Properties {
-        '--antall-notater'?: number;
-    }
-}
 
 export const HistorikkHeader = () => {
     const [filter, setFilter] = useFilterState();
     const [showHistorikk, setShowHistorikk] = useShowHistorikkState();
-    const antallNotater = useNumberOfItemsOfType('Notat');
 
     const activateFilter = (filter: Filtertype) => () => {
         setShowHistorikk(true);
@@ -43,8 +36,7 @@ export const HistorikkHeader = () => {
                 <Folder height={22} width={22} />
             </TabButton>
             <TabButton
-                className={classNames(styles.FilterButton, styles.Counter)}
-                style={{ '--antall-notater': antallNotater }}
+                className={classNames(styles.FilterButton)}
                 active={showHistorikk && filter === 'Notat'}
                 onClick={activateFilter('Notat')}
                 title="Notat"

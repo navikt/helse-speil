@@ -84,6 +84,7 @@ const filterMap: Record<Filtertype, Array<Hendelsetype>> = {
         'Dokument',
         'Utbetaling',
         'Historikk',
+        'Notat',
     ],
     Dokument: ['Dokument'],
     Notat: ['Notat'],
@@ -107,7 +108,3 @@ export const useShowHistorikkState = () => useRecoilState(showHistorikkState);
 export const useFilteredHistorikk = (): Array<HendelseObject> => useRecoilValue(filteredHistorikkState);
 
 export const useFilterState = () => useRecoilState(filterState);
-
-export const useNumberOfItemsOfType = (type: Filtertype): number => {
-    return useRecoilValue(historikkState).filter((it) => filterMap[type].includes(it.type)).length;
-};
