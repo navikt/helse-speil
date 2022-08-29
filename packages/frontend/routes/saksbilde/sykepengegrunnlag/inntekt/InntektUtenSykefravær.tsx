@@ -19,6 +19,7 @@ import styles from './Inntekt.module.css';
 import { EditableInntekt } from './EditableInntekt';
 import { RedigerGhostInntekt } from './RedigerGhostInntekt';
 import { BegrunnelseForOverstyring } from '../overstyring.types';
+import { erDev } from '@utils/featureToggles';
 
 const maybePeriodeTilGodkjenning = (person: Person, skjæringstidspunkt: DateString): Maybe<BeregnetPeriode> => {
     return (
@@ -98,15 +99,21 @@ const useGhostInntektKanOverstyres = (organisasjonsnummer: string): boolean => {
 
     const periodeTilGodkjenning = maybePeriodeTilGodkjenning(person, activePeriod.skjaeringstidspunkt);
 
+    const periodeForSkjæringstidspunkt = maybePeriodeForSkjæringstidspunkt(person, activePeriod.skjaeringstidspunkt);
+
     const harIngenUtbetaltePerioder = harIngenUtbetaltePerioderFor(person, activePeriod.skjaeringstidspunkt);
 
     const harIngenPerioderTilBeslutter = harIngenPerioderTilBeslutterFor(person, activePeriod.skjaeringstidspunkt);
 
     return (
-        activePeriod.organisasjonsnummer === organisasjonsnummer &&
-        harIngenUtbetaltePerioder &&
-        harIngenPerioderTilBeslutter &&
-        periodeTilGodkjenning !== undefined
+        (activePeriod.organisasjonsnummer === organisasjonsnummer &&
+            harIngenUtbetaltePerioder &&
+            harIngenPerioderTilBeslutter &&
+            periodeTilGodkjenning !== undefined) ||
+        (erDev() &&
+            activePeriod.organisasjonsnummer === organisasjonsnummer &&
+            harIngenPerioderTilBeslutter &&
+            periodeForSkjæringstidspunkt !== undefined)
     );
 };
 
