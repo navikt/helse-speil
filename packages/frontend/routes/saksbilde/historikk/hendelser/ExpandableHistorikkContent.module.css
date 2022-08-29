@@ -1,6 +1,4 @@
 .Header {
-    font-size: var(--navds-font-size-medium);
-    font-weight: var(--navds-font-weight-regular);
     color: var(--navds-semantic-color-interaction-primary) !important;
     background: none !important;
     text-decoration: underline;
@@ -9,6 +7,13 @@
     gap: 8px;
     width: max-content;
     border-bottom: none;
+    display: flex;
+    align-items: center;
+}
+
+.Header > span {
+    font-size: var(--navds-font-size-medium);
+    font-weight: var(--navds-font-weight-regular);
 }
 
 .Header:focus {

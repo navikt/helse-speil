@@ -13,7 +13,7 @@ export const ExpandableHistorikkContent: React.FC<ExpandableHistorikkContentProp
 }) => {
     const [open, setOpen] = useState(false);
     return (
-        <Accordion.Item open={open} className={classNames(styles.ExpandableHistorikkContent, className)} {...divProps}>
+        <Accordion.Item open={open} className={classNames(className)} {...divProps}>
             <Accordion.Header className={styles.Header} onClick={() => setOpen((prevState) => !prevState)}>
                 {open ? 'Lukk' : 'Åpne'}
             </Accordion.Header>

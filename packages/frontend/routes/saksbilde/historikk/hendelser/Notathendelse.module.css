@@ -1,7 +1,13 @@
 .ToggleButton {
     width: max-content;
+    height: 24px;
     position: absolute;
     right: 0;
+}
+
+.ToggleButton > span {
+    display: flex;
+    align-items: center;
 }
 
 .Feilregistrert {
