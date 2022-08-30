@@ -7,6 +7,10 @@
     padding: 0 1rem 0 0;
 }
 
+.EkspanderbartVarsel > button > svg {
+    margin: 8px 0;
+}
+
 .EkspanderbartVarsel.info > button {
     --background-color: var(--navds-alert-color-info-background);
     --border-color: var(--navds-alert-color-info-border);
