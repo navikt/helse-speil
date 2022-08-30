@@ -60,17 +60,34 @@
 }
 
 .SubpanelHeader {
-    grid-column-start: 1;
-    grid-column-end: 4;
+    display: contents;
 }
 
 .SubpanelHeader > button {
     display: flex;
+    grid-column-start: 1;
+    grid-column-end: 4;
     padding: 0 0 0.5rem;
+    justify-content: flex-start;
+}
+
+.SubpanelHeader > button > span {
+    display: flex;
+    width: 100%;
+    gap: 20px;
+}
+
+.SubpanelHeader > button > span progress {
+    flex: 1;
 }
 
 .SubpanelHeader :global(.navds-accordion__expand-icon) {
     order: -1;
+}
+
+.SubpanelHeader > div {
+    grid-column-start: 1;
+    grid-column-end: 4;
 }
 
 .SubpanelContent > *:nth-child(3n + 1) {
