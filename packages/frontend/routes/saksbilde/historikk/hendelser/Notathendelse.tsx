@@ -81,7 +81,7 @@ export const Notathendelse: React.FC<NotathendelseProps> = ({
             {!feilregistrert && innloggetSaksbehandler.oid === saksbehandlerOid && (
                 <Dropdown>
                     <Button as={Dropdown.Toggle} variant="tertiary" className={styles.ToggleButton} size="xsmall">
-                        <EllipsisH height={20} width={20} />
+                        <EllipsisH height={32} width={32} />
                     </Button>
                     <Dropdown.Menu>
                         <Dropdown.Menu.List>
