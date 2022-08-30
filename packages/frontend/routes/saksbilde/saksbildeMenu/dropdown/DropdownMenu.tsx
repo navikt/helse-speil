@@ -8,18 +8,17 @@ import { LoadingShimmer } from '@components/LoadingShimmer';
 import { useInteractOutside } from '@hooks/useInteractOutside';
 import { useIsReadOnlyOppgave } from '@hooks/useIsReadOnlyOppgave';
 import { useInnloggetSaksbehandler } from '@state/authentication';
+import { useCurrentArbeidsgiver } from '@state/arbeidsgiver';
 import { useCurrentPerson } from '@state/person';
 import { useActivePeriod } from '@state/periode';
 
 import { AnnullerButton } from './AnnullerButton';
-import OppdaterPersondataButton from './OppdaterPersondataButton';
-import PåVentDropdownMenuButton from './PåVentDropdownMenuButton';
-import TildelingDropdownMenuButton from './TildelingDropdownMenuButton';
-import AnonymiserDataDropdownMenuButton from './AnonymiserDataDropdownMenuButton';
-import SkrivGenereltNotatDropdownMenuButton from './SkrivGenereltNotatDropdownMenuButton';
+import { OppdaterPersondataButton } from './OppdaterPersondataButton';
+import { PåVentDropdownMenuButton } from './PåVentDropdownMenuButton';
+import { TildelingDropdownMenuButton } from './TildelingDropdownMenuButton';
+import { SkrivGenereltNotatDropdownMenuButton } from './SkrivGenereltNotatDropdownMenuButton';
 
 import styles from './DropdownMenu.module.css';
-import { useCurrentArbeidsgiver } from '@state/arbeidsgiver';
 
 const DropdownMenuContentSkeleton: React.FC = () => {
     return (
@@ -38,64 +37,49 @@ const DropdownMenuContentSkeleton: React.FC = () => {
         </Dropdown.Menu>
     );
 };
-
 const DropdownMenuContent: React.FC = () => {
-    const activePeriod = useActivePeriod();
-    const currentUser = useInnloggetSaksbehandler();
-    const arbeidsgiver = useCurrentArbeidsgiver();
-    const currentPerson = useCurrentPerson();
+    const user = useInnloggetSaksbehandler();
+    const period = useActivePeriod();
+    const person = useCurrentPerson();
     const readOnly = useIsReadOnlyOppgave();
+    const arbeidsgiver = useCurrentArbeidsgiver();
 
-    const personIsAssignedUser =
-        (currentPerson?.tildeling && currentPerson?.tildeling?.oid === currentUser.oid) ?? false;
+    if (!isPerson(person)) {
+        return null;
+    }
+
+    const personIsAssignedUser = (person?.tildeling && person?.tildeling?.oid === user.oid) ?? false;
 
     return (
         <Dropdown.Menu placement="bottom-start" className={styles.DropdownMenu}>
-            {isBeregnetPeriode(activePeriod) && activePeriod.oppgavereferanse && !readOnly && (
+            {isBeregnetPeriode(period) && period.oppgavereferanse && !readOnly && (
                 <>
                     <Dropdown.Menu.List>
-                        {isPerson(currentPerson) && (
-                            <Dropdown.Menu.List.Item>
-                                <SkrivGenereltNotatDropdownMenuButton
-                                    vedtaksperiodeId={activePeriod.vedtaksperiodeId}
-                                    personinfo={currentPerson.personinfo}
-                                />
-                            </Dropdown.Menu.List.Item>
-                        )}
-                        <Dropdown.Menu.List.Item>
-                            <TildelingDropdownMenuButton
-                                oppgavereferanse={activePeriod.oppgavereferanse}
-                                erTildeltInnloggetBruker={personIsAssignedUser}
-                                tildeling={currentPerson?.tildeling}
+                        <SkrivGenereltNotatDropdownMenuButton
+                            vedtaksperiodeId={period.vedtaksperiodeId}
+                            personinfo={person.personinfo}
+                        />
+                        <TildelingDropdownMenuButton
+                            oppgavereferanse={period.oppgavereferanse}
+                            erTildeltInnloggetBruker={personIsAssignedUser}
+                            tildeling={person?.tildeling}
+                        />
+                        {personIsAssignedUser && (
+                            <PåVentDropdownMenuButton
+                                oppgavereferanse={period.oppgavereferanse}
+                                vedtaksperiodeId={period.vedtaksperiodeId}
+                                personinfo={person.personinfo}
+                                erPåVent={person.tildeling?.reservert}
                             />
-                        </Dropdown.Menu.List.Item>
-                        {isPerson(currentPerson) && personIsAssignedUser && (
-                            <Dropdown.Menu.List.Item>
-                                <PåVentDropdownMenuButton
-                                    oppgavereferanse={activePeriod.oppgavereferanse}
-                                    vedtaksperiodeId={activePeriod.vedtaksperiodeId}
-                                    personinfo={currentPerson.personinfo}
-                                    erPåVent={currentPerson.tildeling?.reservert}
-                                />
-                            </Dropdown.Menu.List.Item>
                         )}
                     </Dropdown.Menu.List>
                     <Dropdown.Menu.Divider />
                 </>
             )}
             <Dropdown.Menu.List>
-                {isPerson(currentPerson) && (
-                    <Dropdown.Menu.List.Item>
-                        <React.Suspense>
-                            <OppdaterPersondataButton person={currentPerson} />
-                        </React.Suspense>
-                    </Dropdown.Menu.List.Item>
-                )}
-                <Dropdown.Menu.List.Item>
-                    <AnonymiserDataDropdownMenuButton />
-                </Dropdown.Menu.List.Item>
-                {isPerson(currentPerson) && isBeregnetPeriode(activePeriod) && isArbeidsgiver(arbeidsgiver) && (
-                    <AnnullerButton person={currentPerson} periode={activePeriod} arbeidsgiver={arbeidsgiver} />
+                <OppdaterPersondataButton person={person} />
+                {isBeregnetPeriode(period) && isArbeidsgiver(arbeidsgiver) && (
+                    <AnnullerButton person={person} periode={period} arbeidsgiver={arbeidsgiver} />
                 )}
             </Dropdown.Menu.List>
         </Dropdown.Menu>

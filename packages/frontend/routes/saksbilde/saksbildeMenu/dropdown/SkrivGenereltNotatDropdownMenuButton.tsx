@@ -1,15 +1,8 @@
-import styled from '@emotion/styled';
 import React, { useState } from 'react';
-
-import { DropdownButton } from '@components/dropdown';
 import { Personinfo } from '@io/graphql';
+import { Dropdown } from '@navikt/ds-react-internal';
 
 import { NyttNotatModal } from '../../../oversikt/table/rader/notat/NyttNotatModal';
-
-const Container = styled.span`
-    display: flex;
-    align-items: center;
-`;
 
 interface SkrivNotatDropdownMenuButtonProps {
     vedtaksperiodeId: string;
@@ -20,21 +13,27 @@ export const SkrivGenereltNotatDropdownMenuButton = ({
     vedtaksperiodeId,
     personinfo,
 }: SkrivNotatDropdownMenuButtonProps) => {
-    const [visModal, setVisModal] = useState(false);
+    const [open, setOpen] = useState(false);
+
+    const showModal = () => {
+        setOpen(true);
+    };
+
+    const closeModal = () => {
+        setOpen(false);
+    };
 
     return (
-        <Container>
-            <DropdownButton onClick={() => setVisModal(true)}>Skriv notat</DropdownButton>
-            {visModal && (
+        <>
+            <Dropdown.Menu.List.Item onClick={showModal}>Skriv notat</Dropdown.Menu.List.Item>
+            {open && (
                 <NyttNotatModal
-                    onClose={() => setVisModal(false)}
+                    onClose={closeModal}
                     personinfo={personinfo}
                     vedtaksperiodeId={vedtaksperiodeId}
                     notattype="Generelt"
                 />
             )}
-        </Container>
+        </>
     );
 };
-
-export default SkrivGenereltNotatDropdownMenuButton;

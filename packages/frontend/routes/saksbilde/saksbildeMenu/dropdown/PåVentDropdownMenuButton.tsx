@@ -1,21 +1,13 @@
-import styled from '@emotion/styled';
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
 import { useHistory } from 'react-router';
-
+import { Dropdown } from '@navikt/ds-react-internal';
 import { Loader } from '@navikt/ds-react';
-
-import { DropdownButton, DropdownContext } from '@components/dropdown';
 import { useOperationErrorHandler } from '@state/varsler';
+import { useFjernPåVent, useLeggPåVent } from '@state/person';
 import { ignorePromise } from '@utils/promise';
 import { Personinfo } from '@io/graphql';
 
 import { NyttNotatModal } from '../../../oversikt/table/rader/notat/NyttNotatModal';
-import { useFjernPåVent, useLeggPåVent } from '@state/person';
-
-const Container = styled.span`
-    display: flex;
-    align-items: center;
-`;
 
 interface PåVentDropdownMenuButtonProps {
     oppgavereferanse: string;
@@ -38,8 +30,6 @@ export const PåVentDropdownMenuButton = ({
     const fjernPåVent = useFjernPåVent();
     const errorHandler = useOperationErrorHandler('Legg på vent');
 
-    const { lukk } = useContext(DropdownContext);
-
     const settPåVent = (notattekst: string) => {
         setIsFetching(true);
         ignorePromise(
@@ -54,7 +44,6 @@ export const PåVentDropdownMenuButton = ({
         setIsFetching(true);
         ignorePromise(
             fjernPåVent(oppgavereferanse).finally(() => {
-                lukk();
                 setIsFetching(false);
             }),
             errorHandler,
@@ -62,14 +51,14 @@ export const PåVentDropdownMenuButton = ({
     };
 
     return (
-        <Container>
+        <>
             {erPåVent ? (
-                <DropdownButton onClick={fjernFraPåVent}>
+                <Dropdown.Menu.List.Item onClick={fjernFraPåVent}>
                     Fjern fra på vent
                     {isFetching && <Loader size="xsmall" />}
-                </DropdownButton>
+                </Dropdown.Menu.List.Item>
             ) : (
-                <DropdownButton onClick={() => setVisModal(true)}>Legg på vent</DropdownButton>
+                <Dropdown.Menu.List.Item onClick={() => setVisModal(true)}>Legg på vent</Dropdown.Menu.List.Item>
             )}
             {visModal && (
                 <NyttNotatModal
@@ -80,8 +69,6 @@ export const PåVentDropdownMenuButton = ({
                     notattype="PaaVent"
                 />
             )}
-        </Container>
+        </>
     );
 };
-
-export default PåVentDropdownMenuButton;

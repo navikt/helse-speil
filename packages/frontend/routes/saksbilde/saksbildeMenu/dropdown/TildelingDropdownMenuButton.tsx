@@ -1,9 +1,8 @@
-import React, { useContext, useState } from 'react';
-
+import React, { useState } from 'react';
 import { Loader } from '@navikt/ds-react';
+import { Dropdown } from '@navikt/ds-react-internal';
 
 import { Tildeling } from '@io/graphql';
-import { DropdownButton, DropdownContext } from '@components/dropdown';
 import { useFjernTildeling, useTildelPerson } from '@state/person';
 
 interface TildelingDropdownMenuButtonProps {
@@ -19,39 +18,34 @@ export const TildelingDropdownMenuButton = ({
 }: TildelingDropdownMenuButtonProps) => {
     const tildelPerson = useTildelPerson();
     const fjernTildeling = useFjernTildeling();
-    const { lukk } = useContext(DropdownContext);
 
     const [isFetching, setIsFetching] = useState(false);
 
     return erTildeltInnloggetBruker ? (
-        <DropdownButton
+        <Dropdown.Menu.List.Item
             disabled={isFetching}
             onClick={() => {
                 setIsFetching(true);
                 fjernTildeling(oppgavereferanse).finally(() => {
-                    lukk();
                     setIsFetching(false);
                 });
             }}
         >
             Meld av
             {isFetching && <Loader size="xsmall" />}
-        </DropdownButton>
+        </Dropdown.Menu.List.Item>
     ) : (
-        <DropdownButton
+        <Dropdown.Menu.List.Item
             disabled={!!tildeling || isFetching}
             onClick={() => {
                 setIsFetching(true);
                 tildelPerson(oppgavereferanse).finally(() => {
-                    lukk();
                     setIsFetching(false);
                 });
             }}
         >
             Tildel meg
             {isFetching && <Loader size="xsmall" />}
-        </DropdownButton>
+        </Dropdown.Menu.List.Item>
     );
 };
-
-export default TildelingDropdownMenuButton;

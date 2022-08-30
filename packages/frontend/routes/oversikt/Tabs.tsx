@@ -3,14 +3,10 @@ import classNames from 'classnames';
 import { atom, AtomEffect, useRecoilState, useRecoilValue } from 'recoil';
 import { BodyShort } from '@navikt/ds-react';
 import { Data } from '@navikt/ds-icons';
-
-import { Bold } from '@components/Bold';
-import { Dropdown } from '@components/dropdown';
 import { RoundedButton } from '@components/RoundedButton';
 import { useInnloggetSaksbehandler } from '@state/authentication';
 import { useMineOppgaver, useOppgaver } from '@state/oppgaver';
 
-import { AnonymiserDataDropdownMenuButton } from '../saksbilde/saksbildeMenu/dropdown/AnonymiserDataDropdownMenuButton';
 import { useShowStatistikk, useToggleStatistikk } from './behandlingsstatistikk/state';
 
 import styles from './Tabs.module.css';
@@ -87,9 +83,6 @@ export const Tabs = () => {
                 <AlleSakerTab />
                 <MineSakerTab />
                 <VentendeSakerTab />
-                <Dropdown className={styles.Meny} title={<Bold>Meny</Bold>}>
-                    <AnonymiserDataDropdownMenuButton />
-                </Dropdown>
             </span>
             <RoundedButton
                 id="behandlingsstatistikk-toggle"

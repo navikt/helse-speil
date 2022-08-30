@@ -1,15 +1,14 @@
-import React, { useContext } from 'react';
+import React from 'react';
+import { Dropdown } from '@navikt/ds-react-internal';
 
-import { DropdownButton, DropdownContext } from '@components/dropdown';
+import { Person } from '@io/graphql';
 import { postForespørPersonoppdatering } from '@io/http';
 import { useAddVarsel, useRemoveVarsel } from '@state/varsler';
 import { SpeilError } from '@utils/error';
-import { Person } from '@io/graphql';
-
-const PERSONOPPDATERING_VARSEL_KEY = 'personoppdatering';
 
 class PersonoppdateringAlert extends SpeilError {
-    name = PERSONOPPDATERING_VARSEL_KEY;
+    static key = 'personoppdatering';
+    name = PersonoppdateringAlert.key;
 }
 
 interface OppdaterPersondataButtonProps {
@@ -19,10 +18,9 @@ interface OppdaterPersondataButtonProps {
 export const OppdaterPersondataButton: React.FC<OppdaterPersondataButtonProps> = ({ person }) => {
     const addVarsel = useAddVarsel();
     const removeVarsel = useRemoveVarsel();
-    const { lukk } = useContext(DropdownContext);
 
     const forespørPersonoppdatering = (fødselsnummer: string) => () => {
-        removeVarsel(PERSONOPPDATERING_VARSEL_KEY);
+        removeVarsel(PersonoppdateringAlert.key);
         postForespørPersonoppdatering({ fødselsnummer })
             .then(() => {
                 addVarsel(
@@ -36,13 +34,12 @@ export const OppdaterPersondataButton: React.FC<OppdaterPersondataButtonProps> =
                 addVarsel(
                     new PersonoppdateringAlert('Personoppdatering feilet. Prøv igjen om litt.', { severity: 'error' }),
                 );
-            })
-            .finally(lukk);
+            });
     };
 
     return (
-        <DropdownButton onClick={forespørPersonoppdatering(person.fodselsnummer)}>Oppdater persondata</DropdownButton>
+        <Dropdown.Menu.List.Item onClick={forespørPersonoppdatering(person.fodselsnummer)}>
+            Oppdater persondata
+        </Dropdown.Menu.List.Item>
     );
 };
-
-export default OppdaterPersondataButton;

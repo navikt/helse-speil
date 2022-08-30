@@ -2,6 +2,10 @@
     width: max-content;
 }
 
+.DropdownMenu li > button {
+    height: 32px;
+}
+
 .MenuButton {
     color: var(--navds-semantic-color-interaction-primary);
     font-weight: var(--navds-font-weight-bold);
