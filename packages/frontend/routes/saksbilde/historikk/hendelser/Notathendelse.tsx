@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import classNames from 'classnames';
 import { DialogDots, EllipsisH } from '@navikt/ds-icons';
-import { BodyShort, Button, Loader } from '@navikt/ds-react';
+import { Button, Loader } from '@navikt/ds-react';
 import { Dropdown } from '@navikt/ds-react-internal';
 
 import { putFeilregistrertNotat } from '@io/http';
@@ -93,7 +93,7 @@ export const Notathendelse: React.FC<NotathendelseProps> = ({
                 </Dropdown>
             )}
             <ExpandableHistorikkContent>
-                <BodyShort className={styles.Notat}>{tekst}</BodyShort>
+                <pre className={styles.Notat}>{tekst}</pre>
             </ExpandableHistorikkContent>
         </Hendelse>
     );

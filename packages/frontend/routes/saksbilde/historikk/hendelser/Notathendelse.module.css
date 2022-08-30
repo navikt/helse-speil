@@ -20,4 +20,6 @@
 
 .Notat {
     font-size: var(--navds-font-size-medium);
+    line-height: var(--navds-font-line-height-medium);
+    white-space: pre-wrap;
 }
