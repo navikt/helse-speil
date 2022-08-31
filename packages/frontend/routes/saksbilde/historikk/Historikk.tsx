@@ -53,10 +53,10 @@ const HistorikkWithContent: React.FC = () => {
             >
                 <div className={styles.Historikk}>
                     <ul>
-                        <li>
+                        <div>
                             {getHistorikkTitle(filter)}
                             <CloseButton onClick={() => setShowHistorikk(false)} />
-                        </li>
+                        </div>
                         {historikk.map((it: HendelseObject) => {
                             switch (it.type) {
                                 case 'Arbeidsforholdoverstyring': {

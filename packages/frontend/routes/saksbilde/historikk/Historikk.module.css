@@ -14,7 +14,7 @@
     height: 100%;
 }
 
-.Historikk > ul > li:first-of-type {
+.Historikk > ul > div {
     display: flex;
     align-items: center;
     justify-content: space-between;
