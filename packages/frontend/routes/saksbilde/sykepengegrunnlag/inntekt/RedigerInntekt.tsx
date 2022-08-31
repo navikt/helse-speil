@@ -8,8 +8,10 @@ import { EditButton } from '@components/EditButton';
 import { PopoverHjelpetekst } from '@components/PopoverHjelpetekst';
 import { SortInfoikon } from '@components/ikoner/SortInfoikon';
 import { Inntektstype, Vilkarsgrunnlagtype } from '@io/graphql';
-import { useVilkårsgrunnlag } from '@state/person';
+import { useCurrentPerson, useVilkårsgrunnlag } from '@state/person';
 import { erDev, erLocal } from '@utils/featureToggles';
+import { useActivePeriod } from '@state/periode';
+import { isGhostPeriode } from '@utils/typeguards';
 
 interface RedigerInntektProps {
     setEditing: Dispatch<SetStateAction<boolean>>;
@@ -29,6 +31,16 @@ export const RedigerInntekt = ({
     vilkårsgrunnlagId,
 }: RedigerInntektProps) => {
     const harKunEnArbeidsgiver = inntektstype === Inntektstype.Enarbeidsgiver;
+
+    const period = useActivePeriod();
+    const person = useCurrentPerson();
+    const harIngenGhostperioder =
+        person?.arbeidsgivere
+            .flatMap((it) => it.generasjoner[0]?.perioder.find((it) => it.fom === period?.fom))
+            .filter((it) => isGhostPeriode(it)).length === 0 ?? true;
+
+    const kanEndreInntektIDev = erDev() && harIngenGhostperioder;
+
     const erAktivPeriodeISisteSkjæringstidspunkt = useActivePeriodHasLatestSkjæringstidspunkt();
     const erTidslinjeperiodeISisteGenerasjon = useActiveGenerationIsLast();
 
@@ -41,7 +53,7 @@ export const RedigerInntekt = ({
     const revurdereTidligereUtbetalinger = erDev() || erLocal() || erAktivPeriodeISisteSkjæringstidspunkt;
     const erIkkeRevurderingAvFlereArbeidsgivere = inntektstype !== 'FLEREARBEIDSGIVERE' || !erRevurdering;
 
-    return harKunEnArbeidsgiver &&
+    return (harKunEnArbeidsgiver || kanEndreInntektIDev) &&
         revurdereTidligereUtbetalinger &&
         erSpleisVilkårsgrunnlagtype &&
         erIkkePingPong &&
