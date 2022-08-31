@@ -34,12 +34,10 @@ export const RedigerInntekt = ({
 
     const period = useActivePeriod();
     const person = useCurrentPerson();
-    const harIngenGhostperioder =
-        person?.arbeidsgivere
-            .flatMap((it) => it.generasjoner[0]?.perioder.find((it) => it.fom === period?.fom))
-            .filter((it) => isGhostPeriode(it)).length === 0 ?? true;
+    const harGhostperioder =
+        person?.arbeidsgivere.some((it) => it.ghostPerioder.find((it) => it.fom === period?.fom)) ?? false;
 
-    const kanEndreInntektIDev = erDev() && harIngenGhostperioder;
+    const kanEndreInntektIDev = (erDev() || erLocal()) && !harGhostperioder;
 
     const erAktivPeriodeISisteSkjæringstidspunkt = useActivePeriodHasLatestSkjæringstidspunkt();
     const erTidslinjeperiodeISisteGenerasjon = useActiveGenerationIsLast();
