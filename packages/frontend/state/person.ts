@@ -37,7 +37,7 @@ const fetchPersonState = (id: string): Promise<PersonState> => {
         })
         .catch((e) => {
             const errors = e.response.errors.map((error: GraphQLError) => {
-                switch (error.extensions.code) {
+                switch (error.extensions?.code) {
                     case 403: {
                         return new ProtectedError();
                     }
