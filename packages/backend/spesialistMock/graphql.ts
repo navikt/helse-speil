@@ -13,6 +13,7 @@ import { getMockOppdrag } from './data/oppdrag';
 import type { BeregnetPeriode, Person } from './schemaTypes';
 
 import spesialistSchema from '../graphql.schema.json';
+import { behandlingsstatistikk } from './data/behandlingsstatistikk';
 
 const leggTilLagretData = (person: Person): void => {
     let tildeling = person.tildeling;
@@ -69,6 +70,9 @@ const getResolvers = (): IResolvers => ({
         },
         oppdrag: (_, { fnr }: { fnr: string }) => {
             return getMockOppdrag();
+        },
+        behandlingsstatistikk: () => {
+            return behandlingsstatistikk;
         },
     },
     Periode: {
