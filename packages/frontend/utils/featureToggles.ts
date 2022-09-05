@@ -268,6 +268,6 @@ export const harBeslutterrolle: boolean = extractGroups().includes(groupIdForBes
 
 export const toggleMeny: boolean = erLocal() || erDev();
 
-const saksbehandlereMedNyPølsevisning = ['N115007', 'A160730', 'O123659', 'C117102', 'S160466', 'R154509'];
+const saksbehandlereMedNyPølsevisning = ['N115007', 'A160730', 'O123659', 'S160466', 'R154509'];
 
 export const pølsebonansaEnabled = erDev() || erLocal() || saksbehandlereMedNyPølsevisning.includes(extractIdent());
