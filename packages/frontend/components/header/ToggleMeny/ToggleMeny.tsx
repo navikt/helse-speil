@@ -1,10 +1,5 @@
 import React from 'react';
-import {
-    useToggleKanFrigiOppgaver,
-    useToggleReadonly,
-    useToggleSkalSjekkeRevurderingForTotrinn,
-    useTotrinnsvurdering,
-} from '@state/toggles';
+import { useToggleKanFrigiOppgaver, useToggleReadonly, useTotrinnsvurdering } from '@state/toggles';
 import { Checkbox, CheckboxGroup } from '@navikt/ds-react';
 
 import { Modal } from '@components/Modal';
@@ -20,7 +15,6 @@ export const ToggleMeny = ({ modalOpen, onCloseModal }: ToggleMenyProps) => {
     const [totrinn, toggleTotrinn] = useTotrinnsvurdering();
     const [readOnly, toggleReadonly, toggleOverride] = useToggleReadonly();
     const [kanFrigiOppgaver, toggleKanFrigiOppgaver] = useToggleKanFrigiOppgaver();
-    const [skalSjekkeRevurdering, toggleSkalSjekkeRevurdering] = useToggleSkalSjekkeRevurderingForTotrinn();
 
     return (
         <Modal isOpen={modalOpen} onRequestClose={onCloseModal}>
@@ -70,16 +64,6 @@ export const ToggleMeny = ({ modalOpen, onCloseModal }: ToggleMenyProps) => {
                         disabled={!readOnly.override}
                     >
                         Oppgave er readonly
-                    </Checkbox>
-                </CheckboxGroup>
-
-                <CheckboxGroup legend="Revurdering">
-                    <Checkbox
-                        value="Skal sjekke isRevurdering for totrinn"
-                        checked={skalSjekkeRevurdering}
-                        onChange={toggleSkalSjekkeRevurdering}
-                    >
-                        Skal sjekke isRevurdering for totrinn
                     </Checkbox>
                 </CheckboxGroup>
             </form>

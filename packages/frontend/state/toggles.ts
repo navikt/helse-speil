@@ -94,19 +94,3 @@ export const useToggleReadonly = (): [value: ReadonlyState, toggleValue: () => v
 
     return [readonly, toggleValue, toggleOverride];
 };
-
-// Revurdering
-export const skalSjekkeRevurderingForTotrinnState = atom<boolean>({
-    key: 'skalSjekkeRevurderingForTotrinnState',
-    default: true,
-});
-
-export const useSkalSjekkeRevurderingForTotrinn = (): boolean => {
-    return useRecoilValue(skalSjekkeRevurderingForTotrinnState);
-};
-
-export const useToggleSkalSjekkeRevurderingForTotrinn = (): [value: boolean, toggle: () => void] => {
-    const [skalSjekkeRevurdering, setSkalSjekkeRevurdering] = useRecoilState(skalSjekkeRevurderingForTotrinnState);
-
-    return [skalSjekkeRevurdering, () => setSkalSjekkeRevurdering((prevState) => !prevState)];
-};

@@ -9,7 +9,7 @@ import { useErBeslutteroppgaveOgHarTilgang } from '@hooks/useErBeslutteroppgaveO
 import { useHarVurderLovvalgOgMedlemskapVarsel } from '@hooks/useHarVurderLovvalgOgMedlemskapVarsel';
 import { opptegnelsePollingTimeState } from '@state/opptegnelser';
 import { useHarDagOverstyringer } from '@state/arbeidsgiver';
-import { useSkalSjekkeRevurderingForTotrinn, useTotrinnsvurderingErAktiv } from '@state/toggles';
+import { useTotrinnsvurderingErAktiv } from '@state/toggles';
 import { useHarEndringerEtterNyesteUtbetaltetidsstempel } from '@state/person';
 import { isBeregnetPeriode } from '@utils/typeguards';
 import { getPeriodState } from '@utils/mapping';
@@ -83,7 +83,6 @@ export const Utbetaling = ({ activePeriod, currentPerson }: UtbetalingProps) => 
     const history = useHistory();
     const erBeslutteroppgaveOgHarTilgang = useErBeslutteroppgaveOgHarTilgang();
     const totrinnsvurderingAktiv = useTotrinnsvurderingErAktiv();
-    const skalSjekkeIsRevurderingForTotrinn = useSkalSjekkeRevurderingForTotrinn();
     const harVurderLovvalgOgMedlemskapVarsel = useHarVurderLovvalgOgMedlemskapVarsel();
     const harEndringerEtterNyesteUtbetaltetidsstempel = useHarEndringerEtterNyesteUtbetaltetidsstempel();
     const harDagOverstyringer = useHarDagOverstyringer(activePeriod);
@@ -115,13 +114,14 @@ export const Utbetaling = ({ activePeriod, currentPerson }: UtbetalingProps) => 
     const harBrukerutbetaling = activePeriod.utbetaling.personNettoBelop !== 0;
     const kanSendesTilTotrinnsvurdering =
         totrinnsvurderingAktiv && isBeregnetPeriode(activePeriod) && !activePeriod.erBeslutterOppgave;
+    const trengerTotrinnsvurdering = activePeriod.trengerTotrinnsvurdering;
 
     return (
         <>
             <div className={styles.Buttons}>
                 {kanSendesTilTotrinnsvurdering &&
                 (harVurderLovvalgOgMedlemskapVarsel ||
-                    (isRevurdering && skalSjekkeIsRevurderingForTotrinn) ||
+                    trengerTotrinnsvurdering ||
                     harEndringerEtterNyesteUtbetaltetidsstempel ||
                     harDagOverstyringer) ? (
                     <SendTilGodkjenningButton
@@ -178,7 +178,7 @@ export const Utbetaling = ({ activePeriod, currentPerson }: UtbetalingProps) => 
                     <span>
                         {kanSendesTilTotrinnsvurdering &&
                         (harVurderLovvalgOgMedlemskapVarsel ||
-                            (isRevurdering && skalSjekkeIsRevurderingForTotrinn) ||
+                            trengerTotrinnsvurdering ||
                             harEndringerEtterNyesteUtbetaltetidsstempel ||
                             harDagOverstyringer)
                             ? 'Perioden sendes til godkjenning'
