@@ -210,6 +210,65 @@
             },
             {
                 "kind": "OBJECT",
+                "name": "Antall",
+                "description": null,
+                "fields": [
+                    {
+                        "name": "automatisk",
+                        "description": null,
+                        "args": [],
+                        "type": {
+                            "kind": "NON_NULL",
+                            "name": null,
+                            "ofType": {
+                                "kind": "SCALAR",
+                                "name": "Int",
+                                "ofType": null
+                            }
+                        },
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
+                    {
+                        "name": "manuelt",
+                        "description": null,
+                        "args": [],
+                        "type": {
+                            "kind": "NON_NULL",
+                            "name": null,
+                            "ofType": {
+                                "kind": "SCALAR",
+                                "name": "Int",
+                                "ofType": null
+                            }
+                        },
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
+                    {
+                        "name": "tilgjengelig",
+                        "description": null,
+                        "args": [],
+                        "type": {
+                            "kind": "NON_NULL",
+                            "name": null,
+                            "ofType": {
+                                "kind": "SCALAR",
+                                "name": "Int",
+                                "ofType": null
+                            }
+                        },
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    }
+                ],
+                "inputFields": null,
+                "interfaces": [],
+                "enumValues": null,
+                "possibleTypes": null
+            },
+            {
+                "kind": "OBJECT",
                 "name": "Arbeidsforhold",
                 "description": null,
                 "fields": [
@@ -786,6 +845,193 @@
             },
             {
                 "kind": "OBJECT",
+                "name": "Behandlingsstatistikk",
+                "description": null,
+                "fields": [
+                    {
+                        "name": "beslutter",
+                        "description": null,
+                        "args": [],
+                        "type": {
+                            "kind": "NON_NULL",
+                            "name": null,
+                            "ofType": {
+                                "kind": "OBJECT",
+                                "name": "Antall",
+                                "ofType": null
+                            }
+                        },
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
+                    {
+                        "name": "delvisRefusjon",
+                        "description": null,
+                        "args": [],
+                        "type": {
+                            "kind": "NON_NULL",
+                            "name": null,
+                            "ofType": {
+                                "kind": "OBJECT",
+                                "name": "Antall",
+                                "ofType": null
+                            }
+                        },
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
+                    {
+                        "name": "enArbeidsgiver",
+                        "description": null,
+                        "args": [],
+                        "type": {
+                            "kind": "NON_NULL",
+                            "name": null,
+                            "ofType": {
+                                "kind": "OBJECT",
+                                "name": "Antall",
+                                "ofType": null
+                            }
+                        },
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
+                    {
+                        "name": "faresignaler",
+                        "description": null,
+                        "args": [],
+                        "type": {
+                            "kind": "NON_NULL",
+                            "name": null,
+                            "ofType": {
+                                "kind": "OBJECT",
+                                "name": "Antall",
+                                "ofType": null
+                            }
+                        },
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
+                    {
+                        "name": "flereArbeidsgivere",
+                        "description": null,
+                        "args": [],
+                        "type": {
+                            "kind": "NON_NULL",
+                            "name": null,
+                            "ofType": {
+                                "kind": "OBJECT",
+                                "name": "Antall",
+                                "ofType": null
+                            }
+                        },
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
+                    {
+                        "name": "forlengelser",
+                        "description": null,
+                        "args": [],
+                        "type": {
+                            "kind": "NON_NULL",
+                            "name": null,
+                            "ofType": {
+                                "kind": "OBJECT",
+                                "name": "Antall",
+                                "ofType": null
+                            }
+                        },
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
+                    {
+                        "name": "forstegangsbehandling",
+                        "description": null,
+                        "args": [],
+                        "type": {
+                            "kind": "NON_NULL",
+                            "name": null,
+                            "ofType": {
+                                "kind": "OBJECT",
+                                "name": "Antall",
+                                "ofType": null
+                            }
+                        },
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
+                    {
+                        "name": "fortroligAdresse",
+                        "description": null,
+                        "args": [],
+                        "type": {
+                            "kind": "NON_NULL",
+                            "name": null,
+                            "ofType": {
+                                "kind": "OBJECT",
+                                "name": "Antall",
+                                "ofType": null
+                            }
+                        },
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
+                    {
+                        "name": "revurdering",
+                        "description": null,
+                        "args": [],
+                        "type": {
+                            "kind": "NON_NULL",
+                            "name": null,
+                            "ofType": {
+                                "kind": "OBJECT",
+                                "name": "Antall",
+                                "ofType": null
+                            }
+                        },
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
+                    {
+                        "name": "stikkprover",
+                        "description": null,
+                        "args": [],
+                        "type": {
+                            "kind": "NON_NULL",
+                            "name": null,
+                            "ofType": {
+                                "kind": "OBJECT",
+                                "name": "Antall",
+                                "ofType": null
+                            }
+                        },
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
+                    {
+                        "name": "utbetalingTilSykmeldt",
+                        "description": null,
+                        "args": [],
+                        "type": {
+                            "kind": "NON_NULL",
+                            "name": null,
+                            "ofType": {
+                                "kind": "OBJECT",
+                                "name": "Antall",
+                                "ofType": null
+                            }
+                        },
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    }
+                ],
+                "inputFields": null,
+                "interfaces": [],
+                "enumValues": null,
+                "possibleTypes": null
+            },
+            {
+                "kind": "OBJECT",
                 "name": "BeregnetPeriode",
                 "description": null,
                 "fields": [
@@ -842,8 +1088,8 @@
                                 "ofType": null
                             }
                         },
-                        "isDeprecated": false,
-                        "deprecationReason": null
+                        "isDeprecated": true,
+                        "deprecationReason": "erBeslutterOppgave bør hentes fra periodens oppgave"
                     },
                     {
                         "name": "erForkastet",
@@ -874,8 +1120,8 @@
                                 "ofType": null
                             }
                         },
-                        "isDeprecated": false,
-                        "deprecationReason": null
+                        "isDeprecated": true,
+                        "deprecationReason": "erReturOppgave bør hentes fra periodens oppgave"
                     },
                     {
                         "name": "fom",
@@ -1014,6 +1260,18 @@
                         "deprecationReason": null
                     },
                     {
+                        "name": "oppgave",
+                        "description": null,
+                        "args": [],
+                        "type": {
+                            "kind": "OBJECT",
+                            "name": "OppgaveForPeriodevisning",
+                            "ofType": null
+                        },
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
+                    {
                         "name": "oppgavereferanse",
                         "description": null,
                         "args": [],
@@ -1022,8 +1280,8 @@
                             "name": "String",
                             "ofType": null
                         },
-                        "isDeprecated": false,
-                        "deprecationReason": null
+                        "isDeprecated": true,
+                        "deprecationReason": "Oppgavereferanse bør hentes fra periodens oppgave"
                     },
                     {
                         "name": "opprettet",
@@ -1162,8 +1420,8 @@
                             "name": "String",
                             "ofType": null
                         },
-                        "isDeprecated": false,
-                        "deprecationReason": null
+                        "isDeprecated": true,
+                        "deprecationReason": "tidligereSaksbehandlerOid bør hentes fra periodens oppgave"
                     },
                     {
                         "name": "tidslinje",
@@ -1218,8 +1476,8 @@
                                 "ofType": null
                             }
                         },
-                        "isDeprecated": false,
-                        "deprecationReason": null
+                        "isDeprecated": true,
+                        "deprecationReason": "trengerTotrinnsvurdering bør hentes fra periodens oppgave"
                     },
                     {
                         "name": "utbetaling",
@@ -3270,6 +3528,93 @@
             },
             {
                 "kind": "OBJECT",
+                "name": "OppgaveForPeriodevisning",
+                "description": null,
+                "fields": [
+                    {
+                        "name": "erBeslutter",
+                        "description": null,
+                        "args": [],
+                        "type": {
+                            "kind": "NON_NULL",
+                            "name": null,
+                            "ofType": {
+                                "kind": "SCALAR",
+                                "name": "Boolean",
+                                "ofType": null
+                            }
+                        },
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
+                    {
+                        "name": "erRetur",
+                        "description": null,
+                        "args": [],
+                        "type": {
+                            "kind": "NON_NULL",
+                            "name": null,
+                            "ofType": {
+                                "kind": "SCALAR",
+                                "name": "Boolean",
+                                "ofType": null
+                            }
+                        },
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
+                    {
+                        "name": "id",
+                        "description": null,
+                        "args": [],
+                        "type": {
+                            "kind": "NON_NULL",
+                            "name": null,
+                            "ofType": {
+                                "kind": "SCALAR",
+                                "name": "String",
+                                "ofType": null
+                            }
+                        },
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
+                    {
+                        "name": "tidligereSaksbehandler",
+                        "description": null,
+                        "args": [],
+                        "type": {
+                            "kind": "SCALAR",
+                            "name": "String",
+                            "ofType": null
+                        },
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
+                    {
+                        "name": "trengerTotrinnsvurdering",
+                        "description": null,
+                        "args": [],
+                        "type": {
+                            "kind": "NON_NULL",
+                            "name": null,
+                            "ofType": {
+                                "kind": "SCALAR",
+                                "name": "Boolean",
+                                "ofType": null
+                            }
+                        },
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    }
+                ],
+                "inputFields": null,
+                "interfaces": [],
+                "enumValues": null,
+                "possibleTypes": null
+            },
+            {
+                "kind": "OBJECT",
                 "name": "Oppgaver",
                 "description": null,
                 "fields": [
@@ -3298,7 +3643,7 @@
                         "deprecationReason": null
                     },
                     {
-                        "name": "pagination",
+                        "name": "paginering",
                         "description": null,
                         "args": [],
                         "type": {
@@ -3306,7 +3651,7 @@
                             "name": null,
                             "ofType": {
                                 "kind": "OBJECT",
-                                "name": "Pagination",
+                                "name": "Paginering",
                                 "ofType": null
                             }
                         },
@@ -3579,11 +3924,11 @@
             },
             {
                 "kind": "OBJECT",
-                "name": "Pagination",
+                "name": "Paginering",
                 "description": null,
                 "fields": [
                     {
-                        "name": "currentPage",
+                        "name": "antallSider",
                         "description": null,
                         "args": [],
                         "type": {
@@ -3599,7 +3944,7 @@
                         "deprecationReason": null
                     },
                     {
-                        "name": "cursor",
+                        "name": "elementerPerSide",
                         "description": null,
                         "args": [],
                         "type": {
@@ -3607,7 +3952,7 @@
                             "name": null,
                             "ofType": {
                                 "kind": "SCALAR",
-                                "name": "String",
+                                "name": "Int",
                                 "ofType": null
                             }
                         },
@@ -3615,7 +3960,19 @@
                         "deprecationReason": null
                     },
                     {
-                        "name": "totalPages",
+                        "name": "peker",
+                        "description": null,
+                        "args": [],
+                        "type": {
+                            "kind": "SCALAR",
+                            "name": "String",
+                            "ofType": null
+                        },
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
+                    {
+                        "name": "side",
                         "description": null,
                         "args": [],
                         "type": {
@@ -4480,6 +4837,22 @@
                 "description": null,
                 "fields": [
                     {
+                        "name": "behandlingsstatistikk",
+                        "description": null,
+                        "args": [],
+                        "type": {
+                            "kind": "NON_NULL",
+                            "name": null,
+                            "ofType": {
+                                "kind": "OBJECT",
+                                "name": "Behandlingsstatistikk",
+                                "ofType": null
+                            }
+                        },
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
+                    {
                         "name": "oppdrag",
                         "description": null,
                         "args": [
@@ -4528,13 +4901,9 @@
                                 "name": "after",
                                 "description": null,
                                 "type": {
-                                    "kind": "NON_NULL",
-                                    "name": null,
-                                    "ofType": {
-                                        "kind": "SCALAR",
-                                        "name": "String",
-                                        "ofType": null
-                                    }
+                                    "kind": "SCALAR",
+                                    "name": "String",
+                                    "ofType": null
                                 },
                                 "defaultValue": null,
                                 "isDeprecated": false,

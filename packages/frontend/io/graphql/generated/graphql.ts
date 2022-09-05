@@ -40,6 +40,13 @@ export type Annullering = {
     tidspunkt: Scalars['String'];
 };
 
+export type Antall = {
+    __typename?: 'Antall';
+    automatisk: Scalars['Int'];
+    manuelt: Scalars['Int'];
+    tilgjengelig: Scalars['Int'];
+};
+
 export type Arbeidsforhold = {
     __typename?: 'Arbeidsforhold';
     sluttdato?: Maybe<Scalars['String']>;
@@ -99,12 +106,29 @@ export enum Begrunnelse {
     Ukjent = 'UKJENT',
 }
 
+export type Behandlingsstatistikk = {
+    __typename?: 'Behandlingsstatistikk';
+    beslutter: Antall;
+    delvisRefusjon: Antall;
+    enArbeidsgiver: Antall;
+    faresignaler: Antall;
+    flereArbeidsgivere: Antall;
+    forlengelser: Antall;
+    forstegangsbehandling: Antall;
+    fortroligAdresse: Antall;
+    revurdering: Antall;
+    stikkprover: Antall;
+    utbetalingTilSykmeldt: Antall;
+};
+
 export type BeregnetPeriode = Periode & {
     __typename?: 'BeregnetPeriode';
     aktivitetslogg: Array<Aktivitet>;
     beregningId: Scalars['String'];
+    /** @deprecated erBeslutterOppgave bør hentes fra periodens oppgave */
     erBeslutterOppgave: Scalars['Boolean'];
     erForkastet: Scalars['Boolean'];
+    /** @deprecated erReturOppgave bør hentes fra periodens oppgave */
     erReturOppgave: Scalars['Boolean'];
     fom: Scalars['String'];
     forbrukteSykedager?: Maybe<Scalars['Int']>;
@@ -114,6 +138,8 @@ export type BeregnetPeriode = Periode & {
     inntektstype: Inntektstype;
     maksdato: Scalars['String'];
     notater: Array<Notat>;
+    oppgave?: Maybe<OppgaveForPeriodevisning>;
+    /** @deprecated Oppgavereferanse bør hentes fra periodens oppgave */
     oppgavereferanse?: Maybe<Scalars['String']>;
     opprettet: Scalars['String'];
     periodehistorikk: Array<PeriodeHistorikkElement>;
@@ -123,9 +149,11 @@ export type BeregnetPeriode = Periode & {
     refusjon?: Maybe<Refusjon>;
     risikovurdering?: Maybe<Risikovurdering>;
     skjaeringstidspunkt: Scalars['String'];
+    /** @deprecated tidligereSaksbehandlerOid bør hentes fra periodens oppgave */
     tidligereSaksbehandlerOid?: Maybe<Scalars['String']>;
     tidslinje: Array<Dag>;
     tom: Scalars['String'];
+    /** @deprecated trengerTotrinnsvurdering bør hentes fra periodens oppgave */
     trengerTotrinnsvurdering: Scalars['Boolean'];
     utbetaling: Utbetaling;
     varsler: Array<Scalars['String']>;
@@ -353,10 +381,19 @@ export type OppgaveForOversiktsvisning = {
     vedtaksperiodeId: Scalars['String'];
 };
 
+export type OppgaveForPeriodevisning = {
+    __typename?: 'OppgaveForPeriodevisning';
+    erBeslutter: Scalars['Boolean'];
+    erRetur: Scalars['Boolean'];
+    id: Scalars['String'];
+    tidligereSaksbehandler?: Maybe<Scalars['String']>;
+    trengerTotrinnsvurdering: Scalars['Boolean'];
+};
+
 export type Oppgaver = {
     __typename?: 'Oppgaver';
     oppgaver: Array<OppgaveForOversiktsvisning>;
-    pagination: Pagination;
+    paginering: Paginering;
 };
 
 export enum Oppgavetype {
@@ -390,11 +427,12 @@ export type OverstyrtInntekt = {
     skjaeringstidspunkt: Scalars['String'];
 };
 
-export type Pagination = {
-    __typename?: 'Pagination';
-    currentPage: Scalars['Int'];
-    cursor: Scalars['String'];
-    totalPages: Scalars['Int'];
+export type Paginering = {
+    __typename?: 'Paginering';
+    antallSider: Scalars['Int'];
+    elementerPerSide: Scalars['Int'];
+    peker?: Maybe<Scalars['String']>;
+    side: Scalars['Int'];
 };
 
 export type Periode = {
@@ -489,6 +527,7 @@ export type Personoppdrag = Spennoppdrag & {
 
 export type Query = {
     __typename?: 'Query';
+    behandlingsstatistikk: Behandlingsstatistikk;
     oppdrag: Array<Oppdrag>;
     oppgaver: Oppgaver;
     person?: Maybe<Person>;
@@ -499,7 +538,7 @@ export type QueryOppdragArgs = {
 };
 
 export type QueryOppgaverArgs = {
-    after: Scalars['String'];
+    after?: InputMaybe<Scalars['String']>;
     first: Scalars['Int'];
 };
 
@@ -812,6 +851,28 @@ export type Vurdering = {
     godkjent: Scalars['Boolean'];
     ident: Scalars['String'];
     tidsstempel: Scalars['String'];
+};
+
+export type AntallFragment = { __typename?: 'Antall'; automatisk: number; manuelt: number; tilgjengelig: number };
+
+export type HentBehandlingsstatistikkQueryVariables = Exact<{ [key: string]: never }>;
+
+export type HentBehandlingsstatistikkQuery = {
+    __typename?: 'Query';
+    behandlingsstatistikk: {
+        __typename?: 'Behandlingsstatistikk';
+        enArbeidsgiver: { __typename?: 'Antall'; automatisk: number; manuelt: number; tilgjengelig: number };
+        flereArbeidsgivere: { __typename?: 'Antall'; automatisk: number; manuelt: number; tilgjengelig: number };
+        beslutter: { __typename?: 'Antall'; automatisk: number; manuelt: number; tilgjengelig: number };
+        delvisRefusjon: { __typename?: 'Antall'; automatisk: number; manuelt: number; tilgjengelig: number };
+        faresignaler: { __typename?: 'Antall'; automatisk: number; manuelt: number; tilgjengelig: number };
+        forlengelser: { __typename?: 'Antall'; automatisk: number; manuelt: number; tilgjengelig: number };
+        forstegangsbehandling: { __typename?: 'Antall'; automatisk: number; manuelt: number; tilgjengelig: number };
+        fortroligAdresse: { __typename?: 'Antall'; automatisk: number; manuelt: number; tilgjengelig: number };
+        revurdering: { __typename?: 'Antall'; automatisk: number; manuelt: number; tilgjengelig: number };
+        stikkprover: { __typename?: 'Antall'; automatisk: number; manuelt: number; tilgjengelig: number };
+        utbetalingTilSykmeldt: { __typename?: 'Antall'; automatisk: number; manuelt: number; tilgjengelig: number };
+    };
 };
 
 export type FetchOppdragQueryVariables = Exact<{

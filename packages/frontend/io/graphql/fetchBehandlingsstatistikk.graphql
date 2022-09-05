@@ -1,0 +1,21 @@
+fragment antall on Antall {
+    automatisk
+    manuelt
+    tilgjengelig
+}
+
+query HentBehandlingsstatistikk {
+    behandlingsstatistikk {
+        enArbeidsgiver {...antall}
+        flereArbeidsgivere {...antall}
+        beslutter {...antall}
+        delvisRefusjon {...antall}
+        faresignaler {...antall}
+        forlengelser {...antall}
+        forstegangsbehandling {...antall}
+        fortroligAdresse {...antall}
+        revurdering {...antall}
+        stikkprover {...antall}
+        utbetalingTilSykmeldt {...antall}
+    }
+}
