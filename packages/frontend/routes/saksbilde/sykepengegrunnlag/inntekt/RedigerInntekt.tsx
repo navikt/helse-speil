@@ -55,7 +55,7 @@ export const RedigerInntekt = ({
         revurdereTidligereUtbetalinger &&
         erSpleisVilkårsgrunnlagtype &&
         erIkkePingPong &&
-        erIkkeRevurderingAvFlereArbeidsgivere ? (
+        (erIkkeRevurderingAvFlereArbeidsgivere || kanEndreInntektIDev) ? (
         <EditButton
             isOpen={editing}
             openText="Avbryt"
