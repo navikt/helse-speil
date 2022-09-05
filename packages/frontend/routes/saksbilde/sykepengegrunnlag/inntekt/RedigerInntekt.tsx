@@ -11,7 +11,7 @@ import { Inntektstype, Vilkarsgrunnlagtype } from '@io/graphql';
 import { useCurrentPerson, useVilkårsgrunnlag } from '@state/person';
 import { erDev, erLocal } from '@utils/featureToggles';
 import { useActivePeriod } from '@state/periode';
-import { isGhostPeriode } from '@utils/typeguards';
+import { getPeriodState } from '@utils/mapping';
 
 interface RedigerInntektProps {
     setEditing: Dispatch<SetStateAction<boolean>>;
@@ -37,7 +37,8 @@ export const RedigerInntekt = ({
     const harGhostperioder =
         person?.arbeidsgivere.some((it) => it.ghostPerioder.find((it) => it.fom === period?.fom)) ?? false;
 
-    const kanEndreInntektIDev = (erDev() || erLocal()) && !harGhostperioder;
+    const aktivPeriodeVenter = ['venter', 'venterPåKiling'].includes(getPeriodState(period));
+    const kanEndreInntektIDev = (erDev() || erLocal()) && !harGhostperioder && !aktivPeriodeVenter;
 
     const erAktivPeriodeISisteSkjæringstidspunkt = useActivePeriodHasLatestSkjæringstidspunkt();
     const erTidslinjeperiodeISisteGenerasjon = useActiveGenerationIsLast();
