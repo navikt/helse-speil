@@ -24,6 +24,7 @@ export const GhostPeriodeView: React.VFC<GhostPeriodeViewProps> = ({ activePerio
     }
 
     const { path } = useRouteMatch();
+
     useNavigateOnMount(Location.Sykepengegrunnlag, currentPerson.aktorId);
 
     return (

@@ -5,7 +5,7 @@ import { Bag, People } from '@navikt/ds-icons';
 
 import { Flex } from '@components/Flex';
 import { getFormattedDateString } from '@utils/date';
-import { useAlderVedSkjæringstidspunkt } from '@hooks/useAlderVedSkjæringstidspunkt';
+import { useAlderVedSkjæringstidspunkt } from './useAlderVedSkjæringstidspunkt';
 
 import { Row } from '../../table/Row';
 import { Header } from '../../table/Header';
