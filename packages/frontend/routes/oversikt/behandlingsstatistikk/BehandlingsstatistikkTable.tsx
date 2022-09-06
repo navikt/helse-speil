@@ -50,11 +50,14 @@ export const BehandlingsstatistikkTable: React.FC<BehandlingsstatistikkTableProp
             </tbody>
             <Separator />
             <tbody>
-                <StatistikkRow antall={behandlingsstatistikk.delvisRefusjon}>
-                    <LabelCell.DelvisRefusjon />
+                <StatistikkRow antall={behandlingsstatistikk.utbetalingTilArbeidsgiver}>
+                    <LabelCell.UtbetalingTilArbeidsgiver />
                 </StatistikkRow>
                 <StatistikkRow antall={behandlingsstatistikk.utbetalingTilSykmeldt}>
                     <LabelCell.UtbetalingTilSykmeldt />
+                </StatistikkRow>
+                <StatistikkRow antall={behandlingsstatistikk.delvisRefusjon}>
+                    <LabelCell.DelvisRefusjon />
                 </StatistikkRow>
                 <StatistikkRow antall={behandlingsstatistikk.faresignaler}>
                     <LabelCell.Faresignaler />

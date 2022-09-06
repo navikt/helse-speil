@@ -1,18 +1,18 @@
 export const behandlingsstatistikk = {
     enArbeidsgiver: {
-        automatisk: 470,
-        manuelt: 139,
-        tilgjengelig: 15626,
+        automatisk: 1674,
+        manuelt: 351,
+        tilgjengelig: 15713,
     },
     flereArbeidsgivere: {
         automatisk: 0,
-        manuelt: 27,
-        tilgjengelig: 3348,
+        manuelt: 92,
+        tilgjengelig: 3346,
     },
     beslutter: {
         automatisk: 0,
-        manuelt: 47,
-        tilgjengelig: 22,
+        manuelt: 68,
+        tilgjengelig: 66,
     },
     delvisRefusjon: {
         automatisk: 0,
@@ -21,18 +21,18 @@ export const behandlingsstatistikk = {
     },
     faresignaler: {
         automatisk: 0,
-        manuelt: 2,
-        tilgjengelig: 1482,
+        manuelt: 18,
+        tilgjengelig: 1490,
     },
     forlengelser: {
-        automatisk: 364,
-        manuelt: 109,
-        tilgjengelig: 7144,
+        automatisk: 1267,
+        manuelt: 307,
+        tilgjengelig: 7131,
     },
     forstegangsbehandling: {
-        automatisk: 106,
-        manuelt: 57,
-        tilgjengelig: 11830,
+        automatisk: 407,
+        manuelt: 136,
+        tilgjengelig: 11928,
     },
     fortroligAdresse: {
         automatisk: 0,
@@ -41,18 +41,23 @@ export const behandlingsstatistikk = {
     },
     revurdering: {
         automatisk: 0,
-        manuelt: 40,
-        tilgjengelig: 64,
+        manuelt: 52,
+        tilgjengelig: 93,
     },
     stikkprover: {
         automatisk: 0,
-        manuelt: 34,
-        tilgjengelig: 15,
+        manuelt: 62,
+        tilgjengelig: 2,
+    },
+    utbetalingTilArbeidsgiver: {
+        automatisk: 1674,
+        manuelt: 311,
+        tilgjengelig: 17473,
     },
     utbetalingTilSykmeldt: {
         automatisk: 0,
         manuelt: 0,
-        tilgjengelig: 0,
+        tilgjengelig: 1,
     },
-    antallAnnulleringer: 10,
+    antallAnnulleringer: 25,
 };

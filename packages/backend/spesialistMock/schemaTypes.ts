@@ -108,6 +108,7 @@ export enum Begrunnelse {
 
 export type Behandlingsstatistikk = {
     __typename?: 'Behandlingsstatistikk';
+    antallAnnulleringer: Scalars['Int'];
     beslutter: Antall;
     delvisRefusjon: Antall;
     enArbeidsgiver: Antall;
@@ -118,6 +119,7 @@ export type Behandlingsstatistikk = {
     fortroligAdresse: Antall;
     revurdering: Antall;
     stikkprover: Antall;
+    utbetalingTilArbeidsgiver: Antall;
     utbetalingTilSykmeldt: Antall;
 };
 

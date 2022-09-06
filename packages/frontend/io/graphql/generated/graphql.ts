@@ -119,6 +119,7 @@ export type Behandlingsstatistikk = {
     fortroligAdresse: Antall;
     revurdering: Antall;
     stikkprover: Antall;
+    utbetalingTilArbeidsgiver: Antall;
     utbetalingTilSykmeldt: Antall;
 };
 
@@ -873,6 +874,7 @@ export type HentBehandlingsstatistikkQuery = {
         fortroligAdresse: { __typename?: 'Antall'; automatisk: number; manuelt: number; tilgjengelig: number };
         revurdering: { __typename?: 'Antall'; automatisk: number; manuelt: number; tilgjengelig: number };
         stikkprover: { __typename?: 'Antall'; automatisk: number; manuelt: number; tilgjengelig: number };
+        utbetalingTilArbeidsgiver: { __typename?: 'Antall'; automatisk: number; manuelt: number; tilgjengelig: number };
         utbetalingTilSykmeldt: { __typename?: 'Antall'; automatisk: number; manuelt: number; tilgjengelig: number };
     };
 };

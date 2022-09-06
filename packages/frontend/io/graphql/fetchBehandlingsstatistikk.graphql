@@ -16,6 +16,7 @@ query HentBehandlingsstatistikk {
         fortroligAdresse {...antall}
         revurdering {...antall}
         stikkprover {...antall}
+        utbetalingTilArbeidsgiver {...antall}
         utbetalingTilSykmeldt {...antall}
         antallAnnulleringer
     }
