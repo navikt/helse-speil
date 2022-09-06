@@ -108,6 +108,7 @@ export enum Begrunnelse {
 
 export type Behandlingsstatistikk = {
     __typename?: 'Behandlingsstatistikk';
+    antallAnnulleringer: Scalars['Int'];
     beslutter: Antall;
     delvisRefusjon: Antall;
     enArbeidsgiver: Antall;
@@ -861,6 +862,7 @@ export type HentBehandlingsstatistikkQuery = {
     __typename?: 'Query';
     behandlingsstatistikk: {
         __typename?: 'Behandlingsstatistikk';
+        antallAnnulleringer: number;
         enArbeidsgiver: { __typename?: 'Antall'; automatisk: number; manuelt: number; tilgjengelig: number };
         flereArbeidsgivere: { __typename?: 'Antall'; automatisk: number; manuelt: number; tilgjengelig: number };
         beslutter: { __typename?: 'Antall'; automatisk: number; manuelt: number; tilgjengelig: number };

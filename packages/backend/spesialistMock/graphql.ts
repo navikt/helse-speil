@@ -10,10 +10,10 @@ import { NotFoundError } from './errors';
 import { NotatMock } from './storage/notat';
 import { OppgaveMock } from './storage/oppgave';
 import { getMockOppdrag } from './data/oppdrag';
+import { behandlingsstatistikk } from './data/behandlingsstatistikk';
 import type { BeregnetPeriode, Person } from './schemaTypes';
 
 import spesialistSchema from '../graphql.schema.json';
-import { behandlingsstatistikk } from './data/behandlingsstatistikk';
 
 const leggTilLagretData = (person: Person): void => {
     let tildeling = person.tildeling;

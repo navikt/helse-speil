@@ -17,5 +17,6 @@ query HentBehandlingsstatistikk {
         revurdering {...antall}
         stikkprover {...antall}
         utbetalingTilSykmeldt {...antall}
+        antallAnnulleringer
     }
 }
