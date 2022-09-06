@@ -64,13 +64,19 @@ export const BehandlingsstatistikkSkeleton: React.FC = () => {
             <tbody>
                 <tr>
                     <td>
-                        <LabelCell.DelvisRefusjon />
+                        <LabelCell.UtbetalingTilArbeidsgiver />
                     </td>
                     <LoadingCells />
                 </tr>
                 <tr>
                     <td>
                         <LabelCell.UtbetalingTilSykmeldt />
+                    </td>
+                    <LoadingCells />
+                </tr>
+                <tr>
+                    <td>
+                        <LabelCell.DelvisRefusjon />
                     </td>
                     <LoadingCells />
                 </tr>
