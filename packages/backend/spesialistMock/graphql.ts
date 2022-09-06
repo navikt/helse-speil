@@ -1,5 +1,6 @@
 import fs from 'fs';
 import path from 'path';
+import { sleep } from 'deasync';
 import { Express } from 'express';
 import { graphqlHTTP } from 'express-graphql';
 import { buildClientSchema, GraphQLSchema, IntrospectionQuery } from 'graphql';
@@ -65,13 +66,14 @@ const getResolvers = (): IResolvers => ({
             if (!person) {
                 throw new NotFoundError(fnr ?? aktorId ?? '');
             }
-
+            sleep(500);
             return person;
         },
         oppdrag: (_, { fnr }: { fnr: string }) => {
             return getMockOppdrag();
         },
         behandlingsstatistikk: () => {
+            sleep(500);
             return behandlingsstatistikk;
         },
     },
