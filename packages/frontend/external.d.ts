@@ -26,26 +26,6 @@ declare type ExternalPeriodetype =
     | 'UTBETALING_TIL_SYKMELDT'
     | 'DELVIS_REFUSJON';
 
-declare type ExternalBehandlingstatistikk = {
-    antallOppgaverTilGodkjenning: {
-        totalt: number;
-        perPeriodetype: [{ periodetypeForSpeil: ExternalPeriodetype; antall: number }];
-    };
-    antallTildelteOppgaver: {
-        totalt: number;
-        perPeriodetype: [{ periodetypeForSpeil: ExternalPeriodetype; antall: number }];
-    };
-    fullførteBehandlinger: {
-        totalt: number;
-        manuelt: {
-            totalt: number;
-            perPeriodetype: [{ periodetypeForSpeil: ExternalPeriodetype; antall: number }];
-        };
-        automatisk: number;
-        annulleringer: number;
-    };
-};
-
 declare type ExternalOppgavetype =
     | 'SØKNAD'
     | 'STIKKPRØVE'

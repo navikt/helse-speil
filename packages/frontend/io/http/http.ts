@@ -131,12 +131,6 @@ export const getOpptegnelser = async (sisteSekvensId?: number): Promise<SpeilRes
         : get<Opptegnelse[]>(`${baseUrl}/opptegnelse/hent`);
 };
 
-export const getBehandlingsstatistikk = async (): Promise<ExternalBehandlingstatistikk> => {
-    return get<{ behandlingsstatistikk: ExternalBehandlingstatistikk }>(`${baseUrl}/behandlingsstatistikk`).then(
-        (response) => response.data!.behandlingsstatistikk,
-    );
-};
-
 export const getNotater = async (vedtaksperiodeIder: string[]): Promise<{ vedtaksperiodeId: Array<ExternalNotat> }> => {
     return get<{ vedtaksperiodeId: ExternalNotat[] }>(
         `${baseUrl}/notater?vedtaksperiodeId=${vedtaksperiodeIder.join('&vedtaksperiodeId=')}`,
