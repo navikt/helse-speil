@@ -20,7 +20,7 @@ jest.mock('./utbetalingstabell/usePostOverstyring', () => ({
     }),
 }));
 
-jest.mock('@hooks/useAlderVedSkjæringstidspunkt', () => ({
+jest.mock('./utbetalingstabell/useAlderVedSkjæringstidspunkt', () => ({
     useAlderVedSkjæringstidspunkt: () => 30,
 }));
 

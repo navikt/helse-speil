@@ -6,7 +6,7 @@ import { Utbetalingstabell } from './Utbetalingstabell';
 import { Kildetype } from '@io/graphql';
 import { RecoilWrapper } from '@test-wrappers';
 
-jest.mock('@hooks/useAlderVedSkjæringstidspunkt', () => ({
+jest.mock('./useAlderVedSkjæringstidspunkt', () => ({
     useAlderVedSkjæringstidspunkt: () => 30,
 }));
 
