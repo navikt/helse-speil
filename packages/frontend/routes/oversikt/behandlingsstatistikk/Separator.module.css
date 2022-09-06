@@ -1,0 +1,13 @@
+.Separator td {
+    height: max-content !important;
+}
+
+.Separator hr {
+    border: none;
+    border-bottom: 1px solid var(--navds-semantic-color-border);
+    margin: 8px 0;
+}
+
+.Separator:last-of-type hr {
+    margin: 8px 0 24px;
+}

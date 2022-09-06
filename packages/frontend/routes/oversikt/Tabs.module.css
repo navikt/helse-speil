@@ -63,6 +63,13 @@
     margin: 0 6px;
 }
 
+.Button {
+    width: max-content;
+    height: max-content;
+    padding: 8px 12px;
+    border-radius: 4px;
+}
+
 /*Justerer posisjonering av ikonet i knappen for å se vertikalt sentrert ut for et menneskeøye*/
 .Button > svg {
     transform: translateY(-1px);

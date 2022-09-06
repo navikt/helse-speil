@@ -2,7 +2,8 @@ import React from 'react';
 import classNames from 'classnames';
 import { atom, AtomEffect, useRecoilState, useRecoilValue } from 'recoil';
 import { BodyShort } from '@navikt/ds-react';
-import { Data } from '@navikt/ds-icons';
+import { DataFilled } from '@navikt/ds-icons';
+
 import { RoundedButton } from '@components/RoundedButton';
 import { useInnloggetSaksbehandler } from '@state/authentication';
 import { useMineOppgaver, useOppgaver } from '@state/oppgaver';
@@ -91,7 +92,7 @@ export const Tabs = () => {
                 aria-expanded={showStatistikk}
                 onClick={toggleStatistikk}
             >
-                <Data />
+                <DataFilled width={20} height={20} />
             </RoundedButton>
         </div>
     );

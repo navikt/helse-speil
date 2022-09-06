@@ -1,0 +1,43 @@
+.Behandlingsstatistikk {
+    --behandlingsstatistikk-padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    min-width: max-content;
+    padding: var(--behandlingsstatistikk-padding);
+    border-left: 1px solid var(--navds-semantic-color-border);
+    height: 100%;
+}
+
+.Behandlingsstatistikk > table {
+    font-size: var(--navds-font-size-medium);
+    border-collapse: separate;
+    border-spacing: 16px 0;
+    margin: 0 -16px;
+}
+
+.Behandlingsstatistikk > table tbody td,
+.Behandlingsstatistikk > table thead th,
+.Behandlingsstatistikk > table tfoot td {
+    text-align: right;
+    height: 2rem;
+    vertical-align: middle;
+}
+
+.Behandlingsstatistikk > table tfoot {
+    font-weight: var(--navds-font-weight-bold);
+}
+
+.Behandlingsstatistikk > table thead th {
+    padding-bottom: 16px;
+}
+
+.Behandlingsstatistikk > table td:first-of-type {
+    text-align: left;
+}
+
+.Behandlingsstatistikk > table tbody p {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}

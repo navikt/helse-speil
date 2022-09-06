@@ -10,7 +10,7 @@ import { oppgaverState, useRefetchOppgaver } from '@state/oppgaver';
 
 import { IngenOppgaver } from './IngenOppgaver';
 import { OppgaverTable } from './table/OppgaverTable';
-import { Behandlingsstatistikk } from './behandlingsstatistikk/Behandlingsstatistikk';
+import { BehandlingsstatistikkView } from './behandlingsstatistikk/BehandlingsstatistikkView';
 import { Tabs, tabState, TabType } from './Tabs';
 
 import styles from './Oversikt.module.css';
@@ -84,7 +84,7 @@ export const Oversikt = () => {
                         <IngenOppgaver />
                     ) : null}
                 </div>
-                <Behandlingsstatistikk />
+                <BehandlingsstatistikkView />
             </Flex>
         </div>
     );
