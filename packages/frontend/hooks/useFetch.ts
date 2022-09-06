@@ -1,6 +1,4 @@
-import { Behandlingsstatistikk } from '@io/graphql';
 import { useEffect, useReducer } from 'react';
-import { fetchBehandlingsstatistikk } from '@io/graphql/fetchBehandlingsstatistikk';
 
 type ReducerStateBase<T> = {
     isLoading: boolean;
@@ -51,7 +49,7 @@ type SetError = {
 
 type ReducerAction<T> = UpdateValue<T> | SetIsLoading | SetError;
 
-const reducer = (state: ReducerState<Behandlingsstatistikk>, action: ReducerAction<Behandlingsstatistikk>) => {
+const reducer = <T>(state: ReducerState<T>, action: ReducerAction<T>) => {
     switch (action.type) {
         case 'SetError': {
             return {
@@ -77,19 +75,19 @@ const reducer = (state: ReducerState<Behandlingsstatistikk>, action: ReducerActi
     }
 };
 
-export const useBehandlingsstatistikk = (): ReducerState<Behandlingsstatistikk> => {
+export const useFetch = <T>(fetcher: () => Promise<T>): ReducerState<T> => {
     const [state, dispatch] = useReducer(reducer, { isLoading: false });
 
     useEffect(() => {
         dispatch({ type: 'SetIsLoading' });
-        fetchBehandlingsstatistikk()
-            .then(({ behandlingsstatistikk }) => {
-                dispatch({ type: 'UpdateValue', payload: behandlingsstatistikk });
+        fetcher()
+            .then((response) => {
+                dispatch({ type: 'UpdateValue', payload: response });
             })
             .catch((error) => {
                 dispatch({ type: 'SetError', payload: error });
             });
-    }, []);
+    }, [fetcher]);
 
-    return state;
+    return state as ReducerState<T>;
 };
