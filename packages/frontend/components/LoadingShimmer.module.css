@@ -25,4 +25,5 @@
     border-radius: 4px;
     height: var(--navds-font-line-height-medium);
     width: 100%;
+    display: block;
 }

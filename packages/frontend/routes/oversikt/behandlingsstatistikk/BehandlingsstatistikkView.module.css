@@ -73,9 +73,9 @@
 
 .FooterCell p:first-of-type {
     font-weight: var(--navds-font-weight-bold);
-    font-size: var(--navds-font-size-heading-2xlarge);
-    line-height: var(--navds-font-line-height-heading-2xlarge);
-    height: var(--navds-font-line-height-heading-2xlarge);
+    font-size: var(--navds-font-size-heading-xlarge);
+    line-height: var(--navds-font-line-height-heading-xlarge);
+    height: var(--navds-font-line-height-heading-xlarge);
     min-width: 5rem;
     width: max-content;
     display: flex;
@@ -83,6 +83,6 @@
     justify-content: center;
 }
 
-.FooterCell p:first-of-type div {
-    height: var(--navds-font-line-height-heading-xlarge);
+.FooterCell p:first-of-type span {
+    height: var(--navds-font-line-height-heading-large);
 }
