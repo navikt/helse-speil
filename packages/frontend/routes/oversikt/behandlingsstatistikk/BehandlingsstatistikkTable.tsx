@@ -6,6 +6,8 @@ import { StatistikkRow } from './StatistikkRow';
 import { Separator } from './Separator';
 import { LabelCell } from './LabelCell';
 
+import styles from './BehandlingsstatistikkView.module.css';
+
 const getTotaltIdag = (statistikk: Behandlingsstatistikk): Antall => {
     return {
         manuelt: statistikk.enArbeidsgiver.manuelt + statistikk.flereArbeidsgivere.manuelt,
@@ -27,7 +29,7 @@ export const BehandlingsstatistikkTable: React.FC<BehandlingsstatistikkTableProp
                 <tr>
                     <th />
                     <th>MANUELT</th>
-                    <th>AUTOM.</th>
+                    <th>AUTOMATISK</th>
                     <th>TILGJENGELIG</th>
                 </tr>
             </thead>
@@ -81,14 +83,32 @@ export const BehandlingsstatistikkTable: React.FC<BehandlingsstatistikkTableProp
             <Separator />
             <tfoot>
                 <tr>
-                    <td>TOTALT IDAG</td>
-                    <td>{totaltIdag.manuelt}</td>
-                    <td>{totaltIdag.automatisk}</td>
-                    <td>{totaltIdag.tilgjengelig}</td>
+                    <td colSpan={4}>
+                        <p className={styles.FooterTotal}>
+                            TOTALT FULLFØRTE SAKER I DAG:{' '}
+                            <span>
+                                {totaltIdag.manuelt + totaltIdag.automatisk + behandlingsstatistikk.antallAnnulleringer}
+                            </span>
+                        </p>
+                    </td>
                 </tr>
                 <tr>
-                    <td>ANNULLERT IDAG</td>
-                    <td>{behandlingsstatistikk.antallAnnulleringer}</td>
+                    <td colSpan={4}>
+                        <div className={styles.FooterCellContainer}>
+                            <div className={styles.FooterCell}>
+                                <p>{totaltIdag.manuelt}</p>
+                                <p>AV SAKSBEHANDLER</p>
+                            </div>
+                            <div className={styles.FooterCell}>
+                                <p>{totaltIdag.automatisk}</p>
+                                <p>AUTOMATISK</p>
+                            </div>
+                            <div className={styles.FooterCell}>
+                                <p>{behandlingsstatistikk.antallAnnulleringer}</p>
+                                <p>ANNULLERT</p>
+                            </div>
+                        </div>
+                    </td>
                 </tr>
             </tfoot>
         </table>

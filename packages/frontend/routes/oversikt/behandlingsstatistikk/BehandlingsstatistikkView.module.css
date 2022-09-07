@@ -17,15 +17,10 @@
 }
 
 .Behandlingsstatistikk > table tbody td,
-.Behandlingsstatistikk > table thead th,
-.Behandlingsstatistikk > table tfoot td {
+.Behandlingsstatistikk > table thead th {
     text-align: right;
     height: 2rem;
     vertical-align: middle;
-}
-
-.Behandlingsstatistikk > table tfoot {
-    font-weight: var(--navds-font-weight-bold);
 }
 
 .Behandlingsstatistikk > table thead th {
@@ -40,4 +35,54 @@
     display: flex;
     align-items: center;
     gap: 8px;
+}
+
+.FooterTotal {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    white-space: nowrap;
+}
+
+.FooterTotal > span {
+    display: inline;
+    font-weight: var(--navds-font-weight-bold);
+}
+
+.FooterTotal > div,
+.FooterTotal > span {
+    font-size: var(--navds-font-size-large);
+    height: var(--navds-font-size-large);
+    width: max-content;
+    min-width: 3rem;
+}
+
+.FooterCellContainer {
+    margin-top: 16px;
+    display: flex;
+    justify-content: space-around;
+    gap: 16px;
+}
+
+.FooterCell {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.FooterCell p:first-of-type {
+    font-weight: var(--navds-font-weight-bold);
+    font-size: var(--navds-font-size-heading-2xlarge);
+    line-height: var(--navds-font-line-height-heading-2xlarge);
+    height: var(--navds-font-line-height-heading-2xlarge);
+    min-width: 5rem;
+    width: max-content;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.FooterCell p:first-of-type div {
+    height: var(--navds-font-line-height-heading-xlarge);
 }

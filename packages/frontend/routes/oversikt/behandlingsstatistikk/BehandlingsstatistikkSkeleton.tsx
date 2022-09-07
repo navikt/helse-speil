@@ -4,6 +4,8 @@ import { LoadingShimmer } from '@components/LoadingShimmer';
 import { Separator } from './Separator';
 import { LabelCell } from './LabelCell';
 
+import styles from './BehandlingsstatistikkView.module.css';
+
 const LoadingCells: React.FC = () => {
     return (
         <>
@@ -27,7 +29,7 @@ export const BehandlingsstatistikkSkeleton: React.FC = () => {
                 <tr>
                     <th />
                     <th>MANUELT</th>
-                    <th>AUTOM.</th>
+                    <th>AUTOMATISK</th>
                     <th>TILGJENGELIG</th>
                 </tr>
             </thead>
@@ -120,13 +122,34 @@ export const BehandlingsstatistikkSkeleton: React.FC = () => {
             <Separator />
             <tfoot>
                 <tr>
-                    <td>TOTALT IDAG</td>
-                    <LoadingCells />
+                    <td colSpan={4}>
+                        <p className={styles.FooterTotal}>
+                            TOTALT FULLFØRTE SAKER I DAG: <LoadingShimmer />
+                        </p>
+                    </td>
                 </tr>
                 <tr>
-                    <td>ANNULLERT IDAG</td>
-                    <td>
-                        <LoadingShimmer />
+                    <td colSpan={4}>
+                        <div className={styles.FooterCellContainer}>
+                            <div className={styles.FooterCell}>
+                                <p>
+                                    <LoadingShimmer />
+                                </p>
+                                <p>AV SAKSBEHANDLER</p>
+                            </div>
+                            <div className={styles.FooterCell}>
+                                <p>
+                                    <LoadingShimmer />
+                                </p>
+                                <p>AUTOMATISK</p>
+                            </div>
+                            <div className={styles.FooterCell}>
+                                <p>
+                                    <LoadingShimmer />
+                                </p>
+                                <p>ANNULLERT</p>
+                            </div>
+                        </div>
                     </td>
                 </tr>
             </tfoot>
