@@ -73,7 +73,7 @@ const getResolvers = (): IResolvers => ({
             return getMockOppdrag();
         },
         behandlingsstatistikk: () => {
-            sleep(500);
+            sleep(1000);
             return behandlingsstatistikk;
         },
     },

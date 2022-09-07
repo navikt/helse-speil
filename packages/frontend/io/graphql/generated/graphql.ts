@@ -114,6 +114,7 @@ export type Behandlingsstatistikk = {
     enArbeidsgiver: Antall;
     faresignaler: Antall;
     flereArbeidsgivere: Antall;
+    forlengelseIt: Antall;
     forlengelser: Antall;
     forstegangsbehandling: Antall;
     fortroligAdresse: Antall;
@@ -870,6 +871,7 @@ export type HentBehandlingsstatistikkQuery = {
         delvisRefusjon: { __typename?: 'Antall'; automatisk: number; manuelt: number; tilgjengelig: number };
         faresignaler: { __typename?: 'Antall'; automatisk: number; manuelt: number; tilgjengelig: number };
         forlengelser: { __typename?: 'Antall'; automatisk: number; manuelt: number; tilgjengelig: number };
+        forlengelseIt: { __typename?: 'Antall'; automatisk: number; manuelt: number; tilgjengelig: number };
         forstegangsbehandling: { __typename?: 'Antall'; automatisk: number; manuelt: number; tilgjengelig: number };
         fortroligAdresse: { __typename?: 'Antall'; automatisk: number; manuelt: number; tilgjengelig: number };
         revurdering: { __typename?: 'Antall'; automatisk: number; manuelt: number; tilgjengelig: number };

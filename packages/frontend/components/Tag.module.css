@@ -39,3 +39,8 @@
     --tag-border-color: var(--navds-global-color-red-600);
     --tag-background-color: var(--navds-global-color-red-100);
 }
+
+.Tag.gray {
+    --tag-border-color: var(--navds-global-color-gray-600);
+    --tag-background-color: var(--navds-global-color-gray-100);
+}

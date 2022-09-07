@@ -43,6 +43,15 @@ const Forlengelser: React.FC = () => {
     );
 };
 
+const ForlengelseInfotrygd: React.FC = () => {
+    return (
+        <BaseCell>
+            <Tag color="gray">FI</Tag>
+            FORLENGELSE - IT
+        </BaseCell>
+    );
+};
+
 const UtbetalingTilArbeidsgiver: React.FC = () => {
     return (
         <BaseCell>
@@ -120,6 +129,7 @@ export const LabelCell = {
     FlereArbeidsgivere,
     Førstegangsbehandling,
     Forlengelser,
+    ForlengelseInfotrygd,
     UtbetalingTilArbeidsgiver,
     UtbetalingTilSykmeldt,
     DelvisRefusjon,

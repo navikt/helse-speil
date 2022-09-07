@@ -47,6 +47,9 @@ export const BehandlingsstatistikkTable: React.FC<BehandlingsstatistikkTableProp
                 <StatistikkRow antall={behandlingsstatistikk.forlengelser}>
                     <LabelCell.Forlengelser />
                 </StatistikkRow>
+                <StatistikkRow antall={behandlingsstatistikk.forlengelseIt}>
+                    <LabelCell.ForlengelseInfotrygd />
+                </StatistikkRow>
             </tbody>
             <Separator />
             <tbody>

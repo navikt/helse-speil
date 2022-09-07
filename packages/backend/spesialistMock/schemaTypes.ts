@@ -114,6 +114,7 @@ export type Behandlingsstatistikk = {
     enArbeidsgiver: Antall;
     faresignaler: Antall;
     flereArbeidsgivere: Antall;
+    forlengelseIt: Antall;
     forlengelser: Antall;
     forstegangsbehandling: Antall;
     fortroligAdresse: Antall;

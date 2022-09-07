@@ -5,7 +5,7 @@ import styles from './Tag.module.css';
 
 interface TagProps {
     children: string;
-    color: 'purple' | 'red' | 'green' | 'orange' | 'blue';
+    color: 'purple' | 'red' | 'green' | 'orange' | 'blue' | 'gray';
 }
 
 export const Tag: React.FC<TagProps> = ({ children, color }) => {

@@ -1,18 +1,18 @@
 export const behandlingsstatistikk = {
     enArbeidsgiver: {
-        automatisk: 1674,
-        manuelt: 351,
-        tilgjengelig: 15713,
+        automatisk: 664,
+        manuelt: 186,
+        tilgjengelig: 15637,
     },
     flereArbeidsgivere: {
         automatisk: 0,
-        manuelt: 92,
-        tilgjengelig: 3346,
+        manuelt: 5,
+        tilgjengelig: 3345,
     },
     beslutter: {
         automatisk: 0,
-        manuelt: 68,
-        tilgjengelig: 66,
+        manuelt: 53,
+        tilgjengelig: 28,
     },
     delvisRefusjon: {
         automatisk: 0,
@@ -21,18 +21,23 @@ export const behandlingsstatistikk = {
     },
     faresignaler: {
         automatisk: 0,
-        manuelt: 18,
-        tilgjengelig: 1490,
+        manuelt: 4,
+        tilgjengelig: 1492,
     },
     forlengelser: {
-        automatisk: 1267,
-        manuelt: 307,
-        tilgjengelig: 7131,
+        automatisk: 553,
+        manuelt: 137,
+        tilgjengelig: 6998,
+    },
+    forlengelseIt: {
+        automatisk: 0,
+        manuelt: 0,
+        tilgjengelig: 80,
     },
     forstegangsbehandling: {
-        automatisk: 407,
-        manuelt: 136,
-        tilgjengelig: 11928,
+        automatisk: 111,
+        manuelt: 54,
+        tilgjengelig: 11904,
     },
     fortroligAdresse: {
         automatisk: 0,
@@ -41,23 +46,23 @@ export const behandlingsstatistikk = {
     },
     revurdering: {
         automatisk: 0,
-        manuelt: 52,
-        tilgjengelig: 93,
+        manuelt: 33,
+        tilgjengelig: 70,
     },
     stikkprover: {
         automatisk: 0,
-        manuelt: 62,
-        tilgjengelig: 2,
+        manuelt: 4,
+        tilgjengelig: 3,
     },
     utbetalingTilArbeidsgiver: {
-        automatisk: 1674,
-        manuelt: 311,
-        tilgjengelig: 17473,
+        automatisk: 664,
+        manuelt: 149,
+        tilgjengelig: 17417,
     },
     utbetalingTilSykmeldt: {
         automatisk: 0,
-        manuelt: 0,
-        tilgjengelig: 1,
+        manuelt: 1,
+        tilgjengelig: 0,
     },
-    antallAnnulleringer: 25,
+    antallAnnulleringer: 10,
 };

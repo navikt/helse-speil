@@ -59,6 +59,12 @@ export const BehandlingsstatistikkSkeleton: React.FC = () => {
                     </td>
                     <LoadingCells />
                 </tr>
+                <tr>
+                    <td>
+                        <LabelCell.ForlengelseInfotrygd />
+                    </td>
+                    <LoadingCells />
+                </tr>
             </tbody>
             <Separator />
             <tbody>

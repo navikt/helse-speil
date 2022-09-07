@@ -12,6 +12,7 @@ query HentBehandlingsstatistikk {
         delvisRefusjon {...antall}
         faresignaler {...antall}
         forlengelser {...antall}
+        forlengelseIt {...antall}
         forstegangsbehandling {...antall}
         fortroligAdresse {...antall}
         revurdering {...antall}
