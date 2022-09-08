@@ -1,20 +1,12 @@
-import styled from '@emotion/styled';
 import React from 'react';
+import classNames from 'classnames';
 
 import { Bold } from '@components/Bold';
 
 import { Row } from '../../table/Row';
 import { UtbetalingCell } from './UtbetalingCell';
 
-const Container = styled(Row)<{ overstyrer?: boolean }>`
-    > td {
-        border-color: ${(props) => (props.overstyrer ? 'transparent' : '#3e3832')};
-    }
-`;
-
-const TotalText = styled(Bold)`
-    white-space: nowrap;
-`;
+import styles from './TotalRow.module.css';
 
 const harPersonutbetaling = (dag: UtbetalingstabellDag): boolean =>
     typeof dag.personbeløp === 'number' && dag.personbeløp > 0;
@@ -43,25 +35,19 @@ export const TotalRow = React.memo(({ dager, overstyrer }: TotalRowProps) => {
     const arbeidsgiverbeløpTotal = getTotalArbeidsgiverbeløp(utbetalingsdager);
     const personbeløpTotal = getTotalPersonbeløp(utbetalingsdager);
 
-    const dagerIgjenPåSluttenAvPerioden = dager[dager.length - 1]?.dagerIgjen ?? 0;
-
-    const dagerIgjenPåStartenAvPerioden = (dagerIgjenPåSluttenAvPerioden ?? 0) + utbetalingsdager.length;
-
     return (
-        <Container overstyrer={overstyrer}>
+        <Row className={classNames(styles.TotalRow, overstyrer && styles.overstyrer)}>
             <td style={{ fontWeight: 'bold' }}>TOTAL</td>
             <td>
-                <TotalText>{utbetalingsdager.length} dager</TotalText>
+                <Bold>{utbetalingsdager.length} dager</Bold>
             </td>
             <td />
             <td />
             <td />
             <UtbetalingCell style={{ fontWeight: 'bold' }} utbetaling={arbeidsgiverbeløpTotal} />
             <UtbetalingCell style={{ fontWeight: 'bold' }} utbetaling={personbeløpTotal} />
-            <td>
-                <TotalText>{dagerIgjenPåStartenAvPerioden}</TotalText>
-            </td>
             <td />
-        </Container>
+            <td />
+        </Row>
     );
 });

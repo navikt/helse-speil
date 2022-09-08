@@ -1,0 +1,11 @@
+.TotalRow > td {
+    border-color: var(--navds-semantic-color-border);
+}
+
+.TotalRow.overstyrer > td {
+    border-color: transparent;
+}
+
+.TotalRow p {
+    white-space: nowrap;
+}
