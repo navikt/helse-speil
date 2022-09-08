@@ -53,7 +53,7 @@ export const overstyreUtbetaltPeriodeEnabled = !harKunLesetilgang();
 export const annulleringerEnabled = !harKunLesetilgang();
 export const utbetalingsoversikt = !harKunLesetilgang();
 
-export const overstyrPermisjonsdagerEnabled = erLocal() || erDev();
+export const overstyrPermisjonsdagerEnabled = true;
 export const stikkprøve = harTilgangStikkprøver() || harTilgangTilAlt() || erLocal() || erDev();
 export const flereArbeidsgivere = true;
 
