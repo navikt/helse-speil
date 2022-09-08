@@ -215,10 +215,11 @@ export const erDev = () => location.hostname === 'speil.dev.intern.nav.no';
 
 const harTilgangTilAlt = () => [...supersaksbehandlere, ...fagkoordinatorer, ...enhetsledere].includes(extractIdent());
 const erFaktiskSupportsaksbehandler = () => faktiskSupportsaksbehandlere.includes(extractIdent()); // ref @support på Slack
+const erØkonomifokusert = () => jobberINavØkonomi.includes(extractIdent());
 const harUtvidetTilgang = () => utvidetTilganger.includes(extractIdent());
 const harTilgangFlereArbeidsgivere = () => tilgangFlereArbeidsgivere.includes(extractIdent());
 const harTilgangStikkprøver = () => tilgangStikkprøver.includes(extractIdent());
-const erØkonomifokusert = () => jobberINavØkonomi.includes(extractIdent());
+const harTilgangTilUtbetalingTilSykmeldt = () => ['J153777'].includes(extractIdent());
 
 const erPåTeamBømlo = () => extractGroups().includes(groupIdForTbd);
 
@@ -241,8 +242,14 @@ export const flereArbeidsgivere =
     harTilgangTilAlt() ||
     erFaktiskSupportsaksbehandler() ||
     harTilgangFlereArbeidsgivere();
+
 export const utbetalingTilSykmeldt =
-    erLocal() || erDev() || erPåTeamBømlo() || harTilgangTilAlt() || erFaktiskSupportsaksbehandler();
+    erLocal() ||
+    erDev() ||
+    erPåTeamBømlo() ||
+    harTilgangTilAlt() ||
+    erFaktiskSupportsaksbehandler() ||
+    harTilgangTilUtbetalingTilSykmeldt();
 
 export const kanFrigiAndresOppgaver = harTilgangTilAlt() || erLocal() || erDev();
 
