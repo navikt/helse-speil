@@ -23,84 +23,6 @@ const fagkoordinatorer = [
 ];
 const enhetsledere = ['B138607'];
 const faktiskSupportsaksbehandlere = ['H104215', 'O130292', 'F111930'];
-const tilgangFlereArbeidsgivere = [
-    'M139452',
-    'S109031',
-    'B136871',
-    'J104651',
-    'D123751',
-    'R117524',
-    'D163344',
-    'I104299',
-    'J153777',
-    'S135852',
-    'S127865',
-    'A158665',
-    'L148406',
-    'L105506',
-    'M106091',
-    'P107343',
-    'S112395',
-    'F140836',
-    'F160529',
-    'S160466',
-    'W110120',
-    'K105052',
-    'K105430',
-    'R159363',
-    'O145552',
-    'F162395',
-    'S124729',
-    'B160663',
-    'O123659',
-    'B152345',
-    'C131310',
-    'S161414',
-    'V150075',
-    'N161431',
-    'K162139',
-    'V149621',
-    'G157538',
-    'A110417',
-    'F102552',
-    // Klageinstansen start
-    'T109423',
-    'B138509',
-    'H154142',
-    'W109995',
-    'J104571',
-    'S163082',
-    'W110000',
-    'O139947',
-    'A100182',
-    'O159042',
-    'S159041',
-    'I104325',
-    'B161538',
-    'J161200',
-    'H150552',
-    'B100841',
-    'R107698',
-    'V161315',
-    'W161593',
-    'A161175',
-    'S157894',
-    'M159445',
-    'E137084',
-    'L158907',
-    'V162913',
-    'J162983',
-    'L158906',
-    'O163049',
-    'G137092',
-    'H153677',
-    'B134670',
-    'M106066',
-    'L142009',
-    // Klageinstansen end
-    'O146470',
-    'K162139',
-];
 
 const tilgangStikkprøver = [
     'F140836',
@@ -114,134 +36,26 @@ const tilgangStikkprøver = [
     'D163344',
 ];
 
-const utvidetTilganger = [
-    ...faktiskSupportsaksbehandlere,
-    'O146470',
-    'N116980',
-    'K105430',
-    'M106091',
-    'A158665',
-    'M139452',
-    'P107343',
-    'S160466',
-    'V112769',
-    'F160529',
-    'I104299',
-    'R117524',
-    'S109031',
-    'W110120',
-    'D163344',
-    'A110417',
-    'J153777',
-    'D123751',
-    'J104651',
-    'F160529',
-    'M113770',
-    'A100343',
-    'L127690',
-    'K105052',
-    'R159363',
-    'O145552',
-    'F162395',
-    'S124729',
-    'B160663',
-    'O123659',
-    'B152345',
-    'C131310',
-    'S161414',
-    'V150075',
-    'N161431',
-    'K162139',
-    'V149621',
-    'V109797',
-    'G157538',
-    'S112395',
-    'A160730',
-    'F102552',
-    'K162139',
-    'T140846',
-];
-
-const kanRevurdere = [
-    'F111930',
-    'S160466',
-    'O146470',
-    'N116980',
-    'M106091',
-    'A158665',
-    'P107343',
-    'M139452',
-    'K105430',
-    'V112769',
-    'F160529',
-    'I104299',
-    'R117524',
-    'S109031',
-    'J104651',
-    'D123751',
-    'W110120',
-    'D163344',
-    'A110417',
-    'J153777',
-    'F160529',
-    'M113770',
-    'A100343',
-    'L127690',
-    'K105052',
-    'S124729',
-    'O145552',
-    'C131310',
-    'S161414',
-    'V150075',
-    'N161431',
-    'K162139',
-    'O123659',
-    'V149621',
-    'B152345',
-    'G157538',
-    'V109797',
-    'F102306',
-    'S112395',
-    'A160730',
-    'F102552',
-    'K162139',
-    'T140846',
-];
-
-const jobberINavØkonomi = ['R107838'];
+const kunLesetilgang: string[] = [];
 
 export const erLocal = () => location.hostname === 'localhost';
 export const erDev = () => location.hostname === 'speil.dev.intern.nav.no';
 
+const harKunLesetilgang = () => kunLesetilgang.includes(extractIdent());
 const harTilgangTilAlt = () => [...supersaksbehandlere, ...fagkoordinatorer, ...enhetsledere].includes(extractIdent());
 const erFaktiskSupportsaksbehandler = () => faktiskSupportsaksbehandlere.includes(extractIdent()); // ref @support på Slack
-const erØkonomifokusert = () => jobberINavØkonomi.includes(extractIdent());
-const harUtvidetTilgang = () => utvidetTilganger.includes(extractIdent());
-const harTilgangFlereArbeidsgivere = () => tilgangFlereArbeidsgivere.includes(extractIdent());
 const harTilgangStikkprøver = () => tilgangStikkprøver.includes(extractIdent());
 const harTilgangTilUtbetalingTilSykmeldt = () => ['J153777'].includes(extractIdent());
 
 const erPåTeamBømlo = () => extractGroups().includes(groupIdForTbd);
 
-export const overstyrPermisjonsdagerEnabled = erLocal() || erDev();
-export const overstyreUtbetaltPeriodeEnabled =
-    erPåTeamBømlo() ||
-    harTilgangTilAlt() ||
-    erFaktiskSupportsaksbehandler() ||
-    kanRevurdere.includes(extractIdent()) ||
-    erLocal() ||
-    erDev();
+export const overstyreUtbetaltPeriodeEnabled = !harKunLesetilgang();
+export const annulleringerEnabled = !harKunLesetilgang();
+export const utbetalingsoversikt = !harKunLesetilgang();
 
-export const annulleringerEnabled = erDev() || erLocal() || harUtvidetTilgang() || harTilgangTilAlt();
-export const utbetalingsoversikt = erPåTeamBømlo() || erLocal() || harTilgangTilAlt() || erØkonomifokusert();
+export const overstyrPermisjonsdagerEnabled = erLocal() || erDev();
 export const stikkprøve = harTilgangStikkprøver() || harTilgangTilAlt() || erLocal() || erDev();
-export const flereArbeidsgivere =
-    erLocal() ||
-    erDev() ||
-    erPåTeamBømlo() ||
-    harTilgangTilAlt() ||
-    erFaktiskSupportsaksbehandler() ||
-    harTilgangFlereArbeidsgivere();
+export const flereArbeidsgivere = true;
 
 export const utbetalingTilSykmeldt =
     erLocal() ||
