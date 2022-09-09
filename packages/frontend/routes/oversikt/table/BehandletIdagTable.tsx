@@ -16,6 +16,7 @@ import { InntektskildeCell } from './rader/InntektskildeCell';
 import styles from './Table.module.css';
 import { SøkerCell } from './rader/SøkerCell';
 import { FerdigstiltCell } from './rader/FerdigstiltCell';
+import { Pagination } from './Pagination';
 
 interface BehandletIdagTableProps {}
 
@@ -75,6 +76,7 @@ export const BehandletIdagTable: React.FC<BehandletIdagTableProps> = () => {
                     </Table>
                 </div>
             </div>
+            <Pagination numberOfEntries={oppgaver.length} />
         </div>
     );
 };
