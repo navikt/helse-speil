@@ -66,7 +66,7 @@ export const useInitializePagination = (numberOfEntries: number, entriesPerPage:
             setPagination({
                 currentPage: 1,
                 entriesPerPage: entriesPerPage,
-                numberOfPages: Math.ceil(numberOfEntries / entriesPerPage),
+                numberOfPages: Math.max(Math.ceil(numberOfEntries / entriesPerPage), 1),
                 firstVisibleEntry: 0,
                 lastVisibleEntry: entriesPerPage - 1,
             });
@@ -81,7 +81,7 @@ export const useRefreshPagination = (numberOfEntries: number) => {
             (pagination) =>
                 pagination && {
                     ...pagination,
-                    numberOfPages: Math.ceil(numberOfEntries / pagination.entriesPerPage),
+                    numberOfPages: Math.max(Math.ceil(numberOfEntries / pagination.entriesPerPage), 1),
                 },
         );
     }, [numberOfEntries]);
