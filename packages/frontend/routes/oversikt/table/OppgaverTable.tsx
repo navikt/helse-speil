@@ -25,7 +25,7 @@ import { SøkerCell } from './rader/SøkerCell';
 import { NotatCell } from './rader/notat/NotatCell';
 import { Cell } from './Cell';
 
-import styles from './OppgaverTable.module.css';
+import styles from './Table.module.css';
 
 const groupFiltersByColumn = (filters: Filter<Oppgave>[]): Filter<Oppgave>[][] => {
     const groups = filters.reduce((groups: { [key: string]: Filter<Oppgave>[] }, filter: Filter<Oppgave>) => {
@@ -61,7 +61,7 @@ export const OppgaverTable = React.memo(({ oppgaver }: { oppgaver: Oppgave[] }) 
     useSyncNotater(vedtaksperiodeIder);
 
     return (
-        <div className={styles.OppgaverTable}>
+        <div className={styles.TableContainer}>
             <div className={styles.Content}>
                 <div className={styles.Scrollable}>
                     <Table
@@ -156,7 +156,7 @@ export const OppgaverTable = React.memo(({ oppgaver }: { oppgaver: Oppgave[] }) 
                                     <BostedCell stedsnavn={it.boenhet.navn} />
                                     <InntektskildeCell type={it.inntektskilde} />
                                     <StatusCell numberOfWarnings={it.antallVarsler} />
-                                    <SøkerCell personinfo={it.personinfo} />
+                                    <SøkerCell name={it.personinfo} />
                                     <OpprettetCell date={it.opprettet} />
                                     <OptionsCell oppgave={it} personinfo={it.personinfo} />
                                     {it.tildeling?.påVent ? (

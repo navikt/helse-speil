@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import React from 'react';
-import { Periodetype as GraphQLPeriodetype } from '@io/graphql';
+import { Periodetype as GraphQLPeriodetype, Oppgavetype as GraphQLOppgavetype } from '@io/graphql';
 
 interface EtikettProps {
     størrelse?: 's' | 'l';
@@ -130,7 +130,7 @@ const DelvisRefusjonEtikett = styled(Etikett)`
 `;
 
 interface OppgaveetikettProps extends EtikettProps {
-    type: Periodetype | GraphQLPeriodetype | 'REVURDERING' | ExternalPeriodetype;
+    type: Periodetype | GraphQLPeriodetype | GraphQLOppgavetype | 'REVURDERING' | ExternalPeriodetype;
     erBeslutterOppgave?: boolean;
     erReturOppgave?: boolean;
     tilstand?: PeriodState;
@@ -142,35 +142,44 @@ export const Oppgaveetikett = React.forwardRef<HTMLDivElement, OppgaveetikettPro
         if (erReturOppgave) return <ReturEtikett ref={ref} størrelse={størrelse} />;
         switch (type) {
             case 'førstegangsbehandling':
-            case 'FORSTEGANGSBEHANDLING':
             case 'FØRSTEGANGSBEHANDLING':
+            case GraphQLPeriodetype.Forstegangsbehandling:
                 return <FørstegangsbehandlingEtikett ref={ref} størrelse={størrelse} />;
             case 'forlengelse':
             case 'FORLENGELSE':
+            case GraphQLPeriodetype.Forlengelse:
                 return <ForlengelseEtikett ref={ref} størrelse={størrelse} />;
             case 'infotrygdforlengelse':
             case 'INFOTRYGDFORLENGELSE':
+            case GraphQLPeriodetype.Infotrygdforlengelse:
                 return <ForlengelseEtikett ref={ref} størrelse={størrelse} />;
             case 'overgangFraIt':
             case 'OVERGANG_FRA_IT':
+            case GraphQLPeriodetype.OvergangFraIt:
                 return <InfotrygdforlengelseEtikett ref={ref} størrelse={størrelse} />;
             case 'stikkprøve':
             case 'STIKKPRØVE':
+            case GraphQLOppgavetype.Stikkprove:
                 return <StikkprøveEtikett ref={ref} størrelse={størrelse} />;
             case 'fortroligAdresse':
             case 'FORTROLIG_ADRESSE':
+            case GraphQLOppgavetype.FortroligAdresse:
                 return <FortroligAdresseEtikett ref={ref} størrelse={størrelse} />;
             case 'riskQa':
             case 'RISK_QA':
+            case GraphQLOppgavetype.RiskQa:
                 return <RiskQaEtikett ref={ref} størrelse={størrelse} />;
             case 'utbetalingTilSykmeldt':
             case 'UTBETALING_TIL_SYKMELDT':
+            case GraphQLOppgavetype.UtbetalingTilSykmeldt:
                 return <UtbetalingTilSykmeldtEtikett ref={ref} størrelse={størrelse} />;
             case 'delvisRefusjon':
             case 'DELVIS_REFUSJON':
+            case GraphQLOppgavetype.DelvisRefusjon:
                 return <DelvisRefusjonEtikett ref={ref} størrelse={størrelse} />;
             case 'REVURDERING':
-            case 'revurdering': {
+            case 'revurdering':
+            case GraphQLOppgavetype.Revurdering: {
                 if (tilstand === 'revurderes') {
                     return <RevurderesEtikett ref={ref} størrelse={størrelse} />;
                 } else {

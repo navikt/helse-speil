@@ -6,7 +6,8 @@ import { DataFilled } from '@navikt/ds-icons';
 
 import { RoundedButton } from '@components/RoundedButton';
 import { useInnloggetSaksbehandler } from '@state/authentication';
-import { useMineOppgaver, useOppgaver } from '@state/oppgaver';
+import { useFerdigstilteOppgaver, useMineOppgaver, useOppgaver } from '@state/oppgaver';
+import { erBehandletIdagEnabled } from '@utils/featureToggles';
 
 import { useShowStatistikk, useToggleStatistikk } from './behandlingsstatistikk/state';
 
@@ -16,6 +17,7 @@ export enum TabType {
     TilGodkjenning = 'alle',
     Mine = 'mine',
     Ventende = 'ventende',
+    BehandletIdag = 'behandletIdag',
 }
 
 const syncLastActiveTabEffect: AtomEffect<TabType> = ({ onSet, setSelf }) => {
@@ -74,6 +76,11 @@ const VentendeSakerTab = () => {
     return <OppgaveTab tag={TabType.Ventende} label="På vent" numberOfTasks={antallEgneVentendeSaker} />;
 };
 
+const BehandletIdagTab = () => {
+    const oppgaver = useFerdigstilteOppgaver();
+    return <OppgaveTab tag={TabType.BehandletIdag} label="Behandlet idag" numberOfTasks={oppgaver.length} />;
+};
+
 export const Tabs = () => {
     const toggleStatistikk = useToggleStatistikk();
     const showStatistikk = useShowStatistikk();
@@ -84,6 +91,7 @@ export const Tabs = () => {
                 <AlleSakerTab />
                 <MineSakerTab />
                 <VentendeSakerTab />
+                {erBehandletIdagEnabled && <BehandletIdagTab />}
             </span>
             <RoundedButton
                 id="behandlingsstatistikk-toggle"

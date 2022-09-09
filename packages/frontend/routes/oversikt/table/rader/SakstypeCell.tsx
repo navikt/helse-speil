@@ -1,5 +1,4 @@
 import React from 'react';
-
 import { BodyShort } from '@navikt/ds-react';
 
 import { Flex } from '@components/Flex';

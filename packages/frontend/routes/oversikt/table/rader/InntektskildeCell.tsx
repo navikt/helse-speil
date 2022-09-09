@@ -1,12 +1,13 @@
 import React from 'react';
 
 import { TextWithEllipsis } from '@components/TextWithEllipsis';
+import { Inntektstype } from '@io/graphql';
 
 import { Cell } from '../Cell';
 import { CellContent } from './CellContent';
 
 interface InntektskildeProps {
-    type: Inntektskilde;
+    type: Inntektskilde | Inntektstype;
 }
 
 export const InntektskildeCell = React.memo(({ type }: InntektskildeProps) => (

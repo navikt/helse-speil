@@ -6,17 +6,19 @@ import { Cell } from '../Cell';
 import { CellContent } from './CellContent';
 import { Tooltip } from '@navikt/ds-react';
 
-const getFormattedName = (personinfo: Personinfo): string => {
-    const { fornavn, mellomnavn, etternavn } = personinfo;
+type Name = Pick<Personinfo, 'fornavn' | 'etternavn' | 'mellomnavn'>;
+
+const getFormattedName = (name: Name): string => {
+    const { fornavn, mellomnavn, etternavn } = name;
     return capitalizeName(`${etternavn}, ${fornavn} ${mellomnavn ? `${mellomnavn} ` : ''}`);
 };
 
 interface SøkerProps {
-    personinfo: Personinfo;
+    name: Name;
 }
 
-export const SøkerCell = React.memo(({ personinfo }: SøkerProps) => {
-    const formatertNavn = getFormattedName(personinfo);
+export const SøkerCell = React.memo(({ name }: SøkerProps) => {
+    const formatertNavn = getFormattedName(name);
 
     return (
         <Cell>
