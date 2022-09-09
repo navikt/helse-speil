@@ -12,6 +12,8 @@ import { useCurrentPerson, useVilkårsgrunnlag } from '@state/person';
 import { erDev, erLocal } from '@utils/featureToggles';
 import { useActivePeriod } from '@state/periode';
 import { getPeriodState } from '@utils/mapping';
+import { isBeregnetPeriode, isGhostPeriode } from '@utils/typeguards';
+import { alleOverlappendePerioderErAvsluttet } from '@hooks/revurdering';
 
 interface RedigerInntektProps {
     setEditing: Dispatch<SetStateAction<boolean>>;
@@ -34,11 +36,13 @@ export const RedigerInntekt = ({
 
     const period = useActivePeriod();
     const person = useCurrentPerson();
-    const harGhostperioder =
-        person?.arbeidsgivere.some((it) => it.ghostPerioder.find((it) => it.fom === period?.fom)) ?? false;
+
+    const erGhostSomIkkeKanOverstyres =
+        isGhostPeriode(period) && isBeregnetPeriode(period) && alleOverlappendePerioderErAvsluttet(person!!, period);
 
     const aktivPeriodeVenter = ['venter', 'venterPåKiling'].includes(getPeriodState(period));
-    const kanEndreInntektIDev = (erDev() || erLocal()) && !harGhostperioder && !aktivPeriodeVenter;
+
+    const kanEndreInntektIDev = (erDev() || erLocal()) && !erGhostSomIkkeKanOverstyres && !aktivPeriodeVenter;
 
     const erAktivPeriodeISisteSkjæringstidspunkt = useActivePeriodHasLatestSkjæringstidspunkt();
     const erTidslinjeperiodeISisteGenerasjon = useActiveGenerationIsLast();
@@ -68,7 +72,11 @@ export const RedigerInntekt = ({
     ) : erTidslinjeperiodeISisteGenerasjon ? (
         <PopoverHjelpetekst ikon={<SortInfoikon />}>
             <p>
-                {!revurdereTidligereUtbetalinger
+                {(erDev() || erLocal()) && erGhostSomIkkeKanOverstyres
+                    ? 'Kan ikke revurdere inntekt på perioder uten sykdom'
+                    : (erDev() || erLocal()) && aktivPeriodeVenter
+                    ? 'Kan ikke endre inntekt på periode når overlappende perioder er i venter-status'
+                    : !revurdereTidligereUtbetalinger
                     ? 'Kan ikke endre inntekt, det er foreløpig ikke støtte for endringer i saker i tidligere skjæringstidspunkt'
                     : !harKunEnArbeidsgiver
                     ? 'Kan ikke endre inntekt, det er foreløpig ikke støtte for saker med flere arbeidsgivere'

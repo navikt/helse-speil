@@ -40,7 +40,7 @@ const overlappendePerioder = (person: Person, periode: BeregnetPeriode): Array<B
         .flatMap((arbeidsgiver) => arbeidsgiver.generasjoner[0]?.perioder.filter(isBeregnetPeriode) ?? [])
         .filter(overlapper(periode));
 
-const alleOverlappendePerioderErAvsluttet = (person: Person, periode: Periode | GhostPeriode): boolean => {
+export const alleOverlappendePerioderErAvsluttet = (person: Person, periode: Periode | GhostPeriode): boolean => {
     if (!isBeregnetPeriode(periode)) {
         return false;
     }
