@@ -9,6 +9,7 @@ import { isBeregnetPeriode, isForkastetPeriode } from '@utils/typeguards';
 import { overstyrInntektEnabled } from '@utils/featureToggles';
 import { useActivePeriod } from '@state/periode';
 import {
+    useCurrentArbeidsgiver,
     useEndringerForPeriode,
     usePeriodForSkjæringstidspunkt,
     useUtbetalingForSkjæringstidspunkt,
@@ -75,6 +76,8 @@ export const InntektMedSykefravær = ({
 
     const kanRevurderes = useInntektKanRevurderes(skjæringstidspunkt);
 
+    const inntektForValgtArbeidsgiver = useCurrentArbeidsgiver()?.organisasjonsnummer === organisasjonsnummer;
+
     return (
         <div className={classNames(styles.Inntekt, editing && styles.editing)}>
             <div className={classNames(styles.Header, editing && styles.editing)}>
@@ -86,7 +89,7 @@ export const InntektMedSykefravær = ({
                         <Kilde type={omregnetÅrsinntekt?.kilde}>{kildeForkortelse(omregnetÅrsinntekt?.kilde)}</Kilde>
                     )}
                 </Flex>
-                {inntektstype && vilkårsgrunnlagId && kanRevurderes && (
+                {inntektstype && vilkårsgrunnlagId && kanRevurderes && inntektForValgtArbeidsgiver && (
                     <RedigerInntekt
                         setEditing={setEditing}
                         editing={editing}
