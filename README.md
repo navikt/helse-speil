@@ -73,6 +73,12 @@ Appen er nå tilgjengelig på http://localhost:3000.
 npm run build
 ```
 
+### Hente oppdaterte graphql-typer fra Spesialist
+
+```
+npm run generate-graphql
+```
+
 ## Henvendelser
 
 Spørsmål knyttet til koden eller prosjektet kan stilles som issues her på GitHub.

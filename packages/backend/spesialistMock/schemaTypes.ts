@@ -467,7 +467,7 @@ export type Periode = {
 export type PeriodeHistorikkElement = {
     __typename?: 'PeriodeHistorikkElement';
     notat_id?: Maybe<Scalars['Int']>;
-    saksbehandler_ident: Scalars['String'];
+    saksbehandler_ident?: Maybe<Scalars['String']>;
     timestamp: Scalars['String'];
     type: PeriodehistorikkType;
 };
@@ -476,6 +476,7 @@ export enum PeriodehistorikkType {
     TotrinnsvurderingAttestert = 'TOTRINNSVURDERING_ATTESTERT',
     TotrinnsvurderingRetur = 'TOTRINNSVURDERING_RETUR',
     TotrinnsvurderingTilGodkjenning = 'TOTRINNSVURDERING_TIL_GODKJENNING',
+    VedtaksperiodeReberegnet = 'VEDTAKSPERIODE_REBEREGNET',
 }
 
 export enum Periodetilstand {

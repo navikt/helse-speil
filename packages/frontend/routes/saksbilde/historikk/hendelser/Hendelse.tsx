@@ -13,7 +13,7 @@ interface HendelseProps extends Omit<React.LiHTMLAttributes<HTMLLIElement>, 'tit
     title: ReactNode;
     icon?: ReactNode;
     timestamp?: DateString;
-    ident?: string;
+    ident?: Maybe<string>;
 }
 
 export const Hendelse: React.FC<HendelseProps> = ({
@@ -30,7 +30,7 @@ export const Hendelse: React.FC<HendelseProps> = ({
             <div className={styles.IconContainer}>{icon}</div>
             <FlexColumn className={styles.Content}>
                 <Bold>{title}</Bold>
-                {ident && <BodyShort>{ident}</BodyShort>}
+                <BodyShort>{ident ?? 'Automatisk behandlet'}</BodyShort>
                 {timestamp && <BodyShort size="small">{getFormattedDatetimeString(timestamp)}</BodyShort>}
                 {children}
             </FlexColumn>

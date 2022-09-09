@@ -1,5 +1,5 @@
 import React from 'react';
-import { Cancel, Send, Success } from '@navikt/ds-icons';
+import { Cancel, Refresh, Send, Success } from '@navikt/ds-icons';
 import { Hendelse } from './Hendelse';
 import { PeriodehistorikkType } from '@io/graphql';
 
@@ -11,6 +11,8 @@ const getTitle = (type: PeriodehistorikkType): string => {
             return 'Returnert';
         case PeriodehistorikkType.TotrinnsvurderingAttestert:
             return 'Godkjent og utbetalt';
+        case PeriodehistorikkType.VedtaksperiodeReberegnet:
+            return 'Periode reberegnet';
         default:
             return '';
     }
@@ -26,6 +28,9 @@ const getIcon = (type: PeriodehistorikkType): ReactNode => {
         }
         case PeriodehistorikkType.TotrinnsvurderingTilGodkjenning: {
             return <Send height={20} width={20} />;
+        }
+        case PeriodehistorikkType.VedtaksperiodeReberegnet: {
+            return <Refresh height={20} width={20} />;
         }
     }
 };

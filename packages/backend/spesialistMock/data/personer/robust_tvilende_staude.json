@@ -673,6 +673,12 @@
                                             "timestamp": "2022-03-26T14:44:05",
                                             "saksbehandler_ident": "B123456",
                                             "notat_id": null
+                                        },
+                                        {
+                                            "type": "VEDTAKSPERIODE_REBEREGNET",
+                                            "timestamp": "2022-03-26T13:44:05",
+                                            "saksbehandler_ident": null,
+                                            "notat_id": null
                                         }
                                     ],
                                     "notater": [],

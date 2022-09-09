@@ -19,7 +19,7 @@ declare type BaseHendelseObject = {
     id: string;
     type: Hendelsetype;
     timestamp?: DateString;
-    saksbehandler?: string;
+    saksbehandler?: Maybe<string>;
 };
 
 declare type DagoverstyringhendelseObject = BaseHendelseObject & {
@@ -79,7 +79,6 @@ declare type UtbetalinghendelseObject = BaseHendelseObject & {
 declare type HistorikkhendelseObject = BaseHendelseObject & {
     type: 'Historikk';
     historikktype: PeriodehistorikkType;
-    saksbehandler: string;
     timestamp: DateString;
 };
 
