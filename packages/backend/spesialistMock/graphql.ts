@@ -15,6 +15,7 @@ import { behandlingsstatistikk } from './data/behandlingsstatistikk';
 import type { BeregnetPeriode, Person } from './schemaTypes';
 
 import spesialistSchema from '../graphql.schema.json';
+import { ferdigstilteOppgaver } from './data/ferdigstilteOppgaver';
 
 const leggTilLagretData = (person: Person): void => {
     let tildeling = person.tildeling;
@@ -71,6 +72,9 @@ const getResolvers = (): IResolvers => ({
         },
         oppdrag: (_, { fnr }: { fnr: string }) => {
             return getMockOppdrag();
+        },
+        ferdigstilteOppgaver: () => {
+            return ferdigstilteOppgaver;
         },
         behandlingsstatistikk: () => {
             sleep(1000);

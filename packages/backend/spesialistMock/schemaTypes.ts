@@ -215,6 +215,19 @@ export type Faresignal = {
     kategori: Array<Scalars['String']>;
 };
 
+export type FerdigstiltOppgave = {
+    __typename?: 'FerdigstiltOppgave';
+    aktorId: Scalars['String'];
+    antallVarsler: Scalars['Int'];
+    bosted: Scalars['String'];
+    ferdigstiltTidspunkt: Scalars['String'];
+    id: Scalars['String'];
+    inntektstype: Inntektstype;
+    periodetype: Periodetype;
+    personnavn: Personnavn;
+    type: Oppgavetype;
+};
+
 export type Generasjon = {
     __typename?: 'Generasjon';
     id: Scalars['String'];
@@ -521,6 +534,13 @@ export type Personinfo = {
     reservasjon?: Maybe<Reservasjon>;
 };
 
+export type Personnavn = {
+    __typename?: 'Personnavn';
+    etternavn: Scalars['String'];
+    fornavn: Scalars['String'];
+    mellomnavn?: Maybe<Scalars['String']>;
+};
+
 export type Personoppdrag = Spennoppdrag & {
     __typename?: 'Personoppdrag';
     fagsystemId: Scalars['String'];
@@ -531,9 +551,15 @@ export type Personoppdrag = Spennoppdrag & {
 export type Query = {
     __typename?: 'Query';
     behandlingsstatistikk: Behandlingsstatistikk;
+    ferdigstilteOppgaver: Array<FerdigstiltOppgave>;
     oppdrag: Array<Oppdrag>;
     oppgaver: Oppgaver;
     person?: Maybe<Person>;
+};
+
+export type QueryFerdigstilteOppgaverArgs = {
+    behandletAvIdent: Scalars['String'];
+    fom?: InputMaybe<Scalars['String']>;
 };
 
 export type QueryOppdragArgs = {

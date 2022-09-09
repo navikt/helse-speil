@@ -1,0 +1,17 @@
+query FetchFerdigstilteOppgaver($ident: String!, $fom: String!) {
+    ferdigstilteOppgaver(behandletAvIdent: $ident, fom: $fom) {
+        aktorId
+        antallVarsler
+        bosted
+        ferdigstiltTidspunkt
+        id
+        inntektstype
+        periodetype
+        personnavn {
+            fornavn
+            mellomnavn
+            etternavn
+        }
+        type
+    }
+}

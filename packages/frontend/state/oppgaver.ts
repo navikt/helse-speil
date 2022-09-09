@@ -1,12 +1,16 @@
-import { atom, selector, useRecoilValue, useRecoilValueLoadable, useSetRecoilState } from 'recoil';
+import { atom, AtomEffect, selector, useRecoilValue, useRecoilValueLoadable, useSetRecoilState } from 'recoil';
 
 import { deletePåVent, deleteTildeling, getOppgaver, NotatDTO, postLeggPåVent, postTildeling } from '@io/http';
 import { flereArbeidsgivere, stikkprøve, utbetalingTilSykmeldt } from '@utils/featureToggles';
 import { InfoAlert } from '@utils/error';
 
-import { useInnloggetSaksbehandler } from './authentication';
+import { authState, useInnloggetSaksbehandler } from './authentication';
 import { useAddVarsel, useRemoveVarsel } from './varsler';
 import { tilOppgave } from '../mapping/oppgaver';
+import { FerdigstiltOppgave, FetchFerdigstilteOppgaverQuery } from '@io/graphql';
+import { fetchFerdigstilteOppgaver } from '@io/graphql/fetchFerdigstilteOppgaver';
+import dayjs from 'dayjs';
+import { ISO_DATOFORMAT } from '@utils/date';
 
 const oppgaverStateRefetchKey = atom<Date>({
     key: 'oppgaverStateRefetchKey',
@@ -70,6 +74,32 @@ export const oppgaverState = selector<Oppgave[]>({
             .map((oppgave) => ({ ...oppgave, tildeling: tildelinger[oppgave.oppgavereferanse] }));
     },
 });
+
+const fetchFerdigstilteOppgaverEffect: AtomEffect<Array<FerdigstiltOppgave>> = ({ setSelf, trigger, getPromise }) => {
+    if (trigger === 'get') {
+        getPromise(authState)
+            .then((authState) => {
+                return authState.ident
+                    ? fetchFerdigstilteOppgaver(authState.ident, dayjs().format(ISO_DATOFORMAT))
+                    : null;
+            })
+            .then((response: Maybe<FetchFerdigstilteOppgaverQuery>) => {
+                if (response) {
+                    setSelf(response.ferdigstilteOppgaver);
+                }
+            });
+    }
+};
+
+const ferdigstilteOppgaverState = atom<Array<FerdigstiltOppgave>>({
+    key: 'ferdigstilteOppgaverState',
+    default: [],
+    effects: [fetchFerdigstilteOppgaverEffect],
+});
+
+export const useFerdigstilteOppgaver = () => {
+    return useRecoilValue(ferdigstilteOppgaverState);
+};
 
 export const useOppgaver = (): Oppgave[] => {
     const oppgaver = useRecoilValueLoadable<Oppgave[]>(oppgaverState);
