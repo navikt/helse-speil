@@ -5,7 +5,7 @@ import { Flex } from '@components/Flex';
 import { Varsel } from '@components/Varsel';
 import { useResetPerson } from '@state/person';
 import { useInnloggetSaksbehandler } from '@state/authentication';
-import { oppgaverState, useRefetchOppgaver } from '@state/oppgaver';
+import { oppgaverState, useRefetchFerdigstilteOppgaver, useRefetchOppgaver } from '@state/oppgaver';
 import { erBehandletIdagEnabled } from '@utils/featureToggles';
 import { useLoadingToast } from '@hooks/useLoadingToast';
 
@@ -63,9 +63,11 @@ const useResetPersonOnMount = (): void => {
 
 const useFetchOppgaver = (currentState: Loadable<Array<Oppgave>>['state']): void => {
     const hentOppgaver = useRefetchOppgaver();
+    const fetchFerdigstilteOppgaver = useRefetchFerdigstilteOppgaver();
 
     useEffect(() => {
         if (currentState !== 'loading') {
+            fetchFerdigstilteOppgaver();
             hentOppgaver();
         }
     }, []);

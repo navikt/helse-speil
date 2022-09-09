@@ -18,6 +18,7 @@ const sortationPerTab = atom<SortationPerTab>({
         [TabType.TilGodkjenning]: null,
         [TabType.Mine]: null,
         [TabType.Ventende]: null,
+        [TabType.BehandletIdag]: null,
     },
 });
 

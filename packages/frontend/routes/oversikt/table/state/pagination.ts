@@ -27,6 +27,7 @@ const paginationPerTab = atom<PaginationPerTab>({
         [TabType.TilGodkjenning]: defaultPagination,
         [TabType.Mine]: defaultPagination,
         [TabType.Ventende]: defaultPagination,
+        [TabType.BehandletIdag]: defaultPagination,
     },
 });
 

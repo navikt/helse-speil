@@ -101,6 +101,19 @@ export const useFerdigstilteOppgaver = () => {
     return useRecoilValue(ferdigstilteOppgaverState);
 };
 
+export const useRefetchFerdigstilteOppgaver = () => {
+    const { ident } = useInnloggetSaksbehandler();
+    const setFerdigstilteOppgaver = useSetRecoilState(ferdigstilteOppgaverState);
+
+    return () => {
+        if (ident) {
+            fetchFerdigstilteOppgaver(ident, dayjs().format(ISO_DATOFORMAT)).then((response) =>
+                setFerdigstilteOppgaver(response.ferdigstilteOppgaver),
+            );
+        }
+    };
+};
+
 export const useOppgaver = (): Oppgave[] => {
     const oppgaver = useRecoilValueLoadable<Oppgave[]>(oppgaverState);
     return oppgaver.state === 'hasValue' ? oppgaver.contents : [];

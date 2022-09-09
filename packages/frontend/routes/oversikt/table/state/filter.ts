@@ -149,6 +149,7 @@ const allFilters = atom<ActiveFiltersPerTab>({
         ),
         [TabType.Mine]: hentValgteFiltre(TabType.Mine, defaultFilters),
         [TabType.Ventende]: hentValgteFiltre(TabType.Ventende, defaultFilters),
+        [TabType.BehandletIdag]: [],
     },
 });
 
