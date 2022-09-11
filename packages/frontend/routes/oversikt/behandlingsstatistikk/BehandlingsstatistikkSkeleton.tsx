@@ -135,13 +135,19 @@ export const BehandlingsstatistikkSkeleton: React.FC = () => {
                                 <p>
                                     <LoadingShimmer />
                                 </p>
-                                <p>AV SAKSBEHANDLER</p>
+                                <p>MANUELT</p>
                             </div>
                             <div className={styles.FooterCell}>
                                 <p>
                                     <LoadingShimmer />
                                 </p>
                                 <p>AUTOMATISK</p>
+                            </div>
+                            <div className={styles.FooterCell}>
+                                <p>
+                                    <LoadingShimmer />
+                                </p>
+                                <p>TILGJENGELIG</p>
                             </div>
                             <div className={styles.FooterCell}>
                                 <p>

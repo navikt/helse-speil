@@ -60,8 +60,11 @@
 
 .FooterCellContainer {
     margin-top: 16px;
-    display: flex;
-    justify-content: space-around;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-areas:
+        'manuelt automatisk tilgjengelig'
+        'annullert annullert annullert';
     gap: 16px;
 }
 
@@ -69,6 +72,10 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+}
+
+.FooterCell:last-of-type {
+    grid-area: annullert;
 }
 
 .FooterCell p:first-of-type {
@@ -84,5 +91,5 @@
 }
 
 .FooterCell p:first-of-type span {
-    height: var(--navds-font-line-height-heading-large);
+    height: var(--navds-font-line-height-heading-small);
 }

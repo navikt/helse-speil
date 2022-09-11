@@ -97,11 +97,15 @@ export const BehandlingsstatistikkTable: React.FC<BehandlingsstatistikkTableProp
                         <div className={styles.FooterCellContainer}>
                             <div className={styles.FooterCell}>
                                 <p>{totaltIdag.manuelt}</p>
-                                <p>AV SAKSBEHANDLER</p>
+                                <p>MANUELT</p>
                             </div>
                             <div className={styles.FooterCell}>
                                 <p>{totaltIdag.automatisk}</p>
                                 <p>AUTOMATISK</p>
+                            </div>
+                            <div className={styles.FooterCell}>
+                                <p>{totaltIdag.tilgjengelig}</p>
+                                <p>TILGJENGELIG</p>
                             </div>
                             <div className={styles.FooterCell}>
                                 <p>{behandlingsstatistikk.antallAnnulleringer}</p>
