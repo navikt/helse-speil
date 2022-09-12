@@ -220,6 +220,7 @@ export type FerdigstiltOppgave = {
     aktorId: Scalars['String'];
     antallVarsler: Scalars['Int'];
     bosted: Scalars['String'];
+    ferdigstiltAv: Scalars['String'];
     ferdigstiltTidspunkt: Scalars['String'];
     id: Scalars['String'];
     inntektstype: Inntektstype;
@@ -551,11 +552,19 @@ export type Personoppdrag = Spennoppdrag & {
 
 export type Query = {
     __typename?: 'Query';
+    behandledeOppgaver: Array<FerdigstiltOppgave>;
     behandlingsstatistikk: Behandlingsstatistikk;
+    /** @deprecated Bruk heller behandledeOppgaver */
     ferdigstilteOppgaver: Array<FerdigstiltOppgave>;
     oppdrag: Array<Oppdrag>;
     oppgaver: Oppgaver;
     person?: Maybe<Person>;
+};
+
+export type QueryBehandledeOppgaverArgs = {
+    behandletAvIdent: Scalars['String'];
+    behandletAvOid: Scalars['String'];
+    fom?: InputMaybe<Scalars['String']>;
 };
 
 export type QueryFerdigstilteOppgaverArgs = {
@@ -883,6 +892,29 @@ export type Vurdering = {
     tidsstempel: Scalars['String'];
 };
 
+export type FetchBehandledeOppgaverQueryVariables = Exact<{
+    oid: Scalars['String'];
+    ident: Scalars['String'];
+    fom: Scalars['String'];
+}>;
+
+export type FetchBehandledeOppgaverQuery = {
+    __typename?: 'Query';
+    behandledeOppgaver: Array<{
+        __typename?: 'FerdigstiltOppgave';
+        aktorId: string;
+        antallVarsler: number;
+        bosted: string;
+        ferdigstiltAv: string;
+        ferdigstiltTidspunkt: string;
+        id: string;
+        inntektstype: Inntektstype;
+        periodetype: Periodetype;
+        type: Oppgavetype;
+        personnavn: { __typename?: 'Personnavn'; fornavn: string; mellomnavn?: string | null; etternavn: string };
+    }>;
+};
+
 export type AntallFragment = { __typename?: 'Antall'; automatisk: number; manuelt: number; tilgjengelig: number };
 
 export type HentBehandlingsstatistikkQueryVariables = Exact<{ [key: string]: never }>;
@@ -906,27 +938,6 @@ export type HentBehandlingsstatistikkQuery = {
         utbetalingTilArbeidsgiver: { __typename?: 'Antall'; automatisk: number; manuelt: number; tilgjengelig: number };
         utbetalingTilSykmeldt: { __typename?: 'Antall'; automatisk: number; manuelt: number; tilgjengelig: number };
     };
-};
-
-export type FetchFerdigstilteOppgaverQueryVariables = Exact<{
-    ident: Scalars['String'];
-    fom: Scalars['String'];
-}>;
-
-export type FetchFerdigstilteOppgaverQuery = {
-    __typename?: 'Query';
-    ferdigstilteOppgaver: Array<{
-        __typename?: 'FerdigstiltOppgave';
-        aktorId: string;
-        antallVarsler: number;
-        bosted: string;
-        ferdigstiltTidspunkt: string;
-        id: string;
-        inntektstype: Inntektstype;
-        periodetype: Periodetype;
-        type: Oppgavetype;
-        personnavn: { __typename?: 'Personnavn'; fornavn: string; mellomnavn?: string | null; etternavn: string };
-    }>;
 };
 
 export type FetchOppdragQueryVariables = Exact<{

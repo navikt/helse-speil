@@ -1,8 +1,9 @@
-query FetchFerdigstilteOppgaver($ident: String!, $fom: String!) {
-    ferdigstilteOppgaver(behandletAvIdent: $ident, fom: $fom) {
+query FetchBehandledeOppgaver($oid: String!, $ident: String!, $fom: String!) {
+    behandledeOppgaver(behandletAvOid: $oid, behandletAvIdent: $ident, fom: $fom) {
         aktorId
         antallVarsler
         bosted
+        ferdigstiltAv,
         ferdigstiltTidspunkt
         id
         inntektstype

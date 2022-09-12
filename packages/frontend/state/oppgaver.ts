@@ -1,16 +1,16 @@
+import dayjs from 'dayjs';
 import { atom, AtomEffect, selector, useRecoilValue, useRecoilValueLoadable, useSetRecoilState } from 'recoil';
 
+import { FerdigstiltOppgave, FetchBehandledeOppgaverQuery } from '@io/graphql';
+import { fetchBehandledeOppgaver } from '@io/graphql/fetchBehandledeOppgaver';
 import { deletePåVent, deleteTildeling, getOppgaver, NotatDTO, postLeggPåVent, postTildeling } from '@io/http';
 import { flereArbeidsgivere, stikkprøve, utbetalingTilSykmeldt } from '@utils/featureToggles';
+import { ISO_DATOFORMAT } from '@utils/date';
 import { InfoAlert } from '@utils/error';
 
 import { authState, useInnloggetSaksbehandler } from './authentication';
 import { useAddVarsel, useRemoveVarsel } from './varsler';
 import { tilOppgave } from '../mapping/oppgaver';
-import { FerdigstiltOppgave, FetchFerdigstilteOppgaverQuery } from '@io/graphql';
-import { fetchFerdigstilteOppgaver } from '@io/graphql/fetchFerdigstilteOppgaver';
-import dayjs from 'dayjs';
-import { ISO_DATOFORMAT } from '@utils/date';
 
 const oppgaverStateRefetchKey = atom<Date>({
     key: 'oppgaverStateRefetchKey',
@@ -75,40 +75,44 @@ export const oppgaverState = selector<Oppgave[]>({
     },
 });
 
-const fetchFerdigstilteOppgaverEffect: AtomEffect<Array<FerdigstiltOppgave>> = ({ setSelf, trigger, getPromise }) => {
+const fetchBehandledeOppgaverEffect: AtomEffect<Array<FerdigstiltOppgave>> = ({ setSelf, trigger, getPromise }) => {
     if (trigger === 'get') {
         getPromise(authState)
             .then((authState) => {
-                return authState.ident
-                    ? fetchFerdigstilteOppgaver(authState.ident, dayjs().format(ISO_DATOFORMAT))
+                return authState.ident && authState.oid
+                    ? fetchBehandledeOppgaver({
+                          oid: authState.oid,
+                          ident: authState.ident,
+                          fom: dayjs().format(ISO_DATOFORMAT),
+                      })
                     : null;
             })
-            .then((response: Maybe<FetchFerdigstilteOppgaverQuery>) => {
+            .then((response: Maybe<FetchBehandledeOppgaverQuery>) => {
                 if (response) {
-                    setSelf(response.ferdigstilteOppgaver);
+                    setSelf(response.behandledeOppgaver);
                 }
             });
     }
 };
 
-const ferdigstilteOppgaverState = atom<Array<FerdigstiltOppgave>>({
-    key: 'ferdigstilteOppgaverState',
+const behandledeOppgaverState = atom<Array<FerdigstiltOppgave>>({
+    key: 'behandledeOppgaverState',
     default: [],
-    effects: [fetchFerdigstilteOppgaverEffect],
+    effects: [fetchBehandledeOppgaverEffect],
 });
 
 export const useFerdigstilteOppgaver = () => {
-    return useRecoilValue(ferdigstilteOppgaverState);
+    return useRecoilValue(behandledeOppgaverState);
 };
 
 export const useRefetchFerdigstilteOppgaver = () => {
-    const { ident } = useInnloggetSaksbehandler();
-    const setFerdigstilteOppgaver = useSetRecoilState(ferdigstilteOppgaverState);
+    const { oid, ident } = useInnloggetSaksbehandler();
+    const setBehandledeOppgaver = useSetRecoilState(behandledeOppgaverState);
 
     return () => {
-        if (ident) {
-            fetchFerdigstilteOppgaver(ident, dayjs().format(ISO_DATOFORMAT)).then((response) =>
-                setFerdigstilteOppgaver(response.ferdigstilteOppgaver),
+        if (ident && oid) {
+            fetchBehandledeOppgaver({ oid, ident, fom: dayjs().format(ISO_DATOFORMAT) }).then((response) =>
+                setBehandledeOppgaver(response.behandledeOppgaver),
             );
         }
     };

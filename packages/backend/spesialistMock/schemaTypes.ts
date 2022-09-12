@@ -220,6 +220,7 @@ export type FerdigstiltOppgave = {
     aktorId: Scalars['String'];
     antallVarsler: Scalars['Int'];
     bosted: Scalars['String'];
+    ferdigstiltAv: Scalars['String'];
     ferdigstiltTidspunkt: Scalars['String'];
     id: Scalars['String'];
     inntektstype: Inntektstype;
@@ -551,11 +552,19 @@ export type Personoppdrag = Spennoppdrag & {
 
 export type Query = {
     __typename?: 'Query';
+    behandledeOppgaver: Array<FerdigstiltOppgave>;
     behandlingsstatistikk: Behandlingsstatistikk;
+    /** @deprecated Bruk heller behandledeOppgaver */
     ferdigstilteOppgaver: Array<FerdigstiltOppgave>;
     oppdrag: Array<Oppdrag>;
     oppgaver: Oppgaver;
     person?: Maybe<Person>;
+};
+
+export type QueryBehandledeOppgaverArgs = {
+    behandletAvIdent: Scalars['String'];
+    behandletAvOid: Scalars['String'];
+    fom?: InputMaybe<Scalars['String']>;
 };
 
 export type QueryFerdigstilteOppgaverArgs = {

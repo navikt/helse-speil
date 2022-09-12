@@ -1,7 +1,6 @@
 import React from 'react';
 
 import { useFerdigstilteOppgaver } from '@state/oppgaver';
-import { useInnloggetSaksbehandler } from '@state/authentication';
 
 import { Body } from './Body';
 import { Table } from './Table';
@@ -22,7 +21,6 @@ interface BehandletIdagTableProps {}
 
 export const BehandletIdagTable: React.FC<BehandletIdagTableProps> = () => {
     const oppgaver = useFerdigstilteOppgaver();
-    const saksbehandler = useInnloggetSaksbehandler();
 
     return (
         <div className={styles.TableContainer}>
@@ -57,7 +55,7 @@ export const BehandletIdagTable: React.FC<BehandletIdagTableProps> = () => {
                         <Body>
                             {oppgaver.map((it) => (
                                 <LinkRow aktørId={it.aktorId} key={it.id}>
-                                    <BehandletAvCell name={saksbehandler.navn} />
+                                    <BehandletAvCell name={it.ferdigstiltAv} />
                                     <OppgavetypeCell oppgavetype={it.type} periodetype={it.periodetype} />
                                     <BostedCell stedsnavn={it.bosted} />
                                     <InntektskildeCell type={it.inntektstype} />
