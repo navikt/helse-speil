@@ -30,7 +30,7 @@ export const Hendelse: React.FC<HendelseProps> = ({
             <div className={styles.IconContainer}>{icon}</div>
             <FlexColumn className={styles.Content}>
                 <Bold>{title}</Bold>
-                <BodyShort>{ident ?? 'Automatisk behandlet'}</BodyShort>
+                {ident && <BodyShort>{ident}</BodyShort>}
                 {timestamp && <BodyShort size="small">{getFormattedDatetimeString(timestamp)}</BodyShort>}
                 {children}
             </FlexColumn>
