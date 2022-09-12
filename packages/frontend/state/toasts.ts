@@ -5,7 +5,7 @@ export interface ToastObject {
     key: string;
     message: ReactNode;
     timeToLiveMs?: number;
-    type?: 'info' | 'advarsel' | 'suksess' | 'feil';
+    variant?: 'success' | 'error';
     callback?: () => void;
 }
 
@@ -28,4 +28,26 @@ export const useRemoveToast = () => {
 export const toastsState = atom<ToastObject[]>({
     key: 'toastsState',
     default: [],
+    effects: [
+        ({ setSelf, onSet }) => {
+            onSet((newValue, oldValue) => {
+                if (!Array.isArray(oldValue) || oldValue.length > newValue.length) {
+                    return;
+                }
+
+                const newToast = newValue.at(-1);
+
+                if (typeof newToast?.timeToLiveMs === 'number') {
+                    setTimeout(() => {
+                        setSelf((staleToasts) => {
+                            if (!Array.isArray(staleToasts)) {
+                                return staleToasts;
+                            }
+                            return staleToasts.filter((toast) => toast.key !== newToast.key);
+                        });
+                    }, newToast.timeToLiveMs);
+                }
+            });
+        },
+    ],
 });

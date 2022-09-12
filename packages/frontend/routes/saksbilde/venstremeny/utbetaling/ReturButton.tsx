@@ -9,13 +9,19 @@ import { useAddVarsel } from '@state/varsler';
 import { SuccessAlert } from '@utils/error';
 
 import { NyttNotatModal } from '../../../oversikt/table/rader/notat/NyttNotatModal';
+import { nanoid } from 'nanoid';
+import { useAddToast } from '@state/toasts';
 
 const useAddInfotrygdtoast = () => {
-    const timeToLiveMS = 5000;
-    const addVarsel = useAddVarsel();
+    const addToast = useAddToast();
 
     return () => {
-        addVarsel(new SuccessAlert('Saken er sendt i retur til saksbehandler.', { timeToLiveMS }));
+        addToast({
+            message: 'Saken er sendt i retur til saksbehandler.',
+            timeToLiveMs: 5000,
+            key: nanoid(),
+            variant: 'success',
+        });
     };
 };
 

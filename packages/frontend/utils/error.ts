@@ -2,7 +2,6 @@ type Severity = 'warning' | 'error' | 'info' | 'success';
 
 type SpeilErrorOptions = {
     severity?: Severity;
-    timeToLiveMS?: number;
     scope?: string;
 };
 
@@ -10,13 +9,11 @@ export class SpeilError extends Error {
     name = 'speilError';
     severity: Severity = 'error';
     scope: string = window.location.pathname;
-    timeToLiveMS: number | null = null;
 
     constructor(message?: string, options?: SpeilErrorOptions) {
         super(message);
         if (options) {
             this.severity = options.severity ?? this.severity;
-            this.timeToLiveMS = options.timeToLiveMS ?? null;
             this.scope = options.scope ?? this.scope;
         }
     }

@@ -13,13 +13,9 @@ export const useVarsler = (): Array<SpeilError> => {
 
 export const useAddVarsel = (): ((varsel: SpeilError) => void) => {
     const setVarsler = useSetRecoilState(varslerState);
-    const removeVarsel = useRemoveVarsel();
 
     return (varsel: SpeilError) => {
         setVarsler((varsler) => [...varsler.filter((it) => it.name !== varsel.name), varsel]);
-        if (typeof varsel.timeToLiveMS === 'number') {
-            setTimeout(() => removeVarsel(varsel.name), varsel.timeToLiveMS);
-        }
     };
 };
 

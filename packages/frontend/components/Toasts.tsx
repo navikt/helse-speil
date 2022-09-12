@@ -5,16 +5,16 @@ import { useRecoilValue } from 'recoil';
 
 import { toastsState } from '@state/toasts';
 
-import { TimeoutToast } from './toasts/TimeoutToast';
-import { Toast } from './toasts/Toast';
+import { AnimatedToast } from '@components/toasts/AnimatedToast';
 
 const Container = styled.div`
     position: fixed;
-    bottom: 1.5rem;
-    right: 1.5rem;
+    bottom: 24px;
     display: flex;
     flex-direction: column;
-    align-items: flex-end;
+    align-items: center;
+    width: 100vw;
+    height: auto;
 `;
 
 export const Toasts = () => {
@@ -23,22 +23,11 @@ export const Toasts = () => {
     return (
         <Container>
             <AnimatePresence>
-                {toasts.map((it) =>
-                    it.timeToLiveMs !== undefined ? (
-                        <TimeoutToast
-                            key={it.key}
-                            toastKey={it.key}
-                            callback={it.callback}
-                            timeToLiveMs={it.timeToLiveMs}
-                        >
-                            {it.message}
-                        </TimeoutToast>
-                    ) : (
-                        <Toast key={it.key} toastKey={it.key} isShowing={true}>
-                            {it.message}
-                        </Toast>
-                    )
-                )}
+                {toasts.map((it) => (
+                    <AnimatedToast variant={it.variant} key={it.key} toastKey={it.key}>
+                        {it.message}
+                    </AnimatedToast>
+                ))}
             </AnimatePresence>
         </Container>
     );

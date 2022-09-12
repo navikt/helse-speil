@@ -9,13 +9,19 @@ import { AvvisningModal, Avvisningsskjema } from './AvvisningModal';
 
 import { AmplitudeContext } from '@io/amplitude';
 import { SuccessAlert } from '@utils/error';
+import { nanoid } from 'nanoid';
+import { useAddToast } from '@state/toasts';
 
 const useAddInfotrygdtoast = () => {
-    const timeToLiveMS = 5000;
-    const addVarsel = useAddVarsel();
+    const addToast = useAddToast();
 
     return () => {
-        addVarsel(new SuccessAlert('Saken er sendt til behandling i Infotrygd.', { timeToLiveMS }));
+        addToast({
+            message: 'Saken er sendt til behandling i Infotrygd.',
+            timeToLiveMs: 5000,
+            key: nanoid(),
+            variant: 'success',
+        });
     };
 };
 

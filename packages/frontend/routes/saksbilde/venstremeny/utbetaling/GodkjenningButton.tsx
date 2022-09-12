@@ -4,17 +4,21 @@ import { Button } from '@navikt/ds-react';
 
 import { postUtbetalingsgodkjenning } from '@io/http';
 import { AmplitudeContext } from '@io/amplitude';
-import { useAddVarsel } from '@state/varsler';
-import { SuccessAlert } from '@utils/error';
 
 import { UtbetalingModal } from './UtbetalingModal';
+import { useAddToast } from '@state/toasts';
+import { nanoid } from 'nanoid';
 
 const useAddUtbetalingstoast = () => {
-    const timeToLiveMS = 5000;
-    const addVarsel = useAddVarsel();
+    const addToast = useAddToast();
 
     return () => {
-        addVarsel(new SuccessAlert('Utbetalingen er sendt til oppdragssystemet.', { timeToLiveMS, scope: '/' }));
+        addToast({
+            message: 'Utbetalingen er sendt til oppdragssystemet.',
+            timeToLiveMs: 5000,
+            key: nanoid(),
+            variant: 'success',
+        });
     };
 };
 
