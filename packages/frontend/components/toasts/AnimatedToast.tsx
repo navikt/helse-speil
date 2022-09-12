@@ -20,7 +20,7 @@ const ToastView = styled.button<{ variant?: 'success' | 'error' }>`
     margin: 1rem;
     gap: 12px;
     box-shadow: 0 3px 5px -1px rgba(0, 0, 0, 0.2), 0 6px 10px 0 rgba(0, 0, 0, 0.14), 0 1px 18px 0 rgba(0, 0, 0, 0.12);
-    border: 1px solid;
+    border: 1px solid var(--navds-semantic-color-text);
     ${(props) => {
         switch (props.variant) {
             case 'success':
