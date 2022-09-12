@@ -6,16 +6,16 @@ import { Body } from './Body';
 import { Table } from './Table';
 import { Header } from './Header';
 import { LinkRow } from './LinkRow';
+import { Pagination } from './Pagination';
+import { SøkerCell } from './rader/SøkerCell';
 import { BostedCell } from './rader/BostedCell';
 import { StatusCell } from './rader/StatusCell';
 import { OppgavetypeCell } from './rader/OppgavetypeCell';
 import { BehandletAvCell } from './rader/BehandletAvCell';
+import { BehandletTimestampCell } from './rader/BehandletTimestampCell';
 import { InntektskildeCell } from './rader/InntektskildeCell';
 
 import styles from './Table.module.css';
-import { SøkerCell } from './rader/SøkerCell';
-import { FerdigstiltCell } from './rader/FerdigstiltCell';
-import { Pagination } from './Pagination';
 
 interface BehandletIdagTableProps {}
 
@@ -48,7 +48,7 @@ export const BehandletIdagTable: React.FC<BehandletIdagTableProps> = () => {
                                     Søker
                                 </Header>
                                 <Header scope="col" colSpan={1}>
-                                    Ferdigstilt
+                                    Behandlet
                                 </Header>
                             </tr>
                         </thead>
@@ -67,7 +67,7 @@ export const BehandletIdagTable: React.FC<BehandletIdagTableProps> = () => {
                                             mellomnavn: it.personnavn.mellomnavn ?? null,
                                         }}
                                     />
-                                    <FerdigstiltCell time={it.ferdigstiltTidspunkt} />
+                                    <BehandletTimestampCell time={it.ferdigstiltTidspunkt} />
                                 </LinkRow>
                             ))}
                         </Body>
