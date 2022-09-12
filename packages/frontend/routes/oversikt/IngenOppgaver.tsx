@@ -8,7 +8,7 @@ import agurk from '../../assets/ingen-oppgaver-agurk.png';
 import fredagstaco from '../../assets/ingen-oppgaver-fredagstaco.png';
 import brevkasse from '../../assets/ingen-oppgaver.png';
 
-import { useAktivTab } from './Tabs';
+import { TabType, useAktivTab } from './Tabs';
 
 const Container = styled.div`
     align-self: flex-start;
@@ -28,11 +28,21 @@ const Tekst = styled(Heading)`
 
 const erFredag = () => dayjs().isoWeekday() === 5;
 
-export const IngenOppgaver = () => {
+export const IngenOppgaver: React.FC = () => {
     const aktivTab = useAktivTab();
 
     switch (aktivTab) {
-        case 'alle':
+        case TabType.BehandletIdag: {
+            return (
+                <Container>
+                    <img alt="Tom brevkasse som smiler" src={brevkasse} />
+                    <Tekst as="h2" size="medium">
+                        Du har ingen behandlede saker
+                    </Tekst>
+                </Container>
+            );
+        }
+        case TabType.TilGodkjenning:
             return (
                 <Container>
                     {erFredag() ? (
@@ -45,7 +55,7 @@ export const IngenOppgaver = () => {
                     </Tekst>
                 </Container>
             );
-        case 'mine':
+        case TabType.Mine:
             return (
                 <Container>
                     <img alt="Tom brevkasse som smiler" src={brevkasse} />
@@ -54,7 +64,7 @@ export const IngenOppgaver = () => {
                     </Tekst>
                 </Container>
             );
-        case 'ventende':
+        case TabType.Ventende:
             return (
                 <Container>
                     <img alt="Tom brevkasse som smiler" src={brevkasse} />

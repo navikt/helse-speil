@@ -7,6 +7,7 @@ import { Table } from './Table';
 import { Header } from './Header';
 import { LinkRow } from './LinkRow';
 import { Pagination } from './Pagination';
+import { IngenOppgaver } from '../IngenOppgaver';
 import { SøkerCell } from './rader/SøkerCell';
 import { BostedCell } from './rader/BostedCell';
 import { StatusCell } from './rader/StatusCell';
@@ -21,6 +22,10 @@ interface BehandletIdagTableProps {}
 
 export const BehandletIdagTable: React.FC<BehandletIdagTableProps> = () => {
     const oppgaver = useFerdigstilteOppgaver();
+
+    if (oppgaver.length === 0) {
+        return <IngenOppgaver />;
+    }
 
     return (
         <div className={styles.TableContainer}>
