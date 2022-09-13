@@ -1,5 +1,6 @@
 .UserMenu {
     width: max-content;
+    z-index: 1001;
 }
 
 .MenuItem {
