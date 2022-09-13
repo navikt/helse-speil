@@ -35,7 +35,7 @@ export const toastsState = atom<ToastObject[]>({
                     return;
                 }
 
-                const newToast = newValue.at(-1);
+                const newToast = newValue[newValue.length - 1];
 
                 if (typeof newToast?.timeToLiveMs === 'number') {
                     setTimeout(() => {
