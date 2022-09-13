@@ -7,7 +7,6 @@ import { DataFilled } from '@navikt/ds-icons';
 import { RoundedButton } from '@components/RoundedButton';
 import { useInnloggetSaksbehandler } from '@state/authentication';
 import { useFerdigstilteOppgaver, useMineOppgaver, useOppgaver } from '@state/oppgaver';
-import { erBehandletIdagEnabled } from '@utils/featureToggles';
 
 import { useShowStatistikk, useToggleStatistikk } from './behandlingsstatistikk/state';
 
@@ -91,7 +90,7 @@ export const Tabs = () => {
                 <AlleSakerTab />
                 <MineSakerTab />
                 <VentendeSakerTab />
-                {erBehandletIdagEnabled && <BehandletIdagTab />}
+                <BehandletIdagTab />
             </span>
             <RoundedButton
                 id="behandlingsstatistikk-toggle"

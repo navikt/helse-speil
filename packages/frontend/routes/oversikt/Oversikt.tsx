@@ -5,7 +5,6 @@ import { Flex } from '@components/Flex';
 import { useResetPerson } from '@state/person';
 import { useInnloggetSaksbehandler } from '@state/authentication';
 import { oppgaverState, useRefetchFerdigstilteOppgaver, useRefetchOppgaver } from '@state/oppgaver';
-import { erBehandletIdagEnabled } from '@utils/featureToggles';
 import { useLoadingToast } from '@hooks/useLoadingToast';
 
 import { IngenOppgaver } from './IngenOppgaver';
@@ -95,7 +94,7 @@ export const Oversikt = () => {
             <Tabs />
             <Flex className={styles.fullHeight}>
                 <div className={styles.Content}>
-                    {aktivTab === TabType.BehandletIdag && erBehandletIdagEnabled ? (
+                    {aktivTab === TabType.BehandletIdag ? (
                         <BehandletIdagTable />
                     ) : hasData ? (
                         <OppgaverTable
