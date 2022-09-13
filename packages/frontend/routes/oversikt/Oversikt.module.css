@@ -19,3 +19,7 @@
 .fullHeight {
     height: 100%;
 }
+
+.Alert {
+    border-radius: 0;
+}

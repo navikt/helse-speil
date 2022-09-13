@@ -1,34 +1,24 @@
-import styled from '@emotion/styled';
-import { AnimatePresence } from 'framer-motion';
 import React from 'react';
+import { AnimatePresence } from 'framer-motion';
 import { useRecoilValue } from 'recoil';
 
 import { toastsState } from '@state/toasts';
+import { Toast } from '@components/Toast';
 
-import { AnimatedToast } from '@components/toasts/AnimatedToast';
-
-const Container = styled.div`
-    position: fixed;
-    bottom: 24px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100vw;
-    height: auto;
-`;
+import styles from './Toasts.module.css';
 
 export const Toasts = () => {
     const toasts = useRecoilValue(toastsState);
 
     return (
-        <Container>
+        <div className={styles.Toasts}>
             <AnimatePresence>
                 {toasts.map((it) => (
-                    <AnimatedToast variant={it.variant} key={it.key} toastKey={it.key}>
+                    <Toast variant={it.variant} key={it.key} id={it.key}>
                         {it.message}
-                    </AnimatedToast>
+                    </Toast>
                 ))}
             </AnimatePresence>
-        </Container>
+        </div>
     );
 };

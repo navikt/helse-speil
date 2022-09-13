@@ -24,3 +24,7 @@
     grid-column-start: venstremeny;
     grid-column-end: høyremeny;
 }
+
+.Alert {
+    border-radius: 0;
+}

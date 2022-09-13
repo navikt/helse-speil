@@ -1,13 +1,16 @@
 import React from 'react';
-import { Arbeidsgiver, Arbeidsgiverinntekt, BeregnetPeriode } from '@io/graphql';
+import { Alert } from '@navikt/ds-react';
+
 import { ErrorBoundary } from '@components/ErrorBoundary';
-import { Varsel } from '@components/Varsel';
+import { useActivePeriod } from '@state/periode';
+import { useArbeidsgiver } from '@state/arbeidsgiver';
+import { isUberegnetPeriode } from '@utils/typeguards';
+import { Arbeidsgiver, Arbeidsgiverinntekt, BeregnetPeriode } from '@io/graphql';
 
 import { InntektUtenSykefravær } from './InntektUtenSykefravær';
 import { InntektMedSykefravær } from './InntektMedSykefravær';
-import { useActivePeriod } from '@state/periode';
-import { isUberegnetPeriode } from '@utils/typeguards';
-import { useArbeidsgiver } from '@state/arbeidsgiver';
+
+import styles from './Inntekt.module.css';
 
 const hasSykefravær = (arbeidsgiver: Arbeidsgiver, fom: DateString): boolean => {
     return !!arbeidsgiver?.generasjoner[0]?.perioder.find((it) => it.fom === fom);
@@ -52,7 +55,11 @@ const InntektContainer: React.VFC<InntektContainerProps> = ({ inntekt }) => {
 };
 
 const InntektError = () => {
-    return <Varsel variant="error">Det har skjedd en feil. Kunne ikke vise inntekt for denne perioden.</Varsel>;
+    return (
+        <Alert variant="error" size="small" className={styles.Inntekt}>
+            Det har skjedd en feil. Kunne ikke vise inntekt for denne perioden.
+        </Alert>
+    );
 };
 
 interface InntektProps {

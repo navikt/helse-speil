@@ -1,7 +1,7 @@
 import React from 'react';
 import { Route, Switch, useRouteMatch } from 'react-router-dom';
+import { Alert } from '@navikt/ds-react';
 
-import { Varsel } from '@components/Varsel';
 import { ErrorBoundary } from '@components/ErrorBoundary';
 import { useRefreshPersonVedUrlEndring } from '@hooks/useRefreshPersonVedUrlEndring';
 import { useRefreshPersonVedOpptegnelse } from '@hooks/useRefreshPersonVedOpptegnelse';
@@ -51,7 +51,13 @@ const SaksbildeContent = React.memo(() => {
 });
 
 const Saksbilde = () => (
-    <ErrorBoundary fallback={(error: Error) => <Varsel variant="warning">{error.message}</Varsel>}>
+    <ErrorBoundary
+        fallback={(error: Error) => (
+            <Alert variant="warning" size="small" className={styles.Alert}>
+                {error.message}
+            </Alert>
+        )}
+    >
         <SaksbildeContent />
     </ErrorBoundary>
 );

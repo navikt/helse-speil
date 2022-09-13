@@ -1,6 +1,6 @@
 import React, { ReactNode } from 'react';
+import { Alert } from '@navikt/ds-react';
 
-import { Varsel } from '@components/Varsel';
 import { isNotReady } from '@state/periode';
 import { Dag, Sykdomsdagtype, UberegnetPeriode } from '@io/graphql';
 
@@ -18,40 +18,40 @@ const containsPayment = (days: Array<Dag>): boolean => {
 const getErrorMessage = (period: UberegnetPeriode): ReactNode => {
     if (isNotReady(period)) {
         return (
-            <Varsel className={styles.Message} variant="info">
+            <Alert className={styles.Message} variant="info" size="small">
                 Vedtaksperioden kan ikke vises, den ikke er klar til behandling ennå.
-            </Varsel>
+            </Alert>
         );
     }
 
     if (containsOnly(period.tidslinje, Sykdomsdagtype.Feriedag)) {
         return (
-            <Varsel className={styles.Message} variant="info">
+            <Alert className={styles.Message} variant="info" size="small">
                 Kunne ikke vise informasjon om vedtaksperioden. Perioden inneholder kun ferie.
-            </Varsel>
+            </Alert>
         );
     }
 
     if (containsOnly(period.tidslinje, Sykdomsdagtype.Permisjonsdag)) {
         return (
-            <Varsel className={styles.Message} variant="info">
+            <Alert className={styles.Message} variant="info" size="small">
                 Kunne ikke vise informasjon om vedtaksperioden. Perioden inneholder kun permisjon.
-            </Varsel>
+            </Alert>
         );
     }
 
     if (!containsPayment(period.tidslinje)) {
         return (
-            <Varsel className={styles.Message} variant="info">
+            <Alert className={styles.Message} variant="info" size="small">
                 Kunne ikke vise informasjon om vedtaksperioden. Perioden har ingen utbetaling.
-            </Varsel>
+            </Alert>
         );
     }
 
     return (
-        <Varsel className={styles.Message} variant="error">
+        <Alert className={styles.Message} variant="error" size="small">
             Kunne ikke lese informasjon om sakens tilstand.
-        </Varsel>
+        </Alert>
     );
 };
 

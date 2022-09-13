@@ -6,6 +6,8 @@
 }
 
 .Message {
+    border-radius: 0;
+    height: max-content;
     width: 100%;
     grid-column-start: venstremeny;
     grid-column-end: høyremeny;

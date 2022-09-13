@@ -1,8 +1,8 @@
 import React from 'react';
 
 import { Bold } from '@components/Bold';
-import { Varsel } from '@components/Varsel';
 import { Header } from '@navikt/ds-react-internal';
+import { Alert } from '@navikt/ds-react';
 
 import styles from './GlobalFeilside.module.css';
 
@@ -14,7 +14,9 @@ export const GlobalFeilside = (error: Error) => {
                     NAV Sykepenger
                 </Header.Title>
             </Header>
-            <Varsel variant="error">Det har skjedd en feil. Siden kan dessverre ikke vises</Varsel>
+            <Alert size="small" variant="error" className={styles.Alert}>
+                Det har skjedd en feil. Siden kan dessverre ikke vises
+            </Alert>
             <main className={styles.Content}>
                 <p>
                     Du kan forsøke å laste siden på nytt, eller lukke nettleservinduet og logge inn på nytt.

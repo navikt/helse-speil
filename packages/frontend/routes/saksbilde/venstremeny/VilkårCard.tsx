@@ -1,9 +1,8 @@
 import React from 'react';
 import dayjs from 'dayjs';
 
-import { BodyShort } from '@navikt/ds-react';
+import { Alert, BodyShort } from '@navikt/ds-react';
 
-import { Varsel } from '@components/Varsel';
 import { Feilikon } from '@components/ikoner/Feilikon';
 import { Sjekkikon } from '@components/ikoner/Sjekkikon';
 import { Advarselikon } from '@components/ikoner/Advarselikon';
@@ -33,7 +32,11 @@ export const VilkårCard = ({ activePeriod, currentPerson }: VilkårCardProps) =
     );
 
     if (!vilkårsgrunnlag) {
-        return <Varsel variant="error">Vilkår mangler</Varsel>;
+        return (
+            <Alert variant="error" size="small">
+                Vilkår mangler
+            </Alert>
+        );
     }
 
     const alderVedSkjæringstidspunkt = getAlderVedSkjæringstidspunkt(activePeriod, currentPerson);

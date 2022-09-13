@@ -1,0 +1,30 @@
+.Toast {
+    --toast-background-color: var(--navds-semantic-color-component-background-inverted);
+    --toast-border-color: var(--navds-semantic-color-component-background-inverted);
+    --toast-text-color: var(--navds-semantic-color-text-inverted);
+    position: relative;
+    display: flex;
+    cursor: pointer;
+    align-items: center;
+    padding: 14px 16px;
+    border-radius: 4px;
+    background: var(--toast-background-color);
+    border: 1px solid var(--toast-border-color);
+    color: var(--toast-text-color);
+    width: max-content;
+    margin: 16px;
+    gap: 12px;
+    box-shadow: 0 3px 5px -1px rgba(0, 0, 0, 0.2), 0 6px 10px 0 rgba(0, 0, 0, 0.14), 0 1px 18px 0 rgba(0, 0, 0, 0.12);
+}
+
+.Toast.success {
+    --toast-background-color: var(--navds-alert-color-success-background);
+    --toast-border-color: var(--navds-alert-color-success-border);
+    --toast-text-color: var(--navds-semantic-color-text);
+}
+
+.Toast.error {
+    --toast-background-color: var(--navds-alert-color-error-background);
+    --toast-border-color: var(--navds-alert-color-error-border);
+    --toast-text-color: var(--navds-semantic-color-text);
+}

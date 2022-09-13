@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { Loadable, useRecoilValue, useRecoilValueLoadable } from 'recoil';
 
 import { Flex } from '@components/Flex';
-import { Varsel } from '@components/Varsel';
 import { useResetPerson } from '@state/person';
 import { useInnloggetSaksbehandler } from '@state/authentication';
 import { oppgaverState, useRefetchFerdigstilteOppgaver, useRefetchOppgaver } from '@state/oppgaver';
@@ -16,6 +15,7 @@ import { BehandlingsstatistikkView } from './behandlingsstatistikk/Behandlingsst
 import { Tabs, tabState, TabType, useAktivTab } from './Tabs';
 
 import styles from './Oversikt.module.css';
+import { Alert } from '@navikt/ds-react';
 
 const useOppgaverFilteredByTab = () => {
     const { oid } = useInnloggetSaksbehandler();
@@ -87,7 +87,11 @@ export const Oversikt = () => {
 
     return (
         <div className={styles.Oversikt}>
-            {oppgaver.state === 'hasError' && <Varsel variant="warning">{(oppgaver.contents as Error).message}</Varsel>}
+            {oppgaver.state === 'hasError' && (
+                <Alert className={styles.Alert} variant="warning" size="small">
+                    {(oppgaver.contents as Error).message}
+                </Alert>
+            )}
             <Tabs />
             <Flex className={styles.fullHeight}>
                 <div className={styles.Content}>

@@ -1,4 +1,5 @@
 import React from 'react';
+import { Alert } from '@navikt/ds-react';
 
 import { BeregnetPeriode } from '@io/graphql';
 import { ErrorBoundary } from '@components/ErrorBoundary';
@@ -15,7 +16,6 @@ import {
 import { BehandletSykepengegrunnlag } from './BehandletSykepengegrunnlag';
 import { SykepengegrunnlagFraInfogtrygd } from './SykepengegrunnlagFraInfotrygd';
 import { SykepengegrunnlagFraSpleis } from './SykepengegrunnlagFraSpleis';
-import { Varsel } from '@components/Varsel';
 
 const SykepengegrunnlagContainer = () => {
     const person = useCurrentPerson();
@@ -69,7 +69,11 @@ const SykepengegrunnlagSkeleton = () => {
 };
 
 const SykepengegrunnlagError = () => {
-    return <Varsel variant="error">Noe gikk galt. Kan ikke vise sykepengegrunnlag for denne perioden.</Varsel>;
+    return (
+        <Alert variant="error" size="small">
+            Noe gikk galt. Kan ikke vise sykepengegrunnlag for denne perioden.
+        </Alert>
+    );
 };
 
 export const Sykepengegrunnlag = () => {

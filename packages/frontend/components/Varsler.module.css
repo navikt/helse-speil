@@ -1,0 +1,9 @@
+.Varsler {
+    position: relative;
+    height: max-content;
+    z-index: 1000;
+}
+
+.Varsler > * {
+    border-radius: 0;
+}

@@ -1,47 +1,29 @@
-import styled from '@emotion/styled';
 import React, { useMemo } from 'react';
 import dayjs from 'dayjs';
-import { FlexColumn } from '@components/Flex';
-import { PopoverHjelpetekst } from '@components/PopoverHjelpetekst';
+import { Alert } from '@navikt/ds-react';
+
 import { SortInfoikon } from '@components/ikoner/SortInfoikon';
+import { ErrorBoundary } from '@components/ErrorBoundary';
+import { PopoverHjelpetekst } from '@components/PopoverHjelpetekst';
 import {
     useActiveGenerationIsLast,
     useActivePeriodHasLatestSkjæringstidspunkt,
     useOverstyrRevurderingIsEnabled,
     useRevurderingIsEnabled,
 } from '@hooks/revurdering';
+import { useIsReadOnlyOppgave } from '@hooks/useIsReadOnlyOppgave';
 import { useOverstyringIsEnabled } from '@hooks/useOverstyringIsEnabled';
-
-import { defaultUtbetalingToggles, erDev, erLocal } from '@utils/featureToggles';
 import { Arbeidsgiver, BeregnetPeriode, Dagoverstyring, Overstyring } from '@io/graphql';
-import { ErrorBoundary } from '@components/ErrorBoundary';
+import { defaultUtbetalingToggles, erDev, erLocal } from '@utils/featureToggles';
+import { isBeregnetPeriode } from '@utils/typeguards';
 import { useActivePeriod } from '@state/periode';
 import { useCurrentArbeidsgiver } from '@state/arbeidsgiver';
-import { isBeregnetPeriode } from '@utils/typeguards';
-import { Varsel } from '@components/Varsel';
-import { useIsReadOnlyOppgave } from '@hooks/useIsReadOnlyOppgave';
+
 import { Utbetalingstabell } from './utbetalingstabell/Utbetalingstabell';
 import { useTabelldagerMap } from './utbetalingstabell/useTabelldagerMap';
 import { OverstyrbarUtbetaling } from './OverstyrbarUtbetaling';
 
 import styles from './Utbetaling.module.css';
-
-const UtbetalingstabellContainer = styled(FlexColumn)<{ overstyrer: boolean }>`
-    position: relative;
-    height: 100%;
-    padding-top: 2rem;
-    background-color: ${(props) => (props.overstyrer ? 'var(--speil-overstyring-background)' : 'inherit')};
-`;
-
-const InfobobleContainer = styled.div`
-    margin-top: 1rem;
-    min-height: 24px;
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-end;
-    padding: 0 2rem;
-    width: 100%;
-`;
 
 interface ReadonlyUtbetalingProps {
     fom: DateString;
@@ -56,15 +38,15 @@ const ReadonlyUtbetaling: React.FC<ReadonlyUtbetalingProps> = ({ fom, tom, dager
     return (
         <div className={styles.Utbetaling}>
             {!hasLatestSkjæringstidspunkt && activeGenerationIsLast && (
-                <InfobobleContainer>
+                <div className={styles.Infopin}>
                     <PopoverHjelpetekst ikon={<SortInfoikon />}>
                         <p>Det er foreløpig ikke støtte for endringer i saker i tidligere skjæringstidspunkt</p>
                     </PopoverHjelpetekst>
-                </InfobobleContainer>
+                </div>
             )}
-            <UtbetalingstabellContainer data-testid="utbetaling" overstyrer={false}>
+            <div className={styles.Container} data-testid="utbetaling">
                 <Utbetalingstabell fom={fom} tom={tom} dager={dager} />
-            </UtbetalingstabellContainer>
+            </div>
         </div>
     );
 };
@@ -147,7 +129,11 @@ const UtbetalingSkeleton = () => {
 };
 
 const UtbetalingError = () => {
-    return <Varsel variant="error">Noe gikk galt. Kan ikke vise utbetaling for denne perioden.</Varsel>;
+    return (
+        <Alert variant="error" size="small">
+            Noe gikk galt. Kan ikke vise utbetaling for denne perioden.
+        </Alert>
+    );
 };
 
 export const Utbetaling = () => {

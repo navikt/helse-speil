@@ -1,23 +1,22 @@
 import dayjs from 'dayjs';
 import React from 'react';
-
-import { Vilkårdata } from 'mapping/vilkår';
+import { Alert } from '@navikt/ds-react';
 
 import { Maybe, Vilkarsgrunnlag, Vurdering } from '@io/graphql';
 import { isBeregnetPeriode } from '@utils/typeguards';
-import { useActivePeriod } from '@state/periode';
-import { getVilkårsgrunnlag } from '@state/selectors/person';
-import { useCurrentPerson } from '@state/person';
 import { ErrorBoundary } from '@components/ErrorBoundary';
-import { Varsel } from '@components/Varsel';
+import { useActivePeriod } from '@state/periode';
+import { useCurrentPerson } from '@state/person';
+import { getVilkårsgrunnlag } from '@state/selectors/person';
 
 import { kategoriserteInngangsvilkår } from './kategoriserteInngangsvilkår';
 import { IkkeOppfylteVilkår } from './vilkårsgrupper/IkkeOppfylteVilkår';
 import { IkkeVurderteVilkår } from './vilkårsgrupper/IkkeVurderteVilkår';
-import { OppfylteVilkår } from './vilkårsgrupper/OppfylteVilkår';
 import { VurdertIInfotrygd } from './vilkårsgrupper/VurdertIInfotrygd';
 import { VurdertISpleis } from './vilkårsgrupper/VurdertISpleis';
+import { OppfylteVilkår } from './vilkårsgrupper/OppfylteVilkår';
 import { Yrkeskadeinfo } from './vilkårsgrupper/Yrkesskadeinfo';
+import { Vilkårdata } from 'mapping/vilkår';
 
 import styles from './Inngangsvilkår.module.css';
 
@@ -108,7 +107,11 @@ const InngangsvilkårSkeleton = () => {
 };
 
 const InngangsvilkårError = () => {
-    return <Varsel variant="error">Noe gikk galt. Kan ikke vise inngangsvilkår for denne perioden.</Varsel>;
+    return (
+        <Alert variant="error" size="small">
+            Noe gikk galt. Kan ikke vise inngangsvilkår for denne perioden.
+        </Alert>
+    );
 };
 
 export const Inngangsvilkår = () => {

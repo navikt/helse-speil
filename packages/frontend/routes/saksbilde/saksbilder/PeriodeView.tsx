@@ -1,7 +1,6 @@
 import React from 'react';
-import { Loader } from '@navikt/ds-react';
+import { Alert, Loader } from '@navikt/ds-react';
 
-import { Varsel } from '@components/Varsel';
 import { ErrorBoundary } from '@components/ErrorBoundary';
 import { Periodetilstand } from '@io/graphql';
 import { useActivePeriod } from '@state/periode';
@@ -68,9 +67,9 @@ const PeriodeViewError: React.FC<PeriodeViewErrorProps> = ({ error }) => {
     }
 
     return (
-        <Varsel variant="error" className={styles.Error}>
+        <Alert variant="error" size="small" className={styles.Error}>
             {error.message}
-        </Varsel>
+        </Alert>
     );
 };
 
