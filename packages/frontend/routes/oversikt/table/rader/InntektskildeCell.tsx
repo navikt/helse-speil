@@ -13,7 +13,9 @@ interface InntektskildeProps {
 export const InntektskildeCell = React.memo(({ type }: InntektskildeProps) => (
     <Cell>
         <CellContent width={128}>
-            <TextWithEllipsis>{type === 'EN_ARBEIDSGIVER' ? 'Én arbeidsgiver' : 'Flere arbeidsg.'}</TextWithEllipsis>
+            <TextWithEllipsis>
+                {type === 'EN_ARBEIDSGIVER' || type === 'ENARBEIDSGIVER' ? 'Én arbeidsgiver' : 'Flere arbeidsg.'}
+            </TextWithEllipsis>
         </CellContent>
     </Cell>
 ));
