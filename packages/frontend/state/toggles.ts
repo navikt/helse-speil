@@ -1,23 +1,12 @@
-import { atom, AtomEffect, useRecoilState, useRecoilValue } from 'recoil';
+import { atom, useRecoilState, useRecoilValue } from 'recoil';
 import { harBeslutterrolle, kanFrigiAndresOppgaver } from '@utils/featureToggles';
+import { sessionStorageEffect } from '@state/effects/sessionStorageEffect';
 
 // Totrinnsvurdering
 type TotrinnsvurderingState = {
     erAktiv: boolean;
     harBeslutterrolle: boolean;
     kanBeslutteEgne: boolean;
-};
-
-const sessionStorageEffect: AtomEffect<TotrinnsvurderingState> = ({ onSet, setSelf }) => {
-    const key = 'totrinnsState';
-    const savedState = sessionStorage.getItem(key);
-    if (savedState) {
-        setSelf(JSON.parse(savedState));
-    }
-
-    onSet((newValue) => {
-        sessionStorage.setItem(key, JSON.stringify(newValue));
-    });
 };
 
 const totrinnsvurderingState = atom<TotrinnsvurderingState>({
@@ -62,6 +51,7 @@ export const useKanBeslutteEgneOppgaver = (): boolean => {
 const kanFrigiOppgaverState = atom<boolean>({
     key: 'kanFrigiOppgaverState',
     default: kanFrigiAndresOppgaver,
+    effects: [sessionStorageEffect],
 });
 
 export const useKanFrigiOppgaver = (): boolean => {
@@ -86,6 +76,7 @@ const readonlyState = atom<ReadonlyState>({
         value: false,
         override: false,
     },
+    effects: [sessionStorageEffect],
 });
 
 export const useReadonly = (): ReadonlyState => {

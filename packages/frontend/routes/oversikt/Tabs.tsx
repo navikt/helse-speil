@@ -1,6 +1,6 @@
 import React from 'react';
 import classNames from 'classnames';
-import { atom, AtomEffect, useRecoilState, useRecoilValue } from 'recoil';
+import { atom, useRecoilState, useRecoilValue } from 'recoil';
 import { BodyShort } from '@navikt/ds-react';
 import { DataFilled } from '@navikt/ds-icons';
 
@@ -11,6 +11,7 @@ import { useFerdigstilteOppgaver, useMineOppgaver, useOppgaver } from '@state/op
 import { useShowStatistikk, useToggleStatistikk } from './behandlingsstatistikk/state';
 
 import styles from './Tabs.module.css';
+import { sessionStorageEffect } from '@state/effects/sessionStorageEffect';
 
 export enum TabType {
     TilGodkjenning = 'alle',
@@ -19,21 +20,10 @@ export enum TabType {
     BehandletIdag = 'behandletIdag',
 }
 
-const syncLastActiveTabEffect: AtomEffect<TabType> = ({ onSet, setSelf }) => {
-    const key = 'sistBesøkteTab';
-    const savedTab = sessionStorage.getItem(key) as TabType | null;
-    if (savedTab) {
-        setSelf(savedTab);
-    }
-    onSet((newValue) => {
-        sessionStorage.setItem(key, newValue);
-    });
-};
-
 export const tabState = atom<TabType>({
     key: 'tabState',
     default: TabType.TilGodkjenning,
-    effects: [syncLastActiveTabEffect],
+    effects: [sessionStorageEffect],
 });
 
 export const useAktivTab = () => useRecoilValue(tabState);
