@@ -1,5 +1,5 @@
 import { ReactNode } from 'react';
-import { atom, useSetRecoilState } from 'recoil';
+import { atom, AtomEffect, useSetRecoilState } from 'recoil';
 
 export interface ToastObject {
     key: string;
@@ -25,29 +25,29 @@ export const useRemoveToast = () => {
     };
 };
 
+const removeToastAfterTimeout: AtomEffect<ToastObject[]> = ({ onSet, setSelf }) => {
+    onSet((newValue, oldValue) => {
+        if (!Array.isArray(oldValue) || oldValue.length > newValue.length) {
+            return;
+        }
+
+        const newToast = newValue[newValue.length - 1];
+
+        if (typeof newToast?.timeToLiveMs === 'number') {
+            setTimeout(() => {
+                setSelf((staleToasts) => {
+                    if (!Array.isArray(staleToasts)) {
+                        return staleToasts;
+                    }
+                    return staleToasts.filter((toast) => toast.key !== newToast.key);
+                });
+            }, newToast.timeToLiveMs);
+        }
+    });
+};
+
 export const toastsState = atom<ToastObject[]>({
     key: 'toastsState',
     default: [],
-    effects: [
-        ({ setSelf, onSet }) => {
-            onSet((newValue, oldValue) => {
-                if (!Array.isArray(oldValue) || oldValue.length > newValue.length) {
-                    return;
-                }
-
-                const newToast = newValue[newValue.length - 1];
-
-                if (typeof newToast?.timeToLiveMs === 'number') {
-                    setTimeout(() => {
-                        setSelf((staleToasts) => {
-                            if (!Array.isArray(staleToasts)) {
-                                return staleToasts;
-                            }
-                            return staleToasts.filter((toast) => toast.key !== newToast.key);
-                        });
-                    }, newToast.timeToLiveMs);
-                }
-            });
-        },
-    ],
+    effects: [removeToastAfterTimeout],
 });
