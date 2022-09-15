@@ -1,4 +1,4 @@
-import { atom, useRecoilState, useRecoilValue } from 'recoil';
+import { atom, AtomEffect, useRecoilState, useRecoilValue } from 'recoil';
 import { harBeslutterrolle, kanFrigiAndresOppgaver } from '@utils/featureToggles';
 
 // Totrinnsvurdering
@@ -8,6 +8,18 @@ type TotrinnsvurderingState = {
     kanBeslutteEgne: boolean;
 };
 
+const sessionStorageEffect: AtomEffect<TotrinnsvurderingState> = ({ onSet, setSelf }) => {
+    const key = 'totrinnsState';
+    const savedState = sessionStorage.getItem(key);
+    if (savedState) {
+        setSelf(JSON.parse(savedState));
+    }
+
+    onSet((newValue) => {
+        sessionStorage.setItem(key, JSON.stringify(newValue));
+    });
+};
+
 const totrinnsvurderingState = atom<TotrinnsvurderingState>({
     key: 'totrinnsvurderingState',
     default: {
@@ -15,6 +27,7 @@ const totrinnsvurderingState = atom<TotrinnsvurderingState>({
         harBeslutterrolle: harBeslutterrolle,
         kanBeslutteEgne: false,
     },
+    effects: [sessionStorageEffect],
 });
 
 export const useTotrinnsvurdering = (): [
