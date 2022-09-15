@@ -67,7 +67,7 @@ export const RedigerInntekt = ({
         <PopoverHjelpetekst ikon={<SortInfoikon />}>
             <p>
                 {(erDev() || erLocal()) && aktivPeriodeVenter
-                    ? 'Kan ikke endre inntekt på periode når overlappende perioder er i venter-status'
+                    ? 'Det finnes andre endringer som må ferdigstilles før du kan endre inntekten'
                     : !revurdereTidligereUtbetalinger
                     ? 'Kan ikke endre inntekt, det er foreløpig ikke støtte for endringer i saker i tidligere skjæringstidspunkt'
                     : !harKunEnArbeidsgiver
