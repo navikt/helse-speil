@@ -5,6 +5,7 @@ import { postUtbetalingTilTotrinnsvurdering } from '@io/http';
 
 import { UtbetalingModal } from './UtbetalingModal';
 import { AmplitudeContext } from '@io/amplitude';
+import { Key, useKeyboard } from '@hooks/useKeyboard';
 
 interface SendTilGodkjenningButtonProps extends Omit<React.HTMLAttributes<HTMLButtonElement>, 'onError'> {
     children: ReactNode;
@@ -25,6 +26,10 @@ export const SendTilGodkjenningButton: React.FC<SendTilGodkjenningButtonProps> =
     const [showModal, setShowModal] = useState(false);
     const [isSending, setIsSending] = useState(false);
     const amplitude = useContext(AmplitudeContext);
+
+    useKeyboard({
+        [Key.F6]: { action: () => setShowModal(true), ignoreIfModifiers: false },
+    });
 
     const closeModal = () => setShowModal(false);
 

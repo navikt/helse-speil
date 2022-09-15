@@ -8,6 +8,7 @@ import { AmplitudeContext } from '@io/amplitude';
 import { UtbetalingModal } from './UtbetalingModal';
 import { useAddToast } from '@state/toasts';
 import { nanoid } from 'nanoid';
+import { Key, useKeyboard } from '@hooks/useKeyboard';
 
 const useAddUtbetalingstoast = () => {
     const addToast = useAddToast();
@@ -44,6 +45,10 @@ export const GodkjenningButton: React.FC<GodkjenningButtonProps> = ({
 }) => {
     const [showModal, setShowModal] = useState(false);
     const [isSending, setIsSending] = useState(false);
+
+    useKeyboard({
+        [Key.F6]: { action: () => setShowModal(true), ignoreIfModifiers: false },
+    });
 
     const amplitude = useContext(AmplitudeContext);
     const addUtbetalingstoast = useAddUtbetalingstoast();

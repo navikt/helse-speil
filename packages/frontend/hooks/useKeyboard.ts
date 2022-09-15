@@ -12,10 +12,13 @@ export enum Key {
     Backspace = 'Backspace',
     Escape = 'Escape',
     C = 'KeyC',
+    F6 = 'F6',
 }
 
-const shouldDisableKeyboard = () =>
-    document.activeElement instanceof HTMLTextAreaElement || document.activeElement instanceof HTMLInputElement;
+const shouldDisableKeyboard = (): boolean =>
+    document.activeElement instanceof HTMLTextAreaElement ||
+    document.activeElement instanceof HTMLInputElement ||
+    document.getElementById('modal') !== null;
 
 export const useKeyboard = (actions: { [key: string]: Action }) => {
     const handleKeyDown = (event: KeyboardEvent) => {
