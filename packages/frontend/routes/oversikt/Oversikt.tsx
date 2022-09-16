@@ -25,7 +25,11 @@ const useOppgaverFilteredByTab = () => {
     const filtrer = (oppgaver: Oppgave[]): Oppgave[] => {
         switch (aktivTab) {
             case TabType.TilGodkjenning: {
-                return oppgaver.filter((it) => it.tildeling?.saksbehandler?.oid !== oid);
+                return oppgaver.filter(
+                    (it) =>
+                        it.tildeling?.saksbehandler?.oid !== oid ||
+                        (it.erBeslutterOppgave && it.tidligereSaksbehandlerOid !== oid),
+                );
             }
             case TabType.Mine: {
                 return oppgaver.filter(({ tildeling }) => tildeling?.saksbehandler?.oid === oid && !tildeling?.påVent);
