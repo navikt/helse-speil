@@ -12,7 +12,14 @@ const devSpesialistClient = (_: Instrumentation): SpesialistClient => ({
                 const tildeling = await hentPersonStatus(oppgave.aktørId);
                 const erBeslutterOppgave = await hentErBeslutterOppgave(oppgave.oppgavereferanse);
                 const erReturOppgave = await hentErReturOppgave(oppgave.oppgavereferanse);
-                return { ...oppgave, tildeling, erBeslutterOppgave, erReturOppgave };
+                const tidligereSaksbehandlerOid = await hentTidligereSaksbehandler(oppgave.oppgavereferanse);
+                return {
+                    ...oppgave,
+                    tildeling,
+                    erBeslutterOppgave,
+                    erReturOppgave,
+                    tidligereSaksbehandlerOid,
+                };
             })
         );
         return Promise.resolve({
@@ -96,7 +103,7 @@ const hentPersonStatus = async (aktørId: string): Promise<any> => {
         uri: `http://localhost:9001/api/mock/personstatus/${aktørId}`,
         resolveWithFullResponse: true,
     };
-    return await hentMockdata(options);
+    return await hentMockdataJson(options);
 };
 
 const hentErBeslutterOppgave = async (oppgavereferanse: string): Promise<any> => {
@@ -104,17 +111,34 @@ const hentErBeslutterOppgave = async (oppgavereferanse: string): Promise<any> =>
         uri: `http://localhost:9001/api/mock/erbeslutteroppgave/${oppgavereferanse}`,
         resolveWithFullResponse: true,
     };
-    return await hentMockdata(options);
+    return await hentMockdataJson(options);
 };
 const hentErReturOppgave = async (oppgavereferanse: string): Promise<any> => {
     const options = {
         uri: `http://localhost:9001/api/mock/erreturoppgave/${oppgavereferanse}`,
         resolveWithFullResponse: true,
     };
-    return await hentMockdata(options);
+    return await hentMockdataJson(options);
 };
 
-const hentMockdata = async (options: any): Promise<any> => {
+const hentTidligereSaksbehandler = async (oppgavereferanse: string): Promise<any> => {
+    const options = {
+        uri: `http://localhost:9001/api/mock/tidligeresaksbehandler/${oppgavereferanse}`,
+        resolveWithFullResponse: true,
+    };
+    return await hentMockdataString(options);
+};
+
+const hentMockdataString = async (options: any): Promise<any> => {
+    try {
+        const res = await request.get(options);
+        return res.body !== '' ? res.body : null;
+    } catch (ignore) {
+        return undefined;
+    }
+};
+
+const hentMockdataJson = async (options: any): Promise<any> => {
     try {
         const res = await request.get(options);
         return JSON.parse(res.body);

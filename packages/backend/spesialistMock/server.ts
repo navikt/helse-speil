@@ -125,7 +125,7 @@ app.post('/api/totrinnsvurdering/retur', (req: Request, res: Response) => {
         erRetur: true,
         erBeslutter: false,
         tidligereSaksbehandler: 'uuid',
-        tildelt: tidligereSaksbehandler === 'uuid' ? 'uuid' : tidligereSaksbehandler,
+        tildelt: tidligereSaksbehandler,
     };
 
     OppgaveMock.addOrUpdateOppgave(oppgavereferanse, oppgave);
@@ -146,7 +146,7 @@ app.post('/api/totrinnsvurdering', (req: Request, res: Response) => {
     const oppgave: Oppgave = {
         erRetur: false,
         erBeslutter: true,
-        tildelt: tidligereSaksbehandler === 'uuid' ? 'uuid' : tidligereSaksbehandler,
+        tildelt: tidligereSaksbehandler === 'uuid' ? null : 'uuid',
         tidligereSaksbehandler: 'uuid',
     };
 
@@ -170,12 +170,17 @@ app.get('/api/mock/personstatus/:aktorId', (req: Request, res: Response) => {
 
 app.get('/api/mock/erbeslutteroppgave/:oppgavereferanse', (req: Request, res: Response) => {
     const oppgavereferanse = req.params.oppgavereferanse;
-    res.send(OppgaveMock.getOppgave(oppgavereferanse)?.erBeslutter);
+    res.send(OppgaveMock.getOppgave(oppgavereferanse)?.erBeslutter ?? false);
 });
 
 app.get('/api/mock/erreturoppgave/:oppgavereferanse', (req: Request, res: Response) => {
     const oppgavereferanse = req.params.oppgavereferanse;
-    res.send(OppgaveMock.getOppgave(oppgavereferanse)?.erRetur);
+    res.send(OppgaveMock.getOppgave(oppgavereferanse)?.erRetur ?? false);
+});
+
+app.get('/api/mock/tidligeresaksbehandler/:oppgavereferanse', (req: Request, res: Response) => {
+    const oppgavereferanse = req.params.oppgavereferanse;
+    res.send(OppgaveMock.getOppgave(oppgavereferanse)?.tidligereSaksbehandler ?? null);
 });
 
 setupGraphQLMiddleware(app);

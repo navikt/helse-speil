@@ -6,7 +6,7 @@ declare type Extension = {
 declare type UUID = string;
 
 declare type Oppgave = {
-    tildelt?: string;
+    tildelt?: Maybe<string>;
     erRetur?: boolean;
     erPåVent?: boolean;
     erBeslutter?: boolean;
