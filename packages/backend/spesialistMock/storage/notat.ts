@@ -46,6 +46,8 @@ export class NotatMock {
             saksbehandlerIdent: 'E123456',
             vedtaksperiodeId: nanoid(),
             feilregistrert: false,
+            feilregistrert_tidspunkt: dayjs().format('YYYY-MM-DDTHH:mm:ss'),
+            kommentarer: [],
             type: NotatType.PaaVent,
             ...overrides,
         };

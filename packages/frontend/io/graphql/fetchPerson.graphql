@@ -183,6 +183,7 @@ query FetchPerson($fnr: String, $aktorId: String) {
                         erReturOppgave
                         erBeslutterOppgave
                         tidligereSaksbehandlerOid
+                        beslutterSaksbehandlerOid
                         notater {
                             id
                             tekst

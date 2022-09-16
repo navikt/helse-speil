@@ -128,6 +128,7 @@ export type BeregnetPeriode = Periode & {
     __typename?: 'BeregnetPeriode';
     aktivitetslogg: Array<Aktivitet>;
     beregningId: Scalars['String'];
+    beslutterSaksbehandlerOid?: Maybe<Scalars['String']>;
     /** @deprecated erBeslutterOppgave bør hentes fra periodens oppgave */
     erBeslutterOppgave: Scalars['Boolean'];
     erForkastet: Scalars['Boolean'];
@@ -325,11 +326,42 @@ export enum Kjonn {
     Ukjent = 'Ukjent',
 }
 
+export type Kommentar = {
+    __typename?: 'Kommentar';
+    feilregistrert_tidspunkt?: Maybe<Scalars['String']>;
+    id: Scalars['Int'];
+    opprettet: Scalars['String'];
+    saksbehandlerident: Scalars['String'];
+    tekst: Scalars['String'];
+};
+
+export type Mutation = {
+    __typename?: 'Mutation';
+    feilregistrerKommentar: Scalars['Boolean'];
+    feilregistrerNotat: Scalars['Boolean'];
+    leggTilKommentar?: Maybe<Kommentar>;
+};
+
+export type MutationFeilregistrerKommentarArgs = {
+    id: Scalars['Int'];
+};
+
+export type MutationFeilregistrerNotatArgs = {
+    id: Scalars['Int'];
+};
+
+export type MutationLeggTilKommentarArgs = {
+    notatId: Scalars['Int'];
+    saksbehandlerident: Scalars['String'];
+    tekst: Scalars['String'];
+};
+
 export type Notat = {
     __typename?: 'Notat';
     feilregistrert: Scalars['Boolean'];
     feilregistrert_tidspunkt?: Maybe<Scalars['String']>;
     id: Scalars['Int'];
+    kommentarer: Array<Kommentar>;
     opprettet: Scalars['String'];
     saksbehandlerEpost: Scalars['String'];
     saksbehandlerIdent: Scalars['String'];

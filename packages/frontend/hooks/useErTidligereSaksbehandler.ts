@@ -13,5 +13,8 @@ export const useErTidligereSaksbehandler = (): boolean => {
     }
 
     if (kanBeslutteEgenBeslutteroppgave) return false;
-    return activePeriod.tidligereSaksbehandlerOid === currentSaksbehandler.oid;
+    return (
+        (activePeriod.erBeslutterOppgave && activePeriod.tidligereSaksbehandlerOid === currentSaksbehandler.oid) ||
+        (activePeriod.erReturOppgave && activePeriod.beslutterSaksbehandlerOid === currentSaksbehandler.oid)
+    );
 };
