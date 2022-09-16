@@ -37,9 +37,11 @@ const skalPolleEtterNestePeriode = (person: Person) =>
     person.arbeidsgivere
         .flatMap((arbeidsgiver) => arbeidsgiver.generasjoner[0]?.perioder ?? [])
         .some((periode) =>
-            [Periodetilstand.VenterPaEnAnnenPeriode, Periodetilstand.ForberederGodkjenning].includes(
-                periode.periodetilstand,
-            ),
+            [
+                Periodetilstand.VenterPaEnAnnenPeriode,
+                Periodetilstand.ForberederGodkjenning,
+                Periodetilstand.UtbetaltVenterPaEnAnnenPeriode,
+            ].includes(periode.periodetilstand),
         );
 
 const hasOppgave = (period: BeregnetPeriode): boolean =>

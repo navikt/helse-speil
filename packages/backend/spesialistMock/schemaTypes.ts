@@ -526,6 +526,7 @@ export enum Periodetilstand {
     Ukjent = 'Ukjent',
     UtbetalingFeilet = 'UtbetalingFeilet',
     Utbetalt = 'Utbetalt',
+    UtbetaltVenterPaEnAnnenPeriode = 'UtbetaltVenterPaEnAnnenPeriode',
     VenterPaEnAnnenPeriode = 'VenterPaEnAnnenPeriode',
 }
 

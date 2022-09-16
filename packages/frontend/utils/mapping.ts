@@ -95,6 +95,7 @@ export const getPeriodState = (period?: Maybe<Periode | DatePeriod>): PeriodStat
                 default:
                     return 'ukjent';
             }
+        case Periodetilstand.UtbetaltVenterPaEnAnnenPeriode:
         case Periodetilstand.Utbetalt:
             switch (period.utbetaling.type) {
                 case Utbetalingtype.Revurdering:

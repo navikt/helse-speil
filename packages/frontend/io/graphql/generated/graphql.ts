@@ -526,6 +526,7 @@ export enum Periodetilstand {
     Ukjent = 'Ukjent',
     UtbetalingFeilet = 'UtbetalingFeilet',
     Utbetalt = 'Utbetalt',
+    UtbetaltVenterPaEnAnnenPeriode = 'UtbetaltVenterPaEnAnnenPeriode',
     VenterPaEnAnnenPeriode = 'VenterPaEnAnnenPeriode',
 }
 
@@ -1188,6 +1189,7 @@ export type FetchPersonQuery = {
                           erReturOppgave: boolean;
                           erBeslutterOppgave: boolean;
                           tidligereSaksbehandlerOid?: string | null;
+                          beslutterSaksbehandlerOid?: string | null;
                           maksdato: string;
                           varsler: Array<string>;
                           vilkarsgrunnlaghistorikkId: string;
