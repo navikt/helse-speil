@@ -5,13 +5,13 @@ import { BodyShort } from '@navikt/ds-react';
 import { DataFilled } from '@navikt/ds-icons';
 
 import { RoundedButton } from '@components/RoundedButton';
+import { sessionStorageEffect } from '@state/effects/sessionStorageEffect';
 import { useInnloggetSaksbehandler } from '@state/authentication';
-import { useFerdigstilteOppgaver, useMineOppgaver, useOppgaver } from '@state/oppgaver';
+import { useMineOppgaver, useOppgaver } from '@state/oppgaver';
 
 import { useShowStatistikk, useToggleStatistikk } from './behandlingsstatistikk/state';
 
 import styles from './Tabs.module.css';
-import { sessionStorageEffect } from '@state/effects/sessionStorageEffect';
 
 export enum TabType {
     TilGodkjenning = 'alle',
@@ -31,7 +31,7 @@ export const useAktivTab = () => useRecoilValue(tabState);
 interface OppgaveTabProps {
     tag: TabType;
     label: string;
-    numberOfTasks: number;
+    numberOfTasks?: number;
 }
 
 const OppgaveTab = ({ tag, label, numberOfTasks }: OppgaveTabProps) => {
@@ -44,7 +44,7 @@ const OppgaveTab = ({ tag, label, numberOfTasks }: OppgaveTabProps) => {
             onClick={() => setAktivTab(tag)}
         >
             {label}
-            <BodyShort>({numberOfTasks})</BodyShort>
+            {typeof numberOfTasks === 'number' && <BodyShort>({numberOfTasks})</BodyShort>}
         </button>
     );
 };
@@ -66,8 +66,7 @@ const VentendeSakerTab = () => {
 };
 
 const BehandletIdagTab = () => {
-    const oppgaver = useFerdigstilteOppgaver();
-    return <OppgaveTab tag={TabType.BehandletIdag} label="Behandlet idag" numberOfTasks={oppgaver.length} />;
+    return <OppgaveTab tag={TabType.BehandletIdag} label="Behandlet idag" />;
 };
 
 export const Tabs = () => {
