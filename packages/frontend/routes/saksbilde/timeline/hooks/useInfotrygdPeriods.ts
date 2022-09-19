@@ -7,7 +7,9 @@ export const useInfotrygdPeriods = (
     useMemo(() => {
         const map = new Map<string, Array<InfotrygdPeriod>>();
 
-        const utbetalinger = infotrygdutbetalinger.filter((it) => it.typetekst !== 'Tilbakeført');
+        const utbetalinger = infotrygdutbetalinger.filter(
+            (it) => it.typetekst !== 'Tilbakeført' && it.typetekst !== 'Ukjent..',
+        );
 
         for (const utbetaling of utbetalinger) {
             if (!map.has(utbetaling.organisasjonsnummer)) {

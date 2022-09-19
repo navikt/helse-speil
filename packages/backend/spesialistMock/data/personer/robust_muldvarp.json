@@ -7,7 +7,32 @@
                 "id": "1702",
                 "navn": "Steinkjer"
             },
-            "infotrygdutbetalinger": [],
+            "infotrygdutbetalinger": [
+                {
+                    "organisasjonsnummer": "0",
+                    "dagsats": 0,
+                    "fom": "2021-09-07",
+                    "tom": "2021-09-19",
+                    "grad": "100",
+                    "typetekst": "Ukjent.."
+                },
+                {
+                    "organisasjonsnummer": "0",
+                    "dagsats": 0,
+                    "fom": "2021-09-20",
+                    "tom": "2021-09-26",
+                    "grad": "100",
+                    "typetekst": "Ferie"
+                },
+                {
+                    "organisasjonsnummer": "0",
+                    "dagsats": 88,
+                    "fom": "2021-04-21",
+                    "tom": "2021-04-26",
+                    "grad": "100",
+                    "typetekst": "Utbetaling"
+                }
+            ],
             "inntektsgrunnlag": [
                 {
                     "avviksprosent": 32.075471698113205,

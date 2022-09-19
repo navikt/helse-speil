@@ -18,7 +18,7 @@ export const InfotrygdRow: React.VFC<InfotrygdRowProps> = ({ start, end, periods
         <div className={styles.TimelineRow}>
             <div className={styles.Name}>
                 <Infotrygdikon />
-                <BodyShort size="small">Infotrygd - Ingen utbetaling</BodyShort>
+                <BodyShort size="small">Infotrygd</BodyShort>
             </div>
             <div className={styles.Periods}>
                 <Periods periods={[]} start={start} end={end} infotrygdPeriods={periods} />
