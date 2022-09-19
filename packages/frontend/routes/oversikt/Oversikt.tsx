@@ -27,8 +27,8 @@ const useOppgaverFilteredByTab = () => {
             case TabType.TilGodkjenning: {
                 return oppgaver.filter(
                     (it) =>
-                        it.tildeling?.saksbehandler?.oid !== oid ||
-                        (it.erBeslutterOppgave && it.tidligereSaksbehandlerOid !== oid),
+                        it.tildeling?.saksbehandler?.oid !== oid &&
+                        (it.erBeslutterOppgave ? it.tidligereSaksbehandlerOid !== oid : true),
                 );
             }
             case TabType.Mine: {
