@@ -30,6 +30,7 @@ export const useInnloggetSaksbehandler = (): Saksbehandler => {
         oid: authInfo.oid,
         navn: authInfo.name,
         epost: authInfo.email,
+        ident: authInfo.ident,
     };
 };
 
