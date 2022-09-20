@@ -9,3 +9,8 @@
     line-height: var(--navds-font-line-height-medium);
     word-break: break-word;
 }
+
+.FromValue {
+    text-decoration: line-through;
+    margin-right: 3px;
+}

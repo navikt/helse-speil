@@ -33,7 +33,14 @@ export const Inntektoverstyringhendelse: React.FC<InntektoverstyringhendelseProp
                     <BodyShort>Forklaring: </BodyShort>
                     <BodyShort>{inntekt.forklaring}</BodyShort>
                     <BodyShort>Mnd. inntekt: </BodyShort>
-                    <BodyShort>{somPengerUtenDesimaler(inntekt.manedligInntekt)}</BodyShort>
+                    <BodyShort>
+                        {inntekt.fraManedligInntekt && (
+                            <span className={styles.FromValue}>
+                                {somPengerUtenDesimaler(inntekt.fraManedligInntekt)}
+                            </span>
+                        )}
+                        {somPengerUtenDesimaler(inntekt.manedligInntekt)}
+                    </BodyShort>
                     <BodyShort>Skj. tidspunkt</BodyShort>
                     <BodyShort>{getFormattedDateString(inntekt.skjaeringstidspunkt)}</BodyShort>
                 </div>

@@ -1744,32 +1744,44 @@
                                 {
                                     "grad": 0,
                                     "dato": "2022-04-29",
-                                    "type": "Feriedag"
+                                    "type": "Feriedag",
+                                    "fraGrad": 80,
+                                    "fraType": "Sykedag"
                                 },
                                 {
                                     "grad": 0,
                                     "dato": "2022-04-28",
-                                    "type": "Feriedag"
+                                    "type": "Feriedag",
+                                    "fraGrad": 80,
+                                    "fraType": "Sykedag"
                                 },
                                 {
                                     "grad": 0,
                                     "dato": "2022-04-27",
-                                    "type": "Feriedag"
+                                    "type": "Feriedag",
+                                    "fraGrad": 80,
+                                    "fraType": "Sykedag"
                                 },
                                 {
                                     "grad": 0,
                                     "dato": "2022-04-26",
-                                    "type": "Feriedag"
+                                    "type": "Permisjonsdag",
+                                    "fraGrad": 100,
+                                    "fraType": "Sykedag"
                                 },
                                 {
                                     "grad": 0,
                                     "dato": "2022-04-25",
-                                    "type": "Feriedag"
+                                    "type": "Feriedag",
+                                    "fraGrad": 100,
+                                    "fraType": "Sykedag"
                                 },
                                 {
                                     "grad": 0,
                                     "dato": "2022-04-22",
-                                    "type": "Feriedag"
+                                    "type": "Feriedag",
+                                    "fraGrad": 100,
+                                    "fraType": "Sykedag"
                                 }
                             ]
                         }

@@ -4202,7 +4202,8 @@
                             "inntekt": {
                                 "skjaeringstidspunkt": "2022-03-01",
                                 "forklaring": "asdasd",
-                                "manedligInntekt": 39000
+                                "manedligInntekt": 39000,
+                                "fraManedligInntekt": 24000
                             }
                         }
                     ]

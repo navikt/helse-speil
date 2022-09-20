@@ -19,6 +19,8 @@ type Overstyring = {
     type: Dagtype;
     dato: DateString;
     grad?: Maybe<number>;
+    fraType?: Maybe<Dagtype>;
+    fraGrad?: Maybe<number>;
 };
 
 const getDisplayTextForDagtype = (type: Dagtype): string => {

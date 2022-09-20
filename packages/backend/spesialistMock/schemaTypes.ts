@@ -465,6 +465,8 @@ export type Overstyring = {
 export type OverstyrtDag = {
     __typename?: 'OverstyrtDag';
     dato: Scalars['String'];
+    fraGrad?: Maybe<Scalars['Int']>;
+    fraType?: Maybe<Dagtype>;
     grad?: Maybe<Scalars['Int']>;
     type: Dagtype;
 };
@@ -472,6 +474,7 @@ export type OverstyrtDag = {
 export type OverstyrtInntekt = {
     __typename?: 'OverstyrtInntekt';
     forklaring: Scalars['String'];
+    fraManedligInntekt?: Maybe<Scalars['Float']>;
     manedligInntekt: Scalars['Float'];
     skjaeringstidspunkt: Scalars['String'];
 };

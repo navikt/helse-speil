@@ -324,8 +324,10 @@ query FetchPerson($fnr: String, $aktorId: String) {
                 ... on Dagoverstyring {
                     dager {
                         grad
+                        fraGrad
                         dato
                         type
+                        fraType
                     }
                 }
                 ... on Inntektoverstyring {
@@ -333,6 +335,7 @@ query FetchPerson($fnr: String, $aktorId: String) {
                         skjaeringstidspunkt
                         forklaring
                         manedligInntekt
+                        fraManedligInntekt
                     }
                 }
                 ... on Arbeidsforholdoverstyring {

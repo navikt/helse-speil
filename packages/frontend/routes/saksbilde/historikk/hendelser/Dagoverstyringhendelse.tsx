@@ -8,7 +8,7 @@ import { ExpandableHistorikkContent } from './ExpandableHistorikkContent';
 
 import styles from './Dagoverstyringhendelse.module.css';
 
-type Endring = Pick<OverstyrtDag, 'grad' | 'type'>;
+type Endring = Pick<OverstyrtDag, 'grad' | 'type' | 'fraGrad' | 'fraType'>;
 
 type GroupedDays = {
     start: DateString;
@@ -16,7 +16,7 @@ type GroupedDays = {
 } & Endring;
 
 const areSimilar = (a: Endring, b: Endring): boolean => {
-    return a.grad === b.grad && a.type === b.type;
+    return a.grad === b.grad && a.type === b.type && a.fraType === b.fraType && a.fraGrad === b.fraGrad;
 };
 
 const byDate = (a: OverstyrtDag, b: OverstyrtDag): number => {
@@ -34,6 +34,8 @@ const groupSimilarDays = (days: Array<OverstyrtDag>): Array<GroupedDays> => {
                     end: day.dato,
                     grad: day.grad,
                     type: day.type,
+                    fraGrad: day.fraGrad,
+                    fraType: day.fraType,
                 },
             ];
         }
@@ -63,14 +65,23 @@ export const Dagoverstyringhendelse: React.FC<DagoverstyringhendelseProps> = ({
                 <div className={styles.Content}>
                     {groupSimilarDays(dager).map((group, i) => (
                         <div key={i} className={styles.Grid}>
-                            <BodyShort>Fra:</BodyShort>
-                            <BodyShort>{getFormattedDateString(group.start)}</BodyShort>
-                            <BodyShort>Til:</BodyShort>
-                            <BodyShort>{getFormattedDateString(group.end)}</BodyShort>
+                            <BodyShort>Dato:</BodyShort>
+                            <BodyShort>
+                                {getFormattedDateString(group.start)}
+                                {group.start !== group.end && ` - ${getFormattedDateString(group.end)}`}
+                            </BodyShort>
                             <BodyShort>Grad:</BodyShort>
-                            <BodyShort>{group.grad} %</BodyShort>
+                            <BodyShort>
+                                {group.fraGrad && group.grad !== group.fraGrad && (
+                                    <span className={styles.FromValue}>{group.fraGrad} %</span>
+                                )}
+                                {group.grad} %
+                            </BodyShort>
                             <BodyShort>Type:</BodyShort>
-                            <BodyShort>{group.type}</BodyShort>
+                            <BodyShort>
+                                {group.fraType && <span className={styles.FromValue}>{group.fraType}</span>}
+                                {group.type}
+                            </BodyShort>
                         </div>
                     ))}
                 </div>
