@@ -3,6 +3,7 @@ import request from 'request-promise-native';
 
 import { Instrumentation } from '../instrumentation';
 import { SpesialistClient } from '../person/spesialistClient';
+import { sleep } from 'deasync';
 
 const devSpesialistClient = (_: Instrumentation): SpesialistClient => ({
     behandlingerForPeriode: async (_accessToken: string): Promise<Response> => {
@@ -22,6 +23,7 @@ const devSpesialistClient = (_: Instrumentation): SpesialistClient => ({
                 };
             })
         );
+        sleep(500);
         return Promise.resolve({
             status: 200,
             body: oppgaver,
