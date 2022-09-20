@@ -42,27 +42,29 @@ export const Kommentarer: React.FC<KommentarerProps> = ({ kommentarer }) => {
     return (
         <div className={styles.Kommentarer}>
             <BodyShort size="small">Kommentarer:</BodyShort>
-            {kommentarer.map((it) => (
-                <div key={it.id} className={styles.Kommentar}>
-                    <BodyShort size="small">{getFormattedDatetimeString(it.opprettet)}</BodyShort>
-                    <pre
-                        className={classNames(
-                            styles.Notat,
-                            typeof it.feilregistrert_tidspunkt === 'string' && styles.feilregistrert,
+            {[...kommentarer]
+                .sort((a, b) => new Date(a.opprettet).getTime() - new Date(b.opprettet).getTime())
+                .map((it) => (
+                    <div key={it.id} className={styles.Kommentar}>
+                        <BodyShort size="small">{getFormattedDatetimeString(it.opprettet)}</BodyShort>
+                        <pre
+                            className={classNames(
+                                styles.Notat,
+                                typeof it.feilregistrert_tidspunkt === 'string' && styles.feilregistrert,
+                            )}
+                        >
+                            {it.tekst} {typeof it.feilregistrert_tidspunkt === 'string' && '(feilregistert)'}
+                        </pre>
+                        {!it.feilregistrert_tidspunkt && (
+                            <button onClick={onFeilregistrerKommentar(it.id)} disabled={isFetching}>
+                                Feilregistrer {isFetching && <Loader size="xsmall" />}
+                            </button>
                         )}
-                    >
-                        {it.tekst}
-                    </pre>
-                    {!it.feilregistrert_tidspunkt && (
-                        <button onClick={onFeilregistrerKommentar(it.id)} disabled={isFetching}>
-                            Feilregistrer {isFetching && <Loader size="xsmall" />}
-                        </button>
-                    )}
-                    {errors[it.id] && (
-                        <ErrorMessage>Kunne ikke feilregistrere kommentar. Prøv igjen senere.</ErrorMessage>
-                    )}
-                </div>
-            ))}
+                        {errors[it.id] && (
+                            <ErrorMessage>Kunne ikke feilregistrere kommentar. Prøv igjen senere.</ErrorMessage>
+                        )}
+                    </div>
+                ))}
         </div>
     );
 };

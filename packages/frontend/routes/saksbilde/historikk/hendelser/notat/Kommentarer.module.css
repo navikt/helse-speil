@@ -62,7 +62,3 @@
     width: 100%;
     font-style: italic;
 }
-
-.feilregistrert:after {
-    content: ' (feilregistrert)';
-}
