@@ -17,7 +17,6 @@ import { NotatForm } from './NotatForm';
 import { Kommentarer } from './Kommentarer';
 
 import styles from './Notathendelse.module.css';
-import { notatkommentarerEnabled } from '@utils/featureToggles';
 
 type State = {
     errors: { [key: string]: string };
@@ -175,32 +174,25 @@ export const Notathendelse: React.FC<NotathendelseProps> = ({
             <ExpandableHistorikkContent>
                 <div className={styles.NotatContent}>
                     <pre className={styles.Notat}>{tekst}</pre>
-                    {notatkommentarerEnabled && (
-                        <>
-                            <Kommentarer kommentarer={kommentarer} />
-                            {innloggetSaksbehandler.oid === saksbehandlerOid &&
-                                innloggetSaksbehandler.ident &&
-                                (state.showAddDialog ? (
-                                    <NotatForm
-                                        label="Kommentar"
-                                        onSubmitForm={onLeggTilKommentar(
-                                            Number.parseInt(id),
-                                            innloggetSaksbehandler.ident,
-                                        )}
-                                        closeForm={() => dispatch({ type: 'ToggleDialogAction', value: false })}
-                                        isFetching={state.isFetching}
-                                        hasError={typeof state.errors.leggTilKommentar === 'string'}
-                                    />
-                                ) : (
-                                    <LinkButton
-                                        className={styles.LeggTilKommentarButton}
-                                        onClick={() => dispatch({ type: 'ToggleDialogAction', value: true })}
-                                    >
-                                        Legg til ny kommentar
-                                    </LinkButton>
-                                ))}
-                        </>
-                    )}
+                    <Kommentarer kommentarer={kommentarer} />
+                    {innloggetSaksbehandler.oid === saksbehandlerOid &&
+                        innloggetSaksbehandler.ident &&
+                        (state.showAddDialog ? (
+                            <NotatForm
+                                label="Kommentar"
+                                onSubmitForm={onLeggTilKommentar(Number.parseInt(id), innloggetSaksbehandler.ident)}
+                                closeForm={() => dispatch({ type: 'ToggleDialogAction', value: false })}
+                                isFetching={state.isFetching}
+                                hasError={typeof state.errors.leggTilKommentar === 'string'}
+                            />
+                        ) : (
+                            <LinkButton
+                                className={styles.LeggTilKommentarButton}
+                                onClick={() => dispatch({ type: 'ToggleDialogAction', value: true })}
+                            >
+                                Legg til ny kommentar
+                            </LinkButton>
+                        ))}
                 </div>
             </ExpandableHistorikkContent>
         </Hendelse>
