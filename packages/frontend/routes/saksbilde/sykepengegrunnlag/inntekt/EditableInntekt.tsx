@@ -167,6 +167,7 @@ export const EditableInntekt = ({ omregnetÅrsinntekt, begrunnelser, close, onEn
             begrunnelse: begrunnelse.forklaring,
             forklaring,
             månedligInntekt: Number.parseFloat(manedsbelop),
+            fraMånedligInntekt: omregnetÅrsinntekt.manedsbelop,
             ...(begrunnelse.subsumsjon?.paragraf && {
                 subsumsjon: {
                     paragraf: begrunnelse.subsumsjon.paragraf,

@@ -8,7 +8,9 @@ export interface Options {
 export interface OverstyrtDagDTO {
     dato: string;
     type: 'Sykedag' | 'Feriedag' | 'Egenmeldingsdag' | 'Permisjonsdag' | 'Avvist';
+    fraType: 'Sykedag' | 'Feriedag' | 'Egenmeldingsdag' | 'Permisjonsdag' | 'Avvist';
     grad?: number;
+    fraGrad?: number;
 }
 
 interface Overstyring {
@@ -24,6 +26,7 @@ export interface OverstyrteDagerDTO extends Overstyring {
 
 export interface OverstyrtInntektDTO extends Overstyring {
     månedligInntekt: number;
+    fraMånedligInntekt: number;
     skjæringstidspunkt: string;
     forklaring: string;
     subsumsjon?: Subsumsjon;

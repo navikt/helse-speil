@@ -59,8 +59,11 @@ export const OverstyrbarUtbetaling: React.FC<OverstyrbarUtbetalingProps> = ({
     };
 
     const onSubmitOverstyring = () => {
-        postOverstyring(Array.from(overstyrteDager.values()), form.getValues('begrunnelse'), () =>
-            setOverstyrer(!overstyrer),
+        postOverstyring(
+            Array.from(dager.values()),
+            Array.from(overstyrteDager.values()),
+            form.getValues('begrunnelse'),
+            () => setOverstyrer(!overstyrer),
         );
     };
 

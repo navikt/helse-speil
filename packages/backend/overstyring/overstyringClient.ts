@@ -21,7 +21,9 @@ enum Dagtype {
 interface OverstyrtDagDTO {
     dato: string;
     type: 'Sykedag' | 'Feriedag' | 'Egenmeldingsdag' | Dagtype;
+    fraType: 'Sykedag' | 'Feriedag' | 'Egenmeldingsdag' | Dagtype;
     grad?: number;
+    fraGrad?: number;
 }
 
 interface OverstyringDTO {
@@ -39,6 +41,7 @@ interface OverstyringInntektDTO {
     begrunnelse: string;
     forklaring: string;
     månedligInntekt: number;
+    fraMånedligInntekt: number;
     skjæringstidspunkt: string;
 }
 

@@ -34,17 +34,31 @@ const tilOverstyrtDagtype = (type: Utbetalingstabelldagtype): OverstyrtDagtype =
     }
 };
 
-const tilOverstyrteDager = (dager: Array<UtbetalingstabellDag>): OverstyrtDagDTO[] =>
-    dager.map((dag) => ({
-        dato: dayjs(dag.dato).format('YYYY-MM-DD'),
-        type: tilOverstyrtDagtype(dag.type),
-        grad: dag.grad ?? undefined,
-    }));
+const tilOverstyrteDager = (
+    dager: Array<UtbetalingstabellDag>,
+    overstyrteDager: Array<UtbetalingstabellDag>,
+): OverstyrtDagDTO[] =>
+    overstyrteDager.map((overstyrtDag) => {
+        const fraDag = dager.find((fraDag) => fraDag.dato === overstyrtDag.dato);
+        if (fraDag === undefined) throw Error(`Finner ikke fraDag som matcher overstyrtDag ${overstyrtDag.dato}.`);
+        return {
+            dato: dayjs(overstyrtDag.dato).format('YYYY-MM-DD'),
+            type: tilOverstyrtDagtype(overstyrtDag.type),
+            fraType: tilOverstyrtDagtype(fraDag.type),
+            grad: overstyrtDag.grad ?? undefined,
+            fraGrad: fraDag.grad ?? undefined,
+        };
+    });
 
 type UsePostOverstyringState = 'loading' | 'hasValue' | 'hasError' | 'initial' | 'timedOut' | 'done';
 
 type UsePostOverstyringResult = {
-    postOverstyring: (dager: Array<UtbetalingstabellDag>, begrunnelse: string, callback?: () => void) => Promise<void>;
+    postOverstyring: (
+        dager: Array<UtbetalingstabellDag>,
+        overstyrteDager: Array<UtbetalingstabellDag>,
+        begrunnelse: string,
+        callback?: () => void,
+    ) => Promise<void>;
     state: UsePostOverstyringState;
     error?: string;
 };
@@ -95,6 +109,7 @@ export const usePostOverstyring = (): UsePostOverstyringResult => {
 
     const _postOverstyring = (
         dager: Array<UtbetalingstabellDag>,
+        overstyrteDager: Array<UtbetalingstabellDag>,
         begrunnelse: string,
         callback?: () => void,
     ): Promise<void> => {
@@ -102,7 +117,7 @@ export const usePostOverstyring = (): UsePostOverstyringResult => {
             aktørId: person.aktorId,
             fødselsnummer: person.fodselsnummer,
             organisasjonsnummer: arbeidsgiver.organisasjonsnummer,
-            dager: tilOverstyrteDager(dager),
+            dager: tilOverstyrteDager(dager, overstyrteDager),
             begrunnelse: begrunnelse,
         };
 
