@@ -13,20 +13,13 @@ import { useIsWiderThan } from './hooks/useIsWiderThan';
 
 import styles from './Pølse.module.css';
 
-type PølseState = 'success' | 'error' | 'attention' | 'waiting';
+type PølseState = 'success' | 'error' | 'attention' | 'waiting' | 'neutral';
 
 const getPølseState = (periodState: PeriodState): Maybe<PølseState> => {
     switch (periodState) {
-        case 'ingenUtbetaling':
-        case 'kunPermisjon':
-        case 'kunFerie':
         case 'utbetaltAutomatisk':
         case 'revurdert':
-        case 'revurdertIngenUtbetaling':
-        case 'utenSykefravær':
-        case 'utenSykefraværDeaktivert':
         case 'infotrygdUtbetalt':
-        case 'infotrygdFerie':
         case 'utbetalt': {
             return 'success';
         }
@@ -49,6 +42,14 @@ const getPølseState = (periodState: PeriodState): Maybe<PølseState> => {
         case 'tilUtbetaling': {
             return 'waiting';
         }
+        case 'infotrygdFerie':
+        case 'utenSykefravær':
+        case 'utenSykefraværDeaktivert':
+        case 'revurdertIngenUtbetaling':
+        case 'ingenUtbetaling':
+        case 'kunPermisjon':
+        case 'kunFerie':
+            return 'neutral';
         case 'infotrygdUkjent':
         case 'ukjent':
         default: {
@@ -59,6 +60,7 @@ const getPølseState = (periodState: PeriodState): Maybe<PølseState> => {
 
 const getIcon = (pølseState: Maybe<PølseState>): ReactNode => {
     switch (pølseState) {
+        case 'neutral':
         case 'success': {
             return <CheckIcon />;
         }
