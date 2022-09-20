@@ -6,7 +6,7 @@ import { BodyShort } from '@navikt/ds-react';
 import { CloseButton } from '@components/CloseButton';
 import { ErrorBoundary } from '@components/ErrorBoundary';
 
-import { Notathendelse } from './hendelser/Notathendelse';
+import { Notathendelse } from './hendelser/notat/Notathendelse';
 import { HendelseSkeleton } from './hendelser/Hendelse';
 import { Dokumenthendelse } from './hendelser/Dokumenthendelse';
 import { Historikkhendelse } from './hendelser/Historikkhendelse';

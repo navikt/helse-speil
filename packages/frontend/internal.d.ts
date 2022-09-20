@@ -71,6 +71,7 @@ declare type Notat = {
     vedtaksperiodeId: string;
     feilregistrert: boolean;
     type: NotatType;
+    kommentarer: Array<Kommentar>;
 };
 
 declare type OpptegnelseType =

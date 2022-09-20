@@ -918,6 +918,18 @@ export type Vurdering = {
     tidsstempel: Scalars['String'];
 };
 
+export type FeilregistrerKommentarMutationMutationVariables = Exact<{
+    id: Scalars['Int'];
+}>;
+
+export type FeilregistrerKommentarMutationMutation = { __typename?: 'Mutation'; feilregistrerKommentar: boolean };
+
+export type FeilregistrerNotatMutationMutationVariables = Exact<{
+    id: Scalars['Int'];
+}>;
+
+export type FeilregistrerNotatMutationMutation = { __typename?: 'Mutation'; feilregistrerNotat: boolean };
+
 export type FetchBehandledeOppgaverQueryVariables = Exact<{
     oid: Scalars['String'];
     ident: Scalars['String'];
@@ -1223,6 +1235,14 @@ export type FetchPersonQuery = {
                               feilregistrert: boolean;
                               feilregistrert_tidspunkt?: string | null;
                               type: NotatType;
+                              kommentarer: Array<{
+                                  __typename?: 'Kommentar';
+                                  id: number;
+                                  tekst: string;
+                                  opprettet: string;
+                                  saksbehandlerident: string;
+                                  feilregistrert_tidspunkt?: string | null;
+                              }>;
                           }>;
                           periodehistorikk: Array<{
                               __typename?: 'PeriodeHistorikkElement';
@@ -1409,6 +1429,14 @@ export type FetchPersonQuery = {
                                   tom: string;
                               }>;
                           } | null;
+                          oppgave?: {
+                              __typename?: 'OppgaveForPeriodevisning';
+                              id: string;
+                              erRetur: boolean;
+                              erBeslutter: boolean;
+                              tidligereSaksbehandler?: string | null;
+                              trengerTotrinnsvurdering: boolean;
+                          } | null;
                           tidslinje: Array<{
                               __typename?: 'Dag';
                               dato: string;
@@ -1495,5 +1523,22 @@ export type FetchPersonQuery = {
                   }
             >;
         }>;
+    } | null;
+};
+
+export type LeggTilKommentarMutationVariables = Exact<{
+    tekst: Scalars['String'];
+    notatId: Scalars['Int'];
+    saksbehandlerident: Scalars['String'];
+}>;
+
+export type LeggTilKommentarMutation = {
+    __typename?: 'Mutation';
+    leggTilKommentar?: {
+        __typename?: 'Kommentar';
+        id: number;
+        tekst: string;
+        opprettet: string;
+        saksbehandlerident: string;
     } | null;
 };

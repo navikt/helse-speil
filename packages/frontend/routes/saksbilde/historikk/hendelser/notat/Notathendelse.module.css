@@ -23,3 +23,14 @@
     line-height: var(--navds-font-line-height-medium);
     white-space: pre-wrap;
 }
+
+.NotatContent {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.LeggTilKommentarButton {
+    font-size: var(--navds-font-size-medium);
+    width: max-content;
+}

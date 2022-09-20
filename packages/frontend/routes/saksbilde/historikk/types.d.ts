@@ -1,8 +1,10 @@
+type ReactNode = import('react').ReactNode;
+
+type Kommentar = import('@io/graphql').Kommentar;
 type OverstyrtDag = import('@io/graphql').OverstyrtDag;
+type Utbetalingtype = import('@io/graphql').Utbetalingtype;
 type OverstyrtInntekt = import('@io/graphql').OverstyrtInntekt;
 type PeriodehistorikkType = import('@io/graphql').PeriodehistorikkType;
-type Utbetalingtype = import('@io/graphql').Utbetalingtype;
-type ReactNode = import('react').ReactNode;
 
 declare type Filtertype = 'Dokument' | 'Historikk' | 'Notat';
 
@@ -65,6 +67,7 @@ declare type NotathendelseObject = BaseHendelseObject & {
     timestamp: DateString;
     feilregistrert: boolean;
     vedtaksperiodeId: string;
+    kommentarer: Array<Kommentar>;
 };
 
 declare type UtbetalinghendelseObject = BaseHendelseObject & {

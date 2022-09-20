@@ -1,0 +1,3 @@
+mutation FeilregistrerKommentarMutation($id: Int!) {
+    feilregistrerKommentar(id: $id)
+}

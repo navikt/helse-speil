@@ -72,6 +72,7 @@ export const enNotathendelse = (overrides: Partial<NotathendelseObject> = {}): N
     timestamp: '2020-01-01',
     feilregistrert: false,
     vedtaksperiodeId: 'en-vedtaksperiode',
+    kommentarer: [],
     ...overrides,
 });
 

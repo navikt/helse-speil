@@ -198,4 +198,5 @@ export const getNotathendelser = (notater: Array<Notat>): Array<NotathendelseObj
         timestamp: notat.opprettet.format(ISO_TIDSPUNKTFORMAT),
         feilregistrert: notat.feilregistrert,
         vedtaksperiodeId: notat.vedtaksperiodeId,
+        kommentarer: notat.kommentarer,
     }));

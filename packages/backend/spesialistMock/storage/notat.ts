@@ -1,15 +1,58 @@
 import { nanoid } from 'nanoid';
 import dayjs from 'dayjs';
 
-import { BeregnetPeriode, Notat, NotatType } from '../schemaTypes';
+import {
+    BeregnetPeriode,
+    Kommentar,
+    MutationFeilregistrerKommentarArgs,
+    MutationLeggTilKommentarArgs,
+    Notat,
+    NotatType,
+} from '../schemaTypes';
+
+const ISO_TIDSPUNKTFORMAT = 'YYYY-MM-DDTHH:mm:ss';
 
 export class NotatMock {
     private static notater: Map<UUID, Array<Notat>> = new Map();
-    private static counter: number = 0;
+    private static notatCounter: number = 0;
+    private static kommentarCounter: number = 0;
 
     static addNotat = (id: UUID, notatProperties?: Partial<Notat>): void => {
         const notat = NotatMock.getMockedNotat(notatProperties);
         NotatMock.notater.set(id, [...NotatMock.getNotater(id), notat]);
+    };
+
+    static addKommentar = ({ tekst, notatId, saksbehandlerident }: MutationLeggTilKommentarArgs): Kommentar => {
+        const nyKommentar: Kommentar = {
+            id: NotatMock.kommentarCounter++,
+            opprettet: dayjs().format(ISO_TIDSPUNKTFORMAT),
+            tekst,
+            saksbehandlerident,
+        };
+
+        NotatMock.notater.forEach((notater: Array<Notat>, vedtaksperiodeId: UUID) => {
+            const gamleKommentarer = notater.find((it) => it.id === notatId)?.kommentarer;
+            if (gamleKommentarer) {
+                NotatMock.updateNotat(vedtaksperiodeId, notatId, { kommentarer: [...gamleKommentarer, nyKommentar] });
+            }
+        });
+
+        return nyKommentar;
+    };
+
+    static feilregistrerKommentar = ({ id }: MutationFeilregistrerKommentarArgs): void => {
+        NotatMock.notater.forEach((notater: Array<Notat>, vedtaksperiodeId: UUID) => {
+            const notat = notater.find((it) => it.kommentarer.find((it) => it.id === id));
+            if (notat) {
+                NotatMock.updateNotat(vedtaksperiodeId, notat.id, {
+                    kommentarer: [
+                        ...notat.kommentarer.map((it) =>
+                            it.id === id ? { ...it, feilregistrert_tidspunkt: dayjs().format(ISO_TIDSPUNKTFORMAT) } : it
+                        ),
+                    ],
+                });
+            }
+        });
     };
 
     static getNotater = (id: UUID): Array<Notat> => {
@@ -37,7 +80,7 @@ export class NotatMock {
 
     private static getMockedNotat = (overrides?: Partial<Notat>): Notat => {
         return {
-            id: NotatMock.counter++,
+            id: NotatMock.notatCounter++,
             tekst: 'Revidert utgave 2',
             opprettet: dayjs().format('YYYY-MM-DDTHH:mm:ss'),
             saksbehandlerOid: 'uuid',
@@ -47,8 +90,8 @@ export class NotatMock {
             vedtaksperiodeId: nanoid(),
             feilregistrert: false,
             feilregistrert_tidspunkt: dayjs().format('YYYY-MM-DDTHH:mm:ss'),
-            kommentarer: [],
             type: NotatType.PaaVent,
+            kommentarer: [],
             ...overrides,
         };
     };

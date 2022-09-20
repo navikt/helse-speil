@@ -1,0 +1,68 @@
+.Kommentarer {
+    display: flex;
+    flex-direction: column;
+    font-size: var(--navds-font-size-medium);
+}
+
+.Kommentarer > form > p {
+    margin-bottom: 8px;
+}
+
+.Kommentar {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 8px 0;
+    gap: 4px;
+    border-top: 1px solid var(--navds-semantic-color-border);
+}
+
+.Kommentarer * {
+    font-size: inherit;
+}
+
+.Kommentar:last-of-type {
+    border-bottom: 1px solid var(--navds-semantic-color-border);
+}
+
+.Kommentar > button {
+    border: none;
+    cursor: pointer;
+    background: none;
+    color: var(--navds-semantic-color-feedback-danger-text);
+    padding: 0;
+    width: max-content;
+    height: var(--navds-font-line-height-medium);
+    outline: none;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.Kommentar > button:focus {
+    box-shadow: none;
+}
+
+.Kommentar > button:focus-visible {
+    box-shadow: var(--navds-shadow-focus);
+}
+
+.Kommentar > button:hover {
+    text-decoration: underline;
+}
+
+.Kommentar > button > span {
+    display: flex;
+}
+
+.feilregistrert {
+    background: var(--navds-alert-color-error-background);
+    padding: 0 8px;
+    width: 100%;
+    font-style: italic;
+}
+
+.feilregistrert:after {
+    content: ' (feilregistrert)';
+}

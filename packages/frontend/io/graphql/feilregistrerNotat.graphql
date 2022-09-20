@@ -1,0 +1,3 @@
+mutation FeilregistrerNotatMutation($id: Int!) {
+    feilregistrerNotat(id: $id)
+}

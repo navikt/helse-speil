@@ -82,12 +82,14 @@ export const useFetchPerson = (): ((id: string) => Promise<PersonState>) => {
     };
 };
 
-export const useRefetchPerson = (): (() => void) => {
+export const useRefetchPerson = (): (() => Promise<PersonState | null>) => {
     const personId = useRecoilValue(personState).person?.fodselsnummer;
     const fetchPerson = useFetchPerson();
     return () => {
         if (personId) {
-            fetchPerson(personId);
+            return fetchPerson(personId);
+        } else {
+            return Promise.resolve(null);
         }
     };
 };

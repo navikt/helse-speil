@@ -11,11 +11,16 @@ import { NotFoundError } from './errors';
 import { NotatMock } from './storage/notat';
 import { OppgaveMock } from './storage/oppgave';
 import { getMockOppdrag } from './data/oppdrag';
+import { behandledeOppgaver } from './data/behandledeOppgaver';
 import { behandlingsstatistikk } from './data/behandlingsstatistikk';
-import type { BeregnetPeriode, Person } from './schemaTypes';
+import type {
+    BeregnetPeriode,
+    MutationFeilregistrerKommentarArgs,
+    MutationLeggTilKommentarArgs,
+    Person,
+} from './schemaTypes';
 
 import spesialistSchema from '../graphql.schema.json';
-import { behandledeOppgaver } from './data/behandledeOppgaver';
 
 const leggTilLagretData = (person: Person): void => {
     let tildeling = person.tildeling;
@@ -79,6 +84,15 @@ const getResolvers = (): IResolvers => ({
         behandlingsstatistikk: () => {
             sleep(1000);
             return behandlingsstatistikk;
+        },
+    },
+    Mutation: {
+        feilregistrerKommentar: (_, { id }: MutationFeilregistrerKommentarArgs) => {
+            NotatMock.feilregistrerKommentar({ id });
+            return true;
+        },
+        leggTilKommentar: (_, { tekst, notatId, saksbehandlerident }: MutationLeggTilKommentarArgs) => {
+            return NotatMock.addKommentar({ tekst, notatId, saksbehandlerident });
         },
     },
     Periode: {

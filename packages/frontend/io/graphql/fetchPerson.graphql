@@ -196,6 +196,13 @@ query FetchPerson($fnr: String, $aktorId: String) {
                             feilregistrert
                             feilregistrert_tidspunkt
                             type
+                            kommentarer {
+                                id
+                                tekst
+                                opprettet
+                                saksbehandlerident
+                                feilregistrert_tidspunkt
+                            }
                         }
                         periodehistorikk {
                             type
@@ -295,6 +302,13 @@ query FetchPerson($fnr: String, $aktorId: String) {
                             belop
                         }
                         oppgavereferanse
+                        oppgave {
+                            id
+                            erRetur
+                            erBeslutter
+                            tidligereSaksbehandler
+                            trengerTotrinnsvurdering
+                        }
                     }
                 }
             }
