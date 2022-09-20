@@ -49,7 +49,6 @@ export const Kommentarer: React.FC<KommentarerProps> = ({ kommentarer }) => {
                         <BodyShort size="small">{getFormattedDatetimeString(it.opprettet)}</BodyShort>
                         <pre
                             className={classNames(
-                                styles.Notat,
                                 typeof it.feilregistrert_tidspunkt === 'string' && styles.feilregistrert,
                             )}
                         >
