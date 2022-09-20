@@ -99,7 +99,7 @@ const filteredHistorikkState = selector<Array<HendelseObject>>({
 });
 
 const showHistorikkState = atom<boolean>({
-    key: '_showHistorikkState',
+    key: 'showHistorikkState',
     default: true,
 });
 
