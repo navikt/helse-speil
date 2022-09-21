@@ -53,7 +53,7 @@ export const BeregnetPeriodeView: React.VFC<BeregnetPeriodeViewProps> = ({ activ
     return (
         <>
             <Venstremeny />
-            <div className={styles.Content} data-testid="saksbilde-content-med-sykefravær">
+            <div className={styles.Content}>
                 <Saksbildevarsler
                     periodState={getPeriodState(activePeriod)}
                     oppgavereferanse={activePeriod.oppgavereferanse}

@@ -3,6 +3,7 @@ import { BodyShort } from '@navikt/ds-react';
 
 import { Flex } from '@components/Flex';
 import { Oppgaveetikett } from '@components/Oppgaveetikett';
+import { Oppgavetype, Periodetype as GraphQLPeriodetype } from '@io/graphql';
 
 import { Cell } from '../Cell';
 import { CellContent } from './CellContent';
@@ -34,21 +35,52 @@ const getLabel = (type: Periodetype, erReturOppgave: boolean, erBeslutterOppgave
     }
 };
 
+const getEtiketttype = (periodetype: Periodetype): Oppgavetype | GraphQLPeriodetype => {
+    switch (periodetype) {
+        case 'forlengelse':
+            return GraphQLPeriodetype.Forlengelse;
+        case 'førstegangsbehandling':
+            return GraphQLPeriodetype.Forstegangsbehandling;
+        case 'infotrygdforlengelse':
+            return GraphQLPeriodetype.Infotrygdforlengelse;
+        case 'overgangFraIt':
+            return GraphQLPeriodetype.OvergangFraIt;
+        case 'stikkprøve':
+            return Oppgavetype.Stikkprove;
+        case 'riskQa':
+            return Oppgavetype.RiskQa;
+        case 'revurdering':
+            return Oppgavetype.Revurdering;
+        case 'fortroligAdresse':
+            return Oppgavetype.FortroligAdresse;
+        case 'utbetalingTilSykmeldt':
+            return Oppgavetype.UtbetalingTilSykmeldt;
+        case 'delvisRefusjon':
+            return Oppgavetype.DelvisRefusjon;
+    }
+};
+
 interface SakstypeProps {
     type: Periodetype;
     erBeslutterOppgave: boolean;
     erReturOppgave: boolean;
 }
 
-export const SakstypeCell = React.memo(({ type, erReturOppgave, erBeslutterOppgave }: SakstypeProps) => (
-    <Cell>
-        <CellContent width={130}>
-            <Flex alignItems="center">
-                <Oppgaveetikett type={type} erReturOppgave={erReturOppgave} erBeslutterOppgave={erBeslutterOppgave} />
-                <BodyShort style={{ marginLeft: '12px' }}>
-                    {getLabel(type, erReturOppgave, erBeslutterOppgave)}
-                </BodyShort>
-            </Flex>
-        </CellContent>
-    </Cell>
-));
+export const SakstypeCell = React.memo(({ type, erReturOppgave, erBeslutterOppgave }: SakstypeProps) => {
+    return (
+        <Cell>
+            <CellContent width={130}>
+                <Flex alignItems="center">
+                    <Oppgaveetikett
+                        type={getEtiketttype(type)}
+                        erReturOppgave={erReturOppgave}
+                        erBeslutterOppgave={erBeslutterOppgave}
+                    />
+                    <BodyShort style={{ marginLeft: '12px' }}>
+                        {getLabel(type, erReturOppgave, erBeslutterOppgave)}
+                    </BodyShort>
+                </Flex>
+            </CellContent>
+        </Cell>
+    );
+});

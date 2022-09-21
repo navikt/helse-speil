@@ -6,11 +6,12 @@ import { ErrorBoundary } from '@components/ErrorBoundary';
 import { useActivePeriod } from '@state/periode';
 import { useCurrentPerson } from '@state/person';
 import { useCurrentArbeidsgiver } from '@state/arbeidsgiver';
-import { isBeregnetPeriode, isGhostPeriode } from '@utils/typeguards';
+import { isBeregnetPeriode, isGhostPeriode, isUberegnetPeriode } from '@utils/typeguards';
 import { useIsReadOnlyOppgave } from '@hooks/useIsReadOnlyOppgave';
 
 import { VenstremenyGhostPeriode } from './VenstremenyGhostPeriode';
 import { VenstremenyBeregnetPeriode } from './VenstremenyBeregnetPeriode';
+import { VenstremenyUberegnetPeriode } from './VenstremenyUberegnetPeriode';
 
 import styles from './Venstremeny.module.css';
 
@@ -39,6 +40,8 @@ const VenstremenyContainer: React.VFC = () => {
                 readOnly={readOnly}
             />
         );
+    } else if (isUberegnetPeriode(activePeriod)) {
+        return <VenstremenyUberegnetPeriode activePeriod={activePeriod} currentArbeidsgiver={currentArbeidsgiver} />;
     } else {
         return null;
     }

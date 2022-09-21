@@ -1,12 +1,8 @@
 import styled from '@emotion/styled';
 import React from 'react';
-import { Periodetype as GraphQLPeriodetype, Oppgavetype as GraphQLOppgavetype } from '@io/graphql';
+import { Oppgavetype, Periodetilstand, Periodetype } from '@io/graphql';
 
-interface EtikettProps {
-    størrelse?: 's' | 'l';
-}
-
-const Etikett = styled.div<EtikettProps>`
+const Etikett = styled.div`
     position: relative;
     display: flex;
     align-items: center;
@@ -17,9 +13,9 @@ const Etikett = styled.div<EtikettProps>`
     border-radius: 0.25rem;
     pointer-events: none;
 
-    width: ${(props) => (props.størrelse === 'l' ? '20px' : '18px')};
-    height: ${(props) => (props.størrelse === 'l' ? '20px' : '18px')};
-    font-size: ${(props) => (props.størrelse === 'l' ? '13px' : '12px')};
+    width: 20px;
+    height: 20px;
+    font-size: 13px;
 `;
 
 const RevurderingEtikett = styled(Etikett)`
@@ -129,65 +125,49 @@ const DelvisRefusjonEtikett = styled(Etikett)`
     }
 `;
 
-interface OppgaveetikettProps extends EtikettProps {
-    type: Periodetype | GraphQLPeriodetype | GraphQLOppgavetype | 'REVURDERING' | ExternalPeriodetype;
+interface OppgaveetikettProps {
+    type: Periodetype | Oppgavetype;
     erBeslutterOppgave?: boolean;
     erReturOppgave?: boolean;
-    tilstand?: PeriodState;
+    tilstand?: Periodetilstand;
 }
 
-export const Oppgaveetikett = React.forwardRef<HTMLDivElement, OppgaveetikettProps>(
-    ({ type, tilstand, erBeslutterOppgave = false, erReturOppgave = false, størrelse = 'l' }, ref) => {
-        if (erBeslutterOppgave) return <BeslutterEtikett ref={ref} størrelse={størrelse} />;
-        if (erReturOppgave) return <ReturEtikett ref={ref} størrelse={størrelse} />;
-        switch (type) {
-            case 'førstegangsbehandling':
-            case 'FØRSTEGANGSBEHANDLING':
-            case GraphQLPeriodetype.Forstegangsbehandling:
-                return <FørstegangsbehandlingEtikett ref={ref} størrelse={størrelse} />;
-            case 'forlengelse':
-            case 'FORLENGELSE':
-            case GraphQLPeriodetype.Forlengelse:
-                return <ForlengelseEtikett ref={ref} størrelse={størrelse} />;
-            case 'infotrygdforlengelse':
-            case 'INFOTRYGDFORLENGELSE':
-            case GraphQLPeriodetype.Infotrygdforlengelse:
-                return <ForlengelseEtikett ref={ref} størrelse={størrelse} />;
-            case 'overgangFraIt':
-            case 'OVERGANG_FRA_IT':
-            case GraphQLPeriodetype.OvergangFraIt:
-                return <InfotrygdforlengelseEtikett ref={ref} størrelse={størrelse} />;
-            case 'stikkprøve':
-            case 'STIKKPRØVE':
-            case GraphQLOppgavetype.Stikkprove:
-                return <StikkprøveEtikett ref={ref} størrelse={størrelse} />;
-            case 'fortroligAdresse':
-            case 'FORTROLIG_ADRESSE':
-            case GraphQLOppgavetype.FortroligAdresse:
-                return <FortroligAdresseEtikett ref={ref} størrelse={størrelse} />;
-            case 'riskQa':
-            case 'RISK_QA':
-            case GraphQLOppgavetype.RiskQa:
-                return <RiskQaEtikett ref={ref} størrelse={størrelse} />;
-            case 'utbetalingTilSykmeldt':
-            case 'UTBETALING_TIL_SYKMELDT':
-            case GraphQLOppgavetype.UtbetalingTilSykmeldt:
-                return <UtbetalingTilSykmeldtEtikett ref={ref} størrelse={størrelse} />;
-            case 'delvisRefusjon':
-            case 'DELVIS_REFUSJON':
-            case GraphQLOppgavetype.DelvisRefusjon:
-                return <DelvisRefusjonEtikett ref={ref} størrelse={størrelse} />;
-            case 'REVURDERING':
-            case 'revurdering':
-            case GraphQLOppgavetype.Revurdering: {
-                if (tilstand === 'revurderes') {
-                    return <RevurderesEtikett ref={ref} størrelse={størrelse} />;
-                } else {
-                    return <RevurderingEtikett ref={ref} størrelse={størrelse} />;
-                }
-            }
-            default:
-                return null;
+export const Oppgaveetikett: React.FC<OppgaveetikettProps> = ({
+    type,
+    tilstand,
+    erBeslutterOppgave = false,
+    erReturOppgave = false,
+}) => {
+    if (erBeslutterOppgave) {
+        return <BeslutterEtikett />;
+    }
+
+    if (erReturOppgave) {
+        return <ReturEtikett />;
+    }
+
+    switch (type) {
+        case Periodetype.Forstegangsbehandling:
+            return <FørstegangsbehandlingEtikett />;
+        case Periodetype.Forlengelse:
+        case Periodetype.Infotrygdforlengelse:
+            return <ForlengelseEtikett />;
+        case Periodetype.OvergangFraIt:
+            return <InfotrygdforlengelseEtikett />;
+        case Oppgavetype.Stikkprove:
+            return <StikkprøveEtikett />;
+        case Oppgavetype.FortroligAdresse:
+            return <FortroligAdresseEtikett />;
+        case Oppgavetype.RiskQa:
+            return <RiskQaEtikett />;
+        case Oppgavetype.UtbetalingTilSykmeldt:
+            return <UtbetalingTilSykmeldtEtikett />;
+        case Oppgavetype.DelvisRefusjon:
+            return <DelvisRefusjonEtikett />;
+        case Oppgavetype.Revurdering: {
+            return tilstand === Periodetilstand.TilGodkjenning ? <RevurderesEtikett /> : <RevurderingEtikett />;
         }
-    },
-);
+        default:
+            return null;
+    }
+};

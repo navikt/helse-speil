@@ -1,15 +1,15 @@
 import React from 'react';
 
+import { useCurrentVilkårsgrunnlag } from '@state/periode';
 import { Arbeidsgiver, BeregnetPeriode, Dag, Person, Utbetalingsdagtype } from '@io/graphql';
 
 import { VilkårCard } from './VilkårCard';
 import { PeriodeCard } from './PeriodeCard';
 import { UtbetalingCard } from './UtbetalingCard';
 import { ArbeidsgiverCard } from './ArbeidsgiverCard';
+import { Utbetaling } from './utbetaling/Utbetaling';
 
 import styles from './Venstremeny.module.css';
-import { Utbetaling } from './utbetaling/Utbetaling';
-import { useCurrentVilkårsgrunnlag } from '@state/periode';
 
 const getNumberOfDaysWithType = (timeline: Array<Dag>, type: Utbetalingsdagtype): number => {
     return timeline.filter((it) => it.utbetalingsdagtype === type).length;
@@ -34,7 +34,7 @@ export const VenstremenyBeregnetPeriode: React.VFC<VenstremenyBeregnetPeriodePro
 
     return (
         <section className={styles.Venstremeny}>
-            <PeriodeCard activePeriod={activePeriod} />
+            <PeriodeCard.Beregnet periode={activePeriod} />
             <ArbeidsgiverCard
                 navn={currentArbeidsgiver.navn}
                 organisasjonsnummer={currentArbeidsgiver.organisasjonsnummer}

@@ -49,7 +49,7 @@ const HistorikkWithContent: React.FC = () => {
                     duration: 0.2,
                     ease: 'easeInOut',
                 }}
-                style={{ overflow: 'hidden' }}
+                style={{ overflow: 'hidden', gridArea: 'høyremeny' }}
             >
                 <div className={styles.Historikk}>
                     <ul>

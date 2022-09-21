@@ -1,4 +1,3 @@
-import styled from '@emotion/styled';
 import dayjs from 'dayjs';
 import React from 'react';
 
@@ -12,68 +11,52 @@ import { Oppgaveetikett } from '@components/Oppgaveetikett';
 import { Skjæringstidspunktikon } from '@components/ikoner/Skjæringstidspunktikon';
 import { Sykmeldingsperiodeikon } from '@components/ikoner/Sykmeldingsperiodeikon';
 import { SkjæringstidspunktikonInvert } from '@components/ikoner/SkjæringstidspunktikonInvert';
-import { BeregnetPeriode, Periodetype } from '@io/graphql';
+import { BeregnetPeriode, Oppgavetype, Periodetilstand, Periodetype, UberegnetPeriode } from '@io/graphql';
 import { NORSK_DATOFORMAT_KORT } from '@utils/date';
-import { getPeriodState } from '@utils/mapping';
 import { capitalize } from '@utils/locale';
 
 import { CardTitle } from './CardTitle';
 
 import styles from './PeriodeCard.module.css';
 
-const LovdataLenkeContainer = styled(BodyShort)`
-    font-size: 14px;
-    margin-left: 0.5rem;
-`;
-
-const getTextForPeriodetype = (type: Periodetype | 'REVURDERING'): string | null => {
+const getTextForPeriodetype = (type: Periodetype): string => {
     switch (type) {
-        case 'INFOTRYGDFORLENGELSE':
+        case Periodetype.Forlengelse:
+        case Periodetype.Infotrygdforlengelse:
             return 'FORLENGELSE';
-        case 'FORSTEGANGSBEHANDLING':
+        case Periodetype.Forstegangsbehandling:
             return 'FØRSTEGANGSBEHANDLING';
-        case 'OVERGANG_FRA_IT':
+        case Periodetype.OvergangFraIt:
             return 'FORLENGELSE IT';
-        default:
-            return type;
     }
 };
 
-const getPeriodetypePostfix = (activePeriod: BeregnetPeriode) => {
-    return activePeriod.erReturOppgave ? '(RETUR)' : activePeriod.erBeslutterOppgave ? '(BESLUTTER)' : '';
-};
-
-interface RowProps {
-    activePeriod: BeregnetPeriode;
+interface PeriodetypeRowProps {
+    type: Periodetype | Oppgavetype;
+    tilstand: Periodetilstand;
+    label: string;
 }
 
-const PeriodetypeRow: React.VFC<RowProps> = ({ activePeriod }) => {
-    const periodetype = activePeriod.utbetaling.type === 'REVURDERING' ? 'REVURDERING' : activePeriod.periodetype;
-    const periodetypeLabel = getTextForPeriodetype(periodetype);
-    const periodetypeLabelPostfix = getPeriodetypePostfix(activePeriod);
-    const periodState = getPeriodState(activePeriod);
-
-    if (!periodetypeLabel) {
-        return null;
-    }
-
+const PeriodetypeRow: React.FC<PeriodetypeRowProps> = ({ type, tilstand, label }) => {
     return (
         <>
-            <Tooltip content={capitalize(periodetypeLabel)}>
+            <Tooltip content={capitalize(label)}>
                 <div className={styles.IconContainer}>
-                    <Oppgaveetikett type={periodetype} tilstand={periodState} />
+                    <Oppgaveetikett type={type} tilstand={tilstand} />
                 </div>
             </Tooltip>
-            <CardTitle className={styles.Title}>
-                {periodetypeLabel} {periodetypeLabelPostfix}
-            </CardTitle>
+            <CardTitle className={styles.Title}>{label}</CardTitle>
         </>
     );
 };
 
-const SykmeldingsperiodeRow: React.VFC<RowProps> = ({ activePeriod }) => {
-    const fom = dayjs(activePeriod.fom).format(NORSK_DATOFORMAT_KORT);
-    const tom = dayjs(activePeriod.tom).format(NORSK_DATOFORMAT_KORT);
+interface SykmeldingsperiodeRowProps {
+    periode: DatePeriod;
+}
+
+const SykmeldingsperiodeRow: React.FC<SykmeldingsperiodeRowProps> = ({ periode }) => {
+    const fom = dayjs(periode.fom).format(NORSK_DATOFORMAT_KORT);
+    const tom = dayjs(periode.tom).format(NORSK_DATOFORMAT_KORT);
 
     return (
         <>
@@ -87,10 +70,13 @@ const SykmeldingsperiodeRow: React.VFC<RowProps> = ({ activePeriod }) => {
     );
 };
 
-const SkjæringstidspunktRow: React.VFC<RowProps> = ({ activePeriod }) => {
-    const skjæringstidspunkt = dayjs(activePeriod.skjaeringstidspunkt).format(NORSK_DATOFORMAT_KORT);
+interface SkjæringstidspunktRowProps {
+    periodetype: Periodetype;
+    skjæringstidspunkt: DateString;
+}
 
-    if (activePeriod.periodetype === 'OVERGANG_FRA_IT') {
+const SkjæringstidspunktRow: React.VFC<SkjæringstidspunktRowProps> = ({ periodetype, skjæringstidspunkt }) => {
+    if (periodetype === Periodetype.OvergangFraIt) {
         return (
             <>
                 <Tooltip content="Skjæringstidspunkt">
@@ -109,7 +95,7 @@ const SkjæringstidspunktRow: React.VFC<RowProps> = ({ activePeriod }) => {
                         <Skjæringstidspunktikon alt="Skjæringstidspunkt" />
                     </div>
                 </Tooltip>
-                <BodyShort>{skjæringstidspunkt}</BodyShort>
+                <BodyShort>{dayjs(skjæringstidspunkt).format(NORSK_DATOFORMAT_KORT)}</BodyShort>
             </>
         );
     }
@@ -124,7 +110,11 @@ const harRedusertAntallSykepengedager = (periode: BeregnetPeriode): boolean => {
     );
 };
 
-const MaksdatoRow: React.VFC<RowProps> = ({ activePeriod }) => {
+interface MaksdatoRowProps {
+    activePeriod: BeregnetPeriode;
+}
+
+const MaksdatoRow: React.FC<MaksdatoRowProps> = ({ activePeriod }) => {
     const maksdato = dayjs(activePeriod.maksdato).format(NORSK_DATOFORMAT_KORT);
     const alderVedSisteSykedag = activePeriod.periodevilkar.alder.alderSisteSykedag ?? null;
 
@@ -141,15 +131,15 @@ const MaksdatoRow: React.VFC<RowProps> = ({ activePeriod }) => {
                 } dager igjen)`}</BodyShort>
                 {alderVedSisteSykedag &&
                     (alderVedSisteSykedag >= 70 ? (
-                        <Flex alignItems="center">
+                        <Flex alignItems="center" gap="8px">
                             <Tooltip content="Over 70 år">
                                 <div className={styles.IconContainer}>
                                     <Advarselikon alt="Over 70 år" height={16} width={16} />
                                 </div>
                             </Tooltip>
-                            <LovdataLenkeContainer as="p">
+                            <BodyShort size="small">
                                 <LovdataLenke paragraf="8-3">§ 8-3</LovdataLenke>
-                            </LovdataLenkeContainer>
+                            </BodyShort>
                         </Flex>
                     ) : (
                         harRedusertAntallSykepengedager(activePeriod) && (
@@ -167,19 +157,55 @@ const MaksdatoRow: React.VFC<RowProps> = ({ activePeriod }) => {
     );
 };
 
-interface PeriodeCardProps {
-    activePeriod: BeregnetPeriode;
+interface PeriodeCardUberegnetProps {
+    periode: UberegnetPeriode;
 }
 
-export const PeriodeCard: React.VFC<PeriodeCardProps> = ({ activePeriod }) => {
+const PeriodeCardUberegnet: React.FC<PeriodeCardUberegnetProps> = ({ periode }) => {
     return (
         <section>
             <div className={styles.Grid}>
-                <PeriodetypeRow activePeriod={activePeriod} />
-                <SykmeldingsperiodeRow activePeriod={activePeriod} />
-                <SkjæringstidspunktRow activePeriod={activePeriod} />
-                <MaksdatoRow activePeriod={activePeriod} />
+                <PeriodetypeRow
+                    type={periode.periodetype}
+                    tilstand={periode.periodetilstand}
+                    label={getTextForPeriodetype(periode.periodetype)}
+                />
+                <SykmeldingsperiodeRow periode={periode} />
+                <SkjæringstidspunktRow
+                    periodetype={periode.periodetype}
+                    skjæringstidspunkt={periode.skjaeringstidspunkt}
+                />
             </div>
         </section>
     );
+};
+
+interface PeriodeCardBeregnetProps {
+    periode: BeregnetPeriode;
+}
+
+const PeriodeCardBeregnet: React.FC<PeriodeCardBeregnetProps> = ({ periode }) => {
+    const type = periode.utbetaling.type === 'REVURDERING' ? Oppgavetype.Revurdering : periode.periodetype;
+    const label = `${getTextForPeriodetype(periode.periodetype)} ${
+        periode.erReturOppgave ? '(RETUR)' : periode.erBeslutterOppgave ? '(BESLUTTER)' : ''
+    }`;
+
+    return (
+        <section>
+            <div className={styles.Grid}>
+                <PeriodetypeRow type={type} tilstand={periode.periodetilstand} label={label} />
+                <SykmeldingsperiodeRow periode={periode} />
+                <SkjæringstidspunktRow
+                    periodetype={periode.periodetype}
+                    skjæringstidspunkt={periode.skjaeringstidspunkt}
+                />
+                <MaksdatoRow activePeriod={periode} />
+            </div>
+        </section>
+    );
+};
+
+export const PeriodeCard = {
+    Beregnet: PeriodeCardBeregnet,
+    Uberegnet: PeriodeCardUberegnet,
 };

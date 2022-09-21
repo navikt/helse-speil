@@ -1,10 +1,17 @@
 import React, { ReactNode } from 'react';
-import { Alert } from '@navikt/ds-react';
+import { Alert, Loader } from '@navikt/ds-react';
+import { Route, Switch, useRouteMatch } from 'react-router-dom';
 
 import { isNotReady } from '@state/periode';
+import { onLazyLoadFail } from '@utils/error';
 import { Dag, Sykdomsdagtype, UberegnetPeriode } from '@io/graphql';
 
-import styles from './UberegnetPeriodeView.module.css';
+import { Venstremeny } from '../venstremeny/Venstremeny';
+
+import styles from './PeriodeView.module.css';
+import { Historikk } from '../historikk';
+
+const Utbetaling = React.lazy(() => import('../utbetaling/Utbetaling').catch(onLazyLoadFail));
 
 const containsOnly = (days: Array<Dag>, ...dayTypes: Array<Sykdomsdagtype>): boolean => {
     const weekends = [Sykdomsdagtype.SykHelgedag, Sykdomsdagtype.FriskHelgedag];
@@ -55,6 +62,14 @@ const getErrorMessage = (period: UberegnetPeriode): ReactNode => {
     );
 };
 
+const UberegnetPeriodeViewLoader: React.VFC = () => {
+    return (
+        <div className={styles.Skeleton}>
+            <Loader size="xlarge" />
+        </div>
+    );
+};
+
 interface UberegnetPeriodeViewProps {
     activePeriod: UberegnetPeriode;
 }
@@ -62,10 +77,24 @@ interface UberegnetPeriodeViewProps {
 export const UberegnetPeriodeView = ({ activePeriod }: UberegnetPeriodeViewProps) => {
     const errorMelding = getErrorMessage(activePeriod);
 
+    const { path } = useRouteMatch();
+
     return (
-        <div className={styles.UberegnetPeriodeView} data-testid="saksbilde-ufullstendig-vedtaksperiode">
-            {errorMelding}
-        </div>
+        <>
+            <Venstremeny />
+            <div className={styles.Content}>
+                <div className={styles.RouteContainer}>
+                    <Switch>
+                        <React.Suspense fallback={<UberegnetPeriodeViewLoader />}>
+                            <Route path={`${path}/utbetaling`}>
+                                <Utbetaling />
+                            </Route>
+                        </React.Suspense>
+                    </Switch>
+                </div>
+            </div>
+            <Historikk />
+        </>
     );
 };
 
