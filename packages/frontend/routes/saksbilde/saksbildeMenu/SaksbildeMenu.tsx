@@ -6,7 +6,7 @@ import { Location, useNavigation } from '@hooks/useNavigation';
 import { ErrorBoundary } from '@components/ErrorBoundary';
 import { useActivePeriod } from '@state/periode';
 import { BeregnetPeriode } from '@io/graphql';
-import { isBeregnetPeriode, isGhostPeriode } from '@utils/typeguards';
+import { isBeregnetPeriode, isGhostPeriode, isUberegnetPeriode } from '@utils/typeguards';
 import { onLazyLoadFail } from '@utils/error';
 
 import { TabLink } from '../TabLink';
@@ -78,6 +78,24 @@ const SaksbildeMenuBeregnetPeriode = ({ activePeriod }: SaksbildeMenuBeregnetPer
     );
 };
 
+const SaksbildeMenuUberegnetPeriode: React.FC = () => {
+    const { pathForLocation } = useNavigation();
+
+    return (
+        <div className={styles.SaksbildeMenu}>
+            <div>
+                <span className={styles.TabList} role="tablist">
+                    <TabLink to={pathForLocation(Location.Utbetaling)} title="Utbetaling">
+                        Utbetaling
+                    </TabLink>
+                </span>
+                <DropdownMenu />
+            </div>
+            <HistorikkHeader />
+        </div>
+    );
+};
+
 const SaksbildeMenuContainer: React.VFC = () => {
     const activePeriod = useActivePeriod();
 
@@ -85,6 +103,8 @@ const SaksbildeMenuContainer: React.VFC = () => {
         return <SaksbildeMenuBeregnetPeriode activePeriod={activePeriod} />;
     } else if (isGhostPeriode(activePeriod)) {
         return <SaksbildeMenuGhostPeriode />;
+    } else if (isUberegnetPeriode(activePeriod)) {
+        return <SaksbildeMenuUberegnetPeriode />;
     } else {
         return <SaksbildeMenuEmpty />;
     }
