@@ -15,7 +15,7 @@ const useAddReturtoast = () => {
 
     return () => {
         addToast({
-            message: 'Saken er sendt i retur til saksbehandler.',
+            message: 'Saken er sendt i retur til saksbehandler',
             timeToLiveMs: 5000,
             key: nanoid(),
             variant: 'success',

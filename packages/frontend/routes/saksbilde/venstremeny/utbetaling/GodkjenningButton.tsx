@@ -15,7 +15,7 @@ const useAddUtbetalingstoast = () => {
 
     return () => {
         addToast({
-            message: 'Utbetalingen er sendt til oppdragssystemet.',
+            message: 'Utbetalingen er sendt til oppdragssystemet',
             timeToLiveMs: 5000,
             key: nanoid(),
             variant: 'success',

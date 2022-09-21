@@ -3,12 +3,9 @@ import { Button } from '@navikt/ds-react';
 
 import { BeregnetPeriode } from '@io/graphql';
 import { postSendTilInfotrygd } from '@io/http';
-import { useAddVarsel } from '@state/varsler';
-
 import { AvvisningModal, Avvisningsskjema } from './AvvisningModal';
 
 import { AmplitudeContext } from '@io/amplitude';
-import { SuccessAlert } from '@utils/error';
 import { nanoid } from 'nanoid';
 import { useAddToast } from '@state/toasts';
 
@@ -17,7 +14,7 @@ const useAddInfotrygdtoast = () => {
 
     return () => {
         addToast({
-            message: 'Saken er sendt til behandling i Infotrygd.',
+            message: 'Saken er sendt til behandling i Infotrygd',
             timeToLiveMs: 5000,
             key: nanoid(),
             variant: 'success',

@@ -115,7 +115,7 @@ const usePostOverstyrtInntekt = (onFerdigKalkulert: () => void) => {
                 .catch((error) => {
                     switch (error.statusCode) {
                         default: {
-                            setError('Kunne ikke overstyre inntekt. Prøv igjen senere. ');
+                            setError('Kunne ikke overstyre inntekt. Prøv igjen senere.');
                         }
                     }
                     setIsLoading(false);

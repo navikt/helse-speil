@@ -14,7 +14,7 @@ const useAddSendtTilGodkjenningtoast = () => {
 
     return () => {
         addToast({
-            message: 'Saken er sendt til beslutter.',
+            message: 'Saken er sendt til beslutter',
             timeToLiveMs: 5000,
             key: nanoid(),
             variant: 'success',
