@@ -5,14 +5,12 @@ import { BeregnetPeriode } from '@io/graphql';
 import { AmplitudeContext } from '@io/amplitude';
 import { postSendTilbakeTilSaksbehandler } from '@io/http';
 import { useCurrentPerson } from '@state/person';
-import { useAddVarsel } from '@state/varsler';
-import { SuccessAlert } from '@utils/error';
 
 import { NyttNotatModal } from '../../../oversikt/table/rader/notat/NyttNotatModal';
 import { nanoid } from 'nanoid';
 import { useAddToast } from '@state/toasts';
 
-const useAddInfotrygdtoast = () => {
+const useAddReturtoast = () => {
     const addToast = useAddToast();
 
     return () => {
@@ -42,7 +40,7 @@ export const ReturButton: React.VFC<ReturButtonProps> = ({
     const [showModal, setShowModal] = useState(false);
     const [_isSending, setIsSending] = useState(false);
 
-    const addInfotrygdtoast = useAddInfotrygdtoast();
+    const addReturtoast = useAddReturtoast();
     const person = useCurrentPerson();
     const amplitude = useContext(AmplitudeContext);
 
@@ -62,7 +60,7 @@ export const ReturButton: React.VFC<ReturButtonProps> = ({
         })
             .then(() => {
                 amplitude.logTotrinnsoppgaveReturnert();
-                addInfotrygdtoast();
+                addReturtoast();
                 setIsSending(false);
                 closeModal();
                 onSuccess?.();
