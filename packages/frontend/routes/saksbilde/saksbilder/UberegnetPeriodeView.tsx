@@ -7,7 +7,6 @@ import { onLazyLoadFail } from '@utils/error';
 import { Dag, Sykdomsdagtype, UberegnetPeriode } from '@io/graphql';
 
 import { Venstremeny } from '../venstremeny/Venstremeny';
-import { Historikk } from '../historikk';
 
 import styles from './PeriodeView.module.css';
 
@@ -94,7 +93,6 @@ export const UberegnetPeriodeView = ({ activePeriod }: UberegnetPeriodeViewProps
                     </Switch>
                 </div>
             </div>
-            <Historikk />
         </>
     );
 };
