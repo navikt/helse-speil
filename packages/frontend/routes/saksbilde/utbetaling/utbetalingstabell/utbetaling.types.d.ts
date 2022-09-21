@@ -34,7 +34,7 @@ declare type UtbetalingstabellDag = {
     erForeldet: boolean;
     erMaksdato: boolean;
     grad?: Maybe<number>;
-    dagerIgjen?: number;
+    dagerIgjen?: Maybe<number>;
     overstyringer?: Array<OverstyringerPrDag>;
     totalGradering?: Maybe<number>;
     arbeidsgiverbeløp?: Maybe<number>;

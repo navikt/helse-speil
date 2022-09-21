@@ -25,8 +25,6 @@ const getUtbetalingstabelldagtype = (dag: Dag): Utbetalingstabelldagtype => {
             return 'Helg';
         case Utbetalingsdagtype.Navdag:
             return 'Syk';
-        case Utbetalingsdagtype.UkjentDag:
-            return 'Ukjent';
         case Utbetalingsdagtype.AvvistDag:
             return 'Avslått';
     }
@@ -53,7 +51,7 @@ const getUtbetalingstabelldagtype = (dag: Dag): Utbetalingstabelldagtype => {
 
 export const createDagerMap = (
     dager: Array<Dag>,
-    totaltAntallDagerIgjen: number,
+    totaltAntallDagerIgjen: Maybe<number>,
     maksdato?: DateString,
 ): Map<DateString, UtbetalingstabellDag> => {
     const map = new Map<DateString, UtbetalingstabellDag>();
@@ -61,7 +59,10 @@ export const createDagerMap = (
 
     for (let i = 0; i < dager.length; i++) {
         const currentDag = dager[i];
-        dagerIgjen = currentDag.utbetalingsdagtype === 'NAVDAG' ? dagerIgjen - 1 : dagerIgjen;
+
+        if (typeof dagerIgjen === 'number') {
+            dagerIgjen = currentDag.utbetalingsdagtype === 'NAVDAG' ? dagerIgjen - 1 : dagerIgjen;
+        }
 
         map.set(currentDag.dato, {
             dato: currentDag.dato,
@@ -72,7 +73,7 @@ export const createDagerMap = (
             erForeldet: currentDag.utbetalingsdagtype === 'FORELDET_DAG',
             erMaksdato: typeof maksdato === 'string' && dayjs(maksdato).isSame(currentDag.dato, 'day'),
             grad: currentDag.grad,
-            dagerIgjen: Math.max(dagerIgjen, 0),
+            dagerIgjen: typeof dagerIgjen === 'number' ? Math.max(dagerIgjen, 0) : null,
             totalGradering: currentDag.utbetalingsinfo?.totalGrad,
             arbeidsgiverbeløp: currentDag.utbetalingsinfo?.arbeidsgiverbelop,
             personbeløp: currentDag.utbetalingsinfo?.personbelop,
@@ -102,9 +103,10 @@ export const useTabelldagerMap = ({
     maksdato,
 }: UseTabelldagerMapOptions): Map<string, UtbetalingstabellDag> =>
     useMemo(() => {
-        const antallDagerIgjen =
-            (typeof gjenståendeDager === 'number' ? gjenståendeDager : 0) +
-            antallSykedagerTilOgMedMaksdato(tidslinje, maksdato);
+        const antallDagerIgjen: number | null =
+            typeof gjenståendeDager === 'number'
+                ? gjenståendeDager + antallSykedagerTilOgMedMaksdato(tidslinje, maksdato)
+                : null;
 
         const dager: Map<DateString, UtbetalingstabellDag> = createDagerMap(tidslinje, antallDagerIgjen);
 

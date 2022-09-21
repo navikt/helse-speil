@@ -7,9 +7,9 @@ import { onLazyLoadFail } from '@utils/error';
 import { Dag, Sykdomsdagtype, UberegnetPeriode } from '@io/graphql';
 
 import { Venstremeny } from '../venstremeny/Venstremeny';
+import { Historikk } from '../historikk';
 
 import styles from './PeriodeView.module.css';
-import { Historikk } from '../historikk';
 
 const Utbetaling = React.lazy(() => import('../utbetaling/Utbetaling').catch(onLazyLoadFail));
 
@@ -25,39 +25,39 @@ const containsPayment = (days: Array<Dag>): boolean => {
 const getErrorMessage = (period: UberegnetPeriode): ReactNode => {
     if (isNotReady(period)) {
         return (
-            <Alert className={styles.Message} variant="info" size="small">
-                Vedtaksperioden kan ikke vises, den ikke er klar til behandling ennå.
+            <Alert className={styles.Varsel} variant="info">
+                Vedtaksperioden er ikke klar til behandling. Viser uberegnet data.
             </Alert>
         );
     }
 
     if (containsOnly(period.tidslinje, Sykdomsdagtype.Feriedag)) {
         return (
-            <Alert className={styles.Message} variant="info" size="small">
-                Kunne ikke vise informasjon om vedtaksperioden. Perioden inneholder kun ferie.
+            <Alert className={styles.Varsel} variant="info">
+                Perioden inneholder kun ferie. Viser uberegnet data.
             </Alert>
         );
     }
 
     if (containsOnly(period.tidslinje, Sykdomsdagtype.Permisjonsdag)) {
         return (
-            <Alert className={styles.Message} variant="info" size="small">
-                Kunne ikke vise informasjon om vedtaksperioden. Perioden inneholder kun permisjon.
+            <Alert className={styles.Varsel} variant="info">
+                Perioden inneholder kun permisjon. Viser uberegnet data.
             </Alert>
         );
     }
 
     if (!containsPayment(period.tidslinje)) {
         return (
-            <Alert className={styles.Message} variant="info" size="small">
-                Kunne ikke vise informasjon om vedtaksperioden. Perioden har ingen utbetaling.
+            <Alert className={styles.Varsel} variant="info">
+                Perioden har ingen utbetaling. Viser uberegnet data.
             </Alert>
         );
     }
 
     return (
-        <Alert className={styles.Message} variant="error" size="small">
-            Kunne ikke lese informasjon om sakens tilstand.
+        <Alert className={styles.Varsel} variant="info">
+            Perioden er ikke beregnet. Viser uberegnet data.
         </Alert>
     );
 };
@@ -83,6 +83,7 @@ export const UberegnetPeriodeView = ({ activePeriod }: UberegnetPeriodeViewProps
         <>
             <Venstremeny />
             <div className={styles.Content}>
+                {errorMelding}
                 <div className={styles.RouteContainer}>
                     <Switch>
                         <React.Suspense fallback={<UberegnetPeriodeViewLoader />}>

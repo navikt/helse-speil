@@ -3,6 +3,7 @@ import React from 'react';
 import { Endringstrekant } from '@components/Endringstrekant';
 
 import { Cell } from './Cell';
+import { CellContent } from '../../table/CellContent';
 
 const dagtypeIsValid = (type: Utbetalingstabelldagtype): boolean =>
     ['Helg', 'Arbeid', 'Ferie', 'Permisjon'].every((it) => it !== type);
@@ -19,7 +20,9 @@ export const TotalGradCell = ({ type, erOverstyrt, totalGradering }: TotalGradPr
     return (
         <Cell erOverstyrt={erOverstyrt}>
             {erOverstyrt && <Endringstrekant />}
-            {showTotalGradering && <>{`${Math.floor(totalGradering)} %`}</>}
+            {showTotalGradering && (
+                <CellContent justifyContent="flex-end">{`${Math.floor(totalGradering)} %`}</CellContent>
+            )}
         </Cell>
     );
 };

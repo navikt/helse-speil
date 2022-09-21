@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { Endringstrekant } from '@components/Endringstrekant';
+import { CellContent } from '../../table/CellContent';
 
 const dagtypeIsValid = (type: Utbetalingstabelldagtype): boolean =>
     ['Helg', 'Arbeid', 'Ferie', 'Permisjon'].every((it) => it !== type);
@@ -19,7 +20,9 @@ export const GradCell: React.FC<GradCellProps> = ({ dag, overstyrtDag, ...rest }
     return (
         <td {...rest}>
             {gradErOverstyrt && <Endringstrekant text={overstyringstekst} />}
-            {dagtypeIsValid(overstyrtDag?.type ?? dag.type) && renderGrad(overstyrtDag?.grad ?? dag.grad)}
+            <CellContent justifyContent="flex-end">
+                {dagtypeIsValid(overstyrtDag?.type ?? dag.type) && renderGrad(overstyrtDag?.grad ?? dag.grad)}
+            </CellContent>
         </td>
     );
 };

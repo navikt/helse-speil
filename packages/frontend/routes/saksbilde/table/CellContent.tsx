@@ -1,9 +1,16 @@
 import styled from '@emotion/styled';
 import React from 'react';
+import { Property } from 'csstype';
 
-export const CellContent = styled.div`
+interface CellContentProps {
+    justifyContent?: Property.JustifyContent;
+}
+
+export const CellContent = styled.div<CellContentProps>`
     position: relative;
     display: flex;
     align-items: center;
     white-space: nowrap;
+
+    justify-content: ${({ justifyContent }) => justifyContent ?? 'initial'};
 `;

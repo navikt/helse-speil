@@ -13,9 +13,9 @@ import {
 } from '@hooks/revurdering';
 import { useIsReadOnlyOppgave } from '@hooks/useIsReadOnlyOppgave';
 import { useOverstyringIsEnabled } from '@hooks/useOverstyringIsEnabled';
-import { Arbeidsgiver, BeregnetPeriode, Dagoverstyring, Overstyring } from '@io/graphql';
+import { Arbeidsgiver, BeregnetPeriode, Dagoverstyring, Overstyring, UberegnetPeriode } from '@io/graphql';
 import { defaultUtbetalingToggles, erDev, erLocal } from '@utils/featureToggles';
-import { isBeregnetPeriode } from '@utils/typeguards';
+import { isBeregnetPeriode, isUberegnetPeriode } from '@utils/typeguards';
 import { useActivePeriod } from '@state/periode';
 import { useCurrentArbeidsgiver } from '@state/arbeidsgiver';
 
@@ -73,12 +73,12 @@ export const useDagoverstyringer = (
     }, [arbeidsgiver, fom, tom]);
 };
 
-interface UtbetalingWithContentProps {
+interface UtbetalingBeregnetPeriodeProps {
     period: BeregnetPeriode;
     arbeidsgiver: Arbeidsgiver;
 }
 
-const UtbetalingWithContent: React.FC<UtbetalingWithContentProps> = React.memo(({ period, arbeidsgiver }) => {
+const UtbetalingBeregnetPeriode: React.FC<UtbetalingBeregnetPeriodeProps> = React.memo(({ period, arbeidsgiver }) => {
     const overstyringIsEnabled = useOverstyringIsEnabled();
     const revurderingIsEnabled = useRevurderingIsEnabled(defaultUtbetalingToggles);
     const overstyrRevurderingIsEnabled = useOverstyrRevurderingIsEnabled(defaultUtbetalingToggles);
@@ -111,6 +111,17 @@ const UtbetalingWithContent: React.FC<UtbetalingWithContentProps> = React.memo((
     );
 });
 
+interface UtbetalingUberegnetPeriodeProps {
+    periode: UberegnetPeriode;
+}
+
+const UtbetalingUberegnetPeriode: React.FC<UtbetalingUberegnetPeriodeProps> = ({ periode }) => {
+    const dager: Map<string, UtbetalingstabellDag> = useTabelldagerMap({
+        tidslinje: periode.tidslinje,
+    });
+    return <ReadonlyUtbetaling fom={periode.fom} tom={periode.tom} dager={dager} />;
+};
+
 const UtbetalingContainer = () => {
     const activePeriod = useActivePeriod();
     const currentArbeidsgiver = useCurrentArbeidsgiver();
@@ -118,7 +129,9 @@ const UtbetalingContainer = () => {
     if (!activePeriod || !currentArbeidsgiver) {
         return null;
     } else if (isBeregnetPeriode(activePeriod)) {
-        return <UtbetalingWithContent period={activePeriod} arbeidsgiver={currentArbeidsgiver} />;
+        return <UtbetalingBeregnetPeriode period={activePeriod} arbeidsgiver={currentArbeidsgiver} />;
+    } else if (isUberegnetPeriode(activePeriod)) {
+        return <UtbetalingUberegnetPeriode periode={activePeriod} />;
     } else {
         return null;
     }
