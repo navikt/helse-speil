@@ -6,6 +6,21 @@ import { postUtbetalingTilTotrinnsvurdering } from '@io/http';
 import { UtbetalingModal } from './UtbetalingModal';
 import { AmplitudeContext } from '@io/amplitude';
 import { Key, useKeyboard } from '@hooks/useKeyboard';
+import { useAddToast } from '@state/toasts';
+import { nanoid } from 'nanoid';
+
+const useAddSendtTilGodkjenningtoast = () => {
+    const addToast = useAddToast();
+
+    return () => {
+        addToast({
+            message: 'Saken er sendt til beslutter.',
+            timeToLiveMs: 5000,
+            key: nanoid(),
+            variant: 'success',
+        });
+    };
+};
 
 interface SendTilGodkjenningButtonProps extends Omit<React.HTMLAttributes<HTMLButtonElement>, 'onError'> {
     children: ReactNode;
@@ -26,6 +41,7 @@ export const SendTilGodkjenningButton: React.FC<SendTilGodkjenningButtonProps> =
     const [showModal, setShowModal] = useState(false);
     const [isSending, setIsSending] = useState(false);
     const amplitude = useContext(AmplitudeContext);
+    const addToast = useAddSendtTilGodkjenningtoast();
 
     useKeyboard({
         [Key.F6]: { action: () => setShowModal(true), ignoreIfModifiers: false },
@@ -38,6 +54,7 @@ export const SendTilGodkjenningButton: React.FC<SendTilGodkjenningButtonProps> =
         postUtbetalingTilTotrinnsvurdering(oppgavereferanse)
             .then(() => {
                 amplitude.logTotrinnsoppgaveTilGodkjenning();
+                addToast();
                 onSuccess?.();
             })
             .catch((error) => {
