@@ -3,6 +3,7 @@ import {
     useActiveGenerationIsLast,
     useActivePeriodHasLatestSkjæringstidspunkt,
     useHarKunEnFagsystemIdPåArbeidsgiverIAktivPeriode,
+    useHarOverlappendePeriodeSomErErAvsluttet,
 } from '@hooks/revurdering';
 import { EditButton } from '@components/EditButton';
 import { PopoverHjelpetekst } from '@components/PopoverHjelpetekst';
@@ -12,6 +13,8 @@ import { useCurrentPerson, useVilkårsgrunnlag } from '@state/person';
 import { erDev, erLocal } from '@utils/featureToggles';
 import { useActivePeriod } from '@state/periode';
 import { getPeriodState } from '@utils/mapping';
+import { isRevurdering } from '@utils/period';
+import { isBeregnetPeriode } from '@utils/typeguards';
 
 interface RedigerInntektProps {
     setEditing: Dispatch<SetStateAction<boolean>>;
@@ -33,6 +36,14 @@ export const RedigerInntekt = ({
     const harKunEnArbeidsgiver = inntektstype === Inntektstype.Enarbeidsgiver;
 
     const period = useActivePeriod();
+    const person = useCurrentPerson();
+
+    const harOverlappendePeriodeSomErErAvsluttet = useHarOverlappendePeriodeSomErErAvsluttet(person!!, period!!);
+    const periodeHarTilstandAvventerGodkjenning =
+        getPeriodState(period) !== 'tilGodkjenning' && isBeregnetPeriode(period) && !isRevurdering(period);
+
+    console.log('harOverlappendePeriodeSomErErAvsluttet: ' + harOverlappendePeriodeSomErErAvsluttet);
+    console.log('periodeHarTilstandAvventerGodkjenning: ' + periodeHarTilstandAvventerGodkjenning);
 
     const aktivPeriodeVenter = ['venter', 'venterPåKiling'].includes(getPeriodState(period));
 

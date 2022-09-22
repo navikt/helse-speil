@@ -40,7 +40,7 @@ const overlappendePerioder = (person: Person, periode: BeregnetPeriode): Array<B
         .flatMap((arbeidsgiver) => arbeidsgiver.generasjoner[0]?.perioder.filter(isBeregnetPeriode) ?? [])
         .filter(overlapper(periode));
 
-export const alleOverlappendePerioderErAvsluttet = (person: Person, periode: Periode | GhostPeriode): boolean => {
+const alleOverlappendePerioderErAvsluttet = (person: Person, periode: Periode | GhostPeriode): boolean => {
     if (!isBeregnetPeriode(periode)) {
         return false;
     }
@@ -52,6 +52,21 @@ export const alleOverlappendePerioderErAvsluttet = (person: Person, periode: Per
     }
 
     return true;
+};
+
+export const useHarOverlappendePeriodeSomErErAvsluttet = (person: Person, periode: Periode | GhostPeriode): boolean => {
+    if (!isBeregnetPeriode(periode)) {
+        return false;
+    }
+
+    const overlappendePerioder = person.arbeidsgivere
+        .flatMap((arbeidsgiver) => arbeidsgiver.generasjoner[0]?.perioder.filter(isBeregnetPeriode) ?? [])
+        .filter((other) => other.vedtaksperiodeId !== periode.vedtaksperiodeId)
+        .filter(overlapper(periode));
+
+    const overlappendeTilstander: Array<PeriodState> = overlappendePerioder.map(getPeriodState);
+
+    return overlappendeTilstander.some((tilstand) => godkjentTilstander.includes(tilstand));
 };
 
 const alleOverlappendePerioderErTilRevurdering = (person: Person, periode: Periode): boolean => {
