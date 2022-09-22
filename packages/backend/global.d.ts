@@ -42,4 +42,5 @@ declare type ExternalOppgave = {
     erReturOppgave: boolean;
     trengerTotrinnsvurdering: boolean;
     tidligereSaksbehandlerOid: string;
+    sistSendt?: string | null;
 };

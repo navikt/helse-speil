@@ -157,7 +157,7 @@ export const OppgaverTable = React.memo(({ oppgaver }: { oppgaver: Oppgave[] }) 
                                     <InntektskildeCell type={it.inntektskilde} />
                                     <StatusCell numberOfWarnings={it.antallVarsler} />
                                     <SøkerCell name={it.personinfo} />
-                                    <OpprettetCell date={it.opprettet} />
+                                    <OpprettetCell date={it.sistSendt ?? it.opprettet} />
                                     <OptionsCell oppgave={it} personinfo={it.personinfo} />
                                     {it.tildeling?.påVent ? (
                                         <NotatCell

@@ -59,6 +59,7 @@ declare type Oppgave = {
     erReturOppgave: boolean;
     trengerTotrinnsvurdering: boolean;
     tidligereSaksbehandlerOid: string;
+    sistSendt?: string | null;
 };
 
 declare type NotatType = 'PaaVent' | 'Retur' | 'Generelt';

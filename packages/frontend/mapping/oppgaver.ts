@@ -87,4 +87,5 @@ export const tilOppgave = (oppgave: ExternalOppgave): Oppgave => ({
     erReturOppgave: oppgave.erReturOppgave,
     trengerTotrinnsvurdering: oppgave.trengerTotrinnsvurdering,
     tidligereSaksbehandlerOid: oppgave.tidligereSaksbehandlerOid,
+    sistSendt: oppgave.sistSendt,
 });
