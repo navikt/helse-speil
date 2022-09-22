@@ -40,7 +40,7 @@ export const RedigerInntekt = ({
 
     const harOverlappendePeriodeSomErErAvsluttet = useHarOverlappendePeriodeSomErErAvsluttet(person!!, period!!);
     const periodeHarTilstandAvventerGodkjenning =
-        getPeriodState(period) !== 'tilGodkjenning' && isBeregnetPeriode(period) && !isRevurdering(period);
+        getPeriodState(period) === 'tilGodkjenning' && isBeregnetPeriode(period) && !isRevurdering(period);
 
     console.log('harOverlappendePeriodeSomErErAvsluttet: ' + harOverlappendePeriodeSomErErAvsluttet);
     console.log('periodeHarTilstandAvventerGodkjenning: ' + periodeHarTilstandAvventerGodkjenning);
