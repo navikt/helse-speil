@@ -94,7 +94,6 @@ export const InntektMedSykefravær = ({
                         setEditing={setEditing}
                         editing={editing}
                         erRevurdering={erRevurdering}
-                        inntektstype={inntektstype}
                         skjæringstidspunkt={skjæringstidspunkt}
                         vilkårsgrunnlagId={vilkårsgrunnlagId}
                     />

@@ -1,26 +1,21 @@
 import React, { Dispatch, SetStateAction } from 'react';
 import {
     useActiveGenerationIsLast,
-    useActivePeriodHasLatestSkjæringstidspunkt,
     useHarKunEnFagsystemIdPåArbeidsgiverIAktivPeriode,
-    useHarOverlappendePeriodeSomErErAvsluttet,
+    useFørstegangsbehandlingTilGodkjenningMedOverlappendeAvsluttetPeriode,
 } from '@hooks/revurdering';
 import { EditButton } from '@components/EditButton';
 import { PopoverHjelpetekst } from '@components/PopoverHjelpetekst';
 import { SortInfoikon } from '@components/ikoner/SortInfoikon';
-import { Inntektstype, Vilkarsgrunnlagtype } from '@io/graphql';
+import { Vilkarsgrunnlagtype } from '@io/graphql';
 import { useCurrentPerson, useVilkårsgrunnlag } from '@state/person';
-import { erDev, erLocal } from '@utils/featureToggles';
 import { useActivePeriod } from '@state/periode';
 import { getPeriodState } from '@utils/mapping';
-import { isRevurdering } from '@utils/period';
-import { isBeregnetPeriode } from '@utils/typeguards';
 
 interface RedigerInntektProps {
     setEditing: Dispatch<SetStateAction<boolean>>;
     editing: boolean;
     erRevurdering: boolean;
-    inntektstype: Inntektstype;
     skjæringstidspunkt: DateString;
     vilkårsgrunnlagId: string;
 }
@@ -29,27 +24,17 @@ export const RedigerInntekt = ({
     setEditing,
     editing,
     erRevurdering,
-    inntektstype,
     skjæringstidspunkt,
     vilkårsgrunnlagId,
 }: RedigerInntektProps) => {
-    const harKunEnArbeidsgiver = inntektstype === Inntektstype.Enarbeidsgiver;
-
-    const period = useActivePeriod();
+    const periode = useActivePeriod();
     const person = useCurrentPerson();
 
-    const harOverlappendePeriodeSomErErAvsluttet = useHarOverlappendePeriodeSomErErAvsluttet(person!!, period!!);
-    const periodeHarTilstandAvventerGodkjenning =
-        getPeriodState(period) === 'tilGodkjenning' && isBeregnetPeriode(period) && !isRevurdering(period);
+    const førstegangsbehandlingTilGodkjenningMedOverlappendeAvsluttetPeriode =
+        useFørstegangsbehandlingTilGodkjenningMedOverlappendeAvsluttetPeriode(periode!!, person!!);
 
-    console.log('harOverlappendePeriodeSomErErAvsluttet: ' + harOverlappendePeriodeSomErErAvsluttet);
-    console.log('periodeHarTilstandAvventerGodkjenning: ' + periodeHarTilstandAvventerGodkjenning);
+    const aktivPeriodeVenter = ['venter', 'venterPåKiling'].includes(getPeriodState(periode));
 
-    const aktivPeriodeVenter = ['venter', 'venterPåKiling'].includes(getPeriodState(period));
-
-    const kanEndreInntektIDev = (erDev() || erLocal()) && !aktivPeriodeVenter;
-
-    const erAktivPeriodeISisteSkjæringstidspunkt = useActivePeriodHasLatestSkjæringstidspunkt();
     const erTidslinjeperiodeISisteGenerasjon = useActiveGenerationIsLast();
 
     const erSpleisVilkårsgrunnlagtype =
@@ -58,14 +43,10 @@ export const RedigerInntekt = ({
 
     if (!erTidslinjeperiodeISisteGenerasjon) return null;
 
-    const revurdereTidligereUtbetalinger = erDev() || erLocal() || erAktivPeriodeISisteSkjæringstidspunkt;
-    const erIkkeRevurderingAvFlereArbeidsgivere = inntektstype !== 'FLEREARBEIDSGIVERE' || !erRevurdering;
-
-    return (harKunEnArbeidsgiver || kanEndreInntektIDev) &&
-        revurdereTidligereUtbetalinger &&
+    return !aktivPeriodeVenter &&
+        !førstegangsbehandlingTilGodkjenningMedOverlappendeAvsluttetPeriode &&
         erSpleisVilkårsgrunnlagtype &&
-        erIkkePingPong &&
-        (erIkkeRevurderingAvFlereArbeidsgivere || kanEndreInntektIDev) ? (
+        erIkkePingPong ? (
         <EditButton
             isOpen={editing}
             openText="Avbryt"
@@ -77,12 +58,10 @@ export const RedigerInntekt = ({
     ) : erTidslinjeperiodeISisteGenerasjon ? (
         <PopoverHjelpetekst ikon={<SortInfoikon />}>
             <p>
-                {(erDev() || erLocal()) && aktivPeriodeVenter
+                {aktivPeriodeVenter
                     ? 'Det finnes andre endringer som må ferdigstilles før du kan endre inntekten'
-                    : !revurdereTidligereUtbetalinger
-                    ? 'Kan ikke endre inntekt, det er foreløpig ikke støtte for endringer i saker i tidligere skjæringstidspunkt'
-                    : !harKunEnArbeidsgiver
-                    ? 'Kan ikke endre inntekt, det er foreløpig ikke støtte for saker med flere arbeidsgivere'
+                    : førstegangsbehandlingTilGodkjenningMedOverlappendeAvsluttetPeriode
+                    ? 'Det er ikke støtte for endring av inntekt på førstegangsbehandlinger når det finnes avsluttede overlappende perioder for andre arbeidsgivere'
                     : 'Det er foreløpig ikke støtte for endringer i saker som har vært delvis behandlet i Infotrygd'}
             </p>
         </PopoverHjelpetekst>

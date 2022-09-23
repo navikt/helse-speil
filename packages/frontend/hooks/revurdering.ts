@@ -8,6 +8,7 @@ import { isBeregnetPeriode, isForkastetPeriode } from '@utils/typeguards';
 import type { UtbetalingToggles } from '@utils/featureToggles';
 import type { Arbeidsgiver, BeregnetPeriode, GhostPeriode, Periode, Person } from '@io/graphql';
 import { erDev, erLocal } from '@utils/featureToggles';
+import { isRevurdering } from '@utils/period';
 
 const godkjentTilstander: PeriodState[] = ['utbetalt', 'utbetaltAutomatisk', 'revurdert', 'revurdertIngenUtbetaling'];
 
@@ -54,7 +55,7 @@ const alleOverlappendePerioderErAvsluttet = (person: Person, periode: Periode | 
     return true;
 };
 
-export const useHarOverlappendePeriodeSomErErAvsluttet = (person: Person, periode: Periode | GhostPeriode): boolean => {
+const harOverlappendePeriodeSomErErAvsluttet = (person: Person, periode: Periode | GhostPeriode): boolean => {
     if (!isBeregnetPeriode(periode)) {
         return false;
     }
@@ -81,6 +82,17 @@ const alleOverlappendePerioderErTilRevurdering = (person: Person, periode: Perio
     }
 
     return true;
+};
+
+export const useFørstegangsbehandlingTilGodkjenningMedOverlappendeAvsluttetPeriode = (
+    periode: Periode | GhostPeriode,
+    person: Person,
+): boolean => {
+    const førstegangsbehandlingMedTilstandAvventerGodkjenning =
+        getPeriodState(periode) === 'tilGodkjenning' && isBeregnetPeriode(periode) && !isRevurdering(periode);
+    return (
+        harOverlappendePeriodeSomErErAvsluttet(person, periode) && førstegangsbehandlingMedTilstandAvventerGodkjenning
+    );
 };
 
 const getArbeidsgiverMedPeriode = (periode: Periode, person: Person): Arbeidsgiver | null => {
