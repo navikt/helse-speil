@@ -487,7 +487,7 @@
         "viktighet": "Høy"
     },
     {
-        "varsel": "Saken må revurderes fordi det har blitt behandlet en tidligere periode som kan ha betydning",
+        "varsel": "Saken må revurderes fordi det har blitt behandlet en tidligere periode som kan ha betydning.",
         "betydning": "Det har blitt behandlet en søknadsperiode som gjelder et tidligere tidsrom. Dette kan medføre at antall forbrukte dager er endret eller at opptjening av ny rett til sykepenger påvirkes.",
         "løsning": "Sjekk at telling av forbrukte dager og/eller opptjening av ny rett er riktig beregnet. Dersom revurderingen gjør at det er for mye utbetalt til den sykmeldte, se egne rutiner for håndtering av feilutbetalinger.",
         "viktighet": "Høy"
