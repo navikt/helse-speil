@@ -66,7 +66,7 @@ const VentendeSakerTab = () => {
 };
 
 const BehandletIdagTab = () => {
-    return <OppgaveTab tag={TabType.BehandletIdag} label="Behandlet idag" />;
+    return <OppgaveTab tag={TabType.BehandletIdag} label="Behandlet i dag" />;
 };
 
 export const Tabs = () => {
