@@ -8,12 +8,14 @@ import { LoadingShimmer } from '@components/LoadingShimmer';
 import { getFormattedDatetimeString } from '@utils/date';
 
 import styles from './Hendelse.module.css';
+import { ExpandableHistorikkContent } from './ExpandableHistorikkContent';
 
 interface HendelseProps extends Omit<React.LiHTMLAttributes<HTMLLIElement>, 'title'> {
     title: ReactNode;
     icon?: ReactNode;
     timestamp?: DateString;
     ident?: Maybe<string>;
+    details?: ReactNode;
 }
 
 export const Hendelse: React.FC<HendelseProps> = ({
@@ -23,6 +25,7 @@ export const Hendelse: React.FC<HendelseProps> = ({
     ident,
     className,
     children,
+    details,
     ...liProps
 }) => {
     return (
@@ -30,9 +33,13 @@ export const Hendelse: React.FC<HendelseProps> = ({
             <div className={styles.IconContainer}>{icon}</div>
             <FlexColumn className={styles.Content}>
                 <Bold>{title}</Bold>
-                {ident && <BodyShort>{ident}</BodyShort>}
-                {timestamp && <BodyShort size="small">{getFormattedDatetimeString(timestamp)}</BodyShort>}
                 {children}
+                {timestamp && (
+                    <BodyShort size="small">
+                        {getFormattedDatetimeString(timestamp)} {ident ? `· ${ident}` : ''}
+                    </BodyShort>
+                )}
+                {details && <ExpandableHistorikkContent>{details}</ExpandableHistorikkContent>}
             </FlexColumn>
         </li>
     );

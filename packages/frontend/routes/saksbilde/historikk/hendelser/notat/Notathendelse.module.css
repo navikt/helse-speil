@@ -19,9 +19,31 @@
 }
 
 .Notat {
+    white-space: pre-wrap;
+    overflow: hidden;
+}
+
+.Notat,
+.NotatTruncated {
+    max-width: 100%;
     font-size: var(--navds-font-size-medium);
     line-height: var(--navds-font-line-height-medium);
-    white-space: pre-wrap;
+}
+
+.NotatTruncated {
+    overflow: hidden;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    display: -webkit-box;
+}
+
+.NotatTextWrapper {
+    cursor: pointer;
+    outline: none;
+}
+
+.NotatTextWrapper:focus-visible {
+    box-shadow: var(--navds-shadow-focus);
 }
 
 .NotatContent {

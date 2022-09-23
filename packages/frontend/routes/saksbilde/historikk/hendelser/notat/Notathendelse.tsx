@@ -5,49 +5,25 @@ import { Button, Loader } from '@navikt/ds-react';
 import { Dropdown } from '@navikt/ds-react-internal';
 
 import { putFeilregistrertNotat } from '@io/http';
-import { leggTilKommentar } from '@io/graphql/leggTilKommentar';
-import { LinkButton } from '@components/LinkButton';
 import { useRefetchPerson } from '@state/person';
 import { useRefreshNotater } from '@state/notater';
 import { useInnloggetSaksbehandler } from '@state/authentication';
 
 import { Hendelse } from '../Hendelse';
-import { ExpandableHistorikkContent } from '../ExpandableHistorikkContent';
-import { NotatForm } from './NotatForm';
-import { Kommentarer } from './Kommentarer';
 
 import styles from './Notathendelse.module.css';
-
-type State = {
-    errors: { [key: string]: string };
-    hasErrors: boolean;
-    isFetching: boolean;
-    showAddDialog: boolean;
-};
-
-type ErrorAction = {
-    type: 'ErrorAction';
-    id: string;
-    message?: string;
-};
-
-type FetchSuccessAction = {
-    type: 'FetchSuccessAction';
-};
-
-type FetchAction = {
-    type: 'FetchAction';
-};
-
-type ToggleDialogAction = {
-    type: 'ToggleDialogAction';
-    value: boolean;
-};
-
-type Action = FetchAction | FetchSuccessAction | ErrorAction | ToggleDialogAction;
+import { AnimatePresence, motion } from 'framer-motion';
+import { NotatHendelseContent } from './NotathendelseContent';
+import { Action, State } from './types';
 
 const reducer = (state: State, action: Action) => {
     switch (action.type) {
+        case 'ToggleNotat': {
+            return {
+                ...state,
+                expanded: action.value,
+            };
+        }
         case 'ToggleDialogAction': {
             return {
                 ...state,
@@ -106,6 +82,7 @@ export const Notathendelse: React.FC<NotathendelseProps> = ({
         hasErrors: false,
         isFetching: false,
         showAddDialog: false,
+        expanded: false,
     });
 
     const refreshNotater = useRefreshNotater();
@@ -136,18 +113,10 @@ export const Notathendelse: React.FC<NotathendelseProps> = ({
             });
     };
 
-    const onLeggTilKommentar = (notatId: number, saksbehandlerident: string) => (tekst: string) => {
-        dispatch({ type: 'FetchAction' });
-        leggTilKommentar({ tekst, notatId, saksbehandlerident })
-            .then(() => {
-                refreshNotater();
-                refetchPerson().finally(() => {
-                    dispatch({ type: 'FetchSuccessAction' });
-                });
-            })
-            .catch(() => {
-                dispatch({ type: 'ErrorAction', id: 'leggTilKommentar' });
-            });
+    const toggleNotat = (event: React.KeyboardEvent) => {
+        if (event.code === 'Enter' || event.code === 'Space') {
+            dispatch({ type: 'ToggleNotat', value: !state.expanded });
+        }
     };
 
     return (
@@ -156,6 +125,15 @@ export const Notathendelse: React.FC<NotathendelseProps> = ({
             icon={<DialogDots width={20} height={20} />}
             timestamp={timestamp}
             ident={saksbehandler}
+            details={
+                <NotatHendelseContent
+                    kommentarer={kommentarer}
+                    saksbehandlerOid={saksbehandlerOid}
+                    id={id}
+                    state={state}
+                    dispatch={dispatch}
+                />
+            }
         >
             {!feilregistrert && innloggetSaksbehandler.oid === saksbehandlerOid && (
                 <Dropdown>
@@ -171,30 +149,36 @@ export const Notathendelse: React.FC<NotathendelseProps> = ({
                     </Dropdown.Menu>
                 </Dropdown>
             )}
-            <ExpandableHistorikkContent>
-                <div className={styles.NotatContent}>
-                    <pre className={styles.Notat}>{tekst}</pre>
-                    <Kommentarer kommentarer={kommentarer} />
-                    {innloggetSaksbehandler.oid === saksbehandlerOid &&
-                        innloggetSaksbehandler.ident &&
-                        (state.showAddDialog ? (
-                            <NotatForm
-                                label="Kommentar"
-                                onSubmitForm={onLeggTilKommentar(Number.parseInt(id), innloggetSaksbehandler.ident)}
-                                closeForm={() => dispatch({ type: 'ToggleDialogAction', value: false })}
-                                isFetching={state.isFetching}
-                                hasError={typeof state.errors.leggTilKommentar === 'string'}
-                            />
-                        ) : (
-                            <LinkButton
-                                className={styles.LeggTilKommentarButton}
-                                onClick={() => dispatch({ type: 'ToggleDialogAction', value: true })}
-                            >
-                                Legg til ny kommentar
-                            </LinkButton>
-                        ))}
-                </div>
-            </ExpandableHistorikkContent>
+            <div
+                role="button"
+                tabIndex={0}
+                onKeyDown={toggleNotat}
+                onClick={() => dispatch({ type: 'ToggleNotat', value: !state.expanded })}
+                className={styles.NotatTextWrapper}
+            >
+                <AnimatePresence exitBeforeEnter>
+                    {state.expanded ? (
+                        <motion.pre
+                            key="pre"
+                            className={styles.Notat}
+                            initial={{ height: 40 }}
+                            exit={{ height: 40 }}
+                            animate={{ height: 'auto' }}
+                            transition={{
+                                type: 'tween',
+                                duration: 0.2,
+                                ease: 'easeInOut',
+                            }}
+                        >
+                            {tekst}
+                        </motion.pre>
+                    ) : (
+                        <motion.p key="p" className={styles.NotatTruncated}>
+                            {tekst}
+                        </motion.p>
+                    )}
+                </AnimatePresence>
+            </div>
         </Hendelse>
     );
 };
