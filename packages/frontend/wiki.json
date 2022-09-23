@@ -485,5 +485,17 @@
         "betydning": "Vi henter inn opplysninger om institusjonsopphold. Det har kommet informasjon om at den sykmeldte oppholdt seg i institusjon (sykehus eller fengsel) i perioden.",
         "løsning": "Undersøk om institusjonsoppholdet er forenlig med å motta sykepenger. Dersom en periode skal avslås på grunn av institusjonsopphold må saken annulleres og behandles i Infotrygd.",
         "viktighet": "Høy"
+    },
+    {
+        "varsel": "Saken må revurderes fordi det har blitt behandlet en tidligere periode som kan ha betydning",
+        "betydning": "Det har blitt behandlet en søknadsperiode som gjelder et tidligere tidsrom. Dette kan medføre at antall forbrukte dager er endret eller at opptjening av ny rett til sykepenger påvirkes.",
+        "løsning": "Sjekk at telling av forbrukte dager og/eller opptjening av ny rett er riktig beregnet. Dersom revurderingen gjør at det er for mye utbetalt til den sykmeldte, se egne rutiner for håndtering av feilutbetalinger.",
+        "viktighet": "Høy"
+    },
+    {
+        "varsel": "Det er behandlet en søknad i Speil for en senere periode enn denne.",
+        "betydning": "Søknadene har ikke kommet i vanlig rekkefølge. Dette kan skje dersom den sykmeldte avbryter en søknad/sykmelding, eller en lege skriver ut en tilbakedatert sykmelding. Perioder som allerede er avsluttet vil revurderes når denne perioden godkjennes.",
+        "løsning": "Undersøk at behandlingen av perioden blir riktig.",
+        "viktighet": "Høy"
     }
 ]
