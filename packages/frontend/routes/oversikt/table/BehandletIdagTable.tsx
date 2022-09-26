@@ -15,6 +15,7 @@ import { OppgavetypeCell } from './rader/OppgavetypeCell';
 import { BehandletAvCell } from './rader/BehandletAvCell';
 import { BehandletTimestampCell } from './rader/BehandletTimestampCell';
 import { InntektskildeCell } from './rader/InntektskildeCell';
+import { usePagination } from './state/pagination';
 
 import styles from './Table.module.css';
 
@@ -22,6 +23,11 @@ interface BehandletIdagTableProps {}
 
 export const BehandletIdagTable: React.FC<BehandletIdagTableProps> = () => {
     const oppgaver = useFerdigstilteOppgaver();
+    const pagination = usePagination();
+
+    const paginatedRows = pagination
+        ? oppgaver.slice(pagination.firstVisibleEntry, pagination.lastVisibleEntry + 1)
+        : oppgaver;
 
     if (oppgaver.length === 0) {
         return <IngenOppgaver />;
@@ -58,7 +64,7 @@ export const BehandletIdagTable: React.FC<BehandletIdagTableProps> = () => {
                             </tr>
                         </thead>
                         <Body>
-                            {oppgaver.map((it) => (
+                            {paginatedRows.map((it) => (
                                 <LinkRow aktørId={it.aktorId} key={it.id}>
                                     <BehandletAvCell name={it.ferdigstiltAv} />
                                     <OppgavetypeCell oppgavetype={it.type} periodetype={it.periodetype} />
