@@ -1,14 +1,13 @@
 import React from 'react';
 import classNames from 'classnames';
-import { BodyShort } from '@navikt/ds-react';
 
 import { Bold } from '@components/Bold';
 import { FlexColumn } from '@components/Flex';
 import { LoadingShimmer } from '@components/LoadingShimmer';
-import { getFormattedDatetimeString } from '@utils/date';
 
 import styles from './Hendelse.module.css';
 import { ExpandableHistorikkContent } from './ExpandableHistorikkContent';
+import { HendelseDate } from './HendelseDate';
 
 interface HendelseProps extends Omit<React.LiHTMLAttributes<HTMLLIElement>, 'title'> {
     title: ReactNode;
@@ -16,6 +15,8 @@ interface HendelseProps extends Omit<React.LiHTMLAttributes<HTMLLIElement>, 'tit
     timestamp?: DateString;
     ident?: Maybe<string>;
     details?: ReactNode;
+    openText?: string;
+    closeText?: string;
 }
 
 export const Hendelse: React.FC<HendelseProps> = ({
@@ -26,6 +27,8 @@ export const Hendelse: React.FC<HendelseProps> = ({
     className,
     children,
     details,
+    openText,
+    closeText,
     ...liProps
 }) => {
     return (
@@ -34,12 +37,12 @@ export const Hendelse: React.FC<HendelseProps> = ({
             <FlexColumn className={styles.Content}>
                 <Bold>{title}</Bold>
                 {children}
-                {timestamp && (
-                    <BodyShort size="small">
-                        {getFormattedDatetimeString(timestamp)} {ident ? `· ${ident}` : ''}
-                    </BodyShort>
+                <HendelseDate timestamp={timestamp} ident={ident} />
+                {details && (
+                    <ExpandableHistorikkContent openText={openText} closeText={closeText} fullWidth>
+                        {details}
+                    </ExpandableHistorikkContent>
                 )}
-                {details && <ExpandableHistorikkContent>{details}</ExpandableHistorikkContent>}
             </FlexColumn>
         </li>
     );

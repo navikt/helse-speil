@@ -4,18 +4,25 @@
     font-size: var(--navds-font-size-medium);
 }
 
-.Kommentarer > form > p {
-    margin-bottom: 8px;
+.Kommentarer > p {
+    font-weight: var(--navds-font-weight-bold);
 }
 
 .Kommentar {
+    position: relative;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     align-items: flex-start;
     padding: 8px 0;
     gap: 4px;
-    border-top: 1px solid var(--navds-semantic-color-border);
+}
+
+.Kommentar::after {
+    content: '';
+    height: 1px;
+    width: 200px;
+    background-color: var(--navds-semantic-color-text-muted);
 }
 
 .Kommentarer * {
@@ -23,46 +30,14 @@
 }
 
 .Kommentar pre {
+    margin-right: 48px;
     white-space: normal;
+    line-height: var(--navds-font-line-height-medium);
 }
 
-.Kommentar:last-of-type {
-    border-bottom: 1px solid var(--navds-semantic-color-border);
-}
-
-.Kommentar > button {
-    border: none;
-    cursor: pointer;
-    background: none;
-    color: var(--navds-semantic-color-feedback-danger-text);
-    padding: 0;
-    width: max-content;
-    height: var(--navds-font-line-height-medium);
-    outline: none;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-
-.Kommentar > button:focus {
-    box-shadow: none;
-}
-
-.Kommentar > button:focus-visible {
-    box-shadow: var(--navds-shadow-focus);
-}
-
-.Kommentar > button:hover {
-    text-decoration: underline;
-}
-
-.Kommentar > button > span {
-    display: flex;
-}
-
-.feilregistrert {
+.Feilregistrert {
     background: var(--navds-alert-color-error-background);
     padding: 0 8px;
-    width: 100%;
+    width: 200px;
     font-style: italic;
 }

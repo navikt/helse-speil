@@ -29,6 +29,7 @@ export const NotatForm: React.FC<NotatFormProps> = ({
     return (
         <form className={styles.NotatForm} onSubmit={form.handleSubmit(submitForm)} {...formProps}>
             <Textarea
+                autoFocus
                 label={label}
                 description="Blir ikke forevist den sykmeldte med mindre den sykmeldte ber om innsyn."
                 aria-invalid={typeof form.formState.errors.Notattekst === 'object'}

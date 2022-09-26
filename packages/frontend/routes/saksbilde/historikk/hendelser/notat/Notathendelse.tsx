@@ -1,8 +1,6 @@
 import React, { useReducer } from 'react';
 import classNames from 'classnames';
-import { DialogDots, EllipsisH } from '@navikt/ds-icons';
-import { Button, Loader } from '@navikt/ds-react';
-import { Dropdown } from '@navikt/ds-react-internal';
+import { DialogDots } from '@navikt/ds-icons';
 
 import { putFeilregistrertNotat } from '@io/http';
 import { useRefetchPerson } from '@state/person';
@@ -15,6 +13,9 @@ import styles from './Notathendelse.module.css';
 import { AnimatePresence, motion } from 'framer-motion';
 import { NotatHendelseContent } from './NotathendelseContent';
 import { Action, State } from './types';
+import { HendelseDropdownMenu } from './HendelseDropdownMenu';
+
+const MAX_TEXT_LENGTH_BEFORE_TRUNCATION = 74;
 
 const reducer = (state: State, action: Action) => {
     switch (action.type) {
@@ -113,6 +114,10 @@ export const Notathendelse: React.FC<NotathendelseProps> = ({
             });
     };
 
+    const isExpandable = () => {
+        return tekst.length > MAX_TEXT_LENGTH_BEFORE_TRUNCATION;
+    };
+
     const toggleNotat = (event: React.KeyboardEvent) => {
         if (event.code === 'Enter' || event.code === 'Space') {
             dispatch({ type: 'ToggleNotat', value: !state.expanded });
@@ -125,6 +130,8 @@ export const Notathendelse: React.FC<NotathendelseProps> = ({
             icon={<DialogDots width={20} height={20} />}
             timestamp={timestamp}
             ident={saksbehandler}
+            openText={`Kommentarer (${kommentarer.length})`}
+            closeText="Lukk kommentarer"
             details={
                 <NotatHendelseContent
                     kommentarer={kommentarer}
@@ -136,24 +143,18 @@ export const Notathendelse: React.FC<NotathendelseProps> = ({
             }
         >
             {!feilregistrert && innloggetSaksbehandler.oid === saksbehandlerOid && (
-                <Dropdown>
-                    <Button as={Dropdown.Toggle} variant="tertiary" className={styles.ToggleButton} size="xsmall">
-                        <EllipsisH height={32} width={32} />
-                    </Button>
-                    <Dropdown.Menu>
-                        <Dropdown.Menu.List>
-                            <Dropdown.Menu.List.Item onClick={feilregistrerNotat} className={styles.ListItem}>
-                                Feilregistrer {state.isFetching && <Loader size="xsmall" />}
-                            </Dropdown.Menu.List.Item>
-                        </Dropdown.Menu.List>
-                    </Dropdown.Menu>
-                </Dropdown>
+                <HendelseDropdownMenu feilregistrerAction={feilregistrerNotat} isFetching={state.isFetching} />
             )}
             <div
                 role="button"
                 tabIndex={0}
                 onKeyDown={toggleNotat}
-                onClick={() => dispatch({ type: 'ToggleNotat', value: !state.expanded })}
+                onClick={() =>
+                    dispatch({
+                        type: 'ToggleNotat',
+                        value: isExpandable() && !state.expanded,
+                    })
+                }
                 className={styles.NotatTextWrapper}
             >
                 <AnimatePresence exitBeforeEnter>

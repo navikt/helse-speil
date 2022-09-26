@@ -1,21 +1,5 @@
-.ToggleButton {
-    width: max-content;
-    height: 24px;
-    position: absolute;
-    right: 0;
-}
-
-.ToggleButton > span {
-    display: flex;
-    align-items: center;
-}
-
 .Feilregistrert {
     color: var(--navds-semantic-color-feedback-danger-text);
-}
-
-.ListItem {
-    height: 32px;
 }
 
 .Notat {
