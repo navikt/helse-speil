@@ -133,7 +133,8 @@ export const OppgaverTable = React.memo(({ oppgaver }: { oppgaver: Oppgave[] }) 
                                     <SortButton
                                         label="opprettet"
                                         onSort={(a: Oppgave, b: Oppgave) =>
-                                            new Date(a.opprettet).getTime() - new Date(b.opprettet).getTime()
+                                            new Date(a.sistSendt ?? a.opprettet).getTime() -
+                                            new Date(b.sistSendt ?? b.opprettet).getTime()
                                         }
                                         state={sortation?.label === 'opprettet' ? sortation.state : 'none'}
                                     >
