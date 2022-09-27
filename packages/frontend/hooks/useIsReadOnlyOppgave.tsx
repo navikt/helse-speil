@@ -3,6 +3,7 @@ import { useHarBeslutteroppgavetilgang } from '@hooks/useHarBeslutteroppgavetilg
 import { useReadonly } from '@state/toggles';
 import { useActivePeriod } from '@state/periode';
 import { isBeregnetPeriode } from '@utils/typeguards';
+import { utbetalingTilSykmeldt } from '@utils/featureToggles';
 
 export const useIsReadOnlyOppgave = (): boolean => {
     const periode = useActivePeriod();
@@ -19,5 +20,11 @@ export const useIsReadOnlyOppgave = (): boolean => {
         return readOnly.value;
     }
 
-    return erTidligereSaksbehandler || (periode.erBeslutterOppgave && !harBeslutteroppgavetilgang);
+    const periodeMedBrukerutbetaling = periode.utbetaling.personNettoBelop !== 0;
+
+    return (
+        erTidligereSaksbehandler ||
+        (periode.erBeslutterOppgave && !harBeslutteroppgavetilgang) ||
+        (periodeMedBrukerutbetaling && !utbetalingTilSykmeldt)
+    );
 };
