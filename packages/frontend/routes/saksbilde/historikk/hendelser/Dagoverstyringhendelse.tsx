@@ -52,40 +52,38 @@ export const Dagoverstyringhendelse: React.FC<DagoverstyringhendelseProps> = ({
     timestamp,
     begrunnelse,
     dager,
-}) => {
-    return (
-        <Hendelse
-            title={erRevurdering ? 'Revurdert utbetalingsdager' : 'Endret utbetalingsdager'}
-            icon={<CaseworkerFilled height={20} width={20} />}
-            ident={saksbehandler}
-            timestamp={timestamp}
-        >
-            <ExpandableHistorikkContent>
-                <BodyShort size="small">Begrunnelse: {begrunnelse}</BodyShort>
-                <div className={styles.Content}>
-                    {groupSimilarDays(dager).map((group, i) => (
-                        <div key={i} className={styles.Grid}>
-                            <BodyShort>Dato:</BodyShort>
-                            <BodyShort>
-                                {getFormattedDateString(group.start)}
-                                {group.start !== group.end && ` - ${getFormattedDateString(group.end)}`}
-                            </BodyShort>
-                            <BodyShort>Grad:</BodyShort>
-                            <BodyShort>
-                                {group.fraGrad && group.grad !== group.fraGrad && (
-                                    <span className={styles.FromValue}>{group.fraGrad} %</span>
-                                )}
-                                {group.grad} %
-                            </BodyShort>
-                            <BodyShort>Type:</BodyShort>
-                            <BodyShort>
-                                {group.fraType && <span className={styles.FromValue}>{group.fraType}</span>}
-                                {group.type}
-                            </BodyShort>
-                        </div>
-                    ))}
-                </div>
-            </ExpandableHistorikkContent>
-        </Hendelse>
-    );
-};
+}) => (
+    <Hendelse
+        title={erRevurdering ? 'Revurdert utbetalingsdager' : 'Endret utbetalingsdager'}
+        icon={<CaseworkerFilled height={20} width={20} />}
+        ident={saksbehandler}
+        timestamp={timestamp}
+    >
+        <ExpandableHistorikkContent>
+            <BodyShort size="small">Begrunnelse: {begrunnelse}</BodyShort>
+            <div className={styles.Content}>
+                {groupSimilarDays(dager).map((group, i) => (
+                    <div key={i} className={styles.Grid}>
+                        <BodyShort>Dato:</BodyShort>
+                        <BodyShort>
+                            {getFormattedDateString(group.start)}
+                            {group.start !== group.end && ` - ${getFormattedDateString(group.end)}`}
+                        </BodyShort>
+                        <BodyShort>Grad:</BodyShort>
+                        <BodyShort>
+                            {group.fraGrad !== null && group.fraGrad !== undefined && group.grad !== group.fraGrad && (
+                                <span className={styles.FromValue}>{group.fraGrad} %</span>
+                            )}
+                            {group.grad} %
+                        </BodyShort>
+                        <BodyShort>Type:</BodyShort>
+                        <BodyShort>
+                            {group.fraType && <span className={styles.FromValue}>{group.fraType}</span>}
+                            {group.type}
+                        </BodyShort>
+                    </div>
+                ))}
+            </div>
+        </ExpandableHistorikkContent>
+    </Hendelse>
+);
