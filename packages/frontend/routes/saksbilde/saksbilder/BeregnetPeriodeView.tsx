@@ -59,6 +59,7 @@ export const BeregnetPeriodeView: React.VFC<BeregnetPeriodeViewProps> = ({ activ
                     oppgavereferanse={activePeriod.oppgavereferanse}
                     varsler={activePeriod.varsler}
                     erTidligereSaksbehandler={erTidligereSaksbehandler}
+                    periodeMedBrukerutbetaling={activePeriod.utbetaling.personNettoBelop !== 0}
                     erBeslutteroppgave={activePeriod.erBeslutterOppgave}
                     harVurderLovvalgOgMedlemskapVarsel={harVurderLovvalgOgMedlemskapVarsel}
                     endringerEtterNyesteUtbetalingPåPerson={saksbehandlerendringerEtterNyesteUtbetalingPåPerson}

@@ -3,6 +3,7 @@ import dayjs from 'dayjs';
 
 import { Alert, BodyShort } from '@navikt/ds-react';
 import { Maybe, Overstyring } from '@io/graphql';
+import { utbetalingTilSykmeldt } from '@utils/featureToggles';
 import { isArbeidsforholdoverstyring, isDagoverstyring, isInntektoverstyring } from '@utils/typeguards';
 
 import { Aktivitetsloggvarsler } from './Aktivetsloggvarsler';
@@ -14,14 +15,21 @@ type VarselObject = {
     melding: string;
 };
 
-const tilgangInfoVarsel = (erBeslutteroppgaveOgErTidligereSaksbehandler?: boolean): VarselObject | null => {
+const sendtTilBeslutter = (erBeslutteroppgaveOgErTidligereSaksbehandler?: boolean): VarselObject | null => {
     if (erBeslutteroppgaveOgErTidligereSaksbehandler) {
         return { grad: 'info', melding: 'Saken er sendt til beslutter' };
     }
     return null;
 };
 
-const tilstandInfoVarsel = (state: PeriodState): VarselObject | null => {
+const ikkeTilgangUTS = (ikkeTilgangUTS: boolean): VarselObject | null => {
+    if (ikkeTilgangUTS) {
+        return { grad: 'info', melding: 'Du har ikke tilgang til å behandle perioder med utbetaling til sykmeldt' };
+    }
+    return null;
+};
+
+const tilstandinfo = (state: PeriodState): VarselObject | null => {
     switch (state) {
         case 'kunFerie':
         case 'kunPermisjon':
@@ -37,7 +45,7 @@ const tilstandInfoVarsel = (state: PeriodState): VarselObject | null => {
     }
 };
 
-const tilstandFeilVarsel = (state: PeriodState): VarselObject | null => {
+const tilstandfeil = (state: PeriodState): VarselObject | null => {
     switch (state) {
         case 'annulleringFeilet':
             return { grad: 'error', melding: 'Annulleringen feilet. Kontakt utviklerteamet.' };
@@ -48,21 +56,21 @@ const tilstandFeilVarsel = (state: PeriodState): VarselObject | null => {
     }
 };
 
-const utbetalingsvarsel = (state: PeriodState): VarselObject | null =>
+const utbetaling = (state: PeriodState): VarselObject | null =>
     ['tilUtbetaling', 'utbetalt', 'revurdert'].includes(state)
         ? { grad: 'info', melding: 'Utbetalingen er sendt til oppdragsystemet.' }
         : ['tilUtbetalingAutomatisk', 'utbetaltAutomatisk'].includes(state)
         ? { grad: 'info', melding: 'Perioden er automatisk godkjent' }
         : null;
 
-const vedtaksperiodeVenterVarsel = (state: PeriodState): VarselObject | null =>
+const vedtaksperiodeVenter = (state: PeriodState): VarselObject | null =>
     state === 'venter'
         ? { grad: 'info', melding: 'Ikke klar til behandling - avventer system' }
         : state === 'venterPåKiling'
         ? { grad: 'info', melding: 'Ikke klar for utbetaling. Avventer behandling av tidligere periode.' }
         : null;
 
-const manglendeOppgavereferansevarsel = (state: PeriodState, oppgavereferanse?: string | null): VarselObject | null =>
+const manglendeOppgavereferanse = (state: PeriodState, oppgavereferanse?: string | null): VarselObject | null =>
     state === 'tilGodkjenning' && (!oppgavereferanse || oppgavereferanse.length === 0)
         ? {
               grad: 'error',
@@ -71,10 +79,10 @@ const manglendeOppgavereferansevarsel = (state: PeriodState, oppgavereferanse?: 
           }
         : null;
 
-const ukjentTilstandsvarsel = (state: PeriodState): VarselObject | null =>
+const ukjentTilstand = (state: PeriodState): VarselObject | null =>
     state === 'ukjent' ? { grad: 'error', melding: 'Kunne ikke lese informasjon om sakens tilstand.' } : null;
 
-const beslutteroppgaveVarsel = (
+const beslutteroppgave = (
     periodState: PeriodState,
     varsler?: Maybe<Array<string>>,
     erBeslutteroppgave?: boolean,
@@ -113,6 +121,7 @@ interface SaksbildevarslerProps {
     oppgavereferanse?: Maybe<string>;
     varsler?: Maybe<Array<string>>;
     erTidligereSaksbehandler?: boolean;
+    periodeMedBrukerutbetaling?: boolean;
     erBeslutteroppgave?: boolean;
     harVurderLovvalgOgMedlemskapVarsel?: boolean;
     endringerEtterNyesteUtbetalingPåPerson?: Maybe<Array<Overstyring>>;
@@ -125,6 +134,7 @@ export const Saksbildevarsler = ({
     oppgavereferanse,
     varsler,
     erTidligereSaksbehandler,
+    periodeMedBrukerutbetaling,
     erBeslutteroppgave,
     harVurderLovvalgOgMedlemskapVarsel,
     endringerEtterNyesteUtbetalingPåPerson,
@@ -132,11 +142,12 @@ export const Saksbildevarsler = ({
     activePeriodTom,
 }: SaksbildevarslerProps) => {
     const infoVarsler: VarselObject[] = [
-        tilgangInfoVarsel(erTidligereSaksbehandler && erBeslutteroppgave),
-        tilstandInfoVarsel(periodState),
-        utbetalingsvarsel(periodState),
-        vedtaksperiodeVenterVarsel(periodState),
-        beslutteroppgaveVarsel(
+        sendtTilBeslutter(erTidligereSaksbehandler && erBeslutteroppgave),
+        ikkeTilgangUTS(!!periodeMedBrukerutbetaling && !utbetalingTilSykmeldt),
+        tilstandinfo(periodState),
+        utbetaling(periodState),
+        vedtaksperiodeVenter(periodState),
+        beslutteroppgave(
             periodState,
             varsler,
             erBeslutteroppgave,
@@ -148,9 +159,9 @@ export const Saksbildevarsler = ({
     ].filter((it) => it) as VarselObject[];
 
     const feilVarsler: VarselObject[] = [
-        tilstandFeilVarsel(periodState),
-        ukjentTilstandsvarsel(periodState),
-        manglendeOppgavereferansevarsel(periodState, oppgavereferanse),
+        tilstandfeil(periodState),
+        ukjentTilstand(periodState),
+        manglendeOppgavereferanse(periodState, oppgavereferanse),
     ].filter((it) => it) as VarselObject[];
 
     return (
