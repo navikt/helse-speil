@@ -6,43 +6,19 @@ import { FlexColumn } from '@components/Flex';
 import { LoadingShimmer } from '@components/LoadingShimmer';
 
 import styles from './Hendelse.module.css';
-import { ExpandableHistorikkContent } from './ExpandableHistorikkContent';
-import { HendelseDate } from './HendelseDate';
 
 interface HendelseProps extends Omit<React.LiHTMLAttributes<HTMLLIElement>, 'title'> {
     title: ReactNode;
     icon?: ReactNode;
-    timestamp?: DateString;
-    ident?: Maybe<string>;
-    details?: ReactNode;
-    openText?: string;
-    closeText?: string;
 }
 
-export const Hendelse: React.FC<HendelseProps> = ({
-    icon,
-    title,
-    timestamp,
-    ident,
-    className,
-    children,
-    details,
-    openText,
-    closeText,
-    ...liProps
-}) => {
+export const Hendelse: React.FC<HendelseProps> = ({ icon, title, className, children, ...liProps }) => {
     return (
         <li className={classNames(styles.Hendelse, className)} {...liProps}>
             <div className={styles.IconContainer}>{icon}</div>
             <FlexColumn className={styles.Content}>
                 <Bold>{title}</Bold>
                 {children}
-                <HendelseDate timestamp={timestamp} ident={ident} />
-                {details && (
-                    <ExpandableHistorikkContent openText={openText} closeText={closeText} fullWidth>
-                        {details}
-                    </ExpandableHistorikkContent>
-                )}
             </FlexColumn>
         </li>
     );

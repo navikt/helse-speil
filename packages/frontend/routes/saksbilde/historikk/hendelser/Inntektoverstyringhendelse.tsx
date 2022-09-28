@@ -9,6 +9,7 @@ import { Hendelse } from './Hendelse';
 import { ExpandableHistorikkContent } from './ExpandableHistorikkContent';
 
 import styles from './Overstyringshendelse.module.css';
+import { HendelseDate } from './HendelseDate';
 
 interface InntektoverstyringhendelseProps extends Omit<InntektoverstyringhendelseObject, 'type' | 'id'> {}
 
@@ -23,8 +24,6 @@ export const Inntektoverstyringhendelse: React.FC<InntektoverstyringhendelseProp
         <Hendelse
             title={erRevurdering ? 'Revurdert inntekt' : 'Endret inntekt'}
             icon={<CaseworkerFilled height={20} width={20} />}
-            ident={saksbehandler}
-            timestamp={timestamp}
         >
             <ExpandableHistorikkContent>
                 <div className={styles.Grid}>
@@ -45,6 +44,7 @@ export const Inntektoverstyringhendelse: React.FC<InntektoverstyringhendelseProp
                     <BodyShort>{getFormattedDateString(inntekt.skjaeringstidspunkt)}</BodyShort>
                 </div>
             </ExpandableHistorikkContent>
+            <HendelseDate timestamp={timestamp} ident={saksbehandler} />
         </Hendelse>
     );
 };

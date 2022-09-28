@@ -14,6 +14,8 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { NotatHendelseContent } from './NotathendelseContent';
 import { Action, State } from './types';
 import { HendelseDropdownMenu } from './HendelseDropdownMenu';
+import { HendelseDate } from '../HendelseDate';
+import { ExpandableHistorikkContent } from '../ExpandableHistorikkContent';
 
 const MAX_TEXT_LENGTH_BEFORE_TRUNCATION = 74;
 
@@ -125,23 +127,7 @@ export const Notathendelse: React.FC<NotathendelseProps> = ({
     };
 
     return (
-        <Hendelse
-            title={title}
-            icon={<DialogDots width={20} height={20} />}
-            timestamp={timestamp}
-            ident={saksbehandler}
-            openText={`Kommentarer (${kommentarer.length})`}
-            closeText="Lukk kommentarer"
-            details={
-                <NotatHendelseContent
-                    kommentarer={kommentarer}
-                    saksbehandlerOid={saksbehandlerOid}
-                    id={id}
-                    state={state}
-                    dispatch={dispatch}
-                />
-            }
-        >
+        <Hendelse title={title} icon={<DialogDots width={20} height={20} />}>
             {!feilregistrert && innloggetSaksbehandler.oid === saksbehandlerOid && (
                 <HendelseDropdownMenu feilregistrerAction={feilregistrerNotat} isFetching={state.isFetching} />
             )}
@@ -180,6 +166,20 @@ export const Notathendelse: React.FC<NotathendelseProps> = ({
                     )}
                 </AnimatePresence>
             </div>
+            <HendelseDate timestamp={timestamp} ident={saksbehandler} />
+            <ExpandableHistorikkContent
+                openText={`Kommentarer (${kommentarer.length})`}
+                closeText="Lukk kommentarer"
+                fullWidth
+            >
+                <NotatHendelseContent
+                    kommentarer={kommentarer}
+                    saksbehandlerOid={saksbehandlerOid}
+                    id={id}
+                    state={state}
+                    dispatch={dispatch}
+                />
+            </ExpandableHistorikkContent>
         </Hendelse>
     );
 };

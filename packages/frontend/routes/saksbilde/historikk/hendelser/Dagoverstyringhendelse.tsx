@@ -7,6 +7,7 @@ import { Hendelse } from './Hendelse';
 import { ExpandableHistorikkContent } from './ExpandableHistorikkContent';
 
 import styles from './Dagoverstyringhendelse.module.css';
+import { HendelseDate } from './HendelseDate';
 
 type Endring = Pick<OverstyrtDag, 'grad' | 'type' | 'fraGrad' | 'fraType'>;
 
@@ -56,8 +57,6 @@ export const Dagoverstyringhendelse: React.FC<DagoverstyringhendelseProps> = ({
     <Hendelse
         title={erRevurdering ? 'Revurdert utbetalingsdager' : 'Endret utbetalingsdager'}
         icon={<CaseworkerFilled height={20} width={20} />}
-        ident={saksbehandler}
-        timestamp={timestamp}
     >
         <ExpandableHistorikkContent>
             <BodyShort size="small">Begrunnelse: {begrunnelse}</BodyShort>
@@ -85,5 +84,6 @@ export const Dagoverstyringhendelse: React.FC<DagoverstyringhendelseProps> = ({
                 ))}
             </div>
         </ExpandableHistorikkContent>
+        <HendelseDate timestamp={timestamp} ident={saksbehandler} />
     </Hendelse>
 );

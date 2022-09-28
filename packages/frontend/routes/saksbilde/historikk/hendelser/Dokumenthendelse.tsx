@@ -4,6 +4,7 @@ import { Kildetype } from '@io/graphql';
 import React from 'react';
 
 import { Hendelse } from './Hendelse';
+import { HendelseDate } from './HendelseDate';
 
 const getKildetype = (dokumenttype: DokumenthendelseObject['dokumenttype']): Kildetype => {
     switch (dokumenttype) {
@@ -39,8 +40,9 @@ export const Dokumenthendelse: React.FC<DokumenthendelseProps> = ({ dokumenttype
     return (
         <Hendelse
             title={`${dokumenttype} mottatt`}
-            timestamp={timestamp}
             icon={<Kilde type={getKildetype(dokumenttype)}>{getKildetekst(dokumenttype)}</Kilde>}
-        />
+        >
+            <HendelseDate timestamp={timestamp} />
+        </Hendelse>
     );
 };

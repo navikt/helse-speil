@@ -8,6 +8,7 @@ import { Hendelse } from './Hendelse';
 import { ExpandableHistorikkContent } from './ExpandableHistorikkContent';
 
 import styles from './Overstyringshendelse.module.css';
+import { HendelseDate } from './HendelseDate';
 
 interface ArbeidsforholdoverstyringhendelseProps extends Omit<ArbeidsforholdoverstyringhendelseObject, 'type' | 'id'> {}
 
@@ -23,8 +24,6 @@ export const Arbeidsforholdoverstyringhendelse: React.FC<Arbeidsforholdoverstyri
         <Hendelse
             title={erDeaktivert ? 'Brukes ikke i beregningen' : 'Brukes i beregningen'}
             icon={<CaseworkerFilled height={20} width={20} />}
-            ident={saksbehandler}
-            timestamp={timestamp}
         >
             <ExpandableHistorikkContent>
                 <div className={styles.Grid}>
@@ -36,6 +35,7 @@ export const Arbeidsforholdoverstyringhendelse: React.FC<Arbeidsforholdoverstyri
                     <BodyShort>{getFormattedDateString(skjæringstidspunkt)}</BodyShort>
                 </div>
             </ExpandableHistorikkContent>
+            <HendelseDate timestamp={timestamp} ident={saksbehandler} />
         </Hendelse>
     );
 };

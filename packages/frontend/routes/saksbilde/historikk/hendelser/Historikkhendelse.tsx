@@ -2,6 +2,7 @@ import React from 'react';
 import { Cancel, Refresh, Send, Success } from '@navikt/ds-icons';
 import { Hendelse } from './Hendelse';
 import { PeriodehistorikkType } from '@io/graphql';
+import { HendelseDate } from './HendelseDate';
 
 const getTitle = (type: PeriodehistorikkType): string => {
     switch (type) {
@@ -39,11 +40,8 @@ interface HistorikkhendelseProps extends Omit<HistorikkhendelseObject, 'type' | 
 
 export const Historikkhendelse: React.FC<HistorikkhendelseProps> = ({ historikktype, saksbehandler, timestamp }) => {
     return (
-        <Hendelse
-            title={getTitle(historikktype)}
-            icon={getIcon(historikktype)}
-            ident={saksbehandler}
-            timestamp={timestamp}
-        />
+        <Hendelse title={getTitle(historikktype)} icon={getIcon(historikktype)}>
+            <HendelseDate timestamp={timestamp} ident={saksbehandler} />
+        </Hendelse>
     );
 };
