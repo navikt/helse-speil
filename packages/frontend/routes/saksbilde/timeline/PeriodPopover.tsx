@@ -56,11 +56,7 @@ const getDayTypesRender = (dayType: Utbetalingsdagtype, map: Map<Utbetalingsdagt
     return `${antallDager} dager`;
 };
 
-interface InfotrygdPopoverProps extends DatePeriod {
-    period: InfotrygdPeriod;
-}
-
-const InfotrygdPopover: React.VFC<InfotrygdPopoverProps> = ({ period, fom, tom }) => {
+const InfotrygdPopover: React.VFC<DatePeriod> = ({ fom, tom }) => {
     return (
         <>
             <BodyShort size="small">Behandlet i Infotrygd</BodyShort>
@@ -68,12 +64,6 @@ const InfotrygdPopover: React.VFC<InfotrygdPopoverProps> = ({ period, fom, tom }
             <BodyShort size="small">
                 ({fom} - {tom})
             </BodyShort>
-            <BodyShort size="small">Type:</BodyShort>
-            <BodyShort size="small">{period.typetekst}</BodyShort>
-            <BodyShort size="small">Grad:</BodyShort>
-            <BodyShort size="small">{Math.floor(Number(period.grad))} %</BodyShort>
-            <BodyShort size="small">Dagsats:</BodyShort>
-            <BodyShort size="small">{somPenger(period.dagsats)}</BodyShort>
         </>
     );
 };
@@ -204,7 +194,7 @@ export const PeriodPopover: React.VFC<PeriodPopoverProps> = ({ period, state, ..
             <Popover.Content className={styles.RouteContainer}>
                 <ErrorBoundary fallback={<div />}>
                     {isInfotrygdPeriod(period) ? (
-                        <InfotrygdPopover period={period} fom={fom} tom={tom} />
+                        <InfotrygdPopover fom={fom} tom={tom} />
                     ) : isBeregnetPeriode(period) ? (
                         <BeregnetPopover period={period} state={state} fom={fom} tom={tom} />
                     ) : isGhostPeriode(period) ? (

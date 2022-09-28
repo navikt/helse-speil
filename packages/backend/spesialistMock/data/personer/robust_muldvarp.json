@@ -26,9 +26,41 @@
                 },
                 {
                     "organisasjonsnummer": "0",
+                    "dagsats": 90,
+                    "fom": "2021-06-23",
+                    "tom": "2021-06-28",
+                    "grad": "80",
+                    "typetekst": "Utbetaling"
+                },
+                {
+                    "organisasjonsnummer": "0",
+                    "dagsats": 90,
+                    "fom": "2021-04-23",
+                    "tom": "2021-04-28",
+                    "grad": "80",
+                    "typetekst": "Utbetaling"
+                },
+                {
+                    "organisasjonsnummer": "0",
                     "dagsats": 88,
                     "fom": "2021-04-21",
-                    "tom": "2021-04-26",
+                    "tom": "2021-04-24",
+                    "grad": "100",
+                    "typetekst": "Utbetaling"
+                },
+                {
+                    "organisasjonsnummer": "0",
+                    "dagsats": 88,
+                    "fom": "2021-04-26",
+                    "tom": "2021-05-20",
+                    "grad": "100",
+                    "typetekst": "Utbetaling"
+                },
+                {
+                    "organisasjonsnummer": "0",
+                    "dagsats": 88,
+                    "fom": "2021-05-21",
+                    "tom": "2021-05-30",
                     "grad": "100",
                     "typetekst": "Utbetaling"
                 }
