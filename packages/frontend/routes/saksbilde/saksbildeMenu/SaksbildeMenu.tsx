@@ -3,6 +3,7 @@ import classNames from 'classnames';
 import { BodyShort } from '@navikt/ds-react';
 
 import { Location, useNavigation } from '@hooks/useNavigation';
+import { LoadingShimmer } from '@components/LoadingShimmer';
 import { ErrorBoundary } from '@components/ErrorBoundary';
 import { useActivePeriod } from '@state/periode';
 import { BeregnetPeriode } from '@io/graphql';
@@ -16,18 +17,7 @@ import styles from './SaksbildeMenu.module.css';
 
 const HistorikkHeader = React.lazy(() => import('../historikk').catch(onLazyLoadFail));
 
-const SaksbildeMenuEmpty: React.VFC = () => {
-    return (
-        <div className={styles.SaksbildeMenu}>
-            <div>
-                <DropdownMenu />
-            </div>
-            <HistorikkHeader />
-        </div>
-    );
-};
-
-const SaksbildeMenuGhostPeriode: React.VFC = () => {
+const SaksbildeMenuGhostPeriode: React.FC = () => {
     const { pathForLocation } = useNavigation();
 
     return (
@@ -95,7 +85,7 @@ const SaksbildeMenuUberegnetPeriode: React.FC = () => {
     );
 };
 
-const SaksbildeMenuContainer: React.VFC = () => {
+const SaksbildeMenuContainer: React.FC = () => {
     const activePeriod = useActivePeriod();
 
     if (isBeregnetPeriode(activePeriod)) {
@@ -105,29 +95,25 @@ const SaksbildeMenuContainer: React.VFC = () => {
     } else if (isUberegnetPeriode(activePeriod)) {
         return <SaksbildeMenuUberegnetPeriode />;
     } else {
-        return <SaksbildeMenuEmpty />;
+        return <SaksbildeMenuSkeleton />;
     }
 };
 
-const SaksbildeMenuSkeleton: React.VFC = () => {
+const SaksbildeMenuSkeleton: React.FC = () => {
     return (
         <div className={classNames(styles.SaksbildeMenu, styles.Skeleton)}>
-            <span className={styles.TabList} role="tablist">
-                <TabLink disabled title="Utbetaling">
-                    Utbetaling
-                </TabLink>
-                <TabLink disabled title="Inngangsvilkår">
-                    Inngangsvilkår
-                </TabLink>
-                <TabLink disabled title="Sykepengegrunnlag">
-                    Sykepengegrunnlag
-                </TabLink>
+            <span className={styles.TabList}>
+                <LoadingShimmer />
+                <LoadingShimmer />
+                <LoadingShimmer />
+                <LoadingShimmer />
+                <DropdownMenu />
             </span>
         </div>
     );
 };
 
-const SaksbildeMenuError: React.VFC = () => {
+const SaksbildeMenuError: React.FC = () => {
     return (
         <div className={classNames(styles.SaksbildeMenu, styles.Error)}>
             <BodyShort>Det oppstod en feil. Kan ikke vise saksbildemeny.</BodyShort>
@@ -135,7 +121,7 @@ const SaksbildeMenuError: React.VFC = () => {
     );
 };
 
-export const SaksbildeMenu: React.VFC = () => {
+export const SaksbildeMenu: React.FC = () => {
     return (
         <React.Suspense fallback={<SaksbildeMenuSkeleton />}>
             <ErrorBoundary fallback={<SaksbildeMenuError />}>

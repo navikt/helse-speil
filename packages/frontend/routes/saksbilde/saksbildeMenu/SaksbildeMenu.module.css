@@ -26,12 +26,26 @@
     display: flex;
 }
 
-.SaksbildeMenu.Skeleton > span > button > span {
-    background: var(--navds-global-color-gray-100);
-    box-shadow: 0 0 0 4px var(--navds-global-color-gray-100);
-    border-radius: 4px;
+.SaksbildeMenu.Skeleton .TabList > span:not(:last-of-type) {
+    margin: auto 13px;
 }
 
-.SaksbildeMenu.Skeleton > span > button > span:after {
-    color: var(--navds-global-color-gray-100);
+.SaksbildeMenu.Skeleton .TabList > span:nth-of-type(1) {
+    width: 72px;
+    min-width: 72px;
+}
+
+.SaksbildeMenu.Skeleton .TabList > span:nth-of-type(2) {
+    width: 98px;
+    min-width: 98px;
+}
+
+.SaksbildeMenu.Skeleton .TabList > span:nth-of-type(3) {
+    width: 133px;
+    min-width: 133px;
+}
+
+.SaksbildeMenu.Skeleton .TabList > span:nth-of-type(4) {
+    width: 80px;
+    min-width: 80px;
 }
