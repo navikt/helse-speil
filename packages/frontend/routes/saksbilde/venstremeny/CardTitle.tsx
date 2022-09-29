@@ -4,12 +4,10 @@ import React from 'react';
 import { BodyShort } from '@navikt/ds-react';
 
 const Title = styled(BodyShort)`
-    font-size: 14px;
+    font-size: var(--navds-font-size-medium);
     font-weight: 600;
     display: flex;
     align-items: center;
-    margin-bottom: 0.25rem;
-    letter-spacing: 0.4px;
     color: var(--navds-global-color-gray-600);
 
     a {

@@ -23,7 +23,7 @@ export const VenstremenyUberegnetPeriode: React.FC<VenstremenyUberegnetPeriodePr
     return (
         <section className={styles.Venstremeny}>
             <PeriodeCard.Uberegnet periode={activePeriod} />
-            <ArbeidsgiverCard
+            <ArbeidsgiverCard.Uberegnet
                 navn={currentArbeidsgiver.navn}
                 organisasjonsnummer={currentArbeidsgiver.organisasjonsnummer}
                 arbeidsforhold={currentArbeidsgiver.arbeidsforhold}

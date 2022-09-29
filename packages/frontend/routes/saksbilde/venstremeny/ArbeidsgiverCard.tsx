@@ -6,6 +6,7 @@ import { BodyShort, Tooltip } from '@navikt/ds-react';
 
 import { Flex } from '@components/Flex';
 import { Clipboard } from '@components/clipboard';
+import { LoadingShimmer } from '@components/LoadingShimmer';
 import { AnonymizableText } from '@components/anonymizable/AnonymizableText';
 import { AnonymizableContainer } from '@components/anonymizable/AnonymizableContainer';
 import { AnonymizableTextWithEllipsis } from '@components/TextWithEllipsis';
@@ -16,6 +17,7 @@ import { Arbeidsforhold } from '@io/graphql';
 import { CardTitle } from './CardTitle';
 
 import styles from './ArbeidsgiverCard.module.css';
+import classNames from 'classnames';
 
 interface TitleRowProps {
     navn: string;
@@ -103,13 +105,40 @@ interface ArbeidsgiverCardProps {
     månedsbeløp?: number;
 }
 
-export const ArbeidsgiverCard = ({ navn, organisasjonsnummer, arbeidsforhold, månedsbeløp }: ArbeidsgiverCardProps) => {
+const ArbeidsgiverCardView: React.FC<ArbeidsgiverCardProps> = ({
+    navn,
+    organisasjonsnummer,
+    arbeidsforhold,
+    månedsbeløp,
+}) => {
     return (
-        <section>
+        <section className={styles.ArbeidsgiverCard}>
             <TitleRow navn={navn} />
             <OrganisasjonsnummerRow organisasjonsnummer={organisasjonsnummer} />
             <ArbeidsforholdRow arbeidsforhold={arbeidsforhold} />
             {månedsbeløp && <MånedsbeløpRow månedsbeløp={månedsbeløp} />}
         </section>
     );
+};
+
+const ArbeidsgiverCardSkeleton: React.FC = () => {
+    return (
+        <section className={classNames(styles.Skeleton, styles.ArbeidsgiverCard)}>
+            <Flex gap="12px">
+                <LoadingShimmer style={{ width: 20 }} />
+                <LoadingShimmer />
+            </Flex>
+            <LoadingShimmer />
+            <LoadingShimmer />
+            <LoadingShimmer />
+            <LoadingShimmer />
+        </section>
+    );
+};
+
+export const ArbeidsgiverCard = {
+    Beregnet: ArbeidsgiverCardView,
+    Uberegnet: ArbeidsgiverCardView,
+    Ghost: ArbeidsgiverCardView,
+    Skeleton: ArbeidsgiverCardSkeleton,
 };

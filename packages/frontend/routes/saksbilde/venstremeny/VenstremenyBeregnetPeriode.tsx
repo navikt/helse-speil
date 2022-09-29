@@ -2,8 +2,6 @@ import React from 'react';
 
 import { useCurrentVilkårsgrunnlag } from '@state/periode';
 import { Arbeidsgiver, BeregnetPeriode, Dag, Person, Utbetalingsdagtype } from '@io/graphql';
-
-import { VilkårCard } from './VilkårCard';
 import { PeriodeCard } from './PeriodeCard';
 import { UtbetalingCard } from './UtbetalingCard';
 import { ArbeidsgiverCard } from './ArbeidsgiverCard';
@@ -35,14 +33,13 @@ export const VenstremenyBeregnetPeriode: React.VFC<VenstremenyBeregnetPeriodePro
     return (
         <section className={styles.Venstremeny}>
             <PeriodeCard.Beregnet periode={activePeriod} />
-            <ArbeidsgiverCard
+            <ArbeidsgiverCard.Beregnet
                 navn={currentArbeidsgiver.navn}
                 organisasjonsnummer={currentArbeidsgiver.organisasjonsnummer}
                 arbeidsforhold={currentArbeidsgiver.arbeidsforhold}
                 månedsbeløp={månedsbeløp}
             />
-            <VilkårCard activePeriod={activePeriod} currentPerson={currentPerson} />
-            <UtbetalingCard
+            <UtbetalingCard.Beregnet
                 skjæringstidspunkt={activePeriod.skjaeringstidspunkt}
                 vilkårsgrunnlaghistorikkId={activePeriod.vilkarsgrunnlaghistorikkId}
                 antallUtbetalingsdager={getNumberOfDaysWithType(activePeriod.tidslinje, Utbetalingsdagtype.Navdag)}

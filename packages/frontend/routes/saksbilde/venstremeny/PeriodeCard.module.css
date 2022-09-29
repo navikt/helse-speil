@@ -26,3 +26,11 @@
 .Title {
     margin-bottom: 0;
 }
+
+.Skeleton {
+    width: 100%;
+}
+
+.Skeleton > span {
+    height: var(--navds-font-line-height-large);
+}

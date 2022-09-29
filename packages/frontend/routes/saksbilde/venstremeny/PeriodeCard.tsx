@@ -1,5 +1,6 @@
 import dayjs from 'dayjs';
 import React from 'react';
+import classNames from 'classnames';
 
 import { BodyShort, Tag, Tooltip } from '@navikt/ds-react';
 
@@ -7,6 +8,7 @@ import { Flex } from '@components/Flex';
 import { LovdataLenke } from '@components/LovdataLenke';
 import { Advarselikon } from '@components/ikoner/Advarselikon';
 import { Maksdatoikon } from '@components/ikoner/Maksdatoikon';
+import { LoadingShimmer } from '@components/LoadingShimmer';
 import { Oppgaveetikett } from '@components/Oppgaveetikett';
 import { Skjæringstidspunktikon } from '@components/ikoner/Skjæringstidspunktikon';
 import { Sykmeldingsperiodeikon } from '@components/ikoner/Sykmeldingsperiodeikon';
@@ -191,16 +193,26 @@ const PeriodeCardBeregnet: React.FC<PeriodeCardBeregnetProps> = ({ periode }) =>
     }`;
 
     return (
-        <section>
-            <div className={styles.Grid}>
-                <PeriodetypeRow type={type} tilstand={periode.periodetilstand} label={label} />
-                <SykmeldingsperiodeRow periode={periode} />
-                <SkjæringstidspunktRow
-                    periodetype={periode.periodetype}
-                    skjæringstidspunkt={periode.skjaeringstidspunkt}
-                />
-                <MaksdatoRow activePeriod={periode} />
-            </div>
+        <section className={styles.Grid}>
+            <PeriodetypeRow type={type} tilstand={periode.periodetilstand} label={label} />
+            <SykmeldingsperiodeRow periode={periode} />
+            <SkjæringstidspunktRow periodetype={periode.periodetype} skjæringstidspunkt={periode.skjaeringstidspunkt} />
+            <MaksdatoRow activePeriod={periode} />
+        </section>
+    );
+};
+
+const PeriodeCardSkeleton: React.FC = () => {
+    return (
+        <section className={classNames(styles.Skeleton, styles.Grid)}>
+            <LoadingShimmer />
+            <LoadingShimmer />
+            <LoadingShimmer />
+            <LoadingShimmer />
+            <LoadingShimmer />
+            <LoadingShimmer />
+            <LoadingShimmer />
+            <LoadingShimmer />
         </section>
     );
 };
@@ -208,4 +220,5 @@ const PeriodeCardBeregnet: React.FC<PeriodeCardBeregnetProps> = ({ periode }) =>
 export const PeriodeCard = {
     Beregnet: PeriodeCardBeregnet,
     Uberegnet: PeriodeCardUberegnet,
+    Skeleton: PeriodeCardSkeleton,
 };

@@ -1,6 +1,6 @@
 import React from 'react';
 import classNames from 'classnames';
-import { BodyShort, Loader } from '@navikt/ds-react';
+import { BodyShort } from '@navikt/ds-react';
 
 import { ErrorBoundary } from '@components/ErrorBoundary';
 import { useActivePeriod } from '@state/periode';
@@ -9,13 +9,16 @@ import { useCurrentArbeidsgiver } from '@state/arbeidsgiver';
 import { isBeregnetPeriode, isGhostPeriode, isUberegnetPeriode } from '@utils/typeguards';
 import { useIsReadOnlyOppgave } from '@hooks/useIsReadOnlyOppgave';
 
+import { PeriodeCard } from './PeriodeCard';
+import { UtbetalingCard } from './UtbetalingCard';
+import { ArbeidsgiverCard } from './ArbeidsgiverCard';
 import { VenstremenyGhostPeriode } from './VenstremenyGhostPeriode';
 import { VenstremenyBeregnetPeriode } from './VenstremenyBeregnetPeriode';
 import { VenstremenyUberegnetPeriode } from './VenstremenyUberegnetPeriode';
 
 import styles from './Venstremeny.module.css';
 
-const VenstremenyContainer: React.VFC = () => {
+const VenstremenyContainer: React.FC = () => {
     const activePeriod = useActivePeriod();
     const currentPerson = useCurrentPerson();
     const currentArbeidsgiver = useCurrentArbeidsgiver();
@@ -24,13 +27,7 @@ const VenstremenyContainer: React.VFC = () => {
     if (!currentPerson || !currentArbeidsgiver) {
         return null;
     } else if (isGhostPeriode(activePeriod)) {
-        return (
-            <VenstremenyGhostPeriode
-                activePeriod={activePeriod}
-                currentPerson={currentPerson}
-                currentArbeidsgiver={currentArbeidsgiver}
-            />
-        );
+        return <VenstremenyGhostPeriode activePeriod={activePeriod} currentArbeidsgiver={currentArbeidsgiver} />;
     } else if (isBeregnetPeriode(activePeriod)) {
         return (
             <VenstremenyBeregnetPeriode
@@ -47,23 +44,25 @@ const VenstremenyContainer: React.VFC = () => {
     }
 };
 
-const VenstremenySkeleton: React.VFC = () => {
+const VenstremenySkeleton: React.FC = () => {
     return (
-        <div className={classNames(styles.Venstremeny, styles.Skeleton)}>
-            <Loader size="large" />
-        </div>
+        <section className={classNames(styles.Venstremeny, styles.Skeleton)}>
+            <PeriodeCard.Skeleton />
+            <ArbeidsgiverCard.Skeleton />
+            <UtbetalingCard.Skeleton />
+        </section>
     );
 };
 
-const VenstremenyError: React.VFC = () => {
+const VenstremenyError: React.FC = () => {
     return (
-        <div className={classNames(styles.Venstremeny, styles.Error)}>
+        <section className={classNames(styles.Venstremeny, styles.Error)}>
             <BodyShort>Det har skjedd en feil. Kan ikke vise venstremenyen for perioden.</BodyShort>
-        </div>
+        </section>
     );
 };
 
-export const Venstremeny: React.VFC = () => {
+export const Venstremeny: React.FC = () => {
     return (
         <React.Suspense fallback={<VenstremenySkeleton />}>
             <ErrorBoundary fallback={<VenstremenyError />}>

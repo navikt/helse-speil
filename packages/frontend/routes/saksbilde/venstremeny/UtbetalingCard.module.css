@@ -1,3 +1,9 @@
+.Card {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
 .Grid {
     display: grid;
     grid-template-columns: auto auto;
@@ -43,4 +49,12 @@
     margin-left: calc(var(--icon-width) + var(--margin));
     margin-bottom: 0.25rem;
     width: max-content;
+}
+
+.Skeleton {
+    width: 100%;
+}
+
+.Skeleton span {
+    height: var(--navds-font-line-height-large);
 }

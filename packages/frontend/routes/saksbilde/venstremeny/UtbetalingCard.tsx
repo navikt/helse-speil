@@ -1,4 +1,5 @@
 import React from 'react';
+import classNames from 'classnames';
 import { BodyShort, Tooltip } from '@navikt/ds-react';
 import { Bag, People } from '@navikt/ds-icons';
 
@@ -6,6 +7,7 @@ import { somPenger } from '@utils/locale';
 import { useVilkårsgrunnlag } from '@state/person';
 import { Maybe, Personinfo, Simulering, Utbetaling, Utbetalingstatus } from '@io/graphql';
 import { AnonymizableTextWithEllipsis } from '@components/TextWithEllipsis';
+import { LoadingShimmer } from '@components/LoadingShimmer';
 import { Bold } from '@components/Bold';
 
 import { CardTitle } from './CardTitle';
@@ -35,7 +37,7 @@ interface UtbetalingCardProps {
     personsimulering?: Maybe<Simulering>;
 }
 
-export const UtbetalingCard = ({
+const UtbetalingCardBeregnet = ({
     skjæringstidspunkt,
     vilkårsgrunnlaghistorikkId,
     antallUtbetalingsdager,
@@ -49,7 +51,7 @@ export const UtbetalingCard = ({
     const vilkårsgrunnlaghistorikk = useVilkårsgrunnlag(vilkårsgrunnlaghistorikkId, skjæringstidspunkt);
 
     return (
-        <section>
+        <section className={styles.Card}>
             <CardTitle>TIL UTBETALING</CardTitle>
             <div className={styles.Grid}>
                 <BodyShort>Sykepengegrunnlag</BodyShort>
@@ -102,4 +104,19 @@ export const UtbetalingCard = ({
             )}
         </section>
     );
+};
+
+const UtbetalingCardSkeleton: React.FC = () => {
+    return (
+        <section className={classNames(styles.Skeleton, styles.Card)}>
+            <LoadingShimmer style={{ width: 100 }} />
+            <LoadingShimmer />
+            <LoadingShimmer />
+        </section>
+    );
+};
+
+export const UtbetalingCard = {
+    Beregnet: UtbetalingCardBeregnet,
+    Skeleton: UtbetalingCardSkeleton,
 };

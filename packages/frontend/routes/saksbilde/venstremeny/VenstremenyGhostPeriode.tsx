@@ -6,7 +6,7 @@ import { BodyShort } from '@navikt/ds-react';
 import { Bold } from '@components/Bold';
 import { SortInfoikon } from '@components/ikoner/SortInfoikon';
 import { PopoverHjelpetekst } from '@components/PopoverHjelpetekst';
-import { Arbeidsgiver, Arbeidsgiverinntekt, InntektFraAOrdningen, Person } from '@io/graphql';
+import { Arbeidsgiver, Arbeidsgiverinntekt, InntektFraAOrdningen } from '@io/graphql';
 import { getMonthName, somPenger } from '@utils/locale';
 import { useVilkårsgrunnlag } from '@state/person';
 
@@ -33,13 +33,11 @@ const useInntekterFraAOrdningen = (
 
 interface VenstremenyGhostPeriodeProps {
     activePeriod: GhostPeriode;
-    currentPerson: Person;
     currentArbeidsgiver: Arbeidsgiver;
 }
 
 export const VenstremenyGhostPeriode: React.VFC<VenstremenyGhostPeriodeProps> = ({
     activePeriod,
-    currentPerson,
     currentArbeidsgiver,
 }) => {
     if (!activePeriod.vilkarsgrunnlaghistorikkId || !activePeriod.skjaeringstidspunkt) {
@@ -54,7 +52,7 @@ export const VenstremenyGhostPeriode: React.VFC<VenstremenyGhostPeriodeProps> = 
 
     return (
         <section className={styles.Venstremeny}>
-            <ArbeidsgiverCard
+            <ArbeidsgiverCard.Ghost
                 navn={currentArbeidsgiver.navn}
                 organisasjonsnummer={currentArbeidsgiver.organisasjonsnummer}
                 arbeidsforhold={currentArbeidsgiver.arbeidsforhold}

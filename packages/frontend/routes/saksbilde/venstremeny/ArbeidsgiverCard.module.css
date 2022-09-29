@@ -1,3 +1,9 @@
+.ArbeidsgiverCard {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
 .Title {
     display: grid;
     grid-template-columns: 1.25rem auto;
@@ -18,4 +24,12 @@
 
 .Arbeidsforhold > p {
     white-space: nowrap;
+}
+
+.Skeleton {
+    width: 100%;
+}
+
+.Skeleton span {
+    height: var(--navds-font-line-height-large);
 }

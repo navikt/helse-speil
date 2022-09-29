@@ -1,5 +1,5 @@
 import React from 'react';
-import { Alert, Loader } from '@navikt/ds-react';
+import { Alert } from '@navikt/ds-react';
 
 import { ErrorBoundary } from '@components/ErrorBoundary';
 import { Periodetilstand } from '@io/graphql';
@@ -13,6 +13,8 @@ import { AnnullertPeriodeView } from './AnnullertPeriodeView';
 import { PeriodeTilAnnulleringView } from './PeriodeTilAnnulleringView';
 
 import styles from './PeriodeView.module.css';
+import { Venstremeny } from '../venstremeny/Venstremeny';
+import { Historikk } from '../historikk';
 
 const GhostPeriodeView = React.lazy(() => import('./GhostPeriodeView').catch(onLazyLoadFail));
 const UberegnetPeriodeView = React.lazy(() => import('./UberegnetPeriodeView').catch(onLazyLoadFail));
@@ -51,9 +53,11 @@ const PeriodeViewContainer: React.VFC = () => {
 
 const PeriodeViewSkeleton = () => {
     return (
-        <div className={styles.Skeleton}>
-            <Loader size="xlarge" />
-        </div>
+        <>
+            <Venstremeny />
+            <div className={styles.Content} />
+            <Historikk />
+        </>
     );
 };
 
