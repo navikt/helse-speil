@@ -12,6 +12,10 @@
     min-width: max-content;
 }
 
+.PersonHeader > span {
+    max-width: 200px;
+}
+
 .PersonHeader.Error {
     background: var(--navds-semantic-color-feedback-danger-background);
 }

@@ -5,6 +5,7 @@ import { BodyShort } from '@navikt/ds-react';
 
 import { Clipboard } from '@components/clipboard';
 import { ErrorBoundary } from '@components/ErrorBoundary';
+import { LoadingShimmer } from '@components/LoadingShimmer';
 import { AnonymizableText } from '@components/anonymizable/AnonymizableText';
 import { Enhet, Kjonn, Maybe, Personinfo } from '@io/graphql';
 import { utbetalingsoversikt } from '@utils/featureToggles';
@@ -78,7 +79,7 @@ const PersonHeaderContainer: React.VFC = () => {
     const isAnonymous = useIsAnonymous();
 
     return !currentPerson ? (
-        <div className={styles.PersonHeader} />
+        <PersonHeaderSkeleton />
     ) : (
         <PersonHeaderWithContent
             fødselsnummer={currentPerson.fodselsnummer}
@@ -95,15 +96,15 @@ const PersonHeaderSkeleton: React.VFC = () => {
     return (
         <div className={styles.PersonHeader}>
             <GenderIcon gender={Kjonn.Ukjent} />
-            <div className={styles.LoadingText} />
+            <LoadingShimmer />
             <BodyShort className={styles.Separator}>/</BodyShort>
-            <div className={styles.LoadingText} />
+            <LoadingShimmer />
             <BodyShort className={styles.Separator}>/</BodyShort>
-            <div className={styles.LoadingText} />
+            <LoadingShimmer />
             <BodyShort className={styles.Separator}>/</BodyShort>
-            <div className={styles.LoadingText} />
+            <LoadingShimmer />
             <BodyShort className={styles.Separator}>/</BodyShort>
-            <div className={styles.LoadingText} />
+            <LoadingShimmer />
         </div>
     );
 };
@@ -118,11 +119,9 @@ const PersonHeaderError: React.VFC = () => {
 
 export const PersonHeader: React.VFC = () => {
     return (
-        <React.Suspense fallback={<PersonHeaderSkeleton />}>
-            <ErrorBoundary fallback={<PersonHeaderError />}>
-                <PersonHeaderContainer />
-            </ErrorBoundary>
-        </React.Suspense>
+        <ErrorBoundary fallback={<PersonHeaderError />}>
+            <PersonHeaderContainer />
+        </ErrorBoundary>
     );
 };
 
