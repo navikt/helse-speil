@@ -3,11 +3,12 @@
     "tabWidth": 4,
     "printWidth": 120,
     "importOrder": [
-        "^nav-frontend-(.*)$",
         "^@navikt/(.*)$",
-        "/(components|hooks|io|mapping|modell|routes|state|utils|assets)/",
-        "^[./]"
+        "^@(.*)/(.*)$",
+        ",^[.][.][a-zA-Z/]+|[.][/][a-zA-Z/]+$",
+        "^(.*)(.module.css)$"
     ],
     "importOrderSeparation": true,
+    "importOrderSortSpecifiers": true,
     "trailingCommas": "all"
 }
