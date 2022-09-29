@@ -16,6 +16,7 @@ import {
 } from './mapping';
 import { activePeriod } from '@state/periode';
 import { personState } from '@state/person';
+import { sessionStorageEffect } from '@state/effects/sessionStorageEffect';
 
 const byTimestamp = (a: HendelseObject, b: HendelseObject): number => {
     return dayjs(b.timestamp).diff(dayjs(a.timestamp));
@@ -101,6 +102,7 @@ const filteredHistorikkState = selector<Array<HendelseObject>>({
 const showHistorikkState = atom<boolean>({
     key: 'showHistorikkState',
     default: true,
+    effects: [sessionStorageEffect],
 });
 
 export const useShowHistorikkState = () => useRecoilState(showHistorikkState);
