@@ -36,6 +36,7 @@ declare type Saksbehandler = {
     epost: string;
     navn: string;
     ident?: string;
+    isLoggedIn: boolean;
 };
 
 declare type Tildeling = {

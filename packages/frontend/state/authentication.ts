@@ -31,6 +31,7 @@ export const useInnloggetSaksbehandler = (): Saksbehandler => {
         navn: authInfo.name,
         epost: authInfo.email,
         ident: authInfo.ident,
+        isLoggedIn: authInfo.isLoggedIn ?? false,
     };
 };
 

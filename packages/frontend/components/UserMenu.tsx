@@ -2,16 +2,18 @@ import React from 'react';
 import { BodyShort } from '@navikt/ds-react';
 import { Dropdown, Header } from '@navikt/ds-react-internal';
 
+import { useInnloggetSaksbehandler } from '@state/authentication';
 import { useIsAnonymous, useToggleAnonymity } from '@state/anonymization';
 
 import styles from './UserMenu.module.css';
 
-interface UserMenuProps {
-    ident: string;
-    navn: string;
-}
+const useBrukerinfo = () => {
+    const { navn, ident, isLoggedIn } = useInnloggetSaksbehandler();
+    return isLoggedIn ? { navn, ident: ident ?? '' } : { navn: 'Ikke pålogget', ident: '' };
+};
 
-export const UserMenu: React.FC<UserMenuProps> = ({ navn, ident }) => {
+export const UserMenu: React.FC = () => {
+    const { navn, ident } = useBrukerinfo();
     const isAnonymous = useIsAnonymous();
     const toggleAnonymity = useToggleAnonymity();
 
