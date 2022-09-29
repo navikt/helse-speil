@@ -83,7 +83,7 @@ export const useFetchPerson = (): ((id: string) => Promise<PersonState | void>) 
                 return Promise.resolve(state);
             })
             .catch((errors) => {
-                setPerson((prevState) => ({ ...prevState, errors }));
+                setPerson((prevState) => ({ ...prevState, errors, loading: false }));
             });
     };
 };
