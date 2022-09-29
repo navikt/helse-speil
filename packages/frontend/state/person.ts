@@ -1,6 +1,5 @@
 import dayjs from 'dayjs';
 import { atom, Loadable, useRecoilValue, useRecoilValueLoadable, useResetRecoilState, useSetRecoilState } from 'recoil';
-import { GraphQLError } from 'graphql';
 
 import { useActivePeriod } from '@state/periode';
 import { useInnloggetSaksbehandler } from '@state/authentication';
@@ -10,6 +9,7 @@ import { FetchError, isFetchErrorArray, NotFoundError, ProtectedError } from '@i
 import { deletePåVent, deleteTildeling, NotatDTO, postLeggPåVent, postTildeling, SpeilResponse } from '@io/http';
 import { isBeregnetPeriode } from '@utils/typeguards';
 import { SpeilError } from '@utils/error';
+import { GraphQLError } from 'graphql';
 
 const TILDELINGSKEY = 'tildeling';
 
@@ -37,25 +37,21 @@ const fetchPersonState = (id: string): Promise<PersonState> => {
                 loading: false,
             });
         })
-        .catch((e) => {
-            const errors = e.response.errors.map((error: GraphQLError) => {
+        .catch(({ response }) => {
+            const errors = response.errors.map((error: GraphQLError) => {
                 switch (error.extensions?.code) {
                     case 403: {
-                        return new ProtectedError();
+                        throw new ProtectedError();
                     }
                     case 404: {
-                        return new NotFoundError();
+                        throw new NotFoundError();
                     }
                     default: {
-                        return new FetchError();
+                        throw new FetchError();
                     }
                 }
             });
-            return Promise.resolve({
-                person: null,
-                errors: errors,
-                loading: false,
-            });
+            return Promise.reject(errors);
         });
 };
 
@@ -76,23 +72,30 @@ export const usePersonErrors = (): Array<SpeilError> => {
     return useRecoilValue(personState).errors;
 };
 
-export const useFetchPerson = (): ((id: string) => Promise<PersonState>) => {
-    const setPersonState = useSetRecoilState(personState);
+export const useFetchPerson = (): ((id: string) => Promise<PersonState | void>) => {
+    const setPerson = useSetRecoilState(personState);
+
     return async (id: string) => {
-        setPersonState((prevState) => ({ ...prevState, loading: true }));
-        return fetchPersonState(id).then((state) => {
-            setPersonState(state);
-            return Promise.resolve(state);
-        });
+        setPerson((prevState) => (prevState.person ? prevState : { ...prevState, loading: true }));
+        return fetchPersonState(id)
+            .then((state) => {
+                setPerson(state);
+                return Promise.resolve(state);
+            })
+            .catch((errors) => {
+                setPerson((prevState) => ({ ...prevState, errors }));
+            });
     };
 };
 
 export const useRefetchPerson = (): (() => Promise<PersonState | null>) => {
     const personId = useRecoilValue(personState).person?.fodselsnummer;
     const fetchPerson = useFetchPerson();
-    return () => {
+
+    return async () => {
         if (personId) {
-            return fetchPerson(personId);
+            const personState = await fetchPerson(personId);
+            return Promise.resolve(personState ?? null);
         } else {
             return Promise.resolve(null);
         }

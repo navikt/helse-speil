@@ -40,11 +40,6 @@ const HistorikkWithContent: React.FC = () => {
     const [showHistorikk, setShowHistorikk] = useShowHistorikkState();
 
     const isLoading = useIsFetchingPerson();
-    const missingPersonData = !useCurrentPerson() && !isLoading;
-
-    if (missingPersonData) {
-        return null;
-    }
 
     return (
         <>
@@ -131,6 +126,13 @@ const HistorikkError = () => {
 };
 
 export const Historikk = () => {
+    const isLoading = useIsFetchingPerson();
+    const currentPerson = useCurrentPerson();
+
+    if (!currentPerson && !isLoading) {
+        return null;
+    }
+
     return (
         <ErrorBoundary fallback={<HistorikkError />}>
             <HistorikkWithContent />

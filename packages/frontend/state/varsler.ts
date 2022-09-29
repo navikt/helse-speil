@@ -1,14 +1,23 @@
-import { atom, useRecoilValue, useSetRecoilState } from 'recoil';
+import { atom, selector, useRecoilValue, useSetRecoilState } from 'recoil';
 
 import { SpeilError } from '@utils/error';
+import { personState } from '@state/person';
 
-export const varslerState = atom<Array<SpeilError>>({
+const varslerState = atom<Array<SpeilError>>({
     key: 'varslerState',
     default: [],
 });
 
+const derivedVarsler = selector<Array<SpeilError>>({
+    key: 'derivedVarsler',
+    get: ({ get }) => {
+        const personStateErrors = get(personState).errors;
+        return get(varslerState).concat(personStateErrors);
+    },
+});
+
 export const useVarsler = (): Array<SpeilError> => {
-    return useRecoilValue(varslerState);
+    return useRecoilValue(derivedVarsler);
 };
 
 export const useAddVarsel = (): ((varsel: SpeilError) => void) => {

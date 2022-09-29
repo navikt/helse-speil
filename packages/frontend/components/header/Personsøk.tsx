@@ -6,10 +6,10 @@ import { useFetchPerson } from '@state/person';
 import { useToggleEasterEgg } from '@state/easterEgg';
 import { useAddVarsel, useRemoveVarsel } from '@state/varsler';
 import { erGyldigPersonId } from '@hooks/useRefreshPersonVedUrlEndring';
+import { useLoadingToast } from '@hooks/useLoadingToast';
 import { SpeilError } from '@utils/error';
 
 import styles from '@components/header/Header.module.css';
-import { useLoadingToast } from '@hooks/useLoadingToast';
 
 export const Personsøk: React.FC = () => {
     const fetchPerson = useFetchPerson();
@@ -43,7 +43,7 @@ export const Personsøk: React.FC = () => {
             setIsFetching(true);
             fetchPerson(personId)
                 .then((personState) => {
-                    if (personState.person) {
+                    if (personState?.person) {
                         history.push(`/person/${personState.person.aktorId}/utbetaling`);
                     }
                 })
