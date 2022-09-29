@@ -20,7 +20,6 @@ export const ExpandableTimelineRow: React.VFC<ExpandableTimelineRowProp> = ({
     end,
     name,
     generations,
-    infotrygdPeriods,
     ghostPeriods,
     activePeriod,
 }) => {
@@ -39,13 +38,7 @@ export const ExpandableTimelineRow: React.VFC<ExpandableTimelineRowProp> = ({
             </Tooltip>
             <div className={classNames(styles.Periods)}>
                 {generations[0] && (
-                    <Periods
-                        start={start}
-                        end={end}
-                        periods={generations[0].perioder}
-                        infotrygdPeriods={infotrygdPeriods}
-                        activePeriod={activePeriod}
-                    />
+                    <Periods start={start} end={end} periods={generations[0].perioder} activePeriod={activePeriod} />
                 )}
                 {isExpanded &&
                     generations
@@ -56,7 +49,6 @@ export const ExpandableTimelineRow: React.VFC<ExpandableTimelineRowProp> = ({
                                 start={start}
                                 end={end}
                                 periods={generation.perioder}
-                                infotrygdPeriods={infotrygdPeriods}
                                 ghostPeriods={ghostPeriods}
                                 notCurrent
                                 activePeriod={activePeriod}

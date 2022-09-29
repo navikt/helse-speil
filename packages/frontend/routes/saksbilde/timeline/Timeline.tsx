@@ -57,7 +57,6 @@ const TimelineWithContent: React.VFC<TimelineWithContentProps> = React.memo(
                                     end={end}
                                     name={arbeidsgiver.navn ?? arbeidsgiver.organisasjonsnummer}
                                     generations={arbeidsgiver.generasjoner}
-                                    infotrygdPeriods={infotrygdPeriods.get(arbeidsgiver.organisasjonsnummer) ?? []}
                                     activePeriod={activePeriod}
                                 />
                             ) : (
@@ -67,15 +66,12 @@ const TimelineWithContent: React.VFC<TimelineWithContentProps> = React.memo(
                                     end={end}
                                     name={arbeidsgiver.navn ?? arbeidsgiver.organisasjonsnummer}
                                     periods={arbeidsgiver.generasjoner[0]?.perioder ?? []}
-                                    infotrygdPeriods={infotrygdPeriods.get(arbeidsgiver.organisasjonsnummer) ?? []}
                                     ghostPeriods={arbeidsgiver.ghostPerioder}
                                     activePeriod={activePeriod}
                                 />
                             ),
                         )}
-                    {infotrygdPeriods.has('0') && (
-                        <InfotrygdRow start={start} end={end} periods={infotrygdPeriods.get('0') ?? []} />
-                    )}
+                    {infotrygdPeriods.length && <InfotrygdRow start={start} end={end} periods={infotrygdPeriods} />}
                 </div>
                 <div className={styles.TimelineControls}>
                     <ScrollButtons

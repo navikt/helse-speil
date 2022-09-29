@@ -2,12 +2,8 @@ import { useMemo } from 'react';
 import { Infotrygdutbetaling } from '@io/graphql';
 import { somDato } from '@utils/date';
 
-export const useInfotrygdPeriods = (
-    infotrygdutbetalinger: Array<Infotrygdutbetaling>,
-): Map<string, Array<InfotrygdPeriod>> =>
+export const useInfotrygdPeriods = (infotrygdutbetalinger: Array<Infotrygdutbetaling>): Array<InfotrygdPeriod> =>
     useMemo(() => {
-        const map = new Map<string, Array<InfotrygdPeriod>>();
-
         const utbetalinger = infotrygdutbetalinger
             .filter((it) => !['Tilbakeført', 'Ukjent..', 'Ferie'].includes(it.typetekst))
             .sort((u1, u2) => dateAscending(u1.fom, u2.fom));
@@ -40,14 +36,7 @@ export const useInfotrygdPeriods = (
                 .sort((a, b) => dateAscending(a.fom, b.fom))[0];
         }
 
-        for (const utbetaling of sammenslåtteUtbetalingsperioder) {
-            if (!map.has(utbetaling.organisasjonsnummer)) {
-                map.set(utbetaling.organisasjonsnummer, []);
-            }
-            map.get(utbetaling.organisasjonsnummer)?.push(utbetaling);
-        }
-
-        return map;
+        return sammenslåtteUtbetalingsperioder;
     }, [infotrygdutbetalinger]);
 
 const dateAscending = (d1: string, d2: string): number => (somDato(d1).isBefore(somDato(d2)) ? -1 : 1);

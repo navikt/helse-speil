@@ -1,11 +1,8 @@
 import React from 'react';
-import dayjs from 'dayjs';
 
 import { pølsebonansaEnabled } from '@utils/featureToggles';
-import { getNextDay, getPreviousDay } from '@utils/date';
 import { isBeregnetPeriode, isGhostPeriode, isUberegnetPeriode } from '@utils/typeguards';
-import { GhostPeriode, Periode } from '@io/graphql';
-import { Periodetilstand } from '@io/graphql';
+import { GhostPeriode, Periode, Periodetilstand } from '@io/graphql';
 import { isNotReady } from '@state/periode';
 
 import { Pølse } from './Pølse';
@@ -35,73 +32,13 @@ const isActive = (activePeriod: Periode, currentPeriod: Periode): boolean => {
     }
 };
 
-const containsDate = (period: DatePeriod, date: DateString): boolean => {
-    return dayjs(period.fom).isSameOrBefore(date) && dayjs(period.tom).isSameOrAfter(date);
-};
-
-const containsPeriod = (container: DatePeriod, maybeContained: DatePeriod): boolean => {
-    return (
-        dayjs(container.fom).isSameOrBefore(maybeContained.fom) &&
-        dayjs(container.tom).isSameOrAfter(maybeContained.tom)
-    );
-};
-
-export const trimOverlappingPeriods = (
-    periodsToCompare: Array<DatePeriod>,
-    periodsToTrim: Array<DatePeriod>,
-): Array<DatePeriod> => {
-    const result: Array<DatePeriod> = [];
-
-    trim: for (const toTrim of periodsToTrim) {
-        const trimmed: DatePeriod = { ...toTrim };
-
-        for (const period of periodsToCompare) {
-            if (containsPeriod(trimmed, period)) {
-                result.push(
-                    ...trimOverlappingPeriods(periodsToCompare, [
-                        {
-                            ...trimmed,
-                            fom: trimmed.fom,
-                            tom: getPreviousDay(period.fom),
-                        },
-                    ]),
-                );
-                result.push(
-                    ...trimOverlappingPeriods(periodsToCompare, [
-                        {
-                            ...trimmed,
-                            fom: getNextDay(period.tom),
-                            tom: trimmed.tom,
-                        },
-                    ]),
-                );
-                continue trim;
-            }
-            if (containsPeriod(period, trimmed)) {
-                continue trim;
-            }
-            if (containsDate(trimmed, period.fom)) {
-                trimmed.tom = getPreviousDay(period.fom);
-            }
-            if (containsDate(trimmed, period.tom)) {
-                trimmed.fom = getNextDay(period.tom);
-            }
-        }
-
-        result.push(trimmed);
-    }
-
-    return result;
-};
-
 const mergePeriods = (
     fromSpleis: Array<Periode>,
     fromInfotrygd: Array<InfotrygdPeriod>,
     ghostPeriods: Array<GhostPeriode>,
 ): Array<TimelinePeriod> => {
     const periodsFromSpleis = filterReadyPeriods(fromSpleis);
-    const periodsFromInfotrygd = trimOverlappingPeriods(periodsFromSpleis, fromInfotrygd);
-    return [...periodsFromSpleis, ...periodsFromInfotrygd, ...ghostPeriods].sort(byFomAscending);
+    return [...periodsFromSpleis, ...fromInfotrygd, ...ghostPeriods].sort(byFomAscending);
 };
 
 interface PeriodsProps {

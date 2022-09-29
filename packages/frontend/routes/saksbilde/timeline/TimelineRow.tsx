@@ -14,20 +14,11 @@ export interface TimelineRowProps {
     end: Dayjs;
     name: string;
     periods: Array<Periode>;
-    infotrygdPeriods?: Array<InfotrygdPeriod>;
     activePeriod: TimelinePeriod | null;
     ghostPeriods?: Array<GhostPeriode>;
 }
 
-export const TimelineRow: React.VFC<TimelineRowProps> = ({
-    start,
-    end,
-    name,
-    periods,
-    infotrygdPeriods,
-    ghostPeriods,
-    activePeriod,
-}) => (
+export const TimelineRow: React.VFC<TimelineRowProps> = ({ start, end, name, periods, ghostPeriods, activePeriod }) => (
     <div className={styles.TimelineRow}>
         <Tooltip content={name} maxChar={name.length}>
             <div className={styles.Name}>
@@ -40,7 +31,6 @@ export const TimelineRow: React.VFC<TimelineRowProps> = ({
                 periods={periods}
                 start={start}
                 end={end}
-                infotrygdPeriods={infotrygdPeriods}
                 ghostPeriods={ghostPeriods}
                 activePeriod={activePeriod}
             />
