@@ -5,7 +5,7 @@ import { BodyShort } from '@navikt/ds-react';
 
 import { CloseButton } from '@components/CloseButton';
 import { ErrorBoundary } from '@components/ErrorBoundary';
-import { useIsFetchingPerson } from '@state/person';
+import { useCurrentPerson, useIsFetchingPerson } from '@state/person';
 
 import { Notathendelse } from './hendelser/notat/Notathendelse';
 import { HendelseSkeleton } from './hendelser/Hendelse';
@@ -39,7 +39,12 @@ const HistorikkWithContent: React.FC = () => {
 
     const [showHistorikk, setShowHistorikk] = useShowHistorikkState();
 
-    const isFetchingPerson = useIsFetchingPerson();
+    const isLoading = useIsFetchingPerson();
+    const missingPersonData = !useCurrentPerson() && !isLoading;
+
+    if (missingPersonData) {
+        return null;
+    }
 
     return (
         <>
@@ -54,8 +59,8 @@ const HistorikkWithContent: React.FC = () => {
                 }}
                 style={{ overflow: 'hidden', gridArea: 'høyremeny' }}
             >
-                {isFetchingPerson && <HistorikkSkeleton />}
-                {!isFetchingPerson && (
+                {isLoading && <HistorikkSkeleton />}
+                {!isLoading && (
                     <div className={styles.Historikk}>
                         <ul>
                             <div>

@@ -4,7 +4,7 @@ import { BodyShort } from '@navikt/ds-react';
 
 import { ErrorBoundary } from '@components/ErrorBoundary';
 import { useActivePeriod } from '@state/periode';
-import { useCurrentPerson } from '@state/person';
+import { useCurrentPerson, useIsFetchingPerson } from '@state/person';
 import { useCurrentArbeidsgiver } from '@state/arbeidsgiver';
 import { isBeregnetPeriode, isGhostPeriode, isUberegnetPeriode } from '@utils/typeguards';
 import { useIsReadOnlyOppgave } from '@hooks/useIsReadOnlyOppgave';
@@ -24,11 +24,21 @@ const VenstremenyContainer: React.FC = () => {
     const currentArbeidsgiver = useCurrentArbeidsgiver();
     const readOnly = useIsReadOnlyOppgave();
 
+    const isLoading = useIsFetchingPerson();
+
+    if (isLoading) {
+        return <VenstremenySkeleton />;
+    }
+
     if (!currentPerson || !currentArbeidsgiver) {
         return null;
-    } else if (isGhostPeriode(activePeriod)) {
+    }
+
+    if (isGhostPeriode(activePeriod)) {
         return <VenstremenyGhostPeriode activePeriod={activePeriod} currentArbeidsgiver={currentArbeidsgiver} />;
-    } else if (isBeregnetPeriode(activePeriod)) {
+    }
+
+    if (isBeregnetPeriode(activePeriod)) {
         return (
             <VenstremenyBeregnetPeriode
                 activePeriod={activePeriod}
@@ -37,11 +47,13 @@ const VenstremenyContainer: React.FC = () => {
                 readOnly={readOnly}
             />
         );
-    } else if (isUberegnetPeriode(activePeriod)) {
-        return <VenstremenyUberegnetPeriode activePeriod={activePeriod} currentArbeidsgiver={currentArbeidsgiver} />;
-    } else {
-        return null;
     }
+
+    if (isUberegnetPeriode(activePeriod)) {
+        return <VenstremenyUberegnetPeriode activePeriod={activePeriod} currentArbeidsgiver={currentArbeidsgiver} />;
+    }
+
+    return null;
 };
 
 const VenstremenySkeleton: React.FC = () => {
@@ -64,10 +76,8 @@ const VenstremenyError: React.FC = () => {
 
 export const Venstremeny: React.FC = () => {
     return (
-        <React.Suspense fallback={<VenstremenySkeleton />}>
-            <ErrorBoundary fallback={<VenstremenyError />}>
-                <VenstremenyContainer />
-            </ErrorBoundary>
-        </React.Suspense>
+        <ErrorBoundary fallback={<VenstremenyError />}>
+            <VenstremenyContainer />
+        </ErrorBoundary>
     );
 };

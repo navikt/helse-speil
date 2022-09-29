@@ -7,13 +7,14 @@ import { LoadingShimmer } from '@components/LoadingShimmer';
 import { ErrorBoundary } from '@components/ErrorBoundary';
 import { useActivePeriod } from '@state/periode';
 import { BeregnetPeriode } from '@io/graphql';
-import { isBeregnetPeriode, isGhostPeriode, isUberegnetPeriode } from '@utils/typeguards';
+import { isBeregnetPeriode, isGhostPeriode } from '@utils/typeguards';
 import { onLazyLoadFail } from '@utils/error';
 
 import { TabLink } from '../TabLink';
 import { DropdownMenu } from './dropdown/DropdownMenu';
 
 import styles from './SaksbildeMenu.module.css';
+import { useIsFetchingPerson } from '@state/person';
 
 const HistorikkHeader = React.lazy(() => import('../historikk').catch(onLazyLoadFail));
 
@@ -87,16 +88,25 @@ const SaksbildeMenuUberegnetPeriode: React.FC = () => {
 
 const SaksbildeMenuContainer: React.FC = () => {
     const activePeriod = useActivePeriod();
+    const isLoading = useIsFetchingPerson();
+
+    if (isLoading) {
+        return <SaksbildeMenuSkeleton />;
+    }
+
+    if (!activePeriod) {
+        return null;
+    }
 
     if (isBeregnetPeriode(activePeriod)) {
         return <SaksbildeMenuBeregnetPeriode activePeriod={activePeriod} />;
-    } else if (isGhostPeriode(activePeriod)) {
-        return <SaksbildeMenuGhostPeriode />;
-    } else if (isUberegnetPeriode(activePeriod)) {
-        return <SaksbildeMenuUberegnetPeriode />;
-    } else {
-        return <SaksbildeMenuSkeleton />;
     }
+
+    if (isGhostPeriode(activePeriod)) {
+        return <SaksbildeMenuGhostPeriode />;
+    }
+
+    return <SaksbildeMenuUberegnetPeriode />;
 };
 
 const SaksbildeMenuSkeleton: React.FC = () => {

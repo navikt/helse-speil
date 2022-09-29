@@ -9,7 +9,7 @@ import { LoadingShimmer } from '@components/LoadingShimmer';
 import { AnonymizableText } from '@components/anonymizable/AnonymizableText';
 import { Enhet, Kjonn, Maybe, Personinfo } from '@io/graphql';
 import { utbetalingsoversikt } from '@utils/featureToggles';
-import { useCurrentPerson } from '@state/person';
+import { useCurrentPerson, useIsFetchingPerson } from '@state/person';
 import { useIsAnonymous } from '@state/anonymization';
 
 import { AdressebeskyttelseTag } from './AdressebeskyttelseTag';
@@ -30,7 +30,7 @@ interface PersonHeaderWithContentProps {
     dødsdato?: Maybe<DateString>;
 }
 
-const PersonHeaderWithContent: React.VFC<PersonHeaderWithContentProps> = ({
+const PersonHeaderWithContent: React.FC<PersonHeaderWithContentProps> = ({
     fødselsnummer,
     aktørId,
     enhet,
@@ -74,13 +74,20 @@ const PersonHeaderWithContent: React.VFC<PersonHeaderWithContentProps> = ({
     );
 };
 
-const PersonHeaderContainer: React.VFC = () => {
+const PersonHeaderContainer: React.FC = () => {
     const currentPerson = useCurrentPerson();
     const isAnonymous = useIsAnonymous();
+    const isLoading = useIsFetchingPerson();
 
-    return !currentPerson ? (
-        <PersonHeaderSkeleton />
-    ) : (
+    if (isLoading) {
+        return <PersonHeaderSkeleton />;
+    }
+
+    if (!currentPerson) {
+        return <div className={styles.PersonHeader} />;
+    }
+
+    return (
         <PersonHeaderWithContent
             fødselsnummer={currentPerson.fodselsnummer}
             aktørId={currentPerson.aktorId}
@@ -92,7 +99,7 @@ const PersonHeaderContainer: React.VFC = () => {
     );
 };
 
-const PersonHeaderSkeleton: React.VFC = () => {
+const PersonHeaderSkeleton: React.FC = () => {
     return (
         <div className={styles.PersonHeader}>
             <GenderIcon gender={Kjonn.Ukjent} />
@@ -109,7 +116,7 @@ const PersonHeaderSkeleton: React.VFC = () => {
     );
 };
 
-const PersonHeaderError: React.VFC = () => {
+const PersonHeaderError: React.FC = () => {
     return (
         <div className={classNames(styles.PersonHeader, styles.Error)}>
             <BodyShort>Det oppstod en feil. Kan ikke vise personinformasjon.</BodyShort>
@@ -117,7 +124,7 @@ const PersonHeaderError: React.VFC = () => {
     );
 };
 
-export const PersonHeader: React.VFC = () => {
+export const PersonHeader: React.FC = () => {
     return (
         <ErrorBoundary fallback={<PersonHeaderError />}>
             <PersonHeaderContainer />

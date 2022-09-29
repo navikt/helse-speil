@@ -15,7 +15,7 @@ import { ExpandableTimelineRow } from './ExpandableTimelineRow';
 import { ErrorBoundary } from '@components/ErrorBoundary';
 import { LoadingShimmer } from '@components/LoadingShimmer';
 import { useActivePeriod } from '@state/periode';
-import { useCurrentPerson } from '@state/person';
+import { useCurrentPerson, useIsFetchingPerson } from '@state/person';
 import { Arbeidsgiver, Infotrygdutbetaling } from '@io/graphql';
 
 import styles from './Timeline.module.css';
@@ -98,18 +98,22 @@ const TimelineContainer: React.FC = () => {
     const arbeidsgivere = currentPerson?.arbeidsgivere;
     const infotrygdutbetalinger = currentPerson?.infotrygdutbetalinger;
 
+    const isLoading = useIsFetchingPerson();
+
+    if (isLoading) {
+        return <TimelineSkeleton />;
+    }
+
+    if (!arbeidsgivere) {
+        return null;
+    }
+
     return (
-        <>
-            {arbeidsgivere ? (
-                <TimelineWithContent
-                    arbeidsgivere={arbeidsgivere}
-                    infotrygdutbetalinger={infotrygdutbetalinger ?? []}
-                    activePeriod={activePeriod}
-                />
-            ) : (
-                <TimelineSkeleton />
-            )}
-        </>
+        <TimelineWithContent
+            arbeidsgivere={arbeidsgivere}
+            infotrygdutbetalinger={infotrygdutbetalinger ?? []}
+            activePeriod={activePeriod}
+        />
     );
 };
 
