@@ -5,6 +5,7 @@ import { BodyShort } from '@navikt/ds-react';
 
 import { CloseButton } from '@components/CloseButton';
 import { ErrorBoundary } from '@components/ErrorBoundary';
+import { useIsFetchingPerson } from '@state/person';
 
 import { Notathendelse } from './hendelser/notat/Notathendelse';
 import { HendelseSkeleton } from './hendelser/Hendelse';
@@ -38,6 +39,8 @@ const HistorikkWithContent: React.FC = () => {
 
     const [showHistorikk, setShowHistorikk] = useShowHistorikkState();
 
+    const isFetchingPerson = useIsFetchingPerson();
+
     return (
         <>
             <motion.div
@@ -51,41 +54,44 @@ const HistorikkWithContent: React.FC = () => {
                 }}
                 style={{ overflow: 'hidden', gridArea: 'høyremeny' }}
             >
-                <div className={styles.Historikk}>
-                    <ul>
-                        <div>
-                            {getHistorikkTitle(filter)}
-                            <CloseButton onClick={() => setShowHistorikk(false)} />
-                        </div>
-                        {historikk.map((it: HendelseObject) => {
-                            switch (it.type) {
-                                case 'Arbeidsforholdoverstyring': {
-                                    return <Arbeidsforholdoverstyringhendelse key={it.id} {...it} />;
+                {isFetchingPerson && <HistorikkSkeleton />}
+                {!isFetchingPerson && (
+                    <div className={styles.Historikk}>
+                        <ul>
+                            <div>
+                                {getHistorikkTitle(filter)}
+                                <CloseButton onClick={() => setShowHistorikk(false)} />
+                            </div>
+                            {historikk.map((it: HendelseObject) => {
+                                switch (it.type) {
+                                    case 'Arbeidsforholdoverstyring': {
+                                        return <Arbeidsforholdoverstyringhendelse key={it.id} {...it} />;
+                                    }
+                                    case 'Dagoverstyring': {
+                                        return <Dagoverstyringhendelse key={it.id} {...it} />;
+                                    }
+                                    case 'Inntektoverstyring': {
+                                        return <Inntektoverstyringhendelse key={it.id} {...it} />;
+                                    }
+                                    case 'Dokument': {
+                                        return <Dokumenthendelse key={it.id} {...it} />;
+                                    }
+                                    case 'Notat': {
+                                        return <Notathendelse key={it.id} {...it} />;
+                                    }
+                                    case 'Utbetaling': {
+                                        return <Utbetalinghendelse key={it.id} {...it} />;
+                                    }
+                                    case 'Historikk': {
+                                        return <Historikkhendelse key={it.id} {...it} />;
+                                    }
+                                    default:
+                                        return null;
                                 }
-                                case 'Dagoverstyring': {
-                                    return <Dagoverstyringhendelse key={it.id} {...it} />;
-                                }
-                                case 'Inntektoverstyring': {
-                                    return <Inntektoverstyringhendelse key={it.id} {...it} />;
-                                }
-                                case 'Dokument': {
-                                    return <Dokumenthendelse key={it.id} {...it} />;
-                                }
-                                case 'Notat': {
-                                    return <Notathendelse key={it.id} {...it} />;
-                                }
-                                case 'Utbetaling': {
-                                    return <Utbetalinghendelse key={it.id} {...it} />;
-                                }
-                                case 'Historikk': {
-                                    return <Historikkhendelse key={it.id} {...it} />;
-                                }
-                                default:
-                                    return null;
-                            }
-                        })}
-                    </ul>
-                </div>
+                            })}
+                        </ul>
+                    </div>
+                )}
             </motion.div>
         </>
     );
@@ -95,10 +101,10 @@ export const HistorikkSkeleton = () => {
     return (
         <div className={styles.Historikk}>
             <ul>
-                <li>
+                <div>
                     HISTORIKK
                     <CloseButton disabled />
-                </li>
+                </div>
                 <HendelseSkeleton />
                 <HendelseSkeleton />
                 <HendelseSkeleton />
@@ -111,9 +117,9 @@ const HistorikkError = () => {
     return (
         <div className={classNames(styles.Historikk, styles.Error)}>
             <ul>
-                <li>
+                <div>
                     <BodyShort>Noe gikk galt. Kan ikke vise historikk for perioden.</BodyShort>
-                </li>
+                </div>
             </ul>
         </div>
     );
@@ -121,10 +127,8 @@ const HistorikkError = () => {
 
 export const Historikk = () => {
     return (
-        <React.Suspense fallback={<HistorikkSkeleton />}>
-            <ErrorBoundary fallback={<HistorikkError />}>
-                <HistorikkWithContent />
-            </ErrorBoundary>
-        </React.Suspense>
+        <ErrorBoundary fallback={<HistorikkError />}>
+            <HistorikkWithContent />
+        </ErrorBoundary>
     );
 };

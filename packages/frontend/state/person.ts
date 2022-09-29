@@ -25,6 +25,7 @@ class TildelingAlert extends SpeilError {
 type PersonState = {
     person: Maybe<Person>;
     errors: Array<SpeilError>;
+    loading: boolean;
 };
 
 const fetchPersonState = (id: string): Promise<PersonState> => {
@@ -33,6 +34,7 @@ const fetchPersonState = (id: string): Promise<PersonState> => {
             return Promise.resolve({
                 person: res.person ?? null,
                 errors: [],
+                loading: false,
             });
         })
         .catch((e) => {
@@ -52,6 +54,7 @@ const fetchPersonState = (id: string): Promise<PersonState> => {
             return Promise.resolve({
                 person: null,
                 errors: errors,
+                loading: false,
             });
         });
 };
@@ -59,6 +62,7 @@ const fetchPersonState = (id: string): Promise<PersonState> => {
 const emptyPersonState = (): PersonState => ({
     person: null,
     errors: [],
+    loading: false,
 });
 
 export const personState = atom<PersonState>({
@@ -75,6 +79,7 @@ export const usePersonErrors = (): Array<SpeilError> => {
 export const useFetchPerson = (): ((id: string) => Promise<PersonState>) => {
     const setPersonState = useSetRecoilState(personState);
     return async (id: string) => {
+        setPersonState((prevState) => ({ ...prevState, loading: true }));
         return fetchPersonState(id).then((state) => {
             setPersonState(state);
             return Promise.resolve(state);
@@ -109,6 +114,10 @@ export const useResetPerson = (): (() => void) => {
     return () => {
         resetPerson();
     };
+};
+
+export const useIsFetchingPerson = (): boolean => {
+    return useRecoilValue(personState).loading;
 };
 
 export const useTildelPerson = (): ((oppgavereferanse: string) => Promise<void>) => {

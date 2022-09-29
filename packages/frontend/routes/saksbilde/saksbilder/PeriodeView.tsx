@@ -9,12 +9,12 @@ import { useCurrentArbeidsgiver } from '@state/arbeidsgiver';
 import { LazyLoadPendingError, onLazyLoadFail } from '@utils/error';
 import { isBeregnetPeriode, isGhostPeriode, isUberegnetPeriode } from '@utils/typeguards';
 
+import { Historikk } from '../historikk';
+import { Venstremeny } from '../venstremeny/Venstremeny';
 import { AnnullertPeriodeView } from './AnnullertPeriodeView';
 import { PeriodeTilAnnulleringView } from './PeriodeTilAnnulleringView';
 
 import styles from './PeriodeView.module.css';
-import { Venstremeny } from '../venstremeny/Venstremeny';
-import { Historikk } from '../historikk';
 
 const GhostPeriodeView = React.lazy(() => import('./GhostPeriodeView').catch(onLazyLoadFail));
 const UberegnetPeriodeView = React.lazy(() => import('./UberegnetPeriodeView').catch(onLazyLoadFail));
@@ -26,7 +26,7 @@ const PeriodeViewContainer: React.VFC = () => {
     const currentArbeidsgiver = useCurrentArbeidsgiver();
 
     if (!activePeriod || !currentPerson || !currentArbeidsgiver) {
-        return null;
+        return <PeriodeViewSkeleton />;
     } else if (isBeregnetPeriode(activePeriod)) {
         switch (activePeriod.periodetilstand) {
             case Periodetilstand.Annullert:
