@@ -90,7 +90,7 @@ interface LabelsProps {
     end: Dayjs;
 }
 
-export const Labels: React.VFC<LabelsProps> = ({ start, end }) => {
+export const Labels: React.FC<LabelsProps> = ({ start, end }) => {
     const labels = useLabels(start, end);
 
     return (
@@ -110,4 +110,8 @@ export const Labels: React.VFC<LabelsProps> = ({ start, end }) => {
             ))}
         </div>
     );
+};
+
+export const LabelsSkeleton: React.FC = () => {
+    return <div className={styles.Labels}></div>;
 };

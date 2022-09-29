@@ -1,7 +1,9 @@
 import React from 'react';
+import classNames from 'classnames';
 import { Bag } from '@navikt/ds-icons';
 import { Tooltip } from '@navikt/ds-react';
 
+import { LoadingShimmer } from '@components/LoadingShimmer';
 import { AnonymizableTextWithEllipsis } from '@components/TextWithEllipsis';
 import type { GhostPeriode, Periode } from '@io/graphql';
 
@@ -18,7 +20,7 @@ export interface TimelineRowProps {
     ghostPeriods?: Array<GhostPeriode>;
 }
 
-export const TimelineRow: React.VFC<TimelineRowProps> = ({ start, end, name, periods, ghostPeriods, activePeriod }) => (
+export const TimelineRow: React.FC<TimelineRowProps> = ({ start, end, name, periods, ghostPeriods, activePeriod }) => (
     <div className={styles.TimelineRow}>
         <Tooltip content={name} maxChar={name.length}>
             <div className={styles.Name}>
@@ -37,3 +39,16 @@ export const TimelineRow: React.VFC<TimelineRowProps> = ({ start, end, name, per
         </div>
     </div>
 );
+
+export const TimelineRowSkeleton: React.FC = () => {
+    return (
+        <div className={classNames(styles.TimelineRow, styles.TimelineRowSkeleton)}>
+            <div className={styles.Name}>
+                <LoadingShimmer />
+            </div>
+            <div className={styles.Periods}>
+                <LoadingShimmer />
+            </div>
+        </div>
+    );
+};

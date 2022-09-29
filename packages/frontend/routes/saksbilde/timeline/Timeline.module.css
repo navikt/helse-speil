@@ -28,3 +28,8 @@
     background-color: var(--navds-semantic-color-feedback-danger-background);
     padding: var(--timeline-padding-top) var(--timeline-padding-horizontal);
 }
+
+.LoadingZoomLevelPicker {
+    width: 185px;
+    height: 26px;
+}

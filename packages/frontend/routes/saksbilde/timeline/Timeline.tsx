@@ -3,8 +3,8 @@ import classNames from 'classnames';
 import { BodyShort } from '@navikt/ds-react';
 
 import { Pins } from './Pins';
-import { Labels } from './Labels';
-import { TimelineRow } from './TimelineRow';
+import { Labels, LabelsSkeleton } from './Labels';
+import { TimelineRow, TimelineRowSkeleton } from './TimelineRow';
 import { ScrollButtons } from './ScrollButtons';
 import { InfotrygdRow } from './InfotrygdRow';
 import { ZoomLevelPicker } from './ZoomLevelPicker';
@@ -13,6 +13,7 @@ import { useInfotrygdPeriods } from './hooks/useInfotrygdPeriods';
 import { ExpandableTimelineRow } from './ExpandableTimelineRow';
 
 import { ErrorBoundary } from '@components/ErrorBoundary';
+import { LoadingShimmer } from '@components/LoadingShimmer';
 import { useActivePeriod } from '@state/periode';
 import { useCurrentPerson } from '@state/person';
 import { Arbeidsgiver, Infotrygdutbetaling } from '@io/graphql';
@@ -25,7 +26,7 @@ interface TimelineWithContentProps {
     activePeriod: TimelinePeriod | null;
 }
 
-const TimelineWithContent: React.VFC<TimelineWithContentProps> = React.memo(
+const TimelineWithContent: React.FC<TimelineWithContentProps> = React.memo(
     ({ arbeidsgivere, infotrygdutbetalinger, activePeriod }) => {
         const {
             zoomLevels,
@@ -91,28 +92,48 @@ const TimelineWithContent: React.VFC<TimelineWithContentProps> = React.memo(
     },
 );
 
-const TimelineContainer: React.VFC = () => {
+const TimelineContainer: React.FC = () => {
     const activePeriod = useActivePeriod();
     const currentPerson = useCurrentPerson();
     const arbeidsgivere = currentPerson?.arbeidsgivere;
     const infotrygdutbetalinger = currentPerson?.infotrygdutbetalinger;
 
-    return arbeidsgivere ? (
-        <TimelineWithContent
-            arbeidsgivere={arbeidsgivere}
-            infotrygdutbetalinger={infotrygdutbetalinger ?? []}
-            activePeriod={activePeriod}
-        />
-    ) : (
-        <div className={styles.Timeline} />
+    return (
+        <>
+            {arbeidsgivere ? (
+                <TimelineWithContent
+                    arbeidsgivere={arbeidsgivere}
+                    infotrygdutbetalinger={infotrygdutbetalinger ?? []}
+                    activePeriod={activePeriod}
+                />
+            ) : (
+                <TimelineSkeleton />
+            )}
+        </>
     );
 };
 
-const TimelineSkeleton: React.VFC = () => {
-    return <div className={styles.Timeline} />;
+const TimelineSkeleton: React.FC = () => {
+    return (
+        <div className={styles.Timeline}>
+            <LabelsSkeleton />
+            <div className={styles.Rows}>
+                <TimelineRowSkeleton />
+            </div>
+            <div className={styles.TimelineControls}>
+                <ScrollButtons
+                    navigateForwards={() => null}
+                    navigateBackwards={() => null}
+                    canNavigateForwards={false}
+                    canNavigateBackwards={false}
+                />
+                <LoadingShimmer className={styles.LoadingZoomLevelPicker} />
+            </div>
+        </div>
+    );
 };
 
-const TimelineError: React.VFC = () => {
+const TimelineError: React.FC = () => {
     return (
         <div className={classNames(styles.Timeline, styles.Error)}>
             <BodyShort>Det har skjedd en feil. Kan ikke vise tidslinjen for denne saken.</BodyShort>
@@ -120,10 +141,8 @@ const TimelineError: React.VFC = () => {
     );
 };
 
-export const Timeline: React.VFC = () => (
-    <React.Suspense fallback={<TimelineSkeleton />}>
-        <ErrorBoundary fallback={<TimelineError />}>
-            <TimelineContainer />
-        </ErrorBoundary>
-    </React.Suspense>
+export const Timeline: React.FC = () => (
+    <ErrorBoundary fallback={<TimelineError />}>
+        <TimelineContainer />
+    </ErrorBoundary>
 );
