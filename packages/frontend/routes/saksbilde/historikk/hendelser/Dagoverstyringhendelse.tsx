@@ -79,7 +79,9 @@ export const Dagoverstyringhendelse: React.FC<DagoverstyringhendelseProps> = ({
                         </BodyShort>
                         <BodyShort>Type:</BodyShort>
                         <BodyShort>
-                            {group.fraType && <span className={styles.FromValue}>{group.fraType}</span>}
+                            {group.fraType && group.fraType !== group.type && (
+                                <span className={styles.FromValue}>{group.fraType}</span>
+                            )}
                             {group.type}
                         </BodyShort>
                     </div>
