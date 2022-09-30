@@ -1,16 +1,16 @@
 import dayjs from 'dayjs';
-import { atom, AtomEffect, selector, useRecoilValue, useRecoilValueLoadable, useSetRecoilState } from 'recoil';
+import { AtomEffect, atom, selector, useRecoilValue, useRecoilValueLoadable, useSetRecoilState } from 'recoil';
 
 import { FerdigstiltOppgave, FetchBehandledeOppgaverQuery } from '@io/graphql';
 import { fetchBehandledeOppgaver } from '@io/graphql/fetchBehandledeOppgaver';
-import { deletePåVent, deleteTildeling, getOppgaver, NotatDTO, postLeggPåVent, postTildeling } from '@io/http';
-import { flereArbeidsgivere, stikkprøve, utbetalingTilSykmeldt } from '@utils/featureToggles';
+import { NotatDTO, deletePåVent, deleteTildeling, getOppgaver, postLeggPåVent, postTildeling } from '@io/http';
 import { ISO_DATOFORMAT } from '@utils/date';
 import { InfoAlert } from '@utils/error';
+import { flereArbeidsgivere, stikkprøve, utbetalingTilSykmeldt } from '@utils/featureToggles';
 
+import { tilOppgave } from '../mapping/oppgaver';
 import { authState, useInnloggetSaksbehandler } from './authentication';
 import { useAddVarsel, useRemoveVarsel } from './varsler';
-import { tilOppgave } from '../mapping/oppgaver';
 
 const oppgaverStateRefetchKey = atom<Date>({
     key: 'oppgaverStateRefetchKey',
@@ -52,7 +52,7 @@ const tildelingerState = selector<TildelingStateType>({
                 tildelinger[oppgavereferanse] = tildeling;
                 return tildelinger;
             },
-            {},
+            {}
         );
         return { ...remote, ...local };
     },
@@ -69,35 +69,45 @@ export const oppgaverState = selector<Oppgave[]>({
             .filter(
                 (oppgave) =>
                     utbetalingTilSykmeldt ||
-                    (oppgave.periodetype != 'utbetalingTilSykmeldt' && oppgave.periodetype != 'delvisRefusjon'),
+                    (oppgave.periodetype != 'utbetalingTilSykmeldt' && oppgave.periodetype != 'delvisRefusjon')
             )
             .map((oppgave) => ({ ...oppgave, tildeling: tildelinger[oppgave.oppgavereferanse] }));
     },
 });
 
-const fetchBehandledeOppgaverEffect: AtomEffect<Array<FerdigstiltOppgave>> = ({ setSelf, trigger, getPromise }) => {
+const fetchBehandledeOppgaverEffect: AtomEffect<FetchedData<Array<FerdigstiltOppgave>>> = ({
+    setSelf,
+    trigger,
+    getPromise,
+}) => {
     if (trigger === 'get') {
         getPromise(authState)
             .then((authState) => {
-                return authState.ident && authState.oid
-                    ? fetchBehandledeOppgaver({
-                          oid: authState.oid,
-                          ident: authState.ident,
-                          fom: dayjs().format(ISO_DATOFORMAT),
-                      })
-                    : null;
+                if (authState.ident && authState.oid) {
+                    setSelf((prevState) => ({ ...prevState, state: 'isLoading' }));
+                    return fetchBehandledeOppgaver({
+                        oid: authState.oid,
+                        ident: authState.ident,
+                        fom: dayjs().format(ISO_DATOFORMAT),
+                    });
+                }
+
+                return null;
             })
             .then((response: Maybe<FetchBehandledeOppgaverQuery>) => {
                 if (response) {
-                    setSelf(response.behandledeOppgaver);
+                    setSelf({ data: response.behandledeOppgaver, state: 'hasValue' });
                 }
+            })
+            .catch((error) => {
+                setSelf({ state: 'hasError', error: error });
             });
     }
 };
 
-const behandledeOppgaverState = atom<Array<FerdigstiltOppgave>>({
+const behandledeOppgaverState = atom<FetchedData<Array<FerdigstiltOppgave>>>({
     key: 'behandledeOppgaverState',
-    default: [],
+    default: { state: 'initial' },
     effects: [fetchBehandledeOppgaverEffect],
 });
 
@@ -111,8 +121,9 @@ export const useRefetchFerdigstilteOppgaver = () => {
 
     return () => {
         if (ident && oid) {
+            setBehandledeOppgaver((prevState) => ({ ...prevState, state: 'isLoading' }));
             fetchBehandledeOppgaver({ oid, ident, fom: dayjs().format(ISO_DATOFORMAT) }).then((response) =>
-                setBehandledeOppgaver(response.behandledeOppgaver),
+                setBehandledeOppgaver({ data: response.behandledeOppgaver, state: 'hasValue' })
             );
         }
     };

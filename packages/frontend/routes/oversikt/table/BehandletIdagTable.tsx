@@ -1,23 +1,23 @@
+import { SøkerCell } from './rader/SøkerCell';
 import React from 'react';
 
 import { useFerdigstilteOppgaver } from '@state/oppgaver';
 
-import { Body } from './Body';
-import { Table } from './Table';
+import { IngenOppgaver } from '../IngenOppgaver';
 import { Header } from './Header';
 import { LinkRow } from './LinkRow';
+import { OppgaverTableError } from './OppgaverTableError';
+import { OppgaverTableSkeleton } from './OppgaverTableSkeleton';
 import { Pagination } from './Pagination';
-import { IngenOppgaver } from '../IngenOppgaver';
-import { SøkerCell } from './rader/SøkerCell';
-import { BostedCell } from './rader/BostedCell';
-import { StatusCell } from './rader/StatusCell';
-import { OppgavetypeCell } from './rader/OppgavetypeCell';
 import { BehandletAvCell } from './rader/BehandletAvCell';
 import { BehandletTimestampCell } from './rader/BehandletTimestampCell';
+import { BostedCell } from './rader/BostedCell';
 import { InntektskildeCell } from './rader/InntektskildeCell';
+import { OppgavetypeCell } from './rader/OppgavetypeCell';
+import { StatusCell } from './rader/StatusCell';
 import { usePagination } from './state/pagination';
 
-import styles from './Table.module.css';
+import styles from './table.module.css';
 
 interface BehandletIdagTableProps {}
 
@@ -25,19 +25,28 @@ export const BehandletIdagTable: React.FC<BehandletIdagTableProps> = () => {
     const oppgaver = useFerdigstilteOppgaver();
     const pagination = usePagination();
 
-    const paginatedRows = pagination
-        ? oppgaver.slice(pagination.firstVisibleEntry, pagination.lastVisibleEntry + 1)
-        : oppgaver;
+    const paginatedRows =
+        pagination && oppgaver.state === 'hasValue'
+            ? oppgaver.data.slice(pagination.firstVisibleEntry, pagination.lastVisibleEntry + 1)
+            : oppgaver.data;
 
-    if (oppgaver.length === 0) {
+    if (oppgaver.state === 'hasValue' && oppgaver.data.length === 0) {
         return <IngenOppgaver />;
+    }
+
+    if (oppgaver.state === 'isLoading') {
+        return <OppgaverTableSkeleton />;
+    }
+
+    if (oppgaver.state === 'hasError') {
+        return <OppgaverTableError />;
     }
 
     return (
         <div className={styles.TableContainer}>
             <div className={styles.Content}>
                 <div className={styles.Scrollable}>
-                    <Table aria-label="Oppgaver behandlet av meg i dag">
+                    <table className={styles.Table} aria-label="Oppgaver behandlet av meg i dag">
                         <thead>
                             <tr>
                                 <Header scope="col" colSpan={1}>
@@ -63,8 +72,8 @@ export const BehandletIdagTable: React.FC<BehandletIdagTableProps> = () => {
                                 </Header>
                             </tr>
                         </thead>
-                        <Body>
-                            {paginatedRows.map((it) => (
+                        <tbody>
+                            {paginatedRows?.map((it) => (
                                 <LinkRow aktørId={it.aktorId} key={it.id}>
                                     <BehandletAvCell name={it.ferdigstiltAv} />
                                     <OppgavetypeCell oppgavetype={it.type} periodetype={it.periodetype} />
@@ -81,11 +90,11 @@ export const BehandletIdagTable: React.FC<BehandletIdagTableProps> = () => {
                                     <BehandletTimestampCell time={it.ferdigstiltTidspunkt} />
                                 </LinkRow>
                             ))}
-                        </Body>
-                    </Table>
+                        </tbody>
+                    </table>
                 </div>
             </div>
-            <Pagination numberOfEntries={oppgaver.length} />
+            {oppgaver.state === 'hasValue' && <Pagination numberOfEntries={oppgaver.data.length} />}
         </div>
     );
 };

@@ -1,5 +1,7 @@
 /// <reference types="vite/client" />
 
+type SpeilError = import('@utils/error').SpeilError;
+
 declare module '*.png' {
     const value: any;
 }
@@ -60,3 +62,31 @@ declare type DataAttributeKey = `data-${string}`;
 declare type HTMLAttributes<T> = React.HTMLAttributes<T> & {
     [dataAttribute: DataAttributeKey]: string | number | boolean;
 };
+
+declare type FetchedDataLoading<T> = {
+    state: 'isLoading';
+    data?: T;
+    error?: SpeilError;
+};
+
+declare type FetchedDataSuccess<T> = {
+    state: 'hasValue';
+    data: T;
+    error?: SpeilError;
+};
+
+declare type FetchedDataError<T> = {
+    state: 'hasError';
+    data?: T;
+    error: SpeilError;
+};
+
+declare type FetchedData<T> =
+    | {
+          state: 'initial';
+          data?: T;
+          error?: SpeilError;
+      }
+    | FetchedDataError<T>
+    | FetchedDataLoading<T>
+    | FetchedDataSuccess<T>;

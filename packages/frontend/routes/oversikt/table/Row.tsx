@@ -1,14 +1,12 @@
-import styled from '@emotion/styled';
+import classNames from 'classnames';
 import React from 'react';
 
-export const Row = styled.tr`
-    position: relative;
+interface RowProps extends React.HTMLAttributes<HTMLTableRowElement> {}
 
-    &:nth-of-type(2n + 1) {
-        background-color: var(--speil-table-row-background-color-alternate);
-    }
-
-    > td:last-of-type {
-        width: 100%;
-    }
-`;
+export const Row: React.FC<RowProps> = ({ className, children, ...rowProps }) => {
+    return (
+        <tr className={classNames(className)} {...rowProps}>
+            {children}
+        </tr>
+    );
+};

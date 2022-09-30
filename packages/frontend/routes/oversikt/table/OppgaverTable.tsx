@@ -1,31 +1,29 @@
+import { SøkerCell } from './rader/SøkerCell';
 import React from 'react';
 
-import { useSyncNotater } from '@state/notater';
 import { useIsReadOnlyOppgave } from '@hooks/useIsReadOnlyOppgave';
+import { useSyncNotater } from '@state/notater';
 
-import { Filter, useFilters } from './state/filter';
-import { usePagination } from './state/pagination';
-import { useSortation } from './state/sortation';
-import { Body } from './Body';
-import { Table } from './Table';
+import { TabType, useAktivTab } from '../Tabs';
+import { Cell } from './Cell';
+import { FilterButton } from './FilterButton';
 import { Header } from './Header';
 import { LinkRow } from './LinkRow';
 import { Pagination } from './Pagination';
 import { SortButton } from './SortButton';
-import { FilterButton } from './FilterButton';
-import { TabType, useAktivTab } from '../Tabs';
+import { BostedCell } from './rader/BostedCell';
 import { InntektskildeCell } from './rader/InntektskildeCell';
-import { TildelingCell } from './rader/TildelingCell';
 import { OpprettetCell } from './rader/OpprettetCell';
 import { SakstypeCell } from './rader/SakstypeCell';
-import { OptionsCell } from './rader/options/OptionsCell';
-import { BostedCell } from './rader/BostedCell';
 import { StatusCell } from './rader/StatusCell';
-import { SøkerCell } from './rader/SøkerCell';
+import { TildelingCell } from './rader/TildelingCell';
 import { NotatCell } from './rader/notat/NotatCell';
-import { Cell } from './Cell';
+import { OptionsCell } from './rader/options/OptionsCell';
+import { Filter, useFilters } from './state/filter';
+import { usePagination } from './state/pagination';
+import { useSortation } from './state/sortation';
 
-import styles from './Table.module.css';
+import styles from './table.module.css';
 
 const groupFiltersByColumn = (filters: Filter<Oppgave>[]): Filter<Oppgave>[][] => {
     const groups = filters.reduce((groups: { [key: string]: Filter<Oppgave>[] }, filter: Filter<Oppgave>) => {
@@ -64,7 +62,8 @@ export const OppgaverTable = React.memo(({ oppgaver }: { oppgaver: Oppgave[] }) 
         <div className={styles.TableContainer}>
             <div className={styles.Content}>
                 <div className={styles.Scrollable}>
-                    <Table
+                    <table
+                        className={styles.Table}
                         aria-label={
                             tab === TabType.TilGodkjenning
                                 ? 'Saker som er klare for behandling'
@@ -145,7 +144,7 @@ export const OppgaverTable = React.memo(({ oppgaver }: { oppgaver: Oppgave[] }) 
                                 <Header scope="col" colSpan={1} aria-label="notater" />
                             </tr>
                         </thead>
-                        <Body>
+                        <tbody>
                             {paginatedRows.map((it) => (
                                 <LinkRow aktørId={it.aktørId} key={it.oppgavereferanse}>
                                     <TildelingCell oppgave={it} kanTildeles={!readOnly} />
@@ -171,8 +170,8 @@ export const OppgaverTable = React.memo(({ oppgaver }: { oppgaver: Oppgave[] }) 
                                     )}
                                 </LinkRow>
                             ))}
-                        </Body>
-                    </Table>
+                        </tbody>
+                    </table>
                 </div>
             </div>
             <Pagination numberOfEntries={visibleRows.length} />
