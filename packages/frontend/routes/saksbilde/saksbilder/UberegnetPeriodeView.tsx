@@ -25,7 +25,7 @@ const getErrorMessage = (period: UberegnetPeriode): ReactNode => {
     if (isNotReady(period)) {
         return (
             <Alert className={styles.Varsel} variant="info">
-                Vedtaksperioden er ikke klar til behandling. Viser uberegnet data.
+                Perioden har ingen utbetaling og er ikke beregnet.
             </Alert>
         );
     }
@@ -33,7 +33,7 @@ const getErrorMessage = (period: UberegnetPeriode): ReactNode => {
     if (containsOnly(period.tidslinje, Sykdomsdagtype.Feriedag)) {
         return (
             <Alert className={styles.Varsel} variant="info">
-                Perioden inneholder kun ferie. Viser uberegnet data.
+                Perioden inneholder kun ferie og er ikke beregnet.
             </Alert>
         );
     }
@@ -41,7 +41,7 @@ const getErrorMessage = (period: UberegnetPeriode): ReactNode => {
     if (containsOnly(period.tidslinje, Sykdomsdagtype.Permisjonsdag)) {
         return (
             <Alert className={styles.Varsel} variant="info">
-                Perioden inneholder kun permisjon. Viser uberegnet data.
+                Perioden inneholder kun permisjon og er ikke beregnet.
             </Alert>
         );
     }
@@ -49,14 +49,14 @@ const getErrorMessage = (period: UberegnetPeriode): ReactNode => {
     if (!containsPayment(period.tidslinje)) {
         return (
             <Alert className={styles.Varsel} variant="info">
-                Perioden har ingen utbetaling. Viser uberegnet data.
+                Perioden har ingen utbetaling og er ikke beregnet.
             </Alert>
         );
     }
 
     return (
         <Alert className={styles.Varsel} variant="info">
-            Perioden er ikke beregnet. Viser uberegnet data.
+            Perioden er ikke beregnet.
         </Alert>
     );
 };
