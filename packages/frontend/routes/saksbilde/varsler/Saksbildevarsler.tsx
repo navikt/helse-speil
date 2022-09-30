@@ -16,7 +16,7 @@ type VarselObject = {
     melding: string;
 };
 
-const sendtTilBeslutter = (erBeslutteroppgaveOgErTidligereSaksbehandler?: boolean): VarselObject | null => {
+const sendtTilBeslutter = (erBeslutteroppgaveOgErTidligereSaksbehandler: boolean): VarselObject | null => {
     if (erBeslutteroppgaveOgErTidligereSaksbehandler) {
         return { grad: 'info', melding: 'Saken er sendt til beslutter' };
     }
@@ -72,7 +72,7 @@ const vedtaksperiodeVenter = (state: PeriodState): VarselObject | null =>
         : null;
 
 const manglendeOppgavereferanse = (state: PeriodState, oppgavereferanse?: string | null): VarselObject | null =>
-    state === 'tilGodkjenning' && (!oppgavereferanse || oppgavereferanse.length === 0)
+    state === 'tilGodkjenning' && (typeof oppgavereferanse !== 'string' || oppgavereferanse.length === 0)
         ? {
               grad: 'error',
               melding: `Denne perioden kan ikke utbetales. Det kan skyldes at den allerede er 
@@ -83,30 +83,46 @@ const manglendeOppgavereferanse = (state: PeriodState, oppgavereferanse?: string
 const ukjentTilstand = (state: PeriodState): VarselObject | null =>
     state === 'ukjent' ? { grad: 'error', melding: 'Kunne ikke lese informasjon om sakens tilstand.' } : null;
 
+const harRelevanteDagoverstyringer = (overstyringer: Array<Overstyring>, tom?: DateString): boolean => {
+    return (
+        typeof tom === 'string' &&
+        overstyringer.some((it) => isDagoverstyring(it) && dayjs(it.dager[0].dato).isSameOrBefore(tom))
+    );
+};
+
 const beslutteroppgave = (
     periodState: PeriodState,
     varsler?: Maybe<Array<string>>,
-    erBeslutteroppgave?: boolean,
-    harVurderLovvalgOgMedlemskapVarsel?: boolean,
+    erBeslutteroppgave: boolean = false,
+    harVurderLovvalgOgMedlemskapVarsel: boolean = false,
     endringerEtterNyesteUtbetalingPåPerson?: Maybe<Array<Overstyring>>,
-    harDagOverstyringer?: boolean,
+    harDagOverstyringer: boolean = false,
     activePeriodTom?: string
 ) => {
     if (erBeslutteroppgave && ['tilGodkjenning', 'revurderes'].includes(periodState)) {
-        const overstyringÅrsak = [];
-        (endringerEtterNyesteUtbetalingPåPerson?.some(
-            (it) => isDagoverstyring(it) && dayjs(it.dager[0].dato).isSameOrBefore(activePeriodTom)
-        ) ||
-            harDagOverstyringer) &&
-            overstyringÅrsak.push('Overstyring av utbetalingsdager');
-        endringerEtterNyesteUtbetalingPåPerson?.some((it) => isInntektoverstyring(it)) &&
-            overstyringÅrsak.push('Overstyring av inntekt');
-        endringerEtterNyesteUtbetalingPåPerson?.some((it) => isArbeidsforholdoverstyring(it)) &&
-            overstyringÅrsak.push('Overstyring av annet arbeidsforhold');
-        harVurderLovvalgOgMedlemskapVarsel && overstyringÅrsak.push('Lovvalg og medlemskap');
+        const årsaker = [];
 
-        if (overstyringÅrsak.length > 0) {
-            const overstyringÅrsaker = overstyringÅrsak.join(', ').replace(/,(?=[^,]*$)/, ' og');
+        if (
+            harDagOverstyringer ||
+            harRelevanteDagoverstyringer(endringerEtterNyesteUtbetalingPåPerson ?? [], activePeriodTom)
+        ) {
+            årsaker.push('Overstyring av utbetalingsdager');
+        }
+
+        if (endringerEtterNyesteUtbetalingPåPerson?.some(isInntektoverstyring) ?? false) {
+            årsaker.push('Overstyring av inntekt');
+        }
+
+        if (endringerEtterNyesteUtbetalingPåPerson?.some(isArbeidsforholdoverstyring) ?? false) {
+            årsaker.push('Overstyring av annet arbeidsforhold');
+        }
+
+        if (harVurderLovvalgOgMedlemskapVarsel) {
+            årsaker.push('Lovvalg og medlemskap');
+        }
+
+        if (årsaker.length > 0) {
+            const overstyringÅrsaker = årsaker.join(', ').replace(/,(?=[^,]*$)/, ' og');
             return { grad: 'info', melding: `Beslutteroppgave: ${overstyringÅrsaker}` };
         }
     }
@@ -134,9 +150,9 @@ export const Saksbildevarsler = ({
     periodState,
     oppgavereferanse,
     varsler,
-    erTidligereSaksbehandler,
-    periodeMedBrukerutbetaling,
-    erBeslutteroppgave,
+    erTidligereSaksbehandler = false,
+    periodeMedBrukerutbetaling = false,
+    erBeslutteroppgave = false,
     harVurderLovvalgOgMedlemskapVarsel,
     endringerEtterNyesteUtbetalingPåPerson,
     harDagOverstyringer,
@@ -144,7 +160,7 @@ export const Saksbildevarsler = ({
 }: SaksbildevarslerProps) => {
     const infoVarsler: VarselObject[] = [
         sendtTilBeslutter(erTidligereSaksbehandler && erBeslutteroppgave),
-        ikkeTilgangUTS(!!periodeMedBrukerutbetaling && !utbetalingTilSykmeldt),
+        ikkeTilgangUTS(periodeMedBrukerutbetaling && !utbetalingTilSykmeldt),
         tilstandinfo(periodState),
         utbetaling(periodState),
         vedtaksperiodeVenter(periodState),
