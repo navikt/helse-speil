@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Loadable, useRecoilValue, useRecoilValueLoadable } from 'recoil';
+import { Alert } from '@navikt/ds-react';
 
 import { Flex } from '@components/Flex';
 import { useResetPerson } from '@state/person';
@@ -14,7 +15,6 @@ import { BehandlingsstatistikkView } from './behandlingsstatistikk/Behandlingsst
 import { Tabs, tabState, TabType, useAktivTab } from './Tabs';
 
 import styles from './Oversikt.module.css';
-import { Alert } from '@navikt/ds-react';
 
 const useOppgaverFilteredByTab = () => {
     const { oid } = useInnloggetSaksbehandler();
@@ -28,7 +28,7 @@ const useOppgaverFilteredByTab = () => {
                 return oppgaver.filter(
                     (it) =>
                         it.tildeling?.saksbehandler?.oid !== oid &&
-                        (it.erBeslutterOppgave ? it.tidligereSaksbehandlerOid !== oid : true),
+                        (it.erBeslutterOppgave ? it.tidligereSaksbehandlerOid !== oid : true)
                 );
             }
             case TabType.Mine: {

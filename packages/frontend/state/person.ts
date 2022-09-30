@@ -113,10 +113,7 @@ export const usePersonLoadable = (): Loadable<Person | null> => {
 };
 
 export const useResetPerson = (): (() => void) => {
-    const resetPerson = useResetRecoilState(personState);
-    return () => {
-        resetPerson();
-    };
+    return useResetRecoilState(personState);
 };
 
 export const useIsFetchingPerson = (): boolean => {
@@ -232,7 +229,7 @@ export const useVilkårsgrunnlag = (id: string, skjæringstidspunkt: DateString)
                 ?.grunnlag.filter(
                     (it) =>
                         dayjs(it.skjaeringstidspunkt).isSameOrAfter(skjæringstidspunkt) &&
-                        dayjs(it.skjaeringstidspunkt).isSameOrBefore(activePeriod.tom),
+                        dayjs(it.skjaeringstidspunkt).isSameOrBefore(activePeriod.tom)
                 )
                 .sort(bySkjæringstidspunktDescending)
                 .pop()) ??
@@ -259,7 +256,7 @@ const useNyesteUtbetalingstidsstempelForPerson = (): Dayjs => {
             .flatMap((generasjon) => generasjon.perioder)
             .filter((periode) => isBeregnetPeriode(periode) && periode.utbetaling.vurdering?.godkjent)
             .map((periode) =>
-                isBeregnetPeriode(periode) ? dayjs(periode.utbetaling.vurdering?.tidsstempel) : MIN_DATE,
+                isBeregnetPeriode(periode) ? dayjs(periode.utbetaling.vurdering?.tidsstempel) : MIN_DATE
             ) ?? MIN_DATE;
 
     return dayjs.max([...nyesteUtbetalingstidsstempel, MIN_DATE]);
@@ -270,7 +267,7 @@ export const useEndringerEtterNyesteUtbetaltetidsstempel = (): Array<Overstyring
 
     return (
         useEndringerForPerson().filter((overstyring) =>
-            dayjs(overstyring.timestamp).isAfter(nyesteUtbetalingstidsstempelForPerson),
+            dayjs(overstyring.timestamp).isAfter(nyesteUtbetalingstidsstempelForPerson)
         ) ?? []
     );
 };
