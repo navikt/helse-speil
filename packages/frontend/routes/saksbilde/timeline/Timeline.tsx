@@ -1,22 +1,23 @@
-import React from 'react';
 import classNames from 'classnames';
-import { BodyShort } from '@navikt/ds-react';
+import React from 'react';
 
-import { Pins } from './Pins';
-import { Labels, LabelsSkeleton } from './Labels';
-import { TimelineRow, TimelineRowSkeleton } from './TimelineRow';
-import { ScrollButtons } from './ScrollButtons';
-import { InfotrygdRow } from './InfotrygdRow';
-import { ZoomLevelPicker } from './ZoomLevelPicker';
-import { useTimelineControls } from './hooks/useTimelineControls';
-import { useInfotrygdPeriods } from './hooks/useInfotrygdPeriods';
-import { ExpandableTimelineRow } from './ExpandableTimelineRow';
+import { BodyShort } from '@navikt/ds-react';
 
 import { ErrorBoundary } from '@components/ErrorBoundary';
 import { LoadingShimmer } from '@components/LoadingShimmer';
+import { Arbeidsgiver, Infotrygdutbetaling } from '@io/graphql';
 import { useActivePeriod } from '@state/periode';
 import { useCurrentPerson, useIsFetchingPerson } from '@state/person';
-import { Arbeidsgiver, Infotrygdutbetaling } from '@io/graphql';
+
+import { ExpandableTimelineRow } from './ExpandableTimelineRow';
+import { InfotrygdRow } from './InfotrygdRow';
+import { Labels, LabelsSkeleton } from './Labels';
+import { Pins } from './Pins';
+import { ScrollButtons } from './ScrollButtons';
+import { TimelineRow, TimelineRowSkeleton } from './TimelineRow';
+import { ZoomLevelPicker } from './ZoomLevelPicker';
+import { useInfotrygdPeriods } from './hooks/useInfotrygdPeriods';
+import { useTimelineControls } from './hooks/useTimelineControls';
 
 import styles from './Timeline.module.css';
 
@@ -70,9 +71,9 @@ const TimelineWithContent: React.FC<TimelineWithContentProps> = React.memo(
                                     ghostPeriods={arbeidsgiver.ghostPerioder}
                                     activePeriod={activePeriod}
                                 />
-                            ),
+                            )
                         )}
-                    {infotrygdPeriods.length && <InfotrygdRow start={start} end={end} periods={infotrygdPeriods} />}
+                    {infotrygdPeriods.length > 0 && <InfotrygdRow start={start} end={end} periods={infotrygdPeriods} />}
                 </div>
                 <div className={styles.TimelineControls}>
                     <ScrollButtons
@@ -89,7 +90,7 @@ const TimelineWithContent: React.FC<TimelineWithContentProps> = React.memo(
                 </div>
             </div>
         );
-    },
+    }
 );
 
 const TimelineContainer: React.FC = () => {
