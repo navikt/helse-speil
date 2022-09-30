@@ -43,7 +43,7 @@ app.post('/api/tildeling/:oppgavereferanse', (req: Request, res: Response) => {
     res.sendStatus(200);
 });
 
-app.delete('/api/tildeling/:oppgavereferanse', (req: Request, res: Response) => {
+app.delete('/api/tildeling/:oppgavereferanse', async (req: Request, res: Response) => {
     const oppgavereferanse = req.params.oppgavereferanse;
 
     OppgaveMock.addOrUpdateOppgave(oppgavereferanse, {
@@ -51,12 +51,8 @@ app.delete('/api/tildeling/:oppgavereferanse', (req: Request, res: Response) => 
         erPåVent: false,
     });
 
-    try {
-        sleep(passeLenge());
-    } catch (_) {
-    } finally {
-        res.sendStatus(200);
-    }
+    await sleep(passeLenge());
+    res.sendStatus(200);
 });
 
 app.post('/api/leggpaavent/:oppgavereferanse', (req: Request, res: Response) => {

@@ -1,5 +1,4 @@
 import spesialistSchema from '../graphql.schema.json';
-import { sleep } from 'deasync';
 import { Express } from 'express';
 import { graphqlHTTP } from 'express-graphql';
 import fs from 'fs';
@@ -9,6 +8,7 @@ import path from 'path';
 import { makeExecutableSchema } from '@graphql-tools/schema';
 import type { IResolvers } from '@graphql-tools/utils';
 
+import { sleep } from '../devHelpers';
 import { behandledeOppgaver } from './data/behandledeOppgaver';
 import { behandlingsstatistikk } from './data/behandlingsstatistikk';
 import { getMockOppdrag } from './data/oppdrag';
@@ -67,36 +67,24 @@ const fetchPersondata = (): Record<string, JSON> => {
 
 const getResolvers = (): IResolvers => ({
     Query: {
-        person: (_, { fnr, aktorId }: { fnr?: string; aktorId?: string }) => {
+        person: async (_, { fnr, aktorId }: { fnr?: string; aktorId?: string }) => {
             const person = fetchPersondata()[fnr ?? aktorId ?? ''];
             if (!person) {
                 throw new NotFoundError(fnr ?? aktorId ?? '');
             }
-            try {
-                sleep(500);
-            } catch (_) {
-            } finally {
-                return person;
-            }
+            await sleep(500);
+            return person;
         },
         oppdrag: (_, { fnr }: { fnr: string }) => {
             return getMockOppdrag();
         },
-        behandledeOppgaver: () => {
-            try {
-                sleep(500);
-            } catch (_) {
-            } finally {
-                return behandledeOppgaver;
-            }
+        behandledeOppgaver: async () => {
+            await sleep(500);
+            return behandledeOppgaver;
         },
-        behandlingsstatistikk: () => {
-            try {
-                sleep(500);
-            } catch (_) {
-            } finally {
-                return behandlingsstatistikk;
-            }
+        behandlingsstatistikk: async () => {
+            await sleep(500);
+            return behandlingsstatistikk;
         },
     },
     Mutation: {

@@ -1,7 +1,7 @@
-import { sleep } from 'deasync';
 import * as fs from 'fs';
 import request from 'request-promise-native';
 
+import { sleep } from '../devHelpers';
 import { Instrumentation } from '../instrumentation';
 import { SpesialistClient } from '../person/spesialistClient';
 
@@ -23,15 +23,11 @@ const devSpesialistClient = (_: Instrumentation): SpesialistClient => ({
                 };
             })
         );
-        try {
-            sleep(500);
-        } catch (_) {
-        } finally {
-            return Promise.resolve({
-                status: 200,
-                body: oppgaver,
-            } as unknown as Response);
-        }
+        await sleep(500);
+        return Promise.resolve({
+            status: 200,
+            body: oppgaver,
+        } as unknown as Response);
     },
 
     hentPersonByAktørId: lesPerson,
