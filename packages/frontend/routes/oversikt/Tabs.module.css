@@ -26,10 +26,14 @@
     height: max-content;
     font-family: inherit;
     font-size: 1rem;
-    font-weight: 600;
+    font-weight: var(--navds-font-weight-bold);
     color: var(--navds-semantic-color-text);
     cursor: pointer;
     outline: none;
+}
+
+.Tab > span {
+    font-weight: var(--navds-font-weight-regular);
 }
 
 .Tab:before {

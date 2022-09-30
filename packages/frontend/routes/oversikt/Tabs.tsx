@@ -1,7 +1,6 @@
 import React from 'react';
 import classNames from 'classnames';
 import { atom, useRecoilState, useRecoilValue } from 'recoil';
-import { BodyShort } from '@navikt/ds-react';
 import { DataFilled } from '@navikt/ds-icons';
 
 import { RoundedButton } from '@components/RoundedButton';
@@ -44,7 +43,7 @@ const OppgaveTab = ({ tag, label, numberOfTasks }: OppgaveTabProps) => {
             onClick={() => setAktivTab(tag)}
         >
             {label}
-            {typeof numberOfTasks === 'number' && <BodyShort>({numberOfTasks})</BodyShort>}
+            {typeof numberOfTasks === 'number' && <span>({numberOfTasks})</span>}
         </button>
     );
 };
