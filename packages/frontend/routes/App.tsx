@@ -11,12 +11,11 @@ import { Varsler } from '@components/Varsler';
 import { ErrorBoundary } from '@components/ErrorBoundary';
 import { ProtectedRoute } from '@components/ProtectedRoute';
 import { useLoadingToast } from '@hooks/useLoadingToast';
-import { usePersonErrors, usePersonLoadable } from '@state/person';
-import { useAddVarsel, useSetVarsler } from '@state/varsler';
+import { usePersonLoadable } from '@state/person';
+import { useSetVarsler } from '@state/varsler';
 import { useEasterEggIsActive } from '@state/easterEgg';
 import { useAuthentication } from '@state/authentication';
 import { onLazyLoadFail } from '@utils/error';
-import { isFetchErrorArray } from '@io/graphql/errors';
 
 import { PageNotFound } from './PageNotFound';
 import { IkkeLoggetInn } from './IkkeLoggetInn';
@@ -29,19 +28,6 @@ const Agurk = React.lazy(() => import('../components/Agurk').catch(onLazyLoadFai
 const GraphQLPlayground = React.lazy(() => import('./playground/GraphQLPlayground').catch(onLazyLoadFail));
 
 ReactModal.setAppElement('#root');
-
-const useSyncFetchAlerts = () => {
-    const fetchErrors = usePersonErrors();
-    const addAlert = useAddVarsel();
-
-    useEffect(() => {
-        if (isFetchErrorArray(fetchErrors)) {
-            for (const error of fetchErrors) {
-                addAlert(error);
-            }
-        }
-    }, [fetchErrors]);
-};
 
 const useSyncAlertsToLocation = () => {
     const location = useLocation();
@@ -58,7 +44,6 @@ const App = () => {
 
     const easterEggIsActive = useEasterEggIsActive();
 
-    useSyncFetchAlerts();
     useSyncAlertsToLocation();
 
     return (
