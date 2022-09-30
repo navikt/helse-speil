@@ -1,14 +1,14 @@
+import { InntektMedSykefravær } from './InntektMedSykefravær';
+import { InntektUtenSykefravær } from './InntektUtenSykefravær';
 import React from 'react';
+
 import { Alert } from '@navikt/ds-react';
 
 import { ErrorBoundary } from '@components/ErrorBoundary';
-import { useActivePeriod } from '@state/periode';
-import { useArbeidsgiver } from '@state/arbeidsgiver';
-import { isUberegnetPeriode } from '@utils/typeguards';
 import { Arbeidsgiver, Arbeidsgiverinntekt, BeregnetPeriode } from '@io/graphql';
-
-import { InntektUtenSykefravær } from './InntektUtenSykefravær';
-import { InntektMedSykefravær } from './InntektMedSykefravær';
+import { useArbeidsgiver } from '@state/arbeidsgiver';
+import { useActivePeriod } from '@state/periode';
+import { isUberegnetPeriode } from '@utils/typeguards';
 
 import styles from './Inntekt.module.css';
 

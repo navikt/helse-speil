@@ -1,10 +1,11 @@
 import React from 'react';
+
 import { BodyShort, Tooltip } from '@navikt/ds-react';
 
 import { TextWithEllipsis } from '@components/TextWithEllipsis';
 
-import { CellContent } from './CellContent';
 import { Cell } from '../Cell';
+import { CellContent } from './CellContent';
 
 interface BehandletAvCellProps {
     name?: Maybe<string>;

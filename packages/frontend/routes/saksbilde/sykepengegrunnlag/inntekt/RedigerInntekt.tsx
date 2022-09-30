@@ -1,15 +1,16 @@
 import React, { Dispatch, SetStateAction } from 'react';
-import {
-    useActiveGenerationIsLast,
-    useHarKunEnFagsystemIdPåArbeidsgiverIAktivPeriode,
-    useFørstegangsbehandlingTilGodkjenningMedOverlappendeAvsluttetPeriode,
-} from '@hooks/revurdering';
+
 import { EditButton } from '@components/EditButton';
 import { PopoverHjelpetekst } from '@components/PopoverHjelpetekst';
 import { SortInfoikon } from '@components/ikoner/SortInfoikon';
+import {
+    useActiveGenerationIsLast,
+    useFørstegangsbehandlingTilGodkjenningMedOverlappendeAvsluttetPeriode,
+    useHarKunEnFagsystemIdPåArbeidsgiverIAktivPeriode,
+} from '@hooks/revurdering';
 import { Vilkarsgrunnlagtype } from '@io/graphql';
-import { useCurrentPerson, useVilkårsgrunnlag } from '@state/person';
 import { useActivePeriod } from '@state/periode';
+import { useCurrentPerson, useVilkårsgrunnlag } from '@state/person';
 import { getPeriodState } from '@utils/mapping';
 
 interface RedigerInntektProps {

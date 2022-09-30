@@ -1,5 +1,6 @@
-import React, { HTMLAttributes, ReactNode, useState } from 'react';
 import classNames from 'classnames';
+import React, { HTMLAttributes, ReactNode, useState } from 'react';
+
 import { Collapse, Expand } from '@navikt/ds-icons';
 import { Popover } from '@navikt/ds-react';
 

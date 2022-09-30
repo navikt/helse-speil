@@ -2,9 +2,10 @@ import styled from '@emotion/styled';
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 
-import { Row } from './Row';
-import { useFetchPerson } from '@state/person';
 import { useLoadingToast } from '@hooks/useLoadingToast';
+import { useFetchPerson } from '@state/person';
+
+import { Row } from './Row';
 
 const HighlightOnHoverRow = styled(Row)`
     &:hover,

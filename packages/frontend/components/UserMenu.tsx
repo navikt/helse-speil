@@ -1,9 +1,10 @@
 import React from 'react';
+
 import { BodyShort } from '@navikt/ds-react';
 import { Dropdown, Header } from '@navikt/ds-react-internal';
 
-import { useInnloggetSaksbehandler } from '@state/authentication';
 import { useIsAnonymous, useToggleAnonymity } from '@state/anonymization';
+import { useInnloggetSaksbehandler } from '@state/authentication';
 
 import styles from './UserMenu.module.css';
 

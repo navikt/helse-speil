@@ -1,8 +1,9 @@
 import React from 'react';
+
 import { LoadingShimmer } from '@components/LoadingShimmer';
 
-import { Separator } from './Separator';
 import { LabelCell } from './LabelCell';
+import { Separator } from './Separator';
 
 import styles from './BehandlingsstatistikkView.module.css';
 

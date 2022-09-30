@@ -1,4 +1,5 @@
 import React from 'react';
+
 import { Tag, Tooltip } from '@navikt/ds-react';
 
 import { Reservasjon } from '@io/graphql';

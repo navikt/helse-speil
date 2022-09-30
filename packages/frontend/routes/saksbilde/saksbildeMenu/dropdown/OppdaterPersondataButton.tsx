@@ -1,4 +1,5 @@
 import React from 'react';
+
 import { Dropdown } from '@navikt/ds-react-internal';
 
 import { Person } from '@io/graphql';
@@ -26,13 +27,13 @@ export const OppdaterPersondataButton: React.FC<OppdaterPersondataButtonProps> =
                 addVarsel(
                     new PersonoppdateringAlert(
                         'Opplysningene om personen vil bli oppdatert. Dette kan ta noe tid og du må oppdatere skjermbildet (F5) for å se resultatet.',
-                        { severity: 'info' },
-                    ),
+                        { severity: 'info' }
+                    )
                 );
             })
             .catch(() => {
                 addVarsel(
-                    new PersonoppdateringAlert('Personoppdatering feilet. Prøv igjen om litt.', { severity: 'error' }),
+                    new PersonoppdateringAlert('Personoppdatering feilet. Prøv igjen om litt.', { severity: 'error' })
                 );
             });
     };

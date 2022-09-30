@@ -1,8 +1,9 @@
 import React from 'react';
+
 import { Alert } from '@navikt/ds-react';
 
-import { Venstremeny } from '../venstremeny/Venstremeny';
 import { Historikk } from '../historikk';
+import { Venstremeny } from '../venstremeny/Venstremeny';
 
 import styles from './PeriodeView.module.css';
 

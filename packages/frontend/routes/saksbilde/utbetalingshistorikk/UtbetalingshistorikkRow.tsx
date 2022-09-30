@@ -1,12 +1,12 @@
-import React from 'react';
 import dayjs from 'dayjs';
+import React from 'react';
 
-import { Cell } from './Cell';
 import { Bold } from '@components/Bold';
+import { Arbeidsgiveroppdrag, Oppdrag, Personoppdrag, Spennoppdrag } from '@io/graphql';
 import { NORSK_DATOFORMAT_KORT } from '@utils/date';
 import { toKronerOgØre } from '@utils/locale';
 
-import { Arbeidsgiveroppdrag, Oppdrag, Personoppdrag, Spennoppdrag } from '@io/graphql';
+import { Cell } from './Cell';
 
 const getFom = (oppdrag: Spennoppdrag): Dayjs | undefined =>
     oppdrag.linjer.length > 0

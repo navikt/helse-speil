@@ -1,11 +1,11 @@
-import React from 'react';
+import { BegrunnelseForOverstyring } from './overstyring.types';
 import styled from '@emotion/styled';
-
-import { useGetOverstyrtArbeidsforhold, usePostOverstyrtArbeidsforhold } from './overstyrArbeidsforholdHooks';
+import React from 'react';
 
 import { Button } from '@components/Button';
 import { OverstyringTimeoutModal } from '@components/OverstyringTimeoutModal';
-import { BegrunnelseForOverstyring } from './overstyring.types';
+
+import { useGetOverstyrtArbeidsforhold, usePostOverstyrtArbeidsforhold } from './overstyrArbeidsforholdHooks';
 
 const AngreButton = styled(Button)`
     display: flex;
@@ -50,7 +50,7 @@ export const AngreOverstyrArbeidsforholdUtenSykdom = ({
         skjæringstidspunkt,
         false,
         'Saksbehandler angret å deaktivere arbeidsforholdet i beregningen',
-        begrunnelse,
+        begrunnelse
     );
     return (
         <>

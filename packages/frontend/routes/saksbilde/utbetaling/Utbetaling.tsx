@@ -1,10 +1,11 @@
-import React, { useMemo } from 'react';
 import dayjs from 'dayjs';
+import React, { useMemo } from 'react';
+
 import { Alert } from '@navikt/ds-react';
 
-import { SortInfoikon } from '@components/ikoner/SortInfoikon';
 import { ErrorBoundary } from '@components/ErrorBoundary';
 import { PopoverHjelpetekst } from '@components/PopoverHjelpetekst';
+import { SortInfoikon } from '@components/ikoner/SortInfoikon';
 import {
     useActiveGenerationIsLast,
     useActivePeriodHasLatestSkjæringstidspunkt,
@@ -14,14 +15,14 @@ import {
 import { useIsReadOnlyOppgave } from '@hooks/useIsReadOnlyOppgave';
 import { useOverstyringIsEnabled } from '@hooks/useOverstyringIsEnabled';
 import { Arbeidsgiver, BeregnetPeriode, Dagoverstyring, Overstyring, UberegnetPeriode } from '@io/graphql';
+import { useCurrentArbeidsgiver } from '@state/arbeidsgiver';
+import { useActivePeriod } from '@state/periode';
 import { defaultUtbetalingToggles, erDev, erLocal } from '@utils/featureToggles';
 import { isBeregnetPeriode, isUberegnetPeriode } from '@utils/typeguards';
-import { useActivePeriod } from '@state/periode';
-import { useCurrentArbeidsgiver } from '@state/arbeidsgiver';
 
+import { OverstyrbarUtbetaling } from './OverstyrbarUtbetaling';
 import { Utbetalingstabell } from './utbetalingstabell/Utbetalingstabell';
 import { useTabelldagerMap } from './utbetalingstabell/useTabelldagerMap';
-import { OverstyrbarUtbetaling } from './OverstyrbarUtbetaling';
 
 import styles from './Utbetaling.module.css';
 
@@ -57,7 +58,7 @@ const isDagoverstyring = (overstyring: Overstyring): overstyring is Dagoverstyri
 export const useDagoverstyringer = (
     fom: DateString,
     tom: DateString,
-    arbeidsgiver?: Maybe<Arbeidsgiver>,
+    arbeidsgiver?: Maybe<Arbeidsgiver>
 ): Array<Dagoverstyring> => {
     return useMemo(() => {
         if (!arbeidsgiver) return [];
@@ -68,7 +69,7 @@ export const useDagoverstyringer = (
             overstyring.dager.some((dag) => {
                 const dato = dayjs(dag.dato);
                 return dato.isSameOrAfter(start) && dato.isSameOrBefore(end);
-            }),
+            })
         );
     }, [arbeidsgiver, fom, tom]);
 };

@@ -1,5 +1,6 @@
-import React from 'react';
 import classNames from 'classnames';
+import React from 'react';
+
 import { Clock, DialogDots, Folder } from '@navikt/ds-icons';
 
 import { TabButton } from '@components/TabButton';

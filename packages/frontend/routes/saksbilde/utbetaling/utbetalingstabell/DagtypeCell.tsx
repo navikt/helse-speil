@@ -1,9 +1,9 @@
 import styled from '@emotion/styled';
 import React, { ReactNode } from 'react';
+
 import { BodyShort } from '@navikt/ds-react';
 
 import { Endringstrekant } from '@components/Endringstrekant';
-import { Dagtype, Sykdomsdagtype, Utbetalingsdagtype } from '@io/graphql';
 
 import { CellContent } from '../../table/CellContent';
 import { IconArbeidsdag } from '../../table/icons/IconArbeidsdag';
@@ -44,73 +44,6 @@ const getTypeIcon = (dag: UtbetalingstabellDag): ReactNode => {
     }
 };
 
-const daytypesAreEqual = (
-    utbetalingsdagtype: Utbetalingsdagtype,
-    overstyrtDagtype: Utbetalingstabelldagtype,
-): boolean => {
-    switch (utbetalingsdagtype) {
-        case Utbetalingsdagtype.Arbeidsdag:
-            return overstyrtDagtype === 'Arbeid';
-        case Utbetalingsdagtype.Feriedag:
-            return overstyrtDagtype === 'Ferie';
-        case Utbetalingsdagtype.Navhelgdag:
-        case Utbetalingsdagtype.Helgedag:
-            return overstyrtDagtype === 'Helg';
-        case Utbetalingsdagtype.Navdag:
-            return overstyrtDagtype === 'Syk';
-        case Utbetalingsdagtype.UkjentDag:
-            return overstyrtDagtype === 'Ukjent';
-        default:
-            return false;
-    }
-};
-
-const getDisplayTextForUtbetalingsdagtype = (type: Utbetalingsdagtype): string => {
-    switch (type) {
-        case Utbetalingsdagtype.Arbeidsdag:
-            return 'Arbeidsdag';
-        case Utbetalingsdagtype.Arbeidsgiverperiodedag:
-            return 'Arbeidsgiverperiodedag';
-        case Utbetalingsdagtype.AvvistDag:
-            return 'Avvist';
-        case Utbetalingsdagtype.Feriedag:
-            return 'Ferie';
-        case Utbetalingsdagtype.ForeldetDag:
-            return 'Foreldet';
-        case Utbetalingsdagtype.Helgedag:
-        case Utbetalingsdagtype.Navhelgdag:
-            return 'Helg';
-        case Utbetalingsdagtype.Navdag:
-            return 'Syk';
-        case Utbetalingsdagtype.UkjentDag:
-            return 'Ukjent';
-    }
-};
-
-const getDisplayTextForSykdomsdagtype = (type: Sykdomsdagtype): string => {
-    switch (type) {
-        case Sykdomsdagtype.Arbeidsdag:
-            return 'Arbeidsdag';
-        case Sykdomsdagtype.Arbeidsgiverdag:
-            return 'Arbeidsgiverdag';
-        case Sykdomsdagtype.Avslatt:
-            return 'Avvist';
-        case Sykdomsdagtype.Feriedag:
-            return 'Ferie';
-        case Sykdomsdagtype.ForeldetSykedag:
-            return 'Foreldet';
-        case Sykdomsdagtype.SykHelgedag:
-        case Sykdomsdagtype.FriskHelgedag:
-            return 'Helg';
-        case Sykdomsdagtype.Permisjonsdag:
-            return 'Permisjon';
-        case Sykdomsdagtype.Sykedag:
-            return 'Syk';
-        case Sykdomsdagtype.Ubestemtdag:
-            return 'Ukjent';
-    }
-};
-
 const getDisplayText = (dag?: UtbetalingstabellDag): string | null => {
     if (!dag) {
         return null;
@@ -122,19 +55,6 @@ const getDisplayText = (dag?: UtbetalingstabellDag): string | null => {
         return `${dag.type} (Foreldet)`;
     } else {
         return dag.type;
-    }
-};
-
-const getDisplayTextForOverstyrtDagtype = (type: Dagtype): string => {
-    switch (type) {
-        case Dagtype.Egenmeldingsdag:
-            return 'Egenmelding';
-        case Dagtype.Feriedag:
-            return 'Ferie';
-        case Dagtype.Permisjonsdag:
-            return 'Permisjon';
-        case Dagtype.Sykedag:
-            return 'Syk';
     }
 };
 

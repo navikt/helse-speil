@@ -1,20 +1,20 @@
 import dayjs from 'dayjs';
 
-import { useCurrentArbeidsgiver } from '@state/arbeidsgiver';
-import { useCurrentPerson } from '@state/person';
-import { useActivePeriod } from '@state/periode';
-import { getPeriodState } from '@utils/mapping';
-import { isBeregnetPeriode, isForkastetPeriode } from '@utils/typeguards';
-import type { UtbetalingToggles } from '@utils/featureToggles';
 import type { Arbeidsgiver, BeregnetPeriode, GhostPeriode, Periode, Person } from '@io/graphql';
+import { useCurrentArbeidsgiver } from '@state/arbeidsgiver';
+import { useActivePeriod } from '@state/periode';
+import { useCurrentPerson } from '@state/person';
+import type { UtbetalingToggles } from '@utils/featureToggles';
 import { erDev, erLocal } from '@utils/featureToggles';
+import { getPeriodState } from '@utils/mapping';
 import { isRevurdering } from '@utils/period';
+import { isBeregnetPeriode, isForkastetPeriode } from '@utils/typeguards';
 
 const godkjentTilstander: PeriodState[] = ['utbetalt', 'utbetaltAutomatisk', 'revurdert', 'revurdertIngenUtbetaling'];
 
 const periodeErIArbeidsgiversSisteSkjæringstidspunkt = (
     arbeidsgiver: Arbeidsgiver,
-    periode: BeregnetPeriode,
+    periode: BeregnetPeriode
 ): boolean => {
     const periodenFinnesISisteGenerasjon =
         arbeidsgiver.generasjoner[0]?.perioder.find((it) => it === periode) !== undefined;
@@ -86,7 +86,7 @@ const alleOverlappendePerioderErTilRevurdering = (person: Person, periode: Perio
 
 export const useFørstegangsbehandlingTilGodkjenningMedOverlappendeAvsluttetPeriode = (
     periode: Periode | GhostPeriode,
-    person: Person,
+    person: Person
 ): boolean => {
     const førstegangsbehandlingMedTilstandAvventerGodkjenning =
         getPeriodState(periode) === 'tilGodkjenning' && isBeregnetPeriode(periode) && !isRevurdering(periode);
@@ -114,9 +114,7 @@ export const useRevurderingIsEnabled = (toggles: UtbetalingToggles): boolean => 
     if (isForkastetPeriode(periode)) return false;
     if (!toggles.overstyreUtbetaltPeriodeEnabled) return false;
     if (!alleOverlappendePerioderErAvsluttet(person, periode)) return false;
-    if (!(erDev() || erLocal()) && !periodeErIArbeidsgiversSisteSkjæringstidspunkt(arbeidsgiver, periode)) return false;
-
-    return true;
+    return !(!(erDev() || erLocal()) && !periodeErIArbeidsgiversSisteSkjæringstidspunkt(arbeidsgiver, periode));
 };
 
 export const useOverstyrRevurderingIsEnabled = (toggles: UtbetalingToggles) => {

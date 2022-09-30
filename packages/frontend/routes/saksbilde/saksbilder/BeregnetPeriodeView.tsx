@@ -1,19 +1,20 @@
 import React from 'react';
 import { Route, Switch, useRouteMatch } from 'react-router-dom';
+
 import { Loader } from '@navikt/ds-react';
 
+import { useErTidligereSaksbehandler } from '@hooks/useErTidligereSaksbehandler';
+import { useHarVurderLovvalgOgMedlemskapVarsel } from '@hooks/useHarVurderLovvalgOgMedlemskapVarsel';
+import { Arbeidsgiver, BeregnetPeriode, Person } from '@io/graphql';
+import { useHarDagOverstyringer } from '@state/arbeidsgiver';
+import { useSyncNotater } from '@state/notater';
+import { useEndringerEtterNyesteUtbetaltetidsstempel } from '@state/person';
 import { onLazyLoadFail } from '@utils/error';
 import { getPeriodState } from '@utils/mapping';
-import { useSyncNotater } from '@state/notater';
-import { useHarDagOverstyringer } from '@state/arbeidsgiver';
-import { useEndringerEtterNyesteUtbetaltetidsstempel } from '@state/person';
-import { Arbeidsgiver, BeregnetPeriode, Person } from '@io/graphql';
-import { useHarVurderLovvalgOgMedlemskapVarsel } from '@hooks/useHarVurderLovvalgOgMedlemskapVarsel';
-import { useErTidligereSaksbehandler } from '@hooks/useErTidligereSaksbehandler';
 
+import { Historikk } from '../historikk';
 import { Saksbildevarsler } from '../varsler/Saksbildevarsler';
 import { Venstremeny } from '../venstremeny/Venstremeny';
-import { Historikk } from '../historikk';
 
 import styles from './PeriodeView.module.css';
 

@@ -1,6 +1,7 @@
 import React from 'react';
-import { Dropdown, Header } from '@navikt/ds-react-internal';
+
 import { ExternalLink, System } from '@navikt/ds-icons';
+import { Dropdown, Header } from '@navikt/ds-react-internal';
 
 import { useCurrentPerson } from '@state/person';
 

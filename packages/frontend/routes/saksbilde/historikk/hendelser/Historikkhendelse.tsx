@@ -1,7 +1,10 @@
 import React from 'react';
+
 import { Cancel, Refresh, Send, Success } from '@navikt/ds-icons';
-import { Hendelse } from './Hendelse';
+
 import { PeriodehistorikkType } from '@io/graphql';
+
+import { Hendelse } from './Hendelse';
 import { HendelseDate } from './HendelseDate';
 
 const getTitle = (type: PeriodehistorikkType): string => {

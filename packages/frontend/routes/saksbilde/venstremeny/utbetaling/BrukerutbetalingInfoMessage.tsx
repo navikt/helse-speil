@@ -1,4 +1,5 @@
 import React from 'react';
+
 import { Alert, BodyLong } from '@navikt/ds-react';
 
 export const BrukerutbetalingInfoMessage = () => (

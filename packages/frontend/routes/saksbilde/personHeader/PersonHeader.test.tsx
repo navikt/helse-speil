@@ -1,9 +1,9 @@
+import { MemoryRouterWrapper } from '@test-wrappers';
 import React from 'react';
-import { render, screen } from '@testing-library/react';
-import '@testing-library/jest-dom/extend-expect';
 
 import { Adressebeskyttelse } from '@io/graphql';
-import { MemoryRouterWrapper } from '@test-wrappers';
+import '@testing-library/jest-dom/extend-expect';
+import { render, screen } from '@testing-library/react';
 
 import { _PersonHeader } from './PersonHeader';
 
@@ -22,7 +22,7 @@ describe('Personlinje', () => {
                 }}
                 isAnonymous={false}
             />,
-            { wrapper: MemoryRouterWrapper },
+            { wrapper: MemoryRouterWrapper }
         );
         expect(screen.getByText('Høiby, Marius Borg', { exact: false })).toBeVisible();
         expect(screen.getByText('123456 78910')).toBeVisible();

@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import React, { ChangeEvent } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
 
-import { Alert, Checkbox as NavCheckbox, Fieldset, Radio, RadioGroup, Textarea } from '@navikt/ds-react';
+import { Alert, Fieldset, Checkbox as NavCheckbox, Radio, RadioGroup, Textarea } from '@navikt/ds-react';
 
 import styles from './Annulleringsmodal.module.css';
 
@@ -73,7 +73,7 @@ export const Annulleringsbegrunnelse = () => {
 
     const { onChange: onChangeBegrunnelser, ...begrunnelserValidation } = register('begrunnelser');
     const { onChange: onChangeSkjæringstidspunkt, ...skjæringstidspunktValidation } = register(
-        'gjelder_siste_skjæringstidspunkt',
+        'gjelder_siste_skjæringstidspunkt'
     );
 
     const onChangeRadioButton = (event: React.ChangeEvent<HTMLInputElement>) => {

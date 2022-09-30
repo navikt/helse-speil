@@ -1,9 +1,10 @@
-import { useEffect, useState } from 'react';
 import dayjs from 'dayjs';
+import { useEffect, useState } from 'react';
 
-import type { OverstyrtDagDTO } from '@io/http';
 import type { Arbeidsgiver, Person } from '@io/graphql';
+import type { OverstyrtDagDTO } from '@io/http';
 import { postAbonnerPåAktør, postOverstyrteDager } from '@io/http';
+import { useCurrentArbeidsgiver } from '@state/arbeidsgiver';
 import {
     kalkulererFerdigToastKey,
     kalkulererToast,
@@ -11,9 +12,8 @@ import {
     kalkuleringFerdigToast,
 } from '@state/kalkuleringstoasts';
 import { useOpptegnelser, useSetOpptegnelserPollingRate } from '@state/opptegnelser';
-import { useAddToast, useRemoveToast } from '@state/toasts';
-import { useCurrentArbeidsgiver } from '@state/arbeidsgiver';
 import { useCurrentPerson } from '@state/person';
+import { useAddToast, useRemoveToast } from '@state/toasts';
 import { useAddVarsel } from '@state/varsler';
 import { ErrorAlert } from '@utils/error';
 
@@ -36,7 +36,7 @@ const tilOverstyrtDagtype = (type: Utbetalingstabelldagtype): OverstyrtDagtype =
 
 const tilOverstyrteDager = (
     dager: Array<UtbetalingstabellDag>,
-    overstyrteDager: Array<UtbetalingstabellDag>,
+    overstyrteDager: Array<UtbetalingstabellDag>
 ): OverstyrtDagDTO[] =>
     overstyrteDager.map((overstyrtDag) => {
         const fraDag = dager.find((fraDag) => fraDag.dato === overstyrtDag.dato);
@@ -57,7 +57,7 @@ type UsePostOverstyringResult = {
         dager: Array<UtbetalingstabellDag>,
         overstyrteDager: Array<UtbetalingstabellDag>,
         begrunnelse: string,
-        callback?: () => void,
+        callback?: () => void
     ) => Promise<void>;
     state: UsePostOverstyringState;
     error?: string;
@@ -80,7 +80,7 @@ export const usePostOverstyring = (): UsePostOverstyringResult => {
             if (opptegnelser.type === 'REVURDERING_AVVIST') {
                 removeToast(kalkulererFerdigToastKey);
                 addVarsel(
-                    new ErrorAlert('Revurderingen gikk ikke gjennom. Ta kontakt med support dersom du trenger hjelp.'),
+                    new ErrorAlert('Revurderingen gikk ikke gjennom. Ta kontakt med support dersom du trenger hjelp.')
                 );
             } else {
                 addToast(kalkuleringFerdigToast({ callback: () => removeToast(kalkulererFerdigToastKey) }));
@@ -111,7 +111,7 @@ export const usePostOverstyring = (): UsePostOverstyringResult => {
         dager: Array<UtbetalingstabellDag>,
         overstyrteDager: Array<UtbetalingstabellDag>,
         begrunnelse: string,
-        callback?: () => void,
+        callback?: () => void
     ): Promise<void> => {
         const overstyring = {
             aktørId: person.aktorId,

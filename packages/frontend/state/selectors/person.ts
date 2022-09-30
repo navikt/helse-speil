@@ -1,6 +1,6 @@
 import dayjs from 'dayjs';
 
-import { Arbeidsgiverinntekt, Periode, Person, Vilkarsgrunnlag } from '@io/graphql';
+import { Arbeidsgiverinntekt, Person, Vilkarsgrunnlag } from '@io/graphql';
 
 export const getInntekt = (vilkårsgrunnlag: Vilkarsgrunnlag, organisasjonsnummer: string): Arbeidsgiverinntekt =>
     vilkårsgrunnlag.inntekter.find((it) => it.arbeidsgiver === organisasjonsnummer) ??
@@ -16,14 +16,14 @@ export const getVilkårsgrunnlag = (
     person: Person,
     vilkårsgrunnlagId: string,
     skjæringstidspunkt: DateString,
-    periodeTom: DateString,
+    periodeTom: DateString
 ): Vilkarsgrunnlag =>
     person.vilkarsgrunnlaghistorikk
         .find(({ id }) => id === vilkårsgrunnlagId)
         ?.grunnlag.filter(
             (grunnlag) =>
                 dayjs(grunnlag.skjaeringstidspunkt).isSameOrAfter(skjæringstidspunkt) &&
-                dayjs(grunnlag.skjaeringstidspunkt).isSameOrBefore(periodeTom),
+                dayjs(grunnlag.skjaeringstidspunkt).isSameOrBefore(periodeTom)
         )
         .sort(bySkjæringstidspunktDescending)
         .pop() ??

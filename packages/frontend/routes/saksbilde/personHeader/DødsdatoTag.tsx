@@ -1,6 +1,7 @@
-import React from 'react';
-import dayjs from 'dayjs';
 import classNames from 'classnames';
+import dayjs from 'dayjs';
+import React from 'react';
+
 import { Tag } from '@navikt/ds-react';
 
 import { AnonymizableContainer } from '@components/anonymizable/AnonymizableContainer';

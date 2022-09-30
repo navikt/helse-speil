@@ -1,13 +1,14 @@
 import React, { ChangeEvent } from 'react';
 import { Controller, FormProvider, useForm } from 'react-hook-form';
+
 import { BodyShort, Button, Heading, Loader, Textarea } from '@navikt/ds-react';
 
-import { Personinfo } from '@io/graphql';
-import { useCurrentPerson } from '@state/person';
-import { isPerson } from '@utils/typeguards';
-import { capitalizeName } from '@utils/locale';
 import { Modal } from '@components/Modal';
 import { AnonymizableText } from '@components/anonymizable/AnonymizableText';
+import { Personinfo } from '@io/graphql';
+import { useCurrentPerson } from '@state/person';
+import { capitalizeName } from '@utils/locale';
+import { isPerson } from '@utils/typeguards';
 
 import styles from './ReturModal.module.css';
 

@@ -1,10 +1,12 @@
 import React from 'react';
 
+import { Tooltip } from '@navikt/ds-react';
+
 import { AnonymizableTextWithEllipsis } from '@components/TextWithEllipsis';
 import { capitalizeName } from '@utils/locale';
+
 import { Cell } from '../Cell';
 import { CellContent } from './CellContent';
-import { Tooltip } from '@navikt/ds-react';
 
 type Name = Pick<Personinfo, 'fornavn' | 'etternavn' | 'mellomnavn'>;
 

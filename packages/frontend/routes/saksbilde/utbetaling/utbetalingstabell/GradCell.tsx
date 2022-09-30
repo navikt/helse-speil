@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { Endringstrekant } from '@components/Endringstrekant';
+
 import { CellContent } from '../../table/CellContent';
 
 const dagtypeIsValid = (type: Utbetalingstabelldagtype): boolean =>

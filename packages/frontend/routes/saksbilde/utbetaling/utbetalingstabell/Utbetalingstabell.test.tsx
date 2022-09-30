@@ -1,10 +1,11 @@
-import '@testing-library/jest-dom/extend-expect';
-import { render, screen } from '@testing-library/react';
+import { RecoilWrapper } from '@test-wrappers';
 import React from 'react';
 
-import { Utbetalingstabell } from './Utbetalingstabell';
 import { Kildetype } from '@io/graphql';
-import { RecoilWrapper } from '@test-wrappers';
+import '@testing-library/jest-dom/extend-expect';
+import { render, screen } from '@testing-library/react';
+
+import { Utbetalingstabell } from './Utbetalingstabell';
 
 jest.mock('./useAlderVedSkjæringstidspunkt', () => ({
     useAlderVedSkjæringstidspunkt: () => 30,

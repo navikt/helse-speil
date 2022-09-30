@@ -1,6 +1,7 @@
 import React from 'react';
-import { Button, Loader, Textarea } from '@navikt/ds-react';
 import { useForm } from 'react-hook-form';
+
+import { Button, Loader, Textarea } from '@navikt/ds-react';
 
 import styles from './NotatForm.module.css';
 

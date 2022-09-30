@@ -1,13 +1,14 @@
 import styled from '@emotion/styled';
 import React, { useEffect, useState } from 'react';
 
-import { InntektsgrunnlagTable } from './InntektsgrunnlagTable';
-import { Inntektskilderinnhold } from './Inntektskilderinnhold';
 import { Arbeidsgiver, Arbeidsgiverinntekt, Refusjon, VilkarsgrunnlagSpleis } from '@io/graphql';
-import { getInntekt } from '@state/selectors/person';
 import { useArbeidsgiver } from '@state/arbeidsgiver';
 import { useActivePeriod } from '@state/periode';
+import { getInntekt } from '@state/selectors/person';
 import { isBeregnetPeriode } from '@utils/typeguards';
+
+import { InntektsgrunnlagTable } from './InntektsgrunnlagTable';
+import { Inntektskilderinnhold } from './Inntektskilderinnhold';
 
 const Container = styled.div`
     display: flex;
@@ -87,7 +88,6 @@ export const SykepengegrunnlagFraSpleis = ({
                 arbeidsgivernavn={aktivArbeidsgiver.navn}
                 bransjer={aktivArbeidsgiver.bransjer}
                 arbeidsforhold={aktivArbeidsgiver.arbeidsforhold}
-                skjæringstidspunkt={skjæringstidspunkt}
                 refusjon={skalViseRefusjon ? refusjon : null}
             />
         </Container>

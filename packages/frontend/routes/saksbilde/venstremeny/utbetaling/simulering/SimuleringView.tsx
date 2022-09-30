@@ -1,4 +1,6 @@
+import classNames from 'classnames';
 import React from 'react';
+
 import { BodyShort, Heading } from '@navikt/ds-react';
 
 import { AnonymizableContainer } from '@components/anonymizable/AnonymizableContainer';
@@ -8,7 +10,6 @@ import { somPenger } from '@utils/locale';
 import { SimuleringsperiodeView } from './SimuleringsperiodeView';
 
 import styles from './SimuleringView.module.css';
-import classNames from 'classnames';
 
 interface SimuleringValueProps {
     label: string;

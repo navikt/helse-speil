@@ -1,9 +1,8 @@
-import { useMemo } from 'react';
 import dayjs from 'dayjs';
-
-import { ISO_DATOFORMAT } from '@utils/date';
+import { useMemo } from 'react';
 
 import type { Endring, Refusjon, Refusjonsperiode } from '@io/graphql';
+import { ISO_DATOFORMAT } from '@utils/date';
 
 const descendingEndring = (a: Endring, b: Endring): number => new Date(b.dato).getTime() - new Date(a.dato).getTime();
 

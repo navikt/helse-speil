@@ -1,25 +1,25 @@
 import React from 'react';
 
+import { Tooltip } from '@navikt/ds-react';
+
 import { Kilde } from '@components/Kilde';
-import { Clipboard } from '@components/clipboard';
-import { AnonymizableText } from '@components/anonymizable/AnonymizableText';
-import { AnonymizableContainer } from '@components/anonymizable/AnonymizableContainer';
 import { AnonymizableTextWithEllipsis } from '@components/TextWithEllipsis';
+import { AnonymizableContainer } from '@components/anonymizable/AnonymizableContainer';
+import { AnonymizableText } from '@components/anonymizable/AnonymizableText';
+import { Clipboard } from '@components/clipboard';
 import type { Arbeidsforhold, Arbeidsgiverinntekt, Refusjon } from '@io/graphql';
 
 import { ArbeidsforholdView } from '../ArbeidsforholdView';
-import { Refusjonsoversikt } from './refusjon/Refusjonsoversikt';
 import { Inntekt } from './inntekt/Inntekt';
+import { Refusjonsoversikt } from './refusjon/Refusjonsoversikt';
 
 import styles from './Inntektskilderinnhold.module.css';
-import { Tooltip } from '@navikt/ds-react';
 
 interface InntektskilderinnholdProps {
     inntekt: Arbeidsgiverinntekt;
     arbeidsgivernavn: string;
     bransjer: string[];
     arbeidsforhold: Arbeidsforhold[];
-    skjæringstidspunkt: DateString;
     refusjon?: Maybe<Refusjon>;
 }
 
@@ -28,7 +28,6 @@ export const Inntektskilderinnhold = ({
     arbeidsgivernavn,
     bransjer,
     arbeidsforhold,
-    skjæringstidspunkt,
     refusjon,
 }: InntektskilderinnholdProps) => {
     return (

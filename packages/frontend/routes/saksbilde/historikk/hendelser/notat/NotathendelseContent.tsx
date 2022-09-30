@@ -1,13 +1,16 @@
 import React, { Dispatch } from 'react';
+
+import { LinkButton } from '@components/LinkButton';
+import { leggTilKommentar } from '@io/graphql/leggTilKommentar';
 import { useInnloggetSaksbehandler } from '@state/authentication';
 import { useRefreshNotater } from '@state/notater';
 import { useRefetchPerson } from '@state/person';
-import { leggTilKommentar } from '@io/graphql/leggTilKommentar';
-import styles from './Notathendelse.module.css';
+
 import { Kommentarer } from './Kommentarer';
 import { NotatForm } from './NotatForm';
-import { LinkButton } from '@components/LinkButton';
 import { Action, State } from './types';
+
+import styles from './Notathendelse.module.css';
 
 type NotatHendelseContentProps = {
     kommentarer: Array<Kommentar>;

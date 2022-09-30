@@ -1,10 +1,10 @@
 import dayjs from 'dayjs';
+import 'dayjs/locale/nb';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
 import isSameOrAfter from 'dayjs/plugin/isSameOrAfter';
 import isSameOrBefore from 'dayjs/plugin/isSameOrBefore';
 import minMax from 'dayjs/plugin/minMax';
 import relativeTime from 'dayjs/plugin/relativeTime';
-import 'dayjs/locale/nb';
 
 dayjs.extend(relativeTime);
 dayjs.extend(minMax);

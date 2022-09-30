@@ -1,9 +1,10 @@
 import React from 'react';
 
+import { Tooltip } from '@navikt/ds-react';
+
 import { TextWithEllipsis } from '@components/TextWithEllipsis';
 
 import { CellContent } from './CellContent';
-import { Tooltip } from '@navikt/ds-react';
 
 interface TildeltProps {
     name: string;

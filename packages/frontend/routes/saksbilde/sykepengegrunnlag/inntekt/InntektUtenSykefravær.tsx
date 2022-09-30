@@ -1,24 +1,24 @@
-import React, { useState } from 'react';
+import { BegrunnelseForOverstyring } from '../overstyring.types';
 import classNames from 'classnames';
+import React, { useState } from 'react';
 
+import { Bold } from '@components/Bold';
+import { Flex } from '@components/Flex';
+import { Kilde } from '@components/Kilde';
 import { Inntektskilde, Maybe, OmregnetArsinntekt, Periodetilstand, Person } from '@io/graphql';
+import { useEndringerForPeriode } from '@state/arbeidsgiver';
 import { useActivePeriod } from '@state/periode';
 import { useCurrentPerson } from '@state/person';
-import { useEndringerForPeriode } from '@state/arbeidsgiver';
-import { isBeregnetPeriode, isGhostPeriode } from '@utils/typeguards';
 import { kildeForkortelse } from '@utils/inntektskilde';
-import { Flex } from '@components/Flex';
-import { Bold } from '@components/Bold';
-import { Kilde } from '@components/Kilde';
+import { isBeregnetPeriode, isGhostPeriode } from '@utils/typeguards';
 
-import { ReadOnlyInntekt } from './ReadOnlyInntekt';
-import { EndringsloggButton } from './EndringsloggButton';
 import { OverstyrArbeidsforholdUtenSykdom } from '../OverstyrArbeidsforholdUtenSykdom';
+import { EditableInntekt } from './EditableInntekt';
+import { EndringsloggButton } from './EndringsloggButton';
+import { ReadOnlyInntekt } from './ReadOnlyInntekt';
+import { RedigerGhostInntekt } from './RedigerGhostInntekt';
 
 import styles from './Inntekt.module.css';
-import { EditableInntekt } from './EditableInntekt';
-import { RedigerGhostInntekt } from './RedigerGhostInntekt';
-import { BegrunnelseForOverstyring } from '../overstyring.types';
 
 const maybePeriodeTilGodkjenning = (person: Person, skjæringstidspunkt: DateString): Maybe<BeregnetPeriode> => {
     return (
@@ -28,7 +28,7 @@ const maybePeriodeTilGodkjenning = (person: Person, skjæringstidspunkt: DateStr
             .find(
                 (it) =>
                     it.periodetilstand === Periodetilstand.TilGodkjenning &&
-                    it.skjaeringstidspunkt === skjæringstidspunkt,
+                    it.skjaeringstidspunkt === skjæringstidspunkt
             ) ?? null
     );
 };
@@ -54,7 +54,7 @@ const harIngenUtbetaltePerioderFor = (person: Person, skjæringstidspunkt: DateS
                     Periodetilstand.VenterPaEnAnnenPeriode,
                     Periodetilstand.ForberederGodkjenning,
                     Periodetilstand.ManglerInformasjon,
-                ].includes(it.periodetilstand),
+                ].includes(it.periodetilstand)
             ) ?? false
     );
 };

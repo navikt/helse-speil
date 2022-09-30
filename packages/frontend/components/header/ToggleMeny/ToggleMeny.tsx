@@ -1,8 +1,9 @@
 import React from 'react';
-import { useToggleKanFrigiOppgaver, useToggleReadonly, useTotrinnsvurdering } from '@state/toggles';
+
 import { Checkbox, CheckboxGroup } from '@navikt/ds-react';
 
 import { Modal } from '@components/Modal';
+import { useToggleKanFrigiOppgaver, useToggleReadonly, useTotrinnsvurdering } from '@state/toggles';
 
 import styles from './ToggleMeny.module.css';
 

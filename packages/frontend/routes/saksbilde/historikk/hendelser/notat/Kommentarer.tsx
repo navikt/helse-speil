@@ -1,15 +1,18 @@
-import React, { useState } from 'react';
 import classNames from 'classnames';
+import React, { useState } from 'react';
+
 import { BodyShort, ErrorMessage } from '@navikt/ds-react';
+
 import { Kommentar } from '@io/graphql';
 import { feilregistrerKommentar } from '@io/graphql/feilregistrerKommentar';
+import { useInnloggetSaksbehandler } from '@state/authentication';
 import { useRefreshNotater } from '@state/notater';
 import { useRefetchPerson } from '@state/person';
 
-import styles from './Kommentarer.module.css';
-import { useInnloggetSaksbehandler } from '@state/authentication';
-import { HendelseDropdownMenu } from './HendelseDropdownMenu';
 import { HendelseDate } from '../HendelseDate';
+import { HendelseDropdownMenu } from './HendelseDropdownMenu';
+
+import styles from './Kommentarer.module.css';
 
 interface KommentarerProps {
     kommentarer: Array<Kommentar>;
@@ -51,7 +54,7 @@ export const Kommentarer: React.FC<KommentarerProps> = ({ kommentarer, saksbehan
                     <div key={it.id} className={styles.Kommentar}>
                         <pre
                             className={classNames(
-                                typeof it.feilregistrert_tidspunkt === 'string' && styles.Feilregistrert,
+                                typeof it.feilregistrert_tidspunkt === 'string' && styles.Feilregistrert
                             )}
                         >
                             {it.tekst} {typeof it.feilregistrert_tidspunkt === 'string' && '(feilregistert)'}

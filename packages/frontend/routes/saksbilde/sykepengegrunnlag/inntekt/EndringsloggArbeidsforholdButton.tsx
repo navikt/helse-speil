@@ -1,4 +1,5 @@
 import React from 'react';
+
 import { Arbeidsforholdoverstyring } from '@io/graphql';
 
 interface EndringsloggArbeidsforholdButtonProps {

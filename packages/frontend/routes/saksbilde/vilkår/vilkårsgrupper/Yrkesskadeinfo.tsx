@@ -1,3 +1,4 @@
+import { Paragraf, Tittel } from '../vilkårstitler';
 import styled from '@emotion/styled';
 import React from 'react';
 
@@ -6,8 +7,6 @@ import { BodyShort } from '@navikt/ds-react';
 
 import { Flex } from '@components/Flex';
 import { LovdataLenke } from '@components/LovdataLenke';
-
-import { Paragraf, Tittel } from '../vilkårstitler';
 
 const Container = styled.div`
     display: grid;

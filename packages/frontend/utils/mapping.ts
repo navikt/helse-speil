@@ -2,14 +2,14 @@ import {
     Adressebeskyttelse,
     BeregnetPeriode,
     GhostPeriode,
+    Personinfo as GraphQLPersoninfo,
     Kjonn,
     Periode,
     Periodetilstand,
-    Personinfo as GraphQLPersoninfo,
     Utbetalingtype,
 } from '@io/graphql';
-import { isBeregnetPeriode, isGhostPeriode, isInfotrygdPeriod, isUberegnetPeriode } from '@utils/typeguards';
 import { ISO_DATOFORMAT } from '@utils/date';
+import { isBeregnetPeriode, isGhostPeriode, isInfotrygdPeriod, isUberegnetPeriode } from '@utils/typeguards';
 
 const hasBeenAssessedAutomatically = (period: BeregnetPeriode): boolean =>
     period.utbetaling.vurdering?.automatisk ?? false;

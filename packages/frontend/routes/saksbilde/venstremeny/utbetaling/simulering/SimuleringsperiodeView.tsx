@@ -3,8 +3,8 @@ import React from 'react';
 import { Simuleringsperiode } from '@io/graphql';
 import { getFormattedDateString } from '@utils/date';
 
-import { SimuleringsutbetalingView } from './SimuleringsutbetalingView';
 import { SimuleringsperiodeValue } from './SimuleringsperiodeValue';
+import { SimuleringsutbetalingView } from './SimuleringsutbetalingView';
 
 import styles from './SimuleringsperiodeView.module.css';
 

@@ -1,5 +1,5 @@
-import React, { ReactNode, useRef } from 'react';
 import classNames from 'classnames';
+import React, { ReactNode, useRef } from 'react';
 
 import { useSetActivePeriod } from '@state/periode';
 import { getPeriodState } from '@utils/mapping';
@@ -7,9 +7,9 @@ import { isBeregnetPeriode, isGhostPeriode, isInfotrygdPeriod, isUberegnetPeriod
 
 import { InfoPin } from './InfoPin';
 import { PeriodPopover } from './PeriodPopover';
-import { BlankIcon, CheckIcon, CrossIcon, TaskIcon, WaitingIcon } from './icons';
-import { usePopoverAnchor } from './hooks/usePopoverAnchor';
 import { useIsWiderThan } from './hooks/useIsWiderThan';
+import { usePopoverAnchor } from './hooks/usePopoverAnchor';
+import { BlankIcon, CheckIcon, CrossIcon, TaskIcon, WaitingIcon } from './icons';
 
 import styles from './Pølse.module.css';
 
@@ -90,7 +90,7 @@ const getClassNames = (period: DatePeriod, notCurrent?: boolean, isActive?: bool
         isActive && styles.active,
         notCurrent && styles.old,
         isInfotrygdPeriod(period) && styles.legacy,
-        isGhostPeriode(period) && styles.blank,
+        isGhostPeriode(period) && styles.blank
     );
 };
 

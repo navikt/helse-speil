@@ -1,6 +1,7 @@
-import React, { Dispatch, SetStateAction, useMemo } from 'react';
-import dayjs from 'dayjs';
 import classNames from 'classnames';
+import dayjs from 'dayjs';
+import React, { Dispatch, SetStateAction, useMemo } from 'react';
+
 import { Checkbox } from '@navikt/ds-react';
 
 import { overstyrPermisjonsdagerEnabled } from '@utils/featureToggles';

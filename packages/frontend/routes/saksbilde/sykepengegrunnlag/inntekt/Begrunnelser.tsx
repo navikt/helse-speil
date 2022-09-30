@@ -1,9 +1,9 @@
+import { BegrunnelseForOverstyring } from '../overstyring.types';
 import styled from '@emotion/styled';
 import React from 'react';
 import { useFormContext } from 'react-hook-form';
 
 import { Radio, RadioGroup } from '@navikt/ds-react';
-import { BegrunnelseForOverstyring } from '../overstyring.types';
 
 const BegrunnelseFieldset = styled(RadioGroup)`
     > .navds-radio {

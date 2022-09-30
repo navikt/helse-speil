@@ -1,21 +1,22 @@
-import React, { useEffect, useState } from 'react';
 import classNames from 'classnames';
+import React, { useEffect, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
+
 import { Unlocked } from '@navikt/ds-icons';
 import { BodyShort } from '@navikt/ds-react';
 
+import { Bold } from '@components/Bold';
+import { OverstyringTimeoutModal } from '@components/OverstyringTimeoutModal';
 import { useMap } from '@hooks/useMap';
 import { Utbetaling, Utbetalingstatus } from '@io/graphql';
-import { OverstyringTimeoutModal } from '@components/OverstyringTimeoutModal';
-import { Bold } from '@components/Bold';
 
 import { EndringForm } from './utbetalingstabell/EndringForm';
+import { MarkerAlleDagerCheckbox } from './utbetalingstabell/MarkerAlleDagerCheckbox';
 import { OverstyringForm } from './utbetalingstabell/OverstyringForm';
+import { RadmarkeringCheckbox } from './utbetalingstabell/RadmarkeringCheckbox';
+import { ToggleOverstyringKnapp, UtbetalingHeader } from './utbetalingstabell/UtbetalingHeader';
 import { Utbetalingstabell } from './utbetalingstabell/Utbetalingstabell';
 import { usePostOverstyring } from './utbetalingstabell/usePostOverstyring';
-import { RadmarkeringCheckbox } from './utbetalingstabell/RadmarkeringCheckbox';
-import { MarkerAlleDagerCheckbox } from './utbetalingstabell/MarkerAlleDagerCheckbox';
-import { ToggleOverstyringKnapp, UtbetalingHeader } from './utbetalingstabell/UtbetalingHeader';
 
 import styles from './OverstyrbarUtbetaling.module.css';
 
@@ -63,7 +64,7 @@ export const OverstyrbarUtbetaling: React.FC<OverstyrbarUtbetalingProps> = ({
             Array.from(dager.values()),
             Array.from(overstyrteDager.values()),
             form.getValues('begrunnelse'),
-            () => setOverstyrer(!overstyrer),
+            () => setOverstyrer(!overstyrer)
         );
     };
 
@@ -86,7 +87,7 @@ export const OverstyrbarUtbetaling: React.FC<OverstyrbarUtbetalingProps> = ({
                 }
                 return map;
             },
-            new Map(overstyrteDager),
+            new Map(overstyrteDager)
         );
         setOverstyrteDager(newOverstyrteDager);
         setMarkerteDager(new Map());

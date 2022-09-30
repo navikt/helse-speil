@@ -1,15 +1,15 @@
 import React, { FormEvent, useRef, useState } from 'react';
 import { useHistory } from 'react-router-dom';
+
 import { Search } from '@navikt/ds-react';
 
-import { useFetchPerson } from '@state/person';
-import { useToggleEasterEgg } from '@state/easterEgg';
-import { useAddVarsel, useRemoveVarsel } from '@state/varsler';
-import { erGyldigPersonId } from '@hooks/useRefreshPersonVedUrlEndring';
-import { useLoadingToast } from '@hooks/useLoadingToast';
-import { SpeilError } from '@utils/error';
-
 import styles from '@components/header/Header.module.css';
+import { useLoadingToast } from '@hooks/useLoadingToast';
+import { erGyldigPersonId } from '@hooks/useRefreshPersonVedUrlEndring';
+import { useToggleEasterEgg } from '@state/easterEgg';
+import { useFetchPerson } from '@state/person';
+import { useAddVarsel, useRemoveVarsel } from '@state/varsler';
+import { SpeilError } from '@utils/error';
 
 export const Personsøk: React.FC = () => {
     const fetchPerson = useFetchPerson();

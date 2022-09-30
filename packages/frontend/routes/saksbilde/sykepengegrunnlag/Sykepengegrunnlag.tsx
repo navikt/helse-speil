@@ -1,11 +1,12 @@
 import React from 'react';
+
 import { Alert } from '@navikt/ds-react';
 
-import { BeregnetPeriode } from '@io/graphql';
 import { ErrorBoundary } from '@components/ErrorBoundary';
+import { BeregnetPeriode } from '@io/graphql';
+import { useCurrentArbeidsgiver, useVurderingForSkjæringstidspunkt } from '@state/arbeidsgiver';
 import { useActivePeriod } from '@state/periode';
 import { useCurrentPerson, useVilkårsgrunnlag } from '@state/person';
-import { useCurrentArbeidsgiver, useVurderingForSkjæringstidspunkt } from '@state/arbeidsgiver';
 import {
     isBeregnetPeriode,
     isGhostPeriode,
@@ -22,7 +23,7 @@ const SykepengegrunnlagContainer = () => {
     const activePeriod = useActivePeriod();
     const vilkårsgrunnlag = useVilkårsgrunnlag(
         (activePeriod as BeregnetPeriode).vilkarsgrunnlaghistorikkId,
-        (activePeriod as BeregnetPeriode).skjaeringstidspunkt,
+        (activePeriod as BeregnetPeriode).skjaeringstidspunkt
     );
     const vurdering = useVurderingForSkjæringstidspunkt((activePeriod as BeregnetPeriode).skjaeringstidspunkt);
     const arbeidsgiver = useCurrentArbeidsgiver();
@@ -55,7 +56,6 @@ const SykepengegrunnlagContainer = () => {
                     arbeidsgivernavn={arbeidsgiver.navn}
                     bransjer={arbeidsgiver.bransjer}
                     arbeidsforhold={arbeidsgiver.arbeidsforhold}
-                    skjæringstidspunkt={activePeriod.skjaeringstidspunkt}
                 />
             );
         }

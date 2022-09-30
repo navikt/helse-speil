@@ -1,8 +1,9 @@
+import React from 'react';
+import { FormProvider, useForm } from 'react-hook-form';
+
 import '@testing-library/jest-dom/extend-expect';
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import React from 'react';
-import { FormProvider, useForm } from 'react-hook-form';
 
 import { OverstyringForm } from './OverstyringForm';
 
@@ -30,7 +31,7 @@ describe('OverstyringForm', () => {
             <OverstyringForm overstyrteDager={overstyrteDager} toggleOverstyring={() => null} onSubmit={() => null} />,
             {
                 wrapper: FormWrapper,
-            },
+            }
         );
 
         expect(screen.getAllByRole('button')[0]).not.toBeDisabled();

@@ -1,7 +1,7 @@
 import { atom, selector, useRecoilValue, useSetRecoilState } from 'recoil';
 
-import { SpeilError } from '@utils/error';
 import { personState } from '@state/person';
+import { SpeilError } from '@utils/error';
 
 const varslerState = atom<Array<SpeilError>>({
     key: 'varslerState',

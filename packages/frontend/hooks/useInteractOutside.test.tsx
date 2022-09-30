@@ -1,8 +1,9 @@
+import React, { useRef, useState } from 'react';
+import { act } from 'react-dom/test-utils';
+
 import '@testing-library/jest-dom/extend-expect';
 import { cleanup, render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import React, { useRef, useState } from 'react';
-import { act } from 'react-dom/test-utils';
 
 import { useInteractOutside } from './useInteractOutside';
 

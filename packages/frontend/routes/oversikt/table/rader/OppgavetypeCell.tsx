@@ -1,10 +1,12 @@
 import React from 'react';
+
 import { BodyShort } from '@navikt/ds-react';
+
 import { Oppgaveetikett } from '@components/Oppgaveetikett';
 import { Oppgavetype, Periodetype } from '@io/graphql';
 
-import { CellContent } from './CellContent';
 import { Cell } from '../Cell';
+import { CellContent } from './CellContent';
 
 import styles from './OppgavetypeCell.module.css';
 

@@ -1,8 +1,8 @@
-import React from 'react';
 import classNames from 'classnames';
+import React from 'react';
 
-import { isBeregnetPeriode } from '@utils/typeguards';
 import { Sykdomsdagtype, Utbetalingsdagtype } from '@io/graphql';
+import { isBeregnetPeriode } from '@utils/typeguards';
 
 import styles from './InfoPin.module.css';
 
@@ -12,7 +12,7 @@ const shouldShowInfoPin = (period: DatePeriod): boolean => {
     return period.tidslinje.some(
         (dag) =>
             [Utbetalingsdagtype.Arbeidsgiverperiodedag, Utbetalingsdagtype.Feriedag].includes(dag.utbetalingsdagtype) ||
-            [Sykdomsdagtype.Permisjonsdag].includes(dag.sykdomsdagtype),
+            [Sykdomsdagtype.Permisjonsdag].includes(dag.sykdomsdagtype)
     );
 };
 

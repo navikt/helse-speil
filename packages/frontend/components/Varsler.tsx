@@ -1,7 +1,8 @@
 import React from 'react';
 
-import { useVarsler } from '@state/varsler';
 import { Alert } from '@navikt/ds-react';
+
+import { useVarsler } from '@state/varsler';
 
 import styles from './Varsler.module.css';
 

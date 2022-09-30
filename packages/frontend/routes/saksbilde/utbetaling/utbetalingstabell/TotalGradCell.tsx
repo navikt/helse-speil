@@ -2,8 +2,8 @@ import React from 'react';
 
 import { Endringstrekant } from '@components/Endringstrekant';
 
-import { Cell } from './Cell';
 import { CellContent } from '../../table/CellContent';
+import { Cell } from './Cell';
 
 const dagtypeIsValid = (type: Utbetalingstabelldagtype): boolean =>
     ['Helg', 'Arbeid', 'Ferie', 'Permisjon'].every((it) => it !== type);

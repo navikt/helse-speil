@@ -1,10 +1,11 @@
 import React, { ReactNode } from 'react';
-import { Alert, Loader } from '@navikt/ds-react';
 import { Route, Switch, useRouteMatch } from 'react-router-dom';
 
+import { Alert, Loader } from '@navikt/ds-react';
+
+import { Dag, Sykdomsdagtype, UberegnetPeriode } from '@io/graphql';
 import { isNotReady } from '@state/periode';
 import { onLazyLoadFail } from '@utils/error';
-import { Dag, Sykdomsdagtype, UberegnetPeriode } from '@io/graphql';
 
 import { Venstremeny } from '../venstremeny/Venstremeny';
 

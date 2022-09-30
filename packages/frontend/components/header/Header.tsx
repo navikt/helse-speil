@@ -1,14 +1,15 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+
 import { Header as InternalHeader } from '@navikt/ds-react-internal';
 
-import { graphqlplayground, toggleMeny } from '@utils/featureToggles';
 import { SystemMenu } from '@components/SystemMenu';
-import { Personsøk } from '@components/header/Personsøk';
 import { UserMenu } from '@components/UserMenu';
+import { Personsøk } from '@components/header/Personsøk';
+import { graphqlplayground, toggleMeny } from '@utils/featureToggles';
 
-import { ToggleMenyButton } from './ToggleMeny/ToggleMenyButton';
 import { EasterEgg } from '../../EasterEgg';
+import { ToggleMenyButton } from './ToggleMeny/ToggleMenyButton';
 
 import styles from './Header.module.css';
 

@@ -1,5 +1,5 @@
-import React from 'react';
 import dayjs from 'dayjs';
+import React from 'react';
 
 import {
     Arbeidsgiver,
@@ -90,7 +90,7 @@ export const getPeriodehistorikk = (periode: BeregnetPeriode): Array<Historikkhe
 
 const getVurderingstidsstempelForTilsvarendePeriodeIFørsteGenerasjon = (
     period: BeregnetPeriode,
-    arbeidsgiver: Arbeidsgiver,
+    arbeidsgiver: Arbeidsgiver
 ): string | null => {
     return (
         arbeidsgiver.generasjoner[arbeidsgiver.generasjoner.length - 1].perioder
@@ -116,7 +116,7 @@ export const getDagoverstyringer = (period: BeregnetPeriode, arbeidsgiver: Arbei
 
 const periodeErAttestert = (periode: BeregnetPeriode): boolean => {
     return periode.periodehistorikk.some(
-        (historikkelement) => historikkelement.type === PeriodehistorikkType.TotrinnsvurderingAttestert,
+        (historikkelement) => historikkelement.type === PeriodehistorikkType.TotrinnsvurderingAttestert
     );
 };
 
@@ -140,7 +140,7 @@ export const getUtbetalingshendelse = (periode: BeregnetPeriode): Utbetalinghend
 
 const getOpprinneligVurderingForFørstePeriodeISkjæringstidspunkt = (
     period: BeregnetPeriode,
-    arbeidsgiver: Arbeidsgiver,
+    arbeidsgiver: Arbeidsgiver
 ): Vurdering | null => {
     const førsteGenerasjon = arbeidsgiver.generasjoner[arbeidsgiver.generasjoner.length - 1];
     const førsteVurdertePeriodeForSkjæringstidspunktet = førsteGenerasjon.perioder
@@ -153,7 +153,7 @@ const getOpprinneligVurderingForFørstePeriodeISkjæringstidspunkt = (
 
 export const getInntektoverstyringer = (
     period: BeregnetPeriode,
-    arbeidsgiver: Arbeidsgiver,
+    arbeidsgiver: Arbeidsgiver
 ): Array<InntektoverstyringhendelseObject> => {
     const vurdering = getOpprinneligVurderingForFørstePeriodeISkjæringstidspunkt(period, arbeidsgiver);
 
@@ -170,7 +170,7 @@ export const getInntektoverstyringer = (
 
 export const getArbeidsforholdoverstyringhendelser = (
     period: BeregnetPeriode | GhostPeriode,
-    arbeidsgiver: Arbeidsgiver,
+    arbeidsgiver: Arbeidsgiver
 ): Array<ArbeidsforholdoverstyringhendelseObject> => {
     return arbeidsgiver.overstyringer
         .filter(isArbeidsforholdoverstyring)

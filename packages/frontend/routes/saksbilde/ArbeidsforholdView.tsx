@@ -3,10 +3,10 @@ import dayjs from 'dayjs';
 import React from 'react';
 
 import { TextWithEllipsis } from '@components/TextWithEllipsis';
-import { AnonymizableText } from '@components/anonymizable/AnonymizableText';
 import { AnonymizableContainer } from '@components/anonymizable/AnonymizableContainer';
-import { NORSK_DATOFORMAT } from '@utils/date';
+import { AnonymizableText } from '@components/anonymizable/AnonymizableText';
 import { Maybe } from '@io/graphql';
+import { NORSK_DATOFORMAT } from '@utils/date';
 
 const Høyrestilt = styled(AnonymizableText)`
     text-align: right;

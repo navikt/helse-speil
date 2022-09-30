@@ -1,12 +1,12 @@
+import utdatert_wiki from '../../../utdatert_wiki.json';
+import wiki from '../../../wiki.json';
 import React from 'react';
+
 import { Alert, BodyShort } from '@navikt/ds-react';
 
 import { EkspanderbartVarsel } from '@components/EkspanderbartVarsel';
 
 import { Varselseksjon } from './Varselseksjon';
-
-import utdatert_wiki from '../../../utdatert_wiki.json';
-import wiki from '../../../wiki.json';
 
 import styles from './Saksbildevarsler.module.css';
 

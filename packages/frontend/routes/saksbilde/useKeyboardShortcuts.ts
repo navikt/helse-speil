@@ -1,8 +1,8 @@
 import { copyString } from '@components/clipboard/util';
 import { Key, useKeyboard } from '@hooks/useKeyboard';
 import { useNavigation } from '@hooks/useNavigation';
-import { useAddToast } from '@state/toasts';
 import { usePersonLoadable } from '@state/person';
+import { useAddToast } from '@state/toasts';
 import { isPerson } from '@utils/typeguards';
 
 const useCurrentFødselsnummer = (): string | null => {

@@ -1,23 +1,24 @@
-import React from 'react';
+import { DødsdatoTag } from './DødsdatoTag';
+import { Fødselsnummer } from './Fødselsnummer';
 import classNames from 'classnames';
+import React from 'react';
 import { Link } from 'react-router-dom';
+
 import { BodyShort } from '@navikt/ds-react';
 
-import { Clipboard } from '@components/clipboard';
 import { ErrorBoundary } from '@components/ErrorBoundary';
 import { LoadingShimmer } from '@components/LoadingShimmer';
 import { AnonymizableText } from '@components/anonymizable/AnonymizableText';
+import { Clipboard } from '@components/clipboard';
 import { Enhet, Kjonn, Maybe, Personinfo } from '@io/graphql';
-import { utbetalingsoversikt } from '@utils/featureToggles';
-import { useCurrentPerson, useIsFetchingPerson } from '@state/person';
 import { useIsAnonymous } from '@state/anonymization';
+import { useCurrentPerson, useIsFetchingPerson } from '@state/person';
+import { utbetalingsoversikt } from '@utils/featureToggles';
 
 import { AdressebeskyttelseTag } from './AdressebeskyttelseTag';
-import { ReservasjonTag } from './ReservasjonTag';
-import { Fødselsnummer } from './Fødselsnummer';
-import { DødsdatoTag } from './DødsdatoTag';
-import { NavnOgAlder } from './NavnOgAlder';
 import { GenderIcon } from './GenderIcon';
+import { NavnOgAlder } from './NavnOgAlder';
+import { ReservasjonTag } from './ReservasjonTag';
 
 import styles from './PersonHeader.module.css';
 

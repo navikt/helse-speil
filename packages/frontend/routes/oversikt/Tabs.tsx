@@ -1,11 +1,12 @@
-import React from 'react';
 import classNames from 'classnames';
+import React from 'react';
 import { atom, useRecoilState, useRecoilValue } from 'recoil';
+
 import { DataFilled } from '@navikt/ds-icons';
 
 import { RoundedButton } from '@components/RoundedButton';
-import { sessionStorageEffect } from '@state/effects/sessionStorageEffect';
 import { useInnloggetSaksbehandler } from '@state/authentication';
+import { sessionStorageEffect } from '@state/effects/sessionStorageEffect';
 import { useMineOppgaver, useOppgaver } from '@state/oppgaver';
 
 import { useShowStatistikk, useToggleStatistikk } from './behandlingsstatistikk/state';

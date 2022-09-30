@@ -1,4 +1,10 @@
 import React, { useContext, useState } from 'react';
+
+import { Dropdown } from '@navikt/ds-react-internal';
+
+import { DropdownContext } from '@components/dropdown';
+import { useErBeslutteroppgaveOgHarTilgang } from '@hooks/useErBeslutteroppgaveOgHarTilgang';
+import { useIsReadOnlyOppgave } from '@hooks/useIsReadOnlyOppgave';
 import {
     Arbeidsgiver,
     Arbeidsgiveroppdrag,
@@ -8,14 +14,10 @@ import {
     Utbetaling,
     Utbetalingstatus,
 } from '@io/graphql';
-import { DropdownContext } from '@components/dropdown';
 import { annulleringerEnabled } from '@utils/featureToggles';
 
-import { Annulleringsmodal } from '../annullering/Annulleringsmodal';
 import { useArbeidsgiveroppdrag } from '../../utbetalingshistorikk/state';
-import { useErBeslutteroppgaveOgHarTilgang } from '@hooks/useErBeslutteroppgaveOgHarTilgang';
-import { useIsReadOnlyOppgave } from '@hooks/useIsReadOnlyOppgave';
-import { Dropdown } from '@navikt/ds-react-internal';
+import { Annulleringsmodal } from '../annullering/Annulleringsmodal';
 
 interface AnnullerButtonWithContentProps {
     oppdrag: Arbeidsgiveroppdrag;
@@ -57,7 +59,7 @@ const AnnullerButtonWithContent: React.VFC<AnnullerButtonWithContentProps> = ({
 };
 
 const harArbeidsgiveroppdrag = (
-    oppdrag?: Maybe<Oppdrag>,
+    oppdrag?: Maybe<Oppdrag>
 ): oppdrag is Oppdrag & { arbeidsgiveroppdrag: Arbeidsgiveroppdrag } => {
     return !!oppdrag?.arbeidsgiveroppdrag;
 };
@@ -66,7 +68,7 @@ const kanAnnullere = (
     oppdrag: Maybe<Oppdrag>,
     erBeslutterMedTilgang: boolean,
     erReadonly: boolean,
-    utbetaling: Utbetaling,
+    utbetaling: Utbetaling
 ): boolean => {
     return (
         annulleringerEnabled &&

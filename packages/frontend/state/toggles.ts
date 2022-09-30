@@ -1,6 +1,7 @@
 import { atom, useRecoilState, useRecoilValue } from 'recoil';
-import { harBeslutterrolle, kanFrigiAndresOppgaver } from '@utils/featureToggles';
+
 import { sessionStorageEffect } from '@state/effects/sessionStorageEffect';
+import { harBeslutterrolle, kanFrigiAndresOppgaver } from '@utils/featureToggles';
 
 // Totrinnsvurdering
 type TotrinnsvurderingState = {
@@ -21,7 +22,7 @@ const totrinnsvurderingState = atom<TotrinnsvurderingState>({
 
 export const useTotrinnsvurdering = (): [
     value: TotrinnsvurderingState,
-    toggle: (property: keyof TotrinnsvurderingState) => () => void,
+    toggle: (property: keyof TotrinnsvurderingState) => () => void
 ] => {
     const [totrinnsvurdering, setTotrinnsvurdering] = useRecoilState(totrinnsvurderingState);
 

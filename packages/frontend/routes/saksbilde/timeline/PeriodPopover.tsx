@@ -1,15 +1,16 @@
-import React, { ReactNode } from 'react';
-import dayjs from 'dayjs';
 import classNames from 'classnames';
+import dayjs from 'dayjs';
+import React, { ReactNode } from 'react';
+
 import type { PopoverProps } from '@navikt/ds-react';
 import { BodyShort, Popover } from '@navikt/ds-react';
 
-import { somPenger } from '@utils/locale';
+import { ErrorBoundary } from '@components/ErrorBoundary';
+import { BeregnetPeriode, NotatType, Utbetalingsdagtype } from '@io/graphql';
 import { NORSK_DATOFORMAT } from '@utils/date';
+import { somPenger } from '@utils/locale';
 import { getPeriodStateText } from '@utils/mapping';
 import { isBeregnetPeriode, isGhostPeriode, isInfotrygdPeriod } from '@utils/typeguards';
-import { BeregnetPeriode, NotatType, Utbetalingsdagtype } from '@io/graphql';
-import { ErrorBoundary } from '@components/ErrorBoundary';
 
 import styles from './PeriodPopover.module.css';
 
@@ -51,7 +52,7 @@ const getDayTypesRender = (dayType: Utbetalingsdagtype, map: Map<Utbetalingsdagt
     }
     const antallDager = periods.reduce(
         (count, period) => count + dayjs(period.tom).diff(dayjs(period.fom), 'day') + 1,
-        0,
+        0
     );
     return `${antallDager} dager`;
 };

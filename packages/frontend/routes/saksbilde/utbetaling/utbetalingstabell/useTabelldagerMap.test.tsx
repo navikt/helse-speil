@@ -1,9 +1,10 @@
-import React from 'react';
 import dayjs from 'dayjs';
 import isSameOrBefore from 'dayjs/plugin/isSameOrBefore';
-import { renderHook } from '@testing-library/react-hooks';
+import React from 'react';
 
 import { Dag, Dagoverstyring, Dagtype, Kildetype, Sykdomsdagtype, Utbetalingsdagtype } from '@io/graphql';
+import { renderHook } from '@testing-library/react-hooks';
+
 import { antallSykedagerTilOgMedMaksdato, createDagerMap, useTabelldagerMap } from './useTabelldagerMap';
 
 dayjs.extend(isSameOrBefore);
@@ -55,7 +56,7 @@ describe('useTabelldagerMap', () => {
             useTabelldagerMap({
                 tidslinje: dager,
                 gjenståendeDager: 100,
-            }),
+            })
         );
 
         expect(result.current.get('2021-01-01')?.type).toEqual('Syk');
@@ -82,7 +83,7 @@ describe('useTabelldagerMap', () => {
                 tidslinje: dager,
                 overstyringer: overstyringer,
                 gjenståendeDager: 100,
-            }),
+            })
         );
 
         expect(result.current.get('2021-01-01')?.overstyringer).toBeUndefined();

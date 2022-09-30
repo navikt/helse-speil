@@ -1,11 +1,12 @@
 import React from 'react';
+
 import { Alert } from '@navikt/ds-react';
 
 import { ErrorBoundary } from '@components/ErrorBoundary';
 import { Periodetilstand } from '@io/graphql';
+import { useCurrentArbeidsgiver } from '@state/arbeidsgiver';
 import { useActivePeriod } from '@state/periode';
 import { useCurrentPerson } from '@state/person';
-import { useCurrentArbeidsgiver } from '@state/arbeidsgiver';
 import { LazyLoadPendingError, onLazyLoadFail } from '@utils/error';
 import { isBeregnetPeriode, isGhostPeriode, isUberegnetPeriode } from '@utils/typeguards';
 
@@ -43,7 +44,7 @@ const PeriodeViewContainer: React.VFC = () => {
                 );
         }
     } else if (isGhostPeriode(activePeriod)) {
-        return <GhostPeriodeView activePeriod={activePeriod} currentPerson={currentPerson} />;
+        return <GhostPeriodeView activePeriod={activePeriod} />;
     } else if (isUberegnetPeriode(activePeriod)) {
         return <UberegnetPeriodeView activePeriod={activePeriod} />;
     } else {

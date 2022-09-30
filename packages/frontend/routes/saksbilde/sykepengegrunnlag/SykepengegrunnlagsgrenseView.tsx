@@ -2,10 +2,10 @@ import React from 'react';
 
 import { Detail } from '@navikt/ds-react';
 
-import { somPengerUtenDesimaler } from '@utils/locale';
+import { LovdataLenke } from '@components/LovdataLenke';
 import { Sykepengegrunnlagsgrense } from '@io/graphql';
 import { somDato } from '@utils/date';
-import { LovdataLenke } from '@components/LovdataLenke';
+import { somPengerUtenDesimaler } from '@utils/locale';
 
 import styles from './SykepengegrunnlagsgrenseView.module.css';
 
@@ -22,14 +22,14 @@ export const SykepengegrunnlagsgrenseView = ({ sykepengegrunnlagsgrense, omregne
             {omregnetÅrsinntekt > sykepengegrunnlagsgrense.grense && (
                 <Detail className={styles.Detail} size="small">
                     {`Sykepengegrunnlaget er begrenset til 6G: ${somPengerUtenDesimaler(
-                        sykepengegrunnlagsgrense.grense,
+                        sykepengegrunnlagsgrense.grense
                     )}`}
                     <LovdataLenke paragraf="8-10">§ 8-10</LovdataLenke>
                 </Detail>
             )}
             <Detail className={styles.Detail} size="small">
                 {`Grunnbeløp (G) ved skjæringstidspunkt: ${somPengerUtenDesimaler(
-                    sykepengegrunnlagsgrense.grunnbelop,
+                    sykepengegrunnlagsgrense.grunnbelop
                 )}`}
                 <br />({getFormattedDate(sykepengegrunnlagsgrense.virkningstidspunkt)})
             </Detail>

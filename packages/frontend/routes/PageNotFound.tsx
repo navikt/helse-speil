@@ -1,9 +1,9 @@
+import nissemyra from '../assets/nissemyra.svg';
 import styled from '@emotion/styled';
 import React from 'react';
 
-import { BodyShort, Link, Heading } from '@navikt/ds-react';
+import { BodyShort, Heading, Link } from '@navikt/ds-react';
 
-import nissemyra from '../assets/nissemyra.svg';
 import { FlexColumn } from '@components/Flex';
 
 const Container = styled.div`

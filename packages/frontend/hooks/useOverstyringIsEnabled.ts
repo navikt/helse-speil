@@ -1,7 +1,7 @@
-import { useActivePeriod } from '@state/periode';
-import { isBeregnetPeriode } from '@utils/typeguards';
 import { Inntektstype } from '@io/graphql';
+import { useActivePeriod } from '@state/periode';
 import { getPeriodState } from '@utils/mapping';
+import { isBeregnetPeriode } from '@utils/typeguards';
 
 const kunEnArbeidsgiver = (periode: BeregnetPeriode) => periode.inntektstype === Inntektstype.Enarbeidsgiver;
 

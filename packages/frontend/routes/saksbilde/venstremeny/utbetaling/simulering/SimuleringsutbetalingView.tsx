@@ -1,7 +1,7 @@
 import React from 'react';
 
-import { getFormattedDateString } from '@utils/date';
 import { Simuleringsutbetaling } from '@io/graphql';
+import { getFormattedDateString } from '@utils/date';
 
 import { SimuleringsperiodeValue } from './SimuleringsperiodeValue';
 

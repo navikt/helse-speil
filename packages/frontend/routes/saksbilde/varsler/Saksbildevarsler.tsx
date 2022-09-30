@@ -1,7 +1,8 @@
-import React from 'react';
 import dayjs from 'dayjs';
+import React from 'react';
 
 import { Alert, BodyShort } from '@navikt/ds-react';
+
 import { Maybe, Overstyring } from '@io/graphql';
 import { utbetalingTilSykmeldt } from '@utils/featureToggles';
 import { isArbeidsforholdoverstyring, isDagoverstyring, isInntektoverstyring } from '@utils/typeguards';
@@ -89,12 +90,12 @@ const beslutteroppgave = (
     harVurderLovvalgOgMedlemskapVarsel?: boolean,
     endringerEtterNyesteUtbetalingPåPerson?: Maybe<Array<Overstyring>>,
     harDagOverstyringer?: boolean,
-    activePeriodTom?: string,
+    activePeriodTom?: string
 ) => {
     if (erBeslutteroppgave && ['tilGodkjenning', 'revurderes'].includes(periodState)) {
         const overstyringÅrsak = [];
         (endringerEtterNyesteUtbetalingPåPerson?.some(
-            (it) => isDagoverstyring(it) && dayjs(it.dager[0].dato).isSameOrBefore(activePeriodTom),
+            (it) => isDagoverstyring(it) && dayjs(it.dager[0].dato).isSameOrBefore(activePeriodTom)
         ) ||
             harDagOverstyringer) &&
             overstyringÅrsak.push('Overstyring av utbetalingsdager');
@@ -154,7 +155,7 @@ export const Saksbildevarsler = ({
             harVurderLovvalgOgMedlemskapVarsel,
             endringerEtterNyesteUtbetalingPåPerson,
             harDagOverstyringer,
-            activePeriodTom,
+            activePeriodTom
         ),
     ].filter((it) => it) as VarselObject[];
 

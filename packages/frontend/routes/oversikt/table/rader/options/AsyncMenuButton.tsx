@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
 import classNames from 'classnames';
+import React, { useState } from 'react';
 
 import { Loader } from '@navikt/ds-react';
 import { Dropdown } from '@navikt/ds-react-internal';

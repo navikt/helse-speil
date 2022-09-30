@@ -1,23 +1,23 @@
-import React, { useContext, useRef, useState } from 'react';
+import { VenterPåEndringContext } from '../VenterPåEndringContext';
+import { BegrunnelseForOverstyring } from './overstyring.types';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
+import React, { useContext, useRef, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 
 import { Error } from '@navikt/ds-icons';
-import { BodyShort, Button as NavButton, ErrorSummary, Loader } from '@navikt/ds-react';
+import { BodyShort, ErrorSummary, Loader, Button as NavButton } from '@navikt/ds-react';
 
-import { Maybe } from '@io/graphql';
 import { EditButton } from '@components/EditButton';
 import { ErrorMessage } from '@components/ErrorMessage';
-import { Begrunnelser } from './inntekt/Begrunnelser';
 import { Flex, FlexColumn } from '@components/Flex';
 import { ForklaringTextarea } from '@components/ForklaringTextArea';
 import { OverstyringTimeoutModal } from '@components/OverstyringTimeoutModal';
+import { Maybe } from '@io/graphql';
 
-import { VenterPåEndringContext } from '../VenterPåEndringContext';
 import { AngreOverstyrArbeidsforholdUtenSykdom } from './AngreOverstyrArbeidsforholdUtenSykdom';
+import { Begrunnelser } from './inntekt/Begrunnelser';
 import { useGetOverstyrtArbeidsforhold, usePostOverstyrtArbeidsforhold } from './overstyrArbeidsforholdHooks';
-import { BegrunnelseForOverstyring } from './overstyring.types';
 
 const Container = styled.div`
     display: flex;
@@ -209,7 +209,7 @@ const OverstyrArbeidsforholdSkjema = ({
             skjæringstidspunkt,
             true,
             forklaring,
-            begrunnelse,
+            begrunnelse
         );
         onSubmit();
         postOverstyring(overstyrtArbeidsforhold);

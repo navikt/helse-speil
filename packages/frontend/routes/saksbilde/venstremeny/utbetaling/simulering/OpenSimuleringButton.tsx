@@ -1,8 +1,9 @@
-import React from 'react';
 import classNames from 'classnames';
+import React from 'react';
 import { createRoot } from 'react-dom/client';
-import { Simulering, Utbetaling } from '@io/graphql';
+
 import { LinkButton } from '@components/LinkButton';
+import { Simulering, Utbetaling } from '@io/graphql';
 
 import { SimuleringView } from './SimuleringView';
 

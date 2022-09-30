@@ -1,6 +1,6 @@
-import React from 'react';
 import classNames from 'classnames';
 import { motion } from 'framer-motion';
+import React from 'react';
 
 import { Feilikon } from '@components/ikoner/Feilikon';
 import { GrøntSjekkikon } from '@components/ikoner/GrøntSjekkikon';

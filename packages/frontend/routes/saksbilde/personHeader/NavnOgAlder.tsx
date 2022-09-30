@@ -1,8 +1,8 @@
-import React from 'react';
 import dayjs from 'dayjs';
+import React from 'react';
 
-import { Personinfo } from '@io/graphql';
 import { AnonymizableBold } from '@components/anonymizable/AnonymizableBold';
+import { Personinfo } from '@io/graphql';
 import { capitalizeName } from '@utils/locale';
 
 const getFormattedName = ({ etternavn, mellomnavn, fornavn }: Personinfo) => {

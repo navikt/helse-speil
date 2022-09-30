@@ -1,14 +1,14 @@
+import { nanoid } from 'nanoid';
 import React, { ReactNode, useContext, useState } from 'react';
 
 import { Button } from '@navikt/ds-react';
 
-import { postUtbetalingsgodkjenning } from '@io/http';
+import { Key, useKeyboard } from '@hooks/useKeyboard';
 import { AmplitudeContext } from '@io/amplitude';
+import { postUtbetalingsgodkjenning } from '@io/http';
+import { useAddToast } from '@state/toasts';
 
 import { UtbetalingModal } from './UtbetalingModal';
-import { useAddToast } from '@state/toasts';
-import { nanoid } from 'nanoid';
-import { Key, useKeyboard } from '@hooks/useKeyboard';
 
 const useAddUtbetalingstoast = () => {
     const addToast = useAddToast();

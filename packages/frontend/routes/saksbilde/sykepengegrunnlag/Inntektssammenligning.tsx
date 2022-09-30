@@ -6,10 +6,10 @@ import { Bag } from '@navikt/ds-icons';
 import { BodyShort, Tooltip } from '@navikt/ds-react';
 
 import { Kilde } from '@components/Kilde';
-import { Errorikon } from '@components/ikoner/Errorikon';
 import { AnonymizableText } from '@components/anonymizable/AnonymizableText';
-import { useArbeidsgiver, useEndringerForPeriode } from '@state/arbeidsgiver';
+import { Errorikon } from '@components/ikoner/Errorikon';
 import { Inntektskilde, OmregnetArsinntekt, Sammenligningsgrunnlag } from '@io/graphql';
+import { useArbeidsgiver, useEndringerForPeriode } from '@state/arbeidsgiver';
 import { kildeForkortelse } from '@utils/inntektskilde';
 import { somPenger } from '@utils/locale';
 

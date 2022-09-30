@@ -14,7 +14,7 @@ export const useUtbetalingstidsstempelFørsteGenForPeriode = (): string => {
         (it) =>
             it.vedtaksperiodeId === activePeriod.vedtaksperiodeId &&
             isBeregnetPeriode(it) &&
-            it.utbetaling.vurdering?.godkjent,
+            it.utbetaling.vurdering?.godkjent
     )[0];
 
     return isBeregnetPeriode(periode) ? periode.utbetaling.vurdering?.tidsstempel ?? '' : '';

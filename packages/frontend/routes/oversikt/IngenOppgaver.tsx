@@ -1,12 +1,11 @@
+import agurk from '../../assets/ingen-oppgaver-agurk.png';
+import fredagstaco from '../../assets/ingen-oppgaver-fredagstaco.png';
+import brevkasse from '../../assets/ingen-oppgaver.png';
 import styled from '@emotion/styled';
 import dayjs from 'dayjs';
 import React from 'react';
 
 import { Heading } from '@navikt/ds-react';
-
-import agurk from '../../assets/ingen-oppgaver-agurk.png';
-import fredagstaco from '../../assets/ingen-oppgaver-fredagstaco.png';
-import brevkasse from '../../assets/ingen-oppgaver.png';
 
 import { TabType, useAktivTab } from './Tabs';
 

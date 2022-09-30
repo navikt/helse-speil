@@ -1,8 +1,7 @@
+import rawQuery from './feilregistrerKommentar.graphql?raw';
 import { gql, request } from 'graphql-request';
 
 import { baseUrl } from '@io/graphql/common';
-
-import rawQuery from './feilregistrerKommentar.graphql?raw';
 
 const feilregistrerKommentarMutation = gql`
     ${rawQuery}

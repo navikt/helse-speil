@@ -1,11 +1,11 @@
 import React from 'react';
 
-import { SykepengegrunnlagFraSpleis } from './SykepengegrunnlagFraSpleis';
-
-import { getFormattedDateString } from '@utils/date';
 import { AutomatiskVurdering } from '@components/AutomatiskVurdering';
 import { Saksbehandlervurdering } from '@components/Saksbehandlervurdering';
 import { Arbeidsgiver, Maybe, Refusjon, VilkarsgrunnlagSpleis, Vurdering } from '@io/graphql';
+import { getFormattedDateString } from '@utils/date';
+
+import { SykepengegrunnlagFraSpleis } from './SykepengegrunnlagFraSpleis';
 
 interface BehandletSykepengegrunnlagProps {
     vurdering: Vurdering;

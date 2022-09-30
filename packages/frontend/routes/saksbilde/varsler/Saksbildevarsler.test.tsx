@@ -1,6 +1,7 @@
+import React from 'react';
+
 import '@testing-library/jest-dom/extend-expect';
 import { render, screen } from '@testing-library/react';
-import React from 'react';
 
 import { Saksbildevarsler } from './Saksbildevarsler';
 
@@ -49,8 +50,8 @@ describe('Saksbildevarsler', () => {
         render(<Saksbildevarsler periodState="tilGodkjenning" />);
         expect(
             screen.getByText(
-                `Denne perioden kan ikke utbetales. Det kan skyldes at den allerede er forsøkt utbetalt, men at det er forsinkelser i systemet.`,
-            ),
+                `Denne perioden kan ikke utbetales. Det kan skyldes at den allerede er forsøkt utbetalt, men at det er forsinkelser i systemet.`
+            )
         ).toBeVisible();
     });
     test('viser feilvarsel om vedtaksperioden har en ukjent tilstand', () => {
@@ -66,7 +67,7 @@ describe('Saksbildevarsler', () => {
             <Saksbildevarsler
                 periodState="utbetalt"
                 varsler={['Dette er en aktivitet', 'Dette er også en aktivitet']}
-            />,
+            />
         );
         expect(screen.getByText('Dette er en aktivitet')).toBeVisible();
         expect(screen.getByText('Dette er også en aktivitet')).toBeVisible();

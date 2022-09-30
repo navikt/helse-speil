@@ -1,7 +1,7 @@
 import request from 'request-promise-native';
 
-import { NotatDTO, OidcConfig, OnBehalfOf } from '../types';
 import config from '../config';
+import { NotatDTO, OidcConfig, OnBehalfOf } from '../types';
 
 const spesialistBaseUrl = config.server.spesialistBaseUrl;
 

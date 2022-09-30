@@ -1,4 +1,5 @@
 import { Response, Router } from 'express';
+
 import logger from '../logging';
 import { SpeilRequest } from '../types';
 import { GraphQLClient } from './graphQLClient';

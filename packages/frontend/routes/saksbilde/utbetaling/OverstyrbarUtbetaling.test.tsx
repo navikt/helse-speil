@@ -1,14 +1,14 @@
+import { RecoilWrapper } from '@test-wrappers';
+import { nanoid } from 'nanoid';
 import React from 'react';
-import userEvent from '@testing-library/user-event';
-import { render, screen, waitFor } from '@testing-library/react';
-import '@testing-library/jest-dom/extend-expect';
 
 import { Utbetaling, Utbetalingstatus, Utbetalingtype } from '@io/graphql';
-import { RecoilWrapper } from '@test-wrappers';
+import { getUtbetalingstabellDag } from '@test-data/utbetalingstabell';
+import '@testing-library/jest-dom/extend-expect';
+import { render, screen, waitFor } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 
 import { OverstyrbarUtbetaling } from './OverstyrbarUtbetaling';
-import { getUtbetalingstabellDag } from '@test-data/utbetalingstabell';
-import { nanoid } from 'nanoid';
 
 let postOverstyringArguments: [UtbetalingstabellDag[], string] | [] = [];
 
@@ -60,7 +60,7 @@ describe('OverstyrbarUtbetaling', () => {
                 revurderingIsEnabled={false}
                 overstyrRevurderingIsEnabled={false}
             />,
-            { wrapper: RecoilWrapper },
+            { wrapper: RecoilWrapper }
         );
 
         userEvent.click(screen.getByText('Endre'));

@@ -1,10 +1,11 @@
-import '@testing-library/jest-dom/extend-expect';
-import { render, screen } from '@testing-library/react';
 import React from 'react';
 
-import { MerknaderCell } from './MerknaderCell';
 import { Begrunnelse } from '@io/graphql';
 import { getUtbetalingstabellDag } from '@test-data/utbetalingstabell';
+import '@testing-library/jest-dom/extend-expect';
+import { render, screen } from '@testing-library/react';
+
+import { MerknaderCell } from './MerknaderCell';
 
 describe('MerknaderCell', () => {
     test('rendrer merknad om siste utbetalingsdag', () => {
@@ -14,7 +15,7 @@ describe('MerknaderCell', () => {
 
     test('rendrer merknad om foreldet dag', () => {
         const screen = render(
-            <MerknaderCell dag={getUtbetalingstabellDag({ erForeldet: true })} alderVedSkjæringstidspunkt={30} />,
+            <MerknaderCell dag={getUtbetalingstabellDag({ erForeldet: true })} alderVedSkjæringstidspunkt={30} />
         );
         expect(screen.queryByTestId('Foreldet')).toBeVisible();
     });
@@ -34,7 +35,7 @@ describe('MerknaderCell', () => {
         ];
 
         const screen = render(
-            <MerknaderCell dag={getUtbetalingstabellDag({ begrunnelser })} alderVedSkjæringstidspunkt={30} />,
+            <MerknaderCell dag={getUtbetalingstabellDag({ begrunnelser })} alderVedSkjæringstidspunkt={30} />
         );
 
         expect(screen.getByText('Personen er død')).toBeVisible();
@@ -53,7 +54,7 @@ describe('MerknaderCell', () => {
             <MerknaderCell
                 dag={getUtbetalingstabellDag({ begrunnelser: [Begrunnelse.MinimumInntekt] })}
                 alderVedSkjæringstidspunkt={69}
-            />,
+            />
         );
 
         expect(screen.queryByTestId('Inntekt under krav til minste sykepengegrunnlag')).toBeVisible();
@@ -63,7 +64,7 @@ describe('MerknaderCell', () => {
             <MerknaderCell
                 dag={getUtbetalingstabellDag({ begrunnelser: [Begrunnelse.MinimumInntekt] })}
                 alderVedSkjæringstidspunkt={66}
-            />,
+            />
         );
         expect(screen.queryByTestId('Inntekt under krav til minste sykepengegrunnlag')).toBeVisible();
         expect(screen.queryByText('§ 8-3')).toBeVisible();
@@ -72,7 +73,7 @@ describe('MerknaderCell', () => {
             <MerknaderCell
                 dag={getUtbetalingstabellDag({ begrunnelser: [Begrunnelse.MinimumInntektOver_67] })}
                 alderVedSkjæringstidspunkt={69}
-            />,
+            />
         );
         expect(screen.queryByTestId('Inntekt under krav til minste sykepengegrunnlag')).toBeVisible();
         expect(screen.queryByText('§ 8-51')).toBeVisible();

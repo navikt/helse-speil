@@ -1,5 +1,6 @@
 import React, { ChangeEvent, ReactNode } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
+
 import { Checkbox, Fieldset, Textarea } from '@navikt/ds-react';
 
 import { BeregnetPeriode, Faresignal } from '@io/graphql';

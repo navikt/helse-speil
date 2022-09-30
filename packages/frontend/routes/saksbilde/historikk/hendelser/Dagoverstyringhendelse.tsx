@@ -1,13 +1,15 @@
 import React from 'react';
-import { BodyShort } from '@navikt/ds-react';
+
 import { CaseworkerFilled } from '@navikt/ds-icons';
+import { BodyShort } from '@navikt/ds-react';
+
 import { getFormattedDateString } from '@utils/date';
 
-import { Hendelse } from './Hendelse';
 import { ExpandableHistorikkContent } from './ExpandableHistorikkContent';
+import { Hendelse } from './Hendelse';
+import { HendelseDate } from './HendelseDate';
 
 import styles from './Dagoverstyringhendelse.module.css';
-import { HendelseDate } from './HendelseDate';
 
 type Endring = Pick<OverstyrtDag, 'grad' | 'type' | 'fraGrad' | 'fraType'>;
 

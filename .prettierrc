@@ -2,12 +2,7 @@
     "singleQuote": true,
     "tabWidth": 4,
     "printWidth": 120,
-    "importOrder": [
-        "^@navikt/(.*)$",
-        "^@(.*)/(.*)$",
-        ",^[.][.][a-zA-Z/]+|[.][/][a-zA-Z/]+$",
-        "^(.*)(.module.css)$"
-    ],
+    "importOrder": ["^@navikt/(.*)$", "^(?!@emotion)@(.*)/(.*)$", ",^[.][.][a-zA-Z/]+|[.][/][a-zA-Z/]+$", "^(.*)([.]css)$"],
     "importOrderSeparation": true,
     "importOrderSortSpecifiers": true,
     "trailingCommas": "all"

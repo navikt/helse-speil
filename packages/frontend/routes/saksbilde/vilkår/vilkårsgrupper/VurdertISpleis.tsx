@@ -1,13 +1,11 @@
+import { Vilkårdata } from '../../../../mapping/vilkår';
+import { BehandletVarselContent, Vilkårgrid, Vilkårgruppe } from '../Vilkår.styles';
+import { Vilkårsgruppetittel } from '../vilkårstitler';
 import React from 'react';
 
-import { Vilkårdata } from '../../../../mapping/vilkår';
-
-import { getFormattedDateString } from '@utils/date';
 import { AutomatiskVurdering } from '@components/AutomatiskVurdering';
 import { Saksbehandlervurdering } from '@components/Saksbehandlervurdering';
-
-import { Vilkårsgruppetittel } from '../vilkårstitler';
-import { BehandletVarselContent, Vilkårgrid, Vilkårgruppe } from '../Vilkår.styles';
+import { getFormattedDateString } from '@utils/date';
 
 const Vilkår = ({ tittel, paragraf, komponent, type }: Vilkårdata) => (
     <Vilkårgruppe>

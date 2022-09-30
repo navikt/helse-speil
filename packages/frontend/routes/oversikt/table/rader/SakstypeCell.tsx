@@ -1,9 +1,10 @@
 import React from 'react';
+
 import { BodyShort } from '@navikt/ds-react';
 
 import { Flex } from '@components/Flex';
 import { Oppgaveetikett } from '@components/Oppgaveetikett';
-import { Oppgavetype, Periodetype as GraphQLPeriodetype } from '@io/graphql';
+import { Periodetype as GraphQLPeriodetype, Oppgavetype } from '@io/graphql';
 
 import { Cell } from '../Cell';
 import { CellContent } from './CellContent';

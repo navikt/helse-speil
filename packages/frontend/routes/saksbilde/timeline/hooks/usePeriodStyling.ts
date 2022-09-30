@@ -1,5 +1,6 @@
-import { useMemo } from 'react';
 import dayjs, { Dayjs } from 'dayjs';
+import { useMemo } from 'react';
+
 import { Periode, Periodetype } from '@io/graphql';
 
 type PeriodBorderRadius = {
@@ -87,7 +88,7 @@ const periodetype = (period: Periode): Periodetype =>
 export const usePeriodStyling = <T extends DatePeriod>(
     start: Dayjs,
     end: Dayjs,
-    periods: Array<T>,
+    periods: Array<T>
 ): Map<number, PeriodStyling> =>
     useMemo(() => {
         const map = new Map<number, PeriodStyling>();

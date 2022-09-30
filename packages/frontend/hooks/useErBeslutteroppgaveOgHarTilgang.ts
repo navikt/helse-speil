@@ -1,7 +1,7 @@
-import { useActivePeriod } from '@state/periode';
-import { isBeregnetPeriode } from '@utils/typeguards';
-import { useTotrinnsvurderingErAktiv } from '@state/toggles';
 import { useHarBeslutteroppgavetilgang } from '@hooks/useHarBeslutteroppgavetilgang';
+import { useActivePeriod } from '@state/periode';
+import { useTotrinnsvurderingErAktiv } from '@state/toggles';
+import { isBeregnetPeriode } from '@utils/typeguards';
 
 export const useErBeslutteroppgaveOgHarTilgang = (): boolean => {
     const periode = useActivePeriod();

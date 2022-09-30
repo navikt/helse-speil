@@ -2,11 +2,11 @@ import styled from '@emotion/styled';
 import React from 'react';
 
 import { Infotrygdvurdering } from '@components/Infotrygdvurdering';
+import { Arbeidsforhold, Refusjon, VilkarsgrunnlagInfotrygd } from '@io/graphql';
+import { getInntekt } from '@state/selectors/person';
 
 import { Inntektskilderinnhold } from './Inntektskilderinnhold';
 import { SykepengegrunnlagInfotrygd } from './SykepengegrunnlagInfotrygd';
-import { Arbeidsforhold, Refusjon, VilkarsgrunnlagInfotrygd } from '@io/graphql';
-import { getInntekt } from '@state/selectors/person';
 
 const Oversikt = styled.div`
     display: flex;
@@ -25,7 +25,6 @@ interface SykepengegrunnlagFraInfogtrygdProps {
     arbeidsgivernavn: string;
     bransjer: string[];
     arbeidsforhold: Arbeidsforhold[];
-    skjæringstidspunkt: DateString;
 }
 
 export const SykepengegrunnlagFraInfogtrygd = ({
@@ -35,7 +34,6 @@ export const SykepengegrunnlagFraInfogtrygd = ({
     arbeidsgivernavn,
     bransjer,
     arbeidsforhold,
-    skjæringstidspunkt,
 }: SykepengegrunnlagFraInfogtrygdProps) => {
     const inntekt = getInntekt(vilkårsgrunnlag, organisasjonsnummer);
 
@@ -53,7 +51,6 @@ export const SykepengegrunnlagFraInfogtrygd = ({
                     arbeidsgivernavn={arbeidsgivernavn}
                     bransjer={bransjer}
                     arbeidsforhold={arbeidsforhold}
-                    skjæringstidspunkt={skjæringstidspunkt}
                 />
             </Oversikt>
         </Infotrygdvurdering>

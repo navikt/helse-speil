@@ -1,9 +1,9 @@
+import classNames from 'classnames';
 import React, { useRef, useState } from 'react';
 
 import { BodyShort, Popover } from '@navikt/ds-react';
 
 import styles from './Infotrekant.module.css';
-import classNames from 'classnames';
 
 interface InfotrekantProps extends React.HTMLAttributes<HTMLSpanElement> {
     text: string;

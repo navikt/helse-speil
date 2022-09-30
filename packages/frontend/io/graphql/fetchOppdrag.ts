@@ -1,9 +1,8 @@
+import rawQuery from './fetchOppdrag.graphql?raw';
 import { gql, request } from 'graphql-request';
 
-import { FetchOppdragQuery } from './generated/graphql';
 import { baseUrl } from './common';
-
-import rawQuery from './fetchOppdrag.graphql?raw';
+import { FetchOppdragQuery } from './generated/graphql';
 
 const fetchOppdragQuery = gql`
     ${rawQuery}

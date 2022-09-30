@@ -1,13 +1,14 @@
+import { nanoid } from 'nanoid';
 import React, { useContext, useState } from 'react';
+
 import { Button } from '@navikt/ds-react';
 
+import { AmplitudeContext } from '@io/amplitude';
 import { BeregnetPeriode } from '@io/graphql';
 import { postSendTilInfotrygd } from '@io/http';
-import { AvvisningModal, Avvisningsskjema } from './AvvisningModal';
-
-import { AmplitudeContext } from '@io/amplitude';
-import { nanoid } from 'nanoid';
 import { useAddToast } from '@state/toasts';
+
+import { AvvisningModal, Avvisningsskjema } from './AvvisningModal';
 
 const useAddInfotrygdtoast = () => {
     const addToast = useAddToast();

@@ -4,16 +4,17 @@ import { useHistory } from 'react-router';
 
 import { Close } from '@navikt/ds-icons';
 import { Button } from '@navikt/ds-react';
-import { UtbetalingshistorikkRow } from './UtbetalingshistorikkRow';
-import { Annulleringsmodal } from '../saksbildeMenu/annullering/Annulleringsmodal';
 
-import { Oppdrag, Spennoppdrag } from '@io/graphql';
-import { useOppdrag } from './state';
-import { useCurrentPerson } from '@state/person';
 import { ErrorBoundary } from '@components/ErrorBoundary';
-import { useCurrentArbeidsgiver } from '@state/arbeidsgiver';
 import { useIsReadOnlyOppgave } from '@hooks/useIsReadOnlyOppgave';
+import { Oppdrag, Spennoppdrag } from '@io/graphql';
+import { useCurrentArbeidsgiver } from '@state/arbeidsgiver';
 import { useActivePeriod } from '@state/periode';
+import { useCurrentPerson } from '@state/person';
+
+import { Annulleringsmodal } from '../saksbildeMenu/annullering/Annulleringsmodal';
+import { UtbetalingshistorikkRow } from './UtbetalingshistorikkRow';
+import { useOppdrag } from './state';
 
 const Container = styled.div`
     grid-column-start: venstremeny;
@@ -112,7 +113,7 @@ const UtbetalingshistorikkWithContent: React.VFC<UtbetalingshistorikkWithContent
                                     annulleringButton={annulleringButton(
                                         oppdrag.status,
                                         oppdrag.type,
-                                        oppdrag.personoppdrag,
+                                        oppdrag.personoppdrag
                                     )}
                                     readOnly={readOnly}
                                     erBeslutteroppgave={(activePeriod as BeregnetPeriode)?.erBeslutterOppgave ?? false}
@@ -126,7 +127,7 @@ const UtbetalingshistorikkWithContent: React.VFC<UtbetalingshistorikkWithContent
                                     annulleringButton={annulleringButton(
                                         oppdrag.status,
                                         oppdrag.type,
-                                        oppdrag.arbeidsgiveroppdrag,
+                                        oppdrag.arbeidsgiveroppdrag
                                     )}
                                     readOnly={readOnly}
                                     erBeslutteroppgave={(activePeriod as BeregnetPeriode)?.erBeslutterOppgave ?? false}

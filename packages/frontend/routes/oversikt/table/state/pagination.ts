@@ -1,7 +1,7 @@
 import { useLayoutEffect } from 'react';
 import { atom, selector, useRecoilValue, useSetRecoilState } from 'recoil';
 
-import { tabState, TabType } from '../../Tabs';
+import { TabType, tabState } from '../../Tabs';
 
 type Pagination = {
     entriesPerPage: number;
@@ -82,7 +82,7 @@ export const useRefreshPagination = (numberOfEntries: number) => {
                 pagination && {
                     ...pagination,
                     numberOfPages: Math.max(Math.ceil(numberOfEntries / pagination.entriesPerPage), 1),
-                },
+                }
         );
     }, [numberOfEntries]);
 };

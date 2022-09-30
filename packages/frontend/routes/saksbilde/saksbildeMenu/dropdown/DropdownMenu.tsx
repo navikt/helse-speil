@@ -1,22 +1,23 @@
+import { PåVentDropdownMenuButton } from './PåVentDropdownMenuButton';
 import React, { useRef, useState } from 'react';
-import { Dropdown } from '@navikt/ds-react-internal';
-import { Collapse, Expand } from '@navikt/ds-icons';
 
-import { isArbeidsgiver, isBeregnetPeriode, isPerson } from '@utils/typeguards';
-import { TabButton } from '@components/TabButton';
+import { Collapse, Expand } from '@navikt/ds-icons';
+import { Dropdown } from '@navikt/ds-react-internal';
+
 import { LoadingShimmer } from '@components/LoadingShimmer';
+import { TabButton } from '@components/TabButton';
 import { useInteractOutside } from '@hooks/useInteractOutside';
 import { useIsReadOnlyOppgave } from '@hooks/useIsReadOnlyOppgave';
-import { useInnloggetSaksbehandler } from '@state/authentication';
 import { useCurrentArbeidsgiver } from '@state/arbeidsgiver';
-import { useCurrentPerson } from '@state/person';
+import { useInnloggetSaksbehandler } from '@state/authentication';
 import { useActivePeriod } from '@state/periode';
+import { useCurrentPerson } from '@state/person';
+import { isArbeidsgiver, isBeregnetPeriode, isPerson } from '@utils/typeguards';
 
 import { AnnullerButton } from './AnnullerButton';
 import { OppdaterPersondataButton } from './OppdaterPersondataButton';
-import { PåVentDropdownMenuButton } from './PåVentDropdownMenuButton';
-import { TildelingDropdownMenuButton } from './TildelingDropdownMenuButton';
 import { SkrivGenereltNotatDropdownMenuButton } from './SkrivGenereltNotatDropdownMenuButton';
+import { TildelingDropdownMenuButton } from './TildelingDropdownMenuButton';
 
 import styles from './DropdownMenu.module.css';
 

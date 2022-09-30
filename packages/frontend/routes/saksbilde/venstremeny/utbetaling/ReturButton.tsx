@@ -1,14 +1,15 @@
+import { nanoid } from 'nanoid';
 import React, { useContext, useState } from 'react';
+
 import { Button } from '@navikt/ds-react';
 
-import { BeregnetPeriode } from '@io/graphql';
 import { AmplitudeContext } from '@io/amplitude';
+import { BeregnetPeriode } from '@io/graphql';
 import { postSendTilbakeTilSaksbehandler } from '@io/http';
 import { useCurrentPerson } from '@state/person';
+import { useAddToast } from '@state/toasts';
 
 import { NyttNotatModal } from '../../../oversikt/table/rader/notat/NyttNotatModal';
-import { nanoid } from 'nanoid';
-import { useAddToast } from '@state/toasts';
 
 const useAddReturtoast = () => {
     const addToast = useAddToast();

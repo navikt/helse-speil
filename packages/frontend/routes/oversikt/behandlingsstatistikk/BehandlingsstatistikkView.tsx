@@ -1,12 +1,13 @@
-import React from 'react';
 import { motion } from 'framer-motion';
+import React from 'react';
 
-import { useShowStatistikk } from './state';
-import { BehandlingsstatistikkTable } from './BehandlingsstatistikkTable';
+import { useFetch } from '@hooks/useFetch';
+import { fetchBehandlingsstatistikk } from '@io/graphql/fetchBehandlingsstatistikk';
+
 import { BehandlingsstatistikkError } from './BehandlingsstatistikkError';
 import { BehandlingsstatistikkSkeleton } from './BehandlingsstatistikkSkeleton';
-import { fetchBehandlingsstatistikk } from '@io/graphql/fetchBehandlingsstatistikk';
-import { useFetch } from '@hooks/useFetch';
+import { BehandlingsstatistikkTable } from './BehandlingsstatistikkTable';
+import { useShowStatistikk } from './state';
 
 import styles from './BehandlingsstatistikkView.module.css';
 

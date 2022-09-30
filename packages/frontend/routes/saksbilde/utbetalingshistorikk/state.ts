@@ -1,5 +1,6 @@
 import { selectorFamily, useRecoilValue } from 'recoil';
-import { fetchOppdrag, Oppdrag } from '@io/graphql';
+
+import { Oppdrag, fetchOppdrag } from '@io/graphql';
 
 const oppdragState = selectorFamily<Array<Oppdrag>, string>({
     key: 'oppdragState',

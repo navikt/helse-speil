@@ -1,4 +1,5 @@
 import React from 'react';
+
 import { Pagination as NavPagination } from '@navikt/ds-react';
 
 import { useInitializePagination, usePagination, useRefreshPagination, useSetPage } from './state/pagination';

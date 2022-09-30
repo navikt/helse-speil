@@ -1,18 +1,18 @@
+import classNames from 'classnames';
 import dayjs from 'dayjs';
 import React from 'react';
-import classNames from 'classnames';
 
 import { BodyShort, Tag, Tooltip } from '@navikt/ds-react';
 
 import { Flex } from '@components/Flex';
+import { LoadingShimmer } from '@components/LoadingShimmer';
 import { LovdataLenke } from '@components/LovdataLenke';
+import { Oppgaveetikett } from '@components/Oppgaveetikett';
 import { Advarselikon } from '@components/ikoner/Advarselikon';
 import { Maksdatoikon } from '@components/ikoner/Maksdatoikon';
-import { LoadingShimmer } from '@components/LoadingShimmer';
-import { Oppgaveetikett } from '@components/Oppgaveetikett';
 import { Skjæringstidspunktikon } from '@components/ikoner/Skjæringstidspunktikon';
-import { Sykmeldingsperiodeikon } from '@components/ikoner/Sykmeldingsperiodeikon';
 import { SkjæringstidspunktikonInvert } from '@components/ikoner/SkjæringstidspunktikonInvert';
+import { Sykmeldingsperiodeikon } from '@components/ikoner/Sykmeldingsperiodeikon';
 import { BeregnetPeriode, Oppgavetype, Periodetilstand, Periodetype, UberegnetPeriode } from '@io/graphql';
 import { NORSK_DATOFORMAT_KORT } from '@utils/date';
 import { capitalize } from '@utils/locale';

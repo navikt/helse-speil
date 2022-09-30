@@ -2,6 +2,7 @@ import styled from '@emotion/styled';
 import React from 'react';
 
 import { BodyShort, Heading } from '@navikt/ds-react';
+
 import { FlexColumn } from './Flex';
 
 const Container = styled.div`

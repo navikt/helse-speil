@@ -1,5 +1,6 @@
 import classNames from 'classnames';
 import React, { ReactNode, useState } from 'react';
+
 import { Accordion, Alert } from '@navikt/ds-react';
 
 import styles from './EkspanderbartVarsel.module.css';

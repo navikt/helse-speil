@@ -3,14 +3,14 @@ import React, { ReactNode } from 'react';
 
 import { BodyShort } from '@navikt/ds-react';
 
-import { Sjekkikon } from '@components/ikoner/Sjekkikon';
+import { AgurkErrorBoundary } from '@components/AgurkErrorBoundary';
+import { ErrorBoundary } from '@components/ErrorBoundary';
 import { FlexColumn } from '@components/Flex';
 import { Advarselikon } from '@components/ikoner/Advarselikon';
 import { GrøntSjekkikon } from '@components/ikoner/GrøntSjekkikon';
+import { Sjekkikon } from '@components/ikoner/Sjekkikon';
 import { Utropstegnikon } from '@components/ikoner/Utropstegnikon';
-import { AgurkErrorBoundary } from '@components/AgurkErrorBoundary';
 import { Faresignal, Maybe, Risikovurdering } from '@io/graphql';
-import { ErrorBoundary } from '@components/ErrorBoundary';
 import { useActivePeriod } from '@state/periode';
 import { isBeregnetPeriode } from '@utils/typeguards';
 

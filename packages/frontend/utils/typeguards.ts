@@ -33,11 +33,11 @@ export const isUberegnetPeriode = (period?: Maybe<GhostPeriode | Periode | DateP
     !isInfotrygdPeriod(period);
 
 export const isSpleisVilkarsgrunnlag = (
-    vilkårsgrunnlag?: Maybe<Vilkarsgrunnlag>,
+    vilkårsgrunnlag?: Maybe<Vilkarsgrunnlag>
 ): vilkårsgrunnlag is VilkarsgrunnlagSpleis => vilkårsgrunnlag?.vilkarsgrunnlagtype === Vilkarsgrunnlagtype.Spleis;
 
 export const isInfotrygdVilkarsgrunnlag = (
-    vilkårsgrunnlag?: Maybe<Vilkarsgrunnlag>,
+    vilkårsgrunnlag?: Maybe<Vilkarsgrunnlag>
 ): vilkårsgrunnlag is VilkarsgrunnlagInfotrygd =>
     vilkårsgrunnlag?.vilkarsgrunnlagtype === Vilkarsgrunnlagtype.Infotrygd;
 
@@ -48,23 +48,23 @@ const isOverstyringPrDag = (overstyring?: Maybe<Overstyring>): overstyring is Ov
     typeof (overstyring as Dagoverstyring)?.__typename !== 'string' ?? false;
 
 export const isOverstyringerPrDag = (
-    overstyringer?: Maybe<Array<Overstyring>>,
+    overstyringer?: Maybe<Array<Overstyring>>
 ): overstyringer is Array<OverstyringerPrDag> => overstyringer?.every(isOverstyringPrDag) ?? false;
 
 export const isInntektoverstyring = (overstyring?: Maybe<Overstyring>): overstyring is Inntektoverstyring =>
     (overstyring as Inntektoverstyring)?.__typename === 'Inntektoverstyring';
 
 export const isInntektoverstyringer = (
-    overstyringer?: Maybe<Array<Overstyring>>,
+    overstyringer?: Maybe<Array<Overstyring>>
 ): overstyringer is Array<Inntektoverstyring> => overstyringer?.every(isInntektoverstyring) ?? false;
 
 export const isArbeidsforholdoverstyring = (
-    overstyring?: Maybe<Overstyring>,
+    overstyring?: Maybe<Overstyring>
 ): overstyring is Arbeidsforholdoverstyring =>
     (overstyring as Arbeidsforholdoverstyring)?.__typename === 'Arbeidsforholdoverstyring';
 
 export const isArbeidsforholdoverstyringer = (
-    overstyringer?: Maybe<Array<Overstyring>>,
+    overstyringer?: Maybe<Array<Overstyring>>
 ): overstyringer is Array<Arbeidsforholdoverstyring> => overstyringer?.every(isArbeidsforholdoverstyring) ?? false;
 
 export const isPerson = (person?: Maybe<Person | any>): person is Person => {
@@ -76,7 +76,7 @@ export const isArbeidsgiver = (arbeidsgiver?: Maybe<Arbeidsgiver>): arbeidsgiver
 };
 
 export const isForkastetPeriode = (
-    periode?: Maybe<Periode | BeregnetPeriode | UberegnetPeriode | GhostPeriode>,
+    periode?: Maybe<Periode | BeregnetPeriode | UberegnetPeriode | GhostPeriode>
 ): boolean => {
     return (isBeregnetPeriode(periode) || isUberegnetPeriode(periode)) && periode.erForkastet;
 };

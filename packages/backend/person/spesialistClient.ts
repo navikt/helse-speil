@@ -1,8 +1,8 @@
 import request from 'request-promise-native';
 
+import config from '../config';
 import { Instrumentation } from '../instrumentation';
 import { OidcConfig, OnBehalfOf } from '../types';
-import config from '../config';
 
 const spesialistBaseUrl = config.server.spesialistBaseUrl;
 

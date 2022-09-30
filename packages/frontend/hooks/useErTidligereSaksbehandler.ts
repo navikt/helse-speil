@@ -1,5 +1,5 @@
-import { useActivePeriod } from '@state/periode';
 import { useInnloggetSaksbehandler } from '@state/authentication';
+import { useActivePeriod } from '@state/periode';
 import { useKanBeslutteEgneOppgaver } from '@state/toggles';
 import { isBeregnetPeriode } from '@utils/typeguards';
 

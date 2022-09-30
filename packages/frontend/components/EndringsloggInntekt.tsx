@@ -3,8 +3,8 @@ import React from 'react';
 
 import { BodyShort } from '@navikt/ds-react';
 
-import { getFormattedDateString, NORSK_DATOFORMAT } from '@utils/date';
 import { Inntektoverstyring } from '@io/graphql';
+import { NORSK_DATOFORMAT, getFormattedDateString } from '@utils/date';
 import { somPenger } from '@utils/locale';
 
 import { ModalProps } from './Modal';

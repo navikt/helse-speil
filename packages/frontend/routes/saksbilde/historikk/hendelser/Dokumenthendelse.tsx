@@ -1,7 +1,7 @@
-import { Kilde } from '@components/Kilde';
-
-import { Kildetype } from '@io/graphql';
 import React from 'react';
+
+import { Kilde } from '@components/Kilde';
+import { Kildetype } from '@io/graphql';
 
 import { Hendelse } from './Hendelse';
 import { HendelseDate } from './HendelseDate';

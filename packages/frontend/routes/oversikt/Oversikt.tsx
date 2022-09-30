@@ -1,18 +1,19 @@
 import React, { useEffect, useState } from 'react';
 import { Loadable, useRecoilValue, useRecoilValueLoadable } from 'recoil';
+
 import { Alert } from '@navikt/ds-react';
 
 import { Flex } from '@components/Flex';
-import { useResetPerson } from '@state/person';
+import { useLoadingToast } from '@hooks/useLoadingToast';
 import { useInnloggetSaksbehandler } from '@state/authentication';
 import { oppgaverState, useRefetchFerdigstilteOppgaver, useRefetchOppgaver } from '@state/oppgaver';
-import { useLoadingToast } from '@hooks/useLoadingToast';
+import { useResetPerson } from '@state/person';
 
 import { IngenOppgaver } from './IngenOppgaver';
-import { OppgaverTable } from './table/OppgaverTable';
-import { BehandletIdagTable } from './table/BehandletIdagTable';
+import { TabType, Tabs, tabState, useAktivTab } from './Tabs';
 import { BehandlingsstatistikkView } from './behandlingsstatistikk/BehandlingsstatistikkView';
-import { Tabs, tabState, TabType, useAktivTab } from './Tabs';
+import { BehandletIdagTable } from './table/BehandletIdagTable';
+import { OppgaverTable } from './table/OppgaverTable';
 
 import styles from './Oversikt.module.css';
 

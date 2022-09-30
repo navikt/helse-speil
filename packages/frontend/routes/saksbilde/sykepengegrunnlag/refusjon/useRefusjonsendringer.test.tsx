@@ -1,8 +1,9 @@
 import React from 'react';
-import { renderHook } from '@testing-library/react-hooks';
-import { useRefusjonsendringer } from './useRefusjonsendringer';
 
 import type { Endring, Refusjon } from '@io/graphql';
+import { renderHook } from '@testing-library/react-hooks';
+
+import { useRefusjonsendringer } from './useRefusjonsendringer';
 
 test('viser innslag etter arbeidsgiverperioder', () => {
     const refusjon: Refusjon = {

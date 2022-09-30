@@ -1,9 +1,9 @@
+import rawQuery from './leggTilKommentar.graphql?raw';
 import { gql, request } from 'graphql-request';
 
-import { baseUrl } from './common';
-
-import rawQuery from './leggTilKommentar.graphql?raw';
 import { LeggTilKommentarMutation } from '@io/graphql/generated/graphql';
+
+import { baseUrl } from './common';
 
 const leggTilKommentarMutation = gql`
     ${rawQuery}

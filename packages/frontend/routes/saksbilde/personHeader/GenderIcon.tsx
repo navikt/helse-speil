@@ -1,9 +1,9 @@
 import React from 'react';
 
-import { Kjonn, Maybe } from '@io/graphql';
+import { KjønnsnøytraltIkon } from '@components/ikoner/KjønnsnøytraltIkon';
 import { Kvinneikon } from '@components/ikoner/Kvinneikon';
 import { Manneikon } from '@components/ikoner/Manneikon';
-import { KjønnsnøytraltIkon } from '@components/ikoner/KjønnsnøytraltIkon';
+import { Kjonn, Maybe } from '@io/graphql';
 
 interface GenderIconProps extends React.SVGAttributes<SVGElement> {
     gender?: Maybe<Kjonn>;

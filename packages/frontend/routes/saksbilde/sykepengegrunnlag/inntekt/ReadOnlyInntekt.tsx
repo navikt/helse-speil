@@ -1,20 +1,20 @@
-import React from 'react';
 import dayjs from 'dayjs';
+import React from 'react';
 
 import { BodyShort } from '@navikt/ds-react';
 
 import { Bold } from '@components/Bold';
 import { Flex } from '@components/Flex';
-import { SortInfoikon } from '@components/ikoner/SortInfoikon';
 import { PopoverHjelpetekst } from '@components/PopoverHjelpetekst';
-import { getMonthName, somPenger } from '@utils/locale';
+import { SortInfoikon } from '@components/ikoner/SortInfoikon';
 import { InntektFraAOrdningen, Inntektskilde, Maybe, OmregnetArsinntekt } from '@io/graphql';
+import { getMonthName, somPenger } from '@utils/locale';
 
 import styles from './ReadOnlyInntekt.module.css';
 
 const getSorterteInntekter = (inntekterFraAOrdningen: Array<InntektFraAOrdningen>): Array<InntektFraAOrdningen> => {
     return [...inntekterFraAOrdningen].sort((a, b) =>
-        dayjs(a.maned, 'YYYY-MM').isAfter(dayjs(b.maned, 'YYYY-MM')) ? -1 : 1,
+        dayjs(a.maned, 'YYYY-MM').isAfter(dayjs(b.maned, 'YYYY-MM')) ? -1 : 1
     );
 };
 

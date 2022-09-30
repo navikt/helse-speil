@@ -1,7 +1,8 @@
+import React from 'react';
+
 import '@testing-library/jest-dom/extend-expect';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import React from 'react';
 
 import { RadmarkeringCheckbox } from './RadmarkeringCheckbox';
 
@@ -30,7 +31,7 @@ describe('RadmarkeringCheckbox', () => {
                     erAGP={false}
                 />
                 ;
-            </>,
+            </>
         );
 
         expect(screen.getAllByRole('checkbox')).toHaveLength(4);
@@ -46,7 +47,7 @@ describe('RadmarkeringCheckbox', () => {
                 <RadmarkeringCheckbox index={0} dagtype="Syk" dato="2021-01-01" skjæringstidspunkt="" erForeldet />
                 ;
                 <RadmarkeringCheckbox index={0} dagtype="Syk" dato="2021-01-01" skjæringstidspunkt="" erAvvist />;
-            </>,
+            </>
         );
 
         expect(screen.queryAllByRole('checkbox')).toHaveLength(0);

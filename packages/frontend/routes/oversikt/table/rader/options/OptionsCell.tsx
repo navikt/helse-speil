@@ -1,20 +1,20 @@
+import { FjernFraPåVentMenuButton } from './FjernFraPåVentMenuButton';
+import { LeggPåVentMenuButton } from './LeggPåVentMenuButton';
 import React from 'react';
 
+import { EllipsisH } from '@navikt/ds-icons';
 import { Button } from '@navikt/ds-react';
+import { Dropdown } from '@navikt/ds-react-internal';
 
-import { useInnloggetSaksbehandler } from '@state/authentication';
 import { useIsReadOnlyOppgave } from '@hooks/useIsReadOnlyOppgave';
+import { Maybe } from '@io/graphql';
+import { useInnloggetSaksbehandler } from '@state/authentication';
+import { useKanFrigiOppgaver } from '@state/toggles';
 
 import { Cell } from '../../Cell';
 import { CellContent } from '../CellContent';
-import { FjernFraPåVentMenuButton } from './FjernFraPåVentMenuButton';
-import { LeggPåVentMenuButton } from './LeggPåVentMenuButton';
 import { MeldAvMenuButton } from './MeldAvMenuButton';
 import { TildelMenuButton } from './TildelMenuButton';
-import { useKanFrigiOppgaver } from '@state/toggles';
-import { Maybe } from '@io/graphql';
-import { Dropdown } from '@navikt/ds-react-internal';
-import { EllipsisH } from '@navikt/ds-icons';
 
 import styles from './OptionsCell.module.css';
 

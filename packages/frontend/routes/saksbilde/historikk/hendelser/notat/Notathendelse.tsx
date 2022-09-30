@@ -1,21 +1,22 @@
-import React, { useReducer } from 'react';
 import classNames from 'classnames';
+import { AnimatePresence, motion } from 'framer-motion';
+import React, { useReducer } from 'react';
+
 import { DialogDots } from '@navikt/ds-icons';
 
 import { putFeilregistrertNotat } from '@io/http';
-import { useRefetchPerson } from '@state/person';
-import { useRefreshNotater } from '@state/notater';
 import { useInnloggetSaksbehandler } from '@state/authentication';
+import { useRefreshNotater } from '@state/notater';
+import { useRefetchPerson } from '@state/person';
 
+import { ExpandableHistorikkContent } from '../ExpandableHistorikkContent';
 import { Hendelse } from '../Hendelse';
-
-import styles from './Notathendelse.module.css';
-import { AnimatePresence, motion } from 'framer-motion';
+import { HendelseDate } from '../HendelseDate';
+import { HendelseDropdownMenu } from './HendelseDropdownMenu';
 import { NotatHendelseContent } from './NotathendelseContent';
 import { Action, State } from './types';
-import { HendelseDropdownMenu } from './HendelseDropdownMenu';
-import { HendelseDate } from '../HendelseDate';
-import { ExpandableHistorikkContent } from '../ExpandableHistorikkContent';
+
+import styles from './Notathendelse.module.css';
 
 const MAX_TEXT_LENGTH_BEFORE_TRUNCATION = 74;
 

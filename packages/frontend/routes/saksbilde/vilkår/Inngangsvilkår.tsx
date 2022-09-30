@@ -1,22 +1,22 @@
-import dayjs from 'dayjs';
-import React from 'react';
-import { Alert } from '@navikt/ds-react';
-
-import { Maybe, Vilkarsgrunnlag, Vurdering } from '@io/graphql';
-import { isBeregnetPeriode } from '@utils/typeguards';
-import { ErrorBoundary } from '@components/ErrorBoundary';
-import { useActivePeriod } from '@state/periode';
-import { useCurrentPerson } from '@state/person';
-import { getVilkårsgrunnlag } from '@state/selectors/person';
-
 import { kategoriserteInngangsvilkår } from './kategoriserteInngangsvilkår';
 import { IkkeOppfylteVilkår } from './vilkårsgrupper/IkkeOppfylteVilkår';
 import { IkkeVurderteVilkår } from './vilkårsgrupper/IkkeVurderteVilkår';
+import { OppfylteVilkår } from './vilkårsgrupper/OppfylteVilkår';
 import { VurdertIInfotrygd } from './vilkårsgrupper/VurdertIInfotrygd';
 import { VurdertISpleis } from './vilkårsgrupper/VurdertISpleis';
-import { OppfylteVilkår } from './vilkårsgrupper/OppfylteVilkår';
 import { Yrkeskadeinfo } from './vilkårsgrupper/Yrkesskadeinfo';
+import dayjs from 'dayjs';
 import { Vilkårdata } from 'mapping/vilkår';
+import React from 'react';
+
+import { Alert } from '@navikt/ds-react';
+
+import { ErrorBoundary } from '@components/ErrorBoundary';
+import { Maybe, Vilkarsgrunnlag, Vurdering } from '@io/graphql';
+import { useActivePeriod } from '@state/periode';
+import { useCurrentPerson } from '@state/person';
+import { getVilkårsgrunnlag } from '@state/selectors/person';
+import { isBeregnetPeriode } from '@utils/typeguards';
 
 import styles from './Inngangsvilkår.module.css';
 
@@ -87,7 +87,7 @@ const InngangsvilkårContainer = () => {
             person,
             activePeriod.vilkarsgrunnlaghistorikkId,
             activePeriod.skjaeringstidspunkt,
-            activePeriod.tom,
+            activePeriod.tom
         );
         return (
             <InngangsvilkårWithContent

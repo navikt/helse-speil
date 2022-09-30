@@ -1,4 +1,5 @@
 import React from 'react';
+
 import { BodyShort } from '@navikt/ds-react';
 
 import { Tag } from '@components/Tag';

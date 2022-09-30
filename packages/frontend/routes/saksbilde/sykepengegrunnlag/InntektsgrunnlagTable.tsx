@@ -1,9 +1,10 @@
 import React, { Dispatch, SetStateAction } from 'react';
+
 import { BodyShort } from '@navikt/ds-react';
 
 import { Bold } from '@components/Bold';
-import { somPenger } from '@utils/locale';
 import { Arbeidsgiverinntekt, Sykepengegrunnlagsgrense } from '@io/graphql';
+import { somPenger } from '@utils/locale';
 
 import { Inntektssammenligning } from './Inntektssammenligning';
 import { SykepengegrunnlagsgrenseView } from './SykepengegrunnlagsgrenseView';

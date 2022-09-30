@@ -1,4 +1,5 @@
 import React, { useMemo } from 'react';
+
 import { BodyShort } from '@navikt/ds-react';
 
 import { capitalize } from '@utils/locale';

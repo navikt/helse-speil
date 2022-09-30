@@ -1,9 +1,9 @@
 import dayjs from 'dayjs';
-import { atom, AtomEffect, useRecoilValueLoadable, useResetRecoilState, useSetRecoilState } from 'recoil';
-
-import { getNotater } from '@io/http';
-import { Notat as GraphQLNotat } from '@io/graphql';
 import { useEffect } from 'react';
+import { AtomEffect, atom, useRecoilValueLoadable, useResetRecoilState, useSetRecoilState } from 'recoil';
+
+import { Notat as GraphQLNotat } from '@io/graphql';
+import { getNotater } from '@io/http';
 
 const vedtaksperiodeIderState = atom<string[]>({
     key: 'vedtaksperiodeIderState',

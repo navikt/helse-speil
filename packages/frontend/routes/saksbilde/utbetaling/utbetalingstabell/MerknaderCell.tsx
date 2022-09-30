@@ -1,5 +1,6 @@
 import styled from '@emotion/styled';
 import React from 'react';
+
 import { BodyShort, Tooltip } from '@navikt/ds-react';
 
 import { LovdataLenke } from '@components/LovdataLenke';

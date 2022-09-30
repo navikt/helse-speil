@@ -1,9 +1,9 @@
-import React from 'react';
 import { AnimatePresence } from 'framer-motion';
+import React from 'react';
 import { useRecoilValue } from 'recoil';
 
-import { toastsState } from '@state/toasts';
 import { Toast } from '@components/Toast';
+import { toastsState } from '@state/toasts';
 
 import styles from './Toasts.module.css';
 

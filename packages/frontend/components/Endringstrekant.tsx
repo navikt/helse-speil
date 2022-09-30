@@ -1,4 +1,5 @@
 import React from 'react';
+
 import { Infotrekant } from '@components/Infotrekant';
 
 interface EndringstrekantProps {

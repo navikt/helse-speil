@@ -1,11 +1,11 @@
-import '@testing-library/jest-dom/extend-expect';
-import { render, screen } from '@testing-library/react';
+import { RecoilAndRouterWrapper } from '@test-wrappers';
 import React from 'react';
 
-import { authState } from '../state/authentication';
+import { authState } from '@state/authentication';
+import '@testing-library/jest-dom/extend-expect';
+import { render, screen } from '@testing-library/react';
 
 import { ProtectedRoute } from './ProtectedRoute';
-import { RecoilAndRouterWrapper } from '@test-wrappers';
 
 describe('ProtectedRoute', () => {
     test('redirecter hvis bruker ikke er logget inn', () => {
@@ -27,7 +27,7 @@ describe('ProtectedRoute', () => {
             </ProtectedRoute>,
             {
                 wrapper,
-            },
+            }
         );
         expect(screen.queryByText('Denne skal ikke være synlig')).toBeNull();
     });
@@ -36,7 +36,7 @@ describe('ProtectedRoute', () => {
             <ProtectedRoute>
                 <span>Denne skal være synlig</span>
             </ProtectedRoute>,
-            { wrapper: RecoilAndRouterWrapper },
+            { wrapper: RecoilAndRouterWrapper }
         );
         expect(screen.queryByText('Denne skal være synlig')).toBeVisible();
     });

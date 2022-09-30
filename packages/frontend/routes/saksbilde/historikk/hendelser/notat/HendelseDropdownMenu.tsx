@@ -1,7 +1,9 @@
 import React from 'react';
-import { Dropdown } from '@navikt/ds-react-internal';
-import { Button, Loader } from '@navikt/ds-react';
+
 import { EllipsisH } from '@navikt/ds-icons';
+import { Button, Loader } from '@navikt/ds-react';
+import { Dropdown } from '@navikt/ds-react-internal';
+
 import styles from './HendelseDropdownMenu.module.css';
 
 type DropdownMenuProps = {

@@ -14,6 +14,7 @@ import {
 } from '@io/graphql';
 import { useActivePeriod } from '@state/periode';
 import { useCurrentPerson } from '@state/person';
+import { useUtbetalingstidsstempelFørsteGenForPeriode } from '@state/utbetaling';
 import {
     isArbeidsforholdoverstyring,
     isBeregnetPeriode,
@@ -22,13 +23,12 @@ import {
     isInntektoverstyring,
     isUberegnetPeriode,
 } from '@utils/typeguards';
-import { useUtbetalingstidsstempelFørsteGenForPeriode } from '@state/utbetaling';
 
 import { useDagoverstyringer } from '../routes/saksbilde/utbetaling/Utbetaling';
 
 export const findArbeidsgiverWithGhostPeriode = (
     period: GhostPeriode,
-    arbeidsgivere: Array<Arbeidsgiver>,
+    arbeidsgivere: Array<Arbeidsgiver>
 ): Maybe<Arbeidsgiver> => {
     return (
         arbeidsgivere.find((arbeidsgiver) => arbeidsgiver.ghostPerioder.find((periode) => periode.id === period.id)) ??
@@ -38,14 +38,14 @@ export const findArbeidsgiverWithGhostPeriode = (
 
 export const findArbeidsgiverWithPeriode = (
     period: BeregnetPeriode | UberegnetPeriode,
-    arbeidsgivere: Array<Arbeidsgiver>,
+    arbeidsgivere: Array<Arbeidsgiver>
 ): Arbeidsgiver | null => {
     return (
         arbeidsgivere.find((arbeidsgiver) =>
             arbeidsgiver.generasjoner
                 .flatMap((generasjon) => generasjon.perioder)
                 .filter((periode): periode is UberegnetPeriode | BeregnetPeriode => (periode as any).id)
-                .find((periode: UberegnetPeriode | BeregnetPeriode) => periode.id === period.id),
+                .find((periode: UberegnetPeriode | BeregnetPeriode) => periode.id === period.id)
         ) ?? null
     );
 };

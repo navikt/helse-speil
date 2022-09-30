@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
+
 import { Loader } from '@navikt/ds-react';
 import { Dropdown } from '@navikt/ds-react-internal';
 
+import { NotatDTO } from '@io/http';
 import { useLeggPåVent } from '@state/oppgaver';
 import { useOperationErrorHandler } from '@state/varsler';
 import { convertToGraphQLPersoninfo } from '@utils/mapping';
 import { ignorePromise } from '@utils/promise';
-import { NotatDTO } from '@io/http';
 
 import { NyttNotatModal } from '../notat/NyttNotatModal';
 
@@ -33,7 +34,7 @@ export const LeggPåVentMenuButton = ({ oppgavereferanse, vedtaksperiodeId, pers
         setIsFetching(true);
         ignorePromise(
             leggPåVentMedNotat(oppgavereferanse, { tekst: notattekst, type: 'PaaVent' } as NotatDTO),
-            errorHandler,
+            errorHandler
         );
     };
 

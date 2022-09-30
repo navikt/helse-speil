@@ -1,8 +1,8 @@
+import { LeggPåVentClient } from './leggPåVentClient';
 import { Response, Router } from 'express';
 
 import logger from '../logging';
 import { SpeilRequest } from '../types';
-import { LeggPåVentClient } from './leggPåVentClient';
 
 interface SetupOptions {
     leggPåVentClient: LeggPåVentClient;

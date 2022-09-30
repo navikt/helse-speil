@@ -1,5 +1,5 @@
-import React, { ReactNode } from 'react';
 import classNames from 'classnames';
+import React, { ReactNode } from 'react';
 
 import { Locked, Unlocked } from '@navikt/ds-icons';
 import { BodyShort } from '@navikt/ds-react';

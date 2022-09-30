@@ -2,9 +2,9 @@ import React from 'react';
 
 import { Antall, Behandlingsstatistikk } from '@io/graphql';
 
-import { StatistikkRow } from './StatistikkRow';
-import { Separator } from './Separator';
 import { LabelCell } from './LabelCell';
+import { Separator } from './Separator';
+import { StatistikkRow } from './StatistikkRow';
 
 import styles from './BehandlingsstatistikkView.module.css';
 

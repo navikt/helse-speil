@@ -1,4 +1,5 @@
 import React from 'react';
+
 import { Back, Next } from '@navikt/ds-icons';
 
 import styles from './ScrollButtons.module.css';

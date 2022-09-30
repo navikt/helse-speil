@@ -1,14 +1,15 @@
-import React from 'react';
 import classNames from 'classnames';
-import { BodyShort, Tooltip } from '@navikt/ds-react';
-import { Bag, People } from '@navikt/ds-icons';
+import React from 'react';
 
-import { somPenger } from '@utils/locale';
-import { useVilkårsgrunnlag } from '@state/person';
-import { Maybe, Personinfo, Simulering, Utbetaling, Utbetalingstatus } from '@io/graphql';
-import { AnonymizableTextWithEllipsis } from '@components/TextWithEllipsis';
-import { LoadingShimmer } from '@components/LoadingShimmer';
+import { Bag, People } from '@navikt/ds-icons';
+import { BodyShort, Tooltip } from '@navikt/ds-react';
+
 import { Bold } from '@components/Bold';
+import { LoadingShimmer } from '@components/LoadingShimmer';
+import { AnonymizableTextWithEllipsis } from '@components/TextWithEllipsis';
+import { Maybe, Personinfo, Simulering, Utbetaling, Utbetalingstatus } from '@io/graphql';
+import { useVilkårsgrunnlag } from '@state/person';
+import { somPenger } from '@utils/locale';
 
 import { CardTitle } from './CardTitle';
 import { OpenSimuleringButton } from './utbetaling/simulering/OpenSimuleringButton';

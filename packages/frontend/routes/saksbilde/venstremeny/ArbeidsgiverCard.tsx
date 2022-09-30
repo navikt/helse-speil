@@ -1,3 +1,4 @@
+import classNames from 'classnames';
 import dayjs from 'dayjs';
 import React from 'react';
 
@@ -5,19 +6,18 @@ import { Bag } from '@navikt/ds-icons';
 import { BodyShort, Tooltip } from '@navikt/ds-react';
 
 import { Flex } from '@components/Flex';
-import { Clipboard } from '@components/clipboard';
 import { LoadingShimmer } from '@components/LoadingShimmer';
-import { AnonymizableText } from '@components/anonymizable/AnonymizableText';
-import { AnonymizableContainer } from '@components/anonymizable/AnonymizableContainer';
 import { AnonymizableTextWithEllipsis } from '@components/TextWithEllipsis';
-import { capitalize, somPenger } from '@utils/locale';
-import { NORSK_DATOFORMAT } from '@utils/date';
+import { AnonymizableContainer } from '@components/anonymizable/AnonymizableContainer';
+import { AnonymizableText } from '@components/anonymizable/AnonymizableText';
+import { Clipboard } from '@components/clipboard';
 import { Arbeidsforhold } from '@io/graphql';
+import { NORSK_DATOFORMAT } from '@utils/date';
+import { capitalize, somPenger } from '@utils/locale';
 
 import { CardTitle } from './CardTitle';
 
 import styles from './ArbeidsgiverCard.module.css';
-import classNames from 'classnames';
 
 interface TitleRowProps {
     navn: string;

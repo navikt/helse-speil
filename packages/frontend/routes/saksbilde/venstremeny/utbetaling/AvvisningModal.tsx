@@ -1,5 +1,6 @@
 import React from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
+
 import { Button, Heading, Loader } from '@navikt/ds-react';
 
 import { Modal } from '@components/Modal';

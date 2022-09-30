@@ -1,7 +1,9 @@
-import React from 'react';
-import { getFormattedDatetimeString } from '@utils/date';
-import { BodyShort } from '@navikt/ds-react';
 import styled from '@emotion/styled';
+import React from 'react';
+
+import { BodyShort } from '@navikt/ds-react';
+
+import { getFormattedDatetimeString } from '@utils/date';
 
 const GreyBodyShort = styled(BodyShort)`
     color: var(--navds-semantic-color-text-muted);

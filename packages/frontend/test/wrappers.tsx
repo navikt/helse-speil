@@ -1,6 +1,6 @@
 import React from 'react';
-import { MutableSnapshot, RecoilRoot } from 'recoil';
 import { MemoryRouter } from 'react-router';
+import { MutableSnapshot, RecoilRoot } from 'recoil';
 
 interface RecoilProps {
     children?: React.ReactNode;

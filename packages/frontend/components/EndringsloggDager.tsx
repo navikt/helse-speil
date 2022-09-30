@@ -1,59 +1,13 @@
 import React from 'react';
+
 import { BodyShort } from '@navikt/ds-react';
 
-import { Dagoverstyring, Dagtype } from '@io/graphql';
 import { getFormattedDateString } from '@utils/date';
 
 import { ModalProps } from './Modal';
 import { TableModal } from './TableModal';
 
 import styles from './Endringslogg.module.css';
-
-type Overstyring = {
-    begrunnelse: string;
-    saksbehandler: {
-        ident?: Maybe<string>;
-        navn: string;
-    };
-    timestamp: DateString;
-    type: Dagtype;
-    dato: DateString;
-    grad?: Maybe<number>;
-    fraType?: Maybe<Dagtype>;
-    fraGrad?: Maybe<number>;
-};
-
-const getDisplayTextForDagtype = (type: Dagtype): string => {
-    switch (type) {
-        case Dagtype.Egenmeldingsdag:
-            return 'Egenmelding';
-        case Dagtype.Feriedag:
-            return 'Ferie';
-        case Dagtype.Permisjonsdag:
-            return 'Permisjon';
-        case Dagtype.Sykedag:
-            return 'Syk';
-    }
-};
-
-const getOverstyringerPrDag = (endringer: Array<Dagoverstyring>): Array<Overstyring> => {
-    const overstyringer: Array<Overstyring> = [];
-
-    for (const endring of endringer) {
-        for (const dag of endring.dager) {
-            overstyringer.push({
-                begrunnelse: endring.begrunnelse,
-                saksbehandler: endring.saksbehandler,
-                timestamp: endring.timestamp,
-                type: dag.type,
-                grad: dag.grad,
-                dato: dag.dato,
-            });
-        }
-    }
-
-    return overstyringer;
-};
 
 interface EndringsloggDagerProps extends ModalProps {
     endringer: Array<OverstyringerPrDag>;

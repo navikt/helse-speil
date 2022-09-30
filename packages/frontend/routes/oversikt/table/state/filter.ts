@@ -1,7 +1,8 @@
 import { atom, selector, useRecoilValue, useSetRecoilState } from 'recoil';
 
-import { tabState, TabType } from '../../Tabs';
 import { utbetalingTilSykmeldt } from '@utils/featureToggles';
+
+import { TabType, tabState } from '../../Tabs';
 
 export type Filter<T> = {
     key: string;
@@ -145,7 +146,7 @@ const allFilters = atom<ActiveFiltersPerTab>({
     default: {
         [TabType.TilGodkjenning]: hentValgteFiltre(
             TabType.TilGodkjenning,
-            defaultFilters.map(makeFilterActive('Ufordelte saker')),
+            defaultFilters.map(makeFilterActive('Ufordelte saker'))
         ),
         [TabType.Mine]: hentValgteFiltre(TabType.Mine, defaultFilters),
         [TabType.Ventende]: hentValgteFiltre(TabType.Ventende, defaultFilters),

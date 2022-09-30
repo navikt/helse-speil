@@ -1,6 +1,7 @@
-import React from 'react';
-import dayjs from 'dayjs';
 import classNames from 'classnames';
+import dayjs from 'dayjs';
+import React from 'react';
+
 import { BodyShort } from '@navikt/ds-react';
 
 import { NORSK_DATOFORMAT } from '@utils/date';

@@ -1,15 +1,15 @@
 import dayjs from 'dayjs';
-import { atom, Loadable, useRecoilValue, useRecoilValueLoadable, useResetRecoilState, useSetRecoilState } from 'recoil';
-
-import { useActivePeriod } from '@state/periode';
-import { useInnloggetSaksbehandler } from '@state/authentication';
-import { useAddVarsel, useRemoveVarsel } from '@state/varsler';
-import { fetchPerson, Maybe, Overstyring, Person, Vilkarsgrunnlag } from '@io/graphql';
-import { FetchError, isFetchErrorArray, NotFoundError, ProtectedError } from '@io/graphql/errors';
-import { deletePåVent, deleteTildeling, NotatDTO, postLeggPåVent, postTildeling, SpeilResponse } from '@io/http';
-import { isBeregnetPeriode } from '@utils/typeguards';
-import { SpeilError } from '@utils/error';
 import { GraphQLError } from 'graphql';
+import { Loadable, atom, useRecoilValue, useRecoilValueLoadable, useResetRecoilState, useSetRecoilState } from 'recoil';
+
+import { Maybe, Overstyring, Person, Vilkarsgrunnlag, fetchPerson } from '@io/graphql';
+import { FetchError, NotFoundError, ProtectedError, isFetchErrorArray } from '@io/graphql/errors';
+import { NotatDTO, SpeilResponse, deletePåVent, deleteTildeling, postLeggPåVent, postTildeling } from '@io/http';
+import { useInnloggetSaksbehandler } from '@state/authentication';
+import { useActivePeriod } from '@state/periode';
+import { useAddVarsel, useRemoveVarsel } from '@state/varsler';
+import { SpeilError } from '@utils/error';
+import { isBeregnetPeriode } from '@utils/typeguards';
 
 const TILDELINGSKEY = 'tildeling';
 

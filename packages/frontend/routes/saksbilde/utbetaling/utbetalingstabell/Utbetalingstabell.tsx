@@ -1,23 +1,24 @@
-import React, { useMemo } from 'react';
+import { GjenståendeDagerCell } from './GjenståendeDagerCell';
+import { useAlderVedSkjæringstidspunkt } from './useAlderVedSkjæringstidspunkt';
 import classNames from 'classnames';
-import { Tooltip } from '@navikt/ds-react';
+import React, { useMemo } from 'react';
+
 import { Bag, People } from '@navikt/ds-icons';
+import { Tooltip } from '@navikt/ds-react';
 
 import { Flex } from '@components/Flex';
 import { getFormattedDateString } from '@utils/date';
-import { useAlderVedSkjæringstidspunkt } from './useAlderVedSkjæringstidspunkt';
 
-import { Row } from '../../table/Row';
 import { Header } from '../../table/Header';
+import { Row } from '../../table/Row';
+import { DagtypeCell } from './DagtypeCell';
 import { DateCell } from './DateCell';
 import { GradCell } from './GradCell';
-import { TotalRow } from './TotalRow';
 import { KildeCell } from './KildeCell';
-import { DagtypeCell } from './DagtypeCell';
 import { MerknaderCell } from './MerknaderCell';
 import { TotalGradCell } from './TotalGradCell';
+import { TotalRow } from './TotalRow';
 import { UtbetalingCell } from './UtbetalingCell';
-import { GjenståendeDagerCell } from './GjenståendeDagerCell';
 
 import styles from './Utbetalingstabell.module.css';
 

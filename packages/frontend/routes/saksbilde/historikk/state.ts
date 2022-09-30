@@ -1,10 +1,14 @@
-import { atom, selector, useRecoilState, useRecoilValue } from 'recoil';
 import dayjs from 'dayjs';
+import { atom, selector, useRecoilState, useRecoilValue } from 'recoil';
 
-import { toNotat } from '@state/notater';
-import { findArbeidsgiverWithGhostPeriode, findArbeidsgiverWithPeriode } from '@state/arbeidsgiver';
 import { BeregnetPeriode, GhostPeriode, Person } from '@io/graphql';
+import { findArbeidsgiverWithGhostPeriode, findArbeidsgiverWithPeriode } from '@state/arbeidsgiver';
+import { sessionStorageEffect } from '@state/effects/sessionStorageEffect';
+import { toNotat } from '@state/notater';
+import { activePeriod } from '@state/periode';
+import { personState } from '@state/person';
 import { isBeregnetPeriode, isGhostPeriode } from '@utils/typeguards';
+
 import {
     getArbeidsforholdoverstyringhendelser,
     getDagoverstyringer,
@@ -14,9 +18,6 @@ import {
     getPeriodehistorikk,
     getUtbetalingshendelse,
 } from './mapping';
-import { activePeriod } from '@state/periode';
-import { personState } from '@state/person';
-import { sessionStorageEffect } from '@state/effects/sessionStorageEffect';
 
 const byTimestamp = (a: HendelseObject, b: HendelseObject): number => {
     return dayjs(b.timestamp).diff(dayjs(a.timestamp));
@@ -35,7 +36,7 @@ const getHendelserForBeregnetPeriode = (period: BeregnetPeriode, person: Person)
 
     return [...dokumenter, ...dagoverstyringer, ...inntektoverstyringer, ...arbeidsforholdoverstyringer]
         .filter(
-            (it: HendelseObject) => it.timestamp && dayjs(it.timestamp).startOf('s').isSameOrBefore(period.opprettet),
+            (it: HendelseObject) => it.timestamp && dayjs(it.timestamp).startOf('s').isSameOrBefore(period.opprettet)
         )
         .concat(utbetaling ? [utbetaling] : [])
         .concat(notater)

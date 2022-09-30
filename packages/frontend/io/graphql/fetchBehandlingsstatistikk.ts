@@ -1,9 +1,8 @@
+import rawQuery from './fetchBehandlingsstatistikk.graphql?raw';
 import { gql, request } from 'graphql-request';
 
-import { HentBehandlingsstatistikkQuery } from '@io/graphql/generated/graphql';
 import { baseUrl } from '@io/graphql/common';
-
-import rawQuery from './fetchBehandlingsstatistikk.graphql?raw';
+import { HentBehandlingsstatistikkQuery } from '@io/graphql/generated/graphql';
 
 const fetchBehandlingsstatistikkQuery = gql`
     ${rawQuery}

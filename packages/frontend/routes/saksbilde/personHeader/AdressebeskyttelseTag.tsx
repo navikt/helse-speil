@@ -1,8 +1,9 @@
 import React from 'react';
+
 import { Tag } from '@navikt/ds-react';
 
-import { Adressebeskyttelse } from '@io/graphql';
 import { AnonymizableContainer } from '@components/anonymizable/AnonymizableContainer';
+import { Adressebeskyttelse } from '@io/graphql';
 
 import styles from './PersonHeader.module.css';
 

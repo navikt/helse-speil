@@ -1,5 +1,6 @@
 import { useHistory } from 'react-router';
-import { useCurrentPerson, usePersonLoadable } from '@state/person';
+
+import { usePersonLoadable } from '@state/person';
 import { isPerson } from '@utils/typeguards';
 
 export interface Navigation {

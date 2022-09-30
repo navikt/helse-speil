@@ -1,10 +1,11 @@
 import React from 'react';
 
-import { useCurrentVilkårsgrunnlag } from '@state/periode';
 import { Arbeidsgiver, BeregnetPeriode, Dag, Person, Utbetalingsdagtype } from '@io/graphql';
+import { useCurrentVilkårsgrunnlag } from '@state/periode';
+
+import { ArbeidsgiverCard } from './ArbeidsgiverCard';
 import { PeriodeCard } from './PeriodeCard';
 import { UtbetalingCard } from './UtbetalingCard';
-import { ArbeidsgiverCard } from './ArbeidsgiverCard';
 import { Utbetaling } from './utbetaling/Utbetaling';
 
 import styles from './Venstremeny.module.css';
@@ -27,7 +28,7 @@ export const VenstremenyBeregnetPeriode: React.VFC<VenstremenyBeregnetPeriodePro
     readOnly,
 }) => {
     const månedsbeløp = useCurrentVilkårsgrunnlag()?.inntekter.find(
-        (it) => it.arbeidsgiver === currentArbeidsgiver.organisasjonsnummer,
+        (it) => it.arbeidsgiver === currentArbeidsgiver.organisasjonsnummer
     )?.omregnetArsinntekt?.manedsbelop;
 
     return (

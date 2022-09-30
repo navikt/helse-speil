@@ -1,9 +1,8 @@
+import { IkonContainer } from './Vilkår.styles';
 import styled from '@emotion/styled';
 import React, { ReactNode } from 'react';
 
 import { BodyShort } from '@navikt/ds-react';
-
-import { IkonContainer } from './Vilkår.styles';
 
 const Container = styled.div`
     display: flex;

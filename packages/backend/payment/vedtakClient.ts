@@ -1,7 +1,7 @@
 import request from 'request-promise-native';
 
-import { OidcConfig, OnBehalfOf } from '../types';
 import config from '../config';
+import { OidcConfig, OnBehalfOf } from '../types';
 
 const spesialistBaseUrl = config.server.spesialistBaseUrl;
 

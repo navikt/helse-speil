@@ -1,10 +1,11 @@
+import React from 'react';
+
+import { getUtbetalingstabellDag } from '@test-data/utbetalingstabell';
 import '@testing-library/jest-dom/extend-expect';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import React from 'react';
 
 import { DagtypeCell } from './DagtypeCell';
-import { getUtbetalingstabellDag } from '@test-data/utbetalingstabell';
 
 describe('DagtypeCell', () => {
     it('rendrer tekst for dagtype', () => {
@@ -20,7 +21,7 @@ describe('DagtypeCell', () => {
 
     it('prioriterer typen til den overstyrte dagen', () => {
         render(
-            <DagtypeCell dag={getUtbetalingstabellDag()} overstyrtDag={getUtbetalingstabellDag({ type: 'Ferie' })} />,
+            <DagtypeCell dag={getUtbetalingstabellDag()} overstyrtDag={getUtbetalingstabellDag({ type: 'Ferie' })} />
         );
 
         expect(screen.getByText('Ferie')).toBeVisible();
@@ -28,7 +29,7 @@ describe('DagtypeCell', () => {
 
     it('rendrer tekst for overstyringsindikatoren når vi overstyrer fra Syk til Ferie', () => {
         render(
-            <DagtypeCell dag={getUtbetalingstabellDag()} overstyrtDag={getUtbetalingstabellDag({ type: 'Ferie' })} />,
+            <DagtypeCell dag={getUtbetalingstabellDag()} overstyrtDag={getUtbetalingstabellDag({ type: 'Ferie' })} />
         );
         const indikator = screen.getByTestId('infotrekant');
         expect(indikator).toBeVisible();

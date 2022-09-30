@@ -2,12 +2,13 @@ import styled from '@emotion/styled';
 import React, { useRef, useState } from 'react';
 
 import { CaseworkerFilled } from '@navikt/ds-icons';
+
+import { EndringsloggArbeidsforhold } from '@components/EndringsloggArbeidsforhold';
+import { EndringsloggDager } from '@components/EndringsloggDager';
+import { EndringsloggInntekt } from '@components/EndringsloggInntekt';
 import { useInteractOutside } from '@hooks/useInteractOutside';
 import { Overstyring } from '@io/graphql';
 import { isArbeidsforholdoverstyringer, isInntektoverstyringer, isOverstyringerPrDag } from '@utils/typeguards';
-import { EndringsloggDager } from '@components/EndringsloggDager';
-import { EndringsloggArbeidsforhold } from '@components/EndringsloggArbeidsforhold';
-import { EndringsloggInntekt } from '@components/EndringsloggInntekt';
 
 const Button = styled.button`
     position: relative;

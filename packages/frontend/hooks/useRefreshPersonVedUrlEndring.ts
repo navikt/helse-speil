@@ -1,10 +1,10 @@
 import { useEffect } from 'react';
 import { useParams } from 'react-router';
 
-import { useAddVarsel, useRemoveVarsel } from '@state/varsler';
-import { useFetchPerson, usePersonLoadable } from '@state/person';
-import { SpeilError } from '@utils/error';
 import { Person } from '@io/graphql';
+import { useFetchPerson, usePersonLoadable } from '@state/person';
+import { useAddVarsel, useRemoveVarsel } from '@state/varsler';
+import { SpeilError } from '@utils/error';
 
 const HENT_PERSON_ERROR_KEY = 'hent-person-error';
 

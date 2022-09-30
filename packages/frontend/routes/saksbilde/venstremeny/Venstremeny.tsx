@@ -1,19 +1,20 @@
-import React from 'react';
 import classNames from 'classnames';
+import React from 'react';
+
 import { BodyShort } from '@navikt/ds-react';
 
 import { ErrorBoundary } from '@components/ErrorBoundary';
+import { useIsReadOnlyOppgave } from '@hooks/useIsReadOnlyOppgave';
+import { useCurrentArbeidsgiver } from '@state/arbeidsgiver';
 import { useActivePeriod } from '@state/periode';
 import { useCurrentPerson, useIsFetchingPerson } from '@state/person';
-import { useCurrentArbeidsgiver } from '@state/arbeidsgiver';
 import { isBeregnetPeriode, isGhostPeriode, isUberegnetPeriode } from '@utils/typeguards';
-import { useIsReadOnlyOppgave } from '@hooks/useIsReadOnlyOppgave';
 
+import { ArbeidsgiverCard } from './ArbeidsgiverCard';
 import { PeriodeCard } from './PeriodeCard';
 import { UtbetalingCard } from './UtbetalingCard';
-import { ArbeidsgiverCard } from './ArbeidsgiverCard';
-import { VenstremenyGhostPeriode } from './VenstremenyGhostPeriode';
 import { VenstremenyBeregnetPeriode } from './VenstremenyBeregnetPeriode';
+import { VenstremenyGhostPeriode } from './VenstremenyGhostPeriode';
 import { VenstremenyUberegnetPeriode } from './VenstremenyUberegnetPeriode';
 
 import styles from './Venstremeny.module.css';

@@ -1,20 +1,21 @@
-import React from 'react';
 import classNames from 'classnames';
+import React from 'react';
+
 import { BodyShort } from '@navikt/ds-react';
 
-import { Location, useNavigation } from '@hooks/useNavigation';
-import { LoadingShimmer } from '@components/LoadingShimmer';
 import { ErrorBoundary } from '@components/ErrorBoundary';
-import { useActivePeriod } from '@state/periode';
+import { LoadingShimmer } from '@components/LoadingShimmer';
+import { Location, useNavigation } from '@hooks/useNavigation';
 import { BeregnetPeriode } from '@io/graphql';
-import { isBeregnetPeriode, isGhostPeriode } from '@utils/typeguards';
+import { useActivePeriod } from '@state/periode';
+import { useIsFetchingPerson } from '@state/person';
 import { onLazyLoadFail } from '@utils/error';
+import { isBeregnetPeriode, isGhostPeriode } from '@utils/typeguards';
 
 import { TabLink } from '../TabLink';
 import { DropdownMenu } from './dropdown/DropdownMenu';
 
 import styles from './SaksbildeMenu.module.css';
-import { useIsFetchingPerson } from '@state/person';
 
 const HistorikkHeader = React.lazy(() => import('../historikk').catch(onLazyLoadFail));
 

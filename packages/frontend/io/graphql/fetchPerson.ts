@@ -1,9 +1,8 @@
+import rawQuery from './fetchPerson.graphql?raw';
 import { gql, request } from 'graphql-request';
 
-import { FetchPersonQuery } from './generated/graphql';
 import { baseUrl, validFødselsnummer } from './common';
-
-import rawQuery from './fetchPerson.graphql?raw';
+import { FetchPersonQuery } from './generated/graphql';
 
 const fetchPersonQuery = gql`
     ${rawQuery}

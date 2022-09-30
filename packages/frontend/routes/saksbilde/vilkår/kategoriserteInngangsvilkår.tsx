@@ -1,3 +1,5 @@
+import { Vilkårdata, Vilkårstype } from '../../../mapping/vilkår';
+import { Opptjeningstid, Sykepengegrunnlag } from './vilkårsgrupper/Vilkårsgrupper';
 import styled from '@emotion/styled';
 import React from 'react';
 
@@ -6,10 +8,6 @@ import { BodyShort, Tooltip } from '@navikt/ds-react';
 import { Flex } from '@components/Flex';
 import { LovdataLenke } from '@components/LovdataLenke';
 import { Advarselikon } from '@components/ikoner/Advarselikon';
-
-import { Vilkårdata, Vilkårstype } from '../../../mapping/vilkår';
-
-import { Opptjeningstid, Sykepengegrunnlag } from './vilkårsgrupper/Vilkårsgrupper';
 import { Vilkarsgrunnlag, VilkarsgrunnlagSpleis, Vurdering } from '@io/graphql';
 
 const VilkårManglerData = () => <BodyShort>Mangler data om vilkåret</BodyShort>;
@@ -140,7 +138,7 @@ export interface KategoriserteVilkår {
 export const kategoriserteInngangsvilkår = (
     vilkårsgrunnlag: Vilkarsgrunnlag,
     alderVedSkjæringstidspunkt: number,
-    vurdering?: Vurdering | null,
+    vurdering?: Vurdering | null
 ): KategoriserteVilkår => {
     const vurdertIInfotrygd = vilkårsgrunnlag.vilkarsgrunnlagtype === 'INFOTRYGD';
     const vurdertISpleis = !vurdertIInfotrygd && vurdering;

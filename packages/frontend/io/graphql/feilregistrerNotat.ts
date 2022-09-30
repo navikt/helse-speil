@@ -1,8 +1,7 @@
+import rawQuery from './feilregistrerNotat.graphql?raw';
 import { gql, request } from 'graphql-request';
 
 import { baseUrl } from '@io/graphql/common';
-
-import rawQuery from './feilregistrerNotat.graphql?raw';
 
 const feilregistrerNotatMutation = gql`
     ${rawQuery}

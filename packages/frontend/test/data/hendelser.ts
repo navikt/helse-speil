@@ -1,8 +1,9 @@
-import { Dagtype, PeriodehistorikkType, Utbetalingtype } from '@io/graphql';
 import { nanoid } from 'nanoid';
 
+import { Dagtype, PeriodehistorikkType, Utbetalingtype } from '@io/graphql';
+
 export const enArbeidsforholdoverstyringhendelse = (
-    overrides: Partial<ArbeidsforholdoverstyringhendelseObject> = {},
+    overrides: Partial<ArbeidsforholdoverstyringhendelseObject> = {}
 ): ArbeidsforholdoverstyringhendelseObject => ({
     id: nanoid(),
     type: 'Arbeidsforholdoverstyring',
@@ -16,7 +17,7 @@ export const enArbeidsforholdoverstyringhendelse = (
 });
 
 export const enDagoverstyringhendelse = (
-    overrides: Partial<DagoverstyringhendelseObject> = {},
+    overrides: Partial<DagoverstyringhendelseObject> = {}
 ): DagoverstyringhendelseObject => ({
     id: 'en-dagoverstyring',
     type: 'Dagoverstyring',
@@ -35,7 +36,7 @@ export const enDagoverstyringhendelse = (
 });
 
 export const enInntektoverstyringhendelse = (
-    overrides: Partial<InntektoverstyringhendelseObject> = {},
+    overrides: Partial<InntektoverstyringhendelseObject> = {}
 ): InntektoverstyringhendelseObject => ({
     id: 'en-inntektoverstyring',
     type: 'Inntektoverstyring',
@@ -53,7 +54,7 @@ export const enInntektoverstyringhendelse = (
 
 export const enDokumenthendelse = (
     type: DokumenthendelseObject['dokumenttype'],
-    overrides: Partial<DokumenthendelseObject> = {},
+    overrides: Partial<DokumenthendelseObject> = {}
 ): DokumenthendelseObject => ({
     id: `en-${type}`,
     type: 'Dokument',

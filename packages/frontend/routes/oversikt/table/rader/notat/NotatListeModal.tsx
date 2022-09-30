@@ -3,12 +3,12 @@ import React, { useState } from 'react';
 
 import { LinkButton } from '@components/LinkButton';
 import { TableModal } from '@components/TableModal';
+import { Personinfo } from '@io/graphql';
 import { useInnloggetSaksbehandler } from '@state/authentication';
+import { getFormatertNavn } from '@utils/string';
 
 import { NotatListeRad } from './NotatListeRad';
 import { NyttNotatModal } from './NyttNotatModal';
-import { Personinfo } from '@io/graphql';
-import { getFormatertNavn } from '@utils/string';
 
 const Title = styled.div`
     > p:first-of-type {
@@ -59,7 +59,7 @@ export const NotatListeModal = ({
         onClose(event);
     };
 
-    const toggleShowNyttNotatModal = (event: React.SyntheticEvent) => {
+    const toggleShowNyttNotatModal = () => {
         setShowNyttNotatModal((prevState) => !prevState);
     };
 

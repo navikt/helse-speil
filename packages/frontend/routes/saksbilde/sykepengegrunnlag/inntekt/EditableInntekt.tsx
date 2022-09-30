@@ -1,15 +1,20 @@
+import { BegrunnelseForOverstyring } from '../overstyring.types';
+import { MånedsbeløpInput } from './MånedsbeløpInput';
+import classNames from 'classnames';
 import React, { useEffect, useRef, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
-import classNames from 'classnames';
 
 import { BodyShort, Button, ErrorSummary, Loader } from '@navikt/ds-react';
 
+import { Bold } from '@components/Bold';
 import { Endringstrekant } from '@components/Endringstrekant';
 import { ErrorMessage } from '@components/ErrorMessage';
 import { Flex, FlexColumn } from '@components/Flex';
 import { OverstyringTimeoutModal } from '@components/OverstyringTimeoutModal';
+import { Inntektskilde, OmregnetArsinntekt } from '@io/graphql';
 import type { OverstyrtInntektDTO } from '@io/http';
 import { postAbonnerPåAktør, postOverstyrtInntekt } from '@io/http';
+import { useCurrentArbeidsgiver } from '@state/arbeidsgiver';
 import {
     kalkulererFerdigToastKey,
     kalkulererToast,
@@ -17,21 +22,16 @@ import {
     kalkuleringFerdigToast,
 } from '@state/kalkuleringstoasts';
 import { useOpptegnelser, useSetOpptegnelserPollingRate } from '@state/opptegnelser';
+import { useActivePeriod } from '@state/periode';
+import { useCurrentPerson } from '@state/person';
 import { useAddToast, useRemoveToast } from '@state/toasts';
 import { somPenger, toKronerOgØre } from '@utils/locale';
+import { isArbeidsgiver, isBeregnetPeriode, isGhostPeriode, isPerson } from '@utils/typeguards';
 
 import { Begrunnelser } from './Begrunnelser';
 import { ForklaringTextarea } from './ForklaringTextarea';
-import { MånedsbeløpInput } from './MånedsbeløpInput';
-import { Inntektskilde, OmregnetArsinntekt } from '@io/graphql';
-import { useCurrentPerson } from '@state/person';
-import { useActivePeriod } from '@state/periode';
-import { useCurrentArbeidsgiver } from '@state/arbeidsgiver';
-import { isArbeidsgiver, isBeregnetPeriode, isGhostPeriode, isPerson } from '@utils/typeguards';
-import { Bold } from '@components/Bold';
 
 import styles from './EditableInntekt.module.css';
-import { BegrunnelseForOverstyring } from '../overstyring.types';
 
 type OverstyrtInntektMetadata = {
     aktørId: string;
@@ -192,7 +192,7 @@ export const EditableInntekt = ({ omregnetÅrsinntekt, begrunnelser, close, onEn
                             <p
                                 className={classNames(
                                     styles.OpprinneligMånedsbeløp,
-                                    harEndringer && styles.harEndringer,
+                                    harEndringer && styles.harEndringer
                                 )}
                             >
                                 {toKronerOgØre(omregnetÅrsinntekt.manedsbelop)}
@@ -204,7 +204,7 @@ export const EditableInntekt = ({ omregnetÅrsinntekt, begrunnelser, close, onEn
                         className={classNames(
                             styles.Grid,
                             styles.OmregnetTilÅrsinntekt,
-                            harEndringer && styles.harEndringer,
+                            harEndringer && styles.harEndringer
                         )}
                     >
                         <BodyShort>

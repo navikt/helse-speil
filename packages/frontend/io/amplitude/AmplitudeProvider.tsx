@@ -1,13 +1,13 @@
-import React, { PropsWithChildren, useEffect } from 'react';
 import amplitude from 'amplitude-js';
 import dayjs, { Dayjs } from 'dayjs';
+import React, { PropsWithChildren, useEffect } from 'react';
 
+import { AmplitudeContext } from '@io/amplitude/AmplitudeContext';
+import { AmplitudeStorageHandler } from '@io/amplitude/AmplitudeStorageHandler';
+import { Periode } from '@io/graphql';
 import { useActivePeriod } from '@state/periode';
 import { getOppgavereferanse } from '@state/selectors/period';
 import { isBeregnetPeriode } from '@utils/typeguards';
-import { Periode } from '@io/graphql';
-import { AmplitudeContext } from '@io/amplitude/AmplitudeContext';
-import { AmplitudeStorageHandler } from '@io/amplitude/AmplitudeStorageHandler';
 
 amplitude?.getInstance().init('default', '', {
     apiEndpoint: 'amplitude.nav.no/collect-auto',
@@ -34,7 +34,7 @@ const useStoreÅpnetTidspunkt = () => {
 const getEventProperties = (
     period: Maybe<Periode | GhostPeriode>,
     openedTimestamp: Dayjs,
-    reasons?: Array<string>,
+    reasons?: Array<string>
 ): Amplitude.EventProperties | Amplitude.EventPropertiesBeregnetPeriode => {
     if (isBeregnetPeriode(period)) {
         return {
@@ -67,7 +67,7 @@ const useLogEvent = (): ((event: Amplitude.LogEvent, begrunnelser?: Array<string
                     .logEvent(
                         event,
                         getEventProperties(activePeriod, åpnetTidspunkt, begrunnelser),
-                        logEventCallback(oppgavereferanse),
+                        logEventCallback(oppgavereferanse)
                     );
         }
     };

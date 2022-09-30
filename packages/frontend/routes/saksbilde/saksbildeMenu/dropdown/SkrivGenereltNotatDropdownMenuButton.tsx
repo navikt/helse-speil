@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
-import { Personinfo } from '@io/graphql';
+
 import { Dropdown } from '@navikt/ds-react-internal';
+
+import { Personinfo } from '@io/graphql';
 
 import { NyttNotatModal } from '../../../oversikt/table/rader/notat/NyttNotatModal';
 

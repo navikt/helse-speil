@@ -1,29 +1,29 @@
-import React, { useState } from 'react';
+import { BegrunnelseForOverstyring } from '../overstyring.types';
 import classNames from 'classnames';
+import React, { useState } from 'react';
 
-import { Flex } from '@components/Flex';
 import { Bold } from '@components/Bold';
+import { Flex } from '@components/Flex';
 import { Kilde } from '@components/Kilde';
-import { kildeForkortelse } from '@utils/inntektskilde';
-import { isBeregnetPeriode, isForkastetPeriode } from '@utils/typeguards';
-import { overstyrInntektEnabled } from '@utils/featureToggles';
-import { useActivePeriod } from '@state/periode';
+import { useIsReadOnlyOppgave } from '@hooks/useIsReadOnlyOppgave';
+import { Inntektskilde, Inntektstype, Maybe, OmregnetArsinntekt, Utbetalingstatus } from '@io/graphql';
 import {
     useCurrentArbeidsgiver,
     useEndringerForPeriode,
     usePeriodForSkjæringstidspunkt,
     useUtbetalingForSkjæringstidspunkt,
 } from '@state/arbeidsgiver';
-import { Inntektskilde, Inntektstype, Maybe, OmregnetArsinntekt, Utbetalingstatus } from '@io/graphql';
-import { useIsReadOnlyOppgave } from '@hooks/useIsReadOnlyOppgave';
+import { useActivePeriod } from '@state/periode';
+import { overstyrInntektEnabled } from '@utils/featureToggles';
+import { kildeForkortelse } from '@utils/inntektskilde';
+import { isBeregnetPeriode, isForkastetPeriode } from '@utils/typeguards';
 
-import { RedigerInntekt } from './RedigerInntekt';
 import { EditableInntekt } from './EditableInntekt';
-import { ReadOnlyInntekt } from './ReadOnlyInntekt';
 import { EndringsloggButton } from './EndringsloggButton';
+import { ReadOnlyInntekt } from './ReadOnlyInntekt';
+import { RedigerInntekt } from './RedigerInntekt';
 
 import styles from './Inntekt.module.css';
-import { BegrunnelseForOverstyring } from '../overstyring.types';
 
 const useIsBeslutteroppgave = (): boolean => {
     const activePeriod = useActivePeriod();

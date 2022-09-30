@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
 import classNames from 'classnames';
+import React, { useState } from 'react';
+
 import { Bag } from '@navikt/ds-icons';
 import { Tooltip } from '@navikt/ds-react';
 

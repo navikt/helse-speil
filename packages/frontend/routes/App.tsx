@@ -3,24 +3,25 @@ import ReactModal from 'react-modal';
 import { BrowserRouter, Route, Switch, useLocation } from 'react-router-dom';
 import { RecoilRoot } from 'recoil';
 import 'reset-css';
-import './App.css';
 
-import { Toasts } from '@components/Toasts';
-import { Header } from '@components/header/Header';
-import { Varsler } from '@components/Varsler';
 import { ErrorBoundary } from '@components/ErrorBoundary';
 import { ProtectedRoute } from '@components/ProtectedRoute';
+import { Toasts } from '@components/Toasts';
+import { Varsler } from '@components/Varsler';
+import { Header } from '@components/header/Header';
 import { useLoadingToast } from '@hooks/useLoadingToast';
+import { useAuthentication } from '@state/authentication';
+import { useEasterEggIsActive } from '@state/easterEgg';
 import { usePersonLoadable } from '@state/person';
 import { useSetVarsler } from '@state/varsler';
-import { useEasterEggIsActive } from '@state/easterEgg';
-import { useAuthentication } from '@state/authentication';
 import { onLazyLoadFail } from '@utils/error';
 
-import { PageNotFound } from './PageNotFound';
-import { IkkeLoggetInn } from './IkkeLoggetInn';
 import { GlobalFeilside } from './GlobalFeilside';
+import { IkkeLoggetInn } from './IkkeLoggetInn';
+import { PageNotFound } from './PageNotFound';
 import { Routes } from './index';
+
+import './App.css';
 
 const Saksbilde = React.lazy(() => import('./saksbilde/Saksbilde').catch(onLazyLoadFail));
 const Oversikt = React.lazy(() => import('./oversikt').catch(onLazyLoadFail));

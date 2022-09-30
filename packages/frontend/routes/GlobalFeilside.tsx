@@ -1,8 +1,9 @@
 import React from 'react';
 
-import { Bold } from '@components/Bold';
-import { Header } from '@navikt/ds-react-internal';
 import { Alert } from '@navikt/ds-react';
+import { Header } from '@navikt/ds-react-internal';
+
+import { Bold } from '@components/Bold';
 
 import styles from './GlobalFeilside.module.css';
 

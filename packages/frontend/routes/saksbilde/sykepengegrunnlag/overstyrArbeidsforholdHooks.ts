@@ -1,17 +1,18 @@
+import { BegrunnelseForOverstyring } from './overstyring.types';
 import { useEffect, useState } from 'react';
-import { useAddToast, useRemoveToast } from '@state/toasts';
-import { useOpptegnelser, useSetOpptegnelserPollingRate } from '@state/opptegnelser';
+
+import { Person } from '@io/graphql';
+import { postAbonnerPåAktør, postOverstyrtArbeidsforhold } from '@io/http';
+import { OverstyrtArbeidsforholdDTO } from '@io/http/types';
 import {
     kalkulererFerdigToastKey,
     kalkulererToast,
     kalkulererToastKey,
     kalkuleringFerdigToast,
 } from '@state/kalkuleringstoasts';
-import { OverstyrtArbeidsforholdDTO } from '@io/http/types';
-import { postAbonnerPåAktør, postOverstyrtArbeidsforhold } from '@io/http';
-import { Person } from '@io/graphql';
+import { useOpptegnelser, useSetOpptegnelserPollingRate } from '@state/opptegnelser';
 import { useCurrentPerson } from '@state/person';
-import { BegrunnelseForOverstyring } from './overstyring.types';
+import { useAddToast, useRemoveToast } from '@state/toasts';
 
 type OverstyrtArbeidsforholdGetter = (
     organisasjonsnummerGhost: string,
@@ -21,7 +22,7 @@ type OverstyrtArbeidsforholdGetter = (
     begrunnelse: BegrunnelseForOverstyring,
     paragraf?: string,
     ledd?: string,
-    bokstav?: string,
+    bokstav?: string
 ) => OverstyrtArbeidsforholdDTO;
 
 export const useGetOverstyrtArbeidsforhold = (): OverstyrtArbeidsforholdGetter => {

@@ -1,20 +1,20 @@
 import styled from '@emotion/styled';
-import { nanoid } from 'nanoid';
-import React, { ReactNode, useRef } from 'react';
+import React, { ReactNode } from 'react';
+
 import { CaseworkerFilled } from '@navikt/ds-icons';
+import { Tooltip } from '@navikt/ds-react';
 
 import { Flex } from '@components/Flex';
 import { Kilde } from '@components/Kilde';
 import { Kildetype } from '@io/graphql';
 
-import { CellContent } from '../../table/CellContent';
 import { EndringsloggButton } from '../../sykepengegrunnlag/inntekt/EndringsloggButton';
-import { Tooltip } from '@navikt/ds-react';
+import { CellContent } from '../../table/CellContent';
 
 const getKildeTypeIcon = (
     dato: DateString,
     kilde?: Kildetype,
-    overstyringer?: Array<OverstyringerPrDag>,
+    overstyringer?: Array<OverstyringerPrDag>
 ): ReactNode => {
     switch (kilde) {
         case 'SYKMELDING':
@@ -64,8 +64,6 @@ interface KildeCellProps extends React.HTMLAttributes<HTMLTableCellElement> {
 }
 
 export const KildeCell = ({ type, dato, kilde, overstyringer, ...rest }: KildeCellProps) => {
-    const tooltipId = useRef(nanoid()).current;
-
     return (
         <td {...rest}>
             <Container>

@@ -18,5 +18,5 @@ export const Ikon = React.forwardRef<SVGSVGElement, IkonProps>(
             <title id="title">{alt}</title>
             {children}
         </svg>
-    ),
+    )
 );

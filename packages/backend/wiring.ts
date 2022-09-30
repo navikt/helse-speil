@@ -1,3 +1,5 @@
+import devLeggPåVentClient from './leggpåvent/devLeggPåVentClient';
+import leggPåVentClient from './leggpåvent/leggPåVentClient';
 import { Express } from 'express';
 import { RedisClient } from 'redis';
 
@@ -7,9 +9,8 @@ import devOnBehalfOf from './auth/devOnBehalfOf';
 import onBehalfOf from './auth/onBehalfOf';
 import config from './config';
 import devRedisClient from './devRedisClient';
+import graphQLClient from './graphql/graphQLClient';
 import instrumentationModule, { Instrumentation } from './instrumentation';
-import devLeggPåVentClient from './leggpåvent/devLeggPåVentClient';
-import leggPåVentClient from './leggpåvent/leggPåVentClient';
 import devNotatClient from './notat/devNotatClient';
 import notatClient from './notat/notatClient';
 import devOpptegnelseClient from './opptegnelse/devOpptegnelseClient';
@@ -18,15 +19,14 @@ import devOverstyringClient from './overstyring/devOverstyringClient';
 import overstyringClient from './overstyring/overstyringClient';
 import annulleringClient from './payment/annulleringClient';
 import devAnnulleringClient from './payment/devAnnulleringClient';
-import totrinnsvurderingClient from './payment/totrinnsvurderingClient';
 import devVedtakClient from './payment/devVedtakClient';
+import totrinnsvurderingClient from './payment/totrinnsvurderingClient';
 import vedtakClient from './payment/vedtakClient';
 import { personClient } from './person/personClient';
 import spesialistClient from './person/spesialistClient';
 import redisClient from './redisClient';
 import tildelingClient from './tildeling/tildelingClient';
 import { Helsesjekk } from './types';
-import graphQLClient from './graphql/graphQLClient';
 
 const getDependencies = (app: Express, helsesjekk: Helsesjekk) =>
     process.env.NODE_ENV === 'development' ? getDevDependencies(app) : getProdDependencies(app, helsesjekk);

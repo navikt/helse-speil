@@ -1,6 +1,7 @@
 import React from 'react';
-import { Clipboard } from '@components/clipboard';
+
 import { AnonymizableText } from '@components/anonymizable/AnonymizableText';
+import { Clipboard } from '@components/clipboard';
 
 const getFormattedFødselsnummer = (fødselsnummer: string) => {
     return fødselsnummer.slice(0, 6) + ' ' + fødselsnummer.slice(6);

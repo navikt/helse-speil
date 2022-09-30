@@ -1,10 +1,10 @@
 import styled from '@emotion/styled';
 import React, { useRef, useState } from 'react';
+
 import { CaseworkerFilled } from '@navikt/ds-icons';
 
 import { EndringsloggDager } from '@components/EndringsloggDager';
 import { useInteractOutside } from '@hooks/useInteractOutside';
-import { Dagoverstyring, Dagtype } from '@io/graphql';
 
 const Button = styled.button`
     position: relative;

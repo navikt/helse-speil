@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
 import classNames from 'classnames';
+import React, { useState } from 'react';
+
 import { Accordion } from '@navikt/ds-react';
 
 import styles from './ExpandableHistorikkContent.module.css';

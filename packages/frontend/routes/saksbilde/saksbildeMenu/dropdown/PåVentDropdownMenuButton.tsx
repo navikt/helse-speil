@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import { useHistory } from 'react-router';
-import { Dropdown } from '@navikt/ds-react-internal';
+
 import { Loader } from '@navikt/ds-react';
-import { useOperationErrorHandler } from '@state/varsler';
-import { useFjernPåVent, useLeggPåVent } from '@state/person';
-import { ignorePromise } from '@utils/promise';
+import { Dropdown } from '@navikt/ds-react-internal';
+
 import { Personinfo } from '@io/graphql';
+import { useFjernPåVent, useLeggPåVent } from '@state/person';
+import { useOperationErrorHandler } from '@state/varsler';
+import { ignorePromise } from '@utils/promise';
 
 import { NyttNotatModal } from '../../../oversikt/table/rader/notat/NyttNotatModal';
 
@@ -36,7 +38,7 @@ export const PåVentDropdownMenuButton = ({
             leggPåVentMedNotat(oppgavereferanse, { tekst: notattekst, type: 'PaaVent' }).then(() => {
                 history.push('/');
             }),
-            errorHandler,
+            errorHandler
         );
     };
 
@@ -46,7 +48,7 @@ export const PåVentDropdownMenuButton = ({
             fjernPåVent(oppgavereferanse).finally(() => {
                 setIsFetching(false);
             }),
-            errorHandler,
+            errorHandler
         );
     };
 

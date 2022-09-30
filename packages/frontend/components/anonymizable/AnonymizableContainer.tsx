@@ -1,6 +1,7 @@
-import React, { forwardRef } from 'react';
-import { OverridableComponent } from '@navikt/ds-react';
 import classNames from 'classnames';
+import React, { forwardRef } from 'react';
+
+import { OverridableComponent } from '@navikt/ds-react';
 
 import styles from './Anonymous.module.css';
 

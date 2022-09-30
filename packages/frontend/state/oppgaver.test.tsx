@@ -1,8 +1,9 @@
-import '@testing-library/jest-dom/extend-expect';
-import { act, renderHook } from '@testing-library/react-hooks';
 import dayjs from 'dayjs';
 import React from 'react';
 import { RecoilRoot, useRecoilValueLoadable } from 'recoil';
+
+import '@testing-library/jest-dom/extend-expect';
+import { act, renderHook } from '@testing-library/react-hooks';
 
 import { oppgaverState, useFjernTildeling, useTildelOppgave } from './oppgaver';
 

@@ -1,5 +1,5 @@
-import { useHarBeslutterrolle, useTotrinnsvurderingErAktiv } from '@state/toggles';
 import { useErTidligereSaksbehandler } from '@hooks/useErTidligereSaksbehandler';
+import { useHarBeslutterrolle, useTotrinnsvurderingErAktiv } from '@state/toggles';
 
 export const useHarBeslutteroppgavetilgang = (): boolean => {
     const harBeslutterRolle = useHarBeslutterrolle();

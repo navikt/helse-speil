@@ -1,5 +1,6 @@
 import styled from '@emotion/styled';
 import React from 'react';
+
 import { Oppgavetype, Periodetilstand, Periodetype } from '@io/graphql';
 
 const Etikett = styled.div`

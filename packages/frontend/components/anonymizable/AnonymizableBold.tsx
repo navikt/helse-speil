@@ -1,5 +1,6 @@
-import React from 'react';
 import classNames from 'classnames';
+import React from 'react';
+
 import { Bold } from '../Bold';
 
 import styles from './Anonymous.module.css';

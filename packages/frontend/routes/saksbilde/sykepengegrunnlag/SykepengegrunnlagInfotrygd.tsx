@@ -4,13 +4,13 @@ import React from 'react';
 
 import { BodyShort } from '@navikt/ds-react';
 
-import { Kilde } from '@components/Kilde';
 import { FlexColumn } from '@components/Flex';
+import { Kilde } from '@components/Kilde';
 import { AnonymizableText } from '@components/anonymizable/AnonymizableText';
-import { kildeForkortelse } from '@utils/inntektskilde';
-import { somPenger } from '@utils/locale';
 import { Arbeidsgiverinntekt, VilkarsgrunnlagInfotrygd } from '@io/graphql';
 import { useArbeidsgiver } from '@state/arbeidsgiver';
+import { kildeForkortelse } from '@utils/inntektskilde';
+import { somPenger } from '@utils/locale';
 
 const Container = styled(FlexColumn)`
     --fixed-column-width: 20rem;

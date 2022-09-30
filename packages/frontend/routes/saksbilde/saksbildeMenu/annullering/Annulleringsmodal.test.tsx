@@ -1,14 +1,14 @@
-import React from 'react';
+import { RecoilWrapper } from '@test-wrappers';
 import dayjs from 'dayjs';
-import userEvent from '@testing-library/user-event';
-import { render, screen, waitFor } from '@testing-library/react';
 import isSameOrAfter from 'dayjs/plugin/isSameOrAfter';
-import '@testing-library/jest-dom/extend-expect';
+import React from 'react';
 
 import type { AnnulleringDTO } from '@io/http/types';
+import '@testing-library/jest-dom/extend-expect';
+import { render, screen, waitFor } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 
 import { Annulleringsmodal } from './Annulleringsmodal';
-import { RecoilWrapper } from '@test-wrappers';
 
 dayjs.extend(isSameOrAfter);
 
@@ -53,8 +53,8 @@ describe('Annulleringsmodal', () => {
         await waitFor(() => {
             expect(
                 screen.queryByText(
-                    'Velg om endringen gjelder siste skjæringstidspunkt eller et tidligere skjæringstidspunkt',
-                ),
+                    'Velg om endringen gjelder siste skjæringstidspunkt eller et tidligere skjæringstidspunkt'
+                )
             ).not.toBeNull();
         });
     });

@@ -1,9 +1,9 @@
-import '@testing-library/jest-dom/extend-expect';
-import { render, screen, within } from '@testing-library/react';
+import { Inngangsvilkår, InngangsvilkårWithContent } from './Inngangsvilkår';
 import React from 'react';
 
-import { Inngangsvilkår, InngangsvilkårWithContent } from './Inngangsvilkår';
 import { VilkarsgrunnlagSpleis, Vilkarsgrunnlagtype, Vurdering } from '@io/graphql';
+import '@testing-library/jest-dom/extend-expect';
+import { render, screen, within } from '@testing-library/react';
 
 const getVilkårsgrunnlagSpleis = (overrides?: Partial<VilkarsgrunnlagSpleis>): VilkarsgrunnlagSpleis => ({
     antallOpptjeningsdagerErMinst: 100,
@@ -37,7 +37,7 @@ describe('Inngangsvilkår', () => {
                 periodeFom="2022-01-01"
                 vilkårsgrunnlag={getVilkårsgrunnlagSpleis()}
                 fødselsdato="1900-01-01"
-            />,
+            />
         );
 
         const gruppe = screen.getByTestId('oppfylte-vilkår');
@@ -53,7 +53,7 @@ describe('Inngangsvilkår', () => {
                 periodeFom="2022-01-01"
                 vilkårsgrunnlag={getVilkårsgrunnlagSpleis({ oppfyllerKravOmOpptjening: false })}
                 fødselsdato="1900-01-01"
-            />,
+            />
         );
 
         const oppfylteVilkår = screen.getByTestId('oppfylte-vilkår');
@@ -75,7 +75,7 @@ describe('Inngangsvilkår', () => {
                 vilkårsgrunnlag={getVilkårsgrunnlagSpleis()}
                 fødselsdato="1900-01-01"
                 vurdering={getVurdering()}
-            />,
+            />
         );
 
         const gruppe = screen.getByTestId('vurdert-av-saksbehandler');
@@ -92,7 +92,7 @@ describe('Inngangsvilkår', () => {
                 vilkårsgrunnlag={getVilkårsgrunnlagSpleis()}
                 fødselsdato="1900-01-01"
                 vurdering={getVurdering({ automatisk: true })}
-            />,
+            />
         );
 
         const gruppe = screen.getByTestId('vurdert-automatisk');
@@ -108,7 +108,7 @@ describe('Inngangsvilkår', () => {
                 periodeFom="2022-01-01"
                 vilkårsgrunnlag={getVilkårsgrunnlagSpleis({ vilkarsgrunnlagtype: Vilkarsgrunnlagtype.Infotrygd })}
                 fødselsdato="1900-01-01"
-            />,
+            />
         );
 
         const gruppe = screen.getByTestId('vurdert-i-infotrygd');

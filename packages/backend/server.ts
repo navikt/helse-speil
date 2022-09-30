@@ -1,16 +1,17 @@
+import oppgaveRoutes from './leggpåvent/leggPåVentRoutes';
 import bodyParser from 'body-parser';
 import compression from 'compression';
 import cookieParser from 'cookie-parser';
-import util from 'util';
 import express, { Response } from 'express';
 import { Client, generators } from 'openid-client';
+import util from 'util';
 
 import auth from './auth/authSupport';
 import azure from './auth/azure';
 import behandlingsstatistikkRoutes from './behandlingsstatistikk/behandlingsstatistikkRoutes';
 import config from './config';
+import graphQLRoutes from './graphql/graphQLRoutes';
 import headers from './headers';
-import oppgaveRoutes from './leggpåvent/leggPåVentRoutes';
 import logger from './logging';
 import notatRoutes from './notat/notatRoutes';
 import opptegnelseRoutes from './opptegnelse/opptegnelseRoutes';
@@ -20,7 +21,6 @@ import person from './person/personRoutes';
 import { ipAddressFromRequest } from './requestData';
 import { sessionStore } from './sessionStore';
 import tildelingRoutes from './tildeling/tildelingRoutes';
-import graphQLRoutes from './graphql/graphQLRoutes';
 import { AuthError, SpeilRequest } from './types';
 import wiring from './wiring';
 
@@ -146,7 +146,7 @@ app.use('/*', async (req: SpeilRequest, res, next) => {
             }
             if (req.originalUrl === '/' || req.originalUrl.startsWith('/static')) {
                 const user = req.session.user;
-                req.session.destroy((err) => logger.info(`Sesjonen for '${user}' er slettet ifm redirect til /login.`));
+                req.session.destroy(() => logger.info(`Sesjonen for '${user}' er slettet ifm redirect til /login.`));
                 res.redirect('/login');
             } else {
                 // these are xhr's, let the client decide how to handle

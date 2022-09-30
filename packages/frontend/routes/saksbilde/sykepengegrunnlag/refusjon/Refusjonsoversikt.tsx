@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
+
 import { BodyShort } from '@navikt/ds-react';
 
-import { Kildetype, Refusjon } from '@io/graphql';
-import { getFormattedDateString } from '@utils/date';
+import { Bold } from '@components/Bold';
 import { EditButton } from '@components/EditButton';
 import { Kilde } from '@components/Kilde';
-import { Bold } from '@components/Bold';
+import { Kildetype, Refusjon } from '@io/graphql';
+import { getFormattedDateString } from '@utils/date';
 
 import { Refusjonslinje } from './Refusjonslinje';
 import { useRefusjonsendringer } from './useRefusjonsendringer';

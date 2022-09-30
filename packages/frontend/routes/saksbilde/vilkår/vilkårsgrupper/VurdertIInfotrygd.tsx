@@ -1,11 +1,9 @@
+import { Vilkårdata } from '../../../../mapping/vilkår';
+import { BehandletVarselContent, Vilkårgrid, Vilkårgruppe } from '../Vilkår.styles';
+import { Vilkårsgruppetittel } from '../vilkårstitler';
 import React from 'react';
 
 import { Infotrygdvurdering } from '@components/Infotrygdvurdering';
-
-import { Vilkårdata } from '../../../../mapping/vilkår';
-
-import { BehandletVarselContent, Vilkårgrid, Vilkårgruppe } from '../Vilkår.styles';
-import { Vilkårsgruppetittel } from '../vilkårstitler';
 
 interface VurdertIInfotrygdProps {
     vilkår: Vilkårdata[];

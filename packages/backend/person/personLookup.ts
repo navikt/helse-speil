@@ -1,6 +1,6 @@
+import { erGyldigFødselsnummer } from '../aktørid/fødselsnummerValidation';
 import { Response } from 'express';
 
-import { erGyldigFødselsnummer } from '../aktørid/fødselsnummerValidation';
 import authSupport from '../auth/authSupport';
 import logger from '../logging';
 import { AppConfig, OnBehalfOf, SpeilRequest } from '../types';

@@ -1,9 +1,10 @@
 import React from 'react';
 
-import { useCurrentVilkårsgrunnlag } from '@state/periode';
 import { Arbeidsgiver, UberegnetPeriode } from '@io/graphql';
-import { PeriodeCard } from './PeriodeCard';
+import { useCurrentVilkårsgrunnlag } from '@state/periode';
+
 import { ArbeidsgiverCard } from './ArbeidsgiverCard';
+import { PeriodeCard } from './PeriodeCard';
 
 import styles from './Venstremeny.module.css';
 
@@ -17,7 +18,7 @@ export const VenstremenyUberegnetPeriode: React.FC<VenstremenyUberegnetPeriodePr
     currentArbeidsgiver,
 }) => {
     const månedsbeløp = useCurrentVilkårsgrunnlag()?.inntekter.find(
-        (it) => it.arbeidsgiver === currentArbeidsgiver.organisasjonsnummer,
+        (it) => it.arbeidsgiver === currentArbeidsgiver.organisasjonsnummer
     )?.omregnetArsinntekt?.manedsbelop;
 
     return (

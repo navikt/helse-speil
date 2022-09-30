@@ -1,21 +1,22 @@
-import React from 'react';
 import classNames from 'classnames';
 import { motion } from 'framer-motion';
+import React from 'react';
+
 import { BodyShort } from '@navikt/ds-react';
 
 import { CloseButton } from '@components/CloseButton';
 import { ErrorBoundary } from '@components/ErrorBoundary';
 import { useCurrentPerson, useIsFetchingPerson } from '@state/person';
 
-import { Notathendelse } from './hendelser/notat/Notathendelse';
-import { HendelseSkeleton } from './hendelser/Hendelse';
-import { Dokumenthendelse } from './hendelser/Dokumenthendelse';
-import { Historikkhendelse } from './hendelser/Historikkhendelse';
-import { Utbetalinghendelse } from './hendelser/Utbetalinghendelse';
-import { Dagoverstyringhendelse } from './hendelser/Dagoverstyringhendelse';
-import { Inntektoverstyringhendelse } from './hendelser/Inntektoverstyringhendelse';
 import { Arbeidsforholdoverstyringhendelse } from './hendelser/Arbeidsforholdoverstyringhendelse';
-import { useFilteredHistorikk, useFilterState, useShowHistorikkState } from './state';
+import { Dagoverstyringhendelse } from './hendelser/Dagoverstyringhendelse';
+import { Dokumenthendelse } from './hendelser/Dokumenthendelse';
+import { HendelseSkeleton } from './hendelser/Hendelse';
+import { Historikkhendelse } from './hendelser/Historikkhendelse';
+import { Inntektoverstyringhendelse } from './hendelser/Inntektoverstyringhendelse';
+import { Utbetalinghendelse } from './hendelser/Utbetalinghendelse';
+import { Notathendelse } from './hendelser/notat/Notathendelse';
+import { useFilterState, useFilteredHistorikk, useShowHistorikkState } from './state';
 
 import styles from './Historikk.module.css';
 

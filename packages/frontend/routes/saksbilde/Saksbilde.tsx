@@ -1,20 +1,21 @@
+import { VenterPåEndringProvider } from './VenterPåEndringContext';
 import React from 'react';
 import { Route, Switch, useRouteMatch } from 'react-router-dom';
+
 import { Alert } from '@navikt/ds-react';
 
 import { ErrorBoundary } from '@components/ErrorBoundary';
-import { useRefreshPersonVedUrlEndring } from '@hooks/useRefreshPersonVedUrlEndring';
 import { useRefreshPersonVedOpptegnelse } from '@hooks/useRefreshPersonVedOpptegnelse';
+import { useRefreshPersonVedUrlEndring } from '@hooks/useRefreshPersonVedUrlEndring';
 import { useVarselOmSakErTildeltAnnenSaksbehandler } from '@hooks/useVarselOmSakErTildeltAnnenSaksbehandler';
-import { usePollEtterOpptegnelser } from '@io/http';
 import { AmplitudeProvider } from '@io/amplitude';
+import { usePollEtterOpptegnelser } from '@io/http';
 
-import { Timeline } from './timeline';
-import { PeriodeView } from './saksbilder/PeriodeView';
 import { PersonHeader } from './personHeader';
 import { SaksbildeMenu } from './saksbildeMenu/SaksbildeMenu';
+import { PeriodeView } from './saksbilder/PeriodeView';
+import { Timeline } from './timeline';
 import { useKeyboardShortcuts } from './useKeyboardShortcuts';
-import { VenterPåEndringProvider } from './VenterPåEndringContext';
 
 import styles from './Saksbilde.module.css';
 

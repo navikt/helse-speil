@@ -1,7 +1,8 @@
-import { Canvas, useFrame, useLoader } from '@react-three/fiber';
 import React, { useEffect, useRef, useState } from 'react';
 import { AnimationAction, AnimationClip, AnimationMixer, FrontSide, LoopOnce, Mesh } from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
+
+import { Canvas, useFrame, useLoader } from '@react-three/fiber';
 
 const agurk = new URL('../assets/agurk.gltf', import.meta.url);
 

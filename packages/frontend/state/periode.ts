@@ -1,10 +1,10 @@
-import { atom, selector, useRecoilValue, useSetRecoilState } from 'recoil';
 import dayjs from 'dayjs';
+import { atom, selector, useRecoilValue, useSetRecoilState } from 'recoil';
 
-import { isBeregnetPeriode, isGhostPeriode, isPerson, isUberegnetPeriode } from '@utils/typeguards';
 import type { BeregnetPeriode, GhostPeriode, Person, UberegnetPeriode } from '@io/graphql';
 import { Periode, Periodetilstand, Vilkarsgrunnlag } from '@io/graphql';
 import { personState, useCurrentPerson } from '@state/person';
+import { isBeregnetPeriode, isGhostPeriode, isPerson, isUberegnetPeriode } from '@utils/typeguards';
 
 type ActivePeriod = BeregnetPeriode | UberegnetPeriode | GhostPeriode;
 
@@ -52,7 +52,7 @@ export const activePeriod = selector<ActivePeriod | null>({
             allPeriods.find(
                 (periode) =>
                     periode.periodetilstand === Periodetilstand.TilGodkjenning &&
-                    typeof periode.oppgavereferanse === 'string',
+                    typeof periode.oppgavereferanse === 'string'
             ) ?? null;
 
         const periode = periodWithOppgave ?? allPeriods[0];
@@ -83,7 +83,7 @@ export const useCurrentVilkårsgrunnlag = (): Vilkarsgrunnlag | null => {
             ?.grunnlag.filter(
                 (it) =>
                     dayjs(it.skjaeringstidspunkt).isSameOrAfter(periode.skjaeringstidspunkt) &&
-                    dayjs(it.skjaeringstidspunkt).isSameOrBefore(activePeriod.tom),
+                    dayjs(it.skjaeringstidspunkt).isSameOrBefore(activePeriod.tom)
             )
             .sort(bySkjæringstidspunktDescending)
             .pop() ?? null

@@ -1,4 +1,5 @@
 import React from 'react';
+
 import { Tooltip } from '@navikt/ds-react';
 
 import { AnonymizableTextWithEllipsis } from '@components/TextWithEllipsis';

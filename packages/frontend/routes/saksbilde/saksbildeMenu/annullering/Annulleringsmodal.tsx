@@ -7,14 +7,14 @@ import { useSetRecoilState } from 'recoil';
 import { Alert, BodyShort, Button, Loader } from '@navikt/ds-react';
 
 import { Modal } from '@components/Modal';
-import type { AnnulleringDTO } from '@io/http/types';
+import { Utbetalingslinje } from '@io/graphql';
 import { postAbonnerPåAktør, postAnnullering } from '@io/http';
+import type { AnnulleringDTO } from '@io/http/types';
 import { opptegnelsePollingTimeState } from '@state/opptegnelser';
 import { NORSK_DATOFORMAT } from '@utils/date';
 import { somPenger } from '@utils/locale';
 
 import { Annulleringsbegrunnelse } from './Annulleringsbegrunnelse';
-import { Utbetalingslinje } from '@io/graphql';
 
 import styles from './Annulleringsmodal.module.css';
 

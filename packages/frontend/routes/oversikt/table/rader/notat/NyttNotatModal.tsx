@@ -6,15 +6,15 @@ import { Button, Loader, Textarea as NavTextarea } from '@navikt/ds-react';
 
 import { Modal } from '@components/Modal';
 import { AnonymizableText } from '@components/anonymizable/AnonymizableText';
+import { Personinfo } from '@io/graphql';
 import { postNotat } from '@io/http';
-import { useOperationErrorHandler } from '@state/varsler';
 import { useNotaterForVedtaksperiode, useRefreshNotater } from '@state/notater';
+import { useRefetchPerson } from '@state/person';
+import { useOperationErrorHandler } from '@state/varsler';
 import { ignorePromise } from '@utils/promise';
+import { getFormatertNavn } from '@utils/string';
 
 import { SisteNotat } from './SisteNotat';
-import { getFormatertNavn } from '@utils/string';
-import { Personinfo } from '@io/graphql';
-import { useRefetchPerson } from '@state/person';
 
 const Container = styled.section`
     display: flex;
@@ -131,7 +131,7 @@ export const NyttNotatModal = ({
                         setIsFetching(false);
                         onClose({} as React.SyntheticEvent);
                     }),
-                errorHandler,
+                errorHandler
             );
         }
     };

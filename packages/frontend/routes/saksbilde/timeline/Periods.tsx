@@ -1,11 +1,11 @@
+import { Pølse } from './Pølse';
 import React from 'react';
 
-import { pølsebonansaEnabled } from '@utils/featureToggles';
-import { isBeregnetPeriode, isGhostPeriode, isUberegnetPeriode } from '@utils/typeguards';
 import { GhostPeriode, Periode, Periodetilstand } from '@io/graphql';
 import { isNotReady } from '@state/periode';
+import { pølsebonansaEnabled } from '@utils/featureToggles';
+import { isBeregnetPeriode, isGhostPeriode, isUberegnetPeriode } from '@utils/typeguards';
 
-import { Pølse } from './Pølse';
 import { Period } from './Period';
 import { usePeriodStyling } from './hooks/usePeriodStyling';
 import { useVisiblePeriods } from './hooks/useVisiblePeriods';
@@ -35,7 +35,7 @@ const isActive = (activePeriod: Periode, currentPeriod: Periode): boolean => {
 const mergePeriods = (
     fromSpleis: Array<Periode>,
     fromInfotrygd: Array<InfotrygdPeriod>,
-    ghostPeriods: Array<GhostPeriode>,
+    ghostPeriods: Array<GhostPeriode>
 ): Array<TimelinePeriod> => {
     const periodsFromSpleis = filterReadyPeriods(fromSpleis);
     return [...periodsFromSpleis, ...fromInfotrygd, ...ghostPeriods].sort(byFomAscending);
@@ -85,7 +85,7 @@ export const Periods: React.VFC<PeriodsProps> = ({
                         notCurrent={notCurrent}
                         isActive={isActive(activePeriod as Periode, period as Periode)}
                     />
-                ),
+                )
             )}
         </div>
     );

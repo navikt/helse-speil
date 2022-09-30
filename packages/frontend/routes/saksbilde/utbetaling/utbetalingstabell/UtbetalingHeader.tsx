@@ -59,7 +59,7 @@ export const UtbetalingHeader: React.FC<UtbetalingHeaderProps> = ({
 }) => {
     const dagerInneholderKunAGPEllerAvvisteDager = useMemo(
         () => Array.from(dager.values()).every((it) => it.erAGP || it.erAvvist || it.type === 'Helg'),
-        [dager],
+        [dager]
     );
 
     const hørerTilSisteFagsystemIdISkjæringstidspunkt = useActivePeriodHasLatestFagsystemIdForSkjæringstidspunkt();
