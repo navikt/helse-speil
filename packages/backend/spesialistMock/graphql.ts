@@ -1,26 +1,26 @@
-import fs from 'fs';
-import path from 'path';
+import spesialistSchema from '../graphql.schema.json';
 import { sleep } from 'deasync';
 import { Express } from 'express';
 import { graphqlHTTP } from 'express-graphql';
-import { buildClientSchema, GraphQLSchema, IntrospectionQuery } from 'graphql';
+import fs from 'fs';
+import { GraphQLSchema, IntrospectionQuery, buildClientSchema } from 'graphql';
+import path from 'path';
+
 import { makeExecutableSchema } from '@graphql-tools/schema';
 import type { IResolvers } from '@graphql-tools/utils';
 
-import { NotFoundError } from './errors';
-import { NotatMock } from './storage/notat';
-import { OppgaveMock } from './storage/oppgave';
-import { getMockOppdrag } from './data/oppdrag';
 import { behandledeOppgaver } from './data/behandledeOppgaver';
 import { behandlingsstatistikk } from './data/behandlingsstatistikk';
+import { getMockOppdrag } from './data/oppdrag';
+import { NotFoundError } from './errors';
 import type {
     BeregnetPeriode,
     MutationFeilregistrerKommentarArgs,
     MutationLeggTilKommentarArgs,
     Person,
 } from './schemaTypes';
-
-import spesialistSchema from '../graphql.schema.json';
+import { NotatMock } from './storage/notat';
+import { OppgaveMock } from './storage/oppgave';
 
 const leggTilLagretData = (person: Person): void => {
     let tildeling = person.tildeling;
@@ -72,18 +72,31 @@ const getResolvers = (): IResolvers => ({
             if (!person) {
                 throw new NotFoundError(fnr ?? aktorId ?? '');
             }
-            sleep(500);
-            return person;
+            try {
+                sleep(500);
+            } catch (_) {
+            } finally {
+                return person;
+            }
         },
         oppdrag: (_, { fnr }: { fnr: string }) => {
             return getMockOppdrag();
         },
         behandledeOppgaver: () => {
-            return behandledeOppgaver;
+            try {
+                sleep(500);
+            } catch (_) {
+            } finally {
+                return behandledeOppgaver;
+            }
         },
         behandlingsstatistikk: () => {
-            sleep(1000);
-            return behandlingsstatistikk;
+            try {
+                sleep(500);
+            } catch (_) {
+            } finally {
+                return behandlingsstatistikk;
+            }
         },
     },
     Mutation: {

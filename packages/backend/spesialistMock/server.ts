@@ -1,12 +1,11 @@
+import oppgaveFil from '../__mock-data__/oppgaver.json';
 import express, { Request, Response } from 'express';
 
 import { sleep } from '../devHelpers';
 import { setupGraphQLMiddleware } from './graphql';
-
-import oppgaveFil from '../__mock-data__/oppgaver.json';
-import { OppgaveMock } from './storage/oppgave';
-import { NotatMock } from './storage/notat';
 import { Notat } from './schemaTypes';
+import { NotatMock } from './storage/notat';
+import { OppgaveMock } from './storage/oppgave';
 
 const app = express();
 const port = 9001;
@@ -52,7 +51,12 @@ app.delete('/api/tildeling/:oppgavereferanse', (req: Request, res: Response) => 
         erPåVent: false,
     });
 
-    sleep(passeLenge()).then(() => res.sendStatus(200));
+    try {
+        sleep(passeLenge());
+    } catch (_) {
+    } finally {
+        res.sendStatus(200);
+    }
 });
 
 app.post('/api/leggpaavent/:oppgavereferanse', (req: Request, res: Response) => {
