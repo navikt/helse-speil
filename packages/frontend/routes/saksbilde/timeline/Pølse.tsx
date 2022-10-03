@@ -103,7 +103,7 @@ interface PølseProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
 export const Pølse: React.FC<PølseProps> = ({ period, notCurrent, isActive, className, ...buttonProps }) => {
     const setActivePeriod = useSetActivePeriod();
     const button = useRef<HTMLButtonElement>(null);
-    const iconIsVisible = useIsWiderThan(button, 16);
+    const iconIsVisible = useIsWiderThan(button, 32);
 
     const { onMouseOver, onMouseOut, ...popoverProps } = usePopoverAnchor();
 

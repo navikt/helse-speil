@@ -1,6 +1,6 @@
 import { RefObject, useLayoutEffect, useState } from 'react';
 
-export const useIsWiderThan = (container: RefObject<HTMLElement>, targetWidth: 16) => {
+export const useIsWiderThan = (container: RefObject<HTMLElement>, targetWidth: 32) => {
     const [isWider, setIsWider] = useState(false);
 
     useLayoutEffect(() => {
