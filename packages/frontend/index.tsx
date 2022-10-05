@@ -3,7 +3,7 @@ import { createRoot } from 'react-dom/client';
 
 import '@navikt/ds-css';
 import '@navikt/ds-css-internal';
-import '@navikt/ds-tokens/dist/tokens.css';
+import '@navikt/ds-tokens';
 
 import './config';
 import App from './routes/App';
