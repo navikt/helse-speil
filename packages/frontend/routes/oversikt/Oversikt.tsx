@@ -14,6 +14,7 @@ import { TabType, Tabs, tabState, useAktivTab } from './Tabs';
 import { BehandlingsstatistikkView } from './behandlingsstatistikk/BehandlingsstatistikkView';
 import { BehandletIdagTable } from './table/BehandletIdagTable';
 import { OppgaverTable } from './table/OppgaverTable';
+import { OppgaverTableSkeleton } from './table/OppgaverTableSkeleton';
 
 import styles from './Oversikt.module.css';
 
@@ -86,8 +87,7 @@ export const Oversikt = () => {
     useResetPersonOnMount();
     useFetchOppgaver(oppgaver.state);
 
-    const hasData =
-        (oppgaver.state === 'hasValue' && (oppgaver.contents as Oppgave[]).length > 0) || oppgaver.cache.length > 0;
+    const hasData = (oppgaver.state === 'hasValue' && oppgaver.contents.length > 0) || oppgaver.cache.length > 0;
 
     return (
         <div className={styles.Oversikt}>
@@ -105,9 +105,11 @@ export const Oversikt = () => {
                         <OppgaverTable
                             oppgaver={oppgaver.state === 'hasValue' ? (oppgaver.contents as Oppgave[]) : oppgaver.cache}
                         />
-                    ) : oppgaver.state !== 'loading' ? (
+                    ) : oppgaver.state === 'loading' ? (
+                        <OppgaverTableSkeleton />
+                    ) : (
                         <IngenOppgaver />
-                    ) : null}
+                    )}
                 </div>
                 <BehandlingsstatistikkView />
             </Flex>
