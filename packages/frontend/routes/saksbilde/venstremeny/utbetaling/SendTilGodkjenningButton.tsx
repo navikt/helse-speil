@@ -1,14 +1,20 @@
 import { nanoid } from 'nanoid';
 import React, { ReactNode, useContext, useState } from 'react';
 
-import { Button } from '@navikt/ds-react';
+import { Alert, BodyShort, Button } from '@navikt/ds-react';
 
 import { Key, useKeyboard } from '@hooks/useKeyboard';
 import { AmplitudeContext } from '@io/amplitude';
 import { postUtbetalingTilTotrinnsvurdering } from '@io/http';
+import { useActivePeriod } from '@state/periode';
+import { useCurrentPerson } from '@state/person';
 import { useAddToast } from '@state/toasts';
+import { isBeregnetPeriode, isPerson } from '@utils/typeguards';
 
+import { NyttNotatModal } from '../../../oversikt/table/rader/notat/NyttNotatModal';
 import { UtbetalingModal } from './UtbetalingModal';
+
+import styles from './SendTilGodkjenningButton.module.css';
 
 const useAddSendtTilGodkjenningtoast = () => {
     const addToast = useAddToast();
@@ -26,6 +32,7 @@ const useAddSendtTilGodkjenningtoast = () => {
 interface SendTilGodkjenningButtonProps extends Omit<React.HTMLAttributes<HTMLButtonElement>, 'onError'> {
     children: ReactNode;
     oppgavereferanse: string;
+    manglerNotatVedVurderLovvalgOgMedlemskapVarsel?: boolean;
     disabled: boolean;
     onSuccess?: () => void;
     onError?: (error: Error) => void;
@@ -34,21 +41,34 @@ interface SendTilGodkjenningButtonProps extends Omit<React.HTMLAttributes<HTMLBu
 export const SendTilGodkjenningButton: React.FC<SendTilGodkjenningButtonProps> = ({
     children,
     oppgavereferanse,
+    manglerNotatVedVurderLovvalgOgMedlemskapVarsel,
     disabled = false,
     onSuccess,
     onError,
     ...buttonProps
 }) => {
     const [showModal, setShowModal] = useState(false);
+    const [showGenereltNotatModal, setShowGenereltNotatModal] = useState(false);
     const [isSending, setIsSending] = useState(false);
     const amplitude = useContext(AmplitudeContext);
     const addToast = useAddSendtTilGodkjenningtoast();
+    const activePeriod = useActivePeriod();
+    const person = useCurrentPerson();
 
     useKeyboard({
-        [Key.F6]: { action: () => setShowModal(true), ignoreIfModifiers: false },
+        [Key.F6]: {
+            action: () =>
+                manglerNotatVedVurderLovvalgOgMedlemskapVarsel ? setShowGenereltNotatModal(true) : setShowModal(true),
+            ignoreIfModifiers: false,
+        },
     });
 
+    if (!isPerson(person) || !isBeregnetPeriode(activePeriod)) {
+        return null;
+    }
+
     const closeModal = () => setShowModal(false);
+    const closeGenereltNotatModal = () => setShowGenereltNotatModal(false);
 
     const sendTilGodkjenning = () => {
         setIsSending(true);
@@ -76,7 +96,11 @@ export const SendTilGodkjenningButton: React.FC<SendTilGodkjenningButtonProps> =
                 variant="primary"
                 size="small"
                 data-testid="godkjenning-button"
-                onClick={() => setShowModal(true)}
+                onClick={() =>
+                    manglerNotatVedVurderLovvalgOgMedlemskapVarsel
+                        ? setShowGenereltNotatModal(true)
+                        : setShowModal(true)
+                }
                 {...buttonProps}
             >
                 {children}
@@ -87,6 +111,21 @@ export const SendTilGodkjenningButton: React.FC<SendTilGodkjenningButtonProps> =
                     onApprove={sendTilGodkjenning}
                     isSending={isSending}
                     totrinnsvurdering={true}
+                />
+            )}
+            {showGenereltNotatModal && (
+                <NyttNotatModal
+                    onClose={closeGenereltNotatModal}
+                    personinfo={person.personinfo}
+                    vedtaksperiodeId={activePeriod.vedtaksperiodeId}
+                    notattype="Generelt"
+                    ekstraInnhold={
+                        <Alert className={styles.ManglerLovvalgOgMedlemskapNotat} variant="warning">
+                            <BodyShort className={styles.NotatParagraf}>
+                                Du må skrive notat for lovvalg og medlemskap før du sender oppgaven til beslutter.
+                            </BodyShort>
+                        </Alert>
+                    }
                 />
             )}
         </>

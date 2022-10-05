@@ -1,0 +1,10 @@
+.ManglerLovvalgOgMedlemskapNotat {
+    background-color: transparent;
+    border: 0;
+    padding-bottom: 0;
+    padding-left: 0;
+}
+
+.NotatParagraf {
+    font-size: var(--navds-font-size-xlarge);
+}

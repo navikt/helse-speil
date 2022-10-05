@@ -53,6 +53,7 @@ interface NyttNotatModalProps {
     vedtaksperiodeId: string;
     onSubmitOverride?: (notattekst: string) => void;
     notattype: NotatType;
+    ekstraInnhold?: ReactNode;
 }
 
 interface Notattekster {
@@ -94,6 +95,7 @@ export const NyttNotatModal = ({
     vedtaksperiodeId,
     onSubmitOverride,
     notattype,
+    ekstraInnhold,
 }: NyttNotatModalProps) => {
     const notaterForOppgave = useNotaterForVedtaksperiode(vedtaksperiodeId);
     const refreshNotater = useRefreshNotater();
@@ -146,6 +148,7 @@ export const NyttNotatModal = ({
             <Container>
                 <AnonymizableText size="small">{`Søker: ${søkernavn}`}</AnonymizableText>
                 {sisteNotat && <SisteNotat notat={sisteNotat} />}
+                {ekstraInnhold}
                 <form onSubmit={form.handleSubmit(submit)}>
                     <Controller
                         control={form.control}

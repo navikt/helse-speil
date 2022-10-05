@@ -8,7 +8,7 @@ import { BodyShort, Loader } from '@navikt/ds-react';
 import { ErrorMessage } from '@components/ErrorMessage';
 import { useErBeslutteroppgaveOgHarTilgang } from '@hooks/useErBeslutteroppgaveOgHarTilgang';
 import { useHarVurderLovvalgOgMedlemskapVarsel } from '@hooks/useHarVurderLovvalgOgMedlemskapVarsel';
-import { BeregnetPeriode, Periodetilstand, Person } from '@io/graphql';
+import { BeregnetPeriode, NotatType, Periodetilstand, Person } from '@io/graphql';
 import { postAbonnerPåAktør } from '@io/http';
 import { useHarDagOverstyringer } from '@state/arbeidsgiver';
 import { opptegnelsePollingTimeState } from '@state/opptegnelser';
@@ -118,6 +118,9 @@ export const Utbetaling = ({ activePeriod, currentPerson }: UtbetalingProps) => 
     const kanSendesTilTotrinnsvurdering =
         totrinnsvurderingAktiv && isBeregnetPeriode(activePeriod) && !activePeriod.erBeslutterOppgave;
     const trengerTotrinnsvurdering = activePeriod.trengerTotrinnsvurdering;
+    const manglerNotatVedVurderLovvalgOgMedlemskapVarsel = harVurderLovvalgOgMedlemskapVarsel
+        ? activePeriod.notater.filter((it) => it.type === NotatType.Generelt && !it.feilregistrert).length === 0
+        : undefined;
 
     return (
         <>
@@ -129,6 +132,7 @@ export const Utbetaling = ({ activePeriod, currentPerson }: UtbetalingProps) => 
                     harDagOverstyringer) ? (
                     <SendTilGodkjenningButton
                         oppgavereferanse={activePeriod.oppgavereferanse!}
+                        manglerNotatVedVurderLovvalgOgMedlemskapVarsel={manglerNotatVedVurderLovvalgOgMedlemskapVarsel}
                         disabled={periodenErSendt}
                         onSuccess={onSendTilGodkjenning}
                         onError={setError}
