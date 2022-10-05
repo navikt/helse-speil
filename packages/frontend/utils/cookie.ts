@@ -5,14 +5,6 @@ export const Keys = {
     OID: 'oid',
 };
 
-export enum CookieKey {
-    Name = 'name',
-    Ident = 'NAVident',
-    Email = 'email',
-    Oid = 'oid',
-    Groups = 'groups',
-}
-
 if (process.env.NODE_ENV === 'development') {
     document.cookie = `speil=dev-cookie.${btoa(
         JSON.stringify({
@@ -68,8 +60,6 @@ export const extractValues = (values: ArrayLike<any>) => {
     return decodedCookie ? Array.from(values).map((val) => decodedCookie[val]) : [];
 };
 
-export const extractName = () => extractValues([CookieKey.Name]);
+export const extractIdent = (): string => extractValues(['NAVident']).pop();
 
-export const extractIdent = (): string => extractValues([CookieKey.Ident]).pop();
-
-export const extractGroups = () => extractValues([CookieKey.Groups]).pop() ?? [];
+export const extractGroups = () => extractValues(['groups']).pop() ?? [];
