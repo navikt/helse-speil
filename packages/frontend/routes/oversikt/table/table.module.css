@@ -11,6 +11,10 @@
     border-collapse: collapse;
 }
 
+.Table > tbody > tr > td:last-of-type {
+    width: 100%;
+}
+
 .Content {
     padding: 0;
     color: var(--navds-semantic-color-text);

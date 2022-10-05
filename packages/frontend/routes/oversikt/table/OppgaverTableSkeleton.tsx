@@ -50,7 +50,7 @@ export const OppgaverTableSkeleton: React.FC = () => {
                                     <LoadingShimmer />
                                 </Header>
                                 <Header scope="col" colSpan={1}>
-                                    <LoadingShimmer />
+                                    <LoadingShimmer style={{ width: 100 }} />
                                 </Header>
                             </tr>
                         </thead>
