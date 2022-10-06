@@ -78,7 +78,7 @@ const DropdownMenuContent: React.FC = () => {
                 </>
             )}
             <Dropdown.Menu.List>
-                <OppdaterPersondataButton person={person} />
+                <OppdaterPersondataButton />
                 {isBeregnetPeriode(period) && isArbeidsgiver(arbeidsgiver) && (
                     <AnnullerButton person={person} periode={period} arbeidsgiver={arbeidsgiver} />
                 )}

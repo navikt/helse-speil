@@ -1,4 +1,3 @@
-import styled from '@emotion/styled';
 import React from 'react';
 
 import { Loader } from '@navikt/ds-react';
@@ -9,14 +8,10 @@ export const kalkulererToastKey = 'kalkulererToast';
 
 export const kalkulererFerdigToastKey = 'kalkulererFerdigToast';
 
-const Spinner = styled(Loader)`
-    margin-left: 1rem;
-`;
-
 export const kalkulererToast = ({
     message = (
         <>
-            Kalkulerer endringer <Spinner size="xsmall" />
+            Kalkulerer endringer <Loader size="xsmall" />
         </>
     ),
     callback,

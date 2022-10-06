@@ -81,7 +81,8 @@ declare type OpptegnelseType =
     | 'UTBETALING_ANNULLERING_OK'
     | 'NY_SAKSBEHANDLEROPPGAVE'
     | 'REVURDERING_AVVIST'
-    | 'REVURDERING_FERDIGBEHANDLET';
+    | 'REVURDERING_FERDIGBEHANDLET'
+    | 'PERSONDATA_OPPDATERT';
 
 declare type Opptegnelse = {
     aktørId: number;
