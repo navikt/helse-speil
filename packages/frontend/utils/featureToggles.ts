@@ -64,6 +64,7 @@ const saksbehandlereMedNyPølsevisning = [
     'F131883',
     'A158665',
     'G103083',
+    'V149621',
 ];
 
 export const pølsebonansaEnabled = erDev() || erLocal() || saksbehandlereMedNyPølsevisning.includes(extractIdent());
