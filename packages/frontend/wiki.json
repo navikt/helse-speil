@@ -497,5 +497,11 @@
         "betydning": "Søknadene har ikke kommet i vanlig rekkefølge. Dette kan skje dersom den sykmeldte avbryter en søknad/sykmelding, eller en lege skriver ut en tilbakedatert sykmelding. Perioder som allerede er avsluttet vil revurderes når denne perioden godkjennes.",
         "løsning": "Undersøk at behandlingen av perioden blir riktig.",
         "viktighet": "Høy"
+    },
+    {
+        "varsel": "Det er simulert et negativt beløp.",
+        "betydning": "Vedtaksløsningen foreslår å omgjøre tidligere utbetaling av sykepenger, slik at hele eller deler av simuleringen gir et negativt beløp.",
+        "løsning": "Undersøk om simuleringen gir et ønsket og riktig resultat og korriger hvis simuleringen er feil. Hvis simuleringen er riktig, se rutine for revurdering, feilutbetaling og tilbakekreving.",
+        "viktighet": "Høy"
     }
 ]
