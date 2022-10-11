@@ -69,8 +69,12 @@
     padding: 5px 23px;
 }
 
-.Button > svg.spinner {
+.Button svg {
     margin-left: 0.5rem;
+}
+
+.Button > span {
+    display: flex;
 }
 
 .Feiloppsummering {
