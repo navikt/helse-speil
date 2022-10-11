@@ -28,7 +28,7 @@ export const ExpandableTimelineRow: React.VFC<ExpandableTimelineRowProp> = ({
 
     return (
         <div className={styles.TimelineRow}>
-            <Tooltip content={name}>
+            <Tooltip content={name} maxChar={name.length}>
                 <button
                     className={classNames(styles.Name, styles.Expandable, isExpanded && styles.expanded)}
                     onClick={() => setIsExpanded((prevState) => !prevState)}
