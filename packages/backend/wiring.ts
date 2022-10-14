@@ -4,7 +4,6 @@ import { Express } from 'express';
 import { RedisClient } from 'redis';
 
 import { devPersonClient } from './adapters/devPersonClient';
-import devSpesialistClient from './adapters/devSpesialistClient';
 import devOnBehalfOf from './auth/devOnBehalfOf';
 import onBehalfOf from './auth/onBehalfOf';
 import config from './config';
@@ -23,7 +22,6 @@ import devVedtakClient from './payment/devVedtakClient';
 import totrinnsvurderingClient from './payment/totrinnsvurderingClient';
 import vedtakClient from './payment/vedtakClient';
 import { personClient } from './person/personClient';
-import spesialistClient from './person/spesialistClient';
 import redisClient from './redisClient';
 import tildelingClient from './tildeling/tildelingClient';
 import { Helsesjekk } from './types';
@@ -34,14 +32,12 @@ const getDependencies = (app: Express, helsesjekk: Helsesjekk) =>
 const getDevDependencies = (app: Express) => {
     const instrumentation: Instrumentation = instrumentationModule.setup(app);
     const _tildelingClient = tildelingClient(config.oidc, devOnBehalfOf);
-    const _devSpesialistClient = devSpesialistClient(instrumentation);
     const _devPersonClient = devPersonClient(instrumentation);
     const _devGraphQLClient = graphQLClient(config.oidc, devOnBehalfOf);
     const _totrinnsvurderingClient = totrinnsvurderingClient(config.oidc, devOnBehalfOf);
 
     return {
         person: {
-            spesialistClient: _devSpesialistClient,
             personClient: _devPersonClient,
             onBehalfOf: devOnBehalfOf,
             config,
@@ -70,7 +66,6 @@ const getProdDependencies = (app: Express, helsesjekk: Helsesjekk) => {
     const _overstyringClient = overstyringClient(config.oidc, _onBehalfOf);
     const _tildelingClient = tildelingClient(config.oidc, _onBehalfOf);
     const _annulleringClient = annulleringClient(config, _onBehalfOf);
-    const _spesialistClient = spesialistClient(instrumentation, config.oidc, _onBehalfOf);
     const _personClient = personClient(instrumentation, config.oidc, _onBehalfOf);
     const _opptegnelseClient = opptegnelseClient(config.oidc, _onBehalfOf);
     const _leggPåVentClient = leggPåVentClient(config.oidc, _onBehalfOf);
@@ -80,7 +75,6 @@ const getProdDependencies = (app: Express, helsesjekk: Helsesjekk) => {
 
     return {
         person: {
-            spesialistClient: _spesialistClient,
             personClient: _personClient,
             onBehalfOf: _onBehalfOf,
             config,

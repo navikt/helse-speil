@@ -122,9 +122,6 @@ export const put = async (url: string, data: any, headere?: Headers): Promise<Sp
     };
 };
 
-export const getOppgaver = async (): Promise<Array<ExternalOppgave>> =>
-    get<{ oppgaver: Array<ExternalOppgave> }>(`${baseUrl}/person/`).then((response) => response.data!.oppgaver);
-
 export const getOpptegnelser = async (sisteSekvensId?: number): Promise<SpeilResponse<Array<Opptegnelse>>> => {
     return sisteSekvensId
         ? get<Opptegnelse[]>(`${baseUrl}/opptegnelse/hent/${sisteSekvensId}`)

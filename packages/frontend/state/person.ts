@@ -68,10 +68,6 @@ export const personState = atom<PersonState>({
 
 export const useCurrentPerson = (): Person | null => useRecoilValue(personState).person;
 
-export const usePersonErrors = (): Array<SpeilError> => {
-    return useRecoilValue(personState).errors;
-};
-
 export const useFetchPerson = (): ((id: string) => Promise<PersonState | void>) => {
     const setPerson = useSetRecoilState(personState);
 

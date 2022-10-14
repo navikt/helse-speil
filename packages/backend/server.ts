@@ -8,7 +8,6 @@ import util from 'util';
 
 import auth from './auth/authSupport';
 import azure from './auth/azure';
-import behandlingsstatistikkRoutes from './behandlingsstatistikk/behandlingsstatistikkRoutes';
 import config from './config';
 import graphQLRoutes from './graphql/graphQLRoutes';
 import headers from './headers';
@@ -163,7 +162,6 @@ app.use('/api/overstyring', overstyringRoutes(dependencies.overstyring));
 app.use('/api/tildeling', tildelingRoutes(dependencies.tildeling));
 app.use('/api/opptegnelse', opptegnelseRoutes(dependencies.opptegnelse));
 app.use('/api/leggpaavent', oppgaveRoutes(dependencies.leggPåVent));
-app.use('/api/behandlingsstatistikk', behandlingsstatistikkRoutes(dependencies.person.spesialistClient));
 app.use('/api/notater', notatRoutes(dependencies.notat));
 app.use('/graphql', graphQLRoutes(dependencies.graphql));
 

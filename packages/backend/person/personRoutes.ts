@@ -7,16 +7,13 @@ import personLookup from './personLookup';
 
 const router = Router();
 
-const setup = ({ spesialistClient, personClient, config, onBehalfOf }: PersonDependencies) => {
-    personLookup.setup({ spesialistClient, config, onBehalfOf });
+const setup = ({ personClient, config, onBehalfOf }: PersonDependencies) => {
+    personLookup.setup({ config, onBehalfOf });
     routes(router, personClient);
     return router;
 };
 
 const routes = (router: Router, personClient: PersonClient) => {
-    router.get('/', personLookup.oppgaverForPeriode);
-    router.get('/sok', personLookup.finnPerson);
-
     router.post('/oppdater', (req: SpeilRequest, res: Response) => {
         personClient
             .oppdaterPersoninfo(req.body as PersonoppdateringOptions, req.session.speilToken)
