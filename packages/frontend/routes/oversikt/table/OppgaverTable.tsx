@@ -2,6 +2,7 @@ import { SøkerCell } from './rader/SøkerCell';
 import React from 'react';
 
 import { useIsReadOnlyOppgave } from '@hooks/useIsReadOnlyOppgave';
+import { FetchOppgaverQuery, OppgaveForOversiktsvisning, Periodetype } from '@io/graphql';
 import { useSyncNotater } from '@state/notater';
 
 import { TabType, useAktivTab } from '../Tabs';
@@ -13,8 +14,9 @@ import { Pagination } from './Pagination';
 import { SortButton } from './SortButton';
 import { BostedCell } from './rader/BostedCell';
 import { InntektskildeCell } from './rader/InntektskildeCell';
+import { OppgavetypeCell } from './rader/OppgavetypeCell';
 import { OpprettetCell } from './rader/OpprettetCell';
-import { SakstypeCell } from './rader/SakstypeCell';
+import { PeriodetypeCell } from './rader/PeriodetypeCell';
 import { StatusCell } from './rader/StatusCell';
 import { TildelingCell } from './rader/TildelingCell';
 import { NotatCell } from './rader/notat/NotatCell';
@@ -25,16 +27,28 @@ import { useSortation } from './state/sortation';
 
 import styles from './table.module.css';
 
-const groupFiltersByColumn = (filters: Filter<Oppgave>[]): Filter<Oppgave>[][] => {
-    const groups = filters.reduce((groups: { [key: string]: Filter<Oppgave>[] }, filter: Filter<Oppgave>) => {
-        const key = `${filter.column}`;
-        return groups[key] ? { ...groups, [key]: [...groups[key], filter] } : { ...groups, [key]: [filter] };
-    }, {});
+const groupFiltersByColumn = (
+    filters: Filter<OppgaveForOversiktsvisning>[]
+): Filter<OppgaveForOversiktsvisning>[][] => {
+    const groups = filters.reduce(
+        (
+            groups: { [key: string]: Filter<OppgaveForOversiktsvisning>[] },
+            filter: Filter<OppgaveForOversiktsvisning>
+        ) => {
+            const key = `${filter.column}`;
+            return groups[key] ? { ...groups, [key]: [...groups[key], filter] } : { ...groups, [key]: [filter] };
+        },
+        {}
+    );
 
     return Object.values(groups);
 };
 
-export const OppgaverTable = React.memo(({ oppgaver }: { oppgaver: Oppgave[] }) => {
+interface OppgaverTableProps {
+    oppgaver: FetchOppgaverQuery['alleOppgaver'];
+}
+
+export const OppgaverTable: React.FC<OppgaverTableProps> = React.memo(({ oppgaver }) => {
     const pagination = usePagination();
     const sortation = useSortation();
     const filters = useFilters();
@@ -46,10 +60,14 @@ export const OppgaverTable = React.memo(({ oppgaver }: { oppgaver: Oppgave[] }) 
 
     const visibleRows =
         activeFilters.length > 0
-            ? oppgaver.filter((oppgave) => groupedFilters.every((it) => it.some((it) => it.function(oppgave))))
-            : oppgaver;
+            ? (oppgaver.filter((oppgave) =>
+                  groupedFilters.every((it) => it.some((it) => it.function(oppgave as OppgaveForOversiktsvisning)))
+              ) as Array<OppgaveForOversiktsvisning>)
+            : (oppgaver as Array<OppgaveForOversiktsvisning>);
 
-    const sortedRows = sortation ? [...visibleRows].sort(sortation.function) : visibleRows;
+    const sortedRows = sortation
+        ? [...(visibleRows as Array<OppgaveForOversiktsvisning>)].sort(sortation.function)
+        : visibleRows;
 
     const paginatedRows = pagination
         ? sortedRows.slice(pagination.firstVisibleEntry, pagination.lastVisibleEntry + 1)
@@ -85,7 +103,12 @@ export const OppgaverTable = React.memo(({ oppgaver }: { oppgaver: Oppgave[] }) 
                                 </Header>
                                 <Header scope="col" colSpan={1}>
                                     <FilterButton filters={filters.filter((it) => it.column === 1)}>
-                                        Sakstype
+                                        Periodetype
+                                    </FilterButton>
+                                </Header>
+                                <Header scope="col" colSpan={1}>
+                                    <FilterButton filters={filters.filter((it) => it.column === 2)}>
+                                        Oppgavetype
                                     </FilterButton>
                                 </Header>
                                 <Header
@@ -95,16 +118,14 @@ export const OppgaverTable = React.memo(({ oppgaver }: { oppgaver: Oppgave[] }) 
                                 >
                                     <SortButton
                                         label="bosted"
-                                        onSort={(a: Oppgave, b: Oppgave) =>
-                                            a.boenhet.navn.localeCompare(b.boenhet.navn)
-                                        }
+                                        onSort={(a, b) => a.boenhet.navn.localeCompare(b.boenhet.navn)}
                                         state={sortation?.label === 'bosted' ? sortation.state : 'none'}
                                     >
                                         Bosted
                                     </SortButton>
                                 </Header>
                                 <Header scope="col" colSpan={1}>
-                                    <FilterButton filters={filters.filter((it) => it.column === 3)}>
+                                    <FilterButton filters={filters.filter((it) => it.column === 4)}>
                                         Inntektskilde
                                     </FilterButton>
                                 </Header>
@@ -115,7 +136,7 @@ export const OppgaverTable = React.memo(({ oppgaver }: { oppgaver: Oppgave[] }) 
                                 >
                                     <SortButton
                                         label="status"
-                                        onSort={(a: Oppgave, b: Oppgave) => a.antallVarsler - b.antallVarsler}
+                                        onSort={(a, b) => a.antallVarsler - b.antallVarsler}
                                         state={sortation?.label === 'status' ? sortation.state : 'none'}
                                     >
                                         Status
@@ -131,7 +152,7 @@ export const OppgaverTable = React.memo(({ oppgaver }: { oppgaver: Oppgave[] }) 
                                 >
                                     <SortButton
                                         label="opprettet"
-                                        onSort={(a: Oppgave, b: Oppgave) =>
+                                        onSort={(a, b) =>
                                             new Date(a.sistSendt ?? a.opprettet).getTime() -
                                             new Date(b.sistSendt ?? b.opprettet).getTime()
                                         }
@@ -146,24 +167,25 @@ export const OppgaverTable = React.memo(({ oppgaver }: { oppgaver: Oppgave[] }) 
                         </thead>
                         <tbody>
                             {paginatedRows.map((it) => (
-                                <LinkRow aktørId={it.aktørId} key={it.oppgavereferanse}>
+                                <LinkRow aktørId={it.aktorId} key={it.id}>
                                     <TildelingCell oppgave={it} kanTildeles={!readOnly} />
-                                    <SakstypeCell
-                                        type={it.periodetype}
-                                        erBeslutterOppgave={it.erBeslutterOppgave}
-                                        erReturOppgave={it.erReturOppgave}
+                                    <PeriodetypeCell type={it.periodetype ?? Periodetype.Forstegangsbehandling} />
+                                    <OppgavetypeCell
+                                        oppgavetype={it.type}
+                                        erBeslutter={it.erBeslutter}
+                                        erRetur={it.erRetur}
                                     />
                                     <BostedCell stedsnavn={it.boenhet.navn} />
-                                    <InntektskildeCell type={it.inntektskilde} />
+                                    <InntektskildeCell flereArbeidsgivere={it.flereArbeidsgivere} />
                                     <StatusCell numberOfWarnings={it.antallVarsler} />
                                     <SøkerCell name={it.personinfo} />
                                     <OpprettetCell date={it.sistSendt ?? it.opprettet} />
                                     <OptionsCell oppgave={it} personinfo={it.personinfo} />
-                                    {it.tildeling?.påVent ? (
+                                    {it.tildeling?.reservert ? (
                                         <NotatCell
                                             vedtaksperiodeId={it.vedtaksperiodeId}
                                             personinfo={it.personinfo}
-                                            erPåVent={it.tildeling.påVent}
+                                            erPåVent={it.tildeling.reservert}
                                         />
                                     ) : (
                                         <Cell />

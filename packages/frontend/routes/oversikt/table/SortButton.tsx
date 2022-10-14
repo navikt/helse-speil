@@ -1,6 +1,8 @@
 import styled from '@emotion/styled';
 import React from 'react';
 
+import { OppgaveForOversiktsvisning } from '@io/graphql';
+
 import { SortationState, useSetSortation } from './state/sortation';
 
 const Button = styled.button<{ state: SortationState }>`
@@ -39,7 +41,7 @@ const Button = styled.button<{ state: SortationState }>`
 interface SortButtonProps extends React.HTMLAttributes<HTMLButtonElement> {
     label: string;
     state: SortationState;
-    onSort: (a: Oppgave, b: Oppgave) => number;
+    onSort: (a: OppgaveForOversiktsvisning, b: OppgaveForOversiktsvisning) => number;
 }
 
 export const SortButton = ({ children, state, onSort, label, ...rest }: SortButtonProps) => {
@@ -51,8 +53,8 @@ export const SortButton = ({ children, state, onSort, label, ...rest }: SortButt
             newState === 'ascending'
                 ? onSort
                 : newState === 'descending'
-                ? (a: Oppgave, b: Oppgave) => onSort(b, a)
-                : (_a: Oppgave, _b: Oppgave) => 0;
+                ? (a: OppgaveForOversiktsvisning, b: OppgaveForOversiktsvisning) => onSort(b, a)
+                : (_a: OppgaveForOversiktsvisning, _b: OppgaveForOversiktsvisning) => 0;
 
         setSortation({ label, function: newFunction, state: newState });
     };

@@ -3,10 +3,10 @@ import React, { useState } from 'react';
 import { Loader } from '@navikt/ds-react';
 import { Dropdown } from '@navikt/ds-react-internal';
 
+import { Personinfo } from '@io/graphql';
 import { NotatDTO } from '@io/http';
 import { useLeggPåVent } from '@state/oppgaver';
 import { useOperationErrorHandler } from '@state/varsler';
-import { convertToGraphQLPersoninfo } from '@utils/mapping';
 import { ignorePromise } from '@utils/promise';
 
 import { NyttNotatModal } from '../notat/NyttNotatModal';
@@ -47,7 +47,7 @@ export const LeggPåVentMenuButton = ({ oppgavereferanse, vedtaksperiodeId, pers
             {visModal && (
                 <NyttNotatModal
                     onClose={() => setVisModal(false)}
-                    personinfo={convertToGraphQLPersoninfo(personinfo)}
+                    personinfo={personinfo}
                     vedtaksperiodeId={vedtaksperiodeId}
                     onSubmitOverride={settPåVent}
                     notattype="PaaVent"

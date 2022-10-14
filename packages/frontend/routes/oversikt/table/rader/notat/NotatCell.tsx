@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { Notes } from '@navikt/ds-icons';
 import { Button, Tooltip } from '@navikt/ds-react';
 
+import { Personinfo } from '@io/graphql';
 import { useNotaterForVedtaksperiode } from '@state/notater';
 import { convertToGraphQLPersoninfo } from '@utils/mapping';
 
@@ -41,7 +42,7 @@ export const NotatCell: React.VFC<NotatCellProps> = ({ vedtaksperiodeId, personi
                 <NotatListeModal
                     notater={notater}
                     vedtaksperiodeId={vedtaksperiodeId}
-                    personinfo={convertToGraphQLPersoninfo(personinfo)}
+                    personinfo={personinfo}
                     onClose={toggleModal}
                     erPåVent={erPåVent}
                     notattype="PaaVent"

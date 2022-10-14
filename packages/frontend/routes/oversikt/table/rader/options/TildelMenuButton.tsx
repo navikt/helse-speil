@@ -1,13 +1,14 @@
 import React from 'react';
 
+import { Tildeling } from '@io/graphql';
 import { useTildelOppgave } from '@state/oppgaver';
 
 import { AsyncMenuButton } from './AsyncMenuButton';
 
 interface TildelMenuButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
     oppgavereferanse: string;
-    saksbehandler: Saksbehandler;
-    tildeling?: Tildeling;
+    saksbehandler: Omit<Tildeling, 'reservert'>;
+    tildeling?: Maybe<Tildeling>;
 }
 
 export const TildelMenuButton: React.FC<TildelMenuButtonProps> = ({
@@ -19,8 +20,8 @@ export const TildelMenuButton: React.FC<TildelMenuButtonProps> = ({
     const tildelOppgave = useTildelOppgave();
     return (
         <AsyncMenuButton
-            asyncOperation={() => tildelOppgave({ oppgavereferanse }, saksbehandler)}
-            disabled={tildeling !== undefined}
+            asyncOperation={() => tildelOppgave({ id: oppgavereferanse }, saksbehandler)}
+            disabled={typeof tildeling !== 'object'}
             {...rest}
         >
             Tildel meg

@@ -3927,6 +3927,18 @@
                         "deprecationReason": null
                     },
                     {
+                        "name": "sistSendt",
+                        "description": null,
+                        "args": [],
+                        "type": {
+                            "kind": "SCALAR",
+                            "name": "String",
+                            "ofType": null
+                        },
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
+                    {
                         "name": "tidligereSaksbehandler",
                         "description": null,
                         "args": [],
@@ -5243,9 +5255,13 @@
                         "description": null,
                         "args": [],
                         "type": {
-                            "kind": "ENUM",
-                            "name": "Kjonn",
-                            "ofType": null
+                            "kind": "NON_NULL",
+                            "name": null,
+                            "ofType": {
+                                "kind": "ENUM",
+                                "name": "Kjonn",
+                                "ofType": null
+                            }
                         },
                         "isDeprecated": false,
                         "deprecationReason": null
@@ -5413,6 +5429,30 @@
                 "name": "Query",
                 "description": null,
                 "fields": [
+                    {
+                        "name": "alleOppgaver",
+                        "description": null,
+                        "args": [],
+                        "type": {
+                            "kind": "NON_NULL",
+                            "name": null,
+                            "ofType": {
+                                "kind": "LIST",
+                                "name": null,
+                                "ofType": {
+                                    "kind": "NON_NULL",
+                                    "name": null,
+                                    "ofType": {
+                                        "kind": "OBJECT",
+                                        "name": "OppgaveForOversiktsvisning",
+                                        "ofType": null
+                                    }
+                                }
+                            }
+                        },
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
                     {
                         "name": "behandledeOppgaver",
                         "description": null,

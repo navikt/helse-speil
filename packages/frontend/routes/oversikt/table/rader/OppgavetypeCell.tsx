@@ -3,14 +3,20 @@ import React from 'react';
 import { BodyShort } from '@navikt/ds-react';
 
 import { Oppgaveetikett } from '@components/Oppgaveetikett';
-import { Oppgavetype, Periodetype } from '@io/graphql';
+import { Oppgavetype } from '@io/graphql';
 
 import { Cell } from '../Cell';
 import { CellContent } from './CellContent';
 
 import styles from './OppgavetypeCell.module.css';
 
-const getLabelForOppgavetype = (type: Oppgavetype): string => {
+const getLabelForOppgavetype = (type: Oppgavetype, erBeslutter?: boolean, erRetur?: boolean): string => {
+    if (erBeslutter) {
+        return 'Beslutter';
+    }
+    if (erRetur) {
+        return 'Retur';
+    }
     switch (type) {
         case Oppgavetype.DelvisRefusjon: {
             return 'Delvis refusjon';
@@ -30,40 +36,28 @@ const getLabelForOppgavetype = (type: Oppgavetype): string => {
         case Oppgavetype.UtbetalingTilSykmeldt: {
             return 'Utb. sykmeldt';
         }
+        case Oppgavetype.Soknad: {
+            return 'Søknad';
+        }
         default: {
             return 'Ukjent';
         }
     }
 };
 
-const getLabelForPeriodetype = (type: Periodetype): string => {
-    switch (type) {
-        case Periodetype.Infotrygdforlengelse:
-        case Periodetype.Forlengelse: {
-            return 'Forlengelse';
-        }
-        case Periodetype.Forstegangsbehandling: {
-            return 'Førstegang.';
-        }
-        case Periodetype.OvergangFraIt: {
-            return 'Forlengelse IT';
-        }
-    }
-};
-
 interface OppgavetypeCellProps {
     oppgavetype: Oppgavetype;
-    periodetype: Periodetype;
+    erBeslutter?: boolean;
+    erRetur?: boolean;
 }
 
-export const OppgavetypeCell: React.FC<OppgavetypeCellProps> = ({ oppgavetype, periodetype }) => {
-    const label = oppgavetype === 'SOKNAD' ? getLabelForPeriodetype(periodetype) : getLabelForOppgavetype(oppgavetype);
-    const type = oppgavetype === 'SOKNAD' ? periodetype : oppgavetype;
+export const OppgavetypeCell: React.FC<OppgavetypeCellProps> = ({ oppgavetype, erBeslutter, erRetur }) => {
+    const label = getLabelForOppgavetype(oppgavetype, erBeslutter, erRetur);
     return (
         <Cell>
             <CellContent width={130}>
                 <div className={styles.OppgavetypeCell}>
-                    <Oppgaveetikett type={type} />
+                    <Oppgaveetikett type={oppgavetype} erBeslutterOppgave={erBeslutter} erReturOppgave={erRetur} />
                     <BodyShort>{label}</BodyShort>
                 </div>
             </CellContent>

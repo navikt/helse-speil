@@ -1,21 +1,18 @@
 import React from 'react';
 
 import { TextWithEllipsis } from '@components/TextWithEllipsis';
-import { Inntektstype } from '@io/graphql';
 
 import { Cell } from '../Cell';
 import { CellContent } from './CellContent';
 
 interface InntektskildeProps {
-    type: Inntektskilde | Inntektstype;
+    flereArbeidsgivere: boolean;
 }
 
-export const InntektskildeCell = React.memo(({ type }: InntektskildeProps) => (
+export const InntektskildeCell = React.memo(({ flereArbeidsgivere }: InntektskildeProps) => (
     <Cell>
         <CellContent width={128}>
-            <TextWithEllipsis>
-                {type === 'EN_ARBEIDSGIVER' || type === 'ENARBEIDSGIVER' ? 'Én arbeidsgiver' : 'Flere arbeidsg.'}
-            </TextWithEllipsis>
+            <TextWithEllipsis>{flereArbeidsgivere ? 'Flere arbeidsg.' : 'Én arbeidsgiver'}</TextWithEllipsis>
         </CellContent>
     </Cell>
 ));

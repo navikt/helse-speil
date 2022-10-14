@@ -423,6 +423,7 @@ export type OppgaveForOversiktsvisning = {
     opprettet: Scalars['String'];
     periodetype?: Maybe<Periodetype>;
     personinfo: Personinfo;
+    sistSendt?: Maybe<Scalars['String']>;
     tidligereSaksbehandler?: Maybe<Scalars['String']>;
     tildeling?: Maybe<Tildeling>;
     trengerTotrinnsvurdering: Scalars['Boolean'];
@@ -567,7 +568,7 @@ export type Personinfo = {
     etternavn: Scalars['String'];
     fodselsdato?: Maybe<Scalars['String']>;
     fornavn: Scalars['String'];
-    kjonn?: Maybe<Kjonn>;
+    kjonn: Kjonn;
     mellomnavn?: Maybe<Scalars['String']>;
     reservasjon?: Maybe<Reservasjon>;
 };
@@ -588,6 +589,7 @@ export type Personoppdrag = Spennoppdrag & {
 
 export type Query = {
     __typename?: 'Query';
+    alleOppgaver: Array<OppgaveForOversiktsvisning>;
     behandledeOppgaver: Array<FerdigstiltOppgave>;
     behandlingsstatistikk: Behandlingsstatistikk;
     oppdrag: Array<Oppdrag>;

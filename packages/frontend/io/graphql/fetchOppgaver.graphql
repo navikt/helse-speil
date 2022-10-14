@@ -1,0 +1,30 @@
+query FetchOppgaver {
+    alleOppgaver {
+        id
+        aktorId
+        opprettet
+        vedtaksperiodeId
+        type
+        periodetype
+        erRetur
+        erBeslutter
+        flereArbeidsgivere
+        antallVarsler
+        sistSendt
+        personinfo {
+            fornavn
+            mellomnavn
+            etternavn
+        }
+        boenhet {
+            navn
+        }
+        tildeling {
+            reservert
+            navn
+            epost
+            oid
+        }
+        tidligereSaksbehandler
+    }
+}

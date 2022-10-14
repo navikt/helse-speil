@@ -126,6 +126,15 @@ const DelvisRefusjonEtikett = styled(Etikett)`
     }
 `;
 
+const SøknadEtikett = styled(Etikett)`
+    background: var(--speil-etikett-beslutter-background);
+    border: 1px solid var(--speil-etikett-beslutter-border);
+
+    :before {
+        content: 'SØ';
+    }
+`;
+
 interface OppgaveetikettProps {
     type: Periodetype | Oppgavetype;
     erBeslutterOppgave?: boolean;
@@ -167,6 +176,9 @@ export const Oppgaveetikett: React.FC<OppgaveetikettProps> = ({
             return <DelvisRefusjonEtikett />;
         case Oppgavetype.Revurdering: {
             return tilstand === Periodetilstand.TilGodkjenning ? <RevurderesEtikett /> : <RevurderingEtikett />;
+        }
+        case Oppgavetype.Soknad: {
+            return <SøknadEtikett />;
         }
         default:
             return null;

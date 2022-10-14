@@ -7,7 +7,7 @@ import { Button } from '@navikt/ds-react';
 import { Dropdown } from '@navikt/ds-react-internal';
 
 import { useIsReadOnlyOppgave } from '@hooks/useIsReadOnlyOppgave';
-import { Maybe } from '@io/graphql';
+import { Maybe, OppgaveForOversiktsvisning, Personinfo } from '@io/graphql';
 import { useInnloggetSaksbehandler } from '@state/authentication';
 import { useKanFrigiOppgaver } from '@state/toggles';
 
@@ -18,19 +18,19 @@ import { TildelMenuButton } from './TildelMenuButton';
 
 import styles from './OptionsCell.module.css';
 
-const erLike = (a?: Maybe<Saksbehandler>, b?: Maybe<Saksbehandler>): boolean => {
-    return typeof a?.oid === 'string' && typeof b?.oid === 'string' && a.oid === b.oid;
+const erLike = (a?: Maybe<string>, b?: Maybe<string>): boolean => {
+    return typeof a === 'string' && typeof b === 'string' && a === b;
 };
 
 interface OptionsButtonProps {
-    oppgave: Oppgave;
+    oppgave: OppgaveForOversiktsvisning;
     personinfo: Personinfo;
 }
 
 export const OptionsCell = React.memo(({ oppgave, personinfo }: OptionsButtonProps) => {
     const innloggetSaksbehandler = useInnloggetSaksbehandler();
     const readOnly = useIsReadOnlyOppgave();
-    const erTildeltInnloggetBruker = erLike(oppgave.tildeling?.saksbehandler, innloggetSaksbehandler);
+    const erTildeltInnloggetBruker = erLike(oppgave.tildeling?.oid, innloggetSaksbehandler.oid);
     const kanFrigiAndresOppgaver = useKanFrigiOppgaver();
     const skalViseAvmeldingsknapp = erTildeltInnloggetBruker || (oppgave.tildeling && kanFrigiAndresOppgaver);
 
@@ -51,24 +51,22 @@ export const OptionsCell = React.memo(({ oppgave, personinfo }: OptionsButtonPro
                         <Dropdown.Menu.List>
                             {!erTildeltInnloggetBruker && !readOnly && (
                                 <TildelMenuButton
-                                    oppgavereferanse={oppgave.oppgavereferanse}
+                                    oppgavereferanse={oppgave.id}
                                     saksbehandler={innloggetSaksbehandler}
                                     tildeling={oppgave.tildeling}
                                 />
                             )}
                             {erTildeltInnloggetBruker &&
-                                (oppgave.tildeling!.påVent ? (
-                                    <FjernFraPåVentMenuButton oppgavereferanse={oppgave.oppgavereferanse} />
+                                (oppgave.tildeling!.reservert ? (
+                                    <FjernFraPåVentMenuButton oppgavereferanse={oppgave.id} />
                                 ) : (
                                     <LeggPåVentMenuButton
-                                        oppgavereferanse={oppgave.oppgavereferanse}
+                                        oppgavereferanse={oppgave.id}
                                         vedtaksperiodeId={oppgave.vedtaksperiodeId}
                                         personinfo={personinfo}
                                     />
                                 ))}
-                            {skalViseAvmeldingsknapp && (
-                                <MeldAvMenuButton oppgavereferanse={oppgave.oppgavereferanse} />
-                            )}
+                            {skalViseAvmeldingsknapp && <MeldAvMenuButton oppgavereferanse={oppgave.id} />}
                         </Dropdown.Menu.List>
                     </Dropdown.Menu>
                 </Dropdown>

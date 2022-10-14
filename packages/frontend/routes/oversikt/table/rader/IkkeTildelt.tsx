@@ -33,7 +33,7 @@ export const IkkeTildelt = ({ oppgavereferanse }: IkkeTildeltProps) => {
         event.stopPropagation();
         if (!saksbehandler || isFetching) return;
         setIsFetching(true);
-        tildelOppgave({ oppgavereferanse }, saksbehandler).catch(() => setIsFetching(false));
+        tildelOppgave({ id: oppgavereferanse }, saksbehandler).catch(() => setIsFetching(false));
     };
 
     return (

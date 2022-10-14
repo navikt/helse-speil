@@ -50,6 +50,9 @@ export const OppgaverTableSkeleton: React.FC = () => {
                                     <LoadingShimmer />
                                 </Header>
                                 <Header scope="col" colSpan={1}>
+                                    <LoadingShimmer />
+                                </Header>
+                                <Header scope="col" colSpan={1}>
                                     <LoadingShimmer style={{ width: 100 }} />
                                 </Header>
                             </tr>
@@ -58,14 +61,6 @@ export const OppgaverTableSkeleton: React.FC = () => {
                             <Row>
                                 <CellSkeleton width={128} />
                                 <CellSkeleton width={130} />
-                                <CellSkeleton width={128} />
-                                <CellSkeleton width={128} />
-                                <CellSkeleton width={100} />
-                                <CellSkeleton width={128} />
-                                <CellSkeleton width={100} />
-                            </Row>
-                            <Row>
-                                <CellSkeleton width={128} />
                                 <CellSkeleton width={130} />
                                 <CellSkeleton width={128} />
                                 <CellSkeleton width={128} />
@@ -75,6 +70,17 @@ export const OppgaverTableSkeleton: React.FC = () => {
                             </Row>
                             <Row>
                                 <CellSkeleton width={128} />
+                                <CellSkeleton width={130} />
+                                <CellSkeleton width={130} />
+                                <CellSkeleton width={128} />
+                                <CellSkeleton width={128} />
+                                <CellSkeleton width={100} />
+                                <CellSkeleton width={128} />
+                                <CellSkeleton width={100} />
+                            </Row>
+                            <Row>
+                                <CellSkeleton width={128} />
+                                <CellSkeleton width={130} />
                                 <CellSkeleton width={130} />
                                 <CellSkeleton width={128} />
                                 <CellSkeleton width={128} />

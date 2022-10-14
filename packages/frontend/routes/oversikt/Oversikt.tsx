@@ -5,6 +5,7 @@ import { Alert } from '@navikt/ds-react';
 
 import { Flex } from '@components/Flex';
 import { useLoadingToast } from '@hooks/useLoadingToast';
+import { FetchOppgaverQuery } from '@io/graphql';
 import { useInnloggetSaksbehandler } from '@state/authentication';
 import { oppgaverState, useRefetchFerdigstilteOppgaver, useRefetchOppgaver } from '@state/oppgaver';
 import { useResetPerson } from '@state/person';
@@ -18,26 +19,26 @@ import { OppgaverTableSkeleton } from './table/OppgaverTableSkeleton';
 
 import styles from './Oversikt.module.css';
 
+type Oppgaver = FetchOppgaverQuery['alleOppgaver'];
+
 const useOppgaverFilteredByTab = () => {
     const { oid } = useInnloggetSaksbehandler();
     const aktivTab = useRecoilValue(tabState);
-    const oppgaver = useRecoilValueLoadable<Oppgave[]>(oppgaverState);
-    const [cache, setCache] = useState<Oppgave[]>([]);
+    const oppgaver = useRecoilValueLoadable<Oppgaver>(oppgaverState);
+    const [cache, setCache] = useState<Oppgaver>([]);
 
-    const filtrer = (oppgaver: Oppgave[]): Oppgave[] => {
+    const filtrer = (oppgaver: Oppgaver): Oppgaver => {
         switch (aktivTab) {
             case TabType.TilGodkjenning: {
                 return oppgaver.filter(
-                    (it) =>
-                        it.tildeling?.saksbehandler?.oid !== oid &&
-                        (it.erBeslutterOppgave ? it.tidligereSaksbehandlerOid !== oid : true)
+                    (it) => it.tildeling?.oid !== oid && (it.erBeslutter ? it.tidligereSaksbehandler !== oid : true)
                 );
             }
             case TabType.Mine: {
-                return oppgaver.filter(({ tildeling }) => tildeling?.saksbehandler?.oid === oid && !tildeling?.påVent);
+                return oppgaver.filter(({ tildeling }) => tildeling?.oid === oid && !tildeling?.reservert);
             }
             case TabType.Ventende: {
-                return oppgaver.filter(({ tildeling }) => tildeling?.saksbehandler?.oid === oid && tildeling?.påVent);
+                return oppgaver.filter(({ tildeling }) => tildeling?.oid === oid && tildeling?.reservert);
             }
             case TabType.BehandletIdag: {
                 return [];
@@ -102,9 +103,7 @@ export const Oversikt = () => {
                     {aktivTab === TabType.BehandletIdag ? (
                         <BehandletIdagTable />
                     ) : hasData ? (
-                        <OppgaverTable
-                            oppgaver={oppgaver.state === 'hasValue' ? (oppgaver.contents as Oppgave[]) : oppgaver.cache}
-                        />
+                        <OppgaverTable oppgaver={oppgaver.state === 'hasValue' ? oppgaver.contents : oppgaver.cache} />
                     ) : oppgaver.state === 'loading' ? (
                         <OppgaverTableSkeleton />
                     ) : (

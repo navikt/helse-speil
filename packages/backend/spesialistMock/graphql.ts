@@ -1,4 +1,3 @@
-import spesialistSchema from '../graphql.schema.json';
 import { Express } from 'express';
 import { graphqlHTTP } from 'express-graphql';
 import fs from 'fs';
@@ -9,9 +8,11 @@ import { makeExecutableSchema } from '@graphql-tools/schema';
 import type { IResolvers } from '@graphql-tools/utils';
 
 import { sleep } from '../devHelpers';
+import spesialistSchema from '../graphql.schema.json';
 import { behandledeOppgaver } from './data/behandledeOppgaver';
 import { behandlingsstatistikk } from './data/behandlingsstatistikk';
 import { getMockOppdrag } from './data/oppdrag';
+import { oppgaver } from './data/oppgaver';
 import { NotFoundError } from './errors';
 import type {
     BeregnetPeriode,
@@ -85,6 +86,10 @@ const getResolvers = (): IResolvers => ({
         behandlingsstatistikk: async () => {
             await sleep(500);
             return behandlingsstatistikk;
+        },
+        alleOppgaver: async () => {
+            await sleep(500);
+            return oppgaver;
         },
     },
     Mutation: {

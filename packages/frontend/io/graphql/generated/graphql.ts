@@ -423,6 +423,7 @@ export type OppgaveForOversiktsvisning = {
     opprettet: Scalars['String'];
     periodetype?: Maybe<Periodetype>;
     personinfo: Personinfo;
+    sistSendt?: Maybe<Scalars['String']>;
     tidligereSaksbehandler?: Maybe<Scalars['String']>;
     tildeling?: Maybe<Tildeling>;
     trengerTotrinnsvurdering: Scalars['Boolean'];
@@ -567,7 +568,7 @@ export type Personinfo = {
     etternavn: Scalars['String'];
     fodselsdato?: Maybe<Scalars['String']>;
     fornavn: Scalars['String'];
-    kjonn?: Maybe<Kjonn>;
+    kjonn: Kjonn;
     mellomnavn?: Maybe<Scalars['String']>;
     reservasjon?: Maybe<Reservasjon>;
 };
@@ -588,6 +589,7 @@ export type Personoppdrag = Spennoppdrag & {
 
 export type Query = {
     __typename?: 'Query';
+    alleOppgaver: Array<OppgaveForOversiktsvisning>;
     behandledeOppgaver: Array<FerdigstiltOppgave>;
     behandlingsstatistikk: Behandlingsstatistikk;
     oppdrag: Array<Oppdrag>;
@@ -1007,6 +1009,30 @@ export type FetchOppdragQuery = {
     }>;
 };
 
+export type FetchOppgaverQueryVariables = Exact<{ [key: string]: never }>;
+
+export type FetchOppgaverQuery = {
+    __typename?: 'Query';
+    alleOppgaver: Array<{
+        __typename?: 'OppgaveForOversiktsvisning';
+        id: string;
+        aktorId: string;
+        opprettet: string;
+        vedtaksperiodeId: string;
+        type: Oppgavetype;
+        periodetype?: Periodetype | null;
+        erRetur: boolean;
+        erBeslutter: boolean;
+        flereArbeidsgivere: boolean;
+        antallVarsler: number;
+        sistSendt?: string | null;
+        tidligereSaksbehandler?: string | null;
+        personinfo: { __typename?: 'Personinfo'; fornavn: string; mellomnavn?: string | null; etternavn: string };
+        boenhet: { __typename?: 'Boenhet'; navn: string };
+        tildeling?: { __typename?: 'Tildeling'; reservert: boolean; navn: string; epost: string; oid: string } | null;
+    }>;
+};
+
 export type SimuleringFragment = {
     __typename?: 'Simulering';
     fagsystemId: string;
@@ -1079,7 +1105,7 @@ export type FetchPersonQuery = {
             etternavn: string;
             adressebeskyttelse: Adressebeskyttelse;
             fodselsdato?: string | null;
-            kjonn?: Kjonn | null;
+            kjonn: Kjonn;
             reservasjon?: { __typename?: 'Reservasjon'; kanVarsles: boolean; reservert: boolean } | null;
         };
         tildeling?: { __typename?: 'Tildeling'; navn: string; epost: string; oid: string; reservert: boolean } | null;
@@ -1508,7 +1534,14 @@ export type FetchPersonQuery = {
                       begrunnelse: string;
                       hendelseId: string;
                       timestamp: string;
-                      dager: Array<{ __typename?: 'OverstyrtDag'; grad?: number | null; dato: string; type: Dagtype }>;
+                      dager: Array<{
+                          __typename?: 'OverstyrtDag';
+                          grad?: number | null;
+                          fraGrad?: number | null;
+                          dato: string;
+                          type: Dagtype;
+                          fraType?: Dagtype | null;
+                      }>;
                       saksbehandler: { __typename?: 'Saksbehandler'; ident?: string | null; navn: string };
                   }
                 | {
@@ -1521,6 +1554,7 @@ export type FetchPersonQuery = {
                           skjaeringstidspunkt: string;
                           forklaring: string;
                           manedligInntekt: number;
+                          fraManedligInntekt?: number | null;
                       };
                       saksbehandler: { __typename?: 'Saksbehandler'; ident?: string | null; navn: string };
                   }

@@ -1,7 +1,7 @@
 import { MemoryRouterWrapper } from '@test-wrappers';
 import React from 'react';
 
-import { Adressebeskyttelse } from '@io/graphql';
+import { Adressebeskyttelse, Kjonn } from '@io/graphql';
 import '@testing-library/jest-dom/extend-expect';
 import { render, screen } from '@testing-library/react';
 
@@ -19,6 +19,7 @@ describe('Personlinje', () => {
                     mellomnavn: 'BORG',
                     etternavn: 'HØIBY',
                     adressebeskyttelse: Adressebeskyttelse.Ugradert,
+                    kjonn: Kjonn.Mann,
                 }}
                 isAnonymous={false}
             />,

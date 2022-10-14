@@ -1,7 +1,7 @@
-import dayjs from 'dayjs';
 import React from 'react';
 import { RecoilRoot, useRecoilValueLoadable } from 'recoil';
 
+import { Adressebeskyttelse, Kjonn, OppgaveForOversiktsvisning, Oppgavetype, Periodetype } from '@io/graphql';
 import '@testing-library/jest-dom/extend-expect';
 import { act, renderHook } from '@testing-library/react-hooks';
 
@@ -22,32 +22,33 @@ afterEach(() => {
 
 const enOppgavereferanse = '123456';
 
-const enOppgave = (): Oppgave => ({
-    oppgavereferanse: enOppgavereferanse,
+const enOppgave = (): OppgaveForOversiktsvisning => ({
+    id: enOppgavereferanse,
+    type: Oppgavetype.Soknad,
     opprettet: '2020-01-01',
     vedtaksperiodeId: '234567',
     personinfo: {
         fornavn: 'Alfa',
         mellomnavn: 'Beta',
         etternavn: 'Omega',
-        kjønn: 'kvinne',
-        fødselsdato: dayjs('1980-01-01'),
-        adressebeskyttelse: 'Ugradert',
+        kjonn: Kjonn.Kvinne,
+        fodselsdato: '1980-01-01',
+        adressebeskyttelse: Adressebeskyttelse.Ugradert,
     },
-    fødselsnummer: '12345678910',
-    aktørId: '12345678910',
+    fodselsnummer: '12345678910',
+    aktorId: '12345678910',
     antallVarsler: 0,
-    periodetype: 'førstegangsbehandling',
+    periodetype: Periodetype.Forstegangsbehandling,
     boenhet: {
         id: '1234',
         navn: 'Boenhet',
     },
-    inntektskilde: 'EN_ARBEIDSGIVER',
+    flereArbeidsgivere: false,
     tildeling: undefined,
-    erBeslutterOppgave: false,
-    erReturOppgave: false,
+    erBeslutter: false,
+    erRetur: false,
     trengerTotrinnsvurdering: false,
-    tidligereSaksbehandlerOid: 'uuid',
+    tidligereSaksbehandler: 'uuid',
 });
 
 const mockHentOppgaver = () =>
@@ -125,7 +126,7 @@ describe('oppgavetildeling', () => {
             const { result } = renderHook(() => useFjernTildeling(), { wrapper });
 
             act(async () => {
-                expect(await result.current(enOppgave().oppgavereferanse)()).toHaveProperty('status', 200);
+                expect(await result.current(enOppgave().id)()).toHaveProperty('status', 200);
             });
         });
 
@@ -134,7 +135,7 @@ describe('oppgavetildeling', () => {
             const { result } = renderHook(() => useFjernTildeling(), { wrapper });
 
             act(() => {
-                expect(async () => await result.current(enOppgave().oppgavereferanse)()).rejects.toBeUndefined();
+                expect(async () => await result.current(enOppgave().id)()).rejects.toBeUndefined();
             });
         });
     });

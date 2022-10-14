@@ -7,7 +7,7 @@ import { SpesialistClient } from '../person/spesialistClient';
 
 const devSpesialistClient = (_: Instrumentation): SpesialistClient => ({
     behandlingerForPeriode: async (_accessToken: string): Promise<Response> => {
-        const fromFile = fs.readFileSync('__mock-data__/oppgaver.json', 'utf-8');
+        const fromFile = fs.readFileSync('__mock-data__/oppgaver.ts', 'utf-8');
         const oppgaver = await Promise.all(
             JSON.parse(fromFile).map(async (oppgave: ExternalOppgave) => {
                 const tildeling = await hentPersonStatus(oppgave.aktørId);

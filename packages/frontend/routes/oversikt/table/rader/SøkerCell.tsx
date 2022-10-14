@@ -3,6 +3,7 @@ import React from 'react';
 import { Tooltip } from '@navikt/ds-react';
 
 import { AnonymizableTextWithEllipsis } from '@components/TextWithEllipsis';
+import { Personinfo } from '@io/graphql';
 import { capitalizeName } from '@utils/locale';
 
 import { Cell } from '../Cell';

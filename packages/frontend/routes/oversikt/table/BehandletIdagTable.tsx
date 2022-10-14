@@ -14,6 +14,7 @@ import { BehandletTimestampCell } from './rader/BehandletTimestampCell';
 import { BostedCell } from './rader/BostedCell';
 import { InntektskildeCell } from './rader/InntektskildeCell';
 import { OppgavetypeCell } from './rader/OppgavetypeCell';
+import { PeriodetypeCell } from './rader/PeriodetypeCell';
 import { StatusCell } from './rader/StatusCell';
 import { usePagination } from './state/pagination';
 
@@ -53,7 +54,10 @@ export const BehandletIdagTable: React.FC<BehandletIdagTableProps> = () => {
                                     Behandlet av
                                 </Header>
                                 <Header scope="col" colSpan={1}>
-                                    Sakstype
+                                    Periodetype
+                                </Header>
+                                <Header scope="col" colSpan={1}>
+                                    Oppgavetype
                                 </Header>
                                 <Header scope="col" colSpan={1}>
                                     Bosted
@@ -76,9 +80,10 @@ export const BehandletIdagTable: React.FC<BehandletIdagTableProps> = () => {
                             {paginatedRows?.map((it) => (
                                 <LinkRow aktørId={it.aktorId} key={it.id}>
                                     <BehandletAvCell name={it.ferdigstiltAv} />
-                                    <OppgavetypeCell oppgavetype={it.type} periodetype={it.periodetype} />
+                                    <PeriodetypeCell type={it.periodetype} />
+                                    <OppgavetypeCell oppgavetype={it.type} />
                                     <BostedCell stedsnavn={it.bosted} />
-                                    <InntektskildeCell type={it.inntektstype} />
+                                    <InntektskildeCell flereArbeidsgivere={it.inntektstype === 'FLEREARBEIDSGIVERE'} />
                                     <StatusCell numberOfWarnings={it.antallVarsler} />
                                     <SøkerCell
                                         name={{

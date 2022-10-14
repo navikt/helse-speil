@@ -51,17 +51,17 @@ const OppgaveTab = ({ tag, label, numberOfTasks }: OppgaveTabProps) => {
 
 const AlleSakerTab = () => {
     const { oid } = useInnloggetSaksbehandler();
-    const antallOppgaver = useOppgaver().filter((it) => it.tildeling?.saksbehandler?.oid !== oid).length;
+    const antallOppgaver = useOppgaver().filter((it) => it.tildeling?.oid !== oid).length;
     return <OppgaveTab tag={TabType.TilGodkjenning} label="Til godkjenning" numberOfTasks={antallOppgaver} />;
 };
 
 const MineSakerTab = () => {
-    const antallEgneOppgaver = useMineOppgaver().filter((it) => !it.tildeling?.påVent).length;
+    const antallEgneOppgaver = useMineOppgaver().filter((it) => !it.tildeling?.reservert).length;
     return <OppgaveTab tag={TabType.Mine} label="Mine saker" numberOfTasks={antallEgneOppgaver} />;
 };
 
 const VentendeSakerTab = () => {
-    const antallEgneVentendeSaker = useMineOppgaver().filter((it) => it.tildeling?.påVent).length;
+    const antallEgneVentendeSaker = useMineOppgaver().filter((it) => it.tildeling?.reservert).length;
     return <OppgaveTab tag={TabType.Ventende} label="På vent" numberOfTasks={antallEgneVentendeSaker} />;
 };
 

@@ -1,28 +1,37 @@
 import dayjs from 'dayjs';
 import { AtomEffect, atom, selector, useRecoilValue, useRecoilValueLoadable, useSetRecoilState } from 'recoil';
 
-import { FerdigstiltOppgave, FetchBehandledeOppgaverQuery } from '@io/graphql';
+import {
+    FerdigstiltOppgave,
+    FetchBehandledeOppgaverQuery,
+    FetchOppgaverQuery,
+    OppgaveForOversiktsvisning,
+    Oppgavetype,
+    Tildeling,
+} from '@io/graphql';
 import { fetchBehandledeOppgaver } from '@io/graphql/fetchBehandledeOppgaver';
-import { NotatDTO, deletePåVent, deleteTildeling, getOppgaver, postLeggPåVent, postTildeling } from '@io/http';
+import { fetchOppgaver } from '@io/graphql/fetchOppgaver';
+import { NotatDTO, deletePåVent, deleteTildeling, postLeggPåVent, postTildeling } from '@io/http';
 import { ISO_DATOFORMAT } from '@utils/date';
 import { InfoAlert } from '@utils/error';
 import { flereArbeidsgivere, stikkprøve, utbetalingTilSykmeldt } from '@utils/featureToggles';
 
-import { tilOppgave } from '../mapping/oppgaver';
 import { authState, useInnloggetSaksbehandler } from './authentication';
 import { useAddVarsel, useRemoveVarsel } from './varsler';
+
+type FetchedOppgaver = FetchOppgaverQuery['alleOppgaver'];
 
 const oppgaverStateRefetchKey = atom<Date>({
     key: 'oppgaverStateRefetchKey',
     default: new Date(),
 });
 
-const remoteOppgaverState = selector<Oppgave[]>({
+const remoteOppgaverState = selector<FetchedOppgaver>({
     key: 'remoteOppgaverState',
     get: async ({ get }) => {
         get(oppgaverStateRefetchKey);
-        return await getOppgaver()
-            .then((spesialistOppgaver) => spesialistOppgaver.map(tilOppgave))
+        return await fetchOppgaver()
+            .then((response) => response.alleOppgaver)
             .catch((error) => {
                 switch (error.statusCode) {
                     case 404:
@@ -36,7 +45,7 @@ const remoteOppgaverState = selector<Oppgave[]>({
     },
 });
 
-type TildelingStateType = { [oppgavereferanse: string]: Tildeling | undefined };
+type TildelingStateType = { [id: string]: Maybe<Tildeling> | undefined };
 
 const _tildelingerState = atom<TildelingStateType>({
     key: '_tildelingerState',
@@ -47,31 +56,28 @@ const tildelingerState = selector<TildelingStateType>({
     key: 'tildelingerState',
     get: async ({ get }) => {
         const local = get(_tildelingerState);
-        const remote = get(remoteOppgaverState).reduce<TildelingStateType>(
-            (tildelinger, { oppgavereferanse, tildeling }) => {
-                tildelinger[oppgavereferanse] = tildeling;
-                return tildelinger;
-            },
-            {}
-        );
+        const remote = get(remoteOppgaverState).reduce<TildelingStateType>((tildelinger, { id, tildeling }) => {
+            tildelinger[id] = tildeling;
+            return tildelinger;
+        }, {});
         return { ...remote, ...local };
     },
 });
 
-export const oppgaverState = selector<Oppgave[]>({
+export const oppgaverState = selector<FetchedOppgaver>({
     key: 'oppgaverState',
     get: ({ get }) => {
         const tildelinger = get(tildelingerState);
         const oppgaver = get(remoteOppgaverState);
         return oppgaver
-            .filter((oppgave) => stikkprøve || oppgave.periodetype != 'stikkprøve')
-            .filter((oppgave) => flereArbeidsgivere || oppgave.inntektskilde != 'FLERE_ARBEIDSGIVERE')
+            .filter((oppgave) => stikkprøve || oppgave.type != Oppgavetype.Stikkprove)
+            .filter((oppgave) => flereArbeidsgivere || !oppgave.flereArbeidsgivere)
             .filter(
                 (oppgave) =>
                     utbetalingTilSykmeldt ||
-                    (oppgave.periodetype != 'utbetalingTilSykmeldt' && oppgave.periodetype != 'delvisRefusjon')
+                    (oppgave.type != Oppgavetype.UtbetalingTilSykmeldt && oppgave.type != Oppgavetype.DelvisRefusjon)
             )
-            .map((oppgave) => ({ ...oppgave, tildeling: tildelinger[oppgave.oppgavereferanse] }));
+            .map((oppgave) => ({ ...oppgave, tildeling: tildelinger[oppgave.id] }));
     },
 });
 
@@ -129,14 +135,14 @@ export const useRefetchFerdigstilteOppgaver = () => {
     };
 };
 
-export const useOppgaver = (): Oppgave[] => {
-    const oppgaver = useRecoilValueLoadable<Oppgave[]>(oppgaverState);
+export const useOppgaver = (): FetchedOppgaver => {
+    const oppgaver = useRecoilValueLoadable<FetchedOppgaver>(oppgaverState);
     return oppgaver.state === 'hasValue' ? oppgaver.contents : [];
 };
 
-export const useMineOppgaver = (): Oppgave[] => {
+export const useMineOppgaver = (): FetchedOppgaver => {
     const { oid } = useInnloggetSaksbehandler();
-    return useOppgaver().filter(({ tildeling }) => tildeling?.saksbehandler?.oid === oid);
+    return useOppgaver().filter(({ tildeling }) => tildeling?.oid === oid);
 };
 
 export const useRefetchOppgaver = () => {
@@ -180,11 +186,11 @@ export const useTildelOppgave = () => {
     const addTildelingsvarsel = useAddTildelingsvarsel();
     const removeTildelingsvarsel = useRemoveTildelingsvarsel();
 
-    return ({ oppgavereferanse }: Pick<Oppgave, 'oppgavereferanse'>, saksbehandler: Saksbehandler) => {
+    return ({ id }: Pick<OppgaveForOversiktsvisning, 'id'>, tildeling: Omit<Tildeling, 'reservert'>) => {
         removeTildelingsvarsel();
-        return postTildeling(oppgavereferanse)
+        return postTildeling(id)
             .then((response) => {
-                setTildelinger((it) => ({ ...it, [oppgavereferanse]: { saksbehandler, påVent: false } }));
+                setTildelinger((it) => ({ ...it, [id]: { ...tildeling, reservert: false } }));
                 return Promise.resolve(response);
             })
             .catch(async (error) => {
@@ -193,7 +199,7 @@ export const useTildelOppgave = () => {
                     const { oid, navn, epost, påVent } = respons.kontekst.tildeling;
                     setTildelinger((it) => ({
                         ...it,
-                        [oppgavereferanse]: { saksbehandler: { oid, navn, epost }, påVent: påVent },
+                        [id]: { oid, navn, epost, reservert: påVent },
                     }));
                     addTildelingsvarsel(`${navn} har allerede tatt saken.`);
                     return Promise.reject(oid);
@@ -237,7 +243,7 @@ export const useLeggPåVent = () => {
                 setLokaleTildelinger({
                     ...tildelinger,
                     [oppgavereferanse]: tildelinger[oppgavereferanse]
-                        ? { ...tildelinger[oppgavereferanse]!, påVent: true }
+                        ? { ...tildelinger[oppgavereferanse]!, reservert: true }
                         : undefined,
                 });
                 return Promise.resolve(response);
@@ -262,7 +268,7 @@ export const useFjernPåVent = (): ((oppgavereferanse: string) => () => Promise<
                 setLokaleTildelinger({
                     ...tildelinger,
                     [oppgavereferanse]: tildelinger[oppgavereferanse]
-                        ? { ...tildelinger[oppgavereferanse]!, påVent: false }
+                        ? { ...tildelinger[oppgavereferanse]!, reservert: false }
                         : undefined,
                 });
                 return Promise.resolve(response);

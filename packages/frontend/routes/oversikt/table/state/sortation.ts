@@ -1,6 +1,8 @@
 import { atom, selector, useRecoilValue, useSetRecoilState } from 'recoil';
 
-import { tabState, TabType } from '../../Tabs';
+import { OppgaveForOversiktsvisning } from '@io/graphql';
+
+import { TabType, tabState } from '../../Tabs';
 
 export type SortationState = 'ascending' | 'descending' | 'none';
 
@@ -10,7 +12,7 @@ type Sortation<T> = {
     state: SortationState;
 };
 
-type SortationPerTab = { [key in TabType]: Sortation<Oppgave> | null };
+type SortationPerTab = { [key in TabType]: Sortation<OppgaveForOversiktsvisning> | null };
 
 const sortationPerTab = atom<SortationPerTab>({
     key: 'sortationsPerTab',
@@ -22,7 +24,7 @@ const sortationPerTab = atom<SortationPerTab>({
     },
 });
 
-const sortation = selector<Sortation<Oppgave> | null>({
+const sortation = selector<Sortation<OppgaveForOversiktsvisning> | null>({
     key: 'sortation',
     get: ({ get }) => {
         const tab = get(tabState);
