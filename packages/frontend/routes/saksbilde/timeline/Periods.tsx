@@ -1,9 +1,7 @@
-import { Pølse } from './Pølse';
 import React from 'react';
 
 import { GhostPeriode, Periode, Periodetilstand } from '@io/graphql';
 import { isNotReady } from '@state/periode';
-import { pølsebonansaEnabled } from '@utils/featureToggles';
 import { isBeregnetPeriode, isGhostPeriode, isUberegnetPeriode } from '@utils/typeguards';
 
 import { Period } from './Period';
@@ -68,25 +66,15 @@ export const Periods: React.VFC<PeriodsProps> = ({
 
     return (
         <div className={styles.Periods}>
-            {validPeriods.map((period, i) =>
-                pølsebonansaEnabled ? (
-                    <Pølse
-                        key={i}
-                        period={period}
-                        style={positions.get(i) ?? {}}
-                        notCurrent={notCurrent}
-                        isActive={isActive(activePeriod as Periode, period as Periode)}
-                    />
-                ) : (
-                    <Period
-                        key={i}
-                        period={period}
-                        style={positions.get(i) ?? {}}
-                        notCurrent={notCurrent}
-                        isActive={isActive(activePeriod as Periode, period as Periode)}
-                    />
-                )
-            )}
+            {validPeriods.map((period, i) => (
+                <Period
+                    key={i}
+                    period={period}
+                    style={positions.get(i) ?? {}}
+                    notCurrent={notCurrent}
+                    isActive={isActive(activePeriod as Periode, period as Periode)}
+                />
+            ))}
         </div>
     );
 };

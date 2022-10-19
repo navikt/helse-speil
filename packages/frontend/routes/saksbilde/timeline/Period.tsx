@@ -1,34 +1,97 @@
 import classNames from 'classnames';
-import React from 'react';
+import React, { ReactNode, useRef } from 'react';
 
-import { Sykdomsdagtype, Utbetalingsdagtype } from '@io/graphql';
 import { useSetActivePeriod } from '@state/periode';
-import { getPeriodCategory, getPeriodState } from '@utils/mapping';
-import { isBeregnetPeriode, isGhostPeriode, isUberegnetPeriode } from '@utils/typeguards';
+import { getPeriodState } from '@utils/mapping';
+import { isBeregnetPeriode, isGhostPeriode, isInfotrygdPeriod, isUberegnetPeriode } from '@utils/typeguards';
 
+import { InfoPin } from './InfoPin';
 import { PeriodPopover } from './PeriodPopover';
+import { useIsWiderThan } from './hooks/useIsWiderThan';
 import { usePopoverAnchor } from './hooks/usePopoverAnchor';
+import { BlankIcon, CheckIcon, CrossIcon, TaskIcon, WaitingIcon } from './icons';
 
-import styles from './Periods.module.css';
+import styles from './Period.module.css';
 
-const shouldShowInfoPin = (period: DatePeriod): boolean => {
-    if (!isBeregnetPeriode(period)) return false;
+type PeriodCategory = 'success' | 'error' | 'attention' | 'waiting' | 'neutral';
 
-    const utbetalingsdagTypes = [Utbetalingsdagtype.Arbeidsgiverperiodedag, Utbetalingsdagtype.Feriedag];
-    const sykdomsdagTypes = [Sykdomsdagtype.Permisjonsdag];
-
-    for (const day of period.tidslinje) {
-        if (utbetalingsdagTypes.includes(day.utbetalingsdagtype) || sykdomsdagTypes.includes(day.sykdomsdagtype)) {
-            return true;
+const getPeriodCategory = (periodState: PeriodState): Maybe<PeriodCategory> => {
+    switch (periodState) {
+        case 'utbetaltAutomatisk':
+        case 'revurdert':
+        case 'infotrygdUtbetalt':
+        case 'utbetalt': {
+            return 'success';
+        }
+        case 'revurderingFeilet':
+        case 'utbetalingFeilet':
+        case 'tilInfotrygd':
+        case 'annullert':
+        case 'annulleringFeilet':
+        case 'avslag': {
+            return 'error';
+        }
+        case 'revurderes':
+        case 'tilGodkjenning': {
+            return 'attention';
+        }
+        case 'venter':
+        case 'venterPåKiling':
+        case 'tilAnnullering':
+        case 'tilUtbetalingAutomatisk':
+        case 'tilUtbetaling': {
+            return 'waiting';
+        }
+        case 'infotrygdFerie':
+        case 'utenSykefravær':
+        case 'utenSykefraværDeaktivert':
+        case 'revurdertIngenUtbetaling':
+        case 'ingenUtbetaling':
+        case 'kunPermisjon':
+        case 'kunFerie':
+            return 'neutral';
+        case 'infotrygdUkjent':
+        case 'ukjent':
+        default: {
+            return null;
         }
     }
-    return false;
 };
 
-const shouldShowNotatPin = (period: DatePeriod): boolean => {
-    if (!isBeregnetPeriode(period)) return false;
+const getIcon = (periodCategory: Maybe<PeriodCategory>): ReactNode => {
+    switch (periodCategory) {
+        case 'neutral':
+        case 'success': {
+            return <CheckIcon />;
+        }
+        case 'error': {
+            return <CrossIcon />;
+        }
+        case 'attention': {
+            return <TaskIcon />;
+        }
+        case 'waiting': {
+            return <WaitingIcon />;
+        }
+        default: {
+            return <BlankIcon />;
+        }
+    }
+};
 
-    return period.notater.filter((notat) => notat.type === 'Generelt').length > 0;
+const getClassNames = (period: DatePeriod, notCurrent?: boolean, isActive?: boolean, className?: string) => {
+    const periodState = getPeriodState(period);
+    const periodCategory = getPeriodCategory(periodState);
+
+    return classNames(
+        styles.Period,
+        className,
+        periodCategory && styles[periodCategory],
+        isActive && styles.active,
+        notCurrent && styles.old,
+        isInfotrygdPeriod(period) && styles.legacy,
+        isGhostPeriode(period) && styles.blank
+    );
 };
 
 interface PeriodProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
@@ -37,11 +100,10 @@ interface PeriodProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
     isActive?: boolean;
 }
 
-export const Period: React.VFC<PeriodProps> = ({ period, notCurrent, isActive, ...buttonProps }) => {
+export const Period: React.FC<PeriodProps> = ({ period, notCurrent, isActive, className, ...buttonProps }) => {
     const setActivePeriod = useSetActivePeriod();
-
-    const periodState = getPeriodState(period);
-    const periodCategory = getPeriodCategory(periodState);
+    const button = useRef<HTMLButtonElement>(null);
+    const iconIsVisible = useIsWiderThan(button, 32);
 
     const { onMouseOver, onMouseOut, ...popoverProps } = usePopoverAnchor();
 
@@ -52,29 +114,23 @@ export const Period: React.VFC<PeriodProps> = ({ period, notCurrent, isActive, .
         }
     };
 
+    const periodState = getPeriodState(period);
+    const periodCategory = getPeriodCategory(periodState);
+
     return (
         <>
             <button
-                className={classNames(
-                    styles.Period,
-                    styles[periodState],
-                    isActive && styles.active,
-                    periodCategory && styles[periodCategory],
-                    notCurrent && styles.old
-                )}
+                className={getClassNames(period, notCurrent, isActive, className)}
                 {...buttonProps}
                 onMouseOver={onMouseOver}
                 onMouseOut={onMouseOut}
                 onClick={onClick}
+                ref={button}
             >
-                {!notCurrent &&
-                    (shouldShowNotatPin(period) ? (
-                        <div className={styles.NotatPin} />
-                    ) : (
-                        shouldShowInfoPin(period) && <div className={styles.InfoPin} />
-                    ))}
+                {iconIsVisible && getIcon(periodCategory)}
+                {!notCurrent && <InfoPin period={period} />}
             </button>
-            <PeriodPopover period={period} state={periodState} {...popoverProps} />
+            <PeriodPopover period={period} state={getPeriodState(period)} {...popoverProps} />
         </>
     );
 };
