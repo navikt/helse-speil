@@ -144,9 +144,11 @@ export const useEndringerForPeriode = (organisasjonsnummer: string): UseEndringe
 };
 
 export const useHarDagOverstyringer = (periode: BeregnetPeriode): boolean => {
-    const utbetalingstidsstempelFørsteGenForPeriode = useUtbetalingstidsstempelFørsteGenForPeriode();
     const arbeidsgiver = useCurrentArbeidsgiver();
     const dagendringer = useDagoverstyringer(periode.fom, periode.tom, arbeidsgiver);
 
-    return utbetalingstidsstempelFørsteGenForPeriode === '' && (dagendringer?.length ?? 0) > 0;
+    return useVedtaksperiodeHarIkkeBlittUtbetaltFør() && (dagendringer?.length ?? 0) > 0;
 };
+
+export const useVedtaksperiodeHarIkkeBlittUtbetaltFør = (): boolean =>
+    useUtbetalingstidsstempelFørsteGenForPeriode() !== '';
