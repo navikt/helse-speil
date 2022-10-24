@@ -151,4 +151,4 @@ export const useHarDagOverstyringer = (periode: BeregnetPeriode): boolean => {
 };
 
 export const useVedtaksperiodeHarIkkeBlittUtbetaltFør = (): boolean =>
-    useUtbetalingstidsstempelFørsteGenForPeriode() !== '';
+    useUtbetalingstidsstempelFørsteGenForPeriode() === '';
