@@ -48,8 +48,7 @@ export const NotatHendelseContent = ({
     return (
         <div className={styles.NotatContent}>
             <Kommentarer kommentarer={kommentarer} saksbehandlerOid={saksbehandlerOid} />
-            {innloggetSaksbehandler.oid === saksbehandlerOid &&
-                innloggetSaksbehandler.ident &&
+            {innloggetSaksbehandler.ident &&
                 (state.showAddDialog ? (
                     <NotatForm
                         label="Kommentar"
