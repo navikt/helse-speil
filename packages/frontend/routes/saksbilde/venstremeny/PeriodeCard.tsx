@@ -13,10 +13,18 @@ import { Maksdatoikon } from '@components/ikoner/Maksdatoikon';
 import { Skjæringstidspunktikon } from '@components/ikoner/Skjæringstidspunktikon';
 import { SkjæringstidspunktikonInvert } from '@components/ikoner/SkjæringstidspunktikonInvert';
 import { Sykmeldingsperiodeikon } from '@components/ikoner/Sykmeldingsperiodeikon';
-import { BeregnetPeriode, Oppgavetype, Periodetilstand, Periodetype, UberegnetPeriode } from '@io/graphql';
+import {
+    Arbeidsgiver,
+    BeregnetPeriode,
+    Oppgavetype,
+    Periodetilstand,
+    Periodetype,
+    UberegnetPeriode,
+} from '@io/graphql';
 import { NORSK_DATOFORMAT_KORT } from '@utils/date';
 import { capitalize } from '@utils/locale';
 
+import { ArbeidsgiverRow } from './ArbeidsgiverRow';
 import { CardTitle } from './CardTitle';
 
 import styles from './PeriodeCard.module.css';
@@ -161,32 +169,37 @@ const MaksdatoRow: React.FC<MaksdatoRowProps> = ({ activePeriod }) => {
 
 interface PeriodeCardUberegnetProps {
     periode: UberegnetPeriode;
+    arbeidsgiver: Arbeidsgiver;
+    månedsbeløp: number | undefined;
 }
 
-const PeriodeCardUberegnet: React.FC<PeriodeCardUberegnetProps> = ({ periode }) => {
+const PeriodeCardUberegnet: React.FC<PeriodeCardUberegnetProps> = ({ periode, arbeidsgiver, månedsbeløp }) => {
     return (
-        <section>
-            <div className={styles.Grid}>
-                <PeriodetypeRow
-                    type={periode.periodetype}
-                    tilstand={periode.periodetilstand}
-                    label={getTextForPeriodetype(periode.periodetype)}
-                />
-                <SykmeldingsperiodeRow periode={periode} />
-                <SkjæringstidspunktRow
-                    periodetype={periode.periodetype}
-                    skjæringstidspunkt={periode.skjaeringstidspunkt}
-                />
-            </div>
+        <section className={styles.Grid}>
+            <PeriodetypeRow
+                type={periode.periodetype}
+                tilstand={periode.periodetilstand}
+                label={getTextForPeriodetype(periode.periodetype)}
+            />
+            <SykmeldingsperiodeRow periode={periode} />
+            <SkjæringstidspunktRow periodetype={periode.periodetype} skjæringstidspunkt={periode.skjaeringstidspunkt} />
+            <ArbeidsgiverRow.Uberegnet
+                navn={arbeidsgiver.navn}
+                organisasjonsnummer={arbeidsgiver.organisasjonsnummer}
+                arbeidsforhold={arbeidsgiver.arbeidsforhold}
+                månedsbeløp={månedsbeløp}
+            />
         </section>
     );
 };
 
 interface PeriodeCardBeregnetProps {
     periode: BeregnetPeriode;
+    arbeidsgiver: Arbeidsgiver;
+    månedsbeløp: number | undefined;
 }
 
-const PeriodeCardBeregnet: React.FC<PeriodeCardBeregnetProps> = ({ periode }) => {
+const PeriodeCardBeregnet: React.FC<PeriodeCardBeregnetProps> = ({ periode, arbeidsgiver, månedsbeløp }) => {
     const type = periode.utbetaling.type === 'REVURDERING' ? Oppgavetype.Revurdering : periode.periodetype;
     const label = `${getTextForPeriodetype(periode.periodetype)} ${
         periode.erReturOppgave ? '(RETUR)' : periode.erBeslutterOppgave ? '(BESLUTTER)' : ''
@@ -198,6 +211,28 @@ const PeriodeCardBeregnet: React.FC<PeriodeCardBeregnetProps> = ({ periode }) =>
             <SykmeldingsperiodeRow periode={periode} />
             <SkjæringstidspunktRow periodetype={periode.periodetype} skjæringstidspunkt={periode.skjaeringstidspunkt} />
             <MaksdatoRow activePeriod={periode} />
+            <ArbeidsgiverRow.Beregnet
+                navn={arbeidsgiver.navn}
+                organisasjonsnummer={arbeidsgiver.organisasjonsnummer}
+                arbeidsforhold={arbeidsgiver.arbeidsforhold}
+                månedsbeløp={månedsbeløp}
+            />
+        </section>
+    );
+};
+
+interface PeriodeCardGhostProps {
+    arbeidsgiver: Arbeidsgiver;
+}
+
+const PeriodeCardGhost: React.FC<PeriodeCardGhostProps> = ({ arbeidsgiver }) => {
+    return (
+        <section className={styles.Grid}>
+            <ArbeidsgiverRow.Ghost
+                navn={arbeidsgiver.navn}
+                organisasjonsnummer={arbeidsgiver.organisasjonsnummer}
+                arbeidsforhold={arbeidsgiver.arbeidsforhold}
+            />
         </section>
     );
 };
@@ -213,6 +248,8 @@ const PeriodeCardSkeleton: React.FC = () => {
             <LoadingShimmer />
             <LoadingShimmer />
             <LoadingShimmer />
+            <LoadingShimmer />
+            <LoadingShimmer />
         </section>
     );
 };
@@ -220,5 +257,6 @@ const PeriodeCardSkeleton: React.FC = () => {
 export const PeriodeCard = {
     Beregnet: PeriodeCardBeregnet,
     Uberegnet: PeriodeCardUberegnet,
+    Ghost: PeriodeCardGhost,
     Skeleton: PeriodeCardSkeleton,
 };

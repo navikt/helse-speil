@@ -3,7 +3,6 @@ import React from 'react';
 import { Arbeidsgiver, UberegnetPeriode } from '@io/graphql';
 import { useCurrentVilkårsgrunnlag } from '@state/periode';
 
-import { ArbeidsgiverCard } from './ArbeidsgiverCard';
 import { PeriodeCard } from './PeriodeCard';
 
 import styles from './Venstremeny.module.css';
@@ -23,11 +22,9 @@ export const VenstremenyUberegnetPeriode: React.FC<VenstremenyUberegnetPeriodePr
 
     return (
         <section className={styles.Venstremeny}>
-            <PeriodeCard.Uberegnet periode={activePeriod} />
-            <ArbeidsgiverCard.Uberegnet
-                navn={currentArbeidsgiver.navn}
-                organisasjonsnummer={currentArbeidsgiver.organisasjonsnummer}
-                arbeidsforhold={currentArbeidsgiver.arbeidsforhold}
+            <PeriodeCard.Uberegnet
+                periode={activePeriod}
+                arbeidsgiver={currentArbeidsgiver}
                 månedsbeløp={månedsbeløp}
             />
         </section>

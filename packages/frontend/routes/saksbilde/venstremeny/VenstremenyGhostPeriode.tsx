@@ -2,7 +2,7 @@ import React from 'react';
 
 import { Arbeidsgiver } from '@io/graphql';
 
-import { ArbeidsgiverCard } from './ArbeidsgiverCard';
+import { PeriodeCard } from './PeriodeCard';
 
 import styles from './Venstremeny.module.css';
 
@@ -21,11 +21,7 @@ export const VenstremenyGhostPeriode: React.VFC<VenstremenyGhostPeriodeProps> = 
 
     return (
         <section className={styles.Venstremeny}>
-            <ArbeidsgiverCard.Ghost
-                navn={currentArbeidsgiver.navn}
-                organisasjonsnummer={currentArbeidsgiver.organisasjonsnummer}
-                arbeidsforhold={currentArbeidsgiver.arbeidsforhold}
-            />
+            <PeriodeCard.Ghost arbeidsgiver={currentArbeidsgiver} />
         </section>
     );
 };

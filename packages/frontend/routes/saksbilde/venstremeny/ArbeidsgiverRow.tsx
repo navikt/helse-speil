@@ -1,9 +1,9 @@
 import classNames from 'classnames';
 import dayjs from 'dayjs';
-import React from 'react';
+import React, { useState } from 'react';
 
 import { Bag } from '@navikt/ds-icons';
-import { BodyShort, Tooltip } from '@navikt/ds-react';
+import { Accordion, BodyShort, Tooltip } from '@navikt/ds-react';
 
 import { Flex } from '@components/Flex';
 import { LoadingShimmer } from '@components/LoadingShimmer';
@@ -15,26 +15,7 @@ import { Arbeidsforhold } from '@io/graphql';
 import { NORSK_DATOFORMAT } from '@utils/date';
 import { capitalize, somPenger } from '@utils/locale';
 
-import { CardTitle } from './CardTitle';
-
-import styles from './ArbeidsgiverCard.module.css';
-
-interface TitleRowProps {
-    navn: string;
-}
-
-const TitleRow: React.VFC<TitleRowProps> = ({ navn }) => {
-    return (
-        <div className={styles.Title}>
-            <Tooltip content="Arbeidsgiver">
-                <Bag tabIndex={-1} title="Arbeidsgiver" />
-            </Tooltip>
-            <AnonymizableContainer>
-                <CardTitle>{navn.toUpperCase()}</CardTitle>
-            </AnonymizableContainer>
-        </div>
-    );
-};
+import styles from './ArbeidsgiverRow.module.css';
 
 interface OrganisasjonsnummerRowProps {
     organisasjonsnummer: string;
@@ -105,25 +86,41 @@ interface ArbeidsgiverCardProps {
     månedsbeløp?: number;
 }
 
-const ArbeidsgiverCardView: React.FC<ArbeidsgiverCardProps> = ({
+const ArbeidsgiverRowView: React.FC<ArbeidsgiverCardProps> = ({
     navn,
     organisasjonsnummer,
     arbeidsforhold,
     månedsbeløp,
 }) => {
+    const [open, setOpen] = useState(false);
     return (
-        <section className={styles.ArbeidsgiverCard}>
-            <TitleRow navn={navn} />
-            <OrganisasjonsnummerRow organisasjonsnummer={organisasjonsnummer} />
-            <ArbeidsforholdRow arbeidsforhold={arbeidsforhold} />
-            {månedsbeløp && <MånedsbeløpRow månedsbeløp={månedsbeløp} />}
-        </section>
+        <>
+            <Tooltip content="Arbeidsgiver">
+                <div className={styles.IconContainer}>
+                    <Bag tabIndex={-1} title="Arbeidsgiver" />
+                </div>
+            </Tooltip>
+            <Accordion.Item open={open} className={styles.ArbeidsgiverRow}>
+                <Accordion.Header className={styles.Header} onClick={() => setOpen((prevState) => !prevState)}>
+                    <AnonymizableContainer>
+                        <BodyShort className={styles.NoWrap}>
+                            {navn.charAt(0).toUpperCase() + navn.slice(1).toLowerCase()}
+                        </BodyShort>
+                    </AnonymizableContainer>
+                </Accordion.Header>
+                <Accordion.Content className={styles.Content}>
+                    <OrganisasjonsnummerRow organisasjonsnummer={organisasjonsnummer} />
+                    <ArbeidsforholdRow arbeidsforhold={arbeidsforhold} />
+                    {månedsbeløp && <MånedsbeløpRow månedsbeløp={månedsbeløp} />}
+                </Accordion.Content>
+            </Accordion.Item>
+        </>
     );
 };
 
 const ArbeidsgiverCardSkeleton: React.FC = () => {
     return (
-        <section className={classNames(styles.Skeleton, styles.ArbeidsgiverCard)}>
+        <section className={classNames(styles.Skeleton, styles.ArbeidsgiverRow)}>
             <Flex gap="12px">
                 <LoadingShimmer style={{ width: 20 }} />
                 <LoadingShimmer />
@@ -136,9 +133,9 @@ const ArbeidsgiverCardSkeleton: React.FC = () => {
     );
 };
 
-export const ArbeidsgiverCard = {
-    Beregnet: ArbeidsgiverCardView,
-    Uberegnet: ArbeidsgiverCardView,
-    Ghost: ArbeidsgiverCardView,
+export const ArbeidsgiverRow = {
+    Beregnet: ArbeidsgiverRowView,
+    Uberegnet: ArbeidsgiverRowView,
+    Ghost: ArbeidsgiverRowView,
     Skeleton: ArbeidsgiverCardSkeleton,
 };

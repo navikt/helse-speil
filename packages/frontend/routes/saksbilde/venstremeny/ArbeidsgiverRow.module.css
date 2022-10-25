@@ -1,0 +1,56 @@
+.ArbeidsgiverRow {
+    display: flex;
+    flex-direction: column;
+}
+
+.IconContainer {
+    justify-self: center;
+    align-self: start;
+    display: flex;
+    align-items: center;
+    height: var(--navds-font-line-height-large);
+}
+
+.Arbeidsforhold {
+    max-width: max-content;
+    display: flex;
+    flex-wrap: nowrap;
+}
+
+.Arbeidsforhold > p {
+    white-space: nowrap;
+}
+
+.Skeleton {
+    width: 100%;
+}
+
+.Skeleton span {
+    height: var(--navds-font-line-height-large);
+}
+
+.Header {
+    background: none !important;
+    justify-content: unset;
+    border-bottom: none;
+    display: flex;
+    padding: 0;
+}
+
+.Header:focus {
+    box-shadow: none;
+}
+
+.Header:focus-visible {
+    box-shadow: var(--navds-shadow-focus);
+}
+
+.Header > svg {
+    width: 24px;
+    height: 24px;
+}
+
+.Content {
+    border-bottom: none;
+    padding: 0;
+}

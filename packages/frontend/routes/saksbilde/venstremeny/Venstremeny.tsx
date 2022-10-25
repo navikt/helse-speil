@@ -10,7 +10,6 @@ import { useActivePeriod } from '@state/periode';
 import { useCurrentPerson, useIsFetchingPerson } from '@state/person';
 import { isBeregnetPeriode, isGhostPeriode, isUberegnetPeriode } from '@utils/typeguards';
 
-import { ArbeidsgiverCard } from './ArbeidsgiverCard';
 import { PeriodeCard } from './PeriodeCard';
 import { UtbetalingCard } from './UtbetalingCard';
 import { VenstremenyBeregnetPeriode } from './VenstremenyBeregnetPeriode';
@@ -61,7 +60,6 @@ const VenstremenySkeleton: React.FC = () => {
     return (
         <section className={classNames(styles.Venstremeny, styles.Skeleton)}>
             <PeriodeCard.Skeleton />
-            <ArbeidsgiverCard.Skeleton />
             <UtbetalingCard.Skeleton />
         </section>
     );
