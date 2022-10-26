@@ -16,6 +16,7 @@
 
 .Error {
     border-radius: 0;
+    height: max-content;
     grid-column-start: venstremeny;
     grid-column-end: høyremeny;
 }
