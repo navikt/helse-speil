@@ -5,6 +5,7 @@ const JulegurkenContainer = styled.svg`
     margin-left: 1.5rem;
 `;
 
+// noinspection JSUnusedGlobalSymbols
 export const Julegurken: React.VFC = () => (
     <JulegurkenContainer pointerEvents="none" aria-labelledby="title" width="310" height="45" viewBox="0 0 310 45">
         <title id="title">"julepynt"</title>

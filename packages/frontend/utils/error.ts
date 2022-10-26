@@ -21,15 +21,6 @@ export class SpeilError extends Error {
 
 export class ErrorAlert extends SpeilError {}
 
-export class SuccessAlert extends SpeilError {
-    name = 'success';
-
-    constructor(message: string, options?: Omit<SpeilErrorOptions, 'severity'>) {
-        super(message, options);
-        this.severity = 'success';
-    }
-}
-
 export class InfoAlert extends SpeilError {
     name = 'info';
 

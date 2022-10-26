@@ -10,18 +10,12 @@ import { Begrunnelsesskjema } from './Begrunnelsesskjema';
 
 import styles from './AvvisningModal.module.css';
 
-enum Årsak {
-    Feil = 'Feil vurdering og/eller beregning',
-    InfotrygdRiktig = 'Allerede behandlet i infotrygd - riktig vurdering',
-    InfotrygdFeil = 'Allerede behandlet i infotrygd - feil vurdering og/eller beregning',
-}
-
 export enum Begrunnelse {
     Annet = 'Annet',
 }
 
 export type Avvisningsskjema = {
-    årsak: Årsak;
+    årsak: string;
     begrunnelser?: string[];
     kommentar?: string;
 };
@@ -55,7 +49,7 @@ export const AvvisningModal = ({ activePeriod, isSending, onApprove, onClose }: 
         } else {
             const { begrunnelser, kommentar } = form.getValues();
             onApprove({
-                årsak: Årsak.Feil,
+                årsak: 'Feil vurdering og/eller beregning',
                 begrunnelser: Array.isArray(begrunnelser) ? begrunnelser : [begrunnelser],
                 kommentar: kommentar,
             });

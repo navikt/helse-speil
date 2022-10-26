@@ -2,6 +2,7 @@ import React from 'react';
 
 import { Ikon, IkonProps } from './Ikon';
 
+// noinspection JSUnusedGlobalSymbols
 export const PepperkakemannIkon = ({ alt }: IkonProps) => (
     <Ikon width={24} height={24} viewBox="0 0 24 24" alt={alt}>
         <g id="pepperkakemann">

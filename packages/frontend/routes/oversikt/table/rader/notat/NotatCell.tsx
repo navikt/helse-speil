@@ -5,7 +5,6 @@ import { Button, Tooltip } from '@navikt/ds-react';
 
 import { Personinfo } from '@io/graphql';
 import { useNotaterForVedtaksperiode } from '@state/notater';
-import { convertToGraphQLPersoninfo } from '@utils/mapping';
 
 import { Cell } from '../../Cell';
 import { NotatListeModal } from './NotatListeModal';

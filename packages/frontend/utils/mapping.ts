@@ -1,14 +1,4 @@
-import {
-    Adressebeskyttelse,
-    BeregnetPeriode,
-    GhostPeriode,
-    Personinfo as GraphQLPersoninfo,
-    Kjonn,
-    Periode,
-    Periodetilstand,
-    Utbetalingtype,
-} from '@io/graphql';
-import { ISO_DATOFORMAT } from '@utils/date';
+import { BeregnetPeriode, GhostPeriode, Periode, Periodetilstand, Utbetalingtype } from '@io/graphql';
 import { isBeregnetPeriode, isGhostPeriode, isInfotrygdPeriod, isUberegnetPeriode } from '@utils/typeguards';
 
 const hasBeenAssessedAutomatically = (period: BeregnetPeriode): boolean =>
@@ -110,44 +100,6 @@ export const getPeriodState = (period?: Maybe<Periode | DatePeriod>): PeriodStat
     }
 };
 
-export const getPeriodCategory = (periodState: PeriodState): PeriodCategory | null => {
-    switch (periodState) {
-        case 'tilUtbetaling':
-        case 'utbetalt':
-        case 'revurdert':
-        case 'utbetaltAutomatisk':
-        case 'tilUtbetalingAutomatisk':
-            return 'success';
-        case 'tilGodkjenning':
-        case 'revurderes':
-        case 'revurderingFeilet':
-            return 'attention';
-        case 'utbetalingFeilet':
-        case 'avslag':
-        case 'annullert':
-        case 'tilAnnullering':
-        case 'annulleringFeilet':
-            return 'error';
-        case 'utenSykefravær':
-        case 'utenSykefraværDeaktivert':
-            return 'blank';
-        case 'infotrygdUtbetalt':
-        case 'infotrygdFerie':
-        case 'infotrygdUkjent':
-            return 'legacy';
-        case 'ukjent':
-        case 'venter':
-        case 'kunFerie':
-        case 'kunPermisjon':
-        case 'tilInfotrygd':
-        case 'venterPåKiling':
-        case 'ingenUtbetaling':
-        case 'revurdertIngenUtbetaling':
-        default:
-            return null;
-    }
-};
-
 export const getPeriodStateText = (state: PeriodState): string => {
     switch (state) {
         case 'utbetaltAutomatisk':
@@ -190,15 +142,4 @@ export const getPeriodStateText = (state: PeriodState): string => {
         default:
             return 'Ukjent';
     }
-};
-
-export const convertToGraphQLPersoninfo = (personinfo: Personinfo): GraphQLPersoninfo => {
-    return {
-        adressebeskyttelse: Adressebeskyttelse[personinfo.adressebeskyttelse],
-        etternavn: personinfo.etternavn,
-        fornavn: personinfo.fornavn,
-        mellomnavn: personinfo.mellomnavn,
-        kjonn: personinfo.kjønn === 'mann' ? Kjonn.Mann : personinfo.kjønn === 'kvinne' ? Kjonn.Kvinne : Kjonn.Ukjent,
-        fodselsdato: personinfo.fødselsdato?.format(ISO_DATOFORMAT),
-    };
 };
