@@ -1,4 +1,3 @@
-import { BegrunnelseForOverstyring } from '../overstyring.types';
 import classNames from 'classnames';
 import React, { useState } from 'react';
 
@@ -18,6 +17,7 @@ import { overstyrInntektEnabled } from '@utils/featureToggles';
 import { kildeForkortelse } from '@utils/inntektskilde';
 import { isBeregnetPeriode, isForkastetPeriode } from '@utils/typeguards';
 
+import { BegrunnelseForOverstyring } from '../overstyring.types';
 import { EditableInntekt } from './EditableInntekt';
 import { EndringsloggButton } from './EndringsloggButton';
 import { ReadOnlyInntekt } from './ReadOnlyInntekt';
@@ -94,7 +94,6 @@ export const InntektMedSykefravær = ({
                         setEditing={setEditing}
                         editing={editing}
                         erRevurdering={erRevurdering}
-                        skjæringstidspunkt={skjæringstidspunkt}
                         vilkårsgrunnlagId={vilkårsgrunnlagId}
                     />
                 )}

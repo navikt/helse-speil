@@ -1,7 +1,7 @@
 import dayjs from 'dayjs';
 import { atom, selector, useRecoilState, useRecoilValue } from 'recoil';
 
-import { BeregnetPeriode, GhostPeriode, Person } from '@io/graphql';
+import { BeregnetPeriode, GhostPeriode } from '@io/graphql';
 import { findArbeidsgiverWithGhostPeriode, findArbeidsgiverWithPeriode } from '@state/arbeidsgiver';
 import { sessionStorageEffect } from '@state/effects/sessionStorageEffect';
 import { toNotat } from '@state/notater';
@@ -23,7 +23,7 @@ const byTimestamp = (a: HendelseObject, b: HendelseObject): number => {
     return dayjs(b.timestamp).diff(dayjs(a.timestamp));
 };
 
-const getHendelserForBeregnetPeriode = (period: BeregnetPeriode, person: Person): Array<HendelseObject> => {
+const getHendelserForBeregnetPeriode = (period: BeregnetPeriode, person: FetchedPerson): Array<HendelseObject> => {
     const arbeidsgiver = findArbeidsgiverWithPeriode(period, person.arbeidsgivere);
     const dagoverstyringer = arbeidsgiver ? getDagoverstyringer(period, arbeidsgiver) : [];
     const inntektoverstyringer = arbeidsgiver ? getInntektoverstyringer(period, arbeidsgiver) : [];
@@ -44,7 +44,7 @@ const getHendelserForBeregnetPeriode = (period: BeregnetPeriode, person: Person)
         .sort(byTimestamp);
 };
 
-const getHendelserForGhostPeriode = (period: GhostPeriode, person: Person): Array<HendelseObject> => {
+const getHendelserForGhostPeriode = (period: GhostPeriode, person: FetchedPerson): Array<HendelseObject> => {
     const arbeidsgiver = findArbeidsgiverWithGhostPeriode(period, person.arbeidsgivere);
     const arbeidsforholdoverstyringer = arbeidsgiver ? getArbeidsforholdoverstyringhendelser(period, arbeidsgiver) : [];
 

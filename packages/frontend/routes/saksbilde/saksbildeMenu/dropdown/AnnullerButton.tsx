@@ -5,15 +5,7 @@ import { Dropdown } from '@navikt/ds-react-internal';
 import { DropdownContext } from '@components/dropdown';
 import { useErBeslutteroppgaveOgHarTilgang } from '@hooks/useErBeslutteroppgaveOgHarTilgang';
 import { useIsReadOnlyOppgave } from '@hooks/useIsReadOnlyOppgave';
-import {
-    Arbeidsgiver,
-    Arbeidsgiveroppdrag,
-    BeregnetPeriode,
-    Oppdrag,
-    Person,
-    Utbetaling,
-    Utbetalingstatus,
-} from '@io/graphql';
+import { Arbeidsgiver, Arbeidsgiveroppdrag, BeregnetPeriode, Oppdrag, Utbetaling, Utbetalingstatus } from '@io/graphql';
 import { annulleringerEnabled } from '@utils/featureToggles';
 
 import { useArbeidsgiveroppdrag } from '../../utbetalingshistorikk/state';
@@ -80,7 +72,7 @@ const kanAnnullere = (
 };
 
 interface AnnullerButtonProps {
-    person: Person;
+    person: FetchedPerson;
     periode: BeregnetPeriode;
     arbeidsgiver: Arbeidsgiver;
 }

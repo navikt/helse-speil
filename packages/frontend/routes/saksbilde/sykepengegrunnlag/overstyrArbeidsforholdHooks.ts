@@ -1,7 +1,6 @@
 import { BegrunnelseForOverstyring } from './overstyring.types';
 import { useEffect, useState } from 'react';
 
-import { Person } from '@io/graphql';
 import { postAbonnerPåAktør, postOverstyrtArbeidsforhold } from '@io/http';
 import { OverstyrtArbeidsforholdDTO } from '@io/http/types';
 import {
@@ -26,7 +25,7 @@ type OverstyrtArbeidsforholdGetter = (
 ) => OverstyrtArbeidsforholdDTO;
 
 export const useGetOverstyrtArbeidsforhold = (): OverstyrtArbeidsforholdGetter => {
-    const person = useCurrentPerson() as Person;
+    const person = useCurrentPerson() as FetchedPerson;
 
     return (organisasjonsnummerGhost, skjæringstidspunkt, arbeidsforholdSkalDeaktiveres, forklaring, begrunnelse) => ({
         fødselsnummer: person?.fodselsnummer,

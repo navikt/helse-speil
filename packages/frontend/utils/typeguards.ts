@@ -8,7 +8,6 @@ import {
     Maybe,
     Overstyring,
     Periode,
-    Person,
     UberegnetPeriode,
     Vilkarsgrunnlag,
     VilkarsgrunnlagInfotrygd,
@@ -19,7 +18,9 @@ import {
 export const isInfotrygdPeriod = (period?: Maybe<GhostPeriode | Periode | DatePeriod>): period is InfotrygdPeriod =>
     (period as InfotrygdPeriod)?.typetekst !== undefined && (period as InfotrygdPeriod)?.typetekst !== null;
 
-export const isBeregnetPeriode = (periode?: Maybe<GhostPeriode | Periode | DatePeriod>): periode is BeregnetPeriode =>
+export const isBeregnetPeriode = (
+    periode?: Maybe<GhostPeriode | Periode | DatePeriod> | any
+): periode is BeregnetPeriode =>
     (periode as BeregnetPeriode)?.beregningId !== null && (periode as BeregnetPeriode)?.beregningId !== undefined;
 
 export const isGhostPeriode = (period?: Maybe<GhostPeriode | Periode | DatePeriod>): period is GhostPeriode =>
@@ -67,7 +68,7 @@ export const isArbeidsforholdoverstyringer = (
     overstyringer?: Maybe<Array<Overstyring>>
 ): overstyringer is Array<Arbeidsforholdoverstyring> => overstyringer?.every(isArbeidsforholdoverstyring) ?? false;
 
-export const isPerson = (person?: Maybe<Person | any>): person is Person => {
+export const isPerson = (person?: Maybe<FetchedPerson | any>): person is FetchedPerson => {
     return person !== undefined && person !== null && typeof person['fodselsnummer'] === 'string';
 };
 

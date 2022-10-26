@@ -5,7 +5,7 @@ import { Loader } from '@navikt/ds-react';
 
 import { useErTidligereSaksbehandler } from '@hooks/useErTidligereSaksbehandler';
 import { useHarVurderLovvalgOgMedlemskapVarsel } from '@hooks/useHarVurderLovvalgOgMedlemskapVarsel';
-import { Arbeidsgiver, BeregnetPeriode, Person } from '@io/graphql';
+import { BeregnetPeriode } from '@io/graphql';
 import { useHarDagOverstyringer } from '@state/arbeidsgiver';
 import { useSyncNotater } from '@state/notater';
 import { useEndringerEtterNyesteUtbetaltetidsstempel } from '@state/person';
@@ -33,12 +33,10 @@ const BeregnetPeriodeViewLoader: React.VFC = () => {
 
 interface BeregnetPeriodeViewProps {
     activePeriod: BeregnetPeriode;
-    currentPerson: Person;
-    currentArbeidsgiver: Arbeidsgiver;
 }
 
-export const BeregnetPeriodeView: React.VFC<BeregnetPeriodeViewProps> = ({ activePeriod }) => {
-    if (!activePeriod.skjaeringstidspunkt || !activePeriod.vilkarsgrunnlaghistorikkId) {
+export const BeregnetPeriodeView: React.FC<BeregnetPeriodeViewProps> = ({ activePeriod }) => {
+    if (!activePeriod.skjaeringstidspunkt || !activePeriod.vilkarsgrunnlagId) {
         throw Error('Mangler skjæringstidspunkt eller vilkårsgrunnlag. Ta kontakt med en utvikler.');
     }
 

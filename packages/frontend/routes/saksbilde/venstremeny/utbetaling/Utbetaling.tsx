@@ -8,7 +8,7 @@ import { BodyShort, Loader } from '@navikt/ds-react';
 import { ErrorMessage } from '@components/ErrorMessage';
 import { useErBeslutteroppgaveOgHarTilgang } from '@hooks/useErBeslutteroppgaveOgHarTilgang';
 import { useHarVurderLovvalgOgMedlemskapVarsel } from '@hooks/useHarVurderLovvalgOgMedlemskapVarsel';
-import { BeregnetPeriode, NotatType, Periodetilstand, Person } from '@io/graphql';
+import { BeregnetPeriode, NotatType, Periodetilstand } from '@io/graphql';
 import { postAbonnerPåAktør } from '@io/http';
 import { useHarDagOverstyringer } from '@state/arbeidsgiver';
 import { opptegnelsePollingTimeState } from '@state/opptegnelser';
@@ -34,7 +34,7 @@ const Spinner = styled(Loader)`
     margin-right: 0.5rem;
 `;
 
-const skalPolleEtterNestePeriode = (person: Person) =>
+const skalPolleEtterNestePeriode = (person: FetchedPerson) =>
     person.arbeidsgivere
         .flatMap((arbeidsgiver) => arbeidsgiver.generasjoner[0]?.perioder ?? [])
         .some((periode) =>
@@ -48,7 +48,7 @@ const skalPolleEtterNestePeriode = (person: Person) =>
 const hasOppgave = (period: BeregnetPeriode): boolean =>
     typeof period.oppgavereferanse === 'string' && ['tilGodkjenning', 'revurderes'].includes(getPeriodState(period));
 
-const useOnGodkjenn = (period: BeregnetPeriode, person: Person): (() => void) => {
+const useOnGodkjenn = (period: BeregnetPeriode, person: FetchedPerson): (() => void) => {
     const history = useHistory();
     const setOpptegnelsePollingTime = useSetRecoilState(opptegnelsePollingTimeState);
 
@@ -76,7 +76,7 @@ type SpeilError = {
 
 interface UtbetalingProps {
     activePeriod: BeregnetPeriode;
-    currentPerson: Person;
+    currentPerson: FetchedPerson;
 }
 
 export const Utbetaling = ({ activePeriod, currentPerson }: UtbetalingProps) => {

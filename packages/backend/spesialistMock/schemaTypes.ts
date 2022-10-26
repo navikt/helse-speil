@@ -162,6 +162,7 @@ export type BeregnetPeriode = Periode & {
     utbetaling: Utbetaling;
     varsler: Array<Scalars['String']>;
     vedtaksperiodeId: Scalars['String'];
+    vilkarsgrunnlagId?: Maybe<Scalars['String']>;
     vilkarsgrunnlaghistorikkId: Scalars['String'];
 };
 
@@ -340,6 +341,7 @@ export type Mutation = {
     feilregistrerKommentar: Scalars['Boolean'];
     feilregistrerNotat: Scalars['Boolean'];
     leggTilKommentar?: Maybe<Kommentar>;
+    leggTilNotat: Scalars['Int'];
 };
 
 export type MutationFeilregistrerKommentarArgs = {
@@ -354,6 +356,13 @@ export type MutationLeggTilKommentarArgs = {
     notatId: Scalars['Int'];
     saksbehandlerident: Scalars['String'];
     tekst: Scalars['String'];
+};
+
+export type MutationLeggTilNotatArgs = {
+    saksbehandlerOid: Scalars['String'];
+    tekst: Scalars['String'];
+    type: NotatType;
+    vedtaksperiodeId: Scalars['String'];
 };
 
 export type Notat = {
@@ -377,6 +386,12 @@ export enum NotatType {
     PaaVent = 'PaaVent',
     Retur = 'Retur',
 }
+
+export type Notater = {
+    __typename?: 'Notater';
+    id: Scalars['String'];
+    notater: Array<Notat>;
+};
 
 export type OmregnetArsinntekt = {
     __typename?: 'OmregnetArsinntekt';
@@ -484,7 +499,6 @@ export type Paginering = {
     __typename?: 'Paginering';
     antallSider: Scalars['Int'];
     elementerPerSide: Scalars['Int'];
-    peker?: Maybe<Scalars['String']>;
     side: Scalars['Int'];
 };
 
@@ -559,6 +573,7 @@ export type Person = {
     personinfo: Personinfo;
     tildeling?: Maybe<Tildeling>;
     versjon: Scalars['Int'];
+    vilkarsgrunnlag: Array<Vilkarsgrunnlag>;
     vilkarsgrunnlaghistorikk: Array<Vilkarsgrunnlaghistorikk>;
 };
 
@@ -592,6 +607,7 @@ export type Query = {
     alleOppgaver: Array<OppgaveForOversiktsvisning>;
     behandledeOppgaver: Array<FerdigstiltOppgave>;
     behandlingsstatistikk: Behandlingsstatistikk;
+    notater: Array<Notater>;
     oppdrag: Array<Oppdrag>;
     oppgaver: Oppgaver;
     person?: Maybe<Person>;
@@ -603,13 +619,18 @@ export type QueryBehandledeOppgaverArgs = {
     fom?: InputMaybe<Scalars['String']>;
 };
 
+export type QueryNotaterArgs = {
+    forPerioder: Array<Scalars['String']>;
+};
+
 export type QueryOppdragArgs = {
     fnr: Scalars['String'];
 };
 
 export type QueryOppgaverArgs = {
-    after?: InputMaybe<Scalars['String']>;
-    first: Scalars['Int'];
+    antall: Scalars['Int'];
+    side: Scalars['Int'];
+    sortering?: InputMaybe<SorteringInput>;
 };
 
 export type QueryPersonArgs = {
@@ -637,6 +658,11 @@ export type Reservasjon = {
     kanVarsles: Scalars['Boolean'];
     reservert: Scalars['Boolean'];
 };
+
+export enum Retning {
+    Asc = 'asc',
+    Desc = 'desc',
+}
 
 export type Risikovurdering = {
     __typename?: 'Risikovurdering';
@@ -732,6 +758,12 @@ export type Soknadsfrist = {
     sendtNav: Scalars['String'];
     soknadFom: Scalars['String'];
     soknadTom: Scalars['String'];
+};
+
+export type SorteringInput = {
+    bosted?: InputMaybe<Retning>;
+    opprettet?: InputMaybe<Retning>;
+    status?: InputMaybe<Retning>;
 };
 
 export type Spennoppdrag = {
@@ -867,6 +899,7 @@ export enum Utbetalingtype {
 }
 
 export type Vilkarsgrunnlag = {
+    id: Scalars['String'];
     inntekter: Array<Arbeidsgiverinntekt>;
     omregnetArsinntekt: Scalars['Float'];
     sammenligningsgrunnlag?: Maybe<Scalars['Float']>;
@@ -877,6 +910,7 @@ export type Vilkarsgrunnlag = {
 
 export type VilkarsgrunnlagInfotrygd = Vilkarsgrunnlag & {
     __typename?: 'VilkarsgrunnlagInfotrygd';
+    id: Scalars['String'];
     inntekter: Array<Arbeidsgiverinntekt>;
     omregnetArsinntekt: Scalars['Float'];
     sammenligningsgrunnlag?: Maybe<Scalars['Float']>;
@@ -890,6 +924,7 @@ export type VilkarsgrunnlagSpleis = Vilkarsgrunnlag & {
     antallOpptjeningsdagerErMinst: Scalars['Int'];
     avviksprosent?: Maybe<Scalars['Float']>;
     grunnbelop: Scalars['Int'];
+    id: Scalars['String'];
     inntekter: Array<Arbeidsgiverinntekt>;
     omregnetArsinntekt: Scalars['Float'];
     oppfyllerKravOmMedlemskap?: Maybe<Scalars['Boolean']>;

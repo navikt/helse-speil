@@ -17,19 +17,12 @@ interface RedigerInntektProps {
     setEditing: Dispatch<SetStateAction<boolean>>;
     editing: boolean;
     erRevurdering: boolean;
-    skjæringstidspunkt: DateString;
     vilkårsgrunnlagId: string;
 }
 
-export const RedigerInntekt = ({
-    setEditing,
-    editing,
-    erRevurdering,
-    skjæringstidspunkt,
-    vilkårsgrunnlagId,
-}: RedigerInntektProps) => {
+export const RedigerInntekt = ({ setEditing, editing, erRevurdering, vilkårsgrunnlagId }: RedigerInntektProps) => {
     const periode = useActivePeriod();
-    const person = useCurrentPerson();
+    const person = useCurrentPerson() as FetchedPerson;
 
     const førstegangsbehandlingTilGodkjenningMedOverlappendeAvsluttetPeriode =
         useFørstegangsbehandlingTilGodkjenningMedOverlappendeAvsluttetPeriode(periode!!, person!!);
@@ -39,7 +32,7 @@ export const RedigerInntekt = ({
     const erTidslinjeperiodeISisteGenerasjon = useActiveGenerationIsLast();
 
     const erSpleisVilkårsgrunnlagtype =
-        useVilkårsgrunnlag(vilkårsgrunnlagId, skjæringstidspunkt)?.vilkarsgrunnlagtype === Vilkarsgrunnlagtype.Spleis;
+        useVilkårsgrunnlag(vilkårsgrunnlagId)?.vilkarsgrunnlagtype === Vilkarsgrunnlagtype.Spleis;
     const erIkkePingPong = useHarKunEnFagsystemIdPåArbeidsgiverIAktivPeriode();
 
     if (!erTidslinjeperiodeISisteGenerasjon) return null;

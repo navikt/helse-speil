@@ -83,12 +83,7 @@ const InngangsvilkårContainer = () => {
     if (!activePeriod || !person?.personinfo.fodselsdato) {
         return null;
     } else if (isBeregnetPeriode(activePeriod)) {
-        const vilkårsgrunnlag = getVilkårsgrunnlag(
-            person,
-            activePeriod.vilkarsgrunnlaghistorikkId,
-            activePeriod.skjaeringstidspunkt,
-            activePeriod.tom
-        );
+        const vilkårsgrunnlag = getVilkårsgrunnlag(person, activePeriod.vilkarsgrunnlagId);
         return (
             <InngangsvilkårWithContent
                 vurdering={activePeriod.utbetaling.vurdering}

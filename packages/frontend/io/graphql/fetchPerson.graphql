@@ -70,47 +70,45 @@ query FetchPerson($fnr: String, $aktorId: String) {
             reservert
         }
         versjon
-        vilkarsgrunnlaghistorikk {
+        vilkarsgrunnlag {
             id
-            grunnlag {
-                sykepengegrunnlag
-                skjaeringstidspunkt
-                omregnetArsinntekt
-                sammenligningsgrunnlag
-                inntekter {
-                    sammenligningsgrunnlag {
-                        belop
-                        inntektFraAOrdningen {
-                            maned
-                            sum
-                        }
+            sykepengegrunnlag
+            skjaeringstidspunkt
+            omregnetArsinntekt
+            sammenligningsgrunnlag
+            inntekter {
+                sammenligningsgrunnlag {
+                    belop
+                    inntektFraAOrdningen {
+                        maned
+                        sum
                     }
-                    omregnetArsinntekt {
-                        inntektFraAOrdningen {
-                            maned
-                            sum
-                        }
-                        belop
-                        manedsbelop
-                        kilde
-                    }
-                    arbeidsgiver
-                    deaktivert
                 }
-                vilkarsgrunnlagtype
-                ... on VilkarsgrunnlagSpleis {
-                    oppfyllerKravOmMinstelonn
-                    oppfyllerKravOmMedlemskap
-                    oppfyllerKravOmOpptjening
-                    antallOpptjeningsdagerErMinst
-                    grunnbelop
-                    avviksprosent
-                    opptjeningFra
-                    sykepengegrunnlagsgrense {
-                        grunnbelop
-                        grense
-                        virkningstidspunkt
+                omregnetArsinntekt {
+                    inntektFraAOrdningen {
+                        maned
+                        sum
                     }
+                    belop
+                    manedsbelop
+                    kilde
+                }
+                arbeidsgiver
+                deaktivert
+            }
+            vilkarsgrunnlagtype
+            ... on VilkarsgrunnlagSpleis {
+                oppfyllerKravOmMinstelonn
+                oppfyllerKravOmMedlemskap
+                oppfyllerKravOmOpptjening
+                antallOpptjeningsdagerErMinst
+                grunnbelop
+                avviksprosent
+                opptjeningFra
+                sykepengegrunnlagsgrense {
+                    grunnbelop
+                    grense
+                    virkningstidspunkt
                 }
             }
         }
@@ -287,7 +285,7 @@ query FetchPerson($fnr: String, $aktorId: String) {
                             }
                         }
                         varsler
-                        vilkarsgrunnlaghistorikkId
+                        vilkarsgrunnlagId
                         refusjon {
                             sisteRefusjonsdag
                             forsteFravaersdag

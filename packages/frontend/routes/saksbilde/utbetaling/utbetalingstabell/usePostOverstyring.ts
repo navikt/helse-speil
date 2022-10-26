@@ -1,7 +1,7 @@
 import dayjs from 'dayjs';
 import { useEffect, useState } from 'react';
 
-import type { Arbeidsgiver, Person } from '@io/graphql';
+import type { Arbeidsgiver } from '@io/graphql';
 import type { OverstyrtDagDTO } from '@io/http';
 import { postAbonnerPåAktør, postOverstyrteDager } from '@io/http';
 import { useCurrentArbeidsgiver } from '@state/arbeidsgiver';
@@ -64,7 +64,7 @@ type UsePostOverstyringResult = {
 };
 
 export const usePostOverstyring = (): UsePostOverstyringResult => {
-    const person = useCurrentPerson() as Person;
+    const person = useCurrentPerson() as FetchedPerson;
     const arbeidsgiver = useCurrentArbeidsgiver() as Arbeidsgiver;
     const addToast = useAddToast();
     const removeToast = useRemoveToast();

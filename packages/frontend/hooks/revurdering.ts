@@ -1,6 +1,6 @@
 import dayjs from 'dayjs';
 
-import type { Arbeidsgiver, BeregnetPeriode, GhostPeriode, Periode, Person } from '@io/graphql';
+import type { Arbeidsgiver, BeregnetPeriode, GhostPeriode, Periode } from '@io/graphql';
 import { useCurrentArbeidsgiver } from '@state/arbeidsgiver';
 import { useActivePeriod } from '@state/periode';
 import { useCurrentPerson } from '@state/person';
@@ -36,12 +36,15 @@ const overlapper =
         (dayjs(periode.fom).isSameOrAfter(other.fom) && dayjs(periode.fom).isSameOrBefore(other.tom)) ||
         (dayjs(periode.tom).isSameOrAfter(other.fom) && dayjs(periode.tom).isSameOrBefore(other.tom));
 
-const overlappendePerioder = (person: Person, periode: BeregnetPeriode): Array<BeregnetPeriode> =>
+const overlappendePerioder = (person: FetchedPerson, periode: BeregnetPeriode): Array<BeregnetPeriode> =>
     person.arbeidsgivere
-        .flatMap((arbeidsgiver) => arbeidsgiver.generasjoner[0]?.perioder.filter(isBeregnetPeriode) ?? [])
+        .flatMap(
+            (arbeidsgiver) =>
+                (arbeidsgiver.generasjoner[0]?.perioder.filter(isBeregnetPeriode) as Array<BeregnetPeriode>) ?? []
+        )
         .filter(overlapper(periode));
 
-const alleOverlappendePerioderErAvsluttet = (person: Person, periode: Periode | GhostPeriode): boolean => {
+const alleOverlappendePerioderErAvsluttet = (person: FetchedPerson, periode: Periode | GhostPeriode): boolean => {
     if (!isBeregnetPeriode(periode)) {
         return false;
     }
@@ -55,7 +58,7 @@ const alleOverlappendePerioderErAvsluttet = (person: Person, periode: Periode | 
     return true;
 };
 
-const harOverlappendePeriodeSomErErAvsluttet = (person: Person, periode: Periode | GhostPeriode): boolean => {
+const harOverlappendePeriodeSomErErAvsluttet = (person: FetchedPerson, periode: Periode | GhostPeriode): boolean => {
     if (!isBeregnetPeriode(periode)) {
         return false;
     }
@@ -70,7 +73,7 @@ const harOverlappendePeriodeSomErErAvsluttet = (person: Person, periode: Periode
     return overlappendeTilstander.some((tilstand) => godkjentTilstander.includes(tilstand));
 };
 
-const alleOverlappendePerioderErTilRevurdering = (person: Person, periode: Periode): boolean => {
+const alleOverlappendePerioderErTilRevurdering = (person: FetchedPerson, periode: Periode): boolean => {
     if (!isBeregnetPeriode(periode)) {
         return false;
     }
@@ -86,7 +89,7 @@ const alleOverlappendePerioderErTilRevurdering = (person: Person, periode: Perio
 
 export const useFørstegangsbehandlingTilGodkjenningMedOverlappendeAvsluttetPeriode = (
     periode: Periode | GhostPeriode,
-    person: Person
+    person: FetchedPerson
 ): boolean => {
     const førstegangsbehandlingMedTilstandAvventerGodkjenning =
         getPeriodState(periode) === 'tilGodkjenning' && isBeregnetPeriode(periode) && !isRevurdering(periode);
@@ -95,7 +98,7 @@ export const useFørstegangsbehandlingTilGodkjenningMedOverlappendeAvsluttetPeri
     );
 };
 
-const getArbeidsgiverMedPeriode = (periode: Periode, person: Person): Arbeidsgiver | null => {
+const getArbeidsgiverMedPeriode = (periode: Periode, person: FetchedPerson): Arbeidsgiver | null => {
     return person.arbeidsgivere.find((it) => it.generasjoner[0]?.perioder.find((it) => it === periode)) ?? null;
 };
 

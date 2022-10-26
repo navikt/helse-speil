@@ -15,7 +15,7 @@ const initialVenterPåEndringContextState: VenterPåEndringContextState = {
         visAngreknapp: true,
         visOverstyrKnapp: true,
     },
-    oppdaterVenterPåEndringState: (state: VenterPåEndringState) => {},
+    oppdaterVenterPåEndringState: (_: VenterPåEndringState) => {},
 };
 
 export const VenterPåEndringContext = createContext<VenterPåEndringContextState>(initialVenterPåEndringContextState);

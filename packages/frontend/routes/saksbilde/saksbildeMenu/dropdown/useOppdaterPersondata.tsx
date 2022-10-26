@@ -3,7 +3,6 @@ import { useRecoilValue } from 'recoil';
 
 import { Loader } from '@navikt/ds-react';
 
-import { Person } from '@io/graphql';
 import { postAbonnerPåAktør, postForespørPersonoppdatering } from '@io/http';
 import { nyesteOpptegnelserState, useSetOpptegnelserPollingRate } from '@state/opptegnelser';
 import { useCurrentPerson } from '@state/person';
@@ -27,7 +26,7 @@ const oppdatererPersondataMessage = () => {
 };
 
 export const useOppdaterPersondata = (): [forespørPersonoppdatering: () => Promise<void>] => {
-    const person = useCurrentPerson() as Person;
+    const person = useCurrentPerson() as FetchedPerson;
     const addVarsel = useAddVarsel();
     const addToast = useAddToast();
     const removeToast = useRemoveToast();

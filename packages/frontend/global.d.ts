@@ -1,5 +1,6 @@
 /// <reference types="vite/client" />
 
+type FetchPersonQuery = import('@io/graphql').FetchPersonQuery;
 type SpeilError = import('@utils/error').SpeilError;
 
 declare module '*.png' {
@@ -90,3 +91,5 @@ declare type FetchedData<T> =
     | FetchedDataError<T>
     | FetchedDataLoading<T>
     | FetchedDataSuccess<T>;
+
+declare type FetchedPerson = NonNullable<FetchPersonQuery['person']>;

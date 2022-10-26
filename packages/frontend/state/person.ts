@@ -23,7 +23,7 @@ class TildelingAlert extends SpeilError {
 }
 
 type PersonState = {
-    person: Maybe<Person>;
+    person: Maybe<FetchedPerson>;
     errors: Array<SpeilError>;
     loading: boolean;
 };
@@ -66,7 +66,7 @@ export const personState = atom<PersonState>({
     default: emptyPersonState(),
 });
 
-export const useCurrentPerson = (): Person | null => useRecoilValue(personState).person;
+export const useCurrentPerson = (): FetchedPerson | null => useRecoilValue(personState).person;
 
 export const useFetchPerson = (): ((id: string) => Promise<PersonState | void>) => {
     const setPerson = useSetRecoilState(personState);
@@ -210,27 +210,11 @@ export const useFjernPåVent = (): ((oppgavereferanse: string) => Promise<SpeilR
     };
 };
 
-const bySkjæringstidspunktDescending = (a: Vilkarsgrunnlag, b: Vilkarsgrunnlag): number => {
-    return new Date(b.skjaeringstidspunkt).getTime() - new Date(a.skjaeringstidspunkt).getTime();
-};
-
-export const useVilkårsgrunnlag = (id: string, skjæringstidspunkt: DateString): Vilkarsgrunnlag | null => {
+export const useVilkårsgrunnlag = (id?: Maybe<string>): Vilkarsgrunnlag | null => {
     const currentPerson = useCurrentPerson();
     const activePeriod = useActivePeriod();
 
-    return (
-        (activePeriod &&
-            currentPerson?.vilkarsgrunnlaghistorikk
-                .find((it) => it.id === id)
-                ?.grunnlag.filter(
-                    (it) =>
-                        dayjs(it.skjaeringstidspunkt).isSameOrAfter(skjæringstidspunkt) &&
-                        dayjs(it.skjaeringstidspunkt).isSameOrBefore(activePeriod.tom)
-                )
-                .sort(bySkjæringstidspunktDescending)
-                .pop()) ??
-        null
-    );
+    return (activePeriod && currentPerson?.vilkarsgrunnlag.find((it) => it.id === id)) ?? null;
 };
 
 const useEndringerForPerson = (): Array<Overstyring> =>

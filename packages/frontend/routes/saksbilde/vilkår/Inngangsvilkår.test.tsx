@@ -6,6 +6,7 @@ import '@testing-library/jest-dom/extend-expect';
 import { render, screen, within } from '@testing-library/react';
 
 const getVilkårsgrunnlagSpleis = (overrides?: Partial<VilkarsgrunnlagSpleis>): VilkarsgrunnlagSpleis => ({
+    id: 'en-id',
     antallOpptjeningsdagerErMinst: 100,
     grunnbelop: 100000,
     inntekter: [],

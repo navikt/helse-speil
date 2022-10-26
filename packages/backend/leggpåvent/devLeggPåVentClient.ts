@@ -12,4 +12,6 @@ export default {
         };
         return request.post(options);
     },
+    fjernPåVent: async (speilToken: string, oppgavereferanse: string): Promise<any> =>
+        request.delete(`http://localhost:9001/api/leggpaavent/${oppgavereferanse}`),
 };

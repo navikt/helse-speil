@@ -1,14 +1,13 @@
-import dayjs from 'dayjs';
 import { atom, selector, useRecoilValue, useSetRecoilState } from 'recoil';
 
-import type { BeregnetPeriode, GhostPeriode, Person, UberegnetPeriode } from '@io/graphql';
+import type { BeregnetPeriode, GhostPeriode, UberegnetPeriode } from '@io/graphql';
 import { Periode, Periodetilstand, Vilkarsgrunnlag } from '@io/graphql';
 import { personState, useCurrentPerson } from '@state/person';
 import { isBeregnetPeriode, isGhostPeriode, isPerson, isUberegnetPeriode } from '@utils/typeguards';
 
 type ActivePeriod = BeregnetPeriode | UberegnetPeriode | GhostPeriode;
 
-const personHasPeriod = (person: Person, period: ActivePeriod): boolean => {
+const personHasPeriod = (person: FetchedPerson, period: ActivePeriod): boolean => {
     return (
         person.arbeidsgivere
             .flatMap((it) => it.generasjoner.flatMap((it) => it.perioder as Array<ActivePeriod>))
@@ -48,9 +47,10 @@ export const activePeriod = selector<ActivePeriod | null>({
             .filter(isBeregnetPeriode)
             .filter((it) => it.periodetilstand !== Periodetilstand.TilInfotrygd);
 
-        const periodWithOppgave: Maybe<BeregnetPeriode> =
+        const periodWithOppgave =
             allPeriods.find(
                 (periode) =>
+                    isBeregnetPeriode(periode) &&
                     periode.periodetilstand === Periodetilstand.TilGodkjenning &&
                     typeof periode.oppgavereferanse === 'string'
             ) ?? null;
@@ -65,10 +65,6 @@ export const useActivePeriod = (): ActivePeriod | null => useRecoilValue(activeP
 
 export const useSetActivePeriod = () => useSetRecoilState(activePeriodState);
 
-const bySkjæringstidspunktDescending = (a: Vilkarsgrunnlag, b: Vilkarsgrunnlag): number => {
-    return new Date(b.skjaeringstidspunkt).getTime() - new Date(a.skjaeringstidspunkt).getTime();
-};
-
 export const useCurrentVilkårsgrunnlag = (): Vilkarsgrunnlag | null => {
     const activePeriod = useActivePeriod();
     const currentPerson = useCurrentPerson();
@@ -77,15 +73,5 @@ export const useCurrentVilkårsgrunnlag = (): Vilkarsgrunnlag | null => {
         return null;
 
     const periode = activePeriod as BeregnetPeriode;
-    return (
-        currentPerson?.vilkarsgrunnlaghistorikk
-            .find((it) => it.id === periode.vilkarsgrunnlaghistorikkId)
-            ?.grunnlag.filter(
-                (it) =>
-                    dayjs(it.skjaeringstidspunkt).isSameOrAfter(periode.skjaeringstidspunkt) &&
-                    dayjs(it.skjaeringstidspunkt).isSameOrBefore(activePeriod.tom)
-            )
-            .sort(bySkjæringstidspunktDescending)
-            .pop() ?? null
-    );
+    return currentPerson?.vilkarsgrunnlag.find((it) => it.id === periode.vilkarsgrunnlagId) ?? null;
 };

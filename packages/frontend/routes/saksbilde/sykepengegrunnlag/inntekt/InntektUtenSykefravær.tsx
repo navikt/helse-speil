@@ -1,11 +1,10 @@
-import { BegrunnelseForOverstyring } from '../overstyring.types';
 import classNames from 'classnames';
 import React, { useState } from 'react';
 
 import { Bold } from '@components/Bold';
 import { Flex } from '@components/Flex';
 import { Kilde } from '@components/Kilde';
-import { Inntektskilde, Maybe, OmregnetArsinntekt, Periodetilstand, Person } from '@io/graphql';
+import { BeregnetPeriode, Inntektskilde, Maybe, OmregnetArsinntekt, Periodetilstand } from '@io/graphql';
 import { useEndringerForPeriode } from '@state/arbeidsgiver';
 import { useActivePeriod } from '@state/periode';
 import { useCurrentPerson } from '@state/person';
@@ -13,6 +12,7 @@ import { kildeForkortelse } from '@utils/inntektskilde';
 import { isBeregnetPeriode, isGhostPeriode } from '@utils/typeguards';
 
 import { OverstyrArbeidsforholdUtenSykdom } from '../OverstyrArbeidsforholdUtenSykdom';
+import { BegrunnelseForOverstyring } from '../overstyring.types';
 import { EditableInntekt } from './EditableInntekt';
 import { EndringsloggButton } from './EndringsloggButton';
 import { ReadOnlyInntekt } from './ReadOnlyInntekt';
@@ -20,29 +20,33 @@ import { RedigerGhostInntekt } from './RedigerGhostInntekt';
 
 import styles from './Inntekt.module.css';
 
-const maybePeriodeTilGodkjenning = (person: Person, skjæringstidspunkt: DateString): Maybe<BeregnetPeriode> => {
+const maybePeriodeTilGodkjenning = (person: FetchedPerson, skjæringstidspunkt: DateString): Maybe<BeregnetPeriode> => {
     return (
-        person?.arbeidsgivere
-            .flatMap((it) => it.generasjoner[0]?.perioder)
-            .filter(isBeregnetPeriode)
-            .find(
-                (it) =>
-                    it.periodetilstand === Periodetilstand.TilGodkjenning &&
-                    it.skjaeringstidspunkt === skjæringstidspunkt
-            ) ?? null
+        (
+            person?.arbeidsgivere
+                .flatMap((it) => it.generasjoner[0]?.perioder)
+                .filter(isBeregnetPeriode) as Array<BeregnetPeriode>
+        ).find(
+            (it) =>
+                it.periodetilstand === Periodetilstand.TilGodkjenning && it.skjaeringstidspunkt === skjæringstidspunkt
+        ) ?? null
     );
 };
 
-const maybePeriodeForSkjæringstidspunkt = (person: Person, skjæringstidspunkt: DateString): Maybe<BeregnetPeriode> => {
+const maybePeriodeForSkjæringstidspunkt = (
+    person: FetchedPerson,
+    skjæringstidspunkt: DateString
+): Maybe<BeregnetPeriode> => {
     return (
-        person?.arbeidsgivere
-            .flatMap((it) => it.generasjoner[0]?.perioder)
-            .filter(isBeregnetPeriode)
-            .find((it) => it.skjaeringstidspunkt === skjæringstidspunkt) ?? null
+        (
+            person?.arbeidsgivere
+                .flatMap((it) => it.generasjoner[0]?.perioder)
+                .filter(isBeregnetPeriode) as Array<BeregnetPeriode>
+        ).find((it) => it.skjaeringstidspunkt === skjæringstidspunkt) ?? null
     );
 };
 
-const harIngenUtbetaltePerioderFor = (person: Person, skjæringstidspunkt: DateString): boolean => {
+const harIngenUtbetaltePerioderFor = (person: FetchedPerson, skjæringstidspunkt: DateString): boolean => {
     return (
         person?.arbeidsgivere
             .flatMap((it) => it.generasjoner[0]?.perioder)
@@ -59,13 +63,15 @@ const harIngenUtbetaltePerioderFor = (person: Person, skjæringstidspunkt: DateS
     );
 };
 
-const harIngenPerioderTilBeslutterFor = (person: Person, skjæringstidspunkt: DateString): boolean => {
+const harIngenPerioderTilBeslutterFor = (person: FetchedPerson, skjæringstidspunkt: DateString): boolean => {
     return (
-        person?.arbeidsgivere
-            .flatMap((it) => it.generasjoner[0]?.perioder)
-            .filter(isBeregnetPeriode)
-            .filter((it) => it.skjaeringstidspunkt === skjæringstidspunkt)
-            .every((it) => !it.erBeslutterOppgave) ?? false
+        (
+            person?.arbeidsgivere
+                .flatMap((it) => it.generasjoner[0]?.perioder)
+                .filter(
+                    (it) => isBeregnetPeriode(it) && it.skjaeringstidspunkt === skjæringstidspunkt
+                ) as Array<BeregnetPeriode>
+        ).every((it) => !it.oppgave?.erBeslutter) ?? false
     );
 };
 

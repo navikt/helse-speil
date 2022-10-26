@@ -21,10 +21,7 @@ import { SykepengegrunnlagFraSpleis } from './SykepengegrunnlagFraSpleis';
 const SykepengegrunnlagContainer = () => {
     const person = useCurrentPerson();
     const activePeriod = useActivePeriod();
-    const vilkårsgrunnlag = useVilkårsgrunnlag(
-        (activePeriod as BeregnetPeriode).vilkarsgrunnlaghistorikkId,
-        (activePeriod as BeregnetPeriode).skjaeringstidspunkt
-    );
+    const vilkårsgrunnlag = useVilkårsgrunnlag((activePeriod as BeregnetPeriode).vilkarsgrunnlagId);
     const vurdering = useVurderingForSkjæringstidspunkt((activePeriod as BeregnetPeriode).skjaeringstidspunkt);
     const arbeidsgiver = useCurrentArbeidsgiver();
 
