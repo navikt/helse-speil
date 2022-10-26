@@ -23,7 +23,7 @@ interface InntektFraAordningenProps {
     deaktivert?: Maybe<boolean>;
 }
 
-const InntektFraAordningen: React.VFC<InntektFraAordningenProps> = ({ omregnetÅrsinntekt, deaktivert }) => {
+const InntektFraAordningen: React.FC<InntektFraAordningenProps> = ({ omregnetÅrsinntekt, deaktivert }) => {
     return (
         <>
             <Flex alignItems="center">
@@ -70,7 +70,7 @@ interface ReadOnlyInntektProps {
     deaktivert?: Maybe<boolean>;
 }
 
-export const ReadOnlyInntekt: React.VFC<ReadOnlyInntektProps> = ({ omregnetÅrsinntekt, deaktivert }) => (
+export const ReadOnlyInntekt: React.FC<ReadOnlyInntektProps> = ({ omregnetÅrsinntekt, deaktivert }) => (
     <>
         {omregnetÅrsinntekt?.kilde === Inntektskilde.Aordningen ? (
             <InntektFraAordningen omregnetÅrsinntekt={omregnetÅrsinntekt!} deaktivert={deaktivert} />

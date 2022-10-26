@@ -18,7 +18,7 @@ interface EditButtonProps extends React.HTMLAttributes<HTMLButtonElement> {
     closedIcon?: ReactNode;
 }
 
-export const EditButton: React.VFC<EditButtonProps> = ({
+export const EditButton: React.FC<EditButtonProps> = ({
     isOpen,
     openText,
     closedText,

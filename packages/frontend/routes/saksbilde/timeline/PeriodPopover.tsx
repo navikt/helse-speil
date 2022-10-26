@@ -57,7 +57,7 @@ const getDayTypesRender = (dayType: Utbetalingsdagtype, map: Map<Utbetalingsdagt
     return `${antallDager} dager`;
 };
 
-const InfotrygdPopover: React.VFC<DatePeriod> = ({ fom, tom }) => {
+const InfotrygdPopover: React.FC<DatePeriod> = ({ fom, tom }) => {
     return (
         <>
             <BodyShort size="small">Behandlet i Infotrygd</BodyShort>
@@ -74,7 +74,7 @@ interface SpleisPopoverProps extends DatePeriod {
     state: PeriodState;
 }
 
-const BeregnetPopover: React.VFC<SpleisPopoverProps> = ({ period, state, fom, tom }) => {
+const BeregnetPopover: React.FC<SpleisPopoverProps> = ({ period, state, fom, tom }) => {
     const dayTypes = groupDayTypes(period);
 
     const arbeidsgiverperiode = getDayTypesRender(Utbetalingsdagtype.Arbeidsgiverperiodedag, dayTypes);
@@ -151,7 +151,7 @@ const BeregnetPopover: React.VFC<SpleisPopoverProps> = ({ period, state, fom, to
     );
 };
 
-const GhostPopover: React.VFC<DatePeriod> = ({ fom, tom }) => {
+const GhostPopover: React.FC<DatePeriod> = ({ fom, tom }) => {
     return (
         <>
             <BodyShort size="small">Arbeidsforhold uten sykefravær</BodyShort>
@@ -167,7 +167,7 @@ interface UberegnetPopoverProps extends DatePeriod {
     state: PeriodState;
 }
 
-const UberegnetPopover: React.VFC<UberegnetPopoverProps> = ({ fom, tom, state }) => {
+const UberegnetPopover: React.FC<UberegnetPopoverProps> = ({ fom, tom, state }) => {
     const stateText = getPeriodStateText(state);
 
     return (
@@ -186,7 +186,7 @@ interface PeriodPopoverProps extends Omit<PopoverProps, 'children'> {
     state: PeriodState;
 }
 
-export const PeriodPopover: React.VFC<PeriodPopoverProps> = ({ period, state, ...popoverProps }) => {
+export const PeriodPopover: React.FC<PeriodPopoverProps> = ({ period, state, ...popoverProps }) => {
     const fom = dayjs(period.fom).format(NORSK_DATOFORMAT);
     const tom = dayjs(period.tom).format(NORSK_DATOFORMAT);
 

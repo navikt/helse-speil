@@ -23,7 +23,7 @@ const Inngangsvilkår = React.lazy(() => import('../vilkår/Inngangsvilkår').ca
 const Faresignaler = React.lazy(() => import('../faresignaler/Faresignaler').catch(onLazyLoadFail));
 const Sykepengegrunnlag = React.lazy(() => import('../sykepengegrunnlag/Sykepengegrunnlag').catch(onLazyLoadFail));
 
-const BeregnetPeriodeViewLoader: React.VFC = () => {
+const BeregnetPeriodeViewLoader: React.FC = () => {
     return (
         <div className={styles.Skeleton}>
             <Loader size="xlarge" />

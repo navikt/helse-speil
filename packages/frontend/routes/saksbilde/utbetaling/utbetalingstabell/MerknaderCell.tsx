@@ -18,7 +18,7 @@ interface MerknadProps {
     alderVedSkjæringstidspunkt?: Maybe<number>;
 }
 
-const Merknad: React.VFC<MerknadProps> = ({ begrunnelse, alderVedSkjæringstidspunkt }) => {
+const Merknad: React.FC<MerknadProps> = ({ begrunnelse, alderVedSkjæringstidspunkt }) => {
     switch (begrunnelse) {
         case 'ETTER_DODSDATO':
             return <BodyShort>Personen er død</BodyShort>;

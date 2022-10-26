@@ -11,7 +11,7 @@ interface VenstremenyGhostPeriodeProps {
     currentArbeidsgiver: Arbeidsgiver;
 }
 
-export const VenstremenyGhostPeriode: React.VFC<VenstremenyGhostPeriodeProps> = ({
+export const VenstremenyGhostPeriode: React.FC<VenstremenyGhostPeriodeProps> = ({
     activePeriod,
     currentArbeidsgiver,
 }) => {

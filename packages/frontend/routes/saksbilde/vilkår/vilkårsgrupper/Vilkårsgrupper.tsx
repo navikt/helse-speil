@@ -13,7 +13,7 @@ interface OpptjeningstidProps {
     antallOpptjeningsdagerErMinst: number;
 }
 
-export const Opptjeningstid: React.VFC<OpptjeningstidProps> = ({
+export const Opptjeningstid: React.FC<OpptjeningstidProps> = ({
     skjæringstidspunkt,
     opptjeningFra,
     antallOpptjeningsdagerErMinst,
@@ -47,7 +47,7 @@ interface SykepengegrunnlagProps {
     alderVedSkjæringstidspunkt: number;
 }
 
-export const Sykepengegrunnlag: React.VFC<SykepengegrunnlagProps> = ({
+export const Sykepengegrunnlag: React.FC<SykepengegrunnlagProps> = ({
     sykepengegrunnlag,
     grunnbeløp,
     alderVedSkjæringstidspunkt,

@@ -103,7 +103,7 @@ export const SystemMenuContent = () => {
     );
 };
 
-export const SystemMenu: React.VFC = () => {
+export const SystemMenu: React.FC = () => {
     return (
         <React.Suspense fallback={null}>
             <SystemMenuContent />

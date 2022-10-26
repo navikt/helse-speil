@@ -21,7 +21,7 @@ interface OrganisasjonsnummerRowProps {
     organisasjonsnummer: string;
 }
 
-const OrganisasjonsnummerRow: React.VFC<OrganisasjonsnummerRowProps> = ({ organisasjonsnummer }) => {
+const OrganisasjonsnummerRow: React.FC<OrganisasjonsnummerRowProps> = ({ organisasjonsnummer }) => {
     return (
         <Clipboard
             preserveWhitespace={false}
@@ -37,7 +37,7 @@ interface ArbeidsforholdRowProps {
     arbeidsforhold: Array<Arbeidsforhold>;
 }
 
-const ArbeidsforholdRow: React.VFC<ArbeidsforholdRowProps> = ({ arbeidsforhold }) => {
+const ArbeidsforholdRow: React.FC<ArbeidsforholdRowProps> = ({ arbeidsforhold }) => {
     return (
         <>
             {arbeidsforhold.map((arbeidsforhold, i) => {
@@ -70,7 +70,7 @@ interface MånedsbeløpRowProps {
     månedsbeløp: number;
 }
 
-const MånedsbeløpRow: React.VFC<MånedsbeløpRowProps> = ({ månedsbeløp }) => {
+const MånedsbeløpRow: React.FC<MånedsbeløpRowProps> = ({ månedsbeløp }) => {
     return (
         <Flex flexDirection="row" justifyContent="space-between" alignItems="center">
             <BodyShort>Månedsbeløp:</BodyShort>

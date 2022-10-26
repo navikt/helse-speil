@@ -62,7 +62,7 @@ const getErrorMessage = (period: UberegnetPeriode): ReactNode => {
     );
 };
 
-const UberegnetPeriodeViewLoader: React.VFC = () => {
+const UberegnetPeriodeViewLoader: React.FC = () => {
     return (
         <div className={styles.Skeleton}>
             <Loader size="xlarge" />

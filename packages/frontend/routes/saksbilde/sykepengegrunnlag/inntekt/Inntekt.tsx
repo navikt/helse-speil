@@ -20,7 +20,7 @@ interface InntektContainerProps {
     inntekt: Arbeidsgiverinntekt;
 }
 
-const InntektContainer: React.VFC<InntektContainerProps> = ({ inntekt }) => {
+const InntektContainer: React.FC<InntektContainerProps> = ({ inntekt }) => {
     const period = useActivePeriod();
     const arbeidsgiver = useArbeidsgiver(inntekt.arbeidsgiver);
 
@@ -66,7 +66,7 @@ interface InntektProps {
     inntekt: Arbeidsgiverinntekt;
 }
 
-export const Inntekt: React.VFC<InntektProps> = ({ inntekt }) => {
+export const Inntekt: React.FC<InntektProps> = ({ inntekt }) => {
     return (
         <ErrorBoundary fallback={<InntektError />}>
             <InntektContainer inntekt={inntekt} />

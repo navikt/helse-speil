@@ -17,7 +17,7 @@ interface NotatCellProps extends React.HTMLAttributes<HTMLTableCellElement> {
     erPåVent?: boolean;
 }
 
-export const NotatCell: React.VFC<NotatCellProps> = ({ vedtaksperiodeId, personinfo, erPåVent, ...cellProps }) => {
+export const NotatCell: React.FC<NotatCellProps> = ({ vedtaksperiodeId, personinfo, erPåVent, ...cellProps }) => {
     const [showModal, setShowModal] = useState(false);
     const notater = useNotaterForVedtaksperiode(vedtaksperiodeId);
 

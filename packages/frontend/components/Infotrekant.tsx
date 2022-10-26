@@ -9,7 +9,7 @@ interface InfotrekantProps extends React.HTMLAttributes<HTMLSpanElement> {
     text: string;
 }
 
-export const Infotrekant: React.VFC<InfotrekantProps> = ({ className, text, ...spanProps }) => {
+export const Infotrekant: React.FC<InfotrekantProps> = ({ className, text, ...spanProps }) => {
     const [showPopover, setShowPopover] = useState(false);
     const containerRef = useRef<HTMLSpanElement>(null);
 

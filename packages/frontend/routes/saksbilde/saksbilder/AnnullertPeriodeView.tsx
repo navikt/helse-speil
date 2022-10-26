@@ -7,7 +7,7 @@ import { Venstremeny } from '../venstremeny/Venstremeny';
 
 import styles from './PeriodeView.module.css';
 
-export const AnnullertPeriodeView: React.VFC = () => {
+export const AnnullertPeriodeView: React.FC = () => {
     return (
         <>
             <Venstremeny />

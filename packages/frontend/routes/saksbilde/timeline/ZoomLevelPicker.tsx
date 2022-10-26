@@ -9,7 +9,7 @@ interface ZoomLevelPickerProps extends React.HTMLAttributes<HTMLDivElement> {
     setActiveZoomLevel: (index: number) => void;
 }
 
-export const ZoomLevelPicker: React.VFC<ZoomLevelPickerProps> = ({
+export const ZoomLevelPicker: React.FC<ZoomLevelPickerProps> = ({
     availableZoomLevels,
     currentZoomLevel,
     setActiveZoomLevel,

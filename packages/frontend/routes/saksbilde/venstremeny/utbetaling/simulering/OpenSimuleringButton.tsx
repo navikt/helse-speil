@@ -78,7 +78,7 @@ interface OpenSimuleringButtonProps extends Omit<React.HTMLAttributes<HTMLAnchor
     harRefusjon: boolean;
 }
 
-export const OpenSimuleringButton: React.VFC<OpenSimuleringButtonProps> = ({
+export const OpenSimuleringButton: React.FC<OpenSimuleringButtonProps> = ({
     simulering,
     utbetaling,
     harRefusjon,

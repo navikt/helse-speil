@@ -16,7 +16,7 @@ interface ExpandableTimelineRowProp extends Omit<TimelineRowProps, 'periods'> {
     generations: Array<Generasjon>;
 }
 
-export const ExpandableTimelineRow: React.VFC<ExpandableTimelineRowProp> = ({
+export const ExpandableTimelineRow: React.FC<ExpandableTimelineRowProp> = ({
     start,
     end,
     name,

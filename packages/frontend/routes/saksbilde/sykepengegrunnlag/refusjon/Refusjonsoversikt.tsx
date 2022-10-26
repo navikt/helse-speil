@@ -19,7 +19,7 @@ interface RefusjonProps {
     refusjon: Refusjon;
 }
 
-export const Refusjonsoversikt: React.VFC<RefusjonProps> = ({ refusjon }) => {
+export const Refusjonsoversikt: React.FC<RefusjonProps> = ({ refusjon }) => {
     const [isEditing, setIsEditing] = useState(false);
 
     const sorterteEndringer = useRefusjonsendringer(refusjon);

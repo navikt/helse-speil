@@ -17,7 +17,7 @@ interface SisteNotatProps {
     notat: Notat;
 }
 
-export const SisteNotat: React.VFC<SisteNotatProps> = ({ notat }) => (
+export const SisteNotat: React.FC<SisteNotatProps> = ({ notat }) => (
     <NotatTekst as="p">
         {notat.opprettet.format(NORSK_DATOFORMAT_MED_KLOKKESLETT)} : {notat.tekst}
     </NotatTekst>

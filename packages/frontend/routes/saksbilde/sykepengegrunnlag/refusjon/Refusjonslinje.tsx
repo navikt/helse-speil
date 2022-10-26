@@ -14,7 +14,7 @@ interface RefusjonslinjeProps extends React.HTMLAttributes<HTMLTableRowElement> 
     beløp?: number | null;
 }
 
-export const Refusjonslinje: React.VFC<RefusjonslinjeProps> = ({ className, dato, beløp, ...rest }) => {
+export const Refusjonslinje: React.FC<RefusjonslinjeProps> = ({ className, dato, beløp, ...rest }) => {
     return (
         <tr className={classNames(styles.Refusjonslinje, className)} {...rest}>
             <td>

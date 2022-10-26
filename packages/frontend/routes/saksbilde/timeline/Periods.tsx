@@ -49,7 +49,7 @@ interface PeriodsProps {
     notCurrent?: boolean;
 }
 
-export const Periods: React.VFC<PeriodsProps> = ({
+export const Periods: React.FC<PeriodsProps> = ({
     start,
     end,
     periods,

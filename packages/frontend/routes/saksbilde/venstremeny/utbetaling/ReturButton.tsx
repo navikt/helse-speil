@@ -31,7 +31,7 @@ interface ReturButtonProps extends Omit<React.HTMLAttributes<HTMLButtonElement>,
     onError?: (error: Error) => void;
 }
 
-export const ReturButton: React.VFC<ReturButtonProps> = ({
+export const ReturButton: React.FC<ReturButtonProps> = ({
     activePeriod,
     disabled = false,
     onSuccess,

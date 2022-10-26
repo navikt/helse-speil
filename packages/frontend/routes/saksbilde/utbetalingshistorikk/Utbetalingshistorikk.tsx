@@ -59,7 +59,7 @@ interface UtbetalingshistorikkWithContentProps {
     aktørId: string;
 }
 
-const UtbetalingshistorikkWithContent: React.VFC<UtbetalingshistorikkWithContentProps> = ({
+const UtbetalingshistorikkWithContent: React.FC<UtbetalingshistorikkWithContentProps> = ({
     fødselsnummer,
     organisasjonsnummer,
     aktørId,
@@ -155,7 +155,7 @@ const UtbetalingshistorikkWithContent: React.VFC<UtbetalingshistorikkWithContent
     );
 };
 
-const UtbetalingshistorikkContainer: React.VFC = () => {
+const UtbetalingshistorikkContainer: React.FC = () => {
     const currentPerson = useCurrentPerson();
     const currentArbeidsgiver = useCurrentArbeidsgiver();
 
@@ -172,7 +172,7 @@ const UtbetalingshistorikkContainer: React.VFC = () => {
     }
 };
 
-export const Utbetalingshistorikk: React.VFC = () => {
+export const Utbetalingshistorikk: React.FC = () => {
     return (
         <React.Suspense fallback={<div />}>
             <ErrorBoundary fallback={<div />}>

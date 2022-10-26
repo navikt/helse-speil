@@ -85,7 +85,7 @@ interface SkjæringstidspunktRowProps {
     skjæringstidspunkt: DateString;
 }
 
-const SkjæringstidspunktRow: React.VFC<SkjæringstidspunktRowProps> = ({ periodetype, skjæringstidspunkt }) => {
+const SkjæringstidspunktRow: React.FC<SkjæringstidspunktRowProps> = ({ periodetype, skjæringstidspunkt }) => {
     if (periodetype === Periodetype.OvergangFraIt) {
         return (
             <>

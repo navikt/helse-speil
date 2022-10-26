@@ -1,11 +1,11 @@
-import utdatert_wiki from '../../../utdatert_wiki.json';
-import wiki from '../../../wiki.json';
 import React from 'react';
 
 import { Alert, BodyShort } from '@navikt/ds-react';
 
 import { EkspanderbartVarsel } from '@components/EkspanderbartVarsel';
 
+import utdatert_wiki from '../../../utdatert_wiki.json';
+import wiki from '../../../wiki.json';
 import { Varselseksjon } from './Varselseksjon';
 
 import styles from './Saksbildevarsler.module.css';
@@ -22,7 +22,7 @@ interface AktivitetsloggvarslerProps {
     varsler: Array<string>;
 }
 
-export const Aktivitetsloggvarsler: React.VFC<AktivitetsloggvarslerProps> = React.memo(({ varsler }) => {
+export const Aktivitetsloggvarsler: React.FC<AktivitetsloggvarslerProps> = React.memo(({ varsler }) => {
     const reservasjonsvarsel =
         'Ikke registrert eller mangler samtykke i Kontakt- og reservasjonsregisteret, eventuell kommunikasjon må skje i brevform';
 

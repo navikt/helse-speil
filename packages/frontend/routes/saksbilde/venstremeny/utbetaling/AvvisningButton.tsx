@@ -31,7 +31,7 @@ interface AvvisningButtonProps extends Omit<React.HTMLAttributes<HTMLButtonEleme
     onError?: (error: Error) => void;
 }
 
-export const AvvisningButton: React.VFC<AvvisningButtonProps> = ({
+export const AvvisningButton: React.FC<AvvisningButtonProps> = ({
     activePeriod,
     aktørId,
     disabled = false,

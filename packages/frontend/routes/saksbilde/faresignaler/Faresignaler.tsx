@@ -79,7 +79,7 @@ interface FaresignalerWithContentProps {
     risikovurdering: Risikovurdering;
 }
 
-export const FaresignalerWithContent: React.VFC<FaresignalerWithContentProps> = ({ risikovurdering }) => (
+export const FaresignalerWithContent: React.FC<FaresignalerWithContentProps> = ({ risikovurdering }) => (
     <AgurkErrorBoundary sidenavn="Faresignaler">
         <Container className="faresignaler">
             {risikovurdering && harFunn(risikovurdering.funn) && risikovurdering.funn.length > 0 && (

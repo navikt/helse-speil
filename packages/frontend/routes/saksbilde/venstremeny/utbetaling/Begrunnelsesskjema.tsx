@@ -14,7 +14,7 @@ interface BegrunnelseCheckboxProps {
     label?: ReactNode;
 }
 
-const BegrunnelseCheckbox: React.VFC<BegrunnelseCheckboxProps> = ({ begrunnelse, label }) => {
+const BegrunnelseCheckbox: React.FC<BegrunnelseCheckboxProps> = ({ begrunnelse, label }) => {
     const { register, clearErrors } = useFormContext();
 
     const { onChange, ...begrunnelserValidation } = register('begrunnelser');
@@ -39,7 +39,7 @@ interface BegrunnelsesskjemaProps {
     activePeriod: BeregnetPeriode;
 }
 
-export const Begrunnelsesskjema: React.VFC<BegrunnelsesskjemaProps> = ({ activePeriod }) => {
+export const Begrunnelsesskjema: React.FC<BegrunnelsesskjemaProps> = ({ activePeriod }) => {
     const { formState, clearErrors, watch } = useFormContext();
     const begrunnelser = watch(`begrunnelser`);
     const annet = begrunnelser ? begrunnelser.includes(Begrunnelse.Annet) : false;

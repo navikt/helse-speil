@@ -19,7 +19,7 @@ const GhostPeriodeView = React.lazy(() => import('./GhostPeriodeView').catch(onL
 const UberegnetPeriodeView = React.lazy(() => import('./UberegnetPeriodeView').catch(onLazyLoadFail));
 const BeregnetPeriodeView = React.lazy(() => import('./BeregnetPeriodeView').catch(onLazyLoadFail));
 
-const PeriodeViewContainer: React.VFC = () => {
+const PeriodeViewContainer: React.FC = () => {
     const activePeriod = useActivePeriod();
 
     if (!activePeriod) {
@@ -68,7 +68,7 @@ const PeriodeViewError: React.FC<PeriodeViewErrorProps> = ({ error }) => {
     );
 };
 
-export const PeriodeView: React.VFC = () => {
+export const PeriodeView: React.FC = () => {
     return (
         <React.Suspense fallback={<PeriodeViewSkeleton />}>
             <ErrorBoundary fallback={(error) => <PeriodeViewError error={error} />}>

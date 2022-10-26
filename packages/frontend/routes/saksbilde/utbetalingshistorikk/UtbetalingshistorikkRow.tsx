@@ -30,7 +30,7 @@ interface UtbetalingshistorikkRowProps {
     erBeslutteroppgave: boolean;
 }
 
-export const UtbetalingshistorikkRow: React.VFC<UtbetalingshistorikkRowProps> = ({
+export const UtbetalingshistorikkRow: React.FC<UtbetalingshistorikkRowProps> = ({
     oppdrag,
     status,
     type,

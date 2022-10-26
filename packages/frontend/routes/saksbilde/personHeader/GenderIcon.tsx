@@ -9,7 +9,7 @@ interface GenderIconProps extends React.SVGAttributes<SVGElement> {
     gender?: Maybe<Kjonn>;
 }
 
-export const GenderIcon: React.VFC<GenderIconProps> = ({ gender, ...svgProps }) => {
+export const GenderIcon: React.FC<GenderIconProps> = ({ gender, ...svgProps }) => {
     switch (gender?.toLowerCase()) {
         case 'kvinne':
             return <Kvinneikon alt="Kvinne" {...svgProps} />;

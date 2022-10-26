@@ -20,7 +20,7 @@ interface VenstremenyBeregnetPeriodeProps {
     readOnly: boolean;
 }
 
-export const VenstremenyBeregnetPeriode: React.VFC<VenstremenyBeregnetPeriodeProps> = ({
+export const VenstremenyBeregnetPeriode: React.FC<VenstremenyBeregnetPeriodeProps> = ({
     activePeriod,
     currentPerson,
     currentArbeidsgiver,

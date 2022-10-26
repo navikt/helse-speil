@@ -19,7 +19,7 @@ interface AnnullerButtonWithContentProps {
     organisasjonsnummer: string;
 }
 
-const AnnullerButtonWithContent: React.VFC<AnnullerButtonWithContentProps> = ({
+const AnnullerButtonWithContent: React.FC<AnnullerButtonWithContentProps> = ({
     oppdrag,
     utbetaling,
     aktørId,

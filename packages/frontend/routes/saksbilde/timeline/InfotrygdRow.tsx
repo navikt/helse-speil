@@ -14,7 +14,7 @@ interface InfotrygdRowProps {
     periods: Array<InfotrygdPeriod>;
 }
 
-export const InfotrygdRow: React.VFC<InfotrygdRowProps> = ({ start, end, periods }) => {
+export const InfotrygdRow: React.FC<InfotrygdRowProps> = ({ start, end, periods }) => {
     return (
         <div className={styles.TimelineRow}>
             <div className={styles.Name}>

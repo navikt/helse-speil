@@ -35,7 +35,7 @@ interface PinsProps {
     arbeidsgivere: Array<Arbeidsgiver>;
 }
 
-export const Pins: React.VFC<PinsProps> = ({ arbeidsgivere, start, end }) => {
+export const Pins: React.FC<PinsProps> = ({ arbeidsgivere, start, end }) => {
     const maksdato = useMaksdato(arbeidsgivere);
     const maksdatoPosition = maksdato ? getPosition(dayjs(maksdato), start, end) : -1;
 

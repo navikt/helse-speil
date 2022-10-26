@@ -9,7 +9,7 @@ interface SimuleringsutbetalingViewProps {
     utbetaling: Simuleringsutbetaling;
 }
 
-export const SimuleringsutbetalingView: React.VFC<SimuleringsutbetalingViewProps> = ({ utbetaling }) => {
+export const SimuleringsutbetalingView: React.FC<SimuleringsutbetalingViewProps> = ({ utbetaling }) => {
     return (
         <>
             <SimuleringsperiodeValue label="Utbetales til ID" value={utbetaling.mottakerId} />

@@ -17,7 +17,7 @@ interface GhostPeriodeViewProps {
     activePeriod: GhostPeriode;
 }
 
-export const GhostPeriodeView: React.VFC<GhostPeriodeViewProps> = ({ activePeriod }) => {
+export const GhostPeriodeView: React.FC<GhostPeriodeViewProps> = ({ activePeriod }) => {
     if (!activePeriod.skjaeringstidspunkt || !activePeriod.vilkarsgrunnlaghistorikkId) {
         throw Error('Mangler skjæringstidspunkt eller vilkårsgrunnlag. Ta kontakt med en utvikler.');
     }

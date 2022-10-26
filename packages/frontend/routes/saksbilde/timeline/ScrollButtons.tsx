@@ -11,7 +11,7 @@ interface ScrollButtonsProps {
     canNavigateBackwards: boolean;
 }
 
-export const ScrollButtons: React.VFC<ScrollButtonsProps> = ({
+export const ScrollButtons: React.FC<ScrollButtonsProps> = ({
     navigateForwards,
     navigateBackwards,
     canNavigateForwards,

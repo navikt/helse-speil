@@ -6,7 +6,7 @@ const JulegurkenContainer = styled.svg`
 `;
 
 // noinspection JSUnusedGlobalSymbols
-export const Julegurken: React.VFC = () => (
+export const Julegurken: React.FC = () => (
     <JulegurkenContainer pointerEvents="none" aria-labelledby="title" width="310" height="45" viewBox="0 0 310 45">
         <title id="title">"julepynt"</title>
         <g clipPath="url(#clip0_617_4256)">
