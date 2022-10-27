@@ -8,13 +8,14 @@ export const useErTidligereSaksbehandler = (): boolean => {
     const currentSaksbehandler = useInnloggetSaksbehandler();
     const kanBeslutteEgenBeslutteroppgave = useKanBeslutteEgneOppgaver();
 
-    if (!isBeregnetPeriode(activePeriod)) {
+    if (!isBeregnetPeriode(activePeriod) || !activePeriod.oppgave) {
         return false;
     }
 
     if (kanBeslutteEgenBeslutteroppgave) return false;
     return (
-        (activePeriod.erBeslutterOppgave && activePeriod.tidligereSaksbehandlerOid === currentSaksbehandler.oid) ||
-        (activePeriod.erReturOppgave && activePeriod.beslutterSaksbehandlerOid === currentSaksbehandler.oid)
+        (activePeriod.oppgave.erBeslutter &&
+            activePeriod.oppgave.tidligereSaksbehandler === currentSaksbehandler.oid) ||
+        (activePeriod.oppgave.erRetur && activePeriod.beslutterSaksbehandlerOid === currentSaksbehandler.oid)
     );
 };

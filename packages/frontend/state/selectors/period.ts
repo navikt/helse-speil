@@ -3,7 +3,7 @@ import { isBeregnetPeriode } from '@utils/typeguards';
 
 export const getOppgavereferanse = (period?: Maybe<Periode | GhostPeriode>): Maybe<string> | undefined => {
     if (isBeregnetPeriode(period)) {
-        return period.oppgavereferanse;
+        return period.oppgave?.id;
     } else {
         return null;
     }

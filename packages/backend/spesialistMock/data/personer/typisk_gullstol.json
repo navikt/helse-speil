@@ -95,45 +95,41 @@
             },
             "tildeling": null,
             "versjon": 26,
-            "vilkarsgrunnlaghistorikk": [
+            "vilkarsgrunnlag": [
                 {
                     "id": "299410dc-b400-47cb-b4be-e4a9a43e4c8e",
-                    "grunnlag": [
+                    "sykepengegrunnlag": 256788,
+                    "skjaeringstidspunkt": "2022-03-01",
+                    "omregnetArsinntekt": 256788,
+                    "sammenligningsgrunnlag": 281460,
+                    "inntekter": [
                         {
-                            "sykepengegrunnlag": 256788,
-                            "skjaeringstidspunkt": "2022-03-01",
-                            "omregnetArsinntekt": 256788,
-                            "sammenligningsgrunnlag": 281460,
-                            "inntekter": [
-                                {
-                                    "sammenligningsgrunnlag": {
-                                        "belop": 281460,
-                                        "inntektFraAOrdningen": []
-                                    },
-                                    "omregnetArsinntekt": {
-                                        "inntektFraAOrdningen": null,
-                                        "belop": 256788,
-                                        "manedsbelop": 21399,
-                                        "kilde": "INNTEKTSMELDING"
-                                    },
-                                    "arbeidsgiver": "947064649",
-                                    "deaktivert": false
-                                }
-                            ],
-                            "vilkarsgrunnlagtype": "SPLEIS",
-                            "oppfyllerKravOmMinstelonn": true,
-                            "oppfyllerKravOmMedlemskap": true,
-                            "oppfyllerKravOmOpptjening": true,
-                            "antallOpptjeningsdagerErMinst": 7270,
-                            "grunnbelop": 106399,
-                            "opptjeningFra": "2002-04-05",
-                            "sykepengegrunnlagsgrense": {
-                                "grunnbelop": 106399,
-                                "grense": 638394,
-                                "virkningstidspunkt": "2021-05-01"
-                            }
+                            "sammenligningsgrunnlag": {
+                                "belop": 281460,
+                                "inntektFraAOrdningen": []
+                            },
+                            "omregnetArsinntekt": {
+                                "inntektFraAOrdningen": null,
+                                "belop": 256788,
+                                "manedsbelop": 21399,
+                                "kilde": "INNTEKTSMELDING"
+                            },
+                            "arbeidsgiver": "947064649",
+                            "deaktivert": false
                         }
-                    ]
+                    ],
+                    "vilkarsgrunnlagtype": "SPLEIS",
+                    "oppfyllerKravOmMinstelonn": true,
+                    "oppfyllerKravOmMedlemskap": true,
+                    "oppfyllerKravOmOpptjening": true,
+                    "antallOpptjeningsdagerErMinst": 7270,
+                    "grunnbelop": 106399,
+                    "opptjeningFra": "2002-04-05",
+                    "sykepengegrunnlagsgrense": {
+                        "grunnbelop": 106399,
+                        "grense": 638394,
+                        "virkningstidspunkt": "2021-05-01"
+                    }
                 }
             ],
             "aktorId": "2048952336837",
@@ -776,7 +772,7 @@
                                         }
                                     },
                                     "varsler": ["Utdanning oppgitt i perioden i søknaden."],
-                                    "vilkarsgrunnlaghistorikkId": "299410dc-b400-47cb-b4be-e4a9a43e4c8e",
+                                    "vilkarsgrunnlagId": "299410dc-b400-47cb-b4be-e4a9a43e4c8e",
                                     "refusjon": {
                                         "sisteRefusjonsdag": null,
                                         "forsteFravaersdag": "2022-03-01",
@@ -1365,7 +1361,7 @@
                                         }
                                     },
                                     "varsler": ["Utdanning oppgitt i perioden i søknaden."],
-                                    "vilkarsgrunnlaghistorikkId": "299410dc-b400-47cb-b4be-e4a9a43e4c8e",
+                                    "vilkarsgrunnlagId": "299410dc-b400-47cb-b4be-e4a9a43e4c8e",
                                     "refusjon": {
                                         "sisteRefusjonsdag": null,
                                         "forsteFravaersdag": "2022-03-01",

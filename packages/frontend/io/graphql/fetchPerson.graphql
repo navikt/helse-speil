@@ -35,6 +35,49 @@ fragment simulering on Simulering {
     }
 }
 
+fragment vilkarsgrunnlag on Vilkarsgrunnlag {
+    id
+    sykepengegrunnlag
+    skjaeringstidspunkt
+    omregnetArsinntekt
+    sammenligningsgrunnlag
+    inntekter {
+        sammenligningsgrunnlag {
+            belop
+            inntektFraAOrdningen {
+                maned
+                sum
+            }
+        }
+        omregnetArsinntekt {
+            inntektFraAOrdningen {
+                maned
+                sum
+            }
+            belop
+            manedsbelop
+            kilde
+        }
+        arbeidsgiver
+        deaktivert
+    }
+    vilkarsgrunnlagtype
+    ... on VilkarsgrunnlagSpleis {
+        oppfyllerKravOmMinstelonn
+        oppfyllerKravOmMedlemskap
+        oppfyllerKravOmOpptjening
+        antallOpptjeningsdagerErMinst
+        grunnbelop
+        avviksprosent
+        opptjeningFra
+        sykepengegrunnlagsgrense {
+            grunnbelop
+            grense
+            virkningstidspunkt
+        }
+    }
+}
+
 query FetchPerson($fnr: String, $aktorId: String) {
     person(fnr: $fnr, aktorId: $aktorId) {
         fodselsnummer
@@ -70,47 +113,14 @@ query FetchPerson($fnr: String, $aktorId: String) {
             reservert
         }
         versjon
-        vilkarsgrunnlag {
+        vilkarsgrunnlaghistorikk {
             id
-            sykepengegrunnlag
-            skjaeringstidspunkt
-            omregnetArsinntekt
-            sammenligningsgrunnlag
-            inntekter {
-                sammenligningsgrunnlag {
-                    belop
-                    inntektFraAOrdningen {
-                        maned
-                        sum
-                    }
-                }
-                omregnetArsinntekt {
-                    inntektFraAOrdningen {
-                        maned
-                        sum
-                    }
-                    belop
-                    manedsbelop
-                    kilde
-                }
-                arbeidsgiver
-                deaktivert
+            grunnlag {
+                ...vilkarsgrunnlag
             }
-            vilkarsgrunnlagtype
-            ... on VilkarsgrunnlagSpleis {
-                oppfyllerKravOmMinstelonn
-                oppfyllerKravOmMedlemskap
-                oppfyllerKravOmOpptjening
-                antallOpptjeningsdagerErMinst
-                grunnbelop
-                avviksprosent
-                opptjeningFra
-                sykepengegrunnlagsgrense {
-                    grunnbelop
-                    grense
-                    virkningstidspunkt
-                }
-            }
+        }
+        vilkarsgrunnlag {
+            ...vilkarsgrunnlag
         }
         aktorId
         arbeidsgivere {
@@ -126,7 +136,7 @@ query FetchPerson($fnr: String, $aktorId: String) {
             ghostPerioder {
                 id
                 deaktivert
-                vilkarsgrunnlaghistorikkId
+                vilkarsgrunnlagId
                 skjaeringstidspunkt
                 fom
                 tom
@@ -177,10 +187,6 @@ query FetchPerson($fnr: String, $aktorId: String) {
                         beregningId
                         forbrukteSykedager
                         gjenstaendeSykedager
-                        trengerTotrinnsvurdering
-                        erReturOppgave
-                        erBeslutterOppgave
-                        tidligereSaksbehandlerOid
                         beslutterSaksbehandlerOid
                         notater {
                             id
@@ -299,7 +305,6 @@ query FetchPerson($fnr: String, $aktorId: String) {
                             }
                             belop
                         }
-                        oppgavereferanse
                         oppgave {
                             id
                             erRetur

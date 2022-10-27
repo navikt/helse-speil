@@ -210,11 +210,34 @@ export const useFjernPåVent = (): ((oppgavereferanse: string) => Promise<SpeilR
     };
 };
 
-export const useVilkårsgrunnlag = (id?: Maybe<string>): Vilkarsgrunnlag | null => {
+const bySkjæringstidspunktDescending = (a: Vilkarsgrunnlag, b: Vilkarsgrunnlag): number => {
+    return new Date(b.skjaeringstidspunkt).getTime() - new Date(a.skjaeringstidspunkt).getTime();
+};
+
+export const useVilkårsgrunnlag = (id?: Maybe<string>, skjæringstidspunkt?: DateString): Vilkarsgrunnlag | null => {
     const currentPerson = useCurrentPerson();
     const activePeriod = useActivePeriod();
 
-    return (activePeriod && currentPerson?.vilkarsgrunnlag.find((it) => it.id === id)) ?? null;
+    if (!activePeriod || !currentPerson) {
+        return null;
+    }
+
+    // TODO: Fjern denne når ghostperioder peker på riktig vilkårsgrunnlag i spleis
+    if (typeof skjæringstidspunkt === 'string') {
+        return (
+            currentPerson.vilkarsgrunnlaghistorikk
+                .find((it) => it.id === id)
+                ?.grunnlag.filter(
+                    (it) =>
+                        dayjs(it.skjaeringstidspunkt).isSameOrAfter(skjæringstidspunkt) &&
+                        dayjs(it.skjaeringstidspunkt).isSameOrBefore(activePeriod.tom)
+                )
+                .sort(bySkjæringstidspunktDescending)
+                .pop() ?? null
+        );
+    }
+
+    return currentPerson.vilkarsgrunnlag.find((it) => it.id === id) ?? null;
 };
 
 const useEndringerForPerson = (): Array<Overstyring> =>

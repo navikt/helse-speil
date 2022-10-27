@@ -18,10 +18,13 @@ import { BehandletSykepengegrunnlag } from './BehandletSykepengegrunnlag';
 import { SykepengegrunnlagFraInfogtrygd } from './SykepengegrunnlagFraInfotrygd';
 import { SykepengegrunnlagFraSpleis } from './SykepengegrunnlagFraSpleis';
 
-const SykepengegrunnlagContainer = () => {
+const SykepengegrunnlagContainer: React.FC = () => {
     const person = useCurrentPerson();
     const activePeriod = useActivePeriod();
-    const vilkårsgrunnlag = useVilkårsgrunnlag((activePeriod as BeregnetPeriode).vilkarsgrunnlagId);
+    const vilkårsgrunnlag = useVilkårsgrunnlag(
+        (activePeriod as BeregnetPeriode).vilkarsgrunnlagId,
+        isGhostPeriode(activePeriod) ? activePeriod.skjaeringstidspunkt : undefined // TODO: Fjern denne straks ghostperioder peker på riktig vilkårsgrunnlag i spleis
+    );
     const vurdering = useVurderingForSkjæringstidspunkt((activePeriod as BeregnetPeriode).skjaeringstidspunkt);
     const arbeidsgiver = useCurrentArbeidsgiver();
 

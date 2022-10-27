@@ -53,7 +53,7 @@ const DropdownMenuContent: React.FC = () => {
 
     return (
         <Dropdown.Menu placement="bottom-start" className={styles.DropdownMenu}>
-            {isBeregnetPeriode(period) && period.oppgavereferanse && !readOnly && (
+            {isBeregnetPeriode(period) && period.oppgave?.id && !readOnly && (
                 <>
                     <Dropdown.Menu.List>
                         <SkrivGenereltNotatDropdownMenuButton
@@ -61,13 +61,13 @@ const DropdownMenuContent: React.FC = () => {
                             personinfo={person.personinfo}
                         />
                         <TildelingDropdownMenuButton
-                            oppgavereferanse={period.oppgavereferanse}
+                            oppgavereferanse={period.oppgave.id}
                             erTildeltInnloggetBruker={personIsAssignedUser}
                             tildeling={person?.tildeling}
                         />
                         {personIsAssignedUser && (
                             <PåVentDropdownMenuButton
-                                oppgavereferanse={period.oppgavereferanse}
+                                oppgavereferanse={period.oppgave.id}
                                 vedtaksperiodeId={period.vedtaksperiodeId}
                                 personinfo={person.personinfo}
                                 erPåVent={person.tildeling?.reservert}

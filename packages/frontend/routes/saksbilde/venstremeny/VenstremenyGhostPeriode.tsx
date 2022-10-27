@@ -15,7 +15,7 @@ export const VenstremenyGhostPeriode: React.FC<VenstremenyGhostPeriodeProps> = (
     activePeriod,
     currentArbeidsgiver,
 }) => {
-    if (!activePeriod.vilkarsgrunnlaghistorikkId || !activePeriod.skjaeringstidspunkt) {
+    if (!activePeriod.vilkarsgrunnlagId || !activePeriod.skjaeringstidspunkt) {
         throw Error('Mangler skjæringstidspunkt eller vilkårsgrunnlag. Ta kontakt med en utvikler.');
     }
 

@@ -5,7 +5,7 @@ import { Periode, Periodetilstand, Vilkarsgrunnlag } from '@io/graphql';
 import { personState, useCurrentPerson } from '@state/person';
 import { isBeregnetPeriode, isGhostPeriode, isPerson, isUberegnetPeriode } from '@utils/typeguards';
 
-type ActivePeriod = BeregnetPeriode | UberegnetPeriode | GhostPeriode;
+type ActivePeriod = FetchedBeregnetPeriode | UberegnetPeriode | GhostPeriode;
 
 const personHasPeriod = (person: FetchedPerson, period: ActivePeriod): boolean => {
     return (
@@ -52,7 +52,7 @@ export const activePeriod = selector<ActivePeriod | null>({
                 (periode) =>
                     isBeregnetPeriode(periode) &&
                     periode.periodetilstand === Periodetilstand.TilGodkjenning &&
-                    typeof periode.oppgavereferanse === 'string'
+                    typeof periode.oppgave?.id === 'string'
             ) ?? null;
 
         const periode = periodWithOppgave ?? allPeriods[0];

@@ -37,7 +37,7 @@ export const findArbeidsgiverWithGhostPeriode = (
 };
 
 export const findArbeidsgiverWithPeriode = (
-    period: BeregnetPeriode | UberegnetPeriode,
+    period: FetchedBeregnetPeriode | UberegnetPeriode,
     arbeidsgivere: Array<Arbeidsgiver>
 ): Arbeidsgiver | null => {
     return (
@@ -143,7 +143,7 @@ export const useEndringerForPeriode = (organisasjonsnummer: string): UseEndringe
     return { inntektsendringer: inntekter, arbeidsforholdendringer: arbeidsforhold, dagendringer: dager };
 };
 
-export const useHarDagOverstyringer = (periode: BeregnetPeriode): boolean => {
+export const useHarDagOverstyringer = (periode: FetchedBeregnetPeriode): boolean => {
     const arbeidsgiver = useCurrentArbeidsgiver();
     const dagendringer = useDagoverstyringer(periode.fom, periode.tom, arbeidsgiver);
 

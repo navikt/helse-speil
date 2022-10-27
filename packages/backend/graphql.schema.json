@@ -2416,7 +2416,7 @@
                         "deprecationReason": null
                     },
                     {
-                        "name": "vilkarsgrunnlaghistorikkId",
+                        "name": "vilkarsgrunnlagId",
                         "description": null,
                         "args": [],
                         "type": {
@@ -2426,6 +2426,18 @@
                         },
                         "isDeprecated": false,
                         "deprecationReason": null
+                    },
+                    {
+                        "name": "vilkarsgrunnlaghistorikkId",
+                        "description": null,
+                        "args": [],
+                        "type": {
+                            "kind": "SCALAR",
+                            "name": "String",
+                            "ofType": null
+                        },
+                        "isDeprecated": true,
+                        "deprecationReason": "Bruk heller \"vilkarsgrunnlagId\""
                     }
                 ],
                 "inputFields": null,

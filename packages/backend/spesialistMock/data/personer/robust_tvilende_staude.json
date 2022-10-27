@@ -94,44 +94,40 @@
             },
             "tildeling": null,
             "versjon": 21,
-            "vilkarsgrunnlaghistorikk": [
+            "vilkarsgrunnlag": [
                 {
                     "id": "e6070313-3b3e-4033-b0d5-ebfdec36bac3",
-                    "grunnlag": [
+                    "sykepengegrunnlag": 360000,
+                    "skjaeringstidspunkt": "2022-01-01",
+                    "omregnetArsinntekt": 360000,
+                    "sammenligningsgrunnlag": 390000,
+                    "inntekter": [
                         {
-                            "sykepengegrunnlag": 360000,
-                            "skjaeringstidspunkt": "2022-01-01",
-                            "omregnetArsinntekt": 360000,
-                            "sammenligningsgrunnlag": 390000,
-                            "inntekter": [
-                                {
-                                    "sammenligningsgrunnlag": {
-                                        "belop": 390000,
-                                        "inntektFraAOrdningen": []
-                                    },
-                                    "omregnetArsinntekt": {
-                                        "inntektFraAOrdningen": null,
-                                        "belop": 360000,
-                                        "manedsbelop": 30000,
-                                        "kilde": "INNTEKTSMELDING"
-                                    },
-                                    "arbeidsgiver": "839942907"
-                                }
-                            ],
-                            "vilkarsgrunnlagtype": "SPLEIS",
-                            "oppfyllerKravOmMinstelonn": true,
-                            "oppfyllerKravOmMedlemskap": true,
-                            "oppfyllerKravOmOpptjening": true,
-                            "antallOpptjeningsdagerErMinst": 7277,
-                            "grunnbelop": 106399,
-                            "opptjeningFra": "2002-01-29",
-                            "sykepengegrunnlagsgrense": {
-                                "grunnbelop": 106399,
-                                "grense": 638394,
-                                "virkningstidspunkt": "2021-05-01"
-                            }
+                            "sammenligningsgrunnlag": {
+                                "belop": 390000,
+                                "inntektFraAOrdningen": []
+                            },
+                            "omregnetArsinntekt": {
+                                "inntektFraAOrdningen": null,
+                                "belop": 360000,
+                                "manedsbelop": 30000,
+                                "kilde": "INNTEKTSMELDING"
+                            },
+                            "arbeidsgiver": "839942907"
                         }
-                    ]
+                    ],
+                    "vilkarsgrunnlagtype": "SPLEIS",
+                    "oppfyllerKravOmMinstelonn": true,
+                    "oppfyllerKravOmMedlemskap": true,
+                    "oppfyllerKravOmOpptjening": true,
+                    "antallOpptjeningsdagerErMinst": 7277,
+                    "grunnbelop": 106399,
+                    "opptjeningFra": "2002-01-29",
+                    "sykepengegrunnlagsgrense": {
+                        "grunnbelop": 106399,
+                        "grense": 638394,
+                        "virkningstidspunkt": "2021-05-01"
+                    }
                 }
             ],
             "aktorId": "2478276105402",
@@ -874,7 +870,7 @@
                                     "varsler": [
                                         "Ikke registrert eller mangler samtykke i Kontakt- og reservasjonsregisteret, eventuell kommunikasjon må skje i brevform"
                                     ],
-                                    "vilkarsgrunnlaghistorikkId": "e6070313-3b3e-4033-b0d5-ebfdec36bac3",
+                                    "vilkarsgrunnlagId": "e6070313-3b3e-4033-b0d5-ebfdec36bac3",
                                     "refusjon": {
                                         "sisteRefusjonsdag": null,
                                         "forsteFravaersdag": "2022-01-01",

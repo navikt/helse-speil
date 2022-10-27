@@ -4,7 +4,6 @@ import React, { useContext, useState } from 'react';
 import { Button } from '@navikt/ds-react';
 
 import { AmplitudeContext } from '@io/amplitude';
-import { BeregnetPeriode } from '@io/graphql';
 import { postSendTilInfotrygd } from '@io/http';
 import { useAddToast } from '@state/toasts';
 
@@ -24,7 +23,7 @@ const useAddInfotrygdtoast = () => {
 };
 
 interface AvvisningButtonProps extends Omit<React.HTMLAttributes<HTMLButtonElement>, 'onError' | 'children'> {
-    activePeriod: BeregnetPeriode;
+    activePeriod: FetchedBeregnetPeriode;
     aktørId: string;
     disabled: boolean;
     onSuccess?: () => void;
@@ -53,7 +52,7 @@ export const AvvisningButton: React.FC<AvvisningButtonProps> = ({
         const skjemaKommentar: string[] = skjema.kommentar ? [skjema.kommentar] : [];
         const begrunnelser: string[] = [skjema.årsak.valueOf(), ...skjemaBegrunnelser, ...skjemaKommentar];
 
-        postSendTilInfotrygd(activePeriod.oppgavereferanse!, aktørId, skjema)
+        postSendTilInfotrygd(activePeriod.oppgave?.id!, aktørId, skjema)
             .then(() => {
                 amplitude.logOppgaveForkastet(begrunnelser);
                 addInfotrygdtoast();

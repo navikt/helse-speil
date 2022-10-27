@@ -13,14 +13,7 @@ import { Maksdatoikon } from '@components/ikoner/Maksdatoikon';
 import { Skjæringstidspunktikon } from '@components/ikoner/Skjæringstidspunktikon';
 import { SkjæringstidspunktikonInvert } from '@components/ikoner/SkjæringstidspunktikonInvert';
 import { Sykmeldingsperiodeikon } from '@components/ikoner/Sykmeldingsperiodeikon';
-import {
-    Arbeidsgiver,
-    BeregnetPeriode,
-    Oppgavetype,
-    Periodetilstand,
-    Periodetype,
-    UberegnetPeriode,
-} from '@io/graphql';
+import { Arbeidsgiver, Oppgavetype, Periodetilstand, Periodetype, UberegnetPeriode } from '@io/graphql';
 import { NORSK_DATOFORMAT_KORT } from '@utils/date';
 import { capitalize } from '@utils/locale';
 
@@ -111,7 +104,7 @@ const SkjæringstidspunktRow: React.FC<SkjæringstidspunktRowProps> = ({ periode
     }
 };
 
-const harRedusertAntallSykepengedager = (periode: BeregnetPeriode): boolean => {
+const harRedusertAntallSykepengedager = (periode: FetchedBeregnetPeriode): boolean => {
     const { forbrukteSykedager, gjenstaendeSykedager } = periode.periodevilkar.sykepengedager;
     return (
         typeof forbrukteSykedager === 'number' &&
@@ -121,7 +114,7 @@ const harRedusertAntallSykepengedager = (periode: BeregnetPeriode): boolean => {
 };
 
 interface MaksdatoRowProps {
-    activePeriod: BeregnetPeriode;
+    activePeriod: FetchedBeregnetPeriode;
 }
 
 const MaksdatoRow: React.FC<MaksdatoRowProps> = ({ activePeriod }) => {
@@ -194,7 +187,7 @@ const PeriodeCardUberegnet: React.FC<PeriodeCardUberegnetProps> = ({ periode, ar
 };
 
 interface PeriodeCardBeregnetProps {
-    periode: BeregnetPeriode;
+    periode: FetchedBeregnetPeriode;
     arbeidsgiver: Arbeidsgiver;
     månedsbeløp: number | undefined;
 }
@@ -202,7 +195,7 @@ interface PeriodeCardBeregnetProps {
 const PeriodeCardBeregnet: React.FC<PeriodeCardBeregnetProps> = ({ periode, arbeidsgiver, månedsbeløp }) => {
     const type = periode.utbetaling.type === 'REVURDERING' ? Oppgavetype.Revurdering : periode.periodetype;
     const label = `${getTextForPeriodetype(periode.periodetype)} ${
-        periode.erReturOppgave ? '(RETUR)' : periode.erBeslutterOppgave ? '(BESLUTTER)' : ''
+        periode.oppgave?.erRetur ? '(RETUR)' : periode.oppgave?.erBeslutter ? '(BESLUTTER)' : ''
     }`;
 
     return (

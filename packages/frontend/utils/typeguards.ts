@@ -20,7 +20,7 @@ export const isInfotrygdPeriod = (period?: Maybe<GhostPeriode | Periode | DatePe
 
 export const isBeregnetPeriode = (
     periode?: Maybe<GhostPeriode | Periode | DatePeriod> | any
-): periode is BeregnetPeriode =>
+): periode is FetchedBeregnetPeriode =>
     (periode as BeregnetPeriode)?.beregningId !== null && (periode as BeregnetPeriode)?.beregningId !== undefined;
 
 export const isGhostPeriode = (period?: Maybe<GhostPeriode | Periode | DatePeriod>): period is GhostPeriode =>

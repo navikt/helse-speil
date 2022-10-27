@@ -6,9 +6,11 @@ declare type Extension = {
 declare type UUID = string;
 
 declare type Oppgave = {
-    tildelt?: Maybe<string>;
-    erRetur?: boolean;
-    erPåVent?: boolean;
-    erBeslutter?: boolean;
+    id: string;
+    erRetur: boolean;
+    erPåVent: boolean;
+    erBeslutter: boolean;
     tidligereSaksbehandler?: UUID;
+    trengerTotrinnsvurdering: boolean;
+    tildelt?: Maybe<string>;
 };

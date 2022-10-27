@@ -14,7 +14,7 @@ import {
 } from '@hooks/revurdering';
 import { useIsReadOnlyOppgave } from '@hooks/useIsReadOnlyOppgave';
 import { useOverstyringIsEnabled } from '@hooks/useOverstyringIsEnabled';
-import { Arbeidsgiver, BeregnetPeriode, Dagoverstyring, Overstyring, UberegnetPeriode } from '@io/graphql';
+import { Arbeidsgiver, Dagoverstyring, Overstyring, UberegnetPeriode } from '@io/graphql';
 import { useCurrentArbeidsgiver } from '@state/arbeidsgiver';
 import { useActivePeriod } from '@state/periode';
 import { defaultUtbetalingToggles, erDev, erLocal } from '@utils/featureToggles';
@@ -75,7 +75,7 @@ export const useDagoverstyringer = (
 };
 
 interface UtbetalingBeregnetPeriodeProps {
-    period: BeregnetPeriode;
+    period: FetchedBeregnetPeriode;
     arbeidsgiver: Arbeidsgiver;
 }
 
@@ -97,7 +97,7 @@ const UtbetalingBeregnetPeriode: React.FC<UtbetalingBeregnetPeriodeProps> = Reac
     return (revurderingIsEnabled || overstyringIsEnabled || overstyrRevurderingIsEnabled) &&
         (erDev() || erLocal() || erAktivPeriodeISisteSkjæringstidspunkt) &&
         !readOnly &&
-        !period.erBeslutterOppgave ? (
+        !period.oppgave?.erBeslutter ? (
         <OverstyrbarUtbetaling
             fom={period.fom}
             tom={period.tom}

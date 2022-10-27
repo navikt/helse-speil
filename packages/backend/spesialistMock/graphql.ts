@@ -39,9 +39,12 @@ const leggTilLagretData = (person: Person): void => {
                 }
 
                 periode.notater = NotatMock.getNotaterForPeriode(periode);
-                periode.erBeslutterOppgave = OppgaveMock.isBeslutteroppgave(periode);
-                periode.erReturOppgave = OppgaveMock.isReturoppgave(periode);
-                periode.tidligereSaksbehandlerOid = OppgaveMock.getTidligereSaksbehandlerOid(periode);
+                const oppgavereferanse: string | null = periode.oppgavereferanse ?? periode.oppgave?.id ?? null;
+                const oppgave: Oppgave | null = oppgavereferanse ? OppgaveMock.getOppgave(oppgavereferanse) : null;
+
+                if (typeof oppgave === 'object') {
+                    periode.oppgave = oppgave;
+                }
             }
         }
     }

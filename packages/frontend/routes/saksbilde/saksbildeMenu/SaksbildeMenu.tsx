@@ -6,7 +6,6 @@ import { BodyShort } from '@navikt/ds-react';
 import { ErrorBoundary } from '@components/ErrorBoundary';
 import { LoadingShimmer } from '@components/LoadingShimmer';
 import { Location, useNavigation } from '@hooks/useNavigation';
-import { BeregnetPeriode } from '@io/graphql';
 import { useActivePeriod } from '@state/periode';
 import { useIsFetchingPerson } from '@state/person';
 import { onLazyLoadFail } from '@utils/error';
@@ -38,7 +37,7 @@ const SaksbildeMenuGhostPeriode: React.FC = () => {
 };
 
 interface SaksbildeMenuBeregnetPeriodeProps {
-    activePeriod: BeregnetPeriode;
+    activePeriod: FetchedBeregnetPeriode;
 }
 
 const SaksbildeMenuBeregnetPeriode = ({ activePeriod }: SaksbildeMenuBeregnetPeriodeProps) => {

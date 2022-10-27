@@ -8,7 +8,7 @@ import { BodyShort, Loader } from '@navikt/ds-react';
 import { ErrorMessage } from '@components/ErrorMessage';
 import { useErBeslutteroppgaveOgHarTilgang } from '@hooks/useErBeslutteroppgaveOgHarTilgang';
 import { useHarVurderLovvalgOgMedlemskapVarsel } from '@hooks/useHarVurderLovvalgOgMedlemskapVarsel';
-import { BeregnetPeriode, NotatType, Periodetilstand } from '@io/graphql';
+import { NotatType, Periodetilstand } from '@io/graphql';
 import { postAbonnerPåAktør } from '@io/http';
 import { useHarDagOverstyringer } from '@state/arbeidsgiver';
 import { opptegnelsePollingTimeState } from '@state/opptegnelser';
@@ -45,10 +45,10 @@ const skalPolleEtterNestePeriode = (person: FetchedPerson) =>
             ].includes(periode.periodetilstand)
         );
 
-const hasOppgave = (period: BeregnetPeriode): boolean =>
-    typeof period.oppgavereferanse === 'string' && ['tilGodkjenning', 'revurderes'].includes(getPeriodState(period));
+const hasOppgave = (period: FetchedBeregnetPeriode): boolean =>
+    typeof period.oppgave?.id === 'string' && ['tilGodkjenning', 'revurderes'].includes(getPeriodState(period));
 
-const useOnGodkjenn = (period: BeregnetPeriode, person: FetchedPerson): (() => void) => {
+const useOnGodkjenn = (period: FetchedBeregnetPeriode, person: FetchedPerson): (() => void) => {
     const history = useHistory();
     const setOpptegnelsePollingTime = useSetRecoilState(opptegnelsePollingTimeState);
 
@@ -75,7 +75,7 @@ type SpeilError = {
 };
 
 interface UtbetalingProps {
-    activePeriod: BeregnetPeriode;
+    activePeriod: FetchedBeregnetPeriode;
     currentPerson: FetchedPerson;
 }
 
@@ -116,8 +116,8 @@ export const Utbetaling = ({ activePeriod, currentPerson }: UtbetalingProps) => 
     const harArbeidsgiverutbetaling = activePeriod.utbetaling.arbeidsgiverNettoBelop !== 0;
     const harBrukerutbetaling = activePeriod.utbetaling.personNettoBelop !== 0;
     const kanSendesTilTotrinnsvurdering =
-        totrinnsvurderingAktiv && isBeregnetPeriode(activePeriod) && !activePeriod.erBeslutterOppgave;
-    const trengerTotrinnsvurdering = activePeriod.trengerTotrinnsvurdering;
+        totrinnsvurderingAktiv && isBeregnetPeriode(activePeriod) && !activePeriod.oppgave?.erBeslutter;
+    const trengerTotrinnsvurdering = activePeriod.oppgave?.trengerTotrinnsvurdering ?? false;
     const manglerNotatVedVurderLovvalgOgMedlemskapVarsel = harVurderLovvalgOgMedlemskapVarsel
         ? activePeriod.notater.filter((it) => it.type === NotatType.Generelt && !it.feilregistrert).length === 0
         : undefined;
@@ -131,7 +131,7 @@ export const Utbetaling = ({ activePeriod, currentPerson }: UtbetalingProps) => 
                     harEndringerEtterNyesteUtbetaltetidsstempel ||
                     harDagOverstyringer) ? (
                     <SendTilGodkjenningButton
-                        oppgavereferanse={activePeriod.oppgavereferanse!}
+                        oppgavereferanse={activePeriod.oppgave?.id!}
                         manglerNotatVedVurderLovvalgOgMedlemskapVarsel={manglerNotatVedVurderLovvalgOgMedlemskapVarsel}
                         disabled={periodenErSendt}
                         onSuccess={onSendTilGodkjenning}
@@ -141,7 +141,7 @@ export const Utbetaling = ({ activePeriod, currentPerson }: UtbetalingProps) => 
                     </SendTilGodkjenningButton>
                 ) : (
                     <GodkjenningButton
-                        oppgavereferanse={activePeriod.oppgavereferanse!}
+                        oppgavereferanse={activePeriod.oppgave?.id!}
                         aktørId={currentPerson.aktorId}
                         erBeslutteroppgave={erBeslutteroppgaveOgHarTilgang}
                         disabled={periodenErSendt}
@@ -155,7 +155,7 @@ export const Utbetaling = ({ activePeriod, currentPerson }: UtbetalingProps) => 
                             : 'Godkjenn'}
                     </GodkjenningButton>
                 )}
-                {!isRevurdering && !activePeriod.erBeslutterOppgave && (
+                {!isRevurdering && !activePeriod.oppgave?.erBeslutter && (
                     <AvvisningButton
                         disabled={periodenErSendt}
                         activePeriod={activePeriod}

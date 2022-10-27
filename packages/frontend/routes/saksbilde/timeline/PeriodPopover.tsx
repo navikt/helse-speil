@@ -6,7 +6,7 @@ import type { PopoverProps } from '@navikt/ds-react';
 import { BodyShort, Popover } from '@navikt/ds-react';
 
 import { ErrorBoundary } from '@components/ErrorBoundary';
-import { BeregnetPeriode, NotatType, Utbetalingsdagtype } from '@io/graphql';
+import { NotatType, Utbetalingsdagtype } from '@io/graphql';
 import { NORSK_DATOFORMAT } from '@utils/date';
 import { somPenger } from '@utils/locale';
 import { getPeriodStateText } from '@utils/mapping';
@@ -14,7 +14,7 @@ import { isBeregnetPeriode, isGhostPeriode, isInfotrygdPeriod } from '@utils/typ
 
 import styles from './PeriodPopover.module.css';
 
-const groupDayTypes = (period: BeregnetPeriode): Map<Utbetalingsdagtype, Array<DatePeriod>> => {
+const groupDayTypes = (period: FetchedBeregnetPeriode): Map<Utbetalingsdagtype, Array<DatePeriod>> => {
     const map = new Map<Utbetalingsdagtype, Array<DatePeriod>>();
 
     let currentDayType: Utbetalingsdagtype = period.tidslinje[0].utbetalingsdagtype;
@@ -70,7 +70,7 @@ const InfotrygdPopover: React.FC<DatePeriod> = ({ fom, tom }) => {
 };
 
 interface SpleisPopoverProps extends DatePeriod {
-    period: BeregnetPeriode;
+    period: FetchedBeregnetPeriode;
     state: PeriodState;
 }
 

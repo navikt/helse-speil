@@ -3,7 +3,6 @@ import React from 'react';
 
 import {
     Arbeidsgiver,
-    BeregnetPeriode,
     GhostPeriode,
     Hendelse,
     Inntektoverstyring,
@@ -76,7 +75,7 @@ export const getDokumenter = (period: Periode | GhostPeriode): Array<HendelseObj
     });
 };
 
-export const getPeriodehistorikk = (periode: BeregnetPeriode): Array<HistorikkhendelseObject> => {
+export const getPeriodehistorikk = (periode: FetchedBeregnetPeriode): Array<HistorikkhendelseObject> => {
     return periode.periodehistorikk
         .filter((historikkelement) => historikkelement.type !== PeriodehistorikkType.TotrinnsvurderingRetur)
         .map((historikkelement, index) => ({
@@ -89,7 +88,7 @@ export const getPeriodehistorikk = (periode: BeregnetPeriode): Array<Historikkhe
 };
 
 const getVurderingstidsstempelForTilsvarendePeriodeIFørsteGenerasjon = (
-    period: BeregnetPeriode,
+    period: FetchedBeregnetPeriode,
     arbeidsgiver: Arbeidsgiver
 ): string | null => {
     return (
@@ -100,7 +99,10 @@ const getVurderingstidsstempelForTilsvarendePeriodeIFørsteGenerasjon = (
     );
 };
 
-export const getDagoverstyringer = (period: BeregnetPeriode, arbeidsgiver: Arbeidsgiver): Array<HendelseObject> => {
+export const getDagoverstyringer = (
+    period: FetchedBeregnetPeriode,
+    arbeidsgiver: Arbeidsgiver
+): Array<HendelseObject> => {
     const vurderingstidsstempel = getVurderingstidsstempelForTilsvarendePeriodeIFørsteGenerasjon(period, arbeidsgiver);
 
     return arbeidsgiver.overstyringer.filter(isDagoverstyring).map((overstyring) => ({
@@ -114,13 +116,13 @@ export const getDagoverstyringer = (period: BeregnetPeriode, arbeidsgiver: Arbei
     }));
 };
 
-const periodeErAttestert = (periode: BeregnetPeriode): boolean => {
+const periodeErAttestert = (periode: FetchedBeregnetPeriode): boolean => {
     return periode.periodehistorikk.some(
         (historikkelement) => historikkelement.type === PeriodehistorikkType.TotrinnsvurderingAttestert
     );
 };
 
-export const getUtbetalingshendelse = (periode: BeregnetPeriode): UtbetalinghendelseObject | null => {
+export const getUtbetalingshendelse = (periode: FetchedBeregnetPeriode): UtbetalinghendelseObject | null => {
     if (!periode.utbetaling.vurdering || periodeErAttestert(periode)) {
         return null;
     }
@@ -139,7 +141,7 @@ export const getUtbetalingshendelse = (periode: BeregnetPeriode): Utbetalinghend
 };
 
 const getOpprinneligVurderingForFørstePeriodeISkjæringstidspunkt = (
-    period: BeregnetPeriode,
+    period: FetchedBeregnetPeriode,
     arbeidsgiver: Arbeidsgiver
 ): Vurdering | null => {
     const førsteGenerasjon = arbeidsgiver.generasjoner[arbeidsgiver.generasjoner.length - 1];
@@ -152,7 +154,7 @@ const getOpprinneligVurderingForFørstePeriodeISkjæringstidspunkt = (
 };
 
 export const getInntektoverstyringer = (
-    period: BeregnetPeriode,
+    period: FetchedBeregnetPeriode,
     arbeidsgiver: Arbeidsgiver
 ): Array<InntektoverstyringhendelseObject> => {
     const vurdering = getOpprinneligVurderingForFørstePeriodeISkjæringstidspunkt(period, arbeidsgiver);
@@ -169,7 +171,7 @@ export const getInntektoverstyringer = (
 };
 
 export const getArbeidsforholdoverstyringhendelser = (
-    period: BeregnetPeriode | GhostPeriode,
+    period: FetchedBeregnetPeriode | GhostPeriode,
     arbeidsgiver: Arbeidsgiver
 ): Array<ArbeidsforholdoverstyringhendelseObject> => {
     return arbeidsgiver.overstyringer

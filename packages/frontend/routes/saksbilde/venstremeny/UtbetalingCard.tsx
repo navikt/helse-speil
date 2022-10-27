@@ -27,7 +27,7 @@ const getFormattedName = (personinfo: Personinfo): string => {
 };
 
 interface UtbetalingCardProps {
-    vilkårsgrunnlaghistorikkId: string;
+    vilkårsgrunnlagId?: Maybe<string>;
     antallUtbetalingsdager: number;
     utbetaling: Utbetaling;
     arbeidsgiver: string;
@@ -38,7 +38,7 @@ interface UtbetalingCardProps {
 }
 
 const UtbetalingCardBeregnet = ({
-    vilkårsgrunnlaghistorikkId,
+    vilkårsgrunnlagId,
     antallUtbetalingsdager,
     utbetaling,
     arbeidsgiver,
@@ -47,7 +47,7 @@ const UtbetalingCardBeregnet = ({
     arbeidsgiversimulering,
     personsimulering,
 }: UtbetalingCardProps) => {
-    const vilkårsgrunnlaghistorikk = useVilkårsgrunnlag(vilkårsgrunnlaghistorikkId);
+    const vilkårsgrunnlaghistorikk = useVilkårsgrunnlag(vilkårsgrunnlagId);
 
     return (
         <section className={styles.Card}>

@@ -4,7 +4,6 @@ import { FormProvider, useForm } from 'react-hook-form';
 import { Button, Heading, Loader } from '@navikt/ds-react';
 
 import { Modal } from '@components/Modal';
-import { BeregnetPeriode } from '@io/graphql';
 
 import { Begrunnelsesskjema } from './Begrunnelsesskjema';
 
@@ -21,7 +20,7 @@ export type Avvisningsskjema = {
 };
 
 interface AvvisningModalProps {
-    activePeriod: BeregnetPeriode;
+    activePeriod: FetchedBeregnetPeriode;
     isSending: boolean;
     onApprove: (skjema: Avvisningsskjema) => void;
     onClose: () => void;

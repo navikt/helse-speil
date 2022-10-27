@@ -95,84 +95,76 @@
             },
             "tildeling": null,
             "versjon": 26,
-            "vilkarsgrunnlaghistorikk": [
+            "vilkarsgrunnlag": [
                 {
                     "id": "e4d0b661-5ba0-463f-acd8-7208bd7e64bb",
-                    "grunnlag": [
+                    "sykepengegrunnlag": 282000,
+                    "skjaeringstidspunkt": "2022-01-01",
+                    "omregnetArsinntekt": 282000,
+                    "sammenligningsgrunnlag": 256788,
+                    "inntekter": [
                         {
-                            "sykepengegrunnlag": 282000,
-                            "skjaeringstidspunkt": "2022-01-01",
-                            "omregnetArsinntekt": 282000,
-                            "sammenligningsgrunnlag": 256788,
-                            "inntekter": [
-                                {
-                                    "sammenligningsgrunnlag": {
-                                        "belop": 256788,
-                                        "inntektFraAOrdningen": []
-                                    },
-                                    "omregnetArsinntekt": {
-                                        "inntektFraAOrdningen": null,
-                                        "belop": 282000,
-                                        "manedsbelop": 23500,
-                                        "kilde": "SAKSBEHANDLER"
-                                    },
-                                    "arbeidsgiver": "947064649",
-                                    "deaktivert": false
-                                }
-                            ],
-                            "vilkarsgrunnlagtype": "SPLEIS",
-                            "oppfyllerKravOmMinstelonn": true,
-                            "oppfyllerKravOmMedlemskap": null,
-                            "oppfyllerKravOmOpptjening": true,
-                            "antallOpptjeningsdagerErMinst": 7252,
-                            "grunnbelop": 106399,
-                            "opptjeningFra": "2002-02-23",
-                            "sykepengegrunnlagsgrense": {
-                                "grunnbelop": 106399,
-                                "grense": 638394,
-                                "virkningstidspunkt": "2021-05-01"
-                            }
+                            "sammenligningsgrunnlag": {
+                                "belop": 256788,
+                                "inntektFraAOrdningen": []
+                            },
+                            "omregnetArsinntekt": {
+                                "inntektFraAOrdningen": null,
+                                "belop": 282000,
+                                "manedsbelop": 23500,
+                                "kilde": "SAKSBEHANDLER"
+                            },
+                            "arbeidsgiver": "947064649",
+                            "deaktivert": false
                         }
-                    ]
+                    ],
+                    "vilkarsgrunnlagtype": "SPLEIS",
+                    "oppfyllerKravOmMinstelonn": true,
+                    "oppfyllerKravOmMedlemskap": null,
+                    "oppfyllerKravOmOpptjening": true,
+                    "antallOpptjeningsdagerErMinst": 7252,
+                    "grunnbelop": 106399,
+                    "opptjeningFra": "2002-02-23",
+                    "sykepengegrunnlagsgrense": {
+                        "grunnbelop": 106399,
+                        "grense": 638394,
+                        "virkningstidspunkt": "2021-05-01"
+                    }
                 },
                 {
                     "id": "2a67ec95-f941-42eb-87c5-3a099a7cded0",
-                    "grunnlag": [
+                    "sykepengegrunnlag": 276000,
+                    "skjaeringstidspunkt": "2022-01-01",
+                    "omregnetArsinntekt": 276000,
+                    "sammenligningsgrunnlag": 256788,
+                    "inntekter": [
                         {
-                            "sykepengegrunnlag": 276000,
-                            "skjaeringstidspunkt": "2022-01-01",
-                            "omregnetArsinntekt": 276000,
-                            "sammenligningsgrunnlag": 256788,
-                            "inntekter": [
-                                {
-                                    "sammenligningsgrunnlag": {
-                                        "belop": 256788,
-                                        "inntektFraAOrdningen": []
-                                    },
-                                    "omregnetArsinntekt": {
-                                        "inntektFraAOrdningen": null,
-                                        "belop": 276000,
-                                        "manedsbelop": 23000,
-                                        "kilde": "INNTEKTSMELDING"
-                                    },
-                                    "arbeidsgiver": "947064649",
-                                    "deaktivert": false
-                                }
-                            ],
-                            "vilkarsgrunnlagtype": "SPLEIS",
-                            "oppfyllerKravOmMinstelonn": true,
-                            "oppfyllerKravOmMedlemskap": null,
-                            "oppfyllerKravOmOpptjening": true,
-                            "antallOpptjeningsdagerErMinst": 7252,
-                            "grunnbelop": 106399,
-                            "opptjeningFra": "2002-02-23",
-                            "sykepengegrunnlagsgrense": {
-                                "grunnbelop": 106399,
-                                "grense": 638394,
-                                "virkningstidspunkt": "2021-02-23"
-                            }
+                            "sammenligningsgrunnlag": {
+                                "belop": 256788,
+                                "inntektFraAOrdningen": []
+                            },
+                            "omregnetArsinntekt": {
+                                "inntektFraAOrdningen": null,
+                                "belop": 276000,
+                                "manedsbelop": 23000,
+                                "kilde": "INNTEKTSMELDING"
+                            },
+                            "arbeidsgiver": "947064649",
+                            "deaktivert": false
                         }
-                    ]
+                    ],
+                    "vilkarsgrunnlagtype": "SPLEIS",
+                    "oppfyllerKravOmMinstelonn": true,
+                    "oppfyllerKravOmMedlemskap": null,
+                    "oppfyllerKravOmOpptjening": true,
+                    "antallOpptjeningsdagerErMinst": 7252,
+                    "grunnbelop": 106399,
+                    "opptjeningFra": "2002-02-23",
+                    "sykepengegrunnlagsgrense": {
+                        "grunnbelop": 106399,
+                        "grense": 638394,
+                        "virkningstidspunkt": "2021-02-23"
+                    }
                 }
             ],
             "aktorId": "2568043185108",
@@ -705,7 +697,7 @@
                                         "Mottatt flere inntektsmeldinger - den første inntektsmeldingen som ble mottatt er lagt til grunn. Utbetal kun hvis det blir korrekt.",
                                         "Vurder lovvalg og medlemskap"
                                     ],
-                                    "vilkarsgrunnlaghistorikkId": "e4d0b661-5ba0-463f-acd8-7208bd7e64bb",
+                                    "vilkarsgrunnlagId": "e4d0b661-5ba0-463f-acd8-7208bd7e64bb",
                                     "refusjon": {
                                         "sisteRefusjonsdag": null,
                                         "forsteFravaersdag": "2022-01-01",

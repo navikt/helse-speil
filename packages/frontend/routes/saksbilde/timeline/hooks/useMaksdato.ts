@@ -5,7 +5,7 @@ const isValidDate = (date?: Maybe<DateString>): boolean => {
     return typeof date === 'string' && !isNaN(new Date(date).getTime());
 };
 
-const hasValidMaksdato = (period: BeregnetPeriode): boolean => {
+const hasValidMaksdato = (period: FetchedBeregnetPeriode): boolean => {
     return isValidDate(period.maksdato);
 };
 

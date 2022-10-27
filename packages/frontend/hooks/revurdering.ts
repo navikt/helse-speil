@@ -14,7 +14,7 @@ const godkjentTilstander: PeriodState[] = ['utbetalt', 'utbetaltAutomatisk', 're
 
 const periodeErIArbeidsgiversSisteSkjæringstidspunkt = (
     arbeidsgiver: Arbeidsgiver,
-    periode: BeregnetPeriode
+    periode: FetchedBeregnetPeriode
 ): boolean => {
     const periodenFinnesISisteGenerasjon =
         arbeidsgiver.generasjoner[0]?.perioder.find((it) => it === periode) !== undefined;
@@ -36,7 +36,7 @@ const overlapper =
         (dayjs(periode.fom).isSameOrAfter(other.fom) && dayjs(periode.fom).isSameOrBefore(other.tom)) ||
         (dayjs(periode.tom).isSameOrAfter(other.fom) && dayjs(periode.tom).isSameOrBefore(other.tom));
 
-const overlappendePerioder = (person: FetchedPerson, periode: BeregnetPeriode): Array<BeregnetPeriode> =>
+const overlappendePerioder = (person: FetchedPerson, periode: FetchedBeregnetPeriode): Array<BeregnetPeriode> =>
     person.arbeidsgivere
         .flatMap(
             (arbeidsgiver) =>

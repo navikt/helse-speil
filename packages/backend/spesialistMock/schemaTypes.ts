@@ -245,6 +245,8 @@ export type GhostPeriode = {
     organisasjonsnummer: Scalars['String'];
     skjaeringstidspunkt: Scalars['String'];
     tom: Scalars['String'];
+    vilkarsgrunnlagId?: Maybe<Scalars['String']>;
+    /** @deprecated Bruk heller "vilkarsgrunnlagId" */
     vilkarsgrunnlaghistorikkId?: Maybe<Scalars['String']>;
 };
 

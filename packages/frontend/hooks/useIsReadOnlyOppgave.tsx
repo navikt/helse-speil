@@ -12,7 +12,7 @@ export const useIsReadOnlyOppgave = (): boolean => {
 
     const readOnly = useReadonly();
 
-    if (!isBeregnetPeriode(periode)) {
+    if (!isBeregnetPeriode(periode) || !periode.oppgave) {
         return false;
     }
 
@@ -24,7 +24,7 @@ export const useIsReadOnlyOppgave = (): boolean => {
 
     return (
         erTidligereSaksbehandler ||
-        (periode.erBeslutterOppgave && !harBeslutteroppgavetilgang) ||
+        (periode.oppgave.erBeslutter && !harBeslutteroppgavetilgang) ||
         (periodeMedBrukerutbetaling && !utbetalingTilSykmeldt)
     );
 };

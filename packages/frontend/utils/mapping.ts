@@ -1,10 +1,10 @@
-import { BeregnetPeriode, GhostPeriode, Periode, Periodetilstand, Utbetalingtype } from '@io/graphql';
+import { GhostPeriode, Periode, Periodetilstand, Utbetalingtype } from '@io/graphql';
 import { isBeregnetPeriode, isGhostPeriode, isInfotrygdPeriod, isUberegnetPeriode } from '@utils/typeguards';
 
-const hasBeenAssessedAutomatically = (period: BeregnetPeriode): boolean =>
+const hasBeenAssessedAutomatically = (period: FetchedBeregnetPeriode): boolean =>
     period.utbetaling.vurdering?.automatisk ?? false;
 
-const hasOppgave = (period: BeregnetPeriode): boolean => typeof period.oppgavereferanse === 'string';
+const hasOppgave = (period: FetchedBeregnetPeriode): boolean => typeof period.oppgave?.id === 'string';
 
 const getInfotrygdPeriodState = (period: InfotrygdPeriod): PeriodState => {
     switch (period.typetekst) {

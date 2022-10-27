@@ -1,11 +1,11 @@
-import oppgaveFil from '../__mock-data__/oppgaver.json';
 import express, { Request, Response } from 'express';
 
+import oppgaveFil from '../__mock-data__/oppgaver.json';
 import { sleep } from '../devHelpers';
 import { setupGraphQLMiddleware } from './graphql';
 import { Notat } from './schemaTypes';
 import { NotatMock } from './storage/notat';
-import { OppgaveMock } from './storage/oppgave';
+import { OppgaveMock, getDefaultOppgave } from './storage/oppgave';
 
 const app = express();
 const port = 9001;
@@ -122,6 +122,8 @@ app.post('/api/totrinnsvurdering/retur', (req: Request, res: Response) => {
     const oppgavereferanse = req.body.oppgavereferanse;
     const tidligereSaksbehandler = OppgaveMock.getOppgave(oppgavereferanse)?.tidligereSaksbehandler;
     const oppgave: Oppgave = {
+        ...getDefaultOppgave(),
+        id: oppgavereferanse,
         erRetur: true,
         erBeslutter: false,
         tidligereSaksbehandler: 'uuid',
@@ -144,6 +146,8 @@ app.post('/api/totrinnsvurdering', (req: Request, res: Response) => {
     const oppgavereferanse = req.body.oppgavereferanse;
     const tidligereSaksbehandler = OppgaveMock.getOppgave(oppgavereferanse)?.tidligereSaksbehandler;
     const oppgave: Oppgave = {
+        ...getDefaultOppgave(),
+        id: oppgavereferanse,
         erRetur: false,
         erBeslutter: true,
         tildelt: tidligereSaksbehandler === 'uuid' ? null : 'uuid',

@@ -5,7 +5,6 @@ import { Loader } from '@navikt/ds-react';
 
 import { useErTidligereSaksbehandler } from '@hooks/useErTidligereSaksbehandler';
 import { useHarVurderLovvalgOgMedlemskapVarsel } from '@hooks/useHarVurderLovvalgOgMedlemskapVarsel';
-import { BeregnetPeriode } from '@io/graphql';
 import { useHarDagOverstyringer } from '@state/arbeidsgiver';
 import { useSyncNotater } from '@state/notater';
 import { useEndringerEtterNyesteUtbetaltetidsstempel } from '@state/person';
@@ -32,7 +31,7 @@ const BeregnetPeriodeViewLoader: React.FC = () => {
 };
 
 interface BeregnetPeriodeViewProps {
-    activePeriod: BeregnetPeriode;
+    activePeriod: FetchedBeregnetPeriode;
 }
 
 export const BeregnetPeriodeView: React.FC<BeregnetPeriodeViewProps> = ({ activePeriod }) => {
@@ -55,11 +54,11 @@ export const BeregnetPeriodeView: React.FC<BeregnetPeriodeViewProps> = ({ active
             <div className={styles.Content}>
                 <Saksbildevarsler
                     periodState={getPeriodState(activePeriod)}
-                    oppgavereferanse={activePeriod.oppgavereferanse}
+                    oppgavereferanse={activePeriod.oppgave?.id}
                     varsler={activePeriod.varsler}
                     erTidligereSaksbehandler={erTidligereSaksbehandler}
                     periodeMedBrukerutbetaling={activePeriod.utbetaling.personNettoBelop !== 0}
-                    erBeslutteroppgave={activePeriod.erBeslutterOppgave}
+                    erBeslutteroppgave={activePeriod.oppgave?.erBeslutter}
                     harVurderLovvalgOgMedlemskapVarsel={harVurderLovvalgOgMedlemskapVarsel}
                     endringerEtterNyesteUtbetalingPåPerson={saksbehandlerendringerEtterNyesteUtbetalingPåPerson}
                     harDagOverstyringer={harDagOverstyringer}

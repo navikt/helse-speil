@@ -4,7 +4,6 @@ import React, { useContext, useState } from 'react';
 import { Button } from '@navikt/ds-react';
 
 import { AmplitudeContext } from '@io/amplitude';
-import { BeregnetPeriode } from '@io/graphql';
 import { postSendTilbakeTilSaksbehandler } from '@io/http';
 import { useCurrentPerson } from '@state/person';
 import { useAddToast } from '@state/toasts';
@@ -25,7 +24,7 @@ const useAddReturtoast = () => {
 };
 
 interface ReturButtonProps extends Omit<React.HTMLAttributes<HTMLButtonElement>, 'onError' | 'children'> {
-    activePeriod: BeregnetPeriode;
+    activePeriod: FetchedBeregnetPeriode;
     disabled: boolean;
     onSuccess?: () => void;
     onError?: (error: Error) => void;
@@ -55,7 +54,7 @@ export const ReturButton: React.FC<ReturButtonProps> = ({
     const returnerUtbetaling = (notattekst: string) => {
         setIsSending(true);
 
-        postSendTilbakeTilSaksbehandler(activePeriod.oppgavereferanse!, {
+        postSendTilbakeTilSaksbehandler(activePeriod.oppgave?.id!, {
             tekst: notattekst,
             type: 'Retur',
         })

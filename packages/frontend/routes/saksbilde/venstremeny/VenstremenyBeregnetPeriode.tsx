@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Arbeidsgiver, BeregnetPeriode, Dag, Utbetalingsdagtype } from '@io/graphql';
+import { Arbeidsgiver, Dag, Utbetalingsdagtype } from '@io/graphql';
 import { useCurrentVilkårsgrunnlag } from '@state/periode';
 
 import { PeriodeCard } from './PeriodeCard';
@@ -14,7 +14,7 @@ const getNumberOfDaysWithType = (timeline: Array<Dag>, type: Utbetalingsdagtype)
 };
 
 interface VenstremenyBeregnetPeriodeProps {
-    activePeriod: BeregnetPeriode;
+    activePeriod: FetchedBeregnetPeriode;
     currentPerson: FetchedPerson;
     currentArbeidsgiver: Arbeidsgiver;
     readOnly: boolean;
@@ -34,7 +34,7 @@ export const VenstremenyBeregnetPeriode: React.FC<VenstremenyBeregnetPeriodeProp
         <section className={styles.Venstremeny}>
             <PeriodeCard.Beregnet periode={activePeriod} arbeidsgiver={currentArbeidsgiver} månedsbeløp={månedsbeløp} />
             <UtbetalingCard.Beregnet
-                vilkårsgrunnlaghistorikkId={activePeriod.vilkarsgrunnlaghistorikkId}
+                vilkårsgrunnlagId={activePeriod.vilkarsgrunnlagId}
                 antallUtbetalingsdager={getNumberOfDaysWithType(activePeriod.tidslinje, Utbetalingsdagtype.Navdag)}
                 utbetaling={activePeriod.utbetaling}
                 arbeidsgiver={currentArbeidsgiver.navn}

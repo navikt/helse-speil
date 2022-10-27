@@ -3,7 +3,7 @@ import { Controller, useFormContext } from 'react-hook-form';
 
 import { Checkbox, Fieldset, Textarea } from '@navikt/ds-react';
 
-import { BeregnetPeriode, Faresignal } from '@io/graphql';
+import { Faresignal } from '@io/graphql';
 
 import { Begrunnelse } from './AvvisningModal';
 
@@ -36,7 +36,7 @@ const harFunn = (funn?: Maybe<Faresignal[]>): funn is Faresignal[] => {
 };
 
 interface BegrunnelsesskjemaProps {
-    activePeriod: BeregnetPeriode;
+    activePeriod: FetchedBeregnetPeriode;
 }
 
 export const Begrunnelsesskjema: React.FC<BegrunnelsesskjemaProps> = ({ activePeriod }) => {

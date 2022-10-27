@@ -28,7 +28,7 @@ import styles from './Inntekt.module.css';
 const useIsBeslutteroppgave = (): boolean => {
     const activePeriod = useActivePeriod();
 
-    return isBeregnetPeriode(activePeriod) && activePeriod.erBeslutterOppgave;
+    return isBeregnetPeriode(activePeriod) && (activePeriod.oppgave?.erBeslutter ?? false);
 };
 
 const useInntektKanRevurderes = (skjæringstidspunkt: DateString): boolean => {

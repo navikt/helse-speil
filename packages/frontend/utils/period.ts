@@ -1,1 +1,1 @@
-export const isRevurdering = (period: BeregnetPeriode): boolean => period.utbetaling.type === 'REVURDERING';
+export const isRevurdering = (period: FetchedBeregnetPeriode): boolean => period.utbetaling.type === 'REVURDERING';
