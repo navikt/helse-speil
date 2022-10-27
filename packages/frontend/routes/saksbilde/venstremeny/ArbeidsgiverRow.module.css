@@ -12,7 +12,10 @@
 }
 
 .Arbeidsforhold {
-    max-width: 318px;
+    max-width: calc(
+        var(--venstremeny-width) - (var(--venstremeny-horizontal-padding) * 2) - var(--column-gap) -
+            var(--left-column-width) - var(--venstremeny-border-width)
+    );
     display: flex;
     flex-wrap: nowrap;
 }

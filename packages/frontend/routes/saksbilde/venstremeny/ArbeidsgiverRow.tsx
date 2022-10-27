@@ -103,9 +103,7 @@ const ArbeidsgiverRowView: React.FC<ArbeidsgiverCardProps> = ({
             <Accordion.Item open={open} className={styles.ArbeidsgiverRow}>
                 <Accordion.Header className={styles.Header} onClick={() => setOpen((prevState) => !prevState)}>
                     <AnonymizableContainer>
-                        <BodyShort className={styles.NoWrap}>
-                            {navn.charAt(0).toUpperCase() + navn.slice(1).toLowerCase()}
-                        </BodyShort>
+                        <BodyShort>{navn.charAt(0).toUpperCase() + navn.slice(1).toLowerCase()}</BodyShort>
                     </AnonymizableContainer>
                 </Accordion.Header>
                 <Accordion.Content className={styles.Content}>

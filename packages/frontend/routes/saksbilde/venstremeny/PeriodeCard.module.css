@@ -1,7 +1,9 @@
 .Grid {
+    --left-column-width: 1.25rem;
+    --column-gap: 0.75rem;
     display: grid;
-    grid-template-columns: 1.25rem auto;
-    grid-column-gap: 0.75rem;
+    grid-template-columns: var(--left-column-width) auto;
+    grid-column-gap: var(--column-gap);
     grid-row-gap: 0.125rem;
     align-items: center;
 }

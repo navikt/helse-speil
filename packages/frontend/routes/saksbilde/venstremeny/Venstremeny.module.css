@@ -1,12 +1,15 @@
 .Venstremeny {
+    --venstremeny-width: 350px;
+    --venstremeny-horizontal-padding: 24px;
+    --venstremeny-border-width: 1px;
     grid-area: venstremeny;
     display: flex;
     flex-direction: column;
     gap: 32px;
     box-sizing: border-box;
-    max-width: 400px;
-    padding: 32px 24px;
-    border-right: 1px solid var(--navds-semantic-color-border);
+    width: var(--venstremeny-width);
+    padding: 32px var(--venstremeny-horizontal-padding);
+    border-right: var(--venstremeny-border-width) solid var(--navds-semantic-color-border);
 }
 
 .Title {
