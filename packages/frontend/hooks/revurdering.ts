@@ -5,7 +5,6 @@ import { useCurrentArbeidsgiver } from '@state/arbeidsgiver';
 import { useActivePeriod } from '@state/periode';
 import { useCurrentPerson } from '@state/person';
 import type { UtbetalingToggles } from '@utils/featureToggles';
-import { erDev, erLocal } from '@utils/featureToggles';
 import { getPeriodState } from '@utils/mapping';
 import { isRevurdering } from '@utils/period';
 import { isBeregnetPeriode, isForkastetPeriode } from '@utils/typeguards';
@@ -117,7 +116,10 @@ export const useRevurderingIsEnabled = (toggles: UtbetalingToggles): boolean => 
     if (isForkastetPeriode(periode)) return false;
     if (!toggles.overstyreUtbetaltPeriodeEnabled) return false;
     if (!alleOverlappendePerioderErAvsluttet(person, periode)) return false;
-    return !(!(erDev() || erLocal()) && !periodeErIArbeidsgiversSisteSkjæringstidspunkt(arbeidsgiver, periode));
+    return (
+        toggles.overstyreTidligereSykefraværstilfelle ||
+        periodeErIArbeidsgiversSisteSkjæringstidspunkt(arbeidsgiver, periode)
+    );
 };
 
 export const useOverstyrRevurderingIsEnabled = (toggles: UtbetalingToggles) => {
