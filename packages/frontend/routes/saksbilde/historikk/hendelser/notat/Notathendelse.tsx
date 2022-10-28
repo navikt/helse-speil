@@ -18,7 +18,7 @@ import { Action, State } from './types';
 
 import styles from './Notathendelse.module.css';
 
-const MAX_TEXT_LENGTH_BEFORE_TRUNCATION = 74;
+const MAX_TEXT_LENGTH_BEFORE_TRUNCATION = 45;
 
 const reducer = (state: State, action: Action) => {
     switch (action.type) {
@@ -123,7 +123,7 @@ export const Notathendelse: React.FC<NotathendelseProps> = ({
 
     const toggleNotat = (event: React.KeyboardEvent) => {
         if (event.code === 'Enter' || event.code === 'Space') {
-            dispatch({ type: 'ToggleNotat', value: !state.expanded });
+            dispatch({ type: 'ToggleNotat', value: isExpandable() && !state.expanded });
         }
     };
 
