@@ -92,7 +92,7 @@ export const useTimelineControls = (
     const latestPossibleDate = useLatestPossibleDate(allPeriods);
     const earliestPossibleDate = useEarliestPossibleDate(allPeriods);
 
-    const [currentZoomIndex, setCurrentZoomIndex] = useState<number>(1);
+    const [currentZoomIndex, setCurrentZoomIndex] = useState<number>(ZoomLevel.SEKS_MÅNEDER);
     const [currentDateDelta, setCurrentDateDelta] = useState<number>(0);
 
     const availableZoomLevels = useAvailableZoomLevels(latestPossibleDate, currentDateDelta);
@@ -125,4 +125,11 @@ export const useTimelineControls = (
         canNavigateForwards: !latestVisibleDate.isSame(latestPossibleDate),
         canNavigateBackwards: currentZoomLevel.fom.isAfter(earliestPossibleDate),
     };
+};
+
+export const ZoomLevel = {
+    TO_MÅNEDER: 0,
+    SEKS_MÅNEDER: 1,
+    ETT_ÅR: 2,
+    FIRE_ÅR: 3,
 };

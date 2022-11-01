@@ -1,5 +1,6 @@
 import classNames from 'classnames';
-import React from 'react';
+import dayjs from 'dayjs';
+import React, { useEffect } from 'react';
 
 import { BodyShort } from '@navikt/ds-react';
 
@@ -8,6 +9,7 @@ import { LoadingShimmer } from '@components/LoadingShimmer';
 import { Arbeidsgiver, Infotrygdutbetaling } from '@io/graphql';
 import { useActivePeriod } from '@state/periode';
 import { useCurrentPerson, useIsFetchingPerson } from '@state/person';
+import { isBeregnetPeriode } from '@utils/typeguards';
 
 import { ExpandableTimelineRow } from './ExpandableTimelineRow';
 import { InfotrygdRow } from './InfotrygdRow';
@@ -17,7 +19,7 @@ import { ScrollButtons } from './ScrollButtons';
 import { TimelineRow, TimelineRowSkeleton } from './TimelineRow';
 import { ZoomLevelPicker } from './ZoomLevelPicker';
 import { useInfotrygdPeriods } from './hooks/useInfotrygdPeriods';
-import { useTimelineControls } from './hooks/useTimelineControls';
+import { ZoomLevel, useTimelineControls } from './hooks/useTimelineControls';
 
 import styles from './Timeline.module.css';
 
@@ -29,6 +31,20 @@ interface TimelineWithContentProps {
 
 const TimelineWithContent: React.FC<TimelineWithContentProps> = React.memo(
     ({ arbeidsgivere, infotrygdutbetalinger, activePeriod }) => {
+        useEffect(() => {
+            const defaultZoomLevel = () => {
+                if (isBeregnetPeriode(activePeriod)) {
+                    if (dayjs(activePeriod.fom).isSameOrBefore(dayjs(Date.now()).subtract(1, 'year')))
+                        return ZoomLevel.FIRE_ÅR;
+                    else if (dayjs(activePeriod.fom).isSameOrBefore(dayjs(Date.now()).subtract(6, 'month')))
+                        return ZoomLevel.ETT_ÅR;
+                    else return ZoomLevel.SEKS_MÅNEDER;
+                }
+                return ZoomLevel.SEKS_MÅNEDER;
+            };
+            setCurrentZoomLevel(defaultZoomLevel());
+        }, []);
+
         const {
             zoomLevels,
             currentZoomLevel,
