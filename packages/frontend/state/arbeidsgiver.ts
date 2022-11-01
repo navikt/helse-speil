@@ -60,9 +60,9 @@ export const useCurrentArbeidsgiver = (): Arbeidsgiver | null => {
         return findArbeidsgiverWithPeriode(activePeriod, currentPerson.arbeidsgivere);
     } else if (isGhostPeriode(activePeriod)) {
         return findArbeidsgiverWithGhostPeriode(activePeriod, currentPerson.arbeidsgivere);
-    } else {
-        return null;
     }
+
+    return null;
 };
 
 export const useArbeidsgiver = (organisasjonsnummer: string): Arbeidsgiver | null =>

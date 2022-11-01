@@ -100,3 +100,5 @@ declare type FetchedBeregnetPeriode = Omit<
     | 'oppgavereferanse'
     | 'tidligereSaksbehandlerOid'
 >;
+
+type OverridableConstructor<T, E = {}> = (overrides?: Partial<T>) => T & E;

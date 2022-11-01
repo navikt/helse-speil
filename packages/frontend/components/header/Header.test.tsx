@@ -1,12 +1,15 @@
 import { RecoilAndRouterWrapper } from '@test-wrappers';
 import React from 'react';
 
+import { useFetchPerson } from '@state/person';
 import '@testing-library/jest-dom/extend-expect';
 import { fireEvent, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { SpeilError } from '@utils/error';
 
 import { Header } from './Header';
+
+jest.mock('@state/person');
 
 let cachedVarsel: SpeilError | null = null;
 
@@ -26,18 +29,21 @@ jest.mock('@state/varsler', () => ({
     },
 }));
 
-afterEach(() => {
-    cachedVarsel = null;
-});
-
 describe('Header', () => {
-    test('legger til varsel ved ugyldig søk', () => {
+    afterEach(() => {
+        jest.clearAllMocks();
+        cachedVarsel = null;
+    });
+
+    it('legger til varsel ved ugyldig søk', () => {
         render(<Header />, { wrapper: RecoilAndRouterWrapper });
         userEvent.type(screen.getByRole('searchbox'), 'test');
         fireEvent.submit(screen.getByRole('searchbox'));
         expect(cachedVarsel).not.toBeNull();
     });
-    test('legger ikke til varsel ved gyldig søk', () => {
+
+    it('legger ikke til varsel ved gyldig søk', () => {
+        (useFetchPerson as jest.Mock).mockReturnValueOnce(() => Promise.resolve(null));
         render(<Header />, { wrapper: RecoilAndRouterWrapper });
         userEvent.type(screen.getByRole('searchbox'), '12345678910');
         fireEvent.submit(screen.getByRole('searchbox'));

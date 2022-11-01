@@ -66,7 +66,9 @@ export const personState = atom<PersonState>({
     default: emptyPersonState(),
 });
 
-export const useCurrentPerson = (): FetchedPerson | null => useRecoilValue(personState).person;
+export const useCurrentPerson = (): FetchedPerson | null => {
+    return useRecoilValue(personState).person;
+};
 
 export const useFetchPerson = (): ((id: string) => Promise<PersonState | void>) => {
     const setPerson = useSetRecoilState(personState);

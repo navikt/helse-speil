@@ -23,7 +23,7 @@ export const isNotReady = (period: Periode) =>
         Periodetilstand.ManglerInformasjon,
     ].includes(period.periodetilstand);
 
-const activePeriodState = atom<ActivePeriod | null>({
+export const activePeriodState = atom<ActivePeriod | null>({
     key: 'activePeriodState',
     default: null,
 });

@@ -22,3 +22,9 @@ export const RecoilAndRouterWrapper: React.FC<RecoilProps> = ({ children, initia
         </MemoryRouterWrapper>
     );
 };
+
+export const wrapperWithRecoilInitializer =
+    (initializer: (mutableSnapshot: MutableSnapshot) => void): React.FC<ChildrenProps> =>
+    ({ children }) => {
+        return <RecoilWrapper initializeState={initializer}>{children}</RecoilWrapper>;
+    };
