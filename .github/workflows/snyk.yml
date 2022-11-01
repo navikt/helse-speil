@@ -15,4 +15,4 @@ jobs:
        env:
          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
        with:
-         command: monitor --org=tbd-ty7
+         command: monitor --org=tbd-ty7 --all-projects
