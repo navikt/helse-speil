@@ -83,7 +83,6 @@ const UtbetalingBeregnetPeriode: React.FC<UtbetalingBeregnetPeriodeProps> = Reac
     const overstyringIsEnabled = useOverstyringIsEnabled();
     const revurderingIsEnabled = useRevurderingIsEnabled(defaultUtbetalingToggles);
     const overstyrRevurderingIsEnabled = useOverstyrRevurderingIsEnabled(defaultUtbetalingToggles);
-    const erAktivPeriodeISisteSkjæringstidspunkt = useActivePeriodHasLatestSkjæringstidspunkt();
     const dagoverstyringer = useDagoverstyringer(period.fom, period.tom, arbeidsgiver);
     const readOnly = useIsReadOnlyOppgave();
 
@@ -95,7 +94,6 @@ const UtbetalingBeregnetPeriode: React.FC<UtbetalingBeregnetPeriodeProps> = Reac
     });
 
     return (revurderingIsEnabled || overstyringIsEnabled || overstyrRevurderingIsEnabled) &&
-        (erDev() || erLocal() || erAktivPeriodeISisteSkjæringstidspunkt) &&
         !readOnly &&
         !period.oppgave?.erBeslutter ? (
         <OverstyrbarUtbetaling
