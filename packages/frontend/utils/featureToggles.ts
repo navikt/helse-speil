@@ -10,9 +10,9 @@ const fagkoordinatorer = ['M136300', 'S108267'];
 
 const enhetsledere = ['B138607'];
 
-const coaches = ['J153777', 'F131883', 'K104953', 'S109031', 'V149621', 'S160466', 'O123659', 'A160730'];
+const coaches = ['J153777', 'F131883', 'K104953', 'S109031', 'V149621', 'S160466', 'O123659', 'A160730', 'K123956'];
 
-const tilgangStikkprøver = ['F140836', 'S109031', 'O123659', 'S160466', 'K104953', 'J153777', 'V149621'];
+const tilgangStikkprøver = ['F140836', 'S109031', 'O123659', 'S160466', 'K104953', 'J153777', 'V149621', 'K123956'];
 
 const kunLesetilgang: string[] = [];
 
