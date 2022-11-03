@@ -6,13 +6,13 @@ const groupIdForBesluttere = '59f26eef-0a4f-4038-bf46-3a5b2f252155';
 const eminem = 'G103083';
 const supersaksbehandlere = [eminem, 'A148751', 'N115007', 'C117102'];
 
-const fagkoordinatorer = ['M136300', 'S108267'];
+const fagkoordinatorer = ['M136300', 'S108267', 'K123956'];
 
 const enhetsledere = ['B138607'];
 
-const coaches = ['J153777', 'F131883', 'K104953', 'S109031', 'V149621', 'S160466', 'O123659', 'A160730', 'K123956'];
+const coaches = ['J153777', 'F131883', 'K104953', 'S109031', 'V149621', 'S160466', 'O123659', 'A160730'];
 
-const tilgangStikkprøver = ['F140836', 'S109031', 'O123659', 'S160466', 'K104953', 'J153777', 'V149621', 'K123956'];
+const tilgangStikkprøver = ['F140836', 'S109031', 'O123659', 'S160466', 'K104953', 'J153777', 'V149621'];
 
 const kunLesetilgang: string[] = [];
 
