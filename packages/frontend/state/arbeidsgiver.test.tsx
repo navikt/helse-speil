@@ -22,6 +22,7 @@ import { renderHook } from '@testing-library/react-hooks';
 
 jest.mock('@state/person');
 jest.mock('@state/periode');
+jest.unmock('@state/arbeidsgiver');
 
 describe('findArbeidsgiverWithGhostPeriode', () => {
     it('returnerer arbeidsgiver som inneholder gitt ghost-periode', () => {

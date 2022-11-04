@@ -1,3 +1,5 @@
+require('@testing-library/jest-dom/extend-expect');
+
 global.console = {
     ...global.console,
     error: jest.fn(),

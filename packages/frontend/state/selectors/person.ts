@@ -31,12 +31,14 @@ export const getInntektFraAOrdningen = (
 };
 
 export type Inntekter = {
+    organisasjonsnummer: string;
     fraInntektsmelding?: Maybe<Arbeidsgiverinntekt>;
     fraAOrdningen?: Maybe<Arbeidsgiverinntekt>;
 };
 
 export const getInntekter = (grunnlag: Vilkarsgrunnlag, organisasjonsnummer: string): Inntekter => {
     const inntekter: Inntekter = {
+        organisasjonsnummer,
         fraInntektsmelding: getInntektFraInntektsmelding(grunnlag, organisasjonsnummer),
         fraAOrdningen: getInntektFraAOrdningen(grunnlag, organisasjonsnummer),
     };

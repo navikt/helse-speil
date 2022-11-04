@@ -1,3 +1,5 @@
+import dayjs from 'dayjs';
+
 import { Arbeidsgiverinntekt, InntektFraAOrdningen, Inntektskilde, OmregnetArsinntekt } from '@io/graphql';
 
 const enInntektFraAOrdningen: OverridableConstructor<InntektFraAOrdningen> = (overrides) => ({
@@ -6,24 +8,33 @@ const enInntektFraAOrdningen: OverridableConstructor<InntektFraAOrdningen> = (ov
     ...overrides,
 });
 
+const inntekterFraAOrdningen = (start: DateString): Array<InntektFraAOrdningen> => {
+    return new Array(3).fill(0).map((_, i) => {
+        return enInntektFraAOrdningen({ maned: dayjs(start).add(i, 'month').format('YYYY-MM') });
+    });
+};
+
 type OmregnetArsinntektExtensions = {
     medInntektFraAordningen: (
         inntekt?: Array<InntektFraAOrdningen>
     ) => OmregnetArsinntekt & OmregnetArsinntektExtensions;
 };
 
-const enOmregnetÅrsinntekt: OverridableConstructor<OmregnetArsinntekt, OmregnetArsinntektExtensions> = (overrides) => ({
-    belop: 600000,
-    inntektFraAOrdningen: [enInntektFraAOrdningen()],
-    kilde: Inntektskilde.Inntektsmelding,
-    manedsbelop: 600000 / 12,
-    ...overrides,
-    medInntektFraAordningen(inntekt) {
-        this.kilde = Inntektskilde.Aordningen;
-        this.inntektFraAOrdningen = inntekt ?? [enInntektFraAOrdningen()];
-        return this;
-    },
-});
+const enOmregnetÅrsinntekt: OverridableConstructor<OmregnetArsinntekt, OmregnetArsinntektExtensions> = (overrides) => {
+    const inntektFraAOrdningen = inntekterFraAOrdningen('2020-01-01');
+    return {
+        belop: 600000,
+        inntektFraAOrdningen: inntektFraAOrdningen,
+        kilde: Inntektskilde.Inntektsmelding,
+        manedsbelop: 600000 / 12,
+        ...overrides,
+        medInntektFraAordningen(inntekt) {
+            this.kilde = Inntektskilde.Aordningen;
+            this.inntektFraAOrdningen = inntekt ?? inntektFraAOrdningen;
+            return this;
+        },
+    };
+};
 
 type ArbeidsgiverinntektExtensions = {
     medInntektFraAOrdningen: (

@@ -62,6 +62,7 @@ describe('getInntekter', () => {
         ]);
 
         const expected: Inntekter = {
+            organisasjonsnummer: arbeidsgiver,
             fraInntektsmelding: inntektFraInntektsmelding,
             fraAOrdningen: inntektFraAOrdningen,
         };
@@ -75,6 +76,7 @@ describe('getInntekter', () => {
         const vilkårsgrunnlagMedInntektFraIM = etVilkårsgrunnlagFraSpleis().medInntekter([inntektFraInntektsmelding]);
 
         expect(getInntekter(vilkårsgrunnlagMedInntektFraIM, arbeidsgiver)).toEqual({
+            organisasjonsnummer: arbeidsgiver,
             fraInntektsmelding: inntektFraInntektsmelding,
             fraAOrdningen: null,
         });
@@ -83,6 +85,7 @@ describe('getInntekter', () => {
         const vilkårsgrunnlagMedInntektFraAO = etVilkårsgrunnlagFraSpleis().medInntekter([inntektFraAOrdningen]);
 
         expect(getInntekter(vilkårsgrunnlagMedInntektFraAO, arbeidsgiver)).toEqual({
+            organisasjonsnummer: arbeidsgiver,
             fraInntektsmelding: null,
             fraAOrdningen: inntektFraAOrdningen,
         });
