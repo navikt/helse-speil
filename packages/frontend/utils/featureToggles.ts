@@ -8,11 +8,11 @@ const supersaksbehandlere = [eminem, 'A148751', 'N115007', 'C117102'];
 
 const fagkoordinatorer = ['M136300', 'S108267', 'K123956'];
 
-const enhetsledere = ['B138607'];
+const enhetsledere = ['B138607', 'S145454'];
 
 const coaches = ['J153777', 'F131883', 'K104953', 'S109031', 'V149621', 'S160466', 'O123659', 'A160730'];
 
-const tilgangStikkprøver = ['F140836', 'S109031', 'O123659', 'S160466', 'K104953', 'J153777', 'V149621'];
+const tilgangStikkprøver = ['F140836', 'S109031', 'O123659', 'S160466', 'K104953', 'J153777', 'V149621', 'S145454'];
 
 const kunLesetilgang: string[] = [];
 
