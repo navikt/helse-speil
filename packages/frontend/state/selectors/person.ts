@@ -1,5 +1,11 @@
+import dayjs from 'dayjs';
+import minMax from 'dayjs/plugin/minMax';
+
 import { Arbeidsgiverinntekt, BeregnetPeriode, GhostPeriode, Inntektskilde, Vilkarsgrunnlag } from '@io/graphql';
-import { isGhostPeriode } from '@utils/typeguards';
+import { getRequiredTimestamp, isGodkjent } from '@state/selectors/utbetaling';
+import { isBeregnetPeriode, isGhostPeriode } from '@utils/typeguards';
+
+dayjs.extend(minMax);
 
 export const getInntekt = (vilkårsgrunnlag: Vilkarsgrunnlag, organisasjonsnummer: string): Arbeidsgiverinntekt =>
     vilkårsgrunnlag.inntekter.find((it) => it.arbeidsgiver === organisasjonsnummer) ??
@@ -85,4 +91,24 @@ export const hasPeriod = (
     }
 
     return hasRegularPeriod(person, period);
+};
+
+export const getLatestUtbetalingTimestamp = (person: FetchedPerson, after: DateString = '1970-01-01'): Dayjs => {
+    let latest = dayjs(after);
+
+    for (const arbeidsgiver of person.arbeidsgivere) {
+        for (const periode of arbeidsgiver.generasjoner[0]?.perioder ?? []) {
+            if (isBeregnetPeriode(periode) && isGodkjent(periode.utbetaling)) {
+                latest = dayjs.max(dayjs(getRequiredTimestamp(periode.utbetaling)), latest);
+            }
+        }
+    }
+
+    return latest;
+};
+
+export const getOverstyringer = (person: FetchedPerson, after: Dayjs) => {
+    return person.arbeidsgivere
+        .flatMap(({ overstyringer }) => overstyringer)
+        .filter((overstyring) => dayjs(overstyring.timestamp).isAfter(after));
 };

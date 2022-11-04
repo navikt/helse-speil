@@ -5,6 +5,7 @@ import { Alert } from '@navikt/ds-react';
 import { ErrorBoundary } from '@components/ErrorBoundary';
 import { Periodetilstand } from '@io/graphql';
 import { useActivePeriod } from '@state/periode';
+import { useCurrentPerson } from '@state/person';
 import { LazyLoadPendingError, onLazyLoadFail } from '@utils/error';
 import { isBeregnetPeriode, isGhostPeriode, isUberegnetPeriode } from '@utils/typeguards';
 
@@ -21,8 +22,9 @@ const BeregnetPeriodeView = React.lazy(() => import('./BeregnetPeriodeView').cat
 
 const PeriodeViewContainer: React.FC = () => {
     const activePeriod = useActivePeriod();
+    const currentPerson = useCurrentPerson();
 
-    if (!activePeriod) {
+    if (!activePeriod || !currentPerson) {
         return <PeriodeViewSkeleton />;
     } else if (isBeregnetPeriode(activePeriod)) {
         switch (activePeriod.periodetilstand) {
@@ -31,7 +33,7 @@ const PeriodeViewContainer: React.FC = () => {
             case Periodetilstand.TilAnnullering:
                 return <PeriodeTilAnnulleringView />;
             default:
-                return <BeregnetPeriodeView activePeriod={activePeriod} />;
+                return <BeregnetPeriodeView period={activePeriod} person={currentPerson} />;
         }
     } else if (isGhostPeriode(activePeriod)) {
         return <GhostPeriodeView activePeriod={activePeriod} />;

@@ -2,14 +2,13 @@ import dayjs from 'dayjs';
 import { GraphQLError } from 'graphql';
 import { Loadable, atom, useRecoilValue, useRecoilValueLoadable, useResetRecoilState, useSetRecoilState } from 'recoil';
 
-import { Maybe, Overstyring, Person, Vilkarsgrunnlag, fetchPerson } from '@io/graphql';
+import { Maybe, Person, Vilkarsgrunnlag, fetchPerson } from '@io/graphql';
 import { FetchError, NotFoundError, ProtectedError, isFetchErrorArray } from '@io/graphql/errors';
 import { NotatDTO, SpeilResponse, deletePåVent, deleteTildeling, postLeggPåVent, postTildeling } from '@io/http';
 import { useInnloggetSaksbehandler } from '@state/authentication';
 import { useActivePeriod } from '@state/periode';
 import { useAddVarsel, useRemoveVarsel } from '@state/varsler';
 import { SpeilError } from '@utils/error';
-import { isBeregnetPeriode } from '@utils/typeguards';
 
 const TILDELINGSKEY = 'tildeling';
 
@@ -240,45 +239,4 @@ export const useVilkårsgrunnlag = (id?: Maybe<string>, skjæringstidspunkt?: Da
     }
 
     return currentPerson.vilkarsgrunnlag.find((it) => it.id === id) ?? null;
-};
-
-const useEndringerForPerson = (): Array<Overstyring> =>
-    useCurrentPerson()?.arbeidsgivere?.flatMap((arbeidsgiver) => arbeidsgiver.overstyringer) ?? [];
-
-const useNyesteUtbetalingstidsstempelForPerson = (): Dayjs => {
-    const activePeriod = useActivePeriod();
-    const currentPerson = useCurrentPerson();
-
-    const MIN_DATE = dayjs('1970-01-01');
-
-    if (!isBeregnetPeriode(activePeriod) || !currentPerson) {
-        return MIN_DATE;
-    }
-
-    const nyesteUtbetalingstidsstempel =
-        currentPerson.arbeidsgivere
-            .flatMap((arbeidsgiver) => arbeidsgiver.generasjoner)
-            .flatMap((generasjon) => generasjon.perioder)
-            .filter((periode) => isBeregnetPeriode(periode) && periode.utbetaling.vurdering?.godkjent)
-            .map((periode) =>
-                isBeregnetPeriode(periode) ? dayjs(periode.utbetaling.vurdering?.tidsstempel) : MIN_DATE
-            ) ?? MIN_DATE;
-
-    return dayjs.max([...nyesteUtbetalingstidsstempel, MIN_DATE]);
-};
-
-export const useEndringerEtterNyesteUtbetaltetidsstempel = (): Array<Overstyring> => {
-    const nyesteUtbetalingstidsstempelForPerson = useNyesteUtbetalingstidsstempelForPerson();
-
-    return (
-        useEndringerForPerson().filter((overstyring) =>
-            dayjs(overstyring.timestamp).isAfter(nyesteUtbetalingstidsstempelForPerson)
-        ) ?? []
-    );
-};
-
-export const useHarEndringerEtterNyesteUtbetaltetidsstempel = (): boolean => {
-    const endringerEtterNyesteUtbetaltetidsstempel = useEndringerEtterNyesteUtbetaltetidsstempel();
-
-    return endringerEtterNyesteUtbetaltetidsstempel.length > 0;
 };

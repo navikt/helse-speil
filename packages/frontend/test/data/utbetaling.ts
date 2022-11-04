@@ -1,6 +1,14 @@
 import { nanoid } from 'nanoid';
 
-import { Utbetaling, Utbetalingstatus, Utbetalingtype } from '@io/graphql';
+import { Utbetaling, Utbetalingstatus, Utbetalingtype, Vurdering } from '@io/graphql';
+
+export const enVurdering: OverridableConstructor<Vurdering> = (overrides) => ({
+    automatisk: false,
+    godkjent: true,
+    ident: 'N123456',
+    tidsstempel: '2020-01-01',
+    ...overrides,
+});
 
 export const enUtbetaling: OverridableConstructor<Utbetaling> = (overrides) => ({
     id: nanoid(),
@@ -10,5 +18,6 @@ export const enUtbetaling: OverridableConstructor<Utbetaling> = (overrides) => (
     personNettoBelop: 0,
     status: Utbetalingstatus.Utbetalt,
     type: Utbetalingtype.Utbetaling,
+    vurdering: enVurdering(),
     ...overrides,
 });

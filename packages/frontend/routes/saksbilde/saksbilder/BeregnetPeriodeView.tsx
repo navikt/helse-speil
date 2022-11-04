@@ -5,9 +5,10 @@ import { Loader } from '@navikt/ds-react';
 
 import { useErTidligereSaksbehandler } from '@hooks/useErTidligereSaksbehandler';
 import { useHarVurderLovvalgOgMedlemskapVarsel } from '@hooks/useHarVurderLovvalgOgMedlemskapVarsel';
+import { Overstyring } from '@io/graphql';
 import { useHarDagOverstyringer } from '@state/arbeidsgiver';
 import { useSyncNotater } from '@state/notater';
-import { useEndringerEtterNyesteUtbetaltetidsstempel } from '@state/person';
+import { getLatestUtbetalingTimestamp, getOverstyringer } from '@state/selectors/person';
 import { onLazyLoadFail } from '@utils/error';
 import { getPeriodState } from '@utils/mapping';
 
@@ -30,39 +31,45 @@ const BeregnetPeriodeViewLoader: React.FC = () => {
     );
 };
 
+const useOverstyringerEtterSisteGodkjenteUtbetaling = (person: FetchedPerson): Array<Overstyring> => {
+    const timestamp = getLatestUtbetalingTimestamp(person);
+    return getOverstyringer(person, timestamp);
+};
+
 interface BeregnetPeriodeViewProps {
-    activePeriod: FetchedBeregnetPeriode;
+    period: FetchedBeregnetPeriode;
+    person: FetchedPerson;
 }
 
-export const BeregnetPeriodeView: React.FC<BeregnetPeriodeViewProps> = ({ activePeriod }) => {
-    if (!activePeriod.skjaeringstidspunkt || !activePeriod.vilkarsgrunnlagId) {
+export const BeregnetPeriodeView: React.FC<BeregnetPeriodeViewProps> = ({ period, person }) => {
+    if (!period.skjaeringstidspunkt || !period.vilkarsgrunnlagId) {
         throw Error('Mangler skjæringstidspunkt eller vilkårsgrunnlag. Ta kontakt med en utvikler.');
     }
 
     const { path } = useRouteMatch();
 
-    useSyncNotater([activePeriod.vedtaksperiodeId]);
+    useSyncNotater([period.vedtaksperiodeId]);
 
     const erTidligereSaksbehandler = useErTidligereSaksbehandler();
     const harVurderLovvalgOgMedlemskapVarsel = useHarVurderLovvalgOgMedlemskapVarsel();
-    const saksbehandlerendringerEtterNyesteUtbetalingPåPerson = useEndringerEtterNyesteUtbetaltetidsstempel();
-    const harDagOverstyringer = useHarDagOverstyringer(activePeriod);
+    const overstyringerEtterNyesteUtbetalingPåPerson = useOverstyringerEtterSisteGodkjenteUtbetaling(person);
+    const harDagOverstyringer = useHarDagOverstyringer(period);
 
     return (
         <>
             <Venstremeny />
             <div className={styles.Content}>
                 <Saksbildevarsler
-                    periodState={getPeriodState(activePeriod)}
-                    oppgavereferanse={activePeriod.oppgave?.id}
-                    varsler={activePeriod.varsler}
+                    periodState={getPeriodState(period)}
+                    oppgavereferanse={period.oppgave?.id}
+                    varsler={period.varsler}
                     erTidligereSaksbehandler={erTidligereSaksbehandler}
-                    periodeMedBrukerutbetaling={activePeriod.utbetaling.personNettoBelop !== 0}
-                    erBeslutteroppgave={activePeriod.oppgave?.erBeslutter}
+                    periodeMedBrukerutbetaling={period.utbetaling.personNettoBelop !== 0}
+                    erBeslutteroppgave={period.oppgave?.erBeslutter}
                     harVurderLovvalgOgMedlemskapVarsel={harVurderLovvalgOgMedlemskapVarsel}
-                    endringerEtterNyesteUtbetalingPåPerson={saksbehandlerendringerEtterNyesteUtbetalingPåPerson}
+                    endringerEtterNyesteUtbetalingPåPerson={overstyringerEtterNyesteUtbetalingPåPerson}
                     harDagOverstyringer={harDagOverstyringer}
-                    activePeriodTom={activePeriod.tom}
+                    activePeriodTom={period.tom}
                 />
                 <div className={styles.RouteContainer}>
                     <Switch>

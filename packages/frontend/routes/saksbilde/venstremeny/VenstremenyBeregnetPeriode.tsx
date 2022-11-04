@@ -43,7 +43,7 @@ export const VenstremenyBeregnetPeriode: React.FC<VenstremenyBeregnetPeriodeProp
                 arbeidsgiversimulering={activePeriod.utbetaling.arbeidsgiversimulering}
                 personsimulering={activePeriod.utbetaling.personsimulering}
             />
-            {!readOnly && <Utbetaling activePeriod={activePeriod} currentPerson={currentPerson} />}
+            {!readOnly && <Utbetaling period={activePeriod} person={currentPerson} />}
         </section>
     );
 };

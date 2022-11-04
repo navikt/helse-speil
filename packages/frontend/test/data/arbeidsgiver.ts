@@ -14,7 +14,7 @@ export const enArbeidsgiver: OverridableConstructor<Arbeidsgiver, Extensions> = 
     organisasjonsnummer: '987654321',
     arbeidsforhold: [],
     bransjer: [],
-    generasjoner: [],
+    generasjoner: [enGenerasjon()],
     ghostPerioder: [enGhostPeriode()],
     overstyringer: [],
     ...overrides,

@@ -1,3 +1,4 @@
+import dayjs from 'dayjs';
 import { nanoid } from 'nanoid';
 
 import { BeregnetPeriode, GhostPeriode } from '@io/graphql';
@@ -6,6 +7,7 @@ import {
     getInntektFraAOrdningen,
     getInntektFraInntektsmelding,
     getInntekter,
+    getLatestUtbetalingTimestamp,
     getRequiredVilkårsgrunnlag,
     hasPeriod,
 } from '@state/selectors/person';
@@ -13,6 +15,7 @@ import { enArbeidsgiver } from '@test-data/arbeidsgiver';
 import { enArbeidsgiverinntekt } from '@test-data/arbeidsgiverinntekt';
 import { enBeregnetPeriode, enGhostPeriode } from '@test-data/periode';
 import { enPerson } from '@test-data/person';
+import { enUtbetaling, enVurdering } from '@test-data/utbetaling';
 import { etVilkårsgrunnlagFraSpleis } from '@test-data/vilkårsgrunnlag';
 
 describe('getInntektFraAOrdningen', () => {
@@ -147,5 +150,33 @@ describe('hasPeriod', () => {
         const person = enPerson() as unknown as FetchedPerson;
 
         expect(hasPeriod(person, periode)).toEqual(false);
+    });
+});
+
+describe('getLatestUtbetalingTimestamp', () => {
+    it('returnerer det siste utbetalingstidspunktet for en person', () => {
+        const siste = '2022-10-01';
+        const arbeidsgiverA = enArbeidsgiver().medPerioder([
+            enBeregnetPeriode().medUtbetaling(enUtbetaling({ vurdering: enVurdering({ tidsstempel: '2020-01-01' }) })),
+            enBeregnetPeriode().medUtbetaling(enUtbetaling({ vurdering: enVurdering({ tidsstempel: '2018-01-01' }) })),
+            enBeregnetPeriode().medUtbetaling(enUtbetaling({ vurdering: enVurdering({ tidsstempel: siste }) })),
+            enBeregnetPeriode().medUtbetaling(enUtbetaling({ vurdering: enVurdering({ tidsstempel: '2000-01-01' }) })),
+        ]);
+        const arbeidsgiverB = enArbeidsgiver().medPerioder([
+            enBeregnetPeriode().medUtbetaling(enUtbetaling({ vurdering: enVurdering({ tidsstempel: '2021-01-01' }) })),
+            enBeregnetPeriode().medUtbetaling(enUtbetaling({ vurdering: enVurdering({ tidsstempel: '2003-01-01' }) })),
+        ]);
+        const person = enPerson().medArbeidsgivere([arbeidsgiverB, arbeidsgiverA]) as FetchedPerson;
+
+        expect(getLatestUtbetalingTimestamp(person)).toEqual(dayjs(siste));
+    });
+
+    it('returnerer 1970-01-01 dersom personen ikke har noen utbetalte utbetalinger', () => {
+        const siste = dayjs('1970-01-01');
+        const periodeUtenUtbetaling = enBeregnetPeriode().medUtbetaling(enUtbetaling({ vurdering: null }));
+        const arbeidsgiver = enArbeidsgiver().medPerioder([periodeUtenUtbetaling]);
+        const person = enPerson().medArbeidsgivere([arbeidsgiver]) as FetchedPerson;
+
+        expect(getLatestUtbetalingTimestamp(person)).toEqual(siste);
     });
 });

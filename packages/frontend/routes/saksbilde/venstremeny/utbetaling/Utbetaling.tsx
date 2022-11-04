@@ -12,7 +12,7 @@ import { NotatType, Periodetilstand } from '@io/graphql';
 import { postAbonnerPåAktør } from '@io/http';
 import { useHarDagOverstyringer } from '@state/arbeidsgiver';
 import { opptegnelsePollingTimeState } from '@state/opptegnelser';
-import { useHarEndringerEtterNyesteUtbetaltetidsstempel } from '@state/person';
+import { getLatestUtbetalingTimestamp, getOverstyringer } from '@state/selectors/person';
 import { useTotrinnsvurderingErAktiv } from '@state/toggles';
 import { getPeriodState } from '@utils/mapping';
 import { isRevurdering } from '@utils/period';
@@ -68,6 +68,11 @@ const useOnAvvis = (): (() => void) => {
     return () => history.push('/');
 };
 
+const useHarOverstyringerEtterSisteGodkjenteUtbetaling = (person: FetchedPerson): boolean => {
+    const timestamp = getLatestUtbetalingTimestamp(person);
+    return getOverstyringer(person, timestamp).length > 0;
+};
+
 type SpeilError = {
     message: string;
     statusCode?: number;
@@ -75,51 +80,48 @@ type SpeilError = {
 };
 
 interface UtbetalingProps {
-    activePeriod: FetchedBeregnetPeriode;
-    currentPerson: FetchedPerson;
+    period: FetchedBeregnetPeriode;
+    person: FetchedPerson;
 }
 
-export const Utbetaling = ({ activePeriod, currentPerson }: UtbetalingProps) => {
+export const Utbetaling = ({ period, person }: UtbetalingProps) => {
     const [godkjentPeriode, setGodkjentPeriode] = useState<string | undefined>();
     const [error, setError] = useState<SpeilError | null>();
-    const ventEllerHopp = useOnGodkjenn(activePeriod, currentPerson);
+    const ventEllerHopp = useOnGodkjenn(period, person);
     const history = useHistory();
     const erBeslutteroppgaveOgHarTilgang = useErBeslutteroppgaveOgHarTilgang();
     const totrinnsvurderingAktiv = useTotrinnsvurderingErAktiv();
     const harVurderLovvalgOgMedlemskapVarsel = useHarVurderLovvalgOgMedlemskapVarsel();
-    const harEndringerEtterNyesteUtbetaltetidsstempel = useHarEndringerEtterNyesteUtbetaltetidsstempel();
-    const harDagOverstyringer = useHarDagOverstyringer(activePeriod);
+    const harOverstyringerEtterSisteGodkjenteUtbetaling = useHarOverstyringerEtterSisteGodkjenteUtbetaling(person);
+    const harDagOverstyringer = useHarDagOverstyringer(period);
 
     const onGodkjennUtbetaling = () => {
-        setGodkjentPeriode(activePeriod.vedtaksperiodeId);
+        setGodkjentPeriode(period.vedtaksperiodeId);
         ventEllerHopp();
     };
     const onSendTilGodkjenning = () => {
-        setGodkjentPeriode(activePeriod.vedtaksperiodeId);
+        setGodkjentPeriode(period.vedtaksperiodeId);
         history.push('/');
     };
     const onAvvisUtbetaling = useOnAvvis();
 
     useEffect(() => {
-        if (
-            godkjentPeriode !== activePeriod.vedtaksperiodeId &&
-            activePeriod.periodetilstand === Periodetilstand.TilGodkjenning
-        ) {
+        if (godkjentPeriode !== period.vedtaksperiodeId && period.periodetilstand === Periodetilstand.TilGodkjenning) {
             setGodkjentPeriode(undefined);
         }
-    }, [activePeriod.vedtaksperiodeId, activePeriod.periodetilstand]);
+    }, [period.vedtaksperiodeId, period.periodetilstand]);
 
-    if (!hasOppgave(activePeriod)) return null;
+    if (!hasOppgave(period)) return null;
 
     const periodenErSendt = !!godkjentPeriode;
-    const isRevurdering = activePeriod.utbetaling.type === 'REVURDERING';
-    const harArbeidsgiverutbetaling = activePeriod.utbetaling.arbeidsgiverNettoBelop !== 0;
-    const harBrukerutbetaling = activePeriod.utbetaling.personNettoBelop !== 0;
+    const isRevurdering = period.utbetaling.type === 'REVURDERING';
+    const harArbeidsgiverutbetaling = period.utbetaling.arbeidsgiverNettoBelop !== 0;
+    const harBrukerutbetaling = period.utbetaling.personNettoBelop !== 0;
     const kanSendesTilTotrinnsvurdering =
-        totrinnsvurderingAktiv && isBeregnetPeriode(activePeriod) && !activePeriod.oppgave?.erBeslutter;
-    const trengerTotrinnsvurdering = activePeriod.oppgave?.trengerTotrinnsvurdering ?? false;
+        totrinnsvurderingAktiv && isBeregnetPeriode(period) && !period.oppgave?.erBeslutter;
+    const trengerTotrinnsvurdering = period.oppgave?.trengerTotrinnsvurdering ?? false;
     const manglerNotatVedVurderLovvalgOgMedlemskapVarsel = harVurderLovvalgOgMedlemskapVarsel
-        ? activePeriod.notater.filter((it) => it.type === NotatType.Generelt && !it.feilregistrert).length === 0
+        ? period.notater.filter((it) => it.type === NotatType.Generelt && !it.feilregistrert).length === 0
         : undefined;
 
     return (
@@ -128,10 +130,10 @@ export const Utbetaling = ({ activePeriod, currentPerson }: UtbetalingProps) => 
                 {kanSendesTilTotrinnsvurdering &&
                 (harVurderLovvalgOgMedlemskapVarsel ||
                     trengerTotrinnsvurdering ||
-                    harEndringerEtterNyesteUtbetaltetidsstempel ||
+                    harOverstyringerEtterSisteGodkjenteUtbetaling ||
                     harDagOverstyringer) ? (
                     <SendTilGodkjenningButton
-                        oppgavereferanse={activePeriod.oppgave?.id!}
+                        oppgavereferanse={period.oppgave?.id!}
                         manglerNotatVedVurderLovvalgOgMedlemskapVarsel={manglerNotatVedVurderLovvalgOgMedlemskapVarsel}
                         disabled={periodenErSendt}
                         onSuccess={onSendTilGodkjenning}
@@ -141,8 +143,8 @@ export const Utbetaling = ({ activePeriod, currentPerson }: UtbetalingProps) => 
                     </SendTilGodkjenningButton>
                 ) : (
                     <GodkjenningButton
-                        oppgavereferanse={activePeriod.oppgave?.id!}
-                        aktørId={currentPerson.aktorId}
+                        oppgavereferanse={period.oppgave?.id!}
+                        aktørId={person.aktorId}
                         erBeslutteroppgave={erBeslutteroppgaveOgHarTilgang}
                         disabled={periodenErSendt}
                         onSuccess={onGodkjennUtbetaling}
@@ -155,11 +157,11 @@ export const Utbetaling = ({ activePeriod, currentPerson }: UtbetalingProps) => 
                             : 'Godkjenn'}
                     </GodkjenningButton>
                 )}
-                {!isRevurdering && !activePeriod.oppgave?.erBeslutter && (
+                {!isRevurdering && !period.oppgave?.erBeslutter && (
                     <AvvisningButton
                         disabled={periodenErSendt}
-                        activePeriod={activePeriod}
-                        aktørId={currentPerson.aktorId}
+                        activePeriod={period}
+                        aktørId={person.aktorId}
                         onSuccess={onAvvisUtbetaling}
                         onError={setError}
                     />
@@ -167,7 +169,7 @@ export const Utbetaling = ({ activePeriod, currentPerson }: UtbetalingProps) => 
                 {erBeslutteroppgaveOgHarTilgang && (
                     <ReturButton
                         disabled={periodenErSendt}
-                        activePeriod={activePeriod}
+                        activePeriod={period}
                         onSuccess={onAvvisUtbetaling}
                         onError={setError}
                     />
@@ -186,7 +188,7 @@ export const Utbetaling = ({ activePeriod, currentPerson }: UtbetalingProps) => 
                         {kanSendesTilTotrinnsvurdering &&
                         (harVurderLovvalgOgMedlemskapVarsel ||
                             trengerTotrinnsvurdering ||
-                            harEndringerEtterNyesteUtbetaltetidsstempel ||
+                            harOverstyringerEtterSisteGodkjenteUtbetaling ||
                             harDagOverstyringer)
                             ? 'Perioden sendes til godkjenning'
                             : 'Neste periode klargjøres'}

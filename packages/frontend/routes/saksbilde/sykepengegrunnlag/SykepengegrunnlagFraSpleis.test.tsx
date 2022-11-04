@@ -1,3 +1,4 @@
+import { RecoilWrapper } from '@test-wrappers';
 import React from 'react';
 
 import { useArbeidsgiver, useEndringerForPeriode } from '@state/arbeidsgiver';
@@ -65,7 +66,8 @@ describe('SykepengegrunnlagFraSpleis', () => {
                 vilkårsgrunnlag={vilkårsgrunnlag}
                 skjæringstidspunkt={skjaeringstidspunkt}
                 organisasjonsnummer={organisasjonsnummer}
-            />
+            />,
+            { wrapper: RecoilWrapper }
         );
 
         expect(screen.getByText('Inntektsgrunnlag')).toBeVisible();
