@@ -1,4 +1,5 @@
-import { Arbeidsgiverinntekt, Inntektskilde, Vilkarsgrunnlag } from '@io/graphql';
+import { Arbeidsgiverinntekt, BeregnetPeriode, GhostPeriode, Inntektskilde, Vilkarsgrunnlag } from '@io/graphql';
+import { isGhostPeriode } from '@utils/typeguards';
 
 export const getInntekt = (vilkårsgrunnlag: Vilkarsgrunnlag, organisasjonsnummer: string): Arbeidsgiverinntekt =>
     vilkårsgrunnlag.inntekter.find((it) => it.arbeidsgiver === organisasjonsnummer) ??
@@ -50,8 +51,38 @@ export const getInntekter = (grunnlag: Vilkarsgrunnlag, organisasjonsnummer: str
     return inntekter;
 };
 
-export const getVilkårsgrunnlag = (person: FetchedPerson, vilkårsgrunnlagId?: Maybe<string>): Vilkarsgrunnlag =>
-    person.vilkarsgrunnlag.find(({ id }) => id === vilkårsgrunnlagId) ??
-    (() => {
-        throw Error('Fant ikke vilkårsgrunnlag');
-    })();
+export const getRequiredVilkårsgrunnlag = (person: FetchedPerson, grunnlagId?: Maybe<string>): Vilkarsgrunnlag => {
+    return (
+        person.vilkarsgrunnlag.find(({ id }) => id === grunnlagId) ??
+        null ??
+        (() => {
+            throw Error('Fant ikke vilkårsgrunnlag');
+        })()
+    );
+};
+
+const hasGhostPeriod = (person: FetchedPerson, period: GhostPeriode): boolean => {
+    return (
+        person.arbeidsgivere.flatMap(({ ghostPerioder }) => ghostPerioder).find(({ id }) => id === period.id) !==
+        undefined
+    );
+};
+
+const hasRegularPeriod = (person: FetchedPerson, period: BeregnetPeriode | UberegnetPeriode): boolean => {
+    return (
+        person.arbeidsgivere
+            .flatMap((arbeidsgiver) => arbeidsgiver.generasjoner.flatMap((generasjon) => generasjon.perioder))
+            .find(({ id }) => id === period.id) !== undefined
+    );
+};
+
+export const hasPeriod = (
+    person: FetchedPerson,
+    period: BeregnetPeriode | UberegnetPeriode | GhostPeriode
+): boolean => {
+    if (isGhostPeriode(period)) {
+        return hasGhostPeriod(person, period);
+    }
+
+    return hasRegularPeriod(person, period);
+};

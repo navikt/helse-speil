@@ -163,7 +163,7 @@ const MaksdatoRow: React.FC<MaksdatoRowProps> = ({ activePeriod }) => {
 interface PeriodeCardUberegnetProps {
     periode: UberegnetPeriode;
     arbeidsgiver: Arbeidsgiver;
-    månedsbeløp: number | undefined;
+    månedsbeløp?: number;
 }
 
 const PeriodeCardUberegnet: React.FC<PeriodeCardUberegnetProps> = ({ periode, arbeidsgiver, månedsbeløp }) => {

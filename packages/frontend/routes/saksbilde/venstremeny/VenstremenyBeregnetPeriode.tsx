@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { Arbeidsgiver, Dag, Utbetalingsdagtype } from '@io/graphql';
-import { useCurrentVilkårsgrunnlag } from '@state/periode';
+import { getRequiredVilkårsgrunnlag } from '@state/selectors/person';
 
 import { PeriodeCard } from './PeriodeCard';
 import { UtbetalingCard } from './UtbetalingCard';
@@ -26,7 +26,7 @@ export const VenstremenyBeregnetPeriode: React.FC<VenstremenyBeregnetPeriodeProp
     currentArbeidsgiver,
     readOnly,
 }) => {
-    const månedsbeløp = useCurrentVilkårsgrunnlag()?.inntekter.find(
+    const månedsbeløp = getRequiredVilkårsgrunnlag(currentPerson, activePeriod.vilkarsgrunnlagId)?.inntekter.find(
         (it) => it.arbeidsgiver === currentArbeidsgiver.organisasjonsnummer
     )?.omregnetArsinntekt?.manedsbelop;
 

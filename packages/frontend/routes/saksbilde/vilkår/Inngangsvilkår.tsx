@@ -15,7 +15,7 @@ import { ErrorBoundary } from '@components/ErrorBoundary';
 import { Maybe, Vilkarsgrunnlag, Vurdering } from '@io/graphql';
 import { useActivePeriod } from '@state/periode';
 import { useCurrentPerson } from '@state/person';
-import { getVilkårsgrunnlag } from '@state/selectors/person';
+import { getRequiredVilkårsgrunnlag } from '@state/selectors/person';
 import { isBeregnetPeriode } from '@utils/typeguards';
 
 import styles from './Inngangsvilkår.module.css';
@@ -83,7 +83,7 @@ const InngangsvilkårContainer = () => {
     if (!activePeriod || !person?.personinfo.fodselsdato) {
         return null;
     } else if (isBeregnetPeriode(activePeriod)) {
-        const vilkårsgrunnlag = getVilkårsgrunnlag(person, activePeriod.vilkarsgrunnlagId);
+        const vilkårsgrunnlag = getRequiredVilkårsgrunnlag(person, activePeriod.vilkarsgrunnlagId);
         return (
             <InngangsvilkårWithContent
                 vurdering={activePeriod.utbetaling.vurdering}

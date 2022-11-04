@@ -1,20 +1,11 @@
 import { atom, selector, useRecoilValue, useSetRecoilState } from 'recoil';
 
-import type { BeregnetPeriode, GhostPeriode, UberegnetPeriode } from '@io/graphql';
-import { Periode, Periodetilstand, Vilkarsgrunnlag } from '@io/graphql';
-import { personState, useCurrentPerson } from '@state/person';
-import { isBeregnetPeriode, isGhostPeriode, isPerson, isUberegnetPeriode } from '@utils/typeguards';
+import type { GhostPeriode, UberegnetPeriode } from '@io/graphql';
+import { Periode, Periodetilstand } from '@io/graphql';
+import { personState } from '@state/person';
+import { isBeregnetPeriode, isPerson } from '@utils/typeguards';
 
 type ActivePeriod = FetchedBeregnetPeriode | UberegnetPeriode | GhostPeriode;
-
-const personHasPeriod = (person: FetchedPerson, period: ActivePeriod): boolean => {
-    return (
-        person.arbeidsgivere
-            .flatMap((it) => it.generasjoner.flatMap((it) => it.perioder as Array<ActivePeriod>))
-            .find((it) => it.id === period.id) !== undefined ||
-        person.arbeidsgivere.flatMap((it) => it.ghostPerioder).find((it) => it.id === period.id) !== undefined
-    );
-};
 
 export const isNotReady = (period: Periode) =>
     [
@@ -27,6 +18,15 @@ export const activePeriodState = atom<ActivePeriod | null>({
     key: 'activePeriodState',
     default: null,
 });
+
+const personHasPeriod = (person: FetchedPerson, period: ActivePeriod): boolean => {
+    return (
+        person.arbeidsgivere
+            .flatMap((it) => it.generasjoner.flatMap((it) => it.perioder as Array<ActivePeriod>))
+            .find((it) => it.id === period.id) !== undefined ||
+        person.arbeidsgivere.flatMap((it) => it.ghostPerioder).find((it) => it.id === period.id) !== undefined
+    );
+};
 
 export const activePeriod = selector<ActivePeriod | null>({
     key: 'activePeriod',
@@ -64,14 +64,3 @@ export const activePeriod = selector<ActivePeriod | null>({
 export const useActivePeriod = (): ActivePeriod | null => useRecoilValue(activePeriod);
 
 export const useSetActivePeriod = () => useSetRecoilState(activePeriodState);
-
-export const useCurrentVilkårsgrunnlag = (): Vilkarsgrunnlag | null => {
-    const activePeriod = useActivePeriod();
-    const currentPerson = useCurrentPerson();
-
-    if (!currentPerson || !activePeriod || isUberegnetPeriode(activePeriod) || isGhostPeriode(activePeriod))
-        return null;
-
-    const periode = activePeriod as BeregnetPeriode;
-    return currentPerson?.vilkarsgrunnlag.find((it) => it.id === periode.vilkarsgrunnlagId) ?? null;
-};

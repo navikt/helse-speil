@@ -1,10 +1,18 @@
+import { nanoid } from 'nanoid';
+
+import { BeregnetPeriode, GhostPeriode } from '@io/graphql';
 import {
     Inntekter,
     getInntektFraAOrdningen,
     getInntektFraInntektsmelding,
     getInntekter,
+    getRequiredVilkårsgrunnlag,
+    hasPeriod,
 } from '@state/selectors/person';
+import { enArbeidsgiver } from '@test-data/arbeidsgiver';
 import { enArbeidsgiverinntekt } from '@test-data/arbeidsgiverinntekt';
+import { enBeregnetPeriode, enGhostPeriode } from '@test-data/periode';
+import { enPerson } from '@test-data/person';
 import { etVilkårsgrunnlagFraSpleis } from '@test-data/vilkårsgrunnlag';
 
 describe('getInntektFraAOrdningen', () => {
@@ -92,5 +100,52 @@ describe('getInntekter', () => {
 
         const vilkårsgrunnlagUtenInntekter = etVilkårsgrunnlagFraSpleis({ inntekter: [] });
         expect(() => getInntekter(vilkårsgrunnlagUtenInntekter, arbeidsgiver)).toThrow();
+    });
+});
+
+describe('getRequiredVilkårsgrunnlag', () => {
+    it('returnerer vilkårsgrunnlaget for gitt id hvis den finnes', () => {
+        const grunnlag = etVilkårsgrunnlagFraSpleis();
+        const person = enPerson({ vilkarsgrunnlag: [grunnlag] }) as unknown as FetchedPerson;
+
+        expect(getRequiredVilkårsgrunnlag(person, grunnlag.id)).toEqual(grunnlag);
+    });
+
+    it('thrower når vilkårsgrunnlaget ikke finnes', () => {
+        const person = enPerson() as unknown as FetchedPerson;
+
+        expect(() => getRequiredVilkårsgrunnlag(person, nanoid())).toThrow();
+    });
+});
+
+describe('hasPeriod', () => {
+    it('returnerer true om personen har en gitt beregnet periode', () => {
+        const periode = enBeregnetPeriode() as unknown as BeregnetPeriode;
+        const arbeidsgiver = enArbeidsgiver().medPerioder([periode]);
+        const person = enPerson().medArbeidsgivere([arbeidsgiver]) as unknown as FetchedPerson;
+
+        expect(hasPeriod(person, periode)).toEqual(true);
+    });
+
+    it('returnerer false om personen ikke har en gitt beregnet periode', () => {
+        const periode = enBeregnetPeriode() as unknown as BeregnetPeriode;
+        const person = enPerson() as unknown as FetchedPerson;
+
+        expect(hasPeriod(person, periode)).toEqual(false);
+    });
+
+    it('returnerer true om personen har en gitt ghost-periode', () => {
+        const periode = enGhostPeriode() as unknown as GhostPeriode;
+        const arbeidsgiver = enArbeidsgiver().medGhostPerioder([periode]);
+        const person = enPerson().medArbeidsgivere([arbeidsgiver]) as unknown as FetchedPerson;
+
+        expect(hasPeriod(person, periode)).toEqual(true);
+    });
+
+    it('returnerer false om personen ikke har en gitt ghost-periode', () => {
+        const periode = enGhostPeriode() as unknown as GhostPeriode;
+        const person = enPerson() as unknown as FetchedPerson;
+
+        expect(hasPeriod(person, periode)).toEqual(false);
     });
 });
