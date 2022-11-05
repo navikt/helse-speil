@@ -1,5 +1,4 @@
 /// <reference types="vite/client" />
-
 type FetchPersonQuery = import('@io/graphql').FetchPersonQuery;
 type SpeilError = import('@utils/error').SpeilError;
 
@@ -100,5 +99,7 @@ declare type FetchedBeregnetPeriode = Omit<
     | 'oppgavereferanse'
     | 'tidligereSaksbehandlerOid'
 >;
+
+declare type ActivePeriod = FetchedBeregnetPeriode | UberegnetPeriode | GhostPeriode;
 
 type OverridableConstructor<T, E = {}> = (overrides?: Partial<T>) => T & E;

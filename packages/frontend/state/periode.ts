@@ -1,32 +1,14 @@
 import { atom, selector, useRecoilValue, useSetRecoilState } from 'recoil';
 
-import type { GhostPeriode, UberegnetPeriode } from '@io/graphql';
-import { Periode, Periodetilstand } from '@io/graphql';
+import { Periodetilstand } from '@io/graphql';
 import { personState } from '@state/person';
+import { hasPeriod } from '@state/selectors/person';
 import { isBeregnetPeriode, isPerson } from '@utils/typeguards';
-
-type ActivePeriod = FetchedBeregnetPeriode | UberegnetPeriode | GhostPeriode;
-
-export const isNotReady = (period: Periode) =>
-    [
-        Periodetilstand.VenterPaEnAnnenPeriode,
-        Periodetilstand.ForberederGodkjenning,
-        Periodetilstand.ManglerInformasjon,
-    ].includes(period.periodetilstand);
 
 export const activePeriodState = atom<ActivePeriod | null>({
     key: 'activePeriodState',
     default: null,
 });
-
-const personHasPeriod = (person: FetchedPerson, period: ActivePeriod): boolean => {
-    return (
-        person.arbeidsgivere
-            .flatMap((it) => it.generasjoner.flatMap((it) => it.perioder as Array<ActivePeriod>))
-            .find((it) => it.id === period.id) !== undefined ||
-        person.arbeidsgivere.flatMap((it) => it.ghostPerioder).find((it) => it.id === period.id) !== undefined
-    );
-};
 
 export const activePeriod = selector<ActivePeriod | null>({
     key: 'activePeriod',
@@ -37,7 +19,7 @@ export const activePeriod = selector<ActivePeriod | null>({
         }
 
         const activePeriod = get(activePeriodState);
-        if (activePeriod && personHasPeriod(person, activePeriod)) {
+        if (activePeriod && hasPeriod(person, activePeriod)) {
             return activePeriod;
         }
 

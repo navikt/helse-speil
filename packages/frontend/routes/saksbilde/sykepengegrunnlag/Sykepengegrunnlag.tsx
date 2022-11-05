@@ -3,10 +3,11 @@ import React from 'react';
 import { Alert } from '@navikt/ds-react';
 
 import { ErrorBoundary } from '@components/ErrorBoundary';
-import { BeregnetPeriode } from '@io/graphql';
+import { BeregnetPeriode, Vilkarsgrunnlag } from '@io/graphql';
 import { useCurrentArbeidsgiver, useVurderingForSkjæringstidspunkt } from '@state/arbeidsgiver';
 import { useActivePeriod } from '@state/periode';
-import { useCurrentPerson, useVilkårsgrunnlag } from '@state/person';
+import { useCurrentPerson } from '@state/person';
+import { getFuzzyMatchedVilkårsgrunnlag, getRequiredVilkårsgrunnlag } from '@state/selectors/person';
 import {
     isBeregnetPeriode,
     isGhostPeriode,
@@ -18,13 +19,20 @@ import { BehandletSykepengegrunnlag } from './BehandletSykepengegrunnlag';
 import { SykepengegrunnlagFraInfogtrygd } from './SykepengegrunnlagFraInfotrygd';
 import { SykepengegrunnlagFraSpleis } from './SykepengegrunnlagFraSpleis';
 
+const useVilkårsgrunnlag = (person?: Maybe<FetchedPerson>, period?: Maybe<ActivePeriod>): Maybe<Vilkarsgrunnlag> => {
+    if (!person || (!isGhostPeriode(period) && !isBeregnetPeriode(period)) || !period.vilkarsgrunnlagId) {
+        return null;
+    }
+
+    return isGhostPeriode(period)
+        ? getFuzzyMatchedVilkårsgrunnlag(person, period.vilkarsgrunnlagId, period.tom, period.skjaeringstidspunkt)
+        : getRequiredVilkårsgrunnlag(person, period.vilkarsgrunnlagId);
+};
+
 const SykepengegrunnlagContainer: React.FC = () => {
     const person = useCurrentPerson();
     const activePeriod = useActivePeriod();
-    const vilkårsgrunnlag = useVilkårsgrunnlag(
-        (activePeriod as BeregnetPeriode).vilkarsgrunnlagId,
-        isGhostPeriode(activePeriod) ? activePeriod.skjaeringstidspunkt : undefined // TODO: Fjern denne straks ghostperioder peker på riktig vilkårsgrunnlag i spleis
-    );
+    const vilkårsgrunnlag = useVilkårsgrunnlag(person, activePeriod);
     const vurdering = useVurderingForSkjæringstidspunkt((activePeriod as BeregnetPeriode).skjaeringstidspunkt);
     const arbeidsgiver = useCurrentArbeidsgiver();
 

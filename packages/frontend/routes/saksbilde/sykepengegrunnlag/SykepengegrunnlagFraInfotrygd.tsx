@@ -3,7 +3,7 @@ import React from 'react';
 
 import { Infotrygdvurdering } from '@components/Infotrygdvurdering';
 import { Arbeidsforhold, Refusjon, VilkarsgrunnlagInfotrygd } from '@io/graphql';
-import { getInntekt } from '@state/selectors/person';
+import { getRequiredInntekt } from '@state/selectors/person';
 
 import { Inntektskilderinnhold } from './Inntektskilderinnhold';
 import { SykepengegrunnlagInfotrygd } from './SykepengegrunnlagInfotrygd';
@@ -35,7 +35,7 @@ export const SykepengegrunnlagFraInfogtrygd = ({
     bransjer,
     arbeidsforhold,
 }: SykepengegrunnlagFraInfogtrygdProps) => {
-    const inntekt = getInntekt(vilkårsgrunnlag, organisasjonsnummer);
+    const inntekt = getRequiredInntekt(vilkårsgrunnlag, organisasjonsnummer);
 
     return (
         <Infotrygdvurdering title="Sykepengegrunnlag satt i Infotrygd">

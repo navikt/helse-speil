@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { GhostPeriode, Periode, Periodetilstand } from '@io/graphql';
-import { isNotReady } from '@state/periode';
+import { isNotReady } from '@state/selectors/period';
 import { isBeregnetPeriode, isGhostPeriode, isUberegnetPeriode } from '@utils/typeguards';
 
 import { Period } from './Period';

@@ -7,8 +7,7 @@ import { BodyShort, Tooltip } from '@navikt/ds-react';
 import { Bold } from '@components/Bold';
 import { LoadingShimmer } from '@components/LoadingShimmer';
 import { AnonymizableTextWithEllipsis } from '@components/TextWithEllipsis';
-import { Maybe, Personinfo, Simulering, Utbetaling, Utbetalingstatus } from '@io/graphql';
-import { useVilkårsgrunnlag } from '@state/person';
+import { Maybe, Personinfo, Simulering, Utbetaling, Utbetalingstatus, Vilkarsgrunnlag } from '@io/graphql';
 import { somPenger } from '@utils/locale';
 
 import { CardTitle } from './CardTitle';
@@ -27,7 +26,7 @@ const getFormattedName = (personinfo: Personinfo): string => {
 };
 
 interface UtbetalingCardProps {
-    vilkårsgrunnlagId?: Maybe<string>;
+    vilkårsgrunnlag?: Maybe<Vilkarsgrunnlag>;
     antallUtbetalingsdager: number;
     utbetaling: Utbetaling;
     arbeidsgiver: string;
@@ -38,7 +37,7 @@ interface UtbetalingCardProps {
 }
 
 const UtbetalingCardBeregnet = ({
-    vilkårsgrunnlagId,
+    vilkårsgrunnlag,
     antallUtbetalingsdager,
     utbetaling,
     arbeidsgiver,
@@ -47,14 +46,12 @@ const UtbetalingCardBeregnet = ({
     arbeidsgiversimulering,
     personsimulering,
 }: UtbetalingCardProps) => {
-    const vilkårsgrunnlaghistorikk = useVilkårsgrunnlag(vilkårsgrunnlagId);
-
     return (
         <section className={styles.Card}>
             <CardTitle>TIL UTBETALING</CardTitle>
             <div className={styles.Grid}>
                 <BodyShort>Sykepengegrunnlag</BodyShort>
-                <BodyShort>{somPenger(vilkårsgrunnlaghistorikk?.sykepengegrunnlag)}</BodyShort>
+                <BodyShort>{somPenger(vilkårsgrunnlag?.sykepengegrunnlag)}</BodyShort>
                 <BodyShort>Utbetalingsdager</BodyShort>
                 <BodyShort>{antallUtbetalingsdager}</BodyShort>
             </div>

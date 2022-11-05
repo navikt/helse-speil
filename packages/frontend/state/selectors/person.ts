@@ -1,13 +1,16 @@
 import dayjs from 'dayjs';
 import minMax from 'dayjs/plugin/minMax';
 
-import { Arbeidsgiverinntekt, BeregnetPeriode, GhostPeriode, Inntektskilde, Vilkarsgrunnlag } from '@io/graphql';
+import { Arbeidsgiverinntekt, GhostPeriode, Inntektskilde, Vilkarsgrunnlag } from '@io/graphql';
 import { getRequiredTimestamp, isGodkjent } from '@state/selectors/utbetaling';
 import { isBeregnetPeriode, isGhostPeriode } from '@utils/typeguards';
 
 dayjs.extend(minMax);
 
-export const getInntekt = (vilkårsgrunnlag: Vilkarsgrunnlag, organisasjonsnummer: string): Arbeidsgiverinntekt =>
+export const getRequiredInntekt = (
+    vilkårsgrunnlag: Vilkarsgrunnlag,
+    organisasjonsnummer: string
+): Arbeidsgiverinntekt =>
     vilkårsgrunnlag.inntekter.find((it) => it.arbeidsgiver === organisasjonsnummer) ??
     (() => {
         throw Error('Fant ikke inntekt');
@@ -57,10 +60,37 @@ export const getInntekter = (grunnlag: Vilkarsgrunnlag, organisasjonsnummer: str
     return inntekter;
 };
 
+const bySkjæringstidspunktDescending = (a: Vilkarsgrunnlag, b: Vilkarsgrunnlag): number => {
+    return new Date(b.skjaeringstidspunkt).getTime() - new Date(a.skjaeringstidspunkt).getTime();
+};
+
+// TODO: Fjern denne når ghostperioder peker på riktig vilkårsgrunnlag i spleis
+export const getFuzzyMatchedVilkårsgrunnlag = (
+    person: FetchedPerson,
+    grunnlagId: string,
+    tom: DateString,
+    skjæringstidspunkt: DateString
+): Maybe<Vilkarsgrunnlag> => {
+    return (
+        person.vilkarsgrunnlaghistorikk
+            .find(({ id }) => id === grunnlagId)
+            ?.grunnlag.filter(
+                ({ skjaeringstidspunkt }) =>
+                    dayjs(skjaeringstidspunkt).isSameOrAfter(skjæringstidspunkt) &&
+                    dayjs(skjaeringstidspunkt).isSameOrBefore(tom)
+            )
+            .sort(bySkjæringstidspunktDescending)
+            .pop() ?? null
+    );
+};
+
+export const getVilkårsgrunnlag = (person: FetchedPerson, grunnlagId?: Maybe<string>): Vilkarsgrunnlag | null => {
+    return person.vilkarsgrunnlag.find(({ id }) => id === grunnlagId) ?? null;
+};
+
 export const getRequiredVilkårsgrunnlag = (person: FetchedPerson, grunnlagId?: Maybe<string>): Vilkarsgrunnlag => {
     return (
-        person.vilkarsgrunnlag.find(({ id }) => id === grunnlagId) ??
-        null ??
+        getVilkårsgrunnlag(person, grunnlagId) ??
         (() => {
             throw Error('Fant ikke vilkårsgrunnlag');
         })()
@@ -74,7 +104,7 @@ const hasGhostPeriod = (person: FetchedPerson, period: GhostPeriode): boolean =>
     );
 };
 
-const hasRegularPeriod = (person: FetchedPerson, period: BeregnetPeriode | UberegnetPeriode): boolean => {
+const hasRegularPeriod = (person: FetchedPerson, period: FetchedBeregnetPeriode | UberegnetPeriode): boolean => {
     return (
         person.arbeidsgivere
             .flatMap((arbeidsgiver) => arbeidsgiver.generasjoner.flatMap((generasjon) => generasjon.perioder))
@@ -82,10 +112,7 @@ const hasRegularPeriod = (person: FetchedPerson, period: BeregnetPeriode | Ubere
     );
 };
 
-export const hasPeriod = (
-    person: FetchedPerson,
-    period: BeregnetPeriode | UberegnetPeriode | GhostPeriode
-): boolean => {
+export const hasPeriod = (person: FetchedPerson, period: ActivePeriod): boolean => {
     if (isGhostPeriode(period)) {
         return hasGhostPeriod(person, period);
     }

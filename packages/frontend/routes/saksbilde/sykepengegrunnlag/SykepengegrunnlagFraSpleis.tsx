@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { Arbeidsgiver, Arbeidsgiverinntekt, Refusjon, VilkarsgrunnlagSpleis } from '@io/graphql';
 import { useArbeidsgiver } from '@state/arbeidsgiver';
 import { useActivePeriod } from '@state/periode';
-import { getInntekt } from '@state/selectors/person';
+import { getRequiredInntekt } from '@state/selectors/person';
 import { isBeregnetPeriode } from '@utils/typeguards';
 
 import { InntektsgrunnlagTable } from './InntektsgrunnlagTable';
@@ -48,7 +48,7 @@ export const SykepengegrunnlagFraSpleis = ({
     refusjon,
     ...rest
 }: SykepengegrunnlagFraSpleisProps) => {
-    const inntekt = getInntekt(vilkårsgrunnlag, organisasjonsnummer);
+    const inntekt = getRequiredInntekt(vilkårsgrunnlag, organisasjonsnummer);
 
     const [aktivInntektskilde, setAktivInntektskilde] = useState<Arbeidsgiverinntekt>(inntekt);
 
@@ -62,7 +62,7 @@ export const SykepengegrunnlagFraSpleis = ({
 
     useEffect(() => {
         if (aktivArbeidsgiver) {
-            setAktivInntektskilde(getInntekt(vilkårsgrunnlag, aktivArbeidsgiver.organisasjonsnummer));
+            setAktivInntektskilde(getRequiredInntekt(vilkårsgrunnlag, aktivArbeidsgiver.organisasjonsnummer));
         }
     }, [vilkårsgrunnlag, aktivArbeidsgiver]);
 

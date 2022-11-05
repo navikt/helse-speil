@@ -14,7 +14,7 @@ import {
 } from '@io/graphql';
 import { useActivePeriod } from '@state/periode';
 import { useCurrentPerson } from '@state/person';
-import { useUtbetalingstidsstempelFørsteGenForPeriode } from '@state/utbetaling';
+import { harBlittUtbetaltTidligere } from '@state/selectors/period';
 import {
     isArbeidsforholdoverstyring,
     isBeregnetPeriode,
@@ -147,8 +147,9 @@ export const useHarDagOverstyringer = (periode: FetchedBeregnetPeriode): boolean
     const arbeidsgiver = useCurrentArbeidsgiver();
     const dagendringer = useDagoverstyringer(periode.fom, periode.tom, arbeidsgiver);
 
-    return useVedtaksperiodeHarIkkeBlittUtbetaltFør() && (dagendringer?.length ?? 0) > 0;
-};
+    if (!arbeidsgiver) {
+        return false;
+    }
 
-export const useVedtaksperiodeHarIkkeBlittUtbetaltFør = (): boolean =>
-    useUtbetalingstidsstempelFørsteGenForPeriode() === '';
+    return !harBlittUtbetaltTidligere(periode, arbeidsgiver) && (dagendringer?.length ?? 0) > 0;
+};

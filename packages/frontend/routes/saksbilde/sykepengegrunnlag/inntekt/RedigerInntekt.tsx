@@ -8,9 +8,10 @@ import {
     useFørstegangsbehandlingTilGodkjenningMedOverlappendeAvsluttetPeriode,
     useHarKunEnFagsystemIdPåArbeidsgiverIAktivPeriode,
 } from '@hooks/revurdering';
-import { Vilkarsgrunnlagtype } from '@io/graphql';
+import { BeregnetPeriode, Vilkarsgrunnlagtype } from '@io/graphql';
 import { useActivePeriod } from '@state/periode';
-import { useCurrentPerson, useVilkårsgrunnlag } from '@state/person';
+import { useCurrentPerson } from '@state/person';
+import { getVilkårsgrunnlag } from '@state/selectors/person';
 import { getPeriodState } from '@utils/mapping';
 
 interface RedigerInntektProps {
@@ -21,25 +22,25 @@ interface RedigerInntektProps {
 }
 
 export const RedigerInntekt = ({ setEditing, editing, erRevurdering, vilkårsgrunnlagId }: RedigerInntektProps) => {
-    const periode = useActivePeriod();
+    const periode = useActivePeriod() as BeregnetPeriode;
     const person = useCurrentPerson() as FetchedPerson;
 
     const førstegangsbehandlingTilGodkjenningMedOverlappendeAvsluttetPeriode =
-        useFørstegangsbehandlingTilGodkjenningMedOverlappendeAvsluttetPeriode(periode!!, person!!);
+        useFørstegangsbehandlingTilGodkjenningMedOverlappendeAvsluttetPeriode(periode, person);
 
     const aktivPeriodeVenter = ['venter', 'venterPåKiling'].includes(getPeriodState(periode));
 
     const erTidslinjeperiodeISisteGenerasjon = useActiveGenerationIsLast();
 
-    const erSpleisVilkårsgrunnlagtype =
-        useVilkårsgrunnlag(vilkårsgrunnlagId)?.vilkarsgrunnlagtype === Vilkarsgrunnlagtype.Spleis;
+    const vilkårsgrunnlagKommerFraSpleis =
+        getVilkårsgrunnlag(person, vilkårsgrunnlagId)?.vilkarsgrunnlagtype === Vilkarsgrunnlagtype.Spleis;
     const erIkkePingPong = useHarKunEnFagsystemIdPåArbeidsgiverIAktivPeriode();
 
     if (!erTidslinjeperiodeISisteGenerasjon) return null;
 
     return !aktivPeriodeVenter &&
         !førstegangsbehandlingTilGodkjenningMedOverlappendeAvsluttetPeriode &&
-        erSpleisVilkårsgrunnlagtype &&
+        vilkårsgrunnlagKommerFraSpleis &&
         erIkkePingPong ? (
         <EditButton
             isOpen={editing}
