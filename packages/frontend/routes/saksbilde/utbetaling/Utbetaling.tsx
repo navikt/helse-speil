@@ -7,7 +7,6 @@ import { ErrorBoundary } from '@components/ErrorBoundary';
 import { PopoverHjelpetekst } from '@components/PopoverHjelpetekst';
 import { SortInfoikon } from '@components/ikoner/SortInfoikon';
 import {
-    useActiveGenerationIsLast,
     useActivePeriodHasLatestSkjæringstidspunkt,
     useOverstyrRevurderingIsEnabled,
     useRevurderingIsEnabled,
@@ -17,6 +16,7 @@ import { useOverstyringIsEnabled } from '@hooks/useOverstyringIsEnabled';
 import { Arbeidsgiver, Dagoverstyring, Overstyring, UberegnetPeriode } from '@io/graphql';
 import { useCurrentArbeidsgiver } from '@state/arbeidsgiver';
 import { useActivePeriod } from '@state/periode';
+import { isInCurrentGeneration } from '@state/selectors/period';
 import { defaultUtbetalingToggles } from '@utils/featureToggles';
 import { isBeregnetPeriode, isUberegnetPeriode } from '@utils/typeguards';
 
@@ -26,6 +26,17 @@ import { useTabelldagerMap } from './utbetalingstabell/useTabelldagerMap';
 
 import styles from './Utbetaling.module.css';
 
+const useIsInCurrentGeneration = (): boolean => {
+    const period = useActivePeriod();
+    const arbeidsgiver = useCurrentArbeidsgiver();
+
+    if (!period || !arbeidsgiver) {
+        return false;
+    }
+
+    return isInCurrentGeneration(period, arbeidsgiver);
+};
+
 interface ReadonlyUtbetalingProps {
     fom: DateString;
     tom: DateString;
@@ -34,11 +45,11 @@ interface ReadonlyUtbetalingProps {
 
 const ReadonlyUtbetaling: React.FC<ReadonlyUtbetalingProps> = ({ fom, tom, dager }) => {
     const hasLatestSkjæringstidspunkt = useActivePeriodHasLatestSkjæringstidspunkt();
-    const activeGenerationIsLast = useActiveGenerationIsLast();
+    const periodeErISisteGenerasjon = useIsInCurrentGeneration();
 
     return (
         <div className={styles.Utbetaling}>
-            {!hasLatestSkjæringstidspunkt && activeGenerationIsLast && (
+            {!hasLatestSkjæringstidspunkt && periodeErISisteGenerasjon && (
                 <div className={styles.Infopin}>
                     <PopoverHjelpetekst ikon={<SortInfoikon />}>
                         <p>Det er ikke mulig å gjøre endringer i denne perioden</p>

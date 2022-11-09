@@ -13,9 +13,9 @@ import { postAbonnerPåAktør } from '@io/http';
 import { useHarDagOverstyringer } from '@state/arbeidsgiver';
 import { opptegnelsePollingTimeState } from '@state/opptegnelser';
 import { getLatestUtbetalingTimestamp, getOverstyringer } from '@state/selectors/person';
+import { isRevurdering } from '@state/selectors/utbetaling';
 import { useTotrinnsvurderingErAktiv } from '@state/toggles';
 import { getPeriodState } from '@utils/mapping';
-import { isRevurdering } from '@utils/period';
 import { isBeregnetPeriode } from '@utils/typeguards';
 
 import { AvvisningButton } from './AvvisningButton';
@@ -53,7 +53,7 @@ const useOnGodkjenn = (period: FetchedBeregnetPeriode, person: FetchedPerson): (
     const setOpptegnelsePollingTime = useSetRecoilState(opptegnelsePollingTimeState);
 
     return () => {
-        if (skalPolleEtterNestePeriode(person) || isRevurdering(period)) {
+        if (skalPolleEtterNestePeriode(person) || (isBeregnetPeriode(period) && isRevurdering(period.utbetaling))) {
             postAbonnerPåAktør(person.aktorId).then(() => {
                 setOpptegnelsePollingTime(1000);
             });

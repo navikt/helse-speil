@@ -3,16 +3,62 @@ import React, { Dispatch, SetStateAction } from 'react';
 import { EditButton } from '@components/EditButton';
 import { PopoverHjelpetekst } from '@components/PopoverHjelpetekst';
 import { SortInfoikon } from '@components/ikoner/SortInfoikon';
-import {
-    useActiveGenerationIsLast,
-    useFørstegangsbehandlingTilGodkjenningMedOverlappendeAvsluttetPeriode,
-    useHarKunEnFagsystemIdPåArbeidsgiverIAktivPeriode,
-} from '@hooks/revurdering';
-import { BeregnetPeriode, Vilkarsgrunnlagtype } from '@io/graphql';
+import { Arbeidsgiver, BeregnetPeriode, Vilkarsgrunnlagtype } from '@io/graphql';
+import { useCurrentArbeidsgiver } from '@state/arbeidsgiver';
 import { useActivePeriod } from '@state/periode';
 import { useCurrentPerson } from '@state/person';
+import { isGodkjent, isInCurrentGeneration, isTilGodkjenning, isWaiting, overlapper } from '@state/selectors/period';
 import { getVilkårsgrunnlag } from '@state/selectors/person';
-import { getPeriodState } from '@utils/mapping';
+import { isRevurdering } from '@state/selectors/utbetaling';
+import { isBeregnetPeriode } from '@utils/typeguards';
+
+export const perioderMedSkjæringstidspunktHarKunÉnFagsystemId = (
+    arbeidsgiver: Arbeidsgiver,
+    skjæringstidspunkt: DateString
+): boolean => {
+    return (
+        arbeidsgiver.generasjoner[0]?.perioder
+            .filter(isBeregnetPeriode)
+            .filter((periode) => periode.skjaeringstidspunkt === skjæringstidspunkt)
+            .reduce((ider, periode) => ider.add(periode.utbetaling.arbeidsgiverFagsystemId), new Set()).size === 1
+    );
+};
+
+export const harVilkårsgrunnlagFraSpleis = (person: FetchedPerson, grunnlagId: string): boolean => {
+    return getVilkårsgrunnlag(person, grunnlagId)?.vilkarsgrunnlagtype === Vilkarsgrunnlagtype.Spleis;
+};
+
+export const periodeErTilGodkjenningMedOverlappendeAvsluttetPeriode = (
+    periode: FetchedBeregnetPeriode,
+    person: FetchedPerson
+): boolean => {
+    if (!isTilGodkjenning(periode) || isRevurdering(periode.utbetaling)) {
+        return false;
+    }
+
+    const beregnedePerioder = person.arbeidsgivere.flatMap(
+        (arbeidsgiver) => arbeidsgiver.generasjoner[0]?.perioder.filter(isBeregnetPeriode) ?? []
+    ) as Array<FetchedBeregnetPeriode>;
+
+    return beregnedePerioder
+        .filter((other) => other.vedtaksperiodeId !== periode.vedtaksperiodeId)
+        .filter(overlapper(periode))
+        .some(isGodkjent);
+};
+
+export const kanRedigereInnekt = (
+    person: FetchedPerson,
+    arbeidsgiver: Arbeidsgiver,
+    periode: FetchedBeregnetPeriode,
+    vilkårsgrunnlagId: string
+): boolean => {
+    return (
+        !isWaiting(periode) &&
+        !periodeErTilGodkjenningMedOverlappendeAvsluttetPeriode(periode, person) &&
+        harVilkårsgrunnlagFraSpleis(person, vilkårsgrunnlagId) &&
+        perioderMedSkjæringstidspunktHarKunÉnFagsystemId(arbeidsgiver, periode.skjaeringstidspunkt)
+    );
+};
 
 interface RedigerInntektProps {
     setEditing: Dispatch<SetStateAction<boolean>>;
@@ -24,24 +70,11 @@ interface RedigerInntektProps {
 export const RedigerInntekt = ({ setEditing, editing, erRevurdering, vilkårsgrunnlagId }: RedigerInntektProps) => {
     const periode = useActivePeriod() as BeregnetPeriode;
     const person = useCurrentPerson() as FetchedPerson;
+    const arbeidsgiver = useCurrentArbeidsgiver() as Arbeidsgiver;
 
-    const førstegangsbehandlingTilGodkjenningMedOverlappendeAvsluttetPeriode =
-        useFørstegangsbehandlingTilGodkjenningMedOverlappendeAvsluttetPeriode(periode, person);
+    if (!isInCurrentGeneration(periode, arbeidsgiver)) return null;
 
-    const aktivPeriodeVenter = ['venter', 'venterPåKiling'].includes(getPeriodState(periode));
-
-    const erTidslinjeperiodeISisteGenerasjon = useActiveGenerationIsLast();
-
-    const vilkårsgrunnlagKommerFraSpleis =
-        getVilkårsgrunnlag(person, vilkårsgrunnlagId)?.vilkarsgrunnlagtype === Vilkarsgrunnlagtype.Spleis;
-    const erIkkePingPong = useHarKunEnFagsystemIdPåArbeidsgiverIAktivPeriode();
-
-    if (!erTidslinjeperiodeISisteGenerasjon) return null;
-
-    return !aktivPeriodeVenter &&
-        !førstegangsbehandlingTilGodkjenningMedOverlappendeAvsluttetPeriode &&
-        vilkårsgrunnlagKommerFraSpleis &&
-        erIkkePingPong ? (
+    return kanRedigereInnekt(person, arbeidsgiver, periode, vilkårsgrunnlagId) ? (
         <EditButton
             isOpen={editing}
             openText="Avbryt"
@@ -50,17 +83,15 @@ export const RedigerInntekt = ({ setEditing, editing, erRevurdering, vilkårsgru
             onClose={() => setEditing(false)}
             style={{ justifySelf: 'flex-end' }}
         />
-    ) : erTidslinjeperiodeISisteGenerasjon ? (
+    ) : (
         <PopoverHjelpetekst ikon={<SortInfoikon />}>
             <p>
-                {aktivPeriodeVenter
+                {isWaiting(periode)
                     ? 'Det finnes andre endringer som må ferdigstilles før du kan endre inntekten'
-                    : førstegangsbehandlingTilGodkjenningMedOverlappendeAvsluttetPeriode
+                    : periodeErTilGodkjenningMedOverlappendeAvsluttetPeriode(periode, person)
                     ? 'Det er ikke støtte for endring av inntekt på førstegangsbehandlinger når det finnes avsluttede overlappende perioder for andre arbeidsgivere'
                     : 'Det er foreløpig ikke støtte for endringer i saker som har vært delvis behandlet i Infotrygd'}
             </p>
         </PopoverHjelpetekst>
-    ) : (
-        <></>
     );
 };

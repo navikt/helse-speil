@@ -1,11 +1,12 @@
 import { nanoid } from 'nanoid';
 
-import { Arbeidsgiverinntekt, VilkarsgrunnlagSpleis, Vilkarsgrunnlagtype } from '@io/graphql';
+import { Arbeidsgiverinntekt, VilkarsgrunnlagInfotrygd, VilkarsgrunnlagSpleis, Vilkarsgrunnlagtype } from '@io/graphql';
 import { enArbeidsgiverinntekt } from '@test-data/arbeidsgiverinntekt';
 
 type VilkarsgrunnlagSpleisExtensions = {
     medInntekter: (inntekter: Array<Arbeidsgiverinntekt>) => VilkarsgrunnlagSpleis & VilkarsgrunnlagSpleisExtensions;
 };
+
 export const etVilkårsgrunnlagFraSpleis: OverridableConstructor<
     VilkarsgrunnlagSpleis,
     VilkarsgrunnlagSpleisExtensions
@@ -34,4 +35,16 @@ export const etVilkårsgrunnlagFraSpleis: OverridableConstructor<
         this.inntekter = inntekter;
         return this;
     },
+});
+
+export const etVilkårsgrunnlagFraInfotrygd: OverridableConstructor<VilkarsgrunnlagInfotrygd> = (overrides) => ({
+    __typename: 'VilkarsgrunnlagInfotrygd',
+    id: nanoid(),
+    inntekter: [enArbeidsgiverinntekt()],
+    omregnetArsinntekt: 600000,
+    sammenligningsgrunnlag: 600000,
+    skjaeringstidspunkt: '2020-01-01',
+    sykepengegrunnlag: 600000,
+    vilkarsgrunnlagtype: Vilkarsgrunnlagtype.Infotrygd,
+    ...overrides,
 });

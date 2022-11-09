@@ -12,3 +12,7 @@ export const getRequiredTimestamp = (utbetaling: Utbetaling): DateString => {
         })()
     );
 };
+
+export const isRevurdering = (utbetaling: Utbetaling): boolean => {
+    return utbetaling.type === 'REVURDERING';
+};
