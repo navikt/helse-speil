@@ -7,7 +7,6 @@ import {
     Dagoverstyring,
     GhostPeriode,
     Inntektoverstyring,
-    Periode,
     UberegnetPeriode,
     Utbetaling,
     Vurdering,
@@ -68,19 +67,17 @@ export const useCurrentArbeidsgiver = (): Arbeidsgiver | null => {
 export const useArbeidsgiver = (organisasjonsnummer: string): Arbeidsgiver | null =>
     useCurrentPerson()?.arbeidsgivere.find((it) => it.organisasjonsnummer === organisasjonsnummer) ?? null;
 
-export const usePeriodForSkjæringstidspunkt = (skjæringstidspunkt: DateString): Periode | null => {
+export const usePeriodForSkjæringstidspunkt = (skjæringstidspunkt: DateString): ActivePeriod | null => {
     const currentArbeidsgiver = useCurrentArbeidsgiver();
 
     if (!currentArbeidsgiver?.generasjoner[0]?.perioder) {
         return null;
     }
 
-    return (
-        currentArbeidsgiver.generasjoner[0].perioder
-            .filter((it) => it.skjaeringstidspunkt === skjæringstidspunkt)
-            .sort((a, b) => new Date(a.fom).getTime() - new Date(b.fom).getTime())
-            .shift() ?? null
-    );
+    return (currentArbeidsgiver.generasjoner[0].perioder
+        .filter((it) => it.skjaeringstidspunkt === skjæringstidspunkt)
+        .sort((a, b) => new Date(a.fom).getTime() - new Date(b.fom).getTime())
+        .shift() ?? null) as ActivePeriod | null;
 };
 
 export const useUtbetalingForSkjæringstidspunkt = (skjæringstidspunkt: DateString): Utbetaling | null => {

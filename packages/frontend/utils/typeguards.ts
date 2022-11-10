@@ -75,9 +75,3 @@ export const isPerson = (person?: Maybe<FetchedPerson | any>): person is Fetched
 export const isArbeidsgiver = (arbeidsgiver?: Maybe<Arbeidsgiver>): arbeidsgiver is Arbeidsgiver => {
     return arbeidsgiver !== undefined && arbeidsgiver !== null;
 };
-
-export const isForkastetPeriode = (
-    periode?: Maybe<Periode | BeregnetPeriode | UberegnetPeriode | GhostPeriode>
-): boolean => {
-    return (isBeregnetPeriode(periode) || isUberegnetPeriode(periode)) && periode.erForkastet;
-};

@@ -15,9 +15,10 @@ import {
     useUtbetalingForSkjæringstidspunkt,
 } from '@state/arbeidsgiver';
 import { useActivePeriod } from '@state/periode';
+import { isForkastet } from '@state/selectors/period';
 import { overstyrInntektEnabled } from '@utils/featureToggles';
 import { kildeForkortelse } from '@utils/inntektskilde';
-import { isBeregnetPeriode, isForkastetPeriode } from '@utils/typeguards';
+import { isBeregnetPeriode } from '@utils/typeguards';
 
 import { BegrunnelseForOverstyring } from '../overstyring.types';
 import { EditableInntekt } from './EditableInntekt';
@@ -40,7 +41,7 @@ const useInntektKanRevurderes = (skjæringstidspunkt: DateString): boolean => {
 
     return (
         overstyrInntektEnabled &&
-        !isForkastetPeriode(periodeVedSkjæringstidspunkt) &&
+        !isForkastet(periodeVedSkjæringstidspunkt) &&
         !isReadOnlyOppgave &&
         !isBeslutteroppgave
     );

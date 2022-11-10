@@ -4,10 +4,11 @@ import { Arbeidsgiver, BeregnetPeriode, GhostPeriode, Periode } from '@io/graphq
 import { useCurrentArbeidsgiver } from '@state/arbeidsgiver';
 import { useActivePeriod } from '@state/periode';
 import { useCurrentPerson } from '@state/person';
-import { isGodkjent, overlapper } from '@state/selectors/period';
+import { getArbeidsgiverWithPeriod } from '@state/selectors/arbeidsgiver';
+import { isForkastet, isGodkjent, overlapper } from '@state/selectors/period';
 import { UtbetalingToggles } from '@utils/featureToggles';
 import { getPeriodState } from '@utils/mapping';
-import { isBeregnetPeriode, isForkastetPeriode } from '@utils/typeguards';
+import { isBeregnetPeriode } from '@utils/typeguards';
 
 const periodeErIArbeidsgiversSisteSkjæringstidspunkt = (
     arbeidsgiver: Arbeidsgiver,
@@ -63,10 +64,6 @@ const alleOverlappendePerioderErTilRevurdering = (person: FetchedPerson, periode
     return true;
 };
 
-const getArbeidsgiverMedPeriode = (periode: Periode, person: FetchedPerson): Arbeidsgiver | null => {
-    return person.arbeidsgivere.find((it) => it.generasjoner[0]?.perioder.find((it) => it === periode)) ?? null;
-};
-
 export const useRevurderingIsEnabled = (toggles: UtbetalingToggles): boolean => {
     const periode = useActivePeriod();
     const person = useCurrentPerson();
@@ -75,10 +72,10 @@ export const useRevurderingIsEnabled = (toggles: UtbetalingToggles): boolean => 
         return false;
     }
 
-    const arbeidsgiver = getArbeidsgiverMedPeriode(periode, person);
+    const arbeidsgiver = getArbeidsgiverWithPeriod(person, periode);
 
     if (arbeidsgiver === null) return false;
-    if (isForkastetPeriode(periode)) return false;
+    if (isForkastet(periode)) return false;
     if (!toggles.overstyreUtbetaltPeriodeEnabled) return false;
     if (!alleOverlappendePerioderErAvsluttet(person, periode)) return false;
     return (
@@ -96,7 +93,7 @@ export const useOverstyrRevurderingIsEnabled = (toggles: UtbetalingToggles) => {
         return false;
     }
 
-    const arbeidsgiver = getArbeidsgiverMedPeriode(periode, person);
+    const arbeidsgiver = getArbeidsgiverWithPeriod(person, periode);
 
     return (
         arbeidsgiver !== null &&
@@ -117,23 +114,4 @@ export const useActivePeriodHasLatestSkjæringstidspunkt = (): boolean => {
     const lastBeregnetPeriode = arbeidsgiver.generasjoner[0]?.perioder.filter(isBeregnetPeriode)[0];
 
     return lastBeregnetPeriode !== undefined && lastBeregnetPeriode.skjaeringstidspunkt === period.skjaeringstidspunkt;
-};
-
-const byFomDescending = (a: Periode, b: Periode): number => {
-    return new Date(b.fom).getTime() - new Date(a.fom).getTime();
-};
-
-export const useActivePeriodHasLatestFagsystemIdForSkjæringstidspunkt = (): boolean => {
-    const arbeidsgiver = useCurrentArbeidsgiver();
-    const periode = useActivePeriod();
-
-    if (!isBeregnetPeriode(periode) || !arbeidsgiver) return false;
-
-    const fagsystemiderSorted = arbeidsgiver.generasjoner[0]?.perioder
-        .filter(isBeregnetPeriode)
-        .filter((it) => it.skjaeringstidspunkt === periode.skjaeringstidspunkt)
-        .sort(byFomDescending)
-        .map((it) => it.utbetaling.arbeidsgiverFagsystemId);
-
-    return periode.utbetaling.arbeidsgiverFagsystemId === fagsystemiderSorted[0];
 };

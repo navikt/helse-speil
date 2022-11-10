@@ -6,7 +6,10 @@ import { Locked } from '@navikt/ds-icons';
 import { Flex } from '@components/Flex';
 import { PopoverHjelpetekst } from '@components/PopoverHjelpetekst';
 import { SortInfoikon } from '@components/ikoner/SortInfoikon';
-import { useActivePeriodHasLatestFagsystemIdForSkjæringstidspunkt } from '@hooks/revurdering';
+import { Arbeidsgiver, BeregnetPeriode } from '@io/graphql';
+import { useCurrentArbeidsgiver } from '@state/arbeidsgiver';
+import { useActivePeriod } from '@state/periode';
+import { isBeregnetPeriode } from '@utils/typeguards';
 
 const Container = styled(Flex)`
     height: 24px;
@@ -42,6 +45,18 @@ const InfobobleContainer = styled.div`
     margin-top: 1rem;
 `;
 
+const useActivePeriodHasLatestFagsystemIdForSkjæringstidspunkt = (): boolean => {
+    const arbeidsgiver = useCurrentArbeidsgiver() as Arbeidsgiver;
+    const periode = useActivePeriod() as BeregnetPeriode;
+
+    const fagsystemiderSorted = arbeidsgiver.generasjoner[0]?.perioder
+        .filter(isBeregnetPeriode)
+        .filter((it) => it.skjaeringstidspunkt === periode.skjaeringstidspunkt)
+        .sort((a, b) => new Date(b.fom).getTime() - new Date(a.fom).getTime());
+
+    return periode.utbetaling.arbeidsgiverFagsystemId === fagsystemiderSorted[0]?.utbetaling.arbeidsgiverFagsystemId;
+};
+
 interface UtbetalingHeaderProps {
     periodeErForkastet: boolean;
     toggleOverstyring: () => void;
@@ -61,6 +76,8 @@ export const UtbetalingHeader: React.FC<UtbetalingHeaderProps> = ({
         () => Array.from(dager.values()).every((it) => it.erAGP || it.erAvvist || it.type === 'Helg'),
         [dager]
     );
+
+    console.log(revurderingIsEnabled, overstyrRevurderingIsEnabled);
 
     const hørerTilSisteFagsystemIdISkjæringstidspunkt = useActivePeriodHasLatestFagsystemIdForSkjæringstidspunkt();
 

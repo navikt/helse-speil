@@ -12,12 +12,12 @@ import {
     useRevurderingIsEnabled,
 } from '@hooks/revurdering';
 import { useIsReadOnlyOppgave } from '@hooks/useIsReadOnlyOppgave';
-import { useOverstyringIsEnabled } from '@hooks/useOverstyringIsEnabled';
 import { Arbeidsgiver, Dagoverstyring, Overstyring, UberegnetPeriode } from '@io/graphql';
 import { useCurrentArbeidsgiver } from '@state/arbeidsgiver';
 import { useActivePeriod } from '@state/periode';
 import { isInCurrentGeneration } from '@state/selectors/period';
 import { defaultUtbetalingToggles } from '@utils/featureToggles';
+import { kanOverstyres } from '@utils/overstyring';
 import { isBeregnetPeriode, isUberegnetPeriode } from '@utils/typeguards';
 
 import { OverstyrbarUtbetaling } from './OverstyrbarUtbetaling';
@@ -91,7 +91,7 @@ interface UtbetalingBeregnetPeriodeProps {
 }
 
 const UtbetalingBeregnetPeriode: React.FC<UtbetalingBeregnetPeriodeProps> = React.memo(({ period, arbeidsgiver }) => {
-    const overstyringIsEnabled = useOverstyringIsEnabled();
+    const overstyringIsEnabled = kanOverstyres(period);
     const revurderingIsEnabled = useRevurderingIsEnabled(defaultUtbetalingToggles);
     const overstyrRevurderingIsEnabled = useOverstyrRevurderingIsEnabled(defaultUtbetalingToggles);
     const dagoverstyringer = useDagoverstyringer(period.fom, period.tom, arbeidsgiver);
@@ -104,7 +104,13 @@ const UtbetalingBeregnetPeriode: React.FC<UtbetalingBeregnetPeriodeProps> = Reac
         maksdato: period.maksdato,
     });
 
-    return (revurderingIsEnabled || overstyringIsEnabled || overstyrRevurderingIsEnabled) &&
+    console.log('revurderingIsEnabled', revurderingIsEnabled);
+    console.log('overstyringIsEnabled', overstyringIsEnabled);
+    console.log('overstyrRevurderingIsEnabled', overstyrRevurderingIsEnabled);
+    console.log('readOnly', readOnly);
+    console.log('period.oppgave?.erBeslutter', period.oppgave?.erBeslutter);
+
+    return (revurderingIsEnabled || overstyringIsEnabled.value || overstyrRevurderingIsEnabled) &&
         !readOnly &&
         !period.oppgave?.erBeslutter ? (
         <OverstyrbarUtbetaling
