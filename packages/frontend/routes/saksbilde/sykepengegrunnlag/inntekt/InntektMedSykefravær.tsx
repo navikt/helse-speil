@@ -4,6 +4,8 @@ import React, { useState } from 'react';
 import { Bold } from '@components/Bold';
 import { Flex } from '@components/Flex';
 import { Kilde } from '@components/Kilde';
+import { PopoverHjelpetekst } from '@components/PopoverHjelpetekst';
+import { SortInfoikon } from '@components/ikoner/SortInfoikon';
 import { useIsReadOnlyOppgave } from '@hooks/useIsReadOnlyOppgave';
 import { Inntektskilde, Inntektstype, Maybe, OmregnetArsinntekt, Utbetalingstatus } from '@io/graphql';
 import {
@@ -76,7 +78,7 @@ export const InntektMedSykefravær = ({
 
     const kanRevurderes = useInntektKanRevurderes(skjæringstidspunkt);
 
-    const inntektForValgtArbeidsgiver = useCurrentArbeidsgiver()?.organisasjonsnummer === organisasjonsnummer;
+    const inntektGjelderValgtArbeidsgiver = useCurrentArbeidsgiver()?.organisasjonsnummer === organisasjonsnummer;
 
     return (
         <div className={classNames(styles.Inntekt, editing && styles.editing)}>
@@ -89,14 +91,20 @@ export const InntektMedSykefravær = ({
                         <Kilde type={omregnetÅrsinntekt?.kilde}>{kildeForkortelse(omregnetÅrsinntekt?.kilde)}</Kilde>
                     )}
                 </Flex>
-                {inntektstype && vilkårsgrunnlagId && kanRevurderes && inntektForValgtArbeidsgiver && (
-                    <RedigerInntekt
-                        setEditing={setEditing}
-                        editing={editing}
-                        erRevurdering={erRevurdering}
-                        vilkårsgrunnlagId={vilkårsgrunnlagId}
-                    />
-                )}
+                {inntektstype && vilkårsgrunnlagId && inntektGjelderValgtArbeidsgiver ? (
+                    kanRevurderes ? (
+                        <RedigerInntekt
+                            setEditing={setEditing}
+                            editing={editing}
+                            erRevurdering={erRevurdering}
+                            vilkårsgrunnlagId={vilkårsgrunnlagId}
+                        />
+                    ) : (
+                        <PopoverHjelpetekst ikon={<SortInfoikon />}>
+                            <p>Det er ikke mulig å endre inntekt i denne perioden </p>
+                        </PopoverHjelpetekst>
+                    )
+                ) : null}
             </div>
             {editing ? (
                 <EditableInntekt
