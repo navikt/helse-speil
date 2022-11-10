@@ -17,7 +17,7 @@ import { useOverstyringIsEnabled } from '@hooks/useOverstyringIsEnabled';
 import { Arbeidsgiver, Dagoverstyring, Overstyring, UberegnetPeriode } from '@io/graphql';
 import { useCurrentArbeidsgiver } from '@state/arbeidsgiver';
 import { useActivePeriod } from '@state/periode';
-import { defaultUtbetalingToggles, erDev, erLocal } from '@utils/featureToggles';
+import { defaultUtbetalingToggles } from '@utils/featureToggles';
 import { isBeregnetPeriode, isUberegnetPeriode } from '@utils/typeguards';
 
 import { OverstyrbarUtbetaling } from './OverstyrbarUtbetaling';
@@ -41,7 +41,7 @@ const ReadonlyUtbetaling: React.FC<ReadonlyUtbetalingProps> = ({ fom, tom, dager
             {!hasLatestSkjæringstidspunkt && activeGenerationIsLast && (
                 <div className={styles.Infopin}>
                     <PopoverHjelpetekst ikon={<SortInfoikon />}>
-                        <p>Det er foreløpig ikke støtte for endringer i saker i tidligere skjæringstidspunkt</p>
+                        <p>Det er ikke mulig å gjøre endringer i denne perioden</p>
                     </PopoverHjelpetekst>
                 </div>
             )}
