@@ -21,121 +21,122 @@ type OverstyringValidation = OverstyringValidationSuccess | OverstyringValidatio
 
 const validationSuccess = (): OverstyringValidation => ({ value: true });
 
-const ikkeBeregnetError = (): OverstyringValidation => ({
-    value: false,
-    reason: 'Perioden er ikke beregnet og kan ikke endres',
-    technical: 'Uberegnet periode',
-});
-
-const forkastetError = (): OverstyringValidation => ({
-    value: false,
-    technical: 'Forkastet periode',
-});
-
-const flereArbeidsgivereError = (): OverstyringValidation => ({
-    value: false,
-    reason: 'Vi støtter ikke overstyring ved flere arbeidsgivere',
-    technical: 'Flere arbeidsgivere',
-});
-
 const feilTilstandError = (): OverstyringValidation => ({
     value: false,
     technical: 'Perioden er i feil tilstand',
 });
 
-const revurdereUtbetaltPeriodeError = (): OverstyringValidation => ({
-    value: false,
-    technical: 'Revurdering av utbetalt periode',
-});
+const validatePeriode = (periode?: Maybe<ActivePeriod>): periode is FetchedBeregnetPeriode => {
+    if (!isBeregnetPeriode(periode)) {
+        throw {
+            value: false,
+            reason: 'Perioden er ikke beregnet og kan ikke endres',
+            technical: 'Uberegnet periode',
+        };
+    }
 
-const revurdereTidligereSykefraværError = (): OverstyringValidation => ({
-    value: false,
-    reason: 'Vi støtter ikke revurdering av tidligere sykefraværstilfelle',
-    technical: 'Revurdering av tidligere sykefravær',
-});
+    return true;
+};
 
-const manglerPersonError = (): OverstyringValidation => ({
-    value: false,
-    technical: 'Person mangler',
-});
+const validateInntektstype = (periode: FetchedBeregnetPeriode): void => {
+    if (periode.inntektstype === Inntektstype.Flerearbeidsgivere) {
+        throw {
+            value: false,
+            reason: 'Vi støtter ikke overstyring ved flere arbeidsgivere',
+            technical: 'Flere arbeidsgivere',
+        };
+    }
+};
 
-const manglerArbeidsgiverError = (): OverstyringValidation => ({
-    value: false,
-    technical: 'Arbeidsgiver mangler eller periode er i tidligere generasjon',
-});
-
-const ikkeGodkjentError = (): OverstyringValidation => ({
-    value: false,
-    reason: 'Vi støtter ikke revurdering av perioder som ikke er godkjente',
-    technical: 'Er ikke godkjent',
-});
-
-const overlappendeRevurderingerError = (): OverstyringValidation => ({
-    value: false,
-    reason: 'Vi støtter ikke revurdering av perioder som har overlappende perioder som revurderes',
-    technical: 'Har overlappende revurderinger',
-});
-
-const feilSkjæringstidspunktError = (): OverstyringValidation => ({
-    value: false,
-    reason: 'Vi støtter ikke revurdering av perioder med et tidligere skjæringstidspunkt',
-    technical: 'Feil skjæringstidspunkt',
-});
+const validateTilstand = (periode: FetchedBeregnetPeriode): void => {
+    if (!['tilGodkjenning', 'avslag', 'ingenUtbetaling', 'utbetalingFeilet'].includes(getPeriodState(periode))) {
+        throw feilTilstandError();
+    }
+};
 
 export const kanOverstyres = (periode?: Maybe<ActivePeriod>): OverstyringValidation => {
-    if (!isBeregnetPeriode(periode)) {
-        return ikkeBeregnetError();
-    }
-
-    if (periode.inntektstype === Inntektstype.Flerearbeidsgivere) {
-        return flereArbeidsgivereError();
-    }
-
-    if (!['tilGodkjenning', 'avslag', 'ingenUtbetaling', 'utbetalingFeilet'].includes(getPeriodState(periode))) {
-        return feilTilstandError();
+    try {
+        if (validatePeriode(periode)) {
+            validateInntektstype(periode);
+            validateTilstand(periode);
+        }
+    } catch (error) {
+        return error as OverstyringValidationError;
     }
 
     return validationSuccess();
 };
 
-export const kanRevurderes = (person?: Maybe<FetchedPerson>, periode?: Maybe<ActivePeriod>): OverstyringValidation => {
+const validateFeatureToggles = (): void => {
     if (!defaultUtbetalingToggles.overstyreUtbetaltPeriodeEnabled) {
-        return revurdereUtbetaltPeriodeError();
+        throw {
+            value: false,
+            technical: 'Revurdering av utbetalt periode',
+        };
     }
 
     if (!defaultUtbetalingToggles.overstyreTidligereSykefraværstilfelle) {
-        return revurdereTidligereSykefraværError();
+        throw {
+            value: false,
+            reason: 'Vi støtter ikke revurdering av tidligere sykefraværstilfelle',
+            technical: 'Revurdering av tidligere sykefravær',
+        };
     }
+};
 
+const validatePerson = (person?: Maybe<FetchedPerson>): person is FetchedPerson => {
     if (!isPerson(person)) {
-        return manglerPersonError();
+        throw {
+            value: false,
+            technical: 'Person mangler',
+        };
     }
 
-    if (!isBeregnetPeriode(periode)) {
-        return ikkeBeregnetError();
-    }
+    return true;
+};
 
+const validateIkkeForkastet = (periode: FetchedBeregnetPeriode): void => {
     if (isForkastet(periode)) {
-        return forkastetError();
+        throw {
+            value: false,
+            technical: 'Forkastet periode',
+        };
     }
+};
 
+const validateGodkjent = (periode: FetchedBeregnetPeriode): void => {
     if (!isGodkjent(periode)) {
-        return ikkeGodkjentError();
+        throw {
+            value: false,
+            reason: 'Vi støtter ikke revurdering av perioder som ikke er godkjente',
+            technical: 'Er ikke godkjent',
+        };
     }
+};
 
+const validateIngenOverlappendeRevurderinger = (person: FetchedPerson, periode: FetchedBeregnetPeriode): void => {
     const overlappendePerioder = getOverlappendePerioder(person, periode);
     const ingenOverlappendePerioderRevurderes = overlappendePerioder.some(isGodkjent)
         ? overlappendePerioder.every((periode) => getPeriodState(periode) !== 'revurderes')
         : true;
 
     if (!ingenOverlappendePerioderRevurderes) {
-        return overlappendeRevurderingerError();
+        throw {
+            value: false,
+            reason: 'Vi støtter ikke revurdering av perioder som har overlappende perioder som revurderes',
+            technical: 'Har overlappende revurderinger',
+        };
     }
+};
 
+const validateArbeidsgiver = (person: FetchedPerson, periode: FetchedBeregnetPeriode): void => {
     const arbeidsgiver = getArbeidsgiverWithPeriod(person, periode);
 
     if (!arbeidsgiver) {
-        return manglerArbeidsgiverError();
+        throw {
+            value: false,
+            technical: 'Arbeidsgiver mangler eller periode er i tidligere generasjon',
+        };
     }
 
     const sisteSkjæringstidspunkt = arbeidsgiver.generasjoner[0].perioder
@@ -146,7 +147,25 @@ export const kanRevurderes = (person?: Maybe<FetchedPerson>, periode?: Maybe<Act
     const erSisteSkjæringstidspunkt = dayjs(sisteSkjæringstidspunkt).isSame(periode.skjaeringstidspunkt, 'day');
 
     if (!erSisteSkjæringstidspunkt) {
-        return feilSkjæringstidspunktError();
+        throw {
+            value: false,
+            reason: 'Vi støtter ikke revurdering av perioder med et tidligere skjæringstidspunkt',
+            technical: 'Feil skjæringstidspunkt',
+        };
+    }
+};
+
+export const kanRevurderes = (person?: Maybe<FetchedPerson>, periode?: Maybe<ActivePeriod>): OverstyringValidation => {
+    try {
+        validateFeatureToggles();
+        if (validatePerson(person) && validatePeriode(periode)) {
+            validateIkkeForkastet(periode);
+            validateGodkjent(periode);
+            validateIngenOverlappendeRevurderinger(person, periode);
+            validateArbeidsgiver(person, periode);
+        }
+    } catch (error) {
+        return error as OverstyringValidationError;
     }
 
     return { value: true };

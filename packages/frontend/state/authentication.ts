@@ -2,7 +2,7 @@ import fetchIntercept from 'fetch-intercept';
 import { useEffect } from 'react';
 import { atom, useRecoilState, useRecoilValue, useResetRecoilState } from 'recoil';
 
-import { extractValues, Keys } from '@utils/cookie';
+import { Keys, extractValues } from '@utils/cookie';
 
 interface AuthInfo {
     name: string;
@@ -23,6 +23,10 @@ export const authState = atom<AuthInfo>({
     },
 });
 
+export const useAuthentication = (): AuthInfo => {
+    return useRecoilValue(authState);
+};
+
 export const useInnloggetSaksbehandler = (): Saksbehandler => {
     const authInfo = useRecoilValue(authState) as Required<AuthInfo>;
 
@@ -35,7 +39,7 @@ export const useInnloggetSaksbehandler = (): Saksbehandler => {
     };
 };
 
-export const useAuthentication = () => {
+export const useUpdateAuthentication = () => {
     const [authInfo, setAuthInfo] = useRecoilState(authState);
     const resetAuthInfo = useResetRecoilState(authState);
     const [name, ident, email, oid] = extractValues([Keys.NAME, Keys.IDENT, Keys.EMAIL, Keys.OID]);

@@ -44,7 +44,7 @@ export const isNotReady = (period: Periode) =>
     ].includes(period.periodetilstand);
 
 export const isInCurrentGeneration = (period: ActivePeriod, arbeidsgiver: Arbeidsgiver): boolean => {
-    if (!isBeregnetPeriode(period) || !isUberegnetPeriode(period)) {
+    if (!isBeregnetPeriode(period) && !isUberegnetPeriode(period)) {
         return false;
     }
 

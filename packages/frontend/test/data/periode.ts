@@ -1,11 +1,46 @@
 import { nanoid } from 'nanoid';
 
-import { GhostPeriode, Inntektstype, Periodetilstand, Periodetype, Utbetaling } from '@io/graphql';
+import {
+    Dag,
+    GhostPeriode,
+    Inntektstype,
+    Kildetype,
+    OppgaveForPeriodevisning,
+    Periodetilstand,
+    Periodetype,
+    Sykdomsdagtype,
+    Utbetaling,
+    Utbetalingsdagtype,
+    Utbetalingstatus,
+} from '@io/graphql';
+import { enOppgave } from '@test-data/oppgave';
 import { enUtbetaling } from '@test-data/utbetaling';
 
+export const enDag: OverridableConstructor<Dag> = (overrides) => ({
+    dato: '2020-01-01',
+    grad: 100,
+    kilde: {
+        id: nanoid(),
+        type: Kildetype.Soknad,
+    },
+    sykdomsdagtype: Sykdomsdagtype.Sykedag,
+    utbetalingsdagtype: Utbetalingsdagtype.Navdag,
+    utbetalingsinfo: {
+        arbeidsgiverbelop: 1000,
+        inntekt: 1000,
+        refusjonsbelop: 1000,
+        totalGrad: 100,
+        utbetaling: 1000,
+    },
+    ...overrides,
+});
+
 type Extensions = {
-    medUtbetaling(utbetaling: Utbetaling): FetchedBeregnetPeriode;
-    medSkjæringstidspunkt(skjæringstidspunkt: string): FetchedBeregnetPeriode;
+    medUtbetaling(utbetaling: Utbetaling): FetchedBeregnetPeriode & Extensions;
+    medSkjæringstidspunkt(skjæringstidspunkt: string): FetchedBeregnetPeriode & Extensions;
+    medOppgave(oppgave?: OppgaveForPeriodevisning): FetchedBeregnetPeriode & Extensions;
+    somErForkastet(): FetchedBeregnetPeriode & Extensions;
+    somErTilGodkjenning(): FetchedBeregnetPeriode & Extensions;
 };
 
 export const enBeregnetPeriode: OverridableConstructor<FetchedBeregnetPeriode, Extensions> = (overrides) => ({
@@ -13,7 +48,7 @@ export const enBeregnetPeriode: OverridableConstructor<FetchedBeregnetPeriode, E
     fom: '2020-01-01',
     tom: '2020-01-30',
     skjaeringstidspunkt: '2020-01-01',
-    tidslinje: [],
+    tidslinje: [enDag()],
     opprettet: '2020-01-01',
     aktivitetslogg: [],
     beregningId: nanoid(),
@@ -53,12 +88,27 @@ export const enBeregnetPeriode: OverridableConstructor<FetchedBeregnetPeriode, E
     vilkarsgrunnlagId: nanoid(),
     vilkarsgrunnlaghistorikkId: nanoid(),
     ...overrides,
-    medUtbetaling(utbetaling: Utbetaling): FetchedBeregnetPeriode {
+    medUtbetaling(utbetaling: Utbetaling) {
         this.utbetaling = utbetaling;
         return this;
     },
-    medSkjæringstidspunkt(skjæringstidspunkt: string): FetchedBeregnetPeriode {
+    medSkjæringstidspunkt(skjæringstidspunkt: string) {
         this.skjaeringstidspunkt = skjæringstidspunkt;
+        return this;
+    },
+    medOppgave(oppgave: OppgaveForPeriodevisning = enOppgave()) {
+        this.oppgave = oppgave;
+        return this;
+    },
+    somErForkastet() {
+        const utbetaling = this.utbetaling ?? enUtbetaling();
+        utbetaling.status = Utbetalingstatus.Forkastet;
+        this.utbetaling = utbetaling;
+        this.erForkastet = true;
+        return this;
+    },
+    somErTilGodkjenning() {
+        this.periodetilstand = Periodetilstand.TilGodkjenning;
         return this;
     },
 });

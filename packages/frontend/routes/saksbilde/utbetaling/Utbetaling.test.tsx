@@ -1,0 +1,117 @@
+import { RecoilWrapper } from '@test-wrappers';
+import { nanoid } from 'nanoid';
+import React from 'react';
+
+import { Utbetalingsdagtype } from '@io/graphql';
+import { useCurrentArbeidsgiver } from '@state/arbeidsgiver';
+import { useActivePeriod } from '@state/periode';
+import { useCurrentPerson } from '@state/person';
+import { useReadonly } from '@state/toggles';
+import { enArbeidsgiver } from '@test-data/arbeidsgiver';
+import { enOppgave } from '@test-data/oppgave';
+import { enBeregnetPeriode, enDag } from '@test-data/periode';
+import { enPerson } from '@test-data/person';
+import { enUtbetaling } from '@test-data/utbetaling';
+import { render, screen } from '@testing-library/react';
+
+import { Utbetaling } from './Utbetaling';
+
+jest.mock('@state/person');
+jest.mock('@state/periode');
+jest.mock('@state/arbeidsgiver');
+jest.mock('@state/toggles');
+
+describe('Utbetaling', () => {
+    afterEach(() => {
+        jest.clearAllMocks();
+    });
+
+    it('rendrer revurderbar utbetaling', () => {
+        const oppgave = enOppgave({ erBeslutter: false });
+        const tidslinje = [enDag({ dato: '2020-01-01' }), enDag({ dato: '2020-01-02' }), enDag({ dato: '2020-01-03' })];
+        const periode = enBeregnetPeriode({ oppgave, tidslinje });
+        const arbeidsgiver = enArbeidsgiver().medPerioder([periode]);
+        const person = enPerson().medArbeidsgivere([arbeidsgiver]);
+
+        (useActivePeriod as jest.Mock).mockReturnValue(periode);
+        (useCurrentArbeidsgiver as jest.Mock).mockReturnValue(arbeidsgiver);
+        (useCurrentPerson as jest.Mock).mockReturnValue(person);
+
+        render(<Utbetaling />, { wrapper: RecoilWrapper });
+
+        expect(screen.getByText('Revurder')).toBeVisible();
+        expect(screen.getByText('3 dager')).toBeVisible();
+        expect(screen.getByText('01.01.2020')).toBeVisible();
+        expect(screen.getByText('02.01.2020')).toBeVisible();
+        expect(screen.getByText('03.01.2020')).toBeVisible();
+        expect(screen.getAllByText('100 %')).toHaveLength(6);
+        expect(screen.getAllByText('Syk')).toHaveLength(3);
+    });
+
+    it('rendrer utbetaling for forkastet periode', () => {
+        const tidslinje = [enDag({ dato: '2020-01-01' })];
+        const periode = enBeregnetPeriode({ tidslinje }).medOppgave().somErForkastet().somErTilGodkjenning();
+        const arbeidsgiver = enArbeidsgiver().medPerioder([periode]);
+        const person = enPerson().medArbeidsgivere([arbeidsgiver]);
+
+        (useActivePeriod as jest.Mock).mockReturnValue(periode);
+        (useCurrentArbeidsgiver as jest.Mock).mockReturnValue(arbeidsgiver);
+        (useCurrentPerson as jest.Mock).mockReturnValue(person);
+
+        render(<Utbetaling />, { wrapper: RecoilWrapper });
+
+        expect(screen.getByText('Kan ikke revurdere perioden på grunn av manglende datagrunnlag')).toBeVisible();
+    });
+
+    it('rendrer utbetaling for periode med kun AGP', () => {
+        const tidslinje = [
+            enDag({ dato: '2020-01-01', utbetalingsdagtype: Utbetalingsdagtype.Arbeidsgiverperiodedag }),
+        ];
+        const periode = enBeregnetPeriode({ tidslinje }).medOppgave().somErTilGodkjenning();
+        const arbeidsgiver = enArbeidsgiver().medPerioder([periode]);
+        const person = enPerson().medArbeidsgivere([arbeidsgiver]);
+
+        (useActivePeriod as jest.Mock).mockReturnValue(periode);
+        (useCurrentArbeidsgiver as jest.Mock).mockReturnValue(arbeidsgiver);
+        (useCurrentPerson as jest.Mock).mockReturnValue(person);
+
+        render(<Utbetaling />, { wrapper: RecoilWrapper });
+
+        const expected =
+            'Det er foreløpig ikke mulig å gjøre endringer når hele perioden består av avslåtte dager og/eller arbeidsgiverperiodedager';
+        expect(screen.getByText(expected)).toBeVisible();
+    });
+
+    it('rendrer utbetaling for periode som har vært delvis behandlet i Infotrygd', () => {
+        const periodeA = enBeregnetPeriode().medOppgave().somErTilGodkjenning();
+        const periodeB = enBeregnetPeriode().medUtbetaling(enUtbetaling({ arbeidsgiverFagsystemId: nanoid() }));
+        const arbeidsgiver = enArbeidsgiver().medPerioder([periodeB, periodeA]);
+        const person = enPerson().medArbeidsgivere([arbeidsgiver]);
+
+        (useActivePeriod as jest.Mock).mockReturnValue(periodeA);
+        (useCurrentArbeidsgiver as jest.Mock).mockReturnValue(arbeidsgiver);
+        (useCurrentPerson as jest.Mock).mockReturnValue(person);
+
+        render(<Utbetaling />, { wrapper: RecoilWrapper });
+
+        const expected = 'Det er foreløpig ikke støtte for endringer i saker som har vært delvis behandlet i Infotrygd';
+        expect(screen.getByText(expected)).toBeVisible();
+    });
+
+    it('rendrer utbetaling for periode som har et tidligere skjæringstidspunkt', () => {
+        const periodeA = enBeregnetPeriode({ skjaeringstidspunkt: '2020-01-01' }).medOppgave().somErTilGodkjenning();
+        const periodeB = enBeregnetPeriode({ skjaeringstidspunkt: '2020-02-01' });
+        const arbeidsgiver = enArbeidsgiver().medPerioder([periodeB, periodeA]);
+        const person = enPerson().medArbeidsgivere([arbeidsgiver]);
+
+        (useActivePeriod as jest.Mock).mockReturnValue(periodeA);
+        (useCurrentArbeidsgiver as jest.Mock).mockReturnValue(arbeidsgiver);
+        (useCurrentPerson as jest.Mock).mockReturnValue(person);
+        (useReadonly as jest.Mock).mockReturnValue({ value: true, override: true });
+
+        render(<Utbetaling />, { wrapper: RecoilWrapper });
+
+        const expected = 'Det er ikke mulig å gjøre endringer i denne perioden';
+        expect(screen.getByText(expected)).toBeVisible();
+    });
+});

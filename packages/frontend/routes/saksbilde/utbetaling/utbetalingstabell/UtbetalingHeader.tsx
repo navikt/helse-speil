@@ -77,8 +77,6 @@ export const UtbetalingHeader: React.FC<UtbetalingHeaderProps> = ({
         [dager]
     );
 
-    console.log(revurderingIsEnabled, overstyrRevurderingIsEnabled);
-
     const hørerTilSisteFagsystemIdISkjæringstidspunkt = useActivePeriodHasLatestFagsystemIdForSkjæringstidspunkt();
 
     return (

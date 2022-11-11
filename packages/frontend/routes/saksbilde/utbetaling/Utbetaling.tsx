@@ -104,12 +104,6 @@ const UtbetalingBeregnetPeriode: React.FC<UtbetalingBeregnetPeriodeProps> = Reac
         maksdato: period.maksdato,
     });
 
-    console.log('revurderingIsEnabled', revurderingIsEnabled);
-    console.log('overstyringIsEnabled', overstyringIsEnabled);
-    console.log('overstyrRevurderingIsEnabled', overstyrRevurderingIsEnabled);
-    console.log('readOnly', readOnly);
-    console.log('period.oppgave?.erBeslutter', period.oppgave?.erBeslutter);
-
     return (revurderingIsEnabled || overstyringIsEnabled.value || overstyrRevurderingIsEnabled) &&
         !readOnly &&
         !period.oppgave?.erBeslutter ? (

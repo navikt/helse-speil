@@ -10,7 +10,7 @@ import { Toasts } from '@components/Toasts';
 import { Varsler } from '@components/Varsler';
 import { Header } from '@components/header/Header';
 import { useLoadingToast } from '@hooks/useLoadingToast';
-import { useAuthentication } from '@state/authentication';
+import { useUpdateAuthentication } from '@state/authentication';
 import { useEasterEggIsActive } from '@state/easterEgg';
 import { usePersonLoadable } from '@state/person';
 import { useSetVarsler } from '@state/varsler';
@@ -41,7 +41,7 @@ const useSyncAlertsToLocation = () => {
 
 const App = () => {
     useLoadingToast({ isLoading: usePersonLoadable().state === 'loading', message: 'Henter person' });
-    useAuthentication();
+    useUpdateAuthentication();
 
     const easterEggIsActive = useEasterEggIsActive();
 
