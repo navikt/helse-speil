@@ -6,19 +6,15 @@ import { Alert } from '@navikt/ds-react';
 import { ErrorBoundary } from '@components/ErrorBoundary';
 import { PopoverHjelpetekst } from '@components/PopoverHjelpetekst';
 import { SortInfoikon } from '@components/ikoner/SortInfoikon';
-import {
-    useActivePeriodHasLatestSkjæringstidspunkt,
-    useOverstyrRevurderingIsEnabled,
-    useRevurderingIsEnabled,
-} from '@hooks/revurdering';
+import { useActivePeriodHasLatestSkjæringstidspunkt } from '@hooks/revurdering';
 import { useIsReadOnlyOppgave } from '@hooks/useIsReadOnlyOppgave';
 import { Arbeidsgiver, Dagoverstyring, Overstyring, UberegnetPeriode } from '@io/graphql';
 import { useCurrentArbeidsgiver } from '@state/arbeidsgiver';
 import { useActivePeriod } from '@state/periode';
+import { useCurrentPerson } from '@state/person';
 import { isInCurrentGeneration } from '@state/selectors/period';
-import { defaultUtbetalingToggles } from '@utils/featureToggles';
-import { kanOverstyres } from '@utils/overstyring';
-import { isBeregnetPeriode, isUberegnetPeriode } from '@utils/typeguards';
+import { kanOverstyreRevurdering, kanOverstyres, kanRevurderes } from '@utils/overstyring';
+import { isBeregnetPeriode, isPerson, isUberegnetPeriode } from '@utils/typeguards';
 
 import { OverstyrbarUtbetaling } from './OverstyrbarUtbetaling';
 import { Utbetalingstabell } from './utbetalingstabell/Utbetalingstabell';
@@ -87,39 +83,42 @@ export const useDagoverstyringer = (
 
 interface UtbetalingBeregnetPeriodeProps {
     period: FetchedBeregnetPeriode;
+    person: FetchedPerson;
     arbeidsgiver: Arbeidsgiver;
 }
 
-const UtbetalingBeregnetPeriode: React.FC<UtbetalingBeregnetPeriodeProps> = React.memo(({ period, arbeidsgiver }) => {
-    const overstyringIsEnabled = kanOverstyres(period);
-    const revurderingIsEnabled = useRevurderingIsEnabled(defaultUtbetalingToggles);
-    const overstyrRevurderingIsEnabled = useOverstyrRevurderingIsEnabled(defaultUtbetalingToggles);
-    const dagoverstyringer = useDagoverstyringer(period.fom, period.tom, arbeidsgiver);
-    const readOnly = useIsReadOnlyOppgave();
+const UtbetalingBeregnetPeriode: React.FC<UtbetalingBeregnetPeriodeProps> = React.memo(
+    ({ period, person, arbeidsgiver }) => {
+        const overstyringIsEnabled = kanOverstyres(period);
+        const revurderingIsEnabled = kanRevurderes(person, period);
+        const overstyrRevurderingIsEnabled = kanOverstyreRevurdering(person, period);
+        const dagoverstyringer = useDagoverstyringer(period.fom, period.tom, arbeidsgiver);
+        const readOnly = useIsReadOnlyOppgave();
 
-    const dager: Map<string, UtbetalingstabellDag> = useTabelldagerMap({
-        tidslinje: period.tidslinje,
-        gjenståendeDager: period.gjenstaendeSykedager,
-        overstyringer: dagoverstyringer,
-        maksdato: period.maksdato,
-    });
+        const dager: Map<string, UtbetalingstabellDag> = useTabelldagerMap({
+            tidslinje: period.tidslinje,
+            gjenståendeDager: period.gjenstaendeSykedager,
+            overstyringer: dagoverstyringer,
+            maksdato: period.maksdato,
+        });
 
-    return (revurderingIsEnabled || overstyringIsEnabled.value || overstyrRevurderingIsEnabled) &&
-        !readOnly &&
-        !period.oppgave?.erBeslutter ? (
-        <OverstyrbarUtbetaling
-            fom={period.fom}
-            tom={period.tom}
-            dager={dager}
-            skjæringstidspunkt={period.skjaeringstidspunkt}
-            utbetaling={period.utbetaling}
-            revurderingIsEnabled={revurderingIsEnabled}
-            overstyrRevurderingIsEnabled={overstyrRevurderingIsEnabled}
-        />
-    ) : (
-        <ReadonlyUtbetaling fom={period.fom} tom={period.tom} dager={dager} />
-    );
-});
+        return (revurderingIsEnabled || overstyringIsEnabled.value || overstyrRevurderingIsEnabled) &&
+            !readOnly &&
+            !period.oppgave?.erBeslutter ? (
+            <OverstyrbarUtbetaling
+                fom={period.fom}
+                tom={period.tom}
+                dager={dager}
+                skjæringstidspunkt={period.skjaeringstidspunkt}
+                utbetaling={period.utbetaling}
+                revurderingIsEnabled={revurderingIsEnabled.value}
+                overstyrRevurderingIsEnabled={overstyrRevurderingIsEnabled.value}
+            />
+        ) : (
+            <ReadonlyUtbetaling fom={period.fom} tom={period.tom} dager={dager} />
+        );
+    }
+);
 
 interface UtbetalingUberegnetPeriodeProps {
     periode: UberegnetPeriode;
@@ -133,15 +132,16 @@ const UtbetalingUberegnetPeriode: React.FC<UtbetalingUberegnetPeriodeProps> = ({
 };
 
 const UtbetalingContainer = () => {
-    const activePeriod = useActivePeriod();
-    const currentArbeidsgiver = useCurrentArbeidsgiver();
+    const period = useActivePeriod();
+    const person = useCurrentPerson();
+    const arbeidsgiver = useCurrentArbeidsgiver();
 
-    if (!activePeriod || !currentArbeidsgiver) {
+    if (!period || !isPerson(person) || !arbeidsgiver) {
         return null;
-    } else if (isBeregnetPeriode(activePeriod)) {
-        return <UtbetalingBeregnetPeriode period={activePeriod} arbeidsgiver={currentArbeidsgiver} />;
-    } else if (isUberegnetPeriode(activePeriod)) {
-        return <UtbetalingUberegnetPeriode periode={activePeriod} />;
+    } else if (isBeregnetPeriode(period)) {
+        return <UtbetalingBeregnetPeriode period={period} person={person} arbeidsgiver={arbeidsgiver} />;
+    } else if (isUberegnetPeriode(period)) {
+        return <UtbetalingUberegnetPeriode periode={period} />;
     } else {
         return null;
     }

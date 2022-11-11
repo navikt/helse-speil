@@ -6,7 +6,7 @@ import { enBeregnetPeriode, enGhostPeriode } from '@test-data/periode';
 import { enPerson } from '@test-data/person';
 import { enUtbetaling } from '@test-data/utbetaling';
 import { defaultUtbetalingToggles } from '@utils/featureToggles';
-import { kanOverstyres, kanRevurderes } from '@utils/overstyring';
+import { kanOverstyreRevurdering, kanOverstyres, kanRevurderes } from '@utils/overstyring';
 
 jest.mock('@utils/featureToggles');
 
@@ -175,5 +175,82 @@ describe('kanRevurderes', () => {
         };
 
         expect(kanRevurderes(person, periode)).toEqual(expected);
+    });
+});
+
+describe('kanOverstyreRevurdering', () => {
+    afterEach(() => {
+        defaultUtbetalingToggles.overstyreUtbetaltPeriodeEnabled = true;
+    });
+
+    it('returnerer false om overstyreUtbetaltPeriodeEnabled-togglen er false', () => {
+        const periode = enBeregnetPeriode();
+        const person = enPerson() as unknown as FetchedPerson;
+        const expected = {
+            value: false,
+            technical: 'Revurdering av utbetalt periode',
+        };
+
+        defaultUtbetalingToggles.overstyreUtbetaltPeriodeEnabled = false;
+
+        expect(kanOverstyreRevurdering(person, periode)).toEqual(expected);
+    });
+
+    it('returnerer false om person er null', () => {
+        const expected = {
+            value: false,
+            technical: 'Person mangler',
+        };
+
+        expect(kanOverstyreRevurdering(null, enBeregnetPeriode())).toEqual(expected);
+    });
+
+    it('returnerer false om periode er null', () => {
+        const expected = {
+            value: false,
+            reason: 'Perioden er ikke beregnet og kan ikke endres',
+            technical: 'Uberegnet periode',
+        };
+
+        expect(kanOverstyreRevurdering(enPerson() as unknown as FetchedPerson, null)).toEqual(expected);
+    });
+
+    it('returnerer false om perioden ikke er til revurdering', () => {
+        const periode = enBeregnetPeriode();
+        const person = enPerson() as unknown as FetchedPerson;
+        const expected = {
+            value: false,
+            technical: 'Kan ikke overstyre revurdering om perioden ikke er til revurdering',
+        };
+
+        expect(kanOverstyreRevurdering(person, periode)).toEqual(expected);
+    });
+
+    it('returnerer false om periodens skjæringstidspunkt ikke er arbeidsgivers siste skjæringstidspunkt', () => {
+        const periodeA = enBeregnetPeriode({ skjaeringstidspunkt: '2020-01-01' }).somErTilRevurdering();
+        const periodeB = enBeregnetPeriode({ skjaeringstidspunkt: '2020-01-02' });
+        const arbeidsgiver = enArbeidsgiver().medPerioder([periodeA, periodeB]);
+        const person = enPerson().medArbeidsgivere([arbeidsgiver]) as unknown as FetchedPerson;
+        const expected = {
+            value: false,
+            reason: 'Vi støtter ikke revurdering av perioder med et tidligere skjæringstidspunkt',
+            technical: 'Feil skjæringstidspunkt',
+        };
+
+        expect(kanOverstyreRevurdering(person, periodeA)).toEqual(expected);
+    });
+
+    it('returnerer false om det finnes overlappende perioder som ikke er til revurdering', () => {
+        const periodeA = enBeregnetPeriode().somErTilRevurdering();
+        const periodeB = enBeregnetPeriode();
+        const arbeidsgiverA = enArbeidsgiver().medPerioder([periodeA]);
+        const arbeidsgiverB = enArbeidsgiver().medPerioder([periodeB]);
+        const person = enPerson().medArbeidsgivere([arbeidsgiverA, arbeidsgiverB]) as unknown as FetchedPerson;
+        const expected = {
+            value: false,
+            technical: 'Ikke alle overlappende perioder er til revurdering',
+        };
+
+        expect(kanOverstyreRevurdering(person, periodeA)).toEqual(expected);
     });
 });

@@ -12,6 +12,7 @@ import {
     Utbetaling,
     Utbetalingsdagtype,
     Utbetalingstatus,
+    Utbetalingtype,
 } from '@io/graphql';
 import { enOppgave } from '@test-data/oppgave';
 import { enUtbetaling } from '@test-data/utbetaling';
@@ -41,6 +42,7 @@ type Extensions = {
     medOppgave(oppgave?: OppgaveForPeriodevisning): FetchedBeregnetPeriode & Extensions;
     somErForkastet(): FetchedBeregnetPeriode & Extensions;
     somErTilGodkjenning(): FetchedBeregnetPeriode & Extensions;
+    somErTilRevurdering(): FetchedBeregnetPeriode & Extensions;
 };
 
 export const enBeregnetPeriode: OverridableConstructor<FetchedBeregnetPeriode, Extensions> = (overrides) => ({
@@ -101,14 +103,19 @@ export const enBeregnetPeriode: OverridableConstructor<FetchedBeregnetPeriode, E
         return this;
     },
     somErForkastet() {
-        const utbetaling = this.utbetaling ?? enUtbetaling();
-        utbetaling.status = Utbetalingstatus.Forkastet;
-        this.utbetaling = utbetaling;
+        this.utbetaling = this.utbetaling ?? enUtbetaling();
+        this.utbetaling.status = Utbetalingstatus.Forkastet;
         this.erForkastet = true;
         return this;
     },
     somErTilGodkjenning() {
         this.periodetilstand = Periodetilstand.TilGodkjenning;
+        return this;
+    },
+    somErTilRevurdering() {
+        this.periodetilstand = Periodetilstand.TilGodkjenning;
+        this.utbetaling = this.utbetaling ?? enUtbetaling();
+        this.utbetaling.type = Utbetalingtype.Revurdering;
         return this;
     },
 });

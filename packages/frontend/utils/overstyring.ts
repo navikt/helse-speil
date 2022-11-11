@@ -67,14 +67,16 @@ export const kanOverstyres = (periode?: Maybe<ActivePeriod>): OverstyringValidat
     return validationSuccess();
 };
 
-const validateFeatureToggles = (): void => {
+const validateOverstyreUtbetaltPeriodeEnabled = (): void => {
     if (!defaultUtbetalingToggles.overstyreUtbetaltPeriodeEnabled) {
         throw {
             value: false,
             technical: 'Revurdering av utbetalt periode',
         };
     }
+};
 
+const validateOverstyreTidligereSykefravær = (): void => {
     if (!defaultUtbetalingToggles.overstyreTidligereSykefraværstilfelle) {
         throw {
             value: false,
@@ -82,6 +84,11 @@ const validateFeatureToggles = (): void => {
             technical: 'Revurdering av tidligere sykefravær',
         };
     }
+};
+
+const validateFeatureToggles = (): void => {
+    validateOverstyreUtbetaltPeriodeEnabled();
+    validateOverstyreTidligereSykefravær();
 };
 
 const validatePerson = (person?: Maybe<FetchedPerson>): person is FetchedPerson => {
@@ -163,6 +170,46 @@ export const kanRevurderes = (person?: Maybe<FetchedPerson>, periode?: Maybe<Act
             validateGodkjent(periode);
             validateIngenOverlappendeRevurderinger(person, periode);
             validateArbeidsgiver(person, periode);
+        }
+    } catch (error) {
+        return error as OverstyringValidationError;
+    }
+
+    return { value: true };
+};
+
+const validateRevurderes = (periode: FetchedBeregnetPeriode): void => {
+    if (getPeriodState(periode) !== 'revurderes') {
+        throw {
+            value: false,
+            technical: 'Kan ikke overstyre revurdering om perioden ikke er til revurdering',
+        };
+    }
+};
+
+const validateOverlappendePerioderErTilRevurdering = (person: FetchedPerson, periode: FetchedBeregnetPeriode): void => {
+    const tilstander = getOverlappendePerioder(person, periode).map(getPeriodState);
+
+    const noenPerioderErTilRevurdering = tilstander.some((tilstand) => tilstand === 'revurderes');
+    const allePerioderErTilRevurdering = tilstander.every((tilstand) => tilstand === 'revurderes');
+    if (noenPerioderErTilRevurdering && !allePerioderErTilRevurdering) {
+        throw {
+            value: false,
+            technical: 'Ikke alle overlappende perioder er til revurdering',
+        };
+    }
+};
+
+export const kanOverstyreRevurdering = (
+    person?: Maybe<FetchedPerson>,
+    periode?: Maybe<ActivePeriod>
+): OverstyringValidation => {
+    try {
+        validateOverstyreUtbetaltPeriodeEnabled();
+        if (validatePerson(person) && validatePeriode(periode)) {
+            validateRevurderes(periode);
+            validateArbeidsgiver(person, periode);
+            validateOverlappendePerioderErTilRevurdering(person, periode);
         }
     } catch (error) {
         return error as OverstyringValidationError;
