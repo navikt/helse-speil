@@ -85,7 +85,7 @@ export const BehandlingsstatistikkTable: React.FC<BehandlingsstatistikkTableProp
                 <tr>
                     <td colSpan={4}>
                         <p className={styles.FooterTotal}>
-                            TOTALT FULLFØRTE SAKER I DAG:{' '}
+                            FULLFØRTE SAKER I DAG:{' '}
                             <span>
                                 {totaltIdag.manuelt + totaltIdag.automatisk + behandlingsstatistikk.antallAnnulleringer}
                             </span>

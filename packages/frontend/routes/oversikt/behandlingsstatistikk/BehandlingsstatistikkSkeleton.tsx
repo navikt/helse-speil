@@ -125,7 +125,7 @@ export const BehandlingsstatistikkSkeleton: React.FC = () => {
                 <tr>
                     <td colSpan={4}>
                         <p className={styles.FooterTotal}>
-                            TOTALT FULLFØRTE SAKER I DAG: <LoadingShimmer />
+                            FULLFØRTE SAKER I DAG: <LoadingShimmer />
                         </p>
                     </td>
                 </tr>
