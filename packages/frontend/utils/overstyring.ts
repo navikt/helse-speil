@@ -19,13 +19,6 @@ type OverstyringValidationError = {
 
 type OverstyringValidation = OverstyringValidationSuccess | OverstyringValidationError;
 
-const validationSuccess = (): OverstyringValidation => ({ value: true });
-
-const feilTilstandError = (): OverstyringValidation => ({
-    value: false,
-    technical: 'Perioden er i feil tilstand',
-});
-
 const validatePeriode = (periode?: Maybe<ActivePeriod>): periode is FetchedBeregnetPeriode => {
     if (!isBeregnetPeriode(periode)) {
         throw {
@@ -50,13 +43,26 @@ const validateInntektstype = (periode: FetchedBeregnetPeriode): void => {
 
 const validateTilstand = (periode: FetchedBeregnetPeriode): void => {
     if (!['tilGodkjenning', 'avslag', 'ingenUtbetaling', 'utbetalingFeilet'].includes(getPeriodState(periode))) {
-        throw feilTilstandError();
+        throw {
+            value: false,
+            technical: 'Perioden er i feil tilstand',
+        };
+    }
+};
+
+const validateBeslutter = (periode: FetchedBeregnetPeriode): void => {
+    if (periode.oppgave?.erBeslutter) {
+        throw {
+            value: false,
+            technical: 'Perioden har en beslutteroppgave',
+        };
     }
 };
 
 export const kanOverstyres = (periode?: Maybe<ActivePeriod>): OverstyringValidation => {
     try {
         if (validatePeriode(periode)) {
+            validateBeslutter(periode);
             validateInntektstype(periode);
             validateTilstand(periode);
         }
@@ -64,7 +70,7 @@ export const kanOverstyres = (periode?: Maybe<ActivePeriod>): OverstyringValidat
         return error as OverstyringValidationError;
     }
 
-    return validationSuccess();
+    return { value: true };
 };
 
 const validateOverstyreUtbetaltPeriodeEnabled = (): void => {
@@ -166,6 +172,7 @@ export const kanRevurderes = (person?: Maybe<FetchedPerson>, periode?: Maybe<Act
     try {
         validateFeatureToggles();
         if (validatePerson(person) && validatePeriode(periode)) {
+            validateBeslutter(periode);
             validateIkkeForkastet(periode);
             validateGodkjent(periode);
             validateIngenOverlappendeRevurderinger(person, periode);
@@ -207,6 +214,7 @@ export const kanOverstyreRevurdering = (
     try {
         validateOverstyreUtbetaltPeriodeEnabled();
         if (validatePerson(person) && validatePeriode(periode)) {
+            validateBeslutter(periode);
             validateRevurderes(periode);
             validateArbeidsgiver(person, periode);
             validateOverlappendePerioderErTilRevurdering(person, periode);

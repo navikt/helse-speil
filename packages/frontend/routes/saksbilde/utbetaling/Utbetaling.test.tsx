@@ -2,7 +2,7 @@ import { RecoilWrapper } from '@test-wrappers';
 import { nanoid } from 'nanoid';
 import React from 'react';
 
-import { Utbetalingsdagtype } from '@io/graphql';
+import { Inntektstype, Utbetalingsdagtype } from '@io/graphql';
 import { useCurrentArbeidsgiver } from '@state/arbeidsgiver';
 import { useActivePeriod } from '@state/periode';
 import { useCurrentPerson } from '@state/person';
@@ -113,5 +113,24 @@ describe('Utbetaling', () => {
 
         const expected = 'Det er ikke mulig å gjøre endringer i denne perioden';
         expect(screen.getByText(expected)).toBeVisible();
+    });
+
+    it('rendrer utbetaling for periode som ikke kan overstyres eller revurderes', () => {
+        const periodeA = enBeregnetPeriode({ inntektstype: Inntektstype.Flerearbeidsgivere })
+            .medOppgave()
+            .somErTilGodkjenning();
+        const periodeB = enBeregnetPeriode({ inntektstype: Inntektstype.Flerearbeidsgivere });
+        const arbeidsgiverA = enArbeidsgiver().medPerioder([periodeA]);
+        const arbeidsgiverB = enArbeidsgiver().medPerioder([periodeB]);
+        const person = enPerson().medArbeidsgivere([arbeidsgiverA, arbeidsgiverB]);
+
+        (useActivePeriod as jest.Mock).mockReturnValue(periodeA);
+        (useCurrentArbeidsgiver as jest.Mock).mockReturnValue(arbeidsgiverA);
+        (useCurrentPerson as jest.Mock).mockReturnValue(person);
+
+        render(<Utbetaling />, { wrapper: RecoilWrapper });
+
+        expect(screen.queryByText('Endre')).toBeNull();
+        expect(screen.queryByText('Revurder')).toBeNull();
     });
 });
