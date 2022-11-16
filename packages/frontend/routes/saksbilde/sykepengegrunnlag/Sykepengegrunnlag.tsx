@@ -7,7 +7,7 @@ import { BeregnetPeriode, Vilkarsgrunnlag } from '@io/graphql';
 import { useCurrentArbeidsgiver, useVurderingForSkjæringstidspunkt } from '@state/arbeidsgiver';
 import { useActivePeriod } from '@state/periode';
 import { useCurrentPerson } from '@state/person';
-import { getFuzzyMatchedVilkårsgrunnlag, getRequiredVilkårsgrunnlag } from '@state/selectors/person';
+import { getRequiredVilkårsgrunnlag } from '@state/selectors/person';
 import {
     isBeregnetPeriode,
     isGhostPeriode,
@@ -24,9 +24,7 @@ const useVilkårsgrunnlag = (person?: Maybe<FetchedPerson>, period?: Maybe<Activ
         return null;
     }
 
-    return isGhostPeriode(period)
-        ? getFuzzyMatchedVilkårsgrunnlag(person, period.vilkarsgrunnlagId, period.tom, period.skjaeringstidspunkt)
-        : getRequiredVilkårsgrunnlag(person, period.vilkarsgrunnlagId);
+    return getRequiredVilkårsgrunnlag(person, period.vilkarsgrunnlagId);
 };
 
 const SykepengegrunnlagContainer: React.FC = () => {

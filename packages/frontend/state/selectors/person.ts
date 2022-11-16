@@ -60,30 +60,6 @@ export const getInntekter = (grunnlag: Vilkarsgrunnlag, organisasjonsnummer: str
     return inntekter;
 };
 
-const bySkjæringstidspunktDescending = (a: Vilkarsgrunnlag, b: Vilkarsgrunnlag): number => {
-    return new Date(b.skjaeringstidspunkt).getTime() - new Date(a.skjaeringstidspunkt).getTime();
-};
-
-// TODO: Fjern denne når ghostperioder peker på riktig vilkårsgrunnlag i spleis
-export const getFuzzyMatchedVilkårsgrunnlag = (
-    person: FetchedPerson,
-    grunnlagId: string,
-    tom: DateString,
-    skjæringstidspunkt: DateString
-): Maybe<Vilkarsgrunnlag> => {
-    return (
-        person.vilkarsgrunnlaghistorikk
-            .find(({ id }) => id === grunnlagId)
-            ?.grunnlag.filter(
-                ({ skjaeringstidspunkt }) =>
-                    dayjs(skjaeringstidspunkt).isSameOrAfter(skjæringstidspunkt) &&
-                    dayjs(skjaeringstidspunkt).isSameOrBefore(tom)
-            )
-            .sort(bySkjæringstidspunktDescending)
-            .pop() ?? null
-    );
-};
-
 export const getVilkårsgrunnlag = (person: FetchedPerson, grunnlagId?: Maybe<string>): Vilkarsgrunnlag | null => {
     return person.vilkarsgrunnlag.find(({ id }) => id === grunnlagId) ?? null;
 };
