@@ -507,7 +507,7 @@
     {
         "varsel": "Den sykmeldte har fått et nytt inntektsforhold.",
         "betydning": "Den sykmeldte har oppgitt i søknaden at han/hun har fått et nytt inntektsforhold i sykmeldingsperioden.",
-        "løsning": "Du må sjekke om sykepengene skal graderes ut ifra inntekt i det nye inntektsforholdet. Du må kontakte bruker for å få informasjon om inntekten og når den er opptjent. Ta stilling til om det bør sendes en oppgave til NAV-kontoret for vurdering av vilkårene i § 8-4.",
+        "løsning": "Du må sjekke om sykepengene skal graderes ut ifra inntekt i det nye inntektsforholdet. Du må finne informasjon om inntekten og når den er opptjent. Ta stilling til om det bør sendes en oppgave til NAV-kontoret for vurdering av vilkårene i § 8-4.",
         "viktighet": "Høy"
     }
 ]
