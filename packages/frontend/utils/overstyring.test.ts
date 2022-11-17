@@ -2,7 +2,7 @@ import { Inntektstype, Periodetilstand, Utbetalingtype } from '@io/graphql';
 import { enArbeidsgiver } from '@test-data/arbeidsgiver';
 import { enGenerasjon } from '@test-data/generasjon';
 import { enOppgave } from '@test-data/oppgave';
-import { enBeregnetPeriode, enGhostPeriode } from '@test-data/periode';
+import { enBeregnetPeriode } from '@test-data/periode';
 import { enPerson } from '@test-data/person';
 import { enUtbetaling } from '@test-data/utbetaling';
 import { defaultUtbetalingToggles } from '@utils/featureToggles';
@@ -11,17 +11,6 @@ import { kanOverstyreRevurdering, kanOverstyres, kanRevurderes } from '@utils/ov
 jest.mock('@utils/featureToggles');
 
 describe('kanOverstyres', () => {
-    it('returnerer false om perioden ikke er beregnet', () => {
-        const periode = enGhostPeriode();
-        const expected = {
-            value: false,
-            reason: 'Perioden er ikke beregnet og kan ikke endres',
-            technical: 'Uberegnet periode',
-        };
-
-        expect(kanOverstyres(periode)).toEqual(expected);
-    });
-
     it('returnerer false om personen har flere arbeidsgivere', () => {
         const periode = enBeregnetPeriode({ inntektstype: Inntektstype.Flerearbeidsgivere });
         const expected = {
@@ -72,47 +61,45 @@ describe('kanRevurderes', () => {
         defaultUtbetalingToggles.overstyreTidligereSykefraværstilfelle = true;
     });
 
-    it('returnerer false om person er null', () => {
-        const expected = {
-            value: false,
-            technical: 'Person mangler',
-        };
+    describe('brytere', () => {
+        it('returnerer false om overstyreUtbetaltPeriodeEnabled er false', () => {
+            const periode = enBeregnetPeriode();
+            const arbeidsgiver = enArbeidsgiver().medPerioder([periode]);
+            const person = enPerson().medArbeidsgivere([arbeidsgiver]) as unknown as FetchedPerson;
 
-        expect(kanRevurderes(null, enBeregnetPeriode())).toEqual(expected);
-    });
+            defaultUtbetalingToggles.overstyreUtbetaltPeriodeEnabled = false;
+            defaultUtbetalingToggles.overstyreTidligereSykefraværstilfelle = true;
 
-    it('returnerer false om periode er null', () => {
-        const expected = {
-            value: false,
-            reason: 'Perioden er ikke beregnet og kan ikke endres',
-            technical: 'Uberegnet periode',
-        };
-
-        expect(kanRevurderes(enPerson() as unknown as FetchedPerson, null)).toEqual(expected);
-    });
-
-    it('returnerer false om utbetalingstoggles er false', () => {
-        defaultUtbetalingToggles.overstyreUtbetaltPeriodeEnabled = false;
-        defaultUtbetalingToggles.overstyreTidligereSykefraværstilfelle = true;
-
-        expect(kanRevurderes(enPerson() as unknown as FetchedPerson, enBeregnetPeriode())).toEqual({
-            value: false,
-            technical: 'Revurdering av utbetalt periode',
+            expect(kanRevurderes(person, periode)).toEqual({
+                value: false,
+                technical: 'Revurdering av utbetalt periode',
+            });
         });
 
-        defaultUtbetalingToggles.overstyreUtbetaltPeriodeEnabled = true;
-        defaultUtbetalingToggles.overstyreTidligereSykefraværstilfelle = false;
+        it('returnerer false om overstyreTidligereSykefraværstilfelle er false', () => {
+            const tidligereSykefraværstilfelle = enBeregnetPeriode({ skjaeringstidspunkt: '2020-01-01' });
+            const nyesteSykefraværstilfelle = enBeregnetPeriode({ skjaeringstidspunkt: '2020-01-02' });
+            const arbeidsgiver = enArbeidsgiver().medPerioder([
+                nyesteSykefraværstilfelle,
+                tidligereSykefraværstilfelle,
+            ]);
+            const person = enPerson().medArbeidsgivere([arbeidsgiver]) as unknown as FetchedPerson;
 
-        expect(kanRevurderes(enPerson() as unknown as FetchedPerson, enBeregnetPeriode())).toEqual({
-            value: false,
-            reason: 'Vi støtter ikke revurdering av tidligere sykefraværstilfelle',
-            technical: 'Revurdering av tidligere sykefravær',
+            defaultUtbetalingToggles.overstyreUtbetaltPeriodeEnabled = true;
+            defaultUtbetalingToggles.overstyreTidligereSykefraværstilfelle = false;
+
+            expect(kanRevurderes(person, tidligereSykefraværstilfelle)).toEqual({
+                value: false,
+                reason: 'Vi støtter ikke revurdering av tidligere sykefraværstilfelle',
+                technical: 'Revurdering av tidligere sykefravær',
+            });
         });
     });
 
     it('returnerer false om perioden ikke er godkjent', () => {
         const periode = enBeregnetPeriode({ periodetilstand: Periodetilstand.IngenUtbetaling });
-        const person = enPerson() as unknown as FetchedPerson;
+        const arbeidsgiver = enArbeidsgiver().medPerioder([periode]);
+        const person = enPerson().medArbeidsgivere([arbeidsgiver]) as FetchedPerson;
         const expected = {
             value: false,
             reason: 'Vi støtter ikke revurdering av perioder som ikke er godkjente',
@@ -141,15 +128,17 @@ describe('kanRevurderes', () => {
     });
 
     it('returnerer false om perioden ikke er i siste generasjon', () => {
-        const periode = enBeregnetPeriode();
-        const arbeidsgiver = enArbeidsgiver({ generasjoner: [enGenerasjon(), enGenerasjon({ perioder: [periode] })] });
+        const historiskPeriode = enBeregnetPeriode();
+        const arbeidsgiver = enArbeidsgiver({
+            generasjoner: [enGenerasjon(), enGenerasjon({ perioder: [historiskPeriode] })],
+        });
         const person = enPerson().medArbeidsgivere([arbeidsgiver]) as unknown as FetchedPerson;
         const expected = {
             value: false,
             technical: 'Arbeidsgiver mangler eller periode er i tidligere generasjon',
         };
 
-        expect(kanRevurderes(person, periode)).toEqual(expected);
+        expect(kanRevurderes(person, historiskPeriode)).toEqual(expected);
     });
 
     it('returnerer false om periodens skjæringstidspunkt ikke er arbeidsgivers siste skjæringstidspunkt', () => {
@@ -168,7 +157,8 @@ describe('kanRevurderes', () => {
 
     it('returnerer false om perioden er forkastet', () => {
         const periode = enBeregnetPeriode({ erForkastet: true });
-        const person = enPerson() as unknown as FetchedPerson;
+        const arbeidsgiver = enArbeidsgiver().medPerioder([periode]);
+        const person = enPerson().medArbeidsgivere([arbeidsgiver]) as unknown as FetchedPerson;
         const expected = {
             value: false,
             technical: 'Forkastet periode',
@@ -185,7 +175,8 @@ describe('kanOverstyreRevurdering', () => {
 
     it('returnerer false om overstyreUtbetaltPeriodeEnabled-togglen er false', () => {
         const periode = enBeregnetPeriode();
-        const person = enPerson() as unknown as FetchedPerson;
+        const arbeidsgiver = enArbeidsgiver().medPerioder([periode]);
+        const person = enPerson().medArbeidsgivere([arbeidsgiver]) as unknown as FetchedPerson;
         const expected = {
             value: false,
             technical: 'Revurdering av utbetalt periode',
@@ -194,25 +185,6 @@ describe('kanOverstyreRevurdering', () => {
         defaultUtbetalingToggles.overstyreUtbetaltPeriodeEnabled = false;
 
         expect(kanOverstyreRevurdering(person, periode)).toEqual(expected);
-    });
-
-    it('returnerer false om person er null', () => {
-        const expected = {
-            value: false,
-            technical: 'Person mangler',
-        };
-
-        expect(kanOverstyreRevurdering(null, enBeregnetPeriode())).toEqual(expected);
-    });
-
-    it('returnerer false om periode er null', () => {
-        const expected = {
-            value: false,
-            reason: 'Perioden er ikke beregnet og kan ikke endres',
-            technical: 'Uberegnet periode',
-        };
-
-        expect(kanOverstyreRevurdering(enPerson() as unknown as FetchedPerson, null)).toEqual(expected);
     });
 
     it('returnerer false om perioden ikke er til revurdering', () => {
