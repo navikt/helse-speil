@@ -21,7 +21,6 @@ export const enPerson: OverridableConstructor<Person, Extensions> = (overrides) 
     },
     versjon: 1,
     vilkarsgrunnlag: [],
-    vilkarsgrunnlaghistorikk: [],
     ...overrides,
     medArbeidsgivere(arbeidsgivere: Array<Arbeidsgiver>): Person {
         this.arbeidsgivere = arbeidsgivere;

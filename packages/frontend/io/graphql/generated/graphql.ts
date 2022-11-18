@@ -169,7 +169,6 @@ export type BeregnetPeriode = Periode & {
     varsler: Array<Scalars['String']>;
     vedtaksperiodeId: Scalars['String'];
     vilkarsgrunnlagId?: Maybe<Scalars['String']>;
-    vilkarsgrunnlaghistorikkId: Scalars['String'];
 };
 
 export type Boenhet = {
@@ -582,7 +581,6 @@ export type Person = {
     tildeling?: Maybe<Tildeling>;
     versjon: Scalars['Int'];
     vilkarsgrunnlag: Array<Vilkarsgrunnlag>;
-    vilkarsgrunnlaghistorikk: Array<Vilkarsgrunnlaghistorikk>;
 };
 
 export type Personinfo = {
