@@ -92,6 +92,12 @@ export type Arbeidsgiveroppdrag = Spennoppdrag & {
     organisasjonsnummer: Scalars['String'];
 };
 
+export type Arbeidsgiverrefusjon = {
+    __typename?: 'Arbeidsgiverrefusjon';
+    arbeidsgiver: Scalars['String'];
+    refusjonsopplysninger: Array<Refusjonselement>;
+};
+
 export enum Begrunnelse {
     EgenmeldingUtenforArbeidsgiverperiode = 'EGENMELDING_UTENFOR_ARBEIDSGIVERPERIODE',
     EtterDodsdato = 'ETTER_DODSDATO',
@@ -649,6 +655,14 @@ export type Refusjon = {
     sisteRefusjonsdag?: Maybe<Scalars['String']>;
 };
 
+export type Refusjonselement = {
+    __typename?: 'Refusjonselement';
+    belop: Scalars['Float'];
+    fom: Scalars['String'];
+    meldingsreferanseId: Scalars['String'];
+    tom?: Maybe<Scalars['String']>;
+};
+
 export type Refusjonsperiode = {
     __typename?: 'Refusjonsperiode';
     fom: Scalars['String'];
@@ -924,6 +938,7 @@ export type VilkarsgrunnlagInfotrygd = Vilkarsgrunnlag & {
 export type VilkarsgrunnlagSpleis = Vilkarsgrunnlag & {
     __typename?: 'VilkarsgrunnlagSpleis';
     antallOpptjeningsdagerErMinst: Scalars['Int'];
+    arbeidsgiverrefusjoner: Array<Arbeidsgiverrefusjon>;
     avviksprosent?: Maybe<Scalars['Float']>;
     grunnbelop: Scalars['Int'];
     id: Scalars['String'];

@@ -92,6 +92,12 @@ export type Arbeidsgiveroppdrag = Spennoppdrag & {
     organisasjonsnummer: Scalars['String'];
 };
 
+export type Arbeidsgiverrefusjon = {
+    __typename?: 'Arbeidsgiverrefusjon';
+    arbeidsgiver: Scalars['String'];
+    refusjonsopplysninger: Array<Refusjonselement>;
+};
+
 export enum Begrunnelse {
     EgenmeldingUtenforArbeidsgiverperiode = 'EGENMELDING_UTENFOR_ARBEIDSGIVERPERIODE',
     EtterDodsdato = 'ETTER_DODSDATO',
@@ -649,6 +655,14 @@ export type Refusjon = {
     sisteRefusjonsdag?: Maybe<Scalars['String']>;
 };
 
+export type Refusjonselement = {
+    __typename?: 'Refusjonselement';
+    belop: Scalars['Float'];
+    fom: Scalars['String'];
+    meldingsreferanseId: Scalars['String'];
+    tom?: Maybe<Scalars['String']>;
+};
+
 export type Refusjonsperiode = {
     __typename?: 'Refusjonsperiode';
     fom: Scalars['String'];
@@ -924,6 +938,7 @@ export type VilkarsgrunnlagInfotrygd = Vilkarsgrunnlag & {
 export type VilkarsgrunnlagSpleis = Vilkarsgrunnlag & {
     __typename?: 'VilkarsgrunnlagSpleis';
     antallOpptjeningsdagerErMinst: Scalars['Int'];
+    arbeidsgiverrefusjoner: Array<Arbeidsgiverrefusjon>;
     avviksprosent?: Maybe<Scalars['Float']>;
     grunnbelop: Scalars['Int'];
     id: Scalars['String'];
@@ -1217,93 +1232,6 @@ export type FetchPersonQuery = {
             reservasjon?: { __typename?: 'Reservasjon'; kanVarsles: boolean; reservert: boolean } | null;
         };
         tildeling?: { __typename?: 'Tildeling'; navn: string; epost: string; oid: string; reservert: boolean } | null;
-        vilkarsgrunnlaghistorikk: Array<{
-            __typename?: 'Vilkarsgrunnlaghistorikk';
-            id: string;
-            grunnlag: Array<
-                | {
-                      __typename?: 'VilkarsgrunnlagInfotrygd';
-                      id: string;
-                      sykepengegrunnlag: number;
-                      skjaeringstidspunkt: string;
-                      omregnetArsinntekt: number;
-                      sammenligningsgrunnlag?: number | null;
-                      vilkarsgrunnlagtype: Vilkarsgrunnlagtype;
-                      inntekter: Array<{
-                          __typename?: 'Arbeidsgiverinntekt';
-                          arbeidsgiver: string;
-                          deaktivert?: boolean | null;
-                          sammenligningsgrunnlag?: {
-                              __typename?: 'Sammenligningsgrunnlag';
-                              belop: number;
-                              inntektFraAOrdningen: Array<{
-                                  __typename?: 'InntektFraAOrdningen';
-                                  maned: string;
-                                  sum: number;
-                              }>;
-                          } | null;
-                          omregnetArsinntekt?: {
-                              __typename?: 'OmregnetArsinntekt';
-                              belop: number;
-                              manedsbelop: number;
-                              kilde: Inntektskilde;
-                              inntektFraAOrdningen?: Array<{
-                                  __typename?: 'InntektFraAOrdningen';
-                                  maned: string;
-                                  sum: number;
-                              }> | null;
-                          } | null;
-                      }>;
-                  }
-                | {
-                      __typename?: 'VilkarsgrunnlagSpleis';
-                      oppfyllerKravOmMinstelonn: boolean;
-                      oppfyllerKravOmMedlemskap?: boolean | null;
-                      oppfyllerKravOmOpptjening: boolean;
-                      antallOpptjeningsdagerErMinst: number;
-                      grunnbelop: number;
-                      avviksprosent?: number | null;
-                      opptjeningFra: string;
-                      id: string;
-                      sykepengegrunnlag: number;
-                      skjaeringstidspunkt: string;
-                      omregnetArsinntekt: number;
-                      sammenligningsgrunnlag?: number | null;
-                      vilkarsgrunnlagtype: Vilkarsgrunnlagtype;
-                      sykepengegrunnlagsgrense: {
-                          __typename?: 'Sykepengegrunnlagsgrense';
-                          grunnbelop: number;
-                          grense: number;
-                          virkningstidspunkt: string;
-                      };
-                      inntekter: Array<{
-                          __typename?: 'Arbeidsgiverinntekt';
-                          arbeidsgiver: string;
-                          deaktivert?: boolean | null;
-                          sammenligningsgrunnlag?: {
-                              __typename?: 'Sammenligningsgrunnlag';
-                              belop: number;
-                              inntektFraAOrdningen: Array<{
-                                  __typename?: 'InntektFraAOrdningen';
-                                  maned: string;
-                                  sum: number;
-                              }>;
-                          } | null;
-                          omregnetArsinntekt?: {
-                              __typename?: 'OmregnetArsinntekt';
-                              belop: number;
-                              manedsbelop: number;
-                              kilde: Inntektskilde;
-                              inntektFraAOrdningen?: Array<{
-                                  __typename?: 'InntektFraAOrdningen';
-                                  maned: string;
-                                  sum: number;
-                              }> | null;
-                          } | null;
-                      }>;
-                  }
-            >;
-        }>;
         vilkarsgrunnlag: Array<
             | {
                   __typename?: 'VilkarsgrunnlagInfotrygd';
