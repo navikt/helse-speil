@@ -8,6 +8,7 @@ import { render, screen, within } from '@testing-library/react';
 const getVilkårsgrunnlagSpleis = (overrides?: Partial<VilkarsgrunnlagSpleis>): VilkarsgrunnlagSpleis => ({
     id: 'en-id',
     antallOpptjeningsdagerErMinst: 100,
+    arbeidsgiverrefusjoner: [],
     grunnbelop: 100000,
     inntekter: [],
     omregnetArsinntekt: 1234567,

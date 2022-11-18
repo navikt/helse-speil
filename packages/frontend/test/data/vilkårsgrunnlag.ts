@@ -13,6 +13,7 @@ export const etVilkårsgrunnlagFraSpleis: OverridableConstructor<
 > = (overrides) => ({
     id: nanoid(),
     antallOpptjeningsdagerErMinst: 1234,
+    arbeidsgiverrefusjoner: [],
     avviksprosent: 0,
     grunnbelop: 100000,
     inntekter: [enArbeidsgiverinntekt()],
