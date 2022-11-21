@@ -7,7 +7,7 @@ import { AnonymizableTextWithEllipsis } from '@components/TextWithEllipsis';
 import { AnonymizableContainer } from '@components/anonymizable/AnonymizableContainer';
 import { AnonymizableText } from '@components/anonymizable/AnonymizableText';
 import { Clipboard } from '@components/clipboard';
-import type { Arbeidsforhold, Arbeidsgiverinntekt, Refusjon } from '@io/graphql';
+import type { Arbeidsforhold, Arbeidsgiverinntekt, Arbeidsgiverrefusjon } from '@io/graphql';
 
 import { ArbeidsforholdView } from '../ArbeidsforholdView';
 import { Inntekt } from './inntekt/Inntekt';
@@ -20,7 +20,7 @@ interface InntektskilderinnholdProps {
     arbeidsgivernavn: string;
     bransjer: string[];
     arbeidsforhold: Arbeidsforhold[];
-    refusjon?: Maybe<Refusjon>;
+    refusjon?: Maybe<Arbeidsgiverrefusjon>;
 }
 
 export const Inntektskilderinnhold = ({

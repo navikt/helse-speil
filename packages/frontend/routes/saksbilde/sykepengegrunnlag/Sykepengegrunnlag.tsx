@@ -33,6 +33,12 @@ const SykepengegrunnlagContainer: React.FC = () => {
     const vilkårsgrunnlag = useVilkårsgrunnlag(person, activePeriod);
     const vurdering = useVurderingForSkjæringstidspunkt((activePeriod as BeregnetPeriode).skjaeringstidspunkt);
     const arbeidsgiver = useCurrentArbeidsgiver();
+    const arbeidsgiverrefusjon =
+        vilkårsgrunnlag && isBeregnetPeriode(activePeriod)
+            ? vilkårsgrunnlag.arbeidsgiverrefusjoner.find(
+                  (arbeidsgiverrefusjon) => arbeidsgiverrefusjon.arbeidsgiver === arbeidsgiver?.organisasjonsnummer
+              )
+            : null;
 
     if ((isGhostPeriode(activePeriod) || isBeregnetPeriode(activePeriod)) && arbeidsgiver && person) {
         if (isSpleisVilkarsgrunnlag(vilkårsgrunnlag)) {
@@ -40,7 +46,7 @@ const SykepengegrunnlagContainer: React.FC = () => {
                 <BehandletSykepengegrunnlag
                     vurdering={vurdering}
                     vilkårsgrunnlag={vilkårsgrunnlag}
-                    refusjon={isBeregnetPeriode(activePeriod) ? activePeriod.refusjon : null}
+                    refusjon={arbeidsgiverrefusjon}
                     skjæringstidspunkt={activePeriod.skjaeringstidspunkt}
                     arbeidsgiver={arbeidsgiver}
                 />
@@ -49,7 +55,7 @@ const SykepengegrunnlagContainer: React.FC = () => {
                     vilkårsgrunnlag={vilkårsgrunnlag}
                     skjæringstidspunkt={activePeriod.skjaeringstidspunkt}
                     organisasjonsnummer={arbeidsgiver.organisasjonsnummer}
-                    refusjon={isBeregnetPeriode(activePeriod) ? activePeriod.refusjon : null}
+                    refusjon={arbeidsgiverrefusjon}
                     data-testid="ubehandlet-sykepengegrunnlag"
                 />
             );
@@ -58,7 +64,7 @@ const SykepengegrunnlagContainer: React.FC = () => {
                 <SykepengegrunnlagFraInfogtrygd
                     vilkårsgrunnlag={vilkårsgrunnlag}
                     organisasjonsnummer={arbeidsgiver.organisasjonsnummer}
-                    refusjon={isBeregnetPeriode(activePeriod) ? activePeriod.refusjon : null}
+                    refusjon={arbeidsgiverrefusjon}
                     arbeidsgivernavn={arbeidsgiver.navn}
                     bransjer={arbeidsgiver.bransjer}
                     arbeidsforhold={arbeidsgiver.arbeidsforhold}

@@ -251,8 +251,6 @@ export type GhostPeriode = {
     skjaeringstidspunkt: Scalars['String'];
     tom: Scalars['String'];
     vilkarsgrunnlagId?: Maybe<Scalars['String']>;
-    /** @deprecated Bruk heller "vilkarsgrunnlagId" */
-    vilkarsgrunnlaghistorikkId?: Maybe<Scalars['String']>;
 };
 
 export type Hendelse = {
@@ -913,6 +911,7 @@ export enum Utbetalingtype {
 }
 
 export type Vilkarsgrunnlag = {
+    arbeidsgiverrefusjoner: Array<Arbeidsgiverrefusjon>;
     id: Scalars['String'];
     inntekter: Array<Arbeidsgiverinntekt>;
     omregnetArsinntekt: Scalars['Float'];
@@ -924,6 +923,7 @@ export type Vilkarsgrunnlag = {
 
 export type VilkarsgrunnlagInfotrygd = Vilkarsgrunnlag & {
     __typename?: 'VilkarsgrunnlagInfotrygd';
+    arbeidsgiverrefusjoner: Array<Arbeidsgiverrefusjon>;
     id: Scalars['String'];
     inntekter: Array<Arbeidsgiverinntekt>;
     omregnetArsinntekt: Scalars['Float'];
@@ -951,12 +951,6 @@ export type VilkarsgrunnlagSpleis = Vilkarsgrunnlag & {
     sykepengegrunnlag: Scalars['Float'];
     sykepengegrunnlagsgrense: Sykepengegrunnlagsgrense;
     vilkarsgrunnlagtype: Vilkarsgrunnlagtype;
-};
-
-export type Vilkarsgrunnlaghistorikk = {
-    __typename?: 'Vilkarsgrunnlaghistorikk';
-    grunnlag: Array<Vilkarsgrunnlag>;
-    id: Scalars['String'];
 };
 
 export enum Vilkarsgrunnlagtype {
@@ -1150,6 +1144,17 @@ type Vilkarsgrunnlag_VilkarsgrunnlagInfotrygd_Fragment = {
             inntektFraAOrdningen?: Array<{ __typename?: 'InntektFraAOrdningen'; maned: string; sum: number }> | null;
         } | null;
     }>;
+    arbeidsgiverrefusjoner: Array<{
+        __typename?: 'Arbeidsgiverrefusjon';
+        arbeidsgiver: string;
+        refusjonsopplysninger: Array<{
+            __typename?: 'Refusjonselement';
+            fom: string;
+            tom?: string | null;
+            belop: number;
+            meldingsreferanseId: string;
+        }>;
+    }>;
 };
 
 type Vilkarsgrunnlag_VilkarsgrunnlagSpleis_Fragment = {
@@ -1189,6 +1194,17 @@ type Vilkarsgrunnlag_VilkarsgrunnlagSpleis_Fragment = {
             kilde: Inntektskilde;
             inntektFraAOrdningen?: Array<{ __typename?: 'InntektFraAOrdningen'; maned: string; sum: number }> | null;
         } | null;
+    }>;
+    arbeidsgiverrefusjoner: Array<{
+        __typename?: 'Arbeidsgiverrefusjon';
+        arbeidsgiver: string;
+        refusjonsopplysninger: Array<{
+            __typename?: 'Refusjonselement';
+            fom: string;
+            tom?: string | null;
+            belop: number;
+            meldingsreferanseId: string;
+        }>;
     }>;
 };
 
@@ -1264,6 +1280,17 @@ export type FetchPersonQuery = {
                           }> | null;
                       } | null;
                   }>;
+                  arbeidsgiverrefusjoner: Array<{
+                      __typename?: 'Arbeidsgiverrefusjon';
+                      arbeidsgiver: string;
+                      refusjonsopplysninger: Array<{
+                          __typename?: 'Refusjonselement';
+                          fom: string;
+                          tom?: string | null;
+                          belop: number;
+                          meldingsreferanseId: string;
+                      }>;
+                  }>;
               }
             | {
                   __typename?: 'VilkarsgrunnlagSpleis';
@@ -1310,6 +1337,17 @@ export type FetchPersonQuery = {
                               sum: number;
                           }> | null;
                       } | null;
+                  }>;
+                  arbeidsgiverrefusjoner: Array<{
+                      __typename?: 'Arbeidsgiverrefusjon';
+                      arbeidsgiver: string;
+                      refusjonsopplysninger: Array<{
+                          __typename?: 'Refusjonselement';
+                          fom: string;
+                          tom?: string | null;
+                          belop: number;
+                          meldingsreferanseId: string;
+                      }>;
                   }>;
               }
         >;

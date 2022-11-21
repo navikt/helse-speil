@@ -2,7 +2,7 @@ import React from 'react';
 
 import { AutomatiskVurdering } from '@components/AutomatiskVurdering';
 import { Saksbehandlervurdering } from '@components/Saksbehandlervurdering';
-import { Arbeidsgiver, Maybe, Refusjon, VilkarsgrunnlagSpleis, Vurdering } from '@io/graphql';
+import { Arbeidsgiver, Arbeidsgiverrefusjon, Maybe, VilkarsgrunnlagSpleis, Vurdering } from '@io/graphql';
 import { getFormattedDateString } from '@utils/date';
 
 import { SykepengegrunnlagFraSpleis } from './SykepengegrunnlagFraSpleis';
@@ -12,7 +12,7 @@ interface BehandletSykepengegrunnlagProps {
     vilkårsgrunnlag: VilkarsgrunnlagSpleis;
     skjæringstidspunkt: DateString;
     arbeidsgiver: Omit<Arbeidsgiver, 'generasjoner' | 'ghostPerioder' | 'overstyringer'>;
-    refusjon?: Maybe<Refusjon>;
+    refusjon?: Maybe<Arbeidsgiverrefusjon>;
 }
 
 export const BehandletSykepengegrunnlag = ({

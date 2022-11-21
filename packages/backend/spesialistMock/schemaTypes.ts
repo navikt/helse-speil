@@ -169,7 +169,6 @@ export type BeregnetPeriode = Periode & {
     varsler: Array<Scalars['String']>;
     vedtaksperiodeId: Scalars['String'];
     vilkarsgrunnlagId?: Maybe<Scalars['String']>;
-    vilkarsgrunnlaghistorikkId: Scalars['String'];
 };
 
 export type Boenhet = {
@@ -252,8 +251,6 @@ export type GhostPeriode = {
     skjaeringstidspunkt: Scalars['String'];
     tom: Scalars['String'];
     vilkarsgrunnlagId?: Maybe<Scalars['String']>;
-    /** @deprecated Bruk heller "vilkarsgrunnlagId" */
-    vilkarsgrunnlaghistorikkId?: Maybe<Scalars['String']>;
 };
 
 export type Hendelse = {
@@ -582,7 +579,6 @@ export type Person = {
     tildeling?: Maybe<Tildeling>;
     versjon: Scalars['Int'];
     vilkarsgrunnlag: Array<Vilkarsgrunnlag>;
-    vilkarsgrunnlaghistorikk: Array<Vilkarsgrunnlaghistorikk>;
 };
 
 export type Personinfo = {
@@ -915,6 +911,7 @@ export enum Utbetalingtype {
 }
 
 export type Vilkarsgrunnlag = {
+    arbeidsgiverrefusjoner: Array<Arbeidsgiverrefusjon>;
     id: Scalars['String'];
     inntekter: Array<Arbeidsgiverinntekt>;
     omregnetArsinntekt: Scalars['Float'];
@@ -926,6 +923,7 @@ export type Vilkarsgrunnlag = {
 
 export type VilkarsgrunnlagInfotrygd = Vilkarsgrunnlag & {
     __typename?: 'VilkarsgrunnlagInfotrygd';
+    arbeidsgiverrefusjoner: Array<Arbeidsgiverrefusjon>;
     id: Scalars['String'];
     inntekter: Array<Arbeidsgiverinntekt>;
     omregnetArsinntekt: Scalars['Float'];
@@ -953,12 +951,6 @@ export type VilkarsgrunnlagSpleis = Vilkarsgrunnlag & {
     sykepengegrunnlag: Scalars['Float'];
     sykepengegrunnlagsgrense: Sykepengegrunnlagsgrense;
     vilkarsgrunnlagtype: Vilkarsgrunnlagtype;
-};
-
-export type Vilkarsgrunnlaghistorikk = {
-    __typename?: 'Vilkarsgrunnlaghistorikk';
-    grunnlag: Array<Vilkarsgrunnlag>;
-    id: Scalars['String'];
 };
 
 export enum Vilkarsgrunnlagtype {

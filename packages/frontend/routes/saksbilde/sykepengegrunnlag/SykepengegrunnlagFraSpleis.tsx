@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import React, { useEffect, useState } from 'react';
 
-import { Arbeidsgiver, Arbeidsgiverinntekt, Refusjon, VilkarsgrunnlagSpleis } from '@io/graphql';
+import { Arbeidsgiver, Arbeidsgiverinntekt, Arbeidsgiverrefusjon, VilkarsgrunnlagSpleis } from '@io/graphql';
 import { useArbeidsgiver } from '@state/arbeidsgiver';
 import { useActivePeriod } from '@state/periode';
 import { getRequiredInntekt } from '@state/selectors/person';
@@ -22,7 +22,7 @@ const Strek = styled.span`
     margin: 0 50px 0 2.5rem;
 `;
 
-const useSkalViseRefusjon = (refusjon?: Maybe<Refusjon>, arbeidsgiver?: Maybe<Arbeidsgiver>): boolean => {
+const useSkalViseRefusjon = (refusjon?: Maybe<Arbeidsgiverrefusjon>, arbeidsgiver?: Maybe<Arbeidsgiver>): boolean => {
     const aktivPeriode = useActivePeriod();
 
     if (!isBeregnetPeriode(aktivPeriode) || !refusjon || !arbeidsgiver) {
@@ -38,7 +38,7 @@ interface SykepengegrunnlagFraSpleisProps extends HTMLAttributes<HTMLDivElement>
     vilkårsgrunnlag: VilkarsgrunnlagSpleis;
     skjæringstidspunkt: DateString;
     organisasjonsnummer: string;
-    refusjon?: Refusjon | null;
+    refusjon?: Maybe<Arbeidsgiverrefusjon>;
 }
 
 export const SykepengegrunnlagFraSpleis = ({

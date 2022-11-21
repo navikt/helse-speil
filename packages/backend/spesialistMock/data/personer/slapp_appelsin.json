@@ -26,6 +26,25 @@
                     "skjaeringstidspunkt": "2022-08-01",
                     "omregnetArsinntekt": 732000,
                     "sammenligningsgrunnlag": 732000,
+                    "arbeidsgiverrefusjoner": [
+                        {
+                            "arbeidsgiver": "967170232",
+                            "refusjonsopplysninger": [
+                                {
+                                    "fom": "2022-08-01",
+                                    "tom": "2022-08-20",
+                                    "belop": 30001,
+                                    "meldingsreferanseId": "d6ebcc2f-5b46-48e6-899b-baa4e0a937f4"
+                                },
+                                {
+                                    "fom": "2022-08-21",
+                                    "tom": null,
+                                    "belop": 0.0,
+                                    "meldingsreferanseId": "d6ebcc2f-5b46-48e6-899b-baa4e0a937f5"
+                                }
+                            ]
+                        }
+                    ],
                     "inntekter": [
                         {
                             "sammenligningsgrunnlag": {
@@ -728,7 +747,7 @@
                         {
                             "id": "d5851179-eab4-41c5-8baf-b86895bad76c",
                             "deaktivert": false,
-                            "vilkarsgrunnlagId": "ed75a56e-23d4-4ffa-893e-0f9e1f40bf1b",
+                            "vilkarsgrunnlagId": "0270e5be-f815-402e-ae5a-0ff439f6681c",
                             "skjaeringstidspunkt": "2022-08-01",
                             "fom": "2022-08-01",
                             "tom": "2022-08-31",

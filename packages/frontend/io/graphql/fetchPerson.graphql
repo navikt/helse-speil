@@ -61,6 +61,15 @@ fragment vilkarsgrunnlag on Vilkarsgrunnlag {
         arbeidsgiver
         deaktivert
     }
+    arbeidsgiverrefusjoner {
+        arbeidsgiver
+        refusjonsopplysninger {
+            fom
+            tom
+            belop
+            meldingsreferanseId
+        }
+    }
     vilkarsgrunnlagtype
     ... on VilkarsgrunnlagSpleis {
         oppfyllerKravOmMinstelonn

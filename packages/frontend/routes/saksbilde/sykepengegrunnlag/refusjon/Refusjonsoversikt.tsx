@@ -5,24 +5,20 @@ import { BodyShort } from '@navikt/ds-react';
 import { Bold } from '@components/Bold';
 import { EditButton } from '@components/EditButton';
 import { Kilde } from '@components/Kilde';
-import { Kildetype, Refusjon } from '@io/graphql';
-import { getFormattedDateString } from '@utils/date';
+import { Arbeidsgiverrefusjon, Kildetype } from '@io/graphql';
 
 import { Refusjonslinje } from './Refusjonslinje';
-import { useRefusjonsendringer } from './useRefusjonsendringer';
 
 import styles from './Refusjonsoversikt.module.css';
 
 const canEditRefusjon = false;
 
 interface RefusjonProps {
-    refusjon: Refusjon;
+    refusjon: Arbeidsgiverrefusjon;
 }
 
 export const Refusjonsoversikt: React.FC<RefusjonProps> = ({ refusjon }) => {
     const [isEditing, setIsEditing] = useState(false);
-
-    const sorterteEndringer = useRefusjonsendringer(refusjon);
 
     return (
         <div className={styles.Refusjonsoversikt}>
@@ -41,11 +37,6 @@ export const Refusjonsoversikt: React.FC<RefusjonProps> = ({ refusjon }) => {
                     />
                 )}
             </div>
-            {refusjon.sisteRefusjonsdag && (
-                <div className={styles.SisteRefusjonsdag}>
-                    {`Siste dag med refusjon: ${getFormattedDateString(refusjon.sisteRefusjonsdag)}`}
-                </div>
-            )}
             <table className={styles.Table}>
                 <thead>
                     <tr>
@@ -58,8 +49,8 @@ export const Refusjonsoversikt: React.FC<RefusjonProps> = ({ refusjon }) => {
                     </tr>
                 </thead>
                 <tbody>
-                    {sorterteEndringer.map((endring, i) => (
-                        <Refusjonslinje key={i} dato={endring.dato} beløp={endring.belop} />
+                    {refusjon.refusjonsopplysninger.map((refusjonselement, i) => (
+                        <Refusjonslinje key={i} dato={refusjonselement.fom} beløp={refusjonselement.belop} />
                     ))}
                 </tbody>
             </table>

@@ -47,5 +47,6 @@ export const etVilkårsgrunnlagFraInfotrygd: OverridableConstructor<Vilkarsgrunn
     skjaeringstidspunkt: '2020-01-01',
     sykepengegrunnlag: 600000,
     vilkarsgrunnlagtype: Vilkarsgrunnlagtype.Infotrygd,
+    arbeidsgiverrefusjoner: [],
     ...overrides,
 });
