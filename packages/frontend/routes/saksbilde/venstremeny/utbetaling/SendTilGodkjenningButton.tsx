@@ -5,7 +5,8 @@ import { Alert, BodyShort, Button } from '@navikt/ds-react';
 
 import { Key, useKeyboard } from '@hooks/useKeyboard';
 import { AmplitudeContext } from '@io/amplitude';
-import { postUtbetalingTilTotrinnsvurdering } from '@io/http';
+import { NotatType } from '@io/graphql';
+import { postNotat, postUtbetalingTilTotrinnsvurdering } from '@io/http';
 import { useActivePeriod } from '@state/periode';
 import { useCurrentPerson } from '@state/person';
 import { useAddToast } from '@state/toasts';
@@ -70,6 +71,18 @@ export const SendTilGodkjenningButton: React.FC<SendTilGodkjenningButtonProps> =
     const closeModal = () => setShowModal(false);
     const closeGenereltNotatModal = () => setShowGenereltNotatModal(false);
 
+    const postNotatOgSendTilGodkjenning = (notattekst: string) => {
+        setIsSending(true);
+        postNotat(activePeriod.vedtaksperiodeId, { tekst: notattekst, type: NotatType.Generelt })
+            .then(() => {
+                sendTilGodkjenning();
+            })
+            .catch((error) => {
+                setIsSending(false);
+                onError?.(error);
+            });
+    };
+
     const sendTilGodkjenning = () => {
         setIsSending(true);
         postUtbetalingTilTotrinnsvurdering(oppgavereferanse)
@@ -119,13 +132,15 @@ export const SendTilGodkjenningButton: React.FC<SendTilGodkjenningButtonProps> =
                     personinfo={person.personinfo}
                     vedtaksperiodeId={activePeriod.vedtaksperiodeId}
                     notattype="Generelt"
+                    onSubmitOverride={postNotatOgSendTilGodkjenning}
                     ekstraInnhold={
                         <Alert className={styles.ManglerLovvalgOgMedlemskapNotat} variant="warning">
                             <BodyShort className={styles.NotatParagraf}>
-                                Du må skrive notat for lovvalg og medlemskap før du sender oppgaven til beslutter.
+                                Du må skrive notat for lovvalg og medlemskap før oppgaven kan sendes til beslutter.
                             </BodyShort>
                         </Alert>
                     }
+                    submitButtonText="Lagre og send"
                 />
             )}
         </>

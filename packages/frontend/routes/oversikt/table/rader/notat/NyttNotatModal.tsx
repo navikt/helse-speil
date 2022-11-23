@@ -54,6 +54,7 @@ interface NyttNotatModalProps {
     onSubmitOverride?: (notattekst: string) => void;
     notattype: NotatType;
     ekstraInnhold?: ReactNode;
+    submitButtonText?: string;
 }
 
 interface Notattekster {
@@ -96,6 +97,7 @@ export const NyttNotatModal = ({
     onSubmitOverride,
     notattype,
     ekstraInnhold,
+    submitButtonText,
 }: NyttNotatModalProps) => {
     const notaterForOppgave = useNotaterForVedtaksperiode(vedtaksperiodeId);
     const refreshNotater = useRefreshNotater();
@@ -177,7 +179,7 @@ export const NyttNotatModal = ({
                     />
                     <Buttons>
                         <Button size="small" disabled={isFetching} type="submit">
-                            {onSubmitOverride ? notattekst.submitTekst : 'Lagre'}
+                            {submitButtonText ?? (onSubmitOverride ? notattekst.submitTekst : 'Lagre')}
                             {isFetching && <Loader size="xsmall" />}
                         </Button>
                         <Button size="small" variant="secondary" onClick={closeModal} type="button">
