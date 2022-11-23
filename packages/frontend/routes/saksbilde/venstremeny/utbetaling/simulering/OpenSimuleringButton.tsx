@@ -54,10 +54,9 @@ const copyStylesheets = ({ from, to }: CopyStylesheetsOptions) => {
 type OpenSimuleringParameters = {
     simulering: Simulering;
     utbetalingId: string;
-    harRefusjon: boolean;
 };
 
-const openSimulering = ({ simulering, utbetalingId, harRefusjon }: OpenSimuleringParameters) => {
+const openSimulering = ({ simulering, utbetalingId }: OpenSimuleringParameters) => {
     const popup: WindowProxy = window.open('', '_blank', 'width=600, height=900') as WindowProxy;
     popup.document.title = 'Simulering';
 
@@ -69,19 +68,17 @@ const openSimulering = ({ simulering, utbetalingId, harRefusjon }: OpenSimulerin
 
     const root = createRoot(rootContainer);
 
-    root.render(<SimuleringView simulering={simulering} utbetalingId={utbetalingId} harRefusjon={harRefusjon} />);
+    root.render(<SimuleringView simulering={simulering} utbetalingId={utbetalingId} />);
 };
 
 interface OpenSimuleringButtonProps extends Omit<React.HTMLAttributes<HTMLAnchorElement>, 'children'> {
     simulering: Simulering;
     utbetaling: Utbetaling;
-    harRefusjon: boolean;
 }
 
 export const OpenSimuleringButton: React.FC<OpenSimuleringButtonProps> = ({
     simulering,
     utbetaling,
-    harRefusjon,
     className,
     ...anchorProps
 }) => {
@@ -91,7 +88,6 @@ export const OpenSimuleringButton: React.FC<OpenSimuleringButtonProps> = ({
                 openSimulering({
                     simulering: simulering,
                     utbetalingId: utbetaling.id,
-                    harRefusjon: harRefusjon,
                 })
             }
             className={classNames(styles.OpenSimuleringButton, className)}

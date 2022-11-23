@@ -696,18 +696,6 @@
                                         "Flere arbeidsgivere, ulikt starttidspunkt for sykefraværet eller ikke fravær fra alle arbeidsforhold"
                                     ],
                                     "vilkarsgrunnlagId": "0270e5be-f815-402e-ae5a-0ff439f6681c",
-                                    "refusjon": {
-                                        "sisteRefusjonsdag": null,
-                                        "forsteFravaersdag": "2022-08-01",
-                                        "endringer": [],
-                                        "arbeidsgiverperioder": [
-                                            {
-                                                "fom": "2022-08-01",
-                                                "tom": "2022-08-16"
-                                            }
-                                        ],
-                                        "belop": 30000
-                                    },
                                     "oppgave": {
                                         "id": "4680",
                                         "erRetur": false,

@@ -295,19 +295,6 @@ query FetchPerson($fnr: String, $aktorId: String) {
                         }
                         varsler
                         vilkarsgrunnlagId
-                        refusjon {
-                            sisteRefusjonsdag
-                            forsteFravaersdag
-                            endringer {
-                                dato
-                                belop
-                            }
-                            arbeidsgiverperioder {
-                                fom
-                                tom
-                            }
-                            belop
-                        }
                         oppgave {
                             id
                             erRetur

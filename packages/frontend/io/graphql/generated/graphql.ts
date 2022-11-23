@@ -156,7 +156,6 @@ export type BeregnetPeriode = Periode & {
     periodetilstand: Periodetilstand;
     periodetype: Periodetype;
     periodevilkar: Periodevilkar;
-    refusjon?: Maybe<Refusjon>;
     risikovurdering?: Maybe<Risikovurdering>;
     skjaeringstidspunkt: Scalars['String'];
     /** @deprecated tidligereSaksbehandlerOid bør hentes fra periodens oppgave */

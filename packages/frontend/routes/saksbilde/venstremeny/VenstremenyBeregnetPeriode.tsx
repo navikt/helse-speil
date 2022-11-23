@@ -41,7 +41,6 @@ export const VenstremenyBeregnetPeriode: React.FC<VenstremenyBeregnetPeriodeProp
                 utbetaling={activePeriod.utbetaling}
                 arbeidsgiver={currentArbeidsgiver.navn}
                 personinfo={currentPerson.personinfo}
-                harRefusjon={!!activePeriod.refusjon}
                 arbeidsgiversimulering={activePeriod.utbetaling.arbeidsgiversimulering}
                 personsimulering={activePeriod.utbetaling.personsimulering}
             />

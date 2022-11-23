@@ -31,7 +31,6 @@ interface UtbetalingCardProps {
     utbetaling: Utbetaling;
     arbeidsgiver: string;
     personinfo: Personinfo;
-    harRefusjon: boolean;
     arbeidsgiversimulering?: Maybe<Simulering>;
     personsimulering?: Maybe<Simulering>;
 }
@@ -42,7 +41,6 @@ const UtbetalingCardBeregnet = ({
     utbetaling,
     arbeidsgiver,
     personinfo,
-    harRefusjon,
     arbeidsgiversimulering,
     personsimulering,
 }: UtbetalingCardProps) => {
@@ -76,7 +74,6 @@ const UtbetalingCardBeregnet = ({
                         simulering={arbeidsgiversimulering}
                         utbetaling={utbetaling}
                         className={styles.SimuleringButton}
-                        harRefusjon={harRefusjon}
                     />
                 )}
                 <div className={styles.Row}>
@@ -91,7 +88,6 @@ const UtbetalingCardBeregnet = ({
                         simulering={personsimulering}
                         utbetaling={utbetaling}
                         className={styles.SimuleringButton}
-                        harRefusjon={harRefusjon}
                     />
                 )}
             </div>

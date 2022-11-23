@@ -33,10 +33,9 @@ const SimuleringValue: React.FC<SimuleringValueProps> = ({ label, value }) => {
 interface SimuleringViewProps {
     simulering: Simulering;
     utbetalingId: string;
-    harRefusjon: boolean;
 }
 
-export const SimuleringView: React.FC<SimuleringViewProps> = ({ simulering, utbetalingId, harRefusjon }) => {
+export const SimuleringView: React.FC<SimuleringViewProps> = ({ simulering, utbetalingId }) => {
     const utbetalesTil = (() => {
         const utbetaling = simulering.perioder?.[0].utbetalinger[0] ?? null;
         return utbetaling ? `${utbetaling.mottakerId} ${utbetaling.mottakerNavn}` : null;
@@ -49,7 +48,6 @@ export const SimuleringView: React.FC<SimuleringViewProps> = ({ simulering, utbe
             </Heading>
             <div className={styles.SimuleringValueContainer}>
                 {simulering.totalbelop && <SimuleringValue label="Totalbeløp" value={simulering.totalbelop} />}
-                <SimuleringValue label="Refusjon" value={harRefusjon ? 'Ja' : 'Nei'} />
                 {utbetalesTil && (
                     <AnonymizableContainer>
                         <SimuleringValue label="Utbetales til" value={utbetalesTil} />
