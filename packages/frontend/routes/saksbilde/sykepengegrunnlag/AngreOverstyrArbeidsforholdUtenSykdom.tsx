@@ -55,7 +55,6 @@ export const AngreOverstyrArbeidsforholdUtenSykdom = ({
     return (
         <>
             <AngreButton
-                as="button"
                 onClick={() => {
                     onClick();
                     postOverstyring(overstyrtArbeidsforhold);

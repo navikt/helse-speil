@@ -1,10 +1,8 @@
-import styled from '@emotion/styled';
+import classNames from 'classnames';
 import React from 'react';
 
-export const Button = styled.button`
-    font-family: 'Source Sans Pro', Arial, Helvetica, sans-serif;
-    cursor: pointer;
-    background: none;
-    border: none;
-    outline: none;
-`;
+import styles from './Button.module.css';
+
+export const Button: React.FC<React.ButtonHTMLAttributes<HTMLButtonElement>> = ({ className, ...props }) => {
+    return <button className={classNames(styles.Button, className)} {...props} />;
+};
