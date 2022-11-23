@@ -75,7 +75,7 @@ export const Tabs = () => {
 
     return (
         <div className={styles.Tabs}>
-            <span>
+            <span role="tablist">
                 <AlleSakerTab />
                 <MineSakerTab />
                 <VentendeSakerTab />
@@ -88,7 +88,7 @@ export const Tabs = () => {
                 aria-expanded={showStatistikk}
                 onClick={toggleStatistikk}
             >
-                <DataFilled width={20} height={20} />
+                <DataFilled title="Behandlingsstatistikk" width={20} height={20} />
             </RoundedButton>
         </div>
     );
