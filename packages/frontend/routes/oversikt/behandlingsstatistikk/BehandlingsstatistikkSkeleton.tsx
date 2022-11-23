@@ -28,7 +28,7 @@ export const BehandlingsstatistikkSkeleton: React.FC = () => {
         <table>
             <thead>
                 <tr>
-                    <th />
+                    <td />
                     <th>MANUELT</th>
                     <th>AUTOMATISK</th>
                     <th>TILGJENGELIG</th>

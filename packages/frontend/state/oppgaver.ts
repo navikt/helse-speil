@@ -1,5 +1,13 @@
 import dayjs from 'dayjs';
-import { AtomEffect, atom, selector, useRecoilValue, useRecoilValueLoadable, useSetRecoilState } from 'recoil';
+import {
+    AtomEffect,
+    Loadable,
+    atom,
+    selector,
+    useRecoilValue,
+    useRecoilValueLoadable,
+    useSetRecoilState,
+} from 'recoil';
 
 import {
     FerdigstiltOppgave,
@@ -135,8 +143,12 @@ export const useRefetchFerdigstilteOppgaver = () => {
     };
 };
 
+export const useOppgaverLoadable = (): Loadable<FetchedOppgaver> => {
+    return useRecoilValueLoadable(oppgaverState);
+};
+
 export const useOppgaver = (): FetchedOppgaver => {
-    const oppgaver = useRecoilValueLoadable<FetchedOppgaver>(oppgaverState);
+    const oppgaver = useOppgaverLoadable();
     return oppgaver.state === 'hasValue' ? oppgaver.contents : [];
 };
 

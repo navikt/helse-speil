@@ -33,7 +33,7 @@ export const FilterButton = ({ children, filters }: FilterButtonProps) => {
         <>
             <button className={styles.FilterButton} onClick={togglePopover} ref={buttonRef}>
                 {children}
-                {active ? <Collapse /> : <Expand />}
+                {active ? <Collapse title="Lukk" /> : <Expand title="Ekspander" />}
             </button>
             <Popover
                 open={active}

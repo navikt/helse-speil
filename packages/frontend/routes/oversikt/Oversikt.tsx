@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Loadable, useRecoilValue, useRecoilValueLoadable } from 'recoil';
+import { Loadable } from 'recoil';
 
 import { Alert } from '@navikt/ds-react';
 
@@ -7,11 +7,11 @@ import { Flex } from '@components/Flex';
 import { useLoadingToast } from '@hooks/useLoadingToast';
 import { FetchOppgaverQuery } from '@io/graphql';
 import { useInnloggetSaksbehandler } from '@state/authentication';
-import { oppgaverState, useRefetchFerdigstilteOppgaver, useRefetchOppgaver } from '@state/oppgaver';
+import { useOppgaverLoadable, useRefetchFerdigstilteOppgaver, useRefetchOppgaver } from '@state/oppgaver';
 import { useResetPerson } from '@state/person';
 
 import { IngenOppgaver } from './IngenOppgaver';
-import { TabType, Tabs, tabState, useAktivTab } from './Tabs';
+import { TabType, Tabs, useAktivTab } from './Tabs';
 import { BehandlingsstatistikkView } from './behandlingsstatistikk/BehandlingsstatistikkView';
 import { BehandletIdagTable } from './table/BehandletIdagTable';
 import { OppgaverTable } from './table/OppgaverTable';
@@ -23,8 +23,8 @@ type Oppgaver = FetchOppgaverQuery['alleOppgaver'];
 
 const useOppgaverFilteredByTab = () => {
     const { oid } = useInnloggetSaksbehandler();
-    const aktivTab = useRecoilValue(tabState);
-    const oppgaver = useRecoilValueLoadable<Oppgaver>(oppgaverState);
+    const aktivTab = useAktivTab();
+    const oppgaver = useOppgaverLoadable();
     const [cache, setCache] = useState<Oppgaver>([]);
 
     const filtrer = (oppgaver: Oppgaver): Oppgaver => {
@@ -91,7 +91,7 @@ export const Oversikt = () => {
     const hasData = (oppgaver.state === 'hasValue' && oppgaver.contents.length > 0) || oppgaver.cache.length > 0;
 
     return (
-        <div className={styles.Oversikt}>
+        <main className={styles.Oversikt}>
             {oppgaver.state === 'hasError' && (
                 <Alert className={styles.Alert} variant="warning" size="small">
                     {(oppgaver.contents as Error).message}
@@ -99,7 +99,7 @@ export const Oversikt = () => {
             )}
             <Tabs />
             <Flex className={styles.fullHeight}>
-                <div className={styles.Content}>
+                <section className={styles.Content}>
                     {aktivTab === TabType.BehandletIdag ? (
                         <BehandletIdagTable />
                     ) : hasData ? (
@@ -109,10 +109,10 @@ export const Oversikt = () => {
                     ) : (
                         <IngenOppgaver />
                     )}
-                </div>
+                </section>
                 <BehandlingsstatistikkView />
             </Flex>
-        </div>
+        </main>
     );
 };
 

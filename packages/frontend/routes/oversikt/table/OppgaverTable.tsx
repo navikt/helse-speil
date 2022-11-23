@@ -161,8 +161,8 @@ export const OppgaverTable: React.FC<OppgaverTableProps> = React.memo(({ oppgave
                                         Opprettet
                                     </SortButton>
                                 </Header>
-                                <Header scope="col" colSpan={1} aria-label="valg" />
-                                <Header scope="col" colSpan={1} aria-label="notater" />
+                                <td aria-label="valg" />
+                                <td aria-label="notater" />
                             </tr>
                         </thead>
                         <tbody>

@@ -32,7 +32,7 @@ export const NotatCell: React.FC<NotatCellProps> = ({ vedtaksperiodeId, personin
                 {notater.length > 0 && (
                     <Tooltip content="Notater">
                         <Button className={styles.NotatButton} onClick={toggleModal} onKeyPress={toggleModal}>
-                            <Notes height={20} width={20} />
+                            <Notes title="Toggle notatmodal" height={20} width={20} />
                         </Button>
                     </Tooltip>
                 )}

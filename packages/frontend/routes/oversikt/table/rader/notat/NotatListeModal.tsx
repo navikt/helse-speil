@@ -87,7 +87,7 @@ export const NotatListeModal = ({
                     <th>Dato</th>
                     <th>Saksbehandler</th>
                     <th>Kommentar</th>
-                    <th />
+                    <td />
                 </tr>
             </thead>
             <tbody>

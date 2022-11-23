@@ -27,7 +27,7 @@ export const BehandlingsstatistikkTable: React.FC<BehandlingsstatistikkTableProp
         <table>
             <thead>
                 <tr>
-                    <th />
+                    <td />
                     <th>MANUELT</th>
                     <th>AUTOMATISK</th>
                     <th>TILGJENGELIG</th>

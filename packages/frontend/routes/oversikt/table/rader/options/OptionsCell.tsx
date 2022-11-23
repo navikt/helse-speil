@@ -45,7 +45,7 @@ export const OptionsCell = React.memo(({ oppgave, personinfo }: OptionsButtonPro
                         title="Mer"
                         className={styles.OptionsButton}
                     >
-                        <EllipsisH height={20} width={20} />
+                        <EllipsisH title="Alternativer" height={20} width={20} />
                     </Button>
                     <Dropdown.Menu>
                         <Dropdown.Menu.List>

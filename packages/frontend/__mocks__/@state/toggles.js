@@ -6,4 +6,5 @@ module.exports = {
         value: false,
         override: true,
     }),
+    useKanFrigiOppgaver: jest.fn(),
 };

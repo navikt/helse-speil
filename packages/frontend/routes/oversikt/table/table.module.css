@@ -11,6 +11,11 @@
     border-collapse: collapse;
 }
 
+.Table thead tr td,
+.Table thead tr th {
+    border-bottom: 1px solid var(--navds-semantic-color-border);
+}
+
 .Table > tbody > tr > td:last-of-type {
     width: 100%;
 }
