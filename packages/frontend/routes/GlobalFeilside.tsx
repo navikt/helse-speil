@@ -7,7 +7,11 @@ import { Bold } from '@components/Bold';
 
 import styles from './GlobalFeilside.module.css';
 
-export const GlobalFeilside = (error: Error) => {
+interface GlobalFeilsideProps {
+    error: Error;
+}
+
+export const GlobalFeilside: React.FC<GlobalFeilsideProps> = ({ error }) => {
     return (
         <>
             <Header>

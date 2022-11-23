@@ -48,7 +48,7 @@ const App = () => {
     useSyncAlertsToLocation();
 
     return (
-        <ErrorBoundary fallback={GlobalFeilside}>
+        <ErrorBoundary fallback={(error) => <GlobalFeilside error={error} />}>
             <Header />
             <Varsler />
             <Switch>
