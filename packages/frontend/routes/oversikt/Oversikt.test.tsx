@@ -2,7 +2,8 @@ import { RecoilWrapper } from '@test-wrappers';
 import { axe } from 'jest-axe';
 import React from 'react';
 
-import { useMineOppgaver, useOppgaver, useOppgaverLoadable } from '@state/oppgaver';
+import { useMineOppgaver, useOppgaver, useOppgaverLoadable, useRefetchOppgaver } from '@state/oppgaver';
+import { useResetPerson } from '@state/person';
 import { enOppgaveForOversikten } from '@test-data/oppgave';
 import { render } from '@testing-library/react';
 
@@ -31,5 +32,7 @@ describe('Oversikt', () => {
         const result = await axe(container);
 
         expect(result).toHaveNoViolations();
+        expect(useResetPerson).toHaveBeenCalled();
+        expect(useRefetchOppgaver).toHaveBeenCalled();
     });
 });
