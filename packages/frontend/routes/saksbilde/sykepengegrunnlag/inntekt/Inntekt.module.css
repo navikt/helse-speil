@@ -1,13 +1,21 @@
 .Inntekt {
+    --border-size: 4px;
+    --horizontal-padding: 16px;
+    --vertical-padding: 8px;
+    --width: 450px;
     position: relative;
     box-sizing: border-box;
     margin-bottom: 24px;
+    width: var(--width);
 }
 
 .Inntekt.editing {
     background-color: var(--speil-background-secondary);
-    border-left: 4px solid var(--navds-semantic-color-interaction-primary);
-    padding: 0.5rem 1rem;
+    border-left: var(--border-size) solid var(--navds-semantic-color-interaction-primary);
+    padding: var(--vertical-padding) var(--horizontal-padding) 16px;
+    width: 486px;
+    margin: calc(var(--vertical-padding) * -1) calc(var(--horizontal-padding) * -1) 24px
+        calc((var(--horizontal-padding) + var(--border-size)) * -1);
 }
 
 .Inntekt.deaktivert {
