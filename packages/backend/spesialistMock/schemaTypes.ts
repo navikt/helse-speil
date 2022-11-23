@@ -156,7 +156,6 @@ export type BeregnetPeriode = Periode & {
     periodetilstand: Periodetilstand;
     periodetype: Periodetype;
     periodevilkar: Periodevilkar;
-    refusjon?: Maybe<Refusjon>;
     risikovurdering?: Maybe<Risikovurdering>;
     skjaeringstidspunkt: Scalars['String'];
     /** @deprecated tidligereSaksbehandlerOid bør hentes fra periodens oppgave */
@@ -203,12 +202,6 @@ export enum Dagtype {
     Permisjonsdag = 'Permisjonsdag',
     Sykedag = 'Sykedag',
 }
-
-export type Endring = {
-    __typename?: 'Endring';
-    belop: Scalars['Float'];
-    dato: Scalars['String'];
-};
 
 export type Enhet = {
     __typename?: 'Enhet';
@@ -642,27 +635,12 @@ export type QueryPersonArgs = {
     fnr?: InputMaybe<Scalars['String']>;
 };
 
-export type Refusjon = {
-    __typename?: 'Refusjon';
-    arbeidsgiverperioder: Array<Refusjonsperiode>;
-    belop?: Maybe<Scalars['Float']>;
-    endringer: Array<Endring>;
-    forsteFravaersdag?: Maybe<Scalars['String']>;
-    sisteRefusjonsdag?: Maybe<Scalars['String']>;
-};
-
 export type Refusjonselement = {
     __typename?: 'Refusjonselement';
     belop: Scalars['Float'];
     fom: Scalars['String'];
     meldingsreferanseId: Scalars['String'];
     tom?: Maybe<Scalars['String']>;
-};
-
-export type Refusjonsperiode = {
-    __typename?: 'Refusjonsperiode';
-    fom: Scalars['String'];
-    tom: Scalars['String'];
 };
 
 export type Reservasjon = {

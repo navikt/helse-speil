@@ -203,12 +203,6 @@ export enum Dagtype {
     Sykedag = 'Sykedag',
 }
 
-export type Endring = {
-    __typename?: 'Endring';
-    belop: Scalars['Float'];
-    dato: Scalars['String'];
-};
-
 export type Enhet = {
     __typename?: 'Enhet';
     id: Scalars['String'];
@@ -641,27 +635,12 @@ export type QueryPersonArgs = {
     fnr?: InputMaybe<Scalars['String']>;
 };
 
-export type Refusjon = {
-    __typename?: 'Refusjon';
-    arbeidsgiverperioder: Array<Refusjonsperiode>;
-    belop?: Maybe<Scalars['Float']>;
-    endringer: Array<Endring>;
-    forsteFravaersdag?: Maybe<Scalars['String']>;
-    sisteRefusjonsdag?: Maybe<Scalars['String']>;
-};
-
 export type Refusjonselement = {
     __typename?: 'Refusjonselement';
     belop: Scalars['Float'];
     fom: Scalars['String'];
     meldingsreferanseId: Scalars['String'];
     tom?: Maybe<Scalars['String']>;
-};
-
-export type Refusjonsperiode = {
-    __typename?: 'Refusjonsperiode';
-    fom: Scalars['String'];
-    tom: Scalars['String'];
 };
 
 export type Reservasjon = {
@@ -1597,18 +1576,6 @@ export type FetchPersonQuery = {
                                   }> | null;
                               } | null;
                           };
-                          refusjon?: {
-                              __typename?: 'Refusjon';
-                              sisteRefusjonsdag?: string | null;
-                              forsteFravaersdag?: string | null;
-                              belop?: number | null;
-                              endringer: Array<{ __typename?: 'Endring'; dato: string; belop: number }>;
-                              arbeidsgiverperioder: Array<{
-                                  __typename?: 'Refusjonsperiode';
-                                  fom: string;
-                                  tom: string;
-                              }>;
-                          } | null;
                           oppgave?: {
                               __typename?: 'OppgaveForPeriodevisning';
                               id: string;
