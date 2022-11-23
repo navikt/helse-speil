@@ -1,31 +1,27 @@
-import agurk from '../../assets/ingen-oppgaver-agurk.png';
-import fredagstaco from '../../assets/ingen-oppgaver-fredagstaco.png';
-import brevkasse from '../../assets/ingen-oppgaver.png';
-import styled from '@emotion/styled';
 import dayjs from 'dayjs';
+import isoWeek from 'dayjs/plugin/isoWeek';
 import React from 'react';
 
 import { Heading } from '@navikt/ds-react';
 
+import agurk from '../../assets/ingen-oppgaver-agurk.png';
+import fredagstaco from '../../assets/ingen-oppgaver-fredagstaco.png';
+import brevkasse from '../../assets/ingen-oppgaver.png';
 import { TabType, useAktivTab } from './Tabs';
 
-const Container = styled.div`
-    align-self: flex-start;
-    width: max-content;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 4rem;
-`;
+import styles from './IngenOppgaver.module.css';
 
-const Tekst = styled(Heading)`
-    margin: 2rem 0 0;
-    font-size: 1.25rem;
-    flex: 1;
-`;
+dayjs.extend(isoWeek);
 
 const erFredag = () => dayjs().isoWeekday() === 5;
+
+const Caption: React.FC<ChildrenProps> = ({ children }) => {
+    return (
+        <Heading as="figcaption" size="medium">
+            {children}
+        </Heading>
+    );
+};
 
 export const IngenOppgaver: React.FC = () => {
     const aktivTab = useAktivTab();
@@ -33,44 +29,36 @@ export const IngenOppgaver: React.FC = () => {
     switch (aktivTab) {
         case TabType.BehandletIdag: {
             return (
-                <Container>
+                <figure className={styles.IngenOppgaver}>
                     <img alt="Tom brevkasse som smiler" src={brevkasse} />
-                    <Tekst as="h2" size="medium">
-                        Du har ingen behandlede saker
-                    </Tekst>
-                </Container>
+                    <Caption>Du har ingen behandlede saker</Caption>
+                </figure>
             );
         }
         case TabType.TilGodkjenning:
             return (
-                <Container>
+                <figure className={styles.IngenOppgaver}>
                     {erFredag() ? (
                         <img alt="Agurk med armer og bein ikledd sombrero som holder en taco" src={fredagstaco} />
                     ) : (
                         <img alt="Agurk med armer og bein som holder kaffekopp" src={agurk} />
                     )}
-                    <Tekst as="h2" size="medium">
-                        Ooops! Ingen saker å plukke...
-                    </Tekst>
-                </Container>
+                    <Caption>Ooops! Ingen saker å plukke...</Caption>
+                </figure>
             );
         case TabType.Mine:
             return (
-                <Container>
+                <figure className={styles.IngenOppgaver}>
                     <img alt="Tom brevkasse som smiler" src={brevkasse} />
-                    <Tekst as="h2" size="medium">
-                        Du har ingen tildelte saker
-                    </Tekst>
-                </Container>
+                    <Caption>Du har ingen tildelte saker</Caption>
+                </figure>
             );
         case TabType.Ventende:
             return (
-                <Container>
+                <figure className={styles.IngenOppgaver}>
                     <img alt="Tom brevkasse som smiler" src={brevkasse} />
-                    <Tekst as="h2" size="medium">
-                        Du har ingen saker på vent
-                    </Tekst>
-                </Container>
+                    <Caption>Du har ingen saker på vent</Caption>
+                </figure>
             );
         default:
             return null;

@@ -1,0 +1,15 @@
+.IngenOppgaver {
+    align-self: flex-start;
+    width: max-content;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 4rem;
+    gap: 2rem;
+}
+
+.IngenOppgaver figcaption {
+    font-size: 1.25rem;
+    flex: 1;
+}
