@@ -1,5 +1,4 @@
-import { css } from '@emotion/react';
-import styled from '@emotion/styled';
+import classNames from 'classnames';
 import React, { useState } from 'react';
 
 import { Loader } from '@navikt/ds-react';
@@ -11,27 +10,7 @@ import { useOperationErrorHandler } from '@state/varsler';
 import { NORSK_DATOFORMAT_MED_KLOKKESLETT } from '@utils/date';
 import { ignorePromise } from '@utils/promise';
 
-const FeilregistrerButton = styled(LinkButton)`
-    color: var(--navds-semantic-color-text);
-`;
-
-const Row = styled.tr<{ error: boolean }>`
-    ${(props) =>
-        props.error &&
-        css`
-            > td {
-                background-color: #f9d2cc !important;
-            }
-
-            > td:last-of-type {
-                font-style: italic;
-            }
-        `}
-`;
-
-const Cell = styled.td`
-    max-width: 22rem;
-`;
+import styles from './NotatListeRad.module.css';
 
 interface NotatListeRadProps {
     notat: Notat;
@@ -55,19 +34,19 @@ export const NotatListeRad = ({ notat, vedtaksperiodeId, innloggetSaksbehandler 
     };
 
     return (
-        <Row error={notat.feilregistrert}>
-            <Cell>{`${notat.opprettet.format(NORSK_DATOFORMAT_MED_KLOKKESLETT)}`}</Cell>
-            <Cell>{notat.saksbehandler.ident}</Cell>
-            <Cell>{notat.tekst}</Cell>
-            <Cell>
+        <tr className={classNames(styles.NotatListeRad, notat.feilregistrert && styles.error)}>
+            <td>{`${notat.opprettet.format(NORSK_DATOFORMAT_MED_KLOKKESLETT)}`}</td>
+            <td>{notat.saksbehandler.ident}</td>
+            <td>{notat.tekst}</td>
+            <td>
                 {notat.feilregistrert
                     ? 'Feilregistrert'
                     : notat.saksbehandler.oid === innloggetSaksbehandler.oid && (
-                          <FeilregistrerButton onClick={feilregistrerNotat}>
+                          <LinkButton className={styles.FeilregistrerButton} onClick={feilregistrerNotat}>
                               Feilregistrer {isFetching && <Loader size="xsmall" />}
-                          </FeilregistrerButton>
+                          </LinkButton>
                       )}
-            </Cell>
-        </Row>
+            </td>
+        </tr>
     );
 };

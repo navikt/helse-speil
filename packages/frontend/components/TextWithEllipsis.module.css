@@ -1,0 +1,9 @@
+.TextWithEllipsis {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.TextWithEllipsis > a:focus-visible {
+    box-shadow: 0 0 0 3px var(--navds-semantic-color-focus);
+}

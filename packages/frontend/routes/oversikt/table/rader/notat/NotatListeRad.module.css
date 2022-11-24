@@ -1,0 +1,15 @@
+.NotatListeRad > td {
+    max-width: 22rem;
+}
+
+.NotatListeRad.error > td {
+    background-color: #f9d2cc !important;
+}
+
+.NotatListeRad.error > td:last-of-type {
+    font-style: italic;
+}
+
+.FeilregistrerButton {
+    color: var(--navds-semantic-color-text);
+}

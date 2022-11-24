@@ -3,10 +3,10 @@ import React from 'react';
 
 interface RowProps extends React.HTMLAttributes<HTMLTableRowElement> {}
 
-export const Row: React.FC<RowProps> = ({ className, children, ...rowProps }) => {
+export const Row = React.forwardRef<HTMLTableRowElement, RowProps>(({ className, children, ...rowProps }, ref) => {
     return (
-        <tr className={classNames(className)} {...rowProps}>
+        <tr ref={ref} className={classNames(className)} {...rowProps}>
             {children}
         </tr>
     );
-};
+});

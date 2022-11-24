@@ -1,22 +1,23 @@
-import { css } from '@emotion/react';
-import styled from '@emotion/styled';
+import classNames from 'classnames';
+import React from 'react';
+
+import { BodyShortProps } from '@navikt/ds-react/esm/typography/BodyShort';
 
 import { AnonymizableText } from './anonymizable/AnonymizableText';
 
-const ellipsis = css`
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+import styles from './TextWithEllipsis.module.css';
 
-    > a:focus {
-        box-shadow: 0 0 0 3px var(--navds-semantic-color-focus);
-    }
-`;
+export const TextWithEllipsis: React.FC<React.HTMLAttributes<HTMLParagraphElement>> = ({
+    className,
+    ...paragrahProps
+}) => {
+    return <p className={classNames(styles.TextWithEllipsis, className)} {...paragrahProps} />;
+};
 
-export const TextWithEllipsis = styled.p`
-    ${ellipsis}
-`;
-
-export const AnonymizableTextWithEllipsis = styled(AnonymizableText)`
-    ${ellipsis}
-`;
+export const AnonymizableTextWithEllipsis: React.FC<BodyShortProps> = ({ className, children, ...paragrahProps }) => {
+    return (
+        <AnonymizableText className={classNames(styles.TextWithEllipsis, className)} {...paragrahProps}>
+            {children}
+        </AnonymizableText>
+    );
+};

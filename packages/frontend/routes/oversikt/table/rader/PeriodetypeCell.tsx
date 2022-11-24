@@ -2,7 +2,6 @@ import React from 'react';
 
 import { BodyShort } from '@navikt/ds-react';
 
-import { Flex } from '@components/Flex';
 import { Oppgaveetikett } from '@components/Oppgaveetikett';
 import { Periodetype } from '@io/graphql';
 
@@ -29,10 +28,8 @@ export const PeriodetypeCell: React.FC<PeriodetypeCellProps> = React.memo(({ typ
     return (
         <Cell>
             <CellContent width={130}>
-                <Flex alignItems="center">
-                    <Oppgaveetikett type={type} />
-                    <BodyShort style={{ marginLeft: '12px' }}>{getLabel(type)}</BodyShort>
-                </Flex>
+                <Oppgaveetikett type={type} />
+                <BodyShort style={{ marginLeft: '12px' }}>{getLabel(type)}</BodyShort>
             </CellContent>
         </Cell>
     );

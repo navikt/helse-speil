@@ -1,16 +1,21 @@
-import styled from '@emotion/styled';
+import classNames from 'classnames';
 import React from 'react';
 
-export const CellContent = styled.div<{ width?: number }>`
-    position: relative;
-    height: 2rem;
-    display: flex;
-    align-items: center;
+import styles from './CellContent.module.css';
 
-    ${({ width }) =>
-        width &&
-        `
-        width: ${width}px;
-        max-width: ${width}px;
-    `}
-`;
+interface CellContentProps extends React.HTMLAttributes<HTMLDivElement> {
+    width?: number;
+}
+
+export const CellContent = React.forwardRef<HTMLDivElement, CellContentProps>(
+    ({ width, className, ...divProps }, ref) => {
+        return (
+            <div
+                ref={ref}
+                style={typeof width === 'number' ? ({ '--width': `${width}px` } as React.CSSProperties) : {}}
+                className={classNames(styles.CellContent, className)}
+                {...divProps}
+            />
+        );
+    }
+);

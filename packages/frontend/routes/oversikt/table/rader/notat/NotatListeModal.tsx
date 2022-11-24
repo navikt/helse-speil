@@ -1,4 +1,3 @@
-import styled from '@emotion/styled';
 import React, { useState } from 'react';
 
 import { LinkButton } from '@components/LinkButton';
@@ -10,17 +9,7 @@ import { getFormatertNavn } from '@utils/string';
 import { NotatListeRad } from './NotatListeRad';
 import { NyttNotatModal } from './NyttNotatModal';
 
-const Title = styled.div`
-    > p:first-of-type {
-        font-size: 18px;
-        margin-bottom: 0.5rem;
-    }
-
-    > p:not(:first-of-type) {
-        font-size: 14px;
-        font-weight: normal;
-    }
-`;
+import styles from './NotatListeModal.module.css';
 
 interface NotatListeModalProps {
     notater: Notat[];
@@ -73,10 +62,10 @@ export const NotatListeModal = ({
     ) : (
         <TableModal
             title={
-                <Title>
+                <div className={styles.Title}>
                     <p>{modalTittel}</p>
                     <p>Søker: {søkernavn}</p>
-                </Title>
+                </div>
             }
             contentLabel={modalTittel}
             isOpen

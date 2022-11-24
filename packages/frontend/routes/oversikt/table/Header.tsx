@@ -1,10 +1,16 @@
-import styled from '@emotion/styled';
+import classNames from 'classnames';
 import React from 'react';
 
-export const Header = styled.th`
-    padding: 1rem;
-    text-align: left;
-    white-space: nowrap;
-    height: 65px;
-    vertical-align: middle;
-`;
+import styles from './Header.module.css';
+
+export const Header: React.FC<React.ThHTMLAttributes<HTMLTableCellElement>> = ({
+    className,
+    children,
+    ...tableCellProps
+}) => {
+    return (
+        <th className={classNames(styles.Header, className)} {...tableCellProps}>
+            {children}
+        </th>
+    );
+};

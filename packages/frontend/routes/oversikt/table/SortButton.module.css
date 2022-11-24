@@ -1,0 +1,38 @@
+.SortButton {
+    border: none;
+    cursor: pointer;
+    background: none;
+    user-select: none;
+    color: var(--navds-semantic-color-text);
+    padding: 0 1.25rem 0 0;
+    position: relative;
+}
+
+.SortButton:before,
+.SortButton:after {
+    pointer-events: none;
+    content: '';
+    border-left: 0.25rem solid var(--navds-semantic-color-canvas-background-light);
+    border-right: 0.25rem solid var(--navds-semantic-color-canvas-background-light);
+    position: absolute;
+    right: 0.25rem;
+    top: 50%;
+}
+
+.SortButton:before {
+    border-bottom: 0.25rem solid #b7b1a9;
+    transform: translateY(calc(-50% - 0.25rem));
+}
+
+.SortButton.descending:before {
+    border-bottom-color: var(--navds-semantic-color-text);
+}
+
+.SortButton:after {
+    border-top: 0.25rem solid #b7b1a9;
+    transform: translateY(calc(-50% + 0.25rem));
+}
+
+.SortButton.ascending:after {
+    border-top-color: var(--navds-semantic-color-text);
+}

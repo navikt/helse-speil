@@ -1,4 +1,3 @@
-import styled from '@emotion/styled';
 import React, { useState } from 'react';
 
 import { Button, Loader } from '@navikt/ds-react';
@@ -8,17 +7,7 @@ import { useTildelOppgave } from '@state/oppgaver';
 
 import { CellContent } from './CellContent';
 
-const Tildelingsknapp = styled(Button)`
-    min-height: 0;
-    height: 1.5rem;
-    padding: 0 0.75rem;
-    box-sizing: border-box;
-    font-size: var(--navds-font-size-xs);
-
-    > svg {
-        margin-left: 0.5rem;
-    }
-`;
+import styles from './IkkeTildelt.module.css';
 
 interface IkkeTildeltProps {
     oppgavereferanse: string;
@@ -31,17 +20,22 @@ export const IkkeTildelt = ({ oppgavereferanse }: IkkeTildeltProps) => {
 
     const tildel = (event: React.MouseEvent) => {
         event.stopPropagation();
-        if (!saksbehandler || isFetching) return;
         setIsFetching(true);
-        tildelOppgave({ id: oppgavereferanse }, saksbehandler).catch(() => setIsFetching(false));
+        tildelOppgave({ id: oppgavereferanse }, saksbehandler).finally(() => setIsFetching(false));
     };
 
     return (
         <CellContent width={128}>
-            <Tildelingsknapp as="button" variant="secondary" size="small" onClick={tildel}>
+            <Button
+                className={styles.Tildelingsknapp}
+                variant="secondary"
+                size="small"
+                onClick={tildel}
+                disabled={!saksbehandler || isFetching}
+            >
                 Tildel meg
                 {isFetching && <Loader size="xsmall" />}
-            </Tildelingsknapp>
+            </Button>
         </CellContent>
     );
 };

@@ -1,0 +1,8 @@
+.CellContent {
+    position: relative;
+    height: 2rem;
+    display: flex;
+    align-items: center;
+    width: var(--width, unset);
+    max-width: var(--width, unset);
+}

@@ -55,11 +55,9 @@ export const OppgavetypeCell: React.FC<OppgavetypeCellProps> = ({ oppgavetype, e
     const label = getLabelForOppgavetype(oppgavetype, erBeslutter, erRetur);
     return (
         <Cell>
-            <CellContent width={130}>
-                <div className={styles.OppgavetypeCell}>
-                    <Oppgaveetikett type={oppgavetype} erBeslutterOppgave={erBeslutter} erReturOppgave={erRetur} />
-                    <BodyShort>{label}</BodyShort>
-                </div>
+            <CellContent width={130} className={styles.OppgavetypeCell}>
+                <Oppgaveetikett type={oppgavetype} erBeslutterOppgave={erBeslutter} erReturOppgave={erRetur} />
+                <BodyShort>{label}</BodyShort>
             </CellContent>
         </Cell>
     );

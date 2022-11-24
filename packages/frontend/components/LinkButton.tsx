@@ -1,16 +1,14 @@
-import styled from '@emotion/styled';
+import classNames from 'classnames';
 import React from 'react';
 
-import { Link as NavLink, LinkProps } from '@navikt/ds-react';
+import { Link, LinkProps } from '@navikt/ds-react';
 
-const Link = styled(NavLink)`
-    background: none;
-    border: none;
-    outline: none;
-    cursor: pointer;
-    padding: 0;
-`;
+import styles from './LinkButton.module.css';
 
-interface LinkButtonProps extends Omit<LinkProps, 'as'> {}
-
-export const LinkButton: React.FC<LinkButtonProps> = (props) => <Link as="button" {...props} />;
+export const LinkButton: React.FC<LinkProps> = ({ className, children, ...linkProps }) => {
+    return (
+        <Link className={classNames(styles.LinkButton, className)} {...linkProps}>
+            {children}
+        </Link>
+    );
+};

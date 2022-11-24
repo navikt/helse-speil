@@ -1,5 +1,4 @@
-import styled from '@emotion/styled';
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 
 import { useLoadingToast } from '@hooks/useLoadingToast';
@@ -7,39 +6,38 @@ import { useFetchPerson } from '@state/person';
 
 import { Row } from './Row';
 
-const HighlightOnHoverRow = styled(Row)`
-    &:hover,
-    &:focus {
-        background-color: var(--speil-light-hover-tabell);
-        cursor: pointer;
-        outline: none;
-    }
-`;
+import styles from './LinkRow.module.css';
+
+const shouldOpenInNewTab = (event: React.SyntheticEvent): boolean => {
+    return (
+        (event as React.KeyboardEvent).ctrlKey ||
+        (event as React.KeyboardEvent).metaKey ||
+        (event as React.MouseEvent).button === 1
+    );
+};
 
 interface LinkRowProps extends React.HTMLAttributes<HTMLTableRowElement> {
     aktørId: string;
 }
 
 export const LinkRow = ({ aktørId, children, ...rest }: LinkRowProps) => {
+    const ref = useRef<HTMLTableRowElement>(null);
     const history = useHistory();
     const fetchPerson = useFetchPerson();
     const [isFetching, setIsFetching] = useState(false);
 
     useLoadingToast({ isLoading: isFetching, message: 'Henter person' });
 
-    const navigate = (event: React.KeyboardEvent | React.MouseEvent) => {
+    const navigate = (event: React.SyntheticEvent) => {
         if (isFetching) {
             return;
         }
 
-        const destinationUrl = `/person/${aktørId}/utbetaling`;
-        const pressedModifierKey = event.ctrlKey || event.metaKey;
-        const clickedMiddleMouseButton = (event as React.MouseEvent).button === 1;
-
         setIsFetching(true);
         fetchPerson(aktørId)
             .then(() => {
-                if (pressedModifierKey || clickedMiddleMouseButton) {
+                const destinationUrl = `/person/${aktørId}/utbetaling`;
+                if (shouldOpenInNewTab(event)) {
                     window.open(destinationUrl, '_blank');
                 } else {
                     history.push(destinationUrl);
@@ -50,15 +48,26 @@ export const LinkRow = ({ aktørId, children, ...rest }: LinkRowProps) => {
             });
     };
 
-    const onKeyPress = (event: React.KeyboardEvent) => {
+    const onKeyDown = (event: React.KeyboardEvent) => {
+        if (event.target !== ref.current) {
+            return false;
+        }
         if (event.code === 'Space' || event.code === 'Enter') {
-            navigate(event);
+            return navigate(event);
         }
     };
 
     return (
-        <HighlightOnHoverRow role="link" tabIndex={0} onClick={navigate} onKeyPress={onKeyPress} {...rest}>
+        <Row
+            className={styles.LinkRow}
+            ref={ref}
+            role="link"
+            tabIndex={0}
+            onClick={navigate}
+            onKeyDown={onKeyDown}
+            {...rest}
+        >
             {children}
-        </HighlightOnHoverRow>
+        </Row>
     );
 };
