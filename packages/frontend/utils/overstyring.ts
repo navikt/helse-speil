@@ -142,20 +142,6 @@ const validatePeriodeTilhørerNyesteGenerasjon = (person: FetchedPerson, periode
     }
 };
 
-const validateArbeidsgiver = (person: FetchedPerson, periode: FetchedBeregnetPeriode): void => {
-    const arbeidsgiver = getArbeidsgiverWithPeriod(person, periode)!;
-
-    const gjelderSisteSykefraværstilfelle = periodeTilhørerSisteSykefraværstilfelle(arbeidsgiver, periode);
-
-    if (!gjelderSisteSykefraværstilfelle) {
-        throw {
-            value: false,
-            reason: 'Vi støtter ikke revurdering av perioder med et tidligere skjæringstidspunkt',
-            technical: 'Feil skjæringstidspunkt',
-        };
-    }
-};
-
 export const kanRevurderes = (person: FetchedPerson, periode: FetchedBeregnetPeriode): OverstyringValidation => {
     try {
         validatePeriodeTilhørerNyesteGenerasjon(person, periode);
@@ -164,7 +150,6 @@ export const kanRevurderes = (person: FetchedPerson, periode: FetchedBeregnetPer
         validateIkkeForkastet(periode);
         validateGodkjent(periode);
         validateIngenOverlappendeRevurderinger(person, periode);
-        validateArbeidsgiver(person, periode);
     } catch (error) {
         return error as OverstyringValidationError;
     }
@@ -203,7 +188,6 @@ export const kanOverstyreRevurdering = (
         validateBeslutter(periode);
         validateRevurderes(periode);
         validatePeriodeTilhørerNyesteGenerasjon(person, periode);
-        validateArbeidsgiver(person, periode);
         validateOverlappendePerioderErTilRevurdering(person, periode);
     } catch (error) {
         return error as OverstyringValidationError;
