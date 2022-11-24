@@ -11,6 +11,7 @@ import { useHarVurderLovvalgOgMedlemskapVarsel } from '@hooks/useHarVurderLovval
 import { NotatType, Periodetilstand } from '@io/graphql';
 import { postAbonnerPåAktør } from '@io/http';
 import { useHarDagOverstyringer } from '@state/arbeidsgiver';
+import { useInnloggetSaksbehandler } from '@state/authentication';
 import { opptegnelsePollingTimeState } from '@state/opptegnelser';
 import { getLatestUtbetalingTimestamp, getOverstyringer } from '@state/selectors/person';
 import { isRevurdering } from '@state/selectors/utbetaling';
@@ -94,6 +95,7 @@ export const Utbetaling = ({ period, person }: UtbetalingProps) => {
     const harVurderLovvalgOgMedlemskapVarsel = useHarVurderLovvalgOgMedlemskapVarsel();
     const harOverstyringerEtterSisteGodkjenteUtbetaling = useHarOverstyringerEtterSisteGodkjenteUtbetaling(person);
     const harDagOverstyringer = useHarDagOverstyringer(period);
+    const currentSaksbehandler = useInnloggetSaksbehandler();
 
     const onGodkjennUtbetaling = () => {
         setGodkjentPeriode(period.vedtaksperiodeId);
@@ -123,6 +125,7 @@ export const Utbetaling = ({ period, person }: UtbetalingProps) => {
     const manglerNotatVedVurderLovvalgOgMedlemskapVarsel = harVurderLovvalgOgMedlemskapVarsel
         ? period.notater.filter((it) => it.type === NotatType.Generelt && !it.feilregistrert).length === 0
         : undefined;
+    const erTildeltInnloggetSaksbehandler = currentSaksbehandler.oid === person.tildeling?.oid;
 
     return (
         <>
@@ -135,7 +138,7 @@ export const Utbetaling = ({ period, person }: UtbetalingProps) => {
                     <SendTilGodkjenningButton
                         oppgavereferanse={period.oppgave?.id!}
                         manglerNotatVedVurderLovvalgOgMedlemskapVarsel={manglerNotatVedVurderLovvalgOgMedlemskapVarsel}
-                        disabled={periodenErSendt}
+                        disabled={periodenErSendt || !erTildeltInnloggetSaksbehandler}
                         onSuccess={onSendTilGodkjenning}
                         onError={setError}
                     >
@@ -146,7 +149,7 @@ export const Utbetaling = ({ period, person }: UtbetalingProps) => {
                         oppgavereferanse={period.oppgave?.id!}
                         aktørId={person.aktorId}
                         erBeslutteroppgave={erBeslutteroppgaveOgHarTilgang}
-                        disabled={periodenErSendt}
+                        disabled={periodenErSendt || !erTildeltInnloggetSaksbehandler}
                         onSuccess={onGodkjennUtbetaling}
                         onError={setError}
                     >
@@ -159,7 +162,7 @@ export const Utbetaling = ({ period, person }: UtbetalingProps) => {
                 )}
                 {!isRevurdering && !period.oppgave?.erBeslutter && (
                     <AvvisningButton
-                        disabled={periodenErSendt}
+                        disabled={periodenErSendt || !erTildeltInnloggetSaksbehandler}
                         activePeriod={period}
                         aktørId={person.aktorId}
                         onSuccess={onAvvisUtbetaling}

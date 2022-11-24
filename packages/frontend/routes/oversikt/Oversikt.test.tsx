@@ -36,3 +36,6 @@ describe('Oversikt', () => {
         expect(useRefetchOppgaver).toHaveBeenCalled();
     });
 });
+
+// Testen oversteg default setting på 5000 ved kjøring lokalt
+jest.setTimeout(7000);
