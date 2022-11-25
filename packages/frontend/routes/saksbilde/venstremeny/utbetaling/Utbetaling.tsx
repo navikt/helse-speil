@@ -138,7 +138,7 @@ export const Utbetaling = ({ period, person }: UtbetalingProps) => {
                     <SendTilGodkjenningButton
                         oppgavereferanse={period.oppgave?.id!}
                         manglerNotatVedVurderLovvalgOgMedlemskapVarsel={manglerNotatVedVurderLovvalgOgMedlemskapVarsel}
-                        disabled={periodenErSendt || !erTildeltInnloggetSaksbehandler}
+                        disabled={periodenErSendt}
                         onSuccess={onSendTilGodkjenning}
                         onError={setError}
                     >
@@ -149,7 +149,7 @@ export const Utbetaling = ({ period, person }: UtbetalingProps) => {
                         oppgavereferanse={period.oppgave?.id!}
                         aktørId={person.aktorId}
                         erBeslutteroppgave={erBeslutteroppgaveOgHarTilgang}
-                        disabled={periodenErSendt || !erTildeltInnloggetSaksbehandler}
+                        disabled={periodenErSendt}
                         onSuccess={onGodkjennUtbetaling}
                         onError={setError}
                     >
@@ -162,7 +162,7 @@ export const Utbetaling = ({ period, person }: UtbetalingProps) => {
                 )}
                 {!isRevurdering && !period.oppgave?.erBeslutter && (
                     <AvvisningButton
-                        disabled={periodenErSendt || !erTildeltInnloggetSaksbehandler}
+                        disabled={periodenErSendt}
                         activePeriod={period}
                         aktørId={person.aktorId}
                         onSuccess={onAvvisUtbetaling}

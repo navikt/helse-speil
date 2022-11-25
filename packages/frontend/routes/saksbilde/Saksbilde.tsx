@@ -8,7 +8,6 @@ import { ErrorBoundary } from '@components/ErrorBoundary';
 import { useRefreshPersonVedOpptegnelse } from '@hooks/useRefreshPersonVedOpptegnelse';
 import { useRefreshPersonVedUrlEndring } from '@hooks/useRefreshPersonVedUrlEndring';
 import { useVarselOmSakErTildeltAnnenSaksbehandler } from '@hooks/useVarselOmSakErTildeltAnnenSaksbehandler';
-import { useVarselOmSakIkkeErTildeltSaksbehandler } from '@hooks/useVarselOmSakIkkeErTildeltSaksbehandler';
 import { AmplitudeProvider } from '@io/amplitude';
 import { usePollEtterOpptegnelser } from '@io/http';
 
@@ -27,7 +26,6 @@ const SaksbildeContent = React.memo(() => {
     useRefreshPersonVedOpptegnelse();
     usePollEtterOpptegnelser();
     useVarselOmSakErTildeltAnnenSaksbehandler();
-    useVarselOmSakIkkeErTildeltSaksbehandler();
     useKeyboardShortcuts();
 
     const { path } = useRouteMatch();
