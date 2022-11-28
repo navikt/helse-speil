@@ -23,6 +23,7 @@ const harKunLesetilgang = () => kunLesetilgang.includes(extractIdent());
 const harTilgangTilAlt = () => [...supersaksbehandlere, ...fagkoordinatorer, ...enhetsledere].includes(extractIdent());
 const erCoach = () => coaches.includes(extractIdent());
 const harTilgangStikkprøver = () => tilgangStikkprøver.includes(extractIdent());
+const kanFrigiSaker = () => ['S109031'].includes(extractIdent());
 
 const erPåTeamBømlo = () => extractGroups().includes(groupIdForTbd);
 
@@ -37,7 +38,7 @@ export const flereArbeidsgivere = true;
 
 export const utbetalingTilSykmeldt = erLocal() || erDev() || erPåTeamBømlo() || harTilgangTilAlt() || erCoach();
 
-export const kanFrigiAndresOppgaver = harTilgangTilAlt() || erLocal() || erDev();
+export const kanFrigiAndresOppgaver = kanFrigiSaker() || harTilgangTilAlt() || erLocal() || erDev();
 
 export const graphqlplayground = erLocal() || erDev() || erPåTeamBømlo();
 
