@@ -1,11 +1,8 @@
-import dayjs from 'dayjs';
-
-import { Arbeidsgiver, Inntektstype } from '@io/graphql';
+import { Inntektstype } from '@io/graphql';
 import { getArbeidsgiverWithPeriod } from '@state/selectors/arbeidsgiver';
 import { getOverlappendePerioder, isForkastet, isGodkjent } from '@state/selectors/period';
 import { defaultUtbetalingToggles } from '@utils/featureToggles';
 import { getPeriodState } from '@utils/mapping';
-import { isBeregnetPeriode } from '@utils/typeguards';
 
 type OverstyringValidationSuccess = {
     value: true;
@@ -68,24 +65,8 @@ const validateOverstyreUtbetaltPeriodeEnabled = (): void => {
     }
 };
 
-const validateOverstyreTidligereSykefraværstilfelle = (
-    person: FetchedPerson,
-    periode: FetchedBeregnetPeriode
-): void => {
-    const arbeidsgiver = getArbeidsgiverWithPeriod(person, periode)!;
-    if (periodeTilhørerSisteSykefraværstilfelle(arbeidsgiver, periode!)) return;
-    if (!defaultUtbetalingToggles.overstyreTidligereSykefraværstilfelle) {
-        throw {
-            value: false,
-            reason: 'Vi støtter ikke revurdering av tidligere sykefraværstilfelle',
-            technical: 'Revurdering av tidligere sykefravær',
-        };
-    }
-};
-
-const validateFeatureToggles = (person: FetchedPerson, periode: FetchedBeregnetPeriode): void => {
+const validateFeatureToggles = (): void => {
     validateOverstyreUtbetaltPeriodeEnabled();
-    validateOverstyreTidligereSykefraværstilfelle(person, periode);
 };
 
 const validateIkkeForkastet = (periode: FetchedBeregnetPeriode): void => {
@@ -122,15 +103,6 @@ const validateIngenOverlappendeRevurderinger = (person: FetchedPerson, periode: 
     }
 };
 
-const periodeTilhørerSisteSykefraværstilfelle = (arbeidsgiver: Arbeidsgiver, periode: FetchedBeregnetPeriode) => {
-    const sisteSkjæringstidspunkt = arbeidsgiver.generasjoner[0].perioder
-        .filter(isBeregnetPeriode)
-        .sort(
-            (a, b) => new Date(b.skjaeringstidspunkt).getTime() - new Date(a.skjaeringstidspunkt).getTime()
-        )[0].skjaeringstidspunkt;
-    return dayjs(sisteSkjæringstidspunkt).isSame(periode.skjaeringstidspunkt, 'day');
-};
-
 const validatePeriodeTilhørerNyesteGenerasjon = (person: FetchedPerson, periode: FetchedBeregnetPeriode): void => {
     const arbeidsgiver = getArbeidsgiverWithPeriod(person, periode);
 
@@ -145,7 +117,7 @@ const validatePeriodeTilhørerNyesteGenerasjon = (person: FetchedPerson, periode
 export const kanRevurderes = (person: FetchedPerson, periode: FetchedBeregnetPeriode): OverstyringValidation => {
     try {
         validatePeriodeTilhørerNyesteGenerasjon(person, periode);
-        validateFeatureToggles(person, periode);
+        validateFeatureToggles();
         validateBeslutter(periode);
         validateIkkeForkastet(periode);
         validateGodkjent(periode);

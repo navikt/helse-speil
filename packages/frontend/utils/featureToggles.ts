@@ -28,7 +28,6 @@ const kanFrigiSaker = () => ['S109031'].includes(extractIdent());
 const erPåTeamBømlo = () => extractGroups().includes(groupIdForTbd);
 
 export const overstyreUtbetaltPeriodeEnabled = !harKunLesetilgang();
-export const overstyreTidligereSykefraværstilfelle = erDev() || erLocal() || erCoach() || harTilgangTilAlt();
 export const annulleringerEnabled = !harKunLesetilgang();
 export const utbetalingsoversikt = !harKunLesetilgang();
 
@@ -44,12 +43,10 @@ export const graphqlplayground = erLocal() || erDev() || erPåTeamBømlo();
 
 export interface UtbetalingToggles {
     overstyreUtbetaltPeriodeEnabled: boolean;
-    overstyreTidligereSykefraværstilfelle: boolean;
 }
 
 export const defaultUtbetalingToggles: UtbetalingToggles = {
     overstyreUtbetaltPeriodeEnabled,
-    overstyreTidligereSykefraværstilfelle,
 };
 
 export const overstyrInntektEnabled = overstyreUtbetaltPeriodeEnabled;
