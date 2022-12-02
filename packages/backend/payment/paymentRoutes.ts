@@ -54,7 +54,7 @@ export default ({ vedtakClient, annulleringClient, totrinnsvurderingClient }: Se
                     `Feil under fatting av vedtak for ${saksbehandlerIdent}, oppgavereferanse ${oppgavereferanse}: ${err}`
                 );
 
-                const statusCode = err.statusCode === 409 ? 409 : 500;
+                const statusCode = err.statusCode === 409 ? 409 : 403 ? 403 : 500;
                 res.status(statusCode).send('Feil under fatting av vedtak.');
             });
     });
