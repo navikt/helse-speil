@@ -66,6 +66,12 @@ export const GodkjenningButton: React.FC<GodkjenningButtonProps> = ({
             .catch((error) => {
                 if (error.statusCode === 409) {
                     onError?.({ ...error, message: 'Saken er allerede utbetalt.' });
+                } else if (error.statusCode === 403) {
+                    onError?.({
+                        ...error,
+                        message:
+                            'Du har ikke tilgang til å behandle denne saken. Hvis du har tildelt deg saken, meld deg av. Saken vil behandles videre av en saksbehandler med tilgang.',
+                    });
                 } else onError?.(error);
             })
             .finally(() => {
