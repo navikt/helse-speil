@@ -34,6 +34,12 @@ jobs:
           path: ~/.npm
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
           restore-keys: ${{ runner.os }}-node-
+      - name: set timezone
+        run: export TZ=utc
+      - name: install root dependencies
+        run: npm ci --ignore-scripts
+      - name: install package dependencies
+        run: npx lerna bootstrap
       - name: get jest cache directory
         run: |
           jest_command=packages/frontend/node_modules/jest-cli/bin/jest.js # fordi å installere jest med npx tar ti sekunder
@@ -45,12 +51,6 @@ jobs:
           path: ${{ env.jest_cache_dir }}
           key: ${{ runner.os }}-jest-${{ hashFiles('packages/backend/jest.config.js', 'packages/frontend/jest.config.js') }}
           restore-keys: ${{ runner.os }}-jest-
-      - name: set timezone
-        run: export TZ=utc
-      - name: install root dependencies
-        run: npm ci --ignore-scripts
-      - name: install package dependencies
-        run: npx lerna bootstrap
       - name: test
         run: npm run test-ci
       - name: build
