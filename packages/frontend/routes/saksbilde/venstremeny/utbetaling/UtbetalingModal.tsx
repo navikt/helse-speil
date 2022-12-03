@@ -11,8 +11,11 @@ const Buttons = styled.div`
     > button:not(:last-of-type) {
         margin-right: 1rem;
     }
+`;
 
-    > button > svg {
+const KnappMedSpinner = styled.div`
+    display: flex;
+    > svg {
         margin-left: 0.5rem;
     }
 `;
@@ -48,8 +51,10 @@ export const UtbetalingModal = ({ isSending, onApprove, onClose, totrinnsvurderi
             </BodyShort>
             <Buttons>
                 <Button variant="primary" onClick={onApprove} disabled={isSending}>
-                    Ja
-                    {isSending && <Loader size="xsmall" />}
+                    <KnappMedSpinner>
+                        <span>Ja</span>
+                        {isSending && <Loader size="xsmall" />}
+                    </KnappMedSpinner>
                 </Button>
                 <Button variant="secondary" onClick={onClose}>
                     Avbryt
