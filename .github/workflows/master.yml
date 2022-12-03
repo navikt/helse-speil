@@ -34,12 +34,16 @@ jobs:
           path: ~/.npm
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
           restore-keys: ${{ runner.os }}-node-
+      - name: get jest cache directory
+        run: |
+          jest_command=packages/frontend/node_modules/jest-cli/bin/jest.js # fordi å installere jest med npx tar ti sekunder
+          echo "jest_cache_dir=$($jest_command --showConfig | jq -r '.configs[0].cacheDirectory')" >> $GITHUB_ENV
       - name: Cache jest
         id: cache-jest
         uses: actions/cache@v2
         with:
-          path: .jest-cache
-          key: ${{ runner.os }}-jest-${{ hashFiles('jest.config.js') }}
+          path: ${{ env.jest_cache_dir }}
+          key: ${{ runner.os }}-jest-${{ hashFiles('packages/backend/jest.config.js', 'packages/frontend/jest.config.js') }}
           restore-keys: ${{ runner.os }}-jest-
       - name: set timezone
         run: export TZ=utc
@@ -48,7 +52,7 @@ jobs:
       - name: install package dependencies
         run: npx lerna bootstrap
       - name: test
-        run: npm run test
+        run: npm run test-ci
       - name: build
         run: npm run build
       - name: Cache Cypress binary

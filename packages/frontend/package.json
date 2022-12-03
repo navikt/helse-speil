@@ -11,9 +11,10 @@
     "scripts": {
         "dev": "cross-env NODE_ENV=development vite --port 1234",
         "test:eslint": "eslint . --ext .js --ext .jsx --ext .tsx --ext .ts",
-        "test": "cross-env TZ=UTC jest --maxWorkers=3",
+        "test": "cross-env TZ=UTC jest",
+        "test-ci": "npm run test -- --maxWorkers=2 --cacheDirectory=$jest_cache_dir",
         "clean": "rm -rf node_modules",
-        "tdd": "TZ=UTC jest --watch --maxWorkers=3",
+        "tdd": "TZ=UTC jest --watch",
         "validate-ts": "tsc --noEmit --project tsconfig.json",
         "pretest": "npm run test:eslint && npm run validate-ts",
         "build": "vite build",
