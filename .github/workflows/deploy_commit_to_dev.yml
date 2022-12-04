@@ -26,19 +26,14 @@ jobs:
     needs: set_version
     timeout-minutes: 15
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v3
         with:
           ref: ${{ needs.set_version.outputs.tag }}
-      - uses: actions/setup-node@v1
+      - uses: actions/setup-node@v3
         with:
-          node-version: "14"
-      - name: Cache node deps
-        id: cache-node
-        uses: actions/cache@v1
-        with:
-          path: ~/.npm
-          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: ${{ runner.os }}-node-
+          node-version: '14'
+          cache: 'npm'
+          cache-dependency-path: '**/package-lock.json'
       - name: set timezone
         run: export TZ=utc
       - name: install root dependencies
@@ -50,7 +45,7 @@ jobs:
       - name: build
         run: npm run build
       - name: Cache Cypress binary
-        uses: actions/cache@v1
+        uses: actions/cache@v3
         with:
           path: ~/.cache/Cypress
           key: |
@@ -63,7 +58,7 @@ jobs:
       - name: run e2e-test
         run: npm run e2e-test
       - name: Archive Cypress artifacts
-        uses: actions/upload-artifact@v1
+        uses: actions/upload-artifact@v3
         with:
           name: videos
           path: e2e-tests/cypress/videos
@@ -72,7 +67,7 @@ jobs:
           npm prune --production
           docker build . --pull -t ${{ env.IMAGE }}:${{ needs.set_version.outputs.tag }}
       - name: Login to GitHub Pkg Registry
-        uses: docker/login-action@v1
+        uses: docker/login-action@v2
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
@@ -86,7 +81,7 @@ jobs:
     needs: [set_version, build]
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v3
         with:
           ref: ${{ needs.set_version.outputs.tag }}
       - uses: nais/deploy/actions/deploy@v1

@@ -7,10 +7,12 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
-    - uses: actions/checkout@v1
-    - uses: actions/setup-node@v1
+    - uses: actions/checkout@v3
+    - uses: actions/setup-node@v3
       with:
-        node-version: '14.x'
+        node-version: '14'
+        cache: 'npm'
+        cache-dependency-path: '**/package-lock.json'
     - name: install root dependencies
       run: npm ci --ignore-scripts
     - name: install package dependencies
@@ -20,7 +22,7 @@ jobs:
     - name: build
       run: npm run build
     - name: Cache Cypress binary
-      uses: actions/cache@v1
+      uses: actions/cache@v3
       with:
         path: ~/.cache/Cypress
         key: |
@@ -33,7 +35,7 @@ jobs:
     - name: run e2e-test
       run: npm run e2e-test
     - name: Archive Cypress artifacts
-      uses: actions/upload-artifact@v1
+      uses: actions/upload-artifact@v3
       with:
         name: videos
         path: e2e-tests/cypress/videos
