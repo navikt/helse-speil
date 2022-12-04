@@ -24,16 +24,11 @@ jobs:
     timeout-minutes: 15
     steps:
       - uses: actions/checkout@v3
-      - uses: actions/setup-node@v1
+      - uses: actions/setup-node@v3
         with:
-          node-version: "14"
-      - name: Cache node deps
-        id: cache-node
-        uses: actions/cache@v3
-        with:
-          path: ~/.npm
-          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: ${{ runner.os }}-node-
+          node-version: '14'
+          cache: 'npm'
+          cache-dependency-path: '**/package-lock.json'
       - name: set timezone
         run: export TZ=utc
       - name: install root dependencies
