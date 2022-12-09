@@ -39,6 +39,8 @@ export const enInntektoverstyring: OverridableConstructor<Inntektoverstyring> = 
         fraManedligInntekt: 30000,
         manedligInntekt: 30000,
         skjaeringstidspunkt: '2020-01-01',
+        refusjonsopplysninger: [],
+        fraRefusjonsopplysninger: [],
     },
     saksbehandler: {
         ident: 'A123456',

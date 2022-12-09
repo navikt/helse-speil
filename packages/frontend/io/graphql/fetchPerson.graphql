@@ -329,6 +329,16 @@ query FetchPerson($fnr: String, $aktorId: String) {
                         forklaring
                         manedligInntekt
                         fraManedligInntekt
+                        refusjonsopplysninger {
+                            fom
+                            tom
+                            belop
+                        }
+                        fraRefusjonsopplysninger {
+                            fom
+                            tom
+                            belop
+                        }
                     }
                 }
                 ... on Arbeidsforholdoverstyring {

@@ -145,6 +145,7 @@ export type BeregnetPeriode = Periode & {
     gjenstaendeSykedager?: Maybe<Scalars['Int']>;
     hendelser: Array<Hendelse>;
     id: Scalars['String'];
+    inntektFraAordningen: Array<InntektFraAOrdningen>;
     inntektstype: Inntektstype;
     maksdato: Scalars['String'];
     notater: Array<Notat>;
@@ -489,7 +490,9 @@ export type OverstyrtInntekt = {
     __typename?: 'OverstyrtInntekt';
     forklaring: Scalars['String'];
     fraManedligInntekt?: Maybe<Scalars['Float']>;
+    fraRefusjonsopplysninger?: Maybe<Array<Refusjonsopplysning>>;
     manedligInntekt: Scalars['Float'];
+    refusjonsopplysninger?: Maybe<Array<Refusjonsopplysning>>;
     skjaeringstidspunkt: Scalars['String'];
 };
 
@@ -640,6 +643,13 @@ export type Refusjonselement = {
     belop: Scalars['Float'];
     fom: Scalars['String'];
     meldingsreferanseId: Scalars['String'];
+    tom?: Maybe<Scalars['String']>;
+};
+
+export type Refusjonsopplysning = {
+    __typename?: 'Refusjonsopplysning';
+    belop: Scalars['Float'];
+    fom: Scalars['String'];
     tom?: Maybe<Scalars['String']>;
 };
 
