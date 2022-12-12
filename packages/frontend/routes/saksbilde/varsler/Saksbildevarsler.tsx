@@ -3,11 +3,12 @@ import React from 'react';
 
 import { Alert, BodyShort } from '@navikt/ds-react';
 
-import { Maybe, Overstyring } from '@io/graphql';
-import { utbetalingTilSykmeldt } from '@utils/featureToggles';
+import { Maybe, Overstyring, VarselDto } from '@io/graphql';
+import { skalViseAvhukbareVarsler, utbetalingTilSykmeldt } from '@utils/featureToggles';
 import { isArbeidsforholdoverstyring, isDagoverstyring, isInntektoverstyring } from '@utils/typeguards';
 
 import { Aktivitetsloggvarsler } from './Aktivetsloggvarsler';
+import { Varsler } from './Varsler';
 
 import styles from './Saksbildevarsler.module.css';
 
@@ -137,6 +138,7 @@ interface SaksbildevarslerProps {
     periodState: PeriodState;
     oppgavereferanse?: Maybe<string>;
     varsler?: Maybe<Array<string>>;
+    varslerForGenerasjon?: Maybe<Array<VarselDto>>;
     erTidligereSaksbehandler?: boolean;
     periodeMedBrukerutbetaling?: boolean;
     erBeslutteroppgave?: boolean;
@@ -146,10 +148,30 @@ interface SaksbildevarslerProps {
     activePeriodTom?: string;
 }
 
+type GrupperteVarsler = {
+    beslutteroppgaveVarsler: VarselDto[];
+    vanligeVarsler: VarselDto[];
+};
+
+function grupperVarsler(varslerForGenerasjon: Maybe<Array<VarselDto>> | undefined) {
+    return (varslerForGenerasjon || []).reduce(
+        (grupperteVarsler: GrupperteVarsler, varsel) => {
+            if (varsel.tittel.includes('Beslutteroppgave:')) {
+                grupperteVarsler.beslutteroppgaveVarsler.push(varsel);
+            } else {
+                grupperteVarsler.vanligeVarsler.push(varsel);
+            }
+            return grupperteVarsler;
+        },
+        { beslutteroppgaveVarsler: [], vanligeVarsler: [] }
+    );
+}
+
 export const Saksbildevarsler = ({
     periodState,
     oppgavereferanse,
     varsler,
+    varslerForGenerasjon,
     erTidligereSaksbehandler = false,
     periodeMedBrukerutbetaling = false,
     erBeslutteroppgave = false,
@@ -158,6 +180,7 @@ export const Saksbildevarsler = ({
     harDagOverstyringer,
     activePeriodTom,
 }: SaksbildevarslerProps) => {
+    const { vanligeVarsler }: GrupperteVarsler = grupperVarsler(varslerForGenerasjon);
     const infoVarsler: VarselObject[] = [
         sendtTilBeslutter(erTidligereSaksbehandler && erBeslutteroppgave),
         ikkeTilgangUTS(periodeMedBrukerutbetaling && !utbetalingTilSykmeldt),
@@ -188,7 +211,8 @@ export const Saksbildevarsler = ({
                     <BodyShort>{melding}</BodyShort>
                 </Alert>
             ))}
-            {varsler && <Aktivitetsloggvarsler varsler={filtrerVarsler(varsler)} />}
+            {!skalViseAvhukbareVarsler && varsler && <Aktivitetsloggvarsler varsler={filtrerVarsler(varsler)} />}
+            {skalViseAvhukbareVarsler && varslerForGenerasjon && <Varsler varsler={vanligeVarsler} />}
             {feilVarsler.map(({ grad, melding }, index) => (
                 <Alert className={styles.Varsel} variant={grad} key={index}>
                     <BodyShort>{melding}</BodyShort>

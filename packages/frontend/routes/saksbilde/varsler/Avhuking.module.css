@@ -1,0 +1,42 @@
+.avhuking {
+    border: none;
+    padding: 0;
+    background: none;
+}
+
+.avhuking-aktiv > svg > circle {
+    fill: #ffffff;
+    stroke: var(--navds-global-color-blue-500);
+}
+
+.avhuking-aktiv > svg > path {
+    fill: var(--navds-global-color-blue-500);
+}
+
+.avhuking-vurdert > svg > circle {
+    fill: var(--navds-semantic-color-feedback-success-border);
+    stroke: var(--navds-semantic-color-feedback-success-border);
+}
+
+.avhuking-vurdert > svg > path {
+    fill: #ffffff;
+}
+
+.avhuking-ferdig-behandlet > svg > circle {
+    fill: var(--navds-semantic-color-feedback-success-border);
+    stroke: var(--navds-semantic-color-feedback-success-border);
+}
+
+.avhuking-ferdig-behandlet > svg > path {
+    fill: #ffffff;
+}
+
+.avhuking-vurdert {
+    /*border-color: var(--navds-semantic-color-feedback-success-border);*/
+    /*background-color: var(--navds-semantic-color-feedback-success-border);*/
+}
+
+.avhuking-ferdig-behandlet {
+    /*border-color: var(--navds-semantic-color-feedback-success-border);*/
+    /*background-color: var(--navds-semantic-color-feedback-success-border);*/
+}

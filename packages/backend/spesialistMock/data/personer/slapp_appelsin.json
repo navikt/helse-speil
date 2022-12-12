@@ -697,8 +697,17 @@
                                     ],
                                     "varslerForGenerasjon": [
                                         {
-                                            "id": "tull",
+                                            "id": "EN_ID",
+                                            "kode": "EN_KODE",
                                             "tittel": "Flere arbeidsgivere, ulikt starttidspunkt for sykefraværet eller ikke fravær fra alle arbeidsforhold",
+                                            "forklaring": null,
+                                            "handling": null,
+                                            "vurdering": null
+                                        },
+                                        {
+                                            "id": "EN_ANNEN_ID",
+                                            "kode": "EN_ANNEN_KODE",
+                                            "tittel": "Beslutteroppgave: Flere arbeidsgivere, ulikt starttidspunkt for sykefraværet eller ikke fravær fra alle arbeidsforhold",
                                             "forklaring": null,
                                             "handling": null,
                                             "vurdering": null
