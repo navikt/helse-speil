@@ -904,6 +904,7 @@ export type VarselDto = {
     forklaring?: Maybe<Scalars['String']>;
     handling?: Maybe<Scalars['String']>;
     id: Scalars['String'];
+    kode: Scalars['String'];
     tittel: Scalars['String'];
     vurdering?: Maybe<VarselvurderingDto>;
 };
@@ -911,6 +912,7 @@ export type VarselDto = {
 export enum Varselstatus {
     Avvist = 'AVVIST',
     Godkjent = 'GODKJENT',
+    Inaktiv = 'INAKTIV',
     Vurdert = 'VURDERT',
 }
 
@@ -1609,6 +1611,20 @@ export type FetchPersonQuery = {
                                   }> | null;
                               } | null;
                           };
+                          varslerForGenerasjon: Array<{
+                              __typename?: 'VarselDTO';
+                              id: string;
+                              kode: string;
+                              tittel: string;
+                              forklaring?: string | null;
+                              handling?: string | null;
+                              vurdering?: {
+                                  __typename?: 'VarselvurderingDTO';
+                                  ident: string;
+                                  status: Varselstatus;
+                                  tidsstempel: string;
+                              } | null;
+                          }>;
                           oppgave?: {
                               __typename?: 'OppgaveForPeriodevisning';
                               id: string;

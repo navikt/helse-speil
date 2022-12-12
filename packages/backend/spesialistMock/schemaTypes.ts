@@ -904,6 +904,7 @@ export type VarselDto = {
     forklaring?: Maybe<Scalars['String']>;
     handling?: Maybe<Scalars['String']>;
     id: Scalars['String'];
+    kode: Scalars['String'];
     tittel: Scalars['String'];
     vurdering?: Maybe<VarselvurderingDto>;
 };
@@ -911,6 +912,7 @@ export type VarselDto = {
 export enum Varselstatus {
     Avvist = 'AVVIST',
     Godkjent = 'GODKJENT',
+    Inaktiv = 'INAKTIV',
     Vurdert = 'VURDERT',
 }
 

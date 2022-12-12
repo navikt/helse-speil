@@ -8370,6 +8370,22 @@
                         "deprecationReason": null
                     },
                     {
+                        "name": "kode",
+                        "description": null,
+                        "args": [],
+                        "type": {
+                            "kind": "NON_NULL",
+                            "name": null,
+                            "ofType": {
+                                "kind": "SCALAR",
+                                "name": "String",
+                                "ofType": null
+                            }
+                        },
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
+                    {
                         "name": "tittel",
                         "description": null,
                         "args": [],
@@ -8419,6 +8435,12 @@
                     },
                     {
                         "name": "GODKJENT",
+                        "description": null,
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
+                    {
+                        "name": "INAKTIV",
                         "description": null,
                         "isDeprecated": false,
                         "deprecationReason": null
