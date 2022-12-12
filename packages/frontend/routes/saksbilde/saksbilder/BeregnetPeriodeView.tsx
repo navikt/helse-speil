@@ -42,6 +42,9 @@ interface BeregnetPeriodeViewProps {
 }
 
 export const BeregnetPeriodeView: React.FC<BeregnetPeriodeViewProps> = ({ period, person }) => {
+    console.log('Antall varsler ', period.varsler.length);
+    console.log('Antall varslerForGenerasjon ', period.varslerForGenerasjon.length);
+
     if (!period.skjaeringstidspunkt || !period.vilkarsgrunnlagId) {
         throw Error('Mangler skjæringstidspunkt eller vilkårsgrunnlag. Ta kontakt med en utvikler.');
     }

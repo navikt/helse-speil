@@ -294,6 +294,17 @@ query FetchPerson($fnr: String, $aktorId: String) {
                             }
                         }
                         varsler
+                        varslerForGenerasjon {
+                            id
+                            tittel
+                            forklaring
+                            handling
+                            vurdering {
+                                ident
+                                status
+                                tidsstempel
+                            }
+                        }
                         vilkarsgrunnlagId
                         oppgave {
                             id

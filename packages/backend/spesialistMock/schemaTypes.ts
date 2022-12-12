@@ -167,6 +167,7 @@ export type BeregnetPeriode = Periode & {
     trengerTotrinnsvurdering: Scalars['Boolean'];
     utbetaling: Utbetaling;
     varsler: Array<Scalars['String']>;
+    varslerForGenerasjon: Array<VarselDto>;
     vedtaksperiodeId: Scalars['String'];
     vilkarsgrunnlagId?: Maybe<Scalars['String']>;
 };
@@ -897,6 +898,28 @@ export enum Utbetalingtype {
     Ukjent = 'UKJENT',
     Utbetaling = 'UTBETALING',
 }
+
+export type VarselDto = {
+    __typename?: 'VarselDTO';
+    forklaring?: Maybe<Scalars['String']>;
+    handling?: Maybe<Scalars['String']>;
+    id: Scalars['String'];
+    tittel: Scalars['String'];
+    vurdering?: Maybe<VarselvurderingDto>;
+};
+
+export enum Varselstatus {
+    Avvist = 'AVVIST',
+    Godkjent = 'GODKJENT',
+    Vurdert = 'VURDERT',
+}
+
+export type VarselvurderingDto = {
+    __typename?: 'VarselvurderingDTO';
+    ident: Scalars['String'];
+    status: Varselstatus;
+    tidsstempel: Scalars['String'];
+};
 
 export type Vilkarsgrunnlag = {
     arbeidsgiverrefusjoner: Array<Arbeidsgiverrefusjon>;
