@@ -901,6 +901,7 @@ export enum Utbetalingtype {
 
 export type VarselDto = {
     __typename?: 'VarselDTO';
+    definisjonId: Scalars['String'];
     forklaring?: Maybe<Scalars['String']>;
     handling?: Maybe<Scalars['String']>;
     id: Scalars['String'];
