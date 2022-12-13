@@ -30,13 +30,3 @@
 .avhuking-ferdig-behandlet > svg > path {
     fill: #ffffff;
 }
-
-.avhuking-vurdert {
-    /*border-color: var(--navds-semantic-color-feedback-success-border);*/
-    /*background-color: var(--navds-semantic-color-feedback-success-border);*/
-}
-
-.avhuking-ferdig-behandlet {
-    /*border-color: var(--navds-semantic-color-feedback-success-border);*/
-    /*background-color: var(--navds-semantic-color-feedback-success-border);*/
-}
