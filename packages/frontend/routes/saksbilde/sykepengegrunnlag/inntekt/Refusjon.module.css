@@ -1,0 +1,75 @@
+.RefusjonWrapper {
+    margin-bottom: 2rem;
+}
+.RefusjonsRad {
+    display: flex;
+    max-width: 100%;
+    border-bottom: 1px solid #c6c2bf;
+    padding-bottom: 0.5rem;
+    gap: var(--navds-spacing-2);
+}
+
+.RefusjonsHeading {
+    display: flex;
+    gap: var(--navds-spacing-2);
+    max-width: 100%;
+    border-bottom: 1px solid #3e3832;
+    padding-bottom: var(--navds-spacing-2);
+    margin-top: var(--navds-spacing-2);
+}
+
+.RefusjonsHeading > div {
+    width: 144px;
+}
+
+.DateInput {
+    max-width: 144px;
+    box-sizing: border-box;
+}
+
+.BeløpInput {
+    border-radius: 3px;
+    border: 1px solid var(--navds-semantic-color-border);
+    outline: none;
+    max-width: 114px;
+    box-sizing: border-box;
+    max-height: 2rem;
+    margin-top: var(--navds-spacing-2);
+    text-align: right;
+    padding: 0 var(--navds-spacing-1);
+}
+.BeløpInput:focus-visible {
+    box-shadow: var(--navds-shadow-focus);
+}
+.BeløpInput::-webkit-outer-spin-button,
+.BeløpInput::-webkit-inner-spin-button {
+    /* display: none; <- Crashes Chrome on hover */
+    -webkit-appearance: none;
+    margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
+}
+
+.BeløpInput[type='number'] {
+    -moz-appearance: textfield; /* Firefox */
+}
+
+.Button {
+    display: flex;
+    align-items: center;
+    flex-wrap: nowrap;
+    color: var(--navds-semantic-color-interaction-primary);
+    padding: 0;
+    margin-top: var(--navds-spacing-2);
+}
+
+.Button > p {
+    line-height: 16px;
+    text-decoration: underline;
+}
+
+.Button:hover > p {
+    text-decoration: none;
+}
+
+.Ikon {
+    margin-top: var(--navds-spacing-2);
+}

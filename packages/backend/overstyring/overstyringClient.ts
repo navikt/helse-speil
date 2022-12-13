@@ -1,6 +1,7 @@
 import request from 'request-promise-native';
 
 import config from '../config';
+import { Refusjonsopplysning } from '../spesialistMock/schemaTypes';
 import { OidcConfig, OnBehalfOf } from '../types';
 
 const spesialistBaseUrl = config.server.spesialistBaseUrl;
@@ -43,6 +44,8 @@ interface OverstyringInntektDTO {
     månedligInntekt: number;
     fraMånedligInntekt: number;
     skjæringstidspunkt: string;
+    fraRefusjonsopplysninger?: Refusjonsopplysning[];
+    refusjonsopplysninger?: Refusjonsopplysning[];
 }
 
 interface OverstyrtArbeidsforholdDTO {

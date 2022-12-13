@@ -693,7 +693,8 @@
                                         }
                                     },
                                     "varsler": [
-                                        "Flere arbeidsgivere, ulikt starttidspunkt for sykefraværet eller ikke fravær fra alle arbeidsforhold"
+                                        "Flere arbeidsgivere, ulikt starttidspunkt for sykefraværet eller ikke fravær fra alle arbeidsforhold",
+                                        "Vurder lovvalg og medlemskap"
                                     ],
                                     "varslerForGenerasjon": [
                                         {
@@ -741,7 +742,21 @@
                                 "skjaeringstidspunkt": "2022-09-01",
                                 "forklaring": "blabball",
                                 "manedligInntekt": 31000,
-                                "fraManedligInntekt": 30000
+                                "fraManedligInntekt": 30000,
+                                "refusjonsopplysninger": [
+                                    {
+                                        "fom": "2022-09-01",
+                                        "tom": null,
+                                        "belop": 31000
+                                    }
+                                ],
+                                "fraRefusjonsopplysninger": [
+                                    {
+                                        "fom": "2022-09-01",
+                                        "tom": null,
+                                        "belop": 31000
+                                    }
+                                ]
                             }
                         }
                     ]

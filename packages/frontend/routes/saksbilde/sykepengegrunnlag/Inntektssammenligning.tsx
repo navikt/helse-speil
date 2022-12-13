@@ -22,7 +22,7 @@ const ArbeidsgiverRad = styled.tr<{ erGjeldende: boolean }>`
         ${({ erGjeldende }) =>
             erGjeldende &&
             css`
-                background-color: var(--speil-light-hover);
+                background-color: #e6f0ff;
             `};
     }
 

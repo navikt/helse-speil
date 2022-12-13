@@ -1,4 +1,3 @@
-import { BegrunnelseForOverstyring } from '../overstyring.types';
 import { MånedsbeløpInput } from './MånedsbeløpInput';
 import classNames from 'classnames';
 import React, { useEffect, useRef, useState } from 'react';
@@ -12,7 +11,7 @@ import { ErrorMessage } from '@components/ErrorMessage';
 import { Flex, FlexColumn } from '@components/Flex';
 import { OverstyringTimeoutModal } from '@components/OverstyringTimeoutModal';
 import { Inntektskilde, OmregnetArsinntekt } from '@io/graphql';
-import type { OverstyrtInntektDTO } from '@io/http';
+import type { OverstyrtInntektDTO, Refusjonsopplysning } from '@io/http';
 import { postAbonnerPåAktør, postOverstyrtInntekt } from '@io/http';
 import { useCurrentArbeidsgiver } from '@state/arbeidsgiver';
 import {
@@ -25,11 +24,14 @@ import { useOpptegnelser, useSetOpptegnelserPollingRate } from '@state/opptegnel
 import { useActivePeriod } from '@state/periode';
 import { useCurrentPerson } from '@state/person';
 import { useAddToast, useRemoveToast } from '@state/toasts';
+import { kanOverstyreRefusjonsopplysninger } from '@utils/featureToggles';
 import { somPenger, toKronerOgØre } from '@utils/locale';
 import { isArbeidsgiver, isBeregnetPeriode, isGhostPeriode, isPerson } from '@utils/typeguards';
 
+import { BegrunnelseForOverstyring } from '../overstyring.types';
 import { Begrunnelser } from './Begrunnelser';
 import { ForklaringTextarea } from './ForklaringTextarea';
+import { Refusjon } from './Refusjon';
 
 import styles from './EditableInntekt.module.css';
 
@@ -38,6 +40,7 @@ type OverstyrtInntektMetadata = {
     fødselsnummer: string;
     organisasjonsnummer: string;
     skjæringstidspunkt: DateString;
+    fraRefusjonsopplysninger: Refusjonsopplysning[];
 };
 
 const useOverstyrtInntektMetadata = (): OverstyrtInntektMetadata => {
@@ -49,11 +52,19 @@ const useOverstyrtInntektMetadata = (): OverstyrtInntektMetadata => {
         throw Error('Mangler data for å kunne overstyre inntekt.');
     }
 
+    const vilkårsgrunnlagRefusjonsopplysninger: Refusjonsopplysning[] = person.vilkarsgrunnlag
+        .filter((it) => it.id === period.vilkarsgrunnlagId)[0]
+        .arbeidsgiverrefusjoner.filter(
+            (arbeidsgiverrefusjon) => arbeidsgiverrefusjon.arbeidsgiver === arbeidsgiver.organisasjonsnummer
+        )[0]
+        .refusjonsopplysninger.map((it) => ({ fom: it.fom, tom: it.tom, beløp: it.belop }));
+
     return {
         aktørId: person.aktorId,
         fødselsnummer: person.fodselsnummer,
         organisasjonsnummer: arbeidsgiver.organisasjonsnummer,
         skjæringstidspunkt: period.skjaeringstidspunkt,
+        fraRefusjonsopplysninger: vilkårsgrunnlagRefusjonsopplysninger,
     };
 };
 
@@ -146,6 +157,8 @@ export const EditableInntekt = ({ omregnetÅrsinntekt, begrunnelser, close, onEn
     const harFeil = !form.formState.isValid && form.formState.isSubmitted;
     const values = form.getValues();
 
+    console.log(values);
+
     const månedsbeløp = Number.parseFloat(values.manedsbelop);
     const harEndringer = !isNaN(månedsbeløp) && månedsbeløp !== omregnetÅrsinntekt.manedsbelop;
 
@@ -160,7 +173,7 @@ export const EditableInntekt = ({ omregnetÅrsinntekt, begrunnelser, close, onEn
     }, [harFeil]);
 
     const confirmChanges = () => {
-        const { begrunnelseId, forklaring, manedsbelop } = form.getValues();
+        const { begrunnelseId, forklaring, manedsbelop, refusjonsopplysninger } = form.getValues();
         const begrunnelse = begrunnelser.find((begrunnelse) => begrunnelse.id === begrunnelseId)!!;
         const overstyrtInntekt: OverstyrtInntektDTO = {
             ...metadata,
@@ -175,6 +188,7 @@ export const EditableInntekt = ({ omregnetÅrsinntekt, begrunnelser, close, onEn
                     bokstav: begrunnelse.subsumsjon.bokstav,
                 },
             }),
+            refusjonsopplysninger: refusjonsopplysninger?.reverse() ?? undefined,
         };
         postOverstyring(overstyrtInntekt);
     };
@@ -217,6 +231,9 @@ export const EditableInntekt = ({ omregnetÅrsinntekt, begrunnelser, close, onEn
                             <Bold>{somPenger(omregnetÅrsinntekt.belop)}</Bold>
                         </div>
                     </div>
+                    {kanOverstyreRefusjonsopplysninger && (
+                        <Refusjon fraRefusjonsopplysninger={metadata.fraRefusjonsopplysninger}></Refusjon>
+                    )}
                     <Begrunnelser begrunnelser={begrunnelser} />
                     <ForklaringTextarea />
                     {!form.formState.isValid && form.formState.isSubmitted && (

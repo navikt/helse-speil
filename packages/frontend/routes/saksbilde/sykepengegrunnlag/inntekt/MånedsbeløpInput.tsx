@@ -3,6 +3,8 @@ import styled from '@emotion/styled';
 import React from 'react';
 import { useFormContext } from 'react-hook-form';
 
+import { kanOverstyreRefusjonsopplysninger } from '@utils/featureToggles';
+
 const Input = styled.input<{ error?: boolean }>`
     height: 2rem;
     border-radius: 3px;
@@ -43,7 +45,9 @@ export const MånedsbeløpInput = ({ initialMånedsbeløp }: MånedsbeløpInputP
         validate: {
             måVæreNumerisk: (value) => isNumeric(value) || 'Månedsbeløp må være et beløp',
             måVæreEnEndring: (value) =>
-                Number.parseFloat(value) !== initialMånedsbeløpRounded || 'Kan ikke være likt gammelt beløp',
+                kanOverstyreRefusjonsopplysninger ||
+                Number.parseFloat(value) !== initialMånedsbeløpRounded ||
+                'Kan ikke være likt gammelt beløp',
         },
         setValueAs: (value) => value.replaceAll(' ', '').replaceAll(',', '.'),
     });
