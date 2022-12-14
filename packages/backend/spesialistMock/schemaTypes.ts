@@ -903,8 +903,8 @@ export type VarselDto = {
     __typename?: 'VarselDTO';
     definisjonId: Scalars['String'];
     forklaring?: Maybe<Scalars['String']>;
+    generasjonId: Scalars['String'];
     handling?: Maybe<Scalars['String']>;
-    id: Scalars['String'];
     kode: Scalars['String'];
     tittel: Scalars['String'];
     vurdering?: Maybe<VarselvurderingDto>;

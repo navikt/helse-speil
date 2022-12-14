@@ -698,7 +698,7 @@
                                     ],
                                     "varslerForGenerasjon": [
                                         {
-                                            "id": "EN_ID",
+                                            "generasjonId": "EN_ID",
                                             "definisjonId": "EN_DEFINISJON",
                                             "kode": "EN_KODE",
                                             "tittel": "Flere arbeidsgivere, ulikt starttidspunkt for sykefraværet eller ikke fravær fra alle arbeidsforhold",
@@ -707,7 +707,7 @@
                                             "vurdering": null
                                         },
                                         {
-                                            "id": "EN_ANNEN_ID",
+                                            "generasjonId": "EN_ANNEN_ID",
                                             "definisjonId": "EN_DEFINISJON",
                                             "kode": "EN_ANNEN_KODE",
                                             "tittel": "Beslutteroppgave: Flere arbeidsgivere, ulikt starttidspunkt for sykefraværet eller ikke fravær fra alle arbeidsforhold",

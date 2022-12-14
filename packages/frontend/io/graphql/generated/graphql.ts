@@ -903,8 +903,8 @@ export type VarselDto = {
     __typename?: 'VarselDTO';
     definisjonId: Scalars['String'];
     forklaring?: Maybe<Scalars['String']>;
+    generasjonId: Scalars['String'];
     handling?: Maybe<Scalars['String']>;
-    id: Scalars['String'];
     kode: Scalars['String'];
     tittel: Scalars['String'];
     vurdering?: Maybe<VarselvurderingDto>;
@@ -1614,7 +1614,8 @@ export type FetchPersonQuery = {
                           };
                           varslerForGenerasjon: Array<{
                               __typename?: 'VarselDTO';
-                              id: string;
+                              generasjonId: string;
+                              definisjonId: string;
                               kode: string;
                               tittel: string;
                               forklaring?: string | null;
