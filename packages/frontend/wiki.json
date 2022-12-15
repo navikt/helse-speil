@@ -48,6 +48,12 @@
         "viktighet": "Høy"
     },
     {
+        "varsel": "Det er mottatt flere inntektsmeldinger på samme skjæringstidspunkt. Undersøk at arbeidsgiverperioden, sykepengegrunnlaget og refusjonsopplysningene er riktige.",
+        "betydning": "Det har kommet inn flere inntektsmeldinger. Speil håndterer endringer i refusjon, men ikke tilfeller der inntekt eller arbeidsgiverperiode er endret.",
+        "løsning": "Du må undersøke om det er oppgitt endringer i inntekt, refusjon eller arbeidsgiverperiode som skal legges til grunn i saken og/ eller om forslaget til vedtak er riktig. Hvis det må gjøres endringer må du undersøke om saken kan revurderes i Speil, eller om saken må tas i Infotrygd.",
+        "viktighet": "Høy"
+    },
+    {
         "varsel": "Ganske sikker på at denne kun er error nå: Mottatt flere søknader for perioden - den første søknaden som ble mottatt er lagt til grunn. Utbetal kun hvis det blir korrekt",
         "betydning": "Mottatt flere søknader - den første søknaden som ble mottatt er lagt til grunn",
         "løsning": "Samme som for inntektsmelding, se over.",
