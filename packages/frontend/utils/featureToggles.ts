@@ -24,6 +24,7 @@ const harTilgangTilAlt = () => [...supersaksbehandlere, ...fagkoordinatorer, ...
 const erCoach = () => coaches.includes(extractIdent());
 const harTilgangStikkprøver = () => tilgangStikkprøver.includes(extractIdent());
 const kanFrigiSaker = () => ['S109031'].includes(extractIdent());
+const supersaksbehandlerPåTeamSpeilvendt = () => ['N115007'].includes(extractIdent());
 
 const erPåTeamBømlo = () => extractGroups().includes(groupIdForTbd);
 
@@ -57,4 +58,4 @@ export const toggleMeny: boolean = erLocal() || erDev();
 
 export const skalViseAvhukbareVarsler = erLocal() || erDev();
 
-export const kanOverstyreRefusjonsopplysninger: boolean = erLocal() || erDev();
+export const kanOverstyreRefusjonsopplysninger: boolean = erLocal() || erDev() || supersaksbehandlerPåTeamSpeilvendt();
