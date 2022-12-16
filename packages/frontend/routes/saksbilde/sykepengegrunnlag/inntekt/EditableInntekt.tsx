@@ -242,22 +242,25 @@ export const EditableInntekt = ({ omregnetÅrsinntekt, begrunnelser, close, onEn
                         <div className={styles.Feiloppsummering}>
                             <ErrorSummary ref={feiloppsummeringRef} heading="Skjemaet inneholder følgende feil:">
                                 {Object.entries(form.formState.errors).map(([id, error]) => {
-                                    if (id != 'refusjonsopplysninger') {
+                                    if (error === undefined) return;
+                                    if (id !== 'refusjonsopplysninger') {
                                         return <ErrorSummary.Item key={id}>{error.message}</ErrorSummary.Item>;
                                     } else {
                                         return (
                                             Object.entries(error)?.map(([index, refusjonserror]) => {
-                                                return Object.entries(refusjonserror).map(
-                                                    ([id, refusjonstypeerror], index) => {
-                                                        if (refusjonstypeerror?.message) {
-                                                            return (
-                                                                <ErrorSummary.Item key={`${id}${index}`}>
-                                                                    {refusjonstypeerror.message}
-                                                                </ErrorSummary.Item>
-                                                            );
-                                                        }
-                                                    }
-                                                );
+                                                return refusjonserror !== undefined
+                                                    ? Object.entries(refusjonserror)?.map(
+                                                          ([id, refusjonstypeerror]: [string, any], index) => {
+                                                              if (refusjonstypeerror?.message) {
+                                                                  return (
+                                                                      <ErrorSummary.Item key={`${id}${index}`}>
+                                                                          {refusjonstypeerror.message}
+                                                                      </ErrorSummary.Item>
+                                                                  );
+                                                              } else return null;
+                                                          }
+                                                      )
+                                                    : undefined ?? undefined;
                                             }) ?? undefined
                                         );
                                     }
