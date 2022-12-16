@@ -244,10 +244,12 @@ export const EditableInntekt = ({ omregnetÅrsinntekt, begrunnelser, close, onEn
                                 {Object.entries(form.formState.errors).map(([id, error]) => {
                                     if (error === undefined) return;
                                     if (id !== 'refusjonsopplysninger') {
-                                        return <ErrorSummary.Item key={id}>{error.message}</ErrorSummary.Item>;
+                                        return (
+                                            <ErrorSummary.Item key={id}>{error.message as string}</ErrorSummary.Item>
+                                        );
                                     } else {
                                         return (
-                                            Object.entries(error)?.map(([index, refusjonserror]) => {
+                                            (Object.entries(error) as any[])?.map(([_, refusjonserror]) => {
                                                 return refusjonserror !== undefined
                                                     ? Object.entries(refusjonserror)?.map(
                                                           ([id, refusjonstypeerror]: [string, any], index) => {
