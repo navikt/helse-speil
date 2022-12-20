@@ -3,12 +3,15 @@
     flex-direction: column;
     --fixed-column-width: 14rem;
     gap: 1.75rem;
+    padding-top: 2rem;
 }
 
 .Table {
     text-align: left;
     border-collapse: collapse;
     width: max-content;
+    margin-right: -3px;
+    z-index: 10;
 }
 
 .Table td,

@@ -13,13 +13,13 @@ import { Inntektskilderinnhold } from './Inntektskilderinnhold';
 const Container = styled.div`
     display: flex;
     align-content: space-between;
+    margin-top: -2rem;
 `;
 
 const Strek = styled.span`
-    border-right: 1px solid var(--navds-semantic-color-border);
+    border-right: 3px solid var(--navds-global-color-gray-200);
     height: inherit;
     display: inline-block;
-    margin: 0 50px 0 2.5rem;
 `;
 
 const useSkalViseRefusjon = (refusjon?: Maybe<Arbeidsgiverrefusjon>, arbeidsgiver?: Maybe<Arbeidsgiver>): boolean => {
@@ -83,13 +83,7 @@ export const SykepengegrunnlagFraSpleis = ({
                 sykepengegrunnlagsgrense={vilkårsgrunnlag.sykepengegrunnlagsgrense}
             />
             <Strek />
-            <Inntektskilderinnhold
-                inntekt={aktivInntektskilde}
-                arbeidsgivernavn={aktivArbeidsgiver.navn}
-                bransjer={aktivArbeidsgiver.bransjer}
-                arbeidsforhold={aktivArbeidsgiver.arbeidsforhold}
-                refusjon={skalViseRefusjon ? refusjon : null}
-            />
+            <Inntektskilderinnhold inntekt={aktivInntektskilde} refusjon={skalViseRefusjon ? refusjon : null} />
         </Container>
     );
 };

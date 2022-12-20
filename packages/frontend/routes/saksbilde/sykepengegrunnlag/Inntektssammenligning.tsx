@@ -23,6 +23,7 @@ const ArbeidsgiverRad = styled.tr<{ erGjeldende: boolean }>`
             erGjeldende &&
             css`
                 background-color: #e6f0ff;
+                padding-right: 2.5rem;
             `};
     }
 
@@ -65,6 +66,19 @@ const ErrorIcon = styled(Errorikon)`
 
 const Loky = styled(AnonymizableText)`
     margin-top: 3px;
+`;
+
+const SisteTd = styled.td<{ erGjeldende: boolean }>`
+    ${({ erGjeldende }) =>
+        erGjeldende &&
+        css`
+            width: 2.5rem;
+        `};
+    ${({ erGjeldende }) =>
+        !erGjeldende &&
+        css`
+            margin-right: 2.5rem;
+        `};
 `;
 
 interface InntektssammenligningProps {
@@ -119,6 +133,7 @@ export const Inntektssammenligning = ({
                     <Kilde type={Inntektskilde.Aordningen}>AO</Kilde>
                 </InntektMedKilde>
             </td>
+            <SisteTd erGjeldende={erGjeldende} />
         </ArbeidsgiverRad>
     );
 };

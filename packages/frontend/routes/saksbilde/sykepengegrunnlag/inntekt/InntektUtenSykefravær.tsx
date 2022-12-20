@@ -1,18 +1,34 @@
 import classNames from 'classnames';
 import React, { useState } from 'react';
 
+import { Bag } from '@navikt/ds-icons';
+import { Tooltip } from '@navikt/ds-react';
+
 import { Bold } from '@components/Bold';
 import { Flex } from '@components/Flex';
 import { Kilde } from '@components/Kilde';
-import { BeregnetPeriode, Inntektskilde, Maybe, OmregnetArsinntekt, Periodetilstand } from '@io/graphql';
+import { AnonymizableTextWithEllipsis } from '@components/TextWithEllipsis';
+import { AnonymizableContainer } from '@components/anonymizable/AnonymizableContainer';
+import { Clipboard } from '@components/clipboard';
+import {
+    Arbeidsgiver,
+    Arbeidsgiverrefusjon,
+    BeregnetPeriode,
+    Inntektskilde,
+    Maybe,
+    OmregnetArsinntekt,
+    Periodetilstand,
+} from '@io/graphql';
 import { useEndringerForPeriode } from '@state/arbeidsgiver';
 import { useActivePeriod } from '@state/periode';
 import { useCurrentPerson } from '@state/person';
+import { kanOverstyreRefusjonsopplysninger } from '@utils/featureToggles';
 import { kildeForkortelse } from '@utils/inntektskilde';
 import { isBeregnetPeriode, isGhostPeriode } from '@utils/typeguards';
 
 import { OverstyrArbeidsforholdUtenSykdom } from '../OverstyrArbeidsforholdUtenSykdom';
 import { BegrunnelseForOverstyring } from '../overstyring.types';
+import { Refusjonsoversikt } from '../refusjon/Refusjonsoversikt';
 import { EditableInntekt } from './EditableInntekt';
 import { EndringsloggButton } from './EndringsloggButton';
 import { ReadOnlyInntekt } from './ReadOnlyInntekt';
@@ -145,6 +161,8 @@ interface InntektUtenSykefraværProps {
     erDeaktivert?: Maybe<boolean>;
     omregnetÅrsinntekt?: Maybe<OmregnetArsinntekt>;
     vilkårsgrunnlagId?: Maybe<string>;
+    arbeidsgiver: Arbeidsgiver;
+    refusjon?: Maybe<Arbeidsgiverrefusjon>;
 }
 
 export const InntektUtenSykefravær = ({
@@ -153,6 +171,8 @@ export const InntektUtenSykefravær = ({
     erDeaktivert,
     omregnetÅrsinntekt,
     vilkårsgrunnlagId,
+    arbeidsgiver,
+    refusjon,
 }: InntektUtenSykefraværProps) => {
     const [editingInntekt, setEditingInntekt] = useState(false);
     const [endret, setEndret] = useState(false);
@@ -166,18 +186,39 @@ export const InntektUtenSykefravær = ({
             className={classNames(styles.Inntekt, editingInntekt && styles.editing, erDeaktivert && styles.deaktivert)}
         >
             <div className={classNames(styles.Header, editingInntekt && styles.editing)}>
-                <Flex alignItems="center">
-                    <Bold>Beregnet månedsinntekt</Bold>
-                    {endret || omregnetÅrsinntekt?.kilde === Inntektskilde.Saksbehandler ? (
-                        <EndringsloggButton endringer={arbeidsforholdendringer} />
-                    ) : (
-                        <Kilde type={omregnetÅrsinntekt?.kilde}>{kildeForkortelse(omregnetÅrsinntekt?.kilde)}</Kilde>
-                    )}
-                </Flex>
+                <div className={styles.ArbeidsgiverHeader}>
+                    <Tooltip content="Arbeidsgiver">
+                        <Bag title="Arbeidsgiver" />
+                    </Tooltip>
+                    <Tooltip content="Arbeidsgivernavn">
+                        <div className={styles.Arbeidsgivernavn}>
+                            <AnonymizableTextWithEllipsis>{arbeidsgiver.navn}</AnonymizableTextWithEllipsis>
+                        </div>
+                    </Tooltip>
+                    <div className={styles.Organisasjonsnummer}>
+                        (
+                        <Clipboard
+                            copyMessage="Organisasjonsnummer er kopiert"
+                            tooltip={{ content: 'Kopier organisasjonsnummer' }}
+                        >
+                            <AnonymizableContainer>{arbeidsgiver.organisasjonsnummer}</AnonymizableContainer>
+                        </Clipboard>
+                        )
+                    </div>
+                    <Kilde type="AINNTEKT">AA</Kilde>
+                </div>
                 {vilkårsgrunnlagId && inntektKanOverstyres && !erDeaktivert && (
                     <RedigerGhostInntekt setEditing={setEditingInntekt} editing={editingInntekt} />
                 )}
             </div>
+            <Flex alignItems="center">
+                <Bold>Beregnet månedsinntekt</Bold>
+                {endret || omregnetÅrsinntekt?.kilde === Inntektskilde.Saksbehandler ? (
+                    <EndringsloggButton endringer={arbeidsforholdendringer} />
+                ) : (
+                    <Kilde type={omregnetÅrsinntekt?.kilde}>{kildeForkortelse(omregnetÅrsinntekt?.kilde)}</Kilde>
+                )}
+            </Flex>
             {editingInntekt ? (
                 <EditableInntekt
                     omregnetÅrsinntekt={omregnetÅrsinntekt!}
@@ -195,6 +236,10 @@ export const InntektUtenSykefravær = ({
                     arbeidsforholdErDeaktivert={erDeaktivert}
                 />
             )}
+            {refusjon &&
+                ((kanOverstyreRefusjonsopplysninger && !editingInntekt) || !kanOverstyreRefusjonsopplysninger) && (
+                    <Refusjonsoversikt refusjon={refusjon} />
+                )}
         </div>
     );
 };

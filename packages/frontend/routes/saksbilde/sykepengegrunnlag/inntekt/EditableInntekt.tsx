@@ -57,7 +57,7 @@ const useOverstyrtInntektMetadata = (): OverstyrtInntektMetadata => {
         .arbeidsgiverrefusjoner.filter(
             (arbeidsgiverrefusjon) => arbeidsgiverrefusjon.arbeidsgiver === arbeidsgiver.organisasjonsnummer
         )[0]
-        .refusjonsopplysninger.map((it) => ({ fom: it.fom, tom: it.tom, beløp: it.belop }));
+        ?.refusjonsopplysninger?.map((it) => ({ fom: it.fom, tom: it.tom, beløp: it.belop }));
 
     return {
         aktørId: person.aktorId,
@@ -238,6 +238,7 @@ export const EditableInntekt = ({ omregnetÅrsinntekt, begrunnelser, close, onEn
                     )}
                     <Begrunnelser begrunnelser={begrunnelser} />
                     <ForklaringTextarea />
+                    {/* TODO: Fiks opp typing, fjern any */}
                     {!form.formState.isValid && form.formState.isSubmitted && (
                         <div className={styles.Feiloppsummering}>
                             <ErrorSummary ref={feiloppsummeringRef} heading="Skjemaet inneholder følgende feil:">

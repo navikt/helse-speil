@@ -81,7 +81,7 @@ export const RedigerInntekt = ({ setEditing, editing, erRevurdering, vilkårsgru
             closedText={erRevurdering ? 'Revurder' : 'Endre'}
             onOpen={() => setEditing(true)}
             onClose={() => setEditing(false)}
-            style={{ justifySelf: 'flex-end' }}
+            style={{ justifySelf: 'flex-end', alignSelf: 'baseline' }}
         />
     ) : (
         <PopoverHjelpetekst ikon={<SortInfoikon />}>

@@ -5,7 +5,7 @@ import React from 'react';
 import { Alert } from '@navikt/ds-react';
 
 import { ErrorBoundary } from '@components/ErrorBoundary';
-import { Arbeidsgiver, Arbeidsgiverinntekt, BeregnetPeriode } from '@io/graphql';
+import { Arbeidsgiver, Arbeidsgiverinntekt, Arbeidsgiverrefusjon, BeregnetPeriode } from '@io/graphql';
 import { useArbeidsgiver } from '@state/arbeidsgiver';
 import { useActivePeriod } from '@state/periode';
 import { isUberegnetPeriode } from '@utils/typeguards';
@@ -18,9 +18,10 @@ const hasSykefravær = (arbeidsgiver: Arbeidsgiver, fom: DateString): boolean =>
 
 interface InntektContainerProps {
     inntekt: Arbeidsgiverinntekt;
+    refusjon?: Maybe<Arbeidsgiverrefusjon>;
 }
 
-const InntektContainer: React.FC<InntektContainerProps> = ({ inntekt }) => {
+const InntektContainer: React.FC<InntektContainerProps> = ({ inntekt, refusjon }) => {
     const period = useActivePeriod();
     const arbeidsgiver = useArbeidsgiver(inntekt.arbeidsgiver);
 
@@ -39,6 +40,8 @@ const InntektContainer: React.FC<InntektContainerProps> = ({ inntekt }) => {
                 vilkårsgrunnlagId={period.vilkarsgrunnlagId}
                 inntektstype={(period as BeregnetPeriode).inntektstype}
                 erDeaktivert={inntekt.deaktivert}
+                arbeidsgiver={arbeidsgiver}
+                refusjon={refusjon}
             />
         );
     } else {
@@ -49,6 +52,8 @@ const InntektContainer: React.FC<InntektContainerProps> = ({ inntekt }) => {
                 organisasjonsnummer={inntekt.arbeidsgiver}
                 erDeaktivert={inntekt.deaktivert}
                 vilkårsgrunnlagId={period.vilkarsgrunnlagId}
+                arbeidsgiver={arbeidsgiver}
+                refusjon={refusjon}
             />
         );
     }
@@ -64,12 +69,13 @@ const InntektError = () => {
 
 interface InntektProps {
     inntekt: Arbeidsgiverinntekt;
+    refusjon?: Maybe<Arbeidsgiverrefusjon>;
 }
 
-export const Inntekt: React.FC<InntektProps> = ({ inntekt }) => {
+export const Inntekt: React.FC<InntektProps> = ({ inntekt, refusjon }) => {
     return (
         <ErrorBoundary fallback={<InntektError />}>
-            <InntektContainer inntekt={inntekt} />
+            <InntektContainer inntekt={inntekt} refusjon={refusjon} />
         </ErrorBoundary>
     );
 };

@@ -78,11 +78,11 @@ export const ReadOnlyInntekt: React.FC<ReadOnlyInntektProps> = ({ omregnetÅrsin
             <div className={styles.Grid}>
                 <BodyShort>Månedsbeløp</BodyShort>
                 <BodyShort>{somPenger(omregnetÅrsinntekt?.manedsbelop)}</BodyShort>
-                <Bold>
+                <BodyShort>
                     {omregnetÅrsinntekt?.kilde === Inntektskilde.Infotrygd
                         ? 'Sykepengegrunnlag før 6G'
                         : 'Omregnet til årsinntekt'}
-                </Bold>
+                </BodyShort>
                 <Bold>{somPenger(omregnetÅrsinntekt?.belop)}</Bold>
             </div>
         )}

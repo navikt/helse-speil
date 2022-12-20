@@ -65,9 +65,6 @@ const SykepengegrunnlagContainer: React.FC = () => {
                     vilkårsgrunnlag={vilkårsgrunnlag}
                     organisasjonsnummer={arbeidsgiver.organisasjonsnummer}
                     refusjon={arbeidsgiverrefusjon}
-                    arbeidsgivernavn={arbeidsgiver.navn}
-                    bransjer={arbeidsgiver.bransjer}
-                    arbeidsforhold={arbeidsgiver.arbeidsforhold}
                 />
             );
         }

@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import React from 'react';
 
 import { Infotrygdvurdering } from '@components/Infotrygdvurdering';
-import { Arbeidsforhold, Arbeidsgiverrefusjon, VilkarsgrunnlagInfotrygd } from '@io/graphql';
+import { Arbeidsgiverrefusjon, VilkarsgrunnlagInfotrygd } from '@io/graphql';
 import { getRequiredInntekt } from '@state/selectors/person';
 
 import { Inntektskilderinnhold } from './Inntektskilderinnhold';
@@ -15,25 +15,19 @@ const Oversikt = styled.div`
 `;
 
 const Strek = styled.span`
-    border-right: 1px solid var(--navds-semantic-color-border);
+    border-right: 3px solid var(--navds-global-color-gray-200);
 `;
 
 interface SykepengegrunnlagFraInfogtrygdProps {
     vilkårsgrunnlag: VilkarsgrunnlagInfotrygd;
     organisasjonsnummer: string;
     refusjon?: Maybe<Arbeidsgiverrefusjon>;
-    arbeidsgivernavn: string;
-    bransjer: string[];
-    arbeidsforhold: Arbeidsforhold[];
 }
 
 export const SykepengegrunnlagFraInfogtrygd = ({
     vilkårsgrunnlag,
     organisasjonsnummer,
     refusjon,
-    arbeidsgivernavn,
-    bransjer,
-    arbeidsforhold,
 }: SykepengegrunnlagFraInfogtrygdProps) => {
     const inntekt = getRequiredInntekt(vilkårsgrunnlag, organisasjonsnummer);
 
@@ -45,13 +39,7 @@ export const SykepengegrunnlagFraInfogtrygd = ({
                     organisasjonsnummer={organisasjonsnummer}
                 />
                 <Strek />
-                <Inntektskilderinnhold
-                    inntekt={inntekt}
-                    refusjon={refusjon}
-                    arbeidsgivernavn={arbeidsgivernavn}
-                    bransjer={bransjer}
-                    arbeidsforhold={arbeidsforhold}
-                />
+                <Inntektskilderinnhold inntekt={inntekt} refusjon={refusjon} />
             </Oversikt>
         </Infotrygdvurdering>
     );

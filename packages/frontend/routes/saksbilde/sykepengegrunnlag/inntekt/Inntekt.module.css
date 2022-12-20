@@ -1,20 +1,21 @@
 .Inntekt {
-    --border-size: 4px;
-    --horizontal-padding: 16px;
+    --border-size: 3px;
+    --horizontal-padding: 12px;
     --vertical-padding: 8px;
-    --width: 490px;
+    --width: 504px;
     position: relative;
     box-sizing: border-box;
-    margin-bottom: 24px;
+    padding-bottom: 24px;
     width: var(--width);
+    padding-top: 2.25rem;
 }
 
 .Inntekt.editing {
     background-color: #e6f0ff;
     border-left: var(--border-size) solid var(--navds-semantic-color-interaction-primary);
-    padding: var(--vertical-padding) var(--horizontal-padding) 16px;
-    width: 526px;
-    margin: calc(var(--vertical-padding) * -1) calc(var(--horizontal-padding) * -1) 24px
+    padding: calc(var(--vertical-padding) * 5) var(--horizontal-padding) 24px;
+    width: 531px;
+    margin: calc(var(--vertical-padding) / 2 * -1) calc(var(--horizontal-padding) * -1) 0
         calc((var(--horizontal-padding) + var(--border-size)) * -1);
 }
 
@@ -57,10 +58,28 @@
     width: 100%;
 }
 
-.Header > div > * {
-    margin-right: 0.5rem;
-}
-
 .Header.editing {
     justify-content: space-between;
+}
+
+.ArbeidsgiverHeader {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1rem;
+    gap: 1rem;
+}
+
+.Arbeidsgivernavn {
+    display: flex;
+    white-space: nowrap;
+    max-width: 300px;
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.Organisasjonsnummer {
+    display: flex;
+    align-items: center;
+    font-size: 18px;
+    font-weight: 600;
 }
