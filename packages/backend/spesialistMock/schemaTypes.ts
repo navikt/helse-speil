@@ -342,6 +342,8 @@ export type Mutation = {
     feilregistrerNotat: Scalars['Boolean'];
     leggTilKommentar?: Maybe<Kommentar>;
     leggTilNotat: Scalars['Int'];
+    settStatusAktiv: Scalars['Boolean'];
+    settStatusVurdert: Scalars['Boolean'];
 };
 
 export type MutationFeilregistrerKommentarArgs = {
@@ -363,6 +365,19 @@ export type MutationLeggTilNotatArgs = {
     tekst: Scalars['String'];
     type: NotatType;
     vedtaksperiodeId: Scalars['String'];
+};
+
+export type MutationSettStatusAktivArgs = {
+    generasjonId: Scalars['String'];
+    ident: Scalars['String'];
+    varselkode: Scalars['String'];
+};
+
+export type MutationSettStatusVurdertArgs = {
+    definisjonId: Scalars['String'];
+    generasjonId: Scalars['String'];
+    ident: Scalars['String'];
+    varselkode: Scalars['String'];
 };
 
 export type Notat = {
@@ -911,9 +926,9 @@ export type VarselDto = {
 };
 
 export enum Varselstatus {
+    Aktiv = 'AKTIV',
     Avvist = 'AVVIST',
     Godkjent = 'GODKJENT',
-    Inaktiv = 'INAKTIV',
     Vurdert = 'VURDERT',
 }
 

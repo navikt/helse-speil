@@ -21,7 +21,7 @@ const finnVariant = (varselvurdering: Maybe<VarselvurderingDto> | undefined) => 
         case Varselstatus.Godkjent:
             return 'ferdig-behandlet';
         case Varselstatus.Avvist:
-        case Varselstatus.Inaktiv:
+        case Varselstatus.Aktiv:
             return 'aktiv';
     }
 };
