@@ -12,7 +12,7 @@
         "dev": "cross-env NODE_ENV=development vite --port 1234",
         "test:eslint": "eslint . --ext .js --ext .jsx --ext .tsx --ext .ts",
         "test": "cross-env TZ=UTC jest",
-        "test-ci": "npm run test -- --maxWorkers=16 --cacheDirectory=$jest_cache_dir",
+        "test-ci": "npm run test -- --maxWorkers=50% --cacheDirectory=$jest_cache_dir",
         "clean": "rm -rf node_modules",
         "tdd": "TZ=UTC jest --watch",
         "validate-ts": "tsc --noEmit --project tsconfig.json",
