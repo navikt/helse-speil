@@ -148,6 +148,8 @@ export const Refusjon = ({ fraRefusjonsopplysninger }: RefusjonProps) => {
                                             refusjonsopplysning?.fom ?? null,
                                             dayjs(e.target.value, NORSK_DATOFORMAT).isValid()
                                                 ? dayjs(e.target.value, NORSK_DATOFORMAT).format('YYYY-MM-DD')
+                                                : e.target.value === ''
+                                                ? null
                                                 : e.target.value,
                                             refusjonsopplysning.beløp,
                                             index

@@ -13,10 +13,9 @@
 .Inntekt.editing {
     background-color: #e6f0ff;
     border-left: var(--border-size) solid var(--navds-semantic-color-interaction-primary);
-    padding: calc(var(--vertical-padding) * 5) var(--horizontal-padding) 24px;
+    padding: calc(var(--vertical-padding) * 4.5) var(--horizontal-padding) 24px;
     width: 531px;
-    margin: calc(var(--vertical-padding) / 2 * -1) calc(var(--horizontal-padding) * -1) 0
-        calc((var(--horizontal-padding) + var(--border-size)) * -1);
+    margin: 0 calc(var(--horizontal-padding) * -1) 0 calc((var(--horizontal-padding) + var(--border-size)) * -1);
 }
 
 .Inntekt.deaktivert {
@@ -52,7 +51,6 @@
 
 .Header {
     display: flex;
-    align-items: center;
     margin-bottom: 0.5rem;
     justify-content: space-between;
     width: 100%;
@@ -72,7 +70,7 @@
 .Arbeidsgivernavn {
     display: flex;
     white-space: nowrap;
-    max-width: 300px;
+    max-width: 225px;
     font-size: 18px;
     font-weight: 600;
 }
