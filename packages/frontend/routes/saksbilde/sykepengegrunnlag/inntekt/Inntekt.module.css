@@ -24,21 +24,8 @@
     margin-bottom: 48px;
 }
 
-.Inntekt.deaktivert:before {
-    --margin: -32px;
-    content: '';
-    position: absolute;
-    background-color: var(--nav-ghost-deaktivert-bakgrunn);
-    border: 1px solid var(--nav-ghost-deaktivert-border);
-    top: var(--margin);
-    right: var(--margin);
-    bottom: var(--margin);
-    left: var(--margin);
-    z-index: -1;
-}
-
 .Inntekt.deaktivert:after {
-    --margin: -32px;
+    --margin: 0;
     content: 'Brukes ikke i beregningen';
     position: absolute;
     background-color: var(--nav-ghost-deaktivert-pille-bakgrunn);

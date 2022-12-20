@@ -1,3 +1,4 @@
+import classNames from 'classnames';
 import React from 'react';
 
 import type { Arbeidsgiverinntekt, Arbeidsgiverrefusjon } from '@io/graphql';
@@ -13,7 +14,7 @@ interface InntektskilderinnholdProps {
 
 export const Inntektskilderinnhold = ({ inntekt, refusjon }: InntektskilderinnholdProps) => {
     return (
-        <div className={styles.Inntektskilderinnhold}>
+        <div className={classNames(styles.Inntektskilderinnhold, inntekt.deaktivert && styles.deaktivert)}>
             <Inntekt inntekt={inntekt} refusjon={refusjon} />
         </div>
     );
