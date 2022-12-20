@@ -17,7 +17,7 @@
         "mock": "ts-node-dev spesialistMock/server.ts",
         "test:eslint": "eslint . --ext .ts --ext .js",
         "test": "cross-env TZ=UTC jest",
-        "test-ci": "npm run test -- --maxWorkers=2 --cacheDirectory=$jest_cache_dir",
+        "test-ci": "npm run test -- --maxWorkers=16 --cacheDirectory=$jest_cache_dir",
         "clean": "rm -rf node_modules",
         "tdd": "TZ=UTC jest --watch",
         "validate-ts": "npx tsc --noEmit --project tsconfig.json",
