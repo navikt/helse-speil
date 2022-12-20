@@ -5,6 +5,8 @@ import { CaseworkerFilled } from '@navikt/ds-icons';
 import { BodyShort } from '@navikt/ds-react';
 
 import { Bold } from '@components/Bold';
+import { Kilde } from '@components/Kilde';
+import { Inntektskilde } from '@io/graphql';
 import { ISO_DATOFORMAT, NORSK_DATOFORMAT, getFormattedDateString } from '@utils/date';
 import { somPengerUtenDesimaler } from '@utils/locale';
 
@@ -28,7 +30,11 @@ export const Inntektoverstyringhendelse: React.FC<InntektoverstyringhendelseProp
             {inntekt.fraManedligInntekt !== inntekt.manedligInntekt && (
                 <Hendelse
                     title={erRevurdering ? 'Månedsinntekt revurdert' : 'Månedsinntekt endret'}
-                    icon={<CaseworkerFilled height={20} width={20} />}
+                    icon={
+                        <Kilde type={Inntektskilde.Saksbehandler}>
+                            <CaseworkerFilled height={20} width={20} />
+                        </Kilde>
+                    }
                 >
                     <ExpandableHistorikkContent>
                         <div className={styles.Grid}>
@@ -55,7 +61,11 @@ export const Inntektoverstyringhendelse: React.FC<InntektoverstyringhendelseProp
             {JSON.stringify(inntekt?.fraRefusjonsopplysninger) !== JSON.stringify(inntekt?.refusjonsopplysninger) && (
                 <Hendelse
                     title={erRevurdering ? 'Refusjon revurdert' : 'Refusjon endret'}
-                    icon={<CaseworkerFilled height={20} width={20} />}
+                    icon={
+                        <Kilde type={Inntektskilde.Saksbehandler}>
+                            <CaseworkerFilled height={20} width={20} />
+                        </Kilde>
+                    }
                 >
                     <ExpandableHistorikkContent>
                         <div className={styles.Grid}>

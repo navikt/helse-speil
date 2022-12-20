@@ -3,6 +3,8 @@ import React from 'react';
 import { CaseworkerFilled } from '@navikt/ds-icons';
 import { BodyShort } from '@navikt/ds-react';
 
+import { Kilde } from '@components/Kilde';
+import { Inntektskilde } from '@io/graphql';
 import { getFormattedDateString } from '@utils/date';
 
 import { ExpandableHistorikkContent } from './ExpandableHistorikkContent';
@@ -58,7 +60,11 @@ export const Dagoverstyringhendelse: React.FC<DagoverstyringhendelseProps> = ({
 }) => (
     <Hendelse
         title={erRevurdering ? 'Utbetalingsdager revurdert' : 'Utbetalingsdager endret'}
-        icon={<CaseworkerFilled height={20} width={20} />}
+        icon={
+            <Kilde type={Inntektskilde.Saksbehandler}>
+                <CaseworkerFilled height={20} width={20} />
+            </Kilde>
+        }
     >
         <ExpandableHistorikkContent>
             <BodyShort size="small">Begrunnelse: {begrunnelse}</BodyShort>

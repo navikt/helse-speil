@@ -4,7 +4,6 @@ import React, { ReactNode } from 'react';
 import { CaseworkerFilled } from '@navikt/ds-icons';
 import { Tooltip } from '@navikt/ds-react';
 
-import { Flex } from '@components/Flex';
 import { Kilde } from '@components/Kilde';
 import { Kildetype } from '@io/graphql';
 
@@ -27,9 +26,9 @@ const getKildeTypeIcon = (
             return overstyringer ? (
                 <EndringsloggButton endringer={overstyringer} />
             ) : (
-                <Flex>
-                    <CaseworkerFilled height={20} width={20} />
-                </Flex>
+                <Kilde type={Kildetype.Saksbehandler}>
+                    <CaseworkerFilled height={10} width={10} />
+                </Kilde>
             );
         default:
             return null;

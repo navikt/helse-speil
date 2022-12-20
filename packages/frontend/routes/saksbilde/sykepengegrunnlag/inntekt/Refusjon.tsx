@@ -9,7 +9,7 @@ import { Bold } from '@components/Bold';
 import { Button } from '@components/Button';
 import { Flex } from '@components/Flex';
 import { Kilde } from '@components/Kilde';
-import { Kildetype } from '@io/graphql';
+import { Inntektskilde, Kildetype } from '@io/graphql';
 import { Refusjonsopplysning } from '@io/http';
 import { NORSK_DATOFORMAT } from '@utils/date';
 
@@ -22,7 +22,6 @@ interface RefusjonProps {
 export const Refusjon = ({ fraRefusjonsopplysninger }: RefusjonProps) => {
     const {
         fields,
-        register,
         control,
         clearErrors,
         formState,
@@ -206,7 +205,9 @@ export const Refusjon = ({ fraRefusjonsopplysninger }: RefusjonProps) => {
                     )}
                     {fields[index].toString() !== fraRefusjonsopplysninger.reverse()[index]?.toString() && (
                         <Flex alignItems="center">
-                            <CaseworkerFilled height={20} width={20} className={styles.Ikon} />
+                            <Kilde type={Inntektskilde.Saksbehandler} className={styles.Ikon}>
+                                <CaseworkerFilled height={12} width={12} />
+                            </Kilde>
                         </Flex>
                     )}
                     <Button
@@ -234,7 +235,7 @@ interface RefusjonFormValues {
 }
 
 function useRefusjonFormField() {
-    const { formState, control, register, setError, clearErrors } = useFormContext<RefusjonFormValues>();
+    const { formState, control, clearErrors } = useFormContext<RefusjonFormValues>();
 
     const { fields, append, remove, replace, update } = useFieldArray<RefusjonFormValues>({
         control,
@@ -263,7 +264,6 @@ function useRefusjonFormField() {
 
     return {
         fields,
-        register,
         control,
         clearErrors,
         formState,

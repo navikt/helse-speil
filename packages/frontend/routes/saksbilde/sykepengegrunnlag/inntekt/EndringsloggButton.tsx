@@ -6,8 +6,9 @@ import { CaseworkerFilled } from '@navikt/ds-icons';
 import { EndringsloggArbeidsforhold } from '@components/EndringsloggArbeidsforhold';
 import { EndringsloggDager } from '@components/EndringsloggDager';
 import { EndringsloggInntekt } from '@components/EndringsloggInntekt';
+import { Kilde } from '@components/Kilde';
 import { useInteractOutside } from '@hooks/useInteractOutside';
-import { Overstyring } from '@io/graphql';
+import { Kildetype, Overstyring } from '@io/graphql';
 import { isArbeidsforholdoverstyringer, isInntektoverstyringer, isOverstyringerPrDag } from '@utils/typeguards';
 
 const Button = styled.button`
@@ -48,7 +49,9 @@ export const EndringsloggButton = <T extends Overstyring>({
     return (
         <>
             <Button type="button" ref={buttonRef} {...buttonProps} onClick={() => setVisEndringslogg(true)}>
-                <CaseworkerFilled height={20} width={20} />
+                <Kilde type={Kildetype.Saksbehandler}>
+                    <CaseworkerFilled height={20} width={20} />
+                </Kilde>
             </Button>
             {isArbeidsforholdoverstyringer(endringer) ? (
                 <EndringsloggArbeidsforhold endringer={endringer} isOpen={visEndringslogg} onRequestClose={close} />

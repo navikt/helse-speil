@@ -38,6 +38,21 @@ const inntektsmeldingStyle = (props: KildeProps) =>
         background-color: #ecefcc;
     `;
 
+const saksbehandlerStyle = (props: KildeProps) =>
+    props.type === Kildetype.Saksbehandler &&
+    css`
+        background-color: var(--navds-global-color-gray-100);
+        color: var(--navds-semantic-color-text);
+        svg {
+            width: 12px;
+            height: 12px;
+        }
+        :hover {
+            background-color: var(--navds-semantic-color-text);
+            color: var(--navds-global-color-white);
+        }
+    `;
+
 export const Kilde = styled.div<KildeProps>`
     display: flex;
     justify-content: center;
@@ -57,4 +72,5 @@ export const Kilde = styled.div<KildeProps>`
     ${sykmeldingStyle};
     ${søknadStyle};
     ${inntektsmeldingStyle};
+    ${saksbehandlerStyle};
 `;
