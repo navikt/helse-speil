@@ -1,13 +1,23 @@
 .Grid {
     display: grid;
     column-gap: 8px;
-    grid-template-columns: max-content auto;
+    grid-template-columns: 83px auto;
+}
+
+.GridFullWidth {
+    grid-column: 1 / span 2;
 }
 
 .Grid p {
     font-size: var(--navds-font-size-medium);
     line-height: var(--navds-font-line-height-medium);
     word-break: break-word;
+    grid-column: 1 / span 2;
+}
+
+.Grid > p:nth-child(even):not(:nth-last-child(2)),
+.Refusjonselementer > p:last-child {
+    padding-bottom: 0.5rem;
 }
 
 .FromValue {

@@ -63,7 +63,7 @@ const HistorikkWithContent: React.FC = () => {
                                 {getHistorikkTitle(filter)}
                                 <CloseButton onClick={() => setShowHistorikk(false)} />
                             </div>
-                            {historikk.map((it: HendelseObject) => {
+                            {historikk.map((it: HendelseObject, index) => {
                                 switch (it.type) {
                                     case 'Arbeidsforholdoverstyring': {
                                         return <Arbeidsforholdoverstyringhendelse key={it.id} {...it} />;
@@ -72,7 +72,7 @@ const HistorikkWithContent: React.FC = () => {
                                         return <Dagoverstyringhendelse key={it.id} {...it} />;
                                     }
                                     case 'Inntektoverstyring': {
-                                        return <Inntektoverstyringhendelse key={it.id} {...it} />;
+                                        return <Inntektoverstyringhendelse key={`${it.id}-${index}`} {...it} />;
                                     }
                                     case 'Dokument': {
                                         return <Dokumenthendelse key={it.id} {...it} />;

@@ -57,7 +57,7 @@ export const Dagoverstyringhendelse: React.FC<DagoverstyringhendelseProps> = ({
     dager,
 }) => (
     <Hendelse
-        title={erRevurdering ? 'Revurdert utbetalingsdager' : 'Endret utbetalingsdager'}
+        title={erRevurdering ? 'Utbetalingsdager revurdert' : 'Utbetalingsdager endret'}
         icon={<CaseworkerFilled height={20} width={20} />}
     >
         <ExpandableHistorikkContent>
