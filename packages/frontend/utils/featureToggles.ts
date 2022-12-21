@@ -4,7 +4,7 @@ const groupIdForTbd = 'f787f900-6697-440d-a086-d5bb56e26a9c';
 const groupIdForBesluttere = '59f26eef-0a4f-4038-bf46-3a5b2f252155';
 
 const eminem = 'G103083';
-const supersaksbehandlere = [eminem, 'A148751', 'N115007', 'C117102'];
+const supersaksbehandlere = [eminem, 'N115007', 'C117102'];
 
 const fagkoordinatorer = ['M136300', 'S108267', 'K123956'];
 
@@ -20,11 +20,11 @@ export const erLocal = () => location.hostname === 'localhost';
 export const erDev = () => location.hostname === 'speil.dev.intern.nav.no';
 
 const harKunLesetilgang = () => kunLesetilgang.includes(extractIdent());
+const erSupersaksbehandler = () => supersaksbehandlere.includes(extractIdent());
 const harTilgangTilAlt = () => [...supersaksbehandlere, ...fagkoordinatorer, ...enhetsledere].includes(extractIdent());
 const erCoach = () => coaches.includes(extractIdent());
 const harTilgangStikkprøver = () => tilgangStikkprøver.includes(extractIdent());
 const kanFrigiSaker = () => ['S109031'].includes(extractIdent());
-const supersaksbehandlerPåTeamSpeilvendt = () => ['N115007'].includes(extractIdent());
 
 const erPåTeamBømlo = () => extractGroups().includes(groupIdForTbd);
 
@@ -58,4 +58,4 @@ export const toggleMeny: boolean = erLocal() || erDev();
 
 export const skalViseAvhukbareVarsler = erLocal() || erDev();
 
-export const kanOverstyreRefusjonsopplysninger: boolean = erLocal() || erDev() || supersaksbehandlerPåTeamSpeilvendt();
+export const kanOverstyreRefusjonsopplysninger: boolean = erLocal() || erDev() || erSupersaksbehandler();
