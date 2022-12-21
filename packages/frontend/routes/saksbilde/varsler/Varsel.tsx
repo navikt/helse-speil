@@ -1,7 +1,7 @@
 import classNames from 'classnames';
-import React from 'react';
+import React, { useState } from 'react';
 
-import { BodyShort } from '@navikt/ds-react';
+import { BodyShort, Loader } from '@navikt/ds-react';
 
 import { VarselDto, Varselstatus, VarselvurderingDto } from '@io/graphql';
 
@@ -27,10 +27,26 @@ const finnVariant = (varselvurdering: Maybe<VarselvurderingDto> | undefined) => 
 };
 
 export const Varsel: React.FC<VarselProps> = ({ varsel }) => {
+    const [isFetching, setIsFetching] = useState(false);
     const variant = finnVariant(varsel.vurdering);
     return (
         <div className={classNames(styles.varsel, styles[`varsel-${variant}`])}>
-            <Avhuking variant={variant} />
+            {isFetching ? (
+                <Loader
+                    style={{ height: 'var(--navds-font-line-height-xlarge)' }}
+                    size="medium"
+                    variant="interaction"
+                />
+            ) : (
+                <Avhuking
+                    variant={variant}
+                    generasjonId={varsel.generasjonId}
+                    definisjonId={varsel.definisjonId}
+                    varselkode={varsel.kode}
+                    varselstatus={varsel.vurdering?.status}
+                    setIsFetching={setIsFetching}
+                />
+            )}
             <BodyShort as="p">{varsel.tittel}</BodyShort>
         </div>
     );

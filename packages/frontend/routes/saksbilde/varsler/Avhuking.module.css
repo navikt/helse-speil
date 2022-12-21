@@ -2,6 +2,14 @@
     border: none;
     padding: 0;
     background: none;
+    height: var(--navds-font-line-height-xlarge);
+    display: flex;
+    align-items: center;
+}
+
+.avhuking-aktiv,
+.avhuking-vurdert {
+    cursor: pointer;
 }
 
 .avhuking-aktiv > svg > circle {

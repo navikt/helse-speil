@@ -1,0 +1,3 @@
+mutation SettStatusVurdert($generasjonId: String!, $definisjonId: String!, $varselkode: String!, $ident: String!) {
+    settStatusVurdert(generasjonId: $generasjonId, definisjonId: $definisjonId, varselkode: $varselkode, ident: $ident)
+}

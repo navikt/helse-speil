@@ -18,10 +18,13 @@ import type {
     BeregnetPeriode,
     MutationFeilregistrerKommentarArgs,
     MutationLeggTilKommentarArgs,
+    MutationSettStatusAktivArgs,
+    MutationSettStatusVurdertArgs,
     Person,
 } from './schemaTypes';
 import { NotatMock } from './storage/notat';
 import { OppgaveMock } from './storage/oppgave';
+import { VarselMock } from './storage/varsel';
 
 const leggTilLagretData = (person: Person): void => {
     let tildeling = person.tildeling;
@@ -39,6 +42,7 @@ const leggTilLagretData = (person: Person): void => {
                 }
 
                 periode.notater = NotatMock.getNotaterForPeriode(periode);
+                periode.varslerForGenerasjon = VarselMock.getVarslerForPeriode(periode.varslerForGenerasjon);
                 const oppgavereferanse: string | null = periode.oppgavereferanse ?? periode.oppgave?.id ?? null;
                 const oppgave: Oppgave | null = oppgavereferanse ? OppgaveMock.getOppgave(oppgavereferanse) : null;
 
@@ -102,6 +106,14 @@ const getResolvers = (): IResolvers => ({
         },
         leggTilKommentar: (_, { tekst, notatId, saksbehandlerident }: MutationLeggTilKommentarArgs) => {
             return NotatMock.addKommentar({ tekst, notatId, saksbehandlerident });
+        },
+        settStatusVurdert: (_, { generasjonId, definisjonId, varselkode, ident }: MutationSettStatusVurdertArgs) => {
+            VarselMock.settStatusVurdert({ generasjonId, definisjonId, varselkode, ident });
+            return true;
+        },
+        settStatusAktiv: (_, { generasjonId, varselkode, ident }: MutationSettStatusAktivArgs) => {
+            VarselMock.settStatusAktiv({ generasjonId, varselkode, ident });
+            return true;
         },
     },
     Periode: {

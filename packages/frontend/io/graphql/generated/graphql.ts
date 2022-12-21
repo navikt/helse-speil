@@ -1775,3 +1775,20 @@ export type LeggTilKommentarMutation = {
         saksbehandlerident: string;
     } | null;
 };
+
+export type SettStatusAktivMutationVariables = Exact<{
+    generasjonId: Scalars['String'];
+    varselkode: Scalars['String'];
+    ident: Scalars['String'];
+}>;
+
+export type SettStatusAktivMutation = { __typename?: 'Mutation'; settStatusAktiv: boolean };
+
+export type SettStatusVurdertMutationVariables = Exact<{
+    generasjonId: Scalars['String'];
+    definisjonId: Scalars['String'];
+    varselkode: Scalars['String'];
+    ident: Scalars['String'];
+}>;
+
+export type SettStatusVurdertMutation = { __typename?: 'Mutation'; settStatusVurdert: boolean };
