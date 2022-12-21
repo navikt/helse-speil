@@ -3,21 +3,33 @@
     gap: var(--navds-spacing-3);
     align-items: center;
     padding: 8px var(--navds-spacing-4);
-    border-bottom-style: solid;
-    border-bottom-width: 1px;
 }
 
-.varsel-ferdig-behandlet {
-    border-color: var(--navds-alert-color-success-border);
-    background-color: #f1f1f1;
-}
-
-.varsel-aktiv {
-    border-color: var(--navds-alert-color-warning-border);
+.varsel.aktiv {
     background-color: var(--navds-alert-color-warning-background);
+    border-color: var(--navds-alert-color-warning-border);
 }
 
-.varsel-vurdert {
-    border-color: var(--navds-alert-color-success-border);
+.varsel.vurdert {
     background-color: var(--navds-alert-color-success-background);
+    border-color: var(--navds-alert-color-success-border);
+}
+
+.varsel.ferdig-behandlet {
+    background-color: #f1f1f1;
+    border-color: var(--navds-alert-color-success-border);
+}
+
+.varsel.feil {
+    background-color: var(--navds-alert-color-error-background);
+    border-color: var(--navds-alert-color-error-border);
+}
+
+.wrapper {
+    display: flex;
+    flex-direction: column;
+}
+
+.vurdering {
+    color: var(--navds-semantic-color-text-muted);
 }

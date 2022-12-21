@@ -1,4 +1,4 @@
-.EkspanderbartVarsel > button {
+.EkspanderbartAktivitetsloggvarsel > button {
     --background-color: var(--navds-alert-color-warning-background);
     --border-color: var(--navds-alert-color-warning-border);
     color: var(--navds-semantic-color-text);
@@ -7,49 +7,49 @@
     padding: 0 1rem 0 0;
 }
 
-.EkspanderbartVarsel > button > svg {
+.EkspanderbartAktivitetsloggvarsel > button > svg {
     margin: 8px 0;
 }
 
-.EkspanderbartVarsel.info > button {
+.EkspanderbartAktivitetsloggvarsel.info > button {
     --background-color: var(--navds-alert-color-info-background);
     --border-color: var(--navds-alert-color-info-border);
 }
 
-.EkspanderbartVarsel.warning > button {
+.EkspanderbartAktivitetsloggvarsel.warning > button {
     --background-color: var(--navds-alert-color-warning-background);
     --border-color: var(--navds-alert-color-warning-border);
 }
 
-.EkspanderbartVarsel.success > button {
+.EkspanderbartAktivitetsloggvarsel.success > button {
     --background-color: var(--navds-alert-color-success-background);
     --border-color: var(--navds-alert-color-success-border);
 }
 
-.EkspanderbartVarsel.error > button {
+.EkspanderbartAktivitetsloggvarsel.error > button {
     --background-color: var(--navds-alert-color-error-background);
     --border-color: var(--navds-alert-color-error-border);
 }
 
-.EkspanderbartVarsel > button:hover,
-.EkspanderbartVarsel > button:focus {
+.EkspanderbartAktivitetsloggvarsel > button:hover,
+.EkspanderbartAktivitetsloggvarsel > button:focus {
     border-bottom: 1px solid var(--border-color);
 }
 
-.EkspanderbartVarsel > button:global(.navds-accordion__header:hover) {
+.EkspanderbartAktivitetsloggvarsel > button:global(.navds-accordion__header:hover) {
     text-decoration-color: var(--navds-semantic-color-text);
 }
 
-.EkspanderbartVarsel > button:focus,
-.EkspanderbartVarsel > button:active {
+.EkspanderbartAktivitetsloggvarsel > button:focus,
+.EkspanderbartAktivitetsloggvarsel > button:active {
     box-shadow: none;
 }
 
-.EkspanderbartVarsel > button:focus-visible {
+.EkspanderbartAktivitetsloggvarsel > button:focus-visible {
     box-shadow: inset var(--navds-shadow-focus);
 }
 
-.EkspanderbartVarsel > button > svg > path {
+.EkspanderbartAktivitetsloggvarsel > button > svg > path {
     fill: var(--navds-semantic-color-text);
 }
 

@@ -3,7 +3,7 @@ import React, { ReactNode, useState } from 'react';
 
 import { Accordion, Alert } from '@navikt/ds-react';
 
-import styles from './EkspanderbartVarsel.module.css';
+import styles from './EkspanderbartAktivitetsloggvarsel.module.css';
 
 interface EkspanderbartVarselProps {
     label: ReactNode;
@@ -11,11 +11,18 @@ interface EkspanderbartVarselProps {
     type?: 'error' | 'warning' | 'info' | 'success';
 }
 
-export const EkspanderbartVarsel: React.FC<EkspanderbartVarselProps> = ({ label, children, type = 'warning' }) => {
+export const EkspanderbartAktivitetsloggvarsel: React.FC<EkspanderbartVarselProps> = ({
+    label,
+    children,
+    type = 'warning',
+}) => {
     const [open, setOpen] = useState(false);
 
     return (
-        <Accordion.Item defaultOpen={open} className={classNames(styles.EkspanderbartVarsel, styles[type])}>
+        <Accordion.Item
+            defaultOpen={open}
+            className={classNames(styles.EkspanderbartAktivitetsloggvarsel, styles[type])}
+        >
             <Accordion.Header onClick={() => setOpen(!open)}>
                 <Alert className={styles.Alert} variant={type ?? 'warning'}>
                     {label}

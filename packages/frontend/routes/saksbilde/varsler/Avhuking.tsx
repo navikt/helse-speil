@@ -1,6 +1,8 @@
 import classNames from 'classnames';
 import React, { Dispatch, SetStateAction } from 'react';
 
+import { ErrorColored } from '@navikt/ds-icons';
+
 import { Varselstatus } from '@io/graphql';
 import { settStatusAktiv, settStatusVurdert } from '@io/graphql/endreVarselstatus';
 import { useInnloggetSaksbehandler } from '@state/authentication';
@@ -11,7 +13,7 @@ import { CheckIcon } from '../timeline/icons';
 import styles from './Avhuking.module.css';
 
 type AvhukingProps = {
-    variant: string;
+    type: 'feil' | 'aktiv' | 'vurdert' | 'ferdig-behandlet';
     generasjonId: string;
     definisjonId: string;
     varselkode: string;
@@ -20,7 +22,7 @@ type AvhukingProps = {
 };
 
 export const Avhuking: React.FC<AvhukingProps> = ({
-    variant,
+    type,
     generasjonId,
     definisjonId,
     varselkode,
@@ -29,6 +31,8 @@ export const Avhuking: React.FC<AvhukingProps> = ({
 }) => {
     const innloggetSaksbehandler = useInnloggetSaksbehandler();
     const refetchPerson = useRefetchPerson();
+    const disableButton = varselstatus === Varselstatus.Godkjent || type === 'feil';
+
     const endreVarselstatus = (generasjonId: string, definisjonId: string, varselkode: string) => {
         const ident = innloggetSaksbehandler.ident;
         const status = varselstatus ?? Varselstatus.Aktiv;
@@ -60,10 +64,11 @@ export const Avhuking: React.FC<AvhukingProps> = ({
 
     return (
         <button
+            disabled={disableButton}
             onClick={() => endreVarselstatus(generasjonId, definisjonId, varselkode)}
-            className={classNames(styles.avhuking, styles[`avhuking-${variant}`])}
+            className={classNames(styles.avhuking, styles[type])}
         >
-            <CheckIcon width="24px" height="24px" />
+            {type === 'feil' ? <ErrorColored width="24px" height="24px" /> : <CheckIcon width="24px" height="24px" />}
         </button>
     );
 };

@@ -3,51 +3,48 @@ import React, { useState } from 'react';
 
 import { BodyShort, Loader } from '@navikt/ds-react';
 
-import { VarselDto, Varselstatus, VarselvurderingDto } from '@io/graphql';
+import { VarselDto, Varselstatus } from '@io/graphql';
+import { getFormattedDatetimeString } from '@utils/date';
 
 import { Avhuking } from './Avhuking';
 
 import styles from './Varsel.module.css';
 
-type VarselProps = {
+interface VarselProps extends HTMLAttributes<HTMLDivElement> {
     varsel: VarselDto;
-};
+    type: 'feil' | 'aktiv' | 'vurdert' | 'ferdig-behandlet';
+}
 
-const finnVariant = (varselvurdering: Maybe<VarselvurderingDto> | undefined) => {
-    if (!varselvurdering) return 'aktiv';
-    switch (varselvurdering.status) {
-        case Varselstatus.Vurdert:
-            return 'vurdert';
-        case Varselstatus.Godkjent:
-            return 'ferdig-behandlet';
-        case Varselstatus.Avvist:
-        case Varselstatus.Aktiv:
-            return 'aktiv';
-    }
-};
-
-export const Varsel: React.FC<VarselProps> = ({ varsel }) => {
+export const Varsel: React.FC<VarselProps> = ({ className, varsel, type }) => {
     const [isFetching, setIsFetching] = useState(false);
-    const variant = finnVariant(varsel.vurdering);
+    const varselVurdering = varsel.vurdering;
+    const varselStatus = varselVurdering?.status;
     return (
-        <div className={classNames(styles.varsel, styles[`varsel-${variant}`])}>
+        <div className={classNames(className, styles.varsel, styles[type])}>
             {isFetching ? (
                 <Loader
-                    style={{ height: 'var(--navds-font-line-height-xlarge)' }}
+                    style={{ height: 'var(--navds-font-line-height-xlarge)', alignSelf: 'flex-start' }}
                     size="medium"
                     variant="interaction"
                 />
             ) : (
                 <Avhuking
-                    variant={variant}
+                    type={type}
                     generasjonId={varsel.generasjonId}
                     definisjonId={varsel.definisjonId}
                     varselkode={varsel.kode}
-                    varselstatus={varsel.vurdering?.status}
+                    varselstatus={varselStatus}
                     setIsFetching={setIsFetching}
                 />
             )}
-            <BodyShort as="p">{varsel.tittel}</BodyShort>
+            <div className={styles.wrapper}>
+                <BodyShort as="p">{varsel.tittel}</BodyShort>
+                {(varselStatus === Varselstatus.Vurdert || varselStatus === Varselstatus.Godkjent) && (
+                    <BodyShort className={styles.vurdering} as="p">
+                        {getFormattedDatetimeString(varselVurdering?.tidsstempel)} av {varselVurdering?.ident}
+                    </BodyShort>
+                )}
+            </div>
         </div>
     );
 };

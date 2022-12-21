@@ -1,14 +1,28 @@
 import React from 'react';
 
-import { EkspanderbartVarsel } from '@components/EkspanderbartVarsel';
-import { VarselDto } from '@io/graphql';
+import { VarselDto, Varselstatus, VarselvurderingDto } from '@io/graphql';
 
+import { EkspanderbartVarsel } from './EkspanderbartVarsel';
 import { Varsel } from './Varsel';
-import { Varselseksjon } from './Varselseksjon';
+
+import styles from './Varsler.module.css';
 
 interface VarslerProps {
     varsler: Array<VarselDto>;
 }
+
+const finnType = (varselvurdering: Maybe<VarselvurderingDto> | undefined) => {
+    if (!varselvurdering) return 'aktiv';
+    switch (varselvurdering.status) {
+        case Varselstatus.Vurdert:
+            return 'vurdert';
+        case Varselstatus.Godkjent:
+            return 'ferdig-behandlet';
+        case Varselstatus.Avvist:
+        case Varselstatus.Aktiv:
+            return 'aktiv';
+    }
+};
 
 export const Varsler: React.FC<VarslerProps> = React.memo(({ varsler }) => {
     const varslerSomIkkeSkalVises = ['SB_EX_2'];
@@ -19,20 +33,12 @@ export const Varsler: React.FC<VarslerProps> = React.memo(({ varsler }) => {
             {varsler
                 .filter((it) => !varslerSomIkkeSkalVises.includes(it.kode))
                 .map((varsel, index) => {
+                    const type = finnType(varsel.vurdering);
                     if (varsel.forklaring != null && varsel.handling != null) {
                         const visSomFeil = varslerSomSkalVisesSomFeil.includes(varsel.kode);
-                        return (
-                            <EkspanderbartVarsel
-                                key={index}
-                                label={varsel.tittel}
-                                type={visSomFeil ? 'error' : 'warning'}
-                            >
-                                <Varselseksjon tittel="Hva betyr det?">{varsel.forklaring}</Varselseksjon>
-                                <Varselseksjon tittel="Hva gjør du?">{varsel.handling}</Varselseksjon>
-                            </EkspanderbartVarsel>
-                        );
+                        return <EkspanderbartVarsel key={index} varsel={varsel} type={visSomFeil ? 'feil' : type} />;
                     } else {
-                        return <Varsel varsel={varsel} key={index} />;
+                        return <Varsel className={styles.varsel} key={index} varsel={varsel} type={type} />;
                     }
                 })}
         </>

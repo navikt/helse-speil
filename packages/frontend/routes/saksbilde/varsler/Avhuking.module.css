@@ -5,36 +5,37 @@
     height: var(--navds-font-line-height-xlarge);
     display: flex;
     align-items: center;
+    align-self: flex-start;
 }
 
-.avhuking-aktiv,
-.avhuking-vurdert {
+.avhuking.aktiv,
+.avhuking.vurdert {
     cursor: pointer;
 }
 
-.avhuking-aktiv > svg > circle {
+.avhuking.aktiv > svg > circle {
     fill: #ffffff;
     stroke: var(--navds-global-color-blue-500);
 }
 
-.avhuking-aktiv > svg > path {
+.avhuking.aktiv > svg > path {
     fill: var(--navds-global-color-blue-500);
 }
 
-.avhuking-vurdert > svg > circle {
+.avhuking.vurdert > svg > circle {
     fill: var(--navds-semantic-color-feedback-success-border);
     stroke: var(--navds-semantic-color-feedback-success-border);
 }
 
-.avhuking-vurdert > svg > path {
+.avhuking.vurdert > svg > path {
     fill: #ffffff;
 }
 
-.avhuking-ferdig-behandlet > svg > circle {
+.avhuking.ferdig-behandlet > svg > circle {
     fill: var(--navds-semantic-color-feedback-success-border);
     stroke: var(--navds-semantic-color-feedback-success-border);
 }
 
-.avhuking-ferdig-behandlet > svg > path {
+.avhuking.ferdig-behandlet > svg > path {
     fill: #ffffff;
 }

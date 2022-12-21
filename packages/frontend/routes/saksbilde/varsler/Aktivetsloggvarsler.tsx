@@ -2,7 +2,7 @@ import React from 'react';
 
 import { Alert, BodyShort } from '@navikt/ds-react';
 
-import { EkspanderbartVarsel } from '@components/EkspanderbartVarsel';
+import { EkspanderbartAktivitetsloggvarsel } from '@components/EkspanderbartAktivitetsloggvarsel';
 
 import utdatert_wiki from '../../../utdatert_wiki.json';
 import wiki from '../../../wiki.json';
@@ -37,10 +37,10 @@ export const Aktivitetsloggvarsler: React.FC<AktivitetsloggvarslerProps> = React
                     const wikiAktivitet: WikiEntry | undefined = wikis.find((it) => it.varsel === aktivitet);
                     if (wikiAktivitet && (wikiAktivitet.betydning.length > 0 || wikiAktivitet.løsning.length > 0)) {
                         return (
-                            <EkspanderbartVarsel key={index} label={aktivitet} type={wikiAktivitet.type}>
+                            <EkspanderbartAktivitetsloggvarsel key={index} label={aktivitet} type={wikiAktivitet.type}>
                                 <Varselseksjon tittel="Hva betyr det?">{wikiAktivitet.betydning}</Varselseksjon>
                                 <Varselseksjon tittel="Hva gjør du?">{wikiAktivitet.løsning}</Varselseksjon>
-                            </EkspanderbartVarsel>
+                            </EkspanderbartAktivitetsloggvarsel>
                         );
                     } else {
                         return (
