@@ -243,7 +243,8 @@ export const EditableInntekt = ({ omregnetÅrsinntekt, begrunnelser, close, onEn
                 message: 'Tidligste fra og med dato kan ikke være etter skjæringstidspunktet.',
             });
 
-        erGapIDatoer && form.setError('erGapIDatoer', { type: 'custom', message: 'Det er gap i refusjonsdatoene.' });
+        erGapIDatoer &&
+            form.setError('erGapIDatoer', { type: 'custom', message: 'Refusjonsdatoene må være sammenhengende.' });
 
         if (!sisteTomErFørPeriodensTom && !førsteFomErEtterSkjæringstidspunkt && !erGapIDatoer) {
             form.handleSubmit(confirmChanges);

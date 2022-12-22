@@ -91,7 +91,8 @@ export const Inntektoverstyringhendelse: React.FC<InntektoverstyringhendelseProp
                                                         ? dayjs(fraRefusjonsopplysning?.tom, ISO_DATOFORMAT).format(
                                                               NORSK_DATOFORMAT
                                                           ) ?? ''
-                                                        : ''}{' '}
+                                                        : ' '}
+                                                    {': '}
                                                     {fraRefusjonsopplysning.belop}
                                                 </span>
                                             </BodyShort>
@@ -114,7 +115,8 @@ export const Inntektoverstyringhendelse: React.FC<InntektoverstyringhendelseProp
                                                     ? dayjs(refusjonsopplysning?.tom, ISO_DATOFORMAT).format(
                                                           NORSK_DATOFORMAT
                                                       ) ?? ''
-                                                    : ''}{' '}
+                                                    : ' '}
+                                                {': '}
                                                 {refusjonsopplysning.belop}
                                             </BodyShort>
                                         );
