@@ -54,6 +54,13 @@ export const Refusjon = ({ fraRefusjonsopplysninger }: RefusjonProps) => {
                                 ? dayjs(refusjonsopplysning?.fom, ISO_DATOFORMAT).toDate()
                                 : undefined
                         }
+                        // TODO: Må oppgradere designsystemet til v2.0+ for å fjerne @ts-ignore
+                        // @ts-ignore
+                        defaultMonth={
+                            refusjonsopplysning?.fom
+                                ? dayjs(refusjonsopplysning?.fom, ISO_DATOFORMAT).toDate()
+                                : undefined
+                        }
                         onSelect={(date: Date | undefined) => {
                             updateRefusjonsopplysninger(
                                 date ? dayjs(date).format(ISO_DATOFORMAT) : refusjonsopplysning.fom,
@@ -84,7 +91,7 @@ export const Refusjon = ({ fraRefusjonsopplysninger }: RefusjonProps) => {
                                     size="small"
                                     placeholder="dd.mm.åååå"
                                     onBlur={(e) => {
-                                        clearErrors(`refusjonsopplysninger.${index}`); // TODO finn ut hvorfor refusjonsopplysninger.${index} ikke fungerer her
+                                        clearErrors(`refusjonsopplysninger.${index}`);
                                         updateRefusjonsopplysninger(
                                             dayjs(e.target.value, NORSK_DATOFORMAT).isValid()
                                                 ? dayjs(e.target.value, NORSK_DATOFORMAT).format(ISO_DATOFORMAT)
@@ -107,6 +114,13 @@ export const Refusjon = ({ fraRefusjonsopplysninger }: RefusjonProps) => {
                     </DatePicker>
                     <DatePicker
                         defaultSelected={
+                            refusjonsopplysning?.tom
+                                ? dayjs(refusjonsopplysning?.tom, ISO_DATOFORMAT).toDate()
+                                : undefined
+                        }
+                        // TODO: Må oppgradere designsystemet til v2.0+ for å fjerne @ts-ignore
+                        // @ts-ignore
+                        defaultMonth={
                             refusjonsopplysning?.tom
                                 ? dayjs(refusjonsopplysning?.tom, ISO_DATOFORMAT).toDate()
                                 : undefined
@@ -143,7 +157,7 @@ export const Refusjon = ({ fraRefusjonsopplysninger }: RefusjonProps) => {
                                     size="small"
                                     placeholder="dd.mm.åååå"
                                     onBlur={(e) => {
-                                        clearErrors(`refusjonsopplysninger.${index}`); // TODO finn ut hvorfor refusjonsopplysninger.${index} ikke fungerer her
+                                        clearErrors(`refusjonsopplysninger.${index}`);
                                         updateRefusjonsopplysninger(
                                             refusjonsopplysning?.fom ?? null,
                                             dayjs(e.target.value, NORSK_DATOFORMAT).isValid()
@@ -185,7 +199,7 @@ export const Refusjon = ({ fraRefusjonsopplysninger }: RefusjonProps) => {
                                 }`}
                                 type="number"
                                 onBlur={(event) => {
-                                    clearErrors(`refusjonsopplysninger.${index}`); // TODO finn ut hvorfor refusjonsopplysninger.${index} ikke fungerer her
+                                    clearErrors(`refusjonsopplysninger.${index}`);
                                     updateRefusjonsopplysninger(
                                         refusjonsopplysning.fom,
                                         refusjonsopplysning?.tom ?? null,
