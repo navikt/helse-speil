@@ -3,6 +3,7 @@ import React from 'react';
 import { CaseworkerFilled } from '@navikt/ds-icons';
 import { BodyShort } from '@navikt/ds-react';
 
+import { Bold } from '@components/Bold';
 import { Kilde } from '@components/Kilde';
 import { Inntektskilde } from '@io/graphql';
 import { getFormattedDateString } from '@utils/date';
@@ -67,7 +68,8 @@ export const Dagoverstyringhendelse: React.FC<DagoverstyringhendelseProps> = ({
         }
     >
         <ExpandableHistorikkContent>
-            <BodyShort size="small">Begrunnelse: {begrunnelse}</BodyShort>
+            <Bold size="small">Begrunnelse</Bold>
+            <BodyShort size="small">{begrunnelse}</BodyShort>
             <div className={styles.Content}>
                 {groupSimilarDays(dager).map((group, i) => (
                     <div key={i} className={styles.Grid}>
