@@ -1,5 +1,6 @@
 import { MånedsbeløpInput } from './MånedsbeløpInput';
 import classNames from 'classnames';
+import dayjs from 'dayjs';
 import React, { useEffect, useRef, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 
@@ -24,6 +25,7 @@ import { useOpptegnelser, useSetOpptegnelserPollingRate } from '@state/opptegnel
 import { useActivePeriod } from '@state/periode';
 import { useCurrentPerson } from '@state/person';
 import { useAddToast, useRemoveToast } from '@state/toasts';
+import { ISO_DATOFORMAT } from '@utils/date';
 import { kanOverstyreRefusjonsopplysninger } from '@utils/featureToggles';
 import { somPenger, toKronerOgØre } from '@utils/locale';
 import { isArbeidsgiver, isBeregnetPeriode, isGhostPeriode, isPerson } from '@utils/typeguards';
@@ -146,6 +148,7 @@ export const EditableInntekt = ({ omregnetÅrsinntekt, begrunnelser, close, onEn
     const form = useForm({ shouldFocusError: false, mode: 'onBlur' });
     const feiloppsummeringRef = useRef<HTMLDivElement>(null);
     const metadata = useOverstyrtInntektMetadata();
+    const period = useActivePeriod();
 
     const cancelEditing = () => {
         onEndre(false);
@@ -157,7 +160,7 @@ export const EditableInntekt = ({ omregnetÅrsinntekt, begrunnelser, close, onEn
     const harFeil = !form.formState.isValid && form.formState.isSubmitted;
     const values = form.getValues();
 
-    console.log(values);
+    console.log(values, form.formState.errors);
 
     const månedsbeløp = Number.parseFloat(values.manedsbelop);
     const harEndringer = !isNaN(månedsbeløp) && månedsbeløp !== omregnetÅrsinntekt.manedsbelop;
@@ -193,7 +196,58 @@ export const EditableInntekt = ({ omregnetÅrsinntekt, begrunnelser, close, onEn
         postOverstyring(overstyrtInntekt);
     };
 
-    console.log(form.formState.errors);
+    const hasDateGapRefusjon = () => {
+        if (!kanOverstyreRefusjonsopplysninger) {
+            form.handleSubmit(confirmChanges);
+        }
+
+        form.clearErrors(['sisteTomErFørPeriodensTom', 'førsteFomErEtterSkjæringstidspunkt', 'erGapIDatoer']);
+
+        const refusjonsopplysninger =
+            values?.refusjonsopplysninger &&
+            [...values.refusjonsopplysninger]?.sort(
+                (a: Refusjonsopplysning, b: Refusjonsopplysning) =>
+                    new Date(b.fom).getTime() - new Date(a.fom).getTime()
+            );
+
+        const sisteTomErFørPeriodensTom: boolean =
+            refusjonsopplysninger?.[0]?.tom === null
+                ? false
+                : dayjs(refusjonsopplysninger?.[0]?.tom, ISO_DATOFORMAT).isBefore(period?.tom) ?? true;
+
+        const førsteFomErEtterSkjæringstidspunkt: boolean =
+            dayjs(refusjonsopplysninger?.[refusjonsopplysninger.length - 1]?.fom, ISO_DATOFORMAT).isAfter(
+                period?.skjaeringstidspunkt
+            ) ?? true;
+
+        const erGapIDatoer: boolean =
+            refusjonsopplysninger?.filter((refusjonsopplysning: Refusjonsopplysning, index: number) => {
+                return (
+                    index < refusjonsopplysninger.length - 1 &&
+                    dayjs(refusjonsopplysning.fom, ISO_DATOFORMAT)
+                        .subtract(1, 'day')
+                        .diff(dayjs(refusjonsopplysninger[index + 1]?.tom ?? '1970-01-01', ISO_DATOFORMAT)) !== 0
+                );
+            }).length !== 0;
+
+        sisteTomErFørPeriodensTom &&
+            form.setError('sisteTomErFørPeriodensTom', {
+                type: 'custom',
+                message: 'Siste til og med dato kan ikke være før periodens til og med dato.',
+            });
+
+        førsteFomErEtterSkjæringstidspunkt &&
+            form.setError('førsteFomErEtterSkjæringstidspunkt', {
+                type: 'custom',
+                message: 'Tidligste fra og med dato kan ikke være etter skjæringstidspunktet.',
+            });
+
+        erGapIDatoer && form.setError('erGapIDatoer', { type: 'custom', message: 'Det er gap i refusjonsdatoene.' });
+
+        if (!sisteTomErFørPeriodensTom && !førsteFomErEtterSkjæringstidspunkt && !erGapIDatoer) {
+            form.handleSubmit(confirmChanges);
+        }
+    };
 
     return (
         <FormProvider {...form}>
@@ -272,7 +326,12 @@ export const EditableInntekt = ({ omregnetÅrsinntekt, begrunnelser, close, onEn
                         </div>
                     )}
                     <span className={styles.Buttons}>
-                        <Button className={styles.Button} disabled={isLoading} variant="secondary">
+                        <Button
+                            className={styles.Button}
+                            disabled={isLoading}
+                            variant="secondary"
+                            onClick={hasDateGapRefusjon}
+                        >
                             Ferdig
                             {isLoading && <Loader size="xsmall" />}
                         </Button>
