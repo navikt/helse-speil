@@ -5,6 +5,7 @@ import { Maybe, Person, fetchPerson } from '@io/graphql';
 import { FetchError, NotFoundError, ProtectedError, isFetchErrorArray } from '@io/graphql/errors';
 import { NotatDTO, SpeilResponse, deletePåVent, deleteTildeling, postLeggPåVent, postTildeling } from '@io/http';
 import { useInnloggetSaksbehandler } from '@state/authentication';
+import { activePeriodState } from '@state/periode';
 import { useAddVarsel, useRemoveVarsel } from '@state/varsler';
 import { SpeilError } from '@utils/error';
 
@@ -69,12 +70,23 @@ export const useCurrentPerson = (): FetchedPerson | null => {
 
 export const useFetchPerson = (): ((id: string) => Promise<PersonState | void>) => {
     const setPerson = useSetRecoilState(personState);
+    const setActivePeriod = useSetRecoilState(activePeriodState);
 
     return async (id: string) => {
         setPerson((prevState) => (prevState.person ? prevState : { ...prevState, loading: true }));
         return fetchPersonState(id)
             .then((state) => {
                 setPerson(state);
+                setActivePeriod((prevState) => {
+                    return (
+                        state.person?.arbeidsgivere
+                            .flatMap((arbeidsgiver) =>
+                                arbeidsgiver.generasjoner.flatMap((it) => it.perioder as Array<ActivePeriod>)
+                            )
+                            .find((it) => it.id === prevState?.id) ?? null
+                    );
+                });
+
                 return Promise.resolve(state);
             })
             .catch((errors) => {
@@ -90,6 +102,7 @@ export const useRefetchPerson = (): (() => Promise<PersonState | null>) => {
     return async () => {
         if (personId) {
             const personState = await fetchPerson(personId);
+            console.log('personState blir oppdatert');
             return Promise.resolve(personState ?? null);
         } else {
             return Promise.resolve(null);
