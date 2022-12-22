@@ -1,4 +1,6 @@
 .varsel {
     border-bottom-style: solid;
     border-bottom-width: 1px;
+    padding-right: var(--navds-spacing-3);
+    padding-left: var(--navds-spacing-3);
 }

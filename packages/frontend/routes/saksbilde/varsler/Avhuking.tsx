@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import React, { Dispatch, SetStateAction } from 'react';
+import React, { Dispatch, MouseEvent, SetStateAction } from 'react';
 
 import { ErrorColored } from '@navikt/ds-icons';
 
@@ -31,44 +31,63 @@ export const Avhuking: React.FC<AvhukingProps> = ({
 }) => {
     const innloggetSaksbehandler = useInnloggetSaksbehandler();
     const refetchPerson = useRefetchPerson();
-    const disableButton = varselstatus === Varselstatus.Godkjent || type === 'feil';
+    const disabledButton = varselstatus === Varselstatus.Godkjent || type === 'feil';
 
-    const endreVarselstatus = (generasjonId: string, definisjonId: string, varselkode: string) => {
+    const clickEvent = (event: MouseEvent<HTMLSpanElement>) => {
+        if (disabledButton) return;
+        event.stopPropagation();
+        event.preventDefault();
+        endreVarselStatus();
+    };
+
+    const keyboardEvent = (event: React.KeyboardEvent<HTMLSpanElement>) => {
+        if (disabledButton) return;
+        if (event.key === 'Enter' || event.key === ' ') {
+            event.stopPropagation();
+            event.preventDefault();
+            endreVarselStatus();
+        }
+    };
+
+    const endreVarselStatus = () => {
         const ident = innloggetSaksbehandler.ident;
         const status = varselstatus ?? Varselstatus.Aktiv;
         if (ident != undefined) {
             setIsFetching(true);
             if (status === Varselstatus.Aktiv) {
-                settStatusVurdert({ generasjonId, definisjonId, varselkode, ident }).then(() => {
-                    refetchPerson()
-                        .finally(() => {
+                settStatusVurdert({ generasjonId, definisjonId, varselkode, ident })
+                    .then(() => {
+                        refetchPerson().finally(() => {
                             setIsFetching(false);
-                        })
-                        .catch(() => {
-                            // TODO do something
                         });
-                });
+                    })
+                    .catch(() => {
+                        // TODO do something
+                    });
             } else if (status === Varselstatus.Vurdert) {
-                settStatusAktiv({ generasjonId, varselkode, ident }).then(() => {
-                    refetchPerson()
-                        .finally(() => {
+                settStatusAktiv({ generasjonId, varselkode, ident })
+                    .then(() => {
+                        refetchPerson().finally(() => {
                             setIsFetching(false);
-                        })
-                        .catch(() => {
-                            // TODO do something
                         });
-                });
+                    })
+                    .catch(() => {
+                        // TODO do something
+                    });
             }
         }
     };
 
     return (
-        <button
-            disabled={disableButton}
-            onClick={() => endreVarselstatus(generasjonId, definisjonId, varselkode)}
+        <span
+            role="button"
+            tabIndex={disabledButton ? -1 : 0}
+            aria-disabled={disabledButton}
+            onClick={clickEvent}
+            onKeyDown={keyboardEvent}
             className={classNames(styles.avhuking, styles[type])}
         >
             {type === 'feil' ? <ErrorColored width="24px" height="24px" /> : <CheckIcon width="24px" height="24px" />}
-        </button>
+        </span>
     );
 };

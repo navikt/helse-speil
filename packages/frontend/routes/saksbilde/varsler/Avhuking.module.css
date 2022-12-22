@@ -8,6 +8,10 @@
     align-self: flex-start;
 }
 
+[aria-disabled='true'] {
+    cursor: auto;
+}
+
 .avhuking.aktiv,
 .avhuking.vurdert {
     cursor: pointer;
