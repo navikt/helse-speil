@@ -199,6 +199,7 @@ export const EditableInntekt = ({ omregnetÅrsinntekt, begrunnelser, close, onEn
     const hasDateGapRefusjon = () => {
         if (!kanOverstyreRefusjonsopplysninger) {
             form.handleSubmit(confirmChanges);
+            return;
         }
 
         form.clearErrors(['sisteTomErFørPeriodensTom', 'førsteFomErEtterSkjæringstidspunkt', 'erGapIDatoer']);
