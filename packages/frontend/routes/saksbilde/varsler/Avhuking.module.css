@@ -18,8 +18,12 @@
 }
 
 .avhuking.aktiv > svg > circle {
-    fill: #ffffff;
+    fill: var(--navds-global-color-white);
     stroke: var(--navds-global-color-blue-500);
+}
+
+.avhuking.aktiv:hover > svg > circle {
+    fill: var(--navds-global-color-blue-50);
 }
 
 .avhuking.aktiv > svg > path {
@@ -31,8 +35,12 @@
     stroke: var(--navds-semantic-color-feedback-success-border);
 }
 
+.avhuking.vurdert:hover > svg > circle {
+    fill: var(--navds-global-color-green-700);
+}
+
 .avhuking.vurdert > svg > path {
-    fill: #ffffff;
+    fill: var(--navds-global-color-white);
 }
 
 .avhuking.ferdig-behandlet > svg > circle {
@@ -41,5 +49,5 @@
 }
 
 .avhuking.ferdig-behandlet > svg > path {
-    fill: #ffffff;
+    fill: var(--navds-global-color-white);
 }
