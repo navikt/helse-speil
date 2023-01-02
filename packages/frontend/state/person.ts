@@ -102,7 +102,6 @@ export const useRefetchPerson = (): (() => Promise<PersonState | null>) => {
     return async () => {
         if (personId) {
             const personState = await fetchPerson(personId);
-            console.log('personState blir oppdatert');
             return Promise.resolve(personState ?? null);
         } else {
             return Promise.resolve(null);

@@ -41,7 +41,7 @@ const reducer = (state: State, action: Action) => {
                 hasErrors: true,
                 errors: {
                     ...state.errors,
-                    [action.id]: action.message ?? 'Det oppstod en feil. Prøv igje senere.',
+                    [action.id]: action.message ?? 'Det oppstod en feil. Prøv igjen senere.',
                 },
             };
         }

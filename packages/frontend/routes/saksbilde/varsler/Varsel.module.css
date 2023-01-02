@@ -34,3 +34,7 @@
 .vurdering {
     color: var(--navds-semantic-color-text-muted);
 }
+
+.error {
+    color: var(--navds-error-message-color-text);
+}

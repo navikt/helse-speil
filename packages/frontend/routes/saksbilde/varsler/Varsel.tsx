@@ -17,6 +17,7 @@ interface VarselProps extends HTMLAttributes<HTMLDivElement> {
 
 export const Varsel: React.FC<VarselProps> = ({ className, varsel, type }) => {
     const [isFetching, setIsFetching] = useState(false);
+    const [errorState, setErrorState] = useState<{ error: boolean; message: string }>({ error: false, message: '' });
     const varselVurdering = varsel.vurdering;
     const varselStatus = varselVurdering?.status;
     return (
@@ -35,6 +36,7 @@ export const Varsel: React.FC<VarselProps> = ({ className, varsel, type }) => {
                     varselkode={varsel.kode}
                     varselstatus={varselStatus}
                     setIsFetching={setIsFetching}
+                    setError={setErrorState}
                 />
             )}
             <div className={styles.wrapper}>
@@ -42,6 +44,11 @@ export const Varsel: React.FC<VarselProps> = ({ className, varsel, type }) => {
                 {(varselStatus === Varselstatus.Vurdert || varselStatus === Varselstatus.Godkjent) && (
                     <BodyShort className={styles.vurdering} as="p">
                         {getFormattedDatetimeString(varselVurdering?.tidsstempel)} av {varselVurdering?.ident}
+                    </BodyShort>
+                )}
+                {errorState.error && (
+                    <BodyShort className={styles.error} as="p">
+                        Kunne ikke huke av varsel. {errorState.message}
                     </BodyShort>
                 )}
             </div>

@@ -19,6 +19,7 @@ type AvhukingProps = {
     varselkode: string;
     varselstatus?: Varselstatus;
     setIsFetching: Dispatch<SetStateAction<boolean>>;
+    setError: Dispatch<SetStateAction<{ error: boolean; message: string }>>;
 };
 
 export const Avhuking: React.FC<AvhukingProps> = ({
@@ -28,6 +29,7 @@ export const Avhuking: React.FC<AvhukingProps> = ({
     varselkode,
     varselstatus,
     setIsFetching,
+    setError,
 }) => {
     const innloggetSaksbehandler = useInnloggetSaksbehandler();
     const refetchPerson = useRefetchPerson();
@@ -52,30 +54,23 @@ export const Avhuking: React.FC<AvhukingProps> = ({
     const endreVarselStatus = () => {
         const ident = innloggetSaksbehandler.ident;
         const status = varselstatus ?? Varselstatus.Aktiv;
-        if (ident != undefined) {
-            setIsFetching(true);
-            if (status === Varselstatus.Aktiv) {
-                settStatusVurdert({ generasjonId, definisjonId, varselkode, ident })
-                    .then(() => {
-                        refetchPerson().finally(() => {
-                            setIsFetching(false);
-                        });
-                    })
-                    .catch(() => {
-                        // TODO do something
-                    });
-            } else if (status === Varselstatus.Vurdert) {
-                settStatusAktiv({ generasjonId, varselkode, ident })
-                    .then(() => {
-                        refetchPerson().finally(() => {
-                            setIsFetching(false);
-                        });
-                    })
-                    .catch(() => {
-                        // TODO do something
-                    });
-            }
+        if (ident === undefined || ident === null) {
+            setError({ error: true, message: 'Du er ikke logget inn.' });
+            return;
         }
+        setIsFetching(true);
+        let response;
+        if (status === Varselstatus.Aktiv) {
+            response = settStatusVurdert({ generasjonId, definisjonId, varselkode, ident });
+        } else if (status === Varselstatus.Vurdert) {
+            response = settStatusAktiv({ generasjonId, varselkode, ident });
+        }
+        response
+            ?.then(() => {
+                refetchPerson().finally(() => setIsFetching(false));
+                setError({ error: false, message: '' });
+            })
+            .catch(() => setError({ error: true, message: 'Kallet til baksystemet feilet. Kontakt en utvikler.' }));
     };
 
     return (
