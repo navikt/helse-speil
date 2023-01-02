@@ -37,6 +37,14 @@
     margin-left: 8px;
 }
 
+.Period > svg.uvurderteVarslerIcon {
+    position: absolute;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    top: 14px;
+}
+
 .Period > svg > circle {
     fill: var(--period-icon-color);
     stroke: var(--period-icon-color);

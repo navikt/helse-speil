@@ -1,6 +1,7 @@
 import classNames from 'classnames';
 import React, { ReactNode, useRef } from 'react';
 
+import { useHarUvurderteVarsler } from '@hooks/useHarUvurderteVarsler';
 import { useSetActivePeriod } from '@state/periode';
 import { getPeriodState } from '@utils/mapping';
 import { isBeregnetPeriode, isGhostPeriode, isInfotrygdPeriod, isUberegnetPeriode } from '@utils/typeguards';
@@ -10,6 +11,7 @@ import { PeriodPopover } from './PeriodPopover';
 import { useIsWiderThan } from './hooks/useIsWiderThan';
 import { usePopoverAnchor } from './hooks/usePopoverAnchor';
 import { BlankIcon, CheckIcon, CrossIcon, TaskIcon, WaitingIcon } from './icons';
+import { UvurderteVarslerIcon } from './icons/UvurderteVarslerIcon';
 
 import styles from './Period.module.css';
 
@@ -104,6 +106,7 @@ export const Period: React.FC<PeriodProps> = ({ period, notCurrent, isActive, cl
     const setActivePeriod = useSetActivePeriod();
     const button = useRef<HTMLButtonElement>(null);
     const iconIsVisible = useIsWiderThan(button, 32);
+    const harUvurderteVarsler = useHarUvurderteVarsler(period);
 
     const { onMouseOver, onMouseOut, ...popoverProps } = usePopoverAnchor();
 
@@ -129,6 +132,7 @@ export const Period: React.FC<PeriodProps> = ({ period, notCurrent, isActive, cl
             >
                 {iconIsVisible && getIcon(periodCategory)}
                 {!notCurrent && <InfoPin period={period} />}
+                {harUvurderteVarsler && <UvurderteVarslerIcon className={styles.uvurderteVarslerIcon} />}
             </button>
             <PeriodPopover period={period} state={getPeriodState(period)} {...popoverProps} />
         </>
