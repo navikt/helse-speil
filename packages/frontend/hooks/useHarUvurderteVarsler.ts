@@ -15,5 +15,8 @@ export const useHarUvurderteVarsler = (periode: FetchedBeregnetPeriode | DatePer
 
     return periode.varslerForGenerasjon
         .filter((varsel) => !varsel.kode.startsWith('SB_BO_'))
-        .some((varsel) => varsel.vurdering?.status !== Varselstatus.Vurdert);
+        .some(
+            (varsel) =>
+                varsel.vurdering?.status !== Varselstatus.Vurdert && varsel.vurdering?.status !== Varselstatus.Godkjent
+        );
 };
