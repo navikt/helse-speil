@@ -7,6 +7,7 @@ import { BodyShort, Loader } from '@navikt/ds-react';
 
 import { ErrorMessage } from '@components/ErrorMessage';
 import { useErBeslutteroppgaveOgHarTilgang } from '@hooks/useErBeslutteroppgaveOgHarTilgang';
+import { useHarUvurderteVarsler } from '@hooks/useHarUvurderteVarsler';
 import { useHarVurderLovvalgOgMedlemskapVarsel } from '@hooks/useHarVurderLovvalgOgMedlemskapVarsel';
 import { NotatType, Periodetilstand } from '@io/graphql';
 import { postAbonnerPåAktør } from '@io/http';
@@ -96,6 +97,7 @@ export const Utbetaling = ({ period, person }: UtbetalingProps) => {
     const harOverstyringerEtterSisteGodkjenteUtbetaling = useHarOverstyringerEtterSisteGodkjenteUtbetaling(person);
     const harDagOverstyringer = useHarDagOverstyringer(period);
     const currentSaksbehandler = useInnloggetSaksbehandler();
+    const harUvurderteVarsler = useHarUvurderteVarsler(period);
 
     const onGodkjennUtbetaling = () => {
         setGodkjentPeriode(period.vedtaksperiodeId);
@@ -138,7 +140,7 @@ export const Utbetaling = ({ period, person }: UtbetalingProps) => {
                     <SendTilGodkjenningButton
                         oppgavereferanse={period.oppgave?.id!}
                         manglerNotatVedVurderLovvalgOgMedlemskapVarsel={manglerNotatVedVurderLovvalgOgMedlemskapVarsel}
-                        disabled={periodenErSendt}
+                        disabled={periodenErSendt || harUvurderteVarsler}
                         onSuccess={onSendTilGodkjenning}
                         onError={setError}
                     >
@@ -149,7 +151,7 @@ export const Utbetaling = ({ period, person }: UtbetalingProps) => {
                         oppgavereferanse={period.oppgave?.id!}
                         aktørId={person.aktorId}
                         erBeslutteroppgave={erBeslutteroppgaveOgHarTilgang}
-                        disabled={periodenErSendt}
+                        disabled={periodenErSendt || harUvurderteVarsler}
                         onSuccess={onGodkjennUtbetaling}
                         onError={setError}
                     >

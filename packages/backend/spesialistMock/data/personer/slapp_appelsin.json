@@ -709,7 +709,7 @@
                                         {
                                             "generasjonId": "EN_ANNEN_ID",
                                             "definisjonId": "EN_DEFINISJON",
-                                            "kode": "EN_ANNEN_KODE",
+                                            "kode": "SB_BO_NOE",
                                             "tittel": "Beslutteroppgave: Flere arbeidsgivere, ulikt starttidspunkt for sykefraværet eller ikke fravær fra alle arbeidsforhold",
                                             "forklaring": null,
                                             "handling": null,
