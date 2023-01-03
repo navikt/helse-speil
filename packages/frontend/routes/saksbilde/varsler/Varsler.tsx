@@ -24,6 +24,12 @@ const finnType = (varselvurdering: Maybe<VarselvurderingDto> | undefined) => {
     }
 };
 
+const byKode = (a: VarselDto, b: VarselDto) => {
+    if (a.kode > b.kode) return 1;
+    if (a.kode < b.kode) return -1;
+    return 0;
+};
+
 export const Varsler: React.FC<VarslerProps> = React.memo(({ varsler }) => {
     const varslerSomIkkeSkalVises = ['SB_EX_2'];
     const varslerSomSkalVisesSomFeil = ['RV_IV_2'];
@@ -32,6 +38,7 @@ export const Varsler: React.FC<VarslerProps> = React.memo(({ varsler }) => {
         <>
             {varsler
                 .filter((it) => !varslerSomIkkeSkalVises.includes(it.kode))
+                .sort(byKode)
                 .map((varsel, index) => {
                     const type = finnType(varsel.vurdering);
                     if (varsel.forklaring != null && varsel.handling != null) {
