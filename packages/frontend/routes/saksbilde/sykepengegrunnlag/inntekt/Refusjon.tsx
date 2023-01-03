@@ -32,7 +32,7 @@ export const Refusjon = ({ fraRefusjonsopplysninger }: RefusjonProps) => {
     } = useRefusjonFormField();
 
     useEffect(() => {
-        replaceRefusjonsopplysninger(fraRefusjonsopplysninger.reverse());
+        replaceRefusjonsopplysninger(fraRefusjonsopplysninger);
     }, []);
 
     const isNumeric = (input: string) => /^\d+(\.\d{1,2})?$/.test(input);
@@ -260,7 +260,7 @@ function useRefusjonFormField() {
     const addRefusjonsopplysning = () => {
         append({
             fom: '',
-            tom: '',
+            tom: null,
             beløp: 0,
         });
     };
@@ -270,7 +270,12 @@ function useRefusjonFormField() {
     };
 
     const replaceRefusjonsopplysninger = (refusjonsopplysninger: Refusjonsopplysning[]) => {
-        replace(refusjonsopplysninger);
+        replace(
+            refusjonsopplysninger.sort(
+                (a: Refusjonsopplysning, b: Refusjonsopplysning) =>
+                    new Date(b.fom).getTime() - new Date(a.fom).getTime()
+            )
+        );
     };
 
     const updateRefusjonsopplysninger = (fom: string, tom: Maybe<string>, beløp: number, index: number) => {

@@ -5,7 +5,13 @@ import React from 'react';
 import { Alert } from '@navikt/ds-react';
 
 import { ErrorBoundary } from '@components/ErrorBoundary';
-import { Arbeidsgiver, Arbeidsgiverinntekt, Arbeidsgiverrefusjon, BeregnetPeriode } from '@io/graphql';
+import {
+    Arbeidsgiver,
+    Arbeidsgiverinntekt,
+    Arbeidsgiverrefusjon,
+    BeregnetPeriode,
+    Refusjonselement,
+} from '@io/graphql';
 import { useArbeidsgiver } from '@state/arbeidsgiver';
 import { useActivePeriod } from '@state/periode';
 import { isUberegnetPeriode } from '@utils/typeguards';
@@ -31,6 +37,13 @@ const InntektContainer: React.FC<InntektContainerProps> = ({ inntekt, refusjon }
 
     const arbeidsgiverHarSykefraværForPerioden = hasSykefravær(arbeidsgiver, period.fom);
 
+    const refusjonerSortert = refusjon?.refusjonsopplysninger && {
+        ...refusjon,
+        refusjonsopplysninger: [...refusjon.refusjonsopplysninger].sort(
+            (a: Refusjonselement, b: Refusjonselement) => new Date(b.fom).getTime() - new Date(a.fom).getTime()
+        ),
+    };
+
     if (arbeidsgiverHarSykefraværForPerioden) {
         return (
             <InntektMedSykefravær
@@ -41,7 +54,7 @@ const InntektContainer: React.FC<InntektContainerProps> = ({ inntekt, refusjon }
                 inntektstype={(period as BeregnetPeriode).inntektstype}
                 erDeaktivert={inntekt.deaktivert}
                 arbeidsgiver={arbeidsgiver}
-                refusjon={refusjon}
+                refusjon={refusjonerSortert}
             />
         );
     } else {
@@ -53,7 +66,7 @@ const InntektContainer: React.FC<InntektContainerProps> = ({ inntekt, refusjon }
                 erDeaktivert={inntekt.deaktivert}
                 vilkårsgrunnlagId={period.vilkarsgrunnlagId}
                 arbeidsgiver={arbeidsgiver}
-                refusjon={refusjon}
+                refusjon={refusjonerSortert}
             />
         );
     }
