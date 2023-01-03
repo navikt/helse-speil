@@ -17,10 +17,12 @@ type AvhukingProps = {
     generasjonId: string;
     definisjonId: string;
     varselkode: string;
-    varselstatus?: Varselstatus;
+    varselstatus: Varselstatus;
     setIsFetching: Dispatch<SetStateAction<boolean>>;
     setError: Dispatch<SetStateAction<{ error: boolean; message: string }>>;
 };
+
+const errorMessage = 'Kallet til baksystemet feilet. Kontakt en utvikler.';
 
 export const Avhuking: React.FC<AvhukingProps> = ({
     type,
@@ -53,24 +55,37 @@ export const Avhuking: React.FC<AvhukingProps> = ({
 
     const endreVarselStatus = () => {
         const ident = innloggetSaksbehandler.ident;
-        const status = varselstatus ?? Varselstatus.Aktiv;
         if (ident === undefined || ident === null) {
             setError({ error: true, message: 'Du er ikke logget inn.' });
             return;
         }
         setIsFetching(true);
-        let response;
-        if (status === Varselstatus.Aktiv) {
-            response = settStatusVurdert({ generasjonId, definisjonId, varselkode, ident });
-        } else if (status === Varselstatus.Vurdert) {
-            response = settStatusAktiv({ generasjonId, varselkode, ident });
+
+        if (varselstatus === Varselstatus.Aktiv) {
+            settStatusVurdert({ generasjonId, definisjonId, varselkode, ident })
+                .then((response) => {
+                    håndterRespons(response.settStatusVurdert);
+                })
+                .catch(() => setError({ error: true, message: errorMessage }));
+        } else if (varselstatus === Varselstatus.Vurdert) {
+            settStatusAktiv({ generasjonId, varselkode, ident })
+                .then((response) => {
+                    håndterRespons(response.settStatusAktiv);
+                })
+                .catch(() => setError({ error: true, message: errorMessage }));
         }
-        response
-            ?.then(() => {
-                refetchPerson().finally(() => setIsFetching(false));
-                setError({ error: false, message: '' });
-            })
-            .catch(() => setError({ error: true, message: 'Kallet til baksystemet feilet. Kontakt en utvikler.' }));
+    };
+
+    const håndterRespons = (response: boolean) => {
+        if (!response) {
+            setError({ error: true, message: 'En feil oppsto. Kontakt en utvikler.' });
+            setIsFetching(false);
+            return;
+        }
+        refetchPerson().finally(() => {
+            setError({ error: false, message: '' });
+            setIsFetching(false);
+        });
     };
 
     return (

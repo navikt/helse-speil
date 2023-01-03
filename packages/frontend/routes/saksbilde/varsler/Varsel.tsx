@@ -19,7 +19,7 @@ export const Varsel: React.FC<VarselProps> = ({ className, varsel, type }) => {
     const [isFetching, setIsFetching] = useState(false);
     const [errorState, setErrorState] = useState<{ error: boolean; message: string }>({ error: false, message: '' });
     const varselVurdering = varsel.vurdering;
-    const varselStatus = varselVurdering?.status;
+    const varselStatus = varselVurdering?.status ?? Varselstatus.Aktiv;
     return (
         <div className={classNames(className, styles.varsel, styles[type])}>
             {isFetching ? (
@@ -48,7 +48,7 @@ export const Varsel: React.FC<VarselProps> = ({ className, varsel, type }) => {
                 )}
                 {errorState.error && (
                     <BodyShort className={styles.error} as="p">
-                        Kunne ikke huke av varsel. {errorState.message}
+                        {errorState.message}
                     </BodyShort>
                 )}
             </div>
