@@ -11,7 +11,7 @@
     color: var(--navds-semantic-color-text);
     background-color: var(--background-color) !important;
     border-bottom: 1px solid var(--border-color) !important;
-    padding: 0 var(--navds-spacing-4) 0 var(--navds-spacing-3);
+    padding: 0 var(--navds-spacing-4) 0 var(--navds-spacing-4);
 }
 
 .ekspanderbartVarsel > button > svg {
