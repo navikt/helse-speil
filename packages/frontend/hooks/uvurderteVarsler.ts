@@ -21,7 +21,7 @@ export const useUvurderteVarslerPåPeriode = (periode: FetchedBeregnetPeriode | 
         );
 };
 
-export const useHarUvurderteVarslerPåUtbetaling = (): boolean => {
+export const useHarUvurderteVarslerPåUtbetaling = (utbetalingId: string): boolean => {
     const arbeidsgiver = useCurrentArbeidsgiver();
 
     // For å ikke gå i beina på eksisterende flyt
@@ -32,14 +32,14 @@ export const useHarUvurderteVarslerPåUtbetaling = (): boolean => {
     }
 
     return arbeidsgiver.generasjoner[0].perioder.some((periode) => {
-        if (isBeregnetPeriode(periode)) {
-            periode.varslerForGenerasjon
-                .filter((varsel) => !varsel.kode.startsWith('SB_BO_'))
-                .some(
-                    (varsel) =>
-                        varsel.vurdering?.status !== Varselstatus.Vurdert &&
-                        varsel.vurdering?.status !== Varselstatus.Godkjent
-                );
-        }
+        if (!isBeregnetPeriode(periode)) return false;
+        if (periode.utbetaling.id !== utbetalingId) return false;
+        return periode.varslerForGenerasjon
+            .filter((varsel) => !varsel.kode.startsWith('SB_BO_'))
+            .some(
+                (varsel) =>
+                    varsel.vurdering?.status !== Varselstatus.Vurdert &&
+                    varsel.vurdering?.status !== Varselstatus.Godkjent
+            );
     });
 };

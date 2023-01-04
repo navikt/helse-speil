@@ -98,7 +98,7 @@ export const Utbetaling = ({ period, person }: UtbetalingProps) => {
     const harDagOverstyringer = useHarDagOverstyringer(period);
     const currentSaksbehandler = useInnloggetSaksbehandler();
     const harUvurderteVarslerPåPeriode = useUvurderteVarslerPåPeriode(period);
-    const harUvurderteVarslerPåUtbetaling = useHarUvurderteVarslerPåUtbetaling();
+    const harUvurderteVarslerPåUtbetaling = useHarUvurderteVarslerPåUtbetaling(period.utbetaling.id);
 
     const onGodkjennUtbetaling = () => {
         setGodkjentPeriode(period.vedtaksperiodeId);
