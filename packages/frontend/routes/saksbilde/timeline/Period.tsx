@@ -1,7 +1,7 @@
 import classNames from 'classnames';
 import React, { ReactNode, useRef } from 'react';
 
-import { useHarUvurderteVarsler } from '@hooks/useHarUvurderteVarsler';
+import { useUvurderteVarslerPåPeriode } from '@hooks/uvurderteVarsler';
 import { useSetActivePeriod } from '@state/periode';
 import { getPeriodState } from '@utils/mapping';
 import { isBeregnetPeriode, isGhostPeriode, isInfotrygdPeriod, isUberegnetPeriode } from '@utils/typeguards';
@@ -106,7 +106,7 @@ export const Period: React.FC<PeriodProps> = ({ period, notCurrent, isActive, cl
     const setActivePeriod = useSetActivePeriod();
     const button = useRef<HTMLButtonElement>(null);
     const iconIsVisible = useIsWiderThan(button, 32);
-    const harUvurderteVarsler = useHarUvurderteVarsler(period);
+    const harUvurderteVarsler = useUvurderteVarslerPåPeriode(period);
 
     const { onMouseOver, onMouseOut, ...popoverProps } = usePopoverAnchor();
 
