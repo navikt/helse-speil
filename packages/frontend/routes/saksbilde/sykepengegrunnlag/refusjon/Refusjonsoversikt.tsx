@@ -4,8 +4,7 @@ import { BodyShort } from '@navikt/ds-react';
 
 import { Bold } from '@components/Bold';
 import { EditButton } from '@components/EditButton';
-import { Kilde } from '@components/Kilde';
-import { Arbeidsgiverrefusjon, Kildetype } from '@io/graphql';
+import { Refusjonsopplysning } from '@io/http';
 
 import { Refusjonslinje } from './Refusjonslinje';
 
@@ -14,7 +13,7 @@ import styles from './Refusjonsoversikt.module.css';
 const canEditRefusjon = false;
 
 interface RefusjonProps {
-    refusjon: Arbeidsgiverrefusjon;
+    refusjon: Refusjonsopplysning[];
 }
 
 export const Refusjonsoversikt: React.FC<RefusjonProps> = ({ refusjon }) => {
@@ -25,7 +24,6 @@ export const Refusjonsoversikt: React.FC<RefusjonProps> = ({ refusjon }) => {
             <div className={styles.Header}>
                 <div className={styles.Tittel}>
                     <Bold>Refusjon</Bold>
-                    <Kilde type={Kildetype.Inntektsmelding}>IM</Kilde>
                 </div>
                 {canEditRefusjon && (
                     <EditButton
@@ -49,8 +47,13 @@ export const Refusjonsoversikt: React.FC<RefusjonProps> = ({ refusjon }) => {
                     </tr>
                 </thead>
                 <tbody>
-                    {refusjon.refusjonsopplysninger.map((refusjonselement, i) => (
-                        <Refusjonslinje key={i} dato={refusjonselement.fom} beløp={refusjonselement.belop} />
+                    {refusjon.map((refusjonsopplysning, i) => (
+                        <Refusjonslinje
+                            key={i}
+                            dato={refusjonsopplysning.fom}
+                            beløp={refusjonsopplysning.beløp}
+                            kilde={refusjonsopplysning.kilde}
+                        />
                     ))}
                 </tbody>
             </table>

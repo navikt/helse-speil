@@ -38,6 +38,7 @@ export interface Refusjonsopplysning {
     fom: string;
     tom?: Maybe<string>;
     beløp: number;
+    kilde: string;
 }
 
 export interface OverstyrtArbeidsforholdDTO {

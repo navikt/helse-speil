@@ -11,7 +11,7 @@ import { Endringstrekant } from '@components/Endringstrekant';
 import { ErrorMessage } from '@components/ErrorMessage';
 import { Flex, FlexColumn } from '@components/Flex';
 import { OverstyringTimeoutModal } from '@components/OverstyringTimeoutModal';
-import { Inntektskilde, OmregnetArsinntekt } from '@io/graphql';
+import { Arbeidsgiverrefusjon, Inntektskilde, OmregnetArsinntekt } from '@io/graphql';
 import type { OverstyrtInntektDTO, Refusjonsopplysning } from '@io/http';
 import { postAbonnerPåAktør, postOverstyrtInntekt } from '@io/http';
 import { useCurrentArbeidsgiver } from '@state/arbeidsgiver';
@@ -33,6 +33,7 @@ import { isArbeidsgiver, isBeregnetPeriode, isGhostPeriode, isPerson } from '@ut
 import { BegrunnelseForOverstyring } from '../overstyring.types';
 import { Begrunnelser } from './Begrunnelser';
 import { ForklaringTextarea } from './ForklaringTextarea';
+import { mapOgSorterRefusjoner } from './Inntekt';
 import { Refusjon } from './Refusjon';
 
 import styles from './EditableInntekt.module.css';
@@ -54,19 +55,23 @@ const useOverstyrtInntektMetadata = (): OverstyrtInntektMetadata => {
         throw Error('Mangler data for å kunne overstyre inntekt.');
     }
 
-    const vilkårsgrunnlagRefusjonsopplysninger: Refusjonsopplysning[] = person.vilkarsgrunnlag
+    const vilkårsgrunnlagRefusjonsopplysninger: Arbeidsgiverrefusjon = person.vilkarsgrunnlag
         .filter((it) => it.id === period.vilkarsgrunnlagId)[0]
         .arbeidsgiverrefusjoner.filter(
             (arbeidsgiverrefusjon) => arbeidsgiverrefusjon.arbeidsgiver === arbeidsgiver.organisasjonsnummer
-        )[0]
-        ?.refusjonsopplysninger?.map((it) => ({ fom: it.fom, tom: it.tom, beløp: it.belop }));
+        )[0];
+
+    const refusjonsopplysninger = mapOgSorterRefusjoner(
+        period,
+        vilkårsgrunnlagRefusjonsopplysninger?.refusjonsopplysninger
+    );
 
     return {
         aktørId: person.aktorId,
         fødselsnummer: person.fodselsnummer,
         organisasjonsnummer: arbeidsgiver.organisasjonsnummer,
         skjæringstidspunkt: period.skjaeringstidspunkt,
-        fraRefusjonsopplysninger: vilkårsgrunnlagRefusjonsopplysninger,
+        fraRefusjonsopplysninger: refusjonsopplysninger,
     };
 };
 

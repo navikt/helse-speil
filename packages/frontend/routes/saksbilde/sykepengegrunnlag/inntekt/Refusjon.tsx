@@ -9,7 +9,7 @@ import { Bold } from '@components/Bold';
 import { Button } from '@components/Button';
 import { Flex } from '@components/Flex';
 import { Kilde } from '@components/Kilde';
-import { Inntektskilde, Kildetype } from '@io/graphql';
+import { Kildetype } from '@io/graphql';
 import { Refusjonsopplysning } from '@io/http';
 import { ISO_DATOFORMAT, NORSK_DATOFORMAT } from '@utils/date';
 
@@ -211,20 +211,18 @@ export const Refusjon = ({ fraRefusjonsopplysninger }: RefusjonProps) => {
                             />
                         )}
                     />
-                    {fields[index].toString() === fraRefusjonsopplysninger.reverse()[index]?.toString() && (
-                        <Flex alignItems="center">
-                            <Kilde type={Kildetype.Inntektsmelding} className={styles.Ikon}>
+                    <Flex alignItems="center">
+                        {refusjonsopplysning.kilde === Kildetype.Inntektsmelding && (
+                            <Kilde type={refusjonsopplysning.kilde} className={styles.Ikon}>
                                 IM
                             </Kilde>
-                        </Flex>
-                    )}
-                    {fields[index].toString() !== fraRefusjonsopplysninger.reverse()[index]?.toString() && (
-                        <Flex alignItems="center">
-                            <Kilde type={Inntektskilde.Saksbehandler} className={styles.Ikon}>
+                        )}
+                        {refusjonsopplysning.kilde === Kildetype.Saksbehandler && (
+                            <Kilde type={refusjonsopplysning.kilde} className={styles.Ikon}>
                                 <CaseworkerFilled height={12} width={12} />
                             </Kilde>
-                        </Flex>
-                    )}
+                        )}
+                    </Flex>
                     <Button
                         type="button"
                         onClick={removeRefusjonsopplysning(index)}
@@ -246,7 +244,7 @@ export const Refusjon = ({ fraRefusjonsopplysninger }: RefusjonProps) => {
 
 interface RefusjonFormValues {
     name: string;
-    refusjonsopplysninger: { fom: string; tom?: Maybe<string>; beløp: number }[];
+    refusjonsopplysninger: { fom: string; tom?: Maybe<string>; beløp: number; kilde: string }[];
 }
 
 function useRefusjonFormField() {
@@ -262,6 +260,7 @@ function useRefusjonFormField() {
             fom: '',
             tom: null,
             beløp: 0,
+            kilde: Kildetype.Saksbehandler,
         });
     };
 

@@ -10,15 +10,8 @@ import { Kilde } from '@components/Kilde';
 import { AnonymizableTextWithEllipsis } from '@components/TextWithEllipsis';
 import { AnonymizableContainer } from '@components/anonymizable/AnonymizableContainer';
 import { Clipboard } from '@components/clipboard';
-import {
-    Arbeidsgiver,
-    Arbeidsgiverrefusjon,
-    BeregnetPeriode,
-    Inntektskilde,
-    Maybe,
-    OmregnetArsinntekt,
-    Periodetilstand,
-} from '@io/graphql';
+import { Arbeidsgiver, BeregnetPeriode, Inntektskilde, Maybe, OmregnetArsinntekt, Periodetilstand } from '@io/graphql';
+import { Refusjonsopplysning } from '@io/http';
 import { useEndringerForPeriode } from '@state/arbeidsgiver';
 import { useActivePeriod } from '@state/periode';
 import { useCurrentPerson } from '@state/person';
@@ -162,7 +155,7 @@ interface InntektUtenSykefraværProps {
     omregnetÅrsinntekt?: Maybe<OmregnetArsinntekt>;
     vilkårsgrunnlagId?: Maybe<string>;
     arbeidsgiver: Arbeidsgiver;
-    refusjon?: Maybe<Arbeidsgiverrefusjon>;
+    refusjon?: Maybe<Refusjonsopplysning[]>;
 }
 
 export const InntektUtenSykefravær = ({

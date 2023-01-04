@@ -13,15 +13,8 @@ import { AnonymizableContainer } from '@components/anonymizable/AnonymizableCont
 import { Clipboard } from '@components/clipboard';
 import { SortInfoikon } from '@components/ikoner/SortInfoikon';
 import { useIsReadOnlyOppgave } from '@hooks/useIsReadOnlyOppgave';
-import {
-    Arbeidsgiver,
-    Arbeidsgiverrefusjon,
-    Inntektskilde,
-    Inntektstype,
-    Maybe,
-    OmregnetArsinntekt,
-    Utbetalingstatus,
-} from '@io/graphql';
+import { Arbeidsgiver, Inntektskilde, Inntektstype, Maybe, OmregnetArsinntekt, Utbetalingstatus } from '@io/graphql';
+import { Refusjonsopplysning } from '@io/http';
 import {
     useCurrentArbeidsgiver,
     useEndringerForPeriode,
@@ -77,7 +70,7 @@ interface InntektMedSykefraværProps {
     inntektstype?: Inntektstype;
     erDeaktivert?: Maybe<boolean>;
     arbeidsgiver: Arbeidsgiver;
-    refusjon?: Maybe<Arbeidsgiverrefusjon>;
+    refusjon?: Maybe<Refusjonsopplysning[]>;
 }
 
 export const InntektMedSykefravær = ({

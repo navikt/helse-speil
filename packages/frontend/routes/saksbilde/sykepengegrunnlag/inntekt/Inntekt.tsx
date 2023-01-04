@@ -10,11 +10,14 @@ import {
     Arbeidsgiverinntekt,
     Arbeidsgiverrefusjon,
     BeregnetPeriode,
+    Hendelsetype,
+    Kildetype,
     Refusjonselement,
 } from '@io/graphql';
+import { Refusjonsopplysning } from '@io/http';
 import { useArbeidsgiver } from '@state/arbeidsgiver';
 import { useActivePeriod } from '@state/periode';
-import { isUberegnetPeriode } from '@utils/typeguards';
+import { isBeregnetPeriode, isUberegnetPeriode } from '@utils/typeguards';
 
 import styles from './Inntekt.module.css';
 
@@ -34,15 +37,9 @@ const InntektContainer: React.FC<InntektContainerProps> = ({ inntekt, refusjon }
     if (!period || !arbeidsgiver || isUberegnetPeriode(period) || !period.vilkarsgrunnlagId) {
         return null;
     }
-
     const arbeidsgiverHarSykefraværForPerioden = hasSykefravær(arbeidsgiver, period.fom);
 
-    const refusjonerSortert = refusjon?.refusjonsopplysninger && {
-        ...refusjon,
-        refusjonsopplysninger: [...refusjon.refusjonsopplysninger].sort(
-            (a: Refusjonselement, b: Refusjonselement) => new Date(b.fom).getTime() - new Date(a.fom).getTime()
-        ),
-    };
+    const refusjonsopplysninger = mapOgSorterRefusjoner(period, refusjon?.refusjonsopplysninger);
 
     if (arbeidsgiverHarSykefraværForPerioden) {
         return (
@@ -54,7 +51,7 @@ const InntektContainer: React.FC<InntektContainerProps> = ({ inntekt, refusjon }
                 inntektstype={(period as BeregnetPeriode).inntektstype}
                 erDeaktivert={inntekt.deaktivert}
                 arbeidsgiver={arbeidsgiver}
-                refusjon={refusjonerSortert}
+                refusjon={refusjonsopplysninger}
             />
         );
     } else {
@@ -66,7 +63,7 @@ const InntektContainer: React.FC<InntektContainerProps> = ({ inntekt, refusjon }
                 erDeaktivert={inntekt.deaktivert}
                 vilkårsgrunnlagId={period.vilkarsgrunnlagId}
                 arbeidsgiver={arbeidsgiver}
-                refusjon={refusjonerSortert}
+                refusjon={refusjonsopplysninger}
             />
         );
     }
@@ -91,4 +88,30 @@ export const Inntekt: React.FC<InntektProps> = ({ inntekt, refusjon }) => {
             <InntektContainer inntekt={inntekt} refusjon={refusjon} />
         </ErrorBoundary>
     );
+};
+
+export const mapOgSorterRefusjoner = (
+    period: ActivePeriod,
+    refusjonselementer?: Refusjonselement[]
+): Refusjonsopplysning[] => {
+    const hendelseIderForInntektsmelding: string[] = isBeregnetPeriode(period)
+        ? period.hendelser
+              .filter((hendelse) => hendelse.type === Hendelsetype.Inntektsmelding)
+              .map((hendelse) => hendelse.id)
+        : [];
+
+    const refusjonsopplysninger: Refusjonsopplysning[] | undefined =
+        refusjonselementer &&
+        [...refusjonselementer]
+            .sort((a: Refusjonselement, b: Refusjonselement) => new Date(b.fom).getTime() - new Date(a.fom).getTime())
+            .map((it) => ({
+                fom: it.fom,
+                tom: it.tom,
+                beløp: it.belop,
+                kilde: hendelseIderForInntektsmelding.includes(it.meldingsreferanseId)
+                    ? Kildetype.Inntektsmelding
+                    : Kildetype.Saksbehandler,
+            }));
+
+    return refusjonsopplysninger ?? [];
 };
