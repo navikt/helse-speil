@@ -35,7 +35,7 @@ const getKildeTypeIcon = (
     }
 };
 
-const getKildeTypeTooltip = (kilde?: Kildetype): string => {
+export const getKildeTypeTooltip = (kilde?: Kildetype): string => {
     switch (kilde) {
         case Kildetype.Inntektsmelding:
             return 'Inntektsmelding';

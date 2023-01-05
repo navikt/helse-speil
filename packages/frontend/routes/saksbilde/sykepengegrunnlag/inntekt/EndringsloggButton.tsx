@@ -20,6 +20,11 @@ const Button = styled.button`
     display: flex;
     justify-content: center;
     outline: none;
+
+    > div:hover {
+        background-color: var(--navds-semantic-color-text);
+        color: var(--navds-global-color-white);
+    }
 `;
 
 interface EndringsloggButtonProps<T extends Overstyring> extends React.HTMLAttributes<HTMLButtonElement> {

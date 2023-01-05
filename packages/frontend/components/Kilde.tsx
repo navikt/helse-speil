@@ -47,10 +47,6 @@ const saksbehandlerStyle = (props: KildeProps) =>
             width: 12px;
             height: 12px;
         }
-        :hover {
-            background-color: var(--navds-semantic-color-text);
-            color: var(--navds-global-color-white);
-        }
     `;
 
 export const Kilde = styled.div<KildeProps>`
