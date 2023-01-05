@@ -8,7 +8,7 @@ import { BodyShort, Loader } from '@navikt/ds-react';
 import { ErrorMessage } from '@components/ErrorMessage';
 import { useErBeslutteroppgaveOgHarTilgang } from '@hooks/useErBeslutteroppgaveOgHarTilgang';
 import { useHarVurderLovvalgOgMedlemskapVarsel } from '@hooks/useHarVurderLovvalgOgMedlemskapVarsel';
-import { useHarUvurderteVarslerPåUtbetaling, useUvurderteVarslerPåPeriode } from '@hooks/uvurderteVarsler';
+import { useHarUvurderteVarslerPåUtbetaling } from '@hooks/uvurderteVarsler';
 import { NotatType, Periodetilstand } from '@io/graphql';
 import { postAbonnerPåAktør } from '@io/http';
 import { useHarDagOverstyringer } from '@state/arbeidsgiver';
@@ -97,7 +97,6 @@ export const Utbetaling = ({ period, person }: UtbetalingProps) => {
     const harOverstyringerEtterSisteGodkjenteUtbetaling = useHarOverstyringerEtterSisteGodkjenteUtbetaling(person);
     const harDagOverstyringer = useHarDagOverstyringer(period);
     const currentSaksbehandler = useInnloggetSaksbehandler();
-    const harUvurderteVarslerPåPeriode = useUvurderteVarslerPåPeriode(period);
     const harUvurderteVarslerPåUtbetaling = useHarUvurderteVarslerPåUtbetaling(period.utbetaling.id);
 
     const onGodkjennUtbetaling = () => {
@@ -141,7 +140,7 @@ export const Utbetaling = ({ period, person }: UtbetalingProps) => {
                     <SendTilGodkjenningButton
                         oppgavereferanse={period.oppgave?.id!}
                         manglerNotatVedVurderLovvalgOgMedlemskapVarsel={manglerNotatVedVurderLovvalgOgMedlemskapVarsel}
-                        disabled={periodenErSendt || harUvurderteVarslerPåPeriode}
+                        disabled={periodenErSendt || harUvurderteVarslerPåUtbetaling}
                         onSuccess={onSendTilGodkjenning}
                         onError={setError}
                     >
