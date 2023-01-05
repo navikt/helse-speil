@@ -6,7 +6,7 @@ import { BodyShort } from '@navikt/ds-react';
 
 import { Bold } from '@components/Bold';
 import { Kilde } from '@components/Kilde';
-import { Inntektskilde } from '@io/graphql';
+import { Inntektskilde, Refusjonsopplysning } from '@io/graphql';
 import { ISO_DATOFORMAT, NORSK_DATOFORMAT, getFormattedDateString } from '@utils/date';
 import { somPengerUtenDesimaler } from '@utils/locale';
 
@@ -58,7 +58,14 @@ export const Inntektoverstyringhendelse: React.FC<InntektoverstyringhendelseProp
                     <HendelseDate timestamp={timestamp} ident={saksbehandler} />
                 </Hendelse>
             )}
-            {JSON.stringify(inntekt?.fraRefusjonsopplysninger) !== JSON.stringify(inntekt?.refusjonsopplysninger) && (
+            {JSON.stringify(inntekt?.fraRefusjonsopplysninger) !==
+                JSON.stringify(
+                    inntekt?.refusjonsopplysninger &&
+                        [...inntekt.refusjonsopplysninger].sort(
+                            (a: Refusjonsopplysning, b: Refusjonsopplysning) =>
+                                new Date(b.fom).getTime() - new Date(a.fom).getTime()
+                        )
+                ) && (
                 <Hendelse
                     title={erRevurdering ? 'Refusjon revurdert' : 'Refusjon endret'}
                     icon={
@@ -76,28 +83,33 @@ export const Inntektoverstyringhendelse: React.FC<InntektoverstyringhendelseProp
                             <Bold>Refusjon </Bold>
                             <div className={`${styles.GridFullWidth} ${styles.Refusjonselementer}`}>
                                 {inntekt.fraRefusjonsopplysninger &&
-                                    inntekt.fraRefusjonsopplysninger.map((fraRefusjonsopplysning, index) => {
-                                        return (
-                                            <BodyShort
-                                                className={`${styles.GridFullWidth} ${styles.Refusjonselement}`}
-                                                key={`${fraRefusjonsopplysning?.fom}${index}`}
-                                            >
-                                                <span className={styles.FromValue}>
-                                                    {dayjs(fraRefusjonsopplysning.fom, ISO_DATOFORMAT).format(
-                                                        NORSK_DATOFORMAT
-                                                    )}
-                                                    -
-                                                    {dayjs(fraRefusjonsopplysning?.tom, ISO_DATOFORMAT).isValid()
-                                                        ? dayjs(fraRefusjonsopplysning?.tom, ISO_DATOFORMAT).format(
-                                                              NORSK_DATOFORMAT
-                                                          ) ?? ''
-                                                        : ' '}
-                                                    {': '}
-                                                    {fraRefusjonsopplysning.belop}
-                                                </span>
-                                            </BodyShort>
-                                        );
-                                    })}
+                                    [...inntekt.fraRefusjonsopplysninger]
+                                        .sort(
+                                            (a: Refusjonsopplysning, b: Refusjonsopplysning) =>
+                                                new Date(b.fom).getTime() - new Date(a.fom).getTime()
+                                        )
+                                        .map((fraRefusjonsopplysning, index) => {
+                                            return (
+                                                <BodyShort
+                                                    className={`${styles.GridFullWidth} ${styles.Refusjonselement}`}
+                                                    key={`${fraRefusjonsopplysning?.fom}${index}`}
+                                                >
+                                                    <span className={styles.FromValue}>
+                                                        {dayjs(fraRefusjonsopplysning.fom, ISO_DATOFORMAT).format(
+                                                            NORSK_DATOFORMAT
+                                                        )}
+                                                        -
+                                                        {dayjs(fraRefusjonsopplysning?.tom, ISO_DATOFORMAT).isValid()
+                                                            ? dayjs(fraRefusjonsopplysning?.tom, ISO_DATOFORMAT).format(
+                                                                  NORSK_DATOFORMAT
+                                                              ) ?? ''
+                                                            : ' '}
+                                                        {': '}
+                                                        {fraRefusjonsopplysning.belop}
+                                                    </span>
+                                                </BodyShort>
+                                            );
+                                        })}
                             </div>
                             <div className={`${styles.GridFullWidth} ${styles.Refusjonselementer}`}>
                                 {inntekt.refusjonsopplysninger &&

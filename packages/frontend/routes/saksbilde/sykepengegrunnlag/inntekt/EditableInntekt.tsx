@@ -196,7 +196,7 @@ export const EditableInntekt = ({ omregnetÅrsinntekt, begrunnelser, close, onEn
                     bokstav: begrunnelse.subsumsjon.bokstav,
                 },
             }),
-            refusjonsopplysninger: refusjonsopplysninger?.reverse() ?? undefined,
+            refusjonsopplysninger: refusjonsopplysninger ?? undefined,
         };
         postOverstyring(overstyrtInntekt);
     };
