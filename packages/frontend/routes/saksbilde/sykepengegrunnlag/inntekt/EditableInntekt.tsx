@@ -207,7 +207,12 @@ export const EditableInntekt = ({ omregnetÅrsinntekt, begrunnelser, close, onEn
             return;
         }
 
-        form.clearErrors(['sisteTomErFørPeriodensTom', 'førsteFomErEtterSkjæringstidspunkt', 'erGapIDatoer']);
+        form.clearErrors([
+            'sisteTomErFørPeriodensTom',
+            'førsteFomErEtterSkjæringstidspunkt',
+            'erGapIDatoer',
+            'manglerRefusjonsopplysninger',
+        ]);
 
         const refusjonsopplysninger =
             values?.refusjonsopplysninger &&
@@ -236,6 +241,8 @@ export const EditableInntekt = ({ omregnetÅrsinntekt, begrunnelser, close, onEn
                 );
             }).length !== 0;
 
+        const manglerRefusjonsopplysninger: boolean = refusjonsopplysninger.length === 0;
+
         sisteTomErFørPeriodensTom &&
             form.setError('sisteTomErFørPeriodensTom', {
                 type: 'custom',
@@ -251,7 +258,15 @@ export const EditableInntekt = ({ omregnetÅrsinntekt, begrunnelser, close, onEn
         erGapIDatoer &&
             form.setError('erGapIDatoer', { type: 'custom', message: 'Refusjonsdatoene må være sammenhengende.' });
 
-        if (!sisteTomErFørPeriodensTom && !førsteFomErEtterSkjæringstidspunkt && !erGapIDatoer) {
+        manglerRefusjonsopplysninger &&
+            form.setError('manglerRefusjonsopplysninger', { type: 'custom', message: 'Mangler refusjonsopplysninger' });
+
+        if (
+            !sisteTomErFørPeriodensTom &&
+            !førsteFomErEtterSkjæringstidspunkt &&
+            !erGapIDatoer &&
+            !manglerRefusjonsopplysninger
+        ) {
             form.handleSubmit(confirmChanges);
         }
     };
