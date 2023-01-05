@@ -56,6 +56,7 @@ export const harBeslutterrolle: boolean = extractGroups().includes(groupIdForBes
 
 export const toggleMeny: boolean = erLocal() || erDev();
 
-export const skalViseAvhukbareVarsler = erLocal() || erDev();
+export const skalViseAvhukbareVarsler =
+    erLocal() || erDev() || ['G103083', 'N115007', 'C117102'].includes(extractIdent());
 
 export const kanOverstyreRefusjonsopplysninger: boolean = erLocal() || erDev() || erSupersaksbehandler();
