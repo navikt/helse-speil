@@ -277,8 +277,14 @@ function useRefusjonFormField() {
         );
     };
 
-    const updateRefusjonsopplysninger = (fom: string, tom: Maybe<string>, beløp: number, index: number) => {
-        update(index, { fom, tom, beløp });
+    const updateRefusjonsopplysninger = (
+        fom: string,
+        tom: Maybe<string>,
+        beløp: number,
+        index: number,
+        kilde = Kildetype.Saksbehandler
+    ) => {
+        update(index, { fom, tom, beløp, kilde });
     };
 
     return {
