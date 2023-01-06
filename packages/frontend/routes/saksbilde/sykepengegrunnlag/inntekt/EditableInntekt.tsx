@@ -201,7 +201,7 @@ export const EditableInntekt = ({ omregnetÅrsinntekt, begrunnelser, close, onEn
         postOverstyring(overstyrtInntekt);
     };
 
-    const hasDateGapRefusjon = () => {
+    const validateRefusjon = () => {
         if (!kanOverstyreRefusjonsopplysninger) {
             form.handleSubmit(confirmChanges);
             return;
@@ -352,7 +352,7 @@ export const EditableInntekt = ({ omregnetÅrsinntekt, begrunnelser, close, onEn
                             className={styles.Button}
                             disabled={isLoading}
                             variant="secondary"
-                            onClick={hasDateGapRefusjon}
+                            onClick={validateRefusjon}
                         >
                             Ferdig
                             {isLoading && <Loader size="xsmall" />}
