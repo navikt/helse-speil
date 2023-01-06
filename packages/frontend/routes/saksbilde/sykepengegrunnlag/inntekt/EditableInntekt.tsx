@@ -1,10 +1,10 @@
 import { MånedsbeløpInput } from './MånedsbeløpInput';
 import classNames from 'classnames';
 import dayjs from 'dayjs';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { FormEvent, useEffect, useRef, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 
-import { BodyShort, Button, ErrorSummary, Loader } from '@navikt/ds-react';
+import { Alert, BodyShort, Button, ErrorSummary, Loader } from '@navikt/ds-react';
 
 import { Bold } from '@components/Bold';
 import { Endringstrekant } from '@components/Endringstrekant';
@@ -154,6 +154,7 @@ export const EditableInntekt = ({ omregnetÅrsinntekt, begrunnelser, close, onEn
     const feiloppsummeringRef = useRef<HTMLDivElement>(null);
     const metadata = useOverstyrtInntektMetadata();
     const period = useActivePeriod();
+    const [harIkkeSkjemaEndringer, setHarIkkeSkjemaEndringer] = useState(false);
 
     const cancelEditing = () => {
         onEndre(false);
@@ -201,10 +202,28 @@ export const EditableInntekt = ({ omregnetÅrsinntekt, begrunnelser, close, onEn
         postOverstyring(overstyrtInntekt);
     };
 
-    const validateRefusjon = () => {
+    const validateRefusjon = (e: FormEvent) => {
         if (!kanOverstyreRefusjonsopplysninger) {
             form.handleSubmit(confirmChanges);
             return;
+        }
+
+        const refusjonsopplysninger =
+            values?.refusjonsopplysninger &&
+            [...values.refusjonsopplysninger]?.sort(
+                (a: Refusjonsopplysning, b: Refusjonsopplysning) =>
+                    new Date(b.fom).getTime() - new Date(a.fom).getTime()
+            );
+
+        if (
+            omregnetÅrsinntekt.manedsbelop.toString() === values?.manedsbelop &&
+            JSON.stringify(refusjonsopplysninger) === JSON.stringify(metadata.fraRefusjonsopplysninger)
+        ) {
+            e.preventDefault();
+            setHarIkkeSkjemaEndringer(true);
+            return;
+        } else {
+            setHarIkkeSkjemaEndringer(false);
         }
 
         form.clearErrors([
@@ -213,13 +232,6 @@ export const EditableInntekt = ({ omregnetÅrsinntekt, begrunnelser, close, onEn
             'erGapIDatoer',
             'manglerRefusjonsopplysninger',
         ]);
-
-        const refusjonsopplysninger =
-            values?.refusjonsopplysninger &&
-            [...values.refusjonsopplysninger]?.sort(
-                (a: Refusjonsopplysning, b: Refusjonsopplysning) =>
-                    new Date(b.fom).getTime() - new Date(a.fom).getTime()
-            );
 
         const sisteTomErFørPeriodensTom: boolean =
             refusjonsopplysninger?.[0]?.tom === null
@@ -346,6 +358,11 @@ export const EditableInntekt = ({ omregnetÅrsinntekt, begrunnelser, close, onEn
                                 })}
                             </ErrorSummary>
                         </div>
+                    )}
+                    {harIkkeSkjemaEndringer && (
+                        <Alert variant="warning" className={styles.WarningIngenSkjemaEndringer}>
+                            Du har ikke endret månedsinntekt eller refusjonsopplysninger
+                        </Alert>
                     )}
                     <span className={styles.Buttons}>
                         <Button
