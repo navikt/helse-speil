@@ -6,6 +6,7 @@ import { Search } from '@navikt/ds-react';
 import styles from '@components/header/Header.module.css';
 import { useLoadingToast } from '@hooks/useLoadingToast';
 import { erGyldigPersonId } from '@hooks/useRefreshPersonVedUrlEndring';
+import { NotFoundError } from '@io/graphql/errors';
 import { useToggleEasterEgg } from '@state/easterEgg';
 import { useFetchPerson } from '@state/person';
 import { useAddVarsel, useRemoveVarsel } from '@state/varsler';
@@ -43,6 +44,10 @@ export const Personsøk: React.FC = () => {
             setIsFetching(true);
             fetchPerson(personId)
                 .then((personState) => {
+                    if (personState?.person?.arbeidsgivere.length === 0) {
+                        addVarsel(new NotFoundError());
+                        return;
+                    }
                     if (personState?.person) {
                         history.push(`/person/${personState.person.aktorId}/utbetaling`);
                     }
