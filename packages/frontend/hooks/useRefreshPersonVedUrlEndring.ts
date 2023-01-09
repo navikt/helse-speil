@@ -1,7 +1,8 @@
 import { useEffect } from 'react';
-import { useParams } from 'react-router';
+import { useHistory, useParams } from 'react-router';
 
 import { Person } from '@io/graphql';
+import { NotFoundError } from '@io/graphql/errors';
 import { useFetchPerson, usePersonLoadable } from '@state/person';
 import { useAddVarsel, useRemoveVarsel } from '@state/varsler';
 import { SpeilError } from '@utils/error';
@@ -18,6 +19,7 @@ export const useRefreshPersonVedUrlEndring = () => {
     const { aktorId } = useParams<{ aktorId: string }>();
     const addVarsel = useAddVarsel();
     const removeVarsel = useRemoveVarsel();
+    const history = useHistory();
     const { state, contents } = usePersonLoadable();
 
     const fetchPerson = useFetchPerson();
@@ -26,7 +28,13 @@ export const useRefreshPersonVedUrlEndring = () => {
         if (aktorId && erGyldigPersonId(aktorId)) {
             if (state !== 'hasValue' || contents === null || (contents as Person).aktorId !== aktorId) {
                 removeVarsel(HENT_PERSON_ERROR_KEY);
-                fetchPerson(aktorId);
+                fetchPerson(aktorId).then((personState) => {
+                    if (personState?.person?.arbeidsgivere.length === 0) {
+                        history.push('/');
+                        addVarsel(new NotFoundError());
+                        return;
+                    }
+                });
             }
         } else {
             addVarsel(new HentPersonError(`'${aktorId}' er ikke en gyldig aktør-ID/fødselsnummer.`));
