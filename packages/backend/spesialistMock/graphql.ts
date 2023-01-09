@@ -108,12 +108,10 @@ const getResolvers = (): IResolvers => ({
             return NotatMock.addKommentar({ tekst, notatId, saksbehandlerident });
         },
         settStatusVurdert: (_, { generasjonId, definisjonId, varselkode, ident }: MutationSettStatusVurdertArgs) => {
-            VarselMock.settStatusVurdert({ generasjonId, definisjonId, varselkode, ident });
-            return true;
+            return VarselMock.settStatusVurdert({ generasjonId, definisjonId, varselkode, ident });
         },
         settStatusAktiv: (_, { generasjonId, varselkode, ident }: MutationSettStatusAktivArgs) => {
-            VarselMock.settStatusAktiv({ generasjonId, varselkode, ident });
-            return true;
+            return VarselMock.settStatusAktiv({ generasjonId, varselkode, ident });
         },
     },
     Periode: {

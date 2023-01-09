@@ -20,11 +20,18 @@ export class VarselMock {
         });
     };
 
-    static settStatusVurdert = ({ generasjonId, definisjonId, varselkode, ident }: MutationSettStatusVurdertArgs) => {
+    static settStatusVurdert = ({
+        generasjonId,
+        definisjonId,
+        varselkode,
+        ident,
+    }: MutationSettStatusVurdertArgs): boolean => {
         const { varselMedEndring, index } = this.findWithIndex(
             this.varslerMedEndring,
             (varselMedEndring) => varselMedEndring.generasjonId === generasjonId && varselMedEndring.kode === varselkode
         );
+
+        if (varselMedEndring && varselMedEndring.vurdering?.status === Varselstatus.Vurdert) return false;
 
         let varselMedVurdering: VarselDto = varselMedEndring
             ? {
@@ -53,9 +60,10 @@ export class VarselMock {
         } else {
             this.varslerMedEndring.push(varselMedVurdering);
         }
+        return true;
     };
 
-    static settStatusAktiv = ({ generasjonId, varselkode, ident }: MutationSettStatusAktivArgs) => {
+    static settStatusAktiv = ({ generasjonId, varselkode, ident }: MutationSettStatusAktivArgs): boolean => {
         const { varselMedEndring, index } = this.findWithIndex(
             this.varslerMedEndring,
             (varselMedEndring) => varselMedEndring.generasjonId === generasjonId && varselMedEndring.kode === varselkode
@@ -82,6 +90,7 @@ export class VarselMock {
                       tidsstempel: dayjs().format(ISO_TIDSPUNKTFORMAT),
                   },
               };
+        return true;
     };
 
     static findWithIndex = (arr: Array<VarselDto>, predicate: (varsel: VarselDto) => boolean) => {

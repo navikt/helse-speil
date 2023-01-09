@@ -64,21 +64,32 @@ export const Avhuking: React.FC<AvhukingProps> = ({
         if (varselstatus === Varselstatus.Aktiv) {
             settStatusVurdert({ generasjonId, definisjonId, varselkode, ident })
                 .then((response) => {
-                    håndterRespons(response.settStatusVurdert);
+                    håndterStatusVurdertRespons(response.settStatusVurdert);
                 })
                 .catch(() => setError({ error: true, message: errorMessage }));
         } else if (varselstatus === Varselstatus.Vurdert) {
             settStatusAktiv({ generasjonId, varselkode, ident })
                 .then((response) => {
-                    håndterRespons(response.settStatusAktiv);
+                    håndterStatusAktivRespons(response.settStatusAktiv);
                 })
                 .catch(() => setError({ error: true, message: errorMessage }));
         }
     };
 
-    const håndterRespons = (response: boolean) => {
+    const håndterStatusVurdertRespons = (response: boolean) => {
+        // Det er lagt til en constraint i backenden som ikke lar deg sette status til VURDERT hvis status allerede er VURDERT.
+        // Backenden returnerer enn så lenge bare boolean, så vi kan ikke være helt sikre på her at varselets status er grunnen.
+        // Dette er 'quick and dirty' frem til vi leverer noe mer fyldig respons fra backenden.
+        håndterRespons(response, 'Varselet er allerede vurdert. Refresh siden.');
+    };
+
+    const håndterStatusAktivRespons = (response: boolean) => {
+        håndterRespons(response, 'En feil oppsto. Kontakt en utvikler.');
+    };
+
+    const håndterRespons = (response: boolean, errorMessage: string) => {
         if (!response) {
-            setError({ error: true, message: 'En feil oppsto. Kontakt en utvikler.' });
+            setError({ error: true, message: errorMessage });
             setIsFetching(false);
             return;
         }
