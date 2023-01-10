@@ -59,7 +59,8 @@ const endreInntektMedSykefraværBegrunnelser: BegrunnelseForOverstyring[] = [
     { id: '0', forklaring: 'Korrigert inntekt i inntektsmelding' },
     { id: '1', forklaring: 'Tariffendring i inntektsmelding' },
     { id: '2', forklaring: 'Innrapportert feil inntekt til A-ordningen' },
-    { id: '3', forklaring: 'Annen kilde til endring' },
+    { id: '3', forklaring: 'Endring/opphør av refusjon' },
+    { id: '4', forklaring: 'Annen kilde til endring' },
 ];
 
 interface InntektMedSykefraværProps {
