@@ -60,7 +60,9 @@ export const Refusjon = ({ fraRefusjonsopplysninger }: RefusjonProps) => {
                         // @ts-ignore
                         defaultMonth={
                             refusjonsopplysning?.fom
-                                ? dayjs(refusjonsopplysning?.fom, ISO_DATOFORMAT).toDate()
+                                ? dayjs(refusjonsopplysning?.fom, ISO_DATOFORMAT).isValid()
+                                    ? dayjs(refusjonsopplysning?.fom, ISO_DATOFORMAT).toDate()
+                                    : undefined
                                 : undefined
                         }
                         onSelect={(date: Date | undefined) => {
@@ -124,7 +126,9 @@ export const Refusjon = ({ fraRefusjonsopplysninger }: RefusjonProps) => {
                         // @ts-ignore
                         defaultMonth={
                             refusjonsopplysning?.tom
-                                ? dayjs(refusjonsopplysning?.tom, ISO_DATOFORMAT).toDate()
+                                ? dayjs(refusjonsopplysning?.tom, ISO_DATOFORMAT).isValid()
+                                    ? dayjs(refusjonsopplysning?.tom, ISO_DATOFORMAT).toDate()
+                                    : undefined
                                 : undefined
                         }
                         onSelect={(date: Date | undefined) => {
@@ -152,7 +156,7 @@ export const Refusjon = ({ fraRefusjonsopplysninger }: RefusjonProps) => {
                                         'Tom kan ikke være før fom',
                                 },
                             }}
-                            render={({ field: { value, onChange, onBlur } }) => (
+                            render={() => (
                                 <DatePicker.Input
                                     label=""
                                     className={styles.DateInput}
@@ -192,7 +196,7 @@ export const Refusjon = ({ fraRefusjonsopplysninger }: RefusjonProps) => {
                                     isNumeric(value.toString()) || 'Refusjonsbeløp må være et beløp',
                             },
                         }}
-                        render={({ field: { value, onChange, onBlur } }) => (
+                        render={() => (
                             <input
                                 className={`${styles.BeløpInput} ${
                                     formState.errors?.refusjonsopplysninger?.[index]?.beløp?.message
@@ -213,22 +217,28 @@ export const Refusjon = ({ fraRefusjonsopplysninger }: RefusjonProps) => {
                             />
                         )}
                     />
-                    <Flex alignItems="center">
-                        {refusjonsopplysning.kilde === Kildetype.Inntektsmelding && (
-                            <Tooltip content={getKildeTypeTooltip(refusjonsopplysning.kilde)}>
-                                <Kilde type={refusjonsopplysning.kilde} className={styles.Ikon}>
-                                    IM
-                                </Kilde>
-                            </Tooltip>
+                    <Controller
+                        control={control}
+                        name={`refusjonsopplysninger.${index}.kilde`}
+                        render={() => (
+                            <Flex alignItems="center">
+                                {refusjonsopplysning.kilde === Kildetype.Inntektsmelding && (
+                                    <Tooltip content={getKildeTypeTooltip(refusjonsopplysning.kilde)}>
+                                        <Kilde type={refusjonsopplysning.kilde} className={styles.Ikon}>
+                                            IM
+                                        </Kilde>
+                                    </Tooltip>
+                                )}
+                                {refusjonsopplysning.kilde === Kildetype.Saksbehandler && (
+                                    <Tooltip content={getKildeTypeTooltip(refusjonsopplysning.kilde)}>
+                                        <Kilde type={refusjonsopplysning.kilde} className={styles.Ikon}>
+                                            <CaseworkerFilled height={12} width={12} />
+                                        </Kilde>
+                                    </Tooltip>
+                                )}
+                            </Flex>
                         )}
-                        {refusjonsopplysning.kilde === Kildetype.Saksbehandler && (
-                            <Tooltip content={getKildeTypeTooltip(refusjonsopplysning.kilde)}>
-                                <Kilde type={refusjonsopplysning.kilde} className={styles.Ikon}>
-                                    <CaseworkerFilled height={12} width={12} />
-                                </Kilde>
-                            </Tooltip>
-                        )}
-                    </Flex>
+                    />
                     <Button
                         type="button"
                         onClick={removeRefusjonsopplysning(index)}

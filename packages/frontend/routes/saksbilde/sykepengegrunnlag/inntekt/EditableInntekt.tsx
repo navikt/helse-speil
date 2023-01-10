@@ -330,32 +330,37 @@ export const EditableInntekt = ({ omregnetÅrsinntekt, begrunnelser, close, onEn
                     {!form.formState.isValid && form.formState.isSubmitted && (
                         <div className={styles.Feiloppsummering}>
                             <ErrorSummary ref={feiloppsummeringRef} heading="Skjemaet inneholder følgende feil:">
-                                {Object.entries(form.formState.errors).map(([id, error]) => {
-                                    if (error === undefined) return;
-                                    if (id !== 'refusjonsopplysninger') {
-                                        return (
-                                            <ErrorSummary.Item key={id}>{error.message as string}</ErrorSummary.Item>
-                                        );
-                                    } else {
-                                        return (
-                                            (Object.entries(error) as any[])?.map(([_, refusjonserror]) => {
-                                                return refusjonserror !== undefined
-                                                    ? Object.entries(refusjonserror)?.map(
-                                                          ([id, refusjonstypeerror]: [string, any], index) => {
-                                                              if (refusjonstypeerror?.message) {
-                                                                  return (
-                                                                      <ErrorSummary.Item key={`${id}${index}`}>
-                                                                          {refusjonstypeerror.message}
-                                                                      </ErrorSummary.Item>
-                                                                  );
-                                                              } else return null;
-                                                          }
-                                                      )
-                                                    : undefined ?? undefined;
-                                            }) ?? undefined
-                                        );
-                                    }
-                                })}
+                                {Object.entries(form.formState.errors)
+                                    .filter(([id, error]) => error !== undefined)
+                                    .map(([id, error]) => {
+                                        if (id !== 'refusjonsopplysninger') {
+                                            return (
+                                                <ErrorSummary.Item key={id}>
+                                                    {error.message as string}
+                                                </ErrorSummary.Item>
+                                            );
+                                        } else {
+                                            return (Object.entries(error) as any[])
+                                                ?.filter(
+                                                    ([_, refusjonserror]) =>
+                                                        refusjonserror !== undefined &&
+                                                        typeof refusjonserror?.fom === 'object'
+                                                )
+                                                ?.map(([_, refusjonserror]) => {
+                                                    return Object.entries(refusjonserror)?.map(
+                                                        ([id, refusjonstypeerror]: [string, any], index) => {
+                                                            if (refusjonstypeerror?.message) {
+                                                                return (
+                                                                    <ErrorSummary.Item key={`${id}${index}`}>
+                                                                        {refusjonstypeerror.message}
+                                                                    </ErrorSummary.Item>
+                                                                );
+                                                            } else return undefined;
+                                                        }
+                                                    );
+                                                });
+                                        }
+                                    })}
                             </ErrorSummary>
                         </div>
                     )}
