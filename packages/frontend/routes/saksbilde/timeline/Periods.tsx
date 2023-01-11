@@ -6,6 +6,7 @@ import { isBeregnetPeriode, isGhostPeriode, isUberegnetPeriode } from '@utils/ty
 
 import { Period } from './Period';
 import { usePeriodStyling } from './hooks/usePeriodStyling';
+import { usePopulateNeighbours } from './hooks/usePopulateNeighbours';
 import { useVisiblePeriods } from './hooks/useVisiblePeriods';
 
 import styles from './Periods.module.css';
@@ -59,14 +60,14 @@ export const Periods: React.FC<PeriodsProps> = ({
     activePeriod,
 }) => {
     const allPeriods = mergePeriods(periods, infotrygdPeriods, ghostPeriods);
-
-    const visiblePeriods = useVisiblePeriods(end, start, allPeriods);
-    const validPeriods = filterValidPeriods(visiblePeriods);
-    const positions = usePeriodStyling(start, end, validPeriods);
+    const validPeriods = filterValidPeriods(allPeriods);
+    const populatedPeriods = usePopulateNeighbours(validPeriods);
+    const visiblePeriods = useVisiblePeriods(end, start, populatedPeriods);
+    const positions = usePeriodStyling(start, end, visiblePeriods);
 
     return (
         <div className={styles.Periods}>
-            {validPeriods.map((period, i) => (
+            {visiblePeriods.map((period, i) => (
                 <Period
                     key={i}
                     period={period}

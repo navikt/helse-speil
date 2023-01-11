@@ -10,4 +10,6 @@ declare type TimelineZoomLevel = {
 
 declare type TimelinePeriod = (GhostPeriode | BeregnetPeriode | UberegnetPeriode | InfotrygdPeriod | DatePeriod) & {
     isFirst?: boolean;
+    hasLeftNeighbour?: boolean;
+    hasRightNeighbour?: boolean;
 };
