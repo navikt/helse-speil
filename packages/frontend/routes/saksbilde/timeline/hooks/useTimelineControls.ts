@@ -34,7 +34,7 @@ const getLatestDate = (perioder: Array<Periode>): Dayjs => {
 
 const getEarliestDate = (perioder: Array<Periode>): Dayjs => {
     return perioder.reduce((latest: Dayjs, periode: Periode) => {
-        const dato = dayjs(periode.tom);
+        const dato = dayjs(periode.fom);
         return dato.isBefore(latest) ? dato : latest;
     }, dayjs());
 };
