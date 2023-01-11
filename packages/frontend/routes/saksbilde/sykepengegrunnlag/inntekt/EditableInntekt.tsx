@@ -327,43 +327,45 @@ export const EditableInntekt = ({ omregnetÅrsinntekt, begrunnelser, close, onEn
                     <Begrunnelser begrunnelser={begrunnelser} />
                     <ForklaringTextarea />
                     {/* TODO: Fiks opp typing, fjern any */}
-                    {!form.formState.isValid && form.formState.isSubmitted && (
-                        <div className={styles.Feiloppsummering}>
-                            <ErrorSummary ref={feiloppsummeringRef} heading="Skjemaet inneholder følgende feil:">
-                                {Object.entries(form.formState.errors)
-                                    .filter(([id, error]) => error !== undefined)
-                                    .map(([id, error]) => {
-                                        if (id !== 'refusjonsopplysninger') {
-                                            return (
-                                                <ErrorSummary.Item key={id}>
-                                                    {error.message as string}
-                                                </ErrorSummary.Item>
-                                            );
-                                        } else {
-                                            return (Object.entries(error) as any[])
-                                                ?.filter(
-                                                    ([_, refusjonserror]) =>
-                                                        refusjonserror !== undefined &&
-                                                        typeof refusjonserror?.fom === 'object'
-                                                )
-                                                ?.map(([_, refusjonserror]) => {
-                                                    return Object.entries(refusjonserror)?.map(
-                                                        ([id, refusjonstypeerror]: [string, any], index) => {
-                                                            if (refusjonstypeerror?.message) {
-                                                                return (
-                                                                    <ErrorSummary.Item key={`${id}${index}`}>
-                                                                        {refusjonstypeerror.message}
-                                                                    </ErrorSummary.Item>
-                                                                );
-                                                            } else return undefined;
-                                                        }
-                                                    );
-                                                });
-                                        }
-                                    })}
-                            </ErrorSummary>
-                        </div>
-                    )}
+                    {!form.formState.isValid &&
+                        form.formState.isSubmitted &&
+                        Object.entries(form.formState.errors).length > 0 && (
+                            <div className={styles.Feiloppsummering}>
+                                <ErrorSummary ref={feiloppsummeringRef} heading="Skjemaet inneholder følgende feil:">
+                                    {Object.entries(form.formState.errors)
+                                        .filter(([id, error]) => error !== undefined)
+                                        .map(([id, error]) => {
+                                            if (id !== 'refusjonsopplysninger') {
+                                                return (
+                                                    <ErrorSummary.Item key={id}>
+                                                        {error.message as string}
+                                                    </ErrorSummary.Item>
+                                                );
+                                            } else {
+                                                return (Object.entries(error) as any[])
+                                                    ?.filter(
+                                                        ([_, refusjonserror]) =>
+                                                            refusjonserror !== undefined &&
+                                                            typeof refusjonserror?.fom === 'object'
+                                                    )
+                                                    ?.map(([_, refusjonserror]) => {
+                                                        return Object.entries(refusjonserror)?.map(
+                                                            ([id, refusjonstypeerror]: [string, any], index) => {
+                                                                if (refusjonstypeerror?.message) {
+                                                                    return (
+                                                                        <ErrorSummary.Item key={`${id}${index}`}>
+                                                                            {refusjonstypeerror.message}
+                                                                        </ErrorSummary.Item>
+                                                                    );
+                                                                } else return undefined;
+                                                            }
+                                                        );
+                                                    });
+                                            }
+                                        })}
+                                </ErrorSummary>
+                            </div>
+                        )}
                     {harIkkeSkjemaEndringer && (
                         <Alert variant="warning" className={styles.WarningIngenSkjemaEndringer}>
                             Du har ikke endret månedsinntekt eller refusjonsopplysninger

@@ -31,6 +31,7 @@ export const Refusjon = ({ fraRefusjonsopplysninger }: RefusjonProps) => {
         removeRefusjonsopplysning,
         replaceRefusjonsopplysninger,
         updateRefusjonsopplysninger,
+        getValues,
     } = useRefusjonFormField();
 
     useEffect(() => {
@@ -70,7 +71,8 @@ export const Refusjon = ({ fraRefusjonsopplysninger }: RefusjonProps) => {
                                 date ? dayjs(date).format(ISO_DATOFORMAT) : refusjonsopplysning.fom,
                                 refusjonsopplysning?.tom ?? null,
                                 refusjonsopplysning.beløp,
-                                index
+                                index,
+                                true
                             );
                         }}
                     >
@@ -100,8 +102,8 @@ export const Refusjon = ({ fraRefusjonsopplysninger }: RefusjonProps) => {
                                             dayjs(e.target.value, NORSK_DATOFORMAT).isValid()
                                                 ? dayjs(e.target.value, NORSK_DATOFORMAT).format(ISO_DATOFORMAT)
                                                 : e.target.value,
-                                            refusjonsopplysning?.tom ?? null,
-                                            refusjonsopplysning.beløp,
+                                            getValues(`refusjonsopplysninger.${index}.tom`),
+                                            getValues(`refusjonsopplysninger.${index}.beløp`),
                                             index
                                         );
                                     }}
@@ -136,7 +138,8 @@ export const Refusjon = ({ fraRefusjonsopplysninger }: RefusjonProps) => {
                                 refusjonsopplysning?.fom ?? null,
                                 date ? dayjs(date).format(ISO_DATOFORMAT) : refusjonsopplysning?.tom ?? null,
                                 refusjonsopplysning.beløp,
-                                index
+                                index,
+                                true
                             );
                         }}
                     >
@@ -165,13 +168,13 @@ export const Refusjon = ({ fraRefusjonsopplysninger }: RefusjonProps) => {
                                     onBlur={(e) => {
                                         clearErrors(`refusjonsopplysninger.${index}`);
                                         updateRefusjonsopplysninger(
-                                            refusjonsopplysning?.fom ?? null,
+                                            getValues(`refusjonsopplysninger.${index}.fom`),
                                             dayjs(e.target.value, NORSK_DATOFORMAT).isValid()
                                                 ? dayjs(e.target.value, NORSK_DATOFORMAT).format(ISO_DATOFORMAT)
                                                 : e.target.value === ''
                                                 ? null
                                                 : e.target.value,
-                                            refusjonsopplysning.beløp,
+                                            getValues(`refusjonsopplysninger.${index}.beløp`),
                                             index
                                         );
                                     }}
@@ -207,8 +210,8 @@ export const Refusjon = ({ fraRefusjonsopplysninger }: RefusjonProps) => {
                                 onBlur={(event) => {
                                     clearErrors(`refusjonsopplysninger.${index}`);
                                     updateRefusjonsopplysninger(
-                                        refusjonsopplysning.fom,
-                                        refusjonsopplysning?.tom ?? null,
+                                        getValues(`refusjonsopplysninger.${index}.fom`),
+                                        getValues(`refusjonsopplysninger.${index}.tom`),
                                         Number(event.target.value),
                                         index
                                     );
@@ -220,24 +223,27 @@ export const Refusjon = ({ fraRefusjonsopplysninger }: RefusjonProps) => {
                     <Controller
                         control={control}
                         name={`refusjonsopplysninger.${index}.kilde`}
-                        render={() => (
-                            <Flex alignItems="center">
-                                {refusjonsopplysning.kilde === Kildetype.Inntektsmelding && (
-                                    <Tooltip content={getKildeTypeTooltip(refusjonsopplysning.kilde)}>
-                                        <Kilde type={refusjonsopplysning.kilde} className={styles.Ikon}>
-                                            IM
-                                        </Kilde>
-                                    </Tooltip>
-                                )}
-                                {refusjonsopplysning.kilde === Kildetype.Saksbehandler && (
-                                    <Tooltip content={getKildeTypeTooltip(refusjonsopplysning.kilde)}>
-                                        <Kilde type={refusjonsopplysning.kilde} className={styles.Ikon}>
-                                            <CaseworkerFilled height={12} width={12} />
-                                        </Kilde>
-                                    </Tooltip>
-                                )}
-                            </Flex>
-                        )}
+                        render={() => {
+                            const kilde = getValues(`refusjonsopplysninger.${index}.kilde`);
+                            return (
+                                <Flex alignItems="center">
+                                    {kilde === Kildetype.Inntektsmelding && (
+                                        <Tooltip content={getKildeTypeTooltip(kilde)}>
+                                            <Kilde type={kilde} className={styles.Ikon}>
+                                                IM
+                                            </Kilde>
+                                        </Tooltip>
+                                    )}
+                                    {kilde === Kildetype.Saksbehandler && (
+                                        <Tooltip content={getKildeTypeTooltip(kilde)}>
+                                            <Kilde type={kilde} className={styles.Ikon}>
+                                                <CaseworkerFilled height={12} width={12} />
+                                            </Kilde>
+                                        </Tooltip>
+                                    )}
+                                </Flex>
+                            );
+                        }}
                     />
                     <Button
                         type="button"
@@ -264,7 +270,7 @@ interface RefusjonFormValues {
 }
 
 function useRefusjonFormField() {
-    const { formState, control, clearErrors } = useFormContext<RefusjonFormValues>();
+    const { formState, control, clearErrors, setValue, getValues } = useFormContext<RefusjonFormValues>();
 
     const { fields, append, remove, replace, update } = useFieldArray<RefusjonFormValues>({
         control,
@@ -298,9 +304,12 @@ function useRefusjonFormField() {
         tom: Maybe<string>,
         beløp: number,
         index: number,
+        updateFromDatepicker: boolean = false,
         kilde = Kildetype.Saksbehandler
     ) => {
-        update(index, { fom, tom, beløp, kilde });
+        updateFromDatepicker
+            ? update(index, { fom, tom, beløp, kilde })
+            : setValue(`refusjonsopplysninger.${index}`, { fom, tom, beløp, kilde });
     };
 
     return {
@@ -312,5 +321,6 @@ function useRefusjonFormField() {
         removeRefusjonsopplysning,
         replaceRefusjonsopplysninger,
         updateRefusjonsopplysninger,
+        getValues,
     };
 }
