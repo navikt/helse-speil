@@ -102,7 +102,7 @@ export const Refusjon = ({ fraRefusjonsopplysninger }: RefusjonProps) => {
                                             dayjs(e.target.value, NORSK_DATOFORMAT).isValid()
                                                 ? dayjs(e.target.value, NORSK_DATOFORMAT).format(ISO_DATOFORMAT)
                                                 : e.target.value,
-                                            getValues(`refusjonsopplysninger.${index}.tom`),
+                                            getValues(`refusjonsopplysninger.${index}.tom`) as string,
                                             getValues(`refusjonsopplysninger.${index}.beløp`),
                                             index
                                         );
@@ -211,7 +211,7 @@ export const Refusjon = ({ fraRefusjonsopplysninger }: RefusjonProps) => {
                                     clearErrors(`refusjonsopplysninger.${index}`);
                                     updateRefusjonsopplysninger(
                                         getValues(`refusjonsopplysninger.${index}.fom`),
-                                        getValues(`refusjonsopplysninger.${index}.tom`),
+                                        getValues(`refusjonsopplysninger.${index}.tom`) as string,
                                         Number(event.target.value),
                                         index
                                     );
