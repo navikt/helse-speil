@@ -321,7 +321,7 @@ export const EditableInntekt = ({ omregnetÅrsinntekt, begrunnelser, close, onEn
                             <Bold>{somPenger(omregnetÅrsinntekt.belop)}</Bold>
                         </div>
                     </div>
-                    {kanOverstyreRefusjonsopplysninger && (
+                    {kanOverstyreRefusjonsopplysninger && isBeregnetPeriode(period) && (
                         <Refusjon fraRefusjonsopplysninger={metadata.fraRefusjonsopplysninger}></Refusjon>
                     )}
                     <Begrunnelser begrunnelser={begrunnelser} />
