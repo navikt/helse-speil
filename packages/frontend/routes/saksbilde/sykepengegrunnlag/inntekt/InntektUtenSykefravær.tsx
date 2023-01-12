@@ -230,6 +230,7 @@ export const InntektUtenSykefravær = ({
                 />
             )}
             {refusjon &&
+                refusjon.length !== 0 &&
                 ((kanOverstyreRefusjonsopplysninger && !editingInntekt) || !kanOverstyreRefusjonsopplysninger) && (
                     <Refusjonsoversikt refusjon={refusjon} />
                 )}

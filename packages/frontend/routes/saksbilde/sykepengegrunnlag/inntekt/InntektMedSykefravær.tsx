@@ -151,9 +151,11 @@ export const InntektMedSykefravær = ({
             ) : (
                 <ReadOnlyInntekt omregnetÅrsinntekt={omregnetÅrsinntekt} deaktivert={erDeaktivert} />
             )}
-            {refusjon && ((kanOverstyreRefusjonsopplysninger && !editing) || !kanOverstyreRefusjonsopplysninger) && (
-                <Refusjonsoversikt refusjon={refusjon} />
-            )}
+            {refusjon &&
+                refusjon.length !== 0 &&
+                ((kanOverstyreRefusjonsopplysninger && !editing) || !kanOverstyreRefusjonsopplysninger) && (
+                    <Refusjonsoversikt refusjon={refusjon} />
+                )}
         </div>
     );
 };
