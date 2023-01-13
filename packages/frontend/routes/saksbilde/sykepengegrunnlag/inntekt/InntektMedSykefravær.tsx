@@ -167,7 +167,9 @@ export const InntektMedSykefravær = ({
                 ((kanOverstyreRefusjonsopplysninger && !editing) || !kanOverstyreRefusjonsopplysninger) && (
                     <Refusjonsoversikt refusjon={refusjon} />
                 )}
-            {inntektFraAOrdningen && <SisteTreMånedersInntekt inntektFraAOrdningen={inntektFraAOrdningen} />}
+            {inntektFraAOrdningen && !editing && (
+                <SisteTreMånedersInntekt inntektFraAOrdningen={inntektFraAOrdningen} />
+            )}
         </div>
     );
 };
