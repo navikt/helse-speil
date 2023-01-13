@@ -1,49 +1,27 @@
-import dayjs from 'dayjs';
+import { SisteTreMånedersInntekt } from './SisteTreMånedersInntekt';
 import React from 'react';
 
 import { BodyShort } from '@navikt/ds-react';
 
 import { Bold } from '@components/Bold';
-import { Flex } from '@components/Flex';
-import { PopoverHjelpetekst } from '@components/PopoverHjelpetekst';
-import { SortInfoikon } from '@components/ikoner/SortInfoikon';
-import { InntektFraAOrdningen, Inntektskilde, Maybe, OmregnetArsinntekt } from '@io/graphql';
-import { getMonthName, somPenger } from '@utils/locale';
+import { Inntektskilde, Maybe, OmregnetArsinntekt } from '@io/graphql';
+import { somPenger } from '@utils/locale';
 
 import styles from './ReadOnlyInntekt.module.css';
 
-const getSorterteInntekter = (inntekterFraAOrdningen: Array<InntektFraAOrdningen>): Array<InntektFraAOrdningen> => {
-    return [...inntekterFraAOrdningen].sort((a, b) =>
-        dayjs(a.maned, 'YYYY-MM').isAfter(dayjs(b.maned, 'YYYY-MM')) ? -1 : 1
-    );
-};
-
-interface InntektFraAordningenProps {
+interface OmregnetÅrsinntektProps {
     omregnetÅrsinntekt: OmregnetArsinntekt;
     deaktivert?: Maybe<boolean>;
 }
 
-const InntektFraAordningen: React.FC<InntektFraAordningenProps> = ({ omregnetÅrsinntekt, deaktivert }) => {
+const OmregnetÅrsinntekt: React.FC<OmregnetÅrsinntektProps> = ({ omregnetÅrsinntekt, deaktivert }) => {
     return (
         <>
-            <Flex alignItems="center">
-                <h3 className={styles.Title}>RAPPORTERT SISTE 3 MÅNEDER</h3>
-                <PopoverHjelpetekst className={styles.InfoIcon} ikon={<SortInfoikon />}>
-                    <p>
-                        Ved manglende inntektsmelding legges 3 siste måneders innrapporterte inntekter fra A-ordningen
-                        til grunn
-                    </p>
-                </PopoverHjelpetekst>
-            </Flex>
             {omregnetÅrsinntekt.inntektFraAOrdningen && (
-                <div className={styles.Grid}>
-                    {getSorterteInntekter(omregnetÅrsinntekt.inntektFraAOrdningen).map((inntekt, i) => (
-                        <React.Fragment key={i}>
-                            <BodyShort> {getMonthName(inntekt.maned)}</BodyShort>
-                            <BodyShort>{somPenger(inntekt.sum)}</BodyShort>
-                        </React.Fragment>
-                    ))}
-                </div>
+                <SisteTreMånedersInntekt
+                    inntektFraAOrdningen={omregnetÅrsinntekt.inntektFraAOrdningen}
+                    visHjelpetekst={omregnetÅrsinntekt.kilde === Inntektskilde.Aordningen}
+                />
             )}
             <hr className={styles.Divider} />
             <div className={styles.Grid}>
@@ -70,21 +48,23 @@ interface ReadOnlyInntektProps {
     deaktivert?: Maybe<boolean>;
 }
 
-export const ReadOnlyInntekt: React.FC<ReadOnlyInntektProps> = ({ omregnetÅrsinntekt, deaktivert }) => (
-    <>
-        {omregnetÅrsinntekt?.kilde === Inntektskilde.Aordningen ? (
-            <InntektFraAordningen omregnetÅrsinntekt={omregnetÅrsinntekt!} deaktivert={deaktivert} />
-        ) : (
-            <div className={styles.Grid}>
-                <BodyShort>Månedsbeløp</BodyShort>
-                <BodyShort>{somPenger(omregnetÅrsinntekt?.manedsbelop)}</BodyShort>
-                <BodyShort>
-                    {omregnetÅrsinntekt?.kilde === Inntektskilde.Infotrygd
-                        ? 'Sykepengegrunnlag før 6G'
-                        : 'Omregnet til årsinntekt'}
-                </BodyShort>
-                <Bold>{somPenger(omregnetÅrsinntekt?.belop)}</Bold>
-            </div>
-        )}
-    </>
-);
+export const ReadOnlyInntekt: React.FC<ReadOnlyInntektProps> = ({ omregnetÅrsinntekt, deaktivert }) => {
+    return (
+        <>
+            {omregnetÅrsinntekt?.kilde === Inntektskilde.Aordningen ? (
+                <OmregnetÅrsinntekt omregnetÅrsinntekt={omregnetÅrsinntekt!} deaktivert={deaktivert} />
+            ) : (
+                <div className={styles.Grid}>
+                    <BodyShort>Månedsbeløp</BodyShort>
+                    <BodyShort>{somPenger(omregnetÅrsinntekt?.manedsbelop)}</BodyShort>
+                    <BodyShort>
+                        {omregnetÅrsinntekt?.kilde === Inntektskilde.Infotrygd
+                            ? 'Sykepengegrunnlag før 6G'
+                            : 'Omregnet til årsinntekt'}
+                    </BodyShort>
+                    <Bold>{somPenger(omregnetÅrsinntekt?.belop)}</Bold>
+                </div>
+            )}
+        </>
+    );
+};

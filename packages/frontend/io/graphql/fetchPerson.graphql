@@ -181,6 +181,10 @@ query FetchPerson($fnr: String, $aktorId: String) {
                     }
                     ... on BeregnetPeriode {
                         id
+                        inntektFraAordningen {
+                            maned
+                            sum
+                        }
                         aktivitetslogg {
                             alvorlighetsgrad
                             melding

@@ -37,6 +37,7 @@ const InntektContainer: React.FC<InntektContainerProps> = ({ inntekt, refusjon }
     if (!period || !arbeidsgiver || isUberegnetPeriode(period) || !period.vilkarsgrunnlagId) {
         return null;
     }
+
     const arbeidsgiverHarSykefraværForPerioden = hasSykefravær(arbeidsgiver, period.fom);
 
     const refusjonsopplysninger = mapOgSorterRefusjoner(period, refusjon?.refusjonsopplysninger);
@@ -44,6 +45,7 @@ const InntektContainer: React.FC<InntektContainerProps> = ({ inntekt, refusjon }
     if (arbeidsgiverHarSykefraværForPerioden) {
         return (
             <InntektMedSykefravær
+                inntektFraAOrdningen={isBeregnetPeriode(period) ? period.inntektFraAordningen : undefined}
                 skjæringstidspunkt={period.skjaeringstidspunkt}
                 omregnetÅrsinntekt={inntekt.omregnetArsinntekt}
                 organisasjonsnummer={inntekt.arbeidsgiver}

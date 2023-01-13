@@ -1,3 +1,4 @@
+import { SisteTreMånedersInntekt } from './SisteTreMånedersInntekt';
 import classNames from 'classnames';
 import React, { useState } from 'react';
 
@@ -13,7 +14,15 @@ import { AnonymizableContainer } from '@components/anonymizable/AnonymizableCont
 import { Clipboard } from '@components/clipboard';
 import { SortInfoikon } from '@components/ikoner/SortInfoikon';
 import { useIsReadOnlyOppgave } from '@hooks/useIsReadOnlyOppgave';
-import { Arbeidsgiver, Inntektskilde, Inntektstype, Maybe, OmregnetArsinntekt, Utbetalingstatus } from '@io/graphql';
+import {
+    Arbeidsgiver,
+    InntektFraAOrdningen,
+    Inntektskilde,
+    Inntektstype,
+    Maybe,
+    OmregnetArsinntekt,
+    Utbetalingstatus,
+} from '@io/graphql';
 import { Refusjonsopplysning } from '@io/http';
 import {
     useCurrentArbeidsgiver,
@@ -72,6 +81,7 @@ interface InntektMedSykefraværProps {
     erDeaktivert?: Maybe<boolean>;
     arbeidsgiver: Arbeidsgiver;
     refusjon?: Maybe<Refusjonsopplysning[]>;
+    inntektFraAOrdningen?: Array<InntektFraAOrdningen>;
 }
 
 export const InntektMedSykefravær = ({
@@ -83,6 +93,7 @@ export const InntektMedSykefravær = ({
     erDeaktivert,
     arbeidsgiver,
     refusjon,
+    inntektFraAOrdningen,
 }: InntektMedSykefraværProps) => {
     const [editing, setEditing] = useState(false);
     const [endret, setEndret] = useState(false);
@@ -156,6 +167,7 @@ export const InntektMedSykefravær = ({
                 ((kanOverstyreRefusjonsopplysninger && !editing) || !kanOverstyreRefusjonsopplysninger) && (
                     <Refusjonsoversikt refusjon={refusjon} />
                 )}
+            {inntektFraAOrdningen && <SisteTreMånedersInntekt inntektFraAOrdningen={inntektFraAOrdningen} />}
         </div>
     );
 };
