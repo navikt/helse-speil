@@ -30,7 +30,9 @@ const useSkalViseRefusjon = (refusjon?: Maybe<Arbeidsgiverrefusjon>, arbeidsgive
     }
 
     return (
-        arbeidsgiver.generasjoner.find((gen) => gen.perioder.find((periode) => periode === aktivPeriode)) !== undefined
+        arbeidsgiver.generasjoner.find((gen) =>
+            gen.perioder.find((periode) => isBeregnetPeriode(periode) && periode.id === aktivPeriode.id)
+        ) !== undefined
     );
 };
 
