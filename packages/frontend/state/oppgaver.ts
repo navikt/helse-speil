@@ -62,7 +62,7 @@ const _tildelingerState = atom<TildelingStateType>({
 
 const tildelingerState = selector<TildelingStateType>({
     key: 'tildelingerState',
-    get: async ({ get }) => {
+    get: ({ get }) => {
         const local = get(_tildelingerState);
         const remote = get(remoteOppgaverState).reduce<TildelingStateType>((tildelinger, { id, tildeling }) => {
             tildelinger[id] = tildeling;

@@ -5,9 +5,14 @@ import { Alert } from '@navikt/ds-react';
 
 import { Flex } from '@components/Flex';
 import { useLoadingToast } from '@hooks/useLoadingToast';
-import { FetchOppgaverQuery } from '@io/graphql';
+import { FerdigstiltOppgave, FetchOppgaverQuery } from '@io/graphql';
 import { useInnloggetSaksbehandler } from '@state/authentication';
-import { useOppgaverLoadable, useRefetchFerdigstilteOppgaver, useRefetchOppgaver } from '@state/oppgaver';
+import {
+    useFerdigstilteOppgaver,
+    useOppgaverLoadable,
+    useRefetchFerdigstilteOppgaver,
+    useRefetchOppgaver,
+} from '@state/oppgaver';
 import { useResetPerson } from '@state/person';
 
 import { IngenOppgaver } from './IngenOppgaver';
@@ -69,24 +74,34 @@ const useResetPersonOnMount = (): void => {
 
 const useFetchOppgaver = (currentState: Loadable<Array<Oppgave>>['state']): void => {
     const hentOppgaver = useRefetchOppgaver();
-    const fetchFerdigstilteOppgaver = useRefetchFerdigstilteOppgaver();
 
     useEffect(() => {
         if (currentState !== 'loading') {
-            fetchFerdigstilteOppgaver();
             hentOppgaver();
+        }
+    }, []);
+};
+
+const useFetchFerdigstilteOppgaver = (currentState: FetchedData<Array<FerdigstiltOppgave>>['state']): void => {
+    const fetchFerdigstilteOppgaver = useRefetchFerdigstilteOppgaver();
+
+    useEffect(() => {
+        if (currentState !== 'isLoading') {
+            fetchFerdigstilteOppgaver();
         }
     }, []);
 };
 
 export const Oversikt = () => {
     const oppgaver = useOppgaverFilteredByTab();
+    const ferdigstilteOppgaver = useFerdigstilteOppgaver();
     const aktivTab = useAktivTab();
 
     useLoadingToast({ isLoading: oppgaver.state === 'loading', message: 'Henter oppgaver' });
 
     useResetPersonOnMount();
     useFetchOppgaver(oppgaver.state);
+    useFetchFerdigstilteOppgaver(ferdigstilteOppgaver.state);
 
     const hasData = (oppgaver.state === 'hasValue' && oppgaver.contents.length > 0) || oppgaver.cache.length > 0;
 
