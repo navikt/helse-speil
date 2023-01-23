@@ -49,7 +49,6 @@ describe('Annulleringsmodal', () => {
     test('bygger AnnulleringDTO ved post av annullering', async () => {
         render(<Annulleringsmodal {...defaultProps} />, { wrapper: RecoilWrapper });
         userEvent.click(screen.getByText('Ferie'));
-        userEvent.click(screen.getByText('Ja, det siste skjæringstidspunktet'));
         userEvent.click(screen.getByText('Annuller'));
         await waitFor(() => {
             expect(cachedAnnullering?.aktørId).toEqual('12345678910');
