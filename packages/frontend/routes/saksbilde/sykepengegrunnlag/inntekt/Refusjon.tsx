@@ -37,7 +37,7 @@ export const Refusjon = ({ fraRefusjonsopplysninger }: RefusjonProps) => {
         replaceRefusjonsopplysninger(fraRefusjonsopplysninger);
     }, []);
 
-    const isNumeric = (input: string) => /^\d+(\.\d{1,2})?$/.test(input);
+    const isNumeric = (input: string) => /^\d+(\.\d+)?$/.test(input);
 
     return (
         <div className={styles.RefusjonWrapper}>
