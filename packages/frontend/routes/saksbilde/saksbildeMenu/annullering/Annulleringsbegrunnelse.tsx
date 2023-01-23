@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import React, { ChangeEvent } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
 
-import { Alert, Fieldset, Checkbox as NavCheckbox, Radio, RadioGroup, Textarea } from '@navikt/ds-react';
+import { Alert, Fieldset, Checkbox as NavCheckbox, RadioGroup, Textarea } from '@navikt/ds-react';
 
 import styles from './Annulleringsmodal.module.css';
 
@@ -82,14 +82,7 @@ export const Annulleringsbegrunnelse = () => {
     const annet = begrunnelserWatch ? begrunnelserWatch.includes('annet') : false;
 
     const { onChange: onChangeBegrunnelser, ...begrunnelserValidation } = register('begrunnelser');
-    const { onChange: onChangeSkjæringstidspunkt, ...skjæringstidspunktValidation } = register(
-        'gjelder_siste_skjæringstidspunkt'
-    );
 
-    const onChangeRadioButton = (event: React.ChangeEvent<HTMLInputElement>) => {
-        onChangeSkjæringstidspunkt(event);
-        clearErrors('gjelder_siste_skjæringstidspunkt');
-    };
     return (
         <Container>
             <Undertittel>Årsak til annullering</Undertittel>
@@ -98,33 +91,6 @@ export const Annulleringsbegrunnelse = () => {
                 <br />
                 Informasjonen brukes til å forbedre løsningen.
             </Alert>
-
-            <RadioContainer
-                legend="Gjelder endringen det siste skjæringtidspunktet?"
-                error={
-                    formState.errors.gjelder_siste_skjæringstidspunkt
-                        ? formState.errors.gjelder_siste_skjæringstidspunkt.message
-                        : null
-                }
-                name="gjelder_siste_skjæringstidspunkt"
-            >
-                <Radio
-                    value="siste_skjæringstidspunkt"
-                    onChange={onChangeRadioButton}
-                    {...skjæringstidspunktValidation}
-                    className={styles.Radio}
-                >
-                    Ja, det siste skjæringstidspunktet
-                </Radio>
-                <Radio
-                    value="tidligere_skjæringstidspunkt"
-                    onChange={onChangeRadioButton}
-                    {...skjæringstidspunktValidation}
-                    className={styles.Radio}
-                >
-                    Nei, et tidligere skjæringstidspunkt
-                </Radio>
-            </RadioContainer>
 
             <CheckboxContainer
                 legend="Hvorfor kunne ikke vedtaket revurderes?"

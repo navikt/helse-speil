@@ -15,7 +15,6 @@ export interface PostAnnulleringOptions {
     vedtaksperiodeId: string;
     begrunnelser: string[];
     kommentar: string;
-    gjelderSisteSkjæringstidspunkt: boolean;
 }
 
 export interface AnnulleringClient {
@@ -33,7 +32,6 @@ export default (config: AppConfig, onBehalfOf: OnBehalfOf) => ({
         vedtaksperiodeId,
         begrunnelser,
         kommentar,
-        gjelderSisteSkjæringstidspunkt,
     }: PostAnnulleringOptions) => {
         const onBehalfOfToken = await onBehalfOf.hentFor(config.oidc.clientIDSpesialist, speilToken);
         const options = {
@@ -48,7 +46,6 @@ export default (config: AppConfig, onBehalfOf: OnBehalfOf) => ({
                 vedtaksperiodeId,
                 begrunnelser,
                 kommentar,
-                gjelderSisteSkjæringstidspunkt,
             },
             json: true,
         };

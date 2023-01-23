@@ -75,7 +75,6 @@ export default ({ vedtakClient, annulleringClient, totrinnsvurderingClient }: Se
                 vedtaksperiodeId: req.body.vedtaksperiodeId,
                 begrunnelser: req.body.begrunnelser,
                 kommentar: req.body.kommentar,
-                gjelderSisteSkjæringstidspunkt: req.body.gjelderSisteSkjæringstidspunkt,
             })
             .then(() => {
                 res.sendStatus(204);
