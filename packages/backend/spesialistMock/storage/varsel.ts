@@ -8,6 +8,7 @@ export class VarselMock {
     private static varslerMedEndring: Array<VarselDto> = new Array<VarselDto>();
 
     static getVarslerForPeriode = (varsler: Array<VarselDto>): Array<VarselDto> => {
+        if (varsler === undefined || varsler === null) return [];
         const varslerCopy = [...varsler];
         return varslerCopy.map((varsel) => {
             const varselMedEndring = this.varslerMedEndring.find(
