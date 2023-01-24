@@ -37,7 +37,7 @@ export const Refusjon = ({ fraRefusjonsopplysninger }: RefusjonProps) => {
         replaceRefusjonsopplysninger(fraRefusjonsopplysninger);
     }, []);
 
-    const isNumeric = (input: string) => /^\d+(\.\d+)?$/.test(input);
+    const isNumeric = (input: string) => /^\d+(\.\d{1,2})?$/.test(input);
 
     return (
         <div className={styles.RefusjonWrapper}>
@@ -95,11 +95,15 @@ export const Refusjon = ({ fraRefusjonsopplysninger }: RefusjonProps) => {
                                     size="small"
                                     placeholder="dd.mm.åååå"
                                     onBlur={(e) => {
+                                        const nyFom = dayjs(e.target.value, NORSK_DATOFORMAT).isValid()
+                                            ? dayjs(e.target.value, NORSK_DATOFORMAT).format(ISO_DATOFORMAT)
+                                            : e.target.value;
+
+                                        if (nyFom === refusjonsopplysning.fom) return;
                                         clearErrors(`refusjonsopplysninger.${index}`);
+
                                         updateRefusjonsopplysninger(
-                                            dayjs(e.target.value, NORSK_DATOFORMAT).isValid()
-                                                ? dayjs(e.target.value, NORSK_DATOFORMAT).format(ISO_DATOFORMAT)
-                                                : e.target.value,
+                                            nyFom,
                                             refusjonsopplysning?.tom ?? null,
                                             refusjonsopplysning.beløp,
                                             index
@@ -163,14 +167,17 @@ export const Refusjon = ({ fraRefusjonsopplysninger }: RefusjonProps) => {
                                     size="small"
                                     placeholder="dd.mm.åååå"
                                     onBlur={(e) => {
+                                        const nyTom = dayjs(e.target.value, NORSK_DATOFORMAT).isValid()
+                                            ? dayjs(e.target.value, NORSK_DATOFORMAT).format(ISO_DATOFORMAT)
+                                            : e.target.value === ''
+                                            ? null
+                                            : e.target.value;
+                                        if (nyTom === refusjonsopplysning.tom) return;
+
                                         clearErrors(`refusjonsopplysninger.${index}`);
                                         updateRefusjonsopplysninger(
                                             refusjonsopplysning?.fom ?? null,
-                                            dayjs(e.target.value, NORSK_DATOFORMAT).isValid()
-                                                ? dayjs(e.target.value, NORSK_DATOFORMAT).format(ISO_DATOFORMAT)
-                                                : e.target.value === ''
-                                                ? null
-                                                : e.target.value,
+                                            nyTom,
                                             refusjonsopplysning.beløp,
                                             index
                                         );
@@ -205,6 +212,14 @@ export const Refusjon = ({ fraRefusjonsopplysninger }: RefusjonProps) => {
                                 }`}
                                 type="number"
                                 onBlur={(event) => {
+                                    const nyttBeløp = Number(event.target.value);
+
+                                    if (
+                                        nyttBeløp ===
+                                        Math.round((refusjonsopplysning.beløp + Number.EPSILON) * 100) / 100
+                                    )
+                                        return;
+
                                     clearErrors(`refusjonsopplysninger.${index}`);
                                     updateRefusjonsopplysninger(
                                         refusjonsopplysning.fom,
@@ -213,7 +228,10 @@ export const Refusjon = ({ fraRefusjonsopplysninger }: RefusjonProps) => {
                                         index
                                     );
                                 }}
-                                defaultValue={refusjonsopplysning.beløp}
+                                defaultValue={
+                                    refusjonsopplysning.beløp &&
+                                    Math.round((refusjonsopplysning.beløp + Number.EPSILON) * 100) / 100
+                                }
                             />
                         )}
                     />
