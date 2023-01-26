@@ -34,6 +34,24 @@ export interface OverstyrtInntektDTO extends Overstyring {
     fraRefusjonsopplysninger?: Refusjonsopplysning[];
 }
 
+export interface OverstyrtInntektOgRefusjonDTO {
+    aktørId: string;
+    fødselsnummer: string;
+    skjæringstidspunkt: string;
+    arbeidsgivere: OverstyrtInntektOgRefusjonArbeidsgiver[];
+}
+
+export interface OverstyrtInntektOgRefusjonArbeidsgiver {
+    organisasjonsnummer: string;
+    månedligInntekt: number;
+    fraMånedligInntekt: number;
+    refusjonsopplysninger: Refusjonsopplysning[];
+    fraRefusjonsopplysninger: Refusjonsopplysning[];
+    forklaring: string;
+    begrunnelse: string;
+    subsumsjon?: Subsumsjon;
+}
+
 export interface Refusjonsopplysning {
     fom: string;
     tom?: Maybe<string>;

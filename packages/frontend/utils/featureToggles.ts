@@ -70,3 +70,5 @@ export const toggleMeny: boolean = erLocal() || erDev();
 export const skalViseAvhukbareVarsler = true; // erLocal() || erDev() || ['G103083', 'N115007', 'C117102'].includes(extractIdent());
 
 export const kanOverstyreRefusjonsopplysninger: boolean = erLocal() || erDev() || erSupersaksbehandler() || erCoach();
+
+export const inntektOgRefusjonSteg3: boolean = erLocal();

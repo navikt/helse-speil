@@ -12,8 +12,8 @@ import { ErrorMessage } from '@components/ErrorMessage';
 import { Flex, FlexColumn } from '@components/Flex';
 import { OverstyringTimeoutModal } from '@components/OverstyringTimeoutModal';
 import { Arbeidsgiverrefusjon, Inntektskilde, OmregnetArsinntekt } from '@io/graphql';
-import type { OverstyrtInntektDTO, Refusjonsopplysning } from '@io/http';
-import { postAbonnerPåAktør, postOverstyrtInntekt } from '@io/http';
+import type { OverstyrtInntektDTO, OverstyrtInntektOgRefusjonDTO, Refusjonsopplysning } from '@io/http';
+import { postAbonnerPåAktør, postOverstyrtInntekt, postOverstyrtInntektOgRefusjon } from '@io/http';
 import { useCurrentArbeidsgiver } from '@state/arbeidsgiver';
 import {
     kalkulererFerdigToastKey,
@@ -26,7 +26,7 @@ import { useActivePeriod } from '@state/periode';
 import { useCurrentPerson } from '@state/person';
 import { useAddToast, useRemoveToast } from '@state/toasts';
 import { ISO_DATOFORMAT } from '@utils/date';
-import { kanOverstyreRefusjonsopplysninger } from '@utils/featureToggles';
+import { inntektOgRefusjonSteg3, kanOverstyreRefusjonsopplysninger } from '@utils/featureToggles';
 import { somPenger, toKronerOgØre } from '@utils/locale';
 import { isArbeidsgiver, isBeregnetPeriode, isGhostPeriode, isPerson } from '@utils/typeguards';
 
@@ -122,22 +122,39 @@ const usePostOverstyrtInntekt = (onFerdigKalkulert: () => void) => {
         error,
         timedOut,
         setTimedOut,
-        postOverstyring: (overstyrtInntekt: OverstyrtInntektDTO) => {
+        postOverstyring: (overstyrtInntekt: OverstyrtInntektDTO | OverstyrtInntektOgRefusjonDTO) => {
             setIsLoading(true);
-            postOverstyrtInntekt(overstyrtInntekt)
-                .then(() => {
-                    setCalculating(true);
-                    addToast(kalkulererToast({}));
-                    postAbonnerPåAktør(person.aktorId).then(() => setPollingRate(1000));
-                })
-                .catch((error) => {
-                    switch (error.statusCode) {
-                        default: {
-                            setError('Kunne ikke overstyre inntekt. Prøv igjen senere.');
+            if (!inntektOgRefusjonSteg3) {
+                postOverstyrtInntekt(overstyrtInntekt as OverstyrtInntektDTO)
+                    .then(() => {
+                        setCalculating(true);
+                        addToast(kalkulererToast({}));
+                        postAbonnerPåAktør(person.aktorId).then(() => setPollingRate(1000));
+                    })
+                    .catch((error) => {
+                        switch (error.statusCode) {
+                            default: {
+                                setError('Kunne ikke overstyre inntekt. Prøv igjen senere.');
+                            }
                         }
-                    }
-                    setIsLoading(false);
-                });
+                        setIsLoading(false);
+                    });
+            } else {
+                postOverstyrtInntektOgRefusjon(overstyrtInntekt as OverstyrtInntektOgRefusjonDTO)
+                    .then(() => {
+                        setCalculating(true);
+                        addToast(kalkulererToast({}));
+                        postAbonnerPåAktør(person.aktorId).then(() => setPollingRate(1000));
+                    })
+                    .catch((error) => {
+                        switch (error.statusCode) {
+                            default: {
+                                setError('Kunne ikke overstyre inntekt og/eller refusjon. Prøv igjen senere.');
+                            }
+                        }
+                        setIsLoading(false);
+                    });
+            }
         },
     };
 };
@@ -184,22 +201,50 @@ export const EditableInntekt = ({ omregnetÅrsinntekt, begrunnelser, close, onEn
     const confirmChanges = () => {
         const { begrunnelseId, forklaring, manedsbelop, refusjonsopplysninger } = form.getValues();
         const begrunnelse = begrunnelser.find((begrunnelse) => begrunnelse.id === begrunnelseId)!!;
-        const overstyrtInntekt: OverstyrtInntektDTO = {
-            ...metadata,
-            begrunnelse: begrunnelse.forklaring,
-            forklaring,
-            månedligInntekt: Number.parseFloat(manedsbelop),
-            fraMånedligInntekt: omregnetÅrsinntekt.manedsbelop,
-            ...(begrunnelse.subsumsjon?.paragraf && {
-                subsumsjon: {
-                    paragraf: begrunnelse.subsumsjon.paragraf,
-                    ledd: begrunnelse.subsumsjon.ledd,
-                    bokstav: begrunnelse.subsumsjon.bokstav,
-                },
-            }),
-            refusjonsopplysninger: refusjonsopplysninger ?? undefined,
-        };
-        postOverstyring(overstyrtInntekt);
+
+        if (!inntektOgRefusjonSteg3) {
+            const overstyrtInntekt: OverstyrtInntektDTO = {
+                ...metadata,
+                begrunnelse: begrunnelse.forklaring,
+                forklaring,
+                månedligInntekt: Number.parseFloat(manedsbelop),
+                fraMånedligInntekt: omregnetÅrsinntekt.manedsbelop,
+                ...(begrunnelse.subsumsjon?.paragraf && {
+                    subsumsjon: {
+                        paragraf: begrunnelse.subsumsjon.paragraf,
+                        ledd: begrunnelse.subsumsjon.ledd,
+                        bokstav: begrunnelse.subsumsjon.bokstav,
+                    },
+                }),
+                refusjonsopplysninger: refusjonsopplysninger ?? undefined,
+            };
+            postOverstyring(overstyrtInntekt);
+        } else {
+            const overstyrtInntektOgRefusjon: OverstyrtInntektOgRefusjonDTO = {
+                fødselsnummer: metadata.fødselsnummer,
+                aktørId: metadata.aktørId,
+                skjæringstidspunkt: metadata.skjæringstidspunkt,
+                arbeidsgivere: [
+                    {
+                        organisasjonsnummer: metadata.organisasjonsnummer,
+                        begrunnelse: begrunnelse.forklaring,
+                        forklaring: forklaring,
+                        månedligInntekt: Number.parseFloat(manedsbelop),
+                        fraMånedligInntekt: omregnetÅrsinntekt.manedsbelop,
+                        refusjonsopplysninger: refusjonsopplysninger ?? undefined,
+                        fraRefusjonsopplysninger: metadata.fraRefusjonsopplysninger,
+                        ...(begrunnelse.subsumsjon?.paragraf && {
+                            subsumsjon: {
+                                paragraf: begrunnelse.subsumsjon.paragraf,
+                                ledd: begrunnelse.subsumsjon?.ledd,
+                                bokstav: begrunnelse.subsumsjon?.bokstav,
+                            },
+                        }),
+                    },
+                ],
+            };
+            postOverstyring(overstyrtInntektOgRefusjon);
+        }
     };
 
     const validateRefusjon = (e: FormEvent) => {

@@ -30,6 +30,16 @@ export default ({ overstyringClient }: SetupOptions) => {
             });
     });
 
+    router.post('/overstyr/inntektogrefusjon', (req: SpeilRequest, res: Response) => {
+        overstyringClient
+            .overstyrInntektOgRefusjon(req.body, req.session!.speilToken)
+            .then(() => res.sendStatus(200))
+            .catch((err) => {
+                logger.error(`Feil under overstyring av inntekt og refusjon: ${err}`);
+                res.status(500).send('Feil under overstyring av inntekt og refusjon');
+            });
+    });
+
     router.post('/overstyr/arbeidsforhold', (req: SpeilRequest, res: Response) => {
         overstyringClient
             .overstyrArbeidsforhold(req.body, req.session!.speilToken)
