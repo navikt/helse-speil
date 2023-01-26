@@ -214,11 +214,7 @@ export const Refusjon = ({ fraRefusjonsopplysninger }: RefusjonProps) => {
                                 onBlur={(event) => {
                                     const nyttBeløp = Number(event.target.value);
 
-                                    if (
-                                        nyttBeløp ===
-                                        Math.round((refusjonsopplysning.beløp + Number.EPSILON) * 100) / 100
-                                    )
-                                        return;
+                                    if (nyttBeløp === refusjonsopplysning.beløp) return;
 
                                     clearErrors(`refusjonsopplysninger.${index}`);
                                     updateRefusjonsopplysninger(
@@ -304,10 +300,17 @@ function useRefusjonFormField() {
 
     const replaceRefusjonsopplysninger = (refusjonsopplysninger: Refusjonsopplysning[]) => {
         replace(
-            refusjonsopplysninger.sort(
-                (a: Refusjonsopplysning, b: Refusjonsopplysning) =>
-                    new Date(b.fom).getTime() - new Date(a.fom).getTime()
-            )
+            refusjonsopplysninger
+                .sort(
+                    (a: Refusjonsopplysning, b: Refusjonsopplysning) =>
+                        new Date(b.fom).getTime() - new Date(a.fom).getTime()
+                )
+                .map((refusjonsopplysning) => {
+                    return {
+                        ...refusjonsopplysning,
+                        beløp: Math.round((refusjonsopplysning.beløp + Number.EPSILON) * 100) / 100,
+                    };
+                })
         );
     };
 
