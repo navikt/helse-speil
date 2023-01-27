@@ -34,6 +34,7 @@ const harKunLesetilgang = () => kunLesetilgang.includes(extractIdent());
 const erSupersaksbehandler = () => supersaksbehandlere.includes(extractIdent());
 const harTilgangTilAlt = () => [...supersaksbehandlere, ...fagkoordinatorer, ...enhetsledere].includes(extractIdent());
 const erCoach = () => coaches.includes(extractIdent());
+const erFagkoordinator = () => fagkoordinatorer.includes(extractIdent());
 const harTilgangStikkprøver = () => tilgangStikkprøver.includes(extractIdent());
 const kanFrigiSaker = () => ['S109031'].includes(extractIdent());
 
@@ -69,6 +70,7 @@ export const toggleMeny: boolean = erLocal() || erDev();
 
 export const skalViseAvhukbareVarsler = true; // erLocal() || erDev() || ['G103083', 'N115007', 'C117102'].includes(extractIdent());
 
-export const kanOverstyreRefusjonsopplysninger: boolean = erLocal() || erDev() || erSupersaksbehandler() || erCoach();
+export const kanOverstyreRefusjonsopplysninger: boolean =
+    erLocal() || erDev() || erSupersaksbehandler() || erCoach() || erFagkoordinator();
 
 export const inntektOgRefusjonSteg3: boolean = erLocal();
