@@ -6,7 +6,7 @@ const groupIdForBesluttere = '59f26eef-0a4f-4038-bf46-3a5b2f252155';
 const eminem = 'G103083';
 const supersaksbehandlere = [eminem, 'N115007', 'C117102'];
 
-const fagkoordinatorer = ['M136300', 'S108267', 'K123956'];
+const fagkoordinatorer = ['M136300', 'S108267', 'K123956', 'G157538'];
 
 const enhetsledere = ['B138607', 'S145454'];
 
