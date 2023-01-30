@@ -10,20 +10,9 @@ const fagkoordinatorer = ['M136300', 'S108267', 'K123956', 'G157538'];
 
 const enhetsledere = ['B138607', 'S145454'];
 
-const coaches = [
-    'J153777',
-    'F131883',
-    'K104953',
-    'S109031',
-    'V149621',
-    'S160466',
-    'O123659',
-    'A160730',
-    'B164848',
-    'K162139',
-];
+const coaches = ['J153777', 'F131883', 'K104953', 'V149621', 'S160466', 'O123659', 'B164848', 'K162139'];
 
-const tilgangStikkprøver = ['F140836', 'S109031', 'O123659', 'S160466', 'K104953', 'J153777', 'V149621', 'S145454'];
+const tilgangStikkprøver = ['F140836', 'O123659', 'S160466', 'K104953', 'J153777', 'V149621', 'S145454'];
 
 const kunLesetilgang: string[] = [];
 
@@ -36,7 +25,7 @@ const harTilgangTilAlt = () => [...supersaksbehandlere, ...fagkoordinatorer, ...
 const erCoach = () => coaches.includes(extractIdent());
 const erFagkoordinator = () => fagkoordinatorer.includes(extractIdent());
 const harTilgangStikkprøver = () => tilgangStikkprøver.includes(extractIdent());
-const kanFrigiSaker = () => ['S109031'].includes(extractIdent());
+const kanFrigiSaker = () => ['K162139'].includes(extractIdent());
 
 const erPåTeamBømlo = () => extractGroups().includes(groupIdForTbd);
 
