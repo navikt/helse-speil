@@ -62,4 +62,4 @@ export const skalViseAvhukbareVarsler = true; // erLocal() || erDev() || ['G1030
 export const kanOverstyreRefusjonsopplysninger: boolean =
     erLocal() || erDev() || erSupersaksbehandler() || erCoach() || erFagkoordinator();
 
-export const inntektOgRefusjonSteg3: boolean = erLocal();
+export const inntektOgRefusjonSteg3: boolean = erLocal() || erDev();
