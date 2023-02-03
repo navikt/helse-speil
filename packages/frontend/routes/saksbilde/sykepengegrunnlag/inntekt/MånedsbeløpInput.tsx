@@ -48,7 +48,7 @@ export const MånedsbeløpInput = ({ initialMånedsbeløp }: MånedsbeløpInputP
                 kanOverstyreRefusjonsopplysninger ||
                 Number.parseFloat(value) !== initialMånedsbeløpRounded ||
                 'Kan ikke være likt gammelt beløp',
-            måVæreMindreEnn: (value) => value > 10000000 || 'Systemet håndterer ikke månedsbeløp over 10 millioner',
+            måVæreMindreEnn: (value) => value < 10000000 || 'Systemet håndterer ikke månedsbeløp over 10 millioner',
         },
         setValueAs: (value) => value.replaceAll(' ', '').replaceAll(',', '.'),
     });
