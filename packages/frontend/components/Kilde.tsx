@@ -11,31 +11,36 @@ interface KildeProps {
 const ainntektStyle = (props: KildeProps) =>
     props.type === 'AINNTEKT' &&
     css`
-        background-color: #cce2f0;
+        background-color: var(--navds-global-color-deepblue-100);
+        border-color: var(--navds-global-color-deepblue-500);
     `;
 
 const aordningenStyle = (props: KildeProps) =>
     props.type === Inntektskilde.Aordningen &&
     css`
-        background-color: #ccf1d6;
+        background-color: var(--navds-global-color-green-100);
+        border-color: var(--navds-global-color-green-500);
     `;
 
 const sykmeldingStyle = (props: KildeProps) =>
     props.type === Kildetype.Sykmelding &&
     css`
-        background-color: #d8f9ff;
+        background-color: var(--navds-global-color-lightblue-100);
+        border-color: var(--navds-global-color-blue-500);
     `;
 
 const søknadStyle = (props: KildeProps) =>
     props.type === Kildetype.Soknad &&
     css`
-        background-color: #e0dae7;
+        background-color: var(--navds-global-color-purple-100);
+        border-color: var(--navds-global-color-purple-400);
     `;
 
 const inntektsmeldingStyle = (props: KildeProps) =>
     props.type === Kildetype.Inntektsmelding &&
     css`
-        background-color: #ecefcc;
+        background-color: var(--navds-global-color-limegreen-100);
+        border-color: var(--navds-global-color-orange-600);
     `;
 
 const saksbehandlerStyle = (props: KildeProps) =>
@@ -43,9 +48,10 @@ const saksbehandlerStyle = (props: KildeProps) =>
     css`
         background-color: var(--navds-global-color-gray-100);
         color: var(--navds-semantic-color-text);
+        border-color: var(--navds-global-color-gray-700);
         svg {
-            width: 12px;
-            height: 12px;
+            width: 9px;
+            height: 9px;
         }
     `;
 
@@ -53,14 +59,16 @@ export const Kilde = styled.div<KildeProps>`
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 1px 0.25rem;
-    font-size: 14px;
-    border-radius: 2px;
+    font-size: 12px;
+    letter-spacing: 0.4px;
+    border-radius: 3px;
+    border-style: solid;
+    border-width: 1px;
     background-color: transparent;
     color: var(--navds-semantic-color-interaction-primary);
     width: 1.25rem;
     height: 0.875rem;
-    line-height: 0.875rem;
+    line-height: 8px;
     box-sizing: border-box;
 
     ${ainntektStyle};
