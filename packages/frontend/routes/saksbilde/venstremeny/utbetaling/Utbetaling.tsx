@@ -12,7 +12,6 @@ import { useHarUvurderteVarslerPåUtbetaling } from '@hooks/uvurderteVarsler';
 import { NotatType, Periodetilstand } from '@io/graphql';
 import { postAbonnerPåAktør } from '@io/http';
 import { useHarDagOverstyringer } from '@state/arbeidsgiver';
-import { useInnloggetSaksbehandler } from '@state/authentication';
 import { opptegnelsePollingTimeState } from '@state/opptegnelser';
 import { getLatestUtbetalingTimestamp, getOverstyringer } from '@state/selectors/person';
 import { isRevurdering } from '@state/selectors/utbetaling';
@@ -84,9 +83,10 @@ type SpeilError = {
 interface UtbetalingProps {
     period: FetchedBeregnetPeriode;
     person: FetchedPerson;
+    arbeidsgiver: string;
 }
 
-export const Utbetaling = ({ period, person }: UtbetalingProps) => {
+export const Utbetaling = ({ period, person, arbeidsgiver }: UtbetalingProps) => {
     const [godkjentPeriode, setGodkjentPeriode] = useState<string | undefined>();
     const [error, setError] = useState<SpeilError | null>();
     const ventEllerHopp = useOnGodkjenn(period, person);
@@ -96,7 +96,6 @@ export const Utbetaling = ({ period, person }: UtbetalingProps) => {
     const harVurderLovvalgOgMedlemskapVarsel = useHarVurderLovvalgOgMedlemskapVarsel();
     const harOverstyringerEtterSisteGodkjenteUtbetaling = useHarOverstyringerEtterSisteGodkjenteUtbetaling(person);
     const harDagOverstyringer = useHarDagOverstyringer(period);
-    const currentSaksbehandler = useInnloggetSaksbehandler();
     const harUvurderteVarslerPåUtbetaling = useHarUvurderteVarslerPåUtbetaling(period.utbetaling.id);
 
     const onGodkjennUtbetaling = () => {
@@ -127,7 +126,6 @@ export const Utbetaling = ({ period, person }: UtbetalingProps) => {
     const manglerNotatVedVurderLovvalgOgMedlemskapVarsel = harVurderLovvalgOgMedlemskapVarsel
         ? period.notater.filter((it) => it.type === NotatType.Generelt && !it.feilregistrert).length === 0
         : undefined;
-    const erTildeltInnloggetSaksbehandler = currentSaksbehandler.oid === person.tildeling?.oid;
 
     return (
         <>
@@ -148,6 +146,9 @@ export const Utbetaling = ({ period, person }: UtbetalingProps) => {
                     </SendTilGodkjenningButton>
                 ) : (
                     <GodkjenningButton
+                        utbetaling={period.utbetaling}
+                        arbeidsgiver={arbeidsgiver}
+                        personinfo={person.personinfo}
                         oppgavereferanse={period.oppgave?.id!}
                         aktørId={person.aktorId}
                         erBeslutteroppgave={erBeslutteroppgaveOgHarTilgang}

@@ -5,6 +5,7 @@ import { Button } from '@navikt/ds-react';
 
 import { Key, useKeyboard } from '@hooks/useKeyboard';
 import { AmplitudeContext } from '@io/amplitude';
+import { Personinfo, Utbetaling } from '@io/graphql';
 import { postUtbetalingsgodkjenning } from '@io/http';
 import { useAddToast } from '@state/toasts';
 
@@ -31,6 +32,9 @@ interface GodkjenningButtonProps extends Omit<React.HTMLAttributes<HTMLButtonEle
     disabled: boolean;
     onSuccess?: () => void;
     onError?: (error: Error) => void;
+    utbetaling: Utbetaling;
+    arbeidsgiver: string;
+    personinfo: Personinfo;
 }
 
 export const GodkjenningButton: React.FC<GodkjenningButtonProps> = ({
@@ -41,6 +45,9 @@ export const GodkjenningButton: React.FC<GodkjenningButtonProps> = ({
     disabled = false,
     onSuccess,
     onError,
+    utbetaling,
+    arbeidsgiver,
+    personinfo,
     ...buttonProps
 }) => {
     const [showModal, setShowModal] = useState(false);
@@ -94,6 +101,9 @@ export const GodkjenningButton: React.FC<GodkjenningButtonProps> = ({
             </Button>
             {showModal && (
                 <UtbetalingModal
+                    utbetaling={utbetaling}
+                    arbeidsgiver={arbeidsgiver}
+                    personinfo={personinfo}
                     onClose={closeModal}
                     onApprove={godkjennUtbetaling}
                     isSending={isSending}

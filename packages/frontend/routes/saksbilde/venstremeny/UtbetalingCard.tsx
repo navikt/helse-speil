@@ -1,29 +1,16 @@
+import { BeløpTilUtbetaling } from './BeløpTilUtbetaling';
 import classNames from 'classnames';
 import React from 'react';
 
-import { Bag, People } from '@navikt/ds-icons';
-import { BodyShort, Tooltip } from '@navikt/ds-react';
+import { BodyShort } from '@navikt/ds-react';
 
-import { Bold } from '@components/Bold';
 import { LoadingShimmer } from '@components/LoadingShimmer';
-import { AnonymizableTextWithEllipsis } from '@components/TextWithEllipsis';
-import { Maybe, Personinfo, Simulering, Utbetaling, Utbetalingstatus, Vilkarsgrunnlag } from '@io/graphql';
+import { Maybe, Personinfo, Simulering, Utbetaling, Vilkarsgrunnlag } from '@io/graphql';
 import { somPenger } from '@utils/locale';
 
 import { CardTitle } from './CardTitle';
-import { OpenSimuleringButton } from './utbetaling/simulering/OpenSimuleringButton';
 
 import styles from './UtbetalingCard.module.css';
-
-const isSimulering = (simulering?: Maybe<Simulering>): simulering is Simulering => {
-    return Array.isArray(simulering?.perioder);
-};
-
-const getFormattedName = (personinfo: Personinfo): string => {
-    return `${personinfo.fornavn} ${
-        personinfo.mellomnavn ? `${personinfo.mellomnavn} ${personinfo.etternavn}` : personinfo.etternavn
-    }`;
-};
 
 interface UtbetalingCardProps {
     vilkårsgrunnlag?: Maybe<Vilkarsgrunnlag>;
@@ -53,44 +40,13 @@ const UtbetalingCardBeregnet = ({
                 <BodyShort>Utbetalingsdager</BodyShort>
                 <BodyShort>{antallUtbetalingsdager}</BodyShort>
             </div>
-            <div className={styles.TilUtbetaling}>
-                <div className={styles.Row}>
-                    <Bold>
-                        {utbetaling.status !== Utbetalingstatus.Ubetalt ? 'Utbetalt beløp' : 'Beløp til utbetaling'}
-                    </Bold>
-                    <Bold className={styles.Total}>
-                        {somPenger(utbetaling.arbeidsgiverNettoBelop + utbetaling.personNettoBelop)}
-                    </Bold>
-                </div>
-                <div className={styles.Row}>
-                    <Tooltip content="Arbeidsgiver">
-                        <Bag title="Arbeidsgiver" />
-                    </Tooltip>
-                    <AnonymizableTextWithEllipsis>{arbeidsgiver}</AnonymizableTextWithEllipsis>
-                    <BodyShort>{somPenger(utbetaling.arbeidsgiverNettoBelop)}</BodyShort>
-                </div>
-                {isSimulering(arbeidsgiversimulering) && (
-                    <OpenSimuleringButton
-                        simulering={arbeidsgiversimulering}
-                        utbetaling={utbetaling}
-                        className={styles.SimuleringButton}
-                    />
-                )}
-                <div className={styles.Row}>
-                    <Tooltip content="Sykmeldt">
-                        <People title="Sykmeldt" />
-                    </Tooltip>
-                    <AnonymizableTextWithEllipsis>{getFormattedName(personinfo)}</AnonymizableTextWithEllipsis>
-                    <BodyShort>{somPenger(utbetaling.personNettoBelop)}</BodyShort>
-                </div>
-                {isSimulering(personsimulering) && (
-                    <OpenSimuleringButton
-                        simulering={personsimulering}
-                        utbetaling={utbetaling}
-                        className={styles.SimuleringButton}
-                    />
-                )}
-            </div>
+            <BeløpTilUtbetaling
+                utbetaling={utbetaling}
+                arbeidsgiver={arbeidsgiver}
+                personinfo={personinfo}
+                arbeidsgiversimulering={arbeidsgiversimulering}
+                personsimulering={personsimulering}
+            />
             {!arbeidsgiversimulering && !personsimulering && (
                 <BodyShort className={styles.ErrorMessage}>Mangler simulering</BodyShort>
             )}

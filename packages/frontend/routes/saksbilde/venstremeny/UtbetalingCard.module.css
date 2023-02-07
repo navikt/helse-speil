@@ -22,35 +22,6 @@
     margin-top: 1rem;
 }
 
-.TilUtbetaling {
-    --icon-width: 16px;
-    --margin: 16px;
-    display: flex;
-    flex-direction: column;
-    gap: 0.25rem;
-    margin-top: 1rem;
-}
-
-.Row {
-    display: flex;
-    align-items: center;
-    gap: var(--margin);
-}
-
-.Row > svg {
-    width: var(--icon-width);
-}
-
-.Row > p:first-of-type {
-    flex: 1;
-}
-
-.SimuleringButton {
-    margin-left: calc(var(--icon-width) + var(--margin));
-    margin-bottom: 0.25rem;
-    width: max-content;
-}
-
 .Skeleton {
     width: 100%;
 }
