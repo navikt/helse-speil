@@ -12,6 +12,10 @@ import { CheckIcon } from '../timeline/icons';
 
 import styles from './Avhuking.module.css';
 
+type GraphQLRequestError = {
+    response: { errors: [{ message: string; extensions: { code: number } }] };
+};
+
 type AvhukingProps = {
     type: 'feil' | 'aktiv' | 'vurdert' | 'ferdig-behandlet';
     generasjonId: string;
@@ -27,7 +31,7 @@ const getErrorMessage = (errorCode: number) => {
         case 404:
             return 'Varselet finnes ikke lenger. Oppdater siden (F5).';
         case 409:
-            return 'Varselet har allerede endret status. Oppdater siden (F5).';
+            return 'En annen saksbehandler har allerede vurdert dette varselet. Oppdater siden (F5).';
         default:
             return `Det har skjedd en feil. Prøv igjen senere eller kontakt en utvikler. (Feilkode: ${errorCode})`;
     }
@@ -77,34 +81,25 @@ export const Avhuking: React.FC<AvhukingProps> = ({
                 varselkode,
                 ident,
             })
-                .then(() => {
-                    håndterRespons();
-                })
-                .catch((e) => {
-                    const { errors } = e.response;
-                    errors.forEach((error: { extensions: { code: number } }) =>
-                        setError({ error: true, message: getErrorMessage(error.extensions.code) })
-                    );
-                    setIsFetching(false);
-                });
+                .then(() => håndterRespons())
+                .catch((error) => håndterError(error));
         } else if (varselstatus === Varselstatus.Vurdert) {
             settVarselstatusAktiv({ generasjonIdString: generasjonId, varselkode, ident })
-                .then(() => {
-                    håndterRespons();
-                })
-                .catch((e) => {
-                    const { errors } = e.response;
-                    errors.forEach((error: { extensions: { code: number } }) =>
-                        setError({ error: true, message: getErrorMessage(error.extensions.code) })
-                    );
-                    setIsFetching(false);
-                });
+                .then(() => håndterRespons())
+                .catch((error) => håndterError(error));
         }
     };
 
     const håndterRespons = () => {
         refetchPerson().finally(() => {
             setError({ error: false, message: '' });
+            setIsFetching(false);
+        });
+    };
+
+    const håndterError = (error: GraphQLRequestError) => {
+        error.response.errors.forEach((error: { extensions: { code: number } }) => {
+            setError({ error: true, message: getErrorMessage(error.extensions.code) });
             setIsFetching(false);
         });
     };
