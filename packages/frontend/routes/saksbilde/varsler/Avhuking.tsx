@@ -4,7 +4,7 @@ import React, { Dispatch, MouseEvent, SetStateAction } from 'react';
 import { ErrorColored } from '@navikt/ds-icons';
 
 import { Varselstatus } from '@io/graphql';
-import { settStatusAktiv, settStatusVurdert } from '@io/graphql/endreVarselstatus';
+import { settVarselstatusAktiv, settVarselstatusVurdert } from '@io/graphql/endreVarselstatus';
 import { useInnloggetSaksbehandler } from '@state/authentication';
 import { useRefetchPerson } from '@state/person';
 
@@ -22,7 +22,16 @@ type AvhukingProps = {
     setError: Dispatch<SetStateAction<{ error: boolean; message: string }>>;
 };
 
-const errorMessage = 'Kallet til baksystemet feilet. Kontakt en utvikler.';
+const getErrorMessage = (errorCode: number) => {
+    switch (errorCode) {
+        case 404:
+            return 'Varselet finnes ikke lenger. Oppdater siden (F5).';
+        case 409:
+            return 'Varselet har allerede endret status. Oppdater siden (F5).';
+        default:
+            return `Det har skjedd en feil. Prøv igjen senere eller kontakt en utvikler. (Feilkode: ${errorCode})`;
+    }
+};
 
 export const Avhuking: React.FC<AvhukingProps> = ({
     type,
@@ -62,37 +71,38 @@ export const Avhuking: React.FC<AvhukingProps> = ({
         setIsFetching(true);
 
         if (varselstatus === Varselstatus.Aktiv) {
-            settStatusVurdert({ generasjonId, definisjonId, varselkode, ident })
-                .then((response) => {
-                    håndterStatusVurdertRespons(response.settStatusVurdert);
+            settVarselstatusVurdert({
+                generasjonIdString: generasjonId,
+                definisjonIdString: definisjonId,
+                varselkode,
+                ident,
+            })
+                .then(() => {
+                    håndterRespons();
                 })
-                .catch(() => setError({ error: true, message: errorMessage }));
+                .catch((e) => {
+                    const { errors } = e.response;
+                    errors.forEach((error: { extensions: { code: number } }) =>
+                        setError({ error: true, message: getErrorMessage(error.extensions.code) })
+                    );
+                    setIsFetching(false);
+                });
         } else if (varselstatus === Varselstatus.Vurdert) {
-            settStatusAktiv({ generasjonId, varselkode, ident })
-                .then((response) => {
-                    håndterStatusAktivRespons(response.settStatusAktiv);
+            settVarselstatusAktiv({ generasjonIdString: generasjonId, varselkode, ident })
+                .then(() => {
+                    håndterRespons();
                 })
-                .catch(() => setError({ error: true, message: errorMessage }));
+                .catch((e) => {
+                    const { errors } = e.response;
+                    errors.forEach((error: { extensions: { code: number } }) =>
+                        setError({ error: true, message: getErrorMessage(error.extensions.code) })
+                    );
+                    setIsFetching(false);
+                });
         }
     };
 
-    const håndterStatusVurdertRespons = (response: boolean) => {
-        // Det er lagt til en constraint i backenden som ikke lar deg sette status til VURDERT hvis status allerede er VURDERT.
-        // Backenden returnerer enn så lenge bare boolean, så vi kan ikke være helt sikre på her at varselets status er grunnen.
-        // Dette er 'quick and dirty' frem til vi leverer noe mer fyldig respons fra backenden.
-        håndterRespons(response, 'Varselet er allerede vurdert. Refresh siden.');
-    };
-
-    const håndterStatusAktivRespons = (response: boolean) => {
-        håndterRespons(response, 'En feil oppsto. Kontakt en utvikler.');
-    };
-
-    const håndterRespons = (response: boolean, errorMessage: string) => {
-        if (!response) {
-            setError({ error: true, message: errorMessage });
-            setIsFetching(false);
-            return;
-        }
+    const håndterRespons = () => {
         refetchPerson().finally(() => {
             setError({ error: false, message: '' });
             setIsFetching(false);

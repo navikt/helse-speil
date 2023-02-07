@@ -344,6 +344,8 @@ export type Mutation = {
     leggTilNotat: Scalars['Int'];
     settStatusAktiv: Scalars['Boolean'];
     settStatusVurdert: Scalars['Boolean'];
+    settVarselstatusAktiv?: Maybe<VarselDto>;
+    settVarselstatusVurdert?: Maybe<VarselDto>;
 };
 
 export type MutationFeilregistrerKommentarArgs = {
@@ -376,6 +378,19 @@ export type MutationSettStatusAktivArgs = {
 export type MutationSettStatusVurdertArgs = {
     definisjonId: Scalars['String'];
     generasjonId: Scalars['String'];
+    ident: Scalars['String'];
+    varselkode: Scalars['String'];
+};
+
+export type MutationSettVarselstatusAktivArgs = {
+    generasjonIdString: Scalars['String'];
+    ident: Scalars['String'];
+    varselkode: Scalars['String'];
+};
+
+export type MutationSettVarselstatusVurdertArgs = {
+    definisjonIdString: Scalars['String'];
+    generasjonIdString: Scalars['String'];
     ident: Scalars['String'];
     varselkode: Scalars['String'];
 };
@@ -1425,6 +1440,11 @@ export type FetchPersonQuery = {
                           vedtaksperiodeId: string;
                           periodetilstand: Periodetilstand;
                           skjaeringstidspunkt: string;
+                          inntektFraAordningen: Array<{
+                              __typename?: 'InntektFraAOrdningen';
+                              maned: string;
+                              sum: number;
+                          }>;
                           aktivitetslogg: Array<{
                               __typename?: 'Aktivitet';
                               alvorlighetsgrad: string;
@@ -1792,3 +1812,54 @@ export type SettStatusVurdertMutationVariables = Exact<{
 }>;
 
 export type SettStatusVurdertMutation = { __typename?: 'Mutation'; settStatusVurdert: boolean };
+
+export type SettVarselstatusAktivMutationVariables = Exact<{
+    generasjonId: Scalars['String'];
+    varselkode: Scalars['String'];
+    ident: Scalars['String'];
+}>;
+
+export type SettVarselstatusAktivMutation = {
+    __typename?: 'Mutation';
+    settVarselstatusAktiv?: {
+        __typename?: 'VarselDTO';
+        generasjonId: string;
+        definisjonId: string;
+        kode: string;
+        tittel: string;
+        forklaring?: string | null;
+        handling?: string | null;
+        vurdering?: {
+            __typename?: 'VarselvurderingDTO';
+            ident: string;
+            status: Varselstatus;
+            tidsstempel: string;
+        } | null;
+    } | null;
+};
+
+export type SettVarselstatusVurdertMutationVariables = Exact<{
+    generasjonId: Scalars['String'];
+    definisjonId: Scalars['String'];
+    varselkode: Scalars['String'];
+    ident: Scalars['String'];
+}>;
+
+export type SettVarselstatusVurdertMutation = {
+    __typename?: 'Mutation';
+    settVarselstatusVurdert?: {
+        __typename?: 'VarselDTO';
+        definisjonId: string;
+        generasjonId: string;
+        kode: string;
+        tittel: string;
+        forklaring?: string | null;
+        handling?: string | null;
+        vurdering?: {
+            __typename?: 'VarselvurderingDTO';
+            ident: string;
+            status: Varselstatus;
+            tidsstempel: string;
+        } | null;
+    } | null;
+};

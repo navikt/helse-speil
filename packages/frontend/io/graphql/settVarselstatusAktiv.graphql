@@ -1,0 +1,15 @@
+mutation SettVarselstatusAktiv($generasjonIdString: String!, $varselkode: String!, $ident: String!) {
+    settVarselstatusAktiv(generasjonIdString: $generasjonIdString, varselkode: $varselkode, ident: $ident) {
+        generasjonId
+        definisjonId
+        kode
+        tittel
+        forklaring
+        handling
+        vurdering {
+            ident
+            status
+            tidsstempel
+        }
+    }
+}

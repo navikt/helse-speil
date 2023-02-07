@@ -344,6 +344,8 @@ export type Mutation = {
     leggTilNotat: Scalars['Int'];
     settStatusAktiv: Scalars['Boolean'];
     settStatusVurdert: Scalars['Boolean'];
+    settVarselstatusAktiv?: Maybe<VarselDto>;
+    settVarselstatusVurdert?: Maybe<VarselDto>;
 };
 
 export type MutationFeilregistrerKommentarArgs = {
@@ -376,6 +378,19 @@ export type MutationSettStatusAktivArgs = {
 export type MutationSettStatusVurdertArgs = {
     definisjonId: Scalars['String'];
     generasjonId: Scalars['String'];
+    ident: Scalars['String'];
+    varselkode: Scalars['String'];
+};
+
+export type MutationSettVarselstatusAktivArgs = {
+    generasjonIdString: Scalars['String'];
+    ident: Scalars['String'];
+    varselkode: Scalars['String'];
+};
+
+export type MutationSettVarselstatusVurdertArgs = {
+    definisjonIdString: Scalars['String'];
+    generasjonIdString: Scalars['String'];
     ident: Scalars['String'];
     varselkode: Scalars['String'];
 };

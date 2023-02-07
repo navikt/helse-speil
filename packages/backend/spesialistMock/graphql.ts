@@ -20,6 +20,8 @@ import type {
     MutationLeggTilKommentarArgs,
     MutationSettStatusAktivArgs,
     MutationSettStatusVurdertArgs,
+    MutationSettVarselstatusAktivArgs,
+    MutationSettVarselstatusVurdertArgs,
     Person,
 } from './schemaTypes';
 import { NotatMock } from './storage/notat';
@@ -110,8 +112,22 @@ const getResolvers = (): IResolvers => ({
         settStatusVurdert: (_, { generasjonId, definisjonId, varselkode, ident }: MutationSettStatusVurdertArgs) => {
             return VarselMock.settStatusVurdert({ generasjonId, definisjonId, varselkode, ident });
         },
+        settVarselstatusVurdert: (
+            _,
+            { generasjonIdString, definisjonIdString, varselkode, ident }: MutationSettVarselstatusVurdertArgs
+        ) => {
+            return VarselMock.settVarselstatusVurdert({
+                generasjonIdString,
+                definisjonIdString,
+                varselkode,
+                ident,
+            });
+        },
         settStatusAktiv: (_, { generasjonId, varselkode, ident }: MutationSettStatusAktivArgs) => {
             return VarselMock.settStatusAktiv({ generasjonId, varselkode, ident });
+        },
+        settVarselstatusAktiv: (_, { generasjonIdString, varselkode, ident }: MutationSettVarselstatusAktivArgs) => {
+            return VarselMock.settVarselstatusAktiv({ generasjonIdString, varselkode, ident });
         },
     },
     Periode: {
