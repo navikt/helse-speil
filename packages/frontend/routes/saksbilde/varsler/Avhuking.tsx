@@ -31,7 +31,7 @@ const getErrorMessage = (errorCode: number) => {
         case 404:
             return 'Varselet finnes ikke lenger. Oppdater siden (F5).';
         case 409:
-            return 'En annen saksbehandler har allerede vurdert dette varselet. Oppdater siden (F5).';
+            return 'Varselet har allerede endret status. Oppdater siden (F5).';
         default:
             return `Det har skjedd en feil. Prøv igjen senere eller kontakt en utvikler. (Feilkode: ${errorCode})`;
     }
