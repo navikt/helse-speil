@@ -100,6 +100,7 @@ export const usePeriodForSkjæringstidspunktForArbeidsgiver = (
         ? arbeidsgiverGhostPerioder?.[0] ?? null
         : ((arbeidsgiver?.generasjoner[0].perioder
               .filter((it) => it.skjaeringstidspunkt === skjæringstidspunkt)
+              .filter((it) => isBeregnetPeriode(it))
               .sort((a, b) => new Date(a.fom).getTime() - new Date(b.fom).getTime())
               .shift() ?? null) as ActivePeriod | null);
 };
