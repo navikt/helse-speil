@@ -1,7 +1,11 @@
 import { RecoilWrapper } from '@test-wrappers';
 import React from 'react';
 
-import { useArbeidsgiver, useEndringerForPeriode } from '@state/arbeidsgiver';
+import {
+    useArbeidsgiver,
+    useEndringerForPeriode,
+    usePeriodForSkjæringstidspunktForArbeidsgiver,
+} from '@state/arbeidsgiver';
 import { useActivePeriod } from '@state/periode';
 import { enArbeidsgiver } from '@test-data/arbeidsgiver';
 import { enArbeidsgiverinntekt } from '@test-data/arbeidsgiverinntekt';
@@ -9,6 +13,7 @@ import { enBeregnetPeriode, enGhostPeriode } from '@test-data/periode';
 import { etVilkårsgrunnlagFraSpleis } from '@test-data/vilkårsgrunnlag';
 import { render, screen } from '@testing-library/react';
 
+import { useVilkårsgrunnlag } from './Sykepengegrunnlag';
 import { SykepengegrunnlagFraSpleis } from './SykepengegrunnlagFraSpleis';
 
 jest.mock('@state/arbeidsgiver');
@@ -29,8 +34,10 @@ describe('SykepengegrunnlagFraSpleis', () => {
         const vilkårsgrunnlag = etVilkårsgrunnlagFraSpleis({ skjaeringstidspunkt }).medInntekter(inntekter);
 
         (useActivePeriod as jest.Mock).mockReturnValue(enBeregnetPeriode());
+        (usePeriodForSkjæringstidspunktForArbeidsgiver as jest.Mock).mockReturnValue(enBeregnetPeriode());
         (useArbeidsgiver as jest.Mock).mockReturnValue(arbeidsgiver);
         (useEndringerForPeriode as jest.Mock).mockReturnValue([]);
+        (useVilkårsgrunnlag as jest.Mock).mockReturnValue(vilkårsgrunnlag);
 
         render(
             <SykepengegrunnlagFraSpleis
@@ -58,6 +65,7 @@ describe('SykepengegrunnlagFraSpleis', () => {
         const vilkårsgrunnlag = etVilkårsgrunnlagFraSpleis({ skjaeringstidspunkt }).medInntekter(inntekter);
 
         (useActivePeriod as jest.Mock).mockReturnValue(enGhostPeriode());
+        (usePeriodForSkjæringstidspunktForArbeidsgiver as jest.Mock).mockReturnValue(enGhostPeriode());
         (useArbeidsgiver as jest.Mock).mockReturnValue(arbeidsgiver);
         (useEndringerForPeriode as jest.Mock).mockReturnValue([]);
 

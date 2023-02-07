@@ -80,6 +80,30 @@ export const usePeriodForSkjæringstidspunkt = (skjæringstidspunkt: DateString)
         .shift() ?? null) as ActivePeriod | null;
 };
 
+export const usePeriodForSkjæringstidspunktForArbeidsgiver = (
+    skjæringstidspunkt: DateString | null,
+    organisasjonsnummer: string
+): ActivePeriod | null => {
+    const arbeidsgiver = useArbeidsgiver(organisasjonsnummer);
+
+    if (!skjæringstidspunkt) return null;
+
+    const arbeidsgiverGhostPerioder = arbeidsgiver?.ghostPerioder.filter(
+        (it) => it.skjaeringstidspunkt === skjæringstidspunkt
+    );
+
+    if (!arbeidsgiver?.generasjoner[0]?.perioder && arbeidsgiverGhostPerioder?.length === 0) {
+        return null;
+    }
+
+    return isGhostPeriode(arbeidsgiverGhostPerioder?.[0])
+        ? arbeidsgiverGhostPerioder?.[0] ?? null
+        : ((arbeidsgiver?.generasjoner[0].perioder
+              .filter((it) => it.skjaeringstidspunkt === skjæringstidspunkt)
+              .sort((a, b) => new Date(a.fom).getTime() - new Date(b.fom).getTime())
+              .shift() ?? null) as ActivePeriod | null);
+};
+
 export const useUtbetalingForSkjæringstidspunkt = (skjæringstidspunkt: DateString): Utbetaling | null => {
     const currentArbeidsgiver = useCurrentArbeidsgiver();
 

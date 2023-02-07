@@ -25,7 +25,6 @@ import {
 } from '@io/graphql';
 import { Refusjonsopplysning } from '@io/http';
 import {
-    useCurrentArbeidsgiver,
     useEndringerForPeriode,
     usePeriodForSkjæringstidspunkt,
     useUtbetalingForSkjæringstidspunkt,
@@ -103,8 +102,6 @@ export const InntektMedSykefravær = ({
 
     const kanRevurderes = useInntektKanRevurderes(skjæringstidspunkt);
 
-    const inntektGjelderValgtArbeidsgiver = useCurrentArbeidsgiver()?.organisasjonsnummer === organisasjonsnummer;
-
     return (
         <div className={classNames(styles.Inntekt, editing && styles.editing)}>
             <div className={classNames(styles.Header, editing && styles.editing)}>
@@ -129,13 +126,16 @@ export const InntektMedSykefravær = ({
                     </div>
                     <Kilde type="AINNTEKT">AA</Kilde>
                 </div>
-                {inntektstype && vilkårsgrunnlagId && inntektGjelderValgtArbeidsgiver ? (
+                {inntektstype && vilkårsgrunnlagId ? (
                     kanRevurderes ? (
                         <RedigerInntekt
                             setEditing={setEditing}
                             editing={editing}
                             erRevurdering={erRevurdering}
                             vilkårsgrunnlagId={vilkårsgrunnlagId}
+                            skjæringstidspunkt={skjæringstidspunkt}
+                            organisasjonsnummer={organisasjonsnummer}
+                            arbeidsgiver={arbeidsgiver}
                         />
                     ) : (
                         <PopoverHjelpetekst ikon={<SortInfoikon />}>
@@ -158,6 +158,8 @@ export const InntektMedSykefravær = ({
                     close={() => setEditing(false)}
                     onEndre={setEndret}
                     begrunnelser={endreInntektMedSykefraværBegrunnelser}
+                    organisasjonsnummer={organisasjonsnummer}
+                    skjæringstidspunkt={skjæringstidspunkt}
                 />
             ) : (
                 <ReadOnlyInntekt omregnetÅrsinntekt={omregnetÅrsinntekt} deaktivert={erDeaktivert} />

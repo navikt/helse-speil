@@ -1,14 +1,12 @@
 import styled from '@emotion/styled';
 import React, { useEffect, useState } from 'react';
 
-import { Arbeidsgiver, Arbeidsgiverinntekt, Arbeidsgiverrefusjon, VilkarsgrunnlagSpleis } from '@io/graphql';
+import { Arbeidsgiverinntekt, VilkarsgrunnlagSpleis } from '@io/graphql';
 import { useArbeidsgiver } from '@state/arbeidsgiver';
-import { useActivePeriod } from '@state/periode';
 import { getRequiredInntekt } from '@state/selectors/person';
-import { isBeregnetPeriode } from '@utils/typeguards';
 
 import { InntektsgrunnlagTable } from './InntektsgrunnlagTable';
-import { Inntektskilderinnhold } from './Inntektskilderinnhold';
+import { Inntekt } from './inntekt/Inntekt';
 
 const Container = styled.div`
     display: flex;
@@ -22,32 +20,16 @@ const Strek = styled.span`
     display: inline-block;
 `;
 
-const useSkalViseRefusjon = (refusjon?: Maybe<Arbeidsgiverrefusjon>, arbeidsgiver?: Maybe<Arbeidsgiver>): boolean => {
-    const aktivPeriode = useActivePeriod();
-
-    if (!isBeregnetPeriode(aktivPeriode) || !refusjon || !arbeidsgiver) {
-        return false;
-    }
-
-    return (
-        arbeidsgiver.generasjoner.find((gen) =>
-            gen.perioder.find((periode) => isBeregnetPeriode(periode) && periode.id === aktivPeriode.id)
-        ) !== undefined
-    );
-};
-
 interface SykepengegrunnlagFraSpleisProps extends HTMLAttributes<HTMLDivElement> {
     vilkårsgrunnlag: VilkarsgrunnlagSpleis;
     skjæringstidspunkt: DateString;
     organisasjonsnummer: string;
-    refusjon?: Maybe<Arbeidsgiverrefusjon>;
 }
 
 export const SykepengegrunnlagFraSpleis = ({
     vilkårsgrunnlag,
     skjæringstidspunkt,
     organisasjonsnummer,
-    refusjon,
     ...rest
 }: SykepengegrunnlagFraSpleisProps) => {
     const inntekt = getRequiredInntekt(vilkårsgrunnlag, organisasjonsnummer);
@@ -55,8 +37,6 @@ export const SykepengegrunnlagFraSpleis = ({
     const [aktivInntektskilde, setAktivInntektskilde] = useState<Arbeidsgiverinntekt>(inntekt);
 
     const aktivArbeidsgiver = useArbeidsgiver(aktivInntektskilde.arbeidsgiver);
-
-    const skalViseRefusjon = useSkalViseRefusjon(refusjon, aktivArbeidsgiver);
 
     useEffect(() => {
         setAktivInntektskilde(inntekt);
@@ -85,7 +65,7 @@ export const SykepengegrunnlagFraSpleis = ({
                 sykepengegrunnlagsgrense={vilkårsgrunnlag.sykepengegrunnlagsgrense}
             />
             <Strek />
-            <Inntektskilderinnhold inntekt={aktivInntektskilde} refusjon={skalViseRefusjon ? refusjon : null} />
+            <Inntekt inntekt={aktivInntektskilde} />
         </Container>
     );
 };

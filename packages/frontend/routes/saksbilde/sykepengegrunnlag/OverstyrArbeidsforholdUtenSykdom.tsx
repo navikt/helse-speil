@@ -1,4 +1,3 @@
-import { VenterPåEndringContext } from '../VenterPåEndringContext';
 import { BegrunnelseForOverstyring } from './overstyring.types';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
@@ -15,6 +14,7 @@ import { ForklaringTextarea } from '@components/ForklaringTextArea';
 import { OverstyringTimeoutModal } from '@components/OverstyringTimeoutModal';
 import { Maybe } from '@io/graphql';
 
+import { VenterPåEndringContext } from '../VenterPåEndringContext';
 import { AngreOverstyrArbeidsforholdUtenSykdom } from './AngreOverstyrArbeidsforholdUtenSykdom';
 import { Begrunnelser } from './inntekt/Begrunnelser';
 import { useGetOverstyrtArbeidsforhold, usePostOverstyrtArbeidsforhold } from './overstyrArbeidsforholdHooks';
@@ -40,8 +40,8 @@ const FormContainer = styled(FlexColumn)<{ editing: boolean }>`
     ${(props) =>
         props.editing &&
         css`
-            background-color: var(--speil-background-secondary);
-            border-left: 4px solid var(--navds-semantic-color-interaction-primary);
+            margin-left: -15px;
+            border-left: 3px solid var(--navds-semantic-color-interaction-primary);
             padding: 0.5rem 1rem;
         `};
 `;

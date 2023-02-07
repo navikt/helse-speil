@@ -14,7 +14,7 @@ import { OverstyringTimeoutModal } from '@components/OverstyringTimeoutModal';
 import { Arbeidsgiverrefusjon, Inntektskilde, OmregnetArsinntekt } from '@io/graphql';
 import type { OverstyrtInntektDTO, OverstyrtInntektOgRefusjonDTO, Refusjonsopplysning } from '@io/http';
 import { postAbonnerPåAktør, postOverstyrtInntekt, postOverstyrtInntektOgRefusjon } from '@io/http';
-import { useCurrentArbeidsgiver } from '@state/arbeidsgiver';
+import { useArbeidsgiver, usePeriodForSkjæringstidspunktForArbeidsgiver } from '@state/arbeidsgiver';
 import {
     kalkulererFerdigToastKey,
     kalkulererToast,
@@ -22,7 +22,6 @@ import {
     kalkuleringFerdigToast,
 } from '@state/kalkuleringstoasts';
 import { useOpptegnelser, useSetOpptegnelserPollingRate } from '@state/opptegnelser';
-import { useActivePeriod } from '@state/periode';
 import { useCurrentPerson } from '@state/person';
 import { useAddToast, useRemoveToast } from '@state/toasts';
 import { ISO_DATOFORMAT } from '@utils/date';
@@ -46,10 +45,13 @@ type OverstyrtInntektMetadata = {
     fraRefusjonsopplysninger: Refusjonsopplysning[];
 };
 
-const useOverstyrtInntektMetadata = (): OverstyrtInntektMetadata => {
+const useOverstyrtInntektMetadata = (
+    skjæringstidspunkt: DateString,
+    organisasjonsnummer: string
+): OverstyrtInntektMetadata => {
     const person = useCurrentPerson();
-    const period = useActivePeriod();
-    const arbeidsgiver = useCurrentArbeidsgiver();
+    const period = usePeriodForSkjæringstidspunktForArbeidsgiver(skjæringstidspunkt, organisasjonsnummer);
+    const arbeidsgiver = useArbeidsgiver(organisasjonsnummer);
 
     if (!isPerson(person) || !isArbeidsgiver(arbeidsgiver) || !(isBeregnetPeriode(period) || isGhostPeriode(period))) {
         throw Error('Mangler data for å kunne overstyre inntekt.');
@@ -162,15 +164,24 @@ const usePostOverstyrtInntekt = (onFerdigKalkulert: () => void) => {
 interface EditableInntektProps {
     omregnetÅrsinntekt: OmregnetArsinntekt;
     begrunnelser: BegrunnelseForOverstyring[];
+    organisasjonsnummer: string;
+    skjæringstidspunkt: DateString;
     close: () => void;
     onEndre: (erEndret: boolean) => void;
 }
 
-export const EditableInntekt = ({ omregnetÅrsinntekt, begrunnelser, close, onEndre }: EditableInntektProps) => {
+export const EditableInntekt = ({
+    omregnetÅrsinntekt,
+    begrunnelser,
+    organisasjonsnummer,
+    skjæringstidspunkt,
+    close,
+    onEndre,
+}: EditableInntektProps) => {
     const form = useForm({ shouldFocusError: false, mode: 'onBlur' });
     const feiloppsummeringRef = useRef<HTMLDivElement>(null);
-    const metadata = useOverstyrtInntektMetadata();
-    const period = useActivePeriod();
+    const metadata = useOverstyrtInntektMetadata(skjæringstidspunkt, organisasjonsnummer);
+    const period = usePeriodForSkjæringstidspunktForArbeidsgiver(skjæringstidspunkt, organisasjonsnummer);
     const [harIkkeSkjemaEndringer, setHarIkkeSkjemaEndringer] = useState(false);
 
     const cancelEditing = () => {
@@ -216,7 +227,7 @@ export const EditableInntekt = ({ omregnetÅrsinntekt, begrunnelser, close, onEn
                         bokstav: begrunnelse.subsumsjon.bokstav,
                     },
                 }),
-                refusjonsopplysninger: refusjonsopplysninger ?? undefined,
+                refusjonsopplysninger: refusjonsopplysninger ?? [],
             };
             postOverstyring(overstyrtInntekt);
         } else {
@@ -231,7 +242,7 @@ export const EditableInntekt = ({ omregnetÅrsinntekt, begrunnelser, close, onEn
                         forklaring: forklaring,
                         månedligInntekt: Number.parseFloat(manedsbelop),
                         fraMånedligInntekt: omregnetÅrsinntekt.manedsbelop,
-                        refusjonsopplysninger: refusjonsopplysninger ?? undefined,
+                        refusjonsopplysninger: refusjonsopplysninger ?? [],
                         fraRefusjonsopplysninger: metadata.fraRefusjonsopplysninger,
                         ...(begrunnelse.subsumsjon?.paragraf && {
                             subsumsjon: {
@@ -248,7 +259,7 @@ export const EditableInntekt = ({ omregnetÅrsinntekt, begrunnelser, close, onEn
     };
 
     const validateRefusjon = (e: FormEvent) => {
-        if (!kanOverstyreRefusjonsopplysninger) {
+        if (!kanOverstyreRefusjonsopplysninger || isGhostPeriode(period)) {
             form.handleSubmit(confirmChanges);
             return;
         }

@@ -19,7 +19,10 @@ import { BehandletSykepengegrunnlag } from './BehandletSykepengegrunnlag';
 import { SykepengegrunnlagFraInfogtrygd } from './SykepengegrunnlagFraInfotrygd';
 import { SykepengegrunnlagFraSpleis } from './SykepengegrunnlagFraSpleis';
 
-const useVilkårsgrunnlag = (person?: Maybe<FetchedPerson>, period?: Maybe<ActivePeriod>): Maybe<Vilkarsgrunnlag> => {
+export const useVilkårsgrunnlag = (
+    person?: Maybe<FetchedPerson>,
+    period?: Maybe<ActivePeriod>
+): Maybe<Vilkarsgrunnlag> => {
     if (!person || (!isGhostPeriode(period) && !isBeregnetPeriode(period)) || !period.vilkarsgrunnlagId) {
         return null;
     }
@@ -33,12 +36,6 @@ const SykepengegrunnlagContainer: React.FC = () => {
     const vilkårsgrunnlag = useVilkårsgrunnlag(person, activePeriod);
     const vurdering = useVurderingForSkjæringstidspunkt((activePeriod as BeregnetPeriode).skjaeringstidspunkt);
     const arbeidsgiver = useCurrentArbeidsgiver();
-    const arbeidsgiverrefusjon =
-        vilkårsgrunnlag && isBeregnetPeriode(activePeriod)
-            ? vilkårsgrunnlag.arbeidsgiverrefusjoner.find(
-                  (arbeidsgiverrefusjon) => arbeidsgiverrefusjon.arbeidsgiver === arbeidsgiver?.organisasjonsnummer
-              )
-            : null;
 
     if ((isGhostPeriode(activePeriod) || isBeregnetPeriode(activePeriod)) && arbeidsgiver && person) {
         if (isSpleisVilkarsgrunnlag(vilkårsgrunnlag)) {
@@ -46,7 +43,6 @@ const SykepengegrunnlagContainer: React.FC = () => {
                 <BehandletSykepengegrunnlag
                     vurdering={vurdering}
                     vilkårsgrunnlag={vilkårsgrunnlag}
-                    refusjon={arbeidsgiverrefusjon}
                     skjæringstidspunkt={activePeriod.skjaeringstidspunkt}
                     arbeidsgiver={arbeidsgiver}
                 />
@@ -55,7 +51,6 @@ const SykepengegrunnlagContainer: React.FC = () => {
                     vilkårsgrunnlag={vilkårsgrunnlag}
                     skjæringstidspunkt={activePeriod.skjaeringstidspunkt}
                     organisasjonsnummer={arbeidsgiver.organisasjonsnummer}
-                    refusjon={arbeidsgiverrefusjon}
                     data-testid="ubehandlet-sykepengegrunnlag"
                 />
             );
@@ -64,7 +59,6 @@ const SykepengegrunnlagContainer: React.FC = () => {
                 <SykepengegrunnlagFraInfogtrygd
                     vilkårsgrunnlag={vilkårsgrunnlag}
                     organisasjonsnummer={arbeidsgiver.organisasjonsnummer}
-                    refusjon={arbeidsgiverrefusjon}
                 />
             );
         }

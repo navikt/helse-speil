@@ -1,5 +1,6 @@
 import { InntektMedSykefravær } from './InntektMedSykefravær';
 import { InntektUtenSykefravær } from './InntektUtenSykefravær';
+import classNames from 'classnames';
 import React from 'react';
 
 import { Alert } from '@navikt/ds-react';
@@ -8,16 +9,18 @@ import { ErrorBoundary } from '@components/ErrorBoundary';
 import {
     Arbeidsgiver,
     Arbeidsgiverinntekt,
-    Arbeidsgiverrefusjon,
     BeregnetPeriode,
     Hendelsetype,
     Kildetype,
     Refusjonselement,
 } from '@io/graphql';
 import { Refusjonsopplysning } from '@io/http';
-import { useArbeidsgiver } from '@state/arbeidsgiver';
+import { useArbeidsgiver, usePeriodForSkjæringstidspunktForArbeidsgiver } from '@state/arbeidsgiver';
 import { useActivePeriod } from '@state/periode';
+import { useCurrentPerson } from '@state/person';
 import { isBeregnetPeriode, isUberegnetPeriode } from '@utils/typeguards';
+
+import { useVilkårsgrunnlag } from '../Sykepengegrunnlag';
 
 import styles from './Inntekt.module.css';
 
@@ -27,30 +30,57 @@ const hasSykefravær = (arbeidsgiver: Arbeidsgiver, fom: DateString): boolean =>
 
 interface InntektContainerProps {
     inntekt: Arbeidsgiverinntekt;
-    refusjon?: Maybe<Arbeidsgiverrefusjon>;
 }
 
-const InntektContainer: React.FC<InntektContainerProps> = ({ inntekt, refusjon }) => {
+const InntektContainer: React.FC<InntektContainerProps> = ({ inntekt }) => {
+    const person = useCurrentPerson();
     const period = useActivePeriod();
+    const periodeForSkjæringstidspunktForArbeidsgiver = usePeriodForSkjæringstidspunktForArbeidsgiver(
+        period?.skjaeringstidspunkt ?? null,
+        inntekt.arbeidsgiver
+    );
     const arbeidsgiver = useArbeidsgiver(inntekt.arbeidsgiver);
 
-    if (!period || !arbeidsgiver || isUberegnetPeriode(period) || !period.vilkarsgrunnlagId) {
+    const vilkårsgrunnlag = useVilkårsgrunnlag(person, periodeForSkjæringstidspunktForArbeidsgiver);
+    const arbeidsgiverrefusjon =
+        vilkårsgrunnlag && isBeregnetPeriode(periodeForSkjæringstidspunktForArbeidsgiver)
+            ? vilkårsgrunnlag.arbeidsgiverrefusjoner.find(
+                  (arbeidsgiverrefusjon) => arbeidsgiverrefusjon.arbeidsgiver === arbeidsgiver?.organisasjonsnummer
+              )
+            : null;
+
+    if (
+        !periodeForSkjæringstidspunktForArbeidsgiver ||
+        !arbeidsgiver ||
+        isUberegnetPeriode(periodeForSkjæringstidspunktForArbeidsgiver) ||
+        !periodeForSkjæringstidspunktForArbeidsgiver.vilkarsgrunnlagId
+    ) {
         return null;
     }
 
-    const arbeidsgiverHarSykefraværForPerioden = hasSykefravær(arbeidsgiver, period.fom);
+    const arbeidsgiverHarSykefraværForPerioden = hasSykefravær(
+        arbeidsgiver,
+        periodeForSkjæringstidspunktForArbeidsgiver.fom
+    );
 
-    const refusjonsopplysninger = mapOgSorterRefusjoner(period, refusjon?.refusjonsopplysninger);
+    const refusjonsopplysninger = mapOgSorterRefusjoner(
+        periodeForSkjæringstidspunktForArbeidsgiver,
+        arbeidsgiverrefusjon?.refusjonsopplysninger
+    );
 
     if (arbeidsgiverHarSykefraværForPerioden) {
         return (
             <InntektMedSykefravær
-                inntektFraAOrdningen={isBeregnetPeriode(period) ? period.inntektFraAordningen : undefined}
-                skjæringstidspunkt={period.skjaeringstidspunkt}
+                inntektFraAOrdningen={
+                    isBeregnetPeriode(periodeForSkjæringstidspunktForArbeidsgiver)
+                        ? periodeForSkjæringstidspunktForArbeidsgiver.inntektFraAordningen
+                        : undefined
+                }
+                skjæringstidspunkt={periodeForSkjæringstidspunktForArbeidsgiver.skjaeringstidspunkt}
                 omregnetÅrsinntekt={inntekt.omregnetArsinntekt}
                 organisasjonsnummer={inntekt.arbeidsgiver}
-                vilkårsgrunnlagId={period.vilkarsgrunnlagId}
-                inntektstype={(period as BeregnetPeriode).inntektstype}
+                vilkårsgrunnlagId={periodeForSkjæringstidspunktForArbeidsgiver.vilkarsgrunnlagId}
+                inntektstype={(periodeForSkjæringstidspunktForArbeidsgiver as BeregnetPeriode).inntektstype}
                 erDeaktivert={inntekt.deaktivert}
                 arbeidsgiver={arbeidsgiver}
                 refusjon={refusjonsopplysninger}
@@ -59,11 +89,11 @@ const InntektContainer: React.FC<InntektContainerProps> = ({ inntekt, refusjon }
     } else {
         return (
             <InntektUtenSykefravær
-                skjæringstidspunkt={period.skjaeringstidspunkt}
+                skjæringstidspunkt={periodeForSkjæringstidspunktForArbeidsgiver.skjaeringstidspunkt}
                 omregnetÅrsinntekt={inntekt.omregnetArsinntekt}
                 organisasjonsnummer={inntekt.arbeidsgiver}
                 erDeaktivert={inntekt.deaktivert}
-                vilkårsgrunnlagId={period.vilkarsgrunnlagId}
+                vilkårsgrunnlagId={periodeForSkjæringstidspunktForArbeidsgiver.vilkarsgrunnlagId}
                 arbeidsgiver={arbeidsgiver}
                 refusjon={refusjonsopplysninger}
             />
@@ -81,13 +111,14 @@ const InntektError = () => {
 
 interface InntektProps {
     inntekt: Arbeidsgiverinntekt;
-    refusjon?: Maybe<Arbeidsgiverrefusjon>;
 }
 
-export const Inntekt: React.FC<InntektProps> = ({ inntekt, refusjon }) => {
+export const Inntekt: React.FC<InntektProps> = ({ inntekt }) => {
     return (
         <ErrorBoundary fallback={<InntektError />}>
-            <InntektContainer inntekt={inntekt} refusjon={refusjon} />
+            <div className={classNames(styles.Inntektskilderinnhold, inntekt.deaktivert && styles.deaktivert)}>
+                <InntektContainer inntekt={inntekt} />
+            </div>
         </ErrorBoundary>
     );
 };

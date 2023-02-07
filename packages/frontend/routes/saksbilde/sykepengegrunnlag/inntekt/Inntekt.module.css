@@ -67,3 +67,15 @@
     font-size: 18px;
     font-weight: 600;
 }
+
+.Inntektskilderinnhold {
+    display: flex;
+    flex-direction: column;
+    background-color: #e6f0ff;
+    padding: 0 1rem 0 0.75rem;
+}
+
+.Inntektskilderinnhold.deaktivert {
+    background-color: var(--nav-ghost-deaktivert-bakgrunn);
+    border: 1px solid var(--nav-ghost-deaktivert-border);
+}

@@ -2,7 +2,7 @@ import React from 'react';
 
 import { AutomatiskVurdering } from '@components/AutomatiskVurdering';
 import { Saksbehandlervurdering } from '@components/Saksbehandlervurdering';
-import { Arbeidsgiver, Arbeidsgiverrefusjon, Maybe, VilkarsgrunnlagSpleis, Vurdering } from '@io/graphql';
+import { Arbeidsgiver, VilkarsgrunnlagSpleis, Vurdering } from '@io/graphql';
 import { getFormattedDateString } from '@utils/date';
 
 import { SykepengegrunnlagFraSpleis } from './SykepengegrunnlagFraSpleis';
@@ -12,7 +12,6 @@ interface BehandletSykepengegrunnlagProps {
     vilkårsgrunnlag: VilkarsgrunnlagSpleis;
     skjæringstidspunkt: DateString;
     arbeidsgiver: Omit<Arbeidsgiver, 'generasjoner' | 'ghostPerioder' | 'overstyringer'>;
-    refusjon?: Maybe<Arbeidsgiverrefusjon>;
 }
 
 export const BehandletSykepengegrunnlag = ({
@@ -20,7 +19,6 @@ export const BehandletSykepengegrunnlag = ({
     vilkårsgrunnlag,
     skjæringstidspunkt,
     arbeidsgiver,
-    refusjon,
 }: BehandletSykepengegrunnlagProps) => {
     const title = `Sykepengegrunnlag satt ved skjæringstidspunkt - ${getFormattedDateString(skjæringstidspunkt)}`;
     const Wrapper = vurdering.automatisk ? AutomatiskVurdering : Saksbehandlervurdering;
@@ -32,7 +30,6 @@ export const BehandletSykepengegrunnlag = ({
                 data-testid="behandlet-sykepengegrunnlag"
                 skjæringstidspunkt={skjæringstidspunkt}
                 organisasjonsnummer={arbeidsgiver.organisasjonsnummer}
-                refusjon={refusjon}
             />
         </Wrapper>
     );

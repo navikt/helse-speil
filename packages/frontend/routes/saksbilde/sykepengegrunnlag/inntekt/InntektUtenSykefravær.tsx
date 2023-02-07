@@ -12,8 +12,7 @@ import { AnonymizableContainer } from '@components/anonymizable/AnonymizableCont
 import { Clipboard } from '@components/clipboard';
 import { Arbeidsgiver, BeregnetPeriode, Inntektskilde, Maybe, OmregnetArsinntekt, Periodetilstand } from '@io/graphql';
 import { Refusjonsopplysning } from '@io/http';
-import { useEndringerForPeriode } from '@state/arbeidsgiver';
-import { useActivePeriod } from '@state/periode';
+import { useEndringerForPeriode, usePeriodForSkjæringstidspunktForArbeidsgiver } from '@state/arbeidsgiver';
 import { useCurrentPerson } from '@state/person';
 import { kanOverstyreRefusjonsopplysninger } from '@utils/featureToggles';
 import { kildeForkortelse } from '@utils/inntektskilde';
@@ -84,45 +83,36 @@ const harIngenPerioderTilBeslutterFor = (person: FetchedPerson, skjæringstidspu
     );
 };
 
-const useArbeidsforholdKanOverstyres = (organisasjonsnummer: string): boolean => {
+const useArbeidsforholdKanOverstyres = (skjæringstidspunkt: DateString, organisasjonsnummer: string): boolean => {
     const person = useCurrentPerson();
-    const activePeriod = useActivePeriod();
+    const period = usePeriodForSkjæringstidspunktForArbeidsgiver(skjæringstidspunkt, organisasjonsnummer);
 
-    if (!isGhostPeriode(activePeriod) || !person) {
+    if (!isGhostPeriode(period) || !person) {
         return false;
     }
 
-    const periodeForSkjæringstidspunkt = maybePeriodeForSkjæringstidspunkt(person, activePeriod.skjaeringstidspunkt);
+    const periodeForSkjæringstidspunkt = maybePeriodeForSkjæringstidspunkt(person, period.skjaeringstidspunkt);
 
-    const harIngenPerioderTilBeslutter = harIngenPerioderTilBeslutterFor(person, activePeriod.skjaeringstidspunkt);
+    const harIngenPerioderTilBeslutter = harIngenPerioderTilBeslutterFor(person, period.skjaeringstidspunkt);
 
-    return (
-        activePeriod.organisasjonsnummer === organisasjonsnummer &&
-        harIngenPerioderTilBeslutter &&
-        periodeForSkjæringstidspunkt !== undefined
-    );
+    return harIngenPerioderTilBeslutter && periodeForSkjæringstidspunkt !== undefined;
 };
 
-const useGhostInntektKanOverstyres = (organisasjonsnummer: string): boolean => {
+const useGhostInntektKanOverstyres = (skjæringstidspunkt: DateString, organisasjonsnummer: string): boolean => {
     const person = useCurrentPerson();
-    const activePeriod = useActivePeriod();
+    const period = usePeriodForSkjæringstidspunktForArbeidsgiver(skjæringstidspunkt, organisasjonsnummer);
 
-    if (!isGhostPeriode(activePeriod) || !person) {
+    if (!isGhostPeriode(period) || !person) {
         return false;
     }
 
-    const periodeTilGodkjenning = maybePeriodeTilGodkjenning(person, activePeriod.skjaeringstidspunkt);
+    const periodeTilGodkjenning = maybePeriodeTilGodkjenning(person, period.skjaeringstidspunkt);
 
-    const harIngenUtbetaltePerioder = harIngenUtbetaltePerioderFor(person, activePeriod.skjaeringstidspunkt);
+    const harIngenUtbetaltePerioder = harIngenUtbetaltePerioderFor(person, period.skjaeringstidspunkt);
 
-    const harIngenPerioderTilBeslutter = harIngenPerioderTilBeslutterFor(person, activePeriod.skjaeringstidspunkt);
+    const harIngenPerioderTilBeslutter = harIngenPerioderTilBeslutterFor(person, period.skjaeringstidspunkt);
 
-    return (
-        activePeriod.organisasjonsnummer === organisasjonsnummer &&
-        harIngenUtbetaltePerioder &&
-        harIngenPerioderTilBeslutter &&
-        periodeTilGodkjenning !== undefined
-    );
+    return harIngenUtbetaltePerioder && harIngenPerioderTilBeslutter && periodeTilGodkjenning !== undefined;
 };
 
 const endreInntektUtenSykefraværBegrunnelser: BegrunnelseForOverstyring[] = [
@@ -170,8 +160,8 @@ export const InntektUtenSykefravær = ({
     const [editingInntekt, setEditingInntekt] = useState(false);
     const [endret, setEndret] = useState(false);
 
-    const arbeidsforholdKanOverstyres = useArbeidsforholdKanOverstyres(organisasjonsnummer);
-    const inntektKanOverstyres = useGhostInntektKanOverstyres(organisasjonsnummer);
+    const arbeidsforholdKanOverstyres = useArbeidsforholdKanOverstyres(skjæringstidspunkt, organisasjonsnummer);
+    const ghostInntektKanOverstyres = useGhostInntektKanOverstyres(skjæringstidspunkt, organisasjonsnummer);
     const { arbeidsforholdendringer } = useEndringerForPeriode(organisasjonsnummer);
 
     return (
@@ -200,7 +190,7 @@ export const InntektUtenSykefravær = ({
                     </div>
                     <Kilde type="AINNTEKT">AA</Kilde>
                 </div>
-                {vilkårsgrunnlagId && inntektKanOverstyres && !erDeaktivert && (
+                {vilkårsgrunnlagId && ghostInntektKanOverstyres && !erDeaktivert && (
                     <RedigerGhostInntekt setEditing={setEditingInntekt} editing={editingInntekt} />
                 )}
             </div>
@@ -218,6 +208,8 @@ export const InntektUtenSykefravær = ({
                     close={() => setEditingInntekt(false)}
                     onEndre={setEndret}
                     begrunnelser={endreInntektUtenSykefraværBegrunnelser}
+                    organisasjonsnummer={organisasjonsnummer}
+                    skjæringstidspunkt={skjæringstidspunkt}
                 />
             ) : (
                 <ReadOnlyInntekt omregnetÅrsinntekt={omregnetÅrsinntekt} deaktivert={erDeaktivert} />

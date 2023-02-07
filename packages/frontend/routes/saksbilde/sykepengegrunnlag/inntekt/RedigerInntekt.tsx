@@ -4,8 +4,7 @@ import { EditButton } from '@components/EditButton';
 import { PopoverHjelpetekst } from '@components/PopoverHjelpetekst';
 import { SortInfoikon } from '@components/ikoner/SortInfoikon';
 import { Arbeidsgiver, BeregnetPeriode, Vilkarsgrunnlagtype } from '@io/graphql';
-import { useCurrentArbeidsgiver } from '@state/arbeidsgiver';
-import { useActivePeriod } from '@state/periode';
+import { usePeriodForSkjæringstidspunktForArbeidsgiver } from '@state/arbeidsgiver';
 import { useCurrentPerson } from '@state/person';
 import { isGodkjent, isInCurrentGeneration, isTilGodkjenning, isWaiting, overlapper } from '@state/selectors/period';
 import { getVilkårsgrunnlag } from '@state/selectors/person';
@@ -65,12 +64,25 @@ interface RedigerInntektProps {
     editing: boolean;
     erRevurdering: boolean;
     vilkårsgrunnlagId: string;
+    skjæringstidspunkt: DateString;
+    organisasjonsnummer: string;
+    arbeidsgiver: Arbeidsgiver;
 }
 
-export const RedigerInntekt = ({ setEditing, editing, erRevurdering, vilkårsgrunnlagId }: RedigerInntektProps) => {
-    const periode = useActivePeriod() as BeregnetPeriode;
+export const RedigerInntekt = ({
+    setEditing,
+    editing,
+    erRevurdering,
+    vilkårsgrunnlagId,
+    skjæringstidspunkt,
+    organisasjonsnummer,
+    arbeidsgiver,
+}: RedigerInntektProps) => {
     const person = useCurrentPerson() as FetchedPerson;
-    const arbeidsgiver = useCurrentArbeidsgiver() as Arbeidsgiver;
+    const periode = usePeriodForSkjæringstidspunktForArbeidsgiver(
+        skjæringstidspunkt,
+        organisasjonsnummer
+    ) as BeregnetPeriode;
 
     if (!isInCurrentGeneration(periode, arbeidsgiver)) return null;
 
