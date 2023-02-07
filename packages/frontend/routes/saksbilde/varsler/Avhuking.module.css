@@ -9,7 +9,7 @@
 }
 
 [aria-disabled='true'] {
-    cursor: auto;
+    cursor: not-allowed;
 }
 
 .avhuking.aktiv,
