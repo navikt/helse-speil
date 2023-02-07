@@ -66,7 +66,15 @@ describe('Saksbildevarsler', () => {
         render(
             <Saksbildevarsler
                 periodState="utbetalt"
-                varsler={['Dette er en aktivitet', 'Dette er også en aktivitet']}
+                varslerForGenerasjon={[
+                    { definisjonId: 'EN_ID', generasjonId: 'EN_ID', kode: 'EN_KODE', tittel: 'Dette er en aktivitet' },
+                    {
+                        definisjonId: 'EN_ID',
+                        generasjonId: 'EN_ID',
+                        kode: 'EN_KODE',
+                        tittel: 'Dette er også en aktivitet',
+                    },
+                ]}
             />
         );
         expect(screen.getByText('Dette er en aktivitet')).toBeVisible();

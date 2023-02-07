@@ -1,13 +1,9 @@
 import { Varselstatus } from '@io/graphql';
 import { useCurrentArbeidsgiver } from '@state/arbeidsgiver';
-import { skalViseAvhukbareVarsler } from '@utils/featureToggles';
 import { isBeregnetPeriode } from '@utils/typeguards';
 
 export const useUvurderteVarslerPåPeriode = (periode: FetchedBeregnetPeriode | DatePeriod): boolean => {
     const arbeidsgiver = useCurrentArbeidsgiver();
-
-    // For å ikke gå i beina på eksisterende flyt
-    if (!skalViseAvhukbareVarsler) return false;
 
     if (!isBeregnetPeriode(periode) || !arbeidsgiver) {
         return false;
@@ -23,9 +19,6 @@ export const useUvurderteVarslerPåPeriode = (periode: FetchedBeregnetPeriode | 
 
 export const useHarUvurderteVarslerPåUtbetaling = (utbetalingId: string): boolean => {
     const arbeidsgiver = useCurrentArbeidsgiver();
-
-    // For å ikke gå i beina på eksisterende flyt
-    if (!skalViseAvhukbareVarsler) return false;
 
     if (!arbeidsgiver) {
         return false;

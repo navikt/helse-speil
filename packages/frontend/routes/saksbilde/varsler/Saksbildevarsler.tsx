@@ -4,10 +4,9 @@ import React from 'react';
 import { Alert, BodyShort } from '@navikt/ds-react';
 
 import { Maybe, Overstyring, VarselDto } from '@io/graphql';
-import { skalViseAvhukbareVarsler, utbetalingTilSykmeldt } from '@utils/featureToggles';
+import { utbetalingTilSykmeldt } from '@utils/featureToggles';
 import { isArbeidsforholdoverstyring, isDagoverstyring, isInntektoverstyring } from '@utils/typeguards';
 
-import { Aktivitetsloggvarsler } from './Aktivetsloggvarsler';
 import { Varsler } from './Varsler';
 
 import styles from './Saksbildevarsler.module.css';
@@ -93,7 +92,6 @@ const harRelevanteDagoverstyringer = (overstyringer: Array<Overstyring>, tom?: D
 
 const beslutteroppgave = (
     periodState: PeriodState,
-    varsler?: Maybe<Array<string>>,
     erBeslutteroppgave: boolean = false,
     harVurderLovvalgOgMedlemskapVarsel: boolean = false,
     endringerEtterNyesteUtbetalingPåPerson?: Maybe<Array<Overstyring>>,
@@ -130,14 +128,9 @@ const beslutteroppgave = (
     return null;
 };
 
-const filtrerVarsler = (varsler: Array<string>) => {
-    return varsler.filter((varsel) => !varsel.includes('Beslutteroppgave:'));
-};
-
 interface SaksbildevarslerProps {
     periodState: PeriodState;
     oppgavereferanse?: Maybe<string>;
-    varsler?: Maybe<Array<string>>;
     varslerForGenerasjon?: Maybe<Array<VarselDto>>;
     erTidligereSaksbehandler?: boolean;
     periodeMedBrukerutbetaling?: boolean;
@@ -170,7 +163,6 @@ function grupperVarsler(varslerForGenerasjon: Maybe<Array<VarselDto>> | undefine
 export const Saksbildevarsler = ({
     periodState,
     oppgavereferanse,
-    varsler,
     varslerForGenerasjon,
     erTidligereSaksbehandler = false,
     periodeMedBrukerutbetaling = false,
@@ -189,7 +181,6 @@ export const Saksbildevarsler = ({
         vedtaksperiodeVenter(periodState),
         beslutteroppgave(
             periodState,
-            varsler,
             erBeslutteroppgave,
             harVurderLovvalgOgMedlemskapVarsel,
             endringerEtterNyesteUtbetalingPåPerson,
@@ -211,8 +202,7 @@ export const Saksbildevarsler = ({
                     <BodyShort>{melding}</BodyShort>
                 </Alert>
             ))}
-            {!skalViseAvhukbareVarsler && varsler && <Aktivitetsloggvarsler varsler={filtrerVarsler(varsler)} />}
-            {skalViseAvhukbareVarsler && varslerForGenerasjon && <Varsler varsler={vanligeVarsler} />}
+            {varslerForGenerasjon && <Varsler varsler={vanligeVarsler} />}
             {feilVarsler.map(({ grad, melding }, index) => (
                 <Alert className={styles.Varsel} variant={grad} key={index}>
                     <BodyShort>{melding}</BodyShort>

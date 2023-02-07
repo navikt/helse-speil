@@ -722,9 +722,18 @@
                                         },
                                         {
                                             "generasjonId": "EN_ANNEN_ID",
-                                            "definisjonId": "EN_DEFINISJON",
-                                            "kode": "SB_BO_NOE",
-                                            "tittel": "Beslutteroppgave: Flere arbeidsgivere, ulikt starttidspunkt for sykefraværet eller ikke fravær fra alle arbeidsforhold",
+                                            "definisjonId": "EN_ANNEN_DEFINISJON",
+                                            "kode": "SB_BO_1",
+                                            "tittel": "Beslutteroppgave: Vurder lovvalg og medlemskap",
+                                            "forklaring": null,
+                                            "handling": null,
+                                            "vurdering": null
+                                        },
+                                        {
+                                            "generasjonId": "EN_HELT_ANNEN_ID",
+                                            "definisjonId": "EN_HELT_ANNEN_DEFINISJON",
+                                            "kode": "SB_BO_3",
+                                            "tittel": "Beslutteroppgave: Overstyring av inntekt",
                                             "forklaring": null,
                                             "handling": null,
                                             "vurdering": null
