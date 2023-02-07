@@ -342,8 +342,6 @@ export type Mutation = {
     feilregistrerNotat: Scalars['Boolean'];
     leggTilKommentar?: Maybe<Kommentar>;
     leggTilNotat: Scalars['Int'];
-    settStatusAktiv: Scalars['Boolean'];
-    settStatusVurdert: Scalars['Boolean'];
     settVarselstatusAktiv?: Maybe<VarselDto>;
     settVarselstatusVurdert?: Maybe<VarselDto>;
 };
@@ -367,19 +365,6 @@ export type MutationLeggTilNotatArgs = {
     tekst: Scalars['String'];
     type: NotatType;
     vedtaksperiodeId: Scalars['String'];
-};
-
-export type MutationSettStatusAktivArgs = {
-    generasjonId: Scalars['String'];
-    ident: Scalars['String'];
-    varselkode: Scalars['String'];
-};
-
-export type MutationSettStatusVurdertArgs = {
-    definisjonId: Scalars['String'];
-    generasjonId: Scalars['String'];
-    ident: Scalars['String'];
-    varselkode: Scalars['String'];
 };
 
 export type MutationSettVarselstatusAktivArgs = {
@@ -1796,25 +1781,8 @@ export type LeggTilKommentarMutation = {
     } | null;
 };
 
-export type SettStatusAktivMutationVariables = Exact<{
-    generasjonId: Scalars['String'];
-    varselkode: Scalars['String'];
-    ident: Scalars['String'];
-}>;
-
-export type SettStatusAktivMutation = { __typename?: 'Mutation'; settStatusAktiv: boolean };
-
-export type SettStatusVurdertMutationVariables = Exact<{
-    generasjonId: Scalars['String'];
-    definisjonId: Scalars['String'];
-    varselkode: Scalars['String'];
-    ident: Scalars['String'];
-}>;
-
-export type SettStatusVurdertMutation = { __typename?: 'Mutation'; settStatusVurdert: boolean };
-
 export type SettVarselstatusAktivMutationVariables = Exact<{
-    generasjonId: Scalars['String'];
+    generasjonIdString: Scalars['String'];
     varselkode: Scalars['String'];
     ident: Scalars['String'];
 }>;
@@ -1839,8 +1807,8 @@ export type SettVarselstatusAktivMutation = {
 };
 
 export type SettVarselstatusVurdertMutationVariables = Exact<{
-    generasjonId: Scalars['String'];
-    definisjonId: Scalars['String'];
+    generasjonIdString: Scalars['String'];
+    definisjonIdString: Scalars['String'];
     varselkode: Scalars['String'];
     ident: Scalars['String'];
 }>;
@@ -1849,8 +1817,8 @@ export type SettVarselstatusVurdertMutation = {
     __typename?: 'Mutation';
     settVarselstatusVurdert?: {
         __typename?: 'VarselDTO';
-        definisjonId: string;
         generasjonId: string;
+        definisjonId: string;
         kode: string;
         tittel: string;
         forklaring?: string | null;
