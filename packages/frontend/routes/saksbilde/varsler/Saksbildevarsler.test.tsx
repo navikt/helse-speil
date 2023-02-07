@@ -5,6 +5,8 @@ import { render, screen } from '@testing-library/react';
 
 import { Saksbildevarsler } from './Saksbildevarsler';
 
+jest.mock('@state/person');
+
 describe('Saksbildevarsler', () => {
     test('viser infovarsel når saken har gått til utbetaling', () => {
         render(<Saksbildevarsler periodState="tilUtbetaling" />);
@@ -66,7 +68,7 @@ describe('Saksbildevarsler', () => {
         render(
             <Saksbildevarsler
                 periodState="utbetalt"
-                varslerForGenerasjon={[
+                varsler={[
                     { definisjonId: 'EN_ID', generasjonId: 'EN_ID', kode: 'EN_KODE', tittel: 'Dette er en aktivitet' },
                     {
                         definisjonId: 'EN_ID',

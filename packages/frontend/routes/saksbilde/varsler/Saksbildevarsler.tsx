@@ -131,7 +131,7 @@ const beslutteroppgave = (
 interface SaksbildevarslerProps {
     periodState: PeriodState;
     oppgavereferanse?: Maybe<string>;
-    varslerForGenerasjon?: Maybe<Array<VarselDto>>;
+    varsler?: Maybe<Array<VarselDto>>;
     erTidligereSaksbehandler?: boolean;
     periodeMedBrukerutbetaling?: boolean;
     erBeslutteroppgave?: boolean;
@@ -163,7 +163,7 @@ function grupperVarsler(varslerForGenerasjon: Maybe<Array<VarselDto>> | undefine
 export const Saksbildevarsler = ({
     periodState,
     oppgavereferanse,
-    varslerForGenerasjon,
+    varsler,
     erTidligereSaksbehandler = false,
     periodeMedBrukerutbetaling = false,
     erBeslutteroppgave = false,
@@ -172,7 +172,7 @@ export const Saksbildevarsler = ({
     harDagOverstyringer,
     activePeriodTom,
 }: SaksbildevarslerProps) => {
-    const { vanligeVarsler }: GrupperteVarsler = grupperVarsler(varslerForGenerasjon);
+    const { vanligeVarsler }: GrupperteVarsler = grupperVarsler(varsler);
     const infoVarsler: VarselObject[] = [
         sendtTilBeslutter(erTidligereSaksbehandler && erBeslutteroppgave),
         ikkeTilgangUTS(periodeMedBrukerutbetaling && !utbetalingTilSykmeldt),
@@ -202,7 +202,7 @@ export const Saksbildevarsler = ({
                     <BodyShort>{melding}</BodyShort>
                 </Alert>
             ))}
-            {varslerForGenerasjon && <Varsler varsler={vanligeVarsler} />}
+            {varsler && <Varsler varsler={vanligeVarsler} />}
             {feilVarsler.map(({ grad, melding }, index) => (
                 <Alert className={styles.Varsel} variant={grad} key={index}>
                     <BodyShort>{melding}</BodyShort>
