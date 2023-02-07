@@ -1,3 +1,0 @@
-mutation SettStatusAktiv($generasjonId: String!, $varselkode: String!, $ident: String!) {
-    settStatusAktiv(generasjonId: $generasjonId, varselkode: $varselkode, ident: $ident)
-}

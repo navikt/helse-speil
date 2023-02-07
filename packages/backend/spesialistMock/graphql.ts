@@ -18,8 +18,6 @@ import type {
     BeregnetPeriode,
     MutationFeilregistrerKommentarArgs,
     MutationLeggTilKommentarArgs,
-    MutationSettStatusAktivArgs,
-    MutationSettStatusVurdertArgs,
     MutationSettVarselstatusAktivArgs,
     MutationSettVarselstatusVurdertArgs,
     Person,
@@ -109,9 +107,6 @@ const getResolvers = (): IResolvers => ({
         leggTilKommentar: (_, { tekst, notatId, saksbehandlerident }: MutationLeggTilKommentarArgs) => {
             return NotatMock.addKommentar({ tekst, notatId, saksbehandlerident });
         },
-        settStatusVurdert: (_, { generasjonId, definisjonId, varselkode, ident }: MutationSettStatusVurdertArgs) => {
-            return VarselMock.settStatusVurdert({ generasjonId, definisjonId, varselkode, ident });
-        },
         settVarselstatusVurdert: (
             _,
             { generasjonIdString, definisjonIdString, varselkode, ident }: MutationSettVarselstatusVurdertArgs
@@ -122,9 +117,6 @@ const getResolvers = (): IResolvers => ({
                 varselkode,
                 ident,
             });
-        },
-        settStatusAktiv: (_, { generasjonId, varselkode, ident }: MutationSettStatusAktivArgs) => {
-            return VarselMock.settStatusAktiv({ generasjonId, varselkode, ident });
         },
         settVarselstatusAktiv: (_, { generasjonIdString, varselkode, ident }: MutationSettVarselstatusAktivArgs) => {
             return VarselMock.settVarselstatusAktiv({ generasjonIdString, varselkode, ident });

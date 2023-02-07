@@ -2,8 +2,6 @@ import dayjs from 'dayjs';
 import { GraphQLError } from 'graphql';
 
 import {
-    MutationSettStatusAktivArgs,
-    MutationSettStatusVurdertArgs,
     MutationSettVarselstatusAktivArgs,
     MutationSettVarselstatusVurdertArgs,
     VarselDto,
@@ -27,49 +25,6 @@ export class VarselMock {
                 ? { ...varsel, definisjonId: varselMedEndring.definisjonId, vurdering: varselMedEndring.vurdering }
                 : varsel;
         });
-    };
-
-    static settStatusVurdert = ({
-        generasjonId,
-        definisjonId,
-        varselkode,
-        ident,
-    }: MutationSettStatusVurdertArgs): boolean => {
-        const { varselMedEndring, index } = this.findWithIndex(
-            this.varslerMedEndring,
-            (varselMedEndring) => varselMedEndring.generasjonId === generasjonId && varselMedEndring.kode === varselkode
-        );
-
-        if (varselMedEndring && varselMedEndring.vurdering?.status === Varselstatus.Vurdert) return false;
-
-        let varselMedVurdering: VarselDto = varselMedEndring
-            ? {
-                  ...varselMedEndring,
-                  vurdering: {
-                      status: Varselstatus.Vurdert,
-                      ident: ident,
-                      tidsstempel: dayjs().format(ISO_TIDSPUNKTFORMAT),
-                  },
-              }
-            : {
-                  definisjonId,
-                  generasjonId,
-                  kode: varselkode,
-                  tittel: '',
-                  forklaring: null,
-                  handling: null,
-                  vurdering: {
-                      status: Varselstatus.Vurdert,
-                      ident: ident,
-                      tidsstempel: dayjs().format(ISO_TIDSPUNKTFORMAT),
-                  },
-              };
-        if (index !== -1) {
-            this.varslerMedEndring[index] = varselMedVurdering;
-        } else {
-            this.varslerMedEndring.push(varselMedVurdering);
-        }
-        return true;
     };
 
     static settVarselstatusVurdert = ({
@@ -124,36 +79,6 @@ export class VarselMock {
             this.varslerMedEndring.push(varselMedVurdering);
         }
         return varselMedVurdering;
-    };
-
-    static settStatusAktiv = ({ generasjonId, varselkode, ident }: MutationSettStatusAktivArgs): boolean => {
-        const { varselMedEndring, index } = this.findWithIndex(
-            this.varslerMedEndring,
-            (varselMedEndring) => varselMedEndring.generasjonId === generasjonId && varselMedEndring.kode === varselkode
-        );
-        this.varslerMedEndring[index] = varselMedEndring
-            ? {
-                  ...varselMedEndring,
-                  vurdering: {
-                      status: Varselstatus.Aktiv,
-                      ident: ident,
-                      tidsstempel: dayjs().format(ISO_TIDSPUNKTFORMAT),
-                  },
-              }
-            : {
-                  definisjonId: '',
-                  generasjonId,
-                  kode: varselkode,
-                  tittel: '',
-                  forklaring: null,
-                  handling: null,
-                  vurdering: {
-                      status: Varselstatus.Aktiv,
-                      ident: ident,
-                      tidsstempel: dayjs().format(ISO_TIDSPUNKTFORMAT),
-                  },
-              };
-        return true;
     };
 
     static settVarselstatusAktiv = ({
