@@ -80,25 +80,39 @@ export const usePeriodForSkjæringstidspunkt = (skjæringstidspunkt: DateString)
         .shift() ?? null) as ActivePeriod | null;
 };
 
+const usePeriodIsInGeneration = (): number | null => {
+    const period = useActivePeriod();
+    const arbeidsgiver = useCurrentArbeidsgiver();
+
+    if (!period || !arbeidsgiver) {
+        return null;
+    }
+
+    return arbeidsgiver.generasjoner.findIndex((it) =>
+        it.perioder.some((periode) => isBeregnetPeriode(periode) && periode.id === period.id)
+    );
+};
+
 export const usePeriodForSkjæringstidspunktForArbeidsgiver = (
     skjæringstidspunkt: DateString | null,
     organisasjonsnummer: string
 ): ActivePeriod | null => {
     const arbeidsgiver = useArbeidsgiver(organisasjonsnummer);
+    const generasjon = usePeriodIsInGeneration();
 
-    if (!skjæringstidspunkt) return null;
+    if (!skjæringstidspunkt || generasjon === null) return null;
 
     const arbeidsgiverGhostPerioder = arbeidsgiver?.ghostPerioder.filter(
         (it) => it.skjaeringstidspunkt === skjæringstidspunkt
     );
 
-    if (!arbeidsgiver?.generasjoner[0]?.perioder && arbeidsgiverGhostPerioder?.length === 0) {
+    if (!arbeidsgiver?.generasjoner[generasjon]?.perioder && arbeidsgiverGhostPerioder?.length === 0) {
         return null;
     }
 
     return isGhostPeriode(arbeidsgiverGhostPerioder?.[0])
         ? arbeidsgiverGhostPerioder?.[0] ?? null
-        : ((arbeidsgiver?.generasjoner[0].perioder
+        : ((arbeidsgiver?.generasjoner[generasjon].perioder
               .filter((it) => it.skjaeringstidspunkt === skjæringstidspunkt)
               .filter((it) => isBeregnetPeriode(it))
               .sort((a, b) => new Date(a.fom).getTime() - new Date(b.fom).getTime())
