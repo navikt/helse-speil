@@ -14,7 +14,7 @@ import {
     Sykmelding,
     Vurdering,
 } from '@io/graphql';
-import { ISO_TIDSPUNKTFORMAT } from '@utils/date';
+import { ISO_DATOFORMAT, ISO_TIDSPUNKTFORMAT } from '@utils/date';
 import {
     isArbeidsforholdoverstyring,
     isBeregnetPeriode,
@@ -104,16 +104,30 @@ export const getDagoverstyringer = (
     arbeidsgiver: Arbeidsgiver
 ): Array<HendelseObject> => {
     const vurderingstidsstempel = getVurderingstidsstempelForTilsvarendePeriodeIFørsteGenerasjon(period, arbeidsgiver);
+    const førsteVurdertePeriodeForArbeidsgiver = getFørsteVurdertePeriodeForSkjæringstidspunktet(period, arbeidsgiver);
+    const sisteVurdertePeriodeForArbeidsgiverISkjæringstidspunktet = getSisteVurdertePeriodeForSkjæringstidspunktet(
+        period,
+        arbeidsgiver
+    );
 
-    return arbeidsgiver.overstyringer.filter(isDagoverstyring).map((overstyring) => ({
-        id: overstyring.hendelseId,
-        type: 'Dagoverstyring',
-        erRevurdering: dayjs(overstyring.timestamp).isAfter(vurderingstidsstempel),
-        saksbehandler: overstyring.saksbehandler.ident ?? overstyring.saksbehandler.navn,
-        timestamp: overstyring.timestamp,
-        begrunnelse: overstyring.begrunnelse,
-        dager: overstyring.dager,
-    }));
+    return arbeidsgiver.overstyringer
+        .filter(isDagoverstyring)
+        .filter(
+            (it) =>
+                dayjs(it.dager[0].dato, ISO_DATOFORMAT).isSameOrAfter(førsteVurdertePeriodeForArbeidsgiver?.fom) &&
+                dayjs(it.dager[0].dato, ISO_DATOFORMAT).isSameOrBefore(
+                    sisteVurdertePeriodeForArbeidsgiverISkjæringstidspunktet?.tom
+                )
+        )
+        .map((overstyring) => ({
+            id: overstyring.hendelseId,
+            type: 'Dagoverstyring',
+            erRevurdering: dayjs(overstyring.timestamp).isAfter(vurderingstidsstempel),
+            saksbehandler: overstyring.saksbehandler.ident ?? overstyring.saksbehandler.navn,
+            timestamp: overstyring.timestamp,
+            begrunnelse: overstyring.begrunnelse,
+            dager: overstyring.dager,
+        }));
 };
 
 const periodeErAttestert = (periode: FetchedBeregnetPeriode): boolean => {
@@ -140,15 +154,36 @@ export const getUtbetalingshendelse = (periode: FetchedBeregnetPeriode): Utbetal
     };
 };
 
+const getFørsteVurdertePeriodeForSkjæringstidspunktet = (
+    period: FetchedBeregnetPeriode,
+    arbeidsgiver: Arbeidsgiver
+): FetchedBeregnetPeriode | undefined => {
+    const førsteGenerasjon = arbeidsgiver.generasjoner[arbeidsgiver.generasjoner.length - 1];
+    return førsteGenerasjon.perioder
+        .filter(isBeregnetPeriode)
+        .filter((it) => it.skjaeringstidspunkt === period.skjaeringstidspunkt)
+        .pop();
+};
+
+const getSisteVurdertePeriodeForSkjæringstidspunktet = (
+    period: FetchedBeregnetPeriode,
+    arbeidsgiver: Arbeidsgiver
+): FetchedBeregnetPeriode | undefined => {
+    const sisteGenerasjon = arbeidsgiver.generasjoner[0];
+    return sisteGenerasjon.perioder
+        .filter(isBeregnetPeriode)
+        .filter((it) => it.skjaeringstidspunkt === period.skjaeringstidspunkt)
+        .shift();
+};
+
 const getOpprinneligVurderingForFørstePeriodeISkjæringstidspunkt = (
     period: FetchedBeregnetPeriode,
     arbeidsgiver: Arbeidsgiver
 ): Vurdering | null => {
-    const førsteGenerasjon = arbeidsgiver.generasjoner[arbeidsgiver.generasjoner.length - 1];
-    const førsteVurdertePeriodeForSkjæringstidspunktet = førsteGenerasjon.perioder
-        .filter(isBeregnetPeriode)
-        .filter((it) => it.skjaeringstidspunkt === period.skjaeringstidspunkt)
-        .pop();
+    const førsteVurdertePeriodeForSkjæringstidspunktet = getFørsteVurdertePeriodeForSkjæringstidspunktet(
+        period,
+        arbeidsgiver
+    );
 
     return førsteVurdertePeriodeForSkjæringstidspunktet?.utbetaling.vurdering ?? null;
 };
@@ -159,15 +194,18 @@ export const getInntektoverstyringer = (
 ): Array<InntektoverstyringhendelseObject> => {
     const vurdering = getOpprinneligVurderingForFørstePeriodeISkjæringstidspunkt(period, arbeidsgiver);
 
-    return arbeidsgiver.overstyringer.filter(isInntektoverstyring).map((overstyring: Inntektoverstyring) => ({
-        id: overstyring.hendelseId,
-        type: 'Inntektoverstyring',
-        erRevurdering: dayjs(overstyring.timestamp).isAfter(vurdering?.tidsstempel),
-        saksbehandler: overstyring.saksbehandler.ident ?? overstyring.saksbehandler.navn,
-        timestamp: overstyring.timestamp,
-        begrunnelse: overstyring.begrunnelse,
-        inntekt: overstyring.inntekt,
-    }));
+    return arbeidsgiver.overstyringer
+        .filter(isInntektoverstyring)
+        .filter((it) => it.inntekt.skjaeringstidspunkt === period.skjaeringstidspunkt)
+        .map((overstyring: Inntektoverstyring) => ({
+            id: overstyring.hendelseId,
+            type: 'Inntektoverstyring',
+            erRevurdering: dayjs(overstyring.timestamp).isAfter(vurdering?.tidsstempel),
+            saksbehandler: overstyring.saksbehandler.ident ?? overstyring.saksbehandler.navn,
+            timestamp: overstyring.timestamp,
+            begrunnelse: overstyring.begrunnelse,
+            inntekt: overstyring.inntekt,
+        }));
 };
 
 export const getArbeidsforholdoverstyringhendelser = (
