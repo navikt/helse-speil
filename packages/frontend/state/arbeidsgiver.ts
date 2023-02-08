@@ -98,7 +98,9 @@ export const usePeriodForSkjæringstidspunktForArbeidsgiver = (
     organisasjonsnummer: string
 ): ActivePeriod | null => {
     const arbeidsgiver = useArbeidsgiver(organisasjonsnummer);
-    const generasjon = usePeriodIsInGeneration();
+    const aktivPeriodeErIgenerasjon = usePeriodIsInGeneration();
+    const aktivPeriodeGhostGenerasjon = -1;
+    const generasjon = aktivPeriodeErIgenerasjon === aktivPeriodeGhostGenerasjon ? 0 : aktivPeriodeErIgenerasjon;
 
     if (!skjæringstidspunkt || generasjon === null) return null;
 
