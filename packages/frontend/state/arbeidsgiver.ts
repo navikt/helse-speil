@@ -118,7 +118,7 @@ export const usePeriodForSkjæringstidspunktForArbeidsgiver = (
               .filter((it) => it.skjaeringstidspunkt === skjæringstidspunkt)
               .filter((it) => isBeregnetPeriode(it))
               .sort((a, b) => new Date(a.fom).getTime() - new Date(b.fom).getTime())
-              .shift() ?? null) as ActivePeriod | null);
+              .pop() ?? null) as ActivePeriod | null);
 };
 
 export const useUtbetalingForSkjæringstidspunkt = (skjæringstidspunkt: DateString): Utbetaling | null => {
