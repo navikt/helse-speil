@@ -3,7 +3,7 @@ import React, { Dispatch, SetStateAction } from 'react';
 import { EditButton } from '@components/EditButton';
 import { PopoverHjelpetekst } from '@components/PopoverHjelpetekst';
 import { SortInfoikon } from '@components/ikoner/SortInfoikon';
-import { Arbeidsgiver, BeregnetPeriode, Vilkarsgrunnlagtype } from '@io/graphql';
+import { Arbeidsgiver, BeregnetPeriode, Utbetalingstatus, Vilkarsgrunnlagtype } from '@io/graphql';
 import { usePeriodForSkjæringstidspunktForArbeidsgiver } from '@state/arbeidsgiver';
 import { useCurrentPerson } from '@state/person';
 import { isGodkjent, isInCurrentGeneration, isTilGodkjenning, isWaiting, overlapper } from '@state/selectors/period';
@@ -19,6 +19,7 @@ export const perioderMedSkjæringstidspunktHarKunÉnFagsystemId = (
         arbeidsgiver.generasjoner[0]?.perioder
             .filter(isBeregnetPeriode)
             .filter((periode) => periode.skjaeringstidspunkt === skjæringstidspunkt)
+            .filter((periode) => periode.utbetaling.status !== Utbetalingstatus.Godkjentutenutbetaling)
             .reduce((ider, periode) => ider.add(periode.utbetaling.arbeidsgiverFagsystemId), new Set()).size === 1
     );
 };
