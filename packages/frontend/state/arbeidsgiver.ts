@@ -124,7 +124,9 @@ export const usePeriodForSkjæringstidspunktForArbeidsgiver = (
                   (periode) => isBeregnetPeriode(periode) && periode.periodetilstand === 'TilGodkjenning'
               )[0] ?? null;
     const erAktivPeriodeLikEllerFørPeriodeTilGodkjenning =
-        dayjs(aktivPeriode?.fom).isSameOrBefore(periodeTilGodkjenning?.fom) ?? false;
+        (dayjs(aktivPeriode?.fom).isSameOrBefore(periodeTilGodkjenning?.fom) &&
+            aktivPeriode?.skjaeringstidspunkt === periodeTilGodkjenning?.skjaeringstidspunkt) ??
+        false;
 
     return erAktivPeriodeLikEllerFørPeriodeTilGodkjenning
         ? (periodeTilGodkjenning as ActivePeriod | null)
