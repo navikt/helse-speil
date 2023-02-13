@@ -98,6 +98,7 @@ export const usePeriodForSkjæringstidspunktForArbeidsgiver = (
     organisasjonsnummer: string
 ): ActivePeriod | null => {
     const arbeidsgiver = useArbeidsgiver(organisasjonsnummer);
+    const aktivPeriode = useActivePeriod();
     const aktivPeriodeErIgenerasjon = usePeriodIsInGeneration();
     const aktivPeriodeGhostGenerasjon = -1;
     const generasjon = aktivPeriodeErIgenerasjon === aktivPeriodeGhostGenerasjon ? 0 : aktivPeriodeErIgenerasjon;
@@ -112,8 +113,21 @@ export const usePeriodForSkjæringstidspunktForArbeidsgiver = (
         return null;
     }
 
-    return isGhostPeriode(arbeidsgiverGhostPerioder?.[0])
-        ? arbeidsgiverGhostPerioder?.[0] ?? null
+    if (isGhostPeriode(arbeidsgiverGhostPerioder?.[0])) {
+        return arbeidsgiverGhostPerioder?.[0] ?? null;
+    }
+
+    const periodeTilGodkjenning =
+        generasjon !== 0
+            ? null
+            : arbeidsgiver?.generasjoner[generasjon]?.perioder.filter(
+                  (periode) => isBeregnetPeriode(periode) && periode.periodetilstand === 'TilGodkjenning'
+              )[0] ?? null;
+    const erAktivPeriodeLikEllerFørPeriodeTilGodkjenning =
+        dayjs(aktivPeriode?.fom).isSameOrBefore(periodeTilGodkjenning?.fom) ?? false;
+
+    return erAktivPeriodeLikEllerFørPeriodeTilGodkjenning
+        ? (periodeTilGodkjenning as ActivePeriod | null)
         : ((arbeidsgiver?.generasjoner[generasjon].perioder
               .filter((it) => it.skjaeringstidspunkt === skjæringstidspunkt)
               .filter((it) => isBeregnetPeriode(it))
