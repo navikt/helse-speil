@@ -59,6 +59,7 @@ export type Arbeidsforholdoverstyring = Overstyring & {
     __typename?: 'Arbeidsforholdoverstyring';
     begrunnelse: Scalars['String'];
     deaktivert: Scalars['Boolean'];
+    ferdigstilt: Scalars['Boolean'];
     forklaring: Scalars['String'];
     hendelseId: Scalars['String'];
     saksbehandler: Saksbehandler;
@@ -193,6 +194,7 @@ export type Dagoverstyring = Overstyring & {
     __typename?: 'Dagoverstyring';
     begrunnelse: Scalars['String'];
     dager: Array<OverstyrtDag>;
+    ferdigstilt: Scalars['Boolean'];
     hendelseId: Scalars['String'];
     saksbehandler: Saksbehandler;
     timestamp: Scalars['String'];
@@ -280,6 +282,7 @@ export type InntektFraAOrdningen = {
 export type Inntektoverstyring = Overstyring & {
     __typename?: 'Inntektoverstyring';
     begrunnelse: Scalars['String'];
+    ferdigstilt: Scalars['Boolean'];
     hendelseId: Scalars['String'];
     inntekt: OverstyrtInntekt;
     saksbehandler: Saksbehandler;
@@ -488,6 +491,7 @@ export enum Oppgavetype {
 
 export type Overstyring = {
     begrunnelse: Scalars['String'];
+    ferdigstilt: Scalars['Boolean'];
     hendelseId: Scalars['String'];
     saksbehandler: Saksbehandler;
     timestamp: Scalars['String'];
@@ -504,6 +508,7 @@ export type OverstyrtDag = {
 
 export type OverstyrtInntekt = {
     __typename?: 'OverstyrtInntekt';
+    begrunnelse: Scalars['String'];
     forklaring: Scalars['String'];
     fraManedligInntekt?: Maybe<Scalars['Float']>;
     fraRefusjonsopplysninger?: Maybe<Array<Refusjonsopplysning>>;

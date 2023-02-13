@@ -12,6 +12,7 @@ export const enDagoverstyring: OverridableConstructor<Dagoverstyring> = (overrid
         navn: 'En saksbehandler',
     },
     timestamp: '2020-01-01',
+    ferdigstilt: false,
     ...overrides,
 });
 
@@ -27,6 +28,7 @@ export const enArbeidsforholdoverstyring: OverridableConstructor<Arbeidsforholdo
     },
     skjaeringstidspunkt: '2020-01-01',
     timestamp: '2020-01-01',
+    ferdigstilt: false,
     ...overrides,
 });
 
@@ -41,11 +43,13 @@ export const enInntektoverstyring: OverridableConstructor<Inntektoverstyring> = 
         skjaeringstidspunkt: '2020-01-01',
         refusjonsopplysninger: [],
         fraRefusjonsopplysninger: [],
+        begrunnelse: 'En begrunnelse',
     },
     saksbehandler: {
         ident: 'A123456',
         navn: 'En saksbehandler',
     },
     timestamp: '2020-01-01',
+    ferdigstilt: false,
     ...overrides,
 });

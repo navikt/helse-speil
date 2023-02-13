@@ -323,13 +323,14 @@ query FetchPerson($fnr: String, $aktorId: String) {
                 }
             }
             overstyringer {
-                begrunnelse
                 hendelseId
                 saksbehandler {
                     ident
                     navn
                 }
                 timestamp
+                ferdigstilt
+                begrunnelse
                 __typename
                 ... on Dagoverstyring {
                     dager {
@@ -344,6 +345,7 @@ query FetchPerson($fnr: String, $aktorId: String) {
                     inntekt {
                         skjaeringstidspunkt
                         forklaring
+                        begrunnelse
                         manedligInntekt
                         fraManedligInntekt
                         refusjonsopplysninger {

@@ -33,12 +33,11 @@
                                 {
                                     "fom": "2022-08-01",
                                     "tom": "2022-08-20",
-                                    "belop": 30001,
+                                    "belop": 30001.1700000007,
                                     "meldingsreferanseId": "d6ebcc2f-5b46-48e6-899b-baa4e0a937f4"
                                 },
                                 {
                                     "fom": "2022-08-21",
-                                    "tom": null,
                                     "belop": 0.0,
                                     "meldingsreferanseId": "d6ebcc2f-5b46-48e6-899b-baa4e0a937f5"
                                 }
@@ -54,7 +53,7 @@
                             "omregnetArsinntekt": {
                                 "inntektFraAOrdningen": null,
                                 "belop": 360000,
-                                "manedsbelop": 30000,
+                                "manedsbelop": 30000.17000006,
                                 "kilde": "INNTEKTSMELDING"
                             },
                             "arbeidsgiver": "967170232",
@@ -81,7 +80,7 @@
                                     }
                                 ],
                                 "belop": 372000,
-                                "manedsbelop": 31000,
+                                "manedsbelop": 31000.12000000006,
                                 "kilde": "AORDNINGEN"
                             },
                             "arbeidsgiver": "839942907",
@@ -763,24 +762,73 @@
                             "__typename": "Inntektoverstyring",
                             "inntekt": {
                                 "skjaeringstidspunkt": "2022-09-01",
-                                "forklaring": "blabball",
+                                "forklaring": "blabball2",
+                                "begrunnelse": "Korrigert inntekt i inntektsmelding",
                                 "manedligInntekt": 31000,
                                 "fraManedligInntekt": 30000,
                                 "refusjonsopplysninger": [
                                     {
                                         "fom": "2022-09-01",
-                                        "tom": null,
+                                        "tom": "2022-09-03",
                                         "belop": 31000
                                     }
                                 ],
                                 "fraRefusjonsopplysninger": [
                                     {
                                         "fom": "2022-09-01",
-                                        "tom": null,
+                                        "tom": "2022-09-03",
                                         "belop": 31000
                                     }
                                 ]
-                            }
+                            },
+                            "ferdigstilt": false
+                        },
+                        {
+                            "begrunnelse": "Korrigert refusjon",
+                            "hendelseId": "1610ee09-0cfe-4605-8490-747cf9595619",
+                            "saksbehandler": {
+                                "ident": "G153334",
+                                "navn": "Grieg, Solveig"
+                            },
+                            "timestamp": "2022-11-01T10:28:50.338851",
+                            "__typename": "Inntektoverstyring",
+                            "inntekt": {
+                                "skjaeringstidspunkt": "2022-09-01",
+                                "forklaring": "blablablabla",
+                                "begrunnelse": "Korrigert refusjon",
+                                "manedligInntekt": 30000,
+                                "fraManedligInntekt": 30000,
+                                "refusjonsopplysninger": [
+                                    {
+                                        "fom": "2022-09-05",
+                                        "tom": null,
+                                        "belop": 31500
+                                    },
+                                    {
+                                        "fom": "2022-09-04",
+                                        "tom": "2022-09-05",
+                                        "belop": 31000
+                                    },
+                                    {
+                                        "fom": "2022-09-01",
+                                        "tom": "2022-09-03",
+                                        "belop": 31000
+                                    }
+                                ],
+                                "fraRefusjonsopplysninger": [
+                                    {
+                                        "fom": "2022-09-01",
+                                        "tom": "2022-09-03",
+                                        "belop": 30000
+                                    },
+                                    {
+                                        "fom": "2022-09-04",
+                                        "tom": "2022-09-05",
+                                        "belop": 31000
+                                    }
+                                ]
+                            },
+                            "ferdigstilt": false
                         }
                     ]
                 },

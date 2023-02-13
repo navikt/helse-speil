@@ -125,6 +125,7 @@ export const useTabelldagerMap = ({
                                 grad: dag.grad,
                                 type: getUtbetalingstabelldagtypeFromOverstyrtDag(dag),
                                 dato: dag.dato,
+                                ferdigstilt: overstyring.ferdigstilt,
                             },
                         ]),
                     });

@@ -22,7 +22,6 @@ export const Inntektoverstyringhendelse: React.FC<InntektoverstyringhendelseProp
     erRevurdering,
     saksbehandler,
     timestamp,
-    begrunnelse,
     inntekt,
 }) => {
     return (
@@ -39,7 +38,7 @@ export const Inntektoverstyringhendelse: React.FC<InntektoverstyringhendelseProp
                     <ExpandableHistorikkContent>
                         <div className={styles.Grid}>
                             <Bold>Begrunnelse </Bold>
-                            <BodyShort>{begrunnelse}</BodyShort>
+                            <BodyShort>{inntekt.begrunnelse}</BodyShort>
                             <Bold>Forklaring </Bold>
                             <BodyShort>{inntekt.forklaring}</BodyShort>
                             <Bold>Mnd. inntekt </Bold>
@@ -77,7 +76,7 @@ export const Inntektoverstyringhendelse: React.FC<InntektoverstyringhendelseProp
                     <ExpandableHistorikkContent>
                         <div className={styles.Grid}>
                             <Bold>Begrunnelse </Bold>
-                            <BodyShort>{begrunnelse}</BodyShort>
+                            <BodyShort>{inntekt.begrunnelse}</BodyShort>
                             <Bold>Forklaring</Bold>
                             <BodyShort>{inntekt.forklaring}</BodyShort>
                             <Bold>Refusjon </Bold>

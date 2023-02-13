@@ -75,6 +75,7 @@ describe('useTabelldagerMap', () => {
                     navn: 'et-navn',
                     ident: 'en-ident',
                 },
+                ferdigstilt: false,
             },
         ];
 

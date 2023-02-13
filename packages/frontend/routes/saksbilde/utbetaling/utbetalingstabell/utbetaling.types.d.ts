@@ -23,6 +23,7 @@ type OverstyringerPrDag = {
     type: Utbetalingstabelldagtype;
     dato: DateString;
     grad?: Maybe<number>;
+    ferdigstilt: boolean;
 };
 
 declare type UtbetalingstabellDag = {
