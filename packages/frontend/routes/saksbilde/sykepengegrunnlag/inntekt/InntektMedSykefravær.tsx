@@ -40,7 +40,7 @@ import { Refusjonsoversikt } from '../refusjon/Refusjonsoversikt';
 import { EditableInntekt } from './EditableInntekt';
 import { EndringsloggButton } from './EndringsloggButton';
 import { ReadOnlyInntekt } from './ReadOnlyInntekt';
-import { RedigerInntekt } from './RedigerInntekt';
+import { RedigerInntektOgRefusjon } from './RedigerInntektOgRefusjon';
 
 import styles from './Inntekt.module.css';
 
@@ -128,11 +128,10 @@ export const InntektMedSykefravær = ({
                 </div>
                 {inntektstype && vilkårsgrunnlagId ? (
                     kanRevurderes ? (
-                        <RedigerInntekt
+                        <RedigerInntektOgRefusjon
                             setEditing={setEditing}
                             editing={editing}
                             erRevurdering={erRevurdering}
-                            vilkårsgrunnlagId={vilkårsgrunnlagId}
                             skjæringstidspunkt={skjæringstidspunkt}
                             organisasjonsnummer={organisasjonsnummer}
                             arbeidsgiver={arbeidsgiver}

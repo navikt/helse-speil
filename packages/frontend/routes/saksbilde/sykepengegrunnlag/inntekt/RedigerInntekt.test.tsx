@@ -10,10 +10,10 @@ import { etVilkårsgrunnlagFraInfotrygd, etVilkårsgrunnlagFraSpleis } from '@te
 
 import {
     harVilkårsgrunnlagFraSpleis,
-    kanRedigereInnekt,
+    kanRedigereInntektEllerRefusjon,
     periodeErTilGodkjenningMedOverlappendeAvsluttetPeriode,
     perioderMedSkjæringstidspunktHarKunÉnFagsystemId,
-} from './RedigerInntekt';
+} from './RedigerInntektOgRefusjon';
 
 describe('perioderMedSkjæringstidspunktHarKunÉnFagsystemId', () => {
     it('returnerer true om alle perioder i siste generasjon hos en arbeidsgiver som deler gitt skjæringstidspunkt har samme fagsystem-ID', () => {
@@ -102,7 +102,9 @@ describe('kanRedigereInntekt', () => {
         const arbeidsgiver = enArbeidsgiver().medPerioder([periode]);
         const person = enPerson().medArbeidsgivere([arbeidsgiver]);
 
-        expect(kanRedigereInnekt(person as unknown as FetchedPerson, arbeidsgiver, periode, '')).toEqual(false);
+        expect(kanRedigereInntektEllerRefusjon(person as unknown as FetchedPerson, arbeidsgiver, periode)).toEqual(
+            false
+        );
     });
 
     it('returnerer false om perioden er til godkjenning med overlappende avsluttet periode', () => {
@@ -112,10 +114,12 @@ describe('kanRedigereInntekt', () => {
         const arbeidsgiver = enArbeidsgiver().medPerioder([periodeA, periodeB]);
         const person = enPerson().medArbeidsgivere([arbeidsgiver]);
 
-        expect(kanRedigereInnekt(person as unknown as FetchedPerson, arbeidsgiver, periodeA, '')).toEqual(false);
+        expect(kanRedigereInntektEllerRefusjon(person as unknown as FetchedPerson, arbeidsgiver, periodeA)).toEqual(
+            false
+        );
     });
 
-    it('returnerer false om vilkårsgrunnlaget ikke er fra spleis', () => {
+    it('returnerer true selv om vilkårsgrunnlaget ikke er fra spleis', () => {
         const id = nanoid();
         const vilkårsgrunnlag = etVilkårsgrunnlagFraInfotrygd({ id });
         const oppgave = enOppgave();
@@ -127,7 +131,9 @@ describe('kanRedigereInntekt', () => {
         const arbeidsgiver = enArbeidsgiver().medPerioder([periode]);
         const person = enPerson({ vilkarsgrunnlag: [vilkårsgrunnlag] }).medArbeidsgivere([arbeidsgiver]);
 
-        expect(kanRedigereInnekt(person as unknown as FetchedPerson, arbeidsgiver, periode, id)).toEqual(false);
+        expect(kanRedigereInntektEllerRefusjon(person as unknown as FetchedPerson, arbeidsgiver, periode)).toEqual(
+            true
+        );
     });
 
     it('returnerer false om perioder med samme skjæringstidspunkt inneholder andre fagsystem-IDer', () => {
@@ -145,6 +151,8 @@ describe('kanRedigereInntekt', () => {
         const arbeidsgiver = enArbeidsgiver().medPerioder([periodeA, periodeB]);
         const person = enPerson({ vilkarsgrunnlag: [vilkårsgrunnlag] }).medArbeidsgivere([arbeidsgiver]);
 
-        expect(kanRedigereInnekt(person as unknown as FetchedPerson, arbeidsgiver, periodeA, id)).toEqual(false);
+        expect(kanRedigereInntektEllerRefusjon(person as unknown as FetchedPerson, arbeidsgiver, periodeA)).toEqual(
+            false
+        );
     });
 });

@@ -3,6 +3,9 @@ import styled from '@emotion/styled';
 import React from 'react';
 import { useFormContext } from 'react-hook-form';
 
+import { FlexColumn } from '@components/Flex';
+import { PopoverHjelpetekst } from '@components/PopoverHjelpetekst';
+import { SortInfoikon } from '@components/ikoner/SortInfoikon';
 import { kanOverstyreRefusjonsopplysninger } from '@utils/featureToggles';
 
 const Input = styled.input<{ error?: boolean }>`
@@ -30,9 +33,10 @@ const Feilmelding = styled.label`
 
 interface MånedsbeløpInputProps {
     initialMånedsbeløp?: number;
+    skalDeaktiveres: boolean;
 }
 
-export const MånedsbeløpInput = ({ initialMånedsbeløp }: MånedsbeløpInputProps) => {
+export const MånedsbeløpInput = ({ initialMånedsbeløp, skalDeaktiveres }: MånedsbeløpInputProps) => {
     const form = useFormContext();
     const initialMånedsbeløpRounded =
         initialMånedsbeløp && Math.round((initialMånedsbeløp + Number.EPSILON) * 100) / 100;
@@ -55,19 +59,32 @@ export const MånedsbeløpInput = ({ initialMånedsbeløp }: MånedsbeløpInputP
 
     return (
         <>
-            <Input
-                id="manedsbelop"
-                ref={ref}
-                defaultValue={initialMånedsbeløpRounded}
-                error={form.formState.errors.manedsbelop?.message}
-                onBlur={(event) => {
-                    onBlur(event);
-                    form.trigger('manedsbelop');
-                }}
-                {...inputValidation}
-            />
-            {form.formState.errors.manedsbelop && (
-                <Feilmelding htmlFor="manedsbelop">{form.formState.errors.manedsbelop.message}</Feilmelding>
+            <FlexColumn>
+                <Input
+                    id="manedsbelop"
+                    ref={ref}
+                    defaultValue={initialMånedsbeløpRounded}
+                    error={form.formState.errors.manedsbelop?.message}
+                    onBlur={(event) => {
+                        onBlur(event);
+                        form.trigger('manedsbelop');
+                    }}
+                    disabled={skalDeaktiveres}
+                    {...inputValidation}
+                />
+                {form.formState.errors.manedsbelop && (
+                    <Feilmelding htmlFor="manedsbelop">{form.formState.errors.manedsbelop.message}</Feilmelding>
+                )}
+            </FlexColumn>
+            {skalDeaktiveres && (
+                <FlexColumn style={{ marginTop: '4px' }}>
+                    <PopoverHjelpetekst ikon={<SortInfoikon />}>
+                        <p>
+                            Det er ikke støtte for endring på månedsbeløp i saker som har vært delvis behandlet i
+                            infotrygd
+                        </p>
+                    </PopoverHjelpetekst>
+                </FlexColumn>
             )}
         </>
     );

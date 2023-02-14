@@ -9,7 +9,7 @@ import { Alert, BodyShort, Button, ErrorSummary, Loader } from '@navikt/ds-react
 import { Bold } from '@components/Bold';
 import { Endringstrekant } from '@components/Endringstrekant';
 import { ErrorMessage } from '@components/ErrorMessage';
-import { Flex, FlexColumn } from '@components/Flex';
+import { Flex } from '@components/Flex';
 import { OverstyringTimeoutModal } from '@components/OverstyringTimeoutModal';
 import { Arbeidsgiverrefusjon, Inntektskilde, OmregnetArsinntekt } from '@io/graphql';
 import type { OverstyrtInntektDTO, OverstyrtInntektOgRefusjonDTO, Refusjonsopplysning } from '@io/http';
@@ -346,9 +346,10 @@ export const EditableInntekt = ({
                     <div className={styles.Grid}>
                         <BodyShort>Månedsbeløp</BodyShort>
                         <Flex gap="1rem">
-                            <FlexColumn>
-                                <MånedsbeløpInput initialMånedsbeløp={omregnetÅrsinntekt.manedsbelop} />
-                            </FlexColumn>
+                            <MånedsbeløpInput
+                                initialMånedsbeløp={omregnetÅrsinntekt.manedsbelop}
+                                skalDeaktiveres={omregnetÅrsinntekt.kilde === 'INFOTRYGD'}
+                            />
                             <p
                                 className={classNames(
                                     styles.OpprinneligMånedsbeløp,

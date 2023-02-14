@@ -46,16 +46,14 @@ export const periodeErTilGodkjenningMedOverlappendeAvsluttetPeriode = (
         .some(isGodkjent);
 };
 
-export const kanRedigereInnekt = (
+export const kanRedigereInntektEllerRefusjon = (
     person: FetchedPerson,
     arbeidsgiver: Arbeidsgiver,
-    periode: FetchedBeregnetPeriode,
-    vilkårsgrunnlagId: string
+    periode: FetchedBeregnetPeriode
 ): boolean => {
     return (
         !isWaiting(periode) &&
         !periodeErTilGodkjenningMedOverlappendeAvsluttetPeriode(periode, person) &&
-        harVilkårsgrunnlagFraSpleis(person, vilkårsgrunnlagId) &&
         perioderMedSkjæringstidspunktHarKunÉnFagsystemId(arbeidsgiver, periode.skjaeringstidspunkt)
     );
 };
@@ -64,17 +62,15 @@ interface RedigerInntektProps {
     setEditing: Dispatch<SetStateAction<boolean>>;
     editing: boolean;
     erRevurdering: boolean;
-    vilkårsgrunnlagId: string;
     skjæringstidspunkt: DateString;
     organisasjonsnummer: string;
     arbeidsgiver: Arbeidsgiver;
 }
 
-export const RedigerInntekt = ({
+export const RedigerInntektOgRefusjon = ({
     setEditing,
     editing,
     erRevurdering,
-    vilkårsgrunnlagId,
     skjæringstidspunkt,
     organisasjonsnummer,
     arbeidsgiver,
@@ -87,7 +83,7 @@ export const RedigerInntekt = ({
 
     if (!isInCurrentGeneration(periode, arbeidsgiver)) return null;
 
-    return kanRedigereInnekt(person, arbeidsgiver, periode, vilkårsgrunnlagId) ? (
+    return kanRedigereInntektEllerRefusjon(person, arbeidsgiver, periode) ? (
         <EditButton
             isOpen={editing}
             openText="Avbryt"
