@@ -218,7 +218,7 @@ export const EditableInntekt = ({
                 ...metadata,
                 begrunnelse: begrunnelse.forklaring,
                 forklaring,
-                månedligInntekt: Number.parseFloat(manedsbelop),
+                månedligInntekt: isNaN(manedsbelop) ? omregnetÅrsinntekt.manedsbelop : Number.parseFloat(manedsbelop),
                 fraMånedligInntekt: omregnetÅrsinntekt.manedsbelop,
                 ...(begrunnelse.subsumsjon?.paragraf && {
                     subsumsjon: {
@@ -240,7 +240,9 @@ export const EditableInntekt = ({
                         organisasjonsnummer: metadata.organisasjonsnummer,
                         begrunnelse: begrunnelse.forklaring,
                         forklaring: forklaring,
-                        månedligInntekt: Number.parseFloat(manedsbelop),
+                        månedligInntekt: isNaN(manedsbelop)
+                            ? omregnetÅrsinntekt.manedsbelop
+                            : Number.parseFloat(manedsbelop),
                         fraMånedligInntekt: omregnetÅrsinntekt.manedsbelop,
                         refusjonsopplysninger: refusjonsopplysninger ?? [],
                         fraRefusjonsopplysninger: metadata.fraRefusjonsopplysninger,
@@ -272,7 +274,7 @@ export const EditableInntekt = ({
             );
 
         if (
-            omregnetÅrsinntekt.manedsbelop.toString() === values?.manedsbelop &&
+            (omregnetÅrsinntekt.manedsbelop.toString() === values?.manedsbelop || isNaN(values?.manedsbelop)) &&
             JSON.stringify(refusjonsopplysninger) === JSON.stringify(metadata.fraRefusjonsopplysninger)
         ) {
             e.preventDefault();

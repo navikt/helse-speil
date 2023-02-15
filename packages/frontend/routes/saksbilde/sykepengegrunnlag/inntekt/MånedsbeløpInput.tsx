@@ -44,6 +44,7 @@ export const MånedsbeløpInput = ({ initialMånedsbeløp, skalDeaktiveres }: M�
     const isNumeric = (input: string) => /^\d+(\.\d{1,2})?$/.test(input);
 
     const { ref, onBlur, ...inputValidation } = form.register('manedsbelop', {
+        disabled: skalDeaktiveres,
         required: 'Månedsbeløp mangler',
         min: { value: 0, message: 'Månedsbeløp må være 0 eller større' },
         validate: {
@@ -69,7 +70,6 @@ export const MånedsbeløpInput = ({ initialMånedsbeløp, skalDeaktiveres }: M�
                         onBlur(event);
                         form.trigger('manedsbelop');
                     }}
-                    disabled={skalDeaktiveres}
                     {...inputValidation}
                 />
                 {form.formState.errors.manedsbelop && (
