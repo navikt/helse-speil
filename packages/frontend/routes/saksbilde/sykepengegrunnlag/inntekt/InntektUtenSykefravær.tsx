@@ -108,11 +108,11 @@ const useGhostInntektKanOverstyres = (skjæringstidspunkt: DateString, organisas
 
     const periodeTilGodkjenning = maybePeriodeTilGodkjenning(person, period.skjaeringstidspunkt);
 
-    const harIngenUtbetaltePerioder = harIngenUtbetaltePerioderFor(person, period.skjaeringstidspunkt);
+    const harUtbetaltePerioder = !harIngenUtbetaltePerioderFor(person, period.skjaeringstidspunkt);
 
     const harIngenPerioderTilBeslutter = harIngenPerioderTilBeslutterFor(person, period.skjaeringstidspunkt);
 
-    return harIngenUtbetaltePerioder && harIngenPerioderTilBeslutter && periodeTilGodkjenning !== undefined;
+    return (harUtbetaltePerioder || periodeTilGodkjenning !== null) && harIngenPerioderTilBeslutter;
 };
 
 const endreInntektUtenSykefraværBegrunnelser: BegrunnelseForOverstyring[] = [
@@ -159,10 +159,15 @@ export const InntektUtenSykefravær = ({
 }: InntektUtenSykefraværProps) => {
     const [editingInntekt, setEditingInntekt] = useState(false);
     const [endret, setEndret] = useState(false);
+    const person = useCurrentPerson();
 
     const arbeidsforholdKanOverstyres = useArbeidsforholdKanOverstyres(skjæringstidspunkt, organisasjonsnummer);
     const ghostInntektKanOverstyres = useGhostInntektKanOverstyres(skjæringstidspunkt, organisasjonsnummer);
     const { arbeidsforholdendringer } = useEndringerForPeriode(organisasjonsnummer);
+
+    if (!person) return null;
+
+    const erRevurdering = maybePeriodeTilGodkjenning(person, skjæringstidspunkt) === null;
 
     return (
         <div
@@ -191,7 +196,11 @@ export const InntektUtenSykefravær = ({
                     <Kilde type="AINNTEKT">AA</Kilde>
                 </div>
                 {vilkårsgrunnlagId && ghostInntektKanOverstyres && !erDeaktivert && (
-                    <RedigerGhostInntekt setEditing={setEditingInntekt} editing={editingInntekt} />
+                    <RedigerGhostInntekt
+                        erRevurdering={erRevurdering}
+                        setEditing={setEditingInntekt}
+                        editing={editingInntekt}
+                    />
                 )}
             </div>
             <Flex alignItems="center">
