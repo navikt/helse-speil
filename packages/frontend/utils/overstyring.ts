@@ -1,4 +1,3 @@
-import { Inntektstype } from '@io/graphql';
 import { getArbeidsgiverWithPeriod } from '@state/selectors/arbeidsgiver';
 import { getOverlappendePerioder, isForkastet, isGodkjent } from '@state/selectors/period';
 import { defaultUtbetalingToggles } from '@utils/featureToggles';
@@ -15,16 +14,6 @@ type OverstyringValidationError = {
 };
 
 type OverstyringValidation = OverstyringValidationSuccess | OverstyringValidationError;
-
-const validateInntektstype = (periode: FetchedBeregnetPeriode): void => {
-    if (periode.inntektstype === Inntektstype.Flerearbeidsgivere) {
-        throw {
-            value: false,
-            reason: 'Vi støtter ikke overstyring ved flere arbeidsgivere',
-            technical: 'Flere arbeidsgivere',
-        };
-    }
-};
 
 const validateTilstand = (periode: FetchedBeregnetPeriode): void => {
     if (!['tilGodkjenning', 'avslag', 'ingenUtbetaling', 'utbetalingFeilet'].includes(getPeriodState(periode))) {
@@ -47,7 +36,6 @@ const validateBeslutter = (periode: FetchedBeregnetPeriode): void => {
 export const kanOverstyres = (periode: FetchedBeregnetPeriode): OverstyringValidation => {
     try {
         validateBeslutter(periode);
-        validateInntektstype(periode);
         validateTilstand(periode);
     } catch (error) {
         return error as OverstyringValidationError;

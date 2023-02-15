@@ -11,15 +11,14 @@ import { kanOverstyreRevurdering, kanOverstyres, kanRevurderes } from '@utils/ov
 jest.mock('@utils/featureToggles');
 
 describe('kanOverstyres', () => {
-    it('returnerer false om personen har flere arbeidsgivere', () => {
-        const periode = enBeregnetPeriode({ inntektstype: Inntektstype.Flerearbeidsgivere });
-        const expected = {
-            value: false,
-            reason: 'Vi støtter ikke overstyring ved flere arbeidsgivere',
-            technical: 'Flere arbeidsgivere',
-        };
+    it('returnerer true om personen har flere arbeidsgivere', () => {
+        const periode = enBeregnetPeriode({
+            periodetilstand: Periodetilstand.TilGodkjenning,
+            oppgave: enOppgave(),
+            inntektstype: Inntektstype.Flerearbeidsgivere,
+        });
 
-        expect(kanOverstyres(periode)).toEqual(expected);
+        expect(kanOverstyres(periode)).toEqual({ value: true });
     });
 
     it('returnerer false om perioden venter', () => {
