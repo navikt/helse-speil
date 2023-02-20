@@ -91,3 +91,10 @@
     --period-border-color: var(--navds-global-color-gray-600);
     --period-icon-color: var(--navds-global-color-gray-600);
 }
+
+.Period.waiting {
+    --period-background-color: var(--navds-global-color-lightblue-50);
+    --period-hover-color: var(--navds-global-color-lightblue-100);
+    --period-border-color: var(--navds-global-color-lightblue-700);
+    --period-icon-color: var(--navds-global-color-gray-900);
+}
