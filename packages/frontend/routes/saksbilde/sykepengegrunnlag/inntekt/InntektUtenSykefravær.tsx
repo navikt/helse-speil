@@ -14,7 +14,6 @@ import { Arbeidsgiver, BeregnetPeriode, Inntektskilde, Maybe, OmregnetArsinntekt
 import { Refusjonsopplysning } from '@io/http';
 import { useEndringerForPeriode, usePeriodForSkjæringstidspunktForArbeidsgiver } from '@state/arbeidsgiver';
 import { useCurrentPerson } from '@state/person';
-import { kanOverstyreRefusjonsopplysninger } from '@utils/featureToggles';
 import { kildeForkortelse } from '@utils/inntektskilde';
 import { isBeregnetPeriode, isGhostPeriode } from '@utils/typeguards';
 
@@ -230,11 +229,7 @@ export const InntektUtenSykefravær = ({
                     arbeidsforholdErDeaktivert={erDeaktivert}
                 />
             )}
-            {refusjon &&
-                refusjon.length !== 0 &&
-                ((kanOverstyreRefusjonsopplysninger && !editingInntekt) || !kanOverstyreRefusjonsopplysninger) && (
-                    <Refusjonsoversikt refusjon={refusjon} />
-                )}
+            {refusjon && refusjon.length !== 0 && !editingInntekt && <Refusjonsoversikt refusjon={refusjon} />}
         </div>
     );
 };

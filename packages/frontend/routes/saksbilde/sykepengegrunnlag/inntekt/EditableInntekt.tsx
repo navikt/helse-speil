@@ -25,7 +25,7 @@ import { useOpptegnelser, useSetOpptegnelserPollingRate } from '@state/opptegnel
 import { useCurrentPerson } from '@state/person';
 import { useAddToast, useRemoveToast } from '@state/toasts';
 import { ISO_DATOFORMAT } from '@utils/date';
-import { inntektOgRefusjonSteg3, kanOverstyreRefusjonsopplysninger } from '@utils/featureToggles';
+import { inntektOgRefusjonSteg3 } from '@utils/featureToggles';
 import { somPenger, toKronerOgØre } from '@utils/locale';
 import { isArbeidsgiver, isBeregnetPeriode, isGhostPeriode, isPerson } from '@utils/typeguards';
 
@@ -261,7 +261,7 @@ export const EditableInntekt = ({
     };
 
     const validateRefusjon = (e: FormEvent) => {
-        if (!kanOverstyreRefusjonsopplysninger || isGhostPeriode(period)) {
+        if (isGhostPeriode(period)) {
             form.handleSubmit(confirmChanges);
             return;
         }
@@ -380,7 +380,7 @@ export const EditableInntekt = ({
                             <Bold>{somPenger(omregnetÅrsinntekt.belop)}</Bold>
                         </div>
                     </div>
-                    {kanOverstyreRefusjonsopplysninger && isBeregnetPeriode(period) && (
+                    {isBeregnetPeriode(period) && (
                         <Refusjon fraRefusjonsopplysninger={metadata.fraRefusjonsopplysninger}></Refusjon>
                     )}
                     <Begrunnelser begrunnelser={begrunnelser} />
@@ -392,7 +392,7 @@ export const EditableInntekt = ({
                             <div className={styles.Feiloppsummering}>
                                 <ErrorSummary ref={feiloppsummeringRef} heading="Skjemaet inneholder følgende feil:">
                                     {Object.entries(form.formState.errors)
-                                        .filter(([id, error]) => error !== undefined)
+                                        .filter(([_, error]) => error !== undefined)
                                         .map(([id, error]) => {
                                             if (id !== 'refusjonsopplysninger') {
                                                 return (

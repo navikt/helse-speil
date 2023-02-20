@@ -6,7 +6,6 @@ import { useFormContext } from 'react-hook-form';
 import { FlexColumn } from '@components/Flex';
 import { PopoverHjelpetekst } from '@components/PopoverHjelpetekst';
 import { SortInfoikon } from '@components/ikoner/SortInfoikon';
-import { kanOverstyreRefusjonsopplysninger } from '@utils/featureToggles';
 
 const Input = styled.input<{ error?: boolean }>`
     height: 2rem;
@@ -49,10 +48,6 @@ export const MånedsbeløpInput = ({ initialMånedsbeløp, skalDeaktiveres }: M�
         min: { value: 0, message: 'Månedsbeløp må være 0 eller større' },
         validate: {
             måVæreNumerisk: (value) => isNumeric(value) || 'Månedsbeløp må være et beløp',
-            måVæreEnEndring: (value) =>
-                kanOverstyreRefusjonsopplysninger ||
-                Number.parseFloat(value) !== initialMånedsbeløpRounded ||
-                'Kan ikke være likt gammelt beløp',
             måVæreMindreEnn: (value) => value < 10000000 || 'Systemet håndterer ikke månedsbeløp over 10 millioner',
         },
         setValueAs: (value) => value.replaceAll(' ', '').replaceAll(',', '.'),

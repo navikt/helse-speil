@@ -57,7 +57,4 @@ export const harBeslutterrolle: boolean = extractGroups().includes(groupIdForBes
 
 export const toggleMeny: boolean = erLocal() || erDev();
 
-export const kanOverstyreRefusjonsopplysninger: boolean =
-    erLocal() || erDev() || erSupersaksbehandler() || erCoach() || erFagkoordinator();
-
 export const inntektOgRefusjonSteg3: boolean = erLocal() || erDev() || erSupersaksbehandler();

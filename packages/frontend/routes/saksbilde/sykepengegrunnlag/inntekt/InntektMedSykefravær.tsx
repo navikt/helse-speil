@@ -31,7 +31,7 @@ import {
 } from '@state/arbeidsgiver';
 import { useActivePeriod } from '@state/periode';
 import { isForkastet } from '@state/selectors/period';
-import { kanOverstyreRefusjonsopplysninger, overstyrInntektEnabled } from '@utils/featureToggles';
+import { overstyrInntektEnabled } from '@utils/featureToggles';
 import { kildeForkortelse } from '@utils/inntektskilde';
 import { isBeregnetPeriode } from '@utils/typeguards';
 
@@ -163,11 +163,7 @@ export const InntektMedSykefravær = ({
             ) : (
                 <ReadOnlyInntekt omregnetÅrsinntekt={omregnetÅrsinntekt} deaktivert={erDeaktivert} />
             )}
-            {refusjon &&
-                refusjon.length !== 0 &&
-                ((kanOverstyreRefusjonsopplysninger && !editing) || !kanOverstyreRefusjonsopplysninger) && (
-                    <Refusjonsoversikt refusjon={refusjon} />
-                )}
+            {refusjon && refusjon.length !== 0 && !editing && <Refusjonsoversikt refusjon={refusjon} />}
             {inntektFraAOrdningen && !editing && (
                 <SisteTreMånedersInntekt inntektFraAOrdningen={inntektFraAOrdningen} />
             )}
