@@ -74,7 +74,7 @@ interface SpleisPopoverProps extends DatePeriod {
     state: PeriodState;
 }
 
-const BeregnetPopover: React.FC<SpleisPopoverProps> = ({ period, state, fom, tom }) => {
+export const BeregnetPopover: React.FC<SpleisPopoverProps> = ({ period, state, fom, tom }) => {
     const dayTypes = groupDayTypes(period);
 
     const arbeidsgiverperiode = getDayTypesRender(Utbetalingsdagtype.Arbeidsgiverperiodedag, dayTypes);
@@ -90,7 +90,10 @@ const BeregnetPopover: React.FC<SpleisPopoverProps> = ({ period, state, fom, tom
                     <BodyShort size="small">Mottaker:</BodyShort>
                     <BodyShort size="small">
                         {period.utbetaling.arbeidsgiverNettoBelop !== 0 && 'Arbeidsgiver'}
-                        {period.utbetaling.personNettoBelop !== 0 && ' / Sykmeldt'}
+                        {period.utbetaling.arbeidsgiverNettoBelop !== 0 &&
+                            period.utbetaling.personNettoBelop !== 0 &&
+                            ' / '}
+                        {period.utbetaling.personNettoBelop !== 0 && 'Sykmeldt'}
                     </BodyShort>
                 </>
             )}
