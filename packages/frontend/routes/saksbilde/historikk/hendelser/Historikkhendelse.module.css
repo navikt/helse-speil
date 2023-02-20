@@ -1,0 +1,15 @@
+.Innrammet {
+    width: 20px;
+    height: 16px;
+    border: 1px solid var(--navds-global-color-gray-700);
+    background: var(--navds-global-color-gray-100);
+    border-radius: 3px;
+}
+
+.Attestert {
+    padding: 0.08rem;
+}
+
+.TilGodkjenning {
+    padding: 0.015rem;
+}

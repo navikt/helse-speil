@@ -15,7 +15,8 @@
 .IconContainer {
     display: flex;
     align-items: center;
-    height: 24px;
+    height: 14px; /* styrer vertikal sentrering */
+    margin-top: 5px;
     width: var(--icon-container-width);
 }
 

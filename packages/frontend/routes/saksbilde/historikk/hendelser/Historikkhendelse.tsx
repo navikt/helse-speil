@@ -1,3 +1,4 @@
+import classNames from 'classnames';
 import React from 'react';
 
 import { Cancel, Refresh, Send, Success } from '@navikt/ds-icons';
@@ -6,6 +7,8 @@ import { PeriodehistorikkType } from '@io/graphql';
 
 import { Hendelse } from './Hendelse';
 import { HendelseDate } from './HendelseDate';
+
+import styles from './Historikkhendelse.module.css';
 
 const getTitle = (type: PeriodehistorikkType): string => {
     switch (type) {
@@ -25,16 +28,16 @@ const getTitle = (type: PeriodehistorikkType): string => {
 const getIcon = (type: PeriodehistorikkType): ReactNode => {
     switch (type) {
         case PeriodehistorikkType.TotrinnsvurderingAttestert: {
-            return <Success height={20} width={20} />;
+            return <Success className={classNames(styles.Innrammet, styles.Attestert)} />;
         }
         case PeriodehistorikkType.TotrinnsvurderingRetur: {
-            return <Cancel height={20} width={20} />;
+            return <Cancel className={classNames(styles.Innrammet)} />;
         }
         case PeriodehistorikkType.TotrinnsvurderingTilGodkjenning: {
-            return <Send height={20} width={20} />;
+            return <Send className={classNames(styles.Innrammet, styles.TilGodkjenning)} />;
         }
         case PeriodehistorikkType.VedtaksperiodeReberegnet: {
-            return <Refresh height={20} width={20} />;
+            return <Refresh className={classNames(styles.Innrammet)} />;
         }
     }
 };

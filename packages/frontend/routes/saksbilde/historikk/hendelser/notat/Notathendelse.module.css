@@ -2,6 +2,27 @@
     color: var(--navds-semantic-color-feedback-danger-text);
 }
 
+.Innrammet {
+    width: 20px;
+    height: 16px;
+    border: 1px solid var(--navds-global-color-gray-700);
+    background: var(--navds-global-color-gray-100);
+    border-radius: 3px;
+}
+
+.Retur {
+    transform: rotateY(0.5turn);
+    padding: 0.015rem;
+}
+
+.LagtPaaVent {
+    padding: 0.09rem;
+}
+
+.InnrammetNotat {
+    padding: 0.12rem;
+}
+
 .Notat {
     white-space: pre-wrap;
     overflow: hidden;

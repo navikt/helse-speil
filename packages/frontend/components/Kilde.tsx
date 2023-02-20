@@ -50,8 +50,8 @@ const saksbehandlerStyle = (props: KildeProps) =>
         color: var(--navds-semantic-color-text);
         border-color: var(--navds-global-color-gray-700);
         svg {
-            width: 9px;
-            height: 9px;
+            width: 10px;
+            height: 10px;
         }
     `;
 
@@ -61,13 +61,14 @@ export const Kilde = styled.div<KildeProps>`
     align-items: center;
     font-size: 12px;
     letter-spacing: 0.4px;
+    margin-right: -0.4px;
     border-radius: 3px;
     border-style: solid;
     border-width: 1px;
     background-color: transparent;
     color: var(--navds-semantic-color-interaction-primary);
     width: 1.25rem;
-    height: 0.875rem;
+    height: 1rem;
     line-height: 8px;
     box-sizing: border-box;
 

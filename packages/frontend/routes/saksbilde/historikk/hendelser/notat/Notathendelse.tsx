@@ -2,7 +2,7 @@ import classNames from 'classnames';
 import { AnimatePresence, motion } from 'framer-motion';
 import React, { useReducer } from 'react';
 
-import { DialogDots } from '@navikt/ds-icons';
+import { Send, SpeechBubble, StopWatch } from '@navikt/ds-icons';
 
 import { putFeilregistrertNotat } from '@io/http';
 import { useInnloggetSaksbehandler } from '@state/authentication';
@@ -127,8 +127,16 @@ export const Notathendelse: React.FC<NotathendelseProps> = ({
         }
     };
 
+    const icon =
+        notattype === 'PaaVent' ? (
+            <StopWatch className={classNames(styles.Innrammet, styles.LagtPaaVent)} />
+        ) : notattype === 'Retur' ? (
+            <Send className={classNames(styles.Innrammet, styles.Retur)} />
+        ) : (
+            <SpeechBubble className={classNames(styles.Innrammet, styles.InnrammetNotat)} />
+        );
     return (
-        <Hendelse title={title} icon={<DialogDots width={20} height={20} />}>
+        <Hendelse title={title} icon={icon}>
             {!feilregistrert && innloggetSaksbehandler.oid === saksbehandlerOid && (
                 <HendelseDropdownMenu feilregistrerAction={feilregistrerNotat} isFetching={state.isFetching} />
             )}
