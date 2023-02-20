@@ -79,3 +79,7 @@
     background-color: var(--nav-ghost-deaktivert-bakgrunn);
     border: 1px solid var(--nav-ghost-deaktivert-border);
 }
+
+.Kildeikon {
+    margin-left: 0.5rem;
+}

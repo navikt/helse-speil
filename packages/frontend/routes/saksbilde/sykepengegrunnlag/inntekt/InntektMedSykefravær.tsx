@@ -148,7 +148,9 @@ export const InntektMedSykefravær = ({
                 {endret || omregnetÅrsinntekt?.kilde === Inntektskilde.Saksbehandler ? (
                     <EndringsloggButton endringer={inntektsendringer} />
                 ) : (
-                    <Kilde type={omregnetÅrsinntekt?.kilde}>{kildeForkortelse(omregnetÅrsinntekt?.kilde)}</Kilde>
+                    <Kilde type={omregnetÅrsinntekt?.kilde} className={styles.Kildeikon}>
+                        {kildeForkortelse(omregnetÅrsinntekt?.kilde)}
+                    </Kilde>
                 )}
             </Flex>
             {editing ? (

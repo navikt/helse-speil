@@ -25,7 +25,11 @@
 
 .InfoIcon {
     min-height: 24px;
-    margin-left: 1rem;
+    margin-left: 0.5rem;
+}
+
+.Kildeikon {
+    margin-left: 0.5rem;
 }
 
 .ArbeidsforholdInfoText {

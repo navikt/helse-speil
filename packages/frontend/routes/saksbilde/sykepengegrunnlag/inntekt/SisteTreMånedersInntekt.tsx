@@ -40,7 +40,9 @@ export const SisteTreMånedersInntekt = ({
                         </p>
                     </PopoverHjelpetekst>
                 ) : (
-                    <Kilde type={Inntektskilde.Aordningen}>{kildeForkortelse(Inntektskilde.Aordningen)}</Kilde>
+                    <Kilde type={Inntektskilde.Aordningen} className={styles.Kildeikon}>
+                        {kildeForkortelse(Inntektskilde.Aordningen)}
+                    </Kilde>
                 )}
             </Flex>
             <div className={styles.Grid}>
