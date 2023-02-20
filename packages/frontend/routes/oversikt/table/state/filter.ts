@@ -1,7 +1,6 @@
 import { atom, selector, useRecoilValue, useSetRecoilState } from 'recoil';
 
 import { OppgaveForOversiktsvisning, Oppgavetype, Periodetype } from '@io/graphql';
-import { utbetalingTilSykmeldt } from '@utils/featureToggles';
 
 import { TabType, tabState } from '../../Tabs';
 
@@ -131,7 +130,7 @@ const defaultFilters: Filter<OppgaveForOversiktsvisning>[] = [
         function: (oppgave: OppgaveForOversiktsvisning) => oppgave.type === Oppgavetype.DelvisRefusjon,
         column: 2,
     },
-].filter((item) => utbetalingTilSykmeldt || (item.label != 'Utb. sykmeldt' && item.label != 'Delvis refusjon'));
+];
 
 const storageKeyForFilters = (tab: TabType) => 'filtereForTab_' + tab;
 

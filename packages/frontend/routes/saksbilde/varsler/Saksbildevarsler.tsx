@@ -4,7 +4,6 @@ import React from 'react';
 import { Alert, BodyShort } from '@navikt/ds-react';
 
 import { Maybe, Overstyring, VarselDto } from '@io/graphql';
-import { utbetalingTilSykmeldt } from '@utils/featureToggles';
 import { isArbeidsforholdoverstyring, isDagoverstyring, isInntektoverstyring } from '@utils/typeguards';
 
 import { Varsler } from './Varsler';
@@ -19,13 +18,6 @@ type VarselObject = {
 const sendtTilBeslutter = (erBeslutteroppgaveOgErTidligereSaksbehandler: boolean): VarselObject | null => {
     if (erBeslutteroppgaveOgErTidligereSaksbehandler) {
         return { grad: 'info', melding: 'Saken er sendt til beslutter' };
-    }
-    return null;
-};
-
-const ikkeTilgangUTS = (ikkeTilgangUTS: boolean): VarselObject | null => {
-    if (ikkeTilgangUTS) {
-        return { grad: 'info', melding: 'Du har ikke tilgang til å behandle perioder med utbetaling til sykmeldt' };
     }
     return null;
 };
@@ -133,7 +125,6 @@ interface SaksbildevarslerProps {
     oppgavereferanse?: Maybe<string>;
     varsler?: Maybe<Array<VarselDto>>;
     erTidligereSaksbehandler?: boolean;
-    periodeMedBrukerutbetaling?: boolean;
     erBeslutteroppgave?: boolean;
     harVurderLovvalgOgMedlemskapVarsel?: boolean;
     endringerEtterNyesteUtbetalingPåPerson?: Maybe<Array<Overstyring>>;
@@ -165,7 +156,6 @@ export const Saksbildevarsler = ({
     oppgavereferanse,
     varsler,
     erTidligereSaksbehandler = false,
-    periodeMedBrukerutbetaling = false,
     erBeslutteroppgave = false,
     harVurderLovvalgOgMedlemskapVarsel,
     endringerEtterNyesteUtbetalingPåPerson,
@@ -175,7 +165,6 @@ export const Saksbildevarsler = ({
     const { vanligeVarsler }: GrupperteVarsler = grupperVarsler(varsler);
     const infoVarsler: VarselObject[] = [
         sendtTilBeslutter(erTidligereSaksbehandler && erBeslutteroppgave),
-        ikkeTilgangUTS(periodeMedBrukerutbetaling && !utbetalingTilSykmeldt),
         tilstandinfo(periodState),
         utbetaling(periodState),
         vedtaksperiodeVenter(periodState),
