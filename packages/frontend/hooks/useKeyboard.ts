@@ -26,7 +26,9 @@ export const useKeyboard = (actions: { [key: string]: Action }) => {
         if (!action || shouldDisableKeyboard() || (action?.ignoreIfModifiers && hasActiveModifiers)) {
             return;
         }
-        event.code === 'KeyC' ? event.altKey && actions[event.code]?.action() : actions[event.code]?.action();
+        event.code === 'KeyC'
+            ? event.altKey && !event.metaKey && actions[event.code]?.action() // Dette kunne vel ha vært løst litt mer elegant. For eksempel ved at man spesifiserer modifier keys sammen med aktuell key. Får ta det ved neste korsvei
+            : actions[event.code]?.action();
     };
 
     useEffect(() => {
