@@ -2,7 +2,6 @@ import { SisteTreMånedersInntekt } from './SisteTreMånedersInntekt';
 import classNames from 'classnames';
 import React, { useState } from 'react';
 
-import { Bag } from '@navikt/ds-icons';
 import { Tooltip } from '@navikt/ds-react';
 
 import { Bold } from '@components/Bold';
@@ -12,6 +11,7 @@ import { PopoverHjelpetekst } from '@components/PopoverHjelpetekst';
 import { AnonymizableTextWithEllipsis } from '@components/TextWithEllipsis';
 import { AnonymizableContainer } from '@components/anonymizable/AnonymizableContainer';
 import { Clipboard } from '@components/clipboard';
+import { Arbeidsgiverikon } from '@components/ikoner/Arbeidsgiverikon';
 import { SortInfoikon } from '@components/ikoner/SortInfoikon';
 import { useIsReadOnlyOppgave } from '@hooks/useIsReadOnlyOppgave';
 import {
@@ -107,7 +107,7 @@ export const InntektMedSykefravær = ({
             <div className={classNames(styles.Header, editing && styles.editing)}>
                 <div className={styles.ArbeidsgiverHeader}>
                     <Tooltip content="Arbeidsgiver">
-                        <Bag title="Arbeidsgiver" />
+                        <Arbeidsgiverikon alt="Arbeidsgiver" />
                     </Tooltip>
                     <Tooltip content="Arbeidsgivernavn">
                         <div className={styles.Arbeidsgivernavn}>

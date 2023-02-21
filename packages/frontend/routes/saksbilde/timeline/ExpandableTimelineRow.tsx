@@ -1,10 +1,10 @@
 import classNames from 'classnames';
 import React, { useState } from 'react';
 
-import { Bag } from '@navikt/ds-icons';
 import { Tooltip } from '@navikt/ds-react';
 
 import { AnonymizableTextWithEllipsis } from '@components/TextWithEllipsis';
+import { Arbeidsgiverikon } from '@components/ikoner/Arbeidsgiverikon';
 import type { Generasjon } from '@io/graphql';
 
 import { Periods } from './Periods';
@@ -33,7 +33,7 @@ export const ExpandableTimelineRow: React.FC<ExpandableTimelineRowProp> = ({
                     className={classNames(styles.Name, styles.Expandable, isExpanded && styles.expanded)}
                     onClick={() => setIsExpanded((prevState) => !prevState)}
                 >
-                    <Bag height={16} width={16} />
+                    <Arbeidsgiverikon alt="Arbeidsgiver" />
                     <AnonymizableTextWithEllipsis size="small">{name}</AnonymizableTextWithEllipsis>
                 </button>
             </Tooltip>

@@ -1,7 +1,6 @@
 import classNames from 'classnames';
 import React, { useState } from 'react';
 
-import { Bag } from '@navikt/ds-icons';
 import { Tooltip } from '@navikt/ds-react';
 
 import { Bold } from '@components/Bold';
@@ -10,6 +9,7 @@ import { Kilde } from '@components/Kilde';
 import { AnonymizableTextWithEllipsis } from '@components/TextWithEllipsis';
 import { AnonymizableContainer } from '@components/anonymizable/AnonymizableContainer';
 import { Clipboard } from '@components/clipboard';
+import { Arbeidsgiverikon } from '@components/ikoner/Arbeidsgiverikon';
 import { Arbeidsgiver, BeregnetPeriode, Inntektskilde, Maybe, OmregnetArsinntekt, Periodetilstand } from '@io/graphql';
 import { Refusjonsopplysning } from '@io/http';
 import { useEndringerForPeriode, usePeriodForSkjæringstidspunktForArbeidsgiver } from '@state/arbeidsgiver';
@@ -175,7 +175,7 @@ export const InntektUtenSykefravær = ({
             <div className={classNames(styles.Header, editingInntekt && styles.editing)}>
                 <div className={styles.ArbeidsgiverHeader}>
                     <Tooltip content="Arbeidsgiver">
-                        <Bag title="Arbeidsgiver" />
+                        <Arbeidsgiverikon alt="Arbeidsgiver" />
                     </Tooltip>
                     <Tooltip content="Arbeidsgivernavn">
                         <div className={styles.Arbeidsgivernavn}>

@@ -2,16 +2,16 @@ import React from 'react';
 
 import { Ikon, IkonProps } from './Ikon';
 
-export const Maksdatoikon = ({ width = 14, height = 14, className, alt }: IkonProps) => (
-    <Ikon width={width} height={height} viewBox="0 0 14 16" className={className} alt={alt}>
+export const Maksdatoikon = ({ width = 16, height = 16, className, alt }: IkonProps) => (
+    <Ikon width={width} height={height} viewBox="0 0 16 16" className={className} alt={alt}>
         <g fill="none">
             <path
                 fillRule="evenodd"
                 clipRule="evenodd"
-                d="M7 15.1765C10.866 15.1765 14 11.7791 14 7.58824C14 3.39737 10.866 0 7 0C3.13401 0 0 3.39737 0 7.58824C0 11.7791 3.13401 15.1765 7 15.1765Z"
-                fill="var(--navds-semantic-color-interaction-danger)"
+                d="M8 16C12.4183 16 16 12.4183 16 8C16 3.58172 12.4183 0 8 0C3.58172 0 0 3.58172 0 8C0 12.4183 3.58172 16 8 16Z"
+                fill="#BA3A26"
             />
-            <ellipse cx="7" cy="7.58775" rx="2" ry="2.16807" fill="white" />
+            <circle cx="7.99958" cy="7.99946" r="2.28571" fill="white" />
         </g>
     </Ikon>
 );

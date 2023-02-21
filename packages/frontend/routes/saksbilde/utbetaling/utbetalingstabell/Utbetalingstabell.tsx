@@ -3,10 +3,11 @@ import { useAlderVedSkjæringstidspunkt } from './useAlderVedSkjæringstidspunkt
 import classNames from 'classnames';
 import React, { useMemo } from 'react';
 
-import { Bag, People } from '@navikt/ds-icons';
 import { Tooltip } from '@navikt/ds-react';
 
 import { Flex } from '@components/Flex';
+import { Arbeidsgiverikon } from '@components/ikoner/Arbeidsgiverikon';
+import { Sykmeldtikon } from '@components/ikoner/Sykmeldtikon';
 import { getFormattedDateString } from '@utils/date';
 
 import { Header } from '../../table/Header';
@@ -73,14 +74,14 @@ export const Utbetalingstabell = ({
                             <Header scope="col" colSpan={1} className={styles.TableHeader}>
                                 <Tooltip content="Arbeidsgiver">
                                     <div className={styles.HeaderContent}>
-                                        <Bag /> Utbetaling
+                                        <Arbeidsgiverikon alt="Arbeidsgiver" /> Utbetaling
                                     </div>
                                 </Tooltip>
                             </Header>
                             <Header scope="col" colSpan={1}>
                                 <Tooltip content="Sykmeldt">
                                     <Flex className={styles.HeaderContent}>
-                                        <People /> Utbetaling
+                                        <Sykmeldtikon alt="Sykmeldt" /> Utbetaling
                                     </Flex>
                                 </Tooltip>
                             </Header>

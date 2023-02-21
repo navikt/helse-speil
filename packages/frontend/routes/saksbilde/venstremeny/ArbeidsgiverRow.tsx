@@ -2,7 +2,6 @@ import classNames from 'classnames';
 import dayjs from 'dayjs';
 import React, { useState } from 'react';
 
-import { Bag } from '@navikt/ds-icons';
 import { Accordion, BodyShort, Tooltip } from '@navikt/ds-react';
 
 import { Flex } from '@components/Flex';
@@ -11,6 +10,7 @@ import { AnonymizableTextWithEllipsis } from '@components/TextWithEllipsis';
 import { AnonymizableContainer } from '@components/anonymizable/AnonymizableContainer';
 import { AnonymizableText } from '@components/anonymizable/AnonymizableText';
 import { Clipboard } from '@components/clipboard';
+import { Arbeidsgiverikon } from '@components/ikoner/Arbeidsgiverikon';
 import { Arbeidsforhold } from '@io/graphql';
 import { NORSK_DATOFORMAT } from '@utils/date';
 import { capitalize, somPenger } from '@utils/locale';
@@ -97,7 +97,7 @@ const ArbeidsgiverRowView: React.FC<ArbeidsgiverCardProps> = ({
         <>
             <Tooltip content="Arbeidsgiver">
                 <div className={styles.IconContainer}>
-                    <Bag tabIndex={-1} title="Arbeidsgiver" />
+                    <Arbeidsgiverikon alt="Arbeidsgiver" />
                 </div>
             </Tooltip>
             <Accordion.Item open={open} className={styles.ArbeidsgiverRow}>

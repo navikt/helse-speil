@@ -2,37 +2,16 @@ import React from 'react';
 
 import { Ikon, IkonProps } from './Ikon';
 
-export const Skjæringstidspunktikon = ({ width = 14, height = 14, className, alt }: IkonProps) => (
-    <Ikon width={width} height={height} viewBox="0 0 24 24" className={className} alt={alt}>
+export const Skjæringstidspunktikon = ({ width = 16, height = 16, className, alt }: IkonProps) => (
+    <Ikon width={width} height={height} viewBox="0 0 16 16" className={className} alt={alt}>
         <g fill="none">
             <path
-                d="M11 13.5C11 14.3284 10.3284 15 9.5 15C8.67157 15 8 14.3284 8 13.5C8 12.6716 8.67157 12 9.5 12C10.3284 12 11 12.6716 11 13.5Z"
-                fill="var(--navds-semantic-color-text)"
-            />
-            <path
-                d="M18 13.5C18 14.3284 17.3284 15 16.5 15C15.6716 15 15 14.3284 15 13.5C15 12.6716 15.6716 12 16.5 12C17.3284 12 18 12.6716 18 13.5Z"
-                fill="var(--navds-semantic-color-text)"
-            />
-            <path
-                d="M11 18.5C11 19.3284 10.3284 20 9.5 20C8.67157 20 8 19.3284 8 18.5C8 17.6716 8.67157 17 9.5 17C10.3284 17 11 17.6716 11 18.5Z"
-                fill="var(--navds-semantic-color-text)"
-            />
-            <path
-                d="M18 18.5C18 19.3284 17.3284 20 16.5 20C15.6716 20 15 19.3284 15 18.5C15 17.6716 15.6716 17 16.5 17C17.3284 17 18 17.6716 18 18.5Z"
-                fill="var(--navds-semantic-color-text)"
-            />
-            <path
                 fillRule="evenodd"
                 clipRule="evenodd"
-                d="M21 2H5L5 22H21V2ZM5 0C3.89543 0 3 0.89543 3 2V22C3 23.1046 3.89543 24 5 24H21C22.1046 24 23 23.1046 23 22V2C23 0.895431 22.1046 0 21 0H5Z"
-                fill="var(--navds-semantic-color-text)"
+                d="M4 4.66667V3.33333H1.33333L1.33333 6.66667H14.6667V3.33333H12V4.66667C12 5.03486 11.7015 5.33333 11.3333 5.33333C10.9651 5.33333 10.6667 5.03486 10.6667 4.66667V3.33333H5.33333V4.66667C5.33333 5.03486 5.03486 5.33333 4.66667 5.33333C4.29848 5.33333 4 5.03486 4 4.66667ZM10.6667 2H5.33333V0.666667C5.33333 0.298477 5.03486 0 4.66667 0C4.29848 0 4 0.298477 4 0.666667V2H1.33333C0.596954 2 0 2.59695 0 3.33333V14.6667C0 15.403 0.596953 16 1.33333 16H14.6667C15.403 16 16 15.403 16 14.6667V3.33333C16 2.59695 15.403 2 14.6667 2H12V0.666667C12 0.298477 11.7015 0 11.3333 0C10.9651 0 10.6667 0.298477 10.6667 0.666667V2ZM1.33333 8L1.33333 14.6667H14.6667V8H1.33333Z"
+                fill="#262626"
             />
-            <path
-                fillRule="evenodd"
-                clipRule="evenodd"
-                d="M9 6V8H17V6H9ZM8 4C7.44772 4 7 4.44772 7 5V9C7 9.55228 7.44772 10 8 10H18C18.5523 10 19 9.55228 19 9V5C19 4.44772 18.5523 4 18 4H8Z"
-                fill="var(--navds-semantic-color-text)"
-            />
+            <circle cx="8" cy="11" r="2" fill="#0067C5" />
         </g>
     </Ikon>
 );

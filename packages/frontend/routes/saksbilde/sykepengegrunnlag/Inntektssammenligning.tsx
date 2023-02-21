@@ -2,11 +2,11 @@ import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import React from 'react';
 
-import { Bag } from '@navikt/ds-icons';
 import { BodyShort, Tooltip } from '@navikt/ds-react';
 
 import { Kilde } from '@components/Kilde';
 import { AnonymizableText } from '@components/anonymizable/AnonymizableText';
+import { Arbeidsgiverikon } from '@components/ikoner/Arbeidsgiverikon';
 import { Errorikon } from '@components/ikoner/Errorikon';
 import { Inntektskilde, OmregnetArsinntekt, Sammenligningsgrunnlag } from '@io/graphql';
 import { useArbeidsgiver, useEndringerForPeriode } from '@state/arbeidsgiver';
@@ -48,7 +48,7 @@ const InntektMedKilde = styled.div`
 const Arbeidsgivernavn = styled.div`
     display: flex;
 `;
-const BagIcon = styled(Bag)`
+const BagIcon = styled(Arbeidsgiverikon)`
     width: 20px;
     min-width: 20px;
     height: 20px;
@@ -106,7 +106,7 @@ export const Inntektssammenligning = ({
             <td>
                 <Arbeidsgivernavn>
                     <Tooltip content="Arbeidsgiver">
-                        {arbeidsforholdErDeaktivert ? <ErrorIcon /> : <BagIcon title="Arbeidsgiver" />}
+                        {arbeidsforholdErDeaktivert ? <ErrorIcon /> : <BagIcon alt="Arbeidsgiver" />}
                     </Tooltip>
                     <Loky>{arbeidsgivernavn}</Loky>
                 </Arbeidsgivernavn>

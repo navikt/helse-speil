@@ -11,7 +11,6 @@ import { Oppgaveetikett } from '@components/Oppgaveetikett';
 import { Advarselikon } from '@components/ikoner/Advarselikon';
 import { Maksdatoikon } from '@components/ikoner/Maksdatoikon';
 import { Skjæringstidspunktikon } from '@components/ikoner/Skjæringstidspunktikon';
-import { SkjæringstidspunktikonInvert } from '@components/ikoner/SkjæringstidspunktikonInvert';
 import { Sykmeldingsperiodeikon } from '@components/ikoner/Sykmeldingsperiodeikon';
 import { Arbeidsgiver, Oppgavetype, Periodetilstand, Periodetype, UberegnetPeriode } from '@io/graphql';
 import { NORSK_DATOFORMAT_KORT } from '@utils/date';
@@ -79,29 +78,20 @@ interface SkjæringstidspunktRowProps {
 }
 
 const SkjæringstidspunktRow: React.FC<SkjæringstidspunktRowProps> = ({ periodetype, skjæringstidspunkt }) => {
-    if (periodetype === Periodetype.OvergangFraIt) {
-        return (
-            <>
-                <Tooltip content="Skjæringstidspunkt">
-                    <div className={styles.IconContainer}>
-                        <SkjæringstidspunktikonInvert alt="Skjæringstidspunkt" />
-                    </div>
-                </Tooltip>
+    return (
+        <>
+            <Tooltip content="Skjæringstidspunkt">
+                <div className={styles.IconContainer}>
+                    <Skjæringstidspunktikon alt="Skjæringstidspunkt" />
+                </div>
+            </Tooltip>
+            {periodetype === Periodetype.OvergangFraIt ? (
                 <BodyShort>Skjæringstidspunkt i Infotrygd/Gosys</BodyShort>
-            </>
-        );
-    } else {
-        return (
-            <>
-                <Tooltip content="Skjæringstidspunkt">
-                    <div className={styles.IconContainer}>
-                        <Skjæringstidspunktikon alt="Skjæringstidspunkt" />
-                    </div>
-                </Tooltip>
+            ) : (
                 <BodyShort>{dayjs(skjæringstidspunkt).format(NORSK_DATOFORMAT_KORT)}</BodyShort>
-            </>
-        );
-    }
+            )}
+        </>
+    );
 };
 
 const harRedusertAntallSykepengedager = (periode: FetchedBeregnetPeriode): boolean => {

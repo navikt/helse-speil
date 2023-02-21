@@ -1,10 +1,11 @@
 import React from 'react';
 
-import { Bag, People } from '@navikt/ds-icons';
 import { BodyShort, Tooltip } from '@navikt/ds-react';
 
 import { Bold } from '@components/Bold';
 import { AnonymizableTextWithEllipsis } from '@components/TextWithEllipsis';
+import { Arbeidsgiverikon } from '@components/ikoner/Arbeidsgiverikon';
+import { Sykmeldtikon } from '@components/ikoner/Sykmeldtikon';
 import { Maybe, Personinfo, Simulering, Utbetaling, Utbetalingstatus } from '@io/graphql';
 import { somPenger } from '@utils/locale';
 
@@ -49,7 +50,7 @@ export const BeløpTilUtbetaling = ({
             </div>
             <div className={styles.Row}>
                 <Tooltip content="Arbeidsgiver">
-                    <Bag title="Arbeidsgiver" />
+                    <Arbeidsgiverikon alt="Arbeidsgiver" />
                 </Tooltip>
                 <AnonymizableTextWithEllipsis>{arbeidsgiver}</AnonymizableTextWithEllipsis>
                 <BodyShort>{somPenger(utbetaling.arbeidsgiverNettoBelop)}</BodyShort>
@@ -63,7 +64,7 @@ export const BeløpTilUtbetaling = ({
             )}
             <div className={styles.Row}>
                 <Tooltip content="Sykmeldt">
-                    <People title="Sykmeldt" />
+                    <Sykmeldtikon alt="Sykmeldt" />
                 </Tooltip>
                 <AnonymizableTextWithEllipsis>{getFormattedName(personinfo)}</AnonymizableTextWithEllipsis>
                 <BodyShort>{somPenger(utbetaling.personNettoBelop)}</BodyShort>
