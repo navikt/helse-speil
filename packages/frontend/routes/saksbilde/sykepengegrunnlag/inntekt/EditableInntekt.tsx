@@ -3,6 +3,7 @@ import classNames from 'classnames';
 import dayjs from 'dayjs';
 import React, { FormEvent, useEffect, useRef, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
+import { atom, useRecoilState } from 'recoil';
 
 import { Alert, BodyShort, Button, ErrorSummary, Loader } from '@navikt/ds-react';
 
@@ -12,7 +13,12 @@ import { ErrorMessage } from '@components/ErrorMessage';
 import { Flex } from '@components/Flex';
 import { OverstyringTimeoutModal } from '@components/OverstyringTimeoutModal';
 import { Arbeidsgiverrefusjon, Inntektskilde, OmregnetArsinntekt } from '@io/graphql';
-import type { OverstyrtInntektDTO, OverstyrtInntektOgRefusjonDTO, Refusjonsopplysning } from '@io/http';
+import type {
+    OverstyrtInntektDTO,
+    OverstyrtInntektOgRefusjonArbeidsgiver,
+    OverstyrtInntektOgRefusjonDTO,
+    Refusjonsopplysning,
+} from '@io/http';
 import { postAbonnerPåAktør, postOverstyrtInntekt, postOverstyrtInntektOgRefusjon } from '@io/http';
 import { useArbeidsgiver, usePeriodForSkjæringstidspunktForArbeidsgiver } from '@state/arbeidsgiver';
 import {
@@ -25,7 +31,7 @@ import { useOpptegnelser, useSetOpptegnelserPollingRate } from '@state/opptegnel
 import { useCurrentPerson } from '@state/person';
 import { useAddToast, useRemoveToast } from '@state/toasts';
 import { ISO_DATOFORMAT } from '@utils/date';
-import { inntektOgRefusjonSteg3 } from '@utils/featureToggles';
+import { inntektOgRefusjonSteg3, inntektOgRefusjonSteg4 } from '@utils/featureToggles';
 import { somPenger, toKronerOgØre } from '@utils/locale';
 import { isArbeidsgiver, isBeregnetPeriode, isGhostPeriode, isPerson } from '@utils/typeguards';
 
@@ -84,6 +90,7 @@ const usePostOverstyrtInntekt = (onFerdigKalkulert: () => void) => {
         throw Error('Mangler persondata.');
     }
 
+    const [lokaleInntektoverstyringer, setLokaleInntektoverstyringer] = useRecoilState(inntektOgRefusjonState);
     const addToast = useAddToast();
     const removeToast = useRemoveToast();
     const opptegnelser = useOpptegnelser();
@@ -124,7 +131,10 @@ const usePostOverstyrtInntekt = (onFerdigKalkulert: () => void) => {
         error,
         timedOut,
         setTimedOut,
-        postOverstyring: (overstyrtInntekt: OverstyrtInntektDTO | OverstyrtInntektOgRefusjonDTO) => {
+        postOverstyring: (
+            overstyrtInntekt: OverstyrtInntektDTO | OverstyrtInntektOgRefusjonDTO,
+            organisasjonsnummer?: string
+        ) => {
             setIsLoading(true);
             if (!inntektOgRefusjonSteg3) {
                 postOverstyrtInntekt(overstyrtInntekt as OverstyrtInntektDTO)
@@ -142,20 +152,59 @@ const usePostOverstyrtInntekt = (onFerdigKalkulert: () => void) => {
                         setIsLoading(false);
                     });
             } else {
-                postOverstyrtInntektOgRefusjon(overstyrtInntekt as OverstyrtInntektOgRefusjonDTO)
-                    .then(() => {
-                        setCalculating(true);
-                        addToast(kalkulererToast({}));
-                        postAbonnerPåAktør(person.aktorId).then(() => setPollingRate(1000));
-                    })
-                    .catch((error) => {
-                        switch (error.statusCode) {
-                            default: {
-                                setError('Kunne ikke overstyre inntekt og/eller refusjon. Prøv igjen senere.');
+                if (!inntektOgRefusjonSteg4) {
+                    postOverstyrtInntektOgRefusjon(overstyrtInntekt as OverstyrtInntektOgRefusjonDTO)
+                        .then(() => {
+                            setCalculating(true);
+                            addToast(kalkulererToast({}));
+                            postAbonnerPåAktør(person.aktorId).then(() => setPollingRate(1000));
+                        })
+                        .catch((error) => {
+                            switch (error.statusCode) {
+                                default: {
+                                    setError('Kunne ikke overstyre inntekt og/eller refusjon. Prøv igjen senere.');
+                                }
                             }
-                        }
-                        setIsLoading(false);
+                            setIsLoading(false);
+                        });
+                } else {
+                    const overstyrtArbeidsgiver = (overstyrtInntekt as OverstyrtInntektOgRefusjonDTO).arbeidsgivere[0];
+                    const overstyrtArbeidsgiverRetyped = {
+                        ...overstyrtArbeidsgiver,
+                        refusjonsopplysninger: [
+                            ...overstyrtArbeidsgiver.refusjonsopplysninger.map((refusjonsopplysning) => {
+                                return { ...refusjonsopplysning } as Refusjonsopplysning;
+                            }),
+                        ],
+                        fraRefusjonsopplysninger: [
+                            ...overstyrtArbeidsgiver.fraRefusjonsopplysninger.map((fraRefusjonsopplysning) => {
+                                return { ...fraRefusjonsopplysning } as Refusjonsopplysning;
+                            }),
+                        ],
+                    };
+
+                    const arbeidsgivereLagretPåSkjæringstidspunkt =
+                        overstyrtInntekt.skjæringstidspunkt !== lokaleInntektoverstyringer.skjæringstidspunkt
+                            ? []
+                            : [...lokaleInntektoverstyringer.arbeidsgivere];
+
+                    setLokaleInntektoverstyringer({
+                        ...overstyrtInntekt,
+                        arbeidsgivere:
+                            arbeidsgivereLagretPåSkjæringstidspunkt.length === 0
+                                ? [overstyrtArbeidsgiverRetyped]
+                                : arbeidsgivereLagretPåSkjæringstidspunkt.filter(
+                                      (it) => it.organisasjonsnummer === organisasjonsnummer
+                                  ).length === 0
+                                ? [...arbeidsgivereLagretPåSkjæringstidspunkt, overstyrtArbeidsgiverRetyped]
+                                : [
+                                      ...arbeidsgivereLagretPåSkjæringstidspunkt.filter(
+                                          (it) => it.organisasjonsnummer !== organisasjonsnummer
+                                      ),
+                                      overstyrtArbeidsgiverRetyped,
+                                  ],
                     });
+                }
             }
         },
     };
@@ -170,6 +219,23 @@ interface EditableInntektProps {
     onEndre: (erEndret: boolean) => void;
 }
 
+type OverstyrtInntektOgRefusjon = {
+    aktørId: string | null;
+    fødselsnummer: string | null;
+    skjæringstidspunkt: string | null;
+    arbeidsgivere: OverstyrtInntektOgRefusjonArbeidsgiver[] | [];
+};
+
+export const inntektOgRefusjonState = atom<OverstyrtInntektOgRefusjon>({
+    key: 'inntektOgRefusjonState',
+    default: {
+        aktørId: null,
+        fødselsnummer: null,
+        skjæringstidspunkt: null,
+        arbeidsgivere: [],
+    },
+});
+
 export const EditableInntekt = ({
     omregnetÅrsinntekt,
     begrunnelser,
@@ -181,6 +247,7 @@ export const EditableInntekt = ({
     const form = useForm({ shouldFocusError: false, mode: 'onBlur' });
     const feiloppsummeringRef = useRef<HTMLDivElement>(null);
     const metadata = useOverstyrtInntektMetadata(skjæringstidspunkt, organisasjonsnummer);
+    const [lokaleInntektoverstyringer, setLokaleInntektoverstyringer] = useRecoilState(inntektOgRefusjonState);
     const period = usePeriodForSkjæringstidspunktForArbeidsgiver(skjæringstidspunkt, organisasjonsnummer);
     const [harIkkeSkjemaEndringer, setHarIkkeSkjemaEndringer] = useState(false);
 
@@ -189,12 +256,14 @@ export const EditableInntekt = ({
         close();
     };
 
+    console.log('lokaleInntektoverstyringer:', lokaleInntektoverstyringer);
+
     const { isLoading, error, postOverstyring, timedOut, setTimedOut } = usePostOverstyrtInntekt(cancelEditing);
 
     const harFeil = !form.formState.isValid && form.formState.isSubmitted;
     const values = form.getValues();
 
-    console.log(values, form.formState.errors);
+    // console.log(values, form.formState.errors);
 
     const månedsbeløp = Number.parseFloat(values.manedsbelop);
     const harEndringer = !isNaN(månedsbeløp) && månedsbeløp !== omregnetÅrsinntekt.manedsbelop;
@@ -256,7 +325,7 @@ export const EditableInntekt = ({
                     },
                 ],
             };
-            postOverstyring(overstyrtInntektOgRefusjon);
+            postOverstyring(overstyrtInntektOgRefusjon, metadata.organisasjonsnummer);
         }
     };
 
