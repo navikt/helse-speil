@@ -82,7 +82,6 @@ interface OverstyrtArbeidsforholdElementDTO {
 
 export interface OverstyringClient {
     overstyrDager: (overstyring: OverstyringDTO, speilToken: string) => Promise<Response>;
-    overstyrInntekt: (overstyring: OverstyringInntektDTO, speilToken: string) => Promise<Response>;
     overstyrInntektOgRefusjon: (overstyring: OverstyringInntektOgRefusjonDTO, speilToken: string) => Promise<Response>;
     overstyrArbeidsforhold: (overstyring: OverstyrtArbeidsforholdDTO, speilToken: string) => Promise<Response>;
 }
@@ -92,19 +91,6 @@ export default (oidcConfig: OidcConfig, onBehalfOf: OnBehalfOf): OverstyringClie
         const onBehalfOfToken = await onBehalfOf.hentFor(oidcConfig.clientIDSpesialist, speilToken);
         const options = {
             uri: `${spesialistBaseUrl}/api/overstyr/dager`,
-            headers: {
-                Authorization: `Bearer ${onBehalfOfToken}`,
-            },
-            body: overstyring,
-            resolveWithFullResponse: true,
-            json: true,
-        };
-        return request.post(options);
-    },
-    overstyrInntekt: async (overstyring: OverstyringInntektDTO, speilToken: string): Promise<Response> => {
-        const onBehalfOfToken = await onBehalfOf.hentFor(oidcConfig.clientIDSpesialist, speilToken);
-        const options = {
-            uri: `${spesialistBaseUrl}/api/overstyr/inntekt`,
             headers: {
                 Authorization: `Bearer ${onBehalfOfToken}`,
             },

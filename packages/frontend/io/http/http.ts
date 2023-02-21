@@ -4,7 +4,6 @@ import {
     NotatDTO,
     Options,
     OverstyrtArbeidsforholdDTO,
-    OverstyrtInntektDTO,
     OverstyrtInntektOgRefusjonDTO,
     OverstyrteDagerDTO,
     PersonoppdateringDTO,
@@ -160,9 +159,6 @@ export const postAnnullering = async (annullering: AnnulleringDTO) =>
 
 export const postOverstyrteDager = async (overstyring: OverstyrteDagerDTO) =>
     post(`${baseUrl}/overstyring/overstyr/dager`, overstyring);
-
-export const postOverstyrtInntekt = async (overstyring: OverstyrtInntektDTO) =>
-    post(`${baseUrl}/overstyring/overstyr/inntekt`, overstyring);
 
 export const postOverstyrtInntektOgRefusjon = async (overstyring: OverstyrtInntektOgRefusjonDTO) =>
     post(`${baseUrl}/overstyring/overstyr/inntektogrefusjon`, overstyring);
