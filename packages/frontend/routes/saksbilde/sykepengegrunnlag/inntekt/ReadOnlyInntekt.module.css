@@ -1,13 +1,27 @@
-.Grid {
+.Grid,
+.BeregnetGrid {
     display: grid;
     grid-template-columns: 220px 130px;
     grid-column-gap: 1rem;
     grid-row-gap: 0.25rem;
 }
+.BeregnetGrid {
+    grid-template-columns: 220px 130px 50px;
+}
 
 .Grid > p:nth-child(2n) {
-    text-align: right;
     white-space: nowrap;
+    text-align: right;
+}
+
+.BeregnetGrid > p:nth-child(2),
+.BeregnetGrid > p:nth-child(5) {
+    text-align: right;
+}
+
+.BeregnetGrid > :nth-child(3n) {
+    white-space: nowrap;
+    margin-top: var(--navds-spacing-1);
 }
 
 .Title {
@@ -38,4 +52,8 @@
     font-size: 14px;
     line-height: 20px;
     gap: 1rem;
+}
+
+.SisteTreMndInntekt {
+    margin-top: 1rem;
 }

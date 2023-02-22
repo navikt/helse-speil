@@ -1,5 +1,6 @@
 import classNames from 'classnames';
 import React, { useState } from 'react';
+import { useRecoilState } from 'recoil';
 
 import { Tooltip } from '@navikt/ds-react';
 
@@ -10,18 +11,16 @@ import { AnonymizableTextWithEllipsis } from '@components/TextWithEllipsis';
 import { AnonymizableContainer } from '@components/anonymizable/AnonymizableContainer';
 import { Clipboard } from '@components/clipboard';
 import { Arbeidsgiverikon } from '@components/ikoner/Arbeidsgiverikon';
-import { Arbeidsgiver, BeregnetPeriode, Inntektskilde, Maybe, OmregnetArsinntekt, Periodetilstand } from '@io/graphql';
+import { Arbeidsgiver, BeregnetPeriode, Maybe, OmregnetArsinntekt, Periodetilstand } from '@io/graphql';
 import { Refusjonsopplysning } from '@io/http';
 import { useEndringerForPeriode, usePeriodForSkjæringstidspunktForArbeidsgiver } from '@state/arbeidsgiver';
 import { useCurrentPerson } from '@state/person';
-import { kildeForkortelse } from '@utils/inntektskilde';
 import { isBeregnetPeriode, isGhostPeriode } from '@utils/typeguards';
 
 import { OverstyrArbeidsforholdUtenSykdom } from '../OverstyrArbeidsforholdUtenSykdom';
 import { BegrunnelseForOverstyring } from '../overstyring.types';
 import { Refusjonsoversikt } from '../refusjon/Refusjonsoversikt';
-import { EditableInntekt } from './EditableInntekt';
-import { EndringsloggButton } from './EndringsloggButton';
+import { EditableInntekt, inntektOgRefusjonState } from './EditableInntekt';
 import { ReadOnlyInntekt } from './ReadOnlyInntekt';
 import { RedigerGhostInntekt } from './RedigerGhostInntekt';
 
@@ -160,13 +159,17 @@ export const InntektUtenSykefravær = ({
     const [endret, setEndret] = useState(false);
     const person = useCurrentPerson();
 
+    const [lokaleInntektoverstyringer, setLokaleInntektoverstyringer] = useRecoilState(inntektOgRefusjonState);
     const arbeidsforholdKanOverstyres = useArbeidsforholdKanOverstyres(skjæringstidspunkt, organisasjonsnummer);
     const ghostInntektKanOverstyres = useGhostInntektKanOverstyres(skjæringstidspunkt, organisasjonsnummer);
-    const { arbeidsforholdendringer } = useEndringerForPeriode(organisasjonsnummer);
+    const { inntektsendringer } = useEndringerForPeriode(organisasjonsnummer);
 
     if (!person) return null;
 
     const erRevurdering = maybePeriodeTilGodkjenning(person, skjæringstidspunkt) === null;
+    const lokaltMånedsbeløp =
+        lokaleInntektoverstyringer.arbeidsgivere.filter((it) => it.organisasjonsnummer === organisasjonsnummer)?.[0]
+            ?.månedligInntekt ?? null;
 
     return (
         <div
@@ -204,11 +207,6 @@ export const InntektUtenSykefravær = ({
             </div>
             <Flex alignItems="center">
                 <Bold>Beregnet månedsinntekt</Bold>
-                {endret || omregnetÅrsinntekt?.kilde === Inntektskilde.Saksbehandler ? (
-                    <EndringsloggButton endringer={arbeidsforholdendringer} />
-                ) : (
-                    <Kilde type={omregnetÅrsinntekt?.kilde}>{kildeForkortelse(omregnetÅrsinntekt?.kilde)}</Kilde>
-                )}
             </Flex>
             {editingInntekt ? (
                 <EditableInntekt
@@ -220,7 +218,13 @@ export const InntektUtenSykefravær = ({
                     skjæringstidspunkt={skjæringstidspunkt}
                 />
             ) : (
-                <ReadOnlyInntekt omregnetÅrsinntekt={omregnetÅrsinntekt} deaktivert={erDeaktivert} />
+                <ReadOnlyInntekt
+                    omregnetÅrsinntekt={omregnetÅrsinntekt}
+                    deaktivert={erDeaktivert}
+                    lokaltMånedsbeløp={lokaltMånedsbeløp}
+                    endret={endret}
+                    inntektsendringer={inntektsendringer}
+                />
             )}
             {!editingInntekt && arbeidsforholdKanOverstyres && (
                 <OverstyrArbeidsforholdUtenSykdom

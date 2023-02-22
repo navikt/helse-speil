@@ -2,6 +2,7 @@ import { harPeriodeTilBeslutterFor } from './InntektUtenSykefravær';
 import { SisteTreMånedersInntekt } from './SisteTreMånedersInntekt';
 import classNames from 'classnames';
 import React, { useState } from 'react';
+import { useRecoilState } from 'recoil';
 
 import { Tooltip } from '@navikt/ds-react';
 
@@ -18,7 +19,6 @@ import { useIsReadOnlyOppgave } from '@hooks/useIsReadOnlyOppgave';
 import {
     Arbeidsgiver,
     InntektFraAOrdningen,
-    Inntektskilde,
     Inntektstype,
     Maybe,
     OmregnetArsinntekt,
@@ -33,12 +33,10 @@ import {
 import { useCurrentPerson } from '@state/person';
 import { isForkastet } from '@state/selectors/period';
 import { overstyrInntektEnabled } from '@utils/featureToggles';
-import { kildeForkortelse } from '@utils/inntektskilde';
 
 import { BegrunnelseForOverstyring } from '../overstyring.types';
 import { Refusjonsoversikt } from '../refusjon/Refusjonsoversikt';
-import { EditableInntekt } from './EditableInntekt';
-import { EndringsloggButton } from './EndringsloggButton';
+import { EditableInntekt, inntektOgRefusjonState } from './EditableInntekt';
 import { ReadOnlyInntekt } from './ReadOnlyInntekt';
 import { RedigerInntektOgRefusjon } from './RedigerInntektOgRefusjon';
 
@@ -94,11 +92,16 @@ export const InntektMedSykefravær = ({
 }: InntektMedSykefraværProps) => {
     const [editing, setEditing] = useState(false);
     const [endret, setEndret] = useState(false);
+    const [lokaleInntektoverstyringer, setLokaleInntektoverstyringer] = useRecoilState(inntektOgRefusjonState);
 
     const erRevurdering = useUtbetalingForSkjæringstidspunkt(skjæringstidspunkt)?.status === Utbetalingstatus.Utbetalt;
     const { inntektsendringer } = useEndringerForPeriode(organisasjonsnummer);
 
     const kanRevurderes = useInntektKanRevurderes(skjæringstidspunkt);
+
+    const lokaltMånedsbeløp =
+        lokaleInntektoverstyringer.arbeidsgivere.filter((it) => it.organisasjonsnummer === organisasjonsnummer)?.[0]
+            ?.månedligInntekt ?? null;
 
     return (
         <div className={classNames(styles.Inntekt, editing && styles.editing)}>
@@ -143,13 +146,6 @@ export const InntektMedSykefravær = ({
             </div>
             <Flex alignItems="center">
                 <Bold>Beregnet månedsinntekt</Bold>
-                {endret || omregnetÅrsinntekt?.kilde === Inntektskilde.Saksbehandler ? (
-                    <EndringsloggButton endringer={inntektsendringer} />
-                ) : (
-                    <Kilde type={omregnetÅrsinntekt?.kilde} className={styles.Kildeikon}>
-                        {kildeForkortelse(omregnetÅrsinntekt?.kilde)}
-                    </Kilde>
-                )}
             </Flex>
             {editing ? (
                 <EditableInntekt
@@ -161,7 +157,13 @@ export const InntektMedSykefravær = ({
                     skjæringstidspunkt={skjæringstidspunkt}
                 />
             ) : (
-                <ReadOnlyInntekt omregnetÅrsinntekt={omregnetÅrsinntekt} deaktivert={erDeaktivert} />
+                <ReadOnlyInntekt
+                    omregnetÅrsinntekt={omregnetÅrsinntekt}
+                    deaktivert={erDeaktivert}
+                    lokaltMånedsbeløp={lokaltMånedsbeløp}
+                    endret={endret}
+                    inntektsendringer={inntektsendringer}
+                />
             )}
             {refusjon && refusjon.length !== 0 && !editing && <Refusjonsoversikt refusjon={refusjon} />}
             {inntektFraAOrdningen && !editing && (

@@ -30,7 +30,7 @@ export const SisteTreMånedersInntekt = ({
 }: InntektFraAOrdningenProps) => {
     return (
         <>
-            <Flex alignItems="center">
+            <Flex alignItems="center" className={styles.SisteTreMndInntekt}>
                 <h3 className={styles.Title}>RAPPORTERT SISTE 3 MÅNEDER</h3>
                 {visHjelpetekst ? (
                     <PopoverHjelpetekst className={styles.InfoIcon} ikon={<SortInfoikon />}>
