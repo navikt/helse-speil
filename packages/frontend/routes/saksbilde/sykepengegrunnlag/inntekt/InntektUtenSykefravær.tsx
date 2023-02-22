@@ -70,7 +70,7 @@ export const harIngenUtbetaltePerioderFor = (person: FetchedPerson, skjæringsti
     );
 };
 
-const harIngenPerioderTilBeslutterFor = (person: FetchedPerson, skjæringstidspunkt: DateString): boolean => {
+export const harPeriodeTilBeslutterFor = (person: FetchedPerson, skjæringstidspunkt: DateString): boolean => {
     return (
         (
             person?.arbeidsgivere
@@ -78,7 +78,7 @@ const harIngenPerioderTilBeslutterFor = (person: FetchedPerson, skjæringstidspu
                 .filter(
                     (it) => isBeregnetPeriode(it) && it.skjaeringstidspunkt === skjæringstidspunkt
                 ) as Array<BeregnetPeriode>
-        ).every((it) => !it.oppgave?.erBeslutter) ?? false
+        ).some((it) => it.oppgave?.erBeslutter) ?? false
     );
 };
 
@@ -92,9 +92,9 @@ const useArbeidsforholdKanOverstyres = (skjæringstidspunkt: DateString, organis
 
     const periodeForSkjæringstidspunkt = maybePeriodeForSkjæringstidspunkt(person, period.skjaeringstidspunkt);
 
-    const harIngenPerioderTilBeslutter = harIngenPerioderTilBeslutterFor(person, period.skjaeringstidspunkt);
+    const harPeriodeTilBeslutter = harPeriodeTilBeslutterFor(person, period.skjaeringstidspunkt);
 
-    return harIngenPerioderTilBeslutter && periodeForSkjæringstidspunkt !== undefined;
+    return !harPeriodeTilBeslutter && periodeForSkjæringstidspunkt !== undefined;
 };
 
 const useGhostInntektKanOverstyres = (skjæringstidspunkt: DateString, organisasjonsnummer: string): boolean => {
@@ -109,9 +109,9 @@ const useGhostInntektKanOverstyres = (skjæringstidspunkt: DateString, organisas
 
     const harUtbetaltePerioder = !harIngenUtbetaltePerioderFor(person, period.skjaeringstidspunkt);
 
-    const harIngenPerioderTilBeslutter = harIngenPerioderTilBeslutterFor(person, period.skjaeringstidspunkt);
+    const harPeriodeTilBeslutter = harPeriodeTilBeslutterFor(person, period.skjaeringstidspunkt);
 
-    return (harUtbetaltePerioder || periodeTilGodkjenning !== null) && harIngenPerioderTilBeslutter;
+    return (harUtbetaltePerioder || periodeTilGodkjenning !== null) && !harPeriodeTilBeslutter;
 };
 
 const endreInntektUtenSykefraværBegrunnelser: BegrunnelseForOverstyring[] = [

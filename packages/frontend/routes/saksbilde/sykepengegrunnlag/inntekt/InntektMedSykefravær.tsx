@@ -1,3 +1,4 @@
+import { harPeriodeTilBeslutterFor } from './InntektUtenSykefravær';
 import { SisteTreMånedersInntekt } from './SisteTreMånedersInntekt';
 import classNames from 'classnames';
 import React, { useState } from 'react';
@@ -29,11 +30,10 @@ import {
     usePeriodForSkjæringstidspunkt,
     useUtbetalingForSkjæringstidspunkt,
 } from '@state/arbeidsgiver';
-import { useActivePeriod } from '@state/periode';
+import { useCurrentPerson } from '@state/person';
 import { isForkastet } from '@state/selectors/period';
 import { overstyrInntektEnabled } from '@utils/featureToggles';
 import { kildeForkortelse } from '@utils/inntektskilde';
-import { isBeregnetPeriode } from '@utils/typeguards';
 
 import { BegrunnelseForOverstyring } from '../overstyring.types';
 import { Refusjonsoversikt } from '../refusjon/Refusjonsoversikt';
@@ -44,22 +44,20 @@ import { RedigerInntektOgRefusjon } from './RedigerInntektOgRefusjon';
 
 import styles from './Inntekt.module.css';
 
-const useIsBeslutteroppgave = (): boolean => {
-    const activePeriod = useActivePeriod();
-
-    return isBeregnetPeriode(activePeriod) && (activePeriod.oppgave?.erBeslutter ?? false);
-};
-
 const useInntektKanRevurderes = (skjæringstidspunkt: DateString): boolean => {
+    const person = useCurrentPerson();
     const periodeVedSkjæringstidspunkt = usePeriodForSkjæringstidspunkt(skjæringstidspunkt);
     const isReadOnlyOppgave = useIsReadOnlyOppgave();
-    const isBeslutteroppgave = useIsBeslutteroppgave();
+
+    if (!person) return false;
+
+    const harPeriodeTilBeslutter = harPeriodeTilBeslutterFor(person, skjæringstidspunkt);
 
     return (
         overstyrInntektEnabled &&
         !isForkastet(periodeVedSkjæringstidspunkt) &&
         !isReadOnlyOppgave &&
-        !isBeslutteroppgave
+        !harPeriodeTilBeslutter
     );
 };
 
