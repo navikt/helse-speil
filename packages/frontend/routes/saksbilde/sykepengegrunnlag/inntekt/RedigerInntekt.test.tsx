@@ -12,7 +12,7 @@ import {
     harVilkårsgrunnlagFraSpleis,
     kanRedigereInntektEllerRefusjon,
     periodeErTilGodkjenningMedOverlappendeAvsluttetPeriode,
-    perioderMedSkjæringstidspunktHarKunÉnFagsystemId,
+    perioderMedSkjæringstidspunktHarMaksÉnFagsystemId,
 } from './RedigerInntektOgRefusjon';
 
 describe('perioderMedSkjæringstidspunktHarKunÉnFagsystemId', () => {
@@ -24,7 +24,7 @@ describe('perioderMedSkjæringstidspunktHarKunÉnFagsystemId', () => {
         const periodeB = enBeregnetPeriode({ skjaeringstidspunkt }).medUtbetaling(utbetaling);
         const arbeidsgiver = enArbeidsgiver().medPerioder([periodeA, periodeB]);
 
-        expect(perioderMedSkjæringstidspunktHarKunÉnFagsystemId(arbeidsgiver, skjaeringstidspunkt)).toEqual(true);
+        expect(perioderMedSkjæringstidspunktHarMaksÉnFagsystemId(arbeidsgiver, skjaeringstidspunkt)).toEqual(true);
     });
 
     it('returnerer false om ikke alle perioder i siste generasjon hos en arbeidsgiver som deler gitt skjæringstidspunkt har samme fagsystem-ID', () => {
@@ -35,7 +35,7 @@ describe('perioderMedSkjæringstidspunktHarKunÉnFagsystemId', () => {
         const periodeB = enBeregnetPeriode({ skjaeringstidspunkt });
         const arbeidsgiver = enArbeidsgiver().medPerioder([periodeA, periodeB]);
 
-        expect(perioderMedSkjæringstidspunktHarKunÉnFagsystemId(arbeidsgiver, skjaeringstidspunkt)).toEqual(false);
+        expect(perioderMedSkjæringstidspunktHarMaksÉnFagsystemId(arbeidsgiver, skjaeringstidspunkt)).toEqual(false);
     });
 });
 

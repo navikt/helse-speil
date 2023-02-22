@@ -11,7 +11,7 @@ import { getVilkårsgrunnlag } from '@state/selectors/person';
 import { isRevurdering } from '@state/selectors/utbetaling';
 import { isBeregnetPeriode } from '@utils/typeguards';
 
-export const perioderMedSkjæringstidspunktHarKunÉnFagsystemId = (
+export const perioderMedSkjæringstidspunktHarMaksÉnFagsystemId = (
     arbeidsgiver: Arbeidsgiver,
     skjæringstidspunkt: DateString
 ): boolean => {
@@ -20,7 +20,7 @@ export const perioderMedSkjæringstidspunktHarKunÉnFagsystemId = (
             .filter(isBeregnetPeriode)
             .filter((periode) => periode.skjaeringstidspunkt === skjæringstidspunkt)
             .filter((periode) => periode.utbetaling.status !== Utbetalingstatus.Godkjentutenutbetaling)
-            .reduce((ider, periode) => ider.add(periode.utbetaling.arbeidsgiverFagsystemId), new Set()).size === 1
+            .reduce((ider, periode) => ider.add(periode.utbetaling.arbeidsgiverFagsystemId), new Set()).size <= 1
     );
 };
 
@@ -54,7 +54,7 @@ export const kanRedigereInntektEllerRefusjon = (
     return (
         !isWaiting(periode) &&
         !periodeErTilGodkjenningMedOverlappendeAvsluttetPeriode(periode, person) &&
-        perioderMedSkjæringstidspunktHarKunÉnFagsystemId(arbeidsgiver, periode.skjaeringstidspunkt)
+        perioderMedSkjæringstidspunktHarMaksÉnFagsystemId(arbeidsgiver, periode.skjaeringstidspunkt)
     );
 };
 
