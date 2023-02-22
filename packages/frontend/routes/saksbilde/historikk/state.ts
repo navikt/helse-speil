@@ -14,6 +14,7 @@ import {
     getDagoverstyringer,
     getDokumenter,
     getInntektoverstyringer,
+    getInntektoverstyringerForGhost,
     getNotathendelser,
     getPeriodehistorikk,
     getUtbetalingshendelse,
@@ -50,8 +51,11 @@ const getHendelserForBeregnetPeriode = (
 const getHendelserForGhostPeriode = (period: GhostPeriode, person: FetchedPerson): Array<HendelseObject> => {
     const arbeidsgiver = findArbeidsgiverWithGhostPeriode(period, person.arbeidsgivere);
     const arbeidsforholdoverstyringer = arbeidsgiver ? getArbeidsforholdoverstyringhendelser(period, arbeidsgiver) : [];
+    const inntektoverstyringer = arbeidsgiver
+        ? getInntektoverstyringerForGhost(period.skjaeringstidspunkt, arbeidsgiver, person)
+        : [];
 
-    return [...arbeidsforholdoverstyringer].sort(byTimestamp);
+    return [...arbeidsforholdoverstyringer, ...inntektoverstyringer].sort(byTimestamp);
 };
 
 const historikkState = selector<Array<HendelseObject>>({

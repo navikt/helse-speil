@@ -53,7 +53,7 @@ const maybePeriodeForSkjæringstidspunkt = (
     );
 };
 
-const harIngenUtbetaltePerioderFor = (person: FetchedPerson, skjæringstidspunkt: DateString): boolean => {
+export const harIngenUtbetaltePerioderFor = (person: FetchedPerson, skjæringstidspunkt: DateString): boolean => {
     return (
         person?.arbeidsgivere
             .flatMap((it) => it.generasjoner[0]?.perioder)

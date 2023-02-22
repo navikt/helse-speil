@@ -22,6 +22,8 @@ import {
     isInntektoverstyring,
 } from '@utils/typeguards';
 
+import { harIngenUtbetaltePerioderFor } from '../sykepengegrunnlag/inntekt/InntektUtenSykefravær';
+
 const isInntektsmelding = (hendelse: Hendelse): hendelse is Inntektsmelding => {
     return hendelse.type === 'INNTEKTSMELDING';
 };
@@ -201,6 +203,25 @@ export const getInntektoverstyringer = (
             id: overstyring.hendelseId,
             type: 'Inntektoverstyring',
             erRevurdering: dayjs(overstyring.timestamp).isAfter(vurdering?.tidsstempel),
+            saksbehandler: overstyring.saksbehandler.ident ?? overstyring.saksbehandler.navn,
+            timestamp: overstyring.timestamp,
+            begrunnelse: overstyring.begrunnelse,
+            inntekt: overstyring.inntekt,
+        }));
+};
+
+export const getInntektoverstyringerForGhost = (
+    skjaeringstidspunkt: string,
+    arbeidsgiver: Arbeidsgiver,
+    person: FetchedPerson
+): Array<InntektoverstyringhendelseObject> => {
+    return arbeidsgiver.overstyringer
+        .filter(isInntektoverstyring)
+        .filter((it) => it.inntekt.skjaeringstidspunkt === skjaeringstidspunkt)
+        .map((overstyring: Inntektoverstyring) => ({
+            id: overstyring.hendelseId,
+            type: 'Inntektoverstyring',
+            erRevurdering: !harIngenUtbetaltePerioderFor(person, skjaeringstidspunkt),
             saksbehandler: overstyring.saksbehandler.ident ?? overstyring.saksbehandler.navn,
             timestamp: overstyring.timestamp,
             begrunnelse: overstyring.begrunnelse,
