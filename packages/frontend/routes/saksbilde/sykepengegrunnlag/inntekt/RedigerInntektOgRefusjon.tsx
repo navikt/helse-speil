@@ -99,7 +99,7 @@ export const RedigerInntektOgRefusjon = ({
                     ? 'Det finnes andre endringer som må ferdigstilles før du kan endre inntekten'
                     : periodeErTilGodkjenningMedOverlappendeAvsluttetPeriode(periode, person)
                     ? 'Det er ikke støtte for endring av inntekt på førstegangsbehandlinger når det finnes avsluttede overlappende perioder for andre arbeidsgivere'
-                    : 'Det er foreløpig ikke støtte for endringer i saker som har vært delvis behandlet i Infotrygd'}
+                    : 'Det er ikke mulig å overstyre sykepengegrunnlaget i denne saken. Meld saken til support'}
             </p>
         </PopoverHjelpetekst>
     );
