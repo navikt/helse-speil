@@ -6,3 +6,9 @@
     border-left-style: none;
     border-radius: 0;
 }
+
+.Buttons {
+    display: flex;
+    gap: 1rem;
+    margin-top: 0.75rem;
+}

@@ -4,8 +4,10 @@ import React from 'react';
 import { Alert, BodyShort } from '@navikt/ds-react';
 
 import { Maybe, Overstyring, VarselDto } from '@io/graphql';
+import { inntektOgRefusjonSteg4 } from '@utils/featureToggles';
 import { isArbeidsforholdoverstyring, isDagoverstyring, isInntektoverstyring } from '@utils/typeguards';
 
+import { KalkulerEndringerVarsel } from './KalkulerEndringerVarsel';
 import { Varsler } from './Varsler';
 
 import styles from './Saksbildevarsler.module.css';
@@ -130,6 +132,7 @@ interface SaksbildevarslerProps {
     endringerEtterNyesteUtbetalingPåPerson?: Maybe<Array<Overstyring>>;
     harDagOverstyringer?: boolean;
     activePeriodTom?: string;
+    skjæringstidspunkt?: string;
 }
 
 type GrupperteVarsler = {
@@ -161,6 +164,7 @@ export const Saksbildevarsler = ({
     endringerEtterNyesteUtbetalingPåPerson,
     harDagOverstyringer,
     activePeriodTom,
+    skjæringstidspunkt,
 }: SaksbildevarslerProps) => {
     const { vanligeVarsler }: GrupperteVarsler = grupperVarsler(varsler);
     const infoVarsler: VarselObject[] = [
@@ -197,6 +201,7 @@ export const Saksbildevarsler = ({
                     <BodyShort>{melding}</BodyShort>
                 </Alert>
             ))}
+            {inntektOgRefusjonSteg4 && <KalkulerEndringerVarsel skjæringstidspunkt={skjæringstidspunkt} />}
         </div>
     );
 };

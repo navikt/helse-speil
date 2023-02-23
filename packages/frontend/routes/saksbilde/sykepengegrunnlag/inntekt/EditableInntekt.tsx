@@ -205,7 +205,7 @@ interface EditableInntektProps {
     onEndre: (erEndret: boolean) => void;
 }
 
-type OverstyrtInntektOgRefusjon = {
+export type OverstyrtInntektOgRefusjon = {
     aktørId: string | null;
     fødselsnummer: string | null;
     skjæringstidspunkt: string | null;

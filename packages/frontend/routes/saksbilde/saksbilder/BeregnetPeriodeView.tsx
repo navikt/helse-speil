@@ -69,6 +69,7 @@ export const BeregnetPeriodeView: React.FC<BeregnetPeriodeViewProps> = ({ period
                     endringerEtterNyesteUtbetalingPåPerson={overstyringerEtterNyesteUtbetalingPåPerson}
                     harDagOverstyringer={harDagOverstyringer}
                     activePeriodTom={period.tom}
+                    skjæringstidspunkt={period.skjaeringstidspunkt}
                 />
                 <div className={styles.RouteContainer}>
                     <Switch>

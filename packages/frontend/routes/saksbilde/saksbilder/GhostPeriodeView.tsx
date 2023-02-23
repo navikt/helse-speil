@@ -30,7 +30,10 @@ export const GhostPeriodeView: React.FC<GhostPeriodeViewProps> = ({ activePeriod
         <>
             <Venstremeny />
             <div className={styles.Content} data-testid="saksbilde-content-uten-sykefravær">
-                <Saksbildevarsler periodState={getPeriodState(activePeriod)} />
+                <Saksbildevarsler
+                    periodState={getPeriodState(activePeriod)}
+                    skjæringstidspunkt={activePeriod.skjaeringstidspunkt}
+                />
                 <Switch>
                     <Route path={`${path}/sykepengegrunnlag`}>
                         <div className={styles.RouteContainer}>
