@@ -4,6 +4,8 @@ import React from 'react';
 import { BodyShort } from '@navikt/ds-react';
 
 import { Bold } from '@components/Bold';
+import { Endringstrekant } from '@components/Endringstrekant';
+import { Flex } from '@components/Flex';
 import { Kilde } from '@components/Kilde';
 import { Inntektoverstyring, Inntektskilde, Maybe, OmregnetArsinntekt } from '@io/graphql';
 import { kildeForkortelse } from '@utils/inntektskilde';
@@ -32,8 +34,15 @@ const OmregnetÅrsinntekt: React.FC<OmregnetÅrsinntektProps> = ({
         <>
             <div className={styles.BeregnetGrid}>
                 <BodyShort>Gj.snittlig månedsinntekt</BodyShort>
-                <BodyShort>{somPenger(omregnetÅrsinntekt.manedsbelop)}</BodyShort>
-                <div>
+                <Flex style={{ justifyContent: 'right' }}>
+                    <BodyShort style={{ position: 'relative', paddingLeft: '1rem' }}>
+                        {(endret || lokaltMånedsbeløp) && (
+                            <Endringstrekant text="Endringene vil oppdateres og kalkuleres etter du har trykket på kalkuler" />
+                        )}
+                        {somPenger(lokaltMånedsbeløp || omregnetÅrsinntekt.manedsbelop)}
+                    </BodyShort>
+                </Flex>
+                <div style={{ position: 'relative' }}>
                     {endret || lokaltMånedsbeløp || omregnetÅrsinntekt?.kilde === Inntektskilde.Saksbehandler ? (
                         <EndringsloggButton endringer={inntektsendringer} />
                     ) : (
@@ -92,8 +101,15 @@ export const ReadOnlyInntekt: React.FC<ReadOnlyInntektProps> = ({
             ) : (
                 <div className={styles.BeregnetGrid}>
                     <BodyShort>Månedsbeløp</BodyShort>
-                    <BodyShort>{somPenger(lokaltMånedsbeløp || omregnetÅrsinntekt?.manedsbelop)}</BodyShort>
-                    <div>
+                    <Flex style={{ justifyContent: 'right' }}>
+                        <BodyShort style={{ position: 'relative', paddingLeft: '1rem' }}>
+                            {(endret || lokaltMånedsbeløp) && (
+                                <Endringstrekant text="Endringene vil oppdateres og kalkuleres etter du har trykket på kalkuler" />
+                            )}
+                            {somPenger(lokaltMånedsbeløp || omregnetÅrsinntekt?.manedsbelop)}
+                        </BodyShort>
+                    </Flex>
+                    <div style={{ position: 'relative' }}>
                         {endret || lokaltMånedsbeløp || omregnetÅrsinntekt?.kilde === Inntektskilde.Saksbehandler ? (
                             <EndringsloggButton endringer={inntektsendringer} />
                         ) : (

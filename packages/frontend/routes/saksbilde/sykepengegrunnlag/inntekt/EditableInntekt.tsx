@@ -185,6 +185,7 @@ const usePostOverstyrtInntekt = (onFerdigKalkulert: () => void) => {
                                   overstyrtArbeidsgiverRetyped,
                               ],
                 });
+                onFerdigKalkulert();
             }
         },
     };
@@ -247,6 +248,16 @@ export const EditableInntekt = ({
 
     const månedsbeløp = Number.parseFloat(values.manedsbelop);
     const harEndringer = !isNaN(månedsbeløp) && månedsbeløp !== omregnetÅrsinntekt.manedsbelop;
+
+    const lokaltMånedsbeløp = lokaleInntektoverstyringer.arbeidsgivere.filter(
+        (it) => it.organisasjonsnummer === organisasjonsnummer
+    )?.[0]?.månedligInntekt;
+
+    useEffect(() => {
+        if (lokaltMånedsbeløp !== omregnetÅrsinntekt.manedsbelop) {
+            onEndre(true);
+        }
+    }, [omregnetÅrsinntekt]);
 
     useEffect(() => {
         if (!isNaN(values.manedsbelop)) {
@@ -381,6 +392,7 @@ export const EditableInntekt = ({
                             <MånedsbeløpInput
                                 initialMånedsbeløp={omregnetÅrsinntekt.manedsbelop}
                                 skalDeaktiveres={omregnetÅrsinntekt.kilde === 'INFOTRYGD'}
+                                lokaltMånedsbeløp={lokaltMånedsbeløp}
                             />
                             <p
                                 className={classNames(

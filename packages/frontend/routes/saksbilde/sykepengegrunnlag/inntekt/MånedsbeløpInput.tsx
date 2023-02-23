@@ -33,9 +33,14 @@ const Feilmelding = styled.label`
 interface MånedsbeløpInputProps {
     initialMånedsbeløp?: number;
     skalDeaktiveres: boolean;
+    lokaltMånedsbeløp: Maybe<number>;
 }
 
-export const MånedsbeløpInput = ({ initialMånedsbeløp, skalDeaktiveres }: MånedsbeløpInputProps) => {
+export const MånedsbeløpInput = ({
+    initialMånedsbeløp,
+    skalDeaktiveres,
+    lokaltMånedsbeløp = null,
+}: MånedsbeløpInputProps) => {
     const form = useFormContext();
     const initialMånedsbeløpRounded =
         initialMånedsbeløp && Math.round((initialMånedsbeløp + Number.EPSILON) * 100) / 100;
@@ -59,7 +64,7 @@ export const MånedsbeløpInput = ({ initialMånedsbeløp, skalDeaktiveres }: M�
                 <Input
                     id="manedsbelop"
                     ref={ref}
-                    defaultValue={initialMånedsbeløpRounded}
+                    defaultValue={lokaltMånedsbeløp || initialMånedsbeløpRounded}
                     error={form.formState.errors.manedsbelop?.message}
                     onBlur={(event) => {
                         onBlur(event);
