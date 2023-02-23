@@ -1,12 +1,12 @@
 .Grid,
 .BeregnetGrid {
     display: grid;
-    grid-template-columns: 220px 130px;
-    grid-column-gap: 1rem;
+    grid-template-columns: 228px 130px;
+    grid-column-gap: 0.5rem;
     grid-row-gap: 0.25rem;
 }
 .BeregnetGrid {
-    grid-template-columns: 220px 130px 50px;
+    grid-template-columns: 228px 130px 50px;
 }
 
 .Grid > p:nth-child(2n) {
@@ -55,5 +55,5 @@
 }
 
 .SisteTreMndInntekt {
-    margin-top: 1rem;
+    margin-top: 1.5rem;
 }

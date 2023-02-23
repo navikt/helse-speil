@@ -8,6 +8,7 @@ import { Endringstrekant } from '@components/Endringstrekant';
 import { Flex } from '@components/Flex';
 import { Kilde } from '@components/Kilde';
 import { Inntektoverstyring, Inntektskilde, Maybe, OmregnetArsinntekt } from '@io/graphql';
+import { inntektOgRefusjonSteg4 } from '@utils/featureToggles';
 import { kildeForkortelse } from '@utils/inntektskilde';
 import { somPenger } from '@utils/locale';
 
@@ -18,42 +19,11 @@ import styles from './ReadOnlyInntekt.module.css';
 interface OmregnetÅrsinntektProps {
     omregnetÅrsinntekt: OmregnetArsinntekt;
     deaktivert?: Maybe<boolean>;
-    lokaltMånedsbeløp: Maybe<number>;
-    endret: boolean;
-    inntektsendringer: Inntektoverstyring[];
 }
 
-const OmregnetÅrsinntekt: React.FC<OmregnetÅrsinntektProps> = ({
-    omregnetÅrsinntekt,
-    deaktivert,
-    lokaltMånedsbeløp = null,
-    endret,
-    inntektsendringer,
-}) => {
+const GhostInntektsinformasjon: React.FC<OmregnetÅrsinntektProps> = ({ omregnetÅrsinntekt, deaktivert }) => {
     return (
         <>
-            <div className={styles.BeregnetGrid}>
-                <BodyShort>Gj.snittlig månedsinntekt</BodyShort>
-                <Flex style={{ justifyContent: 'right' }}>
-                    <BodyShort style={{ position: 'relative', paddingLeft: '1rem' }}>
-                        {(endret || lokaltMånedsbeløp) && (
-                            <Endringstrekant text="Endringene vil oppdateres og kalkuleres etter du har trykket på kalkuler" />
-                        )}
-                        {somPenger(lokaltMånedsbeløp || omregnetÅrsinntekt.manedsbelop)}
-                    </BodyShort>
-                </Flex>
-                <div style={{ position: 'relative' }}>
-                    {endret || lokaltMånedsbeløp || omregnetÅrsinntekt?.kilde === Inntektskilde.Saksbehandler ? (
-                        <EndringsloggButton endringer={inntektsendringer} />
-                    ) : (
-                        <Kilde type={omregnetÅrsinntekt?.kilde} className={styles.Kildeikon}>
-                            {kildeForkortelse(omregnetÅrsinntekt?.kilde)}
-                        </Kilde>
-                    )}
-                </div>
-                <Bold>Omregnet rapportert årsinntekt</Bold>
-                <Bold>{somPenger(omregnetÅrsinntekt.belop)}</Bold>
-            </div>
             {omregnetÅrsinntekt.inntektFraAOrdningen && (
                 <SisteTreMånedersInntekt
                     inntektFraAOrdningen={omregnetÅrsinntekt.inntektFraAOrdningen}
@@ -88,43 +58,46 @@ export const ReadOnlyInntekt: React.FC<ReadOnlyInntektProps> = ({
     endret,
     inntektsendringer,
 }) => {
+    const harInntektskildeAOrdningen = omregnetÅrsinntekt?.kilde === Inntektskilde.Aordningen;
+
     return (
         <>
-            {omregnetÅrsinntekt?.kilde === Inntektskilde.Aordningen ? (
-                <OmregnetÅrsinntekt
-                    omregnetÅrsinntekt={omregnetÅrsinntekt!}
-                    deaktivert={deaktivert}
-                    lokaltMånedsbeløp={lokaltMånedsbeløp}
-                    endret={endret}
-                    inntektsendringer={inntektsendringer}
-                />
-            ) : (
-                <div className={styles.BeregnetGrid}>
-                    <BodyShort>Månedsbeløp</BodyShort>
-                    <Flex style={{ justifyContent: 'right' }}>
-                        <BodyShort style={{ position: 'relative', paddingLeft: '1rem' }}>
-                            {(endret || lokaltMånedsbeløp) && (
-                                <Endringstrekant text="Endringene vil oppdateres og kalkuleres etter du har trykket på kalkuler" />
-                            )}
-                            {somPenger(lokaltMånedsbeløp || omregnetÅrsinntekt?.manedsbelop)}
-                        </BodyShort>
-                    </Flex>
-                    <div style={{ position: 'relative' }}>
-                        {endret || lokaltMånedsbeløp || omregnetÅrsinntekt?.kilde === Inntektskilde.Saksbehandler ? (
-                            <EndringsloggButton endringer={inntektsendringer} />
-                        ) : (
-                            <Kilde type={omregnetÅrsinntekt?.kilde} className={styles.Kildeikon}>
-                                {kildeForkortelse(omregnetÅrsinntekt?.kilde)}
-                            </Kilde>
+            <div className={styles.BeregnetGrid}>
+                <BodyShort>{harInntektskildeAOrdningen ? 'Gj.snittlig månedsinntekt' : 'Månedsbeløp'}</BodyShort>
+                <Flex style={{ justifyContent: 'right' }}>
+                    <div style={{ position: 'relative', paddingLeft: '1rem' }}>
+                        {(endret || lokaltMånedsbeløp) && (
+                            <Endringstrekant
+                                text={
+                                    inntektOgRefusjonSteg4
+                                        ? 'Endringene vil oppdateres og kalkuleres etter du har trykket på kalkuler'
+                                        : 'Endringene vil oppdateres når kalkuleringen er gjennomført'
+                                }
+                            />
                         )}
+                        <BodyShort>{somPenger(lokaltMånedsbeløp || omregnetÅrsinntekt?.manedsbelop)}</BodyShort>
                     </div>
-                    <BodyShort>
-                        {omregnetÅrsinntekt?.kilde === Inntektskilde.Infotrygd
-                            ? 'Sykepengegrunnlag før 6G'
-                            : 'Omregnet til årsinntekt'}
-                    </BodyShort>
-                    <Bold>{somPenger(omregnetÅrsinntekt?.belop)}</Bold>
+                </Flex>
+                <div style={{ position: 'relative' }}>
+                    {endret || lokaltMånedsbeløp || omregnetÅrsinntekt?.kilde === Inntektskilde.Saksbehandler ? (
+                        <EndringsloggButton endringer={inntektsendringer} />
+                    ) : (
+                        <Kilde type={omregnetÅrsinntekt?.kilde} className={styles.Kildeikon}>
+                            {kildeForkortelse(omregnetÅrsinntekt?.kilde)}
+                        </Kilde>
+                    )}
                 </div>
+                <BodyShort>
+                    {omregnetÅrsinntekt?.kilde === Inntektskilde.Infotrygd
+                        ? 'Sykepengegrunnlag før 6G'
+                        : harInntektskildeAOrdningen
+                        ? 'Omregnet rapportert årsinntekt'
+                        : 'Omregnet til årsinntekt'}
+                </BodyShort>
+                <Bold>{somPenger(omregnetÅrsinntekt?.belop)}</Bold>
+            </div>
+            {harInntektskildeAOrdningen && (
+                <GhostInntektsinformasjon omregnetÅrsinntekt={omregnetÅrsinntekt!} deaktivert={deaktivert} />
             )}
         </>
     );
