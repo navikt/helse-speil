@@ -7,6 +7,7 @@ import { BodyShort, UNSAFE_DatePicker as DatePicker, Tooltip } from '@navikt/ds-
 
 import { Bold } from '@components/Bold';
 import { Button } from '@components/Button';
+import { Endringstrekant } from '@components/Endringstrekant';
 import { Flex } from '@components/Flex';
 import { Kilde } from '@components/Kilde';
 import { Kildetype } from '@io/graphql';
@@ -19,9 +20,10 @@ import styles from './Refusjon.module.css';
 
 interface RefusjonProps {
     fraRefusjonsopplysninger: Refusjonsopplysning[];
+    lokaleRefusjonsopplysninger: Refusjonsopplysning[];
 }
 
-export const Refusjon = ({ fraRefusjonsopplysninger }: RefusjonProps) => {
+export const Refusjon = ({ fraRefusjonsopplysninger, lokaleRefusjonsopplysninger }: RefusjonProps) => {
     const {
         fields,
         control,
@@ -34,7 +36,9 @@ export const Refusjon = ({ fraRefusjonsopplysninger }: RefusjonProps) => {
     } = useRefusjonFormField();
 
     useEffect(() => {
-        replaceRefusjonsopplysninger(fraRefusjonsopplysninger);
+        replaceRefusjonsopplysninger(
+            lokaleRefusjonsopplysninger.length > 0 ? lokaleRefusjonsopplysninger : fraRefusjonsopplysninger
+        );
     }, []);
 
     const isNumeric = (input: string) => /^\d+(\.\d{1,2})?$/.test(input);
@@ -243,13 +247,20 @@ export const Refusjon = ({ fraRefusjonsopplysninger }: RefusjonProps) => {
                                         </Kilde>
                                     </Tooltip>
                                 )}
-                                {refusjonsopplysning.kilde === Kildetype.Saksbehandler && (
-                                    <Tooltip content={getKildeTypeTooltip(refusjonsopplysning.kilde)}>
-                                        <Kilde type={refusjonsopplysning.kilde} className={styles.Ikon}>
-                                            <CaseworkerFilled height={12} width={12} />
-                                        </Kilde>
-                                    </Tooltip>
-                                )}
+                                {refusjonsopplysning.kilde === Kildetype.Saksbehandler &&
+                                    (lokaleRefusjonsopplysninger.length > 0 &&
+                                    JSON.stringify(lokaleRefusjonsopplysninger?.[index]) !==
+                                        JSON.stringify(fraRefusjonsopplysninger?.[index]) ? (
+                                        <div style={{ position: 'relative', width: '20px' }}>
+                                            <Endringstrekant />
+                                        </div>
+                                    ) : (
+                                        <Tooltip content={getKildeTypeTooltip(refusjonsopplysning.kilde)}>
+                                            <Kilde type={refusjonsopplysning.kilde} className={styles.Ikon}>
+                                                <CaseworkerFilled height={12} width={12} />
+                                            </Kilde>
+                                        </Tooltip>
+                                    ))}
                             </Flex>
                         )}
                     />

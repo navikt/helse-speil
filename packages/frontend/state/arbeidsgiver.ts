@@ -1,4 +1,5 @@
 import dayjs from 'dayjs';
+import { useRecoilState } from 'recoil';
 
 import {
     Arbeidsforholdoverstyring,
@@ -11,6 +12,7 @@ import {
     Utbetaling,
     Vurdering,
 } from '@io/graphql';
+import { Refusjonsopplysning } from '@io/http';
 import { useActivePeriod } from '@state/periode';
 import { useCurrentPerson } from '@state/person';
 import { harBlittUtbetaltTidligere } from '@state/selectors/period';
@@ -23,6 +25,7 @@ import {
     isUberegnetPeriode,
 } from '@utils/typeguards';
 
+import { inntektOgRefusjonState } from '../routes/saksbilde/sykepengegrunnlag/inntekt/EditableInntekt';
 import { useDagoverstyringer } from '../routes/saksbilde/utbetaling/Utbetaling';
 
 export const findArbeidsgiverWithGhostPeriode = (
@@ -206,4 +209,32 @@ export const useHarDagOverstyringer = (periode: FetchedBeregnetPeriode): boolean
     }
 
     return !harBlittUtbetaltTidligere(periode, arbeidsgiver) && (dagendringer?.length ?? 0) > 0;
+};
+
+export const useLokaleRefusjonsopplysninger = (
+    organisasjonsnummer: string,
+    skjæringstidspunkt: string
+): Refusjonsopplysning[] => {
+    const [lokaleInntektoverstyringer, _] = useRecoilState(inntektOgRefusjonState);
+
+    if (lokaleInntektoverstyringer.skjæringstidspunkt !== skjæringstidspunkt) return [];
+
+    return (
+        lokaleInntektoverstyringer.arbeidsgivere
+            .filter((it) => it.organisasjonsnummer === organisasjonsnummer)?.[0]
+            ?.refusjonsopplysninger?.map((refusjonsopplysning) => {
+                return { ...refusjonsopplysning } as Refusjonsopplysning;
+            }) ?? []
+    );
+};
+
+export const useLokaltMånedsbeløp = (organisasjonsnummer: string, skjæringstidspunkt: string): number | null => {
+    const [lokaleInntektoverstyringer, _] = useRecoilState(inntektOgRefusjonState);
+
+    if (lokaleInntektoverstyringer.skjæringstidspunkt !== skjæringstidspunkt) return null;
+
+    return (
+        lokaleInntektoverstyringer.arbeidsgivere.filter((it) => it.organisasjonsnummer === organisasjonsnummer)?.[0]
+            ?.månedligInntekt ?? null
+    );
 };

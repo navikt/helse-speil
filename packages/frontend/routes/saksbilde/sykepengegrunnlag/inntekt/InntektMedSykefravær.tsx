@@ -2,7 +2,6 @@ import { harPeriodeTilBeslutterFor } from './InntektUtenSykefravær';
 import { SisteTreMånedersInntekt } from './SisteTreMånedersInntekt';
 import classNames from 'classnames';
 import React, { useState } from 'react';
-import { useRecoilState } from 'recoil';
 
 import { Tooltip } from '@navikt/ds-react';
 
@@ -27,6 +26,8 @@ import {
 import { Refusjonsopplysning } from '@io/http';
 import {
     useEndringerForPeriode,
+    useLokaleRefusjonsopplysninger,
+    useLokaltMånedsbeløp,
     usePeriodForSkjæringstidspunkt,
     useUtbetalingForSkjæringstidspunkt,
 } from '@state/arbeidsgiver';
@@ -36,7 +37,7 @@ import { overstyrInntektEnabled } from '@utils/featureToggles';
 
 import { BegrunnelseForOverstyring } from '../overstyring.types';
 import { Refusjonsoversikt } from '../refusjon/Refusjonsoversikt';
-import { EditableInntekt, inntektOgRefusjonState } from './EditableInntekt';
+import { EditableInntekt } from './EditableInntekt';
 import { ReadOnlyInntekt } from './ReadOnlyInntekt';
 import { RedigerInntektOgRefusjon } from './RedigerInntektOgRefusjon';
 
@@ -92,16 +93,14 @@ export const InntektMedSykefravær = ({
 }: InntektMedSykefraværProps) => {
     const [editing, setEditing] = useState(false);
     const [endret, setEndret] = useState(false);
-    const [lokaleInntektoverstyringer, setLokaleInntektoverstyringer] = useRecoilState(inntektOgRefusjonState);
 
     const erRevurdering = useUtbetalingForSkjæringstidspunkt(skjæringstidspunkt)?.status === Utbetalingstatus.Utbetalt;
     const { inntektsendringer } = useEndringerForPeriode(organisasjonsnummer);
 
     const kanRevurderes = useInntektKanRevurderes(skjæringstidspunkt);
 
-    const lokaltMånedsbeløp =
-        lokaleInntektoverstyringer.arbeidsgivere.filter((it) => it.organisasjonsnummer === organisasjonsnummer)?.[0]
-            ?.månedligInntekt ?? null;
+    const lokaltMånedsbeløp = useLokaltMånedsbeløp(organisasjonsnummer, skjæringstidspunkt);
+    const lokaleRefusjonsopplysninger = useLokaleRefusjonsopplysninger(organisasjonsnummer, skjæringstidspunkt);
 
     return (
         <div className={classNames(styles.Inntekt, editing && styles.editing)}>
@@ -165,7 +164,9 @@ export const InntektMedSykefravær = ({
                     inntektsendringer={inntektsendringer}
                 />
             )}
-            {refusjon && refusjon.length !== 0 && !editing && <Refusjonsoversikt refusjon={refusjon} />}
+            {refusjon && refusjon.length !== 0 && !editing && (
+                <Refusjonsoversikt refusjon={refusjon} lokaleRefusjonsopplysninger={lokaleRefusjonsopplysninger} />
+            )}
             {inntektFraAOrdningen && !editing && (
                 <SisteTreMånedersInntekt inntektFraAOrdningen={inntektFraAOrdningen} />
             )}

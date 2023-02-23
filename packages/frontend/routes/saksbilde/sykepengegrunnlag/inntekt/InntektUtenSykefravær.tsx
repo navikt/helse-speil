@@ -1,6 +1,5 @@
 import classNames from 'classnames';
 import React, { useState } from 'react';
-import { useRecoilState } from 'recoil';
 
 import { Tooltip } from '@navikt/ds-react';
 
@@ -13,14 +12,19 @@ import { Clipboard } from '@components/clipboard';
 import { Arbeidsgiverikon } from '@components/ikoner/Arbeidsgiverikon';
 import { Arbeidsgiver, BeregnetPeriode, Maybe, OmregnetArsinntekt, Periodetilstand } from '@io/graphql';
 import { Refusjonsopplysning } from '@io/http';
-import { useEndringerForPeriode, usePeriodForSkjæringstidspunktForArbeidsgiver } from '@state/arbeidsgiver';
+import {
+    useEndringerForPeriode,
+    useLokaleRefusjonsopplysninger,
+    useLokaltMånedsbeløp,
+    usePeriodForSkjæringstidspunktForArbeidsgiver,
+} from '@state/arbeidsgiver';
 import { useCurrentPerson } from '@state/person';
 import { isBeregnetPeriode, isGhostPeriode } from '@utils/typeguards';
 
 import { OverstyrArbeidsforholdUtenSykdom } from '../OverstyrArbeidsforholdUtenSykdom';
 import { BegrunnelseForOverstyring } from '../overstyring.types';
 import { Refusjonsoversikt } from '../refusjon/Refusjonsoversikt';
-import { EditableInntekt, inntektOgRefusjonState } from './EditableInntekt';
+import { EditableInntekt } from './EditableInntekt';
 import { ReadOnlyInntekt } from './ReadOnlyInntekt';
 import { RedigerGhostInntekt } from './RedigerGhostInntekt';
 
@@ -159,17 +163,15 @@ export const InntektUtenSykefravær = ({
     const [endret, setEndret] = useState(false);
     const person = useCurrentPerson();
 
-    const [lokaleInntektoverstyringer, setLokaleInntektoverstyringer] = useRecoilState(inntektOgRefusjonState);
     const arbeidsforholdKanOverstyres = useArbeidsforholdKanOverstyres(skjæringstidspunkt, organisasjonsnummer);
     const ghostInntektKanOverstyres = useGhostInntektKanOverstyres(skjæringstidspunkt, organisasjonsnummer);
     const { inntektsendringer } = useEndringerForPeriode(organisasjonsnummer);
+    const lokaleRefusjonsopplysninger = useLokaleRefusjonsopplysninger(organisasjonsnummer, skjæringstidspunkt);
+    const lokaltMånedsbeløp = useLokaltMånedsbeløp(organisasjonsnummer, skjæringstidspunkt);
 
     if (!person) return null;
 
     const erRevurdering = maybePeriodeTilGodkjenning(person, skjæringstidspunkt) === null;
-    const lokaltMånedsbeløp =
-        lokaleInntektoverstyringer.arbeidsgivere.filter((it) => it.organisasjonsnummer === organisasjonsnummer)?.[0]
-            ?.månedligInntekt ?? null;
 
     return (
         <div
@@ -233,7 +235,9 @@ export const InntektUtenSykefravær = ({
                     arbeidsforholdErDeaktivert={erDeaktivert}
                 />
             )}
-            {refusjon && refusjon.length !== 0 && !editingInntekt && <Refusjonsoversikt refusjon={refusjon} />}
+            {refusjon && refusjon.length !== 0 && !editingInntekt && (
+                <Refusjonsoversikt refusjon={refusjon} lokaleRefusjonsopplysninger={lokaleRefusjonsopplysninger} />
+            )}
         </div>
     );
 };

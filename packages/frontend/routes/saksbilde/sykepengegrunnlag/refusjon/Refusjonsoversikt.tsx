@@ -11,9 +11,11 @@ import styles from './Refusjonsoversikt.module.css';
 
 interface RefusjonProps {
     refusjon: Refusjonsopplysning[];
+    lokaleRefusjonsopplysninger: Refusjonsopplysning[];
 }
 
-export const Refusjonsoversikt: React.FC<RefusjonProps> = ({ refusjon }) => {
+export const Refusjonsoversikt: React.FC<RefusjonProps> = ({ refusjon, lokaleRefusjonsopplysninger }) => {
+    const refusjonIVisning = lokaleRefusjonsopplysninger.length > 0 ? lokaleRefusjonsopplysninger : refusjon;
     return (
         <div className={styles.Refusjonsoversikt}>
             <div className={styles.Header}>
@@ -33,12 +35,16 @@ export const Refusjonsoversikt: React.FC<RefusjonProps> = ({ refusjon }) => {
                     </tr>
                 </thead>
                 <tbody>
-                    {refusjon.map((refusjonsopplysning, i) => (
+                    {refusjonIVisning.map((refusjonsopplysning, i) => (
                         <Refusjonslinje
                             key={i}
                             dato={refusjonsopplysning.fom}
                             beløp={refusjonsopplysning.beløp}
                             kilde={refusjonsopplysning.kilde}
+                            lokalEndring={
+                                lokaleRefusjonsopplysninger.length > 0 &&
+                                JSON.stringify(lokaleRefusjonsopplysninger[i]) !== JSON.stringify(refusjon[i])
+                            }
                         />
                     ))}
                 </tbody>

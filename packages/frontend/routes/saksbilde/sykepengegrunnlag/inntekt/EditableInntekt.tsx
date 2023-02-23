@@ -19,7 +19,12 @@ import type {
     Refusjonsopplysning,
 } from '@io/http';
 import { postAbonnerPåAktør, postOverstyrtInntektOgRefusjon } from '@io/http';
-import { useArbeidsgiver, usePeriodForSkjæringstidspunktForArbeidsgiver } from '@state/arbeidsgiver';
+import {
+    useArbeidsgiver,
+    useLokaleRefusjonsopplysninger,
+    useLokaltMånedsbeløp,
+    usePeriodForSkjæringstidspunktForArbeidsgiver,
+} from '@state/arbeidsgiver';
 import {
     kalkulererFerdigToastKey,
     kalkulererToast,
@@ -228,16 +233,15 @@ export const EditableInntekt = ({
     const form = useForm({ shouldFocusError: false, mode: 'onBlur' });
     const feiloppsummeringRef = useRef<HTMLDivElement>(null);
     const metadata = useOverstyrtInntektMetadata(skjæringstidspunkt, organisasjonsnummer);
-    const [lokaleInntektoverstyringer, setLokaleInntektoverstyringer] = useRecoilState(inntektOgRefusjonState);
     const period = usePeriodForSkjæringstidspunktForArbeidsgiver(skjæringstidspunkt, organisasjonsnummer);
     const [harIkkeSkjemaEndringer, setHarIkkeSkjemaEndringer] = useState(false);
+    const lokaleRefusjonsopplysninger = useLokaleRefusjonsopplysninger(organisasjonsnummer, skjæringstidspunkt);
+    const lokaltMånedsbeløp = useLokaltMånedsbeløp(organisasjonsnummer, skjæringstidspunkt);
 
     const cancelEditing = () => {
         onEndre(false);
         close();
     };
-
-    console.log('lokaleInntektoverstyringer:', lokaleInntektoverstyringer);
 
     const { isLoading, error, postOverstyring, timedOut, setTimedOut } = usePostOverstyrtInntekt(cancelEditing);
 
@@ -248,10 +252,6 @@ export const EditableInntekt = ({
 
     const månedsbeløp = Number.parseFloat(values.manedsbelop);
     const harEndringer = !isNaN(månedsbeløp) && månedsbeløp !== omregnetÅrsinntekt.manedsbelop;
-
-    const lokaltMånedsbeløp = lokaleInntektoverstyringer.arbeidsgivere.filter(
-        (it) => it.organisasjonsnummer === organisasjonsnummer
-    )?.[0]?.månedligInntekt;
 
     useEffect(() => {
         if (lokaltMånedsbeløp !== omregnetÅrsinntekt.manedsbelop) {
@@ -423,7 +423,10 @@ export const EditableInntekt = ({
                         </div>
                     </div>
                     {isBeregnetPeriode(period) && (
-                        <Refusjon fraRefusjonsopplysninger={metadata.fraRefusjonsopplysninger}></Refusjon>
+                        <Refusjon
+                            fraRefusjonsopplysninger={metadata.fraRefusjonsopplysninger}
+                            lokaleRefusjonsopplysninger={lokaleRefusjonsopplysninger}
+                        ></Refusjon>
                     )}
                     <Begrunnelser begrunnelser={begrunnelser} />
                     <ForklaringTextarea />
