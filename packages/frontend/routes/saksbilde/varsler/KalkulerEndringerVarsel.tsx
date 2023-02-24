@@ -137,29 +137,37 @@ export const KalkulerEndringerVarsel: React.FC<KalkulerEndringerVarselProps> = (
 interface SlettLokaleOverstyringerModalProps {
     onApprove: () => void;
     onClose: () => void;
-    skjæringstidspunkt: string;
+    skjæringstidspunkt?: string;
+    heading?: string;
+    tekst?: ReactNode;
 }
 
 export const SlettLokaleOverstyringerModal = ({
     onApprove,
     onClose,
     skjæringstidspunkt,
+    heading,
+    tekst,
 }: SlettLokaleOverstyringerModalProps) => (
     <Modal
         isOpen
         title={
             <Heading as="h2" size="large">
-                Er du sikker på at du vil avbryte?
+                {heading ?? 'Er du sikker på at du vil avbryte?'}
             </Heading>
         }
         contentLabel="Slett lokale overstyringer"
         onRequestClose={onClose}
     >
         <div className={styles.Container}>
-            <BodyShort>
-                Ved å trykke ja slettes lokale overstyringer lagret på skjæringstidspunkt:{' '}
-                <Bold>{skjæringstidspunkt}</Bold>
-            </BodyShort>
+            {tekst ?? (
+                <BodyShort>
+                    <span>
+                        Ved å trykke ja slettes lokale overstyringer lagret på skjæringstidspunkt:{' '}
+                        <Bold>{skjæringstidspunkt}</Bold>
+                    </span>
+                </BodyShort>
+            )}
             <div className={styles.Buttons}>
                 <Button variant="primary" onClick={onApprove}>
                     <span>Ja</span>

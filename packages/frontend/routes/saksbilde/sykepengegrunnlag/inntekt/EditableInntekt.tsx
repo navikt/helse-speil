@@ -39,6 +39,7 @@ import { inntektOgRefusjonSteg4 } from '@utils/featureToggles';
 import { somPenger, toKronerOgØre } from '@utils/locale';
 import { isArbeidsgiver, isBeregnetPeriode, isGhostPeriode, isPerson } from '@utils/typeguards';
 
+import { SlettLokaleOverstyringerModal } from '../../varsler/KalkulerEndringerVarsel';
 import { BegrunnelseForOverstyring } from '../overstyring.types';
 import { Begrunnelser } from './Begrunnelser';
 import { ForklaringTextarea } from './ForklaringTextarea';
@@ -87,7 +88,11 @@ const useOverstyrtInntektMetadata = (
     };
 };
 
-const usePostOverstyrtInntekt = (onFerdigKalkulert: () => void) => {
+const usePostOverstyrtInntekt = (
+    onFerdigKalkulert: () => void,
+    showSlettLokaleOverstyringerModal: boolean,
+    setShowSlettLokaleOverstyringerModal: (data: boolean) => void
+) => {
     const person = useCurrentPerson();
 
     if (!isPerson(person)) {
@@ -154,6 +159,16 @@ const usePostOverstyrtInntekt = (onFerdigKalkulert: () => void) => {
                         setIsLoading(false);
                     });
             } else {
+                if (
+                    lokaleInntektoverstyringer.skjæringstidspunkt &&
+                    overstyrtInntekt.skjæringstidspunkt !== lokaleInntektoverstyringer.skjæringstidspunkt &&
+                    !showSlettLokaleOverstyringerModal
+                ) {
+                    setShowSlettLokaleOverstyringerModal(true);
+                    setIsLoading(false);
+                    return;
+                }
+
                 const overstyrtArbeidsgiver = (overstyrtInntekt as OverstyrtInntektOgRefusjonDTO).arbeidsgivere[0];
                 const overstyrtArbeidsgiverRetyped = {
                     ...overstyrtArbeidsgiver,
@@ -168,8 +183,6 @@ const usePostOverstyrtInntekt = (onFerdigKalkulert: () => void) => {
                         }),
                     ],
                 };
-
-                // @TODO: modalhåndtering for å være sikker på å overskrive lokale endringer på et annet skjæringstidspunkt dersom de finnes her
 
                 const arbeidsgivereLagretPåSkjæringstidspunkt =
                     overstyrtInntekt.skjæringstidspunkt !== lokaleInntektoverstyringer.skjæringstidspunkt
@@ -237,6 +250,8 @@ export const EditableInntekt = ({
     const metadata = useOverstyrtInntektMetadata(skjæringstidspunkt, organisasjonsnummer);
     const period = usePeriodForSkjæringstidspunktForArbeidsgiver(skjæringstidspunkt, organisasjonsnummer);
     const [harIkkeSkjemaEndringer, setHarIkkeSkjemaEndringer] = useState(false);
+    const [showSlettLokaleOverstyringerModal, setShowSlettLokaleOverstyringerModal] = useState(false);
+    const [lokaleInntektoverstyringer, _] = useRecoilState(inntektOgRefusjonState);
     const lokaleRefusjonsopplysninger = useLokaleRefusjonsopplysninger(organisasjonsnummer, skjæringstidspunkt);
     const lokaltMånedsbeløp = useLokaltMånedsbeløp(organisasjonsnummer, skjæringstidspunkt);
 
@@ -245,7 +260,11 @@ export const EditableInntekt = ({
         close();
     };
 
-    const { isLoading, error, postOverstyring, timedOut, setTimedOut } = usePostOverstyrtInntekt(cancelEditing);
+    const { isLoading, error, postOverstyring, timedOut, setTimedOut } = usePostOverstyrtInntekt(
+        cancelEditing,
+        showSlettLokaleOverstyringerModal,
+        setShowSlettLokaleOverstyringerModal
+    );
 
     const harFeil = !form.formState.isValid && form.formState.isSubmitted;
     const values = form.getValues();
@@ -495,6 +514,27 @@ export const EditableInntekt = ({
                     </span>
                     {error && <ErrorMessage>{error}</ErrorMessage>}
                     {timedOut && <OverstyringTimeoutModal onRequestClose={() => setTimedOut(false)} />}
+                    {showSlettLokaleOverstyringerModal && (
+                        <SlettLokaleOverstyringerModal
+                            onApprove={form.handleSubmit(confirmChanges)}
+                            onClose={() => setShowSlettLokaleOverstyringerModal(false)}
+                            heading="Er du sikker på at du vil fortsette?"
+                            tekst={
+                                <div>
+                                    <BodyShort>
+                                        Ved å trykke ja lagrer du disse nye endringene for skjæringstidspunkt:{' '}
+                                        <span className={styles.Skjæringstidspunkt}>{skjæringstidspunkt}</span>,
+                                    </BodyShort>
+                                    <BodyShort>
+                                        og vil dermed overskrive lokale overstyringer lagret på skjæringstidspunkt:{' '}
+                                        <span className={styles.Skjæringstidspunkt}>
+                                            {lokaleInntektoverstyringer.skjæringstidspunkt ?? ''}
+                                        </span>
+                                    </BodyShort>
+                                </div>
+                            }
+                        />
+                    )}
                 </div>
             </form>
         </FormProvider>
