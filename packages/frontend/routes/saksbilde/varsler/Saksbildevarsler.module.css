@@ -13,6 +13,11 @@
     margin-top: 0.75rem;
 }
 
+.ButtonWithLoader > span {
+    display: flex;
+    column-gap: var(--navds-spacing-1);
+}
+
 .Container {
     display: flex;
     flex-direction: column;

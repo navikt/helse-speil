@@ -107,6 +107,7 @@ export const KalkulerEndringerVarsel: React.FC<KalkulerEndringerVarselProps> = (
                         data-testid="kalkuler-button"
                         disabled={isLoading}
                         onClick={() => postOverstyring(lokaleInntektoverstyringer as OverstyrtInntektOgRefusjonDTO)}
+                        className={styles.ButtonWithLoader}
                     >
                         Kalkuler endringer ({antallRedigerteArbeidsgivere}){isLoading && <Loader size="xsmall" />}
                     </Button>
