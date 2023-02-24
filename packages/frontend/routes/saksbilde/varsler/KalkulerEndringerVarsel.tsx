@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { useRecoilState, useResetRecoilState } from 'recoil';
 
-import { Alert, BodyShort, Button, Loader } from '@navikt/ds-react';
+import { Alert, BodyShort, Button, Heading, Loader } from '@navikt/ds-react';
 
+import { Bold } from '@components/Bold';
 import { ErrorMessage } from '@components/ErrorMessage';
+import { Modal } from '@components/Modal';
 import { OverstyringTimeoutModal } from '@components/OverstyringTimeoutModal';
 import { OverstyrtInntektOgRefusjonDTO, postAbonnerPåAktør, postOverstyrtInntektOgRefusjon } from '@io/http';
 import {
@@ -28,7 +30,7 @@ const usePostOverstyrtInntektOgRefusjon = () => {
     const removeToast = useRemoveToast();
     const opptegnelser = useOpptegnelser();
     const setPollingRate = useSetOpptegnelserPollingRate();
-    const slettLokaleEndringer = useResetRecoilState(inntektOgRefusjonState);
+    const slettLokaleOverstyringer = useResetRecoilState(inntektOgRefusjonState);
     const [isLoading, setIsLoading] = useState(false);
     const [calculating, setCalculating] = useState(false);
     const [error, setError] = useState<string | null>();
@@ -39,7 +41,7 @@ const usePostOverstyrtInntektOgRefusjon = () => {
             addToast(kalkuleringFerdigToast({ callback: () => removeToast(kalkulererFerdigToastKey) }));
             setIsLoading(false);
             setCalculating(false);
-            slettLokaleEndringer();
+            slettLokaleOverstyringer();
         }
     }, [opptegnelser]);
 
@@ -89,14 +91,10 @@ const usePostOverstyrtInntektOgRefusjon = () => {
 
 export const KalkulerEndringerVarsel: React.FC<KalkulerEndringerVarselProps> = ({ skjæringstidspunkt }) => {
     const [lokaleInntektoverstyringer] = useRecoilState(inntektOgRefusjonState);
-    const slettLokaleEndringer = useResetRecoilState(inntektOgRefusjonState);
+    const slettLokaleOverstyringer = useResetRecoilState(inntektOgRefusjonState);
     const { isLoading, error, postOverstyring, timedOut, setTimedOut } = usePostOverstyrtInntektOgRefusjon();
+    const [showModal, setShowModal] = useState(false);
     const antallRedigerteArbeidsgivere = lokaleInntektoverstyringer?.arbeidsgivere.length ?? 0;
-
-    const cancelEditing = () => {
-        // @TODO modal her med 'er du sikker på at du vil slette overstyringene du har gjort?'
-        slettLokaleEndringer();
-    };
 
     return antallRedigerteArbeidsgivere > 0 && lokaleInntektoverstyringer?.skjæringstidspunkt === skjæringstidspunkt ? (
         <>
@@ -116,7 +114,7 @@ export const KalkulerEndringerVarsel: React.FC<KalkulerEndringerVarselProps> = (
                         variant="tertiary"
                         size="small"
                         data-testid="kalkuler-avbryt-button"
-                        onClick={cancelEditing}
+                        onClick={() => setShowModal(true)}
                     >
                         Avbryt
                     </Button>
@@ -124,6 +122,51 @@ export const KalkulerEndringerVarsel: React.FC<KalkulerEndringerVarselProps> = (
                 {error && <ErrorMessage>{error}</ErrorMessage>}
             </Alert>
             {timedOut && <OverstyringTimeoutModal onRequestClose={() => setTimedOut(false)} />}
+            {showModal && (
+                <SlettLokaleOverstyringerModal
+                    onApprove={() => slettLokaleOverstyringer()}
+                    onClose={() => setShowModal(false)}
+                    skjæringstidspunkt={skjæringstidspunkt}
+                />
+            )}
         </>
     ) : null;
 };
+
+interface SlettLokaleOverstyringerModalProps {
+    onApprove: () => void;
+    onClose: () => void;
+    skjæringstidspunkt: string;
+}
+
+export const SlettLokaleOverstyringerModal = ({
+    onApprove,
+    onClose,
+    skjæringstidspunkt,
+}: SlettLokaleOverstyringerModalProps) => (
+    <Modal
+        isOpen
+        title={
+            <Heading as="h2" size="large">
+                Er du sikker på at du vil avbryte?
+            </Heading>
+        }
+        contentLabel="Slett lokale overstyringer"
+        onRequestClose={onClose}
+    >
+        <div className={styles.Container}>
+            <BodyShort>
+                Ved å trykke ja slettes lokale overstyringer lagret på skjæringstidspunkt:{' '}
+                <Bold>{skjæringstidspunkt}</Bold>
+            </BodyShort>
+            <div className={styles.Buttons}>
+                <Button variant="primary" onClick={onApprove}>
+                    <span>Ja</span>
+                </Button>
+                <Button variant="secondary" onClick={onClose}>
+                    Avbryt
+                </Button>
+            </div>
+        </div>
+    </Modal>
+);

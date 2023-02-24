@@ -169,6 +169,8 @@ const usePostOverstyrtInntekt = (onFerdigKalkulert: () => void) => {
                     ],
                 };
 
+                // @TODO: modalhåndtering for å være sikker på å overskrive lokale endringer på et annet skjæringstidspunkt dersom de finnes her
+
                 const arbeidsgivereLagretPåSkjæringstidspunkt =
                     overstyrtInntekt.skjæringstidspunkt !== lokaleInntektoverstyringer.skjæringstidspunkt
                         ? []

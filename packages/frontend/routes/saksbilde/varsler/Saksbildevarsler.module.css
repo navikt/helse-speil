@@ -12,3 +12,10 @@
     gap: 1rem;
     margin-top: 0.75rem;
 }
+
+.Container {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    margin-top: 1rem;
+}
