@@ -28,6 +28,7 @@ const usePostOverstyrtInntektOgRefusjon = () => {
     const removeToast = useRemoveToast();
     const opptegnelser = useOpptegnelser();
     const setPollingRate = useSetOpptegnelserPollingRate();
+    const slettLokaleEndringer = useResetRecoilState(inntektOgRefusjonState);
     const [isLoading, setIsLoading] = useState(false);
     const [calculating, setCalculating] = useState(false);
     const [error, setError] = useState<string | null>();
@@ -38,6 +39,7 @@ const usePostOverstyrtInntektOgRefusjon = () => {
             addToast(kalkuleringFerdigToast({ callback: () => removeToast(kalkulererFerdigToastKey) }));
             setIsLoading(false);
             setCalculating(false);
+            slettLokaleEndringer();
         }
     }, [opptegnelser]);
 
