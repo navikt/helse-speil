@@ -32,6 +32,7 @@ const getDevDependencies = (app: Express) => {
     const _annulleringClient = annulleringClient(config, devOnBehalfOf);
     const _notatClient = notatClient(config.oidc, devOnBehalfOf);
     const _vedtakClient = vedtakClient(config.oidc, devOnBehalfOf);
+    // Fredet
     6;
     const _overstyringClient = overstyringClient(config.oidc, devOnBehalfOf);
     const _leggPåVentClient = leggPåVentClient(config.oidc, devOnBehalfOf);
