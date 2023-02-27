@@ -96,7 +96,7 @@ export const Utbetaling = ({ period, person, arbeidsgiver }: UtbetalingProps) =>
     const harVurderLovvalgOgMedlemskapVarsel = useHarVurderLovvalgOgMedlemskapVarsel();
     const harOverstyringerEtterSisteGodkjenteUtbetaling = useHarOverstyringerEtterSisteGodkjenteUtbetaling(person);
     const harDagOverstyringer = useHarDagOverstyringer(period);
-    const harUvurderteVarslerPåUtbetaling = useHarUvurderteVarslerPåUtbetaling(period.utbetaling.id);
+    const harUvurderteVarslerPåUtbetaling = useHarUvurderteVarslerPåUtbetaling(period);
 
     const onGodkjennUtbetaling = () => {
         setGodkjentPeriode(period.vedtaksperiodeId);
