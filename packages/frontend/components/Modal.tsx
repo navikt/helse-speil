@@ -43,7 +43,6 @@ const Lukknapp = styled.button`
     height: 2rem;
     width: 2rem;
     padding: 0;
-    margin: -8px;
     display: flex;
     align-items: center;
     justify-content: center;

@@ -3,7 +3,6 @@ import { useRecoilState, useResetRecoilState } from 'recoil';
 
 import { Alert, BodyShort, Button, Heading, Loader } from '@navikt/ds-react';
 
-import { Bold } from '@components/Bold';
 import { ErrorMessage } from '@components/ErrorMessage';
 import { Modal } from '@components/Modal';
 import { OverstyringTimeoutModal } from '@components/OverstyringTimeoutModal';
@@ -99,7 +98,9 @@ export const KalkulerEndringerVarsel: React.FC<KalkulerEndringerVarselProps> = (
     return antallRedigerteArbeidsgivere > 0 && lokaleInntektoverstyringer?.skjæringstidspunkt === skjæringstidspunkt ? (
         <>
             <Alert className={styles.Varsel} variant="info">
-                <BodyShort>Endringene må kalkuleres før du sender saken til godkjenning.</BodyShort>
+                <BodyShort>
+                    Endringene for sykepengegrunnlag må kalkuleres før du sender saken til godkjenning.
+                </BodyShort>
                 <div className={styles.Buttons}>
                     <Button
                         variant="primary"
@@ -117,7 +118,7 @@ export const KalkulerEndringerVarsel: React.FC<KalkulerEndringerVarselProps> = (
                         data-testid="kalkuler-avbryt-button"
                         onClick={() => setShowModal(true)}
                     >
-                        Avbryt
+                        Forkast endringer ({antallRedigerteArbeidsgivere})
                     </Button>
                 </div>
                 {error && <ErrorMessage>{error}</ErrorMessage>}
@@ -127,7 +128,6 @@ export const KalkulerEndringerVarsel: React.FC<KalkulerEndringerVarselProps> = (
                 <SlettLokaleOverstyringerModal
                     onApprove={() => slettLokaleOverstyringer()}
                     onClose={() => setShowModal(false)}
-                    skjæringstidspunkt={skjæringstidspunkt}
                 />
             )}
         </>
@@ -137,7 +137,6 @@ export const KalkulerEndringerVarsel: React.FC<KalkulerEndringerVarselProps> = (
 interface SlettLokaleOverstyringerModalProps {
     onApprove: () => void;
     onClose: () => void;
-    skjæringstidspunkt?: string;
     heading?: string;
     tekst?: ReactNode;
 }
@@ -145,7 +144,6 @@ interface SlettLokaleOverstyringerModalProps {
 export const SlettLokaleOverstyringerModal = ({
     onApprove,
     onClose,
-    skjæringstidspunkt,
     heading,
     tekst,
 }: SlettLokaleOverstyringerModalProps) => (
@@ -153,7 +151,7 @@ export const SlettLokaleOverstyringerModal = ({
         isOpen
         title={
             <Heading as="h2" size="large">
-                {heading ?? 'Er du sikker på at du vil avbryte?'}
+                {heading ?? 'Er du sikker på at du vil forkaste endringene?'}
             </Heading>
         }
         contentLabel="Slett lokale overstyringer"
@@ -162,10 +160,7 @@ export const SlettLokaleOverstyringerModal = ({
         <div className={styles.Container}>
             {tekst ?? (
                 <BodyShort>
-                    <span>
-                        Ved å trykke ja slettes lokale overstyringer lagret på skjæringstidspunkt:{' '}
-                        <Bold>{skjæringstidspunkt}</Bold>
-                    </span>
+                    Ved å trykke <span style={{ fontWeight: 'bold' }}>Ja</span> vil endringene ikke bli lagret.
                 </BodyShort>
             )}
             <div className={styles.Buttons}>

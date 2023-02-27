@@ -505,7 +505,7 @@ export const EditableInntekt = ({
                             variant="secondary"
                             onClick={validateRefusjon}
                         >
-                            Ferdig
+                            Lagre
                             {isLoading && <Loader size="xsmall" />}
                         </Button>
                         <Button className={styles.Button} variant="tertiary" onClick={cancelEditing}>
