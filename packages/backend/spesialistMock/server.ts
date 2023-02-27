@@ -2,7 +2,9 @@ import express, { Request, Response } from 'express';
 
 import oppgaveFil from '../__mock-data__/oppgaver.json';
 import { sleep } from '../devHelpers';
-import { setupGraphQLMiddleware } from './graphql';
+import { setUpGraphQLMiddleware } from './graphql';
+import { setUpOpptegnelse } from './opptegnelser';
+import { setUpOverstyring } from './overstyringer';
 import { Notat } from './schemaTypes';
 import { NotatMock } from './storage/notat';
 import { OppgaveMock, getDefaultOppgave } from './storage/oppgave';
@@ -159,6 +161,19 @@ app.post('/api/totrinnsvurdering', (req: Request, res: Response) => {
     res.sendStatus(200);
 });
 
+app.post('/api/annullering', (req, res) => {
+    Math.random() > 0.2 ? res.sendStatus(200) : res.status(503).send('dev annullering feil');
+});
+
+app.post('/api/vedtak', (req, res) => {
+    sleep(420).then((_) => (Math.random() > 1 ? res.sendStatus(204) : res.status(500).send('Dev-feil!')));
+});
+
+app.post('/api/person/oppdater', (req, res) => {
+    console.log(`Mottok forespørsel om oppdatering ${JSON.stringify(req.body)}`);
+    return Math.random() < 0.2 ? res.status(503).send('Dev feil!') : res.sendStatus(200);
+});
+
 app.get('/api/mock/personstatus/:aktorId', (req: Request, res: Response) => {
     const aktørId = req.params.aktorId;
     const oppgavereferanse = personer[aktørId];
@@ -187,6 +202,8 @@ app.get('/api/mock/tidligeresaksbehandler/:oppgavereferanse', (req: Request, res
     res.send(OppgaveMock.getOppgave(oppgavereferanse)?.tidligereSaksbehandler ?? null);
 });
 
-setupGraphQLMiddleware(app);
+setUpGraphQLMiddleware(app);
+setUpOpptegnelse(app);
+setUpOverstyring(app);
 
 app.listen(port, () => console.log(`Spesialist-mock kjører på port ${port}`));

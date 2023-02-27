@@ -168,7 +168,7 @@ const buildSchema = (): GraphQLSchema => {
     });
 };
 
-export const setupGraphQLMiddleware = (app: Express) => {
+export const setUpGraphQLMiddleware = (app: Express) => {
     const schema = buildSchema();
     app.use('/graphql', graphqlHTTP({ schema: schema, graphiql: true }));
 };

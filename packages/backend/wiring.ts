@@ -1,24 +1,17 @@
-import devLeggPåVentClient from './leggpåvent/devLeggPåVentClient';
 import leggPåVentClient from './leggpåvent/leggPåVentClient';
 import { Express } from 'express';
 import { RedisClient } from 'redis';
 
-import { devPersonClient } from './adapters/devPersonClient';
 import devOnBehalfOf from './auth/devOnBehalfOf';
 import onBehalfOf from './auth/onBehalfOf';
 import config from './config';
 import devRedisClient from './devRedisClient';
 import graphQLClient from './graphql/graphQLClient';
 import instrumentationModule, { Instrumentation } from './instrumentation';
-import devNotatClient from './notat/devNotatClient';
 import notatClient from './notat/notatClient';
-import devOpptegnelseClient from './opptegnelse/devOpptegnelseClient';
 import opptegnelseClient from './opptegnelse/opptegnelseClient';
-import devOverstyringClient from './overstyring/devOverstyringClient';
 import overstyringClient from './overstyring/overstyringClient';
 import annulleringClient from './payment/annulleringClient';
-import devAnnulleringClient from './payment/devAnnulleringClient';
-import devVedtakClient from './payment/devVedtakClient';
 import totrinnsvurderingClient from './payment/totrinnsvurderingClient';
 import vedtakClient from './payment/vedtakClient';
 import { personClient } from './person/personClient';
@@ -32,27 +25,34 @@ const getDependencies = (app: Express, helsesjekk: Helsesjekk) =>
 const getDevDependencies = (app: Express) => {
     const instrumentation: Instrumentation = instrumentationModule.setup(app);
     const _tildelingClient = tildelingClient(config.oidc, devOnBehalfOf);
-    const _devPersonClient = devPersonClient(instrumentation);
+    const _personClient = personClient(instrumentation, config.oidc, devOnBehalfOf);
     const _devGraphQLClient = graphQLClient(config.oidc, devOnBehalfOf);
     const _totrinnsvurderingClient = totrinnsvurderingClient(config.oidc, devOnBehalfOf);
+    const _opptegnelseClient = opptegnelseClient(config.oidc, devOnBehalfOf);
+    const _annulleringClient = annulleringClient(config, devOnBehalfOf);
+    const _notatClient = notatClient(config.oidc, devOnBehalfOf);
+    const _vedtakClient = vedtakClient(config.oidc, devOnBehalfOf);
+    6;
+    const _overstyringClient = overstyringClient(config.oidc, devOnBehalfOf);
+    const _leggPåVentClient = leggPåVentClient(config.oidc, devOnBehalfOf);
 
     return {
         person: {
-            personClient: _devPersonClient,
+            personClient: _personClient,
             onBehalfOf: devOnBehalfOf,
             config,
         },
         payments: {
-            vedtakClient: devVedtakClient,
-            annulleringClient: devAnnulleringClient,
+            vedtakClient: _vedtakClient,
+            annulleringClient: _annulleringClient,
             totrinnsvurderingClient: _totrinnsvurderingClient,
         },
         redisClient: devRedisClient,
-        overstyring: { overstyringClient: devOverstyringClient },
+        overstyring: { overstyringClient: _overstyringClient },
         tildeling: { tildelingClient: _tildelingClient },
-        opptegnelse: { opptegnelseClient: devOpptegnelseClient },
-        leggPåVent: { leggPåVentClient: devLeggPåVentClient },
-        notat: { notatClient: devNotatClient },
+        opptegnelse: { opptegnelseClient: _opptegnelseClient },
+        leggPåVent: { leggPåVentClient: _leggPåVentClient },
+        notat: { notatClient: _notatClient },
         graphql: { graphQLClient: _devGraphQLClient },
         instrumentation,
     };
