@@ -6,7 +6,9 @@ import { Alert, Loader } from '@navikt/ds-react';
 import { Dag, Sykdomsdagtype, UberegnetPeriode } from '@io/graphql';
 import { isNotReady } from '@state/selectors/period';
 import { onLazyLoadFail } from '@utils/error';
+import { getPeriodState } from '@utils/mapping';
 
+import { Saksbildevarsler } from '../varsler/Saksbildevarsler';
 import { Venstremeny } from '../venstremeny/Venstremeny';
 
 import styles from './PeriodeView.module.css';
@@ -84,6 +86,10 @@ export const UberegnetPeriodeView = ({ activePeriod }: UberegnetPeriodeViewProps
             <Venstremeny />
             <div className={styles.Content}>
                 {errorMelding}
+                <Saksbildevarsler
+                    periodState={getPeriodState(activePeriod)}
+                    varsler={activePeriod.varslerForGenerasjon}
+                />
                 <div className={styles.RouteContainer}>
                     <Switch>
                         <React.Suspense fallback={<UberegnetPeriodeViewLoader />}>

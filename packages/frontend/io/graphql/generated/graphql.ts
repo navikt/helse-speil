@@ -534,6 +534,7 @@ export type Periode = {
     skjaeringstidspunkt: Scalars['String'];
     tidslinje: Array<Dag>;
     tom: Scalars['String'];
+    varslerForGenerasjon: Array<VarselDto>;
     vedtaksperiodeId: Scalars['String'];
 };
 
@@ -850,6 +851,7 @@ export type UberegnetPeriode = Periode & {
     skjaeringstidspunkt: Scalars['String'];
     tidslinje: Array<Dag>;
     tom: Scalars['String'];
+    varslerForGenerasjon: Array<VarselDto>;
     vedtaksperiodeId: Scalars['String'];
 };
 
@@ -1691,6 +1693,21 @@ export type FetchPersonQuery = {
                           vedtaksperiodeId: string;
                           periodetilstand: Periodetilstand;
                           skjaeringstidspunkt: string;
+                          varslerForGenerasjon: Array<{
+                              __typename?: 'VarselDTO';
+                              generasjonId: string;
+                              definisjonId: string;
+                              kode: string;
+                              tittel: string;
+                              forklaring?: string | null;
+                              handling?: string | null;
+                              vurdering?: {
+                                  __typename?: 'VarselvurderingDTO';
+                                  ident: string;
+                                  status: Varselstatus;
+                                  tidsstempel: string;
+                              } | null;
+                          }>;
                           tidslinje: Array<{
                               __typename?: 'Dag';
                               dato: string;

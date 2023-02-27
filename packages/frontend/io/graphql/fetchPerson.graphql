@@ -176,6 +176,19 @@ query FetchPerson($fnr: String, $aktorId: String) {
                     vedtaksperiodeId
                     periodetilstand
                     skjaeringstidspunkt
+                    varslerForGenerasjon {
+                        generasjonId
+                        definisjonId
+                        kode
+                        tittel
+                        forklaring
+                        handling
+                        vurdering {
+                            ident
+                            status
+                            tidsstempel
+                        }
+                    }
                     ... on UberegnetPeriode {
                         id
                     }
@@ -277,7 +290,7 @@ query FetchPerson($fnr: String, $aktorId: String) {
                             }
                         }
                         utbetaling {
-                            id,
+                            id
                             arbeidsgiverFagsystemId
                             arbeidsgiverNettoBelop
                             personFagsystemId
@@ -298,19 +311,6 @@ query FetchPerson($fnr: String, $aktorId: String) {
                             }
                         }
                         varsler
-                        varslerForGenerasjon {
-                            generasjonId
-                            definisjonId
-                            kode
-                            tittel
-                            forklaring
-                            handling
-                            vurdering {
-                                ident
-                                status
-                                tidsstempel
-                            }
-                        }
                         vilkarsgrunnlagId
                         oppgave {
                             id

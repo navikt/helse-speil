@@ -5095,6 +5095,30 @@
                         "deprecationReason": null
                     },
                     {
+                        "name": "varslerForGenerasjon",
+                        "description": null,
+                        "args": [],
+                        "type": {
+                            "kind": "NON_NULL",
+                            "name": null,
+                            "ofType": {
+                                "kind": "LIST",
+                                "name": null,
+                                "ofType": {
+                                    "kind": "NON_NULL",
+                                    "name": null,
+                                    "ofType": {
+                                        "kind": "OBJECT",
+                                        "name": "VarselDTO",
+                                        "ofType": null
+                                    }
+                                }
+                            }
+                        },
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
+                    {
                         "name": "vedtaksperiodeId",
                         "description": null,
                         "args": [],
@@ -8019,6 +8043,30 @@
                                 "kind": "SCALAR",
                                 "name": "String",
                                 "ofType": null
+                            }
+                        },
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
+                    {
+                        "name": "varslerForGenerasjon",
+                        "description": null,
+                        "args": [],
+                        "type": {
+                            "kind": "NON_NULL",
+                            "name": null,
+                            "ofType": {
+                                "kind": "LIST",
+                                "name": null,
+                                "ofType": {
+                                    "kind": "NON_NULL",
+                                    "name": null,
+                                    "ofType": {
+                                        "kind": "OBJECT",
+                                        "name": "VarselDTO",
+                                        "ofType": null
+                                    }
+                                }
                             }
                         },
                         "isDeprecated": false,

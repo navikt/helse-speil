@@ -1,11 +1,11 @@
 import { Varselstatus } from '@io/graphql';
 import { useCurrentArbeidsgiver } from '@state/arbeidsgiver';
-import { isBeregnetPeriode } from '@utils/typeguards';
+import { isBeregnetPeriode, isUberegnetPeriode } from '@utils/typeguards';
 
 export const useUvurderteVarslerPåPeriode = (periode: FetchedBeregnetPeriode | DatePeriod): boolean => {
     const arbeidsgiver = useCurrentArbeidsgiver();
 
-    if (!isBeregnetPeriode(periode) || !arbeidsgiver) {
+    if ((!isBeregnetPeriode(periode) && !isUberegnetPeriode(periode)) || !arbeidsgiver) {
         return false;
     }
 

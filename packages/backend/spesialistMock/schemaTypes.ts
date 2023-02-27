@@ -534,6 +534,7 @@ export type Periode = {
     skjaeringstidspunkt: Scalars['String'];
     tidslinje: Array<Dag>;
     tom: Scalars['String'];
+    varslerForGenerasjon: Array<VarselDto>;
     vedtaksperiodeId: Scalars['String'];
 };
 
@@ -850,6 +851,7 @@ export type UberegnetPeriode = Periode & {
     skjaeringstidspunkt: Scalars['String'];
     tidslinje: Array<Dag>;
     tom: Scalars['String'];
+    varslerForGenerasjon: Array<VarselDto>;
     vedtaksperiodeId: Scalars['String'];
 };
 
