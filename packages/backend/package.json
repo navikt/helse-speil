@@ -33,7 +33,7 @@
         "cross-env": "^7.0.3",
         "dayjs": "^1.10.7",
         "dotenv": "^8.2.0",
-        "express": "^4.17.1",
+        "express": "^4.17.3",
         "express-session": "^1.17.1",
         "nanoid": "^3.1.31",
         "openid-client": "^3.15.10",
