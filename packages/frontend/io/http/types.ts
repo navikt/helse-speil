@@ -5,10 +5,12 @@ export interface Options {
     headers?: { [key: string]: any };
 }
 
+export type OverstyrtDagtype = 'Sykedag' | 'Feriedag' | 'Egenmeldingsdag' | 'Permisjonsdag' | 'Avvist' | 'Arbeidsdag';
+
 export interface OverstyrtDagDTO {
     dato: string;
-    type: 'Sykedag' | 'Feriedag' | 'Egenmeldingsdag' | 'Permisjonsdag' | 'Avvist';
-    fraType: 'Sykedag' | 'Feriedag' | 'Egenmeldingsdag' | 'Permisjonsdag' | 'Avvist';
+    type: OverstyrtDagtype;
+    fraType: OverstyrtDagtype;
     grad?: number;
     fraGrad?: number;
 }

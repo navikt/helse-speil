@@ -2,7 +2,7 @@ import dayjs from 'dayjs';
 import { useEffect, useState } from 'react';
 
 import type { Arbeidsgiver } from '@io/graphql';
-import type { OverstyrtDagDTO } from '@io/http';
+import type { OverstyrtDagDTO, OverstyrtDagtype } from '@io/http';
 import { postAbonnerPåAktør, postOverstyrteDager } from '@io/http';
 import { useCurrentArbeidsgiver } from '@state/arbeidsgiver';
 import {
@@ -17,8 +17,6 @@ import { useAddToast, useRemoveToast } from '@state/toasts';
 import { useAddVarsel } from '@state/varsler';
 import { ErrorAlert } from '@utils/error';
 
-type OverstyrtDagtype = 'Sykedag' | 'Feriedag' | 'Egenmeldingsdag' | 'Permisjonsdag' | 'Avvist';
-
 const tilOverstyrtDagtype = (type: Utbetalingstabelldagtype): OverstyrtDagtype => {
     switch (type) {
         case 'Syk':
@@ -29,6 +27,8 @@ const tilOverstyrtDagtype = (type: Utbetalingstabelldagtype): OverstyrtDagtype =
             return 'Permisjonsdag';
         case 'Egenmelding':
             return 'Egenmeldingsdag';
+        case 'Arbeid':
+            return 'Arbeidsdag';
         default:
             throw Error(`Dag med type ${type} kan ikke overstyres.`);
     }
