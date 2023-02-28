@@ -23,7 +23,6 @@ const harKunLesetilgang = () => kunLesetilgang.includes(extractIdent());
 const erSupersaksbehandler = () => supersaksbehandlere.includes(extractIdent());
 const harTilgangTilAlt = () => [...supersaksbehandlere, ...fagkoordinatorer, ...enhetsledere].includes(extractIdent());
 const erCoach = () => coaches.includes(extractIdent());
-const erFagkoordinator = () => fagkoordinatorer.includes(extractIdent());
 const harTilgangStikkprøver = () => tilgangStikkprøver.includes(extractIdent());
 const kanFrigiSaker = () => ['K162139'].includes(extractIdent());
 
@@ -57,4 +56,4 @@ export const harBeslutterrolle: boolean = extractGroups().includes(groupIdForBes
 
 export const toggleMeny: boolean = erLocal() || erDev();
 
-export const inntektOgRefusjonSteg4: boolean = erLocal() || erDev() || erSupersaksbehandler();
+export const inntektOgRefusjonSteg4: boolean = erLocal() || erDev() || erSupersaksbehandler() || erCoach();
