@@ -24,6 +24,7 @@ export const useHarUvurderteVarslerPåEllerFør = (
     arbeidsgivere: Arbeidsgiver[]
 ): boolean => {
     return arbeidsgivere
+        .filter((arbeidsgivere) => arbeidsgivere.generasjoner.length > 0)
         .flatMap((arbeidsgiver) => arbeidsgiver.generasjoner[0].perioder)
         .filter((periode) => dayjs(periode.tom).isSameOrBefore(dayjs(activePeriod.tom)))
         .some((periode) => {

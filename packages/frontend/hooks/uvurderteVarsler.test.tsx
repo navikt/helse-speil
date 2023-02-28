@@ -1,6 +1,7 @@
 import { useHarUvurderteVarslerPåEllerFør } from '@hooks/uvurderteVarsler';
 import {
     Arbeidsgiver,
+    Generasjon,
     Inntektstype,
     Periodetilstand,
     Periodetype,
@@ -73,16 +74,11 @@ const getVarsel = (status?: Varselstatus): VarselDto => {
     };
 };
 
-const getArbeidsgiver = (organisasjonsnummer: string, periods: FetchedBeregnetPeriode[]): Arbeidsgiver => {
+const getArbeidsgiver = (organisasjonsnummer: string, generasjoner: Generasjon[]): Arbeidsgiver => {
     return {
         arbeidsforhold: [],
         bransjer: [],
-        generasjoner: [
-            {
-                id: 'EN_ID',
-                perioder: periods,
-            },
-        ],
+        generasjoner: generasjoner,
         ghostPerioder: [],
         navn: 'EN_ARBEIDSGIVER',
         organisasjonsnummer: organisasjonsnummer,
@@ -90,16 +86,46 @@ const getArbeidsgiver = (organisasjonsnummer: string, periods: FetchedBeregnetPe
     };
 };
 
+const getGenerasjoner = (periods: FetchedBeregnetPeriode[]) => {
+    return [
+        {
+            id: 'EN_ID',
+            perioder: periods,
+        },
+    ];
+};
+
 describe('useUvurderteVarslerpåEllerFør', () => {
+    it('Arbeidsgiver uten generasjoner filtreres vekk før sjekk av uvurderte varsler', () => {
+        const period: FetchedBeregnetPeriode = getFetchedBeregnetPeriode('2018-01-01', '2018-01-31');
+        const arbeidsgivere: Arbeidsgiver[] = [
+            getArbeidsgiver('et orgnr1', []),
+            getArbeidsgiver(
+                'et annet orgnr',
+                getGenerasjoner([
+                    getFetchedBeregnetPeriode('2017-12-01', '2017-12-31'),
+                    getFetchedBeregnetPeriode('2018-01-01', '2018-01-31'),
+                    getFetchedBeregnetPeriode('2018-02-01', '2018-02-28'),
+                ])
+            ),
+        ];
+
+        const { result } = renderHook(() => useHarUvurderteVarslerPåEllerFør(period, arbeidsgivere));
+
+        expect(result.current).toEqual(false);
+    });
     it('Kan godkjenne varsler dersom det ikke finnes uvurderte varsler', () => {
         const period: FetchedBeregnetPeriode = getFetchedBeregnetPeriode('2018-01-01', '2018-01-31');
         const arbeidsgivere: Arbeidsgiver[] = [
-            getArbeidsgiver('et orgnr', [period]),
-            getArbeidsgiver('et annet orgnr', [
-                getFetchedBeregnetPeriode('2017-12-01', '2017-12-31'),
-                getFetchedBeregnetPeriode('2018-01-01', '2018-01-31'),
-                getFetchedBeregnetPeriode('2018-02-01', '2018-02-28'),
-            ]),
+            getArbeidsgiver('et orgnr', getGenerasjoner([period])),
+            getArbeidsgiver(
+                'et annet orgnr',
+                getGenerasjoner([
+                    getFetchedBeregnetPeriode('2017-12-01', '2017-12-31'),
+                    getFetchedBeregnetPeriode('2018-01-01', '2018-01-31'),
+                    getFetchedBeregnetPeriode('2018-02-01', '2018-02-28'),
+                ])
+            ),
         ];
 
         const { result } = renderHook(() => useHarUvurderteVarslerPåEllerFør(period, arbeidsgivere));
@@ -112,7 +138,7 @@ describe('useUvurderteVarslerpåEllerFør', () => {
             '2018-01-31',
             getVarsel(Varselstatus.Aktiv)
         );
-        const arbeidsgivere: Arbeidsgiver[] = [getArbeidsgiver('et orgnr', [period])];
+        const arbeidsgivere: Arbeidsgiver[] = [getArbeidsgiver('et orgnr', getGenerasjoner([period]))];
 
         const { result } = renderHook(() => useHarUvurderteVarslerPåEllerFør(period, arbeidsgivere));
 
@@ -121,10 +147,13 @@ describe('useUvurderteVarslerpåEllerFør', () => {
     it('Kan ikke godkjenne periode dersom det finnes varsel på tidligere periode som ikke er vurdert', () => {
         const period: FetchedBeregnetPeriode = getFetchedBeregnetPeriode('2018-01-01', '2018-01-31');
         const arbeidsgivere: Arbeidsgiver[] = [
-            getArbeidsgiver('et orgnr', [
-                period,
-                getFetchedBeregnetPeriode('2017-12-01', '2017-12-16', getVarsel(Varselstatus.Aktiv)),
-            ]),
+            getArbeidsgiver(
+                'et orgnr',
+                getGenerasjoner([
+                    period,
+                    getFetchedBeregnetPeriode('2017-12-01', '2017-12-16', getVarsel(Varselstatus.Aktiv)),
+                ])
+            ),
         ];
 
         const { result } = renderHook(() => useHarUvurderteVarslerPåEllerFør(period, arbeidsgivere));
@@ -134,10 +163,13 @@ describe('useUvurderteVarslerpåEllerFør', () => {
     it('Kan godkjenne periode dersom det kun finnes uvurderte varsler på perioder som ligger senere i tid', () => {
         const activePeriod: FetchedBeregnetPeriode = getFetchedBeregnetPeriode('2018-01-01', '2018-01-31');
         const arbeidsgivere: Arbeidsgiver[] = [
-            getArbeidsgiver('et orgnr', [
-                activePeriod,
-                getFetchedBeregnetPeriode('2018-02-01', '2018-02-28', getVarsel(Varselstatus.Aktiv)),
-            ]),
+            getArbeidsgiver(
+                'et orgnr',
+                getGenerasjoner([
+                    activePeriod,
+                    getFetchedBeregnetPeriode('2018-02-01', '2018-02-28', getVarsel(Varselstatus.Aktiv)),
+                ])
+            ),
         ];
 
         const { result } = renderHook(() => useHarUvurderteVarslerPåEllerFør(activePeriod, arbeidsgivere));
@@ -147,10 +179,11 @@ describe('useUvurderteVarslerpåEllerFør', () => {
     it('Kan ikke godkjenne periode dersom det finnes uvurderte varsler på perioder på andre arbeidsgivere som ligger før eller samtidig i tid', () => {
         const activePeriod: FetchedBeregnetPeriode = getFetchedBeregnetPeriode('2018-01-01', '2018-01-31');
         const arbeidsgivere: Arbeidsgiver[] = [
-            getArbeidsgiver('et orgnr', [activePeriod]),
-            getArbeidsgiver('et annet orgnr', [
-                getFetchedBeregnetPeriode('2018-01-01', '2018-01-31', getVarsel(Varselstatus.Aktiv)),
-            ]),
+            getArbeidsgiver('et orgnr', getGenerasjoner([activePeriod])),
+            getArbeidsgiver(
+                'et annet orgnr',
+                getGenerasjoner([getFetchedBeregnetPeriode('2018-01-01', '2018-01-31', getVarsel(Varselstatus.Aktiv))])
+            ),
         ];
 
         const { result } = renderHook(() => useHarUvurderteVarslerPåEllerFør(activePeriod, arbeidsgivere));
@@ -160,10 +193,11 @@ describe('useUvurderteVarslerpåEllerFør', () => {
     it('Kan ikke godkjenne periode dersom det finnes varsel på tidligere perioder på andre arbeidsgivere som som ikke er vurdert', () => {
         const activePeriod: FetchedBeregnetPeriode = getFetchedBeregnetPeriode('2018-01-01', '2018-01-31');
         const arbeidsgivere: Arbeidsgiver[] = [
-            getArbeidsgiver('et orgnr', [activePeriod]),
-            getArbeidsgiver('et annet orgnr', [
-                getFetchedBeregnetPeriode('2017-12-01', '2017-12-16', getVarsel(Varselstatus.Aktiv)),
-            ]),
+            getArbeidsgiver('et orgnr', getGenerasjoner([activePeriod])),
+            getArbeidsgiver(
+                'et annet orgnr',
+                getGenerasjoner([getFetchedBeregnetPeriode('2017-12-01', '2017-12-16', getVarsel(Varselstatus.Aktiv))])
+            ),
         ];
 
         const { result } = renderHook(() => useHarUvurderteVarslerPåEllerFør(activePeriod, arbeidsgivere));
@@ -173,10 +207,11 @@ describe('useUvurderteVarslerpåEllerFør', () => {
     it('Kan godkjenne periode dersom det finnes uvurderte varsler på perioder på andre arbeidsgivere som ligger senere i tid', () => {
         const activePeriod: FetchedBeregnetPeriode = getFetchedBeregnetPeriode('2018-01-01', '2018-01-31');
         const arbeidsgivere: Arbeidsgiver[] = [
-            getArbeidsgiver('et orgnr', [activePeriod]),
-            getArbeidsgiver('et annet orgnr', [
-                getFetchedBeregnetPeriode('2018-02-01', '2018-02-28', getVarsel(Varselstatus.Aktiv)),
-            ]),
+            getArbeidsgiver('et orgnr', getGenerasjoner([activePeriod])),
+            getArbeidsgiver(
+                'et annet orgnr',
+                getGenerasjoner([getFetchedBeregnetPeriode('2018-02-01', '2018-02-28', getVarsel(Varselstatus.Aktiv))])
+            ),
         ];
 
         const { result } = renderHook(() => useHarUvurderteVarslerPåEllerFør(activePeriod, arbeidsgivere));
