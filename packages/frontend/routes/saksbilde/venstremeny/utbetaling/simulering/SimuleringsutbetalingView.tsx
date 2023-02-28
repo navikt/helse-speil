@@ -21,7 +21,7 @@ export const SimuleringsutbetalingView: React.FC<SimuleringsutbetalingViewProps>
                     <SimuleringsperiodeValue label="Faktisk fom" value={getFormattedDateString(detalj.fom)} />
                     <SimuleringsperiodeValue label="Faktisk tom" value={getFormattedDateString(detalj.tom)} />
                     <SimuleringsperiodeValue label="Sats" value={detalj.sats} />
-                    <SimuleringsperiodeValue label="Antall sats" value={detalj.antallSats} />
+                    <SimuleringsperiodeValue label="Antall sats" value={String(detalj.antallSats)} />
                     <SimuleringsperiodeValue label="Type sats" value={detalj.typeSats} />
                     <SimuleringsperiodeValue label="Beløp" value={detalj.belop} />
                     <SimuleringsperiodeValue label="Konto" value={detalj.konto} />
