@@ -1,6 +1,6 @@
 import dayjs from 'dayjs';
 
-import { Varselstatus } from '@io/graphql';
+import { Arbeidsgiver, Varselstatus } from '@io/graphql';
 import { useCurrentArbeidsgiver } from '@state/arbeidsgiver';
 import { isBeregnetPeriode, isUberegnetPeriode } from '@utils/typeguards';
 
@@ -19,14 +19,12 @@ export const useUvurderteVarslerPåPeriode = (periode: FetchedBeregnetPeriode | 
         );
 };
 
-export const useHarUvurderteVarslerPåUtbetaling = (activePeriod: FetchedBeregnetPeriode): boolean => {
-    const arbeidsgiver = useCurrentArbeidsgiver();
-
-    if (!arbeidsgiver) {
-        return false;
-    }
-
-    return arbeidsgiver.generasjoner[0].perioder
+export const useHarUvurderteVarslerPåEllerFør = (
+    activePeriod: FetchedBeregnetPeriode,
+    arbeidsgivere: Arbeidsgiver[]
+): boolean => {
+    return arbeidsgivere
+        .flatMap((arbeidsgiver) => arbeidsgiver.generasjoner[0].perioder)
         .filter((periode) => dayjs(periode.tom).isSameOrBefore(dayjs(activePeriod.tom)))
         .some((periode) => {
             if (!isBeregnetPeriode(periode) && !isUberegnetPeriode(periode)) return false;

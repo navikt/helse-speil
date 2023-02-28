@@ -8,7 +8,7 @@ import { BodyShort, Loader } from '@navikt/ds-react';
 import { ErrorMessage } from '@components/ErrorMessage';
 import { useErBeslutteroppgaveOgHarTilgang } from '@hooks/useErBeslutteroppgaveOgHarTilgang';
 import { useHarVurderLovvalgOgMedlemskapVarsel } from '@hooks/useHarVurderLovvalgOgMedlemskapVarsel';
-import { useHarUvurderteVarslerPåUtbetaling } from '@hooks/uvurderteVarsler';
+import { useHarUvurderteVarslerPåEllerFør } from '@hooks/uvurderteVarsler';
 import { NotatType, Periodetilstand } from '@io/graphql';
 import { postAbonnerPåAktør } from '@io/http';
 import { useHarDagOverstyringer } from '@state/arbeidsgiver';
@@ -96,7 +96,7 @@ export const Utbetaling = ({ period, person, arbeidsgiver }: UtbetalingProps) =>
     const harVurderLovvalgOgMedlemskapVarsel = useHarVurderLovvalgOgMedlemskapVarsel();
     const harOverstyringerEtterSisteGodkjenteUtbetaling = useHarOverstyringerEtterSisteGodkjenteUtbetaling(person);
     const harDagOverstyringer = useHarDagOverstyringer(period);
-    const harUvurderteVarslerPåUtbetaling = useHarUvurderteVarslerPåUtbetaling(period);
+    const harUvurderteVarslerPåUtbetaling = useHarUvurderteVarslerPåEllerFør(period, person.arbeidsgivere);
 
     const onGodkjennUtbetaling = () => {
         setGodkjentPeriode(period.vedtaksperiodeId);
