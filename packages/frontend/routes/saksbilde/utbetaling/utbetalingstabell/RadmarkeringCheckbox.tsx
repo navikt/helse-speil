@@ -4,7 +4,7 @@ import React from 'react';
 
 import { Checkbox } from '@navikt/ds-react';
 
-import { overstyrPermisjonsdagerEnabled } from '@utils/featureToggles';
+import { erDev, erLocal } from '@utils/featureToggles';
 
 import { DisabledCheckbox } from './DisabledCheckbox';
 
@@ -54,7 +54,7 @@ export const RadmarkeringCheckbox: React.FC<RadmarkeringCheckboxProps> = ({
             !erForeldet &&
             !['Helg'].includes(dagtype) &&
             ['Syk', 'Ferie', 'Egenmelding'].includes(dagtype)) ||
-        (overstyrPermisjonsdagerEnabled && dagtype === 'Permisjon');
+        ((erDev() || erLocal()) && ['Permisjon', 'Arbeid'].includes(dagtype));
 
     if (!dagKanOverstyres) {
         return <Container />;

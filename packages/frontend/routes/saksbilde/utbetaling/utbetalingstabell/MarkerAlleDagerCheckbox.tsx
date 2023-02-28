@@ -4,7 +4,7 @@ import React, { Dispatch, SetStateAction, useMemo } from 'react';
 
 import { Checkbox } from '@navikt/ds-react';
 
-import { overstyrPermisjonsdagerEnabled } from '@utils/featureToggles';
+import { erDev, erLocal } from '@utils/featureToggles';
 
 import styles from './MarkerAlleDagerCheckbox.module.css';
 
@@ -12,7 +12,7 @@ const dagKanOverstyres = (type: Utbetalingstabelldagtype, dato: DateString, skj√
     (!dayjs(dato).isSame(skj√¶ringstidspunkt, 'day') &&
         type !== 'Helg' &&
         ['Syk', 'Ferie', 'Egenmelding'].includes(type)) ||
-    (overstyrPermisjonsdagerEnabled && type === 'Permisjon');
+    ((erDev() || erLocal()) && ['Permisjon', 'Arbeid'].includes(type));
 
 const useOverstyrbareDager = (
     alleDager: Map<DateString, UtbetalingstabellDag>,

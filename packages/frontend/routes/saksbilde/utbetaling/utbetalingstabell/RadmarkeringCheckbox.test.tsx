@@ -8,6 +8,8 @@ import { RadmarkeringCheckbox } from './RadmarkeringCheckbox';
 
 jest.mock('@utils/featureToggles', () => ({
     overstyrPermisjonsdagerEnabled: true,
+    erDev: () => true,
+    erLocal: () => true,
 }));
 
 describe('RadmarkeringCheckbox', () => {
@@ -42,11 +44,9 @@ describe('RadmarkeringCheckbox', () => {
             <>
                 <RadmarkeringCheckbox index={0} dagtype="Helg" dato="2021-01-01" skjæringstidspunkt="" />
                 <RadmarkeringCheckbox index={0} dagtype="Ukjent" dato="2021-01-01" skjæringstidspunkt="" />
-                <RadmarkeringCheckbox index={0} dagtype="Arbeid" dato="2021-01-01" skjæringstidspunkt="" />
                 <RadmarkeringCheckbox index={0} dagtype="Syk" dato="2021-01-01" skjæringstidspunkt="" erAGP />
                 <RadmarkeringCheckbox index={0} dagtype="Syk" dato="2021-01-01" skjæringstidspunkt="" erForeldet />
-                ;
-                <RadmarkeringCheckbox index={0} dagtype="Syk" dato="2021-01-01" skjæringstidspunkt="" erAvvist />;
+                <RadmarkeringCheckbox index={0} dagtype="Syk" dato="2021-01-01" skjæringstidspunkt="" erAvvist />
             </>
         );
 

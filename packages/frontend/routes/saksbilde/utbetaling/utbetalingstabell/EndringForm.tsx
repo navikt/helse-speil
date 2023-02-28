@@ -4,11 +4,11 @@ import { useForm } from 'react-hook-form';
 import { Button, Select, TextField } from '@navikt/ds-react';
 
 import { Bold } from '@components/Bold';
-import { overstyrPermisjonsdagerEnabled } from '@utils/featureToggles';
+import { erDev, erLocal } from '@utils/featureToggles';
 
 import styles from './EndringForm.module.css';
 
-const dagtyperUtenGradering: Array<Utbetalingstabelldagtype> = ['Arbeid', 'Ferie', 'Permisjon'];
+const dagtyperUtenGradering: Array<Utbetalingstabelldagtype> = ['Arbeid', 'Ferie', 'Permisjon', 'Avslått'];
 
 type GetLovligeTypeendringerOptions = {
     revurderingIsEnabled?: boolean;
@@ -17,12 +17,11 @@ type GetLovligeTypeendringerOptions = {
 export const getLovligeTypeendringer = ({
     revurderingIsEnabled,
 }: GetLovligeTypeendringerOptions = {}): Array<Utbetalingstabelldagtype> => {
+    if (erDev() || erLocal()) return ['Syk', 'Ferie', 'Egenmelding', 'Permisjon', 'Arbeid'];
     if (revurderingIsEnabled) {
         return ['Syk', 'Ferie'];
-    } else if (overstyrPermisjonsdagerEnabled) {
-        return ['Syk', 'Ferie', 'Egenmelding', 'Permisjon'];
     } else {
-        return ['Syk', 'Ferie', 'Egenmelding'];
+        return ['Syk', 'Ferie', 'Egenmelding', 'Permisjon'];
     }
 };
 

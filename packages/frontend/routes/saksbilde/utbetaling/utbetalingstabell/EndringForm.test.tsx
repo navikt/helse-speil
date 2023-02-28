@@ -6,17 +6,38 @@ import userEvent from '@testing-library/user-event';
 
 import { EndringForm, getLovligeTypeendringer } from './EndringForm';
 
+let erProd = true;
+
 jest.mock('@utils/featureToggles', () => ({
     overstyrPermisjonsdagerEnabled: true,
+    erDev: () => !erProd,
+    erLocal: () => !erProd,
 }));
 
 describe('lovligeTypeendringer', () => {
-    it('returnerer lovlige typeendringer for dagtypevelgeren under revurdering', () => {
+    it('returnerer lovlige typeendringer for dagtypevelgeren under revurdering i prod', () => {
+        erProd = true;
         expect(getLovligeTypeendringer({ revurderingIsEnabled: true })).toEqual(['Syk', 'Ferie']);
     });
 
-    it('returnerer lovlige typeendringer for dagtypevelgeren under overstyring', () => {
+    it('returnerer lovlige typeendringer for dagtypevelgeren under overstyring i prod', () => {
+        erProd = true;
         expect(getLovligeTypeendringer()).toEqual(['Syk', 'Ferie', 'Egenmelding', 'Permisjon']);
+    });
+    it('returnerer lovlige typeendringer for dagtypevelgeren under revurdering i dev', () => {
+        erProd = false;
+        expect(getLovligeTypeendringer({ revurderingIsEnabled: true })).toEqual([
+            'Syk',
+            'Ferie',
+            'Egenmelding',
+            'Permisjon',
+            'Arbeid',
+        ]);
+    });
+
+    it('returnerer lovlige typeendringer for dagtypevelgeren under overstyring i dev', () => {
+        erProd = false;
+        expect(getLovligeTypeendringer()).toEqual(['Syk', 'Ferie', 'Egenmelding', 'Permisjon', 'Arbeid']);
     });
 });
 
