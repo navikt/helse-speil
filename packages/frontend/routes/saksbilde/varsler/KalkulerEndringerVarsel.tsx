@@ -126,7 +126,10 @@ export const KalkulerEndringerVarsel: React.FC<KalkulerEndringerVarselProps> = (
             {timedOut && <OverstyringTimeoutModal onRequestClose={() => setTimedOut(false)} />}
             {showModal && (
                 <SlettLokaleOverstyringerModal
-                    onApprove={() => slettLokaleOverstyringer()}
+                    onApprove={() => {
+                        slettLokaleOverstyringer();
+                        setShowModal(false);
+                    }}
                     onClose={() => setShowModal(false)}
                 />
             )}
