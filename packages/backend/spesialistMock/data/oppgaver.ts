@@ -28,6 +28,7 @@ export const oppgaver: Array<OppgaveForOversiktsvisning> = [
         erRetur: false,
         tidligereSaksbehandler: null,
         trengerTotrinnsvurdering: false,
+        opprinneligSoknadsdato: '2022-11-02',
     },
     {
         id: '4959',
@@ -56,5 +57,6 @@ export const oppgaver: Array<OppgaveForOversiktsvisning> = [
         erRetur: false,
         tidligereSaksbehandler: null,
         trengerTotrinnsvurdering: false,
+        opprinneligSoknadsdato: '2023-01-02',
     },
 ];

@@ -49,6 +49,7 @@ const enOppgave = (): OppgaveForOversiktsvisning => ({
     erRetur: false,
     trengerTotrinnsvurdering: false,
     tidligereSaksbehandler: 'uuid',
+    opprinneligSoknadsdato: '2020-01-01',
 });
 
 const mockHentOppgaver = () =>

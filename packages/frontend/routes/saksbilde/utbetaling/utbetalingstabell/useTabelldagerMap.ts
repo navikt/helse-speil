@@ -13,6 +13,8 @@ const getUtbetalingstabelldagtypeFromOverstyrtDag = (dag: OverstyrtDag): Utbetal
             return 'Permisjon';
         case Dagtype.Sykedag:
             return 'Syk';
+        case Dagtype.Arbeidsdag:
+            return 'Arbeid';
     }
 };
 

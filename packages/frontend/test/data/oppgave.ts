@@ -29,6 +29,7 @@ export const enOppgaveForOversikten: OverridableConstructor<OppgaveForOversiktsv
     flereArbeidsgivere: false,
     trengerTotrinnsvurdering: false,
     type: Oppgavetype.Soknad,
+    opprinneligSoknadsdato: '2020-01-01',
     vedtaksperiodeId: nanoid(),
     ...overrides,
 });
