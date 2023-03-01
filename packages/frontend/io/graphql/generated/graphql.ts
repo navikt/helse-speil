@@ -201,6 +201,7 @@ export type Dagoverstyring = Overstyring & {
 };
 
 export enum Dagtype {
+    Arbeidsdag = 'Arbeidsdag',
     Egenmeldingsdag = 'Egenmeldingsdag',
     Feriedag = 'Feriedag',
     Permisjonsdag = 'Permisjonsdag',
@@ -454,6 +455,7 @@ export type OppgaveForOversiktsvisning = {
     fodselsnummer: Scalars['String'];
     id: Scalars['String'];
     opprettet: Scalars['String'];
+    opprinneligSoknadsdato: Scalars['String'];
     periodetype?: Maybe<Periodetype>;
     personinfo: Personinfo;
     sistSendt?: Maybe<Scalars['String']>;
@@ -1639,21 +1641,6 @@ export type FetchPersonQuery = {
                                   }> | null;
                               } | null;
                           };
-                          varslerForGenerasjon: Array<{
-                              __typename?: 'VarselDTO';
-                              generasjonId: string;
-                              definisjonId: string;
-                              kode: string;
-                              tittel: string;
-                              forklaring?: string | null;
-                              handling?: string | null;
-                              vurdering?: {
-                                  __typename?: 'VarselvurderingDTO';
-                                  ident: string;
-                                  status: Varselstatus;
-                                  tidsstempel: string;
-                              } | null;
-                          }>;
                           oppgave?: {
                               __typename?: 'OppgaveForPeriodevisning';
                               id: string;
@@ -1680,19 +1667,6 @@ export type FetchPersonQuery = {
                                   utbetaling?: number | null;
                               } | null;
                           }>;
-                      }
-                    | {
-                          __typename?: 'UberegnetPeriode';
-                          id: string;
-                          fom: string;
-                          tom: string;
-                          erForkastet: boolean;
-                          inntektstype: Inntektstype;
-                          opprettet: string;
-                          periodetype: Periodetype;
-                          vedtaksperiodeId: string;
-                          periodetilstand: Periodetilstand;
-                          skjaeringstidspunkt: string;
                           varslerForGenerasjon: Array<{
                               __typename?: 'VarselDTO';
                               generasjonId: string;
@@ -1708,6 +1682,19 @@ export type FetchPersonQuery = {
                                   tidsstempel: string;
                               } | null;
                           }>;
+                      }
+                    | {
+                          __typename?: 'UberegnetPeriode';
+                          id: string;
+                          fom: string;
+                          tom: string;
+                          erForkastet: boolean;
+                          inntektstype: Inntektstype;
+                          opprettet: string;
+                          periodetype: Periodetype;
+                          vedtaksperiodeId: string;
+                          periodetilstand: Periodetilstand;
+                          skjaeringstidspunkt: string;
                           tidslinje: Array<{
                               __typename?: 'Dag';
                               dato: string;
@@ -1724,6 +1711,21 @@ export type FetchPersonQuery = {
                                   refusjonsbelop?: number | null;
                                   totalGrad?: number | null;
                                   utbetaling?: number | null;
+                              } | null;
+                          }>;
+                          varslerForGenerasjon: Array<{
+                              __typename?: 'VarselDTO';
+                              generasjonId: string;
+                              definisjonId: string;
+                              kode: string;
+                              tittel: string;
+                              forklaring?: string | null;
+                              handling?: string | null;
+                              vurdering?: {
+                                  __typename?: 'VarselvurderingDTO';
+                                  ident: string;
+                                  status: Varselstatus;
+                                  tidsstempel: string;
                               } | null;
                           }>;
                       }

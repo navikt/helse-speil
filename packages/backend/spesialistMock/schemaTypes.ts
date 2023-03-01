@@ -201,6 +201,7 @@ export type Dagoverstyring = Overstyring & {
 };
 
 export enum Dagtype {
+    Arbeidsdag = 'Arbeidsdag',
     Egenmeldingsdag = 'Egenmeldingsdag',
     Feriedag = 'Feriedag',
     Permisjonsdag = 'Permisjonsdag',
@@ -454,6 +455,7 @@ export type OppgaveForOversiktsvisning = {
     fodselsnummer: Scalars['String'];
     id: Scalars['String'];
     opprettet: Scalars['String'];
+    opprinneligSoknadsdato: Scalars['String'];
     periodetype?: Maybe<Periodetype>;
     personinfo: Personinfo;
     sistSendt?: Maybe<Scalars['String']>;

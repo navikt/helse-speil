@@ -2026,6 +2026,12 @@
                 "interfaces": null,
                 "enumValues": [
                     {
+                        "name": "Arbeidsdag",
+                        "description": null,
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
+                    {
                         "name": "Egenmeldingsdag",
                         "description": null,
                         "isDeprecated": false,
@@ -4242,6 +4248,22 @@
                     },
                     {
                         "name": "opprettet",
+                        "description": null,
+                        "args": [],
+                        "type": {
+                            "kind": "NON_NULL",
+                            "name": null,
+                            "ofType": {
+                                "kind": "SCALAR",
+                                "name": "String",
+                                "ofType": null
+                            }
+                        },
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
+                    {
+                        "name": "opprinneligSoknadsdato",
                         "description": null,
                         "args": [],
                         "type": {
