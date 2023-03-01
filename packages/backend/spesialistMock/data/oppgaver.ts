@@ -5,6 +5,7 @@ export const oppgaver: Array<OppgaveForOversiktsvisning> = [
         id: '4680',
         type: Oppgavetype.Soknad,
         opprettet: '2022-11-02T11:09:57',
+        opprinneligSoknadsdato: '2022-04-21 09:48:33.10625',
         vedtaksperiodeId: 'd7d208c3-a9a1-4c03-885f-aeffa4475a49',
         personinfo: {
             fornavn: 'SLAPP',
@@ -28,12 +29,12 @@ export const oppgaver: Array<OppgaveForOversiktsvisning> = [
         erRetur: false,
         tidligereSaksbehandler: null,
         trengerTotrinnsvurdering: false,
-        opprinneligSoknadsdato: '2022-11-02',
     },
     {
         id: '4959',
         type: Oppgavetype.Soknad,
         opprettet: '2023-01-02T11:09:57',
+        opprinneligSoknadsdato: '2022-12-30 12:27:29.585667',
         vedtaksperiodeId: 'beab6f33-b26b-44e1-9098-52019181c720',
         personinfo: {
             fornavn: 'BAMES',
@@ -57,6 +58,5 @@ export const oppgaver: Array<OppgaveForOversiktsvisning> = [
         erRetur: false,
         tidligereSaksbehandler: null,
         trengerTotrinnsvurdering: false,
-        opprinneligSoknadsdato: '2023-01-02',
     },
 ];

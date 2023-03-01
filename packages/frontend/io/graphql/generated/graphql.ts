@@ -1100,6 +1100,7 @@ export type FetchOppgaverQuery = {
         id: string;
         aktorId: string;
         opprettet: string;
+        opprinneligSoknadsdato: string;
         vedtaksperiodeId: string;
         type: Oppgavetype;
         periodetype?: Periodetype | null;

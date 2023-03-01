@@ -13,9 +13,9 @@ import { LinkRow } from './LinkRow';
 import { Pagination } from './Pagination';
 import { SortButton } from './SortButton';
 import { BostedCell } from './rader/BostedCell';
+import { DatoCell } from './rader/DatoCell';
 import { InntektskildeCell } from './rader/InntektskildeCell';
 import { OppgavetypeCell } from './rader/OppgavetypeCell';
-import { OpprettetCell } from './rader/OpprettetCell';
 import { PeriodetypeCell } from './rader/PeriodetypeCell';
 import { StatusCell } from './rader/StatusCell';
 import { TildelingCell } from './rader/TildelingCell';
@@ -161,6 +161,22 @@ export const OppgaverTable: React.FC<OppgaverTableProps> = React.memo(({ oppgave
                                         Opprettet
                                     </SortButton>
                                 </Header>
+                                <Header
+                                    scope="col"
+                                    colSpan={1}
+                                    aria-sort={sortation?.label === 'opprinneligSoknadsdato' ? sortation.state : 'none'}
+                                >
+                                    <SortButton
+                                        label="opprinneligSoknadsdato"
+                                        onSort={(a, b) =>
+                                            new Date(a.opprinneligSoknadsdato).getTime() -
+                                            new Date(b.opprinneligSoknadsdato).getTime()
+                                        }
+                                        state={sortation?.label === 'opprinneligSoknadsdato' ? sortation.state : 'none'}
+                                    >
+                                        Søknad mottat
+                                    </SortButton>
+                                </Header>
                                 <td aria-label="valg" />
                                 <td aria-label="notater" />
                             </tr>
@@ -179,7 +195,8 @@ export const OppgaverTable: React.FC<OppgaverTableProps> = React.memo(({ oppgave
                                     <InntektskildeCell flereArbeidsgivere={it.flereArbeidsgivere} />
                                     <StatusCell numberOfWarnings={it.antallVarsler} />
                                     <SøkerCell name={it.personinfo} />
-                                    <OpprettetCell date={it.sistSendt ?? it.opprettet} />
+                                    <DatoCell date={it.sistSendt ?? it.opprettet} />
+                                    <DatoCell date={it.opprinneligSoknadsdato ?? it.opprettet} />
                                     <OptionsCell oppgave={it} personinfo={it.personinfo} />
                                     {it.tildeling?.reservert ? (
                                         <NotatCell

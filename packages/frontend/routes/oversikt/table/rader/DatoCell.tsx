@@ -7,11 +7,11 @@ import { NORSK_DATOFORMAT, somDato } from '@utils/date';
 import { Cell } from '../Cell';
 import { CellContent } from './CellContent';
 
-interface OpprettetProps {
+interface DatoProps {
     date: string;
 }
 
-export const OpprettetCell = React.memo(({ date }: OpprettetProps) => (
+export const DatoCell = React.memo(({ date }: DatoProps) => (
     <Cell>
         <CellContent width={100}>
             <BodyShort>{`${somDato(date).format(NORSK_DATOFORMAT)}`}</BodyShort>

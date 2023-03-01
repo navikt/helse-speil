@@ -3,6 +3,7 @@ query FetchOppgaver {
         id
         aktorId
         opprettet
+        opprinneligSoknadsdato
         vedtaksperiodeId
         type
         periodetype
