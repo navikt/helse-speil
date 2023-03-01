@@ -31,7 +31,8 @@ describe('OppgaverTable', () => {
         expect(screen.getByText('Status')).toBeVisible();
         expect(screen.getByText('Søker')).toBeVisible();
         expect(screen.getByText('Opprettet')).toBeVisible();
+        expect(screen.getByText('Søknad mottatt')).toBeVisible();
 
-        expect(screen.getAllByRole('columnheader')).toHaveLength(8);
+        expect(screen.getAllByRole('columnheader')).toHaveLength(9);
     });
 });

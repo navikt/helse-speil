@@ -174,7 +174,7 @@ export const OppgaverTable: React.FC<OppgaverTableProps> = React.memo(({ oppgave
                                         }
                                         state={sortation?.label === 'opprinneligSoknadsdato' ? sortation.state : 'none'}
                                     >
-                                        Søknad mottat
+                                        Søknad mottatt
                                     </SortButton>
                                 </Header>
                                 <td aria-label="valg" />
