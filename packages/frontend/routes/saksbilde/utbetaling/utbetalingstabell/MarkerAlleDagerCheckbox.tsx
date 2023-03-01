@@ -1,18 +1,11 @@
 import classNames from 'classnames';
-import dayjs from 'dayjs';
 import React, { Dispatch, SetStateAction, useMemo } from 'react';
 
 import { Checkbox } from '@navikt/ds-react';
 
-import { erDev, erLocal } from '@utils/featureToggles';
+import { dagKanOverstyres } from './RadmarkeringCheckbox';
 
 import styles from './MarkerAlleDagerCheckbox.module.css';
-
-const dagKanOverstyres = (type: Utbetalingstabelldagtype, dato: DateString, skjæringstidspunkt: DateString) =>
-    (!dayjs(dato).isSame(skjæringstidspunkt, 'day') &&
-        type !== 'Helg' &&
-        ['Syk', 'Ferie', 'Egenmelding'].includes(type)) ||
-    ((erDev() || erLocal()) && ['Permisjon', 'Arbeid'].includes(type));
 
 const useOverstyrbareDager = (
     alleDager: Map<DateString, UtbetalingstabellDag>,
@@ -22,7 +15,9 @@ const useOverstyrbareDager = (
         () =>
             Array.from(alleDager.entries()).reduce(
                 (dager, [key, dag]) =>
-                    dagKanOverstyres(dag.type, dag.dato, skjæringstidspunkt) ? dager.set(key, dag) : dager,
+                    dagKanOverstyres(dag.dato, dag.erAGP, dag.erAvvist, dag.erForeldet, dag.type, skjæringstidspunkt)
+                        ? dager.set(key, dag)
+                        : dager,
                 new Map()
             ),
         [alleDager]

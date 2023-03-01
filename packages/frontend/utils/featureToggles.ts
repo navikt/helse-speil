@@ -19,6 +19,8 @@ const kunLesetilgang: string[] = [];
 export const erLocal = () => location.hostname === 'localhost';
 export const erDev = () => location.hostname === 'speil.dev.intern.nav.no';
 
+export const erUtvikling = () => erLocal() || erDev();
+
 const harKunLesetilgang = () => kunLesetilgang.includes(extractIdent());
 const erSupersaksbehandler = () => supersaksbehandlere.includes(extractIdent());
 const harTilgangTilAlt = () => [...supersaksbehandlere, ...fagkoordinatorer, ...enhetsledere].includes(extractIdent());

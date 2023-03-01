@@ -4,9 +4,31 @@ import React from 'react';
 
 import { Checkbox } from '@navikt/ds-react';
 
-import { erDev, erLocal } from '@utils/featureToggles';
+import { erUtvikling } from '@utils/featureToggles';
 
 import { DisabledCheckbox } from './DisabledCheckbox';
+
+export const dagKanOverstyres = (
+    dato: DateString,
+    erAGP: boolean | undefined,
+    erAvvist: boolean | undefined,
+    erForeldet: boolean | undefined,
+    dagtype: Utbetalingstabelldagtype,
+    skjæringstidspunkt: DateString
+) => {
+    const erSkjæringstidspunkt: boolean = dayjs(dato).isSame(skjæringstidspunkt, 'day');
+    let dagKanOverstyres: Boolean = !erAvvist && !erForeldet && !['Helg'].includes(dagtype);
+
+    if (!erUtvikling()) {
+        dagKanOverstyres =
+            dagKanOverstyres &&
+            !erSkjæringstidspunkt &&
+            !erAGP &&
+            ['Syk', 'Ferie', 'Egenmelding', 'Permisjon'].includes(dagtype);
+    }
+
+    return dagKanOverstyres;
+};
 
 const Container = styled.div`
     position: relative;
@@ -48,20 +70,14 @@ export const RadmarkeringCheckbox: React.FC<RadmarkeringCheckboxProps> = ({
 }) => {
     const erSkjæringstidspunkt: boolean = dayjs(dato).isSame(skjæringstidspunkt, 'day');
 
-    const dagKanOverstyres =
-        (!erAGP &&
-            !erAvvist &&
-            !erForeldet &&
-            !['Helg'].includes(dagtype) &&
-            ['Syk', 'Ferie', 'Egenmelding'].includes(dagtype)) ||
-        ((erDev() || erLocal()) && ['Permisjon', 'Arbeid'].includes(dagtype));
+    const _dagKanOverstyres: Boolean = dagKanOverstyres(dato, erAGP, erAvvist, erForeldet, dagtype, skjæringstidspunkt);
 
-    if (!dagKanOverstyres) {
-        return <Container />;
+    if (!_dagKanOverstyres && erSkjæringstidspunkt && !erAGP) {
+        return <DisabledCheckbox label="Kan foreløpig ikke endres. Mangler støtte for skjæringstidspunkt" />;
     }
 
-    if (erSkjæringstidspunkt) {
-        return <DisabledCheckbox label="Kan foreløpig ikke endres. Mangler støtte for skjæringstidspunkt" />;
+    if (!_dagKanOverstyres) {
+        return <Container />;
     }
 
     return (

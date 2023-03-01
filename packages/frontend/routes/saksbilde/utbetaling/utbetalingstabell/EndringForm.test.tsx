@@ -10,8 +10,7 @@ let erProd = true;
 
 jest.mock('@utils/featureToggles', () => ({
     overstyrPermisjonsdagerEnabled: true,
-    erDev: () => !erProd,
-    erLocal: () => !erProd,
+    erUtvikling: () => !erProd,
 }));
 
 describe('lovligeTypeendringer', () => {
