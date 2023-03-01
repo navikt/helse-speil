@@ -33,7 +33,7 @@
     flex-direction: column;
     position: absolute;
     left: 28px;
-    top: calc(28.5px + 64px);
+    top: calc(28.5px + 32px);
 }
 
 .ErrorMessage {
