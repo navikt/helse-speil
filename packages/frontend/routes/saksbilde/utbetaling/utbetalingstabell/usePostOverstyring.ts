@@ -19,8 +19,10 @@ import { ErrorAlert } from '@utils/error';
 
 const tilOverstyrtDagtype = (type: Utbetalingstabelldagtype): OverstyrtDagtype => {
     switch (type) {
+        case 'SykHelg':
         case 'Syk':
             return 'Sykedag';
+        case 'Feriehelg':
         case 'Ferie':
             return 'Feriedag';
         case 'Permisjon':
@@ -28,6 +30,7 @@ const tilOverstyrtDagtype = (type: Utbetalingstabelldagtype): OverstyrtDagtype =
         case 'Egenmelding':
             return 'Egenmeldingsdag';
         case 'Arbeid':
+        case 'FriskHelg': // NAV har konkret informasjon om at dette er arbeid i helg
             return 'Arbeidsdag';
         default:
             throw Error(`Dag med type ${type} kan ikke overstyres.`);

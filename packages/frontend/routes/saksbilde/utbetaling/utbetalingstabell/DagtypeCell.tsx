@@ -12,6 +12,7 @@ import { IconFailure } from '../../table/icons/IconFailure';
 import { IconFerie } from '../../table/icons/IconFerie';
 import { IconPermisjon } from '../../table/icons/IconPermisjon';
 import { IconSyk } from '../../table/icons/IconSyk';
+import { erEksplisittHelg } from './Utbetalingstabell';
 
 const IconContainer = styled.div`
     width: 1rem;
@@ -47,14 +48,17 @@ const getTypeIcon = (dag: UtbetalingstabellDag): ReactNode => {
 const getDisplayText = (dag?: UtbetalingstabellDag): string | null => {
     if (!dag) {
         return null;
-    } else if (dag.erAvvist) {
-        return `${dag.type} (Avslått)`;
+    }
+    const dagtype = erEksplisittHelg(dag.type) ? 'Helg' : dag.type;
+
+    if (dag.erAvvist) {
+        return `${dagtype} (Avslått)`;
     } else if (dag.erAGP) {
-        return `${dag.type} (AGP)`;
+        return `${dagtype} (AGP)`;
     } else if (dag.erForeldet) {
-        return `${dag.type} (Foreldet)`;
+        return `${dagtype} (Foreldet)`;
     } else {
-        return dag.type;
+        return dagtype;
     }
 };
 

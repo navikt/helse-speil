@@ -3,9 +3,10 @@ import React from 'react';
 import { Endringstrekant } from '@components/Endringstrekant';
 
 import { CellContent } from '../../table/CellContent';
+import { helgetyper } from './Utbetalingstabell';
 
 const dagtypeIsValid = (type: Utbetalingstabelldagtype): boolean =>
-    ['Helg', 'Arbeid', 'Ferie', 'Permisjon'].every((it) => it !== type);
+    [...helgetyper, 'Arbeid', 'Ferie', 'Permisjon'].every((it) => it !== type);
 
 const renderGrad = (grad?: Maybe<number>): string | false => typeof grad === 'number' && `${Math.floor(grad)} %`;
 

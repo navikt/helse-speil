@@ -5,6 +5,9 @@ type Begrunnelse = import('@io/graphql').Begrunnelse;
 declare type Utbetalingstabelldagtype =
     | 'Syk'
     | 'Ferie'
+    | 'FriskHelg'
+    | 'Feriehelg'
+    | 'SykHelg'
     | 'Helg'
     | 'Ukjent'
     | 'Egenmelding'

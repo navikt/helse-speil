@@ -7,6 +7,7 @@ import { Checkbox } from '@navikt/ds-react';
 import { erUtvikling } from '@utils/featureToggles';
 
 import { DisabledCheckbox } from './DisabledCheckbox';
+import { erEksplisittHelg } from './Utbetalingstabell';
 
 export const dagKanOverstyres = (
     dato: DateString,
@@ -24,6 +25,7 @@ export const dagKanOverstyres = (
             dagKanOverstyres &&
             !erSkjæringstidspunkt &&
             !erAGP &&
+            !erEksplisittHelg(dagtype) &&
             ['Syk', 'Ferie', 'Egenmelding', 'Permisjon'].includes(dagtype);
     }
 

@@ -9,6 +9,7 @@ import { Kildetype } from '@io/graphql';
 
 import { EndringsloggButton } from '../../sykepengegrunnlag/inntekt/EndringsloggButton';
 import { CellContent } from '../../table/CellContent';
+import { erEksplisittHelg } from './Utbetalingstabell';
 
 const getKildeTypeIcon = (
     dato: DateString,
@@ -66,7 +67,7 @@ export const KildeCell = ({ type, dato, kilde, overstyringer, ...rest }: KildeCe
     return (
         <td {...rest}>
             <Container>
-                {type !== 'Helg' && (
+                {!erEksplisittHelg(type) && (
                     <>
                         <Tooltip content={getKildeTypeTooltip(kilde)}>
                             <span>{getKildeTypeIcon(dato, kilde, overstyringer)}</span>

@@ -4,9 +4,10 @@ import { Endringstrekant } from '@components/Endringstrekant';
 
 import { CellContent } from '../../table/CellContent';
 import { Cell } from './Cell';
+import { helgetyper } from './Utbetalingstabell';
 
 const dagtypeIsValid = (type: Utbetalingstabelldagtype): boolean =>
-    ['Helg', 'Arbeid', 'Ferie', 'Permisjon'].every((it) => it !== type);
+    [...helgetyper, 'Arbeid', 'Ferie', 'Permisjon'].every((it) => it !== type);
 
 interface TotalGradProps {
     type: Utbetalingstabelldagtype;

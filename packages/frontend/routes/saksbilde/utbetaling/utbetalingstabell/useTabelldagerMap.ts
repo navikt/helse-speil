@@ -23,8 +23,7 @@ const getUtbetalingstabelldagtype = (dag: Dag): Utbetalingstabelldagtype => {
         case Utbetalingsdagtype.Arbeidsdag:
             return 'Arbeid';
         case Utbetalingsdagtype.Navhelgdag:
-        case Utbetalingsdagtype.Helgedag:
-            return 'Helg';
+            return 'SykHelg';
         case Utbetalingsdagtype.Navdag:
             return 'Syk';
         case Utbetalingsdagtype.AvvistDag:
@@ -32,22 +31,23 @@ const getUtbetalingstabelldagtype = (dag: Dag): Utbetalingstabelldagtype => {
     }
     switch (dag.sykdomsdagtype) {
         case Sykdomsdagtype.Arbeidsdag:
-            return 'Arbeid';
+            return dag.utbetalingsdagtype === 'HELGEDAG' ? 'Helg' : 'Arbeid';
         case Sykdomsdagtype.Feriedag:
-            return 'Ferie';
+            return dag.utbetalingsdagtype === 'HELGEDAG' ? 'Feriehelg' : 'Ferie';
         case Sykdomsdagtype.Permisjonsdag:
             return 'Permisjon';
         case Sykdomsdagtype.Arbeidsgiverdag:
         case Sykdomsdagtype.Sykedag:
             return 'Syk';
         case Sykdomsdagtype.SykHelgedag:
+            return 'SykHelg';
         case Sykdomsdagtype.FriskHelgedag:
-            return 'Helg';
+            return 'FriskHelg';
         case Sykdomsdagtype.Avslatt:
             return 'Avslått';
         case Sykdomsdagtype.Ubestemtdag:
         default:
-            return 'Ukjent';
+            return dag.utbetalingsdagtype === 'HELGEDAG' ? 'Helg' : 'Ukjent';
     }
 };
 

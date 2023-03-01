@@ -2,6 +2,8 @@ import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import React from 'react';
 
+import { helgetyper } from '../utbetaling/utbetalingstabell/Utbetalingstabell';
+
 interface RowProps {
     erAvvist?: boolean;
     erAGP?: boolean;
@@ -26,7 +28,8 @@ const leftAlignedLine = (color: string) => css`
 `;
 
 const helgStyle = (props: RowProps) =>
-    props.type === 'Helg' &&
+    props.type &&
+    [...helgetyper, 'Helg'].includes(props.type) &&
     css`
         background: repeating-linear-gradient(
             123deg,
