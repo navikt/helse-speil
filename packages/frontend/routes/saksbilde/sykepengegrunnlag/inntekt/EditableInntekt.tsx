@@ -134,13 +134,13 @@ export const EditableInntekt = ({
 
         const refusjonsopplysninger =
             values?.refusjonsopplysninger &&
-            [...values.refusjonsopplysninger]?.sort(
+            [...values.refusjonsopplysninger].sort(
                 (a: Refusjonsopplysning, b: Refusjonsopplysning) =>
                     new Date(b.fom).getTime() - new Date(a.fom).getTime()
             );
 
         if (
-            (omregnetÅrsinntekt.manedsbelop.toString() === values?.manedsbelop || isNaN(values?.manedsbelop)) &&
+            (omregnetÅrsinntekt.manedsbelop === Number(values?.manedsbelop) || isNaN(values?.manedsbelop)) &&
             JSON.stringify(refusjonsopplysninger) === JSON.stringify(metadata.fraRefusjonsopplysninger)
         ) {
             e.preventDefault();
@@ -167,15 +167,14 @@ export const EditableInntekt = ({
                 period?.skjaeringstidspunkt
             ) ?? true;
 
-        const erGapIDatoer: boolean =
-            refusjonsopplysninger?.filter((refusjonsopplysning: Refusjonsopplysning, index: number) => {
-                return (
-                    index < refusjonsopplysninger.length - 1 &&
-                    dayjs(refusjonsopplysning.fom, ISO_DATOFORMAT)
-                        .subtract(1, 'day')
-                        .diff(dayjs(refusjonsopplysninger[index + 1]?.tom ?? '1970-01-01', ISO_DATOFORMAT)) !== 0
-                );
-            }).length !== 0;
+        const erGapIDatoer: boolean = refusjonsopplysninger?.some(
+            (refusjonsopplysning: Refusjonsopplysning, index: number) => {
+                const isNotLast = index < refusjonsopplysninger.length - 1;
+                const currentFom = dayjs(refusjonsopplysning.fom, ISO_DATOFORMAT);
+                const previousTom = dayjs(refusjonsopplysninger[index + 1]?.tom ?? '1970-01-01', ISO_DATOFORMAT);
+                return isNotLast && currentFom.subtract(1, 'day').diff(previousTom) !== 0;
+            }
+        );
 
         const manglerRefusjonsopplysninger: boolean = refusjonsopplysninger.length === 0;
 
