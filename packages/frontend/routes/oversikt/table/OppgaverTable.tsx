@@ -11,7 +11,7 @@ import { FilterButton } from './FilterButton';
 import { Header } from './Header';
 import { LinkRow } from './LinkRow';
 import { Pagination } from './Pagination';
-import { SortButton } from './SortButton';
+import { SortableHeader } from './SortableHeader';
 import { BostedCell } from './rader/BostedCell';
 import { DatoCell } from './rader/DatoCell';
 import { InntektskildeCell } from './rader/InntektskildeCell';
@@ -111,72 +111,48 @@ export const OppgaverTable: React.FC<OppgaverTableProps> = React.memo(({ oppgave
                                         Oppgavetype
                                     </FilterButton>
                                 </Header>
-                                <Header
-                                    scope="col"
-                                    colSpan={1}
-                                    aria-sort={sortation?.label === 'bosted' ? sortation.state : 'none'}
+                                <SortableHeader
+                                    sortation={sortation}
+                                    label="bosted"
+                                    onSort={(a, b) => a.boenhet.navn.localeCompare(b.boenhet.navn)}
                                 >
-                                    <SortButton
-                                        label="bosted"
-                                        onSort={(a, b) => a.boenhet.navn.localeCompare(b.boenhet.navn)}
-                                        state={sortation?.label === 'bosted' ? sortation.state : 'none'}
-                                    >
-                                        Bosted
-                                    </SortButton>
-                                </Header>
+                                    Bosted
+                                </SortableHeader>
                                 <Header scope="col" colSpan={1}>
                                     <FilterButton filters={filters.filter((it) => it.column === 4)}>
                                         Inntektskilde
                                     </FilterButton>
                                 </Header>
-                                <Header
-                                    scope="col"
-                                    colSpan={1}
-                                    aria-sort={sortation?.label === 'status' ? sortation.state : 'none'}
+                                <SortableHeader
+                                    sortation={sortation}
+                                    label="varsler"
+                                    onSort={(a, b) => a.antallVarsler - b.antallVarsler}
                                 >
-                                    <SortButton
-                                        label="status"
-                                        onSort={(a, b) => a.antallVarsler - b.antallVarsler}
-                                        state={sortation?.label === 'status' ? sortation.state : 'none'}
-                                    >
-                                        Varsler
-                                    </SortButton>
-                                </Header>
+                                    Varsler
+                                </SortableHeader>
                                 <Header scope="col" colSpan={1}>
                                     Søker
                                 </Header>
-                                <Header
-                                    scope="col"
-                                    colSpan={1}
-                                    aria-sort={sortation?.label === 'opprettet' ? sortation.state : 'none'}
+                                <SortableHeader
+                                    sortation={sortation}
+                                    label="opprettet"
+                                    onSort={(a, b) =>
+                                        new Date(a.sistSendt ?? a.opprettet).getTime() -
+                                        new Date(b.sistSendt ?? b.opprettet).getTime()
+                                    }
                                 >
-                                    <SortButton
-                                        label="opprettet"
-                                        onSort={(a, b) =>
-                                            new Date(a.sistSendt ?? a.opprettet).getTime() -
-                                            new Date(b.sistSendt ?? b.opprettet).getTime()
-                                        }
-                                        state={sortation?.label === 'opprettet' ? sortation.state : 'none'}
-                                    >
-                                        Opprettet
-                                    </SortButton>
-                                </Header>
-                                <Header
-                                    scope="col"
-                                    colSpan={1}
-                                    aria-sort={sortation?.label === 'opprinneligSoknadsdato' ? sortation.state : 'none'}
+                                    Opprettet
+                                </SortableHeader>
+                                <SortableHeader
+                                    sortation={sortation}
+                                    label="søknadMottatt"
+                                    onSort={(a, b) =>
+                                        new Date(a.opprinneligSoknadsdato).getTime() -
+                                        new Date(b.opprinneligSoknadsdato).getTime()
+                                    }
                                 >
-                                    <SortButton
-                                        label="opprinneligSoknadsdato"
-                                        onSort={(a, b) =>
-                                            new Date(a.opprinneligSoknadsdato).getTime() -
-                                            new Date(b.opprinneligSoknadsdato).getTime()
-                                        }
-                                        state={sortation?.label === 'opprinneligSoknadsdato' ? sortation.state : 'none'}
-                                    >
-                                        Søknad mottatt
-                                    </SortButton>
-                                </Header>
+                                    Søknad mottatt
+                                </SortableHeader>
                                 <td aria-label="valg" />
                                 <td aria-label="notater" />
                             </tr>
