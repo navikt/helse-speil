@@ -113,7 +113,7 @@ export const OppgaverTable: React.FC<OppgaverTableProps> = React.memo(({ oppgave
                                 </Header>
                                 <SortableHeader
                                     sortation={sortation}
-                                    label="bosted"
+                                    sortKey="bosted"
                                     onSort={(a, b) => a.boenhet.navn.localeCompare(b.boenhet.navn)}
                                 >
                                     Bosted
@@ -125,7 +125,7 @@ export const OppgaverTable: React.FC<OppgaverTableProps> = React.memo(({ oppgave
                                 </Header>
                                 <SortableHeader
                                     sortation={sortation}
-                                    label="varsler"
+                                    sortKey="varsler"
                                     onSort={(a, b) => a.antallVarsler - b.antallVarsler}
                                 >
                                     Varsler
@@ -135,7 +135,7 @@ export const OppgaverTable: React.FC<OppgaverTableProps> = React.memo(({ oppgave
                                 </Header>
                                 <SortableHeader
                                     sortation={sortation}
-                                    label="opprettet"
+                                    sortKey="opprettet"
                                     onSort={(a, b) =>
                                         new Date(a.sistSendt ?? a.opprettet).getTime() -
                                         new Date(b.sistSendt ?? b.opprettet).getTime()
@@ -145,7 +145,7 @@ export const OppgaverTable: React.FC<OppgaverTableProps> = React.memo(({ oppgave
                                 </SortableHeader>
                                 <SortableHeader
                                     sortation={sortation}
-                                    label="søknadMottatt"
+                                    sortKey="søknadMottatt"
                                     onSort={(a, b) =>
                                         new Date(a.opprinneligSoknadsdato).getTime() -
                                         new Date(b.opprinneligSoknadsdato).getTime()

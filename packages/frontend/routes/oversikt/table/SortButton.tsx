@@ -8,12 +8,12 @@ import { SortationState, useSetSortation } from './state/sortation';
 import styles from './SortButton.module.css';
 
 interface SortButtonProps extends React.HTMLAttributes<HTMLButtonElement> {
-    label: string;
+    sortKey: string;
     state: SortationState;
     onSort: (a: OppgaveForOversiktsvisning, b: OppgaveForOversiktsvisning) => number;
 }
 
-export const SortButton = ({ children, state, onSort, label, ...rest }: SortButtonProps) => {
+export const SortButton = ({ children, state, onSort, sortKey, ...rest }: SortButtonProps) => {
     const setSortation = useSetSortation();
 
     const sort = () => {
@@ -25,7 +25,7 @@ export const SortButton = ({ children, state, onSort, label, ...rest }: SortButt
                 ? (a: OppgaveForOversiktsvisning, b: OppgaveForOversiktsvisning) => onSort(b, a)
                 : (_a: OppgaveForOversiktsvisning, _b: OppgaveForOversiktsvisning) => 0;
 
-        setSortation({ label, function: newFunction, state: newState });
+        setSortation({ sortKey, function: newFunction, state: newState });
     };
 
     return (

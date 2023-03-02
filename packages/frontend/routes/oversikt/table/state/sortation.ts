@@ -7,7 +7,7 @@ import { TabType, tabState } from '../../Tabs';
 export type SortationState = 'ascending' | 'descending' | 'none';
 
 export type Sortation<T> = {
-    label: string;
+    sortKey: string;
     function: (a: T, b: T) => number;
     state: SortationState;
 };
