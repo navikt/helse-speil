@@ -65,9 +65,7 @@ export const OppgaverTable: React.FC<OppgaverTableProps> = React.memo(({ oppgave
               ) as Array<OppgaveForOversiktsvisning>)
             : (oppgaver as Array<OppgaveForOversiktsvisning>);
 
-    const sortedRows = sortation
-        ? [...(visibleRows as Array<OppgaveForOversiktsvisning>)].sort(sortation.function)
-        : visibleRows;
+    const sortedRows = [...(visibleRows as Array<OppgaveForOversiktsvisning>)].sort(sortation.function);
 
     const paginatedRows = pagination
         ? sortedRows.slice(pagination.firstVisibleEntry, pagination.lastVisibleEntry + 1)

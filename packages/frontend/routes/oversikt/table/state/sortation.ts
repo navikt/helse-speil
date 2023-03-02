@@ -12,19 +12,24 @@ export type Sortation<T> = {
     state: SortationState;
 };
 
-type SortationPerTab = { [key in TabType]: Sortation<OppgaveForOversiktsvisning> | null };
+type SortationPerTab = { [key in TabType]: Sortation<OppgaveForOversiktsvisning> };
 
+const defaultSortation: Sortation<OppgaveForOversiktsvisning> = {
+    sortKey: 'no sort key',
+    function: () => 0,
+    state: 'none',
+};
 const sortationPerTab = atom<SortationPerTab>({
     key: 'sortationsPerTab',
     default: {
-        [TabType.TilGodkjenning]: null,
-        [TabType.Mine]: null,
-        [TabType.Ventende]: null,
-        [TabType.BehandletIdag]: null,
+        [TabType.TilGodkjenning]: defaultSortation,
+        [TabType.Mine]: defaultSortation,
+        [TabType.Ventende]: defaultSortation,
+        [TabType.BehandletIdag]: defaultSortation,
     },
 });
 
-const sortation = selector<Sortation<OppgaveForOversiktsvisning> | null>({
+const sortation = selector<Sortation<OppgaveForOversiktsvisning>>({
     key: 'sortation',
     get: ({ get }) => {
         const tab = get(tabState);
