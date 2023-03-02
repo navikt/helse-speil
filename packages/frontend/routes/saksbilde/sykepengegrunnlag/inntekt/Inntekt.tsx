@@ -1,5 +1,3 @@
-import { InntektMedSykefravær } from './InntektMedSykefravær';
-import { InntektUtenSykefravær } from './InntektUtenSykefravær';
 import classNames from 'classnames';
 import React from 'react';
 
@@ -21,6 +19,7 @@ import { useCurrentPerson } from '@state/person';
 import { isBeregnetPeriode, isUberegnetPeriode } from '@utils/typeguards';
 
 import { useVilkårsgrunnlag } from '../Sykepengegrunnlag';
+import { InntektOgRefusjon } from './InntektOgRefusjon';
 
 import styles from './Inntekt.module.css';
 
@@ -68,37 +67,24 @@ const InntektContainer: React.FC<InntektContainerProps> = ({ inntekt }) => {
         arbeidsgiverrefusjon?.refusjonsopplysninger
     );
 
-    if (arbeidsgiverHarSykefraværForPerioden) {
-        return (
-            <InntektMedSykefravær
-                inntektFraAOrdningen={
-                    isBeregnetPeriode(periodeForSkjæringstidspunktForArbeidsgiver)
-                        ? periodeForSkjæringstidspunktForArbeidsgiver.inntektFraAordningen
-                        : undefined
-                }
-                skjæringstidspunkt={periodeForSkjæringstidspunktForArbeidsgiver.skjaeringstidspunkt}
-                omregnetÅrsinntekt={inntekt.omregnetArsinntekt}
-                organisasjonsnummer={inntekt.arbeidsgiver}
-                vilkårsgrunnlagId={periodeForSkjæringstidspunktForArbeidsgiver.vilkarsgrunnlagId}
-                inntektstype={(periodeForSkjæringstidspunktForArbeidsgiver as BeregnetPeriode).inntektstype}
-                erDeaktivert={inntekt.deaktivert}
-                arbeidsgiver={arbeidsgiver}
-                refusjon={refusjonsopplysninger}
-            />
-        );
-    } else {
-        return (
-            <InntektUtenSykefravær
-                skjæringstidspunkt={periodeForSkjæringstidspunktForArbeidsgiver.skjaeringstidspunkt}
-                omregnetÅrsinntekt={inntekt.omregnetArsinntekt}
-                organisasjonsnummer={inntekt.arbeidsgiver}
-                erDeaktivert={inntekt.deaktivert}
-                vilkårsgrunnlagId={periodeForSkjæringstidspunktForArbeidsgiver.vilkarsgrunnlagId}
-                arbeidsgiver={arbeidsgiver}
-                refusjon={refusjonsopplysninger}
-            />
-        );
-    }
+    return (
+        <InntektOgRefusjon
+            inntektFraAOrdningen={
+                isBeregnetPeriode(periodeForSkjæringstidspunktForArbeidsgiver)
+                    ? periodeForSkjæringstidspunktForArbeidsgiver.inntektFraAordningen
+                    : undefined
+            }
+            skjæringstidspunkt={periodeForSkjæringstidspunktForArbeidsgiver.skjaeringstidspunkt}
+            omregnetÅrsinntekt={inntekt.omregnetArsinntekt}
+            organisasjonsnummer={inntekt.arbeidsgiver}
+            erDeaktivert={inntekt.deaktivert}
+            vilkårsgrunnlagId={periodeForSkjæringstidspunktForArbeidsgiver.vilkarsgrunnlagId}
+            inntektstype={(periodeForSkjæringstidspunktForArbeidsgiver as BeregnetPeriode).inntektstype}
+            arbeidsgiver={arbeidsgiver}
+            refusjon={refusjonsopplysninger}
+            harSykefravær={arbeidsgiverHarSykefraværForPerioden}
+        />
+    );
 };
 
 const InntektError = () => {

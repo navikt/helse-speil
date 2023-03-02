@@ -22,7 +22,7 @@ import {
     isInntektoverstyring,
 } from '@utils/typeguards';
 
-import { harIngenUtbetaltePerioderFor } from '../sykepengegrunnlag/inntekt/InntektUtenSykefravær';
+import { harIngenUtbetaltePerioderFor } from '../sykepengegrunnlag/inntekt/InntektOgRefusjon';
 
 const isInntektsmelding = (hendelse: Hendelse): hendelse is Inntektsmelding => {
     return hendelse.type === 'INNTEKTSMELDING';
