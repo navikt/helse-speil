@@ -14,9 +14,8 @@ import {
     kalkuleringFerdigToast,
 } from '@state/kalkuleringstoasts';
 import { useOpptegnelser, useSetOpptegnelserPollingRate } from '@state/opptegnelser';
+import { inntektOgRefusjonState } from '@state/overstyring';
 import { useAddToast, useRemoveToast } from '@state/toasts';
-
-import { inntektOgRefusjonState } from '../sykepengegrunnlag/inntekt/EditableInntekt';
 
 import styles from './Saksbildevarsler.module.css';
 

@@ -13,6 +13,7 @@ import {
     Vurdering,
 } from '@io/graphql';
 import { Refusjonsopplysning } from '@io/http';
+import { inntektOgRefusjonState } from '@state/overstyring';
 import { useActivePeriod } from '@state/periode';
 import { useCurrentPerson } from '@state/person';
 import { harBlittUtbetaltTidligere } from '@state/selectors/period';
@@ -25,7 +26,6 @@ import {
     isUberegnetPeriode,
 } from '@utils/typeguards';
 
-import { inntektOgRefusjonState } from '../routes/saksbilde/sykepengegrunnlag/inntekt/EditableInntekt';
 import { useDagoverstyringer } from '../routes/saksbilde/utbetaling/Utbetaling';
 
 export const findArbeidsgiverWithGhostPeriode = (
