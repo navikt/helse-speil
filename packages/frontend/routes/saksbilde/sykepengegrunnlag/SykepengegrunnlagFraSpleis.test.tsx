@@ -20,7 +20,7 @@ import { SykepengegrunnlagFraSpleis } from './SykepengegrunnlagFraSpleis';
 
 jest.mock('@state/arbeidsgiver');
 jest.mock('@state/periode');
-jest.mock('./sykepengegrunnlag');
+jest.mock('./Sykepengegrunnlag');
 
 describe('SykepengegrunnlagFraSpleis', () => {
     afterEach(() => {
