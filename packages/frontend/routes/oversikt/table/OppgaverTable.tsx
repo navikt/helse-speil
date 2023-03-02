@@ -139,7 +139,7 @@ export const OppgaverTable: React.FC<OppgaverTableProps> = React.memo(({ oppgave
                                         onSort={(a, b) => a.antallVarsler - b.antallVarsler}
                                         state={sortation?.label === 'status' ? sortation.state : 'none'}
                                     >
-                                        Status
+                                        Varsler
                                     </SortButton>
                                 </Header>
                                 <Header scope="col" colSpan={1}>

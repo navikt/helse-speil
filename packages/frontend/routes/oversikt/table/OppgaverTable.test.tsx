@@ -28,7 +28,7 @@ describe('OppgaverTable', () => {
         expect(screen.getByText('Oppgavetype')).toBeVisible();
         expect(screen.getByText('Bosted')).toBeVisible();
         expect(screen.getByText('Inntektskilde')).toBeVisible();
-        expect(screen.getByText('Status')).toBeVisible();
+        expect(screen.getByText('Varsler')).toBeVisible();
         expect(screen.getByText('Søker')).toBeVisible();
         expect(screen.getByText('Opprettet')).toBeVisible();
         expect(screen.getByText('Søknad mottatt')).toBeVisible();
