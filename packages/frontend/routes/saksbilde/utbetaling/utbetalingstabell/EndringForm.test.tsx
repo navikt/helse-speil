@@ -48,8 +48,41 @@ describe('EndringForm', () => {
             expect(screen.getByTestId('endre')).toBeDisabled();
         });
     });
-    it('disabler grad når feil dagtyper velges', async () => {
+    it('disabler grad når ferie velges', async () => {
         const markerteDager = new Map([['2020-01-01', { type: 'Ferie' } as UtbetalingstabellDag]]);
+        render(<EndringForm markerteDager={markerteDager} onSubmitEndring={() => null} />);
+
+        userEvent.selectOptions(screen.getByRole('combobox'), screen.getAllByRole('option')[1]);
+
+        await waitFor(() => {
+            expect(screen.getByTestId('gradvelger')).toBeDisabled();
+            expect(screen.getByTestId('endre')).toBeEnabled();
+        });
+    });
+    it('disabler grad når egenmeldingsdag velges', async () => {
+        const markerteDager = new Map([['2020-01-01', { type: 'Egenmelding' } as UtbetalingstabellDag]]);
+        render(<EndringForm markerteDager={markerteDager} onSubmitEndring={() => null} />);
+
+        userEvent.selectOptions(screen.getByRole('combobox'), screen.getAllByRole('option')[1]);
+
+        await waitFor(() => {
+            expect(screen.getByTestId('gradvelger')).toBeDisabled();
+            expect(screen.getByTestId('endre')).toBeEnabled();
+        });
+    });
+    it('disabler grad når egenmeldingsdag velges', async () => {
+        const markerteDager = new Map([['2020-01-01', { type: 'Ferie' } as UtbetalingstabellDag]]);
+        render(<EndringForm markerteDager={markerteDager} onSubmitEndring={() => null} />);
+
+        userEvent.selectOptions(screen.getByRole('combobox'), screen.getAllByRole('option')[1]);
+
+        await waitFor(() => {
+            expect(screen.getByTestId('gradvelger')).toBeDisabled();
+            expect(screen.getByTestId('endre')).toBeEnabled();
+        });
+    });
+    it('disabler grad når egenmeldingsdag velges', async () => {
+        const markerteDager = new Map([['2020-01-01', { type: 'Arbeid' } as UtbetalingstabellDag]]);
         render(<EndringForm markerteDager={markerteDager} onSubmitEndring={() => null} />);
 
         userEvent.selectOptions(screen.getByRole('combobox'), screen.getAllByRole('option')[1]);

@@ -8,7 +8,7 @@ import { erUtvikling } from '@utils/featureToggles';
 
 import styles from './EndringForm.module.css';
 
-const dagtyperUtenGradering: Array<Utbetalingstabelldagtype> = ['Arbeid', 'Ferie', 'Permisjon'];
+const dagtyperUtenGradering: Array<Utbetalingstabelldagtype> = ['Arbeid', 'Ferie', 'Permisjon', 'Egenmelding'];
 
 type GetLovligeTypeendringerOptions = {
     revurderingIsEnabled?: boolean;
