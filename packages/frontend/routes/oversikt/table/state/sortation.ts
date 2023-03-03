@@ -14,18 +14,24 @@ export type Sortation<T> = {
 
 type SortationPerTab = { [key in TabType]: Sortation<OppgaveForOversiktsvisning> };
 
-const defaultSortation: Sortation<OppgaveForOversiktsvisning> = {
-    sortKey: 'no sort key',
-    function: () => 0,
-    state: 'none',
+const opprettetSortFunction = (a: OppgaveForOversiktsvisning, b: OppgaveForOversiktsvisning) =>
+    new Date(a.sistSendt ?? a.opprettet).getTime() - new Date(b.sistSendt ?? b.opprettet).getTime();
+
+export const opprettetSortation: Sortation<OppgaveForOversiktsvisning> = {
+    sortKey: 'opprettet',
+    function: opprettetSortFunction,
+    state: 'ascending',
 };
+
+const initialSortation: Sortation<OppgaveForOversiktsvisning> = opprettetSortation;
+
 const sortationPerTab = atom<SortationPerTab>({
     key: 'sortationsPerTab',
     default: {
-        [TabType.TilGodkjenning]: defaultSortation,
-        [TabType.Mine]: defaultSortation,
-        [TabType.Ventende]: defaultSortation,
-        [TabType.BehandletIdag]: defaultSortation,
+        [TabType.TilGodkjenning]: initialSortation,
+        [TabType.Mine]: initialSortation,
+        [TabType.Ventende]: initialSortation,
+        [TabType.BehandletIdag]: initialSortation,
     },
 });
 

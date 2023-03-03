@@ -23,7 +23,7 @@ import { NotatCell } from './rader/notat/NotatCell';
 import { OptionsCell } from './rader/options/OptionsCell';
 import { Filter, useFilters } from './state/filter';
 import { usePagination } from './state/pagination';
-import { useSortation } from './state/sortation';
+import { opprettetSortation, useSortation } from './state/sortation';
 
 import styles from './table.module.css';
 
@@ -133,11 +133,8 @@ export const OppgaverTable: React.FC<OppgaverTableProps> = React.memo(({ oppgave
                                 </Header>
                                 <SortableHeader
                                     sortation={sortation}
-                                    sortKey="opprettet"
-                                    onSort={(a, b) =>
-                                        new Date(a.sistSendt ?? a.opprettet).getTime() -
-                                        new Date(b.sistSendt ?? b.opprettet).getTime()
-                                    }
+                                    sortKey={opprettetSortation.sortKey}
+                                    onSort={opprettetSortation.function}
                                 >
                                     Opprettet
                                 </SortableHeader>
