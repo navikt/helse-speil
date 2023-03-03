@@ -11,6 +11,7 @@ let erUtvikling: boolean = false;
 jest.mock('@utils/featureToggles', () => ({
     overstyrPermisjonsdagerEnabled: true,
     erUtvikling: () => erUtvikling,
+    erCoachEllerSuper: () => false, // Spiller ingen rolle hva denne er, den over som er avgjørende
 }));
 
 describe('RadmarkeringCheckbox', () => {

@@ -4,7 +4,7 @@ import { useForm } from 'react-hook-form';
 import { Button, Select, TextField } from '@navikt/ds-react';
 
 import { Bold } from '@components/Bold';
-import { erUtvikling } from '@utils/featureToggles';
+import { erCoachEllerSuper, erUtvikling } from '@utils/featureToggles';
 
 import styles from './EndringForm.module.css';
 
@@ -17,7 +17,7 @@ type GetLovligeTypeendringerOptions = {
 export const getLovligeTypeendringer = ({
     revurderingIsEnabled,
 }: GetLovligeTypeendringerOptions = {}): Array<Utbetalingstabelldagtype> => {
-    if (erUtvikling()) return ['Syk', 'Ferie', 'Egenmelding', 'Permisjon', 'Arbeid'];
+    if (erUtvikling() || erCoachEllerSuper()) return ['Syk', 'Ferie', 'Egenmelding', 'Permisjon', 'Arbeid'];
     if (revurderingIsEnabled) {
         return ['Syk', 'Ferie'];
     } else {

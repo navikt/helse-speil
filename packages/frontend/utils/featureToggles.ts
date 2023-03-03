@@ -21,6 +21,8 @@ export const erDev = () => location.hostname === 'speil.dev.intern.nav.no';
 
 export const erUtvikling = () => erLocal() || erDev();
 
+export const erCoachEllerSuper = () => erCoach() || erSupersaksbehandler();
+
 const harKunLesetilgang = () => kunLesetilgang.includes(extractIdent());
 const erSupersaksbehandler = () => supersaksbehandlere.includes(extractIdent());
 const harTilgangTilAlt = () => [...supersaksbehandlere, ...fagkoordinatorer, ...enhetsledere].includes(extractIdent());

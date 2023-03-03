@@ -4,7 +4,7 @@ import React from 'react';
 
 import { Checkbox } from '@navikt/ds-react';
 
-import { erUtvikling } from '@utils/featureToggles';
+import { erCoachEllerSuper, erUtvikling } from '@utils/featureToggles';
 
 import { DisabledCheckbox } from './DisabledCheckbox';
 import { erEksplisittHelg } from './Utbetalingstabell';
@@ -20,7 +20,7 @@ export const dagKanOverstyres = (
     const erSkjæringstidspunkt: boolean = dayjs(dato).isSame(skjæringstidspunkt, 'day');
     let dagKanOverstyres: Boolean = !erAvvist && !erForeldet && !['Helg'].includes(dagtype);
 
-    if (!erUtvikling()) {
+    if (!erUtvikling() && !erCoachEllerSuper()) {
         dagKanOverstyres =
             dagKanOverstyres &&
             !erSkjæringstidspunkt &&

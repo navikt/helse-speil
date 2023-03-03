@@ -11,6 +11,7 @@ let erProd = true;
 jest.mock('@utils/featureToggles', () => ({
     overstyrPermisjonsdagerEnabled: true,
     erUtvikling: () => !erProd,
+    erCoachEllerSuper: () => !erProd,
 }));
 
 describe('lovligeTypeendringer', () => {
