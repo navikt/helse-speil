@@ -27,6 +27,7 @@ const getUtbetalingstabelldagtype = (dag: Dag): Utbetalingstabelldagtype => {
         case Utbetalingsdagtype.Navdag:
             return 'Syk';
         case Utbetalingsdagtype.AvvistDag:
+        case Utbetalingsdagtype.ForeldetDag:
             return 'Avslått';
     }
     switch (dag.sykdomsdagtype) {
