@@ -13,7 +13,6 @@ import { useCurrentArbeidsgiver } from '@state/arbeidsgiver';
 import { useActivePeriod } from '@state/periode';
 import { useCurrentPerson } from '@state/person';
 import { isInCurrentGeneration } from '@state/selectors/period';
-import { erUtvikling } from '@utils/featureToggles';
 import { kanOverstyreRevurdering, kanOverstyres, kanRevurderes } from '@utils/overstyring';
 import { isBeregnetPeriode, isPerson, isUberegnetPeriode } from '@utils/typeguards';
 
@@ -130,7 +129,7 @@ const UtbetalingUberegnetPeriode: React.FC<UtbetalingUberegnetPeriodeProps> = ({
     const dager: Map<string, UtbetalingstabellDag> = useTabelldagerMap({
         tidslinje: periode.tidslinje,
     });
-    return erUtvikling() ? (
+    return (
         <OverstyrbarUtbetaling
             fom={periode.fom}
             tom={periode.tom}
@@ -140,8 +139,6 @@ const UtbetalingUberegnetPeriode: React.FC<UtbetalingUberegnetPeriodeProps> = ({
             revurderingIsEnabled={false}
             overstyrRevurderingIsEnabled={false}
         />
-    ) : (
-        <ReadonlyUtbetaling fom={periode.fom} tom={periode.tom} dager={dager} />
     );
 };
 
