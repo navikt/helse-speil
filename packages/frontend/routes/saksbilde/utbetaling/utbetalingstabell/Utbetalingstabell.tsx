@@ -100,7 +100,7 @@ export const Utbetalingstabell = ({
                         {dagerList.length > 0 && <TotalRow dager={dagerList} overstyrer={overstyrer} />}
                         {dagerList.map((dag, i) => (
                             <Row
-                                erAvvist={dag.erAvvist}
+                                erAvvist={dag.erAvvist || dag.erForeldet}
                                 erAGP={dag.erAGP}
                                 type={dag.type}
                                 key={i}
