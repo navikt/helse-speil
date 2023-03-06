@@ -72,12 +72,10 @@ export const UtbetalingHeader: React.FC<UtbetalingHeaderProps> = ({
     revurderingIsEnabled,
     overstyrRevurderingIsEnabled,
 }) => {
-    const dagerInneholderKunAGPEllerAvvisteDager = useMemo(
-        () => Array.from(dager.values()).every((it) => it.erAGP || it.erAvvist || it.type === 'Helg'),
+    const dagerInneholderKunAvvisteDager = useMemo(
+        () => Array.from(dager.values()).every((it) => it.erAvvist || it.type === 'Helg'),
         [dager]
     );
-
-    const hørerTilSisteFagsystemIdISkjæringstidspunkt = useActivePeriodHasLatestFagsystemIdForSkjæringstidspunkt();
 
     return (
         <Container>
@@ -87,21 +85,10 @@ export const UtbetalingHeader: React.FC<UtbetalingHeaderProps> = ({
                         <p>Kan ikke revurdere perioden på grunn av manglende datagrunnlag</p>
                     </PopoverHjelpetekst>
                 </InfobobleContainer>
-            ) : dagerInneholderKunAGPEllerAvvisteDager ? (
+            ) : dagerInneholderKunAvvisteDager ? (
                 <InfobobleContainer>
                     <PopoverHjelpetekst ikon={<SortInfoikon />}>
-                        <p>
-                            Det er foreløpig ikke mulig å gjøre endringer når hele perioden består av avslåtte dager
-                            og/eller arbeidsgiverperiodedager
-                        </p>
-                    </PopoverHjelpetekst>
-                </InfobobleContainer>
-            ) : !hørerTilSisteFagsystemIdISkjæringstidspunkt ? (
-                <InfobobleContainer>
-                    <PopoverHjelpetekst ikon={<SortInfoikon />}>
-                        <p>
-                            Det er foreløpig ikke støtte for endringer i saker som har vært delvis behandlet i Infotrygd
-                        </p>
+                        <p>Det er foreløpig ikke mulig å gjøre endringer når hele perioden består av avslåtte dager</p>
                     </PopoverHjelpetekst>
                 </InfobobleContainer>
             ) : (

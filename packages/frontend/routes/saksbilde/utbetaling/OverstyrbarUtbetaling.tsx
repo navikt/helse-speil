@@ -31,7 +31,7 @@ interface OverstyrbarUtbetalingProps {
     tom: DateString;
     dager: Map<string, UtbetalingstabellDag>;
     skjæringstidspunkt: DateString;
-    utbetaling: Utbetaling;
+    erForkastet: boolean;
     revurderingIsEnabled: boolean;
     overstyrRevurderingIsEnabled: boolean;
 }
@@ -41,7 +41,7 @@ export const OverstyrbarUtbetaling: React.FC<OverstyrbarUtbetalingProps> = ({
     tom,
     dager,
     skjæringstidspunkt,
-    utbetaling,
+    erForkastet,
     revurderingIsEnabled,
     overstyrRevurderingIsEnabled,
 }) => {
@@ -114,7 +114,7 @@ export const OverstyrbarUtbetaling: React.FC<OverstyrbarUtbetalingProps> = ({
                 </div>
             ) : (
                 <UtbetalingHeader
-                    periodeErForkastet={utbetaling.status === Utbetalingstatus.Forkastet}
+                    periodeErForkastet={erForkastet}
                     toggleOverstyring={toggleOverstyring}
                     dager={dager}
                     revurderingIsEnabled={revurderingIsEnabled}

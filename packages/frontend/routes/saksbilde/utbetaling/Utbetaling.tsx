@@ -8,11 +8,12 @@ import { PopoverHjelpetekst } from '@components/PopoverHjelpetekst';
 import { SortInfoikon } from '@components/ikoner/SortInfoikon';
 import { useActivePeriodHasLatestSkjæringstidspunkt } from '@hooks/revurdering';
 import { useIsReadOnlyOppgave } from '@hooks/useIsReadOnlyOppgave';
-import { Arbeidsgiver, Dagoverstyring, Overstyring, UberegnetPeriode } from '@io/graphql';
+import { Arbeidsgiver, Dagoverstyring, Overstyring, UberegnetPeriode, Utbetalingstatus } from '@io/graphql';
 import { useCurrentArbeidsgiver } from '@state/arbeidsgiver';
 import { useActivePeriod } from '@state/periode';
 import { useCurrentPerson } from '@state/person';
 import { isInCurrentGeneration } from '@state/selectors/period';
+import { erUtvikling } from '@utils/featureToggles';
 import { kanOverstyreRevurdering, kanOverstyres, kanRevurderes } from '@utils/overstyring';
 import { isBeregnetPeriode, isPerson, isUberegnetPeriode } from '@utils/typeguards';
 
@@ -111,7 +112,7 @@ const UtbetalingBeregnetPeriode: React.FC<UtbetalingBeregnetPeriodeProps> = Reac
                 tom={period.tom}
                 dager={dager}
                 skjæringstidspunkt={period.skjaeringstidspunkt}
-                utbetaling={period.utbetaling}
+                erForkastet={period.utbetaling.status === Utbetalingstatus.Forkastet}
                 revurderingIsEnabled={revurderingIsEnabled.value}
                 overstyrRevurderingIsEnabled={overstyrRevurderingIsEnabled.value}
             />
@@ -129,7 +130,19 @@ const UtbetalingUberegnetPeriode: React.FC<UtbetalingUberegnetPeriodeProps> = ({
     const dager: Map<string, UtbetalingstabellDag> = useTabelldagerMap({
         tidslinje: periode.tidslinje,
     });
-    return <ReadonlyUtbetaling fom={periode.fom} tom={periode.tom} dager={dager} />;
+    return erUtvikling() ? (
+        <OverstyrbarUtbetaling
+            fom={periode.fom}
+            tom={periode.tom}
+            dager={dager}
+            skjæringstidspunkt={periode.skjaeringstidspunkt}
+            erForkastet={false}
+            revurderingIsEnabled={false}
+            overstyrRevurderingIsEnabled={false}
+        />
+    ) : (
+        <ReadonlyUtbetaling fom={periode.fom} tom={periode.tom} dager={dager} />
+    );
 };
 
 const UtbetalingContainer = () => {
