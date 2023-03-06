@@ -104,11 +104,27 @@ describe('Utbetaling', () => {
         (useActivePeriod as jest.Mock).mockReturnValue(periodeA);
         (useCurrentArbeidsgiver as jest.Mock).mockReturnValue(arbeidsgiver);
         (useCurrentPerson as jest.Mock).mockReturnValue(person);
-        (useReadonly as jest.Mock).mockReturnValue({ value: true, override: true });
+        (useReadonly as jest.Mock).mockReturnValue({ value: false, override: false });
 
         render(<Utbetaling />, { wrapper: RecoilWrapper });
 
         expect(screen.getByText('Endre')).toBeVisible();
+    });
+
+    it('rendrer utbetaling for periode som har et tidligere skjæringstidspunkt - readonly override satt', () => {
+        const periodeA = enBeregnetPeriode({ skjaeringstidspunkt: '2020-01-01' }).medOppgave().somErTilGodkjenning();
+        const periodeB = enBeregnetPeriode({ skjaeringstidspunkt: '2020-02-01' });
+        const arbeidsgiver = enArbeidsgiver().medPerioder([periodeB, periodeA]);
+        const person = enPerson().medArbeidsgivere([arbeidsgiver]);
+
+        (useActivePeriod as jest.Mock).mockReturnValue(periodeA);
+        (useCurrentArbeidsgiver as jest.Mock).mockReturnValue(arbeidsgiver);
+        (useCurrentPerson as jest.Mock).mockReturnValue(person);
+        (useReadonly as jest.Mock).mockReturnValue({ value: true, override: true });
+
+        render(<Utbetaling />, { wrapper: RecoilWrapper });
+
+        expect(screen.queryByText('Endre')).toBeNull();
     });
 
     it('rendrer utbetaling for periode som ikke kan overstyres eller revurderes', () => {
