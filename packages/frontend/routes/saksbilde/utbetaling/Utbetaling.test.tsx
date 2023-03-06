@@ -77,9 +77,7 @@ describe('Utbetaling', () => {
 
         render(<Utbetaling />, { wrapper: RecoilWrapper });
 
-        const expected =
-            'Det er foreløpig ikke mulig å gjøre endringer når hele perioden består av avslåtte dager og/eller arbeidsgiverperiodedager';
-        expect(screen.getByText(expected)).toBeVisible();
+        expect(screen.getByText('Endre')).toBeVisible();
     });
 
     it('rendrer utbetaling for periode som har vært delvis behandlet i Infotrygd', () => {
@@ -94,8 +92,7 @@ describe('Utbetaling', () => {
 
         render(<Utbetaling />, { wrapper: RecoilWrapper });
 
-        const expected = 'Det er foreløpig ikke støtte for endringer i saker som har vært delvis behandlet i Infotrygd';
-        expect(screen.getByText(expected)).toBeVisible();
+        expect(screen.getByText('Endre')).toBeVisible();
     });
 
     it('rendrer utbetaling for periode som har et tidligere skjæringstidspunkt', () => {
@@ -111,8 +108,7 @@ describe('Utbetaling', () => {
 
         render(<Utbetaling />, { wrapper: RecoilWrapper });
 
-        const expected = 'Det er ikke mulig å gjøre endringer i denne perioden';
-        expect(screen.getByText(expected)).toBeVisible();
+        expect(screen.getByText('Endre')).toBeVisible();
     });
 
     it('rendrer utbetaling for periode som ikke kan overstyres eller revurderes', () => {
