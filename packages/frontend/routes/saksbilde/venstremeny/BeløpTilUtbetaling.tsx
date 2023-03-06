@@ -50,7 +50,9 @@ export const BeløpTilUtbetaling = ({
             </div>
             <div className={styles.Row}>
                 <Tooltip content="Arbeidsgiver">
-                    <Arbeidsgiverikon alt="Arbeidsgiver" />
+                    <div>
+                        <Arbeidsgiverikon alt="Arbeidsgiver" />
+                    </div>
                 </Tooltip>
                 <AnonymizableTextWithEllipsis>{arbeidsgiver}</AnonymizableTextWithEllipsis>
                 <BodyShort>{somPenger(utbetaling.arbeidsgiverNettoBelop)}</BodyShort>
@@ -64,7 +66,9 @@ export const BeløpTilUtbetaling = ({
             )}
             <div className={styles.Row}>
                 <Tooltip content="Sykmeldt">
-                    <Sykmeldtikon alt="Sykmeldt" />
+                    <div>
+                        <Sykmeldtikon alt="Sykmeldt" />
+                    </div>
                 </Tooltip>
                 <AnonymizableTextWithEllipsis>{getFormattedName(personinfo)}</AnonymizableTextWithEllipsis>
                 <BodyShort>{somPenger(utbetaling.personNettoBelop)}</BodyShort>
