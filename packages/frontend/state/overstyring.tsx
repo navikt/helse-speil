@@ -115,7 +115,8 @@ export const usePostOverstyrtInntekt = (
                 if (
                     lokaleInntektoverstyringer.skjæringstidspunkt &&
                     overstyrtInntekt.skjæringstidspunkt !== lokaleInntektoverstyringer.skjæringstidspunkt &&
-                    !showSlettLokaleOverstyringerModal
+                    !showSlettLokaleOverstyringerModal &&
+                    lokaleInntektoverstyringer.aktørId === person.aktorId
                 ) {
                     setShowSlettLokaleOverstyringerModal(true);
                     setIsLoading(false);
