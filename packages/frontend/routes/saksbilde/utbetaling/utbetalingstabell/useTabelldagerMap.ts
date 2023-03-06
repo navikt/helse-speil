@@ -38,6 +38,7 @@ const getUtbetalingstabelldagtype = (dag: Dag): Utbetalingstabelldagtype => {
             return 'Permisjon';
         case Sykdomsdagtype.Arbeidsgiverdag:
         case Sykdomsdagtype.Sykedag:
+        case Sykdomsdagtype.ForeldetSykedag:
             return 'Syk';
         case Sykdomsdagtype.SykHelgedag:
             return 'SykHelg';
