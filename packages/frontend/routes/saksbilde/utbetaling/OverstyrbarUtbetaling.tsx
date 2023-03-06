@@ -146,6 +146,8 @@ export const OverstyrbarUtbetaling: React.FC<OverstyrbarUtbetalingProps> = ({
                                     dagtype={dag.type}
                                     dato={dag.dato}
                                     erAGP={dag.erAGP}
+                                    erForeldet={dag.erForeldet}
+                                    erAvvist={dag.erAvvist}
                                     skjæringstidspunkt={skjæringstidspunkt}
                                     onChange={toggleChecked(dag)}
                                     checked={markerteDager.get(dag.dato) !== undefined}
