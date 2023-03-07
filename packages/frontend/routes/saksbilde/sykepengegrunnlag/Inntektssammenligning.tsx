@@ -106,7 +106,7 @@ export const Inntektssammenligning = ({
             <td>
                 <Arbeidsgivernavn>
                     <Tooltip content="Arbeidsgiver">
-                        {arbeidsforholdErDeaktivert ? <ErrorIcon /> : <BagIcon alt="Arbeidsgiver" />}
+                        <div>{arbeidsforholdErDeaktivert ? <ErrorIcon /> : <BagIcon alt="Arbeidsgiver" />}</div>
                     </Tooltip>
                     <Loky>{arbeidsgivernavn}</Loky>
                 </Arbeidsgivernavn>

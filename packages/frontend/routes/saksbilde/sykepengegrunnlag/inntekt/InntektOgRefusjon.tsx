@@ -228,7 +228,9 @@ export const InntektOgRefusjon = ({
             <div className={classNames(styles.Header, editingInntekt && styles.editing)}>
                 <div className={styles.ArbeidsgiverHeader}>
                     <Tooltip content="Arbeidsgiver">
-                        <Arbeidsgiverikon alt="Arbeidsgiver" />
+                        <div>
+                            <Arbeidsgiverikon alt="Arbeidsgiver" />
+                        </div>
                     </Tooltip>
                     <Tooltip content="Arbeidsgivernavn">
                         <div className={styles.Arbeidsgivernavn}>
