@@ -57,32 +57,28 @@ const defaultFilters: Filter<OppgaveForOversiktsvisning>[] = [
         key: 'SØKNAD',
         label: 'Søknad',
         active: false,
-        function: (oppgave: OppgaveForOversiktsvisning) =>
-            oppgave.type === Oppgavetype.Soknad && !oppgave.erBeslutter && !oppgave.erRetur,
+        function: (oppgave: OppgaveForOversiktsvisning) => oppgave.type === Oppgavetype.Soknad,
         column: 2,
     },
     {
         key: 'STIKKPRØVER',
         label: 'Stikkprøver',
         active: false,
-        function: (oppgave: OppgaveForOversiktsvisning) =>
-            oppgave.type === Oppgavetype.Stikkprove && !oppgave.erBeslutter && !oppgave.erRetur,
+        function: (oppgave: OppgaveForOversiktsvisning) => oppgave.type === Oppgavetype.Stikkprove,
         column: 2,
     },
     {
         key: 'RISK_QA',
         label: 'Risk QA',
         active: false,
-        function: (oppgave: OppgaveForOversiktsvisning) =>
-            oppgave.type === Oppgavetype.RiskQa && !oppgave.erBeslutter && !oppgave.erRetur,
+        function: (oppgave: OppgaveForOversiktsvisning) => oppgave.type === Oppgavetype.RiskQa,
         column: 2,
     },
     {
         key: 'REVURDERING',
         label: 'Revurdering',
         active: false,
-        function: (oppgave: OppgaveForOversiktsvisning) =>
-            oppgave.type === Oppgavetype.Revurdering && !oppgave.erBeslutter && !oppgave.erRetur,
+        function: (oppgave: OppgaveForOversiktsvisning) => oppgave.type === Oppgavetype.Revurdering,
         column: 2,
     },
     {
@@ -90,51 +86,55 @@ const defaultFilters: Filter<OppgaveForOversiktsvisning>[] = [
         label: 'Beslutter',
         active: false,
         function: (oppgave: OppgaveForOversiktsvisning) => oppgave.erBeslutter,
-        column: 2,
+        column: 3,
     },
     {
         key: 'RETUR',
         label: 'Retur',
         active: false,
         function: (oppgave: OppgaveForOversiktsvisning) => oppgave.erRetur,
-        column: 2,
+        column: 3,
+    },
+    {
+        key: 'INGEN_EGENSKAPER',
+        label: 'Ingen',
+        active: false,
+        function: (oppgave: OppgaveForOversiktsvisning) => !oppgave.erRetur && !oppgave.erBeslutter,
+        column: 3,
     },
     {
         key: 'EN_ARBEIDSGIVER',
         label: 'Én arbeidsgiver',
         active: false,
         function: (oppgave: OppgaveForOversiktsvisning) => !oppgave.flereArbeidsgivere,
-        column: 4,
+        column: 5,
     },
     {
         key: 'FLERE_ARBEIDSGIVERE',
         label: 'Flere arbeidsgivere',
         active: false,
         function: (oppgave: OppgaveForOversiktsvisning) => oppgave.flereArbeidsgivere,
-        column: 4,
+        column: 5,
     },
     {
         key: 'FORTROLIG_ADR',
         label: 'Fortrolig adr.',
         active: false,
-        function: (oppgave: OppgaveForOversiktsvisning) =>
-            oppgave.type === Oppgavetype.FortroligAdresse && !oppgave.erBeslutter && !oppgave.erRetur,
+        function: (oppgave: OppgaveForOversiktsvisning) => oppgave.type === Oppgavetype.FortroligAdresse,
         column: 2,
     },
     {
         key: 'UTB_SYKMELDT',
         label: 'Utb. sykmeldt',
         active: false,
-        function: (oppgave: OppgaveForOversiktsvisning) =>
-            oppgave.type === Oppgavetype.UtbetalingTilSykmeldt && !oppgave.erBeslutter && !oppgave.erRetur,
+        function: (oppgave: OppgaveForOversiktsvisning) => oppgave.type === Oppgavetype.UtbetalingTilSykmeldt,
         column: 2,
     },
     {
         key: 'DELVIS_REFUSJON',
         label: 'Delvis refusjon',
         active: false,
-        function: (oppgave: OppgaveForOversiktsvisning) =>
-            oppgave.type === Oppgavetype.DelvisRefusjon && !oppgave.erBeslutter && !oppgave.erRetur,
+        function: (oppgave: OppgaveForOversiktsvisning) => oppgave.type === Oppgavetype.DelvisRefusjon,
         column: 2,
     },
 ];

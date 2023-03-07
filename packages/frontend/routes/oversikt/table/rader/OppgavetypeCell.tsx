@@ -10,13 +10,7 @@ import { CellContent } from './CellContent';
 
 import styles from './OppgavetypeCell.module.css';
 
-const getLabelForOppgavetype = (type: Oppgavetype, erBeslutter?: boolean, erRetur?: boolean): string => {
-    if (erBeslutter) {
-        return 'Beslutter';
-    }
-    if (erRetur) {
-        return 'Retur';
-    }
+const getLabelForOppgavetype = (type: Oppgavetype): string => {
     switch (type) {
         case Oppgavetype.DelvisRefusjon: {
             return 'Delvis refusjon';
@@ -47,16 +41,14 @@ const getLabelForOppgavetype = (type: Oppgavetype, erBeslutter?: boolean, erRetu
 
 interface OppgavetypeCellProps {
     oppgavetype: Oppgavetype;
-    erBeslutter?: boolean;
-    erRetur?: boolean;
 }
 
-export const OppgavetypeCell: React.FC<OppgavetypeCellProps> = ({ oppgavetype, erBeslutter, erRetur }) => {
-    const label = getLabelForOppgavetype(oppgavetype, erBeslutter, erRetur);
+export const OppgavetypeCell: React.FC<OppgavetypeCellProps> = ({ oppgavetype }) => {
+    const label = getLabelForOppgavetype(oppgavetype);
     return (
         <Cell>
             <CellContent width={130} className={styles.OppgavetypeCell}>
-                <Oppgaveetikett type={oppgavetype} erBeslutterOppgave={erBeslutter} erReturOppgave={erRetur} />
+                <Oppgaveetikett type={oppgavetype} />
                 <BodyShort>{label}</BodyShort>
             </CellContent>
         </Cell>

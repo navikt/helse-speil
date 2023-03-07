@@ -26,6 +26,7 @@ describe('OppgaverTable', () => {
         expect(screen.getByText('Tildelt')).toBeVisible();
         expect(screen.getByText('Periodetype')).toBeVisible();
         expect(screen.getByText('Oppgavetype')).toBeVisible();
+        expect(screen.getByText('Egenskaper')).toBeVisible();
         expect(screen.getByText('Bosted')).toBeVisible();
         expect(screen.getByText('Inntektskilde')).toBeVisible();
         expect(screen.getByText('Varsler')).toBeVisible();
@@ -33,6 +34,6 @@ describe('OppgaverTable', () => {
         expect(screen.getByText('Opprettet')).toBeVisible();
         expect(screen.getByText('Søknad mottatt')).toBeVisible();
 
-        expect(screen.getAllByRole('columnheader')).toHaveLength(9);
+        expect(screen.getAllByRole('columnheader')).toHaveLength(10);
     });
 });

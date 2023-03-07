@@ -45,24 +45,6 @@ const ForlengelseEtikett = styled(Etikett)`
     }
 `;
 
-const BeslutterEtikett = styled(Etikett)`
-    background: var(--speil-etikett-beslutter-background);
-    border: 1px solid var(--speil-etikett-beslutter-border);
-
-    :before {
-        content: 'B';
-    }
-`;
-
-const ReturEtikett = styled(Etikett)`
-    background: var(--speil-etikett-retur-background);
-    border: 1px solid var(--speil-etikett-retur-border);
-
-    :before {
-        content: 'B';
-    }
-`;
-
 const FørstegangsbehandlingEtikett = styled(Etikett)`
     background: var(--speil-etikett-forstegangs-background);
     border: 1px solid var(--speil-etikett-forstegangs-border);
@@ -137,25 +119,10 @@ const SøknadEtikett = styled(Etikett)`
 
 interface OppgaveetikettProps {
     type: Periodetype | Oppgavetype;
-    erBeslutterOppgave?: boolean;
-    erReturOppgave?: boolean;
     tilstand?: Periodetilstand;
 }
 
-export const Oppgaveetikett: React.FC<OppgaveetikettProps> = ({
-    type,
-    tilstand,
-    erBeslutterOppgave = false,
-    erReturOppgave = false,
-}) => {
-    if (erBeslutterOppgave) {
-        return <BeslutterEtikett />;
-    }
-
-    if (erReturOppgave) {
-        return <ReturEtikett />;
-    }
-
+export const Oppgaveetikett: React.FC<OppgaveetikettProps> = ({ type, tilstand }) => {
     switch (type) {
         case Periodetype.Forstegangsbehandling:
             return <FørstegangsbehandlingEtikett />;

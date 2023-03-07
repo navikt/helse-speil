@@ -14,6 +14,7 @@ import { Pagination } from './Pagination';
 import { SortableHeader } from './SortableHeader';
 import { BostedCell } from './rader/BostedCell';
 import { DatoCell } from './rader/DatoCell';
+import { EgenskaperCell } from './rader/EgenskaperCell';
 import { InntektskildeCell } from './rader/InntektskildeCell';
 import { OppgavetypeCell } from './rader/OppgavetypeCell';
 import { PeriodetypeCell } from './rader/PeriodetypeCell';
@@ -109,6 +110,11 @@ export const OppgaverTable: React.FC<OppgaverTableProps> = React.memo(({ oppgave
                                         Oppgavetype
                                     </FilterButton>
                                 </Header>
+                                <Header scope="col" colSpan={1}>
+                                    <FilterButton filters={filters.filter((it) => it.column === 3)}>
+                                        Egenskaper
+                                    </FilterButton>
+                                </Header>
                                 <SortableHeader
                                     sortation={sortation}
                                     sortKey="bosted"
@@ -117,7 +123,7 @@ export const OppgaverTable: React.FC<OppgaverTableProps> = React.memo(({ oppgave
                                     Bosted
                                 </SortableHeader>
                                 <Header scope="col" colSpan={1}>
-                                    <FilterButton filters={filters.filter((it) => it.column === 4)}>
+                                    <FilterButton filters={filters.filter((it) => it.column === 5)}>
                                         Inntektskilde
                                     </FilterButton>
                                 </Header>
@@ -157,11 +163,8 @@ export const OppgaverTable: React.FC<OppgaverTableProps> = React.memo(({ oppgave
                                 <LinkRow aktørId={it.aktorId} key={it.id}>
                                     <TildelingCell oppgave={it} kanTildeles={!readOnly} />
                                     <PeriodetypeCell type={it.periodetype ?? Periodetype.Forstegangsbehandling} />
-                                    <OppgavetypeCell
-                                        oppgavetype={it.type}
-                                        erBeslutter={it.erBeslutter}
-                                        erRetur={it.erRetur}
-                                    />
+                                    <OppgavetypeCell oppgavetype={it.type} />
+                                    <EgenskaperCell erBeslutter={it.erBeslutter} erRetur={it.erRetur} />
                                     <BostedCell stedsnavn={it.boenhet.navn} />
                                     <InntektskildeCell flereArbeidsgivere={it.flereArbeidsgivere} />
                                     <StatusCell numberOfWarnings={it.antallVarsler} />
