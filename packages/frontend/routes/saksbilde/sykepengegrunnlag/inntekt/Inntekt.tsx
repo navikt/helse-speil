@@ -79,6 +79,7 @@ const InntektContainer: React.FC<InntektContainerProps> = ({ inntekt }) => {
             organisasjonsnummer={inntekt.arbeidsgiver}
             erDeaktivert={inntekt.deaktivert}
             vilkårsgrunnlagId={periodeForSkjæringstidspunktForArbeidsgiver.vilkarsgrunnlagId}
+            periodeId={periodeForSkjæringstidspunktForArbeidsgiver.id}
             inntektstype={(periodeForSkjæringstidspunktForArbeidsgiver as BeregnetPeriode).inntektstype}
             arbeidsgiver={arbeidsgiver}
             refusjon={refusjonsopplysninger}

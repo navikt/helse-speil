@@ -1,6 +1,6 @@
 import { SisteTreMånedersInntekt } from './SisteTreMånedersInntekt';
 import classNames from 'classnames';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { Tooltip } from '@navikt/ds-react';
 
@@ -187,6 +187,7 @@ interface InntektUtenSykefraværProps {
     erDeaktivert?: Maybe<boolean>;
     omregnetÅrsinntekt?: Maybe<OmregnetArsinntekt>;
     vilkårsgrunnlagId?: Maybe<string>;
+    periodeId?: Maybe<string>;
     inntektstype?: Maybe<Inntektstype>;
     arbeidsgiver: Arbeidsgiver;
     refusjon?: Maybe<Refusjonsopplysning[]>;
@@ -200,6 +201,7 @@ export const InntektOgRefusjon = ({
     erDeaktivert,
     omregnetÅrsinntekt,
     vilkårsgrunnlagId,
+    periodeId,
     inntektstype,
     arbeidsgiver,
     refusjon,
@@ -209,6 +211,10 @@ export const InntektOgRefusjon = ({
     const [editingInntekt, setEditingInntekt] = useState(false);
     const [endret, setEndret] = useState(false);
     const person = useCurrentPerson();
+
+    useEffect(() => {
+        setEditingInntekt(false);
+    }, [periodeId]);
 
     const arbeidsforholdKanOverstyres = useArbeidsforholdKanOverstyres(skjæringstidspunkt, organisasjonsnummer);
     const ghostInntektKanOverstyres = useGhostInntektKanOverstyres(skjæringstidspunkt, organisasjonsnummer);
