@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router';
-import { useSetRecoilState } from 'recoil';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 
 import { BodyShort, Loader } from '@navikt/ds-react';
 
@@ -13,6 +13,7 @@ import { NotatType, Periodetilstand } from '@io/graphql';
 import { postAbonnerPåAktør } from '@io/http';
 import { useHarDagOverstyringer } from '@state/arbeidsgiver';
 import { opptegnelsePollingTimeState } from '@state/opptegnelser';
+import { inntektOgRefusjonState } from '@state/overstyring';
 import { getLatestUtbetalingTimestamp, getOverstyringer } from '@state/selectors/person';
 import { isRevurdering } from '@state/selectors/utbetaling';
 import { useTotrinnsvurderingErAktiv } from '@state/toggles';
@@ -88,6 +89,7 @@ interface UtbetalingProps {
 
 export const Utbetaling = ({ period, person, arbeidsgiver }: UtbetalingProps) => {
     const [godkjentPeriode, setGodkjentPeriode] = useState<string | undefined>();
+    const lokaleInntektoverstyringer = useRecoilValue(inntektOgRefusjonState);
     const [error, setError] = useState<SpeilError | null>();
     const ventEllerHopp = useOnGodkjenn(period, person);
     const history = useHistory();
@@ -138,7 +140,11 @@ export const Utbetaling = ({ period, person, arbeidsgiver }: UtbetalingProps) =>
                     <SendTilGodkjenningButton
                         oppgavereferanse={period.oppgave?.id!}
                         manglerNotatVedVurderLovvalgOgMedlemskapVarsel={manglerNotatVedVurderLovvalgOgMedlemskapVarsel}
-                        disabled={periodenErSendt || harUvurderteVarslerPåUtbetaling}
+                        disabled={
+                            periodenErSendt ||
+                            harUvurderteVarslerPåUtbetaling ||
+                            lokaleInntektoverstyringer.aktørId !== null
+                        }
                         onSuccess={onSendTilGodkjenning}
                         onError={setError}
                     >
@@ -152,7 +158,11 @@ export const Utbetaling = ({ period, person, arbeidsgiver }: UtbetalingProps) =>
                         oppgavereferanse={period.oppgave?.id!}
                         aktørId={person.aktorId}
                         erBeslutteroppgave={erBeslutteroppgaveOgHarTilgang}
-                        disabled={periodenErSendt || harUvurderteVarslerPåUtbetaling}
+                        disabled={
+                            periodenErSendt ||
+                            harUvurderteVarslerPåUtbetaling ||
+                            lokaleInntektoverstyringer.aktørId !== null
+                        }
                         onSuccess={onGodkjennUtbetaling}
                         onError={setError}
                     >
