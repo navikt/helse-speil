@@ -115,7 +115,7 @@ export const OppgaverTable: React.FC<OppgaverTableProps> = React.memo(({ oppgave
                                     </FilterButton>
                                 </Header>
                                 <Header scope="col" colSpan={1}>
-                                    <FilterButton filters={filters.filter((it) => it.column === 5)}>
+                                    <FilterButton filters={filters.filter((it) => it.column === 4)}>
                                         Inntektskilde
                                     </FilterButton>
                                 </Header>
