@@ -160,10 +160,13 @@ const getFørsteVurdertePeriodeForSkjæringstidspunktet = (
     period: FetchedBeregnetPeriode,
     arbeidsgiver: Arbeidsgiver
 ): FetchedBeregnetPeriode | undefined => {
-    const førsteGenerasjon = arbeidsgiver.generasjoner[arbeidsgiver.generasjoner.length - 1];
-    return førsteGenerasjon.perioder
+    const generasjonerKronologisk = [...arbeidsgiver.generasjoner].reverse();
+    return generasjonerKronologisk
+        .flatMap<Periode | undefined>((generasjon) =>
+            generasjon.perioder.flatMap((p) => (p.skjaeringstidspunkt === period.skjaeringstidspunkt ? p : undefined))
+        )
+        .filter((period) => period !== undefined)
         .filter(isBeregnetPeriode)
-        .filter((it) => it.skjaeringstidspunkt === period.skjaeringstidspunkt)
         .pop();
 };
 
