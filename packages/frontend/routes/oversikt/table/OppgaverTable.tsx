@@ -12,7 +12,6 @@ import { Header } from './Header';
 import { LinkRow } from './LinkRow';
 import { Pagination } from './Pagination';
 import { SortableHeader } from './SortableHeader';
-import { BostedCell } from './rader/BostedCell';
 import { DatoCell } from './rader/DatoCell';
 import { EgenskaperCell } from './rader/EgenskaperCell';
 import { InntektskildeCell } from './rader/InntektskildeCell';
@@ -115,13 +114,6 @@ export const OppgaverTable: React.FC<OppgaverTableProps> = React.memo(({ oppgave
                                         Egenskaper
                                     </FilterButton>
                                 </Header>
-                                <SortableHeader
-                                    sortation={sortation}
-                                    sortKey="bosted"
-                                    onSort={(a, b) => a.boenhet.navn.localeCompare(b.boenhet.navn)}
-                                >
-                                    Bosted
-                                </SortableHeader>
                                 <Header scope="col" colSpan={1}>
                                     <FilterButton filters={filters.filter((it) => it.column === 5)}>
                                         Inntektskilde
@@ -165,7 +157,6 @@ export const OppgaverTable: React.FC<OppgaverTableProps> = React.memo(({ oppgave
                                     <PeriodetypeCell type={it.periodetype ?? Periodetype.Forstegangsbehandling} />
                                     <OppgavetypeCell oppgavetype={it.type} />
                                     <EgenskaperCell erBeslutter={it.erBeslutter} erRetur={it.erRetur} />
-                                    <BostedCell stedsnavn={it.boenhet.navn} />
                                     <InntektskildeCell flereArbeidsgivere={it.flereArbeidsgivere} />
                                     <StatusCell numberOfWarnings={it.antallVarsler} />
                                     <SøkerCell name={it.personinfo} />

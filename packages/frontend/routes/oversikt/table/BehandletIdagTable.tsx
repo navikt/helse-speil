@@ -11,7 +11,6 @@ import { OppgaverTableSkeleton } from './OppgaverTableSkeleton';
 import { Pagination } from './Pagination';
 import { BehandletAvCell } from './rader/BehandletAvCell';
 import { BehandletTimestampCell } from './rader/BehandletTimestampCell';
-import { BostedCell } from './rader/BostedCell';
 import { InntektskildeCell } from './rader/InntektskildeCell';
 import { OppgavetypeCell } from './rader/OppgavetypeCell';
 import { PeriodetypeCell } from './rader/PeriodetypeCell';
@@ -60,9 +59,6 @@ export const BehandletIdagTable: React.FC<BehandletIdagTableProps> = () => {
                                     Oppgavetype
                                 </Header>
                                 <Header scope="col" colSpan={1}>
-                                    Bosted
-                                </Header>
-                                <Header scope="col" colSpan={1}>
                                     Inntektskilde
                                 </Header>
                                 <Header scope="col" colSpan={1}>
@@ -82,7 +78,6 @@ export const BehandletIdagTable: React.FC<BehandletIdagTableProps> = () => {
                                     <BehandletAvCell name={it.ferdigstiltAv} />
                                     <PeriodetypeCell type={it.periodetype} />
                                     <OppgavetypeCell oppgavetype={it.type} />
-                                    <BostedCell stedsnavn={it.bosted} />
                                     <InntektskildeCell flereArbeidsgivere={it.inntektstype === 'FLEREARBEIDSGIVERE'} />
                                     <StatusCell numberOfWarnings={it.antallVarsler} />
                                     <SøkerCell

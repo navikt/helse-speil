@@ -107,14 +107,14 @@ const defaultFilters: Filter<OppgaveForOversiktsvisning>[] = [
         label: 'Én arbeidsgiver',
         active: false,
         function: (oppgave: OppgaveForOversiktsvisning) => !oppgave.flereArbeidsgivere,
-        column: 5,
+        column: 4,
     },
     {
         key: 'FLERE_ARBEIDSGIVERE',
         label: 'Flere arbeidsgivere',
         active: false,
         function: (oppgave: OppgaveForOversiktsvisning) => oppgave.flereArbeidsgivere,
-        column: 5,
+        column: 4,
     },
     {
         key: 'FORTROLIG_ADR',
