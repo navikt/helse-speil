@@ -22,7 +22,9 @@ const IconContainer = styled.div`
     flex-shrink: 0;
 `;
 
-const getTypeIcon = (dag: UtbetalingstabellDag): ReactNode => {
+const getTypeIcon = (dag?: UtbetalingstabellDag): ReactNode | null => {
+    if (!dag) return null;
+
     if (dag.erForeldet || dag.erAvvist) {
         return <IconFailure />;
     }
@@ -69,13 +71,14 @@ interface DagtypeCellProps extends React.HTMLAttributes<HTMLTableCellElement> {
 
 export const DagtypeCell: React.FC<DagtypeCellProps> = ({ dag, overstyrtDag, ...rest }) => {
     const text = getDisplayText(overstyrtDag) ?? getDisplayText(dag);
+    const icon = getTypeIcon(overstyrtDag) ?? getTypeIcon(dag);
     const dagtypeErOverstyrt = overstyrtDag && dag.type !== overstyrtDag.type;
 
     return (
         <td {...rest}>
             {dagtypeErOverstyrt && <Endringstrekant text={`Endret fra ${dag.type}`} />}
             <CellContent>
-                <IconContainer>{getTypeIcon(dag)}</IconContainer>
+                <IconContainer>{icon}</IconContainer>
                 <BodyShort>{text}</BodyShort>
             </CellContent>
         </td>
