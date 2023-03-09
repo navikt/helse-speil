@@ -34,7 +34,7 @@ import {
 import { useCurrentPerson } from '@state/person';
 import { isForkastet } from '@state/selectors/period';
 import { overstyrInntektEnabled } from '@utils/featureToggles';
-import { isBeregnetPeriode, isGhostPeriode } from '@utils/typeguards';
+import { isBeregnetPeriode, isGhostPeriode, isUberegnetPeriode } from '@utils/typeguards';
 
 import { OverstyrArbeidsforholdUtenSykdom } from '../OverstyrArbeidsforholdUtenSykdom';
 import { BegrunnelseForOverstyring } from '../overstyring.types';
@@ -101,6 +101,22 @@ const harPeriodeTilBeslutterFor = (person: FetchedPerson, skjæringstidspunkt: D
     );
 };
 
+const harKunGhostPerioder = (
+    person: FetchedPerson,
+    organisasjonsnummer: String,
+    skjæringstidspunkt: DateString
+): boolean => {
+    return (
+        person?.arbeidsgivere
+            .filter((it) => it.organisasjonsnummer === organisasjonsnummer)
+            .flatMap((it) => it.generasjoner[0]?.perioder)
+            .filter(
+                (it) =>
+                    it?.skjaeringstidspunkt === skjæringstidspunkt && (isBeregnetPeriode(it) || isUberegnetPeriode(it))
+            ).length === 0
+    );
+};
+
 const useInntektKanRevurderes = (skjæringstidspunkt: DateString): boolean => {
     const person = useCurrentPerson();
     const periodeVedSkjæringstidspunkt = usePeriodForSkjæringstidspunkt(skjæringstidspunkt);
@@ -130,7 +146,9 @@ const useArbeidsforholdKanOverstyres = (skjæringstidspunkt: DateString, organis
 
     const harPeriodeTilBeslutter = harPeriodeTilBeslutterFor(person, period.skjaeringstidspunkt);
 
-    return !harPeriodeTilBeslutter && periodeForSkjæringstidspunkt !== undefined;
+    const arbeidsgiverHarKunGhostPerioder = harKunGhostPerioder(person, organisasjonsnummer, skjæringstidspunkt);
+
+    return arbeidsgiverHarKunGhostPerioder && !harPeriodeTilBeslutter && periodeForSkjæringstidspunkt !== undefined;
 };
 
 const useGhostInntektKanOverstyres = (skjæringstidspunkt: DateString, organisasjonsnummer: string): boolean => {
