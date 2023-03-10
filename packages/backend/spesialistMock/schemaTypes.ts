@@ -282,7 +282,7 @@ export type InntektFraAOrdningen = {
 
 export type Inntektoverstyring = Overstyring & {
     __typename?: 'Inntektoverstyring';
-    begrunnelse: Scalars['String'];
+    begrunnelse?: Maybe<Scalars['String']>;
     ferdigstilt: Scalars['Boolean'];
     hendelseId: Scalars['String'];
     inntekt: OverstyrtInntekt;
@@ -492,7 +492,7 @@ export enum Oppgavetype {
 }
 
 export type Overstyring = {
-    begrunnelse: Scalars['String'];
+    begrunnelse?: Maybe<Scalars['String']>;
     ferdigstilt: Scalars['Boolean'];
     hendelseId: Scalars['String'];
     saksbehandler: Saksbehandler;
