@@ -48,7 +48,6 @@ declare type InntektoverstyringhendelseObject = BaseHendelseObject & {
     erRevurdering: boolean;
     saksbehandler: string;
     timestamp: DateString;
-    begrunnelse: string;
     inntekt: OverstyrtInntekt;
 };
 
