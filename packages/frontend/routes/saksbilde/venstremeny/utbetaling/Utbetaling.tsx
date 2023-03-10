@@ -14,7 +14,7 @@ import { postAbonnerPåAktør } from '@io/http';
 import { useHarDagOverstyringer } from '@state/arbeidsgiver';
 import { opptegnelsePollingTimeState } from '@state/opptegnelser';
 import { inntektOgRefusjonState } from '@state/overstyring';
-import { getLatestUtbetalingTimestamp, getOverstyringer } from '@state/selectors/person';
+import { getLatestUtbetalingTimestamp, getOverstyringerForEksisterendePerioder } from '@state/selectors/person';
 import { isRevurdering } from '@state/selectors/utbetaling';
 import { useTotrinnsvurderingErAktiv } from '@state/toggles';
 import { getPeriodState } from '@utils/mapping';
@@ -72,7 +72,7 @@ const useOnAvvis = (): (() => void) => {
 
 const useHarOverstyringerEtterSisteGodkjenteUtbetaling = (person: FetchedPerson): boolean => {
     const timestamp = getLatestUtbetalingTimestamp(person);
-    return getOverstyringer(person, timestamp).length > 0;
+    return getOverstyringerForEksisterendePerioder(person, timestamp).length > 0;
 };
 
 type SpeilError = {

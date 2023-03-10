@@ -3,7 +3,7 @@ import minMax from 'dayjs/plugin/minMax';
 
 import { Arbeidsgiverinntekt, GhostPeriode, Inntektskilde, Vilkarsgrunnlag } from '@io/graphql';
 import { getRequiredTimestamp, isGodkjent } from '@state/selectors/utbetaling';
-import { isBeregnetPeriode, isGhostPeriode } from '@utils/typeguards';
+import { isArbeidsforholdoverstyring, isBeregnetPeriode, isDagoverstyring, isGhostPeriode } from '@utils/typeguards';
 
 dayjs.extend(minMax);
 
@@ -110,8 +110,31 @@ export const getLatestUtbetalingTimestamp = (person: FetchedPerson, after: DateS
     return latest;
 };
 
-export const getOverstyringer = (person: FetchedPerson, after: Dayjs) => {
+export const getOverstyringerForEksisterendePerioder = (person: FetchedPerson, after: Dayjs) => {
+    const perioder = person.arbeidsgivere.flatMap((it) => it.generasjoner.flatMap((generasjon) => generasjon.perioder));
+
     return person.arbeidsgivere
         .flatMap(({ overstyringer }) => overstyringer)
-        .filter((overstyring) => dayjs(overstyring.timestamp).isAfter(after));
+        .filter((overstyring) => dayjs(overstyring.timestamp).isAfter(after))
+        .filter((overstyring) => {
+            if (isDagoverstyring(overstyring)) {
+                // Ser om dagoverstyringen gjelder for en periode som fortsatt finnes (at den ikke er kastet ut til infotrygd med overstyringen hengende igjen f.eks.)
+                return (
+                    perioder.filter(
+                        (periode) =>
+                            dayjs(overstyring.dager[0].dato).isSameOrAfter(periode.fom) &&
+                            dayjs(overstyring.dager[0].dato).isSameOrBefore(periode.tom)
+                    ).length !== 0
+                );
+            } else if (isArbeidsforholdoverstyring(overstyring)) {
+                // Ser om arbeidsforholdoverstyringen gjelder for en ghost som fortsatt finnes (at den ikke har forsvunnet i en reberegning f.eks.)
+                return (
+                    perioder.filter(
+                        (periode) =>
+                            isGhostPeriode(periode) && periode.skjaeringstidspunkt === overstyring.skjaeringstidspunkt
+                    ).length !== 0
+                );
+            }
+            return true;
+        });
 };

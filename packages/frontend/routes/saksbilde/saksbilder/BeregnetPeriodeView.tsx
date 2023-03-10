@@ -8,7 +8,7 @@ import { useHarVurderLovvalgOgMedlemskapVarsel } from '@hooks/useHarVurderLovval
 import { Overstyring } from '@io/graphql';
 import { useHarDagOverstyringer } from '@state/arbeidsgiver';
 import { useSyncNotater } from '@state/notater';
-import { getLatestUtbetalingTimestamp, getOverstyringer } from '@state/selectors/person';
+import { getLatestUtbetalingTimestamp, getOverstyringerForEksisterendePerioder } from '@state/selectors/person';
 import { onLazyLoadFail } from '@utils/error';
 import { getPeriodState } from '@utils/mapping';
 
@@ -33,7 +33,7 @@ const BeregnetPeriodeViewLoader: React.FC = () => {
 
 const useOverstyringerEtterSisteGodkjenteUtbetaling = (person: FetchedPerson): Array<Overstyring> => {
     const timestamp = getLatestUtbetalingTimestamp(person);
-    return getOverstyringer(person, timestamp);
+    return getOverstyringerForEksisterendePerioder(person, timestamp);
 };
 
 interface BeregnetPeriodeViewProps {
