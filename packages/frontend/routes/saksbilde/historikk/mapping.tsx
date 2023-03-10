@@ -208,7 +208,6 @@ export const getInntektoverstyringer = (
             erRevurdering: dayjs(overstyring.timestamp).isAfter(vurdering?.tidsstempel),
             saksbehandler: overstyring.saksbehandler.ident ?? overstyring.saksbehandler.navn,
             timestamp: overstyring.timestamp,
-            begrunnelse: overstyring.begrunnelse,
             inntekt: overstyring.inntekt,
         }));
 };
@@ -227,7 +226,6 @@ export const getInntektoverstyringerForGhost = (
             erRevurdering: !harIngenUtbetaltePerioderFor(person, skjaeringstidspunkt),
             saksbehandler: overstyring.saksbehandler.ident ?? overstyring.saksbehandler.navn,
             timestamp: overstyring.timestamp,
-            begrunnelse: overstyring.begrunnelse,
             inntekt: overstyring.inntekt,
         }));
 };

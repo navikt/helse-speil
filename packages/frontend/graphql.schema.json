@@ -2760,18 +2760,6 @@
                 "description": null,
                 "fields": [
                     {
-                        "name": "begrunnelse",
-                        "description": null,
-                        "args": [],
-                        "type": {
-                            "kind": "SCALAR",
-                            "name": "String",
-                            "ofType": null
-                        },
-                        "isDeprecated": false,
-                        "deprecationReason": null
-                    },
-                    {
                         "name": "ferdigstilt",
                         "description": null,
                         "args": [],
@@ -4588,18 +4576,6 @@
                 "name": "Overstyring",
                 "description": null,
                 "fields": [
-                    {
-                        "name": "begrunnelse",
-                        "description": null,
-                        "args": [],
-                        "type": {
-                            "kind": "SCALAR",
-                            "name": "String",
-                            "ofType": null
-                        },
-                        "isDeprecated": false,
-                        "deprecationReason": null
-                    },
                     {
                         "name": "ferdigstilt",
                         "description": null,

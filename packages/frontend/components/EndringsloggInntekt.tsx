@@ -36,7 +36,7 @@ export const EndringsloggInntekt: React.FC<EndringsloggInntektProps> = ({ endrin
                         <td>{somPenger(endring.inntekt.manedligInntekt)}</td>
                         <td>{getFormattedDateString(endring.inntekt.skjaeringstidspunkt)}</td>
                         <td>
-                            <BodyShort className={styles.Begrunnelse}>{endring.begrunnelse}</BodyShort>
+                            <BodyShort className={styles.Begrunnelse}>{endring.inntekt.begrunnelse}</BodyShort>
                         </td>
                         <td>
                             <BodyShort className={styles.Begrunnelse}>{endring.inntekt.forklaring}</BodyShort>

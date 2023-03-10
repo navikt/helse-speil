@@ -330,9 +330,9 @@ query FetchPerson($fnr: String, $aktorId: String) {
                 }
                 timestamp
                 ferdigstilt
-                begrunnelse
                 __typename
                 ... on Dagoverstyring {
+                    begrunnelse
                     dager {
                         grad
                         fraGrad
@@ -361,6 +361,7 @@ query FetchPerson($fnr: String, $aktorId: String) {
                     }
                 }
                 ... on Arbeidsforholdoverstyring {
+                    begrunnelse
                     deaktivert
                     skjaeringstidspunkt
                     forklaring
