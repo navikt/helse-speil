@@ -10,7 +10,7 @@ spec:
     - name: speil-pods
       rules:
         - alert: {{app}} har ingen aktive pods i dev
-          expr: up{app=~"{{app}}",job="kubernetes-pods"} == 0
+          expr: up{app="speil", container="speil"} == 0
           for: 2m
           annotations:
             consequence: {{app}} mangler aktive pods i dev!
