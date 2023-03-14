@@ -9,14 +9,14 @@ spec:
   groups:
   - name: speil-pods
     rules:
-    - alert: {{app}} har ingen aktive pods
+    - alert: aktive pods for {{ $labels.deployment }}
       expr: kube_deployment_status_replicas_available{namespace="tbd", deployment="speil"} == 0
       for: 2m
       annotations:
-        consequence: {{app}} mangler aktive pods i prod!
-        action: Se `kubectl describe pod \{{ $labels.kubernetes_pod_name }}` for events,
-          og `kubectl logs \{{ $labels.kubernetes_pod_name }}` for logger
-        summary: Hvis speil ikke har noen pods får ikke saksbehandlerne gjort jobben sin
+        consequence: Hvis speil ikke har noen pods får ikke saksbehandlerne gjort jobben sin
+        action: Bruk `kubectl describe application {{ $labels.deployment }}` for events,
+          og `kubectl logs <pod-navn>` for logger
+        summary: "`{{ $labels.deployment }}` mangler aktive pods i prod"
       labels:
         namespace: tbd
         severity: critical
