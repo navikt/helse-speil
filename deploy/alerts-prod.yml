@@ -10,7 +10,7 @@ spec:
   - name: speil-pods
     rules:
     - alert: {{app}} har ingen aktive pods
-      expr: up{app="speil", container="speil"} == 0
+      expr: kube_deployment_status_replicas_available{namespace="tbd", deployment="speil"} == 0
       for: 2m
       annotations:
         consequence: {{app}} mangler aktive pods i prod!
