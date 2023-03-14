@@ -1,20 +1,22 @@
-apiVersion: nais.io/v1
-kind: Alert
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
 metadata:
   name: {{app}}
   namespace: tbd
   labels:
     team: {{team}}
 spec:
-  receivers:
-    slack:
-      channel: "#team-bømlo-alerts"
-  alerts:
-    - alert: {{app}} har ingen aktive pods
-      expr: up{app=~"{{app}}",job="kubernetes-pods"} == 0
-      for: 2m
-      description: {{app}} mangler aktive pods i preprod!
-      action: Se `kubectl describe pod \{{ $labels.kubernetes_pod_name }}` for events,
-        og `kubectl logs \{{ $labels.kubernetes_pod_name }}` for logger
-      sla: respond within 1h, during office hours
-      severity: danger
+  groups:
+    - name: speil-pods
+      rules:
+        - alert: {{app}} har ingen aktive pods i dev
+          expr: up{app=~"{{app}}",job="kubernetes-pods"} == 0
+          for: 2m
+          annotations:
+            consequence: {{app}} mangler aktive pods i dev!
+            action: Se `kubectl describe pod \{{ $labels.kubernetes_pod_name }}` for events,
+              og `kubectl logs \{{ $labels.kubernetes_pod_name }}` for logger
+            summary: Ingen får brukt speil i dev
+          labels:
+            namespace: tbd
+            severity: critical
