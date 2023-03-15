@@ -19,10 +19,20 @@ export const ScrollButtons: React.FC<ScrollButtonsProps> = ({
 }) => {
     return (
         <div className={styles.ScrollButtons}>
-            <button className={styles.Button} onClick={navigateForwards} disabled={!canNavigateForwards}>
+            <button
+                className={styles.Button}
+                onClick={navigateForwards}
+                disabled={!canNavigateForwards}
+                aria-label="Navigate forwards"
+            >
                 <Back />
             </button>
-            <button className={styles.Button} onClick={navigateBackwards} disabled={!canNavigateBackwards}>
+            <button
+                className={styles.Button}
+                onClick={navigateBackwards}
+                disabled={!canNavigateBackwards}
+                aria-label="Navigate backwards"
+            >
                 <Next />
             </button>
         </div>

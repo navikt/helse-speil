@@ -129,6 +129,7 @@ export const Period: React.FC<PeriodProps> = ({ period, notCurrent, isActive, cl
                 onMouseOut={onMouseOut}
                 onClick={onClick}
                 ref={button}
+                aria-label="Gå til vedtaksperiode"
             >
                 {iconIsVisible && getIcon(periodCategory)}
                 {!notCurrent && <InfoPin period={period} />}

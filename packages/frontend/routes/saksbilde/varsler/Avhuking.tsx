@@ -109,6 +109,7 @@ export const Avhuking: React.FC<AvhukingProps> = ({
             role="button"
             tabIndex={disabledButton ? -1 : 0}
             aria-disabled={disabledButton}
+            aria-label="Toggle varselvurdering"
             onClick={clickEvent}
             onKeyDown={keyboardEvent}
             className={classNames(styles.avhuking, styles[type])}

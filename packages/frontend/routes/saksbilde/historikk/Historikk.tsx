@@ -61,7 +61,7 @@ const HistorikkWithContent: React.FC = () => {
                         <ul>
                             <div>
                                 {getHistorikkTitle(filter)}
-                                <CloseButton onClick={() => setShowHistorikk(false)} />
+                                <CloseButton onClick={() => setShowHistorikk(false)} aria-label="Lukk" />
                             </div>
                             {historikk.map((it: HendelseObject, index) => {
                                 switch (it.type) {
