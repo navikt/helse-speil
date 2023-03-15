@@ -24,20 +24,28 @@ export const ToggleOverstyringKnapp = styled.button`
     border: none;
     background: none;
     display: flex;
-    align-items: flex-end;
+    align-items: center;
     outline: none;
     cursor: pointer;
     color: var(--navds-semantic-color-interaction-primary);
     font-size: 1rem;
     font-family: inherit;
+    height: 34px;
+
+    > p {
+        padding-top: 6px;
+    }
 
     > svg {
         margin-right: 0.25rem;
     }
 
-    &:focus,
     &:hover {
         text-decoration: underline;
+    }
+
+    &:focus-visible {
+        box-shadow: inset 0 0 0 3px var(--navds-semantic-color-focus);
     }
 `;
 
@@ -94,7 +102,7 @@ export const UtbetalingHeader: React.FC<UtbetalingHeaderProps> = ({
             ) : (
                 <ToggleOverstyringKnapp onClick={toggleOverstyring} data-testid="overstyringsknapp">
                     <Locked height={24} width={24} />
-                    {revurderingIsEnabled || overstyrRevurderingIsEnabled ? 'Revurder' : 'Endre'}
+                    <p>{revurderingIsEnabled || overstyrRevurderingIsEnabled ? 'Revurder' : 'Endre'}</p>
                 </ToggleOverstyringKnapp>
             )}
         </Container>

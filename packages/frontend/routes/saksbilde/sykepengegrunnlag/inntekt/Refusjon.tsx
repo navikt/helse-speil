@@ -275,7 +275,12 @@ export const Refusjon = ({ fraRefusjonsopplysninger, lokaleRefusjonsopplysninger
                 </div>
             ))}
             <div className={styles.labelContainer}>
-                <Button type="button" onClick={addRefusjonsopplysning} className={styles.Button}>
+                <Button
+                    type="button"
+                    onClick={addRefusjonsopplysning}
+                    className={styles.Button}
+                    style={{ marginTop: 0 }}
+                >
                     <BodyShort>+ Legg til</BodyShort>
                 </Button>
             </div>
