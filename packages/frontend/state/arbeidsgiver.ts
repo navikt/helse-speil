@@ -135,7 +135,7 @@ export const usePeriodForSkjæringstidspunktForArbeidsgiver = (
         ? (periodeTilGodkjenning as ActivePeriod | null)
         : ((arbeidsgiver?.generasjoner[generasjon].perioder
               .filter((it) => it.skjaeringstidspunkt === skjæringstidspunkt)
-              .filter((it) => isBeregnetPeriode(it))
+              .filter((it) => isBeregnetPeriode(it) || isUberegnetPeriode(it))
               .sort((a, b) => new Date(a.fom).getTime() - new Date(b.fom).getTime())
               .pop() ?? null) as ActivePeriod | null);
 };

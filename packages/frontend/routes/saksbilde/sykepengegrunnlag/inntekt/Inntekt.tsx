@@ -48,12 +48,13 @@ const InntektContainer: React.FC<InntektContainerProps> = ({ inntekt }) => {
               )
             : null;
 
-    if (
-        !periodeForSkjæringstidspunktForArbeidsgiver ||
-        !arbeidsgiver ||
-        isUberegnetPeriode(periodeForSkjæringstidspunktForArbeidsgiver) ||
-        !periodeForSkjæringstidspunktForArbeidsgiver.vilkarsgrunnlagId
-    ) {
+    const vilkårsgrunnlagId = !isUberegnetPeriode(periodeForSkjæringstidspunktForArbeidsgiver)
+        ? periodeForSkjæringstidspunktForArbeidsgiver?.vilkarsgrunnlagId
+        : period !== null && !isUberegnetPeriode(period)
+        ? period.vilkarsgrunnlagId
+        : null;
+
+    if (!period || !periodeForSkjæringstidspunktForArbeidsgiver || !arbeidsgiver || !vilkårsgrunnlagId) {
         return null;
     }
 
@@ -78,7 +79,7 @@ const InntektContainer: React.FC<InntektContainerProps> = ({ inntekt }) => {
             omregnetÅrsinntekt={inntekt.omregnetArsinntekt}
             organisasjonsnummer={inntekt.arbeidsgiver}
             erDeaktivert={inntekt.deaktivert}
-            vilkårsgrunnlagId={periodeForSkjæringstidspunktForArbeidsgiver.vilkarsgrunnlagId}
+            vilkårsgrunnlagId={vilkårsgrunnlagId}
             periodeId={periodeForSkjæringstidspunktForArbeidsgiver.id}
             inntektstype={(periodeForSkjæringstidspunktForArbeidsgiver as BeregnetPeriode).inntektstype}
             arbeidsgiver={arbeidsgiver}
