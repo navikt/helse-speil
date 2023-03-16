@@ -2,7 +2,6 @@ import styled from '@emotion/styled';
 import React, { ReactNode } from 'react';
 
 import { CaseworkerFilled } from '@navikt/ds-icons';
-import { Tooltip } from '@navikt/ds-react';
 
 import { Kilde } from '@components/Kilde';
 import { Kildetype } from '@io/graphql';
@@ -36,21 +35,6 @@ const getKildeTypeIcon = (
     }
 };
 
-export const getKildeTypeTooltip = (kilde?: Kildetype): string => {
-    switch (kilde) {
-        case Kildetype.Inntektsmelding:
-            return 'Inntektsmelding';
-        case Kildetype.Soknad:
-            return 'Søknad';
-        case Kildetype.Sykmelding:
-            return 'Sykmelding';
-        case Kildetype.Saksbehandler:
-            return 'Saksbehandler';
-        default:
-            return 'Ukjent';
-    }
-};
-
 const Container = styled(CellContent)`
     width: 2rem;
     justify-content: center;
@@ -66,15 +50,7 @@ interface KildeCellProps extends React.HTMLAttributes<HTMLTableCellElement> {
 export const KildeCell = ({ type, dato, kilde, overstyringer, ...rest }: KildeCellProps) => {
     return (
         <td {...rest}>
-            <Container>
-                {!erEksplisittHelg(type) && (
-                    <>
-                        <Tooltip content={getKildeTypeTooltip(kilde)}>
-                            <span>{getKildeTypeIcon(dato, kilde, overstyringer)}</span>
-                        </Tooltip>
-                    </>
-                )}
-            </Container>
+            <Container>{!erEksplisittHelg(type) && <>{getKildeTypeIcon(dato, kilde, overstyringer)}</>}</Container>
         </td>
     );
 };

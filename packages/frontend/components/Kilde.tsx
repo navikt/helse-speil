@@ -2,11 +2,17 @@ import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import React from 'react';
 
+import { Tooltip } from '@navikt/ds-react';
+
 import { Inntektskilde, Kildetype } from '@io/graphql';
 
 interface KildeProps {
-    type?: Kildetype | Inntektskilde | 'AINNTEKT';
+    type: KildeikonType;
+    children?: ReactNode;
+    className?: string;
 }
+
+type KildeikonType = Kildetype | Inntektskilde | 'AINNTEKT' | undefined;
 
 const ainntektStyle = (props: KildeProps) =>
     props.type === 'AINNTEKT' &&
@@ -55,7 +61,31 @@ const saksbehandlerStyle = (props: KildeProps) =>
         }
     `;
 
-export const Kilde = styled.div<KildeProps>`
+const getKildeTypeTooltip = (kilde: KildeikonType): string => {
+    switch (kilde) {
+        case Inntektskilde.Inntektsmelding:
+        case Kildetype.Inntektsmelding:
+            return 'Inntektsmelding';
+        case Kildetype.Soknad:
+            return 'Søknad';
+        case Kildetype.Sykmelding:
+            return 'Sykmelding';
+        case Kildetype.Saksbehandler:
+            return 'Saksbehandler';
+        case Inntektskilde.Aordningen:
+            return 'A-ordningen';
+        case Inntektskilde.IkkeRapportert:
+            return 'Ikke rapportert';
+        case Inntektskilde.Saksbehandler:
+            return 'Saksbehandler';
+        case 'AINNTEKT':
+            return 'A-inntekt';
+        default:
+            return 'Ukjent';
+    }
+};
+
+const Kildeikon = styled.div<KildeProps>`
     display: flex;
     justify-content: center;
     align-items: center;
@@ -71,6 +101,7 @@ export const Kilde = styled.div<KildeProps>`
     height: 1rem;
     line-height: 8px;
     box-sizing: border-box;
+    cursor: default;
 
     ${ainntektStyle};
     ${aordningenStyle};
@@ -79,3 +110,13 @@ export const Kilde = styled.div<KildeProps>`
     ${inntektsmeldingStyle};
     ${saksbehandlerStyle};
 `;
+
+export const Kilde = ({ type, children, className }: KildeProps) => {
+    return (
+        <Tooltip content={getKildeTypeTooltip(type)}>
+            <Kildeikon className={className} type={type}>
+                {children}
+            </Kildeikon>
+        </Tooltip>
+    );
+};

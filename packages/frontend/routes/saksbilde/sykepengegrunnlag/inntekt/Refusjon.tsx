@@ -3,7 +3,7 @@ import React, { useEffect } from 'react';
 import { Controller, useFieldArray, useFormContext } from 'react-hook-form';
 
 import { CaseworkerFilled } from '@navikt/ds-icons';
-import { BodyShort, UNSAFE_DatePicker as DatePicker, Tooltip } from '@navikt/ds-react';
+import { BodyShort, UNSAFE_DatePicker as DatePicker } from '@navikt/ds-react';
 
 import { Bold } from '@components/Bold';
 import { Button } from '@components/Button';
@@ -13,8 +13,6 @@ import { Kilde } from '@components/Kilde';
 import { Kildetype } from '@io/graphql';
 import { Refusjonsopplysning } from '@io/http';
 import { ISO_DATOFORMAT, NORSK_DATOFORMAT } from '@utils/date';
-
-import { getKildeTypeTooltip } from '../../utbetaling/utbetalingstabell/KildeCell';
 
 import styles from './Refusjon.module.css';
 
@@ -241,11 +239,9 @@ export const Refusjon = ({ fraRefusjonsopplysninger, lokaleRefusjonsopplysninger
                         render={() => (
                             <Flex alignItems="center">
                                 {refusjonsopplysning.kilde === Kildetype.Inntektsmelding && (
-                                    <Tooltip content={getKildeTypeTooltip(refusjonsopplysning.kilde)}>
-                                        <Kilde type={refusjonsopplysning.kilde} className={styles.Ikon}>
-                                            IM
-                                        </Kilde>
-                                    </Tooltip>
+                                    <Kilde type={refusjonsopplysning.kilde} className={styles.Ikon}>
+                                        IM
+                                    </Kilde>
                                 )}
                                 {refusjonsopplysning.kilde === Kildetype.Saksbehandler &&
                                     (lokaleRefusjonsopplysninger.length > 0 &&
@@ -255,11 +251,9 @@ export const Refusjon = ({ fraRefusjonsopplysninger, lokaleRefusjonsopplysninger
                                             <Endringstrekant />
                                         </div>
                                     ) : (
-                                        <Tooltip content={getKildeTypeTooltip(refusjonsopplysning.kilde)}>
-                                            <Kilde type={refusjonsopplysning.kilde} className={styles.Ikon}>
-                                                <CaseworkerFilled height={12} width={12} />
-                                            </Kilde>
-                                        </Tooltip>
+                                        <Kilde type={refusjonsopplysning.kilde} className={styles.Ikon}>
+                                            <CaseworkerFilled height={12} width={12} />
+                                        </Kilde>
                                     ))}
                             </Flex>
                         )}
