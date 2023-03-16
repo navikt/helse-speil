@@ -24,6 +24,7 @@
 .Gradvelger {
     width: 2.5rem;
     -moz-appearance: textfield;
+    position: relative;
 }
 
 .Gradvelger input {
@@ -36,6 +37,11 @@
 
 .Gradvelger > div {
     position: absolute;
+    bottom: -24px;
+}
+
+.Gradvelger > div > p {
+    white-space: nowrap;
 }
 
 .Gradvelger input[type='number']::-webkit-inner-spin-button,
