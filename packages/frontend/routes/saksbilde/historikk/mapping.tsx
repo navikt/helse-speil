@@ -79,7 +79,9 @@ export const getDokumenter = (period: Periode | GhostPeriode): Array<HendelseObj
 
 export const getPeriodehistorikk = (periode: FetchedBeregnetPeriode): Array<HistorikkhendelseObject> => {
     return periode.periodehistorikk
-        .filter((historikkelement) => historikkelement.type !== PeriodehistorikkType.TotrinnsvurderingRetur)
+        .filter((historikkelement) =>
+            historikkelement.type === PeriodehistorikkType.TotrinnsvurderingRetur ? !historikkelement.notat_id : true
+        )
         .map((historikkelement, index) => ({
             id: `periodehistorikk-${index}`,
             type: 'Historikk',

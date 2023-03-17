@@ -18,7 +18,7 @@ import { Action, State } from './types';
 
 import styles from './Notathendelse.module.css';
 
-const MAX_TEXT_LENGTH_BEFORE_TRUNCATION = 45;
+export const MAX_TEXT_LENGTH_BEFORE_TRUNCATION = 45;
 
 const reducer = (state: State, action: Action) => {
     switch (action.type) {
