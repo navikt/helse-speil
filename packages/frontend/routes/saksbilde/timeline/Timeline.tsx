@@ -93,7 +93,14 @@ const TimelineWithContent: React.FC<TimelineWithContentProps> = React.memo(
                                 />
                             )
                         )}
-                    {infotrygdPeriods.length > 0 && <InfotrygdRow start={start} end={end} periods={infotrygdPeriods} />}
+                    {infotrygdPeriods.length > 0 && (
+                        <InfotrygdRow
+                            start={start}
+                            end={end}
+                            periods={infotrygdPeriods}
+                            alignWithExpandable={harArbeidsgiverMedFlereGenerasjoner}
+                        />
+                    )}
                 </div>
                 <div className={styles.TimelineControls}>
                     <ScrollButtons

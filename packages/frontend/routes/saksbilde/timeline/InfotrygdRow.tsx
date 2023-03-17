@@ -1,3 +1,4 @@
+import classNames from 'classnames';
 import React from 'react';
 
 import { BodyShort } from '@navikt/ds-react';
@@ -12,12 +13,13 @@ interface InfotrygdRowProps {
     start: Dayjs;
     end: Dayjs;
     periods: Array<InfotrygdPeriod>;
+    alignWithExpandable?: boolean;
 }
 
-export const InfotrygdRow: React.FC<InfotrygdRowProps> = ({ start, end, periods }) => {
+export const InfotrygdRow: React.FC<InfotrygdRowProps> = ({ start, end, periods, alignWithExpandable = false }) => {
     return (
         <div className={styles.TimelineRow}>
-            <div className={styles.Name}>
+            <div className={classNames(styles.Name, alignWithExpandable && styles.AlignWithExpandable)}>
                 <Infotrygdikon />
                 <BodyShort size="small">Infotrygd</BodyShort>
             </div>
