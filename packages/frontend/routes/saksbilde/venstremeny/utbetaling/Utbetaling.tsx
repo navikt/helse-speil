@@ -127,7 +127,8 @@ export const Utbetaling = ({ period, person, arbeidsgiver }: UtbetalingProps) =>
         isBeregnetPeriode(period) &&
         (!period.oppgave?.erBeslutter || !period.totrinnsvurdering?.erBeslutteroppgave);
     const trengerTotrinnsvurdering =
-        (period.oppgave?.trengerTotrinnsvurdering ?? false) || (period?.totrinnsvurdering ?? false);
+        (period.oppgave?.trengerTotrinnsvurdering ?? false) ||
+        (period?.totrinnsvurdering !== null && !period.totrinnsvurdering?.erBeslutteroppgave);
     const manglerNotatVedVurderLovvalgOgMedlemskapVarsel = harVurderLovvalgOgMedlemskapVarsel
         ? period.notater.filter((it) => it.type === NotatType.Generelt && !it.feilregistrert).length === 0
         : undefined;
