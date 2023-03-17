@@ -64,7 +64,10 @@ export const BeregnetPeriodeView: React.FC<BeregnetPeriodeViewProps> = ({ period
                     oppgavereferanse={period.oppgave?.id}
                     varsler={period.varslerForGenerasjon}
                     erTidligereSaksbehandler={erTidligereSaksbehandler}
-                    erBeslutteroppgave={period.oppgave?.erBeslutter}
+                    erBeslutteroppgave={
+                        (period.oppgave?.erBeslutter ?? false) ||
+                        (period.totrinnsvurdering?.erBeslutteroppgave ?? false)
+                    }
                     harVurderLovvalgOgMedlemskapVarsel={harVurderLovvalgOgMedlemskapVarsel}
                     endringerEtterNyesteUtbetalingPåPerson={overstyringerEtterNyesteUtbetalingPåPerson}
                     harDagOverstyringer={harDagOverstyringer}

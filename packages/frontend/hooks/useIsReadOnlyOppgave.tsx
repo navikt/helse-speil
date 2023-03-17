@@ -19,5 +19,9 @@ export const useIsReadOnlyOppgave = (): boolean => {
         return readOnly.value;
     }
 
-    return erTidligereSaksbehandler || (periode.oppgave.erBeslutter && !harBeslutteroppgavetilgang);
+    return (
+        erTidligereSaksbehandler ||
+        ((periode.oppgave.erBeslutter || periode.totrinnsvurdering?.erBeslutteroppgave === true) &&
+            !harBeslutteroppgavetilgang)
+    );
 };

@@ -1,3 +1,4 @@
+import { OppgaveForPeriodevisning, Totrinnsvurdering } from '@io/graphql';
 import { useInnloggetSaksbehandler } from '@state/authentication';
 import { useActivePeriod } from '@state/periode';
 import { useKanBeslutteEgneOppgaver } from '@state/toggles';
@@ -13,9 +14,25 @@ export const useErTidligereSaksbehandler = (): boolean => {
     }
 
     if (kanBeslutteEgenBeslutteroppgave) return false;
-    return (
-        (activePeriod.oppgave.erBeslutter &&
-            activePeriod.oppgave.tidligereSaksbehandler === currentSaksbehandler.oid) ||
-        (activePeriod.oppgave.erRetur && activePeriod.beslutterSaksbehandlerOid === currentSaksbehandler.oid)
-    );
+
+    const gammelTotrinnsvurdering = (oppgave: OppgaveForPeriodevisning): boolean => {
+        const erOrginalSaksbehandler = oppgave.tidligereSaksbehandler === currentSaksbehandler.oid;
+        const erBesluttersaksbehandler = activePeriod.beslutterSaksbehandlerOid === currentSaksbehandler.oid;
+
+        return (oppgave.erBeslutter && erOrginalSaksbehandler) || (oppgave.erRetur && erBesluttersaksbehandler);
+    };
+
+    const nyTotrinnsvurdering = (totrinnsvurdering?: Maybe<Totrinnsvurdering>): boolean => {
+        if (!totrinnsvurdering) return false;
+
+        const erOrginalSaksbehandler = totrinnsvurdering.saksbehandler === currentSaksbehandler.oid;
+        const erBesluttersaksbehandler = totrinnsvurdering.beslutter === currentSaksbehandler.oid;
+
+        return (
+            (totrinnsvurdering.erBeslutteroppgave && erOrginalSaksbehandler) ||
+            (totrinnsvurdering.erRetur && erBesluttersaksbehandler)
+        );
+    };
+
+    return gammelTotrinnsvurdering(activePeriod.oppgave) || nyTotrinnsvurdering(activePeriod.totrinnsvurdering);
 };

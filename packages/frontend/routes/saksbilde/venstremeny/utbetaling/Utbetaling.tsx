@@ -93,8 +93,8 @@ export const Utbetaling = ({ period, person, arbeidsgiver }: UtbetalingProps) =>
     const [error, setError] = useState<SpeilError | null>();
     const ventEllerHopp = useOnGodkjenn(period, person);
     const history = useHistory();
-    const erBeslutteroppgaveOgHarTilgang = useErBeslutteroppgaveOgHarTilgang();
     const totrinnsvurderingAktiv = useTotrinnsvurderingErAktiv();
+    const erBeslutteroppgaveOgHarTilgang = useErBeslutteroppgaveOgHarTilgang();
     const harVurderLovvalgOgMedlemskapVarsel = useHarVurderLovvalgOgMedlemskapVarsel();
     const harOverstyringerEtterSisteGodkjenteUtbetaling = useHarOverstyringerEtterSisteGodkjenteUtbetaling(person);
     const harDagOverstyringer = useHarDagOverstyringer(period);
@@ -123,8 +123,11 @@ export const Utbetaling = ({ period, person, arbeidsgiver }: UtbetalingProps) =>
     const harArbeidsgiverutbetaling = period.utbetaling.arbeidsgiverNettoBelop !== 0;
     const harBrukerutbetaling = period.utbetaling.personNettoBelop !== 0;
     const kanSendesTilTotrinnsvurdering =
-        totrinnsvurderingAktiv && isBeregnetPeriode(period) && !period.oppgave?.erBeslutter;
-    const trengerTotrinnsvurdering = period.oppgave?.trengerTotrinnsvurdering ?? false;
+        totrinnsvurderingAktiv &&
+        isBeregnetPeriode(period) &&
+        (!period.oppgave?.erBeslutter || !period.totrinnsvurdering?.erBeslutteroppgave);
+    const trengerTotrinnsvurdering =
+        (period.oppgave?.trengerTotrinnsvurdering ?? false) || (period?.totrinnsvurdering ?? false);
     const manglerNotatVedVurderLovvalgOgMedlemskapVarsel = harVurderLovvalgOgMedlemskapVarsel
         ? period.notater.filter((it) => it.type === NotatType.Generelt && !it.feilregistrert).length === 0
         : undefined;
