@@ -59,6 +59,9 @@ const TimelineWithContent: React.FC<TimelineWithContentProps> = React.memo(
         const end = currentZoomLevel.tom.endOf('day');
 
         const infotrygdPeriods = useInfotrygdPeriods(infotrygdutbetalinger);
+        const harArbeidsgiverMedFlereGenerasjoner = arbeidsgivere.some(
+            (arbeidsgiver) => arbeidsgiver.generasjoner.length > 1
+        );
 
         return (
             <div className={styles.Timeline}>
@@ -86,6 +89,7 @@ const TimelineWithContent: React.FC<TimelineWithContentProps> = React.memo(
                                     periods={arbeidsgiver.generasjoner[0]?.perioder ?? []}
                                     ghostPeriods={arbeidsgiver.ghostPerioder}
                                     activePeriod={activePeriod}
+                                    alignWithExpandable={harArbeidsgiverMedFlereGenerasjoner}
                                 />
                             )
                         )}

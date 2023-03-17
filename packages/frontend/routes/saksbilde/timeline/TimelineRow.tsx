@@ -19,27 +19,39 @@ export interface TimelineRowProps {
     periods: Array<Periode>;
     activePeriod: TimelinePeriod | null;
     ghostPeriods?: Array<GhostPeriode>;
+    alignWithExpandable?: boolean;
 }
 
-export const TimelineRow: React.FC<TimelineRowProps> = ({ start, end, name, periods, ghostPeriods, activePeriod }) => (
-    <div className={styles.TimelineRow}>
-        <Tooltip content={name} maxChar={name.length}>
-            <div className={styles.Name}>
-                <Arbeidsgiverikon alt="Arbeidsgiver" />
-                <AnonymizableTextWithEllipsis size="small">{name}</AnonymizableTextWithEllipsis>
+export const TimelineRow: React.FC<TimelineRowProps> = ({
+    start,
+    end,
+    name,
+    periods,
+    ghostPeriods,
+    activePeriod,
+    alignWithExpandable = false,
+}) => {
+    console.log(alignWithExpandable);
+    return (
+        <div className={styles.TimelineRow}>
+            <Tooltip content={name} maxChar={name.length}>
+                <div className={classNames(styles.Name, alignWithExpandable && styles.AlignWithExpandable)}>
+                    <Arbeidsgiverikon alt="Arbeidsgiver" />
+                    <AnonymizableTextWithEllipsis size="small">{name}</AnonymizableTextWithEllipsis>
+                </div>
+            </Tooltip>
+            <div className={styles.Periods}>
+                <Periods
+                    periods={periods}
+                    start={start}
+                    end={end}
+                    ghostPeriods={ghostPeriods}
+                    activePeriod={activePeriod}
+                />
             </div>
-        </Tooltip>
-        <div className={styles.Periods}>
-            <Periods
-                periods={periods}
-                start={start}
-                end={end}
-                ghostPeriods={ghostPeriods}
-                activePeriod={activePeriod}
-            />
         </div>
-    </div>
-);
+    );
+};
 
 export const TimelineRowSkeleton: React.FC = () => {
     return (
