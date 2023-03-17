@@ -319,6 +319,12 @@ query FetchPerson($fnr: String, $aktorId: String) {
                             tidligereSaksbehandler
                             trengerTotrinnsvurdering
                         }
+                        totrinnsvurdering {
+                            erBeslutteroppgave
+                            erRetur
+                            saksbehandler
+                            beslutter
+                        }
                     }
                 }
             }

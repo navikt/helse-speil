@@ -164,6 +164,7 @@ export type BeregnetPeriode = Periode & {
     tidligereSaksbehandlerOid?: Maybe<Scalars['String']>;
     tidslinje: Array<Dag>;
     tom: Scalars['String'];
+    totrinnsvurdering?: Maybe<Totrinnsvurdering>;
     /** @deprecated trengerTotrinnsvurdering bør hentes fra periodens oppgave */
     trengerTotrinnsvurdering: Scalars['Boolean'];
     utbetaling: Utbetaling;
@@ -837,6 +838,14 @@ export type Tildeling = {
     navn: Scalars['String'];
     oid: Scalars['String'];
     reservert: Scalars['Boolean'];
+};
+
+export type Totrinnsvurdering = {
+    __typename?: 'Totrinnsvurdering';
+    beslutter?: Maybe<Scalars['String']>;
+    erBeslutteroppgave: Scalars['Boolean'];
+    erRetur: Scalars['Boolean'];
+    saksbehandler?: Maybe<Scalars['String']>;
 };
 
 export type UberegnetPeriode = Periode & {
