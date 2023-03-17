@@ -156,7 +156,12 @@ export const OppgaverTable: React.FC<OppgaverTableProps> = React.memo(({ oppgave
                                     <TildelingCell oppgave={it} kanTildeles={!readOnly} />
                                     <PeriodetypeCell type={it.periodetype ?? Periodetype.Forstegangsbehandling} />
                                     <OppgavetypeCell oppgavetype={it.type} />
-                                    <EgenskaperCell erBeslutter={it.erBeslutter} erRetur={it.erRetur} />
+                                    <EgenskaperCell
+                                        erBeslutter={
+                                            it.erBeslutter || it.totrinnsvurdering?.erBeslutteroppgave === true
+                                        }
+                                        erRetur={it.erRetur || it.totrinnsvurdering?.erRetur === true}
+                                    />
                                     <InntektskildeCell flereArbeidsgivere={it.flereArbeidsgivere} />
                                     <StatusCell numberOfWarnings={it.antallVarsler} />
                                     <SøkerCell name={it.personinfo} />

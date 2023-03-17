@@ -26,6 +26,10 @@ query FetchOppgaver {
             epost
             oid
         }
-        tidligereSaksbehandler
+        tidligereSaksbehandler,
+        totrinnsvurdering {
+            erRetur
+            erBeslutteroppgave
+        }
     }
 }

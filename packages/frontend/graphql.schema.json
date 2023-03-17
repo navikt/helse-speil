@@ -4339,6 +4339,18 @@
                         "deprecationReason": null
                     },
                     {
+                        "name": "totrinnsvurdering",
+                        "description": null,
+                        "args": [],
+                        "type": {
+                            "kind": "OBJECT",
+                            "name": "Totrinnsvurdering",
+                            "ofType": null
+                        },
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
+                    {
                         "name": "trengerTotrinnsvurdering",
                         "description": null,
                         "args": [],

@@ -461,6 +461,7 @@ export type OppgaveForOversiktsvisning = {
     sistSendt?: Maybe<Scalars['String']>;
     tidligereSaksbehandler?: Maybe<Scalars['String']>;
     tildeling?: Maybe<Tildeling>;
+    totrinnsvurdering?: Maybe<Totrinnsvurdering>;
     trengerTotrinnsvurdering: Scalars['Boolean'];
     type: Oppgavetype;
     vedtaksperiodeId: Scalars['String'];
@@ -1656,6 +1657,13 @@ export type FetchPersonQuery = {
                               erBeslutter: boolean;
                               tidligereSaksbehandler?: string | null;
                               trengerTotrinnsvurdering: boolean;
+                          } | null;
+                          totrinnsvurdering?: {
+                              __typename?: 'Totrinnsvurdering';
+                              erBeslutteroppgave: boolean;
+                              erRetur: boolean;
+                              saksbehandler?: string | null;
+                              beslutter?: string | null;
                           } | null;
                           tidslinje: Array<{
                               __typename?: 'Dag';
