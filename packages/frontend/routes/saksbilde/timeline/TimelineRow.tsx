@@ -31,7 +31,6 @@ export const TimelineRow: React.FC<TimelineRowProps> = ({
     activePeriod,
     alignWithExpandable = false,
 }) => {
-    console.log(alignWithExpandable);
     return (
         <div className={styles.TimelineRow}>
             <Tooltip content={name} maxChar={name.length}>
