@@ -8,7 +8,14 @@ import { PopoverHjelpetekst } from '@components/PopoverHjelpetekst';
 import { SortInfoikon } from '@components/ikoner/SortInfoikon';
 import { useActivePeriodHasLatestSkjæringstidspunkt } from '@hooks/revurdering';
 import { useIsReadOnlyOppgave } from '@hooks/useIsReadOnlyOppgave';
-import { Arbeidsgiver, Dagoverstyring, Overstyring, UberegnetPeriode, Utbetalingstatus } from '@io/graphql';
+import {
+    Arbeidsgiver,
+    Dagoverstyring,
+    Overstyring,
+    Periodetilstand,
+    UberegnetPeriode,
+    Utbetalingstatus,
+} from '@io/graphql';
 import { useCurrentArbeidsgiver } from '@state/arbeidsgiver';
 import { useActivePeriod } from '@state/periode';
 import { useCurrentPerson } from '@state/person';
@@ -42,13 +49,24 @@ interface ReadonlyUtbetalingProps {
 const ReadonlyUtbetaling: React.FC<ReadonlyUtbetalingProps> = ({ fom, tom, dager }) => {
     const hasLatestSkjæringstidspunkt = useActivePeriodHasLatestSkjæringstidspunkt();
     const periodeErISisteGenerasjon = useIsInCurrentGeneration();
+    const period = useActivePeriod();
+
+    const harTidligereSkjæringstidspunktOgISisteGenerasjon = !hasLatestSkjæringstidspunkt && periodeErISisteGenerasjon;
+    const erAUU = isUberegnetPeriode(period) && period.periodetilstand === Periodetilstand.IngenUtbetaling;
 
     return (
         <div className={styles.Utbetaling}>
-            {!hasLatestSkjæringstidspunkt && periodeErISisteGenerasjon && (
+            {harTidligereSkjæringstidspunktOgISisteGenerasjon && (
                 <div className={styles.Infopin}>
                     <PopoverHjelpetekst ikon={<SortInfoikon />}>
                         <p>Det er ikke mulig å gjøre endringer i denne perioden</p>
+                    </PopoverHjelpetekst>
+                </div>
+            )}
+            {!harTidligereSkjæringstidspunktOgISisteGenerasjon && erAUU && (
+                <div className={styles.Infopin}>
+                    <PopoverHjelpetekst ikon={<SortInfoikon />}>
+                        <p>Det er ikke mulig å gjøre endringer på perioder uten utbetaling</p>
                     </PopoverHjelpetekst>
                 </div>
             )}
@@ -129,7 +147,12 @@ const UtbetalingUberegnetPeriode: React.FC<UtbetalingUberegnetPeriodeProps> = ({
     const dager: Map<string, UtbetalingstabellDag> = useTabelldagerMap({
         tidslinje: periode.tidslinje,
     });
-    return (
+
+    const auuPeriode = periode.periodetilstand === Periodetilstand.IngenUtbetaling;
+
+    return auuPeriode ? (
+        <ReadonlyUtbetaling fom={periode.fom} tom={periode.tom} dager={dager} />
+    ) : (
         <OverstyrbarUtbetaling
             fom={periode.fom}
             tom={periode.tom}
