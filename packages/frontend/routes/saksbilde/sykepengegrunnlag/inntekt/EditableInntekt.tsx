@@ -11,6 +11,7 @@ import { Bold } from '@components/Bold';
 import { Endringstrekant } from '@components/Endringstrekant';
 import { ErrorMessage } from '@components/ErrorMessage';
 import { Flex } from '@components/Flex';
+import { ForklaringTextarea } from '@components/ForklaringTextarea';
 import { OverstyringTimeoutModal } from '@components/OverstyringTimeoutModal';
 import { Inntektskilde, OmregnetArsinntekt } from '@io/graphql';
 import type { OverstyrtInntektOgRefusjonDTO, Refusjonsopplysning } from '@io/http';
@@ -27,7 +28,6 @@ import { isBeregnetPeriode, isGhostPeriode } from '@utils/typeguards';
 import { SlettLokaleOverstyringerModal } from '../../varsler/KalkulerEndringerVarsel';
 import { BegrunnelseForOverstyring } from '../overstyring.types';
 import { Begrunnelser } from './Begrunnelser';
-import { ForklaringTextarea } from './ForklaringTextarea';
 import { Refusjon } from './Refusjon';
 
 import styles from './EditableInntekt.module.css';
@@ -253,7 +253,9 @@ export const EditableInntekt = ({
                         ></Refusjon>
                     )}
                     <Begrunnelser begrunnelser={begrunnelser} />
-                    <ForklaringTextarea />
+                    <ForklaringTextarea
+                        description={`Begrunn hvorfor det er gjort endringer i inntekt og/eller refusjon.\nEks. «Ny inntektsmelding kommet inn 18.10.2021»\nBlir ikke forevist den sykmeldte, med mindre den sykmeldte ber om innsyn.`}
+                    />
                     {/* TODO: Fiks opp typing, fjern any */}
                     {!form.formState.isValid &&
                         form.formState.isSubmitted &&
