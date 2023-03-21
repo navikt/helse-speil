@@ -31,7 +31,7 @@ export const ForklaringTextarea = ({ description }: ForklaringTextAreaProps) => 
                 setForklaring(event.target.value);
             }}
             description={description}
-            maxLength={500}
+            maxLength={1000}
             aria-labelledby="forklaring-label forklaring-feil"
             error={form.formState.errors.forklaring?.message}
             {...textareaValidation}

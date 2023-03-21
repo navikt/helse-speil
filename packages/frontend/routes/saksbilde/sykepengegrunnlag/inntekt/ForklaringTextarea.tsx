@@ -29,7 +29,7 @@ export const ForklaringTextarea = () => {
                 setForklaring(event.target.value);
             }}
             description={`Begrunn hvorfor det er gjort endringer i inntekt og/eller refusjon.\nEks. «Ny inntektsmelding kommet inn 18.10.2021»\nBlir ikke forevist den sykmeldte, med mindre den sykmeldte ber om innsyn.`}
-            maxLength={500}
+            maxLength={1000}
             aria-labelledby="forklaring-label forklaring-feil"
             {...textareaValidation}
         />

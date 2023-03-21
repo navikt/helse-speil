@@ -60,7 +60,7 @@ export const OverstyringForm: React.FC<OverstyringFormProps> = ({ overstyrteDage
                 aria-invalid={formState.errors.begrunnelse?.message}
                 aria-errormessage={formState.errors.begrunnelse?.message}
                 data-testid="overstyring-begrunnelse"
-                maxLength={500}
+                maxLength={1000}
                 {...begrunnelseValidation}
                 onChange={(event) => {
                     begrunnelseValidation.onChange(event);
