@@ -16,8 +16,12 @@ export default ({ opptegnelseClient }: SetupOptions) => {
             .abonnerPåAktør(req.session!.speilToken, req.params['aktorId'])
             .then(() => res.sendStatus(200))
             .catch((err) => {
-                logger.error(`Feil under abonnering på aktør (se sikkerLogg for detaljer)`);
-                logger.sikker.error(`Feil under abonnering på aktør: ${err}`, { error: err });
+                if (err?.cause?.code === 'ECONNRESET')
+                    logger.error(`Feil under abonnering på aktør, ECONNRESET mot ${err.cause.host}`);
+                else {
+                    logger.error(`Feil under abonnering på aktør (se sikkerLogg for detaljer)`);
+                    logger.sikker.error(`Feil under abonnering på aktør: ${err}`, { error: err });
+                }
                 res.status(500).send('Feil under abonnering på aktør');
             });
     });
