@@ -10,7 +10,7 @@ import { BodyShort, ErrorSummary, Loader, Button as NavButton } from '@navikt/ds
 import { EditButton } from '@components/EditButton';
 import { ErrorMessage } from '@components/ErrorMessage';
 import { Flex, FlexColumn } from '@components/Flex';
-import { ForklaringTextarea } from '@components/ForklaringTextArea';
+import { ForklaringTextarea } from '@components/ForklaringTextarea';
 import { OverstyringTimeoutModal } from '@components/OverstyringTimeoutModal';
 import { Maybe } from '@io/graphql';
 

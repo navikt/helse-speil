@@ -7,10 +7,10 @@ import { Textarea } from '@navikt/ds-react';
 const StyledTextarea = styled(Textarea)`
     white-space: pre-line;
 `;
-interface ForklaringTextAreaProps {
+interface ForklaringTextareaProps {
     description: string;
 }
-export const ForklaringTextarea = ({ description }: ForklaringTextAreaProps) => {
+export const ForklaringTextarea = ({ description }: ForklaringTextareaProps) => {
     const form = useFormContext();
 
     const [forklaring, setForklaring] = useState('');
