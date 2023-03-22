@@ -1,5 +1,5 @@
 import dayjs from 'dayjs';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import type { Arbeidsgiver } from '@io/graphql';
 import type { OverstyrtDagDTO, OverstyrtDagtype } from '@io/http';
@@ -68,6 +68,7 @@ type UsePostOverstyringResult = {
 
 export const usePostOverstyring = (): UsePostOverstyringResult => {
     const person = useCurrentPerson() as FetchedPerson;
+    const personFørRefetchRef = useRef(person);
     const arbeidsgiver = useCurrentArbeidsgiver() as Arbeidsgiver;
     const addToast = useAddToast();
     const removeToast = useRemoveToast();
@@ -89,9 +90,9 @@ export const usePostOverstyring = (): UsePostOverstyringResult => {
                 addToast(kalkuleringFerdigToast({ callback: () => removeToast(kalkulererFerdigToastKey) }));
             }
             setCalculating(false);
-            setState('done');
         }
-    }, [opptegnelser]);
+        if (opptegnelser && person !== personFørRefetchRef.current) setState('done');
+    }, [opptegnelser, person, personFørRefetchRef]);
 
     useEffect(() => {
         const timeout: NodeJS.Timeout | number | null = calculating
@@ -127,6 +128,7 @@ export const usePostOverstyring = (): UsePostOverstyringResult => {
         return postOverstyrteDager(overstyring)
             .then(() => {
                 setState('hasValue');
+                personFørRefetchRef.current = person;
                 addToast(kalkulererToast({}));
                 setCalculating(true);
                 callback?.();
