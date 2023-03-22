@@ -1249,7 +1249,6 @@
                                         }
                                     },
                                     "varsler": [
-                                        "Beslutteroppgave: Lovvalg og medlemskap",
                                         "Vurder lovvalg og medlemskap",
                                         "Flere arbeidsgivere, ulikt starttidspunkt for sykefraværet eller ikke fravær fra alle arbeidsforhold",
                                         "Det er mottatt flere inntektsmeldinger på samme skjæringstidspunkt. Undersøk at arbeidsgiverperioden, sykepengegrunnlaget og refusjonsopplysningene er riktige"
@@ -1511,19 +1510,6 @@
                                                 "status": "GODKJENT",
                                                 "tidsstempel": "2023-03-07T15:14:27.430346"
                                             }
-                                        },
-                                        {
-                                            "generasjonId": "51d0d62a-59e9-4990-9d70-22895b18185f",
-                                            "definisjonId": "485caed1-f577-4015-9d20-405863bd293b",
-                                            "kode": "SB_BO_1",
-                                            "tittel": "Beslutteroppgave: Lovvalg og medlemskap",
-                                            "forklaring": null,
-                                            "handling": null,
-                                            "vurdering": {
-                                                "ident": "S150563",
-                                                "status": "GODKJENT",
-                                                "tidsstempel": "2023-03-07T15:14:48.321793"
-                                            }
                                         }
                                     ],
                                     "id": "dd1c27b3-2dd1-4a0f-817d-be9b1bf68cb1",
@@ -1695,7 +1681,6 @@
                                         }
                                     },
                                     "varsler": [
-                                        "Beslutteroppgave: Lovvalg og medlemskap",
                                         "Vurder lovvalg og medlemskap",
                                         "Flere arbeidsgivere, ulikt starttidspunkt for sykefraværet eller ikke fravær fra alle arbeidsforhold",
                                         "Det er mottatt flere inntektsmeldinger på samme skjæringstidspunkt. Undersøk at arbeidsgiverperioden, sykepengegrunnlaget og refusjonsopplysningene er riktige"

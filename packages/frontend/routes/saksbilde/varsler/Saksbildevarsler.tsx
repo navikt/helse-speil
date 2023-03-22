@@ -135,25 +135,6 @@ interface SaksbildevarslerProps {
     skjæringstidspunkt?: string;
 }
 
-type GrupperteVarsler = {
-    beslutteroppgaveVarsler: VarselDto[];
-    vanligeVarsler: VarselDto[];
-};
-
-function grupperVarsler(varslerForGenerasjon: Maybe<Array<VarselDto>> | undefined) {
-    return (varslerForGenerasjon || []).reduce(
-        (grupperteVarsler: GrupperteVarsler, varsel) => {
-            if (varsel.tittel.includes('Beslutteroppgave:')) {
-                grupperteVarsler.beslutteroppgaveVarsler.push(varsel);
-            } else {
-                grupperteVarsler.vanligeVarsler.push(varsel);
-            }
-            return grupperteVarsler;
-        },
-        { beslutteroppgaveVarsler: [], vanligeVarsler: [] }
-    );
-}
-
 export const Saksbildevarsler = ({
     periodState,
     oppgavereferanse,
@@ -166,7 +147,6 @@ export const Saksbildevarsler = ({
     activePeriodTom,
     skjæringstidspunkt,
 }: SaksbildevarslerProps) => {
-    const { vanligeVarsler }: GrupperteVarsler = grupperVarsler(varsler);
     const infoVarsler: VarselObject[] = [
         sendtTilBeslutter(erTidligereSaksbehandler && erBeslutteroppgave),
         tilstandinfo(periodState),
@@ -195,7 +175,7 @@ export const Saksbildevarsler = ({
                     <BodyShort>{melding}</BodyShort>
                 </Alert>
             ))}
-            {varsler && <Varsler varsler={vanligeVarsler} />}
+            {varsler && <Varsler varsler={varsler} />}
             {feilVarsler.map(({ grad, melding }, index) => (
                 <Alert className={styles.Varsel} variant={grad} key={index}>
                     <BodyShort>{melding}</BodyShort>

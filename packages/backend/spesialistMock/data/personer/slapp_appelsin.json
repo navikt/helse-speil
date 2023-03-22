@@ -760,8 +760,7 @@
                                         }
                                     },
                                     "varsler": [
-                                        "Flere arbeidsgivere, ulikt starttidspunkt for sykefraværet eller ikke fravær fra alle arbeidsforhold",
-                                        "Vurder lovvalg og medlemskap"
+                                        "Flere arbeidsgivere, ulikt starttidspunkt for sykefraværet eller ikke fravær fra alle arbeidsforhold"
                                     ],
                                     "varslerForGenerasjon": [
                                         {
@@ -769,24 +768,6 @@
                                             "definisjonId": "EN_DEFINISJON",
                                             "kode": "EN_KODE",
                                             "tittel": "Flere arbeidsgivere, ulikt starttidspunkt for sykefraværet eller ikke fravær fra alle arbeidsforhold",
-                                            "forklaring": null,
-                                            "handling": null,
-                                            "vurdering": null
-                                        },
-                                        {
-                                            "generasjonId": "EN_ANNEN_ID",
-                                            "definisjonId": "EN_ANNEN_DEFINISJON",
-                                            "kode": "SB_BO_1",
-                                            "tittel": "Beslutteroppgave: Vurder lovvalg og medlemskap",
-                                            "forklaring": null,
-                                            "handling": null,
-                                            "vurdering": null
-                                        },
-                                        {
-                                            "generasjonId": "EN_HELT_ANNEN_ID",
-                                            "definisjonId": "EN_HELT_ANNEN_DEFINISJON",
-                                            "kode": "SB_BO_3",
-                                            "tittel": "Beslutteroppgave: Overstyring av inntekt",
                                             "forklaring": null,
                                             "handling": null,
                                             "vurdering": null

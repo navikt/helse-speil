@@ -64,26 +64,24 @@ export const Begrunnelsesskjema: React.FC<BegrunnelsesskjemaProps> = ({ activePe
                                 />
                             );
                         })}
-                {activePeriod.varsler
-                    .filter((it) => !it.includes('Beslutteroppgave:'))
-                    .map((varsel, index) => {
-                        switch (varsel) {
-                            case 'Arbeidsuførhet, aktivitetsplikt og/eller medvirkning må vurderes. Se forklaring på vilkårs-siden.':
-                                return activePeriod.risikovurdering?.funn
-                                    ?.filter((it) => it.kategori.includes('8-4'))
-                                    .map((arbeidsuførhet, index2) => {
-                                        return (
-                                            <BegrunnelseCheckbox
-                                                key={`${index}-${index2}-checkbox`}
-                                                begrunnelse={`${varsel}`}
-                                                label={<p>{varsel}</p>}
-                                            />
-                                        );
-                                    });
-                            default:
-                                return <BegrunnelseCheckbox key={`${index}-checkbox`} begrunnelse={varsel} />;
-                        }
-                    })}
+                {activePeriod.varslerForGenerasjon.map((varsel, index) => {
+                    switch (varsel.kode) {
+                        case 'SB_RV_2':
+                            return activePeriod.risikovurdering?.funn
+                                ?.filter((it) => it.kategori.includes('8-4'))
+                                .map((_, index2) => {
+                                    return (
+                                        <BegrunnelseCheckbox
+                                            key={`${index}-${index2}-checkbox`}
+                                            begrunnelse={`${varsel.tittel}`}
+                                            label={<p>{varsel.tittel}</p>}
+                                        />
+                                    );
+                                });
+                        default:
+                            return <BegrunnelseCheckbox key={`${index}-checkbox`} begrunnelse={varsel.tittel} />;
+                    }
+                })}
                 <BegrunnelseCheckbox begrunnelse="Annet" />
             </Fieldset>
             <Controller
