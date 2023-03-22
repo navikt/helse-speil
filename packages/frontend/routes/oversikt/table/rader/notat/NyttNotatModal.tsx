@@ -172,7 +172,7 @@ export const NyttNotatModal = ({
                                 value={value ?? ''}
                                 name={name}
                                 ref={ref}
-                                maxLength={500}
+                                maxLength={1000}
                                 autoFocus
                             />
                         )}
