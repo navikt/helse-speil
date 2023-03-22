@@ -17,7 +17,6 @@ import { EgenskaperCell } from './rader/EgenskaperCell';
 import { InntektskildeCell } from './rader/InntektskildeCell';
 import { OppgavetypeCell } from './rader/OppgavetypeCell';
 import { PeriodetypeCell } from './rader/PeriodetypeCell';
-import { StatusCell } from './rader/StatusCell';
 import { TildelingCell } from './rader/TildelingCell';
 import { NotatCell } from './rader/notat/NotatCell';
 import { OptionsCell } from './rader/options/OptionsCell';
@@ -119,13 +118,6 @@ export const OppgaverTable: React.FC<OppgaverTableProps> = React.memo(({ oppgave
                                         Inntektskilde
                                     </FilterButton>
                                 </Header>
-                                <SortableHeader
-                                    sortation={sortation}
-                                    sortKey="varsler"
-                                    onSort={(a, b) => a.antallVarsler - b.antallVarsler}
-                                >
-                                    Varsler
-                                </SortableHeader>
                                 <Header scope="col" colSpan={1}>
                                     Søker
                                 </Header>
@@ -163,7 +155,6 @@ export const OppgaverTable: React.FC<OppgaverTableProps> = React.memo(({ oppgave
                                         erRetur={it.erRetur || it.totrinnsvurdering?.erRetur === true}
                                     />
                                     <InntektskildeCell flereArbeidsgivere={it.flereArbeidsgivere} />
-                                    <StatusCell numberOfWarnings={it.antallVarsler} />
                                     <SøkerCell name={it.personinfo} />
                                     <DatoCell date={it.sistSendt ?? it.opprettet} />
                                     <DatoCell date={it.opprinneligSoknadsdato ?? it.opprettet} />

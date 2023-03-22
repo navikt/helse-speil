@@ -14,7 +14,6 @@ import { BehandletTimestampCell } from './rader/BehandletTimestampCell';
 import { InntektskildeCell } from './rader/InntektskildeCell';
 import { OppgavetypeCell } from './rader/OppgavetypeCell';
 import { PeriodetypeCell } from './rader/PeriodetypeCell';
-import { StatusCell } from './rader/StatusCell';
 import { usePagination } from './state/pagination';
 
 import styles from './table.module.css';
@@ -62,9 +61,6 @@ export const BehandletIdagTable: React.FC<BehandletIdagTableProps> = () => {
                                     Inntektskilde
                                 </Header>
                                 <Header scope="col" colSpan={1}>
-                                    Status
-                                </Header>
-                                <Header scope="col" colSpan={1}>
                                     Søker
                                 </Header>
                                 <Header scope="col" colSpan={1}>
@@ -79,7 +75,6 @@ export const BehandletIdagTable: React.FC<BehandletIdagTableProps> = () => {
                                     <PeriodetypeCell type={it.periodetype} />
                                     <OppgavetypeCell oppgavetype={it.type} />
                                     <InntektskildeCell flereArbeidsgivere={it.inntektstype === 'FLEREARBEIDSGIVERE'} />
-                                    <StatusCell numberOfWarnings={it.antallVarsler} />
                                     <SøkerCell
                                         name={{
                                             fornavn: it.personnavn.fornavn,
