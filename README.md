@@ -26,7 +26,9 @@ npm run bootstrap
 
 ### Opprett fil med miljøvariabler
 
-`echo "SPESIALIST_BASE_URL=http://127.0.0.1:9001" > packages/backend/.env`
+```shell
+echo "SPESIALIST_BASE_URL=http://127.0.0.1:9001" > packages/backend/.env
+```
 
 ### Både frontend og backend med én kommando
 
