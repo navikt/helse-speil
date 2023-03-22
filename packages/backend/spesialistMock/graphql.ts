@@ -80,7 +80,7 @@ const getResolvers = (): IResolvers => ({
             if (!person) {
                 throw new NotFoundError(fnr ?? aktorId ?? '');
             }
-            await sleep(500);
+            await sleep(1000);
             return person;
         },
         oppdrag: (_, { fnr }: { fnr: string }) => {
@@ -95,7 +95,7 @@ const getResolvers = (): IResolvers => ({
             return behandlingsstatistikk;
         },
         alleOppgaver: async () => {
-            await sleep(500);
+            await sleep(1000);
             return oppgaver;
         },
     },
@@ -107,10 +107,11 @@ const getResolvers = (): IResolvers => ({
         leggTilKommentar: (_, { tekst, notatId, saksbehandlerident }: MutationLeggTilKommentarArgs) => {
             return NotatMock.addKommentar({ tekst, notatId, saksbehandlerident });
         },
-        settVarselstatusVurdert: (
+        settVarselstatusVurdert: async (
             _,
             { generasjonIdString, definisjonIdString, varselkode, ident }: MutationSettVarselstatusVurdertArgs
         ) => {
+            await sleep(500);
             return VarselMock.settVarselstatusVurdert({
                 generasjonIdString,
                 definisjonIdString,
@@ -118,7 +119,11 @@ const getResolvers = (): IResolvers => ({
                 ident,
             });
         },
-        settVarselstatusAktiv: (_, { generasjonIdString, varselkode, ident }: MutationSettVarselstatusAktivArgs) => {
+        settVarselstatusAktiv: async (
+            _,
+            { generasjonIdString, varselkode, ident }: MutationSettVarselstatusAktivArgs
+        ) => {
+            await sleep(500);
             return VarselMock.settVarselstatusAktiv({ generasjonIdString, varselkode, ident });
         },
     },
