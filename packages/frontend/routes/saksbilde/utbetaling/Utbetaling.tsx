@@ -52,7 +52,6 @@ const ReadonlyUtbetaling: React.FC<ReadonlyUtbetalingProps> = ({ fom, tom, dager
     const period = useActivePeriod();
 
     const harTidligereSkjæringstidspunktOgISisteGenerasjon = !hasLatestSkjæringstidspunkt && periodeErISisteGenerasjon;
-    const erAUU = isUberegnetPeriode(period) && period.periodetilstand === Periodetilstand.IngenUtbetaling;
 
     return (
         <div className={styles.Utbetaling}>
@@ -63,10 +62,10 @@ const ReadonlyUtbetaling: React.FC<ReadonlyUtbetalingProps> = ({ fom, tom, dager
                     </PopoverHjelpetekst>
                 </div>
             )}
-            {!harTidligereSkjæringstidspunktOgISisteGenerasjon && erAUU && (
+            {!harTidligereSkjæringstidspunktOgISisteGenerasjon && isUberegnetPeriode(period) && (
                 <div className={styles.Infopin}>
                     <PopoverHjelpetekst ikon={<SortInfoikon />}>
-                        <p>Det er ikke mulig å gjøre endringer på perioder uten utbetaling</p>
+                        <p>Det er ikke mulig å gjøre endringer på uberegnede perioder</p>
                     </PopoverHjelpetekst>
                 </div>
             )}
@@ -148,21 +147,7 @@ const UtbetalingUberegnetPeriode: React.FC<UtbetalingUberegnetPeriodeProps> = ({
         tidslinje: periode.tidslinje,
     });
 
-    const auuPeriode = periode.periodetilstand === Periodetilstand.IngenUtbetaling;
-
-    return auuPeriode ? (
-        <ReadonlyUtbetaling fom={periode.fom} tom={periode.tom} dager={dager} />
-    ) : (
-        <OverstyrbarUtbetaling
-            fom={periode.fom}
-            tom={periode.tom}
-            dager={dager}
-            skjæringstidspunkt={periode.skjaeringstidspunkt}
-            erForkastet={false}
-            revurderingIsEnabled={false}
-            overstyrRevurderingIsEnabled={false}
-        />
-    );
+    return <ReadonlyUtbetaling fom={periode.fom} tom={periode.tom} dager={dager} />;
 };
 
 const UtbetalingContainer = () => {
