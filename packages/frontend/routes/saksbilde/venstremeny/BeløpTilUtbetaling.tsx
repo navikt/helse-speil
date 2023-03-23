@@ -44,7 +44,7 @@ export const BeløpTilUtbetaling = ({
 }: BeløpTilUtbetalingProps) => (
     <div className={styles.TilUtbetaling}>
         <div className={styles.Row}>
-            <Bold>{utbetaling.status !== Utbetalingstatus.Ubetalt ? 'Utbetalt beløp' : 'Beløp til utbetaling'}</Bold>
+            <Bold>{utbetaling.status !== Utbetalingstatus.Ubetalt ? 'Utbetalt beløp' : 'Nytt beløp'}</Bold>
             <Bold className={styles.Total}>{somPenger(periodePersonNettoBeløp + periodeArbeidsgiverNettoBeløp)}</Bold>
         </div>
         <div className={styles.Row}>

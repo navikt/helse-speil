@@ -18,7 +18,8 @@
 }
 
 .NegativePenger {
-    color: var(--navds-global-color-nav-red);
+    color: var(--navds-semantic-color-feedback-danger-text);
+    font-weight: bold;
 }
 
 .ErrorMessage {

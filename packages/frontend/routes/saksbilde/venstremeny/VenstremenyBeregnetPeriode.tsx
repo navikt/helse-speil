@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react';
 
+import { useForrigeGenerasjonPeriode } from '@hooks/useForrigeGenerasjonPeriode';
 import { Arbeidsgiver, Dag, Periode, Utbetalingsdagtype } from '@io/graphql';
-import { usePeriodIsInGeneration } from '@state/arbeidsgiver';
 import { getRequiredVilkårsgrunnlag, getVilkårsgrunnlag } from '@state/selectors/person';
 
 import {
@@ -38,12 +38,7 @@ export const VenstremenyBeregnetPeriode: React.FC<VenstremenyBeregnetPeriodeProp
     const dager = useTabelldagerMap({ tidslinje: activePeriod.tidslinje });
     const utbetalingsdager = getDagerMedUtbetaling(useMemo(() => Array.from(dager.values()), [dager]));
 
-    const currentGeneration = usePeriodIsInGeneration();
-    const forrigeGenerasjonPeriode: Maybe<Periode> | undefined = getForrigeGenerasjonPeriode(
-        currentGeneration,
-        currentArbeidsgiver,
-        activePeriod.vedtaksperiodeId
-    );
+    const forrigeGenerasjonPeriode: Maybe<Periode> | undefined = useForrigeGenerasjonPeriode();
 
     const gamleDager = useTabelldagerMap({ tidslinje: forrigeGenerasjonPeriode?.tidslinje ?? [] });
     const gamleUtbetalingsdager = getDagerMedUtbetaling(useMemo(() => Array.from(gamleDager.values()), [gamleDager]));
@@ -69,17 +64,6 @@ export const VenstremenyBeregnetPeriode: React.FC<VenstremenyBeregnetPeriodeProp
         </section>
     );
 };
-
-const getForrigeGenerasjonPeriode = (
-    currentGeneration: number | null,
-    currentArbeidsgiver: Arbeidsgiver,
-    aktivVedtaksperiodeId: string
-) =>
-    currentGeneration
-        ? currentArbeidsgiver.generasjoner[currentGeneration + 1]?.perioder.find(
-              (periode) => periode.vedtaksperiodeId === aktivVedtaksperiodeId
-          )
-        : null;
 
 const getTotalbeløp = (gamleUtbetalingsdager: Array<UtbetalingstabellDag>) =>
     gamleUtbetalingsdager.length > 0
