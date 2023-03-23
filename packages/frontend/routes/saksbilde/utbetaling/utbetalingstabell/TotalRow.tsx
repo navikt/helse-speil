@@ -14,15 +14,15 @@ const harPersonutbetaling = (dag: UtbetalingstabellDag): boolean =>
 const harArbeidsgiverutbetaling = (dag: UtbetalingstabellDag): boolean =>
     typeof dag.arbeidsgiverbeløp === 'number' && dag.arbeidsgiverbeløp > 0;
 
-const getDagerMedUtbetaling = (dager: Array<UtbetalingstabellDag>): Array<UtbetalingstabellDag> =>
+export const getDagerMedUtbetaling = (dager: Array<UtbetalingstabellDag>): Array<UtbetalingstabellDag> =>
     dager
         .filter((dag) => harPersonutbetaling(dag) || harArbeidsgiverutbetaling(dag))
         .filter((dag) => dag.type !== 'Avslått');
 
-const getTotalPersonbeløp = (dager: Array<UtbetalingstabellDag>): number =>
+export const getTotalPersonbeløp = (dager: Array<UtbetalingstabellDag>): number =>
     dager.reduce((total, dag) => total + (dag.personbeløp ?? 0), 0);
 
-const getTotalArbeidsgiverbeløp = (dager: Array<UtbetalingstabellDag>): number =>
+export const getTotalArbeidsgiverbeløp = (dager: Array<UtbetalingstabellDag>): number =>
     dager.reduce((total, dag) => total + (dag.arbeidsgiverbeløp ?? 0), 0);
 
 interface TotalRowProps {

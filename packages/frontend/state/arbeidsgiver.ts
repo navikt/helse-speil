@@ -83,7 +83,7 @@ export const usePeriodForSkjæringstidspunkt = (skjæringstidspunkt: DateString)
         .shift() ?? null) as ActivePeriod | null;
 };
 
-const usePeriodIsInGeneration = (): number | null => {
+export const usePeriodIsInGeneration = (): number | null => {
     const period = useActivePeriod();
     const arbeidsgiver = useCurrentArbeidsgiver();
 

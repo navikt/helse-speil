@@ -20,6 +20,9 @@ interface UtbetalingCardProps {
     personinfo: Personinfo;
     arbeidsgiversimulering?: Maybe<Simulering>;
     personsimulering?: Maybe<Simulering>;
+    periodePersonNettoBeløp: number;
+    periodeArbeidsgiverNettoBeløp: number;
+    gammeltTotalbeløp?: number;
 }
 
 const UtbetalingCardBeregnet = ({
@@ -30,39 +33,62 @@ const UtbetalingCardBeregnet = ({
     personinfo,
     arbeidsgiversimulering,
     personsimulering,
-}: UtbetalingCardProps) => {
-    return (
-        <section className={styles.Card}>
-            <CardTitle>TIL UTBETALING</CardTitle>
-            <div className={styles.Grid}>
-                <BodyShort>Sykepengegrunnlag</BodyShort>
-                <BodyShort>{somPenger(vilkårsgrunnlag?.sykepengegrunnlag)}</BodyShort>
-                <BodyShort>Utbetalingsdager</BodyShort>
-                <BodyShort>{antallUtbetalingsdager}</BodyShort>
-            </div>
-            <BeløpTilUtbetaling
-                utbetaling={utbetaling}
-                arbeidsgiver={arbeidsgiver}
-                personinfo={personinfo}
-                arbeidsgiversimulering={arbeidsgiversimulering}
-                personsimulering={personsimulering}
+    periodePersonNettoBeløp,
+    periodeArbeidsgiverNettoBeløp,
+    gammeltTotalbeløp,
+}: UtbetalingCardProps) => (
+    <section className={styles.Card}>
+        <CardTitle>SENDT TIL UTBETALING</CardTitle>
+        <div className={styles.Grid}>
+            <BodyShort>Sykepengegrunnlag</BodyShort>
+            <BodyShort>{somPenger(vilkårsgrunnlag?.sykepengegrunnlag)}</BodyShort>
+            <BodyShort>Utbetalingsdager</BodyShort>
+            <BodyShort>{antallUtbetalingsdager}</BodyShort>
+        </div>
+        {gammeltTotalbeløp && (
+            <Differansevisning
+                gammeltTotalbeløp={gammeltTotalbeløp}
+                differanse={periodePersonNettoBeløp + periodeArbeidsgiverNettoBeløp - gammeltTotalbeløp}
             />
-            {!arbeidsgiversimulering && !personsimulering && (
-                <BodyShort className={styles.ErrorMessage}>Mangler simulering</BodyShort>
-            )}
-        </section>
-    );
-};
+        )}
+        <BeløpTilUtbetaling
+            utbetaling={utbetaling}
+            arbeidsgiver={arbeidsgiver}
+            personinfo={personinfo}
+            arbeidsgiversimulering={arbeidsgiversimulering}
+            personsimulering={personsimulering}
+            periodePersonNettoBeløp={periodePersonNettoBeløp}
+            periodeArbeidsgiverNettoBeløp={periodeArbeidsgiverNettoBeløp}
+        />
+        {!arbeidsgiversimulering && !personsimulering && (
+            <BodyShort className={styles.ErrorMessage}>Mangler simulering</BodyShort>
+        )}
+    </section>
+);
 
-const UtbetalingCardSkeleton: React.FC = () => {
-    return (
-        <section className={classNames(styles.Skeleton, styles.Card)}>
-            <LoadingShimmer style={{ width: 100 }} />
-            <LoadingShimmer />
-            <LoadingShimmer />
-        </section>
-    );
-};
+interface DifferansevisningProps {
+    gammeltTotalbeløp: number;
+    differanse: number;
+}
+
+const Differansevisning = ({ gammeltTotalbeløp, differanse }: DifferansevisningProps) => (
+    <div className={styles.Grid}>
+        <BodyShort>Tidligere utbetalt</BodyShort>
+        <BodyShort>{somPenger(gammeltTotalbeløp)}</BodyShort>
+        <BodyShort>Differanse</BodyShort>
+        <BodyShort className={classNames({ [styles.NegativePenger]: differanse < 0 })}>
+            {somPenger(differanse)}
+        </BodyShort>
+    </div>
+);
+
+const UtbetalingCardSkeleton: React.FC = () => (
+    <section className={classNames(styles.Skeleton, styles.Card)}>
+        <LoadingShimmer style={{ width: 100 }} />
+        <LoadingShimmer />
+        <LoadingShimmer />
+    </section>
+);
 
 export const UtbetalingCard = {
     Beregnet: UtbetalingCardBeregnet,

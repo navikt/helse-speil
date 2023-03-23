@@ -29,6 +29,8 @@ type BeløpTilUtbetalingProps = {
     personinfo: Personinfo;
     arbeidsgiversimulering?: Maybe<Simulering>;
     personsimulering?: Maybe<Simulering>;
+    periodePersonNettoBeløp: number;
+    periodeArbeidsgiverNettoBeløp: number;
 };
 
 export const BeløpTilUtbetaling = ({
@@ -37,49 +39,45 @@ export const BeløpTilUtbetaling = ({
     personinfo,
     personsimulering,
     arbeidsgiversimulering,
-}: BeløpTilUtbetalingProps) => {
-    return (
-        <div className={styles.TilUtbetaling}>
-            <div className={styles.Row}>
-                <Bold>
-                    {utbetaling.status !== Utbetalingstatus.Ubetalt ? 'Utbetalt beløp' : 'Beløp til utbetaling'}
-                </Bold>
-                <Bold className={styles.Total}>
-                    {somPenger(utbetaling.arbeidsgiverNettoBelop + utbetaling.personNettoBelop)}
-                </Bold>
-            </div>
-            <div className={styles.Row}>
-                <Tooltip content="Arbeidsgiver">
-                    <div>
-                        <Arbeidsgiverikon alt="Arbeidsgiver" />
-                    </div>
-                </Tooltip>
-                <AnonymizableTextWithEllipsis>{arbeidsgiver}</AnonymizableTextWithEllipsis>
-                <BodyShort>{somPenger(utbetaling.arbeidsgiverNettoBelop)}</BodyShort>
-            </div>
-            {arbeidsgiversimulering && isSimulering(arbeidsgiversimulering) && (
-                <OpenSimuleringButton
-                    simulering={arbeidsgiversimulering}
-                    utbetaling={utbetaling}
-                    className={styles.SimuleringButton}
-                />
-            )}
-            <div className={styles.Row}>
-                <Tooltip content="Sykmeldt">
-                    <div>
-                        <Sykmeldtikon alt="Sykmeldt" />
-                    </div>
-                </Tooltip>
-                <AnonymizableTextWithEllipsis>{getFormattedName(personinfo)}</AnonymizableTextWithEllipsis>
-                <BodyShort>{somPenger(utbetaling.personNettoBelop)}</BodyShort>
-            </div>
-            {personsimulering && isSimulering(personsimulering) && (
-                <OpenSimuleringButton
-                    simulering={personsimulering}
-                    utbetaling={utbetaling}
-                    className={styles.SimuleringButton}
-                />
-            )}
+    periodePersonNettoBeløp,
+    periodeArbeidsgiverNettoBeløp,
+}: BeløpTilUtbetalingProps) => (
+    <div className={styles.TilUtbetaling}>
+        <div className={styles.Row}>
+            <Bold>{utbetaling.status !== Utbetalingstatus.Ubetalt ? 'Utbetalt beløp' : 'Beløp til utbetaling'}</Bold>
+            <Bold className={styles.Total}>{somPenger(periodePersonNettoBeløp + periodeArbeidsgiverNettoBeløp)}</Bold>
         </div>
-    );
-};
+        <div className={styles.Row}>
+            <Tooltip content="Arbeidsgiver">
+                <div>
+                    <Arbeidsgiverikon alt="Arbeidsgiver" />
+                </div>
+            </Tooltip>
+            <AnonymizableTextWithEllipsis>{arbeidsgiver}</AnonymizableTextWithEllipsis>
+            <BodyShort>{somPenger(periodeArbeidsgiverNettoBeløp)}</BodyShort>
+        </div>
+        {arbeidsgiversimulering && isSimulering(arbeidsgiversimulering) && (
+            <OpenSimuleringButton
+                simulering={arbeidsgiversimulering}
+                utbetaling={utbetaling}
+                className={styles.SimuleringButton}
+            />
+        )}
+        <div className={styles.Row}>
+            <Tooltip content="Sykmeldt">
+                <div>
+                    <Sykmeldtikon alt="Sykmeldt" />
+                </div>
+            </Tooltip>
+            <AnonymizableTextWithEllipsis>{getFormattedName(personinfo)}</AnonymizableTextWithEllipsis>
+            <BodyShort>{somPenger(periodePersonNettoBeløp)}</BodyShort>
+        </div>
+        {personsimulering && isSimulering(personsimulering) && (
+            <OpenSimuleringButton
+                simulering={personsimulering}
+                utbetaling={utbetaling}
+                className={styles.SimuleringButton}
+            />
+        )}
+    </div>
+);
