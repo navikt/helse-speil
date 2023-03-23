@@ -31,7 +31,7 @@ export const Inntektoverstyringhendelse: React.FC<InntektoverstyringhendelseProp
                     title={erRevurdering ? 'Månedsinntekt revurdert' : 'Månedsinntekt endret'}
                     icon={
                         <Kilde type={Inntektskilde.Saksbehandler}>
-                            <CaseworkerFilled height={20} width={20} />
+                            <CaseworkerFilled title="Caseworker-ikon" height={20} width={20} />
                         </Kilde>
                     }
                 >
@@ -69,7 +69,7 @@ export const Inntektoverstyringhendelse: React.FC<InntektoverstyringhendelseProp
                     title={erRevurdering ? 'Refusjon revurdert' : 'Refusjon endret'}
                     icon={
                         <Kilde type={Inntektskilde.Saksbehandler}>
-                            <CaseworkerFilled height={20} width={20} />
+                            <CaseworkerFilled title="Caseworker-ikon" height={20} width={20} />
                         </Kilde>
                     }
                 >

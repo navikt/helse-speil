@@ -24,7 +24,7 @@ export const Arbeidsforholdoverstyringhendelse: React.FC<Arbeidsforholdoverstyri
     return (
         <Hendelse
             title={erDeaktivert ? 'Brukes ikke i beregningen' : 'Brukes i beregningen'}
-            icon={<CaseworkerFilled height={20} width={20} />}
+            icon={<CaseworkerFilled title="Caseworker-ikon" height={20} width={20} />}
         >
             <ExpandableHistorikkContent>
                 <div className={styles.Grid}>

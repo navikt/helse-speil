@@ -25,7 +25,7 @@ export const ScrollButtons: React.FC<ScrollButtonsProps> = ({
                 disabled={!canNavigateForwards}
                 aria-label="Navigate forwards"
             >
-                <Back />
+                <Back title="Back-icon" />
             </button>
             <button
                 className={styles.Button}
@@ -33,7 +33,7 @@ export const ScrollButtons: React.FC<ScrollButtonsProps> = ({
                 disabled={!canNavigateBackwards}
                 aria-label="Navigate backwards"
             >
-                <Next />
+                <Next title="Next-icon" />
             </button>
         </div>
     );

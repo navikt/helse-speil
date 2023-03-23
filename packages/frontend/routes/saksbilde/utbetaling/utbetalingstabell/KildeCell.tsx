@@ -27,7 +27,7 @@ const getKildeTypeIcon = (
                 <EndringsloggButton endringer={overstyringer} />
             ) : (
                 <Kilde type={Kildetype.Saksbehandler}>
-                    <CaseworkerFilled height={10} width={10} />
+                    <CaseworkerFilled title="Caseworker-ikon" height={10} width={10} />
                 </Kilde>
             );
         default:

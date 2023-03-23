@@ -16,7 +16,7 @@ import styles from './Header.module.css';
 export const Header = () => {
     return (
         <InternalHeader className={styles.Header}>
-            <InternalHeader.Title as="h1">
+            <InternalHeader.Title as="span">
                 <Link to="/" className={styles.Link}>
                     NAV Sykepenger
                 </Link>
@@ -25,7 +25,7 @@ export const Header = () => {
             <EasterEgg />
             {toggleMeny && <ToggleMenyButton />}
             {graphqlplayground && (
-                <InternalHeader.Title as="h1">
+                <InternalHeader.Title as="span">
                     <Link to="/playground" className={styles.Link}>
                         GraphQL Playground
                     </Link>

@@ -62,7 +62,7 @@ export const SystemMenuContent = () => {
     return (
         <Dropdown>
             <Header.Button as={Dropdown.Toggle} aria-label="Toggle dropdown">
-                <System className={styles.SystemIcon} />
+                <System className={styles.SystemIcon} title="Toggle dropdown" />
             </Header.Button>
             <Dropdown.Menu className={styles.DropdownContent}>
                 <Dropdown.Menu.GroupedList>

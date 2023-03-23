@@ -109,7 +109,7 @@ export const DropdownMenu: React.FC = () => {
         <span ref={content}>
             <Dropdown onSelect={closeDropdown}>
                 <TabButton as={Dropdown.Toggle} className={styles.MenuButton} onClick={toggleDropdown}>
-                    Meny {open ? <Collapse /> : <Expand />}
+                    Meny {open ? <Collapse title="collapse" /> : <Expand title="expand" />}
                 </TabButton>
                 <React.Suspense fallback={<DropdownMenuContentSkeleton />}>
                     <DropdownMenuContent />

@@ -7,6 +7,6 @@ interface CloseButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement>
 
 export const CloseButton = (props: CloseButtonProps) => (
     <RoundedButton {...props}>
-        <Kryssikon />
+        <Kryssikon alt="Kryssikon" />
     </RoundedButton>
 );

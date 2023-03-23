@@ -129,11 +129,11 @@ export const Notathendelse: React.FC<NotathendelseProps> = ({
 
     const icon =
         notattype === 'PaaVent' ? (
-            <StopWatch className={classNames(styles.Innrammet, styles.LagtPaaVent)} />
+            <StopWatch title="Stop-watch-ikon" className={classNames(styles.Innrammet, styles.LagtPaaVent)} />
         ) : notattype === 'Retur' ? (
-            <Send className={classNames(styles.Innrammet, styles.Retur)} />
+            <Send title="Send-ikon" className={classNames(styles.Innrammet, styles.Retur)} />
         ) : (
-            <SpeechBubble className={classNames(styles.Innrammet, styles.InnrammetNotat)} />
+            <SpeechBubble title="Speech-bubble-ikon" className={classNames(styles.Innrammet, styles.InnrammetNotat)} />
         );
     return (
         <Hendelse title={title} icon={icon}>

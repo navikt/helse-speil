@@ -55,7 +55,7 @@ export const EndringsloggButton = <T extends Overstyring>({
         <>
             <Button type="button" ref={buttonRef} {...buttonProps} onClick={() => setVisEndringslogg(true)}>
                 <Kilde type={Kildetype.Saksbehandler}>
-                    <CaseworkerFilled height={20} width={20} />
+                    <CaseworkerFilled title="Caseworker-ikon" height={20} width={20} />
                 </Kilde>
             </Button>
             {isArbeidsforholdoverstyringer(endringer) ? (

@@ -31,16 +31,16 @@ const getTitle = (type: PeriodehistorikkType): string => {
 const getIcon = (type: PeriodehistorikkType): ReactNode => {
     switch (type) {
         case PeriodehistorikkType.TotrinnsvurderingAttestert: {
-            return <Success className={classNames(styles.Innrammet, styles.Attestert)} />;
+            return <Success title="Success-ikon" className={classNames(styles.Innrammet, styles.Attestert)} />;
         }
         case PeriodehistorikkType.TotrinnsvurderingRetur: {
-            return <Cancel className={classNames(styles.Innrammet)} />;
+            return <Cancel title="Cancel-ikon" className={classNames(styles.Innrammet)} />;
         }
         case PeriodehistorikkType.TotrinnsvurderingTilGodkjenning: {
-            return <Send className={classNames(styles.Innrammet, styles.TilGodkjenning)} />;
+            return <Send title="Send-ikon" className={classNames(styles.Innrammet, styles.TilGodkjenning)} />;
         }
         case PeriodehistorikkType.VedtaksperiodeReberegnet: {
-            return <Refresh className={classNames(styles.Innrammet)} />;
+            return <Refresh title="Refresh-ikon" className={classNames(styles.Innrammet)} />;
         }
     }
 };

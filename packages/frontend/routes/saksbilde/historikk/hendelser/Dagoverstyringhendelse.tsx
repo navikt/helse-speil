@@ -63,7 +63,7 @@ export const Dagoverstyringhendelse: React.FC<DagoverstyringhendelseProps> = ({
         title={erRevurdering ? 'Utbetalingsdager revurdert' : 'Utbetalingsdager endret'}
         icon={
             <Kilde type={Inntektskilde.Saksbehandler}>
-                <CaseworkerFilled height={20} width={20} />
+                <CaseworkerFilled title="Caseworker-ikon" height={20} width={20} />
             </Kilde>
         }
     >

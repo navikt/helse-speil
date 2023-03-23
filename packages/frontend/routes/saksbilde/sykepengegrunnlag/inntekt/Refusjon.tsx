@@ -252,7 +252,7 @@ export const Refusjon = ({ fraRefusjonsopplysninger, lokaleRefusjonsopplysninger
                                         </div>
                                     ) : (
                                         <Kilde type={refusjonsopplysning.kilde} className={styles.Ikon}>
-                                            <CaseworkerFilled height={12} width={12} />
+                                            <CaseworkerFilled title="Caseworker-ikon" height={12} width={12} />
                                         </Kilde>
                                     ))}
                             </Flex>
