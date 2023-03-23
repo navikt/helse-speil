@@ -6,6 +6,8 @@ import type { PopoverProps } from '@navikt/ds-react';
 import { BodyShort, Popover } from '@navikt/ds-react';
 
 import { ErrorBoundary } from '@components/ErrorBoundary';
+import { useForrigeGenerasjonPeriodeMedPeriode } from '@hooks/useForrigeGenerasjonPeriode';
+import { useTotalbeløp } from '@hooks/useTotalbeløp';
 import { NotatType, Utbetalingsdagtype } from '@io/graphql';
 import { NORSK_DATOFORMAT } from '@utils/date';
 import { somPenger } from '@utils/locale';
@@ -82,6 +84,12 @@ export const BeregnetPopover: React.FC<SpleisPopoverProps> = ({ period, state, f
     const avslåttperiode = getDayTypesRender(Utbetalingsdagtype.AvvistDag, dayTypes);
     const harGenereltNotat = period.notater.filter((notat) => notat.type === NotatType.Generelt).length > 0;
 
+    const { personTotalbeløp, arbeidsgiverTotalbeløp, totalbeløp } = useTotalbeløp(period.tidslinje);
+
+    const forrigePeriode = useForrigeGenerasjonPeriodeMedPeriode(period);
+
+    const { totalbeløp: gammeltTotalbeløp } = useTotalbeløp(forrigePeriode?.tidslinje);
+
     return (
         <>
             <BodyShort size="small">{getPeriodStateText(state)}</BodyShort>
@@ -106,7 +114,7 @@ export const BeregnetPopover: React.FC<SpleisPopoverProps> = ({ period, state, f
                     <BodyShort size="small">
                         {state === 'tilGodkjenning' ? 'Utbetaling' : 'Utbetalt'} til sykmeldt:
                     </BodyShort>
-                    <BodyShort size="small">{somPenger(period.utbetaling.personNettoBelop)}</BodyShort>
+                    <BodyShort size="small">{somPenger(personTotalbeløp)}</BodyShort>
                 </>
             )}
             {period.utbetaling.arbeidsgiverNettoBelop !== 0 && (
@@ -114,7 +122,18 @@ export const BeregnetPopover: React.FC<SpleisPopoverProps> = ({ period, state, f
                     <BodyShort size="small">
                         {state === 'tilGodkjenning' ? 'Utbetaling' : 'Utbetalt'} til arbeidsgiver:
                     </BodyShort>
-                    <BodyShort size="small">{somPenger(period.utbetaling.arbeidsgiverNettoBelop)}</BodyShort>
+                    <BodyShort size="small">{somPenger(arbeidsgiverTotalbeløp)}</BodyShort>
+                </>
+            )}
+            {forrigePeriode && (
+                <>
+                    <BodyShort size="small">Differanse</BodyShort>
+                    <BodyShort
+                        size="small"
+                        className={classNames({ [styles.NegativePenger]: totalbeløp - gammeltTotalbeløp < 0 })}
+                    >
+                        {somPenger(totalbeløp - gammeltTotalbeløp)}
+                    </BodyShort>
                 </>
             )}
             {arbeidsgiverperiode && (

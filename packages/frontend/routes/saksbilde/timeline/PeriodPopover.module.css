@@ -10,6 +10,11 @@
     grid-area: title;
 }
 
+.NegativePenger {
+    color: var(--navds-semantic-color-feedback-danger-text);
+    font-weight: bold;
+}
+
 .Error {
     color: var(--navds-semantic-color-feedback-danger-text);
     font-style: italic;

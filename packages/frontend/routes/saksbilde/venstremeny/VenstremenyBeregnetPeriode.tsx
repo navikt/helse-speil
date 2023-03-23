@@ -1,15 +1,10 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 
 import { useForrigeGenerasjonPeriode } from '@hooks/useForrigeGenerasjonPeriode';
+import { useTotalbeløp } from '@hooks/useTotalbeløp';
 import { Arbeidsgiver, Dag, Periode, Utbetalingsdagtype } from '@io/graphql';
 import { getRequiredVilkårsgrunnlag, getVilkårsgrunnlag } from '@state/selectors/person';
 
-import {
-    getDagerMedUtbetaling,
-    getTotalArbeidsgiverbeløp,
-    getTotalPersonbeløp,
-} from '../utbetaling/utbetalingstabell/TotalRow';
-import { useTabelldagerMap } from '../utbetaling/utbetalingstabell/useTabelldagerMap';
 import { PeriodeCard } from './PeriodeCard';
 import { UtbetalingCard } from './UtbetalingCard';
 import { Utbetaling } from './utbetaling/Utbetaling';
@@ -35,13 +30,11 @@ export const VenstremenyBeregnetPeriode: React.FC<VenstremenyBeregnetPeriodeProp
 
     const vilkårsgrunnlag = getVilkårsgrunnlag(currentPerson, activePeriod.vilkarsgrunnlagId);
 
-    const dager = useTabelldagerMap({ tidslinje: activePeriod.tidslinje });
-    const utbetalingsdager = getDagerMedUtbetaling(useMemo(() => Array.from(dager.values()), [dager]));
+    const { personTotalbeløp, arbeidsgiverTotalbeløp } = useTotalbeløp(activePeriod.tidslinje);
 
     const forrigeGenerasjonPeriode: Maybe<Periode> | undefined = useForrigeGenerasjonPeriode();
 
-    const gamleDager = useTabelldagerMap({ tidslinje: forrigeGenerasjonPeriode?.tidslinje ?? [] });
-    const gamleUtbetalingsdager = getDagerMedUtbetaling(useMemo(() => Array.from(gamleDager.values()), [gamleDager]));
+    const { totalbeløp: gammeltTotalbeløp } = useTotalbeløp(forrigeGenerasjonPeriode?.tidslinje);
 
     return (
         <section className={styles.Venstremeny}>
@@ -54,9 +47,9 @@ export const VenstremenyBeregnetPeriode: React.FC<VenstremenyBeregnetPeriodeProp
                 personinfo={currentPerson.personinfo}
                 arbeidsgiversimulering={activePeriod.utbetaling.arbeidsgiversimulering}
                 personsimulering={activePeriod.utbetaling.personsimulering}
-                periodeArbeidsgiverNettoBeløp={getTotalArbeidsgiverbeløp(utbetalingsdager)}
-                periodePersonNettoBeløp={getTotalPersonbeløp(utbetalingsdager)}
-                gammeltTotalbeløp={getTotalbeløp(gamleUtbetalingsdager)}
+                periodeArbeidsgiverNettoBeløp={arbeidsgiverTotalbeløp}
+                periodePersonNettoBeløp={personTotalbeløp}
+                gammeltTotalbeløp={gammeltTotalbeløp}
             />
             {!readOnly && (
                 <Utbetaling period={activePeriod} person={currentPerson} arbeidsgiver={currentArbeidsgiver.navn} />
@@ -64,11 +57,6 @@ export const VenstremenyBeregnetPeriode: React.FC<VenstremenyBeregnetPeriodeProp
         </section>
     );
 };
-
-const getTotalbeløp = (gamleUtbetalingsdager: Array<UtbetalingstabellDag>) =>
-    gamleUtbetalingsdager.length > 0
-        ? gamleUtbetalingsdager.reduce((total, dag) => total + (dag.personbeløp ?? 0) + (dag.arbeidsgiverbeløp ?? 0), 0)
-        : undefined;
 
 const getNumberOfDaysWithType = (timeline: Array<Dag>, type: Utbetalingsdagtype): number =>
     timeline.filter((it) => it.utbetalingsdagtype === type).length;
