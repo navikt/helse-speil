@@ -10,7 +10,7 @@
 .Content {
     margin: 0 1.5rem 1.5rem;
     padding: 0;
-    color: var(--navds-semantic-color-text);
+    color: var(--a-text-default);
     overflow: auto hidden;
     box-sizing: border-box;
     flex: 1;

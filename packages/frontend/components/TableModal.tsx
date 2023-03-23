@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import React from 'react';
 
-import { Modal as SpeilModal, ModalProps } from './Modal';
+import { ModalProps, Modal as SpeilModal } from './Modal';
 
 const Table = styled.table`
     th,
@@ -17,11 +17,11 @@ const Table = styled.table`
         text-align: left;
         font-weight: 400;
         font-size: 14px;
-        color: var(--navds-global-color-gray-800);
+        color: var(--a-gray-800);
     }
 
     tbody > tr:nth-of-type(2n-1) > td {
-        background-color: var(--navds-global-color-gray-100);
+        background-color: var(--a-gray-100);
     }
 `;
 

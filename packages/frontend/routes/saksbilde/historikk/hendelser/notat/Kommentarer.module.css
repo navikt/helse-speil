@@ -1,11 +1,11 @@
 .Kommentarer {
     display: flex;
     flex-direction: column;
-    font-size: var(--navds-font-size-medium);
+    font-size: var(--a-font-size-medium);
 }
 
 .Kommentarer > p {
-    font-weight: var(--navds-font-weight-bold);
+    font-weight: var(--a-font-weight-bold);
 }
 
 .Kommentar {
@@ -22,7 +22,7 @@
     content: '';
     height: 1px;
     width: 200px;
-    background-color: var(--navds-semantic-color-text-muted);
+    background-color: var(--a-text-subtle);
 }
 
 .Kommentarer * {
@@ -32,11 +32,11 @@
 .Kommentar pre {
     margin-right: 48px;
     white-space: normal;
-    line-height: var(--navds-font-line-height-medium);
+    line-height: var(--a-font-line-height-medium);
 }
 
 .Feilregistrert {
-    background: var(--navds-alert-color-error-background);
+    background: var(--a-surface-danger-subtle);
     padding: 0 8px;
     width: 200px;
     font-style: italic;

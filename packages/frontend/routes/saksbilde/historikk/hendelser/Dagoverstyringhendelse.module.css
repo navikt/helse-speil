@@ -13,20 +13,20 @@
 }
 
 .Grid {
-    border-top: 1px solid var(--navds-semantic-color-border);
+    border-top: 1px solid var(--a-border-strong);
 }
 
 .Grid:last-of-type {
-    border-bottom: 1px solid var(--navds-semantic-color-border);
+    border-bottom: 1px solid var(--a-border-strong);
 }
 
 .Grid:nth-child(2n + 1) {
-    background: var(--navds-semantic-color-component-background-alternate);
+    background: var(--a-surface-subtle);
 }
 
 .Grid p {
-    font-size: var(--navds-font-size-medium);
-    line-height: var(--navds-font-line-height-medium);
+    font-size: var(--a-font-size-medium);
+    line-height: var(--a-font-line-height-medium);
 }
 
 .FromValue {

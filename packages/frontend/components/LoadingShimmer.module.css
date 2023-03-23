@@ -14,10 +14,10 @@
     animation-duration: 1s;
     animation-iteration-count: infinite;
     animation-name: placeHolderShimmer;
-    background: var(--navds-semantic-color-divider);
+    background: var(--a-border-divider);
     background-size: 800px 104px;
     border-radius: 4px;
-    height: var(--navds-font-line-height-medium);
+    height: var(--a-font-line-height-medium);
     width: 100%;
     display: block;
 }

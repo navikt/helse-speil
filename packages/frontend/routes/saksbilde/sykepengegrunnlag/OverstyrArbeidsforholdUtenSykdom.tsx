@@ -41,7 +41,7 @@ const FormContainer = styled(FlexColumn)<{ editing: boolean }>`
         props.editing &&
         css`
             margin-left: -15px;
-            border-left: 3px solid var(--navds-semantic-color-interaction-primary);
+            border-left: 3px solid var(--a-surface-action);
             padding: 0.5rem 1rem;
         `};
 `;
@@ -63,7 +63,7 @@ const Tittel = styled(BodyShort)`
     align-items: center;
     font-size: 18px;
     font-weight: 600;
-    color: var(--navds-semantic-color-text);
+    color: var(--a-text-default);
 `;
 
 const Buttons = styled.span`
@@ -85,7 +85,7 @@ const FormButton = styled(NavButton)`
     &:disabled,
     &.navds-button:disabled {
         border-width: 2px;
-        border-color: var(--navds-semantic-color-border-muted);
+        border-color: var(--a-border-default);
         padding: 5px 23px;
     }
 

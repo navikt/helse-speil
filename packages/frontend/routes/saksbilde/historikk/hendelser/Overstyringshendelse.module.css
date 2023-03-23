@@ -9,8 +9,8 @@
 }
 
 .Grid p {
-    font-size: var(--navds-font-size-medium);
-    line-height: var(--navds-font-line-height-medium);
+    font-size: var(--a-font-size-medium);
+    line-height: var(--a-font-line-height-medium);
     word-break: break-word;
     grid-column: 1 / span 2;
 }

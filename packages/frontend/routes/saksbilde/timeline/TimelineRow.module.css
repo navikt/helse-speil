@@ -41,7 +41,7 @@
 
 .Expandable {
     padding: 0 0 0 var(--carret-padding);
-    color: var(--navds-semantic-color-interaction-primary);
+    color: var(--a-surface-action);
     outline: none;
     background: none;
     border: none;
@@ -54,7 +54,7 @@
 }
 
 .Expandable:focus-visible {
-    box-shadow: var(--navds-shadow-focus);
+    box-shadow: var(--a-shadow-focus);
 }
 
 .Expandable:before {
@@ -63,7 +63,7 @@
     height: 8px;
     flex-shrink: 0;
     background: #fff;
-    box-shadow: 1.5px 1.5px 0 0 var(--navds-semantic-color-interaction-primary);
+    box-shadow: 1.5px 1.5px 0 0 var(--a-surface-action);
     transform-origin: 80% 80%;
     transform: translate(-50%, -30%) rotate(-45deg);
 }

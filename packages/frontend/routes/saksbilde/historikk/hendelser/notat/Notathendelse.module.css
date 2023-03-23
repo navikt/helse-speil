@@ -1,12 +1,12 @@
 .Feilregistrert {
-    color: var(--navds-semantic-color-feedback-danger-text);
+    color: var(--a-text-danger);
 }
 
 .Innrammet {
     width: 20px;
     height: 16px;
-    border: 1px solid var(--navds-global-color-gray-700);
-    background: var(--navds-global-color-gray-100);
+    border: 1px solid var(--a-gray-700);
+    background: var(--a-gray-100);
     border-radius: 3px;
 }
 
@@ -31,8 +31,8 @@
 .Notat,
 .NotatTruncated {
     max-width: 100%;
-    font-size: var(--navds-font-size-medium);
-    line-height: var(--navds-font-line-height-medium);
+    font-size: var(--a-font-size-medium);
+    line-height: var(--a-font-line-height-medium);
 }
 
 .NotatTruncated {
@@ -48,7 +48,7 @@
 }
 
 .NotatTextWrapper:focus-visible {
-    box-shadow: var(--navds-shadow-focus);
+    box-shadow: var(--a-shadow-focus);
 }
 
 .NotatContent {
@@ -58,6 +58,6 @@
 }
 
 .LeggTilKommentarButton {
-    font-size: var(--navds-font-size-medium);
+    font-size: var(--a-font-size-medium);
     width: max-content;
 }

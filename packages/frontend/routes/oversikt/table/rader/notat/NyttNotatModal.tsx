@@ -31,7 +31,7 @@ const Buttons = styled.span`
 const Tittel = styled.h1`
     font-size: 24px;
     font-weight: 600;
-    color: var(--navds-semantic-color-text);
+    color: var(--a-text-default);
     margin-bottom: 0.5rem;
 `;
 

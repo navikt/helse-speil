@@ -1,4 +1,3 @@
-import { Vilkårstype } from '../../../mapping/vilkår';
 import { IkonContainer } from './Vilkår.styles';
 import styled from '@emotion/styled';
 import classNames from 'classnames';
@@ -9,6 +8,8 @@ import { BodyShort } from '@navikt/ds-react';
 import { Kryssikon } from '@components/ikoner/Kryssikon';
 import { Sjekkikon } from '@components/ikoner/Sjekkikon';
 import { Utropstegnikon } from '@components/ikoner/Utropstegnikon';
+
+import { Vilkårstype } from '../../../mapping/vilkår';
 
 const Header = styled.div`
     display: flex;
@@ -28,7 +29,7 @@ const TekstContainer = styled.div`
 export const Tittel = styled(BodyShort)`
     display: flex;
     align-items: center;
-    color: var(--navds-semantic-color-text);
+    color: var(--a-text-default);
     font-size: 18px;
     font-weight: 600;
     margin-right: 0.5rem;
@@ -40,7 +41,7 @@ export const Paragraf = styled(BodyShort)`
     font-size: 14px;
     display: flex;
     align-items: center;
-    color: var(--navds-semantic-color-text-muted);
+    color: var(--a-text-subtle);
     white-space: nowrap;
     min-height: 1.5rem;
 `;

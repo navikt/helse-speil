@@ -26,7 +26,7 @@ const Agurktekst = styled(BodyShort)`
 const Utviklermelding = styled.span`
     display: flex;
     align-items: center;
-    color: var(--navds-semantic-color-text);
+    color: var(--a-text-default);
 
     :hover .Clipboard__children {
         border-bottom: none;
@@ -36,8 +36,8 @@ const Feilmelding = styled.p`
     display: block;
     white-space: pre;
     margin: 1em 0;
-    background-color: var(--navds-semantic-color-feedback-danger-background);
-    color: var(--navds-semantic-color-feedback-danger-text);
+    background-color: var(--a-surface-danger-subtle);
+    color: var(--a-text-danger);
     padding: 1rem;
 `;
 

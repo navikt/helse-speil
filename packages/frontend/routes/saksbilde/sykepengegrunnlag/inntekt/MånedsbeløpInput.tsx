@@ -10,24 +10,24 @@ import { SortInfoikon } from '@components/ikoner/SortInfoikon';
 const Input = styled.input<{ error?: boolean }>`
     height: 2rem;
     border-radius: 3px;
-    border: 1px solid var(--navds-semantic-color-border);
+    border: 1px solid var(--a-border-strong);
     outline: none;
 
     &:focus-visible {
-        box-shadow: var(--navds-shadow-focus);
+        box-shadow: var(--a-shadow-focus);
     }
 
     ${({ error }) =>
         error &&
         css`
             border-width: 2px;
-            border-color: var(--navds-semantic-color-feedback-danger-text);
+            border-color: var(--a-text-danger);
         `}
 `;
 
 const Feilmelding = styled.label`
     margin: 0.25rem 0;
-    color: var(--navds-semantic-color-feedback-danger-text);
+    color: var(--a-text-danger);
 `;
 
 interface MånedsbeløpInputProps {

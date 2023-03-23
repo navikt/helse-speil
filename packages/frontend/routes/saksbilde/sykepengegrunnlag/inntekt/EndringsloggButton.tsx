@@ -22,8 +22,8 @@ const Button = styled.button`
     outline: none;
 
     > div:hover {
-        background-color: var(--navds-semantic-color-text);
-        color: var(--navds-global-color-white);
+        background-color: var(--a-text-default);
+        color: var(--a-white);
     }
 `;
 

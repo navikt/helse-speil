@@ -10,7 +10,7 @@
 .Historikk > ul {
     padding: 0 1.5rem 2rem;
     box-sizing: border-box;
-    border-left: 1px solid var(--navds-semantic-color-border);
+    border-left: 1px solid var(--a-border-strong);
     height: 100%;
 }
 
@@ -23,5 +23,5 @@
 }
 
 .Error {
-    background-color: var(--navds-semantic-color-feedback-danger-background);
+    background-color: var(--a-surface-danger-subtle);
 }

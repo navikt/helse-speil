@@ -6,7 +6,7 @@
 }
 
 .NotatButton path {
-    fill: var(--navds-semantic-color-interaction-primary);
+    fill: var(--a-surface-action);
 }
 
 .NotatButton:hover path,
@@ -15,10 +15,10 @@
 }
 
 .NotatButton:focus {
-    box-shadow: 0 0 0 2px var(--navds-semantic-color-focus);
+    box-shadow: 0 0 0 2px var(--a-border-focus);
 }
 
 .NotatButton:active {
-    background: var(--navds-semantic-color-focus);
+    background: var(--a-border-focus);
     box-shadow: none;
 }

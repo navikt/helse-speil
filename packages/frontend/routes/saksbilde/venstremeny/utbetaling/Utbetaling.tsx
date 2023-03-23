@@ -28,7 +28,7 @@ import { SendTilGodkjenningButton } from './SendTilGodkjenningButton';
 import styles from './Utbetaling.module.css';
 
 const InfoText = styled(BodyShort)`
-    color: var(--navds-semantic-color-text);
+    color: var(--a-text-default);
     display: flex;
 `;
 

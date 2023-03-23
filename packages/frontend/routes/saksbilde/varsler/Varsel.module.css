@@ -1,29 +1,29 @@
 .varsel {
     display: flex;
-    gap: var(--navds-spacing-3);
+    gap: var(--a-spacing-3);
     align-items: center;
-    padding-top: var(--navds-spacing-2);
-    padding-bottom: var(--navds-spacing-2);
+    padding-top: var(--a-spacing-2);
+    padding-bottom: var(--a-spacing-2);
 }
 
 .varsel.aktiv {
-    background-color: var(--navds-alert-color-warning-background);
-    border-color: var(--navds-alert-color-warning-border);
+    background-color: var(--a-surface-warning-subtle);
+    border-color: var(--a-border-warning);
 }
 
 .varsel.vurdert {
-    background-color: var(--navds-alert-color-success-background);
-    border-color: var(--navds-alert-color-success-border);
+    background-color: var(--a-surface-success-subtle);
+    border-color: var(--a-border-success);
 }
 
 .varsel.ferdig-behandlet {
     background-color: #f1f1f1;
-    border-color: var(--navds-alert-color-success-border);
+    border-color: var(--a-border-success);
 }
 
 .varsel.feil {
-    background-color: var(--navds-alert-color-error-background);
-    border-color: var(--navds-alert-color-error-border);
+    background-color: var(--a-surface-danger-subtle);
+    border-color: var(--a-border-danger);
 }
 
 .wrapper {
@@ -32,9 +32,9 @@
 }
 
 .vurdering {
-    color: var(--navds-semantic-color-text-muted);
+    color: var(--a-text-subtle);
 }
 
 .error {
-    color: var(--navds-error-message-color-text);
+    color: var(--a-text-danger);
 }

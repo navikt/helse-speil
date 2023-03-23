@@ -65,7 +65,7 @@
 .Button:disabled,
 .Button.navds-button:disabled {
     border-width: 2px;
-    border-color: var(--navds-semantic-color-border-muted);
+    border-color: var(--a-border-default);
     padding: 5px 23px;
 }
 

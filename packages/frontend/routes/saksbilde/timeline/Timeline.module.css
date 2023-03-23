@@ -7,7 +7,7 @@
     display: flex;
     flex-direction: column;
     padding: var(--timeline-padding-top) var(--timeline-padding-horizontal) 0;
-    border-bottom: 1px solid var(--navds-semantic-color-border);
+    border-bottom: 1px solid var(--a-border-strong);
 }
 
 .Rows {
@@ -25,7 +25,7 @@
 }
 
 .Error {
-    background-color: var(--navds-semantic-color-feedback-danger-background);
+    background-color: var(--a-surface-danger-subtle);
     padding: var(--timeline-padding-top) var(--timeline-padding-horizontal);
 }
 

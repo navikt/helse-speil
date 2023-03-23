@@ -1,4 +1,3 @@
-import path from 'path';
 import React from 'react';
 
 import { useId } from '@navikt/ds-react';
@@ -7,7 +6,7 @@ export const IconEgenmelding = ({
     width = 16,
     height = 16,
     alt = 'Egenmeldingikon',
-    fill = 'var(--navds-semantic-color-text)',
+    fill = 'var(--a-text-default)',
 }) => {
     let titleId = useId();
     titleId = alt ? alt + titleId : undefined;

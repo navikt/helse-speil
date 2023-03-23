@@ -1,5 +1,5 @@
 .Tabs {
-    border-bottom: 1px solid var(--navds-semantic-color-border);
+    border-bottom: 1px solid var(--a-border-strong);
     margin: 0.5rem 1.5rem 0;
     display: flex;
     flex-wrap: nowrap;
@@ -26,14 +26,14 @@
     height: max-content;
     font-family: inherit;
     font-size: 1rem;
-    font-weight: var(--navds-font-weight-bold);
-    color: var(--navds-semantic-color-text);
+    font-weight: var(--a-font-weight-bold);
+    color: var(--a-text-default);
     cursor: pointer;
     outline: none;
 }
 
 .Tab > span {
-    font-weight: var(--navds-font-weight-regular);
+    font-weight: var(--a-font-weight-regular);
 }
 
 .Tab:before {
@@ -43,7 +43,7 @@
     height: 0;
     left: 0;
     bottom: 0;
-    background-color: var(--navds-semantic-color-interaction-primary);
+    background-color: var(--a-surface-action);
     border-top-left-radius: 2px;
     border-top-right-radius: 2px;
     transition: height 0.1s ease;
@@ -51,11 +51,11 @@
 
 .Tab:hover,
 .Tab:focus {
-    color: var(--navds-semantic-color-interaction-primary);
+    color: var(--a-surface-action);
 }
 
 .Tab:focus-visible {
-    box-shadow: inset var(--navds-shadow-focus);
+    box-shadow: inset var(--a-shadow-focus);
 }
 
 .Tab.active:before {
@@ -84,11 +84,11 @@
 }
 
 .Button:active {
-    background: var(--navds-semantic-color-interaction-primary);
+    background: var(--a-surface-action);
 }
 
 .Button.active:not(:active) {
-    background: var(--navds-semantic-color-interaction-primary-selected);
+    background: var(--a-surface-action-selected);
 }
 
 .Button.active > svg > path {

@@ -33,7 +33,7 @@ const Form = styled.form`
 const Tittel = styled.h2`
     font-size: 1.5rem;
     font-weight: 600;
-    color: var(--navds-semantic-color-text);
+    color: var(--a-text-default);
     margin-bottom: 2rem;
 `;
 
@@ -46,7 +46,7 @@ const AnnullerKnapp = styled(Button)`
 `;
 
 const Feilmelding = styled(BodyShort)`
-    color: var(--navds-semantic-color-feedback-danger-text);
+    color: var(--a-text-danger);
     font-size: 1rem;
     font-weight: 600;
     margin-top: 0.625rem;

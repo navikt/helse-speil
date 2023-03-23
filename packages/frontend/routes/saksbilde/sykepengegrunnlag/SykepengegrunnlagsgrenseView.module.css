@@ -1,5 +1,5 @@
 .Detail {
-    color: var(--navds-global-color-gray-700);
+    color: var(--a-gray-700);
     display: flex;
     align-items: baseline;
     gap: 8px;

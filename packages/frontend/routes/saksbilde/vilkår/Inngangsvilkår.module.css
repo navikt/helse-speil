@@ -26,5 +26,5 @@
     left: 10px;
     width: calc(100% - 10px);
     height: 1px;
-    background: var(--navds-global-color-gray-200);
+    background: var(--a-gray-200);
 }

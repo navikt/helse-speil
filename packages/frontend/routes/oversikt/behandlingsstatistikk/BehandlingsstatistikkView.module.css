@@ -5,12 +5,12 @@
     gap: 1rem;
     min-width: max-content;
     padding: var(--behandlingsstatistikk-padding);
-    border-left: 1px solid var(--navds-semantic-color-border);
+    border-left: 1px solid var(--a-border-strong);
     height: 100%;
 }
 
 .Behandlingsstatistikk > table {
-    font-size: var(--navds-font-size-medium);
+    font-size: var(--a-font-size-medium);
     border-collapse: separate;
     border-spacing: 16px 0;
     margin: 0 -16px;
@@ -47,13 +47,13 @@
 
 .FooterTotal > span {
     display: inline;
-    font-weight: var(--navds-font-weight-bold);
+    font-weight: var(--a-font-weight-bold);
 }
 
 .FooterTotal > div,
 .FooterTotal > span {
-    font-size: var(--navds-font-size-large);
-    height: var(--navds-font-size-large);
+    font-size: var(--a-font-size-large);
+    height: var(--a-font-size-large);
     width: max-content;
     min-width: 3rem;
 }
@@ -79,10 +79,10 @@
 }
 
 .FooterCell p:first-of-type {
-    font-weight: var(--navds-font-weight-bold);
-    font-size: var(--navds-font-size-heading-xlarge);
-    line-height: var(--navds-font-line-height-heading-xlarge);
-    height: var(--navds-font-line-height-heading-xlarge);
+    font-weight: var(--a-font-weight-bold);
+    font-size: var(--a-font-size-heading-xlarge);
+    line-height: var(--a-font-line-height-heading-xlarge);
+    height: var(--a-font-line-height-heading-xlarge);
     min-width: 5rem;
     width: max-content;
     display: flex;
@@ -91,5 +91,5 @@
 }
 
 .FooterCell p:first-of-type span {
-    height: var(--navds-font-line-height-heading-small);
+    height: var(--a-font-line-height-heading-small);
 }

@@ -21,12 +21,12 @@
 
 .BeregnetGrid > :nth-child(3n) {
     white-space: nowrap;
-    margin-top: var(--navds-spacing-1);
+    margin-top: var(--a-spacing-1);
 }
 
 .Title {
     font-size: 14px;
-    color: var(--navds-semantic-color-text-muted);
+    color: var(--a-text-subtle);
 }
 
 .Divider {

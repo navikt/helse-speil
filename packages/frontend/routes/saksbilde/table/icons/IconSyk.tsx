@@ -2,7 +2,7 @@ import React from 'react';
 
 import { useId } from '@navikt/ds-react';
 
-export const IconSyk = ({ width = 16, height = 16, alt = 'Sykikon', fill = 'var(--navds-semantic-color-text)' }) => {
+export const IconSyk = ({ width = 16, height = 16, alt = 'Sykikon', fill = 'var(--a-text-default)' }) => {
     let titleId = useId();
     titleId = alt ? alt + titleId : undefined;
     return (

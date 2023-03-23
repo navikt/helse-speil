@@ -12,7 +12,7 @@
 
 .Inntekt.editing {
     background-color: #e6f0ff;
-    border-left: var(--border-size) solid var(--navds-semantic-color-interaction-primary);
+    border-left: var(--border-size) solid var(--a-surface-action);
     padding: calc(var(--vertical-padding) * 4.5) var(--horizontal-padding) 24px;
     width: 531px;
     margin: 0 calc(var(--horizontal-padding) * -1) 0 calc((var(--horizontal-padding) + var(--border-size)) * -1);

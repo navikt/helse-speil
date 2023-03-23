@@ -28,7 +28,7 @@ const ArbeidsgiverRad = styled.tr<{ erGjeldende: boolean }>`
     }
 
     &:hover > * {
-        background-color: var(--navds-global-color-gray-100);
+        background-color: var(--a-gray-100);
         cursor: pointer;
         ${({ erGjeldende }) =>
             erGjeldende &&

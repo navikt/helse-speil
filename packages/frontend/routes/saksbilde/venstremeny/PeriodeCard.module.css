@@ -13,7 +13,7 @@
     align-self: start;
     display: flex;
     align-items: center;
-    height: var(--navds-font-line-height-large);
+    height: var(--a-font-line-height-large);
 }
 
 .NoWrap {
@@ -34,5 +34,5 @@
 }
 
 .Skeleton > span {
-    height: var(--navds-font-line-height-large);
+    height: var(--a-font-line-height-large);
 }

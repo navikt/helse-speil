@@ -2,7 +2,7 @@
     border: none;
     padding: 0;
     background: none;
-    height: var(--navds-font-line-height-xlarge);
+    height: var(--a-font-line-height-xlarge);
     display: flex;
     align-items: center;
     align-self: flex-start;
@@ -18,36 +18,36 @@
 }
 
 .avhuking.aktiv > svg > circle {
-    fill: var(--navds-global-color-white);
-    stroke: var(--navds-global-color-blue-500);
+    fill: var(--a-white);
+    stroke: var(--a-blue-500);
 }
 
 .avhuking.aktiv:hover > svg > circle {
-    fill: var(--navds-global-color-blue-50);
+    fill: var(--a-blue-50);
 }
 
 .avhuking.aktiv > svg > path {
-    fill: var(--navds-global-color-blue-500);
+    fill: var(--a-blue-500);
 }
 
 .avhuking.vurdert > svg > circle {
-    fill: var(--navds-semantic-color-feedback-success-border);
-    stroke: var(--navds-semantic-color-feedback-success-border);
+    fill: var(--a-border-success);
+    stroke: var(--a-border-success);
 }
 
 .avhuking.vurdert:hover > svg > circle {
-    fill: var(--navds-global-color-green-700);
+    fill: var(--a-green-700);
 }
 
 .avhuking.vurdert > svg > path {
-    fill: var(--navds-global-color-white);
+    fill: var(--a-white);
 }
 
 .avhuking.ferdig-behandlet > svg > circle {
-    fill: var(--navds-semantic-color-feedback-success-border);
-    stroke: var(--navds-semantic-color-feedback-success-border);
+    fill: var(--a-border-success);
+    stroke: var(--a-border-success);
 }
 
 .avhuking.ferdig-behandlet > svg > path {
-    fill: var(--navds-global-color-white);
+    fill: var(--a-white);
 }

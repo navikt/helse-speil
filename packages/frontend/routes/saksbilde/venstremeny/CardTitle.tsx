@@ -4,14 +4,14 @@ import React from 'react';
 import { BodyShort } from '@navikt/ds-react';
 
 const Title = styled(BodyShort)`
-    font-size: var(--navds-font-size-medium);
+    font-size: var(--a-font-size-medium);
     font-weight: 600;
     display: flex;
     align-items: center;
-    color: var(--navds-global-color-gray-600);
+    color: var(--a-gray-600);
 
     a {
-        color: var(--navds-global-color-gray-600);
+        color: var(--a-gray-600);
 
         &:hover {
             text-decoration: none;
@@ -20,10 +20,10 @@ const Title = styled(BodyShort)`
         &:active,
         &:focus {
             outline: none;
-            color: var(--navds-semantic-color-text-inverted);
+            color: var(--a-text-on-inverted);
             text-decoration: none;
-            background-color: var(--navds-semantic-color-focus);
-            box-shadow: 0 0 0 2px var(--navds-semantic-color-focus);
+            background-color: var(--a-border-focus);
+            box-shadow: 0 0 0 2px var(--a-border-focus);
         }
     }
 `;

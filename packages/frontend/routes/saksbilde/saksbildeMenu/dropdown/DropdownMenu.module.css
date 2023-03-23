@@ -7,13 +7,13 @@
 }
 
 .MenuButton {
-    color: var(--navds-semantic-color-interaction-primary);
-    font-weight: var(--navds-font-weight-bold);
+    color: var(--a-surface-action);
+    font-weight: var(--a-font-weight-bold);
     height: 48px;
     display: flex;
     gap: 8px;
 }
 
 .MenuButton:active {
-    color: var(--navds-semantic-color-text-inverted);
+    color: var(--a-text-on-inverted);
 }

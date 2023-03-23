@@ -17,44 +17,44 @@ type KildeikonType = Kildetype | Inntektskilde | 'AINNTEKT' | undefined;
 const ainntektStyle = (props: KildeProps) =>
     props.type === 'AINNTEKT' &&
     css`
-        background-color: var(--navds-global-color-deepblue-100);
-        border-color: var(--navds-global-color-deepblue-500);
+        background-color: var(--a-deepblue-100);
+        border-color: var(--a-deepblue-500);
     `;
 
 const aordningenStyle = (props: KildeProps) =>
     props.type === Inntektskilde.Aordningen &&
     css`
-        background-color: var(--navds-global-color-green-100);
-        border-color: var(--navds-global-color-green-500);
+        background-color: var(--a-green-100);
+        border-color: var(--a-green-500);
     `;
 
 const sykmeldingStyle = (props: KildeProps) =>
     props.type === Kildetype.Sykmelding &&
     css`
-        background-color: var(--navds-global-color-lightblue-100);
-        border-color: var(--navds-global-color-blue-500);
+        background-color: var(--a-lightblue-100);
+        border-color: var(--a-blue-500);
     `;
 
 const søknadStyle = (props: KildeProps) =>
     props.type === Kildetype.Soknad &&
     css`
-        background-color: var(--navds-global-color-purple-100);
-        border-color: var(--navds-global-color-purple-400);
+        background-color: var(--a-purple-100);
+        border-color: var(--a-purple-400);
     `;
 
 const inntektsmeldingStyle = (props: KildeProps) =>
     props.type === Kildetype.Inntektsmelding &&
     css`
-        background-color: var(--navds-global-color-limegreen-100);
-        border-color: var(--navds-global-color-orange-600);
+        background-color: var(--a-limegreen-100);
+        border-color: var(--a-orange-600);
     `;
 
 const saksbehandlerStyle = (props: KildeProps) =>
     props.type === Kildetype.Saksbehandler &&
     css`
-        background-color: var(--navds-global-color-gray-100);
-        color: var(--navds-semantic-color-text);
-        border-color: var(--navds-global-color-gray-700);
+        background-color: var(--a-gray-100);
+        color: var(--a-text-default);
+        border-color: var(--a-gray-700);
         svg {
             width: 10px;
             height: 10px;
@@ -96,7 +96,7 @@ const Kildeikon = styled.div<KildeProps>`
     border-style: solid;
     border-width: 1px;
     background-color: transparent;
-    color: var(--navds-semantic-color-text);
+    color: var(--a-text-default);
     width: 1.25rem;
     height: 1rem;
     line-height: 8px;

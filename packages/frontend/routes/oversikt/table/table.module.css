@@ -12,7 +12,7 @@
 }
 
 .Table thead {
-    border-bottom: 1px solid var(--navds-semantic-color-border);
+    border-bottom: 1px solid var(--a-border-strong);
 }
 
 .DropdownHeader th {
@@ -31,7 +31,7 @@
 
 .Content {
     padding: 0;
-    color: var(--navds-semantic-color-text);
+    color: var(--a-text-default);
     overflow: auto hidden;
     box-sizing: border-box;
     flex: 1;

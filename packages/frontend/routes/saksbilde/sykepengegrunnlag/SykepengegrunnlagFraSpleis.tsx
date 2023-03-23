@@ -15,7 +15,7 @@ const Container = styled.div`
 `;
 
 const Strek = styled.span`
-    border-right: 3px solid var(--navds-global-color-gray-200);
+    border-right: 3px solid var(--a-gray-200);
     height: inherit;
     display: inline-block;
 `;

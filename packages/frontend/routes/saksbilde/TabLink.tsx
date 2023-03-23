@@ -14,13 +14,13 @@ const Content = styled.span`
         position: absolute;
         left: 50%;
         transform: translateX(-50%);
-        color: var(--navds-semantic-color-text);
+        color: var(--a-text-default);
     }
 `;
 
 const DisabledTabLink = styled(TabButton)`
     height: 48px;
-    color: var(--navds-semantic-color-text-muted);
+    color: var(--a-text-subtle);
 `;
 
 const TabLinkButton = styled(TabButton)`
@@ -35,7 +35,7 @@ const TabLinkButton = styled(TabButton)`
         `}
 
     &:active > span:after {
-        color: var(--navds-semantic-color-text-inverted);
+        color: var(--a-text-on-inverted);
     }
 `;
 

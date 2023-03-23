@@ -23,7 +23,7 @@
 }
 
 .ErrorMessage {
-    color: var(--navds-semantic-color-feedback-danger-text);
+    color: var(--a-text-danger);
     font-weight: 600;
     margin-top: 1rem;
 }
@@ -33,5 +33,5 @@
 }
 
 .Skeleton span {
-    height: var(--navds-font-line-height-large);
+    height: var(--a-font-line-height-large);
 }

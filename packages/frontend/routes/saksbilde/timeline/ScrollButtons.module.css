@@ -14,7 +14,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background: var(--navds-global-color-gray-800);
+    background: var(--a-gray-800);
 }
 
 .Button:hover:not(:disabled) {
@@ -34,7 +34,7 @@
 }
 
 .Button:disabled {
-    background: var(--navds-global-color-gray-400);
+    background: var(--a-gray-400);
 }
 
 .Button path {

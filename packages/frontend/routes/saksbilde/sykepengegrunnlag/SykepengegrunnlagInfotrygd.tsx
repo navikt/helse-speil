@@ -21,7 +21,7 @@ const Bold = styled(BodyShort)`
 `;
 
 const Kolonnetittel = styled(BodyShort)`
-    color: var(--navds-global-color-gray-600);
+    color: var(--a-gray-600);
     font-size: 14px;
 `;
 
@@ -63,7 +63,7 @@ const Table = styled.table`
 
     tfoot > tr:first-of-type > td {
         padding: 0.75rem 0.5rem;
-        border-top: 1px solid var(--navds-semantic-color-text);
+        border-top: 1px solid var(--a-text-default);
     }
 `;
 
@@ -88,7 +88,7 @@ const ArbeidsgiverRad = styled.tr<{ erGjeldende: boolean }>`
     }
 
     &:hover > * {
-        background-color: var(--navds-global-color-gray-100);
+        background-color: var(--a-gray-100);
         cursor: pointer;
         ${({ erGjeldende }) =>
             erGjeldende &&

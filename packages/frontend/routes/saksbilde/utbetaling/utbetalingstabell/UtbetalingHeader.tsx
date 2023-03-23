@@ -23,7 +23,7 @@ export const ToggleOverstyringKnapp = styled.button`
     align-items: center;
     outline: none;
     cursor: pointer;
-    color: var(--navds-semantic-color-interaction-primary);
+    color: var(--a-surface-action);
     font-size: 1rem;
     font-family: inherit;
     height: 34px;
@@ -41,7 +41,7 @@ export const ToggleOverstyringKnapp = styled.button`
     }
 
     &:focus-visible {
-        box-shadow: inset 0 0 0 3px var(--navds-semantic-color-focus);
+        box-shadow: inset 0 0 0 3px var(--a-border-focus);
     }
 `;
 

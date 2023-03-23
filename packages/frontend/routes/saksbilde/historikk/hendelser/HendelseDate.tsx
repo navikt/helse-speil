@@ -6,7 +6,7 @@ import { BodyShort } from '@navikt/ds-react';
 import { getFormattedDatetimeString } from '@utils/date';
 
 const GreyBodyShort = styled(BodyShort)`
-    color: var(--navds-semantic-color-text-muted);
+    color: var(--a-text-subtle);
     > span {
         margin: 0 8px;
     }

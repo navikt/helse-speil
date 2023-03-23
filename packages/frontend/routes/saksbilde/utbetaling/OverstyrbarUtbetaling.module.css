@@ -15,7 +15,7 @@
     padding-right: var(--padding);
     padding-top: var(--padding);
     padding-bottom: calc(var(--padding) * 2);
-    border-left: 6px solid var(--navds-semantic-color-interaction-primary);
+    border-left: 6px solid var(--a-surface-action);
     background-color: var(--speil-overstyring-background);
 }
 
@@ -38,7 +38,7 @@
 
 .ErrorMessage {
     margin-left: 2rem;
-    color: var(--navds-semantic-color-feedback-danger-text);
+    color: var(--a-text-danger);
     font-weight: 600;
 }
 

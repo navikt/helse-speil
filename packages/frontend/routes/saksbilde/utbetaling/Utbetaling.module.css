@@ -3,7 +3,7 @@
 }
 
 .Utbetaling.overstyrer {
-    border-left: 6px solid var(--navds-semantic-color-interaction-primary);
+    border-left: 6px solid var(--a-surface-action);
 }
 
 .Container {

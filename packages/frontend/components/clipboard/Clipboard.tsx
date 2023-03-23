@@ -18,19 +18,19 @@ const Button = styled.button`
     border-radius: 1px;
 
     &:hover {
-        background: var(--navds-semantic-color-interaction-primary-hover-subtle);
+        background: var(--a-surface-action-subtle-hover);
     }
 
     &:focus,
     &:active {
-        outline: solid var(--navds-global-color-blue-800);
+        outline: solid var(--a-blue-800);
     }
 `;
 
 const Popover = styled(BodyShort)`
     position: absolute;
     padding: 6px 8px;
-    border: 1px solid var(--navds-semantic-color-border);
+    border: 1px solid var(--a-border-strong);
     background: white;
     border-radius: 2px;
     white-space: nowrap;
@@ -40,8 +40,8 @@ const Popover = styled(BodyShort)`
         position: absolute;
         content: '';
         background: white;
-        border-top: 1px solid var(--navds-semantic-color-border);
-        border-left: 1px solid var(--navds-semantic-color-border);
+        border-top: 1px solid var(--a-border-strong);
+        border-left: 1px solid var(--a-border-strong);
         transform: rotate(45deg);
         height: 10px;
         width: 10px;

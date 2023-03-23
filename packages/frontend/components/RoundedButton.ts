@@ -22,15 +22,15 @@ export const RoundedButton = styled.button`
 
     &:hover,
     &:focus-visible {
-        background: var(--navds-button-color-tertiary-background-hover);
+        background: var(--a-surface-action-subtle-hover);
     }
 
     &:focus-visible {
-        box-shadow: var(--navds-shadow-focus);
+        box-shadow: var(--a-shadow-focus);
     }
 
     &:active {
-        background-color: var(--navds-semantic-color-interaction-primary-selected);
+        background-color: var(--a-surface-action-selected);
 
         > svg > g,
         > svg > path {

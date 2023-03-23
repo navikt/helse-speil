@@ -16,7 +16,7 @@ if (ReactModal.defaultStyles.content) {
 }
 
 const SpeilModal = styled(ReactModal)`
-    background: var(--navds-semantic-color-canvas-background-light);
+    background: var(--a-bg-default);
     width: max-content;
     position: absolute;
     top: 50%;
@@ -32,14 +32,14 @@ const SpeilModal = styled(ReactModal)`
     overflow: auto;
 
     &:focus {
-        box-shadow: 0 0 0 3px var(--navds-semantic-color-focus);
+        box-shadow: 0 0 0 3px var(--a-border-focus);
     }
 `;
 
 const Lukknapp = styled.button`
     position: relative;
     cursor: pointer;
-    color: var(--navds-semantic-color-interaction-primary);
+    color: var(--a-surface-action);
     height: 2rem;
     width: 2rem;
     padding: 0;
@@ -70,11 +70,11 @@ const Lukknapp = styled.button`
 
     &:hover,
     &:focus {
-        background: var(--navds-semantic-color-interaction-primary);
+        background: var(--a-surface-action);
     }
 
     &:active {
-        background: var(--navds-semantic-color-focus);
+        background: var(--a-border-focus);
     }
 
     &:hover:before,
@@ -83,7 +83,7 @@ const Lukknapp = styled.button`
     &:focus:after,
     &:active:before,
     &:active:after {
-        background: var(--navds-semantic-color-canvas-background-light);
+        background: var(--a-bg-default);
     }
 `;
 
@@ -121,7 +121,7 @@ export const Modal: React.FC<ModalProps> = ({
         onRequestClose={onRequestClose}
         shouldReturnFocusAfterClose={shouldReturnFocusAfterClose}
     >
-        <section onClick={(event) => event.stopPropagation()} onKeyPress={(event) => event.stopPropagation()}>
+        <section onClick={(event) => event.stopPropagation()} onKeyDown={(event) => event.stopPropagation()}>
             <Topprad>
                 <Lukknapp onClick={onRequestClose} />
                 {title}

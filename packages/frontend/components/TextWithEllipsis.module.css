@@ -5,5 +5,5 @@
 }
 
 .TextWithEllipsis > a:focus-visible {
-    box-shadow: 0 0 0 3px var(--navds-semantic-color-focus);
+    box-shadow: 0 0 0 3px var(--a-border-focus);
 }

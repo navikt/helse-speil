@@ -7,5 +7,5 @@
 }
 
 .Refusjonslinje > td > .Infotrekant > svg > path {
-    fill: var(--navds-semantic-color-interaction-primary);
+    fill: var(--a-surface-action);
 }

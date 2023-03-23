@@ -8,7 +8,7 @@
     align-self: start;
     display: flex;
     align-items: center;
-    height: var(--navds-font-line-height-large);
+    height: var(--a-font-line-height-large);
 }
 
 .Arbeidsforhold {
@@ -29,7 +29,7 @@
 }
 
 .Skeleton span {
-    height: var(--navds-font-line-height-large);
+    height: var(--a-font-line-height-large);
 }
 
 .Header {
@@ -45,7 +45,7 @@
 }
 
 .Header:focus-visible {
-    box-shadow: var(--navds-shadow-focus);
+    box-shadow: var(--a-shadow-focus);
 }
 
 .Header > svg {

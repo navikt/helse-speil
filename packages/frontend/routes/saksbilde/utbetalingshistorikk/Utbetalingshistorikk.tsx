@@ -48,7 +48,7 @@ const Table = styled.table`
         height: 2rem;
 
         &:nth-of-type(2n-1) {
-            background-color: var(--navds-global-color-gray-100);
+            background-color: var(--a-gray-100);
         }
     }
 `;

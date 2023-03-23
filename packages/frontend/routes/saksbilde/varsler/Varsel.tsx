@@ -24,7 +24,7 @@ export const Varsel: React.FC<VarselProps> = ({ className, varsel, type }) => {
         <div className={classNames(className, styles.varsel, styles[type])}>
             {isFetching ? (
                 <Loader
-                    style={{ height: 'var(--navds-font-line-height-xlarge)', alignSelf: 'flex-start' }}
+                    style={{ height: 'var(--a-font-line-height-xlarge)', alignSelf: 'flex-start' }}
                     size="medium"
                     variant="interaction"
                 />

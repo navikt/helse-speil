@@ -10,7 +10,7 @@ import { useGetOverstyrtArbeidsforhold, usePostOverstyrtArbeidsforhold } from '.
 const AngreButton = styled(Button)`
     display: flex;
     align-items: center;
-    color: var(--navds-semantic-color-interaction-primary);
+    color: var(--a-surface-action);
 
     > svg {
         margin-right: 0.5rem;

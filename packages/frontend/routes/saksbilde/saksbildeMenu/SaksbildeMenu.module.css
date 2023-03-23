@@ -4,12 +4,12 @@
     justify-content: space-between;
     height: 48px;
     box-sizing: border-box;
-    border-bottom: 1px solid var(--navds-semantic-color-border);
+    border-bottom: 1px solid var(--a-border-strong);
     padding: 0 2rem 0 2rem;
 }
 
 .SaksbildeMenu.Error {
-    background: var(--navds-semantic-color-feedback-danger-background);
+    background: var(--a-surface-danger-subtle);
     display: flex;
     align-items: center;
 }

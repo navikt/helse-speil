@@ -6,7 +6,7 @@
 
 .Period {
     --period-background-color: #e7e9e9;
-    --period-hover-color: var(--navds-global-color-gray-200);
+    --period-hover-color: var(--a-gray-200);
     --period-border-color: #78706a;
     --period-icon-data: url("data:image/svg+xml,%3C%3Fxml version='1.0' encoding='UTF-8'%3F%3E%3Csvg viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='m12.119 5-0.1248 0.00122c-1.8748 0.03287-3.6395 0.79071-4.9683 2.1341-1.3386 1.3532-2.0574 3.1246-2.0252 4.9884 0.06696 3.8574 3.0892 6.8791 6.8803 6.8791l0.1236-0.0013c3.9237-0.0675 7.0616-3.2633 6.994-7.1219-0.0669-3.8574-3.0892-6.8796-6.8796-6.8796z' fill='%233E3832'/%3E%3Cpath d='m12.06 16.139h-0.0187c-0.5677 0-1.0323-0.4542-1.0416-1.0229-0.0104-0.575 0.4479-1.0499 1.0228-1.0593 0.0063 0 0.0125-0.0011 0.0188-0.0011 0.5677 0 1.0312 0.4552 1.0416 1.0239 0.0104 0.575-0.4489 1.0489-1.0229 1.0594z' clip-rule='evenodd' fill='%23fff' fill-rule='evenodd'/%3E%3Cpath d='m12.042 7.6666c0.3835 0 0.6944 0.24873 0.6944 0.55555v3.8889c0 0.3068-0.3109 0.5555-0.6944 0.5555s-0.6944-0.2487-0.6944-0.5555v-3.8889c0-0.30682 0.3109-0.55555 0.6944-0.55555z' fill='%23fff'/%3E%3C/svg%3E%0A");
     box-sizing: border-box;
@@ -27,8 +27,8 @@
 .Period.active,
 .Period:active,
 .Period:focus-visible {
-    box-shadow: 0 0 0 2px var(--navds-semantic-color-focus);
-    border-color: var(--navds-semantic-color-focus);
+    box-shadow: 0 0 0 2px var(--a-border-focus);
+    border-color: var(--a-border-focus);
     z-index: 20;
 }
 
@@ -51,7 +51,7 @@
     position: absolute;
     width: 2px;
     height: 6px;
-    background: var(--navds-semantic-color-interaction-primary);
+    background: var(--a-surface-action);
     left: 50%;
     top: -6px;
     transform: translateX(-50%);
@@ -66,7 +66,7 @@
     width: 10px;
     height: 10px;
     border-radius: 10px;
-    background-color: var(--navds-semantic-color-interaction-primary);
+    background-color: var(--a-surface-action);
     transform: translateX(-50%);
 }
 
@@ -74,7 +74,7 @@
     position: absolute;
     width: 2px;
     height: 6px;
-    background: var(--navds-semantic-color-interaction-primary);
+    background: var(--a-surface-action);
     left: 50%;
     top: -7px;
     transform: translateX(-50%);
@@ -89,7 +89,7 @@
     width: 12px;
     height: 12px;
     border-radius: 10px;
-    border: 2px solid var(--navds-semantic-color-interaction-primary);
+    border: 2px solid var(--a-surface-action);
     transform: translateX(-50%);
 }
 
@@ -101,34 +101,34 @@
     width: 4px;
     height: 4px;
     border-radius: 10px;
-    background-color: var(--navds-semantic-color-interaction-primary);
+    background-color: var(--a-surface-action);
     transform: translateX(-50%);
 }
 
 /*Farger*/
 
 .Period.attention {
-    --period-background-color: var(--navds-global-color-orange-100);
-    --period-hover-color: var(--navds-global-color-orange-200);
-    --period-border-color: var(--navds-semantic-color-feedback-warning-border);
+    --period-background-color: var(--a-orange-100);
+    --period-hover-color: var(--a-orange-200);
+    --period-border-color: var(--a-border-warning);
 }
 
 .Period.success {
-    --period-background-color: var(--navds-global-color-green-100);
-    --period-hover-color: var(--navds-global-color-green-200);
-    --period-border-color: var(--navds-semantic-color-feedback-success-border);
+    --period-background-color: var(--a-green-100);
+    --period-hover-color: var(--a-green-200);
+    --period-border-color: var(--a-border-success);
 }
 
 .Period.old {
-    --period-background-color: var(--navds-global-color-limegreen-100);
-    --period-hover-color: var(--navds-global-color-limegreen-200);
-    --period-border-color: var(--navds-global-color-limegreen-700);
+    --period-background-color: var(--a-limegreen-100);
+    --period-hover-color: var(--a-limegreen-200);
+    --period-border-color: var(--a-limegreen-700);
 }
 
 .Period.error {
-    --period-background-color: var(--navds-global-color-red-100);
-    --period-hover-color: var(--navds-global-color-red-200);
-    --period-border-color: var(--navds-semantic-color-feedback-danger-border);
+    --period-background-color: var(--a-red-100);
+    --period-hover-color: var(--a-red-200);
+    --period-border-color: var(--a-border-danger);
 }
 
 .Period.legacy {

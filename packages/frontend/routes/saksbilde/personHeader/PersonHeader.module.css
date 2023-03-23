@@ -6,8 +6,8 @@
     box-sizing: border-box;
     padding: 0 2rem;
     background: var(--speil-background-secondary);
-    border-bottom: 1px solid var(--navds-semantic-color-border);
-    color: var(--navds-semantic-color-text);
+    border-bottom: 1px solid var(--a-border-strong);
+    color: var(--a-text-default);
     white-space: nowrap;
     min-width: max-content;
 }
@@ -17,7 +17,7 @@
 }
 
 .PersonHeader.Error {
-    background: var(--navds-semantic-color-feedback-danger-background);
+    background: var(--a-surface-danger-subtle);
 }
 
 .PersonHeader > svg {
@@ -39,10 +39,10 @@
 .Link:active,
 .Link:focus-visible {
     outline: none;
-    color: var(--navds-semantic-color-text-inverted);
+    color: var(--a-text-on-inverted);
     text-decoration: none;
-    background-color: var(--navds-semantic-color-focus);
-    box-shadow: 0 0 0 2px var(--navds-semantic-color-focus);
+    background-color: var(--a-border-focus);
+    box-shadow: 0 0 0 2px var(--a-border-focus);
 }
 
 .Tags {
@@ -60,7 +60,7 @@
 .Tag.dødsdato {
     background: var(--speil-etikett-dødsdato-background);
     border: 1px solid var(--speil-etikett-dødsdato-border);
-    color: var(--navds-semantic-color-text-inverted);
+    color: var(--a-text-on-inverted);
 }
 
 @keyframes placeHolderShimmer {

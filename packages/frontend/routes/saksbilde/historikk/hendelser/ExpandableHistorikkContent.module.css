@@ -1,5 +1,5 @@
 .Header {
-    color: var(--navds-semantic-color-interaction-primary) !important;
+    color: var(--a-surface-action) !important;
     background: none !important;
     text-decoration: underline;
     padding: 0;
@@ -12,8 +12,8 @@
 }
 
 .Header > span {
-    font-size: var(--navds-font-size-medium);
-    font-weight: var(--navds-font-weight-regular);
+    font-size: var(--a-font-size-medium);
+    font-weight: var(--a-font-weight-regular);
 }
 
 .Header:focus {
@@ -21,7 +21,7 @@
 }
 
 .Header:focus-visible {
-    box-shadow: var(--navds-shadow-focus);
+    box-shadow: var(--a-shadow-focus);
 }
 
 .Header:hover {

@@ -3,12 +3,12 @@
     display: flex;
     align-items: center;
     gap: 8px;
-    font-size: var(--navds-font-size-large);
+    font-size: var(--a-font-size-large);
     cursor: pointer;
     background: none;
     user-select: none;
-    color: var(--navds-semantic-color-text);
-    border: 1px solid var(--navds-semantic-color-border);
+    color: var(--a-text-default);
+    border: 1px solid var(--a-border-strong);
     padding: 0 0.5rem;
     height: calc(16px + 1rem);
     border-radius: 4px;
@@ -17,7 +17,7 @@
 
 .FilterButton:focus-visible {
     outline: none;
-    box-shadow: var(--navds-shadow-focus);
+    box-shadow: var(--a-shadow-focus);
 }
 
 .FilterList {

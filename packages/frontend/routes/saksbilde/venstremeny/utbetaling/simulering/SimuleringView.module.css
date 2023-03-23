@@ -6,7 +6,7 @@
 }
 
 .NegativtBeløp {
-    color: var(--navds-semantic-color-feedback-danger-text);
+    color: var(--a-text-danger);
     font-style: italic;
 }
 

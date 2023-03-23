@@ -12,18 +12,18 @@ export const TabButton = styled.button<{ active?: boolean; disabled?: boolean }>
     border: none;
     cursor: pointer;
     padding: 0 13px;
-    border-bottom: 1px solid var(--navds-semantic-color-border);
+    border-bottom: 1px solid var(--a-border-strong);
     transition: background-color 0.1s ease;
 
     ${(props) =>
         !props.disabled &&
         css`
             &:hover {
-                background-color: var(--navds-semantic-color-interaction-primary-hover-subtle);
+                background-color: var(--a-surface-action-subtle-hover);
             }
 
             &:active {
-                background-color: var(--navds-semantic-color-interaction-primary-selected);
+                background-color: var(--a-surface-action-selected);
 
                 path {
                     fill: white;
@@ -31,14 +31,14 @@ export const TabButton = styled.button<{ active?: boolean; disabled?: boolean }>
             }
 
             &:focus-visible {
-                box-shadow: inset 0 0 0 3px var(--navds-semantic-color-focus);
+                box-shadow: inset 0 0 0 3px var(--a-border-focus);
             }
         `}
 
     &:before {
         position: absolute;
         content: '';
-        background: var(--navds-semantic-color-interaction-primary);
+        background: var(--a-surface-action);
         bottom: 0;
         left: 0;
         height: 0;
