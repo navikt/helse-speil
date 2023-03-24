@@ -38,7 +38,7 @@ const UtbetalingCardBeregnet = ({
     gammeltTotalbeløp,
 }: UtbetalingCardProps) => (
     <section className={styles.Card}>
-        <CardTitle>SENDT TIL UTBETALING</CardTitle>
+        <CardTitle>UTBETALINGSINFORMASJON</CardTitle>
         <div className={styles.Grid}>
             <BodyShort>Sykepengegrunnlag</BodyShort>
             <BodyShort>{somPenger(vilkårsgrunnlag?.sykepengegrunnlag)}</BodyShort>
@@ -73,7 +73,7 @@ interface DifferansevisningProps {
 
 const Differansevisning = ({ gammeltTotalbeløp, differanse }: DifferansevisningProps) => (
     <div className={styles.Grid}>
-        <BodyShort>Tidligere utbetalt</BodyShort>
+        <BodyShort>Forrige beløp for perioden</BodyShort>
         <BodyShort>{somPenger(gammeltTotalbeløp)}</BodyShort>
         <BodyShort>Differanse</BodyShort>
         <BodyShort className={classNames({ [styles.NegativePenger]: differanse < 0 })}>
