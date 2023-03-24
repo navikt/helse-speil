@@ -8,7 +8,7 @@ export const useForrigeGenerasjonPeriode = () => {
     const currentGeneration = usePeriodIsInGeneration();
     const aktivPeriod = useActivePeriod();
 
-    if (!currentArbeidsgiver || !currentGeneration || !isBeregnetPeriode(aktivPeriod)) {
+    if (!currentArbeidsgiver || currentGeneration === null || !isBeregnetPeriode(aktivPeriod)) {
         return null;
     }
 
