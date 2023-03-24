@@ -3,11 +3,8 @@ import { useAlderVedSkjæringstidspunkt } from './useAlderVedSkjæringstidspunkt
 import classNames from 'classnames';
 import React, { useMemo } from 'react';
 
-import { Tooltip } from '@navikt/ds-react';
-
-import { Flex } from '@components/Flex';
-import { Arbeidsgiverikon } from '@components/ikoner/Arbeidsgiverikon';
-import { Sykmeldtikon } from '@components/ikoner/Sykmeldtikon';
+import { ArbeidsgiverikonMedTooltip } from '@components/ikoner/ArbeidsgiverikonMedTooltip';
+import { SykmeldtikonMedTooltip } from '@components/ikoner/SykmeldtikonMedTooltip';
 import { getFormattedDateString } from '@utils/date';
 
 import { Header } from '../../table/Header';
@@ -75,18 +72,14 @@ export const Utbetalingstabell = ({
                                 Total grad
                             </Header>
                             <Header scope="col" colSpan={1} className={styles.TableHeader}>
-                                <Tooltip content="Arbeidsgiver">
-                                    <div className={styles.HeaderContent}>
-                                        <Arbeidsgiverikon alt="Arbeidsgiver" /> Utbetaling
-                                    </div>
-                                </Tooltip>
+                                <ArbeidsgiverikonMedTooltip className={styles.HeaderContent}>
+                                    Utbetaling
+                                </ArbeidsgiverikonMedTooltip>
                             </Header>
                             <Header scope="col" colSpan={1}>
-                                <Tooltip content="Sykmeldt">
-                                    <Flex className={styles.HeaderContent}>
-                                        <Sykmeldtikon alt="Sykmeldt" /> Utbetaling
-                                    </Flex>
-                                </Tooltip>
+                                <SykmeldtikonMedTooltip className={styles.HeaderContent}>
+                                    Utbetaling
+                                </SykmeldtikonMedTooltip>
                             </Header>
                             <Header scope="col" colSpan={1}>
                                 Dager igjen

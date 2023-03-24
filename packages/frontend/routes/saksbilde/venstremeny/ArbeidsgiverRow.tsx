@@ -10,7 +10,7 @@ import { AnonymizableTextWithEllipsis } from '@components/TextWithEllipsis';
 import { AnonymizableContainer } from '@components/anonymizable/AnonymizableContainer';
 import { AnonymizableText } from '@components/anonymizable/AnonymizableText';
 import { Clipboard } from '@components/clipboard';
-import { Arbeidsgiverikon } from '@components/ikoner/Arbeidsgiverikon';
+import { ArbeidsgiverikonMedTooltip } from '@components/ikoner/ArbeidsgiverikonMedTooltip';
 import { Arbeidsforhold } from '@io/graphql';
 import { NORSK_DATOFORMAT } from '@utils/date';
 import { capitalize, somPenger } from '@utils/locale';
@@ -95,11 +95,7 @@ const ArbeidsgiverRowView: React.FC<ArbeidsgiverCardProps> = ({
     const [open, setOpen] = useState(false);
     return (
         <>
-            <Tooltip content="Arbeidsgiver">
-                <div className={styles.IconContainer}>
-                    <Arbeidsgiverikon alt="Arbeidsgiver" />
-                </div>
-            </Tooltip>
+            <ArbeidsgiverikonMedTooltip className={styles.IconContainer} />
             <Accordion.Item open={open} className={styles.ArbeidsgiverRow}>
                 <Accordion.Header className={styles.Header} onClick={() => setOpen((prevState) => !prevState)}>
                     <AnonymizableContainer>
