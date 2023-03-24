@@ -49,7 +49,7 @@ export const VenstremenyBeregnetPeriode: React.FC<VenstremenyBeregnetPeriodeProp
                 personsimulering={activePeriod.utbetaling.personsimulering}
                 periodeArbeidsgiverNettoBeløp={arbeidsgiverTotalbeløp}
                 periodePersonNettoBeløp={personTotalbeløp}
-                gammeltTotalbeløp={gammeltTotalbeløp}
+                gammeltTotalbeløp={forrigeGenerasjonPeriode ? gammeltTotalbeløp : undefined}
             />
             {!readOnly && (
                 <Utbetaling period={activePeriod} person={currentPerson} arbeidsgiver={currentArbeidsgiver.navn} />
