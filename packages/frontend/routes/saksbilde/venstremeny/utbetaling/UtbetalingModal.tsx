@@ -6,7 +6,7 @@ import { BodyShort, Button, Heading, Loader, Tooltip } from '@navikt/ds-react';
 import { Bold } from '@components/Bold';
 import { Modal } from '@components/Modal';
 import { AnonymizableTextWithEllipsis } from '@components/TextWithEllipsis';
-import { Arbeidsgiverikon } from '@components/ikoner/Arbeidsgiverikon';
+import { ArbeidsgiverikonMedTooltip } from '@components/ikoner/ArbeidsgiverikonMedTooltip';
 import { Sykmeldtikon } from '@components/ikoner/Sykmeldtikon';
 import { Personinfo, Utbetaling, Utbetalingstatus } from '@io/graphql';
 import { somPenger } from '@utils/locale';
@@ -107,11 +107,7 @@ const TilUtbetaling = ({ utbetaling, arbeidsgiver, personinfo }: TilUtbetalingPr
             </Bold>
         </div>
         <div className={styles.Row}>
-            <Tooltip content="Arbeidsgiver">
-                <div>
-                    <Arbeidsgiverikon alt="Arbeidsgiver" />
-                </div>
-            </Tooltip>
+            <ArbeidsgiverikonMedTooltip />
             <AnonymizableTextWithEllipsis>{arbeidsgiver}</AnonymizableTextWithEllipsis>
             <BodyShort>{somPenger(utbetaling.arbeidsgiverNettoBelop)}</BodyShort>
         </div>

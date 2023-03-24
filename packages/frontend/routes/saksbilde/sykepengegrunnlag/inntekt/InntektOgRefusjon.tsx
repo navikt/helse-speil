@@ -11,7 +11,7 @@ import { PopoverHjelpetekst } from '@components/PopoverHjelpetekst';
 import { AnonymizableTextWithEllipsis } from '@components/TextWithEllipsis';
 import { AnonymizableContainer } from '@components/anonymizable/AnonymizableContainer';
 import { Clipboard } from '@components/clipboard';
-import { Arbeidsgiverikon } from '@components/ikoner/Arbeidsgiverikon';
+import { ArbeidsgiverikonMedTooltip } from '@components/ikoner/ArbeidsgiverikonMedTooltip';
 import { SortInfoikon } from '@components/ikoner/SortInfoikon';
 import { useIsReadOnlyOppgave } from '@hooks/useIsReadOnlyOppgave';
 import {
@@ -251,11 +251,7 @@ export const InntektOgRefusjon = ({
         >
             <div className={classNames(styles.Header, editingInntekt && styles.editing)}>
                 <div className={styles.ArbeidsgiverHeader}>
-                    <Tooltip content="Arbeidsgiver">
-                        <div>
-                            <Arbeidsgiverikon alt="Arbeidsgiver" />
-                        </div>
-                    </Tooltip>
+                    <ArbeidsgiverikonMedTooltip />
                     <Tooltip content="Arbeidsgivernavn">
                         <div className={styles.Arbeidsgivernavn}>
                             <AnonymizableTextWithEllipsis>{arbeidsgiver.navn}</AnonymizableTextWithEllipsis>

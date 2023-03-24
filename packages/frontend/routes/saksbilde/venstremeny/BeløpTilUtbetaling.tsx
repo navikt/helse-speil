@@ -4,7 +4,7 @@ import { BodyShort, Tooltip } from '@navikt/ds-react';
 
 import { Bold } from '@components/Bold';
 import { AnonymizableTextWithEllipsis } from '@components/TextWithEllipsis';
-import { Arbeidsgiverikon } from '@components/ikoner/Arbeidsgiverikon';
+import { ArbeidsgiverikonMedTooltip } from '@components/ikoner/ArbeidsgiverikonMedTooltip';
 import { Sykmeldtikon } from '@components/ikoner/Sykmeldtikon';
 import { Maybe, Personinfo, Simulering, Utbetaling, Utbetalingstatus } from '@io/graphql';
 import { somPenger } from '@utils/locale';
@@ -40,11 +40,7 @@ export const BeløpTilUtbetaling = ({
             <Bold className={styles.Total}>{somPenger(periodePersonNettoBeløp + periodeArbeidsgiverNettoBeløp)}</Bold>
         </div>
         <div className={styles.Row}>
-            <Tooltip content="Arbeidsgiver">
-                <div>
-                    <Arbeidsgiverikon alt="Arbeidsgiver" />
-                </div>
-            </Tooltip>
+            <ArbeidsgiverikonMedTooltip />
             <AnonymizableTextWithEllipsis>{arbeidsgiver}</AnonymizableTextWithEllipsis>
             <BodyShort>{somPenger(periodeArbeidsgiverNettoBeløp)}</BodyShort>
         </div>
