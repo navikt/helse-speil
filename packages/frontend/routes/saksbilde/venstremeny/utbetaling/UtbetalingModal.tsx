@@ -1,12 +1,17 @@
 import styled from '@emotion/styled';
 import React from 'react';
 
-import { BodyShort, Button, Heading, Loader } from '@navikt/ds-react';
+import { BodyShort, Button, Heading, Loader, Tooltip } from '@navikt/ds-react';
 
+import { Bold } from '@components/Bold';
 import { Modal } from '@components/Modal';
-import { Personinfo, Utbetaling } from '@io/graphql';
+import { AnonymizableTextWithEllipsis } from '@components/TextWithEllipsis';
+import { Arbeidsgiverikon } from '@components/ikoner/Arbeidsgiverikon';
+import { Sykmeldtikon } from '@components/ikoner/Sykmeldtikon';
+import { Personinfo, Utbetaling, Utbetalingstatus } from '@io/graphql';
+import { somPenger } from '@utils/locale';
 
-import { BeløpTilUtbetaling } from '../BeløpTilUtbetaling';
+import styles from '../BeløpTilUtbetaling.module.css';
 
 const Buttons = styled.div`
     > button:not(:last-of-type) {
@@ -16,6 +21,7 @@ const Buttons = styled.div`
 
 const KnappMedSpinner = styled.div`
     display: flex;
+
     > svg {
         margin-left: 0.5rem;
     }
@@ -26,7 +32,8 @@ const Container = styled.div`
     flex-direction: column;
     gap: 2rem;
     margin-top: 1rem;
-    p:first-child {
+
+    p:first-of-type {
         font-weight: bold;
     }
 `;
@@ -62,7 +69,7 @@ export const UtbetalingModal = ({
     >
         <Container>
             {utbetaling && arbeidsgiver && personinfo && (
-                <BeløpTilUtbetaling utbetaling={utbetaling} arbeidsgiver={arbeidsgiver} personinfo={personinfo} />
+                <TilUtbetaling utbetaling={utbetaling} arbeidsgiver={arbeidsgiver} personinfo={personinfo} />
             )}
             <BodyShort>
                 Når du trykker ja{' '}
@@ -84,3 +91,44 @@ export const UtbetalingModal = ({
         </Container>
     </Modal>
 );
+
+interface TilUtbetalingProps {
+    utbetaling: Utbetaling;
+    arbeidsgiver: string;
+    personinfo: Personinfo;
+}
+
+const TilUtbetaling = ({ utbetaling, arbeidsgiver, personinfo }: TilUtbetalingProps) => (
+    <div className={styles.TilUtbetaling}>
+        <div className={styles.Row}>
+            <Bold>{utbetaling.status !== Utbetalingstatus.Ubetalt ? 'Utbetalt beløp' : 'Beløp til utbetaling'}</Bold>
+            <Bold className={styles.Total}>
+                {somPenger(utbetaling.arbeidsgiverNettoBelop + utbetaling.personNettoBelop)}
+            </Bold>
+        </div>
+        <div className={styles.Row}>
+            <Tooltip content="Arbeidsgiver">
+                <div>
+                    <Arbeidsgiverikon alt="Arbeidsgiver" />
+                </div>
+            </Tooltip>
+            <AnonymizableTextWithEllipsis>{arbeidsgiver}</AnonymizableTextWithEllipsis>
+            <BodyShort>{somPenger(utbetaling.arbeidsgiverNettoBelop)}</BodyShort>
+        </div>
+        <div className={styles.Row}>
+            <Tooltip content="Sykmeldt">
+                <div>
+                    <Sykmeldtikon alt="Sykmeldt" />
+                </div>
+            </Tooltip>
+            <AnonymizableTextWithEllipsis>{getFormattedName(personinfo)}</AnonymizableTextWithEllipsis>
+            <BodyShort>{somPenger(utbetaling.personNettoBelop)}</BodyShort>
+        </div>
+    </div>
+);
+
+const getFormattedName = (personinfo: Personinfo): string => {
+    return `${personinfo.fornavn} ${
+        personinfo.mellomnavn ? `${personinfo.mellomnavn} ${personinfo.etternavn}` : personinfo.etternavn
+    }`;
+};

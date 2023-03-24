@@ -45,7 +45,7 @@ const UtbetalingCardBeregnet = ({
             <BodyShort>Utbetalingsdager</BodyShort>
             <BodyShort>{antallUtbetalingsdager}</BodyShort>
         </div>
-        {gammeltTotalbeløp && (
+        {gammeltTotalbeløp !== undefined && (
             <Differansevisning
                 gammeltTotalbeløp={gammeltTotalbeløp}
                 differanse={periodePersonNettoBeløp + periodeArbeidsgiverNettoBeløp - gammeltTotalbeløp}

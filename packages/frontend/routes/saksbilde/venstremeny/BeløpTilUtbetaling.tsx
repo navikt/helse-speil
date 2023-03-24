@@ -13,16 +13,6 @@ import { OpenSimuleringButton } from './utbetaling/simulering/OpenSimuleringButt
 
 import styles from './BeløpTilUtbetaling.module.css';
 
-const isSimulering = (simulering?: Maybe<Simulering>): simulering is Simulering => {
-    return Array.isArray(simulering?.perioder);
-};
-
-const getFormattedName = (personinfo: Personinfo): string => {
-    return `${personinfo.fornavn} ${
-        personinfo.mellomnavn ? `${personinfo.mellomnavn} ${personinfo.etternavn}` : personinfo.etternavn
-    }`;
-};
-
 type BeløpTilUtbetalingProps = {
     utbetaling: Utbetaling;
     arbeidsgiver: string;
@@ -81,3 +71,13 @@ export const BeløpTilUtbetaling = ({
         )}
     </div>
 );
+
+const getFormattedName = (personinfo: Personinfo): string => {
+    return `${personinfo.fornavn} ${
+        personinfo.mellomnavn ? `${personinfo.mellomnavn} ${personinfo.etternavn}` : personinfo.etternavn
+    }`;
+};
+
+const isSimulering = (simulering?: Maybe<Simulering>): simulering is Simulering => {
+    return Array.isArray(simulering?.perioder);
+};
