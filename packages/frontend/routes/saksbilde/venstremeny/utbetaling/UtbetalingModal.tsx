@@ -1,13 +1,13 @@
 import styled from '@emotion/styled';
 import React from 'react';
 
-import { BodyShort, Button, Heading, Loader, Tooltip } from '@navikt/ds-react';
+import { BodyShort, Button, Heading, Loader } from '@navikt/ds-react';
 
 import { Bold } from '@components/Bold';
 import { Modal } from '@components/Modal';
 import { AnonymizableTextWithEllipsis } from '@components/TextWithEllipsis';
 import { ArbeidsgiverikonMedTooltip } from '@components/ikoner/ArbeidsgiverikonMedTooltip';
-import { Sykmeldtikon } from '@components/ikoner/Sykmeldtikon';
+import { SykmeldtikonMedTooltip } from '@components/ikoner/SykmeldtikonMedTooltip';
 import { Personinfo, Utbetaling, Utbetalingstatus } from '@io/graphql';
 import { somPenger } from '@utils/locale';
 
@@ -112,11 +112,7 @@ const TilUtbetaling = ({ utbetaling, arbeidsgiver, personinfo }: TilUtbetalingPr
             <BodyShort>{somPenger(utbetaling.arbeidsgiverNettoBelop)}</BodyShort>
         </div>
         <div className={styles.Row}>
-            <Tooltip content="Sykmeldt">
-                <div>
-                    <Sykmeldtikon alt="Sykmeldt" />
-                </div>
-            </Tooltip>
+            <SykmeldtikonMedTooltip />
             <AnonymizableTextWithEllipsis>{getFormattedName(personinfo)}</AnonymizableTextWithEllipsis>
             <BodyShort>{somPenger(utbetaling.personNettoBelop)}</BodyShort>
         </div>

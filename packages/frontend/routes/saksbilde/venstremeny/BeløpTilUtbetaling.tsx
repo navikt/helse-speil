@@ -1,11 +1,11 @@
 import React from 'react';
 
-import { BodyShort, Tooltip } from '@navikt/ds-react';
+import { BodyShort } from '@navikt/ds-react';
 
 import { Bold } from '@components/Bold';
 import { AnonymizableTextWithEllipsis } from '@components/TextWithEllipsis';
 import { ArbeidsgiverikonMedTooltip } from '@components/ikoner/ArbeidsgiverikonMedTooltip';
-import { Sykmeldtikon } from '@components/ikoner/Sykmeldtikon';
+import { SykmeldtikonMedTooltip } from '@components/ikoner/SykmeldtikonMedTooltip';
 import { Maybe, Personinfo, Simulering, Utbetaling, Utbetalingstatus } from '@io/graphql';
 import { somPenger } from '@utils/locale';
 
@@ -52,11 +52,7 @@ export const BeløpTilUtbetaling = ({
             />
         )}
         <div className={styles.Row}>
-            <Tooltip content="Sykmeldt">
-                <div>
-                    <Sykmeldtikon alt="Sykmeldt" />
-                </div>
-            </Tooltip>
+            <SykmeldtikonMedTooltip />
             <AnonymizableTextWithEllipsis>{getFormattedName(personinfo)}</AnonymizableTextWithEllipsis>
             <BodyShort>{somPenger(periodePersonNettoBeløp)}</BodyShort>
         </div>
