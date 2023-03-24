@@ -8,7 +8,7 @@ import { BodyShort, Popover } from '@navikt/ds-react';
 import { ErrorBoundary } from '@components/ErrorBoundary';
 import { useForrigeGenerasjonPeriodeMedPeriode } from '@hooks/useForrigeGenerasjonPeriode';
 import { useTotalbeløp } from '@hooks/useTotalbeløp';
-import { NotatType, Utbetalingsdagtype } from '@io/graphql';
+import { NotatType, Utbetalingsdagtype, Utbetalingstatus } from '@io/graphql';
 import { NORSK_DATOFORMAT } from '@utils/date';
 import { somPenger } from '@utils/locale';
 import { getPeriodStateText } from '@utils/mapping';
@@ -125,7 +125,7 @@ export const BeregnetPopover: React.FC<SpleisPopoverProps> = ({ period, state, f
                     <BodyShort size="small">{somPenger(arbeidsgiverTotalbeløp)}</BodyShort>
                 </>
             )}
-            {forrigePeriode && (
+            {forrigePeriode && period.utbetaling.status === Utbetalingstatus.Ubetalt && (
                 <>
                     <BodyShort size="small">Differanse</BodyShort>
                     <BodyShort
