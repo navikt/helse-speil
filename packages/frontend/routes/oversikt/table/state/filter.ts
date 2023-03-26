@@ -85,21 +85,25 @@ const defaultFilters: Filter<OppgaveForOversiktsvisning>[] = [
         key: 'BESLUTTER',
         label: 'Beslutter',
         active: false,
-        function: (oppgave: OppgaveForOversiktsvisning) => oppgave.erBeslutter,
+        function: (oppgave: OppgaveForOversiktsvisning) =>
+            oppgave.erBeslutter || oppgave.totrinnsvurdering?.erBeslutteroppgave === true,
         column: 3,
     },
     {
         key: 'RETUR',
         label: 'Retur',
         active: false,
-        function: (oppgave: OppgaveForOversiktsvisning) => oppgave.erRetur,
+        function: (oppgave: OppgaveForOversiktsvisning) =>
+            oppgave.erRetur || oppgave.totrinnsvurdering?.erRetur === true,
         column: 3,
     },
     {
         key: 'INGEN_EGENSKAPER',
         label: 'Ingen',
         active: false,
-        function: (oppgave: OppgaveForOversiktsvisning) => !oppgave.erRetur && !oppgave.erBeslutter,
+        function: (oppgave: OppgaveForOversiktsvisning) =>
+            (!oppgave.erRetur && !oppgave.erBeslutter) ||
+            (oppgave.totrinnsvurdering?.erRetur === false && oppgave.totrinnsvurdering?.erBeslutteroppgave === false),
         column: 3,
     },
     {

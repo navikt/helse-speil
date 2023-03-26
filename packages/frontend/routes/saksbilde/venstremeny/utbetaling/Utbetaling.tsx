@@ -125,7 +125,8 @@ export const Utbetaling = ({ period, person, arbeidsgiver }: UtbetalingProps) =>
     const kanSendesTilTotrinnsvurdering =
         totrinnsvurderingAktiv &&
         isBeregnetPeriode(period) &&
-        (period.oppgave?.erBeslutter === false || period.totrinnsvurdering?.erBeslutteroppgave === false);
+        ((period.oppgave?.erBeslutter === false && period.oppgave?.trengerTotrinnsvurdering === true) ||
+            period.totrinnsvurdering?.erBeslutteroppgave === false);
     const trengerTotrinnsvurdering =
         (period.oppgave?.trengerTotrinnsvurdering ?? false) ||
         (period?.totrinnsvurdering !== null && !period.totrinnsvurdering?.erBeslutteroppgave);
