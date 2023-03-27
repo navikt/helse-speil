@@ -9,7 +9,7 @@ spec:
   groups:
   - name: speil-pods
     rules:
-    - alert: Aktive pods for \{{ $labels.deployment }}
+    - alert: Manglende pods i prod
       expr: kube_deployment_status_replicas_available{namespace="tbd", deployment="speil"} == 0
       for: 2m
       annotations:
