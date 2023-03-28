@@ -1,5 +1,6 @@
 import { Express, Request, Response } from 'express';
 
+import { sleep } from '../devHelpers';
 import { opptegnelser } from './data/opptegnelser';
 
 let svarPåOpptegnelser = false;
@@ -17,11 +18,13 @@ const abonnerPåAktør = async (req: Request, res: Response): Promise<any> => {
 };
 
 const getAlleOpptegnelser = async (req: Request, res: Response): Promise<any> => {
+    await sleep(400);
     if (!svarPåOpptegnelser) return res.status(200).send([]);
     const [opptegnelse, opptegnelse2] = opptegnelser;
     return res.status(200).send([opptegnelse, opptegnelse2]);
 };
 const getOpptegnelser = async (req: Request, res: Response): Promise<any> => {
+    await sleep(400);
     const sisteSekvensId = Number(req.params['sisteSekvensId']);
     const opptegnelse3 = opptegnelser[2];
     return svarPåOpptegnelser
