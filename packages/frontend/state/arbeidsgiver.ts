@@ -111,19 +111,20 @@ export const usePeriodForSkjæringstidspunktForArbeidsgiver = (
     const arbeidsgiverGhostPerioder = arbeidsgiver?.ghostPerioder.filter(
         (it) => it.skjaeringstidspunkt === skjæringstidspunkt
     );
+    const arbeidsgiverPerioder = arbeidsgiver?.generasjoner[generasjon]?.perioder ?? [];
 
-    if (!arbeidsgiver?.generasjoner[generasjon]?.perioder && arbeidsgiverGhostPerioder?.length === 0) {
+    if (arbeidsgiverPerioder.length === 0 && arbeidsgiverGhostPerioder?.length === 0) {
         return null;
     }
 
-    if (isGhostPeriode(arbeidsgiverGhostPerioder?.[0])) {
+    if (arbeidsgiverPerioder.length === 0 && isGhostPeriode(arbeidsgiverGhostPerioder?.[0])) {
         return arbeidsgiverGhostPerioder?.[0] ?? null;
     }
 
     const periodeTilGodkjenning =
         generasjon !== 0
             ? null
-            : arbeidsgiver?.generasjoner[generasjon]?.perioder.filter(
+            : arbeidsgiverPerioder.filter(
                   (periode) => isBeregnetPeriode(periode) && periode.periodetilstand === 'TilGodkjenning'
               )[0] ?? null;
     const erAktivPeriodeLikEllerFørPeriodeTilGodkjenning =

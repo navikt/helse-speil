@@ -20,6 +20,7 @@ import {
     isBeregnetPeriode,
     isDagoverstyring,
     isInntektoverstyring,
+    isUberegnetPeriode,
 } from '@utils/typeguards';
 
 import { harIngenUtbetaltePerioderFor } from '../sykepengegrunnlag/inntekt/InntektOgRefusjon';
@@ -169,6 +170,21 @@ const getFørsteVurdertePeriodeForSkjæringstidspunktet = (
         )
         .filter((period) => period !== undefined)
         .filter(isBeregnetPeriode)
+        .pop();
+};
+
+export const getFørstePeriodeForSkjæringstidspunkt = (
+    skjæringstidspunkt: DateString,
+    arbeidsgiver: Maybe<Arbeidsgiver>
+): FetchedBeregnetPeriode | UberegnetPeriode | undefined => {
+    if (!arbeidsgiver) return undefined;
+
+    return [...arbeidsgiver.generasjoner]
+        .flatMap<Periode | undefined>((generasjon) =>
+            generasjon.perioder.flatMap((p) => (p.skjaeringstidspunkt === skjæringstidspunkt ? p : undefined))
+        )
+        .filter((periode) => periode !== undefined)
+        .filter(isBeregnetPeriode || isUberegnetPeriode)
         .pop();
 };
 

@@ -16,15 +16,17 @@ import { OverstyringTimeoutModal } from '@components/OverstyringTimeoutModal';
 import { Inntektskilde, OmregnetArsinntekt } from '@io/graphql';
 import type { OverstyrtInntektOgRefusjonDTO, Refusjonsopplysning } from '@io/http';
 import {
+    useArbeidsgiver,
     useLokaleRefusjonsopplysninger,
     useLokaltMånedsbeløp,
     usePeriodForSkjæringstidspunktForArbeidsgiver,
 } from '@state/arbeidsgiver';
 import { inntektOgRefusjonState, useOverstyrtInntektMetadata, usePostOverstyrtInntekt } from '@state/overstyring';
-import { ISO_DATOFORMAT } from '@utils/date';
+import { ISO_DATOFORMAT, NORSK_DATOFORMAT } from '@utils/date';
 import { somPenger, toKronerOgØre } from '@utils/locale';
 import { isBeregnetPeriode, isGhostPeriode } from '@utils/typeguards';
 
+import { getFørstePeriodeForSkjæringstidspunkt } from '../../historikk/mapping';
 import { SlettLokaleOverstyringerModal } from '../../varsler/KalkulerEndringerVarsel';
 import { BegrunnelseForOverstyring } from '../overstyring.types';
 import { Begrunnelser } from './Begrunnelser';
@@ -52,12 +54,14 @@ export const EditableInntekt = ({
     const form = useForm({ shouldFocusError: false, mode: 'onBlur' });
     const feiloppsummeringRef = useRef<HTMLDivElement>(null);
     const metadata = useOverstyrtInntektMetadata(skjæringstidspunkt, organisasjonsnummer);
+    const arbeidsgiver = useArbeidsgiver(organisasjonsnummer);
     const period = usePeriodForSkjæringstidspunktForArbeidsgiver(skjæringstidspunkt, organisasjonsnummer);
     const [harIkkeSkjemaEndringer, setHarIkkeSkjemaEndringer] = useState(false);
     const [showSlettLokaleOverstyringerModal, setShowSlettLokaleOverstyringerModal] = useState(false);
     const [lokaleInntektoverstyringer, _] = useRecoilState(inntektOgRefusjonState);
     const lokaleRefusjonsopplysninger = useLokaleRefusjonsopplysninger(organisasjonsnummer, skjæringstidspunkt);
     const lokaltMånedsbeløp = useLokaltMånedsbeløp(organisasjonsnummer, skjæringstidspunkt);
+    const førstePeriodeForSkjæringstidspunkt = getFørstePeriodeForSkjæringstidspunkt(skjæringstidspunkt, arbeidsgiver);
 
     const cancelEditing = () => {
         onEndre(false);
@@ -152,7 +156,7 @@ export const EditableInntekt = ({
 
         form.clearErrors([
             'sisteTomErFørPeriodensTom',
-            'førsteFomErEtterSkjæringstidspunkt',
+            'førsteFomErEtterFørstePeriodesFom',
             'erGapIDatoer',
             'manglerRefusjonsopplysninger',
         ]);
@@ -162,10 +166,10 @@ export const EditableInntekt = ({
                 ? false
                 : dayjs(refusjonsopplysninger?.[0]?.tom, ISO_DATOFORMAT).isBefore(period?.tom) ?? true;
 
-        const førsteFomErEtterSkjæringstidspunkt: boolean =
-            dayjs(refusjonsopplysninger?.[refusjonsopplysninger.length - 1]?.fom, ISO_DATOFORMAT).isAfter(
-                period?.skjaeringstidspunkt
-            ) ?? true;
+        const førsteFomErEtterFørstePeriodesFom: boolean = dayjs(
+            refusjonsopplysninger?.[refusjonsopplysninger.length - 1]?.fom,
+            ISO_DATOFORMAT
+        ).isAfter(førstePeriodeForSkjæringstidspunkt?.fom);
 
         const erGapIDatoer: boolean = refusjonsopplysninger?.some(
             (refusjonsopplysning: Refusjonsopplysning, index: number) => {
@@ -184,10 +188,13 @@ export const EditableInntekt = ({
                 message: 'Siste til og med dato kan ikke være før periodens til og med dato.',
             });
 
-        førsteFomErEtterSkjæringstidspunkt &&
-            form.setError('førsteFomErEtterSkjæringstidspunkt', {
+        førsteFomErEtterFørstePeriodesFom &&
+            form.setError('førsteFomErEtterFørstePeriodesFom', {
                 type: 'custom',
-                message: 'Tidligste fra og med dato kan ikke være etter skjæringstidspunktet.',
+                message: `Tidligste fra og med dato for refusjon må være lik eller før ${dayjs(
+                    førstePeriodeForSkjæringstidspunkt?.fom,
+                    ISO_DATOFORMAT
+                ).format(NORSK_DATOFORMAT)}`,
             });
 
         erGapIDatoer &&
@@ -198,7 +205,7 @@ export const EditableInntekt = ({
 
         if (
             !sisteTomErFørPeriodensTom &&
-            !førsteFomErEtterSkjæringstidspunkt &&
+            !førsteFomErEtterFørstePeriodesFom &&
             !erGapIDatoer &&
             !manglerRefusjonsopplysninger
         ) {
@@ -250,7 +257,7 @@ export const EditableInntekt = ({
                         <Refusjon
                             fraRefusjonsopplysninger={metadata.fraRefusjonsopplysninger}
                             lokaleRefusjonsopplysninger={lokaleRefusjonsopplysninger}
-                        ></Refusjon>
+                        />
                     )}
                     <Begrunnelser begrunnelser={begrunnelser} />
                     <ForklaringTextarea
