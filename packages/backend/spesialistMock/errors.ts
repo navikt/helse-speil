@@ -9,3 +9,14 @@ export class NotFoundError extends BaseError {
         this.extensions = { code: 404, field: 'person' };
     }
 }
+
+export class FlereFodselsnumreError extends BaseError {
+    constructor() {
+        super(`Mer enn ett fødselsnummer for personen`);
+        this.extensions = {
+            code: 500,
+            feilkode: 'HarFlereFodselsnumre',
+            fodselsnumre: ['ddmmåånnnnn', 'ddmmåånnnnn'],
+        };
+    }
+}

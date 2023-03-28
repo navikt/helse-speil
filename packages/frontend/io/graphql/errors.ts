@@ -21,6 +21,17 @@ export class ProtectedError extends FetchError {
     }
 }
 
+export class FlereFodselsnumreError extends FetchError {
+    constructor(fodselsnumre: string[]) {
+        super(
+            `Denne aktør-ID-en er registrert med flere fødselsnumre: ${fodselsnumre.join(
+                ', '
+            )}. Fordi fødselsnumrene er behandlet hver for seg, må du sjekke om systemet har beregnet en periode feil.`
+        );
+        this.severity = 'error';
+    }
+}
+
 export const isFetchErrorArray = (errors: any): errors is Array<FetchError> => {
     return (
         Array.isArray(errors) &&

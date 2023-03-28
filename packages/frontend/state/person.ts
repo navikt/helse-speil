@@ -2,7 +2,13 @@ import { GraphQLError } from 'graphql';
 import { Loadable, atom, useRecoilValue, useRecoilValueLoadable, useResetRecoilState, useSetRecoilState } from 'recoil';
 
 import { Maybe, Person, fetchPerson } from '@io/graphql';
-import { FetchError, NotFoundError, ProtectedError, isFetchErrorArray } from '@io/graphql/errors';
+import {
+    FetchError,
+    FlereFodselsnumreError,
+    NotFoundError,
+    ProtectedError,
+    isFetchErrorArray,
+} from '@io/graphql/errors';
 import { NotatDTO, SpeilResponse, deletePåVent, deleteTildeling, postLeggPåVent, postTildeling } from '@io/http';
 import { useInnloggetSaksbehandler } from '@state/authentication';
 import { activePeriodState } from '@state/periode';
@@ -43,6 +49,12 @@ const fetchPersonState = (id: string): Promise<PersonState> => {
                     }
                     case 404: {
                         throw new NotFoundError();
+                    }
+                    case 500: {
+                        if (error.extensions.feilkode === 'HarFlereFodselsnumre') {
+                            const fodselsnumre = error.extensions.fodselsnumre;
+                            throw new FlereFodselsnumreError(fodselsnumre as string[]);
+                        } else throw new FetchError();
                     }
                     default: {
                         throw new FetchError();

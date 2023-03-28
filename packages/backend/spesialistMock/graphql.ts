@@ -13,7 +13,7 @@ import { behandledeOppgaver } from './data/behandledeOppgaver';
 import { behandlingsstatistikk } from './data/behandlingsstatistikk';
 import { getMockOppdrag } from './data/oppdrag';
 import { oppgaver } from './data/oppgaver';
-import { NotFoundError } from './errors';
+import { FlereFodselsnumreError, NotFoundError } from './errors';
 import type {
     BeregnetPeriode,
     MutationFeilregistrerKommentarArgs,
@@ -76,6 +76,9 @@ const fetchPersondata = (): Record<string, JSON> => {
 const getResolvers = (): IResolvers => ({
     Query: {
         person: async (_, { fnr, aktorId }: { fnr?: string; aktorId?: string }) => {
+            if (aktorId == '1337') {
+                throw new FlereFodselsnumreError();
+            }
             const person = fetchPersondata()[fnr ?? aktorId ?? ''];
             if (!person) {
                 throw new NotFoundError(fnr ?? aktorId ?? '');
@@ -83,7 +86,7 @@ const getResolvers = (): IResolvers => ({
             await sleep(1000);
             return person;
         },
-        oppdrag: (_, { fnr }: { fnr: string }) => {
+        oppdrag: (_) => {
             return getMockOppdrag();
         },
         behandledeOppgaver: async () => {
