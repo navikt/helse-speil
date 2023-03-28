@@ -8,14 +8,7 @@ import { PopoverHjelpetekst } from '@components/PopoverHjelpetekst';
 import { SortInfoikon } from '@components/ikoner/SortInfoikon';
 import { useActivePeriodHasLatestSkjæringstidspunkt } from '@hooks/revurdering';
 import { useIsReadOnlyOppgave } from '@hooks/useIsReadOnlyOppgave';
-import {
-    Arbeidsgiver,
-    Dagoverstyring,
-    Overstyring,
-    Periodetilstand,
-    UberegnetPeriode,
-    Utbetalingstatus,
-} from '@io/graphql';
+import { Arbeidsgiver, Dagoverstyring, Overstyring, UberegnetPeriode, Utbetalingstatus } from '@io/graphql';
 import { useCurrentArbeidsgiver } from '@state/arbeidsgiver';
 import { useActivePeriod } from '@state/periode';
 import { useCurrentPerson } from '@state/person';
@@ -140,11 +133,14 @@ const UtbetalingBeregnetPeriode: React.FC<UtbetalingBeregnetPeriodeProps> = Reac
 
 interface UtbetalingUberegnetPeriodeProps {
     periode: UberegnetPeriode;
+    arbeidsgiver: Arbeidsgiver;
 }
 
-const UtbetalingUberegnetPeriode: React.FC<UtbetalingUberegnetPeriodeProps> = ({ periode }) => {
+const UtbetalingUberegnetPeriode: React.FC<UtbetalingUberegnetPeriodeProps> = ({ periode, arbeidsgiver }) => {
+    const dagoverstyringer = useDagoverstyringer(periode.fom, periode.tom, arbeidsgiver);
     const dager: Map<string, UtbetalingstabellDag> = useTabelldagerMap({
         tidslinje: periode.tidslinje,
+        overstyringer: dagoverstyringer,
     });
 
     return <ReadonlyUtbetaling fom={periode.fom} tom={periode.tom} dager={dager} />;
@@ -160,7 +156,7 @@ const UtbetalingContainer = () => {
     } else if (isBeregnetPeriode(period)) {
         return <UtbetalingBeregnetPeriode period={period} person={person} arbeidsgiver={arbeidsgiver} />;
     } else if (isUberegnetPeriode(period)) {
-        return <UtbetalingUberegnetPeriode periode={period} />;
+        return <UtbetalingUberegnetPeriode periode={period} arbeidsgiver={arbeidsgiver} />;
     } else {
         return null;
     }
