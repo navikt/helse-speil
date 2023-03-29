@@ -1,11 +1,9 @@
 import classNames from 'classnames';
 import React from 'react';
 
-import { Tooltip } from '@navikt/ds-react';
-
 import { LoadingShimmer } from '@components/LoadingShimmer';
 import { AnonymizableTextWithEllipsis } from '@components/TextWithEllipsis';
-import { Arbeidsgiverikon } from '@components/ikoner/Arbeidsgiverikon';
+import { ArbeidsgiverikonMedTooltip } from '@components/ikoner/ArbeidsgiverikonMedTooltip';
 import type { GhostPeriode, Periode } from '@io/graphql';
 
 import { Periods } from './Periods';
@@ -33,12 +31,11 @@ export const TimelineRow: React.FC<TimelineRowProps> = ({
 }) => {
     return (
         <div className={styles.TimelineRow}>
-            <Tooltip content={name} maxChar={name.length}>
-                <div className={classNames(styles.Name, alignWithExpandable && styles.AlignWithExpandable)}>
-                    <Arbeidsgiverikon alt="Arbeidsgiver" />
-                    <AnonymizableTextWithEllipsis size="small">{name}</AnonymizableTextWithEllipsis>
-                </div>
-            </Tooltip>
+            <ArbeidsgiverikonMedTooltip
+                className={classNames(styles.Name, alignWithExpandable && styles.AlignWithExpandable)}
+            >
+                <AnonymizableTextWithEllipsis size="small">{name}</AnonymizableTextWithEllipsis>
+            </ArbeidsgiverikonMedTooltip>
             <div className={styles.Periods}>
                 <Periods
                     periods={periods}
