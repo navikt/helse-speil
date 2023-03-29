@@ -93,15 +93,13 @@ export const BeregnetPopover: React.FC<SpleisPopoverProps> = ({ period, state, f
     return (
         <>
             <BodyShort size="small">{getPeriodStateText(state)}</BodyShort>
-            {(period.utbetaling.arbeidsgiverNettoBelop !== 0 || period.utbetaling.personNettoBelop !== 0) && (
+            {(arbeidsgiverTotalbeløp !== 0 || personTotalbeløp !== 0) && (
                 <>
                     <BodyShort size="small">Mottaker:</BodyShort>
                     <BodyShort size="small">
-                        {period.utbetaling.arbeidsgiverNettoBelop !== 0 && 'Arbeidsgiver'}
-                        {period.utbetaling.arbeidsgiverNettoBelop !== 0 &&
-                            period.utbetaling.personNettoBelop !== 0 &&
-                            ' / '}
-                        {period.utbetaling.personNettoBelop !== 0 && 'Sykmeldt'}
+                        {arbeidsgiverTotalbeløp !== 0 && 'Arbeidsgiver'}
+                        {arbeidsgiverTotalbeløp !== 0 && personTotalbeløp !== 0 && ' / '}
+                        {personTotalbeløp !== 0 && 'Sykmeldt'}
                     </BodyShort>
                 </>
             )}
@@ -109,7 +107,7 @@ export const BeregnetPopover: React.FC<SpleisPopoverProps> = ({ period, state, f
             <BodyShort size="small">
                 {fom} - {tom}
             </BodyShort>
-            {period.utbetaling.personNettoBelop !== 0 && (
+            {personTotalbeløp !== 0 && (
                 <>
                     <BodyShort size="small">
                         {state === 'tilGodkjenning' ? 'Utbetaling' : 'Utbetalt'} til sykmeldt:
@@ -117,7 +115,7 @@ export const BeregnetPopover: React.FC<SpleisPopoverProps> = ({ period, state, f
                     <BodyShort size="small">{somPenger(personTotalbeløp)}</BodyShort>
                 </>
             )}
-            {period.utbetaling.arbeidsgiverNettoBelop !== 0 && (
+            {arbeidsgiverTotalbeløp !== 0 && (
                 <>
                     <BodyShort size="small">
                         {state === 'tilGodkjenning' ? 'Utbetaling' : 'Utbetalt'} til arbeidsgiver:
