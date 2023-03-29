@@ -3,6 +3,8 @@ import React from 'react';
 import { CaseworkerFilled } from '@navikt/ds-icons';
 import { BodyShort } from '@navikt/ds-react';
 
+import { Kilde } from '@components/Kilde';
+import { Inntektskilde } from '@io/graphql';
 import { getFormattedDateString } from '@utils/date';
 
 import { ExpandableHistorikkContent } from './ExpandableHistorikkContent';
@@ -24,7 +26,11 @@ export const Arbeidsforholdoverstyringhendelse: React.FC<Arbeidsforholdoverstyri
     return (
         <Hendelse
             title={erDeaktivert ? 'Brukes ikke i beregningen' : 'Brukes i beregningen'}
-            icon={<CaseworkerFilled title="Caseworker-ikon" height={20} width={20} />}
+            icon={
+                <Kilde type={Inntektskilde.Saksbehandler}>
+                    <CaseworkerFilled title="Caseworker-ikon" height={20} width={20} />
+                </Kilde>
+            }
         >
             <ExpandableHistorikkContent>
                 <div className={styles.Grid}>
