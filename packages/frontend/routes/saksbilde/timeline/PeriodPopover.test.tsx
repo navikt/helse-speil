@@ -1,6 +1,7 @@
 import React from 'react';
 
 import {
+    Dag,
     Inntektstype,
     Periodetilstand,
     Periodetype,
@@ -15,8 +16,8 @@ import { render, screen } from '@testing-library/react';
 import { BeregnetPopover, PeriodPopover } from './PeriodPopover';
 
 const getFetchedBeregnetPeriode = (
-    arbeidsgiverNettobelop: number,
-    personNettobelop: number
+    arbeidsgiverUtbetalingsdager: Dag[] = [],
+    personUtbetalingsdager: Dag[] = []
 ): FetchedBeregnetPeriode => {
     return {
         aktivitetslogg: [],
@@ -43,13 +44,15 @@ const getFetchedBeregnetPeriode = (
                 sykdomsdagtype: Sykdomsdagtype.Arbeidsgiverdag,
                 utbetalingsdagtype: Utbetalingsdagtype.Arbeidsgiverperiodedag,
             },
+            ...arbeidsgiverUtbetalingsdager,
+            ...personUtbetalingsdager,
         ],
         utbetaling: {
             arbeidsgiverFagsystemId: 'EN_ID',
-            arbeidsgiverNettoBelop: arbeidsgiverNettobelop,
+            arbeidsgiverNettoBelop: 100,
             id: 'EN_ID',
             personFagsystemId: 'EN_ID',
-            personNettoBelop: personNettobelop,
+            personNettoBelop: 100,
             status: Utbetalingstatus.Ubetalt,
             type: Utbetalingtype.Utbetaling,
         },
@@ -60,10 +63,33 @@ const getFetchedBeregnetPeriode = (
 };
 
 describe('PeriodPopover', () => {
+    const arbeidsgiverUtbetalingsdager = [
+        {
+            dato: '2022-01-02',
+            kilde: {} as Kilde,
+            sykdomsdagtype: Sykdomsdagtype.Sykedag,
+            utbetalingsdagtype: Utbetalingsdagtype.Navdag,
+            utbetalingsinfo: {
+                arbeidsgiverbelop: 100,
+            },
+        },
+    ];
+    const personUtbetalingsdager = [
+        {
+            dato: '2022-01-03',
+            kilde: {} as Kilde,
+            sykdomsdagtype: Sykdomsdagtype.Sykedag,
+            utbetalingsdagtype: Utbetalingsdagtype.Navdag,
+            utbetalingsinfo: {
+                personbelop: 100,
+            },
+        },
+    ];
+
     test('viser ingenting når det ikke er utbetaling', () => {
         render(
             <BeregnetPopover
-                period={getFetchedBeregnetPeriode(0, 0)}
+                period={getFetchedBeregnetPeriode()}
                 state="tilGodkjenning"
                 fom="2023-01-01"
                 tom="2023-01-01"
@@ -75,7 +101,7 @@ describe('PeriodPopover', () => {
     test('viser arbeidsgiver når det bare er utbetaling til arbeidsgiver', () => {
         render(
             <BeregnetPopover
-                period={getFetchedBeregnetPeriode(1, 0)}
+                period={getFetchedBeregnetPeriode(arbeidsgiverUtbetalingsdager)}
                 state="tilGodkjenning"
                 fom="2023-01-01"
                 tom="2023-01-01"
@@ -86,7 +112,7 @@ describe('PeriodPopover', () => {
     test('viser sykmeldt når det bare er utbetaling til sykmeldt', () => {
         render(
             <BeregnetPopover
-                period={getFetchedBeregnetPeriode(0, 1)}
+                period={getFetchedBeregnetPeriode([], personUtbetalingsdager)}
                 state="tilGodkjenning"
                 fom="2023-01-01"
                 tom="2023-01-01"
@@ -97,7 +123,7 @@ describe('PeriodPopover', () => {
     test('viser arbeidsgiver / sykmeldt når det er utbetaling til begge', () => {
         render(
             <BeregnetPopover
-                period={getFetchedBeregnetPeriode(1, 1)}
+                period={getFetchedBeregnetPeriode(arbeidsgiverUtbetalingsdager, personUtbetalingsdager)}
                 state="tilGodkjenning"
                 fom="2023-01-01"
                 tom="2023-01-01"
