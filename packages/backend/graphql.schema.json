@@ -4989,6 +4989,30 @@
                         "deprecationReason": null
                     },
                     {
+                        "name": "hendelser",
+                        "description": null,
+                        "args": [],
+                        "type": {
+                            "kind": "NON_NULL",
+                            "name": null,
+                            "ofType": {
+                                "kind": "LIST",
+                                "name": null,
+                                "ofType": {
+                                    "kind": "NON_NULL",
+                                    "name": null,
+                                    "ofType": {
+                                        "kind": "INTERFACE",
+                                        "name": "Hendelse",
+                                        "ofType": null
+                                    }
+                                }
+                            }
+                        },
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
+                    {
                         "name": "inntektstype",
                         "description": null,
                         "args": [],
@@ -7988,6 +8012,30 @@
                                 "kind": "SCALAR",
                                 "name": "String",
                                 "ofType": null
+                            }
+                        },
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
+                    {
+                        "name": "hendelser",
+                        "description": null,
+                        "args": [],
+                        "type": {
+                            "kind": "NON_NULL",
+                            "name": null,
+                            "ofType": {
+                                "kind": "LIST",
+                                "name": null,
+                                "ofType": {
+                                    "kind": "NON_NULL",
+                                    "name": null,
+                                    "ofType": {
+                                        "kind": "INTERFACE",
+                                        "name": "Hendelse",
+                                        "ofType": null
+                                    }
+                                }
                             }
                         },
                         "isDeprecated": false,

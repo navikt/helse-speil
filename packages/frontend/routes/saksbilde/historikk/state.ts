@@ -64,7 +64,9 @@ const getHendelserForUberegnetPeriode = (period: UberegnetPeriode, person: Fetch
     const dagoverstyringer = arbeidsgiver ? getDagoverstyringerForAUU(period, arbeidsgiver) : [];
     const inntektoverstyringer = arbeidsgiver ? getInntektoverstyringer(period.skjaeringstidspunkt, arbeidsgiver) : [];
 
-    return [...dagoverstyringer, ...inntektoverstyringer].sort(byTimestamp);
+    const dokumenter = getDokumenter(period);
+
+    return [...dokumenter, ...dagoverstyringer, ...inntektoverstyringer].sort(byTimestamp);
 };
 
 const historikkState = selector<Array<HendelseObject>>({

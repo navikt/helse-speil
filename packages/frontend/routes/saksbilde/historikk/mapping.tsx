@@ -48,7 +48,7 @@ const isDokument = (hendelse: Hendelse): hendelse is Inntektsmelding | Sykmeldin
 };
 
 export const getDokumenter = (period: Periode | GhostPeriode): Array<HendelseObject> => {
-    if (!isBeregnetPeriode(period)) {
+    if (!isBeregnetPeriode(period) && !isUberegnetPeriode(period)) {
         return [];
     }
 

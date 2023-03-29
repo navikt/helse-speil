@@ -51,7 +51,7 @@ const maybePeriodeTilGodkjenning = (person: FetchedPerson, skjæringstidspunkt: 
         (
             person?.arbeidsgivere
                 .flatMap((it) => it.generasjoner[0]?.perioder)
-                .filter(isBeregnetPeriode) as Array<BeregnetPeriode>
+                .filter(isBeregnetPeriode) as unknown as Array<BeregnetPeriode>
         ).find(
             (it) =>
                 it.periodetilstand === Periodetilstand.TilGodkjenning && it.skjaeringstidspunkt === skjæringstidspunkt
@@ -67,7 +67,7 @@ const maybePeriodeForSkjæringstidspunkt = (
         (
             person?.arbeidsgivere
                 .flatMap((it) => it.generasjoner[0]?.perioder)
-                .filter(isBeregnetPeriode) as Array<BeregnetPeriode>
+                .filter(isBeregnetPeriode) as unknown as Array<BeregnetPeriode>
         ).find((it) => it.skjaeringstidspunkt === skjæringstidspunkt) ?? null
     );
 };
@@ -96,7 +96,7 @@ const harPeriodeTilBeslutterFor = (person: FetchedPerson, skjæringstidspunkt: D
                 .flatMap((it) => it.generasjoner[0]?.perioder)
                 .filter(
                     (it) => isBeregnetPeriode(it) && it.skjaeringstidspunkt === skjæringstidspunkt
-                ) as Array<BeregnetPeriode>
+                ) as unknown as Array<BeregnetPeriode>
         ).some((it) => it.oppgave?.erBeslutter) ?? false
     );
 };

@@ -529,6 +529,7 @@ export type Paginering = {
 export type Periode = {
     erForkastet: Scalars['Boolean'];
     fom: Scalars['String'];
+    hendelser: Array<Hendelse>;
     inntektstype: Inntektstype;
     opprettet: Scalars['String'];
     periodetilstand: Periodetilstand;
@@ -853,6 +854,7 @@ export type UberegnetPeriode = Periode & {
     __typename?: 'UberegnetPeriode';
     erForkastet: Scalars['Boolean'];
     fom: Scalars['String'];
+    hendelser: Array<Hendelse>;
     id: Scalars['String'];
     inntektstype: Inntektstype;
     opprettet: Scalars['String'];
@@ -1121,6 +1123,7 @@ export type FetchOppgaverQuery = {
         personinfo: { __typename?: 'Personinfo'; fornavn: string; mellomnavn?: string | null; etternavn: string };
         boenhet: { __typename?: 'Boenhet'; navn: string };
         tildeling?: { __typename?: 'Tildeling'; reservert: boolean; navn: string; epost: string; oid: string } | null;
+        totrinnsvurdering?: { __typename?: 'Totrinnsvurdering'; erRetur: boolean; erBeslutteroppgave: boolean } | null;
     }>;
 };
 
@@ -1484,41 +1487,6 @@ export type FetchPersonQuery = {
                               saksbehandler_ident?: string | null;
                               notat_id?: number | null;
                           }>;
-                          hendelser: Array<
-                              | {
-                                    __typename?: 'Inntektsmelding';
-                                    beregnetInntekt: number;
-                                    mottattDato: string;
-                                    id: string;
-                                    type: Hendelsetype;
-                                }
-                              | {
-                                    __typename?: 'SoknadArbeidsgiver';
-                                    fom: string;
-                                    tom: string;
-                                    rapportertDato: string;
-                                    sendtArbeidsgiver: string;
-                                    id: string;
-                                    type: Hendelsetype;
-                                }
-                              | {
-                                    __typename?: 'SoknadNav';
-                                    fom: string;
-                                    tom: string;
-                                    rapportertDato: string;
-                                    sendtNav: string;
-                                    id: string;
-                                    type: Hendelsetype;
-                                }
-                              | {
-                                    __typename?: 'Sykmelding';
-                                    fom: string;
-                                    tom: string;
-                                    rapportertDato: string;
-                                    id: string;
-                                    type: Hendelsetype;
-                                }
-                          >;
                           periodevilkar: {
                               __typename?: 'Periodevilkar';
                               alder: { __typename?: 'Alder'; alderSisteSykedag: number; oppfylt: boolean };
@@ -1698,6 +1666,41 @@ export type FetchPersonQuery = {
                                   tidsstempel: string;
                               } | null;
                           }>;
+                          hendelser: Array<
+                              | {
+                                    __typename?: 'Inntektsmelding';
+                                    beregnetInntekt: number;
+                                    mottattDato: string;
+                                    id: string;
+                                    type: Hendelsetype;
+                                }
+                              | {
+                                    __typename?: 'SoknadArbeidsgiver';
+                                    fom: string;
+                                    tom: string;
+                                    rapportertDato: string;
+                                    sendtArbeidsgiver: string;
+                                    id: string;
+                                    type: Hendelsetype;
+                                }
+                              | {
+                                    __typename?: 'SoknadNav';
+                                    fom: string;
+                                    tom: string;
+                                    rapportertDato: string;
+                                    sendtNav: string;
+                                    id: string;
+                                    type: Hendelsetype;
+                                }
+                              | {
+                                    __typename?: 'Sykmelding';
+                                    fom: string;
+                                    tom: string;
+                                    rapportertDato: string;
+                                    id: string;
+                                    type: Hendelsetype;
+                                }
+                          >;
                       }
                     | {
                           __typename?: 'UberegnetPeriode';
@@ -1744,6 +1747,41 @@ export type FetchPersonQuery = {
                                   tidsstempel: string;
                               } | null;
                           }>;
+                          hendelser: Array<
+                              | {
+                                    __typename?: 'Inntektsmelding';
+                                    beregnetInntekt: number;
+                                    mottattDato: string;
+                                    id: string;
+                                    type: Hendelsetype;
+                                }
+                              | {
+                                    __typename?: 'SoknadArbeidsgiver';
+                                    fom: string;
+                                    tom: string;
+                                    rapportertDato: string;
+                                    sendtArbeidsgiver: string;
+                                    id: string;
+                                    type: Hendelsetype;
+                                }
+                              | {
+                                    __typename?: 'SoknadNav';
+                                    fom: string;
+                                    tom: string;
+                                    rapportertDato: string;
+                                    sendtNav: string;
+                                    id: string;
+                                    type: Hendelsetype;
+                                }
+                              | {
+                                    __typename?: 'Sykmelding';
+                                    fom: string;
+                                    tom: string;
+                                    rapportertDato: string;
+                                    id: string;
+                                    type: Hendelsetype;
+                                }
+                          >;
                       }
                 >;
             }>;

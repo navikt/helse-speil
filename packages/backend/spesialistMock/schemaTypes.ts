@@ -529,6 +529,7 @@ export type Paginering = {
 export type Periode = {
     erForkastet: Scalars['Boolean'];
     fom: Scalars['String'];
+    hendelser: Array<Hendelse>;
     inntektstype: Inntektstype;
     opprettet: Scalars['String'];
     periodetilstand: Periodetilstand;
@@ -853,6 +854,7 @@ export type UberegnetPeriode = Periode & {
     __typename?: 'UberegnetPeriode';
     erForkastet: Scalars['Boolean'];
     fom: Scalars['String'];
+    hendelser: Array<Hendelse>;
     id: Scalars['String'];
     inntektstype: Inntektstype;
     opprettet: Scalars['String'];

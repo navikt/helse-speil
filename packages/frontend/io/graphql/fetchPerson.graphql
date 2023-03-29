@@ -189,6 +189,31 @@ query FetchPerson($fnr: String, $aktorId: String) {
                             tidsstempel
                         }
                     }
+                    hendelser {
+                        id
+                        type
+                        ... on Inntektsmelding {
+                            beregnetInntekt
+                            mottattDato
+                        }
+                        ... on Sykmelding {
+                            fom
+                            tom
+                            rapportertDato
+                        }
+                        ... on SoknadNav {
+                            fom
+                            tom
+                            rapportertDato
+                            sendtNav
+                        }
+                        ... on SoknadArbeidsgiver {
+                            fom
+                            tom
+                            rapportertDato
+                            sendtArbeidsgiver
+                        }
+                    }
                     ... on UberegnetPeriode {
                         id
                     }
@@ -233,31 +258,6 @@ query FetchPerson($fnr: String, $aktorId: String) {
                             timestamp
                             saksbehandler_ident
                             notat_id
-                        }
-                        hendelser {
-                            id
-                            type
-                            ... on Inntektsmelding {
-                                beregnetInntekt
-                                mottattDato
-                            }
-                            ... on Sykmelding {
-                                fom
-                                tom
-                                rapportertDato
-                            }
-                            ... on SoknadNav {
-                                fom
-                                tom
-                                rapportertDato
-                                sendtNav
-                            }
-                            ... on SoknadArbeidsgiver {
-                                fom
-                                tom
-                                rapportertDato
-                                sendtArbeidsgiver
-                            }
                         }
                         maksdato
                         periodevilkar {
