@@ -7,11 +7,12 @@ import { sessionStorageEffect } from '@state/effects/sessionStorageEffect';
 import { toNotat } from '@state/notater';
 import { activePeriod } from '@state/periode';
 import { personState } from '@state/person';
-import { isBeregnetPeriode, isGhostPeriode } from '@utils/typeguards';
+import { isBeregnetPeriode, isGhostPeriode, isUberegnetPeriode } from '@utils/typeguards';
 
 import {
     getArbeidsforholdoverstyringhendelser,
     getDagoverstyringer,
+    getDagoverstyringerForAUU,
     getDokumenter,
     getInntektoverstyringer,
     getInntektoverstyringerForGhost,
@@ -30,7 +31,7 @@ const getHendelserForBeregnetPeriode = (
 ): Array<HendelseObject> => {
     const arbeidsgiver = findArbeidsgiverWithPeriode(period, person.arbeidsgivere);
     const dagoverstyringer = arbeidsgiver ? getDagoverstyringer(period, arbeidsgiver) : [];
-    const inntektoverstyringer = arbeidsgiver ? getInntektoverstyringer(period, arbeidsgiver) : [];
+    const inntektoverstyringer = arbeidsgiver ? getInntektoverstyringer(period.skjaeringstidspunkt, arbeidsgiver) : [];
     const arbeidsforholdoverstyringer = arbeidsgiver ? getArbeidsforholdoverstyringhendelser(period, arbeidsgiver) : [];
 
     const dokumenter = getDokumenter(period);
@@ -58,6 +59,14 @@ const getHendelserForGhostPeriode = (period: GhostPeriode, person: FetchedPerson
     return [...arbeidsforholdoverstyringer, ...inntektoverstyringer].sort(byTimestamp);
 };
 
+const getHendelserForUberegnetPeriode = (period: UberegnetPeriode, person: FetchedPerson): Array<HendelseObject> => {
+    const arbeidsgiver = findArbeidsgiverWithPeriode(period, person.arbeidsgivere);
+    const dagoverstyringer = arbeidsgiver ? getDagoverstyringerForAUU(period, arbeidsgiver) : [];
+    const inntektoverstyringer = arbeidsgiver ? getInntektoverstyringer(period.skjaeringstidspunkt, arbeidsgiver) : [];
+
+    return [...dagoverstyringer, ...inntektoverstyringer].sort(byTimestamp);
+};
+
 const historikkState = selector<Array<HendelseObject>>({
     key: 'historikkState',
     get: ({ get }) => {
@@ -74,6 +83,10 @@ const historikkState = selector<Array<HendelseObject>>({
 
         if (isGhostPeriode(period)) {
             return getHendelserForGhostPeriode(period, person);
+        }
+
+        if (isUberegnetPeriode(period)) {
+            return getHendelserForUberegnetPeriode(period, person);
         }
 
         return [];

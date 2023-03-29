@@ -8,6 +8,7 @@ import { isNotReady } from '@state/selectors/period';
 import { onLazyLoadFail } from '@utils/error';
 import { getPeriodState } from '@utils/mapping';
 
+import { Historikk } from '../historikk';
 import { Saksbildevarsler } from '../varsler/Saksbildevarsler';
 import { Venstremeny } from '../venstremeny/Venstremeny';
 
@@ -100,6 +101,7 @@ export const UberegnetPeriodeView = ({ activePeriod }: UberegnetPeriodeViewProps
                     </Switch>
                 </div>
             </div>
+            <Historikk />
         </>
     );
 };
