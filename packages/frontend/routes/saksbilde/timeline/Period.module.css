@@ -98,3 +98,7 @@
     --period-border-color: var(--navds-global-color-lightblue-700);
     --period-icon-color: var(--navds-global-color-gray-900);
 }
+
+.Period.inactiveAUU {
+    cursor: not-allowed;
+}

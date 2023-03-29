@@ -81,7 +81,13 @@ const getIcon = (periodCategory: Maybe<PeriodCategory>): ReactNode => {
     }
 };
 
-const getClassNames = (period: DatePeriod, notCurrent?: boolean, isActive?: boolean, className?: string) => {
+const getClassNames = (
+    period: DatePeriod,
+    notCurrent?: boolean,
+    isActive?: boolean,
+    className?: string,
+    generation?: number
+) => {
     const periodState = getPeriodState(period);
     const periodCategory = getPeriodCategory(periodState);
 
@@ -92,7 +98,8 @@ const getClassNames = (period: DatePeriod, notCurrent?: boolean, isActive?: bool
         isActive && styles.active,
         notCurrent && styles.old,
         isInfotrygdPeriod(period) && styles.legacy,
-        isGhostPeriode(period) && styles.blank
+        isGhostPeriode(period) && styles.blank,
+        isUberegnetPeriode(period) && generation !== 0 && styles.inactiveAUU
     );
 };
 
@@ -100,9 +107,17 @@ interface PeriodProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
     period: DatePeriod;
     notCurrent?: boolean;
     isActive?: boolean;
+    generation?: number;
 }
 
-export const Period: React.FC<PeriodProps> = ({ period, notCurrent, isActive, className, ...buttonProps }) => {
+export const Period: React.FC<PeriodProps> = ({
+    period,
+    notCurrent,
+    isActive,
+    className,
+    generation,
+    ...buttonProps
+}) => {
     const setActivePeriod = useSetActivePeriod();
     const button = useRef<HTMLButtonElement>(null);
     const iconIsVisible = useIsWiderThan(button, 32);
@@ -112,7 +127,7 @@ export const Period: React.FC<PeriodProps> = ({ period, notCurrent, isActive, cl
 
     const onClick = (event: React.MouseEvent<HTMLButtonElement>) => {
         buttonProps.onClick?.(event);
-        if (isBeregnetPeriode(period) || isUberegnetPeriode(period) || isGhostPeriode(period)) {
+        if (isBeregnetPeriode(period) || (isUberegnetPeriode(period) && generation === 0) || isGhostPeriode(period)) {
             setActivePeriod(period);
         }
     };
@@ -123,7 +138,7 @@ export const Period: React.FC<PeriodProps> = ({ period, notCurrent, isActive, cl
     return (
         <>
             <button
-                className={getClassNames(period, notCurrent, isActive, className)}
+                className={getClassNames(period, notCurrent, isActive, className, generation)}
                 {...buttonProps}
                 onMouseOver={onMouseOver}
                 onMouseOut={onMouseOut}
