@@ -53,7 +53,6 @@ spec:
           - id: "f787f900-6697-440d-a086-d5bb56e26a9c"
           - id: "c21e58b6-d838-4cb0-919a-398cd40117e3"
           - id: "59f26eef-0a4f-4038-bf46-3a5b2f252155"
-  webproxy: true
   secureLogs:
     enabled: true
   envFrom:
