@@ -127,7 +127,11 @@ export const Period: React.FC<PeriodProps> = ({
 
     const onClick = (event: React.MouseEvent<HTMLButtonElement>) => {
         buttonProps.onClick?.(event);
-        if (isBeregnetPeriode(period) || (isUberegnetPeriode(period) && generation === 0) || isGhostPeriode(period)) {
+        if (
+            isBeregnetPeriode(period) ||
+            (isUberegnetPeriode(period) && (generation === 0 || generation == undefined)) ||
+            isGhostPeriode(period)
+        ) {
             setActivePeriod(period);
         }
     };
