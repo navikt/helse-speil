@@ -7,12 +7,12 @@ import { HendelseDate } from './HendelseDate';
 
 const getTitle = (type: Utbetalingtype, automatisk: boolean, godkjent: boolean): string => {
     if (automatisk) {
-        return godkjent ? 'Automatisk godkjent' : 'Kunne ikke behandles her';
+        return godkjent ? 'Godkjent' : 'Kunne ikke behandles her';
     }
 
     switch (type) {
         case Utbetalingtype.Revurdering: {
-            return 'Revurdert';
+            return 'Revurdering godkjent';
         }
         case Utbetalingtype.Annullering: {
             return 'Annullert';
@@ -22,7 +22,7 @@ const getTitle = (type: Utbetalingtype, automatisk: boolean, godkjent: boolean):
         case Utbetalingtype.Ukjent:
         case Utbetalingtype.Utbetaling:
         default: {
-            return 'Sendt til utbetaling';
+            return 'Godkjent';
         }
     }
 };
