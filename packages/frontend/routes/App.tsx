@@ -35,7 +35,11 @@ const useSyncAlertsToLocation = () => {
     const setVarsler = useSetVarsler();
 
     useEffect(() => {
-        setVarsler((prevState) => prevState.filter((it) => it.scope === location.pathname));
+        setVarsler((prevState) =>
+            prevState.filter(
+                (it) => it.scope === location.pathname || (it.name === 'tildeling' && location.pathname !== '/')
+            )
+        );
     }, [location]);
 };
 

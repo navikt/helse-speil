@@ -17,7 +17,7 @@ export const useVarselOmSakErTildeltAnnenSaksbehandler = () => {
 
     const addVarsel = useAddVarsel();
     const removeVarsel = useRemoveVarsel();
-    const key = 'sak-allerede-tildelt';
+    const key = 'tildeling';
 
     useEffect(() => {
         removeVarsel(key);
