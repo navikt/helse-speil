@@ -76,7 +76,7 @@ export const personState = atom<PersonState>({
     default: emptyPersonState(),
 });
 
-export const useCurrentPerson = (): FetchedPerson | null => {
+export const useCurrentPerson = (): Maybe<FetchedPerson> => {
     return useRecoilValue(personState).person;
 };
 

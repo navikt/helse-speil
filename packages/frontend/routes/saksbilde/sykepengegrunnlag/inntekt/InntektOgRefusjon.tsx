@@ -89,7 +89,7 @@ export const harIngenUtbetaltePerioderFor = (person: FetchedPerson, skjæringsti
     );
 };
 
-const harPeriodeTilBeslutterFor = (person: FetchedPerson, skjæringstidspunkt: DateString): boolean => {
+export const harPeriodeTilBeslutterFor = (person: FetchedPerson, skjæringstidspunkt: DateString): boolean => {
     return (
         (
             person?.arbeidsgivere
@@ -97,7 +97,7 @@ const harPeriodeTilBeslutterFor = (person: FetchedPerson, skjæringstidspunkt: D
                 .filter(
                     (it) => isBeregnetPeriode(it) && it.skjaeringstidspunkt === skjæringstidspunkt
                 ) as unknown as Array<BeregnetPeriode>
-        ).some((it) => it.oppgave?.erBeslutter) ?? false
+        ).some((it) => it.oppgave?.erBeslutter || it.totrinnsvurdering?.erBeslutteroppgave) ?? false
     );
 };
 

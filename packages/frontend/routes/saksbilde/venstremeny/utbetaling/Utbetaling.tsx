@@ -178,7 +178,7 @@ export const Utbetaling = ({ period, person, arbeidsgiver }: UtbetalingProps) =>
                             : 'Godkjenn'}
                     </GodkjenningButton>
                 )}
-                {!isRevurdering && !period.oppgave?.erBeslutter && (
+                {!isRevurdering && (!period.oppgave?.erBeslutter || !period.totrinnsvurdering?.erBeslutteroppgave) && (
                     <AvvisningButton
                         disabled={periodenErSendt}
                         activePeriod={period}

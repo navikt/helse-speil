@@ -185,7 +185,11 @@ interface PeriodeCardBeregnetProps {
 const PeriodeCardBeregnet: React.FC<PeriodeCardBeregnetProps> = ({ periode, arbeidsgiver, månedsbeløp }) => {
     const type = periode.utbetaling.type === 'REVURDERING' ? Oppgavetype.Revurdering : periode.periodetype;
     const label = `${getTextForPeriodetype(periode.periodetype)} ${
-        periode.oppgave?.erRetur ? '(RETUR)' : periode.oppgave?.erBeslutter ? '(BESLUTTER)' : ''
+        periode.oppgave?.erRetur || periode.totrinnsvurdering?.erRetur
+            ? '(RETUR)'
+            : periode.oppgave?.erBeslutter || periode.totrinnsvurdering?.erBeslutteroppgave
+            ? '(BESLUTTER)'
+            : ''
     }`;
 
     return (

@@ -116,7 +116,11 @@ const UtbetalingshistorikkWithContent: React.FC<UtbetalingshistorikkWithContentP
                                         oppdrag.personoppdrag
                                     )}
                                     readOnly={readOnly}
-                                    erBeslutteroppgave={(activePeriod as BeregnetPeriode)?.erBeslutterOppgave ?? false}
+                                    erBeslutteroppgave={
+                                        ((activePeriod as BeregnetPeriode)?.erBeslutterOppgave ?? false) ||
+                                        ((activePeriod as BeregnetPeriode)?.totrinnsvurdering?.erBeslutteroppgave ??
+                                            false)
+                                    }
                                 />
                             )}
                             {oppdrag.arbeidsgiveroppdrag && (
@@ -130,7 +134,11 @@ const UtbetalingshistorikkWithContent: React.FC<UtbetalingshistorikkWithContentP
                                         oppdrag.arbeidsgiveroppdrag
                                     )}
                                     readOnly={readOnly}
-                                    erBeslutteroppgave={(activePeriod as BeregnetPeriode)?.erBeslutterOppgave ?? false}
+                                    erBeslutteroppgave={
+                                        ((activePeriod as BeregnetPeriode)?.erBeslutterOppgave ?? false) ||
+                                        ((activePeriod as BeregnetPeriode)?.totrinnsvurdering?.erBeslutteroppgave ??
+                                            false)
+                                    }
                                 />
                             )}
                         </React.Fragment>

@@ -25,7 +25,7 @@ const validateTilstand = (periode: FetchedBeregnetPeriode): void => {
 };
 
 const validateBeslutter = (periode: FetchedBeregnetPeriode): void => {
-    if (periode.oppgave?.erBeslutter) {
+    if (periode.oppgave?.erBeslutter || periode.totrinnsvurdering?.erBeslutteroppgave) {
         throw {
             value: false,
             technical: 'Perioden har en beslutteroppgave',
