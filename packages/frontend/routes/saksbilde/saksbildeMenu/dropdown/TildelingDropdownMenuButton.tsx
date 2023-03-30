@@ -22,31 +22,40 @@ export const TildelingDropdownMenuButton = ({
 
     const [isFetching, setIsFetching] = useState(false);
 
-    return erTildeltInnloggetBruker ? (
-        <Dropdown.Menu.List.Item
-            disabled={isFetching}
-            onClick={() => {
-                setIsFetching(true);
-                fjernTildeling(oppgavereferanse).finally(() => {
-                    setIsFetching(false);
-                });
-            }}
-        >
-            Meld av
-            {isFetching && <Loader size="xsmall" />}
-        </Dropdown.Menu.List.Item>
-    ) : (
-        <Dropdown.Menu.List.Item
-            disabled={!!tildeling || isFetching}
-            onClick={() => {
-                setIsFetching(true);
-                tildelPerson(oppgavereferanse).finally(() => {
-                    setIsFetching(false);
-                });
-            }}
-        >
-            Tildel meg
-            {isFetching && <Loader size="xsmall" />}
-        </Dropdown.Menu.List.Item>
+    const håndterTildeling = (håndter: Promise<void>) => {
+        setIsFetching(true);
+        håndter.finally(() => {
+            setIsFetching(false);
+        });
+    };
+
+    if (erTildeltInnloggetBruker || tildeling) {
+        return (
+            <Tildelingsknapp
+                knappetekst={erTildeltInnloggetBruker ? 'Meld av' : 'Frigi oppgave'}
+                onClick={() => håndterTildeling(fjernTildeling(oppgavereferanse))}
+                isFetching={isFetching}
+            />
+        );
+    }
+    return (
+        <Tildelingsknapp
+            knappetekst="Tildel meg"
+            onClick={() => håndterTildeling(tildelPerson(oppgavereferanse))}
+            isFetching={isFetching}
+        />
     );
 };
+
+interface TildelingsknappProps {
+    knappetekst: string;
+    onClick: () => void;
+    isFetching: boolean;
+}
+
+const Tildelingsknapp = ({ knappetekst, onClick, isFetching }: TildelingsknappProps) => (
+    <Dropdown.Menu.List.Item disabled={isFetching} onClick={onClick}>
+        {knappetekst}
+        {isFetching && <Loader size="xsmall" />}
+    </Dropdown.Menu.List.Item>
+);
