@@ -16,6 +16,7 @@ import { isInCurrentGeneration } from '@state/selectors/period';
 import { kanOverstyreRevurdering, kanOverstyres, kanRevurderes } from '@utils/overstyring';
 import { isBeregnetPeriode, isPerson, isUberegnetPeriode } from '@utils/typeguards';
 
+import { harPeriodeTilBeslutterFor } from '../sykepengegrunnlag/inntekt/InntektOgRefusjon';
 import { OverstyrbarUtbetaling } from './OverstyrbarUtbetaling';
 import { Utbetalingstabell } from './utbetalingstabell/Utbetalingstabell';
 import { useTabelldagerMap } from './utbetalingstabell/useTabelldagerMap';
@@ -42,7 +43,6 @@ interface ReadonlyUtbetalingProps {
 const ReadonlyUtbetaling: React.FC<ReadonlyUtbetalingProps> = ({ fom, tom, dager }) => {
     const hasLatestSkjæringstidspunkt = useActivePeriodHasLatestSkjæringstidspunkt();
     const periodeErISisteGenerasjon = useIsInCurrentGeneration();
-    const period = useActivePeriod();
 
     const harTidligereSkjæringstidspunktOgISisteGenerasjon = !hasLatestSkjæringstidspunkt && periodeErISisteGenerasjon;
 
@@ -52,13 +52,6 @@ const ReadonlyUtbetaling: React.FC<ReadonlyUtbetalingProps> = ({ fom, tom, dager
                 <div className={styles.Infopin}>
                     <PopoverHjelpetekst ikon={<SortInfoikon />}>
                         <p>Det er ikke mulig å gjøre endringer i denne perioden</p>
-                    </PopoverHjelpetekst>
-                </div>
-            )}
-            {!harTidligereSkjæringstidspunktOgISisteGenerasjon && isUberegnetPeriode(period) && (
-                <div className={styles.Infopin}>
-                    <PopoverHjelpetekst ikon={<SortInfoikon />}>
-                        <p>Det er ikke mulig å gjøre endringer på uberegnede perioder</p>
                     </PopoverHjelpetekst>
                 </div>
             )}
@@ -142,8 +135,24 @@ const UtbetalingUberegnetPeriode: React.FC<UtbetalingUberegnetPeriodeProps> = ({
         tidslinje: periode.tidslinje,
         overstyringer: dagoverstyringer,
     });
+    const person = useCurrentPerson();
+    if (!person) return null;
 
-    return <ReadonlyUtbetaling fom={periode.fom} tom={periode.tom} dager={dager} />;
+    const skjæringstidspunktHarPeriodeTilBeslutter = harPeriodeTilBeslutterFor(person, periode.skjaeringstidspunkt);
+
+    return !skjæringstidspunktHarPeriodeTilBeslutter ? (
+        <OverstyrbarUtbetaling
+            fom={periode.fom}
+            tom={periode.tom}
+            dager={dager}
+            skjæringstidspunkt={periode.skjaeringstidspunkt}
+            erForkastet={false}
+            revurderingIsEnabled={false}
+            overstyrRevurderingIsEnabled={false}
+        />
+    ) : (
+        <ReadonlyUtbetaling fom={periode.fom} tom={periode.tom} dager={dager} />
+    );
 };
 
 const UtbetalingContainer = () => {
