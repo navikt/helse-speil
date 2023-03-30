@@ -101,7 +101,6 @@
 
 .Period.inactiveAUU {
     cursor: not-allowed;
-    --period-hover-color: var(--navds-global-color-limegreen-100);
 }
 
 .Period.inactiveAUU:active {
