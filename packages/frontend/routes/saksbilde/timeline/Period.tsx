@@ -115,7 +115,7 @@ export const Period: React.FC<PeriodProps> = ({
     notCurrent,
     isActive,
     className,
-    generation,
+    generation = 0,
     ...buttonProps
 }) => {
     const setActivePeriod = useSetActivePeriod();
@@ -127,11 +127,7 @@ export const Period: React.FC<PeriodProps> = ({
 
     const onClick = (event: React.MouseEvent<HTMLButtonElement>) => {
         buttonProps.onClick?.(event);
-        if (
-            isBeregnetPeriode(period) ||
-            (isUberegnetPeriode(period) && (generation === 0 || generation == undefined)) ||
-            isGhostPeriode(period)
-        ) {
+        if (isBeregnetPeriode(period) || (isUberegnetPeriode(period) && generation === 0) || isGhostPeriode(period)) {
             setActivePeriod(period);
         }
     };
