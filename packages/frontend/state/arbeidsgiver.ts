@@ -111,7 +111,10 @@ export const usePeriodForSkjæringstidspunktForArbeidsgiver = (
     const arbeidsgiverGhostPerioder = arbeidsgiver?.ghostPerioder.filter(
         (it) => it.skjaeringstidspunkt === skjæringstidspunkt
     );
-    const arbeidsgiverPerioder = arbeidsgiver?.generasjoner[generasjon]?.perioder ?? [];
+    const arbeidsgiverPerioder =
+        arbeidsgiver?.generasjoner[generasjon]?.perioder.filter(
+            (it) => it.skjaeringstidspunkt === skjæringstidspunkt
+        ) ?? [];
 
     if (arbeidsgiverPerioder.length === 0 && arbeidsgiverGhostPerioder?.length === 0) {
         return null;
