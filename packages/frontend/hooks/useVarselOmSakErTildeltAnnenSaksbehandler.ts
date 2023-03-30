@@ -1,9 +1,9 @@
 import { useEffect } from 'react';
 
 import { useInnloggetSaksbehandler } from '@state/authentication';
+import { TildelingAlert } from '@state/oppgaver';
 import { useCurrentPerson } from '@state/person';
 import { useAddVarsel, useRemoveVarsel } from '@state/varsler';
-import { InfoAlert } from '@utils/error';
 import { capitalizeName } from '@utils/locale';
 
 const erTildeltAnnenSaksbehandler = (saksbehandlerOid: string, personTilBehandling: FetchedPerson): boolean => {
@@ -22,7 +22,9 @@ export const useVarselOmSakErTildeltAnnenSaksbehandler = () => {
     useEffect(() => {
         removeVarsel(key);
         if (personTilBehandling && erTildeltAnnenSaksbehandler(saksbehandler.oid, personTilBehandling)) {
-            addVarsel(new InfoAlert(`Saken er tildelt ${capitalizeName(personTilBehandling.tildeling?.navn ?? '')}`));
+            addVarsel(
+                new TildelingAlert(`Saken er tildelt ${capitalizeName(personTilBehandling.tildeling?.navn ?? '')}`)
+            );
         }
     }, [saksbehandler.oid, personTilBehandling]);
 };

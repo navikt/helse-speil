@@ -174,7 +174,7 @@ type TildelingError = {
     };
 };
 
-class TildelingAlert extends InfoAlert {
+export class TildelingAlert extends InfoAlert {
     name = 'tildeling';
 }
 
