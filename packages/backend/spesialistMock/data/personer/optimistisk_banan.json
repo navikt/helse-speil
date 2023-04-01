@@ -1300,6 +1300,7 @@
                                     "periodetilstand": "IngenUtbetaling",
                                     "skjaeringstidspunkt": "2022-08-08",
                                     "varslerForGenerasjon": [],
+                                    "hendelser": [],
                                     "id": "9d6f6883-4e10-491a-80a5-74c3af02b5e8"
                                 },
                                 {
@@ -10176,6 +10177,7 @@
                                     "periodetilstand": "IngenUtbetaling",
                                     "skjaeringstidspunkt": "2022-08-08",
                                     "varslerForGenerasjon": [],
+                                    "hendelser": [],
                                     "id": "7c14f787-f7e0-4d94-bc74-e8634b6509ea"
                                 },
                                 {
@@ -18966,6 +18968,7 @@
                                     "periodetilstand": "IngenUtbetaling",
                                     "skjaeringstidspunkt": "2022-08-08",
                                     "varslerForGenerasjon": [],
+                                    "hendelser": [],
                                     "id": "be11d2f3-0617-4515-b944-8510da77d92f"
                                 },
                                 {
