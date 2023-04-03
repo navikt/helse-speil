@@ -31,5 +31,6 @@ query FetchOppgaver {
             erRetur
             erBeslutteroppgave
         }
+        mottaker
     }
 }

@@ -1,4 +1,11 @@
-import { Adressebeskyttelse, Kjonn, OppgaveForOversiktsvisning, Oppgavetype, Periodetype } from '../schemaTypes';
+import {
+    Adressebeskyttelse,
+    Kjonn,
+    Mottaker,
+    OppgaveForOversiktsvisning,
+    Oppgavetype,
+    Periodetype,
+} from '../schemaTypes';
 
 export const oppgaver: Array<OppgaveForOversiktsvisning> = [
     {
@@ -29,6 +36,7 @@ export const oppgaver: Array<OppgaveForOversiktsvisning> = [
         erRetur: false,
         tidligereSaksbehandler: null,
         trengerTotrinnsvurdering: false,
+        mottaker: Mottaker.Arbeidsgiver,
     },
     {
         id: '4959',
@@ -58,6 +66,7 @@ export const oppgaver: Array<OppgaveForOversiktsvisning> = [
         erRetur: false,
         tidligereSaksbehandler: null,
         trengerTotrinnsvurdering: false,
+        mottaker: Mottaker.Sykmeldt,
     },
     {
         id: '4917',
@@ -87,5 +96,6 @@ export const oppgaver: Array<OppgaveForOversiktsvisning> = [
         erRetur: false,
         tidligereSaksbehandler: null,
         trengerTotrinnsvurdering: false,
+        mottaker: Mottaker.Begge,
     },
 ];

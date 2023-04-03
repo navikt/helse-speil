@@ -15,6 +15,7 @@ import { SortableHeader } from './SortableHeader';
 import { DatoCell } from './rader/DatoCell';
 import { EgenskaperCell } from './rader/EgenskaperCell';
 import { InntektskildeCell } from './rader/InntektskildeCell';
+import { MottakerCell } from './rader/MottakerCell';
 import { OppgavetypeCell } from './rader/OppgavetypeCell';
 import { PeriodetypeCell } from './rader/PeriodetypeCell';
 import { TildelingCell } from './rader/TildelingCell';
@@ -110,11 +111,16 @@ export const OppgaverTable: React.FC<OppgaverTableProps> = React.memo(({ oppgave
                                 </Header>
                                 <Header scope="col" colSpan={1}>
                                     <FilterButton filters={filters.filter((it) => it.column === 3)}>
-                                        Egenskaper
+                                        Mottaker
                                     </FilterButton>
                                 </Header>
                                 <Header scope="col" colSpan={1}>
                                     <FilterButton filters={filters.filter((it) => it.column === 4)}>
+                                        Egenskaper
+                                    </FilterButton>
+                                </Header>
+                                <Header scope="col" colSpan={1}>
+                                    <FilterButton filters={filters.filter((it) => it.column === 5)}>
                                         Inntektskilde
                                     </FilterButton>
                                 </Header>
@@ -148,6 +154,7 @@ export const OppgaverTable: React.FC<OppgaverTableProps> = React.memo(({ oppgave
                                     <TildelingCell oppgave={it} kanTildeles={!readOnly} />
                                     <PeriodetypeCell type={it.periodetype ?? Periodetype.Forstegangsbehandling} />
                                     <OppgavetypeCell oppgavetype={it.type} />
+                                    <MottakerCell mottaker={it.mottaker} />
                                     <EgenskaperCell
                                         erBeslutter={
                                             it.erBeslutter || it.totrinnsvurdering?.erBeslutteroppgave === true

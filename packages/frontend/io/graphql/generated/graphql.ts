@@ -340,6 +340,12 @@ export type Kommentar = {
     tekst: Scalars['String'];
 };
 
+export enum Mottaker {
+    Arbeidsgiver = 'ARBEIDSGIVER',
+    Begge = 'BEGGE',
+    Sykmeldt = 'SYKMELDT',
+}
+
 export type Mutation = {
     __typename?: 'Mutation';
     feilregistrerKommentar: Scalars['Boolean'];
@@ -454,6 +460,7 @@ export type OppgaveForOversiktsvisning = {
     flereArbeidsgivere: Scalars['Boolean'];
     fodselsnummer: Scalars['String'];
     id: Scalars['String'];
+    mottaker?: Maybe<Mottaker>;
     opprettet: Scalars['String'];
     opprinneligSoknadsdato: Scalars['String'];
     periodetype?: Maybe<Periodetype>;
@@ -474,12 +481,6 @@ export type OppgaveForPeriodevisning = {
     id: Scalars['String'];
     tidligereSaksbehandler?: Maybe<Scalars['String']>;
     trengerTotrinnsvurdering: Scalars['Boolean'];
-};
-
-export type Oppgaver = {
-    __typename?: 'Oppgaver';
-    oppgaver: Array<OppgaveForOversiktsvisning>;
-    paginering: Paginering;
 };
 
 export enum Oppgavetype {
@@ -517,13 +518,6 @@ export type OverstyrtInntekt = {
     manedligInntekt: Scalars['Float'];
     refusjonsopplysninger?: Maybe<Array<Refusjonsopplysning>>;
     skjaeringstidspunkt: Scalars['String'];
-};
-
-export type Paginering = {
-    __typename?: 'Paginering';
-    antallSider: Scalars['Int'];
-    elementerPerSide: Scalars['Int'];
-    side: Scalars['Int'];
 };
 
 export type Periode = {
@@ -634,7 +628,6 @@ export type Query = {
     behandlingsstatistikk: Behandlingsstatistikk;
     notater: Array<Notater>;
     oppdrag: Array<Oppdrag>;
-    oppgaver: Oppgaver;
     person?: Maybe<Person>;
 };
 
@@ -650,12 +643,6 @@ export type QueryNotaterArgs = {
 
 export type QueryOppdragArgs = {
     fnr: Scalars['String'];
-};
-
-export type QueryOppgaverArgs = {
-    antall: Scalars['Int'];
-    side: Scalars['Int'];
-    sortering?: InputMaybe<SorteringInput>;
 };
 
 export type QueryPersonArgs = {
@@ -683,11 +670,6 @@ export type Reservasjon = {
     kanVarsles: Scalars['Boolean'];
     reservert: Scalars['Boolean'];
 };
-
-export enum Retning {
-    Asc = 'asc',
-    Desc = 'desc',
-}
 
 export type Risikovurdering = {
     __typename?: 'Risikovurdering';
@@ -783,12 +765,6 @@ export type Soknadsfrist = {
     sendtNav: Scalars['String'];
     soknadFom: Scalars['String'];
     soknadTom: Scalars['String'];
-};
-
-export type SorteringInput = {
-    bosted?: InputMaybe<Retning>;
-    opprettet?: InputMaybe<Retning>;
-    status?: InputMaybe<Retning>;
 };
 
 export type Spennoppdrag = {

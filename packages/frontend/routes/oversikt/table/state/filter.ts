@@ -1,6 +1,6 @@
 import { atom, selector, useRecoilValue, useSetRecoilState } from 'recoil';
 
-import { OppgaveForOversiktsvisning, Oppgavetype, Periodetype } from '@io/graphql';
+import { Mottaker, OppgaveForOversiktsvisning, Oppgavetype, Periodetype } from '@io/graphql';
 
 import { TabType, tabState } from '../../Tabs';
 
@@ -82,12 +82,33 @@ const defaultFilters: Filter<OppgaveForOversiktsvisning>[] = [
         column: 2,
     },
     {
+        key: 'MOTTAKER',
+        label: 'Sykmeldt',
+        active: false,
+        function: (oppgave: OppgaveForOversiktsvisning) => oppgave.mottaker === Mottaker.Sykmeldt,
+        column: 3,
+    },
+    {
+        key: 'MOTTAKER',
+        label: 'Arbeidsgiver',
+        active: false,
+        function: (oppgave: OppgaveForOversiktsvisning) => oppgave.mottaker === Mottaker.Arbeidsgiver,
+        column: 3,
+    },
+    {
+        key: 'MOTTAKER',
+        label: 'Begge',
+        active: false,
+        function: (oppgave: OppgaveForOversiktsvisning) => oppgave.mottaker === Mottaker.Begge,
+        column: 3,
+    },
+    {
         key: 'BESLUTTER',
         label: 'Beslutter',
         active: false,
         function: (oppgave: OppgaveForOversiktsvisning) =>
             oppgave.erBeslutter || oppgave.totrinnsvurdering?.erBeslutteroppgave === true,
-        column: 3,
+        column: 4,
     },
     {
         key: 'RETUR',
@@ -95,7 +116,7 @@ const defaultFilters: Filter<OppgaveForOversiktsvisning>[] = [
         active: false,
         function: (oppgave: OppgaveForOversiktsvisning) =>
             oppgave.erRetur || oppgave.totrinnsvurdering?.erRetur === true,
-        column: 3,
+        column: 4,
     },
     {
         key: 'INGEN_EGENSKAPER',
@@ -104,21 +125,21 @@ const defaultFilters: Filter<OppgaveForOversiktsvisning>[] = [
         function: (oppgave: OppgaveForOversiktsvisning) =>
             (!oppgave.erRetur && !oppgave.erBeslutter) ||
             (oppgave.totrinnsvurdering?.erRetur === false && oppgave.totrinnsvurdering?.erBeslutteroppgave === false),
-        column: 3,
+        column: 4,
     },
     {
         key: 'EN_ARBEIDSGIVER',
         label: 'Én arbeidsgiver',
         active: false,
         function: (oppgave: OppgaveForOversiktsvisning) => !oppgave.flereArbeidsgivere,
-        column: 4,
+        column: 5,
     },
     {
         key: 'FLERE_ARBEIDSGIVERE',
         label: 'Flere arbeidsgivere',
         active: false,
         function: (oppgave: OppgaveForOversiktsvisning) => oppgave.flereArbeidsgivere,
-        column: 4,
+        column: 5,
     },
     {
         key: 'FORTROLIG_ADR',
