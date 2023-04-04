@@ -22,7 +22,7 @@ export const DropdownHeaderRow = ({ tab, filters }: DropdownHeaderProps) => (
                 'Tildelt'
             )}
         </Header>
-        <FilterHeader filters={filters} column={1} text="Periodetyper" />
+        <FilterHeader filters={filters} column={1} text="Periodetype" />
         <FilterHeader filters={filters} column={2} text="Oppgavetype" />
         <FilterHeader filters={filters} column={3} text="Mottaker" />
         <FilterHeader filters={filters} column={4} text="Egenskaper" />
