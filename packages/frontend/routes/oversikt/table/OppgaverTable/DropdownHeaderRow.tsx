@@ -15,13 +15,11 @@ interface DropdownHeaderProps {
 
 export const DropdownHeaderRow = ({ tab, filters }: DropdownHeaderProps) => (
     <tr className={styles.DropdownHeader}>
-        <Header scope="col" colSpan={1}>
-            {tab === TabType.TilGodkjenning ? (
-                <FilterButton filters={filters.filter((it) => it.column === 0)}>Tildelt</FilterButton>
-            ) : (
-                'Tildelt'
-            )}
-        </Header>
+        {tab === TabType.TilGodkjenning ? (
+            <FilterHeader filters={filters} column={0} text="Tildelt" />
+        ) : (
+            <Header scope="col" colSpan={1} />
+        )}
         <FilterHeader filters={filters} column={1} text="Periodetype" />
         <FilterHeader filters={filters} column={2} text="Oppgavetype" />
         <FilterHeader filters={filters} column={3} text="Mottaker" />
@@ -36,8 +34,13 @@ interface FilterHeaderProps {
     text: string;
 }
 
-const FilterHeader = ({ filters, column, text }: FilterHeaderProps) => (
-    <Header scope="col" colSpan={1}>
-        <FilterButton filters={filters.filter((it) => it.column === column)}>{text}</FilterButton>
-    </Header>
-);
+const FilterHeader = ({ filters, column, text }: FilterHeaderProps) => {
+    const numberOfFilters = filters.filter((it) => it.column === column && it.active).length;
+    return (
+        <Header scope="col" colSpan={1}>
+            <FilterButton
+                filters={filters.filter((it) => it.column === column)}
+            >{`${text} (${numberOfFilters})`}</FilterButton>
+        </Header>
+    );
+};
