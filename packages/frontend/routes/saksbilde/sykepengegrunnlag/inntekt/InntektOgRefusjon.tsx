@@ -39,7 +39,7 @@ import { isBeregnetPeriode, isGhostPeriode, isUberegnetPeriode } from '@utils/ty
 import { OverstyrArbeidsforholdUtenSykdom } from '../OverstyrArbeidsforholdUtenSykdom';
 import { BegrunnelseForOverstyring } from '../overstyring.types';
 import { Refusjonsoversikt } from '../refusjon/Refusjonsoversikt';
-import { EditableInntekt } from './EditableInntekt';
+import { EditableInntekt } from './EditableInntekt/EditableInntekt';
 import { ReadOnlyInntekt } from './ReadOnlyInntekt';
 import { RedigerGhostInntekt } from './RedigerGhostInntekt';
 import { RedigerInntektOgRefusjon } from './RedigerInntektOgRefusjon';

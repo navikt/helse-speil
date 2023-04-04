@@ -22,12 +22,12 @@ import { inntektOgRefusjonState, useOverstyrtInntektMetadata, usePostOverstyrtIn
 import { ISO_DATOFORMAT, NORSK_DATOFORMAT } from '@utils/date';
 import { isBeregnetPeriode, isGhostPeriode } from '@utils/typeguards';
 
-import { getFørstePeriodeForSkjæringstidspunkt } from '../../historikk/mapping';
-import { BegrunnelseForOverstyring } from '../overstyring.types';
-import { Begrunnelser } from './Begrunnelser';
+import { getFørstePeriodeForSkjæringstidspunkt } from '../../../historikk/mapping';
+import { BegrunnelseForOverstyring } from '../../overstyring.types';
+import { Begrunnelser } from '../Begrunnelser';
+import { Refusjon } from '../Refusjon';
 import { EditableInntektSlettLokaleOverstyringerModal } from './EditableInntektSlettLokaleOverstyringerModal';
 import { Feiloppsummering } from './Feiloppsummering';
-import { Refusjon } from './Refusjon';
 
 import styles from './EditableInntekt.module.css';
 

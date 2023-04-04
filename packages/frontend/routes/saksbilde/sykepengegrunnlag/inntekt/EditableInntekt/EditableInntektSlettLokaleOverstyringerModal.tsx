@@ -2,7 +2,7 @@ import React from 'react';
 
 import { BodyShort } from '@navikt/ds-react';
 
-import { SlettLokaleOverstyringerModal } from '../../varsler/KalkulerEndringerVarsel';
+import { SlettLokaleOverstyringerModal } from '../../../varsler/KalkulerEndringerVarsel';
 
 import styles from './EditableInntekt.module.css';
 
