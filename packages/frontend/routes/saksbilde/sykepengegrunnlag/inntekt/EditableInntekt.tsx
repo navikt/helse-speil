@@ -1,19 +1,16 @@
-import { MånedsbeløpInput } from './MånedsbeløpInput';
-import classNames from 'classnames';
+import { Månedsbeløp } from './Månedsbeløp';
+import { OmregnetÅrsinntekt } from './OmregnetÅrsinntekt';
 import dayjs from 'dayjs';
 import React, { FormEvent, useEffect, useRef, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { useRecoilState } from 'recoil';
 
-import { Alert, BodyShort, Button, ErrorSummary, Loader } from '@navikt/ds-react';
+import { Alert, BodyShort, Button, Loader } from '@navikt/ds-react';
 
-import { Bold } from '@components/Bold';
-import { Endringstrekant } from '@components/Endringstrekant';
 import { ErrorMessage } from '@components/ErrorMessage';
-import { Flex } from '@components/Flex';
 import { ForklaringTextarea } from '@components/ForklaringTextarea';
 import { OverstyringTimeoutModal } from '@components/OverstyringTimeoutModal';
-import { Inntektskilde, OmregnetArsinntekt } from '@io/graphql';
+import { OmregnetArsinntekt } from '@io/graphql';
 import type { OverstyrtInntektOgRefusjonDTO, Refusjonsopplysning } from '@io/http';
 import {
     useArbeidsgiver,
@@ -23,13 +20,13 @@ import {
 } from '@state/arbeidsgiver';
 import { inntektOgRefusjonState, useOverstyrtInntektMetadata, usePostOverstyrtInntekt } from '@state/overstyring';
 import { ISO_DATOFORMAT, NORSK_DATOFORMAT } from '@utils/date';
-import { somPenger, toKronerOgØre } from '@utils/locale';
 import { isBeregnetPeriode, isGhostPeriode } from '@utils/typeguards';
 
 import { getFørstePeriodeForSkjæringstidspunkt } from '../../historikk/mapping';
-import { SlettLokaleOverstyringerModal } from '../../varsler/KalkulerEndringerVarsel';
 import { BegrunnelseForOverstyring } from '../overstyring.types';
 import { Begrunnelser } from './Begrunnelser';
+import { EditableInntektSlettLokaleOverstyringerModal } from './EditableInntektSlettLokaleOverstyringerModal';
+import { Feiloppsummering } from './Feiloppsummering';
 import { Refusjon } from './Refusjon';
 
 import styles from './EditableInntekt.module.css';
@@ -76,8 +73,6 @@ export const EditableInntekt = ({
 
     const harFeil = !form.formState.isValid && form.formState.isSubmitted;
     const values = form.getValues();
-
-    // console.log(values, form.formState.errors);
 
     const månedsbeløp = Number.parseFloat(values.manedsbelop);
     const harEndringer = !isNaN(månedsbeløp) && månedsbeløp !== omregnetÅrsinntekt.manedsbelop;
@@ -213,46 +208,25 @@ export const EditableInntekt = ({
         }
     };
 
+    const visFeilOppsummering =
+        !form.formState.isValid && form.formState.isSubmitted && Object.entries(form.formState.errors).length > 0;
+
     return (
         <FormProvider {...form}>
             <form onSubmit={form.handleSubmit(confirmChanges)}>
                 <div className={styles.EditableInntekt}>
-                    <div className={styles.Grid}>
-                        <BodyShort>Månedsbeløp</BodyShort>
-                        <Flex gap="1rem">
-                            <MånedsbeløpInput
-                                initialMånedsbeløp={omregnetÅrsinntekt.manedsbelop}
-                                skalDeaktiveres={omregnetÅrsinntekt.kilde === 'INFOTRYGD'}
-                                lokaltMånedsbeløp={lokaltMånedsbeløp}
-                            />
-                            <p
-                                className={classNames(
-                                    styles.OpprinneligMånedsbeløp,
-                                    harEndringer && styles.harEndringer
-                                )}
-                            >
-                                {toKronerOgØre(omregnetÅrsinntekt.manedsbelop)}
-                            </p>
-                        </Flex>
-                    </div>
+                    <Månedsbeløp
+                        månedsbeløp={omregnetÅrsinntekt.manedsbelop}
+                        kilde={omregnetÅrsinntekt.kilde}
+                        lokaltMånedsbeløp={lokaltMånedsbeløp}
+                        harEndringer={harEndringer}
+                    />
                     <BodyShort className={styles.Warning}>Endringen vil gjelde fra skjæringstidspunktet</BodyShort>
-                    <div
-                        className={classNames(
-                            styles.Grid,
-                            styles.OmregnetTilÅrsinntekt,
-                            harEndringer && styles.harEndringer
-                        )}
-                    >
-                        <BodyShort>
-                            {omregnetÅrsinntekt?.kilde === Inntektskilde.Infotrygd
-                                ? 'Sykepengegrunnlag før 6G'
-                                : 'Omregnet til årsinntekt'}
-                        </BodyShort>
-                        <div>
-                            {harEndringer && <Endringstrekant />}
-                            <Bold>{somPenger(omregnetÅrsinntekt.belop)}</Bold>
-                        </div>
-                    </div>
+                    <OmregnetÅrsinntekt
+                        beløp={omregnetÅrsinntekt.belop}
+                        kilde={omregnetÅrsinntekt.kilde}
+                        harEndringer={harEndringer}
+                    />
                     {isBeregnetPeriode(period) && (
                         <Refusjon
                             fraRefusjonsopplysninger={metadata.fraRefusjonsopplysninger}
@@ -263,48 +237,9 @@ export const EditableInntekt = ({
                     <ForklaringTextarea
                         description={`Begrunn hvorfor det er gjort endringer i inntekt og/eller refusjon.\nEks. «Ny inntektsmelding kommet inn 18.10.2021»\nBlir ikke forevist den sykmeldte, med mindre den sykmeldte ber om innsyn.`}
                     />
-                    {/* TODO: Fiks opp typing, fjern any */}
-                    {!form.formState.isValid &&
-                        form.formState.isSubmitted &&
-                        Object.entries(form.formState.errors).length > 0 && (
-                            <div className={styles.Feiloppsummering}>
-                                <ErrorSummary ref={feiloppsummeringRef} heading="Skjemaet inneholder følgende feil:">
-                                    {Object.entries(form.formState.errors)
-                                        .filter(([_, error]) => error !== undefined)
-                                        .map(([id, error]) => {
-                                            if (id !== 'refusjonsopplysninger') {
-                                                return (
-                                                    <ErrorSummary.Item key={id}>
-                                                        {error.message as string}
-                                                    </ErrorSummary.Item>
-                                                );
-                                            } else {
-                                                return (Object.entries(error) as any[])
-                                                    ?.filter(
-                                                        ([_, refusjonserror]) =>
-                                                            refusjonserror !== undefined &&
-                                                            (typeof refusjonserror?.fom === 'object' ||
-                                                                typeof refusjonserror?.tom === 'object' ||
-                                                                typeof refusjonserror?.beløp === 'object')
-                                                    )
-                                                    ?.map(([_, refusjonserror]) => {
-                                                        return Object.entries(refusjonserror)?.map(
-                                                            ([id, refusjonstypeerror]: [string, any], index) => {
-                                                                if (refusjonstypeerror?.message) {
-                                                                    return (
-                                                                        <ErrorSummary.Item key={`${id}${index}`}>
-                                                                            {refusjonstypeerror.message}
-                                                                        </ErrorSummary.Item>
-                                                                    );
-                                                                } else return undefined;
-                                                            }
-                                                        );
-                                                    });
-                                            }
-                                        })}
-                                </ErrorSummary>
-                            </div>
-                        )}
+                    {visFeilOppsummering && (
+                        <Feiloppsummering feiloppsummeringRef={feiloppsummeringRef} errors={form.formState.errors} />
+                    )}
                     {harIkkeSkjemaEndringer && (
                         <Alert variant="warning" className={styles.WarningIngenSkjemaEndringer}>
                             Du har ikke endret månedsinntekt eller refusjonsopplysninger
@@ -327,24 +262,11 @@ export const EditableInntekt = ({
                     {error && <ErrorMessage>{error}</ErrorMessage>}
                     {timedOut && <OverstyringTimeoutModal onRequestClose={() => setTimedOut(false)} />}
                     {showSlettLokaleOverstyringerModal && (
-                        <SlettLokaleOverstyringerModal
+                        <EditableInntektSlettLokaleOverstyringerModal
                             onApprove={form.handleSubmit(confirmChanges)}
                             onClose={() => setShowSlettLokaleOverstyringerModal(false)}
-                            heading="Er du sikker på at du vil fortsette?"
-                            tekst={
-                                <div>
-                                    <BodyShort>
-                                        Ved å trykke ja lagrer du disse nye endringene for skjæringstidspunkt:{' '}
-                                        <span className={styles.Skjæringstidspunkt}>{skjæringstidspunkt}</span>,
-                                    </BodyShort>
-                                    <BodyShort>
-                                        og vil dermed overskrive lokale overstyringer lagret på skjæringstidspunkt:{' '}
-                                        <span className={styles.Skjæringstidspunkt}>
-                                            {lokaleInntektoverstyringer.skjæringstidspunkt ?? ''}
-                                        </span>
-                                    </BodyShort>
-                                </div>
-                            }
+                            overstyrtSkjæringstidspunkt={lokaleInntektoverstyringer.skjæringstidspunkt}
+                            skjæringstidspunkt={skjæringstidspunkt}
                         />
                     )}
                 </div>
