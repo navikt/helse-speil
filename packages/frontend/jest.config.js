@@ -1,3 +1,6 @@
+const { pathsToModuleNameMapper } = require('ts-jest/utils');
+const { compilerOptions } = require('./tsconfig');
+
 module.exports = {
     preset: 'ts-jest',
     moduleFileExtensions: ['js', 'jsx', 'json', 'tsx', 'ts'],
@@ -9,22 +12,11 @@ module.exports = {
         '^.+\\.ts$': 'ts-jest',
     },
     testEnvironment: 'jsdom',
+    modulePaths: [compilerOptions.baseUrl],
     moduleNameMapper: {
-        '^@/(.*)$': '<rootDir>/$1',
-        '\\.(css|less|sass|scss)$': '<rootDir>/__mocks__/styleMock.js',
-        '\\.(gif|ttf|eot|svg|png|graphql\\?raw)$': '<rootDir>/__mocks__/fileMock.js',
-        'nav-(.*)-style': '<rootDir>/__mocks__/fileMock.js',
-        '@test-data/(.*)$': '<rootDir>/test/data/$1',
-        '@test-wrappers': '<rootDir>/test/wrappers',
-        '@io/(.*)$': '<rootDir>/io/$1',
-        '@components/(.*)$': '<rootDir>/components/$1',
-        '@utils/(.*)$': '<rootDir>/utils/$1',
-        '@state/(.*)$': '<rootDir>/state/$1',
-        '@hooks/(.*)$': '<rootDir>/hooks/$1',
-        '@navikt/ds-icons(.*)': '@navikt/ds-icons/cjs$1',
-        '@navikt/ds-react-internal(.*)': '@navikt/ds-react-internal/cjs$1',
-        '@navikt/ds-react(.*)': '@navikt/ds-react/cjs$1',
-        '@navikt/ds-css(.*)': '<rootDir>/__mocks__/styleMock.js',
+        '\\.(css|less|sass|scss)$': '__mocks__/styleMock.js',
+        '\\.(gif|ttf|eot|svg|png|graphql\\?raw)$': '__mocks__/fileMock.js',
+        ...pathsToModuleNameMapper(compilerOptions.paths, { prefix: '<rootDir>/' }),
     },
     transformIgnorePatterns: ['<rootDir>/node_modules'],
     watchPathIgnorePatterns: ['<rootDir>/node_modules'],
