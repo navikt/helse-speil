@@ -167,7 +167,7 @@ const defaultFilters: Filter<OppgaveForOversiktsvisning>[] = [
 const storageKeyForFilters = (tab: TabType) => 'filtereForTab_' + tab;
 
 const hentValgteFiltre = (tab: TabType, defaultFilters: Filter<OppgaveForOversiktsvisning>[]) => {
-    const filters = sessionStorage.getItem(storageKeyForFilters(tab));
+    const filters = localStorage.getItem(storageKeyForFilters(tab));
     if (filters == null) return defaultFilters;
 
     const aktiveFiltre = JSON.parse(filters);
@@ -204,7 +204,7 @@ const filtersState = selector<Filter<OppgaveForOversiktsvisning>[]>({
 
         if (Array.isArray(newValue)) {
             const aktiveFiltre = newValue.filter((f) => f.active).map((f) => f.key);
-            sessionStorage.setItem(storageKeyForFilters(tab), JSON.stringify(aktiveFiltre));
+            localStorage.setItem(storageKeyForFilters(tab), JSON.stringify(aktiveFiltre));
         }
 
         set(allFilters, (filters) => ({ ...filters, [tab]: newValue }));
