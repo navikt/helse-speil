@@ -2,14 +2,10 @@ const { pathsToModuleNameMapper } = require('ts-jest/utils');
 const { compilerOptions } = require('./tsconfig');
 
 module.exports = {
-    preset: 'ts-jest',
     moduleFileExtensions: ['js', 'jsx', 'json', 'tsx', 'ts'],
     transform: {
-        '.+\\.(css|styl|less|sass|scss|png|jpg|ttf|woff|woff2)$': 'babel-jest',
-        '^.+\\.js$': 'babel-jest',
-        '^.+\\.jsx$': 'babel-jest',
-        '^.+\\.tsx$': 'ts-jest',
-        '^.+\\.ts$': 'ts-jest',
+        '.+\\.(css|styl|less|sass|scss|png|jpg|ttf|woff|woff2)$': '@swc/jest',
+        '^.+\\.(t|j)sx?$': '@swc/jest',
     },
     testEnvironment: 'jsdom',
     modulePaths: [compilerOptions.baseUrl],
