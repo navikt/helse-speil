@@ -16,7 +16,9 @@ interface FilterChipsProps {
 export const FilterChips = ({ activeFilters, toggleFilter, setMultipleFilters }: FilterChipsProps) => (
     <Chips className={styles.FilterChips}>
         {activeFilters.map((filter) => (
-            <Chips.Removable onClick={() => toggleFilter(filter.label)}>{filter.label}</Chips.Removable>
+            <Chips.Removable key={filter.label} onClick={() => toggleFilter(filter.label)}>
+                {filter.label}
+            </Chips.Removable>
         ))}
         {activeFilters.length > 0 && (
             <Chips.Removable

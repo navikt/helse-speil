@@ -73,8 +73,8 @@ export const OppgaverTable: React.FC<OppgaverTableProps> = React.memo(({ oppgave
                             <SortHeaderRow sortation={sortation} />
                         </thead>
                         <tbody>
-                            {paginatedRows.map((row) => (
-                                <OppgaveRow oppgave={row} readOnly={readOnly} />
+                            {paginatedRows.map((oppgave) => (
+                                <OppgaveRow key={oppgave.id} oppgave={oppgave} readOnly={readOnly} />
                             ))}
                         </tbody>
                     </table>
