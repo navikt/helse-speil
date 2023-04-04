@@ -4,7 +4,7 @@ import React from 'react';
 import { Bold } from '@components/Bold';
 import { Arbeidsgiveroppdrag, Oppdrag, Personoppdrag, Spennoppdrag } from '@io/graphql';
 import { NORSK_DATOFORMAT_KORT } from '@utils/date';
-import { toKronerOgØre } from '@utils/locale';
+import { somPenger } from '@utils/locale';
 
 import { Cell } from './Cell';
 
@@ -58,7 +58,7 @@ export const UtbetalingshistorikkRow: React.FC<UtbetalingshistorikkRowProps> = (
                 <Bold>{mottaker}</Bold>
             </Cell>
             <Cell>
-                <Bold>{totalt ? `${toKronerOgØre(totalt)} kr` : '-'}</Bold>
+                <Bold>{somPenger(totalt)}</Bold>
             </Cell>
             <Cell>
                 <Bold>{status}</Bold>

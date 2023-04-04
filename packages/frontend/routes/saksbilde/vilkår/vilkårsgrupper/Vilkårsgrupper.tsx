@@ -5,7 +5,7 @@ import React from 'react';
 import { BodyShort } from '@navikt/ds-react';
 
 import { NORSK_DATOFORMAT } from '@utils/date';
-import { toKronerOgØre } from '@utils/locale';
+import { somPenger } from '@utils/locale';
 
 interface OpptjeningstidProps {
     skjæringstidspunkt: DateString;
@@ -36,9 +36,9 @@ type GrunnbeløpProps = {
 
 const Grunnbeløp = ({ grunnbeløp, alder }: GrunnbeløpProps) =>
     alder >= 67 ? (
-        <BodyShort as="p">{`2G er ${toKronerOgØre(grunnbeløp * 2)} kr`}</BodyShort>
+        <BodyShort>{`2G er ${somPenger(grunnbeløp * 2)}`}</BodyShort>
     ) : (
-        <BodyShort as="p">{`0,5G er ${toKronerOgØre(grunnbeløp / 2)} kr`}</BodyShort>
+        <BodyShort>{`0,5G er ${somPenger(grunnbeløp / 2)}`}</BodyShort>
     );
 
 interface SykepengegrunnlagProps {
@@ -54,7 +54,7 @@ export const Sykepengegrunnlag: React.FC<SykepengegrunnlagProps> = ({
 }) => (
     <>
         <Vilkårsgrupperad label="Sykepengegrunnlaget">
-            {sykepengegrunnlag ? `${toKronerOgØre(sykepengegrunnlag)} kr` : 'Ikke funnet'}
+            {sykepengegrunnlag ? somPenger(sykepengegrunnlag) : 'Ikke funnet'}
         </Vilkårsgrupperad>
         <Grunnbeløp grunnbeløp={grunnbeløp} alder={alderVedSkjæringstidspunkt} />
     </>
