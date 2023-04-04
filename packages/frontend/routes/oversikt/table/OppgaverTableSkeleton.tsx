@@ -30,7 +30,30 @@ export const OppgaverTableSkeleton: React.FC = () => {
                 <div className={styles.Scrollable}>
                     <table className={styles.Table}>
                         <thead>
-                            <tr>
+                            <tr className={styles.DropdownHeader}>
+                                <Header scope="col" colSpan={1}>
+                                    <LoadingShimmer />
+                                </Header>
+                                <Header scope="col" colSpan={1}>
+                                    <LoadingShimmer />
+                                </Header>
+                                <Header scope="col" colSpan={1}>
+                                    <LoadingShimmer />
+                                </Header>
+                                <Header scope="col" colSpan={1}>
+                                    <LoadingShimmer />
+                                </Header>
+                                <Header scope="col" colSpan={1}>
+                                    <LoadingShimmer />
+                                </Header>
+                                <Header scope="col" colSpan={1}>
+                                    <LoadingShimmer />
+                                </Header>
+                            </tr>
+                            <tr className={styles.SortHeader}>
+                                <Header scope="col" colSpan={1}>
+                                    <LoadingShimmer />
+                                </Header>
                                 <Header scope="col" colSpan={1}>
                                     <LoadingShimmer />
                                 </Header>
@@ -64,15 +87,6 @@ export const OppgaverTableSkeleton: React.FC = () => {
                                 <CellSkeleton width={130} />
                                 <CellSkeleton width={128} />
                                 <CellSkeleton width={128} />
-                                <CellSkeleton width={100} />
-                                <CellSkeleton width={128} />
-                                <CellSkeleton width={100} />
-                            </Row>
-                            <Row>
-                                <CellSkeleton width={128} />
-                                <CellSkeleton width={130} />
-                                <CellSkeleton width={130} />
-                                <CellSkeleton width={128} />
                                 <CellSkeleton width={128} />
                                 <CellSkeleton width={100} />
                                 <CellSkeleton width={128} />
@@ -82,6 +96,18 @@ export const OppgaverTableSkeleton: React.FC = () => {
                                 <CellSkeleton width={128} />
                                 <CellSkeleton width={130} />
                                 <CellSkeleton width={130} />
+                                <CellSkeleton width={128} />
+                                <CellSkeleton width={128} />
+                                <CellSkeleton width={128} />
+                                <CellSkeleton width={100} />
+                                <CellSkeleton width={128} />
+                                <CellSkeleton width={100} />
+                            </Row>
+                            <Row>
+                                <CellSkeleton width={128} />
+                                <CellSkeleton width={130} />
+                                <CellSkeleton width={130} />
+                                <CellSkeleton width={128} />
                                 <CellSkeleton width={128} />
                                 <CellSkeleton width={128} />
                                 <CellSkeleton width={100} />

@@ -23,6 +23,20 @@ export const opprettetSortation: Sortation<OppgaveForOversiktsvisning> = {
     state: 'ascending',
 };
 
+const saksbehandlerSortFunction = (a: OppgaveForOversiktsvisning, b: OppgaveForOversiktsvisning) => {
+    if (!a.tildeling) return 1;
+    if (!b.tildeling) return -1;
+    if (a.tildeling.navn > b.tildeling.navn) return 1;
+    if (a.tildeling.navn < b.tildeling.navn) return -1;
+    return 0;
+};
+
+export const saksbehandlerSortation: Sortation<OppgaveForOversiktsvisning> = {
+    sortKey: 'saksbehandler',
+    function: saksbehandlerSortFunction,
+    state: 'ascending',
+};
+
 const initialSortation: Sortation<OppgaveForOversiktsvisning> = opprettetSortation;
 
 const sortationPerTab = atom<SortationPerTab>({

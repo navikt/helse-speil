@@ -6,6 +6,7 @@
     color: var(--navds-semantic-color-text);
     padding: 0 1.25rem 0 0;
     position: relative;
+    font-weight: bold;
 }
 
 .SortButton:before,

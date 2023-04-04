@@ -24,15 +24,16 @@ describe('OppgaverTable', () => {
         render(<OppgaverTable oppgaver={oppgaver} />, { wrapper: RecoilWrapper });
 
         expect(screen.getByText('Tildelt')).toBeVisible();
-        expect(screen.getByText('Periodetype')).toBeVisible();
-        expect(screen.getByText('Oppgavetype')).toBeVisible();
-        expect(screen.getByText('Mottaker')).toBeVisible();
-        expect(screen.getByText('Egenskaper')).toBeVisible();
-        expect(screen.getByText('Inntektskilde')).toBeVisible();
+        expect(screen.getByText('Saksbehandler')).toBeVisible();
+        expect(screen.getAllByText('Periodetype')).toHaveLength(2);
+        expect(screen.getAllByText('Oppgavetype')).toHaveLength(2);
+        expect(screen.getAllByText('Mottaker')).toHaveLength(2);
+        expect(screen.getAllByText('Egenskaper')).toHaveLength(2);
+        expect(screen.getAllByText('Inntektskilde')).toHaveLength(2);
         expect(screen.getByText('Søker')).toBeVisible();
         expect(screen.getByText('Opprettet')).toBeVisible();
         expect(screen.getByText('Søknad mottatt')).toBeVisible();
 
-        expect(screen.getAllByRole('columnheader')).toHaveLength(9);
+        expect(screen.getAllByRole('columnheader')).toHaveLength(15);
     });
 });

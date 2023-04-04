@@ -11,9 +11,18 @@
     border-collapse: collapse;
 }
 
-.Table thead tr td,
-.Table thead tr th {
+.Table thead {
     border-bottom: 1px solid var(--navds-semantic-color-border);
+}
+
+.DropdownHeader th {
+    padding: 0 16px 8px 16px;
+}
+
+.SortHeader th {
+    font-weight: bold;
+    padding: 0 16px 0 16px;
+    height: 32px;
 }
 
 .Table > tbody > tr > td:last-of-type {

@@ -23,7 +23,7 @@ import { NotatCell } from './rader/notat/NotatCell';
 import { OptionsCell } from './rader/options/OptionsCell';
 import { Filter, useFilters } from './state/filter';
 import { usePagination } from './state/pagination';
-import { opprettetSortation, useSortation } from './state/sortation';
+import { opprettetSortation, saksbehandlerSortation, useSortation } from './state/sortation';
 
 import styles from './table.module.css';
 
@@ -89,7 +89,7 @@ export const OppgaverTable: React.FC<OppgaverTableProps> = React.memo(({ oppgave
                         }
                     >
                         <thead>
-                            <tr>
+                            <tr className={styles.DropdownHeader}>
                                 <Header scope="col" colSpan={1}>
                                     {tab === TabType.TilGodkjenning ? (
                                         <FilterButton filters={filters.filter((it) => it.column === 0)}>
@@ -123,6 +123,30 @@ export const OppgaverTable: React.FC<OppgaverTableProps> = React.memo(({ oppgave
                                     <FilterButton filters={filters.filter((it) => it.column === 5)}>
                                         Inntektskilde
                                     </FilterButton>
+                                </Header>
+                            </tr>
+                            <tr className={styles.SortHeader}>
+                                <SortableHeader
+                                    sortation={sortation}
+                                    sortKey={saksbehandlerSortation.sortKey}
+                                    onSort={saksbehandlerSortation.function}
+                                >
+                                    Saksbehandler
+                                </SortableHeader>
+                                <Header scope="col" colSpan={1}>
+                                    Periodetype
+                                </Header>
+                                <Header scope="col" colSpan={1}>
+                                    Oppgavetype
+                                </Header>
+                                <Header scope="col" colSpan={1}>
+                                    Mottaker
+                                </Header>
+                                <Header scope="col" colSpan={1}>
+                                    Egenskaper
+                                </Header>
+                                <Header scope="col" colSpan={1}>
+                                    Inntektskilde
                                 </Header>
                                 <Header scope="col" colSpan={1}>
                                     Søker
