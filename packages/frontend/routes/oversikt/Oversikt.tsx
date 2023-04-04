@@ -19,7 +19,7 @@ import { IngenOppgaver } from './IngenOppgaver';
 import { TabType, Tabs, useAktivTab } from './Tabs';
 import { BehandlingsstatistikkView } from './behandlingsstatistikk/BehandlingsstatistikkView';
 import { BehandletIdagTable } from './table/BehandletIdagTable';
-import { OppgaverTable } from './table/OppgaverTable';
+import { OppgaverTable } from './table/OppgaverTable/OppgaverTable';
 import { OppgaverTableSkeleton } from './table/OppgaverTableSkeleton';
 
 import styles from './Oversikt.module.css';

@@ -1,31 +1,30 @@
-import { SøkerCell } from './rader/SøkerCell';
 import React from 'react';
 
 import { useIsReadOnlyOppgave } from '@hooks/useIsReadOnlyOppgave';
 import { FetchOppgaverQuery, OppgaveForOversiktsvisning, Periodetype } from '@io/graphql';
 import { useSyncNotater } from '@state/notater';
 
-import { TabType, useAktivTab } from '../Tabs';
-import { Cell } from './Cell';
-import { FilterButton } from './FilterButton';
-import { Header } from './Header';
-import { LinkRow } from './LinkRow';
-import { Pagination } from './Pagination';
-import { SortableHeader } from './SortableHeader';
-import { DatoCell } from './rader/DatoCell';
-import { EgenskaperCell } from './rader/EgenskaperCell';
-import { InntektskildeCell } from './rader/InntektskildeCell';
-import { MottakerCell } from './rader/MottakerCell';
-import { OppgavetypeCell } from './rader/OppgavetypeCell';
-import { PeriodetypeCell } from './rader/PeriodetypeCell';
-import { TildelingCell } from './rader/TildelingCell';
-import { NotatCell } from './rader/notat/NotatCell';
-import { OptionsCell } from './rader/options/OptionsCell';
-import { Filter, useFilters } from './state/filter';
-import { usePagination } from './state/pagination';
-import { opprettetSortation, saksbehandlerSortation, useSortation } from './state/sortation';
-
-import styles from './table.module.css';
+import { TabType, useAktivTab } from '../../Tabs';
+import { Cell } from '../Cell';
+import { FilterButton } from '../FilterButton';
+import { Header } from '../Header';
+import { LinkRow } from '../LinkRow';
+import { Pagination } from '../Pagination';
+import { SortableHeader } from '../SortableHeader';
+import { DatoCell } from '../rader/DatoCell';
+import { EgenskaperCell } from '../rader/EgenskaperCell';
+import { InntektskildeCell } from '../rader/InntektskildeCell';
+import { MottakerCell } from '../rader/MottakerCell';
+import { OppgavetypeCell } from '../rader/OppgavetypeCell';
+import { PeriodetypeCell } from '../rader/PeriodetypeCell';
+import { SøkerCell } from '../rader/SøkerCell';
+import { TildelingCell } from '../rader/TildelingCell';
+import { NotatCell } from '../rader/notat/NotatCell';
+import { OptionsCell } from '../rader/options/OptionsCell';
+import { Filter, useFilters } from '../state/filter';
+import { usePagination } from '../state/pagination';
+import { opprettetSortation, saksbehandlerSortation, useSortation } from '../state/sortation';
+import styles from '../table.module.css';
 
 const groupFiltersByColumn = (
     filters: Filter<OppgaveForOversiktsvisning>[]
