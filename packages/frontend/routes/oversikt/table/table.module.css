@@ -48,3 +48,9 @@
     flex-direction: column;
     height: 100%;
 }
+
+.FilterChips {
+    margin-left: 1rem;
+    margin-bottom: 1rem;
+    margin-top: 1rem;
+}

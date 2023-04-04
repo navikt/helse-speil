@@ -6,11 +6,12 @@ import { useSyncNotater } from '@state/notater';
 
 import { TabType, useAktivTab } from '../../Tabs';
 import { Pagination } from '../Pagination';
-import { Filter, useFilters } from '../state/filter';
+import { Filter, useFilters, useSetMultipleFilters, useToggleFilter } from '../state/filter';
 import { usePagination } from '../state/pagination';
 import { useSortation } from '../state/sortation';
 import styles from '../table.module.css';
 import { DropdownHeaderRow } from './DropdownHeaderRow';
+import { FilterChips } from './FilterChips';
 import { OppgaveRow } from './OppgaveRow';
 import { SortHeaderRow } from './SortHeaderRow';
 
@@ -22,6 +23,8 @@ export const OppgaverTable: React.FC<OppgaverTableProps> = React.memo(({ oppgave
     const pagination = usePagination();
     const sortation = useSortation();
     const filters = useFilters();
+    const toggleFilter = useToggleFilter();
+    const setMultipleFilters = useSetMultipleFilters();
     const tab = useAktivTab();
     const readOnly = useIsReadOnlyOppgave();
 
@@ -46,6 +49,13 @@ export const OppgaverTable: React.FC<OppgaverTableProps> = React.memo(({ oppgave
 
     return (
         <div className={styles.TableContainer}>
+            {activeFilters.length > 0 && (
+                <FilterChips
+                    activeFilters={activeFilters}
+                    setMultipleFilters={setMultipleFilters}
+                    toggleFilter={toggleFilter}
+                />
+            )}
             <div className={styles.Content}>
                 <div className={styles.Scrollable}>
                     <table
