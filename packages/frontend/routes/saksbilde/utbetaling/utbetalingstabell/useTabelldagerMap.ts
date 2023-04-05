@@ -127,6 +127,7 @@ export const useTabelldagerMap = ({
                                 saksbehandler: overstyring.saksbehandler,
                                 timestamp: overstyring.timestamp,
                                 grad: dag.grad,
+                                fraGrad: dag.fraGrad,
                                 type: getUtbetalingstabelldagtypeFromOverstyrtDag(dag),
                                 dato: dag.dato,
                                 ferdigstilt: overstyring.ferdigstilt,
