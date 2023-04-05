@@ -7,8 +7,8 @@ import { Inntektoverstyring } from '@io/graphql';
 import { NORSK_DATOFORMAT, getFormattedDateString } from '@utils/date';
 import { somPenger } from '@utils/locale';
 
-import { ModalProps } from './Modal';
-import { TableModal } from './TableModal';
+import { ModalProps } from '../Modal';
+import { TableModal } from '../TableModal';
 
 import styles from './Endringslogg.module.css';
 

@@ -3,10 +3,10 @@ import React, { useRef, useState } from 'react';
 
 import { CaseworkerFilled } from '@navikt/ds-icons';
 
-import { EndringsloggArbeidsforhold } from '@components/EndringsloggArbeidsforhold';
-import { EndringsloggDager } from '@components/EndringsloggDager';
-import { EndringsloggInntekt } from '@components/EndringsloggInntekt';
 import { Kilde } from '@components/Kilde';
+import { EndringsloggArbeidsforhold } from '@components/endringslogg/EndringsloggArbeidsforhold';
+import { EndringsloggDager } from '@components/endringslogg/EndringsloggDager';
+import { EndringsloggInntekt } from '@components/endringslogg/EndringsloggInntekt';
 import { useInteractOutside } from '@hooks/useInteractOutside';
 import { Kildetype, Overstyring } from '@io/graphql';
 import { isArbeidsforholdoverstyringer, isInntektoverstyringer, isOverstyringerPrDag } from '@utils/typeguards';

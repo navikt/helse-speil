@@ -4,8 +4,8 @@ import { BodyShort } from '@navikt/ds-react';
 
 import { getFormattedDateString } from '@utils/date';
 
-import { ModalProps } from './Modal';
-import { TableModal } from './TableModal';
+import { ModalProps } from '../Modal';
+import { TableModal } from '../TableModal';
 
 import styles from './Endringslogg.module.css';
 
