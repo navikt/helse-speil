@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import React, { ReactNode } from 'react';
+import React from 'react';
 
 import { CaseworkerFilled } from '@navikt/ds-icons';
 
@@ -10,11 +10,12 @@ import { EndringsloggButton } from '../../sykepengegrunnlag/inntekt/Endringslogg
 import { CellContent } from '../../table/CellContent';
 import { erEksplisittHelg } from './Utbetalingstabell';
 
-const getKildeTypeIcon = (
-    dato: DateString,
-    kilde?: Kildetype,
-    overstyringer?: Array<OverstyringerPrDag>
-): ReactNode => {
+interface KildeTypeIconProps {
+    kilde?: Kildetype;
+    overstyringer?: Array<OverstyringerPrDag>;
+}
+
+const KildeTypeIcon = ({ kilde, overstyringer }: KildeTypeIconProps) => {
     switch (kilde) {
         case 'SYKMELDING':
             return <Kilde type={Kildetype.Sykmelding}>SM</Kilde>;
@@ -50,7 +51,9 @@ interface KildeCellProps extends React.HTMLAttributes<HTMLTableCellElement> {
 export const KildeCell = ({ type, dato, kilde, overstyringer, ...rest }: KildeCellProps) => {
     return (
         <td {...rest}>
-            <Container>{!erEksplisittHelg(type) && <>{getKildeTypeIcon(dato, kilde, overstyringer)}</>}</Container>
+            <Container>
+                {!erEksplisittHelg(type) && <KildeTypeIcon kilde={kilde} overstyringer={overstyringer} />}
+            </Container>
         </td>
     );
 };
