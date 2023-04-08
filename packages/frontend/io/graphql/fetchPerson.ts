@@ -9,5 +9,7 @@ const fetchPersonQuery = gql`
 `;
 
 export const fetchPerson = (id: string): Promise<FetchPersonQuery> => {
-    return request(baseUrl, fetchPersonQuery, validFødselsnummer(id) ? { fnr: id } : { aktorId: id });
+    // Må spesifisere typen pga. samspillet mellom graphql-requst og query-definisjonen vår
+    const variables: { aktorId?: string; fnr?: string } = validFødselsnummer(id) ? { fnr: id } : { aktorId: id };
+    return request(baseUrl, fetchPersonQuery, variables);
 };
