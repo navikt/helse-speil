@@ -3,12 +3,10 @@ import { Response, Router } from 'express';
 import logger from '../logging';
 import { PersonDependencies, SpeilRequest } from '../types';
 import { PersonClient, PersonoppdateringOptions } from './personClient';
-import personLookup from './personLookup';
 
 const router = Router();
 
 const setup = ({ personClient, config, onBehalfOf }: PersonDependencies) => {
-    personLookup.setup({ config, onBehalfOf });
     routes(router, personClient);
     return router;
 };
