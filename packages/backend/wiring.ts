@@ -16,7 +16,7 @@ import totrinnsvurderingClient from './payment/totrinnsvurderingClient';
 import vedtakClient from './payment/vedtakClient';
 import { personClient } from './person/personClient';
 import redisClient from './redisClient';
-import tildelingClient from './tildeling/tildelingClient';
+import SpesialistClient from './tildeling/spesialistClient';
 import { Helsesjekk } from './types';
 
 const getDependencies = (app: Express, helsesjekk: Helsesjekk) =>
@@ -24,7 +24,7 @@ const getDependencies = (app: Express, helsesjekk: Helsesjekk) =>
 
 const getDevDependencies = (app: Express) => {
     const instrumentation: Instrumentation = instrumentationModule.setup(app);
-    const _tildelingClient = tildelingClient(config.oidc, devOnBehalfOf);
+    const spesialistClient = SpesialistClient(config.oidc, devOnBehalfOf);
     const _personClient = personClient(instrumentation, config.oidc, devOnBehalfOf);
     const _devGraphQLClient = graphQLClient(config.oidc, devOnBehalfOf);
     const _totrinnsvurderingClient = totrinnsvurderingClient(config.oidc, devOnBehalfOf);
@@ -49,8 +49,8 @@ const getDevDependencies = (app: Express) => {
             totrinnsvurderingClient: _totrinnsvurderingClient,
         },
         redisClient: devRedisClient,
+        spesialistClient,
         overstyring: { overstyringClient: _overstyringClient },
-        tildeling: { tildelingClient: _tildelingClient },
         opptegnelse: { opptegnelseClient: _opptegnelseClient },
         leggPåVent: { leggPåVentClient: _leggPåVentClient },
         notat: { notatClient: _notatClient },
@@ -63,9 +63,9 @@ const getProdDependencies = (app: Express, helsesjekk: Helsesjekk) => {
     const _redisClient: RedisClient = redisClient.init(config.redis, helsesjekk);
     const instrumentation: Instrumentation = instrumentationModule.setup(app);
     const _onBehalfOf = onBehalfOf(config.oidc, instrumentation);
+    const spesialistClient = SpesialistClient(config.oidc, _onBehalfOf);
     const _vedtakClient = vedtakClient(config.oidc, _onBehalfOf);
     const _overstyringClient = overstyringClient(config.oidc, _onBehalfOf);
-    const _tildelingClient = tildelingClient(config.oidc, _onBehalfOf);
     const _annulleringClient = annulleringClient(config, _onBehalfOf);
     const _personClient = personClient(instrumentation, config.oidc, _onBehalfOf);
     const _opptegnelseClient = opptegnelseClient(config.oidc, _onBehalfOf);
@@ -86,8 +86,8 @@ const getProdDependencies = (app: Express, helsesjekk: Helsesjekk) => {
             totrinnsvurderingClient: _totrinnsvurderingClient,
         },
         redisClient: _redisClient,
+        spesialistClient,
         overstyring: { overstyringClient: _overstyringClient },
-        tildeling: { tildelingClient: _tildelingClient },
         opptegnelse: { opptegnelseClient: _opptegnelseClient },
         leggPåVent: { leggPåVentClient: _leggPåVentClient },
         notat: { notatClient: _notatClient },

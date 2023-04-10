@@ -2,17 +2,13 @@ import { Response, Router } from 'express';
 
 import logger from '../logging';
 import { SpeilRequest } from '../types';
-import { TildelingClient } from './tildelingClient';
+import { HttpMethod, SpesialistClient } from './spesialistClient';
 
-interface SetupOptions {
-    tildelingClient: TildelingClient;
-}
-
-export default ({ tildelingClient }: SetupOptions) => {
+export default (spesialistClient: SpesialistClient) => {
     const router = Router();
     router.post('/:oppgavereferanse', (req: SpeilRequest, res: Response) => {
-        tildelingClient
-            .postTildeling({ oppgavereferanse: req.params['oppgavereferanse'] }, req.session.speilToken)
+        spesialistClient
+            .execute(req.session.speilToken, `/api/tildeling/${req.params['oppgavereferanse']}`, HttpMethod.POST)
             .then(() => res.sendStatus(200))
             .catch((ex) => {
                 if (ex.statusCode === 409) {
@@ -25,8 +21,8 @@ export default ({ tildelingClient }: SetupOptions) => {
     });
 
     router.delete('/:oppgavereferanse', (req: SpeilRequest, res: Response) => {
-        tildelingClient
-            .fjernTildeling({ oppgavereferanse: req.params['oppgavereferanse'] }, req.session.speilToken)
+        spesialistClient
+            .execute(req.session.speilToken, `/api/tildeling/${req.params['oppgavereferanse']}`, HttpMethod.DELETE)
             .then(() => res.sendStatus(200))
             .catch((ex) => {
                 logger.error(`Feil under fjerning av tildeling: ${ex}`);

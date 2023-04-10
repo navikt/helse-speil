@@ -159,7 +159,7 @@ app.use('/*', async (req: SpeilRequest, res, next) => {
 app.use('/api/person', person.setup({ ...dependencies.person }));
 app.use('/api/payments', paymentRoutes(dependencies.payments));
 app.use('/api/overstyring', overstyringRoutes(dependencies.overstyring));
-app.use('/api/tildeling', tildelingRoutes(dependencies.tildeling));
+app.use('/api/tildeling', tildelingRoutes(dependencies.spesialistClient));
 app.use('/api/opptegnelse', opptegnelseRoutes(dependencies.opptegnelse));
 app.use('/api/leggpaavent', oppgaveRoutes(dependencies.leggPåVent));
 app.use('/api/notater', notatRoutes(dependencies.notat));
