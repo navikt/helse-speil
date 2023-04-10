@@ -16,7 +16,7 @@ import notatRoutes from './notat/notatRoutes';
 import opptegnelseRoutes from './opptegnelse/opptegnelseRoutes';
 import overstyringRoutes from './overstyring/overstyringRoutes';
 import paymentRoutes from './payment/paymentRoutes';
-import person from './person/personRoutes';
+import oppdaterPersonRoutes from './person/oppdaterPersonRoutes';
 import { ipAddressFromRequest } from './requestData';
 import { sessionStore } from './sessionStore';
 import tildelingRoutes from './tildeling/tildelingRoutes';
@@ -156,7 +156,13 @@ app.use('/*', async (req: SpeilRequest, res, next) => {
     }
 });
 
-app.use('/api/person', person.setup({ ...dependencies.person }));
+app.use(
+    '/api/person/oppdater',
+    oppdaterPersonRoutes({
+        spesialistClient: dependencies.spesialistClient,
+        instrumentation: dependencies.instrumentation,
+    })
+);
 app.use('/api/payments', paymentRoutes(dependencies.payments));
 app.use('/api/overstyring', overstyringRoutes(dependencies.overstyring));
 app.use('/api/tildeling', tildelingRoutes(dependencies.spesialistClient));

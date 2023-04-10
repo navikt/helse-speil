@@ -2,8 +2,6 @@ import { Request } from 'express';
 import { Session } from 'express-session';
 import { ResponseType } from 'openid-client';
 
-import { PersonClient } from './person/personClient';
-
 export interface Helsesjekk {
     redis: boolean;
 }
@@ -38,12 +36,6 @@ export interface AppConfig {
 }
 
 export type OnBehalfOf = { hentFor: (tjenesteId: string, token: string) => Promise<string> };
-
-export interface PersonDependencies {
-    personClient: PersonClient;
-    onBehalfOf: OnBehalfOf;
-    config: AppConfig;
-}
 
 export interface SpeilSession extends Session {
     speilToken: string;

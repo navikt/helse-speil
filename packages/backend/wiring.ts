@@ -14,7 +14,6 @@ import overstyringClient from './overstyring/overstyringClient';
 import annulleringClient from './payment/annulleringClient';
 import totrinnsvurderingClient from './payment/totrinnsvurderingClient';
 import vedtakClient from './payment/vedtakClient';
-import { personClient } from './person/personClient';
 import redisClient from './redisClient';
 import SpesialistClient from './tildeling/spesialistClient';
 import { Helsesjekk } from './types';
@@ -25,7 +24,6 @@ const getDependencies = (app: Express, helsesjekk: Helsesjekk) =>
 const getDevDependencies = (app: Express) => {
     const instrumentation: Instrumentation = instrumentationModule.setup(app);
     const spesialistClient = SpesialistClient(config.oidc, devOnBehalfOf);
-    const _personClient = personClient(instrumentation, config.oidc, devOnBehalfOf);
     const _devGraphQLClient = graphQLClient(config.oidc, devOnBehalfOf);
     const _totrinnsvurderingClient = totrinnsvurderingClient(config.oidc, devOnBehalfOf);
     const _opptegnelseClient = opptegnelseClient(config.oidc, devOnBehalfOf);
@@ -38,11 +36,6 @@ const getDevDependencies = (app: Express) => {
     const _leggPåVentClient = leggPåVentClient(config.oidc, devOnBehalfOf);
 
     return {
-        person: {
-            personClient: _personClient,
-            onBehalfOf: devOnBehalfOf,
-            config,
-        },
         payments: {
             vedtakClient: _vedtakClient,
             annulleringClient: _annulleringClient,
@@ -67,7 +60,6 @@ const getProdDependencies = (app: Express, helsesjekk: Helsesjekk) => {
     const _vedtakClient = vedtakClient(config.oidc, _onBehalfOf);
     const _overstyringClient = overstyringClient(config.oidc, _onBehalfOf);
     const _annulleringClient = annulleringClient(config, _onBehalfOf);
-    const _personClient = personClient(instrumentation, config.oidc, _onBehalfOf);
     const _opptegnelseClient = opptegnelseClient(config.oidc, _onBehalfOf);
     const _leggPåVentClient = leggPåVentClient(config.oidc, _onBehalfOf);
     const _notatClient = notatClient(config.oidc, _onBehalfOf);
@@ -75,11 +67,6 @@ const getProdDependencies = (app: Express, helsesjekk: Helsesjekk) => {
     const _totrinnsvurderingClient = totrinnsvurderingClient(config.oidc, _onBehalfOf);
 
     return {
-        person: {
-            personClient: _personClient,
-            onBehalfOf: _onBehalfOf,
-            config,
-        },
         payments: {
             vedtakClient: _vedtakClient,
             annulleringClient: _annulleringClient,

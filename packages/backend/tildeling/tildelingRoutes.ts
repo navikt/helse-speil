@@ -8,7 +8,11 @@ export default (spesialistClient: SpesialistClient) => {
     const router = Router();
     router.post('/:oppgavereferanse', (req: SpeilRequest, res: Response) => {
         spesialistClient
-            .execute(req.session.speilToken, `/api/tildeling/${req.params['oppgavereferanse']}`, HttpMethod.POST)
+            .execute({
+                speilToken: req.session.speilToken,
+                path: `/api/tildeling/${req.params['oppgavereferanse']}`,
+                method: HttpMethod.POST,
+            })
             .then(() => res.sendStatus(200))
             .catch((ex) => {
                 if (ex.statusCode === 409) {
@@ -22,7 +26,11 @@ export default (spesialistClient: SpesialistClient) => {
 
     router.delete('/:oppgavereferanse', (req: SpeilRequest, res: Response) => {
         spesialistClient
-            .execute(req.session.speilToken, `/api/tildeling/${req.params['oppgavereferanse']}`, HttpMethod.DELETE)
+            .execute({
+                speilToken: req.session.speilToken,
+                path: `/api/tildeling/${req.params['oppgavereferanse']}`,
+                method: HttpMethod.DELETE,
+            })
             .then(() => res.sendStatus(200))
             .catch((ex) => {
                 logger.error(`Feil under fjerning av tildeling: ${ex}`);
