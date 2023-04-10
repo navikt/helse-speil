@@ -1,4 +1,4 @@
-import { Response } from 'express';
+import { Response, Router } from 'express';
 
 import { Instrumentation } from '../instrumentation';
 import logger from '../logging';
@@ -11,7 +11,8 @@ export interface OppdaterPersonDependencies {
 }
 
 export default ({ spesialistClient, instrumentation }: OppdaterPersonDependencies) => {
-    return (req: SpeilRequest, res: Response) => {
+    const router = Router();
+    router.post('', (req: SpeilRequest, res: Response) => {
         const path = '/api/person/oppdater';
         const tidtakning = instrumentation.requestHistogram.startTidtakning(path);
 
@@ -31,5 +32,6 @@ export default ({ spesialistClient, instrumentation }: OppdaterPersonDependencie
                 logger.error(`Feil under post: ${err}`);
                 res.status(500).send('Feil under post');
             });
-    };
+    });
+    return router;
 };
