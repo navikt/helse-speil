@@ -11,6 +11,7 @@ import azure from './auth/azure';
 import config from './config';
 import graphQLRoutes from './graphql/graphQLRoutes';
 import headers from './headers';
+import totrinnsvurderingRoutes from './http/totrinnsvurderingRoutes';
 import logger from './logging';
 import notatRoutes from './notat/notatRoutes';
 import opptegnelseRoutes from './opptegnelse/opptegnelseRoutes';
@@ -158,6 +159,7 @@ app.use('/*', async (req: SpeilRequest, res, next) => {
 
 app.use('/api/person/oppdater', oppdaterPersonRoutes(dependencies));
 app.use('/api/payments', paymentRoutes(dependencies.payments));
+app.use('/api/totrinnsvurdering', totrinnsvurderingRoutes(dependencies.payments));
 app.use('/api/overstyring', overstyringRoutes(dependencies.overstyring));
 app.use('/api/tildeling', tildelingRoutes(dependencies.spesialistClient));
 app.use('/api/opptegnelse', opptegnelseRoutes(dependencies));

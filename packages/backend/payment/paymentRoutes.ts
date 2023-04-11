@@ -3,16 +3,14 @@ import { Response, Router } from 'express';
 import logger from '../logging';
 import { SpeilRequest } from '../types';
 import { AnnulleringClient } from './annulleringClient';
-import { TotrinnsvurderingClient } from './totrinnsvurderingClient';
 import { VedtakClient } from './vedtakClient';
 
 interface SetupOptions {
     vedtakClient: VedtakClient;
     annulleringClient: AnnulleringClient;
-    totrinnsvurderingClient: TotrinnsvurderingClient;
 }
 
-export default ({ vedtakClient, annulleringClient, totrinnsvurderingClient }: SetupOptions) => {
+export default ({ vedtakClient, annulleringClient }: SetupOptions) => {
     const router = Router();
 
     router.post('/vedtak', (req: SpeilRequest, res: Response) => {
@@ -81,41 +79,6 @@ export default ({ vedtakClient, annulleringClient, totrinnsvurderingClient }: Se
             })
             .catch((err) => {
                 res.status(err.statusCode || 500).send('Feil under annullering');
-            });
-    });
-
-    router.post('/totrinnsvurdering', (req: SpeilRequest, res: Response) => {
-        logger.info(`Sender til totrinnsvurdering for oppgavereferanse ${req.body.oppgavereferanse}`);
-        totrinnsvurderingClient
-            .totrinnsvurdering(req.session!.speilToken, {
-                oppgavereferanse: req.body.oppgavereferanse,
-            })
-            .then(() => {
-                res.sendStatus(204);
-            })
-            .catch((err) => {
-                logger.info(
-                    `Feil under sending av totrinnsvurdering for oppgavereferanse ${req.body.oppgavereferanse}, statuskode: ${err.statusCode}`
-                );
-                res.status(err.statusCode || 500).send('Feil under sending av totrinnsvurdering');
-            });
-    });
-
-    router.post('/totrinnsvurdering/retur', (req: SpeilRequest, res: Response) => {
-        logger.info(`Sender beslutteroppgave i retur for oppgavereferanse ${req.body.oppgavereferanse}`);
-        totrinnsvurderingClient
-            .beslutteroppgaveretur(req.session!.speilToken, {
-                oppgavereferanse: req.body.oppgavereferanse,
-                notat: req.body.notat,
-            })
-            .then(() => {
-                res.sendStatus(204);
-            })
-            .catch((err) => {
-                logger.info(
-                    `Feil under sending av beslutteroppgave i retur for oppgavereferanse ${req.body.oppgavereferanse}, statuskode: ${err.statusCode}`
-                );
-                res.status(err.statusCode || 500).send('Feil under sending av beslutteroppgave i retur');
             });
     });
 
