@@ -207,6 +207,7 @@ export enum Dagtype {
     Feriedag = 'Feriedag',
     Permisjonsdag = 'Permisjonsdag',
     Sykedag = 'Sykedag',
+    SykedagNav = 'SykedagNav',
 }
 
 export type Enhet = {
