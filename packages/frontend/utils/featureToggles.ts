@@ -58,8 +58,6 @@ export const harBeslutterrolle: boolean = extractGroups().includes(groupIdForBes
 
 export const toggleMeny: boolean = erLocal() || erDev();
 
-export const inntektOgRefusjonSteg4: boolean = erLocal() || erDev() || erSupersaksbehandler() || erCoach();
-
 export const kanSeGhostsBlantBeregnedePerioder: boolean = true;
 
 export const sykedagNav: boolean = erLocal() || erDev();

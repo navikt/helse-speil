@@ -8,7 +8,6 @@ import { Endringstrekant } from '@components/Endringstrekant';
 import { Flex } from '@components/Flex';
 import { Kilde } from '@components/Kilde';
 import { Inntektoverstyring, Inntektskilde, Maybe, OmregnetArsinntekt } from '@io/graphql';
-import { inntektOgRefusjonSteg4 } from '@utils/featureToggles';
 import { kildeForkortelse } from '@utils/inntektskilde';
 import { somPenger } from '@utils/locale';
 
@@ -67,13 +66,7 @@ export const ReadOnlyInntekt: React.FC<ReadOnlyInntektProps> = ({
                 <Flex style={{ justifyContent: 'right' }}>
                     <div style={{ position: 'relative', paddingLeft: '1rem' }}>
                         {(endret || lokaltMånedsbeløp) && (
-                            <Endringstrekant
-                                text={
-                                    inntektOgRefusjonSteg4
-                                        ? 'Endringene vil oppdateres og kalkuleres etter du har trykket på kalkuler'
-                                        : 'Endringene vil oppdateres når kalkuleringen er gjennomført'
-                                }
-                            />
+                            <Endringstrekant text="Endringene vil oppdateres og kalkuleres etter du har trykket på kalkuler" />
                         )}
                         <BodyShort>{somPenger(lokaltMånedsbeløp || omregnetÅrsinntekt?.manedsbelop)}</BodyShort>
                     </div>

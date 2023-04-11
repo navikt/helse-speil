@@ -4,7 +4,6 @@ import React from 'react';
 import { Alert, BodyShort } from '@navikt/ds-react';
 
 import { Maybe, Overstyring, VarselDto } from '@io/graphql';
-import { inntektOgRefusjonSteg4 } from '@utils/featureToggles';
 import { isArbeidsforholdoverstyring, isDagoverstyring, isInntektoverstyring } from '@utils/typeguards';
 
 import { KalkulerEndringerVarsel } from './KalkulerEndringerVarsel';
@@ -181,7 +180,7 @@ export const Saksbildevarsler = ({
                     <BodyShort>{melding}</BodyShort>
                 </Alert>
             ))}
-            {inntektOgRefusjonSteg4 && <KalkulerEndringerVarsel skjæringstidspunkt={skjæringstidspunkt} />}
+            <KalkulerEndringerVarsel skjæringstidspunkt={skjæringstidspunkt} />
         </div>
     );
 };

@@ -2,24 +2,12 @@ import { useEffect, useState } from 'react';
 import { atom, useRecoilState } from 'recoil';
 
 import { Arbeidsgiverrefusjon } from '@io/graphql';
-import {
-    OverstyrtInntektOgRefusjonArbeidsgiver,
-    OverstyrtInntektOgRefusjonDTO,
-    Refusjonsopplysning,
-    postAbonnerPåAktør,
-    postOverstyrtInntektOgRefusjon,
-} from '@io/http';
+import { OverstyrtInntektOgRefusjonArbeidsgiver, OverstyrtInntektOgRefusjonDTO, Refusjonsopplysning } from '@io/http';
 import { useArbeidsgiver, usePeriodForSkjæringstidspunktForArbeidsgiver } from '@state/arbeidsgiver';
-import {
-    kalkulererFerdigToastKey,
-    kalkulererToast,
-    kalkulererToastKey,
-    kalkuleringFerdigToast,
-} from '@state/kalkuleringstoasts';
+import { kalkulererFerdigToastKey, kalkulererToastKey, kalkuleringFerdigToast } from '@state/kalkuleringstoasts';
 import { useOpptegnelser, useSetOpptegnelserPollingRate } from '@state/opptegnelser';
 import { useCurrentPerson } from '@state/person';
 import { useAddToast, useRemoveToast } from '@state/toasts';
-import { inntektOgRefusjonSteg4 } from '@utils/featureToggles';
 import { isArbeidsgiver, isBeregnetPeriode, isGhostPeriode, isPerson } from '@utils/typeguards';
 
 import { mapOgSorterRefusjoner } from '../routes/saksbilde/sykepengegrunnlag/inntekt/Inntekt';
@@ -96,71 +84,54 @@ export const usePostOverstyrtInntekt = (
         postOverstyring: (overstyrtInntekt: OverstyrtInntektOgRefusjonDTO, organisasjonsnummer?: string) => {
             setIsLoading(true);
 
-            if (!inntektOgRefusjonSteg4) {
-                postOverstyrtInntektOgRefusjon(overstyrtInntekt)
-                    .then(() => {
-                        setCalculating(true);
-                        addToast(kalkulererToast({}));
-                        postAbonnerPåAktør(person.aktorId).then(() => setPollingRate(1000));
-                    })
-                    .catch((error) => {
-                        switch (error.statusCode) {
-                            default: {
-                                setError('Kunne ikke overstyre inntekt og/eller refusjon. Prøv igjen senere.');
-                            }
-                        }
-                        setIsLoading(false);
-                    });
-            } else {
-                if (
-                    lokaleInntektoverstyringer.skjæringstidspunkt &&
-                    overstyrtInntekt.skjæringstidspunkt !== lokaleInntektoverstyringer.skjæringstidspunkt &&
-                    !showSlettLokaleOverstyringerModal &&
-                    lokaleInntektoverstyringer.aktørId === person.aktorId
-                ) {
-                    setShowSlettLokaleOverstyringerModal(true);
-                    setIsLoading(false);
-                    return;
-                }
-
-                const overstyrtArbeidsgiver = (overstyrtInntekt as OverstyrtInntektOgRefusjonDTO).arbeidsgivere[0];
-                const overstyrtArbeidsgiverRetyped = {
-                    ...overstyrtArbeidsgiver,
-                    refusjonsopplysninger: [
-                        ...overstyrtArbeidsgiver.refusjonsopplysninger.map((refusjonsopplysning) => {
-                            return { ...refusjonsopplysning } as Refusjonsopplysning;
-                        }),
-                    ],
-                    fraRefusjonsopplysninger: [
-                        ...overstyrtArbeidsgiver.fraRefusjonsopplysninger.map((fraRefusjonsopplysning) => {
-                            return { ...fraRefusjonsopplysning } as Refusjonsopplysning;
-                        }),
-                    ],
-                };
-
-                const arbeidsgivereLagretPåSkjæringstidspunkt =
-                    overstyrtInntekt.skjæringstidspunkt !== lokaleInntektoverstyringer.skjæringstidspunkt
-                        ? []
-                        : [...lokaleInntektoverstyringer.arbeidsgivere];
-
-                setLokaleInntektoverstyringer({
-                    ...overstyrtInntekt,
-                    arbeidsgivere:
-                        arbeidsgivereLagretPåSkjæringstidspunkt.length === 0
-                            ? [overstyrtArbeidsgiverRetyped]
-                            : arbeidsgivereLagretPåSkjæringstidspunkt.filter(
-                                  (it) => it.organisasjonsnummer === organisasjonsnummer
-                              ).length === 0
-                            ? [...arbeidsgivereLagretPåSkjæringstidspunkt, overstyrtArbeidsgiverRetyped]
-                            : [
-                                  ...arbeidsgivereLagretPåSkjæringstidspunkt.filter(
-                                      (it) => it.organisasjonsnummer !== organisasjonsnummer
-                                  ),
-                                  overstyrtArbeidsgiverRetyped,
-                              ],
-                });
-                onFerdigKalkulert();
+            if (
+                lokaleInntektoverstyringer.skjæringstidspunkt &&
+                overstyrtInntekt.skjæringstidspunkt !== lokaleInntektoverstyringer.skjæringstidspunkt &&
+                !showSlettLokaleOverstyringerModal &&
+                lokaleInntektoverstyringer.aktørId === person.aktorId
+            ) {
+                setShowSlettLokaleOverstyringerModal(true);
+                setIsLoading(false);
+                return;
             }
+
+            const overstyrtArbeidsgiver = (overstyrtInntekt as OverstyrtInntektOgRefusjonDTO).arbeidsgivere[0];
+            const overstyrtArbeidsgiverRetyped = {
+                ...overstyrtArbeidsgiver,
+                refusjonsopplysninger: [
+                    ...overstyrtArbeidsgiver.refusjonsopplysninger.map((refusjonsopplysning) => {
+                        return { ...refusjonsopplysning } as Refusjonsopplysning;
+                    }),
+                ],
+                fraRefusjonsopplysninger: [
+                    ...overstyrtArbeidsgiver.fraRefusjonsopplysninger.map((fraRefusjonsopplysning) => {
+                        return { ...fraRefusjonsopplysning } as Refusjonsopplysning;
+                    }),
+                ],
+            };
+
+            const arbeidsgivereLagretPåSkjæringstidspunkt =
+                overstyrtInntekt.skjæringstidspunkt !== lokaleInntektoverstyringer.skjæringstidspunkt
+                    ? []
+                    : [...lokaleInntektoverstyringer.arbeidsgivere];
+
+            setLokaleInntektoverstyringer({
+                ...overstyrtInntekt,
+                arbeidsgivere:
+                    arbeidsgivereLagretPåSkjæringstidspunkt.length === 0
+                        ? [overstyrtArbeidsgiverRetyped]
+                        : arbeidsgivereLagretPåSkjæringstidspunkt.filter(
+                              (it) => it.organisasjonsnummer === organisasjonsnummer
+                          ).length === 0
+                        ? [...arbeidsgivereLagretPåSkjæringstidspunkt, overstyrtArbeidsgiverRetyped]
+                        : [
+                              ...arbeidsgivereLagretPåSkjæringstidspunkt.filter(
+                                  (it) => it.organisasjonsnummer !== organisasjonsnummer
+                              ),
+                              overstyrtArbeidsgiverRetyped,
+                          ],
+            });
+            onFerdigKalkulert();
         },
     };
 };
