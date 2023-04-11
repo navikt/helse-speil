@@ -9,7 +9,6 @@ import devRedisClient from './devRedisClient';
 import graphQLClient from './graphql/graphQLClient';
 import instrumentationModule, { Instrumentation } from './instrumentation';
 import notatClient from './notat/notatClient';
-import opptegnelseClient from './opptegnelse/opptegnelseClient';
 import overstyringClient from './overstyring/overstyringClient';
 import annulleringClient from './payment/annulleringClient';
 import totrinnsvurderingClient from './payment/totrinnsvurderingClient';
@@ -26,7 +25,6 @@ const getDevDependencies = (app: Express) => {
     const spesialistClient = SpesialistClient(config.oidc, devOnBehalfOf);
     const _devGraphQLClient = graphQLClient(config.oidc, devOnBehalfOf);
     const _totrinnsvurderingClient = totrinnsvurderingClient(config.oidc, devOnBehalfOf);
-    const _opptegnelseClient = opptegnelseClient(config.oidc, devOnBehalfOf);
     const _annulleringClient = annulleringClient(config, devOnBehalfOf);
     const _notatClient = notatClient(config.oidc, devOnBehalfOf);
     const _vedtakClient = vedtakClient(config.oidc, devOnBehalfOf);
@@ -44,7 +42,6 @@ const getDevDependencies = (app: Express) => {
         redisClient: devRedisClient,
         spesialistClient,
         overstyring: { overstyringClient: _overstyringClient },
-        opptegnelse: { opptegnelseClient: _opptegnelseClient },
         leggPåVent: { leggPåVentClient: _leggPåVentClient },
         notat: { notatClient: _notatClient },
         graphql: { graphQLClient: _devGraphQLClient },
@@ -60,7 +57,6 @@ const getProdDependencies = (app: Express, helsesjekk: Helsesjekk) => {
     const _vedtakClient = vedtakClient(config.oidc, _onBehalfOf);
     const _overstyringClient = overstyringClient(config.oidc, _onBehalfOf);
     const _annulleringClient = annulleringClient(config, _onBehalfOf);
-    const _opptegnelseClient = opptegnelseClient(config.oidc, _onBehalfOf);
     const _leggPåVentClient = leggPåVentClient(config.oidc, _onBehalfOf);
     const _notatClient = notatClient(config.oidc, _onBehalfOf);
     const _graphQLClient = graphQLClient(config.oidc, _onBehalfOf);
@@ -75,7 +71,6 @@ const getProdDependencies = (app: Express, helsesjekk: Helsesjekk) => {
         redisClient: _redisClient,
         spesialistClient,
         overstyring: { overstyringClient: _overstyringClient },
-        opptegnelse: { opptegnelseClient: _opptegnelseClient },
         leggPåVent: { leggPåVentClient: _leggPåVentClient },
         notat: { notatClient: _notatClient },
         graphql: { graphQLClient: _graphQLClient },

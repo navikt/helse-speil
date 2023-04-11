@@ -1,4 +1,3 @@
-import { Response } from 'express';
 import request from 'request-promise-native';
 
 import config from '../config';

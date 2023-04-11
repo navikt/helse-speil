@@ -1,19 +1,23 @@
 import { Response, Router } from 'express';
 
 import logger from '../logging';
+import { HttpMethod, SpesialistClient } from '../tildeling/spesialistClient';
 import { SpeilRequest } from '../types';
-import { OpptegnelseClient } from './opptegnelseClient';
 
 interface SetupOptions {
-    opptegnelseClient: OpptegnelseClient;
+    spesialistClient: SpesialistClient;
 }
 
-export default ({ opptegnelseClient }: SetupOptions) => {
+export default ({ spesialistClient }: SetupOptions) => {
     const router = Router();
 
     router.post('/abonner/:aktorId', (req: SpeilRequest, res: Response) => {
-        opptegnelseClient
-            .abonnerPåAktør(req.session!.speilToken, req.params['aktorId'])
+        spesialistClient
+            .execute({
+                speilToken: req.session!.speilToken,
+                path: `/api/opptegnelse/abonner/${req.params['aktorId']}`,
+                method: HttpMethod.POST,
+            })
             .then(() => res.sendStatus(200))
             .catch((err) => {
                 if (err?.cause?.code === 'ECONNRESET')
@@ -27,8 +31,12 @@ export default ({ opptegnelseClient }: SetupOptions) => {
     });
 
     router.get('/hent', (req: SpeilRequest, res: Response) => {
-        opptegnelseClient
-            .getAlleOpptegnelser(req.session!.speilToken)
+        spesialistClient
+            .execute({
+                speilToken: req.session!.speilToken,
+                path: `api/opptegnelse/hent`,
+                method: HttpMethod.GET,
+            })
             .then((it) => res.status(200).send(it.body))
             .catch((err) => {
                 logger.warn(`Feil under henting av opptegnelser (se sikkerLogg for detaljer)`);
@@ -38,8 +46,12 @@ export default ({ opptegnelseClient }: SetupOptions) => {
     });
 
     router.get('/hent/:sisteSekvensId', (req: SpeilRequest, res: Response) => {
-        opptegnelseClient
-            .getOpptegnelser(req.session!.speilToken, Number(req.params['sisteSekvensId']))
+        spesialistClient
+            .execute({
+                speilToken: req.session!.speilToken,
+                path: `/api/opptegnelse/hent/${Number(req.params['sisteSekvensId'])}`,
+                method: HttpMethod.GET,
+            })
             .then((it) => res.status(200).send(it.body))
             .catch((err) => {
                 logger.warn(`Feil under henting av opptegnelser med sisteSekvensId (se sikkerLogg for detaljer)`);
