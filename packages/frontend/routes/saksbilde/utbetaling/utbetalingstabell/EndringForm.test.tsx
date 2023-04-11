@@ -12,6 +12,7 @@ jest.mock('@utils/featureToggles', () => ({
     overstyrPermisjonsdagerEnabled: true,
     erUtvikling: () => !erProd,
     erCoachEllerSuper: () => !erProd,
+    sykedagNav: () => true,
 }));
 
 describe('lovligeTypeendringer', () => {
@@ -28,6 +29,7 @@ describe('lovligeTypeendringer', () => {
         erProd = false;
         expect(getLovligeTypeendringer({ revurderingIsEnabled: true })).toEqual([
             'Syk',
+            'Syk (NAV)',
             'Ferie',
             'Egenmelding',
             'Permisjon',
@@ -37,7 +39,7 @@ describe('lovligeTypeendringer', () => {
 
     it('returnerer lovlige typeendringer for dagtypevelgeren under overstyring i dev', () => {
         erProd = false;
-        expect(getLovligeTypeendringer()).toEqual(['Syk', 'Ferie', 'Egenmelding', 'Permisjon', 'Arbeid']);
+        expect(getLovligeTypeendringer()).toEqual(['Syk', 'Syk (NAV)', 'Ferie', 'Egenmelding', 'Permisjon', 'Arbeid']);
     });
 });
 
@@ -53,7 +55,7 @@ describe('EndringForm', () => {
         const markerteDager = new Map([['2020-01-01', { type: 'Ferie' } as UtbetalingstabellDag]]);
         render(<EndringForm markerteDager={markerteDager} onSubmitEndring={() => null} />);
 
-        userEvent.selectOptions(screen.getByRole('combobox'), screen.getAllByRole('option')[1]);
+        userEvent.selectOptions(screen.getByRole('combobox'), screen.getAllByRole('option')[2]);
 
         await waitFor(() => {
             expect(screen.getByTestId('gradvelger')).toBeDisabled();
@@ -64,7 +66,7 @@ describe('EndringForm', () => {
         const markerteDager = new Map([['2020-01-01', { type: 'Egenmelding' } as UtbetalingstabellDag]]);
         render(<EndringForm markerteDager={markerteDager} onSubmitEndring={() => null} />);
 
-        userEvent.selectOptions(screen.getByRole('combobox'), screen.getAllByRole('option')[1]);
+        userEvent.selectOptions(screen.getByRole('combobox'), screen.getAllByRole('option')[2]);
 
         await waitFor(() => {
             expect(screen.getByTestId('gradvelger')).toBeDisabled();
@@ -75,7 +77,7 @@ describe('EndringForm', () => {
         const markerteDager = new Map([['2020-01-01', { type: 'Ferie' } as UtbetalingstabellDag]]);
         render(<EndringForm markerteDager={markerteDager} onSubmitEndring={() => null} />);
 
-        userEvent.selectOptions(screen.getByRole('combobox'), screen.getAllByRole('option')[1]);
+        userEvent.selectOptions(screen.getByRole('combobox'), screen.getAllByRole('option')[2]);
 
         await waitFor(() => {
             expect(screen.getByTestId('gradvelger')).toBeDisabled();
@@ -86,7 +88,7 @@ describe('EndringForm', () => {
         const markerteDager = new Map([['2020-01-01', { type: 'Arbeid' } as UtbetalingstabellDag]]);
         render(<EndringForm markerteDager={markerteDager} onSubmitEndring={() => null} />);
 
-        userEvent.selectOptions(screen.getByRole('combobox'), screen.getAllByRole('option')[1]);
+        userEvent.selectOptions(screen.getByRole('combobox'), screen.getAllByRole('option')[2]);
 
         await waitFor(() => {
             expect(screen.getByTestId('gradvelger')).toBeDisabled();

@@ -31,6 +31,7 @@ const getTypeIcon = (dag?: UtbetalingstabellDag): ReactNode | null => {
 
     switch (dag.type) {
         case 'Syk':
+        case 'Syk (NAV)':
             return <IconSyk />;
         case 'Ferie':
             return <IconFerie />;

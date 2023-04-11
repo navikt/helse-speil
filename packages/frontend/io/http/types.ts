@@ -5,7 +5,14 @@ export interface Options {
     headers?: { [key: string]: any };
 }
 
-export type OverstyrtDagtype = 'Sykedag' | 'Feriedag' | 'Egenmeldingsdag' | 'Permisjonsdag' | 'Avvist' | 'Arbeidsdag';
+export type OverstyrtDagtype =
+    | 'Sykedag'
+    | 'SykedagNav'
+    | 'Feriedag'
+    | 'Egenmeldingsdag'
+    | 'Permisjonsdag'
+    | 'Avvist'
+    | 'Arbeidsdag';
 
 export interface OverstyrtDagDTO {
     dato: string;

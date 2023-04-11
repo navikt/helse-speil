@@ -32,6 +32,8 @@ const tilOverstyrtDagtype = (type: Utbetalingstabelldagtype): OverstyrtDagtype =
         case 'Arbeid':
         case 'FriskHelg': // NAV har konkret informasjon om at dette er arbeid i helg
             return 'Arbeidsdag';
+        case 'Syk (NAV)':
+            return 'SykedagNav';
         default:
             throw Error(`Dag med type ${type} kan ikke overstyres.`);
     }
