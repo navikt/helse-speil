@@ -1,7 +1,7 @@
 import { Response, Router } from 'express';
 
+import { HttpMethod, SpesialistClient } from '../http/spesialistClient';
 import logger from '../logging';
-import { HttpMethod, SpesialistClient } from '../tildeling/spesialistClient';
 import { SpeilRequest } from '../types';
 
 interface SetupOptions {

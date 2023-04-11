@@ -7,6 +7,7 @@ import onBehalfOf from './auth/onBehalfOf';
 import config from './config';
 import devRedisClient from './devRedisClient';
 import graphQLClient from './graphql/graphQLClient';
+import SpesialistClient from './http/spesialistClient';
 import instrumentationModule, { Instrumentation } from './instrumentation';
 import notatClient from './notat/notatClient';
 import overstyringClient from './overstyring/overstyringClient';
@@ -14,7 +15,6 @@ import annulleringClient from './payment/annulleringClient';
 import totrinnsvurderingClient from './payment/totrinnsvurderingClient';
 import vedtakClient from './payment/vedtakClient';
 import redisClient from './redisClient';
-import SpesialistClient from './tildeling/spesialistClient';
 import { Helsesjekk } from './types';
 
 const getDependencies = (app: Express, helsesjekk: Helsesjekk) =>

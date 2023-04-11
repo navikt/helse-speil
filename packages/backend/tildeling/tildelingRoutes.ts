@@ -1,8 +1,8 @@
 import { Response, Router } from 'express';
 
+import { HttpMethod, SpesialistClient } from '../http/spesialistClient';
 import logger from '../logging';
 import { SpeilRequest } from '../types';
-import { HttpMethod, SpesialistClient } from './spesialistClient';
 
 export default (spesialistClient: SpesialistClient) => {
     const router = Router();
