@@ -15,6 +15,8 @@ const getUtbetalingstabelldagtypeFromOverstyrtDag = (dag: OverstyrtDag): Utbetal
             return 'Syk';
         case Dagtype.Arbeidsdag:
             return 'Arbeid';
+        case Dagtype.SykedagNav:
+            return 'Syk (NAV)';
     }
 };
 
