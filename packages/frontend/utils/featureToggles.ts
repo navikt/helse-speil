@@ -60,4 +60,4 @@ export const toggleMeny: boolean = erLocal() || erDev();
 
 export const kanSeGhostsBlantBeregnedePerioder: boolean = true;
 
-export const sykedagNav: boolean = erLocal() || erDev();
+export const sykedagNav: boolean = true;
