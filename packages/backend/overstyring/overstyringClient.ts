@@ -21,7 +21,7 @@ enum Dagtype {
 
 interface OverstyrtDagDTO {
     dato: string;
-    type: 'Sykedag' | 'Feriedag' | 'Egenmeldingsdag' | Dagtype;
+    type: 'Sykedag' | 'SykedagNav' | 'Feriedag' | 'Egenmeldingsdag' | Dagtype;
     fraType: 'Sykedag' | 'Feriedag' | 'Egenmeldingsdag' | Dagtype;
     grad?: number;
     fraGrad?: number;
