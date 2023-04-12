@@ -11,7 +11,7 @@ import { useHarVurderLovvalgOgMedlemskapVarsel } from '@hooks/useHarVurderLovval
 import { useHarUvurderteVarslerPåEllerFør } from '@hooks/uvurderteVarsler';
 import { NotatType, Periodetilstand } from '@io/graphql';
 import { postAbonnerPåAktør } from '@io/http';
-import { useHarDagOverstyringer } from '@state/arbeidsgiver';
+import { useFinnesNyereUtbetaltPeriodePåPerson, useHarDagOverstyringer } from '@state/arbeidsgiver';
 import { opptegnelsePollingTimeState } from '@state/opptegnelser';
 import { inntektOgRefusjonState } from '@state/overstyring';
 import { getLatestUtbetalingTimestamp, getOverstyringerForEksisterendePerioder } from '@state/selectors/person';
@@ -99,6 +99,7 @@ export const Utbetaling = ({ period, person, arbeidsgiver }: UtbetalingProps) =>
     const harOverstyringerEtterSisteGodkjenteUtbetaling = useHarOverstyringerEtterSisteGodkjenteUtbetaling(person);
     const harDagOverstyringer = useHarDagOverstyringer(period);
     const harUvurderteVarslerPåUtbetaling = useHarUvurderteVarslerPåEllerFør(period, person.arbeidsgivere);
+    const fnnesNyereUtbetaltPeriodePåPerson = useFinnesNyereUtbetaltPeriodePåPerson(period, person);
 
     const onGodkjennUtbetaling = () => {
         setGodkjentPeriode(period.vedtaksperiodeId);
@@ -178,15 +179,17 @@ export const Utbetaling = ({ period, person, arbeidsgiver }: UtbetalingProps) =>
                             : 'Godkjenn'}
                     </GodkjenningButton>
                 )}
-                {!isRevurdering && (!period.oppgave?.erBeslutter || !period.totrinnsvurdering?.erBeslutteroppgave) && (
-                    <AvvisningButton
-                        disabled={periodenErSendt}
-                        activePeriod={period}
-                        aktørId={person.aktorId}
-                        onSuccess={onAvvisUtbetaling}
-                        onError={setError}
-                    />
-                )}
+                {!isRevurdering &&
+                    (!period.oppgave?.erBeslutter || !period.totrinnsvurdering?.erBeslutteroppgave) &&
+                    !fnnesNyereUtbetaltPeriodePåPerson && (
+                        <AvvisningButton
+                            disabled={periodenErSendt}
+                            activePeriod={period}
+                            aktørId={person.aktorId}
+                            onSuccess={onAvvisUtbetaling}
+                            onError={setError}
+                        />
+                    )}
                 {erBeslutteroppgaveOgHarTilgang && (
                     <ReturButton
                         disabled={periodenErSendt}

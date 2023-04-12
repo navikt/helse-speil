@@ -17,6 +17,8 @@ import { inntektOgRefusjonState } from '@state/overstyring';
 import { useActivePeriod } from '@state/periode';
 import { useCurrentPerson } from '@state/person';
 import { harBlittUtbetaltTidligere } from '@state/selectors/period';
+import { isGodkjent } from '@state/selectors/utbetaling';
+import { ISO_DATOFORMAT } from '@utils/date';
 import {
     isArbeidsforholdoverstyring,
     isBeregnetPeriode,
@@ -157,6 +159,18 @@ export const useUtbetalingForSkjæringstidspunkt = (skjæringstidspunkt: DateStr
             .reverse()
             .find((beregnetPeriode) => beregnetPeriode.skjaeringstidspunkt === skjæringstidspunkt)?.utbetaling ?? null
     );
+};
+
+export const useFinnesNyereUtbetaltPeriodePåPerson = (
+    period: FetchedBeregnetPeriode,
+    person: FetchedPerson
+): boolean => {
+    const nyesteUtbetaltPeriodePåPerson = person.arbeidsgivere
+        .flatMap((it) => it.generasjoner[0]?.perioder)
+        .filter((periode) => isBeregnetPeriode(periode) && isGodkjent(periode.utbetaling))
+        .pop();
+
+    return dayjs(nyesteUtbetaltPeriodePåPerson?.fom, ISO_DATOFORMAT).isAfter(dayjs(period.tom, ISO_DATOFORMAT));
 };
 
 export const useVurderingForSkjæringstidspunkt = (skjæringstidspunkt: DateString): Vurdering | null => {
