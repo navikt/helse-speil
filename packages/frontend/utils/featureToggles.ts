@@ -59,5 +59,3 @@ export const harBeslutterrolle: boolean = extractGroups().includes(groupIdForBes
 export const toggleMeny: boolean = erLocal() || erDev();
 
 export const kanSeGhostsBlantBeregnedePerioder: boolean = true;
-
-export const sykedagNav: boolean = true;
