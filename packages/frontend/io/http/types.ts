@@ -11,7 +11,7 @@ export type OverstyrtDagtype =
     | 'Feriedag'
     | 'Egenmeldingsdag'
     | 'Permisjonsdag'
-    | 'Avvist'
+    | 'Avvistdag'
     | 'Arbeidsdag';
 
 export interface OverstyrtDagDTO {

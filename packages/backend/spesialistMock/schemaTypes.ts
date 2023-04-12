@@ -203,6 +203,7 @@ export type Dagoverstyring = Overstyring & {
 
 export enum Dagtype {
     Arbeidsdag = 'Arbeidsdag',
+    Avvistdag = 'Avvistdag',
     Egenmeldingsdag = 'Egenmeldingsdag',
     Feriedag = 'Feriedag',
     Permisjonsdag = 'Permisjonsdag',

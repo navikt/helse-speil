@@ -34,6 +34,8 @@ const tilOverstyrtDagtype = (type: Utbetalingstabelldagtype): OverstyrtDagtype =
             return 'Arbeidsdag';
         case 'Syk (NAV)':
             return 'SykedagNav';
+        case 'Avslått':
+            return 'Avvistdag';
         default:
             throw Error(`Dag med type ${type} kan ikke overstyres.`);
     }

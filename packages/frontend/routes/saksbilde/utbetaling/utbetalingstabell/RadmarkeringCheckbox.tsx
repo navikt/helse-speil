@@ -12,13 +12,12 @@ import { erEksplisittHelg } from './Utbetalingstabell';
 export const dagKanOverstyres = (
     dato: DateString,
     erAGP: boolean | undefined,
-    erAvvist: boolean | undefined,
     erForeldet: boolean | undefined,
     dagtype: Utbetalingstabelldagtype,
     skjæringstidspunkt: DateString
 ) => {
     const erSkjæringstidspunkt: boolean = dayjs(dato).isSame(skjæringstidspunkt, 'day');
-    let dagKanOverstyres: Boolean = !erAvvist && !erForeldet && !['Helg'].includes(dagtype);
+    let dagKanOverstyres: Boolean = !erForeldet && !['Helg'].includes(dagtype);
 
     if (!erUtvikling() && !erCoachEllerSuper()) {
         dagKanOverstyres =
@@ -55,7 +54,6 @@ interface RadmarkeringCheckboxProps extends Omit<React.InputHTMLAttributes<HTMLI
     dagtype: Utbetalingstabelldagtype;
     dato: DateString;
     erAGP?: boolean;
-    erAvvist?: boolean;
     erForeldet?: boolean;
     skjæringstidspunkt: DateString;
 }
@@ -65,14 +63,13 @@ export const RadmarkeringCheckbox: React.FC<RadmarkeringCheckboxProps> = ({
     dagtype,
     dato,
     erAGP,
-    erAvvist,
     erForeldet,
     skjæringstidspunkt,
     ...rest
 }) => {
     const erSkjæringstidspunkt: boolean = dayjs(dato).isSame(skjæringstidspunkt, 'day');
 
-    const _dagKanOverstyres: Boolean = dagKanOverstyres(dato, erAGP, erAvvist, erForeldet, dagtype, skjæringstidspunkt);
+    const _dagKanOverstyres: Boolean = dagKanOverstyres(dato, erAGP, erForeldet, dagtype, skjæringstidspunkt);
 
     if (!_dagKanOverstyres && erSkjæringstidspunkt && !erAGP) {
         return <DisabledCheckbox label="Kan foreløpig ikke endres. Mangler støtte for skjæringstidspunkt" />;

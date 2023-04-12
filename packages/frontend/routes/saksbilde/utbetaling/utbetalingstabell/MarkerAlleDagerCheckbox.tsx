@@ -15,7 +15,7 @@ const useOverstyrbareDager = (
         () =>
             Array.from(alleDager.entries()).reduce(
                 (dager, [key, dag]) =>
-                    dagKanOverstyres(dag.dato, dag.erAGP, dag.erAvvist, dag.erForeldet, dag.type, skjæringstidspunkt)
+                    dagKanOverstyres(dag.dato, dag.erAGP, dag.erForeldet, dag.type, skjæringstidspunkt)
                         ? dager.set(key, dag)
                         : dager,
                 new Map()

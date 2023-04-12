@@ -25,10 +25,6 @@ const IconContainer = styled.div`
 const getTypeIcon = (dag?: UtbetalingstabellDag): ReactNode | null => {
     if (!dag) return null;
 
-    if (dag.erForeldet || dag.erAvvist) {
-        return <IconFailure />;
-    }
-
     switch (dag.type) {
         case 'Syk':
         case 'Syk (NAV)':
@@ -41,6 +37,8 @@ const getTypeIcon = (dag?: UtbetalingstabellDag): ReactNode | null => {
             return <IconPermisjon />;
         case 'Arbeid':
             return <IconArbeidsdag />;
+        case 'Avslått':
+            return <IconFailure />;
         case 'Helg':
         case 'Ukjent':
         default:
@@ -56,11 +54,24 @@ const getDisplayText = (dag?: UtbetalingstabellDag): string | null => {
 
     if (dag.erAvvist) {
         return `${dagtype} (Avslått)`;
-    } else if (dagtype === 'Syk (NAV)') {
-        return dagtype;
     } else if (dag.erAGP && (typeof dag?.personbeløp === 'number' || typeof dag?.arbeidsgiverbeløp === 'number')) {
         return `${dagtype} (NAV)`;
     } else if (dag.erAGP) {
+        return `${dagtype} (AGP)`;
+    } else if (dag.erForeldet) {
+        return `${dagtype} (Foreldet)`;
+    } else {
+        return dagtype;
+    }
+};
+
+const getDisplayTextOverstyrtDag = (dag?: UtbetalingstabellDag): string | null => {
+    if (!dag) {
+        return null;
+    }
+    const dagtype = erEksplisittHelg(dag.type) ? 'Helg' : dag.type;
+
+    if (dag.erAGP && dagtype !== 'Syk (NAV)') {
         return `${dagtype} (AGP)`;
     } else if (dag.erForeldet) {
         return `${dagtype} (Foreldet)`;
@@ -75,7 +86,7 @@ interface DagtypeCellProps extends React.HTMLAttributes<HTMLTableCellElement> {
 }
 
 export const DagtypeCell: React.FC<DagtypeCellProps> = ({ dag, overstyrtDag, ...rest }) => {
-    const text = getDisplayText(overstyrtDag) ?? getDisplayText(dag);
+    const text = getDisplayTextOverstyrtDag(overstyrtDag) ?? getDisplayText(dag);
     const icon = getTypeIcon(overstyrtDag) ?? getTypeIcon(dag);
     const dagtypeErOverstyrt = overstyrtDag && dag.type !== overstyrtDag.type;
 

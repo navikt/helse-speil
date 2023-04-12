@@ -8,7 +8,6 @@ import { BodyShort } from '@navikt/ds-react';
 import { Bold } from '@components/Bold';
 import { OverstyringTimeoutModal } from '@components/OverstyringTimeoutModal';
 import { useMap } from '@hooks/useMap';
-import { Utbetaling, Utbetalingstatus } from '@io/graphql';
 
 import { EndringForm } from './utbetalingstabell/EndringForm';
 import { MarkerAlleDagerCheckbox } from './utbetalingstabell/MarkerAlleDagerCheckbox';
@@ -147,7 +146,6 @@ export const OverstyrbarUtbetaling: React.FC<OverstyrbarUtbetalingProps> = ({
                                     dato={dag.dato}
                                     erAGP={dag.erAGP}
                                     erForeldet={dag.erForeldet}
-                                    erAvvist={dag.erAvvist}
                                     skjæringstidspunkt={skjæringstidspunkt}
                                     onChange={toggleChecked(dag)}
                                     checked={markerteDager.get(dag.dato) !== undefined}
