@@ -9,7 +9,6 @@ import { LoadingShimmer } from '@components/LoadingShimmer';
 import { Arbeidsgiver, Infotrygdutbetaling } from '@io/graphql';
 import { useActivePeriod } from '@state/periode';
 import { useCurrentPerson, useIsFetchingPerson } from '@state/person';
-import { kanSeGhostsBlantBeregnedePerioder } from '@utils/featureToggles';
 import { isBeregnetPeriode } from '@utils/typeguards';
 
 import { ExpandableTimelineRow } from './ExpandableTimelineRow';
@@ -72,9 +71,6 @@ const TimelineWithContent: React.FC<TimelineWithContentProps> = React.memo(
                     {arbeidsgivere
                         .filter((it) => it.generasjoner.length > 0 || it.ghostPerioder.length > 0)
                         .map((arbeidsgiver, i) => {
-                            const showGhosts =
-                                arbeidsgiver.generasjoner.length === 0 || kanSeGhostsBlantBeregnedePerioder;
-
                             return arbeidsgiver.generasjoner.length > 1 ? (
                                 <ExpandableTimelineRow
                                     key={i}
@@ -82,7 +78,7 @@ const TimelineWithContent: React.FC<TimelineWithContentProps> = React.memo(
                                     end={end}
                                     name={arbeidsgiver.navn ?? arbeidsgiver.organisasjonsnummer}
                                     generations={arbeidsgiver.generasjoner}
-                                    ghostPeriods={showGhosts ? arbeidsgiver.ghostPerioder : undefined}
+                                    ghostPeriods={arbeidsgiver.ghostPerioder}
                                     activePeriod={activePeriod}
                                 />
                             ) : (
@@ -92,7 +88,7 @@ const TimelineWithContent: React.FC<TimelineWithContentProps> = React.memo(
                                     end={end}
                                     name={arbeidsgiver.navn ?? arbeidsgiver.organisasjonsnummer}
                                     periods={arbeidsgiver.generasjoner[0]?.perioder ?? []}
-                                    ghostPeriods={showGhosts ? arbeidsgiver.ghostPerioder : undefined}
+                                    ghostPeriods={arbeidsgiver.ghostPerioder}
                                     activePeriod={activePeriod}
                                     alignWithExpandable={harArbeidsgiverMedFlereGenerasjoner}
                                 />
