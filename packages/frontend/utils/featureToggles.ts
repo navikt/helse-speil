@@ -17,7 +17,7 @@ const tilgangStikkprøver = ['F140836', 'O123659', 'S160466', 'K104953', 'J15377
 const kunLesetilgang: string[] = [];
 
 export const erLocal = () => location.hostname === 'localhost';
-export const erDev = () => location.hostname === 'speil.dev.intern.nav.no';
+export const erDev = () => location.hostname === 'speil.intern.dev.nav.no';
 
 export const erUtvikling = () => erLocal() || erDev();
 

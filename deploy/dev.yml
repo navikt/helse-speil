@@ -71,6 +71,6 @@ spec:
     - name: CLIENT_ID_SPESIALIST
       value: api://dev-gcp.tbd.spesialist/.default
     - name: LOGOUT_URL
-      value: https://speil.dev.intern.nav.no
+      value: https://speil.intern.dev.nav.no
     - name: SPESIALIST_BASE_URL
       value: http://spesialist
