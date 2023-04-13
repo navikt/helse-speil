@@ -55,7 +55,6 @@ describe('OverstyrbarUtbetaling', () => {
                 fom="2022-01-01"
                 tom="2022-01-31"
                 dager={dager}
-                skjæringstidspunkt="2022-01-01"
                 erForkastet={false}
                 revurderingIsEnabled={false}
                 overstyrRevurderingIsEnabled={false}

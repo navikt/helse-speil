@@ -29,7 +29,6 @@ interface OverstyrbarUtbetalingProps {
     fom: DateString;
     tom: DateString;
     dager: Map<string, UtbetalingstabellDag>;
-    skjæringstidspunkt: DateString;
     erForkastet: boolean;
     revurderingIsEnabled: boolean;
     overstyrRevurderingIsEnabled: boolean;
@@ -39,7 +38,6 @@ export const OverstyrbarUtbetaling: React.FC<OverstyrbarUtbetalingProps> = ({
     fom,
     tom,
     dager,
-    skjæringstidspunkt,
     erForkastet,
     revurderingIsEnabled,
     overstyrRevurderingIsEnabled,
@@ -136,17 +134,14 @@ export const OverstyrbarUtbetaling: React.FC<OverstyrbarUtbetalingProps> = ({
                                 alleDager={dager}
                                 markerteDager={markerteDager}
                                 setMarkerteDager={setMarkerteDager}
-                                skjæringstidspunkt={skjæringstidspunkt}
                             />
                             {Array.from(dager.values()).map((dag, i) => (
                                 <RadmarkeringCheckbox
                                     key={i}
                                     index={i}
                                     dagtype={dag.type}
-                                    dato={dag.dato}
                                     erAGP={dag.erAGP}
                                     erForeldet={dag.erForeldet}
-                                    skjæringstidspunkt={skjæringstidspunkt}
                                     onChange={toggleChecked(dag)}
                                     checked={markerteDager.get(dag.dato) !== undefined}
                                 />

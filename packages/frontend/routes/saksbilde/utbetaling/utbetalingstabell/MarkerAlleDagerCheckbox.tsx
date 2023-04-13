@@ -8,16 +8,13 @@ import { dagKanOverstyres } from './RadmarkeringCheckbox';
 import styles from './MarkerAlleDagerCheckbox.module.css';
 
 const useOverstyrbareDager = (
-    alleDager: Map<DateString, UtbetalingstabellDag>,
-    skjæringstidspunkt: DateString
+    alleDager: Map<DateString, UtbetalingstabellDag>
 ): Map<DateString, UtbetalingstabellDag> => {
     return useMemo(
         () =>
             Array.from(alleDager.entries()).reduce(
                 (dager, [key, dag]) =>
-                    dagKanOverstyres(dag.dato, dag.erAGP, dag.erForeldet, dag.type, skjæringstidspunkt)
-                        ? dager.set(key, dag)
-                        : dager,
+                    dagKanOverstyres(dag.erAGP, dag.erForeldet, dag.type) ? dager.set(key, dag) : dager,
                 new Map()
             ),
         [alleDager]
@@ -28,17 +25,15 @@ interface MarkerAlleDagerCheckboxProps extends Omit<React.InputHTMLAttributes<HT
     alleDager: Map<string, UtbetalingstabellDag>;
     markerteDager: Map<string, UtbetalingstabellDag>;
     setMarkerteDager: Dispatch<SetStateAction<Map<string, UtbetalingstabellDag>>>;
-    skjæringstidspunkt: string;
 }
 
 export const MarkerAlleDagerCheckbox: React.FC<MarkerAlleDagerCheckboxProps> = ({
     alleDager,
     markerteDager,
     setMarkerteDager,
-    skjæringstidspunkt,
     ...rest
 }) => {
-    const overstyrbareDager = useOverstyrbareDager(alleDager, skjæringstidspunkt);
+    const overstyrbareDager = useOverstyrbareDager(alleDager);
 
     const hasSelectedSome = markerteDager.size > 0 && markerteDager.size !== overstyrbareDager.size;
 

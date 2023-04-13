@@ -1,28 +1,22 @@
 import styled from '@emotion/styled';
-import dayjs from 'dayjs';
 import React from 'react';
 
 import { Checkbox } from '@navikt/ds-react';
 
 import { erCoachEllerSuper, erUtvikling } from '@utils/featureToggles';
 
-import { DisabledCheckbox } from './DisabledCheckbox';
 import { erEksplisittHelg } from './Utbetalingstabell';
 
 export const dagKanOverstyres = (
-    dato: DateString,
     erAGP: boolean | undefined,
     erForeldet: boolean | undefined,
-    dagtype: Utbetalingstabelldagtype,
-    skjæringstidspunkt: DateString
+    dagtype: Utbetalingstabelldagtype
 ) => {
-    const erSkjæringstidspunkt: boolean = dayjs(dato).isSame(skjæringstidspunkt, 'day');
     let dagKanOverstyres: Boolean = !erForeldet && !['Helg'].includes(dagtype);
 
     if (!erUtvikling() && !erCoachEllerSuper()) {
         dagKanOverstyres =
             dagKanOverstyres &&
-            !erSkjæringstidspunkt &&
             !erAGP &&
             !erEksplisittHelg(dagtype) &&
             ['Syk', 'Ferie', 'Egenmelding', 'Permisjon'].includes(dagtype);
@@ -52,28 +46,18 @@ const Container = styled.div`
 interface RadmarkeringCheckboxProps extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'size' | 'value'> {
     index: number;
     dagtype: Utbetalingstabelldagtype;
-    dato: DateString;
     erAGP?: boolean;
     erForeldet?: boolean;
-    skjæringstidspunkt: DateString;
 }
 
 export const RadmarkeringCheckbox: React.FC<RadmarkeringCheckboxProps> = ({
     index,
     dagtype,
-    dato,
     erAGP,
     erForeldet,
-    skjæringstidspunkt,
     ...rest
 }) => {
-    const erSkjæringstidspunkt: boolean = dayjs(dato).isSame(skjæringstidspunkt, 'day');
-
-    const _dagKanOverstyres: Boolean = dagKanOverstyres(dato, erAGP, erForeldet, dagtype, skjæringstidspunkt);
-
-    if (!_dagKanOverstyres && erSkjæringstidspunkt && !erAGP) {
-        return <DisabledCheckbox label="Kan foreløpig ikke endres. Mangler støtte for skjæringstidspunkt" />;
-    }
+    const _dagKanOverstyres: Boolean = dagKanOverstyres(erAGP, erForeldet, dagtype);
 
     if (!_dagKanOverstyres) {
         return <Container />;
