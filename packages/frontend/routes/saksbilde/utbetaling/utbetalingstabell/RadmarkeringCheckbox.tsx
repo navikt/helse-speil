@@ -7,17 +7,12 @@ import { erCoachEllerSuper, erUtvikling } from '@utils/featureToggles';
 
 import { erEksplisittHelg } from './Utbetalingstabell';
 
-export const dagKanOverstyres = (
-    erAGP: boolean | undefined,
-    erForeldet: boolean | undefined,
-    dagtype: Utbetalingstabelldagtype
-) => {
+export const dagKanOverstyres = (erForeldet: boolean | undefined, dagtype: Utbetalingstabelldagtype) => {
     let dagKanOverstyres: Boolean = !erForeldet && !['Helg'].includes(dagtype);
 
     if (!erUtvikling() && !erCoachEllerSuper()) {
         dagKanOverstyres =
             dagKanOverstyres &&
-            !erAGP &&
             !erEksplisittHelg(dagtype) &&
             ['Syk', 'Ferie', 'Egenmelding', 'Permisjon'].includes(dagtype);
     }
@@ -46,18 +41,11 @@ const Container = styled.div`
 interface RadmarkeringCheckboxProps extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'size' | 'value'> {
     index: number;
     dagtype: Utbetalingstabelldagtype;
-    erAGP?: boolean;
     erForeldet?: boolean;
 }
 
-export const RadmarkeringCheckbox: React.FC<RadmarkeringCheckboxProps> = ({
-    index,
-    dagtype,
-    erAGP,
-    erForeldet,
-    ...rest
-}) => {
-    const _dagKanOverstyres: Boolean = dagKanOverstyres(erAGP, erForeldet, dagtype);
+export const RadmarkeringCheckbox: React.FC<RadmarkeringCheckboxProps> = ({ index, dagtype, erForeldet, ...rest }) => {
+    const _dagKanOverstyres: Boolean = dagKanOverstyres(erForeldet, dagtype);
 
     if (!_dagKanOverstyres) {
         return <Container />;

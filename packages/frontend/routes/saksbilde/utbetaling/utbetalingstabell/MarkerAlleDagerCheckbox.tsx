@@ -13,8 +13,7 @@ const useOverstyrbareDager = (
     return useMemo(
         () =>
             Array.from(alleDager.entries()).reduce(
-                (dager, [key, dag]) =>
-                    dagKanOverstyres(dag.erAGP, dag.erForeldet, dag.type) ? dager.set(key, dag) : dager,
+                (dager, [key, dag]) => (dagKanOverstyres(dag.erForeldet, dag.type) ? dager.set(key, dag) : dager),
                 new Map()
             ),
         [alleDager]

@@ -20,8 +20,8 @@ describe('RadmarkeringCheckbox', () => {
             <>
                 <RadmarkeringCheckbox index={0} dagtype="Syk" />
                 <RadmarkeringCheckbox index={0} dagtype="Ferie" />
-                <RadmarkeringCheckbox index={0} dagtype="Egenmelding" erAGP={false} />
-                <RadmarkeringCheckbox index={0} dagtype="Permisjon" erAGP={false} />;
+                <RadmarkeringCheckbox index={0} dagtype="Egenmelding" />
+                <RadmarkeringCheckbox index={0} dagtype="Permisjon" />;
             </>
         );
 
@@ -34,7 +34,6 @@ describe('RadmarkeringCheckbox', () => {
             <>
                 <RadmarkeringCheckbox index={0} dagtype="Helg" />
                 <RadmarkeringCheckbox index={0} dagtype="Ukjent" />
-                <RadmarkeringCheckbox index={0} dagtype="Syk" erAGP />
                 <RadmarkeringCheckbox index={0} dagtype="Syk" erForeldet />
             </>
         );
