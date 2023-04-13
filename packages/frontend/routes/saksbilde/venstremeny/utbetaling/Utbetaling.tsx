@@ -144,6 +144,9 @@ export const Utbetaling = ({ period, person, arbeidsgiver }: UtbetalingProps) =>
                     harOverstyringerEtterSisteGodkjenteUtbetaling ||
                     harDagOverstyringer) ? (
                     <SendTilGodkjenningButton
+                        utbetaling={period.utbetaling}
+                        arbeidsgiver={arbeidsgiver}
+                        personinfo={person.personinfo}
                         oppgavereferanse={period.oppgave?.id!}
                         manglerNotatVedVurderLovvalgOgMedlemskapVarsel={manglerNotatVedVurderLovvalgOgMedlemskapVarsel}
                         disabled={

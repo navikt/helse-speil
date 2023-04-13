@@ -5,7 +5,7 @@ import { Alert, BodyShort, Button } from '@navikt/ds-react';
 
 import { Key, useKeyboard } from '@hooks/useKeyboard';
 import { AmplitudeContext } from '@io/amplitude';
-import { NotatType } from '@io/graphql';
+import { NotatType, Personinfo, Utbetaling } from '@io/graphql';
 import { postNotat, postUtbetalingTilTotrinnsvurdering } from '@io/http';
 import { useActivePeriod } from '@state/periode';
 import { useCurrentPerson } from '@state/person';
@@ -37,6 +37,9 @@ interface SendTilGodkjenningButtonProps extends Omit<React.HTMLAttributes<HTMLBu
     disabled: boolean;
     onSuccess?: () => void;
     onError?: (error: Error) => void;
+    utbetaling: Utbetaling;
+    arbeidsgiver: string;
+    personinfo: Personinfo;
 }
 
 export const SendTilGodkjenningButton: React.FC<SendTilGodkjenningButtonProps> = ({
@@ -46,6 +49,9 @@ export const SendTilGodkjenningButton: React.FC<SendTilGodkjenningButtonProps> =
     disabled = false,
     onSuccess,
     onError,
+    utbetaling,
+    arbeidsgiver,
+    personinfo,
     ...buttonProps
 }) => {
     const [showModal, setShowModal] = useState(false);
@@ -120,6 +126,9 @@ export const SendTilGodkjenningButton: React.FC<SendTilGodkjenningButtonProps> =
             </Button>
             {showModal && (
                 <UtbetalingModal
+                    utbetaling={utbetaling}
+                    arbeidsgiver={arbeidsgiver}
+                    personinfo={personinfo}
                     onClose={closeModal}
                     onApprove={sendTilGodkjenning}
                     isSending={isSending}
