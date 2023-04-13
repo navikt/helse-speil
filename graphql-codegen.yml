@@ -1,5 +1,5 @@
 overwrite: true
-schema: "https://spesialist.dev.intern.nav.no/graphql/introspection"
+schema: "https://spesialist.intern.dev.nav.no/graphql/introspection"
 documents: "./packages/frontend/io/graphql/**/*.graphql"
 generates:
   ./packages/frontend/io/graphql/generated/graphql.ts:
