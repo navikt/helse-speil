@@ -168,7 +168,7 @@ const storageKeyForFilters = (tab: TabType) => 'filtereForTab_' + tab;
 
 const hentValgteFiltre = (tab: TabType, defaultFilters: Filter<OppgaveForOversiktsvisning>[]) => {
     const filters = localStorage.getItem(storageKeyForFilters(tab));
-    if (filters == null) return defaultFilters;
+    if (filters == null) return defaultFilters.map(makeFilterActive('Ufordelte saker'));
 
     const aktiveFiltre = JSON.parse(filters);
 
@@ -183,10 +183,7 @@ const makeFilterActive = (targetFilterLabel: string) => (it: Filter<OppgaveForOv
 const allFilters = atom<ActiveFiltersPerTab>({
     key: 'activeFiltersPerTab',
     default: {
-        [TabType.TilGodkjenning]: hentValgteFiltre(
-            TabType.TilGodkjenning,
-            defaultFilters.map(makeFilterActive('Ufordelte saker'))
-        ),
+        [TabType.TilGodkjenning]: hentValgteFiltre(TabType.TilGodkjenning, defaultFilters),
         [TabType.Mine]: hentValgteFiltre(TabType.Mine, defaultFilters),
         [TabType.Ventende]: hentValgteFiltre(TabType.Ventende, defaultFilters),
         [TabType.BehandletIdag]: [],
