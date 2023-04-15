@@ -3,8 +3,6 @@ import React, { Dispatch, SetStateAction, useMemo } from 'react';
 
 import { Checkbox } from '@navikt/ds-react';
 
-import { dagKanOverstyres } from './RadmarkeringCheckbox';
-
 import styles from './MarkerAlleDagerCheckbox.module.css';
 
 const useOverstyrbareDager = (
@@ -13,7 +11,7 @@ const useOverstyrbareDager = (
     return useMemo(
         () =>
             Array.from(alleDager.entries()).reduce(
-                (dager, [key, dag]) => (dagKanOverstyres(dag.erForeldet, dag.type) ? dager.set(key, dag) : dager),
+                (dager, [key, dag]) => (!dag.erForeldet ? dager.set(key, dag) : dager),
                 new Map()
             ),
         [alleDager]

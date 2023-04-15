@@ -3,23 +3,6 @@ import React from 'react';
 
 import { Checkbox } from '@navikt/ds-react';
 
-import { erCoachEllerSuper, erUtvikling } from '@utils/featureToggles';
-
-import { erEksplisittHelg } from './Utbetalingstabell';
-
-export const dagKanOverstyres = (erForeldet: boolean | undefined, dagtype: Utbetalingstabelldagtype) => {
-    let dagKanOverstyres: Boolean = !erForeldet && !['Helg'].includes(dagtype);
-
-    if (!erUtvikling() && !erCoachEllerSuper()) {
-        dagKanOverstyres =
-            dagKanOverstyres &&
-            !erEksplisittHelg(dagtype) &&
-            ['Syk', 'Ferie', 'Egenmelding', 'Permisjon'].includes(dagtype);
-    }
-
-    return dagKanOverstyres;
-};
-
 const Container = styled.div`
     position: relative;
     padding: 1rem;
@@ -40,14 +23,13 @@ const Container = styled.div`
 
 interface RadmarkeringCheckboxProps extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'size' | 'value'> {
     index: number;
-    dagtype: Utbetalingstabelldagtype;
     erForeldet?: boolean;
 }
 
-export const RadmarkeringCheckbox: React.FC<RadmarkeringCheckboxProps> = ({ index, dagtype, erForeldet, ...rest }) => {
-    const _dagKanOverstyres: Boolean = dagKanOverstyres(erForeldet, dagtype);
+export const RadmarkeringCheckbox: React.FC<RadmarkeringCheckboxProps> = ({ index, erForeldet, ...rest }) => {
+    const dagKanOverstyres: Boolean = !erForeldet;
 
-    if (!_dagKanOverstyres) {
+    if (!dagKanOverstyres) {
         return <Container />;
     }
 
