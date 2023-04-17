@@ -13,4 +13,5 @@ declare type Oppgave = {
     tidligereSaksbehandler?: UUID;
     trengerTotrinnsvurdering: boolean;
     tildelt?: Maybe<string>;
+    totrinnsvurdering?: Maybe<Totrinnsvurdering>;
 };

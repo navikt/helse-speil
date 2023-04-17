@@ -97,7 +97,7 @@ export const harPeriodeTilBeslutterFor = (person: FetchedPerson, skjæringstidsp
                 .filter(
                     (it) => isBeregnetPeriode(it) && it.skjaeringstidspunkt === skjæringstidspunkt
                 ) as unknown as Array<BeregnetPeriode>
-        ).some((it) => it.oppgave?.erBeslutter || it.totrinnsvurdering?.erBeslutteroppgave) ?? false
+        ).some((it) => it.totrinnsvurdering?.erBeslutteroppgave) ?? false
     );
 };
 

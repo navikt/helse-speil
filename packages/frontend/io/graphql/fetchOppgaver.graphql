@@ -28,6 +28,7 @@ query FetchOppgaver {
         }
         tidligereSaksbehandler,
         totrinnsvurdering {
+            saksbehandler
             erRetur
             erBeslutteroppgave
         }

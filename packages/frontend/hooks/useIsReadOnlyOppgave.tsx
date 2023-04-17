@@ -11,17 +11,16 @@ export const useIsReadOnlyOppgave = (): boolean => {
 
     const readOnly = useReadonly();
 
-    if (!isBeregnetPeriode(periode) || !periode.oppgave) {
-        return false;
-    }
-
     if (readOnly.override) {
         return readOnly.value;
     }
 
+    if (!isBeregnetPeriode(periode) || !periode.totrinnsvurdering) {
+        return false;
+    }
+
     return (
         erTidligereSaksbehandler ||
-        ((periode.oppgave.erBeslutter || periode.totrinnsvurdering?.erBeslutteroppgave === true) &&
-            !harBeslutteroppgavetilgang)
+        (periode.totrinnsvurdering?.erBeslutteroppgave === true && !harBeslutteroppgavetilgang)
     );
 };

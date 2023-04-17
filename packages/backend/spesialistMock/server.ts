@@ -122,7 +122,7 @@ app.get('/api/notater', (req: Request, res: Response) => {
 
 app.post('/api/totrinnsvurdering/retur', (req: Request, res: Response) => {
     const oppgavereferanse = req.body.oppgavereferanse;
-    const tidligereSaksbehandler = OppgaveMock.getOppgave(oppgavereferanse)?.tidligereSaksbehandler;
+    const tidligereSaksbehandler = OppgaveMock.getOppgave(oppgavereferanse)?.totrinnsvurdering?.saksbehandler;
     const oppgave: Oppgave = {
         ...getDefaultOppgave(),
         id: oppgavereferanse,
@@ -146,7 +146,7 @@ app.post('/api/totrinnsvurdering/retur', (req: Request, res: Response) => {
 app.post('/api/totrinnsvurdering', (req: Request, res: Response) => {
     // mangler å legge til periodehistorikk
     const oppgavereferanse = req.body.oppgavereferanse;
-    const tidligereSaksbehandler = OppgaveMock.getOppgave(oppgavereferanse)?.tidligereSaksbehandler;
+    const tidligereSaksbehandler = OppgaveMock.getOppgave(oppgavereferanse)?.totrinnsvurdering?.saksbehandler;
     const oppgave: Oppgave = {
         ...getDefaultOppgave(),
         id: oppgavereferanse,
@@ -189,17 +189,17 @@ app.get('/api/mock/personstatus/:aktorId', (req: Request, res: Response) => {
 
 app.get('/api/mock/erbeslutteroppgave/:oppgavereferanse', (req: Request, res: Response) => {
     const oppgavereferanse = req.params.oppgavereferanse;
-    res.send(OppgaveMock.getOppgave(oppgavereferanse)?.erBeslutter ?? false);
+    res.send(OppgaveMock.getOppgave(oppgavereferanse)?.totrinnsvurdering?.erBeslutteroppgave ?? false);
 });
 
 app.get('/api/mock/erreturoppgave/:oppgavereferanse', (req: Request, res: Response) => {
     const oppgavereferanse = req.params.oppgavereferanse;
-    res.send(OppgaveMock.getOppgave(oppgavereferanse)?.erRetur ?? false);
+    res.send(OppgaveMock.getOppgave(oppgavereferanse)?.totrinnsvurdering?.erRetur ?? false);
 });
 
 app.get('/api/mock/tidligeresaksbehandler/:oppgavereferanse', (req: Request, res: Response) => {
     const oppgavereferanse = req.params.oppgavereferanse;
-    res.send(OppgaveMock.getOppgave(oppgavereferanse)?.tidligereSaksbehandler ?? null);
+    res.send(OppgaveMock.getOppgave(oppgavereferanse)?.totrinnsvurdering?.saksbehandler ?? null);
 });
 
 setUpGraphQLMiddleware(app);

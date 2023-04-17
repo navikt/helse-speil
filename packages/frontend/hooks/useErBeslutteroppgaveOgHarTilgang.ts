@@ -13,8 +13,6 @@ export const useErBeslutteroppgaveOgHarTilgang = (): boolean => {
     }
 
     return (
-        totrinnvurderingAktiv &&
-        ((periode.oppgave?.erBeslutter ?? false) || (periode.totrinnsvurdering?.erBeslutteroppgave ?? false)) &&
-        harBeslutteroppgaveTilgang
+        totrinnvurderingAktiv && (periode.totrinnsvurdering?.erBeslutteroppgave ?? false) && harBeslutteroppgaveTilgang
     );
 };

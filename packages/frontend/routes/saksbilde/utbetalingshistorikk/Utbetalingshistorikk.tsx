@@ -117,9 +117,8 @@ const UtbetalingshistorikkWithContent: React.FC<UtbetalingshistorikkWithContentP
                                     )}
                                     readOnly={readOnly}
                                     erBeslutteroppgave={
-                                        ((activePeriod as BeregnetPeriode)?.erBeslutterOppgave ?? false) ||
-                                        ((activePeriod as BeregnetPeriode)?.totrinnsvurdering?.erBeslutteroppgave ??
-                                            false)
+                                        (activePeriod as BeregnetPeriode)?.totrinnsvurdering?.erBeslutteroppgave ??
+                                        false
                                     }
                                 />
                             )}
@@ -135,9 +134,8 @@ const UtbetalingshistorikkWithContent: React.FC<UtbetalingshistorikkWithContentP
                                     )}
                                     readOnly={readOnly}
                                     erBeslutteroppgave={
-                                        ((activePeriod as BeregnetPeriode)?.erBeslutterOppgave ?? false) ||
-                                        ((activePeriod as BeregnetPeriode)?.totrinnsvurdering?.erBeslutteroppgave ??
-                                            false)
+                                        (activePeriod as BeregnetPeriode)?.totrinnsvurdering?.erBeslutteroppgave ??
+                                        false
                                     }
                                 />
                             )}

@@ -27,8 +27,8 @@ export const OppgaveRow = ({ oppgave, readOnly }: OppgaveRowProps) => (
         <OppgavetypeCell oppgavetype={oppgave.type} />
         <MottakerCell mottaker={oppgave.mottaker} />
         <EgenskaperCell
-            erBeslutter={oppgave.erBeslutter || oppgave.totrinnsvurdering?.erBeslutteroppgave === true}
-            erRetur={oppgave.erRetur || oppgave.totrinnsvurdering?.erRetur === true}
+            erBeslutter={oppgave.totrinnsvurdering?.erBeslutteroppgave === true}
+            erRetur={oppgave.totrinnsvurdering?.erRetur === true}
         />
         <InntektskildeCell flereArbeidsgivere={oppgave.flereArbeidsgivere} />
         <SøkerCell name={oppgave.personinfo} />

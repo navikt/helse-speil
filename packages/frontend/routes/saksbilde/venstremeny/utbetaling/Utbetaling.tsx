@@ -124,13 +124,9 @@ export const Utbetaling = ({ period, person, arbeidsgiver }: UtbetalingProps) =>
     const harArbeidsgiverutbetaling = period.utbetaling.arbeidsgiverNettoBelop !== 0;
     const harBrukerutbetaling = period.utbetaling.personNettoBelop !== 0;
     const kanSendesTilTotrinnsvurdering =
-        totrinnsvurderingAktiv &&
-        isBeregnetPeriode(period) &&
-        ((period.oppgave?.erBeslutter === false && period.oppgave?.trengerTotrinnsvurdering === true) ||
-            period.totrinnsvurdering?.erBeslutteroppgave === false);
+        totrinnsvurderingAktiv && isBeregnetPeriode(period) && period.totrinnsvurdering?.erBeslutteroppgave === false;
     const trengerTotrinnsvurdering =
-        (period.oppgave?.trengerTotrinnsvurdering ?? false) ||
-        (period?.totrinnsvurdering !== null && !period.totrinnsvurdering?.erBeslutteroppgave);
+        period?.totrinnsvurdering !== null && !period.totrinnsvurdering?.erBeslutteroppgave;
     const manglerNotatVedVurderLovvalgOgMedlemskapVarsel = harVurderLovvalgOgMedlemskapVarsel
         ? period.notater.filter((it) => it.type === NotatType.Generelt && !it.feilregistrert).length === 0
         : undefined;
@@ -183,7 +179,7 @@ export const Utbetaling = ({ period, person, arbeidsgiver }: UtbetalingProps) =>
                     </GodkjenningButton>
                 )}
                 {!isRevurdering &&
-                    (!period.oppgave?.erBeslutter || !period.totrinnsvurdering?.erBeslutteroppgave) &&
+                    !period.totrinnsvurdering?.erBeslutteroppgave &&
                     !fnnesNyereUtbetaltPeriodePåPerson && (
                         <AvvisningButton
                             disabled={periodenErSendt}

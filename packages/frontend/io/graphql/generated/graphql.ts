@@ -1102,7 +1102,12 @@ export type FetchOppgaverQuery = {
         personinfo: { __typename?: 'Personinfo'; fornavn: string; mellomnavn?: string | null; etternavn: string };
         boenhet: { __typename?: 'Boenhet'; navn: string };
         tildeling?: { __typename?: 'Tildeling'; reservert: boolean; navn: string; epost: string; oid: string } | null;
-        totrinnsvurdering?: { __typename?: 'Totrinnsvurdering'; erRetur: boolean; erBeslutteroppgave: boolean } | null;
+        totrinnsvurdering?: {
+            __typename?: 'Totrinnsvurdering';
+            saksbehandler?: string | null;
+            erRetur: boolean;
+            erBeslutteroppgave: boolean;
+        } | null;
     }>;
 };
 
