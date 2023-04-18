@@ -1201,21 +1201,17 @@
                             "name": "String",
                             "ofType": null
                         },
-                        "isDeprecated": false,
-                        "deprecationReason": null
+                        "isDeprecated": true,
+                        "deprecationReason": "beslutterSaksbehandlerOid skal hentes fra totrinnsvurdering"
                     },
                     {
                         "name": "erBeslutterOppgave",
                         "description": null,
                         "args": [],
                         "type": {
-                            "kind": "NON_NULL",
-                            "name": null,
-                            "ofType": {
-                                "kind": "SCALAR",
-                                "name": "Boolean",
-                                "ofType": null
-                            }
+                            "kind": "SCALAR",
+                            "name": "Boolean",
+                            "ofType": null
                         },
                         "isDeprecated": true,
                         "deprecationReason": "erBeslutterOppgave bør hentes fra periodens oppgave"
@@ -1241,13 +1237,9 @@
                         "description": null,
                         "args": [],
                         "type": {
-                            "kind": "NON_NULL",
-                            "name": null,
-                            "ofType": {
-                                "kind": "SCALAR",
-                                "name": "Boolean",
-                                "ofType": null
-                            }
+                            "kind": "SCALAR",
+                            "name": "Boolean",
+                            "ofType": null
                         },
                         "isDeprecated": true,
                         "deprecationReason": "erReturOppgave bør hentes fra periodens oppgave"
@@ -1621,13 +1613,9 @@
                         "description": null,
                         "args": [],
                         "type": {
-                            "kind": "NON_NULL",
-                            "name": null,
-                            "ofType": {
-                                "kind": "SCALAR",
-                                "name": "Boolean",
-                                "ofType": null
-                            }
+                            "kind": "SCALAR",
+                            "name": "Boolean",
+                            "ofType": null
                         },
                         "isDeprecated": true,
                         "deprecationReason": "trengerTotrinnsvurdering bør hentes fra periodens oppgave"
@@ -4208,13 +4196,9 @@
                         "description": null,
                         "args": [],
                         "type": {
-                            "kind": "NON_NULL",
-                            "name": null,
-                            "ofType": {
-                                "kind": "SCALAR",
-                                "name": "Boolean",
-                                "ofType": null
-                            }
+                            "kind": "SCALAR",
+                            "name": "Boolean",
+                            "ofType": null
                         },
                         "isDeprecated": false,
                         "deprecationReason": null
@@ -4224,13 +4208,9 @@
                         "description": null,
                         "args": [],
                         "type": {
-                            "kind": "NON_NULL",
-                            "name": null,
-                            "ofType": {
-                                "kind": "SCALAR",
-                                "name": "Boolean",
-                                "ofType": null
-                            }
+                            "kind": "SCALAR",
+                            "name": "Boolean",
+                            "ofType": null
                         },
                         "isDeprecated": false,
                         "deprecationReason": null
@@ -4408,13 +4388,9 @@
                         "description": null,
                         "args": [],
                         "type": {
-                            "kind": "NON_NULL",
-                            "name": null,
-                            "ofType": {
-                                "kind": "SCALAR",
-                                "name": "Boolean",
-                                "ofType": null
-                            }
+                            "kind": "SCALAR",
+                            "name": "Boolean",
+                            "ofType": null
                         },
                         "isDeprecated": false,
                         "deprecationReason": null
@@ -4467,13 +4443,9 @@
                         "description": null,
                         "args": [],
                         "type": {
-                            "kind": "NON_NULL",
-                            "name": null,
-                            "ofType": {
-                                "kind": "SCALAR",
-                                "name": "Boolean",
-                                "ofType": null
-                            }
+                            "kind": "SCALAR",
+                            "name": "Boolean",
+                            "ofType": null
                         },
                         "isDeprecated": false,
                         "deprecationReason": null
@@ -4483,13 +4455,9 @@
                         "description": null,
                         "args": [],
                         "type": {
-                            "kind": "NON_NULL",
-                            "name": null,
-                            "ofType": {
-                                "kind": "SCALAR",
-                                "name": "Boolean",
-                                "ofType": null
-                            }
+                            "kind": "SCALAR",
+                            "name": "Boolean",
+                            "ofType": null
                         },
                         "isDeprecated": false,
                         "deprecationReason": null
@@ -4523,17 +4491,25 @@
                         "deprecationReason": null
                     },
                     {
+                        "name": "totrinnsvurdering",
+                        "description": null,
+                        "args": [],
+                        "type": {
+                            "kind": "OBJECT",
+                            "name": "Totrinnsvurdering",
+                            "ofType": null
+                        },
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
+                    {
                         "name": "trengerTotrinnsvurdering",
                         "description": null,
                         "args": [],
                         "type": {
-                            "kind": "NON_NULL",
-                            "name": null,
-                            "ofType": {
-                                "kind": "SCALAR",
-                                "name": "Boolean",
-                                "ofType": null
-                            }
+                            "kind": "SCALAR",
+                            "name": "Boolean",
+                            "ofType": null
                         },
                         "isDeprecated": false,
                         "deprecationReason": null

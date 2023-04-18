@@ -135,12 +135,13 @@ export type BeregnetPeriode = Periode & {
     __typename?: 'BeregnetPeriode';
     aktivitetslogg: Array<Aktivitet>;
     beregningId: Scalars['String'];
+    /** @deprecated beslutterSaksbehandlerOid skal hentes fra totrinnsvurdering */
     beslutterSaksbehandlerOid?: Maybe<Scalars['String']>;
     /** @deprecated erBeslutterOppgave bør hentes fra periodens oppgave */
-    erBeslutterOppgave: Scalars['Boolean'];
+    erBeslutterOppgave?: Maybe<Scalars['Boolean']>;
     erForkastet: Scalars['Boolean'];
     /** @deprecated erReturOppgave bør hentes fra periodens oppgave */
-    erReturOppgave: Scalars['Boolean'];
+    erReturOppgave?: Maybe<Scalars['Boolean']>;
     fom: Scalars['String'];
     forbrukteSykedager?: Maybe<Scalars['Int']>;
     gjenstaendeSykedager?: Maybe<Scalars['Int']>;
@@ -166,7 +167,7 @@ export type BeregnetPeriode = Periode & {
     tom: Scalars['String'];
     totrinnsvurdering?: Maybe<Totrinnsvurdering>;
     /** @deprecated trengerTotrinnsvurdering bør hentes fra periodens oppgave */
-    trengerTotrinnsvurdering: Scalars['Boolean'];
+    trengerTotrinnsvurdering?: Maybe<Scalars['Boolean']>;
     utbetaling: Utbetaling;
     varsler: Array<Scalars['String']>;
     varslerForGenerasjon: Array<VarselDto>;
@@ -457,8 +458,8 @@ export type OppgaveForOversiktsvisning = {
     aktorId: Scalars['String'];
     antallVarsler: Scalars['Int'];
     boenhet: Boenhet;
-    erBeslutter: Scalars['Boolean'];
-    erRetur: Scalars['Boolean'];
+    erBeslutter?: Maybe<Scalars['Boolean']>;
+    erRetur?: Maybe<Scalars['Boolean']>;
     flereArbeidsgivere: Scalars['Boolean'];
     fodselsnummer: Scalars['String'];
     id: Scalars['String'];
@@ -471,18 +472,19 @@ export type OppgaveForOversiktsvisning = {
     tidligereSaksbehandler?: Maybe<Scalars['String']>;
     tildeling?: Maybe<Tildeling>;
     totrinnsvurdering?: Maybe<Totrinnsvurdering>;
-    trengerTotrinnsvurdering: Scalars['Boolean'];
+    trengerTotrinnsvurdering?: Maybe<Scalars['Boolean']>;
     type: Oppgavetype;
     vedtaksperiodeId: Scalars['String'];
 };
 
 export type OppgaveForPeriodevisning = {
     __typename?: 'OppgaveForPeriodevisning';
-    erBeslutter: Scalars['Boolean'];
-    erRetur: Scalars['Boolean'];
+    erBeslutter?: Maybe<Scalars['Boolean']>;
+    erRetur?: Maybe<Scalars['Boolean']>;
     id: Scalars['String'];
     tidligereSaksbehandler?: Maybe<Scalars['String']>;
-    trengerTotrinnsvurdering: Scalars['Boolean'];
+    totrinnsvurdering?: Maybe<Totrinnsvurdering>;
+    trengerTotrinnsvurdering?: Maybe<Scalars['Boolean']>;
 };
 
 export enum Oppgavetype {
@@ -1092,8 +1094,8 @@ export type FetchOppgaverQuery = {
         vedtaksperiodeId: string;
         type: Oppgavetype;
         periodetype?: Periodetype | null;
-        erRetur: boolean;
-        erBeslutter: boolean;
+        erRetur?: boolean | null;
+        erBeslutter?: boolean | null;
         flereArbeidsgivere: boolean;
         antallVarsler: number;
         sistSendt?: string | null;
@@ -1605,10 +1607,10 @@ export type FetchPersonQuery = {
                           oppgave?: {
                               __typename?: 'OppgaveForPeriodevisning';
                               id: string;
-                              erRetur: boolean;
-                              erBeslutter: boolean;
+                              erRetur?: boolean | null;
+                              erBeslutter?: boolean | null;
                               tidligereSaksbehandler?: string | null;
-                              trengerTotrinnsvurdering: boolean;
+                              trengerTotrinnsvurdering?: boolean | null;
                           } | null;
                           totrinnsvurdering?: {
                               __typename?: 'Totrinnsvurdering';
