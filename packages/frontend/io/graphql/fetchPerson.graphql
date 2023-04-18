@@ -232,7 +232,6 @@ query FetchPerson($fnr: String, $aktorId: String) {
                         beregningId
                         forbrukteSykedager
                         gjenstaendeSykedager
-                        beslutterSaksbehandlerOid
                         notater {
                             id
                             tekst
@@ -314,10 +313,6 @@ query FetchPerson($fnr: String, $aktorId: String) {
                         vilkarsgrunnlagId
                         oppgave {
                             id
-                            erRetur
-                            erBeslutter
-                            tidligereSaksbehandler
-                            trengerTotrinnsvurdering
                         }
                         totrinnsvurdering {
                             erBeslutteroppgave
