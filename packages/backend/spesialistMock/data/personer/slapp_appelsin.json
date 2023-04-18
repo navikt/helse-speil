@@ -773,7 +773,14 @@
                                             "vurdering": null
                                         }
                                     ],
-                                    "vilkarsgrunnlagId": "0270e5be-f815-402e-ae5a-0ff439f6681c"
+                                    "vilkarsgrunnlagId": "0270e5be-f815-402e-ae5a-0ff439f6681c",
+                                    "oppgave": {
+                                        "id": "4680",
+                                        "erRetur": false,
+                                        "erBeslutter": false,
+                                        "tidligereSaksbehandler": null,
+                                        "trengerTotrinnsvurdering": false
+                                    }
                                 }
                             ]
                         }

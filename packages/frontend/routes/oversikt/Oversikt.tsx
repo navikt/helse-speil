@@ -1,4 +1,3 @@
-import { Oppgave } from 'internal';
 import React, { useEffect, useState } from 'react';
 import { Loadable } from 'recoil';
 

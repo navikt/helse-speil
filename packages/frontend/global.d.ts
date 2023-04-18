@@ -91,7 +91,14 @@ declare type FetchedData<T> =
 
 declare type FetchedPerson = NonNullable<FetchPersonQuery['person']>;
 
-declare type FetchedBeregnetPeriode = Omit<BeregnetPeriode, 'oppgavereferanse' | 'totrinnsvurdering'>;
+declare type FetchedBeregnetPeriode = Omit<
+    BeregnetPeriode,
+    | 'erReturOppgave'
+    | 'erBeslutterOppgave'
+    | 'trengerTotrinnsvurdering'
+    | 'oppgavereferanse'
+    | 'tidligereSaksbehandlerOid'
+>;
 
 declare type ActivePeriod = FetchedBeregnetPeriode | UberegnetPeriode | GhostPeriode;
 

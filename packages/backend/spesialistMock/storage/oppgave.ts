@@ -4,7 +4,10 @@ import { BeregnetPeriode } from '../schemaTypes';
 
 export const getDefaultOppgave = (): Oppgave => ({
     id: nanoid(),
+    erRetur: false,
     erPåVent: false,
+    erBeslutter: false,
+    trengerTotrinnsvurdering: false,
 });
 
 export class OppgaveMock {

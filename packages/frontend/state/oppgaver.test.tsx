@@ -5,7 +5,6 @@ import { Adressebeskyttelse, Kjonn, OppgaveForOversiktsvisning, Oppgavetype, Per
 import '@testing-library/jest-dom/extend-expect';
 import { act, renderHook } from '@testing-library/react-hooks';
 
-import { Saksbehandler } from '../internal';
 import { oppgaverState, useFjernTildeling, useTildelOppgave } from './oppgaver';
 
 declare global {
@@ -46,12 +45,11 @@ const enOppgave = (): OppgaveForOversiktsvisning => ({
     },
     flereArbeidsgivere: false,
     tildeling: undefined,
+    erBeslutter: false,
+    erRetur: false,
+    trengerTotrinnsvurdering: false,
+    tidligereSaksbehandler: 'uuid',
     opprinneligSoknadsdato: '2020-01-01',
-    totrinnsvurdering: {
-        erBeslutteroppgave: false,
-        erRetur: false,
-        saksbehandler: 'uuid',
-    },
 });
 
 const mockHentOppgaver = () =>

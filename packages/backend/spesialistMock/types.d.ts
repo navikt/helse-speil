@@ -7,7 +7,11 @@ declare type UUID = string;
 
 declare type Oppgave = {
     id: string;
+    erRetur: boolean;
     erPåVent: boolean;
+    erBeslutter: boolean;
+    tidligereSaksbehandler?: UUID;
+    trengerTotrinnsvurdering: boolean;
     tildelt?: Maybe<string>;
     totrinnsvurdering?: Maybe<Totrinnsvurdering>;
 };
