@@ -84,7 +84,6 @@ export const enBeregnetPeriode: OverridableConstructor<FetchedBeregnetPeriode, E
             skjaeringstidspunkt: '2020-01-01',
         },
     },
-    trengerTotrinnsvurdering: false,
     utbetaling: enUtbetaling(),
     varsler: [],
     varslerForGenerasjon: [],

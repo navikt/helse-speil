@@ -27,7 +27,7 @@ describe('Utbetaling', () => {
     });
 
     it('rendrer revurderbar utbetaling', () => {
-        const oppgave = enOppgave({ erBeslutter: false });
+        const oppgave = enOppgave();
         const tidslinje = [enDag({ dato: '2020-01-01' }), enDag({ dato: '2020-01-02' }), enDag({ dato: '2020-01-03' })];
         const periode = enBeregnetPeriode({ oppgave, tidslinje });
         const arbeidsgiver = enArbeidsgiver().medPerioder([periode]);

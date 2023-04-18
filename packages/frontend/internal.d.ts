@@ -1,3 +1,5 @@
+import { Totrinnsvurdering } from '@io/graphql';
+
 declare type Dayjs = import('dayjs').Dayjs;
 
 declare type Adressebeskyttelse = 'Ugradert' | 'Fortrolig' | 'StrengtFortrolig' | 'StrengtFortroligUtland' | 'Ukjent';
@@ -56,11 +58,8 @@ declare type Oppgave = {
     inntektskilde: Inntektskilde;
     boenhet: Boenhet;
     tildeling?: Tildeling;
-    erBeslutterOppgave: boolean;
-    erReturOppgave: boolean;
-    trengerTotrinnsvurdering: boolean;
-    tidligereSaksbehandlerOid: string;
     sistSendt?: string | null;
+    totrinnsvurdering?: Maybe<Totrinnsvurdering>;
 };
 
 declare type NotatType = 'PaaVent' | 'Retur' | 'Generelt';

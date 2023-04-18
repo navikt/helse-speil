@@ -22,9 +22,6 @@
             "navn": "Stord"
         },
         "tildeling": null,
-        "erBeslutterOppgave": false,
-        "erReturOppgave": false,
-        "trengerTotrinnsvurdering": false,
         "tidligereSaksbehandlerOid": null,
         "sistSendt": "2022-05-15T19:25:14.77507"
     },
@@ -51,9 +48,6 @@
             "navn": "Herøy"
         },
         "tildeling": null,
-        "erBeslutterOppgave": false,
-        "erReturOppgave": false,
-        "trengerTotrinnsvurdering": false,
         "tidligereSaksbehandlerOid": null
     },
     {

@@ -624,14 +624,7 @@
                                     },
                                     "varsler": [],
                                     "varslerForGenerasjon": [],
-                                    "vilkarsgrunnlagId": "62c98d13-2b83-4d18-91b0-682fa9471705",
-                                    "oppgave": {
-                                        "id": "4959",
-                                        "erRetur": false,
-                                        "erBeslutter": false,
-                                        "tidligereSaksbehandler": null,
-                                        "trengerTotrinnsvurdering": false
-                                    }
+                                    "vilkarsgrunnlagId": "62c98d13-2b83-4d18-91b0-682fa9471705"
                                 }
                             ]
                         }
