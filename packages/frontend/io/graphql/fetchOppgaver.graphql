@@ -7,8 +7,6 @@ query FetchOppgaver {
         vedtaksperiodeId
         type
         periodetype
-        erRetur
-        erBeslutter
         flereArbeidsgivere
         antallVarsler
         sistSendt
@@ -26,7 +24,6 @@ query FetchOppgaver {
             epost
             oid
         }
-        tidligereSaksbehandler,
         totrinnsvurdering {
             saksbehandler
             erRetur
