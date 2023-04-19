@@ -2,7 +2,6 @@ import dayjs from 'dayjs';
 import { useMemo } from 'react';
 
 import { Dag, Dagoverstyring, Dagtype, Maybe, OverstyrtDag, Sykdomsdagtype, Utbetalingsdagtype } from '@io/graphql';
-import { erDev } from '@utils/featureToggles';
 
 const getUtbetalingstabelldagtypeFromOverstyrtDag = (dag: OverstyrtDag): Utbetalingstabelldagtype => {
     switch (dag.type) {
@@ -24,15 +23,13 @@ const getUtbetalingstabelldagtypeFromOverstyrtDag = (dag: OverstyrtDag): Utbetal
 };
 
 const getUtbetalingstabelldagtype = (dag: Dag): Utbetalingstabelldagtype => {
-    const erSykedagNav = dag.utbetalingsdagtype === 'ARBEIDSGIVERPERIODEDAG' && dag.utbetalingsinfo !== null;
-
     switch (dag.utbetalingsdagtype) {
         case Utbetalingsdagtype.Arbeidsdag:
             return 'Arbeid';
         case Utbetalingsdagtype.Navhelgdag:
             return 'SykHelg';
         case Utbetalingsdagtype.Navdag:
-            return erDev() && erSykedagNav ? 'Syk (NAV)' : 'Syk';
+            return 'Syk';
         case Utbetalingsdagtype.AvvistDag:
         case Utbetalingsdagtype.ForeldetDag:
             return 'Avslått';
@@ -47,7 +44,7 @@ const getUtbetalingstabelldagtype = (dag: Dag): Utbetalingstabelldagtype => {
         case Sykdomsdagtype.Arbeidsgiverdag:
         case Sykdomsdagtype.Sykedag:
         case Sykdomsdagtype.ForeldetSykedag:
-            return erDev() && erSykedagNav ? 'Syk (NAV)' : 'Syk';
+            return 'Syk';
         case Sykdomsdagtype.SykHelgedag:
             return 'SykHelg';
         case Sykdomsdagtype.FriskHelgedag:
