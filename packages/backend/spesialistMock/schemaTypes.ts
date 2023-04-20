@@ -139,6 +139,7 @@ export type BeregnetPeriode = Periode & {
     fom: Scalars['String'];
     forbrukteSykedager?: Maybe<Scalars['Int']>;
     gjenstaendeSykedager?: Maybe<Scalars['Int']>;
+    handlinger: Array<Handling>;
     hendelser: Array<Hendelse>;
     id: Scalars['String'];
     inntektFraAordningen: Array<InntektFraAOrdningen>;
@@ -243,6 +244,13 @@ export type GhostPeriode = {
     skjaeringstidspunkt: Scalars['String'];
     tom: Scalars['String'];
     vilkarsgrunnlagId?: Maybe<Scalars['String']>;
+};
+
+export type Handling = {
+    __typename?: 'Handling';
+    begrunnelse?: Maybe<Scalars['String']>;
+    tillatt: Scalars['Boolean'];
+    type: Periodehandling;
 };
 
 export type Hendelse = {
@@ -527,6 +535,10 @@ export type PeriodeHistorikkElement = {
     timestamp: Scalars['String'];
     type: PeriodehistorikkType;
 };
+
+export enum Periodehandling {
+    Utbetale = 'UTBETALE',
+}
 
 export enum PeriodehistorikkType {
     TotrinnsvurderingAttestert = 'TOTRINNSVURDERING_ATTESTERT',
