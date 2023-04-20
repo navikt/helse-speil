@@ -126,10 +126,12 @@ app.post('/api/totrinnsvurdering/retur', (req: Request, res: Response) => {
     const oppgave: Oppgave = {
         ...getDefaultOppgave(),
         id: oppgavereferanse,
-        erRetur: true,
-        erBeslutter: false,
-        tidligereSaksbehandler: 'uuid',
         tildelt: tidligereSaksbehandler,
+        totrinnsvurdering: {
+            saksbehandler: 'uuid',
+            erRetur: true,
+            erBeslutteroppgave: false,
+        },
     };
 
     OppgaveMock.addOrUpdateOppgave(oppgavereferanse, oppgave);
@@ -150,10 +152,12 @@ app.post('/api/totrinnsvurdering', (req: Request, res: Response) => {
     const oppgave: Oppgave = {
         ...getDefaultOppgave(),
         id: oppgavereferanse,
-        erRetur: false,
-        erBeslutter: true,
         tildelt: tidligereSaksbehandler === 'uuid' ? null : 'uuid',
-        tidligereSaksbehandler: 'uuid',
+        totrinnsvurdering: {
+            erRetur: false,
+            erBeslutteroppgave: true,
+            saksbehandler: 'uuid',
+        },
     };
 
     OppgaveMock.addOrUpdateOppgave(oppgavereferanse, oppgave);

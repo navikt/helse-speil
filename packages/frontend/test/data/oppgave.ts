@@ -24,20 +24,16 @@ export const enOppgaveForOversikten: OverridableConstructor<OppgaveForOversiktsv
         navn: 'Et sted',
     },
     antallVarsler: 0,
-    erBeslutter: false,
-    erRetur: false,
     flereArbeidsgivere: false,
-    trengerTotrinnsvurdering: false,
     type: Oppgavetype.Soknad,
     opprinneligSoknadsdato: '2020-01-01',
     vedtaksperiodeId: nanoid(),
+    totrinnsvurdering: null,
     ...overrides,
 });
 
 export const enOppgave: OverridableConstructor<OppgaveForPeriodevisning> = (overrides) => ({
     id: nanoid(),
-    erBeslutter: false,
-    erRetur: false,
-    trengerTotrinnsvurdering: false,
+    totrinnsvurdering: null,
     ...overrides,
 });

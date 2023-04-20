@@ -878,11 +878,7 @@
                                     ],
                                     "vilkarsgrunnlagId": "f7744e16-8569-4e94-8f61-c9996d3d8512",
                                     "oppgave": {
-                                        "id": "5343",
-                                        "erRetur": false,
-                                        "erBeslutter": false,
-                                        "tidligereSaksbehandler": null,
-                                        "trengerTotrinnsvurdering": false
+                                        "id": "5343"
                                     }
                                 },
                                 {

@@ -22,11 +22,8 @@
             "navn": "Stord"
         },
         "tildeling": null,
-        "erBeslutterOppgave": false,
-        "erReturOppgave": false,
-        "trengerTotrinnsvurdering": false,
-        "tidligereSaksbehandlerOid": null,
-        "sistSendt": "2022-05-15T19:25:14.77507"
+        "sistSendt": "2022-05-15T19:25:14.77507",
+        "totrinnsvurdering": null
     },
     {
         "oppgavereferanse": "3549",
@@ -51,10 +48,7 @@
             "navn": "Herøy"
         },
         "tildeling": null,
-        "erBeslutterOppgave": false,
-        "erReturOppgave": false,
-        "trengerTotrinnsvurdering": false,
-        "tidligereSaksbehandlerOid": null
+        "totrinnsvurdering": null
     },
     {
         "oppgavereferanse": "3107",
