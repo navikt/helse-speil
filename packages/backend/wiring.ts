@@ -10,7 +10,6 @@ import graphQLClient from './graphql/graphQLClient';
 import SpesialistClient from './http/spesialistClient';
 import instrumentationModule, { Instrumentation } from './instrumentation';
 import notatClient from './notat/notatClient';
-import overstyringClient from './overstyring/overstyringClient';
 import annulleringClient from './payment/annulleringClient';
 import totrinnsvurderingClient from './payment/totrinnsvurderingClient';
 import vedtakClient from './payment/vedtakClient';
@@ -30,7 +29,6 @@ const getDevDependencies = (app: Express) => {
     const _vedtakClient = vedtakClient(config.oidc, devOnBehalfOf);
     // Fredet
     6;
-    const _overstyringClient = overstyringClient(config.oidc, devOnBehalfOf);
     const _leggPåVentClient = leggPåVentClient(config.oidc, devOnBehalfOf);
 
     return {
@@ -41,7 +39,6 @@ const getDevDependencies = (app: Express) => {
         },
         redisClient: devRedisClient,
         spesialistClient,
-        overstyring: { overstyringClient: _overstyringClient },
         leggPåVent: { leggPåVentClient: _leggPåVentClient },
         notat: { notatClient: _notatClient },
         graphql: { graphQLClient: _devGraphQLClient },
@@ -55,7 +52,6 @@ const getProdDependencies = (app: Express, helsesjekk: Helsesjekk) => {
     const _onBehalfOf = onBehalfOf(config.oidc, instrumentation);
     const spesialistClient = SpesialistClient(config.oidc, _onBehalfOf);
     const _vedtakClient = vedtakClient(config.oidc, _onBehalfOf);
-    const _overstyringClient = overstyringClient(config.oidc, _onBehalfOf);
     const _annulleringClient = annulleringClient(config, _onBehalfOf);
     const _leggPåVentClient = leggPåVentClient(config.oidc, _onBehalfOf);
     const _notatClient = notatClient(config.oidc, _onBehalfOf);
@@ -70,7 +66,6 @@ const getProdDependencies = (app: Express, helsesjekk: Helsesjekk) => {
         },
         redisClient: _redisClient,
         spesialistClient,
-        overstyring: { overstyringClient: _overstyringClient },
         leggPåVent: { leggPåVentClient: _leggPåVentClient },
         notat: { notatClient: _notatClient },
         graphql: { graphQLClient: _graphQLClient },
