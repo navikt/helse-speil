@@ -37,10 +37,6 @@ export const oppgaver: Array<OppgaveForOversiktsvisning> = [
             reservert: true,
             epost: 'frosk@frog.no',
         },
-        erBeslutter: false,
-        erRetur: false,
-        tidligereSaksbehandler: null,
-        trengerTotrinnsvurdering: false,
         mottaker: Mottaker.Arbeidsgiver,
     },
     {
@@ -72,10 +68,6 @@ export const oppgaver: Array<OppgaveForOversiktsvisning> = [
             reservert: true,
             epost: 'frosk@frog.no',
         },
-        erBeslutter: false,
-        erRetur: false,
-        tidligereSaksbehandler: null,
-        trengerTotrinnsvurdering: false,
         mottaker: Mottaker.Arbeidsgiver,
     },
     {
@@ -107,10 +99,6 @@ export const oppgaver: Array<OppgaveForOversiktsvisning> = [
             reservert: true,
             epost: 'frosk@frog.no',
         },
-        erBeslutter: false,
-        erRetur: false,
-        tidligereSaksbehandler: null,
-        trengerTotrinnsvurdering: false,
         mottaker: null,
     },
     {
@@ -137,10 +125,6 @@ export const oppgaver: Array<OppgaveForOversiktsvisning> = [
             navn: 'NAV oppfølging utland',
         },
         tildeling: null,
-        erBeslutter: false,
-        erRetur: false,
-        tidligereSaksbehandler: null,
-        trengerTotrinnsvurdering: false,
         mottaker: Mottaker.Arbeidsgiver,
     },
 ];

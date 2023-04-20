@@ -45,10 +45,6 @@ const enOppgave = (): OppgaveForOversiktsvisning => ({
     },
     flereArbeidsgivere: false,
     tildeling: undefined,
-    erBeslutter: false,
-    erRetur: false,
-    trengerTotrinnsvurdering: false,
-    tidligereSaksbehandler: 'uuid',
     opprinneligSoknadsdato: '2020-01-01',
 });
 
