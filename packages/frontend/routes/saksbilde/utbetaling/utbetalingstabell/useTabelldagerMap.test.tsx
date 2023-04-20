@@ -33,6 +33,10 @@ const dager: Dag[] = [
     getDag('2021-01-13'),
 ];
 
+jest.mock('@utils/featureToggles', () => ({
+    erUtvikling: () => false,
+}));
+
 describe('createDagerMap', () => {
     it('mapper ut riktig antall dager igjen', () => {
         const dagerMap = createDagerMap(dager, 6);

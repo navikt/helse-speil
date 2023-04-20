@@ -4,6 +4,7 @@ import React, { ReactNode } from 'react';
 import { BodyShort } from '@navikt/ds-react';
 
 import { Endringstrekant } from '@components/Endringstrekant';
+import { erUtvikling } from '@utils/featureToggles';
 
 import { CellContent } from '../../table/CellContent';
 import { IconArbeidsdag } from '../../table/icons/IconArbeidsdag';
@@ -54,6 +55,8 @@ const getDisplayText = (dag?: UtbetalingstabellDag): string | null => {
 
     if (dag.erAvvist) {
         return `${dagtype} (Avslått)`;
+    } else if (erUtvikling() && dag.erAGP && dagtype === 'Syk (NAV)') {
+        return dagtype;
     } else if (dag.erAGP && (typeof dag?.personbeløp === 'number' || typeof dag?.arbeidsgiverbeløp === 'number')) {
         return `${dagtype} (NAV)`;
     } else if (dag.erAGP) {
