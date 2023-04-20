@@ -23,6 +23,7 @@ const getFetchedBeregnetPeriode = (fom: string, tom: string, varsel?: VarselDto)
         erForkastet: false,
         fom: fom,
         tom: tom,
+        handlinger: [],
         hendelser: [],
         id: 'EN_ID',
         inntektFraAordningen: [],

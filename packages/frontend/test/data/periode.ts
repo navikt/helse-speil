@@ -58,6 +58,7 @@ export const enBeregnetPeriode: OverridableConstructor<FetchedBeregnetPeriode, E
     forbrukteSykedager: 0,
     gjenstaendeSykedager: 200,
     inntektFraAordningen: [],
+    handlinger: [],
     hendelser: [],
     inntektstype: Inntektstype.Enarbeidsgiver,
     maksdato: '2020-12-30',

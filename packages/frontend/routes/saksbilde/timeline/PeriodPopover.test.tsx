@@ -25,6 +25,7 @@ const getFetchedBeregnetPeriode = (
         erForkastet: false,
         fom: '2022-01-01',
         tom: '2023-12-12',
+        handlinger: [],
         hendelser: [],
         id: 'EN_ID',
         inntektFraAordningen: [],
