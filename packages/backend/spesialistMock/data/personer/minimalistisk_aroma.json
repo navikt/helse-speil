@@ -773,6 +773,12 @@
                                             "notat_id": null
                                         }
                                     ],
+                                    "handlinger": [
+                                        {
+                                            "type": "UTBETALE",
+                                            "tillatt": true
+                                        }
+                                    ],
                                     "hendelser": [
                                         {
                                             "id": "73c45eac-61dc-4d8a-bd79-4b2c1135c0ee",
@@ -1175,6 +1181,13 @@
                                         }
                                     ],
                                     "periodehistorikk": [],
+                                    "handlinger": [
+                                        {
+                                            "type": "UTBETALE",
+                                            "tillatt": false,
+                                            "begrunnelse": "Ikke til godkjenning"
+                                        }
+                                    ],
                                     "hendelser": [
                                         {
                                             "id": "5d45b704-81ab-43c6-8014-9175c598a6c3",
@@ -1575,6 +1588,13 @@
                                             "timestamp": "2023-03-07T15:14:37.893158",
                                             "saksbehandler_ident": "S150563",
                                             "notat_id": null
+                                        }
+                                    ],
+                                    "handlinger": [
+                                        {
+                                            "type": "UTBETALE",
+                                            "tillatt": false,
+                                            "begrunnelse": "Ikke til godkjenning"
                                         }
                                     ],
                                     "hendelser": [
@@ -2449,6 +2469,13 @@
                                     "beslutterSaksbehandlerOid": null,
                                     "notater": [],
                                     "periodehistorikk": [],
+                                    "handlinger": [
+                                        {
+                                            "type": "UTBETALE",
+                                            "tillatt": false,
+                                            "begrunnelse": "Ikke til godkjenning"
+                                        }
+                                    ],
                                     "hendelser": [
                                         {
                                             "id": "51952bef-d60b-4981-b3c1-a2d379f4de81",

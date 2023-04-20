@@ -1,8 +1,9 @@
 import React from 'react';
 
+import { ErrorMessage } from '@components/ErrorMessage';
 import { useForrigeGenerasjonPeriode } from '@hooks/useForrigeGenerasjonPeriode';
 import { useTotalbeløp } from '@hooks/useTotalbeløp';
-import { Arbeidsgiver, Dag, Periode, Utbetalingsdagtype } from '@io/graphql';
+import { Arbeidsgiver, Dag, Handling, Periode, Periodehandling, Utbetalingsdagtype } from '@io/graphql';
 import { getRequiredVilkårsgrunnlag, getVilkårsgrunnlag } from '@state/selectors/person';
 
 import { PeriodeCard } from './PeriodeCard';
@@ -17,6 +18,9 @@ interface VenstremenyBeregnetPeriodeProps {
     currentArbeidsgiver: Arbeidsgiver;
     readOnly: boolean;
 }
+
+const finnUtbetaleTilgang = ({ handlinger }: FetchedBeregnetPeriode): Handling =>
+    handlinger.find((handling) => handling.type === Periodehandling.Utbetale)!;
 
 export const VenstremenyBeregnetPeriode: React.FC<VenstremenyBeregnetPeriodeProps> = ({
     activePeriod,
@@ -36,6 +40,8 @@ export const VenstremenyBeregnetPeriode: React.FC<VenstremenyBeregnetPeriodeProp
 
     const { totalbeløp: gammeltTotalbeløp } = useTotalbeløp(forrigeGenerasjonPeriode?.tidslinje);
 
+    const utbetaleTilgang = finnUtbetaleTilgang(activePeriod);
+
     return (
         <section className={styles.Venstremeny}>
             <PeriodeCard.Beregnet periode={activePeriod} arbeidsgiver={currentArbeidsgiver} månedsbeløp={månedsbeløp} />
@@ -51,11 +57,27 @@ export const VenstremenyBeregnetPeriode: React.FC<VenstremenyBeregnetPeriodeProp
                 periodePersonNettoBeløp={personTotalbeløp}
                 gammeltTotalbeløp={forrigeGenerasjonPeriode ? gammeltTotalbeløp : undefined}
             />
-            {!readOnly && (
-                <Utbetaling period={activePeriod} person={currentPerson} arbeidsgiver={currentArbeidsgiver.navn} />
+            {!utbetaleTilgang.tillatt ? (
+                <Feilmelding handling={utbetaleTilgang} />
+            ) : (
+                !readOnly && (
+                    <Utbetaling period={activePeriod} person={currentPerson} arbeidsgiver={currentArbeidsgiver.navn} />
+                )
             )}
         </section>
     );
+};
+
+type FeilmeldingProps = {
+    handling: Handling;
+};
+
+const Feilmelding = ({ handling }: FeilmeldingProps) => {
+    let errorMessage;
+    if (handling.begrunnelse !== 'IkkeTilgangTilRisk')
+        errorMessage = 'Dette er en risk-sak. Det kreves egen tilgang for å behandle disse.';
+    else errorMessage = 'Du har ikke tilgang til å behandle denne saken';
+    return <ErrorMessage>{errorMessage}</ErrorMessage>;
 };
 
 const getNumberOfDaysWithType = (timeline: Array<Dag>, type: Utbetalingsdagtype): number =>

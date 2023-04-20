@@ -232,6 +232,11 @@ query FetchPerson($fnr: String, $aktorId: String) {
                         beregningId
                         forbrukteSykedager
                         gjenstaendeSykedager
+                        handlinger {
+                            type
+                            tillatt
+                            begrunnelse
+                        }
                         notater {
                             id
                             tekst

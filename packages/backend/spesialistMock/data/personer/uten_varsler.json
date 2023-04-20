@@ -528,6 +528,12 @@
                                     "beslutterSaksbehandlerOid": null,
                                     "notater": [],
                                     "periodehistorikk": [],
+                                    "handlinger": [
+                                        {
+                                            "type": "UTBETALE",
+                                            "tillatt": true
+                                        }
+                                    ],
                                     "hendelser": [
                                         {
                                             "id": "7df5ddbb-3566-4881-ab0b-fcb03b232174",

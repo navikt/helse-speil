@@ -665,6 +665,12 @@
                                             "notat_id": null
                                         }
                                     ],
+                                    "handlinger": [
+                                        {
+                                            "type": "UTBETALE",
+                                            "tillatt": true
+                                        }
+                                    ],
                                     "hendelser": [
                                         {
                                             "id": "aa6a5042-4e77-4b5f-b023-38b97df83a3e",
