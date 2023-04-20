@@ -1433,6 +1433,12 @@ export type FetchPersonQuery = {
                               tidsstempel: string;
                               vedtaksperiodeId: string;
                           }>;
+                          handlinger: Array<{
+                              __typename?: 'Handling';
+                              type: Periodehandling;
+                              tillatt: boolean;
+                              begrunnelse?: string | null;
+                          }>;
                           notater: Array<{
                               __typename?: 'Notat';
                               id: number;
