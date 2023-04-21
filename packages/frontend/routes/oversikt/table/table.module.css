@@ -32,7 +32,7 @@
 .Content {
     padding: 0;
     color: var(--navds-semantic-color-text);
-    overflow: auto auto;
+    overflow: auto hidden;
     box-sizing: border-box;
     flex: 1;
 }
