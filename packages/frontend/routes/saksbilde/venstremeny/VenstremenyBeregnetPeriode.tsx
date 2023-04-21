@@ -74,7 +74,7 @@ type FeilmeldingProps = {
 
 const Feilmelding = ({ handling }: FeilmeldingProps) => {
     let errorMessage;
-    if (handling.begrunnelse !== 'IkkeTilgangTilRisk')
+    if (handling.begrunnelse === 'IkkeTilgangTilRisk')
         errorMessage = 'Dette er en risk-sak. Det kreves egen tilgang for å behandle disse.';
     else errorMessage = 'Du har ikke tilgang til å behandle denne saken';
     return <ErrorMessage>{errorMessage}</ErrorMessage>;
