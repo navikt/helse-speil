@@ -19,7 +19,7 @@ import styles from './PeriodPopover.module.css';
 const groupDayTypes = (period: FetchedBeregnetPeriode): Map<Utbetalingsdagtype, Array<DatePeriod>> => {
     const map = new Map<Utbetalingsdagtype, Array<DatePeriod>>();
 
-    let currentDayType: Utbetalingsdagtype = period.tidslinje[0].utbetalingsdagtype;
+    let currentDayType: Utbetalingsdagtype = period.tidslinje[0]?.utbetalingsdagtype;
     let currentFom: DateString = period.tidslinje[0]?.dato;
 
     const updateDayTypesMap = (i: number, map: Map<Utbetalingsdagtype, Array<DatePeriod>>): void => {
