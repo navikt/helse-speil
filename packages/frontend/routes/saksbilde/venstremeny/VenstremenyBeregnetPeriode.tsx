@@ -3,7 +3,15 @@ import React from 'react';
 import { ErrorMessage } from '@components/ErrorMessage';
 import { useForrigeGenerasjonPeriode } from '@hooks/useForrigeGenerasjonPeriode';
 import { useTotalbeløp } from '@hooks/useTotalbeløp';
-import { Arbeidsgiver, Dag, Handling, Periode, Periodehandling, Utbetalingsdagtype } from '@io/graphql';
+import {
+    Arbeidsgiver,
+    Dag,
+    Handling,
+    Periode,
+    Periodehandling,
+    Periodetilstand,
+    Utbetalingsdagtype,
+} from '@io/graphql';
 import { getRequiredVilkårsgrunnlag, getVilkårsgrunnlag } from '@state/selectors/person';
 
 import { PeriodeCard } from './PeriodeCard';
@@ -57,7 +65,7 @@ export const VenstremenyBeregnetPeriode: React.FC<VenstremenyBeregnetPeriodeProp
                 periodePersonNettoBeløp={personTotalbeløp}
                 gammeltTotalbeløp={forrigeGenerasjonPeriode ? gammeltTotalbeløp : undefined}
             />
-            {!utbetaleTilgang.tillatt ? (
+            {activePeriod.periodetilstand === Periodetilstand.TilGodkjenning && !utbetaleTilgang.tillatt ? (
                 <Feilmelding handling={utbetaleTilgang} />
             ) : (
                 !readOnly && (
