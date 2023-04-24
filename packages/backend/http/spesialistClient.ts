@@ -22,7 +22,7 @@ export enum HttpMethod {
     DELETE = 'delete',
 }
 
-type Method = 'get' | 'post' | 'delete';
+type Method = 'get' | 'post' | 'delete' | 'put';
 
 const buildUri = (path: string) => spesialistBaseUrl + (path.startsWith('/') ? path : '/' + path);
 

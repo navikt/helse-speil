@@ -9,7 +9,6 @@ import devRedisClient from './devRedisClient';
 import graphQLClient from './graphql/graphQLClient';
 import SpesialistClient from './http/spesialistClient';
 import instrumentationModule, { Instrumentation } from './instrumentation';
-import notatClient from './notat/notatClient';
 import totrinnsvurderingClient from './payment/totrinnsvurderingClient';
 import vedtakClient from './payment/vedtakClient';
 import redisClient from './redisClient';
@@ -23,7 +22,6 @@ const getDevDependencies = (app: Express) => {
     const spesialistClient = SpesialistClient(config.oidc, devOnBehalfOf);
     const _devGraphQLClient = graphQLClient(config.oidc, devOnBehalfOf);
     const _totrinnsvurderingClient = totrinnsvurderingClient(config.oidc, devOnBehalfOf);
-    const _notatClient = notatClient(config.oidc, devOnBehalfOf);
     const _vedtakClient = vedtakClient(config.oidc, devOnBehalfOf);
     // Fredet
     6;
@@ -37,7 +35,6 @@ const getDevDependencies = (app: Express) => {
         redisClient: devRedisClient,
         spesialistClient,
         leggPåVent: { leggPåVentClient: _leggPåVentClient },
-        notat: { notatClient: _notatClient },
         graphql: { graphQLClient: _devGraphQLClient },
         instrumentation,
     };
@@ -50,7 +47,6 @@ const getProdDependencies = (app: Express, helsesjekk: Helsesjekk) => {
     const spesialistClient = SpesialistClient(config.oidc, _onBehalfOf);
     const _vedtakClient = vedtakClient(config.oidc, _onBehalfOf);
     const _leggPåVentClient = leggPåVentClient(config.oidc, _onBehalfOf);
-    const _notatClient = notatClient(config.oidc, _onBehalfOf);
     const _graphQLClient = graphQLClient(config.oidc, _onBehalfOf);
     const _totrinnsvurderingClient = totrinnsvurderingClient(config.oidc, _onBehalfOf);
 
@@ -62,7 +58,6 @@ const getProdDependencies = (app: Express, helsesjekk: Helsesjekk) => {
         redisClient: _redisClient,
         spesialistClient,
         leggPåVent: { leggPåVentClient: _leggPåVentClient },
-        notat: { notatClient: _notatClient },
         graphql: { graphQLClient: _graphQLClient },
         instrumentation,
     };

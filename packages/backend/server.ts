@@ -167,7 +167,7 @@ app.use('/api/overstyring', overstyringRoutes(dependencies.spesialistClient));
 app.use('/api/tildeling', tildelingRoutes(dependencies.spesialistClient));
 app.use('/api/opptegnelse', opptegnelseRoutes(dependencies));
 app.use('/api/leggpaavent', oppgaveRoutes(dependencies.leggPåVent));
-app.use('/api/notater', notatRoutes(dependencies.notat));
+app.use('/api/notater', notatRoutes(dependencies));
 app.use('/graphql', graphQLRoutes(dependencies.graphql));
 
 app.get('/*', (req, res, next) => {
