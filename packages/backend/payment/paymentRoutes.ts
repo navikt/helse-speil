@@ -3,14 +3,24 @@ import { Response, Router } from 'express';
 import { SpesialistClient } from '../http/spesialistClient';
 import logger from '../logging';
 import { SpeilRequest } from '../types';
-import { VedtakClient } from './vedtakClient';
 
 interface SetupOptions {
-    vedtakClient: VedtakClient;
     spesialistClient: SpesialistClient;
 }
 
-export default ({ vedtakClient, spesialistClient }: SetupOptions) => {
+type PostVedtakOptions = {
+    oppgavereferanse: string;
+    godkjent: boolean;
+    saksbehandlerIdent: string;
+};
+
+type PostVedtakAvslåttOptions = PostVedtakOptions & {
+    årsak: string;
+    begrunnelser?: string[];
+    kommentar?: string;
+};
+
+export default ({ spesialistClient }: SetupOptions) => {
     const router = Router();
 
     router.post('/vedtak', (req: SpeilRequest, res: Response) => {
@@ -25,17 +35,15 @@ export default ({ vedtakClient, spesialistClient }: SetupOptions) => {
             return;
         }
 
-        const params = req.body.godkjent
+        const body: PostVedtakOptions | PostVedtakAvslåttOptions = req.body.godkjent
             ? {
                   oppgavereferanse,
                   godkjent: true,
-                  speilToken: req.session!.speilToken,
                   saksbehandlerIdent,
               }
             : {
                   oppgavereferanse,
                   godkjent: false,
-                  speilToken: req.session!.speilToken,
                   saksbehandlerIdent,
                   årsak: req.body.skjema.årsak,
                   begrunnelser: req.body.skjema.begrunnelser,
@@ -44,8 +52,13 @@ export default ({ vedtakClient, spesialistClient }: SetupOptions) => {
 
         logger.info(`Sender vedtak for oppgavereferanse ${oppgavereferanse}`);
 
-        vedtakClient
-            .postVedtak(params)
+        spesialistClient
+            .execute({
+                speilToken: req.session!.speilToken,
+                path: `/api/vedtak`,
+                body,
+                method: 'post',
+            })
             .then(() => res.sendStatus(204))
             .catch((err) => {
                 logger.error(

@@ -10,7 +10,6 @@ import graphQLClient from './graphql/graphQLClient';
 import SpesialistClient from './http/spesialistClient';
 import instrumentationModule, { Instrumentation } from './instrumentation';
 import totrinnsvurderingClient from './payment/totrinnsvurderingClient';
-import vedtakClient from './payment/vedtakClient';
 import redisClient from './redisClient';
 import { Helsesjekk } from './types';
 
@@ -22,16 +21,12 @@ const getDevDependencies = (app: Express) => {
     const spesialistClient = SpesialistClient(config.oidc, devOnBehalfOf);
     const _devGraphQLClient = graphQLClient(config.oidc, devOnBehalfOf);
     const _totrinnsvurderingClient = totrinnsvurderingClient(config.oidc, devOnBehalfOf);
-    const _vedtakClient = vedtakClient(config.oidc, devOnBehalfOf);
     // Fredet
     6;
     const _leggPåVentClient = leggPåVentClient(config.oidc, devOnBehalfOf);
 
     return {
-        payments: {
-            vedtakClient: _vedtakClient,
-            totrinnsvurderingClient: _totrinnsvurderingClient,
-        },
+        totrinnsvurderingClient: _totrinnsvurderingClient,
         redisClient: devRedisClient,
         spesialistClient,
         leggPåVent: { leggPåVentClient: _leggPåVentClient },
@@ -45,16 +40,12 @@ const getProdDependencies = (app: Express, helsesjekk: Helsesjekk) => {
     const instrumentation: Instrumentation = instrumentationModule.setup(app);
     const _onBehalfOf = onBehalfOf(config.oidc, instrumentation);
     const spesialistClient = SpesialistClient(config.oidc, _onBehalfOf);
-    const _vedtakClient = vedtakClient(config.oidc, _onBehalfOf);
     const _leggPåVentClient = leggPåVentClient(config.oidc, _onBehalfOf);
     const _graphQLClient = graphQLClient(config.oidc, _onBehalfOf);
     const _totrinnsvurderingClient = totrinnsvurderingClient(config.oidc, _onBehalfOf);
 
     return {
-        payments: {
-            vedtakClient: _vedtakClient,
-            totrinnsvurderingClient: _totrinnsvurderingClient,
-        },
+        totrinnsvurderingClient: _totrinnsvurderingClient,
         redisClient: _redisClient,
         spesialistClient,
         leggPåVent: { leggPåVentClient: _leggPåVentClient },

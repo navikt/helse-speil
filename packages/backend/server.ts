@@ -128,6 +128,7 @@ app.use('/*', async (req: SpeilRequest, res, next) => {
             secure: false,
             sameSite: true,
         });
+        req.session.user = 'dev-ident';
         next();
     } else {
         if (
@@ -158,11 +159,8 @@ app.use('/*', async (req: SpeilRequest, res, next) => {
 });
 
 app.use('/api/person/oppdater', oppdaterPersonRoutes(dependencies));
-app.use(
-    '/api/payments',
-    paymentRoutes({ vedtakClient: dependencies.payments.vedtakClient, spesialistClient: dependencies.spesialistClient })
-);
-app.use('/api/totrinnsvurdering', totrinnsvurderingRoutes(dependencies.payments));
+app.use('/api/payments', paymentRoutes(dependencies));
+app.use('/api/totrinnsvurdering', totrinnsvurderingRoutes(dependencies));
 app.use('/api/overstyring', overstyringRoutes(dependencies.spesialistClient));
 app.use('/api/tildeling', tildelingRoutes(dependencies.spesialistClient));
 app.use('/api/opptegnelse', opptegnelseRoutes(dependencies));
