@@ -13,6 +13,11 @@ jest.mock('@state/person');
 
 let cachedVarsel: SpeilError | null = null;
 
+jest.mock('@utils/featureToggles', () => ({
+    erLocal: () => false,
+    erDev: () => false,
+}));
+
 jest.mock('graphql-request', () => ({
     request: () => Promise.resolve({}),
     gql: () => null,

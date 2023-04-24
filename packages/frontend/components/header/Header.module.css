@@ -1,6 +1,26 @@
-.Header {
+.header {
     min-width: var(--speil-total-min-width);
     flex-shrink: 0;
+}
+
+.devHeader {
+    background: repeating-linear-gradient(
+        -45deg,
+        #4d4d00,
+        #4d4d00 20px,
+        var(--navdsi-header-color-background) 20px,
+        var(--navdsi-header-color-background) 40px
+    );
+}
+
+.localhostHeader {
+    background: repeating-linear-gradient(
+        -45deg,
+        #004d00,
+        #004d00 20px,
+        var(--navdsi-header-color-background) 20px,
+        var(--navdsi-header-color-background) 40px
+    );
 }
 
 .Link {
@@ -12,4 +32,12 @@
 .SearchForm {
     align-self: center;
     margin-left: 24px;
+}
+
+.utviklingTape {
+    background: repeating-linear-gradient(-75deg, yellow, yellow 10px, black 10px, black 20px);
+    margin-left: 200px;
+    padding: 8px;
+    width: 500px;
+    color: black;
 }
