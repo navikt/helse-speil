@@ -1,19 +1,25 @@
-import { LeggPåVentClient } from './leggPåVentClient';
 import { Response, Router } from 'express';
 
+import { SpesialistClient } from '../http/spesialistClient';
 import logger from '../logging';
-import { SpeilRequest } from '../types';
+import { NotatDTO, SpeilRequest } from '../types';
 
 interface SetupOptions {
-    leggPåVentClient: LeggPåVentClient;
+    spesialistClient: SpesialistClient;
 }
 
-export default ({ leggPåVentClient }: SetupOptions) => {
+export default ({ spesialistClient }: SetupOptions) => {
     const router = Router();
 
-    router.post('/:oppgaveReferanse', (req: SpeilRequest, res: Response) => {
-        leggPåVentClient
-            .leggPåVent(req.session!.speilToken, req.params.oppgaveReferanse, req.body)
+    router.post('/:oppgavereferanse', (req: SpeilRequest, res: Response) => {
+        const body: NotatDTO = req.body;
+        spesialistClient
+            .execute({
+                speilToken: req.session!.speilToken,
+                path: `/api/leggpaavent/${req.params.oppgavereferanse}`,
+                body,
+                method: 'post',
+            })
             .then(() => res.sendStatus(200))
             .catch((err) => {
                 logger.error(`Feil under legg på vent: ${err}`);
@@ -21,9 +27,13 @@ export default ({ leggPåVentClient }: SetupOptions) => {
             });
     });
 
-    router.delete('/:oppgaveReferanse', (req: SpeilRequest, res: Response) => {
-        leggPåVentClient
-            .fjernPåVent(req.session!.speilToken, req.params.oppgaveReferanse)
+    router.delete('/:oppgavereferanse', (req: SpeilRequest, res: Response) => {
+        spesialistClient
+            .execute({
+                speilToken: req.session!.speilToken,
+                path: `/api/leggpaavent/${req.params.oppgavereferanse}`,
+                method: 'delete',
+            })
             .then(() => res.sendStatus(200))
             .catch((err) => {
                 logger.error(`Feil under fjern fra vent: ${err}`);

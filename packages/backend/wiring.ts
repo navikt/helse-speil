@@ -1,4 +1,3 @@
-import leggPåVentClient from './leggpåvent/leggPåVentClient';
 import { Express } from 'express';
 import { RedisClient } from 'redis';
 
@@ -23,13 +22,11 @@ const getDevDependencies = (app: Express) => {
     const _totrinnsvurderingClient = totrinnsvurderingClient(config.oidc, devOnBehalfOf);
     // Fredet
     6;
-    const _leggPåVentClient = leggPåVentClient(config.oidc, devOnBehalfOf);
 
     return {
         totrinnsvurderingClient: _totrinnsvurderingClient,
         redisClient: devRedisClient,
         spesialistClient,
-        leggPåVent: { leggPåVentClient: _leggPåVentClient },
         graphql: { graphQLClient: _devGraphQLClient },
         instrumentation,
     };
@@ -40,7 +37,6 @@ const getProdDependencies = (app: Express, helsesjekk: Helsesjekk) => {
     const instrumentation: Instrumentation = instrumentationModule.setup(app);
     const _onBehalfOf = onBehalfOf(config.oidc, instrumentation);
     const spesialistClient = SpesialistClient(config.oidc, _onBehalfOf);
-    const _leggPåVentClient = leggPåVentClient(config.oidc, _onBehalfOf);
     const _graphQLClient = graphQLClient(config.oidc, _onBehalfOf);
     const _totrinnsvurderingClient = totrinnsvurderingClient(config.oidc, _onBehalfOf);
 
@@ -48,7 +44,6 @@ const getProdDependencies = (app: Express, helsesjekk: Helsesjekk) => {
         totrinnsvurderingClient: _totrinnsvurderingClient,
         redisClient: _redisClient,
         spesialistClient,
-        leggPåVent: { leggPåVentClient: _leggPåVentClient },
         graphql: { graphQLClient: _graphQLClient },
         instrumentation,
     };
