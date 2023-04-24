@@ -63,10 +63,6 @@ const getFetchedBeregnetPeriode = (
     };
 };
 
-jest.mock('@utils/featureToggles', () => ({
-    erUtvikling: () => false,
-}));
-
 describe('PeriodPopover', () => {
     const arbeidsgiverUtbetalingsdager = [
         {

@@ -7,10 +7,6 @@ import userEvent from '@testing-library/user-event';
 
 import { DagtypeCell } from './DagtypeCell';
 
-jest.mock('@utils/featureToggles', () => ({
-    erUtvikling: () => false,
-}));
-
 describe('DagtypeCell', () => {
     it('rendrer tekst for dagtype', () => {
         render(<DagtypeCell dag={getUtbetalingstabellDag({ erAvvist: true })} />);

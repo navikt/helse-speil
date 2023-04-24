@@ -11,10 +11,6 @@ jest.mock('./useAlderVedSkjæringstidspunkt', () => ({
     useAlderVedSkjæringstidspunkt: () => 30,
 }));
 
-jest.mock('@utils/featureToggles', () => ({
-    erUtvikling: () => false,
-}));
-
 const enUtbetalingstabelldag = (dato: string, overrides?: Partial<UtbetalingstabellDag>): UtbetalingstabellDag => ({
     dato: dato,
     kilde: { id: 'Sasdadgf', type: Kildetype.Inntektsmelding },
