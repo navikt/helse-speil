@@ -26,29 +26,17 @@ export default ({ spesialistClient }: SetupOptions) => {
     router.post('/vedtak', (req: SpeilRequest, res: Response) => {
         const oppgavereferanse = req.body.oppgavereferanse;
         const saksbehandlerIdent = req.session!.user;
-        if (
-            !oppgavereferanse ||
-            req.body.godkjent === undefined ||
-            (req.body.godkjent === false && req.body.skjema === undefined)
-        ) {
+        const godkjent = req.body.godkjent;
+        if (!oppgavereferanse || godkjent === undefined || (godkjent === false && req.body.skjema === undefined)) {
             res.status(400).send('Oppgavereferanse og godkjent-verdi må være tilstede');
             return;
         }
-
-        const body: PostVedtakOptions | PostVedtakAvslåttOptions = req.body.godkjent
-            ? {
-                  oppgavereferanse,
-                  godkjent: true,
-                  saksbehandlerIdent,
-              }
-            : {
-                  oppgavereferanse,
-                  godkjent: false,
-                  saksbehandlerIdent,
-                  årsak: req.body.skjema.årsak,
-                  begrunnelser: req.body.skjema.begrunnelser,
-                  kommentar: req.body.skjema.kommentar,
-              };
+        const body: PostVedtakOptions | PostVedtakAvslåttOptions = {
+            oppgavereferanse,
+            godkjent,
+            saksbehandlerIdent,
+            ...req.body.skjema,
+        };
 
         logger.info(`Sender vedtak for oppgavereferanse ${oppgavereferanse}`);
 
