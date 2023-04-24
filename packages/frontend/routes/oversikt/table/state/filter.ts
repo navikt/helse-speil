@@ -16,7 +16,7 @@ type ActiveFiltersPerTab = {
     [key in TabType]: Filter<OppgaveForOversiktsvisning>[];
 };
 
-const defaultFilters: Filter<OppgaveForOversiktsvisning>[] = [
+export const defaultFilters: Filter<OppgaveForOversiktsvisning>[] = [
     {
         key: 'UFORDELTE_SAKER',
         label: 'Ufordelte saker',
@@ -121,7 +121,7 @@ const defaultFilters: Filter<OppgaveForOversiktsvisning>[] = [
         label: 'Ingen',
         active: false,
         function: (oppgave: OppgaveForOversiktsvisning) =>
-            oppgave.totrinnsvurdering?.erRetur === false && oppgave.totrinnsvurdering?.erBeslutteroppgave === false,
+            !(oppgave.totrinnsvurdering?.erRetur ?? false) && !(oppgave.totrinnsvurdering?.erBeslutteroppgave ?? false),
         column: 4,
     },
     {
