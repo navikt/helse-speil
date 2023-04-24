@@ -10,7 +10,6 @@ import graphQLClient from './graphql/graphQLClient';
 import SpesialistClient from './http/spesialistClient';
 import instrumentationModule, { Instrumentation } from './instrumentation';
 import notatClient from './notat/notatClient';
-import annulleringClient from './payment/annulleringClient';
 import totrinnsvurderingClient from './payment/totrinnsvurderingClient';
 import vedtakClient from './payment/vedtakClient';
 import redisClient from './redisClient';
@@ -24,7 +23,6 @@ const getDevDependencies = (app: Express) => {
     const spesialistClient = SpesialistClient(config.oidc, devOnBehalfOf);
     const _devGraphQLClient = graphQLClient(config.oidc, devOnBehalfOf);
     const _totrinnsvurderingClient = totrinnsvurderingClient(config.oidc, devOnBehalfOf);
-    const _annulleringClient = annulleringClient(config, devOnBehalfOf);
     const _notatClient = notatClient(config.oidc, devOnBehalfOf);
     const _vedtakClient = vedtakClient(config.oidc, devOnBehalfOf);
     // Fredet
@@ -34,7 +32,6 @@ const getDevDependencies = (app: Express) => {
     return {
         payments: {
             vedtakClient: _vedtakClient,
-            annulleringClient: _annulleringClient,
             totrinnsvurderingClient: _totrinnsvurderingClient,
         },
         redisClient: devRedisClient,
@@ -52,7 +49,6 @@ const getProdDependencies = (app: Express, helsesjekk: Helsesjekk) => {
     const _onBehalfOf = onBehalfOf(config.oidc, instrumentation);
     const spesialistClient = SpesialistClient(config.oidc, _onBehalfOf);
     const _vedtakClient = vedtakClient(config.oidc, _onBehalfOf);
-    const _annulleringClient = annulleringClient(config, _onBehalfOf);
     const _leggPåVentClient = leggPåVentClient(config.oidc, _onBehalfOf);
     const _notatClient = notatClient(config.oidc, _onBehalfOf);
     const _graphQLClient = graphQLClient(config.oidc, _onBehalfOf);
@@ -61,7 +57,6 @@ const getProdDependencies = (app: Express, helsesjekk: Helsesjekk) => {
     return {
         payments: {
             vedtakClient: _vedtakClient,
-            annulleringClient: _annulleringClient,
             totrinnsvurderingClient: _totrinnsvurderingClient,
         },
         redisClient: _redisClient,

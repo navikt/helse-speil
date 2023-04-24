@@ -170,7 +170,7 @@ app.post('/api/annullering', (req, res) => {
 });
 
 app.post('/api/vedtak', (req, res) => {
-    sleep(420).then((_) => (Math.random() > 1 ? res.sendStatus(204) : res.status(500).send('Dev-feil!')));
+    sleep(420).then((_) => (Math.random() > 0.1 ? res.sendStatus(204) : res.status(500).send('Dev-feil!')));
 });
 
 app.post('/api/person/oppdater', (req, res) => {

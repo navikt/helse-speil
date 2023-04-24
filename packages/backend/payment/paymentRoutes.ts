@@ -1,16 +1,16 @@
 import { Response, Router } from 'express';
 
+import { SpesialistClient } from '../http/spesialistClient';
 import logger from '../logging';
 import { SpeilRequest } from '../types';
-import { AnnulleringClient } from './annulleringClient';
 import { VedtakClient } from './vedtakClient';
 
 interface SetupOptions {
     vedtakClient: VedtakClient;
-    annulleringClient: AnnulleringClient;
+    spesialistClient: SpesialistClient;
 }
 
-export default ({ vedtakClient, annulleringClient }: SetupOptions) => {
+export default ({ vedtakClient, spesialistClient }: SetupOptions) => {
     const router = Router();
 
     router.post('/vedtak', (req: SpeilRequest, res: Response) => {
@@ -62,24 +62,25 @@ export default ({ vedtakClient, annulleringClient }: SetupOptions) => {
         logger.sikker.info(
             `Sender annullering for fagsystemId ${req.body.fagsystemId} med payload ${JSON.stringify(req.body)}`
         );
-        annulleringClient
-            .annuller({
-                aktørId: req.body.aktørId,
-                fødselsnummer: req.body.fødselsnummer,
-                organisasjonsnummer: req.body.organisasjonsnummer,
-                fagsystemId: req.body.fagsystemId,
-                saksbehandlerIdent: req.session!.user,
+        const body = {
+            aktørId: req.body.aktørId,
+            fødselsnummer: req.body.fødselsnummer,
+            organisasjonsnummer: req.body.organisasjonsnummer,
+            fagsystemId: req.body.fagsystemId,
+            saksbehandlerIdent: req.session!.user,
+            vedtaksperiodeId: req.body.vedtaksperiodeId,
+            begrunnelser: req.body.begrunnelser,
+            kommentar: req.body.kommentar,
+        };
+        spesialistClient
+            .execute({
+                path: '/api/annullering',
                 speilToken: req.session!.speilToken,
-                vedtaksperiodeId: req.body.vedtaksperiodeId,
-                begrunnelser: req.body.begrunnelser,
-                kommentar: req.body.kommentar,
+                body,
+                method: 'post',
             })
-            .then(() => {
-                res.sendStatus(204);
-            })
-            .catch((err) => {
-                res.status(err.statusCode || 500).send('Feil under annullering');
-            });
+            .then(() => res.sendStatus(204))
+            .catch((err) => res.status(err.statusCode || 500).send('Feil under annullering'));
     });
 
     return router;

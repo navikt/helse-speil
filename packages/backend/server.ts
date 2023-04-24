@@ -158,7 +158,10 @@ app.use('/*', async (req: SpeilRequest, res, next) => {
 });
 
 app.use('/api/person/oppdater', oppdaterPersonRoutes(dependencies));
-app.use('/api/payments', paymentRoutes(dependencies.payments));
+app.use(
+    '/api/payments',
+    paymentRoutes({ vedtakClient: dependencies.payments.vedtakClient, spesialistClient: dependencies.spesialistClient })
+);
 app.use('/api/totrinnsvurdering', totrinnsvurderingRoutes(dependencies.payments));
 app.use('/api/overstyring', overstyringRoutes(dependencies.spesialistClient));
 app.use('/api/tildeling', tildelingRoutes(dependencies.spesialistClient));

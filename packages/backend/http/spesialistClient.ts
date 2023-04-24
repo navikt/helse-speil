@@ -9,7 +9,7 @@ export interface ExecuteOptions {
     speilToken: string;
     path: string;
     method: Method;
-    body?: string;
+    body?: any;
 }
 
 export interface SpesialistClient {
