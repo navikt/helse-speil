@@ -9,7 +9,7 @@ import { SortInfoikon } from '@components/ikoner/SortInfoikon';
 import { useActivePeriodHasLatestSkjæringstidspunkt } from '@hooks/revurdering';
 import { useIsReadOnlyOppgave } from '@hooks/useIsReadOnlyOppgave';
 import { Arbeidsgiver, Dagoverstyring, Overstyring, UberegnetPeriode, Utbetalingstatus } from '@io/graphql';
-import { useCurrentArbeidsgiver } from '@state/arbeidsgiver';
+import { useCurrentArbeidsgiver, useErAktivPeriodeLikEllerFørPeriodeTilGodkjenning } from '@state/arbeidsgiver';
 import { useActivePeriod } from '@state/periode';
 import { useCurrentPerson } from '@state/person';
 import { isInCurrentGeneration } from '@state/selectors/period';
@@ -43,18 +43,24 @@ interface ReadonlyUtbetalingProps {
 const ReadonlyUtbetaling: React.FC<ReadonlyUtbetalingProps> = ({ fom, tom, dager }) => {
     const hasLatestSkjæringstidspunkt = useActivePeriodHasLatestSkjæringstidspunkt();
     const periodeErISisteGenerasjon = useIsInCurrentGeneration();
+    const erAktivPeriodeLikEllerFørPeriodeTilGodkjenning = useErAktivPeriodeLikEllerFørPeriodeTilGodkjenning();
 
     const harTidligereSkjæringstidspunktOgISisteGenerasjon = !hasLatestSkjæringstidspunkt && periodeErISisteGenerasjon;
 
     return (
         <div className={styles.Utbetaling}>
-            {harTidligereSkjæringstidspunktOgISisteGenerasjon && (
-                <div className={styles.Infopin}>
-                    <PopoverHjelpetekst ikon={<SortInfoikon />}>
-                        <p>Det er ikke mulig å gjøre endringer i denne perioden</p>
-                    </PopoverHjelpetekst>
-                </div>
-            )}
+            {!(hasLatestSkjæringstidspunkt || erAktivPeriodeLikEllerFørPeriodeTilGodkjenning) &&
+                periodeErISisteGenerasjon && (
+                    <div className={styles.Infopin}>
+                        <PopoverHjelpetekst ikon={<SortInfoikon />}>
+                            <p>
+                                {harTidligereSkjæringstidspunktOgISisteGenerasjon
+                                    ? 'Det er ikke mulig å gjøre endringer i denne perioden'
+                                    : 'Perioden kan ikke overstyres fordi det finnes en oppgave på en tidligere periode'}
+                            </p>
+                        </PopoverHjelpetekst>
+                    </div>
+                )}
             <div className={styles.Container} data-testid="utbetaling">
                 <Utbetalingstabell fom={fom} tom={tom} dager={dager} />
             </div>
@@ -97,6 +103,7 @@ const UtbetalingBeregnetPeriode: React.FC<UtbetalingBeregnetPeriodeProps> = Reac
         const overstyrRevurderingIsEnabled = kanOverstyreRevurdering(person, period);
         const dagoverstyringer = useDagoverstyringer(period.fom, period.tom, arbeidsgiver);
         const readOnly = useIsReadOnlyOppgave();
+        const erAktivPeriodeLikEllerFørPeriodeTilGodkjenning = useErAktivPeriodeLikEllerFørPeriodeTilGodkjenning();
 
         const dager: Map<string, UtbetalingstabellDag> = useTabelldagerMap({
             tidslinje: period.tidslinje,
@@ -108,7 +115,7 @@ const UtbetalingBeregnetPeriode: React.FC<UtbetalingBeregnetPeriodeProps> = Reac
         const kanEndres =
             overstyringIsEnabled.value || revurderingIsEnabled.value || overstyrRevurderingIsEnabled.value;
 
-        return kanEndres && !readOnly ? (
+        return kanEndres && !readOnly && erAktivPeriodeLikEllerFørPeriodeTilGodkjenning ? (
             <OverstyrbarUtbetaling
                 fom={period.fom}
                 tom={period.tom}
@@ -135,11 +142,12 @@ const UtbetalingUberegnetPeriode: React.FC<UtbetalingUberegnetPeriodeProps> = ({
         overstyringer: dagoverstyringer,
     });
     const person = useCurrentPerson();
+    const erAktivPeriodeLikEllerFørPeriodeTilGodkjenning = useErAktivPeriodeLikEllerFørPeriodeTilGodkjenning();
     if (!person) return null;
 
     const skjæringstidspunktHarPeriodeTilBeslutter = harPeriodeTilBeslutterFor(person, periode.skjaeringstidspunkt);
 
-    return !skjæringstidspunktHarPeriodeTilBeslutter ? (
+    return !skjæringstidspunktHarPeriodeTilBeslutter && erAktivPeriodeLikEllerFørPeriodeTilGodkjenning ? (
         <OverstyrbarUtbetaling
             fom={periode.fom}
             tom={periode.tom}

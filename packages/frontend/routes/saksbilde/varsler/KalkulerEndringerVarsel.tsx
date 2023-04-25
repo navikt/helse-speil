@@ -66,7 +66,6 @@ const usePostOverstyrtInntektOgRefusjon = () => {
         timedOut,
         setTimedOut,
         postOverstyring: (overstyrtInntekt: OverstyrtInntektOgRefusjonDTO) => {
-            console.log(overstyrtInntekt);
             setIsLoading(true);
 
             postOverstyrtInntektOgRefusjon(overstyrtInntekt)

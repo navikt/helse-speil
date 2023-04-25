@@ -26,6 +26,7 @@ import {
 import { Refusjonsopplysning } from '@io/http';
 import {
     useEndringerForPeriode,
+    useErAktivPeriodeLikEllerFørPeriodeTilGodkjenning,
     useLokaleRefusjonsopplysninger,
     useLokaltMånedsbeløp,
     usePeriodForSkjæringstidspunkt,
@@ -121,6 +122,7 @@ const useInntektKanRevurderes = (skjæringstidspunkt: DateString): boolean => {
     const person = useCurrentPerson();
     const periodeVedSkjæringstidspunkt = usePeriodForSkjæringstidspunkt(skjæringstidspunkt);
     const isReadOnlyOppgave = useIsReadOnlyOppgave();
+    const erAktivPeriodeLikEllerFørPeriodeTilGodkjenning = useErAktivPeriodeLikEllerFørPeriodeTilGodkjenning();
 
     if (!person) return false;
 
@@ -130,13 +132,15 @@ const useInntektKanRevurderes = (skjæringstidspunkt: DateString): boolean => {
         overstyrInntektEnabled &&
         !isForkastet(periodeVedSkjæringstidspunkt) &&
         !isReadOnlyOppgave &&
-        !harPeriodeTilBeslutter
+        !harPeriodeTilBeslutter &&
+        erAktivPeriodeLikEllerFørPeriodeTilGodkjenning
     );
 };
 
 const useArbeidsforholdKanOverstyres = (skjæringstidspunkt: DateString, organisasjonsnummer: string): boolean => {
     const person = useCurrentPerson();
     const period = usePeriodForSkjæringstidspunktForArbeidsgiver(skjæringstidspunkt, organisasjonsnummer);
+    const erAktivPeriodeLikEllerFørPeriodeTilGodkjenning = useErAktivPeriodeLikEllerFørPeriodeTilGodkjenning();
 
     if (!isGhostPeriode(period) || !person) {
         return false;
@@ -148,12 +152,18 @@ const useArbeidsforholdKanOverstyres = (skjæringstidspunkt: DateString, organis
 
     const arbeidsgiverHarKunGhostPerioder = harKunGhostPerioder(person, organisasjonsnummer, skjæringstidspunkt);
 
-    return arbeidsgiverHarKunGhostPerioder && !harPeriodeTilBeslutter && periodeForSkjæringstidspunkt !== undefined;
+    return (
+        arbeidsgiverHarKunGhostPerioder &&
+        !harPeriodeTilBeslutter &&
+        periodeForSkjæringstidspunkt !== undefined &&
+        erAktivPeriodeLikEllerFørPeriodeTilGodkjenning
+    );
 };
 
 const useGhostInntektKanOverstyres = (skjæringstidspunkt: DateString, organisasjonsnummer: string): boolean => {
     const person = useCurrentPerson();
     const period = usePeriodForSkjæringstidspunktForArbeidsgiver(skjæringstidspunkt, organisasjonsnummer);
+    const erAktivPeriodeLikEllerFørPeriodeTilGodkjenning = useErAktivPeriodeLikEllerFørPeriodeTilGodkjenning();
 
     if (!isGhostPeriode(period) || !person) {
         return false;
@@ -165,7 +175,11 @@ const useGhostInntektKanOverstyres = (skjæringstidspunkt: DateString, organisas
 
     const harPeriodeTilBeslutter = harPeriodeTilBeslutterFor(person, period.skjaeringstidspunkt);
 
-    return (harUtbetaltePerioder || periodeTilGodkjenning !== null) && !harPeriodeTilBeslutter;
+    return (
+        (harUtbetaltePerioder || periodeTilGodkjenning !== null) &&
+        !harPeriodeTilBeslutter &&
+        erAktivPeriodeLikEllerFørPeriodeTilGodkjenning
+    );
 };
 
 const endreInntektUtenSykefraværBegrunnelser: BegrunnelseForOverstyring[] = [
@@ -240,6 +254,7 @@ export const InntektOgRefusjon = ({
     const kanRevurderes = useInntektKanRevurderes(skjæringstidspunkt);
     const lokaleRefusjonsopplysninger = useLokaleRefusjonsopplysninger(organisasjonsnummer, skjæringstidspunkt);
     const lokaltMånedsbeløp = useLokaltMånedsbeløp(organisasjonsnummer, skjæringstidspunkt);
+    const erAktivPeriodeLikEllerFørPeriodeTilGodkjenning = useErAktivPeriodeLikEllerFørPeriodeTilGodkjenning();
 
     if (!person) return null;
 
@@ -269,14 +284,14 @@ export const InntektOgRefusjon = ({
                     </div>
                     <Kilde type="AINNTEKT">AA</Kilde>
                 </div>
-                {!harSykefravær && vilkårsgrunnlagId && ghostInntektKanOverstyres && !erDeaktivert && (
+                {!harSykefravær && vilkårsgrunnlagId && !erDeaktivert && ghostInntektKanOverstyres && (
                     <RedigerGhostInntekt
                         erRevurdering={erRevurdering}
                         setEditing={setEditingInntekt}
                         editing={editingInntekt}
                     />
                 )}
-                {harSykefravær && inntektstype && vilkårsgrunnlagId ? (
+                {harSykefravær && vilkårsgrunnlagId && inntektstype ? (
                     kanRevurderes ? (
                         <RedigerInntektOgRefusjon
                             setEditing={setEditingInntekt}
@@ -288,7 +303,11 @@ export const InntektOgRefusjon = ({
                         />
                     ) : (
                         <PopoverHjelpetekst ikon={<SortInfoikon />}>
-                            <p>Det er ikke mulig å endre inntekt i denne perioden </p>
+                            <p>
+                                {!erAktivPeriodeLikEllerFørPeriodeTilGodkjenning
+                                    ? 'Perioden kan ikke overstyres fordi det finnes en oppgave på en tidligere periode'
+                                    : 'Det er ikke mulig å endre inntekt i denne perioden'}
+                            </p>
                         </PopoverHjelpetekst>
                     )
                 ) : null}

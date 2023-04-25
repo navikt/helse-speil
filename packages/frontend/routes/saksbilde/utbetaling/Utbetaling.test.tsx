@@ -3,7 +3,7 @@ import { nanoid } from 'nanoid';
 import React from 'react';
 
 import { Inntektstype, Utbetalingsdagtype } from '@io/graphql';
-import { useCurrentArbeidsgiver } from '@state/arbeidsgiver';
+import { useCurrentArbeidsgiver, useErAktivPeriodeLikEllerFørPeriodeTilGodkjenning } from '@state/arbeidsgiver';
 import { useActivePeriod } from '@state/periode';
 import { useCurrentPerson } from '@state/person';
 import { useReadonly } from '@state/toggles';
@@ -36,6 +36,7 @@ describe('Utbetaling', () => {
         (useActivePeriod as jest.Mock).mockReturnValue(periode);
         (useCurrentArbeidsgiver as jest.Mock).mockReturnValue(arbeidsgiver);
         (useCurrentPerson as jest.Mock).mockReturnValue(person);
+        (useErAktivPeriodeLikEllerFørPeriodeTilGodkjenning as jest.Mock).mockReturnValue(true);
 
         render(<Utbetaling />, { wrapper: RecoilWrapper });
 

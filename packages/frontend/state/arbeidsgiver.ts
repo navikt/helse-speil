@@ -98,52 +98,69 @@ export const usePeriodIsInGeneration = (): number | null => {
     );
 };
 
+const usePeriodeTilGodkjenning = (): BeregnetPeriode | null => {
+    const person = useCurrentPerson();
+
+    if (!person) return null;
+
+    return (
+        (person.arbeidsgivere
+            .flatMap((arbeidsgiver) => arbeidsgiver.generasjoner[0]?.perioder)
+            .filter(
+                (periode) => isBeregnetPeriode(periode) && periode.periodetilstand === 'TilGodkjenning'
+            )?.[0] as BeregnetPeriode) ?? null
+    );
+};
+
 export const usePeriodForSkjæringstidspunktForArbeidsgiver = (
     skjæringstidspunkt: DateString | null,
     organisasjonsnummer: string
 ): ActivePeriod | null => {
     const arbeidsgiver = useArbeidsgiver(organisasjonsnummer);
-    const aktivPeriode = useActivePeriod();
     const aktivPeriodeErIgenerasjon = usePeriodIsInGeneration();
+    const periodeTilGodkjenning = usePeriodeTilGodkjenning();
+    const erAktivPeriodeLikEllerFørPeriodeTilGodkjenning = useErAktivPeriodeLikEllerFørPeriodeTilGodkjenning();
     const aktivPeriodeGhostGenerasjon = -1;
     const generasjon = aktivPeriodeErIgenerasjon === aktivPeriodeGhostGenerasjon ? 0 : aktivPeriodeErIgenerasjon;
 
     if (!skjæringstidspunkt || generasjon === null) return null;
 
-    const arbeidsgiverGhostPerioder = arbeidsgiver?.ghostPerioder.filter(
-        (it) => it.skjaeringstidspunkt === skjæringstidspunkt
-    );
+    const arbeidsgiverGhostPerioder =
+        arbeidsgiver?.ghostPerioder.filter((it) => it.skjaeringstidspunkt === skjæringstidspunkt) ?? [];
     const arbeidsgiverPerioder =
         arbeidsgiver?.generasjoner[generasjon]?.perioder.filter(
             (it) => it.skjaeringstidspunkt === skjæringstidspunkt
         ) ?? [];
 
-    if (arbeidsgiverPerioder.length === 0 && arbeidsgiverGhostPerioder?.length === 0) {
+    if (arbeidsgiverPerioder.length === 0 && arbeidsgiverGhostPerioder.length === 0) {
         return null;
     }
 
-    if (arbeidsgiverPerioder.length === 0 && isGhostPeriode(arbeidsgiverGhostPerioder?.[0])) {
-        return arbeidsgiverGhostPerioder?.[0] ?? null;
+    if (arbeidsgiverPerioder.length === 0 && isGhostPeriode(arbeidsgiverGhostPerioder[0])) {
+        return arbeidsgiverGhostPerioder[0] ?? null;
     }
 
-    const periodeTilGodkjenning =
-        generasjon !== 0
-            ? null
-            : arbeidsgiverPerioder.filter(
-                  (periode) => isBeregnetPeriode(periode) && periode.periodetilstand === 'TilGodkjenning'
-              )[0] ?? null;
-    const erAktivPeriodeLikEllerFørPeriodeTilGodkjenning =
-        (dayjs(aktivPeriode?.fom).isSameOrBefore(periodeTilGodkjenning?.fom) &&
-            aktivPeriode?.skjaeringstidspunkt === periodeTilGodkjenning?.skjaeringstidspunkt) ??
-        false;
+    const harSammeSkjæringstidspunkt = skjæringstidspunkt === periodeTilGodkjenning?.skjaeringstidspunkt;
 
-    return erAktivPeriodeLikEllerFørPeriodeTilGodkjenning
+    return erAktivPeriodeLikEllerFørPeriodeTilGodkjenning && harSammeSkjæringstidspunkt
         ? (periodeTilGodkjenning as ActivePeriod | null)
         : ((arbeidsgiver?.generasjoner[generasjon].perioder
               .filter((it) => it.skjaeringstidspunkt === skjæringstidspunkt)
               .filter((it) => isBeregnetPeriode(it) || isUberegnetPeriode(it))
               .sort((a, b) => new Date(a.fom).getTime() - new Date(b.fom).getTime())
               .pop() ?? null) as ActivePeriod | null);
+};
+
+export const useErAktivPeriodeLikEllerFørPeriodeTilGodkjenning = (): boolean => {
+    const aktivPeriode = useActivePeriod();
+    const aktivPeriodeErIgenerasjon = usePeriodIsInGeneration();
+    const periodeTilGodkjenning = usePeriodeTilGodkjenning();
+    const aktivPeriodeGhostGenerasjon = -1;
+    const generasjon = aktivPeriodeErIgenerasjon === aktivPeriodeGhostGenerasjon ? 0 : aktivPeriodeErIgenerasjon;
+
+    if (!aktivPeriode || !periodeTilGodkjenning || generasjon !== 0) return false;
+
+    return dayjs(aktivPeriode.fom).isSameOrBefore(periodeTilGodkjenning.fom);
 };
 
 export const useUtbetalingForSkjæringstidspunkt = (skjæringstidspunkt: DateString): Utbetaling | null => {
