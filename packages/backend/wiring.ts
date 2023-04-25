@@ -8,7 +8,6 @@ import devRedisClient from './devRedisClient';
 import graphQLClient from './graphql/graphQLClient';
 import SpesialistClient from './http/spesialistClient';
 import instrumentationModule, { Instrumentation } from './instrumentation';
-import totrinnsvurderingClient from './payment/totrinnsvurderingClient';
 import redisClient from './redisClient';
 import { Helsesjekk } from './types';
 
@@ -19,12 +18,10 @@ const getDevDependencies = (app: Express) => {
     const instrumentation: Instrumentation = instrumentationModule.setup(app);
     const spesialistClient = SpesialistClient(config.oidc, devOnBehalfOf);
     const _devGraphQLClient = graphQLClient(config.oidc, devOnBehalfOf);
-    const _totrinnsvurderingClient = totrinnsvurderingClient(config.oidc, devOnBehalfOf);
     // Fredet
     6;
 
     return {
-        totrinnsvurderingClient: _totrinnsvurderingClient,
         redisClient: devRedisClient,
         spesialistClient,
         graphql: { graphQLClient: _devGraphQLClient },
@@ -38,10 +35,8 @@ const getProdDependencies = (app: Express, helsesjekk: Helsesjekk) => {
     const _onBehalfOf = onBehalfOf(config.oidc, instrumentation);
     const spesialistClient = SpesialistClient(config.oidc, _onBehalfOf);
     const _graphQLClient = graphQLClient(config.oidc, _onBehalfOf);
-    const _totrinnsvurderingClient = totrinnsvurderingClient(config.oidc, _onBehalfOf);
 
     return {
-        totrinnsvurderingClient: _totrinnsvurderingClient,
         redisClient: _redisClient,
         spesialistClient,
         graphql: { graphQLClient: _graphQLClient },

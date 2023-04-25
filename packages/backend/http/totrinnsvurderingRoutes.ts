@@ -1,21 +1,24 @@
 import { Response, Router } from 'express';
 
 import logger from '../logging';
-import { TotrinnsvurderingClient } from '../payment/totrinnsvurderingClient';
 import { SpeilRequest } from '../types';
+import { SpesialistClient } from './spesialistClient';
 
 interface SetupOptions {
-    totrinnsvurderingClient: TotrinnsvurderingClient;
+    spesialistClient: SpesialistClient;
 }
 
-export default ({ totrinnsvurderingClient }: SetupOptions) => {
+export default ({ spesialistClient }: SetupOptions) => {
     const router = Router();
 
     router.post('', (req: SpeilRequest, res: Response) => {
         logger.info(`Sender til totrinnsvurdering for oppgavereferanse ${req.body.oppgavereferanse}`);
-        totrinnsvurderingClient
-            .totrinnsvurdering(req.session!.speilToken, {
-                oppgavereferanse: req.body.oppgavereferanse,
+        spesialistClient
+            .execute({
+                speilToken: req.session!.speilToken,
+                path: '/api/totrinnsvurdering',
+                method: 'post',
+                body: { oppgavereferanse: req.body.oppgavereferanse },
             })
             .then(() => {
                 res.sendStatus(204);
@@ -30,10 +33,12 @@ export default ({ totrinnsvurderingClient }: SetupOptions) => {
 
     router.post('/retur', (req: SpeilRequest, res: Response) => {
         logger.info(`Sender beslutteroppgave i retur for oppgavereferanse ${req.body.oppgavereferanse}`);
-        totrinnsvurderingClient
-            .beslutteroppgaveretur(req.session!.speilToken, {
-                oppgavereferanse: req.body.oppgavereferanse,
-                notat: req.body.notat,
+        spesialistClient
+            .execute({
+                speilToken: req.session!.speilToken,
+                path: '/api/totrinnsvurdering/retur',
+                method: 'post',
+                body: { oppgavereferanse: req.body.oppgavereferanse, notat: req.body.notat },
             })
             .then(() => {
                 res.sendStatus(204);
