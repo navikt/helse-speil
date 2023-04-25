@@ -1,6 +1,6 @@
 import { nanoid } from 'nanoid';
 
-import { Periodetilstand, Utbetalingtype } from '@io/graphql';
+import { Periodetilstand } from '@io/graphql';
 import { enArbeidsgiver } from '@test-data/arbeidsgiver';
 import { enOppgave } from '@test-data/oppgave';
 import { enBeregnetPeriode } from '@test-data/periode';
@@ -11,7 +11,6 @@ import { etVilkårsgrunnlagFraInfotrygd, etVilkårsgrunnlagFraSpleis } from '@te
 import {
     harVilkårsgrunnlagFraSpleis,
     kanRedigereInntektEllerRefusjon,
-    periodeErTilGodkjenningMedOverlappendeAvsluttetPeriode,
     perioderMedSkjæringstidspunktHarMaksÉnFagsystemId,
 } from './RedigerInntektOgRefusjon';
 
@@ -57,45 +56,6 @@ describe('harVilkårsgrunnlagFraSpleis', () => {
     });
 });
 
-describe('periodeErTilGodkjenningMedOverlappendeAvsluttetPeriode', () => {
-    it('returnerer false om perioden ikke er til godkjenning', () => {
-        const periode = enBeregnetPeriode({ periodetilstand: Periodetilstand.Utbetalt });
-        const person = enPerson() as unknown as FetchedPerson;
-
-        expect(periodeErTilGodkjenningMedOverlappendeAvsluttetPeriode(periode, person)).toEqual(false);
-    });
-
-    it('returnerer false om utbetalingen til perioden er en revurdering', () => {
-        const utbetalingtype = Utbetalingtype.Revurdering;
-        const periodetilstand = Periodetilstand.TilGodkjenning;
-        const utbetaling = enUtbetaling({ type: utbetalingtype });
-        const oppgave = enOppgave();
-        const periode = enBeregnetPeriode({ periodetilstand, oppgave }).medUtbetaling(utbetaling);
-        const person = enPerson() as unknown as FetchedPerson;
-
-        expect(periodeErTilGodkjenningMedOverlappendeAvsluttetPeriode(periode, person)).toEqual(false);
-    });
-
-    it('returnerer false om det ikke finnes overlappende perioder som er avsluttet', () => {
-        const oppgave = enOppgave();
-        const periode = enBeregnetPeriode({ periodetilstand: Periodetilstand.TilGodkjenning, oppgave });
-        const arbeidsgiver = enArbeidsgiver().medPerioder([periode]);
-        const person = enPerson().medArbeidsgivere([arbeidsgiver]) as unknown as FetchedPerson;
-
-        expect(periodeErTilGodkjenningMedOverlappendeAvsluttetPeriode(periode, person)).toEqual(false);
-    });
-
-    it('returnerer true om det finnes overlappende perioder som er avsluttet', () => {
-        const oppgave = enOppgave();
-        const periodeA = enBeregnetPeriode({ periodetilstand: Periodetilstand.TilGodkjenning, oppgave });
-        const periodeB = enBeregnetPeriode({ periodetilstand: Periodetilstand.Utbetalt, vedtaksperiodeId: nanoid() });
-        const arbeidsgiver = enArbeidsgiver().medPerioder([periodeA, periodeB]);
-        const person = enPerson().medArbeidsgivere([arbeidsgiver]) as unknown as FetchedPerson;
-
-        expect(periodeErTilGodkjenningMedOverlappendeAvsluttetPeriode(periodeA, person)).toEqual(true);
-    });
-});
-
 describe('kanRedigereInntekt', () => {
     it('returnerer false om perioden er ventende', () => {
         const periode = enBeregnetPeriode({ periodetilstand: Periodetilstand.VenterPaEnAnnenPeriode });
@@ -103,18 +63,6 @@ describe('kanRedigereInntekt', () => {
         const person = enPerson().medArbeidsgivere([arbeidsgiver]);
 
         expect(kanRedigereInntektEllerRefusjon(person as unknown as FetchedPerson, arbeidsgiver, periode)).toEqual(
-            false
-        );
-    });
-
-    it('returnerer false om perioden er til godkjenning med overlappende avsluttet periode', () => {
-        const oppgave = enOppgave();
-        const periodeA = enBeregnetPeriode({ periodetilstand: Periodetilstand.TilGodkjenning, oppgave });
-        const periodeB = enBeregnetPeriode({ periodetilstand: Periodetilstand.Utbetalt });
-        const arbeidsgiver = enArbeidsgiver().medPerioder([periodeA, periodeB]);
-        const person = enPerson().medArbeidsgivere([arbeidsgiver]);
-
-        expect(kanRedigereInntektEllerRefusjon(person as unknown as FetchedPerson, arbeidsgiver, periodeA)).toEqual(
             false
         );
     });

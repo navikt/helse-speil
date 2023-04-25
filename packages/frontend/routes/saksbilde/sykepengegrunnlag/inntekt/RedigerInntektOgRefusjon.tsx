@@ -6,9 +6,8 @@ import { SortInfoikon } from '@components/ikoner/SortInfoikon';
 import { Arbeidsgiver, BeregnetPeriode, Utbetalingstatus, Vilkarsgrunnlagtype } from '@io/graphql';
 import { usePeriodForSkjæringstidspunktForArbeidsgiver } from '@state/arbeidsgiver';
 import { useCurrentPerson } from '@state/person';
-import { isGodkjent, isInCurrentGeneration, isTilGodkjenning, isWaiting, overlapper } from '@state/selectors/period';
+import { isInCurrentGeneration, isWaiting } from '@state/selectors/period';
 import { getVilkårsgrunnlag } from '@state/selectors/person';
-import { isRevurdering } from '@state/selectors/utbetaling';
 import { isBeregnetPeriode } from '@utils/typeguards';
 
 export const perioderMedSkjæringstidspunktHarMaksÉnFagsystemId = (
@@ -28,24 +27,6 @@ export const harVilkårsgrunnlagFraSpleis = (person: FetchedPerson, grunnlagId: 
     return getVilkårsgrunnlag(person, grunnlagId)?.vilkarsgrunnlagtype === Vilkarsgrunnlagtype.Spleis;
 };
 
-export const periodeErTilGodkjenningMedOverlappendeAvsluttetPeriode = (
-    periode: FetchedBeregnetPeriode,
-    person: FetchedPerson
-): boolean => {
-    if (!isTilGodkjenning(periode) || isRevurdering(periode.utbetaling)) {
-        return false;
-    }
-
-    const beregnedePerioder = person.arbeidsgivere.flatMap(
-        (arbeidsgiver) => arbeidsgiver.generasjoner[0]?.perioder.filter(isBeregnetPeriode) ?? []
-    ) as Array<FetchedBeregnetPeriode>;
-
-    return beregnedePerioder
-        .filter((other) => other.vedtaksperiodeId !== periode.vedtaksperiodeId)
-        .filter(overlapper(periode))
-        .some(isGodkjent);
-};
-
 export const kanRedigereInntektEllerRefusjon = (
     person: FetchedPerson,
     arbeidsgiver: Arbeidsgiver,
@@ -53,7 +34,6 @@ export const kanRedigereInntektEllerRefusjon = (
 ): boolean => {
     return (
         !isWaiting(periode) &&
-        !periodeErTilGodkjenningMedOverlappendeAvsluttetPeriode(periode, person) &&
         perioderMedSkjæringstidspunktHarMaksÉnFagsystemId(arbeidsgiver, periode.skjaeringstidspunkt)
     );
 };
@@ -97,8 +77,6 @@ export const RedigerInntektOgRefusjon = ({
             <p>
                 {isWaiting(periode)
                     ? 'Det finnes andre endringer som må ferdigstilles før du kan endre inntekten'
-                    : periodeErTilGodkjenningMedOverlappendeAvsluttetPeriode(periode, person)
-                    ? 'Det er ikke støtte for endring av inntekt på førstegangsbehandlinger når det finnes avsluttede overlappende perioder for andre arbeidsgivere'
                     : 'Det er ikke mulig å overstyre sykepengegrunnlaget i denne saken. Meld saken til support'}
             </p>
         </PopoverHjelpetekst>
