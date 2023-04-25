@@ -142,8 +142,8 @@ export const usePeriodForSkjæringstidspunktForArbeidsgiver = (
 
     const harSammeSkjæringstidspunkt = skjæringstidspunkt === periodeTilGodkjenning?.skjaeringstidspunkt;
 
-    return erAktivPeriodeLikEllerFørPeriodeTilGodkjenning && harSammeSkjæringstidspunkt
-        ? (periodeTilGodkjenning as ActivePeriod | null)
+    return periodeTilGodkjenning && erAktivPeriodeLikEllerFørPeriodeTilGodkjenning && harSammeSkjæringstidspunkt
+        ? (periodeTilGodkjenning as ActivePeriod)
         : ((arbeidsgiver?.generasjoner[generasjon].perioder
               .filter((it) => it.skjaeringstidspunkt === skjæringstidspunkt)
               .filter((it) => isBeregnetPeriode(it) || isUberegnetPeriode(it))
@@ -158,9 +158,9 @@ export const useErAktivPeriodeLikEllerFørPeriodeTilGodkjenning = (): boolean =>
     const aktivPeriodeGhostGenerasjon = -1;
     const generasjon = aktivPeriodeErIgenerasjon === aktivPeriodeGhostGenerasjon ? 0 : aktivPeriodeErIgenerasjon;
 
-    if (!aktivPeriode || !periodeTilGodkjenning || generasjon !== 0) return false;
+    if (!aktivPeriode || generasjon !== 0) return false;
 
-    return dayjs(aktivPeriode.fom).isSameOrBefore(periodeTilGodkjenning.fom);
+    return dayjs(aktivPeriode.fom).isSameOrBefore(periodeTilGodkjenning?.fom ?? Date.now());
 };
 
 export const useUtbetalingForSkjæringstidspunkt = (skjæringstidspunkt: DateString): Utbetaling | null => {
