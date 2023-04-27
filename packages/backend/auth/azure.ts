@@ -1,4 +1,4 @@
-import { Client, custom, Issuer } from 'openid-client';
+import { Client, Issuer, custom } from 'openid-client';
 
 import logger from '../logging';
 import { OidcConfig } from '../types';
@@ -27,11 +27,11 @@ const setup = (config: OidcConfig) => {
                 });
 
                 if (proxyAgent) {
-                    azure[custom.http_options] = function (options) {
+                    azure[custom.http_options] = function (url, options) {
                         options.agent = proxyAgent;
                         return options;
                     };
-                    azureClient[custom.http_options] = function (options) {
+                    azureClient[custom.http_options] = function (url, options) {
                         options.agent = proxyAgent;
                         return options;
                     };
