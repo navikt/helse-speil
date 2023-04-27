@@ -140,6 +140,7 @@ export const NyttNotatModal = ({
         }
     };
 
+    const tillattTekstlengde = 1_000;
     return (
         <Modal
             title={<Tittel>{notattekst.tittel}</Tittel>}
@@ -158,8 +159,8 @@ export const NyttNotatModal = ({
                         rules={{
                             required: notattekst.errorTekst ?? 'Notat må fylles ut',
                             maxLength: {
-                                value: 500,
-                                message: 'Det er kun tillatt med 500 tegn',
+                                value: tillattTekstlengde,
+                                message: `Det er kun tillatt med ${tillattTekstlengde} tegn`,
                             },
                         }}
                         render={({ field: { onChange, onBlur, value, name, ref }, fieldState: { error } }) => (
@@ -172,7 +173,7 @@ export const NyttNotatModal = ({
                                 value={value ?? ''}
                                 name={name}
                                 ref={ref}
-                                maxLength={1000}
+                                maxLength={tillattTekstlengde}
                                 autoFocus
                             />
                         )}
