@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import React, { ChangeEvent } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
 
-import { Alert, Fieldset, Checkbox as NavCheckbox, RadioGroup, Textarea } from '@navikt/ds-react';
+import { Alert, Fieldset, Checkbox as NavCheckbox, Textarea } from '@navikt/ds-react';
 
 import styles from './Annulleringsmodal.module.css';
 
@@ -12,10 +12,6 @@ const Undertittel = styled.h3`
     font-size: 1.25rem;
     margin-bottom: 0.75rem;
     font-weight: 600;
-`;
-
-const RadioContainer = styled(RadioGroup)`
-    margin-bottom: 2.5rem;
 `;
 
 const CheckboxContainer = styled(Fieldset)`
@@ -127,7 +123,6 @@ export const Annulleringsbegrunnelse = () => {
                         aria-invalid={formState.errors.kommentar?.message}
                         aria-errormessage={formState.errors.kommentar?.message}
                         description={`Gi en kort forklaring på hvorfor du annullerte.\nEksempel: Korrigerte opplysninger om ferie`}
-                        maxLength={0}
                     />
                 )}
             />

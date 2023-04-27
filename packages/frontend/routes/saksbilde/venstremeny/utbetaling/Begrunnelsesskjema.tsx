@@ -101,7 +101,6 @@ export const Begrunnelsesskjema: React.FC<BegrunnelsesskjemaProps> = ({ activePe
                         aria-invalid={formState.errors.kommentar?.message}
                         aria-errormessage={formState.errors.kommentar?.message}
                         description={`Gi en kort forklaring på hvorfor du ikke kan behandle saken.\nEksempel: Oppgave om oppfølging.\nMå ikke inneholde personopplysninger.`}
-                        maxLength={0}
                     />
                 )}
             />
