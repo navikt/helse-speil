@@ -61,7 +61,11 @@ const vedtaksperiodeVenter = (state: PeriodState): VarselObject | null =>
     state === 'venter'
         ? { grad: 'info', melding: 'Ikke klar til behandling - avventer system' }
         : state === 'venterPåKiling'
-        ? { grad: 'info', melding: 'Ikke klar for utbetaling. Avventer behandling av tidligere periode.' }
+        ? {
+              grad: 'info',
+              melding:
+                  'Avventer behandling av en annen periode. Dette kan skyldes at søknad eller inntektsmelding for denne eller en annen arbeidsgiver mangler.',
+          }
         : null;
 
 const manglendeOppgavereferanse = (state: PeriodState, oppgavereferanse?: string | null): VarselObject | null =>
