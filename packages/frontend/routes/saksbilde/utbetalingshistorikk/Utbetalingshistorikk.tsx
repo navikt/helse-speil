@@ -99,7 +99,7 @@ const UtbetalingshistorikkWithContent: React.FC<UtbetalingshistorikkWithContentP
                 onClick={() => {
                     if (!erNyeste(oppdrag))
                         setVarseltekst(
-                            'Utbetalinger må annullere kronologisk, nyeste først. Du kan forsøke å annullere denne, men om den ikke er den nyeste vil den ikke bli annullert.'
+                            'Utbetalinger må annulleres kronologisk, nyeste først. Du kan forsøke å annullere denne, men om den ikke er den nyeste vil den ikke bli annullert.'
                         );
                     setTilAnnullering(oppdrag);
                 }}
