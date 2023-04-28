@@ -14,7 +14,6 @@ import {
     FetchBehandledeOppgaverQuery,
     FetchOppgaverQuery,
     OppgaveForOversiktsvisning,
-    Oppgavetype,
     Tildeling,
 } from '@io/graphql';
 import { fetchBehandledeOppgaver } from '@io/graphql/fetchBehandledeOppgaver';
@@ -22,7 +21,6 @@ import { fetchOppgaver } from '@io/graphql/fetchOppgaver';
 import { NotatDTO, deletePåVent, deleteTildeling, postLeggPåVent, postTildeling } from '@io/http';
 import { ISO_DATOFORMAT } from '@utils/date';
 import { InfoAlert } from '@utils/error';
-import { flereArbeidsgivere, stikkprøve } from '@utils/featureToggles';
 
 import { authState, useInnloggetSaksbehandler } from './authentication';
 import { useAddVarsel, useRemoveVarsel } from './varsler';
@@ -77,10 +75,7 @@ export const oppgaverState = selector<FetchedOppgaver>({
     get: ({ get }) => {
         const tildelinger = get(tildelingerState);
         const oppgaver = get(remoteOppgaverState);
-        return oppgaver
-            .filter((oppgave) => stikkprøve || oppgave.type != Oppgavetype.Stikkprove)
-            .filter((oppgave) => flereArbeidsgivere || !oppgave.flereArbeidsgivere)
-            .map((oppgave) => ({ ...oppgave, tildeling: tildelinger[oppgave.id] }));
+        return oppgaver.map((oppgave) => ({ ...oppgave, tildeling: tildelinger[oppgave.id] }));
     },
 });
 
