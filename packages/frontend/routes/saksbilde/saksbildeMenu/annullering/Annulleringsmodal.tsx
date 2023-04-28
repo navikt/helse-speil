@@ -52,6 +52,10 @@ const Feilmelding = styled(BodyShort)`
     margin-top: 0.625rem;
 `;
 
+const Varseltekst = styled(Feilmelding)`
+    margin-bottom: 1.225rem;
+`;
+
 const Utbetalingsgruppe = styled.div`
     margin-bottom: 2rem;
 
@@ -69,6 +73,7 @@ interface AnnulleringsmodalProps {
     linjer: Array<Utbetalingslinje>;
     onClose: () => void;
     onSuccess?: () => void;
+    varseltekst?: string;
 }
 
 export const Annulleringsmodal = ({
@@ -79,6 +84,7 @@ export const Annulleringsmodal = ({
     linjer,
     onClose,
     onSuccess,
+    varseltekst,
 }: AnnulleringsmodalProps) => {
     const [isSending, setIsSending] = useState<boolean>(false);
     const [postAnnulleringFeil, setPostAnnulleringFeil] = useState<string>();
@@ -162,6 +168,7 @@ export const Annulleringsmodal = ({
                         </ul>
                     </Utbetalingsgruppe>
                     <Annulleringsbegrunnelse />
+                    {varseltekst && <Varseltekst as="p">{varseltekst}</Varseltekst>}
                     <AnnullerKnapp as="button" variant="secondary" disabled={isSending}>
                         Annuller
                         {isSending && <Loader size="xsmall" />}

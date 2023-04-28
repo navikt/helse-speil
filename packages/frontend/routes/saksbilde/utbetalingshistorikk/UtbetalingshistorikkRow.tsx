@@ -13,7 +13,7 @@ const getFom = (oppdrag: Spennoppdrag): Dayjs | undefined =>
         ? oppdrag.linjer.reduce((first, { fom }) => (first.isAfter(dayjs(fom)) ? dayjs(fom) : first), dayjs())
         : undefined;
 
-const getTom = (oppdrag: Spennoppdrag): Dayjs | undefined =>
+export const getTom = (oppdrag: Spennoppdrag): Dayjs | undefined =>
     oppdrag.linjer.length > 0
         ? oppdrag.linjer.reduce((last, { tom }) => (last.isBefore(dayjs(tom)) ? dayjs(tom) : last), dayjs(0))
         : undefined;
