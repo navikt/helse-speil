@@ -4,6 +4,9 @@ on:
   push:
     branches:
       - master
+env:
+  APP: speil
+  TEAM: tbd
 
 jobs:
   build:
@@ -81,7 +84,7 @@ jobs:
           APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
           CLUSTER: dev-gcp
           RESOURCE: deploy/dev.yml,deploy/alerts-dev.yml,deploy/redis-dev.yml
-          IMAGE: ${{ needs.build.outputs.tag }}
+          VAR: "image=${{ needs.set_version.outputs.tag }},team=${{env.TEAM}},app=${{env.APP}}"
 
   deployProd:
     name: Deploy to prod
@@ -94,4 +97,4 @@ jobs:
           APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
           CLUSTER: prod-gcp
           RESOURCE: deploy/prod.yml,deploy/alerts-prod.yml,deploy/redis-prod.yml
-          IMAGE: ${{ needs.build.outputs.tag }}
+          VAR: "image=${{ needs.set_version.outputs.tag }},team=${{env.TEAM}},app=${{env.APP}}"
