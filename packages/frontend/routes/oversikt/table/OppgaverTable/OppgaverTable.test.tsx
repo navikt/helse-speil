@@ -34,11 +34,10 @@ it('rendrer alle headere', () => {
     expect(screen.getAllByText(/Mottaker/)).toHaveLength(2);
     expect(screen.getAllByText(/Egenskaper/)).toHaveLength(2);
     expect(screen.getAllByText(/Inntektskilde/)).toHaveLength(2);
-    expect(screen.getByText(/Søker/)).toBeVisible();
     expect(screen.getByText(/Opprettet/)).toBeVisible();
     expect(screen.getByText(/Søknad mottatt/)).toBeVisible();
 
-    expect(screen.getAllByRole('columnheader')).toHaveLength(15);
+    expect(screen.getAllByRole('columnheader')).toHaveLength(14);
 });
 
 // Testen oversteg default setting på 5000 ved kjøring lokalt\

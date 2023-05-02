@@ -21,7 +21,6 @@ export const SortHeaderRow = ({ sortation }: { sortation: Sortation<OppgaveForOv
         <SortColumnHeader text="Mottaker" />
         <SortColumnHeader text="Egenskaper" />
         <SortColumnHeader text="Inntektskilde" />
-        <SortColumnHeader text="Søker" />
         <SortableHeader sortation={sortation} sortKey={opprettetSortation.sortKey} onSort={opprettetSortation.function}>
             Opprettet
         </SortableHeader>

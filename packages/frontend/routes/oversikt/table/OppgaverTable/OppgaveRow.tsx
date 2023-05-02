@@ -10,7 +10,6 @@ import { InntektskildeCell } from '../rader/InntektskildeCell';
 import { MottakerCell } from '../rader/MottakerCell';
 import { OppgavetypeCell } from '../rader/OppgavetypeCell';
 import { PeriodetypeCell } from '../rader/PeriodetypeCell';
-import { SøkerCell } from '../rader/SøkerCell';
 import { TildelingCell } from '../rader/TildelingCell';
 import { NotatCell } from '../rader/notat/NotatCell';
 import { OptionsCell } from '../rader/options/OptionsCell';
@@ -31,7 +30,6 @@ export const OppgaveRow = ({ oppgave, readOnly }: OppgaveRowProps) => (
             erRetur={oppgave.totrinnsvurdering?.erRetur === true}
         />
         <InntektskildeCell flereArbeidsgivere={oppgave.flereArbeidsgivere} />
-        <SøkerCell name={oppgave.personinfo} />
         <DatoCell date={oppgave.sistSendt ?? oppgave.opprettet} />
         <DatoCell date={oppgave.opprinneligSoknadsdato ?? oppgave.opprettet} />
         <OptionsCell oppgave={oppgave} personinfo={oppgave.personinfo} />
