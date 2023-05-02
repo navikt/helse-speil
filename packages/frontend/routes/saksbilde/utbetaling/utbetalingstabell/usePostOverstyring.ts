@@ -14,8 +14,6 @@ import {
 import { useOpptegnelser, useSetOpptegnelserPollingRate } from '@state/opptegnelser';
 import { useCurrentPerson } from '@state/person';
 import { useAddToast, useRemoveToast } from '@state/toasts';
-import { useAddVarsel } from '@state/varsler';
-import { ErrorAlert } from '@utils/error';
 
 const tilOverstyrtDagtype = (type: Utbetalingstabelldagtype): OverstyrtDagtype => {
     switch (type) {
@@ -81,18 +79,9 @@ export const usePostOverstyring = (): UsePostOverstyringResult => {
     const [state, setState] = useState<UsePostOverstyringState>('initial');
     const [error, setError] = useState<string>();
     const [calculating, setCalculating] = useState(false);
-    const addVarsel = useAddVarsel();
-
     useEffect(() => {
         if (opptegnelser && calculating) {
-            if (opptegnelser.type === 'REVURDERING_AVVIST') {
-                removeToast(kalkulererFerdigToastKey);
-                addVarsel(
-                    new ErrorAlert('Revurderingen gikk ikke gjennom. Ta kontakt med support dersom du trenger hjelp.')
-                );
-            } else {
-                addToast(kalkuleringFerdigToast({ callback: () => removeToast(kalkulererFerdigToastKey) }));
-            }
+            addToast(kalkuleringFerdigToast({ callback: () => removeToast(kalkulererFerdigToastKey) }));
             setCalculating(false);
         }
         if (opptegnelser && person !== personFørRefetchRef.current) setState('done');

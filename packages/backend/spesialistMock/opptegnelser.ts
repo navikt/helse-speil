@@ -28,15 +28,7 @@ const getOpptegnelser = async (req: Request, res: Response): Promise<any> => {
     const sisteSekvensId = Number(req.params['sisteSekvensId']);
     const opptegnelse3 = opptegnelser[2];
     return svarPåOpptegnelser
-        ? res
-              .status(200)
-              .send(
-                  Math.random() < 0.05
-                      ? [{ ...opptegnelse3, type: 'REVURDERING_AVVIST' }].filter(
-                            (it) => it.sekvensnummer > sisteSekvensId
-                        )
-                      : [{ ...opptegnelse3 }].filter((it) => it.sekvensnummer > sisteSekvensId)
-              )
+        ? res.status(200).send([{ ...opptegnelse3 }].filter((it) => it.sekvensnummer > sisteSekvensId))
         : res.status(200).send([]);
 };
 
