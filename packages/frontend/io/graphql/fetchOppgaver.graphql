@@ -10,11 +10,6 @@ query FetchOppgaver {
         flereArbeidsgivere
         antallVarsler
         sistSendt
-        personinfo {
-            fornavn
-            mellomnavn
-            etternavn
-        }
         boenhet {
             navn
         }
