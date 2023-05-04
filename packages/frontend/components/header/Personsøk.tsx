@@ -7,7 +7,6 @@ import styles from '@components/header/Header.module.css';
 import { useLoadingToast } from '@hooks/useLoadingToast';
 import { erGyldigPersonId } from '@hooks/useRefreshPersonVedUrlEndring';
 import { NotFoundError } from '@io/graphql/errors';
-import { useToggleEasterEgg } from '@state/easterEgg';
 import { useFetchPerson } from '@state/person';
 import { useAddVarsel, useRemoveVarsel } from '@state/varsler';
 import { SpeilError } from '@utils/error';
@@ -18,7 +17,6 @@ export const Personsøk: React.FC = () => {
     const addVarsel = useAddVarsel();
     const history = useHistory();
     const [isFetching, setIsFetching] = useState(false);
-    const toggleEasterEgg = useToggleEasterEgg();
 
     useLoadingToast({ isLoading: isFetching, message: 'Henter person' });
 
@@ -30,11 +28,6 @@ export const Personsøk: React.FC = () => {
         const personId = searchRef.current?.value;
 
         if (!personId || isFetching) {
-            return;
-        }
-
-        if (personId.toLowerCase() === 'agurk') {
-            toggleEasterEgg('Agurk');
             return;
         }
 

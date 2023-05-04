@@ -11,7 +11,6 @@ import { Varsler } from '@components/Varsler';
 import { Header } from '@components/header/Header';
 import { useLoadingToast } from '@hooks/useLoadingToast';
 import { useUpdateAuthentication } from '@state/authentication';
-import { useEasterEggIsActive } from '@state/easterEgg';
 import { usePersonLoadable } from '@state/person';
 import { useSetVarsler } from '@state/varsler';
 import { onLazyLoadFail } from '@utils/error';
@@ -25,7 +24,6 @@ import './App.css';
 
 const Saksbilde = React.lazy(() => import('./saksbilde/Saksbilde').catch(onLazyLoadFail));
 const Oversikt = React.lazy(() => import('./oversikt').catch(onLazyLoadFail));
-const Agurk = React.lazy(() => import('../components/Agurk').catch(onLazyLoadFail));
 const GraphQLPlayground = React.lazy(() => import('./playground/GraphQLPlayground').catch(onLazyLoadFail));
 
 ReactModal.setAppElement('#root');
@@ -46,8 +44,6 @@ const useSyncAlertsToLocation = () => {
 const App = () => {
     useLoadingToast({ isLoading: usePersonLoadable().state === 'loading', message: 'Henter person' });
     useUpdateAuthentication();
-
-    const easterEggIsActive = useEasterEggIsActive();
 
     useSyncAlertsToLocation();
 
@@ -79,11 +75,6 @@ const App = () => {
                 </Route>
             </Switch>
             <Toasts />
-            {easterEggIsActive('Agurk') && (
-                <React.Suspense fallback={null}>
-                    <Agurk />
-                </React.Suspense>
-            )}
         </ErrorBoundary>
     );
 };

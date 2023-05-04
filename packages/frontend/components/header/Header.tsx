@@ -9,7 +9,6 @@ import { UserMenu } from '@components/UserMenu';
 import { Personsøk } from '@components/header/Personsøk';
 import { erDev, erLocal, graphqlplayground, toggleMeny } from '@utils/featureToggles';
 
-import { EasterEgg } from '../../EasterEgg';
 import { ToggleMenyButton } from './ToggleMeny/ToggleMenyButton';
 
 import styles from './Header.module.css';
@@ -24,7 +23,6 @@ export const Header = () => (
             </Link>
         </InternalHeader.Title>
         <Personsøk />
-        <EasterEgg />
         {toggleMeny && <ToggleMenyButton />}
         {graphqlplayground && (
             <InternalHeader.Title as="span">
