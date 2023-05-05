@@ -11,3 +11,12 @@
 .Buttons > button {
     width: max-content;
 }
+
+.Loader {
+    margin-left: 0.5em;
+}
+
+.Feilmelding {
+    min-height: 24px;
+    margin-top: 1em;
+}

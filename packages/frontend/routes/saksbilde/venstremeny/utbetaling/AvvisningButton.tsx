@@ -27,7 +27,6 @@ interface AvvisningButtonProps extends Omit<React.HTMLAttributes<HTMLButtonEleme
     aktørId: string;
     disabled: boolean;
     onSuccess?: () => void;
-    onError?: (error: Error) => void;
 }
 
 export const AvvisningButton: React.FC<AvvisningButtonProps> = ({
@@ -35,18 +34,21 @@ export const AvvisningButton: React.FC<AvvisningButtonProps> = ({
     aktørId,
     disabled = false,
     onSuccess,
-    onError,
     ...buttonProps
 }) => {
     const [showModal, setShowModal] = useState(false);
     const [isSending, setIsSending] = useState(false);
+    const [error, setError] = useState<string | null>(null);
 
     const amplitude = useContext(AmplitudeContext);
     const addInfotrygdtoast = useAddInfotrygdtoast();
 
-    const closeModal = () => setShowModal(false);
-
+    const closeModal = () => {
+        setError(null);
+        setShowModal(false);
+    };
     const avvisUtbetaling = (skjema: Avvisningsskjema) => {
+        setError(null);
         setIsSending(true);
         const skjemaBegrunnelser: string[] = skjema.begrunnelser?.map((begrunnelse) => begrunnelse.valueOf()) ?? [];
         const skjemaKommentar: string[] = skjema.kommentar ? [skjema.kommentar] : [];
@@ -62,7 +64,8 @@ export const AvvisningButton: React.FC<AvvisningButtonProps> = ({
             })
             .catch((error) => {
                 setIsSending(false);
-                onError?.(error);
+                const errorMessage = error.statusCode === 409 ? 'Saken er allerede avvist' : 'En feil har oppstått';
+                setError(errorMessage);
             });
     };
 
@@ -84,6 +87,7 @@ export const AvvisningButton: React.FC<AvvisningButtonProps> = ({
                     onApprove={avvisUtbetaling}
                     isSending={isSending}
                     activePeriod={activePeriod}
+                    error={error}
                 />
             )}
         </>

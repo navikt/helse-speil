@@ -186,7 +186,6 @@ export const Utbetaling = ({ period, person, arbeidsgiver }: UtbetalingProps) =>
                             activePeriod={period}
                             aktørId={person.aktorId}
                             onSuccess={onAvvisUtbetaling}
-                            onError={setError}
                         />
                     )}
                 {erBeslutteroppgaveOgHarTilgang && (

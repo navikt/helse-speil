@@ -3,6 +3,7 @@ import { FormProvider, useForm } from 'react-hook-form';
 
 import { Button, Heading, Loader } from '@navikt/ds-react';
 
+import { ErrorMessage } from '@components/ErrorMessage';
 import { Modal } from '@components/Modal';
 
 import { Begrunnelsesskjema } from './Begrunnelsesskjema';
@@ -24,9 +25,10 @@ interface AvvisningModalProps {
     isSending: boolean;
     onApprove: (skjema: Avvisningsskjema) => void;
     onClose: () => void;
+    error: string | null;
 }
 
-export const AvvisningModal = ({ activePeriod, isSending, onApprove, onClose }: AvvisningModalProps) => {
+export const AvvisningModal = ({ activePeriod, isSending, onApprove, onClose, error }: AvvisningModalProps) => {
     const form = useForm();
     const kommentar = form.watch('kommentar');
     const begrunnelser = form.watch(`begrunnelser`);
@@ -73,12 +75,13 @@ export const AvvisningModal = ({ activePeriod, isSending, onApprove, onClose }: 
                     <div className={styles.Buttons}>
                         <Button disabled={isSending}>
                             Kan ikke behandles her
-                            {isSending && <Loader size="xsmall" />}
+                            {isSending && <Loader className={styles.Loader} size="xsmall" />}
                         </Button>
-                        <Button variant="secondary" onClick={onClose}>
+                        <Button variant="secondary" onClick={onClose} type="button">
                             Avbryt
                         </Button>
                     </div>
+                    <ErrorMessage className={styles.Feilmelding}>{error}</ErrorMessage>
                 </form>
             </FormProvider>
         </Modal>
