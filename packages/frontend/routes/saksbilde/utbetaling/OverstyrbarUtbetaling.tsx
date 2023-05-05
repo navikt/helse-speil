@@ -145,11 +145,7 @@ export const OverstyrbarUtbetaling: React.FC<OverstyrbarUtbetalingProps> = ({
                                 />
                             ))}
                         </div>
-                        <EndringForm
-                            markerteDager={markerteDager}
-                            onSubmitEndring={onSubmitEndring}
-                            revurderingIsEnabled={revurderingIsEnabled}
-                        />
+                        <EndringForm markerteDager={markerteDager} onSubmitEndring={onSubmitEndring} />
                         <FormProvider {...form}>
                             <form onSubmit={(event) => event.preventDefault()}>
                                 <OverstyringForm

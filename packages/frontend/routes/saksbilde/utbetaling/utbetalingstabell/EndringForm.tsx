@@ -4,27 +4,13 @@ import { useForm } from 'react-hook-form';
 import { Button, Select, TextField } from '@navikt/ds-react';
 
 import { Bold } from '@components/Bold';
-import { erCoachEllerSuper, erUtvikling } from '@utils/featureToggles';
 
 import styles from './EndringForm.module.css';
 
 const dagtyperUtenGradering: Array<Utbetalingstabelldagtype> = ['Arbeid', 'Ferie', 'Permisjon', 'Egenmelding'];
 
-type GetLovligeTypeendringerOptions = {
-    revurderingIsEnabled?: boolean;
-};
-
-export const getLovligeTypeendringer = ({
-    revurderingIsEnabled,
-}: GetLovligeTypeendringerOptions = {}): Array<Utbetalingstabelldagtype> => {
-    if (erUtvikling() || erCoachEllerSuper()) {
-        return ['Syk', 'Syk (NAV)', 'Ferie', 'Egenmelding', 'Permisjon', 'Arbeid'];
-    }
-    if (revurderingIsEnabled) {
-        return ['Syk', 'Ferie'];
-    } else {
-        return ['Syk', 'Ferie', 'Egenmelding', 'Permisjon'];
-    }
+export const getTypeendringer = (): Array<Utbetalingstabelldagtype> => {
+    return ['Syk', 'Syk (NAV)', 'Ferie', 'Egenmelding', 'Permisjon', 'Arbeid'];
 };
 
 const harEndring = (endring: Partial<UtbetalingstabellDag>): boolean =>
@@ -35,15 +21,10 @@ const kanVelgeGrad = (type?: Utbetalingstabelldagtype) => type && dagtyperUtenGr
 interface EndringFormProps {
     markerteDager: Map<string, UtbetalingstabellDag>;
     onSubmitEndring: (endring: Partial<UtbetalingstabellDag>) => void;
-    revurderingIsEnabled?: boolean;
 }
 
-export const EndringForm: React.FC<EndringFormProps> = ({
-    markerteDager,
-    onSubmitEndring,
-    revurderingIsEnabled = false,
-}) => {
-    const defaultEndring = { type: getLovligeTypeendringer({ revurderingIsEnabled })[0] };
+export const EndringForm: React.FC<EndringFormProps> = ({ markerteDager, onSubmitEndring }) => {
+    const defaultEndring = { type: getTypeendringer()[0] };
     const [endring, setEndring] = useState<Partial<UtbetalingstabellDag>>(defaultEndring);
 
     const form = useForm();
@@ -61,9 +42,7 @@ export const EndringForm: React.FC<EndringFormProps> = ({
     });
 
     const oppdaterDagtype = (event: React.ChangeEvent<HTMLSelectElement>) => {
-        if (
-            getLovligeTypeendringer({ revurderingIsEnabled }).includes(event.target.value as Utbetalingstabelldagtype)
-        ) {
+        if (getTypeendringer().includes(event.target.value as Utbetalingstabelldagtype)) {
             form.clearErrors('dagtype');
             const type = event.target.value as Utbetalingstabelldagtype;
             setEndring({ ...endring, type, grad: kanVelgeGrad(type) ? endring.grad : undefined });
@@ -104,7 +83,7 @@ export const EndringForm: React.FC<EndringFormProps> = ({
                             error={form.formState.errors.dagtype?.message}
                             data-testid="dagtypevelger"
                         >
-                            {getLovligeTypeendringer({ revurderingIsEnabled }).map((dagtype) => (
+                            {getTypeendringer().map((dagtype) => (
                                 <option key={dagtype} value={dagtype}>
                                     {dagtype}
                                 </option>

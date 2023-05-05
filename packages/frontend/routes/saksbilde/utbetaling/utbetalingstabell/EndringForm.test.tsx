@@ -4,42 +4,18 @@ import '@testing-library/jest-dom/extend-expect';
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
-import { EndringForm, getLovligeTypeendringer } from './EndringForm';
+import { EndringForm, getTypeendringer } from './EndringForm';
 
 let erProd = true;
 
 jest.mock('@utils/featureToggles', () => ({
     overstyrPermisjonsdagerEnabled: true,
-    erUtvikling: () => !erProd,
-    erCoachEllerSuper: () => !erProd,
-    sykedagNav: () => true,
 }));
 
-describe('lovligeTypeendringer', () => {
-    it('returnerer lovlige typeendringer for dagtypevelgeren under revurdering i prod', () => {
+describe('Typeendringer', () => {
+    it('returnerer typeendringer for dagtypevelgeren under overstyring', () => {
         erProd = true;
-        expect(getLovligeTypeendringer({ revurderingIsEnabled: true })).toEqual(['Syk', 'Ferie']);
-    });
-
-    it('returnerer lovlige typeendringer for dagtypevelgeren under overstyring i prod', () => {
-        erProd = true;
-        expect(getLovligeTypeendringer()).toEqual(['Syk', 'Ferie', 'Egenmelding', 'Permisjon']);
-    });
-    it('returnerer lovlige typeendringer for dagtypevelgeren under revurdering i dev', () => {
-        erProd = false;
-        expect(getLovligeTypeendringer({ revurderingIsEnabled: true })).toEqual([
-            'Syk',
-            'Syk (NAV)',
-            'Ferie',
-            'Egenmelding',
-            'Permisjon',
-            'Arbeid',
-        ]);
-    });
-
-    it('returnerer lovlige typeendringer for dagtypevelgeren under overstyring i dev', () => {
-        erProd = false;
-        expect(getLovligeTypeendringer()).toEqual(['Syk', 'Syk (NAV)', 'Ferie', 'Egenmelding', 'Permisjon', 'Arbeid']);
+        expect(getTypeendringer()).toEqual(['Syk', 'Syk (NAV)', 'Ferie', 'Egenmelding', 'Permisjon', 'Arbeid']);
     });
 });
 
