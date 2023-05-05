@@ -35,7 +35,8 @@ export const NotatForm: React.FC<NotatFormProps> = ({
                 description="Blir ikke forevist den sykmeldte med mindre den sykmeldte ber om innsyn."
                 aria-invalid={typeof form.formState.errors.Notattekst === 'object'}
                 error={
-                    form.formState.errors.Notattekst?.message ?? (hasError && 'Det skjedde en feil. Prøv igjen senere.')
+                    (form.formState.errors.Notattekst?.message as string) ??
+                    (hasError && 'Det skjedde en feil. Prøv igjen senere.')
                 }
                 {...form.register('Notattekst', { required: 'Tekstfeltet kan ikke være tomt' })}
             />

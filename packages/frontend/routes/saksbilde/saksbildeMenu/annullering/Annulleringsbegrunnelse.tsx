@@ -90,7 +90,7 @@ export const Annulleringsbegrunnelse = () => {
 
             <CheckboxContainer
                 legend="Hvorfor kunne ikke vedtaket revurderes?"
-                error={formState.errors.begrunnelser ? formState.errors.begrunnelser.message : null}
+                error={formState.errors.begrunnelser ? (formState.errors.begrunnelser.message as string) : null}
             >
                 {Object.entries(begrunnelser).map(([key, value], index) => (
                     <Checkbox
@@ -115,13 +115,11 @@ export const Annulleringsbegrunnelse = () => {
                         name="kommentar"
                         value={value}
                         label={`Begrunnelse ${annet ? '' : '(valgfri)'}`}
-                        error={formState.errors.kommentar ? formState.errors.kommentar.message : null}
+                        error={formState.errors.kommentar ? (formState.errors.kommentar.message as string) : null}
                         onChange={(event: ChangeEvent) => {
                             clearErrors('kommentar');
                             onChange(event);
                         }}
-                        aria-invalid={formState.errors.kommentar?.message}
-                        aria-errormessage={formState.errors.kommentar?.message}
                         description={`Gi en kort forklaring på hvorfor du annullerte.\nEksempel: Korrigerte opplysninger om ferie`}
                     />
                 )}

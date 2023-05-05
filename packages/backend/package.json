@@ -10,17 +10,17 @@
     },
     "license": "MIT",
     "scripts": {
-        "build": "tsc --project tsconfig.json",
+        "build": "tsc",
         "start": "npm run build && TZ=Europe/Oslo node dist/server/server.js --experimental-modules",
         "dev": "cross-env-shell NODE_ENV=development SESSION_SECRET=whatever ts-node-dev --respawn --transpile-only server.ts",
         "serve": "cross-env-shell NODE_ENV=development SESSION_SECRET=whatever ts-node-dev --respawn --transpile-only server.ts",
-        "mock": "ts-node-dev spesialistMock/server.ts",
+        "mock": "ts-node-dev --files spesialistMock/server.ts",
         "test:eslint": "eslint . --ext .ts --ext .js",
         "test": "cross-env TZ=UTC jest",
         "test-ci": "npm run test -- --maxWorkers=50% --cacheDirectory=$jest_cache_dir",
         "clean": "rm -rf node_modules",
         "tdd": "TZ=UTC jest --watch",
-        "validate-ts": "npx tsc --noEmit --project tsconfig.json",
+        "validate-ts": "tsc",
         "pretest": "npm run test:eslint && npm run validate-ts",
         "clean:dist": "rimraf dist",
         "prettier": "prettier --write \"**/*.{js,ts}\""
@@ -76,11 +76,10 @@
         "prettier": "^2.2.1",
         "rimraf": "^3.0.2",
         "ts-jest": "^26.5.4",
-        "ts-node-dev": "^1.1.8",
-        "typescript": "^4.2.4"
+        "ts-node-dev": "^2.0.0"
     },
     "engines": {
-        "node": ">=14.16.0",
+        "node": ">=14.17.0",
         "npm": ">=6.14.0"
     },
     "snyk": true

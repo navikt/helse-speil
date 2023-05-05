@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import React, { useEffect, useRef, useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 
-import { Button, ErrorSummary, Textarea } from '@navikt/ds-react';
+import { Button, Textarea } from '@navikt/ds-react';
 
 const Container = styled.div`
     margin: 0 2rem;
@@ -56,9 +56,7 @@ export const OverstyringForm: React.FC<OverstyringFormProps> = ({ overstyrteDage
                         Blir ikke forevist den sykmeldte, med mindre den sykmeldte ber om innsyn.
                     </span>
                 }
-                error={formState.errors.begrunnelse?.message}
-                aria-invalid={formState.errors.begrunnelse?.message}
-                aria-errormessage={formState.errors.begrunnelse?.message}
+                error={formState.errors.begrunnelse ? (formState.errors.begrunnelse.message as string) : null}
                 data-testid="overstyring-begrunnelse"
                 maxLength={1000}
                 {...begrunnelseValidation}
@@ -67,17 +65,6 @@ export const OverstyringForm: React.FC<OverstyringFormProps> = ({ overstyrteDage
                     setOppsummering(event.target.value);
                 }}
             />
-            {formState.isSubmitted && harFeil && (
-                <FeiloppsummeringContainer>
-                    <ErrorSummary ref={oppsummeringRef} heading="Skjemaet inneholder følgende feil:">
-                        {Object.entries(formState.errors).map(([id, error]) => (
-                            <ErrorSummary.Item onClick={() => document.getElementById(id)?.focus()} key={id}>
-                                {error.message}
-                            </ErrorSummary.Item>
-                        ))}
-                    </ErrorSummary>
-                </FeiloppsummeringContainer>
-            )}
             <Buttons>
                 <Button
                     onClick={handleSubmit(onSubmit)}

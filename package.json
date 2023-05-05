@@ -15,7 +15,7 @@
         "build": "lerna run build --stream",
         "test": "lerna run test --stream",
         "test-ci": "lerna run test-ci --stream",
-        "clean": "lerna run clean --stream && npx jest --clearCache && rm -rf node_modules && rm -rf packages/backend/node_modules && rm -rf packages/frontend/node_modules",
+        "clean": "lerna run clean --stream && npx jest --clearCache && rm -rf node_modules",
         "bootstrap": "npm i && lerna bootstrap -- --legacy-peer-deps",
         "e2e-test": "e2e-tests/run.sh",
         "e2e-test-local": "e2e-tests/run.sh; e2e-tests/stop.sh",
@@ -36,6 +36,7 @@
         "@graphql-codegen/typescript": "^2.4.3",
         "@graphql-codegen/typescript-operations": "^2.2.4",
         "@trivago/prettier-plugin-sort-imports": "^3.3.0",
+        "@types/node": "^20.0.0",
         "@types/uuid": "^9.0.0",
         "cypress": "^8.6.0",
         "eslint": "^8.0.1",
@@ -43,7 +44,9 @@
         "husky": "^7.0.2",
         "lerna": "^5.3.0",
         "lint-staged": "^11.2.3",
-        "prettier": "^2.4.1"
+        "prettier": "^2.4.1",
+        "ts-node-dev": "^2.0.0",
+        "typescript": "^5.0.4"
     },
     "engines": {
         "node": ">=14.17.0",

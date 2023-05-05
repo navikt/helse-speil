@@ -18,9 +18,13 @@ export const Feiloppsummering = ({ feiloppsummeringRef, errors }: Feiloppsummeri
                 .filter(([_, error]) => error !== undefined)
                 .map(([id, error]) => {
                     if (id !== 'refusjonsopplysninger') {
-                        return <ErrorSummary.Item key={id}>{error.message as string}</ErrorSummary.Item>;
+                        return (
+                            <ErrorSummary.Item key={id}>
+                                {error ? (error.message as string) : undefined}
+                            </ErrorSummary.Item>
+                        );
                     } else {
-                        return (Object.entries(error) as any[])
+                        return (Object.entries(error as any) as any[])
                             ?.filter(
                                 ([_, refusjonserror]) =>
                                     refusjonserror !== undefined &&

@@ -49,7 +49,7 @@ export const Begrunnelsesskjema: React.FC<BegrunnelsesskjemaProps> = ({ activePe
             <Fieldset
                 className={styles.Fieldset}
                 legend="Årsak til at saken ikke kan behandles"
-                error={formState.errors.begrunnelser ? formState.errors.begrunnelser.message : null}
+                error={formState.errors.begrunnelser ? (formState.errors.begrunnelser.message as string) : null}
             >
                 {activePeriod.risikovurdering &&
                     harFunn(activePeriod.risikovurdering.funn) &&
@@ -93,13 +93,11 @@ export const Begrunnelsesskjema: React.FC<BegrunnelsesskjemaProps> = ({ activePe
                         name="kommentar"
                         value={value}
                         label={`Begrunnelse ${annet ? '' : '(valgfri)'}`}
-                        error={formState.errors.kommentar ? formState.errors.kommentar.message : null}
+                        error={formState.errors?.kommentar ? (formState.errors.kommentar.message as string) : null}
                         onChange={(event: ChangeEvent) => {
                             clearErrors('kommentar');
                             onChange(event);
                         }}
-                        aria-invalid={formState.errors.kommentar?.message}
-                        aria-errormessage={formState.errors.kommentar?.message}
                         description={`Gi en kort forklaring på hvorfor du ikke kan behandle saken.\nEksempel: Oppgave om oppfølging.\nMå ikke inneholde personopplysninger.`}
                     />
                 )}

@@ -65,7 +65,7 @@ export const MånedsbeløpInput = ({
                     id="manedsbelop"
                     ref={ref}
                     defaultValue={lokaltMånedsbeløp || initialMånedsbeløpRounded}
-                    error={form.formState.errors.manedsbelop?.message}
+                    error={!!form.formState.errors.manedsbelop?.message}
                     onBlur={(event) => {
                         onBlur(event);
                         form.trigger('manedsbelop');
@@ -73,7 +73,9 @@ export const MånedsbeløpInput = ({
                     {...inputValidation}
                 />
                 {form.formState.errors.manedsbelop && (
-                    <Feilmelding htmlFor="manedsbelop">{form.formState.errors.manedsbelop.message}</Feilmelding>
+                    <Feilmelding htmlFor="manedsbelop">
+                        <>{form.formState.errors.manedsbelop.message}</>
+                    </Feilmelding>
                 )}
             </FlexColumn>
             {skalDeaktiveres && (

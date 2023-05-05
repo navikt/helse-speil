@@ -1,0 +1,13 @@
+{
+    "compilerOptions": {
+        "moduleResolution": "Node",
+        "lib": ["ESNext", "DOM", "DOM.Iterable"],
+        "strictNullChecks": true,
+        "noImplicitThis": true,
+        "noImplicitAny": true,
+        "esModuleInterop": true,
+        "resolveJsonModule": true,
+        "noImplicitReturns": true
+    },
+    "types": ["typePatches"]
+}

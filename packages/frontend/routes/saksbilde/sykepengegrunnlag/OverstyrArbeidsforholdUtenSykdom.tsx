@@ -227,7 +227,9 @@ const OverstyrArbeidsforholdSkjema = ({
                         <FeiloppsummeringContainer>
                             <ErrorSummary ref={feiloppsummeringRef} heading="Skjemaet inneholder følgende feil:">
                                 {Object.entries(form.formState.errors).map(([id, error]) => (
-                                    <ErrorSummary.Item key={id}>{error.message}</ErrorSummary.Item>
+                                    <ErrorSummary.Item key={id}>
+                                        <>{error ? error.message : undefined}</>
+                                    </ErrorSummary.Item>
                                 ))}
                             </ErrorSummary>
                         </FeiloppsummeringContainer>

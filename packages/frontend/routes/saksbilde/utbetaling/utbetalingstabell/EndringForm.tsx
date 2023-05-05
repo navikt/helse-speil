@@ -79,8 +79,7 @@ export const EndringForm: React.FC<EndringFormProps> = ({ markerteDager, onSubmi
                             size="small"
                             label="Utbet. dager"
                             onChange={oppdaterDagtype}
-                            aria-invalid={form.formState.errors.dagtype}
-                            error={form.formState.errors.dagtype?.message}
+                            error={form.formState.errors.dagtype ? <>{form.formState.errors.dagtype.message}</> : null}
                             data-testid="dagtypevelger"
                         >
                             {getTypeendringer().map((dagtype) => (
@@ -98,7 +97,11 @@ export const EndringForm: React.FC<EndringFormProps> = ({ markerteDager, onSubmi
                             disabled={!kanVelgeGrad(endring.type)}
                             data-testid="gradvelger"
                             value={typeof endring.grad === 'number' ? `${endring.grad}` : ''}
-                            error={form.formState.errors.gradvelger?.message}
+                            error={
+                                form.formState.errors.gradvelger ? (
+                                    <>{form.formState.errors.gradvelger.message}</>
+                                ) : null
+                            }
                             {...gradvelgervalidation}
                         />
                         <Button

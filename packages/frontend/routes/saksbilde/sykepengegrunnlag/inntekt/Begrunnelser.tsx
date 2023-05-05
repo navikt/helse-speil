@@ -1,9 +1,10 @@
-import { BegrunnelseForOverstyring } from '../overstyring.types';
 import styled from '@emotion/styled';
 import React from 'react';
 import { useFormContext } from 'react-hook-form';
 
 import { Radio, RadioGroup } from '@navikt/ds-react';
+
+import { BegrunnelseForOverstyring } from '../overstyring.types';
 
 const BegrunnelseFieldset = styled(RadioGroup)`
     > .navds-radio {
@@ -34,7 +35,7 @@ export const Begrunnelser = ({ begrunnelser }: BegrunnelserProps) => {
             legend="Begrunnelse"
             id="begrunnelseId"
             name="begrunnelseId"
-            error={form.formState.errors['begrunnelse']?.message}
+            error={form.formState.errors.begrunnelse ? (form.formState.errors.begrunnelse.message as string) : null}
         >
             {begrunnelser.map((begrunnelse, index) => (
                 <Radio ref={ref} value={begrunnelse.id} key={index} {...begrunnelseValidation}>
