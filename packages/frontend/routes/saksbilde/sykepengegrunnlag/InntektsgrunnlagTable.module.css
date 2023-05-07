@@ -1,7 +1,7 @@
 .InntektsgrunnlagTable {
     display: flex;
     flex-direction: column;
-    --fixed-column-width: 14rem;
+    --fixed-column-width: 16rem;
     gap: 1.75rem;
     padding-top: 2rem;
 }
