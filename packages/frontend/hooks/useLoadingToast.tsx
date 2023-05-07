@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+// @ts-ignore
 import { nanoid } from 'nanoid';
 import React, { ReactNode, useEffect, useRef } from 'react';
 

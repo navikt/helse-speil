@@ -1,4 +1,5 @@
 import classNames from 'classnames';
+// @ts-ignore
 import { motion } from 'framer-motion';
 import React from 'react';
 

@@ -1,4 +1,3 @@
-import fetchIntercept from 'fetch-intercept';
 import { useEffect } from 'react';
 import { atom, useRecoilState, useRecoilValue, useResetRecoilState } from 'recoil';
 
@@ -57,14 +56,16 @@ export const useUpdateAuthentication = () => {
     }, [name, authInfo]);
 
     useEffect(() => {
-        fetchIntercept.register({
-            response: (res) => {
-                if (res.status === 401) {
-                    localStorage.removeItem('agurkmodus');
-                    resetAuthInfo();
-                }
-                return res;
-            },
-        });
+        const originalFetch = window.fetch;
+
+        window.fetch = async function (input, init) {
+            const response = await originalFetch(input, init);
+            if (response.status === 401) {
+                localStorage.removeItem('agurkmodus');
+                resetAuthInfo();
+            }
+
+            return response;
+        };
     }, []);
 };

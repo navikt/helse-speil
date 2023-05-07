@@ -1,6 +1,6 @@
 {
     "compilerOptions": {
-        "moduleResolution": "Node",
+        "moduleResolution": "NodeNext",
         "lib": ["ESNext", "DOM", "DOM.Iterable"],
         "strictNullChecks": true,
         "noImplicitThis": true,

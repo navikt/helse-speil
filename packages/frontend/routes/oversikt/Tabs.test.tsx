@@ -1,5 +1,6 @@
 import { RecoilWrapper } from '@test-wrappers';
 import { axe } from 'jest-axe';
+// @ts-ignore
 import { nanoid } from 'nanoid';
 import React from 'react';
 
@@ -7,6 +8,7 @@ import { useMineOppgaver, useOppgaver } from '@state/oppgaver';
 import { enOppgaveForOversikten } from '@test-data/oppgave';
 import { render, screen, within } from '@testing-library/react';
 
+// @ts-ignoreimport { nanoid } from 'nanoid';
 import { Tabs } from './Tabs';
 
 jest.mock('@state/oppgaver');

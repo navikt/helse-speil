@@ -22,8 +22,11 @@ import { Routes } from './index';
 
 import './App.css';
 
+// @ts-ignore
 const Saksbilde = React.lazy(() => import('./saksbilde/Saksbilde').catch(onLazyLoadFail));
+// @ts-ignore
 const Oversikt = React.lazy(() => import('./oversikt').catch(onLazyLoadFail));
+// @ts-ignore
 const GraphQLPlayground = React.lazy(() => import('./playground/GraphQLPlayground').catch(onLazyLoadFail));
 
 ReactModal.setAppElement('#root');

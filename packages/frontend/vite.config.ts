@@ -1,4 +1,5 @@
 import path from 'path';
+// @ts-ignore
 import { defineConfig, splitVendorChunkPlugin } from 'vite';
 
 import reactRefresh from '@vitejs/plugin-react-refresh';

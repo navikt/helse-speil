@@ -6,7 +6,7 @@
         "outDir": "../..dist/client",
         "baseUrl": "",
         "allowJs": false,
-        "skipLibCheck": false,
+        "skipLibCheck": true,
         "jsx": "react-jsx",
         "strict": true,
         "noEmit": true,

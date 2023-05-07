@@ -1,4 +1,5 @@
 import { wrapperWithRecoilInitializer } from '@test-wrappers';
+// @ts-ignore
 import { nanoid } from 'nanoid';
 import React from 'react';
 

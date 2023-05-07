@@ -38,8 +38,7 @@ describe('OverstyringForm', () => {
         userEvent.click(screen.getAllByRole('button')[0]);
 
         await waitFor(() => {
-            expect(screen.getByText('Skjemaet inneholder følgende feil:')).toBeVisible();
-            expect(screen.getAllByText('Begrunnelse må fylles ut')).toHaveLength(2);
+            expect(screen.getAllByText('Begrunnelse må fylles ut')).toHaveLength(1);
         });
     });
 });

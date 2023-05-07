@@ -1,3 +1,4 @@
+// @ts-ignore
 import { nanoid } from 'nanoid';
 
 import { Periodetilstand } from '@io/graphql';

@@ -19,6 +19,7 @@ import { useKeyboardShortcuts } from './useKeyboardShortcuts';
 
 import styles from './Saksbilde.module.css';
 
+// @ts-ignore
 const Utbetalingshistorikk = React.lazy(() => import('./utbetalingshistorikk/Utbetalingshistorikk'));
 
 const SaksbildeContent = React.memo(() => {

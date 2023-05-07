@@ -1,3 +1,4 @@
+// @ts-ignore
 import { nanoid } from 'nanoid';
 
 import { Utbetaling, Utbetalingstatus, Utbetalingtype, Vurdering } from '@io/graphql';

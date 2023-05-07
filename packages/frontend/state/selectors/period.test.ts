@@ -1,3 +1,4 @@
+// @ts-ignore
 import { nanoid } from 'nanoid';
 
 import { getOppgavereferanse, harBlittUtbetaltTidligere } from '@state/selectors/period';

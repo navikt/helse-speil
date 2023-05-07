@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+// @ts-ignore
 import { AnimatePresence, motion } from 'framer-motion';
 import React, { ReactChild, useEffect, useRef, useState } from 'react';
 

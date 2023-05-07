@@ -16,8 +16,11 @@ import { PeriodeTilAnnulleringView } from './PeriodeTilAnnulleringView';
 
 import styles from './PeriodeView.module.css';
 
+// @ts-ignore
 const GhostPeriodeView = React.lazy(() => import('./GhostPeriodeView').catch(onLazyLoadFail));
+// @ts-ignore
 const UberegnetPeriodeView = React.lazy(() => import('./UberegnetPeriodeView').catch(onLazyLoadFail));
+// @ts-ignore
 const BeregnetPeriodeView = React.lazy(() => import('./BeregnetPeriodeView').catch(onLazyLoadFail));
 
 const PeriodeViewContainer: React.FC = () => {
