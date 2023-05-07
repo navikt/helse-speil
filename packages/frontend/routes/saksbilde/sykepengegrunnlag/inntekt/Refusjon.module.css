@@ -27,6 +27,11 @@
     box-sizing: border-box;
 }
 
+/* Overskriver designbibliotekstyling som setter width til auto og ødelegger refusjonslinjene */
+.DateInput input[size] {
+    width: 100%;
+}
+
 .BeløpInput {
     border-radius: 3px;
     border: 1px solid var(--a-border-strong);
@@ -82,4 +87,8 @@
 
 .Ikon {
     margin-top: var(--a-spacing-2);
+}
+
+.Inputfelt input {
+    width: 100%;
 }
