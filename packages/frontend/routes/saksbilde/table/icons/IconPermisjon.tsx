@@ -2,12 +2,7 @@ import React from 'react';
 
 import { useId } from '@navikt/ds-react';
 
-export const IconPermisjon = ({
-    width = 11,
-    height = 16,
-    alt = 'Permisjonikon',
-    fill = 'var(--a-text-default)',
-}) => {
+export const IconPermisjon = ({ width = 11, height = 16, alt = 'Permisjonikon', fill = 'var(--a-text-default)' }) => {
     let titleId = useId();
     titleId = alt ? alt + titleId : undefined;
     return (

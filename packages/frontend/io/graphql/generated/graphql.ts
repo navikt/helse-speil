@@ -1091,7 +1091,6 @@ export type FetchOppgaverQuery = {
         antallVarsler: number;
         sistSendt?: string | null;
         mottaker?: Mottaker | null;
-        personinfo: { __typename?: 'Personinfo'; fornavn: string; mellomnavn?: string | null; etternavn: string };
         boenhet: { __typename?: 'Boenhet'; navn: string };
         tildeling?: { __typename?: 'Tildeling'; reservert: boolean; navn: string; epost: string; oid: string } | null;
         totrinnsvurdering?: {

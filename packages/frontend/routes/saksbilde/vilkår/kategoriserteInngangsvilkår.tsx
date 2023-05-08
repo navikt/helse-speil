@@ -1,4 +1,3 @@
-import { Vilkårdata, Vilkårstype } from '../../../mapping/vilkår';
 import { Opptjeningstid, Sykepengegrunnlag } from './vilkårsgrupper/Vilkårsgrupper';
 import styled from '@emotion/styled';
 import React from 'react';
@@ -9,6 +8,8 @@ import { Flex } from '@components/Flex';
 import { LovdataLenke } from '@components/LovdataLenke';
 import { Advarselikon } from '@components/ikoner/Advarselikon';
 import { Vilkarsgrunnlag, VilkarsgrunnlagSpleis, Vurdering } from '@io/graphql';
+
+import { Vilkårdata, Vilkårstype } from '../../../mapping/vilkår';
 
 const VilkårManglerData = () => <BodyShort>Mangler data om vilkåret</BodyShort>;
 
