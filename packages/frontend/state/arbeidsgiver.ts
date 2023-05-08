@@ -136,7 +136,9 @@ export const usePeriodForSkjæringstidspunktForArbeidsgiver = (
         return null;
     }
 
-    if (arbeidsgiverPerioder.length === 0 && isGhostPeriode(arbeidsgiverGhostPerioder[0])) {
+    const arbeidsgiverBeregnedePerioder = arbeidsgiverPerioder.filter((it) => isBeregnetPeriode(it));
+
+    if (arbeidsgiverBeregnedePerioder.length === 0 && isGhostPeriode(arbeidsgiverGhostPerioder[0])) {
         return arbeidsgiverGhostPerioder[0] ?? null;
     }
 

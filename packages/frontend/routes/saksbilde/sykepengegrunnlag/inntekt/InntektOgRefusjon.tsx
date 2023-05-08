@@ -1,5 +1,6 @@
 import { SisteTreMånedersInntekt } from './SisteTreMånedersInntekt';
 import classNames from 'classnames';
+import dayjs from 'dayjs';
 import React, { useEffect, useState } from 'react';
 
 import { Tooltip } from '@navikt/ds-react';
@@ -25,6 +26,7 @@ import {
 } from '@io/graphql';
 import { Refusjonsopplysning } from '@io/http';
 import {
+    useArbeidsgiver,
     useEndringerForPeriode,
     useErAktivPeriodeLikEllerFørPeriodeTilGodkjenning,
     useLokaleRefusjonsopplysninger,
@@ -35,7 +37,7 @@ import {
 import { useCurrentPerson } from '@state/person';
 import { isForkastet } from '@state/selectors/period';
 import { overstyrInntektEnabled } from '@utils/featureToggles';
-import { isBeregnetPeriode, isGhostPeriode, isUberegnetPeriode } from '@utils/typeguards';
+import { isBeregnetPeriode, isGhostPeriode } from '@utils/typeguards';
 
 import { OverstyrArbeidsforholdUtenSykdom } from '../OverstyrArbeidsforholdUtenSykdom';
 import { BegrunnelseForOverstyring } from '../overstyring.types';
@@ -102,21 +104,23 @@ export const harPeriodeTilBeslutterFor = (person: FetchedPerson, skjæringstidsp
     );
 };
 
-const harKunGhostPerioder = (
-    person: FetchedPerson,
-    organisasjonsnummer: String,
-    skjæringstidspunkt: DateString
-): boolean => {
-    return (
-        person?.arbeidsgivere
-            .filter((it) => it.organisasjonsnummer === organisasjonsnummer)
-            .flatMap((it) => it.generasjoner[0]?.perioder)
-            .filter(
-                (it) =>
-                    it?.skjaeringstidspunkt === skjæringstidspunkt && (isBeregnetPeriode(it) || isUberegnetPeriode(it))
-            ).length === 0
-    );
-};
+const harIngenBeregnedePerioder = (arbeidsgiver: Arbeidsgiver, skjæringstidspunkt: DateString): boolean =>
+    (
+        arbeidsgiver?.generasjoner[0]?.perioder.filter(
+            (it) => it.skjaeringstidspunkt === skjæringstidspunkt && isBeregnetPeriode(it)
+        ) ?? []
+    ).length === 0;
+
+const harIngenEtterfølgendePerioder = (
+    arbeidsgiver: Arbeidsgiver,
+    skjæringstidspunkt: DateString,
+    fom: DateString
+): boolean =>
+    (
+        arbeidsgiver?.generasjoner[0]?.perioder.filter(
+            (it) => it.skjaeringstidspunkt === skjæringstidspunkt && dayjs(it.fom).isSameOrAfter(fom)
+        ) ?? []
+    ).length === 0;
 
 const useInntektKanRevurderes = (skjæringstidspunkt: DateString): boolean => {
     const person = useCurrentPerson();
@@ -141,21 +145,26 @@ const useArbeidsforholdKanOverstyres = (skjæringstidspunkt: DateString, organis
     const person = useCurrentPerson();
     const period = usePeriodForSkjæringstidspunktForArbeidsgiver(skjæringstidspunkt, organisasjonsnummer);
     const erAktivPeriodeLikEllerFørPeriodeTilGodkjenning = useErAktivPeriodeLikEllerFørPeriodeTilGodkjenning();
+    const arbeidsgiver = useArbeidsgiver(organisasjonsnummer);
 
-    if (!isGhostPeriode(period) || !person) {
+    if (!isGhostPeriode(period) || !person || !arbeidsgiver) {
         return false;
     }
 
     const periodeForSkjæringstidspunkt = maybePeriodeForSkjæringstidspunkt(person, period.skjaeringstidspunkt);
-
     const harPeriodeTilBeslutter = harPeriodeTilBeslutterFor(person, period.skjaeringstidspunkt);
-
-    const arbeidsgiverHarKunGhostPerioder = harKunGhostPerioder(person, organisasjonsnummer, skjæringstidspunkt);
+    const arbeidsgiverHarIngenBeregnedePerioder = harIngenBeregnedePerioder(arbeidsgiver, skjæringstidspunkt);
+    const arbeidsgiverHarIngenEtterfølgendePerioder = harIngenEtterfølgendePerioder(
+        arbeidsgiver,
+        skjæringstidspunkt,
+        period.fom
+    );
 
     return (
-        arbeidsgiverHarKunGhostPerioder &&
+        arbeidsgiverHarIngenBeregnedePerioder &&
+        arbeidsgiverHarIngenEtterfølgendePerioder &&
         !harPeriodeTilBeslutter &&
-        periodeForSkjæringstidspunkt !== undefined &&
+        periodeForSkjæringstidspunkt !== null &&
         erAktivPeriodeLikEllerFørPeriodeTilGodkjenning
     );
 };
