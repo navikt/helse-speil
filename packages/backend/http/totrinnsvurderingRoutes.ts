@@ -25,7 +25,7 @@ export default ({ spesialistClient }: SetupOptions) => {
             })
             .catch((err) => {
                 logger.info(
-                    `Feil under sending av totrinnsvurdering for oppgavereferanse ${req.body.oppgavereferanse}, statuskode: ${err.statusCode}`
+                    `Feil under sending av totrinnsvurdering for oppgavereferanse ${req.body.oppgavereferanse}, statuskode: ${err.statusCode}`,
                 );
                 res.status(err.statusCode || 500).send('Feil under sending av totrinnsvurdering');
             });
@@ -45,7 +45,7 @@ export default ({ spesialistClient }: SetupOptions) => {
             })
             .catch((err) => {
                 logger.info(
-                    `Feil under sending av beslutteroppgave i retur for oppgavereferanse ${req.body.oppgavereferanse}, statuskode: ${err.statusCode}`
+                    `Feil under sending av beslutteroppgave i retur for oppgavereferanse ${req.body.oppgavereferanse}, statuskode: ${err.statusCode}`,
                 );
                 res.status(err.statusCode || 500).send('Feil under sending av beslutteroppgave i retur');
             });

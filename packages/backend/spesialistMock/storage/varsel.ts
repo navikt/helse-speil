@@ -19,7 +19,7 @@ export class VarselMock {
         return varslerCopy.map((varsel) => {
             const varselMedEndring = this.varslerMedEndring.find(
                 (varselMedEndring) =>
-                    varselMedEndring.generasjonId === varsel.generasjonId && varselMedEndring.kode === varsel.kode
+                    varselMedEndring.generasjonId === varsel.generasjonId && varselMedEndring.kode === varsel.kode,
             );
             return varselMedEndring
                 ? { ...varsel, definisjonId: varselMedEndring.definisjonId, vurdering: varselMedEndring.vurdering }
@@ -36,7 +36,7 @@ export class VarselMock {
         const { varselMedEndring, index } = this.findWithIndex(
             this.varslerMedEndring,
             (varselMedEndring) =>
-                varselMedEndring.generasjonId === generasjonIdString && varselMedEndring.kode === varselkode
+                varselMedEndring.generasjonId === generasjonIdString && varselMedEndring.kode === varselkode,
         );
 
         if (varselMedEndring?.vurdering && [Varselstatus.Vurdert].includes(varselMedEndring.vurdering.status)) {
@@ -47,7 +47,7 @@ export class VarselMock {
                 null,
                 null,
                 null,
-                { code: 409 }
+                { code: 409 },
             );
         }
 
@@ -89,7 +89,7 @@ export class VarselMock {
         const { varselMedEndring, index } = this.findWithIndex(
             this.varslerMedEndring,
             (varselMedEndring) =>
-                varselMedEndring.generasjonId === generasjonIdString && varselMedEndring.kode === varselkode
+                varselMedEndring.generasjonId === generasjonIdString && varselMedEndring.kode === varselkode,
         );
 
         if (varselMedEndring?.vurdering && [Varselstatus.Godkjent].includes(varselMedEndring.vurdering.status)) {
@@ -100,7 +100,7 @@ export class VarselMock {
                 null,
                 null,
                 null,
-                { code: 409 }
+                { code: 409 },
             );
         }
 
