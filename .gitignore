@@ -31,7 +31,5 @@ yarn-error.log*
 .parcel-cache/
 .env
 .localstack/
-/e2e-tests/cypress/screenshots/*
-/e2e-tests/cypress/videos/*
 /pages
 .jest-cache

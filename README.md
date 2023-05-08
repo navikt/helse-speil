@@ -75,14 +75,6 @@ Appen er nå tilgjengelig på http://localhost:3000.
 npm run build
 ```
 
-### Kjøre end to end-testene (cypress) lokalt
-
-Du må ha en `timeout`-kommando på PATH, og så kan du, etter å ha bygget koden, kjøre:
-
-```
-npm run e2e-test-local
-```
-
 ### Hente oppdaterte graphql-typer fra Spesialist
 
 ```

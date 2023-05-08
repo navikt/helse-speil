@@ -21,21 +21,3 @@ jobs:
       run: npm run test
     - name: build
       run: npm run build
-    - name: Cache Cypress binary
-      uses: actions/cache@v3
-      with:
-        path: ~/.cache/Cypress
-        key: |
-          cypress-${{ runner.os }}-cypress-${{ hashFiles('**/package.json') }}
-        # full invalidering for å unngå å ta vare på eldre versjoner
-        restore-keys: |
-          cypress-${{ runner.os }}-cypress-${{ hashFiles('**/package.json') }}
-    - name: install cypress
-      run: npx cypress install
-    - name: run e2e-test
-      run: npm run e2e-test
-    - name: Archive Cypress artifacts
-      uses: actions/upload-artifact@v3
-      with:
-        name: videos
-        path: e2e-tests/cypress/videos
