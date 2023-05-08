@@ -4,8 +4,6 @@
 # Allow files and directories
 !/packages/backend/node_modules/*
 !/dist/*
-!/packages/frontend/wiki.json
-!/packages/frontend/utdatert_wiki.json
 
 # Ignore inside allowed directory
 /packages/backend/node_modules/@snyk
