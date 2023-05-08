@@ -1,11 +1,11 @@
-import React from 'react';
-
-import { Advarselikon } from '@components/ikoner/Advarselikon';
-
 import { Vilkårdata } from '../../../../mapping/vilkår';
 import { Vilkårgrid, Vilkårgruppe, Vilkårkolonne } from '../Vilkår.styles';
 import { Vilkårskategori } from '../Vilkårskategori';
 import { Vilkårsgruppetittel } from '../vilkårstitler';
+import React from 'react';
+
+import { Advarselikon } from '@components/ikoner/Advarselikon';
+
 import { Yrkeskadeinfo } from './Yrkesskadeinfo';
 
 interface IkkeVurderteVilkårProps {
