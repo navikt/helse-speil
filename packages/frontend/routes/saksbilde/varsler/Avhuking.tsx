@@ -48,7 +48,7 @@ export const Avhuking: React.FC<AvhukingProps> = ({
 }) => {
     const innloggetSaksbehandler = useInnloggetSaksbehandler();
     const refetchPerson = useRefetchPerson();
-    const disabledButton = varselstatus === Varselstatus.Godkjent || type === 'feil';
+    const disabledButton = varselstatus === Varselstatus.Godkjent;
 
     const clickEvent = (event: MouseEvent<HTMLSpanElement>) => {
         if (disabledButton) return;
