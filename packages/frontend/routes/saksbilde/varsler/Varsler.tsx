@@ -44,7 +44,7 @@ export const Varsler: React.FC<VarslerProps> = React.memo(({ varsler }) => {
                     if (varsel.forklaring != null && varsel.handling != null) {
                         const visSomFeil =
                             varslerSomSkalVisesSomFeil.includes(varsel.kode) &&
-                            varsel.vurdering?.status === Varselstatus.Aktiv;
+                            (varsel.vurdering === null || varsel.vurdering?.status === Varselstatus.Aktiv);
                         return <EkspanderbartVarsel key={index} varsel={varsel} type={visSomFeil ? 'feil' : type} />;
                     } else {
                         return <Varsel className={styles.varsel} key={index} varsel={varsel} type={type} />;
