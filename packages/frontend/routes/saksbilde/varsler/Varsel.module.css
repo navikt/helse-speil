@@ -21,11 +21,6 @@
     border-color: var(--a-border-success);
 }
 
-.varsel.feil {
-    background-color: var(--a-surface-danger-subtle);
-    border-color: var(--a-border-danger);
-}
-
 .wrapper {
     display: flex;
     flex-direction: column;

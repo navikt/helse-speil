@@ -7,12 +7,13 @@ import { VarselDto } from '@io/graphql';
 
 import { Varsel } from './Varsel';
 import { Varselseksjon } from './Varselseksjon';
+import { VarselstatusType } from './Varsler';
 
 import styles from './EkspanderbartVarsel.module.css';
 
 interface EkspanderbartVarselProps {
     varsel: VarselDto;
-    type: 'feil' | 'aktiv' | 'vurdert' | 'ferdig-behandlet';
+    type: VarselstatusType;
 }
 
 export const EkspanderbartVarsel: React.FC<EkspanderbartVarselProps> = ({ varsel, type }) => {
