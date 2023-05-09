@@ -122,7 +122,9 @@ export const Oversikt = () => {
                     {aktivTab === TabType.BehandletIdag ? (
                         <BehandletIdagTable />
                     ) : hasData ? (
-                        <OppgaverTable oppgaver={oppgaver.state === 'hasValue' ? oppgaver.contents : oppgaver.cache} />
+                        <OppgaverTable
+                            oppgaver={oppgaver.state === 'hasValue' ? (oppgaver.contents as Oppgaver) : oppgaver.cache}
+                        />
                     ) : oppgaver.state === 'loading' ? (
                         <OppgaverTableSkeleton />
                     ) : (

@@ -2,6 +2,7 @@
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    font-size: var(--a-font-size-large);
 }
 
 .TextWithEllipsis > a:focus-visible {

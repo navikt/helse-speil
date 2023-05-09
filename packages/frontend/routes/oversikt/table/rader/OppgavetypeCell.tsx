@@ -47,7 +47,7 @@ export const OppgavetypeCell: React.FC<OppgavetypeCellProps> = ({ oppgavetype })
     const label = getLabelForOppgavetype(oppgavetype);
     return (
         <Cell>
-            <CellContent width={130} className={styles.OppgavetypeCell}>
+            <CellContent width={144} className={styles.OppgavetypeCell}>
                 <Oppgaveetikett type={oppgavetype} />
                 <BodyShort>{label}</BodyShort>
             </CellContent>
