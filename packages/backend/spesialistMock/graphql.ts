@@ -1,7 +1,7 @@
 import { Express } from 'express';
 import { graphqlHTTP } from 'express-graphql';
 import fs from 'fs';
-import { buildClientSchema, GraphQLSchema, IntrospectionQuery } from 'graphql';
+import { GraphQLSchema, IntrospectionQuery, buildClientSchema } from 'graphql';
 import path from 'path';
 
 // @ts-ignore
@@ -113,7 +113,7 @@ const getResolvers = (): IResolvers => ({
         },
         settVarselstatusVurdert: async (
             _,
-            { generasjonIdString, definisjonIdString, varselkode, ident }: MutationSettVarselstatusVurdertArgs,
+            { generasjonIdString, definisjonIdString, varselkode, ident }: MutationSettVarselstatusVurdertArgs
         ) => {
             await sleep(500);
             return VarselMock.settVarselstatusVurdert({
@@ -125,7 +125,7 @@ const getResolvers = (): IResolvers => ({
         },
         settVarselstatusAktiv: async (
             _,
-            { generasjonIdString, varselkode, ident }: MutationSettVarselstatusAktivArgs,
+            { generasjonIdString, varselkode, ident }: MutationSettVarselstatusAktivArgs
         ) => {
             await sleep(500);
             return VarselMock.settVarselstatusAktiv({ generasjonIdString, varselkode, ident });

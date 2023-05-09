@@ -9,5 +9,6 @@
         "^(.*)([.]css)$"
     ],
     "importOrderSeparation": true,
-    "trailingComma": "all"
+    "importOrderSortSpecifiers": true,
+    "trailingCommas": "all"
 }
