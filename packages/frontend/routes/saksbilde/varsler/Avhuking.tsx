@@ -1,8 +1,6 @@
 import classNames from 'classnames';
 import React, { Dispatch, MouseEvent, SetStateAction } from 'react';
 
-import { ErrorColored } from '@navikt/ds-icons';
-
 import { Varselstatus } from '@io/graphql';
 import { settVarselstatusAktiv, settVarselstatusVurdert } from '@io/graphql/endreVarselstatus';
 import { useInnloggetSaksbehandler } from '@state/authentication';
@@ -115,7 +113,7 @@ export const Avhuking: React.FC<AvhukingProps> = ({
             onKeyDown={keyboardEvent}
             className={classNames(styles.avhuking, styles[type])}
         >
-            {type === 'feil' ? <ErrorColored width="24px" height="24px" /> : <CheckIcon width="24px" height="24px" />}
+            <CheckIcon width="24px" height="24px" />
         </span>
     );
 };
