@@ -9,6 +9,7 @@ import { useInnloggetSaksbehandler } from '@state/authentication';
 import { useRefetchPerson } from '@state/person';
 
 import { CheckIcon } from '../timeline/icons';
+import { VarselstatusType } from './Varsler';
 
 import styles from './Avhuking.module.css';
 
@@ -17,7 +18,7 @@ type GraphQLRequestError = {
 };
 
 type AvhukingProps = {
-    type: 'feil' | 'aktiv' | 'vurdert' | 'ferdig-behandlet';
+    type: VarselstatusType;
     generasjonId: string;
     definisjonId: string;
     varselkode: string;

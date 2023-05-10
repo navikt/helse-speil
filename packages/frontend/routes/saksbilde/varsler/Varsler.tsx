@@ -7,10 +7,6 @@ import { Varsel } from './Varsel';
 
 import styles from './Varsler.module.css';
 
-interface VarslerProps {
-    varsler: Array<VarselDto>;
-}
-
 const finnType = (varselvurdering: Maybe<VarselvurderingDto> | undefined) => {
     if (!varselvurdering) return 'aktiv';
     switch (varselvurdering.status) {
@@ -23,12 +19,17 @@ const finnType = (varselvurdering: Maybe<VarselvurderingDto> | undefined) => {
             return 'aktiv';
     }
 };
-
 const byKode = (a: VarselDto, b: VarselDto) => {
     if (a.kode > b.kode) return 1;
     if (a.kode < b.kode) return -1;
     return 0;
 };
+
+export type VarselstatusType = 'feil' | 'aktiv' | 'vurdert' | 'ferdig-behandlet';
+
+interface VarslerProps {
+    varsler: Array<VarselDto>;
+}
 
 export const Varsler: React.FC<VarslerProps> = React.memo(({ varsler }) => {
     const varslerSomIkkeSkalVises = ['SB_EX_2'];
