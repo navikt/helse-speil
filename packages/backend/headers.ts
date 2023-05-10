@@ -3,7 +3,7 @@ import { Express } from 'express';
 ('use strict');
 
 const styleSource = 'https://fonts.googleapis.com';
-const fontSource = 'https://fonts.gstatic.com';
+const fontSource = 'https://fonts.gstatic.com https://cdn.nav.no';
 const amplitudeSource = 'https://amplitude.nav.no';
 const arbeidOgInntektSource = 'https://arbeid-og-inntekt.nais.adeo.no';
 const cspString = `default-src 'self' data:; style-src 'self' ${styleSource} data: 'unsafe-inline'; connect-src 'self' ${arbeidOgInntektSource} blob: ${amplitudeSource}; font-src ${fontSource} 'self' data:`;
