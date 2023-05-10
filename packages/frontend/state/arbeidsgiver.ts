@@ -288,7 +288,13 @@ export const useGjenståendeDager = (periode: BeregnetPeriode | UberegnetPeriode
     const arbeidsgiver = findArbeidsgiverWithPeriode(periode, person?.arbeidsgivere ?? []);
     const periodeErIGenerasjon = usePeriodeErIGenerasjon(arbeidsgiver, periode.id);
 
-    if (!person || !arbeidsgiver || (!isBeregnetPeriode(periode) && !isUberegnetPeriode(periode))) return null;
+    if (
+        !person ||
+        !arbeidsgiver ||
+        periodeErIGenerasjon === null ||
+        (!isBeregnetPeriode(periode) && !isUberegnetPeriode(periode))
+    )
+        return null;
 
     const sisteBeregnedePeriodeISykefraværstilfellet = arbeidsgiver?.generasjoner[
         periodeErIGenerasjon
@@ -303,7 +309,7 @@ export const useGjenståendeDager = (periode: BeregnetPeriode | UberegnetPeriode
             dayjs(dag).isAfter(periode.tom) && dayjs(dag).isSameOrBefore(sisteBeregnedePeriodeISykefraværstilfellet.tom)
     ).length;
 
-    return sisteBeregnedePeriodeISykefraværstilfellet.gjenstaendeSykedager + antallNavdagerEtterAktivPeriode;
+    return (sisteBeregnedePeriodeISykefraværstilfellet?.gjenstaendeSykedager ?? 0) + antallNavdagerEtterAktivPeriode;
 };
 
 const navdager = (arbeidsgivere: Array<Arbeidsgiver>, periodeErIGenerasjon: number | null): string[] => {
