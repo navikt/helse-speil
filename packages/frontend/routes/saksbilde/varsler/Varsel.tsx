@@ -7,13 +7,12 @@ import { VarselDto, Varselstatus } from '@io/graphql';
 import { getFormattedDatetimeString } from '@utils/date';
 
 import { Avhuking } from './Avhuking';
-import { VarselstatusType } from './Varsler';
 
 import styles from './Varsel.module.css';
 
 interface VarselProps extends HTMLAttributes<HTMLDivElement> {
     varsel: VarselDto;
-    type: VarselstatusType;
+    type: 'feil' | 'aktiv' | 'vurdert' | 'ferdig-behandlet';
 }
 
 export const Varsel: React.FC<VarselProps> = ({ className, varsel, type }) => {
@@ -21,7 +20,6 @@ export const Varsel: React.FC<VarselProps> = ({ className, varsel, type }) => {
     const [errorState, setErrorState] = useState<{ error: boolean; message: string }>({ error: false, message: '' });
     const varselVurdering = varsel.vurdering;
     const varselStatus = varselVurdering?.status ?? Varselstatus.Aktiv;
-
     return (
         <div className={classNames(className, styles.varsel, styles[type])}>
             {isFetching ? (
