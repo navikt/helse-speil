@@ -9,6 +9,7 @@ import { ErrorBoundary } from '@components/ErrorBoundary';
 import { useForrigeGenerasjonPeriodeMedPeriode } from '@hooks/useForrigeGenerasjonPeriode';
 import { useTotalbeløp } from '@hooks/useTotalbeløp';
 import { NotatType, Utbetalingsdagtype, Utbetalingstatus } from '@io/graphql';
+import { useGjenståendeDager } from '@state/arbeidsgiver';
 import { NORSK_DATOFORMAT } from '@utils/date';
 import { somPenger } from '@utils/locale';
 import { getPeriodStateText } from '@utils/mapping';
@@ -85,10 +86,9 @@ export const BeregnetPopover: React.FC<SpleisPopoverProps> = ({ period, state, f
     const harGenereltNotat = period.notater.filter((notat) => notat.type === NotatType.Generelt).length > 0;
 
     const { personTotalbeløp, arbeidsgiverTotalbeløp, totalbeløp } = useTotalbeløp(period.tidslinje);
-
     const forrigePeriode = useForrigeGenerasjonPeriodeMedPeriode(period);
-
     const { totalbeløp: gammeltTotalbeløp } = useTotalbeløp(forrigePeriode?.tidslinje);
+    const gjenståendeDager = useGjenståendeDager(period);
 
     return (
         <>
@@ -158,7 +158,7 @@ export const BeregnetPopover: React.FC<SpleisPopoverProps> = ({ period, state, f
                         Dager igjen:
                     </BodyShort>
                     <BodyShort className={classNames(period.gjenstaendeSykedager <= 0 && styles.Error)} size="small">
-                        {period.gjenstaendeSykedager}
+                        {gjenståendeDager}
                     </BodyShort>
                 </>
             )}

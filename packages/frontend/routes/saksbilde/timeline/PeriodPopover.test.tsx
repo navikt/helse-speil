@@ -11,9 +11,12 @@ import {
     Utbetalingstatus,
     Utbetalingtype,
 } from '@io/graphql';
+import { useGjenståendeDager } from '@state/arbeidsgiver';
 import { render, screen } from '@testing-library/react';
 
 import { BeregnetPopover, PeriodPopover } from './PeriodPopover';
+
+jest.mock('@state/arbeidsgiver');
 
 const getFetchedBeregnetPeriode = (
     arbeidsgiverUtbetalingsdager: Dag[] = [],
@@ -34,10 +37,11 @@ const getFetchedBeregnetPeriode = (
         notater: [],
         opprettet: '2020-01-01',
         periodehistorikk: [],
+        gjenstaendeSykedager: 100,
         periodetilstand: Periodetilstand.TilGodkjenning,
         periodetype: Periodetype.Forstegangsbehandling,
         periodevilkar: {} as Periodevilkar,
-        skjaeringstidspunkt: 'ET_SKJAERINGSTIDSPUNKT',
+        skjaeringstidspunkt: '2020-02-02',
         tidslinje: [
             {
                 dato: '2022-01-01',
@@ -131,5 +135,18 @@ describe('PeriodPopover', () => {
             />
         );
         expect(screen.getByText('Arbeidsgiver / Sykmeldt')).toBeVisible();
+    });
+
+    test('viser dager igjen', () => {
+        (useGjenståendeDager as jest.Mock).mockReturnValue(100);
+        render(
+            <BeregnetPopover
+                period={getFetchedBeregnetPeriode(arbeidsgiverUtbetalingsdager, personUtbetalingsdager)}
+                state="tilGodkjenning"
+                fom="2023-01-01"
+                tom="2023-01-01"
+            />
+        );
+        expect(screen.getByText('Dager igjen:')).toBeVisible();
     });
 });

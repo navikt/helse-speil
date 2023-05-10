@@ -98,6 +98,13 @@ export const usePeriodIsInGeneration = (): number | null => {
     );
 };
 
+export const usePeriodeErIGenerasjon = (arbeidsgiver: Arbeidsgiver | null, periodeId: string): number | null =>
+    arbeidsgiver?.generasjoner.findIndex((it) =>
+        it.perioder.some(
+            (periode) => (isBeregnetPeriode(periode) || isUberegnetPeriode(periode)) && periode.id === periodeId
+        )
+    ) ?? null;
+
 const usePeriodeTilGodkjenning = (): BeregnetPeriode | null => {
     const person = useCurrentPerson();
 
@@ -274,4 +281,40 @@ export const useLokaltMånedsbeløp = (organisasjonsnummer: string, skjæringsti
         lokaleInntektoverstyringer.arbeidsgivere.filter((it) => it.organisasjonsnummer === organisasjonsnummer)?.[0]
             ?.månedligInntekt ?? null
     );
+};
+
+export const useGjenståendeDager = (periode: BeregnetPeriode | UberegnetPeriode): Maybe<number> => {
+    const person = useCurrentPerson();
+    const arbeidsgiver = findArbeidsgiverWithPeriode(periode, person?.arbeidsgivere ?? []);
+    const periodeErIGenerasjon = usePeriodeErIGenerasjon(arbeidsgiver, periode.id);
+
+    if (!person || !arbeidsgiver || (!isBeregnetPeriode(periode) && !isUberegnetPeriode(periode))) return null;
+
+    const sisteBeregnedePeriodeISykefraværstilfellet = arbeidsgiver?.generasjoner[
+        periodeErIGenerasjon
+    ]?.perioder.filter(
+        (it) => isBeregnetPeriode(it) && it.skjaeringstidspunkt === periode.skjaeringstidspunkt && it.maksdato
+    )[0] as BeregnetPeriode;
+
+    if (!sisteBeregnedePeriodeISykefraværstilfellet) return null;
+
+    const antallNavdagerEtterAktivPeriode = navdager(person.arbeidsgivere, periodeErIGenerasjon).filter(
+        (dag) =>
+            dayjs(dag).isAfter(periode.tom) && dayjs(dag).isSameOrBefore(sisteBeregnedePeriodeISykefraværstilfellet.tom)
+    ).length;
+
+    return sisteBeregnedePeriodeISykefraværstilfellet.gjenstaendeSykedager + antallNavdagerEtterAktivPeriode;
+};
+
+const navdager = (arbeidsgivere: Array<Arbeidsgiver>, periodeErIGenerasjon: number | null): string[] => {
+    if (periodeErIGenerasjon === null || periodeErIGenerasjon === -1) return [];
+    const alleNavdager = [
+        ...arbeidsgivere.flatMap(
+            (it) => it.generasjoner[periodeErIGenerasjon]?.perioder?.flatMap((periode) => periode.tidslinje) ?? []
+        ),
+    ].filter((dag) => dag.utbetalingsdagtype === 'NAVDAG');
+
+    const unikeNavdagerPåsykefraværstilfellet = [...new Set(alleNavdager.map((item) => item.dato))];
+
+    return unikeNavdagerPåsykefraværstilfellet;
 };

@@ -12,6 +12,7 @@ import {
     Periodetilstand,
     Utbetalingsdagtype,
 } from '@io/graphql';
+import { useGjenståendeDager } from '@state/arbeidsgiver';
 import { getRequiredVilkårsgrunnlag, getVilkårsgrunnlag } from '@state/selectors/person';
 
 import { PeriodeCard } from './PeriodeCard';
@@ -47,12 +48,17 @@ export const VenstremenyBeregnetPeriode: React.FC<VenstremenyBeregnetPeriodeProp
     const forrigeGenerasjonPeriode: Maybe<Periode> | undefined = useForrigeGenerasjonPeriode();
 
     const { totalbeløp: gammeltTotalbeløp } = useTotalbeløp(forrigeGenerasjonPeriode?.tidslinje);
-
+    const gjenståendeSykedager = useGjenståendeDager(activePeriod);
     const utbetaleTilgang = finnUtbetaleTilgang(activePeriod);
 
     return (
         <section className={styles.Venstremeny}>
-            <PeriodeCard.Beregnet periode={activePeriod} arbeidsgiver={currentArbeidsgiver} månedsbeløp={månedsbeløp} />
+            <PeriodeCard.Beregnet
+                periode={activePeriod}
+                arbeidsgiver={currentArbeidsgiver}
+                månedsbeløp={månedsbeløp}
+                gjenståendeSykedager={gjenståendeSykedager}
+            />
             <UtbetalingCard.Beregnet
                 vilkårsgrunnlag={vilkårsgrunnlag}
                 antallUtbetalingsdager={getNumberOfDaysWithType(activePeriod.tidslinje, Utbetalingsdagtype.Navdag)}

@@ -105,9 +105,10 @@ const harRedusertAntallSykepengedager = (periode: FetchedBeregnetPeriode): boole
 
 interface MaksdatoRowProps {
     activePeriod: FetchedBeregnetPeriode;
+    gjenståendeSykedager: number | null;
 }
 
-const MaksdatoRow: React.FC<MaksdatoRowProps> = ({ activePeriod }) => {
+const MaksdatoRow: React.FC<MaksdatoRowProps> = ({ activePeriod, gjenståendeSykedager }) => {
     const maksdato = dayjs(activePeriod.maksdato).format(NORSK_DATOFORMAT_KORT);
     const alderVedSisteSykedag = activePeriod.periodevilkar.alder.alderSisteSykedag ?? null;
 
@@ -120,7 +121,7 @@ const MaksdatoRow: React.FC<MaksdatoRowProps> = ({ activePeriod }) => {
             </Tooltip>
             <Flex gap="10px">
                 <BodyShort className={styles.NoWrap}>{`${maksdato} (${
-                    activePeriod.gjenstaendeSykedager ?? 'Ukjent antall'
+                    gjenståendeSykedager ?? activePeriod.gjenstaendeSykedager ?? 'Ukjent antall'
                 } dager igjen)`}</BodyShort>
                 {alderVedSisteSykedag &&
                     (alderVedSisteSykedag >= 70 ? (
@@ -180,9 +181,15 @@ interface PeriodeCardBeregnetProps {
     periode: FetchedBeregnetPeriode;
     arbeidsgiver: Arbeidsgiver;
     månedsbeløp: number | undefined;
+    gjenståendeSykedager: number | null;
 }
 
-const PeriodeCardBeregnet: React.FC<PeriodeCardBeregnetProps> = ({ periode, arbeidsgiver, månedsbeløp }) => {
+const PeriodeCardBeregnet: React.FC<PeriodeCardBeregnetProps> = ({
+    periode,
+    arbeidsgiver,
+    månedsbeløp,
+    gjenståendeSykedager,
+}) => {
     const type = periode.utbetaling.type === 'REVURDERING' ? Oppgavetype.Revurdering : periode.periodetype;
     const label = `${getTextForPeriodetype(periode.periodetype)} ${
         periode.totrinnsvurdering?.erRetur
@@ -197,7 +204,7 @@ const PeriodeCardBeregnet: React.FC<PeriodeCardBeregnetProps> = ({ periode, arbe
             <PeriodetypeRow type={type} tilstand={periode.periodetilstand} label={label} />
             <SykmeldingsperiodeRow periode={periode} />
             <SkjæringstidspunktRow periodetype={periode.periodetype} skjæringstidspunkt={periode.skjaeringstidspunkt} />
-            <MaksdatoRow activePeriod={periode} />
+            <MaksdatoRow activePeriod={periode} gjenståendeSykedager={gjenståendeSykedager} />
             <ArbeidsgiverRow.Beregnet
                 navn={arbeidsgiver.navn}
                 organisasjonsnummer={arbeidsgiver.organisasjonsnummer}

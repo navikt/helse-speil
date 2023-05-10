@@ -9,7 +9,11 @@ import { SortInfoikon } from '@components/ikoner/SortInfoikon';
 import { useActivePeriodHasLatestSkjæringstidspunkt } from '@hooks/revurdering';
 import { useIsReadOnlyOppgave } from '@hooks/useIsReadOnlyOppgave';
 import { Arbeidsgiver, Dagoverstyring, Overstyring, UberegnetPeriode, Utbetalingstatus } from '@io/graphql';
-import { useCurrentArbeidsgiver, useErAktivPeriodeLikEllerFørPeriodeTilGodkjenning } from '@state/arbeidsgiver';
+import {
+    useCurrentArbeidsgiver,
+    useErAktivPeriodeLikEllerFørPeriodeTilGodkjenning,
+    useGjenståendeDager,
+} from '@state/arbeidsgiver';
 import { useActivePeriod } from '@state/periode';
 import { useCurrentPerson } from '@state/person';
 import { isInCurrentGeneration } from '@state/selectors/period';
@@ -104,10 +108,11 @@ const UtbetalingBeregnetPeriode: React.FC<UtbetalingBeregnetPeriodeProps> = Reac
         const dagoverstyringer = useDagoverstyringer(period.fom, period.tom, arbeidsgiver);
         const readOnly = useIsReadOnlyOppgave();
         const erAktivPeriodeLikEllerFørPeriodeTilGodkjenning = useErAktivPeriodeLikEllerFørPeriodeTilGodkjenning();
+        const gjenståendeDager = useGjenståendeDager(period);
 
         const dager: Map<string, UtbetalingstabellDag> = useTabelldagerMap({
             tidslinje: period.tidslinje,
-            gjenståendeDager: period.gjenstaendeSykedager,
+            gjenståendeDager: gjenståendeDager ?? period.gjenstaendeSykedager,
             overstyringer: dagoverstyringer,
             maksdato: period.maksdato,
         });
