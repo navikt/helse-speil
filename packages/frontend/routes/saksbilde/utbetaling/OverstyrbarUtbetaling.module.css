@@ -41,13 +41,3 @@
     color: var(--a-text-danger);
     font-weight: 600;
 }
-
-.OverstyringHeader {
-    height: 24px;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    padding-left: 2rem;
-    width: 100%;
-    background-color: var(--speil-overstyring-background);
-}

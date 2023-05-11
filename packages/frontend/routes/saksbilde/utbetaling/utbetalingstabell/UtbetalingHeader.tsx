@@ -1,8 +1,8 @@
 import styled from '@emotion/styled';
 import React, { useMemo } from 'react';
 
-import { Locked } from '@navikt/ds-icons';
-
+import { Bold } from '@components/Bold';
+import { EditButton } from '@components/EditButton';
 import { Flex } from '@components/Flex';
 import { PopoverHjelpetekst } from '@components/PopoverHjelpetekst';
 import { SortInfoikon } from '@components/ikoner/SortInfoikon';
@@ -16,33 +16,14 @@ const Container = styled(Flex)`
     width: 100%;
 `;
 
-export const ToggleOverstyringKnapp = styled.button`
-    border: none;
-    background: none;
+const OverstyringHeader = styled.div`
+    height: 24px;
     display: flex;
-    align-items: center;
-    outline: none;
-    cursor: pointer;
-    color: var(--a-surface-action);
-    font-size: 1rem;
-    font-family: inherit;
-    height: 34px;
-
-    > p {
-        padding-top: 6px;
-    }
-
-    > svg {
-        margin-right: 0.25rem;
-    }
-
-    &:hover {
-        text-decoration: underline;
-    }
-
-    &:focus-visible {
-        box-shadow: inset 0 0 0 3px var(--a-border-focus);
-    }
+    flex-direction: row;
+    justify-content: space-between;
+    padding-left: 2rem;
+    width: 100%;
+    background-color: var(--speil-overstyring-background);
 `;
 
 const InfobobleContainer = styled.div`
@@ -52,6 +33,7 @@ const InfobobleContainer = styled.div`
 interface UtbetalingHeaderProps {
     periodeErForkastet: boolean;
     toggleOverstyring: () => void;
+    overstyrer: boolean;
     dager: Map<string, UtbetalingstabellDag>;
     revurderingIsEnabled?: boolean;
     overstyrRevurderingIsEnabled?: boolean;
@@ -60,6 +42,7 @@ interface UtbetalingHeaderProps {
 export const UtbetalingHeader: React.FC<UtbetalingHeaderProps> = ({
     periodeErForkastet,
     toggleOverstyring,
+    overstyrer,
     dager,
     revurderingIsEnabled,
     overstyrRevurderingIsEnabled,
@@ -69,6 +52,15 @@ export const UtbetalingHeader: React.FC<UtbetalingHeaderProps> = ({
         [dager]
     );
 
+    const editButton = (
+        <EditButton
+            isOpen={overstyrer}
+            onOpen={toggleOverstyring}
+            onClose={toggleOverstyring}
+            openText="Avbryt"
+            closedText={revurderingIsEnabled || overstyrRevurderingIsEnabled ? 'Revurder' : 'Endre'}
+        />
+    );
     return (
         <Container>
             {periodeErForkastet ? (
@@ -83,11 +75,13 @@ export const UtbetalingHeader: React.FC<UtbetalingHeaderProps> = ({
                         <p>Det er foreløpig ikke mulig å gjøre endringer når hele perioden består av avslåtte dager</p>
                     </PopoverHjelpetekst>
                 </InfobobleContainer>
+            ) : overstyrer ? (
+                <OverstyringHeader>
+                    <Bold>Huk av for dagene som skal endres til samme verdi</Bold>
+                    {editButton}
+                </OverstyringHeader>
             ) : (
-                <ToggleOverstyringKnapp onClick={toggleOverstyring} data-testid="overstyringsknapp">
-                    <Locked height={24} width={24} title="locked" />
-                    <p>{revurderingIsEnabled || overstyrRevurderingIsEnabled ? 'Revurder' : 'Endre'}</p>
-                </ToggleOverstyringKnapp>
+                editButton
             )}
         </Container>
     );

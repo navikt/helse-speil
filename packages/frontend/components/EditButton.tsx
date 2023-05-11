@@ -30,8 +30,8 @@ export const EditButton: React.FC<EditButtonProps> = ({
     ...rest
 }) => {
     const icon = isOpen
-        ? openIcon ?? <Unlocked height={16} width={16} />
-        : closedIcon ?? <Locked height={16} width={16} />;
+        ? openIcon ?? <Unlocked viewBox="0 0 18 24" height={16} width={16} />
+        : closedIcon ?? <Locked viewBox="0 0 16 24" height={16} width={16} />;
     return (
         <Button className={classNames(styles.EditButton, className)} onClick={isOpen ? onClose : onOpen} {...rest}>
             <>

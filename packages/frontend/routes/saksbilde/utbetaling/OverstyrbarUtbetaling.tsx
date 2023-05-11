@@ -2,10 +2,8 @@ import classNames from 'classnames';
 import React, { useEffect, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 
-import { Unlocked } from '@navikt/ds-icons';
 import { BodyShort } from '@navikt/ds-react';
 
-import { Bold } from '@components/Bold';
 import { OverstyringTimeoutModal } from '@components/OverstyringTimeoutModal';
 import { useMap } from '@hooks/useMap';
 
@@ -13,7 +11,7 @@ import { EndringForm } from './utbetalingstabell/EndringForm';
 import { MarkerAlleDagerCheckbox } from './utbetalingstabell/MarkerAlleDagerCheckbox';
 import { OverstyringForm } from './utbetalingstabell/OverstyringForm';
 import { RadmarkeringCheckbox } from './utbetalingstabell/RadmarkeringCheckbox';
-import { ToggleOverstyringKnapp, UtbetalingHeader } from './utbetalingstabell/UtbetalingHeader';
+import { UtbetalingHeader } from './utbetalingstabell/UtbetalingHeader';
 import { Utbetalingstabell } from './utbetalingstabell/Utbetalingstabell';
 import { usePostOverstyring } from './utbetalingstabell/usePostOverstyring';
 
@@ -101,23 +99,14 @@ export const OverstyrbarUtbetaling: React.FC<OverstyrbarUtbetalingProps> = ({
             className={classNames(styles.OverstyrbarUtbetaling, overstyrer && styles.overstyrer)}
             data-testid="utbetaling"
         >
-            {overstyrer ? (
-                <div className={styles.OverstyringHeader}>
-                    <Bold>Huk av for dagene som skal endres til samme verdi</Bold>
-                    <ToggleOverstyringKnapp type="button" onClick={toggleOverstyring}>
-                        <Unlocked height={24} width={24} />
-                        Avbryt
-                    </ToggleOverstyringKnapp>
-                </div>
-            ) : (
-                <UtbetalingHeader
-                    periodeErForkastet={erForkastet}
-                    toggleOverstyring={toggleOverstyring}
-                    dager={dager}
-                    revurderingIsEnabled={revurderingIsEnabled}
-                    overstyrRevurderingIsEnabled={overstyrRevurderingIsEnabled}
-                />
-            )}
+            <UtbetalingHeader
+                periodeErForkastet={erForkastet}
+                toggleOverstyring={toggleOverstyring}
+                overstyrer={overstyrer}
+                dager={dager}
+                revurderingIsEnabled={revurderingIsEnabled}
+                overstyrRevurderingIsEnabled={overstyrRevurderingIsEnabled}
+            />
             <div className={classNames(styles.TableContainer)}>
                 <Utbetalingstabell
                     fom={fom}
