@@ -23,3 +23,8 @@
 .EditButton:focus-visible {
     box-shadow: inset 0 0 0 3px var(--a-border-focus);
 }
+
+.EditButtonText {
+    min-width: 3.1rem; /* unngå at ikonet flytter seg når tekstinnholdet endrer lengde (eksempelvis 'endre' -> 'avbryt') */
+    text-align: left;
+}

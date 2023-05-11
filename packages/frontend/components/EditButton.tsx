@@ -28,18 +28,16 @@ export const EditButton: React.FC<EditButtonProps> = ({
     closedIcon,
     className,
     ...rest
-}) => (
-    <Button className={classNames(styles.EditButton, className)} onClick={isOpen ? onClose : onOpen} {...rest}>
-        {isOpen ? (
+}) => {
+    const icon = isOpen
+        ? openIcon ?? <Unlocked height={16} width={16} />
+        : closedIcon ?? <Locked height={16} width={16} />;
+    return (
+        <Button className={classNames(styles.EditButton, className)} onClick={isOpen ? onClose : onOpen} {...rest}>
             <>
-                {openIcon ?? <Unlocked height={16} width={16} />}
-                <BodyShort>{openText}</BodyShort>
+                {icon}
+                <BodyShort className={classNames(styles.EditButtonText)}>{isOpen ? openText : closedText}</BodyShort>
             </>
-        ) : (
-            <>
-                {closedIcon ?? <Locked height={16} width={16} />}
-                <BodyShort>{closedText}</BodyShort>
-            </>
-        )}
-    </Button>
-);
+        </Button>
+    );
+};
