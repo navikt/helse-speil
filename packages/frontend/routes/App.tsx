@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { Helmet } from 'react-helmet';
 import ReactModal from 'react-modal';
 import { BrowserRouter, Route, Switch, useLocation } from 'react-router-dom';
 import { RecoilRoot } from 'recoil';
@@ -14,6 +15,7 @@ import { useUpdateAuthentication } from '@state/authentication';
 import { usePersonLoadable } from '@state/person';
 import { useSetVarsler } from '@state/varsler';
 import { onLazyLoadFail } from '@utils/error';
+import { erDev, erLocal } from '@utils/featureToggles';
 
 import { GlobalFeilside } from './GlobalFeilside';
 import { IkkeLoggetInn } from './IkkeLoggetInn';
@@ -52,6 +54,14 @@ const App = () => {
 
     return (
         <ErrorBoundary fallback={(error) => <GlobalFeilside error={error} />}>
+            <Helmet>
+                <title>Speil {erLocal() ? ' - localhost' : erDev() ? ' - dev' : ''}</title>
+                <link
+                    rel="icon"
+                    type="image/x-icon"
+                    href={erLocal() ? '/favicon-local.ico' : erDev() ? '/favicon-dev.ico' : '/favicon.ico'}
+                />
+            </Helmet>
             <Header />
             <Varsler />
             <Switch>
