@@ -70,7 +70,6 @@ export const RedigerInntektOgRefusjon = ({
             closedText={erRevurdering ? 'Revurder' : 'Endre'}
             onOpen={() => setEditing(true)}
             onClose={() => setEditing(false)}
-            style={{ placeSelf: 'center flex-end' }}
         />
     ) : (
         <PopoverHjelpetekst ikon={<SortInfoikon />}>

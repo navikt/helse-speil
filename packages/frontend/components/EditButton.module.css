@@ -1,6 +1,7 @@
 .EditButton {
     display: flex;
     align-items: flex-end;
+    align-self: center;
     flex-wrap: nowrap;
     color: var(--a-surface-action);
     padding: 4px;

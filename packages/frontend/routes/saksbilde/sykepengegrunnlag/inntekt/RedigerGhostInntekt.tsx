@@ -16,7 +16,6 @@ export const RedigerGhostInntekt = ({ erRevurdering, setEditing, editing }: Redi
             closedText={erRevurdering ? 'Revurder' : 'Endre'}
             onOpen={() => setEditing(true)}
             onClose={() => setEditing(false)}
-            style={{ justifySelf: 'flex-end' }}
         />
     );
 };
