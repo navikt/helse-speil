@@ -71,9 +71,9 @@ export const Utbetalingstabell = ({
                             <Header scope="col" colSpan={1}>
                                 Total grad
                             </Header>
-                            <Header scope="col" colSpan={1} className={styles.TableHeader}>
+                            <Header scope="col" colSpan={1}>
                                 <ArbeidsgiverikonMedTooltip className={styles.HeaderContent}>
-                                    Utbetaling
+                                    Refusjon
                                 </ArbeidsgiverikonMedTooltip>
                             </Header>
                             <Header scope="col" colSpan={1}>
