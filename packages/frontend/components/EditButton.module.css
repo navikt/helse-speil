@@ -25,6 +25,6 @@
 }
 
 .EditButtonText {
-    min-width: 3.1rem; /* unngå at ikonet flytter seg når tekstinnholdet endrer lengde (eksempelvis 'endre' -> 'avbryt') */
+    min-width: 4.3rem; /* unngå at ikonet flytter seg når tekstinnholdet endrer lengde (eksempelvis 'Revurder' -> 'Avbryt') */
     text-align: left;
 }
