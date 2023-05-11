@@ -59,7 +59,7 @@ const App = () => {
                 <link
                     rel="icon"
                     type="image/x-icon"
-                    href={erLocal() ? '/favicon-local.ico' : erDev() ? '/favicon-dev.ico' : '/favicon.ico'}
+                    href={`/favicons/${erLocal() ? 'favicon-local.ico' : erDev() ? 'favicon-dev.ico' : 'favicon.ico'}`}
                 />
             </Helmet>
             <Header />

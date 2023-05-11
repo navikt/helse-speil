@@ -180,7 +180,7 @@ app.get('/*', (req, res, next) => {
 const clientPath = process.env.NODE_ENV === 'development' ? '../../dist/client' : '/app/dist/client';
 
 // At the time of writing this comment, the setup of the static 'routes' has to be done in a particular order.
-app.use('/favicon.ico', express.static(`${clientPath}/favicon.ico`));
+app.use('/favicons', express.static(`${clientPath}/favicons`));
 app.use('/static', express.static(`${clientPath}/static`));
 app.use('/*', express.static(`${clientPath}/index.html`));
 app.use('/', express.static(`${clientPath}/`));
