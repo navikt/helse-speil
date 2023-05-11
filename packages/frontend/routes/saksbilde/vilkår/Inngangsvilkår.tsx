@@ -4,7 +4,6 @@ import { IkkeVurderteVilkår } from './vilkårsgrupper/IkkeVurderteVilkår';
 import { OppfylteVilkår } from './vilkårsgrupper/OppfylteVilkår';
 import { VurdertIInfotrygd } from './vilkårsgrupper/VurdertIInfotrygd';
 import { VurdertISpleis } from './vilkårsgrupper/VurdertISpleis';
-import { Yrkeskadeinfo } from './vilkårsgrupper/Yrkesskadeinfo';
 import dayjs from 'dayjs';
 import { Vilkårdata } from 'mapping/vilkår';
 import React from 'react';
@@ -67,9 +66,6 @@ export const InngangsvilkårWithContent = ({
                         />
                     )}
                     {harVilkår(vilkårVurdertIInfotrygd) && <VurdertIInfotrygd vilkår={vilkårVurdertIInfotrygd} />}
-                    <div className={styles.Yrkesskadeinfo}>
-                        <Yrkeskadeinfo />
-                    </div>
                 </div>
             )}
         </div>

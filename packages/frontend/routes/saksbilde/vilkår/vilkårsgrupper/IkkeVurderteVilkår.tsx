@@ -1,12 +1,11 @@
-import { Vilkårdata } from '../../../../mapping/vilkår';
-import { Vilkårgrid, Vilkårgruppe, Vilkårkolonne } from '../Vilkår.styles';
-import { Vilkårskategori } from '../Vilkårskategori';
-import { Vilkårsgruppetittel } from '../vilkårstitler';
 import React from 'react';
 
 import { Advarselikon } from '@components/ikoner/Advarselikon';
 
-import { Yrkeskadeinfo } from './Yrkesskadeinfo';
+import { Vilkårdata } from '../../../../mapping/vilkår';
+import { Vilkårgrid, Vilkårgruppe, Vilkårkolonne } from '../Vilkår.styles';
+import { Vilkårskategori } from '../Vilkårskategori';
+import { Vilkårsgruppetittel } from '../vilkårstitler';
 
 interface IkkeVurderteVilkårProps {
     vilkår: Vilkårdata[];
@@ -25,6 +24,5 @@ export const IkkeVurderteVilkår = ({ vilkår }: IkkeVurderteVilkårProps) => (
                 {komponent && <Vilkårgrid>{komponent}</Vilkårgrid>}
             </Vilkårgruppe>
         ))}
-        <Yrkeskadeinfo style={{ marginTop: '2rem' }} />
     </Vilkårkolonne>
 );

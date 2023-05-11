@@ -11,20 +11,3 @@
     flex-direction: column;
     width: max-content;
 }
-
-.Yrkesskadeinfo {
-    position: relative;
-    margin-left: 2rem;
-    margin-top: 1.5rem;
-    padding-top: 2.5rem;
-}
-
-.Yrkesskadeinfo:before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 10px;
-    width: calc(100% - 10px);
-    height: 1px;
-    background: var(--a-gray-200);
-}
