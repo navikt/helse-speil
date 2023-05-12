@@ -774,8 +774,8 @@
                                             "definisjonId": "EN_DEFINISJON",
                                             "kode": "EN_KODE",
                                             "tittel": "Flere arbeidsgivere, ulikt starttidspunkt for sykefraværet eller ikke fravær fra alle arbeidsforhold",
-                                            "forklaring": null,
-                                            "handling": null,
+                                            "forklaring": "En forklaring \n\n med dobbelt linjeskift",
+                                            "handling": "En handling \n med flere \n linjeskift",
                                             "vurdering": null
                                         }
                                     ],

@@ -25,6 +25,6 @@ interface VarselseksjonProps extends ChildrenProps {
 export const Varselseksjon: React.FC<VarselseksjonProps> = ({ tittel, children }) => (
     <Container>
         <Tittel as="p">{tittel}</Tittel>
-        <BodyLong>{children}</BodyLong>
+        <BodyLong as="pre">{children}</BodyLong>
     </Container>
 );
