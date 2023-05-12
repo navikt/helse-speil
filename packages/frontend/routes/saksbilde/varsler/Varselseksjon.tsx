@@ -12,6 +12,8 @@ const Container = styled(FlexColumn)`
     &:not(:last-of-type) {
         margin-bottom: 1rem;
     }
+
+    white-space: pre-wrap;
 `;
 
 const Tittel = styled(BodyLong)`
@@ -25,6 +27,6 @@ interface VarselseksjonProps extends ChildrenProps {
 export const Varselseksjon: React.FC<VarselseksjonProps> = ({ tittel, children }) => (
     <Container>
         <Tittel as="p">{tittel}</Tittel>
-        <BodyLong as="pre">{children}</BodyLong>
+        <BodyLong>{children}</BodyLong>
     </Container>
 );
