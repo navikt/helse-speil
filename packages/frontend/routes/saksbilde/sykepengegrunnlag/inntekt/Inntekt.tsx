@@ -4,16 +4,9 @@ import React from 'react';
 import { Alert } from '@navikt/ds-react';
 
 import { ErrorBoundary } from '@components/ErrorBoundary';
-import {
-    Arbeidsgiver,
-    Arbeidsgiverinntekt,
-    BeregnetPeriode,
-    Hendelsetype,
-    Kildetype,
-    Refusjonselement,
-} from '@io/graphql';
-import { Refusjonsopplysning } from '@io/http';
+import { Arbeidsgiver, Arbeidsgiverinntekt, BeregnetPeriode } from '@io/graphql';
 import { useArbeidsgiver, usePeriodForSkjæringstidspunktForArbeidsgiver } from '@state/arbeidsgiver';
+import { mapOgSorterRefusjoner } from '@state/overstyring';
 import { useActivePeriod } from '@state/periode';
 import { useCurrentPerson } from '@state/person';
 import { isBeregnetPeriode, isUberegnetPeriode } from '@utils/typeguards';
@@ -109,30 +102,4 @@ export const Inntekt: React.FC<InntektProps> = ({ inntekt }) => {
             </div>
         </ErrorBoundary>
     );
-};
-
-export const mapOgSorterRefusjoner = (
-    period: ActivePeriod,
-    refusjonselementer?: Refusjonselement[],
-): Refusjonsopplysning[] => {
-    const hendelseIderForInntektsmelding: string[] = isBeregnetPeriode(period)
-        ? period.hendelser
-              .filter((hendelse) => hendelse.type === Hendelsetype.Inntektsmelding)
-              .map((hendelse) => hendelse.id)
-        : [];
-
-    const refusjonsopplysninger: Refusjonsopplysning[] | undefined =
-        refusjonselementer &&
-        [...refusjonselementer]
-            .sort((a: Refusjonselement, b: Refusjonselement) => new Date(b.fom).getTime() - new Date(a.fom).getTime())
-            .map((it) => ({
-                fom: it.fom,
-                tom: it.tom,
-                beløp: it.belop,
-                kilde: hendelseIderForInntektsmelding.includes(it.meldingsreferanseId)
-                    ? Kildetype.Inntektsmelding
-                    : Kildetype.Saksbehandler,
-            }));
-
-    return refusjonsopplysninger ?? [];
 };

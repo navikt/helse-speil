@@ -1,16 +1,14 @@
 import { useEffect, useState } from 'react';
 import { atom, useRecoilState } from 'recoil';
 
-import { Arbeidsgiverrefusjon } from '@io/graphql';
+import { Arbeidsgiverrefusjon, Hendelsetype, Kildetype, Refusjonselement } from '@io/graphql';
 import { OverstyrtInntektOgRefusjonArbeidsgiver, OverstyrtInntektOgRefusjonDTO, Refusjonsopplysning } from '@io/http';
 import { useArbeidsgiver, usePeriodForSkjæringstidspunktForArbeidsgiver } from '@state/arbeidsgiver';
 import { kalkulererFerdigToastKey, kalkulererToastKey, kalkuleringFerdigToast } from '@state/kalkuleringstoasts';
-import { useOpptegnelser, useSetOpptegnelserPollingRate } from '@state/opptegnelser';
+import { useOpptegnelser } from '@state/opptegnelser';
 import { useCurrentPerson } from '@state/person';
 import { useAddToast, useRemoveToast } from '@state/toasts';
 import { isArbeidsgiver, isBeregnetPeriode, isGhostPeriode, isPerson } from '@utils/typeguards';
-
-import { mapOgSorterRefusjoner } from '../routes/saksbilde/sykepengegrunnlag/inntekt/Inntekt';
 
 export type OverstyrtInntektOgRefusjon = {
     aktørId: string | null;
@@ -44,10 +42,9 @@ export const usePostOverstyrtInntekt = (
     const addToast = useAddToast();
     const removeToast = useRemoveToast();
     const opptegnelser = useOpptegnelser();
-    const setPollingRate = useSetOpptegnelserPollingRate();
     const [isLoading, setIsLoading] = useState(false);
     const [calculating, setCalculating] = useState(false);
-    const [error, setError] = useState<string | null>();
+    const [error] = useState<string | null>();
     const [timedOut, setTimedOut] = useState(false);
 
     useEffect(() => {
@@ -144,6 +141,31 @@ type OverstyrtInntektMetadata = {
     fraRefusjonsopplysninger: Refusjonsopplysning[];
 };
 
+export const mapOgSorterRefusjoner = (
+    period: ActivePeriod,
+    refusjonselementer?: Refusjonselement[],
+): Refusjonsopplysning[] => {
+    const hendelseIderForInntektsmelding: string[] = isBeregnetPeriode(period)
+        ? period.hendelser
+              .filter((hendelse) => hendelse.type === Hendelsetype.Inntektsmelding)
+              .map((hendelse) => hendelse.id)
+        : [];
+
+    const refusjonsopplysninger: Refusjonsopplysning[] | undefined =
+        refusjonselementer &&
+        [...refusjonselementer]
+            .sort((a: Refusjonselement, b: Refusjonselement) => new Date(b.fom).getTime() - new Date(a.fom).getTime())
+            .map((it) => ({
+                fom: it.fom,
+                tom: it.tom,
+                beløp: it.belop,
+                kilde: hendelseIderForInntektsmelding.includes(it.meldingsreferanseId)
+                    ? Kildetype.Inntektsmelding
+                    : Kildetype.Saksbehandler,
+            }));
+
+    return refusjonsopplysninger ?? [];
+};
 export const useOverstyrtInntektMetadata = (
     skjæringstidspunkt: DateString,
     organisasjonsnummer: string,
