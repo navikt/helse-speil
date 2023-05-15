@@ -2,10 +2,18 @@ import path from 'path';
 // @ts-ignore
 import { defineConfig, splitVendorChunkPlugin } from 'vite';
 
-import reactRefresh from '@vitejs/plugin-react-refresh';
+import react from '@vitejs/plugin-react';
 
 export default defineConfig({
-    plugins: [reactRefresh(), splitVendorChunkPlugin()],
+    plugins: [
+        react({
+            include: '**/*.tsx',
+        }),
+        splitVendorChunkPlugin(),
+    ],
+    server: {
+        hmr: true,
+    },
     build: {
         outDir: '../../dist/client',
         sourcemap: true,
