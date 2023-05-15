@@ -9,7 +9,7 @@ import { PeriodehistorikkType } from '@io/graphql';
 
 import { Hendelse } from './Hendelse';
 import { HendelseDate } from './HendelseDate';
-import { MAX_TEXT_LENGTH_BEFORE_TRUNCATION } from './notat/Notathendelse';
+import { MAX_TEXT_LENGTH_BEFORE_TRUNCATION } from './notat/constants';
 
 import styles from './Historikkhendelse.module.css';
 import notatStyles from './notat/Notathendelse.module.css';

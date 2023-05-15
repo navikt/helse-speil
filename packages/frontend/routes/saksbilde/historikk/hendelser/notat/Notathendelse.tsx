@@ -15,11 +15,10 @@ import { Hendelse } from '../Hendelse';
 import { HendelseDate } from '../HendelseDate';
 import { HendelseDropdownMenu } from './HendelseDropdownMenu';
 import { NotatHendelseContent } from './NotathendelseContent';
+import { MAX_TEXT_LENGTH_BEFORE_TRUNCATION } from './constants';
 import { Action, State } from './types';
 
 import styles from './Notathendelse.module.css';
-
-export const MAX_TEXT_LENGTH_BEFORE_TRUNCATION = 45;
 
 const reducer = (state: State, action: Action) => {
     switch (action.type) {

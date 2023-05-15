@@ -1,0 +1,1 @@
+export const MAX_TEXT_LENGTH_BEFORE_TRUNCATION = 45;
