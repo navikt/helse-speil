@@ -2,7 +2,7 @@ import React, { ReactNode } from 'react';
 
 import { BodyShort } from '@navikt/ds-react';
 
-import styles from './Vilkårsgrupperad.module.css';
+import styles from './Vilkarsgrupperad.module.css';
 
 interface Props {
     label: string;
