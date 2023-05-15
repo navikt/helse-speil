@@ -5,12 +5,12 @@ import { Adressebeskyttelse, Kjonn } from '@io/graphql';
 import '@testing-library/jest-dom/extend-expect';
 import { render, screen } from '@testing-library/react';
 
-import { _PersonHeader } from './PersonHeader';
+import { PersonHeaderWithContent } from './PersonHeaderWIthContent';
 
 describe('Personlinje', () => {
     test('rendrer personinfo', () => {
         render(
-            <_PersonHeader
+            <PersonHeaderWithContent
                 fødselsnummer="12345678910"
                 aktørId="123456789"
                 enhet={{ id: '123', navn: 'Huttiheiti' }}
