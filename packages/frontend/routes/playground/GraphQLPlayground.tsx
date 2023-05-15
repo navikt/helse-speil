@@ -10,8 +10,6 @@ const graphQLFetcher = async (graphQLParams: any) => {
     return response.status === 200 ? response.data : response;
 };
 
-const GraphQLPlayground = () => (
+export const GraphQLPlayground = () => (
     <GraphiQL isHeadersEditorEnabled={true} fetcher={graphQLFetcher} editorTheme="dracula" />
 );
-
-export default GraphQLPlayground;

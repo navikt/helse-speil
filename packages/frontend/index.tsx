@@ -6,7 +6,7 @@ import '@navikt/ds-css-internal';
 import '@navikt/ds-tokens';
 
 import './config';
-import App from './routes/App';
+import { AppWithRoutingAndState as App } from './routes/App';
 
 window.global = window;
 

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { lazy, useEffect } from 'react';
 import { Helmet } from 'react-helmet';
 import ReactModal from 'react-modal';
 import { BrowserRouter, Route, Switch, useLocation } from 'react-router-dom';
@@ -24,12 +24,17 @@ import { Routes } from './index';
 
 import './App.css';
 
-// @ts-ignore
-const Saksbilde = React.lazy(() => import('./saksbilde/Saksbilde').catch(onLazyLoadFail));
-// @ts-ignore
-const Oversikt = React.lazy(() => import('./oversikt').catch(onLazyLoadFail));
-// @ts-ignore
-const GraphQLPlayground = React.lazy(() => import('./playground/GraphQLPlayground').catch(onLazyLoadFail));
+const Saksbilde = lazy(() =>
+    import('./saksbilde/Saksbilde.js').then((res) => ({ default: res.Saksbilde })).catch(onLazyLoadFail),
+);
+const Oversikt = lazy(() =>
+    import('./oversikt/Oversikt.js').then((res) => ({ default: res.Oversikt })).catch(onLazyLoadFail),
+);
+const GraphQLPlayground = lazy(() =>
+    import('./playground/GraphQLPlayground.js')
+        .then((res) => ({ default: res.GraphQLPlayground }))
+        .catch(onLazyLoadFail),
+);
 
 ReactModal.setAppElement('#root');
 
@@ -92,13 +97,10 @@ const App = () => {
     );
 };
 
-const withRoutingAndState = (Component: React.ComponentType) => () =>
-    (
-        <BrowserRouter>
-            <RecoilRoot>
-                <Component />
-            </RecoilRoot>
-        </BrowserRouter>
-    );
-
-export default withRoutingAndState(App);
+export const AppWithRoutingAndState = () => (
+    <BrowserRouter>
+        <RecoilRoot>
+            <App />
+        </RecoilRoot>
+    </BrowserRouter>
+);

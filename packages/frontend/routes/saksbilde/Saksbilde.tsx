@@ -52,7 +52,7 @@ const SaksbildeContent = React.memo(() => {
     );
 });
 
-const Saksbilde = () => (
+export const Saksbilde = () => (
     <ErrorBoundary
         fallback={(error: Error) => (
             <Alert variant="warning" size="small" className={styles.Alert}>
@@ -63,5 +63,3 @@ const Saksbilde = () => (
         <SaksbildeContent />
     </ErrorBoundary>
 );
-
-export default Saksbilde;
