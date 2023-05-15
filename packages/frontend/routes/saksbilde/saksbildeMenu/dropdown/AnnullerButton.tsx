@@ -51,7 +51,7 @@ const AnnullerButtonWithContent: React.FC<AnnullerButtonWithContentProps> = ({
 };
 
 const harArbeidsgiveroppdrag = (
-    oppdrag?: Maybe<Oppdrag>
+    oppdrag?: Maybe<Oppdrag>,
 ): oppdrag is Oppdrag & { arbeidsgiveroppdrag: Arbeidsgiveroppdrag } => {
     return !!oppdrag?.arbeidsgiveroppdrag;
 };
@@ -60,7 +60,7 @@ const kanAnnullere = (
     oppdrag: Maybe<Oppdrag>,
     erBeslutterMedTilgang: boolean,
     erReadonly: boolean,
-    utbetaling: Utbetaling
+    utbetaling: Utbetaling,
 ): boolean => {
     return (
         annulleringerEnabled &&

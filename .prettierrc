@@ -10,5 +10,5 @@
     ],
     "importOrderSeparation": true,
     "importOrderSortSpecifiers": true,
-    "trailingCommas": "all"
+    "trailingComma": "all"
 }

@@ -2,12 +2,7 @@ import React from 'react';
 
 import { useId } from '@navikt/ds-react';
 
-export const IconFerie = ({
-    width = 16,
-    height = 16,
-    alt = 'Ferieikon',
-    fill = 'var(--a-text-default)',
-}) => {
+export const IconFerie = ({ width = 16, height = 16, alt = 'Ferieikon', fill = 'var(--a-text-default)' }) => {
     let titleId = useId();
     titleId = alt ? alt + titleId : undefined;
     return (

@@ -21,7 +21,7 @@ describe('DagtypeCell', () => {
 
     it('prioriterer typen til den overstyrte dagen', () => {
         render(
-            <DagtypeCell dag={getUtbetalingstabellDag()} overstyrtDag={getUtbetalingstabellDag({ type: 'Ferie' })} />
+            <DagtypeCell dag={getUtbetalingstabellDag()} overstyrtDag={getUtbetalingstabellDag({ type: 'Ferie' })} />,
         );
 
         expect(screen.getByText('Ferie')).toBeVisible();
@@ -29,7 +29,7 @@ describe('DagtypeCell', () => {
 
     it('rendrer tekst for overstyringsindikatoren når vi overstyrer fra Syk til Ferie', () => {
         render(
-            <DagtypeCell dag={getUtbetalingstabellDag()} overstyrtDag={getUtbetalingstabellDag({ type: 'Ferie' })} />
+            <DagtypeCell dag={getUtbetalingstabellDag()} overstyrtDag={getUtbetalingstabellDag({ type: 'Ferie' })} />,
         );
         const indikator = screen.getByTestId('infotrekant');
         expect(indikator).toBeVisible();

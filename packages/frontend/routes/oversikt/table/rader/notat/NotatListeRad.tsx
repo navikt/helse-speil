@@ -29,7 +29,7 @@ export const NotatListeRad = ({ notat, vedtaksperiodeId, innloggetSaksbehandler 
             putFeilregistrertNotat(vedtaksperiodeId, notat.id)
                 .then(refreshNotater)
                 .finally(() => setIsFetching(false)),
-            errorHandler
+            errorHandler,
         );
     };
 

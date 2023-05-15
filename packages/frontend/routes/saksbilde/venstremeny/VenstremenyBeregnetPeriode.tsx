@@ -38,7 +38,7 @@ export const VenstremenyBeregnetPeriode: React.FC<VenstremenyBeregnetPeriodeProp
     readOnly,
 }) => {
     const månedsbeløp = getRequiredVilkårsgrunnlag(currentPerson, activePeriod.vilkarsgrunnlagId)?.inntekter.find(
-        (it) => it.arbeidsgiver === currentArbeidsgiver.organisasjonsnummer
+        (it) => it.arbeidsgiver === currentArbeidsgiver.organisasjonsnummer,
     )?.omregnetArsinntekt?.manedsbelop;
 
     const vilkårsgrunnlag = getVilkårsgrunnlag(currentPerson, activePeriod.vilkarsgrunnlagId);

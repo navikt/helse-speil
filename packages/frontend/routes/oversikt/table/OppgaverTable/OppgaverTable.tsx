@@ -34,7 +34,7 @@ export const OppgaverTable: React.FC<OppgaverTableProps> = React.memo(({ oppgave
     const visibleRows =
         activeFilters.length > 0
             ? (oppgaver.filter((oppgave) =>
-                  groupedFilters.every((it) => it.some((it) => it.function(oppgave as OppgaveForOversiktsvisning)))
+                  groupedFilters.every((it) => it.some((it) => it.function(oppgave as OppgaveForOversiktsvisning))),
               ) as Array<OppgaveForOversiktsvisning>)
             : (oppgaver as Array<OppgaveForOversiktsvisning>);
 
@@ -86,17 +86,17 @@ export const OppgaverTable: React.FC<OppgaverTableProps> = React.memo(({ oppgave
 });
 
 const groupFiltersByColumn = (
-    filters: Filter<OppgaveForOversiktsvisning>[]
+    filters: Filter<OppgaveForOversiktsvisning>[],
 ): Filter<OppgaveForOversiktsvisning>[][] => {
     const groups = filters.reduce(
         (
             groups: { [key: string]: Filter<OppgaveForOversiktsvisning>[] },
-            filter: Filter<OppgaveForOversiktsvisning>
+            filter: Filter<OppgaveForOversiktsvisning>,
         ) => {
             const key = `${filter.column}`;
             return groups[key] ? { ...groups, [key]: [...groups[key], filter] } : { ...groups, [key]: [filter] };
         },
-        {}
+        {},
     );
 
     return Object.values(groups);

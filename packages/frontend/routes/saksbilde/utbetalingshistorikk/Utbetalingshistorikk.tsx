@@ -99,7 +99,7 @@ const UtbetalingshistorikkWithContent: React.FC<UtbetalingshistorikkWithContentP
                 onClick={() => {
                     if (!erNyeste(oppdrag))
                         setVarseltekst(
-                            'Utbetalinger må annulleres kronologisk, nyeste først. Du kan forsøke å annullere denne, men om den ikke er den nyeste vil den ikke bli annullert.'
+                            'Utbetalinger må annulleres kronologisk, nyeste først. Du kan forsøke å annullere denne, men om den ikke er den nyeste vil den ikke bli annullert.',
                         );
                     setTilAnnullering(oppdrag);
                 }}
@@ -137,7 +137,7 @@ const UtbetalingshistorikkWithContent: React.FC<UtbetalingshistorikkWithContentP
                                     annulleringButton={annulleringButton(
                                         oppdrag.status,
                                         oppdrag.type,
-                                        oppdrag.personoppdrag
+                                        oppdrag.personoppdrag,
                                     )}
                                     readOnly={readOnly}
                                     erBeslutteroppgave={
@@ -154,7 +154,7 @@ const UtbetalingshistorikkWithContent: React.FC<UtbetalingshistorikkWithContentP
                                     annulleringButton={annulleringButton(
                                         oppdrag.status,
                                         oppdrag.type,
-                                        oppdrag.arbeidsgiveroppdrag
+                                        oppdrag.arbeidsgiveroppdrag,
                                     )}
                                     readOnly={readOnly}
                                     erBeslutteroppgave={

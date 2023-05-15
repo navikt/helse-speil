@@ -12,7 +12,7 @@ describe('RadmarkeringCheckbox', () => {
                 <RadmarkeringCheckbox index={0} />
                 <RadmarkeringCheckbox index={0} />
                 <RadmarkeringCheckbox index={0} erForeldet />
-            </>
+            </>,
         );
 
         expect(screen.queryAllByRole('checkbox')).toHaveLength(2);

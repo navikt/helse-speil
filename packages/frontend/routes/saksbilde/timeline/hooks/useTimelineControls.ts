@@ -41,7 +41,7 @@ const getEarliestDate = (perioder: Array<Periode>): Dayjs => {
 
 const getMergedPeriods = (
     arbeidsgivere: Array<Arbeidsgiver>,
-    infotrygdutbetalinger: Array<Infotrygdutbetaling>
+    infotrygdutbetalinger: Array<Infotrygdutbetaling>,
 ): Array<Periode> => {
     return [
         ...arbeidsgivere.flatMap((it) => it.generasjoner.flatMap((it) => it.perioder) ?? []),
@@ -82,11 +82,11 @@ type UseTimelineControlsResult = {
 
 export const useTimelineControls = (
     arbeidsgivere: Array<Arbeidsgiver>,
-    infotrygdutbetalinger: Array<Infotrygdutbetaling>
+    infotrygdutbetalinger: Array<Infotrygdutbetaling>,
 ): UseTimelineControlsResult => {
     const allPeriods = useMemo(
         () => getMergedPeriods(arbeidsgivere, infotrygdutbetalinger),
-        [arbeidsgivere, infotrygdutbetalinger]
+        [arbeidsgivere, infotrygdutbetalinger],
     );
 
     const latestPossibleDate = useLatestPossibleDate(allPeriods);

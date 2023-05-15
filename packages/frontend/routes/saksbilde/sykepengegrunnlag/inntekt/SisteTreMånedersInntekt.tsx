@@ -15,7 +15,7 @@ import styles from './ReadOnlyInntekt.module.css';
 
 const getSorterteInntekter = (inntekterFraAOrdningen: Array<InntektFraAOrdningen>): Array<InntektFraAOrdningen> => {
     return [...inntekterFraAOrdningen].sort((a, b) =>
-        dayjs(a.maned, 'YYYY-MM').isAfter(dayjs(b.maned, 'YYYY-MM')) ? -1 : 1
+        dayjs(a.maned, 'YYYY-MM').isAfter(dayjs(b.maned, 'YYYY-MM')) ? -1 : 1,
     );
 };
 

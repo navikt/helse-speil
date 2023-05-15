@@ -21,7 +21,7 @@ import { SykepengegrunnlagFraSpleis } from './SykepengegrunnlagFraSpleis';
 
 export const useVilkårsgrunnlag = (
     person?: Maybe<FetchedPerson>,
-    period?: Maybe<ActivePeriod>
+    period?: Maybe<ActivePeriod>,
 ): Maybe<Vilkarsgrunnlag> => {
     if (!person || (!isGhostPeriode(period) && !isBeregnetPeriode(period)) || !period.vilkarsgrunnlagId) {
         return null;

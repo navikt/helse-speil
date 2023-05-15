@@ -68,7 +68,7 @@ export const EditableInntekt = ({
     const { isLoading, error, postOverstyring, timedOut, setTimedOut } = usePostOverstyrtInntekt(
         cancelEditing,
         showSlettLokaleOverstyringerModal,
-        setShowSlettLokaleOverstyringerModal
+        setShowSlettLokaleOverstyringerModal,
     );
 
     const harFeil = !form.formState.isValid && form.formState.isSubmitted;
@@ -135,7 +135,7 @@ export const EditableInntekt = ({
             values?.refusjonsopplysninger &&
             [...values.refusjonsopplysninger].sort(
                 (a: Refusjonsopplysning, b: Refusjonsopplysning) =>
-                    new Date(b.fom).getTime() - new Date(a.fom).getTime()
+                    new Date(b.fom).getTime() - new Date(a.fom).getTime(),
             );
 
         if (
@@ -163,7 +163,7 @@ export const EditableInntekt = ({
 
         const førsteFomErEtterFørstePeriodesFom: boolean = dayjs(
             refusjonsopplysninger?.[refusjonsopplysninger.length - 1]?.fom,
-            ISO_DATOFORMAT
+            ISO_DATOFORMAT,
         ).isAfter(førstePeriodeForSkjæringstidspunkt?.fom);
 
         const erGapIDatoer: boolean = refusjonsopplysninger?.some(
@@ -172,7 +172,7 @@ export const EditableInntekt = ({
                 const currentFom = dayjs(refusjonsopplysning.fom, ISO_DATOFORMAT);
                 const previousTom = dayjs(refusjonsopplysninger[index + 1]?.tom ?? '1970-01-01', ISO_DATOFORMAT);
                 return isNotLast && currentFom.subtract(1, 'day').diff(previousTom) !== 0;
-            }
+            },
         );
 
         const manglerRefusjonsopplysninger: boolean = refusjonsopplysninger.length === 0;
@@ -188,7 +188,7 @@ export const EditableInntekt = ({
                 type: 'custom',
                 message: `Tidligste fra og med dato for refusjon må være lik eller før ${dayjs(
                     førstePeriodeForSkjæringstidspunkt?.fom,
-                    ISO_DATOFORMAT
+                    ISO_DATOFORMAT,
                 ).format(NORSK_DATOFORMAT)}`,
             });
 

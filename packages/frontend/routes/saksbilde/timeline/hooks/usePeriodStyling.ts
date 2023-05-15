@@ -38,7 +38,7 @@ export const getPosition = (date: Dayjs, start: Dayjs, end: Dayjs): number => {
 export const usePeriodStyling = <T extends DatePeriod>(
     start: Dayjs,
     end: Dayjs,
-    periods: Array<T>
+    periods: Array<T>,
 ): Map<number, PeriodStyling> =>
     useMemo(() => {
         const map = new Map<number, PeriodStyling>();

@@ -9,7 +9,7 @@ dayjs.extend(minMax);
 
 export const getRequiredInntekt = (
     vilkårsgrunnlag: Vilkarsgrunnlag,
-    organisasjonsnummer: string
+    organisasjonsnummer: string,
 ): Arbeidsgiverinntekt =>
     vilkårsgrunnlag.inntekter.find((it) => it.arbeidsgiver === organisasjonsnummer) ??
     (() => {
@@ -18,24 +18,25 @@ export const getRequiredInntekt = (
 
 export const getInntektFraInntektsmelding = (
     grunnlag: Vilkarsgrunnlag,
-    organisasjonsnummer: string
+    organisasjonsnummer: string,
 ): Arbeidsgiverinntekt | null => {
     return (
         grunnlag.inntekter.find(
             (it) =>
                 it.arbeidsgiver === organisasjonsnummer &&
-                it.omregnetArsinntekt?.kilde === Inntektskilde.Inntektsmelding
+                it.omregnetArsinntekt?.kilde === Inntektskilde.Inntektsmelding,
         ) ?? null
     );
 };
 
 export const getInntektFraAOrdningen = (
     grunnlag: Vilkarsgrunnlag,
-    organisasjonsnummer: string
+    organisasjonsnummer: string,
 ): Arbeidsgiverinntekt | null => {
     return (
         grunnlag.inntekter.find(
-            (it) => it.arbeidsgiver === organisasjonsnummer && it.omregnetArsinntekt?.kilde === Inntektskilde.Aordningen
+            (it) =>
+                it.arbeidsgiver === organisasjonsnummer && it.omregnetArsinntekt?.kilde === Inntektskilde.Aordningen,
         ) ?? null
     );
 };
@@ -123,7 +124,7 @@ export const getOverstyringerForEksisterendePerioder = (person: FetchedPerson, a
                     perioder.filter(
                         (periode) =>
                             dayjs(overstyring.dager[0].dato).isSameOrAfter(periode.fom) &&
-                            dayjs(overstyring.dager[0].dato).isSameOrBefore(periode.tom)
+                            dayjs(overstyring.dager[0].dato).isSameOrBefore(periode.tom),
                     ).length !== 0
                 );
             } else if (isArbeidsforholdoverstyring(overstyring)) {
@@ -131,7 +132,7 @@ export const getOverstyringerForEksisterendePerioder = (person: FetchedPerson, a
                 return (
                     perioder.filter(
                         (periode) =>
-                            isGhostPeriode(periode) && periode.skjaeringstidspunkt === overstyring.skjaeringstidspunkt
+                            isGhostPeriode(periode) && periode.skjaeringstidspunkt === overstyring.skjaeringstidspunkt,
                     ).length !== 0
                 );
             }

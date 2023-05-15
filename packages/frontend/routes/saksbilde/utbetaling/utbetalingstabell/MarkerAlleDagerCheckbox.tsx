@@ -6,15 +6,15 @@ import { Checkbox } from '@navikt/ds-react';
 import styles from './MarkerAlleDagerCheckbox.module.css';
 
 const useOverstyrbareDager = (
-    alleDager: Map<DateString, UtbetalingstabellDag>
+    alleDager: Map<DateString, UtbetalingstabellDag>,
 ): Map<DateString, UtbetalingstabellDag> => {
     return useMemo(
         () =>
             Array.from(alleDager.entries()).reduce(
                 (dager, [key, dag]) => (!dag.erForeldet ? dager.set(key, dag) : dager),
-                new Map()
+                new Map(),
             ),
-        [alleDager]
+        [alleDager],
     );
 };
 

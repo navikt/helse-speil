@@ -38,7 +38,7 @@ export const useOppdaterPersondata = (): [forespørPersonoppdatering: () => Prom
     useEffect(() => {
         if (opptegnelser && polling) {
             const finnesOpptegnelseMedRiktigType = opptegnelser.find(
-                (opptegnelse) => opptegnelse.type === 'PERSONDATA_OPPDATERT'
+                (opptegnelse) => opptegnelse.type === 'PERSONDATA_OPPDATERT',
             );
 
             if (!finnesOpptegnelseMedRiktigType) {
@@ -67,7 +67,7 @@ export const useOppdaterPersondata = (): [forespørPersonoppdatering: () => Prom
             })
             .catch(() => {
                 addVarsel(
-                    new PersonoppdateringAlert('Personoppdatering feilet. Prøv igjen om litt.', { severity: 'error' })
+                    new PersonoppdateringAlert('Personoppdatering feilet. Prøv igjen om litt.', { severity: 'error' }),
                 );
             });
     };

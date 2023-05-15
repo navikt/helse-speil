@@ -55,7 +55,7 @@ const getDayTypesRender = (dayType: Utbetalingsdagtype, map: Map<Utbetalingsdagt
     }
     const antallDager = periods.reduce(
         (count, period) => count + dayjs(period.tom).diff(dayjs(period.fom), 'day') + 1,
-        0
+        0,
     );
     return `${antallDager} dager`;
 };

@@ -34,7 +34,7 @@ export const activePeriod = selector<ActivePeriod | null>({
                 (periode) =>
                     isBeregnetPeriode(periode) &&
                     periode.periodetilstand === Periodetilstand.TilGodkjenning &&
-                    typeof periode.oppgave?.id === 'string'
+                    typeof periode.oppgave?.id === 'string',
             ) ?? null;
 
         const periode = periodWithOppgave ?? allPeriods[0];

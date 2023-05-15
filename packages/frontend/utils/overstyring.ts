@@ -141,7 +141,7 @@ const validateOverlappendePerioderErTilRevurdering = (person: FetchedPerson, per
 
 export const kanOverstyreRevurdering = (
     person: FetchedPerson,
-    periode: FetchedBeregnetPeriode
+    periode: FetchedBeregnetPeriode,
 ): OverstyringValidation => {
     try {
         validateOverstyreUtbetaltPeriodeEnabled();

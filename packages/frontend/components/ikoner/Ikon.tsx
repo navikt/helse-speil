@@ -25,5 +25,5 @@ export const Ikon = React.forwardRef<SVGSVGElement, IkonProps>(
                 {children}
             </svg>
         );
-    }
+    },
 );

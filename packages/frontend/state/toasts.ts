@@ -1,5 +1,5 @@
 import { ReactNode } from 'react';
-import { atom, AtomEffect, useSetRecoilState } from 'recoil';
+import { AtomEffect, atom, useSetRecoilState } from 'recoil';
 
 export interface ToastObject {
     key: string;

@@ -28,7 +28,7 @@ type SettVarselstatusAktivParams = {
 };
 
 export const settVarselstatusVurdert = (
-    params: SettVarselstatusVurdertParams
+    params: SettVarselstatusVurdertParams,
 ): Promise<SettVarselstatusVurdertMutation> => {
     return request(baseUrl, settVarselstatusVurdertMutation, params);
 };

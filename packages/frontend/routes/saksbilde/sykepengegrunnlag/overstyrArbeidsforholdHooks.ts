@@ -21,7 +21,7 @@ type OverstyrtArbeidsforholdGetter = (
     begrunnelse: BegrunnelseForOverstyring,
     paragraf?: string,
     ledd?: string,
-    bokstav?: string
+    bokstav?: string,
 ) => OverstyrtArbeidsforholdDTO;
 
 export const useGetOverstyrtArbeidsforhold = (): OverstyrtArbeidsforholdGetter => {

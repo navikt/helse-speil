@@ -13,7 +13,7 @@ describe('TabLink', () => {
                 <TabLink title="Test" to="/et/eller/annet/sted">
                     Test
                 </TabLink>
-            </MemoryRouter>
+            </MemoryRouter>,
         );
         expect(screen.queryByText('Test')).toBeVisible();
         expect(screen.getByRole('link')).toBeVisible();
@@ -24,7 +24,7 @@ describe('TabLink', () => {
                 <TabLink title="Test" disabled>
                     Test
                 </TabLink>
-            </MemoryRouter>
+            </MemoryRouter>,
         );
         expect(screen.queryByText('Test')).toBeVisible();
         expect(screen.queryByRole('link')).toBeNull();

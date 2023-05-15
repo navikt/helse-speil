@@ -107,7 +107,7 @@ describe('useUvurderteVarslerpåEllerFør', () => {
                     getFetchedBeregnetPeriode('2017-12-01', '2017-12-31'),
                     getFetchedBeregnetPeriode('2018-01-01', '2018-01-31'),
                     getFetchedBeregnetPeriode('2018-02-01', '2018-02-28'),
-                ])
+                ]),
             ),
         ];
 
@@ -125,7 +125,7 @@ describe('useUvurderteVarslerpåEllerFør', () => {
                     getFetchedBeregnetPeriode('2017-12-01', '2017-12-31'),
                     getFetchedBeregnetPeriode('2018-01-01', '2018-01-31'),
                     getFetchedBeregnetPeriode('2018-02-01', '2018-02-28'),
-                ])
+                ]),
             ),
         ];
 
@@ -137,7 +137,7 @@ describe('useUvurderteVarslerpåEllerFør', () => {
         const period: FetchedBeregnetPeriode = getFetchedBeregnetPeriode(
             '2018-01-01',
             '2018-01-31',
-            getVarsel(Varselstatus.Aktiv)
+            getVarsel(Varselstatus.Aktiv),
         );
         const arbeidsgivere: Arbeidsgiver[] = [getArbeidsgiver('et orgnr', getGenerasjoner([period]))];
 
@@ -153,7 +153,7 @@ describe('useUvurderteVarslerpåEllerFør', () => {
                 getGenerasjoner([
                     period,
                     getFetchedBeregnetPeriode('2017-12-01', '2017-12-16', getVarsel(Varselstatus.Aktiv)),
-                ])
+                ]),
             ),
         ];
 
@@ -169,7 +169,7 @@ describe('useUvurderteVarslerpåEllerFør', () => {
                 getGenerasjoner([
                     activePeriod,
                     getFetchedBeregnetPeriode('2018-02-01', '2018-02-28', getVarsel(Varselstatus.Aktiv)),
-                ])
+                ]),
             ),
         ];
 
@@ -183,7 +183,7 @@ describe('useUvurderteVarslerpåEllerFør', () => {
             getArbeidsgiver('et orgnr', getGenerasjoner([activePeriod])),
             getArbeidsgiver(
                 'et annet orgnr',
-                getGenerasjoner([getFetchedBeregnetPeriode('2018-01-01', '2018-01-31', getVarsel(Varselstatus.Aktiv))])
+                getGenerasjoner([getFetchedBeregnetPeriode('2018-01-01', '2018-01-31', getVarsel(Varselstatus.Aktiv))]),
             ),
         ];
 
@@ -197,7 +197,7 @@ describe('useUvurderteVarslerpåEllerFør', () => {
             getArbeidsgiver('et orgnr', getGenerasjoner([activePeriod])),
             getArbeidsgiver(
                 'et annet orgnr',
-                getGenerasjoner([getFetchedBeregnetPeriode('2017-12-01', '2017-12-16', getVarsel(Varselstatus.Aktiv))])
+                getGenerasjoner([getFetchedBeregnetPeriode('2017-12-01', '2017-12-16', getVarsel(Varselstatus.Aktiv))]),
             ),
         ];
 
@@ -211,7 +211,7 @@ describe('useUvurderteVarslerpåEllerFør', () => {
             getArbeidsgiver('et orgnr', getGenerasjoner([activePeriod])),
             getArbeidsgiver(
                 'et annet orgnr',
-                getGenerasjoner([getFetchedBeregnetPeriode('2018-02-01', '2018-02-28', getVarsel(Varselstatus.Aktiv))])
+                getGenerasjoner([getFetchedBeregnetPeriode('2018-02-01', '2018-02-28', getVarsel(Varselstatus.Aktiv))]),
             ),
         ];
 

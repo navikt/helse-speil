@@ -34,7 +34,7 @@ const useStoreÅpnetTidspunkt = () => {
 const getEventProperties = (
     period: Maybe<Periode | GhostPeriode>,
     openedTimestamp: Dayjs,
-    reasons?: Array<string>
+    reasons?: Array<string>,
 ): Amplitude.EventProperties | Amplitude.EventPropertiesBeregnetPeriode => {
     if (isBeregnetPeriode(period)) {
         return {
@@ -67,7 +67,7 @@ const useLogEvent = (): ((event: Amplitude.LogEvent, begrunnelser?: Array<string
                     .logEvent(
                         event,
                         getEventProperties(activePeriod, åpnetTidspunkt, begrunnelser),
-                        logEventCallback(oppgavereferanse)
+                        logEventCallback(oppgavereferanse),
                     );
         }
     };

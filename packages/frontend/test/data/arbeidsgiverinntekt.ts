@@ -16,7 +16,7 @@ const inntekterFraAOrdningen = (start: DateString): Array<InntektFraAOrdningen> 
 
 type OmregnetArsinntektExtensions = {
     medInntektFraAordningen: (
-        inntekt?: Array<InntektFraAOrdningen>
+        inntekt?: Array<InntektFraAOrdningen>,
     ) => OmregnetArsinntekt & OmregnetArsinntektExtensions;
 };
 
@@ -38,12 +38,12 @@ const enOmregnetÅrsinntekt: OverridableConstructor<OmregnetArsinntekt, Omregnet
 
 type ArbeidsgiverinntektExtensions = {
     medInntektFraAOrdningen: (
-        inntekt?: Array<InntektFraAOrdningen>
+        inntekt?: Array<InntektFraAOrdningen>,
     ) => Arbeidsgiverinntekt & ArbeidsgiverinntektExtensions;
 };
 
 export const enArbeidsgiverinntekt: OverridableConstructor<Arbeidsgiverinntekt, ArbeidsgiverinntektExtensions> = (
-    overrides
+    overrides,
 ) => ({
     arbeidsgiver: '987654321',
     deaktivert: false,

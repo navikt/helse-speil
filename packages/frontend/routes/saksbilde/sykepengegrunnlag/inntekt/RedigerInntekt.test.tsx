@@ -64,7 +64,7 @@ describe('kanRedigereInntekt', () => {
         const person = enPerson().medArbeidsgivere([arbeidsgiver]);
 
         expect(kanRedigereInntektEllerRefusjon(person as unknown as FetchedPerson, arbeidsgiver, periode)).toEqual(
-            false
+            false,
         );
     });
 
@@ -81,7 +81,7 @@ describe('kanRedigereInntekt', () => {
         const person = enPerson({ vilkarsgrunnlag: [vilkårsgrunnlag] }).medArbeidsgivere([arbeidsgiver]);
 
         expect(kanRedigereInntektEllerRefusjon(person as unknown as FetchedPerson, arbeidsgiver, periode)).toEqual(
-            true
+            true,
         );
     });
 
@@ -95,13 +95,13 @@ describe('kanRedigereInntekt', () => {
             vilkarsgrunnlagId: id,
         });
         const periodeB = enBeregnetPeriode({ periodetilstand: Periodetilstand.TilGodkjenning, oppgave }).medUtbetaling(
-            enUtbetaling({ arbeidsgiverFagsystemId: nanoid() })
+            enUtbetaling({ arbeidsgiverFagsystemId: nanoid() }),
         );
         const arbeidsgiver = enArbeidsgiver().medPerioder([periodeA, periodeB]);
         const person = enPerson({ vilkarsgrunnlag: [vilkårsgrunnlag] }).medArbeidsgivere([arbeidsgiver]);
 
         expect(kanRedigereInntektEllerRefusjon(person as unknown as FetchedPerson, arbeidsgiver, periodeA)).toEqual(
-            false
+            false,
         );
     });
 });

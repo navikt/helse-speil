@@ -25,8 +25,8 @@ it('rendrer alle headere', () => {
 
     expect(
         screen.getByText(
-            (content, element) => element?.tagName.toLowerCase() === 'button' && content.startsWith('Tildelt')
-        )
+            (content, element) => element?.tagName.toLowerCase() === 'button' && content.startsWith('Tildelt'),
+        ),
     ).toBeVisible();
     expect(screen.getByText('Saksbehandler')).toBeVisible();
     expect(screen.getAllByText(/Periodetype/)).toHaveLength(2);

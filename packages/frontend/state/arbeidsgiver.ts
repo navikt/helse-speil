@@ -32,7 +32,7 @@ import { useDagoverstyringer } from '../routes/saksbilde/utbetaling/Utbetaling';
 
 export const findArbeidsgiverWithGhostPeriode = (
     period: GhostPeriode,
-    arbeidsgivere: Array<Arbeidsgiver>
+    arbeidsgivere: Array<Arbeidsgiver>,
 ): Maybe<Arbeidsgiver> => {
     return (
         arbeidsgivere.find((arbeidsgiver) => arbeidsgiver.ghostPerioder.find((periode) => periode.id === period.id)) ??
@@ -42,14 +42,14 @@ export const findArbeidsgiverWithGhostPeriode = (
 
 export const findArbeidsgiverWithPeriode = (
     period: FetchedBeregnetPeriode | UberegnetPeriode,
-    arbeidsgivere: Array<Arbeidsgiver>
+    arbeidsgivere: Array<Arbeidsgiver>,
 ): Arbeidsgiver | null => {
     return (
         arbeidsgivere.find((arbeidsgiver) =>
             arbeidsgiver.generasjoner
                 .flatMap((generasjon) => generasjon.perioder)
                 .filter((periode): periode is UberegnetPeriode | BeregnetPeriode => (periode as any).id)
-                .find((periode: UberegnetPeriode | BeregnetPeriode) => periode.id === period.id)
+                .find((periode: UberegnetPeriode | BeregnetPeriode) => periode.id === period.id),
         ) ?? null
     );
 };
@@ -94,15 +94,15 @@ export const usePeriodIsInGeneration = (): number | null => {
     }
 
     return arbeidsgiver.generasjoner.findIndex((it) =>
-        it.perioder.some((periode) => isBeregnetPeriode(periode) && periode.id === period.id)
+        it.perioder.some((periode) => isBeregnetPeriode(periode) && periode.id === period.id),
     );
 };
 
 export const usePeriodeErIGenerasjon = (arbeidsgiver: Arbeidsgiver | null, periodeId: string): number | null =>
     arbeidsgiver?.generasjoner.findIndex((it) =>
         it.perioder.some(
-            (periode) => (isBeregnetPeriode(periode) || isUberegnetPeriode(periode)) && periode.id === periodeId
-        )
+            (periode) => (isBeregnetPeriode(periode) || isUberegnetPeriode(periode)) && periode.id === periodeId,
+        ),
     ) ?? null;
 
 const usePeriodeTilGodkjenning = (): BeregnetPeriode | null => {
@@ -114,14 +114,14 @@ const usePeriodeTilGodkjenning = (): BeregnetPeriode | null => {
         (person.arbeidsgivere
             .flatMap((arbeidsgiver) => arbeidsgiver.generasjoner[0]?.perioder)
             .filter(
-                (periode) => isBeregnetPeriode(periode) && periode.periodetilstand === 'TilGodkjenning'
+                (periode) => isBeregnetPeriode(periode) && periode.periodetilstand === 'TilGodkjenning',
             )?.[0] as BeregnetPeriode) ?? null
     );
 };
 
 export const usePeriodForSkjæringstidspunktForArbeidsgiver = (
     skjæringstidspunkt: DateString | null,
-    organisasjonsnummer: string
+    organisasjonsnummer: string,
 ): ActivePeriod | null => {
     const arbeidsgiver = useArbeidsgiver(organisasjonsnummer);
     const aktivPeriodeErIgenerasjon = usePeriodIsInGeneration();
@@ -136,7 +136,7 @@ export const usePeriodForSkjæringstidspunktForArbeidsgiver = (
         arbeidsgiver?.ghostPerioder.filter((it) => it.skjaeringstidspunkt === skjæringstidspunkt) ?? [];
     const arbeidsgiverPerioder =
         arbeidsgiver?.generasjoner[generasjon]?.perioder.filter(
-            (it) => it.skjaeringstidspunkt === skjæringstidspunkt
+            (it) => it.skjaeringstidspunkt === skjæringstidspunkt,
         ) ?? [];
 
     if (arbeidsgiverPerioder.length === 0 && arbeidsgiverGhostPerioder.length === 0) {
@@ -189,7 +189,7 @@ export const useUtbetalingForSkjæringstidspunkt = (skjæringstidspunkt: DateStr
 
 export const useFinnesNyereUtbetaltPeriodePåPerson = (
     period: FetchedBeregnetPeriode,
-    person: FetchedPerson
+    person: FetchedPerson,
 ): boolean => {
     const nyesteUtbetaltPeriodePåPerson = person.arbeidsgivere
         .flatMap((it) => it.generasjoner[0]?.perioder)
@@ -257,7 +257,7 @@ export const useHarDagOverstyringer = (periode: FetchedBeregnetPeriode): boolean
 
 export const useLokaleRefusjonsopplysninger = (
     organisasjonsnummer: string,
-    skjæringstidspunkt: string
+    skjæringstidspunkt: string,
 ): Refusjonsopplysning[] => {
     const [lokaleInntektoverstyringer, _] = useRecoilState(inntektOgRefusjonState);
 
@@ -299,14 +299,15 @@ export const useGjenståendeDager = (periode: BeregnetPeriode | UberegnetPeriode
     const sisteBeregnedePeriodeISykefraværstilfellet = arbeidsgiver?.generasjoner[
         periodeErIGenerasjon
     ]?.perioder.filter(
-        (it) => isBeregnetPeriode(it) && it.skjaeringstidspunkt === periode.skjaeringstidspunkt && it.maksdato
+        (it) => isBeregnetPeriode(it) && it.skjaeringstidspunkt === periode.skjaeringstidspunkt && it.maksdato,
     )[0] as BeregnetPeriode;
 
     if (!sisteBeregnedePeriodeISykefraværstilfellet) return null;
 
     const antallNavdagerEtterAktivPeriode = navdager(person.arbeidsgivere, periodeErIGenerasjon).filter(
         (dag) =>
-            dayjs(dag).isAfter(periode.tom) && dayjs(dag).isSameOrBefore(sisteBeregnedePeriodeISykefraværstilfellet.tom)
+            dayjs(dag).isAfter(periode.tom) &&
+            dayjs(dag).isSameOrBefore(sisteBeregnedePeriodeISykefraværstilfellet.tom),
     ).length;
 
     return (sisteBeregnedePeriodeISykefraværstilfellet?.gjenstaendeSykedager ?? 0) + antallNavdagerEtterAktivPeriode;
@@ -316,7 +317,7 @@ const navdager = (arbeidsgivere: Array<Arbeidsgiver>, periodeErIGenerasjon: numb
     if (periodeErIGenerasjon === null || periodeErIGenerasjon === -1) return [];
     const alleNavdager = [
         ...arbeidsgivere.flatMap(
-            (it) => it.generasjoner[periodeErIGenerasjon]?.perioder?.flatMap((periode) => periode.tidslinje) ?? []
+            (it) => it.generasjoner[periodeErIGenerasjon]?.perioder?.flatMap((periode) => periode.tidslinje) ?? [],
         ),
     ].filter((dag) => dag.utbetalingsdagtype === 'NAVDAG');
 

@@ -32,7 +32,7 @@ export const inntektOgRefusjonState = atom<OverstyrtInntektOgRefusjon>({
 export const usePostOverstyrtInntekt = (
     onFerdigKalkulert: () => void,
     showSlettLokaleOverstyringerModal: boolean,
-    setShowSlettLokaleOverstyringerModal: (data: boolean) => void
+    setShowSlettLokaleOverstyringerModal: (data: boolean) => void,
 ) => {
     const person = useCurrentPerson();
 
@@ -121,12 +121,12 @@ export const usePostOverstyrtInntekt = (
                     arbeidsgivereLagretPåSkjæringstidspunkt.length === 0
                         ? [overstyrtArbeidsgiverRetyped]
                         : arbeidsgivereLagretPåSkjæringstidspunkt.filter(
-                              (it) => it.organisasjonsnummer === organisasjonsnummer
+                              (it) => it.organisasjonsnummer === organisasjonsnummer,
                           ).length === 0
                         ? [...arbeidsgivereLagretPåSkjæringstidspunkt, overstyrtArbeidsgiverRetyped]
                         : [
                               ...arbeidsgivereLagretPåSkjæringstidspunkt.filter(
-                                  (it) => it.organisasjonsnummer !== organisasjonsnummer
+                                  (it) => it.organisasjonsnummer !== organisasjonsnummer,
                               ),
                               overstyrtArbeidsgiverRetyped,
                           ],
@@ -146,7 +146,7 @@ type OverstyrtInntektMetadata = {
 
 export const useOverstyrtInntektMetadata = (
     skjæringstidspunkt: DateString,
-    organisasjonsnummer: string
+    organisasjonsnummer: string,
 ): OverstyrtInntektMetadata => {
     const person = useCurrentPerson();
     const period = usePeriodForSkjæringstidspunktForArbeidsgiver(skjæringstidspunkt, organisasjonsnummer);
@@ -159,12 +159,12 @@ export const useOverstyrtInntektMetadata = (
     const vilkårsgrunnlagRefusjonsopplysninger: Arbeidsgiverrefusjon = person.vilkarsgrunnlag
         .filter((it) => it.id === period.vilkarsgrunnlagId)[0]
         .arbeidsgiverrefusjoner.filter(
-            (arbeidsgiverrefusjon) => arbeidsgiverrefusjon.arbeidsgiver === arbeidsgiver.organisasjonsnummer
+            (arbeidsgiverrefusjon) => arbeidsgiverrefusjon.arbeidsgiver === arbeidsgiver.organisasjonsnummer,
         )[0];
 
     const refusjonsopplysninger = mapOgSorterRefusjoner(
         period,
-        vilkårsgrunnlagRefusjonsopplysninger?.refusjonsopplysninger
+        vilkårsgrunnlagRefusjonsopplysninger?.refusjonsopplysninger,
     );
 
     return {

@@ -209,7 +209,7 @@ const OverstyrArbeidsforholdSkjema = ({
             skjæringstidspunkt,
             true,
             forklaring,
-            begrunnelse
+            begrunnelse,
         );
         onSubmit();
         postOverstyring(overstyrtArbeidsforhold);

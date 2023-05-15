@@ -85,7 +85,7 @@ export const Clipboard = ({ children, copySource, preserveWhitespace = true, cop
             setDidCopy(
                 copySource?.current
                     ? await copyContentsToClipboard(copySource.current, preserveWhitespace)
-                    : await copyContentsToClipboard(contentRef?.current?.firstChild as HTMLElement, preserveWhitespace)
+                    : await copyContentsToClipboard(contentRef?.current?.firstChild as HTMLElement, preserveWhitespace),
             );
         }
     };

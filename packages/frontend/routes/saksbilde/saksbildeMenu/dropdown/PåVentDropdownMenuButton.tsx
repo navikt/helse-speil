@@ -38,7 +38,7 @@ export const PåVentDropdownMenuButton = ({
             leggPåVentMedNotat(oppgavereferanse, { tekst: notattekst, type: 'PaaVent' }).then(() => {
                 history.push('/');
             }),
-            errorHandler
+            errorHandler,
         );
     };
 
@@ -48,7 +48,7 @@ export const PåVentDropdownMenuButton = ({
             fjernPåVent(oppgavereferanse).finally(() => {
                 setIsFetching(false);
             }),
-            errorHandler
+            errorHandler,
         );
     };
 

@@ -36,7 +36,7 @@ const InntektContainer: React.FC<InntektContainerProps> = ({ inntekt }) => {
     const period = useActivePeriod();
     const periodeForSkjæringstidspunktForArbeidsgiver = usePeriodForSkjæringstidspunktForArbeidsgiver(
         period?.skjaeringstidspunkt ?? null,
-        inntekt.arbeidsgiver
+        inntekt.arbeidsgiver,
     );
     const arbeidsgiver = useArbeidsgiver(inntekt.arbeidsgiver);
 
@@ -44,7 +44,7 @@ const InntektContainer: React.FC<InntektContainerProps> = ({ inntekt }) => {
     const arbeidsgiverrefusjon =
         vilkårsgrunnlag && isBeregnetPeriode(periodeForSkjæringstidspunktForArbeidsgiver)
             ? vilkårsgrunnlag.arbeidsgiverrefusjoner.find(
-                  (arbeidsgiverrefusjon) => arbeidsgiverrefusjon.arbeidsgiver === arbeidsgiver?.organisasjonsnummer
+                  (arbeidsgiverrefusjon) => arbeidsgiverrefusjon.arbeidsgiver === arbeidsgiver?.organisasjonsnummer,
               )
             : null;
 
@@ -60,12 +60,12 @@ const InntektContainer: React.FC<InntektContainerProps> = ({ inntekt }) => {
 
     const arbeidsgiverHarSykefraværForPerioden = hasSykefravær(
         arbeidsgiver,
-        periodeForSkjæringstidspunktForArbeidsgiver.fom
+        periodeForSkjæringstidspunktForArbeidsgiver.fom,
     );
 
     const refusjonsopplysninger = mapOgSorterRefusjoner(
         periodeForSkjæringstidspunktForArbeidsgiver,
-        arbeidsgiverrefusjon?.refusjonsopplysninger
+        arbeidsgiverrefusjon?.refusjonsopplysninger,
     );
 
     return (
@@ -113,7 +113,7 @@ export const Inntekt: React.FC<InntektProps> = ({ inntekt }) => {
 
 export const mapOgSorterRefusjoner = (
     period: ActivePeriod,
-    refusjonselementer?: Refusjonselement[]
+    refusjonselementer?: Refusjonselement[],
 ): Refusjonsopplysning[] => {
     const hendelseIderForInntektsmelding: string[] = isBeregnetPeriode(period)
         ? period.hendelser

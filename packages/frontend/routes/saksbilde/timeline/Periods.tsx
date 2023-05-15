@@ -34,7 +34,7 @@ const isActive = (activePeriod: Periode, currentPeriod: Periode): boolean => {
 const mergePeriods = (
     fromSpleis: Array<Periode>,
     fromInfotrygd: Array<InfotrygdPeriod>,
-    ghostPeriods: Array<GhostPeriode>
+    ghostPeriods: Array<GhostPeriode>,
 ): Array<TimelinePeriod> => {
     const periodsFromSpleis = filterReadyPeriods(fromSpleis);
     return [...periodsFromSpleis, ...fromInfotrygd, ...ghostPeriods].sort(byFomAscending);

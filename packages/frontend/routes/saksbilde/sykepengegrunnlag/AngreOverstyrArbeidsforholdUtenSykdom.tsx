@@ -50,7 +50,7 @@ export const AngreOverstyrArbeidsforholdUtenSykdom = ({
         skjæringstidspunkt,
         false,
         'Saksbehandler angret å deaktivere arbeidsforholdet i beregningen',
-        begrunnelse
+        begrunnelse,
     );
     return (
         <>

@@ -13,7 +13,7 @@ describe('GradCell', () => {
             <GradCell
                 dag={getUtbetalingstabellDag({ grad: 100 })}
                 overstyrtDag={getUtbetalingstabellDag({ grad: 0 })}
-            />
+            />,
         );
         const indikator = screen.getByTestId('infotrekant');
         expect(indikator).toBeVisible();

@@ -135,7 +135,7 @@ export const NyttNotatModal = ({
                         setIsFetching(false);
                         onClose({} as React.SyntheticEvent);
                     }),
-                errorHandler
+                errorHandler,
             );
         }
     };

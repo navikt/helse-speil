@@ -8,7 +8,7 @@ import {
     useOpptegnelserPollingRate,
 } from '@state/opptegnelser';
 
-import { getOpptegnelser, SpeilResponse } from './http';
+import { SpeilResponse, getOpptegnelser } from './http';
 
 export const usePollEtterOpptegnelser = () => {
     const setOpptegnelser = useSetRecoilState(nyesteOpptegnelserState);

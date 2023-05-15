@@ -41,7 +41,7 @@ const tilOverstyrtDagtype = (type: Utbetalingstabelldagtype): OverstyrtDagtype =
 
 const tilOverstyrteDager = (
     dager: Array<UtbetalingstabellDag>,
-    overstyrteDager: Array<UtbetalingstabellDag>
+    overstyrteDager: Array<UtbetalingstabellDag>,
 ): OverstyrtDagDTO[] =>
     overstyrteDager.map((overstyrtDag) => {
         const fraDag = dager.find((fraDag) => fraDag.dato === overstyrtDag.dato);
@@ -62,7 +62,7 @@ type UsePostOverstyringResult = {
         dager: Array<UtbetalingstabellDag>,
         overstyrteDager: Array<UtbetalingstabellDag>,
         begrunnelse: string,
-        callback?: () => void
+        callback?: () => void,
     ) => Promise<void>;
     state: UsePostOverstyringState;
     error?: string;
@@ -108,7 +108,7 @@ export const usePostOverstyring = (): UsePostOverstyringResult => {
         dager: Array<UtbetalingstabellDag>,
         overstyrteDager: Array<UtbetalingstabellDag>,
         begrunnelse: string,
-        callback?: () => void
+        callback?: () => void,
     ): Promise<void> => {
         const overstyring = {
             aktørId: person.aktorId,

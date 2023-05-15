@@ -35,7 +35,7 @@ export const Refusjon = ({ fraRefusjonsopplysninger, lokaleRefusjonsopplysninger
 
     useEffect(() => {
         replaceRefusjonsopplysninger(
-            lokaleRefusjonsopplysninger.length > 0 ? lokaleRefusjonsopplysninger : fraRefusjonsopplysninger
+            lokaleRefusjonsopplysninger.length > 0 ? lokaleRefusjonsopplysninger : fraRefusjonsopplysninger,
         );
     }, []);
 
@@ -72,7 +72,7 @@ export const Refusjon = ({ fraRefusjonsopplysninger, lokaleRefusjonsopplysninger
                                 date ? dayjs(date).format(ISO_DATOFORMAT) : refusjonsopplysning.fom,
                                 refusjonsopplysning?.tom ?? null,
                                 refusjonsopplysning.beløp,
-                                index
+                                index,
                             );
                         }}
                     >
@@ -108,7 +108,7 @@ export const Refusjon = ({ fraRefusjonsopplysninger, lokaleRefusjonsopplysninger
                                             nyFom,
                                             refusjonsopplysning?.tom ?? null,
                                             refusjonsopplysning.beløp,
-                                            index
+                                            index,
                                         );
                                     }}
                                     defaultValue={
@@ -142,7 +142,7 @@ export const Refusjon = ({ fraRefusjonsopplysninger, lokaleRefusjonsopplysninger
                                 refusjonsopplysning?.fom ?? null,
                                 date ? dayjs(date).format(ISO_DATOFORMAT) : refusjonsopplysning?.tom ?? null,
                                 refusjonsopplysning.beløp,
-                                index
+                                index,
                             );
                         }}
                     >
@@ -181,7 +181,7 @@ export const Refusjon = ({ fraRefusjonsopplysninger, lokaleRefusjonsopplysninger
                                             refusjonsopplysning?.fom ?? null,
                                             nyTom,
                                             refusjonsopplysning.beløp,
-                                            index
+                                            index,
                                         );
                                     }}
                                     defaultValue={
@@ -223,7 +223,7 @@ export const Refusjon = ({ fraRefusjonsopplysninger, lokaleRefusjonsopplysninger
                                         refusjonsopplysning.fom,
                                         refusjonsopplysning?.tom ?? null,
                                         Number(event.target.value),
-                                        index
+                                        index,
                                     );
                                 }}
                                 defaultValue={
@@ -313,14 +313,14 @@ function useRefusjonFormField() {
             refusjonsopplysninger
                 .sort(
                     (a: Refusjonsopplysning, b: Refusjonsopplysning) =>
-                        new Date(b.fom).getTime() - new Date(a.fom).getTime()
+                        new Date(b.fom).getTime() - new Date(a.fom).getTime(),
                 )
                 .map((refusjonsopplysning) => {
                     return {
                         ...refusjonsopplysning,
                         beløp: Math.round((refusjonsopplysning.beløp + Number.EPSILON) * 100) / 100,
                     };
-                })
+                }),
         );
     };
 
@@ -329,7 +329,7 @@ function useRefusjonFormField() {
         tom: Maybe<string>,
         beløp: number,
         index: number,
-        kilde = Kildetype.Saksbehandler
+        kilde = Kildetype.Saksbehandler,
     ) => {
         update(index, { fom, tom, beløp, kilde });
     };

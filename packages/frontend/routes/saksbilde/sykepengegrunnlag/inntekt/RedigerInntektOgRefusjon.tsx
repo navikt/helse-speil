@@ -12,7 +12,7 @@ import { isBeregnetPeriode } from '@utils/typeguards';
 
 export const perioderMedSkjæringstidspunktHarMaksÉnFagsystemId = (
     arbeidsgiver: Arbeidsgiver,
-    skjæringstidspunkt: DateString
+    skjæringstidspunkt: DateString,
 ): boolean => {
     return (
         arbeidsgiver.generasjoner[0]?.perioder
@@ -30,7 +30,7 @@ export const harVilkårsgrunnlagFraSpleis = (person: FetchedPerson, grunnlagId: 
 export const kanRedigereInntektEllerRefusjon = (
     person: FetchedPerson,
     arbeidsgiver: Arbeidsgiver,
-    periode: FetchedBeregnetPeriode
+    periode: FetchedBeregnetPeriode,
 ): boolean => {
     return (
         !isWaiting(periode) &&
@@ -58,7 +58,7 @@ export const RedigerInntektOgRefusjon = ({
     const person = useCurrentPerson() as FetchedPerson;
     const periode = usePeriodForSkjæringstidspunktForArbeidsgiver(
         skjæringstidspunkt,
-        organisasjonsnummer
+        organisasjonsnummer,
     ) as BeregnetPeriode;
 
     if (!isInCurrentGeneration(periode, arbeidsgiver)) return null;

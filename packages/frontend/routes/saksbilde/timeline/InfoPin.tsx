@@ -12,8 +12,8 @@ const shouldShowInfoPin = (period: DatePeriod): boolean => {
     return period.tidslinje.some(
         (dag) =>
             ![Utbetalingsdagtype.Helgedag, Utbetalingsdagtype.Navdag, Utbetalingsdagtype.Navhelgdag].includes(
-                dag.utbetalingsdagtype
-            ) || [Sykdomsdagtype.Permisjonsdag].includes(dag.sykdomsdagtype)
+                dag.utbetalingsdagtype,
+            ) || [Sykdomsdagtype.Permisjonsdag].includes(dag.sykdomsdagtype),
     );
 };
 

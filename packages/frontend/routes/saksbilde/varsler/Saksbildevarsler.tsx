@@ -93,7 +93,7 @@ const beslutteroppgave = (
     harVurderLovvalgOgMedlemskapVarsel: boolean = false,
     endringerEtterNyesteUtbetalingPåPerson?: Maybe<Array<Overstyring>>,
     harDagOverstyringer: boolean = false,
-    activePeriodTom?: string
+    activePeriodTom?: string,
 ) => {
     if (erBeslutteroppgave && ['tilGodkjenning', 'revurderes'].includes(periodState)) {
         const årsaker = [];
@@ -161,7 +161,7 @@ export const Saksbildevarsler = ({
             harVurderLovvalgOgMedlemskapVarsel,
             endringerEtterNyesteUtbetalingPåPerson,
             harDagOverstyringer,
-            activePeriodTom
+            activePeriodTom,
         ),
     ].filter((it) => it) as VarselObject[];
 

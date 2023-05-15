@@ -16,5 +16,5 @@ export const AnonymizableContainer: OverridableComponent<ContainerProps, HTMLDiv
                 {children}
             </Component>
         );
-    }
+    },
 );

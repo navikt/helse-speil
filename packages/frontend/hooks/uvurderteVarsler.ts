@@ -15,13 +15,13 @@ export const useUvurderteVarslerPåPeriode = (periode: FetchedBeregnetPeriode | 
         .filter((varsel) => !varsel.kode.startsWith('SB_BO_'))
         .some(
             (varsel) =>
-                varsel.vurdering?.status !== Varselstatus.Vurdert && varsel.vurdering?.status !== Varselstatus.Godkjent
+                varsel.vurdering?.status !== Varselstatus.Vurdert && varsel.vurdering?.status !== Varselstatus.Godkjent,
         );
 };
 
 export const useHarUvurderteVarslerPåEllerFør = (
     activePeriod: FetchedBeregnetPeriode,
-    arbeidsgivere: Arbeidsgiver[]
+    arbeidsgivere: Arbeidsgiver[],
 ): boolean => {
     return arbeidsgivere
         .filter((arbeidsgivere) => arbeidsgivere.generasjoner.length > 0)
@@ -34,7 +34,7 @@ export const useHarUvurderteVarslerPåEllerFør = (
                 .some(
                     (varsel) =>
                         varsel.vurdering?.status !== Varselstatus.Vurdert &&
-                        varsel.vurdering?.status !== Varselstatus.Godkjent
+                        varsel.vurdering?.status !== Varselstatus.Godkjent,
                 );
         });
 };

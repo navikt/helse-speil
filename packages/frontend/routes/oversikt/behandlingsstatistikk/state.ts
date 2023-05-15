@@ -1,4 +1,4 @@
-import { atom, AtomEffect, useRecoilValue, useSetRecoilState } from 'recoil';
+import { AtomEffect, atom, useRecoilValue, useSetRecoilState } from 'recoil';
 
 const syncWithLocalStorageEffect: AtomEffect<boolean> = ({ onSet, setSelf }) => {
     const key = 'showStatistikk';

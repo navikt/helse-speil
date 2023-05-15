@@ -30,7 +30,7 @@ export const Feiloppsummering = ({ feiloppsummeringRef, errors }: Feiloppsummeri
                                     refusjonserror !== undefined &&
                                     (typeof refusjonserror?.fom === 'object' ||
                                         typeof refusjonserror?.tom === 'object' ||
-                                        typeof refusjonserror?.beløp === 'object')
+                                        typeof refusjonserror?.beløp === 'object'),
                             )
                             ?.map(([_, refusjonserror]) => {
                                 return Object.entries(refusjonserror)?.map(
@@ -42,7 +42,7 @@ export const Feiloppsummering = ({ feiloppsummeringRef, errors }: Feiloppsummeri
                                                 </ErrorSummary.Item>
                                             );
                                         } else return undefined;
-                                    }
+                                    },
                                 );
                             });
                     }

@@ -60,7 +60,7 @@ const TimelineWithContent: React.FC<TimelineWithContentProps> = React.memo(
 
         const infotrygdPeriods = useInfotrygdPeriods(infotrygdutbetalinger);
         const harArbeidsgiverMedFlereGenerasjoner = arbeidsgivere.some(
-            (arbeidsgiver) => arbeidsgiver.generasjoner.length > 1
+            (arbeidsgiver) => arbeidsgiver.generasjoner.length > 1,
         );
 
         return (
@@ -118,7 +118,7 @@ const TimelineWithContent: React.FC<TimelineWithContentProps> = React.memo(
                 </div>
             </div>
         );
-    }
+    },
 );
 
 const TimelineContainer: React.FC = () => {

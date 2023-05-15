@@ -127,7 +127,7 @@ export const useRefetchFerdigstilteOppgaver = () => {
         if (ident && oid) {
             setBehandledeOppgaver((prevState) => ({ ...prevState, state: 'isLoading' }));
             fetchBehandledeOppgaver({ oid, ident, fom: dayjs().format(ISO_DATOFORMAT) }).then((response) =>
-                setBehandledeOppgaver({ data: response.behandledeOppgaver, state: 'hasValue' })
+                setBehandledeOppgaver({ data: response.behandledeOppgaver, state: 'hasValue' }),
             );
         }
     };

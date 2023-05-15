@@ -22,7 +22,7 @@ const totrinnsvurderingState = atom<TotrinnsvurderingState>({
 
 export const useTotrinnsvurdering = (): [
     value: TotrinnsvurderingState,
-    toggle: (property: keyof TotrinnsvurderingState) => () => void
+    toggle: (property: keyof TotrinnsvurderingState) => () => void,
 ] => {
     const [totrinnsvurdering, setTotrinnsvurdering] = useRecoilState(totrinnsvurderingState);
 

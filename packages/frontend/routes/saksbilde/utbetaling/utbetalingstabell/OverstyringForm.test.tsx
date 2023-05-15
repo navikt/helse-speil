@@ -31,7 +31,7 @@ describe('OverstyringForm', () => {
             <OverstyringForm overstyrteDager={overstyrteDager} toggleOverstyring={() => null} onSubmit={() => null} />,
             {
                 wrapper: FormWrapper,
-            }
+            },
         );
 
         expect(screen.getAllByRole('button')[0]).not.toBeDisabled();

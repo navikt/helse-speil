@@ -27,7 +27,7 @@ describe('ProtectedRoute', () => {
             <ProtectedRoute>
                 <span>Denne skal ikke være synlig</span>
             </ProtectedRoute>,
-            { wrapper: MemoryRouter }
+            { wrapper: MemoryRouter },
         );
         expect(screen.queryByText('Denne skal ikke være synlig')).toBeNull();
     });
@@ -44,7 +44,7 @@ describe('ProtectedRoute', () => {
             <ProtectedRoute>
                 <span>Denne skal være synlig</span>
             </ProtectedRoute>,
-            { wrapper: RecoilAndRouterWrapper }
+            { wrapper: RecoilAndRouterWrapper },
         );
         expect(screen.queryByText('Denne skal være synlig')).toBeVisible();
     });

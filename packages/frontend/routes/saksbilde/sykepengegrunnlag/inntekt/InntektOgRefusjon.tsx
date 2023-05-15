@@ -57,14 +57,14 @@ const maybePeriodeTilGodkjenning = (person: FetchedPerson, skjæringstidspunkt: 
                 .filter(isBeregnetPeriode) as unknown as Array<BeregnetPeriode>
         ).find(
             (it) =>
-                it.periodetilstand === Periodetilstand.TilGodkjenning && it.skjaeringstidspunkt === skjæringstidspunkt
+                it.periodetilstand === Periodetilstand.TilGodkjenning && it.skjaeringstidspunkt === skjæringstidspunkt,
         ) ?? null
     );
 };
 
 const maybePeriodeForSkjæringstidspunkt = (
     person: FetchedPerson,
-    skjæringstidspunkt: DateString
+    skjæringstidspunkt: DateString,
 ): Maybe<BeregnetPeriode> => {
     return (
         (
@@ -87,7 +87,7 @@ export const harIngenUtbetaltePerioderFor = (person: FetchedPerson, skjæringsti
                     Periodetilstand.VenterPaEnAnnenPeriode,
                     Periodetilstand.ForberederGodkjenning,
                     Periodetilstand.ManglerInformasjon,
-                ].includes(it.periodetilstand)
+                ].includes(it.periodetilstand),
             ) ?? false
     );
 };
@@ -98,7 +98,7 @@ export const harPeriodeTilBeslutterFor = (person: FetchedPerson, skjæringstidsp
             person?.arbeidsgivere
                 .flatMap((it) => it.generasjoner[0]?.perioder)
                 .filter(
-                    (it) => isBeregnetPeriode(it) && it.skjaeringstidspunkt === skjæringstidspunkt
+                    (it) => isBeregnetPeriode(it) && it.skjaeringstidspunkt === skjæringstidspunkt,
                 ) as unknown as Array<BeregnetPeriode>
         ).some((it) => it.totrinnsvurdering?.erBeslutteroppgave) ?? false
     );
@@ -107,18 +107,18 @@ export const harPeriodeTilBeslutterFor = (person: FetchedPerson, skjæringstidsp
 const harIngenBeregnedePerioder = (arbeidsgiver: Arbeidsgiver, skjæringstidspunkt: DateString): boolean =>
     (
         arbeidsgiver?.generasjoner[0]?.perioder.filter(
-            (it) => it.skjaeringstidspunkt === skjæringstidspunkt && isBeregnetPeriode(it)
+            (it) => it.skjaeringstidspunkt === skjæringstidspunkt && isBeregnetPeriode(it),
         ) ?? []
     ).length === 0;
 
 const harIngenEtterfølgendePerioder = (
     arbeidsgiver: Arbeidsgiver,
     skjæringstidspunkt: DateString,
-    fom: DateString
+    fom: DateString,
 ): boolean =>
     (
         arbeidsgiver?.generasjoner[0]?.perioder.filter(
-            (it) => it.skjaeringstidspunkt === skjæringstidspunkt && dayjs(it.fom).isSameOrAfter(fom)
+            (it) => it.skjaeringstidspunkt === skjæringstidspunkt && dayjs(it.fom).isSameOrAfter(fom),
         ) ?? []
     ).length === 0;
 
@@ -157,7 +157,7 @@ const useArbeidsforholdKanOverstyres = (skjæringstidspunkt: DateString, organis
     const arbeidsgiverHarIngenEtterfølgendePerioder = harIngenEtterfølgendePerioder(
         arbeidsgiver,
         skjæringstidspunkt,
-        period.fom
+        period.fom,
     );
 
     return (

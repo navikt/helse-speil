@@ -11,7 +11,7 @@ describe('Sykepengegrunnlagsgrense', () => {
             <SykepengegrunnlagsgrenseView
                 sykepengegrunnlagsgrense={{ grunnbelop: 106399, grense: 638394, virkningstidspunkt: '2021-05-01' }}
                 omregnetÅrsinntekt={600_000}
-            />
+            />,
         );
         expect(screen.queryByText('Grunnbeløp (G) ved skjæringstidspunkt:', { exact: false })).toBeVisible();
         expect(screen.queryByText('Sykepengegrunnlaget er begrenset til 6G:', { exact: false })).toBeNull();
@@ -21,7 +21,7 @@ describe('Sykepengegrunnlagsgrense', () => {
             <SykepengegrunnlagsgrenseView
                 sykepengegrunnlagsgrense={{ grunnbelop: 106399, grense: 638394, virkningstidspunkt: '2021-05-01' }}
                 omregnetÅrsinntekt={650_000}
-            />
+            />,
         );
         expect(screen.queryByText('Grunnbeløp (G) ved skjæringstidspunkt:', { exact: false })).toBeVisible();
         expect(screen.queryByText('Sykepengegrunnlaget er begrenset til 6G:', { exact: false })).toBeVisible();

@@ -20,7 +20,7 @@ describe('ErrorBoundary', () => {
         render(
             <ErrorBoundary fallback={<span>Dette er en fallback</span>}>
                 <ThrowsError />
-            </ErrorBoundary>
+            </ErrorBoundary>,
         );
         expect(screen.getByText('Dette er en fallback')).toBeVisible();
     });
@@ -28,7 +28,7 @@ describe('ErrorBoundary', () => {
         render(
             <ErrorBoundary fallback={(error) => <span>{error.message}</span>}>
                 <ThrowsError />
-            </ErrorBoundary>
+            </ErrorBoundary>,
         );
         expect(screen.getByText('Dette er en error')).toBeVisible();
     });

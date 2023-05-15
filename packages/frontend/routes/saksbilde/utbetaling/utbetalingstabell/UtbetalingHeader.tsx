@@ -49,7 +49,7 @@ export const UtbetalingHeader: React.FC<UtbetalingHeaderProps> = ({
 }) => {
     const dagerInneholderKunAvvisteDager = useMemo(
         () => Array.from(dager.values()).every((it) => it.erAvvist || it.type === 'Helg'),
-        [dager]
+        [dager],
     );
 
     const editButton = (

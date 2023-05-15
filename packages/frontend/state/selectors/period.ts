@@ -31,7 +31,7 @@ export const harBlittUtbetaltTidligere = (period: FetchedBeregnetPeriode, arbeid
                 (periode) =>
                     isBeregnetPeriode(periode) &&
                     periode.vedtaksperiodeId === period.vedtaksperiodeId &&
-                    utbetalingIsGodkjent(periode.utbetaling)
+                    utbetalingIsGodkjent(periode.utbetaling),
             ).length > 0
     );
 };
@@ -49,7 +49,7 @@ export const isInCurrentGeneration = (period: ActivePeriod, arbeidsgiver: Arbeid
     }
 
     return arbeidsgiver.generasjoner[0]?.perioder.some(
-        (periode) => isBeregnetPeriode(periode) && periode.id === period.id
+        (periode) => isBeregnetPeriode(periode) && periode.id === period.id,
     );
 };
 
@@ -73,7 +73,7 @@ export const overlapper =
 
 export const getOverlappendePerioder = (
     person: FetchedPerson,
-    period: FetchedBeregnetPeriode
+    period: FetchedBeregnetPeriode,
 ): Array<FetchedBeregnetPeriode> => {
     return person.arbeidsgivere
         .flatMap((arbeidsgiver) => arbeidsgiver.generasjoner[0]?.perioder ?? [])

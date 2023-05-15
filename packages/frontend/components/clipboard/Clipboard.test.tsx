@@ -28,7 +28,7 @@ describe('Clipboard', () => {
         render(
             <Clipboard>
                 <p>Denne skal kopieres</p>
-            </Clipboard>
+            </Clipboard>,
         );
         await act(async () => {
             const button = screen.getByRole('button');

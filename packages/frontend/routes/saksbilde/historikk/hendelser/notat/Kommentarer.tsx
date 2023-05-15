@@ -54,7 +54,7 @@ export const Kommentarer: React.FC<KommentarerProps> = ({ kommentarer, saksbehan
                     <div key={it.id} className={styles.Kommentar}>
                         <pre
                             className={classNames(
-                                typeof it.feilregistrert_tidspunkt === 'string' && styles.Feilregistrert
+                                typeof it.feilregistrert_tidspunkt === 'string' && styles.Feilregistrert,
                             )}
                         >
                             {it.tekst} {typeof it.feilregistrert_tidspunkt === 'string' && '(feilregistert)'}

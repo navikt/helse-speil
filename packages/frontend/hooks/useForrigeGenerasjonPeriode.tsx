@@ -13,7 +13,7 @@ export const useForrigeGenerasjonPeriode = () => {
     }
 
     return currentArbeidsgiver.generasjoner[currentGeneration + 1]?.perioder.find(
-        (periode) => periode.vedtaksperiodeId === aktivPeriod.vedtaksperiodeId
+        (periode) => periode.vedtaksperiodeId === aktivPeriod.vedtaksperiodeId,
     );
 };
 
@@ -22,7 +22,7 @@ export const useForrigeGenerasjonPeriodeMedPeriode = (periode: FetchedBeregnetPe
     const currentArbeidsgiver = findArbeidsgiverWithPeriode(periode, person?.arbeidsgivere ?? []);
 
     const currentGeneration = currentArbeidsgiver?.generasjoner.findIndex((generasjon) =>
-        generasjon.perioder.some((_periode) => isBeregnetPeriode(_periode) && _periode.id === periode.id)
+        generasjon.perioder.some((_periode) => isBeregnetPeriode(_periode) && _periode.id === periode.id),
     );
 
     if (!currentArbeidsgiver || currentGeneration === undefined || !isBeregnetPeriode(periode)) {
@@ -30,6 +30,6 @@ export const useForrigeGenerasjonPeriodeMedPeriode = (periode: FetchedBeregnetPe
     }
 
     return currentArbeidsgiver.generasjoner[currentGeneration + 1]?.perioder.find(
-        (_periode) => _periode.vedtaksperiodeId === periode.vedtaksperiodeId
+        (_periode) => _periode.vedtaksperiodeId === periode.vedtaksperiodeId,
     );
 };

@@ -14,5 +14,5 @@ export const Errorikon = React.forwardRef<SVGSVGElement, IkonProps>(
                 fill="white"
             />
         </Ikon>
-    )
+    ),
 );

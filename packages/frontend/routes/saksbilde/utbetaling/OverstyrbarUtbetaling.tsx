@@ -59,7 +59,7 @@ export const OverstyrbarUtbetaling: React.FC<OverstyrbarUtbetalingProps> = ({
             Array.from(dager.values()),
             Array.from(overstyrteDager.values()),
             form.getValues('begrunnelse'),
-            () => setOverstyrer(!overstyrer)
+            () => setOverstyrer(!overstyrer),
         );
     };
 
@@ -82,7 +82,7 @@ export const OverstyrbarUtbetaling: React.FC<OverstyrbarUtbetalingProps> = ({
                 }
                 return map;
             },
-            new Map(overstyrteDager)
+            new Map(overstyrteDager),
         );
         setOverstyrteDager(newOverstyrteDager);
         setMarkerteDager(new Map());

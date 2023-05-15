@@ -93,7 +93,7 @@ export const useFetchPerson = (): ((id: string) => Promise<PersonState | void>) 
                     return (
                         state.person?.arbeidsgivere
                             .flatMap((arbeidsgiver) =>
-                                arbeidsgiver.generasjoner.flatMap((it) => it.perioder as Array<ActivePeriod>)
+                                arbeidsgiver.generasjoner.flatMap((it) => it.perioder as Array<ActivePeriod>),
                             )
                             .find((it) => it.id === prevState?.id) ?? null
                     );

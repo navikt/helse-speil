@@ -62,8 +62,8 @@ export const Inntektoverstyringhendelse: React.FC<InntektoverstyringhendelseProp
                     inntekt?.refusjonsopplysninger &&
                         [...inntekt.refusjonsopplysninger].sort(
                             (a: Refusjonsopplysning, b: Refusjonsopplysning) =>
-                                new Date(b.fom).getTime() - new Date(a.fom).getTime()
-                        )
+                                new Date(b.fom).getTime() - new Date(a.fom).getTime(),
+                        ),
                 ) && (
                 <Hendelse
                     title={erRevurdering ? 'Refusjon revurdert' : 'Refusjon endret'}
@@ -85,7 +85,7 @@ export const Inntektoverstyringhendelse: React.FC<InntektoverstyringhendelseProp
                                     [...inntekt.fraRefusjonsopplysninger]
                                         .sort(
                                             (a: Refusjonsopplysning, b: Refusjonsopplysning) =>
-                                                new Date(b.fom).getTime() - new Date(a.fom).getTime()
+                                                new Date(b.fom).getTime() - new Date(a.fom).getTime(),
                                         )
                                         .map((fraRefusjonsopplysning, index) => {
                                             return (
@@ -95,12 +95,12 @@ export const Inntektoverstyringhendelse: React.FC<InntektoverstyringhendelseProp
                                                 >
                                                     <span className={styles.FromValue}>
                                                         {dayjs(fraRefusjonsopplysning.fom, ISO_DATOFORMAT).format(
-                                                            NORSK_DATOFORMAT
+                                                            NORSK_DATOFORMAT,
                                                         )}
                                                         -
                                                         {dayjs(fraRefusjonsopplysning?.tom, ISO_DATOFORMAT).isValid()
                                                             ? dayjs(fraRefusjonsopplysning?.tom, ISO_DATOFORMAT).format(
-                                                                  NORSK_DATOFORMAT
+                                                                  NORSK_DATOFORMAT,
                                                               ) ?? ''
                                                             : ' '}
                                                         {': '}
@@ -119,12 +119,12 @@ export const Inntektoverstyringhendelse: React.FC<InntektoverstyringhendelseProp
                                                 key={`${refusjonsopplysning?.fom}${index}`}
                                             >
                                                 {dayjs(refusjonsopplysning.fom, ISO_DATOFORMAT).format(
-                                                    NORSK_DATOFORMAT
+                                                    NORSK_DATOFORMAT,
                                                 )}
                                                 -
                                                 {dayjs(refusjonsopplysning?.tom, ISO_DATOFORMAT).isValid()
                                                     ? dayjs(refusjonsopplysning?.tom, ISO_DATOFORMAT).format(
-                                                          NORSK_DATOFORMAT
+                                                          NORSK_DATOFORMAT,
                                                       ) ?? ''
                                                     : ' '}
                                                 {': '}

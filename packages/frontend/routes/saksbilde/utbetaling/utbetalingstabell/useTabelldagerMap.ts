@@ -62,7 +62,7 @@ const getUtbetalingstabelldagtype = (dag: Dag): Utbetalingstabelldagtype => {
 export const createDagerMap = (
     dager: Array<Dag>,
     totaltAntallDagerIgjen: Maybe<number>,
-    maksdato?: DateString
+    maksdato?: DateString,
 ): Map<DateString, UtbetalingstabellDag> => {
     const map = new Map<DateString, UtbetalingstabellDag>();
     let dagerIgjen = totaltAntallDagerIgjen;

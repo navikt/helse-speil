@@ -82,7 +82,7 @@ export const useRefreshPagination = (numberOfEntries: number) => {
                 pagination && {
                     ...pagination,
                     numberOfPages: Math.max(Math.ceil(numberOfEntries / pagination.entriesPerPage), 1),
-                }
+                },
         );
     }, [numberOfEntries]);
 };

@@ -25,8 +25,8 @@ export class FlereFodselsnumreError extends FetchError {
     constructor(fodselsnumre: string[]) {
         super(
             `Denne aktør-ID-en er registrert med flere fødselsnumre: ${fodselsnumre.join(
-                ', '
-            )}. Fordi fødselsnumrene er behandlet hver for seg, må du sjekke om systemet har beregnet en periode feil.`
+                ', ',
+            )}. Fordi fødselsnumrene er behandlet hver for seg, må du sjekke om systemet har beregnet en periode feil.`,
         );
         this.severity = 'error';
     }

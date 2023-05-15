@@ -40,7 +40,7 @@ const useOppgaverFilteredByTab = () => {
                         oppgave.tildeling?.oid !== oid &&
                         (oppgave.totrinnsvurdering?.erBeslutteroppgave
                             ? oppgave.totrinnsvurdering.saksbehandler !== oid
-                            : true)
+                            : true),
                 );
             }
             case TabType.Mine: {

@@ -66,8 +66,8 @@ describe('Saksbildevarsler', () => {
         render(<SaksbildevarslerWrapper periodState="tilGodkjenning" />);
         expect(
             screen.getByText(
-                `Denne perioden kan ikke utbetales. Det kan skyldes at den allerede er forsøkt utbetalt, men at det er forsinkelser i systemet.`
-            )
+                `Denne perioden kan ikke utbetales. Det kan skyldes at den allerede er forsøkt utbetalt, men at det er forsinkelser i systemet.`,
+            ),
         ).toBeVisible();
     });
     test('viser feilvarsel om vedtaksperioden har en ukjent tilstand', () => {
@@ -91,7 +91,7 @@ describe('Saksbildevarsler', () => {
                         tittel: 'Dette er også en aktivitet',
                     },
                 ]}
-            />
+            />,
         );
         expect(screen.getByText('Dette er en aktivitet')).toBeVisible();
         expect(screen.getByText('Dette er også en aktivitet')).toBeVisible();

@@ -130,7 +130,7 @@ export const getOpptegnelser = async (sisteSekvensId?: number): Promise<SpeilRes
 
 export const getNotater = async (vedtaksperiodeIder: string[]): Promise<{ vedtaksperiodeId: Array<ExternalNotat> }> => {
     return get<{ vedtaksperiodeId: ExternalNotat[] }>(
-        `${baseUrl}/notater?vedtaksperiodeId=${vedtaksperiodeIder.join('&vedtaksperiodeId=')}`
+        `${baseUrl}/notater?vedtaksperiodeId=${vedtaksperiodeIder.join('&vedtaksperiodeId=')}`,
     ).then((response) => response.data!);
 };
 
@@ -139,7 +139,7 @@ const postVedtak = async (
     aktørId: string,
     godkjent: boolean,
     skjema?: Avvisningsskjema,
-    beregningId?: string
+    beregningId?: string,
 ) => post(`${baseUrl}/payments/vedtak`, { oppgavereferanse, aktørId, godkjent, skjema, beregningId });
 
 export const postUtbetalingsgodkjenning = async (oppgavereferanse: string, aktørId: string) =>

@@ -17,5 +17,5 @@ export const CellContent = React.forwardRef<HTMLDivElement, CellContentProps>(
                 {...divProps}
             />
         );
-    }
+    },
 );

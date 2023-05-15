@@ -20,7 +20,7 @@ jest.mock('@state/arbeidsgiver');
 
 const getFetchedBeregnetPeriode = (
     arbeidsgiverUtbetalingsdager: Dag[] = [],
-    personUtbetalingsdager: Dag[] = []
+    personUtbetalingsdager: Dag[] = [],
 ): FetchedBeregnetPeriode => {
     return {
         aktivitetslogg: [],
@@ -98,7 +98,7 @@ describe('PeriodPopover', () => {
                 state="tilGodkjenning"
                 fom="2023-01-01"
                 tom="2023-01-01"
-            />
+            />,
         );
         expect(screen.queryByText('Arbeidsgiver')).not.toBeInTheDocument();
         expect(screen.queryByText('Sykmeldt')).not.toBeInTheDocument();
@@ -110,7 +110,7 @@ describe('PeriodPopover', () => {
                 state="tilGodkjenning"
                 fom="2023-01-01"
                 tom="2023-01-01"
-            />
+            />,
         );
         expect(screen.getByText('Arbeidsgiver')).toBeVisible();
     });
@@ -121,7 +121,7 @@ describe('PeriodPopover', () => {
                 state="tilGodkjenning"
                 fom="2023-01-01"
                 tom="2023-01-01"
-            />
+            />,
         );
         expect(screen.getByText('Sykmeldt')).toBeVisible();
     });
@@ -132,7 +132,7 @@ describe('PeriodPopover', () => {
                 state="tilGodkjenning"
                 fom="2023-01-01"
                 tom="2023-01-01"
-            />
+            />,
         );
         expect(screen.getByText('Arbeidsgiver / Sykmeldt')).toBeVisible();
     });
@@ -145,7 +145,7 @@ describe('PeriodPopover', () => {
                 state="tilGodkjenning"
                 fom="2023-01-01"
                 tom="2023-01-01"
-            />
+            />,
         );
         expect(screen.getByText('Dager igjen:')).toBeVisible();
     });

@@ -27,7 +27,7 @@ const byTimestamp = (a: HendelseObject, b: HendelseObject): number => {
 
 const getHendelserForBeregnetPeriode = (
     period: FetchedBeregnetPeriode,
-    person: FetchedPerson
+    person: FetchedPerson,
 ): Array<HendelseObject> => {
     const arbeidsgiver = findArbeidsgiverWithPeriode(period, person.arbeidsgivere);
     const dagoverstyringer = arbeidsgiver ? getDagoverstyringer(period, arbeidsgiver) : [];
@@ -41,7 +41,7 @@ const getHendelserForBeregnetPeriode = (
 
     return [...dokumenter, ...dagoverstyringer, ...inntektoverstyringer, ...arbeidsforholdoverstyringer]
         .filter(
-            (it: HendelseObject) => it.timestamp && dayjs(it.timestamp).startOf('s').isSameOrBefore(period.opprettet)
+            (it: HendelseObject) => it.timestamp && dayjs(it.timestamp).startOf('s').isSameOrBefore(period.opprettet),
         )
         .concat(utbetaling ? [utbetaling] : [])
         .concat(notater)

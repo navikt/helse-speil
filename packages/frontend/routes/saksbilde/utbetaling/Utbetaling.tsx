@@ -78,7 +78,7 @@ const isDagoverstyring = (overstyring: Overstyring): overstyring is Dagoverstyri
 export const useDagoverstyringer = (
     fom: DateString,
     tom: DateString,
-    arbeidsgiver?: Maybe<Arbeidsgiver>
+    arbeidsgiver?: Maybe<Arbeidsgiver>,
 ): Array<Dagoverstyring> => {
     return useMemo(() => {
         if (!arbeidsgiver) return [];
@@ -89,7 +89,7 @@ export const useDagoverstyringer = (
             overstyring.dager.some((dag) => {
                 const dato = dayjs(dag.dato);
                 return dato.isSameOrAfter(start) && dato.isSameOrBefore(end);
-            })
+            }),
         );
     }, [arbeidsgiver, fom, tom]);
 };
@@ -132,7 +132,7 @@ const UtbetalingBeregnetPeriode: React.FC<UtbetalingBeregnetPeriodeProps> = Reac
         ) : (
             <ReadonlyUtbetaling fom={period.fom} tom={period.tom} dager={dager} />
         );
-    }
+    },
 );
 
 interface UtbetalingUberegnetPeriodeProps {

@@ -56,7 +56,7 @@ describe('useTabelldagerMap', () => {
             useTabelldagerMap({
                 tidslinje: dager,
                 gjenståendeDager: 100,
-            })
+            }),
         );
 
         expect(result.current.get('2021-01-01')?.type).toEqual('Syk');
@@ -84,7 +84,7 @@ describe('useTabelldagerMap', () => {
                 tidslinje: dager,
                 overstyringer: overstyringer,
                 gjenståendeDager: 100,
-            })
+            }),
         );
 
         expect(result.current.get('2021-01-01')?.overstyringer).toBeUndefined();

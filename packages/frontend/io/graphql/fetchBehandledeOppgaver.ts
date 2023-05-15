@@ -16,7 +16,7 @@ type FetchBehandledeOppgaverParams = {
 };
 
 export const fetchBehandledeOppgaver = (
-    params: FetchBehandledeOppgaverParams
+    params: FetchBehandledeOppgaverParams,
 ): Promise<FetchBehandledeOppgaverQuery> => {
     return request(baseUrl, fetchOppgaverQuery, params);
 };

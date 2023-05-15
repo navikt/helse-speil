@@ -44,7 +44,7 @@ const skalPolleEtterNestePeriode = (person: FetchedPerson) =>
                 Periodetilstand.VenterPaEnAnnenPeriode,
                 Periodetilstand.ForberederGodkjenning,
                 Periodetilstand.UtbetaltVenterPaEnAnnenPeriode,
-            ].includes(periode.periodetilstand)
+            ].includes(periode.periodetilstand),
         );
 
 const hasOppgave = (period: FetchedBeregnetPeriode): boolean =>

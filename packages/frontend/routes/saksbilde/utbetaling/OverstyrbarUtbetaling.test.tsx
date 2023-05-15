@@ -60,7 +60,7 @@ describe('OverstyrbarUtbetaling', () => {
                 revurderingIsEnabled={false}
                 overstyrRevurderingIsEnabled={false}
             />,
-            { wrapper: RecoilWrapper }
+            { wrapper: RecoilWrapper },
         );
 
         userEvent.click(screen.getByText('Endre'));

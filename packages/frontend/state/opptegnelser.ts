@@ -15,7 +15,7 @@ export const nyesteOpptegnelseMedTypeOppgaveState = selector<Opptegnelse | undef
     get: ({ get }) =>
         get(nyesteOpptegnelserState).find(
             (opptegnelse) =>
-                opptegnelse.type === 'NY_SAKSBEHANDLEROPPGAVE' || opptegnelse.type === 'REVURDERING_FERDIGBEHANDLET'
+                opptegnelse.type === 'NY_SAKSBEHANDLEROPPGAVE' || opptegnelse.type === 'REVURDERING_FERDIGBEHANDLET',
         ),
 });
 

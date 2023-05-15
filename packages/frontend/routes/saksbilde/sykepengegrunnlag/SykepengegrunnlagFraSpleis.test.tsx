@@ -50,7 +50,7 @@ describe('SykepengegrunnlagFraSpleis', () => {
                 vilkårsgrunnlag={vilkårsgrunnlag}
                 skjæringstidspunkt={skjaeringstidspunkt}
                 organisasjonsnummer={organisasjonsnummer}
-            />
+            />,
         );
 
         expect(screen.getByText('Inntektsgrunnlag')).toBeVisible();
@@ -84,7 +84,7 @@ describe('SykepengegrunnlagFraSpleis', () => {
                 skjæringstidspunkt={skjaeringstidspunkt}
                 organisasjonsnummer={organisasjonsnummer}
             />,
-            { wrapper: RecoilWrapper }
+            { wrapper: RecoilWrapper },
         );
 
         expect(screen.getByText('Inntektsgrunnlag')).toBeVisible();

@@ -13,7 +13,7 @@ if (process.env.NODE_ENV === 'development') {
             email: 'dev@nav.no',
             oid: 'uuid',
             groups: ['gruppe1', 'gruppe2'],
-        })
+        }),
     )}.ignored-part`;
 }
 
@@ -27,7 +27,7 @@ const transformToUtf8 = (token: string) =>
         atob(token)
             .split('')
             .map((char: any) => '%' + ('00' + char.charCodeAt(0).toString(16)).slice(-2))
-            .join('')
+            .join(''),
     );
 
 const decode = (cookie: string) => {

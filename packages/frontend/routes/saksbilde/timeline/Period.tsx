@@ -86,7 +86,7 @@ const getClassNames = (
     notCurrent?: boolean,
     isActive?: boolean,
     className?: string,
-    generation?: number
+    generation?: number,
 ) => {
     const periodState = getPeriodState(period);
     const periodCategory = getPeriodCategory(periodState);
@@ -99,7 +99,7 @@ const getClassNames = (
         notCurrent && styles.old,
         isInfotrygdPeriod(period) && styles.legacy,
         isGhostPeriode(period) && styles.blank,
-        isUberegnetPeriode(period) && generation !== 0 && styles.inactiveAUU
+        isUberegnetPeriode(period) && generation !== 0 && styles.inactiveAUU,
     );
 };
 

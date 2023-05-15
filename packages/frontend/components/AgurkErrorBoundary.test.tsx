@@ -21,7 +21,7 @@ describe('AgurkErrorBoundary', () => {
         render(
             <AgurkErrorBoundary>
                 <ThrowsError errorMessage={feilmelding} />
-            </AgurkErrorBoundary>
+            </AgurkErrorBoundary>,
         );
         waitFor(() => expect(screen.queryByText(feilmelding)).toBeVisible());
     });

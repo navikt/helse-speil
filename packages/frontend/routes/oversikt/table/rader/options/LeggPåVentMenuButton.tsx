@@ -34,7 +34,7 @@ export const LeggPåVentMenuButton = ({ oppgavereferanse, vedtaksperiodeId, pers
         setIsFetching(true);
         ignorePromise(
             leggPåVentMedNotat(oppgavereferanse, { tekst: notattekst, type: 'PaaVent' } as NotatDTO),
-            errorHandler
+            errorHandler,
         );
     };
 
