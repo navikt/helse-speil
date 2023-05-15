@@ -6,7 +6,7 @@ import {
     getDagerMedUtbetaling,
     getTotalArbeidsgiverbeløp,
     getTotalPersonbeløp,
-} from '../routes/saksbilde/utbetaling/utbetalingstabell/TotalRow';
+} from '../routes/saksbilde/utbetaling/utbetalingstabell/dagerUtils';
 import { useTabelldagerMap } from '../routes/saksbilde/utbetaling/utbetalingstabell/useTabelldagerMap';
 
 export const useTotalbeløp = (tidslinje?: Maybe<Dag[]>) => {
