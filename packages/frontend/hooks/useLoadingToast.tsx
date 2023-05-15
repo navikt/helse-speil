@@ -1,4 +1,3 @@
-import styled from '@emotion/styled';
 // @ts-ignore
 import { nanoid } from 'nanoid';
 import React, { ReactNode, useEffect, useRef } from 'react';
@@ -8,10 +7,6 @@ import { Loader } from '@navikt/ds-react';
 import { useAddToast, useRemoveToast } from '@state/toasts';
 
 import { useDebounce } from './useDebounce';
-
-const Spinner = styled(Loader)`
-    margin-left: 1rem;
-`;
 
 interface UseIsLoadingToastOptions {
     isLoading: boolean;
@@ -30,7 +25,7 @@ export const useLoadingToast = ({ isLoading, message }: UseIsLoadingToastOptions
                 key: toastKey.current,
                 message: (
                     <>
-                        {message} <Spinner size="xsmall" />
+                        {message} <Loader size="xsmall" variant="inverted" />
                     </>
                 ),
             });
