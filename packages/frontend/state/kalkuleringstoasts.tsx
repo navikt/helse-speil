@@ -11,7 +11,7 @@ export const kalkulererFerdigToastKey = 'kalkulererFerdigToast';
 export const kalkulererToast = ({
     message = (
         <>
-            Kalkulerer endringer <Loader size="xsmall" />
+            Kalkulerer endringer <Loader size="xsmall" variant="inverted" />
         </>
     ),
     callback,
