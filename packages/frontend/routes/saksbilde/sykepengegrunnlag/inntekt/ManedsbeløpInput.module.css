@@ -1,0 +1,20 @@
+.Input {
+    height: 2rem;
+    border-radius: 3px;
+    border: 1px solid var(--a-border-strong);
+    outline: none;
+}
+
+.Input:focus-visible {
+    box-shadow: var(--a-shadow-focus);
+}
+
+.InputError {
+    border-width: 2px;
+    border-color: var(--a-text-danger);
+}
+
+.Feilmelding {
+    margin: 0.25rem 0;
+    color: var(--a-text-danger);
+}

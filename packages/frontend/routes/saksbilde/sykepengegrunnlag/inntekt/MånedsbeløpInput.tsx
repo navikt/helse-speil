@@ -6,7 +6,7 @@ import { FlexColumn } from '@components/Flex';
 import { PopoverHjelpetekst } from '@components/PopoverHjelpetekst';
 import { SortInfoikon } from '@components/ikoner/SortInfoikon';
 
-import styles from './MånedsbeløpInput.module.css';
+import styles from './ManedsbeløpInput.module.css';
 
 interface MånedsbeløpInputProps {
     initialMånedsbeløp?: number;
