@@ -1,5 +1,4 @@
 import { IkonContainer } from './Vilkår.styles';
-import styled from '@emotion/styled';
 import classNames from 'classnames';
 import React, { ReactNode } from 'react';
 
@@ -11,40 +10,7 @@ import { Utropstegnikon } from '@components/ikoner/Utropstegnikon';
 
 import { Vilkårstype } from '../../../mapping/vilkår';
 
-const Header = styled.div`
-    display: flex;
-    align-items: start;
-    flex-wrap: nowrap;
-
-    &:not(:last-of-type) {
-        padding-bottom: 0.5rem;
-    }
-`;
-
-const TekstContainer = styled.div`
-    display: flex;
-    flex-wrap: wrap;
-`;
-
-const Tittel = styled(BodyShort)`
-    display: flex;
-    align-items: center;
-    color: var(--a-text-default);
-    font-size: 18px;
-    font-weight: 600;
-    margin-right: 0.5rem;
-    white-space: nowrap;
-    min-height: 1.5rem;
-`;
-
-const Paragraf = styled(BodyShort)`
-    font-size: 14px;
-    display: flex;
-    align-items: center;
-    color: var(--a-text-subtle);
-    white-space: nowrap;
-    min-height: 1.5rem;
-`;
+import styles from './Vilkarsgruppetittel.module.css';
 
 interface VilkårsgruppetittelProps {
     children: ReactNode | ReactNode[];
@@ -55,7 +21,7 @@ interface VilkårsgruppetittelProps {
 }
 
 export const Vilkårsgruppetittel = ({ children, oppfylt, paragraf, type, className }: VilkårsgruppetittelProps) => (
-    <Header className={classNames('vilkårsgruppetittel', className)}>
+    <div className={classNames('vilkårsgruppetittel', className, [styles.Header])}>
         <IkonContainer>
             {oppfylt === undefined ? (
                 <Utropstegnikon alt="Til vurdering" />
@@ -65,11 +31,11 @@ export const Vilkårsgruppetittel = ({ children, oppfylt, paragraf, type, classN
                 <Kryssikon alt="Ikke oppfylt" />
             )}
         </IkonContainer>
-        <TekstContainer>
-            <Tittel as="h3" data-testid={type}>
+        <div className={styles.TekstContainer}>
+            <BodyShort className={styles.Tittel} data-testid={type}>
                 {children}
-            </Tittel>
-            {paragraf && <Paragraf as="p">{paragraf}</Paragraf>}
-        </TekstContainer>
-    </Header>
+            </BodyShort>
+            {paragraf && <BodyShort className={styles.Paragraf}>{paragraf}</BodyShort>}
+        </div>
+    </div>
 );

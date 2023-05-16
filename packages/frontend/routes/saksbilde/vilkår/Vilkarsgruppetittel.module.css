@@ -1,0 +1,34 @@
+.Header {
+    display: flex;
+    align-items: start;
+    flex-wrap: nowrap;
+}
+
+.Header:not(:last-of-type) {
+    padding-bottom: 0.5rem;
+}
+
+.TekstContainer {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.Tittel {
+    display: flex;
+    align-items: center;
+    color: var(--a-text-default);
+    font-size: 18px;
+    font-weight: 600;
+    margin-right: 0.5rem;
+    white-space: nowrap;
+    min-height: 1.5rem;
+}
+
+.Paragraf {
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    color: var(--a-text-subtle);
+    white-space: nowrap;
+    min-height: 1.5rem;
+}
