@@ -72,15 +72,7 @@ export const GodkjenningButton: React.FC<GodkjenningButtonProps> = ({
                 onSuccess?.();
             })
             .catch((error) => {
-                if (error.statusCode === 409) {
-                    onError?.({ ...error, message: 'Saken er allerede utbetalt.' });
-                } else if (error.statusCode === 403) {
-                    onError?.({
-                        ...error,
-                        message:
-                            'Du har ikke tilgang til å behandle denne saken. Hvis du har tildelt deg saken, meld deg av. Saken vil behandles videre av en saksbehandler med tilgang.',
-                    });
-                } else onError?.(error);
+                onError?.({ ...error, message: errorMessages.get(error.message) || errorMessages.get('default') });
             })
             .finally(() => {
                 setIsSending(false);
@@ -114,3 +106,10 @@ export const GodkjenningButton: React.FC<GodkjenningButtonProps> = ({
         </>
     );
 };
+
+const errorMessages = new Map<string, string>([
+    ['mangler_vurdering_av_varsler', 'Det mangler vurdering av varsler i en eller flere perioder'],
+    ['ikke_aapen_saksbehandleroppgave', 'Saken er allerede utbetalt'],
+    ['ikke_tilgang_til_risk_qa', 'Du har ikke tilgang til å behandle risk-saker'],
+    ['default', 'Feil under fatting av vedtak'],
+]);

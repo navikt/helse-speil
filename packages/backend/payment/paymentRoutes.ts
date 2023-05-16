@@ -53,7 +53,7 @@ export default ({ spesialistClient }: SetupOptions) => {
                     `Feil under fatting av vedtak for ${saksbehandlerIdent}, oppgavereferanse ${oppgavereferanse}: ${err}`,
                 );
                 const statusCode = [400, 403, 409].includes(err.statusCode) ? err.statusCode : 500;
-                res.status(statusCode).send('Feil under fatting av vedtak.');
+                res.status(statusCode).send(err.error?.feilkode ?? 'ingen_feilkode');
             });
     });
 
