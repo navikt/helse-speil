@@ -12,7 +12,7 @@ import { etVilkårsgrunnlagFraInfotrygd, etVilkårsgrunnlagFraSpleis } from '@te
 import {
     kanRedigereInntektEllerRefusjon,
     perioderMedSkjæringstidspunktHarMaksÉnFagsystemId,
-} from './RedigerInntektOgRefusjon';
+} from './redigerInntektOgRefusjonUtils';
 
 describe('perioderMedSkjæringstidspunktHarKunÉnFagsystemId', () => {
     it('returnerer true om alle perioder i siste generasjon hos en arbeidsgiver som deler gitt skjæringstidspunkt har samme fagsystem-ID', () => {

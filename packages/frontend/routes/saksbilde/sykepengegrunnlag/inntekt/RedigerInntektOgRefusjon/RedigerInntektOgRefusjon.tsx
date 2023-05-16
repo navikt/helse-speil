@@ -3,35 +3,12 @@ import React, { Dispatch, SetStateAction } from 'react';
 import { EditButton } from '@components/EditButton';
 import { PopoverHjelpetekst } from '@components/PopoverHjelpetekst';
 import { SortInfoikon } from '@components/ikoner/SortInfoikon';
-import { Arbeidsgiver, BeregnetPeriode, Utbetalingstatus } from '@io/graphql';
+import { Arbeidsgiver, BeregnetPeriode } from '@io/graphql';
 import { usePeriodForSkjæringstidspunktForArbeidsgiver } from '@state/arbeidsgiver';
 import { useCurrentPerson } from '@state/person';
 import { isInCurrentGeneration, isWaiting } from '@state/selectors/period';
-import { isBeregnetPeriode } from '@utils/typeguards';
 
-export const perioderMedSkjæringstidspunktHarMaksÉnFagsystemId = (
-    arbeidsgiver: Arbeidsgiver,
-    skjæringstidspunkt: DateString,
-): boolean => {
-    return (
-        arbeidsgiver.generasjoner[0]?.perioder
-            .filter(isBeregnetPeriode)
-            .filter((periode) => periode.skjaeringstidspunkt === skjæringstidspunkt)
-            .filter((periode) => periode.utbetaling.status !== Utbetalingstatus.Godkjentutenutbetaling)
-            .reduce((ider, periode) => ider.add(periode.utbetaling.arbeidsgiverFagsystemId), new Set()).size <= 1
-    );
-};
-
-export const kanRedigereInntektEllerRefusjon = (
-    person: FetchedPerson,
-    arbeidsgiver: Arbeidsgiver,
-    periode: FetchedBeregnetPeriode,
-): boolean => {
-    return (
-        !isWaiting(periode) &&
-        perioderMedSkjæringstidspunktHarMaksÉnFagsystemId(arbeidsgiver, periode.skjaeringstidspunkt)
-    );
-};
+import { kanRedigereInntektEllerRefusjon } from './redigerInntektOgRefusjonUtils';
 
 interface RedigerInntektProps {
     setEditing: Dispatch<SetStateAction<boolean>>;
