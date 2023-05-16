@@ -1,23 +1,19 @@
 import { IkonContainer } from './Vilkår.styles';
-import styled from '@emotion/styled';
+import classNames from 'classnames';
 import React, { ReactNode } from 'react';
 
 import { BodyShort } from '@navikt/ds-react';
 
-const Container = styled.div`
-    display: flex;
-    align-items: start;
-    margin-bottom: 2rem;
-`;
+import styles from './Vilkarskategori.module.css';
 
 interface VilkårskategoriProps extends React.HTMLAttributes<HTMLDivElement> {
     children: ReactNode | ReactNode[];
     ikon: ReactNode;
 }
 
-export const Vilkårskategori = ({ children, ikon, ...rest }: VilkårskategoriProps) => (
-    <Container className="vilkårskategori" {...rest}>
+export const Vilkårskategori = ({ children, ikon, className, ...rest }: VilkårskategoriProps) => (
+    <div className={classNames('vilkårskategori', [styles.Container])} {...rest}>
         <IkonContainer>{ikon}</IkonContainer>
         <BodyShort>{children}</BodyShort>
-    </Container>
+    </div>
 );
