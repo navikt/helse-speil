@@ -4,8 +4,8 @@ import { GrøntSjekkikon } from '@components/ikoner/GrøntSjekkikon';
 
 import { Vilkårdata } from '../../../../mapping/vilkår';
 import { Vilkårgrid, Vilkårgruppe, Vilkårkolonne } from '../Vilkår.styles';
+import { Vilkårsgruppetittel } from '../Vilkårsgruppetittel';
 import { Vilkårskategori } from '../Vilkårskategori';
-import { Vilkårsgruppetittel } from '../vilkårstitler';
 
 interface OppfylteVilkårProps {
     vilkår: Vilkårdata[];

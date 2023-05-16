@@ -4,8 +4,8 @@ import { Feilikon } from '@components/ikoner/Feilikon';
 
 import { Vilkårdata } from '../../../../mapping/vilkår';
 import { Vilkårgrid, Vilkårgruppe, Vilkårkolonne } from '../Vilkår.styles';
+import { Vilkårsgruppetittel } from '../Vilkårsgruppetittel';
 import { Vilkårskategori } from '../Vilkårskategori';
-import { Vilkårsgruppetittel } from '../vilkårstitler';
 
 interface IkkeOppfylteVilkårProps {
     vilkår: Vilkårdata[];

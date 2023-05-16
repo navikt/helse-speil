@@ -4,8 +4,8 @@ import { Advarselikon } from '@components/ikoner/Advarselikon';
 
 import { Vilkårdata } from '../../../../mapping/vilkår';
 import { Vilkårgrid, Vilkårgruppe, Vilkårkolonne } from '../Vilkår.styles';
+import { Vilkårsgruppetittel } from '../Vilkårsgruppetittel';
 import { Vilkårskategori } from '../Vilkårskategori';
-import { Vilkårsgruppetittel } from '../vilkårstitler';
 
 interface IkkeVurderteVilkårProps {
     vilkår: Vilkårdata[];

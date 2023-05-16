@@ -26,7 +26,7 @@ const TekstContainer = styled.div`
     flex-wrap: wrap;
 `;
 
-export const Tittel = styled(BodyShort)`
+const Tittel = styled(BodyShort)`
     display: flex;
     align-items: center;
     color: var(--a-text-default);
@@ -37,7 +37,7 @@ export const Tittel = styled(BodyShort)`
     min-height: 1.5rem;
 `;
 
-export const Paragraf = styled(BodyShort)`
+const Paragraf = styled(BodyShort)`
     font-size: 14px;
     display: flex;
     align-items: center;
