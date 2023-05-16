@@ -7,15 +7,11 @@ import { NORSK_DATOFORMAT_KORT } from '@utils/date';
 import { somPenger } from '@utils/locale';
 
 import { Cell } from './Cell';
+import { getTom } from './utbetalingshistorikkUtils';
 
 const getFom = (oppdrag: Spennoppdrag): Dayjs | undefined =>
     oppdrag.linjer.length > 0
         ? oppdrag.linjer.reduce((first, { fom }) => (first.isAfter(dayjs(fom)) ? dayjs(fom) : first), dayjs())
-        : undefined;
-
-export const getTom = (oppdrag: Spennoppdrag): Dayjs | undefined =>
-    oppdrag.linjer.length > 0
-        ? oppdrag.linjer.reduce((last, { tom }) => (last.isBefore(dayjs(tom)) ? dayjs(tom) : last), dayjs(0))
         : undefined;
 
 const isPersonoppdrag = (oppdrag: Spennoppdrag): oppdrag is Personoppdrag =>

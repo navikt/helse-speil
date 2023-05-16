@@ -13,8 +13,9 @@ import { useActivePeriod } from '@state/periode';
 import { useCurrentPerson } from '@state/person';
 
 import { Annulleringsmodal } from '../saksbildeMenu/annullering/Annulleringsmodal';
-import { UtbetalingshistorikkRow, getTom } from './UtbetalingshistorikkRow';
+import { UtbetalingshistorikkRow } from './UtbetalingshistorikkRow';
 import { useOppdrag } from './state';
+import { getTom } from './utbetalingshistorikkUtils';
 
 const Container = styled.div`
     grid-column-start: venstremeny;
