@@ -12,20 +12,23 @@ import { OppgaveMock, getDefaultOppgave } from './storage/oppgave';
 const app = express();
 const port = 9001;
 
-const passeLenge = () => Math.random() * 500 + 200;
+const passeLenge = () => Math.round(Math.random() * 500 + 300);
 
 app.disable('x-powered-by');
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use((_req, res, next) => {
+app.use((req, res, next) => {
     res.header('Access-Control-Allow-Origin', 'http://localhost:1234');
     res.header(
         'Access-Control-Allow-Headers',
-        'Origin, X-Requested-With, Content-Type, Accept, Authorization, fodselsnummer'
+        'Origin, X-Requested-With, Content-Type, Accept, Authorization, fodselsnummer',
     );
     res.header('Access-Control-Allow-Methods', 'PUT, GET, POST, DELETE');
-    next();
+    const ventetid = passeLenge();
+    const pathOrQuery = req.url === '/graphql' ? req.body['operationName'] : req.url;
+    console.log(`Behandler request til ${pathOrQuery} etter ${ventetid} ms`);
+    sleep(ventetid).then(next);
 });
 
 const personer: { [aktørId: string]: string } = oppgaveFil
@@ -53,7 +56,6 @@ app.delete('/api/tildeling/:oppgavereferanse', async (req: Request, res: Respons
         erPåVent: false,
     });
 
-    await sleep(passeLenge());
     res.sendStatus(200);
 });
 
@@ -170,7 +172,7 @@ app.post('/api/annullering', (req, res) => {
 });
 
 app.post('/api/vedtak', (req, res) => {
-    sleep(420).then((_) => (Math.random() > 0.1 ? res.sendStatus(204) : res.status(500).send('Dev-feil!')));
+    Math.random() > 0.1 ? res.sendStatus(204) : res.status(500).send({ feilkode: 'ikke_aapen_saksbehandleroppgave' });
 });
 
 app.post('/api/person/oppdater', (req, res) => {

@@ -11,7 +11,7 @@
     "scripts": {
         "dev": "lerna run dev --stream",
         "serve": "lerna run serve --stream",
-        "mock": "lerna run mock --stream",
+        "mock": "lerna run mock",
         "build": "lerna run build --stream",
         "test": "lerna run test --stream",
         "test-ci": "lerna run test-ci --stream",

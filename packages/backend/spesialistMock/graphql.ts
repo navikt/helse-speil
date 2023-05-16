@@ -8,7 +8,6 @@ import path from 'path';
 import { makeExecutableSchema } from '@graphql-tools/schema';
 import type { IResolvers } from '@graphql-tools/utils';
 
-import { sleep } from '../devHelpers';
 import spesialistSchema from '../graphql.schema.json';
 import { behandledeOppgaver } from './data/behandledeOppgaver';
 import { behandlingsstatistikk } from './data/behandlingsstatistikk';
@@ -84,22 +83,18 @@ const getResolvers = (): IResolvers => ({
             if (!person) {
                 throw new NotFoundError(fnr ?? aktorId ?? '');
             }
-            await sleep(1000);
             return person;
         },
         oppdrag: (_) => {
             return getMockOppdrag();
         },
         behandledeOppgaver: async () => {
-            await sleep(500);
             return behandledeOppgaver;
         },
         behandlingsstatistikk: async () => {
-            await sleep(500);
             return behandlingsstatistikk;
         },
         alleOppgaver: async () => {
-            await sleep(1000);
             return oppgaver;
         },
     },
@@ -113,9 +108,8 @@ const getResolvers = (): IResolvers => ({
         },
         settVarselstatusVurdert: async (
             _,
-            { generasjonIdString, definisjonIdString, varselkode, ident }: MutationSettVarselstatusVurdertArgs
+            { generasjonIdString, definisjonIdString, varselkode, ident }: MutationSettVarselstatusVurdertArgs,
         ) => {
-            await sleep(500);
             return VarselMock.settVarselstatusVurdert({
                 generasjonIdString,
                 definisjonIdString,
@@ -125,9 +119,8 @@ const getResolvers = (): IResolvers => ({
         },
         settVarselstatusAktiv: async (
             _,
-            { generasjonIdString, varselkode, ident }: MutationSettVarselstatusAktivArgs
+            { generasjonIdString, varselkode, ident }: MutationSettVarselstatusAktivArgs,
         ) => {
-            await sleep(500);
             return VarselMock.settVarselstatusAktiv({ generasjonIdString, varselkode, ident });
         },
     },
