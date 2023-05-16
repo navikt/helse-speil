@@ -10,7 +10,6 @@ import { enUtbetaling } from '@test-data/utbetaling';
 import { etVilkårsgrunnlagFraInfotrygd, etVilkårsgrunnlagFraSpleis } from '@test-data/vilkårsgrunnlag';
 
 import {
-    harVilkårsgrunnlagFraSpleis,
     kanRedigereInntektEllerRefusjon,
     perioderMedSkjæringstidspunktHarMaksÉnFagsystemId,
 } from './RedigerInntektOgRefusjon';
@@ -36,24 +35,6 @@ describe('perioderMedSkjæringstidspunktHarKunÉnFagsystemId', () => {
         const arbeidsgiver = enArbeidsgiver().medPerioder([periodeA, periodeB]);
 
         expect(perioderMedSkjæringstidspunktHarMaksÉnFagsystemId(arbeidsgiver, skjaeringstidspunkt)).toEqual(false);
-    });
-});
-
-describe('harVilkårsgrunnlagFraSpleis', () => {
-    it('returnerer true om vilkårsgrunnlaget med gitt id kommer fra spleis', () => {
-        const id = nanoid();
-        const vilkårsgrunnlag = etVilkårsgrunnlagFraSpleis({ id });
-        const person = enPerson({ vilkarsgrunnlag: [vilkårsgrunnlag] }) as unknown as FetchedPerson;
-
-        expect(harVilkårsgrunnlagFraSpleis(person, id)).toEqual(true);
-    });
-
-    it('returnerer false om vilkårsgrunnlaget med gitt id ikke kommer fra spleis', () => {
-        const id = nanoid();
-        const vilkårsgrunnlag = etVilkårsgrunnlagFraInfotrygd({ id });
-        const person = enPerson({ vilkarsgrunnlag: [vilkårsgrunnlag] }) as unknown as FetchedPerson;
-
-        expect(harVilkårsgrunnlagFraSpleis(person, id)).toEqual(false);
     });
 });
 

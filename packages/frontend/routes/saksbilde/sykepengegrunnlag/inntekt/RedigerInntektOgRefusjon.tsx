@@ -3,11 +3,10 @@ import React, { Dispatch, SetStateAction } from 'react';
 import { EditButton } from '@components/EditButton';
 import { PopoverHjelpetekst } from '@components/PopoverHjelpetekst';
 import { SortInfoikon } from '@components/ikoner/SortInfoikon';
-import { Arbeidsgiver, BeregnetPeriode, Utbetalingstatus, Vilkarsgrunnlagtype } from '@io/graphql';
+import { Arbeidsgiver, BeregnetPeriode, Utbetalingstatus } from '@io/graphql';
 import { usePeriodForSkjæringstidspunktForArbeidsgiver } from '@state/arbeidsgiver';
 import { useCurrentPerson } from '@state/person';
 import { isInCurrentGeneration, isWaiting } from '@state/selectors/period';
-import { getVilkårsgrunnlag } from '@state/selectors/person';
 import { isBeregnetPeriode } from '@utils/typeguards';
 
 export const perioderMedSkjæringstidspunktHarMaksÉnFagsystemId = (
@@ -21,10 +20,6 @@ export const perioderMedSkjæringstidspunktHarMaksÉnFagsystemId = (
             .filter((periode) => periode.utbetaling.status !== Utbetalingstatus.Godkjentutenutbetaling)
             .reduce((ider, periode) => ider.add(periode.utbetaling.arbeidsgiverFagsystemId), new Set()).size <= 1
     );
-};
-
-export const harVilkårsgrunnlagFraSpleis = (person: FetchedPerson, grunnlagId: string): boolean => {
-    return getVilkårsgrunnlag(person, grunnlagId)?.vilkarsgrunnlagtype === Vilkarsgrunnlagtype.Spleis;
 };
 
 export const kanRedigereInntektEllerRefusjon = (
