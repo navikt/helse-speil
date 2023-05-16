@@ -22,7 +22,7 @@ export default ({ spesialistClient }: SetupOptions) => {
             .then(() => res.sendStatus(200))
             .catch((err) => {
                 logger.error(`Feil under postNotat: ${err}`);
-                res.status(500).send('Feil under postNotat');
+                res.sendStatus(err.statusCode ?? 500);
             });
     });
 
@@ -38,7 +38,7 @@ export default ({ spesialistClient }: SetupOptions) => {
             .then(() => res.sendStatus(200))
             .catch((err) => {
                 logger.error(`Feil under feilregistrerNotat: ${err}`);
-                res.status(500).send('Feil under feilregistrerNotat');
+                res.sendStatus(err.statusCode ?? 500);
             });
     });
 
@@ -57,7 +57,7 @@ export default ({ spesialistClient }: SetupOptions) => {
             .then((it) => res.status(200).send(it.body))
             .catch((err) => {
                 logger.error(`Feil under getNotat: ${err}`);
-                res.status(500).send(`Feil under getNotat`);
+                res.sendStatus(err.statusCode ?? 500);
             });
     });
 

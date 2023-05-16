@@ -143,7 +143,9 @@ export const NyttNotatModal = ({
                     void refetchPerson(); // Refresher for saksbildet, for GraphQL
                     onClose({} as React.SyntheticEvent);
                 })
-                .catch(() => setError('Notatet kunne ikke lagres'))
+                .catch((err) => {
+                    setError(err.statusCode === 401 ? 'Du har blitt logget ut' : 'Notatet kunne ikke lagres');
+                })
                 .finally(() => setIsFetching(false));
         }
     };

@@ -69,7 +69,9 @@ export const ReturButton: React.FC<ReturButtonProps> = ({
                 onSuccess?.();
             })
             .catch((error) => {
-                setError(error.message ?? 'En feil oppstod');
+                setError(
+                    error.statusCode === 401 ? 'Du har blitt logget ut' : 'En feil oppsto, saken kunne ikke returneres',
+                );
             });
     };
 
