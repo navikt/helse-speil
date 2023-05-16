@@ -4,7 +4,8 @@ import '@testing-library/jest-dom/extend-expect';
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
-import { EndringForm, typeendringer } from './EndringForm';
+import { EndringForm } from './EndringForm';
+import { typeendringer } from './endringFormUtils';
 
 let erProd = true;
 

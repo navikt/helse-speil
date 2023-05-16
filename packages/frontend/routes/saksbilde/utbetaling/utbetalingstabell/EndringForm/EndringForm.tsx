@@ -5,18 +5,11 @@ import { Button, Select, TextField } from '@navikt/ds-react';
 
 import { Bold } from '@components/Bold';
 
+import { typeendringer } from './endringFormUtils';
+
 import styles from './EndringForm.module.css';
 
 const dagtyperUtenGradering: Array<Utbetalingstabelldagtype> = ['Arbeid', 'Ferie', 'Permisjon', 'Egenmelding'];
-
-export const typeendringer: Utbetalingstabelldagtype[] = [
-    'Syk',
-    'Syk (NAV)',
-    'Ferie',
-    'Egenmelding',
-    'Permisjon',
-    'Arbeid',
-];
 
 const harEndring = (endring: Partial<UtbetalingstabellDag>): boolean =>
     typeof endring.type === 'string' || typeof endring.grad === 'number';
