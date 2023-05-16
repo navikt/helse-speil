@@ -50,10 +50,9 @@ export default ({ spesialistClient }: SetupOptions) => {
             .then(() => res.sendStatus(204))
             .catch((err) => {
                 logger.error(
-                    `Feil under fatting av vedtak for ${saksbehandlerIdent}, oppgavereferanse ${oppgavereferanse}: ${err}`
+                    `Feil under fatting av vedtak for ${saksbehandlerIdent}, oppgavereferanse ${oppgavereferanse}: ${err}`,
                 );
-
-                const statusCode = err.statusCode === 409 ? 409 : 403 ? 403 : 500;
+                const statusCode = [400, 403, 409].includes(err.statusCode) ? err.statusCode : 500;
                 res.status(statusCode).send('Feil under fatting av vedtak.');
             });
     });
@@ -61,7 +60,7 @@ export default ({ spesialistClient }: SetupOptions) => {
     router.post('/annullering', (req: SpeilRequest, res: Response) => {
         logger.info(`Sender annullering for fagsystemId ${req.body.fagsystemId}`);
         logger.sikker.info(
-            `Sender annullering for fagsystemId ${req.body.fagsystemId} med payload ${JSON.stringify(req.body)}`
+            `Sender annullering for fagsystemId ${req.body.fagsystemId} med payload ${JSON.stringify(req.body)}`,
         );
         const body = {
             aktørId: req.body.aktørId,
