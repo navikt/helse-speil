@@ -45,7 +45,7 @@ import { Refusjonsoversikt } from '../refusjon/Refusjonsoversikt';
 import { EditableInntekt } from './EditableInntekt/EditableInntekt';
 import { ReadOnlyInntekt } from './ReadOnlyInntekt';
 import { RedigerGhostInntekt } from './RedigerGhostInntekt';
-import { RedigerInntektOgRefusjon } from './RedigerInntektOgRefusjon';
+import { RedigerInntektOgRefusjon } from './RedigerInntektOgRefusjon/RedigerInntektOgRefusjon';
 
 import styles from './Inntekt.module.css';
 
