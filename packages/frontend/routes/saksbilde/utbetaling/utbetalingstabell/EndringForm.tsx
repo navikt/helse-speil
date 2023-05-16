@@ -9,9 +9,14 @@ import styles from './EndringForm.module.css';
 
 const dagtyperUtenGradering: Array<Utbetalingstabelldagtype> = ['Arbeid', 'Ferie', 'Permisjon', 'Egenmelding'];
 
-export const getTypeendringer = (): Array<Utbetalingstabelldagtype> => {
-    return ['Syk', 'Syk (NAV)', 'Ferie', 'Egenmelding', 'Permisjon', 'Arbeid'];
-};
+export const typeendringer: Utbetalingstabelldagtype[] = [
+    'Syk',
+    'Syk (NAV)',
+    'Ferie',
+    'Egenmelding',
+    'Permisjon',
+    'Arbeid',
+];
 
 const harEndring = (endring: Partial<UtbetalingstabellDag>): boolean =>
     typeof endring.type === 'string' || typeof endring.grad === 'number';
@@ -24,7 +29,7 @@ interface EndringFormProps {
 }
 
 export const EndringForm: React.FC<EndringFormProps> = ({ markerteDager, onSubmitEndring }) => {
-    const defaultEndring = { type: getTypeendringer()[0] };
+    const defaultEndring = { type: typeendringer[0] };
     const [endring, setEndring] = useState<Partial<UtbetalingstabellDag>>(defaultEndring);
 
     const form = useForm();
@@ -42,7 +47,7 @@ export const EndringForm: React.FC<EndringFormProps> = ({ markerteDager, onSubmi
     });
 
     const oppdaterDagtype = (event: React.ChangeEvent<HTMLSelectElement>) => {
-        if (getTypeendringer().includes(event.target.value as Utbetalingstabelldagtype)) {
+        if (typeendringer.includes(event.target.value as Utbetalingstabelldagtype)) {
             form.clearErrors('dagtype');
             const type = event.target.value as Utbetalingstabelldagtype;
             setEndring({ ...endring, type, grad: kanVelgeGrad(type) ? endring.grad : undefined });
@@ -82,7 +87,7 @@ export const EndringForm: React.FC<EndringFormProps> = ({ markerteDager, onSubmi
                             error={form.formState.errors.dagtype ? <>{form.formState.errors.dagtype.message}</> : null}
                             data-testid="dagtypevelger"
                         >
-                            {getTypeendringer().map((dagtype) => (
+                            {typeendringer.map((dagtype) => (
                                 <option key={dagtype} value={dagtype}>
                                     {dagtype}
                                 </option>

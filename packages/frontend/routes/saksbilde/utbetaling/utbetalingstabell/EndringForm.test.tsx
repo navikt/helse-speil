@@ -4,7 +4,7 @@ import '@testing-library/jest-dom/extend-expect';
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
-import { EndringForm, getTypeendringer } from './EndringForm';
+import { EndringForm, typeendringer } from './EndringForm';
 
 let erProd = true;
 
@@ -15,7 +15,7 @@ jest.mock('@utils/featureToggles', () => ({
 describe('Typeendringer', () => {
     it('returnerer typeendringer for dagtypevelgeren under overstyring', () => {
         erProd = true;
-        expect(getTypeendringer()).toEqual(['Syk', 'Syk (NAV)', 'Ferie', 'Egenmelding', 'Permisjon', 'Arbeid']);
+        expect(typeendringer).toEqual(['Syk', 'Syk (NAV)', 'Ferie', 'Egenmelding', 'Permisjon', 'Arbeid']);
     });
 });
 
