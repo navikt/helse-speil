@@ -1,15 +1,13 @@
 import { Opptjeningstid, Sykepengegrunnlag } from './vilkårsgrupper/Vilkårsgrupper';
-import styled from '@emotion/styled';
 import React from 'react';
 
-import { BodyShort, Tooltip } from '@navikt/ds-react';
+import { BodyShort } from '@navikt/ds-react';
 
-import { Flex } from '@components/Flex';
 import { LovdataLenke } from '@components/LovdataLenke';
-import { Advarselikon } from '@components/ikoner/Advarselikon';
 import { Vilkarsgrunnlag, VilkarsgrunnlagSpleis, Vurdering } from '@io/graphql';
 
 import { Vilkårdata, Vilkårstype } from '../../../mapping/vilkår';
+import { EndretParagrafContainer } from './EndretParagrafContainer';
 
 const VilkårManglerData = () => <BodyShort>Mangler data om vilkåret</BodyShort>;
 
@@ -44,17 +42,6 @@ const opptjeningstid = (skjæringstidspunkt: DateString, vilkår: Vilkarsgrunnla
     }
 };
 
-const EndretParagrafContainer = Flex.withComponent('span');
-
-const IconContainer = styled.div`
-    justify-self: center;
-`;
-
-const LovdataLenkeContainer = styled(BodyShort)`
-    font-size: 14px;
-    margin-left: 0.5rem;
-`;
-
 const sykepengegrunnlag = (alderVedSkjæringstidspunkt: number, vilkår: Vilkarsgrunnlag): Vilkårdata => {
     const harEndretParagraf = alderVedSkjæringstidspunkt < 70 && alderVedSkjæringstidspunkt >= 67;
     switch (vilkår.vilkarsgrunnlagtype) {
@@ -65,20 +52,7 @@ const sykepengegrunnlag = (alderVedSkjæringstidspunkt: number, vilkår: Vilkars
                 oppfylt: spleisVilkår.oppfyllerKravOmMinstelonn,
                 tittel: 'Krav til minste sykepengegrunnlag',
                 paragraf: harEndretParagraf ? (
-                    <EndretParagrafContainer alignItems="center">
-                        <Tooltip content="Mellom 67 og 70 år - inntektsgrunnlaget må overstige 2G">
-                            <IconContainer>
-                                <Advarselikon
-                                    alt="Mellom 67 og 70 år - inntektsgrunnlaget må overstige 2G"
-                                    height={16}
-                                    width={16}
-                                />
-                            </IconContainer>
-                        </Tooltip>
-                        <LovdataLenkeContainer as="p">
-                            <LovdataLenke paragraf="8-51">§ 8-51</LovdataLenke>
-                        </LovdataLenkeContainer>
-                    </EndretParagrafContainer>
+                    <EndretParagrafContainer />
                 ) : (
                     <LovdataLenke paragraf="8-3">§ 8-3</LovdataLenke>
                 ),

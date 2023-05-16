@@ -1,0 +1,14 @@
+.Container {
+    display: flex;
+    align-items: center;
+}
+
+.IkonContainer {
+    display: flex;
+    align-items: center;
+}
+
+.LovdataLenkeContainer {
+    font-size: 14px;
+    margin-left: 0.5rem;
+}
