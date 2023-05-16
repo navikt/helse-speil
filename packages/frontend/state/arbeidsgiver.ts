@@ -1,4 +1,5 @@
 import dayjs from 'dayjs';
+import { useMemo } from 'react';
 import { useRecoilState } from 'recoil';
 
 import {
@@ -27,8 +28,6 @@ import {
     isInntektoverstyring,
     isUberegnetPeriode,
 } from '@utils/typeguards';
-
-import { useDagoverstyringer } from '../routes/saksbilde/utbetaling/Utbetaling';
 
 export const findArbeidsgiverWithGhostPeriode = (
     period: GhostPeriode,
@@ -244,6 +243,24 @@ export const useEndringerForPeriode = (organisasjonsnummer: string): UseEndringe
     return { inntektsendringer: inntekter, arbeidsforholdendringer: arbeidsforhold, dagendringer: dager };
 };
 
+export const useDagoverstyringer = (
+    fom: DateString,
+    tom: DateString,
+    arbeidsgiver?: Maybe<Arbeidsgiver>,
+): Array<Dagoverstyring> => {
+    return useMemo(() => {
+        if (!arbeidsgiver) return [];
+
+        const start = dayjs(fom);
+        const end = dayjs(tom);
+        return arbeidsgiver.overstyringer.filter(isDagoverstyring).filter((overstyring) =>
+            overstyring.dager.some((dag) => {
+                const dato = dayjs(dag.dato);
+                return dato.isSameOrAfter(start) && dato.isSameOrBefore(end);
+            }),
+        );
+    }, [arbeidsgiver, fom, tom]);
+};
 export const useHarDagOverstyringer = (periode: FetchedBeregnetPeriode): boolean => {
     const arbeidsgiver = useCurrentArbeidsgiver();
     const dagendringer = useDagoverstyringer(periode.fom, periode.tom, arbeidsgiver);

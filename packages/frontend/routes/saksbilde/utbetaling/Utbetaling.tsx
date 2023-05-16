@@ -1,5 +1,4 @@
-import dayjs from 'dayjs';
-import React, { useMemo } from 'react';
+import React from 'react';
 
 import { Alert } from '@navikt/ds-react';
 
@@ -8,9 +7,10 @@ import { PopoverHjelpetekst } from '@components/PopoverHjelpetekst';
 import { SortInfoikon } from '@components/ikoner/SortInfoikon';
 import { useActivePeriodHasLatestSkjæringstidspunkt } from '@hooks/revurdering';
 import { useIsReadOnlyOppgave } from '@hooks/useIsReadOnlyOppgave';
-import { Arbeidsgiver, Dagoverstyring, Overstyring, UberegnetPeriode, Utbetalingstatus } from '@io/graphql';
+import { Arbeidsgiver, UberegnetPeriode, Utbetalingstatus } from '@io/graphql';
 import {
     useCurrentArbeidsgiver,
+    useDagoverstyringer,
     useErAktivPeriodeLikEllerFørPeriodeTilGodkjenning,
     useGjenståendeDager,
 } from '@state/arbeidsgiver';
@@ -70,28 +70,6 @@ const ReadonlyUtbetaling: React.FC<ReadonlyUtbetalingProps> = ({ fom, tom, dager
             </div>
         </div>
     );
-};
-
-const isDagoverstyring = (overstyring: Overstyring): overstyring is Dagoverstyring =>
-    (overstyring as Dagoverstyring).__typename === 'Dagoverstyring';
-
-export const useDagoverstyringer = (
-    fom: DateString,
-    tom: DateString,
-    arbeidsgiver?: Maybe<Arbeidsgiver>,
-): Array<Dagoverstyring> => {
-    return useMemo(() => {
-        if (!arbeidsgiver) return [];
-
-        const start = dayjs(fom);
-        const end = dayjs(tom);
-        return arbeidsgiver.overstyringer.filter(isDagoverstyring).filter((overstyring) =>
-            overstyring.dager.some((dag) => {
-                const dato = dayjs(dag.dato);
-                return dato.isSameOrAfter(start) && dato.isSameOrBefore(end);
-            }),
-        );
-    }, [arbeidsgiver, fom, tom]);
 };
 
 interface UtbetalingBeregnetPeriodeProps {
