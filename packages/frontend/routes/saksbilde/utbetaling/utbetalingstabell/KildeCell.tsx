@@ -8,7 +8,7 @@ import { Kildetype } from '@io/graphql';
 
 import { EndringsloggButton } from '../../sykepengegrunnlag/inntekt/EndringsloggButton';
 import { CellContent } from '../../table/CellContent';
-import { erEksplisittHelg } from './Utbetalingstabell';
+import { erEksplisittHelg } from './helgUtils';
 
 interface KildeTypeIconProps {
     kilde?: Kildetype;

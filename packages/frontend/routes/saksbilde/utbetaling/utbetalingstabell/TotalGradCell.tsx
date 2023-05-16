@@ -4,7 +4,7 @@ import { Endringstrekant } from '@components/Endringstrekant';
 
 import { CellContent } from '../../table/CellContent';
 import { Cell } from './Cell';
-import { helgetyper } from './Utbetalingstabell';
+import { helgetyper } from './helgUtils';
 
 const dagtypeIsValid = (type: Utbetalingstabelldagtype): boolean =>
     [...helgetyper, 'Arbeid', 'Ferie', 'Permisjon'].every((it) => it !== type);

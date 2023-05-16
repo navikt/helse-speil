@@ -12,7 +12,7 @@ import { IconFailure } from '../../table/icons/IconFailure';
 import { IconFerie } from '../../table/icons/IconFerie';
 import { IconPermisjon } from '../../table/icons/IconPermisjon';
 import { IconSyk } from '../../table/icons/IconSyk';
-import { erEksplisittHelg } from './Utbetalingstabell';
+import { erEksplisittHelg } from './helgUtils';
 
 const IconContainer = styled.div`
     width: 1rem;
