@@ -7,7 +7,7 @@ import { BodyShort } from '@navikt/ds-react';
 import { OverstyringTimeoutModal } from '@components/OverstyringTimeoutModal';
 import { useMap } from '@hooks/useMap';
 
-import { EndringForm } from './utbetalingstabell/EndringForm';
+import { EndringForm } from './utbetalingstabell/EndringForm/EndringForm';
 import { MarkerAlleDagerCheckbox } from './utbetalingstabell/MarkerAlleDagerCheckbox';
 import { OverstyringForm } from './utbetalingstabell/OverstyringForm';
 import { RadmarkeringCheckbox } from './utbetalingstabell/RadmarkeringCheckbox';
