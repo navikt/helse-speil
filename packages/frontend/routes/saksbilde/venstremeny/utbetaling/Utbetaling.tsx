@@ -5,7 +5,6 @@ import { useRecoilValue, useSetRecoilState } from 'recoil';
 
 import { BodyShort, Loader } from '@navikt/ds-react';
 
-import { ErrorMessage } from '@components/ErrorMessage';
 import { useErBeslutteroppgaveOgHarTilgang } from '@hooks/useErBeslutteroppgaveOgHarTilgang';
 import { useHarVurderLovvalgOgMedlemskapVarsel } from '@hooks/useHarVurderLovvalgOgMedlemskapVarsel';
 import { useHarUvurderteVarslerPåEllerFør } from '@hooks/uvurderteVarsler';
@@ -75,10 +74,9 @@ const useHarOverstyringerEtterSisteGodkjenteUtbetaling = (person: FetchedPerson)
     return getOverstyringerForEksisterendePerioder(person, timestamp).length > 0;
 };
 
-type SpeilError = {
+export type BackendFeil = {
     message: string;
     statusCode?: number;
-    technical?: string;
 };
 
 interface UtbetalingProps {
@@ -90,7 +88,6 @@ interface UtbetalingProps {
 export const Utbetaling = ({ period, person, arbeidsgiver }: UtbetalingProps) => {
     const [godkjentPeriode, setGodkjentPeriode] = useState<string | undefined>();
     const lokaleInntektoverstyringer = useRecoilValue(inntektOgRefusjonState);
-    const [error, setError] = useState<SpeilError | null>();
     const ventEllerHopp = useOnGodkjenn(period, person);
     const history = useHistory();
     const totrinnsvurderingAktiv = useTotrinnsvurderingErAktiv();
@@ -151,7 +148,6 @@ export const Utbetaling = ({ period, person, arbeidsgiver }: UtbetalingProps) =>
                             lokaleInntektoverstyringer.aktørId !== null
                         }
                         onSuccess={onSendTilGodkjenning}
-                        onError={setError}
                     >
                         Send til godkjenning
                     </SendTilGodkjenningButton>
@@ -169,7 +165,6 @@ export const Utbetaling = ({ period, person, arbeidsgiver }: UtbetalingProps) =>
                             lokaleInntektoverstyringer.aktørId !== null
                         }
                         onSuccess={onGodkjennUtbetaling}
-                        onError={setError}
                     >
                         {erBeslutteroppgaveOgHarTilgang
                             ? 'Godkjenn og utbetal'
@@ -189,20 +184,9 @@ export const Utbetaling = ({ period, person, arbeidsgiver }: UtbetalingProps) =>
                         />
                     )}
                 {erBeslutteroppgaveOgHarTilgang && (
-                    <ReturButton
-                        disabled={periodenErSendt}
-                        activePeriod={period}
-                        onSuccess={onAvvisUtbetaling}
-                        onError={setError}
-                    />
+                    <ReturButton disabled={periodenErSendt} activePeriod={period} onSuccess={onAvvisUtbetaling} />
                 )}
             </div>
-            {error && (
-                <ErrorMessage>
-                    {error.message || 'En feil har oppstått.'}
-                    {error.statusCode === 401 && <a href="/"> Logg inn</a>}
-                </ErrorMessage>
-            )}
             {periodenErSendt && (
                 <InfoText as="p">
                     <Spinner />

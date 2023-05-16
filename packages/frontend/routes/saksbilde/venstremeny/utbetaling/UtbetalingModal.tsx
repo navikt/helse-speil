@@ -4,6 +4,7 @@ import React from 'react';
 import { BodyShort, Button, Heading, Loader } from '@navikt/ds-react';
 
 import { Bold } from '@components/Bold';
+import { ErrorMessage } from '@components/ErrorMessage';
 import { Modal } from '@components/Modal';
 import { AnonymizableTextWithEllipsis } from '@components/TextWithEllipsis';
 import { ArbeidsgiverikonMedTooltip } from '@components/ikoner/ArbeidsgiverikonMedTooltip';
@@ -12,6 +13,7 @@ import { Personinfo, Utbetaling, Utbetalingstatus } from '@io/graphql';
 import { somPenger } from '@utils/locale';
 
 import styles from '../BeløpTilUtbetaling.module.css';
+import { BackendFeil } from './Utbetaling';
 
 const Buttons = styled.div`
     > button:not(:last-of-type) {
@@ -42,6 +44,7 @@ interface UtbetalingModalProps {
     isSending: boolean;
     onApprove: () => void;
     onClose: () => void;
+    error: BackendFeil | undefined;
     totrinnsvurdering: boolean;
     utbetaling?: Utbetaling;
     arbeidsgiver?: string;
@@ -52,6 +55,7 @@ export const UtbetalingModal = ({
     isSending,
     onApprove,
     onClose,
+    error,
     totrinnsvurdering,
     utbetaling,
     arbeidsgiver,
@@ -89,6 +93,9 @@ export const UtbetalingModal = ({
                 </Button>
             </Buttons>
         </Container>
+        <ErrorMessage className={styles.Feilmelding}>
+            {error && (error.message || 'En feil har oppstått.')}
+        </ErrorMessage>
     </Modal>
 );
 

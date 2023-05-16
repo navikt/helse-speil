@@ -39,13 +39,16 @@ export const ReturButton: React.FC<ReturButtonProps> = ({
     ...buttonProps
 }) => {
     const [showModal, setShowModal] = useState(false);
-    const [_isSending, setIsSending] = useState(false);
+    const [error, setError] = useState<string | undefined>();
 
     const addReturtoast = useAddReturtoast();
     const person = useCurrentPerson();
     const amplitude = useContext(AmplitudeContext);
 
-    const closeModal = () => setShowModal(false);
+    const closeModal = () => {
+        setError(undefined);
+        setShowModal(false);
+    };
 
     if (!person) {
         return null;
@@ -53,22 +56,20 @@ export const ReturButton: React.FC<ReturButtonProps> = ({
     const personinfo = person.personinfo;
 
     const returnerUtbetaling = (notattekst: string) => {
-        setIsSending(true);
+        setError(undefined);
 
-        postSendTilbakeTilSaksbehandler(activePeriod.oppgave?.id!, {
+        return postSendTilbakeTilSaksbehandler(activePeriod.oppgave?.id!, {
             tekst: notattekst,
             type: 'Retur',
         })
             .then(() => {
                 amplitude.logTotrinnsoppgaveReturnert();
                 addReturtoast();
-                setIsSending(false);
                 closeModal();
                 onSuccess?.();
             })
             .catch((error) => {
-                setIsSending(false);
-                onError?.(error);
+                setError(error.message ?? 'En feil oppstod');
             });
     };
 
@@ -86,10 +87,14 @@ export const ReturButton: React.FC<ReturButtonProps> = ({
             </Button>
             {showModal && (
                 <NyttNotatModal
-                    onClose={() => setShowModal(false)}
+                    onClose={() => {
+                        setError(undefined);
+                        setShowModal(false);
+                    }}
                     personinfo={personinfo}
                     vedtaksperiodeId={activePeriod.vedtaksperiodeId}
                     onSubmitOverride={returnerUtbetaling}
+                    errorOverride={error}
                     notattype="Retur"
                 />
             )}

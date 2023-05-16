@@ -34,12 +34,9 @@ export const PåVentDropdownMenuButton = ({
 
     const settPåVent = (notattekst: string) => {
         setIsFetching(true);
-        ignorePromise(
-            leggPåVentMedNotat(oppgavereferanse, { tekst: notattekst, type: 'PaaVent' }).then(() => {
-                history.push('/');
-            }),
-            errorHandler,
-        );
+        return leggPåVentMedNotat(oppgavereferanse, { tekst: notattekst, type: 'PaaVent' })
+            .then(() => history.push('/'))
+            .catch(errorHandler);
     };
 
     const fjernFraPåVent = () => {

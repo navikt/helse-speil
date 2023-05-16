@@ -14,6 +14,7 @@ import { useAddToast } from '@state/toasts';
 import { isBeregnetPeriode, isPerson } from '@utils/typeguards';
 
 import { NyttNotatModal } from '../../../oversikt/table/rader/notat/NyttNotatModal';
+import { BackendFeil } from './Utbetaling';
 import { UtbetalingModal } from './UtbetalingModal';
 
 import styles from './SendTilGodkjenningButton.module.css';
@@ -37,7 +38,6 @@ interface SendTilGodkjenningButtonProps extends Omit<React.HTMLAttributes<HTMLBu
     manglerNotatVedVurderLovvalgOgMedlemskapVarsel?: boolean;
     disabled: boolean;
     onSuccess?: () => void;
-    onError?: (error: Error) => void;
     utbetaling: Utbetaling;
     arbeidsgiver: string;
     personinfo: Personinfo;
@@ -49,7 +49,6 @@ export const SendTilGodkjenningButton: React.FC<SendTilGodkjenningButtonProps> =
     manglerNotatVedVurderLovvalgOgMedlemskapVarsel,
     disabled = false,
     onSuccess,
-    onError,
     utbetaling,
     arbeidsgiver,
     personinfo,
@@ -58,6 +57,7 @@ export const SendTilGodkjenningButton: React.FC<SendTilGodkjenningButtonProps> =
     const [showModal, setShowModal] = useState(false);
     const [showGenereltNotatModal, setShowGenereltNotatModal] = useState(false);
     const [isSending, setIsSending] = useState(false);
+    const [error, setError] = useState<BackendFeil | undefined>();
     const amplitude = useContext(AmplitudeContext);
     const addToast = useAddSendtTilGodkjenningtoast();
     const activePeriod = useActivePeriod();
@@ -75,18 +75,22 @@ export const SendTilGodkjenningButton: React.FC<SendTilGodkjenningButtonProps> =
         return null;
     }
 
-    const closeModal = () => setShowModal(false);
+    const closeModal = () => {
+        setError(undefined);
+        setShowModal(false);
+    };
     const closeGenereltNotatModal = () => setShowGenereltNotatModal(false);
 
     const postNotatOgSendTilGodkjenning = (notattekst: string) => {
+        setError(undefined);
         setIsSending(true);
-        postNotat(activePeriod.vedtaksperiodeId, { tekst: notattekst, type: NotatType.Generelt })
+        return postNotat(activePeriod.vedtaksperiodeId, { tekst: notattekst, type: NotatType.Generelt })
             .then(() => {
                 sendTilGodkjenning();
             })
             .catch((error) => {
                 setIsSending(false);
-                onError?.(error);
+                setError(error);
             });
     };
 
@@ -97,15 +101,15 @@ export const SendTilGodkjenningButton: React.FC<SendTilGodkjenningButtonProps> =
                 amplitude.logTotrinnsoppgaveTilGodkjenning();
                 addToast();
                 onSuccess?.();
+                closeModal();
             })
             .catch((error) => {
                 if (error.statusCode === 409) {
-                    onError?.({ ...error, message: 'Saken er allerede utbetalt.' });
-                } else onError?.(error);
+                    setError({ ...error, message: 'Saken er allerede utbetalt.' });
+                } else setError(error);
             })
             .finally(() => {
                 setIsSending(false);
-                closeModal();
             });
     };
 
@@ -132,6 +136,7 @@ export const SendTilGodkjenningButton: React.FC<SendTilGodkjenningButtonProps> =
                     personinfo={personinfo}
                     onClose={closeModal}
                     onApprove={sendTilGodkjenning}
+                    error={error}
                     isSending={isSending}
                     totrinnsvurdering={true}
                 />

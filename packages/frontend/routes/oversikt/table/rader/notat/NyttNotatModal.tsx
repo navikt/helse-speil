@@ -4,14 +4,13 @@ import { Controller, useForm } from 'react-hook-form';
 
 import { Button, Loader, Textarea as NavTextarea } from '@navikt/ds-react';
 
+import { ErrorMessage } from '@components/ErrorMessage';
 import { Modal } from '@components/Modal';
 import { AnonymizableText } from '@components/anonymizable/AnonymizableText';
 import { Personinfo } from '@io/graphql';
 import { postNotat } from '@io/http';
 import { useNotaterForVedtaksperiode, useRefreshNotater } from '@state/notater';
 import { useRefetchPerson } from '@state/person';
-import { useOperationErrorHandler } from '@state/varsler';
-import { ignorePromise } from '@utils/promise';
 import { getFormatertNavn } from '@utils/string';
 
 import { SisteNotat } from './SisteNotat';
@@ -26,6 +25,11 @@ const Container = styled.section`
 const Buttons = styled.span`
     display: flex;
     gap: 1rem;
+
+    span {
+        display: flex;
+        column-gap: var(--a-spacing-2);
+    }
 `;
 
 const Tittel = styled.h1`
@@ -47,11 +51,16 @@ const Textarea = styled(NavTextarea)`
     }
 `;
 
+const NotatErrorMessage = styled(ErrorMessage)`
+    margin-top: 1rem;
+`;
+
 interface NyttNotatModalProps {
     onClose: (event: React.SyntheticEvent) => void;
     personinfo: Personinfo;
     vedtaksperiodeId: string;
-    onSubmitOverride?: (notattekst: string) => void;
+    onSubmitOverride?: (notattekst: string) => Promise<any>;
+    errorOverride?: string | undefined;
     notattype: NotatType;
     ekstraInnhold?: ReactNode;
     submitButtonText?: string;
@@ -95,6 +104,7 @@ export const NyttNotatModal = ({
     personinfo,
     vedtaksperiodeId,
     onSubmitOverride,
+    errorOverride,
     notattype,
     ekstraInnhold,
     submitButtonText,
@@ -102,12 +112,12 @@ export const NyttNotatModal = ({
     const notaterForOppgave = useNotaterForVedtaksperiode(vedtaksperiodeId);
     const refreshNotater = useRefreshNotater();
     const refetchPerson = useRefetchPerson();
-    const errorHandler = useOperationErrorHandler('Nytt Notat');
-    const søkernavn = getFormatertNavn(personinfo, ['E', ',', 'F', 'M']);
+    const søkernavn = personinfo ? getFormatertNavn(personinfo, ['E', ',', 'F', 'M']) : undefined;
 
     const form = useForm();
 
     const [isFetching, setIsFetching] = useState(false);
+    const [error, setError] = useState<string | undefined>();
 
     const notattekst = notattypeTekster(notattype);
 
@@ -117,30 +127,29 @@ export const NyttNotatModal = ({
         .shift();
 
     const closeModal = (event: React.SyntheticEvent) => {
+        setError(undefined);
         onClose(event);
     };
 
     const submit = () => {
         setIsFetching(true);
+        setError(undefined);
         if (onSubmitOverride) {
-            onSubmitOverride(form.getValues().tekst);
+            onSubmitOverride(form.getValues().tekst).finally(() => setIsFetching(false));
         } else {
-            ignorePromise(
-                postNotat(vedtaksperiodeId, { tekst: form.getValues().tekst, type: notattype })
-                    .then(() => {
-                        refreshNotater(); // Refresher for oversikten, for REST
-                        refetchPerson(); // Refresher for saksbildet, for GraphQL
-                    })
-                    .finally(() => {
-                        setIsFetching(false);
-                        onClose({} as React.SyntheticEvent);
-                    }),
-                errorHandler,
-            );
+            postNotat(vedtaksperiodeId, { tekst: form.getValues().tekst, type: notattype })
+                .then(() => {
+                    refreshNotater(); // Refresher for oversikten, for REST
+                    void refetchPerson(); // Refresher for saksbildet, for GraphQL
+                    onClose({} as React.SyntheticEvent);
+                })
+                .catch(() => setError('Notatet kunne ikke lagres'))
+                .finally(() => setIsFetching(false));
         }
     };
 
     const tillattTekstlengde = 1_000;
+    const errorMessage = errorOverride ?? error;
     return (
         <Modal
             title={<Tittel>{notattekst.tittel}</Tittel>}
@@ -149,7 +158,7 @@ export const NyttNotatModal = ({
             onRequestClose={closeModal}
         >
             <Container>
-                <AnonymizableText size="small">{`Søker: ${søkernavn}`}</AnonymizableText>
+                {søkernavn && <AnonymizableText size="small">{`Søker: ${søkernavn}`}</AnonymizableText>}
                 {sisteNotat && <SisteNotat notat={sisteNotat} />}
                 {ekstraInnhold}
                 <form onSubmit={form.handleSubmit(submit)}>
@@ -189,6 +198,7 @@ export const NyttNotatModal = ({
                     </Buttons>
                 </form>
             </Container>
+            {errorMessage && <NotatErrorMessage>{errorMessage}</NotatErrorMessage>}
         </Modal>
     );
 };

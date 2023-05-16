@@ -235,25 +235,19 @@ export const useFjernTildeling = (): ((oppgavereferanse: string) => () => Promis
 export const useLeggPåVent = () => {
     const tildelinger = useRecoilValue(tildelingerState);
     const setLokaleTildelinger = useSetRecoilState(_tildelingerState);
-    const addTildelingsvarsel = useAddTildelingsvarsel();
     const removeTildelingsvarsel = useRemoveTildelingsvarsel();
 
     return (oppgavereferanse: string, notat: NotatDTO) => {
         removeTildelingsvarsel();
-        return postLeggPåVent(oppgavereferanse, notat)
-            .then((response) => {
-                setLokaleTildelinger({
-                    ...tildelinger,
-                    [oppgavereferanse]: tildelinger[oppgavereferanse]
-                        ? { ...tildelinger[oppgavereferanse]!, reservert: true }
-                        : undefined,
-                });
-                return Promise.resolve(response);
-            })
-            .catch(() => {
-                addTildelingsvarsel('Kunne ikke legge sak på vent.');
-                return Promise.reject();
+        return postLeggPåVent(oppgavereferanse, notat).then((response) => {
+            setLokaleTildelinger({
+                ...tildelinger,
+                [oppgavereferanse]: tildelinger[oppgavereferanse]
+                    ? { ...tildelinger[oppgavereferanse]!, reservert: true }
+                    : undefined,
             });
+            return response;
+        });
     };
 };
 

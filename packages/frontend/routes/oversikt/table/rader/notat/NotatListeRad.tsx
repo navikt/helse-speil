@@ -21,7 +21,7 @@ interface NotatListeRadProps {
 export const NotatListeRad = ({ notat, vedtaksperiodeId, innloggetSaksbehandler }: NotatListeRadProps) => {
     const [isFetching, setIsFetching] = useState(false);
     const refreshNotater = useRefreshNotater();
-    const errorHandler = useOperationErrorHandler('Feilregistrering av Notat');
+    const errorHandler = useOperationErrorHandler('Feilregistrering av notat');
 
     const feilregistrerNotat = () => {
         setIsFetching(true);
