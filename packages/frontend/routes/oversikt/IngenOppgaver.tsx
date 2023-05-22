@@ -7,7 +7,7 @@ import { Heading } from '@navikt/ds-react';
 import agurk from '../../assets/ingen-oppgaver-agurk.png';
 import fredagstaco from '../../assets/ingen-oppgaver-fredagstaco.png';
 import brevkasse from '../../assets/ingen-oppgaver.png';
-import { TabType, useAktivTab } from './Tabs';
+import { TabType, useAktivTab } from './tabState';
 
 import styles from './IngenOppgaver.module.css';
 

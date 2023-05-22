@@ -1,7 +1,7 @@
 import { useLayoutEffect } from 'react';
 import { atom, selector, useRecoilValue, useSetRecoilState } from 'recoil';
 
-import { TabType, tabState } from '../../Tabs';
+import { TabType, tabState } from '../../tabState';
 
 type Pagination = {
     entriesPerPage: number;

@@ -2,7 +2,7 @@ import React from 'react';
 
 import { OppgaveForOversiktsvisning } from '@io/graphql';
 
-import { TabType } from '../../Tabs';
+import { TabType } from '../../tabState';
 import { FilterButton } from '../FilterButton';
 import { Header } from '../Header';
 import { Filter } from '../state/filter';

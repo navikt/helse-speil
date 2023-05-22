@@ -6,7 +6,7 @@ import { MutableSnapshot } from 'recoil';
 import { render } from '@testing-library/react';
 
 import { IngenOppgaver } from './IngenOppgaver';
-import { TabType, tabState } from './Tabs';
+import { TabType, tabState } from './tabState';
 
 const initializerWithTabType =
     (tabType: TabType) =>

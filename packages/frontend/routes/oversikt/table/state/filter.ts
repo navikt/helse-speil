@@ -2,7 +2,7 @@ import { atom, selector, useRecoilValue, useSetRecoilState } from 'recoil';
 
 import { Mottaker, OppgaveForOversiktsvisning, Oppgavetype, Periodetype } from '@io/graphql';
 
-import { TabType, tabState } from '../../Tabs';
+import { TabType, tabState } from '../../tabState';
 
 export type Filter<T> = {
     key: string;

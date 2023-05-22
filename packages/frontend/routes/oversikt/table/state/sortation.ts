@@ -2,7 +2,7 @@ import { atom, selector, useRecoilValue, useSetRecoilState } from 'recoil';
 
 import { OppgaveForOversiktsvisning } from '@io/graphql';
 
-import { TabType, tabState } from '../../Tabs';
+import { TabType, tabState } from '../../tabState';
 
 export type SortationState = 'ascending' | 'descending' | 'none';
 

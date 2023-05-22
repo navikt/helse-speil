@@ -16,8 +16,9 @@ import {
 import { useResetPerson } from '@state/person';
 
 import { IngenOppgaver } from './IngenOppgaver';
-import { TabType, Tabs, useAktivTab } from './Tabs';
+import { Tabs } from './Tabs';
 import { BehandlingsstatistikkView } from './behandlingsstatistikk/BehandlingsstatistikkView';
+import { TabType, useAktivTab } from './tabState';
 import { BehandletIdagTable } from './table/BehandletIdagTable';
 import { OppgaverTable } from './table/OppgaverTable/OppgaverTable';
 import { OppgaverTableSkeleton } from './table/OppgaverTableSkeleton';

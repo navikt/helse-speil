@@ -1,32 +1,17 @@
 import classNames from 'classnames';
 import React from 'react';
-import { atom, useRecoilState, useRecoilValue } from 'recoil';
+import { useRecoilState } from 'recoil';
 
 import { DataFilled } from '@navikt/ds-icons';
 
 import { RoundedButton } from '@components/RoundedButton';
 import { useInnloggetSaksbehandler } from '@state/authentication';
-import { sessionStorageEffect } from '@state/effects/sessionStorageEffect';
 import { useMineOppgaver, useOppgaver } from '@state/oppgaver';
 
 import { useShowStatistikk, useToggleStatistikk } from './behandlingsstatistikk/state';
+import { TabType, tabState } from './tabState';
 
 import styles from './Tabs.module.css';
-
-export enum TabType {
-    TilGodkjenning = 'alle',
-    Mine = 'mine',
-    Ventende = 'ventende',
-    BehandletIdag = 'behandletIdag',
-}
-
-export const tabState = atom<TabType>({
-    key: 'tabState',
-    default: TabType.TilGodkjenning,
-    effects: [sessionStorageEffect],
-});
-
-export const useAktivTab = () => useRecoilValue(tabState);
 
 interface OppgaveTabProps {
     tag: TabType;

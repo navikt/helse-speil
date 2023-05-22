@@ -4,7 +4,7 @@ import { useIsReadOnlyOppgave } from '@hooks/useIsReadOnlyOppgave';
 import { FetchOppgaverQuery, OppgaveForOversiktsvisning } from '@io/graphql';
 import { useSyncNotater } from '@state/notater';
 
-import { TabType, useAktivTab } from '../../Tabs';
+import { TabType, useAktivTab } from '../../tabState';
 import { Pagination } from '../Pagination';
 import { Filter, useFilters, useSetMultipleFilters, useToggleFilter } from '../state/filter';
 import { usePagination } from '../state/pagination';
