@@ -8,11 +8,12 @@ query FetchOppgaver {
         type
         periodetype
         flereArbeidsgivere
-        antallVarsler
-        sistSendt
-        boenhet {
-            navn
+        navn {
+            fornavn
+            mellomnavn
+            etternavn
         }
+        sistSendt
         tildeling {
             reservert
             navn

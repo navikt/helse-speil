@@ -160,7 +160,7 @@ export type BeregnetPeriode = Periode & {
     tom: Scalars['String'];
     totrinnsvurdering?: Maybe<Totrinnsvurdering>;
     utbetaling: Utbetaling;
-    varsler: Array<Scalars['String']>;
+    varsler?: Maybe<Array<Scalars['String']>>;
     varslerForGenerasjon: Array<VarselDto>;
     vedtaksperiodeId: Scalars['String'];
     vilkarsgrunnlagId?: Maybe<Scalars['String']>;
@@ -218,8 +218,8 @@ export type Faresignal = {
 export type FerdigstiltOppgave = {
     __typename?: 'FerdigstiltOppgave';
     aktorId: Scalars['String'];
-    antallVarsler: Scalars['Int'];
-    bosted: Scalars['String'];
+    antallVarsler?: Maybe<Scalars['Int']>;
+    bosted?: Maybe<Scalars['String']>;
     ferdigstiltAv?: Maybe<Scalars['String']>;
     ferdigstiltTidspunkt: Scalars['String'];
     id: Scalars['String'];
@@ -464,12 +464,13 @@ export enum Oppdragsstatus {
 export type OppgaveForOversiktsvisning = {
     __typename?: 'OppgaveForOversiktsvisning';
     aktorId: Scalars['String'];
-    antallVarsler: Scalars['Int'];
-    boenhet: Boenhet;
+    antallVarsler?: Maybe<Scalars['Int']>;
+    boenhet?: Maybe<Boenhet>;
     flereArbeidsgivere: Scalars['Boolean'];
     fodselsnummer: Scalars['String'];
     id: Scalars['String'];
     mottaker?: Maybe<Mottaker>;
+    navn: Personnavn;
     opprettet: Scalars['String'];
     opprinneligSoknadsdato: Scalars['String'];
     periodetype?: Maybe<Periodetype>;

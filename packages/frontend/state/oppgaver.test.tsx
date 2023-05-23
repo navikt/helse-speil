@@ -35,6 +35,11 @@ const enOppgave = (): OppgaveForOversiktsvisning => ({
         fodselsdato: '1980-01-01',
         adressebeskyttelse: Adressebeskyttelse.Ugradert,
     },
+    navn: {
+        fornavn: 'Alfa',
+        mellomnavn: 'Beta',
+        etternavn: 'Omega',
+    },
     fodselsnummer: '12345678910',
     aktorId: '12345678910',
     antallVarsler: 0,

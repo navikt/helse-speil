@@ -20,6 +20,10 @@ export const enOppgaveForOversikten: OverridableConstructor<OppgaveForOversiktsv
         fornavn: 'Fornavn',
         kjonn: Kjonn.Mann,
     },
+    navn: {
+        etternavn: 'Etternavn',
+        fornavn: 'Fornavn',
+    },
     boenhet: {
         id: '1234',
         navn: 'Et sted',
