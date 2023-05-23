@@ -351,8 +351,10 @@ export type Mutation = {
     __typename?: 'Mutation';
     feilregistrerKommentar: Scalars['Boolean'];
     feilregistrerNotat: Scalars['Boolean'];
+    fjernTildeling: Scalars['Boolean'];
     leggTilKommentar?: Maybe<Kommentar>;
     leggTilNotat: Scalars['Int'];
+    opprettTildeling?: Maybe<Tildeling>;
     settVarselstatusAktiv?: Maybe<VarselDto>;
     settVarselstatusVurdert?: Maybe<VarselDto>;
 };
@@ -363,6 +365,10 @@ export type MutationFeilregistrerKommentarArgs = {
 
 export type MutationFeilregistrerNotatArgs = {
     id: Scalars['Int'];
+};
+
+export type MutationFjernTildelingArgs = {
+    oppgaveId: Scalars['String'];
 };
 
 export type MutationLeggTilKommentarArgs = {
@@ -376,6 +382,10 @@ export type MutationLeggTilNotatArgs = {
     tekst: Scalars['String'];
     type: NotatType;
     vedtaksperiodeId: Scalars['String'];
+};
+
+export type MutationOpprettTildelingArgs = {
+    oppgaveId: Scalars['String'];
 };
 
 export type MutationSettVarselstatusAktivArgs = {
