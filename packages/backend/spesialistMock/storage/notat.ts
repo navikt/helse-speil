@@ -48,7 +48,9 @@ export class NotatMock {
                 NotatMock.updateNotat(vedtaksperiodeId, notat.id, {
                     kommentarer: [
                         ...notat.kommentarer.map((it) =>
-                            it.id === id ? { ...it, feilregistrert_tidspunkt: dayjs().format(ISO_TIDSPUNKTFORMAT) } : it
+                            it.id === id
+                                ? { ...it, feilregistrert_tidspunkt: dayjs().format(ISO_TIDSPUNKTFORMAT) }
+                                : it,
                         ),
                     ],
                 });
@@ -63,7 +65,7 @@ export class NotatMock {
     static updateNotat = (id: UUID, notatId: number, overrides: Partial<Notat>): void => {
         NotatMock.notater.set(
             id,
-            NotatMock.getNotater(id).map((it) => (it.id === notatId ? { ...it, ...overrides } : it))
+            NotatMock.getNotater(id).map((it) => (it.id === notatId ? { ...it, ...overrides } : it)),
         );
     };
 

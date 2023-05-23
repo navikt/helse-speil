@@ -104,7 +104,7 @@ const setUpAuthentication = () => {
                 logger.warn(`Error caught during login: ${err.message} (se sikkerLog for detaljer)`);
                 logger.sikker.warn(
                     `Error caught during login: ${err.message}. The request received: ${util.inspect(req)}`,
-                    err
+                    err,
                 );
                 authErrorCounter.inc();
                 session.destroy((err) => {
@@ -142,7 +142,7 @@ app.use('/*', async (req: SpeilRequest, res, next) => {
                 logger.info(`No valid session found for ${name}, connecting via ${ipAddressFromRequest(req)}`);
                 logger.sikker.info(
                     `No valid session found for ${name}, connecting via ${ipAddressFromRequest(req)}`,
-                    logger.requestMeta(req)
+                    logger.requestMeta(req),
                 );
             }
             if (req.originalUrl === '/' || req.originalUrl.startsWith('/static')) {
