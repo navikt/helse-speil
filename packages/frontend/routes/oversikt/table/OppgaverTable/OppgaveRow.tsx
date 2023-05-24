@@ -32,11 +32,11 @@ export const OppgaveRow = ({ oppgave, readOnly }: OppgaveRowProps) => (
         <InntektskildeCell flereArbeidsgivere={oppgave.flereArbeidsgivere} />
         <DatoCell date={oppgave.sistSendt ?? oppgave.opprettet} />
         <DatoCell date={oppgave.opprinneligSoknadsdato ?? oppgave.opprettet} />
-        <OptionsCell oppgave={oppgave} personinfo={oppgave.personinfo} />
+        <OptionsCell oppgave={oppgave} navn={oppgave.navn} />
         {oppgave.tildeling?.reservert ? (
             <NotatCell
                 vedtaksperiodeId={oppgave.vedtaksperiodeId}
-                personinfo={oppgave.personinfo}
+                navn={oppgave.navn}
                 erPåVent={oppgave.tildeling.reservert}
             />
         ) : (

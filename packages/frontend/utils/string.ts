@@ -1,17 +1,17 @@
-import { Personinfo } from '@io/graphql';
+import { Personnavn } from '@io/graphql';
 
 type NameFormat = ('E' | 'F' | 'M' | ',')[];
 
-export const getFormatertNavn = (personinfo: Personinfo, format: NameFormat = ['F', 'M', 'E']): string => {
+export const getFormatertNavn = (navn: Personnavn, format: NameFormat = ['F', 'M', 'E']): string => {
     return format
         .map((code) => {
             switch (code) {
                 case 'E':
-                    return personinfo.etternavn;
+                    return navn.etternavn;
                 case 'F':
-                    return personinfo.fornavn;
+                    return navn.fornavn;
                 case 'M':
-                    return personinfo.mellomnavn;
+                    return navn.mellomnavn;
                 case ',':
                     return ',';
             }

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 
 import { Dropdown } from '@navikt/ds-react-internal';
 
-import { Personinfo } from '@io/graphql';
+import { Personinfo, Personnavn } from '@io/graphql';
 
 import { NyttNotatModal } from '../../../oversikt/table/rader/notat/NyttNotatModal';
 
@@ -25,13 +25,19 @@ export const SkrivGenereltNotatDropdownMenuButton = ({
         setOpen(false);
     };
 
+    const navn: Personnavn = {
+        fornavn: personinfo.fornavn,
+        mellomnavn: personinfo.mellomnavn,
+        etternavn: personinfo.etternavn,
+    };
+
     return (
         <>
             <Dropdown.Menu.List.Item onClick={showModal}>Skriv notat</Dropdown.Menu.List.Item>
             {open && (
                 <NyttNotatModal
                     onClose={closeModal}
-                    personinfo={personinfo}
+                    navn={navn}
                     vedtaksperiodeId={vedtaksperiodeId}
                     notattype="Generelt"
                 />

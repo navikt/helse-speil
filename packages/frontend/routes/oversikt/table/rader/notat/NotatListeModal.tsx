@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 
 import { LinkButton } from '@components/LinkButton';
 import { TableModal } from '@components/TableModal';
-import { Personinfo } from '@io/graphql';
+import { Personnavn } from '@io/graphql';
 import { useInnloggetSaksbehandler } from '@state/authentication';
 import { getFormatertNavn } from '@utils/string';
 
@@ -14,7 +14,7 @@ import styles from './NotatListeModal.module.css';
 interface NotatListeModalProps {
     notater: Notat[];
     vedtaksperiodeId: string;
-    personinfo: Personinfo;
+    navn: Personnavn;
     onClose: (event: React.SyntheticEvent) => void;
     erPåVent?: boolean;
     notattype: NotatType;
@@ -34,14 +34,14 @@ const getModalTittel = (notattype: NotatType): string => {
 export const NotatListeModal = ({
     notater,
     vedtaksperiodeId,
-    personinfo,
+    navn,
     onClose,
     erPåVent,
     notattype,
 }: NotatListeModalProps) => {
     const [showNyttNotatModal, setShowNyttNotatModal] = useState(false);
     const innloggetSaksbehandler = useInnloggetSaksbehandler();
-    const søkernavn = getFormatertNavn(personinfo);
+    const søkernavn = getFormatertNavn(navn);
     const modalTittel = getModalTittel(notattype);
 
     const closeModal = (event: React.SyntheticEvent) => {
@@ -55,7 +55,7 @@ export const NotatListeModal = ({
     return showNyttNotatModal ? (
         <NyttNotatModal
             onClose={toggleShowNyttNotatModal}
-            personinfo={personinfo}
+            navn={navn}
             vedtaksperiodeId={vedtaksperiodeId}
             notattype={notattype}
         />

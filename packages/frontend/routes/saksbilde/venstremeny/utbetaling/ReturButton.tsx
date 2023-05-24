@@ -5,6 +5,7 @@ import React, { useContext, useState } from 'react';
 import { Button } from '@navikt/ds-react';
 
 import { AmplitudeContext } from '@io/amplitude';
+import { Personnavn } from '@io/graphql';
 import { postSendTilbakeTilSaksbehandler } from '@io/http';
 import { useCurrentPerson } from '@state/person';
 import { useAddToast } from '@state/toasts';
@@ -55,6 +56,12 @@ export const ReturButton: React.FC<ReturButtonProps> = ({
     }
     const personinfo = person.personinfo;
 
+    const navn: Personnavn = {
+        fornavn: personinfo.fornavn,
+        mellomnavn: personinfo.mellomnavn,
+        etternavn: personinfo.etternavn,
+    };
+
     const returnerUtbetaling = (notattekst: string) => {
         setError(undefined);
 
@@ -93,7 +100,7 @@ export const ReturButton: React.FC<ReturButtonProps> = ({
                         setError(undefined);
                         setShowModal(false);
                     }}
-                    personinfo={personinfo}
+                    navn={navn}
                     vedtaksperiodeId={activePeriod.vedtaksperiodeId}
                     onSubmitOverride={returnerUtbetaling}
                     errorOverride={error}

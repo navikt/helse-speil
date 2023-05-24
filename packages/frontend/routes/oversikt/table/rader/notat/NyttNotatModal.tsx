@@ -7,7 +7,7 @@ import { Button, Loader, Textarea as NavTextarea } from '@navikt/ds-react';
 import { ErrorMessage } from '@components/ErrorMessage';
 import { Modal } from '@components/Modal';
 import { AnonymizableText } from '@components/anonymizable/AnonymizableText';
-import { Personinfo } from '@io/graphql';
+import { Personnavn } from '@io/graphql';
 import { postNotat } from '@io/http';
 import { useNotaterForVedtaksperiode, useRefreshNotater } from '@state/notater';
 import { useRefetchPerson } from '@state/person';
@@ -57,7 +57,7 @@ const NotatErrorMessage = styled(ErrorMessage)`
 
 interface NyttNotatModalProps {
     onClose: (event: React.SyntheticEvent) => void;
-    personinfo: Personinfo;
+    navn: Personnavn;
     vedtaksperiodeId: string;
     onSubmitOverride?: (notattekst: string) => Promise<any>;
     errorOverride?: string | undefined;
@@ -101,7 +101,7 @@ const notattypeTekster = (notattype: NotatType): Notattekster => {
 
 export const NyttNotatModal = ({
     onClose,
-    personinfo,
+    navn,
     vedtaksperiodeId,
     onSubmitOverride,
     errorOverride,
@@ -112,7 +112,7 @@ export const NyttNotatModal = ({
     const notaterForOppgave = useNotaterForVedtaksperiode(vedtaksperiodeId);
     const refreshNotater = useRefreshNotater();
     const refetchPerson = useRefetchPerson();
-    const søkernavn = personinfo ? getFormatertNavn(personinfo, ['E', ',', 'F', 'M']) : undefined;
+    const søkernavn = navn ? getFormatertNavn(navn, ['E', ',', 'F', 'M']) : undefined;
 
     const form = useForm();
 

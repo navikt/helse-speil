@@ -4,7 +4,7 @@ import { useHistory } from 'react-router';
 import { Loader } from '@navikt/ds-react';
 import { Dropdown } from '@navikt/ds-react-internal';
 
-import { Personinfo } from '@io/graphql';
+import { Personinfo, Personnavn } from '@io/graphql';
 import { useFjernPåVent, useLeggPåVent } from '@state/person';
 import { useOperationErrorHandler } from '@state/varsler';
 import { ignorePromise } from '@utils/promise';
@@ -31,6 +31,12 @@ export const PåVentDropdownMenuButton = ({
     const leggPåVentMedNotat = useLeggPåVent();
     const fjernPåVent = useFjernPåVent();
     const errorHandler = useOperationErrorHandler('Legg på vent');
+
+    const navn: Personnavn = {
+        fornavn: personinfo.fornavn,
+        mellomnavn: personinfo.mellomnavn,
+        etternavn: personinfo.etternavn,
+    };
 
     const settPåVent = (notattekst: string) => {
         setIsFetching(true);
@@ -62,7 +68,7 @@ export const PåVentDropdownMenuButton = ({
             {visModal && (
                 <NyttNotatModal
                     onClose={() => setVisModal(false)}
-                    personinfo={personinfo}
+                    navn={navn}
                     vedtaksperiodeId={vedtaksperiodeId}
                     onSubmitOverride={settPåVent}
                     notattype="PaaVent"

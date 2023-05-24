@@ -7,7 +7,7 @@ import { Button } from '@navikt/ds-react';
 import { Dropdown } from '@navikt/ds-react-internal';
 
 import { useIsReadOnlyOppgave } from '@hooks/useIsReadOnlyOppgave';
-import { Maybe, OppgaveForOversiktsvisning, Personinfo } from '@io/graphql';
+import { Maybe, OppgaveForOversiktsvisning, Personnavn } from '@io/graphql';
 import { useInnloggetSaksbehandler } from '@state/authentication';
 import { useKanFrigiOppgaver } from '@state/toggles';
 
@@ -24,10 +24,10 @@ const erLike = (a?: Maybe<string>, b?: Maybe<string>): boolean => {
 
 interface OptionsButtonProps {
     oppgave: OppgaveForOversiktsvisning;
-    personinfo: Personinfo;
+    navn: Personnavn;
 }
 
-export const OptionsCell = React.memo(({ oppgave, personinfo }: OptionsButtonProps) => {
+export const OptionsCell = React.memo(({ oppgave, navn }: OptionsButtonProps) => {
     const innloggetSaksbehandler = useInnloggetSaksbehandler();
     const readOnly = useIsReadOnlyOppgave();
     const erTildeltInnloggetBruker = erLike(oppgave.tildeling?.oid, innloggetSaksbehandler.oid);
@@ -63,7 +63,7 @@ export const OptionsCell = React.memo(({ oppgave, personinfo }: OptionsButtonPro
                                     <LeggPåVentMenuButton
                                         oppgavereferanse={oppgave.id}
                                         vedtaksperiodeId={oppgave.vedtaksperiodeId}
-                                        personinfo={personinfo}
+                                        navn={navn}
                                     />
                                 ))}
                             {skalViseAvmeldingsknapp && <MeldAvMenuButton oppgavereferanse={oppgave.id} />}

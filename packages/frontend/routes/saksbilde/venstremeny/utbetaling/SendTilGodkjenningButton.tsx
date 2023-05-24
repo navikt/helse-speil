@@ -6,7 +6,7 @@ import { Alert, BodyShort, Button } from '@navikt/ds-react';
 
 import { Key, useKeyboard } from '@hooks/useKeyboard';
 import { AmplitudeContext } from '@io/amplitude';
-import { NotatType, Personinfo, Utbetaling } from '@io/graphql';
+import { NotatType, Personinfo, Personnavn, Utbetaling } from '@io/graphql';
 import { postNotat, postUtbetalingTilTotrinnsvurdering } from '@io/http';
 import { useActivePeriod } from '@state/periode';
 import { useCurrentPerson } from '@state/person';
@@ -62,6 +62,12 @@ export const SendTilGodkjenningButton: React.FC<SendTilGodkjenningButtonProps> =
     const addToast = useAddSendtTilGodkjenningtoast();
     const activePeriod = useActivePeriod();
     const person = useCurrentPerson();
+
+    const navn: Personnavn = {
+        fornavn: personinfo.fornavn,
+        mellomnavn: personinfo.mellomnavn,
+        etternavn: personinfo.etternavn,
+    };
 
     useKeyboard({
         [Key.F6]: {
@@ -144,7 +150,7 @@ export const SendTilGodkjenningButton: React.FC<SendTilGodkjenningButtonProps> =
             {showGenereltNotatModal && (
                 <NyttNotatModal
                     onClose={closeGenereltNotatModal}
-                    personinfo={person.personinfo}
+                    navn={navn}
                     vedtaksperiodeId={activePeriod.vedtaksperiodeId}
                     notattype="Generelt"
                     onSubmitOverride={postNotatOgSendTilGodkjenning}

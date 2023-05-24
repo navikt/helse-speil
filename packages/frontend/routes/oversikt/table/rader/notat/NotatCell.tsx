@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { Notes } from '@navikt/ds-icons';
 import { Button, Tooltip } from '@navikt/ds-react';
 
-import { Personinfo } from '@io/graphql';
+import { Personnavn } from '@io/graphql';
 import { useNotaterForVedtaksperiode } from '@state/notater';
 
 import { Cell } from '../../Cell';
@@ -13,11 +13,11 @@ import styles from './NotatCell.module.css';
 
 interface NotatCellProps extends React.HTMLAttributes<HTMLTableCellElement> {
     vedtaksperiodeId: string;
-    personinfo: Personinfo;
+    navn: Personnavn;
     erPåVent?: boolean;
 }
 
-export const NotatCell: React.FC<NotatCellProps> = ({ vedtaksperiodeId, personinfo, erPåVent, ...cellProps }) => {
+export const NotatCell: React.FC<NotatCellProps> = ({ vedtaksperiodeId, navn, erPåVent, ...cellProps }) => {
     const [showModal, setShowModal] = useState(false);
     const notater = useNotaterForVedtaksperiode(vedtaksperiodeId);
 
@@ -41,7 +41,7 @@ export const NotatCell: React.FC<NotatCellProps> = ({ vedtaksperiodeId, personin
                 <NotatListeModal
                     notater={notater}
                     vedtaksperiodeId={vedtaksperiodeId}
-                    personinfo={personinfo}
+                    navn={navn}
                     onClose={toggleModal}
                     erPåVent={erPåVent}
                     notattype="PaaVent"

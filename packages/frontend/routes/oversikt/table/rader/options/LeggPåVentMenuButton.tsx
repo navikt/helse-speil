@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 
 import { Dropdown } from '@navikt/ds-react-internal';
 
-import { Personinfo } from '@io/graphql';
+import { Personnavn } from '@io/graphql';
 import { NotatDTO } from '@io/http';
 import { useLeggPåVent } from '@state/oppgaver';
 
@@ -13,10 +13,10 @@ import styles from './OptionsCell.module.css';
 interface LeggPåVentMenuButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
     oppgavereferanse: string;
     vedtaksperiodeId: string;
-    personinfo: Personinfo;
+    navn: Personnavn;
 }
 
-export const LeggPåVentMenuButton = ({ oppgavereferanse, vedtaksperiodeId, personinfo }: LeggPåVentMenuButtonProps) => {
+export const LeggPåVentMenuButton = ({ oppgavereferanse, vedtaksperiodeId, navn }: LeggPåVentMenuButtonProps) => {
     const [visModal, setVisModal] = useState(false);
     const [error, setError] = useState<string | undefined>();
 
@@ -39,7 +39,7 @@ export const LeggPåVentMenuButton = ({ oppgavereferanse, vedtaksperiodeId, pers
             {visModal && (
                 <NyttNotatModal
                     onClose={() => setVisModal(false)}
-                    personinfo={personinfo}
+                    navn={navn}
                     vedtaksperiodeId={vedtaksperiodeId}
                     onSubmitOverride={settPåVent}
                     errorOverride={error}
