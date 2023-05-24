@@ -189,19 +189,6 @@ query FetchPerson($fnr: String, $aktorId: String) {
                             tidsstempel
                         }
                     }
-                    varslerForGenerasjon {
-                        generasjonId
-                        definisjonId
-                        kode
-                        tittel
-                        forklaring
-                        handling
-                        vurdering {
-                            ident
-                            status
-                            tidsstempel
-                        }
-                    }
                     hendelser {
                         id
                         type
