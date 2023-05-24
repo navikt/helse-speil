@@ -314,7 +314,6 @@ query FetchPerson($fnr: String, $aktorId: String) {
                                 ...simulering
                             }
                         }
-                        varsler
                         vilkarsgrunnlagId
                         oppgave {
                             id
