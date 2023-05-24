@@ -88,10 +88,7 @@ export const UberegnetPeriodeView = ({ activePeriod }: UberegnetPeriodeViewProps
             <Venstremeny />
             <div className={styles.Content}>
                 {errorMelding}
-                <Saksbildevarsler
-                    periodState={getPeriodState(activePeriod)}
-                    varsler={activePeriod.varslerForGenerasjon}
-                />
+                <Saksbildevarsler periodState={getPeriodState(activePeriod)} varsler={activePeriod.varsler} />
                 <div className={styles.RouteContainer}>
                     <Switch>
                         <React.Suspense fallback={<UberegnetPeriodeViewLoader />}>
