@@ -161,7 +161,6 @@ export type BeregnetPeriode = Periode & {
     totrinnsvurdering?: Maybe<Totrinnsvurdering>;
     utbetaling: Utbetaling;
     varsler: Array<VarselDto>;
-    varslerForGenerasjon?: Maybe<Array<VarselDto>>;
     vedtaksperiodeId: Scalars['String'];
     vilkarsgrunnlagId?: Maybe<Scalars['String']>;
 };
@@ -536,7 +535,6 @@ export type Periode = {
     tidslinje: Array<Dag>;
     tom: Scalars['String'];
     varsler: Array<VarselDto>;
-    varslerForGenerasjon?: Maybe<Array<VarselDto>>;
     vedtaksperiodeId: Scalars['String'];
 };
 
@@ -849,7 +847,6 @@ export type UberegnetPeriode = Periode & {
     tidslinje: Array<Dag>;
     tom: Scalars['String'];
     varsler: Array<VarselDto>;
-    varslerForGenerasjon?: Maybe<Array<VarselDto>>;
     vedtaksperiodeId: Scalars['String'];
 };
 
