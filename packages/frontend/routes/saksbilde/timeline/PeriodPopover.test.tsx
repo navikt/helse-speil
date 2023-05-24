@@ -62,7 +62,6 @@ const getFetchedBeregnetPeriode = (
             type: Utbetalingtype.Utbetaling,
         },
         varsler: [],
-        varslerForGenerasjon: [],
         vedtaksperiodeId: 'EN_ID',
     };
 };

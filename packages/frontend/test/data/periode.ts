@@ -88,7 +88,6 @@ export const enBeregnetPeriode: OverridableConstructor<FetchedBeregnetPeriode, E
     },
     utbetaling: enUtbetaling(),
     varsler: [],
-    varslerForGenerasjon: [],
     vedtaksperiodeId: nanoid(),
     vilkarsgrunnlagId: nanoid(),
     ...overrides,

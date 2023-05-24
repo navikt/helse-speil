@@ -161,7 +161,7 @@ export type BeregnetPeriode = Periode & {
     totrinnsvurdering?: Maybe<Totrinnsvurdering>;
     utbetaling: Utbetaling;
     varsler: Array<VarselDto>;
-    varslerForGenerasjon: Array<VarselDto>;
+    varslerForGenerasjon?: Maybe<Array<VarselDto>>;
     vedtaksperiodeId: Scalars['String'];
     vilkarsgrunnlagId?: Maybe<Scalars['String']>;
 };
@@ -536,7 +536,7 @@ export type Periode = {
     tidslinje: Array<Dag>;
     tom: Scalars['String'];
     varsler: Array<VarselDto>;
-    varslerForGenerasjon: Array<VarselDto>;
+    varslerForGenerasjon?: Maybe<Array<VarselDto>>;
     vedtaksperiodeId: Scalars['String'];
 };
 
@@ -849,7 +849,7 @@ export type UberegnetPeriode = Periode & {
     tidslinje: Array<Dag>;
     tom: Scalars['String'];
     varsler: Array<VarselDto>;
-    varslerForGenerasjon: Array<VarselDto>;
+    varslerForGenerasjon?: Maybe<Array<VarselDto>>;
     vedtaksperiodeId: Scalars['String'];
 };
 
@@ -1650,21 +1650,6 @@ export type FetchPersonQuery = {
                                   tidsstempel: string;
                               } | null;
                           }>;
-                          varslerForGenerasjon: Array<{
-                              __typename?: 'VarselDTO';
-                              generasjonId: string;
-                              definisjonId: string;
-                              kode: string;
-                              tittel: string;
-                              forklaring?: string | null;
-                              handling?: string | null;
-                              vurdering?: {
-                                  __typename?: 'VarselvurderingDTO';
-                                  ident: string;
-                                  status: Varselstatus;
-                                  tidsstempel: string;
-                              } | null;
-                          }>;
                           hendelser: Array<
                               | {
                                     __typename?: 'Inntektsmelding';
@@ -1732,21 +1717,6 @@ export type FetchPersonQuery = {
                               } | null;
                           }>;
                           varsler: Array<{
-                              __typename?: 'VarselDTO';
-                              generasjonId: string;
-                              definisjonId: string;
-                              kode: string;
-                              tittel: string;
-                              forklaring?: string | null;
-                              handling?: string | null;
-                              vurdering?: {
-                                  __typename?: 'VarselvurderingDTO';
-                                  ident: string;
-                                  status: Varselstatus;
-                                  tidsstempel: string;
-                              } | null;
-                          }>;
-                          varslerForGenerasjon: Array<{
                               __typename?: 'VarselDTO';
                               generasjonId: string;
                               definisjonId: string;

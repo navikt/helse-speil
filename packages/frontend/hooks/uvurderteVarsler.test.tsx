@@ -54,7 +54,6 @@ const getFetchedBeregnetPeriode = (fom: string, tom: string, varsel?: VarselDto)
             type: Utbetalingtype.Utbetaling,
         },
         varsler: varsel ? [varsel] : [],
-        varslerForGenerasjon: varsel ? [varsel] : [],
         vedtaksperiodeId: 'EN_ID',
     };
 };

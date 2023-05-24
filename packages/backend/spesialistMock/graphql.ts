@@ -42,7 +42,6 @@ const leggTilLagretData = (person: Person): void => {
                 }
 
                 periode.notater = NotatMock.getNotaterForPeriode(periode);
-                periode.varslerForGenerasjon = VarselMock.getVarslerForPeriode(periode.varslerForGenerasjon);
                 periode.varsler = VarselMock.getVarslerForPeriode(periode.varsler);
                 const oppgavereferanse: string | null = periode.oppgavereferanse ?? periode.oppgave?.id ?? null;
                 const oppgave: Oppgave | null = oppgavereferanse ? OppgaveMock.getOppgave(oppgavereferanse) : null;

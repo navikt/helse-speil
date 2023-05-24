@@ -776,17 +776,6 @@
                                             "vurdering": null
                                         }
                                     ],
-                                    "varslerForGenerasjon": [
-                                        {
-                                            "generasjonId": "EN_ID",
-                                            "definisjonId": "EN_DEFINISJON",
-                                            "kode": "EN_KODE",
-                                            "tittel": "Flere arbeidsgivere, ulikt starttidspunkt for sykefraværet eller ikke fravær fra alle arbeidsforhold",
-                                            "forklaring": "En forklaring \n\n med dobbelt linjeskift. En kjempelang forklaring som strekker seg langt utover container slik at den burde brytes på et eller annet tidspunkt forhåpentligvis. En kjempelang forklaring som strekker seg langt utover container slik at den burde brytes på et eller annet tidspunkt forhåpentligvis. En kjempelang forklaring som strekker seg langt utover container slik at den burde brytes på et eller annet tidspunkt forhåpentligvis.",
-                                            "handling": "En handling \n med flere \n linjeskift",
-                                            "vurdering": null
-                                        }
-                                    ],
                                     "vilkarsgrunnlagId": "0270e5be-f815-402e-ae5a-0ff439f6681c",
                                     "oppgave": {
                                         "id": "4680"

@@ -586,7 +586,6 @@
                                     "vedtaksperiodeId": "526f95a7-ad49-42a0-8bb7-13d1051ff386",
                                     "periodetilstand": "Annullert",
                                     "skjaeringstidspunkt": "2022-08-08",
-                                    "varslerForGenerasjon": [],
                                     "id": "7d932c96-28f5-4a65-8d72-7c2fa025164a",
                                     "inntektFraAordningen": [],
                                     "aktivitetslogg": [],
@@ -1037,7 +1036,6 @@
                                     "vedtaksperiodeId": "8e7434f8-b586-4d81-b9a0-0e022be35c3b",
                                     "periodetilstand": "Annullert",
                                     "skjaeringstidspunkt": "2022-08-08",
-                                    "varslerForGenerasjon": [],
                                     "id": "3dd91792-132c-4924-8ce5-1e797268831c",
                                     "inntektFraAordningen": [],
                                     "aktivitetslogg": [],
@@ -1313,7 +1311,6 @@
                                     "vedtaksperiodeId": "03403267-7f4b-4762-9949-22c232114e8d",
                                     "periodetilstand": "IngenUtbetaling",
                                     "skjaeringstidspunkt": "2022-08-08",
-                                    "varslerForGenerasjon": [],
                                     "varsler": [],
                                     "handlinger": [
                                         {
@@ -1432,7 +1429,6 @@
                                     "vedtaksperiodeId": "d92c8dd1-db8f-43a6-8575-f1e5c8d2195f",
                                     "periodetilstand": "Utbetalt",
                                     "skjaeringstidspunkt": "2021-06-07",
-                                    "varslerForGenerasjon": [],
                                     "id": "ae1543b1-d201-4509-93fb-eaa4bf3db3f7",
                                     "inntektFraAordningen": [],
                                     "aktivitetslogg": [],
@@ -2084,7 +2080,6 @@
                                     "vedtaksperiodeId": "fb8ad1e3-5f5d-4fff-b23e-657a9fa2530b",
                                     "periodetilstand": "Utbetalt",
                                     "skjaeringstidspunkt": "2021-06-07",
-                                    "varslerForGenerasjon": [],
                                     "id": "4485fe15-80ca-476a-a80f-2a0d762a17c0",
                                     "inntektFraAordningen": [],
                                     "aktivitetslogg": [],
@@ -2639,7 +2634,6 @@
                                     "vedtaksperiodeId": "22b7ff18-89cb-44dd-afed-dc21308242b9",
                                     "periodetilstand": "Utbetalt",
                                     "skjaeringstidspunkt": "2021-06-07",
-                                    "varslerForGenerasjon": [],
                                     "id": "154a63a5-3c6b-424e-ab46-f77f65447c1f",
                                     "inntektFraAordningen": [],
                                     "aktivitetslogg": [],
@@ -3300,7 +3294,6 @@
                                     "vedtaksperiodeId": "2129e08a-0c2c-4763-9dba-75f5c9d849d0",
                                     "periodetilstand": "Utbetalt",
                                     "skjaeringstidspunkt": "2021-06-07",
-                                    "varslerForGenerasjon": [],
                                     "id": "86531ae5-e4eb-4377-8488-507e3fdbd452",
                                     "inntektFraAordningen": [],
                                     "aktivitetslogg": [],
@@ -3747,7 +3740,6 @@
                                     "vedtaksperiodeId": "fec4474a-433f-4840-a8f4-662862f91f33",
                                     "periodetilstand": "Utbetalt",
                                     "skjaeringstidspunkt": "2021-06-07",
-                                    "varslerForGenerasjon": [],
                                     "id": "7cfa2941-c6c7-4d20-a5c7-e2283f161148",
                                     "inntektFraAordningen": [],
                                     "aktivitetslogg": [],
@@ -4285,7 +4277,6 @@
                                     "vedtaksperiodeId": "d5fc6c20-f5b1-46e5-bdde-386fc79096cf",
                                     "periodetilstand": "Utbetalt",
                                     "skjaeringstidspunkt": "2021-06-07",
-                                    "varslerForGenerasjon": [],
                                     "id": "67ee500b-3428-4f6f-82e7-4080059c1bd4",
                                     "inntektFraAordningen": [],
                                     "aktivitetslogg": [],
@@ -4937,7 +4928,6 @@
                                     "vedtaksperiodeId": "ec79322c-6e4a-44af-bac5-1ef9434b9199",
                                     "periodetilstand": "Utbetalt",
                                     "skjaeringstidspunkt": "2021-06-07",
-                                    "varslerForGenerasjon": [],
                                     "id": "c746ffb7-6b0a-4d8e-a65a-8caef5f43ed4",
                                     "inntektFraAordningen": [],
                                     "aktivitetslogg": [],
@@ -5470,21 +5460,6 @@
                                     "vedtaksperiodeId": "63cf63dd-e402-40a5-be54-3e6d1c5956a8",
                                     "periodetilstand": "Utbetalt",
                                     "skjaeringstidspunkt": "2021-06-07",
-                                    "varslerForGenerasjon": [
-                                        {
-                                            "generasjonId": "1f9e0ae8-2638-482d-bdeb-4237f38b8dc6",
-                                            "definisjonId": "1a20655c-7618-41a5-a092-92f0edf603f2",
-                                            "kode": "RV_SØ_23",
-                                            "tittel": "Korrigert søknad er mottatt med nye opplysninger - kontroller dagene i sykmeldingsperioden",
-                                            "forklaring": "Det har kommet en korrigert søknad som er lagt til grunn",
-                                            "handling": "Kontroller at dagene i sykmeldingsperioden blir riktig",
-                                            "vurdering": {
-                                                "ident": "D123456",
-                                                "status": "GODKJENT",
-                                                "tidsstempel": "2021-06-28T07:23:54.859017"
-                                            }
-                                        }
-                                    ],
                                     "id": "193b47a8-0ab5-4c70-9b5c-47cd2c4b7862",
                                     "inntektFraAordningen": [],
                                     "aktivitetslogg": [
@@ -6040,7 +6015,6 @@
                                     "vedtaksperiodeId": "c8c00d71-88fd-4d54-86ac-b3a6cc5e1a5b",
                                     "periodetilstand": "Utbetalt",
                                     "skjaeringstidspunkt": "2021-05-20",
-                                    "varslerForGenerasjon": [],
                                     "id": "735aa837-e89c-4d99-8646-67b5f9fd3bea",
                                     "inntektFraAordningen": [],
                                     "aktivitetslogg": [],
@@ -6476,7 +6450,6 @@
                                     "vedtaksperiodeId": "139a32f2-508a-499b-b775-888ccb337b27",
                                     "periodetilstand": "Utbetalt",
                                     "skjaeringstidspunkt": "2021-05-01",
-                                    "varslerForGenerasjon": [],
                                     "id": "1eee8816-73bd-45d2-b87a-4df817438083",
                                     "inntektFraAordningen": [],
                                     "aktivitetslogg": [],
@@ -7045,7 +7018,6 @@
                                     "vedtaksperiodeId": "4cbee781-223f-4679-b01e-0d9f3aa5031f",
                                     "periodetilstand": "Utbetalt",
                                     "skjaeringstidspunkt": "2021-03-08",
-                                    "varslerForGenerasjon": [],
                                     "id": "e7ecfa30-7764-4503-aa15-d9229d638ba3",
                                     "inntektFraAordningen": [],
                                     "aktivitetslogg": [],
@@ -7631,7 +7603,6 @@
                                     "vedtaksperiodeId": "ad71f6d4-1278-45c5-84d7-3941bf8c8e08",
                                     "periodetilstand": "Utbetalt",
                                     "skjaeringstidspunkt": "2021-02-08",
-                                    "varslerForGenerasjon": [],
                                     "id": "b611f93b-61f6-41fe-ab9c-33de4451d5a0",
                                     "inntektFraAordningen": [],
                                     "aktivitetslogg": [],
@@ -8092,21 +8063,6 @@
                                     "vedtaksperiodeId": "9dd4af3a-45f4-4fc5-87ea-1b35f685d026",
                                     "periodetilstand": "Utbetalt",
                                     "skjaeringstidspunkt": "2021-01-18",
-                                    "varslerForGenerasjon": [
-                                        {
-                                            "generasjonId": "9c980089-292d-48e8-a36b-ec95d20a5766",
-                                            "definisjonId": "8c2f4822-834d-4817-bfd1-9b668a3e914d",
-                                            "kode": "SB_EX_1",
-                                            "tittel": "Det finnes åpne oppgaver på sykepenger i Gosys",
-                                            "forklaring": "Det ligger aktive oppgaver med tema sykepenger i Gosys.",
-                                            "handling": "Sjekk Gosys-oppgavene og vurder om de påvirker saksbehandlingen.",
-                                            "vurdering": {
-                                                "ident": "E123456",
-                                                "status": "GODKJENT",
-                                                "tidsstempel": "2021-02-08T10:14:44.289505"
-                                            }
-                                        }
-                                    ],
                                     "id": "87661e96-0a78-41d0-8ab1-34109b5b250a",
                                     "inntektFraAordningen": [],
                                     "aktivitetslogg": [],
@@ -8491,7 +8447,6 @@
                                     "vedtaksperiodeId": "0a3ebb64-e30f-4d65-8da4-979c6c24c17b",
                                     "periodetilstand": "Utbetalt",
                                     "skjaeringstidspunkt": "2021-01-01",
-                                    "varslerForGenerasjon": [],
                                     "id": "a4224c7a-6d2c-4948-8b67-0e09fb4babef",
                                     "inntektFraAordningen": [],
                                     "aktivitetslogg": [],
@@ -8909,21 +8864,6 @@
                                     "vedtaksperiodeId": "80915011-167d-4aff-8694-3861ebda5b28",
                                     "periodetilstand": "Utbetalt",
                                     "skjaeringstidspunkt": "2020-12-09",
-                                    "varslerForGenerasjon": [
-                                        {
-                                            "generasjonId": "b8a0bcfc-90fb-4bdf-a612-5e0528582e12",
-                                            "definisjonId": "7e6efbb1-68c3-4196-86f2-12a87fe4702f",
-                                            "kode": "RV_IT_30",
-                                            "tittel": "Perioden er lagt inn i Infotrygd, men ikke utbetalt. Fjern fra Infotrygd hvis det utbetales via speil.",
-                                            "forklaring": "Det ligger registrert en søknad om sykepenger på SP UB.",
-                                            "handling": "Dette varselet betyr ikke at perioden må behandles i Infotrygd. Fjern perioden fra SP UB når du utbetaler via speil. Hvis inntekten er registert så kan den slettes på SP-VT. Hvis det er en forutgående periode i Infotrygd som enda ikke er behandlet, trenger du ikke å avvise perioden hvis det er flere sykepengedager igjen er enn det som ligger til behandling i Infotrygd.",
-                                            "vurdering": {
-                                                "ident": "C123456",
-                                                "status": "GODKJENT",
-                                                "tidsstempel": "2021-01-25T11:26:05.777087"
-                                            }
-                                        }
-                                    ],
                                     "id": "5e4c579e-32cd-4f33-8987-3e06f6cee55e",
                                     "inntektFraAordningen": [],
                                     "aktivitetslogg": [
@@ -9410,7 +9350,6 @@
                                     "vedtaksperiodeId": "526f95a7-ad49-42a0-8bb7-13d1051ff386",
                                     "periodetilstand": "Utbetalt",
                                     "skjaeringstidspunkt": "2022-08-08",
-                                    "varslerForGenerasjon": [],
                                     "id": "f2f10be8-3ecc-41ca-a0b2-85f2ca8c0ad3",
                                     "inntektFraAordningen": [],
                                     "aktivitetslogg": [],
@@ -9963,7 +9902,6 @@
                                     "vedtaksperiodeId": "8e7434f8-b586-4d81-b9a0-0e022be35c3b",
                                     "periodetilstand": "Utbetalt",
                                     "skjaeringstidspunkt": "2022-08-08",
-                                    "varslerForGenerasjon": [],
                                     "id": "4dde5843-fcc9-4625-a612-1cd5a5171501",
                                     "inntektFraAordningen": [],
                                     "aktivitetslogg": [],
@@ -10341,7 +10279,6 @@
                                     "vedtaksperiodeId": "03403267-7f4b-4762-9949-22c232114e8d",
                                     "periodetilstand": "IngenUtbetaling",
                                     "skjaeringstidspunkt": "2022-08-08",
-                                    "varslerForGenerasjon": [],
                                     "varsler": [],
                                     "handlinger": [
                                         {
@@ -10460,7 +10397,6 @@
                                     "vedtaksperiodeId": "d92c8dd1-db8f-43a6-8575-f1e5c8d2195f",
                                     "periodetilstand": "Utbetalt",
                                     "skjaeringstidspunkt": "2021-06-07",
-                                    "varslerForGenerasjon": [],
                                     "id": "435dc112-106d-4593-9648-27f46439b097",
                                     "inntektFraAordningen": [],
                                     "aktivitetslogg": [],
@@ -11112,7 +11048,6 @@
                                     "vedtaksperiodeId": "fb8ad1e3-5f5d-4fff-b23e-657a9fa2530b",
                                     "periodetilstand": "Utbetalt",
                                     "skjaeringstidspunkt": "2021-06-07",
-                                    "varslerForGenerasjon": [],
                                     "id": "e8272a28-8bfb-4fd5-8daa-0472136c803d",
                                     "inntektFraAordningen": [],
                                     "aktivitetslogg": [],
@@ -11667,7 +11602,6 @@
                                     "vedtaksperiodeId": "22b7ff18-89cb-44dd-afed-dc21308242b9",
                                     "periodetilstand": "Utbetalt",
                                     "skjaeringstidspunkt": "2021-06-07",
-                                    "varslerForGenerasjon": [],
                                     "id": "b417a38e-3e82-4a6e-abe3-6a32f8504e42",
                                     "inntektFraAordningen": [],
                                     "aktivitetslogg": [],
@@ -12328,7 +12262,6 @@
                                     "vedtaksperiodeId": "2129e08a-0c2c-4763-9dba-75f5c9d849d0",
                                     "periodetilstand": "Utbetalt",
                                     "skjaeringstidspunkt": "2021-06-07",
-                                    "varslerForGenerasjon": [],
                                     "id": "99639980-8455-431f-9e11-785ad2e3ba16",
                                     "inntektFraAordningen": [],
                                     "aktivitetslogg": [],
@@ -12775,7 +12708,6 @@
                                     "vedtaksperiodeId": "fec4474a-433f-4840-a8f4-662862f91f33",
                                     "periodetilstand": "Utbetalt",
                                     "skjaeringstidspunkt": "2021-06-07",
-                                    "varslerForGenerasjon": [],
                                     "id": "11ee181f-943c-4c33-a693-d076bd729bcd",
                                     "inntektFraAordningen": [],
                                     "aktivitetslogg": [],
@@ -13313,7 +13245,6 @@
                                     "vedtaksperiodeId": "d5fc6c20-f5b1-46e5-bdde-386fc79096cf",
                                     "periodetilstand": "Utbetalt",
                                     "skjaeringstidspunkt": "2021-06-07",
-                                    "varslerForGenerasjon": [],
                                     "id": "76530bc1-2eb9-4725-9129-f80957b8b14e",
                                     "inntektFraAordningen": [],
                                     "aktivitetslogg": [],
@@ -13965,7 +13896,6 @@
                                     "vedtaksperiodeId": "ec79322c-6e4a-44af-bac5-1ef9434b9199",
                                     "periodetilstand": "Utbetalt",
                                     "skjaeringstidspunkt": "2021-06-07",
-                                    "varslerForGenerasjon": [],
                                     "id": "412ced62-f9a3-44d3-a78f-935497e5f251",
                                     "inntektFraAordningen": [],
                                     "aktivitetslogg": [],
@@ -14498,21 +14428,6 @@
                                     "vedtaksperiodeId": "63cf63dd-e402-40a5-be54-3e6d1c5956a8",
                                     "periodetilstand": "Utbetalt",
                                     "skjaeringstidspunkt": "2021-06-07",
-                                    "varslerForGenerasjon": [
-                                        {
-                                            "generasjonId": "1f9e0ae8-2638-482d-bdeb-4237f38b8dc6",
-                                            "definisjonId": "1a20655c-7618-41a5-a092-92f0edf603f2",
-                                            "kode": "RV_SØ_23",
-                                            "tittel": "Korrigert søknad er mottatt med nye opplysninger - kontroller dagene i sykmeldingsperioden",
-                                            "forklaring": "Det har kommet en korrigert søknad som er lagt til grunn",
-                                            "handling": "Kontroller at dagene i sykmeldingsperioden blir riktig",
-                                            "vurdering": {
-                                                "ident": "D123456",
-                                                "status": "GODKJENT",
-                                                "tidsstempel": "2021-06-28T07:23:54.859017"
-                                            }
-                                        }
-                                    ],
                                     "id": "c53a7945-5b8a-4e8e-adc2-79c2b0510162",
                                     "inntektFraAordningen": [],
                                     "aktivitetslogg": [
@@ -15068,7 +14983,6 @@
                                     "vedtaksperiodeId": "c8c00d71-88fd-4d54-86ac-b3a6cc5e1a5b",
                                     "periodetilstand": "Utbetalt",
                                     "skjaeringstidspunkt": "2021-05-20",
-                                    "varslerForGenerasjon": [],
                                     "id": "f6ccf53c-ca26-484b-ab64-7b9019228219",
                                     "inntektFraAordningen": [],
                                     "aktivitetslogg": [],
@@ -15504,7 +15418,6 @@
                                     "vedtaksperiodeId": "139a32f2-508a-499b-b775-888ccb337b27",
                                     "periodetilstand": "Utbetalt",
                                     "skjaeringstidspunkt": "2021-05-01",
-                                    "varslerForGenerasjon": [],
                                     "id": "1cc6c10b-4530-4a14-976f-22ebb215e352",
                                     "inntektFraAordningen": [],
                                     "aktivitetslogg": [],
@@ -16073,7 +15986,6 @@
                                     "vedtaksperiodeId": "4cbee781-223f-4679-b01e-0d9f3aa5031f",
                                     "periodetilstand": "Utbetalt",
                                     "skjaeringstidspunkt": "2021-03-08",
-                                    "varslerForGenerasjon": [],
                                     "id": "46ce16e9-89a7-4116-9184-92e36a7da1eb",
                                     "inntektFraAordningen": [],
                                     "aktivitetslogg": [],
@@ -16659,7 +16571,6 @@
                                     "vedtaksperiodeId": "ad71f6d4-1278-45c5-84d7-3941bf8c8e08",
                                     "periodetilstand": "Utbetalt",
                                     "skjaeringstidspunkt": "2021-02-08",
-                                    "varslerForGenerasjon": [],
                                     "id": "6aa8cee6-5123-410d-be5c-4f64aa32a548",
                                     "inntektFraAordningen": [],
                                     "aktivitetslogg": [],
@@ -17120,21 +17031,6 @@
                                     "vedtaksperiodeId": "9dd4af3a-45f4-4fc5-87ea-1b35f685d026",
                                     "periodetilstand": "Utbetalt",
                                     "skjaeringstidspunkt": "2021-01-18",
-                                    "varslerForGenerasjon": [
-                                        {
-                                            "generasjonId": "9c980089-292d-48e8-a36b-ec95d20a5766",
-                                            "definisjonId": "8c2f4822-834d-4817-bfd1-9b668a3e914d",
-                                            "kode": "SB_EX_1",
-                                            "tittel": "Det finnes åpne oppgaver på sykepenger i Gosys",
-                                            "forklaring": "Det ligger aktive oppgaver med tema sykepenger i Gosys.",
-                                            "handling": "Sjekk Gosys-oppgavene og vurder om de påvirker saksbehandlingen.",
-                                            "vurdering": {
-                                                "ident": "E123456",
-                                                "status": "GODKJENT",
-                                                "tidsstempel": "2021-02-08T10:14:44.289505"
-                                            }
-                                        }
-                                    ],
                                     "id": "ac8c4d16-a2e9-4618-ba93-741c478a0c82",
                                     "inntektFraAordningen": [],
                                     "aktivitetslogg": [],
@@ -17533,7 +17429,6 @@
                                     "vedtaksperiodeId": "0a3ebb64-e30f-4d65-8da4-979c6c24c17b",
                                     "periodetilstand": "Utbetalt",
                                     "skjaeringstidspunkt": "2021-01-01",
-                                    "varslerForGenerasjon": [],
                                     "id": "b7d4bd78-59ac-4b9a-8ca9-c53322f52707",
                                     "inntektFraAordningen": [],
                                     "aktivitetslogg": [],
@@ -17951,21 +17846,6 @@
                                     "vedtaksperiodeId": "80915011-167d-4aff-8694-3861ebda5b28",
                                     "periodetilstand": "Utbetalt",
                                     "skjaeringstidspunkt": "2020-12-09",
-                                    "varslerForGenerasjon": [
-                                        {
-                                            "generasjonId": "b8a0bcfc-90fb-4bdf-a612-5e0528582e12",
-                                            "definisjonId": "7e6efbb1-68c3-4196-86f2-12a87fe4702f",
-                                            "kode": "RV_IT_30",
-                                            "tittel": "Perioden er lagt inn i Infotrygd, men ikke utbetalt. Fjern fra Infotrygd hvis det utbetales via speil.",
-                                            "forklaring": "Det ligger registrert en søknad om sykepenger på SP UB.",
-                                            "handling": "Dette varselet betyr ikke at perioden må behandles i Infotrygd. Fjern perioden fra SP UB når du utbetaler via speil. Hvis inntekten er registert så kan den slettes på SP-VT. Hvis det er en forutgående periode i Infotrygd som enda ikke er behandlet, trenger du ikke å avvise perioden hvis det er flere sykepengedager igjen er enn det som ligger til behandling i Infotrygd.",
-                                            "vurdering": {
-                                                "ident": "C123456",
-                                                "status": "GODKJENT",
-                                                "tidsstempel": "2021-01-25T11:26:05.777087"
-                                            }
-                                        }
-                                    ],
                                     "id": "db90b14c-66bc-4763-9281-156fa8da9fef",
                                     "inntektFraAordningen": [],
                                     "aktivitetslogg": [
@@ -18452,7 +18332,6 @@
                                     "vedtaksperiodeId": "526f95a7-ad49-42a0-8bb7-13d1051ff386",
                                     "periodetilstand": "Utbetalt",
                                     "skjaeringstidspunkt": "2022-08-08",
-                                    "varslerForGenerasjon": [],
                                     "id": "17f2eb16-2204-44e6-a260-96ed5da4502d",
                                     "inntektFraAordningen": [],
                                     "aktivitetslogg": [],
@@ -18962,7 +18841,6 @@
                                     "vedtaksperiodeId": "8e7434f8-b586-4d81-b9a0-0e022be35c3b",
                                     "periodetilstand": "Utbetalt",
                                     "skjaeringstidspunkt": "2022-08-08",
-                                    "varslerForGenerasjon": [],
                                     "id": "bbb5bee1-ce32-479b-8cf7-81e9cad404da",
                                     "inntektFraAordningen": [],
                                     "aktivitetslogg": [],
@@ -19297,7 +19175,6 @@
                                     "vedtaksperiodeId": "03403267-7f4b-4762-9949-22c232114e8d",
                                     "periodetilstand": "IngenUtbetaling",
                                     "skjaeringstidspunkt": "2022-08-08",
-                                    "varslerForGenerasjon": [],
                                     "handlinger": [
                                         {
                                             "type": "UTBETALE",
@@ -19415,7 +19292,6 @@
                                     "vedtaksperiodeId": "d92c8dd1-db8f-43a6-8575-f1e5c8d2195f",
                                     "periodetilstand": "Utbetalt",
                                     "skjaeringstidspunkt": "2021-06-07",
-                                    "varslerForGenerasjon": [],
                                     "id": "a6e53df9-dd4d-4039-b58c-496f9434f6e7",
                                     "inntektFraAordningen": [],
                                     "aktivitetslogg": [],
@@ -20067,7 +19943,6 @@
                                     "vedtaksperiodeId": "fb8ad1e3-5f5d-4fff-b23e-657a9fa2530b",
                                     "periodetilstand": "Utbetalt",
                                     "skjaeringstidspunkt": "2021-06-07",
-                                    "varslerForGenerasjon": [],
                                     "id": "a6db07d4-dd87-4075-a870-75ddfc90327a",
                                     "inntektFraAordningen": [],
                                     "aktivitetslogg": [],
@@ -20622,7 +20497,6 @@
                                     "vedtaksperiodeId": "22b7ff18-89cb-44dd-afed-dc21308242b9",
                                     "periodetilstand": "Utbetalt",
                                     "skjaeringstidspunkt": "2021-06-07",
-                                    "varslerForGenerasjon": [],
                                     "id": "4f30b9e8-8dec-4a6f-b71f-a836eed6018b",
                                     "inntektFraAordningen": [],
                                     "aktivitetslogg": [],
@@ -21283,7 +21157,6 @@
                                     "vedtaksperiodeId": "2129e08a-0c2c-4763-9dba-75f5c9d849d0",
                                     "periodetilstand": "Utbetalt",
                                     "skjaeringstidspunkt": "2021-06-07",
-                                    "varslerForGenerasjon": [],
                                     "id": "2ef3054a-14a3-4181-80cb-5eba7a8b5ef6",
                                     "inntektFraAordningen": [],
                                     "aktivitetslogg": [],
@@ -21730,7 +21603,6 @@
                                     "vedtaksperiodeId": "fec4474a-433f-4840-a8f4-662862f91f33",
                                     "periodetilstand": "Utbetalt",
                                     "skjaeringstidspunkt": "2021-06-07",
-                                    "varslerForGenerasjon": [],
                                     "id": "afb40405-64b4-4b91-a797-b7eb7a40742f",
                                     "inntektFraAordningen": [],
                                     "aktivitetslogg": [],
@@ -22268,7 +22140,6 @@
                                     "vedtaksperiodeId": "d5fc6c20-f5b1-46e5-bdde-386fc79096cf",
                                     "periodetilstand": "Utbetalt",
                                     "skjaeringstidspunkt": "2021-06-07",
-                                    "varslerForGenerasjon": [],
                                     "id": "fc417e36-b4f3-45c9-9e28-2ebb58d3a31c",
                                     "inntektFraAordningen": [],
                                     "aktivitetslogg": [],
@@ -22920,7 +22791,6 @@
                                     "vedtaksperiodeId": "ec79322c-6e4a-44af-bac5-1ef9434b9199",
                                     "periodetilstand": "Utbetalt",
                                     "skjaeringstidspunkt": "2021-06-07",
-                                    "varslerForGenerasjon": [],
                                     "id": "a7fc8e60-508f-4a55-9ec8-4ba75c20655e",
                                     "inntektFraAordningen": [],
                                     "aktivitetslogg": [],
@@ -23453,21 +23323,6 @@
                                     "vedtaksperiodeId": "63cf63dd-e402-40a5-be54-3e6d1c5956a8",
                                     "periodetilstand": "Utbetalt",
                                     "skjaeringstidspunkt": "2021-06-07",
-                                    "varslerForGenerasjon": [
-                                        {
-                                            "generasjonId": "1f9e0ae8-2638-482d-bdeb-4237f38b8dc6",
-                                            "definisjonId": "1a20655c-7618-41a5-a092-92f0edf603f2",
-                                            "kode": "RV_SØ_23",
-                                            "tittel": "Korrigert søknad er mottatt med nye opplysninger - kontroller dagene i sykmeldingsperioden",
-                                            "forklaring": "Det har kommet en korrigert søknad som er lagt til grunn",
-                                            "handling": "Kontroller at dagene i sykmeldingsperioden blir riktig",
-                                            "vurdering": {
-                                                "ident": "D123456",
-                                                "status": "GODKJENT",
-                                                "tidsstempel": "2021-06-28T07:23:54.859017"
-                                            }
-                                        }
-                                    ],
                                     "id": "8058b251-e5bd-40bd-b0ef-314da07b3d61",
                                     "inntektFraAordningen": [],
                                     "aktivitetslogg": [
@@ -24023,7 +23878,6 @@
                                     "vedtaksperiodeId": "c8c00d71-88fd-4d54-86ac-b3a6cc5e1a5b",
                                     "periodetilstand": "Utbetalt",
                                     "skjaeringstidspunkt": "2021-05-20",
-                                    "varslerForGenerasjon": [],
                                     "id": "11e1e6d5-b3e8-4444-87a7-eea0d1d5522f",
                                     "inntektFraAordningen": [],
                                     "aktivitetslogg": [],
@@ -24459,7 +24313,6 @@
                                     "vedtaksperiodeId": "139a32f2-508a-499b-b775-888ccb337b27",
                                     "periodetilstand": "Utbetalt",
                                     "skjaeringstidspunkt": "2021-05-01",
-                                    "varslerForGenerasjon": [],
                                     "id": "e8c4d0a3-7155-4e1c-8b77-fb0f7f885474",
                                     "inntektFraAordningen": [],
                                     "aktivitetslogg": [],
@@ -25028,7 +24881,6 @@
                                     "vedtaksperiodeId": "4cbee781-223f-4679-b01e-0d9f3aa5031f",
                                     "periodetilstand": "Utbetalt",
                                     "skjaeringstidspunkt": "2021-03-08",
-                                    "varslerForGenerasjon": [],
                                     "id": "a41b3a02-01ca-4166-937b-4a1758f25426",
                                     "inntektFraAordningen": [],
                                     "aktivitetslogg": [],
@@ -25614,7 +25466,6 @@
                                     "vedtaksperiodeId": "ad71f6d4-1278-45c5-84d7-3941bf8c8e08",
                                     "periodetilstand": "Utbetalt",
                                     "skjaeringstidspunkt": "2021-02-08",
-                                    "varslerForGenerasjon": [],
                                     "id": "b0d019c7-4256-4931-b447-c13af85e51d8",
                                     "inntektFraAordningen": [],
                                     "aktivitetslogg": [],
@@ -26075,21 +25926,6 @@
                                     "vedtaksperiodeId": "9dd4af3a-45f4-4fc5-87ea-1b35f685d026",
                                     "periodetilstand": "Utbetalt",
                                     "skjaeringstidspunkt": "2021-01-18",
-                                    "varslerForGenerasjon": [
-                                        {
-                                            "generasjonId": "9c980089-292d-48e8-a36b-ec95d20a5766",
-                                            "definisjonId": "8c2f4822-834d-4817-bfd1-9b668a3e914d",
-                                            "kode": "SB_EX_1",
-                                            "tittel": "Det finnes åpne oppgaver på sykepenger i Gosys",
-                                            "forklaring": "Det ligger aktive oppgaver med tema sykepenger i Gosys.",
-                                            "handling": "Sjekk Gosys-oppgavene og vurder om de påvirker saksbehandlingen.",
-                                            "vurdering": {
-                                                "ident": "E123456",
-                                                "status": "GODKJENT",
-                                                "tidsstempel": "2021-02-08T10:14:44.289505"
-                                            }
-                                        }
-                                    ],
                                     "id": "83894282-020b-43b9-8574-d1b65a510490",
                                     "inntektFraAordningen": [],
                                     "aktivitetslogg": [],
@@ -26488,7 +26324,6 @@
                                     "vedtaksperiodeId": "0a3ebb64-e30f-4d65-8da4-979c6c24c17b",
                                     "periodetilstand": "Utbetalt",
                                     "skjaeringstidspunkt": "2021-01-01",
-                                    "varslerForGenerasjon": [],
                                     "id": "fa380a13-d6d6-4f3e-8864-3a7a62af82cf",
                                     "inntektFraAordningen": [],
                                     "aktivitetslogg": [],
@@ -26906,21 +26741,6 @@
                                     "vedtaksperiodeId": "80915011-167d-4aff-8694-3861ebda5b28",
                                     "periodetilstand": "Utbetalt",
                                     "skjaeringstidspunkt": "2020-12-09",
-                                    "varslerForGenerasjon": [
-                                        {
-                                            "generasjonId": "b8a0bcfc-90fb-4bdf-a612-5e0528582e12",
-                                            "definisjonId": "7e6efbb1-68c3-4196-86f2-12a87fe4702f",
-                                            "kode": "RV_IT_30",
-                                            "tittel": "Perioden er lagt inn i Infotrygd, men ikke utbetalt. Fjern fra Infotrygd hvis det utbetales via speil.",
-                                            "forklaring": "Det ligger registrert en søknad om sykepenger på SP UB.",
-                                            "handling": "Dette varselet betyr ikke at perioden må behandles i Infotrygd. Fjern perioden fra SP UB når du utbetaler via speil. Hvis inntekten er registert så kan den slettes på SP-VT. Hvis det er en forutgående periode i Infotrygd som enda ikke er behandlet, trenger du ikke å avvise perioden hvis det er flere sykepengedager igjen er enn det som ligger til behandling i Infotrygd.",
-                                            "vurdering": {
-                                                "ident": "C123456",
-                                                "status": "GODKJENT",
-                                                "tidsstempel": "2021-01-25T11:26:05.777087"
-                                            }
-                                        }
-                                    ],
                                     "id": "69996632-ddc9-467b-94cc-46ef94e64547",
                                     "inntektFraAordningen": [],
                                     "aktivitetslogg": [
