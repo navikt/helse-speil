@@ -78,7 +78,7 @@ describe('Saksbildevarsler', () => {
         render(<SaksbildevarslerWrapper periodState="tilUtbetalingAutomatisk" />);
         expect(screen.getByText('Perioden er automatisk godkjent')).toBeVisible();
     });
-    test('viser varslerState fra aktivitetsloggen', () => {
+    test('viser varsler', () => {
         render(
             <SaksbildevarslerWrapper
                 periodState="utbetalt"
