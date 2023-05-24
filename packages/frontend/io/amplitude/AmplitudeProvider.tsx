@@ -41,8 +41,8 @@ const getEventProperties = (
             varighet: dayjs().diff(openedTimestamp),
             type: period.periodetype,
             inntektskilde: period.inntektstype,
-            warnings: period.aktivitetslogg.map((it) => it.melding),
-            antallWarnings: period.aktivitetslogg.length,
+            warnings: period.varsler.map((it) => it.tittel),
+            antallWarnings: period.varsler.length,
             begrunnelser: reasons,
         };
     } else {
