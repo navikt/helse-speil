@@ -176,6 +176,19 @@ query FetchPerson($fnr: String, $aktorId: String) {
                     vedtaksperiodeId
                     periodetilstand
                     skjaeringstidspunkt
+                    varsler {
+                        generasjonId
+                        definisjonId
+                        kode
+                        tittel
+                        forklaring
+                        handling
+                        vurdering {
+                            ident
+                            status
+                            tidsstempel
+                        }
+                    }
                     varslerForGenerasjon {
                         generasjonId
                         definisjonId

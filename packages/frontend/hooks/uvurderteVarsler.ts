@@ -11,7 +11,7 @@ export const useUvurderteVarslerPåPeriode = (periode: FetchedBeregnetPeriode | 
         return false;
     }
 
-    return periode.varslerForGenerasjon
+    return periode.varsler
         .filter((varsel) => !varsel.kode.startsWith('SB_BO_'))
         .some(
             (varsel) =>
@@ -29,7 +29,7 @@ export const useHarUvurderteVarslerPåEllerFør = (
         .filter((periode) => dayjs(periode.tom).isSameOrBefore(dayjs(activePeriod.tom)))
         .some((periode) => {
             if (!isBeregnetPeriode(periode) && !isUberegnetPeriode(periode)) return false;
-            return periode.varslerForGenerasjon
+            return periode.varsler
                 .filter((varsel) => !varsel.kode.startsWith('SB_BO_'))
                 .some(
                     (varsel) =>

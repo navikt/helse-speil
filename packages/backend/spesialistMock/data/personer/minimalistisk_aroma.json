@@ -880,7 +880,15 @@
                                         }
                                     },
                                     "varsler": [
-                                        "Det er mottatt flere inntektsmeldinger på samme skjæringstidspunkt. Undersøk at arbeidsgiverperioden, sykepengegrunnlaget og refusjonsopplysningene er riktige"
+                                        {
+                                            "generasjonId": "71413e0b-87fc-408a-97dc-6c040ea9664f",
+                                            "definisjonId": "d5553185-9350-4a2d-939b-6b6def9d2fa0",
+                                            "kode": "RV_IM_4",
+                                            "tittel": "Det er mottatt flere inntektsmeldinger på samme skjæringstidspunkt. Undersøk at arbeidsgiverperioden, sykepengegrunnlaget og refusjonsopplysningene er riktige.",
+                                            "forklaring": "Det har kommet inn flere inntektsmeldinger. Speil håndterer endringer i refusjon, men ikke tilfeller der inntekt eller arbeidsgiverperiode er endret. ",
+                                            "handling": "Du må undersøke om det er oppgitt endringer i inntekt, refusjon eller arbeidsgiverperiode som skal legges til grunn i saken og/ eller om forslaget til vedtak er riktig. Hvis det må gjøres endringer må du undersøke om saken kan revurderes i Speil, eller om saken må tas i Infotrygd.",
+                                            "vurdering": null
+                                        }
                                     ],
                                     "vilkarsgrunnlagId": "f7744e16-8569-4e94-8f61-c9996d3d8512",
                                     "oppgave": {
@@ -1258,9 +1266,19 @@
                                         }
                                     },
                                     "varsler": [
-                                        "Vurder lovvalg og medlemskap",
-                                        "Flere arbeidsgivere, ulikt starttidspunkt for sykefraværet eller ikke fravær fra alle arbeidsforhold",
-                                        "Det er mottatt flere inntektsmeldinger på samme skjæringstidspunkt. Undersøk at arbeidsgiverperioden, sykepengegrunnlaget og refusjonsopplysningene er riktige"
+                                        {
+                                            "generasjonId": "44b18d7f-7c44-4a5e-a95f-ab7f704c3f2f",
+                                            "definisjonId": "d5553185-9350-4a2d-939b-6b6def9d2fa0",
+                                            "kode": "RV_IM_4",
+                                            "tittel": "Det er mottatt flere inntektsmeldinger på samme skjæringstidspunkt. Undersøk at arbeidsgiverperioden, sykepengegrunnlaget og refusjonsopplysningene er riktige.",
+                                            "forklaring": "Det har kommet inn flere inntektsmeldinger. Speil håndterer endringer i refusjon, men ikke tilfeller der inntekt eller arbeidsgiverperiode er endret. ",
+                                            "handling": "Du må undersøke om det er oppgitt endringer i inntekt, refusjon eller arbeidsgiverperiode som skal legges til grunn i saken og/ eller om forslaget til vedtak er riktig. Hvis det må gjøres endringer må du undersøke om saken kan revurderes i Speil, eller om saken må tas i Infotrygd.",
+                                            "vurdering": {
+                                                "ident": "S150563",
+                                                "status": "GODKJENT",
+                                                "tidsstempel": "2023-03-07T15:17:05.429851"
+                                            }
+                                        }
                                     ],
                                     "vilkarsgrunnlagId": "612e342b-d832-4618-96f7-2d24856f768b",
                                     "oppgave": null
@@ -1697,9 +1715,19 @@
                                         }
                                     },
                                     "varsler": [
-                                        "Vurder lovvalg og medlemskap",
-                                        "Flere arbeidsgivere, ulikt starttidspunkt for sykefraværet eller ikke fravær fra alle arbeidsforhold",
-                                        "Det er mottatt flere inntektsmeldinger på samme skjæringstidspunkt. Undersøk at arbeidsgiverperioden, sykepengegrunnlaget og refusjonsopplysningene er riktige"
+                                        {
+                                            "generasjonId": "51d0d62a-59e9-4990-9d70-22895b18185f",
+                                            "definisjonId": "b8ccbad1-de8c-4ca6-b944-df240bc42e6b",
+                                            "kode": "RV_MV_1",
+                                            "tittel": "Vurder lovvalg og medlemskap",
+                                            "forklaring": "Medlemskapssjekken har ikke klart å entydig konkludere med at bruker er medlem",
+                                            "handling": "Sjekk om personen er medlem i folketrygden – se i medlemskapsfanen i Gosys. Sjekk bostedsadressen og hvor arbeidet utføres. Hvis bokommune er 0393 eller 2101 skal saken avvises og behandles av NAV Utland. Kilder: Gosys og Aa-registeret.",
+                                            "vurdering": {
+                                                "ident": "S150563",
+                                                "status": "GODKJENT",
+                                                "tidsstempel": "2023-03-07T15:14:26.658884"
+                                            }
+                                        }
                                     ],
                                     "vilkarsgrunnlagId": "a2f9cb93-08a4-4137-a17a-78f19c9bcc3d",
                                     "oppgave": null
@@ -2576,7 +2604,37 @@
                                         }
                                     },
                                     "varsler": [
-                                        "Første fraværsdag i inntektsmeldingen er ulik skjæringstidspunktet. Kontrollér at inntektsmeldingen er knyttet til riktig periode."
+                                        {
+                                            "generasjonId": "5322acc9-af79-4805-915a-cf2c16bcdf94",
+                                            "definisjonId": "641acb03-c373-4760-816a-26999ac7cd3a",
+                                            "kode": "RV_IM_2",
+                                            "tittel": "Første fraværsdag i inntektsmeldingen er ulik skjæringstidspunktet. Kontrollér at inntektsmeldingen er knyttet til riktig periode.",
+                                            "forklaring": "Første fraværsdag i inntektsmeldingen er ulik første fraværsdag i sykdomsperioden:",
+                                            "handling": "Kontroller at skjæringstidspunktet er riktig.",
+                                            "vurdering": {
+                                                "ident": "S150563",
+                                                "status": "GODKJENT",
+                                                "tidsstempel": "2023-03-07T16:04:07.846267"
+                                            }
+                                        },
+                                        {
+                                            "generasjonId": "f213be6e-9dbe-466a-bf36-0cdafa48b2a7",
+                                            "definisjonId": "d5553185-9350-4a2d-939b-6b6def9d2fa0",
+                                            "kode": "RV_IM_4",
+                                            "tittel": "Det er mottatt flere inntektsmeldinger på samme skjæringstidspunkt. Undersøk at arbeidsgiverperioden, sykepengegrunnlaget og refusjonsopplysningene er riktige.",
+                                            "forklaring": "Det har kommet inn flere inntektsmeldinger. Speil håndterer endringer i refusjon, men ikke tilfeller der inntekt eller arbeidsgiverperiode er endret. ",
+                                            "handling": "Du må undersøke om det er oppgitt endringer i inntekt, refusjon eller arbeidsgiverperiode som skal legges til grunn i saken og/ eller om forslaget til vedtak er riktig. Hvis det må gjøres endringer må du undersøke om saken kan revurderes i Speil, eller om saken må tas i Infotrygd.",
+                                            "vurdering": null
+                                        },
+                                        {
+                                            "generasjonId": "f213be6e-9dbe-466a-bf36-0cdafa48b2a7",
+                                            "definisjonId": "641acb03-c373-4760-816a-26999ac7cd3a",
+                                            "kode": "RV_IM_2",
+                                            "tittel": "Første fraværsdag i inntektsmeldingen er ulik skjæringstidspunktet. Kontrollér at inntektsmeldingen er knyttet til riktig periode.",
+                                            "forklaring": "Første fraværsdag i inntektsmeldingen er ulik første fraværsdag i sykdomsperioden:",
+                                            "handling": "Kontroller at skjæringstidspunktet er riktig.",
+                                            "vurdering": null
+                                        }
                                     ],
                                     "vilkarsgrunnlagId": "612e342b-d832-4618-96f7-2d24856f768b",
                                     "oppgave": null

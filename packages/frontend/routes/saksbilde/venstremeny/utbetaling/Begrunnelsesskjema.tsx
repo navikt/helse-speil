@@ -64,7 +64,7 @@ export const Begrunnelsesskjema: React.FC<BegrunnelsesskjemaProps> = ({ activePe
                                 />
                             );
                         })}
-                {activePeriod.varslerForGenerasjon.map((varsel, index) => {
+                {activePeriod.varsler.map((varsel, index) => {
                     switch (varsel.kode) {
                         case 'SB_RV_2':
                             return activePeriod.risikovurdering?.funn

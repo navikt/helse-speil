@@ -677,7 +677,7 @@
                                             "perioder": null
                                         }
                                     },
-                                    "varsler": ["Beslutteroppgave: Overstyring av inntekt"],
+                                    "varsler": [],
                                     "vilkarsgrunnlagId": null,
                                     "oppgave": null,
                                     "totrinnsvurdering": null
@@ -1314,6 +1314,7 @@
                                     "periodetilstand": "IngenUtbetaling",
                                     "skjaeringstidspunkt": "2022-08-08",
                                     "varslerForGenerasjon": [],
+                                    "varsler": [],
                                     "handlinger": [
                                         {
                                             "type": "UTBETALE",
@@ -5709,7 +5710,19 @@
                                         }
                                     },
                                     "varsler": [
-                                        "Korrigert søknad er mottatt med nye opplysninger - kontroller dagene i sykmeldingsperioden"
+                                        {
+                                            "generasjonId": "1f9e0ae8-2638-482d-bdeb-4237f38b8dc6",
+                                            "definisjonId": "1a20655c-7618-41a5-a092-92f0edf603f2",
+                                            "kode": "RV_SØ_23",
+                                            "tittel": "Korrigert søknad er mottatt med nye opplysninger - kontroller dagene i sykmeldingsperioden",
+                                            "forklaring": "Det har kommet en korrigert søknad som er lagt til grunn",
+                                            "handling": "Kontroller at dagene i sykmeldingsperioden blir riktig",
+                                            "vurdering": {
+                                                "ident": "D123456",
+                                                "status": "GODKJENT",
+                                                "tidsstempel": "2021-06-28T07:23:54.859017"
+                                            }
+                                        }
                                     ],
                                     "vilkarsgrunnlagId": "941720f7-825f-4d0f-bf01-13d539a353db",
                                     "oppgave": null,
@@ -8180,7 +8193,7 @@
                                             "perioder": null
                                         }
                                     },
-                                    "varsler": ["Det finnes åpne oppgaver på sykepenger i Gosys"],
+                                    "varsler": [],
                                     "vilkarsgrunnlagId": "941720f7-825f-4d0f-bf01-13d539a353db",
                                     "oppgave": null,
                                     "totrinnsvurdering": null
@@ -9005,7 +9018,19 @@
                                         }
                                     },
                                     "varsler": [
-                                        "Perioden er lagt inn i Infotrygd, men ikke utbetalt. Fjern fra Infotrygd hvis det utbetales via speil."
+                                        {
+                                            "generasjonId": "b8a0bcfc-90fb-4bdf-a612-5e0528582e12",
+                                            "definisjonId": "7e6efbb1-68c3-4196-86f2-12a87fe4702f",
+                                            "kode": "RV_IT_30",
+                                            "tittel": "Perioden er lagt inn i Infotrygd, men ikke utbetalt. Fjern fra Infotrygd hvis det utbetales via speil.",
+                                            "forklaring": "Det ligger registrert en søknad om sykepenger på SP UB.",
+                                            "handling": "Dette varselet betyr ikke at perioden må behandles i Infotrygd. Fjern perioden fra SP UB når du utbetaler via speil. Hvis inntekten er registert så kan den slettes på SP-VT. Hvis det er en forutgående periode i Infotrygd som enda ikke er behandlet, trenger du ikke å avvise perioden hvis det er flere sykepengedager igjen er enn det som ligger til behandling i Infotrygd.",
+                                            "vurdering": {
+                                                "ident": "C123456",
+                                                "status": "GODKJENT",
+                                                "tidsstempel": "2021-01-25T11:26:05.777087"
+                                            }
+                                        }
                                     ],
                                     "vilkarsgrunnlagId": "941720f7-825f-4d0f-bf01-13d539a353db",
                                     "oppgave": null,
@@ -9578,7 +9603,7 @@
                                             "perioder": null
                                         }
                                     },
-                                    "varsler": ["Beslutteroppgave: Overstyring av inntekt"],
+                                    "varsler": [],
                                     "vilkarsgrunnlagId": "ff435c10-9a0f-4936-b2e6-24275aea6dd8",
                                     "oppgave": null,
                                     "totrinnsvurdering": null
@@ -10317,6 +10342,7 @@
                                     "periodetilstand": "IngenUtbetaling",
                                     "skjaeringstidspunkt": "2022-08-08",
                                     "varslerForGenerasjon": [],
+                                    "varsler": [],
                                     "handlinger": [
                                         {
                                             "type": "UTBETALE",
@@ -14712,7 +14738,19 @@
                                         }
                                     },
                                     "varsler": [
-                                        "Korrigert søknad er mottatt med nye opplysninger - kontroller dagene i sykmeldingsperioden"
+                                        {
+                                            "generasjonId": "1f9e0ae8-2638-482d-bdeb-4237f38b8dc6",
+                                            "definisjonId": "1a20655c-7618-41a5-a092-92f0edf603f2",
+                                            "kode": "RV_SØ_23",
+                                            "tittel": "Korrigert søknad er mottatt med nye opplysninger - kontroller dagene i sykmeldingsperioden",
+                                            "forklaring": "Det har kommet en korrigert søknad som er lagt til grunn",
+                                            "handling": "Kontroller at dagene i sykmeldingsperioden blir riktig",
+                                            "vurdering": {
+                                                "ident": "D123456",
+                                                "status": "GODKJENT",
+                                                "tidsstempel": "2021-06-28T07:23:54.859017"
+                                            }
+                                        }
                                     ],
                                     "vilkarsgrunnlagId": "941720f7-825f-4d0f-bf01-13d539a353db",
                                     "oppgave": null,
@@ -17183,7 +17221,21 @@
                                             "perioder": null
                                         }
                                     },
-                                    "varsler": ["Det finnes åpne oppgaver på sykepenger i Gosys"],
+                                    "varsler": [
+                                        {
+                                            "generasjonId": "9c980089-292d-48e8-a36b-ec95d20a5766",
+                                            "definisjonId": "8c2f4822-834d-4817-bfd1-9b668a3e914d",
+                                            "kode": "SB_EX_1",
+                                            "tittel": "Det finnes åpne oppgaver på sykepenger i Gosys",
+                                            "forklaring": "Det ligger aktive oppgaver med tema sykepenger i Gosys.",
+                                            "handling": "Sjekk Gosys-oppgavene og vurder om de påvirker saksbehandlingen.",
+                                            "vurdering": {
+                                                "ident": "E123456",
+                                                "status": "GODKJENT",
+                                                "tidsstempel": "2021-02-08T10:14:44.289505"
+                                            }
+                                        }
+                                    ],
                                     "vilkarsgrunnlagId": "941720f7-825f-4d0f-bf01-13d539a353db",
                                     "oppgave": null,
                                     "totrinnsvurdering": null
@@ -18008,7 +18060,19 @@
                                         }
                                     },
                                     "varsler": [
-                                        "Perioden er lagt inn i Infotrygd, men ikke utbetalt. Fjern fra Infotrygd hvis det utbetales via speil."
+                                        {
+                                            "generasjonId": "b8a0bcfc-90fb-4bdf-a612-5e0528582e12",
+                                            "definisjonId": "7e6efbb1-68c3-4196-86f2-12a87fe4702f",
+                                            "kode": "RV_IT_30",
+                                            "tittel": "Perioden er lagt inn i Infotrygd, men ikke utbetalt. Fjern fra Infotrygd hvis det utbetales via speil.",
+                                            "forklaring": "Det ligger registrert en søknad om sykepenger på SP UB.",
+                                            "handling": "Dette varselet betyr ikke at perioden må behandles i Infotrygd. Fjern perioden fra SP UB når du utbetaler via speil. Hvis inntekten er registert så kan den slettes på SP-VT. Hvis det er en forutgående periode i Infotrygd som enda ikke er behandlet, trenger du ikke å avvise perioden hvis det er flere sykepengedager igjen er enn det som ligger til behandling i Infotrygd.",
+                                            "vurdering": {
+                                                "ident": "C123456",
+                                                "status": "GODKJENT",
+                                                "tidsstempel": "2021-01-25T11:26:05.777087"
+                                            }
+                                        }
                                     ],
                                     "vilkarsgrunnlagId": "941720f7-825f-4d0f-bf01-13d539a353db",
                                     "oppgave": null,
@@ -18538,7 +18602,7 @@
                                             "perioder": null
                                         }
                                     },
-                                    "varsler": ["Beslutteroppgave: Overstyring av inntekt"],
+                                    "varsler": [],
                                     "vilkarsgrunnlagId": "ed12b836-8d84-4273-90f1-39027f3e02f5",
                                     "oppgave": null,
                                     "totrinnsvurdering": null
@@ -23629,7 +23693,19 @@
                                         }
                                     },
                                     "varsler": [
-                                        "Korrigert søknad er mottatt med nye opplysninger - kontroller dagene i sykmeldingsperioden"
+                                        {
+                                            "generasjonId": "1f9e0ae8-2638-482d-bdeb-4237f38b8dc6",
+                                            "definisjonId": "1a20655c-7618-41a5-a092-92f0edf603f2",
+                                            "kode": "RV_SØ_23",
+                                            "tittel": "Korrigert søknad er mottatt med nye opplysninger - kontroller dagene i sykmeldingsperioden",
+                                            "forklaring": "Det har kommet en korrigert søknad som er lagt til grunn",
+                                            "handling": "Kontroller at dagene i sykmeldingsperioden blir riktig",
+                                            "vurdering": {
+                                                "ident": "D123456",
+                                                "status": "GODKJENT",
+                                                "tidsstempel": "2021-06-28T07:23:54.859017"
+                                            }
+                                        }
                                     ],
                                     "vilkarsgrunnlagId": "941720f7-825f-4d0f-bf01-13d539a353db",
                                     "oppgave": null,
@@ -26100,7 +26176,21 @@
                                             "perioder": null
                                         }
                                     },
-                                    "varsler": ["Det finnes åpne oppgaver på sykepenger i Gosys"],
+                                    "varsler": [
+                                        {
+                                            "generasjonId": "9c980089-292d-48e8-a36b-ec95d20a5766",
+                                            "definisjonId": "8c2f4822-834d-4817-bfd1-9b668a3e914d",
+                                            "kode": "SB_EX_1",
+                                            "tittel": "Det finnes åpne oppgaver på sykepenger i Gosys",
+                                            "forklaring": "Det ligger aktive oppgaver med tema sykepenger i Gosys.",
+                                            "handling": "Sjekk Gosys-oppgavene og vurder om de påvirker saksbehandlingen.",
+                                            "vurdering": {
+                                                "ident": "E123456",
+                                                "status": "GODKJENT",
+                                                "tidsstempel": "2021-02-08T10:14:44.289505"
+                                            }
+                                        }
+                                    ],
                                     "vilkarsgrunnlagId": "941720f7-825f-4d0f-bf01-13d539a353db",
                                     "oppgave": null,
                                     "totrinnsvurdering": null
@@ -26925,7 +27015,19 @@
                                         }
                                     },
                                     "varsler": [
-                                        "Perioden er lagt inn i Infotrygd, men ikke utbetalt. Fjern fra Infotrygd hvis det utbetales via speil."
+                                        {
+                                            "generasjonId": "b8a0bcfc-90fb-4bdf-a612-5e0528582e12",
+                                            "definisjonId": "7e6efbb1-68c3-4196-86f2-12a87fe4702f",
+                                            "kode": "RV_IT_30",
+                                            "tittel": "Perioden er lagt inn i Infotrygd, men ikke utbetalt. Fjern fra Infotrygd hvis det utbetales via speil.",
+                                            "forklaring": "Det ligger registrert en søknad om sykepenger på SP UB.",
+                                            "handling": "Dette varselet betyr ikke at perioden må behandles i Infotrygd. Fjern perioden fra SP UB når du utbetaler via speil. Hvis inntekten er registert så kan den slettes på SP-VT. Hvis det er en forutgående periode i Infotrygd som enda ikke er behandlet, trenger du ikke å avvise perioden hvis det er flere sykepengedager igjen er enn det som ligger til behandling i Infotrygd.",
+                                            "vurdering": {
+                                                "ident": "C123456",
+                                                "status": "GODKJENT",
+                                                "tidsstempel": "2021-01-25T11:26:05.777087"
+                                            }
+                                        }
                                     ],
                                     "vilkarsgrunnlagId": "941720f7-825f-4d0f-bf01-13d539a353db",
                                     "oppgave": null,
