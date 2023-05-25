@@ -12,7 +12,11 @@ import { OppgaveMock, getDefaultOppgave } from './storage/oppgave';
 const app = express();
 const port = 9001;
 
-const passeLenge = () => Math.round(Math.random() * 500 + 300);
+const passeLenge = () => {
+    const minimumforsinkelse = Math.random() > 0.8 ? 700 : 200;
+    const varians = Math.random() * 500;
+    return Math.round(minimumforsinkelse + varians);
+};
 
 app.disable('x-powered-by');
 
@@ -27,7 +31,7 @@ app.use((req, res, next) => {
     res.header('Access-Control-Allow-Methods', 'PUT, GET, POST, DELETE');
     const ventetid = passeLenge();
     const pathOrQuery = req.url === '/graphql' ? req.body['operationName'] : req.url;
-    console.log(`Behandler request til ${pathOrQuery} etter ${ventetid} ms`);
+    console.log(`Behandler ${req.method} til ${pathOrQuery} etter ${ventetid} ms`);
     sleep(ventetid).then(next);
 });
 
