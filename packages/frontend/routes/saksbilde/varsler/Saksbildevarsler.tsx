@@ -90,7 +90,6 @@ const harRelevanteDagoverstyringer = (overstyringer: Array<Overstyring>, tom?: D
 const beslutteroppgave = (
     periodState: PeriodState,
     erBeslutteroppgave: boolean = false,
-    harVurderLovvalgOgMedlemskapVarsel: boolean = false,
     endringerEtterNyesteUtbetalingPåPerson?: Maybe<Array<Overstyring>>,
     harDagOverstyringer: boolean = false,
     activePeriodTom?: string,
@@ -113,10 +112,6 @@ const beslutteroppgave = (
             årsaker.push('Overstyring av annet arbeidsforhold');
         }
 
-        if (harVurderLovvalgOgMedlemskapVarsel) {
-            årsaker.push('Lovvalg og medlemskap');
-        }
-
         if (årsaker.length > 0) {
             const overstyringÅrsaker = årsaker.join(', ').replace(/,(?=[^,]*$)/, ' og');
             return { grad: 'info', melding: `Beslutteroppgave: ${overstyringÅrsaker}` };
@@ -131,7 +126,6 @@ interface SaksbildevarslerProps {
     varsler?: Maybe<Array<VarselDto>>;
     erTidligereSaksbehandler?: boolean;
     erBeslutteroppgave?: boolean;
-    harVurderLovvalgOgMedlemskapVarsel?: boolean;
     endringerEtterNyesteUtbetalingPåPerson?: Maybe<Array<Overstyring>>;
     harDagOverstyringer?: boolean;
     activePeriodTom?: string;
@@ -144,7 +138,6 @@ export const Saksbildevarsler = ({
     varsler,
     erTidligereSaksbehandler = false,
     erBeslutteroppgave = false,
-    harVurderLovvalgOgMedlemskapVarsel,
     endringerEtterNyesteUtbetalingPåPerson,
     harDagOverstyringer,
     activePeriodTom,
@@ -158,7 +151,6 @@ export const Saksbildevarsler = ({
         beslutteroppgave(
             periodState,
             erBeslutteroppgave,
-            harVurderLovvalgOgMedlemskapVarsel,
             endringerEtterNyesteUtbetalingPåPerson,
             harDagOverstyringer,
             activePeriodTom,
