@@ -2,22 +2,16 @@
 import { nanoid } from 'nanoid';
 import React, { ReactNode, useContext, useState } from 'react';
 
-import { Alert, BodyShort, Button } from '@navikt/ds-react';
+import { Button } from '@navikt/ds-react';
 
 import { Key, useKeyboard } from '@hooks/useKeyboard';
 import { AmplitudeContext } from '@io/amplitude';
-import { NotatType, Personinfo, Personnavn, Utbetaling } from '@io/graphql';
-import { postNotat, postUtbetalingTilTotrinnsvurdering } from '@io/http';
-import { useActivePeriod } from '@state/periode';
-import { useCurrentPerson } from '@state/person';
+import { Personinfo, Utbetaling } from '@io/graphql';
+import { postUtbetalingTilTotrinnsvurdering } from '@io/http';
 import { useAddToast } from '@state/toasts';
-import { isBeregnetPeriode, isPerson } from '@utils/typeguards';
 
-import { NyttNotatModal } from '../../../oversikt/table/rader/notat/NyttNotatModal';
 import { BackendFeil } from './Utbetaling';
 import { UtbetalingModal } from './UtbetalingModal';
-
-import styles from './SendTilGodkjenningButton.module.css';
 
 const useAddSendtTilGodkjenningtoast = () => {
     const addToast = useAddToast();
@@ -35,7 +29,6 @@ const useAddSendtTilGodkjenningtoast = () => {
 interface SendTilGodkjenningButtonProps extends Omit<React.HTMLAttributes<HTMLButtonElement>, 'onError'> {
     children: ReactNode;
     oppgavereferanse: string;
-    manglerNotatVedVurderLovvalgOgMedlemskapVarsel?: boolean;
     disabled: boolean;
     onSuccess?: () => void;
     utbetaling: Utbetaling;
@@ -46,7 +39,6 @@ interface SendTilGodkjenningButtonProps extends Omit<React.HTMLAttributes<HTMLBu
 export const SendTilGodkjenningButton: React.FC<SendTilGodkjenningButtonProps> = ({
     children,
     oppgavereferanse,
-    manglerNotatVedVurderLovvalgOgMedlemskapVarsel,
     disabled = false,
     onSuccess,
     utbetaling,
@@ -55,49 +47,21 @@ export const SendTilGodkjenningButton: React.FC<SendTilGodkjenningButtonProps> =
     ...buttonProps
 }) => {
     const [showModal, setShowModal] = useState(false);
-    const [showGenereltNotatModal, setShowGenereltNotatModal] = useState(false);
     const [isSending, setIsSending] = useState(false);
     const [error, setError] = useState<BackendFeil | undefined>();
     const amplitude = useContext(AmplitudeContext);
     const addToast = useAddSendtTilGodkjenningtoast();
-    const activePeriod = useActivePeriod();
-    const person = useCurrentPerson();
-
-    const navn: Personnavn = {
-        fornavn: personinfo.fornavn,
-        mellomnavn: personinfo.mellomnavn,
-        etternavn: personinfo.etternavn,
-    };
 
     useKeyboard({
         [Key.F6]: {
-            action: () =>
-                manglerNotatVedVurderLovvalgOgMedlemskapVarsel ? setShowGenereltNotatModal(true) : setShowModal(true),
+            action: () => setShowModal(true),
             ignoreIfModifiers: false,
         },
     });
 
-    if (!isPerson(person) || !isBeregnetPeriode(activePeriod)) {
-        return null;
-    }
-
     const closeModal = () => {
         setError(undefined);
         setShowModal(false);
-    };
-    const closeGenereltNotatModal = () => setShowGenereltNotatModal(false);
-
-    const postNotatOgSendTilGodkjenning = (notattekst: string) => {
-        setError(undefined);
-        setIsSending(true);
-        return postNotat(activePeriod.vedtaksperiodeId, { tekst: notattekst, type: NotatType.Generelt })
-            .then(() => {
-                sendTilGodkjenning();
-            })
-            .catch((error) => {
-                setIsSending(false);
-                setError(error);
-            });
     };
 
     const sendTilGodkjenning = () => {
@@ -111,7 +75,7 @@ export const SendTilGodkjenningButton: React.FC<SendTilGodkjenningButtonProps> =
             })
             .catch((error) => {
                 if (error.statusCode === 409) {
-                    setError({ ...error, message: 'Saken er allerede utbetalt.' });
+                    setError({ ...error, message: 'Denne perioden er allerede behandlet' });
                 } else setError(error);
             })
             .finally(() => {
@@ -126,11 +90,7 @@ export const SendTilGodkjenningButton: React.FC<SendTilGodkjenningButtonProps> =
                 variant="primary"
                 size="small"
                 data-testid="godkjenning-button"
-                onClick={() =>
-                    manglerNotatVedVurderLovvalgOgMedlemskapVarsel
-                        ? setShowGenereltNotatModal(true)
-                        : setShowModal(true)
-                }
+                onClick={() => setShowModal(true)}
                 {...buttonProps}
             >
                 {children}
@@ -145,23 +105,6 @@ export const SendTilGodkjenningButton: React.FC<SendTilGodkjenningButtonProps> =
                     error={error}
                     isSending={isSending}
                     totrinnsvurdering={true}
-                />
-            )}
-            {showGenereltNotatModal && (
-                <NyttNotatModal
-                    onClose={closeGenereltNotatModal}
-                    navn={navn}
-                    vedtaksperiodeId={activePeriod.vedtaksperiodeId}
-                    notattype="Generelt"
-                    onSubmitOverride={postNotatOgSendTilGodkjenning}
-                    ekstraInnhold={
-                        <Alert className={styles.ManglerLovvalgOgMedlemskapNotat} variant="warning">
-                            <BodyShort className={styles.NotatParagraf}>
-                                Du må skrive notat for lovvalg og medlemskap før oppgaven kan sendes til beslutter.
-                            </BodyShort>
-                        </Alert>
-                    }
-                    submitButtonText="Lagre og send"
                 />
             )}
         </>

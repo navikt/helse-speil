@@ -6,9 +6,8 @@ import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { BodyShort, Loader } from '@navikt/ds-react';
 
 import { useErBeslutteroppgaveOgHarTilgang } from '@hooks/useErBeslutteroppgaveOgHarTilgang';
-import { useHarVurderLovvalgOgMedlemskapVarsel } from '@hooks/useHarVurderLovvalgOgMedlemskapVarsel';
 import { useHarUvurderteVarslerPåEllerFør } from '@hooks/uvurderteVarsler';
-import { NotatType, Periodetilstand } from '@io/graphql';
+import { Periodetilstand } from '@io/graphql';
 import { postAbonnerPåAktør } from '@io/http';
 import { useFinnesNyereUtbetaltPeriodePåPerson, useHarDagOverstyringer } from '@state/arbeidsgiver';
 import { opptegnelsePollingTimeState } from '@state/opptegnelser';
@@ -92,7 +91,6 @@ export const Utbetaling = ({ period, person, arbeidsgiver }: UtbetalingProps) =>
     const history = useHistory();
     const totrinnsvurderingAktiv = useTotrinnsvurderingErAktiv();
     const erBeslutteroppgaveOgHarTilgang = useErBeslutteroppgaveOgHarTilgang();
-    const harVurderLovvalgOgMedlemskapVarsel = useHarVurderLovvalgOgMedlemskapVarsel();
     const harOverstyringerEtterSisteGodkjenteUtbetaling = useHarOverstyringerEtterSisteGodkjenteUtbetaling(person);
     const harDagOverstyringer = useHarDagOverstyringer(period);
     const harUvurderteVarslerPåUtbetaling = useHarUvurderteVarslerPåEllerFør(period, person.arbeidsgivere);
@@ -124,24 +122,17 @@ export const Utbetaling = ({ period, person, arbeidsgiver }: UtbetalingProps) =>
         totrinnsvurderingAktiv && isBeregnetPeriode(period) && period.totrinnsvurdering?.erBeslutteroppgave === false;
     const trengerTotrinnsvurdering =
         period?.totrinnsvurdering !== null && !period.totrinnsvurdering?.erBeslutteroppgave;
-    const manglerNotatVedVurderLovvalgOgMedlemskapVarsel = harVurderLovvalgOgMedlemskapVarsel
-        ? period.notater.filter((it) => it.type === NotatType.Generelt && !it.feilregistrert).length === 0
-        : undefined;
 
     return (
         <>
             <div className={styles.Buttons}>
                 {kanSendesTilTotrinnsvurdering &&
-                (harVurderLovvalgOgMedlemskapVarsel ||
-                    trengerTotrinnsvurdering ||
-                    harOverstyringerEtterSisteGodkjenteUtbetaling ||
-                    harDagOverstyringer) ? (
+                (trengerTotrinnsvurdering || harOverstyringerEtterSisteGodkjenteUtbetaling || harDagOverstyringer) ? (
                     <SendTilGodkjenningButton
                         utbetaling={period.utbetaling}
                         arbeidsgiver={arbeidsgiver}
                         personinfo={person.personinfo}
                         oppgavereferanse={period.oppgave?.id!}
-                        manglerNotatVedVurderLovvalgOgMedlemskapVarsel={manglerNotatVedVurderLovvalgOgMedlemskapVarsel}
                         disabled={
                             periodenErSendt ||
                             harUvurderteVarslerPåUtbetaling ||
@@ -192,8 +183,7 @@ export const Utbetaling = ({ period, person, arbeidsgiver }: UtbetalingProps) =>
                     <Spinner />
                     <span>
                         {kanSendesTilTotrinnsvurdering &&
-                        (harVurderLovvalgOgMedlemskapVarsel ||
-                            trengerTotrinnsvurdering ||
+                        (trengerTotrinnsvurdering ||
                             harOverstyringerEtterSisteGodkjenteUtbetaling ||
                             harDagOverstyringer)
                             ? 'Perioden sendes til godkjenning'
