@@ -49,7 +49,7 @@ export default ({ spesialistClient }: SetupOptions) => {
             })
             .then(() => res.sendStatus(204))
             .catch((err) => {
-                logger.error(
+                logger.sikker.error(
                     `Feil under fatting av vedtak for ${saksbehandlerIdent}, oppgavereferanse ${oppgavereferanse}: ${err}`,
                 );
                 const statusCode = [400, 403, 409].includes(err.statusCode) ? err.statusCode : 500;

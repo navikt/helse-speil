@@ -2,7 +2,6 @@ import { Request } from 'express';
 import { Client, TokenSet } from 'openid-client';
 
 import logger from '../logging';
-import { ipAddressFromRequest } from '../requestData';
 import { AuthError, OidcConfig, SpeilRequest, SpeilSession } from '../types';
 
 interface IsValidInProps {
@@ -44,8 +43,6 @@ const validateOidcCallback = (req: SpeilRequest, azureClient: Client, config: Oi
         .catch((err) => Promise.reject(authError(500, `Azure error: ${err.error_description}`, err)))
         .then((tokenSet: TokenSet) => retrieveTokens(tokenSet, 'access_token', 'id_token', 'refresh_token'))
         .then(([accessToken, idToken, refreshToken]) => {
-            const username = valueFromClaim('name', idToken as string);
-            logger.info(`User ${username} has been authenticated, from IP address ${ipAddressFromRequest(req)}`);
             return [accessToken, idToken, refreshToken];
         });
 };
@@ -93,13 +90,13 @@ const refreshAccessToken = async (azureClient: Client, session: SpeilSession): P
         .refresh(session.refreshToken)
         .then((tokenSet: TokenSet) => retrieveTokens(tokenSet, 'access_token', 'refresh_token'))
         .then(([accessToken, refreshToken]) => {
-            logger.info(`Refresher access token for ${session.user}`);
+            logger.sikker.info(`Refresher access token for ${session.user}`);
             session.speilToken = accessToken;
             session.refreshToken = refreshToken;
             return true;
         })
         .catch((errorMessage) => {
-            logger.error(`Feilet refresh av access token for ${session.user}: ${errorMessage}`);
+            logger.sikker.error(`Feilet refresh av access token for ${session.user}: ${errorMessage}`);
             return false;
         });
 };
