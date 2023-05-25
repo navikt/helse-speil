@@ -133,7 +133,7 @@ export type Behandlingsstatistikk = {
 
 export type BeregnetPeriode = Periode & {
     __typename?: 'BeregnetPeriode';
-    aktivitetslogg: Array<Aktivitet>;
+    aktivitetslogg?: Maybe<Array<Aktivitet>>;
     beregningId: Scalars['String'];
     erForkastet: Scalars['Boolean'];
     fom: Scalars['String'];

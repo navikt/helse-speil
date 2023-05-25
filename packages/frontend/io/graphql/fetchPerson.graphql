@@ -223,12 +223,6 @@ query FetchPerson($fnr: String, $aktorId: String) {
                             maned
                             sum
                         }
-                        aktivitetslogg {
-                            alvorlighetsgrad
-                            melding
-                            tidsstempel
-                            vedtaksperiodeId
-                        }
                         beregningId
                         forbrukteSykedager
                         gjenstaendeSykedager
