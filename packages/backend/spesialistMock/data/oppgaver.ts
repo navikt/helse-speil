@@ -74,7 +74,7 @@ export const oppgaver: Array<OppgaveForOversiktsvisning> = [
         },
         tildeling: {
             navn: 'Frosk',
-            oid: 'ting',
+            oid: 'tang',
             reservert: true,
             epost: 'frosk@frog.no',
         },
@@ -110,7 +110,7 @@ export const oppgaver: Array<OppgaveForOversiktsvisning> = [
         },
         tildeling: {
             navn: 'Pølse',
-            oid: 'ting',
+            oid: 'tong',
             reservert: true,
             epost: 'frosk@frog.no',
         },

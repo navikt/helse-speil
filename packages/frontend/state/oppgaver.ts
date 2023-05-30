@@ -9,16 +9,11 @@ import {
     useSetRecoilState,
 } from 'recoil';
 
-import {
-    FerdigstiltOppgave,
-    FetchBehandledeOppgaverQuery,
-    FetchOppgaverQuery,
-    OppgaveForOversiktsvisning,
-    Tildeling,
-} from '@io/graphql';
+import { FerdigstiltOppgave, FetchBehandledeOppgaverQuery, FetchOppgaverQuery, Tildeling } from '@io/graphql';
 import { fetchBehandledeOppgaver } from '@io/graphql/fetchBehandledeOppgaver';
 import { fetchOppgaver } from '@io/graphql/fetchOppgaver';
-import { NotatDTO, deletePåVent, deleteTildeling, postLeggPåVent, postTildeling } from '@io/http';
+import { NotatDTO, deletePåVent, postLeggPåVent } from '@io/http';
+import { tildelingState } from '@state/tildeling';
 import { ISO_DATOFORMAT } from '@utils/date';
 import { InfoAlert } from '@utils/error';
 
@@ -53,15 +48,15 @@ const remoteOppgaverState = selector<FetchedOppgaver>({
 
 type TildelingStateType = { [id: string]: Maybe<Tildeling> | undefined };
 
-const _tildelingerState = atom<TildelingStateType>({
-    key: '_tildelingerState',
-    default: {},
-});
+// const _tildelingerState = atom<TildelingStateType>({
+//     key: '_tildelingerState',
+//     default: {},
+// });
 
 const tildelingerState = selector<TildelingStateType>({
     key: 'tildelingerState',
     get: ({ get }) => {
-        const local = get(_tildelingerState);
+        const local = get(tildelingState);
         const remote = get(remoteOppgaverState).reduce<TildelingStateType>((tildelinger, { id, tildeling }) => {
             tildelinger[id] = tildeling;
             return tildelinger;
@@ -149,23 +144,10 @@ export const useMineOppgaver = (): FetchedOppgaver => {
 
 export const useRefetchOppgaver = () => {
     const setKey = useSetRecoilState(oppgaverStateRefetchKey);
-    const setTildelinger = useSetRecoilState(_tildelingerState);
+    const setTildelinger = useSetRecoilState(tildelingState);
     return () => {
         setTildelinger({});
         setKey(new Date());
-    };
-};
-
-type TildelingError = {
-    feilkode: string;
-    kildesystem: string;
-    kontekst: {
-        tildeling: {
-            oid: string;
-            navn: string;
-            epost: string;
-            påVent: boolean;
-        };
     };
 };
 
@@ -183,58 +165,9 @@ const useAddTildelingsvarsel = () => {
     return (message: string) => addVarsel(new TildelingAlert(message));
 };
 
-export const useTildelOppgave = () => {
-    const setTildelinger = useSetRecoilState(_tildelingerState);
-    const addTildelingsvarsel = useAddTildelingsvarsel();
-    const removeTildelingsvarsel = useRemoveTildelingsvarsel();
-
-    return ({ id }: Pick<OppgaveForOversiktsvisning, 'id'>, tildeling: Omit<Tildeling, 'reservert'>) => {
-        removeTildelingsvarsel();
-        return postTildeling(id)
-            .then((response) => {
-                setTildelinger((it) => ({ ...it, [id]: { ...tildeling, reservert: false } }));
-                return Promise.resolve(response);
-            })
-            .catch(async (error) => {
-                if (error.statusCode === 409) {
-                    const respons: TildelingError = (await JSON.parse(error.message)) as TildelingError;
-                    const { oid, navn, epost, påVent } = respons.kontekst.tildeling;
-                    setTildelinger((it) => ({
-                        ...it,
-                        [id]: { oid, navn, epost, reservert: påVent },
-                    }));
-                    addTildelingsvarsel(`${navn} har allerede tatt saken.`);
-                    return Promise.reject(oid);
-                } else {
-                    addTildelingsvarsel('Kunne ikke tildele sak.');
-                    return Promise.reject();
-                }
-            });
-    };
-};
-
-export const useFjernTildeling = (): ((oppgavereferanse: string) => () => Promise<Response>) => {
-    const setTildelinger = useSetRecoilState(_tildelingerState);
-    const addTildelingsvarsel = useAddTildelingsvarsel();
-    const removeTildelingsvarsel = useRemoveTildelingsvarsel();
-
-    return (oppgavereferanse) => () => {
-        removeTildelingsvarsel();
-        return deleteTildeling(oppgavereferanse)
-            .then((response) => {
-                setTildelinger((it) => ({ ...it, [oppgavereferanse]: undefined }));
-                return Promise.resolve(response);
-            })
-            .catch(() => {
-                addTildelingsvarsel('Kunne ikke fjerne tildeling av sak.');
-                return Promise.reject();
-            });
-    };
-};
-
 export const useLeggPåVent = () => {
     const tildelinger = useRecoilValue(tildelingerState);
-    const setLokaleTildelinger = useSetRecoilState(_tildelingerState);
+    const setLokaleTildelinger = useSetRecoilState(tildelingState);
     const removeTildelingsvarsel = useRemoveTildelingsvarsel();
 
     return (oppgavereferanse: string, notat: NotatDTO) => {
@@ -253,7 +186,7 @@ export const useLeggPåVent = () => {
 
 export const useFjernPåVent = (): ((oppgavereferanse: string) => () => Promise<Response>) => {
     const tildelinger = useRecoilValue(tildelingerState);
-    const setLokaleTildelinger = useSetRecoilState(_tildelingerState);
+    const setLokaleTildelinger = useSetRecoilState(tildelingState);
     const addTildelingsvarsel = useAddTildelingsvarsel();
     const removeTildelingsvarsel = useRemoveTildelingsvarsel();
 

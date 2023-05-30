@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { useFjernTildeling } from '@state/oppgaver';
+import { useFjernTildeling } from '@state/tildeling';
 
 import { AsyncMenuButton } from './AsyncMenuButton';
 
@@ -8,11 +8,7 @@ interface MeldAvMenuButtonProps extends React.ButtonHTMLAttributes<HTMLButtonEle
     oppgavereferanse: string;
 }
 
-export const MeldAvMenuButton = ({ oppgavereferanse, ...rest }: MeldAvMenuButtonProps) => {
+export const MeldAvMenuButton = ({ oppgavereferanse }: MeldAvMenuButtonProps) => {
     const fjernTildeling = useFjernTildeling();
-    return (
-        <AsyncMenuButton asyncOperation={fjernTildeling(oppgavereferanse)} {...rest}>
-            Meld av
-        </AsyncMenuButton>
-    );
+    return <AsyncMenuButton asyncOperation={() => fjernTildeling(oppgavereferanse)}>Meld av</AsyncMenuButton>;
 };
