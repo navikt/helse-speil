@@ -8,7 +8,12 @@ import { enUtbetaling } from '@test-data/utbetaling';
 import { defaultUtbetalingToggles } from '@utils/featureToggles';
 import { kanOverstyreRevurdering, kanOverstyres, kanRevurderes } from '@utils/overstyring';
 
-jest.mock('@utils/featureToggles');
+jest.mock('@utils/featureToggles', () => ({
+    erDev: () => false,
+    defaultUtbetalingToggles: {
+        overstyreUtbetaltPeriodeEnabled: true,
+    },
+}));
 
 describe('kanOverstyres', () => {
     it('returnerer true om personen har flere arbeidsgivere', () => {
@@ -55,7 +60,7 @@ describe('kanOverstyres', () => {
 });
 
 describe('kanRevurderes', () => {
-    afterEach(() => {
+    beforeEach(() => {
         defaultUtbetalingToggles.overstyreUtbetaltPeriodeEnabled = true;
     });
 
@@ -133,7 +138,7 @@ describe('kanRevurderes', () => {
 });
 
 describe('kanOverstyreRevurdering', () => {
-    afterEach(() => {
+    beforeEach(() => {
         defaultUtbetalingToggles.overstyreUtbetaltPeriodeEnabled = true;
     });
 
