@@ -1,5 +1,5 @@
 import { GhostPeriode, Periode, Periodetilstand, Utbetalingtype } from '@io/graphql';
-import { erDev } from '@utils/featureToggles';
+import { skalBehandleEnOgEnPeriode } from '@utils/featureToggles';
 import { isBeregnetPeriode, isGhostPeriode, isInfotrygdPeriod, isUberegnetPeriode } from '@utils/typeguards';
 
 const hasBeenAssessedAutomatically = (period: FetchedBeregnetPeriode): boolean =>
@@ -71,7 +71,7 @@ export const getPeriodState = (period?: Maybe<Periode | DatePeriod>): PeriodStat
         case Periodetilstand.TilGodkjenning:
             switch (period.utbetaling.type) {
                 case Utbetalingtype.Revurdering:
-                    if (erDev() && !hasOppgave(period)) return 'venter';
+                    if (skalBehandleEnOgEnPeriode && !hasOppgave(period)) return 'venter';
                     else return 'revurderes';
                 case Utbetalingtype.Utbetaling:
                     return hasOppgave(period) ? 'tilGodkjenning' : 'venter';
