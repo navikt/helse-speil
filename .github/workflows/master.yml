@@ -69,15 +69,15 @@ jobs:
           RESOURCE: deploy/dev.yml,deploy/alerts-dev.yml,deploy/redis-dev.yml
           VAR: "image=${{ needs.build.outputs.image }},team=${{env.TEAM}},app=${{env.APP}}"
 
-#  deployProd:
-#    name: Deploy to prod
-#    needs: [build, deployDev]
-#    runs-on: ubuntu-latest
-#    steps:
-#      - uses: actions/checkout@v3
-#      - uses: nais/deploy/actions/deploy@v1
-#        env:
-#          APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
-#          CLUSTER: prod-gcp
-#          RESOURCE: deploy/prod.yml,deploy/alerts-prod.yml,deploy/redis-prod.yml
-#          VAR: "image=${{ needs.build.outputs.image }},team=${{env.TEAM}},app=${{env.APP}}"
+  deployProd:
+    name: Deploy to prod
+    needs: [build, deployDev]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: nais/deploy/actions/deploy@v1
+        env:
+          APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
+          CLUSTER: prod-gcp
+          RESOURCE: deploy/prod.yml,deploy/alerts-prod.yml,deploy/redis-prod.yml
+          VAR: "image=${{ needs.build.outputs.image }},team=${{env.TEAM}},app=${{env.APP}}"

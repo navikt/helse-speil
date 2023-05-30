@@ -9,9 +9,22 @@ import {
     ProtectedError,
     isFetchErrorArray,
 } from '@io/graphql/errors';
-import { NotatDTO, SpeilResponse, deletePåVent, postLeggPåVent } from '@io/http';
+import { NotatDTO, SpeilResponse, deletePåVent, deleteTildeling, postLeggPåVent, postTildeling } from '@io/http';
+import { useInnloggetSaksbehandler } from '@state/authentication';
 import { activePeriodState } from '@state/periode';
+import { useAddVarsel, useRemoveVarsel } from '@state/varsler';
 import { SpeilError } from '@utils/error';
+
+const TILDELINGSKEY = 'tildeling';
+
+class TildelingAlert extends SpeilError {
+    name = TILDELINGSKEY;
+
+    constructor(message: string) {
+        super(message);
+        this.severity = 'info';
+    }
+}
 
 type PersonState = {
     person: Maybe<FetchedPerson>;
@@ -124,6 +137,60 @@ export const useResetPerson = (): (() => void) => {
 
 export const useIsFetchingPerson = (): boolean => {
     return useRecoilValue(personState).loading;
+};
+
+export const useTildelPerson = (): ((oppgavereferanse: string) => Promise<void>) => {
+    const addVarsel = useAddVarsel();
+    const removeVarsel = useRemoveVarsel();
+    const setPersonState = useSetRecoilState(personState);
+    const innloggetSaksbehandler = useInnloggetSaksbehandler();
+
+    return async (oppgavereferanse: string) => {
+        removeVarsel(TILDELINGSKEY);
+        return postTildeling(oppgavereferanse)
+            .then(() => {
+                setPersonState((prevState) => ({
+                    ...prevState,
+                    person: prevState.person && {
+                        ...prevState.person,
+                        tildeling: {
+                            ...innloggetSaksbehandler,
+                            reservert: false,
+                        },
+                    },
+                }));
+            })
+            .catch(async (error) => {
+                if (error.statusCode === 409) {
+                    const respons: any = await JSON.parse(error.message);
+                    const { navn } = respons.kontekst.tildeling;
+                    addVarsel(new TildelingAlert(`${navn} har allerede tatt saken.`));
+                } else {
+                    addVarsel(new TildelingAlert('Kunne ikke tildele sak.'));
+                }
+            });
+    };
+};
+
+export const useFjernTildeling = (): ((oppgavereferanse: string) => Promise<void>) => {
+    const addVarsel = useAddVarsel();
+    const removeVarsel = useRemoveVarsel();
+    const setPersonState = useSetRecoilState(personState);
+
+    return async (oppgavereferanse: string) => {
+        removeVarsel(TILDELINGSKEY);
+        return deleteTildeling(oppgavereferanse)
+            .then(() => {
+                setPersonState((prevState) => ({
+                    ...prevState,
+                    person: prevState.person && {
+                        ...prevState.person,
+                        tildeling: null,
+                    },
+                }));
+            })
+            .catch(() => addVarsel(new TildelingAlert('Kunne ikke fjerne tildeling av sak.')));
+    };
 };
 
 export const useLeggPåVent = (): ((oppgavereferanse: string, notat: NotatDTO) => Promise<SpeilResponse>) => {

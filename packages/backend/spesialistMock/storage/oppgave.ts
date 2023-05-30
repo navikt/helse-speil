@@ -24,6 +24,13 @@ export class OppgaveMock {
         });
     };
 
+    static isAssigned = (period: BeregnetPeriode): boolean => {
+        return (
+            typeof period.oppgavereferanse === 'string' &&
+            typeof OppgaveMock.getOppgave(period.oppgavereferanse)?.tildelt === 'string'
+        );
+    };
+
     static isOnHold = (period: BeregnetPeriode): boolean => {
         return (
             typeof period.oppgavereferanse === 'string' &&

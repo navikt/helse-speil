@@ -50,7 +50,11 @@ export const OptionsCell = React.memo(({ oppgave, navn }: OptionsButtonProps) =>
                     <Dropdown.Menu>
                         <Dropdown.Menu.List>
                             {!erTildeltInnloggetBruker && !readOnly && (
-                                <TildelMenuButton oppgavereferanse={oppgave.id} tildeling={oppgave.tildeling} />
+                                <TildelMenuButton
+                                    oppgavereferanse={oppgave.id}
+                                    saksbehandler={innloggetSaksbehandler}
+                                    tildeling={oppgave.tildeling}
+                                />
                             )}
                             {erTildeltInnloggetBruker &&
                                 (oppgave.tildeling!.reservert ? (

@@ -1,7 +1,7 @@
 import { Express } from 'express';
 import { graphqlHTTP } from 'express-graphql';
 import fs from 'fs';
-import { GraphQLError, GraphQLSchema, IntrospectionQuery, buildClientSchema } from 'graphql';
+import { GraphQLSchema, IntrospectionQuery, buildClientSchema } from 'graphql';
 import path from 'path';
 
 // @ts-ignore
@@ -17,16 +17,13 @@ import { FlereFodselsnumreError, NotFoundError } from './errors';
 import type {
     BeregnetPeriode,
     MutationFeilregistrerKommentarArgs,
-    MutationFjernTildelingArgs,
     MutationLeggTilKommentarArgs,
-    MutationOpprettTildelingArgs,
     MutationSettVarselstatusAktivArgs,
     MutationSettVarselstatusVurdertArgs,
     Person,
 } from './schemaTypes';
 import { NotatMock } from './storage/notat';
 import { OppgaveMock } from './storage/oppgave';
-import { TildelingMock } from './storage/tildeling';
 import { VarselMock } from './storage/varsel';
 
 const leggTilLagretData = (person: Person): void => {
@@ -35,8 +32,13 @@ const leggTilLagretData = (person: Person): void => {
     for (const arbeidsgiver of person.arbeidsgivere) {
         for (const generasjon of arbeidsgiver.generasjoner) {
             for (const periode of generasjon.perioder as Array<BeregnetPeriode>) {
-                if (periode.oppgave?.id && TildelingMock.harTildeling(periode.oppgave.id)) {
-                    tildeling = TildelingMock.getTildeling(periode.oppgave.id);
+                if (OppgaveMock.isAssigned(periode)) {
+                    tildeling = {
+                        epost: 'epost@nav.no',
+                        navn: 'Utvikler, Lokal',
+                        oid: 'uuid',
+                        reservert: OppgaveMock.isOnHold(periode),
+                    };
                 }
 
                 periode.notater = NotatMock.getNotaterForPeriode(periode);
@@ -93,16 +95,7 @@ const getResolvers = (): IResolvers => ({
             return behandlingsstatistikk;
         },
         alleOppgaver: async () => {
-            return oppgaver.map((oppgave) => {
-                if (
-                    oppgave.tildeling !== undefined &&
-                    oppgave.tildeling !== null &&
-                    !TildelingMock.harTildeling(oppgave.id)
-                ) {
-                    TildelingMock.setTildeling(oppgave.id, oppgave.tildeling);
-                }
-                return { ...oppgave, tildeling: TildelingMock.getTildeling(oppgave.id) };
-            });
+            return oppgaver;
         },
     },
     Mutation: {
@@ -129,45 +122,6 @@ const getResolvers = (): IResolvers => ({
             { generasjonIdString, varselkode, ident }: MutationSettVarselstatusAktivArgs,
         ) => {
             return VarselMock.settVarselstatusAktiv({ generasjonIdString, varselkode, ident });
-        },
-        opprettTildeling: async (_, { oppgaveId }: MutationOpprettTildelingArgs) => {
-            TildelingMock.debug();
-            if (TildelingMock.harTildeling(oppgaveId)) {
-                return new GraphQLError('Oppgave allerede tildelt', null, null, null, null, null, {
-                    code: { value: 409 },
-                    tildeling: TildelingMock.getTildeling(oppgaveId),
-                });
-            }
-            if (Math.random() > 0.9) {
-                return new GraphQLError(
-                    `Kunne ikke tildele oppgave med oppgaveId=${oppgaveId}`,
-                    null,
-                    null,
-                    null,
-                    null,
-                    null,
-                    {
-                        code: { value: 500 },
-                    },
-                );
-            }
-            TildelingMock.setTildeling(oppgaveId, {
-                epost: 'epost@nav.no',
-                navn: 'Utvikler, Lokal',
-                oid: 'uuid',
-                reservert: OppgaveMock.getOppgave(oppgaveId)?.erPåVent ?? false,
-            });
-            TildelingMock.debug();
-
-            return TildelingMock.getTildeling(oppgaveId);
-        },
-        fjernTildeling: (_, { oppgaveId }: MutationFjernTildelingArgs) => {
-            if (TildelingMock.harTildeling(oppgaveId)) {
-                TildelingMock.fjernTildeling(oppgaveId);
-                return true;
-            } else {
-                return false;
-            }
         },
     },
     Periode: {

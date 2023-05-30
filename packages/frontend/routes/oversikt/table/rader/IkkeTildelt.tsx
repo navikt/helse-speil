@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { Button, Loader } from '@navikt/ds-react';
 
 import { useInnloggetSaksbehandler } from '@state/authentication';
-import { useOpprettTildeling } from '@state/tildeling';
+import { useTildelOppgave } from '@state/oppgaver';
 
 import { CellContent } from './CellContent';
 
@@ -16,12 +16,12 @@ interface IkkeTildeltProps {
 export const IkkeTildelt = ({ oppgavereferanse }: IkkeTildeltProps) => {
     const saksbehandler = useInnloggetSaksbehandler();
     const [isFetching, setIsFetching] = useState(false);
-    const tildelOppgave = useOpprettTildeling();
+    const tildelOppgave = useTildelOppgave();
 
     const tildel = (event: React.MouseEvent) => {
         event.stopPropagation();
         setIsFetching(true);
-        tildelOppgave(oppgavereferanse).finally(() => setIsFetching(false));
+        tildelOppgave({ id: oppgavereferanse }, saksbehandler).finally(() => setIsFetching(false));
     };
 
     return (
