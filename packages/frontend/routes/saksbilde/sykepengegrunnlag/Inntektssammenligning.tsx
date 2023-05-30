@@ -64,8 +64,14 @@ const ErrorIcon = styled(Errorikon)`
     top: 3px;
 `;
 
-const Loky = styled(AnonymizableText)`
+const Loky = styled(AnonymizableText)<{ arbeidsforholdErDeaktivert: boolean }>`
     margin-top: 3px;
+
+    ${({ arbeidsforholdErDeaktivert }) =>
+        arbeidsforholdErDeaktivert &&
+        css`
+            text-decoration: line-through;
+        `};
 `;
 
 const SisteTd = styled.td<{ erGjeldende: boolean }>`
@@ -108,7 +114,7 @@ export const Inntektssammenligning = ({
                     <Tooltip content="Arbeidsgiver">
                         <div>{arbeidsforholdErDeaktivert ? <ErrorIcon /> : <BagIcon alt="Arbeidsgiver" />}</div>
                     </Tooltip>
-                    <Loky>{arbeidsgivernavn}</Loky>
+                    <Loky arbeidsforholdErDeaktivert={!!arbeidsforholdErDeaktivert}>{arbeidsgivernavn}</Loky>
                 </Arbeidsgivernavn>
             </td>
             <td>
