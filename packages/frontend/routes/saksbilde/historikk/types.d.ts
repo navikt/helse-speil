@@ -44,6 +44,17 @@ declare type ArbeidsforholdoverstyringhendelseObject = BaseHendelseObject & {
     skjæringstidspunkt: DateString;
 };
 
+declare type AnnetArbeidsforholdoverstyringhendelseObject = BaseHendelseObject & {
+    type: 'Arbeidsforholdoverstyring';
+    erDeaktivert: boolean;
+    saksbehandler: string;
+    timestamp: DateString;
+    begrunnelse: string;
+    forklaring: string;
+    skjæringstidspunkt: DateString;
+    navn: string;
+};
+
 declare type InntektoverstyringhendelseObject = BaseHendelseObject & {
     type: 'Inntektoverstyring';
     erRevurdering: boolean;
@@ -88,6 +99,7 @@ declare type HistorikkhendelseObject = BaseHendelseObject & {
 declare type HendelseObject =
     | DagoverstyringhendelseObject
     | ArbeidsforholdoverstyringhendelseObject
+    | AnnetArbeidsforholdoverstyringhendelseObject
     | InntektoverstyringhendelseObject
     | DokumenthendelseObject
     | NotathendelseObject

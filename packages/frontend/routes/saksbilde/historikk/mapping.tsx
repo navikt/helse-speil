@@ -301,7 +301,7 @@ export const getAnnetArbeidsforholdoverstyringhendelser = (
     period: FetchedBeregnetPeriode | GhostPeriode,
     arbeidsgiver: Maybe<Arbeidsgiver>,
     arbeidsgivere: Array<Arbeidsgiver>,
-): Array<ArbeidsforholdoverstyringhendelseObject> => {
+): Array<AnnetArbeidsforholdoverstyringhendelseObject> => {
     return arbeidsgivere
         .filter((it) => it.organisasjonsnummer !== arbeidsgiver?.organisasjonsnummer)
         .reduce(

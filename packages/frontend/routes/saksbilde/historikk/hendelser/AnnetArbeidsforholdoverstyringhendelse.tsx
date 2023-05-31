@@ -14,9 +14,10 @@ import { HendelseDate } from './HendelseDate';
 
 import styles from './Overstyringshendelse.module.css';
 
-interface ArbeidsforholdoverstyringhendelseProps extends Omit<ArbeidsforholdoverstyringhendelseObject, 'type' | 'id'> {}
+interface AnnetArbeidsforholdoverstyringhendelseProps
+    extends Omit<AnnetArbeidsforholdoverstyringhendelseObject, 'type' | 'id'> {}
 
-export const AnnetArbeidsforholdoverstyringhendelse: React.FC<ArbeidsforholdoverstyringhendelseProps> = ({
+export const AnnetArbeidsforholdoverstyringhendelse: React.FC<AnnetArbeidsforholdoverstyringhendelseProps> = ({
     erDeaktivert,
     saksbehandler,
     timestamp,
