@@ -45,7 +45,7 @@ declare type ArbeidsforholdoverstyringhendelseObject = BaseHendelseObject & {
 };
 
 declare type AnnetArbeidsforholdoverstyringhendelseObject = BaseHendelseObject & {
-    type: 'Arbeidsforholdoverstyring';
+    type: 'AnnetArbeidsforholdoverstyring';
     erDeaktivert: boolean;
     saksbehandler: string;
     timestamp: DateString;
