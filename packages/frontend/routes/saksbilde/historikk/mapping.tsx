@@ -304,7 +304,7 @@ export const getAnnetArbeidsforholdoverstyringhendelser = (
 ): Array<AnnetArbeidsforholdoverstyringhendelseObject> => {
     return arbeidsgivere
         .filter((it) => it.organisasjonsnummer !== arbeidsgiver?.organisasjonsnummer)
-        .reduce(
+        .reduce<Array<AnnetArbeidsforholdoverstyringhendelseObject>>(
             (output, { navn, overstyringer }) =>
                 output.concat(
                     overstyringer
