@@ -10,6 +10,7 @@ const Etikett = styled.div`
     justify-content: center;
     box-sizing: border-box;
     text-align: center;
+    line-height: normal;
     font-weight: 600;
     border-radius: 0.25rem;
     pointer-events: none;
