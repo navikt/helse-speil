@@ -9,6 +9,7 @@ import { CloseButton } from '@components/CloseButton';
 import { ErrorBoundary } from '@components/ErrorBoundary';
 import { useCurrentPerson, useIsFetchingPerson } from '@state/person';
 
+import { AnnetArbeidsforholdoverstyringhendelse } from './hendelser/AnnetArbeidsforholdoverstyringhendelse';
 import { Arbeidsforholdoverstyringhendelse } from './hendelser/Arbeidsforholdoverstyringhendelse';
 import { Dagoverstyringhendelse } from './hendelser/Dagoverstyringhendelse';
 import { Dokumenthendelse } from './hendelser/Dokumenthendelse';
@@ -68,6 +69,9 @@ const HistorikkWithContent: React.FC = () => {
                                 switch (it.type) {
                                     case 'Arbeidsforholdoverstyring': {
                                         return <Arbeidsforholdoverstyringhendelse key={it.id} {...it} />;
+                                    }
+                                    case 'AnnetArbeidsforholdoverstyring': {
+                                        return <AnnetArbeidsforholdoverstyringhendelse key={it.id} {...it} />;
                                     }
                                     case 'Dagoverstyring': {
                                         return <Dagoverstyringhendelse key={it.id} {...it} />;

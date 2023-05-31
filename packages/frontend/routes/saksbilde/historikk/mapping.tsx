@@ -297,6 +297,35 @@ export const getArbeidsforholdoverstyringhendelser = (
         }));
 };
 
+export const getAnnetArbeidsforholdoverstyringhendelser = (
+    period: FetchedBeregnetPeriode | GhostPeriode,
+    arbeidsgiver: Maybe<Arbeidsgiver>,
+    arbeidsgivere: Array<Arbeidsgiver>,
+): Array<ArbeidsforholdoverstyringhendelseObject> => {
+    return arbeidsgivere
+        .filter((it) => it.organisasjonsnummer !== arbeidsgiver?.organisasjonsnummer)
+        .reduce(
+            (output, { navn, overstyringer }) =>
+                output.concat(
+                    overstyringer
+                        .filter(isArbeidsforholdoverstyring)
+                        .filter((it) => it.skjaeringstidspunkt === period.skjaeringstidspunkt)
+                        .map((it) => ({
+                            id: it.hendelseId,
+                            type: 'AnnetArbeidsforholdoverstyring',
+                            erDeaktivert: it.deaktivert,
+                            saksbehandler: it.saksbehandler.ident ?? it.saksbehandler.navn,
+                            timestamp: it.timestamp,
+                            begrunnelse: it.begrunnelse,
+                            forklaring: it.forklaring,
+                            skjæringstidspunkt: it.skjaeringstidspunkt,
+                            navn: navn,
+                        })),
+                ),
+            [],
+        );
+};
+
 export const getNotathendelser = (notater: Array<Notat>): Array<NotathendelseObject> =>
     notater.map((notat: Notat) => ({
         id: notat.id,

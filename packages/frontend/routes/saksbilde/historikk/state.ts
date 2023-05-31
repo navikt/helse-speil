@@ -10,6 +10,7 @@ import { personState } from '@state/person';
 import { isBeregnetPeriode, isGhostPeriode, isUberegnetPeriode } from '@utils/typeguards';
 
 import {
+    getAnnetArbeidsforholdoverstyringhendelser,
     getArbeidsforholdoverstyringhendelser,
     getDagoverstyringer,
     getDagoverstyringerForAUU,
@@ -33,13 +34,24 @@ const getHendelserForBeregnetPeriode = (
     const dagoverstyringer = arbeidsgiver ? getDagoverstyringer(period, arbeidsgiver) : [];
     const inntektoverstyringer = arbeidsgiver ? getInntektoverstyringer(period.skjaeringstidspunkt, arbeidsgiver) : [];
     const arbeidsforholdoverstyringer = arbeidsgiver ? getArbeidsforholdoverstyringhendelser(period, arbeidsgiver) : [];
+    const annetarbeidsforholdoverstyringer = getAnnetArbeidsforholdoverstyringhendelser(
+        period,
+        arbeidsgiver,
+        person.arbeidsgivere,
+    );
 
     const dokumenter = getDokumenter(period);
     const notater = getNotathendelser(period.notater.map(toNotat));
     const utbetaling = getUtbetalingshendelse(period);
     const periodehistorikk = getPeriodehistorikk(period);
 
-    return [...dokumenter, ...dagoverstyringer, ...inntektoverstyringer, ...arbeidsforholdoverstyringer]
+    return [
+        ...dokumenter,
+        ...dagoverstyringer,
+        ...inntektoverstyringer,
+        ...arbeidsforholdoverstyringer,
+        ...annetarbeidsforholdoverstyringer,
+    ]
         .filter(
             (it: HendelseObject) => it.timestamp && dayjs(it.timestamp).startOf('s').isSameOrBefore(period.opprettet),
         )
@@ -52,11 +64,18 @@ const getHendelserForBeregnetPeriode = (
 const getHendelserForGhostPeriode = (period: GhostPeriode, person: FetchedPerson): Array<HendelseObject> => {
     const arbeidsgiver = findArbeidsgiverWithGhostPeriode(period, person.arbeidsgivere);
     const arbeidsforholdoverstyringer = arbeidsgiver ? getArbeidsforholdoverstyringhendelser(period, arbeidsgiver) : [];
+    const annetarbeidsforholdoverstyringer = getAnnetArbeidsforholdoverstyringhendelser(
+        period,
+        arbeidsgiver,
+        person.arbeidsgivere,
+    );
     const inntektoverstyringer = arbeidsgiver
         ? getInntektoverstyringerForGhost(period.skjaeringstidspunkt, arbeidsgiver, person)
         : [];
 
-    return [...arbeidsforholdoverstyringer, ...inntektoverstyringer].sort(byTimestamp);
+    return [...arbeidsforholdoverstyringer, ...annetarbeidsforholdoverstyringer, ...inntektoverstyringer].sort(
+        byTimestamp,
+    );
 };
 
 const getHendelserForUberegnetPeriode = (period: UberegnetPeriode, person: FetchedPerson): Array<HendelseObject> => {
@@ -104,6 +123,7 @@ const filterMap: Record<Filtertype, Array<Hendelsetype>> = {
     Historikk: [
         'Dagoverstyring',
         'Arbeidsforholdoverstyring',
+        'AnnetArbeidsforholdoverstyring',
         'Inntektoverstyring',
         'Dokument',
         'Utbetaling',

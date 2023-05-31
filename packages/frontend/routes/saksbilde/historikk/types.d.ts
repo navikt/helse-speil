@@ -11,6 +11,7 @@ declare type Filtertype = 'Dokument' | 'Historikk' | 'Notat';
 declare type Hendelsetype =
     | 'Dagoverstyring'
     | 'Arbeidsforholdoverstyring'
+    | 'AnnetArbeidsforholdoverstyring'
     | 'Inntektoverstyring'
     | 'Dokument'
     | 'Notat'
