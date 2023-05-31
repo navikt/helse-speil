@@ -44,7 +44,7 @@ export const kanFrigiAndresOppgaver = kanFrigiSaker() || harTilgangTilAlt() || e
 
 export const graphqlplayground = erLocal() || erDev() || erPåTeamBømlo();
 
-export const skalBehandleEnOgEnPeriode = erDev();
+export const skalBehandleEnOgEnPeriode = false;
 
 export interface UtbetalingToggles {
     overstyreUtbetaltPeriodeEnabled: boolean;
