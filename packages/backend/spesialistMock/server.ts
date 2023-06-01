@@ -184,19 +184,6 @@ app.post('/api/person/oppdater', (req, res) => {
     return Math.random() < 0.2 ? res.status(503).send('Dev feil!') : res.sendStatus(200);
 });
 
-app.get('/api/mock/personstatus/:aktorId', (req: Request, res: Response) => {
-    const aktørId = req.params.aktorId;
-    const oppgavereferanse = personer[aktørId];
-    const påVent = OppgaveMock.getOppgave(oppgavereferanse)?.erPåVent || false;
-    const oid = OppgaveMock.getOppgave(oppgavereferanse)?.tildelt;
-
-    if (oid) {
-        res.send({ påVent, oid, epost: 'dev@nav.no', navn: 'dev' });
-    } else {
-        res.send(undefined);
-    }
-});
-
 app.get('/api/mock/erbeslutteroppgave/:oppgavereferanse', (req: Request, res: Response) => {
     const oppgavereferanse = req.params.oppgavereferanse;
     res.send(OppgaveMock.getOppgave(oppgavereferanse)?.totrinnsvurdering?.erBeslutteroppgave ?? false);
