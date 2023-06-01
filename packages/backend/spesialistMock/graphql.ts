@@ -20,6 +20,7 @@ import type {
     MutationLeggTilKommentarArgs,
     MutationSettVarselstatusAktivArgs,
     MutationSettVarselstatusVurdertArgs,
+    OppgaveForOversiktsvisning,
     Person,
 } from './schemaTypes';
 import { NotatMock } from './storage/notat';
@@ -32,18 +33,16 @@ const leggTilLagretData = (person: Person): void => {
     for (const arbeidsgiver of person.arbeidsgivere) {
         for (const generasjon of arbeidsgiver.generasjoner) {
             for (const periode of generasjon.perioder as Array<BeregnetPeriode>) {
-                if (OppgaveMock.isAssigned(periode)) {
+                const oppgavereferanse: string | null = periode.oppgavereferanse ?? periode.oppgave?.id ?? null;
+                if (oppgavereferanse !== null && OppgaveMock.isAssigned(oppgavereferanse)) {
                     tildeling = {
-                        epost: 'epost@nav.no',
-                        navn: 'Utvikler, Lokal',
-                        oid: 'uuid',
-                        reservert: OppgaveMock.isOnHold(periode),
+                        ...lokalTildeling,
+                        reservert: OppgaveMock.isOnHold(oppgavereferanse),
                     };
                 }
 
                 periode.notater = NotatMock.getNotaterForPeriode(periode);
                 periode.varsler = VarselMock.getVarslerForPeriode(periode.varsler);
-                const oppgavereferanse: string | null = periode.oppgavereferanse ?? periode.oppgave?.id ?? null;
                 const oppgave: Oppgave | null = oppgavereferanse ? OppgaveMock.getOppgave(oppgavereferanse) : null;
 
                 if (typeof oppgave === 'object' && periode.oppgave === null) {
@@ -54,6 +53,13 @@ const leggTilLagretData = (person: Person): void => {
     }
 
     person.tildeling = tildeling;
+};
+
+const lokalTildeling = {
+    epost: 'epost@nav.no',
+    navn: 'Utvikler, Lokal',
+    oid: 'uuid',
+    reservert: false,
 };
 
 const fetchPersondata = (): Record<string, JSON> => {
@@ -72,6 +78,23 @@ const fetchPersondata = (): Record<string, JSON> => {
         return data;
     }, {});
 };
+
+function leggTilTildelinger(oppgaver: Array<OppgaveForOversiktsvisning>) {
+    return oppgaver.map((oppgave) => {
+        if (OppgaveMock.isAssigned(oppgave.id)) {
+            const oppgaveFraMock = OppgaveMock.getOppgave(oppgave.id)!;
+            oppgave = {
+                ...oppgave,
+                tildeling: {
+                    ...lokalTildeling,
+                    reservert: oppgaveFraMock.erPåVent,
+                    oid: oppgaveFraMock.tildelt,
+                },
+            };
+        }
+        return oppgave;
+    });
+}
 
 const getResolvers = (): IResolvers => ({
     Query: {
@@ -95,7 +118,7 @@ const getResolvers = (): IResolvers => ({
             return behandlingsstatistikk;
         },
         alleOppgaver: async () => {
-            return oppgaver;
+            return leggTilTildelinger(oppgaver);
         },
     },
     Mutation: {

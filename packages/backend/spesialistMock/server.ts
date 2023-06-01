@@ -2,6 +2,7 @@ import express, { Request, Response } from 'express';
 
 import oppgaveFil from '../__mock-data__/oppgaver.json';
 import { sleep } from '../devHelpers';
+import { oppgaver } from './data/oppgaver';
 import { setUpGraphQLMiddleware } from './graphql';
 import { setUpOpptegnelse } from './opptegnelser';
 import { setUpOverstyring } from './overstyringer';
@@ -30,8 +31,10 @@ app.use((req, res, next) => {
     );
     res.header('Access-Control-Allow-Methods', 'PUT, GET, POST, DELETE');
     const ventetid = passeLenge();
-    const pathOrQuery = req.url === '/graphql' ? req.body['operationName'] : req.url;
-    console.log(`Behandler ${req.method} til ${pathOrQuery} etter ${ventetid} ms`);
+    const pathOrQuery: string = req.url === '/graphql' ? req.body['operationName'] : req.url;
+    if (!pathOrQuery.includes('/opptegnelse/hent')) {
+        console.log(`Behandler ${req.method} til ${pathOrQuery} etter ${ventetid} ms`);
+    }
     sleep(ventetid).then(next);
 });
 
@@ -66,9 +69,15 @@ app.delete('/api/tildeling/:oppgavereferanse', async (req: Request, res: Respons
 app.post('/api/leggpaavent/:oppgavereferanse', (req: Request, res: Response) => {
     const oppgavereferanse = req.params.oppgavereferanse;
 
+    const vedtaksperiodeId = oppgaver.find((oppgave) => oppgave.id === oppgavereferanse)?.vedtaksperiodeId;
+    if (vedtaksperiodeId === undefined) {
+        console.warn(`Finner ikke vedtaksperiodeId for oppgavereferanse ${oppgavereferanse}`);
+        res.sendStatus(500);
+    }
+
     OppgaveMock.addOrUpdateOppgave(oppgavereferanse, { erPåVent: true });
-    NotatMock.addNotat(oppgavereferanse, {
-        vedtaksperiodeId: oppgavereferanse,
+    NotatMock.addNotat(vedtaksperiodeId!, {
+        vedtaksperiodeId: vedtaksperiodeId,
         tekst: req.body.tekst,
         type: req.body.type,
     });

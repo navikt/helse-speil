@@ -1,8 +1,6 @@
 // @ts-ignore
 import { nanoid } from 'nanoid';
 
-import { BeregnetPeriode } from '../schemaTypes';
-
 export const getDefaultOppgave = (): Oppgave => ({
     id: nanoid(),
     erPåVent: false,
@@ -24,17 +22,11 @@ export class OppgaveMock {
         });
     };
 
-    static isAssigned = (period: BeregnetPeriode): boolean => {
-        return (
-            typeof period.oppgavereferanse === 'string' &&
-            typeof OppgaveMock.getOppgave(period.oppgavereferanse)?.tildelt === 'string'
-        );
+    static isAssigned = (oppgavereferanse: string): boolean => {
+        return typeof OppgaveMock.getOppgave(oppgavereferanse)?.tildelt !== 'undefined';
     };
 
-    static isOnHold = (period: BeregnetPeriode): boolean => {
-        return (
-            typeof period.oppgavereferanse === 'string' &&
-            (OppgaveMock.getOppgave(period.oppgavereferanse)?.erPåVent ?? false)
-        );
+    static isOnHold = (oppgavereferanse: string): boolean => {
+        return OppgaveMock.getOppgave(oppgavereferanse)?.erPåVent ?? false;
     };
 }
