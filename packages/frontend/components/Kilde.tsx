@@ -88,7 +88,7 @@ const getKildeTypeTooltip = (kilde: KildeikonType): string => {
 const Kildeikon = styled.div<KildeProps>`
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: flex-end;
     font-size: 12px;
     letter-spacing: 0.4px;
     margin-right: -0.4px;
@@ -99,8 +99,6 @@ const Kildeikon = styled.div<KildeProps>`
     color: var(--a-text-default);
     width: 1.25rem;
     height: 1rem;
-    line-height: 8px;
-    box-sizing: border-box;
     cursor: default;
 
     ${ainntektStyle};
