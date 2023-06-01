@@ -3,7 +3,7 @@
     background-color: var(--anonymizable-color);
     border-radius: var(--anonymizable-border-radius);
 }
-
+.Anonymous::selection,
 .Anonymous * {
     opacity: var(--anonymizable-opacity);
 }
