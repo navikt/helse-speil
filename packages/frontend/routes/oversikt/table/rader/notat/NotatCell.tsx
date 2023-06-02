@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 
-import { Notes } from '@navikt/ds-icons';
+import { StopWatch } from '@navikt/ds-icons';
 import { Button, Tooltip } from '@navikt/ds-react';
 
 import { Personnavn } from '@io/graphql';
 import { useNotaterForVedtaksperiode } from '@state/notater';
 
 import { Cell } from '../../Cell';
+import { CellContent } from '../CellContent';
 import { NotatListeModal } from './NotatListeModal';
 
 import styles from './NotatCell.module.css';
@@ -23,19 +24,27 @@ export const NotatCell: React.FC<NotatCellProps> = ({ vedtaksperiodeId, navn, er
 
     const toggleModal = (event: React.SyntheticEvent) => {
         event.stopPropagation();
+        if (event.type === 'keyup' && !['Space', 'Enter'].includes((event as React.KeyboardEvent).key)) return;
         setShowModal((prevState) => !prevState);
     };
 
     return (
         <>
             <Cell {...cellProps}>
-                {notater.length > 0 && (
-                    <Tooltip content="Notater">
-                        <Button className={styles.NotatButton} onClick={toggleModal} onKeyPress={toggleModal}>
-                            <Notes title="Toggle notatmodal" height={20} width={20} />
-                        </Button>
-                    </Tooltip>
-                )}
+                <CellContent>
+                    {notater.length > 0 && (
+                        <Tooltip content="Lagt på vent">
+                            <Button
+                                variant="secondary"
+                                className={styles.NotatButton}
+                                onClick={toggleModal}
+                                onKeyUp={toggleModal}
+                            >
+                                <StopWatch height={20} width={20} />
+                            </Button>
+                        </Tooltip>
+                    )}
+                </CellContent>
             </Cell>
             {showModal && (
                 <NotatListeModal

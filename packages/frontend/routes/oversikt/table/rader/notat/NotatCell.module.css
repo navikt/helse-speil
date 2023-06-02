@@ -1,17 +1,9 @@
 .NotatButton {
-    height: 24px;
-    width: 40px;
+    align-items: flex-end;
+    height: 100%;
     padding: 0;
     background: transparent;
-}
-
-.NotatButton path {
-    fill: var(--a-surface-action);
-}
-
-.NotatButton:hover path,
-.NotatButton:active path {
-    fill: white;
+    box-shadow: none;
 }
 
 .NotatButton:focus {

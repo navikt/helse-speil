@@ -1,45 +1,41 @@
 import dayjs from 'dayjs';
 import { useEffect } from 'react';
-import { AtomEffect, atom, useRecoilValueLoadable, useResetRecoilState, useSetRecoilState } from 'recoil';
+import { atom, useRecoilState, useRecoilValueLoadable, useSetRecoilState } from 'recoil';
 
 import { Notat as GraphQLNotat } from '@io/graphql';
 import { getNotater } from '@io/http';
 
-const vedtaksperiodeIderState = atom<string[]>({
-    key: 'vedtaksperiodeIderState',
-    default: [],
-});
-
 export const useSyncNotater = (vedtaksperiodeIder: string[]) => {
-    const setNotatVedtaksperioder = useSetRecoilState(vedtaksperiodeIderState);
+    const setNotaterState = useSetRecoilState(notaterState);
 
     useEffect(() => {
-        setNotatVedtaksperioder(vedtaksperiodeIder);
+        fetchNotater(vedtaksperiodeIder).then(setNotaterState);
     }, [JSON.stringify(vedtaksperiodeIder)]);
 };
 
-const initializeNotaterEffect: AtomEffect<Array<Notat>> = ({ getPromise }) => {
-    getPromise(vedtaksperiodeIderState).then((ider) => {
-        if (ider.length < 1) {
-            return Promise.resolve([]);
-        }
-        return getNotater(ider).then((res) => {
-            return Object.values(res)
-                .flat()
-                .map(toNotat)
-                .sort((a, b) => (a.opprettet < b.opprettet ? 1 : -1));
-        });
-    });
-};
+function fetchNotater(ider: string[]) {
+    if (ider.length < 1) {
+        return Promise.resolve([]);
+    }
+    return getNotater(ider).then((response) =>
+        Object.values(response)
+            .flat()
+            .map(toNotat)
+            .sort((a, b) => (a.opprettet < b.opprettet ? 1 : -1)),
+    );
+}
 
 const notaterState = atom<Array<Notat>>({
     key: 'notaterState',
     default: [],
-    effects: [initializeNotaterEffect],
 });
 
 export const useRefreshNotater = () => {
-    return useResetRecoilState(notaterState);
+    const [state, setState] = useRecoilState(notaterState);
+    return () => {
+        const vedtaksperiodeIder = state.map((notat) => notat.vedtaksperiodeId);
+        if (vedtaksperiodeIder.length > 0) fetchNotater(vedtaksperiodeIder).then(setState);
+    };
 };
 
 export const useNotaterForVedtaksperiode = (vedtaksperiodeId?: string) => {
