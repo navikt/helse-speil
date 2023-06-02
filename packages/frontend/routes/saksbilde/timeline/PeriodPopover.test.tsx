@@ -23,7 +23,6 @@ const getFetchedBeregnetPeriode = (
     personUtbetalingsdager: Dag[] = [],
 ): FetchedBeregnetPeriode => {
     return {
-        aktivitetslogg: [],
         beregningId: 'EN_ID',
         erForkastet: false,
         fom: '2022-01-01',

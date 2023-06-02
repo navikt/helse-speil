@@ -18,7 +18,6 @@ import { renderHook } from '@testing-library/react-hooks';
 
 const getFetchedBeregnetPeriode = (fom: string, tom: string, varsel?: VarselDto): FetchedBeregnetPeriode => {
     return {
-        aktivitetslogg: [],
         beregningId: 'EN_ID',
         erForkastet: false,
         fom: fom,

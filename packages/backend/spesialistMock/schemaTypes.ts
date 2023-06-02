@@ -20,14 +20,6 @@ export enum Adressebeskyttelse {
     Ukjent = 'Ukjent',
 }
 
-export type Aktivitet = {
-    __typename?: 'Aktivitet';
-    alvorlighetsgrad: Scalars['String'];
-    melding: Scalars['String'];
-    tidsstempel: Scalars['String'];
-    vedtaksperiodeId: Scalars['String'];
-};
-
 export type Alder = {
     __typename?: 'Alder';
     alderSisteSykedag: Scalars['Int'];
@@ -133,7 +125,6 @@ export type Behandlingsstatistikk = {
 
 export type BeregnetPeriode = Periode & {
     __typename?: 'BeregnetPeriode';
-    aktivitetslogg?: Maybe<Array<Aktivitet>>;
     beregningId: Scalars['String'];
     erForkastet: Scalars['Boolean'];
     fom: Scalars['String'];
@@ -296,6 +287,7 @@ export enum Inntektskilde {
     Infotrygd = 'INFOTRYGD',
     Inntektsmelding = 'INNTEKTSMELDING',
     Saksbehandler = 'SAKSBEHANDLER',
+    SkjonnsmessigFastsatt = 'SKJONNSMESSIG_FASTSATT',
 }
 
 export type Inntektsmelding = Hendelse & {
