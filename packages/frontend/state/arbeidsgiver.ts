@@ -17,7 +17,7 @@ import { Refusjonsopplysning } from '@io/http';
 import { inntektOgRefusjonState } from '@state/overstyring';
 import { useActivePeriod } from '@state/periode';
 import { useCurrentPerson } from '@state/person';
-import { harBlittUtbetaltTidligere } from '@state/selectors/period';
+import { harBlittUtbetaltTidligere, isWaiting } from '@state/selectors/period';
 import { isGodkjent } from '@state/selectors/utbetaling';
 import { ISO_DATOFORMAT } from '@utils/date';
 import {
@@ -154,7 +154,7 @@ export const usePeriodForSkjæringstidspunktForArbeidsgiver = (
         ? (periodeTilGodkjenning as ActivePeriod)
         : ((arbeidsgiver?.generasjoner[generasjon].perioder
               .filter((it) => it.skjaeringstidspunkt === skjæringstidspunkt)
-              .filter((it) => isBeregnetPeriode(it) || isUberegnetPeriode(it))
+              .filter((it) => isBeregnetPeriode(it) || (isUberegnetPeriode(it) && !isWaiting(it)))
               .sort((a, b) => new Date(a.fom).getTime() - new Date(b.fom).getTime())
               .pop() ?? null) as ActivePeriod | null);
 };

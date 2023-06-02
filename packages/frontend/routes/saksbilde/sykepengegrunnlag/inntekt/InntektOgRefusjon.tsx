@@ -206,6 +206,7 @@ interface InntektUtenSykefraværProps {
     refusjon?: Maybe<Refusjonsopplysning[]>;
     harSykefravær: boolean;
     inntektFraAOrdningen?: Array<InntektFraAOrdningen>;
+    erGhostperiode: boolean;
 }
 
 export const InntektOgRefusjon = ({
@@ -220,6 +221,7 @@ export const InntektOgRefusjon = ({
     refusjon,
     harSykefravær,
     inntektFraAOrdningen,
+    erGhostperiode,
 }: InntektUtenSykefraværProps) => {
     const [editingInntekt, setEditingInntekt] = useState(false);
     const [endret, setEndret] = useState(false);
@@ -321,6 +323,7 @@ export const InntektOgRefusjon = ({
                     lokaltMånedsbeløp={lokaltMånedsbeløp}
                     endret={endret}
                     inntektsendringer={inntektsendringer}
+                    erGhostPeriode={erGhostperiode}
                 />
             )}
             {!editingInntekt && arbeidsforholdKanOverstyres && !harSykefravær && (

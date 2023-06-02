@@ -9,7 +9,7 @@ import { useArbeidsgiver, usePeriodForSkjæringstidspunktForArbeidsgiver } from 
 import { mapOgSorterRefusjoner } from '@state/overstyring';
 import { useActivePeriod } from '@state/periode';
 import { useCurrentPerson } from '@state/person';
-import { isBeregnetPeriode, isUberegnetPeriode } from '@utils/typeguards';
+import { isBeregnetPeriode, isGhostPeriode, isUberegnetPeriode } from '@utils/typeguards';
 
 import { useVilkårsgrunnlag } from '../Sykepengegrunnlag';
 import { InntektOgRefusjon } from './InntektOgRefusjon';
@@ -78,6 +78,7 @@ const InntektContainer: React.FC<InntektContainerProps> = ({ inntekt }) => {
             arbeidsgiver={arbeidsgiver}
             refusjon={refusjonsopplysninger}
             harSykefravær={arbeidsgiverHarSykefraværForPerioden}
+            erGhostperide={isGhostPeriode(periodeForSkjæringstidspunktForArbeidsgiver)}
         />
     );
 };

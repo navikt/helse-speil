@@ -48,6 +48,7 @@ interface ReadOnlyInntektProps {
     lokaltMånedsbeløp: Maybe<number>;
     endret: boolean;
     inntektsendringer: Inntektoverstyring[];
+    erGhostperiode: boolean;
 }
 
 export const ReadOnlyInntekt: React.FC<ReadOnlyInntektProps> = ({
@@ -56,8 +57,9 @@ export const ReadOnlyInntekt: React.FC<ReadOnlyInntektProps> = ({
     lokaltMånedsbeløp = null,
     endret,
     inntektsendringer,
+    erGhostperiode,
 }) => {
-    const harInntektskildeAOrdningen = omregnetÅrsinntekt?.kilde === Inntektskilde.Aordningen;
+    const harInntektskildeAOrdningen = omregnetÅrsinntekt?.kilde === Inntektskilde.Aordningen && erGhostperiode;
 
     return (
         <>
