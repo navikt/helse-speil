@@ -64,7 +64,9 @@ const ErrorIcon = styled(Errorikon)`
     top: 3px;
 `;
 
-const Loky = styled(AnonymizableText)<{ arbeidsforholdErDeaktivert: boolean }>`
+const Loky = styled(AnonymizableText, {
+    shouldForwardProp: (propName) => propName !== 'arbeidsforholdErDeaktivert',
+})<{ arbeidsforholdErDeaktivert: boolean }>`
     margin-top: 3px;
 
     ${({ arbeidsforholdErDeaktivert }) =>
