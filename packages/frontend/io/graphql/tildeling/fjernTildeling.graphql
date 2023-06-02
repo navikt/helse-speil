@@ -1,0 +1,3 @@
+mutation FjernTildeling($oppgaveId: String!) {
+  fjernTildeling(oppgaveId: $oppgaveId)
+}

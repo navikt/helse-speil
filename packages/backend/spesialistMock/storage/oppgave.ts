@@ -1,5 +1,7 @@
 import { nanoid } from 'nanoid';
 
+import { BeregnetPeriode } from '../schemaTypes';
+
 export const getDefaultOppgave = (): Oppgave => ({
     id: nanoid(),
     erPåVent: false,
@@ -21,11 +23,10 @@ export class OppgaveMock {
         });
     };
 
-    static isAssigned = (oppgavereferanse: string): boolean => {
-        return typeof OppgaveMock.getOppgave(oppgavereferanse)?.tildelt !== 'undefined';
-    };
-
-    static isOnHold = (oppgavereferanse: string): boolean => {
-        return OppgaveMock.getOppgave(oppgavereferanse)?.erPåVent ?? false;
+    static isOnHold = (period: BeregnetPeriode): boolean => {
+        return (
+            typeof period.oppgavereferanse === 'string' &&
+            (OppgaveMock.getOppgave(period.oppgavereferanse)?.erPåVent ?? false)
+        );
     };
 }

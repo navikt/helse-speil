@@ -1,7 +1,7 @@
 import { Express } from 'express';
 import { graphqlHTTP } from 'express-graphql';
 import fs from 'fs';
-import { GraphQLSchema, IntrospectionQuery, buildClientSchema } from 'graphql';
+import { GraphQLError, GraphQLSchema, IntrospectionQuery, buildClientSchema } from 'graphql';
 import path from 'path';
 
 // @ts-ignore
@@ -17,14 +17,16 @@ import { FlereFodselsnumreError, NotFoundError } from './errors';
 import type {
     BeregnetPeriode,
     MutationFeilregistrerKommentarArgs,
+    MutationFjernTildelingArgs,
     MutationLeggTilKommentarArgs,
+    MutationOpprettTildelingArgs,
     MutationSettVarselstatusAktivArgs,
     MutationSettVarselstatusVurdertArgs,
-    OppgaveForOversiktsvisning,
     Person,
 } from './schemaTypes';
 import { NotatMock } from './storage/notat';
 import { OppgaveMock } from './storage/oppgave';
+import { TildelingMock } from './storage/tildeling';
 import { VarselMock } from './storage/varsel';
 
 const leggTilLagretData = (person: Person): void => {
@@ -33,16 +35,13 @@ const leggTilLagretData = (person: Person): void => {
     for (const arbeidsgiver of person.arbeidsgivere) {
         for (const generasjon of arbeidsgiver.generasjoner) {
             for (const periode of generasjon.perioder as Array<BeregnetPeriode>) {
-                const oppgavereferanse: string | null = periode.oppgavereferanse ?? periode.oppgave?.id ?? null;
-                if (oppgavereferanse !== null && OppgaveMock.isAssigned(oppgavereferanse)) {
-                    tildeling = {
-                        ...lokalTildeling,
-                        reservert: OppgaveMock.isOnHold(oppgavereferanse),
-                    };
+                if (periode.oppgave?.id && TildelingMock.harTildeling(periode.oppgave.id)) {
+                    tildeling = TildelingMock.getTildeling(periode.oppgave.id);
                 }
 
                 periode.notater = NotatMock.getNotaterForPeriode(periode);
                 periode.varsler = VarselMock.getVarslerForPeriode(periode.varsler);
+                const oppgavereferanse: string | null = periode.oppgavereferanse ?? periode.oppgave?.id ?? null;
                 const oppgave: Oppgave | null = oppgavereferanse ? OppgaveMock.getOppgave(oppgavereferanse) : null;
 
                 if (typeof oppgave === 'object' && periode.oppgave === null) {
@@ -53,13 +52,6 @@ const leggTilLagretData = (person: Person): void => {
     }
 
     person.tildeling = tildeling;
-};
-
-const lokalTildeling = {
-    epost: 'epost@nav.no',
-    navn: 'Utvikler, Lokal',
-    oid: 'uuid',
-    reservert: false,
 };
 
 const fetchPersondata = (): Record<string, JSON> => {
@@ -78,23 +70,6 @@ const fetchPersondata = (): Record<string, JSON> => {
         return data;
     }, {});
 };
-
-function leggTilTildelinger(oppgaver: Array<OppgaveForOversiktsvisning>) {
-    return oppgaver.map((oppgave) => {
-        if (OppgaveMock.isAssigned(oppgave.id)) {
-            const oppgaveFraMock = OppgaveMock.getOppgave(oppgave.id)!;
-            oppgave = {
-                ...oppgave,
-                tildeling: {
-                    ...lokalTildeling,
-                    reservert: oppgaveFraMock.erPåVent,
-                    oid: oppgaveFraMock.tildelt,
-                },
-            };
-        }
-        return oppgave;
-    });
-}
 
 const getResolvers = (): IResolvers => ({
     Query: {
@@ -118,7 +93,16 @@ const getResolvers = (): IResolvers => ({
             return behandlingsstatistikk;
         },
         alleOppgaver: async () => {
-            return leggTilTildelinger(oppgaver);
+            return oppgaver.map((oppgave) => {
+                if (
+                    oppgave.tildeling !== undefined &&
+                    oppgave.tildeling !== null &&
+                    !TildelingMock.harTildeling(oppgave.id)
+                ) {
+                    TildelingMock.setTildeling(oppgave.id, oppgave.tildeling);
+                }
+                return { ...oppgave, tildeling: TildelingMock.getTildeling(oppgave.id) };
+            });
         },
     },
     Mutation: {
@@ -145,6 +129,45 @@ const getResolvers = (): IResolvers => ({
             { generasjonIdString, varselkode, ident }: MutationSettVarselstatusAktivArgs,
         ) => {
             return VarselMock.settVarselstatusAktiv({ generasjonIdString, varselkode, ident });
+        },
+        opprettTildeling: async (_, { oppgaveId }: MutationOpprettTildelingArgs) => {
+            TildelingMock.debug();
+            if (TildelingMock.harTildeling(oppgaveId)) {
+                return new GraphQLError('Oppgave allerede tildelt', null, null, null, null, null, {
+                    code: { value: 409 },
+                    tildeling: TildelingMock.getTildeling(oppgaveId),
+                });
+            }
+            if (Math.random() > 0.95) {
+                return new GraphQLError(
+                    `Kunne ikke tildele oppgave med oppgaveId=${oppgaveId}`,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    {
+                        code: { value: 500 },
+                    },
+                );
+            }
+            TildelingMock.setTildeling(oppgaveId, {
+                epost: 'epost@nav.no',
+                navn: 'Utvikler, Lokal',
+                oid: 'uuid',
+                reservert: OppgaveMock.getOppgave(oppgaveId)?.erPåVent ?? false,
+            });
+            TildelingMock.debug();
+
+            return TildelingMock.getTildeling(oppgaveId);
+        },
+        fjernTildeling: (_, { oppgaveId }: MutationFjernTildelingArgs) => {
+            if (TildelingMock.harTildeling(oppgaveId)) {
+                TildelingMock.fjernTildeling(oppgaveId);
+                return true;
+            } else {
+                return false;
+            }
         },
     },
     Periode: {

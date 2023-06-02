@@ -4,7 +4,7 @@ import { Loader } from '@navikt/ds-react';
 import { Dropdown } from '@navikt/ds-react-internal';
 
 import { Tildeling } from '@io/graphql';
-import { useFjernTildeling, useTildelPerson } from '@state/person';
+import { useFjernTildeling, useOpprettTildeling } from '@state/tildeling';
 
 interface TildelingDropdownMenuButtonProps {
     oppgavereferanse: string;
@@ -17,12 +17,12 @@ export const TildelingDropdownMenuButton = ({
     tildeling,
     erTildeltInnloggetBruker,
 }: TildelingDropdownMenuButtonProps) => {
-    const tildelPerson = useTildelPerson();
+    const tildelPerson = useOpprettTildeling();
     const fjernTildeling = useFjernTildeling();
 
     const [isFetching, setIsFetching] = useState(false);
 
-    const håndterTildeling = (håndter: Promise<void>) => {
+    const håndterTildeling = (håndter: Promise<boolean | Tildeling>) => {
         setIsFetching(true);
         håndter.finally(() => {
             setIsFetching(false);

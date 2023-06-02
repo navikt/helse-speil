@@ -1,0 +1,7 @@
+mutation OpprettTildeling($oppgaveId: String!) {
+  opprettTildeling(
+        oppgaveId: $oppgaveId,
+  ) {
+    navn, oid, epost, reservert
+  }
+}

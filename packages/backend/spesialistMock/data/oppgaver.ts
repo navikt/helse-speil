@@ -36,12 +36,6 @@ export const oppgaver: Array<OppgaveForOversiktsvisning> = [
             id: '1401',
             navn: 'Flora',
         },
-        tildeling: {
-            navn: 'Øydis',
-            oid: 'ting',
-            reservert: true,
-            epost: 'frosk@frog.no',
-        },
         mottaker: Mottaker.Arbeidsgiver,
     },
     {
@@ -71,12 +65,6 @@ export const oppgaver: Array<OppgaveForOversiktsvisning> = [
         boenhet: {
             id: '0393',
             navn: 'NAV oppfølging utland',
-        },
-        tildeling: {
-            navn: 'Frosk',
-            oid: 'ting',
-            reservert: true,
-            epost: 'frosk@frog.no',
         },
         mottaker: Mottaker.Arbeidsgiver,
     },
@@ -108,12 +96,6 @@ export const oppgaver: Array<OppgaveForOversiktsvisning> = [
             id: '0393',
             navn: 'NAV oppfølging utland',
         },
-        tildeling: {
-            navn: 'Pølse',
-            oid: 'ting',
-            reservert: true,
-            epost: 'frosk@frog.no',
-        },
         mottaker: null,
     },
     {
@@ -144,7 +126,6 @@ export const oppgaver: Array<OppgaveForOversiktsvisning> = [
             id: '0393',
             navn: 'NAV oppfølging utland',
         },
-        tildeling: null,
         mottaker: Mottaker.Arbeidsgiver,
     },
 ];
