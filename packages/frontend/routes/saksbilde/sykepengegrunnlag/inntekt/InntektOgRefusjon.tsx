@@ -243,6 +243,7 @@ export const InntektOgRefusjon = ({
 
     const erRevurdering = maybePeriodeTilGodkjenning(person, skjæringstidspunkt) === null;
 
+    console.log(harSykefravær, vilkårsgrunnlagId, inntektstype, kanRevurderes, periodeId);
     return (
         <div
             className={classNames(styles.Inntekt, editingInntekt && styles.editing, erDeaktivert && styles.deaktivert)}
@@ -323,7 +324,7 @@ export const InntektOgRefusjon = ({
                     lokaltMånedsbeløp={lokaltMånedsbeløp}
                     endret={endret}
                     inntektsendringer={inntektsendringer}
-                    erGhostPeriode={erGhostperiode}
+                    erGhostperiode={erGhostperiode}
                 />
             )}
             {!editingInntekt && arbeidsforholdKanOverstyres && !harSykefravær && (
