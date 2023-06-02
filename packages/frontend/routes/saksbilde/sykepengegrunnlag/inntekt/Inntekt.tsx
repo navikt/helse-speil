@@ -78,7 +78,7 @@ const InntektContainer: React.FC<InntektContainerProps> = ({ inntekt }) => {
             arbeidsgiver={arbeidsgiver}
             refusjon={refusjonsopplysninger}
             harSykefravær={arbeidsgiverHarSykefraværForPerioden}
-            erGhostperide={isGhostPeriode(periodeForSkjæringstidspunktForArbeidsgiver)}
+            erGhostperiode={isGhostPeriode(periodeForSkjæringstidspunktForArbeidsgiver)}
         />
     );
 };
