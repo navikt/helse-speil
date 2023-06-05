@@ -1,5 +1,4 @@
 import dayjs from 'dayjs';
-// @ts-ignore
 import { nanoid } from 'nanoid';
 
 import {

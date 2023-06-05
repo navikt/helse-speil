@@ -1,4 +1,3 @@
-// @ts-ignore
 import { nanoid } from 'nanoid';
 
 import { Arbeidsgiverinntekt, VilkarsgrunnlagInfotrygd, VilkarsgrunnlagSpleis, Vilkarsgrunnlagtype } from '@io/graphql';

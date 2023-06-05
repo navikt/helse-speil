@@ -1,4 +1,3 @@
-// @ts-ignore
 import { nanoid } from 'nanoid';
 
 import { Generasjon } from '@io/graphql';

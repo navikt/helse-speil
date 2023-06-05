@@ -1,4 +1,3 @@
-// @ts-ignore
 import { nanoid } from 'nanoid';
 import React, { ReactNode, useContext, useState } from 'react';
 

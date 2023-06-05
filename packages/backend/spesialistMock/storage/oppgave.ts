@@ -1,4 +1,3 @@
-// @ts-ignore
 import { nanoid } from 'nanoid';
 
 export const getDefaultOppgave = (): Oppgave => ({
