@@ -73,7 +73,7 @@ export const Historikkhendelse: React.FC<HistorikkhendelseProps> = ({ historikkt
                     onClick={() => setExpanded(!expanded)}
                     className={notatStyles.NotatTextWrapper}
                 >
-                    <AnimatePresence exitBeforeEnter>
+                    <AnimatePresence mode="wait">
                         {expanded ? (
                             <motion.pre
                                 key="pre"

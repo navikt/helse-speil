@@ -152,7 +152,7 @@ export const Notathendelse: React.FC<NotathendelseProps> = ({
                 }
                 className={styles.NotatTextWrapper}
             >
-                <AnimatePresence exitBeforeEnter>
+                <AnimatePresence mode="wait">
                     {state.expanded ? (
                         <motion.pre
                             key="pre"
