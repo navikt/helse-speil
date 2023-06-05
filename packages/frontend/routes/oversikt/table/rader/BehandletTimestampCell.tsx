@@ -11,7 +11,7 @@ interface BehandletTimestampCellProps {
 }
 
 export const BehandletTimestampCell: React.FC<BehandletTimestampCellProps> = ({ time }) => {
-    const formattedTime = dayjs(time).format('HH:mm');
+    const formattedTime = dayjs(time).format('HH.mm');
     return (
         <Cell>
             <CellContent width={100}>
