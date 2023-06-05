@@ -142,7 +142,9 @@ export const usePeriodForSkjæringstidspunktForArbeidsgiver = (
         return null;
     }
 
-    const arbeidsgiverBeregnedePerioder = arbeidsgiverPerioder.filter((it) => isBeregnetPeriode(it));
+    const arbeidsgiverBeregnedePerioder: Array<FetchedBeregnetPeriode> = arbeidsgiverPerioder.filter((it) =>
+        isBeregnetPeriode(it),
+    );
 
     if (arbeidsgiverBeregnedePerioder.length === 0 && isGhostPeriode(arbeidsgiverGhostPerioder[0])) {
         return arbeidsgiverGhostPerioder[0] ?? null;
@@ -151,7 +153,7 @@ export const usePeriodForSkjæringstidspunktForArbeidsgiver = (
     const harSammeSkjæringstidspunkt = skjæringstidspunkt === periodeTilGodkjenning?.skjaeringstidspunkt;
 
     const aktivArbeidsgiverHarAktivPeriode = arbeidsgiverBeregnedePerioder.some(
-        (it) => it?.id !== undefined && it.id === periodeTilGodkjenning?.id,
+        (it) => it.id === periodeTilGodkjenning?.id,
     );
 
     return periodeTilGodkjenning &&
