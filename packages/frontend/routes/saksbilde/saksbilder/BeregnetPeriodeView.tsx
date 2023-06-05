@@ -7,11 +7,14 @@ import { useErTidligereSaksbehandler } from '@hooks/useErTidligereSaksbehandler'
 import { Overstyring } from '@io/graphql';
 import { useHarDagOverstyringer } from '@state/arbeidsgiver';
 import { useSyncNotater } from '@state/notater';
+import { useActivePeriod } from '@state/periode';
 import { getLatestUtbetalingTimestamp, getOverstyringerForEksisterendePerioder } from '@state/selectors/person';
 import { onLazyLoadFail } from '@utils/error';
 import { getPeriodState } from '@utils/mapping';
+import { isSpleisVilkarsgrunnlag } from '@utils/typeguards';
 
 import { Historikk } from '../historikk';
+import { useVilkårsgrunnlag } from '../sykepengegrunnlag/Sykepengegrunnlag';
 import { Saksbildevarsler } from '../varsler/Saksbildevarsler';
 import { Venstremeny } from '../venstremeny/Venstremeny';
 
@@ -57,6 +60,18 @@ export const BeregnetPeriodeView: React.FC<BeregnetPeriodeViewProps> = ({ period
     const overstyringerEtterNyesteUtbetalingPåPerson = useOverstyringerEtterSisteGodkjenteUtbetaling(person);
     const harDagOverstyringer = useHarDagOverstyringer(period);
 
+    const activePeriod = useActivePeriod();
+    const vilkårsgrunnlag = useVilkårsgrunnlag(person, activePeriod);
+
+    const navnPåDeaktiverteGhostArbeidsgivere = isSpleisVilkarsgrunnlag(vilkårsgrunnlag)
+        ? vilkårsgrunnlag.inntekter
+              .filter((inntekt) => inntekt.deaktivert)
+              .map(
+                  (inntekt) => person.arbeidsgivere.find((it) => it.organisasjonsnummer === inntekt.arbeidsgiver)?.navn,
+              )
+              .join(', ')
+        : undefined;
+
     return (
         <>
             <Venstremeny />
@@ -71,6 +86,7 @@ export const BeregnetPeriodeView: React.FC<BeregnetPeriodeViewProps> = ({ period
                     harDagOverstyringer={harDagOverstyringer}
                     activePeriodTom={period.tom}
                     skjæringstidspunkt={period.skjaeringstidspunkt}
+                    navnPåDeaktiverteGhostArbeidsgivere={navnPåDeaktiverteGhostArbeidsgivere}
                 />
                 <div className={styles.RouteContainer}>
                     <Switch>

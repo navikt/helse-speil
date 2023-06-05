@@ -127,15 +127,8 @@ export const getOverstyringerForEksisterendePerioder = (person: FetchedPerson, a
                             dayjs(overstyring.dager[0].dato).isSameOrBefore(periode.tom),
                     ).length !== 0
                 );
-            } else if (isArbeidsforholdoverstyring(overstyring)) {
-                // Ser om arbeidsforholdoverstyringen gjelder for en ghost som fortsatt finnes (at den ikke har forsvunnet i en reberegning f.eks.)
-                return (
-                    perioder.filter(
-                        (periode) =>
-                            isGhostPeriode(periode) && periode.skjaeringstidspunkt === overstyring.skjaeringstidspunkt,
-                    ).length !== 0
-                );
+            } else {
+                return isArbeidsforholdoverstyring(overstyring) && overstyring.deaktivert;
             }
-            return true;
         });
 };

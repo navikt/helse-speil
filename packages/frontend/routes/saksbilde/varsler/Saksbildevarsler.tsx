@@ -93,6 +93,7 @@ const beslutteroppgave = (
     endringerEtterNyesteUtbetalingPåPerson?: Maybe<Array<Overstyring>>,
     harDagOverstyringer: boolean = false,
     activePeriodTom?: string,
+    navnPåDeaktiverteGhostArbeidsgivere?: string,
 ) => {
     if (erBeslutteroppgave && ['tilGodkjenning', 'revurderes'].includes(periodState)) {
         const årsaker = [];
@@ -109,7 +110,7 @@ const beslutteroppgave = (
         }
 
         if (endringerEtterNyesteUtbetalingPåPerson?.some(isArbeidsforholdoverstyring) ?? false) {
-            årsaker.push('Overstyring av annet arbeidsforhold');
+            årsaker.push(`Overstyring av annet arbeidsforhold (${navnPåDeaktiverteGhostArbeidsgivere})`);
         }
 
         if (årsaker.length > 0) {
@@ -130,6 +131,7 @@ interface SaksbildevarslerProps {
     harDagOverstyringer?: boolean;
     activePeriodTom?: string;
     skjæringstidspunkt?: string;
+    navnPåDeaktiverteGhostArbeidsgivere?: string;
 }
 
 export const Saksbildevarsler = ({
@@ -142,6 +144,7 @@ export const Saksbildevarsler = ({
     harDagOverstyringer,
     activePeriodTom,
     skjæringstidspunkt,
+    navnPåDeaktiverteGhostArbeidsgivere,
 }: SaksbildevarslerProps) => {
     const infoVarsler: VarselObject[] = [
         sendtTilBeslutter(erTidligereSaksbehandler && erBeslutteroppgave),
@@ -154,6 +157,7 @@ export const Saksbildevarsler = ({
             endringerEtterNyesteUtbetalingPåPerson,
             harDagOverstyringer,
             activePeriodTom,
+            navnPåDeaktiverteGhostArbeidsgivere,
         ),
     ].filter((it) => it) as VarselObject[];
 
