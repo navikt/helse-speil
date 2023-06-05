@@ -3,13 +3,15 @@ export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
 export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
 export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
+export type MakeEmpty<T extends { [key: string]: unknown }, K extends keyof T> = { [_ in K]?: never };
+export type Incremental<T> = T | { [P in keyof T]?: P extends ' $fragmentName' | '__typename' ? T[P] : never };
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
-    ID: string;
-    String: string;
-    Boolean: boolean;
-    Int: number;
-    Float: number;
+    ID: { input: string | number; output: string };
+    String: { input: string; output: string };
+    Boolean: { input: boolean; output: boolean };
+    Int: { input: number; output: number };
+    Float: { input: number; output: number };
 };
 
 export enum Adressebeskyttelse {
@@ -22,72 +24,72 @@ export enum Adressebeskyttelse {
 
 export type Alder = {
     __typename?: 'Alder';
-    alderSisteSykedag: Scalars['Int'];
-    oppfylt: Scalars['Boolean'];
+    alderSisteSykedag: Scalars['Int']['output'];
+    oppfylt: Scalars['Boolean']['output'];
 };
 
 export type Annullering = {
     __typename?: 'Annullering';
-    saksbehandler: Scalars['String'];
-    tidspunkt: Scalars['String'];
+    saksbehandler: Scalars['String']['output'];
+    tidspunkt: Scalars['String']['output'];
 };
 
 export type Antall = {
     __typename?: 'Antall';
-    automatisk: Scalars['Int'];
-    manuelt: Scalars['Int'];
-    tilgjengelig: Scalars['Int'];
+    automatisk: Scalars['Int']['output'];
+    manuelt: Scalars['Int']['output'];
+    tilgjengelig: Scalars['Int']['output'];
 };
 
 export type Arbeidsforhold = {
     __typename?: 'Arbeidsforhold';
-    sluttdato?: Maybe<Scalars['String']>;
-    startdato: Scalars['String'];
-    stillingsprosent: Scalars['Int'];
-    stillingstittel: Scalars['String'];
+    sluttdato?: Maybe<Scalars['String']['output']>;
+    startdato: Scalars['String']['output'];
+    stillingsprosent: Scalars['Int']['output'];
+    stillingstittel: Scalars['String']['output'];
 };
 
 export type Arbeidsforholdoverstyring = Overstyring & {
     __typename?: 'Arbeidsforholdoverstyring';
-    begrunnelse: Scalars['String'];
-    deaktivert: Scalars['Boolean'];
-    ferdigstilt: Scalars['Boolean'];
-    forklaring: Scalars['String'];
-    hendelseId: Scalars['String'];
+    begrunnelse: Scalars['String']['output'];
+    deaktivert: Scalars['Boolean']['output'];
+    ferdigstilt: Scalars['Boolean']['output'];
+    forklaring: Scalars['String']['output'];
+    hendelseId: Scalars['String']['output'];
     saksbehandler: Saksbehandler;
-    skjaeringstidspunkt: Scalars['String'];
-    timestamp: Scalars['String'];
+    skjaeringstidspunkt: Scalars['String']['output'];
+    timestamp: Scalars['String']['output'];
 };
 
 export type Arbeidsgiver = {
     __typename?: 'Arbeidsgiver';
     arbeidsforhold: Array<Arbeidsforhold>;
-    bransjer: Array<Scalars['String']>;
+    bransjer: Array<Scalars['String']['output']>;
     generasjoner: Array<Generasjon>;
     ghostPerioder: Array<GhostPeriode>;
-    navn: Scalars['String'];
-    organisasjonsnummer: Scalars['String'];
+    navn: Scalars['String']['output'];
+    organisasjonsnummer: Scalars['String']['output'];
     overstyringer: Array<Overstyring>;
 };
 
 export type Arbeidsgiverinntekt = {
     __typename?: 'Arbeidsgiverinntekt';
-    arbeidsgiver: Scalars['String'];
-    deaktivert?: Maybe<Scalars['Boolean']>;
+    arbeidsgiver: Scalars['String']['output'];
+    deaktivert?: Maybe<Scalars['Boolean']['output']>;
     omregnetArsinntekt?: Maybe<OmregnetArsinntekt>;
     sammenligningsgrunnlag?: Maybe<Sammenligningsgrunnlag>;
 };
 
 export type Arbeidsgiveroppdrag = Spennoppdrag & {
     __typename?: 'Arbeidsgiveroppdrag';
-    fagsystemId: Scalars['String'];
+    fagsystemId: Scalars['String']['output'];
     linjer: Array<Utbetalingslinje>;
-    organisasjonsnummer: Scalars['String'];
+    organisasjonsnummer: Scalars['String']['output'];
 };
 
 export type Arbeidsgiverrefusjon = {
     __typename?: 'Arbeidsgiverrefusjon';
-    arbeidsgiver: Scalars['String'];
+    arbeidsgiver: Scalars['String']['output'];
     refusjonsopplysninger: Array<Refusjonselement>;
 };
 
@@ -107,7 +109,7 @@ export enum Begrunnelse {
 
 export type Behandlingsstatistikk = {
     __typename?: 'Behandlingsstatistikk';
-    antallAnnulleringer: Scalars['Int'];
+    antallAnnulleringer: Scalars['Int']['output'];
     beslutter: Antall;
     delvisRefusjon: Antall;
     enArbeidsgiver: Antall;
@@ -125,48 +127,48 @@ export type Behandlingsstatistikk = {
 
 export type BeregnetPeriode = Periode & {
     __typename?: 'BeregnetPeriode';
-    beregningId: Scalars['String'];
-    erForkastet: Scalars['Boolean'];
-    fom: Scalars['String'];
-    forbrukteSykedager?: Maybe<Scalars['Int']>;
-    gjenstaendeSykedager?: Maybe<Scalars['Int']>;
+    beregningId: Scalars['String']['output'];
+    erForkastet: Scalars['Boolean']['output'];
+    fom: Scalars['String']['output'];
+    forbrukteSykedager?: Maybe<Scalars['Int']['output']>;
+    gjenstaendeSykedager?: Maybe<Scalars['Int']['output']>;
     handlinger: Array<Handling>;
     hendelser: Array<Hendelse>;
-    id: Scalars['String'];
+    id: Scalars['String']['output'];
     inntektFraAordningen: Array<InntektFraAOrdningen>;
     inntektstype: Inntektstype;
-    maksdato: Scalars['String'];
+    maksdato: Scalars['String']['output'];
     notater: Array<Notat>;
     oppgave?: Maybe<OppgaveForPeriodevisning>;
     /** @deprecated Oppgavereferanse bør hentes fra periodens oppgave */
-    oppgavereferanse?: Maybe<Scalars['String']>;
-    opprettet: Scalars['String'];
+    oppgavereferanse?: Maybe<Scalars['String']['output']>;
+    opprettet: Scalars['String']['output'];
     periodehistorikk: Array<PeriodeHistorikkElement>;
     periodetilstand: Periodetilstand;
     periodetype: Periodetype;
     periodevilkar: Periodevilkar;
     risikovurdering?: Maybe<Risikovurdering>;
-    skjaeringstidspunkt: Scalars['String'];
+    skjaeringstidspunkt: Scalars['String']['output'];
     tidslinje: Array<Dag>;
-    tom: Scalars['String'];
+    tom: Scalars['String']['output'];
     totrinnsvurdering?: Maybe<Totrinnsvurdering>;
     utbetaling: Utbetaling;
     varsler: Array<VarselDto>;
-    vedtaksperiodeId: Scalars['String'];
-    vilkarsgrunnlagId?: Maybe<Scalars['String']>;
+    vedtaksperiodeId: Scalars['String']['output'];
+    vilkarsgrunnlagId?: Maybe<Scalars['String']['output']>;
 };
 
 export type Boenhet = {
     __typename?: 'Boenhet';
-    id: Scalars['String'];
-    navn: Scalars['String'];
+    id: Scalars['String']['output'];
+    navn: Scalars['String']['output'];
 };
 
 export type Dag = {
     __typename?: 'Dag';
     begrunnelser?: Maybe<Array<Begrunnelse>>;
-    dato: Scalars['String'];
-    grad?: Maybe<Scalars['Float']>;
+    dato: Scalars['String']['output'];
+    grad?: Maybe<Scalars['Float']['output']>;
     kilde: Kilde;
     sykdomsdagtype: Sykdomsdagtype;
     utbetalingsdagtype: Utbetalingsdagtype;
@@ -175,12 +177,12 @@ export type Dag = {
 
 export type Dagoverstyring = Overstyring & {
     __typename?: 'Dagoverstyring';
-    begrunnelse: Scalars['String'];
+    begrunnelse: Scalars['String']['output'];
     dager: Array<OverstyrtDag>;
-    ferdigstilt: Scalars['Boolean'];
-    hendelseId: Scalars['String'];
+    ferdigstilt: Scalars['Boolean']['output'];
+    hendelseId: Scalars['String']['output'];
     saksbehandler: Saksbehandler;
-    timestamp: Scalars['String'];
+    timestamp: Scalars['String']['output'];
 };
 
 export enum Dagtype {
@@ -195,24 +197,24 @@ export enum Dagtype {
 
 export type Enhet = {
     __typename?: 'Enhet';
-    id: Scalars['String'];
-    navn: Scalars['String'];
+    id: Scalars['String']['output'];
+    navn: Scalars['String']['output'];
 };
 
 export type Faresignal = {
     __typename?: 'Faresignal';
-    beskrivelse: Scalars['String'];
-    kategori: Array<Scalars['String']>;
+    beskrivelse: Scalars['String']['output'];
+    kategori: Array<Scalars['String']['output']>;
 };
 
 export type FerdigstiltOppgave = {
     __typename?: 'FerdigstiltOppgave';
-    aktorId: Scalars['String'];
-    antallVarsler?: Maybe<Scalars['Int']>;
-    bosted?: Maybe<Scalars['String']>;
-    ferdigstiltAv?: Maybe<Scalars['String']>;
-    ferdigstiltTidspunkt: Scalars['String'];
-    id: Scalars['String'];
+    aktorId: Scalars['String']['output'];
+    antallVarsler?: Maybe<Scalars['Int']['output']>;
+    bosted?: Maybe<Scalars['String']['output']>;
+    ferdigstiltAv?: Maybe<Scalars['String']['output']>;
+    ferdigstiltTidspunkt: Scalars['String']['output'];
+    id: Scalars['String']['output'];
     inntektstype: Inntektstype;
     periodetype: Periodetype;
     personnavn: Personnavn;
@@ -221,30 +223,30 @@ export type FerdigstiltOppgave = {
 
 export type Generasjon = {
     __typename?: 'Generasjon';
-    id: Scalars['String'];
+    id: Scalars['String']['output'];
     perioder: Array<Periode>;
 };
 
 export type GhostPeriode = {
     __typename?: 'GhostPeriode';
-    deaktivert: Scalars['Boolean'];
-    fom: Scalars['String'];
-    id: Scalars['String'];
-    organisasjonsnummer: Scalars['String'];
-    skjaeringstidspunkt: Scalars['String'];
-    tom: Scalars['String'];
-    vilkarsgrunnlagId?: Maybe<Scalars['String']>;
+    deaktivert: Scalars['Boolean']['output'];
+    fom: Scalars['String']['output'];
+    id: Scalars['String']['output'];
+    organisasjonsnummer: Scalars['String']['output'];
+    skjaeringstidspunkt: Scalars['String']['output'];
+    tom: Scalars['String']['output'];
+    vilkarsgrunnlagId?: Maybe<Scalars['String']['output']>;
 };
 
 export type Handling = {
     __typename?: 'Handling';
-    begrunnelse?: Maybe<Scalars['String']>;
-    tillatt: Scalars['Boolean'];
+    begrunnelse?: Maybe<Scalars['String']['output']>;
+    tillatt: Scalars['Boolean']['output'];
     type: Periodehandling;
 };
 
 export type Hendelse = {
-    id: Scalars['String'];
+    id: Scalars['String']['output'];
     type: Hendelsetype;
 };
 
@@ -258,27 +260,27 @@ export enum Hendelsetype {
 
 export type Infotrygdutbetaling = {
     __typename?: 'Infotrygdutbetaling';
-    dagsats: Scalars['Float'];
-    fom: Scalars['String'];
-    grad: Scalars['String'];
-    organisasjonsnummer: Scalars['String'];
-    tom: Scalars['String'];
-    typetekst: Scalars['String'];
+    dagsats: Scalars['Float']['output'];
+    fom: Scalars['String']['output'];
+    grad: Scalars['String']['output'];
+    organisasjonsnummer: Scalars['String']['output'];
+    tom: Scalars['String']['output'];
+    typetekst: Scalars['String']['output'];
 };
 
 export type InntektFraAOrdningen = {
     __typename?: 'InntektFraAOrdningen';
-    maned: Scalars['String'];
-    sum: Scalars['Float'];
+    maned: Scalars['String']['output'];
+    sum: Scalars['Float']['output'];
 };
 
 export type Inntektoverstyring = Overstyring & {
     __typename?: 'Inntektoverstyring';
-    ferdigstilt: Scalars['Boolean'];
-    hendelseId: Scalars['String'];
+    ferdigstilt: Scalars['Boolean']['output'];
+    hendelseId: Scalars['String']['output'];
     inntekt: OverstyrtInntekt;
     saksbehandler: Saksbehandler;
-    timestamp: Scalars['String'];
+    timestamp: Scalars['String']['output'];
 };
 
 export enum Inntektskilde {
@@ -292,9 +294,9 @@ export enum Inntektskilde {
 
 export type Inntektsmelding = Hendelse & {
     __typename?: 'Inntektsmelding';
-    beregnetInntekt: Scalars['Float'];
-    id: Scalars['String'];
-    mottattDato: Scalars['String'];
+    beregnetInntekt: Scalars['Float']['output'];
+    id: Scalars['String']['output'];
+    mottattDato: Scalars['String']['output'];
     type: Hendelsetype;
 };
 
@@ -305,7 +307,7 @@ export enum Inntektstype {
 
 export type Kilde = {
     __typename?: 'Kilde';
-    id: Scalars['String'];
+    id: Scalars['String']['output'];
     type: Kildetype;
 };
 
@@ -325,11 +327,11 @@ export enum Kjonn {
 
 export type Kommentar = {
     __typename?: 'Kommentar';
-    feilregistrert_tidspunkt?: Maybe<Scalars['String']>;
-    id: Scalars['Int'];
-    opprettet: Scalars['String'];
-    saksbehandlerident: Scalars['String'];
-    tekst: Scalars['String'];
+    feilregistrert_tidspunkt?: Maybe<Scalars['String']['output']>;
+    id: Scalars['Int']['output'];
+    opprettet: Scalars['String']['output'];
+    saksbehandlerident: Scalars['String']['output'];
+    tekst: Scalars['String']['output'];
 };
 
 export enum Mottaker {
@@ -340,72 +342,72 @@ export enum Mottaker {
 
 export type Mutation = {
     __typename?: 'Mutation';
-    feilregistrerKommentar: Scalars['Boolean'];
-    feilregistrerNotat: Scalars['Boolean'];
-    fjernTildeling: Scalars['Boolean'];
+    feilregistrerKommentar: Scalars['Boolean']['output'];
+    feilregistrerNotat: Scalars['Boolean']['output'];
+    fjernTildeling: Scalars['Boolean']['output'];
     leggTilKommentar?: Maybe<Kommentar>;
-    leggTilNotat: Scalars['Int'];
+    leggTilNotat: Scalars['Int']['output'];
     opprettTildeling?: Maybe<Tildeling>;
     settVarselstatusAktiv?: Maybe<VarselDto>;
     settVarselstatusVurdert?: Maybe<VarselDto>;
 };
 
 export type MutationFeilregistrerKommentarArgs = {
-    id: Scalars['Int'];
+    id: Scalars['Int']['input'];
 };
 
 export type MutationFeilregistrerNotatArgs = {
-    id: Scalars['Int'];
+    id: Scalars['Int']['input'];
 };
 
 export type MutationFjernTildelingArgs = {
-    oppgaveId: Scalars['String'];
+    oppgaveId: Scalars['String']['input'];
 };
 
 export type MutationLeggTilKommentarArgs = {
-    notatId: Scalars['Int'];
-    saksbehandlerident: Scalars['String'];
-    tekst: Scalars['String'];
+    notatId: Scalars['Int']['input'];
+    saksbehandlerident: Scalars['String']['input'];
+    tekst: Scalars['String']['input'];
 };
 
 export type MutationLeggTilNotatArgs = {
-    saksbehandlerOid: Scalars['String'];
-    tekst: Scalars['String'];
+    saksbehandlerOid: Scalars['String']['input'];
+    tekst: Scalars['String']['input'];
     type: NotatType;
-    vedtaksperiodeId: Scalars['String'];
+    vedtaksperiodeId: Scalars['String']['input'];
 };
 
 export type MutationOpprettTildelingArgs = {
-    oppgaveId: Scalars['String'];
+    oppgaveId: Scalars['String']['input'];
 };
 
 export type MutationSettVarselstatusAktivArgs = {
-    generasjonIdString: Scalars['String'];
-    ident: Scalars['String'];
-    varselkode: Scalars['String'];
+    generasjonIdString: Scalars['String']['input'];
+    ident: Scalars['String']['input'];
+    varselkode: Scalars['String']['input'];
 };
 
 export type MutationSettVarselstatusVurdertArgs = {
-    definisjonIdString: Scalars['String'];
-    generasjonIdString: Scalars['String'];
-    ident: Scalars['String'];
-    varselkode: Scalars['String'];
+    definisjonIdString: Scalars['String']['input'];
+    generasjonIdString: Scalars['String']['input'];
+    ident: Scalars['String']['input'];
+    varselkode: Scalars['String']['input'];
 };
 
 export type Notat = {
     __typename?: 'Notat';
-    feilregistrert: Scalars['Boolean'];
-    feilregistrert_tidspunkt?: Maybe<Scalars['String']>;
-    id: Scalars['Int'];
+    feilregistrert: Scalars['Boolean']['output'];
+    feilregistrert_tidspunkt?: Maybe<Scalars['String']['output']>;
+    id: Scalars['Int']['output'];
     kommentarer: Array<Kommentar>;
-    opprettet: Scalars['String'];
-    saksbehandlerEpost: Scalars['String'];
-    saksbehandlerIdent: Scalars['String'];
-    saksbehandlerNavn: Scalars['String'];
-    saksbehandlerOid: Scalars['String'];
-    tekst: Scalars['String'];
+    opprettet: Scalars['String']['output'];
+    saksbehandlerEpost: Scalars['String']['output'];
+    saksbehandlerIdent: Scalars['String']['output'];
+    saksbehandlerNavn: Scalars['String']['output'];
+    saksbehandlerOid: Scalars['String']['output'];
+    tekst: Scalars['String']['output'];
     type: NotatType;
-    vedtaksperiodeId: Scalars['String'];
+    vedtaksperiodeId: Scalars['String']['output'];
 };
 
 export enum NotatType {
@@ -416,16 +418,16 @@ export enum NotatType {
 
 export type Notater = {
     __typename?: 'Notater';
-    id: Scalars['String'];
+    id: Scalars['String']['output'];
     notater: Array<Notat>;
 };
 
 export type OmregnetArsinntekt = {
     __typename?: 'OmregnetArsinntekt';
-    belop: Scalars['Float'];
+    belop: Scalars['Float']['output'];
     inntektFraAOrdningen?: Maybe<Array<InntektFraAOrdningen>>;
     kilde: Inntektskilde;
-    manedsbelop: Scalars['Float'];
+    manedsbelop: Scalars['Float']['output'];
 };
 
 export type Oppdrag = {
@@ -434,8 +436,8 @@ export type Oppdrag = {
     arbeidsgiveroppdrag?: Maybe<Arbeidsgiveroppdrag>;
     personoppdrag?: Maybe<Personoppdrag>;
     status: Oppdragsstatus;
-    totalbelop?: Maybe<Scalars['Int']>;
-    type: Scalars['String'];
+    totalbelop?: Maybe<Scalars['Int']['output']>;
+    type: Scalars['String']['output'];
 };
 
 export enum Oppdragsstatus {
@@ -454,28 +456,28 @@ export enum Oppdragsstatus {
 
 export type OppgaveForOversiktsvisning = {
     __typename?: 'OppgaveForOversiktsvisning';
-    aktorId: Scalars['String'];
-    antallVarsler?: Maybe<Scalars['Int']>;
+    aktorId: Scalars['String']['output'];
+    antallVarsler?: Maybe<Scalars['Int']['output']>;
     boenhet?: Maybe<Boenhet>;
-    flereArbeidsgivere: Scalars['Boolean'];
-    fodselsnummer: Scalars['String'];
-    id: Scalars['String'];
+    flereArbeidsgivere: Scalars['Boolean']['output'];
+    fodselsnummer: Scalars['String']['output'];
+    id: Scalars['String']['output'];
     mottaker?: Maybe<Mottaker>;
     navn: Personnavn;
-    opprettet: Scalars['String'];
-    opprinneligSoknadsdato: Scalars['String'];
+    opprettet: Scalars['String']['output'];
+    opprinneligSoknadsdato: Scalars['String']['output'];
     periodetype?: Maybe<Periodetype>;
     personinfo: Personinfo;
-    sistSendt?: Maybe<Scalars['String']>;
+    sistSendt?: Maybe<Scalars['String']['output']>;
     tildeling?: Maybe<Tildeling>;
     totrinnsvurdering?: Maybe<Totrinnsvurdering>;
     type: Oppgavetype;
-    vedtaksperiodeId: Scalars['String'];
+    vedtaksperiodeId: Scalars['String']['output'];
 };
 
 export type OppgaveForPeriodevisning = {
     __typename?: 'OppgaveForPeriodevisning';
-    id: Scalars['String'];
+    id: Scalars['String']['output'];
 };
 
 export enum Oppgavetype {
@@ -489,52 +491,52 @@ export enum Oppgavetype {
 }
 
 export type Overstyring = {
-    ferdigstilt: Scalars['Boolean'];
-    hendelseId: Scalars['String'];
+    ferdigstilt: Scalars['Boolean']['output'];
+    hendelseId: Scalars['String']['output'];
     saksbehandler: Saksbehandler;
-    timestamp: Scalars['String'];
+    timestamp: Scalars['String']['output'];
 };
 
 export type OverstyrtDag = {
     __typename?: 'OverstyrtDag';
-    dato: Scalars['String'];
-    fraGrad?: Maybe<Scalars['Int']>;
+    dato: Scalars['String']['output'];
+    fraGrad?: Maybe<Scalars['Int']['output']>;
     fraType?: Maybe<Dagtype>;
-    grad?: Maybe<Scalars['Int']>;
+    grad?: Maybe<Scalars['Int']['output']>;
     type: Dagtype;
 };
 
 export type OverstyrtInntekt = {
     __typename?: 'OverstyrtInntekt';
-    begrunnelse: Scalars['String'];
-    forklaring: Scalars['String'];
-    fraManedligInntekt?: Maybe<Scalars['Float']>;
+    begrunnelse: Scalars['String']['output'];
+    forklaring: Scalars['String']['output'];
+    fraManedligInntekt?: Maybe<Scalars['Float']['output']>;
     fraRefusjonsopplysninger?: Maybe<Array<Refusjonsopplysning>>;
-    manedligInntekt: Scalars['Float'];
+    manedligInntekt: Scalars['Float']['output'];
     refusjonsopplysninger?: Maybe<Array<Refusjonsopplysning>>;
-    skjaeringstidspunkt: Scalars['String'];
+    skjaeringstidspunkt: Scalars['String']['output'];
 };
 
 export type Periode = {
-    erForkastet: Scalars['Boolean'];
-    fom: Scalars['String'];
+    erForkastet: Scalars['Boolean']['output'];
+    fom: Scalars['String']['output'];
     hendelser: Array<Hendelse>;
     inntektstype: Inntektstype;
-    opprettet: Scalars['String'];
+    opprettet: Scalars['String']['output'];
     periodetilstand: Periodetilstand;
     periodetype: Periodetype;
-    skjaeringstidspunkt: Scalars['String'];
+    skjaeringstidspunkt: Scalars['String']['output'];
     tidslinje: Array<Dag>;
-    tom: Scalars['String'];
+    tom: Scalars['String']['output'];
     varsler: Array<VarselDto>;
-    vedtaksperiodeId: Scalars['String'];
+    vedtaksperiodeId: Scalars['String']['output'];
 };
 
 export type PeriodeHistorikkElement = {
     __typename?: 'PeriodeHistorikkElement';
-    notat_id?: Maybe<Scalars['Int']>;
-    saksbehandler_ident?: Maybe<Scalars['String']>;
-    timestamp: Scalars['String'];
+    notat_id?: Maybe<Scalars['Int']['output']>;
+    saksbehandler_ident?: Maybe<Scalars['String']['output']>;
+    timestamp: Scalars['String']['output'];
     type: PeriodehistorikkType;
 };
 
@@ -583,40 +585,40 @@ export type Periodevilkar = {
 
 export type Person = {
     __typename?: 'Person';
-    aktorId: Scalars['String'];
+    aktorId: Scalars['String']['output'];
     arbeidsgivere: Array<Arbeidsgiver>;
-    dodsdato?: Maybe<Scalars['String']>;
+    dodsdato?: Maybe<Scalars['String']['output']>;
     enhet: Enhet;
-    fodselsnummer: Scalars['String'];
+    fodselsnummer: Scalars['String']['output'];
     infotrygdutbetalinger?: Maybe<Array<Infotrygdutbetaling>>;
     personinfo: Personinfo;
     tildeling?: Maybe<Tildeling>;
-    versjon: Scalars['Int'];
+    versjon: Scalars['Int']['output'];
     vilkarsgrunnlag: Array<Vilkarsgrunnlag>;
 };
 
 export type Personinfo = {
     __typename?: 'Personinfo';
     adressebeskyttelse: Adressebeskyttelse;
-    etternavn: Scalars['String'];
-    fodselsdato?: Maybe<Scalars['String']>;
-    fornavn: Scalars['String'];
+    etternavn: Scalars['String']['output'];
+    fodselsdato?: Maybe<Scalars['String']['output']>;
+    fornavn: Scalars['String']['output'];
     kjonn: Kjonn;
-    mellomnavn?: Maybe<Scalars['String']>;
+    mellomnavn?: Maybe<Scalars['String']['output']>;
     reservasjon?: Maybe<Reservasjon>;
 };
 
 export type Personnavn = {
     __typename?: 'Personnavn';
-    etternavn: Scalars['String'];
-    fornavn: Scalars['String'];
-    mellomnavn?: Maybe<Scalars['String']>;
+    etternavn: Scalars['String']['output'];
+    fornavn: Scalars['String']['output'];
+    mellomnavn?: Maybe<Scalars['String']['output']>;
 };
 
 export type Personoppdrag = Spennoppdrag & {
     __typename?: 'Personoppdrag';
-    fagsystemId: Scalars['String'];
-    fodselsnummer: Scalars['String'];
+    fagsystemId: Scalars['String']['output'];
+    fodselsnummer: Scalars['String']['output'];
     linjer: Array<Utbetalingslinje>;
 };
 
@@ -631,43 +633,43 @@ export type Query = {
 };
 
 export type QueryBehandledeOppgaverArgs = {
-    behandletAvIdent: Scalars['String'];
-    behandletAvOid: Scalars['String'];
-    fom?: InputMaybe<Scalars['String']>;
+    behandletAvIdent: Scalars['String']['input'];
+    behandletAvOid: Scalars['String']['input'];
+    fom?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type QueryNotaterArgs = {
-    forPerioder: Array<Scalars['String']>;
+    forPerioder: Array<Scalars['String']['input']>;
 };
 
 export type QueryOppdragArgs = {
-    fnr: Scalars['String'];
+    fnr: Scalars['String']['input'];
 };
 
 export type QueryPersonArgs = {
-    aktorId?: InputMaybe<Scalars['String']>;
-    fnr?: InputMaybe<Scalars['String']>;
+    aktorId?: InputMaybe<Scalars['String']['input']>;
+    fnr?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type Refusjonselement = {
     __typename?: 'Refusjonselement';
-    belop: Scalars['Float'];
-    fom: Scalars['String'];
-    meldingsreferanseId: Scalars['String'];
-    tom?: Maybe<Scalars['String']>;
+    belop: Scalars['Float']['output'];
+    fom: Scalars['String']['output'];
+    meldingsreferanseId: Scalars['String']['output'];
+    tom?: Maybe<Scalars['String']['output']>;
 };
 
 export type Refusjonsopplysning = {
     __typename?: 'Refusjonsopplysning';
-    belop: Scalars['Float'];
-    fom: Scalars['String'];
-    tom?: Maybe<Scalars['String']>;
+    belop: Scalars['Float']['output'];
+    fom: Scalars['String']['output'];
+    tom?: Maybe<Scalars['String']['output']>;
 };
 
 export type Reservasjon = {
     __typename?: 'Reservasjon';
-    kanVarsles: Scalars['Boolean'];
-    reservert: Scalars['Boolean'];
+    kanVarsles: Scalars['Boolean']['output'];
+    reservert: Scalars['Boolean']['output'];
 };
 
 export type Risikovurdering = {
@@ -678,96 +680,96 @@ export type Risikovurdering = {
 
 export type Saksbehandler = {
     __typename?: 'Saksbehandler';
-    ident?: Maybe<Scalars['String']>;
-    navn: Scalars['String'];
+    ident?: Maybe<Scalars['String']['output']>;
+    navn: Scalars['String']['output'];
 };
 
 export type Sammenligningsgrunnlag = {
     __typename?: 'Sammenligningsgrunnlag';
-    belop: Scalars['Float'];
+    belop: Scalars['Float']['output'];
     inntektFraAOrdningen: Array<InntektFraAOrdningen>;
 };
 
 export type Simulering = {
     __typename?: 'Simulering';
-    fagsystemId: Scalars['String'];
+    fagsystemId: Scalars['String']['output'];
     perioder?: Maybe<Array<Simuleringsperiode>>;
-    tidsstempel: Scalars['String'];
-    totalbelop?: Maybe<Scalars['Int']>;
+    tidsstempel: Scalars['String']['output'];
+    totalbelop?: Maybe<Scalars['Int']['output']>;
     utbetalingslinjer: Array<Simuleringslinje>;
 };
 
 export type Simuleringsdetaljer = {
     __typename?: 'Simuleringsdetaljer';
-    antallSats: Scalars['Int'];
-    belop: Scalars['Int'];
-    fom: Scalars['String'];
-    klassekode: Scalars['String'];
-    klassekodebeskrivelse: Scalars['String'];
-    konto: Scalars['String'];
-    refunderesOrgNr: Scalars['String'];
-    sats: Scalars['Float'];
-    tilbakeforing: Scalars['Boolean'];
-    tom: Scalars['String'];
-    typeSats: Scalars['String'];
-    uforegrad: Scalars['Int'];
-    utbetalingstype: Scalars['String'];
+    antallSats: Scalars['Int']['output'];
+    belop: Scalars['Int']['output'];
+    fom: Scalars['String']['output'];
+    klassekode: Scalars['String']['output'];
+    klassekodebeskrivelse: Scalars['String']['output'];
+    konto: Scalars['String']['output'];
+    refunderesOrgNr: Scalars['String']['output'];
+    sats: Scalars['Float']['output'];
+    tilbakeforing: Scalars['Boolean']['output'];
+    tom: Scalars['String']['output'];
+    typeSats: Scalars['String']['output'];
+    uforegrad: Scalars['Int']['output'];
+    utbetalingstype: Scalars['String']['output'];
 };
 
 export type Simuleringslinje = {
     __typename?: 'Simuleringslinje';
-    dagsats: Scalars['Int'];
-    fom: Scalars['String'];
-    grad: Scalars['Int'];
-    tom: Scalars['String'];
+    dagsats: Scalars['Int']['output'];
+    fom: Scalars['String']['output'];
+    grad: Scalars['Int']['output'];
+    tom: Scalars['String']['output'];
 };
 
 export type Simuleringsperiode = {
     __typename?: 'Simuleringsperiode';
-    fom: Scalars['String'];
-    tom: Scalars['String'];
+    fom: Scalars['String']['output'];
+    tom: Scalars['String']['output'];
     utbetalinger: Array<Simuleringsutbetaling>;
 };
 
 export type Simuleringsutbetaling = {
     __typename?: 'Simuleringsutbetaling';
     detaljer: Array<Simuleringsdetaljer>;
-    feilkonto: Scalars['Boolean'];
-    forfall: Scalars['String'];
-    mottakerId: Scalars['String'];
-    mottakerNavn: Scalars['String'];
+    feilkonto: Scalars['Boolean']['output'];
+    forfall: Scalars['String']['output'];
+    mottakerId: Scalars['String']['output'];
+    mottakerNavn: Scalars['String']['output'];
 };
 
 export type SoknadArbeidsgiver = Hendelse & {
     __typename?: 'SoknadArbeidsgiver';
-    fom: Scalars['String'];
-    id: Scalars['String'];
-    rapportertDato: Scalars['String'];
-    sendtArbeidsgiver: Scalars['String'];
-    tom: Scalars['String'];
+    fom: Scalars['String']['output'];
+    id: Scalars['String']['output'];
+    rapportertDato: Scalars['String']['output'];
+    sendtArbeidsgiver: Scalars['String']['output'];
+    tom: Scalars['String']['output'];
     type: Hendelsetype;
 };
 
 export type SoknadNav = Hendelse & {
     __typename?: 'SoknadNav';
-    fom: Scalars['String'];
-    id: Scalars['String'];
-    rapportertDato: Scalars['String'];
-    sendtNav: Scalars['String'];
-    tom: Scalars['String'];
+    fom: Scalars['String']['output'];
+    id: Scalars['String']['output'];
+    rapportertDato: Scalars['String']['output'];
+    sendtNav: Scalars['String']['output'];
+    tom: Scalars['String']['output'];
     type: Hendelsetype;
 };
 
 export type Soknadsfrist = {
     __typename?: 'Soknadsfrist';
-    oppfylt: Scalars['Boolean'];
-    sendtNav: Scalars['String'];
-    soknadFom: Scalars['String'];
-    soknadTom: Scalars['String'];
+    oppfylt: Scalars['Boolean']['output'];
+    sendtNav: Scalars['String']['output'];
+    soknadFom: Scalars['String']['output'];
+    soknadTom: Scalars['String']['output'];
 };
 
 export type Spennoppdrag = {
-    fagsystemId: Scalars['String'];
+    fagsystemId: Scalars['String']['output'];
     linjer: Array<Utbetalingslinje>;
 };
 
@@ -786,70 +788,70 @@ export enum Sykdomsdagtype {
 
 export type Sykepengedager = {
     __typename?: 'Sykepengedager';
-    forbrukteSykedager?: Maybe<Scalars['Int']>;
-    gjenstaendeSykedager?: Maybe<Scalars['Int']>;
-    maksdato: Scalars['String'];
-    oppfylt: Scalars['Boolean'];
-    skjaeringstidspunkt: Scalars['String'];
+    forbrukteSykedager?: Maybe<Scalars['Int']['output']>;
+    gjenstaendeSykedager?: Maybe<Scalars['Int']['output']>;
+    maksdato: Scalars['String']['output'];
+    oppfylt: Scalars['Boolean']['output'];
+    skjaeringstidspunkt: Scalars['String']['output'];
 };
 
 export type Sykepengegrunnlagsgrense = {
     __typename?: 'Sykepengegrunnlagsgrense';
-    grense: Scalars['Int'];
-    grunnbelop: Scalars['Int'];
-    virkningstidspunkt: Scalars['String'];
+    grense: Scalars['Int']['output'];
+    grunnbelop: Scalars['Int']['output'];
+    virkningstidspunkt: Scalars['String']['output'];
 };
 
 export type Sykmelding = Hendelse & {
     __typename?: 'Sykmelding';
-    fom: Scalars['String'];
-    id: Scalars['String'];
-    rapportertDato: Scalars['String'];
-    tom: Scalars['String'];
+    fom: Scalars['String']['output'];
+    id: Scalars['String']['output'];
+    rapportertDato: Scalars['String']['output'];
+    tom: Scalars['String']['output'];
     type: Hendelsetype;
 };
 
 export type Tildeling = {
     __typename?: 'Tildeling';
-    epost: Scalars['String'];
-    navn: Scalars['String'];
-    oid: Scalars['String'];
-    reservert: Scalars['Boolean'];
+    epost: Scalars['String']['output'];
+    navn: Scalars['String']['output'];
+    oid: Scalars['String']['output'];
+    reservert: Scalars['Boolean']['output'];
 };
 
 export type Totrinnsvurdering = {
     __typename?: 'Totrinnsvurdering';
-    beslutter?: Maybe<Scalars['String']>;
-    erBeslutteroppgave: Scalars['Boolean'];
-    erRetur: Scalars['Boolean'];
-    saksbehandler?: Maybe<Scalars['String']>;
+    beslutter?: Maybe<Scalars['String']['output']>;
+    erBeslutteroppgave: Scalars['Boolean']['output'];
+    erRetur: Scalars['Boolean']['output'];
+    saksbehandler?: Maybe<Scalars['String']['output']>;
 };
 
 export type UberegnetPeriode = Periode & {
     __typename?: 'UberegnetPeriode';
-    erForkastet: Scalars['Boolean'];
-    fom: Scalars['String'];
+    erForkastet: Scalars['Boolean']['output'];
+    fom: Scalars['String']['output'];
     hendelser: Array<Hendelse>;
-    id: Scalars['String'];
+    id: Scalars['String']['output'];
     inntektstype: Inntektstype;
-    opprettet: Scalars['String'];
+    opprettet: Scalars['String']['output'];
     periodetilstand: Periodetilstand;
     periodetype: Periodetype;
-    skjaeringstidspunkt: Scalars['String'];
+    skjaeringstidspunkt: Scalars['String']['output'];
     tidslinje: Array<Dag>;
-    tom: Scalars['String'];
+    tom: Scalars['String']['output'];
     varsler: Array<VarselDto>;
-    vedtaksperiodeId: Scalars['String'];
+    vedtaksperiodeId: Scalars['String']['output'];
 };
 
 export type Utbetaling = {
     __typename?: 'Utbetaling';
-    arbeidsgiverFagsystemId: Scalars['String'];
-    arbeidsgiverNettoBelop: Scalars['Int'];
+    arbeidsgiverFagsystemId: Scalars['String']['output'];
+    arbeidsgiverNettoBelop: Scalars['Int']['output'];
     arbeidsgiversimulering?: Maybe<Simulering>;
-    id: Scalars['String'];
-    personFagsystemId: Scalars['String'];
-    personNettoBelop: Scalars['Int'];
+    id: Scalars['String']['output'];
+    personFagsystemId: Scalars['String']['output'];
+    personNettoBelop: Scalars['Int']['output'];
     personsimulering?: Maybe<Simulering>;
     status: Utbetalingstatus;
     type: Utbetalingtype;
@@ -870,19 +872,19 @@ export enum Utbetalingsdagtype {
 
 export type Utbetalingsinfo = {
     __typename?: 'Utbetalingsinfo';
-    arbeidsgiverbelop?: Maybe<Scalars['Int']>;
-    inntekt?: Maybe<Scalars['Int']>;
-    personbelop?: Maybe<Scalars['Int']>;
-    refusjonsbelop?: Maybe<Scalars['Int']>;
-    totalGrad?: Maybe<Scalars['Float']>;
-    utbetaling?: Maybe<Scalars['Int']>;
+    arbeidsgiverbelop?: Maybe<Scalars['Int']['output']>;
+    inntekt?: Maybe<Scalars['Int']['output']>;
+    personbelop?: Maybe<Scalars['Int']['output']>;
+    refusjonsbelop?: Maybe<Scalars['Int']['output']>;
+    totalGrad?: Maybe<Scalars['Float']['output']>;
+    utbetaling?: Maybe<Scalars['Int']['output']>;
 };
 
 export type Utbetalingslinje = {
     __typename?: 'Utbetalingslinje';
-    fom: Scalars['String'];
-    tom: Scalars['String'];
-    totalbelop: Scalars['Int'];
+    fom: Scalars['String']['output'];
+    tom: Scalars['String']['output'];
+    totalbelop: Scalars['Int']['output'];
 };
 
 export enum Utbetalingstatus {
@@ -910,12 +912,12 @@ export enum Utbetalingtype {
 
 export type VarselDto = {
     __typename?: 'VarselDTO';
-    definisjonId: Scalars['String'];
-    forklaring?: Maybe<Scalars['String']>;
-    generasjonId: Scalars['String'];
-    handling?: Maybe<Scalars['String']>;
-    kode: Scalars['String'];
-    tittel: Scalars['String'];
+    definisjonId: Scalars['String']['output'];
+    forklaring?: Maybe<Scalars['String']['output']>;
+    generasjonId: Scalars['String']['output'];
+    handling?: Maybe<Scalars['String']['output']>;
+    kode: Scalars['String']['output'];
+    tittel: Scalars['String']['output'];
     vurdering?: Maybe<VarselvurderingDto>;
 };
 
@@ -928,50 +930,50 @@ export enum Varselstatus {
 
 export type VarselvurderingDto = {
     __typename?: 'VarselvurderingDTO';
-    ident: Scalars['String'];
+    ident: Scalars['String']['output'];
     status: Varselstatus;
-    tidsstempel: Scalars['String'];
+    tidsstempel: Scalars['String']['output'];
 };
 
 export type Vilkarsgrunnlag = {
     arbeidsgiverrefusjoner: Array<Arbeidsgiverrefusjon>;
-    id: Scalars['String'];
+    id: Scalars['String']['output'];
     inntekter: Array<Arbeidsgiverinntekt>;
-    omregnetArsinntekt: Scalars['Float'];
-    sammenligningsgrunnlag?: Maybe<Scalars['Float']>;
-    skjaeringstidspunkt: Scalars['String'];
-    sykepengegrunnlag: Scalars['Float'];
+    omregnetArsinntekt: Scalars['Float']['output'];
+    sammenligningsgrunnlag?: Maybe<Scalars['Float']['output']>;
+    skjaeringstidspunkt: Scalars['String']['output'];
+    sykepengegrunnlag: Scalars['Float']['output'];
     vilkarsgrunnlagtype: Vilkarsgrunnlagtype;
 };
 
 export type VilkarsgrunnlagInfotrygd = Vilkarsgrunnlag & {
     __typename?: 'VilkarsgrunnlagInfotrygd';
     arbeidsgiverrefusjoner: Array<Arbeidsgiverrefusjon>;
-    id: Scalars['String'];
+    id: Scalars['String']['output'];
     inntekter: Array<Arbeidsgiverinntekt>;
-    omregnetArsinntekt: Scalars['Float'];
-    sammenligningsgrunnlag?: Maybe<Scalars['Float']>;
-    skjaeringstidspunkt: Scalars['String'];
-    sykepengegrunnlag: Scalars['Float'];
+    omregnetArsinntekt: Scalars['Float']['output'];
+    sammenligningsgrunnlag?: Maybe<Scalars['Float']['output']>;
+    skjaeringstidspunkt: Scalars['String']['output'];
+    sykepengegrunnlag: Scalars['Float']['output'];
     vilkarsgrunnlagtype: Vilkarsgrunnlagtype;
 };
 
 export type VilkarsgrunnlagSpleis = Vilkarsgrunnlag & {
     __typename?: 'VilkarsgrunnlagSpleis';
-    antallOpptjeningsdagerErMinst: Scalars['Int'];
+    antallOpptjeningsdagerErMinst: Scalars['Int']['output'];
     arbeidsgiverrefusjoner: Array<Arbeidsgiverrefusjon>;
-    avviksprosent?: Maybe<Scalars['Float']>;
-    grunnbelop: Scalars['Int'];
-    id: Scalars['String'];
+    avviksprosent?: Maybe<Scalars['Float']['output']>;
+    grunnbelop: Scalars['Int']['output'];
+    id: Scalars['String']['output'];
     inntekter: Array<Arbeidsgiverinntekt>;
-    omregnetArsinntekt: Scalars['Float'];
-    oppfyllerKravOmMedlemskap?: Maybe<Scalars['Boolean']>;
-    oppfyllerKravOmMinstelonn: Scalars['Boolean'];
-    oppfyllerKravOmOpptjening: Scalars['Boolean'];
-    opptjeningFra: Scalars['String'];
-    sammenligningsgrunnlag?: Maybe<Scalars['Float']>;
-    skjaeringstidspunkt: Scalars['String'];
-    sykepengegrunnlag: Scalars['Float'];
+    omregnetArsinntekt: Scalars['Float']['output'];
+    oppfyllerKravOmMedlemskap?: Maybe<Scalars['Boolean']['output']>;
+    oppfyllerKravOmMinstelonn: Scalars['Boolean']['output'];
+    oppfyllerKravOmOpptjening: Scalars['Boolean']['output'];
+    opptjeningFra: Scalars['String']['output'];
+    sammenligningsgrunnlag?: Maybe<Scalars['Float']['output']>;
+    skjaeringstidspunkt: Scalars['String']['output'];
+    sykepengegrunnlag: Scalars['Float']['output'];
     sykepengegrunnlagsgrense: Sykepengegrunnlagsgrense;
     vilkarsgrunnlagtype: Vilkarsgrunnlagtype;
 };
@@ -984,8 +986,8 @@ export enum Vilkarsgrunnlagtype {
 
 export type Vurdering = {
     __typename?: 'Vurdering';
-    automatisk: Scalars['Boolean'];
-    godkjent: Scalars['Boolean'];
-    ident: Scalars['String'];
-    tidsstempel: Scalars['String'];
+    automatisk: Scalars['Boolean']['output'];
+    godkjent: Scalars['Boolean']['output'];
+    ident: Scalars['String']['output'];
+    tidsstempel: Scalars['String']['output'];
 };
