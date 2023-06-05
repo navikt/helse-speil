@@ -151,7 +151,7 @@ export const usePeriodForSkjæringstidspunktForArbeidsgiver = (
     const harSammeSkjæringstidspunkt = skjæringstidspunkt === periodeTilGodkjenning?.skjaeringstidspunkt;
 
     const aktivArbeidsgiverHarAktivPeriode = arbeidsgiverBeregnedePerioder.some(
-        (it) => it.id === periodeTilGodkjenning?.id,
+        (it) => it?.id !== undefined && it.id === periodeTilGodkjenning?.id,
     );
 
     return periodeTilGodkjenning &&
