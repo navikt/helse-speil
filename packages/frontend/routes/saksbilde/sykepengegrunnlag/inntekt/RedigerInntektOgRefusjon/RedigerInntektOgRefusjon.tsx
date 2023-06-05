@@ -6,7 +6,7 @@ import { SortInfoikon } from '@components/ikoner/SortInfoikon';
 import { Arbeidsgiver, BeregnetPeriode } from '@io/graphql';
 import { usePeriodForSkjæringstidspunktForArbeidsgiver } from '@state/arbeidsgiver';
 import { useCurrentPerson } from '@state/person';
-import { isInCurrentGeneration, isWaiting } from '@state/selectors/period';
+import { isInCurrentGeneration } from '@state/selectors/period';
 
 import { kanRedigereInntektEllerRefusjon } from './redigerInntektOgRefusjonUtils';
 
@@ -45,11 +45,7 @@ export const RedigerInntektOgRefusjon = ({
         />
     ) : (
         <PopoverHjelpetekst ikon={<SortInfoikon />}>
-            <p>
-                {isWaiting(periode)
-                    ? 'Det finnes andre endringer som må ferdigstilles før du kan endre inntekten'
-                    : 'Det er ikke mulig å overstyre sykepengegrunnlaget i denne saken. Meld saken til support'}
-            </p>
+            <p>Det er ikke mulig å overstyre sykepengegrunnlaget i denne saken. Meld saken til support</p>
         </PopoverHjelpetekst>
     );
 };

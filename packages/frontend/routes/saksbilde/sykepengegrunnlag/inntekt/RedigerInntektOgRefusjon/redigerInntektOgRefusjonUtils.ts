@@ -1,5 +1,4 @@
 import { Arbeidsgiver, Utbetalingstatus } from '@io/graphql';
-import { isWaiting } from '@state/selectors/period';
 import { isBeregnetPeriode } from '@utils/typeguards';
 
 export const perioderMedSkjæringstidspunktHarMaksÉnFagsystemId = (
@@ -19,8 +18,5 @@ export const kanRedigereInntektEllerRefusjon = (
     arbeidsgiver: Arbeidsgiver,
     periode: FetchedBeregnetPeriode,
 ): boolean => {
-    return (
-        !isWaiting(periode) &&
-        perioderMedSkjæringstidspunktHarMaksÉnFagsystemId(arbeidsgiver, periode.skjaeringstidspunkt)
-    );
+    return perioderMedSkjæringstidspunktHarMaksÉnFagsystemId(arbeidsgiver, periode.skjaeringstidspunkt);
 };

@@ -150,7 +150,14 @@ export const usePeriodForSkjæringstidspunktForArbeidsgiver = (
 
     const harSammeSkjæringstidspunkt = skjæringstidspunkt === periodeTilGodkjenning?.skjaeringstidspunkt;
 
-    return periodeTilGodkjenning && erAktivPeriodeLikEllerFørPeriodeTilGodkjenning && harSammeSkjæringstidspunkt
+    const aktivArbeidsgiverHarAktivPeriode = arbeidsgiverBeregnedePerioder.some(
+        (it) => it.id === periodeTilGodkjenning?.id,
+    );
+
+    return periodeTilGodkjenning &&
+        aktivArbeidsgiverHarAktivPeriode &&
+        erAktivPeriodeLikEllerFørPeriodeTilGodkjenning &&
+        harSammeSkjæringstidspunkt
         ? (periodeTilGodkjenning as ActivePeriod)
         : ((arbeidsgiver?.generasjoner[generasjon].perioder
               .filter((it) => it.skjaeringstidspunkt === skjæringstidspunkt)
