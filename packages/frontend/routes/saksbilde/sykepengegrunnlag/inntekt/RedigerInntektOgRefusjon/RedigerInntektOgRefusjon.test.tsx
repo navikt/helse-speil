@@ -38,13 +38,13 @@ describe('perioderMedSkjæringstidspunktHarKunÉnFagsystemId', () => {
 });
 
 describe('kanRedigereInntekt', () => {
-    it('returnerer false om perioden er ventende', () => {
+    it('returnerer true om perioden er ventende', () => {
         const periode = enBeregnetPeriode({ periodetilstand: Periodetilstand.VenterPaEnAnnenPeriode });
         const arbeidsgiver = enArbeidsgiver().medPerioder([periode]);
         const person = enPerson().medArbeidsgivere([arbeidsgiver]);
 
         expect(kanRedigereInntektEllerRefusjon(person as unknown as FetchedPerson, arbeidsgiver, periode)).toEqual(
-            false,
+            true,
         );
     });
 
