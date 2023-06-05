@@ -31,7 +31,7 @@ const useOppgaverFilteredByTab = () => {
     const { oid } = useInnloggetSaksbehandler();
     const aktivTab = useAktivTab();
     const oppgaver = useOppgaverLoadable();
-    const [cache, setCache] = useState<Oppgaver>([]);
+    const [cache, setCache] = useState<Oppgaver>(oppgaver.state === 'hasValue' ? oppgaver.contents : []);
 
     const filtrer = (oppgaver: Oppgaver): Oppgaver => {
         switch (aktivTab) {
