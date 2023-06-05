@@ -14,7 +14,7 @@ import {
     Varselstatus,
 } from '@io/graphql';
 import '@testing-library/jest-dom/extend-expect';
-import { renderHook } from '@testing-library/react-hooks';
+import { renderHook } from '@testing-library/react';
 
 const getFetchedBeregnetPeriode = (fom: string, tom: string, varsel?: VarselDto): FetchedBeregnetPeriode => {
     return {

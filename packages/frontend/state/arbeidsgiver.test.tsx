@@ -18,7 +18,7 @@ import { enArbeidsforholdoverstyring, enDagoverstyring, enInntektoverstyring } f
 import { enBeregnetPeriode, enGhostPeriode } from '@test-data/periode';
 import { enPerson } from '@test-data/person';
 import { enUtbetaling } from '@test-data/utbetaling';
-import { renderHook } from '@testing-library/react-hooks';
+import { renderHook } from '@testing-library/react';
 
 jest.mock('@state/person');
 jest.mock('@state/periode');

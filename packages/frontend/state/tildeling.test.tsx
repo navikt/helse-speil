@@ -12,7 +12,7 @@ import {
 import { fjernTildeling, opprettTildeling } from '@io/graphql/tildeling/endreTildeling';
 import { useFjernTildeling, useOpprettTildeling } from '@state/tildeling';
 import '@testing-library/jest-dom/extend-expect';
-import { act, renderHook } from '@testing-library/react-hooks';
+import { act, renderHook, waitFor } from '@testing-library/react';
 
 import { oppgaverState } from './oppgaver';
 
@@ -65,7 +65,7 @@ const wrapper: React.FC<ChildrenProps> = ({ children }) => <RecoilRoot>{children
 
 async function settOppOppgaver() {
     mockHentOppgaver();
-    const { result, waitFor } = renderHook(() => useRecoilValueLoadable(oppgaverState), {
+    const { result } = renderHook(() => useRecoilValueLoadable(oppgaverState), {
         wrapper,
     });
     await waitFor(() => {
