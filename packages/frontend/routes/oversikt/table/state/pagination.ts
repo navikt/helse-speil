@@ -11,6 +11,22 @@ type Pagination = {
     lastVisibleEntry: number;
 };
 
+function isPagination(value: unknown): value is Pagination {
+    if (typeof value !== 'object' || value === null) {
+        return false;
+    }
+
+    const pagination = value as Pagination;
+
+    return (
+        pagination.entriesPerPage !== undefined &&
+        pagination.currentPage !== undefined &&
+        pagination.numberOfPages !== undefined &&
+        pagination.firstVisibleEntry !== undefined &&
+        pagination.lastVisibleEntry !== undefined
+    );
+}
+
 type PaginationPerTab = { [key in TabType]: Pagination | null };
 
 const defaultPagination: Pagination = {
@@ -31,18 +47,17 @@ const paginationPerTab = atom<PaginationPerTab>({
     },
 });
 
-// @ts-ignore
 const pagination = selector<Pagination | null>({
     key: 'pagination',
     get: ({ get }) => {
         const tab = get(tabState);
         return get(paginationPerTab)[tab];
     },
-    set: ({ get, set }, newValue: Pagination | null) => {
+    set: ({ get, set }, newValue) => {
         const tab = get(tabState);
         set(paginationPerTab, (pagination) => ({
             ...pagination,
-            [tab]: newValue
+            [tab]: isPagination(newValue)
                 ? {
                       ...newValue,
                       firstVisibleEntry: (newValue.currentPage - 1) * newValue.entriesPerPage,
