@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { act } from 'react-dom/test-utils';
 
 import '@testing-library/jest-dom/extend-expect';
 import { cleanup, fireEvent, render, screen } from '@testing-library/react';
@@ -39,12 +40,12 @@ describe('useKeyboard', () => {
         fireEvent.keyDown(container, { code: Key.C, altKey: true });
         expect(container).toHaveTextContent(Key.C);
     });
-    test('registrerer ikke tastetrykk når et inputelement har fokus', () => {
+    test('registrerer ikke tastetrykk når et inputelement har fokus', async () => {
         render(<Consumer />);
         const container = screen.getByTestId('container');
         const input = screen.getByTestId('input');
         expect(container).toHaveTextContent('');
-        userEvent.tab();
+        await act(() => userEvent.tab());
         expect(input).toHaveFocus();
         fireEvent.keyDown(container, { code: Key.Right });
         expect(container).not.toHaveTextContent(Key.Right);

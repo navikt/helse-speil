@@ -12,6 +12,7 @@ module.exports = {
     moduleNameMapper: {
         '\\.(css|less|sass|scss)$': '__mocks__/styleMock.js',
         '\\.(gif|ttf|eot|svg|png|graphql\\?raw)$': '__mocks__/fileMock.js',
+        '^nanoid$': require.resolve('nanoid'),
         ...pathsToModuleNameMapper(compilerOptions.paths, { prefix: '<rootDir>/' }),
     },
     transformIgnorePatterns: ['<rootDir>/node_modules'],

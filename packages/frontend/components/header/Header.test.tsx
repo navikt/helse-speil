@@ -40,9 +40,9 @@ describe('Header', () => {
         cachedVarsel = null;
     });
 
-    it('legger til varsel ved ugyldig søk', () => {
+    it('legger til varsel ved ugyldig søk', async () => {
         render(<Header />, { wrapper: RecoilAndRouterWrapper });
-        userEvent.type(screen.getByRole('searchbox'), 'test');
+        await userEvent.type(screen.getByRole('searchbox'), 'test');
         fireEvent.submit(screen.getByRole('searchbox'));
         expect(cachedVarsel).not.toBeNull();
     });
