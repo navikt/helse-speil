@@ -144,7 +144,7 @@ export const usePeriodForSkjæringstidspunktForArbeidsgiver = (
 
     const arbeidsgiverBeregnedePerioder: Array<FetchedBeregnetPeriode> = arbeidsgiverPerioder.filter((it) =>
         isBeregnetPeriode(it),
-    );
+    ) as Array<FetchedBeregnetPeriode>;
 
     if (arbeidsgiverBeregnedePerioder.length === 0 && isGhostPeriode(arbeidsgiverGhostPerioder[0])) {
         return arbeidsgiverGhostPerioder[0] ?? null;
