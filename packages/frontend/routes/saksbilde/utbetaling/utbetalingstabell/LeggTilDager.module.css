@@ -1,0 +1,87 @@
+.LeggTilDager {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    align-items: flex-start;
+    margin-left: 2.1rem;
+    margin-top: -2rem;
+}
+
+.LeggTilDager > Button {
+    margin-top: 0.5rem;
+}
+
+.LeggTilDager.Viserpølsestrekk > Button {
+    margin-top: 0.75rem;
+}
+
+.LeggTilDager p {
+    white-space: nowrap;
+}
+
+.StrekkePølse {
+    display: flex;
+    flex-direction: row;
+    gap: 0.5rem;
+}
+
+.DateInput {
+    opacity: 1;
+}
+
+.DateInput :disabled {
+    opacity: 0.5;
+}
+
+.EndringForm label {
+    font-weight: normal;
+    font-size: 1rem;
+}
+
+.Inputs {
+    display: flex;
+    gap: 12px;
+    align-items: flex-end;
+}
+
+.StrekkePølse > .Button {
+    height: max-content;
+    align-self: end;
+}
+
+.Gradvelger {
+    width: 3rem;
+    -moz-appearance: textfield;
+    position: relative;
+}
+
+.Gradvelger input {
+    height: 32px;
+}
+
+.Gradvelger input:disabled {
+    opacity: 0.3;
+}
+
+.Gradvelger > div {
+    position: absolute;
+    bottom: -24px;
+}
+
+.Gradvelger > div > p {
+    white-space: nowrap;
+}
+
+.Gradvelger input[type='number']::-webkit-inner-spin-button,
+.Gradvelger input[type='number']::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    appearance: none;
+}
+
+.Dagtypevelger :global(.navds-select__input) {
+    padding: 0.15rem;
+}
+
+.Dagtypevelger :global(.navds-select__container) {
+    width: 137px;
+}

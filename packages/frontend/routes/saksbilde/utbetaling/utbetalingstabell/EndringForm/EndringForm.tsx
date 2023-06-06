@@ -14,7 +14,8 @@ const dagtyperUtenGradering: Array<Utbetalingstabelldagtype> = ['Arbeid', 'Ferie
 const harEndring = (endring: Partial<UtbetalingstabellDag>): boolean =>
     typeof endring.type === 'string' || typeof endring.grad === 'number';
 
-const kanVelgeGrad = (type?: Utbetalingstabelldagtype) => type && dagtyperUtenGradering.every((it) => it !== type);
+export const kanVelgeGrad = (type?: Utbetalingstabelldagtype) =>
+    type && dagtyperUtenGradering.every((it) => it !== type);
 
 interface EndringFormProps {
     markerteDager: Map<string, UtbetalingstabellDag>;

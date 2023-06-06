@@ -6,3 +6,12 @@ export const typeendringer: Utbetalingstabelldagtype[] = [
     'Permisjon',
     'Arbeid',
 ];
+
+export enum OverstyrbarDagtype {
+    Syk = 'Syk',
+    SykNAV = 'Syk (NAV)',
+    Ferie = 'Ferie',
+    Egenmelding = 'Egenmelding',
+    Permisjon = 'Permisjon',
+    Arbeid = 'Arbeid',
+}

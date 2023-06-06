@@ -1,7 +1,6 @@
 import styled from '@emotion/styled';
 import React, { useMemo } from 'react';
 
-import { Bold } from '@components/Bold';
 import { EditButton } from '@components/EditButton';
 import { Flex } from '@components/Flex';
 import { PopoverHjelpetekst } from '@components/PopoverHjelpetekst';
@@ -75,11 +74,6 @@ export const UtbetalingHeader: React.FC<UtbetalingHeaderProps> = ({
                         <p>Det er foreløpig ikke mulig å gjøre endringer når hele perioden består av avslåtte dager</p>
                     </PopoverHjelpetekst>
                 </InfobobleContainer>
-            ) : overstyrer ? (
-                <OverstyringHeader>
-                    <Bold>Huk av for dagene som skal endres til samme verdi</Bold>
-                    {editButton}
-                </OverstyringHeader>
             ) : (
                 editButton
             )}

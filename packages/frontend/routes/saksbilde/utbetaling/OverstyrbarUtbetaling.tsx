@@ -6,8 +6,10 @@ import { BodyShort } from '@navikt/ds-react';
 
 import { OverstyringTimeoutModal } from '@components/OverstyringTimeoutModal';
 import { useMap } from '@hooks/useMap';
+import { kanStrekkePølser } from '@utils/featureToggles';
 
 import { EndringForm } from './utbetalingstabell/EndringForm/EndringForm';
+import { LeggTilDager } from './utbetalingstabell/LeggTilDager';
 import { MarkerAlleDagerCheckbox } from './utbetalingstabell/MarkerAlleDagerCheckbox';
 import { OverstyringForm } from './utbetalingstabell/OverstyringForm';
 import { RadmarkeringCheckbox } from './utbetalingstabell/RadmarkeringCheckbox';
@@ -47,17 +49,23 @@ export const OverstyrbarUtbetaling: React.FC<OverstyrbarUtbetalingProps> = ({
 
     const [markerteDager, setMarkerteDager] = useMap<string, UtbetalingstabellDag>();
     const [overstyrteDager, setOverstyrteDager] = useMap<string, UtbetalingstabellDag>();
+    const [nyeDager, setNyeDager] = useMap<string, UtbetalingstabellDag>();
+
+    const alleDager = new Map<string, UtbetalingstabellDag>([...nyeDager, ...dager]);
+    const alleOverstyrteDager = new Map<string, UtbetalingstabellDag>([...nyeDager, ...overstyrteDager]);
 
     const toggleOverstyring = () => {
         setMarkerteDager(new Map());
         setOverstyrteDager(new Map());
+        setNyeDager(new Map());
         setOverstyrer(!overstyrer);
     };
 
     const onSubmitOverstyring = () => {
         postOverstyring(
-            Array.from(dager.values()),
-            Array.from(overstyrteDager.values()),
+            Array.from(alleDager.values()),
+            Array.from(alleOverstyrteDager.values()),
+            Array.from(nyeDager.values()),
             form.getValues('begrunnelse'),
             () => setOverstyrer(!overstyrer),
         );
@@ -88,6 +96,16 @@ export const OverstyrbarUtbetaling: React.FC<OverstyrbarUtbetalingProps> = ({
         setMarkerteDager(new Map());
     };
 
+    const onSubmitPølsestrekk = (dagerLagtTil: Map<string, UtbetalingstabellDag>) => {
+        const alleNyeDager = new Map<string, UtbetalingstabellDag>([...dagerLagtTil, ...nyeDager]);
+        setNyeDager(alleNyeDager);
+    };
+
+    const slettSisteNyeDag = () => {
+        const tempNyeDager = Array.from(nyeDager).slice(1);
+        setNyeDager(new Map(tempNyeDager));
+    };
+
     useEffect(() => {
         if (state === 'done') {
             setOverstyrteDager(new Map());
@@ -107,24 +125,31 @@ export const OverstyrbarUtbetaling: React.FC<OverstyrbarUtbetalingProps> = ({
                 revurderingIsEnabled={revurderingIsEnabled}
                 overstyrRevurderingIsEnabled={overstyrRevurderingIsEnabled}
             />
+            {overstyrer && kanStrekkePølser && (
+                <LeggTilDager
+                    periodeFom={Array.from(alleDager.values())[0].dato}
+                    onSubmitPølsestrekk={onSubmitPølsestrekk}
+                />
+            )}
             <div className={classNames(styles.TableContainer)}>
                 <Utbetalingstabell
                     fom={fom}
                     tom={tom}
-                    dager={dager}
+                    dager={alleDager}
                     lokaleOverstyringer={overstyrteDager}
                     markerteDager={markerteDager}
                     overstyrer={overstyrer}
+                    slettSisteNyeDag={slettSisteNyeDag}
                 />
                 {overstyrer && (
                     <>
                         <div className={styles.CheckboxContainer}>
                             <MarkerAlleDagerCheckbox
-                                alleDager={dager}
+                                alleDager={alleDager}
                                 markerteDager={markerteDager}
                                 setMarkerteDager={setMarkerteDager}
                             />
-                            {Array.from(dager.values()).map((dag, i) => (
+                            {Array.from(alleDager.values()).map((dag, i) => (
                                 <RadmarkeringCheckbox
                                     key={i}
                                     index={i}
@@ -138,7 +163,7 @@ export const OverstyrbarUtbetaling: React.FC<OverstyrbarUtbetalingProps> = ({
                         <FormProvider {...form}>
                             <form onSubmit={(event) => event.preventDefault()}>
                                 <OverstyringForm
-                                    overstyrteDager={overstyrteDager}
+                                    overstyrteDager={alleOverstyrteDager}
                                     toggleOverstyring={toggleOverstyring}
                                     onSubmit={onSubmitOverstyring}
                                 />

@@ -14,6 +14,7 @@ import { DateCell } from './DateCell';
 import { GradCell } from './GradCell';
 import { KildeCell } from './KildeCell';
 import { MerknaderCell } from './MerknaderCell';
+import { SlettNyDagCell } from './SlettNyDagCell';
 import { TotalGradCell } from './TotalGradCell';
 import { TotalRow } from './TotalRow';
 import { UtbetalingCell } from './UtbetalingCell';
@@ -27,6 +28,7 @@ interface UtbetalingstabellProps {
     lokaleOverstyringer?: Map<string, UtbetalingstabellDag>;
     markerteDager?: Map<string, UtbetalingstabellDag>;
     overstyrer?: boolean;
+    slettSisteNyeDag?: () => void;
 }
 
 export const Utbetalingstabell = ({
@@ -36,6 +38,7 @@ export const Utbetalingstabell = ({
     lokaleOverstyringer,
     markerteDager,
     overstyrer = false,
+    slettSisteNyeDag,
 }: UtbetalingstabellProps) => {
     const formattedFom = getFormattedDateString(fom);
     const formattedTom = getFormattedDateString(tom);
@@ -84,6 +87,7 @@ export const Utbetalingstabell = ({
                             <Header scope="col" colSpan={1}>
                                 Merknader
                             </Header>
+                            {overstyrer && <Header scope="col" colSpan={1} />}
                         </tr>
                     </thead>
                     <tbody>
@@ -95,6 +99,7 @@ export const Utbetalingstabell = ({
                                 type={dag.type}
                                 key={i}
                                 markertDag={markerteDager?.get(dag.dato)}
+                                nyDag={dag.kilde.type === 'SAKSBEHANDLER' && dag.kilde.id == undefined}
                             >
                                 <DateCell date={dag.dato} />
                                 <DagtypeCell dag={dag} overstyrtDag={lokaleOverstyringer?.get(dag.dato)} />
@@ -127,6 +132,13 @@ export const Utbetalingstabell = ({
                                     dag={dag}
                                     alderVedSkjæringstidspunkt={alderVedSkjæringstidspunkt}
                                 />
+                                {overstyrer && (
+                                    <SlettNyDagCell
+                                        slettSisteNyeDag={slettSisteNyeDag}
+                                        nyDag={dag.kilde.type === 'SAKSBEHANDLER' && dag.kilde.id == undefined}
+                                        visSlettKnapp={i === 0}
+                                    />
+                                )}
                             </Row>
                         ))}
                     </tbody>

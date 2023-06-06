@@ -9,6 +9,7 @@ interface RowProps {
     erAGP?: boolean;
     type?: Utbetalingstabelldagtype;
     markertDag?: UtbetalingstabellDag;
+    nyDag?: boolean;
 }
 
 const leftAlignedLine = (color: string) => css`
@@ -54,6 +55,12 @@ const arbeidsgiverperiodeStyle = (props: RowProps) =>
         ${leftAlignedLine('var(--a-text-subtle)')}
     `;
 
+const nydagStyle = (props: RowProps) =>
+    props.nyDag &&
+    css`
+        background-color: #fff;
+    `;
+
 export const Row = styled.tr<RowProps>`
     position: relative;
 
@@ -74,4 +81,5 @@ export const Row = styled.tr<RowProps>`
     ${helgStyle};
     ${avvistStyle};
     ${arbeidsgiverperiodeStyle};
+    ${nydagStyle};
 `;

@@ -32,6 +32,7 @@ export const TotalRow = React.memo(({ dager, overstyrer }: TotalRowProps) => {
             <UtbetalingCell style={{ fontWeight: 'bold' }} utbetaling={personbeløpTotal} />
             <td />
             <td />
+            {overstyrer && <td />}
         </Row>
     );
 });
