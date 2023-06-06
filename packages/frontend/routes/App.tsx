@@ -1,8 +1,7 @@
 import React, { PropsWithChildren, lazy, useEffect } from 'react';
 import { Helmet } from 'react-helmet';
 import ReactModal from 'react-modal';
-import { Redirect } from 'react-router';
-import { BrowserRouter, Route, Switch, useLocation } from 'react-router-dom';
+import { BrowserRouter, Redirect, Route, Switch, useLocation } from 'react-router-dom';
 import { RecoilRoot } from 'recoil';
 import 'reset-css';
 

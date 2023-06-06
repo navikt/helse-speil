@@ -1,4 +1,4 @@
-import { useHistory } from 'react-router';
+import { useHistory } from 'react-router-dom';
 
 import { usePersonLoadable } from '@state/person';
 import { isPerson } from '@utils/typeguards';

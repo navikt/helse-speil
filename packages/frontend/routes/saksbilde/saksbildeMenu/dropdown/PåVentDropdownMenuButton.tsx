@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useHistory } from 'react-router';
+import { useHistory } from 'react-router-dom';
 
 import { Loader } from '@navikt/ds-react';
 import { Dropdown } from '@navikt/ds-react-internal';

@@ -1,5 +1,5 @@
 import React from 'react';
-import { MemoryRouter } from 'react-router';
+import { MemoryRouter } from 'react-router-dom';
 import { MutableSnapshot, RecoilRoot } from 'recoil';
 
 interface RecoilProps {
