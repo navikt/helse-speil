@@ -15,8 +15,9 @@ import { DropdownMenu } from './dropdown/DropdownMenu';
 
 import styles from './SaksbildeMenu.module.css';
 
-// @ts-ignore
-const HistorikkHeader = React.lazy(() => import('../historikk').catch(onLazyLoadFail));
+const HistorikkHeader = React.lazy(() =>
+    import('../historikk/HistorikkHeader.js').then((res) => ({ default: res.HistorikkHeader })).catch(onLazyLoadFail),
+);
 
 const SaksbildeMenuGhostPeriode: React.FC = () => (
     <div className={styles.SaksbildeMenu}>
