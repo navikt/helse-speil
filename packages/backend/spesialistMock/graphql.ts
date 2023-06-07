@@ -1,7 +1,7 @@
 import { Express } from 'express';
-import { graphqlHTTP } from 'express-graphql';
 import fs from 'fs';
 import { GraphQLError, GraphQLSchema, IntrospectionQuery, buildClientSchema } from 'graphql';
+import { createYoga } from 'graphql-yoga';
 import path from 'path';
 
 import { makeExecutableSchema } from '@graphql-tools/schema';
@@ -217,5 +217,9 @@ const buildSchema = (): GraphQLSchema => {
 
 export const setUpGraphQLMiddleware = (app: Express) => {
     const schema = buildSchema();
-    app.use('/graphql', graphqlHTTP({ schema: schema, graphiql: true }));
+    const yoga = createYoga({
+        schema,
+        graphiql: true,
+    });
+    app.use('/graphql', yoga);
 };
