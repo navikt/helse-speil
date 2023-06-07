@@ -127,8 +127,7 @@ export const getOverstyringerForEksisterendePerioder = (person: FetchedPerson, a
                             dayjs(overstyring.dager[0].dato).isSameOrBefore(periode.tom),
                     ).length !== 0
                 );
-            } else {
-                return isArbeidsforholdoverstyring(overstyring) && overstyring.deaktivert;
             }
+            return true;
         });
 };
