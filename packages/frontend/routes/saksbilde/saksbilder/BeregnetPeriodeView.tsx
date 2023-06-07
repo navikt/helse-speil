@@ -68,18 +68,15 @@ export const BeregnetPeriodeView: React.FC<BeregnetPeriodeViewProps> = ({ period
     const vilkårsgrunnlag = useVilkårsgrunnlag(person, activePeriod);
 
     const navnPåDeaktiverteGhostArbeidsgivere = isSpleisVilkarsgrunnlag(vilkårsgrunnlag)
-        ? vilkårsgrunnlag.inntekter
-              .map(
-                  (inntekt) =>
-                      person.arbeidsgivere.find(
-                          (it) =>
-                              it.overstyringer.find(
-                                  (overstyring) =>
-                                      isArbeidsforholdoverstyring(overstyring) &&
-                                      !(overstyring as Arbeidsforholdoverstyring).ferdigstilt,
-                              ) && it.organisasjonsnummer === inntekt.arbeidsgiver,
-                      )?.navn,
+        ? person.arbeidsgivere
+              .filter((arbeidsgiver) =>
+                  arbeidsgiver.overstyringer.find(
+                      (overstyring) =>
+                          isArbeidsforholdoverstyring(overstyring) &&
+                          !(overstyring as Arbeidsforholdoverstyring).ferdigstilt,
+                  ),
               )
+              .flatMap((arbeidsgiver) => arbeidsgiver.navn)
               .join(', ')
         : undefined;
 
