@@ -130,7 +130,6 @@ const getResolvers = (): IResolvers => ({
             return VarselMock.settVarselstatusAktiv({ generasjonIdString, varselkode, ident });
         },
         opprettTildeling: async (_, { oppgaveId }: MutationOpprettTildelingArgs) => {
-            TildelingMock.debug();
             if (TildelingMock.harTildeling(oppgaveId)) {
                 return new GraphQLError('Oppgave allerede tildelt', null, null, null, null, null, {
                     code: { value: 409 },
@@ -156,7 +155,6 @@ const getResolvers = (): IResolvers => ({
                 oid: 'uuid',
                 reservert: OppgaveMock.getOppgave(oppgaveId)?.erPåVent ?? false,
             });
-            TildelingMock.debug();
 
             return TildelingMock.getTildeling(oppgaveId);
         },
