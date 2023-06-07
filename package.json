@@ -16,7 +16,7 @@
         "test": "lerna run test --stream",
         "test-ci": "lerna run test-ci --stream",
         "clean": "lerna run clean --stream && npx jest --clearCache && rimraf node_modules",
-        "bootstrap": "npm i && lerna bootstrap -- --legacy-peer-deps",
+        "bootstrap": "npm i && lerna bootstrap",
         "generate-graphql": "graphql-codegen --config graphql-codegen.yml",
         "prepare": "husky install"
     },
