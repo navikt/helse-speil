@@ -1,5 +1,4 @@
 import classNames from 'classnames';
-// @ts-ignore
 import { AnimatePresence, motion } from 'framer-motion';
 import React, { useReducer } from 'react';
 

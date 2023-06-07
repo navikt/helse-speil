@@ -1,7 +1,6 @@
 import styled from '@emotion/styled';
-// @ts-ignore
 import { AnimatePresence, motion } from 'framer-motion';
-import React, { ReactChild, useEffect, useRef, useState } from 'react';
+import React, { PropsWithChildren, useEffect, useRef, useState } from 'react';
 
 import { Copy } from '@navikt/ds-icons';
 import { BodyShort, Tooltip, TooltipProps } from '@navikt/ds-react';
@@ -68,8 +67,7 @@ const TooltipWrapper: React.FC<TooltipWrapperProps> = ({ props, children }) => {
     return <Tooltip {...props}>{children}</Tooltip>;
 };
 
-interface Props {
-    children: ReactChild;
+interface Props extends PropsWithChildren {
     copySource?: React.RefObject<HTMLElement>;
     preserveWhitespace?: boolean;
     copyMessage?: string;
