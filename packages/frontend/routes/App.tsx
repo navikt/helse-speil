@@ -1,7 +1,7 @@
 import React, { PropsWithChildren, lazy, useEffect } from 'react';
 import { Helmet } from 'react-helmet';
 import ReactModal from 'react-modal';
-import { BrowserRouter, Redirect, Route, Switch, useLocation } from 'react-router-dom';
+import { BrowserRouter, Navigate, Route, Routes, useLocation } from 'react-router-dom';
 import { RecoilRoot } from 'recoil';
 import 'reset-css';
 
@@ -19,7 +19,7 @@ import { erDev, erLocal } from '@utils/featureToggles';
 import { GlobalFeilside } from './GlobalFeilside';
 import { IkkeLoggetInn } from './IkkeLoggetInn';
 import { PageNotFound } from './PageNotFound';
-import { Routes } from './index';
+import { AppRoutes } from './index';
 
 import './App.css';
 
@@ -68,46 +68,40 @@ const App = () => {
             </Helmet>
             <Header />
             <Varsler />
-            <Switch>
-                <Route path={Routes.Uautorisert}>
-                    <IkkeLoggetInn />
-                </Route>
+            <Routes>
+                <Route path={AppRoutes.Uautorisert} element={<IkkeLoggetInn />} />
                 <Route
-                    path={Routes.Oversikt}
-                    render={() => (
+                    path={`${AppRoutes.Oversikt}/*`}
+                    element={
                         <RequireAuth>
                             <React.Suspense fallback={<div />}>
                                 <Oversikt />
                             </React.Suspense>
                         </RequireAuth>
-                    )}
-                    exact
+                    }
                 />
                 <Route
-                    path={Routes.Saksbilde}
-                    render={() => (
+                    path={AppRoutes.Saksbilde}
+                    element={
                         <RequireAuth>
                             <React.Suspense fallback={<div />}>
                                 <Saksbilde />
                             </React.Suspense>
-                            )
                         </RequireAuth>
-                    )}
+                    }
                 />
                 <Route
-                    path={Routes.Playground}
-                    render={() => (
+                    path={AppRoutes.Playground}
+                    element={
                         <RequireAuth>
                             <React.Suspense fallback={<div />}>
                                 <GraphQLPlayground />
                             </React.Suspense>
                         </RequireAuth>
-                    )}
+                    }
                 />
-                <Route path="*">
-                    <PageNotFound />
-                </Route>
-            </Switch>
+                <Route path="*" element={<PageNotFound />} />
+            </Routes>
             <Toasts />
         </ErrorBoundary>
     );
@@ -115,7 +109,7 @@ const App = () => {
 
 const RequireAuth = ({ children }: PropsWithChildren) => {
     const { isLoggedIn } = useAuthentication();
-    return isLoggedIn !== false ? children : <Redirect to="/uautorisert" />;
+    return isLoggedIn !== false ? children : <Navigate to="/uautorisert" />;
 };
 
 export const AppWithRoutingAndState = () => (

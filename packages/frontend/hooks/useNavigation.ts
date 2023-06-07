@@ -1,4 +1,4 @@
-import { useHistory } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 import { usePersonLoadable } from '@state/person';
 import { isPerson } from '@utils/typeguards';
@@ -32,20 +32,21 @@ const useCurrentAktørId = (): string | null => {
 };
 
 export const useNavigation = (): Navigation => {
-    const history = useHistory();
+    const location = useLocation();
+    const navigate = useNavigate();
     const currentAktørId = useCurrentAktørId();
 
-    const currentLocation = locationFromCurrentPath(decodeURIComponent(history.location.pathname), locations);
+    const currentLocation = locationFromCurrentPath(decodeURIComponent(location.pathname), locations);
 
     const canNavigateToNext = currentLocation !== locations.length - 1;
 
     const canNavigateToPrevious = currentLocation !== 0;
 
-    const navigateTo = (location: Location, aktørId: string | null = currentAktørId) => {
-        const destination = `/person/${aktørId}${locations[location]}`;
-        const current = history.location.pathname;
+    const navigateTo = (targetLocation: Location, aktørId: string | null = currentAktørId) => {
+        const destination = `/person/${aktørId}${locations[targetLocation]}`;
+        const current = location.pathname;
         if (destination !== current) {
-            history.push(destination);
+            navigate(destination);
         }
     };
 

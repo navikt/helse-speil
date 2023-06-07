@@ -1,5 +1,5 @@
 import React, { FormEvent, useRef, useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import { Search } from '@navikt/ds-react';
 
@@ -15,7 +15,7 @@ export const Personsøk: React.FC = () => {
     const fetchPerson = useFetchPerson();
     const removeVarsel = useRemoveVarsel();
     const addVarsel = useAddVarsel();
-    const history = useHistory();
+    const navigate = useNavigate();
     const [isFetching, setIsFetching] = useState(false);
 
     useLoadingToast({ isLoading: isFetching, message: 'Henter person' });
@@ -42,7 +42,7 @@ export const Personsøk: React.FC = () => {
                         return;
                     }
                     if (personState?.person) {
-                        history.push(`/person/${personState.person.aktorId}/utbetaling`);
+                        navigate(`/person/${personState.person.aktorId}/utbetaling`);
                     }
                 })
                 .finally(() => {

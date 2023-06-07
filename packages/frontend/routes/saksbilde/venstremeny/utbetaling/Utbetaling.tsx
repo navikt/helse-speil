@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import React, { useEffect, useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 
 import { BodyShort, Loader } from '@navikt/ds-react';
@@ -49,7 +49,7 @@ const hasOppgave = (period: FetchedBeregnetPeriode): boolean =>
     typeof period.oppgave?.id === 'string' && ['tilGodkjenning', 'revurderes'].includes(getPeriodState(period));
 
 const useOnGodkjenn = (period: FetchedBeregnetPeriode, person: FetchedPerson): (() => void) => {
-    const history = useHistory();
+    const navigate = useNavigate();
     const setOpptegnelsePollingTime = useSetRecoilState(opptegnelsePollingTimeState);
 
     return () => {
@@ -58,14 +58,14 @@ const useOnGodkjenn = (period: FetchedBeregnetPeriode, person: FetchedPerson): (
                 setOpptegnelsePollingTime(1000);
             });
         } else {
-            history.push('/');
+            navigate('/');
         }
     };
 };
 
 const useOnAvvis = (): (() => void) => {
-    const history = useHistory();
-    return () => history.push('/');
+    const navigate = useNavigate();
+    return () => navigate('/');
 };
 
 const useHarOverstyringerEtterSisteGodkjenteUtbetaling = (person: FetchedPerson): boolean => {
@@ -88,7 +88,7 @@ export const Utbetaling = ({ period, person, arbeidsgiver }: UtbetalingProps) =>
     const [godkjentPeriode, setGodkjentPeriode] = useState<string | undefined>();
     const lokaleInntektoverstyringer = useRecoilValue(inntektOgRefusjonState);
     const ventEllerHopp = useOnGodkjenn(period, person);
-    const history = useHistory();
+    const navigate = useNavigate();
     const totrinnsvurderingAktiv = useTotrinnsvurderingErAktiv();
     const erBeslutteroppgaveOgHarTilgang = useErBeslutteroppgaveOgHarTilgang();
     const harOverstyringerEtterSisteGodkjenteUtbetaling = useHarOverstyringerEtterSisteGodkjenteUtbetaling(person);
@@ -102,7 +102,7 @@ export const Utbetaling = ({ period, person, arbeidsgiver }: UtbetalingProps) =>
     };
     const onSendTilGodkjenning = () => {
         setGodkjentPeriode(period.vedtaksperiodeId);
-        history.push('/');
+        navigate('/');
     };
     const onAvvisUtbetaling = useOnAvvis();
 

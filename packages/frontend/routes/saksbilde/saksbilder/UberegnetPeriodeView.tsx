@@ -1,5 +1,5 @@
 import React, { ReactNode } from 'react';
-import { Route, Switch, useRouteMatch } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 
 import { Alert, Loader } from '@navikt/ds-react';
 
@@ -81,8 +81,6 @@ interface UberegnetPeriodeViewProps {
 export const UberegnetPeriodeView = ({ activePeriod }: UberegnetPeriodeViewProps) => {
     const errorMelding = getErrorMessage(activePeriod);
 
-    const { path } = useRouteMatch();
-
     return (
         <>
             <Venstremeny />
@@ -90,13 +88,11 @@ export const UberegnetPeriodeView = ({ activePeriod }: UberegnetPeriodeViewProps
                 {errorMelding}
                 <Saksbildevarsler periodState={getPeriodState(activePeriod)} varsler={activePeriod.varsler} />
                 <div className={styles.RouteContainer}>
-                    <Switch>
-                        <React.Suspense fallback={<UberegnetPeriodeViewLoader />}>
-                            <Route path={`${path}/utbetaling`}>
-                                <Utbetaling />
-                            </Route>
-                        </React.Suspense>
-                    </Switch>
+                    <React.Suspense fallback={<UberegnetPeriodeViewLoader />}>
+                        <Routes>
+                            <Route path="utbetaling" element={<Utbetaling />} />
+                        </Routes>
+                    </React.Suspense>
                 </div>
             </div>
             <Historikk />

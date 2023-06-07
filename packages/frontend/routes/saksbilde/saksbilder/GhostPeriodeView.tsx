@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route, Switch, useRouteMatch } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 
 import { useNavigateOnMount } from '@hooks/useNavigateOnMount';
 import { Location } from '@hooks/useNavigation';
@@ -22,8 +22,6 @@ export const GhostPeriodeView: React.FC<GhostPeriodeViewProps> = ({ activePeriod
         throw Error('Mangler skjæringstidspunkt eller vilkårsgrunnlag. Ta kontakt med en utvikler.');
     }
 
-    const { path } = useRouteMatch();
-
     useNavigateOnMount(Location.Sykepengegrunnlag);
 
     return (
@@ -34,13 +32,16 @@ export const GhostPeriodeView: React.FC<GhostPeriodeViewProps> = ({ activePeriod
                     periodState={getPeriodState(activePeriod)}
                     skjæringstidspunkt={activePeriod.skjaeringstidspunkt}
                 />
-                <Switch>
-                    <Route path={`${path}/sykepengegrunnlag`}>
-                        <div className={styles.RouteContainer}>
-                            <Sykepengegrunnlag />
-                        </div>
-                    </Route>
-                </Switch>
+                <Routes>
+                    <Route
+                        path="sykepengegrunnlag"
+                        element={
+                            <div className={styles.RouteContainer}>
+                                <Sykepengegrunnlag />
+                            </div>
+                        }
+                    />
+                </Routes>
             </div>
             <Historikk />
         </>

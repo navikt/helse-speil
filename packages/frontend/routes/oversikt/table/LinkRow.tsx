@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import { useLoadingToast } from '@hooks/useLoadingToast';
 import { useFetchPerson } from '@state/person';
@@ -22,7 +22,7 @@ interface LinkRowProps extends React.HTMLAttributes<HTMLTableRowElement> {
 
 export const LinkRow = ({ aktørId, children, ...rest }: LinkRowProps) => {
     const ref = useRef<HTMLTableRowElement>(null);
-    const history = useHistory();
+    const doNavigate = useNavigate();
     const fetchPerson = useFetchPerson();
     const [isFetching, setIsFetching] = useState(false);
 
@@ -40,7 +40,7 @@ export const LinkRow = ({ aktørId, children, ...rest }: LinkRowProps) => {
                 if (shouldOpenInNewTab(event)) {
                     window.open(destinationUrl, '_blank');
                 } else {
-                    history.push(destinationUrl);
+                    doNavigate(destinationUrl);
                 }
             })
             .finally(() => {

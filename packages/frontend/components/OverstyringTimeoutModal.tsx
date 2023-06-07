@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import React, { useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import { Button } from '@navikt/ds-react';
 
@@ -31,11 +31,11 @@ interface Props {
 }
 
 export const OverstyringTimeoutModal = ({ onRequestClose }: Props) => {
-    const history = useHistory();
+    const navigate = useNavigate();
     const [open, setOpen] = useState(true);
 
     const redirectTilOversikten = () => {
-        history.push('/');
+        navigate('/');
     };
 
     const closeModal = () => {

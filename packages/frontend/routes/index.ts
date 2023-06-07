@@ -1,6 +1,6 @@
-export const Routes = {
+export const AppRoutes = {
     Oversikt: '/',
-    Saksbilde: '/person/:aktorId',
+    Saksbilde: '/person/:aktorId/*',
     Utbetalingshistorikk: '/utbetalingshistorikk',
     Uautorisert: '/uautorisert',
     Playground: '/playground',

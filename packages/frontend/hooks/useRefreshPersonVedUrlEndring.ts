@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { useHistory, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 import { Person } from '@io/graphql';
 import { NotFoundError } from '@io/graphql/errors';
@@ -19,7 +19,7 @@ export const useRefreshPersonVedUrlEndring = () => {
     const { aktorId } = useParams<{ aktorId: string }>();
     const addVarsel = useAddVarsel();
     const removeVarsel = useRemoveVarsel();
-    const history = useHistory();
+    const navigate = useNavigate();
     const { state, contents } = usePersonLoadable();
 
     const fetchPerson = useFetchPerson();
@@ -30,7 +30,7 @@ export const useRefreshPersonVedUrlEndring = () => {
                 removeVarsel(HENT_PERSON_ERROR_KEY);
                 fetchPerson(aktorId).then((personState) => {
                     if (personState?.person?.arbeidsgivere.length === 0) {
-                        history.push('/');
+                        navigate('/');
                         addVarsel(new NotFoundError());
                         return;
                     }

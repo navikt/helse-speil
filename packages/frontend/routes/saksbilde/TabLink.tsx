@@ -1,7 +1,7 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import React, { ReactNode } from 'react';
-import { useHistory, useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 import { TabButton } from '@components/TabButton';
 
@@ -48,14 +48,19 @@ interface TabLinkProps {
 
 export const TabLink = ({ children, to, disabled, title }: TabLinkProps) => {
     const location = useLocation();
-    const history = useHistory();
+    const navigate = useNavigate();
 
     return disabled || !to ? (
         <DisabledTabLink disabled>
             <Content title={title}>{children}</Content>
         </DisabledTabLink>
     ) : (
-        <TabLinkButton role="link" data-href={to} onClick={() => history.push(to)} active={location.pathname === to}>
+        <TabLinkButton
+            role="link"
+            data-href={to}
+            onClick={() => navigate(to)}
+            active={location.pathname.replace('%C3%A5', 'å') === to}
+        >
             <Content className="content" title={title}>
                 {children}
             </Content>

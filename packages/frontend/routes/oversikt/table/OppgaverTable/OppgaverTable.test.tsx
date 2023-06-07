@@ -1,4 +1,4 @@
-import { RecoilWrapper } from '@test-wrappers';
+import { RecoilAndRouterWrapper } from '@test-wrappers';
 import { axe } from 'jest-axe';
 import React from 'react';
 
@@ -11,7 +11,7 @@ describe('OppgaverTable', () => {
     it('rendres uten violations', async () => {
         const oppgaver = [enOppgaveForOversikten()];
 
-        const { container } = render(<OppgaverTable oppgaver={oppgaver} />, { wrapper: RecoilWrapper });
+        const { container } = render(<OppgaverTable oppgaver={oppgaver} />, { wrapper: RecoilAndRouterWrapper });
 
         const result = await axe(container);
 
@@ -21,7 +21,7 @@ describe('OppgaverTable', () => {
 it('rendrer alle headere', () => {
     const oppgaver = [enOppgaveForOversikten()];
 
-    render(<OppgaverTable oppgaver={oppgaver} />, { wrapper: RecoilWrapper });
+    render(<OppgaverTable oppgaver={oppgaver} />, { wrapper: RecoilAndRouterWrapper });
 
     expect(
         screen.getByText(

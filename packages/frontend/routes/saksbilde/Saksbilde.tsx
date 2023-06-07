@@ -1,6 +1,6 @@
 import { VenterPåEndringProvider } from './VenterPåEndringContext';
 import React from 'react';
-import { Route, Switch, useRouteMatch } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 
 import { Alert } from '@navikt/ds-react';
 
@@ -29,8 +29,6 @@ const SaksbildeContent = React.memo(() => {
     useVarselOmSakErTildeltAnnenSaksbehandler();
     useKeyboardShortcuts();
 
-    const { path } = useRouteMatch();
-
     return (
         <div className={styles.Saksbilde}>
             <PersonHeader />
@@ -38,14 +36,10 @@ const SaksbildeContent = React.memo(() => {
             <AmplitudeProvider>
                 <VenterPåEndringProvider>
                     <SaksbildeMenu />
-                    <Switch>
-                        <Route path={`${path}/utbetalingshistorikk`}>
-                            <Utbetalingshistorikk />
-                        </Route>
-                        <Route>
-                            <PeriodeView />
-                        </Route>
-                    </Switch>
+                    <Routes>
+                        <Route path="utbetalingshistorikk" element={<Utbetalingshistorikk />} />
+                        <Route path="/*" element={<PeriodeView />} />
+                    </Routes>
                 </VenterPåEndringProvider>
             </AmplitudeProvider>
         </div>

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route, Switch, useRouteMatch } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 
 import { Loader } from '@navikt/ds-react';
 
@@ -52,8 +52,6 @@ export const BeregnetPeriodeView: React.FC<BeregnetPeriodeViewProps> = ({ period
         throw Error('Mangler skjæringstidspunkt eller vilkårsgrunnlag. Ta kontakt med en utvikler.');
     }
 
-    const { path } = useRouteMatch();
-
     useSyncNotater([period.vedtaksperiodeId]);
 
     const erTidligereSaksbehandler = useErTidligereSaksbehandler();
@@ -89,22 +87,14 @@ export const BeregnetPeriodeView: React.FC<BeregnetPeriodeViewProps> = ({ period
                     navnPåDeaktiverteGhostArbeidsgivere={navnPåDeaktiverteGhostArbeidsgivere}
                 />
                 <div className={styles.RouteContainer}>
-                    <Switch>
-                        <React.Suspense fallback={<BeregnetPeriodeViewLoader />}>
-                            <Route path={`${path}/utbetaling`}>
-                                <Utbetaling />
-                            </Route>
-                            <Route path={`${path}/inngangsvilkår`}>
-                                <Inngangsvilkår />
-                            </Route>
-                            <Route path={`${path}/sykepengegrunnlag`}>
-                                <Sykepengegrunnlag />
-                            </Route>
-                            <Route path={`${path}/faresignaler`}>
-                                <Faresignaler />
-                            </Route>
-                        </React.Suspense>
-                    </Switch>
+                    <React.Suspense fallback={<BeregnetPeriodeViewLoader />}>
+                        <Routes>
+                            <Route path="utbetaling" element={<Utbetaling />} />
+                            <Route path="inngangsvilkår" element={<Inngangsvilkår />} />
+                            <Route path="sykepengegrunnlag" element={<Sykepengegrunnlag />} />
+                            <Route path="faresignaler" element={<Faresignaler />} />
+                        </Routes>
+                    </React.Suspense>
                 </div>
             </div>
             <Historikk />

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import { Loader } from '@navikt/ds-react';
 import { Dropdown } from '@navikt/ds-react-internal';
@@ -27,7 +27,7 @@ export const PåVentDropdownMenuButton = ({
     const [isFetching, setIsFetching] = useState(false);
     const [visModal, setVisModal] = useState(false);
 
-    const history = useHistory();
+    const navigate = useNavigate();
     const leggPåVentMedNotat = useLeggPåVent();
     const fjernPåVent = useFjernPåVent();
     const errorHandler = useOperationErrorHandler('Legg på vent');
@@ -41,7 +41,7 @@ export const PåVentDropdownMenuButton = ({
     const settPåVent = (notattekst: string) => {
         setIsFetching(true);
         return leggPåVentMedNotat(oppgavereferanse, { tekst: notattekst, type: 'PaaVent' })
-            .then(() => history.push('/'))
+            .then(() => navigate('/'))
             .catch(errorHandler);
     };
 

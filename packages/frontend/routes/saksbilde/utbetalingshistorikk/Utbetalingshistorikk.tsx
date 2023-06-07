@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import React, { useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import { Close } from '@navikt/ds-icons';
 import { Button } from '@navikt/ds-react';
@@ -76,7 +76,7 @@ const UtbetalingshistorikkWithContent: React.FC<UtbetalingshistorikkWithContentP
     organisasjonsnummer,
     aktørId,
 }) => {
-    let { push } = useHistory();
+    const navigate = useNavigate();
     const oppdrag = useOppdrag(fødselsnummer);
     const sorterteOppdrag = sorterOppdragNyesteFørst(oppdrag);
     const [tilAnnullering, setTilAnnullering] = useState<Spennoppdrag | undefined>();
@@ -85,7 +85,7 @@ const UtbetalingshistorikkWithContent: React.FC<UtbetalingshistorikkWithContentP
     const readOnly = useIsReadOnlyOppgave();
     const activePeriod = useActivePeriod();
 
-    const lukkUtbetalingshistorikk = () => push(`/person/${aktørId}/utbetaling`);
+    const lukkUtbetalingshistorikk = () => navigate(`/person/${aktørId}/utbetaling`);
 
     const settValgtOppdragSomInFlight = (oppdrag: Spennoppdrag) => () => {
         setAnnulleringerInFlight(annulleringerInFlight.concat([oppdrag.fagsystemId]));
