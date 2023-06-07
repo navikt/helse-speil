@@ -4,14 +4,14 @@ import { Route, Routes } from 'react-router-dom';
 import { Loader } from '@navikt/ds-react';
 
 import { useErTidligereSaksbehandler } from '@hooks/useErTidligereSaksbehandler';
-import { Overstyring } from '@io/graphql';
+import { Arbeidsforholdoverstyring, Overstyring } from '@io/graphql';
 import { useHarDagOverstyringer } from '@state/arbeidsgiver';
 import { useSyncNotater } from '@state/notater';
 import { useActivePeriod } from '@state/periode';
 import { getLatestUtbetalingTimestamp, getOverstyringerForEksisterendePerioder } from '@state/selectors/person';
 import { onLazyLoadFail } from '@utils/error';
 import { getPeriodState } from '@utils/mapping';
-import { isSpleisVilkarsgrunnlag } from '@utils/typeguards';
+import { isArbeidsforholdoverstyring, isSpleisVilkarsgrunnlag } from '@utils/typeguards';
 
 import { Historikk } from '../historikk';
 import { useVilkårsgrunnlag } from '../sykepengegrunnlag/Sykepengegrunnlag';
@@ -69,9 +69,16 @@ export const BeregnetPeriodeView: React.FC<BeregnetPeriodeViewProps> = ({ period
 
     const navnPåDeaktiverteGhostArbeidsgivere = isSpleisVilkarsgrunnlag(vilkårsgrunnlag)
         ? vilkårsgrunnlag.inntekter
-              .filter((inntekt) => inntekt.deaktivert)
               .map(
-                  (inntekt) => person.arbeidsgivere.find((it) => it.organisasjonsnummer === inntekt.arbeidsgiver)?.navn,
+                  (inntekt) =>
+                      person.arbeidsgivere.find(
+                          (it) =>
+                              it.overstyringer.find(
+                                  (overstyring) =>
+                                      isArbeidsforholdoverstyring(overstyring) &&
+                                      !(overstyring as Arbeidsforholdoverstyring).ferdigstilt,
+                              ) && it.organisasjonsnummer === inntekt.arbeidsgiver,
+                      )?.navn,
               )
               .join(', ')
         : undefined;
