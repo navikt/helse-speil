@@ -13,7 +13,7 @@
         "lint": "eslint . --ext .js --ext .jsx --ext .tsx --ext .ts",
         "test": "cross-env TZ=UTC jest",
         "test-ci": "npm run test -- --maxWorkers=50% --cacheDirectory=$jest_cache_dir",
-        "clean": "rm -rf node_modules",
+        "clean": "rimraf node_modules",
         "tdd": "TZ=UTC jest --watch",
         "validate-ts": "tsc",
         "pretest": "npm run lint && npm run validate-ts",
