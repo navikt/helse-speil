@@ -10,6 +10,7 @@ import { useRefreshPersonVedUrlEndring } from '@hooks/useRefreshPersonVedUrlEndr
 import { useVarselOmSakErTildeltAnnenSaksbehandler } from '@hooks/useVarselOmSakErTildeltAnnenSaksbehandler';
 import { AmplitudeProvider } from '@io/amplitude';
 import { usePollEtterOpptegnelser } from '@io/http';
+import { onLazyLoadFail } from '@utils/error';
 
 import { PersonHeader } from './personHeader';
 import { SaksbildeMenu } from './saksbildeMenu/SaksbildeMenu';
@@ -19,8 +20,11 @@ import { useKeyboardShortcuts } from './useKeyboardShortcuts';
 
 import styles from './Saksbilde.module.css';
 
-// @ts-ignore
-const Utbetalingshistorikk = React.lazy(() => import('./utbetalingshistorikk/Utbetalingshistorikk'));
+const Utbetalingshistorikk = React.lazy(() =>
+    import('./utbetalingshistorikk/Utbetalingshistorikk.js')
+        .then((res) => ({ default: res.Utbetalingshistorikk }))
+        .catch(onLazyLoadFail),
+);
 
 const SaksbildeContent = React.memo(() => {
     useRefreshPersonVedUrlEndring();

@@ -14,8 +14,9 @@ import { Venstremeny } from '../venstremeny/Venstremeny';
 
 import styles from './PeriodeView.module.css';
 
-// @ts-ignore
-const Utbetaling = React.lazy(() => import('../utbetaling/Utbetaling').catch(onLazyLoadFail));
+const Utbetaling = React.lazy(() =>
+    import('../utbetaling/Utbetaling.js').then((res) => ({ default: res.Utbetaling })).catch(onLazyLoadFail),
+);
 
 const containsOnly = (days: Array<Dag>, ...dayTypes: Array<Sykdomsdagtype>): boolean => {
     const weekends = [Sykdomsdagtype.SykHelgedag, Sykdomsdagtype.FriskHelgedag];
