@@ -10,6 +10,7 @@ interface RowProps {
     type?: Utbetalingstabelldagtype;
     markertDag?: UtbetalingstabellDag;
     nyDag?: boolean;
+    erHelg?: boolean;
 }
 
 const leftAlignedLine = (color: string) => css`
@@ -29,8 +30,7 @@ const leftAlignedLine = (color: string) => css`
 `;
 
 const helgStyle = (props: RowProps) =>
-    props.type &&
-    [...helgetyper, 'Helg'].includes(props.type) &&
+    ((props.type && [...helgetyper, 'Helg'].includes(props.type)) || props.erHelg) &&
     css`
         background: repeating-linear-gradient(
             123deg,

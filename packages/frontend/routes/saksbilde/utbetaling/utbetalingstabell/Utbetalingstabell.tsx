@@ -100,6 +100,7 @@ export const Utbetalingstabell = ({
                                 key={i}
                                 markertDag={markerteDager?.get(dag.dato)}
                                 nyDag={dag.kilde.type === 'SAKSBEHANDLER' && dag.kilde.id == undefined}
+                                erHelg={dag?.erHelg ?? false}
                             >
                                 <DateCell date={dag.dato} />
                                 <DagtypeCell dag={dag} overstyrtDag={lokaleOverstyringer?.get(dag.dato)} />

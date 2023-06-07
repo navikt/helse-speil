@@ -46,4 +46,5 @@ declare type UtbetalingstabellDag = {
     arbeidsgiverbeløp?: Maybe<number>;
     personbeløp?: Maybe<number>;
     begrunnelser?: Maybe<Array<Begrunnelse>>;
+    erHelg?: boolean;
 };

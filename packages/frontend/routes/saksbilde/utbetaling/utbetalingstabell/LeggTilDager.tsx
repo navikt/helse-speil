@@ -46,14 +46,15 @@ export const LeggTilDager = React.memo(({ periodeFom, onSubmitPølsestrekk }: Le
 
             let endringFom = dayjs(endring.fom, ISO_DATOFORMAT);
             while (endringFom.isBefore(dayjs(periodeFom, ISO_DATOFORMAT))) {
-                test.set(dayjs(endringFom, ISO_DATOFORMAT).format(ISO_DATOFORMAT), {
-                    dato: dayjs(endringFom, ISO_DATOFORMAT).format(ISO_DATOFORMAT),
+                test.set(endringFom.format(ISO_DATOFORMAT), {
+                    dato: endringFom.format(ISO_DATOFORMAT),
                     kilde: { type: Kildetype.Saksbehandler },
                     type: endring.type,
                     erAGP: false,
                     erAvvist: false,
                     erForeldet: false,
                     erMaksdato: false,
+                    erHelg: endringFom.isoWeekday() > 5,
                     grad: endring?.grad,
                 }) as Map<string, UtbetalingstabellDag>;
                 endringFom = endringFom.add(1, 'days');
