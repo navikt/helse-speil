@@ -91,10 +91,17 @@ export const DagtypeCell: React.FC<DagtypeCellProps> = ({ dag, overstyrtDag, ...
     const text = getDisplayTextOverstyrtDag(overstyrtDag) ?? getDisplayText(dag);
     const icon = getTypeIcon(overstyrtDag) ?? getTypeIcon(dag);
     const dagtypeErOverstyrt = overstyrtDag && dag.type !== overstyrtDag.type;
+    const nyDag = overstyrtDag && dag.type === overstyrtDag.type && dag.grad === overstyrtDag.grad;
 
     return (
         <td {...rest}>
-            {dagtypeErOverstyrt && <Endringstrekant text={`Endret fra ${dag.type}`} />}
+            {dagtypeErOverstyrt ? (
+                <Endringstrekant text={`Endret fra ${dag.type}`} />
+            ) : nyDag ? (
+                <Endringstrekant text="Ny dag" />
+            ) : (
+                ''
+            )}
             <CellContent>
                 <IconContainer>{icon}</IconContainer>
                 <BodyShort>{text}</BodyShort>

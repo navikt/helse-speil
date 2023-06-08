@@ -35,7 +35,7 @@ export const EndringsloggDager = ({ endringer, ...modalProps }: EndringsloggDage
                         <td>{type}</td>
                         <td>
                             <span className={styles.PreviousValue}>
-                                {typeof fraGrad === 'number' && `${fraGrad} %`}
+                                {typeof fraGrad === 'number' && fraGrad !== grad && `${fraGrad} %`}
                             </span>{' '}
                             {typeof grad === 'number' && `${grad} %`}
                         </td>

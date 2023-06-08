@@ -39,7 +39,16 @@ describe('DagtypeCell', () => {
     });
 
     it('rendrer ikke infotrekant når vi ikke overstyrer', () => {
-        render(<DagtypeCell dag={getUtbetalingstabellDag()} overstyrtDag={getUtbetalingstabellDag()} />);
+        render(<DagtypeCell dag={getUtbetalingstabellDag()} />);
         expect(screen.queryByTestId('infotrekant')).toBeNull();
+    });
+
+    it('rendrer infotrekant når vi legger til dag', () => {
+        render(<DagtypeCell dag={getUtbetalingstabellDag()} overstyrtDag={getUtbetalingstabellDag()} />);
+        const indikator = screen.getByTestId('infotrekant');
+        expect(indikator).toBeVisible();
+
+        userEvent.hover(indikator);
+        expect(screen.getByText('Ny dag')).toBeVisible();
     });
 });

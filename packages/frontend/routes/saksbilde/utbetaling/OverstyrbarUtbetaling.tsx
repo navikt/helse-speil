@@ -65,7 +65,6 @@ export const OverstyrbarUtbetaling: React.FC<OverstyrbarUtbetalingProps> = ({
         postOverstyring(
             Array.from(alleDager.values()),
             Array.from(alleOverstyrteDager.values()),
-            Array.from(nyeDager.values()),
             form.getValues('begrunnelse'),
             () => setOverstyrer(!overstyrer),
         );
@@ -136,7 +135,7 @@ export const OverstyrbarUtbetaling: React.FC<OverstyrbarUtbetalingProps> = ({
                     fom={fom}
                     tom={tom}
                     dager={alleDager}
-                    lokaleOverstyringer={overstyrteDager}
+                    lokaleOverstyringer={alleOverstyrteDager}
                     markerteDager={markerteDager}
                     overstyrer={overstyrer}
                     slettSisteNyeDag={slettSisteNyeDag}
