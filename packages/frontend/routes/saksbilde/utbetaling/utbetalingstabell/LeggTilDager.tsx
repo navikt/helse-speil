@@ -3,7 +3,6 @@ import dayjs from 'dayjs';
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 
-import { Cancel } from '@navikt/ds-icons';
 import { Button, UNSAFE_DatePicker as DatePicker, Select, TextField } from '@navikt/ds-react';
 
 import { Kildetype } from '@io/graphql';
@@ -57,6 +56,7 @@ export const LeggTilDager = React.memo(({ periodeFom, onSubmitPølsestrekk }: Le
                     erMaksdato: false,
                     erHelg: endringFom.isoWeekday() > 5,
                     grad: endring?.grad,
+                    erNyDag: true,
                 }) as Map<string, UtbetalingstabellDag>;
                 endringFom = endringFom.add(1, 'days');
             }
@@ -176,13 +176,7 @@ export const LeggTilDager = React.memo(({ periodeFom, onSubmitPølsestrekk }: Le
                 <StrekkePølse periodeFom={periodeFom} onSubmitPølsestrekk={onSubmitPølsestrekk}></StrekkePølse>
             )}
             <Button size="small" variant="tertiary" onClick={() => setVisPølsestrekk(!visPølsestrekk)}>
-                {visPølsestrekk ? (
-                    <>
-                        <Cancel /> Avbryt
-                    </>
-                ) : (
-                    '+ Legg til dager i forkant'
-                )}
+                {visPølsestrekk ? 'Lukk legg til dager' : '+ Legg til dager'}
             </Button>
         </div>
     );

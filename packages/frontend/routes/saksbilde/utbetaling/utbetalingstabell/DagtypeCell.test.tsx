@@ -49,6 +49,8 @@ describe('DagtypeCell', () => {
         expect(indikator).toBeVisible();
 
         userEvent.hover(indikator);
-        expect(screen.getByText('Ny dag')).toBeVisible();
+        expect(
+            screen.getByText('Ny dag. Endringene vil oppdateres og kalkuleres etter du har trykket på ferdig'),
+        ).toBeVisible();
     });
 });

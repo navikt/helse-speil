@@ -13,14 +13,15 @@ interface TotalGradProps {
     type: Utbetalingstabelldagtype;
     erOverstyrt?: boolean;
     totalGradering?: Maybe<number>;
+    erNyDag?: boolean;
 }
 
-export const TotalGradCell = ({ type, erOverstyrt, totalGradering }: TotalGradProps) => {
+export const TotalGradCell = ({ type, erOverstyrt, totalGradering, erNyDag = false }: TotalGradProps) => {
     const showTotalGradering = typeof totalGradering === 'number' && dagtypeIsValid(type);
 
     return (
         <Cell erOverstyrt={erOverstyrt}>
-            {erOverstyrt && <Endringstrekant />}
+            {erOverstyrt && !erNyDag && <Endringstrekant />}
             {showTotalGradering && (
                 <CellContent justifyContent="flex-end">{`${Math.floor(totalGradering)} %`}</CellContent>
             )}

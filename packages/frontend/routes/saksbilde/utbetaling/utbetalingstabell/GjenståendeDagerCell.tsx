@@ -8,11 +8,12 @@ import { Cell } from './Cell';
 interface GjenståendeDagerCellProps {
     gjenståendeDager?: Maybe<number>;
     erOverstyrt?: boolean;
+    erNyDag?: boolean;
 }
 
-export const GjenståendeDagerCell = ({ gjenståendeDager, erOverstyrt }: GjenståendeDagerCellProps) => (
+export const GjenståendeDagerCell = ({ gjenståendeDager, erOverstyrt, erNyDag = false }: GjenståendeDagerCellProps) => (
     <Cell erOverstyrt={erOverstyrt}>
-        {erOverstyrt && <Endringstrekant />}
+        {erOverstyrt && !erNyDag && <Endringstrekant />}
         <CellContent justifyContent="flex-end">{gjenståendeDager ?? '-'}</CellContent>
     </Cell>
 );

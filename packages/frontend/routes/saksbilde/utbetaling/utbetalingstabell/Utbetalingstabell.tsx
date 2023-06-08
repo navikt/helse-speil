@@ -115,18 +115,22 @@ export const Utbetalingstabell = ({
                                     type={dag.type}
                                     totalGradering={dag.totalGradering}
                                     erOverstyrt={!!lokaleOverstyringer?.get(dag.dato)}
+                                    erNyDag={dag.erNyDag}
                                 />
                                 <UtbetalingCell
                                     utbetaling={dag.arbeidsgiverbeløp}
                                     erOverstyrt={!!lokaleOverstyringer?.get(dag.dato)}
+                                    erNyDag={dag.erNyDag}
                                 />
                                 <UtbetalingCell
                                     utbetaling={dag.personbeløp}
                                     erOverstyrt={!!lokaleOverstyringer?.get(dag.dato)}
+                                    erNyDag={dag.erNyDag}
                                 />
                                 <GjenståendeDagerCell
                                     gjenståendeDager={dag.dagerIgjen}
                                     erOverstyrt={!!lokaleOverstyringer?.get(dag.dato)}
+                                    erNyDag={dag.erNyDag}
                                 />
                                 <MerknaderCell
                                     style={{ width: '100%' }}

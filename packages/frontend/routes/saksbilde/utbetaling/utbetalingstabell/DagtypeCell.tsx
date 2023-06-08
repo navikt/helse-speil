@@ -98,7 +98,7 @@ export const DagtypeCell: React.FC<DagtypeCellProps> = ({ dag, overstyrtDag, ...
             {dagtypeErOverstyrt ? (
                 <Endringstrekant text={`Endret fra ${dag.type}`} />
             ) : nyDag ? (
-                <Endringstrekant text="Ny dag" />
+                <Endringstrekant text="Ny dag. Endringene vil oppdateres og kalkuleres etter du har trykket på ferdig" />
             ) : (
                 ''
             )}

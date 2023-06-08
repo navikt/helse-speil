@@ -9,11 +9,12 @@ import { Cell } from './Cell';
 interface UtbetalingCellProps extends React.HTMLAttributes<HTMLTableDataCellElement> {
     erOverstyrt?: boolean;
     utbetaling?: Maybe<number>;
+    erNyDag?: boolean;
 }
 
-export const UtbetalingCell = ({ erOverstyrt, utbetaling, style }: UtbetalingCellProps) => (
+export const UtbetalingCell = ({ erOverstyrt, utbetaling, erNyDag = false, style }: UtbetalingCellProps) => (
     <Cell erOverstyrt={erOverstyrt} style={style}>
-        {erOverstyrt && <Endringstrekant />}
+        {erOverstyrt && !erNyDag && <Endringstrekant />}
         <CellContent justifyContent="flex-end">{utbetaling ? somPenger(utbetaling) : '-'}</CellContent>
     </Cell>
 );
