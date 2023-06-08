@@ -56,8 +56,8 @@ const saksbehandlerStyle = (props: KildeProps) =>
         color: var(--a-text-default);
         border-color: var(--a-gray-700);
         svg {
-            width: 10px;
-            height: 10px;
+            width: 12px;
+            height: 12px;
         }
     `;
 
@@ -88,10 +88,8 @@ const getKildeTypeTooltip = (kilde: KildeikonType): string => {
 const Kildeikon = styled.div<KildeProps>`
     display: flex;
     justify-content: center;
-    align-items: flex-end;
+    align-items: center;
     font-size: 12px;
-    letter-spacing: 0.4px;
-    margin-right: -0.4px;
     border-radius: 3px;
     border-style: solid;
     border-width: 1px;
@@ -101,6 +99,10 @@ const Kildeikon = styled.div<KildeProps>`
     height: 1rem;
     cursor: default;
 
+    .Tekst {
+        letter-spacing: 0.5px;
+    }
+
     ${ainntektStyle};
     ${aordningenStyle};
     ${sykmeldingStyle};
@@ -109,11 +111,14 @@ const Kildeikon = styled.div<KildeProps>`
     ${saksbehandlerStyle};
 `;
 
+const erTekst = (kilde: KildeikonType): boolean =>
+    kilde !== Kildetype.Saksbehandler && kilde !== Inntektskilde.Saksbehandler;
+
 export const Kilde = ({ type, children, className }: KildeProps) => {
     return (
         <Tooltip content={getKildeTypeTooltip(type)}>
             <Kildeikon className={className} type={type}>
-                {children}
+                {erTekst(type) ? <div className="Tekst">{children}</div> : children}
             </Kildeikon>
         </Tooltip>
     );
