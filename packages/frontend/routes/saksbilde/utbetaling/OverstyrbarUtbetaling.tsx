@@ -1,4 +1,6 @@
 import classNames from 'classnames';
+import dayjs from 'dayjs';
+import isBetween from 'dayjs/plugin/isBetween';
 import React, { useEffect, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 
@@ -18,6 +20,8 @@ import { Utbetalingstabell } from './utbetalingstabell/Utbetalingstabell';
 import { usePostOverstyring } from './utbetalingstabell/usePostOverstyring';
 
 import styles from './OverstyrbarUtbetaling.module.css';
+
+dayjs.extend(isBetween);
 
 const getKey = (dag: UtbetalingstabellDag) => dag.dato;
 
@@ -71,12 +75,31 @@ export const OverstyrbarUtbetaling: React.FC<OverstyrbarUtbetalingProps> = ({
     };
 
     const toggleChecked = (dag: UtbetalingstabellDag) => (event: React.ChangeEvent<HTMLInputElement>) => {
+        if ((event.nativeEvent as KeyboardEvent)?.shiftKey) {
+            toggleCheckedShift(dag)(event);
+            return;
+        }
+
         if (event.target.checked) {
             setMarkerteDager(markerteDager.set(getKey(dag), dag));
         } else {
             markerteDager.delete(getKey(dag));
             setMarkerteDager(markerteDager);
         }
+    };
+
+    const toggleCheckedShift = (dag: UtbetalingstabellDag) => (event: React.ChangeEvent<HTMLInputElement>) => {
+        const forrigeValgteDag = Array.from(markerteDager.values())?.pop() ?? dag;
+        Array.from(alleDager.values())
+            .filter((it) => dayjs(it.dato).isBetween(forrigeValgteDag.dato, dag.dato, 'day', '[]'))
+            .forEach((it) => {
+                if (event.target.checked) {
+                    setMarkerteDager(markerteDager.set(getKey(it), it));
+                } else {
+                    markerteDager.delete(getKey(it));
+                    setMarkerteDager(markerteDager);
+                }
+            });
     };
 
     const onSubmitEndring = (endring: Partial<UtbetalingstabellDag>) => {
