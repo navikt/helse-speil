@@ -53,4 +53,4 @@ export const harBeslutterrolle: boolean = extractGroups().includes(groupIdForBes
 
 export const toggleMeny: boolean = erLocal() || erDev();
 
-export const kanStrekkePølser: boolean = erLocal() || erDev();
+export const kanStrekkePølser: boolean = true;
