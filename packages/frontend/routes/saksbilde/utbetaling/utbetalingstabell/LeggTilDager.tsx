@@ -9,7 +9,6 @@ import { Button, UNSAFE_DatePicker as DatePicker, Select, TextField } from '@nav
 import { Kildetype } from '@io/graphql';
 import { ISO_DATOFORMAT, NORSK_DATOFORMAT } from '@utils/date';
 
-import { UndoIcon } from '../../sykepengegrunnlag/AngreOverstyrArbeidsforholdUtenSykdom';
 import { kanVelgeGrad } from './EndringForm/EndringForm';
 import { OverstyrbarDagtype, typeendringer } from './EndringForm/endringFormUtils';
 
