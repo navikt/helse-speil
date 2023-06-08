@@ -15,6 +15,12 @@
     margin-top: 0.75rem;
 }
 
+.LeggTilDager.Viserpølsestrekk {
+    margin-top: -1rem;
+    padding: 1.5rem;
+    background-color: #fff;
+}
+
 .LeggTilDager p {
     white-space: nowrap;
 }
