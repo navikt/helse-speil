@@ -43,10 +43,6 @@
     width: 100%;
 }
 
-.FilterChips {
-    margin: var(--a-spacing-1) var(--a-spacing-4);
-}
-
 .tildelingColumn {
     width: 10%;
     max-width: 132px;

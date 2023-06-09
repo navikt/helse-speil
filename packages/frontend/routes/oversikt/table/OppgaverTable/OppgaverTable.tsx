@@ -37,13 +37,11 @@ export const OppgaverTable: React.FC<OppgaverTableProps> = React.memo(({ oppgave
 
     return (
         <div className={styles.TableContainer}>
-            {activeFilters.length > 0 && (
-                <FilterChips
-                    activeFilters={activeFilters}
-                    setMultipleFilters={setMultipleFilters}
-                    toggleFilter={toggleFilter}
-                />
-            )}
+            <FilterChips
+                activeFilters={activeFilters}
+                setMultipleFilters={setMultipleFilters}
+                toggleFilter={toggleFilter}
+            />
             <div className={styles.Content}>
                 <div className={styles.Scrollable}>
                     {tab === TabType.TilGodkjenning && (
