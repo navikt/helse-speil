@@ -16,53 +16,23 @@ export const OppgaverTableSkeleton = () => {
                     <Table className={styles.Table}>
                         <Table.Header>
                             <Table.Row className={styles.DropdownHeader}>
-                                <Table.HeaderCell scope="col" colSpan={1}>
-                                    <LoadingShimmer />
-                                </Table.HeaderCell>
-                                <Table.HeaderCell scope="col" colSpan={1}>
-                                    <LoadingShimmer />
-                                </Table.HeaderCell>
-                                <Table.HeaderCell scope="col" colSpan={1}>
-                                    <LoadingShimmer />
-                                </Table.HeaderCell>
-                                <Table.HeaderCell scope="col" colSpan={1}>
-                                    <LoadingShimmer />
-                                </Table.HeaderCell>
-                                <Table.HeaderCell scope="col" colSpan={1}>
-                                    <LoadingShimmer />
-                                </Table.HeaderCell>
-                                <Table.HeaderCell scope="col" colSpan={1}>
-                                    <LoadingShimmer />
-                                </Table.HeaderCell>
+                                <HeaderCellSkeleton />
+                                <HeaderCellSkeleton />
+                                <HeaderCellSkeleton />
+                                <HeaderCellSkeleton />
+                                <HeaderCellSkeleton />
+                                <HeaderCellSkeleton />
                             </Table.Row>
                             <Table.Row>
-                                <Table.HeaderCell scope="col" colSpan={1}>
-                                    <LoadingShimmer />
-                                </Table.HeaderCell>
-                                <Table.HeaderCell scope="col" colSpan={1}>
-                                    <LoadingShimmer />
-                                </Table.HeaderCell>
-                                <Table.HeaderCell scope="col" colSpan={1}>
-                                    <LoadingShimmer />
-                                </Table.HeaderCell>
-                                <Table.HeaderCell scope="col" colSpan={1}>
-                                    <LoadingShimmer />
-                                </Table.HeaderCell>
-                                <Table.HeaderCell scope="col" colSpan={1}>
-                                    <LoadingShimmer />
-                                </Table.HeaderCell>
-                                <Table.HeaderCell scope="col" colSpan={1}>
-                                    <LoadingShimmer />
-                                </Table.HeaderCell>
-                                <Table.HeaderCell scope="col" colSpan={1}>
-                                    <LoadingShimmer />
-                                </Table.HeaderCell>
-                                <Table.HeaderCell scope="col" colSpan={1}>
-                                    <LoadingShimmer />
-                                </Table.HeaderCell>
-                                <Table.HeaderCell scope="col" colSpan={1}>
-                                    <LoadingShimmer style={{ width: 100 }} />
-                                </Table.HeaderCell>
+                                <HeaderCellSkeleton />
+                                <HeaderCellSkeleton />
+                                <HeaderCellSkeleton />
+                                <HeaderCellSkeleton />
+                                <HeaderCellSkeleton />
+                                <HeaderCellSkeleton />
+                                <HeaderCellSkeleton />
+                                <HeaderCellSkeleton />
+                                <Table.HeaderCell scope="col" colSpan={1} />
                             </Table.Row>
                         </Table.Header>
                         <Table.Body>
@@ -106,6 +76,12 @@ export const OppgaverTableSkeleton = () => {
         </div>
     );
 };
+
+const HeaderCellSkeleton = () => (
+    <Table.HeaderCell scope="col" colSpan={1}>
+        <LoadingShimmer />
+    </Table.HeaderCell>
+);
 
 interface CellSkeletonProps {
     width: number;

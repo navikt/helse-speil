@@ -7,6 +7,7 @@ import { useFerdigstilteOppgaver } from '@state/oppgaver';
 
 import { IngenOppgaver } from '../IngenOppgaver';
 import { LinkRow } from './LinkRow';
+import { HeaderCell } from './OppgaverTable/HeaderCell';
 import { OppgaverTableError } from './OppgaverTableError';
 import { OppgaverTableSkeleton } from './OppgaverTableSkeleton';
 import { Pagination } from './Pagination';
@@ -47,24 +48,12 @@ export const BehandletIdagTable = () => {
                     <Table className={styles.Table} aria-label="Oppgaver behandlet av meg i dag" zebraStripes>
                         <Table.Header>
                             <Table.Row>
-                                <Table.HeaderCell scope="col" colSpan={1}>
-                                    Behandlet av
-                                </Table.HeaderCell>
-                                <Table.HeaderCell scope="col" colSpan={1}>
-                                    Periodetype
-                                </Table.HeaderCell>
-                                <Table.HeaderCell scope="col" colSpan={1}>
-                                    Oppgavetype
-                                </Table.HeaderCell>
-                                <Table.HeaderCell scope="col" colSpan={1}>
-                                    Inntektskilde
-                                </Table.HeaderCell>
-                                <Table.HeaderCell scope="col" colSpan={1}>
-                                    Søker
-                                </Table.HeaderCell>
-                                <Table.HeaderCell scope="col" colSpan={1}>
-                                    Behandlet
-                                </Table.HeaderCell>
+                                <HeaderCell text="Behandlet av" />
+                                <HeaderCell text="Periodetype" />
+                                <HeaderCell text="Oppgavetype" />
+                                <HeaderCell text="Inntektskilde" />
+                                <HeaderCell text="Søker" />
+                                <HeaderCell text="Behandlet" />
                             </Table.Row>
                         </Table.Header>
                         <Table.Body>
