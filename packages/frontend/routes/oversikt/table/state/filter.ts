@@ -33,7 +33,7 @@ export const defaultFilters: Filter<OppgaveForOversiktsvisning>[] = [
     },
     {
         key: 'FØRSTEGANG',
-        label: 'Førstegang.',
+        label: 'Førstegangsbehandling',
         active: false,
         function: (oppgave: OppgaveForOversiktsvisning) => oppgave.periodetype === Periodetype.Forstegangsbehandling,
         column: 1,
@@ -140,14 +140,14 @@ export const defaultFilters: Filter<OppgaveForOversiktsvisning>[] = [
     },
     {
         key: 'FORTROLIG_ADR',
-        label: 'Fortrolig adr.',
+        label: 'Fortrolig adresse',
         active: false,
         function: (oppgave: OppgaveForOversiktsvisning) => oppgave.type === Oppgavetype.FortroligAdresse,
         column: 2,
     },
     {
         key: 'UTB_SYKMELDT',
-        label: 'Utb. sykmeldt',
+        label: 'Utbetaling til sykmeldt',
         active: false,
         function: (oppgave: OppgaveForOversiktsvisning) => oppgave.type === Oppgavetype.UtbetalingTilSykmeldt,
         column: 2,
