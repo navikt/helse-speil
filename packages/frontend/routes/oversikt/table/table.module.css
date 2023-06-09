@@ -64,3 +64,12 @@
     align-items: center;
     gap: 12px;
 }
+
+.cellSkeleton {
+    position: relative;
+    height: 2rem;
+    display: flex;
+    align-items: center;
+    width: 128px;
+    max-width: 128px;
+}

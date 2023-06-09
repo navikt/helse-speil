@@ -4,8 +4,6 @@ import { Table } from '@navikt/ds-react';
 
 import { LoadingShimmer } from '@components/LoadingShimmer';
 
-import { CellContent } from './cells/CellContent';
-
 import styles from './table.module.css';
 
 export const OppgaverTableSkeleton = () => {
@@ -36,39 +34,9 @@ export const OppgaverTableSkeleton = () => {
                             </Table.Row>
                         </Table.Header>
                         <Table.Body>
-                            <Table.Row>
-                                <CellSkeleton width={128} />
-                                <CellSkeleton width={130} />
-                                <CellSkeleton width={130} />
-                                <CellSkeleton width={128} />
-                                <CellSkeleton width={128} />
-                                <CellSkeleton width={128} />
-                                <CellSkeleton width={100} />
-                                <CellSkeleton width={128} />
-                                <CellSkeleton width={100} />
-                            </Table.Row>
-                            <Table.Row>
-                                <CellSkeleton width={128} />
-                                <CellSkeleton width={130} />
-                                <CellSkeleton width={130} />
-                                <CellSkeleton width={128} />
-                                <CellSkeleton width={128} />
-                                <CellSkeleton width={128} />
-                                <CellSkeleton width={100} />
-                                <CellSkeleton width={128} />
-                                <CellSkeleton width={100} />
-                            </Table.Row>
-                            <Table.Row>
-                                <CellSkeleton width={128} />
-                                <CellSkeleton width={130} />
-                                <CellSkeleton width={130} />
-                                <CellSkeleton width={128} />
-                                <CellSkeleton width={128} />
-                                <CellSkeleton width={128} />
-                                <CellSkeleton width={100} />
-                                <CellSkeleton width={128} />
-                                <CellSkeleton width={100} />
-                            </Table.Row>
+                            <RowSkeleton />
+                            <RowSkeleton />
+                            <RowSkeleton />
                         </Table.Body>
                     </Table>
                 </div>
@@ -83,16 +51,24 @@ const HeaderCellSkeleton = () => (
     </Table.HeaderCell>
 );
 
-interface CellSkeletonProps {
-    width: number;
-}
+const CellSkeleton = () => (
+    <Table.DataCell>
+        <div className={styles.cellSkeleton}>
+            <LoadingShimmer />
+        </div>
+    </Table.DataCell>
+);
 
-const CellSkeleton = ({ width }: CellSkeletonProps) => {
-    return (
-        <Table.DataCell>
-            <CellContent width={width}>
-                <LoadingShimmer />
-            </CellContent>
-        </Table.DataCell>
-    );
-};
+const RowSkeleton = () => (
+    <Table.Row>
+        <CellSkeleton />
+        <CellSkeleton />
+        <CellSkeleton />
+        <CellSkeleton />
+        <CellSkeleton />
+        <CellSkeleton />
+        <CellSkeleton />
+        <CellSkeleton />
+        <CellSkeleton />
+    </Table.Row>
+);
