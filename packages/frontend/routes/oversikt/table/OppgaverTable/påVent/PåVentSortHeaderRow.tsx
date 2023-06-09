@@ -7,14 +7,14 @@ import { HeaderCell } from '../HeaderCell';
 
 export const PåVentSortHeaderRow = () => (
     <Table.Row>
-        <Table.ColumnHeader sortKey={SortKey.Saksbehandler} sortable>
-            Saksbehandler
-        </Table.ColumnHeader>
         <HeaderCell text="Periodetype" />
         <HeaderCell text="Oppgavetype" />
         <HeaderCell text="Mottaker" />
         <HeaderCell text="Egenskaper" />
         <HeaderCell text="Inntektskilde" />
+        <Table.ColumnHeader sortKey={SortKey.Søker} sortable>
+            Søker
+        </Table.ColumnHeader>
         <Table.ColumnHeader sortKey={SortKey.Opprettet} sortable>
             Opprettet
         </Table.ColumnHeader>

@@ -55,20 +55,10 @@ export const OppgaverTable: React.FC<OppgaverTableProps> = React.memo(({ oppgave
                         />
                     )}
                     {tab === TabType.Mine && (
-                        <MineSakerTable
-                            filters={filters}
-                            filteredRows={filteredRows}
-                            pagination={pagination}
-                            readOnly={readOnly}
-                        />
+                        <MineSakerTable filters={filters} filteredRows={filteredRows} pagination={pagination} />
                     )}
                     {tab === TabType.Ventende && (
-                        <PåVentTable
-                            filters={filters}
-                            filteredRows={filteredRows}
-                            pagination={pagination}
-                            readOnly={readOnly}
-                        />
+                        <PåVentTable filters={filters} filteredRows={filteredRows} pagination={pagination} />
                     )}
                 </div>
             </div>

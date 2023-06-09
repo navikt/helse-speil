@@ -11,18 +11,16 @@ import { InntektskildeCell } from '../../cells/InntektskildeCell';
 import { MottakerCell } from '../../cells/MottakerCell';
 import { OppgavetypeCell } from '../../cells/OppgavetypeCell';
 import { PeriodetypeCell } from '../../cells/PeriodetypeCell';
-import { TildelingCell } from '../../cells/TildelingCell';
+import { SøkerCell } from '../../cells/SøkerCell';
 import { NotatCell } from '../../cells/notat/NotatCell';
 import { OptionsCell } from '../../cells/options/OptionsCell';
 
 interface MineSakerOppgaveRowProps {
     oppgave: OppgaveForOversiktsvisning;
-    readOnly: boolean;
 }
 
-export const MineSakerOppgaveRow = ({ oppgave, readOnly }: MineSakerOppgaveRowProps) => (
+export const MineSakerOppgaveRow = ({ oppgave }: MineSakerOppgaveRowProps) => (
     <LinkRow aktørId={oppgave.aktorId}>
-        <TildelingCell oppgave={oppgave} kanTildeles={!readOnly} />
         <PeriodetypeCell type={oppgave.periodetype ?? Periodetype.Forstegangsbehandling} />
         <OppgavetypeCell oppgavetype={oppgave.type} />
         <MottakerCell mottaker={oppgave.mottaker} />
@@ -31,6 +29,7 @@ export const MineSakerOppgaveRow = ({ oppgave, readOnly }: MineSakerOppgaveRowPr
             erRetur={oppgave.totrinnsvurdering?.erRetur === true}
         />
         <InntektskildeCell flereArbeidsgivere={oppgave.flereArbeidsgivere} />
+        <SøkerCell name={oppgave.navn} />
         <DatoCell date={oppgave.sistSendt ?? oppgave.opprettet} />
         <DatoCell date={oppgave.opprinneligSoknadsdato ?? oppgave.opprettet} />
         <OptionsCell oppgave={oppgave} navn={oppgave.navn} />

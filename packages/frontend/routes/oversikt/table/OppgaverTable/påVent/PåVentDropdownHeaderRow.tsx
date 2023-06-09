@@ -14,11 +14,11 @@ interface PåVentDropdownHeaderProps {
 
 export const PåVentDropdownHeaderRow = ({ filters }: PåVentDropdownHeaderProps) => (
     <Table.Row className={styles.DropdownHeader}>
-        <Table.HeaderCell scope="col" colSpan={1} />
         <FilterHeader filters={filters} column={1} text="Periodetype" />
         <FilterHeader filters={filters} column={2} text="Oppgavetype" />
         <FilterHeader filters={filters} column={3} text="Mottaker" />
         <FilterHeader filters={filters} column={4} text="Egenskaper" />
         <FilterHeader filters={filters} column={5} text="Inntektskilde" />
+        <Table.HeaderCell scope="col" colSpan={1} />
     </Table.Row>
 );

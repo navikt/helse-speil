@@ -17,10 +17,9 @@ interface MineSakerTableProps {
     filters: Filter<OppgaveForOversiktsvisning>[];
     filteredRows: OppgaveForOversiktsvisning[];
     pagination: Pagination | null;
-    readOnly: boolean;
 }
 
-export const MineSakerTable = ({ filters, filteredRows, pagination, readOnly }: MineSakerTableProps) => {
+export const MineSakerTable = ({ filters, filteredRows, pagination }: MineSakerTableProps) => {
     const [sort, setSort] = useState<SortState | undefined>(defaultSortation);
 
     const sortedRows = sort ? sortRows(sort, filteredRows) : filteredRows;
@@ -46,7 +45,7 @@ export const MineSakerTable = ({ filters, filteredRows, pagination, readOnly }: 
             </Table.Header>
             <Table.Body>
                 {paginatedRows.map((oppgave) => (
-                    <MineSakerOppgaveRow key={oppgave.id} oppgave={oppgave} readOnly={readOnly} />
+                    <MineSakerOppgaveRow key={oppgave.id} oppgave={oppgave} />
                 ))}
             </Table.Body>
         </Table>

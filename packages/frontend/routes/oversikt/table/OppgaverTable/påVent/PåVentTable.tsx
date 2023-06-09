@@ -17,10 +17,9 @@ interface P책VentTableProps {
     filters: Filter<OppgaveForOversiktsvisning>[];
     filteredRows: OppgaveForOversiktsvisning[];
     pagination: Pagination | null;
-    readOnly: boolean;
 }
 
-export const P책VentTable = ({ filters, filteredRows, pagination, readOnly }: P책VentTableProps) => {
+export const P책VentTable = ({ filters, filteredRows, pagination }: P책VentTableProps) => {
     const [sort, setSort] = useState<SortState | undefined>(defaultSortation);
 
     const sortedRows = sort ? sortRows(sort, filteredRows) : filteredRows;
@@ -46,7 +45,7 @@ export const P책VentTable = ({ filters, filteredRows, pagination, readOnly }: P�
             </Table.Header>
             <Table.Body>
                 {paginatedRows.map((oppgave) => (
-                    <P책VentOppgaveRow key={oppgave.id} oppgave={oppgave} readOnly={readOnly} />
+                    <P책VentOppgaveRow key={oppgave.id} oppgave={oppgave} />
                 ))}
             </Table.Body>
         </Table>
