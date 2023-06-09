@@ -22,9 +22,10 @@ interface TilGodkjenningTableProps {
 
 export const TilGodkjenningTable = ({ filters, filteredRows, pagination, readOnly }: TilGodkjenningTableProps) => {
     const [sort, setSort] = useState<SortState | undefined>(defaultSortation);
-
+    console.log(filteredRows);
+    console.log(sort);
     const sortedRows = sort ? sortRows(sort, filteredRows) : filteredRows;
-
+    console.log('sortedRows: ', sortedRows);
     const paginatedRows = pagination
         ? sortedRows.slice(pagination.firstVisibleEntry, pagination.lastVisibleEntry + 1)
         : sortedRows;
@@ -35,9 +36,7 @@ export const TilGodkjenningTable = ({ filters, filteredRows, pagination, readOnl
     return (
         <Table
             sort={sort}
-            onSortChange={(sortKey: string | undefined) =>
-                sortKey && updateSort(sort, setSort, SortKey[sortKey as keyof typeof SortKey])
-            }
+            onSortChange={(sortKey: string | undefined) => sortKey && updateSort(sort, setSort, sortKey as SortKey)}
             className={styles.Table}
             aria-label="Saker som er klare for behandling"
             zebraStripes
