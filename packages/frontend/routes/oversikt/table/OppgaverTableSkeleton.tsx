@@ -34,9 +34,9 @@ export const OppgaverTableSkeleton = () => {
                             </Table.Row>
                         </Table.Header>
                         <Table.Body>
-                            <RowSkeleton />
-                            <RowSkeleton />
-                            <RowSkeleton />
+                            <BodyRowSkeleton />
+                            <BodyRowSkeleton />
+                            <BodyRowSkeleton />
                         </Table.Body>
                     </Table>
                 </div>
@@ -51,7 +51,7 @@ const HeaderCellSkeleton = () => (
     </Table.HeaderCell>
 );
 
-const CellSkeleton = () => (
+const BodyCellSkeleton = () => (
     <Table.DataCell>
         <div className={styles.cellSkeleton}>
             <LoadingShimmer />
@@ -59,16 +59,16 @@ const CellSkeleton = () => (
     </Table.DataCell>
 );
 
-const RowSkeleton = () => (
+const BodyRowSkeleton = () => (
     <Table.Row>
-        <CellSkeleton />
-        <CellSkeleton />
-        <CellSkeleton />
-        <CellSkeleton />
-        <CellSkeleton />
-        <CellSkeleton />
-        <CellSkeleton />
-        <CellSkeleton />
-        <CellSkeleton />
+        <BodyCellSkeleton />
+        <BodyCellSkeleton />
+        <BodyCellSkeleton />
+        <BodyCellSkeleton />
+        <BodyCellSkeleton />
+        <BodyCellSkeleton />
+        <BodyCellSkeleton />
+        <BodyCellSkeleton />
+        <BodyCellSkeleton />
     </Table.Row>
 );
