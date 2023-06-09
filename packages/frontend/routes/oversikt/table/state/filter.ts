@@ -40,7 +40,7 @@ export const defaultFilters: Filter<OppgaveForOversiktsvisning>[] = [
     },
     {
         key: 'FORLENGELSE',
-        label: 'Forlengelse.',
+        label: 'Forlengelse',
         active: false,
         function: (oppgave: OppgaveForOversiktsvisning) =>
             oppgave.periodetype === Periodetype.Forlengelse || oppgave.periodetype === Periodetype.Infotrygdforlengelse,
