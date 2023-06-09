@@ -22,10 +22,9 @@ interface TilGodkjenningTableProps {
 
 export const TilGodkjenningTable = ({ filters, filteredRows, pagination, readOnly }: TilGodkjenningTableProps) => {
     const [sort, setSort] = useState<SortState | undefined>(defaultSortation);
-    console.log(filteredRows);
-    console.log(sort);
+
     const sortedRows = sort ? sortRows(sort, filteredRows) : filteredRows;
-    console.log('sortedRows: ', sortedRows);
+
     const paginatedRows = pagination
         ? sortedRows.slice(pagination.firstVisibleEntry, pagination.lastVisibleEntry + 1)
         : sortedRows;
