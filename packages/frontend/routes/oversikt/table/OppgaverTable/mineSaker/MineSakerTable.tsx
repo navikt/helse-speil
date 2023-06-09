@@ -35,9 +35,7 @@ export const MineSakerTable = ({ filters, filteredRows, pagination, readOnly }: 
     return (
         <Table
             sort={sort}
-            onSortChange={(sortKey: string | undefined) =>
-                sortKey && updateSort(sort, setSort, SortKey[sortKey as keyof typeof SortKey])
-            }
+            onSortChange={(sortKey: string | undefined) => sortKey && updateSort(sort, setSort, sortKey as SortKey)}
             className={styles.Table}
             aria-label="Saker som er tildelt meg"
             zebraStripes

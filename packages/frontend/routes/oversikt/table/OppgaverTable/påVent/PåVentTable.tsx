@@ -35,9 +35,7 @@ export const PåVentTable = ({ filters, filteredRows, pagination, readOnly }: P�
     return (
         <Table
             sort={sort}
-            onSortChange={(sortKey: string | undefined) =>
-                sortKey && updateSort(sort, setSort, SortKey[sortKey as keyof typeof SortKey])
-            }
+            onSortChange={(sortKey: string | undefined) => sortKey && updateSort(sort, setSort, sortKey as SortKey)}
             className={styles.Table}
             aria-label="Saker som er tildelt meg og satt på vent"
             zebraStripes
