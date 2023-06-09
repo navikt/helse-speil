@@ -8,7 +8,7 @@
 }
 
 .Content {
-    margin: 0 1.5rem 1.5rem;
+    margin: 0 var(--a-spacing-6) var(--a-spacing-4);
     padding: 0;
     color: var(--a-text-default);
     overflow: auto hidden;

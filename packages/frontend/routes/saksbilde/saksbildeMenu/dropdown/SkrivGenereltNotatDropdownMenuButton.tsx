@@ -4,7 +4,7 @@ import { Dropdown } from '@navikt/ds-react-internal';
 
 import { Personinfo, Personnavn } from '@io/graphql';
 
-import { NyttNotatModal } from '../../../oversikt/table/rader/notat/NyttNotatModal';
+import { NyttNotatModal } from '../../../oversikt/table/cells/notat/NyttNotatModal';
 
 interface SkrivNotatDropdownMenuButtonProps {
     vedtaksperiodeId: string;

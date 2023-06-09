@@ -1,0 +1,19 @@
+.wrapper {
+    display: flex;
+    align-items: center;
+}
+
+.OptionsButton {
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+}
+
+.OptionsButton > span {
+    display: flex;
+    align-items: center;
+}
+
+.MenuButton {
+    height: 32px;
+}

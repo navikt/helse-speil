@@ -1,6 +1,6 @@
 .LinkRow:hover,
 .LinkRow:focus-visible {
-    background-color: var(--speil-light-hover-tabell);
+    background-color: var(--a-bg-subtle);
     cursor: pointer;
     outline: none;
 }

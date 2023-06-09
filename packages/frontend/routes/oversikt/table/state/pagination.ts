@@ -3,7 +3,7 @@ import { atom, selector, useRecoilValue, useSetRecoilState } from 'recoil';
 
 import { TabType, tabState } from '../../tabState';
 
-type Pagination = {
+export type Pagination = {
     entriesPerPage: number;
     currentPage: number;
     numberOfPages: number;
@@ -31,9 +31,9 @@ type PaginationPerTab = { [key in TabType]: Pagination | null };
 
 const defaultPagination: Pagination = {
     currentPage: 1,
-    entriesPerPage: 20,
+    entriesPerPage: 14,
     firstVisibleEntry: 0,
-    lastVisibleEntry: 19,
+    lastVisibleEntry: 13,
     numberOfPages: 1,
 };
 

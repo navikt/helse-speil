@@ -1,0 +1,15 @@
+.Tildelingsknapp {
+    min-height: 0;
+    height: 1.5rem;
+    padding: 0 12px;
+    box-sizing: border-box;
+    font-size: var(--a-font-size-small);
+    align-items: center;
+    white-space: nowrap;
+}
+
+.Tildelingsknapp > span {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}

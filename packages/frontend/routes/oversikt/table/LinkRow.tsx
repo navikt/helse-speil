@@ -1,10 +1,10 @@
 import React, { useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+import { Table } from '@navikt/ds-react';
+
 import { useLoadingToast } from '@hooks/useLoadingToast';
 import { useFetchPerson } from '@state/person';
-
-import { Row } from './Row';
 
 import styles from './LinkRow.module.css';
 
@@ -21,7 +21,7 @@ interface LinkRowProps extends React.HTMLAttributes<HTMLTableRowElement> {
 }
 
 export const LinkRow = ({ aktørId, children, ...rest }: LinkRowProps) => {
-    const ref = useRef<HTMLTableRowElement>(null);
+    const ref = useRef<HTMLTableRowElement | null>(null);
     const doNavigate = useNavigate();
     const fetchPerson = useFetchPerson();
     const [isFetching, setIsFetching] = useState(false);
@@ -58,7 +58,7 @@ export const LinkRow = ({ aktørId, children, ...rest }: LinkRowProps) => {
     };
 
     return (
-        <Row
+        <Table.Row
             className={styles.LinkRow}
             ref={ref}
             role="link"
@@ -68,6 +68,6 @@ export const LinkRow = ({ aktørId, children, ...rest }: LinkRowProps) => {
             {...rest}
         >
             {children}
-        </Row>
+        </Table.Row>
     );
 };

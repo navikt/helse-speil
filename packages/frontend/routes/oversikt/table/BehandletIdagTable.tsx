@@ -1,26 +1,25 @@
-import { SøkerCell } from './rader/SøkerCell';
+import { SøkerCell } from './cells/SøkerCell';
 import React from 'react';
+
+import { Table } from '@navikt/ds-react';
 
 import { useFerdigstilteOppgaver } from '@state/oppgaver';
 
 import { IngenOppgaver } from '../IngenOppgaver';
-import { Header } from './Header';
 import { LinkRow } from './LinkRow';
 import { OppgaverTableError } from './OppgaverTableError';
 import { OppgaverTableSkeleton } from './OppgaverTableSkeleton';
 import { Pagination } from './Pagination';
-import { BehandletAvCell } from './rader/BehandletAvCell';
-import { BehandletTimestampCell } from './rader/BehandletTimestampCell';
-import { InntektskildeCell } from './rader/InntektskildeCell';
-import { OppgavetypeCell } from './rader/OppgavetypeCell';
-import { PeriodetypeCell } from './rader/PeriodetypeCell';
+import { BehandletAvCell } from './cells/BehandletAvCell';
+import { BehandletTimestampCell } from './cells/BehandletTimestampCell';
+import { InntektskildeCell } from './cells/InntektskildeCell';
+import { OppgavetypeCell } from './cells/OppgavetypeCell';
+import { PeriodetypeCell } from './cells/PeriodetypeCell';
 import { usePagination } from './state/pagination';
 
 import styles from './table.module.css';
 
-interface BehandletIdagTableProps {}
-
-export const BehandletIdagTable: React.FC<BehandletIdagTableProps> = () => {
+export const BehandletIdagTable = () => {
     const oppgaver = useFerdigstilteOppgaver();
     const pagination = usePagination();
 
@@ -45,48 +44,50 @@ export const BehandletIdagTable: React.FC<BehandletIdagTableProps> = () => {
         <div className={styles.TableContainer}>
             <div className={styles.Content}>
                 <div className={styles.Scrollable}>
-                    <table className={styles.Table} aria-label="Oppgaver behandlet av meg i dag">
-                        <thead>
-                            <tr>
-                                <Header scope="col" colSpan={1}>
+                    <Table className={styles.Table} aria-label="Oppgaver behandlet av meg i dag" zebraStripes>
+                        <Table.Header>
+                            <Table.Row>
+                                <Table.HeaderCell scope="col" colSpan={1}>
                                     Behandlet av
-                                </Header>
-                                <Header scope="col" colSpan={1}>
+                                </Table.HeaderCell>
+                                <Table.HeaderCell scope="col" colSpan={1}>
                                     Periodetype
-                                </Header>
-                                <Header scope="col" colSpan={1}>
+                                </Table.HeaderCell>
+                                <Table.HeaderCell scope="col" colSpan={1}>
                                     Oppgavetype
-                                </Header>
-                                <Header scope="col" colSpan={1}>
+                                </Table.HeaderCell>
+                                <Table.HeaderCell scope="col" colSpan={1}>
                                     Inntektskilde
-                                </Header>
-                                <Header scope="col" colSpan={1}>
+                                </Table.HeaderCell>
+                                <Table.HeaderCell scope="col" colSpan={1}>
                                     Søker
-                                </Header>
-                                <Header scope="col" colSpan={1}>
+                                </Table.HeaderCell>
+                                <Table.HeaderCell scope="col" colSpan={1}>
                                     Behandlet
-                                </Header>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {paginatedRows?.map((it) => (
-                                <LinkRow aktørId={it.aktorId} key={it.id}>
-                                    <BehandletAvCell name={it.ferdigstiltAv} />
-                                    <PeriodetypeCell type={it.periodetype} />
-                                    <OppgavetypeCell oppgavetype={it.type} />
-                                    <InntektskildeCell flereArbeidsgivere={it.inntektstype === 'FLEREARBEIDSGIVERE'} />
+                                </Table.HeaderCell>
+                            </Table.Row>
+                        </Table.Header>
+                        <Table.Body>
+                            {paginatedRows?.map((oppgave) => (
+                                <LinkRow aktørId={oppgave.aktorId} key={oppgave.id}>
+                                    <BehandletAvCell name={oppgave.ferdigstiltAv} />
+                                    <PeriodetypeCell type={oppgave.periodetype} />
+                                    <OppgavetypeCell oppgavetype={oppgave.type} />
+                                    <InntektskildeCell
+                                        flereArbeidsgivere={oppgave.inntektstype === 'FLEREARBEIDSGIVERE'}
+                                    />
                                     <SøkerCell
                                         name={{
-                                            fornavn: it.personnavn.fornavn,
-                                            etternavn: it.personnavn.etternavn,
-                                            mellomnavn: it.personnavn.mellomnavn ?? null,
+                                            fornavn: oppgave.personnavn.fornavn,
+                                            etternavn: oppgave.personnavn.etternavn,
+                                            mellomnavn: oppgave.personnavn.mellomnavn ?? null,
                                         }}
                                     />
-                                    <BehandletTimestampCell time={it.ferdigstiltTidspunkt} />
+                                    <BehandletTimestampCell time={oppgave.ferdigstiltTidspunkt} />
                                 </LinkRow>
                             ))}
-                        </tbody>
-                    </table>
+                        </Table.Body>
+                    </Table>
                 </div>
             </div>
             {oppgaver.state === 'hasValue' && <Pagination numberOfEntries={oppgaver.data.length} />}

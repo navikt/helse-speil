@@ -9,7 +9,7 @@ import { useFjernPåVent, useLeggPåVent } from '@state/person';
 import { useOperationErrorHandler } from '@state/varsler';
 import { ignorePromise } from '@utils/promise';
 
-import { NyttNotatModal } from '../../../oversikt/table/rader/notat/NyttNotatModal';
+import { NyttNotatModal } from '../../../oversikt/table/cells/notat/NyttNotatModal';
 
 interface PåVentDropdownMenuButtonProps {
     oppgavereferanse: string;

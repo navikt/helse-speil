@@ -126,7 +126,7 @@ export const defaultFilters: Filter<OppgaveForOversiktsvisning>[] = [
     },
     {
         key: 'EN_ARBEIDSGIVER',
-        label: 'Én arbeidsgiver',
+        label: 'En arbeidsgiver',
         active: false,
         function: (oppgave: OppgaveForOversiktsvisning) => !oppgave.flereArbeidsgivere,
         column: 5,

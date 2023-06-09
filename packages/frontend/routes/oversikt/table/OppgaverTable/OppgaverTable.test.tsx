@@ -18,6 +18,7 @@ describe('OppgaverTable', () => {
         expect(result).toHaveNoViolations();
     });
 });
+
 it('rendrer alle headere', () => {
     const oppgaver = [enOppgaveForOversikten()];
 

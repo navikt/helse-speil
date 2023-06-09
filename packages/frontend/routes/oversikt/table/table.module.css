@@ -11,18 +11,19 @@
     border-collapse: collapse;
 }
 
-.Table thead {
-    border-bottom: 1px solid var(--a-border-strong);
+.Table td {
+    vertical-align: middle;
+    padding: var(--a-spacing-3) var(--a-spacing-6) var(--a-spacing-3) var(--a-spacing-4);
+    white-space: nowrap;
+}
+
+.Table th {
+    white-space: nowrap;
 }
 
 .DropdownHeader th {
-    padding: 0 16px 8px 16px;
-}
-
-.SortHeader th {
-    font-weight: bold;
-    padding: 0 16px 0 16px;
-    height: 32px;
+    padding: var(--a-spacing-4) var(--a-spacing-3);
+    border-bottom: 0;
 }
 
 .Table > tbody > tr > td:last-of-type {
@@ -50,7 +51,16 @@
 }
 
 .FilterChips {
-    margin-left: 1rem;
-    margin-bottom: 1rem;
-    margin-top: 1rem;
+    margin: var(--a-spacing-2) var(--a-spacing-4);
+}
+
+.tildelingColumn {
+    width: 10%;
+    max-width: 132px;
+}
+
+.flexCell {
+    display: flex;
+    align-items: center;
+    gap: 12px;
 }

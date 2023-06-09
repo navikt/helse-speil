@@ -1,29 +1,61 @@
-import { atom, selector, useRecoilValue, useSetRecoilState } from 'recoil';
+import { SortState } from '@navikt/ds-react';
 
 import { OppgaveForOversiktsvisning } from '@io/graphql';
 
-import { TabType, tabState } from '../../tabState';
+export enum SortKey {
+    Saksbehandler = 'saksbehandler',
+    SøknadMottatt = 'søknadMottatt',
+    Opprettet = 'opprettet',
+}
 
-export type SortationState = 'ascending' | 'descending' | 'none';
-
-export type Sortation<T> = {
-    sortKey: string;
-    function: (a: T, b: T) => number;
-    state: SortationState;
+export const defaultSortation: SortState = {
+    orderBy: SortKey.Opprettet,
+    direction: 'ascending',
 };
 
-type SortationPerTab = { [key in TabType]: Sortation<OppgaveForOversiktsvisning> };
+export const updateSort = (
+    sort: SortState | undefined,
+    setSort: (state: SortState | undefined) => void,
+    sortKey: SortKey,
+) => {
+    setSort(
+        sort && sortKey === sort.orderBy && sort.direction === 'descending'
+            ? undefined
+            : {
+                  orderBy: sortKey,
+                  direction:
+                      sort && sortKey === sort.orderBy && sort.direction === 'ascending' ? 'descending' : 'ascending',
+              },
+    );
+};
 
-const opprettetSortFunction = (a: OppgaveForOversiktsvisning, b: OppgaveForOversiktsvisning) =>
+export const sortRows = (sort: SortState, filteredRows: OppgaveForOversiktsvisning[]): OppgaveForOversiktsvisning[] => {
+    switch (sort.orderBy as SortKey) {
+        case SortKey.Saksbehandler:
+            return filteredRows
+                .slice()
+                .sort((a, b) =>
+                    sort.direction === 'ascending' ? saksbehandlerSortFunction(a, b) : saksbehandlerSortFunction(b, a),
+                );
+        case SortKey.Opprettet:
+            return filteredRows
+                .slice()
+                .sort((a, b) =>
+                    sort.direction === 'ascending' ? opprettetSortFunction(a, b) : opprettetSortFunction(b, a),
+                );
+        case SortKey.SøknadMottatt:
+            return filteredRows
+                .slice()
+                .sort((a, b) =>
+                    sort.direction === 'ascending' ? søknadMottattSortFunction(a, b) : søknadMottattSortFunction(b, a),
+                );
+    }
+};
+
+export const opprettetSortFunction = (a: OppgaveForOversiktsvisning, b: OppgaveForOversiktsvisning) =>
     new Date(a.sistSendt ?? a.opprettet).getTime() - new Date(b.sistSendt ?? b.opprettet).getTime();
 
-export const opprettetSortation: Sortation<OppgaveForOversiktsvisning> = {
-    sortKey: 'opprettet',
-    function: opprettetSortFunction,
-    state: 'ascending',
-};
-
-const saksbehandlerSortFunction = (a: OppgaveForOversiktsvisning, b: OppgaveForOversiktsvisning) => {
+export const saksbehandlerSortFunction = (a: OppgaveForOversiktsvisning, b: OppgaveForOversiktsvisning) => {
     if (!a.tildeling) return 1;
     if (!b.tildeling) return -1;
     if (a.tildeling.navn > b.tildeling.navn) return 1;
@@ -31,36 +63,5 @@ const saksbehandlerSortFunction = (a: OppgaveForOversiktsvisning, b: OppgaveForO
     return 0;
 };
 
-export const saksbehandlerSortation: Sortation<OppgaveForOversiktsvisning> = {
-    sortKey: 'saksbehandler',
-    function: saksbehandlerSortFunction,
-    state: 'ascending',
-};
-
-const initialSortation: Sortation<OppgaveForOversiktsvisning> = opprettetSortation;
-
-const sortationPerTab = atom<SortationPerTab>({
-    key: 'sortationsPerTab',
-    default: {
-        [TabType.TilGodkjenning]: initialSortation,
-        [TabType.Mine]: initialSortation,
-        [TabType.Ventende]: initialSortation,
-        [TabType.BehandletIdag]: initialSortation,
-    },
-});
-
-const sortation = selector<Sortation<OppgaveForOversiktsvisning>>({
-    key: 'sortation',
-    get: ({ get }) => {
-        const tab = get(tabState);
-        return get(sortationPerTab)[tab];
-    },
-    set: ({ get, set }, newValue) => {
-        const tab = get(tabState);
-        set(sortationPerTab, (sortation) => ({ ...sortation, [tab]: newValue }));
-    },
-});
-
-export const useSortation = () => useRecoilValue(sortation);
-
-export const useSetSortation = () => useSetRecoilState(sortation);
+export const søknadMottattSortFunction = (a: OppgaveForOversiktsvisning, b: OppgaveForOversiktsvisning) =>
+    new Date(a.opprinneligSoknadsdato).getTime() - new Date(b.opprinneligSoknadsdato).getTime();

@@ -9,7 +9,7 @@ import { postSendTilbakeTilSaksbehandler } from '@io/http';
 import { useCurrentPerson } from '@state/person';
 import { useAddToast } from '@state/toasts';
 
-import { NyttNotatModal } from '../../../oversikt/table/rader/notat/NyttNotatModal';
+import { NyttNotatModal } from '../../../oversikt/table/cells/notat/NyttNotatModal';
 
 const useAddReturtoast = () => {
     const addToast = useAddToast();
