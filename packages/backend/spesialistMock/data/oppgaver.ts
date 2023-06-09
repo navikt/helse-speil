@@ -1,3 +1,5 @@
+import { randomUUID } from 'crypto';
+
 import {
     Adressebeskyttelse,
     Kjonn,
@@ -129,3 +131,100 @@ export const oppgaver: Array<OppgaveForOversiktsvisning> = [
         mottaker: Mottaker.Arbeidsgiver,
     },
 ];
+
+export const tilfeldigeOppgaver = (antall: number) => {
+    const oppgaver: OppgaveForOversiktsvisning[] = [];
+    let n = 0;
+    let startId = 6000;
+    while (n < antall) {
+        oppgaver.push(tilfeldigOppgave(startId++));
+        n++;
+    }
+    return oppgaver;
+};
+
+const tilfeldigOppgave = (oppgaveId: number): OppgaveForOversiktsvisning => {
+    const fornavn = tilfeldigFornavn();
+    const mellomnavn = tilfeldigMellomnavn();
+    const etternavn = tilfeldigEtternavn();
+
+    const tildelingFornavn = tilfeldigFornavn();
+    const tildelingMellomnavn = tilfeldigMellomnavn();
+    const tildelingEtternavn = tilfeldigEtternavn();
+
+    const dato = tilfeldigDato();
+    const opprettetDato = dato.toISOString();
+    dato.setDate(dato.getDate() - Math.floor(1 + Math.random() * 31));
+    const søknadsDato = dato.toISOString();
+
+    return {
+        id: oppgaveId.toString(),
+        type: tilfeldigElementFraEnum(Oppgavetype),
+        opprettet: opprettetDato,
+        opprinneligSoknadsdato: søknadsDato,
+        vedtaksperiodeId: randomUUID().toString(),
+        personinfo: {
+            fornavn: fornavn,
+            mellomnavn: mellomnavn,
+            etternavn: etternavn,
+            fodselsdato: '1970-01-01',
+            kjonn: tilfeldigElementFraEnum(Kjonn),
+            adressebeskyttelse: Adressebeskyttelse.Ugradert,
+        },
+        navn: {
+            fornavn: fornavn,
+            mellomnavn: mellomnavn,
+            etternavn: etternavn,
+        },
+        fodselsnummer: Math.floor(10000000000 + Math.random() * 90000000000).toString(),
+        aktorId: Math.floor(1000000000000 + Math.random() * 9000000000000).toString(),
+        antallVarsler: 0,
+        periodetype: tilfeldigElementFraEnum(Periodetype),
+        flereArbeidsgivere: Math.random() < 0.5,
+        boenhet: {
+            id: '0393',
+            navn: 'NAV oppfølging utland',
+        },
+        mottaker: tilfeldigElementFraEnum(Mottaker),
+        tildeling: {
+            epost: 'tildeling@epost.no',
+            navn: tildelingEtternavn + ', ' + tildelingFornavn + (tildelingMellomnavn ? ' ' + tildelingMellomnavn : ''),
+            reservert: false,
+            oid: randomUUID().toString(),
+        },
+    } as OppgaveForOversiktsvisning;
+};
+
+const tilfeldigDato = () => {
+    const start = new Date(2022, 0, 1);
+    return new Date(start.getTime() + Math.random() * (new Date().getTime() - start.getTime()));
+};
+
+const tilfeldigElementFraEnum = <T extends { [key: number]: string | number }>(e: T): T[keyof T] => {
+    const keys = Object.keys(e);
+
+    const randomKeyIndex = Math.floor(Math.random() * keys.length);
+    const randomKey = keys[randomKeyIndex];
+
+    const randomKeyNumber = Number(randomKey);
+    return isNaN(randomKeyNumber) ? e[randomKey as keyof T] : (randomKeyNumber as unknown as T[keyof T]);
+};
+
+const tilfeldigFornavn = () => {
+    const fornavnListe = ['Røff', 'Kul', 'Snill', 'Lat', 'Perfekt', 'Enorm', 'Ekkel'];
+    return tilfeldigNavn(fornavnListe);
+};
+
+const tilfeldigMellomnavn = () => {
+    const mellomnavnListe = ['Rar', 'Teit', 'Spesiell', 'Fantastisk', 'Tullete', 'Fabelaktig', null, null, null];
+    return tilfeldigNavn(mellomnavnListe);
+};
+
+const tilfeldigEtternavn = () => {
+    const etternavnListe = ['Paraply', 'Frosk', 'Øgle', 'Flaske', 'Dør', 'Pensjonist', 'Sykkel'];
+    return tilfeldigNavn(etternavnListe);
+};
+
+const tilfeldigNavn = (navneliste: (string | null)[]) => {
+    return navneliste[Math.floor(Math.random() * navneliste.length)];
+};

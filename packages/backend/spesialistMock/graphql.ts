@@ -7,11 +7,12 @@ import path from 'path';
 import { makeExecutableSchema } from '@graphql-tools/schema';
 import type { IResolvers } from '@graphql-tools/utils';
 
+import { antallTilfeldigeOppgaver } from '../devHelpers';
 import spesialistSchema from '../graphql.schema.json';
 import { behandledeOppgaver } from './data/behandledeOppgaver';
 import { behandlingsstatistikk } from './data/behandlingsstatistikk';
 import { getMockOppdrag } from './data/oppdrag';
-import { oppgaver } from './data/oppgaver';
+import { oppgaver, tilfeldigeOppgaver } from './data/oppgaver';
 import { FlereFodselsnumreError, NotFoundError } from './errors';
 import type {
     BeregnetPeriode,
@@ -21,6 +22,7 @@ import type {
     MutationOpprettTildelingArgs,
     MutationSettVarselstatusAktivArgs,
     MutationSettVarselstatusVurdertArgs,
+    OppgaveForOversiktsvisning,
     Person,
 } from './schemaTypes';
 import { NotatMock } from './storage/notat';
@@ -92,16 +94,21 @@ const getResolvers = (): IResolvers => ({
             return behandlingsstatistikk;
         },
         alleOppgaver: async () => {
-            return oppgaver.map((oppgave) => {
-                if (
-                    oppgave.tildeling !== undefined &&
-                    oppgave.tildeling !== null &&
-                    !TildelingMock.harTildeling(oppgave.id)
-                ) {
-                    TildelingMock.setTildeling(oppgave.id, oppgave.tildeling);
-                }
-                return { ...oppgave, tildeling: TildelingMock.getTildeling(oppgave.id) };
-            });
+            return oppgaver
+                .map((oppgave) => {
+                    if (
+                        oppgave.tildeling !== undefined &&
+                        oppgave.tildeling !== null &&
+                        !TildelingMock.harTildeling(oppgave.id)
+                    ) {
+                        TildelingMock.setTildeling(oppgave.id, oppgave.tildeling);
+                    }
+                    return {
+                        ...oppgave,
+                        tildeling: TildelingMock.getTildeling(oppgave.id),
+                    } as OppgaveForOversiktsvisning;
+                })
+                .concat(tilfeldigeOppgaver(antallTilfeldigeOppgaver));
         },
     },
     Mutation: {
