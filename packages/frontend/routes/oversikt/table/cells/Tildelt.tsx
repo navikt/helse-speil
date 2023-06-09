@@ -6,13 +6,14 @@ import { TextWithEllipsis } from '@components/TextWithEllipsis';
 
 interface TildeltProps {
     name: string;
+    width: number;
 }
 
-export const Tildelt = ({ name }: TildeltProps) => {
+export const Tildelt = ({ name, width }: TildeltProps) => {
     return (
         <Tooltip content={name}>
             <span>
-                <TextWithEllipsis style={{ width: 128 }}>{name}</TextWithEllipsis>
+                <TextWithEllipsis style={{ width: width }}>{name}</TextWithEllipsis>
             </span>
         </Tooltip>
     );

@@ -16,9 +16,9 @@ export const TildelingCell = ({ oppgave, kanTildeles }: TildelingProps) => (
     <Table.DataCell onClick={(event) => event.stopPropagation()}>
         {kanTildeles &&
             (oppgave.tildeling ? (
-                <Tildelt name={oppgave.tildeling.navn} />
+                <Tildelt width={128} name={oppgave.tildeling.navn} />
             ) : (
-                <IkkeTildelt oppgavereferanse={oppgave.id} />
+                <IkkeTildelt width={128} oppgavereferanse={oppgave.id} />
             ))}
     </Table.DataCell>
 );

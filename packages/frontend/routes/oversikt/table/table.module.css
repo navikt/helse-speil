@@ -43,11 +43,6 @@
     width: 100%;
 }
 
-.tildelingColumn {
-    width: 10%;
-    max-width: 132px;
-}
-
 .flexCell {
     display: flex;
     align-items: center;
