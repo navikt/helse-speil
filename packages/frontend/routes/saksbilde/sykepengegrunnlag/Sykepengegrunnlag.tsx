@@ -1,13 +1,13 @@
+import { useVilkårsgrunnlag } from './useVilkårsgrunnlag';
 import React from 'react';
 
 import { Alert } from '@navikt/ds-react';
 
 import { ErrorBoundary } from '@components/ErrorBoundary';
-import { BeregnetPeriode, Vilkarsgrunnlag } from '@io/graphql';
+import { BeregnetPeriode } from '@io/graphql';
 import { useCurrentArbeidsgiver, useVurderingForSkjæringstidspunkt } from '@state/arbeidsgiver';
 import { useActivePeriod } from '@state/periode';
 import { useCurrentPerson } from '@state/person';
-import { getRequiredVilkårsgrunnlag } from '@state/selectors/person';
 import {
     isBeregnetPeriode,
     isGhostPeriode,
@@ -18,17 +18,6 @@ import {
 import { BehandletSykepengegrunnlag } from './sykepengegrunnlagvisninger/BehandletSykepengegrunnlag';
 import { SykepengegrunnlagFraInfogtrygd } from './sykepengegrunnlagvisninger/infotrygd/SykepengegrunnlagFraInfotrygd';
 import { SykepengegrunnlagFraSpleis } from './sykepengegrunnlagvisninger/spleis/SykepengegrunnlagFraSpleis';
-
-export const useVilkårsgrunnlag = (
-    person?: Maybe<FetchedPerson>,
-    period?: Maybe<ActivePeriod>,
-): Maybe<Vilkarsgrunnlag> => {
-    if (!person || (!isGhostPeriode(period) && !isBeregnetPeriode(period)) || !period.vilkarsgrunnlagId) {
-        return null;
-    }
-
-    return getRequiredVilkårsgrunnlag(person, period.vilkarsgrunnlagId);
-};
 
 const SykepengegrunnlagContainer: React.FC = () => {
     const person = useCurrentPerson();

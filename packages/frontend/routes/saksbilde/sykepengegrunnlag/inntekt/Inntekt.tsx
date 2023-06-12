@@ -11,7 +11,7 @@ import { useActivePeriod } from '@state/periode';
 import { useCurrentPerson } from '@state/person';
 import { isBeregnetPeriode, isGhostPeriode, isUberegnetPeriode } from '@utils/typeguards';
 
-import { useVilkårsgrunnlag } from '../Sykepengegrunnlag';
+import { useVilkårsgrunnlag } from '../useVilkårsgrunnlag';
 import { InntektOgRefusjon } from './InntektOgRefusjon';
 
 import styles from './Inntekt.module.css';

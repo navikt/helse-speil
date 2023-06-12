@@ -14,7 +14,7 @@ import { getPeriodState } from '@utils/mapping';
 import { isArbeidsforholdoverstyring, isSpleisVilkarsgrunnlag } from '@utils/typeguards';
 
 import { Historikk } from '../historikk';
-import { useVilkårsgrunnlag } from '../sykepengegrunnlag/Sykepengegrunnlag';
+import { useVilkårsgrunnlag } from '../sykepengegrunnlag/useVilkårsgrunnlag';
 import { Saksbildevarsler } from '../varsler/Saksbildevarsler';
 import { Venstremeny } from '../venstremeny/Venstremeny';
 
