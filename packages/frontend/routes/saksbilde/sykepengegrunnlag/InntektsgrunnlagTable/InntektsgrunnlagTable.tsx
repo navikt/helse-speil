@@ -4,6 +4,7 @@ import { BodyShort } from '@navikt/ds-react';
 
 import { Bold } from '@components/Bold';
 import { Arbeidsgiverinntekt, Sykepengegrunnlagsgrense } from '@io/graphql';
+import { erUtvikling } from '@utils/featureToggles';
 import { somPenger } from '@utils/locale';
 
 import { Inntektssammenligning } from './Inntektssammenligning';
@@ -20,6 +21,7 @@ interface InntektsgrunnlagTableProps {
     setAktivInntektskilde: Dispatch<SetStateAction<Arbeidsgiverinntekt>>;
     aktivInntektskilde?: Arbeidsgiverinntekt;
     sykepengegrunnlagsgrense: Sykepengegrunnlagsgrense;
+    skjønnsmessigFastsattInntekt?: Maybe<number>;
 }
 
 export const InntektsgrunnlagTable: React.FC<InntektsgrunnlagTableProps> = ({
@@ -31,6 +33,7 @@ export const InntektsgrunnlagTable: React.FC<InntektsgrunnlagTableProps> = ({
     setAktivInntektskilde,
     aktivInntektskilde,
     sykepengegrunnlagsgrense,
+    skjønnsmessigFastsattInntekt,
 }) => {
     return (
         <div className={styles.InntektsgrunnlagTable}>
@@ -44,6 +47,11 @@ export const InntektsgrunnlagTable: React.FC<InntektsgrunnlagTableProps> = ({
                         <th>
                             <Bold>Sammenligningsgrunnlag</Bold>
                         </th>
+                        {erUtvikling() && (
+                            <th>
+                                <Bold>Skjønnsfastsatt</Bold>
+                            </th>
+                        )}
                     </tr>
                     <tr>
                         <th>
@@ -55,9 +63,14 @@ export const InntektsgrunnlagTable: React.FC<InntektsgrunnlagTableProps> = ({
                         <th>
                             <BodyShort className={styles.ColumnTitle}>Rapportert årsinntekt</BodyShort>
                         </th>
+                        {erUtvikling() && (
+                            <th>
+                                <BodyShort className={styles.ColumnTitle}>Sykepengegrunnlag</BodyShort>
+                            </th>
+                        )}
                     </tr>
                 </thead>
-                <tbody>
+                <tbody className={styles.InntektsgrunnlagTableBody}>
                     {inntekter.map((inntekt, index) => (
                         <Inntektssammenligning
                             key={index}
@@ -81,6 +94,11 @@ export const InntektsgrunnlagTable: React.FC<InntektsgrunnlagTableProps> = ({
                         <td style={{ textAlign: 'right', paddingRight: '2.25rem' }}>
                             <Bold>{somPenger(sammenligningsgrunnlag)}</Bold>
                         </td>
+                        {erUtvikling() && (
+                            <td style={{ textAlign: 'right', paddingRight: '3.5rem' }}>
+                                <Bold>{somPenger(skjønnsmessigFastsattInntekt)}</Bold>
+                            </td>
+                        )}
                     </tr>
                 </tfoot>
             </table>

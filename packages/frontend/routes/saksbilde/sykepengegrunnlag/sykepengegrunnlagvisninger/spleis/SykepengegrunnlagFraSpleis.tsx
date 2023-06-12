@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import React, { useEffect, useState } from 'react';
 
-import { Arbeidsgiverinntekt, VilkarsgrunnlagSpleis } from '@io/graphql';
+import { Arbeidsgiverinntekt, Inntektskilde, VilkarsgrunnlagSpleis } from '@io/graphql';
 import { useArbeidsgiver } from '@state/arbeidsgiver';
 import { getRequiredInntekt } from '@state/selectors/person';
 
@@ -52,6 +52,16 @@ export const SykepengegrunnlagFraSpleis = ({
         return null;
     }
 
+    const skjønnsmessigFastsattInntekt: number | undefined = vilkårsgrunnlag.inntekter.reduce(
+        (previousValue: number | undefined, currentValue) => {
+            if (currentValue.omregnetArsinntekt?.kilde === Inntektskilde.SkjonnsmessigFastsatt) {
+                return currentValue.omregnetArsinntekt?.belop + (previousValue ?? 0);
+            }
+            return previousValue;
+        },
+        undefined,
+    );
+
     return (
         <Container {...rest}>
             <InntektsgrunnlagTable
@@ -63,6 +73,7 @@ export const SykepengegrunnlagFraSpleis = ({
                 setAktivInntektskilde={setAktivInntektskilde}
                 aktivInntektskilde={aktivInntektskilde}
                 sykepengegrunnlagsgrense={vilkårsgrunnlag.sykepengegrunnlagsgrense}
+                skjønnsmessigFastsattInntekt={skjønnsmessigFastsattInntekt}
             />
             <Strek />
             <Inntekt inntekt={aktivInntektskilde} />

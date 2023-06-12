@@ -2,6 +2,7 @@ import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import React from 'react';
 
+import { CaseworkerFilled } from '@navikt/ds-icons';
 import { BodyShort, Tooltip } from '@navikt/ds-react';
 
 import { Kilde } from '@components/Kilde';
@@ -10,6 +11,7 @@ import { Arbeidsgiverikon } from '@components/ikoner/Arbeidsgiverikon';
 import { Errorikon } from '@components/ikoner/Errorikon';
 import { Inntektskilde, OmregnetArsinntekt, Sammenligningsgrunnlag } from '@io/graphql';
 import { useArbeidsgiver, useEndringerForPeriode } from '@state/arbeidsgiver';
+import { erUtvikling } from '@utils/featureToggles';
 import { kildeForkortelse } from '@utils/inntektskilde';
 import { somPenger } from '@utils/locale';
 
@@ -141,6 +143,23 @@ export const Inntektssammenligning = ({
                     <Kilde type={Inntektskilde.Aordningen}>AO</Kilde>
                 </InntektMedKilde>
             </td>
+            {erUtvikling() && (
+                <td>
+                    <InntektMedKilde>
+                        {arbeidsforholdErDeaktivert ||
+                        omregnetÅrsinntekt?.kilde !== Inntektskilde.SkjonnsmessigFastsatt ? (
+                            <BodyShort>-</BodyShort>
+                        ) : (
+                            <BodyShort>{omregnetÅrsinntekt ? somPenger(omregnetÅrsinntekt.belop) : '-'}</BodyShort>
+                        )}
+                        {omregnetÅrsinntekt && omregnetÅrsinntekt.kilde === Inntektskilde.SkjonnsmessigFastsatt && (
+                            <Kilde type={omregnetÅrsinntekt.kilde}>
+                                <CaseworkerFilled title="Caseworker-ikon" height={20} width={20} />
+                            </Kilde>
+                        )}
+                    </InntektMedKilde>
+                </td>
+            )}
             <SisteTd erGjeldende={erGjeldende} />
         </ArbeidsgiverRad>
     );

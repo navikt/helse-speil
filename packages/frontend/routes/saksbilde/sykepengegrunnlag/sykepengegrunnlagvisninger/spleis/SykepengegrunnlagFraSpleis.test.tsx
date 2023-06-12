@@ -21,9 +21,15 @@ import { SykepengegrunnlagFraSpleis } from './SykepengegrunnlagFraSpleis';
 jest.mock('@state/arbeidsgiver');
 jest.mock('@state/periode');
 jest.mock('../../useVilkårsgrunnlag');
+jest.mock('@state/toggles');
+
+jest.mock('@utils/featureToggles', () => ({
+    erUtvikling: () => true,
+}));
 
 describe('SykepengegrunnlagFraSpleis', () => {
     afterEach(() => {
+        // (erUtvikling as jest.Mock).mockReturnValue(false);
         jest.clearAllMocks();
     });
 

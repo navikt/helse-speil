@@ -50,7 +50,7 @@ const inntektsmeldingStyle = (props: KildeProps) =>
     `;
 
 const saksbehandlerStyle = (props: KildeProps) =>
-    props.type === Kildetype.Saksbehandler &&
+    (props.type === Kildetype.Saksbehandler || props.type === Inntektskilde.SkjonnsmessigFastsatt) &&
     css`
         background-color: var(--a-gray-100);
         color: var(--a-text-default);
@@ -80,6 +80,8 @@ const getKildeTypeTooltip = (kilde: KildeikonType): string => {
             return 'Saksbehandler';
         case 'AINNTEKT':
             return 'A-inntekt';
+        case Inntektskilde.SkjonnsmessigFastsatt:
+            return 'Skjønnsmessig fastsatt';
         default:
             return 'Ukjent';
     }
@@ -112,7 +114,9 @@ const Kildeikon = styled.div<KildeProps>`
 `;
 
 const erTekst = (kilde: KildeikonType): boolean =>
-    kilde !== Kildetype.Saksbehandler && kilde !== Inntektskilde.Saksbehandler;
+    kilde !== Kildetype.Saksbehandler &&
+    kilde !== Inntektskilde.Saksbehandler &&
+    kilde !== Inntektskilde.SkjonnsmessigFastsatt;
 
 export const Kilde = ({ type, children, className }: KildeProps) => {
     return (
