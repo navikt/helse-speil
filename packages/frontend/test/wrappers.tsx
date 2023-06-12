@@ -23,6 +23,8 @@ export const RecoilAndRouterWrapper: React.FC<RecoilProps> = ({ children, initia
     );
 };
 
+// Denne brukes bare i test, så her har det ikke noe å si
+// eslint-disable-next-line react-refresh/only-export-components
 export const wrapperWithRecoilInitializer =
     (initializer: (mutableSnapshot: MutableSnapshot) => void): React.FC<ChildrenProps> =>
     ({ children }) => {
