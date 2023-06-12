@@ -26,31 +26,31 @@ const SykepengegrunnlagContainer: React.FC = () => {
     const vurdering = useVurderingForSkjæringstidspunkt((activePeriod as BeregnetPeriode).skjaeringstidspunkt);
     const arbeidsgiver = useCurrentArbeidsgiver();
 
-    if ((isGhostPeriode(activePeriod) || isBeregnetPeriode(activePeriod)) && arbeidsgiver && person) {
-        if (isSpleisVilkarsgrunnlag(vilkårsgrunnlag)) {
-            return vurdering ? (
-                <BehandletSykepengegrunnlag
-                    vurdering={vurdering}
-                    vilkårsgrunnlag={vilkårsgrunnlag}
-                    skjæringstidspunkt={activePeriod.skjaeringstidspunkt}
-                    arbeidsgiver={arbeidsgiver}
-                />
-            ) : (
-                <SykepengegrunnlagFraSpleis
-                    vilkårsgrunnlag={vilkårsgrunnlag}
-                    skjæringstidspunkt={activePeriod.skjaeringstidspunkt}
-                    organisasjonsnummer={arbeidsgiver.organisasjonsnummer}
-                    data-testid="ubehandlet-sykepengegrunnlag"
-                />
-            );
-        } else if (isInfotrygdVilkarsgrunnlag(vilkårsgrunnlag)) {
-            return (
-                <SykepengegrunnlagFraInfogtrygd
-                    vilkårsgrunnlag={vilkårsgrunnlag}
-                    organisasjonsnummer={arbeidsgiver.organisasjonsnummer}
-                />
-            );
-        }
+    if (!((isGhostPeriode(activePeriod) || isBeregnetPeriode(activePeriod)) && arbeidsgiver && person)) return null;
+
+    if (isSpleisVilkarsgrunnlag(vilkårsgrunnlag)) {
+        return vurdering ? (
+            <BehandletSykepengegrunnlag
+                vurdering={vurdering}
+                vilkårsgrunnlag={vilkårsgrunnlag}
+                skjæringstidspunkt={activePeriod.skjaeringstidspunkt}
+                arbeidsgiver={arbeidsgiver}
+            />
+        ) : (
+            <SykepengegrunnlagFraSpleis
+                vilkårsgrunnlag={vilkårsgrunnlag}
+                skjæringstidspunkt={activePeriod.skjaeringstidspunkt}
+                organisasjonsnummer={arbeidsgiver.organisasjonsnummer}
+                data-testid="ubehandlet-sykepengegrunnlag"
+            />
+        );
+    } else if (isInfotrygdVilkarsgrunnlag(vilkårsgrunnlag)) {
+        return (
+            <SykepengegrunnlagFraInfogtrygd
+                vilkårsgrunnlag={vilkårsgrunnlag}
+                organisasjonsnummer={arbeidsgiver.organisasjonsnummer}
+            />
+        );
     }
 
     return null;
