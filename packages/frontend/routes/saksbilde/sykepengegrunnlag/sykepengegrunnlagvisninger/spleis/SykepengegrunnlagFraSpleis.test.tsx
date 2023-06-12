@@ -15,12 +15,12 @@ import { enPerson } from '@test-data/person';
 import { etVilkårsgrunnlagFraSpleis } from '@test-data/vilkårsgrunnlag';
 import { render, screen } from '@testing-library/react';
 
-import { useVilkårsgrunnlag } from './Sykepengegrunnlag';
+import { useVilkårsgrunnlag } from '../../Sykepengegrunnlag';
 import { SykepengegrunnlagFraSpleis } from './SykepengegrunnlagFraSpleis';
 
 jest.mock('@state/arbeidsgiver');
 jest.mock('@state/periode');
-jest.mock('./Sykepengegrunnlag');
+jest.mock('../../Sykepengegrunnlag');
 
 describe('SykepengegrunnlagFraSpleis', () => {
     afterEach(() => {

@@ -14,9 +14,9 @@ import { ForklaringTextarea } from '@components/ForklaringTextarea';
 import { OverstyringTimeoutModal } from '@components/OverstyringTimeoutModal';
 import { Maybe } from '@io/graphql';
 
-import { VenterPåEndringContext } from '../VenterPåEndringContext';
+import { VenterPåEndringContext } from '../../VenterPåEndringContext';
+import { Begrunnelser } from '../inntekt/Begrunnelser';
 import { AngreOverstyrArbeidsforholdUtenSykdom } from './AngreOverstyrArbeidsforholdUtenSykdom';
-import { Begrunnelser } from './inntekt/Begrunnelser';
 import { useGetOverstyrtArbeidsforhold, usePostOverstyrtArbeidsforhold } from './overstyrArbeidsforholdHooks';
 
 const Container = styled.div`

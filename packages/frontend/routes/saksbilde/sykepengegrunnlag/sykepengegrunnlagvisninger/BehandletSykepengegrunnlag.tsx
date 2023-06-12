@@ -5,7 +5,7 @@ import { Saksbehandlervurdering } from '@components/Saksbehandlervurdering';
 import { Arbeidsgiver, VilkarsgrunnlagSpleis, Vurdering } from '@io/graphql';
 import { getFormattedDateString } from '@utils/date';
 
-import { SykepengegrunnlagFraSpleis } from './SykepengegrunnlagFraSpleis';
+import { SykepengegrunnlagFraSpleis } from './spleis/SykepengegrunnlagFraSpleis';
 
 interface BehandletSykepengegrunnlagProps {
     vurdering: Vurdering;

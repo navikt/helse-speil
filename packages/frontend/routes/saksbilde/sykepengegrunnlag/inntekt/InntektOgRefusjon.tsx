@@ -39,8 +39,8 @@ import { isForkastet } from '@state/selectors/period';
 import { overstyrInntektEnabled } from '@utils/featureToggles';
 import { isBeregnetPeriode, isGhostPeriode } from '@utils/typeguards';
 
-import { OverstyrArbeidsforholdUtenSykdom } from '../OverstyrArbeidsforholdUtenSykdom';
-import { BegrunnelseForOverstyring } from '../overstyring.types';
+import { OverstyrArbeidsforholdUtenSykdom } from '../overstyring/OverstyrArbeidsforholdUtenSykdom';
+import { BegrunnelseForOverstyring } from '../overstyring/overstyring.types';
 import { Refusjonsoversikt } from '../refusjon/Refusjonsoversikt';
 import { EditableInntekt } from './EditableInntekt/EditableInntekt';
 import { ReadOnlyInntekt } from './ReadOnlyInntekt';

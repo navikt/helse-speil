@@ -23,7 +23,7 @@ import { ISO_DATOFORMAT, NORSK_DATOFORMAT } from '@utils/date';
 import { isBeregnetPeriode, isGhostPeriode } from '@utils/typeguards';
 
 import { getFørstePeriodeForSkjæringstidspunkt } from '../../../historikk/mapping';
-import { BegrunnelseForOverstyring } from '../../overstyring.types';
+import { BegrunnelseForOverstyring } from '../../overstyring/overstyring.types';
 import { Begrunnelser } from '../Begrunnelser';
 import { Refusjon } from '../Refusjon';
 import { EditableInntektSlettLokaleOverstyringerModal } from './EditableInntektSlettLokaleOverstyringerModal';

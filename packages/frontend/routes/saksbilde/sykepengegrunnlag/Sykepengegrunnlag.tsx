@@ -15,9 +15,9 @@ import {
     isSpleisVilkarsgrunnlag,
 } from '@utils/typeguards';
 
-import { BehandletSykepengegrunnlag } from './BehandletSykepengegrunnlag';
-import { SykepengegrunnlagFraInfogtrygd } from './SykepengegrunnlagFraInfotrygd';
-import { SykepengegrunnlagFraSpleis } from './SykepengegrunnlagFraSpleis';
+import { BehandletSykepengegrunnlag } from './sykepengegrunnlagvisninger/BehandletSykepengegrunnlag';
+import { SykepengegrunnlagFraInfogtrygd } from './sykepengegrunnlagvisninger/infotrygd/SykepengegrunnlagFraInfotrygd';
+import { SykepengegrunnlagFraSpleis } from './sykepengegrunnlagvisninger/spleis/SykepengegrunnlagFraSpleis';
 
 export const useVilkårsgrunnlag = (
     person?: Maybe<FetchedPerson>,

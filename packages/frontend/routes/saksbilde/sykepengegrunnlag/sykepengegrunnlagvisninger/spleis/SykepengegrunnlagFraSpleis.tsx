@@ -5,8 +5,8 @@ import { Arbeidsgiverinntekt, VilkarsgrunnlagSpleis } from '@io/graphql';
 import { useArbeidsgiver } from '@state/arbeidsgiver';
 import { getRequiredInntekt } from '@state/selectors/person';
 
-import { InntektsgrunnlagTable } from './InntektsgrunnlagTable';
-import { Inntekt } from './inntekt/Inntekt';
+import { InntektsgrunnlagTable } from '../../InntektsgrunnlagTable/InntektsgrunnlagTable';
+import { Inntekt } from '../../inntekt/Inntekt';
 
 const Container = styled.div`
     display: flex;

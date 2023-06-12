@@ -13,7 +13,7 @@ import { useArbeidsgiver, useEndringerForPeriode } from '@state/arbeidsgiver';
 import { kildeForkortelse } from '@utils/inntektskilde';
 import { somPenger } from '@utils/locale';
 
-import { EndringsloggButton } from './inntekt/EndringsloggButton';
+import { EndringsloggButton } from '../inntekt/EndringsloggButton';
 
 const ArbeidsgiverRad = styled.tr<{ erGjeldende: boolean }>`
     padding: 0.25rem;

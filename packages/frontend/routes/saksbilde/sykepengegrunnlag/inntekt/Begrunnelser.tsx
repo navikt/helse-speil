@@ -4,7 +4,7 @@ import { useFormContext } from 'react-hook-form';
 
 import { Radio, RadioGroup } from '@navikt/ds-react';
 
-import { BegrunnelseForOverstyring } from '../overstyring.types';
+import { BegrunnelseForOverstyring } from '../overstyring/overstyring.types';
 
 const BegrunnelseFieldset = styled(RadioGroup)`
     > .navds-radio {

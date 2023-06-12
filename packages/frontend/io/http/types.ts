@@ -1,4 +1,4 @@
-import { Subsumsjon } from '../../routes/saksbilde/sykepengegrunnlag/overstyring.types';
+import { Subsumsjon } from '../../routes/saksbilde/sykepengegrunnlag/overstyring/overstyring.types';
 
 export interface Options {
     method?: string;
