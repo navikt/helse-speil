@@ -8,8 +8,8 @@ import { Button, UNSAFE_DatePicker as DatePicker, Select, TextField } from '@nav
 import { Kildetype } from '@io/graphql';
 import { ISO_DATOFORMAT, NORSK_DATOFORMAT } from '@utils/date';
 
-import { kanVelgeGrad } from './EndringForm/EndringForm';
 import { OverstyrbarDagtype, typeendringer } from './EndringForm/endringFormUtils';
+import { kanVelgeGrad } from './EndringForm/kanVelgeGrad';
 
 import styles from './LeggTilDager.module.css';
 

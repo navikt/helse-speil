@@ -6,16 +6,12 @@ import { Button, Select, TextField } from '@navikt/ds-react';
 import { Bold } from '@components/Bold';
 
 import { typeendringer } from './endringFormUtils';
+import { kanVelgeGrad } from './kanVelgeGrad';
 
 import styles from './EndringForm.module.css';
 
-const dagtyperUtenGradering: Array<Utbetalingstabelldagtype> = ['Arbeid', 'Ferie', 'Permisjon', 'Egenmelding'];
-
 const harEndring = (endring: Partial<UtbetalingstabellDag>): boolean =>
     typeof endring.type === 'string' || typeof endring.grad === 'number';
-
-export const kanVelgeGrad = (type?: Utbetalingstabelldagtype) =>
-    type && dagtyperUtenGradering.every((it) => it !== type);
 
 interface EndringFormProps {
     markerteDager: Map<string, UtbetalingstabellDag>;
