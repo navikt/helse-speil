@@ -31,7 +31,7 @@ export const SykepengegrunnlagPanel = ({
     skjønnsmessigFastsattInntekt,
 }: SykepengegrunnlagPanelProps) => {
     return (
-        <div className={styles.InntektsgrunnlagTable}>
+        <div className={styles.wrapper}>
             <InntektsgrunnlagTable
                 inntekter={inntekter}
                 setAktivInntektskilde={setAktivInntektskilde}

@@ -1,12 +1,13 @@
 import React from 'react';
 
-import { BodyShort } from '@navikt/ds-react';
+import { BodyShort, Label } from '@navikt/ds-react';
 
 import { Bold } from '@components/Bold';
 import { Sykepengegrunnlagsgrense } from '@io/graphql';
 import { somPenger } from '@utils/locale';
 
 import { SykepengegrunnlagsgrenseView } from './SykepengegrunnlagsgrenseView';
+import { TableCell } from './TableCell';
 
 import styles from './SykepengegrunnlagPanel.module.css';
 
@@ -26,43 +27,25 @@ export const InntektsgrunnlagoppsummeringTable = ({
     sykepengegrunnlagsgrense,
 }: InntektsgrunnlagoppsummeringTableProps) => {
     return (
-        <table className={styles.Table} style={{ marginBottom: '0' }}>
+        <table className={styles.Table}>
             <tbody>
-                <tr>
-                    <td>
-                        <BodyShort>Total omregnet årsinntekt</BodyShort>
-                    </td>
-                    <td>
-                        <BodyShort className={styles.rightAligned}>{somPenger(omregnetÅrsinntekt)}</BodyShort>
-                    </td>
+                <tr className={styles.oppsummeringRow}>
+                    <TableCellText text="Total omregnet årsinntekt" />
+                    <TableCell content={<BodyShort>{somPenger(omregnetÅrsinntekt)}</BodyShort>} />
                 </tr>
                 <tr>
-                    <td>
-                        <BodyShort>Total rapportert årsinntekt</BodyShort>
-                    </td>
-                    <td>
-                        <BodyShort className={styles.rightAligned}>{somPenger(sammenligningsgrunnlag)}</BodyShort>
-                    </td>
+                    <TableCellText text="Total rapportert årsinntekt" />
+                    <TableCell content={<BodyShort>{somPenger(sammenligningsgrunnlag)}</BodyShort>} />
                 </tr>
             </tbody>
             <tfoot>
                 <tr className={styles.PaddedRow}>
-                    <td>
-                        <Bold>Utregnet avvik</Bold>
-                    </td>
-                    <td>
-                        <Bold className={styles.rightAligned}>
-                            {avviksprosent ? `${Math.floor(avviksprosent)} %` : '-'}
-                        </Bold>
-                    </td>
+                    <TableCellBold text="Utregnet avvik" />
+                    <TableCell content={<Bold>{avviksprosent ? `${Math.floor(avviksprosent)} %` : '-'}</Bold>} />
                 </tr>
-                <tr>
-                    <td style={{ paddingBottom: 0 }}>
-                        <Bold>Sykepengegrunnlag</Bold>
-                    </td>
-                    <td style={{ paddingBottom: 0 }}>
-                        <Bold className={styles.rightAligned}>{somPenger(sykepengegrunnlag)}</Bold>
-                    </td>
+                <tr className={styles.sykepengegrunnlagRow}>
+                    <TableCellBold text="Sykepengegrunnlag" />
+                    <TableCell content={<Bold className={styles.rightAligned}>{somPenger(sykepengegrunnlag)}</Bold>} />
                 </tr>
                 <tr>
                     {omregnetÅrsinntekt != null && (
@@ -74,7 +57,28 @@ export const InntektsgrunnlagoppsummeringTable = ({
                         </td>
                     )}
                 </tr>
+                <Label> text</Label>
             </tfoot>
         </table>
     );
 };
+
+interface TableCellTextProps {
+    text: string;
+}
+
+const TableCellText = ({ text }: TableCellTextProps) => (
+    <td>
+        <BodyShort>{text}</BodyShort>
+    </td>
+);
+
+interface TableCellBoldProps {
+    text: string;
+}
+
+const TableCellBold = ({ text }: TableCellBoldProps) => (
+    <td>
+        <Bold>{text}</Bold>
+    </td>
+);

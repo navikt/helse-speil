@@ -9,13 +9,14 @@ import { Kilde } from '@components/Kilde';
 import { AnonymizableText } from '@components/anonymizable/AnonymizableText';
 import { Arbeidsgiverikon } from '@components/ikoner/Arbeidsgiverikon';
 import { Errorikon } from '@components/ikoner/Errorikon';
-import { Inntektskilde, OmregnetArsinntekt, Sammenligningsgrunnlag } from '@io/graphql';
+import { Inntektskilde, OmregnetArsinntekt, Overstyring, Sammenligningsgrunnlag } from '@io/graphql';
 import { useArbeidsgiver, useEndringerForPeriode } from '@state/arbeidsgiver';
 import { erUtvikling } from '@utils/featureToggles';
 import { kildeForkortelse } from '@utils/inntektskilde';
 import { somPenger } from '@utils/locale';
 
 import { EndringsloggButton } from '../inntekt/EndringsloggButton';
+import { TableCell } from './TableCell';
 
 const ArbeidsgiverRad = styled.tr<{ erGjeldende: boolean }>`
     padding: 0.25rem;
@@ -38,13 +39,6 @@ const ArbeidsgiverRad = styled.tr<{ erGjeldende: boolean }>`
                 background-color: var(--speil-light-hover);
             `}
     }
-`;
-
-const InntektMedKilde = styled.div`
-    display: flex;
-    align-items: center;
-    justify-content: right;
-    gap: 0.5rem;
 `;
 
 const Arbeidsgivernavn = styled.div`
@@ -121,46 +115,83 @@ export const Inntektssammenligning = ({
                     <Loky arbeidsforholdErDeaktivert={!!arbeidsforholdErDeaktivert}>{arbeidsgivernavn}</Loky>
                 </Arbeidsgivernavn>
             </td>
-            <td>
-                <InntektMedKilde>
-                    {arbeidsforholdErDeaktivert ? (
-                        <BodyShort>-</BodyShort>
-                    ) : (
-                        <BodyShort>{omregnetÅrsinntekt ? somPenger(omregnetÅrsinntekt.belop) : '-'}</BodyShort>
-                    )}
-                    {omregnetÅrsinntekt?.kilde === Inntektskilde.Saksbehandler || arbeidsforholdErDeaktivert ? (
-                        <EndringsloggButton endringer={[...inntektsendringer, ...arbeidsforholdendringer]} />
-                    ) : (
-                        omregnetÅrsinntekt && (
-                            <Kilde type={omregnetÅrsinntekt.kilde}>{kildeForkortelse(omregnetÅrsinntekt.kilde)}</Kilde>
-                        )
-                    )}
-                </InntektMedKilde>
-            </td>
-            <td>
-                <InntektMedKilde>
-                    <BodyShort>{somPenger(sammenligningsgrunnlag?.belop)}</BodyShort>
-                    <Kilde type={Inntektskilde.Aordningen}>AO</Kilde>
-                </InntektMedKilde>
-            </td>
+            <TableCell
+                content={
+                    <OmregnetÅrsinntektContent
+                        arbeidsforholdErDeaktivert={arbeidsforholdErDeaktivert}
+                        beløp={omregnetÅrsinntekt?.belop}
+                    />
+                }
+                ikon={
+                    <OmregnetÅrsinntektIkon
+                        endringer={[...inntektsendringer, ...arbeidsforholdendringer]}
+                        arbeidsforholdErDeaktivert={arbeidsforholdErDeaktivert}
+                        kilde={omregnetÅrsinntekt?.kilde}
+                    />
+                }
+            />
+            <TableCell
+                content={<BodyShort>{somPenger(sammenligningsgrunnlag?.belop)}</BodyShort>}
+                ikon={<Kilde type={Inntektskilde.Aordningen}>AO</Kilde>}
+            />
             {erUtvikling() && (
-                <td>
-                    <InntektMedKilde>
-                        {arbeidsforholdErDeaktivert ||
-                        omregnetÅrsinntekt?.kilde !== Inntektskilde.SkjonnsmessigFastsatt ? (
-                            <BodyShort>-</BodyShort>
-                        ) : (
-                            <BodyShort>{omregnetÅrsinntekt ? somPenger(omregnetÅrsinntekt.belop) : '-'}</BodyShort>
-                        )}
-                        {omregnetÅrsinntekt && omregnetÅrsinntekt.kilde === Inntektskilde.SkjonnsmessigFastsatt && (
-                            <Kilde type={omregnetÅrsinntekt.kilde}>
-                                <CaseworkerFilled title="Caseworker-ikon" height={20} width={20} />
-                            </Kilde>
-                        )}
-                    </InntektMedKilde>
-                </td>
+                <TableCell
+                    content={
+                        <SkjønnsfastsettingContent
+                            arbeidsforholdErDeaktivert={arbeidsforholdErDeaktivert}
+                            kilde={omregnetÅrsinntekt?.kilde}
+                            beløp={omregnetÅrsinntekt?.belop}
+                        />
+                    }
+                    ikon={<SkjønnsfastsettingIkon kilde={omregnetÅrsinntekt?.kilde} />}
+                />
             )}
             <SisteTd erGjeldende={erGjeldende} />
         </ArbeidsgiverRad>
     );
 };
+
+interface OmregnetÅrsinntektContentProps {
+    arbeidsforholdErDeaktivert?: Maybe<boolean>;
+    beløp?: number;
+}
+
+const OmregnetÅrsinntektContent = ({ arbeidsforholdErDeaktivert, beløp }: OmregnetÅrsinntektContentProps) => (
+    <BodyShort>{!arbeidsforholdErDeaktivert && beløp ? somPenger(beløp) : '-'}</BodyShort>
+);
+
+interface OmregnetÅrsinntektIkonProps {
+    arbeidsforholdErDeaktivert?: Maybe<boolean>;
+    endringer: Array<Overstyring>;
+    kilde?: Inntektskilde;
+}
+
+const OmregnetÅrsinntektIkon = ({ arbeidsforholdErDeaktivert, endringer, kilde }: OmregnetÅrsinntektIkonProps) =>
+    kilde === Inntektskilde.Saksbehandler || arbeidsforholdErDeaktivert ? (
+        <EndringsloggButton endringer={endringer as Array<Overstyring>} />
+    ) : (
+        kilde && <Kilde type={kilde}>{kildeForkortelse(kilde)}</Kilde>
+    );
+
+interface SkjønnsfastsettingContentProps {
+    arbeidsforholdErDeaktivert?: Maybe<boolean>;
+    kilde?: Inntektskilde;
+    beløp?: number;
+}
+
+const SkjønnsfastsettingContent = ({ arbeidsforholdErDeaktivert, kilde, beløp }: SkjønnsfastsettingContentProps) => (
+    <BodyShort>
+        {!arbeidsforholdErDeaktivert && kilde !== Inntektskilde.SkjonnsmessigFastsatt ? somPenger(beløp) : '-'}
+    </BodyShort>
+);
+
+interface SkjønnsfastsettingIkonProps {
+    kilde?: Inntektskilde;
+}
+
+const SkjønnsfastsettingIkon = ({ kilde }: SkjønnsfastsettingIkonProps) =>
+    kilde === Inntektskilde.SkjonnsmessigFastsatt && (
+        <Kilde type={kilde}>
+            <CaseworkerFilled title="Caseworker-ikon" height={20} width={20} />
+        </Kilde>
+    );
