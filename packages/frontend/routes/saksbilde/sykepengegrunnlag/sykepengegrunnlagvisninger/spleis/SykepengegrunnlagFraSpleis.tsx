@@ -5,7 +5,7 @@ import { Arbeidsgiverinntekt, Inntektskilde, VilkarsgrunnlagSpleis } from '@io/g
 import { useArbeidsgiver } from '@state/arbeidsgiver';
 import { getRequiredInntekt } from '@state/selectors/person';
 
-import { InntektsgrunnlagTable } from '../../InntektsgrunnlagTable/InntektsgrunnlagTable';
+import { SykepengegrunnlagPanel } from '../../InntektsgrunnlagTable/SykepengegrunnlagPanel';
 import { Inntekt } from '../../inntekt/Inntekt';
 
 const Container = styled.div`
@@ -64,7 +64,7 @@ export const SykepengegrunnlagFraSpleis = ({
 
     return (
         <Container {...rest}>
-            <InntektsgrunnlagTable
+            <SykepengegrunnlagPanel
                 inntekter={vilkårsgrunnlag.inntekter}
                 omregnetÅrsinntekt={vilkårsgrunnlag.omregnetArsinntekt}
                 sammenligningsgrunnlag={vilkårsgrunnlag.sammenligningsgrunnlag}
