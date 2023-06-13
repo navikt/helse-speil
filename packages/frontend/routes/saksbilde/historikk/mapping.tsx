@@ -92,15 +92,24 @@ export const getPeriodehistorikk = (periode: FetchedBeregnetPeriode): Array<Hist
         }));
 };
 
-const getVurderingstidsstempelForTilsvarendePeriodeIFørsteGenerasjon = (
+const getTidligsteVurderingstidsstempelForPeriode = (
     period: FetchedBeregnetPeriode,
     arbeidsgiver: Arbeidsgiver,
 ): string | null => {
     return (
-        arbeidsgiver.generasjoner[arbeidsgiver.generasjoner.length - 1].perioder
-            .filter(isBeregnetPeriode)
-            .find((it) => it.vedtaksperiodeId === period.vedtaksperiodeId && it.utbetaling.vurdering?.godkjent)
-            ?.utbetaling.vurdering?.tidsstempel ?? null
+        [...arbeidsgiver.generasjoner]
+            ?.reverse()
+            ?.flatMap((it) =>
+                it?.perioder
+                    .filter(isBeregnetPeriode)
+                    .find(
+                        (periode) =>
+                            periode.vedtaksperiodeId === period.vedtaksperiodeId &&
+                            periode.utbetaling.vurdering?.godkjent,
+                    ),
+            )
+            ?.filter(isBeregnetPeriode)
+            ?.shift()?.utbetaling.vurdering?.tidsstempel ?? null
     );
 };
 
@@ -108,7 +117,7 @@ export const getDagoverstyringer = (
     period: FetchedBeregnetPeriode,
     arbeidsgiver: Arbeidsgiver,
 ): Array<HendelseObject> => {
-    const vurderingstidsstempel = getVurderingstidsstempelForTilsvarendePeriodeIFørsteGenerasjon(period, arbeidsgiver);
+    const vurderingstidsstempel = getTidligsteVurderingstidsstempelForPeriode(period, arbeidsgiver);
     const førsteVurdertePeriodeForArbeidsgiver = getFørsteVurdertePeriodeForSkjæringstidspunktet(
         period.skjaeringstidspunkt,
         arbeidsgiver,
@@ -201,6 +210,7 @@ const getFørsteVurdertePeriodeForSkjæringstidspunktet = (
         )
         .filter((period) => period !== undefined)
         .filter(isBeregnetPeriode)
+        .sort((a, b) => dayjs(b.fom).diff(dayjs(a.fom)))
         .pop();
 
 export const getFørstePeriodeForSkjæringstidspunkt = (
