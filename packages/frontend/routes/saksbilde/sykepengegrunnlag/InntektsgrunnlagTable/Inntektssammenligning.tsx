@@ -1,5 +1,6 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
+import classNames from 'classnames';
 import React from 'react';
 
 import { CaseworkerFilled } from '@navikt/ds-icons';
@@ -18,47 +19,7 @@ import { somPenger } from '@utils/locale';
 import { EndringsloggButton } from '../inntekt/EndringsloggButton';
 import { TableCell } from './TableCell';
 
-const ArbeidsgiverRad = styled.tr<{ erGjeldende: boolean }>`
-    padding: 0.25rem;
-
-    > * {
-        ${({ erGjeldende }) =>
-            erGjeldende &&
-            css`
-                background-color: #e6f0ff;
-                padding-right: 2.5rem;
-            `};
-    }
-
-    &:hover > * {
-        background-color: var(--a-gray-100);
-        cursor: pointer;
-        ${({ erGjeldende }) =>
-            erGjeldende &&
-            css`
-                background-color: var(--speil-light-hover);
-            `}
-    }
-`;
-
-const Arbeidsgivernavn = styled.div`
-    display: flex;
-`;
-const BagIcon = styled(Arbeidsgiverikon)`
-    width: 20px;
-    min-width: 20px;
-    height: 20px;
-    margin-right: 15px;
-    position: relative;
-    top: 3px;
-`;
-
-const ErrorIcon = styled(Errorikon)`
-    min-width: 20px;
-    margin-right: 15px;
-    position: relative;
-    top: 3px;
-`;
+import styles from './Inntektssammenligning.module.css';
 
 const Loky = styled(AnonymizableText, {
     shouldForwardProp: (propName) => propName !== 'arbeidsforholdErDeaktivert',
@@ -69,19 +30,6 @@ const Loky = styled(AnonymizableText, {
         arbeidsforholdErDeaktivert &&
         css`
             text-decoration: line-through;
-        `};
-`;
-
-const SisteTd = styled.td<{ erGjeldende: boolean }>`
-    ${({ erGjeldende }) =>
-        erGjeldende &&
-        css`
-            width: 2.5rem;
-        `};
-    ${({ erGjeldende }) =>
-        !erGjeldende &&
-        css`
-            margin-right: 2.5rem;
         `};
 `;
 
@@ -106,14 +54,23 @@ export const Inntektssammenligning = ({
     const { inntektsendringer, arbeidsforholdendringer } = useEndringerForPeriode(organisasjonsnummer);
 
     return (
-        <ArbeidsgiverRad erGjeldende={erGjeldende} onClick={onSetAktivInntektskilde}>
+        <tr
+            className={classNames(styles.arbeidsgiverRow, { [styles.erGjeldende]: erGjeldende })}
+            onClick={onSetAktivInntektskilde}
+        >
             <td>
-                <Arbeidsgivernavn>
+                <span className={styles.arbeidsgiverCell}>
                     <Tooltip content="Arbeidsgiver">
-                        <div>{arbeidsforholdErDeaktivert ? <ErrorIcon /> : <BagIcon alt="Arbeidsgiver" />}</div>
+                        <span>
+                            {arbeidsforholdErDeaktivert ? (
+                                <Errorikon className={styles.errorIcon} alt="Rød sirkel med kryss" />
+                            ) : (
+                                <Arbeidsgiverikon className={styles.bagIcon} alt="Arbeidsgiver" />
+                            )}
+                        </span>
                     </Tooltip>
                     <Loky arbeidsforholdErDeaktivert={!!arbeidsforholdErDeaktivert}>{arbeidsgivernavn}</Loky>
-                </Arbeidsgivernavn>
+                </span>
             </td>
             <TableCell
                 content={
@@ -146,8 +103,8 @@ export const Inntektssammenligning = ({
                     ikon={<SkjønnsfastsettingIkon kilde={omregnetÅrsinntekt?.kilde} />}
                 />
             )}
-            <SisteTd erGjeldende={erGjeldende} />
-        </ArbeidsgiverRad>
+            <td className={styles.sisteTableCell} />
+        </tr>
     );
 };
 
