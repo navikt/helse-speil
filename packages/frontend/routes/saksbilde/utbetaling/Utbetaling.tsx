@@ -7,7 +7,7 @@ import { PopoverHjelpetekst } from '@components/PopoverHjelpetekst';
 import { SortInfoikon } from '@components/ikoner/SortInfoikon';
 import { useActivePeriodHasLatestSkjæringstidspunkt } from '@hooks/revurdering';
 import { useIsReadOnlyOppgave } from '@hooks/useIsReadOnlyOppgave';
-import { Arbeidsgiver, UberegnetPeriode, Utbetalingstatus } from '@io/graphql';
+import { Arbeidsgiver, UberegnetPeriode, Utbetalingsdagtype, Utbetalingstatus } from '@io/graphql';
 import {
     useCurrentArbeidsgiver,
     useDagoverstyringer,
@@ -120,9 +120,21 @@ interface UtbetalingUberegnetPeriodeProps {
 
 const UtbetalingUberegnetPeriode: React.FC<UtbetalingUberegnetPeriodeProps> = ({ periode, arbeidsgiver }) => {
     const dagoverstyringer = useDagoverstyringer(periode.fom, periode.tom, arbeidsgiver);
+    const antallAGPDagerBruktFørPerioden = arbeidsgiver.generasjoner[0].perioder
+        .filter((it) => it.skjaeringstidspunkt === periode.skjaeringstidspunkt)
+        .filter((it) => it.fom < periode.fom)
+        .reverse()
+        .flatMap((it) => it.tidslinje)
+        .filter(
+            (dag) =>
+                dag.utbetalingsdagtype === 'ARBEIDSGIVERPERIODEDAG' ||
+                (['SYKEDAG', 'SYK_HELGEDAG'].includes(dag.sykdomsdagtype) &&
+                    dag.utbetalingsdagtype === Utbetalingsdagtype.UkjentDag),
+        ).length;
     const dager: Map<string, UtbetalingstabellDag> = useTabelldagerMap({
         tidslinje: periode.tidslinje,
         overstyringer: dagoverstyringer,
+        antallAGPDagerBruktFørPerioden: antallAGPDagerBruktFørPerioden,
     });
     const person = useCurrentPerson();
     const erAktivPeriodeLikEllerFørPeriodeTilGodkjenning = useErAktivPeriodeLikEllerFørPeriodeTilGodkjenning();
