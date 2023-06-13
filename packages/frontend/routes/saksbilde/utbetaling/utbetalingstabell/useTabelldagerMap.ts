@@ -78,7 +78,10 @@ export const createDagerMap = (
             dato: currentDag.dato,
             kilde: currentDag.kilde,
             type: getUtbetalingstabelldagtype(currentDag),
-            erAGP: currentDag.utbetalingsdagtype === 'ARBEIDSGIVERPERIODEDAG',
+            erAGP:
+                currentDag.utbetalingsdagtype === 'ARBEIDSGIVERPERIODEDAG' ||
+                (['SYKEDAG', 'SYK_HELGEDAG'].includes(currentDag.sykdomsdagtype) &&
+                    currentDag.utbetalingsdagtype === Utbetalingsdagtype.UkjentDag),
             erAvvist: currentDag.utbetalingsdagtype === 'AVVIST_DAG',
             erForeldet: currentDag.utbetalingsdagtype === 'FORELDET_DAG',
             erMaksdato: typeof maksdato === 'string' && dayjs(maksdato).isSame(currentDag.dato, 'day'),
