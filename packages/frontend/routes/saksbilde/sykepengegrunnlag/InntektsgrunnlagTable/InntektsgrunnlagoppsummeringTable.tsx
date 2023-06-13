@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { BodyShort, Label } from '@navikt/ds-react';
+import { BodyShort } from '@navikt/ds-react';
 
 import { Bold } from '@components/Bold';
 import { Sykepengegrunnlagsgrense } from '@io/graphql';
@@ -57,7 +57,6 @@ export const InntektsgrunnlagoppsummeringTable = ({
                         </td>
                     )}
                 </tr>
-                <Label> text</Label>
             </tfoot>
         </table>
     );
