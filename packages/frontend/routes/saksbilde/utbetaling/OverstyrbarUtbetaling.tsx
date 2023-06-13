@@ -186,6 +186,8 @@ export const OverstyrbarUtbetaling: React.FC<OverstyrbarUtbetalingProps> = ({
                             <form onSubmit={(event) => event.preventDefault()}>
                                 <OverstyringForm
                                     overstyrteDager={alleOverstyrteDager}
+                                    snute={Array.from(alleDager.values())[0].dato}
+                                    hale={Array.from(alleDager.values())?.pop()?.dato ?? ''}
                                     toggleOverstyring={toggleOverstyring}
                                     onSubmit={onSubmitOverstyring}
                                 />
