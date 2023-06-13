@@ -78,7 +78,7 @@ describe('OverstyringForm', () => {
         await waitFor(() => {
             expect(
                 screen.getAllByText(
-                    'Arbeidsdager kan bare legges sammenhengende inn i starten eller slutten av perioden',
+                    'Arbeidsdager kan bare legges sammenhengende inn i starten eller slutten av perioden, eller innenfor AGP',
                 ),
             ).toHaveLength(1);
         });

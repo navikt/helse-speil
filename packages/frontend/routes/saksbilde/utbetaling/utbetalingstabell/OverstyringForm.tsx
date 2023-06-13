@@ -81,11 +81,14 @@ export const OverstyringForm: React.FC<OverstyringFormProps> = ({
         let haleGruppe: UtbetalingstabellDag[] = overstyrtTilArbeidsdager.find((dag) => dag.dato === hale)
             ? finnSammenhengendeArbeidsdager(overstyrtTilArbeidsdager.reverse())
             : [];
+        let agpGruppe: UtbetalingstabellDag[] = overstyrtTilArbeidsdager.filter(
+            (dag) => dag.erAGP && !snuteGruppe.includes(dag) && !haleGruppe.includes(dag),
+        );
 
-        if (snuteGruppe.length + haleGruppe.length !== overstyrtTilArbeidsdager.length) {
+        if (snuteGruppe.length + haleGruppe.length + agpGruppe.length !== overstyrtTilArbeidsdager.length) {
             setError('arbeidsdagerErIkkeSnuteEllerHale', {
                 type: 'custom',
-                message: `Arbeidsdager kan bare legges sammenhengende inn i starten eller slutten av perioden`,
+                message: `Arbeidsdager kan bare legges sammenhengende inn i starten eller slutten av perioden, eller innenfor AGP`,
             });
             return;
         }
