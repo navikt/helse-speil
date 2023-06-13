@@ -131,6 +131,7 @@ export const OverstyrbarUtbetaling: React.FC<OverstyrbarUtbetalingProps> = ({
     useEffect(() => {
         if (state === 'done') {
             setOverstyrteDager(new Map());
+            setNyeDager(new Map());
         }
     }, [state]);
 

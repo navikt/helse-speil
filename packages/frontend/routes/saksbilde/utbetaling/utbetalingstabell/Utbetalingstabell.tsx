@@ -99,7 +99,7 @@ export const Utbetalingstabell = ({
                                 type={dag.type}
                                 key={i}
                                 markertDag={markerteDager?.get(dag.dato)}
-                                nyDag={dag.kilde.type === 'SAKSBEHANDLER' && dag.kilde.id == undefined}
+                                nyDag={dag.erNyDag ?? false}
                                 erHelg={dag?.erHelg ?? false}
                             >
                                 <DateCell date={dag.dato} />
