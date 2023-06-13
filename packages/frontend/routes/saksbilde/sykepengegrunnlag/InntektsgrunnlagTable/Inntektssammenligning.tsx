@@ -181,7 +181,7 @@ interface SkjønnsfastsettingContentProps {
 
 const SkjønnsfastsettingContent = ({ arbeidsforholdErDeaktivert, kilde, beløp }: SkjønnsfastsettingContentProps) => (
     <BodyShort>
-        {!arbeidsforholdErDeaktivert && kilde !== Inntektskilde.SkjonnsmessigFastsatt ? somPenger(beløp) : '-'}
+        {!arbeidsforholdErDeaktivert && kilde === Inntektskilde.SkjonnsmessigFastsatt ? somPenger(beløp) : '-'}
     </BodyShort>
 );
 
