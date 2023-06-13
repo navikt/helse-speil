@@ -75,17 +75,19 @@ export const EditableInntekt = ({
     const values = form.getValues();
 
     const månedsbeløp = Number.parseFloat(values.manedsbelop);
-    const harEndringer = !isNaN(månedsbeløp) && månedsbeløp !== omregnetÅrsinntekt.manedsbelop;
+    const omregnetÅrsinntektMånedsbeløpRounded =
+        Math.round((omregnetÅrsinntekt.manedsbelop + Number.EPSILON) * 100) / 100;
+    const harEndringer = !isNaN(månedsbeløp) && månedsbeløp !== omregnetÅrsinntektMånedsbeløpRounded;
 
     useEffect(() => {
-        if (lokaltMånedsbeløp !== omregnetÅrsinntekt.manedsbelop) {
+        if (lokaltMånedsbeløp !== omregnetÅrsinntektMånedsbeløpRounded) {
             onEndre(true);
         }
     }, [omregnetÅrsinntekt]);
 
     useEffect(() => {
         if (!isNaN(values.manedsbelop)) {
-            onEndre(Number.parseFloat(values.manedsbelop) !== omregnetÅrsinntekt.manedsbelop);
+            onEndre(Number.parseFloat(values.manedsbelop) !== omregnetÅrsinntektMånedsbeløpRounded);
         }
     }, [values, omregnetÅrsinntekt]);
 
