@@ -39,7 +39,6 @@ describe('SykepengegrunnlagFraSpleis', () => {
         const person = enPerson().medArbeidsgivere([arbeidsgiver]);
         const { organisasjonsnummer } = arbeidsgiver;
         const skjaeringstidspunkt = '2020-01-01';
-        const inntektFraAO = enArbeidsgiverinntekt({ arbeidsgiver: organisasjonsnummer }).medInntektFraAOrdningen();
         const inntektFraIM = enArbeidsgiverinntekt({ arbeidsgiver: organisasjonsnummer }).medInntektFraAOrdningen();
         const inntekter = [inntektFraIM];
         const vilkårsgrunnlag = etVilkårsgrunnlagFraSpleis({ skjaeringstidspunkt }).medInntekter(inntekter);
@@ -47,7 +46,11 @@ describe('SykepengegrunnlagFraSpleis', () => {
         (useActivePeriod as jest.Mock).mockReturnValue(enBeregnetPeriode());
         (usePeriodForSkjæringstidspunktForArbeidsgiver as jest.Mock).mockReturnValue(enBeregnetPeriode());
         (useArbeidsgiver as jest.Mock).mockReturnValue(arbeidsgiver);
-        (useEndringerForPeriode as jest.Mock).mockReturnValue([]);
+        (useEndringerForPeriode as jest.Mock).mockReturnValue({
+            inntektsendringer: [],
+            arbeidsforholdendringer: [],
+            dagendringer: [],
+        });
         (useCurrentPerson as jest.Mock).mockReturnValue(person);
         (useVilkårsgrunnlag as jest.Mock).mockReturnValue(vilkårsgrunnlag);
 
@@ -80,7 +83,11 @@ describe('SykepengegrunnlagFraSpleis', () => {
         (useActivePeriod as jest.Mock).mockReturnValue(enGhostPeriode());
         (usePeriodForSkjæringstidspunktForArbeidsgiver as jest.Mock).mockReturnValue(enGhostPeriode());
         (useArbeidsgiver as jest.Mock).mockReturnValue(arbeidsgiver);
-        (useEndringerForPeriode as jest.Mock).mockReturnValue([]);
+        (useEndringerForPeriode as jest.Mock).mockReturnValue({
+            inntektsendringer: [],
+            arbeidsforholdendringer: [],
+            dagendringer: [],
+        });
         (useCurrentPerson as jest.Mock).mockReturnValue(person);
         (useVilkårsgrunnlag as jest.Mock).mockReturnValue(vilkårsgrunnlag);
 
