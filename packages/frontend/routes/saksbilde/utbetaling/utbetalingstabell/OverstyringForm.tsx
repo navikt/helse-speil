@@ -82,7 +82,7 @@ export const OverstyringForm: React.FC<OverstyringFormProps> = ({
         if (dagerSomKanOverstyresTilArbeidsdag.length !== overstyrtTilArbeidsdager.length) {
             setError('arbeidsdagerErIkkeSnuteEllerHale', {
                 type: 'custom',
-                message: `Arbeidsdag kan kun overstyres fra dager som ikke er Syk eller Ferie, legges til som ny dag eller være AGP`,
+                message: `Du kan ikke overstyre Syk eller Ferie til Arbeidsdag. Arbeidsdag kan legges til som en ny dag eller endres i arbeidsgiverperioden`,
             });
             return;
         }

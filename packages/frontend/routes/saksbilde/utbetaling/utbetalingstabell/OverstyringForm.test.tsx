@@ -17,7 +17,7 @@ const FormWrapper: React.FC<ChildrenProps> = ({ children }) => {
 };
 
 const arbeidsdagvalideringstekst: string =
-    'Arbeidsdag kan kun overstyres fra dager som ikke er Syk eller Ferie, legges til som ny dag eller være AGP';
+    'Du kan ikke overstyre Syk eller Ferie til Arbeidsdag. Arbeidsdag kan legges til som en ny dag eller endres i arbeidsgiverperioden';
 
 describe('OverstyringForm', () => {
     it('disabler submit-knappen om det ikke er noen overstyrte dager', () => {
