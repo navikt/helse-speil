@@ -6,7 +6,7 @@ import { Bold } from '@components/Bold';
 import { Sykepengegrunnlagsgrense } from '@io/graphql';
 import { somPenger } from '@utils/locale';
 
-import { SykepengegrunnlagsgrenseView } from './SykepengegrunnlagsgrenseView';
+import { SykepengegrunnlagsgrenseView } from './SykepengegrunnlagsgrenseView/SykepengegrunnlagsgrenseView';
 import { TableCell } from './TableCell';
 
 import styles from './SykepengegrunnlagPanel.module.css';
