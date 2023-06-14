@@ -77,7 +77,7 @@ const useResetPersonOnMount = (): void => {
     }, []);
 };
 
-const useFetchOppgaver = (currentState: Loadable<Array<Oppgave>>['state']): void => {
+const useFetchOppgaver = (currentState: Loadable<Array<any>>['state']): void => {
     const hentOppgaver = useRefetchOppgaver();
 
     useEffect(() => {
