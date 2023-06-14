@@ -4,6 +4,3 @@
 # Allow files and directories
 !/packages/backend/node_modules/*
 !/dist/*
-
-# Ignore inside allowed directory
-/packages/backend/node_modules/@snyk
