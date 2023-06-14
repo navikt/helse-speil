@@ -35,3 +35,11 @@
 .sisteTableCell {
     width: var(--a-spacing-10);
 }
+
+.loky {
+    margin-top: 3px;
+}
+
+.lokyDeaktivert {
+    text-decoration: line-through;
+}

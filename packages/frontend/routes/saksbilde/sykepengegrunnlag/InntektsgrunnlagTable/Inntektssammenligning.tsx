@@ -1,5 +1,3 @@
-import { css } from '@emotion/react';
-import styled from '@emotion/styled';
 import classNames from 'classnames';
 import React from 'react';
 
@@ -20,18 +18,6 @@ import { EndringsloggButton } from '../inntekt/EndringsloggButton';
 import { TableCell } from './TableCell';
 
 import styles from './Inntektssammenligning.module.css';
-
-const Loky = styled(AnonymizableText, {
-    shouldForwardProp: (propName) => propName !== 'arbeidsforholdErDeaktivert',
-})<{ arbeidsforholdErDeaktivert: boolean }>`
-    margin-top: 3px;
-
-    ${({ arbeidsforholdErDeaktivert }) =>
-        arbeidsforholdErDeaktivert &&
-        css`
-            text-decoration: line-through;
-        `};
-`;
 
 interface InntektssammenligningProps {
     organisasjonsnummer: string;
@@ -69,7 +55,11 @@ export const Inntektssammenligning = ({
                             )}
                         </span>
                     </Tooltip>
-                    <Loky arbeidsforholdErDeaktivert={!!arbeidsforholdErDeaktivert}>{arbeidsgivernavn}</Loky>
+                    <AnonymizableText
+                        className={classNames(styles.loky, { [styles.lokyDeaktivert]: !!arbeidsforholdErDeaktivert })}
+                    >
+                        {arbeidsgivernavn}
+                    </AnonymizableText>
                 </span>
             </td>
             <TableCell
