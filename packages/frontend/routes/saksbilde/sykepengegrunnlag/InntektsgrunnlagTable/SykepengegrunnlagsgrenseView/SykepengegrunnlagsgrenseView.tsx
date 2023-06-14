@@ -16,23 +16,17 @@ interface Props {
     omregnetÅrsinntekt: number;
 }
 
-export const SykepengegrunnlagsgrenseView = ({ sykepengegrunnlagsgrense, omregnetÅrsinntekt }: Props) => {
-    return (
-        <>
-            {omregnetÅrsinntekt > sykepengegrunnlagsgrense.grense && (
-                <Detail className={styles.Detail} size="small">
-                    {`Sykepengegrunnlaget er begrenset til 6G: ${somPengerUtenDesimaler(
-                        sykepengegrunnlagsgrense.grense,
-                    )}`}
-                    <LovdataLenke paragraf="8-10">§ 8-10</LovdataLenke>
-                </Detail>
-            )}
-            <Detail className={styles.Detail} size="small">
-                {`Grunnbeløp (G) ved skjæringstidspunkt: ${somPengerUtenDesimaler(
-                    sykepengegrunnlagsgrense.grunnbelop,
-                )}`}
-                <br />({getFormattedDate(sykepengegrunnlagsgrense.virkningstidspunkt)})
+export const SykepengegrunnlagsgrenseView = ({ sykepengegrunnlagsgrense, omregnetÅrsinntekt }: Props) => (
+    <>
+        {omregnetÅrsinntekt > sykepengegrunnlagsgrense.grense && (
+            <Detail className={styles.Detail}>
+                {`Sykepengegrunnlaget er begrenset til 6G: ${somPengerUtenDesimaler(sykepengegrunnlagsgrense.grense)}`}
+                <LovdataLenke paragraf="8-10">§ 8-10</LovdataLenke>
             </Detail>
-        </>
-    );
-};
+        )}
+        <Detail className={styles.Detail}>
+            {`Grunnbeløp (G) ved skjæringstidspunkt: ${somPengerUtenDesimaler(sykepengegrunnlagsgrense.grunnbelop)}`}
+            <br />({getFormattedDate(sykepengegrunnlagsgrense.virkningstidspunkt)})
+        </Detail>
+    </>
+);
