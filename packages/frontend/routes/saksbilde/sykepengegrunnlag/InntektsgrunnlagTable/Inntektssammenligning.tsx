@@ -56,7 +56,9 @@ export const Inntektssammenligning = ({
                         </span>
                     </Tooltip>
                     <AnonymizableText
-                        className={classNames(styles.loky, { [styles.lokyDeaktivert]: !!arbeidsforholdErDeaktivert })}
+                        className={classNames(styles.arbeidsgivernavn, {
+                            [styles.arbeidsgivernavnDeaktivert]: !!arbeidsforholdErDeaktivert,
+                        })}
                     >
                         {arbeidsgivernavn}
                     </AnonymizableText>

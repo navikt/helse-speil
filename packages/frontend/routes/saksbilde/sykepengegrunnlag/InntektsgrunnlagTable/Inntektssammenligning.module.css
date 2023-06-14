@@ -36,10 +36,10 @@
     width: var(--a-spacing-10);
 }
 
-.loky {
+.arbeidsgivernavn {
     margin-top: 3px;
 }
 
-.lokyDeaktivert {
+.arbeidsgivernavnDeaktivert {
     text-decoration: line-through;
 }
