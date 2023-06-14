@@ -8,7 +8,6 @@ import { BodyShort } from '@navikt/ds-react';
 
 import { OverstyringTimeoutModal } from '@components/OverstyringTimeoutModal';
 import { useMap } from '@hooks/useMap';
-import { kanStrekkePølser } from '@utils/featureToggles';
 
 import { EndringForm } from './utbetalingstabell/EndringForm/EndringForm';
 import { LeggTilDager } from './utbetalingstabell/LeggTilDager';
@@ -148,7 +147,7 @@ export const OverstyrbarUtbetaling: React.FC<OverstyrbarUtbetalingProps> = ({
                 revurderingIsEnabled={revurderingIsEnabled}
                 overstyrRevurderingIsEnabled={overstyrRevurderingIsEnabled}
             />
-            {overstyrer && kanStrekkePølser && (
+            {overstyrer && (
                 <LeggTilDager
                     periodeFom={Array.from(alleDager.values())[0].dato}
                     onSubmitPølsestrekk={onSubmitPølsestrekk}
