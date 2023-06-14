@@ -48,4 +48,5 @@ declare type UtbetalingstabellDag = {
     begrunnelser?: Maybe<Array<Begrunnelse>>;
     erHelg?: boolean;
     erNyDag?: boolean;
+    fraType?: Utbetalingstabelldagtype;
 };

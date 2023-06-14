@@ -56,31 +56,4 @@ describe('OverstyringForm', () => {
             expect(screen.getAllByText('Begrunnelse må fylles ut')).toHaveLength(2);
         });
     });
-
-    it('viser feilmelding dersom arbeidsdager ikke er sammenhengende i snute eller hale', async () => {
-        const overstyrteDager = new Map([['2020-01-02', { type: 'Arbeid' } as UtbetalingstabellDag]]);
-        render(
-            <OverstyringForm
-                overstyrteDager={overstyrteDager}
-                toggleOverstyring={() => null}
-                onSubmit={() => null}
-                snute="2020-01-01"
-                hale="2020-01-03"
-            />,
-            {
-                wrapper: FormWrapper,
-            },
-        );
-
-        expect(screen.getAllByRole('button')[0]).not.toBeDisabled();
-        userEvent.click(screen.getAllByRole('button')[0]);
-
-        await waitFor(() => {
-            expect(
-                screen.getAllByText(
-                    'Arbeidsdager kan bare legges sammenhengende inn i starten eller slutten av perioden, eller innenfor AGP',
-                ),
-            ).toHaveLength(1);
-        });
-    });
 });

@@ -75,20 +75,16 @@ export const OverstyringForm: React.FC<OverstyringFormProps> = ({
             return;
         }
 
-        let snuteGruppe: UtbetalingstabellDag[] = overstyrtTilArbeidsdager.find((dag) => dag.dato === snute)
-            ? finnSammenhengendeArbeidsdager(overstyrtTilArbeidsdager, true)
-            : [];
-        let haleGruppe: UtbetalingstabellDag[] = overstyrtTilArbeidsdager.find((dag) => dag.dato === hale)
-            ? finnSammenhengendeArbeidsdager(overstyrtTilArbeidsdager.reverse())
-            : [];
-        let agpEllerNyDagGruppe: UtbetalingstabellDag[] = overstyrtTilArbeidsdager.filter(
-            (dag) => (dag.erAGP || dag.erNyDag) && !snuteGruppe.includes(dag) && !haleGruppe.includes(dag),
+        let dagerSomKanOverstyresTilArbeidsdag: UtbetalingstabellDag[] = overstyrtTilArbeidsdager.filter(
+            (dag) => dag.erAGP || dag.erNyDag || !['Syk', 'SykHelg', 'Ferie'].includes(dag?.fraType ?? ''),
         );
 
-        if (snuteGruppe.length + haleGruppe.length + agpEllerNyDagGruppe.length !== overstyrtTilArbeidsdager.length) {
+        console.log(dagerSomKanOverstyresTilArbeidsdag);
+
+        if (dagerSomKanOverstyresTilArbeidsdag.length !== overstyrtTilArbeidsdager.length) {
             setError('arbeidsdagerErIkkeSnuteEllerHale', {
                 type: 'custom',
-                message: `Arbeidsdager kan bare legges sammenhengende inn i starten eller slutten av perioden, eller innenfor AGP`,
+                message: `Arbeidsdag kan kun overstyres fra dager som ikke er Syk eller Ferie, legges til som ny dag eller være AGP`,
             });
             return;
         }

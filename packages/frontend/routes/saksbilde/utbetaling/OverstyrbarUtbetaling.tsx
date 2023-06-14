@@ -105,7 +105,7 @@ export const OverstyrbarUtbetaling: React.FC<OverstyrbarUtbetalingProps> = ({
         const newOverstyrteDager = Array.from(markerteDager.values()).reduce(
             (map: Map<string, UtbetalingstabellDag>, dag: UtbetalingstabellDag) => {
                 if (erReellEndring(endring, dag)) {
-                    map.set(getKey(dag), { ...dag, ...endring });
+                    map.set(getKey(dag), { ...dag, ...endring, fraType: dag.type });
                 } else {
                     map.delete(getKey(dag));
                 }
