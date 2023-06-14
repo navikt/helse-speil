@@ -16,6 +16,9 @@ const FormWrapper: React.FC<ChildrenProps> = ({ children }) => {
     );
 };
 
+const arbeidsdagvalideringstekst: string =
+    'Arbeidsdag kan kun overstyres fra dager som ikke er Syk eller Ferie, legges til som ny dag eller være AGP';
+
 describe('OverstyringForm', () => {
     it('disabler submit-knappen om det ikke er noen overstyrte dager', () => {
         render(
@@ -54,6 +57,126 @@ describe('OverstyringForm', () => {
 
         await waitFor(() => {
             expect(screen.getAllByText('Begrunnelse må fylles ut')).toHaveLength(2);
+        });
+    });
+
+    it('viser feilmelding dersom arbeidsdager ikke er ny dag, innenfor agp og overstyrt fraType Syk', async () => {
+        const overstyrteDager = new Map([['2020-01-02', { type: 'Arbeid', fraType: 'Syk' } as UtbetalingstabellDag]]);
+        render(
+            <OverstyringForm
+                overstyrteDager={overstyrteDager}
+                toggleOverstyring={() => null}
+                onSubmit={() => null}
+                snute="2020-01-01"
+                hale="2020-01-03"
+            />,
+            {
+                wrapper: FormWrapper,
+            },
+        );
+
+        expect(screen.getAllByRole('button')[0]).not.toBeDisabled();
+        userEvent.click(screen.getAllByRole('button')[0]);
+
+        await waitFor(() => {
+            expect(screen.getAllByText(arbeidsdagvalideringstekst)).toHaveLength(1);
+        });
+    });
+    it('viser feilmelding dersom arbeidsdager ikke er ny dag, innenfor agp og overstyrt fraType SykHelg', async () => {
+        const overstyrteDager = new Map([
+            ['2020-01-02', { type: 'Arbeid', fraType: 'SykHelg' } as UtbetalingstabellDag],
+        ]);
+        render(
+            <OverstyringForm
+                overstyrteDager={overstyrteDager}
+                toggleOverstyring={() => null}
+                onSubmit={() => null}
+                snute="2020-01-01"
+                hale="2020-01-03"
+            />,
+            {
+                wrapper: FormWrapper,
+            },
+        );
+
+        expect(screen.getAllByRole('button')[0]).not.toBeDisabled();
+        userEvent.click(screen.getAllByRole('button')[0]);
+
+        await waitFor(() => {
+            expect(screen.getAllByText(arbeidsdagvalideringstekst)).toHaveLength(1);
+        });
+    });
+
+    it('viser feilmelding dersom arbeidsdager ikke er ny dag, innenfor agp og overstyrt fraType Ferie', async () => {
+        const overstyrteDager = new Map([['2020-01-02', { type: 'Arbeid', fraType: 'Ferie' } as UtbetalingstabellDag]]);
+        render(
+            <OverstyringForm
+                overstyrteDager={overstyrteDager}
+                toggleOverstyring={() => null}
+                onSubmit={() => null}
+                snute="2020-01-01"
+                hale="2020-01-03"
+            />,
+            {
+                wrapper: FormWrapper,
+            },
+        );
+
+        expect(screen.getAllByRole('button')[0]).not.toBeDisabled();
+        userEvent.click(screen.getAllByRole('button')[0]);
+
+        await waitFor(() => {
+            expect(screen.getAllByText(arbeidsdagvalideringstekst)).toHaveLength(1);
+        });
+    });
+
+    it('viser ikke feilmelding dersom overstyring til arbeidsdag er ny dag, selv om fraType er Syk', async () => {
+        const overstyrteDager = new Map([
+            ['2020-01-02', { type: 'Arbeid', fraType: 'Syk', erNyDag: true } as UtbetalingstabellDag],
+        ]);
+        render(
+            <OverstyringForm
+                overstyrteDager={overstyrteDager}
+                toggleOverstyring={() => null}
+                onSubmit={() => null}
+                snute="2020-01-01"
+                hale="2020-01-03"
+            />,
+            {
+                wrapper: FormWrapper,
+            },
+        );
+
+        expect(screen.getAllByRole('button')[0]).not.toBeDisabled();
+        userEvent.click(screen.getAllByRole('button')[0]);
+
+        await waitFor(() => {
+            expect(screen.queryByText(arbeidsdagvalideringstekst)).toBeNull();
+        });
+    });
+
+    it('viser ikke feilmelding dersom overstyring til arbeidsdag er innenfor AGP, selv om fraType er Syk', async () => {
+        const overstyrteDager = new Map([
+            ['2020-01-02', { type: 'Arbeid', fraType: 'Syk', erAGP: true } as UtbetalingstabellDag],
+        ]);
+        render(
+            <OverstyringForm
+                overstyrteDager={overstyrteDager}
+                toggleOverstyring={() => null}
+                onSubmit={() => null}
+                snute="2020-01-01"
+                hale="2020-01-03"
+            />,
+            {
+                wrapper: FormWrapper,
+            },
+        );
+
+        expect(screen.getAllByRole('button')[0]).not.toBeDisabled();
+        userEvent.click(screen.getAllByRole('button')[0]);
+
+        await waitFor(() => {
+            expect(screen.queryByText(arbeidsdagvalideringstekst)).toBeNull();
         });
     });
 });

@@ -79,8 +79,6 @@ export const OverstyringForm: React.FC<OverstyringFormProps> = ({
             (dag) => dag.erAGP || dag.erNyDag || !['Syk', 'SykHelg', 'Ferie'].includes(dag?.fraType ?? ''),
         );
 
-        console.log(dagerSomKanOverstyresTilArbeidsdag);
-
         if (dagerSomKanOverstyresTilArbeidsdag.length !== overstyrtTilArbeidsdager.length) {
             setError('arbeidsdagerErIkkeSnuteEllerHale', {
                 type: 'custom',
