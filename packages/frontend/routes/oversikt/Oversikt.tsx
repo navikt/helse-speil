@@ -76,7 +76,8 @@ const useResetPersonOnMount = (): void => {
     }, []);
 };
 
-const useFetchOppgaver = (currentState: Loadable<Array<Oppgave>>['state']): void => {
+// Bruker any fordi hooken ikke har noe forhold til innholdet i Loadablen
+const useFetchOppgaver = (currentState: Loadable<Array<any>>['state']): void => {
     const hentOppgaver = useRefetchOppgaver();
 
     useEffect(() => {
