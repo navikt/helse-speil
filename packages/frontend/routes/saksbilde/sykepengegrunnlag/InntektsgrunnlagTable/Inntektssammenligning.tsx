@@ -22,6 +22,7 @@ import styles from './Inntektssammenligning.module.css';
 interface InntektssammenligningProps {
     organisasjonsnummer: string;
     omregnetÅrsinntekt?: Maybe<OmregnetArsinntekt>;
+    skjønnsmessigFastsatt?: Maybe<OmregnetArsinntekt>;
     sammenligningsgrunnlag?: Maybe<Sammenligningsgrunnlag>;
     arbeidsforholdErDeaktivert?: Maybe<boolean>;
     erGjeldende: boolean;
@@ -31,6 +32,7 @@ interface InntektssammenligningProps {
 export const Inntektssammenligning = ({
     organisasjonsnummer,
     omregnetÅrsinntekt,
+    skjønnsmessigFastsatt,
     sammenligningsgrunnlag,
     arbeidsforholdErDeaktivert,
     erGjeldende,
@@ -88,11 +90,11 @@ export const Inntektssammenligning = ({
                     content={
                         <SkjønnsfastsettingContent
                             arbeidsforholdErDeaktivert={arbeidsforholdErDeaktivert}
-                            kilde={omregnetÅrsinntekt?.kilde}
-                            beløp={omregnetÅrsinntekt?.belop}
+                            kilde={skjønnsmessigFastsatt?.kilde}
+                            beløp={skjønnsmessigFastsatt?.belop}
                         />
                     }
-                    ikon={<SkjønnsfastsettingIkon kilde={omregnetÅrsinntekt?.kilde} />}
+                    ikon={<SkjønnsfastsettingIkon kilde={skjønnsmessigFastsatt?.kilde} />}
                 />
             )}
             <td className={styles.sisteTableCell} />

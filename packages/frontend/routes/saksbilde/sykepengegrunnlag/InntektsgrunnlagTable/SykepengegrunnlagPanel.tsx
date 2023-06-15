@@ -11,7 +11,7 @@ interface SykepengegrunnlagPanelProps {
     inntekter: Arbeidsgiverinntekt[];
     omregnetÅrsinntekt?: Maybe<number>;
     sammenligningsgrunnlag?: Maybe<number>;
-    skjønnsmessigFastsattInntekt?: Maybe<number>;
+    skjønnsmessigFastsattÅrlig?: Maybe<number>;
     avviksprosent?: Maybe<number>;
     sykepengegrunnlag: number;
     setAktivInntektskilde: Dispatch<SetStateAction<Arbeidsgiverinntekt>>;
@@ -28,7 +28,7 @@ export const SykepengegrunnlagPanel = ({
     setAktivInntektskilde,
     aktivInntektskilde,
     sykepengegrunnlagsgrense,
-    skjønnsmessigFastsattInntekt,
+    skjønnsmessigFastsattÅrlig,
 }: SykepengegrunnlagPanelProps) => {
     return (
         <div className={styles.wrapper}>
@@ -37,7 +37,7 @@ export const SykepengegrunnlagPanel = ({
                 setAktivInntektskilde={setAktivInntektskilde}
                 aktivInntektskilde={aktivInntektskilde}
                 omregnetÅrsinntekt={omregnetÅrsinntekt}
-                skjønnsmessigFastsattInntekt={skjønnsmessigFastsattInntekt}
+                skjønnsmessigFastsattÅrlig={skjønnsmessigFastsattÅrlig}
                 sammenligningsgrunnlag={sammenligningsgrunnlag}
             />
             <InntektsgrunnlagoppsummeringTable

@@ -78,6 +78,7 @@ export type Arbeidsgiverinntekt = {
     deaktivert?: Maybe<Scalars['Boolean']['output']>;
     omregnetArsinntekt?: Maybe<OmregnetArsinntekt>;
     sammenligningsgrunnlag?: Maybe<Sammenligningsgrunnlag>;
+    skjonnsmessigFastsatt?: Maybe<OmregnetArsinntekt>;
 };
 
 export type Arbeidsgiveroppdrag = Spennoppdrag & {
@@ -344,7 +345,9 @@ export type Mutation = {
     __typename?: 'Mutation';
     feilregistrerKommentar: Scalars['Boolean']['output'];
     feilregistrerNotat: Scalars['Boolean']['output'];
+    fjernPaaVent?: Maybe<Tildeling>;
     fjernTildeling: Scalars['Boolean']['output'];
+    leggPaaVent?: Maybe<Tildeling>;
     leggTilKommentar?: Maybe<Kommentar>;
     leggTilNotat: Scalars['Int']['output'];
     opprettTildeling?: Maybe<Tildeling>;
@@ -360,7 +363,17 @@ export type MutationFeilregistrerNotatArgs = {
     id: Scalars['Int']['input'];
 };
 
+export type MutationFjernPaaVentArgs = {
+    oppgaveId: Scalars['String']['input'];
+};
+
 export type MutationFjernTildelingArgs = {
+    oppgaveId: Scalars['String']['input'];
+};
+
+export type MutationLeggPaaVentArgs = {
+    notatTekst: Scalars['String']['input'];
+    notatType: NotatType;
     oppgaveId: Scalars['String']['input'];
 };
 
@@ -816,6 +829,8 @@ export type Tildeling = {
     epost: Scalars['String']['output'];
     navn: Scalars['String']['output'];
     oid: Scalars['String']['output'];
+    paaVent: Scalars['Boolean']['output'];
+    /** @deprecated Skal fjernes til fordel for paaVent */
     reservert: Scalars['Boolean']['output'];
 };
 
@@ -973,6 +988,7 @@ export type VilkarsgrunnlagSpleis = Vilkarsgrunnlag & {
     opptjeningFra: Scalars['String']['output'];
     sammenligningsgrunnlag?: Maybe<Scalars['Float']['output']>;
     skjaeringstidspunkt: Scalars['String']['output'];
+    skjonnsmessigFastsattAarlig?: Maybe<Scalars['Float']['output']>;
     sykepengegrunnlag: Scalars['Float']['output'];
     sykepengegrunnlagsgrense: Sykepengegrunnlagsgrense;
     vilkarsgrunnlagtype: Vilkarsgrunnlagtype;
@@ -1878,5 +1894,26 @@ export type SettVarselstatusVurdertMutation = {
             status: Varselstatus;
             tidsstempel: string;
         } | null;
+    } | null;
+};
+
+export type FjernTildelingMutationVariables = Exact<{
+    oppgaveId: Scalars['String']['input'];
+}>;
+
+export type FjernTildelingMutation = { __typename?: 'Mutation'; fjernTildeling: boolean };
+
+export type OpprettTildelingMutationVariables = Exact<{
+    oppgaveId: Scalars['String']['input'];
+}>;
+
+export type OpprettTildelingMutation = {
+    __typename?: 'Mutation';
+    opprettTildeling?: {
+        __typename?: 'Tildeling';
+        navn: string;
+        oid: string;
+        epost: string;
+        reservert: boolean;
     } | null;
 };

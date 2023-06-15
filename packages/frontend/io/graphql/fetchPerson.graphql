@@ -58,6 +58,15 @@ fragment vilkarsgrunnlag on Vilkarsgrunnlag {
             manedsbelop
             kilde
         }
+        skjonnsmessigFastsatt {
+            inntektFraAOrdningen {
+                maned
+                sum
+            }
+            belop
+            manedsbelop
+            kilde
+        }
         arbeidsgiver
         deaktivert
     }
@@ -72,6 +81,7 @@ fragment vilkarsgrunnlag on Vilkarsgrunnlag {
     }
     vilkarsgrunnlagtype
     ... on VilkarsgrunnlagSpleis {
+        skjonnsmessigFastsattAarlig
         oppfyllerKravOmMinstelonn
         oppfyllerKravOmMedlemskap
         oppfyllerKravOmOpptjening
@@ -120,6 +130,7 @@ query FetchPerson($fnr: String, $aktorId: String) {
             epost
             oid
             reservert
+            paaVent
         }
         versjon
         vilkarsgrunnlag {

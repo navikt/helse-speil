@@ -18,7 +18,7 @@ interface InntektsgrunnlagTableProps {
     setAktivInntektskilde: Dispatch<SetStateAction<Arbeidsgiverinntekt>>;
     omregnetÅrsinntekt?: Maybe<number>;
     sammenligningsgrunnlag?: Maybe<number>;
-    skjønnsmessigFastsattInntekt?: Maybe<number>;
+    skjønnsmessigFastsattÅrlig?: Maybe<number>;
 }
 
 export const InntektsgrunnlagTable = ({
@@ -27,7 +27,7 @@ export const InntektsgrunnlagTable = ({
     setAktivInntektskilde,
     omregnetÅrsinntekt,
     sammenligningsgrunnlag,
-    skjønnsmessigFastsattInntekt,
+    skjønnsmessigFastsattÅrlig,
 }: InntektsgrunnlagTableProps) => (
     <table className={styles.Table}>
         <thead>
@@ -50,6 +50,7 @@ export const InntektsgrunnlagTable = ({
                     key={index}
                     organisasjonsnummer={inntekt.arbeidsgiver}
                     omregnetÅrsinntekt={inntekt.omregnetArsinntekt}
+                    skjønnsmessigFastsatt={inntekt.skjonnsmessigFastsatt}
                     sammenligningsgrunnlag={inntekt.sammenligningsgrunnlag}
                     arbeidsforholdErDeaktivert={inntekt.deaktivert}
                     erGjeldende={aktivInntektskilde?.arbeidsgiver == inntekt.arbeidsgiver}
@@ -64,7 +65,7 @@ export const InntektsgrunnlagTable = ({
                 </td>
                 <TableCell content={<Bold>{somPenger(omregnetÅrsinntekt)}</Bold>} />
                 <TableCell content={<Bold>{somPenger(sammenligningsgrunnlag)}</Bold>} />
-                {erUtvikling() && <TableCell content={<Bold>{somPenger(skjønnsmessigFastsattInntekt)}</Bold>} />}
+                {erUtvikling() && <TableCell content={<Bold>{somPenger(skjønnsmessigFastsattÅrlig)}</Bold>} />}
             </tr>
         </tfoot>
     </table>
