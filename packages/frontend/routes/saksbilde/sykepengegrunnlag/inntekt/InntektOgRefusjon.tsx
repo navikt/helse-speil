@@ -23,6 +23,7 @@ import {
     Maybe,
     OmregnetArsinntekt,
     Periodetilstand,
+    Vilkarsgrunnlagtype,
 } from '@io/graphql';
 import { Refusjonsopplysning } from '@io/http';
 import {
@@ -36,6 +37,7 @@ import {
 } from '@state/arbeidsgiver';
 import { useCurrentPerson } from '@state/person';
 import { isForkastet } from '@state/selectors/period';
+import { getVilkårsgrunnlag } from '@state/selectors/person';
 import { overstyrInntektEnabled } from '@utils/featureToggles';
 import { isBeregnetPeriode, isGhostPeriode } from '@utils/typeguards';
 
@@ -241,6 +243,8 @@ export const InntektOgRefusjon = ({
 
     if (!person) return null;
 
+    const erVilkårgrunnlagetFraSpleis =
+        getVilkårsgrunnlag(person, vilkårsgrunnlagId)?.vilkarsgrunnlagtype === Vilkarsgrunnlagtype.Spleis ?? false;
     const erRevurdering = maybePeriodeTilGodkjenning(person, skjæringstidspunkt) === null;
 
     return (
@@ -274,7 +278,7 @@ export const InntektOgRefusjon = ({
                         editing={editingInntekt}
                     />
                 )}
-                {harSykefravær && vilkårsgrunnlagId && inntektstype ? (
+                {harSykefravær && vilkårsgrunnlagId && erVilkårgrunnlagetFraSpleis && inntektstype ? (
                     kanRevurderes ? (
                         <RedigerInntektOgRefusjon
                             setEditing={setEditingInntekt}

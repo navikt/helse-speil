@@ -1,14 +1,9 @@
 import React, { Dispatch, SetStateAction } from 'react';
 
 import { EditButton } from '@components/EditButton';
-import { PopoverHjelpetekst } from '@components/PopoverHjelpetekst';
-import { SortInfoikon } from '@components/ikoner/SortInfoikon';
 import { Arbeidsgiver, BeregnetPeriode } from '@io/graphql';
 import { usePeriodForSkjæringstidspunktForArbeidsgiver } from '@state/arbeidsgiver';
-import { useCurrentPerson } from '@state/person';
 import { isInCurrentGeneration } from '@state/selectors/period';
-
-import { kanRedigereInntektEllerRefusjon } from './redigerInntektOgRefusjonUtils';
 
 interface RedigerInntektProps {
     setEditing: Dispatch<SetStateAction<boolean>>;
@@ -27,7 +22,6 @@ export const RedigerInntektOgRefusjon = ({
     organisasjonsnummer,
     arbeidsgiver,
 }: RedigerInntektProps) => {
-    const person = useCurrentPerson() as FetchedPerson;
     const periode = usePeriodForSkjæringstidspunktForArbeidsgiver(
         skjæringstidspunkt,
         organisasjonsnummer,
@@ -35,7 +29,7 @@ export const RedigerInntektOgRefusjon = ({
 
     if (!isInCurrentGeneration(periode, arbeidsgiver)) return null;
 
-    return kanRedigereInntektEllerRefusjon(person, arbeidsgiver, periode) ? (
+    return (
         <EditButton
             isOpen={editing}
             openText="Avbryt"
@@ -43,9 +37,5 @@ export const RedigerInntektOgRefusjon = ({
             onOpen={() => setEditing(true)}
             onClose={() => setEditing(false)}
         />
-    ) : (
-        <PopoverHjelpetekst ikon={<SortInfoikon />}>
-            <p>Det er ikke mulig å overstyre sykepengegrunnlaget i denne saken. Meld saken til support</p>
-        </PopoverHjelpetekst>
     );
 };
