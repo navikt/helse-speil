@@ -117,11 +117,20 @@ export const defaultFilters: Filter<OppgaveForOversiktsvisning>[] = [
         column: 4,
     },
     {
+        key: 'HASTER',
+        label: 'Haster',
+        active: false,
+        function: (oppgave: OppgaveForOversiktsvisning) => oppgave.haster === true,
+        column: 4,
+    },
+    {
         key: 'INGEN_EGENSKAPER',
         label: 'Ingen',
         active: false,
         function: (oppgave: OppgaveForOversiktsvisning) =>
-            !(oppgave.totrinnsvurdering?.erRetur ?? false) && !(oppgave.totrinnsvurdering?.erBeslutteroppgave ?? false),
+            !(oppgave.totrinnsvurdering?.erRetur ?? false) &&
+            !(oppgave.totrinnsvurdering?.erBeslutteroppgave ?? false) &&
+            !oppgave.haster,
         column: 4,
     },
     {

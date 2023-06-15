@@ -474,6 +474,7 @@ export type OppgaveForOversiktsvisning = {
     boenhet?: Maybe<Boenhet>;
     flereArbeidsgivere: Scalars['Boolean']['output'];
     fodselsnummer: Scalars['String']['output'];
+    haster?: Maybe<Scalars['Boolean']['output']>;
     id: Scalars['String']['output'];
     mottaker?: Maybe<Mottaker>;
     navn: Personnavn;
@@ -1110,6 +1111,7 @@ export type FetchOppgaverQuery = {
         flereArbeidsgivere: boolean;
         sistSendt?: string | null;
         mottaker?: Mottaker | null;
+        haster?: boolean | null;
         navn: { __typename?: 'Personnavn'; fornavn: string; mellomnavn?: string | null; etternavn: string };
         tildeling?: {
             __typename?: 'Tildeling';

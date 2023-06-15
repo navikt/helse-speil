@@ -38,7 +38,12 @@ export const oppgaver: Array<OppgaveForOversiktsvisning> = [
             id: '1401',
             navn: 'Flora',
         },
+        totrinnsvurdering: {
+            erBeslutteroppgave: true,
+            erRetur: false,
+        },
         mottaker: Mottaker.Arbeidsgiver,
+        haster: true,
     },
     {
         id: '4420',

@@ -27,5 +27,6 @@ query FetchOppgaver {
             erBeslutteroppgave
         }
         mottaker
+        haster
     }
 }

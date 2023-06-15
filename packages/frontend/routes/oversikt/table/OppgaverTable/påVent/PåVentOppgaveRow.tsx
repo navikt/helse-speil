@@ -27,6 +27,7 @@ export const PåVentOppgaveRow = ({ oppgave }: PåVentOppgaveRowProps) => (
         <EgenskaperCell
             erBeslutter={oppgave.totrinnsvurdering?.erBeslutteroppgave === true}
             erRetur={oppgave.totrinnsvurdering?.erRetur === true}
+            haster={oppgave.haster ?? false}
         />
         <InntektskildeCell flereArbeidsgivere={oppgave.flereArbeidsgivere} />
         <SøkerCell name={oppgave.navn} />
