@@ -33,7 +33,6 @@ const useOppgaverFilteredByTab = () => {
     const oppgaver = useOppgaverLoadable();
     const [cache, setCache] = useState<Oppgaver>(oppgaver.state === 'hasValue' ? oppgaver.contents : []);
 
-    console.log(oppgaver);
     const filtrer = (oppgaver: Oppgaver): Oppgaver => {
         switch (aktivTab) {
             case TabType.TilGodkjenning: {

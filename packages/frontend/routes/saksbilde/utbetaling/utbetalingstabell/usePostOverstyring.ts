@@ -118,8 +118,6 @@ export const usePostOverstyring = (): UsePostOverstyringResult => {
             begrunnelse: begrunnelse,
         };
 
-        console.log(overstyring);
-
         return postOverstyrteDager(overstyring)
             .then(() => {
                 setState('hasValue');

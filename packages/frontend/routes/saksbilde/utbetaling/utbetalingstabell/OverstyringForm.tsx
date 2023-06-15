@@ -93,7 +93,6 @@ export const OverstyringForm: React.FC<OverstyringFormProps> = ({ overstyrteDage
             {visFeilOppsummering && (
                 <FeiloppsummeringContainer ref={oppsummeringRef} heading="Skjemaet inneholder følgende feil:">
                     {Object.entries(formState.errors).map(([id, error], index) => {
-                        console.log(error);
                         return <ErrorSummary.Item key={`${id}${index}`}>{error?.message as string}</ErrorSummary.Item>;
                     })}
                 </FeiloppsummeringContainer>
