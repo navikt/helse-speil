@@ -12,7 +12,7 @@ import {
 import { fjernTildeling, opprettTildeling } from '@io/graphql/tildeling/endreTildeling';
 import { useFjernTildeling, useOpprettTildeling } from '@state/tildeling';
 import '@testing-library/jest-dom/extend-expect';
-import { act, renderHook, waitFor } from '@testing-library/react';
+import { renderHook, waitFor } from '@testing-library/react';
 
 import { oppgaverState } from './oppgaver';
 
@@ -128,10 +128,8 @@ describe('oppgavetildeling', () => {
             (opprettTildeling as jest.Mock).mockReturnValue(promiseTildeling('Detta gikk dårlig'));
             const { result } = renderHook(() => useOpprettTildeling(), { wrapper });
 
-            await act(async () => {
-                const errorMessage = await result.current(enOppgave().id).catch((err) => err);
-                expect(errorMessage).toEqual('Kunne ikke tildele sak.');
-            });
+            const errorMessage = await result.current(enOppgave().id).catch((err) => err);
+            expect(errorMessage).toEqual('Kunne ikke tildele sak.');
         });
     });
     describe('useFjernTildeling', () => {
@@ -148,10 +146,8 @@ describe('oppgavetildeling', () => {
             (fjernTildeling as jest.Mock).mockReturnValue(promiseFjernTildeling('error'));
             const { result } = renderHook(() => useFjernTildeling(), { wrapper });
 
-            await act(async () => {
-                const errorMessage = await result.current(enOppgave().id).catch((err) => err);
-                expect(errorMessage).toEqual('Kunne ikke fjerne tildeling av sak.');
-            });
+            const errorMessage = await result.current(enOppgave().id).catch((err) => err);
+            expect(errorMessage).toEqual('Kunne ikke fjerne tildeling av sak.');
         });
     });
 });

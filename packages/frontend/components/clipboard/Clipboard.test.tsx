@@ -1,6 +1,6 @@
 import React, { useRef } from 'react';
 
-import { act, render, screen } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 import { Clipboard } from './Clipboard';
@@ -18,11 +18,9 @@ jest.mock('./writeToClipboard', () => ({
 describe('Clipboard', () => {
     test('kopierer tekstinnhold i children-propen', async () => {
         render(<Clipboard>Denne skal kopieres</Clipboard>);
-        await act(async () => {
-            const button = screen.getByRole('button');
-            await userEvent.click(button);
-            expect(copiedText).toEqual('Denne skal kopieres');
-        });
+        const button = screen.getByRole('button');
+        await userEvent.click(button);
+        expect(copiedText).toEqual('Denne skal kopieres');
     });
     test('kopierer tekstinnhold i elementer i children-propen', async () => {
         render(
@@ -30,19 +28,15 @@ describe('Clipboard', () => {
                 <p>Denne skal kopieres</p>
             </Clipboard>,
         );
-        await act(async () => {
-            const button = screen.getByRole('button');
-            await userEvent.click(button);
-            expect(copiedText).toEqual('Denne skal kopieres');
-        });
+        const button = screen.getByRole('button');
+        await userEvent.click(button);
+        expect(copiedText).toEqual('Denne skal kopieres');
     });
     test('tar vekk mellomrom om `preserveWhitespace` === false', async () => {
         render(<Clipboard preserveWhitespace={false}>Denne skal kopieres uten mellomrom</Clipboard>);
-        await act(async () => {
-            const button = screen.getByRole('button');
-            await userEvent.click(button);
-            expect(copiedText).toEqual('Denneskalkopieresutenmellomrom');
-        });
+        const button = screen.getByRole('button');
+        await userEvent.click(button);
+        expect(copiedText).toEqual('Denneskalkopieresutenmellomrom');
     });
     test('kopierer tekst fra kilderef om oppgitt', async () => {
         const Container: React.FC<ChildrenProps> = () => {
@@ -55,10 +49,8 @@ describe('Clipboard', () => {
             );
         };
         render(<Container />);
-        await act(async () => {
-            const button = screen.getByRole('button');
-            await userEvent.click(button);
-            expect(copiedText).toEqual('Denne burde kopieres');
-        });
+        const button = screen.getByRole('button');
+        await userEvent.click(button);
+        expect(copiedText).toEqual('Denne burde kopieres');
     });
 });
