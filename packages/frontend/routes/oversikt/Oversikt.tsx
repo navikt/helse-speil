@@ -36,12 +36,11 @@ const useOppgaverFilteredByTab = () => {
     const filtrer = (oppgaver: Oppgaver): Oppgaver => {
         switch (aktivTab) {
             case TabType.TilGodkjenning: {
-                return oppgaver.filter(
-                    (oppgave) =>
-                        oppgave.tildeling?.oid !== oid &&
-                        (oppgave.totrinnsvurdering?.erBeslutteroppgave
-                            ? oppgave.totrinnsvurdering.saksbehandler !== oid
-                            : true),
+                return oppgaver.filter((oppgave) =>
+                    // @TODO: kanskje markere saker man har sendt til beslutter på annen måte og vise dem, enn å bare fjerne dem fra lista
+                    oppgave.totrinnsvurdering?.erBeslutteroppgave
+                        ? oppgave.totrinnsvurdering.saksbehandler !== oid
+                        : true,
                 );
             }
             case TabType.Mine: {
