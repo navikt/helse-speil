@@ -161,6 +161,7 @@ const getResolvers = (): IResolvers => ({
                 navn: 'Utvikler, Lokal',
                 oid: 'uuid',
                 reservert: OppgaveMock.getOppgave(oppgaveId)?.erPåVent ?? false,
+                paaVent: OppgaveMock.getOppgave(oppgaveId)?.erPåVent ?? false,
             });
 
             return TildelingMock.getTildeling(oppgaveId);

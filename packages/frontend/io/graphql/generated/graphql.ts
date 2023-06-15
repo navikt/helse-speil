@@ -1111,7 +1111,14 @@ export type FetchOppgaverQuery = {
         sistSendt?: string | null;
         mottaker?: Mottaker | null;
         navn: { __typename?: 'Personnavn'; fornavn: string; mellomnavn?: string | null; etternavn: string };
-        tildeling?: { __typename?: 'Tildeling'; reservert: boolean; navn: string; epost: string; oid: string } | null;
+        tildeling?: {
+            __typename?: 'Tildeling';
+            reservert: boolean;
+            navn: string;
+            epost: string;
+            oid: string;
+            paaVent: boolean;
+        } | null;
         totrinnsvurdering?: {
             __typename?: 'Totrinnsvurdering';
             saksbehandler?: string | null;
@@ -1187,6 +1194,13 @@ type Vilkarsgrunnlag_VilkarsgrunnlagInfotrygd_Fragment = {
             kilde: Inntektskilde;
             inntektFraAOrdningen?: Array<{ __typename?: 'InntektFraAOrdningen'; maned: string; sum: number }> | null;
         } | null;
+        skjonnsmessigFastsatt?: {
+            __typename?: 'OmregnetArsinntekt';
+            belop: number;
+            manedsbelop: number;
+            kilde: Inntektskilde;
+            inntektFraAOrdningen?: Array<{ __typename?: 'InntektFraAOrdningen'; maned: string; sum: number }> | null;
+        } | null;
     }>;
     arbeidsgiverrefusjoner: Array<{
         __typename?: 'Arbeidsgiverrefusjon';
@@ -1203,6 +1217,7 @@ type Vilkarsgrunnlag_VilkarsgrunnlagInfotrygd_Fragment = {
 
 type Vilkarsgrunnlag_VilkarsgrunnlagSpleis_Fragment = {
     __typename?: 'VilkarsgrunnlagSpleis';
+    skjonnsmessigFastsattAarlig?: number | null;
     oppfyllerKravOmMinstelonn: boolean;
     oppfyllerKravOmMedlemskap?: boolean | null;
     oppfyllerKravOmOpptjening: boolean;
@@ -1232,6 +1247,13 @@ type Vilkarsgrunnlag_VilkarsgrunnlagSpleis_Fragment = {
             inntektFraAOrdningen: Array<{ __typename?: 'InntektFraAOrdningen'; maned: string; sum: number }>;
         } | null;
         omregnetArsinntekt?: {
+            __typename?: 'OmregnetArsinntekt';
+            belop: number;
+            manedsbelop: number;
+            kilde: Inntektskilde;
+            inntektFraAOrdningen?: Array<{ __typename?: 'InntektFraAOrdningen'; maned: string; sum: number }> | null;
+        } | null;
+        skjonnsmessigFastsatt?: {
             __typename?: 'OmregnetArsinntekt';
             belop: number;
             manedsbelop: number;
@@ -1289,7 +1311,14 @@ export type FetchPersonQuery = {
             kjonn: Kjonn;
             reservasjon?: { __typename?: 'Reservasjon'; kanVarsles: boolean; reservert: boolean } | null;
         };
-        tildeling?: { __typename?: 'Tildeling'; navn: string; epost: string; oid: string; reservert: boolean } | null;
+        tildeling?: {
+            __typename?: 'Tildeling';
+            navn: string;
+            epost: string;
+            oid: string;
+            reservert: boolean;
+            paaVent: boolean;
+        } | null;
         vilkarsgrunnlag: Array<
             | {
                   __typename?: 'VilkarsgrunnlagInfotrygd';
@@ -1323,6 +1352,17 @@ export type FetchPersonQuery = {
                               sum: number;
                           }> | null;
                       } | null;
+                      skjonnsmessigFastsatt?: {
+                          __typename?: 'OmregnetArsinntekt';
+                          belop: number;
+                          manedsbelop: number;
+                          kilde: Inntektskilde;
+                          inntektFraAOrdningen?: Array<{
+                              __typename?: 'InntektFraAOrdningen';
+                              maned: string;
+                              sum: number;
+                          }> | null;
+                      } | null;
                   }>;
                   arbeidsgiverrefusjoner: Array<{
                       __typename?: 'Arbeidsgiverrefusjon';
@@ -1338,6 +1378,7 @@ export type FetchPersonQuery = {
               }
             | {
                   __typename?: 'VilkarsgrunnlagSpleis';
+                  skjonnsmessigFastsattAarlig?: number | null;
                   oppfyllerKravOmMinstelonn: boolean;
                   oppfyllerKravOmMedlemskap?: boolean | null;
                   oppfyllerKravOmOpptjening: boolean;
@@ -1371,6 +1412,17 @@ export type FetchPersonQuery = {
                           }>;
                       } | null;
                       omregnetArsinntekt?: {
+                          __typename?: 'OmregnetArsinntekt';
+                          belop: number;
+                          manedsbelop: number;
+                          kilde: Inntektskilde;
+                          inntektFraAOrdningen?: Array<{
+                              __typename?: 'InntektFraAOrdningen';
+                              maned: string;
+                              sum: number;
+                          }> | null;
+                      } | null;
+                      skjonnsmessigFastsatt?: {
                           __typename?: 'OmregnetArsinntekt';
                           belop: number;
                           manedsbelop: number;
@@ -1915,5 +1967,6 @@ export type OpprettTildelingMutation = {
         oid: string;
         epost: string;
         reservert: boolean;
+        paaVent: boolean;
     } | null;
 };

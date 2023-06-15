@@ -98,6 +98,7 @@ const promiseTildeling = (error: string | undefined = undefined) =>
                       epost: 'epost',
                       navn: 'navn',
                       reservert: false,
+                      paaVent: false,
                   },
               });
     });

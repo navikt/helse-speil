@@ -40,10 +40,10 @@ export const useOpprettTildeling = (): ((oppgavereferanse: string) => Promise<Ti
             })
             .catch(async (error: GraphQLRequestError) => {
                 if (error.response.errors[0].extensions.code.value === 409) {
-                    const { oid, navn, epost, reservert } = error.response.errors[0].extensions.tildeling;
+                    const { oid, navn, epost, reservert, paaVent } = error.response.errors[0].extensions.tildeling;
                     setTildelinger({
                         ...tildelinger,
-                        [oppgavereferanse]: { oid, navn, epost, reservert },
+                        [oppgavereferanse]: { oid, navn, epost, reservert, paaVent },
                     });
                     leggTilTildelingsvarsel(
                         `${error.response.errors[0].extensions.tildeling.navn} har allerede tatt saken.`,

@@ -220,6 +220,7 @@ const tilfeldigOppgave = (oppgaveId: number): OppgaveForOversiktsvisning => {
             epost: 'tildeling@epost.no',
             navn: tildelingEtternavn + ', ' + tildelingFornavn + (tildelingMellomnavn ? ' ' + tildelingMellomnavn : ''),
             reservert: false,
+            paaVent: false,
             oid: randomUUID().toString(),
         },
     } as OppgaveForOversiktsvisning;

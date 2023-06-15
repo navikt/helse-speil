@@ -2,6 +2,6 @@ mutation OpprettTildeling($oppgaveId: String!) {
   opprettTildeling(
         oppgaveId: $oppgaveId,
   ) {
-    navn, oid, epost, reservert
+    navn, oid, epost, reservert, paaVent
   }
 }

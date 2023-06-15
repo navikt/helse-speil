@@ -35,6 +35,7 @@ describe('Tabs', () => {
             navn: 'Fornavn Etternavn',
             oid: nanoid(),
             reservert: false,
+            paaVent: false,
         };
         const minOppgave = enOppgaveForOversikten({ tildeling });
         const alleOppgaver = [enOppgaveForOversikten(), minOppgave];
