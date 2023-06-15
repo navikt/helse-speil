@@ -40,7 +40,7 @@ describe('DagtypeCell', () => {
 
     it('rendrer ikke infotrekant når vi ikke overstyrer', () => {
         render(<DagtypeCell dag={getUtbetalingstabellDag()} />);
-        expect(screen.queryByTestId('infotrekant')).toBeNull();
+        expect(screen.queryByTestId('infotrekant')).not.toBeInTheDocument();
     });
 
     it('rendrer infotrekant når vi legger til dag', () => {

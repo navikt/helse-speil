@@ -14,7 +14,9 @@ describe('Sykepengegrunnlagsgrense', () => {
             />,
         );
         expect(screen.queryByText('Grunnbeløp (G) ved skjæringstidspunkt:', { exact: false })).toBeVisible();
-        expect(screen.queryByText('Sykepengegrunnlaget er begrenset til 6G:', { exact: false })).toBeNull();
+        expect(
+            screen.queryByText('Sykepengegrunnlaget er begrenset til 6G:', { exact: false }),
+        ).not.toBeInTheDocument();
     });
     test('rendrer SykepengegrunnlagsgrenseView med begrenset sykepengegrunnlag', () => {
         render(

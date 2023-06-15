@@ -33,29 +33,29 @@ const defaultProps = {
 describe('Annulleringsmodal', () => {
     test('viser feilmelding ved manglende begrunnelse', async () => {
         render(<Annulleringsmodal {...defaultProps} />, { wrapper: RecoilWrapper });
-        userEvent.click(screen.getByText('Annuller'));
+        await userEvent.click(screen.getByText('Annuller'));
         await waitFor(() => {
-            expect(screen.queryByText('Velg minst én begrunnelse')).not.toBeNull();
+            expect(screen.getByText('Velg minst én begrunnelse')).toBeInTheDocument();
         });
     });
     test('viser feilmelding ved manglende kommentar', async () => {
         render(<Annulleringsmodal {...defaultProps} />, { wrapper: RecoilWrapper });
-        userEvent.click(screen.getByText('Annet'));
-        userEvent.click(screen.getByText('Annuller'));
+        await userEvent.click(screen.getByText('Annet'));
+        await userEvent.click(screen.getByText('Annuller'));
         await waitFor(() => {
-            expect(screen.queryByText('Skriv en kommentar hvis du velger begrunnelsen "annet"')).not.toBeNull();
+            expect(screen.getByText('Skriv en kommentar hvis du velger begrunnelsen "annet"')).toBeInTheDocument();
         });
     });
     test('bygger AnnulleringDTO ved post av annullering', async () => {
         render(<Annulleringsmodal {...defaultProps} />, { wrapper: RecoilWrapper });
-        userEvent.click(screen.getByText('Ferie'));
-        userEvent.click(screen.getByText('Annuller'));
+        await userEvent.click(screen.getByText('Ferie'));
+        await userEvent.click(screen.getByText('Annuller'));
         await waitFor(() => {
             expect(cachedAnnullering?.aktørId).toEqual('12345678910');
-            expect(cachedAnnullering?.fødselsnummer).toEqual('12345678910');
-            expect(cachedAnnullering?.organisasjonsnummer).toEqual('987654321');
-            expect(cachedAnnullering?.fagsystemId).toEqual('EN-FAGSYSTEMID');
-            expect(cachedAnnullering?.begrunnelser?.length).toEqual(1);
         });
+        expect(cachedAnnullering?.fødselsnummer).toEqual('12345678910');
+        expect(cachedAnnullering?.organisasjonsnummer).toEqual('987654321');
+        expect(cachedAnnullering?.fagsystemId).toEqual('EN-FAGSYSTEMID');
+        expect(cachedAnnullering?.begrunnelser?.length).toEqual(1);
     });
 });

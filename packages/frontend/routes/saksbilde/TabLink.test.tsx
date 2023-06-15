@@ -27,6 +27,6 @@ describe('TabLink', () => {
             </MemoryRouter>,
         );
         expect(screen.queryByText('Test')).toBeVisible();
-        expect(screen.queryByRole('link')).toBeNull();
+        expect(screen.queryByRole('link')).not.toBeInTheDocument();
     });
 });

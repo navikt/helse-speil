@@ -61,7 +61,7 @@ describe('Inngangsvilkår', () => {
         const oppfylteVilkår = screen.getByTestId('oppfylte-vilkår');
         expect(oppfylteVilkår).toBeVisible();
 
-        expect(within(oppfylteVilkår).queryByText('Opptjeningstid')).toBeNull();
+        expect(within(oppfylteVilkår).queryByText('Opptjeningstid')).not.toBeInTheDocument();
         expect(within(oppfylteVilkår).getByText('Lovvalg og medlemskap')).toBeVisible();
         expect(within(oppfylteVilkår).getByText('Krav til minste sykepengegrunnlag')).toBeVisible();
 

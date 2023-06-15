@@ -1,7 +1,7 @@
 import React from 'react';
 
 import '@testing-library/jest-dom/extend-expect';
-import { render, screen, waitFor } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 
 import { AgurkErrorBoundary } from './AgurkErrorBoundary';
 
@@ -16,13 +16,13 @@ const ThrowsError = ({ errorMessage }: { errorMessage: string }) => {
 };
 
 describe('AgurkErrorBoundary', () => {
-    test('rendrer feilmelding', () => {
+    test('rendrer feilmelding', async () => {
         const feilmelding = 'Dette er en feil';
         render(
             <AgurkErrorBoundary>
-                <ThrowsError errorMessage={feilmelding} />
+                <ThrowsError errorMessage={`Error: ${feilmelding}`} />
             </AgurkErrorBoundary>,
         );
-        waitFor(() => expect(screen.queryByText(feilmelding)).toBeVisible());
+        expect(await screen.findByText(feilmelding, { exact: false })).toBeVisible();
     });
 });

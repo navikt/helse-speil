@@ -37,7 +37,7 @@ describe('OverstyringForm', () => {
             },
         );
 
-        expect(screen.getAllByRole('button')[0]).not.toBeDisabled();
+        expect(screen.getAllByRole('button')[0]).toBeEnabled();
         userEvent.click(screen.getAllByRole('button')[0]);
 
         await waitFor(() => {
@@ -54,11 +54,11 @@ describe('OverstyringForm', () => {
             },
         );
 
-        expect(screen.getAllByRole('button')[0]).not.toBeDisabled();
+        expect(screen.getAllByRole('button')[0]).toBeEnabled();
         userEvent.click(screen.getAllByRole('button')[0]);
 
         await waitFor(() => {
-            expect(screen.getAllByText(arbeidsdagvalideringstekst)).toHaveLength(1);
+            expect(screen.getByText(arbeidsdagvalideringstekst)).toBeInTheDocument();
         });
     });
     it('viser feilmelding dersom arbeidsdager ikke er ny dag, innenfor agp og overstyrt fraType SykHelg', async () => {
@@ -72,11 +72,11 @@ describe('OverstyringForm', () => {
             },
         );
 
-        expect(screen.getAllByRole('button')[0]).not.toBeDisabled();
+        expect(screen.getAllByRole('button')[0]).toBeEnabled();
         userEvent.click(screen.getAllByRole('button')[0]);
 
         await waitFor(() => {
-            expect(screen.getAllByText(arbeidsdagvalideringstekst)).toHaveLength(1);
+            expect(screen.getByText(arbeidsdagvalideringstekst)).toBeInTheDocument();
         });
     });
 
@@ -89,11 +89,11 @@ describe('OverstyringForm', () => {
             },
         );
 
-        expect(screen.getAllByRole('button')[0]).not.toBeDisabled();
+        expect(screen.getAllByRole('button')[0]).toBeEnabled();
         userEvent.click(screen.getAllByRole('button')[0]);
 
         await waitFor(() => {
-            expect(screen.getAllByText(arbeidsdagvalideringstekst)).toHaveLength(1);
+            expect(screen.getByText(arbeidsdagvalideringstekst)).toBeInTheDocument();
         });
     });
 
@@ -108,11 +108,11 @@ describe('OverstyringForm', () => {
             },
         );
 
-        expect(screen.getAllByRole('button')[0]).not.toBeDisabled();
+        expect(screen.getAllByRole('button')[0]).toBeEnabled();
         userEvent.click(screen.getAllByRole('button')[0]);
 
         await waitFor(() => {
-            expect(screen.queryByText(arbeidsdagvalideringstekst)).toBeNull();
+            expect(screen.queryByText(arbeidsdagvalideringstekst)).not.toBeInTheDocument();
         });
     });
 
@@ -127,11 +127,11 @@ describe('OverstyringForm', () => {
             },
         );
 
-        expect(screen.getAllByRole('button')[0]).not.toBeDisabled();
+        expect(screen.getAllByRole('button')[0]).toBeEnabled();
         userEvent.click(screen.getAllByRole('button')[0]);
 
         await waitFor(() => {
-            expect(screen.queryByText(arbeidsdagvalideringstekst)).toBeNull();
+            expect(screen.queryByText(arbeidsdagvalideringstekst)).not.toBeInTheDocument();
         });
     });
 });

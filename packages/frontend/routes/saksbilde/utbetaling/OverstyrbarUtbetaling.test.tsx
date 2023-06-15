@@ -70,12 +70,12 @@ describe('OverstyrbarUtbetaling', () => {
         userEvent.click(checkboxes[3]);
 
         expect(screen.getAllByRole('option')).toHaveLength(4);
-        expect(screen.getByTestId('dagtypevelger')).not.toBeDisabled();
+        expect(screen.getByTestId('dagtypevelger')).toBeEnabled();
 
         userEvent.selectOptions(screen.getByTestId('dagtypevelger'), screen.getAllByRole('option')[0]);
         expect((screen.getByRole('option', { selected: true }) as HTMLOptionElement).selected).toBe(true);
 
-        expect(screen.getByTestId('gradvelger')).not.toBeDisabled();
+        expect(screen.getByTestId('gradvelger')).toBeEnabled();
         userEvent.clear(screen.getByTestId('gradvelger'));
         userEvent.type(screen.getByTestId('gradvelger'), '80');
         expect(screen.getByTestId('gradvelger')).toHaveValue(80);
@@ -83,7 +83,7 @@ describe('OverstyrbarUtbetaling', () => {
         userEvent.click(screen.getByTestId('endre'));
 
         await waitFor(() => {
-            expect(screen.getByTestId('oppdater')).not.toBeDisabled();
+            expect(screen.getByTestId('oppdater')).toBeEnabled();
         });
 
         userEvent.type(screen.getByTestId('overstyring-begrunnelse'), 'En begrunnelse');

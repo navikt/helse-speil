@@ -125,7 +125,7 @@ describe('Utbetaling', () => {
 
         render(<Utbetaling />, { wrapper: RecoilWrapper });
 
-        expect(screen.queryByText('Endre')).toBeNull();
+        expect(screen.queryByText('Endre')).not.toBeInTheDocument();
     });
 
     it('rendrer utbetaling for periode som ikke kan overstyres eller revurderes', () => {
@@ -143,7 +143,7 @@ describe('Utbetaling', () => {
 
         render(<Utbetaling />, { wrapper: RecoilWrapper });
 
-        expect(screen.queryByText('Endre')).toBeNull();
-        expect(screen.queryByText('Revurder')).toBeNull();
+        expect(screen.queryByText('Endre')).not.toBeInTheDocument();
+        expect(screen.queryByText('Revurder')).not.toBeInTheDocument();
     });
 });

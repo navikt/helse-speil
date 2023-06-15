@@ -16,7 +16,7 @@ describe('ReservasjonTag', () => {
     });
     it('rendrer ikke tag når det ikke finnes en reservasjon i KRR', () => {
         render(<ReservasjonTag reservasjon={{ reservert: false, kanVarsles: true }} />);
-        expect(screen.queryByText('Reservert KRR')).toBeNull();
-        expect(screen.queryByText('Ikke registrert KRR')).toBeNull();
+        expect(screen.queryByText('Reservert KRR')).not.toBeInTheDocument();
+        expect(screen.queryByText('Ikke registrert KRR')).not.toBeInTheDocument();
     });
 });

@@ -31,9 +31,9 @@ describe('Faresignaler', () => {
         render(<FaresignalerWithContent risikovurdering={enRisikovurdering} />);
         expect(screen.queryByText('Faresignaler oppdaget')).toBeVisible();
         expect(screen.queryByText('Faresignaler kontrollert')).toBeVisible();
-        expect(screen.queryAllByText('Går alltid med solbriller')).toHaveLength(1);
-        expect(screen.queryAllByText('Spiser aldri lunsj')).toHaveLength(1);
-        expect(screen.queryAllByText('Er fra Vinderen')).toHaveLength(1);
+        expect(screen.getByText('Går alltid med solbriller')).toBeInTheDocument();
+        expect(screen.getByText('Spiser aldri lunsj')).toBeInTheDocument();
+        expect(screen.getByText('Er fra Vinderen')).toBeInTheDocument();
     });
 
     test('rendrer ikke Faresignaler kontrollert eller oppdaget', async () => {
@@ -42,10 +42,10 @@ describe('Faresignaler', () => {
             funn: [],
         };
         render(<FaresignalerWithContent risikovurdering={enRisikovurdering} />);
-        expect(screen.queryByText('Faresignaler oppdaget')).toBeNull();
-        expect(screen.queryByText('Faresignaler kontrollert')).toBeNull();
-        expect(screen.queryAllByText('Går alltid med solbriller')).toHaveLength(0);
-        expect(screen.queryAllByText('Spiser aldri lunsj')).toHaveLength(0);
-        expect(screen.queryAllByText('Er fra Vinderen')).toHaveLength(0);
+        expect(screen.queryByText('Faresignaler oppdaget')).not.toBeInTheDocument();
+        expect(screen.queryByText('Faresignaler kontrollert')).not.toBeInTheDocument();
+        expect(screen.queryByText('Går alltid med solbriller')).not.toBeInTheDocument();
+        expect(screen.queryByText('Spiser aldri lunsj')).not.toBeInTheDocument();
+        expect(screen.queryByText('Er fra Vinderen')).not.toBeInTheDocument();
     });
 });

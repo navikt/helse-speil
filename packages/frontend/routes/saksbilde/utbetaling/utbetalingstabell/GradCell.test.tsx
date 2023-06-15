@@ -33,6 +33,6 @@ describe('GradCell', () => {
 
     it('rendrer ikke infotrekant når vi ikke overstyrer', () => {
         render(<GradCell dag={getUtbetalingstabellDag()} />);
-        expect(screen.queryByTestId('infotrekant')).toBeNull();
+        expect(screen.queryByTestId('infotrekant')).not.toBeInTheDocument();
     });
 });

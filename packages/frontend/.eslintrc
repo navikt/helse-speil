@@ -40,8 +40,8 @@
             }
         }
     ],
-    "plugins": ["react", "react-hooks", "@typescript-eslint", "react-refresh"],
-    "extends": ["eslint:recommended", "prettier"],
+    "plugins": ["react", "react-hooks", "@typescript-eslint", "react-refresh", "testing-library", "jest-dom"],
+    "extends": ["eslint:recommended", "prettier", "plugin:jest-dom/recommended", "plugin:testing-library/dom"],
     "rules": {
         "react/jsx-no-bind": [
             "error",
