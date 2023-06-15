@@ -175,7 +175,6 @@ export const OverstyrbarUtbetaling: React.FC<OverstyrbarUtbetalingProps> = ({
                                 <RadmarkeringCheckbox
                                     key={i}
                                     index={i}
-                                    erForeldet={dag.erForeldet}
                                     onChange={toggleChecked(dag)}
                                     checked={markerteDager.get(dag.dato) !== undefined}
                                 />

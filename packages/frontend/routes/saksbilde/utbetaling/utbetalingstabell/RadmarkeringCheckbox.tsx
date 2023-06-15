@@ -23,16 +23,9 @@ const Container = styled.div`
 
 interface RadmarkeringCheckboxProps extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'size' | 'value'> {
     index: number;
-    erForeldet?: boolean;
 }
 
-export const RadmarkeringCheckbox: React.FC<RadmarkeringCheckboxProps> = ({ index, erForeldet, ...rest }) => {
-    const dagKanOverstyres: Boolean = !erForeldet;
-
-    if (!dagKanOverstyres) {
-        return <Container />;
-    }
-
+export const RadmarkeringCheckbox: React.FC<RadmarkeringCheckboxProps> = ({ index, ...rest }) => {
     return (
         <Container>
             <Checkbox {...rest} hideLabel>
