@@ -177,7 +177,7 @@ export const useErAktivPeriodeLikEllerFørPeriodeTilGodkjenning = (): boolean =>
 
     if (!aktivPeriode || generasjon !== 0) return false;
 
-    return dayjs(aktivPeriode.fom).isSameOrBefore(periodeTilGodkjenning?.fom ?? Date.now());
+    return dayjs(aktivPeriode.tom).isSameOrBefore(periodeTilGodkjenning?.tom ?? Date.now());
 };
 
 export const useUtbetalingForSkjæringstidspunkt = (skjæringstidspunkt: DateString): Utbetaling | null => {
