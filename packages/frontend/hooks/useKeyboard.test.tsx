@@ -1,12 +1,10 @@
 import React, { useState } from 'react';
 
 import '@testing-library/jest-dom/extend-expect';
-import { cleanup, fireEvent, render, screen } from '@testing-library/react';
+import { fireEvent, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 import { Key, useKeyboard } from './useKeyboard';
-
-afterEach(cleanup);
 
 const Consumer = () => {
     const [pressedKey, setPressedKey] = useState('');

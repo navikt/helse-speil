@@ -14,9 +14,7 @@ describe('MerknaderCell', () => {
     });
 
     test('rendrer merknad om foreldet dag', () => {
-        const screen = render(
-            <MerknaderCell dag={getUtbetalingstabellDag({ erForeldet: true })} alderVedSkjæringstidspunkt={30} />,
-        );
+        render(<MerknaderCell dag={getUtbetalingstabellDag({ erForeldet: true })} alderVedSkjæringstidspunkt={30} />);
         expect(screen.queryByTestId('Foreldet')).toBeVisible();
     });
 
@@ -34,9 +32,7 @@ describe('MerknaderCell', () => {
             Begrunnelse.Over_70,
         ];
 
-        const screen = render(
-            <MerknaderCell dag={getUtbetalingstabellDag({ begrunnelser })} alderVedSkjæringstidspunkt={30} />,
-        );
+        render(<MerknaderCell dag={getUtbetalingstabellDag({ begrunnelser })} alderVedSkjæringstidspunkt={30} />);
 
         expect(screen.getByText('Personen er død')).toBeVisible();
         expect(screen.queryByTestId('Egenmelding utenfor arbeidsgiverperioden')).toBeVisible();
@@ -50,7 +46,7 @@ describe('MerknaderCell', () => {
     });
 
     test('rendrer riktig for forskjellige varianter av minimum inntekt', () => {
-        const screen = render(
+        const { rerender } = render(
             <MerknaderCell
                 dag={getUtbetalingstabellDag({ begrunnelser: [Begrunnelse.MinimumInntekt] })}
                 alderVedSkjæringstidspunkt={69}
@@ -60,7 +56,7 @@ describe('MerknaderCell', () => {
         expect(screen.queryByTestId('Inntekt under krav til minste sykepengegrunnlag')).toBeVisible();
         expect(screen.queryByText('§ 8-51')).toBeVisible();
 
-        screen.rerender(
+        rerender(
             <MerknaderCell
                 dag={getUtbetalingstabellDag({ begrunnelser: [Begrunnelse.MinimumInntekt] })}
                 alderVedSkjæringstidspunkt={66}
@@ -69,7 +65,7 @@ describe('MerknaderCell', () => {
         expect(screen.queryByTestId('Inntekt under krav til minste sykepengegrunnlag')).toBeVisible();
         expect(screen.queryByText('§ 8-3')).toBeVisible();
 
-        screen.rerender(
+        rerender(
             <MerknaderCell
                 dag={getUtbetalingstabellDag({ begrunnelser: [Begrunnelse.MinimumInntektOver_67] })}
                 alderVedSkjæringstidspunkt={69}
