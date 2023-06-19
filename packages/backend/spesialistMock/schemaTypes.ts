@@ -832,7 +832,7 @@ export type Tildeling = {
     oid: Scalars['String']['output'];
     paaVent: Scalars['Boolean']['output'];
     /** @deprecated Skal fjernes til fordel for paaVent */
-    reservert: Scalars['Boolean']['output'];
+    reservert?: Maybe<Scalars['Boolean']['output']>;
 };
 
 export type Totrinnsvurdering = {

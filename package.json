@@ -31,8 +31,10 @@
     "devDependencies": {
         "@graphql-codegen/cli": "^4.0.1",
         "@graphql-codegen/introspection": "^4.0.0",
-        "@graphql-codegen/typescript": "^4.0.0",
-        "@graphql-codegen/typescript-operations": "^4.0.0",
+        "@graphql-codegen/typescript": "^4.0.1",
+        "@graphql-codegen/fragment-matcher": "^4.0.1",
+        "@graphql-codegen/typed-document-node": "^4.0.1",
+        "@graphql-codegen/typescript-operations": "^4.0.1",
         "@trivago/prettier-plugin-sort-imports": "^4.1.1",
         "@types/node": "^20.3.1",
         "@types/uuid": "^9.0.2",
