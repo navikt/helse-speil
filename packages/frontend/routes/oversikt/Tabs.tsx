@@ -41,12 +41,12 @@ const AlleSakerTab = () => {
 };
 
 const MineSakerTab = () => {
-    const antallEgneOppgaver = useMineOppgaver().filter((it) => !it.tildeling?.reservert).length;
+    const antallEgneOppgaver = useMineOppgaver().filter((it) => !it.tildeling?.paaVent).length;
     return <OppgaveTab tag={TabType.Mine} label="Mine saker" numberOfTasks={antallEgneOppgaver} />;
 };
 
 const VentendeSakerTab = () => {
-    const antallEgneVentendeSaker = useMineOppgaver().filter((it) => it.tildeling?.reservert).length;
+    const antallEgneVentendeSaker = useMineOppgaver().filter((it) => it.tildeling?.paaVent).length;
     return <OppgaveTab tag={TabType.Ventende} label="På vent" numberOfTasks={antallEgneVentendeSaker} />;
 };
 

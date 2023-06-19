@@ -70,7 +70,7 @@ const DropdownMenuContent: React.FC = () => {
                                 oppgavereferanse={period.oppgave.id}
                                 vedtaksperiodeId={period.vedtaksperiodeId}
                                 personinfo={person.personinfo}
-                                erPåVent={person.tildeling?.reservert}
+                                erPåVent={person.tildeling?.paaVent}
                             />
                         )}
                     </Dropdown.Menu.List>
