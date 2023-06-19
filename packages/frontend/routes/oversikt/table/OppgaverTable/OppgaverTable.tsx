@@ -1,13 +1,16 @@
 import { PåVentTable } from './påVent/PåVentTable';
 import React from 'react';
+import { useRecoilState } from 'recoil';
 
 import { useIsReadOnlyOppgave } from '@hooks/useIsReadOnlyOppgave';
 import { FetchOppgaverQuery, OppgaveForOversiktsvisning } from '@io/graphql';
+import { useSyncNotater } from '@state/notater';
 
 import { TabType, useAktivTab } from '../../tabState';
 import { Pagination } from '../Pagination';
-import { Filter, useFilters, useSetMultipleFilters, useToggleFilter } from '../state/filter';
-import { usePagination } from '../state/pagination';
+import { filterRows, useFilters, useSetMultipleFilters, useToggleFilter } from '../state/filter';
+import { Pagination as PaginationType, usePagination } from '../state/pagination';
+import { sortRows, sortering } from '../state/sortation';
 import styles from '../table.module.css';
 import { FilterChips } from './FilterChips';
 import { MineSakerTable } from './mineSaker/MineSakerTable';
@@ -18,22 +21,21 @@ interface OppgaverTableProps {
 }
 
 export const OppgaverTable: React.FC<OppgaverTableProps> = React.memo(({ oppgaver }) => {
-    const pagination = usePagination();
+    const tab = useAktivTab();
     const filters = useFilters();
+    const [sort, setSort] = useRecoilState(sortering);
+    const pagination = usePagination();
     const toggleFilter = useToggleFilter();
     const setMultipleFilters = useSetMultipleFilters();
-    const tab = useAktivTab();
     const readOnly = useIsReadOnlyOppgave();
 
     const activeFilters = filters.filter((it) => it.active);
-    const groupedFilters = groupFiltersByColumn(activeFilters);
+    const filteredRows = filterRows(activeFilters, oppgaver);
+    const sortedRows = sortRows(sort, filteredRows);
+    const paginatedRows = paginateRows(pagination, sortedRows);
 
-    const filteredRows =
-        activeFilters.length > 0
-            ? (oppgaver.filter((oppgave) =>
-                  groupedFilters.every((it) => it.some((it) => it.function(oppgave as OppgaveForOversiktsvisning))),
-              ) as Array<OppgaveForOversiktsvisning>)
-            : (oppgaver as Array<OppgaveForOversiktsvisning>);
+    const vedtaksperiodeIder = paginatedRows.map((t) => t.vedtaksperiodeId);
+    useSyncNotater(vedtaksperiodeIder);
 
     return (
         <div className={styles.TableContainer}>
@@ -47,16 +49,17 @@ export const OppgaverTable: React.FC<OppgaverTableProps> = React.memo(({ oppgave
                     {tab === TabType.TilGodkjenning && (
                         <TilGodkjenningTable
                             filters={filters}
-                            filteredRows={filteredRows}
-                            pagination={pagination}
+                            oppgaver={paginatedRows}
                             readOnly={readOnly}
+                            sort={sort}
+                            setSort={setSort}
                         />
                     )}
                     {tab === TabType.Mine && (
-                        <MineSakerTable filters={filters} filteredRows={filteredRows} pagination={pagination} />
+                        <MineSakerTable filters={filters} oppgaver={paginatedRows} sort={sort} setSort={setSort} />
                     )}
                     {tab === TabType.Ventende && (
-                        <PåVentTable filters={filters} filteredRows={filteredRows} pagination={pagination} />
+                        <PåVentTable filters={filters} oppgaver={paginatedRows} sort={sort} setSort={setSort} />
                     )}
                 </div>
             </div>
@@ -65,19 +68,6 @@ export const OppgaverTable: React.FC<OppgaverTableProps> = React.memo(({ oppgave
     );
 });
 
-const groupFiltersByColumn = (
-    filters: Filter<OppgaveForOversiktsvisning>[],
-): Filter<OppgaveForOversiktsvisning>[][] => {
-    const groups = filters.reduce(
-        (
-            groups: { [key: string]: Filter<OppgaveForOversiktsvisning>[] },
-            filter: Filter<OppgaveForOversiktsvisning>,
-        ) => {
-            const key = `${filter.column}`;
-            return groups[key] ? { ...groups, [key]: [...groups[key], filter] } : { ...groups, [key]: [filter] };
-        },
-        {},
-    );
-
-    return Object.values(groups);
+const paginateRows = (pagination: PaginationType | null, oppgaver: OppgaveForOversiktsvisning[]) => {
+    return pagination ? oppgaver.slice(pagination.firstVisibleEntry, pagination.lastVisibleEntry + 1) : oppgaver;
 };

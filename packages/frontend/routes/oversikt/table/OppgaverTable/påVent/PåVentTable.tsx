@@ -1,53 +1,39 @@
 import { PåVentDropdownHeaderRow } from './PåVentDropdownHeaderRow';
 import { PåVentOppgaveRow } from './PåVentOppgaveRow';
 import { PåVentSortHeaderRow } from './PåVentSortHeaderRow';
-import React, { useState } from 'react';
+import React from 'react';
 
 import { SortState, Table } from '@navikt/ds-react';
 
 import { OppgaveForOversiktsvisning } from '@io/graphql';
-import { useSyncNotater } from '@state/notater';
 
 import { Filter } from '../../state/filter';
-import { Pagination } from '../../state/pagination';
-import { SortKey, defaultSortation, sortRows, updateSort } from '../../state/sortation';
+import { SortKey, updateSort } from '../../state/sortation';
 import styles from '../../table.module.css';
 
 interface PåVentTableProps {
     filters: Filter<OppgaveForOversiktsvisning>[];
-    filteredRows: OppgaveForOversiktsvisning[];
-    pagination: Pagination | null;
+    oppgaver: OppgaveForOversiktsvisning[];
+    sort: SortState | undefined;
+    setSort: (state: SortState | undefined) => void;
 }
 
-export const PåVentTable = ({ filters, filteredRows, pagination }: PåVentTableProps) => {
-    const [sort, setSort] = useState<SortState | undefined>(defaultSortation);
-
-    const sortedRows = sort ? sortRows(sort, filteredRows) : filteredRows;
-
-    const paginatedRows = pagination
-        ? sortedRows.slice(pagination.firstVisibleEntry, pagination.lastVisibleEntry + 1)
-        : sortedRows;
-
-    const vedtaksperiodeIder = paginatedRows.map((t) => t.vedtaksperiodeId);
-    useSyncNotater(vedtaksperiodeIder);
-
-    return (
-        <Table
-            sort={sort}
-            onSortChange={(sortKey: string | undefined) => sortKey && updateSort(sort, setSort, sortKey as SortKey)}
-            className={styles.Table}
-            aria-label="Saker som er tildelt meg og satt på vent"
-            zebraStripes
-        >
-            <Table.Header>
-                <PåVentDropdownHeaderRow filters={filters} />
-                <PåVentSortHeaderRow />
-            </Table.Header>
-            <Table.Body>
-                {paginatedRows.map((oppgave) => (
-                    <PåVentOppgaveRow key={oppgave.id} oppgave={oppgave} />
-                ))}
-            </Table.Body>
-        </Table>
-    );
-};
+export const PåVentTable = ({ filters, oppgaver, sort, setSort }: PåVentTableProps) => (
+    <Table
+        sort={sort}
+        onSortChange={(sortKey: string | undefined) => sortKey && updateSort(sort, setSort, sortKey as SortKey)}
+        className={styles.Table}
+        aria-label="Saker som er tildelt meg og satt på vent"
+        zebraStripes
+    >
+        <Table.Header>
+            <PåVentDropdownHeaderRow filters={filters} />
+            <PåVentSortHeaderRow />
+        </Table.Header>
+        <Table.Body>
+            {oppgaver.map((oppgave) => (
+                <PåVentOppgaveRow key={oppgave.id} oppgave={oppgave} />
+            ))}
+        </Table.Body>
+    </Table>
+);

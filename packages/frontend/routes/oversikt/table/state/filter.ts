@@ -1,6 +1,6 @@
 import { atom, selector, useRecoilValue, useSetRecoilState } from 'recoil';
 
-import { Mottaker, OppgaveForOversiktsvisning, Oppgavetype, Periodetype } from '@io/graphql';
+import { FetchOppgaverQuery, Mottaker, OppgaveForOversiktsvisning, Oppgavetype, Periodetype } from '@io/graphql';
 
 import { TabType, tabState } from '../../tabState';
 
@@ -170,11 +170,45 @@ export const defaultFilters: Filter<OppgaveForOversiktsvisning>[] = [
     },
 ];
 
+const groupFiltersByColumn = (
+    filters: Filter<OppgaveForOversiktsvisning>[],
+): Filter<OppgaveForOversiktsvisning>[][] => {
+    const groups = filters.reduce(
+        (
+            groups: { [key: string]: Filter<OppgaveForOversiktsvisning>[] },
+            filter: Filter<OppgaveForOversiktsvisning>,
+        ) => {
+            const key = `${filter.column}`;
+            return groups[key] ? { ...groups, [key]: [...groups[key], filter] } : { ...groups, [key]: [filter] };
+        },
+        {},
+    );
+
+    return Object.values(groups);
+};
+
+export const filterRows = (
+    activeFilters: Filter<OppgaveForOversiktsvisning>[],
+    oppgaver: FetchOppgaverQuery['alleOppgaver'],
+) => {
+    const groupedFilters = groupFiltersByColumn(activeFilters);
+
+    return activeFilters.length > 0
+        ? (oppgaver.filter((oppgave) =>
+              groupedFilters.every((it) => it.some((it) => it.function(oppgave as OppgaveForOversiktsvisning))),
+          ) as Array<OppgaveForOversiktsvisning>)
+        : (oppgaver as Array<OppgaveForOversiktsvisning>);
+};
+
 const storageKeyForFilters = (tab: TabType) => 'filtereForTab_' + tab;
 
 const hentValgteFiltre = (tab: TabType, defaultFilters: Filter<OppgaveForOversiktsvisning>[]) => {
     const filters = localStorage.getItem(storageKeyForFilters(tab));
-    if (filters == null) return defaultFilters.map(makeFilterActive('Ufordelte saker'));
+    if (filters == null && tab === TabType.TilGodkjenning)
+        return defaultFilters.map(makeFilterActive('Ufordelte saker'));
+    if (filters == null) {
+        return defaultFilters;
+    }
 
     const aktiveFiltre = JSON.parse(filters);
 
