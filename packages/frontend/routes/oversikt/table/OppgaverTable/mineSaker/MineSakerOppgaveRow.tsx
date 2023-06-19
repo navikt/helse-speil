@@ -34,11 +34,11 @@ export const MineSakerOppgaveRow = ({ oppgave }: MineSakerOppgaveRowProps) => (
         <DatoCell date={oppgave.sistSendt ?? oppgave.opprettet} />
         <DatoCell date={oppgave.opprinneligSoknadsdato ?? oppgave.opprettet} />
         <OptionsCell oppgave={oppgave} navn={oppgave.navn} />
-        {oppgave.tildeling?.reservert ? (
+        {oppgave.tildeling?.paaVent ? (
             <NotatCell
                 vedtaksperiodeId={oppgave.vedtaksperiodeId}
                 navn={oppgave.navn}
-                erPåVent={oppgave.tildeling.reservert}
+                erPåVent={oppgave.tildeling.paaVent}
             />
         ) : (
             <Table.DataCell />

@@ -169,19 +169,6 @@ export const postOverstyrtArbeidsforhold = async (overstyring: OverstyrtArbeidsf
 export const postForespørPersonoppdatering = async (oppdatering: PersonoppdateringDTO) =>
     post(`${baseUrl}/person/oppdater`, oppdatering);
 
-export const postLeggPåVent = async (oppgavereferanse: string, notat: NotatDTO) =>
-    post(`${baseUrl}/leggpaavent/${oppgavereferanse}`, notat);
-
-export const deletePåVent = async (oppgavereferanse: string) => del(`${baseUrl}/leggpaavent/${oppgavereferanse}`, {});
-
-export const postTildeling = async (oppgavereferanse: string) => {
-    return post(`${baseUrl}/tildeling/${oppgavereferanse}`, {});
-};
-
-export const deleteTildeling = async (oppgavereferanse: string) => {
-    return del(`${baseUrl}/tildeling/${oppgavereferanse}`, {});
-};
-
 export const postAbonnerPåAktør = async (aktørId: string) => {
     return post(`${baseUrl}/opptegnelse/abonner/${aktørId}`, {});
 };

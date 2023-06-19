@@ -44,10 +44,10 @@ const useOppgaverFilteredByTab = () => {
                 );
             }
             case TabType.Mine: {
-                return oppgaver.filter(({ tildeling }) => tildeling?.oid === oid && !tildeling?.reservert);
+                return oppgaver.filter(({ tildeling }) => tildeling?.oid === oid && !tildeling?.paaVent);
             }
             case TabType.Ventende: {
-                return oppgaver.filter(({ tildeling }) => tildeling?.oid === oid && tildeling?.reservert);
+                return oppgaver.filter(({ tildeling }) => tildeling?.oid === oid && tildeling?.paaVent);
             }
             case TabType.BehandletIdag: {
                 return [];
