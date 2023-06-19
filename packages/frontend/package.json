@@ -60,7 +60,6 @@
         "@testing-library/user-event": "^14.4.3",
         "@trivago/prettier-plugin-sort-imports": "^4.1.1",
         "@types/amplitude-js": "^8.16.2",
-        "@types/codemirror": "^5.60.8",
         "@types/jest": "^29.5.2",
         "@types/jest-axe": "^3.5.5",
         "@types/react": "^18.2.12",

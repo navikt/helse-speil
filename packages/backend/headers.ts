@@ -2,7 +2,7 @@ import { Express } from 'express';
 
 ('use strict');
 
-const styleSource = 'https://fonts.googleapis.com https://cdnjs.cloudflare.com/ajax/libs/codemirror';
+const styleSource = 'https://fonts.googleapis.com';
 const fontSource = 'https://fonts.gstatic.com https://cdn.nav.no';
 const amplitudeSource = 'https://amplitude.nav.no';
 const arbeidOgInntektSource = 'https://arbeid-og-inntekt.nais.adeo.no';
