@@ -50,12 +50,10 @@ const tildelingerState = selector<TildelingStateType>({
     key: 'tildelingerState',
     get: ({ get }) => {
         const local = get(tildelingState);
-        console.log('local: ' + JSON.stringify(local));
         const remote = get(remoteOppgaverState).reduce<TildelingStateType>((tildelinger, { id, tildeling }) => {
             tildelinger[id] = tildeling;
             return tildelinger;
         }, {});
-        console.log('remote: ' + JSON.stringify(remote));
         return { ...remote, ...local };
     },
 });
@@ -135,7 +133,6 @@ export const useOppgaver = (): FetchedOppgaver => {
 export const useMineOppgaver = (): FetchedOppgaver => {
     const { oid } = useInnloggetSaksbehandler();
     let filter = useOppgaver().filter(({ tildeling }) => tildeling?.oid === oid);
-    console.log(filter);
     return filter;
 };
 

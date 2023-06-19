@@ -86,7 +86,6 @@ export const useLeggPåVent = (): ((oppgavereferanse: string, notat: NotatDTO) =
     return (oppgavereferanse: string, notat: NotatDTO) => {
         return leggPåVent({ oppgaveId: oppgavereferanse, notatType: NotatType.PaaVent, notatTekst: notat.tekst })
             .then((response) => {
-                console.log(response);
                 setTildelinger({ ...tildelinger, [oppgavereferanse]: response.leggPaaVent });
                 return response.leggPaaVent;
             })
