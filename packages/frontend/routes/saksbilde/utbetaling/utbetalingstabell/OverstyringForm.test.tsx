@@ -21,9 +21,17 @@ const arbeidsdagvalideringstekst: string =
 
 describe('OverstyringForm', () => {
     it('disabler submit-knappen om det ikke er noen overstyrte dager', () => {
-        render(<OverstyringForm overstyrteDager={new Map()} toggleOverstyring={() => null} onSubmit={() => null} />, {
-            wrapper: FormWrapper,
-        });
+        render(
+            <OverstyringForm
+                overstyrteDager={new Map()}
+                hale=""
+                toggleOverstyring={() => null}
+                onSubmit={() => null}
+            />,
+            {
+                wrapper: FormWrapper,
+            },
+        );
 
         expect(screen.getAllByRole('button')[0]).toBeDisabled();
     });
@@ -31,7 +39,12 @@ describe('OverstyringForm', () => {
     it('viser feilmelding om begrunnelse ikke er fylt ut før innsending', async () => {
         const overstyrteDager = new Map([['2020-01-01', { type: 'Syk' } as UtbetalingstabellDag]]);
         render(
-            <OverstyringForm overstyrteDager={overstyrteDager} toggleOverstyring={() => null} onSubmit={() => null} />,
+            <OverstyringForm
+                overstyrteDager={overstyrteDager}
+                hale=""
+                toggleOverstyring={() => null}
+                onSubmit={() => null}
+            />,
             {
                 wrapper: FormWrapper,
             },
@@ -48,7 +61,12 @@ describe('OverstyringForm', () => {
     it('viser feilmelding dersom arbeidsdager ikke er ny dag, innenfor agp og overstyrt fraType Syk', async () => {
         const overstyrteDager = new Map([['2020-01-02', { type: 'Arbeid', fraType: 'Syk' } as UtbetalingstabellDag]]);
         render(
-            <OverstyringForm overstyrteDager={overstyrteDager} toggleOverstyring={() => null} onSubmit={() => null} />,
+            <OverstyringForm
+                overstyrteDager={overstyrteDager}
+                hale=""
+                toggleOverstyring={() => null}
+                onSubmit={() => null}
+            />,
             {
                 wrapper: FormWrapper,
             },
@@ -66,7 +84,12 @@ describe('OverstyringForm', () => {
             ['2020-01-02', { type: 'Arbeid', fraType: 'SykHelg' } as UtbetalingstabellDag],
         ]);
         render(
-            <OverstyringForm overstyrteDager={overstyrteDager} toggleOverstyring={() => null} onSubmit={() => null} />,
+            <OverstyringForm
+                overstyrteDager={overstyrteDager}
+                hale=""
+                toggleOverstyring={() => null}
+                onSubmit={() => null}
+            />,
             {
                 wrapper: FormWrapper,
             },
@@ -83,7 +106,12 @@ describe('OverstyringForm', () => {
     it('viser feilmelding dersom arbeidsdager ikke er ny dag, innenfor agp og overstyrt fraType Ferie', async () => {
         const overstyrteDager = new Map([['2020-01-02', { type: 'Arbeid', fraType: 'Ferie' } as UtbetalingstabellDag]]);
         render(
-            <OverstyringForm overstyrteDager={overstyrteDager} toggleOverstyring={() => null} onSubmit={() => null} />,
+            <OverstyringForm
+                overstyrteDager={overstyrteDager}
+                hale=""
+                toggleOverstyring={() => null}
+                onSubmit={() => null}
+            />,
             {
                 wrapper: FormWrapper,
             },
@@ -102,7 +130,12 @@ describe('OverstyringForm', () => {
             ['2020-01-02', { type: 'Arbeid', fraType: 'Syk', erNyDag: true } as UtbetalingstabellDag],
         ]);
         render(
-            <OverstyringForm overstyrteDager={overstyrteDager} toggleOverstyring={() => null} onSubmit={() => null} />,
+            <OverstyringForm
+                overstyrteDager={overstyrteDager}
+                hale=""
+                toggleOverstyring={() => null}
+                onSubmit={() => null}
+            />,
             {
                 wrapper: FormWrapper,
             },
@@ -121,7 +154,36 @@ describe('OverstyringForm', () => {
             ['2020-01-02', { type: 'Arbeid', fraType: 'Syk', erAGP: true } as UtbetalingstabellDag],
         ]);
         render(
-            <OverstyringForm overstyrteDager={overstyrteDager} toggleOverstyring={() => null} onSubmit={() => null} />,
+            <OverstyringForm
+                overstyrteDager={overstyrteDager}
+                hale=""
+                toggleOverstyring={() => null}
+                onSubmit={() => null}
+            />,
+            {
+                wrapper: FormWrapper,
+            },
+        );
+
+        expect(screen.getAllByRole('button')[0]).toBeEnabled();
+        userEvent.click(screen.getAllByRole('button')[0]);
+
+        await waitFor(() => {
+            expect(screen.queryByText(arbeidsdagvalideringstekst)).not.toBeInTheDocument();
+        });
+    });
+
+    it('viser ikke feilmelding dersom overstyring til arbeidsdag er i hale av perioden, selv om fraType er Syk', async () => {
+        const overstyrteDager = new Map([
+            ['2020-01-02', { type: 'Arbeid', fraType: 'Syk', erAGP: false } as UtbetalingstabellDag],
+        ]);
+        render(
+            <OverstyringForm
+                overstyrteDager={overstyrteDager}
+                hale="2020-01-02"
+                toggleOverstyring={() => null}
+                onSubmit={() => null}
+            />,
             {
                 wrapper: FormWrapper,
             },

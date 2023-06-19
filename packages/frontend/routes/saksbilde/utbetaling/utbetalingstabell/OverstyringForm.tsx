@@ -1,8 +1,11 @@
 import styled from '@emotion/styled';
+import dayjs from 'dayjs';
 import React, { useEffect, useRef, useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 
 import { Button, ErrorSummary, Textarea } from '@navikt/ds-react';
+
+import { ISO_DATOFORMAT } from '@utils/date';
 
 const Container = styled.div`
     margin: 0 2rem;
@@ -26,11 +29,17 @@ const Buttons = styled.span`
 
 interface OverstyringFormProps {
     overstyrteDager: Map<string, UtbetalingstabellDag>;
+    hale: DateString;
     toggleOverstyring: () => void;
     onSubmit: () => void;
 }
 
-export const OverstyringForm: React.FC<OverstyringFormProps> = ({ overstyrteDager, toggleOverstyring, onSubmit }) => {
+export const OverstyringForm: React.FC<OverstyringFormProps> = ({
+    overstyrteDager,
+    hale,
+    toggleOverstyring,
+    onSubmit,
+}) => {
     const { handleSubmit, register, formState, setError, clearErrors } = useFormContext();
     const [oppsummering, setOppsummering] = useState('');
     const oppsummeringRef = useRef<HTMLDivElement>(null);
@@ -40,21 +49,40 @@ export const OverstyringForm: React.FC<OverstyringFormProps> = ({ overstyrteDage
     const arbeidsdagValidering = () => {
         clearErrors(['arbeidsdagerKanIkkeOverstyres']);
 
-        const overstyrtTilArbeidsdager = Array.from(overstyrteDager.values()).filter((dag) => dag.type === 'Arbeid');
+        const overstyrtTilArbeidsdager = Array.from(overstyrteDager.values())
+            .filter((dag) => dag.type === 'Arbeid')
+            .sort((a, b) => dayjs(a.dato).diff(dayjs(b.dato)));
 
         if (overstyrtTilArbeidsdager.length === 0) {
             handleSubmit(onSubmit)();
             return;
         }
 
+        let dagerIHalenAvPerioden: UtbetalingstabellDag[] = overstyrtTilArbeidsdager.find((dag) => dag.dato === hale)
+            ? overstyrtTilArbeidsdager.reverse().reduce((latest: UtbetalingstabellDag[], periode) => {
+                  return dayjs(
+                      latest[latest.length - 1]?.dato ??
+                          dayjs(hale, ISO_DATOFORMAT).add(1, 'days').format(ISO_DATOFORMAT),
+                  )
+                      .subtract(1, 'days')
+                      .format(ISO_DATOFORMAT) === periode.dato || periode.dato === hale
+                      ? [...latest, periode]
+                      : [...latest];
+              }, [])
+            : [];
+
         let dagerSomKanOverstyresTilArbeidsdag: UtbetalingstabellDag[] = overstyrtTilArbeidsdager.filter(
-            (dag) => dag.erAGP || dag.erNyDag || !['Syk', 'SykHelg', 'Ferie'].includes(dag?.fraType ?? ''),
+            (dag) =>
+                dag.erAGP ||
+                dag.erNyDag ||
+                !['Syk', 'SykHelg', 'Ferie'].includes(dag?.fraType ?? '') ||
+                dagerIHalenAvPerioden.includes(dag),
         );
 
         if (dagerSomKanOverstyresTilArbeidsdag.length !== overstyrtTilArbeidsdager.length) {
             setError('arbeidsdagerKanIkkeOverstyres', {
                 type: 'custom',
-                message: `Du kan ikke overstyre Syk eller Ferie til Arbeidsdag. Arbeidsdag kan legges til som en ny dag eller endres i arbeidsgiverperioden`,
+                message: `Du kan ikke overstyre Syk eller Ferie til Arbeidsdag. Arbeidsdag kan legges til som en ny dag, legges til i slutten av perioden, eller endres i arbeidsgiverperioden`,
             });
             return;
         }
