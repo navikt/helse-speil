@@ -1,7 +1,8 @@
 import { atom, useRecoilState } from 'recoil';
 
-import { Maybe, Tildeling } from '@io/graphql';
-import { fjernTildeling, opprettTildeling } from '@io/graphql/tildeling/endreTildeling';
+import { Maybe, NotatType, Tildeling } from '@io/graphql';
+import { fjernPåVent, fjernTildeling, leggPåVent, opprettTildeling } from '@io/graphql/tildeling/endreTildeling';
+import { NotatDTO } from '@io/http';
 import { useAddVarsel, useRemoveVarsel } from '@state/varsler';
 import { InfoAlert } from '@utils/error';
 
@@ -76,6 +77,52 @@ export const useFjernTildeling = (): ((oppgavereferanse: string) => Promise<bool
             .catch(() => {
                 leggTilTildelingsvarsel('Kunne ikke fjerne tildeling av sak.');
                 return Promise.reject('Kunne ikke fjerne tildeling av sak.');
+            });
+    };
+};
+export const useLeggPåVent = (): ((oppgavereferanse: string, notat: NotatDTO) => Promise<Tildeling>) => {
+    const [tildelinger, setTildelinger] = useRecoilState(tildelingState);
+
+    return (oppgavereferanse: string, notat: NotatDTO) => {
+        return leggPåVent({ oppgaveId: oppgavereferanse, notatType: NotatType.PaaVent, notatTekst: notat.tekst })
+            .then((response) => {
+                console.log(response);
+                setTildelinger({ ...tildelinger, [oppgavereferanse]: response.leggPaaVent });
+                return response.leggPaaVent;
+            })
+            .catch(async (error: GraphQLRequestError) => {
+                if (error.response.errors[0].extensions.code.value === 409) {
+                    const { oid, navn, epost, reservert, paaVent } = error.response.errors[0].extensions.tildeling;
+                    setTildelinger({
+                        ...tildelinger,
+                        [oppgavereferanse]: { oid, navn, epost, reservert, paaVent },
+                    });
+                    return Promise.reject(oppgavereferanse);
+                } else {
+                    return Promise.reject('Kunne ikke legge oppgave på vent.');
+                }
+            });
+    };
+};
+export const useFjernPåVent = (): ((oppgavereferanse: string) => Promise<Tildeling>) => {
+    const [tildelinger, setTildelinger] = useRecoilState(tildelingState);
+    return (oppgavereferanse) => {
+        return fjernPåVent({ oppgaveId: oppgavereferanse })
+            .then((response) => {
+                setTildelinger({ ...tildelinger, [oppgavereferanse]: response.fjernPaaVent });
+                return response.fjernPaaVent;
+            })
+            .catch(async (error: GraphQLRequestError) => {
+                if (error.response.errors[0].extensions.code.value === 409) {
+                    const { oid, navn, epost, reservert, paaVent } = error.response.errors[0].extensions.tildeling;
+                    setTildelinger({
+                        ...tildelinger,
+                        [oppgavereferanse]: { oid, navn, epost, reservert, paaVent },
+                    });
+                    return Promise.reject(oppgavereferanse);
+                } else {
+                    return Promise.reject('Kunne ikke fjerne på-vent-status fra oppgave.');
+                }
             });
     };
 };

@@ -17,7 +17,6 @@ import {
     ProtectedError,
     isFetchErrorArray,
 } from '@io/graphql/errors';
-import { NotatDTO, SpeilResponse, deletePåVent, postLeggPåVent } from '@io/http';
 import { activePeriod, activePeriodState } from '@state/periode';
 import { tildelingState } from '@state/tildeling';
 import { SpeilError } from '@utils/error';
@@ -152,44 +151,4 @@ export const useResetPerson = (): (() => void) => {
 
 export const useIsFetchingPerson = (): boolean => {
     return useRecoilValue(personState).loading;
-};
-
-export const useLeggPåVent = (): ((oppgavereferanse: string, notat: NotatDTO) => Promise<SpeilResponse>) => {
-    const setPersonState = useSetRecoilState(personState);
-
-    return (oppgavereferanse: string, notat: NotatDTO) => {
-        return postLeggPåVent(oppgavereferanse, notat).then((response) => {
-            setPersonState((prevState) => ({
-                ...prevState,
-                person: prevState.person && {
-                    ...prevState.person,
-                    tildeling: prevState.person.tildeling && {
-                        ...prevState.person.tildeling,
-                        reservert: true,
-                    },
-                },
-            }));
-            return Promise.resolve(response);
-        });
-    };
-};
-
-export const useFjernPåVent = (): ((oppgavereferanse: string) => Promise<SpeilResponse>) => {
-    const setPersonState = useSetRecoilState(personState);
-
-    return (oppgavereferanse) => {
-        return deletePåVent(oppgavereferanse).then((response) => {
-            setPersonState((prevState) => ({
-                ...prevState,
-                person: prevState.person && {
-                    ...prevState.person,
-                    tildeling: prevState.person.tildeling && {
-                        ...prevState.person.tildeling,
-                        reservert: false,
-                    },
-                },
-            }));
-            return Promise.resolve(response);
-        });
-    };
 };

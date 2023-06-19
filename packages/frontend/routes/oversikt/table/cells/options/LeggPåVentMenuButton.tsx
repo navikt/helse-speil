@@ -4,7 +4,7 @@ import { Dropdown } from '@navikt/ds-react-internal';
 
 import { Personnavn } from '@io/graphql';
 import { NotatDTO } from '@io/http';
-import { useLeggPåVent } from '@state/oppgaver';
+import { useLeggPåVent } from '@state/tildeling';
 
 import { NyttNotatModal } from '../notat/NyttNotatModal';
 

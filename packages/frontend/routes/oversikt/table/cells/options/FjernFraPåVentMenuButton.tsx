@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { useFjernPåVent } from '@state/oppgaver';
+import { useFjernPåVent } from '@state/tildeling';
 import { useOperationErrorHandler } from '@state/varsler';
 
 import { AsyncMenuButton } from './AsyncMenuButton';
@@ -14,7 +14,7 @@ export const FjernFraPåVentMenuButton = ({ oppgavereferanse, ...rest }: FjernFr
     const errorHandler = useOperationErrorHandler('Fjern fra på vent');
 
     return (
-        <AsyncMenuButton asyncOperation={fjernPåVent(oppgavereferanse)} onFail={errorHandler} {...rest}>
+        <AsyncMenuButton asyncOperation={() => fjernPåVent(oppgavereferanse)} onFail={errorHandler} {...rest}>
             Fjern fra på vent
         </AsyncMenuButton>
     );

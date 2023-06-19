@@ -12,13 +12,11 @@ import {
 import { FerdigstiltOppgave, FetchBehandledeOppgaverQuery, FetchOppgaverQuery, Tildeling } from '@io/graphql';
 import { fetchBehandledeOppgaver } from '@io/graphql/fetchBehandledeOppgaver';
 import { fetchOppgaver } from '@io/graphql/fetchOppgaver';
-import { NotatDTO, deletePåVent, postLeggPåVent } from '@io/http';
 import { tildelingState } from '@state/tildeling';
 import { ISO_DATOFORMAT } from '@utils/date';
 import { InfoAlert } from '@utils/error';
 
 import { authState, useInnloggetSaksbehandler } from './authentication';
-import { useAddVarsel, useRemoveVarsel } from './varsler';
 
 type FetchedOppgaver = FetchOppgaverQuery['alleOppgaver'];
 
@@ -52,10 +50,12 @@ const tildelingerState = selector<TildelingStateType>({
     key: 'tildelingerState',
     get: ({ get }) => {
         const local = get(tildelingState);
+        console.log('local: ' + JSON.stringify(local));
         const remote = get(remoteOppgaverState).reduce<TildelingStateType>((tildelinger, { id, tildeling }) => {
             tildelinger[id] = tildeling;
             return tildelinger;
         }, {});
+        console.log('remote: ' + JSON.stringify(remote));
         return { ...remote, ...local };
     },
 });
@@ -134,7 +134,9 @@ export const useOppgaver = (): FetchedOppgaver => {
 
 export const useMineOppgaver = (): FetchedOppgaver => {
     const { oid } = useInnloggetSaksbehandler();
-    return useOppgaver().filter(({ tildeling }) => tildeling?.oid === oid);
+    let filter = useOppgaver().filter(({ tildeling }) => tildeling?.oid === oid);
+    console.log(filter);
+    return filter;
 };
 
 export const useRefetchOppgaver = () => {
@@ -149,57 +151,3 @@ export const useRefetchOppgaver = () => {
 export class TildelingAlert extends InfoAlert {
     name = 'tildeling';
 }
-
-const useRemoveTildelingsvarsel = () => {
-    const removeVarsel = useRemoveVarsel();
-    return () => removeVarsel('tildeling');
-};
-
-const useAddTildelingsvarsel = () => {
-    const addVarsel = useAddVarsel();
-    return (message: string) => addVarsel(new TildelingAlert(message));
-};
-
-export const useLeggPåVent = () => {
-    const tildelinger = useRecoilValue(tildelingerState);
-    const setLokaleTildelinger = useSetRecoilState(tildelingState);
-    const removeTildelingsvarsel = useRemoveTildelingsvarsel();
-
-    return (oppgavereferanse: string, notat: NotatDTO) => {
-        removeTildelingsvarsel();
-        return postLeggPåVent(oppgavereferanse, notat).then((response) => {
-            setLokaleTildelinger({
-                ...tildelinger,
-                [oppgavereferanse]: tildelinger[oppgavereferanse]
-                    ? { ...tildelinger[oppgavereferanse]!, reservert: true }
-                    : undefined,
-            });
-            return response;
-        });
-    };
-};
-
-export const useFjernPåVent = (): ((oppgavereferanse: string) => () => Promise<Response>) => {
-    const tildelinger = useRecoilValue(tildelingerState);
-    const setLokaleTildelinger = useSetRecoilState(tildelingState);
-    const addTildelingsvarsel = useAddTildelingsvarsel();
-    const removeTildelingsvarsel = useRemoveTildelingsvarsel();
-
-    return (oppgavereferanse) => () => {
-        removeTildelingsvarsel();
-        return deletePåVent(oppgavereferanse)
-            .then((response) => {
-                setLokaleTildelinger({
-                    ...tildelinger,
-                    [oppgavereferanse]: tildelinger[oppgavereferanse]
-                        ? { ...tildelinger[oppgavereferanse]!, reservert: false }
-                        : undefined,
-                });
-                return Promise.resolve(response);
-            })
-            .catch(() => {
-                addTildelingsvarsel('Kunne ikke fjerne sak fra på vent.');
-                return Promise.reject();
-            });
-    };
-};

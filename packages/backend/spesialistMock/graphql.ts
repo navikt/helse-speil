@@ -17,7 +17,9 @@ import { FlereFodselsnumreError, NotFoundError } from './errors';
 import type {
     BeregnetPeriode,
     MutationFeilregistrerKommentarArgs,
+    MutationFjernPaaVentArgs,
     MutationFjernTildelingArgs,
+    MutationLeggPaaVentArgs,
     MutationLeggTilKommentarArgs,
     MutationOpprettTildelingArgs,
     MutationSettVarselstatusAktivArgs,
@@ -173,6 +175,27 @@ const getResolvers = (): IResolvers => ({
             } else {
                 return false;
             }
+        },
+        leggPaaVent: async (_, { oppgaveId, notatType, notatTekst }: MutationLeggPaaVentArgs) => {
+            NotatMock.addNotat('uuid', { tekst: notatTekst, type: notatType });
+            TildelingMock.setTildeling(oppgaveId, {
+                epost: 'epost@nav.no',
+                navn: 'Utvikler, Lokal',
+                oid: 'uuid',
+                reservert: true,
+                paaVent: true,
+            });
+            return TildelingMock.getTildeling(oppgaveId);
+        },
+        fjernPaaVent: async (_, { oppgaveId }: MutationFjernPaaVentArgs) => {
+            TildelingMock.setTildeling(oppgaveId, {
+                epost: 'epost@nav.no',
+                navn: 'Utvikler, Lokal',
+                oid: 'uuid',
+                reservert: false,
+                paaVent: false,
+            });
+            return TildelingMock.getTildeling(oppgaveId);
         },
     },
     Periode: {

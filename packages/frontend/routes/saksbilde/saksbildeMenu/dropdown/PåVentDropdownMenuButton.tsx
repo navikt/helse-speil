@@ -5,7 +5,7 @@ import { Loader } from '@navikt/ds-react';
 import { Dropdown } from '@navikt/ds-react-internal';
 
 import { Personinfo, Personnavn } from '@io/graphql';
-import { useFjernPåVent, useLeggPåVent } from '@state/person';
+import { useFjernPåVent, useLeggPåVent } from '@state/tildeling';
 import { useOperationErrorHandler } from '@state/varsler';
 import { ignorePromise } from '@utils/promise';
 

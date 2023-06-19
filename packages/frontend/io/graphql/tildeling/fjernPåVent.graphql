@@ -1,0 +1,5 @@
+mutation FjernPaaVent($oppgaveId: String!) {
+    fjernPaaVent(oppgaveId: $oppgaveId) {
+        navn, oid, epost, reservert, paaVent
+    }
+}
