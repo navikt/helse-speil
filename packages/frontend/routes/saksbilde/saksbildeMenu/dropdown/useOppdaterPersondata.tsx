@@ -20,7 +20,7 @@ class PersonoppdateringAlert extends SpeilError {
 const oppdatererPersondataMessage = () => {
     return (
         <>
-            Oppdaterer persondata <Loader size="xsmall" />
+            Oppdaterer persondata <Loader size="xsmall" variant="inverted" />
         </>
     );
 };
