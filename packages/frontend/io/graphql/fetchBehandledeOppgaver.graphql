@@ -1,7 +1,6 @@
 query FetchBehandledeOppgaver($oid: String!, $ident: String!, $fom: String!) {
     behandledeOppgaver(behandletAvOid: $oid, behandletAvIdent: $ident, fom: $fom) {
         aktorId
-        antallVarsler
         bosted
         ferdigstiltAv,
         ferdigstiltTidspunkt

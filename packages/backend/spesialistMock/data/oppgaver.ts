@@ -31,7 +31,6 @@ export const oppgaver: Array<OppgaveForOversiktsvisning> = [
         },
         fodselsnummer: '06028620819',
         aktorId: '2564094783926',
-        antallVarsler: 3,
         periodetype: Periodetype.Forstegangsbehandling,
         flereArbeidsgivere: false,
         boenhet: {
@@ -66,7 +65,6 @@ export const oppgaver: Array<OppgaveForOversiktsvisning> = [
         },
         fodselsnummer: '07518405122',
         aktorId: '2805594640665',
-        antallVarsler: 1,
         periodetype: Periodetype.Forstegangsbehandling,
         flereArbeidsgivere: false,
         boenhet: {
@@ -96,7 +94,6 @@ export const oppgaver: Array<OppgaveForOversiktsvisning> = [
         },
         fodselsnummer: '57419121128',
         aktorId: '2348185725298',
-        antallVarsler: 0,
         periodetype: Periodetype.Forstegangsbehandling,
         flereArbeidsgivere: false,
         boenhet: {
@@ -126,7 +123,6 @@ export const oppgaver: Array<OppgaveForOversiktsvisning> = [
         },
         fodselsnummer: '12345678910',
         aktorId: '1000001337420',
-        antallVarsler: 0,
         periodetype: Periodetype.Forstegangsbehandling,
         flereArbeidsgivere: false,
         boenhet: {
@@ -156,7 +152,6 @@ export const oppgaver: Array<OppgaveForOversiktsvisning> = [
         },
         fodselsnummer: '12345678911',
         aktorId: '1000001337421',
-        antallVarsler: 0,
         periodetype: Periodetype.Forstegangsbehandling,
         flereArbeidsgivere: false,
         boenhet: {
@@ -213,7 +208,6 @@ const tilfeldigOppgave = (oppgaveId: number): OppgaveForOversiktsvisning => {
         },
         fodselsnummer: Math.floor(10000000000 + Math.random() * 90000000000).toString(),
         aktorId: Math.floor(1000000000000 + Math.random() * 9000000000000).toString(),
-        antallVarsler: 0,
         periodetype: tilfeldigElementFraEnum(Periodetype),
         flereArbeidsgivere: Math.random() < 0.5,
         boenhet: {

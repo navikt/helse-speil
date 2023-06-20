@@ -1,7 +1,6 @@
 export const behandledeOppgaver = [
     {
         aktorId: '2564094783926',
-        antallVarsler: 2,
         bosted: 'Flora',
         ferdigstiltAv: 'Ramthun, Stephen',
         ferdigstiltTidspunkt: '2022-09-12T08:54:18.301013',
@@ -13,7 +12,6 @@ export const behandledeOppgaver = [
     },
     {
         aktorId: '2564094783926',
-        antallVarsler: 2,
         bosted: 'Flora',
         ferdigstiltAv: null,
         ferdigstiltTidspunkt: '2022-09-12T09:41:55.590219',

@@ -2039,18 +2039,6 @@
                         "deprecationReason": null
                     },
                     {
-                        "name": "antallVarsler",
-                        "description": null,
-                        "args": [],
-                        "type": {
-                            "kind": "SCALAR",
-                            "name": "Int",
-                            "ofType": null
-                        },
-                        "isDeprecated": false,
-                        "deprecationReason": null
-                    },
-                    {
                         "name": "bosted",
                         "description": null,
                         "args": [],
@@ -4213,18 +4201,6 @@
                                 "name": "String",
                                 "ofType": null
                             }
-                        },
-                        "isDeprecated": false,
-                        "deprecationReason": null
-                    },
-                    {
-                        "name": "antallVarsler",
-                        "description": null,
-                        "args": [],
-                        "type": {
-                            "kind": "SCALAR",
-                            "name": "Int",
-                            "ofType": null
                         },
                         "isDeprecated": false,
                         "deprecationReason": null

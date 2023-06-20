@@ -27,7 +27,6 @@ export const enOppgaveForOversikten: OverridableConstructor<OppgaveForOversiktsv
         id: '1234',
         navn: 'Et sted',
     },
-    antallVarsler: 0,
     flereArbeidsgivere: false,
     type: Oppgavetype.Soknad,
     opprinneligSoknadsdato: '2020-01-01',

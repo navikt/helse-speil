@@ -9,7 +9,7 @@ export type MakeEmpty<T extends { [key: string]: unknown }, K extends keyof T> =
 export type Incremental<T> = T | { [P in keyof T]?: P extends ' $fragmentName' | '__typename' ? T[P] : never };
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
-    ID: { input: string | number; output: string };
+    ID: { input: string; output: string };
     String: { input: string; output: string };
     Boolean: { input: boolean; output: boolean };
     Int: { input: number; output: number };
@@ -213,7 +213,6 @@ export type Faresignal = {
 export type FerdigstiltOppgave = {
     __typename?: 'FerdigstiltOppgave';
     aktorId: Scalars['String']['output'];
-    antallVarsler?: Maybe<Scalars['Int']['output']>;
     bosted?: Maybe<Scalars['String']['output']>;
     ferdigstiltAv?: Maybe<Scalars['String']['output']>;
     ferdigstiltTidspunkt: Scalars['String']['output'];
@@ -472,7 +471,6 @@ export enum Oppdragsstatus {
 export type OppgaveForOversiktsvisning = {
     __typename?: 'OppgaveForOversiktsvisning';
     aktorId: Scalars['String']['output'];
-    antallVarsler?: Maybe<Scalars['Int']['output']>;
     boenhet?: Maybe<Boenhet>;
     flereArbeidsgivere: Scalars['Boolean']['output'];
     fodselsnummer: Scalars['String']['output'];
@@ -1034,7 +1032,6 @@ export type FetchBehandledeOppgaverQuery = {
     behandledeOppgaver: Array<{
         __typename?: 'FerdigstiltOppgave';
         aktorId: string;
-        antallVarsler?: number | null;
         bosted?: string | null;
         ferdigstiltAv?: string | null;
         ferdigstiltTidspunkt: string;
@@ -2384,7 +2381,6 @@ export const FetchBehandledeOppgaverDocument = {
                             kind: 'SelectionSet',
                             selections: [
                                 { kind: 'Field', name: { kind: 'Name', value: 'aktorId' } },
-                                { kind: 'Field', name: { kind: 'Name', value: 'antallVarsler' } },
                                 { kind: 'Field', name: { kind: 'Name', value: 'bosted' } },
                                 { kind: 'Field', name: { kind: 'Name', value: 'ferdigstiltAv' } },
                                 { kind: 'Field', name: { kind: 'Name', value: 'ferdigstiltTidspunkt' } },

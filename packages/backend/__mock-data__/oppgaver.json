@@ -14,7 +14,6 @@
         },
         "fødselsnummer": "27039105018",
         "aktørId": "2287034920190",
-        "antallVarsler": 2,
         "type": "FØRSTEGANGSBEHANDLING",
         "inntektskilde": "FLERE_ARBEIDSGIVERE",
         "boenhet": {
@@ -40,7 +39,6 @@
         },
         "fødselsnummer": "02018008451",
         "aktørId": "2717906011878",
-        "antallVarsler": 2,
         "type": "FØRSTEGANGSBEHANDLING",
         "inntektskilde": "FLERE_ARBEIDSGIVERE",
         "boenhet": {
@@ -65,7 +63,6 @@
         },
         "fødselsnummer": "20087106951",
         "aktørId": "2478276105402",
-        "antallVarsler": 4,
         "type": "FORLENGELSE",
         "inntektskilde": "EN_ARBEIDSGIVER",
         "boenhet": {
@@ -90,7 +87,6 @@
         },
         "fødselsnummer": "31038217464",
         "aktørId": "2048952336837",
-        "antallVarsler": 1,
         "type": "FØRSTEGANGSBEHANDLING",
         "inntektskilde": "EN_ARBEIDSGIVER",
         "boenhet": {
@@ -114,7 +110,6 @@
         },
         "fødselsnummer": "02126721911",
         "aktørId": "2513379298794",
-        "antallVarsler": 1,
         "type": "FØRSTEGANGSBEHANDLING",
         "inntektskilde": "FLERE_ARBEIDSGIVERE",
         "boenhet": {
@@ -138,7 +133,6 @@
         },
         "fødselsnummer": "02126721912",
         "aktørId": "2513379298795",
-        "antallVarsler": 1,
         "type": "FØRSTEGANGSBEHANDLING",
         "inntektskilde": "FLERE_ARBEIDSGIVERE",
         "boenhet": {
@@ -162,7 +156,6 @@
         },
         "fødselsnummer": "06047415258",
         "aktørId": "2568043185108",
-        "antallVarsler": 3,
         "type": "FØRSTEGANGSBEHANDLING",
         "inntektskilde": "EN_ARBEIDSGIVER",
         "boenhet": {

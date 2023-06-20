@@ -40,7 +40,6 @@ const enOppgave = (): OppgaveForOversiktsvisning => ({
     },
     fodselsnummer: '12345678910',
     aktorId: '12345678910',
-    antallVarsler: 0,
     periodetype: Periodetype.Forstegangsbehandling,
     boenhet: {
         id: '1234',
