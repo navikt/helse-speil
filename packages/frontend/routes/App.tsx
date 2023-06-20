@@ -5,6 +5,7 @@ import { BrowserRouter, Navigate, Route, Routes, useLocation } from 'react-route
 import { RecoilRoot } from 'recoil';
 import 'reset-css';
 
+import { ApolloProvider } from '@apollo/client';
 import { ErrorBoundary } from '@components/ErrorBoundary';
 import { Toasts } from '@components/Toasts';
 import { Varsler } from '@components/Varsler';
@@ -19,6 +20,7 @@ import { erDev, erLocal } from '@utils/featureToggles';
 import { GlobalFeilside } from './GlobalFeilside';
 import { IkkeLoggetInn } from './IkkeLoggetInn';
 import { PageNotFound } from './PageNotFound';
+import { client } from './apolloClient';
 import { AppRoutes } from './index';
 
 import './App.css';
@@ -115,7 +117,9 @@ const RequireAuth = ({ children }: PropsWithChildren) => {
 export const AppWithRoutingAndState = () => (
     <BrowserRouter>
         <RecoilRoot>
-            <App />
+            <ApolloProvider client={client}>
+                <App />
+            </ApolloProvider>
         </RecoilRoot>
     </BrowserRouter>
 );
