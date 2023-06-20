@@ -1,10 +1,22 @@
 import { atom, useRecoilState } from 'recoil';
 
-import { Maybe, NotatType, Tildeling } from '@io/graphql';
-import { fjernPåVent, fjernTildeling, leggPåVent, opprettTildeling } from '@io/graphql/tildeling/endreTildeling';
+import { useMutation } from '@apollo/client';
+import {
+    FetchOppgaverDocument,
+    FjernPaaVentDocument,
+    FjernTildelingDocument,
+    LeggPaaVentDocument,
+    Maybe,
+    NotatType,
+    OppgaveForOversiktsvisning,
+    OpprettTildelingDocument,
+    Tildeling,
+} from '@io/graphql';
 import { NotatDTO } from '@io/http';
 import { useAddVarsel, useRemoveVarsel } from '@state/varsler';
 import { InfoAlert } from '@utils/error';
+
+import { client } from '../routes/apolloClient';
 
 type TildelingStateType = { [id: string]: Maybe<Tildeling> | undefined };
 
@@ -27,33 +39,36 @@ const useLeggTilTildelingsvarsel = () => {
     return (message: string) => addVarsel(new TildelingAlert(message));
 };
 
-export const useOpprettTildeling = (): ((oppgavereferanse: string) => Promise<Tildeling>) => {
+export const useOpprettTildeling = (): ((oppgavereferanse: string) => Promise<Maybe<Tildeling> | undefined>) => {
     const [tildelinger, setTildelinger] = useRecoilState(tildelingState);
+    const [opprettTildelingMutation, data] = useMutation(OpprettTildelingDocument);
     const leggTilTildelingsvarsel = useLeggTilTildelingsvarsel();
     const fjernTildelingsvarsel = useFjernTildelingsvarsel();
 
     return (oppgavereferanse) => {
         fjernTildelingsvarsel();
-        return opprettTildeling({ oppgaveId: oppgavereferanse })
-            .then((response) => {
-                setTildelinger({ ...tildelinger, [oppgavereferanse]: response.opprettTildeling });
-                return response.opprettTildeling;
+        return opprettTildelingMutation({
+            variables: { oppgaveId: oppgavereferanse },
+            update: (cache, result) => {
+                cache.modify({
+                    id: cache.identify({ __typename: 'OppgaveForOversiktsvisning', id: oppgavereferanse }),
+                    fields: {
+                        tildeling: () => result.data?.opprettTildeling,
+                    },
+                });
+            },
+        })
+            .then((result) => {
+                setTildelinger({
+                    ...tildelinger,
+                    [oppgavereferanse]: result.data?.opprettTildeling,
+                });
+                return result.data?.opprettTildeling;
             })
-            .catch(async (error: GraphQLRequestError) => {
-                if (error.response.errors[0].extensions.code.value === 409) {
-                    const { oid, navn, epost, reservert, paaVent } = error.response.errors[0].extensions.tildeling;
-                    setTildelinger({
-                        ...tildelinger,
-                        [oppgavereferanse]: { oid, navn, epost, reservert, paaVent },
-                    });
-                    leggTilTildelingsvarsel(
-                        `${error.response.errors[0].extensions.tildeling.navn} har allerede tatt saken.`,
-                    );
-                    return Promise.reject(oppgavereferanse);
-                } else {
-                    leggTilTildelingsvarsel('Kunne ikke tildele sak.');
-                    return Promise.reject('Kunne ikke tildele sak.');
-                }
+            .catch((e) => {
+                leggTilTildelingsvarsel('Kunne ikke tildele sak.');
+                client.refetchQueries({ include: [FetchOppgaverDocument] });
+                return Promise.reject('Kunne ikke tildele sak.');
             });
     };
 };
@@ -62,17 +77,32 @@ type GraphQLRequestError = {
     response: { errors: [{ message: string; extensions: { code: { value: number }; tildeling: Tildeling } }] };
 };
 
-export const useFjernTildeling = (): ((oppgavereferanse: string) => Promise<boolean>) => {
+export const useFjernTildeling = (): ((oppgavereferanse: string) => Promise<Maybe<boolean> | undefined>) => {
     const [tildelinger, setTildelinger] = useRecoilState(tildelingState);
+    const [fjernTildelingMutation] = useMutation(FjernTildelingDocument);
+
     const leggTilTildelingsvarsel = useLeggTilTildelingsvarsel();
     const fjernTildelingsvarsel = useFjernTildelingsvarsel();
 
     return (oppgavereferanse) => {
         fjernTildelingsvarsel();
-        return fjernTildeling({ oppgaveId: oppgavereferanse })
+        return fjernTildelingMutation({
+            variables: { oppgaveId: oppgavereferanse },
+            update: (cache) => {
+                cache.modify({
+                    id: cache.identify({ __typename: 'OppgaveForOversiktsvisning', id: oppgavereferanse }),
+                    fields: {
+                        tildeling: () => null,
+                    },
+                });
+            },
+        })
             .then((result) => {
-                setTildelinger({ ...tildelinger, [oppgavereferanse]: null });
-                return result;
+                setTildelinger({
+                    ...tildelinger,
+                    [oppgavereferanse]: undefined,
+                });
+                return result.data?.fjernTildeling;
             })
             .catch(() => {
                 leggTilTildelingsvarsel('Kunne ikke fjerne tildeling av sak.');
@@ -80,48 +110,43 @@ export const useFjernTildeling = (): ((oppgavereferanse: string) => Promise<bool
             });
     };
 };
-export const useLeggPåVent = (): ((oppgavereferanse: string, notat: NotatDTO) => Promise<Tildeling>) => {
-    const [tildelinger, setTildelinger] = useRecoilState(tildelingState);
+export const useLeggPåVent = (): ((
+    oppgavereferanse: string,
+    notat: NotatDTO,
+) => Promise<Maybe<Tildeling> | undefined>) => {
+    const [leggPåVentMutation] = useMutation(LeggPaaVentDocument);
 
     return (oppgavereferanse: string, notat: NotatDTO) => {
-        return leggPåVent({ oppgaveId: oppgavereferanse, notatType: NotatType.PaaVent, notatTekst: notat.tekst })
-            .then((response) => {
-                setTildelinger({ ...tildelinger, [oppgavereferanse]: response.leggPaaVent });
-                return response.leggPaaVent;
-            })
-            .catch(async (error: GraphQLRequestError) => {
-                if (error.response.errors[0].extensions.code.value === 409) {
-                    const { oid, navn, epost, reservert, paaVent } = error.response.errors[0].extensions.tildeling;
-                    setTildelinger({
-                        ...tildelinger,
-                        [oppgavereferanse]: { oid, navn, epost, reservert, paaVent },
-                    });
-                    return Promise.reject(oppgavereferanse);
-                } else {
-                    return Promise.reject('Kunne ikke legge oppgave på vent.');
-                }
-            });
+        return leggPåVentMutation({
+            variables: { oppgaveId: oppgavereferanse, notatType: NotatType.PaaVent, notatTekst: notat.tekst },
+            update: (cache, result) => {
+                cache.modify({
+                    id: cache.identify({ __typename: 'OppgaveForOversiktsvisning', id: oppgavereferanse }),
+                    fields: {
+                        tildeling: () => result.data?.leggPaaVent,
+                    },
+                });
+            },
+        })
+            .then((response) => response.data?.leggPaaVent)
+            .catch(() => Promise.reject('Kunne ikke legge oppgave på vent.'));
     };
 };
-export const useFjernPåVent = (): ((oppgavereferanse: string) => Promise<Tildeling>) => {
-    const [tildelinger, setTildelinger] = useRecoilState(tildelingState);
+export const useFjernPåVent = (): ((oppgavereferanse: string) => Promise<Maybe<Tildeling> | undefined>) => {
+    const [fjernPåVentMutation] = useMutation(FjernPaaVentDocument);
     return (oppgavereferanse) => {
-        return fjernPåVent({ oppgaveId: oppgavereferanse })
-            .then((response) => {
-                setTildelinger({ ...tildelinger, [oppgavereferanse]: response.fjernPaaVent });
-                return response.fjernPaaVent;
-            })
-            .catch(async (error: GraphQLRequestError) => {
-                if (error.response.errors[0].extensions.code.value === 409) {
-                    const { oid, navn, epost, reservert, paaVent } = error.response.errors[0].extensions.tildeling;
-                    setTildelinger({
-                        ...tildelinger,
-                        [oppgavereferanse]: { oid, navn, epost, reservert, paaVent },
-                    });
-                    return Promise.reject(oppgavereferanse);
-                } else {
-                    return Promise.reject('Kunne ikke fjerne på-vent-status fra oppgave.');
-                }
-            });
+        return fjernPåVentMutation({
+            variables: { oppgaveId: oppgavereferanse },
+            update: (cache) => {
+                cache.modify({
+                    id: cache.identify({ __typename: 'OppgaveForOversiktsvisning', id: oppgavereferanse }),
+                    fields: {
+                        tildeling: (value) => ({ ...value, paaVent: false, reservert: false }),
+                    },
+                });
+            },
+        })
+            .then((response) => response.data?.fjernPaaVent)
+            .catch(() => Promise.reject('Kunne ikke fjerne på-vent-status fra oppgave.'));
     };
 };

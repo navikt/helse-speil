@@ -1,71 +1,20 @@
 import dayjs from 'dayjs';
-import {
-    AtomEffect,
-    Loadable,
-    atom,
-    selector,
-    useRecoilValue,
-    useRecoilValueLoadable,
-    useSetRecoilState,
-} from 'recoil';
+import { AtomEffect, atom, useRecoilValue, useSetRecoilState } from 'recoil';
 
-import { FerdigstiltOppgave, FetchBehandledeOppgaverQuery, FetchOppgaverQuery, Tildeling } from '@io/graphql';
+import { ApolloError, useQuery } from '@apollo/client';
+import {
+    FerdigstiltOppgave,
+    FetchBehandledeOppgaverQuery,
+    FetchOppgaverDocument,
+    FetchOppgaverQuery,
+} from '@io/graphql';
 import { fetchBehandledeOppgaver } from '@io/graphql/fetchBehandledeOppgaver';
-import { fetchOppgaver } from '@io/graphql/fetchOppgaver';
-import { tildelingState } from '@state/tildeling';
 import { ISO_DATOFORMAT } from '@utils/date';
 import { InfoAlert } from '@utils/error';
 
 import { authState, useInnloggetSaksbehandler } from './authentication';
 
 type FetchedOppgaver = FetchOppgaverQuery['alleOppgaver'];
-
-const oppgaverStateRefetchKey = atom<Date>({
-    key: 'oppgaverStateRefetchKey',
-    default: new Date(),
-});
-
-const remoteOppgaverState = selector<FetchedOppgaver>({
-    key: 'remoteOppgaverState',
-    get: async ({ get }) => {
-        get(oppgaverStateRefetchKey);
-        return await fetchOppgaver()
-            .then((response) => response.alleOppgaver)
-            .catch((error) => {
-                switch (error.statusCode) {
-                    case 404:
-                        throw Error('Fant ingen saker mellom i går og i dag.');
-                    case 401:
-                        throw Error('Du må logge inn for å kunne hente saker.');
-                    default:
-                        throw Error('Kunne ikke hente saker. Prøv igjen senere.');
-                }
-            });
-    },
-});
-
-type TildelingStateType = { [id: string]: Maybe<Tildeling> | undefined };
-
-const tildelingerState = selector<TildelingStateType>({
-    key: 'tildelingerState',
-    get: ({ get }) => {
-        const local = get(tildelingState);
-        const remote = get(remoteOppgaverState).reduce<TildelingStateType>((tildelinger, { id, tildeling }) => {
-            tildelinger[id] = tildeling;
-            return tildelinger;
-        }, {});
-        return { ...remote, ...local };
-    },
-});
-
-export const oppgaverState = selector<FetchedOppgaver>({
-    key: 'oppgaverState',
-    get: ({ get }) => {
-        const tildelinger = get(tildelingerState);
-        const oppgaver = get(remoteOppgaverState);
-        return oppgaver.map((oppgave) => ({ ...oppgave, tildeling: tildelinger[oppgave.id] }));
-    },
-});
 
 const fetchBehandledeOppgaverEffect: AtomEffect<FetchedData<Array<FerdigstiltOppgave>>> = ({
     setSelf,
@@ -121,28 +70,34 @@ export const useRefetchFerdigstilteOppgaver = () => {
     };
 };
 
-export const useOppgaverLoadable = (): Loadable<FetchedOppgaver> => {
-    return useRecoilValueLoadable(oppgaverState);
+interface OppgaverResponse {
+    oppgaver?: FetchedOppgaver;
+    error?: ApolloError;
+    loading: boolean;
+}
+
+export const useQueryOppgaver = (): OppgaverResponse => {
+    const { data, error, loading } = useQuery(FetchOppgaverDocument, {
+        onError: () => {
+            throw Error('Kunne ikke hente saker. Prøv igjen senere.');
+        },
+    });
+    const oppgaver = data?.alleOppgaver;
+    return {
+        oppgaver: oppgaver,
+        error,
+        loading,
+    };
 };
 
 export const useOppgaver = (): FetchedOppgaver => {
-    const oppgaver = useOppgaverLoadable();
-    return oppgaver.state === 'hasValue' ? oppgaver.contents : [];
+    const oppgaver = useQuery(FetchOppgaverDocument);
+    return oppgaver.data?.alleOppgaver ?? [];
 };
 
 export const useMineOppgaver = (): FetchedOppgaver => {
     const { oid } = useInnloggetSaksbehandler();
-    let filter = useOppgaver().filter(({ tildeling }) => tildeling?.oid === oid);
-    return filter;
-};
-
-export const useRefetchOppgaver = () => {
-    const setKey = useSetRecoilState(oppgaverStateRefetchKey);
-    const setTildelinger = useSetRecoilState(tildelingState);
-    return () => {
-        setTildelinger({});
-        setKey(new Date());
-    };
+    return useOppgaver().filter(({ tildeling }) => tildeling?.oid === oid);
 };
 
 export class TildelingAlert extends InfoAlert {

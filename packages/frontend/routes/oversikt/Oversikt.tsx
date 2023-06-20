@@ -3,16 +3,12 @@ import { Loadable } from 'recoil';
 
 import { Alert } from '@navikt/ds-react';
 
+import { ApolloError } from '@apollo/client';
 import { Flex } from '@components/Flex';
 import { useLoadingToast } from '@hooks/useLoadingToast';
 import { FerdigstiltOppgave, FetchOppgaverQuery } from '@io/graphql';
 import { useInnloggetSaksbehandler } from '@state/authentication';
-import {
-    useFerdigstilteOppgaver,
-    useOppgaverLoadable,
-    useRefetchFerdigstilteOppgaver,
-    useRefetchOppgaver,
-} from '@state/oppgaver';
+import { useFerdigstilteOppgaver, useQueryOppgaver, useRefetchFerdigstilteOppgaver } from '@state/oppgaver';
 import { useResetPerson } from '@state/person';
 
 import { IngenOppgaver } from './IngenOppgaver';
@@ -27,11 +23,18 @@ import styles from './Oversikt.module.css';
 
 type Oppgaver = FetchOppgaverQuery['alleOppgaver'];
 
-const useOppgaverFilteredByTab = () => {
+interface FilteredOppgaverResponse {
+    state: 'hasError' | 'loading' | 'hasValue';
+    error?: ApolloError;
+    contents: Oppgaver;
+    cache: Oppgaver;
+}
+
+const useOppgaverFilteredByTab = (): FilteredOppgaverResponse => {
     const { oid } = useInnloggetSaksbehandler();
     const aktivTab = useAktivTab();
-    const oppgaver = useOppgaverLoadable();
-    const [cache, setCache] = useState<Oppgaver>(oppgaver.state === 'hasValue' ? oppgaver.contents : []);
+    const oppgaverResponse = useQueryOppgaver();
+    const [cache, setCache] = useState<Oppgaver>(oppgaverResponse.oppgaver ?? []);
 
     const filtrer = (oppgaver: Oppgaver): Oppgaver => {
         switch (aktivTab) {
@@ -56,14 +59,16 @@ const useOppgaverFilteredByTab = () => {
     };
 
     useEffect(() => {
-        if (oppgaver.state === 'hasValue') {
-            setCache(filtrer(oppgaver.contents));
+        if (oppgaverResponse.oppgaver !== undefined) {
+            setCache(filtrer(oppgaverResponse.oppgaver));
         }
-    }, [oppgaver.state]);
+    }, [oppgaverResponse.loading]);
 
+    const state = oppgaverResponse.error !== undefined ? 'hasError' : oppgaverResponse.loading ? 'loading' : 'hasValue';
     return {
-        state: oppgaver.state,
-        contents: oppgaver.state === 'hasValue' ? filtrer(oppgaver.contents) : oppgaver.contents,
+        state: state,
+        error: oppgaverResponse.error,
+        contents: oppgaverResponse.oppgaver !== undefined ? filtrer(oppgaverResponse.oppgaver) : [],
         cache: filtrer(cache),
     };
 };
@@ -78,7 +83,7 @@ const useResetPersonOnMount = (): void => {
 
 // Bruker any fordi hooken ikke har noe forhold til innholdet i Loadablen
 const useFetchOppgaver = (currentState: Loadable<Array<any>>['state']): void => {
-    const hentOppgaver = useRefetchOppgaver();
+    const hentOppgaver = useQueryOppgaver;
 
     useEffect(() => {
         if (currentState !== 'loading') {
@@ -114,7 +119,7 @@ export const Oversikt = () => {
         <main className={styles.Oversikt}>
             {oppgaver.state === 'hasError' && (
                 <Alert className={styles.Alert} variant="warning" size="small">
-                    {(oppgaver.contents as Error).message}
+                    {oppgaver.error?.message}
                 </Alert>
             )}
             <Tabs />

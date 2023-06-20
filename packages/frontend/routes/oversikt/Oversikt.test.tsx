@@ -2,7 +2,7 @@ import { RecoilAndRouterWrapper } from '@test-wrappers';
 import { axe } from 'jest-axe';
 import React from 'react';
 
-import { useMineOppgaver, useOppgaver, useOppgaverLoadable, useRefetchOppgaver } from '@state/oppgaver';
+import { useMineOppgaver, useOppgaver, useQueryOppgaver } from '@state/oppgaver';
 import { useResetPerson } from '@state/person';
 import { enOppgaveForOversikten } from '@test-data/oppgave';
 import { render } from '@testing-library/react';
@@ -22,7 +22,7 @@ describe('Oversikt', () => {
 
         (useMineOppgaver as jest.Mock).mockReturnValue([]);
         (useOppgaver as jest.Mock).mockReturnValue(oppgaver);
-        (useOppgaverLoadable as jest.Mock).mockReturnValue({
+        (useQueryOppgaver as jest.Mock).mockReturnValue({
             state: 'hasValue',
             contents: oppgaver,
         });
@@ -33,7 +33,6 @@ describe('Oversikt', () => {
 
         expect(result).toHaveNoViolations();
         expect(useResetPerson).toHaveBeenCalled();
-        expect(useRefetchOppgaver).toHaveBeenCalled();
     });
 });
 
