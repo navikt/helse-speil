@@ -3,7 +3,7 @@ import minMax from 'dayjs/plugin/minMax';
 
 import { Arbeidsgiverinntekt, GhostPeriode, Inntektskilde, Vilkarsgrunnlag } from '@io/graphql';
 import { getRequiredTimestamp, isGodkjent } from '@state/selectors/utbetaling';
-import { isArbeidsforholdoverstyring, isBeregnetPeriode, isDagoverstyring, isGhostPeriode } from '@utils/typeguards';
+import { isBeregnetPeriode, isDagoverstyring, isGhostPeriode } from '@utils/typeguards';
 
 dayjs.extend(minMax);
 
