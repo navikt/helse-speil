@@ -5,7 +5,6 @@ import { useRecoilState } from 'recoil';
 import { DataFilled } from '@navikt/ds-icons';
 
 import { RoundedButton } from '@components/RoundedButton';
-import { useInnloggetSaksbehandler } from '@state/authentication';
 import { useMineOppgaver, useOppgaver } from '@state/oppgaver';
 
 import { useShowStatistikk, useToggleStatistikk } from './behandlingsstatistikk/state';
@@ -35,8 +34,7 @@ const OppgaveTab = ({ tag, label, numberOfTasks }: OppgaveTabProps) => {
 };
 
 const AlleSakerTab = () => {
-    const { oid } = useInnloggetSaksbehandler();
-    const antallOppgaver = useOppgaver().filter((it) => it.tildeling?.oid !== oid).length;
+    const antallOppgaver = useOppgaver().length;
     return <OppgaveTab tag={TabType.TilGodkjenning} label="Til godkjenning" numberOfTasks={antallOppgaver} />;
 };
 
