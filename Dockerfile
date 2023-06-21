@@ -1,4 +1,4 @@
-FROM navikt/node-express:12.2.0-alpine
+FROM ghcr.io/navikt/node-express:16
 
 ARG NODE_ENV=production
 ENV NODE_ENV=${NODE_ENV}
