@@ -645,7 +645,7 @@ export type Query = {
 };
 
 export type QueryBehandledeOppgaverArgs = {
-    behandletAvIdent: Scalars['String']['input'];
+    behandletAvIdent?: InputMaybe<Scalars['String']['input']>;
     behandletAvOid: Scalars['String']['input'];
     fom?: InputMaybe<Scalars['String']['input']>;
 };
