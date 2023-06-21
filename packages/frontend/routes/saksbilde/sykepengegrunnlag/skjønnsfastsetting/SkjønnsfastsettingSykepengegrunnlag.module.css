@@ -1,0 +1,11 @@
+.formWrapper {
+    padding: 0.5rem 0.5rem 0.5rem 5px;
+    border-left: 3px solid transparent;
+}
+
+.formWrapper.redigerer {
+    background-color: var(--a-surface-subtle);
+    margin-left: -2rem;
+    padding-left: 37px;
+    border-left: 3px solid var(--a-surface-action);
+}

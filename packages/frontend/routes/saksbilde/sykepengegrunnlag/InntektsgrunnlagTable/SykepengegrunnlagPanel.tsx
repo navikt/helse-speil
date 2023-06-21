@@ -1,8 +1,8 @@
-import { SkjønnsfastsettingSykepengegrunnlag } from './SkjønnsfastsettingSykepengegrunnlag';
 import React, { Dispatch, SetStateAction } from 'react';
 
 import { Arbeidsgiverinntekt, Sykepengegrunnlagsgrense } from '@io/graphql';
 
+import { SkjønnsfastsettingSykepengegrunnlag } from '../skjønnsfastsetting/SkjønnsfastsettingSykepengegrunnlag';
 import { InntektsgrunnlagTable } from './InntektsgrunnlagTable';
 import { InntektsgrunnlagoppsummeringTable } from './InntektsgrunnlagoppsummeringTable';
 

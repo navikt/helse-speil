@@ -1,0 +1,18 @@
+.header {
+    display: flex;
+    width: 100%;
+}
+
+.label {
+    width: 16rem;
+}
+
+.beløp {
+    padding-left: 0.5rem;
+}
+
+.redigeringsknapp {
+    margin-left: auto;
+    width: 10rem;
+    text-align: left;
+}
