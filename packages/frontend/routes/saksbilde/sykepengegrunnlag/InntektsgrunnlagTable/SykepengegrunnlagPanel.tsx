@@ -1,3 +1,4 @@
+import { SkjønnsfastsettingSykepengegrunnlag } from './SkjønnsfastsettingSykepengegrunnlag';
 import React, { Dispatch, SetStateAction } from 'react';
 
 import { Arbeidsgiverinntekt, Sykepengegrunnlagsgrense } from '@io/graphql';
@@ -44,8 +45,13 @@ export const SykepengegrunnlagPanel = ({
                 omregnetÅrsinntekt={omregnetÅrsinntekt}
                 sammenligningsgrunnlag={sammenligningsgrunnlag}
                 avviksprosent={avviksprosent}
-                sykepengegrunnlag={sykepengegrunnlag}
+            />
+            <SkjønnsfastsettingSykepengegrunnlag
                 sykepengegrunnlagsgrense={sykepengegrunnlagsgrense}
+                sykepengegrunnlag={sykepengegrunnlag}
+                omregnetÅrsinntekt={omregnetÅrsinntekt}
+                skjønnsmessigFastsattÅrlig={skjønnsmessigFastsattÅrlig}
+                inntekter={inntekter}
             />
         </div>
     );
