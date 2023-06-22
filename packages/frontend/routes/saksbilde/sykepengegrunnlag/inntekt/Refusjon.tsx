@@ -3,9 +3,8 @@ import React, { useEffect } from 'react';
 import { Controller, useFieldArray, useFormContext } from 'react-hook-form';
 
 import { CaseworkerFilled } from '@navikt/ds-icons';
-import { BodyShort, UNSAFE_DatePicker as DatePicker } from '@navikt/ds-react';
+import { BodyShort, UNSAFE_DatePicker as DatePicker, Fieldset } from '@navikt/ds-react';
 
-import { Bold } from '@components/Bold';
 import { Button } from '@components/Button';
 import { Endringstrekant } from '@components/Endringstrekant';
 import { Flex } from '@components/Flex';
@@ -42,9 +41,7 @@ export const Refusjon = ({ fraRefusjonsopplysninger, lokaleRefusjonsopplysninger
     const isNumeric = (input: string) => /^\d+(\.\d{1,2})?$/.test(input);
 
     return (
-        <div className={styles.RefusjonWrapper}>
-            <Bold>Refusjon</Bold>
-
+        <Fieldset legend="Refusjon" id="refusjonsopplysninger" className={styles.RefusjonWrapper}>
             <div className={styles.RefusjonsHeading}>
                 <div>Fra og med dato</div>
                 <div>Til og med dato</div>
@@ -276,7 +273,7 @@ export const Refusjon = ({ fraRefusjonsopplysninger, lokaleRefusjonsopplysninger
                     <BodyShort>+ Legg til</BodyShort>
                 </Button>
             </div>
-        </div>
+        </Fieldset>
     );
 };
 

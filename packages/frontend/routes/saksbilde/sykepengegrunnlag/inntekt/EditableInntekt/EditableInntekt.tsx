@@ -185,13 +185,13 @@ export const EditableInntekt = ({
 
         sisteTomErFørPeriodensTom &&
             form.setError('sisteTomErFørPeriodensTom', {
-                type: 'custom',
+                type: 'refusjonsopplysninger',
                 message: 'Siste til og med dato kan ikke være før periodens til og med dato.',
             });
 
         førsteFomErEtterFørstePeriodesFom &&
             form.setError('førsteFomErEtterFørstePeriodesFom', {
-                type: 'custom',
+                type: 'refusjonsopplysninger',
                 message: `Tidligste fra og med dato for refusjon må være lik eller før ${dayjs(
                     førstePeriodeForSkjæringstidspunkt?.fom,
                     ISO_DATOFORMAT,
@@ -199,10 +199,16 @@ export const EditableInntekt = ({
             });
 
         erGapIDatoer &&
-            form.setError('erGapIDatoer', { type: 'custom', message: 'Refusjonsdatoene må være sammenhengende.' });
+            form.setError('erGapIDatoer', {
+                type: 'refusjonsopplysninger',
+                message: 'Refusjonsdatoene må være sammenhengende.',
+            });
 
         manglerRefusjonsopplysninger &&
-            form.setError('manglerRefusjonsopplysninger', { type: 'custom', message: 'Mangler refusjonsopplysninger' });
+            form.setError('manglerRefusjonsopplysninger', {
+                type: 'refusjonsopplysninger',
+                message: 'Mangler refusjonsopplysninger',
+            });
 
         if (
             !sisteTomErFørPeriodensTom &&

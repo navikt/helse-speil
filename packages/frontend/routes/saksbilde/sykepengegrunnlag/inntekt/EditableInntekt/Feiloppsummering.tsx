@@ -10,45 +10,26 @@ interface FeiloppsummeringProps {
     errors: FieldErrors;
 }
 
-//TODO: Fiks opp typing, fjern any. Bruk heller <ErrorMessage /> fra react-hook-form
-export const Feiloppsummering = ({ feiloppsummeringRef, errors }: FeiloppsummeringProps) => (
-    <div className={styles.Feiloppsummering}>
-        <ErrorSummary ref={feiloppsummeringRef} heading="Skjemaet inneholder følgende feil:">
-            {Object.entries(errors)
-                .filter(([, error]) => error !== undefined)
-                .map(([id, error]) => {
-                    if (id !== 'refusjonsopplysninger') {
-                        return (
-                            <ErrorSummary.Item key={id}>
-                                {error ? (error.message as string) : undefined}
-                            </ErrorSummary.Item>
-                        );
-                    } else {
-                        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                        return (Object.entries(error as any) as any[])
-                            ?.filter(
-                                ([, refusjonserror]) =>
-                                    refusjonserror !== undefined &&
-                                    (typeof refusjonserror?.fom === 'object' ||
-                                        typeof refusjonserror?.tom === 'object' ||
-                                        typeof refusjonserror?.beløp === 'object'),
-                            )
-                            ?.map(([, refusjonserror]) => {
-                                return Object.entries(refusjonserror)?.map(
-                                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                                    ([id, refusjonstypeerror]: [string, any], index) => {
-                                        if (refusjonstypeerror?.message) {
-                                            return (
-                                                <ErrorSummary.Item key={`${id}${index}`}>
-                                                    {refusjonstypeerror.message}
-                                                </ErrorSummary.Item>
-                                            );
-                                        } else return undefined;
-                                    },
-                                );
-                            });
-                    }
-                })}
+export const Feiloppsummering = ({ feiloppsummeringRef, errors }: FeiloppsummeringProps) => {
+    const feilListe = Object.entries(errors)
+        .filter(([id]) => id !== 'refusjonsopplysninger')
+        .map(([id, error]) => {
+            return {
+                id: error?.type === 'refusjonsopplysninger' ? 'refusjonsopplysninger' : id,
+                message: (error?.message as string) ?? id,
+            };
+        });
+    console.log(errors);
+    console.log(feilListe);
+    return (
+        <ErrorSummary
+            ref={feiloppsummeringRef}
+            heading="Skjemaet inneholder følgende feil:"
+            className={styles.Feiloppsummering}
+        >
+            {feilListe.map((feil) => (
+                <ErrorSummary.Item href={`#${feil.id}`}>{feil.message}</ErrorSummary.Item>
+            ))}
         </ErrorSummary>
-    </div>
-);
+    );
+};

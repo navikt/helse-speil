@@ -35,7 +35,7 @@ export const Begrunnelser = ({ begrunnelser }: BegrunnelserProps) => {
             legend="Begrunnelse"
             id="begrunnelseId"
             name="begrunnelseId"
-            error={form.formState.errors.begrunnelse ? (form.formState.errors.begrunnelse.message as string) : null}
+            error={form.formState.errors.begrunnelseId ? (form.formState.errors.begrunnelseId.message as string) : null}
         >
             {begrunnelser.map((begrunnelse, index) => (
                 <Radio ref={ref} value={begrunnelse.id} key={index} {...begrunnelseValidation}>
