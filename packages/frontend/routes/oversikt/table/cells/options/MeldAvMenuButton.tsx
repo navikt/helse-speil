@@ -9,6 +9,6 @@ interface MeldAvMenuButtonProps extends React.ButtonHTMLAttributes<HTMLButtonEle
 }
 
 export const MeldAvMenuButton = ({ oppgavereferanse }: MeldAvMenuButtonProps) => {
-    const fjernTildeling = useFjernTildeling();
+    const [fjernTildeling] = useFjernTildeling();
     return <AsyncMenuButton asyncOperation={() => fjernTildeling(oppgavereferanse)}>Meld av</AsyncMenuButton>;
 };

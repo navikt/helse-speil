@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 import { Button, Loader } from '@navikt/ds-react';
 
@@ -14,13 +14,11 @@ interface IkkeTildeltProps {
 
 export const IkkeTildelt = ({ oppgavereferanse, width }: IkkeTildeltProps) => {
     const saksbehandler = useInnloggetSaksbehandler();
-    const [isFetching, setIsFetching] = useState(false);
-    const tildelOppgave = useOpprettTildeling();
+    const [foo, { loading }] = useOpprettTildeling();
 
     const tildel = (event: React.MouseEvent) => {
         event.stopPropagation();
-        setIsFetching(true);
-        tildelOppgave(oppgavereferanse).finally(() => setIsFetching(false));
+        foo(oppgavereferanse);
     };
 
     return (
@@ -30,10 +28,10 @@ export const IkkeTildelt = ({ oppgavereferanse, width }: IkkeTildeltProps) => {
                 variant="secondary"
                 size="small"
                 onClick={tildel}
-                disabled={!saksbehandler || isFetching}
+                disabled={!saksbehandler || loading}
             >
                 Tildel meg
-                {isFetching && <Loader size="xsmall" />}
+                {loading && <Loader size="xsmall" />}
             </Button>
         </div>
     );

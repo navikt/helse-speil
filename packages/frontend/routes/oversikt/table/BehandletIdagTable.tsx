@@ -3,7 +3,7 @@ import React from 'react';
 
 import { Table } from '@navikt/ds-react';
 
-import { useFerdigstilteOppgaver } from '@state/oppgaver';
+import { useQueryBehandledeOppgaver } from '@state/oppgaver';
 
 import { IngenOppgaver } from '../IngenOppgaver';
 import { LinkRow } from './LinkRow';
@@ -21,23 +21,23 @@ import { usePagination } from './state/pagination';
 import styles from './table.module.css';
 
 export const BehandletIdagTable = () => {
-    const oppgaver = useFerdigstilteOppgaver();
+    const oppgaverResponse = useQueryBehandledeOppgaver();
     const pagination = usePagination();
 
     const paginatedRows =
-        pagination && oppgaver.state === 'hasValue'
-            ? oppgaver.data.slice(pagination.firstVisibleEntry, pagination.lastVisibleEntry + 1)
-            : oppgaver.data;
+        pagination && oppgaverResponse.oppgaver !== undefined
+            ? oppgaverResponse.oppgaver.slice(pagination.firstVisibleEntry, pagination.lastVisibleEntry + 1)
+            : oppgaverResponse.oppgaver;
 
-    if (oppgaver.state === 'hasValue' && oppgaver.data.length === 0) {
+    if (oppgaverResponse.oppgaver !== undefined && oppgaverResponse.oppgaver.length === 0) {
         return <IngenOppgaver />;
     }
 
-    if (oppgaver.state === 'isLoading') {
+    if (oppgaverResponse.loading) {
         return <OppgaverTableSkeleton />;
     }
 
-    if (oppgaver.state === 'hasError') {
+    if (oppgaverResponse.error) {
         return <OppgaverTableError />;
     }
 
@@ -79,7 +79,9 @@ export const BehandletIdagTable = () => {
                     </Table>
                 </div>
             </div>
-            {oppgaver.state === 'hasValue' && <Pagination numberOfEntries={oppgaver.data.length} />}
+            {oppgaverResponse.oppgaver !== undefined && (
+                <Pagination numberOfEntries={oppgaverResponse.oppgaver.length} />
+            )}
         </div>
     );
 };

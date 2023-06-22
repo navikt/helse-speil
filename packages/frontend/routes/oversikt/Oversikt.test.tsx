@@ -23,8 +23,9 @@ describe('Oversikt', () => {
         (useMineOppgaver as jest.Mock).mockReturnValue([]);
         (useOppgaver as jest.Mock).mockReturnValue(oppgaver);
         (useQueryOppgaver as jest.Mock).mockReturnValue({
-            state: 'hasValue',
-            contents: oppgaver,
+            oppgaver: oppgaver,
+            errors: undefined,
+            loading: false,
         });
 
         const { container } = render(<Oversikt />, { wrapper: RecoilAndRouterWrapper });

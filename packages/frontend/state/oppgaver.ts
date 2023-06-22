@@ -1,77 +1,39 @@
 import dayjs from 'dayjs';
-import { AtomEffect, atom, useRecoilValue, useSetRecoilState } from 'recoil';
 
 import { ApolloError, useQuery } from '@apollo/client';
 import {
     FerdigstiltOppgave,
-    FetchBehandledeOppgaverQuery,
+    FetchBehandledeOppgaverDocument,
     FetchOppgaverDocument,
     FetchOppgaverQuery,
 } from '@io/graphql';
-import { fetchBehandledeOppgaver } from '@io/graphql/fetchBehandledeOppgaver';
 import { ISO_DATOFORMAT } from '@utils/date';
 import { InfoAlert } from '@utils/error';
 
-import { authState, useInnloggetSaksbehandler } from './authentication';
+import { useInnloggetSaksbehandler } from './authentication';
 
 type FetchedOppgaver = FetchOppgaverQuery['alleOppgaver'];
+export const useQueryBehandledeOppgaver = (): BehandledeOppgaverResponse => {
+    const { oid } = useInnloggetSaksbehandler();
+    const data = useQuery(FetchBehandledeOppgaverDocument, {
+        variables: { oid: oid, fom: dayjs().format(ISO_DATOFORMAT) },
+    });
 
-const fetchBehandledeOppgaverEffect: AtomEffect<FetchedData<Array<FerdigstiltOppgave>>> = ({
-    setSelf,
-    trigger,
-    getPromise,
-}) => {
-    if (trigger === 'get') {
-        getPromise(authState)
-            .then(async (authInfo) => {
-                if (authInfo.ident && authInfo.oid) {
-                    setSelf((prevState) => ({ ...prevState, state: 'isLoading' }));
-                    return fetchBehandledeOppgaver({
-                        oid: authInfo.oid,
-                        ident: authInfo.ident,
-                        fom: dayjs().format(ISO_DATOFORMAT),
-                    });
-                }
-
-                return null;
-            })
-            .then((response: Maybe<FetchBehandledeOppgaverQuery>) => {
-                if (response) {
-                    setSelf({ data: response.behandledeOppgaver, state: 'hasValue' });
-                }
-            })
-            .catch((error) => {
-                setSelf({ state: 'hasError', error: error });
-            });
-    }
-};
-
-const behandledeOppgaverState = atom<FetchedData<Array<FerdigstiltOppgave>>>({
-    key: 'behandledeOppgaverState',
-    default: { state: 'initial' },
-    effects: [fetchBehandledeOppgaverEffect],
-});
-
-export const useFerdigstilteOppgaver = () => {
-    return useRecoilValue(behandledeOppgaverState);
-};
-
-export const useRefetchFerdigstilteOppgaver = () => {
-    const { oid, ident } = useInnloggetSaksbehandler();
-    const setBehandledeOppgaver = useSetRecoilState(behandledeOppgaverState);
-
-    return () => {
-        if (ident && oid) {
-            setBehandledeOppgaver((prevState) => ({ ...prevState, state: 'isLoading' }));
-            fetchBehandledeOppgaver({ oid, ident, fom: dayjs().format(ISO_DATOFORMAT) }).then((response) =>
-                setBehandledeOppgaver({ data: response.behandledeOppgaver, state: 'hasValue' }),
-            );
-        }
+    return {
+        oppgaver: data.data?.behandledeOppgaver,
+        error: data.error,
+        loading: data.loading,
     };
 };
 
-interface OppgaverResponse {
+export interface OppgaverResponse {
     oppgaver?: FetchedOppgaver;
+    error?: ApolloError;
+    loading: boolean;
+}
+
+interface BehandledeOppgaverResponse {
+    oppgaver?: FerdigstiltOppgave[];
     error?: ApolloError;
     loading: boolean;
 }

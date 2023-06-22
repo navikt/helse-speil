@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 import { Loader } from '@navikt/ds-react';
 import { Dropdown } from '@navikt/ds-react-internal';
@@ -17,32 +17,23 @@ export const TildelingDropdownMenuButton = ({
     tildeling,
     erTildeltInnloggetBruker,
 }: TildelingDropdownMenuButtonProps) => {
-    const tildelPerson = useOpprettTildeling();
-    const fjernTildeling = useFjernTildeling();
-
-    const [isFetching, setIsFetching] = useState(false);
-
-    const håndterTildeling = (håndter: Promise<boolean | Tildeling>) => {
-        setIsFetching(true);
-        håndter.finally(() => {
-            setIsFetching(false);
-        });
-    };
+    const [opprettTildeling, { loading: loadingOpprett }] = useOpprettTildeling();
+    const [fjernTildeling, { loading: loadingFjern }] = useFjernTildeling();
 
     if (erTildeltInnloggetBruker || tildeling) {
         return (
             <Tildelingsknapp
                 knappetekst={erTildeltInnloggetBruker ? 'Meld av' : 'Frigi oppgave'}
-                onClick={() => håndterTildeling(fjernTildeling(oppgavereferanse))}
-                isFetching={isFetching}
+                onClick={() => fjernTildeling(oppgavereferanse)}
+                isFetching={loadingFjern}
             />
         );
     }
     return (
         <Tildelingsknapp
             knappetekst="Tildel meg"
-            onClick={() => håndterTildeling(tildelPerson(oppgavereferanse))}
-            isFetching={isFetching}
+            onClick={() => opprettTildeling(oppgavereferanse)}
+            isFetching={loadingOpprett}
         />
     );
 };

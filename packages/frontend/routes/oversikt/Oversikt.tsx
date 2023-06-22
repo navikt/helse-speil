@@ -1,14 +1,12 @@
-import React, { useEffect, useState } from 'react';
-import { Loadable } from 'recoil';
+import React, { useEffect } from 'react';
 
 import { Alert } from '@navikt/ds-react';
 
-import { ApolloError } from '@apollo/client';
 import { Flex } from '@components/Flex';
 import { useLoadingToast } from '@hooks/useLoadingToast';
-import { FerdigstiltOppgave, FetchOppgaverQuery } from '@io/graphql';
+import { FetchOppgaverQuery } from '@io/graphql';
 import { useInnloggetSaksbehandler } from '@state/authentication';
-import { useFerdigstilteOppgaver, useQueryOppgaver, useRefetchFerdigstilteOppgaver } from '@state/oppgaver';
+import { OppgaverResponse, useQueryOppgaver } from '@state/oppgaver';
 import { useResetPerson } from '@state/person';
 
 import { IngenOppgaver } from './IngenOppgaver';
@@ -22,19 +20,10 @@ import { OppgaverTableSkeleton } from './table/OppgaverTableSkeleton';
 import styles from './Oversikt.module.css';
 
 type Oppgaver = FetchOppgaverQuery['alleOppgaver'];
-
-interface FilteredOppgaverResponse {
-    state: 'hasError' | 'loading' | 'hasValue';
-    error?: ApolloError;
-    contents: Oppgaver;
-    cache: Oppgaver;
-}
-
-const useOppgaverFilteredByTab = (): FilteredOppgaverResponse => {
+const useOppgaverFilteredByTab = (): OppgaverResponse => {
     const { oid } = useInnloggetSaksbehandler();
     const aktivTab = useAktivTab();
     const oppgaverResponse = useQueryOppgaver();
-    const [cache, setCache] = useState<Oppgaver>(oppgaverResponse.oppgaver ?? []);
 
     const filtrer = (oppgaver: Oppgaver): Oppgaver => {
         switch (aktivTab) {
@@ -58,18 +47,9 @@ const useOppgaverFilteredByTab = (): FilteredOppgaverResponse => {
         }
     };
 
-    useEffect(() => {
-        if (oppgaverResponse.oppgaver !== undefined) {
-            setCache(filtrer(oppgaverResponse.oppgaver));
-        }
-    }, [oppgaverResponse.loading]);
-
-    const state = oppgaverResponse.error !== undefined ? 'hasError' : oppgaverResponse.loading ? 'loading' : 'hasValue';
     return {
-        state: state,
-        error: oppgaverResponse.error,
-        contents: oppgaverResponse.oppgaver !== undefined ? filtrer(oppgaverResponse.oppgaver) : [],
-        cache: filtrer(cache),
+        ...oppgaverResponse,
+        oppgaver: oppgaverResponse.oppgaver ? filtrer(oppgaverResponse.oppgaver) : oppgaverResponse.oppgaver,
     };
 };
 
@@ -82,44 +62,19 @@ const useResetPersonOnMount = (): void => {
 };
 
 // Bruker any fordi hooken ikke har noe forhold til innholdet i Loadablen
-const useFetchOppgaver = (currentState: Loadable<Array<any>>['state']): void => {
-    const hentOppgaver = useQueryOppgaver;
-
-    useEffect(() => {
-        if (currentState !== 'loading') {
-            hentOppgaver();
-        }
-    }, []);
-};
-
-const useFetchFerdigstilteOppgaver = (currentState: FetchedData<Array<FerdigstiltOppgave>>['state']): void => {
-    const fetchFerdigstilteOppgaver = useRefetchFerdigstilteOppgaver();
-
-    useEffect(() => {
-        if (currentState !== 'isLoading') {
-            fetchFerdigstilteOppgaver();
-        }
-    }, []);
-};
-
 export const Oversikt = () => {
-    const oppgaver = useOppgaverFilteredByTab();
-    const ferdigstilteOppgaver = useFerdigstilteOppgaver();
+    const oppgaverResponse = useOppgaverFilteredByTab();
     const aktivTab = useAktivTab();
 
-    useLoadingToast({ isLoading: oppgaver.state === 'loading', message: 'Henter oppgaver' });
+    useLoadingToast({ isLoading: oppgaverResponse.loading, message: 'Henter oppgaver' });
 
     useResetPersonOnMount();
-    useFetchOppgaver(oppgaver.state);
-    useFetchFerdigstilteOppgaver(ferdigstilteOppgaver.state);
-
-    const hasData = (oppgaver.state === 'hasValue' && oppgaver.contents.length > 0) || oppgaver.cache.length > 0;
 
     return (
         <main className={styles.Oversikt}>
-            {oppgaver.state === 'hasError' && (
+            {oppgaverResponse.error && (
                 <Alert className={styles.Alert} variant="warning" size="small">
-                    {oppgaver.error?.message}
+                    {oppgaverResponse.error?.message}
                 </Alert>
             )}
             <Tabs />
@@ -127,12 +82,10 @@ export const Oversikt = () => {
                 <section className={styles.Content}>
                     {aktivTab === TabType.BehandletIdag ? (
                         <BehandletIdagTable />
-                    ) : hasData ? (
-                        <OppgaverTable
-                            oppgaver={oppgaver.state === 'hasValue' ? (oppgaver.contents as Oppgaver) : oppgaver.cache}
-                        />
-                    ) : oppgaver.state === 'loading' ? (
+                    ) : oppgaverResponse.loading ? (
                         <OppgaverTableSkeleton />
+                    ) : oppgaverResponse.oppgaver && oppgaverResponse.oppgaver?.length > 0 ? (
+                        <OppgaverTable oppgaver={oppgaverResponse.oppgaver} />
                     ) : (
                         <IngenOppgaver />
                     )}

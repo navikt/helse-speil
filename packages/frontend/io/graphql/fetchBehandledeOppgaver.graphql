@@ -1,5 +1,5 @@
-query FetchBehandledeOppgaver($oid: String!, $ident: String!, $fom: String!) {
-    behandledeOppgaver(behandletAvOid: $oid, behandletAvIdent: $ident, fom: $fom) {
+query FetchBehandledeOppgaver($oid: String! $fom: String!) {
+    behandledeOppgaver(behandletAvOid: $oid, fom: $fom) {
         aktorId
         bosted
         ferdigstiltAv,

@@ -1,6 +1,6 @@
 import { atom, useRecoilState } from 'recoil';
 
-import { useMutation } from '@apollo/client';
+import { ApolloError, MutationResult, useApolloClient, useMutation } from '@apollo/client';
 import {
     FetchOppgaverDocument,
     FjernPaaVentDocument,
@@ -10,13 +10,12 @@ import {
     NotatType,
     OppgaveForOversiktsvisning,
     OpprettTildelingDocument,
+    OpprettTildelingMutation,
     Tildeling,
 } from '@io/graphql';
 import { NotatDTO } from '@io/http';
 import { useAddVarsel, useRemoveVarsel } from '@state/varsler';
 import { InfoAlert } from '@utils/error';
-
-import { client } from '../routes/apolloClient';
 
 type TildelingStateType = { [id: string]: Maybe<Tildeling> | undefined };
 
@@ -39,13 +38,17 @@ const useLeggTilTildelingsvarsel = () => {
     return (message: string) => addVarsel(new TildelingAlert(message));
 };
 
-export const useOpprettTildeling = (): ((oppgavereferanse: string) => Promise<Maybe<Tildeling> | undefined>) => {
+export const useOpprettTildeling = (): [
+    (oppgavereferanse: string) => Promise<Maybe<Tildeling> | undefined>,
+    MutationResult<OpprettTildelingMutation>,
+] => {
     const [tildelinger, setTildelinger] = useRecoilState(tildelingState);
+    const client = useApolloClient();
     const [opprettTildelingMutation, data] = useMutation(OpprettTildelingDocument);
     const leggTilTildelingsvarsel = useLeggTilTildelingsvarsel();
     const fjernTildelingsvarsel = useFjernTildelingsvarsel();
 
-    return (oppgavereferanse) => {
+    const opprettTildeling = (oppgavereferanse: string): Promise<Maybe<Tildeling> | undefined> => {
         fjernTildelingsvarsel();
         return opprettTildelingMutation({
             variables: { oppgaveId: oppgavereferanse },
@@ -65,26 +68,29 @@ export const useOpprettTildeling = (): ((oppgavereferanse: string) => Promise<Ma
                 });
                 return result.data?.opprettTildeling;
             })
-            .catch((e) => {
-                leggTilTildelingsvarsel('Kunne ikke tildele sak.');
+            .catch((e: ApolloError) => {
+                const errorCode = (e.graphQLErrors[0].extensions['code'] as { value: number }).value;
+                const tildeling = e.graphQLErrors[0].extensions['tildeling'] as Tildeling;
+                if (errorCode === 409) leggTilTildelingsvarsel(`${tildeling.navn} har allerede tatt saken.`);
+                else leggTilTildelingsvarsel('Kunne ikke tildele sak.');
+
                 client.refetchQueries({ include: [FetchOppgaverDocument] });
                 return Promise.reject('Kunne ikke tildele sak.');
             });
     };
+    return [opprettTildeling, data];
 };
-
-type GraphQLRequestError = {
-    response: { errors: [{ message: string; extensions: { code: { value: number }; tildeling: Tildeling } }] };
-};
-
-export const useFjernTildeling = (): ((oppgavereferanse: string) => Promise<Maybe<boolean> | undefined>) => {
+export const useFjernTildeling = (): [
+    (oppgavereferanse: string) => Promise<Maybe<boolean> | undefined>,
+    MutationResult<OpprettTildelingMutation>,
+] => {
     const [tildelinger, setTildelinger] = useRecoilState(tildelingState);
-    const [fjernTildelingMutation] = useMutation(FjernTildelingDocument);
+    const [fjernTildelingMutation, data] = useMutation(FjernTildelingDocument);
 
     const leggTilTildelingsvarsel = useLeggTilTildelingsvarsel();
     const fjernTildelingsvarsel = useFjernTildelingsvarsel();
 
-    return (oppgavereferanse) => {
+    const fjernTildeling = (oppgavereferanse: string): Promise<Maybe<boolean> | undefined> => {
         fjernTildelingsvarsel();
         return fjernTildelingMutation({
             variables: { oppgaveId: oppgavereferanse },
@@ -100,7 +106,7 @@ export const useFjernTildeling = (): ((oppgavereferanse: string) => Promise<Mayb
             .then((result) => {
                 setTildelinger({
                     ...tildelinger,
-                    [oppgavereferanse]: undefined,
+                    [oppgavereferanse]: null,
                 });
                 return result.data?.fjernTildeling;
             })
@@ -109,11 +115,13 @@ export const useFjernTildeling = (): ((oppgavereferanse: string) => Promise<Mayb
                 return Promise.reject('Kunne ikke fjerne tildeling av sak.');
             });
     };
+    return [fjernTildeling, data];
 };
 export const useLeggPåVent = (): ((
     oppgavereferanse: string,
     notat: NotatDTO,
 ) => Promise<Maybe<Tildeling> | undefined>) => {
+    const [tildelinger, setTildelinger] = useRecoilState(tildelingState);
     const [leggPåVentMutation] = useMutation(LeggPaaVentDocument);
 
     return (oppgavereferanse: string, notat: NotatDTO) => {
@@ -128,11 +136,18 @@ export const useLeggPåVent = (): ((
                 });
             },
         })
-            .then((response) => response.data?.leggPaaVent)
+            .then((response) => {
+                setTildelinger({
+                    ...tildelinger,
+                    [oppgavereferanse]: response.data?.leggPaaVent,
+                });
+                return response.data?.leggPaaVent;
+            })
             .catch(() => Promise.reject('Kunne ikke legge oppgave på vent.'));
     };
 };
 export const useFjernPåVent = (): ((oppgavereferanse: string) => Promise<Maybe<Tildeling> | undefined>) => {
+    const [tildelinger, setTildelinger] = useRecoilState(tildelingState);
     const [fjernPåVentMutation] = useMutation(FjernPaaVentDocument);
     return (oppgavereferanse) => {
         return fjernPåVentMutation({
@@ -146,7 +161,19 @@ export const useFjernPåVent = (): ((oppgavereferanse: string) => Promise<Maybe<
                 });
             },
         })
-            .then((response) => response.data?.fjernPaaVent)
+            .then((response) => {
+                setTildelinger({
+                    ...tildelinger,
+                    [oppgavereferanse]: tildelinger[oppgavereferanse] && {
+                        epost: tildelinger[oppgavereferanse]?.epost ?? '',
+                        navn: tildelinger[oppgavereferanse]?.navn ?? '',
+                        oid: tildelinger[oppgavereferanse]?.oid ?? '',
+                        paaVent: false,
+                        reservert: false,
+                    },
+                });
+                return response.data?.fjernPaaVent;
+            })
             .catch(() => Promise.reject('Kunne ikke fjerne på-vent-status fra oppgave.'));
     };
 };
