@@ -54,7 +54,7 @@ const getDisplayText = (dag?: UtbetalingstabellDag): string | null => {
 
     if (dag.erAvvist) {
         return `${dagtype} (Avslått)`;
-    } else if (dag.erAGP && dagtype === 'Syk (NAV)') {
+    } else if (dag.erAGP && ['Syk (NAV)', 'Egenmelding'].includes(dagtype)) {
         return dagtype;
     } else if (dag.erAGP && (typeof dag?.personbeløp === 'number' || typeof dag?.arbeidsgiverbeløp === 'number')) {
         return `${dagtype} (NAV)`;

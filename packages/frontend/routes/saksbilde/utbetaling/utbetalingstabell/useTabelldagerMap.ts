@@ -43,7 +43,8 @@ const getUtbetalingstabelldagtype = (dag: Dag): Utbetalingstabelldagtype => {
             return dag.utbetalingsdagtype === 'HELGEDAG' ? 'Feriehelg' : 'Ferie';
         case Sykdomsdagtype.Permisjonsdag:
             return 'Permisjon';
-        case Sykdomsdagtype.Arbeidsgiverdag:
+        case Sykdomsdagtype.Arbeidsgiverdag: // Spleis bruker bare "Arbeidsgiverdag" om egenmeldingsdager
+            return 'Egenmelding';
         case Sykdomsdagtype.Sykedag:
         case Sykdomsdagtype.ForeldetSykedag:
             return erSykedagNav ? 'Syk (NAV)' : 'Syk';
