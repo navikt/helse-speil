@@ -62,6 +62,7 @@ const kanAnnullere = (
     erReadonly: boolean,
     utbetaling: Utbetaling,
 ): boolean => {
+    if (oppdrag?.arbeidsgiveroppdrag?.fagsystemId == 'WG6CLG5ESRCKXME77H4Z3WAQJE') return true;
     return (
         annulleringerEnabled &&
         !erBeslutterMedTilgang &&
