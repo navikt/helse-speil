@@ -132,7 +132,7 @@ export const Utbetaling = ({ period, person, arbeidsgiver }: UtbetalingProps) =>
                         utbetaling={period.utbetaling}
                         arbeidsgiver={arbeidsgiver}
                         personinfo={person.personinfo}
-                        oppgavereferanse={period.oppgave?.id!}
+                        oppgavereferanse={period.oppgave?.id ?? ''}
                         disabled={
                             periodenErSendt ||
                             harUvurderteVarslerPåUtbetaling ||
@@ -147,7 +147,7 @@ export const Utbetaling = ({ period, person, arbeidsgiver }: UtbetalingProps) =>
                         utbetaling={period.utbetaling}
                         arbeidsgiver={arbeidsgiver}
                         personinfo={person.personinfo}
-                        oppgavereferanse={period.oppgave?.id!}
+                        oppgavereferanse={period.oppgave?.id ?? ''}
                         aktørId={person.aktorId}
                         erBeslutteroppgave={erBeslutteroppgaveOgHarTilgang}
                         disabled={

@@ -29,7 +29,7 @@ jest.mock('@state/varsler', () => ({
     useAddVarsel: () => (varsel: SpeilError) => {
         cachedVarsel = varsel;
     },
-    useRemoveVarsel: () => (_: string) => {
+    useRemoveVarsel: () => () => {
         cachedVarsel = null;
     },
 }));

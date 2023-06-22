@@ -7,8 +7,8 @@ import { Dropdown } from '@navikt/ds-react-internal';
 import styles from './AsyncMenuButton.module.css';
 
 interface AsyncMenuButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-    asyncOperation: () => Promise<any>;
-    onSuccess?: (result?: any) => void;
+    asyncOperation: () => Promise<unknown>;
+    onSuccess?: (result?: unknown) => void;
     onFail?: (error: Error) => void;
     swallorErrors?: boolean;
 }

@@ -3,11 +3,11 @@ type FetchPersonQuery = import('@io/graphql').FetchPersonQuery;
 type SpeilError = import('@utils/error').SpeilError;
 
 declare module '*.png' {
-    const value: any;
+    const value: unknown;
 }
 
 declare module '*.svg' {
-    const value: any;
+    const value: unknown;
 }
 
 declare type DateString = string;
@@ -95,4 +95,4 @@ declare type FetchedBeregnetPeriode = Omit<BeregnetPeriode, 'oppgavereferanse'>;
 
 declare type ActivePeriod = FetchedBeregnetPeriode | UberegnetPeriode | GhostPeriode;
 
-type OverridableConstructor<T, E = {}> = (overrides?: Partial<T>) => T & E;
+type OverridableConstructor<T, E = object> = (overrides?: Partial<T>) => T & E;

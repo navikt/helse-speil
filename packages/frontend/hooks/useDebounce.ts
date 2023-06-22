@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 
-export const useDebounce = (triggerCondition: boolean, delayMs: number = 250) => {
+export const useDebounce = (triggerCondition: boolean, delayMs = 250) => {
     const [currentCondition, setCurrentCondition] = useState(false);
     const conditionRef = useRef(false);
 

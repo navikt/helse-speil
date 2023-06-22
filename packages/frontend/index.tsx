@@ -10,6 +10,6 @@ import { AppWithRoutingAndState as App } from './routes/App';
 
 window.global = window;
 
-const root = createRoot(document.getElementById('root')!);
+const root = createRoot(document.getElementById('root') as Element);
 
 root.render(<App />);

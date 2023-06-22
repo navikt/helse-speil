@@ -36,7 +36,7 @@ export const PopoverHjelpetekst: React.FC<PopoverHjelpetekstProps> = ({ children
             <Ikon
                 ref={ref}
                 onClick={() => {
-                    anchor ? setAnchor(null) : setAnchor(ref.current!);
+                    anchor ? setAnchor(null) : setAnchor(ref.current);
                 }}
             >
                 {ikon}

@@ -64,7 +64,9 @@ describe('useCurrentArbeidsgiver', () => {
     });
 
     it('returnerer null hvis det ikke finnes en aktiv periode', () => {
-        const initializer = () => {};
+        const initializer = () => {
+            // do nothing
+        };
         const { result } = renderHook(() => useCurrentArbeidsgiver(), {
             wrapper: wrapperWithRecoilInitializer(initializer),
         });

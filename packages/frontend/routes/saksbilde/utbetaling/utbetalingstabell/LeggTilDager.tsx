@@ -103,7 +103,7 @@ export const LeggTilDager = React.memo(({ periodeFom, onSubmitPølsestrekk }: Le
             <form onSubmit={form.handleSubmit(handleSubmit)}>
                 <div className={styles.StrekkePølse}>
                     <DatePicker
-                        // @ts-ignore
+                        // @ts-expect-error Det er noe muffins med date picker, hold ds oppdatert i håp om at feilen løses
                         defaultMonth={dayjs(periodeFom, ISO_DATOFORMAT).subtract(1, 'day').toDate()}
                         onSelect={(date: Date | undefined) => {
                             oppdaterFom(dayjs(date).format(NORSK_DATOFORMAT));

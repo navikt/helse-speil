@@ -19,7 +19,7 @@ export type SpeilResponse<T = null> = {
     data?: T;
 };
 
-type Headers = { [key: string]: any };
+type Headers = { [key: string]: unknown };
 
 // eslint-disable-next-line no-undef
 const baseUrl = (process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : '') + '/api';
@@ -64,7 +64,7 @@ const get = async <T>(url: string, options?: Options): Promise<SpeilResponse<T>>
     };
 };
 
-export const post = async (url: string, data: any, headere?: Headers): Promise<SpeilResponse<any>> => {
+export const post = async (url: string, data: unknown, headere?: Headers): Promise<SpeilResponse<unknown>> => {
     const response = await fetch(url, {
         method: 'POST',
         headers: {
@@ -86,12 +86,12 @@ export const post = async (url: string, data: any, headere?: Headers): Promise<S
     };
 };
 
-export const del = async (url: string, data?: any, options?: Options) => {
+export const del = async (url: string, data?: unknown, options?: Options) => {
     const response = await fetch(url, {
         method: 'DELETE',
         body: JSON.stringify(data),
         ...options,
-    });
+    } as RequestInit);
 
     if (response.status >= 400) {
         throw ResponseError(response.status);
@@ -99,7 +99,7 @@ export const del = async (url: string, data?: any, options?: Options) => {
     return response;
 };
 
-export const put = async (url: string, data: any, headere?: Headers): Promise<SpeilResponse<any>> => {
+export const put = async (url: string, data: unknown, headere?: Headers): Promise<SpeilResponse<unknown>> => {
     const response = await fetch(url, {
         method: 'PUT',
         headers: {
@@ -131,7 +131,10 @@ export const getOpptegnelser = async (sisteSekvensId?: number): Promise<SpeilRes
 export const getNotater = async (vedtaksperiodeIder: string[]): Promise<{ vedtaksperiodeId: Array<ExternalNotat> }> => {
     return get<{ vedtaksperiodeId: ExternalNotat[] }>(
         `${baseUrl}/notater?vedtaksperiodeId=${vedtaksperiodeIder.join('&vedtaksperiodeId=')}`,
-    ).then((response) => response.data!);
+    ).then(({ data }) => {
+        if (data === undefined) throw 'Notater response mangler data';
+        return data;
+    });
 };
 
 const postVedtak = async (

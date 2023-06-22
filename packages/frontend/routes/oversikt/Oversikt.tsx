@@ -61,7 +61,6 @@ const useResetPersonOnMount = (): void => {
     }, []);
 };
 
-// Bruker any fordi hooken ikke har noe forhold til innholdet i Loadablen
 export const Oversikt = () => {
     const oppgaverResponse = useOppgaverFilteredByTab();
     const aktivTab = useAktivTab();

@@ -2,7 +2,7 @@ import { Subsumsjon } from '../../routes/saksbilde/sykepengegrunnlag/overstyring
 
 export interface Options {
     method?: string;
-    headers?: { [key: string]: any };
+    headers?: { [key: string]: unknown };
 }
 
 export type OverstyrtDagtype =

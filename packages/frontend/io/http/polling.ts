@@ -19,9 +19,9 @@ export const usePollEtterOpptegnelser = () => {
     useEffect(() => {
         function tick() {
             getOpptegnelser(sisteSekvensId)
-                .then((response: SpeilResponse<Array<Opptegnelse>>) => {
-                    if (response.data!.length > 0) {
-                        setOpptegnelser(response.data!);
+                .then(({ data }: SpeilResponse<Array<Opptegnelse>>) => {
+                    if (data && data.length > 0) {
+                        setOpptegnelser(data);
                         resetPollefrekvens();
                     }
                 })
@@ -33,7 +33,7 @@ export const usePollEtterOpptegnelser = () => {
                 });
         }
 
-        let id = setInterval(tick, opptegnelsePollingTime);
+        const id = setInterval(tick, opptegnelsePollingTime);
         return () => clearInterval(id);
     }, [opptegnelsePollingTime, sisteSekvensId]);
 };

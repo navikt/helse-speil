@@ -55,7 +55,7 @@ const harFunn = (funn?: Maybe<Faresignal[]>): funn is Faresignal[] => {
 
 interface FaresignalkategoriProps {
     ikon: ReactNode;
-    overskrift: String;
+    overskrift: string;
     faresignaler: Faresignal[];
     vurderingIkon: ReactNode;
 }

@@ -16,7 +16,7 @@ export const useRefreshPersonVedOpptegnelse = () => {
         if (
             currentPerson.state === 'hasValue' &&
             currentPerson.contents?.aktorId &&
-            personHarFåttOpptegnelse(opptegnelser, currentPerson.contents!.aktorId)
+            personHarFåttOpptegnelse(opptegnelser, currentPerson.contents.aktorId)
         ) {
             refetchPerson();
         }

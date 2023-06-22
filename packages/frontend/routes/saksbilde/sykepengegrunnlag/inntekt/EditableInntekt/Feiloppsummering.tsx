@@ -10,7 +10,7 @@ interface FeiloppsummeringProps {
     errors: FieldErrors;
 }
 
-//TODO: Fiks opp typing, fjern any
+//TODO: Fiks opp typing, fjern any. Bruk heller <ErrorMessage /> fra react-hook-form
 export const Feiloppsummering = ({ feiloppsummeringRef, errors }: FeiloppsummeringProps) => (
     <div className={styles.Feiloppsummering}>
         <ErrorSummary ref={feiloppsummeringRef} heading="Skjemaet inneholder følgende feil:">
@@ -24,6 +24,7 @@ export const Feiloppsummering = ({ feiloppsummeringRef, errors }: Feiloppsummeri
                             </ErrorSummary.Item>
                         );
                     } else {
+                        // eslint-disable-next-line @typescript-eslint/no-explicit-any
                         return (Object.entries(error as any) as any[])
                             ?.filter(
                                 ([_, refusjonserror]) =>
@@ -34,6 +35,7 @@ export const Feiloppsummering = ({ feiloppsummeringRef, errors }: Feiloppsummeri
                             )
                             ?.map(([_, refusjonserror]) => {
                                 return Object.entries(refusjonserror)?.map(
+                                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
                                     ([id, refusjonstypeerror]: [string, any], index) => {
                                         if (refusjonstypeerror?.message) {
                                             return (

@@ -12,7 +12,7 @@ import { usePopoverAnchor } from './hooks/usePopoverAnchor';
 
 import styles from './Pins.module.css';
 
-interface PinProps extends React.HTMLAttributes<HTMLDivElement> {}
+type PinProps = React.HTMLAttributes<HTMLDivElement>;
 
 const Pin: React.FC<PinProps> = ({ children, ...divProps }) => {
     const { onMouseOver, onMouseOut, ...popoverProps } = usePopoverAnchor();

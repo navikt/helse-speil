@@ -59,7 +59,7 @@ interface NyttNotatModalProps {
     onClose: (event: React.SyntheticEvent) => void;
     navn: Personnavn;
     vedtaksperiodeId: string;
-    onSubmitOverride?: (notattekst: string) => Promise<any>;
+    onSubmitOverride?: (notattekst: string) => Promise<unknown>;
     errorOverride?: string | undefined;
     notattype: NotatType;
     ekstraInnhold?: ReactNode;

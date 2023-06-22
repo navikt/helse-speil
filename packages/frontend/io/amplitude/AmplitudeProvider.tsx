@@ -73,7 +73,7 @@ const useLogEvent = (): ((event: Amplitude.LogEvent, begrunnelser?: Array<string
     };
 };
 
-const _AmplitudeProvider: React.FC<PropsWithChildren<{}>> = ({ children }) => {
+const _AmplitudeProvider: React.FC<PropsWithChildren<object>> = ({ children }) => {
     useStoreÅpnetTidspunkt();
 
     const logEvent = useLogEvent();

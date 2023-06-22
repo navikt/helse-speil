@@ -67,7 +67,7 @@ const reducer = (state: State, action: Action) => {
     }
 };
 
-interface NotathendelseProps extends Omit<NotathendelseObject, 'type'> {}
+type NotathendelseProps = Omit<NotathendelseObject, 'type'>;
 
 export const Notathendelse: React.FC<NotathendelseProps> = ({
     id,

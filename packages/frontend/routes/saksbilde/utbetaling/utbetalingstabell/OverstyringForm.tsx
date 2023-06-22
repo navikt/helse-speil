@@ -58,7 +58,7 @@ export const OverstyringForm: React.FC<OverstyringFormProps> = ({
             return;
         }
 
-        let dagerIHalenAvPerioden: UtbetalingstabellDag[] = overstyrtTilArbeidsdager.find((dag) => dag.dato === hale)
+        const dagerIHalenAvPerioden: UtbetalingstabellDag[] = overstyrtTilArbeidsdager.find((dag) => dag.dato === hale)
             ? overstyrtTilArbeidsdager.reverse().reduce((latest: UtbetalingstabellDag[], periode) => {
                   return dayjs(
                       latest[latest.length - 1]?.dato ??
@@ -71,7 +71,7 @@ export const OverstyringForm: React.FC<OverstyringFormProps> = ({
               }, [])
             : [];
 
-        let dagerSomKanOverstyresTilArbeidsdag: UtbetalingstabellDag[] = overstyrtTilArbeidsdager.filter(
+        const dagerSomKanOverstyresTilArbeidsdag: UtbetalingstabellDag[] = overstyrtTilArbeidsdager.filter(
             (dag) =>
                 dag.erAGP ||
                 dag.erNyDag ||

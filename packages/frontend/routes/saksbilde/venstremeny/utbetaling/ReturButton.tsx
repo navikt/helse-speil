@@ -64,7 +64,7 @@ export const ReturButton: React.FC<ReturButtonProps> = ({
     const returnerUtbetaling = (notattekst: string) => {
         setError(undefined);
 
-        return postSendTilbakeTilSaksbehandler(activePeriod.oppgave?.id!, {
+        return postSendTilbakeTilSaksbehandler(activePeriod.oppgave?.id ?? '', {
             tekst: notattekst,
             type: 'Retur',
         })

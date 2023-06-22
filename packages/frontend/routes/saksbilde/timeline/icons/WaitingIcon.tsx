@@ -1,6 +1,6 @@
 import React from 'react';
 
-interface WaitingIconProps extends React.SVGAttributes<SVGSVGElement> {}
+type WaitingIconProps = React.SVGAttributes<SVGSVGElement>;
 
 export const WaitingIcon: React.FC<WaitingIconProps> = ({ ...svgProps }) => {
     return (

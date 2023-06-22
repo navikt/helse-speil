@@ -73,7 +73,7 @@ export const usePagination = () => useRecoilValue(pagination);
 
 export const useSetPagination = () => useSetRecoilState(pagination);
 
-export const useInitializePagination = (numberOfEntries: number, entriesPerPage: number = 20) => {
+export const useInitializePagination = (numberOfEntries: number, entriesPerPage = 20) => {
     const pagination = usePagination();
     const setPagination = useSetPagination();
     useLayoutEffect(() => {

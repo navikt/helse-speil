@@ -8,8 +8,16 @@ interface AmplitudeContextValue {
 }
 
 export const AmplitudeContext = createContext<AmplitudeContextValue>({
-    logOppgaveGodkjent(): void {},
-    logOppgaveForkastet(): void {},
-    logTotrinnsoppgaveReturnert(): void {},
-    logTotrinnsoppgaveTilGodkjenning(): void {},
+    logOppgaveGodkjent(): void {
+        //do nothing
+    },
+    logOppgaveForkastet(): void {
+        // do nothing
+    },
+    logTotrinnsoppgaveReturnert(): void {
+        // do nothing
+    },
+    logTotrinnsoppgaveTilGodkjenning(): void {
+        // do nothing
+    },
 });

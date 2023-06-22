@@ -32,7 +32,7 @@ export class FlereFodselsnumreError extends FetchError {
     }
 }
 
-export const isFetchErrorArray = (errors: any): errors is Array<FetchError> => {
+export const isFetchErrorArray = (errors: unknown): errors is Array<FetchError> => {
     return (
         Array.isArray(errors) &&
         errors.length > 0 &&

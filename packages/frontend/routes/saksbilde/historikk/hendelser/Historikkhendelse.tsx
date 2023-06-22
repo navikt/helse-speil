@@ -45,7 +45,7 @@ const getIcon = (type: PeriodehistorikkType): ReactNode => {
     }
 };
 
-interface HistorikkhendelseProps extends Omit<HistorikkhendelseObject, 'type' | 'id'> {}
+type HistorikkhendelseProps = Omit<HistorikkhendelseObject, 'type' | 'id'>;
 
 export const Historikkhendelse: React.FC<HistorikkhendelseProps> = ({ historikktype, saksbehandler, timestamp }) => {
     const [expanded, setExpanded] = useState(false);

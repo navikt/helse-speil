@@ -16,7 +16,7 @@ import { HendelseDate } from './HendelseDate';
 
 import styles from './Overstyringshendelse.module.css';
 
-interface InntektoverstyringhendelseProps extends Omit<InntektoverstyringhendelseObject, 'type' | 'id'> {}
+type InntektoverstyringhendelseProps = Omit<InntektoverstyringhendelseObject, 'type' | 'id'>;
 
 export const Inntektoverstyringhendelse: React.FC<InntektoverstyringhendelseProps> = ({
     erRevurdering,

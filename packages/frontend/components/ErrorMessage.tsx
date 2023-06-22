@@ -8,7 +8,7 @@ const Text = styled(BodyShort)`
     font-weight: 600;
 `;
 
-interface ErrorMessageProps extends React.HTMLAttributes<HTMLParagraphElement> {}
+type ErrorMessageProps = React.HTMLAttributes<HTMLParagraphElement>;
 
 export const ErrorMessage: React.FC<ErrorMessageProps> = ({ children, ...rest }) => (
     <Text as="p" {...rest}>

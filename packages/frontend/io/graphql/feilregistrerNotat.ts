@@ -7,6 +7,6 @@ const feilregistrerNotatMutation = gql`
     ${rawQuery}
 `;
 
-export const feilregistrerNotat = (): Promise<Boolean> => {
+export const feilregistrerNotat = (): Promise<boolean> => {
     return request(baseUrl, feilregistrerNotatMutation);
 };

@@ -26,7 +26,7 @@ const transformToUtf8 = (token: string) =>
     decodeURIComponent(
         atob(token)
             .split('')
-            .map((char: any) => '%' + ('00' + char.charCodeAt(0).toString(16)).slice(-2))
+            .map((char) => '%' + ('00' + char.charCodeAt(0).toString(16)).slice(-2))
             .join(''),
     );
 

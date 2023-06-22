@@ -54,7 +54,7 @@ export const AvvisningButton: React.FC<AvvisningButtonProps> = ({
         const skjemaKommentar: string[] = skjema.kommentar ? [skjema.kommentar] : [];
         const begrunnelser: string[] = [skjema.årsak.valueOf(), ...skjemaBegrunnelser, ...skjemaKommentar];
 
-        postSendTilInfotrygd(activePeriod.oppgave?.id!, aktørId, skjema)
+        postSendTilInfotrygd(activePeriod.oppgave?.id ?? '', aktørId, skjema)
             .then(() => {
                 amplitude.logOppgaveForkastet(begrunnelser);
                 addInfotrygdtoast();

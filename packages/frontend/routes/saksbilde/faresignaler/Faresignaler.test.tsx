@@ -3,7 +3,7 @@ import React from 'react';
 import '@testing-library/jest-dom/extend-expect';
 import { render, screen } from '@testing-library/react';
 
-import { Faresignaler, FaresignalerWithContent } from './Faresignaler';
+import { FaresignalerWithContent } from './Faresignaler';
 
 describe('Faresignaler', () => {
     test('rendrer Faresignaler oppdaget og kontrollert', async () => {

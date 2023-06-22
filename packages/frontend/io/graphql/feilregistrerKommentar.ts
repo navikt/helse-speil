@@ -7,6 +7,6 @@ const feilregistrerKommentarMutation = gql`
     ${rawQuery}
 `;
 
-export const feilregistrerKommentar = (id: number): Promise<Boolean> => {
+export const feilregistrerKommentar = (id: number): Promise<boolean> => {
     return request(baseUrl, feilregistrerKommentarMutation, { id });
 };

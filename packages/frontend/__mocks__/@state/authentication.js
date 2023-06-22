@@ -1,3 +1,4 @@
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const { nanoid } = require('nanoid');
 
 module.exports = {

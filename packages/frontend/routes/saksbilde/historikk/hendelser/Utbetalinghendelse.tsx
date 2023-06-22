@@ -27,7 +27,7 @@ const getTitle = (type: Utbetalingtype, automatisk: boolean, godkjent: boolean):
     }
 };
 
-interface UtbetalinghendelseProps extends Omit<UtbetalinghendelseObject, 'type' | 'id'> {}
+type UtbetalinghendelseProps = Omit<UtbetalinghendelseObject, 'type' | 'id'>;
 
 export const Utbetalinghendelse: React.FC<UtbetalinghendelseProps> = ({
     automatisk,

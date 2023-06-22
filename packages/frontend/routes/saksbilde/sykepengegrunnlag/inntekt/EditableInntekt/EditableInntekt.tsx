@@ -3,7 +3,7 @@ import { OmregnetÅrsinntekt } from './OmregnetÅrsinntekt';
 import dayjs from 'dayjs';
 import React, { FormEvent, useEffect, useRef, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
-import { useRecoilState } from 'recoil';
+import { useRecoilValue } from 'recoil';
 
 import { Alert, BodyShort, Button, Loader } from '@navikt/ds-react';
 
@@ -55,7 +55,7 @@ export const EditableInntekt = ({
     const period = usePeriodForSkjæringstidspunktForArbeidsgiver(skjæringstidspunkt, organisasjonsnummer);
     const [harIkkeSkjemaEndringer, setHarIkkeSkjemaEndringer] = useState(false);
     const [showSlettLokaleOverstyringerModal, setShowSlettLokaleOverstyringerModal] = useState(false);
-    const [lokaleInntektoverstyringer, _] = useRecoilState(inntektOgRefusjonState);
+    const lokaleInntektoverstyringer = useRecoilValue(inntektOgRefusjonState);
     const lokaleRefusjonsopplysninger = useLokaleRefusjonsopplysninger(organisasjonsnummer, skjæringstidspunkt);
     const lokaltMånedsbeløp = useLokaltMånedsbeløp(organisasjonsnummer, skjæringstidspunkt);
     const førstePeriodeForSkjæringstidspunkt = getFørstePeriodeForSkjæringstidspunkt(skjæringstidspunkt, arbeidsgiver);
@@ -97,7 +97,11 @@ export const EditableInntekt = ({
 
     const confirmChanges = () => {
         const { begrunnelseId, forklaring, manedsbelop, refusjonsopplysninger } = form.getValues();
-        const begrunnelse = begrunnelser.find((begrunnelse) => begrunnelse.id === begrunnelseId)!!;
+        const begrunnelse = begrunnelser.find((begrunnelse) => begrunnelse.id === begrunnelseId);
+
+        if (begrunnelse === undefined) {
+            throw 'Mangler begrunnelse for endring av inntekt';
+        }
 
         const overstyrtInntektOgRefusjon: OverstyrtInntektOgRefusjonDTO = {
             fødselsnummer: metadata.fødselsnummer,

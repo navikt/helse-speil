@@ -13,7 +13,9 @@ interface DropdownContextValue {
 }
 
 export const DropdownContext = React.createContext<DropdownContextValue>({
-    lukk: () => {},
+    lukk: () => {
+        // do nothing
+    },
 });
 
 interface DropdownProps extends Omit<HTMLAttributes<HTMLButtonElement>, 'title'> {

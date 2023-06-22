@@ -203,7 +203,11 @@ const OverstyrArbeidsforholdSkjema = ({
 
     const confirmChanges = () => {
         const { begrunnelseId, forklaring } = form.getValues();
-        const begrunnelse = begrunnelser.find((begrunnelse) => begrunnelse.id === begrunnelseId)!!;
+        const begrunnelse = begrunnelser.find((begrunnelse) => begrunnelse.id === begrunnelseId);
+        if (begrunnelse === undefined) {
+            throw 'Mangler begrunnelse for overstyring av arbeidsforhold';
+        }
+
         const overstyrtArbeidsforhold = getOverstyrtArbeidsforhold(
             organisasjonsnummerAktivPeriode,
             skjæringstidspunkt,

@@ -89,9 +89,9 @@ const harRelevanteDagoverstyringer = (overstyringer: Array<Overstyring>, tom?: D
 
 const beslutteroppgave = (
     periodState: PeriodState,
-    erBeslutteroppgave: boolean = false,
+    erBeslutteroppgave = false,
     endringerEtterNyesteUtbetalingPåPerson?: Maybe<Array<Overstyring>>,
-    harDagOverstyringer: boolean = false,
+    harDagOverstyringer = false,
     activePeriodTom?: string,
     navnPåDeaktiverteGhostArbeidsgivere?: string,
 ) => {

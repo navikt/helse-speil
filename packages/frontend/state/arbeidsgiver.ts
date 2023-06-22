@@ -1,6 +1,6 @@
 import dayjs from 'dayjs';
 import { useMemo } from 'react';
-import { useRecoilState } from 'recoil';
+import { useRecoilValue } from 'recoil';
 
 import {
     Arbeidsforholdoverstyring,
@@ -285,7 +285,7 @@ export const useLokaleRefusjonsopplysninger = (
     organisasjonsnummer: string,
     skjæringstidspunkt: string,
 ): Refusjonsopplysning[] => {
-    const [lokaleInntektoverstyringer, _] = useRecoilState(inntektOgRefusjonState);
+    const lokaleInntektoverstyringer = useRecoilValue(inntektOgRefusjonState);
 
     if (lokaleInntektoverstyringer.skjæringstidspunkt !== skjæringstidspunkt) return [];
 
@@ -299,7 +299,7 @@ export const useLokaleRefusjonsopplysninger = (
 };
 
 export const useLokaltMånedsbeløp = (organisasjonsnummer: string, skjæringstidspunkt: string): number | null => {
-    const [lokaleInntektoverstyringer, _] = useRecoilState(inntektOgRefusjonState);
+    const lokaleInntektoverstyringer = useRecoilValue(inntektOgRefusjonState);
 
     if (lokaleInntektoverstyringer.skjæringstidspunkt !== skjæringstidspunkt) return null;
 

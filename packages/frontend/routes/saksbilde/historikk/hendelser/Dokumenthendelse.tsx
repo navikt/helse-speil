@@ -34,7 +34,7 @@ const getKildetekst = (dokumenttype: DokumenthendelseObject['dokumenttype']): st
     }
 };
 
-interface DokumenthendelseProps extends Omit<DokumenthendelseObject, 'type' | 'id'> {}
+type DokumenthendelseProps = Omit<DokumenthendelseObject, 'type' | 'id'>;
 
 export const Dokumenthendelse: React.FC<DokumenthendelseProps> = ({ dokumenttype, timestamp }) => {
     return (

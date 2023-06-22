@@ -24,7 +24,7 @@ export const isBeregnetPeriode = (
     (periode as BeregnetPeriode)?.beregningId !== null && (periode as BeregnetPeriode)?.beregningId !== undefined;
 
 export const isGhostPeriode = (period?: Maybe<GhostPeriode | Periode | DatePeriod>): period is GhostPeriode =>
-    typeof (period as any)?.deaktivert === 'boolean';
+    typeof (period as GhostPeriode)?.deaktivert === 'boolean';
 
 export const isUberegnetPeriode = (period?: Maybe<GhostPeriode | Periode | DatePeriod>): period is UberegnetPeriode =>
     period !== null &&
@@ -68,7 +68,7 @@ export const isArbeidsforholdoverstyringer = (
     overstyringer?: Maybe<Array<Overstyring>>,
 ): overstyringer is Array<Arbeidsforholdoverstyring> => overstyringer?.every(isArbeidsforholdoverstyring) ?? false;
 
-export const isPerson = (person?: Maybe<FetchedPerson | any>): person is FetchedPerson => {
+export const isPerson = (person?: Maybe<FetchedPerson>): person is FetchedPerson => {
     return person !== undefined && person !== null && typeof person['fodselsnummer'] === 'string';
 };
 

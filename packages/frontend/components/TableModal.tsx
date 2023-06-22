@@ -36,7 +36,7 @@ const Modal = styled(SpeilModal)`
     }
 `;
 
-interface TableModalProps extends ModalProps {}
+type TableModalProps = ModalProps;
 
 export const TableModal: React.FC<TableModalProps> = ({ children, ...modalProps }) => (
     <Modal {...modalProps}>

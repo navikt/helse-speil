@@ -25,7 +25,9 @@ export const useIsWiderThan = (container: RefObject<HTMLElement>, targetWidth: 3
                 resizeObserver.unobserve(currentContainer);
             };
         }
-        return () => {};
+        return () => {
+            // do nothing
+        };
     }, [container, targetWidth]);
 
     return isWider;

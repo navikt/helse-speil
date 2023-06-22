@@ -50,7 +50,7 @@ const groupSimilarDays = (days: Array<OverstyrtDag>): Array<GroupedDays> => {
     }, []);
 };
 
-interface DagoverstyringhendelseProps extends Omit<DagoverstyringhendelseObject, 'type' | 'id'> {}
+type DagoverstyringhendelseProps = Omit<DagoverstyringhendelseObject, 'type' | 'id'>;
 
 export const Dagoverstyringhendelse: React.FC<DagoverstyringhendelseProps> = ({
     erRevurdering,

@@ -1,5 +1,5 @@
 import path from 'path';
-// @ts-ignore
+// @ts-expect-error Vi får feil på noen imports på grunn av mismatch med commonjs og module
 import { defineConfig, splitVendorChunkPlugin } from 'vite';
 
 import react from '@vitejs/plugin-react';

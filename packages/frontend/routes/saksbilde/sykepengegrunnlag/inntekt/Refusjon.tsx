@@ -58,8 +58,7 @@ export const Refusjon = ({ fraRefusjonsopplysninger, lokaleRefusjonsopplysninger
                                 ? dayjs(refusjonsopplysning?.fom, ISO_DATOFORMAT).toDate()
                                 : undefined
                         }
-                        // TODO: Må oppgradere designsystemet til v2.0+ for å fjerne @ts-ignore
-                        // @ts-ignore
+                        // @ts-expect-error Det er noe muffins med date picker, hold ds oppdatert i håp om at feilen løses
                         defaultMonth={
                             refusjonsopplysning?.fom
                                 ? dayjs(refusjonsopplysning?.fom, ISO_DATOFORMAT).isValid()
@@ -128,8 +127,7 @@ export const Refusjon = ({ fraRefusjonsopplysninger, lokaleRefusjonsopplysninger
                                 ? dayjs(refusjonsopplysning?.tom, ISO_DATOFORMAT).toDate()
                                 : undefined
                         }
-                        // TODO: Må oppgradere designsystemet til v2.0+ for å fjerne @ts-ignore
-                        // @ts-ignore
+                        // @ts-expect-error Det er noe muffins med date picker, hold ds oppdatert i håp om at feilen løses
                         defaultMonth={
                             refusjonsopplysning?.tom
                                 ? dayjs(refusjonsopplysning?.tom, ISO_DATOFORMAT).isValid()
