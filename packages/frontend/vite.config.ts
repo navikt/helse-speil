@@ -1,5 +1,6 @@
 import path from 'path';
-// @ts-expect-error Vi får feil på noen imports på grunn av mismatch med commonjs og module
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
 import { defineConfig, splitVendorChunkPlugin } from 'vite';
 
 import react from '@vitejs/plugin-react';
