@@ -8,6 +8,7 @@ import {
     Maybe,
     Overstyring,
     Periode,
+    Person,
     UberegnetPeriode,
     Vilkarsgrunnlag,
     VilkarsgrunnlagInfotrygd,
@@ -68,7 +69,7 @@ export const isArbeidsforholdoverstyringer = (
     overstyringer?: Maybe<Array<Overstyring>>,
 ): overstyringer is Array<Arbeidsforholdoverstyring> => overstyringer?.every(isArbeidsforholdoverstyring) ?? false;
 
-export const isPerson = (person?: Maybe<FetchedPerson>): person is FetchedPerson => {
+export const isPerson = (person?: Maybe<FetchedPerson | Person>): person is FetchedPerson => {
     return person !== undefined && person !== null && typeof person['fodselsnummer'] === 'string';
 };
 
