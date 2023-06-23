@@ -26,6 +26,12 @@ export const useQueryBehandledeOppgaver = (): BehandledeOppgaverResponse => {
     };
 };
 
+export interface ApolloResponse<T> {
+    data?: T;
+    error?: ApolloError;
+    loading: boolean;
+}
+
 export interface OppgaverResponse {
     oppgaver?: FetchedOppgaver;
     error?: ApolloError;

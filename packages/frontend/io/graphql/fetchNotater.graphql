@@ -1,0 +1,23 @@
+query FetchNotater($forPerioder: [String!]!) {
+    notater(forPerioder: $forPerioder) {
+        id
+        notater {
+            id
+            tekst
+            opprettet
+            saksbehandlerOid
+            saksbehandlerNavn
+            saksbehandlerEpost
+            saksbehandlerIdent
+            vedtaksperiodeId
+            feilregistrert
+            type
+            kommentarer {
+                id
+                tekst
+                opprettet
+                saksbehandlerident
+                feilregistrert_tidspunkt
+            }
+        }
+    }}

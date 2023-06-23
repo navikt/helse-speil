@@ -4,7 +4,7 @@ import { useRecoilState } from 'recoil';
 
 import { useIsReadOnlyOppgave } from '@hooks/useIsReadOnlyOppgave';
 import { FetchOppgaverQuery, OppgaveForOversiktsvisning } from '@io/graphql';
-import { useSyncNotater } from '@state/notater';
+import { useQueryNotater } from '@state/notater';
 
 import { TabType, useAktivTab } from '../../tabState';
 import { Pagination } from '../Pagination';
@@ -35,7 +35,8 @@ export const OppgaverTable: React.FC<OppgaverTableProps> = React.memo(({ oppgave
     const paginatedRows = paginateRows(pagination, sortedRows);
 
     const vedtaksperiodeIder = paginatedRows.map((t) => t.vedtaksperiodeId);
-    useSyncNotater(vedtaksperiodeIder);
+    const notater = useQueryNotater(vedtaksperiodeIder);
+    console.log(notater);
 
     return (
         <div className={styles.TableContainer}>

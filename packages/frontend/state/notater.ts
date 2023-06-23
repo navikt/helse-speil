@@ -1,16 +1,30 @@
 import dayjs from 'dayjs';
-import { useEffect } from 'react';
-import { atom, useRecoilState, useRecoilValueLoadable, useSetRecoilState } from 'recoil';
+import { atom, useRecoilState } from 'recoil';
 
-import { Notat as GraphQLNotat } from '@io/graphql';
+import { useQuery } from '@apollo/client';
+import { FetchNotaterDocument, Notat as GraphQLNotat } from '@io/graphql';
 import { getNotater } from '@io/http';
+import { ApolloResponse } from '@state/oppgaver';
 
 export const useSyncNotater = (vedtaksperiodeIder: string[]) => {
-    const setNotaterState = useSetRecoilState(notaterState);
+    useQueryNotater(vedtaksperiodeIder);
+};
 
-    useEffect(() => {
-        fetchNotater(vedtaksperiodeIder).then(setNotaterState);
-    }, [JSON.stringify(vedtaksperiodeIder)]);
+export const useQueryNotater = (vedtaksperiodeIder: string[]): ApolloResponse<Notat[]> => {
+    const fetchNotater = useQuery(FetchNotaterDocument, {
+        variables: {
+            forPerioder: vedtaksperiodeIder,
+        },
+    });
+
+    return {
+        data: fetchNotater.data?.notater
+            ?.flatMap((it) => it.notater)
+            .map(toNotat)
+            .sort((a, b) => (a.opprettet < b.opprettet ? 1 : -1)),
+        error: fetchNotater.error,
+        loading: fetchNotater.loading,
+    };
 };
 
 function fetchNotater(ider: string[]) {
@@ -38,11 +52,9 @@ export const useRefreshNotater = () => {
     };
 };
 
-export const useNotaterForVedtaksperiode = (vedtaksperiodeId?: string) => {
-    const notater = useRecoilValueLoadable<Notat[]>(notaterState);
-    return notater.state === 'hasValue'
-        ? notater.contents.filter((notat) => notat.vedtaksperiodeId == vedtaksperiodeId)
-        : [];
+export const useNotaterForVedtaksperiode = (vedtaksperiodeId: string) => {
+    const notater = useQueryNotater([vedtaksperiodeId]);
+    return notater.data?.filter((notat) => notat.vedtaksperiodeId == vedtaksperiodeId) ?? [];
 };
 
 export const toNotat = (spesialistNotat: ExternalNotat | GraphQLNotat): Notat => ({

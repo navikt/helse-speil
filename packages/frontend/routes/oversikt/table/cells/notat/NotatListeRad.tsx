@@ -1,11 +1,12 @@
 import classNames from 'classnames';
-import React, { useState } from 'react';
+import React from 'react';
 
 import { Loader } from '@navikt/ds-react';
 
+import { useLazyQuery } from '@apollo/client';
 import { LinkButton } from '@components/LinkButton';
+import { FetchNotaterDocument } from '@io/graphql';
 import { putFeilregistrertNotat } from '@io/http';
-import { useRefreshNotater } from '@state/notater';
 import { useOperationErrorHandler } from '@state/varsler';
 import { NORSK_DATOFORMAT_MED_KLOKKESLETT } from '@utils/date';
 import { ignorePromise } from '@utils/promise';
@@ -19,16 +20,15 @@ interface NotatListeRadProps {
 }
 
 export const NotatListeRad = ({ notat, vedtaksperiodeId, innloggetSaksbehandler }: NotatListeRadProps) => {
-    const [isFetching, setIsFetching] = useState(false);
-    const refreshNotater = useRefreshNotater();
+    const [refreshNotater, { loading }] = useLazyQuery(FetchNotaterDocument, {
+        initialFetchPolicy: 'network-only',
+        variables: { forPerioder: [vedtaksperiodeId] },
+    });
     const errorHandler = useOperationErrorHandler('Feilregistrering av notat');
 
     const feilregistrerNotat = () => {
-        setIsFetching(true);
         ignorePromise(
-            putFeilregistrertNotat(vedtaksperiodeId, notat.id)
-                .then(refreshNotater)
-                .finally(() => setIsFetching(false)),
+            putFeilregistrertNotat(vedtaksperiodeId, notat.id).then(() => refreshNotater()),
             errorHandler,
         );
     };
@@ -43,7 +43,7 @@ export const NotatListeRad = ({ notat, vedtaksperiodeId, innloggetSaksbehandler 
                     ? 'Feilregistrert'
                     : notat.saksbehandler.oid === innloggetSaksbehandler.oid && (
                           <LinkButton className={styles.FeilregistrerButton} onClick={feilregistrerNotat}>
-                              Feilregistrer {isFetching && <Loader size="xsmall" />}
+                              Feilregistrer {loading && <Loader size="xsmall" />}
                           </LinkButton>
                       )}
             </td>

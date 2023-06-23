@@ -6,7 +6,6 @@ import { Loader } from '@navikt/ds-react';
 import { useErTidligereSaksbehandler } from '@hooks/useErTidligereSaksbehandler';
 import { Arbeidsforholdoverstyring, Overstyring } from '@io/graphql';
 import { useHarDagOverstyringer } from '@state/arbeidsgiver';
-import { useSyncNotater } from '@state/notater';
 import { useActivePeriod } from '@state/periode';
 import { getLatestUtbetalingTimestamp, getOverstyringerForEksisterendePerioder } from '@state/selectors/person';
 import { onLazyLoadFail } from '@utils/error';
@@ -57,8 +56,6 @@ export const BeregnetPeriodeView: React.FC<BeregnetPeriodeViewProps> = ({ period
     if (!period.skjaeringstidspunkt || !period.vilkarsgrunnlagId) {
         throw Error('Mangler skjæringstidspunkt eller vilkårsgrunnlag. Ta kontakt med en utvikler.');
     }
-
-    useSyncNotater([period.vedtaksperiodeId]);
 
     const erTidligereSaksbehandler = useErTidligereSaksbehandler();
     const overstyringerEtterNyesteUtbetalingPåPerson = useOverstyringerEtterSisteGodkjenteUtbetaling(person);

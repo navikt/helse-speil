@@ -4,12 +4,13 @@ import { Controller, useForm } from 'react-hook-form';
 
 import { Button, Loader, Textarea as NavTextarea } from '@navikt/ds-react';
 
+import { useLazyQuery } from '@apollo/client';
 import { ErrorMessage } from '@components/ErrorMessage';
 import { Modal } from '@components/Modal';
 import { AnonymizableText } from '@components/anonymizable/AnonymizableText';
-import { Personnavn } from '@io/graphql';
+import { FetchNotaterDocument, Personnavn } from '@io/graphql';
 import { postNotat } from '@io/http';
-import { useNotaterForVedtaksperiode, useRefreshNotater } from '@state/notater';
+import { useNotaterForVedtaksperiode } from '@state/notater';
 import { useRefetchPerson } from '@state/person';
 import { getFormatertNavn } from '@utils/string';
 
@@ -110,7 +111,10 @@ export const NyttNotatModal = ({
     submitButtonText,
 }: NyttNotatModalProps) => {
     const notaterForOppgave = useNotaterForVedtaksperiode(vedtaksperiodeId);
-    const refreshNotater = useRefreshNotater();
+    const [refreshNotater] = useLazyQuery(FetchNotaterDocument, {
+        initialFetchPolicy: 'network-only',
+        variables: { forPerioder: [vedtaksperiodeId] },
+    });
     const refetchPerson = useRefetchPerson();
     const søkernavn = navn ? getFormatertNavn(navn, ['E', ',', 'F', 'M']) : undefined;
 

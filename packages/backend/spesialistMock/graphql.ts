@@ -112,6 +112,12 @@ const getResolvers = (): IResolvers => ({
                 })
                 .concat(tilfeldigeOppgaver(antallTilfeldigeOppgaver));
         },
+        notater: async (_, { forPerioder }: { forPerioder: string[] }) => {
+            return forPerioder.map((it) => ({
+                id: it,
+                notater: NotatMock.getNotater(it),
+            }));
+        },
     },
     Mutation: {
         feilregistrerKommentar: (_, { id }: MutationFeilregistrerKommentarArgs) => {

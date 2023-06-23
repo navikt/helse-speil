@@ -348,7 +348,7 @@ export type Mutation = {
     fjernTildeling: Scalars['Boolean']['output'];
     leggPaaVent?: Maybe<Tildeling>;
     leggTilKommentar?: Maybe<Kommentar>;
-    leggTilNotat: Scalars['Int']['output'];
+    leggTilNotat?: Maybe<Notat>;
     opprettTildeling?: Maybe<Tildeling>;
     settVarselstatusAktiv?: Maybe<VarselDto>;
     settVarselstatusVurdert?: Maybe<VarselDto>;

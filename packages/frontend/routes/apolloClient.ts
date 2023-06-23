@@ -7,6 +7,9 @@ export const client = new ApolloClient({
     cache: new InMemoryCache({
         dataIdFromObject: () => undefined,
         possibleTypes: possibletypes.possibleTypes,
-        typePolicies: { OppgaveForOversiktsvisning: { keyFields: ['id'] } },
+        typePolicies: {
+            OppgaveForOversiktsvisning: { keyFields: ['id'] },
+            Notater: { keyFields: ['id'] },
+        },
     }),
 });
