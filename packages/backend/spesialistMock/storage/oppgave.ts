@@ -1,7 +1,5 @@
 import { nanoid } from 'nanoid';
 
-import { BeregnetPeriode } from '../schemaTypes';
-
 export const getDefaultOppgave = (): Oppgave => ({
     id: nanoid(),
     erPåVent: false,
@@ -21,12 +19,5 @@ export class OppgaveMock {
             ...OppgaveMock.oppgaver.get(oppgavereferanse),
             ...oppgave,
         });
-    };
-
-    static isOnHold = (period: BeregnetPeriode): boolean => {
-        return (
-            typeof period.oppgavereferanse === 'string' &&
-            (OppgaveMock.getOppgave(period.oppgavereferanse)?.erPåVent ?? false)
-        );
     };
 }

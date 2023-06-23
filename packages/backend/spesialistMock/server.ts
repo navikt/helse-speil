@@ -1,6 +1,5 @@
 import express, { Request, Response } from 'express';
 
-import oppgaveFil from '../__mock-data__/oppgaver.json';
 import { sleep } from '../devHelpers';
 import { oppgaver } from './data/oppgaver';
 import { setUpGraphQLMiddleware } from './graphql';
@@ -37,15 +36,6 @@ app.use((req, res, next) => {
     }
     sleep(ventetid).then(next);
 });
-
-const personer: { [aktørId: string]: string } = oppgaveFil
-    .map(({ aktørId, oppgavereferanse }: { aktørId: string; oppgavereferanse: string }) => [aktørId, oppgavereferanse])
-    .reduce((acc, [aktørId, oppgavereferanse]) => {
-        let ret: {
-            [aktørId: string]: string;
-        } = { ...acc, [aktørId]: oppgavereferanse };
-        return ret;
-    }, {});
 
 app.post('/api/tildeling/:oppgavereferanse', (req: Request, res: Response) => {
     const oppgavereferanse = req.params.oppgavereferanse;
@@ -129,7 +119,8 @@ app.get('/api/notater', (req: Request, res: Response) => {
     const response: { [oppgaveref: string]: Array<Notat> } = {};
 
     for (const id of vedtaksperiodeIder) {
-        response[id] = NotatMock.getNotater(id) ?? [];
+        let notater = NotatMock.getNotater(id);
+        response[id] = notater ?? [];
     }
 
     res.send(response);

@@ -177,7 +177,7 @@ const getResolvers = (): IResolvers => ({
             }
         },
         leggPaaVent: async (_, { oppgaveId, notatType, notatTekst }: MutationLeggPaaVentArgs) => {
-            NotatMock.addNotat('uuid', { tekst: notatTekst, type: notatType });
+            NotatMock.addNotat(oppgaveId, { tekst: notatTekst, type: notatType });
             TildelingMock.setTildeling(oppgaveId, {
                 epost: 'epost@nav.no',
                 navn: 'Utvikler, Lokal',

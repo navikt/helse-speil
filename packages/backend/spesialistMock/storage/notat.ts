@@ -1,6 +1,6 @@
 import dayjs from 'dayjs';
-import { nanoid } from 'nanoid';
 
+import { oppgaver } from '../data/oppgaver';
 import {
     BeregnetPeriode,
     Kommentar,
@@ -12,14 +12,19 @@ import {
 
 const ISO_TIDSPUNKTFORMAT = 'YYYY-MM-DDTHH:mm:ss';
 
+const findVedtaksperiodeId = (id: string): UUID | undefined => {
+    return oppgaver.find((it) => it['id'] === id)?.['vedtaksperiodeId'];
+};
+
 export class NotatMock {
     private static notater: Map<UUID, Array<Notat>> = new Map();
     private static notatCounter: number = 0;
     private static kommentarCounter: number = 0;
 
-    static addNotat = (id: UUID, notatProperties?: Partial<Notat>): void => {
-        const notat = NotatMock.getMockedNotat(notatProperties);
-        NotatMock.notater.set(id, [...NotatMock.getNotater(id), notat]);
+    static addNotat = (id: string, notatProperties?: Partial<Notat>): void => {
+        const vedtaksperiodeId = findVedtaksperiodeId(id) ?? id;
+        const notat = NotatMock.getMockedNotat(vedtaksperiodeId, notatProperties);
+        NotatMock.notater.set(vedtaksperiodeId, [...NotatMock.getNotater(vedtaksperiodeId), notat]);
     };
 
     static addKommentar = ({ tekst, notatId, saksbehandlerident }: MutationLeggTilKommentarArgs): Kommentar => {
@@ -80,7 +85,7 @@ export class NotatMock {
         return [...notaterFraPeriode, ...notaterPåVedtaksperiodeId, ...notaterPåOppgavereferanse];
     };
 
-    private static getMockedNotat = (overrides?: Partial<Notat>): Notat => {
+    private static getMockedNotat = (vedtaksperiodeId: string, overrides?: Partial<Notat>): Notat => {
         return {
             id: NotatMock.notatCounter++,
             tekst: 'Revidert utgave 2',
@@ -89,7 +94,7 @@ export class NotatMock {
             saksbehandlerNavn: 'Bernt Bjelle',
             saksbehandlerEpost: 'bernt.bjelle@nav.no',
             saksbehandlerIdent: 'E123456',
-            vedtaksperiodeId: nanoid(),
+            vedtaksperiodeId: vedtaksperiodeId,
             feilregistrert: false,
             feilregistrert_tidspunkt: dayjs().format('YYYY-MM-DDTHH:mm:ss'),
             type: NotatType.PaaVent,
