@@ -40,6 +40,8 @@ interface BehandledeOppgaverResponse {
 
 export const useQueryOppgaver = (): OppgaverResponse => {
     const { data, error, loading } = useQuery(FetchOppgaverDocument, {
+        initialFetchPolicy: 'network-only',
+        nextFetchPolicy: 'cache-first',
         onError: () => {
             throw Error('Kunne ikke hente saker. Prøv igjen senere.');
         },
