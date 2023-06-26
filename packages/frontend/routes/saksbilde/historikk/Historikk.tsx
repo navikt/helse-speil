@@ -1,3 +1,4 @@
+import { Sykepengegrunnlagskjønnsfastsettinghendelse } from './hendelser/Sykepengegrunnlagskjønnsfastsettinghendelse';
 import classNames from 'classnames';
 import { motion } from 'framer-motion';
 import React from 'react';
@@ -77,6 +78,14 @@ const HistorikkWithContent: React.FC = () => {
                                     }
                                     case 'Inntektoverstyring': {
                                         return <Inntektoverstyringhendelse key={`${it.id}-${index}`} {...it} />;
+                                    }
+                                    case 'Sykepengegrunnlagskjonnsfastsetting': {
+                                        return (
+                                            <Sykepengegrunnlagskjønnsfastsettinghendelse
+                                                key={`${it.id}-${index}`}
+                                                {...it}
+                                            />
+                                        );
                                     }
                                     case 'Dokument': {
                                         return <Dokumenthendelse key={it.id} {...it} />;

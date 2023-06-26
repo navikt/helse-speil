@@ -10,6 +10,7 @@ import {
     PeriodehistorikkType,
     SoknadArbeidsgiver,
     SoknadNav,
+    Sykepengegrunnlagskjonnsfastsetting,
     Sykmelding,
     Vurdering,
 } from '@io/graphql';
@@ -19,6 +20,7 @@ import {
     isBeregnetPeriode,
     isDagoverstyring,
     isInntektoverstyring,
+    isSykepengegrunnlagskjønnsfastsetting,
     isUberegnetPeriode,
 } from '@utils/typeguards';
 
@@ -331,9 +333,24 @@ export const getAnnetArbeidsforholdoverstyringhendelser = (
                             navn: navn,
                         })),
                 ),
-            [],
+            [] as AnnetArbeidsforholdoverstyringhendelseObject[],
         );
 };
+
+export const getSykepengegrunnlagskjønnsfastsetting = (
+    skjæringstidspunkt: DateString,
+    arbeidsgiver: Arbeidsgiver,
+): Array<SykepengegrunnlagskjonnsfastsettinghendelseObject> =>
+    arbeidsgiver.overstyringer
+        .filter(isSykepengegrunnlagskjønnsfastsetting)
+        .filter((it) => it.skjonnsfastsatt.skjaeringstidspunkt === skjæringstidspunkt)
+        .map((overstyring: Sykepengegrunnlagskjonnsfastsetting) => ({
+            id: overstyring.hendelseId,
+            type: 'Sykepengegrunnlagskjonnsfastsetting',
+            saksbehandler: overstyring.saksbehandler.ident ?? overstyring.saksbehandler.navn,
+            timestamp: overstyring.timestamp,
+            skjønnsfastsatt: overstyring.skjonnsfastsatt,
+        }));
 
 export const getNotathendelser = (notater: Array<Notat>): Array<NotathendelseObject> =>
     notater.map((notat: Notat) => ({

@@ -376,6 +376,15 @@ query FetchPerson($fnr: String, $aktorId: String) {
                     skjaeringstidspunkt
                     forklaring
                 }
+                ... on Sykepengegrunnlagskjonnsfastsetting {
+                    skjonnsfastsatt {
+                        arsak
+                        begrunnelse
+                        arlig
+                        fraArlig
+                        skjaeringstidspunkt
+                    }
+                }
             }
         }
     }

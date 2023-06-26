@@ -233,13 +233,14 @@ const getResolvers = (): IResolvers => ({
         },
     },
     Overstyring: {
-        __resolveType: (overstyring: { dager?: Array<object>; inntekt?: object }) => {
-            return overstyring.dager
+        __resolveType: (overstyring: { dager?: Array<object>; inntekt?: object; skjonnsfastsatt?: object }) =>
+            overstyring.dager
                 ? 'Dagoverstyring'
                 : overstyring.inntekt
                 ? 'Inntektoverstyring'
-                : 'Arbeidsforholdoverstyring';
-        },
+                : overstyring.skjonnsfastsatt
+                ? 'Sykepengegrunnlagskjonnsfastsetting'
+                : 'Arbeidsforholdoverstyring',
     },
 });
 

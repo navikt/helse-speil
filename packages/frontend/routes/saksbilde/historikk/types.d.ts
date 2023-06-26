@@ -5,6 +5,7 @@ type OverstyrtDag = import('@io/graphql').OverstyrtDag;
 type Utbetalingtype = import('@io/graphql').Utbetalingtype;
 type OverstyrtInntekt = import('@io/graphql').OverstyrtInntekt;
 type PeriodehistorikkType = import('@io/graphql').PeriodehistorikkType;
+type SkjonnsfastsattSykepengegrunnlag = import('@io/graphql').SkjonnsfastsattSykepengegrunnlag;
 
 declare type Filtertype = 'Dokument' | 'Historikk' | 'Notat';
 
@@ -13,6 +14,7 @@ declare type Hendelsetype =
     | 'Arbeidsforholdoverstyring'
     | 'AnnetArbeidsforholdoverstyring'
     | 'Inntektoverstyring'
+    | 'Sykepengegrunnlagskjonnsfastsetting'
     | 'Dokument'
     | 'Notat'
     | 'Utbetaling'
@@ -63,6 +65,13 @@ declare type InntektoverstyringhendelseObject = BaseHendelseObject & {
     inntekt: OverstyrtInntekt;
 };
 
+declare type SykepengegrunnlagskjonnsfastsettinghendelseObject = BaseHendelseObject & {
+    type: 'Sykepengegrunnlagskjonnsfastsetting';
+    saksbehandler: string;
+    timestamp: DateString;
+    skjønnsfastsatt: SkjonnsfastsattSykepengegrunnlag;
+};
+
 declare type DokumenthendelseObject = BaseHendelseObject & {
     type: 'Dokument';
     dokumenttype: 'Inntektsmelding' | 'Sykmelding' | 'Søknad';
@@ -101,6 +110,7 @@ declare type HendelseObject =
     | ArbeidsforholdoverstyringhendelseObject
     | AnnetArbeidsforholdoverstyringhendelseObject
     | InntektoverstyringhendelseObject
+    | SykepengegrunnlagskjonnsfastsettinghendelseObject
     | DokumenthendelseObject
     | NotathendelseObject
     | UtbetalinghendelseObject

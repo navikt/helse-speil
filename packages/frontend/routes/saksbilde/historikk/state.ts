@@ -19,6 +19,7 @@ import {
     getInntektoverstyringerForGhost,
     getNotathendelser,
     getPeriodehistorikk,
+    getSykepengegrunnlagskjønnsfastsetting,
     getUtbetalingshendelse,
 } from './mapping';
 
@@ -39,6 +40,9 @@ const getHendelserForBeregnetPeriode = (
         arbeidsgiver,
         person.arbeidsgivere,
     );
+    const sykepengegrunnlagskjønnsfastsetting = arbeidsgiver
+        ? getSykepengegrunnlagskjønnsfastsetting(period.skjaeringstidspunkt, arbeidsgiver)
+        : [];
 
     const dokumenter = getDokumenter(period);
     const notater = getNotathendelser(period.notater.map(toNotat));
@@ -51,6 +55,7 @@ const getHendelserForBeregnetPeriode = (
         ...inntektoverstyringer,
         ...arbeidsforholdoverstyringer,
         ...annetarbeidsforholdoverstyringer,
+        ...sykepengegrunnlagskjønnsfastsetting,
     ]
         .filter(
             (it: HendelseObject) => it.timestamp && dayjs(it.timestamp).startOf('s').isSameOrBefore(period.opprettet),
@@ -82,10 +87,15 @@ const getHendelserForUberegnetPeriode = (period: UberegnetPeriode, person: Fetch
     const arbeidsgiver = findArbeidsgiverWithPeriode(period, person.arbeidsgivere);
     const dagoverstyringer = arbeidsgiver ? getDagoverstyringerForAUU(period, arbeidsgiver) : [];
     const inntektoverstyringer = arbeidsgiver ? getInntektoverstyringer(period.skjaeringstidspunkt, arbeidsgiver) : [];
+    const sykepengegrunnlagskjønnsfastsetting = arbeidsgiver
+        ? getSykepengegrunnlagskjønnsfastsetting(period.skjaeringstidspunkt, arbeidsgiver)
+        : [];
 
     const dokumenter = getDokumenter(period);
 
-    return [...dokumenter, ...dagoverstyringer, ...inntektoverstyringer].sort(byTimestamp);
+    return [...dokumenter, ...dagoverstyringer, ...inntektoverstyringer, ...sykepengegrunnlagskjønnsfastsetting].sort(
+        byTimestamp,
+    );
 };
 
 const historikkState = selector<Array<HendelseObject>>({
@@ -125,6 +135,7 @@ const filterMap: Record<Filtertype, Array<Hendelsetype>> = {
         'Arbeidsforholdoverstyring',
         'AnnetArbeidsforholdoverstyring',
         'Inntektoverstyring',
+        'Sykepengegrunnlagskjonnsfastsetting',
         'Dokument',
         'Utbetaling',
         'Historikk',

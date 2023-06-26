@@ -9,6 +9,7 @@ import {
     Overstyring,
     Periode,
     Person,
+    Sykepengegrunnlagskjonnsfastsetting,
     UberegnetPeriode,
     Vilkarsgrunnlag,
     VilkarsgrunnlagInfotrygd,
@@ -68,6 +69,11 @@ export const isArbeidsforholdoverstyring = (
 export const isArbeidsforholdoverstyringer = (
     overstyringer?: Maybe<Array<Overstyring>>,
 ): overstyringer is Array<Arbeidsforholdoverstyring> => overstyringer?.every(isArbeidsforholdoverstyring) ?? false;
+
+export const isSykepengegrunnlagskjønnsfastsetting = (
+    overstyring?: Maybe<Overstyring>,
+): overstyring is Sykepengegrunnlagskjonnsfastsetting =>
+    (overstyring as Sykepengegrunnlagskjonnsfastsetting)?.__typename === 'Sykepengegrunnlagskjonnsfastsetting';
 
 export const isPerson = (person?: Maybe<FetchedPerson | Person>): person is FetchedPerson => {
     return person !== undefined && person !== null && typeof person['fodselsnummer'] === 'string';
