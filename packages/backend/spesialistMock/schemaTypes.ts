@@ -342,7 +342,7 @@ export enum Mottaker {
 
 export type Mutation = {
     __typename?: 'Mutation';
-    feilregistrerKommentar: Scalars['Boolean']['output'];
+    feilregistrerKommentar?: Maybe<Kommentar>;
     feilregistrerKommentarV2?: Maybe<Kommentar>;
     feilregistrerNotat?: Maybe<Notat>;
     fjernPaaVent?: Maybe<Tildeling>;

@@ -41,7 +41,9 @@ export const NotatForm: React.FC<NotatFormProps> = ({
                 {...form.register('Notattekst', { required: 'Tekstfeltet kan ikke være tomt' })}
             />
             <span>
-                <Button size="small">Legg til {isFetching && <Loader size="xsmall" />}</Button>
+                <Button size="small" disabled={isFetching}>
+                    Legg til {isFetching && <Loader size="xsmall" />}
+                </Button>
                 <Button size="small" variant="secondary" onClick={closeForm} type="button">
                     Avbryt
                 </Button>

@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { EllipsisH } from '@navikt/ds-icons';
-import { Button, Loader } from '@navikt/ds-react';
+import { Button } from '@navikt/ds-react';
 import { Dropdown } from '@navikt/ds-react-internal';
 
 import styles from './HendelseDropdownMenu.module.css';
@@ -14,13 +14,19 @@ type DropdownMenuProps = {
 export const HendelseDropdownMenu = ({ feilregistrerAction, isFetching }: DropdownMenuProps) => {
     return (
         <Dropdown>
-            <Button as={Dropdown.Toggle} variant="tertiary" className={styles.ToggleButton} size="xsmall">
+            <Button
+                as={Dropdown.Toggle}
+                variant="tertiary"
+                className={styles.ToggleButton}
+                size="xsmall"
+                loading={isFetching}
+            >
                 <EllipsisH height={32} width={32} />
             </Button>
             <Dropdown.Menu className={styles.Menu}>
                 <Dropdown.Menu.List>
                     <Dropdown.Menu.List.Item onClick={feilregistrerAction} className={styles.ListItem}>
-                        Feilregistrer {isFetching && <Loader size="xsmall" />}
+                        Feilregistrer
                     </Dropdown.Menu.List.Item>
                 </Dropdown.Menu.List>
             </Dropdown.Menu>

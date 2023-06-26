@@ -1,5 +1,9 @@
 mutation FeilregistrerKommentarMutation($id: Int!) {
-    feilregistrerKommentarV2(id: $id) {
+    feilregistrerKommentar(id: $id) {
         id
+        opprettet
+        feilregistrert_tidspunkt
+        saksbehandlerident
+        tekst
     }
 }
