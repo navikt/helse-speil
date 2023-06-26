@@ -53,4 +53,4 @@ export const harBeslutterrolle: boolean = extractGroups().includes(groupIdForBes
 
 export const toggleMeny: boolean = erLocal() || erDev();
 
-export const kanSkjønnsfastsetteSykepengegrunnlag: boolean = erLocal();
+export const kanSkjønnsfastsetteSykepengegrunnlag: boolean = erLocal() || erDev();

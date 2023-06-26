@@ -7,6 +7,7 @@ import {
     OverstyrtInntektOgRefusjonDTO,
     OverstyrteDagerDTO,
     PersonoppdateringDTO,
+    SkjønnsfastsattSykepengegrunnlagDTO,
 } from './types';
 
 export const ResponseError = (statusCode: number, message?: string) => ({
@@ -168,6 +169,9 @@ export const postOverstyrtInntektOgRefusjon = async (overstyring: OverstyrtInnte
 
 export const postOverstyrtArbeidsforhold = async (overstyring: OverstyrtArbeidsforholdDTO) =>
     post(`${baseUrl}/overstyring/overstyr/arbeidsforhold`, overstyring);
+
+export const postSkjønnsfastsattSykepengegrunnlag = async (skjønnsfastsetting: SkjønnsfastsattSykepengegrunnlagDTO) =>
+    post(`${baseUrl}/overstyring/skjonnsfastsett/sykepengegrunnlag`, skjønnsfastsetting);
 
 export const postForespørPersonoppdatering = async (oppdatering: PersonoppdateringDTO) =>
     post(`${baseUrl}/person/oppdater`, oppdatering);

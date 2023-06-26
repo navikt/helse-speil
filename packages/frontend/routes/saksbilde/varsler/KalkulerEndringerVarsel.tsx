@@ -5,7 +5,7 @@ import { Alert, BodyShort, Button, Heading, Loader } from '@navikt/ds-react';
 
 import { ErrorMessage } from '@components/ErrorMessage';
 import { Modal } from '@components/Modal';
-import { OverstyringTimeoutModal } from '@components/OverstyringTimeoutModal';
+import { TimeoutModal } from '@components/TimeoutModal';
 import { OverstyrtInntektOgRefusjonDTO, postAbonnerPåAktør, postOverstyrtInntektOgRefusjon } from '@io/http';
 import {
     kalkulererFerdigToastKey,
@@ -121,7 +121,7 @@ export const KalkulerEndringerVarsel: React.FC<KalkulerEndringerVarselProps> = (
                 </div>
                 {error && <ErrorMessage>{error}</ErrorMessage>}
             </Alert>
-            {timedOut && <OverstyringTimeoutModal onRequestClose={() => setTimedOut(false)} />}
+            {timedOut && <TimeoutModal onRequestClose={() => setTimedOut(false)} />}
             {showModal && (
                 <SlettLokaleOverstyringerModal
                     onApprove={() => {

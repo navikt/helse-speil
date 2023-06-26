@@ -30,7 +30,7 @@ interface Props {
     onRequestClose: () => void;
 }
 
-export const OverstyringTimeoutModal = ({ onRequestClose }: Props) => {
+export const TimeoutModal = ({ onRequestClose }: Props) => {
     const navigate = useNavigate();
     const [open, setOpen] = useState(true);
 

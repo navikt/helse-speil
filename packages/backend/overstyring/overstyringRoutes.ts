@@ -51,5 +51,20 @@ export default (spesialistClient: SpesialistClient) => {
             });
     });
 
+    router.post('/skjonnsfastsett/sykepengegrunnlag', (req: SpeilRequest, res: Response) => {
+        spesialistClient
+            .execute({
+                body: req.body,
+                speilToken: req.session!.speilToken,
+                path: '/api/skjonnsfastsett/sykepengegrunnlag',
+                method: 'post',
+            })
+            .then(() => res.sendStatus(200))
+            .catch((err) => {
+                logger.error(`Feil under skjønnsfastsetting av sykepengegrunnlag: ${err}`);
+                res.status(500).send('Feil under skjønnsfastsetting av sykepengegrunnlag');
+            });
+    });
+
     return router;
 };

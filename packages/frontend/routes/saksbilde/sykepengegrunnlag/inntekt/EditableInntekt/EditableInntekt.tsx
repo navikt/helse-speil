@@ -9,7 +9,7 @@ import { Alert, BodyShort, Button, Loader } from '@navikt/ds-react';
 
 import { ErrorMessage } from '@components/ErrorMessage';
 import { ForklaringTextarea } from '@components/ForklaringTextarea';
-import { OverstyringTimeoutModal } from '@components/OverstyringTimeoutModal';
+import { TimeoutModal } from '@components/TimeoutModal';
 import { OmregnetArsinntekt } from '@io/graphql';
 import type { OverstyrtInntektOgRefusjonDTO, Refusjonsopplysning } from '@io/http';
 import {
@@ -266,7 +266,7 @@ export const EditableInntekt = ({
                         </Button>
                     </span>
                     {error && <ErrorMessage>{error}</ErrorMessage>}
-                    {timedOut && <OverstyringTimeoutModal onRequestClose={() => setTimedOut(false)} />}
+                    {timedOut && <TimeoutModal onRequestClose={() => setTimedOut(false)} />}
                     {showSlettLokaleOverstyringerModal && (
                         <EditableInntektSlettLokaleOverstyringerModal
                             onApprove={form.handleSubmit(confirmChanges)}

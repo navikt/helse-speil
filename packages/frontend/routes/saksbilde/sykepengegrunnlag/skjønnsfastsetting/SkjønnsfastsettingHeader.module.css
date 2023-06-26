@@ -8,11 +8,23 @@
 }
 
 .beløp {
+    position: relative;
     padding-left: 0.5rem;
+}
+
+.beløp > span {
+    margin-left: -0.75rem;
 }
 
 .redigeringsknapp {
     margin-left: auto;
     width: 10rem;
     text-align: left;
+}
+
+.opprinneligSykepengegrunnlag {
+    text-decoration: line-through;
+    display: flex;
+    align-items: center;
+    padding-left: 1rem;
 }

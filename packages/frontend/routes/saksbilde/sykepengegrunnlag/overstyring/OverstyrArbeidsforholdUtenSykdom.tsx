@@ -11,7 +11,7 @@ import { EditButton } from '@components/EditButton';
 import { ErrorMessage } from '@components/ErrorMessage';
 import { Flex, FlexColumn } from '@components/Flex';
 import { ForklaringTextarea } from '@components/ForklaringTextarea';
-import { OverstyringTimeoutModal } from '@components/OverstyringTimeoutModal';
+import { TimeoutModal } from '@components/TimeoutModal';
 import { Maybe } from '@io/graphql';
 
 import { VenterPåEndringContext } from '../../VenterPåEndringContext';
@@ -248,7 +248,7 @@ const OverstyrArbeidsforholdSkjema = ({
                         </FormButton>
                     </Buttons>
                     {error && <ErrorMessage>{error}</ErrorMessage>}
-                    {timedOut && <OverstyringTimeoutModal onRequestClose={() => setTimedOut(false)} />}
+                    {timedOut && <TimeoutModal onRequestClose={() => setTimedOut(false)} />}
                 </Container>
             </form>
         </FormProvider>

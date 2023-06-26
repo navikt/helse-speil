@@ -1,0 +1,76 @@
+.skjønnsfastsetting {
+    padding-left: 1.25rem;
+    padding-right: 3rem;
+}
+
+.warningIngenSkjemaEndringer {
+}
+
+.buttons {
+    margin-left: 2rem;
+}
+
+.button {
+}
+
+.arbeidsgivere {
+    width: 400px;
+    margin: 2rem 0;
+}
+
+.arbeidsgiver {
+    margin-bottom: 0.5rem;
+}
+
+.label {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: 600;
+}
+
+.arbeidsgiverInput {
+    height: 2rem;
+    border-radius: 3px;
+    border: 1px solid var(--a-border-strong);
+    outline: none;
+}
+
+.arbeidsgiverInput:focus-visible {
+    box-shadow: var(--a-shadow-focus);
+}
+
+.inputError {
+    border-width: 2px;
+    border-color: var(--a-text-danger);
+}
+
+.skjønnsfastsettingBegrunnelse {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.begrunnelser {
+    margin-bottom: 1rem;
+}
+
+.mal {
+    white-space: break-spaces;
+    width: 420px;
+    margin-left: 2rem;
+    margin-bottom: 2rem;
+}
+
+.fritekst {
+    width: 420px;
+    margin-left: 2rem;
+}
+
+.årsak {
+    margin-bottom: 1.5rem;
+}
+
+.error {
+    padding-top: 1rem;
+}

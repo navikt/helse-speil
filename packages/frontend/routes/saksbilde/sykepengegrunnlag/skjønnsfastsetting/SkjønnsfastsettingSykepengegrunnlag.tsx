@@ -1,6 +1,7 @@
+import { SkjønnsfastsettingForm } from './SkjønnsfastsettingForm';
 import { SkjønnsfastsettingHeader } from './SkjønnsfastsettingHeader';
 import classNames from 'classnames';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { Arbeidsgiverinntekt, Sykepengegrunnlagsgrense } from '@io/graphql';
 import { kanSkjønnsfastsetteSykepengegrunnlag } from '@utils/featureToggles';
@@ -13,6 +14,7 @@ interface SkjønnsfastsettingSykepengegrunnlagProps {
     sykepengegrunnlag: number;
     sykepengegrunnlagsgrense: Sykepengegrunnlagsgrense;
     omregnetÅrsinntekt?: Maybe<number>;
+    sammenligningsgrunnlag?: Maybe<number>;
     skjønnsmessigFastsattÅrlig?: Maybe<number>;
     inntekter: Arbeidsgiverinntekt[];
 }
@@ -21,21 +23,37 @@ export const SkjønnsfastsettingSykepengegrunnlag = ({
     sykepengegrunnlag,
     sykepengegrunnlagsgrense,
     omregnetÅrsinntekt,
+    sammenligningsgrunnlag,
     skjønnsmessigFastsattÅrlig,
     inntekter,
 }: SkjønnsfastsettingSykepengegrunnlagProps) => {
     const [editing, setEditing] = useState(false);
+    const [endretSykepengegrunnlag, setEndretSykepengegrunnlag] = useState<Maybe<number>>(null);
+
+    useEffect(() => {
+        setEndretSykepengegrunnlag(null);
+    }, [editing]);
 
     return (
         <div>
             <div className={classNames(styles.formWrapper, { [styles.redigerer]: editing })}>
                 <SkjønnsfastsettingHeader
                     sykepengegrunnlag={sykepengegrunnlag}
+                    endretSykepengegrunnlag={endretSykepengegrunnlag}
                     skjønnsmessigFastsattÅrlig={skjønnsmessigFastsattÅrlig}
+                    sykepengegrunnlagsgrense={sykepengegrunnlagsgrense}
                     editing={editing}
                     setEditing={setEditing}
                 />
-                {editing && kanSkjønnsfastsetteSykepengegrunnlag && <form>{/* Skjønnsfastsetting-form her */}</form>}
+                {editing && kanSkjønnsfastsetteSykepengegrunnlag && omregnetÅrsinntekt && sammenligningsgrunnlag && (
+                    <SkjønnsfastsettingForm
+                        inntekter={inntekter}
+                        omregnetÅrsinntekt={omregnetÅrsinntekt}
+                        sammenligningsgrunnlag={sammenligningsgrunnlag}
+                        onEndretSykepengegrunnlag={setEndretSykepengegrunnlag}
+                        setEditing={setEditing}
+                    />
+                )}
             </div>
             {omregnetÅrsinntekt && (
                 <SykepengegrunnlagsgrenseView

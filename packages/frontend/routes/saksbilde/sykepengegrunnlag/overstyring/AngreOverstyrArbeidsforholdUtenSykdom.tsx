@@ -3,7 +3,7 @@ import styled from '@emotion/styled';
 import React from 'react';
 
 import { Button } from '@components/Button';
-import { OverstyringTimeoutModal } from '@components/OverstyringTimeoutModal';
+import { TimeoutModal } from '@components/TimeoutModal';
 
 import { useGetOverstyrtArbeidsforhold, usePostOverstyrtArbeidsforhold } from './overstyrArbeidsforholdHooks';
 
@@ -63,7 +63,7 @@ export const AngreOverstyrArbeidsforholdUtenSykdom = ({
                 <UndoIcon />
                 Bruk arbeidsforholdet i beregningen likevel
             </AngreButton>
-            {timedOut && <OverstyringTimeoutModal onRequestClose={() => setTimedOut(false)} />}
+            {timedOut && <TimeoutModal onRequestClose={() => setTimedOut(false)} />}
         </>
     );
 };

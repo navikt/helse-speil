@@ -6,7 +6,7 @@ import { FormProvider, useForm } from 'react-hook-form';
 
 import { BodyShort } from '@navikt/ds-react';
 
-import { OverstyringTimeoutModal } from '@components/OverstyringTimeoutModal';
+import { TimeoutModal } from '@components/TimeoutModal';
 import { useMap } from '@hooks/useMap';
 
 import { EndringForm } from './utbetalingstabell/EndringForm/EndringForm';
@@ -194,7 +194,7 @@ export const OverstyrbarUtbetaling: React.FC<OverstyrbarUtbetalingProps> = ({
                     </>
                 )}
             </div>
-            {state === 'timedOut' && <OverstyringTimeoutModal onRequestClose={() => null} />}
+            {state === 'timedOut' && <TimeoutModal onRequestClose={() => null} />}
             {state === 'hasError' && error && (
                 <BodyShort className={styles.ErrorMessage} role="alert">
                     {error}

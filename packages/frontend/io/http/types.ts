@@ -83,6 +83,22 @@ export interface OverstyrtArbeidsforholdElementDTO {
     subsumsjon?: Subsumsjon;
 }
 
+export interface SkjønnsfastsattSykepengegrunnlagDTO {
+    aktørId: string;
+    fødselsnummer: string;
+    skjæringstidspunkt: string;
+    arbeidsgivere: SkjønnsfastsattArbeidsgiver[];
+}
+
+export interface SkjønnsfastsattArbeidsgiver {
+    organisasjonsnummer: string;
+    årlig: number;
+    fraÅrlig: number;
+    årsak: string;
+    begrunnelse: string;
+    subsumsjon?: Subsumsjon;
+}
+
 export interface AnnulleringDTO {
     aktørId: string;
     fødselsnummer: string;
