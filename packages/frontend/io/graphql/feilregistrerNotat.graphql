@@ -1,3 +1,22 @@
 mutation FeilregistrerNotatMutation($id: Int!) {
-    feilregistrerNotat(id: $id)
+    feilregistrerNotat(id: $id) {
+        id
+        tekst
+        opprettet
+        saksbehandlerOid
+        saksbehandlerNavn
+        saksbehandlerEpost
+        saksbehandlerIdent
+        vedtaksperiodeId
+        feilregistrert
+        feilregistrert_tidspunkt
+        type
+        kommentarer {
+            id
+            tekst
+            opprettet
+            saksbehandlerident
+            feilregistrert_tidspunkt
+        }
+    }
 }

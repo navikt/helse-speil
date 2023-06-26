@@ -345,7 +345,8 @@ export enum Mottaker {
 export type Mutation = {
     __typename?: 'Mutation';
     feilregistrerKommentar: Scalars['Boolean']['output'];
-    feilregistrerNotat: Scalars['Boolean']['output'];
+    feilregistrerKommentarV2?: Maybe<Kommentar>;
+    feilregistrerNotat?: Maybe<Notat>;
     fjernPaaVent?: Maybe<Tildeling>;
     fjernTildeling: Scalars['Boolean']['output'];
     leggPaaVent?: Maybe<Tildeling>;
@@ -357,6 +358,10 @@ export type Mutation = {
 };
 
 export type MutationFeilregistrerKommentarArgs = {
+    id: Scalars['Int']['input'];
+};
+
+export type MutationFeilregistrerKommentarV2Args = {
     id: Scalars['Int']['input'];
 };
 
@@ -1019,7 +1024,31 @@ export type FeilregistrerNotatMutationMutationVariables = Exact<{
     id: Scalars['Int']['input'];
 }>;
 
-export type FeilregistrerNotatMutationMutation = { __typename?: 'Mutation'; feilregistrerNotat: boolean };
+export type FeilregistrerNotatMutationMutation = {
+    __typename?: 'Mutation';
+    feilregistrerNotat?: {
+        __typename?: 'Notat';
+        id: number;
+        tekst: string;
+        opprettet: string;
+        saksbehandlerOid: string;
+        saksbehandlerNavn: string;
+        saksbehandlerEpost: string;
+        saksbehandlerIdent: string;
+        vedtaksperiodeId: string;
+        feilregistrert: boolean;
+        feilregistrert_tidspunkt?: string | null;
+        type: NotatType;
+        kommentarer: Array<{
+            __typename?: 'Kommentar';
+            id: number;
+            tekst: string;
+            opprettet: string;
+            saksbehandlerident: string;
+            feilregistrert_tidspunkt?: string | null;
+        }>;
+    } | null;
+};
 
 export type FetchBehandledeOppgaverQueryVariables = Exact<{
     oid: Scalars['String']['input'];
@@ -2356,6 +2385,39 @@ export const FeilregistrerNotatMutationDocument = {
                                 value: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
                             },
                         ],
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'tekst' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'opprettet' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'saksbehandlerOid' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'saksbehandlerNavn' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'saksbehandlerEpost' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'saksbehandlerIdent' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'vedtaksperiodeId' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'feilregistrert' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'feilregistrert_tidspunkt' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'type' } },
+                                {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'kommentarer' },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'tekst' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'opprettet' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'saksbehandlerident' } },
+                                            {
+                                                kind: 'Field',
+                                                name: { kind: 'Name', value: 'feilregistrert_tidspunkt' },
+                                            },
+                                        ],
+                                    },
+                                },
+                            ],
+                        },
                     },
                 ],
             },

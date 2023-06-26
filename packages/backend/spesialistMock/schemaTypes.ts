@@ -343,7 +343,8 @@ export enum Mottaker {
 export type Mutation = {
     __typename?: 'Mutation';
     feilregistrerKommentar: Scalars['Boolean']['output'];
-    feilregistrerNotat: Scalars['Boolean']['output'];
+    feilregistrerKommentarV2?: Maybe<Kommentar>;
+    feilregistrerNotat?: Maybe<Notat>;
     fjernPaaVent?: Maybe<Tildeling>;
     fjernTildeling: Scalars['Boolean']['output'];
     leggPaaVent?: Maybe<Tildeling>;
@@ -355,6 +356,10 @@ export type Mutation = {
 };
 
 export type MutationFeilregistrerKommentarArgs = {
+    id: Scalars['Int']['input'];
+};
+
+export type MutationFeilregistrerKommentarV2Args = {
     id: Scalars['Int']['input'];
 };
 
