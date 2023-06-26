@@ -45,6 +45,16 @@ export class NotatMock {
         return nyKommentar;
     };
 
+    static getKommentar = (id: number): Kommentar | undefined => {
+        let _kommentar: Kommentar | undefined;
+        NotatMock.notater.forEach((notater) =>
+            notater.find((notat) => {
+                _kommentar = notat.kommentarer.find((kommentar) => kommentar.id === id);
+            }),
+        );
+        return _kommentar;
+    };
+
     static feilregistrerKommentar = ({ id }: MutationFeilregistrerKommentarArgs): void => {
         NotatMock.notater.forEach((notater: Array<Notat>, vedtaksperiodeId: UUID) => {
             const notat = notater.find((it) => it.kommentarer.find((it) => it.id === id));

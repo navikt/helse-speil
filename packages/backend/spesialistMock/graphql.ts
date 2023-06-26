@@ -124,6 +124,10 @@ const getResolvers = (): IResolvers => ({
             NotatMock.feilregistrerKommentar({ id });
             return true;
         },
+        feilregistrerKommentarV2: (_, { id }: MutationFeilregistrerKommentarArgs) => {
+            NotatMock.feilregistrerKommentar({ id });
+            return NotatMock.getKommentar(id);
+        },
         leggTilKommentar: (_, { tekst, notatId, saksbehandlerident }: MutationLeggTilKommentarArgs) => {
             return NotatMock.addKommentar({ tekst, notatId, saksbehandlerident });
         },
