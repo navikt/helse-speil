@@ -757,6 +757,15 @@ export type Simuleringsutbetaling = {
     mottakerNavn: Scalars['String']['output'];
 };
 
+export type SkjonnsfastsattSykepengegrunnlag = {
+    __typename?: 'SkjonnsfastsattSykepengegrunnlag';
+    arlig: Scalars['Float']['output'];
+    arsak: Scalars['String']['output'];
+    begrunnelse: Scalars['String']['output'];
+    fraArlig?: Maybe<Scalars['Float']['output']>;
+    skjaeringstidspunkt: Scalars['String']['output'];
+};
+
 export type SoknadArbeidsgiver = Hendelse & {
     __typename?: 'SoknadArbeidsgiver';
     fom: Scalars['String']['output'];
@@ -817,6 +826,15 @@ export type Sykepengegrunnlagsgrense = {
     grense: Scalars['Int']['output'];
     grunnbelop: Scalars['Int']['output'];
     virkningstidspunkt: Scalars['String']['output'];
+};
+
+export type Sykepengegrunnlagskjonnsfastsetting = Overstyring & {
+    __typename?: 'Sykepengegrunnlagskjonnsfastsetting';
+    ferdigstilt: Scalars['Boolean']['output'];
+    hendelseId: Scalars['String']['output'];
+    saksbehandler: Saksbehandler;
+    skjonnsfastsatt: SkjonnsfastsattSykepengegrunnlag;
+    timestamp: Scalars['String']['output'];
 };
 
 export type Sykmelding = Hendelse & {

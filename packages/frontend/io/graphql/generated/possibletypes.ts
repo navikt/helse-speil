@@ -6,7 +6,12 @@ export interface PossibleTypesResultData {
 const result: PossibleTypesResultData = {
     possibleTypes: {
         Hendelse: ['Inntektsmelding', 'SoknadArbeidsgiver', 'SoknadNav', 'Sykmelding'],
-        Overstyring: ['Arbeidsforholdoverstyring', 'Dagoverstyring', 'Inntektoverstyring'],
+        Overstyring: [
+            'Arbeidsforholdoverstyring',
+            'Dagoverstyring',
+            'Inntektoverstyring',
+            'Sykepengegrunnlagskjonnsfastsetting',
+        ],
         Periode: ['BeregnetPeriode', 'UberegnetPeriode'],
         Spennoppdrag: ['Arbeidsgiveroppdrag', 'Personoppdrag'],
         Vilkarsgrunnlag: ['VilkarsgrunnlagInfotrygd', 'VilkarsgrunnlagSpleis'],
