@@ -6,10 +6,6 @@ import { FetchNotaterDocument, Notat as GraphQLNotat } from '@io/graphql';
 import { getNotater } from '@io/http';
 import { ApolloResponse } from '@state/oppgaver';
 
-export const useSyncNotater = (vedtaksperiodeIder: string[]) => {
-    useQueryNotater(vedtaksperiodeIder);
-};
-
 export const useQueryNotater = (vedtaksperiodeIder: string[]): ApolloResponse<Notat[]> => {
     const fetchNotater = useQuery(FetchNotaterDocument, {
         variables: {

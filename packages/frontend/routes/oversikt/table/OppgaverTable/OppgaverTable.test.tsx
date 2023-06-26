@@ -17,28 +17,28 @@ describe('OppgaverTable', () => {
 
         expect(result).toHaveNoViolations();
     });
-});
 
-it('rendrer alle headere', () => {
-    const oppgaver = [enOppgaveForOversikten()];
+    it('rendrer alle headere', () => {
+        const oppgaver = [enOppgaveForOversikten()];
 
-    render(<OppgaverTable oppgaver={oppgaver} />, { wrapper: ApolloWrapper });
+        render(<OppgaverTable oppgaver={oppgaver} />, { wrapper: ApolloWrapper });
 
-    expect(
-        screen.getByText(
-            (content, element) => element?.tagName.toLowerCase() === 'button' && content.startsWith('Tildelt'),
-        ),
-    ).toBeVisible();
-    expect(screen.getByText('Saksbehandler')).toBeVisible();
-    expect(screen.getAllByText(/Periodetype/)).toHaveLength(2);
-    expect(screen.getAllByText(/Oppgavetype/)).toHaveLength(2);
-    expect(screen.getAllByText(/Mottaker/)).toHaveLength(2);
-    expect(screen.getAllByText(/Egenskaper/)).toHaveLength(2);
-    expect(screen.getAllByText(/Inntektskilde/)).toHaveLength(2);
-    expect(screen.getByText(/Opprettet/)).toBeVisible();
-    expect(screen.getByText(/Søknad mottatt/)).toBeVisible();
+        expect(
+            screen.getByText(
+                (content, element) => element?.tagName.toLowerCase() === 'button' && content.startsWith('Tildelt'),
+            ),
+        ).toBeVisible();
+        expect(screen.getByText('Saksbehandler')).toBeVisible();
+        expect(screen.getAllByText(/Periodetype/)).toHaveLength(2);
+        expect(screen.getAllByText(/Oppgavetype/)).toHaveLength(2);
+        expect(screen.getAllByText(/Mottaker/)).toHaveLength(2);
+        expect(screen.getAllByText(/Egenskaper/)).toHaveLength(2);
+        expect(screen.getAllByText(/Inntektskilde/)).toHaveLength(2);
+        expect(screen.getByText(/Opprettet/)).toBeVisible();
+        expect(screen.getByText(/Søknad mottatt/)).toBeVisible();
 
-    expect(screen.getAllByRole('columnheader')).toHaveLength(14);
+        expect(screen.getAllByRole('columnheader')).toHaveLength(14);
+    });
 });
 
 // Testen oversteg default setting på 5000 ved kjøring lokalt\
