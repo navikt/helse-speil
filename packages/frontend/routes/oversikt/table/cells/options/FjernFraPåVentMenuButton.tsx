@@ -10,7 +10,7 @@ interface FjernFraPåVentMenuButtonProps extends React.ButtonHTMLAttributes<HTML
 }
 
 export const FjernFraPåVentMenuButton = ({ oppgavereferanse, ...rest }: FjernFraPåVentMenuButtonProps) => {
-    const fjernPåVent = useFjernPåVent();
+    const [fjernPåVent] = useFjernPåVent();
     const errorHandler = useOperationErrorHandler('Fjern fra på vent');
 
     return (

@@ -4,11 +4,11 @@ import { ApolloError, MutationResult, useApolloClient, useMutation } from '@apol
 import {
     FetchOppgaverDocument,
     FjernPaaVentDocument,
+    FjernPaaVentMutation,
     FjernTildelingDocument,
     LeggPaaVentDocument,
     Maybe,
     NotatType,
-    OppgaveForOversiktsvisning,
     OpprettTildelingDocument,
     OpprettTildelingMutation,
     Tildeling,
@@ -146,10 +146,13 @@ export const useLeggPåVent = (): ((
             .catch(() => Promise.reject('Kunne ikke legge oppgave på vent.'));
     };
 };
-export const useFjernPåVent = (): ((oppgavereferanse: string) => Promise<Maybe<Tildeling> | undefined>) => {
+export const useFjernPåVent = (): [
+    (oppgavereferanse: string) => Promise<Maybe<Tildeling> | undefined>,
+    MutationResult<FjernPaaVentMutation>,
+] => {
     const [tildelinger, setTildelinger] = useRecoilState(tildelingState);
-    const [fjernPåVentMutation] = useMutation(FjernPaaVentDocument);
-    return (oppgavereferanse) => {
+    const [fjernPåVentMutation, data] = useMutation(FjernPaaVentDocument);
+    const fjernPåVent = (oppgavereferanse: string) => {
         return fjernPåVentMutation({
             variables: { oppgaveId: oppgavereferanse },
             update: (cache) => {
@@ -164,16 +167,12 @@ export const useFjernPåVent = (): ((oppgavereferanse: string) => Promise<Maybe<
             .then((response) => {
                 setTildelinger({
                     ...tildelinger,
-                    [oppgavereferanse]: tildelinger[oppgavereferanse] && {
-                        epost: tildelinger[oppgavereferanse]?.epost ?? '',
-                        navn: tildelinger[oppgavereferanse]?.navn ?? '',
-                        oid: tildelinger[oppgavereferanse]?.oid ?? '',
-                        paaVent: false,
-                        reservert: false,
-                    },
+                    [oppgavereferanse]: response.data?.fjernPaaVent,
                 });
                 return response.data?.fjernPaaVent;
             })
             .catch(() => Promise.reject('Kunne ikke fjerne på-vent-status fra oppgave.'));
     };
+
+    return [fjernPåVent, data];
 };
