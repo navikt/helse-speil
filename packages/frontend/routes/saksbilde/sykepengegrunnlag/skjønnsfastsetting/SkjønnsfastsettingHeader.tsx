@@ -48,7 +48,7 @@ export const SkjønnsfastsettingHeader = ({
                 <p className={styles.opprinneligSykepengegrunnlag}>{toKronerOgØre(sykepengegrunnlag)}</p>
             )}
             {skjønnsmessigFastsattÅrlig != null && (
-                <Kilde type={Kildetype.Saksbehandler}>
+                <Kilde type={Kildetype.Saksbehandler} className={styles.kildeIkon}>
                     <CaseworkerFilled title="Caseworker-ikon" height={20} width={20} />
                 </Kilde>
             )}
