@@ -37,7 +37,7 @@ export const PåVentDropdownMenuButton = ({
     };
 
     const settPåVent = (notattekst: string) => {
-        return leggPåVentMedNotat(oppgavereferanse, { tekst: notattekst, type: 'PaaVent' })
+        return leggPåVentMedNotat(oppgavereferanse, { tekst: notattekst, type: 'PaaVent' }, vedtaksperiodeId)
             .then(() => navigate('/'))
             .catch(errorHandler);
     };

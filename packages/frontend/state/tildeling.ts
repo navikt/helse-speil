@@ -2,6 +2,7 @@ import { atom, useRecoilState } from 'recoil';
 
 import { ApolloError, MutationResult, useApolloClient, useMutation } from '@apollo/client';
 import {
+    FetchNotaterDocument,
     FetchOppgaverDocument,
     FjernPaaVentDocument,
     FjernPaaVentMutation,
@@ -120,12 +121,14 @@ export const useFjernTildeling = (): [
 export const useLeggPåVent = (): ((
     oppgavereferanse: string,
     notat: NotatDTO,
+    vedtaksperiodeId: string,
 ) => Promise<Maybe<Tildeling> | undefined>) => {
     const [tildelinger, setTildelinger] = useRecoilState(tildelingState);
     const [leggPåVentMutation] = useMutation(LeggPaaVentDocument);
 
-    return (oppgavereferanse: string, notat: NotatDTO) => {
+    return (oppgavereferanse: string, notat: NotatDTO, vedtaksperiodeId: string) => {
         return leggPåVentMutation({
+            refetchQueries: [{ query: FetchNotaterDocument, variables: { forPerioder: [vedtaksperiodeId] } }],
             variables: { oppgaveId: oppgavereferanse, notatType: NotatType.PaaVent, notatTekst: notat.tekst },
             update: (cache, result) => {
                 cache.modify({

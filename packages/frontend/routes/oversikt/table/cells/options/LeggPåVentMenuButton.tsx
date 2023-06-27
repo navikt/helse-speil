@@ -27,9 +27,11 @@ export const LeggPåVentMenuButton = ({ oppgavereferanse, vedtaksperiodeId, navn
     };
 
     const settPåVent = (notattekst: string) =>
-        leggPåVentMedNotat(oppgavereferanse, { tekst: notattekst, type: 'PaaVent' } as NotatDTO).catch(() =>
-            setError('Kunne ikke lagre notat'),
-        );
+        leggPåVentMedNotat(
+            oppgavereferanse,
+            { tekst: notattekst, type: 'PaaVent' } as NotatDTO,
+            vedtaksperiodeId,
+        ).catch(() => setError('Kunne ikke lagre notat'));
 
     return (
         <>
