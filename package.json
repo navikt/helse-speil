@@ -18,7 +18,9 @@
         "clean": "lerna run clean --stream && npx jest --clearCache && rimraf node_modules",
         "bootstrap": "npm i && lerna bootstrap",
         "generate-graphql": "graphql-codegen --config graphql-codegen.yml",
-        "prepare": "husky install"
+        "prepare": "husky install",
+        "lint": "lerna run lint --stream",
+        "prettier": "lerna run prettier --stream"
     },
     "lint-staged": {
         "*.{js,jsx,ts,tsx,css,json,md}": [
