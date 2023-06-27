@@ -97,6 +97,7 @@ export interface SkjønnsfastsattArbeidsgiver {
     årsak: string;
     begrunnelse: string;
     subsumsjon?: Subsumsjon;
+    initierendeVedtaksperiodeId: string;
 }
 
 export interface AnnulleringDTO {

@@ -17,6 +17,7 @@ import { Arbeidsgiverinntekt } from '@io/graphql';
 import { SkjønnsfastsattSykepengegrunnlagDTO } from '@io/http';
 import { useActivePeriod } from '@state/periode';
 import { useCurrentPerson } from '@state/person';
+import { isBeregnetPeriode } from '@utils/typeguards';
 
 import { Feiloppsummering } from '../inntekt/EditableInntekt/Feiloppsummering';
 
@@ -67,6 +68,8 @@ export const SkjønnsfastsettingForm = ({
             (it) => it.id === begrunnelseId,
         );
 
+        const førsteBeregnedePerioderPåSkjæringstidspunkt = finnFørsteBeregnedePåSkjæringstidspunkt(person, period);
+
         const skjønnsfastsettingSykepengegrunnlag: SkjønnsfastsattSykepengegrunnlagDTO = {
             fødselsnummer: person.fodselsnummer,
             aktørId: person.aktorId,
@@ -86,11 +89,14 @@ export const SkjønnsfastsettingForm = ({
                             bokstav: begrunnelse.subsumsjon?.bokstav,
                         },
                     }),
+                    initierendeVedtaksperiodeId: førsteBeregnedePerioderPåSkjæringstidspunkt.filter(
+                        (it) => it.arbeidsgiver === organisasjonsnummer,
+                    )[0].initierendeVedtaksperiodeId,
                 };
             }),
         };
         // TODO: Fjern etter testing i dev:
-        console.log(skjønnsfastsettingSykepengegrunnlag);
+        console.log('skjønnsfastsettingSykepengegrunnlag: ', skjønnsfastsettingSykepengegrunnlag);
         postSkjønnsfastsetting(skjønnsfastsettingSykepengegrunnlag);
         cancelEditing();
     };
@@ -128,3 +134,13 @@ export const SkjønnsfastsettingForm = ({
         </FormProvider>
     );
 };
+
+const finnFørsteBeregnedePåSkjæringstidspunkt = (person: FetchedPerson, period: ActivePeriod) =>
+    person.arbeidsgivere.flatMap((arbeidsgiver) => ({
+        arbeidsgiver: arbeidsgiver.organisasjonsnummer,
+        initierendeVedtaksperiodeId: arbeidsgiver.generasjoner[0].perioder
+            .filter(
+                (periode) => periode.skjaeringstidspunkt === period.skjaeringstidspunkt && isBeregnetPeriode(periode),
+            )
+            .pop()?.vedtaksperiodeId,
+    }));
