@@ -32,5 +32,5 @@
     text-decoration: line-through;
     display: flex;
     align-items: center;
-    padding-left: 1rem;
+    padding-left: var(--a-spacing-4);
 }

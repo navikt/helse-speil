@@ -2,8 +2,8 @@
     display: flex;
     flex-direction: column;
     --fixed-column-width: 16rem;
-    gap: 1.75rem;
-    padding-top: 2rem;
+    gap: var(--a-spacing-7);
+    padding-top: var(--a-spacing-8);
 }
 
 .Table {
@@ -16,7 +16,7 @@
 
 .Table td,
 .Table th {
-    padding: 0.25rem 0.5rem;
+    padding: var(--a-spacing-1) var(--a-spacing-2);
 }
 
 .Table tr > th:first-of-type,
@@ -26,7 +26,7 @@
 }
 
 .Table thead > tr:first-of-type > th {
-    padding-bottom: 0.75rem;
+    padding-bottom: var(--a-spacing-3);
 }
 
 .Table tfoot > tr {
@@ -43,7 +43,7 @@
 }
 
 .PaddedRow > td {
-    padding-bottom: 2rem !important;
+    padding-bottom: var(--a-spacing-8) !important;
 }
 
 .ColumnTitle {
