@@ -256,12 +256,13 @@ export const EditableInntekt = ({
                             className={styles.Button}
                             disabled={isLoading}
                             variant="secondary"
+                            size="small"
                             onClick={validateRefusjon}
                         >
                             Lagre
                             {isLoading && <Loader size="xsmall" />}
                         </Button>
-                        <Button className={styles.Button} variant="tertiary" onClick={cancelEditing}>
+                        <Button className={styles.Button} variant="tertiary" size="small" onClick={cancelEditing}>
                             Avbryt
                         </Button>
                     </span>

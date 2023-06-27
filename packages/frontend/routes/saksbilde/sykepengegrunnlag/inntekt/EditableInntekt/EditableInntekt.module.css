@@ -54,21 +54,6 @@
     gap: 0.5rem;
 }
 
-.Button {
-    display: flex;
-    align-items: center;
-    box-sizing: border-box;
-    padding: 5px 23px;
-}
-
-.Button:hover,
-.Button:disabled,
-.Button.navds-button:disabled {
-    border-width: 2px;
-    border-color: var(--a-border-default);
-    padding: 5px 23px;
-}
-
 .Button svg {
     margin-left: 0.5rem;
 }

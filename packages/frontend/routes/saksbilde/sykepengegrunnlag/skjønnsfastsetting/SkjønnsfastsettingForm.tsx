@@ -118,15 +118,15 @@ export const SkjønnsfastsettingForm = ({
                     {visFeilOppsummering && (
                         <Feiloppsummering feiloppsummeringRef={feiloppsummeringRef} errors={form.formState.errors} />
                     )}
-                    <span className={styles.buttons}>
-                        <Button className={styles.button} variant="secondary" size="small">
+                    <div className={styles.buttons}>
+                        <Button className={styles.button} variant="secondary" size="small" disabled={isLoading}>
                             Lagre
                             {isLoading && <Loader size="xsmall" />}
                         </Button>
                         <Button className={styles.button} variant="tertiary" onClick={cancelEditing} size="small">
                             Avbryt
                         </Button>
-                    </span>
+                    </div>
                     {error && <ErrorMessage className={styles.error}>{error}</ErrorMessage>}
                     {timedOut && <TimeoutModal onRequestClose={() => setTimedOut(false)} />}
                 </div>
