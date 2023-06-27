@@ -5,6 +5,7 @@ import {
     BeregnetPeriode,
     Kommentar,
     MutationFeilregistrerKommentarArgs,
+    MutationFeilregistrerNotatArgs,
     MutationLeggTilKommentarArgs,
     Notat,
     NotatType,
@@ -56,6 +57,12 @@ export class NotatMock {
         return _kommentar;
     };
 
+    static getNotat = (id: number): Notat | undefined => {
+        let _notat: Notat | undefined;
+        NotatMock.notater.forEach((notater) => (_notat = notater.find((notat) => notat.id === id)));
+        return _notat;
+    };
+
     static feilregistrerKommentar = ({ id }: MutationFeilregistrerKommentarArgs): void => {
         NotatMock.notater.forEach((notater: Array<Notat>, vedtaksperiodeId: UUID) => {
             const notat = notater.find((it) => it.kommentarer.find((it) => it.id === id));
@@ -71,6 +78,15 @@ export class NotatMock {
                 });
             }
         });
+    };
+    static feilregistrerNotat = ({ id }: MutationFeilregistrerNotatArgs): void => {
+        const notat = NotatMock.getNotat(id);
+        if (notat) {
+            NotatMock.updateNotat(notat.vedtaksperiodeId, notat.id, {
+                feilregistrert: true,
+                feilregistrert_tidspunkt: dayjs().format(ISO_TIDSPUNKTFORMAT),
+            });
+        }
     };
 
     static getNotater = (id: UUID): Array<Notat> => {

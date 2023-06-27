@@ -17,6 +17,7 @@ import { FlereFodselsnumreError, NotFoundError } from './errors';
 import type {
     BeregnetPeriode,
     MutationFeilregistrerKommentarArgs,
+    MutationFeilregistrerNotatArgs,
     MutationFjernPaaVentArgs,
     MutationFjernTildelingArgs,
     MutationLeggPaaVentArgs,
@@ -123,6 +124,10 @@ const getResolvers = (): IResolvers => ({
     Mutation: {
         leggTilNotat: (_, { type, vedtaksperiodeId, tekst }: MutationLeggTilNotatArgs) => {
             return NotatMock.addNotat(vedtaksperiodeId, { tekst: tekst, type: type });
+        },
+        feilregistrerNotat: (_, { id }: MutationFeilregistrerNotatArgs) => {
+            NotatMock.feilregistrerNotat({ id });
+            return NotatMock.getNotat(id);
         },
         feilregistrerKommentar: (_, { id }: MutationFeilregistrerKommentarArgs) => {
             NotatMock.feilregistrerKommentar({ id });

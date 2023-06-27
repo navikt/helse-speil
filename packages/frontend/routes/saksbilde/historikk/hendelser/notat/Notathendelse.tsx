@@ -1,12 +1,13 @@
 import classNames from 'classnames';
 import { AnimatePresence, motion } from 'framer-motion';
-import React, { useReducer } from 'react';
+import React, { useState } from 'react';
 
 import { Send, SpeechBubble, StopWatch } from '@navikt/ds-icons';
+import { ErrorMessage } from '@navikt/ds-react';
 
-import { putFeilregistrertNotat } from '@io/http';
+import { useMutation } from '@apollo/client';
+import { FeilregistrerNotatMutationDocument } from '@io/graphql';
 import { useInnloggetSaksbehandler } from '@state/authentication';
-import { useRefreshNotater } from '@state/notater';
 import { useRefetchPerson } from '@state/person';
 
 import { ExpandableHistorikkContent } from '../ExpandableHistorikkContent';
@@ -15,57 +16,8 @@ import { HendelseDate } from '../HendelseDate';
 import { HendelseDropdownMenu } from './HendelseDropdownMenu';
 import { NotatHendelseContent } from './NotathendelseContent';
 import { MAX_TEXT_LENGTH_BEFORE_TRUNCATION } from './constants';
-import { Action, State } from './types';
 
 import styles from './Notathendelse.module.css';
-
-const reducer = (state: State, action: Action) => {
-    switch (action.type) {
-        case 'ToggleNotat': {
-            return {
-                ...state,
-                expanded: action.value,
-            };
-        }
-        case 'ToggleDialogAction': {
-            return {
-                ...state,
-                showAddDialog: action.value,
-            };
-        }
-        case 'ErrorAction': {
-            return {
-                ...state,
-                isFetching: false,
-                hasErrors: true,
-                errors: {
-                    ...state.errors,
-                    [action.id]: action.message ?? 'Det oppstod en feil. Prøv igjen senere.',
-                },
-            };
-        }
-        case 'FetchSuccessAction': {
-            return {
-                ...state,
-                isFetching: false,
-                hasErrors: false,
-                showAddDialog: false,
-                errors: {},
-            };
-        }
-        case 'FetchAction': {
-            return {
-                ...state,
-                isFetching: true,
-                hasErrors: false,
-                errors: {},
-            };
-        }
-        default: {
-            return state;
-        }
-    }
-};
 
 type NotathendelseProps = Omit<NotathendelseObject, 'type'>;
 
@@ -80,79 +32,45 @@ export const Notathendelse: React.FC<NotathendelseProps> = ({
     vedtaksperiodeId,
     kommentarer,
 }) => {
-    const [state, dispatch] = useReducer(reducer, {
-        errors: {},
-        hasErrors: false,
-        isFetching: false,
-        showAddDialog: false,
-        expanded: false,
-    });
-
-    const refreshNotater = useRefreshNotater();
-    const refetchPerson = useRefetchPerson();
-
-    const title = (
-        <span className={classNames(feilregistrert && styles.Feilregistrert)}>
-            {notattype === 'PaaVent' && 'Lagt på vent'}
-            {notattype === 'Retur' && 'Returnert'}
-            {notattype === 'Generelt' && 'Notat'}
-            {feilregistrert && ' (feilregistrert)'}
-        </span>
-    );
+    const [showAddDialog, setShowAddDialog] = useState(false);
+    const [expanded, setExpanded] = useState(false);
 
     const innloggetSaksbehandler = useInnloggetSaksbehandler();
+    const refetchPerson = useRefetchPerson();
 
-    const feilregistrerNotat = () => {
-        dispatch({ type: 'FetchAction' });
-        putFeilregistrertNotat(vedtaksperiodeId, id)
-            .then(() => {
-                refreshNotater();
-                refetchPerson().finally(() => {
-                    dispatch({ type: 'FetchSuccessAction' });
-                });
-            })
-            .catch(() => {
-                dispatch({ type: 'ErrorAction', id: 'feilregistrerNotat' });
+    const [feilregistrerNotat, { loading, error }] = useMutation(FeilregistrerNotatMutationDocument, {
+        variables: { id: parseInt(id) },
+        onCompleted: () => {
+            refetchPerson().finally(() => {
+                setShowAddDialog(false);
             });
-    };
+        },
+    });
 
-    const isExpandable = () => {
-        return tekst.length > MAX_TEXT_LENGTH_BEFORE_TRUNCATION;
-    };
-
+    const isExpandable = () => tekst.length > MAX_TEXT_LENGTH_BEFORE_TRUNCATION;
     const toggleNotat = (event: React.KeyboardEvent) => {
         if (event.code === 'Enter' || event.code === 'Space') {
-            dispatch({ type: 'ToggleNotat', value: isExpandable() && !state.expanded });
+            setExpanded(isExpandable() && !expanded);
         }
     };
 
-    const icon =
-        notattype === 'PaaVent' ? (
-            <StopWatch title="Stop-watch-ikon" className={classNames(styles.Innrammet, styles.LagtPaaVent)} />
-        ) : notattype === 'Retur' ? (
-            <Send title="Send-ikon" className={classNames(styles.Innrammet, styles.Retur)} />
-        ) : (
-            <SpeechBubble title="Speech-bubble-ikon" className={classNames(styles.Innrammet, styles.InnrammetNotat)} />
-        );
     return (
-        <Hendelse title={title} icon={icon}>
+        <Hendelse
+            title={<NotatTittel feilregistrert={feilregistrert} notattype={notattype} />}
+            icon={<NotatIkon notattype={notattype} />}
+        >
             {!feilregistrert && innloggetSaksbehandler.oid === saksbehandlerOid && (
-                <HendelseDropdownMenu feilregistrerAction={feilregistrerNotat} isFetching={state.isFetching} />
+                <HendelseDropdownMenu feilregistrerAction={feilregistrerNotat} isFetching={loading} />
             )}
             <div
                 role="button"
                 tabIndex={0}
                 onKeyDown={toggleNotat}
-                onClick={() =>
-                    dispatch({
-                        type: 'ToggleNotat',
-                        value: isExpandable() && !state.expanded,
-                    })
-                }
+                onClick={() => setExpanded(isExpandable() && !expanded)}
                 className={styles.NotatTextWrapper}
             >
                 <AnimatePresence mode="wait">
-                    {state.expanded ? (
+                    {expanded ? (
                         <motion.pre
                             key="pre"
                             className={styles.Notat}
@@ -174,6 +92,7 @@ export const Notathendelse: React.FC<NotathendelseProps> = ({
                     )}
                 </AnimatePresence>
             </div>
+            {error && <ErrorMessage>Kunne ikke feilregistrere notat. Prøv igjen senere.</ErrorMessage>}
             <HendelseDate timestamp={timestamp} ident={saksbehandler} />
             <ExpandableHistorikkContent
                 openText={`Kommentarer (${kommentarer.length})`}
@@ -184,11 +103,45 @@ export const Notathendelse: React.FC<NotathendelseProps> = ({
                     kommentarer={kommentarer}
                     saksbehandlerOid={saksbehandlerOid}
                     id={id}
-                    state={state}
+                    showAddDialog={showAddDialog}
+                    setShowAddDialog={setShowAddDialog}
                     vedtaksperiodeId={vedtaksperiodeId}
-                    dispatch={dispatch}
                 />
             </ExpandableHistorikkContent>
         </Hendelse>
     );
+};
+
+interface NotatTittelProps {
+    feilregistrert: boolean;
+    notattype: NotatType;
+}
+
+const NotatTittel = ({ feilregistrert, notattype }: NotatTittelProps) => (
+    <span className={classNames(feilregistrert && styles.Feilregistrert)}>
+        {notattype === 'PaaVent' && 'Lagt på vent'}
+        {notattype === 'Retur' && 'Returnert'}
+        {notattype === 'Generelt' && 'Notat'}
+        {feilregistrert && ' (feilregistrert)'}
+    </span>
+);
+
+interface NotatIkonProps {
+    notattype: NotatType;
+}
+
+const NotatIkon = ({ notattype }: NotatIkonProps) => {
+    switch (notattype) {
+        case 'PaaVent':
+            return <StopWatch title="Stop-watch-ikon" className={classNames(styles.Innrammet, styles.LagtPaaVent)} />;
+        case 'Retur':
+            return <Send title="Send-ikon" className={classNames(styles.Innrammet, styles.Retur)} />;
+        case 'Generelt':
+            return (
+                <SpeechBubble
+                    title="Speech-bubble-ikon"
+                    className={classNames(styles.Innrammet, styles.InnrammetNotat)}
+                />
+            );
+    }
 };

@@ -84,12 +84,7 @@ export const NotatListeModal = ({
                 {notater
                     .filter((it) => it.type === notattype)
                     .map((notat) => (
-                        <NotatListeRad
-                            key={notat.id}
-                            notat={notat}
-                            vedtaksperiodeId={vedtaksperiodeId}
-                            innloggetSaksbehandler={innloggetSaksbehandler}
-                        />
+                        <NotatListeRad key={notat.id} notat={notat} innloggetSaksbehandler={innloggetSaksbehandler} />
                     ))}
             </tbody>
             {erPåVent && notattype === 'PaaVent' && (

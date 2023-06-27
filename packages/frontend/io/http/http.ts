@@ -179,10 +179,6 @@ export const postForespørPersonoppdatering = async (oppdatering: Personoppdater
 export const postAbonnerPåAktør = async (aktørId: string) => {
     return post(`${baseUrl}/opptegnelse/abonner/${aktørId}`, {});
 };
-export const putFeilregistrertNotat = async (vedtaksperiodeId: string, notatId: string) => {
-    return put(`${baseUrl}/notater/${vedtaksperiodeId}/feilregistrer/${notatId}`, {});
-};
-
 export const postGraphQLQuery = async (operation: string) => {
     return post(`${baseUrlGraphQL}`, JSON.parse(operation));
 };

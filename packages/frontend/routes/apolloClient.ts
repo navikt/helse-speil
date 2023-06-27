@@ -10,6 +10,7 @@ export const client = new ApolloClient({
         typePolicies: {
             OppgaveForOversiktsvisning: { keyFields: ['id'] },
             Notater: { keyFields: ['id'] },
+            Notat: { keyFields: ['id'] },
             Kommentarer: { keyFields: ['id'] },
         },
     }),
