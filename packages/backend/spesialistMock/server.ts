@@ -4,7 +4,6 @@ import { sleep } from '../devHelpers';
 import { setUpGraphQLMiddleware } from './graphql';
 import { setUpOpptegnelse } from './opptegnelser';
 import { setUpOverstyring } from './overstyringer';
-import { Notat } from './schemaTypes';
 import { NotatMock } from './storage/notat';
 import { OppgaveMock, getDefaultOppgave } from './storage/oppgave';
 
@@ -34,49 +33,6 @@ app.use((req, res, next) => {
         console.log(`Behandler ${req.method} til ${pathOrQuery} etter ${ventetid} ms`);
     }
     sleep(ventetid).then(next);
-});
-
-app.post('/api/notater/:vedtaksperiodeId', (req: Request, res: Response) => {
-    const vedtaksperiodeId = req.params.vedtaksperiodeId;
-
-    NotatMock.addNotat(vedtaksperiodeId, {
-        vedtaksperiodeId: vedtaksperiodeId,
-        tekst: req.body.tekst,
-        type: req.body.type,
-    });
-
-    res.sendStatus(200);
-});
-
-app.put('/api/notater/:vedtaksperiodeId/feilregistrer/:notatId', (req: Request, res: Response) => {
-    const vedtaksperiodeId = req.params.vedtaksperiodeId;
-    const notatId = Number.parseInt(req.params.notatId);
-
-    NotatMock.updateNotat(vedtaksperiodeId, notatId, { feilregistrert: true });
-
-    res.sendStatus(200);
-});
-
-app.get('/api/notater', (req: Request, res: Response) => {
-    const vedtaksperioderIdQueryParameter = req.query.vedtaksperiode_id as string | Array<string>;
-
-    if (vedtaksperioderIdQueryParameter === undefined) {
-        res.sendStatus(400);
-        return;
-    }
-
-    const vedtaksperiodeIder: Array<string> = Array.isArray(vedtaksperioderIdQueryParameter)
-        ? vedtaksperioderIdQueryParameter
-        : [vedtaksperioderIdQueryParameter];
-
-    const response: { [oppgaveref: string]: Array<Notat> } = {};
-
-    for (const id of vedtaksperiodeIder) {
-        let notater = NotatMock.getNotater(id);
-        response[id] = notater ?? [];
-    }
-
-    res.send(response);
 });
 
 app.post('/api/totrinnsvurdering/retur', (req: Request, res: Response) => {

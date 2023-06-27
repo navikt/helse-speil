@@ -12,7 +12,6 @@ import graphQLRoutes from './graphql/graphQLRoutes';
 import headers from './headers';
 import totrinnsvurderingRoutes from './http/totrinnsvurderingRoutes';
 import logger from './logging';
-import notatRoutes from './notat/notatRoutes';
 import opptegnelseRoutes from './opptegnelse/opptegnelseRoutes';
 import overstyringRoutes from './overstyring/overstyringRoutes';
 import paymentRoutes from './payment/paymentRoutes';
@@ -161,7 +160,6 @@ app.use('/api/payments', paymentRoutes(dependencies));
 app.use('/api/totrinnsvurdering', totrinnsvurderingRoutes(dependencies));
 app.use('/api/overstyring', overstyringRoutes(dependencies.spesialistClient));
 app.use('/api/opptegnelse', opptegnelseRoutes(dependencies));
-app.use('/api/notater', notatRoutes(dependencies));
 app.use('/graphql', graphQLRoutes(dependencies.graphql));
 
 app.get('/*', (req, res, next) => {
