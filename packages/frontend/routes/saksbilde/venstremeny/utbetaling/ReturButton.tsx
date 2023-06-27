@@ -4,7 +4,7 @@ import React, { useContext, useState } from 'react';
 import { Button } from '@navikt/ds-react';
 
 import { AmplitudeContext } from '@io/amplitude';
-import { Personnavn } from '@io/graphql';
+import { NotatType, Personnavn } from '@io/graphql';
 import { postSendTilbakeTilSaksbehandler } from '@io/http';
 import { useCurrentPerson } from '@state/person';
 import { useAddToast } from '@state/toasts';
@@ -24,18 +24,16 @@ const useAddReturtoast = () => {
     };
 };
 
-interface ReturButtonProps extends Omit<React.HTMLAttributes<HTMLButtonElement>, 'onError' | 'children'> {
+interface ReturButtonProps extends Omit<React.HTMLAttributes<HTMLButtonElement>, 'children'> {
     activePeriod: FetchedBeregnetPeriode;
     disabled: boolean;
     onSuccess?: () => void;
-    onError?: (error: Error) => void;
 }
 
 export const ReturButton: React.FC<ReturButtonProps> = ({
     activePeriod,
     disabled = false,
     onSuccess,
-    onError,
     ...buttonProps
 }) => {
     const [showModal, setShowModal] = useState(false);
@@ -103,7 +101,7 @@ export const ReturButton: React.FC<ReturButtonProps> = ({
                     vedtaksperiodeId={activePeriod.vedtaksperiodeId}
                     onSubmitOverride={returnerUtbetaling}
                     errorOverride={error}
-                    notattype="Retur"
+                    notattype={NotatType.Retur}
                 />
             )}
         </>

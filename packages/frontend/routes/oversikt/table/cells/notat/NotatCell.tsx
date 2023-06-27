@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { StopWatch } from '@navikt/ds-icons';
 import { Button, Table, Tooltip } from '@navikt/ds-react';
 
-import { Personnavn } from '@io/graphql';
+import { NotatType, Personnavn } from '@io/graphql';
 import { useNotaterForVedtaksperiode } from '@state/notater';
 
 import { NotatListeModal } from './NotatListeModal';
@@ -49,7 +49,7 @@ export const NotatCell = ({ vedtaksperiodeId, navn, erPåVent }: NotatCellProps)
                     navn={navn}
                     onClose={toggleModal}
                     erPåVent={erPåVent}
-                    notattype="PaaVent"
+                    notattype={NotatType.PaaVent}
                 />
             )}
         </>

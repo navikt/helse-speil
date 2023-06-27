@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { Loader } from '@navikt/ds-react';
 import { Dropdown } from '@navikt/ds-react-internal';
 
-import { Personinfo, Personnavn } from '@io/graphql';
+import { NotatType, Personinfo, Personnavn } from '@io/graphql';
 import { useFjernPåVent, useLeggPåVent } from '@state/tildeling';
 import { useOperationErrorHandler } from '@state/varsler';
 
@@ -62,7 +62,7 @@ export const PåVentDropdownMenuButton = ({
                     navn={navn}
                     vedtaksperiodeId={vedtaksperiodeId}
                     onSubmitOverride={settPåVent}
-                    notattype="PaaVent"
+                    notattype={NotatType.PaaVent}
                 />
             )}
         </>

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 
 import { Dropdown } from '@navikt/ds-react-internal';
 
-import { Personnavn } from '@io/graphql';
+import { NotatType, Personnavn } from '@io/graphql';
 import { NotatDTO } from '@io/http';
 import { useLeggPåVent } from '@state/tildeling';
 
@@ -43,7 +43,7 @@ export const LeggPåVentMenuButton = ({ oppgavereferanse, vedtaksperiodeId, navn
                     vedtaksperiodeId={vedtaksperiodeId}
                     onSubmitOverride={settPåVent}
                     errorOverride={error}
-                    notattype="PaaVent"
+                    notattype={NotatType.PaaVent}
                 />
             )}
         </>

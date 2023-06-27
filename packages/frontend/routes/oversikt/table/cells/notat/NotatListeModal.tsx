@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { LinkButton } from '@components/LinkButton';
 import { TableModal } from '@components/TableModal';
 import { Personnavn } from '@io/graphql';
+import { NotatType } from '@io/graphql';
 import { useInnloggetSaksbehandler } from '@state/authentication';
 import { getFormatertNavn } from '@utils/string';
 

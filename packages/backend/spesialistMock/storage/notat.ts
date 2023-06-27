@@ -21,10 +21,11 @@ export class NotatMock {
     private static notatCounter: number = 0;
     private static kommentarCounter: number = 0;
 
-    static addNotat = (id: string, notatProperties?: Partial<Notat>): void => {
+    static addNotat = (id: string, notatProperties?: Partial<Notat>): Notat => {
         const vedtaksperiodeId = findVedtaksperiodeId(id) ?? id;
         const notat = NotatMock.getMockedNotat(vedtaksperiodeId, notatProperties);
         NotatMock.notater.set(vedtaksperiodeId, [...NotatMock.getNotater(vedtaksperiodeId), notat]);
+        return notat;
     };
 
     static addKommentar = ({ tekst, notatId, saksbehandlerident }: MutationLeggTilKommentarArgs): Kommentar => {

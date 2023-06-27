@@ -4,5 +4,6 @@ mutation LeggTilKommentar($tekst: String!, $notatId: Int!, $saksbehandlerident: 
         tekst
         opprettet
         saksbehandlerident
+        feilregistrert_tidspunkt
     }
 }

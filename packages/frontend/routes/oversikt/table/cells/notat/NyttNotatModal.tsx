@@ -4,12 +4,12 @@ import { Controller, useForm } from 'react-hook-form';
 
 import { Button, Loader, Textarea as NavTextarea } from '@navikt/ds-react';
 
-import { useLazyQuery } from '@apollo/client';
+import { useMutation } from '@apollo/client';
 import { ErrorMessage } from '@components/ErrorMessage';
 import { Modal } from '@components/Modal';
 import { AnonymizableText } from '@components/anonymizable/AnonymizableText';
-import { FetchNotaterDocument, Personnavn } from '@io/graphql';
-import { postNotat } from '@io/http';
+import { LeggTilNotatDocument, NotatType, Personnavn } from '@io/graphql';
+import { useInnloggetSaksbehandler } from '@state/authentication';
 import { useNotaterForVedtaksperiode } from '@state/notater';
 import { useRefetchPerson } from '@state/person';
 import { getFormatertNavn } from '@utils/string';
@@ -111,16 +111,13 @@ export const NyttNotatModal = ({
     submitButtonText,
 }: NyttNotatModalProps) => {
     const notaterForOppgave = useNotaterForVedtaksperiode(vedtaksperiodeId);
-    const [refreshNotater] = useLazyQuery(FetchNotaterDocument, {
-        initialFetchPolicy: 'network-only',
-        variables: { forPerioder: [vedtaksperiodeId] },
-    });
+    const { oid } = useInnloggetSaksbehandler();
+    const [nyttNotat, { loading }] = useMutation(LeggTilNotatDocument);
     const refetchPerson = useRefetchPerson();
     const søkernavn = navn ? getFormatertNavn(navn, ['E', ',', 'F', 'M']) : undefined;
 
     const form = useForm();
 
-    const [isFetching, setIsFetching] = useState(false);
     const [error, setError] = useState<string | undefined>();
 
     const notattekst = notattypeTekster(notattype);
@@ -136,21 +133,35 @@ export const NyttNotatModal = ({
     };
 
     const submit = () => {
-        setIsFetching(true);
         setError(undefined);
         if (onSubmitOverride) {
-            onSubmitOverride(form.getValues().tekst).finally(() => setIsFetching(false));
+            onSubmitOverride(form.getValues().tekst);
         } else {
-            postNotat(vedtaksperiodeId, { tekst: form.getValues().tekst, type: notattype })
+            nyttNotat({
+                variables: {
+                    oid: oid,
+                    tekst: form.getValues().tekst,
+                    type: notattype,
+                    vedtaksperiodeId: vedtaksperiodeId,
+                },
+                update: (cache, { data }) => {
+                    cache.modify({
+                        id: cache.identify({ __typename: 'Notater', id: vedtaksperiodeId }),
+                        fields: {
+                            notater(existingNotater: Notat[]) {
+                                return [...existingNotater, data];
+                            },
+                        },
+                    });
+                },
+            })
                 .then(() => {
-                    refreshNotater(); // Refresher for oversikten, for REST
                     void refetchPerson(); // Refresher for saksbildet, for GraphQL
                     onClose({} as React.SyntheticEvent);
                 })
                 .catch((err) => {
                     setError(err.statusCode === 401 ? 'Du har blitt logget ut' : 'Notatet kunne ikke lagres');
-                })
-                .finally(() => setIsFetching(false));
+                });
         }
     };
 
@@ -194,9 +205,9 @@ export const NyttNotatModal = ({
                         )}
                     />
                     <Buttons>
-                        <Button size="small" disabled={isFetching} type="submit">
+                        <Button size="small" disabled={loading} type="submit">
                             {submitButtonText ?? (onSubmitOverride ? notattekst.submitTekst : 'Lagre')}
-                            {isFetching && <Loader size="xsmall" />}
+                            {loading && <Loader size="xsmall" />}
                         </Button>
                         <Button size="small" variant="secondary" onClick={closeModal} type="button">
                             Avbryt

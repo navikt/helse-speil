@@ -1,0 +1,22 @@
+mutation LeggTilNotat($type: NotatType!, $oid: String!, $vedtaksperiodeId: String!, $tekst: String!) {
+    leggTilNotat(type: $type, saksbehandlerOid: $oid, vedtaksperiodeId: $vedtaksperiodeId, tekst: $tekst) {
+        id
+        tekst
+        opprettet
+        saksbehandlerOid
+        saksbehandlerNavn
+        saksbehandlerEpost
+        saksbehandlerIdent
+        vedtaksperiodeId
+        feilregistrert
+        feilregistrert_tidspunkt
+        type
+        kommentarer {
+            id
+            tekst
+            opprettet
+            saksbehandlerident
+            feilregistrert_tidspunkt
+        }
+    }
+}

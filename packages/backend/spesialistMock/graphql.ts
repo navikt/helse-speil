@@ -21,6 +21,7 @@ import type {
     MutationFjernTildelingArgs,
     MutationLeggPaaVentArgs,
     MutationLeggTilKommentarArgs,
+    MutationLeggTilNotatArgs,
     MutationOpprettTildelingArgs,
     MutationSettVarselstatusAktivArgs,
     MutationSettVarselstatusVurdertArgs,
@@ -120,6 +121,9 @@ const getResolvers = (): IResolvers => ({
         },
     },
     Mutation: {
+        leggTilNotat: (_, { type, vedtaksperiodeId, tekst }: MutationLeggTilNotatArgs) => {
+            return NotatMock.addNotat(vedtaksperiodeId, { tekst: tekst, type: type });
+        },
         feilregistrerKommentar: (_, { id }: MutationFeilregistrerKommentarArgs) => {
             NotatMock.feilregistrerKommentar({ id });
             return NotatMock.getKommentar(id);
