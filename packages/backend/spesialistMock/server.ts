@@ -1,7 +1,6 @@
 import express, { Request, Response } from 'express';
 
 import { sleep } from '../devHelpers';
-import { oppgaver } from './data/oppgaver';
 import { setUpGraphQLMiddleware } from './graphql';
 import { setUpOpptegnelse } from './opptegnelser';
 import { setUpOverstyring } from './overstyringer';
@@ -35,52 +34,6 @@ app.use((req, res, next) => {
         console.log(`Behandler ${req.method} til ${pathOrQuery} etter ${ventetid} ms`);
     }
     sleep(ventetid).then(next);
-});
-
-app.post('/api/tildeling/:oppgavereferanse', (req: Request, res: Response) => {
-    const oppgavereferanse = req.params.oppgavereferanse;
-
-    OppgaveMock.addOrUpdateOppgave(oppgavereferanse, { tildelt: 'uuid' });
-
-    res.sendStatus(200);
-});
-
-app.delete('/api/tildeling/:oppgavereferanse', async (req: Request, res: Response) => {
-    const oppgavereferanse = req.params.oppgavereferanse;
-
-    OppgaveMock.addOrUpdateOppgave(oppgavereferanse, {
-        tildelt: undefined,
-        erPåVent: false,
-    });
-
-    res.sendStatus(200);
-});
-
-app.post('/api/leggpaavent/:oppgavereferanse', (req: Request, res: Response) => {
-    const oppgavereferanse = req.params.oppgavereferanse;
-
-    const vedtaksperiodeId = oppgaver.find((oppgave) => oppgave.id === oppgavereferanse)?.vedtaksperiodeId;
-    if (vedtaksperiodeId === undefined) {
-        console.warn(`Finner ikke vedtaksperiodeId for oppgavereferanse ${oppgavereferanse}`);
-        res.sendStatus(500);
-    }
-
-    OppgaveMock.addOrUpdateOppgave(oppgavereferanse, { erPåVent: true });
-    NotatMock.addNotat(vedtaksperiodeId!, {
-        vedtaksperiodeId: vedtaksperiodeId,
-        tekst: req.body.tekst,
-        type: req.body.type,
-    });
-
-    res.sendStatus(200);
-});
-
-app.delete('/api/leggpaavent/:oppgavereferanse', (req: Request, res: Response) => {
-    const oppgavereferanse = req.params.oppgavereferanse;
-
-    OppgaveMock.addOrUpdateOppgave(oppgavereferanse, { erPåVent: false });
-
-    res.sendStatus(200);
 });
 
 app.post('/api/notater/:vedtaksperiodeId', (req: Request, res: Response) => {

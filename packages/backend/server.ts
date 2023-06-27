@@ -1,4 +1,3 @@
-import oppgaveRoutes from './leggpåvent/leggPåVentRoutes';
 import bodyParser from 'body-parser';
 import compression from 'compression';
 import cookieParser from 'cookie-parser';
@@ -20,7 +19,6 @@ import paymentRoutes from './payment/paymentRoutes';
 import oppdaterPersonRoutes from './person/oppdaterPersonRoutes';
 import { ipAddressFromRequest } from './requestData';
 import { sessionStore } from './sessionStore';
-import tildelingRoutes from './tildeling/tildelingRoutes';
 import { AuthError, SpeilRequest } from './types';
 import wiring from './wiring';
 
@@ -162,9 +160,7 @@ app.use('/api/person/oppdater', oppdaterPersonRoutes(dependencies));
 app.use('/api/payments', paymentRoutes(dependencies));
 app.use('/api/totrinnsvurdering', totrinnsvurderingRoutes(dependencies));
 app.use('/api/overstyring', overstyringRoutes(dependencies.spesialistClient));
-app.use('/api/tildeling', tildelingRoutes(dependencies.spesialistClient));
 app.use('/api/opptegnelse', opptegnelseRoutes(dependencies));
-app.use('/api/leggpaavent', oppgaveRoutes(dependencies));
 app.use('/api/notater', notatRoutes(dependencies));
 app.use('/graphql', graphQLRoutes(dependencies.graphql));
 
