@@ -54,10 +54,7 @@
 }
 
 .Arbeidsgivernavn {
-    display: flex;
-    white-space: nowrap;
-    max-width: 215px;
-    font-size: 18px;
+    max-width: 242px;
     font-weight: 600;
 }
 

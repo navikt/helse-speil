@@ -2,18 +2,16 @@ import classNames from 'classnames';
 import React from 'react';
 
 import { CaseworkerFilled } from '@navikt/ds-icons';
-import { BodyShort, Tooltip } from '@navikt/ds-react';
+import { BodyShort } from '@navikt/ds-react';
 
 import { Kilde } from '@components/Kilde';
-import { AnonymizableText } from '@components/anonymizable/AnonymizableText';
-import { Arbeidsgiverikon } from '@components/ikoner/Arbeidsgiverikon';
-import { Errorikon } from '@components/ikoner/Errorikon';
 import { Inntektskilde, OmregnetArsinntekt, Overstyring, Sammenligningsgrunnlag } from '@io/graphql';
 import { useArbeidsgiver, useEndringerForPeriode } from '@state/arbeidsgiver';
 import { erUtvikling } from '@utils/featureToggles';
 import { kildeForkortelse } from '@utils/inntektskilde';
 import { somPenger } from '@utils/locale';
 
+import { Arbeidsgivernavn } from '../Arbeidsgivernavn';
 import { EndringsloggButton } from '../inntekt/EndringsloggButton';
 import { TableCell } from './TableCell';
 
@@ -47,24 +45,10 @@ export const Inntektssammenligning = ({
             onClick={onSetAktivInntektskilde}
         >
             <td>
-                <span className={styles.arbeidsgiverCell}>
-                    <Tooltip content="Arbeidsgiver">
-                        <span>
-                            {arbeidsforholdErDeaktivert ? (
-                                <Errorikon className={styles.errorIcon} alt="Rød sirkel med kryss" />
-                            ) : (
-                                <Arbeidsgiverikon className={styles.bagIcon} alt="Arbeidsgiver" />
-                            )}
-                        </span>
-                    </Tooltip>
-                    <AnonymizableText
-                        className={classNames(styles.arbeidsgivernavn, {
-                            [styles.arbeidsgivernavnDeaktivert]: !!arbeidsforholdErDeaktivert,
-                        })}
-                    >
-                        {arbeidsgivernavn}
-                    </AnonymizableText>
-                </span>
+                <Arbeidsgivernavn
+                    arbeidsgivernavn={arbeidsgivernavn}
+                    arbeidsforholdDeaktivert={!!arbeidsforholdErDeaktivert}
+                />
             </td>
             <TableCell
                 content={

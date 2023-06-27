@@ -3,7 +3,7 @@ import React from 'react';
 import { Ikon, IkonProps } from './Ikon';
 
 export const Errorikon = React.forwardRef<SVGSVGElement, IkonProps>(
-    ({ height = 20, width = 20, viewBox = '-2 -2 20 20', className, alt }: IkonProps, ref) => (
+    ({ height = 16, width = 16, viewBox = '0 0 16 16', className, alt }: IkonProps, ref) => (
         <Ikon height={height} width={width} viewBox={viewBox} className={className} alt={alt} ref={ref}>
             <path
                 d="M7.99929 0C3.59651 0 0.00834826 3.58122 4.48097e-07 7.984C-0.00417346 10.121 0.823651 12.1315 2.33182 13.6459C3.83999 15.1597 5.84764 15.9958 7.98468 16H7.99998C12.4021 16 15.9909 12.4181 16 8.01461C16.0083 3.60417 12.4264 0.00834783 7.99929 0Z"

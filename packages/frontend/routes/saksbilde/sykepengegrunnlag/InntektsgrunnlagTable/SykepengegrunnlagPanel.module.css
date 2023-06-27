@@ -22,6 +22,7 @@
 .Table tr > th:first-of-type,
 .Table tr > td:first-of-type {
     width: var(--fixed-column-width);
+    max-width: var(--fixed-column-width);
 }
 
 .Table thead > tr:first-of-type > th {

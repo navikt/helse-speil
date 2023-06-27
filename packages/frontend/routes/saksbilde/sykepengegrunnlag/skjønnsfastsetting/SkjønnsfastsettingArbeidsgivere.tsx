@@ -5,6 +5,8 @@ import { Controller, useFormContext } from 'react-hook-form';
 
 import { Arbeidsgiver, Arbeidsgiverinntekt } from '@io/graphql';
 
+import { Arbeidsgivernavn } from '../Arbeidsgivernavn';
+
 import styles from './SkjønnsfastsettingForm.module.css';
 
 interface SkjønnsfastsettingArbeidsgivereProps {
@@ -25,7 +27,7 @@ export const SkjønnsfastsettingArbeidsgivere = ({ inntekter, arbeidsgivere }: S
                 return (
                     <div key={`arbeidsgivere.[a${inntekt.arbeidsgiver}]`} className={styles.arbeidsgiver}>
                         <label className={styles.label}>
-                            {getArbeidsgiverNavn(inntekt.arbeidsgiver)}
+                            <Arbeidsgivernavn arbeidsgivernavn={getArbeidsgiverNavn(inntekt.arbeidsgiver)} />
                             <Controller
                                 control={control}
                                 name={`arbeidsgivere.${index}`}

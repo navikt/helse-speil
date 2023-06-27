@@ -3,16 +3,12 @@ import classNames from 'classnames';
 import dayjs from 'dayjs';
 import React, { useEffect, useState } from 'react';
 
-import { Tooltip } from '@navikt/ds-react';
-
 import { Bold } from '@components/Bold';
 import { Flex } from '@components/Flex';
 import { Kilde } from '@components/Kilde';
 import { PopoverHjelpetekst } from '@components/PopoverHjelpetekst';
-import { AnonymizableTextWithEllipsis } from '@components/TextWithEllipsis';
 import { AnonymizableContainer } from '@components/anonymizable/AnonymizableContainer';
 import { Clipboard } from '@components/clipboard';
-import { ArbeidsgiverikonMedTooltip } from '@components/ikoner/ArbeidsgiverikonMedTooltip';
 import { SortInfoikon } from '@components/ikoner/SortInfoikon';
 import { useIsReadOnlyOppgave } from '@hooks/useIsReadOnlyOppgave';
 import {
@@ -41,6 +37,7 @@ import { getVilkårsgrunnlag } from '@state/selectors/person';
 import { overstyrInntektEnabled } from '@utils/featureToggles';
 import { isBeregnetPeriode, isGhostPeriode } from '@utils/typeguards';
 
+import { Arbeidsgivernavn } from '../Arbeidsgivernavn';
 import { OverstyrArbeidsforholdUtenSykdom } from '../overstyring/OverstyrArbeidsforholdUtenSykdom';
 import { BegrunnelseForOverstyring } from '../overstyring/overstyring.types';
 import { Refusjonsoversikt } from '../refusjon/Refusjonsoversikt';
@@ -253,12 +250,7 @@ export const InntektOgRefusjon = ({
         >
             <div className={classNames(styles.Header, editingInntekt && styles.editing)}>
                 <div className={styles.ArbeidsgiverHeader}>
-                    <ArbeidsgiverikonMedTooltip />
-                    <Tooltip content="Arbeidsgivernavn">
-                        <div className={styles.Arbeidsgivernavn}>
-                            <AnonymizableTextWithEllipsis>{arbeidsgiver.navn}</AnonymizableTextWithEllipsis>
-                        </div>
-                    </Tooltip>
+                    <Arbeidsgivernavn className={styles.Arbeidsgivernavn} arbeidsgivernavn={arbeidsgiver.navn} />
                     <div className={styles.Organisasjonsnummer}>
                         (
                         <Clipboard

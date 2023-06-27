@@ -1,0 +1,19 @@
+.wrapper {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    overflow: hidden;
+}
+
+.wrapper > svg {
+    flex-shrink: 0;
+}
+
+.arbeidsgivernavn {
+    margin-top: 3px;
+}
+
+.arbeidsgivernavnDeaktivert {
+    margin-top: 3px;
+    text-decoration: line-through;
+}
