@@ -1,9 +1,9 @@
 import React, { Dispatch } from 'react';
 
+import { useMutation } from '@apollo/client';
 import { LinkButton } from '@components/LinkButton';
-import { leggTilKommentar } from '@io/graphql/leggTilKommentar';
+import { FetchNotaterDocument, LeggTilKommentarDocument } from '@io/graphql';
 import { useInnloggetSaksbehandler } from '@state/authentication';
-import { useRefreshNotater } from '@state/notater';
 import { useRefetchPerson } from '@state/person';
 
 import { Kommentarer } from './Kommentarer';
@@ -18,6 +18,7 @@ type NotatHendelseContentProps = {
     state: State;
     dispatch: Dispatch<Action>;
     id: string;
+    vedtaksperiodeId: string;
 };
 
 export const NotatHendelseContent = ({
@@ -26,16 +27,18 @@ export const NotatHendelseContent = ({
     state,
     dispatch,
     id,
+    vedtaksperiodeId,
 }: NotatHendelseContentProps) => {
     const innloggetSaksbehandler = useInnloggetSaksbehandler();
-    const refreshNotater = useRefreshNotater();
     const refetchPerson = useRefetchPerson();
+    const [leggTilKommentar] = useMutation(LeggTilKommentarDocument, {
+        refetchQueries: [{ query: FetchNotaterDocument, variables: { forPerioder: [vedtaksperiodeId] } }],
+    });
 
     const onLeggTilKommentar = (notatId: number, saksbehandlerident: string) => (tekst: string) => {
         dispatch({ type: 'FetchAction' });
-        leggTilKommentar({ tekst, notatId, saksbehandlerident })
+        leggTilKommentar({ variables: { tekst, notatId, saksbehandlerident } })
             .then(() => {
-                refreshNotater();
                 refetchPerson().finally(() => {
                     dispatch({ type: 'FetchSuccessAction' });
                 });

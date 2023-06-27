@@ -20,4 +20,5 @@ query FetchNotater($forPerioder: [String!]!) {
                 feilregistrert_tidspunkt
             }
         }
-    }}
+    }
+}

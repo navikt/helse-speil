@@ -185,6 +185,7 @@ export const Notathendelse: React.FC<NotathendelseProps> = ({
                     saksbehandlerOid={saksbehandlerOid}
                     id={id}
                     state={state}
+                    vedtaksperiodeId={vedtaksperiodeId}
                     dispatch={dispatch}
                 />
             </ExpandableHistorikkContent>
