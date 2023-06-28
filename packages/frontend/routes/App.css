@@ -6,6 +6,11 @@
 }
 
 :root {
+    --a-font-size-small: 0.75rem;
+    --a-font-size-medium: 0.875rem;
+    --a-font-size-large: 1rem;
+    --a-font-size-xlarge: 1.125rem;
+
     --speil-background-secondary: #f8f8f8;
     --speil-light-hover: #e9e7e7;
     --speil-light-hover-tabell: #e5f3ff;
