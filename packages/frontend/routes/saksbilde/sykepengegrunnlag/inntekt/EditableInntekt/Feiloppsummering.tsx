@@ -25,8 +25,10 @@ export const Feiloppsummering = ({ feiloppsummeringRef, errors }: Feiloppsummeri
             heading="Skjemaet inneholder følgende feil:"
             className={styles.Feiloppsummering}
         >
-            {feilListe.map((feil) => (
-                <ErrorSummary.Item href={`#${feil.id}`}>{feil.message}</ErrorSummary.Item>
+            {feilListe.map((feil, index) => (
+                <ErrorSummary.Item href={`#${feil.id}`} key={index}>
+                    {feil.message}
+                </ErrorSummary.Item>
             ))}
         </ErrorSummary>
     );
