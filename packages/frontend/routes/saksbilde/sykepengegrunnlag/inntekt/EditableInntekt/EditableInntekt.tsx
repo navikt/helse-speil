@@ -25,7 +25,7 @@ import { isBeregnetPeriode, isGhostPeriode } from '@utils/typeguards';
 import { getFørstePeriodeForSkjæringstidspunkt } from '../../../historikk/mapping';
 import { BegrunnelseForOverstyring } from '../../overstyring/overstyring.types';
 import { Begrunnelser } from '../Begrunnelser';
-import { Refusjon } from '../Refusjon';
+import { Refusjon } from '../Refusjon/Refusjon';
 import { EditableInntektSlettLokaleOverstyringerModal } from './EditableInntektSlettLokaleOverstyringerModal';
 import { Feiloppsummering } from './Feiloppsummering';
 
