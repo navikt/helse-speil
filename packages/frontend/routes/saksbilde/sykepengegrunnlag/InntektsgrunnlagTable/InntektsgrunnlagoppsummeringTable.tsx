@@ -1,3 +1,4 @@
+import classNames from 'classnames';
 import React from 'react';
 
 import { BodyShort } from '@navikt/ds-react';
@@ -21,7 +22,7 @@ export const InntektsgrunnlagoppsummeringTable = ({
     avviksprosent,
 }: InntektsgrunnlagoppsummeringTableProps) => {
     return (
-        <table className={styles.Table}>
+        <table className={classNames(styles.Table, styles.inntektsgrunnlagoppsummeringTable)}>
             <tbody>
                 <tr className={styles.oppsummeringRow}>
                     <TableCellText text="Total omregnet årsinntekt" />

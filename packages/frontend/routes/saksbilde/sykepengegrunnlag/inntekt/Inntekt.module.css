@@ -14,7 +14,7 @@
     background-color: #e6f0ff;
     border-left: var(--border-size) solid var(--a-surface-action);
     padding: calc(var(--vertical-padding) * 4.5) var(--horizontal-padding) 24px;
-    width: 531px;
+    width: 522px;
     margin: 0 calc(var(--horizontal-padding) * -1) 0 calc((var(--horizontal-padding) + var(--border-size)) * -1);
 }
 
@@ -54,7 +54,7 @@
 }
 
 .Arbeidsgivernavn {
-    max-width: 242px;
+    max-width: 228px;
     font-weight: 600;
 }
 
@@ -69,7 +69,7 @@
     display: flex;
     flex-direction: column;
     background-color: #e6f0ff;
-    padding: 0 1rem 0 0.75rem;
+    padding: 0 4px 0 0.75rem;
 }
 
 .Inntektskilderinnhold.deaktivert {

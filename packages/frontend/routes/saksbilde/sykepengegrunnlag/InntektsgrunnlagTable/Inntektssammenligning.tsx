@@ -81,7 +81,6 @@ export const Inntektssammenligning = ({
                     ikon={<SkjønnsfastsettingIkon kilde={skjønnsmessigFastsatt?.kilde} />}
                 />
             )}
-            <td className={styles.sisteTableCell} />
         </tr>
     );
 };
