@@ -6,9 +6,8 @@ import { Controller } from 'react-hook-form';
 import { UNSAFE_DatePicker as DatePicker, Fieldset } from '@navikt/ds-react';
 
 import { Refusjonsopplysning } from '@io/http';
-import { ISO_DATOFORMAT } from '@utils/date';
+import { ISO_DATOFORMAT, NORSK_DATOFORMAT } from '@utils/date';
 
-import { DatoInput } from './DatoInput';
 import { KildeInput } from './KildeInput';
 import { LeggTilRefusjonsopplysningKnapp } from './LeggTilRefusjonsopplysningKnapp';
 import { SlettRefusjonsopplysningKnapp } from './SlettRefusjonsopplysningKnapp';
@@ -88,18 +87,33 @@ export const Refusjon = ({ fraRefusjonsopplysninger, lokaleRefusjonsopplysninger
                                 },
                             }}
                             render={() => (
-                                <DatoInput
-                                    updateDato={(date: Maybe<string>) =>
+                                <DatePicker.Input
+                                    label=""
+                                    className={styles.DateInput}
+                                    size="small"
+                                    placeholder="dd.mm.åååå"
+                                    onBlur={(e) => {
+                                        const nyFom = dayjs(e.target.value, NORSK_DATOFORMAT).isValid()
+                                            ? dayjs(e.target.value, NORSK_DATOFORMAT).format(ISO_DATOFORMAT)
+                                            : e.target.value;
+
+                                        if (nyFom === refusjonsopplysning.fom) return;
+                                        clearErrors(`refusjonsopplysninger.${index}`);
+
                                         updateRefusjonsopplysninger(
-                                            refusjonsopplysning?.fom ?? null,
-                                            date,
+                                            nyFom,
+                                            refusjonsopplysning?.tom ?? null,
                                             refusjonsopplysning.beløp,
                                             index,
-                                        )
+                                        );
+                                    }}
+                                    defaultValue={
+                                        refusjonsopplysning?.fom &&
+                                        dayjs(refusjonsopplysning.fom, ISO_DATOFORMAT).isValid()
+                                            ? dayjs(refusjonsopplysning.fom, ISO_DATOFORMAT)?.format(NORSK_DATOFORMAT)
+                                            : refusjonsopplysning.fom
                                     }
-                                    clearError={() => clearErrors(`refusjonsopplysninger.${index}`)}
-                                    dato={refusjonsopplysning.fom}
-                                    error={formState.errors?.refusjonsopplysninger?.[index]?.fom}
+                                    error={!!formState.errors?.refusjonsopplysninger?.[index]?.fom?.message}
                                 />
                             )}
                         />
@@ -144,18 +158,34 @@ export const Refusjon = ({ fraRefusjonsopplysninger, lokaleRefusjonsopplysninger
                                 },
                             }}
                             render={() => (
-                                <DatoInput
-                                    updateDato={(date: Maybe<string>) =>
+                                <DatePicker.Input
+                                    label=""
+                                    className={styles.DateInput}
+                                    size="small"
+                                    placeholder="dd.mm.åååå"
+                                    onBlur={(e) => {
+                                        const nyTom = dayjs(e.target.value, NORSK_DATOFORMAT).isValid()
+                                            ? dayjs(e.target.value, NORSK_DATOFORMAT).format(ISO_DATOFORMAT)
+                                            : e.target.value === ''
+                                            ? null
+                                            : e.target.value;
+                                        if (nyTom === refusjonsopplysning.tom) return;
+
+                                        clearErrors(`refusjonsopplysninger.${index}`);
                                         updateRefusjonsopplysninger(
                                             refusjonsopplysning?.fom ?? null,
-                                            date,
+                                            nyTom,
                                             refusjonsopplysning.beløp,
                                             index,
-                                        )
+                                        );
+                                    }}
+                                    defaultValue={
+                                        refusjonsopplysning?.tom &&
+                                        dayjs(refusjonsopplysning.tom, ISO_DATOFORMAT).isValid()
+                                            ? dayjs(refusjonsopplysning.tom, ISO_DATOFORMAT)?.format(NORSK_DATOFORMAT)
+                                            : refusjonsopplysning?.tom ?? undefined
                                     }
-                                    clearError={() => clearErrors(`refusjonsopplysninger.${index}`)}
-                                    dato={refusjonsopplysning.tom}
-                                    error={formState.errors?.refusjonsopplysninger?.[index]?.tom}
+                                    error={!!formState.errors?.refusjonsopplysninger?.[index]?.tom?.message}
                                 />
                             )}
                         />
