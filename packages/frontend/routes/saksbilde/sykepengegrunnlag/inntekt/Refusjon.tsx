@@ -89,7 +89,7 @@ export const Refusjon = ({ fraRefusjonsopplysninger, lokaleRefusjonsopplysninger
                                         'Fom kan ikke være etter tom',
                                 },
                             }}
-                            render={({ field: { value, onChange, onBlur } }) => (
+                            render={() => (
                                 <DatePicker.Input
                                     label=""
                                     className={styles.DateInput}

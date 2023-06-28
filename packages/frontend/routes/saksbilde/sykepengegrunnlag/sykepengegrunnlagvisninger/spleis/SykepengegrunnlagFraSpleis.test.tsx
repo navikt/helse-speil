@@ -55,11 +55,7 @@ describe('SykepengegrunnlagFraSpleis', () => {
         (useVilkårsgrunnlag as jest.Mock).mockReturnValue(vilkårsgrunnlag);
 
         render(
-            <SykepengegrunnlagFraSpleis
-                vilkårsgrunnlag={vilkårsgrunnlag}
-                skjæringstidspunkt={skjaeringstidspunkt}
-                organisasjonsnummer={organisasjonsnummer}
-            />,
+            <SykepengegrunnlagFraSpleis vilkårsgrunnlag={vilkårsgrunnlag} organisasjonsnummer={organisasjonsnummer} />,
         );
 
         expect(screen.getByText('Inntektsgrunnlag')).toBeVisible();
@@ -92,11 +88,7 @@ describe('SykepengegrunnlagFraSpleis', () => {
         (useVilkårsgrunnlag as jest.Mock).mockReturnValue(vilkårsgrunnlag);
 
         render(
-            <SykepengegrunnlagFraSpleis
-                vilkårsgrunnlag={vilkårsgrunnlag}
-                skjæringstidspunkt={skjaeringstidspunkt}
-                organisasjonsnummer={organisasjonsnummer}
-            />,
+            <SykepengegrunnlagFraSpleis vilkårsgrunnlag={vilkårsgrunnlag} organisasjonsnummer={organisasjonsnummer} />,
             { wrapper: RecoilWrapper },
         );
 

@@ -11,7 +11,7 @@ interface VilkårskategoriProps extends React.HTMLAttributes<HTMLDivElement> {
     ikon: ReactNode;
 }
 
-export const Vilkårskategori = ({ children, ikon, className, ...rest }: VilkårskategoriProps) => (
+export const Vilkårskategori = ({ children, ikon, ...rest }: VilkårskategoriProps) => (
     <div className={classNames('vilkårskategori', [styles.Container])} {...rest}>
         <IkonContainer>{ikon}</IkonContainer>
         <BodyShort>{children}</BodyShort>

@@ -28,7 +28,6 @@ export const BehandletSykepengegrunnlag = ({
             <SykepengegrunnlagFraSpleis
                 vilkårsgrunnlag={vilkårsgrunnlag}
                 data-testid="behandlet-sykepengegrunnlag"
-                skjæringstidspunkt={skjæringstidspunkt}
                 organisasjonsnummer={arbeidsgiver.organisasjonsnummer}
             />
         </Wrapper>

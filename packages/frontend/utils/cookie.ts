@@ -50,7 +50,7 @@ const extractTokenFromCookie = (tokenName: string): string =>
 
 export const extractSpeilToken = (): string => extractTokenFromCookie('speil');
 
-export const extractValues = (values: ArrayLike<any>) => {
+export const extractValues = (values: ArrayLike<string>) => {
     const decodedCookie = document.cookie
         .split(';')
         .filter((item) => item.trim().startsWith('speil='))

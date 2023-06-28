@@ -47,7 +47,10 @@ export const findArbeidsgiverWithPeriode = (
         arbeidsgivere.find((arbeidsgiver) =>
             arbeidsgiver.generasjoner
                 .flatMap((generasjon) => generasjon.perioder)
-                .filter((periode): periode is UberegnetPeriode | BeregnetPeriode => (periode as any).id)
+                .filter(
+                    (periode): periode is UberegnetPeriode | BeregnetPeriode =>
+                        isUberegnetPeriode(period) || isBeregnetPeriode(periode),
+                )
                 .find((periode: UberegnetPeriode | BeregnetPeriode) => periode.id === period.id),
         ) ?? null
     );

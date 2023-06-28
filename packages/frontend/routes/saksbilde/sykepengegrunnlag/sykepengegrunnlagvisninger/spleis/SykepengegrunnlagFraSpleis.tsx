@@ -22,13 +22,11 @@ const Strek = styled.span`
 
 interface SykepengegrunnlagFraSpleisProps extends HTMLAttributes<HTMLDivElement> {
     vilkårsgrunnlag: VilkarsgrunnlagSpleis;
-    skjæringstidspunkt: DateString;
     organisasjonsnummer: string;
 }
 
 export const SykepengegrunnlagFraSpleis = ({
     vilkårsgrunnlag,
-    skjæringstidspunkt,
     organisasjonsnummer,
     ...rest
 }: SykepengegrunnlagFraSpleisProps) => {

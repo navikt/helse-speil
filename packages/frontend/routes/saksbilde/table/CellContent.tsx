@@ -1,6 +1,5 @@
 import styled from '@emotion/styled';
 import { Property } from 'csstype';
-import React from 'react';
 
 interface CellContentProps {
     justifyContent?: Property.JustifyContent;

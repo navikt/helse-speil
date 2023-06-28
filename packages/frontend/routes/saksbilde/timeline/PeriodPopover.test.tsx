@@ -14,7 +14,7 @@ import {
 import { useGjenståendeDager } from '@state/arbeidsgiver';
 import { render, screen } from '@testing-library/react';
 
-import { BeregnetPopover, PeriodPopover } from './PeriodPopover';
+import { BeregnetPopover } from './PeriodPopover';
 
 jest.mock('@state/arbeidsgiver');
 

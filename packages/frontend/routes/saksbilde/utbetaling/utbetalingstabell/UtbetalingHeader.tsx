@@ -15,16 +15,6 @@ const Container = styled(Flex)`
     width: 100%;
 `;
 
-const OverstyringHeader = styled.div`
-    height: 24px;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    padding-left: 2rem;
-    width: 100%;
-    background-color: var(--speil-overstyring-background);
-`;
-
 const InfobobleContainer = styled.div`
     margin-top: 1rem;
 `;

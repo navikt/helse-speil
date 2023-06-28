@@ -294,18 +294,18 @@ export const InntektOgRefusjon = ({
             <Flex alignItems="center">
                 <Bold>Beregnet månedsinntekt</Bold>
             </Flex>
-            {editingInntekt && !harSykefravær ? (
+            {editingInntekt && !harSykefravær && omregnetÅrsinntekt ? (
                 <EditableInntekt
-                    omregnetÅrsinntekt={omregnetÅrsinntekt!}
+                    omregnetÅrsinntekt={omregnetÅrsinntekt}
                     close={() => setEditingInntekt(false)}
                     onEndre={setEndret}
                     begrunnelser={endreInntektUtenSykefraværBegrunnelser}
                     organisasjonsnummer={organisasjonsnummer}
                     skjæringstidspunkt={skjæringstidspunkt}
                 />
-            ) : editingInntekt && harSykefravær ? (
+            ) : editingInntekt && harSykefravær && omregnetÅrsinntekt ? (
                 <EditableInntekt
-                    omregnetÅrsinntekt={omregnetÅrsinntekt!}
+                    omregnetÅrsinntekt={omregnetÅrsinntekt}
                     close={() => setEditingInntekt(false)}
                     onEndre={setEndret}
                     begrunnelser={endreInntektMedSykefraværBegrunnelser}

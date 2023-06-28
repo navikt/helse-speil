@@ -43,12 +43,11 @@ const Container = styled(CellContent)`
 
 interface KildeCellProps extends React.HTMLAttributes<HTMLTableCellElement> {
     type: Utbetalingstabelldagtype;
-    dato: DateString;
     kilde?: Kildetype;
     overstyringer?: Array<OverstyringerPrDag>;
 }
 
-export const KildeCell = ({ type, dato, kilde, overstyringer, ...rest }: KildeCellProps) => {
+export const KildeCell = ({ type, kilde, overstyringer, ...rest }: KildeCellProps) => {
     return (
         <td {...rest}>
             <Container>

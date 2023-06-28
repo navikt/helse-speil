@@ -105,12 +105,7 @@ export const Utbetalingstabell = ({
                                 <DateCell date={dag.dato} />
                                 <DagtypeCell dag={dag} overstyrtDag={lokaleOverstyringer?.get(dag.dato)} />
                                 <GradCell dag={dag} overstyrtDag={lokaleOverstyringer?.get(dag.dato)} />
-                                <KildeCell
-                                    dato={dag.dato}
-                                    type={dag.type}
-                                    kilde={dag.kilde.type}
-                                    overstyringer={dag.overstyringer}
-                                />
+                                <KildeCell type={dag.type} kilde={dag.kilde.type} overstyringer={dag.overstyringer} />
                                 <TotalGradCell
                                     type={dag.type}
                                     totalGradering={dag.totalGradering}

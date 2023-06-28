@@ -1,4 +1,4 @@
-import { Inngangsvilkår, InngangsvilkårWithContent } from './Inngangsvilkår';
+import { InngangsvilkårWithContent } from './Inngangsvilkår';
 import React from 'react';
 
 import { VilkarsgrunnlagSpleis, Vilkarsgrunnlagtype, Vurdering } from '@io/graphql';

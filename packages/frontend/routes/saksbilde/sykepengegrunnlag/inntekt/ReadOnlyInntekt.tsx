@@ -92,7 +92,7 @@ export const ReadOnlyInntekt: React.FC<ReadOnlyInntektProps> = ({
                 <Bold>{somPenger(omregnetÅrsinntekt?.belop)}</Bold>
             </div>
             {harInntektskildeAOrdningen && (
-                <GhostInntektsinformasjon omregnetÅrsinntekt={omregnetÅrsinntekt!} deaktivert={deaktivert} />
+                <GhostInntektsinformasjon omregnetÅrsinntekt={omregnetÅrsinntekt} deaktivert={deaktivert} />
             )}
         </>
     );

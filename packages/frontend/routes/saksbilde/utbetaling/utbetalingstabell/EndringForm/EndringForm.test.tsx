@@ -7,15 +7,12 @@ import userEvent from '@testing-library/user-event';
 import { EndringForm } from './EndringForm';
 import { typeendringer } from './endringFormUtils';
 
-let erProd = true;
-
 jest.mock('@utils/featureToggles', () => ({
     overstyrPermisjonsdagerEnabled: true,
 }));
 
 describe('Typeendringer', () => {
     it('returnerer typeendringer for dagtypevelgeren under overstyring', () => {
-        erProd = true;
         expect(typeendringer).toEqual(['Syk', 'Syk (NAV)', 'Ferie', 'Egenmelding', 'Permisjon', 'Arbeid']);
     });
 });

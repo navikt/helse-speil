@@ -1,6 +1,5 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
-import React from 'react';
 
 import { helgetyper } from '../utbetaling/utbetalingstabell/helgUtils';
 

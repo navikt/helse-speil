@@ -15,7 +15,7 @@ export const Feiloppsummering = ({ feiloppsummeringRef, errors }: Feiloppsummeri
     <div className={styles.Feiloppsummering}>
         <ErrorSummary ref={feiloppsummeringRef} heading="Skjemaet inneholder følgende feil:">
             {Object.entries(errors)
-                .filter(([_, error]) => error !== undefined)
+                .filter(([, error]) => error !== undefined)
                 .map(([id, error]) => {
                     if (id !== 'refusjonsopplysninger') {
                         return (
@@ -27,13 +27,13 @@ export const Feiloppsummering = ({ feiloppsummeringRef, errors }: Feiloppsummeri
                         // eslint-disable-next-line @typescript-eslint/no-explicit-any
                         return (Object.entries(error as any) as any[])
                             ?.filter(
-                                ([_, refusjonserror]) =>
+                                ([, refusjonserror]) =>
                                     refusjonserror !== undefined &&
                                     (typeof refusjonserror?.fom === 'object' ||
                                         typeof refusjonserror?.tom === 'object' ||
                                         typeof refusjonserror?.beløp === 'object'),
                             )
-                            ?.map(([_, refusjonserror]) => {
+                            ?.map(([, refusjonserror]) => {
                                 return Object.entries(refusjonserror)?.map(
                                     // eslint-disable-next-line @typescript-eslint/no-explicit-any
                                     ([id, refusjonstypeerror]: [string, any], index) => {

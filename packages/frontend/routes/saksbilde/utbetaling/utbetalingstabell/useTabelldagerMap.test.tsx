@@ -1,6 +1,5 @@
 import dayjs from 'dayjs';
 import isSameOrBefore from 'dayjs/plugin/isSameOrBefore';
-import React from 'react';
 
 import { Dag, Dagoverstyring, Dagtype, Kildetype, Sykdomsdagtype, Utbetalingsdagtype } from '@io/graphql';
 import { renderHook } from '@testing-library/react';

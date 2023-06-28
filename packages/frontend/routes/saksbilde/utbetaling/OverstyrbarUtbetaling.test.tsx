@@ -1,8 +1,6 @@
 import { RecoilWrapper } from '@test-wrappers';
-import { nanoid } from 'nanoid';
 import React from 'react';
 
-import { Utbetaling, Utbetalingstatus, Utbetalingtype } from '@io/graphql';
 import { getUtbetalingstabellDag } from '@test-data/utbetalingstabell';
 import '@testing-library/jest-dom/extend-expect';
 import { render, screen, waitFor } from '@testing-library/react';
@@ -26,17 +24,6 @@ jest.mock('./utbetalingstabell/useAlderVedSkjæringstidspunkt', () => ({
 
 //TODO this is bad, need to make it go faster
 jest.setTimeout(7000);
-
-const getUtbetaling = (overrides?: Partial<Utbetaling>): Utbetaling => ({
-    id: nanoid(),
-    arbeidsgiverFagsystemId: '123',
-    arbeidsgiverNettoBelop: 30000,
-    personFagsystemId: '234',
-    personNettoBelop: 0,
-    status: Utbetalingstatus.Ubetalt,
-    type: Utbetalingtype.Utbetaling,
-    ...overrides,
-});
 
 const dager = new Map<string, UtbetalingstabellDag>([
     ['2022-01-01', getUtbetalingstabellDag({ dato: '2022-01-01' })],

@@ -55,12 +55,14 @@ const Table = styled.table`
 `;
 
 const nyesteFørst = (a: Spennoppdrag, b: Spennoppdrag) =>
-    getTom(a)! < getTom(b)! ? -1 : getTom(a)! > getTom(b)! ? 1 : 0;
+    (getTom(a) ?? 0) < (getTom(b) ?? 0) ? -1 : (getTom(a) ?? 0) > (getTom(b) ?? 0) ? 1 : 0;
 
 const sorterOppdragNyesteFørst = (oppdrag: Oppdrag[]) =>
     oppdrag
         .filter((o) => o.type === 'UTBETALING' && o.status === 'UTBETALT')
-        .flatMap((o) => (o.arbeidsgiveroppdrag!.linjer.length > 0 ? o.arbeidsgiveroppdrag : o.personoppdrag))
+        .flatMap((o) =>
+            o.arbeidsgiveroppdrag && o.arbeidsgiveroppdrag.linjer.length > 0 ? o.arbeidsgiveroppdrag : o.personoppdrag,
+        )
         .filter((o) => o !== null)
         .map((o) => o as Spennoppdrag)
         .sort((o1, o2) => nyesteFørst(o1, o2));

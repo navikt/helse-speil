@@ -39,7 +39,6 @@ const SykepengegrunnlagContainer: React.FC = () => {
         ) : (
             <SykepengegrunnlagFraSpleis
                 vilkårsgrunnlag={vilkårsgrunnlag}
-                skjæringstidspunkt={activePeriod.skjaeringstidspunkt}
                 organisasjonsnummer={arbeidsgiver.organisasjonsnummer}
                 data-testid="ubehandlet-sykepengegrunnlag"
             />

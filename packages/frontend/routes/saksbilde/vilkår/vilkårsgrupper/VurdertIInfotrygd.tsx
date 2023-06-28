@@ -13,7 +13,7 @@ interface VurdertIInfotrygdProps {
 export const VurdertIInfotrygd = ({ vilkår }: VurdertIInfotrygdProps) => (
     <Infotrygdvurdering title="Inngangsvilkår vurdert i Infotrygd">
         <BehandletVarselContent data-testid="vurdert-i-infotrygd" aria-label="Vilkår vurdert i Infotrygd">
-            {vilkår.map(({ tittel, paragraf, komponent, type }, i) => (
+            {vilkår.map(({ tittel, paragraf, type }, i) => (
                 <Vilkårgruppe key={i}>
                     <Vilkårsgruppetittel type={type} oppfylt={true} paragraf={paragraf}>
                         {tittel}

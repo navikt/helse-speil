@@ -29,7 +29,7 @@ interface VenstremenyBeregnetPeriodeProps {
 }
 
 const finnUtbetaleTilgang = ({ handlinger }: FetchedBeregnetPeriode): Handling =>
-    handlinger.find((handling) => handling.type === Periodehandling.Utbetale)!;
+    handlinger.find((handling) => handling.type === Periodehandling.Utbetale) as Handling;
 
 export const VenstremenyBeregnetPeriode: React.FC<VenstremenyBeregnetPeriodeProps> = ({
     activePeriod,
