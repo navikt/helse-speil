@@ -19,8 +19,6 @@ export const Feiloppsummering = ({ feiloppsummeringRef, errors }: Feiloppsummeri
                 message: (error?.message as string) ?? id,
             };
         });
-    console.log(errors);
-    console.log(feilListe);
     return (
         <ErrorSummary
             ref={feiloppsummeringRef}

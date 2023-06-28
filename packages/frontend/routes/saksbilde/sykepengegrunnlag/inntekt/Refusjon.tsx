@@ -1,6 +1,7 @@
+import classNames from 'classnames';
 import dayjs from 'dayjs';
 import React, { useEffect } from 'react';
-import { Controller, useFieldArray, useFormContext } from 'react-hook-form';
+import { Controller, FieldError, useFieldArray, useFormContext } from 'react-hook-form';
 
 import { CaseworkerFilled } from '@navikt/ds-icons';
 import { BodyShort, UNSAFE_DatePicker as DatePicker, Fieldset } from '@navikt/ds-react';
@@ -87,33 +88,18 @@ export const Refusjon = ({ fraRefusjonsopplysninger, lokaleRefusjonsopplysninger
                                 },
                             }}
                             render={() => (
-                                <DatePicker.Input
-                                    label=""
-                                    className={styles.DateInput}
-                                    size="small"
-                                    placeholder="dd.mm.åååå"
-                                    onBlur={(e) => {
-                                        const nyFom = dayjs(e.target.value, NORSK_DATOFORMAT).isValid()
-                                            ? dayjs(e.target.value, NORSK_DATOFORMAT).format(ISO_DATOFORMAT)
-                                            : e.target.value;
-
-                                        if (nyFom === refusjonsopplysning.fom) return;
-                                        clearErrors(`refusjonsopplysninger.${index}`);
-
+                                <DatoInput
+                                    updateDato={(date: Maybe<string>) =>
                                         updateRefusjonsopplysninger(
-                                            nyFom,
-                                            refusjonsopplysning?.tom ?? null,
+                                            refusjonsopplysning?.fom ?? null,
+                                            date,
                                             refusjonsopplysning.beløp,
                                             index,
-                                        );
-                                    }}
-                                    defaultValue={
-                                        refusjonsopplysning?.fom &&
-                                        dayjs(refusjonsopplysning.fom, ISO_DATOFORMAT).isValid()
-                                            ? dayjs(refusjonsopplysning.fom, ISO_DATOFORMAT)?.format(NORSK_DATOFORMAT)
-                                            : refusjonsopplysning.fom
+                                        )
                                     }
-                                    error={!!formState.errors?.refusjonsopplysninger?.[index]?.fom?.message}
+                                    clearError={() => clearErrors(`refusjonsopplysninger.${index}`)}
+                                    dato={refusjonsopplysning.fom}
+                                    error={formState.errors?.refusjonsopplysninger?.[index]?.fom}
                                 />
                             )}
                         />
@@ -158,34 +144,18 @@ export const Refusjon = ({ fraRefusjonsopplysninger, lokaleRefusjonsopplysninger
                                 },
                             }}
                             render={() => (
-                                <DatePicker.Input
-                                    label=""
-                                    className={styles.DateInput}
-                                    size="small"
-                                    placeholder="dd.mm.åååå"
-                                    onBlur={(e) => {
-                                        const nyTom = dayjs(e.target.value, NORSK_DATOFORMAT).isValid()
-                                            ? dayjs(e.target.value, NORSK_DATOFORMAT).format(ISO_DATOFORMAT)
-                                            : e.target.value === ''
-                                            ? null
-                                            : e.target.value;
-                                        if (nyTom === refusjonsopplysning.tom) return;
-
-                                        clearErrors(`refusjonsopplysninger.${index}`);
+                                <DatoInput
+                                    updateDato={(date: Maybe<string>) =>
                                         updateRefusjonsopplysninger(
                                             refusjonsopplysning?.fom ?? null,
-                                            nyTom,
+                                            date,
                                             refusjonsopplysning.beløp,
                                             index,
-                                        );
-                                    }}
-                                    defaultValue={
-                                        refusjonsopplysning?.tom &&
-                                        dayjs(refusjonsopplysning.tom, ISO_DATOFORMAT).isValid()
-                                            ? dayjs(refusjonsopplysning.tom, ISO_DATOFORMAT)?.format(NORSK_DATOFORMAT)
-                                            : refusjonsopplysning?.tom ?? undefined
+                                        )
                                     }
-                                    error={!!formState.errors?.refusjonsopplysninger?.[index]?.tom?.message}
+                                    clearError={() => clearErrors(`refusjonsopplysninger.${index}`)}
+                                    dato={refusjonsopplysning.tom}
+                                    error={formState.errors?.refusjonsopplysninger?.[index]?.tom}
                                 />
                             )}
                         />
@@ -201,30 +171,18 @@ export const Refusjon = ({ fraRefusjonsopplysninger, lokaleRefusjonsopplysninger
                             },
                         }}
                         render={() => (
-                            <input
-                                className={`${styles.BeløpInput} ${
-                                    formState.errors?.refusjonsopplysninger?.[index]?.beløp?.message
-                                        ? styles.InputError
-                                        : ''
-                                }`}
-                                type="number"
-                                onBlur={(event) => {
-                                    const nyttBeløp = Number(event.target.value);
-
-                                    if (nyttBeløp === refusjonsopplysning.beløp) return;
-
-                                    clearErrors(`refusjonsopplysninger.${index}`);
+                            <BeløpInput
+                                beløp={refusjonsopplysning.beløp}
+                                updateBeløp={(beløp: number) =>
                                     updateRefusjonsopplysninger(
                                         refusjonsopplysning.fom,
                                         refusjonsopplysning?.tom ?? null,
-                                        Number(event.target.value),
+                                        beløp,
                                         index,
-                                    );
-                                }}
-                                defaultValue={
-                                    refusjonsopplysning.beløp &&
-                                    Math.round((refusjonsopplysning.beløp + Number.EPSILON) * 100) / 100
+                                    )
                                 }
+                                clearError={() => clearErrors(`refusjonsopplysninger.${index}`)}
+                                error={formState.errors?.refusjonsopplysninger?.[index]?.beløp}
                             />
                         )}
                     />
@@ -232,50 +190,128 @@ export const Refusjon = ({ fraRefusjonsopplysninger, lokaleRefusjonsopplysninger
                         control={control}
                         name={`refusjonsopplysninger.${index}.kilde`}
                         render={() => (
-                            <Flex alignItems="center">
-                                {refusjonsopplysning.kilde === Kildetype.Inntektsmelding && (
-                                    <Kilde type={refusjonsopplysning.kilde} className={styles.Ikon}>
-                                        IM
-                                    </Kilde>
-                                )}
-                                {refusjonsopplysning.kilde === Kildetype.Saksbehandler &&
-                                    (lokaleRefusjonsopplysninger.length > 0 &&
-                                    JSON.stringify(lokaleRefusjonsopplysninger?.[index]) !==
-                                        JSON.stringify(fraRefusjonsopplysninger?.[index]) ? (
-                                        <div style={{ position: 'relative', width: '20px' }}>
-                                            <Endringstrekant />
-                                        </div>
-                                    ) : (
-                                        <Kilde type={refusjonsopplysning.kilde} className={styles.Ikon}>
-                                            <CaseworkerFilled title="Caseworker-ikon" height={12} width={12} />
-                                        </Kilde>
-                                    ))}
-                            </Flex>
+                            <KildeInput
+                                kilde={refusjonsopplysning.kilde}
+                                fraRefusjonsopplysning={fraRefusjonsopplysninger?.[index]}
+                                lokalRefusjonsopplysning={lokaleRefusjonsopplysninger?.[index]}
+                            />
                         )}
                     />
-                    <Button
-                        type="button"
-                        onClick={removeRefusjonsopplysning(index)}
-                        className={styles.Button}
-                        style={{ justifySelf: 'flex-end' }}
-                    >
-                        <BodyShort>Slett</BodyShort>
-                    </Button>
+                    <SlettRefusjonsopplysningKnapp onClick={removeRefusjonsopplysning(index)} />
                 </div>
             ))}
             <div className={styles.labelContainer}>
-                <Button
-                    type="button"
-                    onClick={addRefusjonsopplysning}
-                    className={styles.Button}
-                    style={{ marginTop: 0 }}
-                >
-                    <BodyShort>+ Legg til</BodyShort>
-                </Button>
+                <LeggTilRefusjonsopplysningKnapp onClick={addRefusjonsopplysning} />
             </div>
         </Fieldset>
     );
 };
+
+interface DatoInputProps {
+    updateDato: (dato: Maybe<string>) => void;
+    clearError: () => void;
+    dato?: Maybe<string>;
+    error?: FieldError;
+}
+
+const DatoInput = ({ updateDato, clearError, dato, error }: DatoInputProps) => (
+    <DatePicker.Input
+        label=""
+        className={styles.DateInput}
+        size="small"
+        placeholder="dd.mm.åååå"
+        onBlur={(e) => {
+            const nyDato = dayjs(e.target.value, NORSK_DATOFORMAT).isValid()
+                ? dayjs(e.target.value, NORSK_DATOFORMAT).format(ISO_DATOFORMAT)
+                : e.target.value === ''
+                ? null
+                : e.target.value;
+            if (nyDato === dato) return;
+
+            clearError();
+            updateDato(nyDato);
+        }}
+        defaultValue={
+            dato && dayjs(dato, ISO_DATOFORMAT).isValid()
+                ? dayjs(dato, ISO_DATOFORMAT)?.format(NORSK_DATOFORMAT)
+                : dato ?? undefined
+        }
+        error={error?.message}
+    />
+);
+
+interface BeløpInputProps {
+    beløp: number;
+    updateBeløp: (beløp: number) => void;
+    clearError: () => void;
+    error?: FieldError;
+}
+
+const BeløpInput = ({ beløp, updateBeløp, clearError, error }: BeløpInputProps) => (
+    <input
+        className={classNames({
+            [styles.BeløpInput]: true,
+            [styles.InputError]: error?.message,
+        })}
+        type="number"
+        onBlur={(event) => {
+            const nyttBeløp = Number(event.target.value);
+            if (nyttBeløp === beløp) return;
+            clearError();
+            updateBeløp(Number(event.target.value));
+        }}
+        defaultValue={beløp && Math.round((beløp + Number.EPSILON) * 100) / 100}
+    />
+);
+
+interface KildeInputProps {
+    kilde: string;
+    lokalRefusjonsopplysning?: Refusjonsopplysning;
+    fraRefusjonsopplysning?: Refusjonsopplysning;
+}
+
+const KildeInput = ({ kilde, lokalRefusjonsopplysning, fraRefusjonsopplysning }: KildeInputProps) => (
+    <Flex alignItems="center">
+        {kilde === Kildetype.Inntektsmelding && (
+            <Kilde type={kilde} className={styles.Ikon}>
+                IM
+            </Kilde>
+        )}
+        {kilde === Kildetype.Saksbehandler &&
+            (lokalRefusjonsopplysning && !erLikRefusjonsopplysning(lokalRefusjonsopplysning, fraRefusjonsopplysning) ? (
+                <div style={{ position: 'relative', width: '20px' }}>
+                    <Endringstrekant />
+                </div>
+            ) : (
+                <Kilde type={kilde} className={styles.Ikon}>
+                    <CaseworkerFilled title="Caseworker-ikon" height={12} width={12} />
+                </Kilde>
+            ))}
+    </Flex>
+);
+
+const erLikRefusjonsopplysning = (a?: Refusjonsopplysning, b?: Refusjonsopplysning) =>
+    JSON.stringify(a) === JSON.stringify(b);
+
+interface LeggTilRefusjonsopplysningKnappProps {
+    onClick: () => void;
+}
+
+const LeggTilRefusjonsopplysningKnapp = ({ onClick }: LeggTilRefusjonsopplysningKnappProps) => (
+    <Button type="button" onClick={onClick} className={styles.Button} style={{ marginTop: 0 }}>
+        <BodyShort>+ Legg til</BodyShort>
+    </Button>
+);
+
+interface SlettRefusjonsopplysningKnappProps {
+    onClick: () => void;
+}
+
+const SlettRefusjonsopplysningKnapp = ({ onClick }: SlettRefusjonsopplysningKnappProps) => (
+    <Button type="button" onClick={onClick} className={styles.Button} style={{ justifySelf: 'flex-end' }}>
+        <BodyShort>Slett</BodyShort>
+    </Button>
+);
 
 interface RefusjonFormValues {
     name: string;
