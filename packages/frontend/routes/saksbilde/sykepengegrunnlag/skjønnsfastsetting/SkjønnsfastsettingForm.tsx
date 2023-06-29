@@ -42,8 +42,13 @@ export const SkjønnsfastsettingForm = ({
     const feiloppsummeringRef = useRef<HTMLDivElement>(null);
     const period = useActivePeriod();
     const person = useCurrentPerson();
+
+    const cancelEditing = () => {
+        setEditing(false);
+    };
+
     const { isLoading, error, postSkjønnsfastsetting, timedOut, setTimedOut } =
-        usePostSkjønnsfastsattSykepengegrunnlag();
+        usePostSkjønnsfastsattSykepengegrunnlag(cancelEditing);
 
     const harFeil = !form.formState.isValid && form.formState.isSubmitted;
     const visFeilOppsummering = harFeil && Object.entries(form.formState.errors).length > 0;
@@ -98,11 +103,6 @@ export const SkjønnsfastsettingForm = ({
         // TODO: Fjern etter testing i dev:
         console.log('skjønnsfastsettingSykepengegrunnlag: ', skjønnsfastsettingSykepengegrunnlag);
         postSkjønnsfastsetting(skjønnsfastsettingSykepengegrunnlag);
-        cancelEditing();
-    };
-
-    const cancelEditing = () => {
-        setEditing(false);
     };
 
     return (
@@ -138,9 +138,11 @@ export const SkjønnsfastsettingForm = ({
 const finnFørsteBeregnedePåSkjæringstidspunkt = (person: FetchedPerson, period: ActivePeriod) =>
     person.arbeidsgivere.flatMap((arbeidsgiver) => ({
         arbeidsgiver: arbeidsgiver.organisasjonsnummer,
-        initierendeVedtaksperiodeId: arbeidsgiver.generasjoner[0].perioder
-            .filter(
-                (periode) => periode.skjaeringstidspunkt === period.skjaeringstidspunkt && isBeregnetPeriode(periode),
-            )
-            .pop()?.vedtaksperiodeId,
+        initierendeVedtaksperiodeId:
+            arbeidsgiver.generasjoner?.[0]?.perioder
+                ?.filter(
+                    (periode) =>
+                        periode.skjaeringstidspunkt === period.skjaeringstidspunkt && isBeregnetPeriode(periode),
+                )
+                .pop()?.vedtaksperiodeId ?? null,
     }));

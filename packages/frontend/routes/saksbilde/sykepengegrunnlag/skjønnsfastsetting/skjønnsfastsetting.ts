@@ -49,7 +49,7 @@ export interface ArbeidsgiverForm {
     årlig: number;
 }
 
-export const usePostSkjønnsfastsattSykepengegrunnlag = () => {
+export const usePostSkjønnsfastsattSykepengegrunnlag = (onFerdigKalkulert: () => void) => {
     const addToast = useAddToast();
     const removeToast = useRemoveToast();
     const opptegnelser = useOpptegnelser();
@@ -64,8 +64,9 @@ export const usePostSkjønnsfastsattSykepengegrunnlag = () => {
             addToast(kalkuleringFerdigToast({ callback: () => removeToast(kalkulererFerdigToastKey) }));
             setIsLoading(false);
             setCalculating(false);
+            onFerdigKalkulert();
         }
-    }, [opptegnelser]);
+    }, [opptegnelser, calculating]);
 
     useEffect(() => {
         const timeout: NodeJS.Timeout | number | null = calculating
