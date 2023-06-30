@@ -99,30 +99,6 @@ export const del = async (url: string, data?: unknown, options?: Options) => {
     }
     return response;
 };
-
-export const put = async (url: string, data: unknown, headere?: Headers): Promise<SpeilResponse<unknown>> => {
-    const response = await fetch(url, {
-        method: 'PUT',
-        headers: {
-            ...headere,
-            Accept: 'application/json',
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data),
-    });
-    if (response.status !== 200 && response.status !== 204) {
-        const message = await getErrorMessage(response);
-        console.log(response.status, message);
-
-        throw ResponseError(response.status, message);
-    }
-
-    return {
-        status: response.status,
-        data: await getData(response),
-    };
-};
-
 export const getOpptegnelser = async (sisteSekvensId?: number): Promise<SpeilResponse<Array<Opptegnelse>>> => {
     return sisteSekvensId
         ? get<Opptegnelse[]>(`${baseUrl}/opptegnelse/hent/${sisteSekvensId}`)
