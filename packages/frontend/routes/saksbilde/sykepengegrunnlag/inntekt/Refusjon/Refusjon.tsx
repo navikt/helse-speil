@@ -1,4 +1,4 @@
-import { BeløpInput } from './BeløpInput';
+import { ControlledBeløpInput } from './BeløpInput';
 import dayjs from 'dayjs';
 import React, { useEffect } from 'react';
 import { Controller } from 'react-hook-form';
@@ -8,8 +8,8 @@ import { UNSAFE_DatePicker as DatePicker, Fieldset } from '@navikt/ds-react';
 import { Refusjonsopplysning } from '@io/http';
 import { ISO_DATOFORMAT, NORSK_DATOFORMAT } from '@utils/date';
 
-import { KildeInput } from './KildeInput';
 import { LeggTilRefusjonsopplysningKnapp } from './LeggTilRefusjonsopplysningKnapp';
+import { Refusjonskilde } from './Refusjonskilde';
 import { SlettRefusjonsopplysningKnapp } from './SlettRefusjonsopplysningKnapp';
 import { useRefusjonFormField } from './useRefusjonFormField';
 
@@ -37,8 +37,6 @@ export const Refusjon = ({ fraRefusjonsopplysninger, lokaleRefusjonsopplysninger
             lokaleRefusjonsopplysninger.length > 0 ? lokaleRefusjonsopplysninger : fraRefusjonsopplysninger,
         );
     }, []);
-
-    const isNumeric = (input: string) => /^\d+(\.\d{1,2})?$/.test(input);
 
     return (
         <Fieldset legend="Refusjon" id="refusjonsopplysninger" className={styles.RefusjonWrapper}>
@@ -190,42 +188,11 @@ export const Refusjon = ({ fraRefusjonsopplysninger, lokaleRefusjonsopplysninger
                             )}
                         />
                     </DatePicker>
-                    <Controller
-                        control={control}
-                        name={`refusjonsopplysninger.${index}.beløp`}
-                        rules={{
-                            required: true,
-                            validate: {
-                                måVæreNumerisk: (value) =>
-                                    isNumeric(value.toString()) || 'Refusjonsbeløp må være et beløp',
-                            },
-                        }}
-                        render={() => (
-                            <BeløpInput
-                                beløp={refusjonsopplysning.beløp}
-                                updateBeløp={(beløp: number) =>
-                                    updateRefusjonsopplysninger(
-                                        refusjonsopplysning.fom,
-                                        refusjonsopplysning?.tom ?? null,
-                                        beløp,
-                                        index,
-                                    )
-                                }
-                                clearError={() => clearErrors(`refusjonsopplysninger.${index}`)}
-                                error={formState.errors?.refusjonsopplysninger?.[index]?.beløp}
-                            />
-                        )}
-                    />
-                    <Controller
-                        control={control}
-                        name={`refusjonsopplysninger.${index}.kilde`}
-                        render={() => (
-                            <KildeInput
-                                kilde={refusjonsopplysning.kilde}
-                                fraRefusjonsopplysning={fraRefusjonsopplysninger?.[index]}
-                                lokalRefusjonsopplysning={lokaleRefusjonsopplysninger?.[index]}
-                            />
-                        )}
+                    <ControlledBeløpInput beløp={refusjonsopplysning.beløp} control={control} index={index} />
+                    <Refusjonskilde
+                        kilde={refusjonsopplysning.kilde}
+                        fraRefusjonsopplysning={fraRefusjonsopplysninger?.[index]}
+                        lokalRefusjonsopplysning={lokaleRefusjonsopplysninger?.[index]}
                     />
                     <SlettRefusjonsopplysningKnapp onClick={removeRefusjonsopplysning(index)} />
                 </div>

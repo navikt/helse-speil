@@ -16,7 +16,7 @@ interface KildeInputProps {
     fraRefusjonsopplysning?: Refusjonsopplysning;
 }
 
-export const KildeInput = ({ kilde, lokalRefusjonsopplysning, fraRefusjonsopplysning }: KildeInputProps) => (
+export const Refusjonskilde = ({ kilde, lokalRefusjonsopplysning, fraRefusjonsopplysning }: KildeInputProps) => (
     <Flex alignItems="center">
         {kilde === Kildetype.Inntektsmelding && (
             <Kilde type={kilde} className={styles.Ikon}>
