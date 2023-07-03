@@ -87,15 +87,20 @@ const getHendelserForUberegnetPeriode = (period: UberegnetPeriode, person: Fetch
     const arbeidsgiver = findArbeidsgiverWithPeriode(period, person.arbeidsgivere);
     const dagoverstyringer = arbeidsgiver ? getDagoverstyringerForAUU(period, arbeidsgiver) : [];
     const inntektoverstyringer = arbeidsgiver ? getInntektoverstyringer(period.skjaeringstidspunkt, arbeidsgiver) : [];
+    const notater = getNotathendelser(period.notater.map(toNotat));
     const sykepengegrunnlagskjønnsfastsetting = arbeidsgiver
         ? getSykepengegrunnlagskjønnsfastsetting(period.skjaeringstidspunkt, arbeidsgiver)
         : [];
 
     const dokumenter = getDokumenter(period);
 
-    return [...dokumenter, ...dagoverstyringer, ...inntektoverstyringer, ...sykepengegrunnlagskjønnsfastsetting].sort(
-        byTimestamp,
-    );
+    return [
+        ...dokumenter,
+        ...dagoverstyringer,
+        ...inntektoverstyringer,
+        ...sykepengegrunnlagskjønnsfastsetting,
+        ...notater,
+    ].sort(byTimestamp);
 };
 
 const historikkState = selector<Array<HendelseObject>>({

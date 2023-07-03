@@ -2,7 +2,7 @@ import classNames from 'classnames';
 import React from 'react';
 
 import { Sykdomsdagtype, Utbetalingsdagtype } from '@io/graphql';
-import { isBeregnetPeriode } from '@utils/typeguards';
+import { isBeregnetPeriode, isUberegnetPeriode } from '@utils/typeguards';
 
 import styles from './InfoPin.module.css';
 
@@ -18,7 +18,7 @@ const shouldShowInfoPin = (period: DatePeriod): boolean => {
 };
 
 const shouldShowNotatPin = (period: DatePeriod): boolean => {
-    if (!isBeregnetPeriode(period)) return false;
+    if (!isBeregnetPeriode(period) && !isUberegnetPeriode(period)) return false;
 
     return period.notater.some((notat) => notat.type === 'Generelt');
 };

@@ -871,6 +871,7 @@ export type UberegnetPeriode = Periode & {
     hendelser: Array<Hendelse>;
     id: Scalars['String']['output'];
     inntektstype: Inntektstype;
+    notater: Array<Notat>;
     opprettet: Scalars['String']['output'];
     periodetilstand: Periodetilstand;
     periodetype: Periodetype;

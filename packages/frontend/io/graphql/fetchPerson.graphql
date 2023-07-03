@@ -97,6 +97,28 @@ fragment vilkarsgrunnlag on Vilkarsgrunnlag {
     }
 }
 
+fragment notat on Notat{
+    id
+    tekst
+    opprettet
+    saksbehandlerOid
+    saksbehandlerNavn
+    saksbehandlerEpost
+    saksbehandlerIdent
+    vedtaksperiodeId
+    feilregistrert
+    feilregistrert_tidspunkt
+    type
+    kommentarer {
+        id
+        tekst
+        opprettet
+        saksbehandlerident
+        feilregistrert_tidspunkt
+    }
+
+}
+
 query FetchPerson($fnr: String, $aktorId: String) {
     person(fnr: $fnr, aktorId: $aktorId) {
         fodselsnummer
@@ -227,6 +249,9 @@ query FetchPerson($fnr: String, $aktorId: String) {
                     }
                     ... on UberegnetPeriode {
                         id
+                        notater {
+                            ...notat
+                        }
                     }
                     ... on BeregnetPeriode {
                         id
