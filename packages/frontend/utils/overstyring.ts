@@ -16,7 +16,11 @@ type OverstyringValidationError = {
 type OverstyringValidation = OverstyringValidationSuccess | OverstyringValidationError;
 
 const validateTilstand = (periode: FetchedBeregnetPeriode): void => {
-    if (!['tilGodkjenning', 'avslag', 'ingenUtbetaling', 'utbetalingFeilet'].includes(getPeriodState(periode))) {
+    if (
+        !['tilGodkjenning', 'avslag', 'ingenUtbetaling', 'utbetalingFeilet', 'revurderes'].includes(
+            getPeriodState(periode),
+        )
+    ) {
         throw {
             value: false,
             technical: 'Perioden er i feil tilstand',
