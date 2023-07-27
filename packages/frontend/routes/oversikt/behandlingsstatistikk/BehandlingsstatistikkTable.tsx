@@ -22,6 +22,20 @@ interface BehandlingsstatistikkTableProps {
 
 export const BehandlingsstatistikkTable: React.FC<BehandlingsstatistikkTableProps> = ({ behandlingsstatistikk }) => {
     const totaltIdag = getTotaltIdag(behandlingsstatistikk);
+    const søknad = {
+        automatisk:
+            behandlingsstatistikk.delvisRefusjon.automatisk +
+            behandlingsstatistikk.utbetalingTilSykmeldt.automatisk +
+            behandlingsstatistikk.utbetalingTilArbeidsgiver.automatisk,
+        manuelt:
+            behandlingsstatistikk.delvisRefusjon.manuelt +
+            behandlingsstatistikk.utbetalingTilSykmeldt.manuelt +
+            behandlingsstatistikk.utbetalingTilArbeidsgiver.manuelt,
+        tilgjengelig:
+            behandlingsstatistikk.delvisRefusjon.tilgjengelig +
+            behandlingsstatistikk.utbetalingTilSykmeldt.tilgjengelig +
+            behandlingsstatistikk.utbetalingTilArbeidsgiver.tilgjengelig,
+    };
 
     return (
         <table>
@@ -55,14 +69,8 @@ export const BehandlingsstatistikkTable: React.FC<BehandlingsstatistikkTableProp
             </tbody>
             <Separator />
             <tbody>
-                <StatistikkRow antall={behandlingsstatistikk.utbetalingTilArbeidsgiver}>
-                    <LabelCell.UtbetalingTilArbeidsgiver />
-                </StatistikkRow>
-                <StatistikkRow antall={behandlingsstatistikk.utbetalingTilSykmeldt}>
-                    <LabelCell.UtbetalingTilSykmeldt />
-                </StatistikkRow>
-                <StatistikkRow antall={behandlingsstatistikk.delvisRefusjon}>
-                    <LabelCell.DelvisRefusjon />
+                <StatistikkRow antall={søknad}>
+                    <LabelCell.Søknad />
                 </StatistikkRow>
                 <StatistikkRow antall={behandlingsstatistikk.faresignaler}>
                     <LabelCell.Faresignaler />

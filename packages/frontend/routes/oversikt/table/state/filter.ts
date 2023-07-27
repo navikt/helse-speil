@@ -57,7 +57,10 @@ export const defaultFilters: Filter<OppgaveForOversiktsvisning>[] = [
         key: 'SØKNAD',
         label: 'Søknad',
         active: false,
-        function: (oppgave: OppgaveForOversiktsvisning) => oppgave.type === Oppgavetype.Soknad,
+        function: (oppgave: OppgaveForOversiktsvisning) =>
+            oppgave.type === Oppgavetype.Soknad ||
+            oppgave.type === Oppgavetype.UtbetalingTilSykmeldt ||
+            oppgave.type === Oppgavetype.DelvisRefusjon,
         column: 2,
     },
     {
@@ -152,20 +155,6 @@ export const defaultFilters: Filter<OppgaveForOversiktsvisning>[] = [
         label: 'Fortrolig adresse',
         active: false,
         function: (oppgave: OppgaveForOversiktsvisning) => oppgave.type === Oppgavetype.FortroligAdresse,
-        column: 2,
-    },
-    {
-        key: 'UTB_SYKMELDT',
-        label: 'Utbetaling til sykmeldt',
-        active: false,
-        function: (oppgave: OppgaveForOversiktsvisning) => oppgave.type === Oppgavetype.UtbetalingTilSykmeldt,
-        column: 2,
-    },
-    {
-        key: 'DELVIS_REFUSJON',
-        label: 'Delvis refusjon',
-        active: false,
-        function: (oppgave: OppgaveForOversiktsvisning) => oppgave.type === Oppgavetype.DelvisRefusjon,
         column: 2,
     },
 ];

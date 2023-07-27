@@ -12,7 +12,7 @@ import {
 export const oppgaver: Array<OppgaveForOversiktsvisning> = [
     {
         id: '4680',
-        type: Oppgavetype.Soknad,
+        type: Oppgavetype.DelvisRefusjon,
         opprettet: '2022-11-02T11:09:57',
         opprinneligSoknadsdato: '2022-04-21 09:48:33.10625',
         vedtaksperiodeId: 'd7d208c3-a9a1-4c03-885f-aeffa4475a49',
@@ -41,12 +41,12 @@ export const oppgaver: Array<OppgaveForOversiktsvisning> = [
             erBeslutteroppgave: true,
             erRetur: false,
         },
-        mottaker: Mottaker.Arbeidsgiver,
+        mottaker: Mottaker.Begge,
         haster: true,
     },
     {
         id: '4420',
-        type: Oppgavetype.Soknad,
+        type: Oppgavetype.UtbetalingTilSykmeldt,
         opprettet: '2023-04-02T11:09:57',
         opprinneligSoknadsdato: '2023-01-21 09:48:33.10625',
         vedtaksperiodeId: 'd7d208c3-a9a1-4c03-885f-aeffa4475a49',
@@ -71,7 +71,7 @@ export const oppgaver: Array<OppgaveForOversiktsvisning> = [
             id: '1122',
             navn: 'Gjesdal',
         },
-        mottaker: Mottaker.Arbeidsgiver,
+        mottaker: Mottaker.Sykmeldt,
     },
     {
         id: '4959',

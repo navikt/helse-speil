@@ -124,6 +124,14 @@ const Beslutter: React.FC = () => {
         </BaseCell>
     );
 };
+const Søknad: React.FC = () => {
+    return (
+        <BaseCell>
+            <Tag color="orange">SØ</Tag>
+            SØKNAD
+        </BaseCell>
+    );
+};
 
 export const LabelCell = {
     EnArbeidsgiver,
@@ -139,4 +147,5 @@ export const LabelCell = {
     Stikkprøver,
     Revurdering,
     Beslutter,
+    Søknad,
 };
