@@ -9,9 +9,6 @@ import styles from '../table.module.css';
 
 const getLabelForOppgavetype = (type: Oppgavetype): string => {
     switch (type) {
-        case Oppgavetype.DelvisRefusjon: {
-            return 'Søknad';
-        }
         case Oppgavetype.FortroligAdresse: {
             return 'Fortrolig adr.';
         }
@@ -24,10 +21,9 @@ const getLabelForOppgavetype = (type: Oppgavetype): string => {
         case Oppgavetype.Stikkprove: {
             return 'Stikkprøve';
         }
+        case Oppgavetype.Soknad:
+        case Oppgavetype.DelvisRefusjon:
         case Oppgavetype.UtbetalingTilSykmeldt: {
-            return 'Søknad';
-        }
-        case Oppgavetype.Soknad: {
             return 'Søknad';
         }
         default: {
