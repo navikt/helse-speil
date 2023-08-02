@@ -2,6 +2,7 @@ export const typeendringer: Utbetalingstabelldagtype[] = [
     'Syk',
     'Syk (NAV)',
     'Ferie',
+    'Ferie uten sykmelding',
     'Egenmelding',
     'Permisjon',
     'Arbeid',

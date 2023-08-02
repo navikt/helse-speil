@@ -190,6 +190,7 @@ export enum Dagtype {
     Arbeidsdag = 'Arbeidsdag',
     Avvistdag = 'Avvistdag',
     Egenmeldingsdag = 'Egenmeldingsdag',
+    FerieUtenSykmeldingDag = 'FerieUtenSykmeldingDag',
     Feriedag = 'Feriedag',
     Permisjonsdag = 'Permisjonsdag',
     Sykedag = 'Sykedag',
@@ -342,6 +343,7 @@ export enum Mottaker {
 
 export type Mutation = {
     __typename?: 'Mutation';
+    abonner: Scalars['Boolean']['output'];
     feilregistrerKommentar?: Maybe<Kommentar>;
     feilregistrerKommentarV2?: Maybe<Kommentar>;
     feilregistrerNotat?: Maybe<Notat>;
@@ -353,6 +355,10 @@ export type Mutation = {
     opprettTildeling?: Maybe<Tildeling>;
     settVarselstatusAktiv?: Maybe<VarselDto>;
     settVarselstatusVurdert?: Maybe<VarselDto>;
+};
+
+export type MutationAbonnerArgs = {
+    personidentifikator: Scalars['String']['input'];
 };
 
 export type MutationFeilregistrerKommentarArgs = {
@@ -507,6 +513,24 @@ export enum Oppgavetype {
     UtbetalingTilSykmeldt = 'UTBETALING_TIL_SYKMELDT',
 }
 
+export type Opptegnelse = {
+    __typename?: 'Opptegnelse';
+    aktorId: Scalars['String']['output'];
+    payload: Scalars['String']['output'];
+    sekvensnummer: Scalars['Int']['output'];
+    type: Opptegnelsetype;
+};
+
+export enum Opptegnelsetype {
+    FerdigbehandletGodkjenningsbehov = 'FERDIGBEHANDLET_GODKJENNINGSBEHOV',
+    NySaksbehandleroppgave = 'NY_SAKSBEHANDLEROPPGAVE',
+    PersondataOppdatert = 'PERSONDATA_OPPDATERT',
+    RevurderingAvvist = 'REVURDERING_AVVIST',
+    RevurderingFerdigbehandlet = 'REVURDERING_FERDIGBEHANDLET',
+    UtbetalingAnnulleringFeilet = 'UTBETALING_ANNULLERING_FEILET',
+    UtbetalingAnnulleringOk = 'UTBETALING_ANNULLERING_OK',
+}
+
 export type Overstyring = {
     ferdigstilt: Scalars['Boolean']['output'];
     hendelseId: Scalars['String']['output'];
@@ -644,6 +668,7 @@ export type Query = {
     alleOppgaver: Array<OppgaveForOversiktsvisning>;
     behandledeOppgaver: Array<FerdigstiltOppgave>;
     behandlingsstatistikk: Behandlingsstatistikk;
+    hentOpptegnelser: Array<Opptegnelse>;
     notater: Array<Notater>;
     oppdrag: Array<Oppdrag>;
     person?: Maybe<Person>;
@@ -653,6 +678,10 @@ export type QueryBehandledeOppgaverArgs = {
     behandletAvIdent?: InputMaybe<Scalars['String']['input']>;
     behandletAvOid: Scalars['String']['input'];
     fom?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type QueryHentOpptegnelserArgs = {
+    sekvensId?: InputMaybe<Scalars['Int']['input']>;
 };
 
 export type QueryNotaterArgs = {

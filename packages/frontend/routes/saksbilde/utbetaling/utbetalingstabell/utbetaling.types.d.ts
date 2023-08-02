@@ -14,7 +14,8 @@ declare type Utbetalingstabelldagtype =
     | 'Egenmelding'
     | 'Permisjon'
     | 'Arbeid'
-    | 'Avslått';
+    | 'Avslått'
+    | 'Ferie uten sykmelding';
 
 type OverstyringerPrDag = {
     hendelseId: string;

@@ -5,6 +5,8 @@ import { Dag, Dagoverstyring, Dagtype, Maybe, OverstyrtDag, Sykdomsdagtype, Utbe
 
 const getUtbetalingstabelldagtypeFromOverstyrtDag = (dag: OverstyrtDag): Utbetalingstabelldagtype => {
     switch (dag.type) {
+        case Dagtype.FerieUtenSykmeldingDag:
+            return 'Ferie uten sykmelding';
         case Dagtype.Egenmeldingsdag:
             return 'Egenmelding';
         case Dagtype.Feriedag:

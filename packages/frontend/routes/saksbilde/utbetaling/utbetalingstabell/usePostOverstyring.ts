@@ -23,6 +23,8 @@ const tilOverstyrtDagtype = (type: Utbetalingstabelldagtype): OverstyrtDagtype =
         case 'Feriehelg':
         case 'Ferie':
             return 'Feriedag';
+        case 'Ferie uten sykmelding':
+            return 'FerieUtenSykmeldingDag';
         case 'Permisjon':
             return 'Permisjonsdag';
         case 'Egenmelding':

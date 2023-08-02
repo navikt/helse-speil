@@ -47,15 +47,12 @@ export const OverstyringForm: React.FC<OverstyringFormProps> = ({
     const begrunnelseValidation = register('begrunnelse', { required: 'Begrunnelse må fylles ut', minLength: 1 });
 
     const arbeidsdagValidering = () => {
-        clearErrors(['arbeidsdagerKanIkkeOverstyres']);
-
         const overstyrtTilArbeidsdager = Array.from(overstyrteDager.values())
             .filter((dag) => dag.type === 'Arbeid')
             .sort((a, b) => dayjs(a.dato).diff(dayjs(b.dato)));
 
         if (overstyrtTilArbeidsdager.length === 0) {
-            handleSubmit(onSubmit)();
-            return;
+            return true;
         }
 
         const dagerIHalenAvPerioden: UtbetalingstabellDag[] = overstyrtTilArbeidsdager.find((dag) => dag.dato === hale)
@@ -82,11 +79,34 @@ export const OverstyringForm: React.FC<OverstyringFormProps> = ({
         if (dagerSomKanOverstyresTilArbeidsdag.length !== overstyrtTilArbeidsdager.length) {
             setError('arbeidsdagerKanIkkeOverstyres', {
                 type: 'custom',
-                message: `Du kan ikke overstyre Syk eller Ferie til Arbeidsdag. Arbeidsdag kan legges til som en ny dag, legges til i slutten av perioden, eller endres i arbeidsgiverperioden`,
+                message:
+                    'Du kan ikke overstyre Syk eller Ferie til Arbeidsdag. Arbeidsdag kan legges til som en ny dag, legges til i slutten av perioden, eller endres i arbeidsgiverperioden',
             });
-            return;
+            return false;
         }
-        handleSubmit(onSubmit)();
+        return true;
+    };
+
+    const ferieUtenSykmeldingValidering = () => {
+        const overstyrtTilFerieUtenSykmelding = Array.from(overstyrteDager.values()).filter(
+            (dag) => dag.type === 'Ferie uten sykmelding' && dag.kilde.type !== 'SAKSBEHANDLER',
+        );
+        if (overstyrtTilFerieUtenSykmelding.length > 0) {
+            setError('kanIkkeOverstyreTilFerieUtenSykmelding', {
+                type: 'custom',
+                message:
+                    'Du kan ikke overstyre til ferie uten sykmelding. Du kan bare overstyre til ferie uten sykmelding på dager som allerede er overstyrt av saksbehandler eller så kan ferie uten sykmelding legges til som en ny dag i starten av perioden.',
+            });
+            return false;
+        }
+        return true;
+    };
+
+    const validering = () => {
+        clearErrors(['arbeidsdagerKanIkkeOverstyres', 'kanIkkeOverstyreTilFerieUtenSykmelding']);
+        if (arbeidsdagValidering() && ferieUtenSykmeldingValidering()) {
+            handleSubmit(onSubmit)();
+        }
     };
 
     const harFeil = !formState?.isValid;
@@ -127,7 +147,7 @@ export const OverstyringForm: React.FC<OverstyringFormProps> = ({
             )}
             <Buttons>
                 <Button
-                    onClick={arbeidsdagValidering}
+                    onClick={validering}
                     type="button"
                     disabled={overstyrteDager.size < 1}
                     size="small"

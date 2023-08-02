@@ -13,7 +13,15 @@ jest.mock('@utils/featureToggles', () => ({
 
 describe('Typeendringer', () => {
     it('returnerer typeendringer for dagtypevelgeren under overstyring', () => {
-        expect(typeendringer).toEqual(['Syk', 'Syk (NAV)', 'Ferie', 'Egenmelding', 'Permisjon', 'Arbeid']);
+        expect(typeendringer).toEqual([
+            'Syk',
+            'Syk (NAV)',
+            'Ferie',
+            'Ferie uten sykmelding',
+            'Egenmelding',
+            'Permisjon',
+            'Arbeid',
+        ]);
     });
 });
 
