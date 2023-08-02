@@ -39,6 +39,8 @@ const getUtbetalingstabelldagtype = (dag: Dag): Utbetalingstabelldagtype => {
             return 'Avslått';
     }
     switch (dag.sykdomsdagtype) {
+        case Sykdomsdagtype.Ferieutensykmeldingdag:
+            return 'Ferie uten sykmelding';
         case Sykdomsdagtype.Arbeidsdag:
             return dag.utbetalingsdagtype === 'HELGEDAG' ? 'Helg' : 'Arbeid';
         case Sykdomsdagtype.Feriedag:

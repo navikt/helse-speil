@@ -833,6 +833,7 @@ export enum Sykdomsdagtype {
     Arbeidsgiverdag = 'ARBEIDSGIVERDAG',
     Avslatt = 'AVSLATT',
     Feriedag = 'FERIEDAG',
+    Ferieutensykmeldingdag = 'FERIEUTENSYKMELDINGDAG',
     ForeldetSykedag = 'FORELDET_SYKEDAG',
     FriskHelgedag = 'FRISK_HELGEDAG',
     Permisjonsdag = 'PERMISJONSDAG',
