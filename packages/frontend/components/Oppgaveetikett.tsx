@@ -91,24 +91,6 @@ const RiskQaEtikett = styled(Etikett)`
     }
 `;
 
-const UtbetalingTilSykmeldtEtikett = styled(Etikett)`
-    background: var(--speil-etikett-uts-background);
-    border: 1px solid var(--speil-etikett-uts-border);
-
-    :before {
-        content: 'US';
-    }
-`;
-
-const DelvisRefusjonEtikett = styled(Etikett)`
-    background: var(--speil-etikett-uts-background);
-    border: 1px solid var(--speil-etikett-uts-border);
-
-    :before {
-        content: 'DR';
-    }
-`;
-
 const SøknadEtikett = styled(Etikett)`
     background: var(--speil-etikett-beslutter-background);
     border: 1px solid var(--speil-etikett-beslutter-border);
@@ -138,16 +120,12 @@ export const Oppgaveetikett: React.FC<OppgaveetikettProps> = ({ type, tilstand }
             return <FortroligAdresseEtikett />;
         case Oppgavetype.RiskQa:
             return <RiskQaEtikett />;
-        case Oppgavetype.UtbetalingTilSykmeldt:
-            return <UtbetalingTilSykmeldtEtikett />;
-        case Oppgavetype.DelvisRefusjon:
-            return <DelvisRefusjonEtikett />;
-        case Oppgavetype.Revurdering: {
+        case Oppgavetype.Revurdering:
             return tilstand === Periodetilstand.TilGodkjenning ? <RevurderesEtikett /> : <RevurderingEtikett />;
-        }
-        case Oppgavetype.Soknad: {
+        case Oppgavetype.UtbetalingTilSykmeldt:
+        case Oppgavetype.DelvisRefusjon:
+        case Oppgavetype.Soknad:
             return <SøknadEtikett />;
-        }
         default:
             return null;
     }
