@@ -914,6 +914,25 @@ export type UberegnetPeriode = Periode & {
     vedtaksperiodeId: Scalars['String']['output'];
 };
 
+export type UberegnetVilkarsprovdPeriode = Periode & {
+    __typename?: 'UberegnetVilkarsprovdPeriode';
+    erForkastet: Scalars['Boolean']['output'];
+    fom: Scalars['String']['output'];
+    hendelser: Array<Hendelse>;
+    id: Scalars['String']['output'];
+    inntektstype: Inntektstype;
+    notater: Array<Notat>;
+    opprettet: Scalars['String']['output'];
+    periodetilstand: Periodetilstand;
+    periodetype: Periodetype;
+    skjaeringstidspunkt: Scalars['String']['output'];
+    tidslinje: Array<Dag>;
+    tom: Scalars['String']['output'];
+    varsler: Array<VarselDto>;
+    vedtaksperiodeId: Scalars['String']['output'];
+    vilkarsgrunnlagId?: Maybe<Scalars['String']['output']>;
+};
+
 export type Utbetaling = {
     __typename?: 'Utbetaling';
     arbeidsgiverFagsystemId: Scalars['String']['output'];
@@ -1906,6 +1925,110 @@ export type FetchPersonQuery = {
                                 }
                           >;
                       }
+                    | {
+                          __typename?: 'UberegnetVilkarsprovdPeriode';
+                          id: string;
+                          vilkarsgrunnlagId?: string | null;
+                          fom: string;
+                          tom: string;
+                          erForkastet: boolean;
+                          inntektstype: Inntektstype;
+                          opprettet: string;
+                          periodetype: Periodetype;
+                          vedtaksperiodeId: string;
+                          periodetilstand: Periodetilstand;
+                          skjaeringstidspunkt: string;
+                          notater: Array<{
+                              __typename?: 'Notat';
+                              id: number;
+                              tekst: string;
+                              opprettet: string;
+                              saksbehandlerOid: string;
+                              saksbehandlerNavn: string;
+                              saksbehandlerEpost: string;
+                              saksbehandlerIdent: string;
+                              vedtaksperiodeId: string;
+                              feilregistrert: boolean;
+                              feilregistrert_tidspunkt?: string | null;
+                              type: NotatType;
+                              kommentarer: Array<{
+                                  __typename?: 'Kommentar';
+                                  id: number;
+                                  tekst: string;
+                                  opprettet: string;
+                                  saksbehandlerident: string;
+                                  feilregistrert_tidspunkt?: string | null;
+                              }>;
+                          }>;
+                          tidslinje: Array<{
+                              __typename?: 'Dag';
+                              dato: string;
+                              grad?: number | null;
+                              sykdomsdagtype: Sykdomsdagtype;
+                              utbetalingsdagtype: Utbetalingsdagtype;
+                              begrunnelser?: Array<Begrunnelse> | null;
+                              kilde: { __typename?: 'Kilde'; id: string; type: Kildetype };
+                              utbetalingsinfo?: {
+                                  __typename?: 'Utbetalingsinfo';
+                                  arbeidsgiverbelop?: number | null;
+                                  inntekt?: number | null;
+                                  personbelop?: number | null;
+                                  refusjonsbelop?: number | null;
+                                  totalGrad?: number | null;
+                                  utbetaling?: number | null;
+                              } | null;
+                          }>;
+                          varsler: Array<{
+                              __typename?: 'VarselDTO';
+                              generasjonId: string;
+                              definisjonId: string;
+                              kode: string;
+                              tittel: string;
+                              forklaring?: string | null;
+                              handling?: string | null;
+                              vurdering?: {
+                                  __typename?: 'VarselvurderingDTO';
+                                  ident: string;
+                                  status: Varselstatus;
+                                  tidsstempel: string;
+                              } | null;
+                          }>;
+                          hendelser: Array<
+                              | {
+                                    __typename?: 'Inntektsmelding';
+                                    beregnetInntekt: number;
+                                    mottattDato: string;
+                                    id: string;
+                                    type: Hendelsetype;
+                                }
+                              | {
+                                    __typename?: 'SoknadArbeidsgiver';
+                                    fom: string;
+                                    tom: string;
+                                    rapportertDato: string;
+                                    sendtArbeidsgiver: string;
+                                    id: string;
+                                    type: Hendelsetype;
+                                }
+                              | {
+                                    __typename?: 'SoknadNav';
+                                    fom: string;
+                                    tom: string;
+                                    rapportertDato: string;
+                                    sendtNav: string;
+                                    id: string;
+                                    type: Hendelsetype;
+                                }
+                              | {
+                                    __typename?: 'Sykmelding';
+                                    fom: string;
+                                    tom: string;
+                                    rapportertDato: string;
+                                    id: string;
+                                    type: Hendelsetype;
+                                }
+                          >;
+                      }
                 >;
             }>;
             overstyringer: Array<
@@ -2231,10 +2354,7 @@ export const AntallFragmentDoc = {
                 kind: 'SelectionSet',
                 selections: [
                     { kind: 'Field', name: { kind: 'Name', value: 'automatisk' } },
-                    {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'manuelt' },
-                    },
+                    { kind: 'Field', name: { kind: 'Name', value: 'manuelt' } },
                     { kind: 'Field', name: { kind: 'Name', value: 'tilgjengelig' } },
                 ],
             },
@@ -2252,10 +2372,7 @@ export const SimuleringFragmentDoc = {
                 kind: 'SelectionSet',
                 selections: [
                     { kind: 'Field', name: { kind: 'Name', value: 'fagsystemId' } },
-                    {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'totalbelop' },
-                    },
+                    { kind: 'Field', name: { kind: 'Name', value: 'totalbelop' } },
                     { kind: 'Field', name: { kind: 'Name', value: 'tidsstempel' } },
                     {
                         kind: 'Field',
@@ -2264,15 +2381,9 @@ export const SimuleringFragmentDoc = {
                             kind: 'SelectionSet',
                             selections: [
                                 { kind: 'Field', name: { kind: 'Name', value: 'fom' } },
-                                {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'tom' },
-                                },
+                                { kind: 'Field', name: { kind: 'Name', value: 'tom' } },
                                 { kind: 'Field', name: { kind: 'Name', value: 'dagsats' } },
-                                {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'grad' },
-                                },
+                                { kind: 'Field', name: { kind: 'Name', value: 'grad' } },
                             ],
                         },
                     },
@@ -2283,83 +2394,44 @@ export const SimuleringFragmentDoc = {
                             kind: 'SelectionSet',
                             selections: [
                                 { kind: 'Field', name: { kind: 'Name', value: 'fom' } },
-                                {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'tom' },
-                                },
+                                { kind: 'Field', name: { kind: 'Name', value: 'tom' } },
                                 {
                                     kind: 'Field',
                                     name: { kind: 'Name', value: 'utbetalinger' },
                                     selectionSet: {
                                         kind: 'SelectionSet',
                                         selections: [
-                                            {
-                                                kind: 'Field',
-                                                name: { kind: 'Name', value: 'mottakerId' },
-                                            },
-                                            {
-                                                kind: 'Field',
-                                                name: { kind: 'Name', value: 'mottakerNavn' },
-                                            },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'mottakerId' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'mottakerNavn' } },
                                             { kind: 'Field', name: { kind: 'Name', value: 'forfall' } },
-                                            {
-                                                kind: 'Field',
-                                                name: { kind: 'Name', value: 'feilkonto' },
-                                            },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'feilkonto' } },
                                             {
                                                 kind: 'Field',
                                                 name: { kind: 'Name', value: 'detaljer' },
                                                 selectionSet: {
                                                     kind: 'SelectionSet',
                                                     selections: [
-                                                        {
-                                                            kind: 'Field',
-                                                            name: { kind: 'Name', value: 'fom' },
-                                                        },
-                                                        {
-                                                            kind: 'Field',
-                                                            name: { kind: 'Name', value: 'tom' },
-                                                        },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'fom' } },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'tom' } },
                                                         {
                                                             kind: 'Field',
                                                             name: { kind: 'Name', value: 'utbetalingstype' },
                                                         },
-                                                        {
-                                                            kind: 'Field',
-                                                            name: { kind: 'Name', value: 'uforegrad' },
-                                                        },
-                                                        {
-                                                            kind: 'Field',
-                                                            name: { kind: 'Name', value: 'typeSats' },
-                                                        },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'uforegrad' } },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'typeSats' } },
                                                         {
                                                             kind: 'Field',
                                                             name: { kind: 'Name', value: 'tilbakeforing' },
                                                         },
-                                                        {
-                                                            kind: 'Field',
-                                                            name: { kind: 'Name', value: 'sats' },
-                                                        },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'sats' } },
                                                         {
                                                             kind: 'Field',
                                                             name: { kind: 'Name', value: 'refunderesOrgNr' },
                                                         },
-                                                        {
-                                                            kind: 'Field',
-                                                            name: { kind: 'Name', value: 'konto' },
-                                                        },
-                                                        {
-                                                            kind: 'Field',
-                                                            name: { kind: 'Name', value: 'klassekode' },
-                                                        },
-                                                        {
-                                                            kind: 'Field',
-                                                            name: { kind: 'Name', value: 'antallSats' },
-                                                        },
-                                                        {
-                                                            kind: 'Field',
-                                                            name: { kind: 'Name', value: 'belop' },
-                                                        },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'konto' } },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'klassekode' } },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'antallSats' } },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'belop' } },
                                                         {
                                                             kind: 'Field',
                                                             name: { kind: 'Name', value: 'klassekodebeskrivelse' },
@@ -2389,15 +2461,9 @@ export const VilkarsgrunnlagFragmentDoc = {
                 kind: 'SelectionSet',
                 selections: [
                     { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                    {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'sykepengegrunnlag' },
-                    },
+                    { kind: 'Field', name: { kind: 'Name', value: 'sykepengegrunnlag' } },
                     { kind: 'Field', name: { kind: 'Name', value: 'skjaeringstidspunkt' } },
-                    {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'omregnetArsinntekt' },
-                    },
+                    { kind: 'Field', name: { kind: 'Name', value: 'omregnetArsinntekt' } },
                     { kind: 'Field', name: { kind: 'Name', value: 'sammenligningsgrunnlag' } },
                     {
                         kind: 'Field',
@@ -2411,20 +2477,14 @@ export const VilkarsgrunnlagFragmentDoc = {
                                     selectionSet: {
                                         kind: 'SelectionSet',
                                         selections: [
-                                            {
-                                                kind: 'Field',
-                                                name: { kind: 'Name', value: 'belop' },
-                                            },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'belop' } },
                                             {
                                                 kind: 'Field',
                                                 name: { kind: 'Name', value: 'inntektFraAOrdningen' },
                                                 selectionSet: {
                                                     kind: 'SelectionSet',
                                                     selections: [
-                                                        {
-                                                            kind: 'Field',
-                                                            name: { kind: 'Name', value: 'maned' },
-                                                        },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'maned' } },
                                                         { kind: 'Field', name: { kind: 'Name', value: 'sum' } },
                                                     ],
                                                 },
@@ -2444,19 +2504,13 @@ export const VilkarsgrunnlagFragmentDoc = {
                                                 selectionSet: {
                                                     kind: 'SelectionSet',
                                                     selections: [
-                                                        {
-                                                            kind: 'Field',
-                                                            name: { kind: 'Name', value: 'maned' },
-                                                        },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'maned' } },
                                                         { kind: 'Field', name: { kind: 'Name', value: 'sum' } },
                                                     ],
                                                 },
                                             },
                                             { kind: 'Field', name: { kind: 'Name', value: 'belop' } },
-                                            {
-                                                kind: 'Field',
-                                                name: { kind: 'Name', value: 'manedsbelop' },
-                                            },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'manedsbelop' } },
                                             { kind: 'Field', name: { kind: 'Name', value: 'kilde' } },
                                         ],
                                     },
@@ -2473,28 +2527,19 @@ export const VilkarsgrunnlagFragmentDoc = {
                                                 selectionSet: {
                                                     kind: 'SelectionSet',
                                                     selections: [
-                                                        {
-                                                            kind: 'Field',
-                                                            name: { kind: 'Name', value: 'maned' },
-                                                        },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'maned' } },
                                                         { kind: 'Field', name: { kind: 'Name', value: 'sum' } },
                                                     ],
                                                 },
                                             },
                                             { kind: 'Field', name: { kind: 'Name', value: 'belop' } },
-                                            {
-                                                kind: 'Field',
-                                                name: { kind: 'Name', value: 'manedsbelop' },
-                                            },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'manedsbelop' } },
                                             { kind: 'Field', name: { kind: 'Name', value: 'kilde' } },
                                         ],
                                     },
                                 },
                                 { kind: 'Field', name: { kind: 'Name', value: 'arbeidsgiver' } },
-                                {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'deaktivert' },
-                                },
+                                { kind: 'Field', name: { kind: 'Name', value: 'deaktivert' } },
                             ],
                         },
                     },
@@ -2504,25 +2549,16 @@ export const VilkarsgrunnlagFragmentDoc = {
                         selectionSet: {
                             kind: 'SelectionSet',
                             selections: [
-                                {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'arbeidsgiver' },
-                                },
+                                { kind: 'Field', name: { kind: 'Name', value: 'arbeidsgiver' } },
                                 {
                                     kind: 'Field',
                                     name: { kind: 'Name', value: 'refusjonsopplysninger' },
                                     selectionSet: {
                                         kind: 'SelectionSet',
                                         selections: [
-                                            {
-                                                kind: 'Field',
-                                                name: { kind: 'Name', value: 'fom' },
-                                            },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'fom' } },
                                             { kind: 'Field', name: { kind: 'Name', value: 'tom' } },
-                                            {
-                                                kind: 'Field',
-                                                name: { kind: 'Name', value: 'belop' },
-                                            },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'belop' } },
                                             { kind: 'Field', name: { kind: 'Name', value: 'meldingsreferanseId' } },
                                         ],
                                     },
@@ -2537,31 +2573,13 @@ export const VilkarsgrunnlagFragmentDoc = {
                         selectionSet: {
                             kind: 'SelectionSet',
                             selections: [
-                                {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'skjonnsmessigFastsattAarlig' },
-                                },
-                                {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'oppfyllerKravOmMinstelonn' },
-                                },
-                                {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'oppfyllerKravOmMedlemskap' },
-                                },
-                                {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'oppfyllerKravOmOpptjening' },
-                                },
-                                {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'antallOpptjeningsdagerErMinst' },
-                                },
+                                { kind: 'Field', name: { kind: 'Name', value: 'skjonnsmessigFastsattAarlig' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'oppfyllerKravOmMinstelonn' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'oppfyllerKravOmMedlemskap' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'oppfyllerKravOmOpptjening' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'antallOpptjeningsdagerErMinst' } },
                                 { kind: 'Field', name: { kind: 'Name', value: 'grunnbelop' } },
-                                {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'avviksprosent' },
-                                },
+                                { kind: 'Field', name: { kind: 'Name', value: 'avviksprosent' } },
                                 { kind: 'Field', name: { kind: 'Name', value: 'opptjeningFra' } },
                                 {
                                     kind: 'Field',
@@ -2569,15 +2587,9 @@ export const VilkarsgrunnlagFragmentDoc = {
                                     selectionSet: {
                                         kind: 'SelectionSet',
                                         selections: [
-                                            {
-                                                kind: 'Field',
-                                                name: { kind: 'Name', value: 'grunnbelop' },
-                                            },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'grunnbelop' } },
                                             { kind: 'Field', name: { kind: 'Name', value: 'grense' } },
-                                            {
-                                                kind: 'Field',
-                                                name: { kind: 'Name', value: 'virkningstidspunkt' },
-                                            },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'virkningstidspunkt' } },
                                         ],
                                     },
                                 },
@@ -2600,30 +2612,15 @@ export const NotatFragmentDoc = {
                 kind: 'SelectionSet',
                 selections: [
                     { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                    {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'tekst' },
-                    },
+                    { kind: 'Field', name: { kind: 'Name', value: 'tekst' } },
                     { kind: 'Field', name: { kind: 'Name', value: 'opprettet' } },
-                    {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'saksbehandlerOid' },
-                    },
+                    { kind: 'Field', name: { kind: 'Name', value: 'saksbehandlerOid' } },
                     { kind: 'Field', name: { kind: 'Name', value: 'saksbehandlerNavn' } },
-                    {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'saksbehandlerEpost' },
-                    },
+                    { kind: 'Field', name: { kind: 'Name', value: 'saksbehandlerEpost' } },
                     { kind: 'Field', name: { kind: 'Name', value: 'saksbehandlerIdent' } },
-                    {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'vedtaksperiodeId' },
-                    },
+                    { kind: 'Field', name: { kind: 'Name', value: 'vedtaksperiodeId' } },
                     { kind: 'Field', name: { kind: 'Name', value: 'feilregistrert' } },
-                    {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'feilregistrert_tidspunkt' },
-                    },
+                    { kind: 'Field', name: { kind: 'Name', value: 'feilregistrert_tidspunkt' } },
                     { kind: 'Field', name: { kind: 'Name', value: 'type' } },
                     {
                         kind: 'Field',
@@ -2632,15 +2629,9 @@ export const NotatFragmentDoc = {
                             kind: 'SelectionSet',
                             selections: [
                                 { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                                {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'tekst' },
-                                },
+                                { kind: 'Field', name: { kind: 'Name', value: 'tekst' } },
                                 { kind: 'Field', name: { kind: 'Name', value: 'opprettet' } },
-                                {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'saksbehandlerident' },
-                                },
+                                { kind: 'Field', name: { kind: 'Name', value: 'saksbehandlerident' } },
                                 { kind: 'Field', name: { kind: 'Name', value: 'feilregistrert_tidspunkt' } },
                             ],
                         },
@@ -2661,18 +2652,12 @@ export const FetchBehandledeOppgaverDocument = {
                 {
                     kind: 'VariableDefinition',
                     variable: { kind: 'Variable', name: { kind: 'Name', value: 'oid' } },
-                    type: {
-                        kind: 'NonNullType',
-                        type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
-                    },
+                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
                 },
                 {
                     kind: 'VariableDefinition',
                     variable: { kind: 'Variable', name: { kind: 'Name', value: 'fom' } },
-                    type: {
-                        kind: 'NonNullType',
-                        type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
-                    },
+                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
                 },
             ],
             selectionSet: {
@@ -2696,24 +2681,12 @@ export const FetchBehandledeOppgaverDocument = {
                         selectionSet: {
                             kind: 'SelectionSet',
                             selections: [
-                                {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'aktorId' },
-                                },
+                                { kind: 'Field', name: { kind: 'Name', value: 'aktorId' } },
                                 { kind: 'Field', name: { kind: 'Name', value: 'bosted' } },
-                                {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'ferdigstiltAv' },
-                                },
-                                {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'ferdigstiltTidspunkt' },
-                                },
+                                { kind: 'Field', name: { kind: 'Name', value: 'ferdigstiltAv' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'ferdigstiltTidspunkt' } },
                                 { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                                {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'inntektstype' },
-                                },
+                                { kind: 'Field', name: { kind: 'Name', value: 'inntektstype' } },
                                 { kind: 'Field', name: { kind: 'Name', value: 'periodetype' } },
                                 {
                                     kind: 'Field',
@@ -2721,14 +2694,8 @@ export const FetchBehandledeOppgaverDocument = {
                                     selectionSet: {
                                         kind: 'SelectionSet',
                                         selections: [
-                                            {
-                                                kind: 'Field',
-                                                name: { kind: 'Name', value: 'fornavn' },
-                                            },
-                                            {
-                                                kind: 'Field',
-                                                name: { kind: 'Name', value: 'mellomnavn' },
-                                            },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'fornavn' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'mellomnavn' } },
                                             { kind: 'Field', name: { kind: 'Name', value: 'etternavn' } },
                                         ],
                                     },
@@ -2903,10 +2870,7 @@ export const HentBehandlingsstatistikkDocument = {
                 kind: 'SelectionSet',
                 selections: [
                     { kind: 'Field', name: { kind: 'Name', value: 'automatisk' } },
-                    {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'manuelt' },
-                    },
+                    { kind: 'Field', name: { kind: 'Name', value: 'manuelt' } },
                     { kind: 'Field', name: { kind: 'Name', value: 'tilgjengelig' } },
                 ],
             },
@@ -2924,10 +2888,7 @@ export const FetchOppdragDocument = {
                 {
                     kind: 'VariableDefinition',
                     variable: { kind: 'Variable', name: { kind: 'Name', value: 'fnr' } },
-                    type: {
-                        kind: 'NonNullType',
-                        type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
-                    },
+                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
                 },
             ],
             selectionSet: {
@@ -2947,38 +2908,23 @@ export const FetchOppdragDocument = {
                             kind: 'SelectionSet',
                             selections: [
                                 { kind: 'Field', name: { kind: 'Name', value: 'type' } },
-                                {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'status' },
-                                },
+                                { kind: 'Field', name: { kind: 'Name', value: 'status' } },
                                 {
                                     kind: 'Field',
                                     name: { kind: 'Name', value: 'arbeidsgiveroppdrag' },
                                     selectionSet: {
                                         kind: 'SelectionSet',
                                         selections: [
-                                            {
-                                                kind: 'Field',
-                                                name: { kind: 'Name', value: 'organisasjonsnummer' },
-                                            },
-                                            {
-                                                kind: 'Field',
-                                                name: { kind: 'Name', value: 'fagsystemId' },
-                                            },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'organisasjonsnummer' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'fagsystemId' } },
                                             {
                                                 kind: 'Field',
                                                 name: { kind: 'Name', value: 'linjer' },
                                                 selectionSet: {
                                                     kind: 'SelectionSet',
                                                     selections: [
-                                                        {
-                                                            kind: 'Field',
-                                                            name: { kind: 'Name', value: 'fom' },
-                                                        },
-                                                        {
-                                                            kind: 'Field',
-                                                            name: { kind: 'Name', value: 'tom' },
-                                                        },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'fom' } },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'tom' } },
                                                         { kind: 'Field', name: { kind: 'Name', value: 'totalbelop' } },
                                                     ],
                                                 },
@@ -2992,28 +2938,16 @@ export const FetchOppdragDocument = {
                                     selectionSet: {
                                         kind: 'SelectionSet',
                                         selections: [
-                                            {
-                                                kind: 'Field',
-                                                name: { kind: 'Name', value: 'fodselsnummer' },
-                                            },
-                                            {
-                                                kind: 'Field',
-                                                name: { kind: 'Name', value: 'fagsystemId' },
-                                            },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'fodselsnummer' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'fagsystemId' } },
                                             {
                                                 kind: 'Field',
                                                 name: { kind: 'Name', value: 'linjer' },
                                                 selectionSet: {
                                                     kind: 'SelectionSet',
                                                     selections: [
-                                                        {
-                                                            kind: 'Field',
-                                                            name: { kind: 'Name', value: 'fom' },
-                                                        },
-                                                        {
-                                                            kind: 'Field',
-                                                            name: { kind: 'Name', value: 'tom' },
-                                                        },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'fom' } },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'tom' } },
                                                         { kind: 'Field', name: { kind: 'Name', value: 'totalbelop' } },
                                                     ],
                                                 },
@@ -3027,10 +2961,7 @@ export const FetchOppdragDocument = {
                                     selectionSet: {
                                         kind: 'SelectionSet',
                                         selections: [
-                                            {
-                                                kind: 'Field',
-                                                name: { kind: 'Name', value: 'saksbehandler' },
-                                            },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'saksbehandler' } },
                                             { kind: 'Field', name: { kind: 'Name', value: 'tidspunkt' } },
                                         ],
                                     },
@@ -3060,39 +2991,21 @@ export const FetchOppgaverDocument = {
                             kind: 'SelectionSet',
                             selections: [
                                 { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                                {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'aktorId' },
-                                },
+                                { kind: 'Field', name: { kind: 'Name', value: 'aktorId' } },
                                 { kind: 'Field', name: { kind: 'Name', value: 'opprettet' } },
-                                {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'opprinneligSoknadsdato' },
-                                },
+                                { kind: 'Field', name: { kind: 'Name', value: 'opprinneligSoknadsdato' } },
                                 { kind: 'Field', name: { kind: 'Name', value: 'vedtaksperiodeId' } },
-                                {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'type' },
-                                },
+                                { kind: 'Field', name: { kind: 'Name', value: 'type' } },
                                 { kind: 'Field', name: { kind: 'Name', value: 'periodetype' } },
-                                {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'flereArbeidsgivere' },
-                                },
+                                { kind: 'Field', name: { kind: 'Name', value: 'flereArbeidsgivere' } },
                                 {
                                     kind: 'Field',
                                     name: { kind: 'Name', value: 'navn' },
                                     selectionSet: {
                                         kind: 'SelectionSet',
                                         selections: [
-                                            {
-                                                kind: 'Field',
-                                                name: { kind: 'Name', value: 'fornavn' },
-                                            },
-                                            {
-                                                kind: 'Field',
-                                                name: { kind: 'Name', value: 'mellomnavn' },
-                                            },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'fornavn' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'mellomnavn' } },
                                             { kind: 'Field', name: { kind: 'Name', value: 'etternavn' } },
                                         ],
                                     },
@@ -3104,20 +3017,11 @@ export const FetchOppgaverDocument = {
                                     selectionSet: {
                                         kind: 'SelectionSet',
                                         selections: [
-                                            {
-                                                kind: 'Field',
-                                                name: { kind: 'Name', value: 'reservert' },
-                                            },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'reservert' } },
                                             { kind: 'Field', name: { kind: 'Name', value: 'navn' } },
-                                            {
-                                                kind: 'Field',
-                                                name: { kind: 'Name', value: 'epost' },
-                                            },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'epost' } },
                                             { kind: 'Field', name: { kind: 'Name', value: 'oid' } },
-                                            {
-                                                kind: 'Field',
-                                                name: { kind: 'Name', value: 'paaVent' },
-                                            },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'paaVent' } },
                                         ],
                                     },
                                 },
@@ -3127,23 +3031,14 @@ export const FetchOppgaverDocument = {
                                     selectionSet: {
                                         kind: 'SelectionSet',
                                         selections: [
-                                            {
-                                                kind: 'Field',
-                                                name: { kind: 'Name', value: 'saksbehandler' },
-                                            },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'saksbehandler' } },
                                             { kind: 'Field', name: { kind: 'Name', value: 'erRetur' } },
-                                            {
-                                                kind: 'Field',
-                                                name: { kind: 'Name', value: 'erBeslutteroppgave' },
-                                            },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'erBeslutteroppgave' } },
                                         ],
                                     },
                                 },
                                 { kind: 'Field', name: { kind: 'Name', value: 'mottaker' } },
-                                {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'haster' },
-                                },
+                                { kind: 'Field', name: { kind: 'Name', value: 'haster' } },
                             ],
                         },
                     },
@@ -3192,10 +3087,7 @@ export const FetchPersonDocument = {
                         selectionSet: {
                             kind: 'SelectionSet',
                             selections: [
-                                {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'fodselsnummer' },
-                                },
+                                { kind: 'Field', name: { kind: 'Name', value: 'fodselsnummer' } },
                                 { kind: 'Field', name: { kind: 'Name', value: 'dodsdato' } },
                                 {
                                     kind: 'Field',
@@ -3203,10 +3095,7 @@ export const FetchPersonDocument = {
                                     selectionSet: {
                                         kind: 'SelectionSet',
                                         selections: [
-                                            {
-                                                kind: 'Field',
-                                                name: { kind: 'Name', value: 'id' },
-                                            },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'id' } },
                                             { kind: 'Field', name: { kind: 'Name', value: 'navn' } },
                                         ],
                                     },
@@ -3217,20 +3106,11 @@ export const FetchPersonDocument = {
                                     selectionSet: {
                                         kind: 'SelectionSet',
                                         selections: [
-                                            {
-                                                kind: 'Field',
-                                                name: { kind: 'Name', value: 'organisasjonsnummer' },
-                                            },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'organisasjonsnummer' } },
                                             { kind: 'Field', name: { kind: 'Name', value: 'dagsats' } },
-                                            {
-                                                kind: 'Field',
-                                                name: { kind: 'Name', value: 'fom' },
-                                            },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'fom' } },
                                             { kind: 'Field', name: { kind: 'Name', value: 'tom' } },
-                                            {
-                                                kind: 'Field',
-                                                name: { kind: 'Name', value: 'grad' },
-                                            },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'grad' } },
                                             { kind: 'Field', name: { kind: 'Name', value: 'typetekst' } },
                                         ],
                                     },
@@ -3241,23 +3121,11 @@ export const FetchPersonDocument = {
                                     selectionSet: {
                                         kind: 'SelectionSet',
                                         selections: [
-                                            {
-                                                kind: 'Field',
-                                                name: { kind: 'Name', value: 'fornavn' },
-                                            },
-                                            {
-                                                kind: 'Field',
-                                                name: { kind: 'Name', value: 'mellomnavn' },
-                                            },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'fornavn' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'mellomnavn' } },
                                             { kind: 'Field', name: { kind: 'Name', value: 'etternavn' } },
-                                            {
-                                                kind: 'Field',
-                                                name: { kind: 'Name', value: 'adressebeskyttelse' },
-                                            },
-                                            {
-                                                kind: 'Field',
-                                                name: { kind: 'Name', value: 'fodselsdato' },
-                                            },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'adressebeskyttelse' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'fodselsdato' } },
                                             { kind: 'Field', name: { kind: 'Name', value: 'kjonn' } },
                                             {
                                                 kind: 'Field',
@@ -3265,10 +3133,7 @@ export const FetchPersonDocument = {
                                                 selectionSet: {
                                                     kind: 'SelectionSet',
                                                     selections: [
-                                                        {
-                                                            kind: 'Field',
-                                                            name: { kind: 'Name', value: 'kanVarsles' },
-                                                        },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'kanVarsles' } },
                                                         { kind: 'Field', name: { kind: 'Name', value: 'reservert' } },
                                                     ],
                                                 },
@@ -3282,20 +3147,11 @@ export const FetchPersonDocument = {
                                     selectionSet: {
                                         kind: 'SelectionSet',
                                         selections: [
-                                            {
-                                                kind: 'Field',
-                                                name: { kind: 'Name', value: 'navn' },
-                                            },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'navn' } },
                                             { kind: 'Field', name: { kind: 'Name', value: 'epost' } },
-                                            {
-                                                kind: 'Field',
-                                                name: { kind: 'Name', value: 'oid' },
-                                            },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'oid' } },
                                             { kind: 'Field', name: { kind: 'Name', value: 'reservert' } },
-                                            {
-                                                kind: 'Field',
-                                                name: { kind: 'Name', value: 'paaVent' },
-                                            },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'paaVent' } },
                                         ],
                                     },
                                 },
@@ -3320,29 +3176,17 @@ export const FetchPersonDocument = {
                                     selectionSet: {
                                         kind: 'SelectionSet',
                                         selections: [
-                                            {
-                                                kind: 'Field',
-                                                name: { kind: 'Name', value: 'bransjer' },
-                                            },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'bransjer' } },
                                             { kind: 'Field', name: { kind: 'Name', value: 'navn' } },
-                                            {
-                                                kind: 'Field',
-                                                name: { kind: 'Name', value: 'organisasjonsnummer' },
-                                            },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'organisasjonsnummer' } },
                                             {
                                                 kind: 'Field',
                                                 name: { kind: 'Name', value: 'arbeidsforhold' },
                                                 selectionSet: {
                                                     kind: 'SelectionSet',
                                                     selections: [
-                                                        {
-                                                            kind: 'Field',
-                                                            name: { kind: 'Name', value: 'sluttdato' },
-                                                        },
-                                                        {
-                                                            kind: 'Field',
-                                                            name: { kind: 'Name', value: 'startdato' },
-                                                        },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'sluttdato' } },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'startdato' } },
                                                         {
                                                             kind: 'Field',
                                                             name: { kind: 'Name', value: 'stillingsprosent' },
@@ -3360,14 +3204,8 @@ export const FetchPersonDocument = {
                                                 selectionSet: {
                                                     kind: 'SelectionSet',
                                                     selections: [
-                                                        {
-                                                            kind: 'Field',
-                                                            name: { kind: 'Name', value: 'id' },
-                                                        },
-                                                        {
-                                                            kind: 'Field',
-                                                            name: { kind: 'Name', value: 'deaktivert' },
-                                                        },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'deaktivert' } },
                                                         {
                                                             kind: 'Field',
                                                             name: { kind: 'Name', value: 'vilkarsgrunnlagId' },
@@ -3376,14 +3214,8 @@ export const FetchPersonDocument = {
                                                             kind: 'Field',
                                                             name: { kind: 'Name', value: 'skjaeringstidspunkt' },
                                                         },
-                                                        {
-                                                            kind: 'Field',
-                                                            name: { kind: 'Name', value: 'fom' },
-                                                        },
-                                                        {
-                                                            kind: 'Field',
-                                                            name: { kind: 'Name', value: 'tom' },
-                                                        },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'fom' } },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'tom' } },
                                                         {
                                                             kind: 'Field',
                                                             name: { kind: 'Name', value: 'organisasjonsnummer' },
@@ -3843,6 +3675,51 @@ export const FetchPersonDocument = {
                                                                                 {
                                                                                     kind: 'Field',
                                                                                     name: { kind: 'Name', value: 'id' },
+                                                                                },
+                                                                                {
+                                                                                    kind: 'Field',
+                                                                                    name: {
+                                                                                        kind: 'Name',
+                                                                                        value: 'notater',
+                                                                                    },
+                                                                                    selectionSet: {
+                                                                                        kind: 'SelectionSet',
+                                                                                        selections: [
+                                                                                            {
+                                                                                                kind: 'FragmentSpread',
+                                                                                                name: {
+                                                                                                    kind: 'Name',
+                                                                                                    value: 'notat',
+                                                                                                },
+                                                                                            },
+                                                                                        ],
+                                                                                    },
+                                                                                },
+                                                                            ],
+                                                                        },
+                                                                    },
+                                                                    {
+                                                                        kind: 'InlineFragment',
+                                                                        typeCondition: {
+                                                                            kind: 'NamedType',
+                                                                            name: {
+                                                                                kind: 'Name',
+                                                                                value: 'UberegnetVilkarsprovdPeriode',
+                                                                            },
+                                                                        },
+                                                                        selectionSet: {
+                                                                            kind: 'SelectionSet',
+                                                                            selections: [
+                                                                                {
+                                                                                    kind: 'Field',
+                                                                                    name: { kind: 'Name', value: 'id' },
+                                                                                },
+                                                                                {
+                                                                                    kind: 'Field',
+                                                                                    name: {
+                                                                                        kind: 'Name',
+                                                                                        value: 'vilkarsgrunnlagId',
+                                                                                    },
                                                                                 },
                                                                                 {
                                                                                     kind: 'Field',
@@ -4554,10 +4431,7 @@ export const FetchPersonDocument = {
                                                 selectionSet: {
                                                     kind: 'SelectionSet',
                                                     selections: [
-                                                        {
-                                                            kind: 'Field',
-                                                            name: { kind: 'Name', value: 'hendelseId' },
-                                                        },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'hendelseId' } },
                                                         {
                                                             kind: 'Field',
                                                             name: { kind: 'Name', value: 'saksbehandler' },
@@ -4575,18 +4449,9 @@ export const FetchPersonDocument = {
                                                                 ],
                                                             },
                                                         },
-                                                        {
-                                                            kind: 'Field',
-                                                            name: { kind: 'Name', value: 'timestamp' },
-                                                        },
-                                                        {
-                                                            kind: 'Field',
-                                                            name: { kind: 'Name', value: 'ferdigstilt' },
-                                                        },
-                                                        {
-                                                            kind: 'Field',
-                                                            name: { kind: 'Name', value: '__typename' },
-                                                        },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'timestamp' } },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'ferdigstilt' } },
+                                                        { kind: 'Field', name: { kind: 'Name', value: '__typename' } },
                                                         {
                                                             kind: 'InlineFragment',
                                                             typeCondition: {
@@ -4885,15 +4750,9 @@ export const FetchPersonDocument = {
                 kind: 'SelectionSet',
                 selections: [
                     { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                    {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'sykepengegrunnlag' },
-                    },
+                    { kind: 'Field', name: { kind: 'Name', value: 'sykepengegrunnlag' } },
                     { kind: 'Field', name: { kind: 'Name', value: 'skjaeringstidspunkt' } },
-                    {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'omregnetArsinntekt' },
-                    },
+                    { kind: 'Field', name: { kind: 'Name', value: 'omregnetArsinntekt' } },
                     { kind: 'Field', name: { kind: 'Name', value: 'sammenligningsgrunnlag' } },
                     {
                         kind: 'Field',
@@ -4907,20 +4766,14 @@ export const FetchPersonDocument = {
                                     selectionSet: {
                                         kind: 'SelectionSet',
                                         selections: [
-                                            {
-                                                kind: 'Field',
-                                                name: { kind: 'Name', value: 'belop' },
-                                            },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'belop' } },
                                             {
                                                 kind: 'Field',
                                                 name: { kind: 'Name', value: 'inntektFraAOrdningen' },
                                                 selectionSet: {
                                                     kind: 'SelectionSet',
                                                     selections: [
-                                                        {
-                                                            kind: 'Field',
-                                                            name: { kind: 'Name', value: 'maned' },
-                                                        },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'maned' } },
                                                         { kind: 'Field', name: { kind: 'Name', value: 'sum' } },
                                                     ],
                                                 },
@@ -4940,19 +4793,13 @@ export const FetchPersonDocument = {
                                                 selectionSet: {
                                                     kind: 'SelectionSet',
                                                     selections: [
-                                                        {
-                                                            kind: 'Field',
-                                                            name: { kind: 'Name', value: 'maned' },
-                                                        },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'maned' } },
                                                         { kind: 'Field', name: { kind: 'Name', value: 'sum' } },
                                                     ],
                                                 },
                                             },
                                             { kind: 'Field', name: { kind: 'Name', value: 'belop' } },
-                                            {
-                                                kind: 'Field',
-                                                name: { kind: 'Name', value: 'manedsbelop' },
-                                            },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'manedsbelop' } },
                                             { kind: 'Field', name: { kind: 'Name', value: 'kilde' } },
                                         ],
                                     },
@@ -4969,28 +4816,19 @@ export const FetchPersonDocument = {
                                                 selectionSet: {
                                                     kind: 'SelectionSet',
                                                     selections: [
-                                                        {
-                                                            kind: 'Field',
-                                                            name: { kind: 'Name', value: 'maned' },
-                                                        },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'maned' } },
                                                         { kind: 'Field', name: { kind: 'Name', value: 'sum' } },
                                                     ],
                                                 },
                                             },
                                             { kind: 'Field', name: { kind: 'Name', value: 'belop' } },
-                                            {
-                                                kind: 'Field',
-                                                name: { kind: 'Name', value: 'manedsbelop' },
-                                            },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'manedsbelop' } },
                                             { kind: 'Field', name: { kind: 'Name', value: 'kilde' } },
                                         ],
                                     },
                                 },
                                 { kind: 'Field', name: { kind: 'Name', value: 'arbeidsgiver' } },
-                                {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'deaktivert' },
-                                },
+                                { kind: 'Field', name: { kind: 'Name', value: 'deaktivert' } },
                             ],
                         },
                     },
@@ -5000,25 +4838,16 @@ export const FetchPersonDocument = {
                         selectionSet: {
                             kind: 'SelectionSet',
                             selections: [
-                                {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'arbeidsgiver' },
-                                },
+                                { kind: 'Field', name: { kind: 'Name', value: 'arbeidsgiver' } },
                                 {
                                     kind: 'Field',
                                     name: { kind: 'Name', value: 'refusjonsopplysninger' },
                                     selectionSet: {
                                         kind: 'SelectionSet',
                                         selections: [
-                                            {
-                                                kind: 'Field',
-                                                name: { kind: 'Name', value: 'fom' },
-                                            },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'fom' } },
                                             { kind: 'Field', name: { kind: 'Name', value: 'tom' } },
-                                            {
-                                                kind: 'Field',
-                                                name: { kind: 'Name', value: 'belop' },
-                                            },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'belop' } },
                                             { kind: 'Field', name: { kind: 'Name', value: 'meldingsreferanseId' } },
                                         ],
                                     },
@@ -5033,31 +4862,13 @@ export const FetchPersonDocument = {
                         selectionSet: {
                             kind: 'SelectionSet',
                             selections: [
-                                {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'skjonnsmessigFastsattAarlig' },
-                                },
-                                {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'oppfyllerKravOmMinstelonn' },
-                                },
-                                {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'oppfyllerKravOmMedlemskap' },
-                                },
-                                {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'oppfyllerKravOmOpptjening' },
-                                },
-                                {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'antallOpptjeningsdagerErMinst' },
-                                },
+                                { kind: 'Field', name: { kind: 'Name', value: 'skjonnsmessigFastsattAarlig' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'oppfyllerKravOmMinstelonn' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'oppfyllerKravOmMedlemskap' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'oppfyllerKravOmOpptjening' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'antallOpptjeningsdagerErMinst' } },
                                 { kind: 'Field', name: { kind: 'Name', value: 'grunnbelop' } },
-                                {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'avviksprosent' },
-                                },
+                                { kind: 'Field', name: { kind: 'Name', value: 'avviksprosent' } },
                                 { kind: 'Field', name: { kind: 'Name', value: 'opptjeningFra' } },
                                 {
                                     kind: 'Field',
@@ -5065,15 +4876,9 @@ export const FetchPersonDocument = {
                                     selectionSet: {
                                         kind: 'SelectionSet',
                                         selections: [
-                                            {
-                                                kind: 'Field',
-                                                name: { kind: 'Name', value: 'grunnbelop' },
-                                            },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'grunnbelop' } },
                                             { kind: 'Field', name: { kind: 'Name', value: 'grense' } },
-                                            {
-                                                kind: 'Field',
-                                                name: { kind: 'Name', value: 'virkningstidspunkt' },
-                                            },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'virkningstidspunkt' } },
                                         ],
                                     },
                                 },
@@ -5091,30 +4896,15 @@ export const FetchPersonDocument = {
                 kind: 'SelectionSet',
                 selections: [
                     { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                    {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'tekst' },
-                    },
+                    { kind: 'Field', name: { kind: 'Name', value: 'tekst' } },
                     { kind: 'Field', name: { kind: 'Name', value: 'opprettet' } },
-                    {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'saksbehandlerOid' },
-                    },
+                    { kind: 'Field', name: { kind: 'Name', value: 'saksbehandlerOid' } },
                     { kind: 'Field', name: { kind: 'Name', value: 'saksbehandlerNavn' } },
-                    {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'saksbehandlerEpost' },
-                    },
+                    { kind: 'Field', name: { kind: 'Name', value: 'saksbehandlerEpost' } },
                     { kind: 'Field', name: { kind: 'Name', value: 'saksbehandlerIdent' } },
-                    {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'vedtaksperiodeId' },
-                    },
+                    { kind: 'Field', name: { kind: 'Name', value: 'vedtaksperiodeId' } },
                     { kind: 'Field', name: { kind: 'Name', value: 'feilregistrert' } },
-                    {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'feilregistrert_tidspunkt' },
-                    },
+                    { kind: 'Field', name: { kind: 'Name', value: 'feilregistrert_tidspunkt' } },
                     { kind: 'Field', name: { kind: 'Name', value: 'type' } },
                     {
                         kind: 'Field',
@@ -5123,15 +4913,9 @@ export const FetchPersonDocument = {
                             kind: 'SelectionSet',
                             selections: [
                                 { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                                {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'tekst' },
-                                },
+                                { kind: 'Field', name: { kind: 'Name', value: 'tekst' } },
                                 { kind: 'Field', name: { kind: 'Name', value: 'opprettet' } },
-                                {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'saksbehandlerident' },
-                                },
+                                { kind: 'Field', name: { kind: 'Name', value: 'saksbehandlerident' } },
                                 { kind: 'Field', name: { kind: 'Name', value: 'feilregistrert_tidspunkt' } },
                             ],
                         },
@@ -5147,10 +4931,7 @@ export const FetchPersonDocument = {
                 kind: 'SelectionSet',
                 selections: [
                     { kind: 'Field', name: { kind: 'Name', value: 'fagsystemId' } },
-                    {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'totalbelop' },
-                    },
+                    { kind: 'Field', name: { kind: 'Name', value: 'totalbelop' } },
                     { kind: 'Field', name: { kind: 'Name', value: 'tidsstempel' } },
                     {
                         kind: 'Field',
@@ -5159,15 +4940,9 @@ export const FetchPersonDocument = {
                             kind: 'SelectionSet',
                             selections: [
                                 { kind: 'Field', name: { kind: 'Name', value: 'fom' } },
-                                {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'tom' },
-                                },
+                                { kind: 'Field', name: { kind: 'Name', value: 'tom' } },
                                 { kind: 'Field', name: { kind: 'Name', value: 'dagsats' } },
-                                {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'grad' },
-                                },
+                                { kind: 'Field', name: { kind: 'Name', value: 'grad' } },
                             ],
                         },
                     },
@@ -5178,83 +4953,44 @@ export const FetchPersonDocument = {
                             kind: 'SelectionSet',
                             selections: [
                                 { kind: 'Field', name: { kind: 'Name', value: 'fom' } },
-                                {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'tom' },
-                                },
+                                { kind: 'Field', name: { kind: 'Name', value: 'tom' } },
                                 {
                                     kind: 'Field',
                                     name: { kind: 'Name', value: 'utbetalinger' },
                                     selectionSet: {
                                         kind: 'SelectionSet',
                                         selections: [
-                                            {
-                                                kind: 'Field',
-                                                name: { kind: 'Name', value: 'mottakerId' },
-                                            },
-                                            {
-                                                kind: 'Field',
-                                                name: { kind: 'Name', value: 'mottakerNavn' },
-                                            },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'mottakerId' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'mottakerNavn' } },
                                             { kind: 'Field', name: { kind: 'Name', value: 'forfall' } },
-                                            {
-                                                kind: 'Field',
-                                                name: { kind: 'Name', value: 'feilkonto' },
-                                            },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'feilkonto' } },
                                             {
                                                 kind: 'Field',
                                                 name: { kind: 'Name', value: 'detaljer' },
                                                 selectionSet: {
                                                     kind: 'SelectionSet',
                                                     selections: [
-                                                        {
-                                                            kind: 'Field',
-                                                            name: { kind: 'Name', value: 'fom' },
-                                                        },
-                                                        {
-                                                            kind: 'Field',
-                                                            name: { kind: 'Name', value: 'tom' },
-                                                        },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'fom' } },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'tom' } },
                                                         {
                                                             kind: 'Field',
                                                             name: { kind: 'Name', value: 'utbetalingstype' },
                                                         },
-                                                        {
-                                                            kind: 'Field',
-                                                            name: { kind: 'Name', value: 'uforegrad' },
-                                                        },
-                                                        {
-                                                            kind: 'Field',
-                                                            name: { kind: 'Name', value: 'typeSats' },
-                                                        },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'uforegrad' } },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'typeSats' } },
                                                         {
                                                             kind: 'Field',
                                                             name: { kind: 'Name', value: 'tilbakeforing' },
                                                         },
-                                                        {
-                                                            kind: 'Field',
-                                                            name: { kind: 'Name', value: 'sats' },
-                                                        },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'sats' } },
                                                         {
                                                             kind: 'Field',
                                                             name: { kind: 'Name', value: 'refunderesOrgNr' },
                                                         },
-                                                        {
-                                                            kind: 'Field',
-                                                            name: { kind: 'Name', value: 'konto' },
-                                                        },
-                                                        {
-                                                            kind: 'Field',
-                                                            name: { kind: 'Name', value: 'klassekode' },
-                                                        },
-                                                        {
-                                                            kind: 'Field',
-                                                            name: { kind: 'Name', value: 'antallSats' },
-                                                        },
-                                                        {
-                                                            kind: 'Field',
-                                                            name: { kind: 'Name', value: 'belop' },
-                                                        },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'konto' } },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'klassekode' } },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'antallSats' } },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'belop' } },
                                                         {
                                                             kind: 'Field',
                                                             name: { kind: 'Name', value: 'klassekodebeskrivelse' },
@@ -5284,10 +5020,7 @@ export const FeilregistrerKommentarMutationDocument = {
                 {
                     kind: 'VariableDefinition',
                     variable: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
-                    type: {
-                        kind: 'NonNullType',
-                        type: { kind: 'NamedType', name: { kind: 'Name', value: 'Int' } },
-                    },
+                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'Int' } } },
                 },
             ],
             selectionSet: {
@@ -5307,18 +5040,9 @@ export const FeilregistrerKommentarMutationDocument = {
                             kind: 'SelectionSet',
                             selections: [
                                 { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                                {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'opprettet' },
-                                },
-                                {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'feilregistrert_tidspunkt' },
-                                },
-                                {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'saksbehandlerident' },
-                                },
+                                { kind: 'Field', name: { kind: 'Name', value: 'opprettet' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'feilregistrert_tidspunkt' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'saksbehandlerident' } },
                                 { kind: 'Field', name: { kind: 'Name', value: 'tekst' } },
                             ],
                         },
@@ -5339,26 +5063,17 @@ export const LeggTilKommentarDocument = {
                 {
                     kind: 'VariableDefinition',
                     variable: { kind: 'Variable', name: { kind: 'Name', value: 'tekst' } },
-                    type: {
-                        kind: 'NonNullType',
-                        type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
-                    },
+                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
                 },
                 {
                     kind: 'VariableDefinition',
                     variable: { kind: 'Variable', name: { kind: 'Name', value: 'notatId' } },
-                    type: {
-                        kind: 'NonNullType',
-                        type: { kind: 'NamedType', name: { kind: 'Name', value: 'Int' } },
-                    },
+                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'Int' } } },
                 },
                 {
                     kind: 'VariableDefinition',
                     variable: { kind: 'Variable', name: { kind: 'Name', value: 'saksbehandlerident' } },
-                    type: {
-                        kind: 'NonNullType',
-                        type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
-                    },
+                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
                 },
             ],
             selectionSet: {
@@ -5388,15 +5103,9 @@ export const LeggTilKommentarDocument = {
                             kind: 'SelectionSet',
                             selections: [
                                 { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                                {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'tekst' },
-                                },
+                                { kind: 'Field', name: { kind: 'Name', value: 'tekst' } },
                                 { kind: 'Field', name: { kind: 'Name', value: 'opprettet' } },
-                                {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'saksbehandlerident' },
-                                },
+                                { kind: 'Field', name: { kind: 'Name', value: 'saksbehandlerident' } },
                                 { kind: 'Field', name: { kind: 'Name', value: 'feilregistrert_tidspunkt' } },
                             ],
                         },
@@ -5417,10 +5126,7 @@ export const FeilregistrerNotatMutationDocument = {
                 {
                     kind: 'VariableDefinition',
                     variable: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
-                    type: {
-                        kind: 'NonNullType',
-                        type: { kind: 'NamedType', name: { kind: 'Name', value: 'Int' } },
-                    },
+                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'Int' } } },
                 },
             ],
             selectionSet: {
@@ -5440,33 +5146,15 @@ export const FeilregistrerNotatMutationDocument = {
                             kind: 'SelectionSet',
                             selections: [
                                 { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                                {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'tekst' },
-                                },
+                                { kind: 'Field', name: { kind: 'Name', value: 'tekst' } },
                                 { kind: 'Field', name: { kind: 'Name', value: 'opprettet' } },
-                                {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'saksbehandlerOid' },
-                                },
+                                { kind: 'Field', name: { kind: 'Name', value: 'saksbehandlerOid' } },
                                 { kind: 'Field', name: { kind: 'Name', value: 'saksbehandlerNavn' } },
-                                {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'saksbehandlerEpost' },
-                                },
-                                {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'saksbehandlerIdent' },
-                                },
+                                { kind: 'Field', name: { kind: 'Name', value: 'saksbehandlerEpost' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'saksbehandlerIdent' } },
                                 { kind: 'Field', name: { kind: 'Name', value: 'vedtaksperiodeId' } },
-                                {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'feilregistrert' },
-                                },
-                                {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'feilregistrert_tidspunkt' },
-                                },
+                                { kind: 'Field', name: { kind: 'Name', value: 'feilregistrert' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'feilregistrert_tidspunkt' } },
                                 { kind: 'Field', name: { kind: 'Name', value: 'type' } },
                                 {
                                     kind: 'Field',
@@ -5474,19 +5162,10 @@ export const FeilregistrerNotatMutationDocument = {
                                     selectionSet: {
                                         kind: 'SelectionSet',
                                         selections: [
-                                            {
-                                                kind: 'Field',
-                                                name: { kind: 'Name', value: 'id' },
-                                            },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'id' } },
                                             { kind: 'Field', name: { kind: 'Name', value: 'tekst' } },
-                                            {
-                                                kind: 'Field',
-                                                name: { kind: 'Name', value: 'opprettet' },
-                                            },
-                                            {
-                                                kind: 'Field',
-                                                name: { kind: 'Name', value: 'saksbehandlerident' },
-                                            },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'opprettet' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'saksbehandlerident' } },
                                             {
                                                 kind: 'Field',
                                                 name: { kind: 'Name', value: 'feilregistrert_tidspunkt' },
@@ -5521,26 +5200,17 @@ export const LeggTilNotatDocument = {
                 {
                     kind: 'VariableDefinition',
                     variable: { kind: 'Variable', name: { kind: 'Name', value: 'oid' } },
-                    type: {
-                        kind: 'NonNullType',
-                        type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
-                    },
+                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
                 },
                 {
                     kind: 'VariableDefinition',
                     variable: { kind: 'Variable', name: { kind: 'Name', value: 'vedtaksperiodeId' } },
-                    type: {
-                        kind: 'NonNullType',
-                        type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
-                    },
+                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
                 },
                 {
                     kind: 'VariableDefinition',
                     variable: { kind: 'Variable', name: { kind: 'Name', value: 'tekst' } },
-                    type: {
-                        kind: 'NonNullType',
-                        type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
-                    },
+                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
                 },
             ],
             selectionSet: {
@@ -5575,33 +5245,15 @@ export const LeggTilNotatDocument = {
                             kind: 'SelectionSet',
                             selections: [
                                 { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                                {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'tekst' },
-                                },
+                                { kind: 'Field', name: { kind: 'Name', value: 'tekst' } },
                                 { kind: 'Field', name: { kind: 'Name', value: 'opprettet' } },
-                                {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'saksbehandlerOid' },
-                                },
+                                { kind: 'Field', name: { kind: 'Name', value: 'saksbehandlerOid' } },
                                 { kind: 'Field', name: { kind: 'Name', value: 'saksbehandlerNavn' } },
-                                {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'saksbehandlerEpost' },
-                                },
-                                {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'saksbehandlerIdent' },
-                                },
+                                { kind: 'Field', name: { kind: 'Name', value: 'saksbehandlerEpost' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'saksbehandlerIdent' } },
                                 { kind: 'Field', name: { kind: 'Name', value: 'vedtaksperiodeId' } },
-                                {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'feilregistrert' },
-                                },
-                                {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'feilregistrert_tidspunkt' },
-                                },
+                                { kind: 'Field', name: { kind: 'Name', value: 'feilregistrert' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'feilregistrert_tidspunkt' } },
                                 { kind: 'Field', name: { kind: 'Name', value: 'type' } },
                                 {
                                     kind: 'Field',
@@ -5609,19 +5261,10 @@ export const LeggTilNotatDocument = {
                                     selectionSet: {
                                         kind: 'SelectionSet',
                                         selections: [
-                                            {
-                                                kind: 'Field',
-                                                name: { kind: 'Name', value: 'id' },
-                                            },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'id' } },
                                             { kind: 'Field', name: { kind: 'Name', value: 'tekst' } },
-                                            {
-                                                kind: 'Field',
-                                                name: { kind: 'Name', value: 'opprettet' },
-                                            },
-                                            {
-                                                kind: 'Field',
-                                                name: { kind: 'Name', value: 'saksbehandlerident' },
-                                            },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'opprettet' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'saksbehandlerident' } },
                                             {
                                                 kind: 'Field',
                                                 name: { kind: 'Name', value: 'feilregistrert_tidspunkt' },
@@ -5683,39 +5326,15 @@ export const FetchNotaterDocument = {
                                     selectionSet: {
                                         kind: 'SelectionSet',
                                         selections: [
-                                            {
-                                                kind: 'Field',
-                                                name: { kind: 'Name', value: 'id' },
-                                            },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'id' } },
                                             { kind: 'Field', name: { kind: 'Name', value: 'tekst' } },
-                                            {
-                                                kind: 'Field',
-                                                name: { kind: 'Name', value: 'opprettet' },
-                                            },
-                                            {
-                                                kind: 'Field',
-                                                name: { kind: 'Name', value: 'saksbehandlerOid' },
-                                            },
-                                            {
-                                                kind: 'Field',
-                                                name: { kind: 'Name', value: 'saksbehandlerNavn' },
-                                            },
-                                            {
-                                                kind: 'Field',
-                                                name: { kind: 'Name', value: 'saksbehandlerEpost' },
-                                            },
-                                            {
-                                                kind: 'Field',
-                                                name: { kind: 'Name', value: 'saksbehandlerIdent' },
-                                            },
-                                            {
-                                                kind: 'Field',
-                                                name: { kind: 'Name', value: 'vedtaksperiodeId' },
-                                            },
-                                            {
-                                                kind: 'Field',
-                                                name: { kind: 'Name', value: 'feilregistrert' },
-                                            },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'opprettet' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'saksbehandlerOid' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'saksbehandlerNavn' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'saksbehandlerEpost' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'saksbehandlerIdent' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'vedtaksperiodeId' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'feilregistrert' } },
                                             { kind: 'Field', name: { kind: 'Name', value: 'type' } },
                                             {
                                                 kind: 'Field',
@@ -5723,18 +5342,9 @@ export const FetchNotaterDocument = {
                                                 selectionSet: {
                                                     kind: 'SelectionSet',
                                                     selections: [
-                                                        {
-                                                            kind: 'Field',
-                                                            name: { kind: 'Name', value: 'id' },
-                                                        },
-                                                        {
-                                                            kind: 'Field',
-                                                            name: { kind: 'Name', value: 'tekst' },
-                                                        },
-                                                        {
-                                                            kind: 'Field',
-                                                            name: { kind: 'Name', value: 'opprettet' },
-                                                        },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'tekst' } },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'opprettet' } },
                                                         {
                                                             kind: 'Field',
                                                             name: { kind: 'Name', value: 'saksbehandlerident' },
@@ -5768,26 +5378,17 @@ export const SettVarselstatusAktivDocument = {
                 {
                     kind: 'VariableDefinition',
                     variable: { kind: 'Variable', name: { kind: 'Name', value: 'generasjonIdString' } },
-                    type: {
-                        kind: 'NonNullType',
-                        type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
-                    },
+                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
                 },
                 {
                     kind: 'VariableDefinition',
                     variable: { kind: 'Variable', name: { kind: 'Name', value: 'varselkode' } },
-                    type: {
-                        kind: 'NonNullType',
-                        type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
-                    },
+                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
                 },
                 {
                     kind: 'VariableDefinition',
                     variable: { kind: 'Variable', name: { kind: 'Name', value: 'ident' } },
-                    type: {
-                        kind: 'NonNullType',
-                        type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
-                    },
+                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
                 },
             ],
             selectionSet: {
@@ -5816,20 +5417,11 @@ export const SettVarselstatusAktivDocument = {
                         selectionSet: {
                             kind: 'SelectionSet',
                             selections: [
-                                {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'generasjonId' },
-                                },
+                                { kind: 'Field', name: { kind: 'Name', value: 'generasjonId' } },
                                 { kind: 'Field', name: { kind: 'Name', value: 'definisjonId' } },
-                                {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'kode' },
-                                },
+                                { kind: 'Field', name: { kind: 'Name', value: 'kode' } },
                                 { kind: 'Field', name: { kind: 'Name', value: 'tittel' } },
-                                {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'forklaring' },
-                                },
+                                { kind: 'Field', name: { kind: 'Name', value: 'forklaring' } },
                                 { kind: 'Field', name: { kind: 'Name', value: 'handling' } },
                                 {
                                     kind: 'Field',
@@ -5837,15 +5429,9 @@ export const SettVarselstatusAktivDocument = {
                                     selectionSet: {
                                         kind: 'SelectionSet',
                                         selections: [
-                                            {
-                                                kind: 'Field',
-                                                name: { kind: 'Name', value: 'ident' },
-                                            },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'ident' } },
                                             { kind: 'Field', name: { kind: 'Name', value: 'status' } },
-                                            {
-                                                kind: 'Field',
-                                                name: { kind: 'Name', value: 'tidsstempel' },
-                                            },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'tidsstempel' } },
                                         ],
                                     },
                                 },
@@ -5868,34 +5454,22 @@ export const SettVarselstatusVurdertDocument = {
                 {
                     kind: 'VariableDefinition',
                     variable: { kind: 'Variable', name: { kind: 'Name', value: 'generasjonIdString' } },
-                    type: {
-                        kind: 'NonNullType',
-                        type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
-                    },
+                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
                 },
                 {
                     kind: 'VariableDefinition',
                     variable: { kind: 'Variable', name: { kind: 'Name', value: 'definisjonIdString' } },
-                    type: {
-                        kind: 'NonNullType',
-                        type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
-                    },
+                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
                 },
                 {
                     kind: 'VariableDefinition',
                     variable: { kind: 'Variable', name: { kind: 'Name', value: 'varselkode' } },
-                    type: {
-                        kind: 'NonNullType',
-                        type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
-                    },
+                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
                 },
                 {
                     kind: 'VariableDefinition',
                     variable: { kind: 'Variable', name: { kind: 'Name', value: 'ident' } },
-                    type: {
-                        kind: 'NonNullType',
-                        type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
-                    },
+                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
                 },
             ],
             selectionSet: {
@@ -5929,20 +5503,11 @@ export const SettVarselstatusVurdertDocument = {
                         selectionSet: {
                             kind: 'SelectionSet',
                             selections: [
-                                {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'generasjonId' },
-                                },
+                                { kind: 'Field', name: { kind: 'Name', value: 'generasjonId' } },
                                 { kind: 'Field', name: { kind: 'Name', value: 'definisjonId' } },
-                                {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'kode' },
-                                },
+                                { kind: 'Field', name: { kind: 'Name', value: 'kode' } },
                                 { kind: 'Field', name: { kind: 'Name', value: 'tittel' } },
-                                {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'forklaring' },
-                                },
+                                { kind: 'Field', name: { kind: 'Name', value: 'forklaring' } },
                                 { kind: 'Field', name: { kind: 'Name', value: 'handling' } },
                                 {
                                     kind: 'Field',
@@ -5950,15 +5515,9 @@ export const SettVarselstatusVurdertDocument = {
                                     selectionSet: {
                                         kind: 'SelectionSet',
                                         selections: [
-                                            {
-                                                kind: 'Field',
-                                                name: { kind: 'Name', value: 'ident' },
-                                            },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'ident' } },
                                             { kind: 'Field', name: { kind: 'Name', value: 'status' } },
-                                            {
-                                                kind: 'Field',
-                                                name: { kind: 'Name', value: 'tidsstempel' },
-                                            },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'tidsstempel' } },
                                         ],
                                     },
                                 },
@@ -5981,10 +5540,7 @@ export const FjernPaaVentDocument = {
                 {
                     kind: 'VariableDefinition',
                     variable: { kind: 'Variable', name: { kind: 'Name', value: 'oppgaveId' } },
-                    type: {
-                        kind: 'NonNullType',
-                        type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
-                    },
+                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
                 },
             ],
             selectionSet: {
@@ -6004,15 +5560,9 @@ export const FjernPaaVentDocument = {
                             kind: 'SelectionSet',
                             selections: [
                                 { kind: 'Field', name: { kind: 'Name', value: 'navn' } },
-                                {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'oid' },
-                                },
+                                { kind: 'Field', name: { kind: 'Name', value: 'oid' } },
                                 { kind: 'Field', name: { kind: 'Name', value: 'epost' } },
-                                {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'reservert' },
-                                },
+                                { kind: 'Field', name: { kind: 'Name', value: 'reservert' } },
                                 { kind: 'Field', name: { kind: 'Name', value: 'paaVent' } },
                             ],
                         },
@@ -6033,10 +5583,7 @@ export const FjernTildelingDocument = {
                 {
                     kind: 'VariableDefinition',
                     variable: { kind: 'Variable', name: { kind: 'Name', value: 'oppgaveId' } },
-                    type: {
-                        kind: 'NonNullType',
-                        type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
-                    },
+                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
                 },
             ],
             selectionSet: {
@@ -6069,10 +5616,7 @@ export const LeggPaaVentDocument = {
                 {
                     kind: 'VariableDefinition',
                     variable: { kind: 'Variable', name: { kind: 'Name', value: 'oppgaveId' } },
-                    type: {
-                        kind: 'NonNullType',
-                        type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
-                    },
+                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
                 },
                 {
                     kind: 'VariableDefinition',
@@ -6085,10 +5629,7 @@ export const LeggPaaVentDocument = {
                 {
                     kind: 'VariableDefinition',
                     variable: { kind: 'Variable', name: { kind: 'Name', value: 'notatTekst' } },
-                    type: {
-                        kind: 'NonNullType',
-                        type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
-                    },
+                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
                 },
             ],
             selectionSet: {
@@ -6118,15 +5659,9 @@ export const LeggPaaVentDocument = {
                             kind: 'SelectionSet',
                             selections: [
                                 { kind: 'Field', name: { kind: 'Name', value: 'navn' } },
-                                {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'oid' },
-                                },
+                                { kind: 'Field', name: { kind: 'Name', value: 'oid' } },
                                 { kind: 'Field', name: { kind: 'Name', value: 'epost' } },
-                                {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'reservert' },
-                                },
+                                { kind: 'Field', name: { kind: 'Name', value: 'reservert' } },
                                 { kind: 'Field', name: { kind: 'Name', value: 'paaVent' } },
                             ],
                         },
@@ -6147,10 +5682,7 @@ export const OpprettTildelingDocument = {
                 {
                     kind: 'VariableDefinition',
                     variable: { kind: 'Variable', name: { kind: 'Name', value: 'oppgaveId' } },
-                    type: {
-                        kind: 'NonNullType',
-                        type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
-                    },
+                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
                 },
             ],
             selectionSet: {
@@ -6170,15 +5702,9 @@ export const OpprettTildelingDocument = {
                             kind: 'SelectionSet',
                             selections: [
                                 { kind: 'Field', name: { kind: 'Name', value: 'navn' } },
-                                {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'oid' },
-                                },
+                                { kind: 'Field', name: { kind: 'Name', value: 'oid' } },
                                 { kind: 'Field', name: { kind: 'Name', value: 'epost' } },
-                                {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'reservert' },
-                                },
+                                { kind: 'Field', name: { kind: 'Name', value: 'reservert' } },
                                 { kind: 'Field', name: { kind: 'Name', value: 'paaVent' } },
                             ],
                         },

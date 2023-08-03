@@ -12,7 +12,7 @@ const result: PossibleTypesResultData = {
             'Inntektoverstyring',
             'Sykepengegrunnlagskjonnsfastsetting',
         ],
-        Periode: ['BeregnetPeriode', 'UberegnetPeriode'],
+        Periode: ['BeregnetPeriode', 'UberegnetPeriode', 'UberegnetVilkarsprovdPeriode'],
         Spennoppdrag: ['Arbeidsgiveroppdrag', 'Personoppdrag'],
         Vilkarsgrunnlag: ['VilkarsgrunnlagInfotrygd', 'VilkarsgrunnlagSpleis'],
     },
