@@ -181,6 +181,7 @@ query FetchPerson($fnr: String, $aktorId: String) {
             generasjoner {
                 id
                 perioder {
+                    __typename
                     fom
                     tom
                     erForkastet

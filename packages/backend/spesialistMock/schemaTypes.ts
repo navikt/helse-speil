@@ -602,6 +602,7 @@ export enum Periodetilstand {
     TilAnnullering = 'TilAnnullering',
     TilGodkjenning = 'TilGodkjenning',
     TilInfotrygd = 'TilInfotrygd',
+    TilSkjonnsfastsettelse = 'TilSkjonnsfastsettelse',
     TilUtbetaling = 'TilUtbetaling',
     Ukjent = 'Ukjent',
     UtbetalingFeilet = 'UtbetalingFeilet',

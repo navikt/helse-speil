@@ -604,6 +604,7 @@ export enum Periodetilstand {
     TilAnnullering = 'TilAnnullering',
     TilGodkjenning = 'TilGodkjenning',
     TilInfotrygd = 'TilInfotrygd',
+    TilSkjonnsfastsettelse = 'TilSkjonnsfastsettelse',
     TilUtbetaling = 'TilUtbetaling',
     Ukjent = 'Ukjent',
     UtbetalingFeilet = 'UtbetalingFeilet',
@@ -1558,7 +1559,7 @@ export type FetchPersonQuery = {
                 id: string;
                 perioder: Array<
                     | {
-                          __typename?: 'BeregnetPeriode';
+                          __typename: 'BeregnetPeriode';
                           id: string;
                           beregningId: string;
                           forbrukteSykedager?: number | null;
@@ -1823,7 +1824,7 @@ export type FetchPersonQuery = {
                           >;
                       }
                     | {
-                          __typename?: 'UberegnetPeriode';
+                          __typename: 'UberegnetPeriode';
                           id: string;
                           fom: string;
                           tom: string;
@@ -1926,7 +1927,7 @@ export type FetchPersonQuery = {
                           >;
                       }
                     | {
-                          __typename?: 'UberegnetVilkarsprovdPeriode';
+                          __typename: 'UberegnetVilkarsprovdPeriode';
                           id: string;
                           vilkarsgrunnlagId?: string | null;
                           fom: string;
@@ -3236,6 +3237,10 @@ export const FetchPersonDocument = {
                                                             selectionSet: {
                                                                 kind: 'SelectionSet',
                                                                 selections: [
+                                                                    {
+                                                                        kind: 'Field',
+                                                                        name: { kind: 'Name', value: '__typename' },
+                                                                    },
                                                                     {
                                                                         kind: 'Field',
                                                                         name: { kind: 'Name', value: 'fom' },

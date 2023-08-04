@@ -214,8 +214,12 @@ const getResolvers = (): IResolvers => ({
         },
     },
     Periode: {
-        __resolveType: (periode: { beregningId: string }) => {
-            return periode.beregningId ? 'BeregnetPeriode' : 'UberegnetPeriode';
+        __resolveType: (periode: { beregningId: string; vilkarsgrunnlagId: string }) => {
+            return periode.beregningId
+                ? 'BeregnetPeriode'
+                : periode?.vilkarsgrunnlagId
+                ? 'UberegnetVilkarsprovdPeriode'
+                : 'UberegnetPeriode';
         },
     },
     Vilkarsgrunnlag: {
