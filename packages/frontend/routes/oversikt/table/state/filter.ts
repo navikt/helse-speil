@@ -127,13 +127,21 @@ export const defaultFilters: Filter<OppgaveForOversiktsvisning>[] = [
         column: 4,
     },
     {
+        key: 'VERGEMÅL',
+        label: 'Vergemål',
+        active: false,
+        function: (oppgave: OppgaveForOversiktsvisning) => oppgave.harVergemal === true,
+        column: 4,
+    },
+    {
         key: 'INGEN_EGENSKAPER',
         label: 'Ingen',
         active: false,
         function: (oppgave: OppgaveForOversiktsvisning) =>
             !(oppgave.totrinnsvurdering?.erRetur ?? false) &&
             !(oppgave.totrinnsvurdering?.erBeslutteroppgave ?? false) &&
-            !oppgave.haster,
+            !oppgave.haster &&
+            !oppgave.harVergemal,
         column: 4,
     },
     {

@@ -30,6 +30,7 @@ export const TilGodkjenningOppgaveRow = ({ oppgave, readOnly }: TilGodkjenningOp
             erBeslutter={oppgave.totrinnsvurdering?.erBeslutteroppgave === true}
             erRetur={oppgave.totrinnsvurdering?.erRetur === true}
             haster={oppgave.haster ?? false}
+            harVergemål={oppgave.harVergemal ?? false}
         />
         <InntektskildeCell flereArbeidsgivere={oppgave.flereArbeidsgivere} />
         <DatoCell date={oppgave.sistSendt ?? oppgave.opprettet} />

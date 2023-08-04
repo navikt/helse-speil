@@ -43,6 +43,7 @@ export const oppgaver: Array<OppgaveForOversiktsvisning> = [
         },
         mottaker: Mottaker.Begge,
         haster: true,
+        harVergemal: true,
     },
     {
         id: '4420',
@@ -72,6 +73,7 @@ export const oppgaver: Array<OppgaveForOversiktsvisning> = [
             navn: 'Gjesdal',
         },
         mottaker: Mottaker.Sykmeldt,
+        harVergemal: true,
     },
     {
         id: '4959',
