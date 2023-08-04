@@ -15,6 +15,7 @@ import { AdressebeskyttelseTag } from './AdressebeskyttelseTag';
 import { GenderIcon } from './GenderIcon';
 import { NavnOgAlder } from './NavnOgAlder';
 import { ReservasjonTag } from './ReservasjonTag';
+import { UtlandTag } from './UtlandTag';
 
 import styles from './PersonHeader.module.css';
 
@@ -66,6 +67,7 @@ export const PersonHeaderWithContent: React.FC<PersonHeaderWithContentProps> = (
                 <AdressebeskyttelseTag adressebeskyttelse={personinfo.adressebeskyttelse} />
                 <ReservasjonTag reservasjon={personinfo.reservasjon} />
                 <VergemålTag />
+                <UtlandTag />
                 <DødsdatoTag dødsdato={dødsdato} />
             </div>
         </div>
