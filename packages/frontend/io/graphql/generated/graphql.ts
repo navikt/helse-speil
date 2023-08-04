@@ -496,6 +496,7 @@ export type OppgaveForOversiktsvisning = {
     personinfo: Personinfo;
     sistSendt?: Maybe<Scalars['String']['output']>;
     tildeling?: Maybe<Tildeling>;
+    tilhorerEnhetUtland?: Maybe<Scalars['Boolean']['output']>;
     totrinnsvurdering?: Maybe<Totrinnsvurdering>;
     type: Oppgavetype;
     vedtaksperiodeId: Scalars['String']['output'];
@@ -1174,6 +1175,7 @@ export type FetchOppgaverQuery = {
         mottaker?: Mottaker | null;
         haster?: boolean | null;
         harVergemal?: boolean | null;
+        tilhorerEnhetUtland?: boolean | null;
         navn: { __typename?: 'Personnavn'; fornavn: string; mellomnavn?: string | null; etternavn: string };
         tildeling?: {
             __typename?: 'Tildeling';
@@ -3043,6 +3045,7 @@ export const FetchOppgaverDocument = {
                                 { kind: 'Field', name: { kind: 'Name', value: 'mottaker' } },
                                 { kind: 'Field', name: { kind: 'Name', value: 'haster' } },
                                 { kind: 'Field', name: { kind: 'Name', value: 'harVergemal' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'tilhorerEnhetUtland' } },
                             ],
                         },
                     },

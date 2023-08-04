@@ -29,5 +29,6 @@ query FetchOppgaver {
         mottaker
         haster
         harVergemal
+        tilhorerEnhetUtland
     }
 }
