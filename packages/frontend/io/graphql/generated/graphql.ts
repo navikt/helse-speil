@@ -1173,6 +1173,7 @@ export type FetchOppgaverQuery = {
         sistSendt?: string | null;
         mottaker?: Mottaker | null;
         haster?: boolean | null;
+        harVergemal?: boolean | null;
         navn: { __typename?: 'Personnavn'; fornavn: string; mellomnavn?: string | null; etternavn: string };
         tildeling?: {
             __typename?: 'Tildeling';
@@ -3041,6 +3042,7 @@ export const FetchOppgaverDocument = {
                                 },
                                 { kind: 'Field', name: { kind: 'Name', value: 'mottaker' } },
                                 { kind: 'Field', name: { kind: 'Name', value: 'haster' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'harVergemal' } },
                             ],
                         },
                     },
