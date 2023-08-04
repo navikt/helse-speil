@@ -5,7 +5,6 @@ import { Loader } from '@navikt/ds-react';
 
 import { useErTidligereSaksbehandler } from '@hooks/useErTidligereSaksbehandler';
 import { Arbeidsforholdoverstyring, Overstyring } from '@io/graphql';
-import { useHarDagOverstyringer } from '@state/arbeidsgiver';
 import { useActivePeriod } from '@state/periode';
 import { getLatestUtbetalingTimestamp, getOverstyringerForEksisterendePerioder } from '@state/selectors/person';
 import { onLazyLoadFail } from '@utils/error';
@@ -53,14 +52,12 @@ export const UberegnetVilkarsprovdPeriodeView: React.FC<UberegnetVilkarsprovdPer
     period,
     person,
 }) => {
-    console.log(period);
     if (!period.skjaeringstidspunkt || !period.vilkarsgrunnlagId) {
         throw Error('Mangler skjæringstidspunkt eller vilkårsgrunnlag. Ta kontakt med en utvikler.');
     }
 
     const erTidligereSaksbehandler = useErTidligereSaksbehandler();
     const overstyringerEtterNyesteUtbetalingPåPerson = useOverstyringerEtterSisteGodkjenteUtbetaling(person);
-    const harDagOverstyringer = useHarDagOverstyringer(period);
 
     const activePeriod = useActivePeriod();
     const vilkårsgrunnlag = useVilkårsgrunnlag(person, activePeriod);
@@ -84,12 +81,9 @@ export const UberegnetVilkarsprovdPeriodeView: React.FC<UberegnetVilkarsprovdPer
             <div className={styles.Content}>
                 <Saksbildevarsler
                     periodState={getPeriodState(period)}
-                    oppgavereferanse={period.oppgave?.id}
                     varsler={period.varsler}
                     erTidligereSaksbehandler={erTidligereSaksbehandler}
-                    erBeslutteroppgave={period.totrinnsvurdering?.erBeslutteroppgave}
                     endringerEtterNyesteUtbetalingPåPerson={overstyringerEtterNyesteUtbetalingPåPerson}
-                    harDagOverstyringer={harDagOverstyringer}
                     activePeriodTom={period.tom}
                     skjæringstidspunkt={period.skjaeringstidspunkt}
                     navnPåDeaktiverteGhostArbeidsgivere={navnPåDeaktiverteGhostArbeidsgivere}

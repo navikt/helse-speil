@@ -40,6 +40,7 @@ describe('Utbetaling', () => {
 
         render(<Utbetaling />, { wrapper: RecoilWrapper });
 
+        screen.debug();
         expect(screen.getByText('Revurder')).toBeVisible();
         expect(screen.getByText('3 dager')).toBeVisible();
         expect(screen.getByText('01.01.2020')).toBeVisible();

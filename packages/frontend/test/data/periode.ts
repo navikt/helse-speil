@@ -46,6 +46,7 @@ type Extensions = {
 };
 
 export const enBeregnetPeriode: OverridableConstructor<FetchedBeregnetPeriode, Extensions> = (overrides) => ({
+    __typename: 'BeregnetPeriode',
     id: nanoid(),
     fom: '2020-01-01',
     tom: '2020-01-30',
@@ -121,6 +122,7 @@ export const enBeregnetPeriode: OverridableConstructor<FetchedBeregnetPeriode, E
 });
 
 export const enGhostPeriode: OverridableConstructor<GhostPeriode> = (overrides) => ({
+    __typename: 'GhostPeriode',
     id: nanoid(),
     fom: '2020-01-01',
     tom: '2020-01-30',

@@ -18,6 +18,7 @@ import { renderHook } from '@testing-library/react';
 
 const getFetchedBeregnetPeriode = (fom: string, tom: string, varsel?: VarselDto): FetchedBeregnetPeriode => {
     return {
+        __typename: 'BeregnetPeriode',
         beregningId: 'EN_ID',
         erForkastet: false,
         fom: fom,

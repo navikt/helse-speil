@@ -10,6 +10,7 @@ import {
     GhostPeriode,
     Inntektoverstyring,
     UberegnetPeriode,
+    UberegnetVilkarsprovdPeriode,
     Utbetaling,
     Vurdering,
 } from '@io/graphql';

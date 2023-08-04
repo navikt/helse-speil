@@ -78,11 +78,20 @@ const InngangsvilkårContainer = () => {
 
     if (!activePeriod || !person?.personinfo.fodselsdato) {
         return null;
-    } else if (isBeregnetPeriode(activePeriod) || isUberegnetVilkarsprovdPeriode(activePeriod)) {
+    } else if (isBeregnetPeriode(activePeriod)) {
         const vilkårsgrunnlag = getRequiredVilkårsgrunnlag(person, activePeriod.vilkarsgrunnlagId);
         return (
             <InngangsvilkårWithContent
-                vurdering={activePeriod?.utbetaling?.vurdering}
+                vurdering={activePeriod.utbetaling?.vurdering}
+                periodeFom={activePeriod.fom}
+                vilkårsgrunnlag={vilkårsgrunnlag}
+                fødselsdato={person.personinfo.fodselsdato}
+            />
+        );
+    } else if (isUberegnetVilkarsprovdPeriode(activePeriod)) {
+        const vilkårsgrunnlag = getRequiredVilkårsgrunnlag(person, activePeriod.vilkarsgrunnlagId);
+        return (
+            <InngangsvilkårWithContent
                 periodeFom={activePeriod.fom}
                 vilkårsgrunnlag={vilkårsgrunnlag}
                 fødselsdato={person.personinfo.fodselsdato}
