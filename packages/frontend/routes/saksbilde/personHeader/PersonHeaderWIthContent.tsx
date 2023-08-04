@@ -1,5 +1,6 @@
 import { DødsdatoTag } from './DødsdatoTag';
 import { Fødselsnummer } from './Fødselsnummer';
+import { VergemålTag } from './VergemålTag';
 import React from 'react';
 import { Link } from 'react-router-dom';
 
@@ -64,6 +65,7 @@ export const PersonHeaderWithContent: React.FC<PersonHeaderWithContentProps> = (
             <div className={styles.Tags}>
                 <AdressebeskyttelseTag adressebeskyttelse={personinfo.adressebeskyttelse} />
                 <ReservasjonTag reservasjon={personinfo.reservasjon} />
+                <VergemålTag />
                 <DødsdatoTag dødsdato={dødsdato} />
             </div>
         </div>

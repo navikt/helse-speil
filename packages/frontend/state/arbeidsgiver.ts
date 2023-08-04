@@ -118,7 +118,7 @@ export const usePeriodeErIGenerasjon = (arbeidsgiver: Arbeidsgiver | null, perio
         ),
     ) ?? null;
 
-const usePeriodeTilGodkjenning = (): BeregnetPeriode | null => {
+export const usePeriodeTilGodkjenning = (): BeregnetPeriode | null => {
     const person = useCurrentPerson();
 
     if (!person) return null;
