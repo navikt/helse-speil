@@ -485,6 +485,7 @@ export type OppgaveForOversiktsvisning = {
     boenhet?: Maybe<Boenhet>;
     flereArbeidsgivere: Scalars['Boolean']['output'];
     fodselsnummer: Scalars['String']['output'];
+    harVergemal?: Maybe<Scalars['Boolean']['output']>;
     haster?: Maybe<Scalars['Boolean']['output']>;
     id: Scalars['String']['output'];
     mottaker?: Maybe<Mottaker>;
@@ -1545,7 +1546,7 @@ export type FetchPersonQuery = {
                 stillingstittel: string;
             }>;
             ghostPerioder: Array<{
-                __typename?: 'GhostPeriode';
+                __typename: 'GhostPeriode';
                 id: string;
                 deaktivert: boolean;
                 vilkarsgrunnlagId?: string | null;
@@ -3205,6 +3206,7 @@ export const FetchPersonDocument = {
                                                 selectionSet: {
                                                     kind: 'SelectionSet',
                                                     selections: [
+                                                        { kind: 'Field', name: { kind: 'Name', value: '__typename' } },
                                                         { kind: 'Field', name: { kind: 'Name', value: 'id' } },
                                                         { kind: 'Field', name: { kind: 'Name', value: 'deaktivert' } },
                                                         {

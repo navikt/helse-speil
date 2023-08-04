@@ -170,6 +170,7 @@ query FetchPerson($fnr: String, $aktorId: String) {
                 stillingstittel
             }
             ghostPerioder {
+                __typename
                 id
                 deaktivert
                 vilkarsgrunnlagId

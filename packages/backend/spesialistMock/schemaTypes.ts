@@ -483,6 +483,7 @@ export type OppgaveForOversiktsvisning = {
     boenhet?: Maybe<Boenhet>;
     flereArbeidsgivere: Scalars['Boolean']['output'];
     fodselsnummer: Scalars['String']['output'];
+    harVergemal?: Maybe<Scalars['Boolean']['output']>;
     haster?: Maybe<Scalars['Boolean']['output']>;
     id: Scalars['String']['output'];
     mottaker?: Maybe<Mottaker>;

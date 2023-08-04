@@ -4306,6 +4306,18 @@
                         "deprecationReason": null
                     },
                     {
+                        "name": "harVergemal",
+                        "description": null,
+                        "args": [],
+                        "type": {
+                            "kind": "SCALAR",
+                            "name": "Boolean",
+                            "ofType": null
+                        },
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
+                    {
                         "name": "haster",
                         "description": null,
                         "args": [],
