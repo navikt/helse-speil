@@ -134,6 +134,13 @@ export const defaultFilters: Filter<OppgaveForOversiktsvisning>[] = [
         column: 4,
     },
     {
+        key: 'UTLAND',
+        label: 'Utland',
+        active: false,
+        function: (oppgave: OppgaveForOversiktsvisning) => oppgave.tilhorerEnhetUtland === true,
+        column: 4,
+    },
+    {
         key: 'INGEN_EGENSKAPER',
         label: 'Ingen',
         active: false,
@@ -141,7 +148,8 @@ export const defaultFilters: Filter<OppgaveForOversiktsvisning>[] = [
             !(oppgave.totrinnsvurdering?.erRetur ?? false) &&
             !(oppgave.totrinnsvurdering?.erBeslutteroppgave ?? false) &&
             !oppgave.haster &&
-            !oppgave.harVergemal,
+            !oppgave.harVergemal &&
+            !oppgave.tilhorerEnhetUtland,
         column: 4,
     },
     {

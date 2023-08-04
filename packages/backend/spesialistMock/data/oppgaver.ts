@@ -44,6 +44,7 @@ export const oppgaver: Array<OppgaveForOversiktsvisning> = [
         mottaker: Mottaker.Begge,
         haster: true,
         harVergemal: true,
+        tilhorerEnhetUtland: true,
     },
     {
         id: '4420',
@@ -103,6 +104,7 @@ export const oppgaver: Array<OppgaveForOversiktsvisning> = [
             navn: 'NAV oppfølging utland',
         },
         mottaker: Mottaker.Arbeidsgiver,
+        tilhorerEnhetUtland: true,
     },
     {
         id: '4917',

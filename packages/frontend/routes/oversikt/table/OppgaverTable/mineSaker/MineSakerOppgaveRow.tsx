@@ -29,6 +29,7 @@ export const MineSakerOppgaveRow = ({ oppgave }: MineSakerOppgaveRowProps) => (
             erRetur={oppgave.totrinnsvurdering?.erRetur === true}
             haster={oppgave.haster ?? false}
             harVergemål={oppgave.harVergemal ?? false}
+            tilhørerEnhetUtland={oppgave.tilhorerEnhetUtland ?? false}
         />
         <InntektskildeCell flereArbeidsgivere={oppgave.flereArbeidsgivere} />
         <SøkerCell name={oppgave.navn} />
