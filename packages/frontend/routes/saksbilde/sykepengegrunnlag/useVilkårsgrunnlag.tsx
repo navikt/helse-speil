@@ -6,7 +6,6 @@ export const useVilkårsgrunnlag = (
     person?: Maybe<FetchedPerson>,
     period?: Maybe<ActivePeriod>,
 ): Maybe<Vilkarsgrunnlag> => {
-    console.log(period);
     if (
         !person ||
         !period ||
