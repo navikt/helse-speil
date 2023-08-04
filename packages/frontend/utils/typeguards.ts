@@ -22,18 +22,18 @@ export const isInfotrygdPeriod = (period?: Maybe<GhostPeriode | Periode | DatePe
 
 export const isBeregnetPeriode = (
     periode?: Maybe<GhostPeriode | Periode | DatePeriod>,
-): periode is FetchedBeregnetPeriode =>
-    (periode as BeregnetPeriode)?.beregningId !== null && (periode as BeregnetPeriode)?.beregningId !== undefined;
+): periode is FetchedBeregnetPeriode => (periode as BeregnetPeriode)?.__typename === 'BeregnetPeriode';
 
 export const isGhostPeriode = (period?: Maybe<GhostPeriode | Periode | DatePeriod>): period is GhostPeriode =>
-    typeof (period as GhostPeriode)?.deaktivert === 'boolean';
+    (period as GhostPeriode)?.__typename === 'GhostPeriode';
 
 export const isUberegnetPeriode = (period?: Maybe<GhostPeriode | Periode | DatePeriod>): period is UberegnetPeriode =>
-    period !== null &&
-    period !== undefined &&
-    !isBeregnetPeriode(period) &&
-    !isGhostPeriode(period) &&
-    !isInfotrygdPeriod(period);
+    (period as UberegnetPeriode)?.__typename === 'UberegnetPeriode';
+
+export const isUberegnetVilkarsprovdPeriode = (
+    period: GhostPeriode | Periode | DatePeriod | null,
+): period is UberegnetVilkarsprovdPeriode =>
+    (period as UberegnetVilkarsprovdPeriode)?.__typename === 'UberegnetVilkarsprovdPeriode';
 
 export const isSpleisVilkarsgrunnlag = (
     vilkårsgrunnlag?: Maybe<Vilkarsgrunnlag>,

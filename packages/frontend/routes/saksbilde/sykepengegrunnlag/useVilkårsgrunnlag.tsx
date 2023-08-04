@@ -1,12 +1,18 @@
 import { Vilkarsgrunnlag } from '@io/graphql';
 import { getRequiredVilkårsgrunnlag } from '@state/selectors/person';
-import { isBeregnetPeriode, isGhostPeriode } from '@utils/typeguards';
+import { isBeregnetPeriode, isGhostPeriode, isUberegnetVilkarsprovdPeriode } from '@utils/typeguards';
 
 export const useVilkårsgrunnlag = (
     person?: Maybe<FetchedPerson>,
     period?: Maybe<ActivePeriod>,
 ): Maybe<Vilkarsgrunnlag> => {
-    if (!person || (!isGhostPeriode(period) && !isBeregnetPeriode(period)) || !period.vilkarsgrunnlagId) {
+    console.log(period);
+    if (
+        !person ||
+        !period ||
+        (!isGhostPeriode(period) && !isBeregnetPeriode(period) && !isUberegnetVilkarsprovdPeriode(period)) ||
+        !period.vilkarsgrunnlagId
+    ) {
         return null;
     }
 

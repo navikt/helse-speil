@@ -7,7 +7,12 @@ import { Periodetilstand } from '@io/graphql';
 import { useActivePeriod } from '@state/periode';
 import { useCurrentPerson } from '@state/person';
 import { LazyLoadPendingError, onLazyLoadFail } from '@utils/error';
-import { isBeregnetPeriode, isGhostPeriode, isUberegnetPeriode } from '@utils/typeguards';
+import {
+    isBeregnetPeriode,
+    isGhostPeriode,
+    isUberegnetPeriode,
+    isUberegnetVilkarsprovdPeriode,
+} from '@utils/typeguards';
 
 import { Historikk } from '../historikk';
 import { Venstremeny } from '../venstremeny/Venstremeny';
@@ -21,6 +26,11 @@ const GhostPeriodeView = React.lazy(() =>
 );
 const UberegnetPeriodeView = React.lazy(() =>
     import('./UberegnetPeriodeView.js').then((res) => ({ default: res.UberegnetPeriodeView })).catch(onLazyLoadFail),
+);
+const UberegnetVilkarsprovdPeriodeView = React.lazy(() =>
+    import('./UberegnetVilkarsprovdPeriodeView.js')
+        .then((res) => ({ default: res.UberegnetVilkarsprovdPeriodeView }))
+        .catch(onLazyLoadFail),
 );
 const BeregnetPeriodeView = React.lazy(() =>
     import('./BeregnetPeriodeView.js').then((res) => ({ default: res.BeregnetPeriodeView })).catch(onLazyLoadFail),
@@ -45,6 +55,8 @@ const PeriodeViewContainer: React.FC = () => {
         return <GhostPeriodeView activePeriod={activePeriod} />;
     } else if (isUberegnetPeriode(activePeriod)) {
         return <UberegnetPeriodeView activePeriod={activePeriod} />;
+    } else if (isUberegnetVilkarsprovdPeriode(activePeriod)) {
+        return <UberegnetVilkarsprovdPeriodeView period={activePeriod} person={currentPerson} />;
     } else {
         return null;
     }

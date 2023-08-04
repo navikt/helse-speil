@@ -97,6 +97,8 @@ export const getPeriodState = (period?: Maybe<Periode | DatePeriod>): PeriodStat
                 default:
                     return 'ukjent';
             }
+        case Periodetilstand.TilSkjonnsfastsettelse:
+            return 'tilSkjønnsfastsettelse';
         default:
             return 'ukjent';
     }

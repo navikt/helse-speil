@@ -53,7 +53,8 @@ declare type PeriodState =
     | 'utenSykefraværDeaktivert'
     | 'infotrygdUtbetalt'
     | 'infotrygdFerie'
-    | 'infotrygdUkjent';
+    | 'infotrygdUkjent'
+    | 'tilSkjønnsfastsettelse';
 
 declare type DataAttributeKey = `data-${string}`;
 
@@ -93,6 +94,6 @@ declare type FetchedPerson = NonNullable<FetchPersonQuery['person']>;
 
 declare type FetchedBeregnetPeriode = Omit<BeregnetPeriode, 'oppgavereferanse'>;
 
-declare type ActivePeriod = FetchedBeregnetPeriode | UberegnetPeriode | GhostPeriode;
+declare type ActivePeriod = FetchedBeregnetPeriode | UberegnetPeriode | GhostPeriode | UberegnetVilkarsprovdPeriode;
 
 type OverridableConstructor<T, E = object> = (overrides?: Partial<T>) => T & E;

@@ -23,7 +23,7 @@ export const activePeriod = selector<ActivePeriod | null>({
             return activePeriod;
         }
 
-        const allPeriods = person.arbeidsgivere
+        const allPeriods = person?.arbeidsgivere
             .flatMap((arbeidsgiver) => arbeidsgiver.generasjoner[0]?.perioder ?? [])
             .sort((a, b) => new Date(b.fom).getTime() - new Date(a.fom).getTime())
             .filter(isBeregnetPeriode)

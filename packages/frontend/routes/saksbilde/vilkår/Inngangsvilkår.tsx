@@ -15,7 +15,7 @@ import { Maybe, Vilkarsgrunnlag, Vurdering } from '@io/graphql';
 import { useActivePeriod } from '@state/periode';
 import { useCurrentPerson } from '@state/person';
 import { getRequiredVilkårsgrunnlag } from '@state/selectors/person';
-import { isBeregnetPeriode } from '@utils/typeguards';
+import { isBeregnetPeriode, isUberegnetVilkarsprovdPeriode } from '@utils/typeguards';
 
 import styles from './Inngangsvilkår.module.css';
 
@@ -78,11 +78,11 @@ const InngangsvilkårContainer = () => {
 
     if (!activePeriod || !person?.personinfo.fodselsdato) {
         return null;
-    } else if (isBeregnetPeriode(activePeriod)) {
+    } else if (isBeregnetPeriode(activePeriod) || isUberegnetVilkarsprovdPeriode(activePeriod)) {
         const vilkårsgrunnlag = getRequiredVilkårsgrunnlag(person, activePeriod.vilkarsgrunnlagId);
         return (
             <InngangsvilkårWithContent
-                vurdering={activePeriod.utbetaling.vurdering}
+                vurdering={activePeriod?.utbetaling?.vurdering}
                 periodeFom={activePeriod.fom}
                 vilkårsgrunnlag={vilkårsgrunnlag}
                 fødselsdato={person.personinfo.fodselsdato}

@@ -27,6 +27,7 @@ import {
     isGhostPeriode,
     isInntektoverstyring,
     isUberegnetPeriode,
+    isUberegnetVilkarsprovdPeriode,
 } from '@utils/typeguards';
 
 export const findArbeidsgiverWithGhostPeriode = (
@@ -40,7 +41,7 @@ export const findArbeidsgiverWithGhostPeriode = (
 };
 
 export const findArbeidsgiverWithPeriode = (
-    period: FetchedBeregnetPeriode | UberegnetPeriode,
+    period: FetchedBeregnetPeriode | UberegnetPeriode | UberegnetVilkarsprovdPeriode,
     arbeidsgivere: Array<Arbeidsgiver>,
 ): Arbeidsgiver | null => {
     return (
@@ -49,9 +50,14 @@ export const findArbeidsgiverWithPeriode = (
                 .flatMap((generasjon) => generasjon.perioder)
                 .filter(
                     (periode): periode is UberegnetPeriode | BeregnetPeriode =>
-                        isUberegnetPeriode(period) || isBeregnetPeriode(periode),
+                        isUberegnetPeriode(period) ||
+                        isBeregnetPeriode(periode) ||
+                        isUberegnetVilkarsprovdPeriode(periode),
                 )
-                .find((periode: UberegnetPeriode | BeregnetPeriode) => periode.id === period.id),
+                .find(
+                    (periode: UberegnetPeriode | BeregnetPeriode | UberegnetVilkarsprovdPeriode) =>
+                        periode.id === period.id,
+                ),
         ) ?? null
     );
 };
@@ -62,7 +68,11 @@ export const useCurrentArbeidsgiver = (): Arbeidsgiver | null => {
 
     if (!currentPerson || !activePeriod) {
         return null;
-    } else if (isBeregnetPeriode(activePeriod) || isUberegnetPeriode(activePeriod)) {
+    } else if (
+        isBeregnetPeriode(activePeriod) ||
+        isUberegnetPeriode(activePeriod) ||
+        isUberegnetVilkarsprovdPeriode(activePeriod)
+    ) {
         return findArbeidsgiverWithPeriode(activePeriod, currentPerson.arbeidsgivere);
     } else if (isGhostPeriode(activePeriod)) {
         return findArbeidsgiverWithGhostPeriode(activePeriod, currentPerson.arbeidsgivere);
@@ -166,7 +176,12 @@ export const usePeriodForSkjæringstidspunktForArbeidsgiver = (
         ? (periodeTilGodkjenning as ActivePeriod)
         : ((arbeidsgiver?.generasjoner[generasjon].perioder
               .filter((it) => it.skjaeringstidspunkt === skjæringstidspunkt)
-              .filter((it) => isBeregnetPeriode(it) || (isUberegnetPeriode(it) && !isWaiting(it)))
+              .filter(
+                  (it) =>
+                      isBeregnetPeriode(it) ||
+                      (isUberegnetPeriode(it) && !isWaiting(it)) ||
+                      isUberegnetVilkarsprovdPeriode(it),
+              )
               .sort((a, b) => new Date(a.fom).getTime() - new Date(b.fom).getTime())
               .pop() ?? null) as ActivePeriod | null);
 };

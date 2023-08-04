@@ -9,7 +9,7 @@ import { LoadingShimmer } from '@components/LoadingShimmer';
 import { useActivePeriod } from '@state/periode';
 import { useIsFetchingPerson } from '@state/person';
 import { onLazyLoadFail } from '@utils/error';
-import { isBeregnetPeriode, isGhostPeriode } from '@utils/typeguards';
+import { isBeregnetPeriode, isGhostPeriode, isUberegnetVilkarsprovdPeriode } from '@utils/typeguards';
 
 import { DropdownMenu } from './dropdown/DropdownMenu';
 
@@ -49,6 +49,19 @@ const SaksbildeMenuBeregnetPeriode = ({ activePeriod }: SaksbildeMenuBeregnetPer
             <DropdownMenu />
         </div>
         <HistorikkHeader />
+    </div>
+);
+
+const SaksbildeMenuUberegnetVilkarsprovdPeriode: React.FC = () => (
+    <div className={styles.SaksbildeMenu}>
+        <div>
+            <nav className={styles.TabList} role="tablist">
+                <NavLenke to="utbetaling" tittel="Utbetaling" />
+                <NavLenke to="inngangsvilkår" tittel="Inngangsvilkår" />
+                <NavLenke to="sykepengegrunnlag" tittel="Sykepengegrunnlag" />
+            </nav>
+            <DropdownMenu />
+        </div>
     </div>
 );
 
@@ -92,6 +105,10 @@ const SaksbildeMenuContainer: React.FC = () => {
 
     if (isGhostPeriode(activePeriod)) {
         return <SaksbildeMenuGhostPeriode />;
+    }
+
+    if (isUberegnetVilkarsprovdPeriode(activePeriod)) {
+        return <SaksbildeMenuUberegnetVilkarsprovdPeriode />;
     }
 
     return <SaksbildeMenuUberegnetPeriode />;
