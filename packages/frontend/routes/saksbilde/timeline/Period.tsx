@@ -40,7 +40,8 @@ const getPeriodCategory = (periodState: PeriodState): Maybe<PeriodCategory> => {
             return 'error';
         }
         case 'revurderes':
-        case 'tilGodkjenning': {
+        case 'tilGodkjenning':
+        case 'tilSkjønnsfastsettelse': {
             return 'attention';
         }
         case 'venter':

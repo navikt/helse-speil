@@ -165,6 +165,8 @@ export const getPeriodStateText = (state: PeriodState): string => {
             return 'Revurdering feilet';
         case 'tilInfotrygd':
             return 'Sendt til infotrygd';
+        case 'tilSkjønnsfastsettelse':
+            return 'Til skjønnsfastsettelse';
         default:
             return 'Ukjent';
     }
