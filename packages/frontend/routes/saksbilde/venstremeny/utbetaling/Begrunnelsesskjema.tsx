@@ -5,7 +5,7 @@ import { Checkbox, Fieldset, Textarea } from '@navikt/ds-react';
 
 import { Faresignal } from '@io/graphql';
 
-import { Begrunnelse } from './AvvisningModal';
+import { Begrunnelse } from './begrunnelse';
 
 import styles from './Begrunnelsesskjema.module.css';
 

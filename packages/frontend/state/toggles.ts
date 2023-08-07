@@ -17,7 +17,7 @@ const totrinnsvurderingState = atom<TotrinnsvurderingState>({
         harBeslutterrolle: harBeslutterrolle,
         kanBeslutteEgne: false,
     },
-    effects: [sessionStorageEffect],
+    effects: [sessionStorageEffect()],
 });
 
 export const useTotrinnsvurdering = (): [
@@ -52,7 +52,7 @@ export const useKanBeslutteEgneOppgaver = (): boolean => {
 const kanFrigiOppgaverState = atom<boolean>({
     key: 'kanFrigiOppgaverState',
     default: kanFrigiAndresOppgaver,
-    effects: [sessionStorageEffect],
+    effects: [sessionStorageEffect()],
 });
 
 export const useKanFrigiOppgaver = (): boolean => {
@@ -77,7 +77,7 @@ const readonlyState = atom<ReadonlyState>({
         value: false,
         override: false,
     },
-    effects: [sessionStorageEffect],
+    effects: [sessionStorageEffect()],
 });
 
 export const useReadonly = (): ReadonlyState => {

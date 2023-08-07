@@ -55,9 +55,7 @@ export const SimuleringView: React.FC<SimuleringViewProps> = ({ simulering, utbe
                 )}
                 <SimuleringValue label="Utbetaling-ID" value={utbetalingId} />
             </div>
-            {simulering.perioder?.map((periode, i) => (
-                <SimuleringsperiodeView periode={periode} key={i} />
-            ))}
+            {simulering.perioder?.map((periode, i) => <SimuleringsperiodeView periode={periode} key={i} />)}
         </div>
     );
 };

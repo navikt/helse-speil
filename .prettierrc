@@ -2,6 +2,7 @@
     "singleQuote": true,
     "tabWidth": 4,
     "printWidth": 120,
+    "plugins": ["@trivago/prettier-plugin-sort-imports"],
     "importOrder": [
         "^@navikt/(.*)$",
         "^(?!@emotion)@(.*)/(.*)$",

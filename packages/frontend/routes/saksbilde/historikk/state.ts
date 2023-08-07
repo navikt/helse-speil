@@ -161,7 +161,7 @@ const filteredHistorikkState = selector<Array<HendelseObject>>({
 const showHistorikkState = atom<boolean>({
     key: 'showHistorikkState',
     default: true,
-    effects: [sessionStorageEffect],
+    effects: [sessionStorageEffect()],
 });
 
 export const useShowHistorikkState = () => useRecoilState(showHistorikkState);

@@ -12,6 +12,6 @@ export enum TabType {
 export const tabState = atom<TabType>({
     key: 'tabState',
     default: TabType.TilGodkjenning,
-    effects: [sessionStorageEffect],
+    effects: [sessionStorageEffect()],
 });
 export const useAktivTab = () => useRecoilValue(tabState);

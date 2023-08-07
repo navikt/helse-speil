@@ -7,12 +7,9 @@ import { ErrorMessage } from '@components/ErrorMessage';
 import { Modal } from '@components/Modal';
 
 import { Begrunnelsesskjema } from './Begrunnelsesskjema';
+import { Begrunnelse } from './begrunnelse';
 
 import styles from './AvvisningModal.module.css';
-
-export enum Begrunnelse {
-    Annet = 'Annet',
-}
 
 export type Avvisningsskjema = {
     årsak: string;

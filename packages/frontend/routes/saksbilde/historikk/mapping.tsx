@@ -100,14 +100,15 @@ const getTidligsteVurderingstidsstempelForPeriode = (
     return (
         [...arbeidsgiver.generasjoner]
             ?.reverse()
-            ?.flatMap((it) =>
-                it?.perioder
-                    .filter(isBeregnetPeriode)
-                    .find(
-                        (periode) =>
-                            periode.vedtaksperiodeId === period.vedtaksperiodeId &&
-                            periode.utbetaling.vurdering?.godkjent,
-                    ),
+            ?.flatMap(
+                (it) =>
+                    it?.perioder
+                        .filter(isBeregnetPeriode)
+                        .find(
+                            (periode) =>
+                                periode.vedtaksperiodeId === period.vedtaksperiodeId &&
+                                periode.utbetaling.vurdering?.godkjent,
+                        ),
             )
             ?.filter(isBeregnetPeriode)
             ?.shift()?.utbetaling.vurdering?.tidsstempel ?? null
