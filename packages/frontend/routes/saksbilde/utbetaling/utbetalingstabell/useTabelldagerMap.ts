@@ -5,6 +5,20 @@ import { Dag, Dagoverstyring, Dagtype, Maybe, OverstyrtDag, Sykdomsdagtype, Utbe
 
 const getUtbetalingstabelldagtypeFromOverstyrtDag = (dag: OverstyrtDag): Utbetalingstabelldagtype => {
     switch (dag.type) {
+        case Dagtype.AaPdag:
+            return 'AAP';
+        case Dagtype.Dagpengerdag:
+            return 'Dagpenger';
+        case Dagtype.Foreldrepengerdag:
+            return 'Foreldrepenger';
+        case Dagtype.Omsorgspengerdag:
+            return 'Omsorgspenger';
+        case Dagtype.Opplaringspengerdag:
+            return 'Opplæringspenger';
+        case Dagtype.Pleiepengerdag:
+            return 'Pleiepenger';
+        case Dagtype.Svangerskapspengerdag:
+            return 'Svangerskapspenger';
         case Dagtype.FerieUtenSykmeldingDag:
             return 'Ferie uten sykmelding';
         case Dagtype.Egenmeldingsdag:
@@ -39,6 +53,20 @@ const getUtbetalingstabelldagtype = (dag: Dag): Utbetalingstabelldagtype => {
             return 'Avslått';
     }
     switch (dag.sykdomsdagtype) {
+        case Sykdomsdagtype.AndreYtelserAap:
+            return 'AAP';
+        case Sykdomsdagtype.AndreYtelserDagpenger:
+            return 'Dagpenger';
+        case Sykdomsdagtype.AndreYtelserForeldrepenger:
+            return 'Foreldrepenger';
+        case Sykdomsdagtype.AndreYtelserOmsorgspenger:
+            return 'Omsorgspenger';
+        case Sykdomsdagtype.AndreYtelserOpplaringspenger:
+            return 'Opplæringspenger';
+        case Sykdomsdagtype.AndreYtelserPleiepenger:
+            return 'Pleiepenger';
+        case Sykdomsdagtype.AndreYtelserSvangerskapspenger:
+            return 'Svangerskapspenger';
         case Sykdomsdagtype.Ferieutensykmeldingdag:
             return 'Ferie uten sykmelding';
         case Sykdomsdagtype.Arbeidsdag:

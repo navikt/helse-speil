@@ -15,7 +15,14 @@ declare type Utbetalingstabelldagtype =
     | 'Permisjon'
     | 'Arbeid'
     | 'Avslått'
-    | 'Ferie uten sykmelding';
+    | 'Ferie uten sykmelding'
+    | 'Foreldrepenger'
+    | 'AAP'
+    | 'Dagpenger'
+    | 'Svangerskapspenger'
+    | 'Pleiepenger'
+    | 'Omsorgspenger'
+    | 'Opplæringspenger';
 
 type OverstyringerPrDag = {
     hendelseId: string;

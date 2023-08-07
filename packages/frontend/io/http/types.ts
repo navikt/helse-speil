@@ -13,7 +13,14 @@ export type OverstyrtDagtype =
     | 'Permisjonsdag'
     | 'Avvistdag'
     | 'FerieUtenSykmeldingDag'
-    | 'Arbeidsdag';
+    | 'Arbeidsdag'
+    | 'Foreldrepengerdag'
+    | 'AAPdag'
+    | 'Omsorgspengerdag'
+    | 'Pleiepengerdag'
+    | 'Svangerskapspengerdag'
+    | 'Opplaringspengerdag'
+    | 'Dagpengerdag';
 
 export interface OverstyrtDagDTO {
     dato: string;

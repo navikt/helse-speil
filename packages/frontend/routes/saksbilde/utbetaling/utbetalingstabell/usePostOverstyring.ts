@@ -17,6 +17,20 @@ import { useAddToast, useRemoveToast } from '@state/toasts';
 
 const tilOverstyrtDagtype = (type: Utbetalingstabelldagtype): OverstyrtDagtype => {
     switch (type) {
+        case 'Foreldrepenger':
+            return 'Foreldrepengerdag';
+        case 'AAP':
+            return 'AAPdag';
+        case 'Dagpenger':
+            return 'Dagpengerdag';
+        case 'Svangerskapspenger':
+            return 'Svangerskapspengerdag';
+        case 'Pleiepenger':
+            return 'Pleiepengerdag';
+        case 'Omsorgspenger':
+            return 'Omsorgspengerdag';
+        case 'Opplæringspenger':
+            return 'Opplaringspengerdag';
         case 'SykHelg':
         case 'Syk':
             return 'Sykedag';

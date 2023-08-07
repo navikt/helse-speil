@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 
-import { Button, Select, TextField } from '@navikt/ds-react';
+import { Button, TextField } from '@navikt/ds-react';
 
 import { Bold } from '@components/Bold';
 
-import { typeendringer } from './endringFormUtils';
+import { DagtypeSelect } from '../DagtypeSelect';
+import { OverstyrbarDagtype, alleTypeendringer } from './endringFormUtils';
 import { kanVelgeGrad } from './kanVelgeGrad';
 
 import styles from './EndringForm.module.css';
@@ -19,7 +20,7 @@ interface EndringFormProps {
 }
 
 export const EndringForm: React.FC<EndringFormProps> = ({ markerteDager, onSubmitEndring }) => {
-    const defaultEndring = { type: typeendringer[0] };
+    const defaultEndring = { type: alleTypeendringer[0] };
     const [endring, setEndring] = useState<Partial<UtbetalingstabellDag>>(defaultEndring);
 
     const form = useForm();
@@ -35,14 +36,6 @@ export const EndringForm: React.FC<EndringFormProps> = ({ markerteDager, onSubmi
             message: 'Grad må være 100 eller lavere',
         },
     });
-
-    const oppdaterDagtype = (event: React.ChangeEvent<HTMLSelectElement>) => {
-        if (typeendringer.includes(event.target.value as Utbetalingstabelldagtype)) {
-            form.clearErrors('dagtype');
-            const type = event.target.value as Utbetalingstabelldagtype;
-            setEndring({ ...endring, type, grad: kanVelgeGrad(type) ? endring.grad : undefined });
-        }
-    };
 
     const oppdaterGrad = (event: React.ChangeEvent<HTMLInputElement>) => {
         const grad = Number.parseInt(event.target.value);
@@ -69,20 +62,17 @@ export const EndringForm: React.FC<EndringFormProps> = ({ markerteDager, onSubmi
                 </Bold>
                 <form onSubmit={form.handleSubmit(handleSubmit)}>
                     <div className={styles.Inputs}>
-                        <Select
-                            className={styles.Dagtypevelger}
-                            size="small"
-                            label="Utbet. dager"
-                            onChange={oppdaterDagtype}
-                            error={form.formState.errors.dagtype ? <>{form.formState.errors.dagtype.message}</> : null}
-                            data-testid="dagtypevelger"
-                        >
-                            {typeendringer.map((dagtype) => (
-                                <option key={dagtype} value={dagtype}>
-                                    {dagtype}
-                                </option>
-                            ))}
-                        </Select>
+                        <DagtypeSelect
+                            clearErrors={() => form.clearErrors('dagtype')}
+                            errorMessage={form.formState.errors?.dagtype?.message?.toString()}
+                            setType={(type: OverstyrbarDagtype) =>
+                                setEndring({
+                                    ...endring,
+                                    type,
+                                    grad: kanVelgeGrad(type) ? endring.grad : undefined,
+                                })
+                            }
+                        />
                         <TextField
                             className={styles.Gradvelger}
                             size="small"

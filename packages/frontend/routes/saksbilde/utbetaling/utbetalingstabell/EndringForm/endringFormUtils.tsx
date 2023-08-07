@@ -8,6 +8,18 @@ export const typeendringer: Utbetalingstabelldagtype[] = [
     'Arbeid',
 ];
 
+export const typeendringerAndreYtelser: Utbetalingstabelldagtype[] = [
+    'Foreldrepenger',
+    'AAP',
+    'Dagpenger',
+    'Svangerskapspenger',
+    'Pleiepenger',
+    'Omsorgspenger',
+    'Opplæringspenger',
+];
+
+export const alleTypeendringer: Utbetalingstabelldagtype[] = [...typeendringer, ...typeendringerAndreYtelser];
+
 export enum OverstyrbarDagtype {
     Syk = 'Syk',
     SykNAV = 'Syk (NAV)',
@@ -15,4 +27,11 @@ export enum OverstyrbarDagtype {
     Egenmelding = 'Egenmelding',
     Permisjon = 'Permisjon',
     Arbeid = 'Arbeid',
+    Foreldrepenger = 'Foreldrepenger',
+    AAP = 'AAP',
+    Dagpenger = 'Dagpenger',
+    Svangerskapspenger = 'Svangerskapspenger',
+    Pleiepenger = 'Pleiepenger',
+    Omsorgspenger = 'Omsorgspenger',
+    Opplæringspenger = 'Opplæringspenger',
 }

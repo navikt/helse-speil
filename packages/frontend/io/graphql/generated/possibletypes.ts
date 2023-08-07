@@ -3,6 +3,7 @@ export interface PossibleTypesResultData {
         [key: string]: string[];
     };
 }
+
 const result: PossibleTypesResultData = {
     possibleTypes: {
         Hendelse: ['Inntektsmelding', 'SoknadArbeidsgiver', 'SoknadNav', 'Sykmelding'],

@@ -95,6 +95,7 @@ export type Arbeidsgiverrefusjon = {
 };
 
 export enum Begrunnelse {
+    Andreytelser = 'ANDREYTELSER',
     EgenmeldingUtenforArbeidsgiverperiode = 'EGENMELDING_UTENFOR_ARBEIDSGIVERPERIODE',
     EtterDodsdato = 'ETTER_DODSDATO',
     ManglerMedlemskap = 'MANGLER_MEDLEMSKAP',
@@ -187,12 +188,19 @@ export type Dagoverstyring = Overstyring & {
 };
 
 export enum Dagtype {
+    AaPdag = 'AAPdag',
     Arbeidsdag = 'Arbeidsdag',
     Avvistdag = 'Avvistdag',
+    Dagpengerdag = 'Dagpengerdag',
     Egenmeldingsdag = 'Egenmeldingsdag',
     FerieUtenSykmeldingDag = 'FerieUtenSykmeldingDag',
     Feriedag = 'Feriedag',
+    Foreldrepengerdag = 'Foreldrepengerdag',
+    Omsorgspengerdag = 'Omsorgspengerdag',
+    Opplaringspengerdag = 'Opplaringspengerdag',
     Permisjonsdag = 'Permisjonsdag',
+    Pleiepengerdag = 'Pleiepengerdag',
+    Svangerskapspengerdag = 'Svangerskapspengerdag',
     Sykedag = 'Sykedag',
     SykedagNav = 'SykedagNav',
 }
@@ -832,6 +840,13 @@ export type Spennoppdrag = {
 };
 
 export enum Sykdomsdagtype {
+    AndreYtelserAap = 'ANDRE_YTELSER_AAP',
+    AndreYtelserDagpenger = 'ANDRE_YTELSER_DAGPENGER',
+    AndreYtelserForeldrepenger = 'ANDRE_YTELSER_FORELDREPENGER',
+    AndreYtelserOmsorgspenger = 'ANDRE_YTELSER_OMSORGSPENGER',
+    AndreYtelserOpplaringspenger = 'ANDRE_YTELSER_OPPLARINGSPENGER',
+    AndreYtelserPleiepenger = 'ANDRE_YTELSER_PLEIEPENGER',
+    AndreYtelserSvangerskapspenger = 'ANDRE_YTELSER_SVANGERSKAPSPENGER',
     Arbeidsdag = 'ARBEIDSDAG',
     Arbeidsgiverdag = 'ARBEIDSGIVERDAG',
     Avslatt = 'AVSLATT',

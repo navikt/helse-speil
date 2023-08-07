@@ -6,6 +6,7 @@ import { BodyShort } from '@navikt/ds-react';
 import { Endringstrekant } from '@components/Endringstrekant';
 
 import { CellContent } from '../../table/CellContent';
+import { IconAndreYtelser } from '../../table/icons/IconAndreYtelser';
 import { IconArbeidsdag } from '../../table/icons/IconArbeidsdag';
 import { IconEgenmelding } from '../../table/icons/IconEgenmelding';
 import { IconFailure } from '../../table/icons/IconFailure';
@@ -15,9 +16,11 @@ import { IconSyk } from '../../table/icons/IconSyk';
 import { erEksplisittHelg } from './helgUtils';
 
 const IconContainer = styled.div`
-    width: 1rem;
+    margin-left: -4px;
+    width: 24px;
     margin-right: 1rem;
     display: flex;
+    justify-content: center;
     align-items: center;
     flex-shrink: 0;
 `;
@@ -39,6 +42,14 @@ const getTypeIcon = (dag?: UtbetalingstabellDag): ReactNode | null => {
             return <IconArbeidsdag />;
         case 'Avslått':
             return <IconFailure />;
+        case 'Foreldrepenger':
+        case 'AAP':
+        case 'Dagpenger':
+        case 'Svangerskapspenger':
+        case 'Omsorgspenger':
+        case 'Opplæringspenger':
+        case 'Pleiepenger':
+            return <IconAndreYtelser />;
         case 'Helg':
         case 'Ukjent':
         default:

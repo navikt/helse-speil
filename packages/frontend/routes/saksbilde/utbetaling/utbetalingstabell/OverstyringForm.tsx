@@ -55,18 +55,7 @@ export const OverstyringForm: React.FC<OverstyringFormProps> = ({
             return true;
         }
 
-        const dagerIHalenAvPerioden: UtbetalingstabellDag[] = overstyrtTilArbeidsdager.find((dag) => dag.dato === hale)
-            ? overstyrtTilArbeidsdager.reverse().reduce((latest: UtbetalingstabellDag[], periode) => {
-                  return dayjs(
-                      latest[latest.length - 1]?.dato ??
-                          dayjs(hale, ISO_DATOFORMAT).add(1, 'days').format(ISO_DATOFORMAT),
-                  )
-                      .subtract(1, 'days')
-                      .format(ISO_DATOFORMAT) === periode.dato || periode.dato === hale
-                      ? [...latest, periode]
-                      : [...latest];
-              }, [])
-            : [];
+        const dagerIHalenAvPerioden = finnDagerIHalen(overstyrtTilArbeidsdager, hale);
 
         const dagerSomKanOverstyresTilArbeidsdag: UtbetalingstabellDag[] = overstyrtTilArbeidsdager.filter(
             (dag) =>
@@ -81,6 +70,41 @@ export const OverstyringForm: React.FC<OverstyringFormProps> = ({
                 type: 'custom',
                 message:
                     'Du kan ikke overstyre Syk eller Ferie til Arbeidsdag. Arbeidsdag kan legges til som en ny dag, legges til i slutten av perioden, eller endres i arbeidsgiverperioden',
+            });
+            return false;
+        }
+        return true;
+    };
+
+    const andreYtelserValidering = () => {
+        const overstyrtTilAnnenYtelsesdag = Array.from(overstyrteDager.values())
+            .filter((dag) =>
+                [
+                    'Foreldrepenger',
+                    'AAP',
+                    'Dagpenger',
+                    'Svangerskapspenger',
+                    'Pleiepenger',
+                    'Omsorgspenger',
+                    'Opplæringspenger',
+                ].includes(dag.type),
+            )
+            .sort((a, b) => dayjs(a.dato).diff(dayjs(b.dato)));
+
+        if (overstyrtTilAnnenYtelsesdag.length === 0) {
+            return true;
+        }
+
+        const dagerIHalenAvPerioden = finnDagerIHalen(overstyrtTilAnnenYtelsesdag, hale);
+
+        const dagerSomKanOverstyresTilAnnenYtelse: UtbetalingstabellDag[] = overstyrtTilAnnenYtelsesdag.filter(
+            (dag) => dag.erNyDag || dagerIHalenAvPerioden.includes(dag),
+        );
+
+        if (dagerSomKanOverstyresTilAnnenYtelse.length !== overstyrtTilAnnenYtelsesdag.length) {
+            setError('kanIkkeOverstyreTilAnnenYtelse', {
+                type: 'custom',
+                message: 'Andre ytelser kan legges til som en ny dag eller legges til i slutten av perioden',
             });
             return false;
         }
@@ -103,8 +127,12 @@ export const OverstyringForm: React.FC<OverstyringFormProps> = ({
     };
 
     const validering = () => {
-        clearErrors(['arbeidsdagerKanIkkeOverstyres', 'kanIkkeOverstyreTilFerieUtenSykmelding']);
-        if (arbeidsdagValidering() && ferieUtenSykmeldingValidering()) {
+        clearErrors([
+            'arbeidsdagerKanIkkeOverstyres',
+            'kanIkkeOverstyreTilFerieUtenSykmelding',
+            'kanIkkeOverstyreTilAnnenYtelse',
+        ]);
+        if (arbeidsdagValidering() && ferieUtenSykmeldingValidering() && andreYtelserValidering()) {
             handleSubmit(onSubmit)();
         }
     };
@@ -162,4 +190,18 @@ export const OverstyringForm: React.FC<OverstyringFormProps> = ({
             </Buttons>
         </Container>
     );
+};
+
+const finnDagerIHalen = (dager: UtbetalingstabellDag[], hale: DateString): UtbetalingstabellDag[] => {
+    return dager.find((dag) => dag.dato === hale)
+        ? dager.reverse().reduce((latest: UtbetalingstabellDag[], periode) => {
+              return dayjs(
+                  latest[latest.length - 1]?.dato ?? dayjs(hale, ISO_DATOFORMAT).add(1, 'days').format(ISO_DATOFORMAT),
+              )
+                  .subtract(1, 'days')
+                  .format(ISO_DATOFORMAT) === periode.dato || periode.dato === hale
+                  ? [...latest, periode]
+                  : [...latest];
+          }, [])
+        : [];
 };

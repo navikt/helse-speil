@@ -781,6 +781,12 @@
                 "interfaces": null,
                 "enumValues": [
                     {
+                        "name": "ANDREYTELSER",
+                        "description": null,
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
+                    {
                         "name": "EGENMELDING_UTENFOR_ARBEIDSGIVERPERIODE",
                         "description": null,
                         "isDeprecated": false,
@@ -1879,6 +1885,12 @@
                 "interfaces": null,
                 "enumValues": [
                     {
+                        "name": "AAPdag",
+                        "description": null,
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
+                    {
                         "name": "Arbeidsdag",
                         "description": null,
                         "isDeprecated": false,
@@ -1886,6 +1898,12 @@
                     },
                     {
                         "name": "Avvistdag",
+                        "description": null,
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
+                    {
+                        "name": "Dagpengerdag",
                         "description": null,
                         "isDeprecated": false,
                         "deprecationReason": null
@@ -1909,7 +1927,37 @@
                         "deprecationReason": null
                     },
                     {
+                        "name": "Foreldrepengerdag",
+                        "description": null,
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
+                    {
+                        "name": "Omsorgspengerdag",
+                        "description": null,
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
+                    {
+                        "name": "Opplaringspengerdag",
+                        "description": null,
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
+                    {
                         "name": "Permisjonsdag",
+                        "description": null,
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
+                    {
+                        "name": "Pleiepengerdag",
+                        "description": null,
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
+                    {
+                        "name": "Svangerskapspengerdag",
                         "description": null,
                         "isDeprecated": false,
                         "deprecationReason": null
@@ -7631,6 +7679,48 @@
                 "inputFields": null,
                 "interfaces": null,
                 "enumValues": [
+                    {
+                        "name": "ANDRE_YTELSER_AAP",
+                        "description": null,
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
+                    {
+                        "name": "ANDRE_YTELSER_DAGPENGER",
+                        "description": null,
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
+                    {
+                        "name": "ANDRE_YTELSER_FORELDREPENGER",
+                        "description": null,
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
+                    {
+                        "name": "ANDRE_YTELSER_OMSORGSPENGER",
+                        "description": null,
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
+                    {
+                        "name": "ANDRE_YTELSER_OPPLARINGSPENGER",
+                        "description": null,
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
+                    {
+                        "name": "ANDRE_YTELSER_PLEIEPENGER",
+                        "description": null,
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
+                    {
+                        "name": "ANDRE_YTELSER_SVANGERSKAPSPENGER",
+                        "description": null,
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
                     {
                         "name": "ARBEIDSDAG",
                         "description": null,
