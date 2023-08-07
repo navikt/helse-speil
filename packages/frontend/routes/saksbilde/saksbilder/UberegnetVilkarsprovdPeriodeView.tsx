@@ -75,8 +75,6 @@ export const UberegnetVilkarsprovdPeriodeView: React.FC<UberegnetVilkarsprovdPer
               .join(', ')
         : undefined;
 
-    console.log(getPeriodState(period), period);
-
     return (
         <>
             <Venstremeny />
