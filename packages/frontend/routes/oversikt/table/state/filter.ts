@@ -106,6 +106,13 @@ export const defaultFilters: Filter<OppgaveForOversiktsvisning>[] = [
         column: 3,
     },
     {
+        key: 'INGEN_MOTTAKER',
+        label: 'Ingen mottaker',
+        active: false,
+        function: (oppgave: OppgaveForOversiktsvisning) => oppgave.mottaker === null,
+        column: 3,
+    },
+    {
         key: 'BESLUTTER',
         label: 'Beslutter',
         active: false,
@@ -142,7 +149,7 @@ export const defaultFilters: Filter<OppgaveForOversiktsvisning>[] = [
     },
     {
         key: 'INGEN_EGENSKAPER',
-        label: 'Ingen',
+        label: 'Ingen egenskaper',
         active: false,
         function: (oppgave: OppgaveForOversiktsvisning) =>
             !(oppgave.totrinnsvurdering?.erRetur ?? false) &&
