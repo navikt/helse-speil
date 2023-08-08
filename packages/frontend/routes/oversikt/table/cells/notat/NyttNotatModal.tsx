@@ -148,7 +148,7 @@ export const NyttNotatModal = ({
                     cache.modify({
                         id: cache.identify({ __typename: 'Notater', id: vedtaksperiodeId }),
                         fields: {
-                            notater(existingNotater: Notat[]) {
+                            notater(existingNotater) {
                                 return [...existingNotater, data];
                             },
                         },

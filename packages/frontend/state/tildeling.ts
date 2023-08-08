@@ -57,7 +57,7 @@ export const useOpprettTildeling = (): [
                 cache.modify({
                     id: cache.identify({ __typename: 'OppgaveForOversiktsvisning', id: oppgavereferanse }),
                     fields: {
-                        tildeling: () => result.data?.opprettTildeling,
+                        tildeling: () => result.data?.opprettTildeling ?? null,
                     },
                 });
             },
@@ -134,7 +134,7 @@ export const useLeggPåVent = (): ((
                 cache.modify({
                     id: cache.identify({ __typename: 'OppgaveForOversiktsvisning', id: oppgavereferanse }),
                     fields: {
-                        tildeling: () => result.data?.leggPaaVent,
+                        tildeling: () => result.data?.leggPaaVent ?? null,
                     },
                 });
             },
@@ -155,8 +155,8 @@ export const useFjernPåVent = (): [
 ] => {
     const [tildelinger, setTildelinger] = useRecoilState(tildelingState);
     const [fjernPåVentMutation, data] = useMutation(FjernPaaVentDocument);
-    const fjernPåVent = (oppgavereferanse: string) => {
-        return fjernPåVentMutation({
+    const fjernPåVent = async (oppgavereferanse: string) =>
+        fjernPåVentMutation({
             variables: { oppgaveId: oppgavereferanse },
             update: (cache) => {
                 cache.modify({
@@ -175,7 +175,6 @@ export const useFjernPåVent = (): [
                 return response.data?.fjernPaaVent;
             })
             .catch(() => Promise.reject('Kunne ikke fjerne på-vent-status fra oppgave.'));
-    };
 
     return [fjernPåVent, data];
 };
