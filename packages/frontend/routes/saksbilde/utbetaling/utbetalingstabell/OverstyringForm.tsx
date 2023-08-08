@@ -4,7 +4,12 @@ import { useFormContext } from 'react-hook-form';
 
 import { Button, ErrorSummary, Textarea } from '@navikt/ds-react';
 
-import { andreYtelserValidering, arbeidsdagValidering, ferieUtenSykmeldingValidering } from './validering';
+import {
+    andreYtelserValidering,
+    arbeidsdagValidering,
+    ferieUtenSykmeldingValidering,
+    sykNavValidering,
+} from './validering';
 
 const Container = styled.div`
     margin: 0 2rem;
@@ -59,11 +64,13 @@ export const OverstyringForm: React.FC<OverstyringFormProps> = ({
             'arbeidsdagerKanIkkeOverstyres',
             'kanIkkeOverstyreTilFerieUtenSykmelding',
             'kanIkkeOverstyreTilAnnenYtelse',
+            'kanIkkeOverstyreTilSykNav',
         ]);
         if (
             arbeidsdagValidering(overstyrteDager, hale, setCustomError) &&
             ferieUtenSykmeldingValidering(overstyrteDager, setCustomError) &&
-            andreYtelserValidering(overstyrteDager, hale, snute, setCustomError)
+            andreYtelserValidering(overstyrteDager, hale, snute, setCustomError) &&
+            sykNavValidering(overstyrteDager, setCustomError)
         ) {
             handleSubmit(onSubmit)();
         }

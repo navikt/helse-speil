@@ -120,3 +120,29 @@ export const ferieUtenSykmeldingValidering = (
     }
     return true;
 };
+
+export const sykNavValidering = (
+    overstyrteDager: Map<string, UtbetalingstabellDag>,
+    setError: (name: string, message: string) => void,
+): boolean => {
+    const overstyrtTilSykNav = Array.from(overstyrteDager.values())
+        .filter((dag) => dag.type === 'Syk (NAV)')
+        .sort((a, b) => dayjs(a.dato).diff(dayjs(b.dato)));
+
+    if (overstyrtTilSykNav.length === 0) {
+        return true;
+    }
+
+    const dagerSomKanOverstyresTilSykNav: UtbetalingstabellDag[] = overstyrtTilSykNav.filter(
+        (dag) => dag.erAGP || dag.erNyDag,
+    );
+
+    if (dagerSomKanOverstyresTilSykNav.length !== overstyrtTilSykNav.length) {
+        setError(
+            'kanIkkeOverstyreTilSykNav',
+            'Syk (NAV) kan kun overstyres i arbeidsgiverperioden eller legges til som en ny dag.',
+        );
+        return false;
+    }
+    return true;
+};
