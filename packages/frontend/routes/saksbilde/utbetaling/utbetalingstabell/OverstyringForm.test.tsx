@@ -25,6 +25,7 @@ describe('OverstyringForm', () => {
             <OverstyringForm
                 overstyrteDager={new Map()}
                 hale=""
+                snute=""
                 toggleOverstyring={() => null}
                 onSubmit={() => null}
             />,
@@ -42,6 +43,7 @@ describe('OverstyringForm', () => {
             <OverstyringForm
                 overstyrteDager={overstyrteDager}
                 hale=""
+                snute=""
                 toggleOverstyring={() => null}
                 onSubmit={() => null}
             />,
@@ -64,6 +66,7 @@ describe('OverstyringForm', () => {
             <OverstyringForm
                 overstyrteDager={overstyrteDager}
                 hale=""
+                snute=""
                 toggleOverstyring={() => null}
                 onSubmit={() => null}
             />,
@@ -87,6 +90,7 @@ describe('OverstyringForm', () => {
             <OverstyringForm
                 overstyrteDager={overstyrteDager}
                 hale=""
+                snute=""
                 toggleOverstyring={() => null}
                 onSubmit={() => null}
             />,
@@ -109,6 +113,7 @@ describe('OverstyringForm', () => {
             <OverstyringForm
                 overstyrteDager={overstyrteDager}
                 hale=""
+                snute=""
                 toggleOverstyring={() => null}
                 onSubmit={() => null}
             />,
@@ -133,6 +138,7 @@ describe('OverstyringForm', () => {
             <OverstyringForm
                 overstyrteDager={overstyrteDager}
                 hale=""
+                snute=""
                 toggleOverstyring={() => null}
                 onSubmit={() => null}
             />,
@@ -157,6 +163,7 @@ describe('OverstyringForm', () => {
             <OverstyringForm
                 overstyrteDager={overstyrteDager}
                 hale=""
+                snute=""
                 toggleOverstyring={() => null}
                 onSubmit={() => null}
             />,
@@ -181,6 +188,7 @@ describe('OverstyringForm', () => {
             <OverstyringForm
                 overstyrteDager={overstyrteDager}
                 hale="2020-01-02"
+                snute=""
                 toggleOverstyring={() => null}
                 onSubmit={() => null}
             />,

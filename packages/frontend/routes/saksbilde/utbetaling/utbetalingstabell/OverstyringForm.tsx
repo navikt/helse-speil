@@ -30,6 +30,7 @@ const Buttons = styled.span`
 interface OverstyringFormProps {
     overstyrteDager: Map<string, UtbetalingstabellDag>;
     hale: DateString;
+    snute: DateString;
     toggleOverstyring: () => void;
     onSubmit: () => void;
 }
@@ -37,6 +38,7 @@ interface OverstyringFormProps {
 export const OverstyringForm: React.FC<OverstyringFormProps> = ({
     overstyrteDager,
     hale,
+    snute,
     toggleOverstyring,
     onSubmit,
 }) => {
@@ -96,9 +98,10 @@ export const OverstyringForm: React.FC<OverstyringFormProps> = ({
         }
 
         const dagerIHalenAvPerioden = finnDagerIHalen(overstyrtTilAnnenYtelsesdag, hale);
+        const dagerISnutenAvPerioden = finnDagerISnuten(overstyrtTilAnnenYtelsesdag, snute);
 
         const dagerSomKanOverstyresTilAnnenYtelse: UtbetalingstabellDag[] = overstyrtTilAnnenYtelsesdag.filter(
-            (dag) => dag.erNyDag || dagerIHalenAvPerioden.includes(dag),
+            (dag) => dag.erNyDag || dagerIHalenAvPerioden.includes(dag) || dagerISnutenAvPerioden.includes(dag),
         );
 
         if (dagerSomKanOverstyresTilAnnenYtelse.length !== overstyrtTilAnnenYtelsesdag.length) {
@@ -202,6 +205,21 @@ const finnDagerIHalen = (dager: UtbetalingstabellDag[], hale: DateString): Utbet
                   .format(ISO_DATOFORMAT) === periode.dato || periode.dato === hale
                   ? [...latest, periode]
                   : [...latest];
+          }, [])
+        : [];
+};
+
+const finnDagerISnuten = (dager: UtbetalingstabellDag[], snute: DateString): UtbetalingstabellDag[] => {
+    return dager.find((dag) => dag.dato === snute)
+        ? dager.reduce((newest: UtbetalingstabellDag[], periode) => {
+              return dayjs(
+                  newest[newest.length - 1]?.dato ??
+                      dayjs(snute, ISO_DATOFORMAT).subtract(1, 'days').format(ISO_DATOFORMAT),
+              )
+                  .add(1, 'days')
+                  .format(ISO_DATOFORMAT) === periode.dato || periode.dato === snute
+                  ? [...newest, periode]
+                  : [...newest];
           }, [])
         : [];
 };
