@@ -32,9 +32,9 @@ export const skjønnsfastsettelseBegrunnelser = (
         id: '0',
         valg: 'Skjønnsfastsette til omregnet årsinntekt ',
         mal: `Månedsinntekten som er oppgitt av din arbeidsgiver på kr ${toKronerOgØre(
-            omregnetÅrsinntekt,
-        )} utgjør kr ${toKronerOgØre(
             omregnetÅrsinntekt / 12,
+        )} utgjør kr ${toKronerOgØre(
+            omregnetÅrsinntekt,
         )} i årsinntekt. Denne årsinntekten avviker med mer enn 25 prosent fra inntekten som er rapportert til Skatteetaten på kr ${toKronerOgØre(
             sammenligningsgrunnlag,
         )} de siste tolv månedene før du ble syk.\n\nNår årsinntekten avviker med mer enn 25 prosent fra rapportert inntekt, skal NAV fastsette sykepengegrunnlaget ved skjønn ut fra den årsinntekten som kan godtgjøres på det tidspunktet du ble syk. Det fremgår av folketrygdloven § 8-30 andre ledd.\n\nVi har fastsatt sykepengerunnlaget ditt til kr ${toKronerOgØre(
