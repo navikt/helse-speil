@@ -5,7 +5,7 @@ const harArbeidsgiverutbetaling = (dag: UtbetalingstabellDag): boolean =>
 export const getDagerMedUtbetaling = (dager: Array<UtbetalingstabellDag>): Array<UtbetalingstabellDag> =>
     dager
         .filter((dag) => harPersonutbetaling(dag) || harArbeidsgiverutbetaling(dag))
-        .filter((dag) => dag.type !== 'Avslått');
+        .filter((dag) => !dag.erAvvist && !dag.erForeldet);
 export const getTotalPersonbeløp = (dager: Array<UtbetalingstabellDag>): number =>
     dager.reduce((total, dag) => total + (dag.personbeløp ?? 0), 0);
 export const getTotalArbeidsgiverbeløp = (dager: Array<UtbetalingstabellDag>): number =>
