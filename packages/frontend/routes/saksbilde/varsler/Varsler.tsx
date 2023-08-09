@@ -29,26 +29,35 @@ export type VarselstatusType = 'feil' | 'aktiv' | 'vurdert' | 'ferdig-behandlet'
 
 interface VarslerProps {
     varsler: Array<VarselDto>;
+    tilSkjønnsfastsettelse: boolean;
+    harBlittSkjønnsmessigFastsatt: boolean;
 }
 
-export const Varsler: React.FC<VarslerProps> = React.memo(({ varsler }) => {
-    const varslerSomIkkeSkalVises = ['SB_EX_2'];
-    const varslerSomSkalVisesSomFeil = ['RV_IV_2'];
+export const Varsler: React.FC<VarslerProps> = React.memo(
+    ({ varsler, tilSkjønnsfastsettelse, harBlittSkjønnsmessigFastsatt }) => {
+        const varslerSomIkkeSkalVises = ['SB_EX_2'];
+        const varslerSomSkalVisesSomFeil = ['RV_IV_2'];
 
-    return (
-        <>
-            {varsler
-                .filter((it) => !varslerSomIkkeSkalVises.includes(it.kode))
-                .sort(byKode)
-                .map((varsel, index) => {
-                    const type = finnType(varsel.vurdering);
-                    if (varsel.forklaring != null && varsel.handling != null) {
-                        const visSomFeil = varslerSomSkalVisesSomFeil.includes(varsel.kode);
-                        return <EkspanderbartVarsel key={index} varsel={varsel} type={visSomFeil ? 'feil' : type} />;
-                    } else {
-                        return <Varsel className={styles.varsel} key={index} varsel={varsel} type={type} />;
-                    }
-                })}
-        </>
-    );
-});
+        return (
+            <>
+                {varsler
+                    .filter((it) => !varslerSomIkkeSkalVises.includes(it.kode))
+                    .sort(byKode)
+                    .map((varsel, index) => {
+                        const type = finnType(varsel.vurdering);
+                        if (varsel.forklaring != null && varsel.handling != null) {
+                            const visSomFeil =
+                                varslerSomSkalVisesSomFeil.includes(varsel.kode) &&
+                                !tilSkjønnsfastsettelse &&
+                                !harBlittSkjønnsmessigFastsatt;
+                            return (
+                                <EkspanderbartVarsel key={index} varsel={varsel} type={visSomFeil ? 'feil' : type} />
+                            );
+                        } else {
+                            return <Varsel className={styles.varsel} key={index} varsel={varsel} type={type} />;
+                        }
+                    })}
+            </>
+        );
+    },
+);

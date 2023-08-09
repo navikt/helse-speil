@@ -10,7 +10,11 @@ import { useActivePeriod } from '@state/periode';
 import { getLatestUtbetalingTimestamp, getOverstyringerForEksisterendePerioder } from '@state/selectors/person';
 import { onLazyLoadFail } from '@utils/error';
 import { getPeriodState } from '@utils/mapping';
-import { isArbeidsforholdoverstyring, isSpleisVilkarsgrunnlag } from '@utils/typeguards';
+import {
+    isArbeidsforholdoverstyring,
+    isSpleisVilkarsgrunnlag,
+    isSykepengegrunnlagskjønnsfastsetting,
+} from '@utils/typeguards';
 
 import { Historikk } from '../historikk';
 import { useVilkårsgrunnlag } from '../sykepengegrunnlag/useVilkårsgrunnlag';
@@ -77,6 +81,15 @@ export const BeregnetPeriodeView: React.FC<BeregnetPeriodeViewProps> = ({ period
               .join(', ')
         : undefined;
 
+    const harBlittSkjønnsmessigFastsatt =
+        person?.arbeidsgivere.filter((arbeidsgiver) =>
+            arbeidsgiver.overstyringer.find(
+                (overstyring) =>
+                    isSykepengegrunnlagskjønnsfastsetting(overstyring) &&
+                    overstyring.skjonnsfastsatt.skjaeringstidspunkt === activePeriod?.skjaeringstidspunkt,
+            ),
+        ).length > 0;
+
     return (
         <>
             <Venstremeny />
@@ -92,6 +105,7 @@ export const BeregnetPeriodeView: React.FC<BeregnetPeriodeViewProps> = ({ period
                     activePeriodTom={period.tom}
                     skjæringstidspunkt={period.skjaeringstidspunkt}
                     navnPåDeaktiverteGhostArbeidsgivere={navnPåDeaktiverteGhostArbeidsgivere}
+                    harBlittSkjønnsmessigFastsatt={harBlittSkjønnsmessigFastsatt}
                 />
                 <div className={styles.RouteContainer}>
                     <React.Suspense fallback={<BeregnetPeriodeViewLoader />}>

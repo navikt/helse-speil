@@ -132,6 +132,7 @@ interface SaksbildevarslerProps {
     activePeriodTom?: string;
     skjæringstidspunkt?: string;
     navnPåDeaktiverteGhostArbeidsgivere?: string;
+    harBlittSkjønnsmessigFastsatt?: boolean;
 }
 
 export const Saksbildevarsler = ({
@@ -145,6 +146,7 @@ export const Saksbildevarsler = ({
     activePeriodTom,
     skjæringstidspunkt,
     navnPåDeaktiverteGhostArbeidsgivere,
+    harBlittSkjønnsmessigFastsatt = false,
 }: SaksbildevarslerProps) => {
     const infoVarsler: VarselObject[] = [
         sendtTilBeslutter(erTidligereSaksbehandler && erBeslutteroppgave),
@@ -174,7 +176,13 @@ export const Saksbildevarsler = ({
                     <BodyShort>{melding}</BodyShort>
                 </Alert>
             ))}
-            {varsler && <Varsler varsler={varsler} />}
+            {varsler && (
+                <Varsler
+                    varsler={varsler}
+                    harBlittSkjønnsmessigFastsatt={harBlittSkjønnsmessigFastsatt}
+                    tilSkjønnsfastsettelse={periodState === 'tilSkjønnsfastsettelse'}
+                />
+            )}
             {feilVarsler.map(({ grad, melding }, index) => (
                 <Alert className={styles.Varsel} variant={grad} key={index}>
                     <BodyShort>{melding}</BodyShort>
