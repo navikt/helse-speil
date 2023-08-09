@@ -102,6 +102,8 @@ const Merknad: React.FC<MerknadProps> = ({ begrunnelse, alderVedSkjæringstidspu
                     </Container>
                 </Tooltip>
             );
+        case 'ANDREYTELSER':
+            return <BodyShort>Andre ytelser</BodyShort>;
         default:
             return null;
     }
