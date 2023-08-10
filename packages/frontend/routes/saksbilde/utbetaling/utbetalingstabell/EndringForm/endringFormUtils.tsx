@@ -10,8 +10,9 @@ export const typeendringer: Utbetalingstabelldagtype[] = [
 
 export const typeendringerAndreYtelser: Utbetalingstabelldagtype[] = [
     'Foreldrepenger',
-    'AAP',
-    'Dagpenger',
+    // Vi ble bedt om å fjerne muligheten for å endre til AAP og Dagpenger til å begynne med.
+    // 'AAP',
+    // 'Dagpenger',
     'Svangerskapspenger',
     'Pleiepenger',
     'Omsorgspenger',
