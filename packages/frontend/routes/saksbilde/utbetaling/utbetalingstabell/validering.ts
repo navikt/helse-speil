@@ -56,7 +56,7 @@ export const arbeidsdagValidering = (
     if (dagerSomKanOverstyresTilArbeidsdag.length !== overstyrtTilArbeidsdager.length) {
         setError(
             'arbeidsdagerKanIkkeOverstyres',
-            'Du kan ikke overstyre Syk eller Ferie til Arbeidsdag. Arbeidsdag kan legges til som en ny dag, legges til i slutten av perioden, eller endres i arbeidsgiverperioden',
+            'Du kan ikke overstyre Syk eller Ferie til Arbeidsdag. Arbeidsdag kan legges til i forkant av perioden, i slutten av perioden, eller endres i arbeidsgiverperioden',
         );
         return false;
     }
@@ -97,7 +97,7 @@ export const andreYtelserValidering = (
     if (dagerSomKanOverstyresTilAnnenYtelse.length !== overstyrtTilAnnenYtelsesdag.length) {
         setError(
             'kanIkkeOverstyreTilAnnenYtelse',
-            'Andre ytelser kan legges til som en ny dag eller legges til i slutten av perioden',
+            'Andre ytelser kan legges til i forkant av eller i starten av perioden',
         );
         return false;
     }
