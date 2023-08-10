@@ -28,10 +28,6 @@ const IconContainer = styled.div`
 const getTypeIcon = (dag?: UtbetalingstabellDag): ReactNode | null => {
     if (!dag) return null;
 
-    if (dag.erAvvist || dag.erForeldet) {
-        return <IconFailure />;
-    }
-
     switch (dag.type) {
         case 'Syk':
         case 'Syk (NAV)':
@@ -44,6 +40,8 @@ const getTypeIcon = (dag?: UtbetalingstabellDag): ReactNode | null => {
             return <IconPermisjon />;
         case 'Arbeid':
             return <IconArbeidsdag />;
+        case 'Avslått':
+            return <IconFailure />;
         case 'Foreldrepenger':
         case 'AAP':
         case 'Dagpenger':
