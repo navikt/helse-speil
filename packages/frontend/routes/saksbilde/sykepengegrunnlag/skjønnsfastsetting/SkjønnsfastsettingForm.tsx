@@ -87,6 +87,8 @@ export const SkjønnsfastsettingForm = ({
                         ?.belop,
                     årsak: årsak,
                     begrunnelse: `${begrunnelse?.mal}\n\n${begrunnelseFritekst}`,
+                    begrunnelseMal: begrunnelse?.mal,
+                    begrunnelseFritekst: begrunnelseFritekst,
                     ...(begrunnelse?.subsumsjon?.paragraf && {
                         subsumsjon: {
                             paragraf: begrunnelse.subsumsjon.paragraf,

@@ -104,6 +104,8 @@ export interface SkjønnsfastsattArbeidsgiver {
     fraÅrlig: number;
     årsak: string;
     begrunnelse: string;
+    begrunnelseMal?: string;
+    begrunnelseFritekst?: string;
     subsumsjon?: Subsumsjon;
     initierendeVedtaksperiodeId: string;
 }
