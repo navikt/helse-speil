@@ -6,7 +6,8 @@
     border-radius: 3px;
 }
 
-.Attestert {
+.Attestert,
+.Utbetalt {
     padding: 0.08rem;
 }
 

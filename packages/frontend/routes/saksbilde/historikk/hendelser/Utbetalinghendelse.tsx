@@ -1,9 +1,14 @@
+import classNames from 'classnames';
 import React from 'react';
+
+import { Success } from '@navikt/ds-icons';
 
 import { Utbetalingtype } from '@io/graphql';
 
 import { Hendelse } from './Hendelse';
 import { HendelseDate } from './HendelseDate';
+
+import styles from './Historikkhendelse.module.css';
 
 const getTitle = (type: Utbetalingtype, automatisk: boolean, godkjent: boolean): string => {
     if (automatisk) {
@@ -36,8 +41,12 @@ export const Utbetalinghendelse: React.FC<UtbetalinghendelseProps> = ({
     saksbehandler,
     timestamp,
 }) => {
+    const icon =
+        utbetalingstype === Utbetalingtype.Utbetaling ? (
+            <Success title="Success-ikon" className={classNames(styles.Innrammet, styles.Utbetalt)} />
+        ) : undefined;
     return (
-        <Hendelse title={getTitle(utbetalingstype, automatisk, godkjent)}>
+        <Hendelse title={getTitle(utbetalingstype, automatisk, godkjent)} icon={icon}>
             <HendelseDate timestamp={timestamp} ident={saksbehandler} />
         </Hendelse>
     );
