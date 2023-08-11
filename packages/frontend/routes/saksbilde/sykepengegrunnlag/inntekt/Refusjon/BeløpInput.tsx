@@ -1,9 +1,10 @@
+import classNames from 'classnames';
 import React from 'react';
 import { Control, useController } from 'react-hook-form';
 
-import { TextField } from '@navikt/ds-react';
-
 import { RefusjonFormValues } from './useRefusjonFormField';
+
+import styles from './Refusjon.module.css';
 
 interface ControlledBeløpInputProps {
     beløp: number;
@@ -21,19 +22,22 @@ export const ControlledBeløpInput = ({ beløp, index, control }: ControlledBel�
             validate: {
                 måVæreNumerisk: (value): boolean | string =>
                     isNumeric(value.toString()) || 'Refusjonsbeløp må være et beløp',
+                måVæreStort: (value) => value > 1000 || 'Tallet er for lite',
             },
         },
-        defaultValue: beløp && Math.round((beløp + Number.EPSILON) * 100) / 100,
     });
 
     return (
-        <TextField
-            {...field}
-            label="Refusjonsbeløp"
-            hideLabel
-            size="small"
-            error={fieldState.error?.message}
-            type="number"
-        />
+        <>
+            <input
+                {...field}
+                className={classNames({
+                    [styles.BeløpInput]: true,
+                    [styles.InputError]: fieldState.error?.message,
+                })}
+                type="number"
+                defaultValue={beløp && Math.round((beløp + Number.EPSILON) * 100) / 100}
+            />
+        </>
     );
 };
