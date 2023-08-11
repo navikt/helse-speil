@@ -17,7 +17,7 @@ export const AdressebeskyttelseTag: React.FC<AdressebeskyttelseTagProps> = ({ ad
     }
     return (
         <AnonymizableContainer>
-            <Tag variant="error" size="small" className={styles.Tag}>
+            <Tag variant="error" size="medium" className={styles.Tag}>
                 {adressebeskyttelse} adresse
             </Tag>
         </AnonymizableContainer>

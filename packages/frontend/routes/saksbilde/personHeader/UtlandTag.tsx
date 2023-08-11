@@ -14,7 +14,7 @@ export const UtlandTag: React.FC = () => {
     if (utlandVarsel) {
         return (
             <Tooltip content={utlandVarsel.tittel} maxChar={120}>
-                <Tag variant="warning" size="small" className={styles.Tag}>
+                <Tag variant="warning" size="medium" className={styles.Tag}>
                     Utland
                 </Tag>
             </Tooltip>

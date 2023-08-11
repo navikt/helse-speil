@@ -14,7 +14,7 @@ export const VergemålTag: React.FC = () => {
     if (harVergemål) {
         return (
             <Tooltip content="Den sykmeldte er under vergemål" maxChar={120}>
-                <Tag variant="warning" size="small" className={styles.Tag}>
+                <Tag variant="warning" size="medium" className={styles.Tag}>
                     Vergemål
                 </Tag>
             </Tooltip>

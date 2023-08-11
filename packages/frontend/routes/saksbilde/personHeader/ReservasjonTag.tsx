@@ -17,7 +17,7 @@ export const ReservasjonTag: React.FC<ReservasjonTagProps> = ({ reservasjon }) =
                 content="Ikke registrert eller mangler samtykke i Kontakt- og reservasjonsregisteret, eventuell kommunikasjon må skje i brevform"
                 maxChar={120}
             >
-                <Tag variant="warning" size="small" className={styles.Tag}>
+                <Tag variant="warning" size="medium" className={styles.Tag}>
                     Ikke registrert KRR
                 </Tag>
             </Tooltip>
@@ -30,7 +30,7 @@ export const ReservasjonTag: React.FC<ReservasjonTagProps> = ({ reservasjon }) =
                 content="Bruker har reservert seg mot digital kommunikasjon i Kontakt- og reservasjonsregisteret, eventuell kommunikasjon må skje i brevform"
                 maxChar={132}
             >
-                <Tag variant="warning" size="small" className={styles.Tag}>
+                <Tag variant="warning" size="medium" className={styles.Tag}>
                     Reservert KRR
                 </Tag>
             </Tooltip>
