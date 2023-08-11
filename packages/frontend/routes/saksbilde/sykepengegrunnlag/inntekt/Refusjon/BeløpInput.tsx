@@ -25,19 +25,18 @@ export const ControlledBeløpInput = ({ beløp, index, control }: ControlledBel�
                 måVæreStort: (value) => value > 1000 || 'Tallet er for lite',
             },
         },
+        defaultValue: beløp && Math.round((beløp + Number.EPSILON) * 100) / 100,
     });
 
+    const errorMessage = fieldState.error?.message;
     return (
-        <>
-            <input
-                {...field}
-                className={classNames({
-                    [styles.BeløpInput]: true,
-                    [styles.InputError]: fieldState.error?.message,
-                })}
-                type="number"
-                defaultValue={beløp && Math.round((beløp + Number.EPSILON) * 100) / 100}
-            />
-        </>
+        <input
+            {...field}
+            className={classNames({
+                [styles.BeløpInput]: true,
+                [styles.InputError]: errorMessage,
+            })}
+            type="number"
+        />
     );
 };
