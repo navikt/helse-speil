@@ -60,7 +60,7 @@
 .Tag.dødsdato {
     background: var(--speil-etikett-dødsdato-background);
     border: 1px solid var(--speil-etikett-dødsdato-border);
-    color: var(--a-text-on-inverted);
+    color: var(--speil-etikett-dødsdato-color);
 }
 
 @keyframes placeHolderShimmer {

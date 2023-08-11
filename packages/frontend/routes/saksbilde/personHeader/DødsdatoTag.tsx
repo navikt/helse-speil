@@ -21,7 +21,7 @@ export const DødsdatoTag: React.FC<DødsdatoTagProps> = ({ dødsdato }) => {
     return (
         <AnonymizableContainer>
             <Tag variant="info" size="small" className={classNames(styles.Tag, styles.dødsdato)}>
-                Død {dayjs(dødsdato)?.format(NORSK_DATOFORMAT)}
+                Dødsdato {dayjs(dødsdato)?.format(NORSK_DATOFORMAT)}
             </Tag>
         </AnonymizableContainer>
     );
