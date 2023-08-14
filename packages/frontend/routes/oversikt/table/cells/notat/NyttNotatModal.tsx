@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import React, { useState } from 'react';
-import { Controller, useForm } from 'react-hook-form';
+import { Control, useController, useForm } from 'react-hook-form';
 
 import { Button, Loader, Textarea as NavTextarea } from '@navikt/ds-react';
 
@@ -56,17 +56,6 @@ const NotatErrorMessage = styled(ErrorMessage)`
     margin-top: 1rem;
 `;
 
-interface NyttNotatModalProps {
-    onClose: (event: React.SyntheticEvent) => void;
-    navn: Personnavn;
-    vedtaksperiodeId: string;
-    onSubmitOverride?: (notattekst: string) => Promise<unknown>;
-    errorOverride?: string | undefined;
-    notattype: NotatType;
-    ekstraInnhold?: ReactNode;
-    submitButtonText?: string;
-}
-
 interface Notattekster {
     tittel: string;
     description: string;
@@ -99,6 +88,17 @@ const notattypeTekster = (notattype: NotatType): Notattekster => {
             };
     }
 };
+
+interface NyttNotatModalProps {
+    onClose: (event: React.SyntheticEvent) => void;
+    navn: Personnavn;
+    vedtaksperiodeId: string;
+    onSubmitOverride?: (notattekst: string) => Promise<unknown>;
+    errorOverride?: string | undefined;
+    notattype: NotatType;
+    ekstraInnhold?: ReactNode;
+    submitButtonText?: string;
+}
 
 export const NyttNotatModal = ({
     onClose,
@@ -179,30 +179,10 @@ export const NyttNotatModal = ({
                 {sisteNotat && <SisteNotat notat={sisteNotat} />}
                 {ekstraInnhold}
                 <form onSubmit={form.handleSubmit(submit)}>
-                    <Controller
+                    <ControlledTextarea
                         control={form.control}
-                        name="tekst"
-                        rules={{
-                            required: notattekst.errorTekst ?? 'Notat må fylles ut',
-                            maxLength: {
-                                value: tillattTekstlengde,
-                                message: `Det er kun tillatt med ${tillattTekstlengde} tegn`,
-                            },
-                        }}
-                        render={({ field: { onChange, onBlur, value, name, ref }, fieldState: { error } }) => (
-                            <Textarea
-                                label=""
-                                error={error?.message}
-                                description={notattekst.description}
-                                onChange={onChange}
-                                onBlur={onBlur}
-                                value={value ?? ''}
-                                name={name}
-                                ref={ref}
-                                maxLength={tillattTekstlengde}
-                                autoFocus
-                            />
-                        )}
+                        notattekst={notattekst}
+                        tillattTekstlengde={tillattTekstlengde}
                     />
                     <Buttons>
                         <Button size="small" disabled={loading} type="submit">
@@ -217,5 +197,37 @@ export const NyttNotatModal = ({
             </Container>
             {errorMessage && <NotatErrorMessage>{errorMessage}</NotatErrorMessage>}
         </Modal>
+    );
+};
+
+interface ControlledTextareaProps {
+    control: Control;
+    notattekst: Notattekster;
+    tillattTekstlengde: number;
+}
+
+const ControlledTextarea = ({ control, notattekst, tillattTekstlengde }: ControlledTextareaProps) => {
+    const { field, fieldState } = useController({
+        control: control,
+        name: 'tekst',
+        rules: {
+            required: notattekst.errorTekst ?? 'Notat må fylles ut',
+            maxLength: {
+                value: tillattTekstlengde,
+                message: `Det er kun tillatt med ${tillattTekstlengde} tegn`,
+            },
+        },
+    });
+    return (
+        <Textarea
+            {...field}
+            {...fieldState}
+            error={fieldState.error?.message}
+            label={notattekst.tittel}
+            hideLabel
+            description={notattekst.description}
+            maxLength={tillattTekstlengde}
+            autoFocus
+        />
     );
 };
