@@ -1,11 +1,11 @@
 import { ArbeidsgiverForm } from './skjønnsfastsetting';
-import classNames from 'classnames';
 import React from 'react';
-import { Controller, useFormContext } from 'react-hook-form';
+import { useFormContext } from 'react-hook-form';
 
 import { Arbeidsgiver, Arbeidsgiverinntekt } from '@io/graphql';
 
 import { Arbeidsgivernavn } from '../Arbeidsgivernavn';
+import { ControlledInntektInput } from './ControlledInntektInput';
 
 import styles from './SkjønnsfastsettingForm.module.css';
 
@@ -15,9 +15,7 @@ interface SkjønnsfastsettingArbeidsgivereProps {
 }
 
 export const SkjønnsfastsettingArbeidsgivere = ({ inntekter, arbeidsgivere }: SkjønnsfastsettingArbeidsgivereProps) => {
-    const { control, formState, setValue } = useFormContext<{ arbeidsgivere: ArbeidsgiverForm[] }>();
-    const isNumeric = (input: string) => /^\d+(\.\d{1,2})?$/.test(input);
-
+    const { control, setValue } = useFormContext<{ arbeidsgivere: ArbeidsgiverForm[] }>();
     const getArbeidsgiverNavn = (organisasjonsnummer: string) =>
         arbeidsgivere.find((ag) => ag.organisasjonsnummer === organisasjonsnummer)?.navn;
 
@@ -28,36 +26,11 @@ export const SkjønnsfastsettingArbeidsgivere = ({ inntekter, arbeidsgivere }: S
                     <div key={`arbeidsgivere.[a${inntekt.arbeidsgiver}]`} className={styles.arbeidsgiver}>
                         <label className={styles.label}>
                             <Arbeidsgivernavn arbeidsgivernavn={getArbeidsgiverNavn(inntekt.arbeidsgiver)} />
-                            <Controller
+                            <ControlledInntektInput
                                 control={control}
-                                name={`arbeidsgivere.${index}`}
-                                rules={{
-                                    required: true,
-                                    validate: {
-                                        måVæreNumerisk: (value: { organisasjonsnummer: string; årlig: number }) =>
-                                            isNumeric(value.årlig.toString()) || 'Årsinntekt må være et beløp',
-                                    },
-                                }}
-                                defaultValue={{
-                                    organisasjonsnummer: inntekt.arbeidsgiver,
-                                    årlig: inntekt.omregnetArsinntekt?.belop ?? 0,
-                                }}
-                                render={() => (
-                                    <input
-                                        className={classNames([styles.arbeidsgiverInput], {
-                                            [styles.inputError]: !!formState.errors?.arbeidsgivere?.[index]?.message,
-                                        })}
-                                        defaultValue={inntekt.omregnetArsinntekt?.belop}
-                                        onChange={(e) => {
-                                            setValue(`arbeidsgivere.${index}`, {
-                                                organisasjonsnummer: inntekt.arbeidsgiver,
-                                                årlig: Number.parseFloat(e.target.value),
-                                            });
-                                        }}
-                                        type="number"
-                                        disabled
-                                    />
-                                )}
+                                index={index}
+                                inntekt={inntekt}
+                                setValue={setValue}
                             />
                         </label>
                     </div>
