@@ -10,8 +10,8 @@ describe('TotalRow', () => {
         const dager = [
             { type: 'Syk', personbeløp: 1000, dagerIgjen: 122 },
             { type: 'Syk', personbeløp: 1000, dagerIgjen: 121 },
-            { type: 'Avslått', personbeløp: 1000, dagerIgjen: 121 },
-            { type: 'Avslått', personbeløp: 1000, dagerIgjen: 121 },
+            { type: 'Syk', personbeløp: 1000, dagerIgjen: 121, erAvvist: true },
+            { type: 'Syk', personbeløp: 1000, dagerIgjen: 121, erAvvist: true },
             { type: 'Syk', dagerIgjen: 121 },
             { type: 'Syk', personbeløp: 1000, dagerIgjen: 120 },
         ] as UtbetalingstabellDag[];
@@ -24,8 +24,8 @@ describe('TotalRow', () => {
         const dager = [
             { type: 'Syk', personbeløp: 1000, dagerIgjen: 2 },
             { type: 'Syk', personbeløp: 1000, dagerIgjen: 1 },
-            { type: 'Avslått', personbeløp: 1000, dagerIgjen: 1 },
-            { type: 'Avslått', personbeløp: 1000, dagerIgjen: 1 },
+            { type: 'Syk', personbeløp: 1000, dagerIgjen: 1, erAvvist: true },
+            { type: 'Syk', personbeløp: 1000, dagerIgjen: 1, erAvvist: true },
             { type: 'Syk', dagerIgjen: 1 },
             { type: 'Syk', personbeløp: 1000, dagerIgjen: 0 },
         ] as UtbetalingstabellDag[];

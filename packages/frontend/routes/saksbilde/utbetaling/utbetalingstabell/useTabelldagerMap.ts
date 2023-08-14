@@ -48,10 +48,8 @@ const getUtbetalingstabelldagtype = (dag: Dag): Utbetalingstabelldagtype => {
             return 'SykHelg';
         case Utbetalingsdagtype.Navdag:
             return erSykedagNav ? 'Syk (NAV)' : 'Syk';
-        case Utbetalingsdagtype.AvvistDag:
-        case Utbetalingsdagtype.ForeldetDag:
-            return 'Avslått';
     }
+
     switch (dag.sykdomsdagtype) {
         case Sykdomsdagtype.AndreYtelserAap:
             return 'AAP';

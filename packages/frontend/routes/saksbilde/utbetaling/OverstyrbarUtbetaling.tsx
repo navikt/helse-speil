@@ -26,7 +26,9 @@ const getKey = (dag: UtbetalingstabellDag) => dag.dato;
 
 const erReellEndring = (endring: Partial<UtbetalingstabellDag>, dag: UtbetalingstabellDag): boolean =>
     (typeof endring.grad === 'number' && endring.grad !== dag.grad) ||
-    (typeof endring.type === 'string' && endring.type !== dag.type);
+    (typeof endring.type === 'string' && endring.type !== dag.type) ||
+    dag.erAvvist ||
+    dag.erForeldet;
 
 interface OverstyrbarUtbetalingProps {
     fom: DateString;
