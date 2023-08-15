@@ -2,8 +2,6 @@ import React from 'react';
 
 import { Select } from '@navikt/ds-react';
 
-import { erUtvikling } from '@utils/featureToggles';
-
 import {
     OverstyrbarDagtype,
     alleTypeendringer,
@@ -37,21 +35,19 @@ export const DagtypeSelect = ({ errorMessage, clearErrors, setType }: DagtypeSel
             error={errorMessage ? <>{errorMessage}</> : null}
             data-testid="dagtypevelger"
         >
-            {typeendringer.map((dagtype) => (
-                <option key={dagtype} value={dagtype}>
-                    {dagtype}
-                </option>
-            ))}
-            {erUtvikling() && (
-                <>
-                    <option disabled>-- Andre ytelser --</option>
-                    {typeendringerAndreYtelser.map((dagtype) => (
-                        <option key={dagtype} value={dagtype}>
-                            {dagtype}
-                        </option>
-                    ))}
-                </>
-            )}
+            <>
+                {typeendringer.map((dagtype) => (
+                    <option key={dagtype} value={dagtype}>
+                        {dagtype}
+                    </option>
+                ))}
+                <option disabled>-- Andre ytelser --</option>
+                {typeendringerAndreYtelser.map((dagtype) => (
+                    <option key={dagtype} value={dagtype}>
+                        {dagtype}
+                    </option>
+                ))}
+            </>
         </Select>
     );
 };

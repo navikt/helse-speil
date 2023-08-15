@@ -9,7 +9,6 @@ import { alleTypeendringer } from './endringFormUtils';
 
 jest.mock('@utils/featureToggles', () => ({
     overstyrPermisjonsdagerEnabled: true,
-    erUtvikling: () => false,
 }));
 
 describe('Typeendringer', () => {
