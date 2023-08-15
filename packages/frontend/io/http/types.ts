@@ -103,7 +103,6 @@ export interface SkjønnsfastsattArbeidsgiver {
     årlig: number;
     fraÅrlig: number;
     årsak: string;
-    begrunnelse: string;
     begrunnelseMal?: string;
     begrunnelseFritekst?: string;
     subsumsjon?: Subsumsjon;

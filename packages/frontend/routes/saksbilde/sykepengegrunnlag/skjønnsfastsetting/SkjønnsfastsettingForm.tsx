@@ -86,7 +86,6 @@ export const SkjønnsfastsettingForm = ({
                     fraÅrlig: inntekter.find((it) => it.arbeidsgiver === organisasjonsnummer)?.omregnetArsinntekt
                         ?.belop,
                     årsak: årsak,
-                    begrunnelse: `${begrunnelse?.mal}\n\n${begrunnelseFritekst}`,
                     begrunnelseMal: begrunnelse?.mal,
                     begrunnelseFritekst: begrunnelseFritekst,
                     ...(begrunnelse?.subsumsjon?.paragraf && {
