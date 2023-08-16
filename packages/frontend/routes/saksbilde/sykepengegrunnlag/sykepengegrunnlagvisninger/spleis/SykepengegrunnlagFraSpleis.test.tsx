@@ -29,7 +29,6 @@ jest.mock('@utils/featureToggles', () => ({
 
 describe('SykepengegrunnlagFraSpleis', () => {
     afterEach(() => {
-        // (erUtvikling as jest.Mock).mockReturnValue(false);
         jest.clearAllMocks();
     });
 

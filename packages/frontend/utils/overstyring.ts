@@ -1,6 +1,6 @@
 import { getArbeidsgiverWithPeriod } from '@state/selectors/arbeidsgiver';
 import { getOverlappendePerioder, isForkastet, isGodkjent } from '@state/selectors/period';
-import { defaultUtbetalingToggles } from '@utils/featureToggles';
+import { defaultUtbetalingToggles, erUtvikling } from '@utils/featureToggles';
 import { getPeriodState } from '@utils/mapping';
 
 type OverstyringValidationSuccess = {
@@ -17,9 +17,14 @@ type OverstyringValidation = OverstyringValidationSuccess | OverstyringValidatio
 
 const validateTilstand = (periode: FetchedBeregnetPeriode): void => {
     if (
-        !['tilGodkjenning', 'avslag', 'ingenUtbetaling', 'utbetalingFeilet', 'revurderes'].includes(
-            getPeriodState(periode),
-        )
+        ![
+            'tilGodkjenning',
+            'avslag',
+            'ingenUtbetaling',
+            'utbetalingFeilet',
+            'revurderes',
+            erUtvikling() && 'venterPåKiling',
+        ].includes(getPeriodState(periode))
     ) {
         throw {
             value: false,

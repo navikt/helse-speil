@@ -9,6 +9,7 @@ import { defaultUtbetalingToggles } from '@utils/featureToggles';
 import { kanOverstyreRevurdering, kanOverstyres, kanRevurderes } from '@utils/overstyring';
 
 jest.mock('@utils/featureToggles', () => ({
+    erUtvikling: () => false,
     skalBehandleEnOgEnPeriode: false,
     defaultUtbetalingToggles: {
         overstyreUtbetaltPeriodeEnabled: true,
