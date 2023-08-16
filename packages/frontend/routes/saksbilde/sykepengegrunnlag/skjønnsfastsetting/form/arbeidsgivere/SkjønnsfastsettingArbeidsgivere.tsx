@@ -1,13 +1,12 @@
-import { ArbeidsgiverForm } from './skjønnsfastsetting';
 import React from 'react';
 import { useFormContext } from 'react-hook-form';
 
 import { Arbeidsgiver, Arbeidsgiverinntekt } from '@io/graphql';
 
-import { Arbeidsgivernavn } from '../Arbeidsgivernavn';
+import { Arbeidsgivernavn } from '../../../Arbeidsgivernavn';
+import { ArbeidsgiverForm } from '../../skjønnsfastsetting';
+import styles from '../SkjønnsfastsettingForm.module.css';
 import { ControlledInntektInput } from './ControlledInntektInput';
-
-import styles from './SkjønnsfastsettingForm.module.css';
 
 interface SkjønnsfastsettingArbeidsgivereProps {
     inntekter: Arbeidsgiverinntekt[];

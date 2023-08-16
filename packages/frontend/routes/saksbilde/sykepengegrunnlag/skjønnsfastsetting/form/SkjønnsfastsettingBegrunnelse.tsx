@@ -1,10 +1,11 @@
-import { skjønnsfastsettelseBegrunnelser } from './skjønnsfastsetting';
 import React from 'react';
 import { useFormContext } from 'react-hook-form';
 
 import { BodyLong, BodyShort, Radio, RadioGroup, Textarea } from '@navikt/ds-react';
 
 import { Bold } from '@components/Bold';
+
+import { skjønnsfastsettelseBegrunnelser } from '../skjønnsfastsetting';
 
 import styles from './SkjønnsfastsettingForm.module.css';
 

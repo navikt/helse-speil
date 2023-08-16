@@ -1,4 +1,3 @@
-import { ArbeidsgiverForm } from './skjønnsfastsetting';
 import React from 'react';
 import { Control, UseFormSetValue, useController } from 'react-hook-form';
 
@@ -6,7 +5,8 @@ import { TextField } from '@navikt/ds-react';
 
 import { Arbeidsgiverinntekt } from '@io/graphql';
 
-import styles from './SkjønnsfastsettingForm.module.css';
+import { ArbeidsgiverForm } from '../../skjønnsfastsetting';
+import styles from '../SkjønnsfastsettingForm.module.css';
 
 interface ControlledInntektInputProps {
     control: Control<{ arbeidsgivere: ArbeidsgiverForm[] }>;

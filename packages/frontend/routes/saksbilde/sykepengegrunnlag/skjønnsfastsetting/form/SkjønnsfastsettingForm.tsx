@@ -1,11 +1,6 @@
-import { SkjønnsfastsettingArbeidsgivere } from './SkjønnsfastsettingArbeidsgivere';
 import { SkjønnsfastsettingBegrunnelse } from './SkjønnsfastsettingBegrunnelse';
 import { SkjønnsfastsettingÅrsak } from './SkjønnsfastsettingÅrsak';
-import {
-    ArbeidsgiverForm,
-    skjønnsfastsettelseBegrunnelser,
-    usePostSkjønnsfastsattSykepengegrunnlag,
-} from './skjønnsfastsetting';
+import { SkjønnsfastsettingArbeidsgivere } from './arbeidsgivere/SkjønnsfastsettingArbeidsgivere';
 import React, { useEffect, useRef } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 
@@ -19,7 +14,12 @@ import { useActivePeriod } from '@state/periode';
 import { useCurrentPerson } from '@state/person';
 import { isBeregnetPeriode } from '@utils/typeguards';
 
-import { Feiloppsummering } from '../inntekt/EditableInntekt/Feiloppsummering';
+import { Feiloppsummering } from '../../inntekt/EditableInntekt/Feiloppsummering';
+import {
+    ArbeidsgiverForm,
+    skjønnsfastsettelseBegrunnelser,
+    usePostSkjønnsfastsattSykepengegrunnlag,
+} from '../skjønnsfastsetting';
 
 import styles from './SkjønnsfastsettingForm.module.css';
 
