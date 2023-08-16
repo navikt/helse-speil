@@ -1,6 +1,6 @@
 import dayjs from 'dayjs';
 import React, { useEffect } from 'react';
-import { Controller, useFieldArray, useFormContext } from 'react-hook-form';
+import { Controller } from 'react-hook-form';
 
 import { CaseworkerFilled } from '@navikt/ds-icons';
 import { BodyShort, UNSAFE_DatePicker as DatePicker } from '@navikt/ds-react';
@@ -13,6 +13,8 @@ import { Kilde } from '@components/Kilde';
 import { Kildetype } from '@io/graphql';
 import { Refusjonsopplysning } from '@io/http';
 import { ISO_DATOFORMAT, NORSK_DATOFORMAT } from '@utils/date';
+
+import { useRefusjonFormField } from './useRefusjonFormField';
 
 import styles from './Refusjon.module.css';
 
@@ -279,67 +281,3 @@ export const Refusjon = ({ fraRefusjonsopplysninger, lokaleRefusjonsopplysninger
         </div>
     );
 };
-
-interface RefusjonFormValues {
-    name: string;
-    refusjonsopplysninger: { fom: string; tom?: Maybe<string>; beløp: number; kilde: string }[];
-}
-
-function useRefusjonFormField() {
-    const { formState, control, clearErrors } = useFormContext<RefusjonFormValues>();
-
-    const { fields, append, remove, replace, update } = useFieldArray<RefusjonFormValues>({
-        control,
-        name: 'refusjonsopplysninger',
-    });
-
-    const addRefusjonsopplysning = () => {
-        append({
-            fom: '',
-            tom: null,
-            beløp: 0,
-            kilde: Kildetype.Saksbehandler,
-        });
-    };
-
-    const removeRefusjonsopplysning = (index: number) => () => {
-        remove(index);
-    };
-
-    const replaceRefusjonsopplysninger = (refusjonsopplysninger: Refusjonsopplysning[]) => {
-        replace(
-            refusjonsopplysninger
-                .sort(
-                    (a: Refusjonsopplysning, b: Refusjonsopplysning) =>
-                        new Date(b.fom).getTime() - new Date(a.fom).getTime(),
-                )
-                .map((refusjonsopplysning) => {
-                    return {
-                        ...refusjonsopplysning,
-                        beløp: Math.round((refusjonsopplysning.beløp + Number.EPSILON) * 100) / 100,
-                    };
-                }),
-        );
-    };
-
-    const updateRefusjonsopplysninger = (
-        fom: string,
-        tom: Maybe<string>,
-        beløp: number,
-        index: number,
-        kilde = Kildetype.Saksbehandler,
-    ) => {
-        update(index, { fom, tom, beløp, kilde });
-    };
-
-    return {
-        fields,
-        control,
-        clearErrors,
-        formState,
-        addRefusjonsopplysning,
-        removeRefusjonsopplysning,
-        replaceRefusjonsopplysninger,
-        updateRefusjonsopplysninger,
-    };
-}
