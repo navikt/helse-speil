@@ -1,4 +1,5 @@
 import { SkjønnsfastsettingBegrunnelse } from './SkjønnsfastsettingBegrunnelse';
+import { SkjønnsfastsettingType } from './SkjønnsfastsettingType';
 import { SkjønnsfastsettingÅrsak } from './SkjønnsfastsettingÅrsak';
 import { SkjønnsfastsettingArbeidsgivere } from './arbeidsgivere/SkjønnsfastsettingArbeidsgivere';
 import React, { useEffect, useRef } from 'react';
@@ -95,6 +96,7 @@ export const SkjønnsfastsettingForm = ({
                             bokstav: begrunnelse.subsumsjon?.bokstav,
                         },
                     }),
+                    begrunnelseKonklusjon: begrunnelse?.konklusjon,
                     initierendeVedtaksperiodeId: førsteBeregnedePerioderPåSkjæringstidspunkt.filter(
                         (it) => it.arbeidsgiver === organisasjonsnummer,
                     )[0].initierendeVedtaksperiodeId,
@@ -110,8 +112,9 @@ export const SkjønnsfastsettingForm = ({
         <FormProvider {...form}>
             <form onSubmit={form.handleSubmit(confirmChanges)}>
                 <div className={styles.skjønnsfastsetting}>
-                    <SkjønnsfastsettingArbeidsgivere inntekter={inntekter} arbeidsgivere={person.arbeidsgivere} />
                     <SkjønnsfastsettingÅrsak />
+                    <SkjønnsfastsettingType />
+                    <SkjønnsfastsettingArbeidsgivere inntekter={inntekter} arbeidsgivere={person.arbeidsgivere} />
                     <SkjønnsfastsettingBegrunnelse
                         omregnetÅrsinntekt={omregnetÅrsinntekt}
                         sammenligningsgrunnlag={sammenligningsgrunnlag}
@@ -137,7 +140,7 @@ export const SkjønnsfastsettingForm = ({
 };
 
 const finnFørsteBeregnedePåSkjæringstidspunkt = (person: FetchedPerson, period: ActivePeriod) =>
-    person.arbeidsgivere.flatMap((arbeidsgiver) => ({
+    person?.arbeidsgivere.flatMap((arbeidsgiver) => ({
         arbeidsgiver: arbeidsgiver.organisasjonsnummer,
         initierendeVedtaksperiodeId:
             arbeidsgiver.generasjoner?.[0]?.perioder

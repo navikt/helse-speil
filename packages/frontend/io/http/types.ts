@@ -105,6 +105,7 @@ export interface SkjønnsfastsattArbeidsgiver {
     årsak: string;
     begrunnelseMal?: string;
     begrunnelseFritekst?: string;
+    begrunnelseKonklusjon?: string;
     subsumsjon?: Subsumsjon;
     initierendeVedtaksperiodeId: string;
 }

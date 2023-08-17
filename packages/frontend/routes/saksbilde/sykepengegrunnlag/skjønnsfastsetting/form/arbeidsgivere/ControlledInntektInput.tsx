@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Control, UseFormSetValue, useController } from 'react-hook-form';
 
 import { TextField } from '@navikt/ds-react';
@@ -13,9 +13,16 @@ interface ControlledInntektInputProps {
     index: number;
     inntekt: Arbeidsgiverinntekt;
     setValue: UseFormSetValue<{ arbeidsgivere: ArbeidsgiverForm[] }>;
+    begrunnelseId: string;
 }
 
-export const ControlledInntektInput = ({ control, index, inntekt, setValue }: ControlledInntektInputProps) => {
+export const ControlledInntektInput = ({
+    control,
+    index,
+    inntekt,
+    setValue,
+    begrunnelseId,
+}: ControlledInntektInputProps) => {
     const { field, fieldState } = useController({
         control: control,
         name: `arbeidsgivere.${index}`,
@@ -32,6 +39,19 @@ export const ControlledInntektInput = ({ control, index, inntekt, setValue }: Co
         },
     });
     const isNumeric = (input: string) => /^\d+(\.\d{1,2})?$/.test(input);
+    useEffect(() => {
+        if (begrunnelseId === '0') {
+            setValue(`arbeidsgivere.${index}`, {
+                organisasjonsnummer: inntekt.arbeidsgiver,
+                årlig: inntekt.omregnetArsinntekt?.belop ?? 0,
+            });
+        } else if (begrunnelseId === '1') {
+            setValue(`arbeidsgivere.${index}`, {
+                organisasjonsnummer: inntekt.arbeidsgiver,
+                årlig: inntekt.sammenligningsgrunnlag?.belop ?? 0,
+            });
+        }
+    }, [begrunnelseId]);
 
     return (
         <TextField
@@ -52,7 +72,7 @@ export const ControlledInntektInput = ({ control, index, inntekt, setValue }: Co
             inputMode="numeric"
             pattern="[0-9]*"
             hideLabel
-            disabled
+            disabled={begrunnelseId !== '2'}
         />
     );
 };

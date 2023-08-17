@@ -39,18 +39,22 @@ export const SkjønnsfastsettingHeader = ({
 
     return (
         <div className={styles.header}>
-            <Bold className={styles.label}>Sykepengegrunnlag</Bold>
-            <div className={styles.beløp}>
-                {visningharEndring && <Endringstrekant />}
-                <BodyShort>{somPenger(visningEndretSykepengegrunnlag ?? sykepengegrunnlag)}</BodyShort>
-            </div>
-            {visningharEndring && (
-                <p className={styles.opprinneligSykepengegrunnlag}>{toKronerOgØre(sykepengegrunnlag)}</p>
-            )}
-            {skjønnsmessigFastsattÅrlig != null && (
-                <Kilde type={Kildetype.Saksbehandler} className={styles.kildeIkon}>
-                    <CaseworkerFilled title="Caseworker-ikon" height={20} width={20} />
-                </Kilde>
+            {!editing && (
+                <>
+                    <Bold className={styles.label}>Sykepengegrunnlag</Bold>
+                    <div className={styles.beløp}>
+                        {visningharEndring && <Endringstrekant />}
+                        <BodyShort>{somPenger(visningEndretSykepengegrunnlag ?? sykepengegrunnlag)}</BodyShort>
+                    </div>
+                    {visningharEndring && (
+                        <p className={styles.opprinneligSykepengegrunnlag}>{toKronerOgØre(sykepengegrunnlag)}</p>
+                    )}
+                    {skjønnsmessigFastsattÅrlig != null && (
+                        <Kilde type={Kildetype.Saksbehandler} className={styles.kildeIkon}>
+                            <CaseworkerFilled title="Caseworker-ikon" height={20} width={20} />
+                        </Kilde>
+                    )}
+                </>
             )}
             {kanSkjønnsfastsetteSykepengegrunnlag && (
                 <EditButton

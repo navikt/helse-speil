@@ -4,7 +4,7 @@
 }
 
 .buttons {
-    margin-left: var(--a-spacing-8);
+    margin-top: var(--a-spacing-4);
     display: flex;
     gap: var(--a-spacing-2);
 }
@@ -19,11 +19,15 @@
 
 .arbeidsgivere {
     width: 354px;
-    margin: var(--a-spacing-8) 0;
+    margin-bottom: var(--a-spacing-4);
 }
 
 .arbeidsgiver {
     margin-bottom: var(--a-spacing-2);
+}
+
+.enArbeidsgiver {
+    font-weight: bold;
 }
 
 .label {
@@ -56,13 +60,11 @@
 .mal {
     white-space: break-spaces;
     width: 420px;
-    margin-left: var(--a-spacing-8);
-    margin-bottom: var(--a-spacing-8);
 }
 
 .fritekst {
     width: 420px;
-    margin-left: var(--a-spacing-8);
+    margin: 0.5rem 0;
 }
 
 .årsak {
@@ -71,4 +73,8 @@
 
 .error {
     padding-top: var(--a-spacing-4);
+}
+
+.Bold {
+    font-weight: bold;
 }

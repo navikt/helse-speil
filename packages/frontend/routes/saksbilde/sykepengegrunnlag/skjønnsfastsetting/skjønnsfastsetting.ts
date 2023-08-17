@@ -21,12 +21,15 @@ export interface BegrunnelseForSkjønnsfastsetting {
     id: string;
     valg: string;
     mal: string;
+    konklusjon: string;
     subsumsjon?: Subsumsjon;
+    sykepengegrunnlag: number;
 }
 
 export const skjønnsfastsettelseBegrunnelser = (
-    omregnetÅrsinntekt: number,
-    sammenligningsgrunnlag: number,
+    omregnetÅrsinntekt = 0,
+    sammenligningsgrunnlag = 0,
+    annet = 0,
 ): BegrunnelseForSkjønnsfastsetting[] => [
     {
         id: '0',
@@ -37,10 +40,44 @@ export const skjønnsfastsettelseBegrunnelser = (
             omregnetÅrsinntekt,
         )} i årsinntekt. Denne årsinntekten avviker med mer enn 25 prosent fra inntekten som er rapportert til Skatteetaten på kr ${toKronerOgØre(
             sammenligningsgrunnlag,
-        )} de siste tolv månedene før du ble syk.\n\nNår årsinntekten avviker med mer enn 25 prosent fra rapportert inntekt, skal NAV fastsette sykepengegrunnlaget ved skjønn ut fra den årsinntekten som kan godtgjøres på det tidspunktet du ble syk. Det fremgår av folketrygdloven § 8-30 andre ledd.\n\nVi har fastsatt sykepengerunnlaget ditt til kr ${toKronerOgØre(
+        )} de siste tolv månedene før du ble syk.\n\nNår årsinntekten avviker med mer enn 25 prosent fra rapportert inntekt, skal NAV fastsette sykepengegrunnlaget ved skjønn ut fra den årsinntekten som kan godtgjøres på det tidspunktet du ble syk. Det fremgår av folketrygdloven § 8-30 andre ledd.`,
+        konklusjon: `Vi har fastsatt sykepengerunnlaget ditt til kr ${toKronerOgØre(
             omregnetÅrsinntekt,
-        )}. Beløpet vi har kommet frem til er årsinntekten vi mener du ville hatt hvis du ikke hadde blitt syk.`,
+        )}.\nBeløpet vi har kommet frem til er årsinntekten vi mener du ville hatt hvis du ikke hadde blitt syk.`,
         subsumsjon: { paragraf: '8-30', ledd: '2' },
+        sykepengegrunnlag: omregnetÅrsinntekt,
+    },
+    {
+        id: '1',
+        valg: 'Skjønnsfastsette til rapportert årsinntekt ',
+        mal: `Månedsinntekten som er oppgitt av din arbeidsgiver på kr ${toKronerOgØre(
+            omregnetÅrsinntekt / 12,
+        )} utgjør kr ${toKronerOgØre(
+            omregnetÅrsinntekt,
+        )} i årsinntekt. Denne årsinntekten avviker med mer enn 25 prosent fra inntekten som er rapportert til Skatteetaten på kr ${toKronerOgØre(
+            sammenligningsgrunnlag,
+        )} de siste tolv månedene før du ble syk.\n\nNår årsinntekten avviker med mer enn 25 prosent fra rapportert inntekt, skal NAV fastsette sykepengegrunnlaget ved skjønn ut fra den årsinntekten som kan godtgjøres på det tidspunktet du ble syk. Det fremgår av folketrygdloven § 8-30 andre ledd.`,
+        konklusjon: `Vi har fastsatt sykepengerunnlaget ditt til kr ${toKronerOgØre(
+            sammenligningsgrunnlag,
+        )}.\nBeløpet vi har kommet frem til er årsinntekten vi mener du ville hatt hvis du ikke hadde blitt syk.`,
+        subsumsjon: { paragraf: '8-30', ledd: '2' },
+        sykepengegrunnlag: sammenligningsgrunnlag,
+    },
+    {
+        id: '2',
+        valg: 'Skjønnsfastsette til annet ',
+        mal: `Månedsinntekten som er oppgitt av din arbeidsgiver på kr ${toKronerOgØre(
+            omregnetÅrsinntekt / 12,
+        )} utgjør kr ${toKronerOgØre(
+            omregnetÅrsinntekt,
+        )} i årsinntekt. Denne årsinntekten avviker med mer enn 25 prosent fra inntekten som er rapportert til Skatteetaten på kr ${toKronerOgØre(
+            sammenligningsgrunnlag,
+        )} de siste tolv månedene før du ble syk.\n\nNår årsinntekten avviker med mer enn 25 prosent fra rapportert inntekt, skal NAV fastsette sykepengegrunnlaget ved skjønn ut fra den årsinntekten som kan godtgjøres på det tidspunktet du ble syk. Det fremgår av folketrygdloven § 8-30 andre ledd.`,
+        konklusjon: `Vi har fastsatt sykepengerunnlaget ditt til kr ${toKronerOgØre(
+            annet,
+        )}.\nBeløpet vi har kommet frem til er årsinntekten vi mener du ville hatt hvis du ikke hadde blitt syk.`,
+        subsumsjon: { paragraf: '8-30', ledd: '2' },
+        sykepengegrunnlag: annet,
     },
 ];
 
