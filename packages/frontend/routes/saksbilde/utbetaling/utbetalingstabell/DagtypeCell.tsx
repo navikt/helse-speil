@@ -77,8 +77,10 @@ const getDisplayText = (dag?: UtbetalingstabellDag): string | null => {
         return `${dagtype} (Foreldet)`;
     } else if (dag.type === 'FriskHelg') {
         return `${dagtype} (Frisk)`;
-    } else if (dag.type === 'SykHelg' || dag.type === 'Feriehelg') {
+    } else if (dag.type === 'SykHelg') {
         return `${dagtype} (Syk)`;
+    } else if (dag.type === 'Feriehelg') {
+        return `${dagtype} (Ferie)`;
     } else {
         return dagtype;
     }
