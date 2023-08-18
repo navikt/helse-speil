@@ -70,9 +70,12 @@ export const SkjønnsfastsettingForm = ({
 
     const confirmChanges = () => {
         const { arbeidsgivere, årsak, begrunnelseId, begrunnelseFritekst } = form.getValues();
-        const begrunnelse = skjønnsfastsettelseBegrunnelser(omregnetÅrsinntekt, sammenligningsgrunnlag).find(
-            (it) => it.id === begrunnelseId,
-        );
+        const manueltBeløp = arbeidsgivere.reduce((n: number, { årlig }: { årlig: number }) => n + årlig, 0);
+        const begrunnelse = skjønnsfastsettelseBegrunnelser(
+            omregnetÅrsinntekt,
+            sammenligningsgrunnlag,
+            manueltBeløp,
+        ).find((it) => it.id === begrunnelseId);
 
         const førsteBeregnedePerioderPåSkjæringstidspunkt = finnFørsteBeregnedePåSkjæringstidspunkt(person, period);
 
