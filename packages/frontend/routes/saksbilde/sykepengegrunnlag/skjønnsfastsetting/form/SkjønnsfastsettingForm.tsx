@@ -3,7 +3,8 @@ import { SkjønnsfastsettingType } from './SkjønnsfastsettingType';
 import { SkjønnsfastsettingÅrsak } from './SkjønnsfastsettingÅrsak';
 import { SkjønnsfastsettingArbeidsgivere } from './arbeidsgivere/SkjønnsfastsettingArbeidsgivere';
 import React, { useEffect, useRef } from 'react';
-import { FormProvider, useForm } from 'react-hook-form';
+import { FieldErrors, FormProvider, useForm } from 'react-hook-form';
+import { CustomElement, FieldValues } from 'react-hook-form/dist/types/fields';
 
 import { Button, Loader } from '@navikt/ds-react';
 
@@ -15,7 +16,7 @@ import { useActivePeriod } from '@state/periode';
 import { useCurrentPerson } from '@state/person';
 import { isBeregnetPeriode } from '@utils/typeguards';
 
-import { Feiloppsummering } from '../../inntekt/EditableInntekt/Feiloppsummering';
+import { Feiloppsummering, Skjemafeil } from '../../inntekt/EditableInntekt/Feiloppsummering';
 import {
     ArbeidsgiverForm,
     skjønnsfastsettelseBegrunnelser,
@@ -23,6 +24,13 @@ import {
 } from '../skjønnsfastsetting';
 
 import styles from './SkjønnsfastsettingForm.module.css';
+
+interface SkjønnsfastsettingFormFields {
+    arbeidsgivere: ArbeidsgiverForm[];
+    årsak: string;
+    begrunnelseId: string;
+    begrunnelseFritekst: string;
+}
 
 interface SkjønnsfastsettingFormProps {
     inntekter: Arbeidsgiverinntekt[];
@@ -39,7 +47,7 @@ export const SkjønnsfastsettingForm = ({
     onEndretSykepengegrunnlag,
     setEditing,
 }: SkjønnsfastsettingFormProps) => {
-    const form = useForm({ shouldFocusError: false, mode: 'onBlur' });
+    const form = useForm<SkjønnsfastsettingFormFields>({ shouldFocusError: false, mode: 'onBlur' });
     const feiloppsummeringRef = useRef<HTMLDivElement>(null);
     const period = useActivePeriod();
     const person = useCurrentPerson();
@@ -87,8 +95,8 @@ export const SkjønnsfastsettingForm = ({
                 return {
                     organisasjonsnummer: organisasjonsnummer,
                     årlig: årlig,
-                    fraÅrlig: inntekter.find((it) => it.arbeidsgiver === organisasjonsnummer)?.omregnetArsinntekt
-                        ?.belop,
+                    fraÅrlig:
+                        inntekter.find((it) => it.arbeidsgiver === organisasjonsnummer)?.omregnetArsinntekt?.belop ?? 0,
                     årsak: årsak,
                     begrunnelseMal: begrunnelse?.mal,
                     begrunnelseFritekst: begrunnelseFritekst,
@@ -100,9 +108,10 @@ export const SkjønnsfastsettingForm = ({
                         },
                     }),
                     begrunnelseKonklusjon: begrunnelse?.konklusjon,
-                    initierendeVedtaksperiodeId: førsteBeregnedePerioderPåSkjæringstidspunkt.filter(
-                        (it) => it.arbeidsgiver === organisasjonsnummer,
-                    )[0].initierendeVedtaksperiodeId,
+                    initierendeVedtaksperiodeId:
+                        førsteBeregnedePerioderPåSkjæringstidspunkt.filter(
+                            (it) => it.arbeidsgiver === organisasjonsnummer,
+                        )[0].initierendeVedtaksperiodeId ?? '',
                 };
             }),
         };
@@ -123,7 +132,10 @@ export const SkjønnsfastsettingForm = ({
                         sammenligningsgrunnlag={sammenligningsgrunnlag}
                     />
                     {visFeilOppsummering && (
-                        <Feiloppsummering feiloppsummeringRef={feiloppsummeringRef} errors={form.formState.errors} />
+                        <Feiloppsummering
+                            feiloppsummeringRef={feiloppsummeringRef}
+                            feilliste={formErrorsTilFeilliste(form.formState.errors)}
+                        />
                     )}
                     <div className={styles.buttons}>
                         <Button className={styles.button} variant="secondary" size="small" disabled={isLoading}>
@@ -141,6 +153,15 @@ export const SkjønnsfastsettingForm = ({
         </FormProvider>
     );
 };
+
+interface RefMedId extends CustomElement<FieldValues> {
+    id?: string;
+}
+const formErrorsTilFeilliste = (errors: FieldErrors<SkjønnsfastsettingFormFields>): Skjemafeil[] =>
+    Object.entries(errors).map(([id, error]) => ({
+        id: (error?.ref as RefMedId)?.id ?? id,
+        melding: error.message ?? id,
+    }));
 
 const finnFørsteBeregnedePåSkjæringstidspunkt = (person: FetchedPerson, period: ActivePeriod) =>
     person?.arbeidsgivere.flatMap((arbeidsgiver) => ({

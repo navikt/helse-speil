@@ -44,7 +44,7 @@ export const Refusjon = ({ fraRefusjonsopplysninger, lokaleRefusjonsopplysninger
     const isNumeric = (input: string) => /^\d+(\.\d{1,2})?$/.test(input);
 
     return (
-        <div className={styles.RefusjonWrapper}>
+        <div className={styles.RefusjonWrapper} id="refusjonsopplysninger">
             <Bold>Refusjon</Bold>
 
             <div className={styles.RefusjonsHeading}>

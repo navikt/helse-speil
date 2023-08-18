@@ -3,14 +3,16 @@ import { useFieldArray, useFormContext } from 'react-hook-form';
 import { Kildetype } from '@io/graphql';
 import { Refusjonsopplysning } from '@io/http';
 
-interface RefusjonFormValues {
+export interface RefusjonFormFields {
+    fom: string;
+    tom?: Maybe<string>;
+    beløp: number;
+    kilde: string;
+}
+
+export interface RefusjonFormValues {
     name: string;
-    refusjonsopplysninger: {
-        fom: string;
-        tom?: Maybe<string>;
-        beløp: number;
-        kilde: string;
-    }[];
+    refusjonsopplysninger: RefusjonFormFields[];
 }
 
 export function useRefusjonFormField() {

@@ -2,7 +2,8 @@ import { Månedsbeløp } from './Månedsbeløp';
 import { OmregnetÅrsinntekt } from './OmregnetÅrsinntekt';
 import dayjs from 'dayjs';
 import React, { FormEvent, useEffect, useRef, useState } from 'react';
-import { FormProvider, useForm } from 'react-hook-form';
+import { FieldErrors, FormProvider, useForm } from 'react-hook-form';
+import { CustomElement, FieldValues } from 'react-hook-form/dist/types/fields';
 import { useRecoilValue } from 'recoil';
 
 import { Alert, BodyShort, Button, Loader } from '@navikt/ds-react';
@@ -26,10 +27,18 @@ import { getFørstePeriodeForSkjæringstidspunkt } from '../../../historikk/mapp
 import { BegrunnelseForOverstyring } from '../../overstyring/overstyring.types';
 import { Begrunnelser } from '../Begrunnelser';
 import { Refusjon } from '../Refusjon';
+import { RefusjonFormFields } from '../useRefusjonFormField';
 import { EditableInntektSlettLokaleOverstyringerModal } from './EditableInntektSlettLokaleOverstyringerModal';
-import { Feiloppsummering } from './Feiloppsummering';
+import { Feiloppsummering, Skjemafeil } from './Feiloppsummering';
 
 import styles from './EditableInntekt.module.css';
+
+interface InntektFormFields {
+    begrunnelseId: string;
+    forklaring: string;
+    manedsbelop: string;
+    refusjonsopplysninger: RefusjonFormFields[];
+}
 
 interface EditableInntektProps {
     omregnetÅrsinntekt: OmregnetArsinntekt;
@@ -48,7 +57,7 @@ export const EditableInntekt = ({
     close,
     onEndre,
 }: EditableInntektProps) => {
-    const form = useForm({ shouldFocusError: false, mode: 'onBlur' });
+    const form = useForm<InntektFormFields>({ shouldFocusError: false, mode: 'onBlur' });
     const feiloppsummeringRef = useRef<HTMLDivElement>(null);
     const metadata = useOverstyrtInntektMetadata(skjæringstidspunkt, organisasjonsnummer);
     const arbeidsgiver = useArbeidsgiver(organisasjonsnummer);
@@ -86,7 +95,7 @@ export const EditableInntekt = ({
     }, [omregnetÅrsinntekt]);
 
     useEffect(() => {
-        if (!isNaN(values.manedsbelop)) {
+        if (!stringIsNaN(values.manedsbelop)) {
             onEndre(Number.parseFloat(values.manedsbelop) !== omregnetÅrsinntektMånedsbeløpRounded);
         }
     }, [values, omregnetÅrsinntekt]);
@@ -112,7 +121,7 @@ export const EditableInntekt = ({
                     organisasjonsnummer: metadata.organisasjonsnummer,
                     begrunnelse: begrunnelse.forklaring,
                     forklaring: forklaring,
-                    månedligInntekt: isNaN(manedsbelop)
+                    månedligInntekt: stringIsNaN(manedsbelop)
                         ? omregnetÅrsinntekt.manedsbelop
                         : Number.parseFloat(manedsbelop),
                     fraMånedligInntekt: omregnetÅrsinntekt.manedsbelop,
@@ -145,7 +154,7 @@ export const EditableInntekt = ({
             );
 
         if (
-            (omregnetÅrsinntekt.manedsbelop === Number(values?.manedsbelop) || isNaN(values?.manedsbelop)) &&
+            (omregnetÅrsinntekt.manedsbelop === Number(values?.manedsbelop) || stringIsNaN(values?.manedsbelop)) &&
             JSON.stringify(refusjonsopplysninger) === JSON.stringify(metadata.fraRefusjonsopplysninger)
         ) {
             e.preventDefault();
@@ -156,9 +165,13 @@ export const EditableInntekt = ({
         }
 
         form.clearErrors([
+            // @ts-expect-error Feil måhøre til et felt
             'sisteTomErFørPeriodensTom',
+            // @ts-expect-error Feil måhøre til et felt
             'førsteFomErEtterFørstePeriodesFom',
+            // @ts-expect-error Feil måhøre til et felt
             'erGapIDatoer',
+            // @ts-expect-error Feil måhøre til et felt
             'manglerRefusjonsopplysninger',
         ]);
 
@@ -184,12 +197,14 @@ export const EditableInntekt = ({
         const manglerRefusjonsopplysninger: boolean = refusjonsopplysninger.length === 0;
 
         sisteTomErFørPeriodensTom &&
+            // @ts-expect-error Feil måhøre til et felt
             form.setError('sisteTomErFørPeriodensTom', {
                 type: 'custom',
                 message: 'Siste til og med dato kan ikke være før periodens til og med dato.',
             });
 
         førsteFomErEtterFørstePeriodesFom &&
+            // @ts-expect-error Feil måhøre til et felt
             form.setError('førsteFomErEtterFørstePeriodesFom', {
                 type: 'custom',
                 message: `Tidligste fra og med dato for refusjon må være lik eller før ${dayjs(
@@ -199,9 +214,11 @@ export const EditableInntekt = ({
             });
 
         erGapIDatoer &&
+            // @ts-expect-error Feil måhøre til et felt
             form.setError('erGapIDatoer', { type: 'custom', message: 'Refusjonsdatoene må være sammenhengende.' });
 
         manglerRefusjonsopplysninger &&
+            // @ts-expect-error Feil måhøre til et felt
             form.setError('manglerRefusjonsopplysninger', { type: 'custom', message: 'Mangler refusjonsopplysninger' });
 
         if (
@@ -244,7 +261,10 @@ export const EditableInntekt = ({
                         description={`Begrunn hvorfor det er gjort endringer i inntekt og/eller refusjon.\nEks. «Ny inntektsmelding kommet inn 18.10.2021»\nBlir ikke forevist den sykmeldte, med mindre den sykmeldte ber om innsyn.`}
                     />
                     {visFeilOppsummering && (
-                        <Feiloppsummering feiloppsummeringRef={feiloppsummeringRef} errors={form.formState.errors} />
+                        <Feiloppsummering
+                            feiloppsummeringRef={feiloppsummeringRef}
+                            feilliste={formErrorsTilFeilliste(form.formState.errors)}
+                        />
                     )}
                     {harIkkeSkjemaEndringer && (
                         <Alert variant="warning" className={styles.WarningIngenSkjemaEndringer}>
@@ -281,3 +301,20 @@ export const EditableInntekt = ({
         </FormProvider>
     );
 };
+
+const stringIsNaN = (value: string | undefined) => Number.isNaN(Number.parseFloat(value ?? 'NaN'));
+
+interface RefMedId extends CustomElement<FieldValues> {
+    id?: string;
+}
+
+const formErrorsTilFeilliste = (errors: FieldErrors<InntektFormFields>): Skjemafeil[] =>
+    Object.entries(errors)
+        .filter(([id]) => id !== 'refusjonsopplysninger')
+        .map(([id, error]) => {
+            return {
+                id: error.type === 'custom' ? 'refusjonsopplysninger' : (error?.ref as RefMedId)?.id ?? id,
+                melding: error.message ?? id,
+            };
+        })
+        .flat();
