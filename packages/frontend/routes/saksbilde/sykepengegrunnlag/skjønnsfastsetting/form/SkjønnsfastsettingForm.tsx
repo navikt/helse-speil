@@ -115,8 +115,6 @@ export const SkjønnsfastsettingForm = ({
                 };
             }),
         };
-        // TODO: Fjern etter testing i dev:
-        console.log('skjønnsfastsettingSykepengegrunnlag: ', skjønnsfastsettingSykepengegrunnlag);
         postSkjønnsfastsetting(skjønnsfastsettingSykepengegrunnlag);
     };
 
