@@ -77,45 +77,16 @@ export const SkjønnsfastsettingForm = ({
     if (!period || !person) return null;
 
     const confirmChanges = () => {
-        const { arbeidsgivere, årsak, begrunnelseId, begrunnelseFritekst } = form.getValues();
-        const manueltBeløp = arbeidsgivere.reduce((n: number, { årlig }: { årlig: number }) => n + årlig, 0);
-        const begrunnelse = skjønnsfastsettelseBegrunnelser(
-            omregnetÅrsinntekt,
-            sammenligningsgrunnlag,
-            manueltBeløp,
-        ).find((it) => it.id === begrunnelseId);
-
-        const førsteBeregnedePerioderPåSkjæringstidspunkt = finnFørsteBeregnedePåSkjæringstidspunkt(person, period);
-
-        const skjønnsfastsettingSykepengegrunnlag: SkjønnsfastsattSykepengegrunnlagDTO = {
-            fødselsnummer: person.fodselsnummer,
-            aktørId: person.aktorId,
-            skjæringstidspunkt: period.skjaeringstidspunkt,
-            arbeidsgivere: arbeidsgivere.map(({ årlig, organisasjonsnummer }: ArbeidsgiverForm) => {
-                return {
-                    organisasjonsnummer: organisasjonsnummer,
-                    årlig: årlig,
-                    fraÅrlig:
-                        inntekter.find((it) => it.arbeidsgiver === organisasjonsnummer)?.omregnetArsinntekt?.belop ?? 0,
-                    årsak: årsak,
-                    begrunnelseMal: begrunnelse?.mal,
-                    begrunnelseFritekst: begrunnelseFritekst,
-                    ...(begrunnelse?.subsumsjon?.paragraf && {
-                        subsumsjon: {
-                            paragraf: begrunnelse.subsumsjon.paragraf,
-                            ledd: begrunnelse.subsumsjon?.ledd,
-                            bokstav: begrunnelse.subsumsjon?.bokstav,
-                        },
-                    }),
-                    begrunnelseKonklusjon: begrunnelse?.konklusjon,
-                    initierendeVedtaksperiodeId:
-                        førsteBeregnedePerioderPåSkjæringstidspunkt.filter(
-                            (it) => it.arbeidsgiver === organisasjonsnummer,
-                        )[0].initierendeVedtaksperiodeId ?? '',
-                };
-            }),
-        };
-        postSkjønnsfastsetting(skjønnsfastsettingSykepengegrunnlag);
+        postSkjønnsfastsetting(
+            skjønnsfastsettingFormToDto(
+                form.getValues(),
+                inntekter,
+                person,
+                period,
+                omregnetÅrsinntekt,
+                sammenligningsgrunnlag,
+            ),
+        );
     };
 
     return (
@@ -155,13 +126,22 @@ export const SkjønnsfastsettingForm = ({
 interface RefMedId extends CustomElement<FieldValues> {
     id?: string;
 }
+
 const formErrorsTilFeilliste = (errors: FieldErrors<SkjønnsfastsettingFormFields>): Skjemafeil[] =>
     Object.entries(errors).map(([id, error]) => ({
         id: (error?.ref as RefMedId)?.id ?? id,
         melding: error.message ?? id,
     }));
 
-const finnFørsteBeregnedePåSkjæringstidspunkt = (person: FetchedPerson, period: ActivePeriod) =>
+interface InitierendeVedtaksperiodeForArbeidsgiver {
+    arbeidsgiver: string;
+    initierendeVedtaksperiodeId: string | null;
+}
+
+const finnFørsteBeregnedePåSkjæringstidspunkt = (
+    person: FetchedPerson,
+    period: ActivePeriod,
+): InitierendeVedtaksperiodeForArbeidsgiver[] =>
     person?.arbeidsgivere.flatMap((arbeidsgiver) => ({
         arbeidsgiver: arbeidsgiver.organisasjonsnummer,
         initierendeVedtaksperiodeId:
@@ -172,3 +152,43 @@ const finnFørsteBeregnedePåSkjæringstidspunkt = (person: FetchedPerson, perio
                 )
                 .pop()?.vedtaksperiodeId ?? null,
     }));
+
+const skjønnsfastsettingFormToDto = (
+    form: SkjønnsfastsettingFormFields,
+    inntekter: Arbeidsgiverinntekt[],
+    person: FetchedPerson,
+    period: ActivePeriod,
+    omregnetÅrsinntekt: number,
+    sammenligningsgrunnlag: number,
+): SkjønnsfastsattSykepengegrunnlagDTO => {
+    const førsteBeregnedePerioderPåSkjæringstidspunkt = finnFørsteBeregnedePåSkjæringstidspunkt(person, period);
+
+    const manueltBeløp = form.arbeidsgivere.reduce((n: number, { årlig }: { årlig: number }) => n + årlig, 0);
+    const begrunnelse = skjønnsfastsettelseBegrunnelser(omregnetÅrsinntekt, sammenligningsgrunnlag, manueltBeløp).find(
+        (it) => it.id === form.begrunnelseId,
+    );
+    return {
+        fødselsnummer: person.fodselsnummer,
+        aktørId: person.aktorId,
+        skjæringstidspunkt: period.skjaeringstidspunkt,
+        arbeidsgivere: form.arbeidsgivere.map(({ årlig, organisasjonsnummer }: ArbeidsgiverForm) => ({
+            organisasjonsnummer: organisasjonsnummer,
+            årlig: årlig,
+            fraÅrlig: inntekter.find((it) => it.arbeidsgiver === organisasjonsnummer)?.omregnetArsinntekt?.belop ?? 0,
+            årsak: form.årsak,
+            begrunnelseMal: begrunnelse?.mal,
+            begrunnelseFritekst: form.begrunnelseFritekst,
+            ...(begrunnelse?.subsumsjon?.paragraf && {
+                subsumsjon: {
+                    paragraf: begrunnelse.subsumsjon.paragraf,
+                    ledd: begrunnelse.subsumsjon?.ledd,
+                    bokstav: begrunnelse.subsumsjon?.bokstav,
+                },
+            }),
+            begrunnelseKonklusjon: begrunnelse?.konklusjon,
+            initierendeVedtaksperiodeId:
+                førsteBeregnedePerioderPåSkjæringstidspunkt.filter((it) => it.arbeidsgiver === organisasjonsnummer)[0]
+                    .initierendeVedtaksperiodeId ?? '',
+        })),
+    };
+};
