@@ -14,7 +14,7 @@ import { Arbeidsgiverinntekt } from '@io/graphql';
 import { SkjønnsfastsattSykepengegrunnlagDTO } from '@io/http';
 import { useActivePeriod } from '@state/periode';
 import { useCurrentPerson } from '@state/person';
-import { isBeregnetPeriode } from '@utils/typeguards';
+import { isBeregnetPeriode, isUberegnetVilkarsprovdPeriode } from '@utils/typeguards';
 
 import { Feiloppsummering, Skjemafeil } from '../../inntekt/EditableInntekt/Feiloppsummering';
 import {
@@ -138,7 +138,7 @@ interface InitierendeVedtaksperiodeForArbeidsgiver {
     initierendeVedtaksperiodeId: string | null;
 }
 
-const finnFørsteBeregnedePåSkjæringstidspunkt = (
+const finnFørsteVilkårsprøvdePeriodePåSkjæringstidspunkt = (
     person: FetchedPerson,
     period: ActivePeriod,
 ): InitierendeVedtaksperiodeForArbeidsgiver[] =>
@@ -148,7 +148,8 @@ const finnFørsteBeregnedePåSkjæringstidspunkt = (
             arbeidsgiver.generasjoner?.[0]?.perioder
                 ?.filter(
                     (periode) =>
-                        periode.skjaeringstidspunkt === period.skjaeringstidspunkt && isBeregnetPeriode(periode),
+                        periode.skjaeringstidspunkt === period.skjaeringstidspunkt &&
+                        (isBeregnetPeriode(periode) || isUberegnetVilkarsprovdPeriode(periode)),
                 )
                 .pop()?.vedtaksperiodeId ?? null,
     }));
@@ -161,7 +162,10 @@ const skjønnsfastsettingFormToDto = (
     omregnetÅrsinntekt: number,
     sammenligningsgrunnlag: number,
 ): SkjønnsfastsattSykepengegrunnlagDTO => {
-    const førsteBeregnedePerioderPåSkjæringstidspunkt = finnFørsteBeregnedePåSkjæringstidspunkt(person, period);
+    const førsteVilkårsprøvdePeriodePåSkjæringstidspunkt = finnFørsteVilkårsprøvdePeriodePåSkjæringstidspunkt(
+        person,
+        period,
+    );
 
     const manueltBeløp = form.arbeidsgivere.reduce((n: number, { årlig }: { årlig: number }) => n + årlig, 0);
     const begrunnelse = skjønnsfastsettelseBegrunnelser(omregnetÅrsinntekt, sammenligningsgrunnlag, manueltBeløp).find(
@@ -187,8 +191,9 @@ const skjønnsfastsettingFormToDto = (
             }),
             begrunnelseKonklusjon: begrunnelse?.konklusjon,
             initierendeVedtaksperiodeId:
-                førsteBeregnedePerioderPåSkjæringstidspunkt.filter((it) => it.arbeidsgiver === organisasjonsnummer)[0]
-                    .initierendeVedtaksperiodeId ?? null,
+                førsteVilkårsprøvdePeriodePåSkjæringstidspunkt.filter(
+                    (it) => it.arbeidsgiver === organisasjonsnummer,
+                )[0].initierendeVedtaksperiodeId ?? null,
         })),
     };
 };
