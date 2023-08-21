@@ -48,10 +48,13 @@ export const getUberegnetVilkarsprovdPeriodState = (period: UberegnetVilkarsprov
         case Periodetilstand.ManglerInformasjon:
             return 'venter';
         case Periodetilstand.ForberederGodkjenning:
+        case Periodetilstand.UtbetaltVenterPaEnAnnenPeriode:
         case Periodetilstand.VenterPaEnAnnenPeriode:
             return 'venterPåKiling';
         case Periodetilstand.TilSkjonnsfastsettelse:
             return 'tilSkjønnsfastsettelse';
+        case Periodetilstand.IngenUtbetaling:
+            return 'ingenUtbetaling';
         default:
             return 'ukjent';
     }
