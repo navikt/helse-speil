@@ -8,6 +8,7 @@ import { EditButton } from '@components/EditButton';
 import { Endringstrekant } from '@components/Endringstrekant';
 import { Kilde } from '@components/Kilde';
 import { Kildetype, Sykepengegrunnlagsgrense } from '@io/graphql';
+import { useCurrentPerson } from '@state/person';
 import { kanSkjønnsfastsetteSykepengegrunnlag } from '@utils/featureToggles';
 import { somPenger, toKronerOgØre } from '@utils/locale';
 
@@ -30,6 +31,8 @@ export const SkjønnsfastsettingHeader = ({
     editing,
     setEditing,
 }: SkjønnsfastsettingHeaderProps) => {
+    const person = useCurrentPerson();
+    const harMerEnnEnArbeidsgiver = person?.arbeidsgivere.length > 1;
     const visningEndretSykepengegrunnlag = endretSykepengegrunnlag
         ? endretSykepengegrunnlag > sykepengegrunnlagsgrense.grense
             ? sykepengegrunnlagsgrense.grense
@@ -56,7 +59,7 @@ export const SkjønnsfastsettingHeader = ({
                     )}
                 </>
             )}
-            {kanSkjønnsfastsetteSykepengegrunnlag && (
+            {kanSkjønnsfastsetteSykepengegrunnlag && !harMerEnnEnArbeidsgiver && (
                 <EditButton
                     isOpen={editing}
                     openText="Avbryt"
