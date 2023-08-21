@@ -188,7 +188,7 @@ const skjønnsfastsettingFormToDto = (
             begrunnelseKonklusjon: begrunnelse?.konklusjon,
             initierendeVedtaksperiodeId:
                 førsteBeregnedePerioderPåSkjæringstidspunkt.filter((it) => it.arbeidsgiver === organisasjonsnummer)[0]
-                    .initierendeVedtaksperiodeId ?? '',
+                    .initierendeVedtaksperiodeId ?? null,
         })),
     };
 };

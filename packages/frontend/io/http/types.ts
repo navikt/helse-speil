@@ -107,7 +107,7 @@ export interface SkjønnsfastsattArbeidsgiver {
     begrunnelseFritekst?: string;
     begrunnelseKonklusjon?: string;
     subsumsjon?: Subsumsjon;
-    initierendeVedtaksperiodeId: string;
+    initierendeVedtaksperiodeId: Maybe<string>;
 }
 
 export interface AnnulleringDTO {
