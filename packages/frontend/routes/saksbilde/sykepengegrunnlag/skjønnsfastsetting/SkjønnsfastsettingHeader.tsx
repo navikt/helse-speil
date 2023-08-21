@@ -32,7 +32,9 @@ export const SkjønnsfastsettingHeader = ({
     setEditing,
 }: SkjønnsfastsettingHeaderProps) => {
     const person = useCurrentPerson();
-    const harMerEnnEnArbeidsgiver = person?.arbeidsgivere.length > 1;
+    if (!person) return <></>;
+
+    const harMerEnnEnArbeidsgiver = person.arbeidsgivere.length > 1;
     const visningEndretSykepengegrunnlag = endretSykepengegrunnlag
         ? endretSykepengegrunnlag > sykepengegrunnlagsgrense.grense
             ? sykepengegrunnlagsgrense.grense
