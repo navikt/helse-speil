@@ -15,12 +15,7 @@ export const SkjønnsfastsettingType = () => {
 
     return (
         <div className={styles.skjønnsfastsettingBegrunnelse}>
-            <RadioGroup
-                className={styles.begrunnelser}
-                name="begrunnelseId"
-                legend="Velg type skjønnsfastsettelse"
-                defaultValue="0"
-            >
+            <RadioGroup className={styles.begrunnelser} name="begrunnelseId" legend="Velg type skjønnsfastsettelse">
                 {skjønnsfastsettelseBegrunnelser()
                     .filter((begrunnelse) => tilgjengeligeBegrunnelser.includes(begrunnelse.id))
                     .map((begrunnelse, index) => (

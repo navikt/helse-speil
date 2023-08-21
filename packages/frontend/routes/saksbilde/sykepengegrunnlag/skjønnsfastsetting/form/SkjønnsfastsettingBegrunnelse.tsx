@@ -17,7 +17,7 @@ export const SkjønnsfastsettingBegrunnelse = ({
     sammenligningsgrunnlag,
 }: SkjønnsfastsettingBegrunnelseProps) => {
     const { formState, register, watch } = useFormContext();
-    const begrunnelseId = watch('begrunnelseId', '0');
+    const begrunnelseId = watch('begrunnelseId');
     const arbeidsgivere = watch('arbeidsgivere', []);
     const annet = arbeidsgivere.reduce((n: number, { årlig }: { årlig: number }) => n + årlig, 0);
 
