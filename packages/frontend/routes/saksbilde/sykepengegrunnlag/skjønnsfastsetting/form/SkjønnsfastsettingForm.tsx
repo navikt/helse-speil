@@ -89,6 +89,40 @@ export const SkjønnsfastsettingForm = ({
         );
     };
 
+    const validateArbeidsgiver = () => {
+        // @ts-expect-error Feil måhøre til et felt
+
+        form.clearErrors(['måVæreNumerisk', 'måEndreHvisSkjønsfastsattFinnes']);
+        const values = form.getValues();
+
+        const finnesIkkenumeriskÅrlig = values.arbeidsgivere.some((value) => !isNumeric(value.årlig.toString()));
+        if (finnesIkkenumeriskÅrlig) {
+            // @ts-expect-error Feil måhøre til et felt
+            form.setError('måVæreNumerisk', {
+                type: 'custom',
+                message: 'Årsinntekt må være et beløp',
+            });
+        }
+
+        const finnesKunSkjønnsfastsettelseTilAlleredeSkjønnsfastsattVerdi = !values.arbeidsgivere.some(
+            (ag) =>
+                ag.årlig !==
+                inntekter.find((inntekt) => inntekt?.arbeidsgiver === ag.organisasjonsnummer)?.skjonnsmessigFastsatt
+                    ?.belop,
+        );
+        if (finnesKunSkjønnsfastsettelseTilAlleredeSkjønnsfastsattVerdi) {
+            // @ts-expect-error Feil måhøre til et felt
+            form.setError('måEndreHvisSkjønsfastsattFinnes', {
+                type: 'custom',
+                message: 'Kan ikke skjønnsfastsette til allerede skjønnsfastsatt beløp',
+            });
+        }
+
+        if (!finnesIkkenumeriskÅrlig && !finnesKunSkjønnsfastsettelseTilAlleredeSkjønnsfastsattVerdi) {
+            form.handleSubmit(confirmChanges);
+        }
+    };
+
     return (
         <FormProvider {...form}>
             <form onSubmit={form.handleSubmit(confirmChanges)}>
@@ -107,7 +141,13 @@ export const SkjønnsfastsettingForm = ({
                         />
                     )}
                     <div className={styles.buttons}>
-                        <Button className={styles.button} variant="secondary" size="small" disabled={isLoading}>
+                        <Button
+                            className={styles.button}
+                            variant="secondary"
+                            size="small"
+                            disabled={isLoading}
+                            onClick={validateArbeidsgiver}
+                        >
                             Lagre
                             {isLoading && <Loader size="xsmall" />}
                         </Button>
@@ -123,15 +163,20 @@ export const SkjønnsfastsettingForm = ({
     );
 };
 
+const isNumeric = (input: string) => /^\d+(\.\d{1,2})?$/.test(input);
+
 interface RefMedId extends CustomElement<FieldValues> {
     id?: string;
 }
 
 const formErrorsTilFeilliste = (errors: FieldErrors<SkjønnsfastsettingFormFields>): Skjemafeil[] =>
-    Object.entries(errors).map(([id, error]) => ({
-        id: (error?.ref as RefMedId)?.id ?? id,
-        melding: error.message ?? id,
-    }));
+    Object.entries(errors).map(([id, error]) => {
+        const _id = error.type === 'custom' ? 'arbeidsgivere' : (error?.ref as RefMedId)?.id ?? id;
+        return {
+            id: _id,
+            melding: error.message ?? id,
+        };
+    });
 
 interface InitierendeVedtaksperiodeForArbeidsgiver {
     arbeidsgiver: string;
