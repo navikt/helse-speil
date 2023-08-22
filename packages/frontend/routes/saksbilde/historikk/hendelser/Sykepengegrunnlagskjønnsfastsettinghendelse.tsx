@@ -39,7 +39,11 @@ export const Sykepengegrunnlagskjønnsfastsettinghendelse = ({
                     <Bold>Årsak </Bold>
                     <BodyShort>{skjønnsfastsatt.arsak}</BodyShort>
                     <Bold>Begrunnelse </Bold>
-                    <BodyShort>{skjønnsfastsatt.begrunnelse}</BodyShort>
+                    <BodyShort>{skjønnsfastsatt.begrunnelseMal}</BodyShort>
+                    <Bold>Nærmere begrunnelse for skjønnsvurderingen </Bold>
+                    <BodyShort>{skjønnsfastsatt.begrunnelseFritekst}</BodyShort>
+                    <Bold>Konklusjon </Bold>
+                    <BodyShort>{skjønnsfastsatt.begrunnelseKonklusjon}</BodyShort>
                     <Bold>Årsinntekt </Bold>
                     <BodyShort>
                         {skjønnsfastsatt.fraArlig && (

@@ -801,7 +801,10 @@ export type SkjonnsfastsattSykepengegrunnlag = {
     __typename?: 'SkjonnsfastsattSykepengegrunnlag';
     arlig: Scalars['Float']['output'];
     arsak: Scalars['String']['output'];
-    begrunnelse: Scalars['String']['output'];
+    begrunnelse?: Maybe<Scalars['String']['output']>;
+    begrunnelseFritekst?: Maybe<Scalars['String']['output']>;
+    begrunnelseKonklusjon?: Maybe<Scalars['String']['output']>;
+    begrunnelseMal?: Maybe<Scalars['String']['output']>;
     fraArlig?: Maybe<Scalars['Float']['output']>;
     skjaeringstidspunkt: Scalars['String']['output'];
 };

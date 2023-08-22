@@ -414,6 +414,9 @@ query FetchPerson($fnr: String, $aktorId: String) {
                     skjonnsfastsatt {
                         arsak
                         begrunnelse
+                        begrunnelseMal
+                        begrunnelseFritekst
+                        begrunnelseKonklusjon
                         arlig
                         fraArlig
                         skjaeringstidspunkt

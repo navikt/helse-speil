@@ -803,7 +803,10 @@ export type SkjonnsfastsattSykepengegrunnlag = {
     __typename?: 'SkjonnsfastsattSykepengegrunnlag';
     arlig: Scalars['Float']['output'];
     arsak: Scalars['String']['output'];
-    begrunnelse: Scalars['String']['output'];
+    begrunnelse?: Maybe<Scalars['String']['output']>;
+    begrunnelseFritekst?: Maybe<Scalars['String']['output']>;
+    begrunnelseKonklusjon?: Maybe<Scalars['String']['output']>;
+    begrunnelseMal?: Maybe<Scalars['String']['output']>;
     fraArlig?: Maybe<Scalars['Float']['output']>;
     skjaeringstidspunkt: Scalars['String']['output'];
 };
@@ -2114,7 +2117,10 @@ export type FetchPersonQuery = {
                       skjonnsfastsatt: {
                           __typename?: 'SkjonnsfastsattSykepengegrunnlag';
                           arsak: string;
-                          begrunnelse: string;
+                          begrunnelse?: string | null;
+                          begrunnelseMal?: string | null;
+                          begrunnelseFritekst?: string | null;
+                          begrunnelseKonklusjon?: string | null;
                           arlig: number;
                           fraArlig?: number | null;
                           skjaeringstidspunkt: string;
@@ -4728,6 +4734,27 @@ export const FetchPersonDocument = {
                                                                                     name: {
                                                                                         kind: 'Name',
                                                                                         value: 'begrunnelse',
+                                                                                    },
+                                                                                },
+                                                                                {
+                                                                                    kind: 'Field',
+                                                                                    name: {
+                                                                                        kind: 'Name',
+                                                                                        value: 'begrunnelseMal',
+                                                                                    },
+                                                                                },
+                                                                                {
+                                                                                    kind: 'Field',
+                                                                                    name: {
+                                                                                        kind: 'Name',
+                                                                                        value: 'begrunnelseFritekst',
+                                                                                    },
+                                                                                },
+                                                                                {
+                                                                                    kind: 'Field',
+                                                                                    name: {
+                                                                                        kind: 'Name',
+                                                                                        value: 'begrunnelseKonklusjon',
                                                                                     },
                                                                                 },
                                                                                 {
