@@ -34,25 +34,29 @@ export const SkjønnsfastsettingArbeidsgivere = ({ inntekter, arbeidsgivere }: S
             }
             hideLegend
         >
-            {inntekter.map((inntekt, index) => (
-                <div key={`arbeidsgivere.[a${inntekt.arbeidsgiver}]`} className={styles.arbeidsgiver}>
-                    <label className={styles.label}>
-                        {arbeidsgivere.length === 1 && (
-                            <div className={styles.enArbeidsgiver}>Sykepengegrunnlag i kroner</div>
-                        )}
-                        {arbeidsgivere.length > 1 && inntekt.arbeidsgiver && (
-                            <Arbeidsgivernavn arbeidsgivernavn={getArbeidsgiverNavn(inntekt.arbeidsgiver)} />
-                        )}
-                        <ControlledInntektInput
-                            control={control}
-                            index={index}
-                            inntekt={inntekt}
-                            setValue={setValue}
-                            begrunnelseId={begrunnelseId}
-                        />
-                    </label>
-                </div>
-            ))}
+            {inntekter
+                .filter((inntekt) =>
+                    arbeidsgivere.some((arbeidsgiver) => arbeidsgiver.organisasjonsnummer === inntekt.arbeidsgiver),
+                )
+                .map((inntekt, index) => (
+                    <div key={`arbeidsgivere.[a${inntekt.arbeidsgiver}]`} className={styles.arbeidsgiver}>
+                        <label className={styles.label}>
+                            {arbeidsgivere.length === 1 && (
+                                <div className={styles.enArbeidsgiver}>Sykepengegrunnlag i kroner</div>
+                            )}
+                            {arbeidsgivere.length > 1 && inntekt.arbeidsgiver && (
+                                <Arbeidsgivernavn arbeidsgivernavn={getArbeidsgiverNavn(inntekt.arbeidsgiver)} />
+                            )}
+                            <ControlledInntektInput
+                                control={control}
+                                index={index}
+                                inntekt={inntekt}
+                                setValue={setValue}
+                                begrunnelseId={begrunnelseId}
+                            />
+                        </label>
+                    </div>
+                ))}
         </Fieldset>
     );
 };
