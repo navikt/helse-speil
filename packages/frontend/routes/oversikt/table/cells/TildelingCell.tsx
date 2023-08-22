@@ -14,13 +14,15 @@ interface TildelingProps {
 
 export const TildelingCell = ({ oppgave, kanTildeles }: TildelingProps) =>
     !kanTildeles ? (
-        <Table.DataCell></Table.DataCell>
-    ) : oppgave.tildeling ? (
         <Table.DataCell>
-            <Tildelt width={128} name={oppgave.tildeling.navn} />
+            <p style={{ width: 128 }} />
         </Table.DataCell>
     ) : (
-        <Table.DataCell onClick={(event) => event.stopPropagation()}>
-            <IkkeTildelt width={128} oppgavereferanse={oppgave.id} />
+        <Table.DataCell>
+            {oppgave.tildeling ? (
+                <Tildelt width={128} name={oppgave.tildeling.navn} />
+            ) : (
+                <IkkeTildelt width={128} oppgavereferanse={oppgave.id} />
+            )}
         </Table.DataCell>
     );
