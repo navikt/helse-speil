@@ -413,6 +413,7 @@ query FetchPerson($fnr: String, $aktorId: String) {
                 ... on Sykepengegrunnlagskjonnsfastsetting {
                     skjonnsfastsatt {
                         arsak
+                        type
                         begrunnelse
                         begrunnelseMal
                         begrunnelseFritekst

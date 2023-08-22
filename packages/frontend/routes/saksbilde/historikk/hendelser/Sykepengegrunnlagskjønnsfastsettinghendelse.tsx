@@ -5,7 +5,7 @@ import { BodyShort } from '@navikt/ds-react';
 
 import { Bold } from '@components/Bold';
 import { Kilde } from '@components/Kilde';
-import { Inntektskilde } from '@io/graphql';
+import { Inntektskilde, Skjonnsfastsettingstype } from '@io/graphql';
 import { getFormattedDateString } from '@utils/date';
 import { somPengerUtenDesimaler } from '@utils/locale';
 
@@ -19,6 +19,19 @@ type SykepengegrunnlagskjønnsfastsettinghendelseProps = Omit<
     SykepengegrunnlagskjonnsfastsettinghendelseObject,
     'type' | 'id'
 >;
+
+const getSkjønnsfastsettelseTypeTekst = (type?: Maybe<Skjonnsfastsettingstype>) => {
+    switch (type) {
+        case 'ANNET':
+            return 'Annet';
+        case 'OMREGNET_ARSINNTEKT':
+            return 'Omregnet årsinntekt';
+        case 'RAPPORTERT_ARSINNTEKT':
+            return 'Rapportert årsinntekt';
+        default:
+            return 'Omregnet årsinntekt';
+    }
+};
 
 export const Sykepengegrunnlagskjønnsfastsettinghendelse = ({
     saksbehandler,
@@ -38,6 +51,8 @@ export const Sykepengegrunnlagskjønnsfastsettinghendelse = ({
                 <div className={styles.Grid}>
                     <Bold>Årsak </Bold>
                     <BodyShort>{skjønnsfastsatt.arsak}</BodyShort>
+                    <Bold>Type skjønnsfastsettelse </Bold>
+                    <BodyShort>{getSkjønnsfastsettelseTypeTekst(skjønnsfastsatt.type)}</BodyShort>
                     <Bold>Begrunnelse </Bold>
                     <BodyShort>{skjønnsfastsatt.begrunnelseMal}</BodyShort>
                     <Bold>Nærmere begrunnelse for skjønnsvurderingen </Bold>

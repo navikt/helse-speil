@@ -807,7 +807,14 @@ export type SkjonnsfastsattSykepengegrunnlag = {
     begrunnelseMal?: Maybe<Scalars['String']['output']>;
     fraArlig?: Maybe<Scalars['Float']['output']>;
     skjaeringstidspunkt: Scalars['String']['output'];
+    type?: Maybe<Skjonnsfastsettingstype>;
 };
+
+export enum Skjonnsfastsettingstype {
+    Annet = 'ANNET',
+    OmregnetArsinntekt = 'OMREGNET_ARSINNTEKT',
+    RapportertArsinntekt = 'RAPPORTERT_ARSINNTEKT',
+}
 
 export type SoknadArbeidsgiver = Hendelse & {
     __typename?: 'SoknadArbeidsgiver';
