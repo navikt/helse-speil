@@ -4,7 +4,6 @@ import { BodyShort } from '@navikt/ds-react';
 
 import { Bold } from '@components/Bold';
 import { Arbeidsgiverinntekt } from '@io/graphql';
-import { erUtvikling } from '@utils/featureToggles';
 import { somPenger } from '@utils/locale';
 
 import { Inntektssammenligning } from './Inntektssammenligning';
@@ -35,13 +34,13 @@ export const InntektsgrunnlagTable = ({
                 <HeaderCellBold />
                 <HeaderCellBold text="Inntektsgrunnlag" />
                 <HeaderCellBold text="Sammenligningsgrunnlag" />
-                {erUtvikling() && <HeaderCellBold text="Skjønnsfastsatt" />}
+                <HeaderCellBold text="Skjønnsfastsatt" />
             </tr>
             <tr>
                 <HeaderCellText text="Inntektskilde" />
                 <HeaderCellText text="Omregnet årsinntekt" />
                 <HeaderCellText text="Rapportert årsinntekt" />
-                {erUtvikling() && <HeaderCellText text="Sykepengegrunnlag" />}
+                <HeaderCellText text="Sykepengegrunnlag" />
             </tr>
         </thead>
         <tbody className={styles.InntektsgrunnlagTableBody}>
@@ -65,7 +64,7 @@ export const InntektsgrunnlagTable = ({
                 </td>
                 <TableCell content={<Bold>{somPenger(omregnetÅrsinntekt)}</Bold>} />
                 <TableCell content={<Bold>{somPenger(sammenligningsgrunnlag)}</Bold>} />
-                {erUtvikling() && <TableCell content={<Bold>{somPenger(skjønnsmessigFastsattÅrlig)}</Bold>} />}
+                <TableCell content={<Bold>{somPenger(skjønnsmessigFastsattÅrlig)}</Bold>} />
             </tr>
         </tfoot>
     </table>

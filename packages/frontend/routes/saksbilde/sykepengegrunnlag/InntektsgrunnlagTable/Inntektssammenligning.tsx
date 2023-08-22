@@ -7,7 +7,6 @@ import { BodyShort } from '@navikt/ds-react';
 import { Kilde } from '@components/Kilde';
 import { Inntektskilde, OmregnetArsinntekt, Overstyring, Sammenligningsgrunnlag } from '@io/graphql';
 import { useArbeidsgiver, useEndringerForPeriode } from '@state/arbeidsgiver';
-import { erUtvikling } from '@utils/featureToggles';
 import { kildeForkortelse } from '@utils/inntektskilde';
 import { somPenger } from '@utils/locale';
 
@@ -69,18 +68,16 @@ export const Inntektssammenligning = ({
                 content={<BodyShort>{somPenger(sammenligningsgrunnlag?.belop)}</BodyShort>}
                 ikon={<Kilde type={Inntektskilde.Aordningen}>AO</Kilde>}
             />
-            {erUtvikling() && (
-                <TableCell
-                    content={
-                        <SkjønnsfastsettingContent
-                            arbeidsforholdErDeaktivert={arbeidsforholdErDeaktivert}
-                            kilde={skjønnsmessigFastsatt?.kilde}
-                            beløp={skjønnsmessigFastsatt?.belop}
-                        />
-                    }
-                    ikon={<SkjønnsfastsettingIkon kilde={skjønnsmessigFastsatt?.kilde} />}
-                />
-            )}
+            <TableCell
+                content={
+                    <SkjønnsfastsettingContent
+                        arbeidsforholdErDeaktivert={arbeidsforholdErDeaktivert}
+                        kilde={skjønnsmessigFastsatt?.kilde}
+                        beløp={skjønnsmessigFastsatt?.belop}
+                    />
+                }
+                ikon={<SkjønnsfastsettingIkon kilde={skjønnsmessigFastsatt?.kilde} />}
+            />
         </tr>
     );
 };
