@@ -50,6 +50,11 @@ export const ControlledInntektInput = ({
                 organisasjonsnummer: inntekt.arbeidsgiver,
                 årlig: inntekt.sammenligningsgrunnlag?.belop ?? 0,
             });
+        } else {
+            setValue(`arbeidsgivere.${index}`, {
+                organisasjonsnummer: inntekt.arbeidsgiver,
+                årlig: 0,
+            });
         }
     }, [begrunnelseId]);
 
