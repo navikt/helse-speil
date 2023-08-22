@@ -225,7 +225,7 @@ const skjønnsfastsettingFormToDto = (
             årlig: årlig,
             fraÅrlig: inntekter.find((it) => it.arbeidsgiver === organisasjonsnummer)?.omregnetArsinntekt?.belop ?? 0,
             årsak: form.årsak,
-            type: begrunnelse.type,
+            type: begrunnelse?.type,
             begrunnelseMal: begrunnelse?.mal,
             begrunnelseFritekst: form.begrunnelseFritekst,
             ...(begrunnelse?.subsumsjon?.paragraf && {
