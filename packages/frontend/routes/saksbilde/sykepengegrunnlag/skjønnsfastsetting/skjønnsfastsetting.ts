@@ -24,6 +24,7 @@ export interface BegrunnelseForSkjønnsfastsetting {
     konklusjon: string;
     subsumsjon?: Subsumsjon;
     sykepengegrunnlag: number;
+    type: Skjønnsfastsettingstype;
 }
 
 export const skjønnsfastsettelseBegrunnelser = (
@@ -46,6 +47,7 @@ export const skjønnsfastsettelseBegrunnelser = (
         )}.\nBeløpet vi har kommet frem til er årsinntekten vi mener du ville hatt hvis du ikke hadde blitt syk.`,
         subsumsjon: { paragraf: '8-30', ledd: '2' },
         sykepengegrunnlag: omregnetÅrsinntekt,
+        type: Skjønnsfastsettingstype.OMREGNET_ÅRSINNTEKT,
     },
     {
         id: '1',
@@ -62,6 +64,7 @@ export const skjønnsfastsettelseBegrunnelser = (
         )}.\nBeløpet vi har kommet frem til er årsinntekten vi mener du ville hatt hvis du ikke hadde blitt syk.`,
         subsumsjon: { paragraf: '8-30', ledd: '2' },
         sykepengegrunnlag: sammenligningsgrunnlag,
+        type: Skjønnsfastsettingstype.RAPPORTERT_ÅRSINNTEKT,
     },
     {
         id: '2',
@@ -78,8 +81,15 @@ export const skjønnsfastsettelseBegrunnelser = (
         )}.\nBeløpet vi har kommet frem til er årsinntekten vi mener du ville hatt hvis du ikke hadde blitt syk.`,
         subsumsjon: { paragraf: '8-30', ledd: '2' },
         sykepengegrunnlag: annet,
+        type: Skjønnsfastsettingstype.ANNET,
     },
 ];
+
+enum Skjønnsfastsettingstype {
+    OMREGNET_ÅRSINNTEKT = 'OMREGNET_ÅRSINNTEKT',
+    RAPPORTERT_ÅRSINNTEKT = 'RAPPORTERT_ÅRSINNTEKT',
+    ANNET = 'ANNET',
+}
 
 export interface ArbeidsgiverForm {
     organisasjonsnummer: string;
