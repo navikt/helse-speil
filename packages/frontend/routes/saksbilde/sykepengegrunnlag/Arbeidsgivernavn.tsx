@@ -31,7 +31,10 @@ export const Arbeidsgivernavn = ({
                 </div>
             </Tooltip>
         ) : (
-            <ArbeidsgiverikonMedTooltip className={classNames(styles.wrapper, className)}>
+            <ArbeidsgiverikonMedTooltip
+                className={classNames(styles.wrapper, className)}
+                tooltipTekst={arbeidsgivernavn}
+            >
                 <AnonymizableTextWithEllipsis className={styles.arbeidsgivernavn}>
                     {arbeidsgivernavn}
                 </AnonymizableTextWithEllipsis>

@@ -32,6 +32,7 @@ export const TimelineRow: React.FC<TimelineRowProps> = ({
     return (
         <div className={styles.TimelineRow}>
             <ArbeidsgiverikonMedTooltip
+                tooltipTekst={name}
                 className={classNames(styles.Name, alignWithExpandable && styles.AlignWithExpandable)}
             >
                 <AnonymizableTextWithEllipsis size="small">{name}</AnonymizableTextWithEllipsis>

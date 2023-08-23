@@ -1,6 +1,7 @@
 import { RecoilWrapper } from '@test-wrappers';
 import React from 'react';
 
+import { useIsAnonymous } from '@state/anonymization';
 import {
     useArbeidsgiver,
     useEndringerForPeriode,
@@ -22,6 +23,7 @@ jest.mock('@state/arbeidsgiver');
 jest.mock('@state/periode');
 jest.mock('../../useVilkårsgrunnlag');
 jest.mock('@state/toggles');
+jest.mock('@state/anonymization');
 
 jest.mock('@utils/featureToggles', () => ({
     erUtvikling: () => true,
@@ -52,6 +54,7 @@ describe('SykepengegrunnlagFraSpleis', () => {
         });
         (useCurrentPerson as jest.Mock).mockReturnValue(person);
         (useVilkårsgrunnlag as jest.Mock).mockReturnValue(vilkårsgrunnlag);
+        (useIsAnonymous as jest.Mock).mockReturnValue(false);
 
         render(
             <SykepengegrunnlagFraSpleis vilkårsgrunnlag={vilkårsgrunnlag} organisasjonsnummer={organisasjonsnummer} />,
