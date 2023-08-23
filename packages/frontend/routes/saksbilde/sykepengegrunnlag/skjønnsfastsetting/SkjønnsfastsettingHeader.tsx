@@ -7,6 +7,7 @@ import { Bold } from '@components/Bold';
 import { EditButton } from '@components/EditButton';
 import { Endringstrekant } from '@components/Endringstrekant';
 import { Kilde } from '@components/Kilde';
+import { useIsReadOnlyOppgave } from '@hooks/useIsReadOnlyOppgave';
 import { Kildetype, Sykepengegrunnlagsgrense } from '@io/graphql';
 import { useCurrentPerson } from '@state/person';
 import { kanSkjønnsfastsetteSykepengegrunnlag } from '@utils/featureToggles';
@@ -32,6 +33,7 @@ export const SkjønnsfastsettingHeader = ({
     setEditing,
 }: SkjønnsfastsettingHeaderProps) => {
     const person = useCurrentPerson();
+    const readonly = useIsReadOnlyOppgave();
     if (!person) return <></>;
 
     const visningEndretSykepengegrunnlag = endretSykepengegrunnlag
@@ -60,7 +62,7 @@ export const SkjønnsfastsettingHeader = ({
                     )}
                 </>
             )}
-            {kanSkjønnsfastsetteSykepengegrunnlag && (
+            {kanSkjønnsfastsetteSykepengegrunnlag && !readonly && (
                 <EditButton
                     isOpen={editing}
                     openText="Avbryt"

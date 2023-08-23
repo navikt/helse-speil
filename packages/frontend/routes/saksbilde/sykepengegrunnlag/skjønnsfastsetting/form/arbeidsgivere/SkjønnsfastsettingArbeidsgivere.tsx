@@ -36,7 +36,11 @@ export const SkjønnsfastsettingArbeidsgivere = ({ inntekter, arbeidsgivere }: S
         >
             {inntekter
                 .filter((inntekt) =>
-                    arbeidsgivere.some((arbeidsgiver) => arbeidsgiver.organisasjonsnummer === inntekt.arbeidsgiver),
+                    arbeidsgivere.some(
+                        (arbeidsgiver) =>
+                            arbeidsgiver.organisasjonsnummer === inntekt.arbeidsgiver &&
+                            inntekt.omregnetArsinntekt !== null,
+                    ),
                 )
                 .map((inntekt, index) => (
                     <div key={`arbeidsgivere.[a${inntekt.arbeidsgiver}]`} className={styles.arbeidsgiver}>
