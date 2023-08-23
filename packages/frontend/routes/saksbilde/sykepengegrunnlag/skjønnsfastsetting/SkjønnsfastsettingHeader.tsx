@@ -34,7 +34,6 @@ export const SkjønnsfastsettingHeader = ({
     const person = useCurrentPerson();
     if (!person) return <></>;
 
-    const harKunnEnArbeidsgiver = person?.arbeidsgivere && person?.arbeidsgivere.length === 1;
     const visningEndretSykepengegrunnlag = endretSykepengegrunnlag
         ? endretSykepengegrunnlag > sykepengegrunnlagsgrense.grense
             ? sykepengegrunnlagsgrense.grense
@@ -61,7 +60,7 @@ export const SkjønnsfastsettingHeader = ({
                     )}
                 </>
             )}
-            {kanSkjønnsfastsetteSykepengegrunnlag && harKunnEnArbeidsgiver && (
+            {kanSkjønnsfastsetteSykepengegrunnlag && (
                 <EditButton
                     isOpen={editing}
                     openText="Avbryt"
