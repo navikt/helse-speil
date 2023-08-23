@@ -12,7 +12,13 @@ import { useCurrentArbeidsgiver } from '@state/arbeidsgiver';
 import { useInnloggetSaksbehandler } from '@state/authentication';
 import { useActivePeriod } from '@state/periode';
 import { useCurrentPerson } from '@state/person';
-import { isArbeidsgiver, isBeregnetPeriode, isPerson, isUberegnetPeriode } from '@utils/typeguards';
+import {
+    isArbeidsgiver,
+    isBeregnetPeriode,
+    isPerson,
+    isUberegnetPeriode,
+    isUberegnetVilkarsprovdPeriode,
+} from '@utils/typeguards';
 
 import { AnnullerButton } from './AnnullerButton';
 import { OppdaterPersondataButton } from './OppdaterPersondataButton';
@@ -53,7 +59,7 @@ const DropdownMenuContent: React.FC = () => {
 
     return (
         <Dropdown.Menu placement="bottom-start" className={styles.DropdownMenu}>
-            {(isBeregnetPeriode(period) || isUberegnetPeriode(period)) && (
+            {(isBeregnetPeriode(period) || isUberegnetPeriode(period) || isUberegnetVilkarsprovdPeriode(period)) && (
                 <>
                     <Dropdown.Menu.List>
                         <SkrivGenereltNotatDropdownMenuButton
