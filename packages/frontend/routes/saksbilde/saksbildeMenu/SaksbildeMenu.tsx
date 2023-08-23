@@ -62,6 +62,7 @@ const SaksbildeMenuUberegnetVilkarsprovdPeriode: React.FC = () => (
             </nav>
             <DropdownMenu />
         </div>
+        <HistorikkHeader />
     </div>
 );
 
