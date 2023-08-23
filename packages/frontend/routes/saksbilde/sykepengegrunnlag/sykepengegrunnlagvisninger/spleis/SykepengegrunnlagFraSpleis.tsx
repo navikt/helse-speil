@@ -7,6 +7,7 @@ import { getRequiredInntekt } from '@state/selectors/person';
 
 import { SykepengegrunnlagPanel } from '../../InntektsgrunnlagTable/SykepengegrunnlagPanel';
 import { Inntekt } from '../../inntekt/Inntekt';
+import { InntektUtenOmregnetÅrsinntekt } from '../../inntekt/InntektUtenOmregnetÅrsinntekt';
 
 const Container = styled.div`
     display: flex;
@@ -50,6 +51,8 @@ export const SykepengegrunnlagFraSpleis = ({
         return null;
     }
 
+    console.log(aktivInntektskilde);
+
     return (
         <Container {...rest}>
             <SykepengegrunnlagPanel
@@ -64,7 +67,11 @@ export const SykepengegrunnlagFraSpleis = ({
                 skjønnsmessigFastsattÅrlig={vilkårsgrunnlag.skjonnsmessigFastsattAarlig}
             />
             <Strek />
-            <Inntekt inntekt={aktivInntektskilde} />
+            {aktivInntektskilde.omregnetArsinntekt !== null ? (
+                <Inntekt inntekt={aktivInntektskilde} />
+            ) : (
+                <InntektUtenOmregnetÅrsinntekt inntekt={aktivInntektskilde} />
+            )}
         </Container>
     );
 };
