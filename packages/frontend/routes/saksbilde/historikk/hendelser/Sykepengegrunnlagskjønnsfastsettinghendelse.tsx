@@ -61,7 +61,7 @@ export const Sykepengegrunnlagskjønnsfastsettinghendelse = ({
                     <BodyShort>{skjønnsfastsatt.begrunnelseKonklusjon}</BodyShort>
                     <Bold>Årsinntekt </Bold>
                     <BodyShort>
-                        {skjønnsfastsatt.fraArlig && (
+                        {skjønnsfastsatt.fraArlig !== skjønnsfastsatt.arlig && (
                             <span className={styles.FromValue}>{somPengerUtenDesimaler(skjønnsfastsatt.fraArlig)}</span>
                         )}
                         {somPengerUtenDesimaler(skjønnsfastsatt.arlig)}
