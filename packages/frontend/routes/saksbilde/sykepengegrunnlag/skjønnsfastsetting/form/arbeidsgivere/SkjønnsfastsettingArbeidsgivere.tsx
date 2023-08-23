@@ -18,8 +18,15 @@ interface SkjønnsfastsettingArbeidsgivereProps {
 export const SkjønnsfastsettingArbeidsgivere = ({ inntekter, arbeidsgivere }: SkjønnsfastsettingArbeidsgivereProps) => {
     const { control, setValue } = useFormContext<{ arbeidsgivere: ArbeidsgiverForm[] }>();
     const { watch, formState } = useFormContext();
+
+    const aktiveArbeidsgivere = arbeidsgivere.filter(
+        (arbeidsgiver) =>
+            inntekter.find((inntekt) => inntekt.arbeidsgiver === arbeidsgiver.organisasjonsnummer)
+                ?.omregnetArsinntekt !== null,
+    );
     const getArbeidsgiverNavn = (organisasjonsnummer: string) =>
-        arbeidsgivere.find((ag) => ag.organisasjonsnummer === organisasjonsnummer)?.navn;
+        aktiveArbeidsgivere.find((ag) => ag.organisasjonsnummer === organisasjonsnummer)?.navn;
+
     const begrunnelseId = watch('begrunnelseId', '0');
 
     return (
@@ -36,7 +43,7 @@ export const SkjønnsfastsettingArbeidsgivere = ({ inntekter, arbeidsgivere }: S
         >
             {inntekter
                 .filter((inntekt) =>
-                    arbeidsgivere.some(
+                    aktiveArbeidsgivere.some(
                         (arbeidsgiver) =>
                             arbeidsgiver.organisasjonsnummer === inntekt.arbeidsgiver &&
                             inntekt.omregnetArsinntekt !== null,
@@ -45,10 +52,10 @@ export const SkjønnsfastsettingArbeidsgivere = ({ inntekter, arbeidsgivere }: S
                 .map((inntekt, index) => (
                     <div key={`arbeidsgivere.[a${inntekt.arbeidsgiver}]`} className={styles.arbeidsgiver}>
                         <label className={styles.label}>
-                            {arbeidsgivere.length === 1 && (
+                            {aktiveArbeidsgivere.length === 1 && (
                                 <div className={styles.enArbeidsgiver}>Sykepengegrunnlag i kroner</div>
                             )}
-                            {arbeidsgivere.length > 1 && inntekt.arbeidsgiver && (
+                            {aktiveArbeidsgivere.length > 1 && inntekt.arbeidsgiver && (
                                 <Arbeidsgivernavn arbeidsgivernavn={getArbeidsgiverNavn(inntekt.arbeidsgiver)} />
                             )}
                             <ControlledInntektInput
