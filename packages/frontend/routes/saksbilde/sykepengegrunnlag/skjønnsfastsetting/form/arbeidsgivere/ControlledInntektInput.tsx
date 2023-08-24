@@ -61,7 +61,6 @@ export const ControlledInntektInput = ({
     return (
         <TextField
             {...field}
-            {...fieldState}
             className={styles.arbeidsgiverInput}
             value={field.value.årlig}
             error={fieldState.error?.message}
