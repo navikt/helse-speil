@@ -12,9 +12,14 @@ import { ErrorMessage } from '@components/ErrorMessage';
 import { TimeoutModal } from '@components/TimeoutModal';
 import { Arbeidsgiverinntekt } from '@io/graphql';
 import { SkjønnsfastsattSykepengegrunnlagDTO } from '@io/http';
+import { useCurrentArbeidsgiver } from '@state/arbeidsgiver';
 import { useActivePeriod } from '@state/periode';
 import { useCurrentPerson } from '@state/person';
-import { isBeregnetPeriode, isUberegnetVilkarsprovdPeriode } from '@utils/typeguards';
+import {
+    isBeregnetPeriode,
+    isSykepengegrunnlagskjønnsfastsetting,
+    isUberegnetVilkarsprovdPeriode,
+} from '@utils/typeguards';
 
 import { Feiloppsummering, Skjemafeil } from '../../inntekt/EditableInntekt/Feiloppsummering';
 import {
@@ -51,6 +56,20 @@ export const SkjønnsfastsettingForm = ({
     const feiloppsummeringRef = useRef<HTMLDivElement>(null);
     const period = useActivePeriod();
     const person = useCurrentPerson();
+    const arbeidsgiver = useCurrentArbeidsgiver();
+
+    const erReturoppgave = (period as BeregnetPeriode)?.totrinnsvurdering?.erRetur ?? false;
+    const forrigeSkjønnsfastsettelse = erReturoppgave
+        ? arbeidsgiver?.overstyringer
+              .filter(isSykepengegrunnlagskjønnsfastsetting)
+              .filter((overstyring) => !overstyring.ferdigstilt)
+              .pop()
+        : undefined;
+    const forrigeSkjønnsfastsettelseFritekst = forrigeSkjønnsfastsettelse?.skjonnsfastsatt?.begrunnelseFritekst ?? '';
+    const forrigeSkjønnsfastsettelseType = forrigeSkjønnsfastsettelse?.skjonnsfastsatt?.type;
+    const forrigeBegrunnelseId = skjønnsfastsettelseBegrunnelser().find(
+        (begrunnelse) => begrunnelse.type.replace('Å', 'A') === forrigeSkjønnsfastsettelseType,
+    )?.id;
 
     const cancelEditing = () => {
         setEditing(false);
@@ -113,11 +132,12 @@ export const SkjønnsfastsettingForm = ({
             <form onSubmit={form.handleSubmit(confirmChanges)}>
                 <div className={styles.skjønnsfastsetting}>
                     <SkjønnsfastsettingÅrsak />
-                    <SkjønnsfastsettingType />
+                    <SkjønnsfastsettingType forrigeBegrunnelseId={forrigeBegrunnelseId} />
                     <SkjønnsfastsettingArbeidsgivere inntekter={inntekter} arbeidsgivere={person.arbeidsgivere} />
                     <SkjønnsfastsettingBegrunnelse
                         omregnetÅrsinntekt={omregnetÅrsinntekt}
                         sammenligningsgrunnlag={sammenligningsgrunnlag}
+                        forrigeSkjønnsfastsettelseFritekst={forrigeSkjønnsfastsettelseFritekst}
                     />
                     {visFeilOppsummering && (
                         <Feiloppsummering
