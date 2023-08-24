@@ -31,10 +31,11 @@ interface VarslerProps {
     varsler: Array<VarselDto>;
     tilSkjønnsfastsettelse: boolean;
     harBlittSkjønnsmessigFastsatt: boolean;
+    avviksprosent: number;
 }
 
 export const Varsler: React.FC<VarslerProps> = React.memo(
-    ({ varsler, tilSkjønnsfastsettelse, harBlittSkjønnsmessigFastsatt }) => {
+    ({ varsler, tilSkjønnsfastsettelse, harBlittSkjønnsmessigFastsatt, avviksprosent }) => {
         const varslerSomIkkeSkalVises = ['SB_EX_2'];
         const varslerSomSkalVisesSomFeil = ['RV_IV_2'];
 
@@ -49,7 +50,8 @@ export const Varsler: React.FC<VarslerProps> = React.memo(
                             const visSomFeil =
                                 varslerSomSkalVisesSomFeil.includes(varsel.kode) &&
                                 !tilSkjønnsfastsettelse &&
-                                !harBlittSkjønnsmessigFastsatt;
+                                !harBlittSkjønnsmessigFastsatt &&
+                                avviksprosent >= 25;
                             return (
                                 <EkspanderbartVarsel key={index} varsel={varsel} type={visSomFeil ? 'feil' : type} />
                             );

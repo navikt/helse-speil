@@ -4,7 +4,7 @@ import { Route, Routes } from 'react-router-dom';
 import { Loader } from '@navikt/ds-react';
 
 import { useErTidligereSaksbehandler } from '@hooks/useErTidligereSaksbehandler';
-import { Arbeidsforholdoverstyring, Overstyring } from '@io/graphql';
+import { Arbeidsforholdoverstyring, Overstyring, VilkarsgrunnlagSpleis } from '@io/graphql';
 import { useHarDagOverstyringer } from '@state/arbeidsgiver';
 import { useActivePeriod } from '@state/periode';
 import { getLatestUtbetalingTimestamp, getOverstyringerForEksisterendePerioder } from '@state/selectors/person';
@@ -106,6 +106,7 @@ export const BeregnetPeriodeView: React.FC<BeregnetPeriodeViewProps> = ({ period
                     skjæringstidspunkt={period.skjaeringstidspunkt}
                     navnPåDeaktiverteGhostArbeidsgivere={navnPåDeaktiverteGhostArbeidsgivere}
                     harBlittSkjønnsmessigFastsatt={harBlittSkjønnsmessigFastsatt}
+                    avviksprosent={(vilkårsgrunnlag as VilkarsgrunnlagSpleis)?.avviksprosent}
                 />
                 <div className={styles.RouteContainer}>
                     <React.Suspense fallback={<BeregnetPeriodeViewLoader />}>
