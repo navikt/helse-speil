@@ -51,8 +51,6 @@ export const SykepengegrunnlagFraSpleis = ({
         return null;
     }
 
-    console.log(aktivInntektskilde);
-
     return (
         <Container {...rest}>
             <SykepengegrunnlagPanel
