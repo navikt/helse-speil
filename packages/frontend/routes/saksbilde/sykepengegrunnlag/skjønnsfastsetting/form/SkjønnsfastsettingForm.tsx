@@ -14,6 +14,7 @@ import { Arbeidsgiverinntekt } from '@io/graphql';
 import { SkjønnsfastsattSykepengegrunnlagDTO } from '@io/http';
 import { useActivePeriod } from '@state/periode';
 import { useCurrentPerson } from '@state/person';
+import { erDev } from '@utils/featureToggles';
 import { isBeregnetPeriode, isUberegnetVilkarsprovdPeriode } from '@utils/typeguards';
 
 import { Feiloppsummering, Skjemafeil } from '../../inntekt/EditableInntekt/Feiloppsummering';
@@ -110,7 +111,7 @@ export const SkjønnsfastsettingForm = ({
                 inntekter.find((inntekt) => inntekt?.arbeidsgiver === ag.organisasjonsnummer)?.skjonnsmessigFastsatt
                     ?.belop,
         );
-        if (finnesKunSkjønnsfastsettelseTilAlleredeSkjønnsfastsattVerdi) {
+        if (finnesKunSkjønnsfastsettelseTilAlleredeSkjønnsfastsattVerdi && !erDev()) {
             // @ts-expect-error Feil måhøre til et felt
             form.setError('måEndreHvisSkjønsfastsattFinnes', {
                 type: 'custom',
