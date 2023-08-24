@@ -18,7 +18,6 @@
 }
 
 .arbeidsgivere {
-    width: 354px;
     margin-bottom: var(--a-spacing-4);
 }
 
@@ -28,13 +27,13 @@
 
 .enArbeidsgiver {
     font-weight: bold;
+    margin-top: var(--a-spacing-2);
 }
 
 .label {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: var(--a-spacing-4);
+    align-items: start;
+    gap: var(--a-spacing-12);
 }
 
 .arbeidsgiverInput > input {
