@@ -17,7 +17,7 @@ interface SkjønnsfastsettingArbeidsgivereProps {
 
 export const SkjønnsfastsettingArbeidsgivere = ({ inntekter, arbeidsgivere }: SkjønnsfastsettingArbeidsgivereProps) => {
     const { control, setValue } = useFormContext<{ arbeidsgivere: ArbeidsgiverForm[] }>();
-    const { watch, formState } = useFormContext();
+    const { watch } = useFormContext();
 
     const aktiveArbeidsgivere = arbeidsgivere.filter(
         (arbeidsgiver) =>
@@ -34,11 +34,6 @@ export const SkjønnsfastsettingArbeidsgivere = ({ inntekter, arbeidsgivere }: S
             className={styles.arbeidsgivere}
             id="arbeidsgivere"
             legend="Skjønnsfastsett arbeidsgiver(e)"
-            error={
-                !formState.isValid &&
-                formState.isSubmitted &&
-                (formState.errors.måEndreHvisSkjønsfastsattFinnes?.message as string)
-            }
             hideLegend
         >
             {inntekter

@@ -74,7 +74,7 @@ export const ControlledInntektInput = ({
             size="small"
             type="text"
             inputMode="numeric"
-            pattern="[0-9]*"
+            pattern="[0-9]*([.,\,]\d{1,2})?"
             hideLabel
             disabled={begrunnelseId !== '2'}
         />

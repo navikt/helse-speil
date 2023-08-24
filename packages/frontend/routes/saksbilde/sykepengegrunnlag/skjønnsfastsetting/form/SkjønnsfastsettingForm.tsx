@@ -14,7 +14,6 @@ import { Arbeidsgiverinntekt } from '@io/graphql';
 import { SkjønnsfastsattSykepengegrunnlagDTO } from '@io/http';
 import { useActivePeriod } from '@state/periode';
 import { useCurrentPerson } from '@state/person';
-import { erDev } from '@utils/featureToggles';
 import { isBeregnetPeriode, isUberegnetVilkarsprovdPeriode } from '@utils/typeguards';
 
 import { Feiloppsummering, Skjemafeil } from '../../inntekt/EditableInntekt/Feiloppsummering';
@@ -92,8 +91,7 @@ export const SkjønnsfastsettingForm = ({
 
     const validateArbeidsgiver = () => {
         // @ts-expect-error Feil måhøre til et felt
-
-        form.clearErrors(['måVæreNumerisk', 'måEndreHvisSkjønsfastsattFinnes']);
+        form.clearErrors(['måVæreNumerisk']);
         const values = form.getValues();
 
         const finnesIkkenumeriskÅrlig = values.arbeidsgivere.some((value) => !isNumeric(value.årlig.toString()));
@@ -105,21 +103,7 @@ export const SkjønnsfastsettingForm = ({
             });
         }
 
-        const finnesKunSkjønnsfastsettelseTilAlleredeSkjønnsfastsattVerdi = !values.arbeidsgivere.some(
-            (ag) =>
-                ag.årlig !==
-                inntekter.find((inntekt) => inntekt?.arbeidsgiver === ag.organisasjonsnummer)?.skjonnsmessigFastsatt
-                    ?.belop,
-        );
-        if (finnesKunSkjønnsfastsettelseTilAlleredeSkjønnsfastsattVerdi && !erDev()) {
-            // @ts-expect-error Feil måhøre til et felt
-            form.setError('måEndreHvisSkjønsfastsattFinnes', {
-                type: 'custom',
-                message: 'Kan ikke skjønnsfastsette til allerede skjønnsfastsatt beløp',
-            });
-        }
-
-        if (!finnesIkkenumeriskÅrlig && !finnesKunSkjønnsfastsettelseTilAlleredeSkjønnsfastsattVerdi) {
+        if (!finnesIkkenumeriskÅrlig) {
             form.handleSubmit(confirmChanges);
         }
     };
