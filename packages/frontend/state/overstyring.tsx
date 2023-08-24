@@ -8,7 +8,13 @@ import { kalkulererFerdigToastKey, kalkulererToastKey, kalkuleringFerdigToast } 
 import { useOpptegnelser } from '@state/opptegnelser';
 import { useCurrentPerson } from '@state/person';
 import { useAddToast, useRemoveToast } from '@state/toasts';
-import { isArbeidsgiver, isBeregnetPeriode, isGhostPeriode, isPerson } from '@utils/typeguards';
+import {
+    isArbeidsgiver,
+    isBeregnetPeriode,
+    isGhostPeriode,
+    isPerson,
+    isUberegnetVilkarsprovdPeriode,
+} from '@utils/typeguards';
 
 export type OverstyrtInntektOgRefusjon = {
     aktørId: string | null;
@@ -174,7 +180,11 @@ export const useOverstyrtInntektMetadata = (
     const period = usePeriodForSkjæringstidspunktForArbeidsgiver(skjæringstidspunkt, organisasjonsnummer);
     const arbeidsgiver = useArbeidsgiver(organisasjonsnummer);
 
-    if (!isPerson(person) || !isArbeidsgiver(arbeidsgiver) || !(isBeregnetPeriode(period) || isGhostPeriode(period))) {
+    if (
+        !isPerson(person) ||
+        !isArbeidsgiver(arbeidsgiver) ||
+        !(isBeregnetPeriode(period) || isGhostPeriode(period) || isUberegnetVilkarsprovdPeriode(period))
+    ) {
         throw Error('Mangler data for å kunne overstyre inntekt.');
     }
 
