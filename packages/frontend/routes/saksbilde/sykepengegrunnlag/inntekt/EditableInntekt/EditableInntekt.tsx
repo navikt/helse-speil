@@ -21,7 +21,7 @@ import {
 } from '@state/arbeidsgiver';
 import { inntektOgRefusjonState, useOverstyrtInntektMetadata, usePostOverstyrtInntekt } from '@state/overstyring';
 import { ISO_DATOFORMAT, NORSK_DATOFORMAT } from '@utils/date';
-import { isBeregnetPeriode, isGhostPeriode } from '@utils/typeguards';
+import { isBeregnetPeriode, isGhostPeriode, isUberegnetVilkarsprovdPeriode } from '@utils/typeguards';
 
 import { getFørstePeriodeForSkjæringstidspunkt } from '../../../historikk/mapping';
 import { BegrunnelseForOverstyring } from '../../overstyring/overstyring.types';
@@ -250,7 +250,7 @@ export const EditableInntekt = ({
                         kilde={omregnetÅrsinntekt.kilde}
                         harEndringer={harEndringer}
                     />
-                    {isBeregnetPeriode(period) && (
+                    {(isBeregnetPeriode(period) || isUberegnetVilkarsprovdPeriode(period)) && (
                         <Refusjon
                             fraRefusjonsopplysninger={metadata.fraRefusjonsopplysninger}
                             lokaleRefusjonsopplysninger={lokaleRefusjonsopplysninger}
