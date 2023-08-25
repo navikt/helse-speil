@@ -6,7 +6,7 @@ import { TextField } from '@navikt/ds-react';
 import { Arbeidsgiverinntekt } from '@io/graphql';
 
 import { ArbeidsgiverForm } from '../../skjønnsfastsetting';
-import styles from '../SkjønnsfastsettingForm.module.css';
+import styles from '../SkjønnsfastsettingForm/SkjønnsfastsettingForm.module.css';
 
 interface ControlledInntektInputProps {
     control: Control<{ arbeidsgivere: ArbeidsgiverForm[] }>;

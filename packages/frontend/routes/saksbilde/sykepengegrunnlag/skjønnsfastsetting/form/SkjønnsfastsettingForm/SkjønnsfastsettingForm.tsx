@@ -1,7 +1,3 @@
-import { SkjønnsfastsettingBegrunnelse } from './SkjønnsfastsettingBegrunnelse';
-import { SkjønnsfastsettingType } from './SkjønnsfastsettingType';
-import { SkjønnsfastsettingÅrsak } from './SkjønnsfastsettingÅrsak';
-import { SkjønnsfastsettingArbeidsgivere } from './arbeidsgivere/SkjønnsfastsettingArbeidsgivere';
 import { skjønnsfastsettingFormToDto } from './skjønnsfastsettingFormToDto';
 import { useSkjønnsfastsettingDefaults } from './useSkjønnsfastsettingDefaults';
 import React, { useEffect, useRef } from 'react';
@@ -16,8 +12,12 @@ import { Arbeidsgiverinntekt } from '@io/graphql';
 import { useActivePeriod } from '@state/periode';
 import { useCurrentPerson } from '@state/person';
 
-import { Feiloppsummering, Skjemafeil } from '../../inntekt/EditableInntekt/Feiloppsummering';
-import { ArbeidsgiverForm, usePostSkjønnsfastsattSykepengegrunnlag } from '../skjønnsfastsetting';
+import { Feiloppsummering, Skjemafeil } from '../../../inntekt/EditableInntekt/Feiloppsummering';
+import { ArbeidsgiverForm, usePostSkjønnsfastsattSykepengegrunnlag } from '../../skjønnsfastsetting';
+import { SkjønnsfastsettingBegrunnelse } from '../SkjønnsfastsettingBegrunnelse';
+import { SkjønnsfastsettingType } from '../SkjønnsfastsettingType';
+import { SkjønnsfastsettingÅrsak } from '../SkjønnsfastsettingÅrsak';
+import { SkjønnsfastsettingArbeidsgivere } from '../arbeidsgivere/SkjønnsfastsettingArbeidsgivere';
 
 import styles from './SkjønnsfastsettingForm.module.css';
 

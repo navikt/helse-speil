@@ -4,7 +4,7 @@ import { Arbeidsgiverinntekt } from '@io/graphql';
 import { SkjønnsfastsattSykepengegrunnlagDTO } from '@io/http';
 import { isBeregnetPeriode, isUberegnetVilkarsprovdPeriode } from '@utils/typeguards';
 
-import { ArbeidsgiverForm, skjønnsfastsettelseBegrunnelser } from '../skjønnsfastsetting';
+import { ArbeidsgiverForm, skjønnsfastsettelseBegrunnelser } from '../../skjønnsfastsetting';
 
 interface InitierendeVedtaksperiodeForArbeidsgiver {
     arbeidsgiver: string;

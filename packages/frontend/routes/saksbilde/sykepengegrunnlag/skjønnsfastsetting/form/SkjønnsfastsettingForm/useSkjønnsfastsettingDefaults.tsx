@@ -6,7 +6,7 @@ import { useActivePeriod } from '@state/periode';
 import { useCurrentPerson } from '@state/person';
 import { isSykepengegrunnlagskjønnsfastsetting } from '@utils/typeguards';
 
-import { skjønnsfastsettelseBegrunnelser } from '../skjønnsfastsetting';
+import { skjønnsfastsettelseBegrunnelser } from '../../skjønnsfastsetting';
 
 export const useSkjønnsfastsettingDefaults = (
     inntekter: Arbeidsgiverinntekt[],

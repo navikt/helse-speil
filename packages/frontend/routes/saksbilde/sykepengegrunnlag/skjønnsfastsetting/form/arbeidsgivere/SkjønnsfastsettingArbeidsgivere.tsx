@@ -8,7 +8,7 @@ import { Arbeidsgiver } from '@io/graphql';
 
 import { Arbeidsgivernavn } from '../../../Arbeidsgivernavn';
 import { ArbeidsgiverForm } from '../../skjønnsfastsetting';
-import styles from '../SkjønnsfastsettingForm.module.css';
+import styles from '../SkjønnsfastsettingForm/SkjønnsfastsettingForm.module.css';
 
 interface SkjønnsfastsettingArbeidsgivereProps {
     arbeidsgivere: Arbeidsgiver[];

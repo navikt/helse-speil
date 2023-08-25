@@ -5,7 +5,7 @@ import { BodyLong, BodyShort, Textarea } from '@navikt/ds-react';
 
 import { skjønnsfastsettelseBegrunnelser } from '../skjønnsfastsetting';
 
-import styles from './SkjønnsfastsettingForm.module.css';
+import styles from './SkjønnsfastsettingForm/SkjønnsfastsettingForm.module.css';
 
 interface SkjønnsfastsettingBegrunnelseProps {
     omregnetÅrsinntekt: number;

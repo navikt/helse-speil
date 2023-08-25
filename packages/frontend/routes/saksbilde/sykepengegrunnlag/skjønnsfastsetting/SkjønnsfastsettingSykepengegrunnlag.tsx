@@ -1,5 +1,5 @@
 import { SkjønnsfastsettingHeader } from './SkjønnsfastsettingHeader';
-import { SkjønnsfastsettingForm } from './form/SkjønnsfastsettingForm';
+import { SkjønnsfastsettingForm } from './form/SkjønnsfastsettingForm/SkjønnsfastsettingForm';
 import classNames from 'classnames';
 import React, { useEffect, useState } from 'react';
 
