@@ -77,6 +77,7 @@ export const SkjønnsfastsettingForm = ({
         ? arbeidsgiver?.overstyringer
               .filter(isSykepengegrunnlagskjønnsfastsetting)
               .filter((overstyring) => !overstyring.ferdigstilt)
+              .sort((a, b) => (a.timestamp > b.timestamp ? 1 : -1))
               .pop()
         : undefined;
     const forrigeSkjønnsfastsettelseFritekst = forrigeSkjønnsfastsettelse?.skjonnsfastsatt?.begrunnelseFritekst ?? '';
