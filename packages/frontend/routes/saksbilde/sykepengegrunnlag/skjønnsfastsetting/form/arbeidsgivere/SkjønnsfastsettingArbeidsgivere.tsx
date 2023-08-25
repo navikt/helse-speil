@@ -4,18 +4,17 @@ import { useFieldArray, useFormContext } from 'react-hook-form';
 
 import { Fieldset, TextField } from '@navikt/ds-react';
 
-import { Arbeidsgiver, Arbeidsgiverinntekt } from '@io/graphql';
+import { Arbeidsgiver } from '@io/graphql';
 
 import { Arbeidsgivernavn } from '../../../Arbeidsgivernavn';
 import { ArbeidsgiverForm } from '../../skjønnsfastsetting';
 import styles from '../SkjønnsfastsettingForm.module.css';
 
 interface SkjønnsfastsettingArbeidsgivereProps {
-    inntekter: Arbeidsgiverinntekt[];
     arbeidsgivere: Arbeidsgiver[];
 }
 
-export const SkjønnsfastsettingArbeidsgivere = ({ inntekter, arbeidsgivere }: SkjønnsfastsettingArbeidsgivereProps) => {
+export const SkjønnsfastsettingArbeidsgivere = ({ arbeidsgivere }: SkjønnsfastsettingArbeidsgivereProps) => {
     const { control, register, formState, clearErrors } = useFormContext<{
         arbeidsgivere: ArbeidsgiverForm[];
     }>();
@@ -27,13 +26,6 @@ export const SkjønnsfastsettingArbeidsgivere = ({ inntekter, arbeidsgivere }: S
             validate: {
                 måVæreNumerisk: (values) =>
                     values.some((value) => isNumeric(value.årlig.toString())) || 'Årsinntekt må være et beløp',
-                måEndreHvisSkjønsfastsattFinnes: (values) =>
-                    values?.some(
-                        (ag) =>
-                            ag.årlig !==
-                            inntekter.find((inntekt) => inntekt?.arbeidsgiver === ag.organisasjonsnummer)
-                                ?.skjonnsmessigFastsatt?.belop,
-                    ) || 'Kan ikke skjønnsfastsette til allerede skjønnsfastsatt beløp',
             },
         },
     });
