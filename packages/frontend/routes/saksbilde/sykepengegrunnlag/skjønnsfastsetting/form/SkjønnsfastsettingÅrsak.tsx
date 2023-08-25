@@ -15,7 +15,6 @@ export const SkjønnsfastsettingÅrsak = () => {
             name="årsak"
             error={formState.errors.årsak ? (formState.errors.årsak.message as string) : null}
             legend="Årsak til skjønnsfastsettelse"
-            defaultValue={årsaker[0]}
         >
             {årsaker.map((årsak, index) => (
                 <Radio ref={ref} value={årsak} key={index} {...årsakValidation}>

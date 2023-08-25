@@ -3,7 +3,7 @@ import { SkjønnsfastsettingType } from './SkjønnsfastsettingType';
 import { SkjønnsfastsettingÅrsak } from './SkjønnsfastsettingÅrsak';
 import { SkjønnsfastsettingArbeidsgivere } from './arbeidsgivere/SkjønnsfastsettingArbeidsgivere';
 import React, { useEffect, useRef } from 'react';
-import { FieldErrors, FormProvider, useForm } from 'react-hook-form';
+import { FieldErrors, FormProvider, useForm, useWatch } from 'react-hook-form';
 import { CustomElement, FieldValues } from 'react-hook-form/dist/types/fields';
 
 import { Button, Loader } from '@navikt/ds-react';
@@ -52,10 +52,24 @@ export const SkjønnsfastsettingForm = ({
     onEndretSykepengegrunnlag,
     setEditing,
 }: SkjønnsfastsettingFormProps) => {
-    const form = useForm<SkjønnsfastsettingFormFields>({ shouldFocusError: false, mode: 'onBlur' });
-    const feiloppsummeringRef = useRef<HTMLDivElement>(null);
     const period = useActivePeriod();
     const person = useCurrentPerson();
+
+    const aktiveArbeidsgivere =
+        person?.arbeidsgivere.filter(
+            (arbeidsgiver) =>
+                inntekter.find((inntekt) => inntekt.arbeidsgiver === arbeidsgiver.organisasjonsnummer)
+                    ?.omregnetArsinntekt !== null,
+        ) ?? [];
+
+    const aktiveArbeidsgivereInntekter = inntekter.filter((inntekt) =>
+        aktiveArbeidsgivere.some(
+            (arbeidsgiver) =>
+                arbeidsgiver.organisasjonsnummer === inntekt.arbeidsgiver && inntekt.omregnetArsinntekt !== null,
+        ),
+    );
+
+    const feiloppsummeringRef = useRef<HTMLDivElement>(null);
     const arbeidsgiver = useCurrentArbeidsgiver();
 
     const erReturoppgave = (period as BeregnetPeriode)?.totrinnsvurdering?.erRetur ?? false;
@@ -66,10 +80,51 @@ export const SkjønnsfastsettingForm = ({
               .pop()
         : undefined;
     const forrigeSkjønnsfastsettelseFritekst = forrigeSkjønnsfastsettelse?.skjonnsfastsatt?.begrunnelseFritekst ?? '';
-    const forrigeSkjønnsfastsettelseType = forrigeSkjønnsfastsettelse?.skjonnsfastsatt?.type;
     const forrigeBegrunnelseId = skjønnsfastsettelseBegrunnelser().find(
-        (begrunnelse) => begrunnelse.type.replace('Å', 'A') === forrigeSkjønnsfastsettelseType,
+        (begrunnelse) => begrunnelse.type.replace('Å', 'A') === forrigeSkjønnsfastsettelse?.skjonnsfastsatt?.type,
     )?.id;
+
+    const form = useForm<SkjønnsfastsettingFormFields>({
+        shouldFocusError: false,
+        mode: 'onBlur',
+        values: {
+            begrunnelseFritekst: forrigeSkjønnsfastsettelseFritekst,
+            begrunnelseId: forrigeBegrunnelseId ?? '',
+            årsak: 'Skjønnsfastsetting ved mer enn 25% avvik',
+            arbeidsgivere: aktiveArbeidsgivereInntekter.map((inntekt) => ({
+                organisasjonsnummer: inntekt.arbeidsgiver,
+                årlig: 0,
+            })),
+        },
+    });
+
+    const valgtBegrunnelseId = useWatch({
+        name: 'begrunnelseId',
+        defaultValue: forrigeBegrunnelseId,
+        control: form.control,
+    });
+
+    const valgtInntekt = (inntekt: Arbeidsgiverinntekt, begrunnelseId?: string): number => {
+        switch (begrunnelseId) {
+            case '0':
+                return inntekt.omregnetArsinntekt?.belop ?? 0;
+            case '1':
+                return inntekt.sammenligningsgrunnlag?.belop ?? 0;
+            case '2':
+            default:
+                return 0;
+        }
+    };
+
+    useEffect(() => {
+        form.setValue(
+            'arbeidsgivere',
+            aktiveArbeidsgivereInntekter.map((inntekt) => ({
+                organisasjonsnummer: inntekt.arbeidsgiver,
+                årlig: valgtInntekt(inntekt, valgtBegrunnelseId),
+            })),
+        );
+    }, [valgtBegrunnelseId]);
 
     const cancelEditing = () => {
         setEditing(false);
@@ -108,36 +163,16 @@ export const SkjønnsfastsettingForm = ({
         );
     };
 
-    const validateArbeidsgiver = () => {
-        // @ts-expect-error Feil måhøre til et felt
-        form.clearErrors(['måVæreNumerisk']);
-        const values = form.getValues();
-
-        const finnesIkkenumeriskÅrlig = values.arbeidsgivere.some((value) => !isNumeric(value.årlig.toString()));
-        if (finnesIkkenumeriskÅrlig) {
-            // @ts-expect-error Feil måhøre til et felt
-            form.setError('måVæreNumerisk', {
-                type: 'custom',
-                message: 'Årsinntekt må være et beløp',
-            });
-        }
-
-        if (!finnesIkkenumeriskÅrlig) {
-            form.handleSubmit(confirmChanges);
-        }
-    };
-
     return (
         <FormProvider {...form}>
             <form onSubmit={form.handleSubmit(confirmChanges)}>
                 <div className={styles.skjønnsfastsetting}>
                     <SkjønnsfastsettingÅrsak />
-                    <SkjønnsfastsettingType forrigeBegrunnelseId={forrigeBegrunnelseId} />
-                    <SkjønnsfastsettingArbeidsgivere inntekter={inntekter} arbeidsgivere={person.arbeidsgivere} />
+                    <SkjønnsfastsettingType />
+                    <SkjønnsfastsettingArbeidsgivere inntekter={inntekter} arbeidsgivere={aktiveArbeidsgivere} />
                     <SkjønnsfastsettingBegrunnelse
                         omregnetÅrsinntekt={omregnetÅrsinntekt}
                         sammenligningsgrunnlag={sammenligningsgrunnlag}
-                        forrigeSkjønnsfastsettelseFritekst={forrigeSkjønnsfastsettelseFritekst}
                     />
                     {visFeilOppsummering && (
                         <Feiloppsummering
@@ -146,13 +181,7 @@ export const SkjønnsfastsettingForm = ({
                         />
                     )}
                     <div className={styles.buttons}>
-                        <Button
-                            className={styles.button}
-                            variant="secondary"
-                            size="small"
-                            disabled={isLoading}
-                            onClick={validateArbeidsgiver}
-                        >
+                        <Button className={styles.button} variant="secondary" size="small" disabled={isLoading}>
                             Lagre
                             {isLoading && <Loader size="xsmall" />}
                         </Button>
@@ -168,18 +197,15 @@ export const SkjønnsfastsettingForm = ({
     );
 };
 
-const isNumeric = (input: string) => /^\d+(\.\d{1,2})?$/.test(input);
-
 interface RefMedId extends CustomElement<FieldValues> {
     id?: string;
 }
 
 const formErrorsTilFeilliste = (errors: FieldErrors<SkjønnsfastsettingFormFields>): Skjemafeil[] =>
     Object.entries(errors).map(([id, error]) => {
-        const _id = error.type === 'custom' ? 'arbeidsgivere' : (error?.ref as RefMedId)?.id ?? id;
         return {
-            id: _id,
-            melding: error.message ?? id,
+            id: (error?.ref as RefMedId)?.id ?? id,
+            melding: ((error as Array<unknown>)?.length !== undefined ? error?.root?.message : error.message) ?? id,
         };
     });
 

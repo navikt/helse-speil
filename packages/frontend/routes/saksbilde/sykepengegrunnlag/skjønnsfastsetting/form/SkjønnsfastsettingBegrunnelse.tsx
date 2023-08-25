@@ -10,13 +10,11 @@ import styles from './SkjønnsfastsettingForm.module.css';
 interface SkjønnsfastsettingBegrunnelseProps {
     omregnetÅrsinntekt: number;
     sammenligningsgrunnlag: number;
-    forrigeSkjønnsfastsettelseFritekst: string;
 }
 
 export const SkjønnsfastsettingBegrunnelse = ({
     omregnetÅrsinntekt,
     sammenligningsgrunnlag,
-    forrigeSkjønnsfastsettelseFritekst,
 }: SkjønnsfastsettingBegrunnelseProps) => {
     const { formState, register, watch } = useFormContext();
     const begrunnelseId = watch('begrunnelseId');
@@ -40,7 +38,6 @@ export const SkjønnsfastsettingBegrunnelse = ({
                 label="Nærmere begrunnelse for skjønnsvurderingen"
                 {...register('begrunnelseFritekst', {
                     required: 'Du må skrive en nærmere begrunnelse',
-                    value: forrigeSkjønnsfastsettelseFritekst,
                 })}
                 description="(Teksten vises til bruker)"
                 error={

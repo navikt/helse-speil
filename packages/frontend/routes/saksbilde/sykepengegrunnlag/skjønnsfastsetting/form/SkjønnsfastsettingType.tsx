@@ -9,15 +9,10 @@ import { skjønnsfastsettelseBegrunnelser } from '../skjønnsfastsetting';
 
 import styles from './SkjønnsfastsettingForm.module.css';
 
-interface SkjønnsfastsettingTypeProps {
-    forrigeBegrunnelseId?: string;
-}
-
-export const SkjønnsfastsettingType = ({ forrigeBegrunnelseId }: SkjønnsfastsettingTypeProps) => {
+export const SkjønnsfastsettingType = () => {
     const { register } = useFormContext();
     const { ref, ...typeValidation } = register('begrunnelseId', {
         required: 'Du må velge en type',
-        value: forrigeBegrunnelseId,
     });
 
     return (

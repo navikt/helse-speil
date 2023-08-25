@@ -1,14 +1,14 @@
+import classNames from 'classnames';
 import React from 'react';
-import { useFormContext } from 'react-hook-form';
+import { useFieldArray, useFormContext } from 'react-hook-form';
 
-import { Fieldset } from '@navikt/ds-react';
+import { Fieldset, TextField } from '@navikt/ds-react';
 
 import { Arbeidsgiver, Arbeidsgiverinntekt } from '@io/graphql';
 
 import { Arbeidsgivernavn } from '../../../Arbeidsgivernavn';
 import { ArbeidsgiverForm } from '../../skjønnsfastsetting';
 import styles from '../SkjønnsfastsettingForm.module.css';
-import { ControlledInntektInput } from './ControlledInntektInput';
 
 interface SkjønnsfastsettingArbeidsgivereProps {
     inntekter: Arbeidsgiverinntekt[];
@@ -16,16 +16,33 @@ interface SkjønnsfastsettingArbeidsgivereProps {
 }
 
 export const SkjønnsfastsettingArbeidsgivere = ({ inntekter, arbeidsgivere }: SkjønnsfastsettingArbeidsgivereProps) => {
-    const { control, setValue } = useFormContext<{ arbeidsgivere: ArbeidsgiverForm[] }>();
+    const { control, register, formState, clearErrors } = useFormContext<{
+        arbeidsgivere: ArbeidsgiverForm[];
+    }>();
+
+    const { fields } = useFieldArray({
+        control,
+        name: 'arbeidsgivere',
+        rules: {
+            validate: {
+                måVæreNumerisk: (values) =>
+                    values.some((value) => isNumeric(value.årlig.toString())) || 'Årsinntekt må være et beløp',
+                måEndreHvisSkjønsfastsattFinnes: (values) =>
+                    values?.some(
+                        (ag) =>
+                            ag.årlig !==
+                            inntekter.find((inntekt) => inntekt?.arbeidsgiver === ag.organisasjonsnummer)
+                                ?.skjonnsmessigFastsatt?.belop,
+                    ) || 'Kan ikke skjønnsfastsette til allerede skjønnsfastsatt beløp',
+            },
+        },
+    });
+
+    const isNumeric = (input: string) => /^\d+(\.\d{1,2})?$/.test(input);
     const { watch } = useFormContext();
 
-    const aktiveArbeidsgivere = arbeidsgivere.filter(
-        (arbeidsgiver) =>
-            inntekter.find((inntekt) => inntekt.arbeidsgiver === arbeidsgiver.organisasjonsnummer)
-                ?.omregnetArsinntekt !== null,
-    );
     const getArbeidsgiverNavn = (organisasjonsnummer: string) =>
-        aktiveArbeidsgivere.find((ag) => ag.organisasjonsnummer === organisasjonsnummer)?.navn;
+        arbeidsgivere.find((ag) => ag.organisasjonsnummer === organisasjonsnummer)?.navn;
 
     const begrunnelseId = watch('begrunnelseId', '0');
 
@@ -36,33 +53,45 @@ export const SkjønnsfastsettingArbeidsgivere = ({ inntekter, arbeidsgivere }: S
             legend="Skjønnsfastsett arbeidsgiver(e)"
             hideLegend
         >
-            {inntekter
-                .filter((inntekt) =>
-                    aktiveArbeidsgivere.some(
-                        (arbeidsgiver) =>
-                            arbeidsgiver.organisasjonsnummer === inntekt.arbeidsgiver &&
-                            inntekt.omregnetArsinntekt !== null,
-                    ),
-                )
-                .map((inntekt, index) => (
-                    <div key={`arbeidsgivere.[a${inntekt.arbeidsgiver}]`} className={styles.arbeidsgiver}>
-                        <label className={styles.label}>
-                            {aktiveArbeidsgivere.length === 1 && (
+            {fields.map((field, index) => {
+                const årligField = register(`arbeidsgivere.${index}.årlig`, {
+                    valueAsNumber: true,
+                });
+
+                return (
+                    <div key={field.id}>
+                        <label className={classNames([styles.arbeidsgiver, styles.label])}>
+                            {arbeidsgivere.length === 1 && (
                                 <div className={styles.enArbeidsgiver}>Sykepengegrunnlag i kroner</div>
                             )}
-                            {aktiveArbeidsgivere.length > 1 && inntekt.arbeidsgiver && (
-                                <Arbeidsgivernavn arbeidsgivernavn={getArbeidsgiverNavn(inntekt.arbeidsgiver)} />
+                            {arbeidsgivere.length > 1 && field.organisasjonsnummer && (
+                                <Arbeidsgivernavn arbeidsgivernavn={getArbeidsgiverNavn(field.organisasjonsnummer)} />
                             )}
-                            <ControlledInntektInput
-                                control={control}
-                                index={index}
-                                inntekt={inntekt}
-                                setValue={setValue}
-                                begrunnelseId={begrunnelseId}
+                            <TextField
+                                {...årligField}
+                                onChange={(e) => {
+                                    clearErrors('arbeidsgivere');
+                                    return årligField.onChange(e);
+                                }}
+                                error={formState.errors.arbeidsgivere?.root?.message}
+                                className={styles.arbeidsgiverInput}
+                                size="small"
+                                label="Skjønnsfastsatt årlig inntekt"
+                                hideLabel
+                                type="text"
+                                inputMode="numeric"
+                                disabled={begrunnelseId !== '2'}
+                            />
+                            <input
+                                {...register(`arbeidsgivere.${index}.organisasjonsnummer`, {
+                                    value: field.organisasjonsnummer,
+                                })}
+                                style={{ display: 'none' }}
                             />
                         </label>
                     </div>
-                ))}
+                );
+            })}
         </Fieldset>
     );
 };
