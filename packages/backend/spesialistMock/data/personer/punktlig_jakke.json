@@ -25,7 +25,7 @@
                     "sykepengegrunnlag": 360000,
                     "skjaeringstidspunkt": "2023-03-01",
                     "omregnetArsinntekt": 360000,
-                    "sammenligningsgrunnlag": 600000,
+                    "sammenligningsgrunnlag": 1266666,
                     "inntekter": [
                         {
                             "sammenligningsgrunnlag": {
@@ -39,6 +39,15 @@
                                 "kilde": "SKJONNSMESSIG_FASTSATT"
                             },
                             "arbeidsgiver": "896929119",
+                            "deaktivert": false
+                        },
+                        {
+                            "sammenligningsgrunnlag": {
+                                "belop": 666666,
+                                "inntektFraAOrdningen": []
+                            },
+                            "omregnetArsinntekt": null,
+                            "arbeidsgiver": "896929120",
                             "deaktivert": false
                         }
                     ],
@@ -691,6 +700,22 @@
                             ]
                         }
                     ],
+                    "overstyringer": []
+                },
+                {
+                    "bransjer": [],
+                    "navn": "HEST",
+                    "organisasjonsnummer": "896929120",
+                    "arbeidsforhold": [
+                        {
+                            "sluttdato": "2023-01-12",
+                            "startdato": "2003-06-01",
+                            "stillingsprosent": 100,
+                            "stillingstittel": "STALLGUTT"
+                        }
+                    ],
+                    "ghostPerioder": [],
+                    "generasjoner": [],
                     "overstyringer": []
                 }
             ]
