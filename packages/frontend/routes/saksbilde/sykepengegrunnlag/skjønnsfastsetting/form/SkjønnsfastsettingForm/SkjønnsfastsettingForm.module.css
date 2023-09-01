@@ -30,15 +30,48 @@
     margin-top: var(--a-spacing-2);
 }
 
-.label {
-    display: flex;
-    align-items: start;
-    gap: var(--a-spacing-12);
+.arbeidsgiver:last-of-type td {
+    padding-bottom: 1rem;
+}
+
+.arbeidsgiver td:last-of-type,
+.tabell th:last-of-type {
+    padding-right: 0;
 }
 
 .arbeidsgiverInput > input {
     width: 7rem;
     text-align: right;
+}
+
+.tabell td,
+.tabell th {
+    padding: 0 2rem 0.5rem 0;
+    vertical-align: middle;
+}
+
+.tabell th {
+    text-align: left;
+}
+
+.tabell td > * {
+    float: right;
+}
+
+.tilFordeling {
+    margin: var(--a-spacing-3) 0 var(--a-spacing-2);
+}
+
+.total {
+    border-top: 1px solid var(--a-text-default);
+}
+.total td {
+    padding-top: 0.5rem;
+}
+
+.inntektSum {
+    text-align: right;
+    padding-right: 0;
 }
 
 .inputError {

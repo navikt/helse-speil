@@ -83,7 +83,12 @@ export const SkjønnsfastsettingForm = ({
             'arbeidsgivere',
             aktiveArbeidsgivereInntekter?.map((inntekt) => ({
                 organisasjonsnummer: inntekt.arbeidsgiver,
-                årlig: valgtInntekt(inntekt, valgtBegrunnelseId),
+                årlig: valgtInntekt(
+                    inntekt,
+                    aktiveArbeidsgivereInntekter.length,
+                    sammenligningsgrunnlag,
+                    valgtBegrunnelseId,
+                ),
             })) ?? [],
         );
     }, [valgtBegrunnelseId]);
@@ -109,7 +114,10 @@ export const SkjønnsfastsettingForm = ({
                 <div className={styles.skjønnsfastsetting}>
                     <SkjønnsfastsettingÅrsak />
                     <SkjønnsfastsettingType />
-                    <SkjønnsfastsettingArbeidsgivere arbeidsgivere={aktiveArbeidsgivere} />
+                    <SkjønnsfastsettingArbeidsgivere
+                        arbeidsgivere={aktiveArbeidsgivere}
+                        sammenligningsgrunnlag={sammenligningsgrunnlag}
+                    />
                     <SkjønnsfastsettingBegrunnelse
                         omregnetÅrsinntekt={omregnetÅrsinntekt}
                         sammenligningsgrunnlag={sammenligningsgrunnlag}
@@ -141,12 +149,19 @@ interface RefMedId extends CustomElement<FieldValues> {
     id?: string;
 }
 
-const valgtInntekt = (inntekt: Arbeidsgiverinntekt, begrunnelseId?: string): number => {
+const valgtInntekt = (
+    inntekt: Arbeidsgiverinntekt,
+    antallAktiveArbeidsgivere: number,
+    totaltSammenligningsgrunnlag: number,
+    begrunnelseId?: string,
+): number => {
     switch (begrunnelseId) {
         case '0':
             return inntekt.omregnetArsinntekt?.belop ?? 0;
         case '1':
-            return inntekt.sammenligningsgrunnlag?.belop ?? 0;
+            return antallAktiveArbeidsgivere > 1
+                ? inntekt.sammenligningsgrunnlag?.belop ?? 0
+                : totaltSammenligningsgrunnlag;
         case '2':
         default:
             return 0;
