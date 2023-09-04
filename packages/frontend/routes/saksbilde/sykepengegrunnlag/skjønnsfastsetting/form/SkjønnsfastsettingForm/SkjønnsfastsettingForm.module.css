@@ -54,10 +54,6 @@
     text-align: left;
 }
 
-.tabell td > * {
-    float: right;
-}
-
 .tilFordeling {
     margin: var(--a-spacing-3) 0 var(--a-spacing-2);
 }
@@ -69,7 +65,7 @@
     padding-top: 0.5rem;
 }
 
-.inntektSum {
+.tabell .inntektSum {
     text-align: right;
     padding-right: 0;
 }
