@@ -4,7 +4,12 @@ import React from 'react';
 import { Alert, BodyShort } from '@navikt/ds-react';
 
 import { Maybe, Overstyring, VarselDto } from '@io/graphql';
-import { isArbeidsforholdoverstyring, isDagoverstyring, isInntektoverstyring } from '@utils/typeguards';
+import {
+    isArbeidsforholdoverstyring,
+    isDagoverstyring,
+    isInntektoverstyring,
+    isSykepengegrunnlagskjønnsfastsetting,
+} from '@utils/typeguards';
 
 import { KalkulerEndringerVarsel } from './KalkulerEndringerVarsel';
 import { Varsler } from './Varsler';
@@ -111,6 +116,10 @@ const beslutteroppgave = (
 
         if (endringerEtterNyesteUtbetalingPåPerson?.some(isArbeidsforholdoverstyring) ?? false) {
             årsaker.push(`Overstyring av annet arbeidsforhold (${navnPåDeaktiverteGhostArbeidsgivere})`);
+        }
+
+        if (endringerEtterNyesteUtbetalingPåPerson?.some(isSykepengegrunnlagskjønnsfastsetting) ?? false) {
+            årsaker.push('Skjønnsfastsettelse');
         }
 
         if (årsaker.length > 0) {
