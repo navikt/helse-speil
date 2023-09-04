@@ -37,8 +37,8 @@ export const SkjønnsfastsettingArbeidsgivere = ({
                 måVæreNumerisk: (values) =>
                     values.some((value) => isNumeric(value.årlig.toString())) || 'Årsinntekt må være et beløp',
                 sammenligningsgrunnlagMåVæreFordelt: (values) =>
-                    (begrunnelseId === '1' &&
-                        sammenligningsgrunnlag - values.reduce((sum, { årlig }) => sum + årlig, 0) === 0) ||
+                    begrunnelseId !== '1' ||
+                    sammenligningsgrunnlag - values.reduce((sum, { årlig }) => sum + årlig, 0) === 0 ||
                     'Må fordele hele sammenligningsgrunnlaget',
             },
         },
