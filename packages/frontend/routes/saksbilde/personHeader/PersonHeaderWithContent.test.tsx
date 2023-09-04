@@ -2,7 +2,7 @@ import { MemoryRouterWrapper } from '@test-wrappers';
 import React from 'react';
 
 import { Adressebeskyttelse, Kjonn } from '@io/graphql';
-import '@testing-library/jest-dom/extend-expect';
+import '@testing-library/jest-dom';
 import { render, screen } from '@testing-library/react';
 
 import { PersonHeaderWithContent } from './PersonHeaderWIthContent';

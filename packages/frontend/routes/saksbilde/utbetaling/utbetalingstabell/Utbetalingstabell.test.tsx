@@ -2,7 +2,7 @@ import { RecoilWrapper } from '@test-wrappers';
 import React from 'react';
 
 import { Kildetype } from '@io/graphql';
-import '@testing-library/jest-dom/extend-expect';
+import '@testing-library/jest-dom';
 import { render, screen } from '@testing-library/react';
 
 import { Utbetalingstabell } from './Utbetalingstabell';

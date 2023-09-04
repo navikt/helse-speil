@@ -2,7 +2,7 @@ import { RecoilWrapper } from '@test-wrappers';
 import React from 'react';
 
 import { getUtbetalingstabellDag } from '@test-data/utbetalingstabell';
-import '@testing-library/jest-dom/extend-expect';
+import '@testing-library/jest-dom';
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 

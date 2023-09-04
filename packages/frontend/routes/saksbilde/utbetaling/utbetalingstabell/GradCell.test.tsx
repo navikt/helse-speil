@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { getUtbetalingstabellDag } from '@test-data/utbetalingstabell';
-import '@testing-library/jest-dom/extend-expect';
+import '@testing-library/jest-dom';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 

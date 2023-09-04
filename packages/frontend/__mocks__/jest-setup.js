@@ -1,5 +1,5 @@
 require('jest-axe/extend-expect');
-require('@testing-library/jest-dom/extend-expect');
+require('@testing-library/jest-dom');
 
 global.console = {
     ...global.console,

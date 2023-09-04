@@ -2,7 +2,7 @@ import { VergemålTag } from './VergemålTag';
 import React from 'react';
 
 import { usePeriodeTilGodkjenning } from '@state/arbeidsgiver';
-import '@testing-library/jest-dom/extend-expect';
+import '@testing-library/jest-dom';
 import { render, screen } from '@testing-library/react';
 
 jest.mock('@state/arbeidsgiver');

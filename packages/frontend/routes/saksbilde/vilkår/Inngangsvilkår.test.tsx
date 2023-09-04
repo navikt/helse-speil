@@ -2,7 +2,7 @@ import { InngangsvilkårWithContent } from './Inngangsvilkår';
 import React from 'react';
 
 import { VilkarsgrunnlagSpleis, Vilkarsgrunnlagtype, Vurdering } from '@io/graphql';
-import '@testing-library/jest-dom/extend-expect';
+import '@testing-library/jest-dom';
 import { render, screen, within } from '@testing-library/react';
 
 const getVilkårsgrunnlagSpleis = (overrides?: Partial<VilkarsgrunnlagSpleis>): VilkarsgrunnlagSpleis => ({
