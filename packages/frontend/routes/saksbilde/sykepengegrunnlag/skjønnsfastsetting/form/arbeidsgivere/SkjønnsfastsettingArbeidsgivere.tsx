@@ -39,7 +39,7 @@ export const SkjønnsfastsettingArbeidsgivere = ({
                 sammenligningsgrunnlagMåVæreFordelt: (values) =>
                     begrunnelseId !== '1' ||
                     sammenligningsgrunnlag - values.reduce((sum, { årlig }) => sum + årlig, 0) === 0 ||
-                    'Må fordele hele sammenligningsgrunnlaget',
+                    'Du må fordele hele sammenligningsgrunnlaget',
             },
         },
     });
@@ -68,17 +68,20 @@ export const SkjønnsfastsettingArbeidsgivere = ({
             className={styles.arbeidsgivere}
         >
             {begrunnelseId === '1' && (
-                <Label className={styles.tilFordeling}>Til fordeling: {somPenger(tilFordeling)}</Label>
+                <Label className={styles.tilFordeling}>
+                    {somPenger(tilFordeling)} må fordeles{' '}
+                    {arbeidsgivere.length > 1 ? 'mellom arbeidgiverne' : 'til arbeidsgiver'}
+                </Label>
             )}
             <table className={styles.tabell}>
                 {begrunnelseId === '1' && (
                     <tr>
                         <th />
                         <th>
-                            <Label>Sammenligningsgrunnlag</Label>
+                            <Label>Rapportert</Label>
                         </th>
                         <th>
-                            <Label>Til fordeling</Label>
+                            <Label>Fordeling</Label>
                         </th>
                     </tr>
                 )}
