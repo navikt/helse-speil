@@ -8,7 +8,7 @@ import userEvent from '@testing-library/user-event';
 import { GradCell } from './GradCell';
 
 describe('GradCell', () => {
-    it('skal tegne en overstyringstrekant med tekst når grad går fra 100 % til 0 %', () => {
+    it('skal tegne en overstyringstrekant med tekst når grad går fra 100 % til 0 %', async () => {
         render(
             <GradCell
                 dag={getUtbetalingstabellDag({ grad: 100 })}
@@ -18,16 +18,16 @@ describe('GradCell', () => {
         const indikator = screen.getByTestId('infotrekant');
         expect(indikator).toBeVisible();
 
-        userEvent.hover(indikator);
+        await userEvent.hover(indikator);
         expect(screen.getByText('Endret fra 100 %')).toBeVisible();
     });
 
-    it('skal tegne en overstyringstrekant med tekst når grad går fra null til 100 %', () => {
+    it('skal tegne en overstyringstrekant med tekst når grad går fra null til 100 %', async () => {
         render(<GradCell dag={getUtbetalingstabellDag({ grad: null })} overstyrtDag={getUtbetalingstabellDag()} />);
         const indikator = screen.getByTestId('infotrekant');
         expect(indikator).toBeVisible();
 
-        userEvent.hover(indikator);
+        await userEvent.hover(indikator);
         expect(screen.getByText('Endret fra dag uten grad')).toBeVisible();
     });
 

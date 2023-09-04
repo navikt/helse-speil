@@ -49,32 +49,32 @@ describe('OverstyrbarUtbetaling', () => {
             { wrapper: RecoilWrapper },
         );
 
-        userEvent.click(screen.getByText('Endre'));
+        await userEvent.click(screen.getByText('Endre'));
 
         const checkboxes = screen.getAllByRole('checkbox');
-        userEvent.click(checkboxes[1]);
-        userEvent.click(checkboxes[2]);
-        userEvent.click(checkboxes[3]);
+        await userEvent.click(checkboxes[1]);
+        await userEvent.click(checkboxes[2]);
+        await userEvent.click(checkboxes[3]);
 
         expect(screen.getAllByRole('option')).toHaveLength(4);
         expect(screen.getByTestId('dagtypevelger')).toBeEnabled();
 
-        userEvent.selectOptions(screen.getByTestId('dagtypevelger'), screen.getAllByRole('option')[0]);
+        await userEvent.selectOptions(screen.getByTestId('dagtypevelger'), screen.getAllByRole('option')[0]);
         expect((screen.getByRole('option', { selected: true }) as HTMLOptionElement).selected).toBe(true);
 
         expect(screen.getByTestId('gradvelger')).toBeEnabled();
-        userEvent.clear(screen.getByTestId('gradvelger'));
-        userEvent.type(screen.getByTestId('gradvelger'), '80');
+        await userEvent.clear(screen.getByTestId('gradvelger'));
+        await userEvent.type(screen.getByTestId('gradvelger'), '80');
         expect(screen.getByTestId('gradvelger')).toHaveValue(80);
 
-        userEvent.click(screen.getByTestId('endre'));
+        await userEvent.click(screen.getByTestId('endre'));
 
         await waitFor(() => {
             expect(screen.getByTestId('oppdater')).toBeEnabled();
         });
 
-        userEvent.type(screen.getByTestId('overstyring-begrunnelse'), 'En begrunnelse');
-        userEvent.click(screen.getByTestId('oppdater'));
+        await userEvent.type(screen.getByTestId('overstyring-begrunnelse'), 'En begrunnelse');
+        await userEvent.click(screen.getByTestId('oppdater'));
 
         await waitFor(() => {
             expect(postOverstyringArguments).toHaveLength(2);

@@ -27,14 +27,14 @@ describe('DagtypeCell', () => {
         expect(screen.getByText('Ferie')).toBeVisible();
     });
 
-    it('rendrer tekst for overstyringsindikatoren når vi overstyrer fra Syk til Ferie', () => {
+    it('rendrer tekst for overstyringsindikatoren når vi overstyrer fra Syk til Ferie', async () => {
         render(
             <DagtypeCell dag={getUtbetalingstabellDag()} overstyrtDag={getUtbetalingstabellDag({ type: 'Ferie' })} />,
         );
         const indikator = screen.getByTestId('infotrekant');
         expect(indikator).toBeVisible();
 
-        userEvent.hover(indikator);
+        await userEvent.hover(indikator);
         expect(screen.getByText('Endret fra Syk')).toBeVisible();
     });
 
@@ -43,12 +43,12 @@ describe('DagtypeCell', () => {
         expect(screen.queryByTestId('infotrekant')).not.toBeInTheDocument();
     });
 
-    it('rendrer infotrekant når vi legger til dag', () => {
+    it('rendrer infotrekant når vi legger til dag', async () => {
         render(<DagtypeCell dag={getUtbetalingstabellDag()} overstyrtDag={getUtbetalingstabellDag()} />);
         const indikator = screen.getByTestId('infotrekant');
         expect(indikator).toBeVisible();
 
-        userEvent.hover(indikator);
+        await userEvent.hover(indikator);
         expect(
             screen.getByText('Ny dag. Endringene vil oppdateres og kalkuleres etter du har trykket på ferdig'),
         ).toBeVisible();

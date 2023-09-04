@@ -38,7 +38,7 @@ describe('OverstyringForm', () => {
     });
 
     it('viser feilmelding om begrunnelse ikke er fylt ut før innsending', async () => {
-        const overstyrteDager = new Map([['2020-01-01', { type: 'Syk' } as UtbetalingstabellDag]]);
+        const overstyrteDager = new Map([['2020-01-01', { type: 'Syk', dato: '2020-01-01' } as UtbetalingstabellDag]]);
         render(
             <OverstyringForm
                 overstyrteDager={overstyrteDager}
@@ -53,7 +53,7 @@ describe('OverstyringForm', () => {
         );
 
         expect(screen.getAllByRole('button')[0]).toBeEnabled();
-        userEvent.click(screen.getAllByRole('button')[0]);
+        await userEvent.click(screen.getAllByRole('button')[0]);
 
         await waitFor(() => {
             expect(screen.getAllByText('Begrunnelse må fylles ut')).toHaveLength(2);
@@ -61,30 +61,8 @@ describe('OverstyringForm', () => {
     });
 
     it('viser feilmelding dersom arbeidsdager ikke er ny dag, innenfor agp og overstyrt fraType Syk', async () => {
-        const overstyrteDager = new Map([['2020-01-02', { type: 'Arbeid', fraType: 'Syk' } as UtbetalingstabellDag]]);
-        render(
-            <OverstyringForm
-                overstyrteDager={overstyrteDager}
-                hale=""
-                snute=""
-                toggleOverstyring={() => null}
-                onSubmit={() => null}
-            />,
-            {
-                wrapper: FormWrapper,
-            },
-        );
-
-        expect(screen.getAllByRole('button')[0]).toBeEnabled();
-        userEvent.click(screen.getAllByRole('button')[0]);
-
-        await waitFor(() => {
-            expect(screen.getByText(arbeidsdagvalideringstekst)).toBeInTheDocument();
-        });
-    });
-    it('viser feilmelding dersom arbeidsdager ikke er ny dag, innenfor agp og overstyrt fraType SykHelg', async () => {
         const overstyrteDager = new Map([
-            ['2020-01-02', { type: 'Arbeid', fraType: 'SykHelg' } as UtbetalingstabellDag],
+            ['2020-01-02', { type: 'Arbeid', fraType: 'Syk', dato: '2020-01-02' } as UtbetalingstabellDag],
         ]);
         render(
             <OverstyringForm
@@ -100,15 +78,16 @@ describe('OverstyringForm', () => {
         );
 
         expect(screen.getAllByRole('button')[0]).toBeEnabled();
-        userEvent.click(screen.getAllByRole('button')[0]);
+        await userEvent.click(screen.getAllByRole('button')[0]);
 
         await waitFor(() => {
             expect(screen.getByText(arbeidsdagvalideringstekst)).toBeInTheDocument();
         });
     });
-
-    it('viser feilmelding dersom arbeidsdager ikke er ny dag, innenfor agp og overstyrt fraType Ferie', async () => {
-        const overstyrteDager = new Map([['2020-01-02', { type: 'Arbeid', fraType: 'Ferie' } as UtbetalingstabellDag]]);
+    it('viser feilmelding dersom arbeidsdager ikke er ny dag, innenfor agp og overstyrt fraType SykHelg', async () => {
+        const overstyrteDager = new Map([
+            ['2020-01-02', { type: 'Arbeid', fraType: 'SykHelg', dato: '2020-01-02' } as UtbetalingstabellDag],
+        ]);
         render(
             <OverstyringForm
                 overstyrteDager={overstyrteDager}
@@ -123,7 +102,32 @@ describe('OverstyringForm', () => {
         );
 
         expect(screen.getAllByRole('button')[0]).toBeEnabled();
-        userEvent.click(screen.getAllByRole('button')[0]);
+        await userEvent.click(screen.getAllByRole('button')[0]);
+
+        await waitFor(() => {
+            expect(screen.getByText(arbeidsdagvalideringstekst)).toBeInTheDocument();
+        });
+    });
+
+    it('viser feilmelding dersom arbeidsdager ikke er ny dag, innenfor agp og overstyrt fraType Ferie', async () => {
+        const overstyrteDager = new Map([
+            ['2020-01-02', { type: 'Arbeid', fraType: 'Ferie', dato: '2020-01-02' } as UtbetalingstabellDag],
+        ]);
+        render(
+            <OverstyringForm
+                overstyrteDager={overstyrteDager}
+                hale=""
+                snute=""
+                toggleOverstyring={() => null}
+                onSubmit={() => null}
+            />,
+            {
+                wrapper: FormWrapper,
+            },
+        );
+
+        expect(screen.getAllByRole('button')[0]).toBeEnabled();
+        await userEvent.click(screen.getAllByRole('button')[0]);
 
         await waitFor(() => {
             expect(screen.getByText(arbeidsdagvalideringstekst)).toBeInTheDocument();
@@ -132,7 +136,10 @@ describe('OverstyringForm', () => {
 
     it('viser ikke feilmelding dersom overstyring til arbeidsdag er ny dag, selv om fraType er Syk', async () => {
         const overstyrteDager = new Map([
-            ['2020-01-02', { type: 'Arbeid', fraType: 'Syk', erNyDag: true } as UtbetalingstabellDag],
+            [
+                '2020-01-02',
+                { type: 'Arbeid', fraType: 'Syk', erNyDag: true, dato: '2020-01-02' } as UtbetalingstabellDag,
+            ],
         ]);
         render(
             <OverstyringForm
@@ -148,7 +155,7 @@ describe('OverstyringForm', () => {
         );
 
         expect(screen.getAllByRole('button')[0]).toBeEnabled();
-        userEvent.click(screen.getAllByRole('button')[0]);
+        await userEvent.click(screen.getAllByRole('button')[0]);
 
         await waitFor(() => {
             expect(screen.queryByText(arbeidsdagvalideringstekst)).not.toBeInTheDocument();
@@ -157,7 +164,7 @@ describe('OverstyringForm', () => {
 
     it('viser ikke feilmelding dersom overstyring til arbeidsdag er innenfor AGP, selv om fraType er Syk', async () => {
         const overstyrteDager = new Map([
-            ['2020-01-02', { type: 'Arbeid', fraType: 'Syk', erAGP: true } as UtbetalingstabellDag],
+            ['2020-01-02', { type: 'Arbeid', fraType: 'Syk', erAGP: true, dato: '2020-01-02' } as UtbetalingstabellDag],
         ]);
         render(
             <OverstyringForm
@@ -173,7 +180,7 @@ describe('OverstyringForm', () => {
         );
 
         expect(screen.getAllByRole('button')[0]).toBeEnabled();
-        userEvent.click(screen.getAllByRole('button')[0]);
+        await userEvent.click(screen.getAllByRole('button')[0]);
 
         await waitFor(() => {
             expect(screen.queryByText(arbeidsdagvalideringstekst)).not.toBeInTheDocument();
@@ -182,13 +189,16 @@ describe('OverstyringForm', () => {
 
     it('viser ikke feilmelding dersom overstyring til arbeidsdag er i hale av perioden, selv om fraType er Syk', async () => {
         const overstyrteDager = new Map([
-            ['2020-01-02', { type: 'Arbeid', fraType: 'Syk', erAGP: false } as UtbetalingstabellDag],
+            [
+                '2020-02-02',
+                { type: 'Arbeid', fraType: 'Syk', erAGP: false, dato: '2020-02-02' } as UtbetalingstabellDag,
+            ],
         ]);
         render(
             <OverstyringForm
                 overstyrteDager={overstyrteDager}
-                hale="2020-01-02"
-                snute=""
+                hale="2020-02-02"
+                snute="2020-01-01"
                 toggleOverstyring={() => null}
                 onSubmit={() => null}
             />,
@@ -198,7 +208,7 @@ describe('OverstyringForm', () => {
         );
 
         expect(screen.getAllByRole('button')[0]).toBeEnabled();
-        userEvent.click(screen.getAllByRole('button')[0]);
+        await userEvent.click(screen.getAllByRole('button')[0]);
 
         await waitFor(() => {
             expect(screen.queryByText(arbeidsdagvalideringstekst)).not.toBeInTheDocument();

@@ -47,10 +47,10 @@ describe('Header', () => {
         expect(cachedVarsel).not.toBeNull();
     });
 
-    it('legger ikke til varsel ved gyldig søk', () => {
+    it('legger ikke til varsel ved gyldig søk', async () => {
         (useFetchPerson as jest.Mock).mockReturnValueOnce(() => Promise.resolve(null));
         render(<Header />, { wrapper: RecoilAndRouterWrapper });
-        userEvent.type(screen.getByRole('searchbox'), '12345678910');
+        await userEvent.type(screen.getByRole('searchbox'), '12345678910');
         fireEvent.submit(screen.getByRole('searchbox'));
         expect(cachedVarsel).toBeNull();
     });
