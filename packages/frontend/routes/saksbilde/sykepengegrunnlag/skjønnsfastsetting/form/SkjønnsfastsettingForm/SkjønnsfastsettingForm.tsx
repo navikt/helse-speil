@@ -164,9 +164,7 @@ const valgtInntekt = (
         case '0':
             return inntekt.omregnetArsinntekt?.belop ?? 0;
         case '1':
-            return antallAktiveArbeidsgivere > 1
-                ? inntekt.sammenligningsgrunnlag?.belop ?? 0
-                : totaltSammenligningsgrunnlag;
+            return antallAktiveArbeidsgivere > 1 ? 0 : totaltSammenligningsgrunnlag;
         case '2':
         default:
             return 0;
