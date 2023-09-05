@@ -66,12 +66,6 @@ export const SkjønnsfastsettingArbeidsgivere = ({
             error={formState.errors.arbeidsgivere?.root?.message}
             className={styles.arbeidsgivere}
         >
-            {begrunnelseId === '1' && (
-                <Label className={styles.tilFordeling}>
-                    {somPenger(tilFordeling)} må fordeles{' '}
-                    {arbeidsgivere.length > 1 ? 'mellom arbeidgiverne' : 'til arbeidsgiver'}
-                </Label>
-            )}
             <table className={styles.tabell}>
                 {begrunnelseId === '1' && (
                     <tr>
@@ -110,10 +104,21 @@ export const SkjønnsfastsettingArbeidsgivere = ({
                     );
                 })}
                 <tfoot className={styles.total}>
+                    {begrunnelseId === '1' && (
+                        <tr>
+                            <td>Til fordeling</td>
+                            {begrunnelseId === '1' && <td></td>}
+                            <td className={styles.inntektSum}>{somPenger(tilFordeling)}</td>
+                        </tr>
+                    )}
                     <tr>
-                        <td>Totalt</td>
+                        <td>
+                            <Label>Totalt</Label>
+                        </td>
                         {begrunnelseId === '1' && <td></td>}
-                        <td className={styles.inntektSum}>{somPenger(isNaN(inntektSum) ? 0 : inntektSum)}</td>
+                        <td className={styles.inntektSum}>
+                            <Label>{somPenger(isNaN(inntektSum) ? 0 : inntektSum)}</Label>
+                        </td>
                     </tr>
                 </tfoot>
             </table>
