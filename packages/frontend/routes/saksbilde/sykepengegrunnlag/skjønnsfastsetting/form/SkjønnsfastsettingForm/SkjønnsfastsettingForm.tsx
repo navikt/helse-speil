@@ -114,15 +114,19 @@ export const SkjønnsfastsettingForm = ({
                 <div className={styles.skjønnsfastsetting}>
                     <SkjønnsfastsettingÅrsak />
                     <SkjønnsfastsettingType />
-                    <SkjønnsfastsettingArbeidsgivere
-                        arbeidsgivere={aktiveArbeidsgivere}
-                        sammenligningsgrunnlag={sammenligningsgrunnlag}
-                        inntekter={inntekter}
-                    />
-                    <SkjønnsfastsettingBegrunnelse
-                        omregnetÅrsinntekt={omregnetÅrsinntekt}
-                        sammenligningsgrunnlag={sammenligningsgrunnlag}
-                    />
+                    {valgtBegrunnelseId !== '' && (
+                        <>
+                            <SkjønnsfastsettingArbeidsgivere
+                                arbeidsgivere={aktiveArbeidsgivere}
+                                sammenligningsgrunnlag={sammenligningsgrunnlag}
+                                inntekter={inntekter}
+                            />
+                            <SkjønnsfastsettingBegrunnelse
+                                omregnetÅrsinntekt={omregnetÅrsinntekt}
+                                sammenligningsgrunnlag={sammenligningsgrunnlag}
+                            />
+                        </>
+                    )}
                     {visFeilOppsummering && (
                         <Feiloppsummering
                             feiloppsummeringRef={feiloppsummeringRef}
