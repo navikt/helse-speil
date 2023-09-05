@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useFieldArray, useFormContext, useWatch } from 'react-hook-form';
+import { UseFormRegisterReturn, useFieldArray, useFormContext, useWatch } from 'react-hook-form';
 
 import { Fieldset, Label, TextField } from '@navikt/ds-react';
 
@@ -28,8 +28,7 @@ export const SkjønnsfastsettingArbeidsgivere = ({
         arbeidsgivere: ArbeidsgiverForm[];
     }>();
 
-    const { watch } = useFormContext();
-    const begrunnelseId = watch('begrunnelseId', '0');
+    const begrunnelseId = useWatch({ name: 'begrunnelseId', defaultValue: '0' });
 
     const { fields } = useFieldArray({
         control,
@@ -45,8 +44,6 @@ export const SkjønnsfastsettingArbeidsgivere = ({
             },
         },
     });
-
-    const isNumeric = (input: string) => /^\d+(\.\d{1,2})?$/.test(input);
 
     const getArbeidsgiverNavn = (organisasjonsnummer: string) =>
         arbeidsgivere.find((ag) => ag.organisasjonsnummer === organisasjonsnummer)?.navn;
@@ -92,54 +89,24 @@ export const SkjønnsfastsettingArbeidsgivere = ({
                         valueAsNumber: true,
                     });
 
+                    const orgnummerField = register(`arbeidsgivere.${index}.organisasjonsnummer`, {
+                        value: field.organisasjonsnummer,
+                    });
+
+                    const arbeidsgiversammenligningsgrunnlag = inntekter.find(
+                        (inntekt) => inntekt.arbeidsgiver === field.organisasjonsnummer,
+                    )?.sammenligningsgrunnlag?.belop;
+
                     return (
-                        <tr key={field.id} className={styles.arbeidsgiver}>
-                            <td>
-                                <Arbeidsgivernavn
-                                    arbeidsgivernavn={getArbeidsgiverNavn(field.organisasjonsnummer)}
-                                    className={styles.arbeidsgivernavn}
-                                />
-                            </td>
-                            {begrunnelseId === '1' && (
-                                <td>
-                                    <TextField
-                                        label="Rapportert årsinntekt"
-                                        hideLabel
-                                        size="small"
-                                        disabled
-                                        value={
-                                            inntekter.find(
-                                                (inntekt) => inntekt.arbeidsgiver === field.organisasjonsnummer,
-                                            )?.sammenligningsgrunnlag?.belop
-                                        }
-                                        className={styles.arbeidsgiverInput}
-                                    />
-                                </td>
-                            )}
-                            <td>
-                                <TextField
-                                    {...årligField}
-                                    onChange={(e) => {
-                                        clearErrors('arbeidsgivere');
-                                        return årligField.onChange(e);
-                                    }}
-                                    size="small"
-                                    label="Skjønnsfastsatt årlig inntekt"
-                                    hideLabel
-                                    type="text"
-                                    inputMode="numeric"
-                                    disabled={begrunnelseId === '0'}
-                                    className={styles.arbeidsgiverInput}
-                                />
-                                <input
-                                    {...register(`arbeidsgivere.${index}.organisasjonsnummer`, {
-                                        value: field.organisasjonsnummer,
-                                    })}
-                                    hidden
-                                    style={{ display: 'none' }}
-                                />
-                            </td>
-                        </tr>
+                        <ArbeidsgiverRad
+                            key={field.id}
+                            arbeidsgiverNavn={getArbeidsgiverNavn(field.organisasjonsnummer)}
+                            begrunnelseId={begrunnelseId}
+                            arbeidsgiversammenligningsgrunnlag={arbeidsgiversammenligningsgrunnlag}
+                            årligField={årligField}
+                            orgnummerField={orgnummerField}
+                            clearArbeidsgiverErrors={() => clearErrors('arbeidsgivere')}
+                        />
                     );
                 })}
                 <tfoot className={styles.total}>
@@ -153,3 +120,57 @@ export const SkjønnsfastsettingArbeidsgivere = ({
         </Fieldset>
     );
 };
+
+interface ArbeidsgiverRadProps {
+    arbeidsgiverNavn?: string;
+    begrunnelseId: string;
+    arbeidsgiversammenligningsgrunnlag?: number;
+    årligField: UseFormRegisterReturn;
+    orgnummerField: UseFormRegisterReturn;
+    clearArbeidsgiverErrors: () => void;
+}
+const ArbeidsgiverRad = ({
+    arbeidsgiverNavn,
+    begrunnelseId,
+    arbeidsgiversammenligningsgrunnlag,
+    årligField,
+    orgnummerField,
+    clearArbeidsgiverErrors,
+}: ArbeidsgiverRadProps) => (
+    <tr className={styles.arbeidsgiver}>
+        <td>
+            <Arbeidsgivernavn arbeidsgivernavn={arbeidsgiverNavn} className={styles.arbeidsgivernavn} />
+        </td>
+        {begrunnelseId === '1' && (
+            <td>
+                <TextField
+                    label="Rapportert årsinntekt"
+                    hideLabel
+                    size="small"
+                    disabled
+                    value={arbeidsgiversammenligningsgrunnlag}
+                    className={styles.arbeidsgiverInput}
+                />
+            </td>
+        )}
+        <td>
+            <TextField
+                {...årligField}
+                onChange={(e) => {
+                    clearArbeidsgiverErrors();
+                    return årligField.onChange(e);
+                }}
+                size="small"
+                label="Skjønnsfastsatt årlig inntekt"
+                hideLabel
+                type="text"
+                inputMode="numeric"
+                disabled={begrunnelseId === '0'}
+                className={styles.arbeidsgiverInput}
+            />
+            <input {...orgnummerField} hidden style={{ display: 'none' }} />
+        </td>
+    </tr>
+);
+
+const isNumeric = (input: string) => /^\d+(\.\d{1,2})?$/.test(input);
