@@ -170,21 +170,28 @@ export const usePeriodForSkjæringstidspunktForArbeidsgiver = (
         (it) => it.id === periodeTilGodkjenning?.id,
     );
 
-    return periodeTilGodkjenning &&
+    if (
+        periodeTilGodkjenning &&
         aktivArbeidsgiverHarAktivPeriode &&
         erAktivPeriodeLikEllerFørPeriodeTilGodkjenning &&
         harSammeSkjæringstidspunkt
-        ? (periodeTilGodkjenning as ActivePeriod)
-        : ((arbeidsgiver?.generasjoner[generasjon].perioder
-              .filter((it) => it.skjaeringstidspunkt === skjæringstidspunkt)
-              .filter(
-                  (it) =>
-                      isBeregnetPeriode(it) ||
-                      (isUberegnetPeriode(it) && !isWaiting(it)) ||
-                      isUberegnetVilkarsprovdPeriode(it),
-              )
-              .sort((a, b) => new Date(a.fom).getTime() - new Date(b.fom).getTime())
-              .pop() ?? null) as ActivePeriod | null);
+    )
+        return periodeTilGodkjenning as ActivePeriod;
+
+    const overstyrbareArbeidsgiverPerioder = arbeidsgiverPerioder
+        .filter(
+            (it) =>
+                isBeregnetPeriode(it) ||
+                (isUberegnetPeriode(it) && !isWaiting(it)) ||
+                isUberegnetVilkarsprovdPeriode(it),
+        )
+        .sort((a, b) => new Date(a.fom).getTime() - new Date(b.fom).getTime());
+    const nyesteBeregnetPeriodePåSkjæringstidspunkt = (overstyrbareArbeidsgiverPerioder
+        ?.filter((it) => isBeregnetPeriode(it))
+        .pop() ?? null) as ActivePeriod | null;
+    const nyestePeriodePåSkjæringstidspunkt = (overstyrbareArbeidsgiverPerioder?.pop() ?? null) as ActivePeriod | null;
+
+    return nyesteBeregnetPeriodePåSkjæringstidspunkt ?? nyestePeriodePåSkjæringstidspunkt;
 };
 
 export const useErAktivPeriodeLikEllerFørPeriodeTilGodkjenning = (): boolean => {
