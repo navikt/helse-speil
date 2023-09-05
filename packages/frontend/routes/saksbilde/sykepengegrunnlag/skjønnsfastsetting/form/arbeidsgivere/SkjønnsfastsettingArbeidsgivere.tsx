@@ -135,6 +135,7 @@ export const SkjønnsfastsettingArbeidsgivere = ({
                                     {...register(`arbeidsgivere.${index}.organisasjonsnummer`, {
                                         value: field.organisasjonsnummer,
                                     })}
+                                    hidden
                                     style={{ display: 'none' }}
                                 />
                             </td>
@@ -145,7 +146,7 @@ export const SkjønnsfastsettingArbeidsgivere = ({
                     <tr>
                         <td>Totalt</td>
                         {begrunnelseId === '1' && <td></td>}
-                        <td className={styles.inntektSum}>{somPenger(inntektSum)}</td>
+                        <td className={styles.inntektSum}>{somPenger(isNaN(inntektSum) ? 0 : inntektSum)}</td>
                     </tr>
                 </tfoot>
             </table>
