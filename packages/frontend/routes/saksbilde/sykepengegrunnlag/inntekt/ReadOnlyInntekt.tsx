@@ -59,7 +59,7 @@ export const ReadOnlyInntekt: React.FC<ReadOnlyInntektProps> = ({
     inntektsendringer,
     erGhostperiode,
 }) => {
-    const harInntektskildeAOrdningen = omregnetÅrsinntekt?.kilde === Inntektskilde.Aordningen && erGhostperiode;
+    const harInntektskildeAOrdningen = omregnetÅrsinntekt?.kilde === Inntektskilde.Aordningen;
 
     return (
         <>
@@ -91,9 +91,13 @@ export const ReadOnlyInntekt: React.FC<ReadOnlyInntektProps> = ({
                 </BodyShort>
                 <Bold>{somPenger(omregnetÅrsinntekt?.belop)}</Bold>
             </div>
-            {harInntektskildeAOrdningen && (
-                <GhostInntektsinformasjon omregnetÅrsinntekt={omregnetÅrsinntekt} deaktivert={deaktivert} />
-            )}
+            {harInntektskildeAOrdningen &&
+                omregnetÅrsinntekt.inntektFraAOrdningen &&
+                (erGhostperiode ? (
+                    <GhostInntektsinformasjon omregnetÅrsinntekt={omregnetÅrsinntekt} deaktivert={deaktivert} />
+                ) : (
+                    <SisteTreMånedersInntekt inntektFraAOrdningen={omregnetÅrsinntekt.inntektFraAOrdningen} />
+                ))}
         </>
     );
 };
