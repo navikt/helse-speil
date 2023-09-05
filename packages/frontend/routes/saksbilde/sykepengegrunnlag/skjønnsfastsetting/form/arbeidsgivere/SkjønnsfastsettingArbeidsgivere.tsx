@@ -3,7 +3,7 @@ import { useFieldArray, useFormContext, useWatch } from 'react-hook-form';
 
 import { Fieldset, Label, TextField } from '@navikt/ds-react';
 
-import { Arbeidsgiver } from '@io/graphql';
+import { Arbeidsgiver, Arbeidsgiverinntekt } from '@io/graphql';
 import { somPenger } from '@utils/locale';
 
 import { Arbeidsgivernavn } from '../../../Arbeidsgivernavn';
@@ -12,12 +12,14 @@ import styles from '../SkjønnsfastsettingForm/SkjønnsfastsettingForm.module.cs
 
 interface SkjønnsfastsettingArbeidsgivereProps {
     arbeidsgivere: Arbeidsgiver[];
+    inntekter: Arbeidsgiverinntekt[];
     sammenligningsgrunnlag: number;
 }
 
 export const SkjønnsfastsettingArbeidsgivere = ({
     arbeidsgivere,
     sammenligningsgrunnlag,
+    inntekter,
 }: SkjønnsfastsettingArbeidsgivereProps) => {
     const [tilFordeling, setTilFordeling] = useState(sammenligningsgrunnlag);
     const [inntektSum, setInntektSum] = useState(0);
@@ -105,7 +107,11 @@ export const SkjønnsfastsettingArbeidsgivere = ({
                                         hideLabel
                                         size="small"
                                         disabled
-                                        value={field.årlig}
+                                        value={
+                                            inntekter.find(
+                                                (inntekt) => inntekt.arbeidsgiver === field.organisasjonsnummer,
+                                            )?.sammenligningsgrunnlag?.belop
+                                        }
                                         className={styles.arbeidsgiverInput}
                                     />
                                 </td>

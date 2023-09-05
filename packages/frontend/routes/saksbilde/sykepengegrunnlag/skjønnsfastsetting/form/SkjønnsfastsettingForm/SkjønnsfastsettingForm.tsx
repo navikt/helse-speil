@@ -117,6 +117,7 @@ export const SkjønnsfastsettingForm = ({
                     <SkjønnsfastsettingArbeidsgivere
                         arbeidsgivere={aktiveArbeidsgivere}
                         sammenligningsgrunnlag={sammenligningsgrunnlag}
+                        inntekter={inntekter}
                     />
                     <SkjønnsfastsettingBegrunnelse
                         omregnetÅrsinntekt={omregnetÅrsinntekt}
