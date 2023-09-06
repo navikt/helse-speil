@@ -1,8 +1,9 @@
-FROM ghcr.io/navikt/baseimages/node-express:16
+FROM gcr.io/distroless/nodejs18-debian11
 
 ARG NODE_ENV=production
 ENV NODE_ENV=${NODE_ENV}
 ENV TZ="Europe/Oslo"
+ENV NODE_OPTIONS "--max-http-header-size=16000"
 
 WORKDIR /app
 
@@ -12,4 +13,4 @@ COPY dist/client/ dist/client/
 
 EXPOSE 3000
 
-ENTRYPOINT [ "/entrypoint.sh", "node --max-http-header-size=16000 /app/dist/server/server.js" ]
+CMD ["/app/dist/server/server.js" ]
