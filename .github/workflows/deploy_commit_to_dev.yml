@@ -10,7 +10,6 @@ on:
 env:
   APP: speil
   TEAM: tbd
-  IMAGE: ghcr.io/${{ github.repository }}/speil
 
 jobs:
   set_version:
@@ -22,11 +21,14 @@ jobs:
       tag: ${{ env.TAG }}
 
   build:
-    runs-on: ubuntu-latest
+    permissions:
+      contents: "read"
+      id-token: "write"
+    runs-on: ubuntu-latest-16-cores
     needs: set_version
     timeout-minutes: 15
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v1
         with:
           ref: ${{ needs.set_version.outputs.tag }}
       - uses: actions/setup-node@v3
@@ -34,36 +36,46 @@ jobs:
           node-version: '18'
           cache: 'npm'
           cache-dependency-path: '**/package-lock.json'
-      - name: set timezone
+      - name: Set timezone
         run: export TZ=utc
-      - name: install root dependencies
+      - name: Install root dependencies
         run: npm ci --ignore-scripts
-      - name: install package dependencies
+      - name: Install package dependencies
         run: npx lerna bootstrap -- --legacy-peer-deps
-      - name: test
-        run: npm run test
-      - name: build
-        run: npm run build
-      - name: build docker image
+      - name: Get jest cache directory
         run: |
-          npm prune --production
-          docker build . --pull -t ${{ env.IMAGE }}:${{ needs.set_version.outputs.tag }}
-      - name: Login to GitHub Pkg Registry
-        uses: docker/login-action@v2
+          jest_command=packages/frontend/node_modules/jest-cli/bin/jest.js # fordi å installere jest med npx tar ti sekunder
+          echo "jest_cache_dir=$($jest_command --showConfig | jq -r '.configs[0].cacheDirectory')" >> $GITHUB_ENV
+      - name: Cache jest
+        id: cache-jest
+        uses: actions/cache@v3
         with:
-          registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-      - name: push docker image
+          path: ${{ env.jest_cache_dir }}
+          key: ${{ runner.os }}-jest-${{ hashFiles('packages/backend/jest.config.js', 'packages/frontend/jest.config.js') }}
+          restore-keys: ${{ runner.os }}-jest-
+      - name: Test
+        run: npm run test-ci
+      - name: Build app
+        run: npm run build
+      - name: Remove dev dependencies
         run: |
-          docker push ${{ env.IMAGE }}:${{ needs.set_version.outputs.tag }}
+          npm prune --omit=dev
+      - uses: nais/docker-build-push@v0
+        name: Build and push image
+        id: docker-build-push
+        with:
+          team: tbd
+          project_id: ${{ vars.NAIS_MANAGEMENT_PROJECT_ID }}
+          identity_provider: ${{ secrets.NAIS_WORKLOAD_IDENTITY_PROVIDER }}
+    outputs:
+      image: ${{ steps.docker-build-push.outputs.image }}
 
   deployDev:
     name: Deploy to dev
-    needs: [set_version, build]
+    needs: [build]
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v1
         with:
           ref: ${{ needs.set_version.outputs.tag }}
       - uses: nais/deploy/actions/deploy@v1
@@ -71,5 +83,4 @@ jobs:
           APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
           CLUSTER: dev-gcp
           RESOURCE: deploy/dev.yml,deploy/alerts-dev.yml,deploy/redis-dev.yml
-          VAR: "image=${{env.IMAGE}}:${{ needs.set_version.outputs.tag }},team=${{env.TEAM}},app=${{env.APP}}"
-
+          VAR: "image=${{ needs.build.outputs.image }},team=${{env.TEAM}},app=${{env.APP}}"
