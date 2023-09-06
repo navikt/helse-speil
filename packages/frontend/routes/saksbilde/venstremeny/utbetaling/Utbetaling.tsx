@@ -86,7 +86,7 @@ export const Utbetaling = ({ period, person, arbeidsgiver }: UtbetalingProps) =>
     const totrinnsvurderingAktiv = useTotrinnsvurderingErAktiv();
     const erBeslutteroppgaveOgHarTilgang = useErBeslutteroppgaveOgHarTilgang();
     const harUvurderteVarslerPåUtbetaling = useHarUvurderteVarslerPåEllerFør(period, person.arbeidsgivere);
-    const fnnesNyereUtbetaltPeriodePåPerson = useFinnesNyereUtbetaltPeriodePåPerson(period, person);
+    const finnesNyereUtbetaltPeriodePåPerson = useFinnesNyereUtbetaltPeriodePåPerson(period, person);
 
     const onGodkjennUtbetaling = () => {
         setGodkjentPeriode(period.vedtaksperiodeId);
@@ -157,7 +157,7 @@ export const Utbetaling = ({ period, person, arbeidsgiver }: UtbetalingProps) =>
                 )}
                 {!isRevurdering &&
                     !period.totrinnsvurdering?.erBeslutteroppgave &&
-                    !fnnesNyereUtbetaltPeriodePåPerson && (
+                    !finnesNyereUtbetaltPeriodePåPerson && (
                         <AvvisningButton
                             disabled={periodenErSendt}
                             activePeriod={period}
