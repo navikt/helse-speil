@@ -9,10 +9,9 @@ import { useErBeslutteroppgaveOgHarTilgang } from '@hooks/useErBeslutteroppgaveO
 import { useHarUvurderteVarslerPåEllerFør } from '@hooks/uvurderteVarsler';
 import { Periodetilstand } from '@io/graphql';
 import { postAbonnerPåAktør } from '@io/http';
-import { useFinnesNyereUtbetaltPeriodePåPerson, useHarDagOverstyringer } from '@state/arbeidsgiver';
+import { useFinnesNyereUtbetaltPeriodePåPerson } from '@state/arbeidsgiver';
 import { opptegnelsePollingTimeState } from '@state/opptegnelser';
 import { inntektOgRefusjonState } from '@state/overstyring';
-import { getLatestUtbetalingTimestamp, getOverstyringerForEksisterendePerioder } from '@state/selectors/person';
 import { isRevurdering } from '@state/selectors/utbetaling';
 import { useTotrinnsvurderingErAktiv } from '@state/toggles';
 import { getPeriodState } from '@utils/mapping';
@@ -68,11 +67,6 @@ const useOnAvvis = (): (() => void) => {
     return () => navigate('/');
 };
 
-const useHarOverstyringerEtterSisteGodkjenteUtbetaling = (person: FetchedPerson): boolean => {
-    const timestamp = getLatestUtbetalingTimestamp(person);
-    return getOverstyringerForEksisterendePerioder(person, timestamp).length > 0;
-};
-
 export type BackendFeil = {
     message: string;
     statusCode?: number;
@@ -91,8 +85,6 @@ export const Utbetaling = ({ period, person, arbeidsgiver }: UtbetalingProps) =>
     const navigate = useNavigate();
     const totrinnsvurderingAktiv = useTotrinnsvurderingErAktiv();
     const erBeslutteroppgaveOgHarTilgang = useErBeslutteroppgaveOgHarTilgang();
-    const harOverstyringerEtterSisteGodkjenteUtbetaling = useHarOverstyringerEtterSisteGodkjenteUtbetaling(person);
-    const harDagOverstyringer = useHarDagOverstyringer(period);
     const harUvurderteVarslerPåUtbetaling = useHarUvurderteVarslerPåEllerFør(period, person.arbeidsgivere);
     const fnnesNyereUtbetaltPeriodePåPerson = useFinnesNyereUtbetaltPeriodePåPerson(period, person);
 
@@ -126,8 +118,7 @@ export const Utbetaling = ({ period, person, arbeidsgiver }: UtbetalingProps) =>
     return (
         <>
             <div className={styles.Buttons}>
-                {kanSendesTilTotrinnsvurdering &&
-                (trengerTotrinnsvurdering || harOverstyringerEtterSisteGodkjenteUtbetaling || harDagOverstyringer) ? (
+                {kanSendesTilTotrinnsvurdering && trengerTotrinnsvurdering ? (
                     <SendTilGodkjenningButton
                         utbetaling={period.utbetaling}
                         arbeidsgiver={arbeidsgiver}
@@ -182,10 +173,7 @@ export const Utbetaling = ({ period, person, arbeidsgiver }: UtbetalingProps) =>
                 <InfoText as="p">
                     <Spinner />
                     <span>
-                        {kanSendesTilTotrinnsvurdering &&
-                        (trengerTotrinnsvurdering ||
-                            harOverstyringerEtterSisteGodkjenteUtbetaling ||
-                            harDagOverstyringer)
+                        {kanSendesTilTotrinnsvurdering && trengerTotrinnsvurdering
                             ? 'Perioden sendes til godkjenning'
                             : 'Neste periode klargjøres'}
                     </span>
