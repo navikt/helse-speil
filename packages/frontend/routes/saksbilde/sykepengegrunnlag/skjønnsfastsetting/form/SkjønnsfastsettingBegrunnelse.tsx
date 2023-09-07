@@ -21,9 +21,12 @@ export const SkjønnsfastsettingBegrunnelse = ({
     const arbeidsgivere = watch('arbeidsgivere', []);
     const annet = arbeidsgivere.reduce((n: number, { årlig }: { årlig: number }) => n + årlig, 0);
 
-    const valgtBegrunnelse = skjønnsfastsettelseBegrunnelser(omregnetÅrsinntekt, sammenligningsgrunnlag, annet).find(
-        (begrunnelse) => begrunnelse.id === begrunnelseId,
-    );
+    const valgtBegrunnelse = skjønnsfastsettelseBegrunnelser(
+        omregnetÅrsinntekt,
+        sammenligningsgrunnlag,
+        annet,
+        arbeidsgivere.length,
+    ).find((begrunnelse) => begrunnelse.id === begrunnelseId);
 
     return (
         <div className={styles.skjønnsfastsettingBegrunnelse}>

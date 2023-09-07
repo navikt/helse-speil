@@ -40,9 +40,12 @@ export const skjønnsfastsettingFormToDto = (
     );
 
     const manueltBeløp = form.arbeidsgivere.reduce((n: number, { årlig }: { årlig: number }) => n + årlig, 0);
-    const begrunnelse = skjønnsfastsettelseBegrunnelser(omregnetÅrsinntekt, sammenligningsgrunnlag, manueltBeløp).find(
-        (it) => it.id === form.begrunnelseId,
-    );
+    const begrunnelse = skjønnsfastsettelseBegrunnelser(
+        omregnetÅrsinntekt,
+        sammenligningsgrunnlag,
+        manueltBeløp,
+        form.arbeidsgivere.length,
+    ).find((it) => it.id === form.begrunnelseId);
     return {
         fødselsnummer: person.fodselsnummer,
         aktørId: person.aktorId,
