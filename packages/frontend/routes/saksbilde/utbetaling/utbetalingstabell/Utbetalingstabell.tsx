@@ -94,7 +94,11 @@ export const Utbetalingstabell = ({
                         {dagerList.length > 0 && <TotalRow dager={dagerList} overstyrer={overstyrer} />}
                         {dagerList.map((tabelldag, i) => (
                             <Row
-                                erAvvist={tabelldag.erAvvist || tabelldag.erForeldet}
+                                erAvvist={
+                                    lokaleOverstyringer?.get(tabelldag.dato)
+                                        ? false
+                                        : tabelldag.erAvvist || tabelldag.erForeldet
+                                }
                                 erAGP={tabelldag.erAGP}
                                 type={tabelldag.dag.speilDagtype}
                                 key={i}

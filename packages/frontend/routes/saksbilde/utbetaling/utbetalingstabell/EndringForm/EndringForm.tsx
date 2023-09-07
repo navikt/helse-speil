@@ -20,7 +20,7 @@ interface EndringFormProps {
 }
 
 export const EndringForm: React.FC<EndringFormProps> = ({ markerteDager, onSubmitEndring }) => {
-    const defaultEndring = { dag: alleTypeendringer[0] };
+    const defaultEndring = { dag: alleTypeendringer[0], erAvvist: false, erForeldet: false };
     const [endring, setEndring] = useState<Partial<Utbetalingstabelldag>>(defaultEndring);
 
     const form = useForm();
