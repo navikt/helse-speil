@@ -19,7 +19,7 @@ interface DagtypeSelectProps {
 
 export const DagtypeSelect = ({ errorMessage, clearErrors, setType }: DagtypeSelectProps) => {
     const oppdaterDagtype = (event: React.ChangeEvent<HTMLSelectElement>) => {
-        if (alleTypeendringer.includes(event.target.value as OverstyrbarDagtype)) {
+        if (alleTypeendringer.map((dag) => dag.speilDagtype).includes(event.target.value as OverstyrbarDagtype)) {
             clearErrors();
             const type = event.target.value as OverstyrbarDagtype;
             setType(type);
@@ -36,15 +36,15 @@ export const DagtypeSelect = ({ errorMessage, clearErrors, setType }: DagtypeSel
             data-testid="dagtypevelger"
         >
             <>
-                {typeendringer.map((dagtype) => (
-                    <option key={dagtype} value={dagtype}>
-                        {dagtype}
+                {typeendringer.map((dag) => (
+                    <option key={dag.speilDagtype} value={dag.speilDagtype}>
+                        {dag.visningstekst}
                     </option>
                 ))}
                 <option disabled>-- Andre ytelser --</option>
-                {typeendringerAndreYtelser.map((dagtype) => (
-                    <option key={dagtype} value={dagtype}>
-                        {dagtype}
+                {typeendringerAndreYtelser.map((dag) => (
+                    <option key={dag.speilDagtype} value={dag.speilDagtype}>
+                        {dag.visningstekst}
                     </option>
                 ))}
             </>

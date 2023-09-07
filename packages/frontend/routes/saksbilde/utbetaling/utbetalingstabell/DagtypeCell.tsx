@@ -13,7 +13,7 @@ import { IconFailure } from '../../table/icons/IconFailure';
 import { IconFerie } from '../../table/icons/IconFerie';
 import { IconPermisjon } from '../../table/icons/IconPermisjon';
 import { IconSyk } from '../../table/icons/IconSyk';
-import { erEksplisittHelg } from './helgUtils';
+import { erHelg } from './helgUtils';
 
 const IconContainer = styled.div`
     margin-left: -4px;
@@ -25,16 +25,16 @@ const IconContainer = styled.div`
     flex-shrink: 0;
 `;
 
-const getTypeIcon = (dag?: UtbetalingstabellDag): ReactNode | null => {
-    if (!dag) return null;
+const getTypeIcon = (tabelldag?: Utbetalingstabelldag): ReactNode | null => {
+    if (!tabelldag) return null;
 
-    if (dag.erAvvist || dag.erForeldet) {
+    if (tabelldag.erAvvist || tabelldag.erForeldet) {
         return <IconFailure />;
     }
 
-    switch (dag.type) {
+    switch (tabelldag.dag.speilDagtype) {
         case 'Syk':
-        case 'Syk (NAV)':
+        case 'SykNav':
             return <IconSyk />;
         case 'Ferie':
             return <IconFerie />;
@@ -59,71 +59,79 @@ const getTypeIcon = (dag?: UtbetalingstabellDag): ReactNode | null => {
     }
 };
 
-const getDisplayText = (dag?: UtbetalingstabellDag): string | null => {
-    if (!dag) {
+const erTypeSomIkkeSkalDekoreres = (tabelldag: Utbetalingstabelldag) =>
+    tabelldag.erAGP && ['SykNav', 'Egenmelding'].includes(tabelldag.dag.speilDagtype);
+
+const dekorerTekst = (tabelldag?: Utbetalingstabelldag): string | null => {
+    if (!tabelldag) {
         return null;
     }
-    const dagtype = erEksplisittHelg(dag.type) ? 'Helg' : dag.type;
 
-    if (dag.erAvvist) {
-        return `${dagtype} (Avslått)`;
-    } else if (dag.erAGP && ['Syk (NAV)', 'Egenmelding'].includes(dagtype)) {
-        return dagtype;
-    } else if (dag.erAGP && (typeof dag?.personbeløp === 'number' || typeof dag?.arbeidsgiverbeløp === 'number')) {
-        return `${dagtype} (NAV)`;
-    } else if (dag.erAGP) {
-        return `${dagtype} (AGP)`;
-    } else if (dag.erForeldet) {
-        return `${dagtype} (Foreldet)`;
-    } else if (dag.type === 'FriskHelg') {
-        return `${dagtype} (Frisk)`;
-    } else if (dag.type === 'SykHelg') {
-        return `${dagtype} (Syk)`;
-    } else if (dag.type === 'Feriehelg') {
-        return `${dagtype} (Ferie)`;
+    const visningstekst = tabelldag.dag.visningstekst;
+    const speilDagtype = tabelldag.dag.speilDagtype;
+
+    if (tabelldag.erAvvist) {
+        return `${visningstekst} (Avslått)`;
+    } else if (erTypeSomIkkeSkalDekoreres(tabelldag)) {
+        return visningstekst;
+    } else if (tabelldag.erAGP) {
+        return `${visningstekst} (AGP)`;
+    } else if (tabelldag.erForeldet) {
+        return `${visningstekst} (Foreldet)`;
+    } else if (speilDagtype === 'FriskHelg') {
+        return `${visningstekst} (Frisk)`;
+    } else if (speilDagtype === 'SykHelg') {
+        return `${visningstekst} (Syk)`;
+    } else if (speilDagtype === 'Feriehelg') {
+        return `${visningstekst} (Ferie)`;
     } else {
-        return dagtype;
+        return visningstekst;
     }
 };
 
-const getDisplayTextOverstyrtDag = (dag?: UtbetalingstabellDag): string | null => {
-    if (!dag) {
+const dekorerTekstOverstyrtDag = (tabelldag?: Utbetalingstabelldag): string | null => {
+    if (!tabelldag) {
         return null;
     }
-    const dagtype = erEksplisittHelg(dag.type) ? 'Helg' : dag.type;
+    const visningstekst = erHelg(tabelldag.dag.speilDagtype) ? 'Helg' : tabelldag.dag.visningstekst;
 
-    if (dag.erAGP && dagtype !== 'Syk (NAV)') {
-        return `${dagtype} (AGP)`;
-    } else if (dag.erForeldet) {
-        return `${dagtype} (Foreldet)`;
+    if (erTypeSomIkkeSkalDekoreres(tabelldag)) {
+        return visningstekst;
+    } else if (tabelldag.erAGP) {
+        return `${visningstekst} (AGP)`;
+    } else if (tabelldag.erForeldet) {
+        return `${visningstekst} (Foreldet)`;
     } else {
-        return dagtype;
+        return visningstekst;
     }
 };
 
 interface DagtypeCellProps extends React.HTMLAttributes<HTMLTableCellElement> {
-    dag: UtbetalingstabellDag;
-    overstyrtDag?: UtbetalingstabellDag;
+    tabelldag: Utbetalingstabelldag;
+    overstyrtDag?: Utbetalingstabelldag;
 }
 
-export const DagtypeCell: React.FC<DagtypeCellProps> = ({ dag, overstyrtDag, ...rest }) => {
-    const text = getDisplayTextOverstyrtDag(overstyrtDag) ?? getDisplayText(dag);
-    const icon = getTypeIcon(overstyrtDag) ?? getTypeIcon(dag);
-    const dagtypeErOverstyrt = overstyrtDag && dag.type !== overstyrtDag.type;
-    const nyDag = overstyrtDag && dag.type === overstyrtDag.type && dag.grad === overstyrtDag.grad;
+export const DagtypeCell: React.FC<DagtypeCellProps> = ({ tabelldag, overstyrtDag, ...rest }) => {
+    const tekst = dekorerTekstOverstyrtDag(overstyrtDag) ?? dekorerTekst(tabelldag);
+    const ikon = getTypeIcon(overstyrtDag) ?? getTypeIcon(tabelldag);
+    const dagtypeErOverstyrt = overstyrtDag && tabelldag.dag.speilDagtype !== overstyrtDag.dag.speilDagtype;
+    const nyDag =
+        overstyrtDag &&
+        tabelldag.dag.speilDagtype === overstyrtDag.dag.speilDagtype &&
+        tabelldag.grad === overstyrtDag.grad;
 
     return (
         <td {...rest}>
             {dagtypeErOverstyrt ? (
-                <Endringstrekant text={`Endret fra ${dag.type}`} />
+                <Endringstrekant text={`Endret fra ${tabelldag.dag.visningstekst}`} />
             ) : nyDag ? (
                 <Endringstrekant text="Ny dag. Endringene vil oppdateres og kalkuleres etter du har trykket på ferdig" />
             ) : (
                 ''
             )}
             <CellContent>
-                <IconContainer>{icon}</IconContainer>
-                <BodyShort>{text}</BodyShort>
+                <IconContainer>{ikon}</IconContainer>
+                <BodyShort>{tekst}</BodyShort>
             </CellContent>
         </td>
     );

@@ -4,6 +4,20 @@ import '@testing-library/jest-dom';
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
+import {
+    Arbeidsdag,
+    Egenmeldingsdag,
+    FerieUtenSykmeldingDag,
+    Feriedag,
+    Foreldrepengerdag,
+    Omsorgspengerdag,
+    Opplæringspengerdag,
+    Permisjonsdag,
+    Pleiepengerdag,
+    Svangerskapspengerdag,
+    Sykedag,
+    SykedagNav,
+} from '../utbetalingstabelldager';
 import { EndringForm } from './EndringForm';
 import { alleTypeendringer } from './endringFormUtils';
 
@@ -14,21 +28,21 @@ jest.mock('@utils/featureToggles', () => ({
 describe('Typeendringer', () => {
     it('returnerer typeendringer for dagtypevelgeren under overstyring', () => {
         expect(alleTypeendringer).toEqual([
-            'Syk',
-            'Syk (NAV)',
-            'Ferie',
-            'Ferie uten sykmelding',
-            'Egenmelding',
-            'Permisjon',
-            'Arbeid',
-            'Foreldrepenger',
             // Vi ble bedt om å fjerne muligheten for å endre til AAP og Dagpenger til å begynne med.
             // 'AAP',
             // 'Dagpenger',
-            'Svangerskapspenger',
-            'Pleiepenger',
-            'Omsorgspenger',
-            'Opplæringspenger',
+            Sykedag,
+            SykedagNav,
+            Feriedag,
+            FerieUtenSykmeldingDag,
+            Egenmeldingsdag,
+            Permisjonsdag,
+            Arbeidsdag,
+            Foreldrepengerdag,
+            Svangerskapspengerdag,
+            Pleiepengerdag,
+            Omsorgspengerdag,
+            Opplæringspengerdag,
         ]);
     });
 });
@@ -42,7 +56,7 @@ describe('EndringForm', () => {
         });
     });
     it('disabler grad når ferie velges', async () => {
-        const markerteDager = new Map([['2020-01-01', { type: 'Ferie' } as UtbetalingstabellDag]]);
+        const markerteDager = new Map([['2020-01-01', { dag: Feriedag } as Utbetalingstabelldag]]);
         render(<EndringForm markerteDager={markerteDager} onSubmitEndring={() => null} />);
 
         await userEvent.selectOptions(screen.getByRole('combobox'), screen.getAllByRole('option')[2]);
@@ -53,7 +67,7 @@ describe('EndringForm', () => {
         expect(screen.getByTestId('endre')).toBeEnabled();
     });
     it('disabler grad når egenmeldingsdag velges', async () => {
-        const markerteDager = new Map([['2020-01-01', { type: 'Egenmelding' } as UtbetalingstabellDag]]);
+        const markerteDager = new Map([['2020-01-01', { dag: Egenmeldingsdag } as Utbetalingstabelldag]]);
         render(<EndringForm markerteDager={markerteDager} onSubmitEndring={() => null} />);
 
         await userEvent.selectOptions(screen.getByRole('combobox'), screen.getAllByRole('option')[2]);
@@ -64,7 +78,7 @@ describe('EndringForm', () => {
         expect(screen.getByTestId('endre')).toBeEnabled();
     });
     it('disabler grad når egenmeldingsdag velges', async () => {
-        const markerteDager = new Map([['2020-01-01', { type: 'Ferie' } as UtbetalingstabellDag]]);
+        const markerteDager = new Map([['2020-01-01', { dag: Feriedag } as Utbetalingstabelldag]]);
         render(<EndringForm markerteDager={markerteDager} onSubmitEndring={() => null} />);
 
         await userEvent.selectOptions(screen.getByRole('combobox'), screen.getAllByRole('option')[2]);
@@ -75,7 +89,7 @@ describe('EndringForm', () => {
         expect(screen.getByTestId('endre')).toBeEnabled();
     });
     it('disabler grad når egenmeldingsdag velges', async () => {
-        const markerteDager = new Map([['2020-01-01', { type: 'Arbeid' } as UtbetalingstabellDag]]);
+        const markerteDager = new Map([['2020-01-01', { dag: Arbeidsdag } as Utbetalingstabelldag]]);
         render(<EndringForm markerteDager={markerteDager} onSubmitEndring={() => null} />);
 
         await userEvent.selectOptions(screen.getByRole('combobox'), screen.getAllByRole('option')[2]);

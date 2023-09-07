@@ -41,7 +41,7 @@ const useIsInCurrentGeneration = (): boolean => {
 interface ReadonlyUtbetalingProps {
     fom: DateString;
     tom: DateString;
-    dager: Map<string, UtbetalingstabellDag>;
+    dager: Map<string, Utbetalingstabelldag>;
 }
 
 const ReadonlyUtbetaling: React.FC<ReadonlyUtbetalingProps> = ({ fom, tom, dager }) => {
@@ -88,7 +88,7 @@ const UtbetalingBeregnetPeriode: React.FC<UtbetalingBeregnetPeriodeProps> = Reac
         const erAktivPeriodeLikEllerFørPeriodeTilGodkjenning = useErAktivPeriodeLikEllerFørPeriodeTilGodkjenning();
         const gjenståendeDager = useGjenståendeDager(period);
 
-        const dager: Map<string, UtbetalingstabellDag> = useTabelldagerMap({
+        const dager: Map<string, Utbetalingstabelldag> = useTabelldagerMap({
             tidslinje: period.tidslinje,
             gjenståendeDager: gjenståendeDager ?? period.gjenstaendeSykedager,
             overstyringer: dagoverstyringer,
@@ -131,7 +131,7 @@ const UtbetalingUberegnetPeriode: React.FC<UtbetalingUberegnetPeriodeProps> = ({
                 (['SYKEDAG', 'SYK_HELGEDAG'].includes(dag.sykdomsdagtype) &&
                     dag.utbetalingsdagtype === Utbetalingsdagtype.UkjentDag),
         ).length;
-    const dager: Map<string, UtbetalingstabellDag> = useTabelldagerMap({
+    const dager: Map<string, Utbetalingstabelldag> = useTabelldagerMap({
         tidslinje: periode.tidslinje,
         overstyringer: dagoverstyringer,
         antallAGPDagerBruktFørPerioden: antallAGPDagerBruktFørPerioden,

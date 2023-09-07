@@ -121,7 +121,7 @@ const foreldetDagMerknad = (isForeldet: boolean): React.ReactNode | undefined =>
         </Tooltip>
     ) : undefined;
 
-const avvisningsårsakerMerknad = (dag: UtbetalingstabellDag, alderVedSkjæringstidspunkt?: Maybe<number>) =>
+const avvisningsårsakerMerknad = (dag: Utbetalingstabelldag, alderVedSkjæringstidspunkt?: Maybe<number>) =>
     dag.begrunnelser?.map((begrunnelse, i) => (
         <React.Fragment key={i}>
             {i !== 0 && <BodyShort>,&nbsp;</BodyShort>}
@@ -130,7 +130,7 @@ const avvisningsårsakerMerknad = (dag: UtbetalingstabellDag, alderVedSkjærings
     ));
 
 interface MerknaderCellProps extends React.HTMLAttributes<HTMLTableCellElement> {
-    dag: UtbetalingstabellDag;
+    dag: Utbetalingstabelldag;
     alderVedSkjæringstidspunkt?: Maybe<number>;
 }
 

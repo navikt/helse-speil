@@ -58,9 +58,9 @@ describe('useTabelldagerMap', () => {
             }),
         );
 
-        expect(result.current.get('2021-01-01')?.type).toEqual('Syk');
-        expect(result.current.get('2021-01-02')?.type).toEqual('Syk');
-        expect(result.current.get('2021-01-08')?.type).toEqual('Syk');
+        expect(result.current.get('2021-01-01')?.dag.speilDagtype).toEqual('Syk');
+        expect(result.current.get('2021-01-02')?.dag.speilDagtype).toEqual('Avslått');
+        expect(result.current.get('2021-01-08')?.dag.speilDagtype).toEqual('Syk');
     });
 
     it('mapper overstyringer', () => {

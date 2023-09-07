@@ -29,10 +29,10 @@ export const EndringsloggDager = ({ endringer, ...modalProps }: EndringsloggDage
         <tbody>
             {endringer
                 .sort((a, b) => sortTimestampDesc(a.timestamp, b.timestamp))
-                .map(({ begrunnelse, saksbehandler, timestamp, grad, fraGrad, type, dato }, i) => (
+                .map(({ begrunnelse, saksbehandler, timestamp, grad, fraGrad, dag, dato }, i) => (
                     <tr key={i}>
                         <td>{getFormattedDateString(dato)}</td>
-                        <td>{type}</td>
+                        <td>{dag.speilDagtype}</td>
                         <td>
                             <span className={styles.PreviousValue}>
                                 {typeof fraGrad === 'number' && fraGrad !== grad && `${fraGrad} %`}

@@ -6,6 +6,8 @@ import { Flex } from '@components/Flex';
 import { PopoverHjelpetekst } from '@components/PopoverHjelpetekst';
 import { SortInfoikon } from '@components/ikoner/SortInfoikon';
 
+import { erHelg } from './helgUtils';
+
 const Container = styled(Flex)`
     height: 24px;
     display: flex;
@@ -23,7 +25,7 @@ interface UtbetalingHeaderProps {
     periodeErForkastet: boolean;
     toggleOverstyring: () => void;
     overstyrer: boolean;
-    dager: Map<string, UtbetalingstabellDag>;
+    dager: Map<string, Utbetalingstabelldag>;
     revurderingIsEnabled?: boolean;
     overstyrRevurderingIsEnabled?: boolean;
 }
@@ -37,7 +39,7 @@ export const UtbetalingHeader: React.FC<UtbetalingHeaderProps> = ({
     overstyrRevurderingIsEnabled,
 }) => {
     const dagerInneholderKunAvvisteDager = useMemo(
-        () => Array.from(dager.values()).every((it) => it.erAvvist || it.type === 'Helg'),
+        () => Array.from(dager.values()).every((tabelldag) => tabelldag.erAvvist || erHelg(tabelldag.dag.speilDagtype)),
         [dager],
     );
 

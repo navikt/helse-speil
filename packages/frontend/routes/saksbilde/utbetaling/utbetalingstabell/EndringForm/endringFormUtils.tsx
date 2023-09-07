@@ -1,36 +1,55 @@
-export const typeendringer: Utbetalingstabelldagtype[] = [
-    'Syk',
-    'Syk (NAV)',
-    'Ferie',
-    'Ferie uten sykmelding',
-    'Egenmelding',
-    'Permisjon',
-    'Arbeid',
+import {
+    Arbeidsdag,
+    Egenmeldingsdag,
+    FerieUtenSykmeldingDag,
+    Feriedag,
+    Foreldrepengerdag,
+    Omsorgspengerdag,
+    Opplæringspengerdag,
+    Permisjonsdag,
+    Pleiepengerdag,
+    Speildag,
+    Svangerskapspengerdag,
+    Sykedag,
+    SykedagNav,
+} from '../utbetalingstabelldager';
+
+export const typeendringer: Speildag[] = [
+    Sykedag,
+    SykedagNav,
+    Feriedag,
+    FerieUtenSykmeldingDag,
+    Egenmeldingsdag,
+    Permisjonsdag,
+    Arbeidsdag,
 ];
 
-export const typeendringerAndreYtelser: Utbetalingstabelldagtype[] = [
-    'Foreldrepenger',
+export const typeendringerAndreYtelser: Speildag[] = [
     // Vi ble bedt om å fjerne muligheten for å endre til AAP og Dagpenger til å begynne med.
-    // 'AAP',
-    // 'Dagpenger',
-    'Svangerskapspenger',
-    'Pleiepenger',
-    'Omsorgspenger',
-    'Opplæringspenger',
+    // AAPdag,
+    // Dagpengerdag,
+    Foreldrepengerdag,
+    Svangerskapspengerdag,
+    Pleiepengerdag,
+    Omsorgspengerdag,
+    Opplæringspengerdag,
 ];
 
-export const alleTypeendringer: Utbetalingstabelldagtype[] = [...typeendringer, ...typeendringerAndreYtelser];
+export const alleTypeendringer: Speildag[] = [...typeendringer, ...typeendringerAndreYtelser];
+
+export const getDagFromType = (type: OverstyrbarDagtype) => alleTypeendringer.find((dag) => dag.speilDagtype === type);
 
 export enum OverstyrbarDagtype {
+    // Vi ble bedt om å fjerne muligheten for å endre til AAP og Dagpenger til å begynne med.
+    // AAP = 'AAP',
+    // Dagpenger = 'Dagpenger',
     Syk = 'Syk',
-    SykNAV = 'Syk (NAV)',
+    SykNav = 'SykNav',
     Ferie = 'Ferie',
     Egenmelding = 'Egenmelding',
     Permisjon = 'Permisjon',
     Arbeid = 'Arbeid',
     Foreldrepenger = 'Foreldrepenger',
-    AAP = 'AAP',
-    Dagpenger = 'Dagpenger',
     Svangerskapspenger = 'Svangerskapspenger',
     Pleiepenger = 'Pleiepenger',
     Omsorgspenger = 'Omsorgspenger',

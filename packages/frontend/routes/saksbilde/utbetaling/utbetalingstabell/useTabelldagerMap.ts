@@ -1,93 +1,79 @@
 import dayjs from 'dayjs';
 import { useMemo } from 'react';
 
-import { Dag, Dagoverstyring, Dagtype, Maybe, OverstyrtDag, Sykdomsdagtype, Utbetalingsdagtype } from '@io/graphql';
+import { Dag, Dagoverstyring, Dagtype, Maybe, OverstyrtDag, Utbetalingsdagtype } from '@io/graphql';
 
-const getUtbetalingstabelldagtypeFromOverstyrtDag = (dag: OverstyrtDag): Utbetalingstabelldagtype => {
+import {
+    AAPdag,
+    Arbeidsdag,
+    Avslåttdag,
+    AvvistEllerForeldetDag,
+    Dagpengerdag,
+    Egenmeldingsdag,
+    FerieUtenSykmeldingDag,
+    Feriedag,
+    Foreldrepengerdag,
+    Navhelgedag,
+    Omsorgspengerdag,
+    Opplæringspengerdag,
+    Permisjonsdag,
+    Pleiepengerdag,
+    Speildag,
+    Svangerskapspengerdag,
+    Sykedag,
+    SykedagNav,
+    getSpeildag,
+} from './utbetalingstabelldager';
+
+const getUtbetalingstabelldagtypeFromOverstyrtDag = (dag: OverstyrtDag): Speildag => {
     switch (dag.type) {
         case Dagtype.AaPdag:
-            return 'AAP';
+            return AAPdag;
         case Dagtype.Dagpengerdag:
-            return 'Dagpenger';
+            return Dagpengerdag;
         case Dagtype.Foreldrepengerdag:
-            return 'Foreldrepenger';
+            return Foreldrepengerdag;
         case Dagtype.Omsorgspengerdag:
-            return 'Omsorgspenger';
+            return Omsorgspengerdag;
         case Dagtype.Opplaringspengerdag:
-            return 'Opplæringspenger';
+            return Opplæringspengerdag;
         case Dagtype.Pleiepengerdag:
-            return 'Pleiepenger';
+            return Pleiepengerdag;
         case Dagtype.Svangerskapspengerdag:
-            return 'Svangerskapspenger';
+            return Svangerskapspengerdag;
         case Dagtype.FerieUtenSykmeldingDag:
-            return 'Ferie uten sykmelding';
+            return FerieUtenSykmeldingDag;
         case Dagtype.Egenmeldingsdag:
-            return 'Egenmelding';
+            return Egenmeldingsdag;
         case Dagtype.Feriedag:
-            return 'Ferie';
+            return Feriedag;
         case Dagtype.Permisjonsdag:
-            return 'Permisjon';
+            return Permisjonsdag;
         case Dagtype.Sykedag:
-            return 'Syk';
+            return Sykedag;
         case Dagtype.Arbeidsdag:
-            return 'Arbeid';
+            return Arbeidsdag;
         case Dagtype.SykedagNav:
-            return 'Syk (NAV)';
+            return SykedagNav;
         case Dagtype.Avvistdag:
-            return 'Avslått';
+            return Avslåttdag;
     }
 };
 
-const getUtbetalingstabelldagtype = (dag: Dag): Utbetalingstabelldagtype => {
-    const erSykedagNav = dag.utbetalingsdagtype === 'ARBEIDSGIVERPERIODEDAG' && dag.utbetalingsinfo !== null;
-
+const getUtbetalingstabelldag = (dag: Dag, erSykedagNav: boolean): Speildag => {
     switch (dag.utbetalingsdagtype) {
         case Utbetalingsdagtype.Arbeidsdag:
-            return 'Arbeid';
+            return Arbeidsdag;
         case Utbetalingsdagtype.Navhelgdag:
-            return 'SykHelg';
+            return Navhelgedag;
         case Utbetalingsdagtype.Navdag:
-            return erSykedagNav ? 'Syk (NAV)' : 'Syk';
+            return erSykedagNav ? SykedagNav : Sykedag;
+        case Utbetalingsdagtype.AvvistDag:
+        case Utbetalingsdagtype.ForeldetDag:
+            return AvvistEllerForeldetDag(dag.sykdomsdagtype, dag.utbetalingsdagtype, erSykedagNav);
     }
 
-    switch (dag.sykdomsdagtype) {
-        case Sykdomsdagtype.AndreYtelserAap:
-            return 'AAP';
-        case Sykdomsdagtype.AndreYtelserDagpenger:
-            return 'Dagpenger';
-        case Sykdomsdagtype.AndreYtelserForeldrepenger:
-            return 'Foreldrepenger';
-        case Sykdomsdagtype.AndreYtelserOmsorgspenger:
-            return 'Omsorgspenger';
-        case Sykdomsdagtype.AndreYtelserOpplaringspenger:
-            return 'Opplæringspenger';
-        case Sykdomsdagtype.AndreYtelserPleiepenger:
-            return 'Pleiepenger';
-        case Sykdomsdagtype.AndreYtelserSvangerskapspenger:
-            return 'Svangerskapspenger';
-        case Sykdomsdagtype.Ferieutensykmeldingdag:
-            return 'Ferie uten sykmelding';
-        case Sykdomsdagtype.Arbeidsdag:
-            return dag.utbetalingsdagtype === 'HELGEDAG' ? 'Helg' : 'Arbeid';
-        case Sykdomsdagtype.Feriedag:
-            return dag.utbetalingsdagtype === 'HELGEDAG' ? 'Feriehelg' : 'Ferie';
-        case Sykdomsdagtype.Permisjonsdag:
-            return 'Permisjon';
-        case Sykdomsdagtype.Arbeidsgiverdag: // Spleis bruker bare "Arbeidsgiverdag" om egenmeldingsdager
-            return 'Egenmelding';
-        case Sykdomsdagtype.Sykedag:
-        case Sykdomsdagtype.ForeldetSykedag:
-            return erSykedagNav ? 'Syk (NAV)' : 'Syk';
-        case Sykdomsdagtype.SykHelgedag:
-            return 'SykHelg';
-        case Sykdomsdagtype.FriskHelgedag:
-            return 'FriskHelg';
-        case Sykdomsdagtype.Avslatt:
-            return 'Avslått';
-        case Sykdomsdagtype.Ubestemtdag:
-        default:
-            return dag.utbetalingsdagtype === 'HELGEDAG' ? 'Helg' : 'Ukjent';
-    }
+    return getSpeildag(dag.sykdomsdagtype, dag.utbetalingsdagtype, erSykedagNav);
 };
 
 export const createDagerMap = (
@@ -95,13 +81,15 @@ export const createDagerMap = (
     totaltAntallDagerIgjen: Maybe<number>,
     antallAGPDagerBruktFørPerioden?: number,
     maksdato?: DateString,
-): Map<DateString, UtbetalingstabellDag> => {
-    const map = new Map<DateString, UtbetalingstabellDag>();
+): Map<DateString, Utbetalingstabelldag> => {
+    const map = new Map<DateString, Utbetalingstabelldag>();
     let dagerIgjen = totaltAntallDagerIgjen;
     let dagnummerAGP = antallAGPDagerBruktFørPerioden ?? 16;
 
     for (let i = 0; i < dager.length; i++) {
         const currentDag = dager[i];
+        const erSykedagNav =
+            currentDag.utbetalingsdagtype === 'ARBEIDSGIVERPERIODEDAG' && currentDag.utbetalingsinfo !== null;
 
         if (typeof dagerIgjen === 'number') {
             dagerIgjen = currentDag.utbetalingsdagtype === 'NAVDAG' ? dagerIgjen - 1 : dagerIgjen;
@@ -119,7 +107,7 @@ export const createDagerMap = (
         map.set(currentDag.dato, {
             dato: currentDag.dato,
             kilde: currentDag.kilde,
-            type: getUtbetalingstabelldagtype(currentDag),
+            dag: getUtbetalingstabelldag(currentDag, erSykedagNav),
             erAGP: erAGP,
             erAvvist: currentDag.utbetalingsdagtype === 'AVVIST_DAG',
             erForeldet: currentDag.utbetalingsdagtype === 'FORELDET_DAG',
@@ -156,24 +144,24 @@ export const useTabelldagerMap = ({
     overstyringer = [],
     maksdato,
     antallAGPDagerBruktFørPerioden,
-}: UseTabelldagerMapOptions): Map<string, UtbetalingstabellDag> =>
+}: UseTabelldagerMapOptions): Map<string, Utbetalingstabelldag> =>
     useMemo(() => {
         const antallDagerIgjen: number | null =
             typeof gjenståendeDager === 'number'
                 ? gjenståendeDager + antallSykedagerTilOgMedMaksdato(tidslinje, maksdato)
                 : null;
 
-        const dager: Map<DateString, UtbetalingstabellDag> = createDagerMap(
+        const dager: Map<DateString, Utbetalingstabelldag> = createDagerMap(
             tidslinje,
             antallDagerIgjen,
             antallAGPDagerBruktFørPerioden,
         );
 
         for (const overstyring of overstyringer) {
-            for (const dag of overstyring.dager) {
-                const existing = dager.get(dag.dato);
+            for (const overstyrtDag of overstyring.dager) {
+                const existing = dager.get(overstyrtDag.dato);
                 if (existing) {
-                    dager.set(dag.dato, {
+                    dager.set(overstyrtDag.dato, {
                         ...existing,
                         overstyringer: (existing.overstyringer ?? []).concat([
                             {
@@ -181,10 +169,10 @@ export const useTabelldagerMap = ({
                                 begrunnelse: overstyring.begrunnelse,
                                 saksbehandler: overstyring.saksbehandler,
                                 timestamp: overstyring.timestamp,
-                                grad: dag.grad,
-                                fraGrad: dag.fraGrad,
-                                type: getUtbetalingstabelldagtypeFromOverstyrtDag(dag),
-                                dato: dag.dato,
+                                grad: overstyrtDag.grad,
+                                fraGrad: overstyrtDag.fraGrad,
+                                dag: getUtbetalingstabelldagtypeFromOverstyrtDag(overstyrtDag),
+                                dato: overstyrtDag.dato,
                                 ferdigstilt: overstyring.ferdigstilt,
                             },
                         ]),

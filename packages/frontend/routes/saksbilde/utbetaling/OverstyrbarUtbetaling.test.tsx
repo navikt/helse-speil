@@ -8,11 +8,11 @@ import userEvent from '@testing-library/user-event';
 
 import { OverstyrbarUtbetaling } from './OverstyrbarUtbetaling';
 
-let postOverstyringArguments: [UtbetalingstabellDag[], string] | [] = [];
+let postOverstyringArguments: [Utbetalingstabelldag[], string] | [] = [];
 
 jest.mock('./utbetalingstabell/usePostOverstyring', () => ({
     usePostOverstyring: () => ({
-        postOverstyring: (dager: UtbetalingstabellDag[], begrunnelse: string) => {
+        postOverstyring: (dager: Utbetalingstabelldag[], begrunnelse: string) => {
             postOverstyringArguments = [dager, begrunnelse];
         },
     }),
@@ -25,7 +25,7 @@ jest.mock('./utbetalingstabell/useAlderVedSkjæringstidspunkt', () => ({
 //TODO this is bad, need to make it go faster
 jest.setTimeout(7000);
 
-const dager = new Map<string, UtbetalingstabellDag>([
+const dager = new Map<string, Utbetalingstabelldag>([
     ['2022-01-01', getUtbetalingstabellDag({ dato: '2022-01-01' })],
     ['2022-01-02', getUtbetalingstabellDag({ dato: '2022-01-02' })],
     ['2022-01-03', getUtbetalingstabellDag({ dato: '2022-01-03' })],
@@ -78,9 +78,9 @@ describe('OverstyrbarUtbetaling', () => {
 
         await waitFor(() => {
             expect(postOverstyringArguments).toHaveLength(2);
-            postOverstyringArguments[0]?.forEach((it) => {
-                expect(it.type).toEqual('Syk');
-                expect(it.grad).toEqual(80);
+            postOverstyringArguments[0]?.forEach((overstyrtDag) => {
+                expect(overstyrtDag.dag.speilDagtype).toEqual('Syk');
+                expect(overstyrtDag.grad).toEqual(80);
             });
         });
     });

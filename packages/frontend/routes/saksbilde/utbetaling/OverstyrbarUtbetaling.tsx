@@ -22,18 +22,16 @@ import styles from './OverstyrbarUtbetaling.module.css';
 
 dayjs.extend(isBetween);
 
-const getKey = (dag: UtbetalingstabellDag) => dag.dato;
+const getKey = (dag: Utbetalingstabelldag) => dag.dato;
 
-const erReellEndring = (endring: Partial<UtbetalingstabellDag>, dag: UtbetalingstabellDag): boolean =>
-    (typeof endring.grad === 'number' && endring.grad !== dag.grad) ||
-    (typeof endring.type === 'string' && endring.type !== dag.type) ||
-    dag.erAvvist ||
-    dag.erForeldet;
+const erReellEndring = (tilDag: Partial<Utbetalingstabelldag>, fraDag: Utbetalingstabelldag): boolean =>
+    (typeof tilDag.grad === 'number' && tilDag.grad !== fraDag.grad) ||
+    tilDag.dag?.speilDagtype !== fraDag.dag.speilDagtype;
 
 interface OverstyrbarUtbetalingProps {
     fom: DateString;
     tom: DateString;
-    dager: Map<string, UtbetalingstabellDag>;
+    dager: Map<string, Utbetalingstabelldag>;
     erForkastet: boolean;
     revurderingIsEnabled: boolean;
     overstyrRevurderingIsEnabled: boolean;
@@ -52,12 +50,12 @@ export const OverstyrbarUtbetaling: React.FC<OverstyrbarUtbetalingProps> = ({
     const [overstyrer, setOverstyrer] = useState(false);
     const { postOverstyring, error, state } = usePostOverstyring();
 
-    const [markerteDager, setMarkerteDager] = useMap<string, UtbetalingstabellDag>();
-    const [overstyrteDager, setOverstyrteDager] = useMap<string, UtbetalingstabellDag>();
-    const [nyeDager, setNyeDager] = useMap<string, UtbetalingstabellDag>();
+    const [markerteDager, setMarkerteDager] = useMap<string, Utbetalingstabelldag>();
+    const [overstyrteDager, setOverstyrteDager] = useMap<string, Utbetalingstabelldag>();
+    const [nyeDager, setNyeDager] = useMap<string, Utbetalingstabelldag>();
 
-    const alleDager = new Map<string, UtbetalingstabellDag>([...nyeDager, ...dager]);
-    const alleOverstyrteDager = new Map<string, UtbetalingstabellDag>([...nyeDager, ...overstyrteDager]);
+    const alleDager = new Map<string, Utbetalingstabelldag>([...nyeDager, ...dager]);
+    const alleOverstyrteDager = new Map<string, Utbetalingstabelldag>([...nyeDager, ...overstyrteDager]);
 
     const toggleOverstyring = () => {
         setMarkerteDager(new Map());
@@ -75,7 +73,7 @@ export const OverstyrbarUtbetaling: React.FC<OverstyrbarUtbetalingProps> = ({
         );
     };
 
-    const toggleChecked = (dag: UtbetalingstabellDag) => (event: React.ChangeEvent<HTMLInputElement>) => {
+    const toggleChecked = (dag: Utbetalingstabelldag) => (event: React.ChangeEvent<HTMLInputElement>) => {
         if ((event.nativeEvent as KeyboardEvent)?.shiftKey) {
             toggleCheckedShift(dag)(event);
             return;
@@ -89,7 +87,7 @@ export const OverstyrbarUtbetaling: React.FC<OverstyrbarUtbetalingProps> = ({
         }
     };
 
-    const toggleCheckedShift = (dag: UtbetalingstabellDag) => (event: React.ChangeEvent<HTMLInputElement>) => {
+    const toggleCheckedShift = (dag: Utbetalingstabelldag) => (event: React.ChangeEvent<HTMLInputElement>) => {
         const forrigeValgteDag = Array.from(markerteDager.values())?.pop() ?? dag;
         Array.from(alleDager.values())
             .filter((it) => dayjs(it.dato).isBetween(forrigeValgteDag.dato, dag.dato, 'day', '[]'))
@@ -103,13 +101,13 @@ export const OverstyrbarUtbetaling: React.FC<OverstyrbarUtbetalingProps> = ({
             });
     };
 
-    const onSubmitEndring = (endring: Partial<UtbetalingstabellDag>) => {
+    const onSubmitEndring = (tilDag: Partial<Utbetalingstabelldag>) => {
         const newOverstyrteDager = Array.from(markerteDager.values()).reduce(
-            (map: Map<string, UtbetalingstabellDag>, dag: UtbetalingstabellDag) => {
-                if (erReellEndring(endring, dag)) {
-                    map.set(getKey(dag), { ...dag, ...endring, fraType: dag.type });
+            (map: Map<string, Utbetalingstabelldag>, fraDag: Utbetalingstabelldag) => {
+                if (erReellEndring(tilDag, fraDag)) {
+                    map.set(getKey(fraDag), { ...fraDag, ...tilDag, fraType: fraDag.dag.speilDagtype });
                 } else {
-                    map.delete(getKey(dag));
+                    map.delete(getKey(fraDag));
                 }
                 return map;
             },
@@ -119,8 +117,8 @@ export const OverstyrbarUtbetaling: React.FC<OverstyrbarUtbetalingProps> = ({
         setMarkerteDager(new Map());
     };
 
-    const onSubmitPølsestrekk = (dagerLagtTil: Map<string, UtbetalingstabellDag>) => {
-        const alleNyeDager = new Map<string, UtbetalingstabellDag>([...dagerLagtTil, ...nyeDager]);
+    const onSubmitPølsestrekk = (dagerLagtTil: Map<string, Utbetalingstabelldag>) => {
+        const alleNyeDager = new Map<string, Utbetalingstabelldag>([...dagerLagtTil, ...nyeDager]);
         setNyeDager(alleNyeDager);
     };
 

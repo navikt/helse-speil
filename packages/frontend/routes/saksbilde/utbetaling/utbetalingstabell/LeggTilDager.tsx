@@ -9,23 +9,24 @@ import { Kildetype } from '@io/graphql';
 import { ISO_DATOFORMAT, NORSK_DATOFORMAT } from '@utils/date';
 
 import { DagtypeSelect } from './DagtypeSelect';
-import { OverstyrbarDagtype } from './EndringForm/endringFormUtils';
+import { OverstyrbarDagtype, getDagFromType } from './EndringForm/endringFormUtils';
 import { kanVelgeGrad } from './EndringForm/kanVelgeGrad';
+import { Sykedag } from './utbetalingstabelldager';
 
 import styles from './LeggTilDager.module.css';
 
 interface LeggTilDagerProps {
     periodeFom: DateString;
-    onSubmitPølsestrekk: (nyeDager: Map<string, UtbetalingstabellDag>) => void;
+    onSubmitPølsestrekk: (nyeDager: Map<string, Utbetalingstabelldag>) => void;
 }
 
 interface StrekkePølseProps {
     periodeFom: DateString;
-    onSubmitPølsestrekk: (nyeDager: Map<string, UtbetalingstabellDag>) => void;
+    onSubmitPølsestrekk: (nyeDager: Map<string, Utbetalingstabelldag>) => void;
 }
 
 interface EndringType {
-    type: OverstyrbarDagtype;
+    dag?: Speildag;
     fom: DateString;
     grad?: number;
 }
@@ -35,7 +36,7 @@ export const LeggTilDager = React.memo(({ periodeFom, onSubmitPølsestrekk }: Le
 
     const StrekkePølse = React.memo(({ periodeFom, onSubmitPølsestrekk }: StrekkePølseProps) => {
         const defaultEndring = {
-            type: OverstyrbarDagtype.Syk,
+            dag: Sykedag,
             fom: dayjs(periodeFom, ISO_DATOFORMAT).subtract(1, 'days').format(ISO_DATOFORMAT),
             grad: undefined,
         };
@@ -43,14 +44,14 @@ export const LeggTilDager = React.memo(({ periodeFom, onSubmitPølsestrekk }: Le
         const form = useForm();
 
         const handleSubmit = () => {
-            const test = new Map();
+            const nyeDagerMap = new Map();
 
             let endringFom = dayjs(endring.fom, ISO_DATOFORMAT);
             while (endringFom.isBefore(dayjs(periodeFom, ISO_DATOFORMAT))) {
-                test.set(endringFom.format(ISO_DATOFORMAT), {
+                nyeDagerMap.set(endringFom.format(ISO_DATOFORMAT), {
                     dato: endringFom.format(ISO_DATOFORMAT),
                     kilde: { type: Kildetype.Saksbehandler },
-                    type: endring.type,
+                    dag: endring.dag,
                     erAGP: false,
                     erAvvist: false,
                     erForeldet: false,
@@ -58,15 +59,15 @@ export const LeggTilDager = React.memo(({ periodeFom, onSubmitPølsestrekk }: Le
                     erHelg: endringFom.isoWeekday() > 5,
                     grad: endring?.grad,
                     erNyDag: true,
-                }) as Map<string, UtbetalingstabellDag>;
+                }) as Map<string, Utbetalingstabelldag>;
                 endringFom = endringFom.add(1, 'days');
             }
 
-            onSubmitPølsestrekk(test);
+            onSubmitPølsestrekk(nyeDagerMap);
         };
 
         const { onChange: onChangeGrad, ...gradvelgervalidation } = form.register('gradvelger', {
-            required: kanVelgeGrad(endring.type) && 'Velg grad',
+            required: kanVelgeGrad(endring.dag?.speilDagtype) && 'Velg grad',
             min: {
                 value: 0,
                 message: 'Grad må være over 0',
@@ -127,7 +128,7 @@ export const LeggTilDager = React.memo(({ periodeFom, onSubmitPølsestrekk }: Le
                         setType={(type: OverstyrbarDagtype) =>
                             setEndring({
                                 ...endring,
-                                type,
+                                dag: getDagFromType(type),
                                 grad: kanVelgeGrad(type) ? endring.grad : undefined,
                             })
                         }
@@ -138,7 +139,7 @@ export const LeggTilDager = React.memo(({ periodeFom, onSubmitPølsestrekk }: Le
                         type="number"
                         label="Grad"
                         onChange={oppdaterGrad}
-                        disabled={!kanVelgeGrad(endring.type)}
+                        disabled={!kanVelgeGrad(endring.dag?.speilDagtype)}
                         data-testid="gradvelger"
                         value={typeof endring?.grad === 'number' ? `${endring?.grad}` : ''}
                         error={

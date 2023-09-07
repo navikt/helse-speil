@@ -11,7 +11,7 @@ describe('GradCell', () => {
     it('skal tegne en overstyringstrekant med tekst når grad går fra 100 % til 0 %', async () => {
         render(
             <GradCell
-                dag={getUtbetalingstabellDag({ grad: 100 })}
+                tabelldag={getUtbetalingstabellDag({ grad: 100 })}
                 overstyrtDag={getUtbetalingstabellDag({ grad: 0 })}
             />,
         );
@@ -23,7 +23,9 @@ describe('GradCell', () => {
     });
 
     it('skal tegne en overstyringstrekant med tekst når grad går fra null til 100 %', async () => {
-        render(<GradCell dag={getUtbetalingstabellDag({ grad: null })} overstyrtDag={getUtbetalingstabellDag()} />);
+        render(
+            <GradCell tabelldag={getUtbetalingstabellDag({ grad: null })} overstyrtDag={getUtbetalingstabellDag()} />,
+        );
         const indikator = screen.getByTestId('infotrekant');
         expect(indikator).toBeVisible();
 
@@ -32,7 +34,7 @@ describe('GradCell', () => {
     });
 
     it('rendrer ikke infotrekant når vi ikke overstyrer', () => {
-        render(<GradCell dag={getUtbetalingstabellDag()} />);
+        render(<GradCell tabelldag={getUtbetalingstabellDag()} />);
         expect(screen.queryByTestId('infotrekant')).not.toBeInTheDocument();
     });
 });

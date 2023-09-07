@@ -6,27 +6,27 @@ import { Button, TextField } from '@navikt/ds-react';
 import { Bold } from '@components/Bold';
 
 import { DagtypeSelect } from '../DagtypeSelect';
-import { OverstyrbarDagtype, alleTypeendringer } from './endringFormUtils';
+import { OverstyrbarDagtype, alleTypeendringer, getDagFromType } from './endringFormUtils';
 import { kanVelgeGrad } from './kanVelgeGrad';
 
 import styles from './EndringForm.module.css';
 
-const harEndring = (endring: Partial<UtbetalingstabellDag>): boolean =>
-    typeof endring.type === 'string' || typeof endring.grad === 'number';
+const harEndring = (endring: Partial<Utbetalingstabelldag>): boolean =>
+    typeof endring.dag?.speilDagtype === 'string' || typeof endring.grad === 'number';
 
 interface EndringFormProps {
-    markerteDager: Map<string, UtbetalingstabellDag>;
-    onSubmitEndring: (endring: Partial<UtbetalingstabellDag>) => void;
+    markerteDager: Map<string, Utbetalingstabelldag>;
+    onSubmitEndring: (endring: Partial<Utbetalingstabelldag>) => void;
 }
 
 export const EndringForm: React.FC<EndringFormProps> = ({ markerteDager, onSubmitEndring }) => {
-    const defaultEndring = { type: alleTypeendringer[0] };
-    const [endring, setEndring] = useState<Partial<UtbetalingstabellDag>>(defaultEndring);
+    const defaultEndring = { dag: alleTypeendringer[0] };
+    const [endring, setEndring] = useState<Partial<Utbetalingstabelldag>>(defaultEndring);
 
     const form = useForm();
 
     const { onChange: onChangeGrad, ...gradvelgervalidation } = form.register('gradvelger', {
-        required: kanVelgeGrad(endring.type) && 'Velg grad',
+        required: kanVelgeGrad(endring.dag?.speilDagtype) && 'Velg grad',
         min: {
             value: 0,
             message: 'Grad må være over 0',
@@ -68,7 +68,7 @@ export const EndringForm: React.FC<EndringFormProps> = ({ markerteDager, onSubmi
                             setType={(type: OverstyrbarDagtype) =>
                                 setEndring({
                                     ...endring,
-                                    type,
+                                    dag: getDagFromType(type),
                                     grad: kanVelgeGrad(type) ? endring.grad : undefined,
                                 })
                             }
@@ -79,7 +79,7 @@ export const EndringForm: React.FC<EndringFormProps> = ({ markerteDager, onSubmi
                             type="number"
                             label="Grad"
                             onChange={oppdaterGrad}
-                            disabled={!kanVelgeGrad(endring.type)}
+                            disabled={!kanVelgeGrad(endring.dag?.speilDagtype)}
                             data-testid="gradvelger"
                             value={typeof endring.grad === 'number' ? `${endring.grad}` : ''}
                             error={

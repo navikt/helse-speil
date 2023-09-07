@@ -6,6 +6,7 @@ import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 import { OverstyringForm } from './OverstyringForm';
+import { Arbeidsdag, Sykedag } from './utbetalingstabelldager';
 
 const FormWrapper: React.FC<ChildrenProps> = ({ children }) => {
     const form = useForm();
@@ -38,7 +39,7 @@ describe('OverstyringForm', () => {
     });
 
     it('viser feilmelding om begrunnelse ikke er fylt ut før innsending', async () => {
-        const overstyrteDager = new Map([['2020-01-01', { type: 'Syk', dato: '2020-01-01' } as UtbetalingstabellDag]]);
+        const overstyrteDager = new Map([['2020-01-01', { dag: Sykedag, dato: '2020-01-01' } as Utbetalingstabelldag]]);
         render(
             <OverstyringForm
                 overstyrteDager={overstyrteDager}
@@ -62,7 +63,7 @@ describe('OverstyringForm', () => {
 
     it('viser feilmelding dersom arbeidsdager ikke er ny dag, innenfor agp og overstyrt fraType Syk', async () => {
         const overstyrteDager = new Map([
-            ['2020-01-02', { type: 'Arbeid', fraType: 'Syk', dato: '2020-01-02' } as UtbetalingstabellDag],
+            ['2020-01-02', { dag: Arbeidsdag, fraType: 'Syk', dato: '2020-01-02' } as Utbetalingstabelldag],
         ]);
         render(
             <OverstyringForm
@@ -86,7 +87,7 @@ describe('OverstyringForm', () => {
     });
     it('viser feilmelding dersom arbeidsdager ikke er ny dag, innenfor agp og overstyrt fraType SykHelg', async () => {
         const overstyrteDager = new Map([
-            ['2020-01-02', { type: 'Arbeid', fraType: 'SykHelg', dato: '2020-01-02' } as UtbetalingstabellDag],
+            ['2020-01-02', { dag: Arbeidsdag, fraType: 'SykHelg', dato: '2020-01-02' } as Utbetalingstabelldag],
         ]);
         render(
             <OverstyringForm
@@ -111,7 +112,7 @@ describe('OverstyringForm', () => {
 
     it('viser feilmelding dersom arbeidsdager ikke er ny dag, innenfor agp og overstyrt fraType Ferie', async () => {
         const overstyrteDager = new Map([
-            ['2020-01-02', { type: 'Arbeid', fraType: 'Ferie', dato: '2020-01-02' } as UtbetalingstabellDag],
+            ['2020-01-02', { dag: Arbeidsdag, fraType: 'Ferie', dato: '2020-01-02' } as Utbetalingstabelldag],
         ]);
         render(
             <OverstyringForm
@@ -138,7 +139,7 @@ describe('OverstyringForm', () => {
         const overstyrteDager = new Map([
             [
                 '2020-01-02',
-                { type: 'Arbeid', fraType: 'Syk', erNyDag: true, dato: '2020-01-02' } as UtbetalingstabellDag,
+                { dag: Arbeidsdag, fraType: 'Syk', erNyDag: true, dato: '2020-01-02' } as Utbetalingstabelldag,
             ],
         ]);
         render(
@@ -164,7 +165,10 @@ describe('OverstyringForm', () => {
 
     it('viser ikke feilmelding dersom overstyring til arbeidsdag er innenfor AGP, selv om fraType er Syk', async () => {
         const overstyrteDager = new Map([
-            ['2020-01-02', { type: 'Arbeid', fraType: 'Syk', erAGP: true, dato: '2020-01-02' } as UtbetalingstabellDag],
+            [
+                '2020-01-02',
+                { dag: Arbeidsdag, fraType: 'Syk', erAGP: true, dato: '2020-01-02' } as Utbetalingstabelldag,
+            ],
         ]);
         render(
             <OverstyringForm
@@ -191,7 +195,7 @@ describe('OverstyringForm', () => {
         const overstyrteDager = new Map([
             [
                 '2020-02-02',
-                { type: 'Arbeid', fraType: 'Syk', erAGP: false, dato: '2020-02-02' } as UtbetalingstabellDag,
+                { dag: Arbeidsdag, fraType: 'Syk', erAGP: false, dato: '2020-02-02' } as Utbetalingstabelldag,
             ],
         ]);
         render(

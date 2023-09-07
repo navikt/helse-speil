@@ -6,15 +6,16 @@ import '@testing-library/jest-dom';
 import { render, screen } from '@testing-library/react';
 
 import { Utbetalingstabell } from './Utbetalingstabell';
+import { Sykedag } from './utbetalingstabelldager';
 
 jest.mock('./useAlderVedSkjæringstidspunkt', () => ({
     useAlderVedSkjæringstidspunkt: () => 30,
 }));
 
-const enUtbetalingstabelldag = (dato: string, overrides?: Partial<UtbetalingstabellDag>): UtbetalingstabellDag => ({
+const enUtbetalingstabelldag = (dato: string, overrides?: Partial<Utbetalingstabelldag>): Utbetalingstabelldag => ({
     dato: dato,
     kilde: { id: 'Sasdadgf', type: Kildetype.Inntektsmelding },
-    type: 'Syk',
+    dag: Sykedag,
     erAGP: false,
     erAvvist: false,
     erForeldet: false,
@@ -29,7 +30,7 @@ const enUtbetalingstabelldag = (dato: string, overrides?: Partial<Utbetalingstab
     ...overrides,
 });
 
-const dager = new Map<string, UtbetalingstabellDag>([
+const dager = new Map<string, Utbetalingstabelldag>([
     ['2022-01-01', enUtbetalingstabelldag('2022-01-01')],
     ['2022-01-02', enUtbetalingstabelldag('2022-01-02')],
     ['2022-01-03', enUtbetalingstabelldag('2022-01-03')],

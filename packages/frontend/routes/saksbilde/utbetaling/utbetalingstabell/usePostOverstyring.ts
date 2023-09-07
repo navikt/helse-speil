@@ -2,7 +2,7 @@ import dayjs from 'dayjs';
 import { useEffect, useRef, useState } from 'react';
 
 import type { Arbeidsgiver } from '@io/graphql';
-import type { OverstyrtDagDTO, OverstyrtDagtype } from '@io/http';
+import type { OverstyrtDagDTO } from '@io/http';
 import { postAbonnerPåAktør, postOverstyrteDager } from '@io/http';
 import { useCurrentArbeidsgiver } from '@state/arbeidsgiver';
 import {
@@ -15,57 +15,19 @@ import { useOpptegnelser, useSetOpptegnelserPollingRate } from '@state/opptegnel
 import { useCurrentPerson } from '@state/person';
 import { useAddToast, useRemoveToast } from '@state/toasts';
 
-const tilOverstyrtDagtype = (type: Utbetalingstabelldagtype): OverstyrtDagtype => {
-    switch (type) {
-        case 'Foreldrepenger':
-            return 'Foreldrepengerdag';
-        case 'AAP':
-            return 'AAPdag';
-        case 'Dagpenger':
-            return 'Dagpengerdag';
-        case 'Svangerskapspenger':
-            return 'Svangerskapspengerdag';
-        case 'Pleiepenger':
-            return 'Pleiepengerdag';
-        case 'Omsorgspenger':
-            return 'Omsorgspengerdag';
-        case 'Opplæringspenger':
-            return 'Opplaringspengerdag';
-        case 'SykHelg':
-        case 'Syk':
-            return 'Sykedag';
-        case 'Feriehelg':
-        case 'Ferie':
-            return 'Feriedag';
-        case 'Ferie uten sykmelding':
-            return 'FerieUtenSykmeldingDag';
-        case 'Permisjon':
-            return 'Permisjonsdag';
-        case 'Egenmelding':
-            return 'Egenmeldingsdag';
-        case 'Arbeid':
-        case 'FriskHelg': // NAV har konkret informasjon om at dette er arbeid i helg
-            return 'Arbeidsdag';
-        case 'Syk (NAV)':
-            return 'SykedagNav';
-        case 'Avslått':
-            return 'Avvistdag';
-        default:
-            throw Error(`Dag med type ${type} kan ikke overstyres.`);
-    }
-};
-
 const tilOverstyrteDager = (
-    dager: Array<UtbetalingstabellDag>,
-    overstyrteDager: Array<UtbetalingstabellDag>,
+    dager: Array<Utbetalingstabelldag>,
+    overstyrteDager: Array<Utbetalingstabelldag>,
 ): OverstyrtDagDTO[] =>
     overstyrteDager.map((overstyrtDag) => {
         const fraDag = dager.find((fraDag) => fraDag.dato === overstyrtDag.dato);
         if (fraDag === undefined) throw Error(`Finner ikke fraDag som matcher overstyrtDag ${overstyrtDag.dato}.`);
+        if (overstyrtDag.dag.overstyrtDagtype === undefined || fraDag.dag.overstyrtDagtype === undefined)
+            throw Error(`Dag med undefined overstyrtDagtype kan ikke overstyres.`);
         return {
             dato: dayjs(overstyrtDag.dato).format('YYYY-MM-DD'),
-            type: tilOverstyrtDagtype(overstyrtDag.type),
-            fraType: tilOverstyrtDagtype(fraDag.type),
+            type: overstyrtDag.dag.overstyrtDagtype,
+            fraType: fraDag.dag.overstyrtDagtype,
             grad: overstyrtDag.grad ?? undefined,
             fraGrad: fraDag.grad ?? undefined,
         };
@@ -75,8 +37,8 @@ type UsePostOverstyringState = 'loading' | 'hasValue' | 'hasError' | 'initial' |
 
 type UsePostOverstyringResult = {
     postOverstyring: (
-        dager: Array<UtbetalingstabellDag>,
-        overstyrteDager: Array<UtbetalingstabellDag>,
+        dager: Array<Utbetalingstabelldag>,
+        overstyrteDager: Array<Utbetalingstabelldag>,
         begrunnelse: string,
         callback?: () => void,
     ) => Promise<void>;
@@ -121,8 +83,8 @@ export const usePostOverstyring = (): UsePostOverstyringResult => {
     }, [calculating]);
 
     const _postOverstyring = (
-        dager: Array<UtbetalingstabellDag>,
-        overstyrteDager: Array<UtbetalingstabellDag>,
+        dager: Array<Utbetalingstabelldag>,
+        overstyrteDager: Array<Utbetalingstabelldag>,
         begrunnelse: string,
         callback?: () => void,
     ): Promise<void> => {

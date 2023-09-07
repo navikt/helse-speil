@@ -1,7 +1,7 @@
 const dagtyperUtenGradering: Array<Utbetalingstabelldagtype> = [
     'Arbeid',
     'Ferie',
-    'Ferie uten sykmelding',
+    'FerieUtenSykmelding',
     'Permisjon',
     'Egenmelding',
     'Foreldrepenger',

@@ -8,7 +8,7 @@ import { Kildetype } from '@io/graphql';
 
 import { EndringsloggButton } from '../../sykepengegrunnlag/inntekt/EndringsloggButton';
 import { CellContent } from '../../table/CellContent';
-import { erEksplisittHelg } from './helgUtils';
+import { erHelg } from './helgUtils';
 
 interface KildeTypeIconProps {
     kilde?: Kildetype;
@@ -50,9 +50,7 @@ interface KildeCellProps extends React.HTMLAttributes<HTMLTableCellElement> {
 export const KildeCell = ({ type, kilde, overstyringer, ...rest }: KildeCellProps) => {
     return (
         <td {...rest}>
-            <Container>
-                {!erEksplisittHelg(type) && <KildeTypeIcon kilde={kilde} overstyringer={overstyringer} />}
-            </Container>
+            <Container>{!erHelg(type) && <KildeTypeIcon kilde={kilde} overstyringer={overstyringer} />}</Container>
         </td>
     );
 };

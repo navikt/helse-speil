@@ -7,7 +7,7 @@ interface RowProps {
     erAvvist?: boolean;
     erAGP?: boolean;
     type?: Utbetalingstabelldagtype;
-    markertDag?: UtbetalingstabellDag;
+    markertDag?: Utbetalingstabelldag;
     nyDag?: boolean;
     erHelg?: boolean;
 }

@@ -1,6 +1,7 @@
 type Maybe<T> = import('@io/graphql').Maybe<T>;
 type Kilde = import('@io/graphql').Kilde;
 type Begrunnelse = import('@io/graphql').Begrunnelse;
+type Speildag = import('./utbetalingstabelldager').Speildag;
 
 declare type Utbetalingstabelldagtype =
     | 'Syk'
@@ -8,14 +9,14 @@ declare type Utbetalingstabelldagtype =
     | 'FriskHelg'
     | 'Feriehelg'
     | 'SykHelg'
-    | 'Syk (NAV)'
+    | 'SykNav'
     | 'Helg'
     | 'Ukjent'
     | 'Egenmelding'
     | 'Permisjon'
     | 'Arbeid'
     | 'Avslått'
-    | 'Ferie uten sykmelding'
+    | 'FerieUtenSykmelding'
     | 'Foreldrepenger'
     | 'AAP'
     | 'Dagpenger'
@@ -32,17 +33,17 @@ type OverstyringerPrDag = {
         navn: string;
     };
     timestamp: DateString;
-    type: Utbetalingstabelldagtype;
+    dag: Speildag;
     dato: DateString;
     grad?: Maybe<number>;
     fraGrad?: Maybe<number>;
     ferdigstilt: boolean;
 };
 
-declare type UtbetalingstabellDag = {
+declare type Utbetalingstabelldag = {
     dato: DateString;
     kilde: Kilde;
-    type: Utbetalingstabelldagtype;
+    dag: Speildag;
     erAGP: boolean;
     erAvvist: boolean;
     erForeldet: boolean;

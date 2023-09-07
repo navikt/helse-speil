@@ -1,9 +1,11 @@
 import { Kildetype } from '@io/graphql';
 
-export const getUtbetalingstabellDag = (overrides?: Partial<UtbetalingstabellDag>): UtbetalingstabellDag => ({
+import { Sykedag } from '../../routes/saksbilde/utbetaling/utbetalingstabell/utbetalingstabelldager';
+
+export const getUtbetalingstabellDag = (overrides?: Partial<Utbetalingstabelldag>): Utbetalingstabelldag => ({
     dato: '2022-01-01',
     kilde: { id: '123', type: Kildetype.Inntektsmelding },
-    type: 'Syk',
+    dag: Sykedag,
     erAGP: false,
     erAvvist: false,
     erForeldet: false,

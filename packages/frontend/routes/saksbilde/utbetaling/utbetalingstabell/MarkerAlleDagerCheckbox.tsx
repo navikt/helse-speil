@@ -6,8 +6,8 @@ import { Checkbox } from '@navikt/ds-react';
 import styles from './MarkerAlleDagerCheckbox.module.css';
 
 const useOverstyrbareDager = (
-    alleDager: Map<DateString, UtbetalingstabellDag>,
-): Map<DateString, UtbetalingstabellDag> => {
+    alleDager: Map<DateString, Utbetalingstabelldag>,
+): Map<DateString, Utbetalingstabelldag> => {
     return useMemo(
         () =>
             Array.from(alleDager.entries()).reduce(
@@ -19,9 +19,9 @@ const useOverstyrbareDager = (
 };
 
 interface MarkerAlleDagerCheckboxProps extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'size' | 'value'> {
-    alleDager: Map<string, UtbetalingstabellDag>;
-    markerteDager: Map<string, UtbetalingstabellDag>;
-    setMarkerteDager: Dispatch<SetStateAction<Map<string, UtbetalingstabellDag>>>;
+    alleDager: Map<string, Utbetalingstabelldag>;
+    markerteDager: Map<string, Utbetalingstabelldag>;
+    setMarkerteDager: Dispatch<SetStateAction<Map<string, Utbetalingstabelldag>>>;
 }
 
 export const MarkerAlleDagerCheckbox: React.FC<MarkerAlleDagerCheckboxProps> = ({

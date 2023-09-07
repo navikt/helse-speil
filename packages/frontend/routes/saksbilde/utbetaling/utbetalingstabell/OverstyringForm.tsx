@@ -32,7 +32,7 @@ const Buttons = styled.span`
 `;
 
 interface OverstyringFormProps {
-    overstyrteDager: Map<string, UtbetalingstabellDag>;
+    overstyrteDager: Map<string, Utbetalingstabelldag>;
     hale: DateString;
     snute: DateString;
     toggleOverstyring: () => void;

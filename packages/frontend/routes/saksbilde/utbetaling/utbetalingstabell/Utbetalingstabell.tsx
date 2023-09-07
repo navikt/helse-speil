@@ -24,9 +24,9 @@ import styles from './Utbetalingstabell.module.css';
 interface UtbetalingstabellProps {
     fom: DateString;
     tom: DateString;
-    dager: Map<string, UtbetalingstabellDag>;
-    lokaleOverstyringer?: Map<string, UtbetalingstabellDag>;
-    markerteDager?: Map<string, UtbetalingstabellDag>;
+    dager: Map<string, Utbetalingstabelldag>;
+    lokaleOverstyringer?: Map<string, Utbetalingstabelldag>;
+    markerteDager?: Map<string, Utbetalingstabelldag>;
     overstyrer?: boolean;
     slettSisteNyeDag?: () => void;
 }
@@ -43,7 +43,7 @@ export const Utbetalingstabell = ({
     const formattedFom = getFormattedDateString(fom);
     const formattedTom = getFormattedDateString(tom);
 
-    const dagerList: Array<UtbetalingstabellDag> = useMemo(() => Array.from(dager.values()), [dager]);
+    const dagerList: Array<Utbetalingstabelldag> = useMemo(() => Array.from(dager.values()), [dager]);
 
     const alderVedSkjæringstidspunkt = useAlderVedSkjæringstidspunkt();
 
@@ -92,50 +92,62 @@ export const Utbetalingstabell = ({
                     </thead>
                     <tbody>
                         {dagerList.length > 0 && <TotalRow dager={dagerList} overstyrer={overstyrer} />}
-                        {dagerList.map((dag, i) => (
+                        {dagerList.map((tabelldag, i) => (
                             <Row
-                                erAvvist={dag.erAvvist || dag.erForeldet}
-                                erAGP={dag.erAGP}
-                                type={dag.type}
+                                erAvvist={tabelldag.erAvvist || tabelldag.erForeldet}
+                                erAGP={tabelldag.erAGP}
+                                type={tabelldag.dag.speilDagtype}
                                 key={i}
-                                markertDag={markerteDager?.get(dag.dato)}
-                                nyDag={dag.erNyDag ?? false}
-                                erHelg={dag?.erHelg ?? false}
+                                markertDag={markerteDager?.get(tabelldag.dato)}
+                                nyDag={tabelldag.erNyDag ?? false}
+                                erHelg={tabelldag?.erHelg ?? false}
                             >
-                                <DateCell date={dag.dato} />
-                                <DagtypeCell dag={dag} overstyrtDag={lokaleOverstyringer?.get(dag.dato)} />
-                                <GradCell dag={dag} overstyrtDag={lokaleOverstyringer?.get(dag.dato)} />
-                                <KildeCell type={dag.type} kilde={dag.kilde.type} overstyringer={dag.overstyringer} />
+                                <DateCell date={tabelldag.dato} />
+                                <DagtypeCell
+                                    tabelldag={tabelldag}
+                                    overstyrtDag={lokaleOverstyringer?.get(tabelldag.dato)}
+                                />
+                                <GradCell
+                                    tabelldag={tabelldag}
+                                    overstyrtDag={lokaleOverstyringer?.get(tabelldag.dato)}
+                                />
+                                <KildeCell
+                                    type={tabelldag.dag.speilDagtype}
+                                    kilde={tabelldag.kilde.type}
+                                    overstyringer={tabelldag.overstyringer}
+                                />
                                 <TotalGradCell
-                                    type={dag.type}
-                                    totalGradering={dag.totalGradering}
-                                    erOverstyrt={!!lokaleOverstyringer?.get(dag.dato)}
-                                    erNyDag={dag.erNyDag}
+                                    type={tabelldag.dag.speilDagtype}
+                                    totalGradering={tabelldag.totalGradering}
+                                    erOverstyrt={!!lokaleOverstyringer?.get(tabelldag.dato)}
+                                    erNyDag={tabelldag.erNyDag}
                                 />
                                 <UtbetalingCell
-                                    utbetaling={dag.arbeidsgiverbeløp}
-                                    erOverstyrt={!!lokaleOverstyringer?.get(dag.dato)}
-                                    erNyDag={dag.erNyDag}
+                                    utbetaling={tabelldag.arbeidsgiverbeløp}
+                                    erOverstyrt={!!lokaleOverstyringer?.get(tabelldag.dato)}
+                                    erNyDag={tabelldag.erNyDag}
                                 />
                                 <UtbetalingCell
-                                    utbetaling={dag.personbeløp}
-                                    erOverstyrt={!!lokaleOverstyringer?.get(dag.dato)}
-                                    erNyDag={dag.erNyDag}
+                                    utbetaling={tabelldag.personbeløp}
+                                    erOverstyrt={!!lokaleOverstyringer?.get(tabelldag.dato)}
+                                    erNyDag={tabelldag.erNyDag}
                                 />
                                 <GjenståendeDagerCell
-                                    gjenståendeDager={dag.dagerIgjen}
-                                    erOverstyrt={!!lokaleOverstyringer?.get(dag.dato)}
-                                    erNyDag={dag.erNyDag}
+                                    gjenståendeDager={tabelldag.dagerIgjen}
+                                    erOverstyrt={!!lokaleOverstyringer?.get(tabelldag.dato)}
+                                    erNyDag={tabelldag.erNyDag}
                                 />
                                 <MerknaderCell
                                     style={{ width: '100%' }}
-                                    dag={dag}
+                                    dag={tabelldag}
                                     alderVedSkjæringstidspunkt={alderVedSkjæringstidspunkt}
                                 />
                                 {overstyrer && (
                                     <SlettNyDagCell
                                         slettSisteNyeDag={slettSisteNyeDag}
-                                        nyDag={dag.kilde.type === 'SAKSBEHANDLER' && dag.kilde.id == undefined}
+                                        nyDag={
+                                            tabelldag.kilde.type === 'SAKSBEHANDLER' && tabelldag.kilde.id == undefined
+                                        }
                                         visSlettKnapp={i === 0}
                                     />
                                 )}
