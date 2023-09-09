@@ -13,9 +13,9 @@ import { useActivePeriod } from '@state/periode';
 import { useCurrentPerson } from '@state/person';
 
 import { Annulleringsmodal } from '../annullering/Annulleringsmodal';
+import { useKanAnnulleres } from '../annullering/useKanAnnulleres';
 import { UtbetalingshistorikkRow } from './UtbetalingshistorikkRow';
 import { useOppdrag } from './state';
-import { getTom } from './utbetalingshistorikkUtils';
 
 const Container = styled.div`
     grid-column-start: venstremeny;
@@ -54,19 +54,6 @@ const Table = styled.table`
     }
 `;
 
-const nyesteFørst = (a: Spennoppdrag, b: Spennoppdrag) =>
-    (getTom(a) ?? 0) < (getTom(b) ?? 0) ? -1 : (getTom(a) ?? 0) > (getTom(b) ?? 0) ? 1 : 0;
-
-const sorterOppdragNyesteFørst = (oppdrag: Oppdrag[]) =>
-    oppdrag
-        .filter((o) => o.type === 'UTBETALING' && o.status === 'UTBETALT')
-        .flatMap((o) =>
-            o.arbeidsgiveroppdrag && o.arbeidsgiveroppdrag.linjer.length > 0 ? o.arbeidsgiveroppdrag : o.personoppdrag,
-        )
-        .filter((o) => o !== null)
-        .map((o) => o as Spennoppdrag)
-        .sort((o1, o2) => nyesteFørst(o1, o2));
-
 interface UtbetalingshistorikkWithContentProps {
     fødselsnummer: string;
     organisasjonsnummer: string;
@@ -80,7 +67,7 @@ const UtbetalingshistorikkWithContent: React.FC<UtbetalingshistorikkWithContentP
 }) => {
     const navigate = useNavigate();
     const oppdrag = useOppdrag(fødselsnummer);
-    const sorterteOppdrag = sorterOppdragNyesteFørst(oppdrag);
+    const kanAnnulleres = useKanAnnulleres(oppdrag);
     const [tilAnnullering, setTilAnnullering] = useState<Spennoppdrag | undefined>();
     const [varseltekst, setVarseltekst] = useState<string | undefined>();
     const [annulleringerInFlight, setAnnulleringerInFlight] = useState<Array<string>>([]);
@@ -93,14 +80,12 @@ const UtbetalingshistorikkWithContent: React.FC<UtbetalingshistorikkWithContentP
         setAnnulleringerInFlight(annulleringerInFlight.concat([oppdrag.fagsystemId]));
     };
 
-    const erNyeste = (etOppdrag: Spennoppdrag) => sorterteOppdrag.pop() === etOppdrag;
-
     const annulleringButton = (status: Oppdrag['status'], type: Oppdrag['type'], oppdrag: Spennoppdrag) =>
         status === 'UTBETALT' && type === 'UTBETALING' ? (
             <Button
                 size="small"
                 onClick={() => {
-                    if (!erNyeste(oppdrag))
+                    if (!kanAnnulleres(oppdrag))
                         setVarseltekst(
                             'Utbetalinger må annulleres kronologisk, nyeste først. Du kan forsøke å annullere denne, men om den ikke er den nyeste vil den ikke bli annullert.',
                         );
