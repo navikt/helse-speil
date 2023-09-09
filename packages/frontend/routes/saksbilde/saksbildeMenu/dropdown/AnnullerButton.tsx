@@ -8,8 +8,8 @@ import { useIsReadOnlyOppgave } from '@hooks/useIsReadOnlyOppgave';
 import { Arbeidsgiver, Arbeidsgiveroppdrag, Oppdrag, Utbetaling, Utbetalingstatus } from '@io/graphql';
 import { annulleringerEnabled } from '@utils/featureToggles';
 
+import { Annulleringsmodal } from '../../annullering/Annulleringsmodal';
 import { useArbeidsgiveroppdrag } from '../../utbetalingshistorikk/state';
-import { Annulleringsmodal } from '../annullering/Annulleringsmodal';
 
 interface AnnullerButtonWithContentProps {
     oppdrag: Arbeidsgiveroppdrag;

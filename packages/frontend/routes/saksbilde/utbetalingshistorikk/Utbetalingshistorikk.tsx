@@ -12,7 +12,7 @@ import { useCurrentArbeidsgiver } from '@state/arbeidsgiver';
 import { useActivePeriod } from '@state/periode';
 import { useCurrentPerson } from '@state/person';
 
-import { Annulleringsmodal } from '../saksbildeMenu/annullering/Annulleringsmodal';
+import { Annulleringsmodal } from '../annullering/Annulleringsmodal';
 import { UtbetalingshistorikkRow } from './UtbetalingshistorikkRow';
 import { useOppdrag } from './state';
 import { getTom } from './utbetalingshistorikkUtils';

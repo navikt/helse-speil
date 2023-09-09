@@ -14,7 +14,7 @@ dayjs.extend(isSameOrAfter);
 
 let cachedAnnullering: AnnulleringDTO;
 
-jest.mock('../../../../io/http', () => ({
+jest.mock('../../../io/http', () => ({
     postAnnullering: (annullering: AnnulleringDTO) => {
         cachedAnnullering = annullering;
         return Promise.resolve();
