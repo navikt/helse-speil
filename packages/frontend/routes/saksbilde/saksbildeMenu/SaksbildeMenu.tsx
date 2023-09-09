@@ -122,7 +122,6 @@ const SaksbildeMenuSkeleton: React.FC = () => {
                 <LoadingShimmer />
                 <LoadingShimmer />
                 <LoadingShimmer />
-                <LoadingShimmer />
                 <DropdownMenu />
             </span>
         </div>
