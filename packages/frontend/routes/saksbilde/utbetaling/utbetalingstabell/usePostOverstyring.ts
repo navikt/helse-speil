@@ -30,6 +30,7 @@ const tilOverstyrteDager = (
             fraType: fraDag.dag.overstyrtDagtype,
             grad: overstyrtDag.grad ?? undefined,
             fraGrad: fraDag.grad ?? undefined,
+            fraDagErForeldet: fraDag.erForeldet,
         };
     });
 
