@@ -1,4 +1,5 @@
 import path from 'path';
+import { visualizer } from 'rollup-plugin-visualizer';
 import { defineConfig, splitVendorChunkPlugin } from 'vite';
 
 import react from '@vitejs/plugin-react';
@@ -9,6 +10,7 @@ export default defineConfig({
             include: '**/*.tsx',
         }),
         splitVendorChunkPlugin(),
+        visualizer(),
     ],
     server: {
         hmr: true,
@@ -23,8 +25,30 @@ export default defineConfig({
         },
         rollupOptions: {
             output: {
-                manualChunks: {
-                    react: ['react', 'react-dom'],
+                manualChunks(id: string) {
+                    if (id.includes('react-router-dom') || id.includes('remix-run') || id.includes('react-router')) {
+                        return '@react-router';
+                    }
+                    if (id.includes('recoil')) {
+                        return '@recoil';
+                    }
+                    if (id.includes('framer-motion')) {
+                        return '@framer-motion';
+                    }
+                    if (id.includes('graphql')) {
+                        return '@graphql';
+                    }
+                    if (
+                        id.includes('navikt') ||
+                        id.includes('date-fns') ||
+                        id.includes('react-modal') ||
+                        id.includes('react-day-picker') ||
+                        id.includes('tabbable') ||
+                        id.includes('floating-ui')
+                    ) {
+                        return '@navikt';
+                    }
+                    return undefined;
                 },
             },
         },

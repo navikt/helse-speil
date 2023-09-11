@@ -32,10 +32,10 @@
     },
     "devDependencies": {
         "@graphql-codegen/cli": "^5.0.0",
-        "@graphql-codegen/introspection": "^4.0.0",
-        "@graphql-codegen/typescript": "^4.0.1",
         "@graphql-codegen/fragment-matcher": "^5.0.0",
+        "@graphql-codegen/introspection": "^4.0.0",
         "@graphql-codegen/typed-document-node": "^5.0.1",
+        "@graphql-codegen/typescript": "^4.0.1",
         "@graphql-codegen/typescript-operations": "^4.0.1",
         "@trivago/prettier-plugin-sort-imports": "^4.2.0",
         "@types/node": "^20.5.9",
@@ -46,6 +46,7 @@
         "lerna": "^6.6.2",
         "lint-staged": "^14.0.1",
         "prettier": "^3.0.3",
+        "rollup-plugin-visualizer": "^5.9.2",
         "ts-node-dev": "^2.0.0",
         "typescript": "^5.2.2"
     },
