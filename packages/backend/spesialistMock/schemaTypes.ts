@@ -151,7 +151,7 @@ export type BeregnetPeriode = Periode & {
     handlinger: Array<Handling>;
     hendelser: Array<Hendelse>;
     id: Scalars['String']['output'];
-    inntektFraAordningen: Array<InntektFraAOrdningen>;
+    inntektFraAordningen?: Maybe<Array<InntektFraAOrdningen>>;
     inntektstype: Inntektstype;
     maksdato: Scalars['String']['output'];
     notater: Array<Notat>;

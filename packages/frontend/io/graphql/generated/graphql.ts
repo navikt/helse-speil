@@ -153,7 +153,7 @@ export type BeregnetPeriode = Periode & {
     handlinger: Array<Handling>;
     hendelser: Array<Hendelse>;
     id: Scalars['String']['output'];
-    inntektFraAordningen: Array<InntektFraAOrdningen>;
+    inntektFraAordningen?: Maybe<Array<InntektFraAOrdningen>>;
     inntektstype: Inntektstype;
     maksdato: Scalars['String']['output'];
     notater: Array<Notat>;
@@ -1720,11 +1720,6 @@ export type FetchPersonQuery = {
                           vedtaksperiodeId: string;
                           periodetilstand: Periodetilstand;
                           skjaeringstidspunkt: string;
-                          inntektFraAordningen: Array<{
-                              __typename?: 'InntektFraAOrdningen';
-                              maned: string;
-                              sum: number;
-                          }>;
                           handlinger: Array<{
                               __typename?: 'Handling';
                               type: Periodehandling;
@@ -3920,32 +3915,6 @@ export const FetchPersonDocument = {
                                                                                 {
                                                                                     kind: 'Field',
                                                                                     name: { kind: 'Name', value: 'id' },
-                                                                                },
-                                                                                {
-                                                                                    kind: 'Field',
-                                                                                    name: {
-                                                                                        kind: 'Name',
-                                                                                        value: 'inntektFraAordningen',
-                                                                                    },
-                                                                                    selectionSet: {
-                                                                                        kind: 'SelectionSet',
-                                                                                        selections: [
-                                                                                            {
-                                                                                                kind: 'Field',
-                                                                                                name: {
-                                                                                                    kind: 'Name',
-                                                                                                    value: 'maned',
-                                                                                                },
-                                                                                            },
-                                                                                            {
-                                                                                                kind: 'Field',
-                                                                                                name: {
-                                                                                                    kind: 'Name',
-                                                                                                    value: 'sum',
-                                                                                                },
-                                                                                            },
-                                                                                        ],
-                                                                                    },
                                                                                 },
                                                                                 {
                                                                                     kind: 'Field',

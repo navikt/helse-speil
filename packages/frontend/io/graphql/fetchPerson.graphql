@@ -264,10 +264,6 @@ query FetchPerson($fnr: String, $aktorId: String) {
                     }
                     ... on BeregnetPeriode {
                         id
-                        inntektFraAordningen {
-                            maned
-                            sum
-                        }
                         beregningId
                         forbrukteSykedager
                         gjenstaendeSykedager

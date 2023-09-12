@@ -727,20 +727,6 @@
                                     "periodetilstand": "TilGodkjenning",
                                     "skjaeringstidspunkt": "2023-02-01",
                                     "id": "ea24448f-e294-4acd-8191-e56f396f63c9",
-                                    "inntektFraAordningen": [
-                                        {
-                                            "maned": "2022-11",
-                                            "sum": 30000
-                                        },
-                                        {
-                                            "maned": "2022-12",
-                                            "sum": 30000
-                                        },
-                                        {
-                                            "maned": "2023-01",
-                                            "sum": 30000
-                                        }
-                                    ],
                                     "aktivitetslogg": [
                                         {
                                             "alvorlighetsgrad": "W",
@@ -1108,20 +1094,6 @@
                                     "periodetilstand": "Utbetalt",
                                     "skjaeringstidspunkt": "2023-02-01",
                                     "id": "63ed2b8e-4484-43e5-b27e-49cc823aa4cc",
-                                    "inntektFraAordningen": [
-                                        {
-                                            "maned": "2022-11",
-                                            "sum": 30000
-                                        },
-                                        {
-                                            "maned": "2022-12",
-                                            "sum": 30000
-                                        },
-                                        {
-                                            "maned": "2023-01",
-                                            "sum": 30000
-                                        }
-                                    ],
                                     "aktivitetslogg": [
                                         {
                                             "alvorlighetsgrad": "W",
@@ -1486,20 +1458,6 @@
                                     "periodetilstand": "Utbetalt",
                                     "skjaeringstidspunkt": "2023-02-01",
                                     "id": "dd1c27b3-2dd1-4a0f-817d-be9b1bf68cb1",
-                                    "inntektFraAordningen": [
-                                        {
-                                            "maned": "2022-11",
-                                            "sum": 30000
-                                        },
-                                        {
-                                            "maned": "2022-12",
-                                            "sum": 30000
-                                        },
-                                        {
-                                            "maned": "2023-01",
-                                            "sum": 30000
-                                        }
-                                    ],
                                     "aktivitetslogg": [
                                         {
                                             "alvorlighetsgrad": "W",
@@ -1682,7 +1640,25 @@
                         }
                     ],
                     "overstyringer": [],
-                    "inntekterFraAordningen": []
+                    "inntekterFraAordningen": [
+                        {
+                            "skjaeringstidspunkt": "2023-02-01",
+                            "inntekter": [
+                                {
+                                    "maned": "2022-11",
+                                    "sum": 30000.0
+                                },
+                                {
+                                    "maned": "2022-12",
+                                    "sum": 30000.0
+                                },
+                                {
+                                    "maned": "2023-01",
+                                    "sum": 30000.0
+                                }
+                            ]
+                        }
+                    ]
                 },
                 {
                     "bransjer": [],
@@ -2377,20 +2353,6 @@
                                     "periodetilstand": "Utbetalt",
                                     "skjaeringstidspunkt": "2023-02-01",
                                     "id": "7a596108-e70d-438d-b06e-7c465b5455f1",
-                                    "inntektFraAordningen": [
-                                        {
-                                            "maned": "2022-11",
-                                            "sum": 100000
-                                        },
-                                        {
-                                            "maned": "2022-12",
-                                            "sum": 100000
-                                        },
-                                        {
-                                            "maned": "2023-01",
-                                            "sum": 100000
-                                        }
-                                    ],
                                     "aktivitetslogg": [
                                         {
                                             "alvorlighetsgrad": "W",
@@ -2557,7 +2519,25 @@
                         }
                     ],
                     "overstyringer": [],
-                    "inntekterFraAordningen": []
+                    "inntekterFraAordningen": [
+                        {
+                            "skjaeringstidspunkt": "2023-02-01",
+                            "inntekter": [
+                                {
+                                    "maned": "2022-11",
+                                    "sum": 100000.0
+                                },
+                                {
+                                    "maned": "2022-12",
+                                    "sum": 100000.0
+                                },
+                                {
+                                    "maned": "2023-01",
+                                    "sum": 100000.0
+                                }
+                            ]
+                        }
+                    ]
                 }
             ]
         }

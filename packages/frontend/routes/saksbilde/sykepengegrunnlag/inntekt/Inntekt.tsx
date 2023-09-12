@@ -64,9 +64,9 @@ const InntektContainer: React.FC<InntektContainerProps> = ({ inntekt }) => {
     return (
         <InntektOgRefusjon
             inntektFraAOrdningen={
-                isBeregnetPeriode(periodeForSkjæringstidspunktForArbeidsgiver)
-                    ? periodeForSkjæringstidspunktForArbeidsgiver.inntektFraAordningen
-                    : undefined
+                arbeidsgiver.inntekterFraAordningen.find(
+                    (it) => it.skjaeringstidspunkt === periodeForSkjæringstidspunktForArbeidsgiver.skjaeringstidspunkt,
+                )?.inntekter
             }
             skjæringstidspunkt={periodeForSkjæringstidspunktForArbeidsgiver.skjaeringstidspunkt}
             omregnetÅrsinntekt={inntekt.omregnetArsinntekt}

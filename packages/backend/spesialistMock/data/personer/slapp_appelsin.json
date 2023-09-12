@@ -122,20 +122,6 @@
                             "id": "1048d54f-e00b-4a4a-9b1d-7a4d5dd7a017",
                             "perioder": [
                                 {
-                                    "inntektFraAordningen": [
-                                        {
-                                            "maned": "2022-07",
-                                            "sum": 30000
-                                        },
-                                        {
-                                            "maned": "2022-06",
-                                            "sum": 30000
-                                        },
-                                        {
-                                            "maned": "2022-05",
-                                            "sum": 30000
-                                        }
-                                    ],
                                     "fom": "2022-08-01",
                                     "tom": "2022-08-31",
                                     "erForkastet": false,
@@ -865,7 +851,25 @@
                             "ferdigstilt": false
                         }
                     ],
-                    "inntekterFraAordningen": []
+                    "inntekterFraAordningen": [
+                        {
+                            "skjaeringstidspunkt": "2022-08-01",
+                            "inntekter": [
+                                {
+                                    "maned": "2022-07",
+                                    "sum": 30000.0
+                                },
+                                {
+                                    "maned": "2022-06",
+                                    "sum": 30000.0
+                                },
+                                {
+                                    "maned": "2022-05",
+                                    "sum": 30000.0
+                                }
+                            ]
+                        }
+                    ]
                 },
                 {
                     "bransjer": [],

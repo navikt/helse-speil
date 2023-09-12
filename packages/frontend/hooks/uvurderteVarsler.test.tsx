@@ -26,7 +26,6 @@ const getFetchedBeregnetPeriode = (fom: string, tom: string, varsel?: VarselDto)
         handlinger: [],
         hendelser: [],
         id: 'EN_ID',
-        inntektFraAordningen: [],
         inntektstype: Inntektstype.Enarbeidsgiver,
         maksdato: '2023-01-01',
         notater: [],
