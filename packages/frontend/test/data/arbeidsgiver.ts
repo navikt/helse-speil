@@ -17,6 +17,7 @@ export const enArbeidsgiver: OverridableConstructor<Arbeidsgiver, Extensions> = 
     generasjoner: [enGenerasjon()],
     ghostPerioder: [enGhostPeriode()],
     overstyringer: [],
+    inntekterFraAordningen: [],
     ...overrides,
     medPerioder(perioder: Array<Periode>) {
         this.generasjoner = [enGenerasjon({ perioder })];

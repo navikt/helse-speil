@@ -83,6 +83,7 @@ const getArbeidsgiver = (organisasjonsnummer: string, generasjoner: Generasjon[]
         navn: 'EN_ARBEIDSGIVER',
         organisasjonsnummer: organisasjonsnummer,
         overstyringer: [],
+        inntekterFraAordningen: [],
     };
 };
 
