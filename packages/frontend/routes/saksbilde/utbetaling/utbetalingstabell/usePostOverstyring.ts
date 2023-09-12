@@ -15,6 +15,8 @@ import { useOpptegnelser, useSetOpptegnelserPollingRate } from '@state/opptegnel
 import { useCurrentPerson } from '@state/person';
 import { useAddToast, useRemoveToast } from '@state/toasts';
 
+import { Subsumsjon } from '../../sykepengegrunnlag/overstyring/overstyring.types';
+
 const tilOverstyrteDager = (
     dager: Array<Utbetalingstabelldag>,
     overstyrteDager: Array<Utbetalingstabelldag>,
@@ -30,9 +32,22 @@ const tilOverstyrteDager = (
             fraType: fraDag.dag.overstyrtDagtype,
             grad: overstyrtDag.grad ?? undefined,
             fraGrad: fraDag.grad ?? undefined,
-            fraDagErForeldet: fraDag.erForeldet,
+            subsumsjon: finnSubsumsjonParagrafLeddBokstavForDagoverstyring(fraDag, overstyrtDag),
         };
     });
+
+const finnSubsumsjonParagrafLeddBokstavForDagoverstyring = (
+    fraDag: Utbetalingstabelldag,
+    overstyrtDag: Utbetalingstabelldag,
+): Subsumsjon | undefined => {
+    if (fraDag.erForeldet && overstyrtDag.dag.overstyrtDagtype === 'Sykedag') {
+        return {
+            paragraf: '22-13',
+            ledd: '7',
+        };
+    }
+    return undefined;
+};
 
 type UsePostOverstyringState = 'loading' | 'hasValue' | 'hasError' | 'initial' | 'timedOut' | 'done';
 

@@ -28,7 +28,7 @@ export interface OverstyrtDagDTO {
     fraType: OverstyrtDagtype;
     grad?: number;
     fraGrad?: number;
-    fraDagErForeldet: boolean;
+    subsumsjon?: Subsumsjon;
 }
 
 interface Overstyring {
