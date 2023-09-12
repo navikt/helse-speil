@@ -76,9 +76,16 @@ export type Arbeidsgiver = {
     bransjer: Array<Scalars['String']['output']>;
     generasjoner: Array<Generasjon>;
     ghostPerioder: Array<GhostPeriode>;
+    inntekterFraAordningen: Array<ArbeidsgiverInntekterFraAOrdningen>;
     navn: Scalars['String']['output'];
     organisasjonsnummer: Scalars['String']['output'];
     overstyringer: Array<Overstyring>;
+};
+
+export type ArbeidsgiverInntekterFraAOrdningen = {
+    __typename?: 'ArbeidsgiverInntekterFraAOrdningen';
+    inntekter: Array<InntektFraAOrdningen>;
+    skjaeringstidspunkt: Scalars['String']['output'];
 };
 
 export type Arbeidsgiverinntekt = {
@@ -606,10 +613,10 @@ export type OverstyringArbeidsgiverInput = {
 
 export type OverstyringDagInput = {
     dato: Scalars['String']['input'];
-    fraDagErForeldet: Scalars['Boolean']['input'];
     fraGrad?: InputMaybe<Scalars['Int']['input']>;
     fraType: Scalars['String']['input'];
     grad?: InputMaybe<Scalars['Int']['input']>;
+    subsumsjon?: InputMaybe<SubsumsjonInput>;
     type: Scalars['String']['input'];
 };
 
@@ -2245,6 +2252,11 @@ export type FetchPersonQuery = {
                       saksbehandler: { __typename?: 'Saksbehandler'; ident?: string | null; navn: string };
                   }
             >;
+            inntekterFraAordningen: Array<{
+                __typename?: 'ArbeidsgiverInntekterFraAOrdningen';
+                skjaeringstidspunkt: string;
+                inntekter: Array<{ __typename?: 'InntektFraAOrdningen'; maned: string; sum: number }>;
+            }>;
         }>;
     } | null;
 };
@@ -4904,6 +4916,36 @@ export const FetchPersonDocument = {
                                                                                 },
                                                                             ],
                                                                         },
+                                                                    },
+                                                                ],
+                                                            },
+                                                        },
+                                                    ],
+                                                },
+                                            },
+                                            {
+                                                kind: 'Field',
+                                                name: { kind: 'Name', value: 'inntekterFraAordningen' },
+                                                selectionSet: {
+                                                    kind: 'SelectionSet',
+                                                    selections: [
+                                                        {
+                                                            kind: 'Field',
+                                                            name: { kind: 'Name', value: 'skjaeringstidspunkt' },
+                                                        },
+                                                        {
+                                                            kind: 'Field',
+                                                            name: { kind: 'Name', value: 'inntekter' },
+                                                            selectionSet: {
+                                                                kind: 'SelectionSet',
+                                                                selections: [
+                                                                    {
+                                                                        kind: 'Field',
+                                                                        name: { kind: 'Name', value: 'maned' },
+                                                                    },
+                                                                    {
+                                                                        kind: 'Field',
+                                                                        name: { kind: 'Name', value: 'sum' },
                                                                     },
                                                                 ],
                                                             },

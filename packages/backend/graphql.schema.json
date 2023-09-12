@@ -595,6 +595,30 @@
                         "deprecationReason": null
                     },
                     {
+                        "name": "inntekterFraAordningen",
+                        "description": null,
+                        "args": [],
+                        "type": {
+                            "kind": "NON_NULL",
+                            "name": null,
+                            "ofType": {
+                                "kind": "LIST",
+                                "name": null,
+                                "ofType": {
+                                    "kind": "NON_NULL",
+                                    "name": null,
+                                    "ofType": {
+                                        "kind": "OBJECT",
+                                        "name": "ArbeidsgiverInntekterFraAOrdningen",
+                                        "ofType": null
+                                    }
+                                }
+                            }
+                        },
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
+                    {
                         "name": "navn",
                         "description": null,
                         "args": [],
@@ -645,6 +669,57 @@
                                         "ofType": null
                                     }
                                 }
+                            }
+                        },
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    }
+                ],
+                "inputFields": null,
+                "interfaces": [],
+                "enumValues": null,
+                "possibleTypes": null
+            },
+            {
+                "kind": "OBJECT",
+                "name": "ArbeidsgiverInntekterFraAOrdningen",
+                "description": null,
+                "fields": [
+                    {
+                        "name": "inntekter",
+                        "description": null,
+                        "args": [],
+                        "type": {
+                            "kind": "NON_NULL",
+                            "name": null,
+                            "ofType": {
+                                "kind": "LIST",
+                                "name": null,
+                                "ofType": {
+                                    "kind": "NON_NULL",
+                                    "name": null,
+                                    "ofType": {
+                                        "kind": "OBJECT",
+                                        "name": "InntektFraAOrdningen",
+                                        "ofType": null
+                                    }
+                                }
+                            }
+                        },
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
+                    {
+                        "name": "skjaeringstidspunkt",
+                        "description": null,
+                        "args": [],
+                        "type": {
+                            "kind": "NON_NULL",
+                            "name": null,
+                            "ofType": {
+                                "kind": "SCALAR",
+                                "name": "String",
+                                "ofType": null
                             }
                         },
                         "isDeprecated": false,
@@ -5422,22 +5497,6 @@
                         "deprecationReason": null
                     },
                     {
-                        "name": "fraDagErForeldet",
-                        "description": null,
-                        "type": {
-                            "kind": "NON_NULL",
-                            "name": null,
-                            "ofType": {
-                                "kind": "SCALAR",
-                                "name": "Boolean",
-                                "ofType": null
-                            }
-                        },
-                        "defaultValue": null,
-                        "isDeprecated": false,
-                        "deprecationReason": null
-                    },
-                    {
                         "name": "fraGrad",
                         "description": null,
                         "type": {
@@ -5471,6 +5530,18 @@
                         "type": {
                             "kind": "SCALAR",
                             "name": "Int",
+                            "ofType": null
+                        },
+                        "defaultValue": null,
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
+                    {
+                        "name": "subsumsjon",
+                        "description": null,
+                        "type": {
+                            "kind": "INPUT_OBJECT",
+                            "name": "SubsumsjonInput",
                             "ofType": null
                         },
                         "defaultValue": null,

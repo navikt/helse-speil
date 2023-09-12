@@ -700,7 +700,8 @@
                             ]
                         }
                     ],
-                    "overstyringer": []
+                    "overstyringer": [],
+                    "inntekterFraAordningen": []
                 },
                 {
                     "bransjer": [],
@@ -716,7 +717,8 @@
                     ],
                     "ghostPerioder": [],
                     "generasjoner": [],
-                    "overstyringer": []
+                    "overstyringer": [],
+                    "inntekterFraAordningen": []
                 }
             ]
         }

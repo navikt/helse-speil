@@ -864,7 +864,8 @@
                             },
                             "ferdigstilt": false
                         }
-                    ]
+                    ],
+                    "inntekterFraAordningen": []
                 },
                 {
                     "bransjer": [],
@@ -883,7 +884,8 @@
                         }
                     ],
                     "generasjoner": [],
-                    "overstyringer": []
+                    "overstyringer": [],
+                    "inntekterFraAordningen": []
                 }
             ]
         }

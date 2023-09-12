@@ -1681,7 +1681,8 @@
                             ]
                         }
                     ],
-                    "overstyringer": []
+                    "overstyringer": [],
+                    "inntekterFraAordningen": []
                 },
                 {
                     "bransjer": [],
@@ -2555,7 +2556,8 @@
                             ]
                         }
                     ],
-                    "overstyringer": []
+                    "overstyringer": [],
+                    "inntekterFraAordningen": []
                 }
             ]
         }

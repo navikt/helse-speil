@@ -74,9 +74,16 @@ export type Arbeidsgiver = {
     bransjer: Array<Scalars['String']['output']>;
     generasjoner: Array<Generasjon>;
     ghostPerioder: Array<GhostPeriode>;
+    inntekterFraAordningen: Array<ArbeidsgiverInntekterFraAOrdningen>;
     navn: Scalars['String']['output'];
     organisasjonsnummer: Scalars['String']['output'];
     overstyringer: Array<Overstyring>;
+};
+
+export type ArbeidsgiverInntekterFraAOrdningen = {
+    __typename?: 'ArbeidsgiverInntekterFraAOrdningen';
+    inntekter: Array<InntektFraAOrdningen>;
+    skjaeringstidspunkt: Scalars['String']['output'];
 };
 
 export type Arbeidsgiverinntekt = {
@@ -604,10 +611,10 @@ export type OverstyringArbeidsgiverInput = {
 
 export type OverstyringDagInput = {
     dato: Scalars['String']['input'];
-    fraDagErForeldet: Scalars['Boolean']['input'];
     fraGrad?: InputMaybe<Scalars['Int']['input']>;
     fraType: Scalars['String']['input'];
     grad?: InputMaybe<Scalars['Int']['input']>;
+    subsumsjon?: InputMaybe<SubsumsjonInput>;
     type: Scalars['String']['input'];
 };
 
