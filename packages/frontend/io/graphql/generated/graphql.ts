@@ -51,6 +51,13 @@ export type Arbeidsforhold = {
     stillingstittel: Scalars['String']['output'];
 };
 
+export type ArbeidsforholdOverstyringHandlingInput = {
+    aktorId: Scalars['String']['input'];
+    fodselsnummer: Scalars['String']['input'];
+    overstyrteArbeidsforhold: Array<OverstyringArbeidsforholdInput>;
+    skjaringstidspunkt: Scalars['String']['input'];
+};
+
 export type Arbeidsforholdoverstyring = Overstyring & {
     __typename?: 'Arbeidsforholdoverstyring';
     begrunnelse: Scalars['String']['output'];
@@ -285,6 +292,13 @@ export type InntektFraAOrdningen = {
     sum: Scalars['Float']['output'];
 };
 
+export type InntektOgRefusjonOverstyringInput = {
+    aktorId: Scalars['String']['input'];
+    arbeidsgivere: Array<OverstyringArbeidsgiverInput>;
+    fodselsnummer: Scalars['String']['input'];
+    skjaringstidspunkt: Scalars['String']['input'];
+};
+
 export type Inntektoverstyring = Overstyring & {
     __typename?: 'Inntektoverstyring';
     ferdigstilt: Scalars['Boolean']['output'];
@@ -363,8 +377,12 @@ export type Mutation = {
     leggTilKommentar?: Maybe<Kommentar>;
     leggTilNotat?: Maybe<Notat>;
     opprettTildeling?: Maybe<Tildeling>;
+    overstyrArbeidsforhold: Scalars['Boolean']['output'];
+    overstyrDager: Scalars['Boolean']['output'];
+    overstyrInntektOgRefusjon: Scalars['Boolean']['output'];
     settVarselstatusAktiv?: Maybe<VarselDto>;
     settVarselstatusVurdert?: Maybe<VarselDto>;
+    skjonnsfastsettSykepengegrunnlag: Scalars['Boolean']['output'];
 };
 
 export type MutationAbonnerArgs = {
@@ -414,6 +432,18 @@ export type MutationOpprettTildelingArgs = {
     oppgaveId: Scalars['String']['input'];
 };
 
+export type MutationOverstyrArbeidsforholdArgs = {
+    overstyring: ArbeidsforholdOverstyringHandlingInput;
+};
+
+export type MutationOverstyrDagerArgs = {
+    overstyring: TidslinjeOverstyringInput;
+};
+
+export type MutationOverstyrInntektOgRefusjonArgs = {
+    overstyring: InntektOgRefusjonOverstyringInput;
+};
+
 export type MutationSettVarselstatusAktivArgs = {
     generasjonIdString: Scalars['String']['input'];
     ident: Scalars['String']['input'];
@@ -425,6 +455,10 @@ export type MutationSettVarselstatusVurdertArgs = {
     generasjonIdString: Scalars['String']['input'];
     ident: Scalars['String']['input'];
     varselkode: Scalars['String']['input'];
+};
+
+export type MutationSkjonnsfastsettSykepengegrunnlagArgs = {
+    skjonnsfastsettelse: SkjonnsfastsettelseInput;
 };
 
 export type Notat = {
@@ -518,10 +552,12 @@ export type OppgaveForPeriodevisning = {
 export enum Oppgavetype {
     DelvisRefusjon = 'DELVIS_REFUSJON',
     FortroligAdresse = 'FORTROLIG_ADRESSE',
+    IngenUtbetaling = 'INGEN_UTBETALING',
     Revurdering = 'REVURDERING',
     RiskQa = 'RISK_QA',
     Soknad = 'SOKNAD',
     Stikkprove = 'STIKKPROVE',
+    UtbetalingTilArbeidsgiver = 'UTBETALING_TIL_ARBEIDSGIVER',
     UtbetalingTilSykmeldt = 'UTBETALING_TIL_SYKMELDT',
 }
 
@@ -548,6 +584,39 @@ export type Overstyring = {
     hendelseId: Scalars['String']['output'];
     saksbehandler: Saksbehandler;
     timestamp: Scalars['String']['output'];
+};
+
+export type OverstyringArbeidsforholdInput = {
+    begrunnelse: Scalars['String']['input'];
+    deaktivert: Scalars['Boolean']['input'];
+    forklaring: Scalars['String']['input'];
+    orgnummer: Scalars['String']['input'];
+};
+
+export type OverstyringArbeidsgiverInput = {
+    begrunnelse: Scalars['String']['input'];
+    forklaring: Scalars['String']['input'];
+    fraManedligInntekt: Scalars['Float']['input'];
+    fraRefusjonsopplysninger?: InputMaybe<Array<OverstyringRefusjonselementInput>>;
+    manedligInntekt: Scalars['Float']['input'];
+    organisasjonsnummer: Scalars['String']['input'];
+    refusjonsopplysninger?: InputMaybe<Array<OverstyringRefusjonselementInput>>;
+    subsumsjon?: InputMaybe<SubsumsjonInput>;
+};
+
+export type OverstyringDagInput = {
+    dato: Scalars['String']['input'];
+    fraDagErForeldet: Scalars['Boolean']['input'];
+    fraGrad?: InputMaybe<Scalars['Int']['input']>;
+    fraType: Scalars['String']['input'];
+    grad?: InputMaybe<Scalars['Int']['input']>;
+    type: Scalars['String']['input'];
+};
+
+export type OverstyringRefusjonselementInput = {
+    belop: Scalars['Float']['input'];
+    fom: Scalars['String']['input'];
+    tom?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type OverstyrtDag = {
@@ -812,6 +881,32 @@ export type SkjonnsfastsattSykepengegrunnlag = {
     type?: Maybe<Skjonnsfastsettingstype>;
 };
 
+export type SkjonnsfastsettelseArbeidsgiverInput = {
+    arlig: Scalars['Float']['input'];
+    arsak: Scalars['String']['input'];
+    begrunnelseFritekst?: InputMaybe<Scalars['String']['input']>;
+    begrunnelseKonklusjon?: InputMaybe<Scalars['String']['input']>;
+    begrunnelseMal?: InputMaybe<Scalars['String']['input']>;
+    fraArlig: Scalars['Float']['input'];
+    initierendeVedtaksperiodeId?: InputMaybe<Scalars['String']['input']>;
+    organisasjonsnummer: Scalars['String']['input'];
+    subsumsjon?: InputMaybe<SubsumsjonInput>;
+    type: SkjonnsfastsettelseType;
+};
+
+export type SkjonnsfastsettelseInput = {
+    aktorId: Scalars['String']['input'];
+    arbeidsgivere: Array<SkjonnsfastsettelseArbeidsgiverInput>;
+    fodselsnummer: Scalars['String']['input'];
+    skjaringstidspunkt: Scalars['String']['input'];
+};
+
+export enum SkjonnsfastsettelseType {
+    Annet = 'ANNET',
+    OmregnetArsinntekt = 'OMREGNET_ARSINNTEKT',
+    RapportertArsinntekt = 'RAPPORTERT_ARSINNTEKT',
+}
+
 export enum Skjonnsfastsettingstype {
     Annet = 'ANNET',
     OmregnetArsinntekt = 'OMREGNET_ARSINNTEKT',
@@ -849,6 +944,12 @@ export type Soknadsfrist = {
 export type Spennoppdrag = {
     fagsystemId: Scalars['String']['output'];
     linjer: Array<Utbetalingslinje>;
+};
+
+export type SubsumsjonInput = {
+    bokstav?: InputMaybe<Scalars['String']['input']>;
+    ledd?: InputMaybe<Scalars['String']['input']>;
+    paragraf: Scalars['String']['input'];
 };
 
 export enum Sykdomsdagtype {
@@ -904,6 +1005,14 @@ export type Sykmelding = Hendelse & {
     rapportertDato: Scalars['String']['output'];
     tom: Scalars['String']['output'];
     type: Hendelsetype;
+};
+
+export type TidslinjeOverstyringInput = {
+    aktorId: Scalars['String']['input'];
+    begrunnelse: Scalars['String']['input'];
+    dager: Array<OverstyringDagInput>;
+    fodselsnummer: Scalars['String']['input'];
+    organisasjonsnummer: Scalars['String']['input'];
 };
 
 export type Tildeling = {
