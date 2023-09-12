@@ -31,7 +31,7 @@
 .Content {
     padding: 0;
     color: var(--a-text-default);
-    overflow: auto hidden;
+    overflow: auto;
     box-sizing: border-box;
     flex: 1;
 }
