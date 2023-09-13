@@ -20,14 +20,19 @@ const getSorterteInntekter = (inntekterFraAOrdningen: Array<InntektFraAOrdningen
 };
 
 type InntektFraAOrdningenProps = {
-    inntektFraAOrdningen: Array<InntektFraAOrdningen>;
+    inntektFraAOrdningen?: Array<InntektFraAOrdningen>;
     visHjelpetekst?: boolean;
+    erAktivGhost?: Maybe<boolean>;
 };
 
 export const SisteTreMånedersInntekt = ({
     inntektFraAOrdningen,
     visHjelpetekst = false,
+    erAktivGhost = false,
 }: InntektFraAOrdningenProps) => {
+    if (!inntektFraAOrdningen) {
+        return;
+    }
     return (
         <>
             <Flex alignItems="center" className={styles.SisteTreMndInntekt}>
@@ -53,6 +58,15 @@ export const SisteTreMånedersInntekt = ({
                     </React.Fragment>
                 ))}
             </div>
+            {erAktivGhost && (
+                <div className={styles.ArbeidsforholdInfoText}>
+                    <p>
+                        Arbeidsforholdet er tatt med i beregningsgrunnlaget fordi det er <br />
+                        innrapportert inntekt og/eller fordi arbeidsforholdet har startdato i <br />
+                        løpet av de to siste månedene før skjæringstidspunktet.
+                    </p>
+                </div>
+            )}
         </>
     );
 };

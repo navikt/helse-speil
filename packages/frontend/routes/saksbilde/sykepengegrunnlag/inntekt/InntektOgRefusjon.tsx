@@ -15,6 +15,7 @@ import {
     Arbeidsgiver,
     BeregnetPeriode,
     InntektFraAOrdningen,
+    Inntektskilde,
     Inntektstype,
     Maybe,
     OmregnetArsinntekt,
@@ -311,11 +312,20 @@ export const InntektOgRefusjon = ({
             ) : (
                 <ReadOnlyInntekt
                     omregnetÅrsinntekt={omregnetÅrsinntekt}
-                    deaktivert={erDeaktivert}
                     lokaltMånedsbeløp={lokaltMånedsbeløp}
                     endret={endret}
                     inntektsendringer={inntektsendringer}
-                    erGhostperiode={erGhostperiode}
+                />
+            )}
+            {refusjon && refusjon.length !== 0 && !editingInntekt && (
+                <Refusjonsoversikt refusjon={refusjon} lokaleRefusjonsopplysninger={lokaleRefusjonsopplysninger} />
+            )}
+
+            {!editingInntekt && (
+                <SisteTreMånedersInntekt
+                    inntektFraAOrdningen={omregnetÅrsinntekt?.inntektFraAOrdningen ?? inntektFraAOrdningen}
+                    visHjelpetekst={omregnetÅrsinntekt?.kilde === Inntektskilde.Aordningen}
+                    erAktivGhost={erGhostperiode && !erDeaktivert}
                 />
             )}
             {!editingInntekt && arbeidsforholdKanOverstyres && !harSykefravær && (
@@ -324,12 +334,6 @@ export const InntektOgRefusjon = ({
                     skjæringstidspunkt={skjæringstidspunkt}
                     arbeidsforholdErDeaktivert={erDeaktivert}
                 />
-            )}
-            {refusjon && refusjon.length !== 0 && !editingInntekt && (
-                <Refusjonsoversikt refusjon={refusjon} lokaleRefusjonsopplysninger={lokaleRefusjonsopplysninger} />
-            )}
-            {inntektFraAOrdningen && !editingInntekt && harSykefravær && (
-                <SisteTreMånedersInntekt inntektFraAOrdningen={inntektFraAOrdningen} />
             )}
         </div>
     );

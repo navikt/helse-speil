@@ -1,4 +1,3 @@
-import { SisteTreMånedersInntekt } from './SisteTreMånedersInntekt';
 import React from 'react';
 
 import { BodyShort } from '@navikt/ds-react';
@@ -15,49 +14,18 @@ import { EndringsloggButton } from './EndringsloggButton';
 
 import styles from './ReadOnlyInntekt.module.css';
 
-interface OmregnetÅrsinntektProps {
-    omregnetÅrsinntekt: OmregnetArsinntekt;
-    deaktivert?: Maybe<boolean>;
-}
-
-const GhostInntektsinformasjon: React.FC<OmregnetÅrsinntektProps> = ({ omregnetÅrsinntekt, deaktivert }) => {
-    return (
-        <>
-            {omregnetÅrsinntekt.inntektFraAOrdningen && (
-                <SisteTreMånedersInntekt
-                    inntektFraAOrdningen={omregnetÅrsinntekt.inntektFraAOrdningen}
-                    visHjelpetekst={omregnetÅrsinntekt.kilde === Inntektskilde.Aordningen}
-                />
-            )}
-            {!deaktivert && (
-                <div className={styles.ArbeidsforholdInfoText}>
-                    <p>
-                        Arbeidsforholdet er tatt med i beregningsgrunnlaget fordi det er <br />
-                        innrapportert inntekt og/eller fordi arbeidsforholdet har startdato i <br />
-                        løpet av de to siste månedene før skjæringstidspunktet.
-                    </p>
-                </div>
-            )}
-        </>
-    );
-};
-
 interface ReadOnlyInntektProps {
     omregnetÅrsinntekt?: Maybe<OmregnetArsinntekt>;
-    deaktivert?: Maybe<boolean>;
     lokaltMånedsbeløp: Maybe<number>;
     endret: boolean;
     inntektsendringer: Inntektoverstyring[];
-    erGhostperiode: boolean;
 }
 
 export const ReadOnlyInntekt: React.FC<ReadOnlyInntektProps> = ({
     omregnetÅrsinntekt,
-    deaktivert,
     lokaltMånedsbeløp = null,
     endret,
     inntektsendringer,
-    erGhostperiode,
 }) => {
     const harInntektskildeAOrdningen = omregnetÅrsinntekt?.kilde === Inntektskilde.Aordningen;
 
@@ -91,13 +59,6 @@ export const ReadOnlyInntekt: React.FC<ReadOnlyInntektProps> = ({
                 </BodyShort>
                 <Bold>{somPenger(omregnetÅrsinntekt?.belop)}</Bold>
             </div>
-            {harInntektskildeAOrdningen &&
-                omregnetÅrsinntekt.inntektFraAOrdningen &&
-                (erGhostperiode ? (
-                    <GhostInntektsinformasjon omregnetÅrsinntekt={omregnetÅrsinntekt} deaktivert={deaktivert} />
-                ) : (
-                    <SisteTreMånedersInntekt inntektFraAOrdningen={omregnetÅrsinntekt.inntektFraAOrdningen} />
-                ))}
         </>
     );
 };
