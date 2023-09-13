@@ -7,7 +7,7 @@ import { useResetPerson } from '@state/person';
 import { enOppgaveForOversikten } from '@test-data/oppgave';
 import { render } from '@testing-library/react';
 
-import Oversikt from './Oversikt';
+import { Oversikt } from './Oversikt';
 
 jest.mock('@state/oppgaver');
 jest.mock('@state/person');

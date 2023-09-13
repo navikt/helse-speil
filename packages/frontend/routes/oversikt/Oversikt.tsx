@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { Suspense, lazy, useEffect } from 'react';
 
 import { Alert } from '@navikt/ds-react';
 
@@ -8,18 +8,59 @@ import { FetchOppgaverQuery } from '@io/graphql';
 import { useInnloggetSaksbehandler } from '@state/authentication';
 import { OppgaverResponse, useQueryOppgaver } from '@state/oppgaver';
 import { useResetPerson } from '@state/person';
+import { onLazyLoadFail } from '@utils/error';
 
 import { IngenOppgaver } from './IngenOppgaver';
 import { Tabs } from './Tabs';
 import { BehandlingsstatistikkView } from './behandlingsstatistikk/BehandlingsstatistikkView';
 import { TabType, useAktivTab } from './tabState';
-import { BehandletIdagTable } from './table/BehandletIdagTable';
 import { OppgaverTable } from './table/OppgaverTable/OppgaverTable';
 import { OppgaverTableSkeleton } from './table/OppgaverTableSkeleton';
 
 import styles from './Oversikt.module.css';
 
+const BehandletIdagTable = lazy(() =>
+    import('./table/BehandletIdagTable.js').then((res) => ({ default: res.BehandletIdagTable })).catch(onLazyLoadFail),
+);
+
 type Oppgaver = FetchOppgaverQuery['alleOppgaver'];
+
+export const Oversikt = () => {
+    const oppgaverResponse = useOppgaverFilteredByTab();
+    const aktivTab = useAktivTab();
+
+    useLoadingToast({ isLoading: oppgaverResponse.loading, message: 'Henter oppgaver' });
+
+    useResetPersonOnMount();
+
+    return (
+        <main className={styles.Oversikt}>
+            {oppgaverResponse.error && (
+                <Alert className={styles.Alert} variant="warning" size="small">
+                    {oppgaverResponse.error?.message}
+                </Alert>
+            )}
+            <Tabs />
+            <Flex className={styles.fullHeight}>
+                <section className={styles.Content}>
+                    {aktivTab === TabType.BehandletIdag ? (
+                        <Suspense fallback={<OppgaverTableSkeleton />}>
+                            <BehandletIdagTable />
+                        </Suspense>
+                    ) : oppgaverResponse.loading ? (
+                        <OppgaverTableSkeleton />
+                    ) : oppgaverResponse.oppgaver && oppgaverResponse.oppgaver?.length > 0 ? (
+                        <OppgaverTable oppgaver={oppgaverResponse.oppgaver} />
+                    ) : (
+                        <IngenOppgaver />
+                    )}
+                </section>
+                <BehandlingsstatistikkView />
+            </Flex>
+        </main>
+    );
+};
+
 const useOppgaverFilteredByTab = (): OppgaverResponse => {
     const { oid } = useInnloggetSaksbehandler();
     const aktivTab = useAktivTab();
@@ -60,39 +101,3 @@ const useResetPersonOnMount = (): void => {
         resetPerson();
     }, []);
 };
-
-export const Oversikt = () => {
-    const oppgaverResponse = useOppgaverFilteredByTab();
-    const aktivTab = useAktivTab();
-
-    useLoadingToast({ isLoading: oppgaverResponse.loading, message: 'Henter oppgaver' });
-
-    useResetPersonOnMount();
-
-    return (
-        <main className={styles.Oversikt}>
-            {oppgaverResponse.error && (
-                <Alert className={styles.Alert} variant="warning" size="small">
-                    {oppgaverResponse.error?.message}
-                </Alert>
-            )}
-            <Tabs />
-            <Flex className={styles.fullHeight}>
-                <section className={styles.Content}>
-                    {aktivTab === TabType.BehandletIdag ? (
-                        <BehandletIdagTable />
-                    ) : oppgaverResponse.loading ? (
-                        <OppgaverTableSkeleton />
-                    ) : oppgaverResponse.oppgaver && oppgaverResponse.oppgaver?.length > 0 ? (
-                        <OppgaverTable oppgaver={oppgaverResponse.oppgaver} />
-                    ) : (
-                        <IngenOppgaver />
-                    )}
-                </section>
-                <BehandlingsstatistikkView />
-            </Flex>
-        </main>
-    );
-};
-
-export default Oversikt;

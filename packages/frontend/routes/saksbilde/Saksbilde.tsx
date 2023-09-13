@@ -14,7 +14,6 @@ import { onLazyLoadFail } from '@utils/error';
 
 import { PersonHeader } from './personHeader';
 import { SaksbildeMenu } from './saksbildeMenu/SaksbildeMenu';
-import { PeriodeView } from './saksbilder/PeriodeView';
 import { Timeline } from './timeline';
 import { useKeyboardShortcuts } from './useKeyboardShortcuts';
 
@@ -24,6 +23,22 @@ const Utbetalingshistorikk = React.lazy(() =>
     import('./utbetalingshistorikk/Utbetalingshistorikk.js')
         .then((res) => ({ default: res.Utbetalingshistorikk }))
         .catch(onLazyLoadFail),
+);
+
+const PeriodeView = React.lazy(() =>
+    import('./saksbilder/PeriodeView.js').then((res) => ({ default: res.PeriodeView })).catch(onLazyLoadFail),
+);
+
+export const Saksbilde = () => (
+    <ErrorBoundary
+        fallback={(error: Error) => (
+            <Alert variant="warning" size="small" className={styles.Alert}>
+                {error.message}
+            </Alert>
+        )}
+    >
+        <SaksbildeContent />
+    </ErrorBoundary>
 );
 
 const SaksbildeContent = React.memo(() => {
@@ -49,15 +64,3 @@ const SaksbildeContent = React.memo(() => {
         </div>
     );
 });
-
-export const Saksbilde = () => (
-    <ErrorBoundary
-        fallback={(error: Error) => (
-            <Alert variant="warning" size="small" className={styles.Alert}>
-                {error.message}
-            </Alert>
-        )}
-    >
-        <SaksbildeContent />
-    </ErrorBoundary>
-);
