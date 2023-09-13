@@ -19,3 +19,6 @@ generates:
   ./packages/backend/spesialistMock/schemaTypes.ts:
     plugins:
       - "typescript"
+hooks:
+  afterAllFileWrite:
+    - prettier --write
