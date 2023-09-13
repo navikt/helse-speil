@@ -204,6 +204,7 @@ export type Dagoverstyring = Overstyring & {
 
 export enum Dagtype {
     AaPdag = 'AAPdag',
+    ArbeidIkkeGjenopptattDag = 'ArbeidIkkeGjenopptattDag',
     Arbeidsdag = 'Arbeidsdag',
     Avvistdag = 'Avvistdag',
     Dagpengerdag = 'Dagpengerdag',
@@ -967,6 +968,7 @@ export enum Sykdomsdagtype {
     AndreYtelserOpplaringspenger = 'ANDRE_YTELSER_OPPLARINGSPENGER',
     AndreYtelserPleiepenger = 'ANDRE_YTELSER_PLEIEPENGER',
     AndreYtelserSvangerskapspenger = 'ANDRE_YTELSER_SVANGERSKAPSPENGER',
+    Arbeidikkegjenopptattdag = 'ARBEIDIKKEGJENOPPTATTDAG',
     Arbeidsdag = 'ARBEIDSDAG',
     Arbeidsgiverdag = 'ARBEIDSGIVERDAG',
     Avslatt = 'AVSLATT',

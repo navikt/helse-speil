@@ -12,7 +12,7 @@ export type OverstyrtDagtype =
     | 'Egenmeldingsdag'
     | 'Permisjonsdag'
     | 'Avvistdag'
-    | 'FerieUtenSykmeldingDag'
+    | 'ArbeidIkkeGjenopptattDag'
     | 'Arbeidsdag'
     | 'Foreldrepengerdag'
     | 'AAPdag'

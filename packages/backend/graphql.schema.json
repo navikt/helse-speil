@@ -2025,6 +2025,12 @@
                         "deprecationReason": null
                     },
                     {
+                        "name": "ArbeidIkkeGjenopptattDag",
+                        "description": null,
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
+                    {
                         "name": "Arbeidsdag",
                         "description": null,
                         "isDeprecated": false,
@@ -8849,6 +8855,12 @@
                     },
                     {
                         "name": "ANDRE_YTELSER_SVANGERSKAPSPENGER",
+                        "description": null,
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
+                    {
+                        "name": "ARBEIDIKKEGJENOPPTATTDAG",
                         "description": null,
                         "isDeprecated": false,
                         "deprecationReason": null

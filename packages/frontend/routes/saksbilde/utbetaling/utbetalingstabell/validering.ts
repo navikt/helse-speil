@@ -104,18 +104,18 @@ export const andreYtelserValidering = (
     return true;
 };
 
-export const ferieUtenSykmeldingValidering = (
+export const arbeidIkkeGjenopptattValidering = (
     overstyrteDager: Map<string, Utbetalingstabelldag>,
     setError: (name: string, message: string) => void,
 ) => {
-    const overstyrtTilFerieUtenSykmelding = Array.from(overstyrteDager.values()).filter(
+    const overstyrtTilArbeidIkkeGjenopptatt = Array.from(overstyrteDager.values()).filter(
         (overstyrtDag) =>
-            overstyrtDag.dag.speilDagtype === 'FerieUtenSykmelding' && overstyrtDag.kilde.type !== 'SAKSBEHANDLER',
+            overstyrtDag.dag.speilDagtype === 'ArbeidIkkeGjenopptatt' && overstyrtDag.kilde.type !== 'SAKSBEHANDLER',
     );
-    if (overstyrtTilFerieUtenSykmelding.length > 0) {
+    if (overstyrtTilArbeidIkkeGjenopptatt.length > 0) {
         setError(
-            'kanIkkeOverstyreTilFerieUtenSykmelding',
-            'Du kan ikke overstyre til ferie uten sykmelding. Du kan bare overstyre til ferie uten sykmelding på dager som allerede er overstyrt av saksbehandler eller så kan ferie uten sykmelding legges til som en ny dag i starten av perioden.',
+            'kanIkkeOverstyreTilArbeidIkkeGjenopptatt',
+            'Du kan ikke overstyre til arbeid ikke gjenopptatt. Du kan bare overstyre til arbeid ikke gjenopptatt på dager som allerede er overstyrt av saksbehandler eller så kan arbeid ikke gjenopptatt legges til som en ny dag i starten av perioden.',
         );
         return false;
     }

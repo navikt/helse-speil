@@ -5,12 +5,12 @@ import { Dag, Dagoverstyring, Dagtype, Maybe, OverstyrtDag, Utbetalingsdagtype }
 
 import {
     AAPdag,
+    ArbeidIkkeGjenopptattDag,
     Arbeidsdag,
     Avslåttdag,
     AvvistEllerForeldetDag,
     Dagpengerdag,
     Egenmeldingsdag,
-    FerieUtenSykmeldingDag,
     Feriedag,
     Foreldrepengerdag,
     Navhelgedag,
@@ -42,7 +42,8 @@ const getUtbetalingstabelldagtypeFromOverstyrtDag = (dag: OverstyrtDag): Speilda
         case Dagtype.Svangerskapspengerdag:
             return Svangerskapspengerdag;
         case Dagtype.FerieUtenSykmeldingDag:
-            return FerieUtenSykmeldingDag;
+        case Dagtype.ArbeidIkkeGjenopptattDag:
+            return ArbeidIkkeGjenopptattDag;
         case Dagtype.Egenmeldingsdag:
             return Egenmeldingsdag;
         case Dagtype.Feriedag:

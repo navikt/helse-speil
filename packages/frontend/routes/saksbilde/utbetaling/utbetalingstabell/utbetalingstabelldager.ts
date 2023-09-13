@@ -109,10 +109,10 @@ export const Opplæringspengerdag: Speildag = {
     overstyrtDagtype: 'Opplaringspengerdag',
 };
 
-export const FerieUtenSykmeldingDag: Speildag = {
-    speilDagtype: 'FerieUtenSykmelding',
-    visningstekst: 'Ferie uten sykmelding',
-    overstyrtDagtype: 'FerieUtenSykmeldingDag',
+export const ArbeidIkkeGjenopptattDag: Speildag = {
+    speilDagtype: 'ArbeidIkkeGjenopptatt',
+    visningstekst: 'Arbeid ikke gjenopptatt',
+    overstyrtDagtype: 'ArbeidIkkeGjenopptattDag',
 };
 
 export const Avslåttdag: Speildag = {
@@ -160,7 +160,8 @@ export const getSpeildag = (
         case Sykdomsdagtype.AndreYtelserSvangerskapspenger:
             return Svangerskapspengerdag;
         case Sykdomsdagtype.Ferieutensykmeldingdag:
-            return FerieUtenSykmeldingDag;
+        case Sykdomsdagtype.Arbeidikkegjenopptattdag:
+            return ArbeidIkkeGjenopptattDag;
         case Sykdomsdagtype.Arbeidsdag:
             return utbetalingsdagtype === Utbetalingsdagtype.Helgedag ? Helgedag : Arbeidsdag;
         case Sykdomsdagtype.Feriedag:

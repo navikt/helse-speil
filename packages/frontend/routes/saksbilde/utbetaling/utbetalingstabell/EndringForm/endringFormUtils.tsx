@@ -1,7 +1,7 @@
 import {
+    ArbeidIkkeGjenopptattDag,
     Arbeidsdag,
     Egenmeldingsdag,
-    FerieUtenSykmeldingDag,
     Feriedag,
     Foreldrepengerdag,
     Omsorgspengerdag,
@@ -18,7 +18,7 @@ export const typeendringer: Speildag[] = [
     Sykedag,
     SykedagNav,
     Feriedag,
-    FerieUtenSykmeldingDag,
+    ArbeidIkkeGjenopptattDag,
     Egenmeldingsdag,
     Permisjonsdag,
     Arbeidsdag,

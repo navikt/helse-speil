@@ -5,9 +5,9 @@ import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 import {
+    ArbeidIkkeGjenopptattDag,
     Arbeidsdag,
     Egenmeldingsdag,
-    FerieUtenSykmeldingDag,
     Feriedag,
     Foreldrepengerdag,
     Omsorgspengerdag,
@@ -34,7 +34,7 @@ describe('Typeendringer', () => {
             Sykedag,
             SykedagNav,
             Feriedag,
-            FerieUtenSykmeldingDag,
+            ArbeidIkkeGjenopptattDag,
             Egenmeldingsdag,
             Permisjonsdag,
             Arbeidsdag,

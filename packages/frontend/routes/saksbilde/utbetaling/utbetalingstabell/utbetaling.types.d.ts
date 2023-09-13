@@ -16,7 +16,7 @@ declare type Utbetalingstabelldagtype =
     | 'Permisjon'
     | 'Arbeid'
     | 'Avslått'
-    | 'FerieUtenSykmelding'
+    | 'ArbeidIkkeGjenopptatt'
     | 'Foreldrepenger'
     | 'AAP'
     | 'Dagpenger'

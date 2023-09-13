@@ -6,8 +6,8 @@ import { Button, ErrorSummary, Textarea } from '@navikt/ds-react';
 
 import {
     andreYtelserValidering,
+    arbeidIkkeGjenopptattValidering,
     arbeidsdagValidering,
-    ferieUtenSykmeldingValidering,
     sykNavValidering,
 } from './validering';
 
@@ -62,13 +62,13 @@ export const OverstyringForm: React.FC<OverstyringFormProps> = ({
     const validering = () => {
         clearErrors([
             'arbeidsdagerKanIkkeOverstyres',
-            'kanIkkeOverstyreTilFerieUtenSykmelding',
+            'kanIkkeOverstyreTilArbeidIkkeGjenopptatt',
             'kanIkkeOverstyreTilAnnenYtelse',
             'kanIkkeOverstyreTilSykNav',
         ]);
         if (
             arbeidsdagValidering(overstyrteDager, hale, setCustomError) &&
-            ferieUtenSykmeldingValidering(overstyrteDager, setCustomError) &&
+            arbeidIkkeGjenopptattValidering(overstyrteDager, setCustomError) &&
             andreYtelserValidering(overstyrteDager, hale, snute, setCustomError) &&
             sykNavValidering(overstyrteDager, setCustomError)
         ) {
