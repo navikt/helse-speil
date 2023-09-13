@@ -32,6 +32,7 @@ export const TilGodkjenningOppgaveRow = ({ oppgave, readOnly }: TilGodkjenningOp
             haster={oppgave.haster ?? false}
             harVergemål={oppgave.harVergemal ?? false}
             tilhørerEnhetUtland={oppgave.tilhorerEnhetUtland ?? false}
+            spesialsak={oppgave.spesialsak ?? false}
         />
         <InntektskildeCell flereArbeidsgivere={oppgave.flereArbeidsgivere} />
         <DatoCell date={oppgave.sistSendt ?? oppgave.opprettet} />

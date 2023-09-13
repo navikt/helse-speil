@@ -8,6 +8,7 @@ interface EgenskaperCellProps {
     haster?: boolean;
     harVergemål?: boolean;
     tilhørerEnhetUtland?: boolean;
+    spesialsak?: boolean;
 }
 
 const getLabel = (
@@ -16,6 +17,7 @@ const getLabel = (
     haster: boolean,
     harVergemål: boolean,
     tilhørerEnhetUtland: boolean,
+    spesialsak: boolean,
 ) => {
     let label = '';
     if (erBeslutter) label += 'Beslutter';
@@ -23,6 +25,7 @@ const getLabel = (
     if (haster) label += (label.length > 0 ? ', ' : '') + 'Haster';
     if (harVergemål) label += (label.length > 0 ? ', ' : '') + 'Vergemål';
     if (tilhørerEnhetUtland) label += (label.length > 0 ? ', ' : '') + 'Utland';
+    if (spesialsak) label += (label.length > 0 ? ', ' : '') + '🌰';
     return label;
 };
 
@@ -32,6 +35,7 @@ export const EgenskaperCell = ({
     haster,
     harVergemål,
     tilhørerEnhetUtland,
+    spesialsak,
 }: EgenskaperCellProps) => {
     const label = getLabel(
         erBeslutter ?? false,
@@ -39,6 +43,7 @@ export const EgenskaperCell = ({
         haster ?? false,
         harVergemål ?? false,
         tilhørerEnhetUtland ?? false,
+        spesialsak ?? false,
     );
     return <Table.DataCell>{label}</Table.DataCell>;
 };

@@ -30,6 +30,7 @@ export const PåVentOppgaveRow = ({ oppgave }: PåVentOppgaveRowProps) => (
             haster={oppgave.haster ?? false}
             harVergemål={oppgave.harVergemal ?? false}
             tilhørerEnhetUtland={oppgave.tilhorerEnhetUtland ?? false}
+            spesialsak={oppgave.spesialsak ?? false}
         />
         <InntektskildeCell flereArbeidsgivere={oppgave.flereArbeidsgivere} />
         <SøkerCell name={oppgave.navn} />
