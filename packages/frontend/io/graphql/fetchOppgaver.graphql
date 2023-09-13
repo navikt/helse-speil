@@ -30,5 +30,6 @@ query FetchOppgaver {
         haster
         harVergemal
         tilhorerEnhetUtland
+        spesialsak
     }
 }

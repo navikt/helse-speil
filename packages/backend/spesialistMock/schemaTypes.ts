@@ -541,6 +541,7 @@ export type OppgaveForOversiktsvisning = {
     periodetype?: Maybe<Periodetype>;
     personinfo: Personinfo;
     sistSendt?: Maybe<Scalars['String']['output']>;
+    spesialsak: Scalars['Boolean']['output'];
     tildeling?: Maybe<Tildeling>;
     tilhorerEnhetUtland?: Maybe<Scalars['Boolean']['output']>;
     totrinnsvurdering?: Maybe<Totrinnsvurdering>;

@@ -148,6 +148,13 @@ export const defaultFilters: Filter<OppgaveForOversiktsvisning>[] = [
         column: 4,
     },
     {
+        key: 'NØTTESAK',
+        label: '🌰',
+        active: false,
+        function: (oppgave: OppgaveForOversiktsvisning) => oppgave.spesialsak === true,
+        column: 4,
+    },
+    {
         key: 'INGEN_EGENSKAPER',
         label: 'Ingen egenskaper',
         active: false,
@@ -156,7 +163,8 @@ export const defaultFilters: Filter<OppgaveForOversiktsvisning>[] = [
             !(oppgave.totrinnsvurdering?.erBeslutteroppgave ?? false) &&
             !oppgave.haster &&
             !oppgave.harVergemal &&
-            !oppgave.tilhorerEnhetUtland,
+            !oppgave.tilhorerEnhetUtland &&
+            !oppgave.spesialsak,
         column: 4,
     },
     {

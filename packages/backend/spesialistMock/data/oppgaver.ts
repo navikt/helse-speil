@@ -45,6 +45,7 @@ export const oppgaver: Array<OppgaveForOversiktsvisning> = [
         haster: true,
         harVergemal: true,
         tilhorerEnhetUtland: true,
+        spesialsak: false,
     },
     {
         id: '4420',
@@ -75,6 +76,7 @@ export const oppgaver: Array<OppgaveForOversiktsvisning> = [
         },
         mottaker: Mottaker.Sykmeldt,
         harVergemal: true,
+        spesialsak: false,
     },
     {
         id: '4959',
@@ -105,6 +107,7 @@ export const oppgaver: Array<OppgaveForOversiktsvisning> = [
         },
         mottaker: Mottaker.Arbeidsgiver,
         tilhorerEnhetUtland: true,
+        spesialsak: true,
     },
     {
         id: '4917',
@@ -134,6 +137,7 @@ export const oppgaver: Array<OppgaveForOversiktsvisning> = [
             navn: 'NAV oppfølging utland',
         },
         mottaker: null,
+        spesialsak: false,
     },
     {
         id: '5917',
@@ -163,6 +167,7 @@ export const oppgaver: Array<OppgaveForOversiktsvisning> = [
             navn: 'NAV oppfølging utland',
         },
         mottaker: Mottaker.Arbeidsgiver,
+        spesialsak: false,
     },
 ];
 
