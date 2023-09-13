@@ -32,6 +32,7 @@ export const enOppgaveForOversikten: OverridableConstructor<OppgaveForOversiktsv
     opprinneligSoknadsdato: '2020-01-01',
     vedtaksperiodeId: nanoid(),
     totrinnsvurdering: null,
+    spesialsak: false,
     ...overrides,
 });
 
