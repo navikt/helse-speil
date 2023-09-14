@@ -21,13 +21,13 @@ const getSorterteInntekter = (inntekterFraAOrdningen: Array<InntektFraAOrdningen
 
 type InntektFraAOrdningenProps = {
     inntektFraAOrdningen?: Array<InntektFraAOrdningen>;
-    visHjelpetekst?: boolean;
+    erInntektskildeAordningen?: boolean;
     erAktivGhost?: Maybe<boolean>;
 };
 
 export const SisteTolvMånedersInntekt = ({
     inntektFraAOrdningen,
-    visHjelpetekst = false,
+    erInntektskildeAordningen = false,
     erAktivGhost = false,
 }: InntektFraAOrdningenProps) => {
     if (!inntektFraAOrdningen) {
@@ -39,18 +39,16 @@ export const SisteTolvMånedersInntekt = ({
                 <h3 className={styles.Title}>
                     RAPPORTERT SISTE {inntektFraAOrdningen.length > 3 ? '12' : '3'} MÅNEDER
                 </h3>
-                {visHjelpetekst ? (
-                    <PopoverHjelpetekst className={styles.InfoIcon} ikon={<SortInfoikon />}>
-                        <p>
-                            Ved manglende inntektsmelding legges 3 siste måneders innrapporterte inntekter fra
-                            A-ordningen til grunn
-                        </p>
-                    </PopoverHjelpetekst>
-                ) : (
-                    <Kilde type={Inntektskilde.Aordningen} className={styles.Kildeikon}>
-                        {kildeForkortelse(Inntektskilde.Aordningen)}
-                    </Kilde>
-                )}
+                <Kilde type={Inntektskilde.Aordningen} className={styles.Kildeikon}>
+                    {kildeForkortelse(Inntektskilde.Aordningen)}
+                </Kilde>
+                <PopoverHjelpetekst className={styles.InfoIcon} ikon={<SortInfoikon />}>
+                    <p>
+                        {erInntektskildeAordningen
+                            ? 'Ved manglende inntektsmelding legges 3 siste måneders innrapporterte inntekter fra A-ordningen til grunn'
+                            : 'Inntektene er hentet fra a-ordningen §8-28'}
+                    </p>
+                </PopoverHjelpetekst>
             </Flex>
             <div className={styles.Grid}>
                 {getSorterteInntekter(inntektFraAOrdningen).map((inntekt, i) => (

@@ -176,7 +176,7 @@ export const InntektOgRefusjon = ({
             {!editingInntekt && (
                 <SisteTolvMånedersInntekt
                     inntektFraAOrdningen={omregnetÅrsinntekt?.inntektFraAOrdningen ?? inntektFraAOrdningen}
-                    visHjelpetekst={omregnetÅrsinntekt?.kilde === Inntektskilde.Aordningen}
+                    erInntektskildeAordningen={omregnetÅrsinntekt?.kilde === Inntektskilde.Aordningen}
                     erAktivGhost={erGhostperiode && !erDeaktivert}
                 />
             )}
