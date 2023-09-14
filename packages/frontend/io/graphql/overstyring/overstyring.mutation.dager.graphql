@@ -1,0 +1,3 @@
+mutation OverstyrDagerMutation($overstyring: TidslinjeOverstyringInput!) {
+    overstyrDager(overstyring: $overstyring)
+}

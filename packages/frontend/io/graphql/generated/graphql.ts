@@ -2389,6 +2389,18 @@ export type FetchNotaterQuery = {
     }>;
 };
 
+export type OverstyrDagerMutationMutationVariables = Exact<{
+    overstyring: TidslinjeOverstyringInput;
+}>;
+
+export type OverstyrDagerMutationMutation = { __typename?: 'Mutation'; overstyrDager: boolean };
+
+export type OverstyrInntektOgRefusjonMutationMutationVariables = Exact<{
+    overstyring: InntektOgRefusjonOverstyringInput;
+}>;
+
+export type OverstyrInntektOgRefusjonMutationMutation = { __typename?: 'Mutation'; overstyrInntektOgRefusjon: boolean };
+
 export type SettVarselstatusAktivMutationVariables = Exact<{
     generasjonIdString: Scalars['String']['input'];
     varselkode: Scalars['String']['input'];
@@ -5560,6 +5572,81 @@ export const FetchNotaterDocument = {
         },
     ],
 } as unknown as DocumentNode<FetchNotaterQuery, FetchNotaterQueryVariables>;
+export const OverstyrDagerMutationDocument = {
+    kind: 'Document',
+    definitions: [
+        {
+            kind: 'OperationDefinition',
+            operation: 'mutation',
+            name: { kind: 'Name', value: 'OverstyrDagerMutation' },
+            variableDefinitions: [
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'overstyring' } },
+                    type: {
+                        kind: 'NonNullType',
+                        type: { kind: 'NamedType', name: { kind: 'Name', value: 'TidslinjeOverstyringInput' } },
+                    },
+                },
+            ],
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'overstyrDager' },
+                        arguments: [
+                            {
+                                kind: 'Argument',
+                                name: { kind: 'Name', value: 'overstyring' },
+                                value: { kind: 'Variable', name: { kind: 'Name', value: 'overstyring' } },
+                            },
+                        ],
+                    },
+                ],
+            },
+        },
+    ],
+} as unknown as DocumentNode<OverstyrDagerMutationMutation, OverstyrDagerMutationMutationVariables>;
+export const OverstyrInntektOgRefusjonMutationDocument = {
+    kind: 'Document',
+    definitions: [
+        {
+            kind: 'OperationDefinition',
+            operation: 'mutation',
+            name: { kind: 'Name', value: 'OverstyrInntektOgRefusjonMutation' },
+            variableDefinitions: [
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'overstyring' } },
+                    type: {
+                        kind: 'NonNullType',
+                        type: { kind: 'NamedType', name: { kind: 'Name', value: 'InntektOgRefusjonOverstyringInput' } },
+                    },
+                },
+            ],
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'overstyrInntektOgRefusjon' },
+                        arguments: [
+                            {
+                                kind: 'Argument',
+                                name: { kind: 'Name', value: 'overstyring' },
+                                value: { kind: 'Variable', name: { kind: 'Name', value: 'overstyring' } },
+                            },
+                        ],
+                    },
+                ],
+            },
+        },
+    ],
+} as unknown as DocumentNode<
+    OverstyrInntektOgRefusjonMutationMutation,
+    OverstyrInntektOgRefusjonMutationMutationVariables
+>;
 export const SettVarselstatusAktivDocument = {
     kind: 'Document',
     definitions: [
