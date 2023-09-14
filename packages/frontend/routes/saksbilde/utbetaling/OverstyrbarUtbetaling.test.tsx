@@ -10,10 +10,14 @@ import { OverstyrbarUtbetaling } from './OverstyrbarUtbetaling';
 
 let postOverstyringArguments: [Utbetalingstabelldag[], string] | [] = [];
 
-jest.mock('./utbetalingstabell/usePostOverstyring', () => ({
-    usePostOverstyring: () => ({
-        postOverstyring: (dager: Utbetalingstabelldag[], begrunnelse: string) => {
-            postOverstyringArguments = [dager, begrunnelse];
+jest.mock('./utbetalingstabell/useOverstyrDager', () => ({
+    useOverstyrDager: () => ({
+        postOverstyring: (
+            dager: Utbetalingstabelldag[],
+            overstyrteDager: Utbetalingstabelldag[],
+            begrunnelse: string,
+        ) => {
+            postOverstyringArguments = [overstyrteDager, begrunnelse];
         },
     }),
 }));
@@ -34,9 +38,7 @@ const dager = new Map<string, Utbetalingstabelldag>([
 ]);
 
 describe('OverstyrbarUtbetaling', () => {
-    // Denne testen feiler under CI-bygg siden den bruker mer enn 7 sekunder (!). Burde undersøke hvorfor det skjer,
-    // men disabler inntil videre for å få bygd og deployet.
-    test.skip('overstyrer utbetalingstabell', async () => {
+    test('overstyrer utbetalingstabell', async () => {
         render(
             <OverstyrbarUtbetaling
                 fom="2022-01-01"
@@ -56,7 +58,7 @@ describe('OverstyrbarUtbetaling', () => {
         await userEvent.click(checkboxes[2]);
         await userEvent.click(checkboxes[3]);
 
-        expect(screen.getAllByRole('option')).toHaveLength(4);
+        expect(screen.getAllByRole('option')).toHaveLength(13);
         expect(screen.getByTestId('dagtypevelger')).toBeEnabled();
 
         await userEvent.selectOptions(screen.getByTestId('dagtypevelger'), screen.getAllByRole('option')[0]);

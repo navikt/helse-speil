@@ -24,8 +24,12 @@ import type {
     MutationLeggTilKommentarArgs,
     MutationLeggTilNotatArgs,
     MutationOpprettTildelingArgs,
+    MutationOverstyrArbeidsforholdArgs,
+    MutationOverstyrDagerArgs,
+    MutationOverstyrInntektOgRefusjonArgs,
     MutationSettVarselstatusAktivArgs,
     MutationSettVarselstatusVurdertArgs,
+    MutationSkjonnsfastsettSykepengegrunnlagArgs,
     OppgaveForOversiktsvisning,
     Person,
 } from './schemaTypes';
@@ -211,6 +215,18 @@ const getResolvers = (): IResolvers => ({
                 paaVent: false,
             });
             return TildelingMock.getTildeling(oppgaveId);
+        },
+        overstyrDager: async (_, __: MutationOverstyrDagerArgs) => {
+            return true;
+        },
+        overstyrInntektOgRefusjon: async (_, __: MutationOverstyrInntektOgRefusjonArgs) => {
+            return true;
+        },
+        overstyrArbeidsforhold: async (_, __: MutationOverstyrArbeidsforholdArgs) => {
+            return true;
+        },
+        skjonnsfastsettSykepengegrunnlag: async (_, __: MutationSkjonnsfastsettSykepengegrunnlagArgs) => {
+            return true;
         },
     },
     Periode: {

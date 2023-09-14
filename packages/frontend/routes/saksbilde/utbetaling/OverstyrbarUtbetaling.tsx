@@ -16,7 +16,7 @@ import { OverstyringForm } from './utbetalingstabell/OverstyringForm';
 import { RadmarkeringCheckbox } from './utbetalingstabell/RadmarkeringCheckbox';
 import { UtbetalingHeader } from './utbetalingstabell/UtbetalingHeader';
 import { Utbetalingstabell } from './utbetalingstabell/Utbetalingstabell';
-import { usePostOverstyring } from './utbetalingstabell/usePostOverstyring';
+import { useOverstyrDager } from './utbetalingstabell/useOverstyrDager';
 
 import styles from './OverstyrbarUtbetaling.module.css';
 
@@ -48,7 +48,7 @@ export const OverstyrbarUtbetaling: React.FC<OverstyrbarUtbetalingProps> = ({
     const form = useForm({ mode: 'onBlur', shouldFocusError: false });
 
     const [overstyrer, setOverstyrer] = useState(false);
-    const { postOverstyring, error, state } = usePostOverstyring();
+    const { postOverstyring, error, state } = useOverstyrDager();
 
     const [markerteDager, setMarkerteDager] = useMap<string, Utbetalingstabelldag>();
     const [overstyrteDager, setOverstyrteDager] = useMap<string, Utbetalingstabelldag>();
