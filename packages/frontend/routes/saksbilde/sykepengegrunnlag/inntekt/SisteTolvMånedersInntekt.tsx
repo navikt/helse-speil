@@ -25,7 +25,7 @@ type InntektFraAOrdningenProps = {
     erAktivGhost?: Maybe<boolean>;
 };
 
-export const SisteTreMånedersInntekt = ({
+export const SisteTolvMånedersInntekt = ({
     inntektFraAOrdningen,
     visHjelpetekst = false,
     erAktivGhost = false,
@@ -35,8 +35,10 @@ export const SisteTreMånedersInntekt = ({
     }
     return (
         <>
-            <Flex alignItems="center" className={styles.SisteTreMndInntekt}>
-                <h3 className={styles.Title}>RAPPORTERT SISTE 3 MÅNEDER</h3>
+            <Flex alignItems="center" className={styles.SisteTolvMndInntekt}>
+                <h3 className={styles.Title}>
+                    RAPPORTERT SISTE {inntektFraAOrdningen.length > 3 ? '12' : '3'} MÅNEDER
+                </h3>
                 {visHjelpetekst ? (
                     <PopoverHjelpetekst className={styles.InfoIcon} ikon={<SortInfoikon />}>
                         <p>

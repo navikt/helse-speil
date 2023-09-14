@@ -1,4 +1,4 @@
-import { SisteTreMånedersInntekt } from './SisteTreMånedersInntekt';
+import { SisteTolvMånedersInntekt } from './SisteTolvMånedersInntekt';
 import classNames from 'classnames';
 import React, { useEffect, useState } from 'react';
 
@@ -174,7 +174,7 @@ export const InntektOgRefusjon = ({
             )}
 
             {!editingInntekt && (
-                <SisteTreMånedersInntekt
+                <SisteTolvMånedersInntekt
                     inntektFraAOrdningen={omregnetÅrsinntekt?.inntektFraAOrdningen ?? inntektFraAOrdningen}
                     visHjelpetekst={omregnetÅrsinntekt?.kilde === Inntektskilde.Aordningen}
                     erAktivGhost={erGhostperiode && !erDeaktivert}
