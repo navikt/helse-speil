@@ -1,3 +1,4 @@
+import { ApolloWrapper } from '@test-wrappers';
 import React from 'react';
 import { RecoilRoot } from 'recoil';
 
@@ -17,9 +18,11 @@ describe('Saksbildevarsler', () => {
         periodState: PeriodState;
         varsler?: Maybe<Array<VarselDto>>;
     }) => (
-        <RecoilRoot>
-            <Saksbildevarsler periodState={periodState} varsler={varsler} />
-        </RecoilRoot>
+        <ApolloWrapper>
+            <RecoilRoot>
+                <Saksbildevarsler periodState={periodState} varsler={varsler} />
+            </RecoilRoot>
+        </ApolloWrapper>
     );
 
     test('viser infovarsel når saken har gått til utbetaling', () => {

@@ -1,7 +1,13 @@
 import { BegrunnelseForOverstyring } from './overstyring.types';
 import { useEffect, useState } from 'react';
 
-import { postAbonnerPåAktør, postOverstyrtArbeidsforhold } from '@io/http';
+import { useMutation } from '@apollo/client';
+import {
+    ArbeidsforholdOverstyringHandlingInput,
+    OverstyrArbeidsforholdMutationDocument,
+    OverstyringArbeidsforholdInput,
+} from '@io/graphql';
+import { postAbonnerPåAktør } from '@io/http';
 import { OverstyrtArbeidsforholdDTO } from '@io/http/types';
 import {
     kalkulererFerdigToastKey,
@@ -54,6 +60,8 @@ export const usePostOverstyrtArbeidsforhold = (onFerdigKalkulert?: () => void) =
     const [error, setError] = useState<string | null>();
     const [timedOut, setTimedOut] = useState(false);
 
+    const [overstyrMutation] = useMutation(OverstyrArbeidsforholdMutationDocument);
+
     useEffect(() => {
         if (opptegnelser && calculating) {
             addToast(kalkuleringFerdigToast({ callback: () => removeToast(kalkulererFerdigToastKey) }));
@@ -87,7 +95,21 @@ export const usePostOverstyrtArbeidsforhold = (onFerdigKalkulert?: () => void) =
         setTimedOut,
         postOverstyring: (overstyrtArbeidsforhold: OverstyrtArbeidsforholdDTO) => {
             setIsLoading(true);
-            postOverstyrtArbeidsforhold(overstyrtArbeidsforhold)
+            const overstyring: ArbeidsforholdOverstyringHandlingInput = {
+                aktorId: overstyrtArbeidsforhold.aktørId,
+                overstyrteArbeidsforhold: overstyrtArbeidsforhold.overstyrteArbeidsforhold.map(
+                    (arbeidsforhold): OverstyringArbeidsforholdInput => ({
+                        begrunnelse: arbeidsforhold.begrunnelse,
+                        deaktivert: arbeidsforhold.deaktivert,
+                        forklaring: arbeidsforhold.forklaring,
+                        orgnummer: arbeidsforhold.orgnummer,
+                    }),
+                ),
+                fodselsnummer: overstyrtArbeidsforhold.fødselsnummer,
+                skjaringstidspunkt: overstyrtArbeidsforhold.skjæringstidspunkt,
+            };
+
+            overstyrMutation({ variables: { overstyring: overstyring } })
                 .then(() => {
                     if (aktørId) {
                         setCalculating(true);

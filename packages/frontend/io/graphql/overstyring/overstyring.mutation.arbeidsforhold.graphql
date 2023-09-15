@@ -1,0 +1,3 @@
+mutation OverstyrArbeidsforholdMutation($overstyring: ArbeidsforholdOverstyringHandlingInput!) {
+    overstyrArbeidsforhold(overstyring: $overstyring)
+}

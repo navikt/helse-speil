@@ -92,11 +92,18 @@ export interface SkjønnsfastsattArbeidsgiver {
     årlig: number;
     fraÅrlig: number;
     årsak: string;
+    type: SkjønnsfastsettingstypeDTO;
     begrunnelseMal?: string;
     begrunnelseFritekst?: string;
     begrunnelseKonklusjon?: string;
     lovhjemmel?: Lovhjemmel;
     initierendeVedtaksperiodeId: Maybe<string>;
+}
+
+export enum SkjønnsfastsettingstypeDTO {
+    OMREGNET_ÅRSINNTEKT = 'OMREGNET_ÅRSINNTEKT',
+    RAPPORTERT_ÅRSINNTEKT = 'RAPPORTERT_ÅRSINNTEKT',
+    ANNET = 'ANNET',
 }
 
 export interface AnnulleringDTO {

@@ -1,10 +1,11 @@
 import { SkjønnsfastsettingFormFields } from './SkjønnsfastsettingForm';
 
 import { Arbeidsgiverinntekt } from '@io/graphql';
-import { SkjønnsfastsattSykepengegrunnlagDTO } from '@io/http';
+import { SkjønnsfastsattSykepengegrunnlagDTO, SkjønnsfastsettingstypeDTO } from '@io/http';
 import { isBeregnetPeriode, isUberegnetVilkarsprovdPeriode } from '@utils/typeguards';
 
-import { ArbeidsgiverForm, skjønnsfastsettelseBegrunnelser } from '../../skjønnsfastsetting';
+import { ArbeidsgiverForm, Skjønnsfastsettingstype, skjønnsfastsettelseBegrunnelser } from '../../skjønnsfastsetting';
+
 
 interface InitierendeVedtaksperiodeForArbeidsgiver {
     arbeidsgiver: string;
@@ -55,7 +56,12 @@ export const skjønnsfastsettingFormToDto = (
             årlig: årlig,
             fraÅrlig: inntekter.find((it) => it.arbeidsgiver === organisasjonsnummer)?.omregnetArsinntekt?.belop ?? 0,
             årsak: form.årsak,
-            type: begrunnelse?.type,
+            type:
+                begrunnelse!.type === Skjønnsfastsettingstype.RAPPORTERT_ÅRSINNTEKT
+                    ? SkjønnsfastsettingstypeDTO.RAPPORTERT_ÅRSINNTEKT
+                    : begrunnelse!.type === Skjønnsfastsettingstype.OMREGNET_ÅRSINNTEKT
+                    ? SkjønnsfastsettingstypeDTO.OMREGNET_ÅRSINNTEKT
+                    : SkjønnsfastsettingstypeDTO.ANNET,
             begrunnelseMal: begrunnelse?.mal,
             begrunnelseFritekst: form.begrunnelseFritekst,
             ...(begrunnelse?.lovhjemmel?.paragraf && {

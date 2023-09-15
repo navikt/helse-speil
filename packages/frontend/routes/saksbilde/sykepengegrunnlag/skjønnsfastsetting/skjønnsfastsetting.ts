@@ -1,9 +1,17 @@
 import { useEffect, useState } from 'react';
 
+import { useMutation } from '@apollo/client';
 import {
+    SkjonnsfastsettelseArbeidsgiverInput,
+    SkjonnsfastsettelseInput,
+    SkjonnsfastsettelseMutationDocument,
+    SkjonnsfastsettelseType,
+} from '@io/graphql';
+import {
+    SkjønnsfastsattArbeidsgiver,
     SkjønnsfastsattSykepengegrunnlagDTO,
+    SkjønnsfastsettingstypeDTO,
     postAbonnerPåAktør,
-    postSkjønnsfastsattSykepengegrunnlag,
 } from '@io/http';
 import {
     kalkulererFerdigToastKey,
@@ -97,7 +105,7 @@ const malFlereArbeidsgivere = (omregnetÅrsinntekt = 0, sammenligningsgrunnlag =
     )} de siste tolv månedene før du ble syk.\n\nNår årsinntekten avviker med mer enn 25 prosent fra rapportert inntekt, skal NAV fastsette sykepengegrunnlaget ved skjønn ut fra den årsinntekten som kan godtgjøres på det tidspunktet du ble syk. Det fremgår av folketrygdloven § 8-30 andre ledd.`;
 };
 
-enum Skjønnsfastsettingstype {
+export enum Skjønnsfastsettingstype {
     OMREGNET_ÅRSINNTEKT = 'OMREGNET_ÅRSINNTEKT',
     RAPPORTERT_ÅRSINNTEKT = 'RAPPORTERT_ÅRSINNTEKT',
     ANNET = 'ANNET',
@@ -117,6 +125,8 @@ export const usePostSkjønnsfastsattSykepengegrunnlag = (onFerdigKalkulert: () =
     const [calculating, setCalculating] = useState(false);
     const [error, setError] = useState<string | null>();
     const [timedOut, setTimedOut] = useState(false);
+
+    const [overstyrMutation] = useMutation(SkjonnsfastsettelseMutationDocument);
 
     useEffect(() => {
         if (opptegnelser && calculating) {
@@ -152,7 +162,41 @@ export const usePostSkjønnsfastsattSykepengegrunnlag = (onFerdigKalkulert: () =
         postSkjønnsfastsetting: (skjønnsfastsattSykepengegrunnlag: SkjønnsfastsattSykepengegrunnlagDTO) => {
             setIsLoading(true);
 
-            postSkjønnsfastsattSykepengegrunnlag(skjønnsfastsattSykepengegrunnlag)
+            const skjønnsfastsettelse: SkjonnsfastsettelseInput = {
+                aktorId: skjønnsfastsattSykepengegrunnlag.aktørId,
+                arbeidsgivere: skjønnsfastsattSykepengegrunnlag.arbeidsgivere.map(
+                    (arbeidsgiver: SkjønnsfastsattArbeidsgiver): SkjonnsfastsettelseArbeidsgiverInput => ({
+                        arlig: arbeidsgiver.årlig,
+                        arsak: arbeidsgiver.årsak,
+                        lovhjemmel:
+                            arbeidsgiver.lovhjemmel !== undefined
+                                ? {
+                                      bokstav: arbeidsgiver.lovhjemmel.bokstav,
+                                      ledd: arbeidsgiver.lovhjemmel.ledd,
+                                      paragraf: arbeidsgiver.lovhjemmel.paragraf,
+                                      lovverk: arbeidsgiver.lovhjemmel.lovverk,
+                                      lovverksversjon: arbeidsgiver.lovhjemmel.lovverksversjon,
+                                  }
+                                : undefined,
+                        begrunnelseFritekst: arbeidsgiver.begrunnelseFritekst,
+                        begrunnelseKonklusjon: arbeidsgiver.begrunnelseKonklusjon,
+                        begrunnelseMal: arbeidsgiver.begrunnelseMal,
+                        fraArlig: arbeidsgiver.fraÅrlig,
+                        initierendeVedtaksperiodeId: arbeidsgiver.initierendeVedtaksperiodeId,
+                        organisasjonsnummer: arbeidsgiver.organisasjonsnummer,
+                        type:
+                            arbeidsgiver.type === SkjønnsfastsettingstypeDTO.OMREGNET_ÅRSINNTEKT
+                                ? SkjonnsfastsettelseType.OmregnetArsinntekt
+                                : arbeidsgiver.type === SkjønnsfastsettingstypeDTO.RAPPORTERT_ÅRSINNTEKT
+                                ? SkjonnsfastsettelseType.RapportertArsinntekt
+                                : SkjonnsfastsettelseType.Annet,
+                    }),
+                ),
+                fodselsnummer: skjønnsfastsattSykepengegrunnlag.fødselsnummer,
+                skjaringstidspunkt: skjønnsfastsattSykepengegrunnlag.skjæringstidspunkt,
+            };
+
+            overstyrMutation({ variables: { skjonnsfastsettelse: skjønnsfastsettelse } })
                 .then(() => {
                     setCalculating(true);
                     addToast(kalkulererToast({}));

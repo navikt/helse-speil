@@ -3,10 +3,16 @@ import { useRecoilState, useResetRecoilState } from 'recoil';
 
 import { Alert, BodyShort, Button, Heading, Loader } from '@navikt/ds-react';
 
+import { useMutation } from '@apollo/client';
 import { ErrorMessage } from '@components/ErrorMessage';
 import { Modal } from '@components/Modal';
 import { TimeoutModal } from '@components/TimeoutModal';
-import { OverstyrtInntektOgRefusjonDTO, postAbonnerPåAktør, postOverstyrtInntektOgRefusjon } from '@io/http';
+import {
+    InntektOgRefusjonOverstyringInput,
+    OverstyrInntektOgRefusjonMutationDocument,
+    OverstyringArbeidsgiverInput,
+} from '@io/graphql';
+import { OverstyrtInntektOgRefusjonDTO, postAbonnerPåAktør } from '@io/http';
 import {
     kalkulererFerdigToastKey,
     kalkulererToast,
@@ -33,6 +39,8 @@ const usePostOverstyrtInntektOgRefusjon = () => {
     const [calculating, setCalculating] = useState(false);
     const [error, setError] = useState<string | null>();
     const [timedOut, setTimedOut] = useState(false);
+
+    const [overstyrMutation] = useMutation(OverstyrInntektOgRefusjonMutationDocument);
 
     useEffect(() => {
         if (opptegnelser && calculating) {
@@ -68,7 +76,41 @@ const usePostOverstyrtInntektOgRefusjon = () => {
         postOverstyring: (overstyrtInntekt: OverstyrtInntektOgRefusjonDTO) => {
             setIsLoading(true);
 
-            postOverstyrtInntektOgRefusjon(overstyrtInntekt)
+            const overstyring: InntektOgRefusjonOverstyringInput = {
+                aktorId: overstyrtInntekt.aktørId,
+                arbeidsgivere: overstyrtInntekt.arbeidsgivere.map(
+                    (arbeidsgiver): OverstyringArbeidsgiverInput => ({
+                        begrunnelse: arbeidsgiver.begrunnelse,
+                        forklaring: arbeidsgiver.forklaring,
+                        fraManedligInntekt: arbeidsgiver.fraMånedligInntekt,
+                        manedligInntekt: arbeidsgiver.månedligInntekt,
+                        organisasjonsnummer: arbeidsgiver.organisasjonsnummer,
+                        fraRefusjonsopplysninger: arbeidsgiver.fraRefusjonsopplysninger.map((refusjon) => ({
+                            fom: refusjon.fom,
+                            tom: refusjon.tom,
+                            belop: refusjon.beløp,
+                        })),
+                        refusjonsopplysninger: arbeidsgiver.refusjonsopplysninger.map((refusjon) => ({
+                            fom: refusjon.fom,
+                            tom: refusjon.tom,
+                            belop: refusjon.beløp,
+                        })),
+                        lovhjemmel:
+                            arbeidsgiver.subsumsjon !== undefined
+                                ? {
+                                      bokstav: arbeidsgiver.subsumsjon.bokstav,
+                                      ledd: arbeidsgiver.subsumsjon.ledd,
+                                      paragraf: arbeidsgiver.subsumsjon.paragraf,
+                                      lovverk: arbeidsgiver.subsumsjon.lovverk,
+                                      lovverksversjon: arbeidsgiver.subsumsjon.lovverksversjon,
+                                  }
+                                : undefined,
+                    }),
+                ),
+                fodselsnummer: overstyrtInntekt.fødselsnummer,
+                skjaringstidspunkt: overstyrtInntekt.skjæringstidspunkt,
+            };
+            overstyrMutation({ variables: { overstyring: overstyring } })
                 .then(() => {
                     setCalculating(true);
                     addToast(kalkulererToast({}));

@@ -1,14 +1,5 @@
 import { Avvisningsskjema } from '../../routes/saksbilde/venstremeny/utbetaling/AvvisningModal';
-import {
-    AnnulleringDTO,
-    NotatDTO,
-    Options,
-    OverstyrtArbeidsforholdDTO,
-    OverstyrtInntektOgRefusjonDTO,
-    OverstyrtTidslinjeDTO,
-    PersonoppdateringDTO,
-    SkjønnsfastsattSykepengegrunnlagDTO,
-} from './types';
+import { AnnulleringDTO, NotatDTO, Options, PersonoppdateringDTO } from './types';
 
 export const ResponseError = (statusCode: number, message?: string) => ({
     statusCode,
@@ -20,7 +11,9 @@ export type SpeilResponse<T = null> = {
     data?: T;
 };
 
-type Headers = { [key: string]: unknown };
+type Headers = {
+    [key: string]: unknown;
+};
 
 // eslint-disable-next-line no-undef
 const baseUrl = (process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : '') + '/api';
@@ -105,10 +98,14 @@ export const getOpptegnelser = async (sisteSekvensId?: number): Promise<SpeilRes
         : get<Opptegnelse[]>(`${baseUrl}/opptegnelse/hent`);
 };
 
-export const getNotater = async (vedtaksperiodeIder: string[]): Promise<{ vedtaksperiodeId: Array<ExternalNotat> }> => {
-    return get<{ vedtaksperiodeId: ExternalNotat[] }>(
-        `${baseUrl}/notater?vedtaksperiodeId=${vedtaksperiodeIder.join('&vedtaksperiodeId=')}`,
-    ).then(({ data }) => {
+export const getNotater = async (
+    vedtaksperiodeIder: string[],
+): Promise<{
+    vedtaksperiodeId: Array<ExternalNotat>;
+}> => {
+    return get<{
+        vedtaksperiodeId: ExternalNotat[];
+    }>(`${baseUrl}/notater?vedtaksperiodeId=${vedtaksperiodeIder.join('&vedtaksperiodeId=')}`).then(({ data }) => {
         if (data === undefined) throw 'Notater response mangler data';
         return data;
     });
@@ -136,18 +133,6 @@ export const postUtbetalingTilTotrinnsvurdering = async (oppgavereferanse: strin
 
 export const postAnnullering = async (annullering: AnnulleringDTO) =>
     post(`${baseUrl}/payments/annullering`, annullering);
-
-export const postOverstyrteDager = async (overstyring: OverstyrtTidslinjeDTO) =>
-    post(`${baseUrl}/overstyring/overstyr/dager`, overstyring);
-
-export const postOverstyrtInntektOgRefusjon = async (overstyring: OverstyrtInntektOgRefusjonDTO) =>
-    post(`${baseUrl}/overstyring/overstyr/inntektogrefusjon`, overstyring);
-
-export const postOverstyrtArbeidsforhold = async (overstyring: OverstyrtArbeidsforholdDTO) =>
-    post(`${baseUrl}/overstyring/overstyr/arbeidsforhold`, overstyring);
-
-export const postSkjønnsfastsattSykepengegrunnlag = async (skjønnsfastsetting: SkjønnsfastsattSykepengegrunnlagDTO) =>
-    post(`${baseUrl}/overstyring/skjonnsfastsett/sykepengegrunnlag`, skjønnsfastsetting);
 
 export const postForespørPersonoppdatering = async (oppdatering: PersonoppdateringDTO) =>
     post(`${baseUrl}/person/oppdater`, oppdatering);

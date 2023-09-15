@@ -2392,6 +2392,12 @@ export type FetchNotaterQuery = {
     }>;
 };
 
+export type OverstyrArbeidsforholdMutationMutationVariables = Exact<{
+    overstyring: ArbeidsforholdOverstyringHandlingInput;
+}>;
+
+export type OverstyrArbeidsforholdMutationMutation = { __typename?: 'Mutation'; overstyrArbeidsforhold: boolean };
+
 export type OverstyrDagerMutationMutationVariables = Exact<{
     overstyring: TidslinjeOverstyringInput;
 }>;
@@ -2453,6 +2459,15 @@ export type SettVarselstatusVurdertMutation = {
             tidsstempel: string;
         } | null;
     } | null;
+};
+
+export type SkjonnsfastsettelseMutationMutationVariables = Exact<{
+    skjonnsfastsettelse: SkjonnsfastsettelseInput;
+}>;
+
+export type SkjonnsfastsettelseMutationMutation = {
+    __typename?: 'Mutation';
+    skjonnsfastsettSykepengegrunnlag: boolean;
 };
 
 export type FjernPaaVentMutationVariables = Exact<{
@@ -5575,6 +5590,45 @@ export const FetchNotaterDocument = {
         },
     ],
 } as unknown as DocumentNode<FetchNotaterQuery, FetchNotaterQueryVariables>;
+export const OverstyrArbeidsforholdMutationDocument = {
+    kind: 'Document',
+    definitions: [
+        {
+            kind: 'OperationDefinition',
+            operation: 'mutation',
+            name: { kind: 'Name', value: 'OverstyrArbeidsforholdMutation' },
+            variableDefinitions: [
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'overstyring' } },
+                    type: {
+                        kind: 'NonNullType',
+                        type: {
+                            kind: 'NamedType',
+                            name: { kind: 'Name', value: 'ArbeidsforholdOverstyringHandlingInput' },
+                        },
+                    },
+                },
+            ],
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'overstyrArbeidsforhold' },
+                        arguments: [
+                            {
+                                kind: 'Argument',
+                                name: { kind: 'Name', value: 'overstyring' },
+                                value: { kind: 'Variable', name: { kind: 'Name', value: 'overstyring' } },
+                            },
+                        ],
+                    },
+                ],
+            },
+        },
+    ],
+} as unknown as DocumentNode<OverstyrArbeidsforholdMutationMutation, OverstyrArbeidsforholdMutationMutationVariables>;
 export const OverstyrDagerMutationDocument = {
     kind: 'Document',
     definitions: [
@@ -5812,6 +5866,42 @@ export const SettVarselstatusVurdertDocument = {
         },
     ],
 } as unknown as DocumentNode<SettVarselstatusVurdertMutation, SettVarselstatusVurdertMutationVariables>;
+export const SkjonnsfastsettelseMutationDocument = {
+    kind: 'Document',
+    definitions: [
+        {
+            kind: 'OperationDefinition',
+            operation: 'mutation',
+            name: { kind: 'Name', value: 'SkjonnsfastsettelseMutation' },
+            variableDefinitions: [
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'skjonnsfastsettelse' } },
+                    type: {
+                        kind: 'NonNullType',
+                        type: { kind: 'NamedType', name: { kind: 'Name', value: 'SkjonnsfastsettelseInput' } },
+                    },
+                },
+            ],
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'skjonnsfastsettSykepengegrunnlag' },
+                        arguments: [
+                            {
+                                kind: 'Argument',
+                                name: { kind: 'Name', value: 'skjonnsfastsettelse' },
+                                value: { kind: 'Variable', name: { kind: 'Name', value: 'skjonnsfastsettelse' } },
+                            },
+                        ],
+                    },
+                ],
+            },
+        },
+    ],
+} as unknown as DocumentNode<SkjonnsfastsettelseMutationMutation, SkjonnsfastsettelseMutationMutationVariables>;
 export const FjernPaaVentDocument = {
     kind: 'Document',
     definitions: [
