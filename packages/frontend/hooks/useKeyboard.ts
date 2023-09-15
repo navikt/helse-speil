@@ -3,6 +3,7 @@ import { useEffect } from 'react';
 export interface Action {
     action: () => void;
     ignoreIfModifiers?: boolean;
+    modifier?: string;
 }
 
 export enum Key {
@@ -10,8 +11,21 @@ export enum Key {
     Right = 'ArrowRight',
     Enter = 'Enter',
     Backspace = 'Backspace',
-    C = 'KeyC',
+    Alt = 'Alt',
+    Shift = 'Shift',
     F6 = 'F6',
+    A = 'KeyA',
+    B = 'KeyB',
+    C = 'KeyC',
+    G = 'KeyG',
+    H = 'KeyH',
+    I = 'KeyI',
+    L = 'KeyL',
+    M = 'KeyM',
+    N = 'KeyN',
+    O = 'KeyO',
+    R = 'KeyR',
+    S = 'KeyS',
 }
 
 const shouldDisableKeyboard = (): boolean =>
@@ -22,13 +36,19 @@ const shouldDisableKeyboard = (): boolean =>
 export const useKeyboard = (actions: { [key: string]: Action }) => {
     const handleKeyDown = (event: KeyboardEvent) => {
         const action = actions[event.code];
-        const hasActiveModifiers = event.getModifierState('Meta') || event.getModifierState('Alt');
-        if (!action || shouldDisableKeyboard() || (action?.ignoreIfModifiers && hasActiveModifiers)) {
+        const hasActiveModifier = action?.modifier ? event.getModifierState(action?.modifier) : false;
+        const hasActiveMeta = event.getModifierState('Meta');
+        const hasActiveModifiers = hasActiveMeta || hasActiveModifier;
+        if (
+            !action ||
+            shouldDisableKeyboard() ||
+            (action?.ignoreIfModifiers && hasActiveModifiers) ||
+            (action?.modifier && (!hasActiveModifier || hasActiveMeta))
+        ) {
             return;
         }
-        event.code === 'KeyC'
-            ? event.altKey && !event.metaKey && actions[event.code]?.action() // Dette kunne vel ha vært løst litt mer elegant. For eksempel ved at man spesifiserer modifier keys sammen med aktuell key. Får ta det ved neste korsvei
-            : actions[event.code]?.action();
+
+        actions[event.code]?.action();
     };
 
     useEffect(() => {

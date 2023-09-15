@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 
 import { Dropdown } from '@navikt/ds-react-internal';
 
+import { Key, useKeyboard } from '@hooks/useKeyboard';
 import { NotatType, Personinfo, Personnavn } from '@io/graphql';
 
 import { NyttNotatModal } from '../../../oversikt/table/cells/notat/NyttNotatModal';
@@ -24,6 +25,14 @@ export const SkrivGenereltNotatDropdownMenuButton = ({
     const closeModal = () => {
         setOpen(false);
     };
+
+    useKeyboard({
+        [Key.N]: {
+            action: () => setOpen(true),
+            ignoreIfModifiers: false,
+            modifier: Key.Alt,
+        },
+    });
 
     const navn: Personnavn = {
         fornavn: personinfo.fornavn,

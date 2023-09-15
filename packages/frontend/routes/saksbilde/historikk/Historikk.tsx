@@ -7,6 +7,7 @@ import { BodyShort } from '@navikt/ds-react';
 
 import { CloseButton } from '@components/CloseButton';
 import { ErrorBoundary } from '@components/ErrorBoundary';
+import { Key, useKeyboard } from '@hooks/useKeyboard';
 import { useCurrentPerson, useIsFetchingPerson } from '@state/person';
 
 import { AnnetArbeidsforholdoverstyringhendelse } from './hendelser/AnnetArbeidsforholdoverstyringhendelse';
@@ -43,6 +44,13 @@ const HistorikkWithContent: React.FC = () => {
     const [showHistorikk, setShowHistorikk] = useShowHistorikkState();
 
     const isLoading = useIsFetchingPerson();
+    useKeyboard({
+        [Key.H]: {
+            action: () => setShowHistorikk(!showHistorikk),
+            ignoreIfModifiers: false,
+            modifier: Key.Alt,
+        },
+    });
 
     return (
         <>
