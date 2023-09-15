@@ -47,6 +47,7 @@ describe('OverstyrbarUtbetaling', () => {
                 erForkastet={false}
                 revurderingIsEnabled={false}
                 overstyrRevurderingIsEnabled={false}
+                vedtaksperiodeId="d7d208c3-a9a1-4c03-885f-aeffa4475a49"
             />,
             { wrapper: RecoilWrapper },
         );

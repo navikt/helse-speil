@@ -5,7 +5,7 @@ import {
     Options,
     OverstyrtArbeidsforholdDTO,
     OverstyrtInntektOgRefusjonDTO,
-    OverstyrteDagerDTO,
+    OverstyrtTidslinjeDTO,
     PersonoppdateringDTO,
     SkjønnsfastsattSykepengegrunnlagDTO,
 } from './types';
@@ -137,7 +137,7 @@ export const postUtbetalingTilTotrinnsvurdering = async (oppgavereferanse: strin
 export const postAnnullering = async (annullering: AnnulleringDTO) =>
     post(`${baseUrl}/payments/annullering`, annullering);
 
-export const postOverstyrteDager = async (overstyring: OverstyrteDagerDTO) =>
+export const postOverstyrteDager = async (overstyring: OverstyrtTidslinjeDTO) =>
     post(`${baseUrl}/overstyring/overstyr/dager`, overstyring);
 
 export const postOverstyrtInntektOgRefusjon = async (overstyring: OverstyrtInntektOgRefusjonDTO) =>

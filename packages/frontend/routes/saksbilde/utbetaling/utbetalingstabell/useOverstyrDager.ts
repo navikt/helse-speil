@@ -24,6 +24,7 @@ type UsePostOverstyringResult = {
         dager: Array<Utbetalingstabelldag>,
         overstyrteDager: Array<Utbetalingstabelldag>,
         begrunnelse: string,
+        vedtaksperiodeId: string,
         callback?: () => void,
     ) => Promise<void>;
     state: UsePostOverstyringState;
@@ -72,6 +73,7 @@ export const useOverstyrDager = (): UsePostOverstyringResult => {
         dager: Array<Utbetalingstabelldag>,
         overstyrteDager: Array<Utbetalingstabelldag>,
         begrunnelse: string,
+        vedtaksperiodeId: string,
         callback?: () => void,
     ): Promise<void> => {
         const overstyring: TidslinjeOverstyringInput = {
@@ -80,6 +82,7 @@ export const useOverstyrDager = (): UsePostOverstyringResult => {
             organisasjonsnummer: arbeidsgiver.organisasjonsnummer,
             dager: tilOverstyrteDager(dager, overstyrteDager),
             begrunnelse: begrunnelse,
+            vedtaksperiodeId,
         };
         return overstyrMutation({ variables: { overstyring: overstyring } })
             .then(() => {

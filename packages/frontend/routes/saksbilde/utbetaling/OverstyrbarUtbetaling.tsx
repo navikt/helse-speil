@@ -35,6 +35,7 @@ interface OverstyrbarUtbetalingProps {
     erForkastet: boolean;
     revurderingIsEnabled: boolean;
     overstyrRevurderingIsEnabled: boolean;
+    vedtaksperiodeId: string;
 }
 
 export const OverstyrbarUtbetaling: React.FC<OverstyrbarUtbetalingProps> = ({
@@ -44,6 +45,7 @@ export const OverstyrbarUtbetaling: React.FC<OverstyrbarUtbetalingProps> = ({
     erForkastet,
     revurderingIsEnabled,
     overstyrRevurderingIsEnabled,
+    vedtaksperiodeId,
 }) => {
     const form = useForm({ mode: 'onBlur', shouldFocusError: false });
 
@@ -69,6 +71,7 @@ export const OverstyrbarUtbetaling: React.FC<OverstyrbarUtbetalingProps> = ({
             Array.from(alleDager.values()),
             Array.from(alleOverstyrteDager.values()),
             form.getValues('begrunnelse'),
+            vedtaksperiodeId,
             () => setOverstyrer(!overstyrer),
         );
     };

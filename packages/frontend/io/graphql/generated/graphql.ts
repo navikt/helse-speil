@@ -1022,6 +1022,7 @@ export type TidslinjeOverstyringInput = {
     dager: Array<OverstyringDagInput>;
     fodselsnummer: Scalars['String']['input'];
     organisasjonsnummer: Scalars['String']['input'];
+    vedtaksperiodeId?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type Tildeling = {

@@ -31,25 +31,13 @@ export interface OverstyrtDagDTO {
     subsumsjon?: Subsumsjon;
 }
 
-interface Overstyring {
+export interface OverstyrtTidslinjeDTO {
     aktørId: string;
     fødselsnummer: string;
     organisasjonsnummer: string;
     begrunnelse: string;
-}
-
-export interface OverstyrteDagerDTO extends Overstyring {
+    vedtaksperiodeId: string;
     dager: OverstyrtDagDTO[];
-}
-
-export interface OverstyrtInntektDTO extends Overstyring {
-    månedligInntekt: number;
-    fraMånedligInntekt: number;
-    skjæringstidspunkt: string;
-    forklaring: string;
-    subsumsjon?: Subsumsjon;
-    refusjonsopplysninger?: Refusjonsopplysning[];
-    fraRefusjonsopplysninger?: Refusjonsopplysning[];
 }
 
 export interface OverstyrtInntektOgRefusjonDTO {

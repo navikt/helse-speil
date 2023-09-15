@@ -106,6 +106,7 @@ const UtbetalingBeregnetPeriode: React.FC<UtbetalingBeregnetPeriodeProps> = Reac
                 erForkastet={period.utbetaling.status === Utbetalingstatus.Forkastet}
                 revurderingIsEnabled={revurderingIsEnabled.value}
                 overstyrRevurderingIsEnabled={overstyrRevurderingIsEnabled.value}
+                vedtaksperiodeId={period.vedtaksperiodeId}
             />
         ) : (
             <ReadonlyUtbetaling fom={period.fom} tom={period.tom} dager={dager} />
@@ -150,6 +151,7 @@ const UtbetalingUberegnetPeriode: React.FC<UtbetalingUberegnetPeriodeProps> = ({
             erForkastet={false}
             revurderingIsEnabled={false}
             overstyrRevurderingIsEnabled={false}
+            vedtaksperiodeId={periode.vedtaksperiodeId}
         />
     ) : (
         <ReadonlyUtbetaling fom={periode.fom} tom={periode.tom} dager={dager} />
