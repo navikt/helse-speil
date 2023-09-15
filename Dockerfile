@@ -7,7 +7,7 @@ ENV NODE_OPTIONS "--max-http-header-size=16000"
 
 WORKDIR /app
 
-COPY packages/backend/node_modules/ node_modules/
+COPY node_modules/ node_modules/
 COPY dist/server/ dist/server/
 COPY dist/client/ dist/client/
 

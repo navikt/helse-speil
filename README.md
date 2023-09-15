@@ -17,12 +17,6 @@ Prettier kan settes opp til å formatere kode automatisk on-save. Hvordan dette 
 
 Lokalt serveres frontend (det som kjører i browser) og backend (det som står for autentisering, sesjon og kommunikasjon med baksystem) hver for seg.
 
-### Installere avhengigheter
-
-```shell
-npm run bootstrap
-```
-
 ### Opprett fil med miljøvariabler
 
 ```shell

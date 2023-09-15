@@ -8,6 +8,9 @@
         "url": "https://github.com/navikt/helse-speil.git"
     },
     "license": "MIT",
+    "workspaces": [
+        "packages/*"
+    ],
     "scripts": {
         "dev": "lerna run dev --stream",
         "serve": "lerna run serve --stream",
@@ -16,7 +19,6 @@
         "test": "lerna run test --stream",
         "test-ci": "lerna run test-ci --stream",
         "clean": "lerna run clean --stream && npx jest --clearCache && rimraf node_modules",
-        "bootstrap": "npm i && lerna bootstrap",
         "generate-graphql": "graphql-codegen --config graphql-codegen.yml",
         "prepare": "husky install",
         "lint": "lerna run lint --stream",

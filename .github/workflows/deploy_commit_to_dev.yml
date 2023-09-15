@@ -35,16 +35,14 @@ jobs:
         with:
           node-version: '18'
           cache: 'npm'
-          cache-dependency-path: '**/package-lock.json'
+          cache-dependency-path: 'package-lock.json'
       - name: Set timezone
         run: export TZ=utc
-      - name: Install root dependencies
+      - name: Install dependencies
         run: npm ci --ignore-scripts
-      - name: Install package dependencies
-        run: npx lerna bootstrap -- --legacy-peer-deps
       - name: Get jest cache directory
         run: |
-          jest_command=packages/frontend/node_modules/jest-cli/bin/jest.js # fordi å installere jest med npx tar ti sekunder
+          jest_command=node_modules/jest-cli/bin/jest.js # fordi å installere jest med npx tar ti sekunder
           echo "jest_cache_dir=$($jest_command --showConfig | jq -r '.configs[0].cacheDirectory')" >> $GITHUB_ENV
       - name: Cache jest
         id: cache-jest

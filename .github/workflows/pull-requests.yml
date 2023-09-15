@@ -12,11 +12,9 @@ jobs:
       with:
         node-version: '18'
         cache: 'npm'
-        cache-dependency-path: '**/package-lock.json'
-    - name: install root dependencies
+        cache-dependency-path: 'package-lock.json'
+    - name: install dependencies
       run: npm ci --ignore-scripts
-    - name: install package dependencies
-      run: npx lerna bootstrap -- --legacy-peer-deps
     - name: test
       run: npm run test
     - name: build
