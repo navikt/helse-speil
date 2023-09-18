@@ -15,7 +15,7 @@ import { useOpptegnelser, useSetOpptegnelserPollingRate } from '@state/opptegnel
 import { useCurrentPerson } from '@state/person';
 import { useAddToast, useRemoveToast } from '@state/toasts';
 
-import { Subsumsjon } from '../../sykepengegrunnlag/overstyring/overstyring.types';
+import { Lovhjemmel } from '../../sykepengegrunnlag/overstyring/overstyring.types';
 
 type UsePostOverstyringState = 'loading' | 'hasValue' | 'hasError' | 'initial' | 'timedOut' | 'done';
 
@@ -120,18 +120,20 @@ const tilOverstyrteDager = (
             fraType: fraDag.dag.overstyrtDagtype,
             grad: overstyrtDag.grad ?? undefined,
             fraGrad: fraDag.grad ?? undefined,
-            subsumsjon: finnSubsumsjonParagrafLeddBokstavForDagoverstyring(fraDag, overstyrtDag),
+            lovhjemmel: finnLovhjemmelForDagoverstyring(fraDag, overstyrtDag),
         };
     });
 
-const finnSubsumsjonParagrafLeddBokstavForDagoverstyring = (
+const finnLovhjemmelForDagoverstyring = (
     fraDag: Utbetalingstabelldag,
     overstyrtDag: Utbetalingstabelldag,
-): Subsumsjon | undefined => {
+): Lovhjemmel | undefined => {
     if (fraDag.erForeldet && overstyrtDag.dag.overstyrtDagtype === 'Sykedag') {
         return {
             paragraf: '22-13',
             ledd: '7',
+            lovverk: 'folketrygdloven',
+            lovverksversjon: '2019-06-21',
         };
     }
     return undefined;

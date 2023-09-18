@@ -15,14 +15,14 @@ import { useOpptegnelser, useSetOpptegnelserPollingRate } from '@state/opptegnel
 import { useAddToast, useRemoveToast } from '@state/toasts';
 import { toKronerOgØre } from '@utils/locale';
 
-import { Subsumsjon } from '../overstyring/overstyring.types';
+import { Lovhjemmel } from '../overstyring/overstyring.types';
 
 export interface BegrunnelseForSkjønnsfastsetting {
     id: string;
     valg: string;
     mal: string;
     konklusjon: string;
-    subsumsjon?: Subsumsjon;
+    subsumsjon?: Lovhjemmel;
     sykepengegrunnlag: number;
     type: Skjønnsfastsettingstype;
 }

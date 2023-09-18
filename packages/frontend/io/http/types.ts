@@ -1,4 +1,4 @@
-import { Subsumsjon } from '../../routes/saksbilde/sykepengegrunnlag/overstyring/overstyring.types';
+import { Lovhjemmel } from '../../routes/saksbilde/sykepengegrunnlag/overstyring/overstyring.types';
 
 export interface Options {
     method?: string;
@@ -28,7 +28,7 @@ export interface OverstyrtDagDTO {
     fraType: OverstyrtDagtype;
     grad?: number;
     fraGrad?: number;
-    subsumsjon?: Subsumsjon;
+    lovhjemmel?: Lovhjemmel;
 }
 
 export interface OverstyrtTidslinjeDTO {
@@ -55,7 +55,7 @@ export interface OverstyrtInntektOgRefusjonArbeidsgiver {
     fraRefusjonsopplysninger: Refusjonsopplysning[];
     forklaring: string;
     begrunnelse: string;
-    subsumsjon?: Subsumsjon;
+    subsumsjon?: Lovhjemmel;
 }
 
 export interface Refusjonsopplysning {
@@ -77,7 +77,7 @@ export interface OverstyrtArbeidsforholdElementDTO {
     deaktivert: boolean;
     forklaring: string;
     begrunnelse: string;
-    subsumsjon?: Subsumsjon;
+    subsumsjon?: Lovhjemmel;
 }
 
 export interface SkjønnsfastsattSykepengegrunnlagDTO {
@@ -95,7 +95,7 @@ export interface SkjønnsfastsattArbeidsgiver {
     begrunnelseMal?: string;
     begrunnelseFritekst?: string;
     begrunnelseKonklusjon?: string;
-    subsumsjon?: Subsumsjon;
+    subsumsjon?: Lovhjemmel;
     initierendeVedtaksperiodeId: Maybe<string>;
 }
 

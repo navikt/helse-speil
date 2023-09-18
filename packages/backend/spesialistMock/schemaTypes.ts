@@ -364,6 +364,14 @@ export type Kommentar = {
     tekst: Scalars['String']['output'];
 };
 
+export type LovhjemmelInput = {
+    bokstav?: InputMaybe<Scalars['String']['input']>;
+    ledd?: InputMaybe<Scalars['String']['input']>;
+    lovverk?: InputMaybe<Scalars['String']['input']>;
+    lovverksversjon?: InputMaybe<Scalars['String']['input']>;
+    paragraf: Scalars['String']['input'];
+};
+
 export enum Mottaker {
     Arbeidsgiver = 'ARBEIDSGIVER',
     Begge = 'BEGGE',
@@ -607,7 +615,7 @@ export type OverstyringArbeidsgiverInput = {
     manedligInntekt: Scalars['Float']['input'];
     organisasjonsnummer: Scalars['String']['input'];
     refusjonsopplysninger?: InputMaybe<Array<OverstyringRefusjonselementInput>>;
-    subsumsjon?: InputMaybe<SubsumsjonInput>;
+    subsumsjon?: InputMaybe<LovhjemmelInput>;
 };
 
 export type OverstyringDagInput = {
@@ -615,7 +623,8 @@ export type OverstyringDagInput = {
     fraGrad?: InputMaybe<Scalars['Int']['input']>;
     fraType: Scalars['String']['input'];
     grad?: InputMaybe<Scalars['Int']['input']>;
-    subsumsjon?: InputMaybe<SubsumsjonInput>;
+    lovhjemmel?: InputMaybe<LovhjemmelInput>;
+    subsumsjon?: InputMaybe<LovhjemmelInput>;
     type: Scalars['String']['input'];
 };
 
@@ -896,7 +905,7 @@ export type SkjonnsfastsettelseArbeidsgiverInput = {
     fraArlig: Scalars['Float']['input'];
     initierendeVedtaksperiodeId?: InputMaybe<Scalars['String']['input']>;
     organisasjonsnummer: Scalars['String']['input'];
-    subsumsjon?: InputMaybe<SubsumsjonInput>;
+    subsumsjon?: InputMaybe<LovhjemmelInput>;
     type: SkjonnsfastsettelseType;
 };
 
@@ -950,12 +959,6 @@ export type Soknadsfrist = {
 export type Spennoppdrag = {
     fagsystemId: Scalars['String']['output'];
     linjer: Array<Utbetalingslinje>;
-};
-
-export type SubsumsjonInput = {
-    bokstav?: InputMaybe<Scalars['String']['input']>;
-    ledd?: InputMaybe<Scalars['String']['input']>;
-    paragraf: Scalars['String']['input'];
 };
 
 export enum Sykdomsdagtype {
@@ -1020,7 +1023,7 @@ export type TidslinjeOverstyringInput = {
     dager: Array<OverstyringDagInput>;
     fodselsnummer: Scalars['String']['input'];
     organisasjonsnummer: Scalars['String']['input'];
-    vedtaksperiodeId?: InputMaybe<Scalars['String']['input']>;
+    vedtaksperiodeId: Scalars['String']['input'];
 };
 
 export type Tildeling = {
