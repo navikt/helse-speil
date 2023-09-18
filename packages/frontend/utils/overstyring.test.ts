@@ -9,8 +9,6 @@ import { defaultUtbetalingToggles } from '@utils/featureToggles';
 import { kanOverstyreRevurdering, kanOverstyres, kanRevurderes } from '@utils/overstyring';
 
 jest.mock('@utils/featureToggles', () => ({
-    erCoachEllerSuper: () => false,
-    erUtvikling: () => false,
     skalBehandleEnOgEnPeriode: false,
     defaultUtbetalingToggles: {
         overstyreUtbetaltPeriodeEnabled: true,
@@ -28,14 +26,9 @@ describe('kanOverstyres', () => {
         expect(kanOverstyres(periode)).toEqual({ value: true });
     });
 
-    it('returnerer false om perioden venter', () => {
+    it('returnerer true om perioden venter', () => {
         const periode = enBeregnetPeriode({ periodetilstand: Periodetilstand.VenterPaEnAnnenPeriode });
-        const expected = {
-            value: false,
-            technical: 'Perioden er i feil tilstand',
-        };
-
-        expect(kanOverstyres(periode)).toEqual(expected);
+        expect(kanOverstyres(periode)).toEqual({ value: true });
     });
 
     it('returnerer true for beregnede perioder som er til godkjenning', () => {
