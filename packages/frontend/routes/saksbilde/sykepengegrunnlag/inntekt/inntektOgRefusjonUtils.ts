@@ -171,7 +171,7 @@ export const endreInntektUtenSykefraværBegrunnelser: BegrunnelseForOverstyring[
     {
         id: '0',
         forklaring: 'Arbeidsforhold har vart kortere enn 3 måneder',
-        subsumsjon: {
+        lovhjemmel: {
             paragraf: '8-28',
             ledd: '3',
             bokstav: 'b',
@@ -182,7 +182,7 @@ export const endreInntektUtenSykefraværBegrunnelser: BegrunnelseForOverstyring[
     {
         id: '1',
         forklaring: 'Varig lønnsendring',
-        subsumsjon: {
+        lovhjemmel: {
             paragraf: '8-28',
             ledd: '3',
             bokstav: 'c',
@@ -193,12 +193,12 @@ export const endreInntektUtenSykefraværBegrunnelser: BegrunnelseForOverstyring[
     {
         id: '2',
         forklaring: 'Innrapportert feil inntekt til A-ordningen',
-        subsumsjon: { paragraf: '8-28', ledd: '5', lovverk: 'folketrygdloven', lovverksversjon: '2019-01-01' },
+        lovhjemmel: { paragraf: '8-28', ledd: '5', lovverk: 'folketrygdloven', lovverksversjon: '2019-01-01' },
     },
     {
         id: '3',
         forklaring: 'Annen kilde til endring',
-        subsumsjon: { paragraf: '8-28', lovverk: 'folketrygdloven', lovverksversjon: '2019-01-01' },
+        lovhjemmel: { paragraf: '8-28', lovverk: 'folketrygdloven', lovverksversjon: '2019-01-01' },
     },
 ];
 

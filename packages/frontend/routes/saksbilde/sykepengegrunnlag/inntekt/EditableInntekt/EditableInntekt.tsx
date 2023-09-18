@@ -127,13 +127,13 @@ export const EditableInntekt = ({
                     fraMånedligInntekt: omregnetÅrsinntekt.manedsbelop,
                     refusjonsopplysninger: refusjonsopplysninger ?? [],
                     fraRefusjonsopplysninger: metadata.fraRefusjonsopplysninger,
-                    ...(begrunnelse.subsumsjon?.paragraf && {
-                        subsumsjon: {
-                            paragraf: begrunnelse.subsumsjon.paragraf,
-                            ledd: begrunnelse.subsumsjon?.ledd,
-                            bokstav: begrunnelse.subsumsjon?.bokstav,
-                            lovverk: begrunnelse.subsumsjon?.lovverk,
-                            lovverksversjon: begrunnelse.subsumsjon?.lovverksversjon,
+                    ...(begrunnelse.lovhjemmel?.paragraf && {
+                        lovhjemmel: {
+                            paragraf: begrunnelse.lovhjemmel.paragraf,
+                            ledd: begrunnelse.lovhjemmel?.ledd,
+                            bokstav: begrunnelse.lovhjemmel?.bokstav,
+                            lovverk: begrunnelse.lovhjemmel?.lovverk,
+                            lovverksversjon: begrunnelse.lovhjemmel?.lovverksversjon,
                         },
                     }),
                 },

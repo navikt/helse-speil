@@ -8,5 +8,5 @@ export interface Lovhjemmel {
 export interface BegrunnelseForOverstyring {
     id: string;
     forklaring: string;
-    subsumsjon?: Lovhjemmel;
+    lovhjemmel?: Lovhjemmel;
 }

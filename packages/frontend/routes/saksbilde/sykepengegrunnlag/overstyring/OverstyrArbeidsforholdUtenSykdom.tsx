@@ -170,22 +170,22 @@ const begrunnelser: BegrunnelseForOverstyring[] = [
     {
         id: '0',
         forklaring: 'Avbrudd mer enn 14 dager (generell)',
-        subsumsjon: { paragraf: '8-15' },
+        lovhjemmel: { paragraf: '8-15', lovverk: 'folketrygdloven', lovverksversjon: '1998-12-18' },
     },
     {
         id: '1',
         forklaring: 'Avbrudd mer enn 14 dager (tilkallingsvikar/sporadiske vakter)',
-        subsumsjon: { paragraf: '8-15' },
+        lovhjemmel: { paragraf: '8-15', lovverk: 'folketrygdloven', lovverksversjon: '1998-12-18' },
     },
     {
         id: '2',
         forklaring: 'Arbeidsforhold opphørt',
-        subsumsjon: { paragraf: '8-15' },
+        lovhjemmel: { paragraf: '8-15', lovverk: 'folketrygdloven', lovverksversjon: '1998-12-18' },
     },
     {
         id: '3',
         forklaring: 'Annet',
-        subsumsjon: { paragraf: '8-15' },
+        lovhjemmel: { paragraf: '8-15', lovverk: 'folketrygdloven', lovverksversjon: '1998-12-18' },
     },
 ];
 

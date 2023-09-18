@@ -16,10 +16,10 @@ const BegrunnelseFieldset = styled(RadioGroup)`
 
 const formatterBegrunnelse = (begrunnelse: BegrunnelseForOverstyring): string =>
     `
-    ${begrunnelse?.subsumsjon?.paragraf ? `§ ${begrunnelse?.subsumsjon.paragraf}` : ''} 
-    ${begrunnelse?.subsumsjon?.ledd ? `(${begrunnelse?.subsumsjon.ledd}) ` : ''}
-    ${begrunnelse?.subsumsjon?.bokstav ? `${begrunnelse?.subsumsjon.bokstav} ` : ''} 
-    ${begrunnelse?.subsumsjon?.paragraf ? '- ' : ''}
+    ${begrunnelse?.lovhjemmel?.paragraf ? `§ ${begrunnelse?.lovhjemmel.paragraf}` : ''} 
+    ${begrunnelse?.lovhjemmel?.ledd ? `(${begrunnelse?.lovhjemmel.ledd}) ` : ''}
+    ${begrunnelse?.lovhjemmel?.bokstav ? `${begrunnelse?.lovhjemmel.bokstav} ` : ''} 
+    ${begrunnelse?.lovhjemmel?.paragraf ? '- ' : ''}
     ${begrunnelse.forklaring}
   `;
 
