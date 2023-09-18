@@ -367,8 +367,8 @@ export type Kommentar = {
 export type LovhjemmelInput = {
     bokstav?: InputMaybe<Scalars['String']['input']>;
     ledd?: InputMaybe<Scalars['String']['input']>;
-    lovverk?: InputMaybe<Scalars['String']['input']>;
-    lovverksversjon?: InputMaybe<Scalars['String']['input']>;
+    lovverk: Scalars['String']['input'];
+    lovverksversjon: Scalars['String']['input'];
     paragraf: Scalars['String']['input'];
 };
 
@@ -612,10 +612,10 @@ export type OverstyringArbeidsgiverInput = {
     forklaring: Scalars['String']['input'];
     fraManedligInntekt: Scalars['Float']['input'];
     fraRefusjonsopplysninger?: InputMaybe<Array<OverstyringRefusjonselementInput>>;
+    lovhjemmel?: InputMaybe<LovhjemmelInput>;
     manedligInntekt: Scalars['Float']['input'];
     organisasjonsnummer: Scalars['String']['input'];
     refusjonsopplysninger?: InputMaybe<Array<OverstyringRefusjonselementInput>>;
-    subsumsjon?: InputMaybe<LovhjemmelInput>;
 };
 
 export type OverstyringDagInput = {
@@ -905,7 +905,6 @@ export type SkjonnsfastsettelseArbeidsgiverInput = {
     initierendeVedtaksperiodeId?: InputMaybe<Scalars['String']['input']>;
     lovhjemmel?: InputMaybe<LovhjemmelInput>;
     organisasjonsnummer: Scalars['String']['input'];
-    subsumsjon?: InputMaybe<LovhjemmelInput>;
     type: SkjonnsfastsettelseType;
 };
 

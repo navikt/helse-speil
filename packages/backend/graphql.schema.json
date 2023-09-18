@@ -3423,9 +3423,13 @@
                         "name": "lovverk",
                         "description": null,
                         "type": {
-                            "kind": "SCALAR",
-                            "name": "String",
-                            "ofType": null
+                            "kind": "NON_NULL",
+                            "name": null,
+                            "ofType": {
+                                "kind": "SCALAR",
+                                "name": "String",
+                                "ofType": null
+                            }
                         },
                         "defaultValue": null,
                         "isDeprecated": false,
@@ -3435,9 +3439,13 @@
                         "name": "lovverksversjon",
                         "description": null,
                         "type": {
-                            "kind": "SCALAR",
-                            "name": "String",
-                            "ofType": null
+                            "kind": "NON_NULL",
+                            "name": null,
+                            "ofType": {
+                                "kind": "SCALAR",
+                                "name": "String",
+                                "ofType": null
+                            }
                         },
                         "defaultValue": null,
                         "isDeprecated": false,
@@ -5479,6 +5487,18 @@
                         "deprecationReason": null
                     },
                     {
+                        "name": "lovhjemmel",
+                        "description": null,
+                        "type": {
+                            "kind": "INPUT_OBJECT",
+                            "name": "LovhjemmelInput",
+                            "ofType": null
+                        },
+                        "defaultValue": null,
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
+                    {
                         "name": "manedligInntekt",
                         "description": null,
                         "type": {
@@ -5525,18 +5545,6 @@
                                     "ofType": null
                                 }
                             }
-                        },
-                        "defaultValue": null,
-                        "isDeprecated": false,
-                        "deprecationReason": null
-                    },
-                    {
-                        "name": "subsumsjon",
-                        "description": null,
-                        "type": {
-                            "kind": "INPUT_OBJECT",
-                            "name": "LovhjemmelInput",
-                            "ofType": null
                         },
                         "defaultValue": null,
                         "isDeprecated": false,
@@ -8293,18 +8301,6 @@
                                 "name": "String",
                                 "ofType": null
                             }
-                        },
-                        "defaultValue": null,
-                        "isDeprecated": false,
-                        "deprecationReason": null
-                    },
-                    {
-                        "name": "subsumsjon",
-                        "description": null,
-                        "type": {
-                            "kind": "INPUT_OBJECT",
-                            "name": "LovhjemmelInput",
-                            "ofType": null
                         },
                         "defaultValue": null,
                         "isDeprecated": false,
