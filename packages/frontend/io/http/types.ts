@@ -95,7 +95,7 @@ export interface SkjønnsfastsattArbeidsgiver {
     begrunnelseMal?: string;
     begrunnelseFritekst?: string;
     begrunnelseKonklusjon?: string;
-    subsumsjon?: Lovhjemmel;
+    lovhjemmel?: Lovhjemmel;
     initierendeVedtaksperiodeId: Maybe<string>;
 }
 

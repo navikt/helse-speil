@@ -624,7 +624,6 @@ export type OverstyringDagInput = {
     fraType: Scalars['String']['input'];
     grad?: InputMaybe<Scalars['Int']['input']>;
     lovhjemmel?: InputMaybe<LovhjemmelInput>;
-    subsumsjon?: InputMaybe<LovhjemmelInput>;
     type: Scalars['String']['input'];
 };
 
@@ -904,6 +903,7 @@ export type SkjonnsfastsettelseArbeidsgiverInput = {
     begrunnelseMal?: InputMaybe<Scalars['String']['input']>;
     fraArlig: Scalars['Float']['input'];
     initierendeVedtaksperiodeId?: InputMaybe<Scalars['String']['input']>;
+    lovhjemmel?: InputMaybe<LovhjemmelInput>;
     organisasjonsnummer: Scalars['String']['input'];
     subsumsjon?: InputMaybe<LovhjemmelInput>;
     type: SkjonnsfastsettelseType;

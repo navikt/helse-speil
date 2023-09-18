@@ -22,7 +22,7 @@ export interface BegrunnelseForSkjønnsfastsetting {
     valg: string;
     mal: string;
     konklusjon: string;
-    subsumsjon?: Lovhjemmel;
+    lovhjemmel?: Lovhjemmel;
     sykepengegrunnlag: number;
     type: Skjønnsfastsettingstype;
 }
@@ -43,7 +43,7 @@ export const skjønnsfastsettelseBegrunnelser = (
         konklusjon: `Vi har fastsatt sykepengegrunnlaget ditt til kr ${toKronerOgØre(
             omregnetÅrsinntekt,
         )}.\nBeløpet vi har kommet frem til er årsinntekten vi mener du ville hatt hvis du ikke hadde blitt syk.`,
-        subsumsjon: { paragraf: '8-30', ledd: '2' },
+        lovhjemmel: { paragraf: '8-30', ledd: '2', lovverk: 'folketrygdloven', lovverksversjon: '2023-03-15' },
         sykepengegrunnlag: omregnetÅrsinntekt,
         type: Skjønnsfastsettingstype.OMREGNET_ÅRSINNTEKT,
     },
@@ -57,7 +57,7 @@ export const skjønnsfastsettelseBegrunnelser = (
         konklusjon: `Vi har fastsatt sykepengegrunnlaget ditt til kr ${toKronerOgØre(
             sammenligningsgrunnlag,
         )}.\nBeløpet vi har kommet frem til er årsinntekten vi mener du ville hatt hvis du ikke hadde blitt syk.`,
-        subsumsjon: { paragraf: '8-30', ledd: '2' },
+        lovhjemmel: { paragraf: '8-30', ledd: '2', lovverk: 'folketrygdloven', lovverksversjon: '2023-03-15' },
         sykepengegrunnlag: sammenligningsgrunnlag,
         type: Skjønnsfastsettingstype.RAPPORTERT_ÅRSINNTEKT,
     },
@@ -71,7 +71,7 @@ export const skjønnsfastsettelseBegrunnelser = (
         konklusjon: `Vi har fastsatt sykepengegrunnlaget ditt til kr ${toKronerOgØre(
             annet,
         )}.\nBeløpet vi har kommet frem til er årsinntekten vi mener du ville hatt hvis du ikke hadde blitt syk.`,
-        subsumsjon: { paragraf: '8-30', ledd: '2' },
+        lovhjemmel: { paragraf: '8-30', ledd: '2', lovverk: 'folketrygdloven', lovverksversjon: '2023-03-15' },
         sykepengegrunnlag: annet,
         type: Skjønnsfastsettingstype.ANNET,
     },

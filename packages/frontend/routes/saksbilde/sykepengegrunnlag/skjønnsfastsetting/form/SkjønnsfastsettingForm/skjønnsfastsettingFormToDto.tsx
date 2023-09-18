@@ -58,11 +58,13 @@ export const skjønnsfastsettingFormToDto = (
             type: begrunnelse?.type,
             begrunnelseMal: begrunnelse?.mal,
             begrunnelseFritekst: form.begrunnelseFritekst,
-            ...(begrunnelse?.subsumsjon?.paragraf && {
-                subsumsjon: {
-                    paragraf: begrunnelse.subsumsjon.paragraf,
-                    ledd: begrunnelse.subsumsjon?.ledd,
-                    bokstav: begrunnelse.subsumsjon?.bokstav,
+            ...(begrunnelse?.lovhjemmel?.paragraf && {
+                lovhjemmel: {
+                    paragraf: begrunnelse.lovhjemmel.paragraf,
+                    ledd: begrunnelse.lovhjemmel?.ledd,
+                    bokstav: begrunnelse.lovhjemmel?.bokstav,
+                    lovverk: begrunnelse.lovhjemmel?.lovverk,
+                    lovverksversjon: begrunnelse.lovhjemmel?.lovverksversjon,
                 },
             }),
             begrunnelseKonklusjon: begrunnelse?.konklusjon,
