@@ -7,7 +7,7 @@ import { useCurrentPerson } from '@state/person';
 
 import styles from './SystemMenu.module.css';
 
-const redirigerTilArbeidOgInntektUrl = (url: string, fødselsnummer: string) => {
+export const redirigerTilArbeidOgInntektUrl = (url: string, fødselsnummer: string) => {
     return fetch(url, {
         method: 'GET',
         headers: {

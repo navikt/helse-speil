@@ -6,6 +6,7 @@ import { BodyShort } from '@navikt/ds-react';
 
 import { ErrorBoundary } from '@components/ErrorBoundary';
 import { LoadingShimmer } from '@components/LoadingShimmer';
+import { Key, useKeyboard } from '@hooks/useKeyboard';
 import { Arbeidsgiver, Infotrygdutbetaling } from '@io/graphql';
 import { useActivePeriod } from '@state/periode';
 import { useCurrentPerson, useIsFetchingPerson } from '@state/person';
@@ -54,6 +55,19 @@ const TimelineWithContent: React.FC<TimelineWithContentProps> = React.memo(
             canNavigateForwards,
             canNavigateBackwards,
         } = useTimelineControls(arbeidsgivere, infotrygdutbetalinger);
+
+        useKeyboard({
+            [Key.Equal]: {
+                action: navigateForwards,
+                ignoreIfModifiers: false,
+                modifier: Key.Alt,
+            },
+            [Key.Minus]: {
+                action: navigateBackwards,
+                ignoreIfModifiers: false,
+                modifier: Key.Alt,
+            },
+        });
 
         const start = currentZoomLevel.fom.startOf('day');
         const end = currentZoomLevel.tom.endOf('day');

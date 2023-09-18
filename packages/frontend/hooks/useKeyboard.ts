@@ -4,6 +4,7 @@ export interface Action {
     action: () => void;
     ignoreIfModifiers?: boolean;
     modifier?: string;
+    visningstekst?: string;
 }
 
 export enum Key {
@@ -14,6 +15,8 @@ export enum Key {
     Alt = 'Alt',
     Shift = 'Shift',
     F6 = 'F6',
+    Equal = 'Equal',
+    Minus = 'Minus',
     A = 'KeyA',
     B = 'KeyB',
     C = 'KeyC',

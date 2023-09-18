@@ -1,3 +1,4 @@
+import { redirigerTilArbeidOgInntektUrl } from '@components/SystemMenu';
 import { copyString } from '@components/clipboard/util';
 import { Key, useKeyboard } from '@hooks/useKeyboard';
 import { useNavigation } from '@hooks/useNavigation';
@@ -53,64 +54,113 @@ const useModiaPersonoversikt = (): (() => void) => {
     return () => window.open(url, '_blank');
 };
 
-export const useKeyboardShortcuts = () => {
+export const useKeyboardActions = () => {
     const { navigateToNext, navigateToPrevious } = useNavigation();
     const clickPrevious = () => navigateToPrevious?.();
     const clickNext = () => navigateToNext?.();
+    const fødselsnummer = useCurrentFødselsnummer();
     const copyFødselsnummer = useCopyFødselsnummer();
     const openGosys = useOpenGosys();
     const openModiaPersonoversikt = useModiaPersonoversikt();
     const openModiaSykefraværsoppfølging = useOpenModiaSykefraværsoppfølging();
 
-    const actions = {
-        [Key.Left]: { action: clickPrevious, ignoreIfModifiers: true },
-        [Key.Right]: { action: clickNext, ignoreIfModifiers: true },
-        [Key.C]: { action: copyFødselsnummer, ignoreIfModifiers: false, modifier: Key.Alt },
+    return {
+        [Key.Left]: {
+            action: clickPrevious,
+            ignoreIfModifiers: true,
+            visningstekst: 'Gå til fanen til venstre i saksbildet',
+        },
+        [Key.Right]: {
+            action: clickNext,
+            ignoreIfModifiers: true,
+            visningstekst: 'Gå til fanen til høyre i saksbildet',
+        },
+        [Key.F6]: {
+            action: () => console.log('Åpne modal for utbetaling/send til godkjenning'),
+            ignoreIfModifiers: true,
+            visningstekst: 'Åpne modal for utbetaling/send til godkjenning',
+        },
+        [Key.Equal]: {
+            action: () => console.log('bla fremover i tidslinjen'),
+            ignoreIfModifiers: false,
+            modifier: Key.Alt,
+            visningstekst: 'Bla fremover i tidslinjen',
+        },
+        [Key.Minus]: {
+            action: () => console.log('bla bakover i tidslinjen'),
+            ignoreIfModifiers: false,
+            modifier: Key.Alt,
+            visningstekst: 'Bla bakover i tidslinjen',
+        },
+        [Key.C]: {
+            action: copyFødselsnummer,
+            ignoreIfModifiers: false,
+            modifier: Key.Alt,
+            visningstekst: 'Kopier fødselsnummer',
+        },
         [Key.H]: {
             action: () => console.log('toggle historikk'),
             ignoreIfModifiers: false,
             modifier: Key.Alt,
+            visningstekst: 'Åpne/lukk historikk',
         },
         [Key.N]: {
             action: () => console.log('åpne notat'),
             ignoreIfModifiers: false,
             modifier: Key.Alt,
+            visningstekst: 'Åpne notat',
         },
         [Key.A]: {
             action: () =>
-                window.open('https://arbeid-og-inntekt.nais.adeo.no/api/v2/redirect/sok/arbeidstaker', '_blank'),
+                fødselsnummer &&
+                redirigerTilArbeidOgInntektUrl(
+                    'https://arbeid-og-inntekt.nais.adeo.no/api/v2/redirect/sok/arbeidstaker',
+                    fødselsnummer,
+                ),
             ignoreIfModifiers: false,
             modifier: Key.Shift,
+            visningstekst: 'Åpne aareg i ny fane',
         },
         [Key.B]: {
             action: () => window.open('https://brreg.no', '_blank'),
             ignoreIfModifiers: false,
             modifier: Key.Shift,
+            visningstekst: 'Åpne brreg i ny fane',
         },
         [Key.G]: {
             action: openGosys,
             ignoreIfModifiers: false,
             modifier: Key.Shift,
+            visningstekst: 'Åpne gosys på person i ny fane',
         },
         [Key.I]: {
-            action: () => window.open('https://arbeid-og-inntekt.nais.adeo.no/api/v2/redirect/sok/a-inntekt', '_blank'),
+            action: () =>
+                fødselsnummer &&
+                redirigerTilArbeidOgInntektUrl(
+                    'https://arbeid-og-inntekt.nais.adeo.no/api/v2/redirect/sok/a-inntekt',
+                    fødselsnummer,
+                ),
             ignoreIfModifiers: false,
             modifier: Key.Shift,
+            visningstekst: 'Åpne a-inntekt i ny fane',
         },
         [Key.L]: {
             action: () => window.open('https://lovdata.no/nav/folketrygdloven/kap8', '_blank'),
             ignoreIfModifiers: false,
             modifier: Key.Shift,
+            visningstekst: 'Åpne lovdata i ny fane',
         },
         [Key.M]: {
             action: openModiaPersonoversikt,
             ignoreIfModifiers: false,
             modifier: Key.Shift,
+            visningstekst: 'Åpne modia personoversikt på person i ny fane',
         },
         [Key.O]: {
-            action: () => window.open('https://wasapp.adeo.no/oppdrag/venteregister/details.html', '_blank'),
+            action: () => window.open('https://wasapp.adeo.no/oppdrag/venteregister/details.htm', '_blank'),
             ignoreIfModifiers: false,
             modifier: Key.Shift,
+            visningstekst: 'Åpne oppdrag i ny fane',
         },
         [Key.R]: {
             action: () =>
@@ -120,12 +170,18 @@ export const useKeyboardShortcuts = () => {
                 ),
             ignoreIfModifiers: false,
             modifier: Key.Shift,
+            visningstekst: 'Åpne rutine i ny fane',
         },
         [Key.S]: {
             action: openModiaSykefraværsoppfølging,
             ignoreIfModifiers: false,
             modifier: Key.Shift,
+            visningstekst: 'Åpne modia sykefraværsoppfølging på person i ny fane',
         },
     };
+};
+
+export const useKeyboardShortcuts = () => {
+    const actions = useKeyboardActions();
     useKeyboard(actions);
 };
