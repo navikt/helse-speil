@@ -132,6 +132,8 @@ export const EditableInntekt = ({
                             paragraf: begrunnelse.subsumsjon.paragraf,
                             ledd: begrunnelse.subsumsjon?.ledd,
                             bokstav: begrunnelse.subsumsjon?.bokstav,
+                            lovverk: begrunnelse.subsumsjon?.lovverk,
+                            lovverksversjon: begrunnelse.subsumsjon?.lovverksversjon,
                         },
                     }),
                 },
