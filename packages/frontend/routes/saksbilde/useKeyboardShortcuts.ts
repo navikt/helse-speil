@@ -101,34 +101,34 @@ export const useKeyboardActions = () => {
             visningssnarvei: ['F6'],
         },
         [Key.Minus]: {
-            // Minus er pluss og pluss er slash selvfølgelig, se https://www.toptal.com/developers/keycode
+            // Minus er pluss og slash er minus selvfølgelig, se https://www.toptal.com/developers/keycode
             action: () => {},
             ignoreIfModifiers: false,
             modifier: Key.Alt,
             visningstekst: 'Bla fremover i tidslinjen',
             visningssnarvei: ['ALT', '+'],
         },
+        [Key.NumpadAdd]: {
+            action: () => {},
+            ignoreIfModifiers: false,
+            visningstekst: 'Bla fremover i tidslinjen',
+            modifier: Key.Alt,
+            visningssnarvei: undefined,
+        },
+        [Key.Slash]: {
+            // Minus er pluss og slash er minus på norsk tastatur selvfølgelig, se https://www.toptal.com/developers/keycode
+            action: () => {},
+            ignoreIfModifiers: false,
+            modifier: Key.Alt,
+            visningstekst: 'Bla bakover i tidslinjen',
+            visningssnarvei: ['ALT', '-'],
+        },
         [Key.NumpadSubtract]: {
             action: () => {},
             ignoreIfModifiers: false,
             modifier: Key.Alt,
             visningstekst: 'Bla bakover i tidslinjen',
-            visningssnarvei: ['ALT', '-'],
-        },
-        [Key.Slash]: {
-            // Minus er pluss og pluss er slash på norsk tastatur selvfølgelig, se https://www.toptal.com/developers/keycode
-            action: () => {},
-            ignoreIfModifiers: false,
-            modifier: Key.Alt,
-            visningstekst: 'Bla bakover i tidslinjen',
-            visningssnarvei: ['ALT', '-'],
-        },
-        [Key.NumpadAdd]: {
-            action: () => {},
-            ignoreIfModifiers: false,
-            modifier: Key.Alt,
-            visningstekst: 'Bla bakover i tidslinjen',
-            visningssnarvei: ['ALT', '-'],
+            visningssnarvei: undefined,
         },
         [Key.C]: {
             action: copyFødselsnummer,

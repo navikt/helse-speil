@@ -35,18 +35,18 @@ export const TastaturModal = ({ isOpen, onSetVisTastatursnarveier }: TastaturMod
             }
         >
             <div className={styles.snarveisliste}>
-                {Object.entries(tastatursnarveier).map((snarvei) => {
-                    return (
-                        <BodyShort className={styles.snarveisrad}>
-                            <div className={styles.snarvei}>
-                                {snarvei[1].visningssnarvei.map((snarvei) => (
-                                    <span>{snarvei}</span>
-                                ))}
-                            </div>
-                            {snarvei[1].visningstekst}
-                        </BodyShort>
-                    );
-                })}
+                {Object.entries(tastatursnarveier)
+                    .filter((snarvei) => snarvei[1]?.visningssnarvei !== undefined)
+                    .map((snarvei) => {
+                        return (
+                            <BodyShort className={styles.snarveisrad}>
+                                <div className={styles.snarvei}>
+                                    {snarvei[1].visningssnarvei?.map((snarvei) => <span>{snarvei}</span>)}
+                                </div>
+                                {snarvei[1].visningstekst}
+                            </BodyShort>
+                        );
+                    })}
             </div>
         </Modal>
     );
