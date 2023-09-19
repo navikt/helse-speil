@@ -54,7 +54,7 @@ export const GodkjenningButton: React.FC<GodkjenningButtonProps> = ({
     const [error, setError] = useState<BackendFeil | undefined>();
 
     useKeyboard({
-        [Key.F6]: { action: () => setShowModal(true), ignoreIfModifiers: false },
+        [Key.F6]: { action: () => !disabled && setShowModal(true), ignoreIfModifiers: false },
     });
 
     const amplitude = useContext(AmplitudeContext);
