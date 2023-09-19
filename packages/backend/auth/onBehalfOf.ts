@@ -23,7 +23,12 @@ export default (config: OidcConfig, instrumentation: Instrumentation) => {
                     requested_token_use: 'on_behalf_of',
                 },
             };
-            const response = await request.post(options);
+            let retries = 0;
+            let response;
+            while (retries < 3 && (!response || response.error)) {
+                response = await request.post(options);
+                retries++;
+            }
             return response.access_token;
         },
     };
