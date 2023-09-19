@@ -1,6 +1,8 @@
 import dayjs from 'dayjs';
 import React from 'react';
 
+import { Button } from '@navikt/ds-react';
+
 import { Bold } from '@components/Bold';
 import { Arbeidsgiveroppdrag, Oppdrag, Personoppdrag, Spennoppdrag } from '@io/graphql';
 import { NORSK_DATOFORMAT_KORT } from '@utils/date';
@@ -21,18 +23,20 @@ interface UtbetalingshistorikkRowProps {
     oppdrag: Personoppdrag | Arbeidsgiveroppdrag;
     status: Oppdrag['status'];
     type: Oppdrag['type'];
-    annulleringButton: React.ReactNode;
-    readOnly: boolean;
-    erBeslutteroppgave: boolean;
+    setTilAnnullering: () => void;
+    kanAnnulleres: boolean;
+    oppdaterVarselTekst: () => void;
+    visAnnullering: boolean;
 }
 
 export const UtbetalingshistorikkRow: React.FC<UtbetalingshistorikkRowProps> = ({
     oppdrag,
     status,
     type,
-    annulleringButton,
-    readOnly,
-    erBeslutteroppgave,
+    kanAnnulleres,
+    setTilAnnullering,
+    oppdaterVarselTekst,
+    visAnnullering,
 }) => {
     const fom = getFom(oppdrag);
     const tom = getTom(oppdrag);
@@ -62,7 +66,33 @@ export const UtbetalingshistorikkRow: React.FC<UtbetalingshistorikkRowProps> = (
             <Cell>
                 <Bold>{type}</Bold>
             </Cell>
-            {!readOnly && !erBeslutteroppgave ? <Cell>{annulleringButton}</Cell> : <Cell />}
+            <Cell>
+                {visAnnullering && (
+                    <AnnulleringButton
+                        kanAnnulleres={kanAnnulleres}
+                        setTilAnnullering={setTilAnnullering}
+                        setVarseltekst={oppdaterVarselTekst}
+                    />
+                )}
+            </Cell>
         </tr>
     );
 };
+
+interface AnnulleringButtonProps {
+    setTilAnnullering: () => void;
+    kanAnnulleres: boolean;
+    setVarseltekst: () => void;
+}
+
+const AnnulleringButton = ({ setTilAnnullering, kanAnnulleres, setVarseltekst }: AnnulleringButtonProps) => (
+    <Button
+        size="small"
+        onClick={() => {
+            if (!kanAnnulleres) setVarseltekst();
+            setTilAnnullering();
+        }}
+    >
+        Annuller
+    </Button>
+);

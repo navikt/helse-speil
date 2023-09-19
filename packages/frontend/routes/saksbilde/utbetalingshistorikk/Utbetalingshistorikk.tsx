@@ -7,7 +7,7 @@ import { Button } from '@navikt/ds-react';
 
 import { ErrorBoundary } from '@components/ErrorBoundary';
 import { useIsReadOnlyOppgave } from '@hooks/useIsReadOnlyOppgave';
-import { Oppdrag, Spennoppdrag } from '@io/graphql';
+import { Arbeidsgiveroppdrag, Oppdrag, Spennoppdrag } from '@io/graphql';
 import { useCurrentArbeidsgiver } from '@state/arbeidsgiver';
 import { useActivePeriod } from '@state/periode';
 import { useCurrentPerson } from '@state/person';
@@ -56,13 +56,11 @@ const Table = styled.table`
 
 interface UtbetalingshistorikkWithContentProps {
     fødselsnummer: string;
-    organisasjonsnummer: string;
     aktørId: string;
 }
 
 const UtbetalingshistorikkWithContent: React.FC<UtbetalingshistorikkWithContentProps> = ({
     fødselsnummer,
-    organisasjonsnummer,
     aktørId,
 }) => {
     const navigate = useNavigate();
@@ -80,21 +78,16 @@ const UtbetalingshistorikkWithContent: React.FC<UtbetalingshistorikkWithContentP
         setAnnulleringerInFlight(annulleringerInFlight.concat([oppdrag.fagsystemId]));
     };
 
-    const annulleringButton = (status: Oppdrag['status'], type: Oppdrag['type'], oppdrag: Spennoppdrag) =>
-        status === 'UTBETALT' && type === 'UTBETALING' ? (
-            <Button
-                size="small"
-                onClick={() => {
-                    if (!kanAnnulleres(oppdrag))
-                        setVarseltekst(
-                            'Utbetalinger må annulleres kronologisk, nyeste først. Du kan forsøke å annullere denne, men om den ikke er den nyeste vil den ikke bli annullert.',
-                        );
-                    setTilAnnullering(oppdrag);
-                }}
-            >
-                Annuller
-            </Button>
-        ) : null;
+    const skalViseAnnulleringButton = (oppdrag: Oppdrag): boolean =>
+        !readOnly &&
+        (!(activePeriod as BeregnetPeriode)?.totrinnsvurdering?.erBeslutteroppgave ?? false) &&
+        oppdrag.status === 'UTBETALT' &&
+        oppdrag.type === 'UTBETALING';
+
+    const oppdaterVarselTekst = () =>
+        setVarseltekst(
+            'Utbetalinger må annulleres kronologisk, nyeste først. Du kan forsøke å annullere denne, men om den ikke er den nyeste vil den ikke bli annullert.',
+        );
 
     return (
         <Container className="Utbetalingshistorikk">
@@ -119,36 +112,26 @@ const UtbetalingshistorikkWithContent: React.FC<UtbetalingshistorikkWithContentP
                         <React.Fragment key={i}>
                             {oppdrag.personoppdrag && (
                                 <UtbetalingshistorikkRow
+                                    visAnnullering={skalViseAnnulleringButton(oppdrag)}
+                                    kanAnnulleres={kanAnnulleres(oppdrag.personoppdrag)}
+                                    setTilAnnullering={() => setTilAnnullering(oppdrag.personoppdrag ?? undefined)}
+                                    oppdaterVarselTekst={oppdaterVarselTekst}
                                     oppdrag={oppdrag.personoppdrag}
                                     status={oppdrag.status}
                                     type={oppdrag.type}
-                                    annulleringButton={annulleringButton(
-                                        oppdrag.status,
-                                        oppdrag.type,
-                                        oppdrag.personoppdrag,
-                                    )}
-                                    readOnly={readOnly}
-                                    erBeslutteroppgave={
-                                        (activePeriod as BeregnetPeriode)?.totrinnsvurdering?.erBeslutteroppgave ??
-                                        false
-                                    }
                                 />
                             )}
                             {oppdrag.arbeidsgiveroppdrag && (
                                 <UtbetalingshistorikkRow
+                                    visAnnullering={skalViseAnnulleringButton(oppdrag)}
+                                    kanAnnulleres={kanAnnulleres(oppdrag.arbeidsgiveroppdrag)}
+                                    setTilAnnullering={() =>
+                                        setTilAnnullering(oppdrag.arbeidsgiveroppdrag ?? undefined)
+                                    }
+                                    oppdaterVarselTekst={oppdaterVarselTekst}
                                     oppdrag={oppdrag.arbeidsgiveroppdrag}
                                     status={oppdrag.status}
                                     type={oppdrag.type}
-                                    annulleringButton={annulleringButton(
-                                        oppdrag.status,
-                                        oppdrag.type,
-                                        oppdrag.arbeidsgiveroppdrag,
-                                    )}
-                                    readOnly={readOnly}
-                                    erBeslutteroppgave={
-                                        (activePeriod as BeregnetPeriode)?.totrinnsvurdering?.erBeslutteroppgave ??
-                                        false
-                                    }
                                 />
                             )}
                         </React.Fragment>
@@ -159,7 +142,7 @@ const UtbetalingshistorikkWithContent: React.FC<UtbetalingshistorikkWithContentP
                 <Annulleringsmodal
                     fødselsnummer={fødselsnummer}
                     aktørId={aktørId}
-                    organisasjonsnummer={organisasjonsnummer}
+                    organisasjonsnummer={(tilAnnullering as Arbeidsgiveroppdrag)?.organisasjonsnummer}
                     fagsystemId={tilAnnullering.fagsystemId}
                     linjer={tilAnnullering.linjer.map((it) => ({
                         ...it,
@@ -187,7 +170,6 @@ const UtbetalingshistorikkContainer: React.FC = () => {
         return (
             <UtbetalingshistorikkWithContent
                 fødselsnummer={currentPerson.fodselsnummer}
-                organisasjonsnummer={currentArbeidsgiver.organisasjonsnummer}
                 aktørId={currentPerson.aktorId}
             />
         );
@@ -203,5 +185,3 @@ export const Utbetalingshistorikk: React.FC = () => {
         </React.Suspense>
     );
 };
-
-export default Utbetalingshistorikk;
