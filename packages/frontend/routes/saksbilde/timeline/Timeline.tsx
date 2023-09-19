@@ -57,12 +57,12 @@ const TimelineWithContent: React.FC<TimelineWithContentProps> = React.memo(
         } = useTimelineControls(arbeidsgivere, infotrygdutbetalinger);
 
         useKeyboard({
-            [Key.Equal]: {
+            [Key.Minus]: {
                 action: navigateForwards,
                 ignoreIfModifiers: false,
                 modifier: Key.Alt,
             },
-            [Key.Minus]: {
+            [Key.Slash]: {
                 action: navigateBackwards,
                 ignoreIfModifiers: false,
                 modifier: Key.Alt,

@@ -7,9 +7,11 @@ import { fireEvent, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { SpeilError } from '@utils/error';
 
+import { useKeyboardActions } from '../../routes/saksbilde/useKeyboardShortcuts';
 import { Header } from './Header';
 
 jest.mock('@state/person');
+jest.mock('../../routes/saksbilde/useKeyboardShortcuts');
 
 let cachedVarsel: SpeilError | null = null;
 
@@ -35,6 +37,9 @@ jest.mock('@state/varsler', () => ({
 }));
 
 describe('Header', () => {
+    beforeEach(() => {
+        (useKeyboardActions as jest.Mock).mockReturnValue(() => Promise.resolve(null));
+    });
     afterEach(() => {
         jest.clearAllMocks();
         cachedVarsel = null;

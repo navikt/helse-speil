@@ -1,0 +1,25 @@
+.snarveisliste {
+    display: flex;
+    flex-direction: column;
+    margin-top: 1rem;
+}
+
+.snarveisrad {
+    display: flex;
+    padding: 0.25rem 0.5rem;
+}
+
+.snarveisrad:nth-of-type(2n-1) {
+    background-color: var(--a-gray-100);
+}
+
+.snarvei {
+    display: flex;
+    width: 2.5rem;
+    justify-content: center;
+    margin-right: 1rem;
+}
+
+.snarvei > span:first-child {
+    padding-right: 0.25rem;
+}

@@ -65,50 +65,91 @@ export const useKeyboardActions = () => {
     const openModiaSykefraværsoppfølging = useOpenModiaSykefraværsoppfølging();
 
     return {
+        [Key.Esc]: {
+            action: () => {},
+            ignoreIfModifiers: true,
+            modifier: undefined,
+            visningstekst: 'Lukk modal',
+            visningssnarvei: ['Esc'],
+        },
         [Key.Left]: {
             action: clickPrevious,
             ignoreIfModifiers: true,
+            modifier: undefined,
             visningstekst: 'Gå til fanen til venstre i saksbildet',
+            visningssnarvei: ['←'],
         },
         [Key.Right]: {
             action: clickNext,
             ignoreIfModifiers: true,
+            modifier: undefined,
             visningstekst: 'Gå til fanen til høyre i saksbildet',
+            visningssnarvei: ['→'],
+        },
+        [Key.F1]: {
+            action: () => {},
+            ignoreIfModifiers: true,
+            modifier: undefined,
+            visningstekst: 'Åpne denne modalen med tastatursnarveiene',
+            visningssnarvei: ['F1'],
         },
         [Key.F6]: {
-            action: () => console.log('Åpne modal for utbetaling/send til godkjenning'),
+            action: () => {},
             ignoreIfModifiers: true,
+            modifier: undefined,
             visningstekst: 'Åpne modal for utbetaling/send til godkjenning',
+            visningssnarvei: ['F6'],
         },
-        [Key.Equal]: {
-            action: () => console.log('bla fremover i tidslinjen'),
+        [Key.Minus]: {
+            // Minus er pluss og pluss er slash selvfølgelig, se https://www.toptal.com/developers/keycode
+            action: () => {},
             ignoreIfModifiers: false,
             modifier: Key.Alt,
             visningstekst: 'Bla fremover i tidslinjen',
+            visningssnarvei: ['ALT', '+'],
         },
-        [Key.Minus]: {
-            action: () => console.log('bla bakover i tidslinjen'),
+        [Key.NumpadSubtract]: {
+            action: () => {},
             ignoreIfModifiers: false,
             modifier: Key.Alt,
             visningstekst: 'Bla bakover i tidslinjen',
+            visningssnarvei: ['ALT', '-'],
+        },
+        [Key.Slash]: {
+            // Minus er pluss og pluss er slash på norsk tastatur selvfølgelig, se https://www.toptal.com/developers/keycode
+            action: () => {},
+            ignoreIfModifiers: false,
+            modifier: Key.Alt,
+            visningstekst: 'Bla bakover i tidslinjen',
+            visningssnarvei: ['ALT', '-'],
+        },
+        [Key.NumpadAdd]: {
+            action: () => {},
+            ignoreIfModifiers: false,
+            modifier: Key.Alt,
+            visningstekst: 'Bla bakover i tidslinjen',
+            visningssnarvei: ['ALT', '-'],
         },
         [Key.C]: {
             action: copyFødselsnummer,
             ignoreIfModifiers: false,
             modifier: Key.Alt,
             visningstekst: 'Kopier fødselsnummer',
+            visningssnarvei: ['ALT', 'C'],
         },
         [Key.H]: {
-            action: () => console.log('toggle historikk'),
+            action: () => {},
             ignoreIfModifiers: false,
             modifier: Key.Alt,
             visningstekst: 'Åpne/lukk historikk',
+            visningssnarvei: ['ALT', 'H'],
         },
         [Key.N]: {
-            action: () => console.log('åpne notat'),
+            action: () => {},
             ignoreIfModifiers: false,
             modifier: Key.Alt,
             visningstekst: 'Åpne notat',
+            visningssnarvei: ['ALT', 'N'],
         },
         [Key.A]: {
             action: () =>
@@ -120,18 +161,21 @@ export const useKeyboardActions = () => {
             ignoreIfModifiers: false,
             modifier: Key.Shift,
             visningstekst: 'Åpne aareg i ny fane',
+            visningssnarvei: ['⇧', 'A'],
         },
         [Key.B]: {
             action: () => window.open('https://brreg.no', '_blank'),
             ignoreIfModifiers: false,
             modifier: Key.Shift,
             visningstekst: 'Åpne brreg i ny fane',
+            visningssnarvei: ['⇧', 'B'],
         },
         [Key.G]: {
             action: openGosys,
             ignoreIfModifiers: false,
             modifier: Key.Shift,
             visningstekst: 'Åpne gosys på person i ny fane',
+            visningssnarvei: ['⇧', 'G'],
         },
         [Key.I]: {
             action: () =>
@@ -143,24 +187,28 @@ export const useKeyboardActions = () => {
             ignoreIfModifiers: false,
             modifier: Key.Shift,
             visningstekst: 'Åpne a-inntekt i ny fane',
+            visningssnarvei: ['⇧', 'I'],
         },
         [Key.L]: {
             action: () => window.open('https://lovdata.no/nav/folketrygdloven/kap8', '_blank'),
             ignoreIfModifiers: false,
             modifier: Key.Shift,
             visningstekst: 'Åpne lovdata i ny fane',
+            visningssnarvei: ['⇧', 'L'],
         },
         [Key.M]: {
             action: openModiaPersonoversikt,
             ignoreIfModifiers: false,
             modifier: Key.Shift,
             visningstekst: 'Åpne modia personoversikt på person i ny fane',
+            visningssnarvei: ['⇧', 'M'],
         },
         [Key.O]: {
             action: () => window.open('https://wasapp.adeo.no/oppdrag/venteregister/details.htm', '_blank'),
             ignoreIfModifiers: false,
             modifier: Key.Shift,
             visningstekst: 'Åpne oppdrag i ny fane',
+            visningssnarvei: ['⇧', 'O'],
         },
         [Key.R]: {
             action: () =>
@@ -171,12 +219,14 @@ export const useKeyboardActions = () => {
             ignoreIfModifiers: false,
             modifier: Key.Shift,
             visningstekst: 'Åpne rutine i ny fane',
+            visningssnarvei: ['⇧', 'R'],
         },
         [Key.S]: {
             action: openModiaSykefraværsoppfølging,
             ignoreIfModifiers: false,
             modifier: Key.Shift,
             visningstekst: 'Åpne modia sykefraværsoppfølging på person i ny fane',
+            visningssnarvei: ['⇧', 'S'],
         },
     };
 };

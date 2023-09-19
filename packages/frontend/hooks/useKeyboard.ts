@@ -4,19 +4,22 @@ export interface Action {
     action: () => void;
     ignoreIfModifiers?: boolean;
     modifier?: string;
-    visningstekst?: string;
 }
 
 export enum Key {
+    Esc = 'Escape',
     Left = 'ArrowLeft',
     Right = 'ArrowRight',
     Enter = 'Enter',
     Backspace = 'Backspace',
     Alt = 'Alt',
     Shift = 'Shift',
+    F1 = 'F1',
     F6 = 'F6',
-    Equal = 'Equal',
     Minus = 'Minus',
+    Slash = 'Slash',
+    NumpadSubtract = 'NumpadSubtract',
+    NumpadAdd = 'NumpadAdd',
     A = 'KeyA',
     B = 'KeyB',
     C = 'KeyC',
