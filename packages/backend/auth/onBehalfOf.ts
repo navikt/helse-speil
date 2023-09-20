@@ -1,5 +1,6 @@
 import request from 'request-promise-native';
 
+import { sleep } from '../devHelpers';
 import { Instrumentation } from '../instrumentation';
 import logger from '../logging';
 import { OidcConfig } from '../types';
@@ -24,11 +25,20 @@ export default (config: OidcConfig, instrumentation: Instrumentation) => {
                     requested_token_use: 'on_behalf_of',
                 },
             };
-            let forsøk = 1;
-            let response = await request.post(options);
-            while (forsøk < 3 && (!response || response.error)) {
-                response = await request.post(options);
-                forsøk++;
+            let forsøk = 0;
+            let response;
+            while (!response || response.error) {
+                try {
+                    response = await request.post(options);
+                } catch (error) {
+                    logger.error(`Feil ved henting av token for ${targetClientId}: ${error}`);
+                    if (forsøk > 3) {
+                        throw error;
+                    }
+                } finally {
+                    forsøk++;
+                    await sleep(500 * forsøk);
+                }
             }
 
             if (forsøk > 1) {
