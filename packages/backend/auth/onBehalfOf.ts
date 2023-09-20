@@ -1,6 +1,7 @@
 import request from 'request-promise-native';
 
 import { Instrumentation } from '../instrumentation';
+import logger from '../logging';
 import { OidcConfig } from '../types';
 
 export default (config: OidcConfig, instrumentation: Instrumentation) => {
@@ -23,12 +24,17 @@ export default (config: OidcConfig, instrumentation: Instrumentation) => {
                     requested_token_use: 'on_behalf_of',
                 },
             };
-            let retries = 0;
-            let response;
-            while (retries < 3 && (!response || response.error)) {
+            let forsøk = 1;
+            let response = await request.post(options);
+            while (forsøk < 3 && (!response || response.error)) {
                 response = await request.post(options);
-                retries++;
+                forsøk++;
             }
+
+            if (forsøk > 1) {
+                logger.info(`Brukte ${forsøk} forsøk på å hente token for ${targetClientId}`);
+            }
+
             return response.access_token;
         },
     };
