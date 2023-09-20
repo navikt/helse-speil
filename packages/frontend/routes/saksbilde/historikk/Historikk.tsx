@@ -7,6 +7,7 @@ import { BodyShort } from '@navikt/ds-react';
 
 import { CloseButton } from '@components/CloseButton';
 import { ErrorBoundary } from '@components/ErrorBoundary';
+import { JusterbarSidemeny } from '@components/justerbarSidemeny/JusterbarSidemeny';
 import { Key, useKeyboard } from '@hooks/useKeyboard';
 import { useCurrentPerson, useIsFetchingPerson } from '@state/person';
 
@@ -53,17 +54,15 @@ const HistorikkWithContent: React.FC = () => {
     });
 
     return (
-        <>
+        <JusterbarSidemeny defaultBredde={300} visSidemeny={showHistorikk} localStorageNavn="historikkBredde">
             <motion.div
-                key="behandlingsstatistikk"
-                initial={{ width: showHistorikk ? 'max-content' : 0 }}
-                animate={{ width: showHistorikk ? 'max-content' : 0 }}
+                key="historikk"
                 transition={{
                     type: 'tween',
                     duration: 0.2,
                     ease: 'easeInOut',
                 }}
-                style={{ overflow: 'hidden', gridArea: 'høyremeny' }}
+                style={{ overflow: 'hidden' }}
             >
                 {isLoading && <HistorikkSkeleton />}
                 {!isLoading && (
@@ -115,7 +114,7 @@ const HistorikkWithContent: React.FC = () => {
                     </div>
                 )}
             </motion.div>
-        </>
+        </JusterbarSidemeny>
     );
 };
 

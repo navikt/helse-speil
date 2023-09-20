@@ -1,0 +1,13 @@
+.justerbarSidemeny {
+    display: flex;
+    gridarea: 'høyremeny';
+}
+.justerbarLinje {
+    width: 0.5rem;
+    height: 100%;
+    grid-area: høyremeny;
+    cursor: col-resize;
+    display: flex;
+    align-items: stretch;
+    border-left: 1px solid var(--a-border-strong);
+}

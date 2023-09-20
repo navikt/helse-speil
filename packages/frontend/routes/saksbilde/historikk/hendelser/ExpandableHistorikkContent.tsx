@@ -8,7 +8,6 @@ import styles from './ExpandableHistorikkContent.module.css';
 interface ExpandableHistorikkContentProps extends React.HTMLAttributes<HTMLDivElement> {
     openText?: string;
     closeText?: string;
-    fullWidth?: boolean;
 }
 
 export const ExpandableHistorikkContent: React.FC<ExpandableHistorikkContentProps> = ({
@@ -16,7 +15,6 @@ export const ExpandableHistorikkContent: React.FC<ExpandableHistorikkContentProp
     children,
     openText = 'Åpne',
     closeText = 'Lukk',
-    fullWidth = false,
     ...divProps
 }) => {
     const [open, setOpen] = useState(false);
@@ -25,7 +23,7 @@ export const ExpandableHistorikkContent: React.FC<ExpandableHistorikkContentProp
             <Accordion.Header className={styles.Header} onClick={() => setOpen((prevState) => !prevState)}>
                 {open ? closeText : openText}
             </Accordion.Header>
-            <Accordion.Content style={{ maxWidth: fullWidth ? '100%' : '200px' }} className={styles.Content}>
+            <Accordion.Content style={{ minWidth: '200px' }} className={styles.Content}>
                 {children}
             </Accordion.Content>
         </Accordion.Item>

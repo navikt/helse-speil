@@ -94,11 +94,7 @@ export const Notathendelse: React.FC<NotathendelseProps> = ({
             </div>
             {error && <ErrorMessage>Kunne ikke feilregistrere notat. Prøv igjen senere.</ErrorMessage>}
             <HendelseDate timestamp={timestamp} ident={saksbehandler} />
-            <ExpandableHistorikkContent
-                openText={`Kommentarer (${kommentarer.length})`}
-                closeText="Lukk kommentarer"
-                fullWidth
-            >
+            <ExpandableHistorikkContent openText={`Kommentarer (${kommentarer.length})`} closeText="Lukk kommentarer">
                 <NotatHendelseContent
                     kommentarer={kommentarer}
                     saksbehandlerOid={saksbehandlerOid}

@@ -3,14 +3,12 @@
     overflow: hidden;
     transition: width 0.2s ease;
     height: 100%;
-    width: 300px;
     min-width: 300px;
 }
 
 .Historikk > ul {
-    padding: 0 1.5rem 2rem;
+    padding: 0 2rem 1.5rem 1.5rem;
     box-sizing: border-box;
-    border-left: 1px solid var(--a-border-strong);
     height: 100%;
 }
 
