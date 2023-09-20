@@ -28,7 +28,7 @@ export const JusterbarSidemeny: React.FC<JusterbarSidebarProps> = ({
             }
 
             setWidth((previousWidth) => {
-                const newWidth = previousWidth - e.movementX * 1.1;
+                const newWidth = previousWidth - e.movementX;
                 const isWidthInRange = newWidth >= minWidth && newWidth <= maxWidth;
 
                 return isWidthInRange ? newWidth : previousWidth;
