@@ -32,7 +32,7 @@ export default (config: OidcConfig, instrumentation: Instrumentation) => {
                     response = await request.post(options);
                 } catch (error) {
                     if (forsøk <= 3) {
-                        logger.error(`Feil ved henting av token for ${targetClientId}: ${error}`);
+                        logger.info(`Prøver å hente token på nytt for ${targetClientId}: ${error}`);
                     } else {
                         logger.error(
                             `Feil etter ${forsøk} forsøk ved henting av token for ${targetClientId}: ${error}, gir opp`,
