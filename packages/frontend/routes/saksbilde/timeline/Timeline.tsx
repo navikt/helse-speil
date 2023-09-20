@@ -58,12 +58,12 @@ const TimelineWithContent: React.FC<TimelineWithContentProps> = React.memo(
 
         useKeyboard({
             [Key.Minus]: {
-                action: canNavigateBackwards ? navigateBackwards : () => {},
+                action: navigateForwards,
                 ignoreIfModifiers: false,
                 modifier: Key.Alt,
             },
             [Key.NumpadAdd]: {
-                action: canNavigateBackwards ? navigateBackwards : () => {},
+                action: navigateForwards,
                 ignoreIfModifiers: false,
                 modifier: Key.Alt,
             },
