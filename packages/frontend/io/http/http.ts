@@ -58,7 +58,7 @@ const get = async <T>(url: string, options?: Options): Promise<SpeilResponse<T>>
     };
 };
 
-export const post = async (url: string, data: unknown, headere?: Headers): Promise<SpeilResponse<unknown>> => {
+const post = async (url: string, data: unknown, headere?: Headers): Promise<SpeilResponse<unknown>> => {
     const response = await fetch(url, {
         method: 'POST',
         headers: {
@@ -78,19 +78,6 @@ export const post = async (url: string, data: unknown, headere?: Headers): Promi
         status: response.status,
         data: await getData(response),
     };
-};
-
-export const del = async (url: string, data?: unknown, options?: Options) => {
-    const response = await fetch(url, {
-        method: 'DELETE',
-        body: JSON.stringify(data),
-        ...options,
-    } as RequestInit);
-
-    if (response.status >= 400) {
-        throw ResponseError(response.status);
-    }
-    return response;
 };
 export const getOpptegnelser = async (sisteSekvensId?: number): Promise<SpeilResponse<Array<Opptegnelse>>> => {
     return sisteSekvensId
