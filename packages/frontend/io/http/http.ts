@@ -97,20 +97,6 @@ export const getOpptegnelser = async (sisteSekvensId?: number): Promise<SpeilRes
         ? get<Opptegnelse[]>(`${baseUrl}/opptegnelse/hent/${sisteSekvensId}`)
         : get<Opptegnelse[]>(`${baseUrl}/opptegnelse/hent`);
 };
-
-export const getNotater = async (
-    vedtaksperiodeIder: string[],
-): Promise<{
-    vedtaksperiodeId: Array<ExternalNotat>;
-}> => {
-    return get<{
-        vedtaksperiodeId: ExternalNotat[];
-    }>(`${baseUrl}/notater?vedtaksperiodeId=${vedtaksperiodeIder.join('&vedtaksperiodeId=')}`).then(({ data }) => {
-        if (data === undefined) throw 'Notater response mangler data';
-        return data;
-    });
-};
-
 const postVedtak = async (
     oppgavereferanse: string,
     aktørId: string,
