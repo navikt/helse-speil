@@ -10,3 +10,15 @@
     padding: 0.5rem 1rem;
     white-space: nowrap;
 }
+
+.snarvei {
+    color: var(--a-text-subtle);
+    margin-left: auto;
+    display: flex;
+}
+
+.tast {
+    width: 0.9rem;
+    display: flex;
+    justify-content: center;
+}
