@@ -1,0 +1,3 @@
+mutation SendTilGodkjenning($oppgavereferanse: String!) {
+    sendTilGodkjenning(oppgavereferanse: $oppgavereferanse)
+}

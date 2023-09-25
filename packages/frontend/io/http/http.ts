@@ -1,5 +1,5 @@
 import { Avvisningsskjema } from '../../routes/saksbilde/venstremeny/utbetaling/AvvisningModal';
-import { AnnulleringDTO, NotatDTO, Options, PersonoppdateringDTO } from './types';
+import { AnnulleringDTO, Options, PersonoppdateringDTO } from './types';
 
 export const ResponseError = (statusCode: number, message?: string) => ({
     statusCode,
@@ -97,12 +97,6 @@ export const postUtbetalingsgodkjenning = async (oppgavereferanse: string, aktø
 
 export const postSendTilInfotrygd = async (oppgavereferanse: string, aktørId: string, skjema: Avvisningsskjema) =>
     postVedtak(oppgavereferanse, aktørId, false, skjema);
-
-export const postSendTilbakeTilSaksbehandler = async (oppgavereferanse: string, notat: NotatDTO) =>
-    post(`${baseUrl}/totrinnsvurdering/retur`, { oppgavereferanse, notat });
-
-export const postUtbetalingTilTotrinnsvurdering = async (oppgavereferanse: string) =>
-    post(`${baseUrl}/totrinnsvurdering`, { oppgavereferanse });
 
 export const postAnnullering = async (annullering: AnnulleringDTO) =>
     post(`${baseUrl}/payments/annullering`, annullering);

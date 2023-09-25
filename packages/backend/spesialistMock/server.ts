@@ -4,8 +4,7 @@ import { sleep } from '../devHelpers';
 import { setUpGraphQLMiddleware } from './graphql';
 import { setUpOpptegnelse } from './opptegnelser';
 import { setUpOverstyring } from './overstyringer';
-import { NotatMock } from './storage/notat';
-import { OppgaveMock, getDefaultOppgave } from './storage/oppgave';
+import { OppgaveMock } from './storage/oppgave';
 
 const app = express();
 const port = 9001;
@@ -33,51 +32,6 @@ app.use((req, res, next) => {
         console.log(`Behandler ${req.method} til ${pathOrQuery} etter ${ventetid} ms`);
     }
     sleep(ventetid).then(next);
-});
-
-app.post('/api/totrinnsvurdering/retur', (req: Request, res: Response) => {
-    const oppgavereferanse = req.body.oppgavereferanse;
-    const tidligereSaksbehandler = OppgaveMock.getOppgave(oppgavereferanse)?.totrinnsvurdering?.saksbehandler;
-    const oppgave: Oppgave = {
-        ...getDefaultOppgave(),
-        id: oppgavereferanse,
-        tildelt: tidligereSaksbehandler,
-        totrinnsvurdering: {
-            saksbehandler: 'uuid',
-            erRetur: true,
-            erBeslutteroppgave: false,
-        },
-    };
-
-    OppgaveMock.addOrUpdateOppgave(oppgavereferanse, oppgave);
-
-    NotatMock.addNotat(oppgavereferanse, {
-        vedtaksperiodeId: oppgavereferanse,
-        tekst: req.body.notat.tekst,
-        type: req.body.notat.type,
-    });
-
-    res.sendStatus(200);
-});
-
-app.post('/api/totrinnsvurdering', (req: Request, res: Response) => {
-    // mangler å legge til periodehistorikk
-    const oppgavereferanse = req.body.oppgavereferanse;
-    const tidligereSaksbehandler = OppgaveMock.getOppgave(oppgavereferanse)?.totrinnsvurdering?.saksbehandler;
-    const oppgave: Oppgave = {
-        ...getDefaultOppgave(),
-        id: oppgavereferanse,
-        tildelt: tidligereSaksbehandler === 'uuid' ? null : 'uuid',
-        totrinnsvurdering: {
-            erRetur: false,
-            erBeslutteroppgave: true,
-            saksbehandler: 'uuid',
-        },
-    };
-
-    OppgaveMock.addOrUpdateOppgave(oppgavereferanse, oppgave);
-
-    res.sendStatus(200);
 });
 
 app.post('/api/annullering', (req, res) => {

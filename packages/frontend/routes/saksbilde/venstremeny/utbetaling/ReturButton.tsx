@@ -3,9 +3,9 @@ import React, { useContext, useState } from 'react';
 
 import { Button } from '@navikt/ds-react';
 
+import { useMutation } from '@apollo/client';
 import { AmplitudeContext } from '@io/amplitude';
-import { NotatType, Personnavn } from '@io/graphql';
-import { postSendTilbakeTilSaksbehandler } from '@io/http';
+import { NotatType, Personnavn, SendIReturDocument } from '@io/graphql';
 import { useCurrentPerson } from '@state/person';
 import { useAddToast } from '@state/toasts';
 
@@ -42,6 +42,7 @@ export const ReturButton: React.FC<ReturButtonProps> = ({
     const addReturtoast = useAddReturtoast();
     const person = useCurrentPerson();
     const amplitude = useContext(AmplitudeContext);
+    const [sendIReturMutation] = useMutation(SendIReturDocument);
 
     const closeModal = () => {
         setError(undefined);
@@ -59,12 +60,11 @@ export const ReturButton: React.FC<ReturButtonProps> = ({
         etternavn: personinfo.etternavn,
     };
 
-    const returnerUtbetaling = (notattekst: string) => {
+    const returnerUtbetaling = async (notattekst: string) => {
         setError(undefined);
 
-        return postSendTilbakeTilSaksbehandler(activePeriod.oppgave?.id ?? '', {
-            tekst: notattekst,
-            type: 'Retur',
+        return sendIReturMutation({
+            variables: { oppgavereferanse: activePeriod.oppgave?.id ?? '', notatTekst: notattekst },
         })
             .then(() => {
                 amplitude.logTotrinnsoppgaveReturnert();

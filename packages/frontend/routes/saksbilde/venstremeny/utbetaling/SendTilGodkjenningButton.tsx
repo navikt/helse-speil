@@ -3,10 +3,10 @@ import React, { ReactNode, useContext, useState } from 'react';
 
 import { Button } from '@navikt/ds-react';
 
+import { useMutation } from '@apollo/client';
 import { Key, useKeyboard } from '@hooks/useKeyboard';
 import { AmplitudeContext } from '@io/amplitude';
-import { Personinfo, Utbetaling } from '@io/graphql';
-import { postUtbetalingTilTotrinnsvurdering } from '@io/http';
+import { Personinfo, SendTilGodkjenningDocument, Utbetaling } from '@io/graphql';
 import { useAddToast } from '@state/toasts';
 
 import { BackendFeil } from './Utbetaling';
@@ -50,7 +50,7 @@ export const SendTilGodkjenningButton: React.FC<SendTilGodkjenningButtonProps> =
     const [error, setError] = useState<BackendFeil | undefined>();
     const amplitude = useContext(AmplitudeContext);
     const addToast = useAddSendtTilGodkjenningtoast();
-
+    const [sendTilGodkjenningMutation] = useMutation(SendTilGodkjenningDocument);
     useKeyboard({
         [Key.F6]: {
             action: () => setShowModal(true),
@@ -65,7 +65,7 @@ export const SendTilGodkjenningButton: React.FC<SendTilGodkjenningButtonProps> =
 
     const sendTilGodkjenning = () => {
         setIsSending(true);
-        postUtbetalingTilTotrinnsvurdering(oppgavereferanse)
+        sendTilGodkjenningMutation({ variables: { oppgavereferanse } })
             .then(() => {
                 amplitude.logTotrinnsoppgaveTilGodkjenning();
                 addToast();

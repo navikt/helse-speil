@@ -27,14 +27,17 @@ import type {
     MutationOverstyrArbeidsforholdArgs,
     MutationOverstyrDagerArgs,
     MutationOverstyrInntektOgRefusjonArgs,
+    MutationSendIReturArgs,
+    MutationSendTilGodkjenningArgs,
     MutationSettVarselstatusAktivArgs,
     MutationSettVarselstatusVurdertArgs,
     MutationSkjonnsfastsettSykepengegrunnlagArgs,
     OppgaveForOversiktsvisning,
     Person,
 } from './schemaTypes';
+import { NotatType } from './schemaTypes';
 import { NotatMock } from './storage/notat';
-import { OppgaveMock } from './storage/oppgave';
+import { OppgaveMock, getDefaultOppgave } from './storage/oppgave';
 import { TildelingMock } from './storage/tildeling';
 import { VarselMock } from './storage/varsel';
 
@@ -226,6 +229,44 @@ const getResolvers = (): IResolvers => ({
             return true;
         },
         skjonnsfastsettSykepengegrunnlag: async (_, __: MutationSkjonnsfastsettSykepengegrunnlagArgs) => {
+            return true;
+        },
+        sendTilGodkjenning: async (_, { oppgavereferanse }: MutationSendTilGodkjenningArgs) => {
+            const tidligereSaksbehandler = OppgaveMock.getOppgave(oppgavereferanse)?.totrinnsvurdering?.saksbehandler;
+            const oppgave: Oppgave = {
+                ...getDefaultOppgave(),
+                id: oppgavereferanse,
+                tildelt: tidligereSaksbehandler === 'uuid' ? null : 'uuid',
+                totrinnsvurdering: {
+                    erRetur: false,
+                    erBeslutteroppgave: true,
+                    saksbehandler: 'uuid',
+                },
+            };
+
+            OppgaveMock.addOrUpdateOppgave(oppgavereferanse, oppgave);
+            return true;
+        },
+        sendIRetur: async (_, { oppgavereferanse, notatTekst }: MutationSendIReturArgs) => {
+            const tidligereSaksbehandler = OppgaveMock.getOppgave(oppgavereferanse)?.totrinnsvurdering?.saksbehandler;
+            const oppgave: Oppgave = {
+                ...getDefaultOppgave(),
+                id: oppgavereferanse,
+                tildelt: tidligereSaksbehandler,
+                totrinnsvurdering: {
+                    saksbehandler: 'uuid',
+                    erRetur: true,
+                    erBeslutteroppgave: false,
+                },
+            };
+
+            OppgaveMock.addOrUpdateOppgave(oppgavereferanse, oppgave);
+
+            NotatMock.addNotat(oppgavereferanse, {
+                vedtaksperiodeId: oppgavereferanse,
+                tekst: notatTekst,
+                type: NotatType.Retur,
+            });
             return true;
         },
     },

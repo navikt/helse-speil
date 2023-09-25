@@ -2537,6 +2537,19 @@ export type OpprettTildelingMutation = {
     } | null;
 };
 
+export type SendIReturMutationVariables = Exact<{
+    oppgavereferanse: Scalars['String']['input'];
+    notatTekst: Scalars['String']['input'];
+}>;
+
+export type SendIReturMutation = { __typename?: 'Mutation'; sendIRetur: boolean };
+
+export type SendTilGodkjenningMutationVariables = Exact<{
+    oppgavereferanse: Scalars['String']['input'];
+}>;
+
+export type SendTilGodkjenningMutation = { __typename?: 'Mutation'; sendTilGodkjenning: boolean };
+
 export const AntallFragmentDoc = {
     kind: 'Document',
     definitions: [
@@ -6098,3 +6111,79 @@ export const OpprettTildelingDocument = {
         },
     ],
 } as unknown as DocumentNode<OpprettTildelingMutation, OpprettTildelingMutationVariables>;
+export const SendIReturDocument = {
+    kind: 'Document',
+    definitions: [
+        {
+            kind: 'OperationDefinition',
+            operation: 'mutation',
+            name: { kind: 'Name', value: 'SendIRetur' },
+            variableDefinitions: [
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'oppgavereferanse' } },
+                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
+                },
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'notatTekst' } },
+                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
+                },
+            ],
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'sendIRetur' },
+                        arguments: [
+                            {
+                                kind: 'Argument',
+                                name: { kind: 'Name', value: 'oppgavereferanse' },
+                                value: { kind: 'Variable', name: { kind: 'Name', value: 'oppgavereferanse' } },
+                            },
+                            {
+                                kind: 'Argument',
+                                name: { kind: 'Name', value: 'notatTekst' },
+                                value: { kind: 'Variable', name: { kind: 'Name', value: 'notatTekst' } },
+                            },
+                        ],
+                    },
+                ],
+            },
+        },
+    ],
+} as unknown as DocumentNode<SendIReturMutation, SendIReturMutationVariables>;
+export const SendTilGodkjenningDocument = {
+    kind: 'Document',
+    definitions: [
+        {
+            kind: 'OperationDefinition',
+            operation: 'mutation',
+            name: { kind: 'Name', value: 'SendTilGodkjenning' },
+            variableDefinitions: [
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'oppgavereferanse' } },
+                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
+                },
+            ],
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'sendTilGodkjenning' },
+                        arguments: [
+                            {
+                                kind: 'Argument',
+                                name: { kind: 'Name', value: 'oppgavereferanse' },
+                                value: { kind: 'Variable', name: { kind: 'Name', value: 'oppgavereferanse' } },
+                            },
+                        ],
+                    },
+                ],
+            },
+        },
+    ],
+} as unknown as DocumentNode<SendTilGodkjenningMutation, SendTilGodkjenningMutationVariables>;
