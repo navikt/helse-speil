@@ -1,0 +1,60 @@
+.notat {
+    display: flex;
+    flex-direction: column;
+    border-bottom: 1px solid var(--a-border-strong);
+    padding: 1rem 0;
+}
+
+.apneNotat {
+    display: flex;
+    align-items: flex-end;
+    color: var(--a-text-action);
+    cursor: pointer;
+}
+
+.apneNotat.apen {
+    color: var(--a-text-default);
+    padding-bottom: 0.5rem;
+}
+
+.apneNotat .tekst {
+    text-decoration: underline;
+}
+
+.apneNotat.apen .tekst {
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.apneNotat.apen > svg {
+    color: var(--a-text-action);
+}
+
+.apneNotat > svg {
+    margin-right: 0.5rem;
+}
+
+.header {
+    background-color: transparent !important;
+    border: 0;
+    padding: 0;
+}
+
+.header > svg:last-child {
+    display: none;
+}
+
+.form {
+    padding-top: 0.5rem;
+}
+
+.buttons {
+    display: flex;
+    gap: 0.25rem;
+    padding-top: 1rem;
+}
+
+.buttons span {
+    display: flex;
+    column-gap: var(--a-spacing-2);
+}

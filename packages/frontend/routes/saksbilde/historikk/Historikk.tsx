@@ -10,7 +10,9 @@ import { ErrorBoundary } from '@components/ErrorBoundary';
 import { JusterbarSidemeny } from '@components/justerbarSidemeny/JusterbarSidemeny';
 import { Key, useKeyboard } from '@hooks/useKeyboard';
 import { useCurrentPerson, useIsFetchingPerson } from '@state/person';
+import { toggleMeny } from '@utils/featureToggles';
 
+import { Notat } from '../notat/Notat';
 import { AnnetArbeidsforholdoverstyringhendelse } from './hendelser/AnnetArbeidsforholdoverstyringhendelse';
 import { Arbeidsforholdoverstyringhendelse } from './hendelser/Arbeidsforholdoverstyringhendelse';
 import { Dagoverstyringhendelse } from './hendelser/Dagoverstyringhendelse';
@@ -54,7 +56,7 @@ const HistorikkWithContent: React.FC = () => {
     });
 
     return (
-        <JusterbarSidemeny defaultBredde={300} visSidemeny={showHistorikk} localStorageNavn="historikkBredde">
+        <JusterbarSidemeny defaultBredde={320} visSidemeny={showHistorikk} localStorageNavn="historikkBredde">
             <motion.div
                 key="historikk"
                 transition={{
@@ -72,6 +74,7 @@ const HistorikkWithContent: React.FC = () => {
                                 {getHistorikkTitle(filter)}
                                 <CloseButton onClick={() => setShowHistorikk(false)} aria-label="Lukk" />
                             </div>
+                            {toggleMeny && <Notat />}
                             {historikk.map((it: HendelseObject, index) => {
                                 switch (it.type) {
                                     case 'Arbeidsforholdoverstyring': {
