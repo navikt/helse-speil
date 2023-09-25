@@ -393,6 +393,8 @@ export type Mutation = {
     overstyrArbeidsforhold: Scalars['Boolean']['output'];
     overstyrDager: Scalars['Boolean']['output'];
     overstyrInntektOgRefusjon: Scalars['Boolean']['output'];
+    sendIRetur: Scalars['Boolean']['output'];
+    sendTilGodkjenning: Scalars['Boolean']['output'];
     settVarselstatusAktiv?: Maybe<VarselDto>;
     settVarselstatusVurdert?: Maybe<VarselDto>;
     skjonnsfastsettSykepengegrunnlag: Scalars['Boolean']['output'];
@@ -455,6 +457,15 @@ export type MutationOverstyrDagerArgs = {
 
 export type MutationOverstyrInntektOgRefusjonArgs = {
     overstyring: InntektOgRefusjonOverstyringInput;
+};
+
+export type MutationSendIReturArgs = {
+    notatTekst: Scalars['String']['input'];
+    oppgavereferanse: Scalars['String']['input'];
+};
+
+export type MutationSendTilGodkjenningArgs = {
+    oppgavereferanse: Scalars['String']['input'];
 };
 
 export type MutationSettVarselstatusAktivArgs = {

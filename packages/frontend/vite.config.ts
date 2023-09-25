@@ -1,5 +1,4 @@
 import path from 'path';
-import { visualizer } from 'rollup-plugin-visualizer';
 import { defineConfig, splitVendorChunkPlugin } from 'vite';
 
 import react from '@vitejs/plugin-react';
@@ -10,7 +9,6 @@ export default defineConfig({
             include: '**/*.tsx',
         }),
         splitVendorChunkPlugin(),
-        visualizer(),
     ],
     server: {
         hmr: true,
