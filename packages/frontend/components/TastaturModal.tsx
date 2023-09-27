@@ -37,12 +37,14 @@ export const TastaturModal = ({ isOpen, onSetVisTastatursnarveier }: TastaturMod
             <div className={styles.snarveisliste}>
                 {Object.entries(tastatursnarveier)
                     .filter((snarvei) => snarvei[1]?.visningssnarvei !== undefined)
-                    .map((snarvei) => {
+                    .map((snarvei, i) => {
                         return (
-                            <BodyShort className={styles.snarveisrad}>
-                                <div className={styles.snarvei}>
-                                    {snarvei[1].visningssnarvei?.map((snarvei) => <span>{snarvei}</span>)}
-                                </div>
+                            <BodyShort className={styles.snarveisrad} key={`snarvei${i}`}>
+                                <span className={styles.snarvei}>
+                                    {snarvei[1].visningssnarvei?.map((snarvei, index) => (
+                                        <span key={`tast${i}${index}`}>{snarvei}</span>
+                                    ))}
+                                </span>
                                 {snarvei[1].visningstekst}
                             </BodyShort>
                         );
