@@ -74,7 +74,7 @@ const HistorikkWithContent: React.FC = () => {
                                 {getHistorikkTitle(filter)}
                                 <CloseButton onClick={() => setShowHistorikk(false)} aria-label="Lukk" />
                             </div>
-                            {toggleMeny && <Notat />}
+                            {toggleMeny && filter !== 'Dokument' && <Notat />}
                             {historikk.map((it: HendelseObject, index) => {
                                 switch (it.type) {
                                     case 'Arbeidsforholdoverstyring': {
