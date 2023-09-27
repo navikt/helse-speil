@@ -26,7 +26,7 @@ export const HistorikkHeader = () => {
                 onClick={activateFilter('Historikk')}
                 title="Historikk"
             >
-                <Clock title="Clock-icon" height={22} width={22} />
+                <Clock title="Historikk" height={22} width={22} />
             </TabButton>
             <TabButton
                 className={styles.FilterButton}
@@ -34,7 +34,7 @@ export const HistorikkHeader = () => {
                 onClick={activateFilter('Dokument')}
                 title="Dokumenter"
             >
-                <Folder title="Folder-icon" height={22} width={22} />
+                <Folder title="Dokumenter" height={22} width={22} />
             </TabButton>
             <TabButton
                 className={classNames(styles.FilterButton)}
@@ -42,7 +42,7 @@ export const HistorikkHeader = () => {
                 onClick={activateFilter('Notat')}
                 title="Notat"
             >
-                <DialogDots title="Dialog-icon" height={22} width={22} />
+                <DialogDots title="Notat" height={22} width={22} />
             </TabButton>
         </div>
     );
