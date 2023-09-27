@@ -82,7 +82,7 @@ export const UtbetalingModal = ({
                     : 'blir utbetalingen sendt til oppdragsystemet.'}
             </BodyShort>
             <Buttons>
-                <Button variant="primary" onClick={onApprove} disabled={isSending}>
+                <Button variant="primary" onClick={onApprove} disabled={isSending} autoFocus>
                     <KnappMedSpinner>
                         <span>Ja</span>
                         {isSending && <Loader size="xsmall" />}
