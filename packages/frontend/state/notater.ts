@@ -1,4 +1,5 @@
 import dayjs from 'dayjs';
+import { atom } from 'recoil';
 
 import { useQuery } from '@apollo/client';
 import { FetchNotaterDocument, Notat as GraphQLNotat } from '@io/graphql';
@@ -39,4 +40,13 @@ export const toNotat = (spesialistNotat: ExternalNotat | GraphQLNotat): Notat =>
     feilregistrert: spesialistNotat.feilregistrert,
     type: spesialistNotat.type,
     kommentarer: (spesialistNotat as GraphQLNotat).kommentarer ?? [],
+});
+
+export interface LagretNotat {
+    vedtaksperiodeId: string;
+    tekst: string;
+}
+export const lokaleNotaterState = atom({
+    key: 'lokaleNotaterState',
+    default: [] as LagretNotat[],
 });
