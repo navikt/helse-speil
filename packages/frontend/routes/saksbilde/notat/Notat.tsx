@@ -39,8 +39,9 @@ export const Notat = () => {
         setOpen(harPåbegyntNotat);
     }, [harPåbegyntNotat]);
 
-    useKeyboard({
-        [Key.N]: {
+    useKeyboard([
+        {
+            key: Key.N,
             action: () => {
                 setOpen(true);
                 form.setFocus('tekst');
@@ -48,7 +49,7 @@ export const Notat = () => {
             ignoreIfModifiers: false,
             modifier: Key.Alt,
         },
-    });
+    ]);
 
     if (erGhostEllerHarIkkeAktivPeriode) return null;
 

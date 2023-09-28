@@ -56,28 +56,32 @@ const TimelineWithContent: React.FC<TimelineWithContentProps> = React.memo(
             canNavigateBackwards,
         } = useTimelineControls(arbeidsgivere, infotrygdutbetalinger);
 
-        useKeyboard({
-            [Key.Minus]: {
+        useKeyboard([
+            {
+                key: Key.Minus,
                 action: navigateForwards,
                 ignoreIfModifiers: false,
                 modifier: Key.Alt,
             },
-            [Key.NumpadAdd]: {
+            {
+                key: Key.NumpadAdd,
                 action: navigateForwards,
                 ignoreIfModifiers: false,
                 modifier: Key.Alt,
             },
-            [Key.Slash]: {
+            {
+                key: Key.Slash,
                 action: canNavigateBackwards ? navigateBackwards : () => {},
                 ignoreIfModifiers: false,
                 modifier: Key.Alt,
             },
-            [Key.NumpadSubtract]: {
+            {
+                key: Key.NumpadSubtract,
                 action: canNavigateBackwards ? navigateBackwards : () => {},
                 ignoreIfModifiers: false,
                 modifier: Key.Alt,
             },
-        });
+        ]);
 
         const start = currentZoomLevel.fom.startOf('day');
         const end = currentZoomLevel.tom.endOf('day');

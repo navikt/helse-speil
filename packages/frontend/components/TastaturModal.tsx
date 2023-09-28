@@ -3,7 +3,7 @@ import React from 'react';
 import { BodyShort, Heading } from '@navikt/ds-react';
 
 import { Modal } from '@components/Modal';
-import { Key, useKeyboard } from '@hooks/useKeyboard';
+import { Action, Key, useKeyboard } from '@hooks/useKeyboard';
 
 import { useKeyboardActions } from '../routes/saksbilde/useKeyboardShortcuts';
 
@@ -14,14 +14,15 @@ interface TastaturModalProps {
     onSetVisTastatursnarveier: (open: boolean) => void;
 }
 export const TastaturModal = ({ isOpen, onSetVisTastatursnarveier }: TastaturModalProps) => {
-    const tastatursnarveier = useKeyboardActions();
+    const tastatursnarveier: Action[] = useKeyboardActions();
 
-    useKeyboard({
-        [Key.F1]: {
+    useKeyboard([
+        {
+            key: Key.F1,
             action: () => onSetVisTastatursnarveier(!isOpen),
             ignoreIfModifiers: false,
         },
-    });
+    ]);
 
     return (
         <Modal

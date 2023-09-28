@@ -9,13 +9,13 @@ import { Key, useKeyboard } from './useKeyboard';
 const Consumer = () => {
     const [pressedKey, setPressedKey] = useState('');
 
-    useKeyboard({
-        [Key.Right]: { action: () => setPressedKey(Key.Right) },
-        [Key.Left]: { action: () => setPressedKey(Key.Left) },
-        [Key.Backspace]: { action: () => setPressedKey(Key.Backspace) },
-        [Key.Enter]: { action: () => setPressedKey(Key.Enter) },
-        [Key.C]: { action: () => setPressedKey(Key.C) },
-    });
+    useKeyboard([
+        { key: Key.Right, action: () => setPressedKey(Key.Right) },
+        { key: Key.Left, action: () => setPressedKey(Key.Left) },
+        { key: Key.Backspace, action: () => setPressedKey(Key.Backspace) },
+        { key: Key.Enter, action: () => setPressedKey(Key.Enter) },
+        { key: Key.C, action: () => setPressedKey(Key.C) },
+    ]);
 
     return (
         <>

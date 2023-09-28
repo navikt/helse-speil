@@ -46,13 +46,14 @@ const HistorikkWithContent: React.FC = () => {
     const [showHistorikk, setShowHistorikk] = useShowHistorikkState();
 
     const isLoading = useIsFetchingPerson();
-    useKeyboard({
-        [Key.H]: {
+    useKeyboard([
+        {
+            key: Key.H,
             action: () => setShowHistorikk(!showHistorikk),
             ignoreIfModifiers: false,
             modifier: Key.Alt,
         },
-    });
+    ]);
 
     return (
         <JusterbarSidemeny defaultBredde={320} visSidemeny={showHistorikk} localStorageNavn="historikkBredde">

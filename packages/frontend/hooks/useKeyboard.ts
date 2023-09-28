@@ -1,9 +1,12 @@
 import { useEffect } from 'react';
 
 export interface Action {
+    key: string;
     action: () => void;
     ignoreIfModifiers?: boolean;
     modifier?: string;
+    visningstekst?: string;
+    visningssnarvei?: string[];
 }
 
 export enum Key {
@@ -14,6 +17,7 @@ export enum Key {
     Backspace = 'Backspace',
     Alt = 'Alt',
     Shift = 'Shift',
+    Meta = 'Meta',
     F1 = 'F1',
     F6 = 'F6',
     Minus = 'Minus',
@@ -39,22 +43,27 @@ const shouldDisableKeyboard = (): boolean =>
     document.activeElement instanceof HTMLInputElement ||
     document.getElementById('modal') !== null;
 
-export const useKeyboard = (actions: { [key: string]: Action }) => {
+export const useKeyboard = (actions: Action[]) => {
     const handleKeyDown = (event: KeyboardEvent) => {
-        const action = actions[event.code];
-        const hasActiveModifier = action?.modifier ? event.getModifierState(action?.modifier) : false;
-        const hasActiveMeta = event.getModifierState('Meta');
-        const hasActiveModifiers = hasActiveMeta || hasActiveModifier;
+        const activeModifiers: string[] = [];
+        if (event.getModifierState('Alt')) activeModifiers.push(Key.Alt);
+        if (event.getModifierState('Shift')) activeModifiers.push(Key.Shift);
+        if (event.getModifierState('Meta')) activeModifiers.push(Key.Meta);
+
+        const action = Object.values(actions)
+            .filter((action: Action) => action.key === event.code)
+            .filter((action: Action) => action.modifier === undefined || activeModifiers.includes(action.modifier));
+
         if (
             !action ||
             shouldDisableKeyboard() ||
-            (action?.ignoreIfModifiers && hasActiveModifiers) ||
-            (action?.modifier && (!hasActiveModifier || hasActiveMeta))
+            (action[0]?.ignoreIfModifiers && activeModifiers.length) ||
+            action.length !== 1
         ) {
             return;
         }
 
-        actions[event.code]?.action();
+        action[0].action();
     };
 
     useEffect(() => {

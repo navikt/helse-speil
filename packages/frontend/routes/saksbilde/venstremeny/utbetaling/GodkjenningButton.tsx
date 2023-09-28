@@ -51,9 +51,7 @@ export const GodkjenningButton: React.FC<GodkjenningButtonProps> = ({
     const [isSending, setIsSending] = useState(false);
     const [error, setError] = useState<BackendFeil | undefined>();
     const [innvilgVedtakMutation] = useMutation(InnvilgVedtakDocument);
-    useKeyboard({
-        [Key.F6]: { action: () => !disabled && setShowModal(true), ignoreIfModifiers: false },
-    });
+    useKeyboard([{ key: Key.F6, action: () => !disabled && setShowModal(true), ignoreIfModifiers: false }]);
 
     const amplitude = useContext(AmplitudeContext);
     const addUtbetalingstoast = useAddUtbetalingstoast();

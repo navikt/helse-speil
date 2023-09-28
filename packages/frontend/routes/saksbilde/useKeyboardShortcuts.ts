@@ -1,6 +1,6 @@
 import { redirigerTilArbeidOgInntektUrl } from '@components/SystemMenu';
 import { copyString } from '@components/clipboard/util';
-import { Key, useKeyboard } from '@hooks/useKeyboard';
+import { Action, Key, useKeyboard } from '@hooks/useKeyboard';
 import { useNavigation } from '@hooks/useNavigation';
 import { usePersonLoadable } from '@state/person';
 import { useAddToast } from '@state/toasts';
@@ -10,6 +10,12 @@ const useCurrentFødselsnummer = (): string | null => {
     const person = usePersonLoadable();
 
     return person.state === 'hasValue' && isPerson(person.contents) ? person.contents.fodselsnummer : null;
+};
+
+const useCurrentAktørId = (): string | null => {
+    const person = usePersonLoadable();
+
+    return person.state === 'hasValue' && isPerson(person.contents) ? person.contents.aktorId : null;
 };
 
 const useCopyFødselsnummer = (): (() => void) => {
@@ -28,6 +34,28 @@ const useCopyFødselsnummer = (): (() => void) => {
             addToast({
                 key: 'fødselsnummerIkkeKopiert',
                 message: 'Fødselsnummer ble ikke kopiert',
+                timeToLiveMs: 3000,
+            });
+        }
+    };
+};
+
+const useCopyAktørId = (): (() => void) => {
+    const aktørId = useCurrentAktørId();
+    const addToast = useAddToast();
+
+    return () => {
+        if (aktørId) {
+            copyString(aktørId, false);
+            addToast({
+                key: 'kopierAktørIdToastKey',
+                message: 'Aktør-ID er kopiert',
+                timeToLiveMs: 3000,
+            });
+        } else {
+            addToast({
+                key: 'aktørIdIkkeKopiert',
+                message: 'Aktør-ID ble ikke kopiert',
                 timeToLiveMs: 3000,
             });
         }
@@ -54,104 +82,128 @@ const useModiaPersonoversikt = (): (() => void) => {
     return () => window.open(url, '_blank');
 };
 
-export const useKeyboardActions = () => {
+export const useKeyboardActions = (): Action[] => {
     const { navigateToNext, navigateToPrevious } = useNavigation();
     const clickPrevious = () => navigateToPrevious?.();
     const clickNext = () => navigateToNext?.();
     const fødselsnummer = useCurrentFødselsnummer();
     const copyFødselsnummer = useCopyFødselsnummer();
+    const copyAktørId = useCopyAktørId();
     const openGosys = useOpenGosys();
     const openModiaPersonoversikt = useModiaPersonoversikt();
     const openModiaSykefraværsoppfølging = useOpenModiaSykefraværsoppfølging();
 
-    return {
-        [Key.Esc]: {
+    return [
+        {
+            key: Key.Esc,
+            visningstekst: 'Lukk modal',
+            visningssnarvei: ['Esc'],
             action: () => {},
             ignoreIfModifiers: true,
             modifier: undefined,
-            visningstekst: 'Lukk modal',
-            visningssnarvei: ['Esc'],
         },
-        [Key.Left]: {
+        {
+            key: Key.Left,
+            visningstekst: 'Gå til fanen til venstre i saksbildet',
+            visningssnarvei: ['←'],
             action: clickPrevious,
             ignoreIfModifiers: true,
             modifier: undefined,
-            visningstekst: 'Gå til fanen til venstre i saksbildet',
-            visningssnarvei: ['←'],
         },
-        [Key.Right]: {
+        {
+            key: Key.Right,
+            visningstekst: 'Gå til fanen til høyre i saksbildet',
+            visningssnarvei: ['→'],
             action: clickNext,
             ignoreIfModifiers: true,
             modifier: undefined,
-            visningstekst: 'Gå til fanen til høyre i saksbildet',
-            visningssnarvei: ['→'],
         },
-        [Key.F1]: {
-            action: () => {},
-            ignoreIfModifiers: true,
-            modifier: undefined,
+        {
+            key: Key.F1,
             visningstekst: 'Åpne denne modalen med tastatursnarveiene',
             visningssnarvei: ['F1'],
-        },
-        [Key.F6]: {
             action: () => {},
             ignoreIfModifiers: true,
             modifier: undefined,
+        },
+        {
+            key: Key.F6,
             visningstekst: 'Åpne modal for utbetaling/send til godkjenning',
             visningssnarvei: ['F6'],
-        },
-        [Key.Minus]: {
-            // Minus er pluss og slash er minus selvfølgelig, se https://www.toptal.com/developers/keycode
             action: () => {},
-            ignoreIfModifiers: false,
-            modifier: Key.Alt,
+            ignoreIfModifiers: true,
+            modifier: undefined,
+        },
+        {
+            // Minus er pluss og slash er minus selvfølgelig, se https://www.toptal.com/developers/keycode
+            key: Key.Minus,
             visningstekst: 'Bla fremover i tidslinjen',
             visningssnarvei: ['ALT', '+'],
-        },
-        [Key.NumpadAdd]: {
             action: () => {},
             ignoreIfModifiers: false,
+            modifier: Key.Alt,
+        },
+        {
+            key: Key.NumpadAdd,
             visningstekst: 'Bla fremover i tidslinjen',
-            modifier: Key.Alt,
             visningssnarvei: undefined,
-        },
-        [Key.Slash]: {
-            // Minus er pluss og slash er minus på norsk tastatur selvfølgelig, se https://www.toptal.com/developers/keycode
             action: () => {},
             ignoreIfModifiers: false,
             modifier: Key.Alt,
+        },
+        {
+            // Minus er pluss og slash er minus på norsk tastatur selvfølgelig, se https://www.toptal.com/developers/keycode
+            key: Key.Slash,
             visningstekst: 'Bla bakover i tidslinjen',
             visningssnarvei: ['ALT', '-'],
-        },
-        [Key.NumpadSubtract]: {
             action: () => {},
             ignoreIfModifiers: false,
             modifier: Key.Alt,
+        },
+        {
+            key: Key.NumpadSubtract,
             visningstekst: 'Bla bakover i tidslinjen',
             visningssnarvei: undefined,
+            action: () => {},
+            ignoreIfModifiers: false,
+            modifier: Key.Alt,
         },
-        [Key.C]: {
+        {
+            key: Key.A,
+            visningstekst: 'Kopier aktørId',
+            visningssnarvei: ['ALT', 'A'],
+            action: copyAktørId,
+            ignoreIfModifiers: false,
+            modifier: Key.Alt,
+        },
+        {
+            key: Key.C,
+            visningstekst: 'Kopier fødselsnummer',
+            visningssnarvei: ['ALT', 'C'],
             action: copyFødselsnummer,
             ignoreIfModifiers: false,
             modifier: Key.Alt,
-            visningstekst: 'Kopier fødselsnummer',
-            visningssnarvei: ['ALT', 'C'],
         },
-        [Key.H]: {
-            action: () => {},
-            ignoreIfModifiers: false,
-            modifier: Key.Alt,
+        {
+            key: Key.H,
             visningstekst: 'Åpne/lukk historikk',
             visningssnarvei: ['ALT', 'H'],
-        },
-        [Key.N]: {
             action: () => {},
             ignoreIfModifiers: false,
             modifier: Key.Alt,
+        },
+        {
+            key: Key.N,
             visningstekst: 'Åpne generelt notat (fokus på tekstfeltet om notatet allerede er åpent)',
             visningssnarvei: ['ALT', 'N'],
+            action: () => {},
+            ignoreIfModifiers: false,
+            modifier: Key.Alt,
         },
-        [Key.A]: {
+        {
+            key: Key.A,
+            visningstekst: 'Åpne aareg i ny fane',
+            visningssnarvei: ['⇧', 'A'],
             action: () =>
                 fødselsnummer &&
                 redirigerTilArbeidOgInntektUrl(
@@ -160,24 +212,27 @@ export const useKeyboardActions = () => {
                 ),
             ignoreIfModifiers: false,
             modifier: Key.Shift,
-            visningstekst: 'Åpne aareg i ny fane',
-            visningssnarvei: ['⇧', 'A'],
         },
-        [Key.B]: {
+        {
+            key: Key.B,
+            visningstekst: 'Åpne brreg i ny fane',
+            visningssnarvei: ['⇧', 'B'],
             action: () => window.open('https://brreg.no', '_blank'),
             ignoreIfModifiers: false,
             modifier: Key.Shift,
-            visningstekst: 'Åpne brreg i ny fane',
-            visningssnarvei: ['⇧', 'B'],
         },
-        [Key.G]: {
+        {
+            key: Key.G,
+            visningstekst: 'Åpne gosys på person i ny fane',
+            visningssnarvei: ['⇧', 'G'],
             action: openGosys,
             ignoreIfModifiers: false,
             modifier: Key.Shift,
-            visningstekst: 'Åpne gosys på person i ny fane',
-            visningssnarvei: ['⇧', 'G'],
         },
-        [Key.I]: {
+        {
+            key: Key.I,
+            visningstekst: 'Åpne a-inntekt i ny fane',
+            visningssnarvei: ['⇧', 'I'],
             action: () =>
                 fødselsnummer &&
                 redirigerTilArbeidOgInntektUrl(
@@ -186,31 +241,35 @@ export const useKeyboardActions = () => {
                 ),
             ignoreIfModifiers: false,
             modifier: Key.Shift,
-            visningstekst: 'Åpne a-inntekt i ny fane',
-            visningssnarvei: ['⇧', 'I'],
         },
-        [Key.L]: {
+        {
+            key: Key.L,
+            visningstekst: 'Åpne lovdata i ny fane',
+            visningssnarvei: ['⇧', 'L'],
             action: () => window.open('https://lovdata.no/nav/folketrygdloven/kap8', '_blank'),
             ignoreIfModifiers: false,
             modifier: Key.Shift,
-            visningstekst: 'Åpne lovdata i ny fane',
-            visningssnarvei: ['⇧', 'L'],
         },
-        [Key.M]: {
+        {
+            key: Key.M,
+            visningstekst: 'Åpne modia personoversikt på person i ny fane',
+            visningssnarvei: ['⇧', 'M'],
             action: openModiaPersonoversikt,
             ignoreIfModifiers: false,
             modifier: Key.Shift,
-            visningstekst: 'Åpne modia personoversikt på person i ny fane',
-            visningssnarvei: ['⇧', 'M'],
         },
-        [Key.O]: {
+        {
+            key: Key.O,
+            visningstekst: 'Åpne oppdrag i ny fane',
+            visningssnarvei: ['⇧', 'O'],
             action: () => window.open('https://wasapp.adeo.no/oppdrag/venteregister/details.htm', '_blank'),
             ignoreIfModifiers: false,
             modifier: Key.Shift,
-            visningstekst: 'Åpne oppdrag i ny fane',
-            visningssnarvei: ['⇧', 'O'],
         },
-        [Key.R]: {
+        {
+            key: Key.R,
+            visningstekst: 'Åpne rutine i ny fane',
+            visningssnarvei: ['⇧', 'R'],
             action: () =>
                 window.open(
                     'https://navno.sharepoint.com/sites/fag-og-ytelser-arbeid-sykefravarsoppfolging-og-sykepenger/SitePages/Samhandlings--og-samordningsrutiner.aspx',
@@ -218,17 +277,16 @@ export const useKeyboardActions = () => {
                 ),
             ignoreIfModifiers: false,
             modifier: Key.Shift,
-            visningstekst: 'Åpne rutine i ny fane',
-            visningssnarvei: ['⇧', 'R'],
         },
-        [Key.S]: {
+        {
+            key: Key.S,
+            visningstekst: 'Åpne modia sykefraværsoppfølging på person i ny fane',
+            visningssnarvei: ['⇧', 'S'],
             action: openModiaSykefraværsoppfølging,
             ignoreIfModifiers: false,
             modifier: Key.Shift,
-            visningstekst: 'Åpne modia sykefraværsoppfølging på person i ny fane',
-            visningssnarvei: ['⇧', 'S'],
         },
-    };
+    ];
 };
 
 export const useKeyboardShortcuts = () => {

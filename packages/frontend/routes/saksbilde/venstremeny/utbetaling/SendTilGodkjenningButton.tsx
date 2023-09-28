@@ -51,12 +51,13 @@ export const SendTilGodkjenningButton: React.FC<SendTilGodkjenningButtonProps> =
     const amplitude = useContext(AmplitudeContext);
     const addToast = useAddSendtTilGodkjenningtoast();
     const [sendTilGodkjenningMutation] = useMutation(SendTilGodkjenningDocument);
-    useKeyboard({
-        [Key.F6]: {
+    useKeyboard([
+        {
+            key: Key.F6,
             action: () => setShowModal(true),
             ignoreIfModifiers: false,
         },
-    });
+    ]);
 
     const closeModal = () => {
         setError(undefined);
