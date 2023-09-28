@@ -34,7 +34,7 @@ export const PåVentOppgaveRow = ({ oppgave }: PåVentOppgaveRowProps) => (
         />
         <InntektskildeCell flereArbeidsgivere={oppgave.flereArbeidsgivere} />
         <SøkerCell name={oppgave.navn} />
-        <DatoCell date={oppgave.sistSendt ?? oppgave.opprettet} />
+        <DatoCell date={oppgave.opprettet} />
         <DatoCell date={oppgave.opprinneligSoknadsdato ?? oppgave.opprettet} />
         <OptionsCell oppgave={oppgave} navn={oppgave.navn} />
         {oppgave.tildeling?.paaVent ? (

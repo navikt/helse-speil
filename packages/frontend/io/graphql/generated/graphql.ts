@@ -392,6 +392,7 @@ export type Mutation = {
     leggPaaVent?: Maybe<Tildeling>;
     leggTilKommentar?: Maybe<Kommentar>;
     leggTilNotat?: Maybe<Notat>;
+    oppdaterPerson: Scalars['Boolean']['output'];
     opprettTildeling?: Maybe<Tildeling>;
     overstyrArbeidsforhold: Scalars['Boolean']['output'];
     overstyrDager: Scalars['Boolean']['output'];
@@ -449,6 +450,10 @@ export type MutationLeggTilNotatArgs = {
     tekst: Scalars['String']['input'];
     type: NotatType;
     vedtaksperiodeId: Scalars['String']['input'];
+};
+
+export type MutationOppdaterPersonArgs = {
+    fodselsnummer: Scalars['String']['input'];
 };
 
 export type MutationOpprettTildelingArgs = {
@@ -1332,7 +1337,6 @@ export type FetchOppgaverQuery = {
         type: Oppgavetype;
         periodetype?: Periodetype | null;
         flereArbeidsgivere: boolean;
-        sistSendt?: string | null;
         mottaker?: Mottaker | null;
         haster?: boolean | null;
         harVergemal?: boolean | null;
@@ -3229,7 +3233,6 @@ export const FetchOppgaverDocument = {
                                         ],
                                     },
                                 },
-                                { kind: 'Field', name: { kind: 'Name', value: 'sistSendt' } },
                                 {
                                     kind: 'Field',
                                     name: { kind: 'Name', value: 'tildeling' },

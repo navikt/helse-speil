@@ -97,7 +97,7 @@ const sortFilteredRows = (
 export const opprettetSortFunction: OppgaveSortFunctionType = (
     a: OppgaveForOversiktsvisning,
     b: OppgaveForOversiktsvisning,
-) => new Date(a.sistSendt ?? a.opprettet).getTime() - new Date(b.sistSendt ?? b.opprettet).getTime();
+) => new Date(a.opprettet).getTime() - new Date(b.opprettet).getTime();
 
 export const saksbehandlerSortFunction: OppgaveSortFunctionType = (
     a: OppgaveForOversiktsvisning,

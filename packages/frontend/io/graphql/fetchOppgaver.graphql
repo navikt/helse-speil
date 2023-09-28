@@ -13,7 +13,6 @@ query FetchOppgaver {
             mellomnavn
             etternavn
         }
-        sistSendt
         tildeling {
             reservert
             navn

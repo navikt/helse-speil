@@ -390,6 +390,7 @@ export type Mutation = {
     leggPaaVent?: Maybe<Tildeling>;
     leggTilKommentar?: Maybe<Kommentar>;
     leggTilNotat?: Maybe<Notat>;
+    oppdaterPerson: Scalars['Boolean']['output'];
     opprettTildeling?: Maybe<Tildeling>;
     overstyrArbeidsforhold: Scalars['Boolean']['output'];
     overstyrDager: Scalars['Boolean']['output'];
@@ -447,6 +448,10 @@ export type MutationLeggTilNotatArgs = {
     tekst: Scalars['String']['input'];
     type: NotatType;
     vedtaksperiodeId: Scalars['String']['input'];
+};
+
+export type MutationOppdaterPersonArgs = {
+    fodselsnummer: Scalars['String']['input'];
 };
 
 export type MutationOpprettTildelingArgs = {

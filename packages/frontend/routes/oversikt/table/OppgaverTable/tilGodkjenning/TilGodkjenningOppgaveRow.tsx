@@ -35,7 +35,7 @@ export const TilGodkjenningOppgaveRow = ({ oppgave, readOnly }: TilGodkjenningOp
             spesialsak={oppgave.spesialsak ?? false}
         />
         <InntektskildeCell flereArbeidsgivere={oppgave.flereArbeidsgivere} />
-        <DatoCell date={oppgave.sistSendt ?? oppgave.opprettet} />
+        <DatoCell date={oppgave.opprettet} />
         <DatoCell date={oppgave.opprinneligSoknadsdato ?? oppgave.opprettet} />
         <OptionsCell oppgave={oppgave} navn={oppgave.navn} />
         {oppgave.tildeling?.paaVent ? (
