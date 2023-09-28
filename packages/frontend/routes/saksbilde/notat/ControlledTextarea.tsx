@@ -23,6 +23,9 @@ export const ControlledTextarea = ({ control, vedtaksperiodeId }: ControlledText
                 value: 1000,
                 message: `Det er kun tillatt med 1000 tegn`,
             },
+            validate: {
+                måFyllesUt: () => lagretNotat.length !== 0 || 'Notat må fylles ut',
+            },
         },
         defaultValue: lagretNotat,
     });

@@ -70,10 +70,12 @@ export const Notat = () => {
             });
     };
 
-    const slettNotat = () =>
+    const slettNotat = () => {
         oppdaterNotat((currentValue) => [
             ...currentValue.filter((notat) => notat.vedtaksperiodeId !== aktivPeriode.vedtaksperiodeId),
         ]);
+        setOpen(false);
+    };
 
     return (
         <li className={styles.notat}>
