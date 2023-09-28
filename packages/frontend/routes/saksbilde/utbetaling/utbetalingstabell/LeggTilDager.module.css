@@ -83,11 +83,3 @@
     -webkit-appearance: none;
     appearance: none;
 }
-
-.Dagtypevelger :global(.navds-select__input) {
-    padding: 0.15rem;
-}
-
-.Dagtypevelger :global(.navds-select__container) {
-    width: 137px;
-}
