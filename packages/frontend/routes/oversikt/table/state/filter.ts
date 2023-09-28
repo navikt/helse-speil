@@ -65,7 +65,7 @@ export const defaultFilters: Filter<OppgaveForOversiktsvisning>[] = [
     },
     {
         key: 'STIKKPRØVER',
-        label: 'Stikkprøver',
+        label: 'Stikkprøve',
         active: false,
         function: (oppgave: OppgaveForOversiktsvisning) => oppgave.type === Oppgavetype.Stikkprove,
         column: 2,
