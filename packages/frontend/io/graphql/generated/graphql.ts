@@ -388,6 +388,7 @@ export type Mutation = {
     feilregistrerNotat?: Maybe<Notat>;
     fjernPaaVent?: Maybe<Tildeling>;
     fjernTildeling: Scalars['Boolean']['output'];
+    innvilgVedtak: Scalars['Boolean']['output'];
     leggPaaVent?: Maybe<Tildeling>;
     leggTilKommentar?: Maybe<Kommentar>;
     leggTilNotat?: Maybe<Notat>;
@@ -397,6 +398,7 @@ export type Mutation = {
     overstyrInntektOgRefusjon: Scalars['Boolean']['output'];
     sendIRetur: Scalars['Boolean']['output'];
     sendTilGodkjenning: Scalars['Boolean']['output'];
+    sendTilInfotrygd: Scalars['Boolean']['output'];
     settVarselstatusAktiv?: Maybe<VarselDto>;
     settVarselstatusVurdert?: Maybe<VarselDto>;
     skjonnsfastsettSykepengegrunnlag: Scalars['Boolean']['output'];
@@ -424,6 +426,10 @@ export type MutationFjernPaaVentArgs = {
 
 export type MutationFjernTildelingArgs = {
     oppgaveId: Scalars['String']['input'];
+};
+
+export type MutationInnvilgVedtakArgs = {
+    oppgavereferanse: Scalars['String']['input'];
 };
 
 export type MutationLeggPaaVentArgs = {
@@ -467,6 +473,13 @@ export type MutationSendIReturArgs = {
 };
 
 export type MutationSendTilGodkjenningArgs = {
+    oppgavereferanse: Scalars['String']['input'];
+};
+
+export type MutationSendTilInfotrygdArgs = {
+    arsak: Scalars['String']['input'];
+    begrunnelser: Array<Scalars['String']['input']>;
+    kommentar?: InputMaybe<Scalars['String']['input']>;
     oppgavereferanse: Scalars['String']['input'];
 };
 
