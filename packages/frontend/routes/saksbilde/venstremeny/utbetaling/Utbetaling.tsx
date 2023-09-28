@@ -139,7 +139,6 @@ export const Utbetaling = ({ period, person, arbeidsgiver }: UtbetalingProps) =>
                         arbeidsgiver={arbeidsgiver}
                         personinfo={person.personinfo}
                         oppgavereferanse={period.oppgave?.id ?? ''}
-                        aktørId={person.aktorId}
                         erBeslutteroppgave={erBeslutteroppgaveOgHarTilgang}
                         disabled={
                             periodenErSendt ||
@@ -161,7 +160,6 @@ export const Utbetaling = ({ period, person, arbeidsgiver }: UtbetalingProps) =>
                         <AvvisningButton
                             disabled={periodenErSendt}
                             activePeriod={period}
-                            aktørId={person.aktorId}
                             onSuccess={onAvvisUtbetaling}
                         />
                     )}

@@ -1,0 +1,3 @@
+mutation InnvilgVedtak($oppgavereferanse: String!) {
+    innvilgVedtak(oppgavereferanse: $oppgavereferanse)
+}

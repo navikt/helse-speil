@@ -1,4 +1,3 @@
-import { Avvisningsskjema } from '../../routes/saksbilde/venstremeny/utbetaling/AvvisningModal';
 import { AnnulleringDTO, Options, PersonoppdateringDTO } from './types';
 
 export const ResponseError = (statusCode: number, message?: string) => ({
@@ -89,21 +88,6 @@ export const getOpptegnelser = async (sisteSekvensId?: number): Promise<SpeilRes
 export const postAbonnerPåAktør = async (aktørId: string) => {
     return post(`${baseUrl}/opptegnelse/abonner/${aktørId}`, {});
 };
-
-// Vedtak
-const postVedtak = async (
-    oppgavereferanse: string,
-    aktørId: string,
-    godkjent: boolean,
-    skjema?: Avvisningsskjema,
-    beregningId?: string,
-) => post(`${baseUrl}/payments/vedtak`, { oppgavereferanse, aktørId, godkjent, skjema, beregningId });
-
-export const postUtbetalingsgodkjenning = async (oppgavereferanse: string, aktørId: string) =>
-    postVedtak(oppgavereferanse, aktørId, true, undefined);
-
-export const postSendTilInfotrygd = async (oppgavereferanse: string, aktørId: string, skjema: Avvisningsskjema) =>
-    postVedtak(oppgavereferanse, aktørId, false, skjema);
 
 // Anullering
 export const postAnnullering = async (annullering: AnnulleringDTO) =>

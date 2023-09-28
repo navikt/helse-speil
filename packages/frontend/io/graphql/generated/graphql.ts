@@ -2547,6 +2547,21 @@ export type SendTilGodkjenningMutationVariables = Exact<{
 
 export type SendTilGodkjenningMutation = { __typename?: 'Mutation'; sendTilGodkjenning: boolean };
 
+export type InnvilgVedtakMutationVariables = Exact<{
+    oppgavereferanse: Scalars['String']['input'];
+}>;
+
+export type InnvilgVedtakMutation = { __typename?: 'Mutation'; innvilgVedtak: boolean };
+
+export type TilInfoTrygdMutationVariables = Exact<{
+    oppgavereferanse: Scalars['String']['input'];
+    arsak: Scalars['String']['input'];
+    begrunnelser: Array<Scalars['String']['input']> | Scalars['String']['input'];
+    kommentar?: InputMaybe<Scalars['String']['input']>;
+}>;
+
+export type TilInfoTrygdMutation = { __typename?: 'Mutation'; sendTilInfotrygd: boolean };
+
 export const AntallFragmentDoc = {
     kind: 'Document',
     definitions: [
@@ -6144,3 +6159,108 @@ export const SendTilGodkjenningDocument = {
         },
     ],
 } as unknown as DocumentNode<SendTilGodkjenningMutation, SendTilGodkjenningMutationVariables>;
+export const InnvilgVedtakDocument = {
+    kind: 'Document',
+    definitions: [
+        {
+            kind: 'OperationDefinition',
+            operation: 'mutation',
+            name: { kind: 'Name', value: 'InnvilgVedtak' },
+            variableDefinitions: [
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'oppgavereferanse' } },
+                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
+                },
+            ],
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'innvilgVedtak' },
+                        arguments: [
+                            {
+                                kind: 'Argument',
+                                name: { kind: 'Name', value: 'oppgavereferanse' },
+                                value: { kind: 'Variable', name: { kind: 'Name', value: 'oppgavereferanse' } },
+                            },
+                        ],
+                    },
+                ],
+            },
+        },
+    ],
+} as unknown as DocumentNode<InnvilgVedtakMutation, InnvilgVedtakMutationVariables>;
+export const TilInfoTrygdDocument = {
+    kind: 'Document',
+    definitions: [
+        {
+            kind: 'OperationDefinition',
+            operation: 'mutation',
+            name: { kind: 'Name', value: 'TilInfoTrygd' },
+            variableDefinitions: [
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'oppgavereferanse' } },
+                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
+                },
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'arsak' } },
+                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
+                },
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'begrunnelser' } },
+                    type: {
+                        kind: 'NonNullType',
+                        type: {
+                            kind: 'ListType',
+                            type: {
+                                kind: 'NonNullType',
+                                type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
+                            },
+                        },
+                    },
+                },
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'kommentar' } },
+                    type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
+                },
+            ],
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'sendTilInfotrygd' },
+                        arguments: [
+                            {
+                                kind: 'Argument',
+                                name: { kind: 'Name', value: 'oppgavereferanse' },
+                                value: { kind: 'Variable', name: { kind: 'Name', value: 'oppgavereferanse' } },
+                            },
+                            {
+                                kind: 'Argument',
+                                name: { kind: 'Name', value: 'arsak' },
+                                value: { kind: 'Variable', name: { kind: 'Name', value: 'arsak' } },
+                            },
+                            {
+                                kind: 'Argument',
+                                name: { kind: 'Name', value: 'begrunnelser' },
+                                value: { kind: 'Variable', name: { kind: 'Name', value: 'begrunnelser' } },
+                            },
+                            {
+                                kind: 'Argument',
+                                name: { kind: 'Name', value: 'kommentar' },
+                                value: { kind: 'Variable', name: { kind: 'Name', value: 'kommentar' } },
+                            },
+                        ],
+                    },
+                ],
+            },
+        },
+    ],
+} as unknown as DocumentNode<TilInfoTrygdMutation, TilInfoTrygdMutationVariables>;

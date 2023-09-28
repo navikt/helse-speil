@@ -1,0 +1,3 @@
+mutation TilInfoTrygd($oppgavereferanse: String!, $arsak: String!, $begrunnelser: [String!]!, $kommentar: String) {
+    sendTilInfotrygd(oppgavereferanse: $oppgavereferanse, arsak: $arsak, begrunnelser: $begrunnelser, kommentar: $kommentar)
+}

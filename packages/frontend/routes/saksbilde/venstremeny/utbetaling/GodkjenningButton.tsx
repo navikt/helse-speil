@@ -3,10 +3,10 @@ import React, { ReactNode, useContext, useState } from 'react';
 
 import { Button } from '@navikt/ds-react';
 
+import { useMutation } from '@apollo/client';
 import { Key, useKeyboard } from '@hooks/useKeyboard';
 import { AmplitudeContext } from '@io/amplitude';
-import { Personinfo, Utbetaling } from '@io/graphql';
-import { postUtbetalingsgodkjenning } from '@io/http';
+import { InnvilgVedtakDocument, Personinfo, Utbetaling } from '@io/graphql';
 import { useAddToast } from '@state/toasts';
 
 import { BackendFeil } from './Utbetaling';
@@ -28,7 +28,6 @@ const useAddUtbetalingstoast = () => {
 interface GodkjenningButtonProps extends Omit<React.HTMLAttributes<HTMLButtonElement>, 'onError'> {
     children: ReactNode;
     oppgavereferanse: string;
-    aktørId: string;
     erBeslutteroppgave: boolean;
     disabled: boolean;
     onSuccess?: () => void;
@@ -40,7 +39,6 @@ interface GodkjenningButtonProps extends Omit<React.HTMLAttributes<HTMLButtonEle
 export const GodkjenningButton: React.FC<GodkjenningButtonProps> = ({
     children,
     oppgavereferanse,
-    aktørId,
     erBeslutteroppgave,
     disabled = false,
     onSuccess,
@@ -52,7 +50,7 @@ export const GodkjenningButton: React.FC<GodkjenningButtonProps> = ({
     const [showModal, setShowModal] = useState(false);
     const [isSending, setIsSending] = useState(false);
     const [error, setError] = useState<BackendFeil | undefined>();
-
+    const [innvilgVedtakMutation] = useMutation(InnvilgVedtakDocument);
     useKeyboard({
         [Key.F6]: { action: () => !disabled && setShowModal(true), ignoreIfModifiers: false },
     });
@@ -68,7 +66,7 @@ export const GodkjenningButton: React.FC<GodkjenningButtonProps> = ({
     const godkjennUtbetaling = () => {
         setIsSending(true);
         setError(undefined);
-        postUtbetalingsgodkjenning(oppgavereferanse, aktørId)
+        innvilgVedtakMutation({ variables: { oppgavereferanse } })
             .then(() => {
                 amplitude.logOppgaveGodkjent(erBeslutteroppgave);
                 addUtbetalingstoast();

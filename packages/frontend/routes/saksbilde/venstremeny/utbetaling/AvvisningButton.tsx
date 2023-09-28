@@ -3,8 +3,9 @@ import React, { useContext, useState } from 'react';
 
 import { Button } from '@navikt/ds-react';
 
+import { useMutation } from '@apollo/client';
 import { AmplitudeContext } from '@io/amplitude';
-import { postSendTilInfotrygd } from '@io/http';
+import { TilInfoTrygdDocument } from '@io/graphql';
 import { useAddToast } from '@state/toasts';
 
 import { AvvisningModal, Avvisningsskjema } from './AvvisningModal';
@@ -24,14 +25,12 @@ const useAddInfotrygdtoast = () => {
 
 interface AvvisningButtonProps extends Omit<React.HTMLAttributes<HTMLButtonElement>, 'onError' | 'children'> {
     activePeriod: FetchedBeregnetPeriode;
-    aktørId: string;
     disabled: boolean;
     onSuccess?: () => void;
 }
 
 export const AvvisningButton: React.FC<AvvisningButtonProps> = ({
     activePeriod,
-    aktørId,
     disabled = false,
     onSuccess,
     ...buttonProps
@@ -39,6 +38,7 @@ export const AvvisningButton: React.FC<AvvisningButtonProps> = ({
     const [showModal, setShowModal] = useState(false);
     const [isSending, setIsSending] = useState(false);
     const [error, setError] = useState<string | null>(null);
+    const [sendTilInfotrygdMutation] = useMutation(TilInfoTrygdDocument);
 
     const amplitude = useContext(AmplitudeContext);
     const addInfotrygdtoast = useAddInfotrygdtoast();
@@ -54,7 +54,14 @@ export const AvvisningButton: React.FC<AvvisningButtonProps> = ({
         const skjemaKommentar: string[] = skjema.kommentar ? [skjema.kommentar] : [];
         const begrunnelser: string[] = [skjema.årsak.valueOf(), ...skjemaBegrunnelser, ...skjemaKommentar];
 
-        postSendTilInfotrygd(activePeriod.oppgave?.id ?? '', aktørId, skjema)
+        sendTilInfotrygdMutation({
+            variables: {
+                oppgavereferanse: activePeriod.oppgave?.id ?? '',
+                kommentar: skjema.kommentar,
+                begrunnelser: begrunnelser,
+                arsak: skjema.årsak.valueOf(),
+            },
+        })
             .then(() => {
                 amplitude.logOppgaveForkastet(begrunnelser);
                 addInfotrygdtoast();
