@@ -1,10 +1,8 @@
 import classNames from 'classnames';
 import React, { useState } from 'react';
 
-import { Tooltip } from '@navikt/ds-react';
-
 import { AnonymizableTextWithEllipsis } from '@components/TextWithEllipsis';
-import { Arbeidsgiverikon } from '@components/ikoner/Arbeidsgiverikon';
+import { ArbeidsgiverikonMedTooltip } from '@components/ikoner/ArbeidsgiverikonMedTooltip';
 import type { Generasjon } from '@io/graphql';
 
 import { Periods } from './Periods';
@@ -28,15 +26,13 @@ export const ExpandableTimelineRow: React.FC<ExpandableTimelineRowProp> = ({
 
     return (
         <div className={styles.TimelineRow}>
-            <Tooltip content="Arbeidsgiver">
-                <button
-                    className={classNames(styles.Name, styles.Expandable, isExpanded && styles.expanded)}
-                    onClick={() => setIsExpanded((prevState) => !prevState)}
-                >
-                    <Arbeidsgiverikon alt="Arbeidsgiver" />
-                    <AnonymizableTextWithEllipsis size="small">{name}</AnonymizableTextWithEllipsis>
-                </button>
-            </Tooltip>
+            <ArbeidsgiverikonMedTooltip
+                tooltipTekst={name}
+                className={classNames(styles.Name, styles.Expandable, isExpanded && styles.expanded)}
+                onClick={() => setIsExpanded((prevState) => !prevState)}
+            >
+                <AnonymizableTextWithEllipsis size="small">{name}</AnonymizableTextWithEllipsis>
+            </ArbeidsgiverikonMedTooltip>
             <div className={classNames(styles.Periods)}>
                 {generations[0] && (
                     <Periods
