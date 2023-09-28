@@ -12,17 +12,10 @@ import { useCurrentArbeidsgiver } from '@state/arbeidsgiver';
 import { useInnloggetSaksbehandler } from '@state/authentication';
 import { useActivePeriod } from '@state/periode';
 import { useCurrentPerson } from '@state/person';
-import {
-    isArbeidsgiver,
-    isBeregnetPeriode,
-    isPerson,
-    isUberegnetPeriode,
-    isUberegnetVilkarsprovdPeriode,
-} from '@utils/typeguards';
+import { isArbeidsgiver, isBeregnetPeriode, isPerson } from '@utils/typeguards';
 
 import { AnnullerButton } from './AnnullerButton';
 import { OppdaterPersondataButton } from './OppdaterPersondataButton';
-import { SkrivGenereltNotatDropdownMenuButton } from './SkrivGenereltNotatDropdownMenuButton';
 import { TildelingDropdownMenuButton } from './TildelingDropdownMenuButton';
 
 import styles from './DropdownMenu.module.css';
@@ -59,30 +52,24 @@ const DropdownMenuContent: React.FC = () => {
 
     return (
         <Dropdown.Menu placement="bottom-start" className={styles.DropdownMenu}>
-            {(isBeregnetPeriode(period) || isUberegnetPeriode(period) || isUberegnetVilkarsprovdPeriode(period)) && (
+            {isBeregnetPeriode(period) && period.oppgave?.id && !readOnly && (
                 <>
                     <Dropdown.Menu.List>
-                        <SkrivGenereltNotatDropdownMenuButton
-                            vedtaksperiodeId={period.vedtaksperiodeId}
-                            personinfo={person.personinfo}
-                        />
-                        {isBeregnetPeriode(period) && period.oppgave?.id && !readOnly && (
-                            <>
-                                <TildelingDropdownMenuButton
+                        <>
+                            <TildelingDropdownMenuButton
+                                oppgavereferanse={period.oppgave.id}
+                                erTildeltInnloggetBruker={personIsAssignedUser}
+                                tildeling={person?.tildeling}
+                            />
+                            {personIsAssignedUser && (
+                                <PåVentDropdownMenuButton
                                     oppgavereferanse={period.oppgave.id}
-                                    erTildeltInnloggetBruker={personIsAssignedUser}
-                                    tildeling={person?.tildeling}
+                                    vedtaksperiodeId={period.vedtaksperiodeId}
+                                    personinfo={person.personinfo}
+                                    erPåVent={person.tildeling?.paaVent}
                                 />
-                                {personIsAssignedUser && (
-                                    <PåVentDropdownMenuButton
-                                        oppgavereferanse={period.oppgave.id}
-                                        vedtaksperiodeId={period.vedtaksperiodeId}
-                                        personinfo={person.personinfo}
-                                        erPåVent={person.tildeling?.paaVent}
-                                    />
-                                )}
-                            </>
-                        )}
+                            )}
+                        </>
                     </Dropdown.Menu.List>
                     <Dropdown.Menu.Divider />
                 </>

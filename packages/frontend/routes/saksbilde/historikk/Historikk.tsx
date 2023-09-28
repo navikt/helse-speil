@@ -10,7 +10,6 @@ import { ErrorBoundary } from '@components/ErrorBoundary';
 import { JusterbarSidemeny } from '@components/justerbarSidemeny/JusterbarSidemeny';
 import { Key, useKeyboard } from '@hooks/useKeyboard';
 import { useCurrentPerson, useIsFetchingPerson } from '@state/person';
-import { toggleMeny } from '@utils/featureToggles';
 
 import { Notat } from '../notat/Notat';
 import { AnnetArbeidsforholdoverstyringhendelse } from './hendelser/AnnetArbeidsforholdoverstyringhendelse';
@@ -74,7 +73,7 @@ const HistorikkWithContent: React.FC = () => {
                                 {getHistorikkTitle(filter)}
                                 <CloseButton onClick={() => setShowHistorikk(false)} aria-label="Lukk" />
                             </div>
-                            {toggleMeny && filter !== 'Dokument' && <Notat />}
+                            {filter !== 'Dokument' && <Notat />}
                             {historikk.map((it: HendelseObject, index) => {
                                 switch (it.type) {
                                     case 'Arbeidsforholdoverstyring': {
