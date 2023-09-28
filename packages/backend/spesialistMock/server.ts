@@ -1,10 +1,8 @@
-import express, { Request, Response } from 'express';
+import express from 'express';
 
 import { sleep } from '../devHelpers';
 import { setUpGraphQLMiddleware } from './graphql';
 import { setUpOpptegnelse } from './opptegnelser';
-import { setUpOverstyring } from './overstyringer';
-import { OppgaveMock } from './storage/oppgave';
 
 const app = express();
 const port = 9001;
@@ -47,23 +45,7 @@ app.post('/api/person/oppdater', (req, res) => {
     return Math.random() < 0.2 ? res.status(503).send('Dev feil!') : res.sendStatus(200);
 });
 
-app.get('/api/mock/erbeslutteroppgave/:oppgavereferanse', (req: Request, res: Response) => {
-    const oppgavereferanse = req.params.oppgavereferanse;
-    res.send(OppgaveMock.getOppgave(oppgavereferanse)?.totrinnsvurdering?.erBeslutteroppgave ?? false);
-});
-
-app.get('/api/mock/erreturoppgave/:oppgavereferanse', (req: Request, res: Response) => {
-    const oppgavereferanse = req.params.oppgavereferanse;
-    res.send(OppgaveMock.getOppgave(oppgavereferanse)?.totrinnsvurdering?.erRetur ?? false);
-});
-
-app.get('/api/mock/tidligeresaksbehandler/:oppgavereferanse', (req: Request, res: Response) => {
-    const oppgavereferanse = req.params.oppgavereferanse;
-    res.send(OppgaveMock.getOppgave(oppgavereferanse)?.totrinnsvurdering?.saksbehandler ?? null);
-});
-
 setUpGraphQLMiddleware(app);
 setUpOpptegnelse(app);
-setUpOverstyring(app);
 
 app.listen(port, () => console.log(`Spesialist-mock kjører på port ${port}`));

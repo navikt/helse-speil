@@ -162,23 +162,17 @@ const getResolvers = (): IResolvers => ({
         },
         opprettTildeling: async (_, { oppgaveId }: MutationOpprettTildelingArgs) => {
             if (TildelingMock.harTildeling(oppgaveId)) {
-                return new GraphQLError('Oppgave allerede tildelt', null, null, null, null, null, {
-                    code: { value: 409 },
-                    tildeling: TildelingMock.getTildeling(oppgaveId),
+                return new GraphQLError('Oppgave allerede tildelt', {
+                    extensions: {
+                        code: { value: 409 },
+                        tildeling: TildelingMock.getTildeling(oppgaveId),
+                    },
                 });
             }
             if (Math.random() > 0.95) {
-                return new GraphQLError(
-                    `Kunne ikke tildele oppgave med oppgaveId=${oppgaveId}`,
-                    null,
-                    null,
-                    null,
-                    null,
-                    null,
-                    {
-                        code: { value: 500 },
-                    },
-                );
+                return new GraphQLError(`Kunne ikke tildele oppgave med oppgaveId=${oppgaveId}`, {
+                    extensions: { code: { value: 500 } },
+                });
             }
             TildelingMock.setTildeling(oppgaveId, {
                 epost: 'epost@nav.no',

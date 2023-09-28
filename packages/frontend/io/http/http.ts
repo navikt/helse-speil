@@ -79,11 +79,18 @@ const post = async (url: string, data: unknown, headere?: Headers): Promise<Spei
         data: await getData(response),
     };
 };
+
+// Opptegnelse
 export const getOpptegnelser = async (sisteSekvensId?: number): Promise<SpeilResponse<Array<Opptegnelse>>> => {
     return sisteSekvensId
         ? get<Opptegnelse[]>(`${baseUrl}/opptegnelse/hent/${sisteSekvensId}`)
         : get<Opptegnelse[]>(`${baseUrl}/opptegnelse/hent`);
 };
+export const postAbonnerPåAktør = async (aktørId: string) => {
+    return post(`${baseUrl}/opptegnelse/abonner/${aktørId}`, {});
+};
+
+// Vedtak
 const postVedtak = async (
     oppgavereferanse: string,
     aktørId: string,
@@ -98,15 +105,15 @@ export const postUtbetalingsgodkjenning = async (oppgavereferanse: string, aktø
 export const postSendTilInfotrygd = async (oppgavereferanse: string, aktørId: string, skjema: Avvisningsskjema) =>
     postVedtak(oppgavereferanse, aktørId, false, skjema);
 
+// Anullering
 export const postAnnullering = async (annullering: AnnulleringDTO) =>
     post(`${baseUrl}/payments/annullering`, annullering);
 
+// Oppdater person
 export const postForespørPersonoppdatering = async (oppdatering: PersonoppdateringDTO) =>
     post(`${baseUrl}/person/oppdater`, oppdatering);
 
-export const postAbonnerPåAktør = async (aktørId: string) => {
-    return post(`${baseUrl}/opptegnelse/abonner/${aktørId}`, {});
-};
+// GraphQL
 export const postGraphQLQuery = async (operation: string) => {
     return post(`${baseUrlGraphQL}`, JSON.parse(operation));
 };
