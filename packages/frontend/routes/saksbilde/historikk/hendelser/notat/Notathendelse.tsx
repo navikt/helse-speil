@@ -47,7 +47,7 @@ export const Notathendelse: React.FC<NotathendelseProps> = ({
         },
     });
 
-    const isExpandable = () => tekst.length > MAX_TEXT_LENGTH_BEFORE_TRUNCATION;
+    const isExpandable = () => tekst.length > MAX_TEXT_LENGTH_BEFORE_TRUNCATION || tekst.split('\n').length > 2;
     const toggleNotat = (event: React.KeyboardEvent) => {
         if (event.code === 'Enter' || event.code === 'Space') {
             setExpanded(isExpandable() && !expanded);

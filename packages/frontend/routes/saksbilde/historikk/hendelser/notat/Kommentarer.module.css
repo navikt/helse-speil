@@ -31,7 +31,7 @@
 
 .Kommentar pre {
     margin-right: 48px;
-    white-space: normal;
+    white-space: pre-line;
     line-height: var(--a-font-line-height-medium);
 }
 
