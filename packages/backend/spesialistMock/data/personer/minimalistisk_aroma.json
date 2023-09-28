@@ -782,12 +782,6 @@
                                             "alderSisteSykedag": 30,
                                             "oppfylt": true
                                         },
-                                        "soknadsfrist": {
-                                            "oppfylt": true,
-                                            "sendtNav": "2023-05-01T00:00:00",
-                                            "soknadFom": "2023-04-01",
-                                            "soknadTom": "2023-04-30"
-                                        },
                                         "sykepengedager": {
                                             "forbrukteSykedager": 31,
                                             "gjenstaendeSykedager": 217,
@@ -1164,12 +1158,6 @@
                                             "alderSisteSykedag": 30,
                                             "oppfylt": true
                                         },
-                                        "soknadsfrist": {
-                                            "oppfylt": true,
-                                            "sendtNav": "2023-02-18T00:00:00",
-                                            "soknadFom": "2023-02-01",
-                                            "soknadTom": "2023-02-17"
-                                        },
                                         "sykepengedager": {
                                             "forbrukteSykedager": 1,
                                             "gjenstaendeSykedager": 247,
@@ -1540,12 +1528,6 @@
                                         "alder": {
                                             "alderSisteSykedag": 30,
                                             "oppfylt": true
-                                        },
-                                        "soknadsfrist": {
-                                            "oppfylt": true,
-                                            "sendtNav": "2023-02-18T00:00:00",
-                                            "soknadFom": "2023-02-01",
-                                            "soknadTom": "2023-02-17"
                                         },
                                         "sykepengedager": {
                                             "forbrukteSykedager": 1,
@@ -2401,12 +2383,6 @@
                                         "alder": {
                                             "alderSisteSykedag": 30,
                                             "oppfylt": true
-                                        },
-                                        "soknadsfrist": {
-                                            "oppfylt": true,
-                                            "sendtNav": "2023-04-01T00:00:00",
-                                            "soknadFom": "2023-02-18",
-                                            "soknadTom": "2023-03-31"
                                         },
                                         "sykepengedager": {
                                             "forbrukteSykedager": 21,

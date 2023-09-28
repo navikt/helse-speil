@@ -71,12 +71,6 @@ export const enBeregnetPeriode: OverridableConstructor<FetchedBeregnetPeriode, E
             alderSisteSykedag: 30,
             oppfylt: true,
         },
-        soknadsfrist: {
-            oppfylt: true,
-            sendtNav: '2020-01-01',
-            soknadFom: '2020-01-01',
-            soknadTom: '2020-01-30',
-        },
         sykepengedager: {
             forbrukteSykedager: 0,
             gjenstaendeSykedager: 200,

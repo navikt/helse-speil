@@ -624,12 +624,6 @@
                                             "alderSisteSykedag": 51,
                                             "oppfylt": true
                                         },
-                                        "soknadsfrist": {
-                                            "oppfylt": true,
-                                            "sendtNav": "2022-10-03T14:08:58",
-                                            "soknadFom": "2022-09-12",
-                                            "soknadTom": "2022-10-02"
-                                        },
                                         "sykepengedager": {
                                             "forbrukteSykedager": null,
                                             "gjenstaendeSykedager": null,
@@ -1074,12 +1068,6 @@
                                             "alderSisteSykedag": 51,
                                             "oppfylt": true
                                         },
-                                        "soknadsfrist": {
-                                            "oppfylt": true,
-                                            "sendtNav": "2022-09-12T10:50:44",
-                                            "soknadFom": "2022-08-22",
-                                            "soknadTom": "2022-09-11"
-                                        },
                                         "sykepengedager": {
                                             "forbrukteSykedager": null,
                                             "gjenstaendeSykedager": null,
@@ -1467,12 +1455,6 @@
                                         "alder": {
                                             "alderSisteSykedag": 50,
                                             "oppfylt": true
-                                        },
-                                        "soknadsfrist": {
-                                            "oppfylt": true,
-                                            "sendtNav": "2021-12-04T17:16:38",
-                                            "soknadFom": "2021-11-29",
-                                            "soknadTom": "2021-12-03"
                                         },
                                         "sykepengedager": {
                                             "forbrukteSykedager": 238,
@@ -2119,12 +2101,6 @@
                                             "alderSisteSykedag": 50,
                                             "oppfylt": true
                                         },
-                                        "soknadsfrist": {
-                                            "oppfylt": true,
-                                            "sendtNav": "2021-11-30T13:57:48",
-                                            "soknadFom": "2021-11-01",
-                                            "soknadTom": "2021-11-28"
-                                        },
                                         "sykepengedager": {
                                             "forbrukteSykedager": 233,
                                             "gjenstaendeSykedager": 15,
@@ -2672,12 +2648,6 @@
                                         "alder": {
                                             "alderSisteSykedag": 50,
                                             "oppfylt": true
-                                        },
-                                        "soknadsfrist": {
-                                            "oppfylt": true,
-                                            "sendtNav": "2021-11-01T09:56:33",
-                                            "soknadFom": "2021-10-01",
-                                            "soknadTom": "2021-10-31"
                                         },
                                         "sykepengedager": {
                                             "forbrukteSykedager": 213,
@@ -3333,12 +3303,6 @@
                                             "alderSisteSykedag": 50,
                                             "oppfylt": true
                                         },
-                                        "soknadsfrist": {
-                                            "oppfylt": true,
-                                            "sendtNav": "2021-09-30T10:33:19",
-                                            "soknadFom": "2021-09-01",
-                                            "soknadTom": "2021-09-30"
-                                        },
                                         "sykepengedager": {
                                             "forbrukteSykedager": 212,
                                             "gjenstaendeSykedager": 36,
@@ -3778,12 +3742,6 @@
                                         "alder": {
                                             "alderSisteSykedag": 50,
                                             "oppfylt": true
-                                        },
-                                        "soknadsfrist": {
-                                            "oppfylt": true,
-                                            "sendtNav": "2021-08-31T09:52:23",
-                                            "soknadFom": "2021-08-14",
-                                            "soknadTom": "2021-08-31"
                                         },
                                         "sykepengedager": {
                                             "forbrukteSykedager": 190,
@@ -4315,12 +4273,6 @@
                                         "alder": {
                                             "alderSisteSykedag": 50,
                                             "oppfylt": true
-                                        },
-                                        "soknadsfrist": {
-                                            "oppfylt": true,
-                                            "sendtNav": "2021-08-13T16:01:37",
-                                            "soknadFom": "2021-07-26",
-                                            "soknadTom": "2021-08-13"
                                         },
                                         "sykepengedager": {
                                             "forbrukteSykedager": 178,
@@ -4967,12 +4919,6 @@
                                             "alderSisteSykedag": 50,
                                             "oppfylt": true
                                         },
-                                        "soknadsfrist": {
-                                            "oppfylt": true,
-                                            "sendtNav": "2021-07-25T11:26:53",
-                                            "soknadFom": "2021-06-28",
-                                            "soknadTom": "2021-07-25"
-                                        },
                                         "sykepengedager": {
                                             "forbrukteSykedager": 163,
                                             "gjenstaendeSykedager": 85,
@@ -5506,12 +5452,6 @@
                                         "alder": {
                                             "alderSisteSykedag": 50,
                                             "oppfylt": true
-                                        },
-                                        "soknadsfrist": {
-                                            "oppfylt": true,
-                                            "sendtNav": "2021-06-27T14:44:00",
-                                            "soknadFom": "2021-06-10",
-                                            "soknadTom": "2021-06-27"
                                         },
                                         "sykepengedager": {
                                             "forbrukteSykedager": 143,
@@ -6054,12 +5994,6 @@
                                             "alderSisteSykedag": 50,
                                             "oppfylt": true
                                         },
-                                        "soknadsfrist": {
-                                            "oppfylt": true,
-                                            "sendtNav": "2021-06-06T17:43:40",
-                                            "soknadFom": "2021-05-20",
-                                            "soknadTom": "2021-06-06"
-                                        },
                                         "sykepengedager": {
                                             "forbrukteSykedager": 128,
                                             "gjenstaendeSykedager": 120,
@@ -6488,12 +6422,6 @@
                                         "alder": {
                                             "alderSisteSykedag": 50,
                                             "oppfylt": true
-                                        },
-                                        "soknadsfrist": {
-                                            "oppfylt": true,
-                                            "sendtNav": "2021-05-19T17:24:13",
-                                            "soknadFom": "2021-05-01",
-                                            "soknadTom": "2021-05-19"
                                         },
                                         "sykepengedager": {
                                             "forbrukteSykedager": 116,
@@ -7049,12 +6977,6 @@
                                         "alder": {
                                             "alderSisteSykedag": 50,
                                             "oppfylt": true
-                                        },
-                                        "soknadsfrist": {
-                                            "oppfylt": true,
-                                            "sendtNav": "2021-05-05T11:39:52",
-                                            "soknadFom": "2021-04-05",
-                                            "soknadTom": "2021-04-30"
                                         },
                                         "sykepengedager": {
                                             "forbrukteSykedager": 103,
@@ -7642,12 +7564,6 @@
                                             "alderSisteSykedag": 50,
                                             "oppfylt": true
                                         },
-                                        "soknadsfrist": {
-                                            "oppfylt": true,
-                                            "sendtNav": "2021-03-07T15:06:08",
-                                            "soknadFom": "2021-02-08",
-                                            "soknadTom": "2021-03-07"
-                                        },
                                         "sykepengedager": {
                                             "forbrukteSykedager": 63,
                                             "gjenstaendeSykedager": 185,
@@ -8102,12 +8018,6 @@
                                             "alderSisteSykedag": 50,
                                             "oppfylt": true
                                         },
-                                        "soknadsfrist": {
-                                            "oppfylt": true,
-                                            "sendtNav": "2021-02-07T14:19:14",
-                                            "soknadFom": "2021-01-18",
-                                            "soknadTom": "2021-02-07"
-                                        },
                                         "sykepengedager": {
                                             "forbrukteSykedager": 43,
                                             "gjenstaendeSykedager": 205,
@@ -8485,12 +8395,6 @@
                                         "alder": {
                                             "alderSisteSykedag": 49,
                                             "oppfylt": true
-                                        },
-                                        "soknadsfrist": {
-                                            "oppfylt": true,
-                                            "sendtNav": "2021-01-17T20:07:02",
-                                            "soknadFom": "2021-01-01",
-                                            "soknadTom": "2021-01-17"
                                         },
                                         "sykepengedager": {
                                             "forbrukteSykedager": 28,
@@ -8909,12 +8813,6 @@
                                         "alder": {
                                             "alderSisteSykedag": 49,
                                             "oppfylt": true
-                                        },
-                                        "soknadsfrist": {
-                                            "oppfylt": true,
-                                            "sendtNav": "2020-12-31T13:46:33",
-                                            "soknadFom": "2020-12-14",
-                                            "soknadTom": "2020-12-31"
                                         },
                                         "sykepengedager": {
                                             "forbrukteSykedager": 17,
@@ -9400,12 +9298,6 @@
                                         "alder": {
                                             "alderSisteSykedag": 51,
                                             "oppfylt": true
-                                        },
-                                        "soknadsfrist": {
-                                            "oppfylt": true,
-                                            "sendtNav": "2022-10-03T14:08:58",
-                                            "soknadFom": "2022-09-12",
-                                            "soknadTom": "2022-10-02"
                                         },
                                         "sykepengedager": {
                                             "forbrukteSykedager": 28,
@@ -9953,12 +9845,6 @@
                                             "alderSisteSykedag": 51,
                                             "oppfylt": true
                                         },
-                                        "soknadsfrist": {
-                                            "oppfylt": true,
-                                            "sendtNav": "2022-09-12T10:50:44",
-                                            "soknadFom": "2022-08-22",
-                                            "soknadTom": "2022-09-11"
-                                        },
                                         "sykepengedager": {
                                             "forbrukteSykedager": 28,
                                             "gjenstaendeSykedager": 220,
@@ -10435,12 +10321,6 @@
                                         "alder": {
                                             "alderSisteSykedag": 50,
                                             "oppfylt": true
-                                        },
-                                        "soknadsfrist": {
-                                            "oppfylt": true,
-                                            "sendtNav": "2021-12-04T17:16:38",
-                                            "soknadFom": "2021-11-29",
-                                            "soknadTom": "2021-12-03"
                                         },
                                         "sykepengedager": {
                                             "forbrukteSykedager": 238,
@@ -11087,12 +10967,6 @@
                                             "alderSisteSykedag": 50,
                                             "oppfylt": true
                                         },
-                                        "soknadsfrist": {
-                                            "oppfylt": true,
-                                            "sendtNav": "2021-11-30T13:57:48",
-                                            "soknadFom": "2021-11-01",
-                                            "soknadTom": "2021-11-28"
-                                        },
                                         "sykepengedager": {
                                             "forbrukteSykedager": 233,
                                             "gjenstaendeSykedager": 15,
@@ -11640,12 +11514,6 @@
                                         "alder": {
                                             "alderSisteSykedag": 50,
                                             "oppfylt": true
-                                        },
-                                        "soknadsfrist": {
-                                            "oppfylt": true,
-                                            "sendtNav": "2021-11-01T09:56:33",
-                                            "soknadFom": "2021-10-01",
-                                            "soknadTom": "2021-10-31"
                                         },
                                         "sykepengedager": {
                                             "forbrukteSykedager": 213,
@@ -12301,12 +12169,6 @@
                                             "alderSisteSykedag": 50,
                                             "oppfylt": true
                                         },
-                                        "soknadsfrist": {
-                                            "oppfylt": true,
-                                            "sendtNav": "2021-09-30T10:33:19",
-                                            "soknadFom": "2021-09-01",
-                                            "soknadTom": "2021-09-30"
-                                        },
                                         "sykepengedager": {
                                             "forbrukteSykedager": 212,
                                             "gjenstaendeSykedager": 36,
@@ -12746,12 +12608,6 @@
                                         "alder": {
                                             "alderSisteSykedag": 50,
                                             "oppfylt": true
-                                        },
-                                        "soknadsfrist": {
-                                            "oppfylt": true,
-                                            "sendtNav": "2021-08-31T09:52:23",
-                                            "soknadFom": "2021-08-14",
-                                            "soknadTom": "2021-08-31"
                                         },
                                         "sykepengedager": {
                                             "forbrukteSykedager": 190,
@@ -13283,12 +13139,6 @@
                                         "alder": {
                                             "alderSisteSykedag": 50,
                                             "oppfylt": true
-                                        },
-                                        "soknadsfrist": {
-                                            "oppfylt": true,
-                                            "sendtNav": "2021-08-13T16:01:37",
-                                            "soknadFom": "2021-07-26",
-                                            "soknadTom": "2021-08-13"
                                         },
                                         "sykepengedager": {
                                             "forbrukteSykedager": 178,
@@ -13935,12 +13785,6 @@
                                             "alderSisteSykedag": 50,
                                             "oppfylt": true
                                         },
-                                        "soknadsfrist": {
-                                            "oppfylt": true,
-                                            "sendtNav": "2021-07-25T11:26:53",
-                                            "soknadFom": "2021-06-28",
-                                            "soknadTom": "2021-07-25"
-                                        },
                                         "sykepengedager": {
                                             "forbrukteSykedager": 163,
                                             "gjenstaendeSykedager": 85,
@@ -14474,12 +14318,6 @@
                                         "alder": {
                                             "alderSisteSykedag": 50,
                                             "oppfylt": true
-                                        },
-                                        "soknadsfrist": {
-                                            "oppfylt": true,
-                                            "sendtNav": "2021-06-27T14:44:00",
-                                            "soknadFom": "2021-06-10",
-                                            "soknadTom": "2021-06-27"
                                         },
                                         "sykepengedager": {
                                             "forbrukteSykedager": 143,
@@ -15022,12 +14860,6 @@
                                             "alderSisteSykedag": 50,
                                             "oppfylt": true
                                         },
-                                        "soknadsfrist": {
-                                            "oppfylt": true,
-                                            "sendtNav": "2021-06-06T17:43:40",
-                                            "soknadFom": "2021-05-20",
-                                            "soknadTom": "2021-06-06"
-                                        },
                                         "sykepengedager": {
                                             "forbrukteSykedager": 128,
                                             "gjenstaendeSykedager": 120,
@@ -15456,12 +15288,6 @@
                                         "alder": {
                                             "alderSisteSykedag": 50,
                                             "oppfylt": true
-                                        },
-                                        "soknadsfrist": {
-                                            "oppfylt": true,
-                                            "sendtNav": "2021-05-19T17:24:13",
-                                            "soknadFom": "2021-05-01",
-                                            "soknadTom": "2021-05-19"
                                         },
                                         "sykepengedager": {
                                             "forbrukteSykedager": 116,
@@ -16017,12 +15843,6 @@
                                         "alder": {
                                             "alderSisteSykedag": 50,
                                             "oppfylt": true
-                                        },
-                                        "soknadsfrist": {
-                                            "oppfylt": true,
-                                            "sendtNav": "2021-05-05T11:39:52",
-                                            "soknadFom": "2021-04-05",
-                                            "soknadTom": "2021-04-30"
                                         },
                                         "sykepengedager": {
                                             "forbrukteSykedager": 103,
@@ -16610,12 +16430,6 @@
                                             "alderSisteSykedag": 50,
                                             "oppfylt": true
                                         },
-                                        "soknadsfrist": {
-                                            "oppfylt": true,
-                                            "sendtNav": "2021-03-07T15:06:08",
-                                            "soknadFom": "2021-02-08",
-                                            "soknadTom": "2021-03-07"
-                                        },
                                         "sykepengedager": {
                                             "forbrukteSykedager": 63,
                                             "gjenstaendeSykedager": 185,
@@ -17070,12 +16884,6 @@
                                             "alderSisteSykedag": 50,
                                             "oppfylt": true
                                         },
-                                        "soknadsfrist": {
-                                            "oppfylt": true,
-                                            "sendtNav": "2021-02-07T14:19:14",
-                                            "soknadFom": "2021-01-18",
-                                            "soknadTom": "2021-02-07"
-                                        },
                                         "sykepengedager": {
                                             "forbrukteSykedager": 43,
                                             "gjenstaendeSykedager": 205,
@@ -17467,12 +17275,6 @@
                                         "alder": {
                                             "alderSisteSykedag": 49,
                                             "oppfylt": true
-                                        },
-                                        "soknadsfrist": {
-                                            "oppfylt": true,
-                                            "sendtNav": "2021-01-17T20:07:02",
-                                            "soknadFom": "2021-01-01",
-                                            "soknadTom": "2021-01-17"
                                         },
                                         "sykepengedager": {
                                             "forbrukteSykedager": 28,
@@ -17891,12 +17693,6 @@
                                         "alder": {
                                             "alderSisteSykedag": 49,
                                             "oppfylt": true
-                                        },
-                                        "soknadsfrist": {
-                                            "oppfylt": true,
-                                            "sendtNav": "2020-12-31T13:46:33",
-                                            "soknadFom": "2020-12-14",
-                                            "soknadTom": "2020-12-31"
                                         },
                                         "sykepengedager": {
                                             "forbrukteSykedager": 17,
@@ -18369,12 +18165,6 @@
                                         "alder": {
                                             "alderSisteSykedag": 51,
                                             "oppfylt": true
-                                        },
-                                        "soknadsfrist": {
-                                            "oppfylt": true,
-                                            "sendtNav": "2022-10-03T14:08:58",
-                                            "soknadFom": "2022-09-12",
-                                            "soknadTom": "2022-10-02"
                                         },
                                         "sykepengedager": {
                                             "forbrukteSykedager": 28,
@@ -18879,12 +18669,6 @@
                                             "alderSisteSykedag": 51,
                                             "oppfylt": true
                                         },
-                                        "soknadsfrist": {
-                                            "oppfylt": true,
-                                            "sendtNav": "2022-09-12T10:50:44",
-                                            "soknadFom": "2022-08-22",
-                                            "soknadTom": "2022-09-11"
-                                        },
                                         "sykepengedager": {
                                             "forbrukteSykedager": 13,
                                             "gjenstaendeSykedager": 235,
@@ -19330,12 +19114,6 @@
                                         "alder": {
                                             "alderSisteSykedag": 50,
                                             "oppfylt": true
-                                        },
-                                        "soknadsfrist": {
-                                            "oppfylt": true,
-                                            "sendtNav": "2021-12-04T17:16:38",
-                                            "soknadFom": "2021-11-29",
-                                            "soknadTom": "2021-12-03"
                                         },
                                         "sykepengedager": {
                                             "forbrukteSykedager": 238,
@@ -19982,12 +19760,6 @@
                                             "alderSisteSykedag": 50,
                                             "oppfylt": true
                                         },
-                                        "soknadsfrist": {
-                                            "oppfylt": true,
-                                            "sendtNav": "2021-11-30T13:57:48",
-                                            "soknadFom": "2021-11-01",
-                                            "soknadTom": "2021-11-28"
-                                        },
                                         "sykepengedager": {
                                             "forbrukteSykedager": 233,
                                             "gjenstaendeSykedager": 15,
@@ -20535,12 +20307,6 @@
                                         "alder": {
                                             "alderSisteSykedag": 50,
                                             "oppfylt": true
-                                        },
-                                        "soknadsfrist": {
-                                            "oppfylt": true,
-                                            "sendtNav": "2021-11-01T09:56:33",
-                                            "soknadFom": "2021-10-01",
-                                            "soknadTom": "2021-10-31"
                                         },
                                         "sykepengedager": {
                                             "forbrukteSykedager": 213,
@@ -21196,12 +20962,6 @@
                                             "alderSisteSykedag": 50,
                                             "oppfylt": true
                                         },
-                                        "soknadsfrist": {
-                                            "oppfylt": true,
-                                            "sendtNav": "2021-09-30T10:33:19",
-                                            "soknadFom": "2021-09-01",
-                                            "soknadTom": "2021-09-30"
-                                        },
                                         "sykepengedager": {
                                             "forbrukteSykedager": 212,
                                             "gjenstaendeSykedager": 36,
@@ -21641,12 +21401,6 @@
                                         "alder": {
                                             "alderSisteSykedag": 50,
                                             "oppfylt": true
-                                        },
-                                        "soknadsfrist": {
-                                            "oppfylt": true,
-                                            "sendtNav": "2021-08-31T09:52:23",
-                                            "soknadFom": "2021-08-14",
-                                            "soknadTom": "2021-08-31"
                                         },
                                         "sykepengedager": {
                                             "forbrukteSykedager": 190,
@@ -22178,12 +21932,6 @@
                                         "alder": {
                                             "alderSisteSykedag": 50,
                                             "oppfylt": true
-                                        },
-                                        "soknadsfrist": {
-                                            "oppfylt": true,
-                                            "sendtNav": "2021-08-13T16:01:37",
-                                            "soknadFom": "2021-07-26",
-                                            "soknadTom": "2021-08-13"
                                         },
                                         "sykepengedager": {
                                             "forbrukteSykedager": 178,
@@ -22830,12 +22578,6 @@
                                             "alderSisteSykedag": 50,
                                             "oppfylt": true
                                         },
-                                        "soknadsfrist": {
-                                            "oppfylt": true,
-                                            "sendtNav": "2021-07-25T11:26:53",
-                                            "soknadFom": "2021-06-28",
-                                            "soknadTom": "2021-07-25"
-                                        },
                                         "sykepengedager": {
                                             "forbrukteSykedager": 163,
                                             "gjenstaendeSykedager": 85,
@@ -23369,12 +23111,6 @@
                                         "alder": {
                                             "alderSisteSykedag": 50,
                                             "oppfylt": true
-                                        },
-                                        "soknadsfrist": {
-                                            "oppfylt": true,
-                                            "sendtNav": "2021-06-27T14:44:00",
-                                            "soknadFom": "2021-06-10",
-                                            "soknadTom": "2021-06-27"
                                         },
                                         "sykepengedager": {
                                             "forbrukteSykedager": 143,
@@ -23917,12 +23653,6 @@
                                             "alderSisteSykedag": 50,
                                             "oppfylt": true
                                         },
-                                        "soknadsfrist": {
-                                            "oppfylt": true,
-                                            "sendtNav": "2021-06-06T17:43:40",
-                                            "soknadFom": "2021-05-20",
-                                            "soknadTom": "2021-06-06"
-                                        },
                                         "sykepengedager": {
                                             "forbrukteSykedager": 128,
                                             "gjenstaendeSykedager": 120,
@@ -24351,12 +24081,6 @@
                                         "alder": {
                                             "alderSisteSykedag": 50,
                                             "oppfylt": true
-                                        },
-                                        "soknadsfrist": {
-                                            "oppfylt": true,
-                                            "sendtNav": "2021-05-19T17:24:13",
-                                            "soknadFom": "2021-05-01",
-                                            "soknadTom": "2021-05-19"
                                         },
                                         "sykepengedager": {
                                             "forbrukteSykedager": 116,
@@ -24912,12 +24636,6 @@
                                         "alder": {
                                             "alderSisteSykedag": 50,
                                             "oppfylt": true
-                                        },
-                                        "soknadsfrist": {
-                                            "oppfylt": true,
-                                            "sendtNav": "2021-05-05T11:39:52",
-                                            "soknadFom": "2021-04-05",
-                                            "soknadTom": "2021-04-30"
                                         },
                                         "sykepengedager": {
                                             "forbrukteSykedager": 103,
@@ -25505,12 +25223,6 @@
                                             "alderSisteSykedag": 50,
                                             "oppfylt": true
                                         },
-                                        "soknadsfrist": {
-                                            "oppfylt": true,
-                                            "sendtNav": "2021-03-07T15:06:08",
-                                            "soknadFom": "2021-02-08",
-                                            "soknadTom": "2021-03-07"
-                                        },
                                         "sykepengedager": {
                                             "forbrukteSykedager": 63,
                                             "gjenstaendeSykedager": 185,
@@ -25965,12 +25677,6 @@
                                             "alderSisteSykedag": 50,
                                             "oppfylt": true
                                         },
-                                        "soknadsfrist": {
-                                            "oppfylt": true,
-                                            "sendtNav": "2021-02-07T14:19:14",
-                                            "soknadFom": "2021-01-18",
-                                            "soknadTom": "2021-02-07"
-                                        },
                                         "sykepengedager": {
                                             "forbrukteSykedager": 43,
                                             "gjenstaendeSykedager": 205,
@@ -26362,12 +26068,6 @@
                                         "alder": {
                                             "alderSisteSykedag": 49,
                                             "oppfylt": true
-                                        },
-                                        "soknadsfrist": {
-                                            "oppfylt": true,
-                                            "sendtNav": "2021-01-17T20:07:02",
-                                            "soknadFom": "2021-01-01",
-                                            "soknadTom": "2021-01-17"
                                         },
                                         "sykepengedager": {
                                             "forbrukteSykedager": 28,
@@ -26786,12 +26486,6 @@
                                         "alder": {
                                             "alderSisteSykedag": 49,
                                             "oppfylt": true
-                                        },
-                                        "soknadsfrist": {
-                                            "oppfylt": true,
-                                            "sendtNav": "2020-12-31T13:46:33",
-                                            "soknadFom": "2020-12-14",
-                                            "soknadTom": "2020-12-31"
                                         },
                                         "sykepengedager": {
                                             "forbrukteSykedager": 17,

@@ -555,12 +555,6 @@
                                             "alderSisteSykedag": 31,
                                             "oppfylt": true
                                         },
-                                        "soknadsfrist": {
-                                            "oppfylt": true,
-                                            "sendtNav": "2022-10-30T00:00:00",
-                                            "soknadFom": "2022-10-01",
-                                            "soknadTom": "2022-10-29"
-                                        },
                                         "sykepengedager": {
                                             "forbrukteSykedager": 10,
                                             "gjenstaendeSykedager": 238,
