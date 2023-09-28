@@ -8,6 +8,7 @@ import { MinusCircle } from '@navikt/ds-icons';
 import { BodyShort, Button, ErrorMessage, Loader } from '@navikt/ds-react';
 
 import { useMutation } from '@apollo/client';
+import { Key, useKeyboard } from '@hooks/useKeyboard';
 import { LeggTilNotatDocument, NotatType } from '@io/graphql';
 import { useInnloggetSaksbehandler } from '@state/authentication';
 import { lokaleNotaterState } from '@state/notater';
@@ -37,6 +38,17 @@ export const Notat = () => {
     useEffect(() => {
         setOpen(harPåbegyntNotat);
     }, [harPåbegyntNotat]);
+
+    useKeyboard({
+        [Key.N]: {
+            action: () => {
+                setOpen(true);
+                form.setFocus('tekst');
+            },
+            ignoreIfModifiers: false,
+            modifier: Key.Alt,
+        },
+    });
 
     if (erGhostEllerHarIkkeAktivPeriode) return null;
 

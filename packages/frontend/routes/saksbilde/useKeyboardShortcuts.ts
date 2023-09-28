@@ -148,7 +148,7 @@ export const useKeyboardActions = () => {
             action: () => {},
             ignoreIfModifiers: false,
             modifier: Key.Alt,
-            visningstekst: 'Åpne notat',
+            visningstekst: 'Åpne generelt notat (fokus på tekstfeltet om notatet allerede er åpent)',
             visningssnarvei: ['ALT', 'N'],
         },
         [Key.A]: {
