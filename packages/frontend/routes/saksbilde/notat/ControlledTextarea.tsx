@@ -42,7 +42,7 @@ export const ControlledTextarea = ({ control, vedtaksperiodeId }: ControlledText
                     },
                 ]);
             }}
-            label="hei"
+            label="generelt notat"
             hideLabel
             description="Blir ikke forevist den sykmeldte, med mindre den sykmeldte ber om innsyn."
             maxLength={1000}
