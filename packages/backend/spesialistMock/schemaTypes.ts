@@ -740,7 +740,6 @@ export enum Periodetype {
 export type Periodevilkar = {
     __typename?: 'Periodevilkar';
     alder: Alder;
-    soknadsfrist?: Maybe<Soknadsfrist>;
     sykepengedager: Sykepengedager;
 };
 
@@ -969,14 +968,6 @@ export type SoknadNav = Hendelse & {
     sendtNav: Scalars['String']['output'];
     tom: Scalars['String']['output'];
     type: Hendelsetype;
-};
-
-export type Soknadsfrist = {
-    __typename?: 'Soknadsfrist';
-    oppfylt: Scalars['Boolean']['output'];
-    sendtNav: Scalars['String']['output'];
-    soknadFom: Scalars['String']['output'];
-    soknadTom: Scalars['String']['output'];
 };
 
 export type Spennoppdrag = {

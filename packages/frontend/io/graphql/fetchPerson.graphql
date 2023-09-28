@@ -304,12 +304,6 @@ query FetchPerson($fnr: String, $aktorId: String) {
                                 alderSisteSykedag
                                 oppfylt
                             }
-                            soknadsfrist {
-                                oppfylt
-                                sendtNav
-                                soknadFom
-                                soknadTom
-                            }
                             sykepengedager {
                                 forbrukteSykedager
                                 gjenstaendeSykedager

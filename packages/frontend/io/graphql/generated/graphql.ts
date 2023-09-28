@@ -742,7 +742,6 @@ export enum Periodetype {
 export type Periodevilkar = {
     __typename?: 'Periodevilkar';
     alder: Alder;
-    soknadsfrist?: Maybe<Soknadsfrist>;
     sykepengedager: Sykepengedager;
 };
 
@@ -971,14 +970,6 @@ export type SoknadNav = Hendelse & {
     sendtNav: Scalars['String']['output'];
     tom: Scalars['String']['output'];
     type: Hendelsetype;
-};
-
-export type Soknadsfrist = {
-    __typename?: 'Soknadsfrist';
-    oppfylt: Scalars['Boolean']['output'];
-    sendtNav: Scalars['String']['output'];
-    soknadFom: Scalars['String']['output'];
-    soknadTom: Scalars['String']['output'];
 };
 
 export type Spennoppdrag = {
@@ -1788,13 +1779,6 @@ export type FetchPersonQuery = {
                           periodevilkar: {
                               __typename?: 'Periodevilkar';
                               alder: { __typename?: 'Alder'; alderSisteSykedag: number; oppfylt: boolean };
-                              soknadsfrist?: {
-                                  __typename?: 'Soknadsfrist';
-                                  oppfylt: boolean;
-                                  sendtNav: string;
-                                  soknadFom: string;
-                                  soknadTom: string;
-                              } | null;
                               sykepengedager: {
                                   __typename?: 'Sykepengedager';
                                   forbrukteSykedager?: number | null;
@@ -4254,46 +4238,6 @@ export const FetchPersonDocument = {
                                                                                                             name: {
                                                                                                                 kind: 'Name',
                                                                                                                 value: 'oppfylt',
-                                                                                                            },
-                                                                                                        },
-                                                                                                    ],
-                                                                                                },
-                                                                                            },
-                                                                                            {
-                                                                                                kind: 'Field',
-                                                                                                name: {
-                                                                                                    kind: 'Name',
-                                                                                                    value: 'soknadsfrist',
-                                                                                                },
-                                                                                                selectionSet: {
-                                                                                                    kind: 'SelectionSet',
-                                                                                                    selections: [
-                                                                                                        {
-                                                                                                            kind: 'Field',
-                                                                                                            name: {
-                                                                                                                kind: 'Name',
-                                                                                                                value: 'oppfylt',
-                                                                                                            },
-                                                                                                        },
-                                                                                                        {
-                                                                                                            kind: 'Field',
-                                                                                                            name: {
-                                                                                                                kind: 'Name',
-                                                                                                                value: 'sendtNav',
-                                                                                                            },
-                                                                                                        },
-                                                                                                        {
-                                                                                                            kind: 'Field',
-                                                                                                            name: {
-                                                                                                                kind: 'Name',
-                                                                                                                value: 'soknadFom',
-                                                                                                            },
-                                                                                                        },
-                                                                                                        {
-                                                                                                            kind: 'Field',
-                                                                                                            name: {
-                                                                                                                kind: 'Name',
-                                                                                                                value: 'soknadTom',
                                                                                                             },
                                                                                                         },
                                                                                                     ],
