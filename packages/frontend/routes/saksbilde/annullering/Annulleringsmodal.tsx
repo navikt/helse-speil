@@ -6,10 +6,10 @@ import { useSetRecoilState } from 'recoil';
 
 import { Alert, BodyShort, Button, Loader } from '@navikt/ds-react';
 
+import { useMutation } from '@apollo/client';
 import { Modal } from '@components/Modal';
-import { Utbetalingslinje } from '@io/graphql';
-import { postAbonnerPåAktør, postAnnullering } from '@io/http';
-import type { AnnulleringDTO } from '@io/http/types';
+import { AnnullerDocument, AnnulleringDataInput, Utbetalingslinje } from '@io/graphql';
+import { postAbonnerPåAktør } from '@io/http';
 import { opptegnelsePollingTimeState } from '@state/opptegnelser';
 import { NORSK_DATOFORMAT } from '@utils/date';
 import { somPenger } from '@utils/locale';
@@ -89,6 +89,7 @@ export const Annulleringsmodal = ({
     const [isSending, setIsSending] = useState<boolean>(false);
     const [postAnnulleringFeil, setPostAnnulleringFeil] = useState<string>();
     const setOpptegnelsePollingTime = useSetRecoilState(opptegnelsePollingTimeState);
+    const [annullerMutation] = useMutation(AnnullerDocument);
 
     const form = useForm({ mode: 'onBlur' });
     const kommentar = form.watch('kommentar');
@@ -97,16 +98,16 @@ export const Annulleringsmodal = ({
     const harMinstÉnBegrunnelse = () => begrunnelser?.length > 0 ?? true;
     const harFeil = () => Object.keys(form.formState.errors).length > 0;
 
-    const annullering = (): AnnulleringDTO => ({
-        aktørId,
-        fødselsnummer,
+    const annullering = (): AnnulleringDataInput => ({
+        aktorId: aktørId,
+        fodselsnummer: fødselsnummer,
         organisasjonsnummer,
         fagsystemId,
         begrunnelser,
         kommentar: kommentar ? (kommentar.trim() === '' ? undefined : kommentar.trim()) : undefined,
     });
 
-    const sendAnnullering = (annullering: AnnulleringDTO) => {
+    const sendAnnullering = (annullering: AnnulleringDataInput) => {
         if (annenBegrunnelse && !kommentar) {
             form.setError('kommentar', {
                 type: 'manual',
@@ -123,9 +124,9 @@ export const Annulleringsmodal = ({
         function startSubmit() {
             setIsSending(true);
             setPostAnnulleringFeil(undefined);
-            postAnnullering(annullering)
+            annullerMutation({ variables: { annullering } })
                 .then(() => {
-                    postAbonnerPåAktør(annullering.aktørId).then(() => {
+                    postAbonnerPåAktør(annullering.aktorId).then(() => {
                         setOpptegnelsePollingTime(1000);
                     });
                     onSuccess && onSuccess();

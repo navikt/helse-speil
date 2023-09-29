@@ -1,4 +1,4 @@
-import { RecoilAndRouterWrapper } from '@test-wrappers';
+import { ApolloWrapper } from '@test-wrappers';
 import { axe } from 'jest-axe';
 import React from 'react';
 
@@ -28,7 +28,7 @@ describe('Oversikt', () => {
             loading: false,
         });
 
-        const { container } = render(<Oversikt />, { wrapper: RecoilAndRouterWrapper });
+        const { container } = render(<Oversikt />, { wrapper: ApolloWrapper });
 
         const result = await axe(container);
 
@@ -38,4 +38,4 @@ describe('Oversikt', () => {
 });
 
 // Testen oversteg default setting på 5000 ved kjøring lokalt
-jest.setTimeout(10000);
+jest.setTimeout(15000);

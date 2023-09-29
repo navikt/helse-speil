@@ -1,4 +1,4 @@
-import { AnnulleringDTO, Options } from './types';
+import { Options } from './types';
 
 export const ResponseError = (statusCode: number, message?: string) => ({
     statusCode,
@@ -88,11 +88,6 @@ export const getOpptegnelser = async (sisteSekvensId?: number): Promise<SpeilRes
 export const postAbonnerPåAktør = async (aktørId: string) => {
     return post(`${baseUrl}/opptegnelse/abonner/${aktørId}`, {});
 };
-
-// Anullering
-export const postAnnullering = async (annullering: AnnulleringDTO) =>
-    post(`${baseUrl}/payments/annullering`, annullering);
-
 // GraphQL
 export const postGraphQLQuery = async (operation: string) => {
     return post(`${baseUrlGraphQL}`, JSON.parse(operation));

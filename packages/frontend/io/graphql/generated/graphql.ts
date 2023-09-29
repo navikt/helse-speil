@@ -42,7 +42,7 @@ export type AnnulleringDataInput = {
     fagsystemId: Scalars['String']['input'];
     fodselsnummer: Scalars['String']['input'];
     kommentar?: InputMaybe<Scalars['String']['input']>;
-    organisasjonsnummer: Scalars['String']['input'];
+    organisasjonsnummer?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type Antall = {
@@ -608,6 +608,26 @@ export type OppgaveForPeriodevisning = {
     id: Scalars['String']['output'];
 };
 
+export type OppgaveTilBehandling = {
+    __typename?: 'OppgaveTilBehandling';
+    aktorId: Scalars['String']['output'];
+    egenskaper: Array<Oppgaveegenskap>;
+    id: Scalars['String']['output'];
+    inntektskilde: Scalars['String']['output'];
+    navn: Personnavn;
+    opprettet: Scalars['String']['output'];
+    opprinneligSoknadsdato: Scalars['String']['output'];
+    periodetype: Periodetype;
+    tildeling?: Maybe<Tildeling>;
+    vedtaksperiodeId: Scalars['String']['output'];
+};
+
+export type Oppgaveegenskap = {
+    __typename?: 'Oppgaveegenskap';
+    egenskap: Scalars['String']['output'];
+    kategori: Scalars['String']['output'];
+};
+
 export enum Oppgavetype {
     DelvisRefusjon = 'DELVIS_REFUSJON',
     FortroligAdresse = 'FORTROLIG_ADRESSE',
@@ -811,6 +831,7 @@ export type Query = {
     hentOpptegnelser: Array<Opptegnelse>;
     notater: Array<Notater>;
     oppdrag: Array<Oppdrag>;
+    oppgaver: Array<OppgaveTilBehandling>;
     person?: Maybe<Person>;
 };
 
@@ -830,6 +851,11 @@ export type QueryNotaterArgs = {
 
 export type QueryOppdragArgs = {
     fnr: Scalars['String']['input'];
+};
+
+export type QueryOppgaverArgs = {
+    pageSize?: InputMaybe<Scalars['Int']['input']>;
+    startIndex?: InputMaybe<Scalars['Int']['input']>;
 };
 
 export type QueryPersonArgs = {
@@ -1264,6 +1290,12 @@ export type Vurdering = {
     ident: Scalars['String']['output'];
     tidsstempel: Scalars['String']['output'];
 };
+
+export type AnnullerMutationVariables = Exact<{
+    annullering: AnnulleringDataInput;
+}>;
+
+export type AnnullerMutation = { __typename?: 'Mutation'; annuller: boolean };
 
 export type FetchBehandledeOppgaverQueryVariables = Exact<{
     oid: Scalars['String']['input'];
@@ -2884,6 +2916,42 @@ export const NotatFragmentDoc = {
         },
     ],
 } as unknown as DocumentNode<NotatFragment, unknown>;
+export const AnnullerDocument = {
+    kind: 'Document',
+    definitions: [
+        {
+            kind: 'OperationDefinition',
+            operation: 'mutation',
+            name: { kind: 'Name', value: 'Annuller' },
+            variableDefinitions: [
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'annullering' } },
+                    type: {
+                        kind: 'NonNullType',
+                        type: { kind: 'NamedType', name: { kind: 'Name', value: 'AnnulleringDataInput' } },
+                    },
+                },
+            ],
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'annuller' },
+                        arguments: [
+                            {
+                                kind: 'Argument',
+                                name: { kind: 'Name', value: 'annullering' },
+                                value: { kind: 'Variable', name: { kind: 'Name', value: 'annullering' } },
+                            },
+                        ],
+                    },
+                ],
+            },
+        },
+    ],
+} as unknown as DocumentNode<AnnullerMutation, AnnullerMutationVariables>;
 export const FetchBehandledeOppgaverDocument = {
     kind: 'Document',
     definitions: [

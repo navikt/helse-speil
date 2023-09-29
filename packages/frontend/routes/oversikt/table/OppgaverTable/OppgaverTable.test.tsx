@@ -42,4 +42,4 @@ describe('OppgaverTable', () => {
 });
 
 // Testen oversteg default setting på 5000 ved kjøring lokalt\
-jest.setTimeout(7000);
+jest.setTimeout(15000);

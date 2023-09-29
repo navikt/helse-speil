@@ -1,0 +1,3 @@
+mutation Annuller($annullering: AnnulleringDataInput!) {
+    annuller(annullering: $annullering)
+}

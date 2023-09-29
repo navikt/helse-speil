@@ -40,7 +40,7 @@ export type AnnulleringDataInput = {
     fagsystemId: Scalars['String']['input'];
     fodselsnummer: Scalars['String']['input'];
     kommentar?: InputMaybe<Scalars['String']['input']>;
-    organisasjonsnummer: Scalars['String']['input'];
+    organisasjonsnummer?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type Antall = {
@@ -606,6 +606,26 @@ export type OppgaveForPeriodevisning = {
     id: Scalars['String']['output'];
 };
 
+export type OppgaveTilBehandling = {
+    __typename?: 'OppgaveTilBehandling';
+    aktorId: Scalars['String']['output'];
+    egenskaper: Array<Oppgaveegenskap>;
+    id: Scalars['String']['output'];
+    inntektskilde: Scalars['String']['output'];
+    navn: Personnavn;
+    opprettet: Scalars['String']['output'];
+    opprinneligSoknadsdato: Scalars['String']['output'];
+    periodetype: Periodetype;
+    tildeling?: Maybe<Tildeling>;
+    vedtaksperiodeId: Scalars['String']['output'];
+};
+
+export type Oppgaveegenskap = {
+    __typename?: 'Oppgaveegenskap';
+    egenskap: Scalars['String']['output'];
+    kategori: Scalars['String']['output'];
+};
+
 export enum Oppgavetype {
     DelvisRefusjon = 'DELVIS_REFUSJON',
     FortroligAdresse = 'FORTROLIG_ADRESSE',
@@ -809,6 +829,7 @@ export type Query = {
     hentOpptegnelser: Array<Opptegnelse>;
     notater: Array<Notater>;
     oppdrag: Array<Oppdrag>;
+    oppgaver: Array<OppgaveTilBehandling>;
     person?: Maybe<Person>;
 };
 
@@ -828,6 +849,11 @@ export type QueryNotaterArgs = {
 
 export type QueryOppdragArgs = {
     fnr: Scalars['String']['input'];
+};
+
+export type QueryOppgaverArgs = {
+    pageSize?: InputMaybe<Scalars['Int']['input']>;
+    startIndex?: InputMaybe<Scalars['Int']['input']>;
 };
 
 export type QueryPersonArgs = {

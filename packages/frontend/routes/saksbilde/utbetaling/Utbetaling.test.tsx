@@ -1,4 +1,4 @@
-import { RecoilWrapper } from '@test-wrappers';
+import { ApolloWrapper, RecoilWrapper } from '@test-wrappers';
 import { nanoid } from 'nanoid';
 import React from 'react';
 
@@ -46,7 +46,7 @@ describe('Utbetaling', () => {
         (useCurrentPerson as jest.Mock).mockReturnValue(person);
         (useErAktivPeriodeLikEllerFørPeriodeTilGodkjenning as jest.Mock).mockReturnValue(true);
 
-        render(<Utbetaling />, { wrapper: RecoilWrapper });
+        render(<Utbetaling />, { wrapper: ApolloWrapper });
 
         screen.debug();
         expect(screen.getByText('Revurder')).toBeVisible();
@@ -68,7 +68,7 @@ describe('Utbetaling', () => {
         (useCurrentArbeidsgiver as jest.Mock).mockReturnValue(arbeidsgiver);
         (useCurrentPerson as jest.Mock).mockReturnValue(person);
 
-        render(<Utbetaling />, { wrapper: RecoilWrapper });
+        render(<Utbetaling />, { wrapper: ApolloWrapper });
 
         expect(screen.getByText('Kan ikke revurdere perioden på grunn av manglende datagrunnlag')).toBeVisible();
     });
@@ -85,7 +85,7 @@ describe('Utbetaling', () => {
         (useCurrentArbeidsgiver as jest.Mock).mockReturnValue(arbeidsgiver);
         (useCurrentPerson as jest.Mock).mockReturnValue(person);
 
-        render(<Utbetaling />, { wrapper: RecoilWrapper });
+        render(<Utbetaling />, { wrapper: ApolloWrapper });
 
         expect(screen.getByText('Endre')).toBeVisible();
     });
@@ -100,7 +100,7 @@ describe('Utbetaling', () => {
         (useCurrentArbeidsgiver as jest.Mock).mockReturnValue(arbeidsgiver);
         (useCurrentPerson as jest.Mock).mockReturnValue(person);
 
-        render(<Utbetaling />, { wrapper: RecoilWrapper });
+        render(<Utbetaling />, { wrapper: ApolloWrapper });
 
         expect(screen.getByText('Endre')).toBeVisible();
     });
@@ -116,7 +116,7 @@ describe('Utbetaling', () => {
         (useCurrentPerson as jest.Mock).mockReturnValue(person);
         (useReadonly as jest.Mock).mockReturnValue({ value: false, override: false });
 
-        render(<Utbetaling />, { wrapper: RecoilWrapper });
+        render(<Utbetaling />, { wrapper: ApolloWrapper });
 
         expect(screen.getByText('Endre')).toBeVisible();
     });

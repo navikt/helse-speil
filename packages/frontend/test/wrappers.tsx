@@ -18,11 +18,7 @@ export const ApolloWrapper: React.FC<RecoilProps> = ({ children, initializeState
 };
 
 export const RecoilWrapper: React.FC<RecoilProps> = ({ children, initializeState }) => {
-    return (
-        <RecoilRoot initializeState={initializeState}>
-            <MockedProvider>{children}</MockedProvider>
-        </RecoilRoot>
-    );
+    return <RecoilRoot initializeState={initializeState}>{children}</RecoilRoot>;
 };
 
 export const MemoryRouterWrapper: React.FC<ChildrenProps> = ({ children }) => {

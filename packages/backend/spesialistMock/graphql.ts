@@ -263,6 +263,9 @@ const getResolvers = (): IResolvers => ({
             });
             return true;
         },
+        annuller: async (_, __) => {
+            return true;
+        },
     },
     Periode: {
         __resolveType: (periode: { beregningId: string; vilkarsgrunnlagId: string }) => {

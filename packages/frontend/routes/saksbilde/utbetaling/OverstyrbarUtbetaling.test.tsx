@@ -27,7 +27,7 @@ jest.mock('./utbetalingstabell/useAlderVedSkjæringstidspunkt', () => ({
 }));
 
 //TODO this is bad, need to make it go faster
-jest.setTimeout(7000);
+jest.setTimeout(15000);
 
 const dager = new Map<string, Utbetalingstabelldag>([
     ['2022-01-01', getUtbetalingstabellDag({ dato: '2022-01-01' })],
