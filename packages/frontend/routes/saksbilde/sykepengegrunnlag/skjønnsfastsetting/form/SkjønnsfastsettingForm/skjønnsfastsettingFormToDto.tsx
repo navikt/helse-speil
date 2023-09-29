@@ -6,7 +6,6 @@ import { isBeregnetPeriode, isUberegnetVilkarsprovdPeriode } from '@utils/typegu
 
 import { ArbeidsgiverForm, Skjønnsfastsettingstype, skjønnsfastsettelseBegrunnelser } from '../../skjønnsfastsetting';
 
-
 interface InitierendeVedtaksperiodeForArbeidsgiver {
     arbeidsgiver: string;
     initierendeVedtaksperiodeId: string | null;

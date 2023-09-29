@@ -1,4 +1,4 @@
-import { AnnulleringDTO, Options, PersonoppdateringDTO } from './types';
+import { AnnulleringDTO, Options } from './types';
 
 export const ResponseError = (statusCode: number, message?: string) => ({
     statusCode,
@@ -92,10 +92,6 @@ export const postAbonnerPåAktør = async (aktørId: string) => {
 // Anullering
 export const postAnnullering = async (annullering: AnnulleringDTO) =>
     post(`${baseUrl}/payments/annullering`, annullering);
-
-// Oppdater person
-export const postForespørPersonoppdatering = async (oppdatering: PersonoppdateringDTO) =>
-    post(`${baseUrl}/person/oppdater`, oppdatering);
 
 // GraphQL
 export const postGraphQLQuery = async (operation: string) => {

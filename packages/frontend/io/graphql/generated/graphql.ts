@@ -2422,6 +2422,12 @@ export type OverstyrInntektOgRefusjonMutationMutationVariables = Exact<{
 
 export type OverstyrInntektOgRefusjonMutationMutation = { __typename?: 'Mutation'; overstyrInntektOgRefusjon: boolean };
 
+export type OppdaterPersonMutationVariables = Exact<{
+    fodselsnummer: Scalars['String']['input'];
+}>;
+
+export type OppdaterPersonMutation = { __typename?: 'Mutation'; oppdaterPerson: boolean };
+
 export type SettVarselstatusAktivMutationVariables = Exact<{
     generasjonIdString: Scalars['String']['input'];
     varselkode: Scalars['String']['input'];
@@ -5703,6 +5709,39 @@ export const OverstyrInntektOgRefusjonMutationDocument = {
     OverstyrInntektOgRefusjonMutationMutation,
     OverstyrInntektOgRefusjonMutationMutationVariables
 >;
+export const OppdaterPersonDocument = {
+    kind: 'Document',
+    definitions: [
+        {
+            kind: 'OperationDefinition',
+            operation: 'mutation',
+            name: { kind: 'Name', value: 'OppdaterPerson' },
+            variableDefinitions: [
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'fodselsnummer' } },
+                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
+                },
+            ],
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'oppdaterPerson' },
+                        arguments: [
+                            {
+                                kind: 'Argument',
+                                name: { kind: 'Name', value: 'fodselsnummer' },
+                                value: { kind: 'Variable', name: { kind: 'Name', value: 'fodselsnummer' } },
+                            },
+                        ],
+                    },
+                ],
+            },
+        },
+    ],
+} as unknown as DocumentNode<OppdaterPersonMutation, OppdaterPersonMutationVariables>;
 export const SettVarselstatusAktivDocument = {
     kind: 'Document',
     definitions: [

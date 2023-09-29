@@ -3,7 +3,9 @@ import { useRecoilValue } from 'recoil';
 
 import { Loader } from '@navikt/ds-react';
 
-import { postAbonnerPåAktør, postForespørPersonoppdatering } from '@io/http';
+import { useMutation } from '@apollo/client';
+import { OppdaterPersonDocument } from '@io/graphql';
+import { postAbonnerPåAktør } from '@io/http';
 import { nyesteOpptegnelserState, useSetOpptegnelserPollingRate } from '@state/opptegnelser';
 import { useCurrentPerson } from '@state/person';
 import { useAddToast, useRemoveToast } from '@state/toasts';
@@ -34,6 +36,7 @@ export const useOppdaterPersondata = (): [forespørPersonoppdatering: () => Prom
     const removeVarsel = useRemoveVarsel();
     const opptegnelser = useRecoilValue(nyesteOpptegnelserState);
     const [polling, setPolling] = useState(false);
+    const [oppdaterPerson] = useMutation(OppdaterPersonDocument);
 
     useEffect(() => {
         if (opptegnelser && polling) {
@@ -57,9 +60,9 @@ export const useOppdaterPersondata = (): [forespørPersonoppdatering: () => Prom
         };
     }, []);
 
-    const forespørPersonoppdatering = (): Promise<void> => {
+    const forespørPersonoppdatering = async (): Promise<void> => {
         removeVarsel(PersonoppdateringAlert.key);
-        return postForespørPersonoppdatering({ fødselsnummer: person.fodselsnummer })
+        return oppdaterPerson({ variables: { fodselsnummer: person.fodselsnummer } })
             .then(() => {
                 addToast({ key: oppdatererPersondataToastKey, message: oppdatererPersondataMessage() });
                 setPolling(true);
