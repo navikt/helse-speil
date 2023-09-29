@@ -36,6 +36,15 @@ export type Annullering = {
     tidspunkt: Scalars['String']['output'];
 };
 
+export type AnnulleringDataInput = {
+    aktorId: Scalars['String']['input'];
+    begrunnelser: Array<Scalars['String']['input']>;
+    fagsystemId: Scalars['String']['input'];
+    fodselsnummer: Scalars['String']['input'];
+    kommentar?: InputMaybe<Scalars['String']['input']>;
+    organisasjonsnummer: Scalars['String']['input'];
+};
+
 export type Antall = {
     __typename?: 'Antall';
     automatisk: Scalars['Int']['output'];
@@ -383,6 +392,7 @@ export enum Mottaker {
 export type Mutation = {
     __typename?: 'Mutation';
     abonner: Scalars['Boolean']['output'];
+    annuller: Scalars['Boolean']['output'];
     feilregistrerKommentar?: Maybe<Kommentar>;
     feilregistrerKommentarV2?: Maybe<Kommentar>;
     feilregistrerNotat?: Maybe<Notat>;
@@ -407,6 +417,10 @@ export type Mutation = {
 
 export type MutationAbonnerArgs = {
     personidentifikator: Scalars['String']['input'];
+};
+
+export type MutationAnnullerArgs = {
+    annullering: AnnulleringDataInput;
 };
 
 export type MutationFeilregistrerKommentarArgs = {
