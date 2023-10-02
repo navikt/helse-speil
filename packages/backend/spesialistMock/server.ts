@@ -32,14 +32,6 @@ app.use((req, res, next) => {
     sleep(ventetid).then(next);
 });
 
-app.post('/api/annullering', (req, res) => {
-    Math.random() > 0.2 ? res.sendStatus(200) : res.status(503).send('dev annullering feil');
-});
-
-app.post('/api/vedtak', (req, res) => {
-    Math.random() > 0.1 ? res.sendStatus(204) : res.status(500).send({ feilkode: 'ikke_aapen_saksbehandleroppgave' });
-});
-
 app.post('/api/person/oppdater', (req, res) => {
     console.log(`Mottok forespørsel om oppdatering ${JSON.stringify(req.body)}`);
     return Math.random() < 0.2 ? res.status(503).send('Dev feil!') : res.sendStatus(200);

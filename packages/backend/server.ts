@@ -12,7 +12,6 @@ import graphQLRoutes from './graphql/graphQLRoutes';
 import headers from './headers';
 import logger from './logging';
 import opptegnelseRoutes from './opptegnelse/opptegnelseRoutes';
-import paymentRoutes from './payment/paymentRoutes';
 import { ipAddressFromRequest } from './requestData';
 import { sessionStore } from './sessionStore';
 import { AuthError, SpeilRequest } from './types';
@@ -152,7 +151,6 @@ app.use('/*', async (req: SpeilRequest, res, next) => {
     }
 });
 
-app.use('/api/payments', paymentRoutes(dependencies));
 app.use('/api/opptegnelse', opptegnelseRoutes(dependencies));
 app.use('/graphql', graphQLRoutes(dependencies.graphql));
 
