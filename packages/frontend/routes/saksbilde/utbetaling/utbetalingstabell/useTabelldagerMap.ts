@@ -41,7 +41,6 @@ const getUtbetalingstabelldagtypeFromOverstyrtDag = (dag: OverstyrtDag): Speilda
             return Pleiepengerdag;
         case Dagtype.Svangerskapspengerdag:
             return Svangerskapspengerdag;
-        case Dagtype.FerieUtenSykmeldingDag:
         case Dagtype.ArbeidIkkeGjenopptattDag:
             return ArbeidIkkeGjenopptattDag;
         case Dagtype.Egenmeldingsdag:

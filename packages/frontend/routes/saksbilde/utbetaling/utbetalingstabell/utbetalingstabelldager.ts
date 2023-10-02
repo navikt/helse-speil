@@ -159,7 +159,6 @@ export const getSpeildag = (
             return Pleiepengerdag;
         case Sykdomsdagtype.AndreYtelserSvangerskapspenger:
             return Svangerskapspengerdag;
-        case Sykdomsdagtype.Ferieutensykmeldingdag:
         case Sykdomsdagtype.Arbeidikkegjenopptattdag:
             return ArbeidIkkeGjenopptattDag;
         case Sykdomsdagtype.Arbeidsdag:
