@@ -1,6 +1,7 @@
 import { atom, selector, useRecoilValue, useSetRecoilState } from 'recoil';
 
 import { FetchOppgaverQuery, Mottaker, OppgaveForOversiktsvisning, Oppgavetype, Periodetype } from '@io/graphql';
+import { harSpesialsaktilgang } from '@utils/featureToggles';
 
 import { TabType, tabState } from '../../tabState';
 
@@ -151,7 +152,7 @@ export const defaultFilters: Filter<OppgaveForOversiktsvisning>[] = [
         key: 'NØTTESAK',
         label: '🌰',
         active: false,
-        function: (oppgave: OppgaveForOversiktsvisning) => oppgave.spesialsak === true,
+        function: (oppgave: OppgaveForOversiktsvisning) => oppgave.spesialsak,
         column: 4,
     },
     {
@@ -188,7 +189,7 @@ export const defaultFilters: Filter<OppgaveForOversiktsvisning>[] = [
         function: (oppgave: OppgaveForOversiktsvisning) => oppgave.type === Oppgavetype.FortroligAdresse,
         column: 2,
     },
-];
+].filter((filter) => filter.label !== '🌰' || harSpesialsaktilgang);
 
 const groupFiltersByColumn = (
     filters: Filter<OppgaveForOversiktsvisning>[],
