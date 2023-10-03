@@ -48,7 +48,7 @@ export const skjønnsfastsettelseBegrunnelser = (
             antallArbeidsgivere === 1
                 ? malEnArbeidsgiver(omregnetÅrsinntekt, sammenligningsgrunnlag)
                 : malFlereArbeidsgivere(omregnetÅrsinntekt, sammenligningsgrunnlag),
-        konklusjon: `Vi har fastsatt sykepengegrunnlaget ditt til kr ${toKronerOgØre(
+        konklusjon: `Vi har fastsatt årsinntekten din til kr ${toKronerOgØre(
             omregnetÅrsinntekt,
         )}.\nBeløpet vi har kommet frem til er årsinntekten vi mener du ville hatt hvis du ikke hadde blitt syk.`,
         lovhjemmel: { paragraf: '8-30', ledd: '2', lovverk: 'folketrygdloven', lovverksversjon: '2019-01-01' },
@@ -62,7 +62,7 @@ export const skjønnsfastsettelseBegrunnelser = (
             antallArbeidsgivere === 1
                 ? malEnArbeidsgiver(omregnetÅrsinntekt, sammenligningsgrunnlag)
                 : malFlereArbeidsgivere(omregnetÅrsinntekt, sammenligningsgrunnlag),
-        konklusjon: `Vi har fastsatt sykepengegrunnlaget ditt til kr ${toKronerOgØre(
+        konklusjon: `Vi har fastsatt årsinntekten din til kr ${toKronerOgØre(
             sammenligningsgrunnlag,
         )}.\nBeløpet vi har kommet frem til er årsinntekten vi mener du ville hatt hvis du ikke hadde blitt syk.`,
         lovhjemmel: { paragraf: '8-30', ledd: '2', lovverk: 'folketrygdloven', lovverksversjon: '2019-01-01' },
@@ -76,7 +76,7 @@ export const skjønnsfastsettelseBegrunnelser = (
             antallArbeidsgivere === 1
                 ? malEnArbeidsgiver(omregnetÅrsinntekt, sammenligningsgrunnlag)
                 : malFlereArbeidsgivere(omregnetÅrsinntekt, sammenligningsgrunnlag),
-        konklusjon: `Vi har fastsatt sykepengegrunnlaget ditt til kr ${toKronerOgØre(
+        konklusjon: `Vi har fastsatt årsinntekten din til kr ${toKronerOgØre(
             annet,
         )}.\nBeløpet vi har kommet frem til er årsinntekten vi mener du ville hatt hvis du ikke hadde blitt syk.`,
         lovhjemmel: { paragraf: '8-30', ledd: '2', lovverk: 'folketrygdloven', lovverksversjon: '2019-01-01' },
