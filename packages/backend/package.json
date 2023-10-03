@@ -46,8 +46,8 @@
         "winston": "^3.10.0"
     },
     "devDependencies": {
-        "@babel/cli": "^7.22.15",
-        "@babel/core": "^7.22.17",
+        "@babel/cli": "^7.23.0",
+        "@babel/core": "^7.23.0",
         "@babel/plugin-transform-runtime": "^7.22.15",
         "@babel/polyfill": "^7.12.1",
         "@graphql-tools/schema": "^10.0.0",
