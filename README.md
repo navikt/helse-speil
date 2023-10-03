@@ -25,13 +25,13 @@ echo "SPESIALIST_BASE_URL=http://127.0.0.1:9001" > packages/backend/.env
 
 ### Både frontend og backend med én kommando
 
-```
+```shell
 npm run dev
 ```
 
 ### Kjør spesialistbackenden slik:
 
-```
+```shell
 npm run mock
 ```
 
@@ -39,7 +39,7 @@ npm run mock
 
 Fra `packages/frontend`:
 
-```
+```shell
 npm run dev
 ```
 
@@ -56,7 +56,7 @@ SPESIALIST_BASE_URL=http://localhost:9001
 
 Fra `packages/backend`:
 
-```
+```shell
 npm run dev
 ```
 
@@ -64,13 +64,19 @@ Appen er nå tilgjengelig på http://localhost:3000.
 
 ### Bygge bundles
 
-```
+```shell
 npm run build
 ```
 
-### Hente oppdaterte graphql-typer fra Spesialist
+### Hente og oppdaterte GraphQL-typer
 
-```
+Speil henter schema fra spesialist i dev. For å kunne hente snakke med spesialist må man først koble til naisdevice.
+
+For å generere DocumentNodes som brukes i apollo queries og mutations må man først skrive en GraphQL spørring i [GraphQL mappen](packages/frontend/io/graphql).
+
+**Kommando for å oppdatere GraphQL-typer:**
+
+```shell
 npm run generate-graphql
 ```
 
