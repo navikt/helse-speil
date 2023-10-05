@@ -229,6 +229,32 @@ export enum Dagtype {
     SykedagNav = 'SykedagNav',
 }
 
+export enum Egenskap {
+    Beslutter = 'BESLUTTER',
+    DelvisRefusjon = 'DELVIS_REFUSJON',
+    EgenAnsatt = 'EGEN_ANSATT',
+    EnArbeidsgiver = 'EN_ARBEIDSGIVER',
+    FlereArbeidsgivere = 'FLERE_ARBEIDSGIVERE',
+    Forlengelse = 'FORLENGELSE',
+    Forstegangsbehandling = 'FORSTEGANGSBEHANDLING',
+    FortroligAdresse = 'FORTROLIG_ADRESSE',
+    Fullmakt = 'FULLMAKT',
+    Haster = 'HASTER',
+    Infotrygdforlengelse = 'INFOTRYGDFORLENGELSE',
+    IngenUtbetaling = 'INGEN_UTBETALING',
+    OvergangFraIt = 'OVERGANG_FRA_IT',
+    Retur = 'RETUR',
+    Revurdering = 'REVURDERING',
+    RiskQa = 'RISK_QA',
+    Soknad = 'SOKNAD',
+    Spesialsak = 'SPESIALSAK',
+    Stikkprove = 'STIKKPROVE',
+    UtbetalingTilArbeidsgiver = 'UTBETALING_TIL_ARBEIDSGIVER',
+    UtbetalingTilSykmeldt = 'UTBETALING_TIL_SYKMELDT',
+    Utland = 'UTLAND',
+    Vergemal = 'VERGEMAL',
+}
+
 export type Enhet = {
     __typename?: 'Enhet';
     id: Scalars['String']['output'];
@@ -345,6 +371,14 @@ export enum Inntektstype {
     Flerearbeidsgivere = 'FLEREARBEIDSGIVERE',
 }
 
+export enum Kategori {
+    Inntektskilde = 'Inntektskilde',
+    Mottaker = 'Mottaker',
+    Oppgavetype = 'Oppgavetype',
+    Periodetype = 'Periodetype',
+    Ukategorisert = 'Ukategorisert',
+}
+
 export type Kilde = {
     __typename?: 'Kilde';
     id: Scalars['String']['output'];
@@ -409,6 +443,7 @@ export type Mutation = {
     sendIRetur: Scalars['Boolean']['output'];
     sendTilGodkjenning: Scalars['Boolean']['output'];
     sendTilInfotrygd: Scalars['Boolean']['output'];
+    settVarselstatus: VarselDto;
     settVarselstatusAktiv?: Maybe<VarselDto>;
     settVarselstatusVurdert?: Maybe<VarselDto>;
     skjonnsfastsettSykepengegrunnlag: Scalars['Boolean']['output'];
@@ -499,6 +534,13 @@ export type MutationSendTilInfotrygdArgs = {
     begrunnelser: Array<Scalars['String']['input']>;
     kommentar?: InputMaybe<Scalars['String']['input']>;
     oppgavereferanse: Scalars['String']['input'];
+};
+
+export type MutationSettVarselstatusArgs = {
+    definisjonIdString?: InputMaybe<Scalars['String']['input']>;
+    generasjonIdString: Scalars['String']['input'];
+    ident: Scalars['String']['input'];
+    varselkode: Scalars['String']['input'];
 };
 
 export type MutationSettVarselstatusAktivArgs = {
@@ -612,19 +654,17 @@ export type OppgaveTilBehandling = {
     aktorId: Scalars['String']['output'];
     egenskaper: Array<Oppgaveegenskap>;
     id: Scalars['String']['output'];
-    inntektskilde: Scalars['String']['output'];
     navn: Personnavn;
     opprettet: Scalars['String']['output'];
     opprinneligSoknadsdato: Scalars['String']['output'];
-    periodetype: Periodetype;
     tildeling?: Maybe<Tildeling>;
     vedtaksperiodeId: Scalars['String']['output'];
 };
 
 export type Oppgaveegenskap = {
     __typename?: 'Oppgaveegenskap';
-    egenskap: Scalars['String']['output'];
-    kategori: Scalars['String']['output'];
+    egenskap: Egenskap;
+    kategori: Kategori;
 };
 
 export enum Oppgavetype {
@@ -2600,6 +2640,32 @@ export type SendTilGodkjenningMutationVariables = Exact<{
 }>;
 
 export type SendTilGodkjenningMutation = { __typename?: 'Mutation'; sendTilGodkjenning: boolean };
+
+export type SettVarselStatusMutationVariables = Exact<{
+    generasjonIdString: Scalars['String']['input'];
+    ident: Scalars['String']['input'];
+    varselkode: Scalars['String']['input'];
+    definisjonIdString?: InputMaybe<Scalars['String']['input']>;
+}>;
+
+export type SettVarselStatusMutation = {
+    __typename?: 'Mutation';
+    settVarselstatus: {
+        __typename: 'VarselDTO';
+        forklaring?: string | null;
+        definisjonId: string;
+        generasjonId: string;
+        handling?: string | null;
+        kode: string;
+        tittel: string;
+        vurdering?: {
+            __typename: 'VarselvurderingDTO';
+            ident: string;
+            status: Varselstatus;
+            tidsstempel: string;
+        } | null;
+    };
+};
 
 export type InnvilgVedtakMutationVariables = Exact<{
     oppgavereferanse: Scalars['String']['input'];
@@ -6281,6 +6347,94 @@ export const SendTilGodkjenningDocument = {
         },
     ],
 } as unknown as DocumentNode<SendTilGodkjenningMutation, SendTilGodkjenningMutationVariables>;
+export const SettVarselStatusDocument = {
+    kind: 'Document',
+    definitions: [
+        {
+            kind: 'OperationDefinition',
+            operation: 'mutation',
+            name: { kind: 'Name', value: 'SettVarselStatus' },
+            variableDefinitions: [
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'generasjonIdString' } },
+                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
+                },
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'ident' } },
+                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
+                },
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'varselkode' } },
+                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
+                },
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'definisjonIdString' } },
+                    type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
+                },
+            ],
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'settVarselstatus' },
+                        arguments: [
+                            {
+                                kind: 'Argument',
+                                name: { kind: 'Name', value: 'generasjonIdString' },
+                                value: { kind: 'Variable', name: { kind: 'Name', value: 'generasjonIdString' } },
+                            },
+                            {
+                                kind: 'Argument',
+                                name: { kind: 'Name', value: 'ident' },
+                                value: { kind: 'Variable', name: { kind: 'Name', value: 'ident' } },
+                            },
+                            {
+                                kind: 'Argument',
+                                name: { kind: 'Name', value: 'varselkode' },
+                                value: { kind: 'Variable', name: { kind: 'Name', value: 'varselkode' } },
+                            },
+                            {
+                                kind: 'Argument',
+                                name: { kind: 'Name', value: 'definisjonIdString' },
+                                value: { kind: 'Variable', name: { kind: 'Name', value: 'definisjonIdString' } },
+                            },
+                        ],
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                { kind: 'Field', name: { kind: 'Name', value: 'forklaring' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'definisjonId' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'generasjonId' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'handling' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'kode' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'tittel' } },
+                                { kind: 'Field', name: { kind: 'Name', value: '__typename' } },
+                                {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'vurdering' },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            { kind: 'Field', name: { kind: 'Name', value: 'ident' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'status' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'tidsstempel' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: '__typename' } },
+                                        ],
+                                    },
+                                },
+                            ],
+                        },
+                    },
+                ],
+            },
+        },
+    ],
+} as unknown as DocumentNode<SettVarselStatusMutation, SettVarselStatusMutationVariables>;
 export const InnvilgVedtakDocument = {
     kind: 'Document',
     definitions: [

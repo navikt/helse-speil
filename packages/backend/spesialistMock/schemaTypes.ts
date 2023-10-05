@@ -227,6 +227,32 @@ export enum Dagtype {
     SykedagNav = 'SykedagNav',
 }
 
+export enum Egenskap {
+    Beslutter = 'BESLUTTER',
+    DelvisRefusjon = 'DELVIS_REFUSJON',
+    EgenAnsatt = 'EGEN_ANSATT',
+    EnArbeidsgiver = 'EN_ARBEIDSGIVER',
+    FlereArbeidsgivere = 'FLERE_ARBEIDSGIVERE',
+    Forlengelse = 'FORLENGELSE',
+    Forstegangsbehandling = 'FORSTEGANGSBEHANDLING',
+    FortroligAdresse = 'FORTROLIG_ADRESSE',
+    Fullmakt = 'FULLMAKT',
+    Haster = 'HASTER',
+    Infotrygdforlengelse = 'INFOTRYGDFORLENGELSE',
+    IngenUtbetaling = 'INGEN_UTBETALING',
+    OvergangFraIt = 'OVERGANG_FRA_IT',
+    Retur = 'RETUR',
+    Revurdering = 'REVURDERING',
+    RiskQa = 'RISK_QA',
+    Soknad = 'SOKNAD',
+    Spesialsak = 'SPESIALSAK',
+    Stikkprove = 'STIKKPROVE',
+    UtbetalingTilArbeidsgiver = 'UTBETALING_TIL_ARBEIDSGIVER',
+    UtbetalingTilSykmeldt = 'UTBETALING_TIL_SYKMELDT',
+    Utland = 'UTLAND',
+    Vergemal = 'VERGEMAL',
+}
+
 export type Enhet = {
     __typename?: 'Enhet';
     id: Scalars['String']['output'];
@@ -343,6 +369,14 @@ export enum Inntektstype {
     Flerearbeidsgivere = 'FLEREARBEIDSGIVERE',
 }
 
+export enum Kategori {
+    Inntektskilde = 'Inntektskilde',
+    Mottaker = 'Mottaker',
+    Oppgavetype = 'Oppgavetype',
+    Periodetype = 'Periodetype',
+    Ukategorisert = 'Ukategorisert',
+}
+
 export type Kilde = {
     __typename?: 'Kilde';
     id: Scalars['String']['output'];
@@ -407,6 +441,7 @@ export type Mutation = {
     sendIRetur: Scalars['Boolean']['output'];
     sendTilGodkjenning: Scalars['Boolean']['output'];
     sendTilInfotrygd: Scalars['Boolean']['output'];
+    settVarselstatus: VarselDto;
     settVarselstatusAktiv?: Maybe<VarselDto>;
     settVarselstatusVurdert?: Maybe<VarselDto>;
     skjonnsfastsettSykepengegrunnlag: Scalars['Boolean']['output'];
@@ -497,6 +532,13 @@ export type MutationSendTilInfotrygdArgs = {
     begrunnelser: Array<Scalars['String']['input']>;
     kommentar?: InputMaybe<Scalars['String']['input']>;
     oppgavereferanse: Scalars['String']['input'];
+};
+
+export type MutationSettVarselstatusArgs = {
+    definisjonIdString?: InputMaybe<Scalars['String']['input']>;
+    generasjonIdString: Scalars['String']['input'];
+    ident: Scalars['String']['input'];
+    varselkode: Scalars['String']['input'];
 };
 
 export type MutationSettVarselstatusAktivArgs = {
@@ -610,19 +652,17 @@ export type OppgaveTilBehandling = {
     aktorId: Scalars['String']['output'];
     egenskaper: Array<Oppgaveegenskap>;
     id: Scalars['String']['output'];
-    inntektskilde: Scalars['String']['output'];
     navn: Personnavn;
     opprettet: Scalars['String']['output'];
     opprinneligSoknadsdato: Scalars['String']['output'];
-    periodetype: Periodetype;
     tildeling?: Maybe<Tildeling>;
     vedtaksperiodeId: Scalars['String']['output'];
 };
 
 export type Oppgaveegenskap = {
     __typename?: 'Oppgaveegenskap';
-    egenskap: Scalars['String']['output'];
-    kategori: Scalars['String']['output'];
+    egenskap: Egenskap;
+    kategori: Kategori;
 };
 
 export enum Oppgavetype {

@@ -3,7 +3,10 @@ import React, { useState } from 'react';
 
 import { BodyShort, Loader } from '@navikt/ds-react';
 
-import { VarselDto, Varselstatus } from '@io/graphql';
+import { useMutation } from '@apollo/client';
+import { SettVarselStatusDocument, VarselDto, Varselstatus } from '@io/graphql';
+import { useInnloggetSaksbehandler } from '@state/authentication';
+import { useRefetchPerson } from '@state/person';
 import { getFormattedDatetimeString } from '@utils/date';
 
 import { Avhuking } from './Avhuking';
@@ -16,14 +19,63 @@ interface VarselProps extends HTMLAttributes<HTMLDivElement> {
     type: VarselstatusType;
 }
 
+const getErrorMessage = (errorCode: number) => {
+    switch (errorCode) {
+        case 404:
+            return 'Varselet finnes ikke lenger. Oppdater siden (F5).';
+        case 409:
+            return 'Varselet har allerede endret status. Oppdater siden (F5).';
+        default:
+            return `Det har skjedd en feil. Prøv igjen senere eller kontakt en utvikler. (Feilkode: ${errorCode})`;
+    }
+};
+
 export const Varsel: React.FC<VarselProps> = ({ className, varsel, type }) => {
-    const [isFetching, setIsFetching] = useState(false);
-    const [errorState, setErrorState] = useState<{ error: boolean; message: string }>({ error: false, message: '' });
+    const innloggetSaksbehandler = useInnloggetSaksbehandler();
+    const [venterPåRefetch, setVenterPåRefetch] = useState(false);
     const varselVurdering = varsel.vurdering;
     const varselStatus = varselVurdering?.status ?? Varselstatus.Aktiv;
+    const refetchPerson = useRefetchPerson();
+
+    const [settVarselstatus, { error, loading }] = useMutation(SettVarselStatusDocument, {
+        onCompleted: async () => {
+            setVenterPåRefetch(true);
+            await refetchPerson();
+            setVenterPåRefetch(false);
+        },
+    });
+
+    const settVarselstatusVurdert = async () => {
+        const ident = innloggetSaksbehandler.ident;
+        if (ident === undefined || ident === null) {
+            return;
+        }
+        await settVarselstatus({
+            variables: {
+                generasjonIdString: varsel.generasjonId,
+                ident: ident,
+                varselkode: varsel.kode,
+                definisjonIdString: varsel.definisjonId,
+            },
+        });
+    };
+    const settVarselstatusAktiv = async () => {
+        const ident = innloggetSaksbehandler.ident;
+        if (ident === undefined || ident === null) {
+            return;
+        }
+        await settVarselstatus({
+            variables: {
+                generasjonIdString: varsel.generasjonId,
+                ident: ident,
+                varselkode: varsel.kode,
+            },
+        });
+    };
+
     return (
         <div className={classNames(className, styles.varsel, styles[type])}>
-            {isFetching ? (
+            {loading || venterPåRefetch ? (
                 <Loader
                     style={{ height: 'var(--a-font-line-height-xlarge)', alignSelf: 'flex-start' }}
                     size="medium"
@@ -32,12 +84,9 @@ export const Varsel: React.FC<VarselProps> = ({ className, varsel, type }) => {
             ) : (
                 <Avhuking
                     type={type}
-                    generasjonId={varsel.generasjonId}
-                    definisjonId={varsel.definisjonId}
-                    varselkode={varsel.kode}
                     varselstatus={varselStatus}
-                    setIsFetching={setIsFetching}
-                    setError={setErrorState}
+                    settVarselstatusAktiv={settVarselstatusAktiv}
+                    settVarselstatusVurdert={settVarselstatusVurdert}
                 />
             )}
             <div className={styles.wrapper}>
@@ -47,9 +96,9 @@ export const Varsel: React.FC<VarselProps> = ({ className, varsel, type }) => {
                         {getFormattedDatetimeString(varselVurdering?.tidsstempel)} av {varselVurdering?.ident}
                     </BodyShort>
                 )}
-                {errorState.error && (
+                {error && (
                     <BodyShort className={styles.error} as="p">
-                        {errorState.message}
+                        {getErrorMessage(error.graphQLErrors[0].extensions.code as number)}
                     </BodyShort>
                 )}
             </div>

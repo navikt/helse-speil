@@ -29,8 +29,7 @@ import type {
     MutationOverstyrInntektOgRefusjonArgs,
     MutationSendIReturArgs,
     MutationSendTilGodkjenningArgs,
-    MutationSettVarselstatusAktivArgs,
-    MutationSettVarselstatusVurdertArgs,
+    MutationSettVarselstatusArgs,
     MutationSkjonnsfastsettSykepengegrunnlagArgs,
     OppgaveForOversiktsvisning,
     Person,
@@ -143,22 +142,20 @@ const getResolvers = (): IResolvers => ({
         leggTilKommentar: (_, { tekst, notatId, saksbehandlerident }: MutationLeggTilKommentarArgs) => {
             return NotatMock.addKommentar({ tekst, notatId, saksbehandlerident });
         },
-        settVarselstatusVurdert: async (
+        settVarselstatus: async (
             _,
-            { generasjonIdString, definisjonIdString, varselkode, ident }: MutationSettVarselstatusVurdertArgs,
+            { generasjonIdString, definisjonIdString, varselkode, ident }: MutationSettVarselstatusArgs,
         ) => {
-            return VarselMock.settVarselstatusVurdert({
-                generasjonIdString,
-                definisjonIdString,
-                varselkode,
-                ident,
-            });
-        },
-        settVarselstatusAktiv: async (
-            _,
-            { generasjonIdString, varselkode, ident }: MutationSettVarselstatusAktivArgs,
-        ) => {
-            return VarselMock.settVarselstatusAktiv({ generasjonIdString, varselkode, ident });
+            if (definisjonIdString) {
+                return VarselMock.settVarselstatusVurdert({
+                    generasjonIdString,
+                    definisjonIdString,
+                    varselkode,
+                    ident,
+                });
+            } else {
+                return VarselMock.settVarselstatusAktiv({ generasjonIdString, varselkode, ident });
+            }
         },
         opprettTildeling: async (_, { oppgaveId }: MutationOpprettTildelingArgs) => {
             if (TildelingMock.harTildeling(oppgaveId)) {
