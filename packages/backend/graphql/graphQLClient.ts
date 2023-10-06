@@ -3,20 +3,24 @@ import { v4 as uuidv4 } from 'uuid';
 
 import config from '../config';
 import logger from '../logging';
-import { OidcConfig, OnBehalfOf } from '../types';
+import { OidcConfig, OnBehalfOf, SpeilSession } from '../types';
 
 const spesialistBaseUrl = config.server.spesialistBaseUrl;
 
 const baseUrl = process.env.NODE_ENV === 'development' ? 'http://localhost:9001' : `${spesialistBaseUrl}`;
 
 export interface GraphQLClient {
-    postGraphQLQuery: (speilToken: string, data: string) => Promise<request.FullResponse>;
+    postGraphQLQuery: (speilToken: string, session: SpeilSession, data: string) => Promise<request.FullResponse>;
 }
 
 export default (oidcConfig: OidcConfig, onBehalfOf: OnBehalfOf): GraphQLClient => ({
-    postGraphQLQuery: async (speilToken: string, data: string): Promise<request.FullResponse> => {
+    postGraphQLQuery: async (
+        speilToken: string,
+        session: SpeilSession,
+        data: string,
+    ): Promise<request.FullResponse> => {
         const callId = uuidv4();
-        const onBehalfOfToken = await onBehalfOf.hentFor(oidcConfig.clientIDSpesialist, speilToken);
+        const onBehalfOfToken = await onBehalfOf.hentFor(oidcConfig.clientIDSpesialist, session, speilToken);
         const options = {
             uri: `${baseUrl}/graphql`,
             headers: {

@@ -35,11 +35,12 @@ export interface AppConfig {
     server: ServerConfig;
 }
 
-export type OnBehalfOf = { hentFor: (tjenesteId: string, token: string) => Promise<string> };
+export type OnBehalfOf = { hentFor: (tjenesteId: string, session: SpeilSession, token: string) => Promise<string> };
 
 export interface SpeilSession extends Session {
     speilToken: string;
     refreshToken: string;
+    oboToken: string;
     nonce: string;
     state: string;
     user: string;

@@ -1,15 +1,24 @@
+import { TokenSet } from 'openid-client';
 import request from 'request-promise-native';
 
 import { sleep } from '../devHelpers';
 import { Instrumentation } from '../instrumentation';
 import logger from '../logging';
-import { OidcConfig } from '../types';
+import { OidcConfig, SpeilSession } from '../types';
+import authSupport from './authSupport';
 
 export default (config: OidcConfig, instrumentation: Instrumentation) => {
     const counter = instrumentation.onBehalfOfCounter();
 
     return {
-        hentFor: async (targetClientId: string, accessToken: string) => {
+        hentFor: async (targetClientId: string, session: SpeilSession, accessToken: string) => {
+            if (session.oboToken && authSupport.isValidIn({ seconds: 5, token: session.oboToken })) {
+                console.log('Bruker cachet obo token i stedet for å hente nytt');
+                return session.oboToken;
+            }
+
+            console.log('Forsøker å hente nytt obo token');
+
             counter.inc(targetClientId);
 
             const options = {
@@ -26,7 +35,7 @@ export default (config: OidcConfig, instrumentation: Instrumentation) => {
                 },
             };
             let forsøk = 0;
-            let response;
+            let response: TokenSet | undefined;
             while (!response || response.error) {
                 try {
                     response = await request.post(options);
@@ -49,7 +58,8 @@ export default (config: OidcConfig, instrumentation: Instrumentation) => {
                 logger.info(`Brukte ${forsøk} forsøk på å hente token for ${targetClientId}`);
             }
 
-            return response.access_token;
+            session.oboToken = response.access_token!;
+            return response.access_token!;
         },
     };
 };

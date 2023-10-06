@@ -15,6 +15,7 @@ export default ({ spesialistClient }: SetupOptions) => {
         spesialistClient
             .execute({
                 speilToken: req.session!.speilToken,
+                session: req.session,
                 path: `/api/opptegnelse/abonner/${req.params['aktorId']}`,
                 method: HttpMethod.POST,
             })
@@ -34,6 +35,7 @@ export default ({ spesialistClient }: SetupOptions) => {
         spesialistClient
             .execute({
                 speilToken: req.session!.speilToken,
+                session: req.session,
                 path: `api/opptegnelse/hent`,
                 method: HttpMethod.GET,
             })
@@ -49,6 +51,7 @@ export default ({ spesialistClient }: SetupOptions) => {
         spesialistClient
             .execute({
                 speilToken: req.session!.speilToken,
+                session: req.session,
                 path: `/api/opptegnelse/hent/${Number(req.params['sisteSekvensId'])}`,
                 method: HttpMethod.GET,
             })
