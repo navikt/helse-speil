@@ -68,7 +68,6 @@ jobs:
           VAR: "image=${{ needs.build.outputs.image }},team=${{env.TEAM}},app=${{env.APP}}"
 
   deployProd:
-    if: "false"
     name: Deploy to prod
     needs: [build, deployDev]
     runs-on: ubuntu-latest
