@@ -2,16 +2,20 @@ import React from 'react';
 import { MemoryRouter } from 'react-router-dom';
 import { MutableSnapshot, RecoilRoot } from 'recoil';
 
-import { MockedProvider } from '@apollo/client/testing';
+import { MockedProvider, MockedResponse } from '@apollo/client/testing';
 
 interface RecoilProps {
     children?: React.ReactNode;
     initializeState?: (mutableSnapshot: MutableSnapshot) => void;
 }
 
-export const ApolloWrapper: React.FC<RecoilProps> = ({ children, initializeState }) => {
+export type ApolloProps = RecoilProps & {
+    mocks?: MockedResponse[];
+};
+
+export const ApolloWrapper: React.FC<ApolloProps> = ({ children, initializeState, mocks }) => {
     return (
-        <MockedProvider>
+        <MockedProvider mocks={mocks}>
             <RecoilAndRouterWrapper children={children} initializeState={initializeState} />
         </MockedProvider>
     );
