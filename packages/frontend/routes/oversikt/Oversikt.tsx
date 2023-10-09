@@ -4,7 +4,7 @@ import { Alert } from '@navikt/ds-react';
 
 import { Flex } from '@components/Flex';
 import { useLoadingToast } from '@hooks/useLoadingToast';
-import { OppgaverQuery } from '@io/graphql';
+import { OppgaveTilBehandling } from '@io/graphql';
 import { useInnloggetSaksbehandler } from '@state/authentication';
 import { OppgaverResponse, useQueryOppgaver } from '@state/oppgaver';
 import { useResetPerson } from '@state/person';
@@ -22,8 +22,6 @@ import styles from './Oversikt.module.css';
 const BehandletIdagTable = lazy(() =>
     import('./table/BehandletIdagTable.js').then((res) => ({ default: res.BehandletIdagTable })).catch(onLazyLoadFail),
 );
-
-type Oppgaver = OppgaverQuery['oppgaver'];
 
 export const Oversikt = () => {
     const oppgaverResponse = useOppgaverFilteredByTab();
@@ -66,7 +64,7 @@ const useOppgaverFilteredByTab = (): OppgaverResponse => {
     const aktivTab = useAktivTab();
     const oppgaverResponse = useQueryOppgaver();
 
-    const filtrer = (oppgaver: Oppgaver): Oppgaver => {
+    const filtrer = (oppgaver: OppgaveTilBehandling[]): OppgaveTilBehandling[] => {
         switch (aktivTab) {
             case TabType.TilGodkjenning: {
                 return oppgaver;

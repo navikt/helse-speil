@@ -1,13 +1,17 @@
 import dayjs from 'dayjs';
 
 import { ApolloError, useQuery } from '@apollo/client';
-import { FerdigstiltOppgave, FetchBehandledeOppgaverDocument, OppgaverDocument, OppgaverQuery } from '@io/graphql';
+import {
+    FerdigstiltOppgave,
+    FetchBehandledeOppgaverDocument,
+    OppgaveTilBehandling,
+    OppgaverDocument,
+} from '@io/graphql';
 import { ISO_DATOFORMAT } from '@utils/date';
 import { InfoAlert } from '@utils/error';
 
 import { useInnloggetSaksbehandler } from './authentication';
 
-type FetchedOppgaver = OppgaverQuery['oppgaver'];
 export const useQueryBehandledeOppgaver = (): BehandledeOppgaverResponse => {
     const { oid } = useInnloggetSaksbehandler();
     const data = useQuery(FetchBehandledeOppgaverDocument, {
@@ -28,7 +32,7 @@ export interface ApolloResponse<T> {
 }
 
 export interface OppgaverResponse {
-    oppgaver?: FetchedOppgaver;
+    oppgaver?: OppgaveTilBehandling[];
     error?: ApolloError;
     loading: boolean;
 }
@@ -55,12 +59,12 @@ export const useQueryOppgaver = (): OppgaverResponse => {
     };
 };
 
-export const useOppgaver = (): FetchedOppgaver => {
+export const useOppgaver = (): OppgaveTilBehandling[] => {
     const oppgaver = useQuery(OppgaverDocument);
     return oppgaver.data?.oppgaver ?? [];
 };
 
-export const useMineOppgaver = (): FetchedOppgaver => {
+export const useMineOppgaver = (): OppgaveTilBehandling[] => {
     const { oid } = useInnloggetSaksbehandler();
     return useOppgaver().filter(({ tildeling }) => tildeling?.oid === oid);
 };

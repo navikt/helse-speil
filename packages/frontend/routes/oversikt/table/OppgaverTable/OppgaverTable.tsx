@@ -2,7 +2,7 @@ import React from 'react';
 import { useRecoilState } from 'recoil';
 
 import { useIsReadOnlyOppgave } from '@hooks/useIsReadOnlyOppgave';
-import { OppgaveTilBehandling, OppgaverQuery } from '@io/graphql';
+import { OppgaveTilBehandling } from '@io/graphql';
 
 import { TabType, useAktivTab } from '../../tabState';
 import { Pagination } from '../Pagination';
@@ -17,7 +17,7 @@ import { TilGodkjenningTable } from './tilGodkjenning/TilGodkjenningTable';
 import styles from '../table.module.css';
 
 interface OppgaverTableProps {
-    oppgaver: OppgaverQuery['oppgaver'];
+    oppgaver: OppgaveTilBehandling[];
 }
 
 export const OppgaverTable: React.FC<OppgaverTableProps> = React.memo(({ oppgaver }) => {

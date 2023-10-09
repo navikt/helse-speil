@@ -6,7 +6,6 @@ import {
     Kategori,
     Mottaker,
     OppgaveTilBehandling,
-    OppgaverQuery,
     Oppgavetype,
     Periodetype,
 } from '@io/graphql';
@@ -235,7 +234,7 @@ const egenskaperInneholder = (oppgave: OppgaveTilBehandling, egenskaper: Egenska
 const egenskaperMedKategori = (oppgave: OppgaveTilBehandling, medKategori: Kategori) =>
     oppgave.egenskaper.filter(({ kategori }) => kategori === medKategori);
 
-export const filterRows = (activeFilters: Filter<OppgaveTilBehandling>[], oppgaver: OppgaverQuery['oppgaver']) => {
+export const filterRows = (activeFilters: Filter<OppgaveTilBehandling>[], oppgaver: OppgaveTilBehandling[]) => {
     const groupedFilters = groupFiltersByColumn(activeFilters);
 
     return activeFilters.length > 0
