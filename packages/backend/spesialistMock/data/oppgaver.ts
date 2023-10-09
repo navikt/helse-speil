@@ -198,15 +198,17 @@ const tilfeldigeUkategoriserteEgenskaper = () => {
         Math.random() > 0.5
             ? { kategori: Kategori.Ukategorisert, egenskap: Egenskap.Beslutter }
             : { kategori: Kategori.Ukategorisert, egenskap: Egenskap.Retur },
+        Math.random() > 0.5
+            ? { kategori: Kategori.Ukategorisert, egenskap: Egenskap.RiskQa }
+            : { kategori: Kategori.Ukategorisert, egenskap: Egenskap.Stikkprove },
+        Math.random() > 0.5
+            ? { kategori: Kategori.Ukategorisert, egenskap: Egenskap.Vergemal }
+            : { kategori: Kategori.Ukategorisert, egenskap: Egenskap.Fullmakt },
         { kategori: Kategori.Ukategorisert, egenskap: Egenskap.EgenAnsatt },
         { kategori: Kategori.Ukategorisert, egenskap: Egenskap.FortroligAdresse },
-        { kategori: Kategori.Ukategorisert, egenskap: Egenskap.Fullmakt },
         { kategori: Kategori.Ukategorisert, egenskap: Egenskap.Haster },
-        { kategori: Kategori.Ukategorisert, egenskap: Egenskap.RiskQa },
-        { kategori: Kategori.Ukategorisert, egenskap: Egenskap.Spesialsak },
         { kategori: Kategori.Ukategorisert, egenskap: Egenskap.Stikkprove },
         { kategori: Kategori.Ukategorisert, egenskap: Egenskap.Utland },
-        { kategori: Kategori.Ukategorisert, egenskap: Egenskap.Vergemal },
     ];
     const hvorMangeSomFjernes = Math.floor(Math.random() * ukategoriserteEgenskaper.length);
     return foo(ukategoriserteEgenskaper, hvorMangeSomFjernes);
