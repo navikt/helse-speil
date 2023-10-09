@@ -194,31 +194,34 @@ const tilfeldigOppgave = (oppgaveId: number): OppgaveTilBehandling => {
 };
 
 const tilfeldigeUkategoriserteEgenskaper = () => {
-    const ukategoriserteEgenskaper = [
-        Math.random() > 0.5
-            ? { kategori: Kategori.Ukategorisert, egenskap: Egenskap.Beslutter }
-            : { kategori: Kategori.Ukategorisert, egenskap: Egenskap.Retur },
-        Math.random() > 0.5
-            ? { kategori: Kategori.Ukategorisert, egenskap: Egenskap.RiskQa }
-            : { kategori: Kategori.Ukategorisert, egenskap: Egenskap.Stikkprove },
-        Math.random() > 0.5
-            ? { kategori: Kategori.Ukategorisert, egenskap: Egenskap.Vergemal }
-            : { kategori: Kategori.Ukategorisert, egenskap: Egenskap.Fullmakt },
-        { kategori: Kategori.Ukategorisert, egenskap: Egenskap.EgenAnsatt },
-        { kategori: Kategori.Ukategorisert, egenskap: Egenskap.FortroligAdresse },
-        { kategori: Kategori.Ukategorisert, egenskap: Egenskap.Haster },
-        { kategori: Kategori.Ukategorisert, egenskap: Egenskap.Stikkprove },
-        { kategori: Kategori.Ukategorisert, egenskap: Egenskap.Utland },
-    ];
-    const hvorMangeSomFjernes = Math.floor(Math.random() * ukategoriserteEgenskaper.length);
-    return fjernTilfeldigeEgenskaper(ukategoriserteEgenskaper, hvorMangeSomFjernes);
-};
+    let egenskaper: Oppgaveegenskap[] = [];
 
-const fjernTilfeldigeEgenskaper = (oppgaveegenskaper: Oppgaveegenskap[], antallSomSkalFjernes: number) => {
-    for (let i = 0; i < antallSomSkalFjernes; i++) {
-        oppgaveegenskaper.splice(Math.floor(Math.random() * oppgaveegenskaper.length), 1);
-    }
-    return oppgaveegenskaper;
+    if (Math.random() > 0.9)
+        egenskaper.push(
+            Math.random() > 0.2
+                ? { kategori: Kategori.Ukategorisert, egenskap: Egenskap.Beslutter }
+                : { kategori: Kategori.Ukategorisert, egenskap: Egenskap.Retur },
+        );
+    if (Math.random() > 0.85)
+        egenskaper.push(
+            Math.random() > 0.1
+                ? { kategori: Kategori.Ukategorisert, egenskap: Egenskap.RiskQa }
+                : { kategori: Kategori.Ukategorisert, egenskap: Egenskap.Stikkprove },
+        );
+    if (Math.random() > 0.95)
+        egenskaper.push(
+            Math.random() > 0.5
+                ? { kategori: Kategori.Ukategorisert, egenskap: Egenskap.Vergemal }
+                : { kategori: Kategori.Ukategorisert, egenskap: Egenskap.Fullmakt },
+        );
+    if (Math.random() > 0.95) egenskaper.push({ kategori: Kategori.Ukategorisert, egenskap: Egenskap.EgenAnsatt });
+    if (Math.random() > 0.95)
+        egenskaper.push({ kategori: Kategori.Ukategorisert, egenskap: Egenskap.FortroligAdresse });
+    if (Math.random() > 0.8) egenskaper.push({ kategori: Kategori.Ukategorisert, egenskap: Egenskap.Haster });
+    if (Math.random() > 0.9) egenskaper.push({ kategori: Kategori.Ukategorisert, egenskap: Egenskap.Utland });
+    if (Math.random() > 0.97) egenskaper.push({ kategori: Kategori.Ukategorisert, egenskap: Egenskap.Spesialsak });
+
+    return egenskaper;
 };
 
 const tilfeldigDato = () => {
