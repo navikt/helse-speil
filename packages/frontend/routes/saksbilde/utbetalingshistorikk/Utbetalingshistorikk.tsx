@@ -5,9 +5,10 @@ import { useNavigate } from 'react-router-dom';
 import { Close } from '@navikt/ds-icons';
 import { Button } from '@navikt/ds-react';
 
+import { useQuery } from '@apollo/client';
 import { ErrorBoundary } from '@components/ErrorBoundary';
 import { useIsReadOnlyOppgave } from '@hooks/useIsReadOnlyOppgave';
-import { Arbeidsgiveroppdrag, Oppdrag, Spennoppdrag } from '@io/graphql';
+import { Arbeidsgiveroppdrag, HentOppdragDocument, Oppdrag, Spennoppdrag } from '@io/graphql';
 import { useCurrentArbeidsgiver } from '@state/arbeidsgiver';
 import { useActivePeriod } from '@state/periode';
 import { useCurrentPerson } from '@state/person';
@@ -15,7 +16,6 @@ import { useCurrentPerson } from '@state/person';
 import { Annulleringsmodal } from '../annullering/Annulleringsmodal';
 import { useKanAnnulleres } from '../annullering/useKanAnnulleres';
 import { UtbetalingshistorikkRow } from './UtbetalingshistorikkRow';
-import { useOppdrag } from './state';
 
 const Container = styled.div`
     grid-column-start: venstremeny;
@@ -64,8 +64,8 @@ const UtbetalingshistorikkWithContent: React.FC<UtbetalingshistorikkWithContentP
     aktørId,
 }) => {
     const navigate = useNavigate();
-    const oppdrag = useOppdrag(fødselsnummer);
-    const kanAnnulleres = useKanAnnulleres(oppdrag);
+    const { data } = useQuery(HentOppdragDocument, { variables: { fnr: fødselsnummer } });
+    const kanAnnulleres = useKanAnnulleres(data?.oppdrag ?? []);
     const [tilAnnullering, setTilAnnullering] = useState<Spennoppdrag | undefined>();
     const [varseltekst, setVarseltekst] = useState<string | undefined>();
     const [annulleringerInFlight, setAnnulleringerInFlight] = useState<Array<string>>([]);
@@ -108,7 +108,7 @@ const UtbetalingshistorikkWithContent: React.FC<UtbetalingshistorikkWithContentP
                     </tr>
                 </thead>
                 <tbody>
-                    {oppdrag.map((oppdrag, i) => (
+                    {data?.oppdrag.map((oppdrag, i) => (
                         <React.Fragment key={i}>
                             {oppdrag.personoppdrag && (
                                 <UtbetalingshistorikkRow
