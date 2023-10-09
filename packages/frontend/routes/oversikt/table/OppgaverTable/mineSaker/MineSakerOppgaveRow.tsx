@@ -21,7 +21,7 @@ interface MineSakerOppgaveRowProps {
 
 export const MineSakerOppgaveRow = ({ oppgave }: MineSakerOppgaveRowProps) => (
     <LinkRow aktørId={oppgave.aktorId}>
-        <PeriodetypeCell type={oppgave.periodetype} />
+        <PeriodetypeCell periodetype={oppgave.periodetype} />
         <OppgavetypeCell oppgavetype={oppgave.oppgavetype} />
         <MottakerCell mottaker={oppgave.mottaker} />
         <EgenskaperCell egenskaper={oppgave.egenskaper} />

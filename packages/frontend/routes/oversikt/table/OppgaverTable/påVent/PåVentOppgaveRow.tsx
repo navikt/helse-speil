@@ -21,7 +21,7 @@ interface PåVentOppgaveRowProps {
 
 export const PåVentOppgaveRow = ({ oppgave }: PåVentOppgaveRowProps) => (
     <LinkRow aktørId={oppgave.aktorId}>
-        <PeriodetypeCell type={oppgave.periodetype ?? Periodetype.Forstegangsbehandling} />
+        <PeriodetypeCell periodetype={oppgave.periodetype ?? Periodetype.Forstegangsbehandling} />
         <OppgavetypeCell oppgavetype={oppgave.oppgavetype} />
         <MottakerCell mottaker={oppgave.mottaker} />
         <EgenskaperCell egenskaper={oppgave.egenskaper} />

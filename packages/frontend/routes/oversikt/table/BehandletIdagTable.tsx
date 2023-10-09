@@ -70,7 +70,7 @@ export const BehandletIdagTable = () => {
                             {paginatedRows?.map((oppgave) => (
                                 <LinkRow aktørId={oppgave.aktorId} key={oppgave.id}>
                                     <BehandletAvCell name={oppgave.ferdigstiltAv} />
-                                    <PeriodetypeCell type={oppgave.periodetype} />
+                                    <PeriodetypeCell periodetype={oppgave.periodetype} />
                                     <OppgavetypeCell oppgavetype={oppgave.type} />
                                     <InntektskildeCell
                                         antallArbeidsforhold={tilAntallArbeidsforhold(oppgave.inntektstype)}

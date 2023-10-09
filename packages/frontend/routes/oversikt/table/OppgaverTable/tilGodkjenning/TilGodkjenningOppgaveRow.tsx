@@ -23,7 +23,7 @@ interface TilGodkjenningOppgaveRowProps {
 export const TilGodkjenningOppgaveRow = ({ oppgave, readOnly }: TilGodkjenningOppgaveRowProps) => (
     <LinkRow aktørId={oppgave.aktorId}>
         <TildelingCell oppgave={oppgave} kanTildeles={!readOnly} />
-        <PeriodetypeCell type={oppgave.periodetype} />
+        <PeriodetypeCell periodetype={oppgave.periodetype} />
         <OppgavetypeCell oppgavetype={oppgave.oppgavetype} />
         <MottakerCell mottaker={oppgave.mottaker} />
         <EgenskaperCell egenskaper={oppgave.egenskaper} />

@@ -20,15 +20,15 @@ const getLabel = (type: Periodetype) => {
 };
 
 interface PeriodetypeCellProps {
-    type: Periodetype;
+    periodetype: Periodetype;
 }
 
-export const PeriodetypeCell = ({ type }: PeriodetypeCellProps) => {
+export const PeriodetypeCell = ({ periodetype }: PeriodetypeCellProps) => {
     return (
         <Table.DataCell align="center">
             <span className={styles.flexCell}>
-                <Oppgaveetikett type={type} />
-                {getLabel(type)}
+                <Oppgaveetikett type={periodetype} />
+                {getLabel(periodetype)}
             </span>
         </Table.DataCell>
     );
