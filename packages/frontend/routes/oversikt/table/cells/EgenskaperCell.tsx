@@ -41,6 +41,7 @@ const getLabel = (egenskaper: Oppgaveegenskap[]) =>
     egenskaper
         .filter(({ kategori }) => kategori === Kategori.Ukategorisert)
         .map(({ egenskap }) => tilTekst(egenskap))
+        .sort()
         .join(', ');
 
 export const EgenskaperCell = ({ egenskaper }: EgenskaperCellProps) => {

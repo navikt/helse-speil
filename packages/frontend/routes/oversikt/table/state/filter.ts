@@ -77,28 +77,6 @@ export const defaultFilters: Filter<OppgaveTilBehandling>[] = [
         column: 2,
     },
     {
-        key: 'STIKKPRØVER',
-        label: 'Stikkprøve',
-        active: false,
-        function: (oppgave: OppgaveTilBehandling) => egenskaperInneholder(oppgave, [Egenskap.Stikkprove]),
-        column: 2,
-    },
-    {
-        key: 'RISK_QA',
-        label: 'Risk QA',
-        active: false,
-        function: (oppgave: OppgaveTilBehandling) => egenskaperInneholder(oppgave, [Egenskap.RiskQa]),
-        column: 2,
-    },
-
-    {
-        key: 'FORTROLIG_ADR',
-        label: 'Fortrolig adresse',
-        active: false,
-        function: (oppgave: OppgaveTilBehandling) => egenskaperInneholder(oppgave, [Egenskap.FortroligAdresse]),
-        column: 2,
-    },
-    {
         key: 'SYKMELDT_MOTTAKER',
         label: 'Sykmeldt',
         active: false,
@@ -173,6 +151,28 @@ export const defaultFilters: Filter<OppgaveTilBehandling>[] = [
         label: 'Fullmakt',
         active: false,
         function: (oppgave: OppgaveTilBehandling) => egenskaperInneholder(oppgave, [Egenskap.Fullmakt]),
+        column: 4,
+    },
+    {
+        key: 'STIKKPRØVER',
+        label: 'Stikkprøve',
+        active: false,
+        function: (oppgave: OppgaveTilBehandling) => egenskaperInneholder(oppgave, [Egenskap.Stikkprove]),
+        column: 4,
+    },
+    {
+        key: 'RISK_QA',
+        label: 'Risk QA',
+        active: false,
+        function: (oppgave: OppgaveTilBehandling) => egenskaperInneholder(oppgave, [Egenskap.RiskQa]),
+        column: 4,
+    },
+
+    {
+        key: 'FORTROLIG_ADR',
+        label: 'Fortrolig adresse',
+        active: false,
+        function: (oppgave: OppgaveTilBehandling) => egenskaperInneholder(oppgave, [Egenskap.FortroligAdresse]),
         column: 4,
     },
     {
