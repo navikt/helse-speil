@@ -5,11 +5,11 @@ import { Table } from '@navikt/ds-react';
 import { OppgaveTilBehandling } from '@io/graphql';
 
 import { FilterButton } from '../FilterButton';
-import { Filter } from '../state/filter';
+import { Filter, Oppgaveoversiktkolonne } from '../state/filter';
 
 interface FilterHeaderProps {
     filters: Filter<OppgaveTilBehandling>[];
-    column: number;
+    column: Oppgaveoversiktkolonne;
     text: string;
 }
 

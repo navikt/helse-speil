@@ -19,8 +19,17 @@ export type Filter<T> = {
     label: string;
     function: (value: T) => boolean;
     active: boolean;
-    column: number;
+    column: Oppgaveoversiktkolonne;
 };
+
+export enum Oppgaveoversiktkolonne {
+    TILDELING = 'TILDELING',
+    PERIODETYPE = 'PERIODETYPE',
+    OPPGAVETYPE = 'OPPGAVETYPE',
+    MOTTAKER = 'MOTTAKER',
+    EGENSKAPER = 'EGENSKAPER',
+    ANTALLARBEIDSFORHOLD = 'ANTALLARBEIDSFORHOLD',
+}
 
 type ActiveFiltersPerTab = {
     [key in TabType]: Filter<OppgaveTilBehandling>[];
@@ -32,140 +41,140 @@ export const defaultFilters: Filter<OppgaveTilBehandling>[] = [
         label: 'Ufordelte saker',
         active: false,
         function: (oppgave: OppgaveTilBehandling) => !oppgave.tildeling,
-        column: 0,
+        column: Oppgaveoversiktkolonne.TILDELING,
     },
     {
         key: 'TILDELTE_SAKER',
         label: 'Tildelte saker',
         active: false,
         function: (oppgave: OppgaveTilBehandling) => !!oppgave.tildeling,
-        column: 0,
+        column: Oppgaveoversiktkolonne.TILDELING,
     },
     {
         key: 'FØRSTEGANG',
         label: 'Førstegangsbehandling',
         active: false,
         function: (oppgave: OppgaveTilBehandling) => oppgave.periodetype === Periodetype.Forstegangsbehandling,
-        column: 1,
+        column: Oppgaveoversiktkolonne.PERIODETYPE,
     },
     {
         key: 'FORLENGELSE',
         label: 'Forlengelse',
         active: false,
         function: (oppgave: OppgaveTilBehandling) => oppgave.periodetype === Periodetype.Forlengelse,
-        column: 1,
+        column: Oppgaveoversiktkolonne.PERIODETYPE,
     },
     {
         key: 'FORLENGELSE_IT',
         label: 'Forlengelse - IT',
         active: false,
         function: (oppgave: OppgaveTilBehandling) => oppgave.periodetype === Periodetype.Infotrygdforlengelse,
-        column: 1,
+        column: Oppgaveoversiktkolonne.PERIODETYPE,
     },
     {
         key: 'SØKNAD',
         label: 'Søknad',
         active: false,
         function: (oppgave: OppgaveTilBehandling) => oppgave.oppgavetype === Oppgavetype.Soknad,
-        column: 2,
+        column: Oppgaveoversiktkolonne.OPPGAVETYPE,
     },
     {
         key: 'REVURDERING',
         label: 'Revurdering',
         active: false,
         function: (oppgave: OppgaveTilBehandling) => oppgave.oppgavetype === Oppgavetype.Revurdering,
-        column: 2,
+        column: Oppgaveoversiktkolonne.OPPGAVETYPE,
     },
     {
         key: 'SYKMELDT_MOTTAKER',
         label: 'Sykmeldt',
         active: false,
         function: (oppgave: OppgaveTilBehandling) => oppgave.mottaker === Mottaker.Sykmeldt,
-        column: 3,
+        column: Oppgaveoversiktkolonne.MOTTAKER,
     },
     {
         key: 'ARBEIDSGIVER_MOTTAKER',
         label: 'Arbeidsgiver',
         active: false,
         function: (oppgave: OppgaveTilBehandling) => oppgave.mottaker === Mottaker.Arbeidsgiver,
-        column: 3,
+        column: Oppgaveoversiktkolonne.MOTTAKER,
     },
     {
         key: 'BEGGE_MOTTAKER',
         label: 'Begge',
         active: false,
         function: (oppgave: OppgaveTilBehandling) => oppgave.mottaker === Mottaker.Begge,
-        column: 3,
+        column: Oppgaveoversiktkolonne.MOTTAKER,
     },
     {
         key: 'INGEN_MOTTAKER',
         label: 'Ingen mottaker',
         active: false,
         function: (oppgave: OppgaveTilBehandling) => oppgave.mottaker === Mottaker.Ingen,
-        column: 3,
+        column: Oppgaveoversiktkolonne.MOTTAKER,
     },
     {
         key: 'BESLUTTER',
         label: 'Beslutter',
         active: false,
         function: (oppgave: OppgaveTilBehandling) => egenskaperInneholder(oppgave, [Egenskap.Beslutter]),
-        column: 4,
+        column: Oppgaveoversiktkolonne.EGENSKAPER,
     },
     {
         key: 'RETUR',
         label: 'Retur',
         active: false,
         function: (oppgave: OppgaveTilBehandling) => egenskaperInneholder(oppgave, [Egenskap.Retur]),
-        column: 4,
+        column: Oppgaveoversiktkolonne.EGENSKAPER,
     },
     {
         key: 'HASTER',
         label: 'Haster',
         active: false,
         function: (oppgave: OppgaveTilBehandling) => egenskaperInneholder(oppgave, [Egenskap.Haster]),
-        column: 4,
+        column: Oppgaveoversiktkolonne.EGENSKAPER,
     },
     {
         key: 'VERGEMÅL',
         label: 'Vergemål',
         active: false,
         function: (oppgave: OppgaveTilBehandling) => egenskaperInneholder(oppgave, [Egenskap.Vergemal]),
-        column: 4,
+        column: Oppgaveoversiktkolonne.EGENSKAPER,
     },
     {
         key: 'UTLAND',
         label: 'Utland',
         active: false,
         function: (oppgave: OppgaveTilBehandling) => egenskaperInneholder(oppgave, [Egenskap.Utland]),
-        column: 4,
+        column: Oppgaveoversiktkolonne.EGENSKAPER,
     },
     {
         key: 'EGEN_ANSATT',
         label: 'Egen ansatt',
         active: false,
         function: (oppgave: OppgaveTilBehandling) => egenskaperInneholder(oppgave, [Egenskap.EgenAnsatt]),
-        column: 4,
+        column: Oppgaveoversiktkolonne.EGENSKAPER,
     },
     {
         key: 'FULLMAKT',
         label: 'Fullmakt',
         active: false,
         function: (oppgave: OppgaveTilBehandling) => egenskaperInneholder(oppgave, [Egenskap.Fullmakt]),
-        column: 4,
+        column: Oppgaveoversiktkolonne.EGENSKAPER,
     },
     {
         key: 'STIKKPRØVER',
         label: 'Stikkprøve',
         active: false,
         function: (oppgave: OppgaveTilBehandling) => egenskaperInneholder(oppgave, [Egenskap.Stikkprove]),
-        column: 4,
+        column: Oppgaveoversiktkolonne.EGENSKAPER,
     },
     {
         key: 'RISK_QA',
         label: 'Risk QA',
         active: false,
         function: (oppgave: OppgaveTilBehandling) => egenskaperInneholder(oppgave, [Egenskap.RiskQa]),
-        column: 4,
+        column: Oppgaveoversiktkolonne.EGENSKAPER,
     },
 
     {
@@ -173,14 +182,14 @@ export const defaultFilters: Filter<OppgaveTilBehandling>[] = [
         label: 'Fortrolig adresse',
         active: false,
         function: (oppgave: OppgaveTilBehandling) => egenskaperInneholder(oppgave, [Egenskap.FortroligAdresse]),
-        column: 4,
+        column: Oppgaveoversiktkolonne.EGENSKAPER,
     },
     {
         key: 'NØTTESAK',
         label: '🌰',
         active: false,
         function: (oppgave: OppgaveTilBehandling) => egenskaperInneholder(oppgave, [Egenskap.Spesialsak]),
-        column: 4,
+        column: Oppgaveoversiktkolonne.EGENSKAPER,
     },
     {
         key: 'INGEN_EGENSKAPER',
@@ -188,7 +197,7 @@ export const defaultFilters: Filter<OppgaveTilBehandling>[] = [
         active: false,
         function: (oppgave: OppgaveTilBehandling) =>
             egenskaperMedKategori(oppgave, Kategori.Ukategorisert).length === 0,
-        column: 4,
+        column: Oppgaveoversiktkolonne.EGENSKAPER,
     },
     {
         key: 'EN_ARBEIDSGIVER',
@@ -196,7 +205,7 @@ export const defaultFilters: Filter<OppgaveTilBehandling>[] = [
         active: false,
         function: (oppgave: OppgaveTilBehandling) =>
             oppgave.antallArbeidsforhold === AntallArbeidsforhold.EtArbeidsforhold,
-        column: 5,
+        column: Oppgaveoversiktkolonne.ANTALLARBEIDSFORHOLD,
     },
     {
         key: 'FLERE_ARBEIDSGIVERE',
@@ -204,20 +213,20 @@ export const defaultFilters: Filter<OppgaveTilBehandling>[] = [
         active: false,
         function: (oppgave: OppgaveTilBehandling) =>
             oppgave.antallArbeidsforhold === AntallArbeidsforhold.FlereArbeidsforhold,
-        column: 5,
+        column: Oppgaveoversiktkolonne.ANTALLARBEIDSFORHOLD,
     },
 ].filter((filter) => filter.label !== '🌰' || harSpesialsaktilgang);
 
-const groupFiltersByColumn = (filters: Filter<OppgaveTilBehandling>[]): Filter<OppgaveTilBehandling>[][] => {
+const groupFiltersByColumn = (filters: Filter<OppgaveTilBehandling>[]) => {
     const groups = filters.reduce(
         (groups: { [key: string]: Filter<OppgaveTilBehandling>[] }, filter: Filter<OppgaveTilBehandling>) => {
-            const key = `${filter.column}`;
+            const key = filter.column;
             return groups[key] ? { ...groups, [key]: [...groups[key], filter] } : { ...groups, [key]: [filter] };
         },
         {},
     );
 
-    return Object.values(groups);
+    return Object.entries(groups);
 };
 
 const egenskaperInneholder = (oppgave: OppgaveTilBehandling, egenskaper: Egenskap[]) =>
@@ -231,7 +240,11 @@ export const filterRows = (activeFilters: Filter<OppgaveTilBehandling>[], oppgav
 
     return activeFilters.length > 0
         ? (oppgaver.filter((oppgave) =>
-              groupedFilters.every((it) => it.some((it) => it.function(oppgave as OppgaveTilBehandling))),
+              groupedFilters.every(([key, value]) => {
+                  if (key === Oppgaveoversiktkolonne.EGENSKAPER)
+                      return value.every((it) => it.function(oppgave as OppgaveTilBehandling));
+                  return value.some((it) => it.function(oppgave as OppgaveTilBehandling));
+              }),
           ) as Array<OppgaveTilBehandling>)
         : (oppgaver as Array<OppgaveTilBehandling>);
 };

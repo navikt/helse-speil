@@ -49,7 +49,7 @@ export const oppgaver: Array<OppgaveTilBehandling> = [
             mellomnavn: null,
             etternavn: 'JAKKE',
         },
-        oppgavetype: Oppgavetype.UtbetalingTilSykmeldt,
+        oppgavetype: Oppgavetype.Soknad,
         periodetype: Periodetype.Forstegangsbehandling,
         antallArbeidsforhold: AntallArbeidsforhold.EtArbeidsforhold,
         mottaker: Mottaker.Sykmeldt,

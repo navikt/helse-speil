@@ -4,7 +4,7 @@ import { Table } from '@navikt/ds-react';
 
 import { OppgaveTilBehandling } from '@io/graphql';
 
-import { Filter } from '../../state/filter';
+import { Filter, Oppgaveoversiktkolonne } from '../../state/filter';
 import { FilterHeader } from '../FilterHeader';
 
 import styles from '../../table.module.css';
@@ -15,11 +15,11 @@ interface TilGodkjenningDropdownHeaderProps {
 
 export const TilGodkjenningDropdownHeaderRow = ({ filters }: TilGodkjenningDropdownHeaderProps) => (
     <Table.Row className={styles.DropdownHeader}>
-        <FilterHeader filters={filters} column={0} text="Tildelt" />
-        <FilterHeader filters={filters} column={1} text="Periodetype" />
-        <FilterHeader filters={filters} column={2} text="Oppgavetype" />
-        <FilterHeader filters={filters} column={3} text="Mottaker" />
-        <FilterHeader filters={filters} column={4} text="Egenskaper" />
-        <FilterHeader filters={filters} column={5} text="Inntektskilde" />
+        <FilterHeader filters={filters} column={Oppgaveoversiktkolonne.TILDELING} text="Tildelt" />
+        <FilterHeader filters={filters} column={Oppgaveoversiktkolonne.PERIODETYPE} text="Periodetype" />
+        <FilterHeader filters={filters} column={Oppgaveoversiktkolonne.OPPGAVETYPE} text="Oppgavetype" />
+        <FilterHeader filters={filters} column={Oppgaveoversiktkolonne.MOTTAKER} text="Mottaker" />
+        <FilterHeader filters={filters} column={Oppgaveoversiktkolonne.EGENSKAPER} text="Egenskaper" />
+        <FilterHeader filters={filters} column={Oppgaveoversiktkolonne.ANTALLARBEIDSFORHOLD} text="Inntektskilde" />
     </Table.Row>
 );
