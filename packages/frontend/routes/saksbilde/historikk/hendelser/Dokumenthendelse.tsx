@@ -2,7 +2,9 @@ import React from 'react';
 
 import { Kilde } from '@components/Kilde';
 import { Kildetype } from '@io/graphql';
+import { skalViseDokumenter } from '@utils/featureToggles';
 
+import { ExpandableHistorikkContent } from './ExpandableHistorikkContent';
 import { Hendelse } from './Hendelse';
 import { HendelseDate } from './HendelseDate';
 
@@ -36,12 +38,17 @@ const getKildetekst = (dokumenttype: DokumenthendelseObject['dokumenttype']): st
 
 type DokumenthendelseProps = Omit<DokumenthendelseObject, 'type' | 'id'>;
 
-export const Dokumenthendelse: React.FC<DokumenthendelseProps> = ({ dokumenttype, timestamp }) => {
+export const Dokumenthendelse: React.FC<DokumenthendelseProps> = ({ dokumenttype, timestamp, dokumentId }) => {
     return (
         <Hendelse
             title={`${dokumenttype} mottatt`}
             icon={<Kilde type={getKildetype(dokumenttype)}>{getKildetekst(dokumenttype)}</Kilde>}
         >
+            {skalViseDokumenter && dokumenttype === 'Søknad' && (
+                <ExpandableHistorikkContent>
+                    <p>Her kan du se søknaden som ble sendt inn: {dokumentId}.</p>
+                </ExpandableHistorikkContent>
+            )}
             <HendelseDate timestamp={timestamp} />
         </Hendelse>
     );

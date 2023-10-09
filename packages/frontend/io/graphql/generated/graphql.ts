@@ -2251,6 +2251,7 @@ export type FetchPersonQuery = {
                                     __typename?: 'Inntektsmelding';
                                     beregnetInntekt: number;
                                     mottattDato: string;
+                                    eksternDokumentId?: string | null;
                                     id: string;
                                     type: Hendelsetype;
                                 }
@@ -2260,6 +2261,7 @@ export type FetchPersonQuery = {
                                     tom: string;
                                     rapportertDato: string;
                                     sendtArbeidsgiver: string;
+                                    eksternDokumentId?: string | null;
                                     id: string;
                                     type: Hendelsetype;
                                 }
@@ -2269,6 +2271,7 @@ export type FetchPersonQuery = {
                                     tom: string;
                                     rapportertDato: string;
                                     sendtNav: string;
+                                    eksternDokumentId?: string | null;
                                     id: string;
                                     type: Hendelsetype;
                                 }
@@ -2354,6 +2357,7 @@ export type FetchPersonQuery = {
                                     __typename?: 'Inntektsmelding';
                                     beregnetInntekt: number;
                                     mottattDato: string;
+                                    eksternDokumentId?: string | null;
                                     id: string;
                                     type: Hendelsetype;
                                 }
@@ -2363,6 +2367,7 @@ export type FetchPersonQuery = {
                                     tom: string;
                                     rapportertDato: string;
                                     sendtArbeidsgiver: string;
+                                    eksternDokumentId?: string | null;
                                     id: string;
                                     type: Hendelsetype;
                                 }
@@ -2372,6 +2377,7 @@ export type FetchPersonQuery = {
                                     tom: string;
                                     rapportertDato: string;
                                     sendtNav: string;
+                                    eksternDokumentId?: string | null;
                                     id: string;
                                     type: Hendelsetype;
                                 }
@@ -2458,6 +2464,7 @@ export type FetchPersonQuery = {
                                     __typename?: 'Inntektsmelding';
                                     beregnetInntekt: number;
                                     mottattDato: string;
+                                    eksternDokumentId?: string | null;
                                     id: string;
                                     type: Hendelsetype;
                                 }
@@ -2467,6 +2474,7 @@ export type FetchPersonQuery = {
                                     tom: string;
                                     rapportertDato: string;
                                     sendtArbeidsgiver: string;
+                                    eksternDokumentId?: string | null;
                                     id: string;
                                     type: Hendelsetype;
                                 }
@@ -2476,6 +2484,7 @@ export type FetchPersonQuery = {
                                     tom: string;
                                     rapportertDato: string;
                                     sendtNav: string;
+                                    eksternDokumentId?: string | null;
                                     id: string;
                                     type: Hendelsetype;
                                 }
@@ -4473,6 +4482,13 @@ export const FetchPersonDocument = {
                                                                                                     value: 'mottattDato',
                                                                                                 },
                                                                                             },
+                                                                                            {
+                                                                                                kind: 'Field',
+                                                                                                name: {
+                                                                                                    kind: 'Name',
+                                                                                                    value: 'eksternDokumentId',
+                                                                                                },
+                                                                                            },
                                                                                         ],
                                                                                     },
                                                                                 },
@@ -4552,6 +4568,13 @@ export const FetchPersonDocument = {
                                                                                                     value: 'sendtNav',
                                                                                                 },
                                                                                             },
+                                                                                            {
+                                                                                                kind: 'Field',
+                                                                                                name: {
+                                                                                                    kind: 'Name',
+                                                                                                    value: 'eksternDokumentId',
+                                                                                                },
+                                                                                            },
                                                                                         ],
                                                                                     },
                                                                                 },
@@ -4593,6 +4616,13 @@ export const FetchPersonDocument = {
                                                                                                 name: {
                                                                                                     kind: 'Name',
                                                                                                     value: 'sendtArbeidsgiver',
+                                                                                                },
+                                                                                            },
+                                                                                            {
+                                                                                                kind: 'Field',
+                                                                                                name: {
+                                                                                                    kind: 'Name',
+                                                                                                    value: 'eksternDokumentId',
                                                                                                 },
                                                                                             },
                                                                                         ],

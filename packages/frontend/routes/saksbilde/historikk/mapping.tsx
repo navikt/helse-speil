@@ -61,6 +61,7 @@ export const getDokumenter = (period: Periode | GhostPeriode): Array<HendelseObj
                 type: 'Dokument',
                 dokumenttype: 'Inntektsmelding',
                 timestamp: hendelse.mottattDato,
+                dokumentId: hendelse.eksternDokumentId,
             };
         } else if (isSykmelding(hendelse)) {
             return {
@@ -75,6 +76,7 @@ export const getDokumenter = (period: Periode | GhostPeriode): Array<HendelseObj
                 type: 'Dokument',
                 dokumenttype: 'Søknad',
                 timestamp: hendelse.rapportertDato,
+                dokumentId: hendelse.eksternDokumentId,
             };
         }
     });

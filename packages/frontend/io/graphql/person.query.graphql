@@ -230,6 +230,7 @@ query FetchPerson($fnr: String, $aktorId: String) {
                         ... on Inntektsmelding {
                             beregnetInntekt
                             mottattDato
+                            eksternDokumentId
                         }
                         ... on Sykmelding {
                             fom
@@ -241,12 +242,14 @@ query FetchPerson($fnr: String, $aktorId: String) {
                             tom
                             rapportertDato
                             sendtNav
+                            eksternDokumentId
                         }
                         ... on SoknadArbeidsgiver {
                             fom
                             tom
                             rapportertDato
                             sendtArbeidsgiver
+                            eksternDokumentId
                         }
                     }
                     ... on UberegnetPeriode {

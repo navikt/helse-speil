@@ -76,6 +76,7 @@ declare type DokumenthendelseObject = BaseHendelseObject & {
     type: 'Dokument';
     dokumenttype: 'Inntektsmelding' | 'Sykmelding' | 'Søknad';
     timestamp: DateString;
+    dokumentId?: Maybe<UUIDString>;
 };
 
 declare type NotathendelseObject = BaseHendelseObject & {
