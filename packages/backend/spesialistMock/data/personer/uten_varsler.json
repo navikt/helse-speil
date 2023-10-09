@@ -531,6 +531,10 @@
                                         {
                                             "type": "UTBETALE",
                                             "tillatt": true
+                                        },
+                                        {
+                                            "type": "AVVISE",
+                                            "tillatt": true
                                         }
                                     ],
                                     "hendelser": [

@@ -3,7 +3,6 @@ import { nanoid } from 'nanoid';
 export const getDefaultOppgave = (): Oppgave => ({
     id: nanoid(),
     erPåVent: false,
-    kanAvvises: true,
     totrinnsvurdering: null,
 });
 

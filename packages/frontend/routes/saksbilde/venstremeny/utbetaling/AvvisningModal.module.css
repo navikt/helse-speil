@@ -1,5 +1,6 @@
 .AvvisningModal {
     padding: 1.5rem 1.75rem;
+    min-width: 40rem;
 }
 
 .Buttons {

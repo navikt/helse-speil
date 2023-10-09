@@ -4,8 +4,9 @@ import React, { useContext, useState } from 'react';
 import { Button } from '@navikt/ds-react';
 
 import { useMutation } from '@apollo/client';
+import { ErrorMessage } from '@components/ErrorMessage';
 import { AmplitudeContext } from '@io/amplitude';
-import { TilInfoTrygdDocument } from '@io/graphql';
+import { Handling, Periodehandling, TilInfoTrygdDocument } from '@io/graphql';
 import { useAddToast } from '@state/toasts';
 
 import { AvvisningModal, Avvisningsskjema } from './AvvisningModal';
@@ -29,6 +30,9 @@ interface AvvisningButtonProps extends Omit<React.HTMLAttributes<HTMLButtonEleme
     onSuccess?: () => void;
 }
 
+const finnKanAvvises = ({ handlinger }: FetchedBeregnetPeriode): Handling | null =>
+    handlinger.find((handling) => handling.type === Periodehandling.Avvise) as Handling;
+
 export const AvvisningButton: React.FC<AvvisningButtonProps> = ({
     activePeriod,
     disabled = false,
@@ -38,10 +42,12 @@ export const AvvisningButton: React.FC<AvvisningButtonProps> = ({
     const [showModal, setShowModal] = useState(false);
     const [isSending, setIsSending] = useState(false);
     const [error, setError] = useState<string | null>(null);
+    const [kanIkkeAvvisesMelding, setKanIkkeAvvisesMelding] = useState<string | null>();
     const [sendTilInfotrygdMutation] = useMutation(TilInfoTrygdDocument);
 
     const amplitude = useContext(AmplitudeContext);
     const addInfotrygdtoast = useAddInfotrygdtoast();
+    const kanAvvises = finnKanAvvises(activePeriod);
 
     const closeModal = () => {
         setError(null);
@@ -83,19 +89,27 @@ export const AvvisningButton: React.FC<AvvisningButtonProps> = ({
                 variant="secondary"
                 size="small"
                 data-testid="avvisning-button"
-                onClick={() => setShowModal(true)}
+                onClick={() =>
+                    kanAvvises?.tillatt
+                        ? setShowModal(true)
+                        : setKanIkkeAvvisesMelding('Denne saken er det noe krøll med. Meld saken til support.')
+                }
                 {...buttonProps}
             >
                 Kan ikke behandles her
             </Button>
-            {showModal && (
-                <AvvisningModal
-                    onClose={closeModal}
-                    onApprove={avvisUtbetaling}
-                    isSending={isSending}
-                    activePeriod={activePeriod}
-                    error={error}
-                />
+            {kanIkkeAvvisesMelding ? (
+                <ErrorMessage>{kanIkkeAvvisesMelding}</ErrorMessage>
+            ) : (
+                showModal && (
+                    <AvvisningModal
+                        onClose={closeModal}
+                        onApprove={avvisUtbetaling}
+                        isSending={isSending}
+                        activePeriod={activePeriod}
+                        error={error}
+                    />
+                )
             )}
         </>
     );

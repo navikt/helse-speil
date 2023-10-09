@@ -9,7 +9,6 @@ declare type Oppgave = {
     id: string;
     erPåVent: boolean;
     tildelt?: Maybe<string>;
-    kanAvvises: boolean;
     totrinnsvurdering?: Maybe<Totrinnsvurdering>;
 };
 
