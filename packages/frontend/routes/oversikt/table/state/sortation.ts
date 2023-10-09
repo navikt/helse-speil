@@ -2,7 +2,7 @@ import { atom, selector } from 'recoil';
 
 import { SortState } from '@navikt/ds-react';
 
-import { OppgaveForOversiktsvisning } from '@io/graphql';
+import { OppgaveTilBehandling } from '@io/graphql';
 
 import { TabType, tabState } from '../../tabState';
 
@@ -68,10 +68,7 @@ export const updateSort = (
     setSort(sortState);
 };
 
-export const sortRows = (
-    sort: SortState | undefined,
-    filteredRows: OppgaveForOversiktsvisning[],
-): OppgaveForOversiktsvisning[] => {
+export const sortRows = (sort: SortState | undefined, filteredRows: OppgaveTilBehandling[]): OppgaveTilBehandling[] => {
     if (!sort) return filteredRows;
     switch (sort.orderBy as SortKey) {
         case SortKey.Saksbehandler:
@@ -85,23 +82,21 @@ export const sortRows = (
     }
 };
 
-type OppgaveSortFunctionType = (a: OppgaveForOversiktsvisning, b: OppgaveForOversiktsvisning) => number;
+type OppgaveSortFunctionType = (a: OppgaveTilBehandling, b: OppgaveTilBehandling) => number;
 
 const sortFilteredRows = (
-    filteredRows: OppgaveForOversiktsvisning[],
+    filteredRows: OppgaveTilBehandling[],
     sort: SortState,
     sortFunction: OppgaveSortFunctionType,
-): OppgaveForOversiktsvisning[] =>
+): OppgaveTilBehandling[] =>
     filteredRows.slice().sort((a, b) => (sort.direction === 'ascending' ? sortFunction(a, b) : sortFunction(b, a)));
 
-export const opprettetSortFunction: OppgaveSortFunctionType = (
-    a: OppgaveForOversiktsvisning,
-    b: OppgaveForOversiktsvisning,
-) => new Date(a.opprettet).getTime() - new Date(b.opprettet).getTime();
+export const opprettetSortFunction: OppgaveSortFunctionType = (a: OppgaveTilBehandling, b: OppgaveTilBehandling) =>
+    new Date(a.opprettet).getTime() - new Date(b.opprettet).getTime();
 
 export const saksbehandlerSortFunction: OppgaveSortFunctionType = (
-    a: OppgaveForOversiktsvisning,
-    b: OppgaveForOversiktsvisning,
+    a: OppgaveTilBehandling,
+    b: OppgaveTilBehandling,
 ) => {
     if (!a.tildeling) return 1;
     if (!b.tildeling) return -1;
@@ -110,15 +105,10 @@ export const saksbehandlerSortFunction: OppgaveSortFunctionType = (
     return 0;
 };
 
-export const søknadMottattSortFunction: OppgaveSortFunctionType = (
-    a: OppgaveForOversiktsvisning,
-    b: OppgaveForOversiktsvisning,
-) => new Date(a.opprinneligSoknadsdato).getTime() - new Date(b.opprinneligSoknadsdato).getTime();
+export const søknadMottattSortFunction: OppgaveSortFunctionType = (a: OppgaveTilBehandling, b: OppgaveTilBehandling) =>
+    new Date(a.opprinneligSoknadsdato).getTime() - new Date(b.opprinneligSoknadsdato).getTime();
 
-export const søkerSortFunction: OppgaveSortFunctionType = (
-    a: OppgaveForOversiktsvisning,
-    b: OppgaveForOversiktsvisning,
-) => {
+export const søkerSortFunction: OppgaveSortFunctionType = (a: OppgaveTilBehandling, b: OppgaveTilBehandling) => {
     if (!a.navn) return 1;
     if (!b.navn) return -1;
     if (a.navn.etternavn > b.navn.etternavn) return 1;

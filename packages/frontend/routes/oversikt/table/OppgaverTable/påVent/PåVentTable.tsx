@@ -1,19 +1,20 @@
-import { PåVentDropdownHeaderRow } from './PåVentDropdownHeaderRow';
-import { PåVentOppgaveRow } from './PåVentOppgaveRow';
-import { PåVentSortHeaderRow } from './PåVentSortHeaderRow';
 import React from 'react';
 
 import { SortState, Table } from '@navikt/ds-react';
 
-import { OppgaveForOversiktsvisning } from '@io/graphql';
+import { OppgaveTilBehandling } from '@io/graphql';
 
 import { Filter } from '../../state/filter';
 import { SortKey, updateSort } from '../../state/sortation';
+import { PåVentDropdownHeaderRow } from './PåVentDropdownHeaderRow';
+import { PåVentOppgaveRow } from './PåVentOppgaveRow';
+import { PåVentSortHeaderRow } from './PåVentSortHeaderRow';
+
 import styles from '../../table.module.css';
 
 interface PåVentTableProps {
-    filters: Filter<OppgaveForOversiktsvisning>[];
-    oppgaver: OppgaveForOversiktsvisning[];
+    filters: Filter<OppgaveTilBehandling>[];
+    oppgaver: OppgaveTilBehandling[];
     sort: SortState | undefined;
     setSort: (state: SortState | undefined) => void;
 }

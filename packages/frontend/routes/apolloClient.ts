@@ -8,7 +8,7 @@ export const client = new ApolloClient({
         dataIdFromObject: () => undefined,
         possibleTypes: possibletypes.possibleTypes,
         typePolicies: {
-            OppgaveForOversiktsvisning: { keyFields: ['id'] },
+            OppgaveTilBehandling: { keyFields: ['id'] },
             Notater: { keyFields: ['id'] },
             Notat: { keyFields: ['id'] },
             Kommentarer: { keyFields: ['id'] },

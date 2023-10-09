@@ -1,8 +1,8 @@
-import { SøkerCell } from './cells/SøkerCell';
 import React from 'react';
 
 import { Table } from '@navikt/ds-react';
 
+import { AntallArbeidsforhold, Inntektstype } from '@io/graphql';
 import { useQueryBehandledeOppgaver } from '@state/oppgaver';
 
 import { IngenOppgaver } from '../IngenOppgaver';
@@ -16,9 +16,19 @@ import { BehandletTimestampCell } from './cells/BehandletTimestampCell';
 import { InntektskildeCell } from './cells/InntektskildeCell';
 import { OppgavetypeCell } from './cells/OppgavetypeCell';
 import { PeriodetypeCell } from './cells/PeriodetypeCell';
+import { SøkerCell } from './cells/SøkerCell';
 import { usePagination } from './state/pagination';
 
 import styles from './table.module.css';
+
+const tilAntallArbeidsforhold = (inntektstype: Inntektstype) => {
+    switch (inntektstype) {
+        case Inntektstype.Enarbeidsgiver:
+            return AntallArbeidsforhold.EtArbeidsforhold;
+        case Inntektstype.Flerearbeidsgivere:
+            return AntallArbeidsforhold.FlereArbeidsforhold;
+    }
+};
 
 export const BehandletIdagTable = () => {
     const oppgaverResponse = useQueryBehandledeOppgaver();
@@ -63,7 +73,7 @@ export const BehandletIdagTable = () => {
                                     <PeriodetypeCell type={oppgave.periodetype} />
                                     <OppgavetypeCell oppgavetype={oppgave.type} />
                                     <InntektskildeCell
-                                        flereArbeidsgivere={oppgave.inntektstype === 'FLEREARBEIDSGIVERE'}
+                                        antallArbeidsforhold={tilAntallArbeidsforhold(oppgave.inntektstype)}
                                     />
                                     <SøkerCell
                                         name={{

@@ -2,13 +2,13 @@ import React from 'react';
 
 import { Table } from '@navikt/ds-react';
 
-import { OppgaveForOversiktsvisning } from '@io/graphql';
+import { OppgaveTilBehandling } from '@io/graphql';
 
 import { FilterButton } from '../FilterButton';
 import { Filter } from '../state/filter';
 
 interface FilterHeaderProps {
-    filters: Filter<OppgaveForOversiktsvisning>[];
+    filters: Filter<OppgaveTilBehandling>[];
     column: number;
     text: string;
 }

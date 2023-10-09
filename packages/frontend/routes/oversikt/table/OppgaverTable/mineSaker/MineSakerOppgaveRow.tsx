@@ -2,7 +2,7 @@ import React from 'react';
 
 import { Table } from '@navikt/ds-react';
 
-import { OppgaveForOversiktsvisning, Periodetype } from '@io/graphql';
+import { OppgaveTilBehandling } from '@io/graphql';
 
 import { LinkRow } from '../../LinkRow';
 import { DatoCell } from '../../cells/DatoCell';
@@ -16,23 +16,16 @@ import { NotatCell } from '../../cells/notat/NotatCell';
 import { OptionsCell } from '../../cells/options/OptionsCell';
 
 interface MineSakerOppgaveRowProps {
-    oppgave: OppgaveForOversiktsvisning;
+    oppgave: OppgaveTilBehandling;
 }
 
 export const MineSakerOppgaveRow = ({ oppgave }: MineSakerOppgaveRowProps) => (
     <LinkRow aktørId={oppgave.aktorId}>
-        <PeriodetypeCell type={oppgave.periodetype ?? Periodetype.Forstegangsbehandling} />
-        <OppgavetypeCell oppgavetype={oppgave.type} />
+        <PeriodetypeCell type={oppgave.periodetype} />
+        <OppgavetypeCell oppgavetype={oppgave.oppgavetype} />
         <MottakerCell mottaker={oppgave.mottaker} />
-        <EgenskaperCell
-            erBeslutter={oppgave.totrinnsvurdering?.erBeslutteroppgave === true}
-            erRetur={oppgave.totrinnsvurdering?.erRetur === true}
-            haster={oppgave.haster ?? false}
-            harVergemål={oppgave.harVergemal ?? false}
-            tilhørerEnhetUtland={oppgave.tilhorerEnhetUtland ?? false}
-            spesialsak={oppgave.spesialsak ?? false}
-        />
-        <InntektskildeCell flereArbeidsgivere={oppgave.flereArbeidsgivere} />
+        <EgenskaperCell egenskaper={oppgave.egenskaper} />
+        <InntektskildeCell antallArbeidsforhold={oppgave.antallArbeidsforhold} />
         <SøkerCell name={oppgave.navn} />
         <DatoCell date={oppgave.opprettet} />
         <DatoCell date={oppgave.opprinneligSoknadsdato ?? oppgave.opprettet} />

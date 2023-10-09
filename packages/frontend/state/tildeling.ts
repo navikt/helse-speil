@@ -55,7 +55,7 @@ export const useOpprettTildeling = (): [
             variables: { oppgaveId: oppgavereferanse },
             update: (cache, result) => {
                 cache.modify({
-                    id: cache.identify({ __typename: 'OppgaveForOversiktsvisning', id: oppgavereferanse }),
+                    id: cache.identify({ __typename: 'OppgaveTilBehandling', id: oppgavereferanse }),
                     fields: {
                         tildeling: () => result.data?.opprettTildeling ?? null,
                     },
@@ -97,7 +97,7 @@ export const useFjernTildeling = (): [
             variables: { oppgaveId: oppgavereferanse },
             update: (cache) => {
                 cache.modify({
-                    id: cache.identify({ __typename: 'OppgaveForOversiktsvisning', id: oppgavereferanse }),
+                    id: cache.identify({ __typename: 'OppgaveTilBehandling', id: oppgavereferanse }),
                     fields: {
                         tildeling: () => null,
                     },
@@ -132,7 +132,7 @@ export const useLeggPåVent = (): ((
             variables: { oppgaveId: oppgavereferanse, notatType: NotatType.PaaVent, notatTekst: notat.tekst },
             update: (cache, result) => {
                 cache.modify({
-                    id: cache.identify({ __typename: 'OppgaveForOversiktsvisning', id: oppgavereferanse }),
+                    id: cache.identify({ __typename: 'OppgaveTilBehandling', id: oppgavereferanse }),
                     fields: {
                         tildeling: () => result.data?.leggPaaVent ?? null,
                     },
@@ -160,7 +160,7 @@ export const useFjernPåVent = (): [
             variables: { oppgaveId: oppgavereferanse },
             update: (cache) => {
                 cache.modify({
-                    id: cache.identify({ __typename: 'OppgaveForOversiktsvisning', id: oppgavereferanse }),
+                    id: cache.identify({ __typename: 'OppgaveTilBehandling', id: oppgavereferanse }),
                     fields: {
                         tildeling: (value) => ({ ...value, paaVent: false, reservert: false }),
                     },

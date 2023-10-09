@@ -2,48 +2,48 @@ import React from 'react';
 
 import { Table } from '@navikt/ds-react';
 
+import { Egenskap, Kategori, Oppgaveegenskap } from '@io/graphql';
+
 interface EgenskaperCellProps {
-    erBeslutter?: boolean;
-    erRetur?: boolean;
-    haster?: boolean;
-    harVergemål?: boolean;
-    tilhørerEnhetUtland?: boolean;
-    spesialsak?: boolean;
+    egenskaper: Oppgaveegenskap[];
 }
 
-const getLabel = (
-    erBeslutter: boolean,
-    erRetur: boolean,
-    haster: boolean,
-    harVergemål: boolean,
-    tilhørerEnhetUtland: boolean,
-    spesialsak: boolean,
-) => {
-    let label = '';
-    if (erBeslutter) label += 'Beslutter';
-    if (erRetur) label += 'Retur';
-    if (haster) label += (label.length > 0 ? ', ' : '') + 'Haster';
-    if (harVergemål) label += (label.length > 0 ? ', ' : '') + 'Vergemål';
-    if (tilhørerEnhetUtland) label += (label.length > 0 ? ', ' : '') + 'Utland';
-    if (spesialsak) label += (label.length > 0 ? ', ' : '') + '🌰';
-    return label;
+const tilTekst = (egenskap: Egenskap) => {
+    switch (egenskap) {
+        case Egenskap.EgenAnsatt:
+            return 'Egen ansatt';
+        case Egenskap.FortroligAdresse:
+            return 'Fortrolig adresse';
+        case Egenskap.Fullmakt:
+            return 'Fullmakt';
+        case Egenskap.Haster:
+            return 'Haster';
+        case Egenskap.Retur:
+            return 'Retur';
+        case Egenskap.RiskQa:
+            return 'Risk QA';
+        case Egenskap.Spesialsak:
+            return '🌰';
+        case Egenskap.Stikkprove:
+            return 'Stikkprøve';
+        case Egenskap.Utland:
+            return 'Utland';
+        case Egenskap.Vergemal:
+            return 'Vergemål';
+        case Egenskap.Beslutter:
+            return 'Beslutter';
+        default:
+            return '';
+    }
 };
 
-export const EgenskaperCell = ({
-    erBeslutter,
-    erRetur,
-    haster,
-    harVergemål,
-    tilhørerEnhetUtland,
-    spesialsak,
-}: EgenskaperCellProps) => {
-    const label = getLabel(
-        erBeslutter ?? false,
-        erRetur ?? false,
-        haster ?? false,
-        harVergemål ?? false,
-        tilhørerEnhetUtland ?? false,
-        spesialsak ?? false,
-    );
+const getLabel = (egenskaper: Oppgaveegenskap[]) =>
+    egenskaper
+        .filter(({ kategori }) => kategori === Kategori.Ukategorisert)
+        .map(({ egenskap }) => tilTekst(egenskap))
+        .join(', ');
+
+export const EgenskaperCell = ({ egenskaper }: EgenskaperCellProps) => {
+    const label = getLabel(egenskaper);
     return <Table.DataCell>{label}</Table.DataCell>;
 };

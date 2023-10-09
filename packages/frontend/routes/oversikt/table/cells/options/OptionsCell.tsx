@@ -1,5 +1,3 @@
-import { FjernFraPåVentMenuButton } from './FjernFraPåVentMenuButton';
-import { LeggPåVentMenuButton } from './LeggPåVentMenuButton';
 import React from 'react';
 
 import { EllipsisH } from '@navikt/ds-icons';
@@ -7,10 +5,12 @@ import { Button, Table } from '@navikt/ds-react';
 import { Dropdown } from '@navikt/ds-react-internal';
 
 import { useIsReadOnlyOppgave } from '@hooks/useIsReadOnlyOppgave';
-import { Maybe, OppgaveForOversiktsvisning, Personnavn } from '@io/graphql';
+import { Maybe, OppgaveTilBehandling, Personnavn } from '@io/graphql';
 import { useInnloggetSaksbehandler } from '@state/authentication';
 import { useKanFrigiOppgaver } from '@state/toggles';
 
+import { FjernFraPåVentMenuButton } from './FjernFraPåVentMenuButton';
+import { LeggPåVentMenuButton } from './LeggPåVentMenuButton';
 import { MeldAvMenuButton } from './MeldAvMenuButton';
 import { TildelMenuButton } from './TildelMenuButton';
 
@@ -21,7 +21,7 @@ const erLike = (a?: Maybe<string>, b?: Maybe<string>): boolean => {
 };
 
 interface OptionsButtonProps {
-    oppgave: OppgaveForOversiktsvisning;
+    oppgave: OppgaveTilBehandling;
     navn: Personnavn;
 }
 

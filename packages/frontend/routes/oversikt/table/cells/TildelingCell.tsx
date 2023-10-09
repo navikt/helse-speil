@@ -2,13 +2,13 @@ import React from 'react';
 
 import { Table } from '@navikt/ds-react';
 
-import { OppgaveForOversiktsvisning } from '@io/graphql';
+import { OppgaveTilBehandling } from '@io/graphql';
 
 import { IkkeTildelt } from './IkkeTildelt';
 import { Tildelt } from './Tildelt';
 
 interface TildelingProps {
-    oppgave: OppgaveForOversiktsvisning;
+    oppgave: OppgaveTilBehandling;
     kanTildeles: boolean;
 }
 

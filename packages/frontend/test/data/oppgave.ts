@@ -1,38 +1,36 @@
 import { nanoid } from 'nanoid';
 
 import {
-    Adressebeskyttelse,
-    Kjonn,
-    OppgaveForOversiktsvisning,
+    AntallArbeidsforhold,
+    Egenskap,
+    Kategori,
+    Mottaker,
     OppgaveForPeriodevisning,
+    OppgaveTilBehandling,
     Oppgavetype,
+    Periodetype,
 } from '@io/graphql';
 
-export const enOppgaveForOversikten: OverridableConstructor<OppgaveForOversiktsvisning> = (overrides) => ({
+export const enOppgaveForOversikten: OverridableConstructor<OppgaveTilBehandling> = (overrides) => ({
     id: nanoid(),
-    opprettet: '2020-01-01',
-    fodselsnummer: '12345678910',
+    vedtaksperiodeId: nanoid(),
     aktorId: 'en-aktør',
-    personinfo: {
-        adressebeskyttelse: Adressebeskyttelse.Ugradert,
-        etternavn: 'Etternavn',
-        fornavn: 'Fornavn',
-        kjonn: Kjonn.Mann,
-    },
+    opprettet: '2020-01-01',
+    opprinneligSoknadsdato: '2020-01-01',
     navn: {
         etternavn: 'Etternavn',
         fornavn: 'Fornavn',
     },
-    boenhet: {
-        id: '1234',
-        navn: 'Et sted',
-    },
-    flereArbeidsgivere: false,
-    type: Oppgavetype.Soknad,
-    opprinneligSoknadsdato: '2020-01-01',
-    vedtaksperiodeId: nanoid(),
-    totrinnsvurdering: null,
-    spesialsak: false,
+    antallArbeidsforhold: AntallArbeidsforhold.EtArbeidsforhold,
+    oppgavetype: Oppgavetype.Soknad,
+    periodetype: Periodetype.Forstegangsbehandling,
+    mottaker: Mottaker.Arbeidsgiver,
+    egenskaper: [
+        { kategori: Kategori.Periodetype, egenskap: Egenskap.Forstegangsbehandling },
+        { kategori: Kategori.Oppgavetype, egenskap: Egenskap.Soknad },
+        { kategori: Kategori.Mottaker, egenskap: Egenskap.UtbetalingTilSykmeldt },
+        { kategori: Kategori.Inntektskilde, egenskap: Egenskap.EnArbeidsgiver },
+    ],
     ...overrides,
 });
 

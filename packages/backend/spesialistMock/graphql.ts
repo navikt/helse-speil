@@ -1,3 +1,4 @@
+import spesialistSchema from '../graphql.schema.json';
 import { Express } from 'express';
 import fs from 'fs';
 import { GraphQLError, GraphQLSchema, IntrospectionQuery, buildClientSchema } from 'graphql';
@@ -8,7 +9,6 @@ import { makeExecutableSchema } from '@graphql-tools/schema';
 import type { IResolvers } from '@graphql-tools/utils';
 
 import { antallTilfeldigeOppgaver } from '../devHelpers';
-import spesialistSchema from '../graphql.schema.json';
 import { behandledeOppgaver } from './data/behandledeOppgaver';
 import { behandlingsstatistikk } from './data/behandlingsstatistikk';
 import { getMockOppdrag } from './data/oppdrag';
@@ -31,7 +31,7 @@ import type {
     MutationSendTilGodkjenningArgs,
     MutationSettVarselstatusArgs,
     MutationSkjonnsfastsettSykepengegrunnlagArgs,
-    OppgaveForOversiktsvisning,
+    OppgaveTilBehandling,
     Person,
 } from './schemaTypes';
 import { NotatType } from './schemaTypes';
@@ -103,7 +103,7 @@ const getResolvers = (): IResolvers => ({
         behandlingsstatistikk: async () => {
             return behandlingsstatistikk;
         },
-        alleOppgaver: async () => {
+        oppgaver: async () => {
             return oppgaver
                 .map((oppgave) => {
                     if (
@@ -116,9 +116,12 @@ const getResolvers = (): IResolvers => ({
                     return {
                         ...oppgave,
                         tildeling: TildelingMock.getTildeling(oppgave.id),
-                    } as OppgaveForOversiktsvisning;
+                    } as OppgaveTilBehandling;
                 })
                 .concat(tilfeldigeOppgaver(antallTilfeldigeOppgaver));
+        },
+        alleOppgaver: async () => {
+            return [];
         },
         notater: async (_, { forPerioder }: { forPerioder: string[] }) => {
             return forPerioder.map((it) => ({

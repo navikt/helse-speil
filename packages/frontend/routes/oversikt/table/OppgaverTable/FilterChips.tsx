@@ -2,14 +2,14 @@ import React from 'react';
 
 import { Chips } from '@navikt/ds-react';
 
-import { OppgaveForOversiktsvisning } from '@io/graphql';
+import { OppgaveTilBehandling } from '@io/graphql';
 
 import { Filter } from '../state/filter';
 
 import styles from './filterChips.module.css';
 
 interface FilterChipsProps {
-    activeFilters: Filter<OppgaveForOversiktsvisning>[];
+    activeFilters: Filter<OppgaveTilBehandling>[];
     toggleFilter: (label: string) => void;
     setMultipleFilters: (value: boolean, ...labels: string[]) => void;
 }

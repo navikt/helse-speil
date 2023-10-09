@@ -3,14 +3,14 @@ import React, { useRef, useState } from 'react';
 import { Collapse, Expand } from '@navikt/ds-icons';
 import { Checkbox, Popover } from '@navikt/ds-react';
 
-import { OppgaveForOversiktsvisning } from '@io/graphql';
+import { OppgaveTilBehandling } from '@io/graphql';
 
 import { Filter, useSetMultipleFilters, useToggleFilter } from './state/filter';
 
 import styles from './FilterButton.module.css';
 
 interface FilterButtonProps extends React.HTMLAttributes<HTMLButtonElement> {
-    filters: Filter<OppgaveForOversiktsvisning>[];
+    filters: Filter<OppgaveTilBehandling>[];
 }
 
 export const FilterButton = ({ children, filters }: FilterButtonProps) => {

@@ -2,14 +2,15 @@ import React from 'react';
 
 import { Table } from '@navikt/ds-react';
 
-import { OppgaveForOversiktsvisning } from '@io/graphql';
+import { OppgaveTilBehandling } from '@io/graphql';
 
 import { Filter } from '../../state/filter';
-import styles from '../../table.module.css';
 import { FilterHeader } from '../FilterHeader';
 
+import styles from '../../table.module.css';
+
 interface MineSakerDropdownHeaderProps {
-    filters: Filter<OppgaveForOversiktsvisning>[];
+    filters: Filter<OppgaveTilBehandling>[];
 }
 
 export const MineSakerDropdownHeaderRow = ({ filters }: MineSakerDropdownHeaderProps) => (

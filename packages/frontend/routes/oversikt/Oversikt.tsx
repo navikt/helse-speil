@@ -4,7 +4,7 @@ import { Alert } from '@navikt/ds-react';
 
 import { Flex } from '@components/Flex';
 import { useLoadingToast } from '@hooks/useLoadingToast';
-import { FetchOppgaverQuery } from '@io/graphql';
+import { OppgaverQuery } from '@io/graphql';
 import { useInnloggetSaksbehandler } from '@state/authentication';
 import { OppgaverResponse, useQueryOppgaver } from '@state/oppgaver';
 import { useResetPerson } from '@state/person';
@@ -23,7 +23,7 @@ const BehandletIdagTable = lazy(() =>
     import('./table/BehandletIdagTable.js').then((res) => ({ default: res.BehandletIdagTable })).catch(onLazyLoadFail),
 );
 
-type Oppgaver = FetchOppgaverQuery['alleOppgaver'];
+type Oppgaver = OppgaverQuery['oppgaver'];
 
 export const Oversikt = () => {
     const oppgaverResponse = useOppgaverFilteredByTab();
@@ -69,12 +69,7 @@ const useOppgaverFilteredByTab = (): OppgaverResponse => {
     const filtrer = (oppgaver: Oppgaver): Oppgaver => {
         switch (aktivTab) {
             case TabType.TilGodkjenning: {
-                return oppgaver.filter((oppgave) =>
-                    // @TODO: kanskje markere saker man har sendt til beslutter på annen måte og vise dem, enn å bare fjerne dem fra lista
-                    oppgave.totrinnsvurdering?.erBeslutteroppgave
-                        ? oppgave.totrinnsvurdering.saksbehandler !== oid
-                        : true,
-                );
+                return oppgaver;
             }
             case TabType.Mine: {
                 return oppgaver.filter(({ tildeling }) => tildeling?.oid === oid && !tildeling?.paaVent);

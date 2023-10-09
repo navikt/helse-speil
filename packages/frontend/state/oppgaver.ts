@@ -1,18 +1,13 @@
 import dayjs from 'dayjs';
 
 import { ApolloError, useQuery } from '@apollo/client';
-import {
-    FerdigstiltOppgave,
-    FetchBehandledeOppgaverDocument,
-    FetchOppgaverDocument,
-    FetchOppgaverQuery,
-} from '@io/graphql';
+import { FerdigstiltOppgave, FetchBehandledeOppgaverDocument, OppgaverDocument, OppgaverQuery } from '@io/graphql';
 import { ISO_DATOFORMAT } from '@utils/date';
 import { InfoAlert } from '@utils/error';
 
 import { useInnloggetSaksbehandler } from './authentication';
 
-type FetchedOppgaver = FetchOppgaverQuery['alleOppgaver'];
+type FetchedOppgaver = OppgaverQuery['oppgaver'];
 export const useQueryBehandledeOppgaver = (): BehandledeOppgaverResponse => {
     const { oid } = useInnloggetSaksbehandler();
     const data = useQuery(FetchBehandledeOppgaverDocument, {
@@ -45,14 +40,14 @@ interface BehandledeOppgaverResponse {
 }
 
 export const useQueryOppgaver = (): OppgaverResponse => {
-    const { data, error, loading } = useQuery(FetchOppgaverDocument, {
+    const { data, error, loading } = useQuery(OppgaverDocument, {
         initialFetchPolicy: 'network-only',
         nextFetchPolicy: 'cache-first',
         onError: () => {
             throw Error('Kunne ikke hente saker. Prøv igjen senere.');
         },
     });
-    const oppgaver = data?.alleOppgaver;
+    const oppgaver = data?.oppgaver;
     return {
         oppgaver: oppgaver,
         error,
@@ -61,8 +56,8 @@ export const useQueryOppgaver = (): OppgaverResponse => {
 };
 
 export const useOppgaver = (): FetchedOppgaver => {
-    const oppgaver = useQuery(FetchOppgaverDocument);
-    return oppgaver.data?.alleOppgaver ?? [];
+    const oppgaver = useQuery(OppgaverDocument);
+    return oppgaver.data?.oppgaver ?? [];
 };
 
 export const useMineOppgaver = (): FetchedOppgaver => {
