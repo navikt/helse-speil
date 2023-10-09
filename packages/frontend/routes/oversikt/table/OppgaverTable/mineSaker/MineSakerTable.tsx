@@ -6,6 +6,7 @@ import { OppgaveTilBehandling } from '@io/graphql';
 
 import { Filter } from '../../state/filter';
 import { SortKey, updateSort } from '../../state/sortation';
+import { IngenMatchendeFiltre } from '../IngenMatchendeFiltre';
 import { MineSakerDropdownHeaderRow } from './MineSakerDropdownHeaderRow';
 import { MineSakerOppgaveRow } from './MineSakerOppgaveRow';
 import { MineSakerSortHeaderRow } from './MineSakerSortHeaderRow';
@@ -32,9 +33,11 @@ export const MineSakerTable = ({ filters, oppgaver, sort, setSort }: MineSakerTa
             <MineSakerSortHeaderRow />
         </Table.Header>
         <Table.Body>
-            {oppgaver.map((oppgave) => (
-                <MineSakerOppgaveRow key={oppgave.id} oppgave={oppgave} />
-            ))}
+            {oppgaver.length > 0 ? (
+                oppgaver.map((oppgave) => <MineSakerOppgaveRow key={oppgave.id} oppgave={oppgave} />)
+            ) : (
+                <IngenMatchendeFiltre />
+            )}
         </Table.Body>
     </Table>
 );

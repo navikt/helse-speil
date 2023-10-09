@@ -6,6 +6,7 @@ import { OppgaveTilBehandling } from '@io/graphql';
 
 import { Filter } from '../../state/filter';
 import { SortKey, updateSort } from '../../state/sortation';
+import { IngenMatchendeFiltre } from '../IngenMatchendeFiltre';
 import { TilGodkjenningDropdownHeaderRow } from './TilGodkjenningDropdownHeaderRow';
 import { TilGodkjenningOppgaveRow } from './TilGodkjenningOppgaveRow';
 import { TilGodkjenningSortHeaderRow } from './TilGodkjenningSortHeaderRow';
@@ -33,9 +34,13 @@ export const TilGodkjenningTable = ({ filters, oppgaver, readOnly, sort, setSort
             <TilGodkjenningSortHeaderRow />
         </Table.Header>
         <Table.Body>
-            {oppgaver.map((oppgave) => (
-                <TilGodkjenningOppgaveRow key={oppgave.id} oppgave={oppgave} readOnly={readOnly} />
-            ))}
+            {oppgaver.length > 0 ? (
+                oppgaver.map((oppgave) => (
+                    <TilGodkjenningOppgaveRow key={oppgave.id} oppgave={oppgave} readOnly={readOnly} />
+                ))
+            ) : (
+                <IngenMatchendeFiltre />
+            )}
         </Table.Body>
     </Table>
 );

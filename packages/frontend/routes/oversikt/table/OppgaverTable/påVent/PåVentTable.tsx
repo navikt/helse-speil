@@ -6,6 +6,7 @@ import { OppgaveTilBehandling } from '@io/graphql';
 
 import { Filter } from '../../state/filter';
 import { SortKey, updateSort } from '../../state/sortation';
+import { IngenMatchendeFiltre } from '../IngenMatchendeFiltre';
 import { PåVentDropdownHeaderRow } from './PåVentDropdownHeaderRow';
 import { PåVentOppgaveRow } from './PåVentOppgaveRow';
 import { PåVentSortHeaderRow } from './PåVentSortHeaderRow';
@@ -32,9 +33,11 @@ export const PåVentTable = ({ filters, oppgaver, sort, setSort }: PåVentTableP
             <PåVentSortHeaderRow />
         </Table.Header>
         <Table.Body>
-            {oppgaver.map((oppgave) => (
-                <PåVentOppgaveRow key={oppgave.id} oppgave={oppgave} />
-            ))}
+            {oppgaver.length > 0 ? (
+                oppgaver.map((oppgave) => <PåVentOppgaveRow key={oppgave.id} oppgave={oppgave} />)
+            ) : (
+                <IngenMatchendeFiltre />
+            )}
         </Table.Body>
     </Table>
 );
