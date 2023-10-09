@@ -364,6 +364,7 @@ export enum Inntektskilde {
 export type Inntektsmelding = Hendelse & {
     __typename?: 'Inntektsmelding';
     beregnetInntekt: Scalars['Float']['output'];
+    eksternDokumentId?: Maybe<Scalars['String']['output']>;
     id: Scalars['String']['output'];
     mottattDato: Scalars['String']['output'];
     type: Hendelsetype;
@@ -651,6 +652,7 @@ export type OppgaveForOversiktsvisning = {
 export type OppgaveForPeriodevisning = {
     __typename?: 'OppgaveForPeriodevisning';
     id: Scalars['String']['output'];
+    kanAvvises: Scalars['Boolean']['output'];
 };
 
 export type OppgaveTilBehandling = {
@@ -794,6 +796,7 @@ export type PeriodeHistorikkElement = {
 };
 
 export enum Periodehandling {
+    Avvise = 'AVVISE',
     Utbetale = 'UTBETALE',
 }
 
@@ -1064,6 +1067,7 @@ export type Soknad = {
 
 export type SoknadArbeidsgiver = Hendelse & {
     __typename?: 'SoknadArbeidsgiver';
+    eksternDokumentId?: Maybe<Scalars['String']['output']>;
     fom: Scalars['String']['output'];
     id: Scalars['String']['output'];
     rapportertDato: Scalars['String']['output'];
@@ -1074,6 +1078,7 @@ export type SoknadArbeidsgiver = Hendelse & {
 
 export type SoknadNav = Hendelse & {
     __typename?: 'SoknadNav';
+    eksternDokumentId?: Maybe<Scalars['String']['output']>;
     fom: Scalars['String']['output'];
     id: Scalars['String']['output'];
     rapportertDato: Scalars['String']['output'];

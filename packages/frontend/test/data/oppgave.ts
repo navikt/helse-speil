@@ -37,5 +37,6 @@ export const enOppgaveForOversikten: OverridableConstructor<OppgaveTilBehandling
 export const enOppgave: OverridableConstructor<OppgaveForPeriodevisning> = (overrides) => ({
     id: nanoid(),
     totrinnsvurdering: null,
+    kanAvvises: true,
     ...overrides,
 });
