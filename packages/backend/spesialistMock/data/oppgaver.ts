@@ -156,7 +156,7 @@ const tilfeldigOppgave = (oppgaveId: number): OppgaveTilBehandling => {
     dato.setDate(dato.getDate() - Math.floor(1 + Math.random() * 31));
     const søknadsDato = dato.toISOString();
 
-    const oppgavetype = Math.random() > 0.7 ? Oppgavetype.Soknad : Oppgavetype.Revurdering;
+    const oppgavetype = Math.random() > 0.2 ? Oppgavetype.Soknad : Oppgavetype.Revurdering;
     const periodetype = tilfeldigElementFraEnum(Periodetype);
     const antallArbeidsforhold = tilfeldigElementFraEnum(AntallArbeidsforhold);
     const mottaker = tilfeldigElementFraEnum(Mottaker);
@@ -211,10 +211,10 @@ const tilfeldigeUkategoriserteEgenskaper = () => {
         { kategori: Kategori.Ukategorisert, egenskap: Egenskap.Utland },
     ];
     const hvorMangeSomFjernes = Math.floor(Math.random() * ukategoriserteEgenskaper.length);
-    return foo(ukategoriserteEgenskaper, hvorMangeSomFjernes);
+    return fjernTilfeldigeEgenskaper(ukategoriserteEgenskaper, hvorMangeSomFjernes);
 };
 
-const foo = (oppgaveegenskaper: Oppgaveegenskap[], antallSomSkalFjernes: number) => {
+const fjernTilfeldigeEgenskaper = (oppgaveegenskaper: Oppgaveegenskap[], antallSomSkalFjernes: number) => {
     for (let i = 0; i < antallSomSkalFjernes; i++) {
         oppgaveegenskaper.splice(Math.floor(Math.random() * oppgaveegenskaper.length), 1);
     }
