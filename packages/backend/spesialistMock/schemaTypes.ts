@@ -881,6 +881,7 @@ export type Query = {
     behandledeOppgaver: Array<FerdigstiltOppgave>;
     behandlingsstatistikk: Behandlingsstatistikk;
     hentOpptegnelser: Array<Opptegnelse>;
+    hentSoknad: Soknad;
     notater: Array<Notater>;
     oppdrag: Array<Oppdrag>;
     oppgaver: Array<OppgaveTilBehandling>;
@@ -895,6 +896,11 @@ export type QueryBehandledeOppgaverArgs = {
 
 export type QueryHentOpptegnelserArgs = {
     sekvensId?: InputMaybe<Scalars['Int']['input']>;
+};
+
+export type QueryHentSoknadArgs = {
+    dokumentId: Scalars['String']['input'];
+    fnr: Scalars['String']['input'];
 };
 
 export type QueryNotaterArgs = {
@@ -1050,6 +1056,12 @@ export enum Skjonnsfastsettingstype {
     RapportertArsinntekt = 'RAPPORTERT_ARSINNTEKT',
 }
 
+export type Soknad = {
+    __typename?: 'Soknad';
+    sendtNav: Scalars['String']['output'];
+    soknadsperioder: Array<Soknadsperiode>;
+};
+
 export type SoknadArbeidsgiver = Hendelse & {
     __typename?: 'SoknadArbeidsgiver';
     fom: Scalars['String']['output'];
@@ -1068,6 +1080,15 @@ export type SoknadNav = Hendelse & {
     sendtNav: Scalars['String']['output'];
     tom: Scalars['String']['output'];
     type: Hendelsetype;
+};
+
+export type Soknadsperiode = {
+    __typename?: 'Soknadsperiode';
+    avtaltTimer?: Maybe<Scalars['Int']['output']>;
+    faktiskGrad?: Maybe<Scalars['Float']['output']>;
+    faktiskTimer?: Maybe<Scalars['Float']['output']>;
+    sykemeldingsgrad?: Maybe<Scalars['Float']['output']>;
+    sykemeldingstype?: Maybe<Scalars['String']['output']>;
 };
 
 export enum Sorteringsnokkel {
