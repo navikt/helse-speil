@@ -1,4 +1,4 @@
-import rawQuery from './fetchPerson.graphql?raw';
+import rawQuery from './person.query.graphql?raw';
 import { gql, request } from 'graphql-request';
 
 import { baseUrl, validFødselsnummer } from './common';
