@@ -50,6 +50,11 @@ export type Antall = {
     tilgjengelig: Scalars['Int']['output'];
 };
 
+export enum AntallArbeidsforhold {
+    EtArbeidsforhold = 'ET_ARBEIDSFORHOLD',
+    FlereArbeidsforhold = 'FLERE_ARBEIDSFORHOLD',
+}
+
 export type Arbeidsforhold = {
     __typename?: 'Arbeidsforhold';
     sluttdato?: Maybe<Scalars['String']['output']>;
@@ -417,6 +422,7 @@ export type LovhjemmelInput = {
 export enum Mottaker {
     Arbeidsgiver = 'ARBEIDSGIVER',
     Begge = 'BEGGE',
+    Ingen = 'INGEN',
     Sykmeldt = 'SYKMELDT',
 }
 
@@ -650,11 +656,15 @@ export type OppgaveForPeriodevisning = {
 export type OppgaveTilBehandling = {
     __typename?: 'OppgaveTilBehandling';
     aktorId: Scalars['String']['output'];
+    antallArbeidsforhold: AntallArbeidsforhold;
     egenskaper: Array<Oppgaveegenskap>;
     id: Scalars['String']['output'];
+    mottaker: Mottaker;
     navn: Personnavn;
+    oppgavetype: Oppgavetype;
     opprettet: Scalars['String']['output'];
     opprinneligSoknadsdato: Scalars['String']['output'];
+    periodetype: Periodetype;
     tildeling?: Maybe<Tildeling>;
     vedtaksperiodeId: Scalars['String']['output'];
 };
@@ -663,6 +673,11 @@ export type Oppgaveegenskap = {
     __typename?: 'Oppgaveegenskap';
     egenskap: Egenskap;
     kategori: Kategori;
+};
+
+export type OppgavesorteringInput = {
+    nokkel: Sorteringsnokkel;
+    stigende: Scalars['Boolean']['input'];
 };
 
 export enum Oppgavetype {
@@ -892,6 +907,7 @@ export type QueryOppdragArgs = {
 
 export type QueryOppgaverArgs = {
     pageSize?: InputMaybe<Scalars['Int']['input']>;
+    sortering?: InputMaybe<Array<OppgavesorteringInput>>;
     startIndex?: InputMaybe<Scalars['Int']['input']>;
 };
 
@@ -1053,6 +1069,12 @@ export type SoknadNav = Hendelse & {
     tom: Scalars['String']['output'];
     type: Hendelsetype;
 };
+
+export enum Sorteringsnokkel {
+    Opprettet = 'OPPRETTET',
+    SoknadMottatt = 'SOKNAD_MOTTATT',
+    TildeltTil = 'TILDELT_TIL',
+}
 
 export type Spennoppdrag = {
     fagsystemId: Scalars['String']['output'];

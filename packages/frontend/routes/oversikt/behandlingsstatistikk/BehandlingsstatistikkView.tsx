@@ -1,8 +1,8 @@
 import { motion } from 'framer-motion';
 import React from 'react';
 
-import { useFetch } from '@hooks/useFetch';
-import { fetchBehandlingsstatistikk } from '@io/graphql/fetchBehandlingsstatistikk';
+import { useQuery } from '@apollo/client';
+import { HentBehandlingsstatistikkDocument } from '@io/graphql';
 
 import { BehandlingsstatistikkError } from './BehandlingsstatistikkError';
 import { BehandlingsstatistikkSkeleton } from './BehandlingsstatistikkSkeleton';
@@ -14,7 +14,7 @@ import styles from './BehandlingsstatistikkView.module.css';
 export const BehandlingsstatistikkView: React.FC = () => {
     const show = useShowStatistikk();
 
-    const { isLoading, value, error } = useFetch(fetchBehandlingsstatistikk);
+    const { loading, error, data } = useQuery(HentBehandlingsstatistikkDocument);
 
     return (
         <motion.div
@@ -29,9 +29,9 @@ export const BehandlingsstatistikkView: React.FC = () => {
             style={{ overflow: 'visible' }}
         >
             <div className={styles.Behandlingsstatistikk} role="region" aria-labelledby="behandlingsstatistikk-toggle">
-                {value && <BehandlingsstatistikkTable behandlingsstatistikk={value.behandlingsstatistikk} />}
+                {data && <BehandlingsstatistikkTable behandlingsstatistikk={data.behandlingsstatistikk} />}
                 {error && <BehandlingsstatistikkError />}
-                {isLoading && <BehandlingsstatistikkSkeleton />}
+                {loading && <BehandlingsstatistikkSkeleton />}
             </div>
         </motion.div>
     );

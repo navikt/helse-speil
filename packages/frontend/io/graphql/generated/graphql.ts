@@ -52,6 +52,11 @@ export type Antall = {
     tilgjengelig: Scalars['Int']['output'];
 };
 
+export enum AntallArbeidsforhold {
+    EtArbeidsforhold = 'ET_ARBEIDSFORHOLD',
+    FlereArbeidsforhold = 'FLERE_ARBEIDSFORHOLD',
+}
+
 export type Arbeidsforhold = {
     __typename?: 'Arbeidsforhold';
     sluttdato?: Maybe<Scalars['String']['output']>;
@@ -419,6 +424,7 @@ export type LovhjemmelInput = {
 export enum Mottaker {
     Arbeidsgiver = 'ARBEIDSGIVER',
     Begge = 'BEGGE',
+    Ingen = 'INGEN',
     Sykmeldt = 'SYKMELDT',
 }
 
@@ -652,11 +658,15 @@ export type OppgaveForPeriodevisning = {
 export type OppgaveTilBehandling = {
     __typename?: 'OppgaveTilBehandling';
     aktorId: Scalars['String']['output'];
+    antallArbeidsforhold: AntallArbeidsforhold;
     egenskaper: Array<Oppgaveegenskap>;
     id: Scalars['String']['output'];
+    mottaker: Mottaker;
     navn: Personnavn;
+    oppgavetype: Oppgavetype;
     opprettet: Scalars['String']['output'];
     opprinneligSoknadsdato: Scalars['String']['output'];
+    periodetype: Periodetype;
     tildeling?: Maybe<Tildeling>;
     vedtaksperiodeId: Scalars['String']['output'];
 };
@@ -665,6 +675,11 @@ export type Oppgaveegenskap = {
     __typename?: 'Oppgaveegenskap';
     egenskap: Egenskap;
     kategori: Kategori;
+};
+
+export type OppgavesorteringInput = {
+    nokkel: Sorteringsnokkel;
+    stigende: Scalars['Boolean']['input'];
 };
 
 export enum Oppgavetype {
@@ -894,6 +909,7 @@ export type QueryOppdragArgs = {
 
 export type QueryOppgaverArgs = {
     pageSize?: InputMaybe<Scalars['Int']['input']>;
+    sortering?: InputMaybe<Array<OppgavesorteringInput>>;
     startIndex?: InputMaybe<Scalars['Int']['input']>;
 };
 
@@ -1055,6 +1071,12 @@ export type SoknadNav = Hendelse & {
     tom: Scalars['String']['output'];
     type: Hendelsetype;
 };
+
+export enum Sorteringsnokkel {
+    Opprettet = 'OPPRETTET',
+    SoknadMottatt = 'SOKNAD_MOTTATT',
+    TildeltTil = 'TILDELT_TIL',
+}
 
 export type Spennoppdrag = {
     fagsystemId: Scalars['String']['output'];
@@ -1335,27 +1357,6 @@ export type AnnullerMutationVariables = Exact<{
 
 export type AnnullerMutation = { __typename?: 'Mutation'; annuller: boolean };
 
-export type FetchBehandledeOppgaverQueryVariables = Exact<{
-    oid: Scalars['String']['input'];
-    fom: Scalars['String']['input'];
-}>;
-
-export type FetchBehandledeOppgaverQuery = {
-    __typename?: 'Query';
-    behandledeOppgaver: Array<{
-        __typename?: 'FerdigstiltOppgave';
-        aktorId: string;
-        bosted?: string | null;
-        ferdigstiltAv?: string | null;
-        ferdigstiltTidspunkt: string;
-        id: string;
-        inntektstype: Inntektstype;
-        periodetype: Periodetype;
-        type: Oppgavetype;
-        personnavn: { __typename?: 'Personnavn'; fornavn: string; mellomnavn?: string | null; etternavn: string };
-    }>;
-};
-
 export type AntallFragment = { __typename?: 'Antall'; automatisk: number; manuelt: number; tilgjengelig: number };
 
 export type HentBehandlingsstatistikkQueryVariables = Exact<{ [key: string]: never }>;
@@ -1379,6 +1380,27 @@ export type HentBehandlingsstatistikkQuery = {
         utbetalingTilArbeidsgiver: { __typename?: 'Antall'; automatisk: number; manuelt: number; tilgjengelig: number };
         utbetalingTilSykmeldt: { __typename?: 'Antall'; automatisk: number; manuelt: number; tilgjengelig: number };
     };
+};
+
+export type FetchBehandledeOppgaverQueryVariables = Exact<{
+    oid: Scalars['String']['input'];
+    fom: Scalars['String']['input'];
+}>;
+
+export type FetchBehandledeOppgaverQuery = {
+    __typename?: 'Query';
+    behandledeOppgaver: Array<{
+        __typename?: 'FerdigstiltOppgave';
+        aktorId: string;
+        bosted?: string | null;
+        ferdigstiltAv?: string | null;
+        ferdigstiltTidspunkt: string;
+        id: string;
+        inntektstype: Inntektstype;
+        periodetype: Periodetype;
+        type: Oppgavetype;
+        personnavn: { __typename?: 'Personnavn'; fornavn: string; mellomnavn?: string | null; etternavn: string };
+    }>;
 };
 
 export type FetchOppdragQueryVariables = Exact<{
@@ -3016,74 +3038,6 @@ export const AnnullerDocument = {
         },
     ],
 } as unknown as DocumentNode<AnnullerMutation, AnnullerMutationVariables>;
-export const FetchBehandledeOppgaverDocument = {
-    kind: 'Document',
-    definitions: [
-        {
-            kind: 'OperationDefinition',
-            operation: 'query',
-            name: { kind: 'Name', value: 'FetchBehandledeOppgaver' },
-            variableDefinitions: [
-                {
-                    kind: 'VariableDefinition',
-                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'oid' } },
-                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
-                },
-                {
-                    kind: 'VariableDefinition',
-                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'fom' } },
-                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
-                },
-            ],
-            selectionSet: {
-                kind: 'SelectionSet',
-                selections: [
-                    {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'behandledeOppgaver' },
-                        arguments: [
-                            {
-                                kind: 'Argument',
-                                name: { kind: 'Name', value: 'behandletAvOid' },
-                                value: { kind: 'Variable', name: { kind: 'Name', value: 'oid' } },
-                            },
-                            {
-                                kind: 'Argument',
-                                name: { kind: 'Name', value: 'fom' },
-                                value: { kind: 'Variable', name: { kind: 'Name', value: 'fom' } },
-                            },
-                        ],
-                        selectionSet: {
-                            kind: 'SelectionSet',
-                            selections: [
-                                { kind: 'Field', name: { kind: 'Name', value: 'aktorId' } },
-                                { kind: 'Field', name: { kind: 'Name', value: 'bosted' } },
-                                { kind: 'Field', name: { kind: 'Name', value: 'ferdigstiltAv' } },
-                                { kind: 'Field', name: { kind: 'Name', value: 'ferdigstiltTidspunkt' } },
-                                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                                { kind: 'Field', name: { kind: 'Name', value: 'inntektstype' } },
-                                { kind: 'Field', name: { kind: 'Name', value: 'periodetype' } },
-                                {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'personnavn' },
-                                    selectionSet: {
-                                        kind: 'SelectionSet',
-                                        selections: [
-                                            { kind: 'Field', name: { kind: 'Name', value: 'fornavn' } },
-                                            { kind: 'Field', name: { kind: 'Name', value: 'mellomnavn' } },
-                                            { kind: 'Field', name: { kind: 'Name', value: 'etternavn' } },
-                                        ],
-                                    },
-                                },
-                                { kind: 'Field', name: { kind: 'Name', value: 'type' } },
-                            ],
-                        },
-                    },
-                ],
-            },
-        },
-    ],
-} as unknown as DocumentNode<FetchBehandledeOppgaverQuery, FetchBehandledeOppgaverQueryVariables>;
 export const HentBehandlingsstatistikkDocument = {
     kind: 'Document',
     definitions: [
@@ -3252,6 +3206,74 @@ export const HentBehandlingsstatistikkDocument = {
         },
     ],
 } as unknown as DocumentNode<HentBehandlingsstatistikkQuery, HentBehandlingsstatistikkQueryVariables>;
+export const FetchBehandledeOppgaverDocument = {
+    kind: 'Document',
+    definitions: [
+        {
+            kind: 'OperationDefinition',
+            operation: 'query',
+            name: { kind: 'Name', value: 'FetchBehandledeOppgaver' },
+            variableDefinitions: [
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'oid' } },
+                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
+                },
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'fom' } },
+                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
+                },
+            ],
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'behandledeOppgaver' },
+                        arguments: [
+                            {
+                                kind: 'Argument',
+                                name: { kind: 'Name', value: 'behandletAvOid' },
+                                value: { kind: 'Variable', name: { kind: 'Name', value: 'oid' } },
+                            },
+                            {
+                                kind: 'Argument',
+                                name: { kind: 'Name', value: 'fom' },
+                                value: { kind: 'Variable', name: { kind: 'Name', value: 'fom' } },
+                            },
+                        ],
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                { kind: 'Field', name: { kind: 'Name', value: 'aktorId' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'bosted' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'ferdigstiltAv' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'ferdigstiltTidspunkt' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'inntektstype' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'periodetype' } },
+                                {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'personnavn' },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            { kind: 'Field', name: { kind: 'Name', value: 'fornavn' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'mellomnavn' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'etternavn' } },
+                                        ],
+                                    },
+                                },
+                                { kind: 'Field', name: { kind: 'Name', value: 'type' } },
+                            ],
+                        },
+                    },
+                ],
+            },
+        },
+    ],
+} as unknown as DocumentNode<FetchBehandledeOppgaverQuery, FetchBehandledeOppgaverQueryVariables>;
 export const FetchOppdragDocument = {
     kind: 'Document',
     definitions: [
