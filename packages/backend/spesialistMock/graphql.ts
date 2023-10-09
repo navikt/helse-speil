@@ -56,7 +56,7 @@ const leggTilLagretData = (person: Person): void => {
                 const oppgave: Oppgave | null = oppgavereferanse ? OppgaveMock.getOppgave(oppgavereferanse) : null;
 
                 if (oppgave !== null && periode.oppgave === null) {
-                    periode.oppgave = { id: oppgave.id, kanAvvises: true };
+                    periode.oppgave = { id: oppgave.id };
                 }
             }
         }

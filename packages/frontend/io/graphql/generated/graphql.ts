@@ -654,7 +654,6 @@ export type OppgaveForOversiktsvisning = {
 export type OppgaveForPeriodevisning = {
     __typename?: 'OppgaveForPeriodevisning';
     id: Scalars['String']['output'];
-    kanAvvises: Scalars['Boolean']['output'];
 };
 
 export type OppgaveTilBehandling = {
