@@ -1580,6 +1580,157 @@ export type HentOppdragQuery = {
     }>;
 };
 
+export type FeilregistrerKommentarMutationMutationVariables = Exact<{
+    id: Scalars['Int']['input'];
+}>;
+
+export type FeilregistrerKommentarMutationMutation = {
+    __typename?: 'Mutation';
+    feilregistrerKommentar?: {
+        __typename?: 'Kommentar';
+        id: number;
+        opprettet: string;
+        feilregistrert_tidspunkt?: string | null;
+        saksbehandlerident: string;
+        tekst: string;
+    } | null;
+};
+
+export type LeggTilKommentarMutationVariables = Exact<{
+    tekst: Scalars['String']['input'];
+    notatId: Scalars['Int']['input'];
+    saksbehandlerident: Scalars['String']['input'];
+}>;
+
+export type LeggTilKommentarMutation = {
+    __typename?: 'Mutation';
+    leggTilKommentar?: {
+        __typename?: 'Kommentar';
+        id: number;
+        tekst: string;
+        opprettet: string;
+        saksbehandlerident: string;
+        feilregistrert_tidspunkt?: string | null;
+    } | null;
+};
+
+export type FeilregistrerNotatMutationMutationVariables = Exact<{
+    id: Scalars['Int']['input'];
+}>;
+
+export type FeilregistrerNotatMutationMutation = {
+    __typename?: 'Mutation';
+    feilregistrerNotat?: {
+        __typename?: 'Notat';
+        id: number;
+        tekst: string;
+        opprettet: string;
+        saksbehandlerOid: string;
+        saksbehandlerNavn: string;
+        saksbehandlerEpost: string;
+        saksbehandlerIdent: string;
+        vedtaksperiodeId: string;
+        feilregistrert: boolean;
+        feilregistrert_tidspunkt?: string | null;
+        type: NotatType;
+        kommentarer: Array<{
+            __typename?: 'Kommentar';
+            id: number;
+            tekst: string;
+            opprettet: string;
+            saksbehandlerident: string;
+            feilregistrert_tidspunkt?: string | null;
+        }>;
+    } | null;
+};
+
+export type LeggTilNotatMutationVariables = Exact<{
+    type: NotatType;
+    oid: Scalars['String']['input'];
+    vedtaksperiodeId: Scalars['String']['input'];
+    tekst: Scalars['String']['input'];
+}>;
+
+export type LeggTilNotatMutation = {
+    __typename?: 'Mutation';
+    leggTilNotat?: {
+        __typename?: 'Notat';
+        id: number;
+        tekst: string;
+        opprettet: string;
+        saksbehandlerOid: string;
+        saksbehandlerNavn: string;
+        saksbehandlerEpost: string;
+        saksbehandlerIdent: string;
+        vedtaksperiodeId: string;
+        feilregistrert: boolean;
+        feilregistrert_tidspunkt?: string | null;
+        type: NotatType;
+        kommentarer: Array<{
+            __typename?: 'Kommentar';
+            id: number;
+            tekst: string;
+            opprettet: string;
+            saksbehandlerident: string;
+            feilregistrert_tidspunkt?: string | null;
+        }>;
+    } | null;
+};
+
+export type FetchNotaterQueryVariables = Exact<{
+    forPerioder: Array<Scalars['String']['input']> | Scalars['String']['input'];
+}>;
+
+export type FetchNotaterQuery = {
+    __typename?: 'Query';
+    notater: Array<{
+        __typename?: 'Notater';
+        id: string;
+        notater: Array<{
+            __typename?: 'Notat';
+            id: number;
+            tekst: string;
+            opprettet: string;
+            saksbehandlerOid: string;
+            saksbehandlerNavn: string;
+            saksbehandlerEpost: string;
+            saksbehandlerIdent: string;
+            vedtaksperiodeId: string;
+            feilregistrert: boolean;
+            type: NotatType;
+            kommentarer: Array<{
+                __typename?: 'Kommentar';
+                id: number;
+                tekst: string;
+                opprettet: string;
+                saksbehandlerident: string;
+                feilregistrert_tidspunkt?: string | null;
+            }>;
+        }>;
+    }>;
+};
+
+export type OppgaverQueryVariables = Exact<{ [key: string]: never }>;
+
+export type OppgaverQuery = {
+    __typename?: 'Query';
+    oppgaver: Array<{
+        __typename?: 'OppgaveTilBehandling';
+        aktorId: string;
+        id: string;
+        opprettet: string;
+        opprinneligSoknadsdato: string;
+        vedtaksperiodeId: string;
+        oppgavetype: Oppgavetype;
+        periodetype: Periodetype;
+        mottaker: Mottaker;
+        antallArbeidsforhold: AntallArbeidsforhold;
+        egenskaper: Array<{ __typename?: 'Oppgaveegenskap'; egenskap: Egenskap; kategori: Kategori }>;
+        navn: { __typename?: 'Personnavn'; fornavn: string; etternavn: string; mellomnavn?: string | null };
+        tildeling?: { __typename?: 'Tildeling'; epost: string; navn: string; oid: string; paaVent: boolean } | null;
+    }>;
+};
+
 export type FetchOppgaverQueryVariables = Exact<{ [key: string]: never }>;
 
 export type FetchOppgaverQuery = {
@@ -3612,8 +3763,17 @@ export const HentOppdragDocument = {
             variableDefinitions: [
                 {
                     kind: 'VariableDefinition',
-                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'fnr' } },
-                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'forPerioder' } },
+                    type: {
+                        kind: 'NonNullType',
+                        type: {
+                            kind: 'ListType',
+                            type: {
+                                kind: 'NonNullType',
+                                type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
+                            },
+                        },
+                    },
                 },
             ],
             selectionSet: {
@@ -3621,76 +3781,126 @@ export const HentOppdragDocument = {
                 selections: [
                     {
                         kind: 'Field',
-                        name: { kind: 'Name', value: 'oppdrag' },
+                        name: { kind: 'Name', value: 'notater' },
                         arguments: [
                             {
                                 kind: 'Argument',
-                                name: { kind: 'Name', value: 'fnr' },
-                                value: { kind: 'Variable', name: { kind: 'Name', value: 'fnr' } },
+                                name: { kind: 'Name', value: 'forPerioder' },
+                                value: { kind: 'Variable', name: { kind: 'Name', value: 'forPerioder' } },
                             },
                         ],
                         selectionSet: {
                             kind: 'SelectionSet',
                             selections: [
-                                { kind: 'Field', name: { kind: 'Name', value: 'type' } },
-                                { kind: 'Field', name: { kind: 'Name', value: 'status' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
                                 {
                                     kind: 'Field',
-                                    name: { kind: 'Name', value: 'arbeidsgiveroppdrag' },
+                                    name: { kind: 'Name', value: 'notater' },
                                     selectionSet: {
                                         kind: 'SelectionSet',
                                         selections: [
-                                            { kind: 'Field', name: { kind: 'Name', value: 'organisasjonsnummer' } },
-                                            { kind: 'Field', name: { kind: 'Name', value: 'fagsystemId' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'tekst' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'opprettet' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'saksbehandlerOid' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'saksbehandlerNavn' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'saksbehandlerEpost' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'saksbehandlerIdent' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'vedtaksperiodeId' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'feilregistrert' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'type' } },
                                             {
                                                 kind: 'Field',
-                                                name: { kind: 'Name', value: 'linjer' },
+                                                name: { kind: 'Name', value: 'kommentarer' },
                                                 selectionSet: {
                                                     kind: 'SelectionSet',
                                                     selections: [
-                                                        { kind: 'Field', name: { kind: 'Name', value: 'fom' } },
-                                                        { kind: 'Field', name: { kind: 'Name', value: 'tom' } },
-                                                        { kind: 'Field', name: { kind: 'Name', value: 'totalbelop' } },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'tekst' } },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'opprettet' } },
+                                                        {
+                                                            kind: 'Field',
+                                                            name: { kind: 'Name', value: 'saksbehandlerident' },
+                                                        },
+                                                        {
+                                                            kind: 'Field',
+                                                            name: { kind: 'Name', value: 'feilregistrert_tidspunkt' },
+                                                        },
                                                     ],
                                                 },
                                             },
                                         ],
                                     },
                                 },
+                            ],
+                        },
+                    },
+                ],
+            },
+        },
+    ],
+} as unknown as DocumentNode<FetchNotaterQuery, FetchNotaterQueryVariables>;
+export const OppgaverDocument = {
+    kind: 'Document',
+    definitions: [
+        {
+            kind: 'OperationDefinition',
+            operation: 'query',
+            name: { kind: 'Name', value: 'Oppgaver' },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'oppgaver' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                { kind: 'Field', name: { kind: 'Name', value: 'aktorId' } },
                                 {
                                     kind: 'Field',
-                                    name: { kind: 'Name', value: 'personoppdrag' },
+                                    name: { kind: 'Name', value: 'egenskaper' },
                                     selectionSet: {
                                         kind: 'SelectionSet',
                                         selections: [
-                                            { kind: 'Field', name: { kind: 'Name', value: 'fodselsnummer' } },
-                                            { kind: 'Field', name: { kind: 'Name', value: 'fagsystemId' } },
-                                            {
-                                                kind: 'Field',
-                                                name: { kind: 'Name', value: 'linjer' },
-                                                selectionSet: {
-                                                    kind: 'SelectionSet',
-                                                    selections: [
-                                                        { kind: 'Field', name: { kind: 'Name', value: 'fom' } },
-                                                        { kind: 'Field', name: { kind: 'Name', value: 'tom' } },
-                                                        { kind: 'Field', name: { kind: 'Name', value: 'totalbelop' } },
-                                                    ],
-                                                },
-                                            },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'egenskap' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'kategori' } },
                                         ],
                                     },
                                 },
+                                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
                                 {
                                     kind: 'Field',
-                                    name: { kind: 'Name', value: 'annullering' },
+                                    name: { kind: 'Name', value: 'navn' },
                                     selectionSet: {
                                         kind: 'SelectionSet',
                                         selections: [
-                                            { kind: 'Field', name: { kind: 'Name', value: 'saksbehandler' } },
-                                            { kind: 'Field', name: { kind: 'Name', value: 'tidspunkt' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'fornavn' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'etternavn' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'mellomnavn' } },
                                         ],
                                     },
                                 },
+                                { kind: 'Field', name: { kind: 'Name', value: 'opprettet' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'opprinneligSoknadsdato' } },
+                                {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'tildeling' },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            { kind: 'Field', name: { kind: 'Name', value: 'epost' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'navn' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'oid' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'paaVent' } },
+                                        ],
+                                    },
+                                },
+                                { kind: 'Field', name: { kind: 'Name', value: 'vedtaksperiodeId' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'oppgavetype' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'periodetype' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'mottaker' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'antallArbeidsforhold' } },
                             ],
                         },
                     },
