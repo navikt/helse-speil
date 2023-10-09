@@ -9,7 +9,7 @@ const nyesteFørst = (a: Spennoppdrag, b: Spennoppdrag) =>
     (getTom(a) ?? 0) < (getTom(b) ?? 0) ? -1 : (getTom(a) ?? 0) > (getTom(b) ?? 0) ? 1 : 0;
 
 // Dette er litt rotete kode, det er fritt fram å skrive om, bytte datatyper eller lignende :-)
-const sorterteOppdragNyesteFørst = (oppdrag: Oppdrag[]): NyestePerMottaker => {
+const sorterteOppdragNyesteFørst = (oppdrag: Oppdrag[]) => {
     const annulleringsprospekter = oppdrag.filter(
         (o) => (o.type === 'UTBETALING' || o.type === 'REVURDERING') && o.status === 'UTBETALT',
     );
@@ -44,7 +44,7 @@ const sorterteOppdragNyesteFørst = (oppdrag: Oppdrag[]): NyestePerMottaker => {
 
 export const useKanAnnulleres = (oppdrag: Oppdrag[]) => {
     const nyestePerMottaker: NyestePerMottaker = sorterteOppdragNyesteFørst(oppdrag);
-    return (oppdrag: Spennoppdrag): boolean => {
+    return (oppdrag: Spennoppdrag) => {
         return Object.values(nyestePerMottaker).some((value) => value.fagsystemId === oppdrag.fagsystemId);
     };
 };

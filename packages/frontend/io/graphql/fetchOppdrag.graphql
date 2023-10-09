@@ -1,4 +1,4 @@
-query HentOppdrag($fnr: String!) {
+query FetchOppdrag($fnr: String!) {
     oppdrag(fnr: $fnr) {
         type,
         status,

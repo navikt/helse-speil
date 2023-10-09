@@ -2,21 +2,14 @@ import React, { useContext, useState } from 'react';
 
 import { Dropdown } from '@navikt/ds-react-internal';
 
-import { useQuery } from '@apollo/client';
 import { DropdownContext } from '@components/dropdown';
 import { useErBeslutteroppgaveOgHarTilgang } from '@hooks/useErBeslutteroppgaveOgHarTilgang';
 import { useIsReadOnlyOppgave } from '@hooks/useIsReadOnlyOppgave';
-import {
-    Arbeidsgiver,
-    Arbeidsgiveroppdrag,
-    HentOppdragDocument,
-    Oppdrag,
-    Utbetaling,
-    Utbetalingstatus,
-} from '@io/graphql';
+import { Arbeidsgiver, Arbeidsgiveroppdrag, Oppdrag, Utbetaling, Utbetalingstatus } from '@io/graphql';
 import { annulleringerEnabled } from '@utils/featureToggles';
 
 import { Annulleringsmodal } from '../../annullering/Annulleringsmodal';
+import { useArbeidsgiveroppdrag } from '../../utbetalingshistorikk/state';
 
 interface AnnullerButtonWithContentProps {
     oppdrag: Arbeidsgiveroppdrag;
@@ -88,14 +81,7 @@ export const AnnullerButton: React.FC<AnnullerButtonProps> = ({ person, periode,
     const erReadonly = useIsReadOnlyOppgave();
     const erBeslutterMedTilgang = useErBeslutteroppgaveOgHarTilgang();
 
-    const { data } = useQuery(HentOppdragDocument, { variables: { fnr: person.fodselsnummer } });
-
-    const oppdrag =
-        data?.oppdrag
-            .reverse()
-            .find(
-                (it: Oppdrag) => it.arbeidsgiveroppdrag?.fagsystemId === periode.utbetaling.arbeidsgiverFagsystemId,
-            ) ?? null;
+    const oppdrag = useArbeidsgiveroppdrag(person.fodselsnummer, periode.utbetaling.arbeidsgiverFagsystemId);
 
     if (
         !harArbeidsgiveroppdrag(oppdrag) ||
