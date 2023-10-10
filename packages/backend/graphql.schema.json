@@ -8965,18 +8965,6 @@
                 "description": null,
                 "fields": [
                     {
-                        "name": "eksternDokumentId",
-                        "description": null,
-                        "args": [],
-                        "type": {
-                            "kind": "SCALAR",
-                            "name": "String",
-                            "ofType": null
-                        },
-                        "isDeprecated": false,
-                        "deprecationReason": null
-                    },
-                    {
                         "name": "fom",
                         "description": null,
                         "args": [],
@@ -10396,18 +10384,6 @@
                 "name": "Sykmelding",
                 "description": null,
                 "fields": [
-                    {
-                        "name": "eksternDokumentId",
-                        "description": null,
-                        "args": [],
-                        "type": {
-                            "kind": "SCALAR",
-                            "name": "String",
-                            "ofType": null
-                        },
-                        "isDeprecated": false,
-                        "deprecationReason": null
-                    },
                     {
                         "name": "fom",
                         "description": null,

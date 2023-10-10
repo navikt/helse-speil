@@ -3,13 +3,13 @@ import { atom, useRecoilState } from 'recoil';
 import { ApolloError, MutationResult, useApolloClient, useMutation } from '@apollo/client';
 import {
     FetchNotaterDocument,
-    FetchOppgaverDocument,
     FjernPaaVentDocument,
     FjernPaaVentMutation,
     FjernTildelingDocument,
     LeggPaaVentDocument,
     Maybe,
     NotatType,
+    OppgaverDocument,
     OpprettTildelingDocument,
     OpprettTildelingMutation,
     Tildeling,
@@ -75,7 +75,7 @@ export const useOpprettTildeling = (): [
                 if (errorCode === 409) leggTilTildelingsvarsel(`${tildeling.navn} har allerede tatt saken.`);
                 else leggTilTildelingsvarsel('Kunne ikke tildele sak.');
 
-                client.refetchQueries({ include: [FetchOppgaverDocument] });
+                client.refetchQueries({ include: [OppgaverDocument] });
                 return Promise.reject('Kunne ikke tildele sak.');
             });
     };

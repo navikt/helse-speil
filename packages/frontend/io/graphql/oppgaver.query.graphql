@@ -1,34 +1,28 @@
-query FetchOppgaver {
-    alleOppgaver {
-        id
+query Oppgaver {
+    oppgaver {
         aktorId
-        opprettet
-        opprinneligSoknadsdato
-        vedtaksperiodeId
-        type
-        periodetype
-        flereArbeidsgivere
+        egenskaper {
+            egenskap
+            kategori
+        }
+        id
         navn {
             fornavn
-            mellomnavn
             etternavn
+            mellomnavn
         }
+        opprettet
+        opprinneligSoknadsdato
         tildeling {
-            reservert
-            navn
             epost
+            navn
             oid
             paaVent
         }
-        totrinnsvurdering {
-            saksbehandler
-            erRetur
-            erBeslutteroppgave
-        }
-        mottaker
-        haster
-        harVergemal
-        tilhorerEnhetUtland
-        spesialsak
+        vedtaksperiodeId,
+        oppgavetype,
+        periodetype,
+        mottaker,
+        antallArbeidsforhold
     }
 }

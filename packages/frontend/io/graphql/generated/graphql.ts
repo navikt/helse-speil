@@ -1605,43 +1605,6 @@ export type OppgaverQuery = {
     }>;
 };
 
-export type FetchOppgaverQueryVariables = Exact<{ [key: string]: never }>;
-
-export type FetchOppgaverQuery = {
-    __typename?: 'Query';
-    alleOppgaver: Array<{
-        __typename?: 'OppgaveForOversiktsvisning';
-        id: string;
-        aktorId: string;
-        opprettet: string;
-        opprinneligSoknadsdato: string;
-        vedtaksperiodeId: string;
-        type: Oppgavetype;
-        periodetype?: Periodetype | null;
-        flereArbeidsgivere: boolean;
-        mottaker?: Mottaker | null;
-        haster?: boolean | null;
-        harVergemal?: boolean | null;
-        tilhorerEnhetUtland?: boolean | null;
-        spesialsak: boolean;
-        navn: { __typename?: 'Personnavn'; fornavn: string; mellomnavn?: string | null; etternavn: string };
-        tildeling?: {
-            __typename?: 'Tildeling';
-            reservert?: boolean | null;
-            navn: string;
-            epost: string;
-            oid: string;
-            paaVent: boolean;
-        } | null;
-        totrinnsvurdering?: {
-            __typename?: 'Totrinnsvurdering';
-            saksbehandler?: string | null;
-            erRetur: boolean;
-            erBeslutteroppgave: boolean;
-        } | null;
-    }>;
-};
-
 export type OverstyrArbeidsforholdMutationMutationVariables = Exact<{
     overstyring: ArbeidsforholdOverstyringHandlingInput;
 }>;
@@ -3802,81 +3765,6 @@ export const OppgaverDocument = {
         },
     ],
 } as unknown as DocumentNode<OppgaverQuery, OppgaverQueryVariables>;
-export const FetchOppgaverDocument = {
-    kind: 'Document',
-    definitions: [
-        {
-            kind: 'OperationDefinition',
-            operation: 'query',
-            name: { kind: 'Name', value: 'FetchOppgaver' },
-            selectionSet: {
-                kind: 'SelectionSet',
-                selections: [
-                    {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'alleOppgaver' },
-                        selectionSet: {
-                            kind: 'SelectionSet',
-                            selections: [
-                                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                                { kind: 'Field', name: { kind: 'Name', value: 'aktorId' } },
-                                { kind: 'Field', name: { kind: 'Name', value: 'opprettet' } },
-                                { kind: 'Field', name: { kind: 'Name', value: 'opprinneligSoknadsdato' } },
-                                { kind: 'Field', name: { kind: 'Name', value: 'vedtaksperiodeId' } },
-                                { kind: 'Field', name: { kind: 'Name', value: 'type' } },
-                                { kind: 'Field', name: { kind: 'Name', value: 'periodetype' } },
-                                { kind: 'Field', name: { kind: 'Name', value: 'flereArbeidsgivere' } },
-                                {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'navn' },
-                                    selectionSet: {
-                                        kind: 'SelectionSet',
-                                        selections: [
-                                            { kind: 'Field', name: { kind: 'Name', value: 'fornavn' } },
-                                            { kind: 'Field', name: { kind: 'Name', value: 'mellomnavn' } },
-                                            { kind: 'Field', name: { kind: 'Name', value: 'etternavn' } },
-                                        ],
-                                    },
-                                },
-                                {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'tildeling' },
-                                    selectionSet: {
-                                        kind: 'SelectionSet',
-                                        selections: [
-                                            { kind: 'Field', name: { kind: 'Name', value: 'reservert' } },
-                                            { kind: 'Field', name: { kind: 'Name', value: 'navn' } },
-                                            { kind: 'Field', name: { kind: 'Name', value: 'epost' } },
-                                            { kind: 'Field', name: { kind: 'Name', value: 'oid' } },
-                                            { kind: 'Field', name: { kind: 'Name', value: 'paaVent' } },
-                                        ],
-                                    },
-                                },
-                                {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'totrinnsvurdering' },
-                                    selectionSet: {
-                                        kind: 'SelectionSet',
-                                        selections: [
-                                            { kind: 'Field', name: { kind: 'Name', value: 'saksbehandler' } },
-                                            { kind: 'Field', name: { kind: 'Name', value: 'erRetur' } },
-                                            { kind: 'Field', name: { kind: 'Name', value: 'erBeslutteroppgave' } },
-                                        ],
-                                    },
-                                },
-                                { kind: 'Field', name: { kind: 'Name', value: 'mottaker' } },
-                                { kind: 'Field', name: { kind: 'Name', value: 'haster' } },
-                                { kind: 'Field', name: { kind: 'Name', value: 'harVergemal' } },
-                                { kind: 'Field', name: { kind: 'Name', value: 'tilhorerEnhetUtland' } },
-                                { kind: 'Field', name: { kind: 'Name', value: 'spesialsak' } },
-                            ],
-                        },
-                    },
-                ],
-            },
-        },
-    ],
-} as unknown as DocumentNode<FetchOppgaverQuery, FetchOppgaverQueryVariables>;
 export const OverstyrArbeidsforholdMutationDocument = {
     kind: 'Document',
     definitions: [

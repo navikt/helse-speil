@@ -120,9 +120,6 @@ const getResolvers = (): IResolvers => ({
                 })
                 .concat(tilfeldigeOppgaver(antallTilfeldigeOppgaver));
         },
-        alleOppgaver: async () => {
-            return [];
-        },
         notater: async (_, { forPerioder }: { forPerioder: string[] }) => {
             return forPerioder.map((it) => ({
                 id: it,
