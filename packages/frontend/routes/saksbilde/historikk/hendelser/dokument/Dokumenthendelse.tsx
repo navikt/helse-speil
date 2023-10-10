@@ -1,12 +1,14 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { Kilde } from '@components/Kilde';
 import { Kildetype } from '@io/graphql';
+import { useCurrentPerson } from '@state/person';
 import { skalViseDokumenter } from '@utils/featureToggles';
 
-import { ExpandableHistorikkContent } from './ExpandableHistorikkContent';
-import { Hendelse } from './Hendelse';
-import { HendelseDate } from './HendelseDate';
+import { ExpandableHistorikkContent } from '../ExpandableHistorikkContent';
+import { Hendelse } from '../Hendelse';
+import { HendelseDate } from '../HendelseDate';
+import { Søknadsinnhold } from './Søknadsinnhold';
 
 const getKildetype = (dokumenttype: DokumenthendelseObject['dokumenttype']): Kildetype => {
     switch (dokumenttype) {
@@ -39,15 +41,25 @@ const getKildetekst = (dokumenttype: DokumenthendelseObject['dokumenttype']): st
 type DokumenthendelseProps = Omit<DokumenthendelseObject, 'type' | 'id'>;
 
 export const Dokumenthendelse: React.FC<DokumenthendelseProps> = ({ dokumenttype, timestamp, dokumentId }) => {
+    const [showDokumenter, setShowDokumenter] = useState(false);
+    const [dokument, setDokument] = useState<React.ReactNode>(null);
+    const fødselsnummer = useCurrentPerson()?.fodselsnummer;
+
+    useEffect(() => {
+        if (!showDokumenter || !fødselsnummer) return;
+
+        if (dokumenttype === 'Søknad') {
+            setDokument(<Søknadsinnhold dokumentId={dokumentId} fødselsnummer={fødselsnummer} />);
+        }
+    }, [showDokumenter]);
+
     return (
         <Hendelse
             title={`${dokumenttype} mottatt`}
             icon={<Kilde type={getKildetype(dokumenttype)}>{getKildetekst(dokumenttype)}</Kilde>}
         >
             {skalViseDokumenter && dokumenttype === 'Søknad' && (
-                <ExpandableHistorikkContent>
-                    <p>Her kan du se søknaden som ble sendt inn: {dokumentId}.</p>
-                </ExpandableHistorikkContent>
+                <ExpandableHistorikkContent onOpen={setShowDokumenter}>{dokument}</ExpandableHistorikkContent>
             )}
             <HendelseDate timestamp={timestamp} />
         </Hendelse>

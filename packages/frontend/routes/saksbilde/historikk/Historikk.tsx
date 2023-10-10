@@ -1,4 +1,3 @@
-import { Sykepengegrunnlagskjønnsfastsettinghendelse } from './hendelser/Sykepengegrunnlagskjønnsfastsettinghendelse';
 import classNames from 'classnames';
 import { motion } from 'framer-motion';
 import React from 'react';
@@ -15,11 +14,12 @@ import { Notat } from '../notat/Notat';
 import { AnnetArbeidsforholdoverstyringhendelse } from './hendelser/AnnetArbeidsforholdoverstyringhendelse';
 import { Arbeidsforholdoverstyringhendelse } from './hendelser/Arbeidsforholdoverstyringhendelse';
 import { Dagoverstyringhendelse } from './hendelser/Dagoverstyringhendelse';
-import { Dokumenthendelse } from './hendelser/Dokumenthendelse';
 import { HendelseSkeleton } from './hendelser/Hendelse';
 import { Historikkhendelse } from './hendelser/Historikkhendelse';
 import { Inntektoverstyringhendelse } from './hendelser/Inntektoverstyringhendelse';
+import { Sykepengegrunnlagskjønnsfastsettinghendelse } from './hendelser/Sykepengegrunnlagskjønnsfastsettinghendelse';
 import { Utbetalinghendelse } from './hendelser/Utbetalinghendelse';
+import { Dokumenthendelse } from './hendelser/dokument/Dokumenthendelse';
 import { Notathendelse } from './hendelser/notat/Notathendelse';
 import { useFilterState, useFilteredHistorikk, useShowHistorikkState } from './state';
 
