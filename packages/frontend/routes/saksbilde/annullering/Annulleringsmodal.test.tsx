@@ -17,7 +17,6 @@ let annulleringMutationKalt = false;
 
 jest.mock('../../../io/http', () => ({
     postAbonnerPåAktør: () => {
-        console.log('Jeg er her');
         return Promise.resolve();
     },
 }));
