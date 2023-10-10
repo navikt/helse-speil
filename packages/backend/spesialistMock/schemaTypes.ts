@@ -187,12 +187,6 @@ export type BeregnetPeriode = Periode & {
     vilkarsgrunnlagId?: Maybe<Scalars['String']['output']>;
 };
 
-export type Boenhet = {
-    __typename?: 'Boenhet';
-    id: Scalars['String']['output'];
-    navn: Scalars['String']['output'];
-};
-
 export type Dag = {
     __typename?: 'Dag';
     begrunnelser?: Maybe<Array<Begrunnelse>>;
@@ -625,30 +619,6 @@ export enum Oppdragsstatus {
     Utbetalt = 'UTBETALT',
 }
 
-export type OppgaveForOversiktsvisning = {
-    __typename?: 'OppgaveForOversiktsvisning';
-    aktorId: Scalars['String']['output'];
-    boenhet?: Maybe<Boenhet>;
-    flereArbeidsgivere: Scalars['Boolean']['output'];
-    fodselsnummer: Scalars['String']['output'];
-    harVergemal?: Maybe<Scalars['Boolean']['output']>;
-    haster?: Maybe<Scalars['Boolean']['output']>;
-    id: Scalars['String']['output'];
-    mottaker?: Maybe<Mottaker>;
-    navn: Personnavn;
-    opprettet: Scalars['String']['output'];
-    opprinneligSoknadsdato: Scalars['String']['output'];
-    periodetype?: Maybe<Periodetype>;
-    personinfo: Personinfo;
-    sistSendt?: Maybe<Scalars['String']['output']>;
-    spesialsak: Scalars['Boolean']['output'];
-    tildeling?: Maybe<Tildeling>;
-    tilhorerEnhetUtland?: Maybe<Scalars['Boolean']['output']>;
-    totrinnsvurdering?: Maybe<Totrinnsvurdering>;
-    type: Oppgavetype;
-    vedtaksperiodeId: Scalars['String']['output'];
-};
-
 export type OppgaveForPeriodevisning = {
     __typename?: 'OppgaveForPeriodevisning';
     id: Scalars['String']['output'];
@@ -879,7 +849,6 @@ export type Personoppdrag = Spennoppdrag & {
 
 export type Query = {
     __typename?: 'Query';
-    alleOppgaver: Array<OppgaveForOversiktsvisning>;
     behandledeOppgaver: Array<FerdigstiltOppgave>;
     behandlingsstatistikk: Behandlingsstatistikk;
     hentOpptegnelser: Array<Opptegnelse>;
