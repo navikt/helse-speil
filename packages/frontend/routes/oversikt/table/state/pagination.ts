@@ -73,7 +73,7 @@ export const usePagination = () => useRecoilValue(pagination);
 
 export const useSetPagination = () => useSetRecoilState(pagination);
 
-export const useInitializePagination = (numberOfEntries: number, entriesPerPage = 20) => {
+export const useInitializePagination = (numberOfEntries: number, entriesPerPage = 14) => {
     const pagination = usePagination();
     const setPagination = useSetPagination();
     useLayoutEffect(() => {
@@ -92,13 +92,15 @@ export const useInitializePagination = (numberOfEntries: number, entriesPerPage 
 export const useRefreshPagination = (numberOfEntries: number) => {
     const setPagination = useSetPagination();
     useLayoutEffect(() => {
-        setPagination(
-            (pagination) =>
-                pagination && {
-                    ...pagination,
-                    numberOfPages: Math.max(Math.ceil(numberOfEntries / pagination.entriesPerPage), 1),
-                },
-        );
+        setPagination((pagination) => {
+            if (!pagination) return null;
+            const numberOfPages = Math.max(Math.ceil(numberOfEntries / pagination.entriesPerPage), 1);
+            return {
+                ...pagination,
+                numberOfPages,
+                currentPage: pagination.currentPage > numberOfPages ? numberOfPages : pagination.currentPage,
+            };
+        });
     }, [numberOfEntries]);
 };
 
