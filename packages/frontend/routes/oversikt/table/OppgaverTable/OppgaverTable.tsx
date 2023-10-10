@@ -65,6 +65,5 @@ export const OppgaverTable: React.FC<OppgaverTableProps> = React.memo(({ oppgave
     );
 });
 
-const paginateRows = (pagination: PaginationType | null, oppgaver: OppgaveTilBehandling[]) => {
-    return pagination ? oppgaver.slice(pagination.firstVisibleEntry, pagination.lastVisibleEntry + 1) : oppgaver;
-};
+const paginateRows = (pagination: PaginationType | null, oppgaver: OppgaveTilBehandling[]) =>
+    pagination ? oppgaver.slice(pagination.firstVisibleEntry, pagination.lastVisibleEntry + 1) : oppgaver;
