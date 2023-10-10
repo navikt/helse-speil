@@ -1397,6 +1397,27 @@ export type HentBehandlingsstatistikkQuery = {
     };
 };
 
+export type FetchSoknadQueryVariables = Exact<{
+    fnr: Scalars['String']['input'];
+    dokumentId: Scalars['String']['input'];
+}>;
+
+export type FetchSoknadQuery = {
+    __typename?: 'Query';
+    hentSoknad: {
+        __typename?: 'Soknad';
+        sendtNav: string;
+        soknadsperioder: Array<{
+            __typename?: 'Soknadsperiode';
+            avtaltTimer?: number | null;
+            faktiskGrad?: number | null;
+            faktiskTimer?: number | null;
+            sykemeldingsgrad?: number | null;
+            sykemeldingstype?: string | null;
+        }>;
+    };
+};
+
 export type FeilregistrerKommentarMutationMutationVariables = Exact<{
     id: Scalars['Int']['input'];
 }>;
@@ -3210,6 +3231,69 @@ export const HentBehandlingsstatistikkDocument = {
         },
     ],
 } as unknown as DocumentNode<HentBehandlingsstatistikkQuery, HentBehandlingsstatistikkQueryVariables>;
+export const FetchSoknadDocument = {
+    kind: 'Document',
+    definitions: [
+        {
+            kind: 'OperationDefinition',
+            operation: 'query',
+            name: { kind: 'Name', value: 'FetchSoknad' },
+            variableDefinitions: [
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'fnr' } },
+                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
+                },
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'dokumentId' } },
+                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
+                },
+            ],
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'hentSoknad' },
+                        arguments: [
+                            {
+                                kind: 'Argument',
+                                name: { kind: 'Name', value: 'fnr' },
+                                value: { kind: 'Variable', name: { kind: 'Name', value: 'fnr' } },
+                            },
+                            {
+                                kind: 'Argument',
+                                name: { kind: 'Name', value: 'dokumentId' },
+                                value: { kind: 'Variable', name: { kind: 'Name', value: 'dokumentId' } },
+                            },
+                        ],
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                { kind: 'Field', name: { kind: 'Name', value: 'sendtNav' } },
+                                {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'soknadsperioder' },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            { kind: 'Field', name: { kind: 'Name', value: 'avtaltTimer' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'faktiskGrad' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'faktiskTimer' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'sykemeldingsgrad' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'sykemeldingstype' } },
+                                        ],
+                                    },
+                                },
+                            ],
+                        },
+                    },
+                ],
+            },
+        },
+    ],
+} as unknown as DocumentNode<FetchSoknadQuery, FetchSoknadQueryVariables>;
 export const FeilregistrerKommentarMutationDocument = {
     kind: 'Document',
     definitions: [

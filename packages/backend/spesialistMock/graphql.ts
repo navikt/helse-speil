@@ -126,6 +126,14 @@ const getResolvers = (): IResolvers => ({
                 notater: NotatMock.getNotater(it),
             }));
         },
+        hentSoknad: async (_, { fnr, dokumentId }: { fnr: string; dokumentId: string }) => {
+            await new Promise((resolve) => {
+                setTimeout(() => {
+                    resolve('test');
+                }, 3000);
+            });
+            return { sendtNav: '2023-01-01T00:42:42.000Z', soknadsperioder: [] };
+        },
     },
     Mutation: {
         leggTilNotat: (_, { type, vedtaksperiodeId, tekst }: MutationLeggTilNotatArgs) => {

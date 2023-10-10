@@ -1,0 +1,12 @@
+query FetchSoknad($fnr: String!, $dokumentId: String!) {
+    hentSoknad(fnr: $fnr, dokumentId: $dokumentId) {
+        sendtNav
+        soknadsperioder {
+            avtaltTimer
+            faktiskGrad
+            faktiskTimer
+            sykemeldingsgrad
+            sykemeldingstype
+        }
+    }
+}
