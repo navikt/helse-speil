@@ -45,7 +45,7 @@ interface BehandledeOppgaverResponse {
 
 export const useQueryOppgaver = (): OppgaverResponse => {
     const { data, error, loading } = useQuery(OppgaverDocument, {
-        initialFetchPolicy: 'network-only',
+        initialFetchPolicy: 'no-cache',
         nextFetchPolicy: 'cache-first',
         onError: () => {
             throw Error('Kunne ikke hente saker. Prøv igjen senere.');
@@ -60,8 +60,8 @@ export const useQueryOppgaver = (): OppgaverResponse => {
 };
 
 export const useOppgaver = (): OppgaveTilBehandling[] => {
-    const oppgaver = useQuery(OppgaverDocument);
-    return oppgaver.data?.oppgaver ?? [];
+    const { oppgaver } = useQueryOppgaver();
+    return oppgaver ?? [];
 };
 
 export const useMineOppgaver = (): OppgaveTilBehandling[] => {
