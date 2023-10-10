@@ -70,11 +70,14 @@ const setUpAuthentication = () => {
         res.redirect(url);
     });
     app.get('/logout', (req: SpeilRequest, res: Response) => {
-        azureClient!.revoke(req.session.speilToken).finally(() => {
-            req.session.destroy(() => {});
-            res.clearCookie('speil');
-            res.redirect(302, config.oidc.logoutUrl);
-        });
+        azureClient!
+            .revoke(req.session.speilToken)
+            .catch(() => logger.warn('Kunne ikke invalidere token mot Azure AD'))
+            .finally(() => {
+                req.session.destroy(() => {});
+                res.clearCookie('speil');
+                res.redirect(302, config.oidc.logoutUrl);
+            });
     });
 
     app.use(bodyParser.urlencoded({ extended: false }));
