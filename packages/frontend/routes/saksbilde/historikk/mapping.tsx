@@ -19,6 +19,7 @@ import {
     isArbeidsforholdoverstyring,
     isBeregnetPeriode,
     isDagoverstyring,
+    isGhostPeriode,
     isInntektoverstyring,
     isSykepengegrunnlagskjønnsfastsetting,
     isUberegnetPeriode,
@@ -156,7 +157,7 @@ export const getDagoverstyringerForAUU = (
     period: UberegnetPeriode | UberegnetVilkarsprovdPeriode,
     arbeidsgiver: Arbeidsgiver,
 ): Array<HendelseObject> => {
-    const sisteVurdertePeriodeForArbeidsgiverISkjæringstidspunktet = getSisteVurdertePeriodeForSkjæringstidspunktet(
+    const sisteTomForIkkeGhostsPåSkjæringstidspunktet = getSisteTomForIkkeGhostsPåSkjæringstidspunktet(
         period.skjaeringstidspunkt,
         arbeidsgiver,
     );
@@ -167,7 +168,7 @@ export const getDagoverstyringerForAUU = (
             (it) =>
                 dayjs(it.dager[0].dato, ISO_DATOFORMAT).isSameOrAfter(period?.fom) &&
                 dayjs(it.dager[0].dato, ISO_DATOFORMAT).isSameOrBefore(
-                    sisteVurdertePeriodeForArbeidsgiverISkjæringstidspunktet?.tom,
+                    sisteTomForIkkeGhostsPåSkjæringstidspunktet?.tom,
                 ),
         )
         .map((overstyring) => ({
@@ -240,6 +241,17 @@ const getSisteVurdertePeriodeForSkjæringstidspunktet = (
     const sisteGenerasjon = arbeidsgiver.generasjoner[0];
     return sisteGenerasjon.perioder
         .filter(isBeregnetPeriode)
+        .filter((it) => it.skjaeringstidspunkt === skjæringstidspunkt)
+        .shift();
+};
+
+const getSisteTomForIkkeGhostsPåSkjæringstidspunktet = (
+    skjæringstidspunkt: DateString,
+    arbeidsgiver: Arbeidsgiver,
+): Periode | undefined => {
+    const sisteGenerasjon = arbeidsgiver.generasjoner[0];
+    return sisteGenerasjon.perioder
+        .filter((it) => !isGhostPeriode(it))
         .filter((it) => it.skjaeringstidspunkt === skjæringstidspunkt)
         .shift();
 };
