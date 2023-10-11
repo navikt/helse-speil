@@ -92,7 +92,7 @@ export const AvvisningButton: React.FC<AvvisningButtonProps> = ({
                 onClick={() =>
                     kanAvvises?.tillatt
                         ? setShowModal(true)
-                        : setKanIkkeAvvisesMelding('Denne saken er det noe krøll med. Meld saken til support.')
+                        : setKanIkkeAvvisesMelding('Denne saken er det noe krøll med. Du må annullere saken')
                 }
                 {...buttonProps}
             >
