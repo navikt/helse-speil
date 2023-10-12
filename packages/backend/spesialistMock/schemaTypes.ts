@@ -277,19 +277,6 @@ export type Faresignal = {
     kategori: Array<Scalars['String']['output']>;
 };
 
-export type FerdigstiltOppgave = {
-    __typename?: 'FerdigstiltOppgave';
-    aktorId: Scalars['String']['output'];
-    bosted?: Maybe<Scalars['String']['output']>;
-    ferdigstiltAv?: Maybe<Scalars['String']['output']>;
-    ferdigstiltTidspunkt: Scalars['String']['output'];
-    id: Scalars['String']['output'];
-    inntektstype: Inntektstype;
-    periodetype: Periodetype;
-    personnavn: Personnavn;
-    type: Oppgavetype;
-};
-
 export type Generasjon = {
     __typename?: 'Generasjon';
     id: Scalars['String']['output'];
@@ -862,7 +849,6 @@ export type Personoppdrag = Spennoppdrag & {
 
 export type Query = {
     __typename?: 'Query';
-    behandledeOppgaver: Array<FerdigstiltOppgave>;
     behandledeOppgaverIDag: Array<BehandletOppgave>;
     behandlingsstatistikk: Behandlingsstatistikk;
     hentOpptegnelser: Array<Opptegnelse>;
@@ -871,12 +857,6 @@ export type Query = {
     oppdrag: Array<Oppdrag>;
     oppgaver: Array<OppgaveTilBehandling>;
     person?: Maybe<Person>;
-};
-
-export type QueryBehandledeOppgaverArgs = {
-    behandletAvIdent?: InputMaybe<Scalars['String']['input']>;
-    behandletAvOid: Scalars['String']['input'];
-    fom?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type QueryHentOpptegnelserArgs = {
