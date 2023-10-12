@@ -1365,27 +1365,6 @@ export type AnnullerMutationVariables = Exact<{
 
 export type AnnullerMutation = { __typename?: 'Mutation'; annuller: boolean };
 
-export type FetchBehandledeOppgaverQueryVariables = Exact<{
-    oid: Scalars['String']['input'];
-    fom: Scalars['String']['input'];
-}>;
-
-export type FetchBehandledeOppgaverQuery = {
-    __typename?: 'Query';
-    behandledeOppgaver: Array<{
-        __typename?: 'FerdigstiltOppgave';
-        aktorId: string;
-        bosted?: string | null;
-        ferdigstiltAv?: string | null;
-        ferdigstiltTidspunkt: string;
-        id: string;
-        inntektstype: Inntektstype;
-        periodetype: Periodetype;
-        type: Oppgavetype;
-        personnavn: { __typename?: 'Personnavn'; fornavn: string; mellomnavn?: string | null; etternavn: string };
-    }>;
-};
-
 export type BehandledeOppgaverQueryVariables = Exact<{ [key: string]: never }>;
 
 export type BehandledeOppgaverQuery = {
@@ -3026,74 +3005,6 @@ export const AnnullerDocument = {
         },
     ],
 } as unknown as DocumentNode<AnnullerMutation, AnnullerMutationVariables>;
-export const FetchBehandledeOppgaverDocument = {
-    kind: 'Document',
-    definitions: [
-        {
-            kind: 'OperationDefinition',
-            operation: 'query',
-            name: { kind: 'Name', value: 'FetchBehandledeOppgaver' },
-            variableDefinitions: [
-                {
-                    kind: 'VariableDefinition',
-                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'oid' } },
-                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
-                },
-                {
-                    kind: 'VariableDefinition',
-                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'fom' } },
-                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
-                },
-            ],
-            selectionSet: {
-                kind: 'SelectionSet',
-                selections: [
-                    {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'behandledeOppgaver' },
-                        arguments: [
-                            {
-                                kind: 'Argument',
-                                name: { kind: 'Name', value: 'behandletAvOid' },
-                                value: { kind: 'Variable', name: { kind: 'Name', value: 'oid' } },
-                            },
-                            {
-                                kind: 'Argument',
-                                name: { kind: 'Name', value: 'fom' },
-                                value: { kind: 'Variable', name: { kind: 'Name', value: 'fom' } },
-                            },
-                        ],
-                        selectionSet: {
-                            kind: 'SelectionSet',
-                            selections: [
-                                { kind: 'Field', name: { kind: 'Name', value: 'aktorId' } },
-                                { kind: 'Field', name: { kind: 'Name', value: 'bosted' } },
-                                { kind: 'Field', name: { kind: 'Name', value: 'ferdigstiltAv' } },
-                                { kind: 'Field', name: { kind: 'Name', value: 'ferdigstiltTidspunkt' } },
-                                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                                { kind: 'Field', name: { kind: 'Name', value: 'inntektstype' } },
-                                { kind: 'Field', name: { kind: 'Name', value: 'periodetype' } },
-                                {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'personnavn' },
-                                    selectionSet: {
-                                        kind: 'SelectionSet',
-                                        selections: [
-                                            { kind: 'Field', name: { kind: 'Name', value: 'fornavn' } },
-                                            { kind: 'Field', name: { kind: 'Name', value: 'mellomnavn' } },
-                                            { kind: 'Field', name: { kind: 'Name', value: 'etternavn' } },
-                                        ],
-                                    },
-                                },
-                                { kind: 'Field', name: { kind: 'Name', value: 'type' } },
-                            ],
-                        },
-                    },
-                ],
-            },
-        },
-    ],
-} as unknown as DocumentNode<FetchBehandledeOppgaverQuery, FetchBehandledeOppgaverQueryVariables>;
 export const BehandledeOppgaverDocument = {
     kind: 'Document',
     definitions: [
