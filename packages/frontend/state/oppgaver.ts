@@ -1,29 +1,8 @@
-import dayjs from 'dayjs';
-
 import { ApolloError, useQuery } from '@apollo/client';
-import {
-    FerdigstiltOppgave,
-    FetchBehandledeOppgaverDocument,
-    OppgaveTilBehandling,
-    OppgaverDocument,
-} from '@io/graphql';
-import { ISO_DATOFORMAT } from '@utils/date';
+import { BehandledeOppgaverDocument, BehandletOppgave, OppgaveTilBehandling, OppgaverDocument } from '@io/graphql';
 import { InfoAlert } from '@utils/error';
 
 import { useInnloggetSaksbehandler } from './authentication';
-
-export const useQueryBehandledeOppgaver = (): BehandledeOppgaverResponse => {
-    const { oid } = useInnloggetSaksbehandler();
-    const data = useQuery(FetchBehandledeOppgaverDocument, {
-        variables: { oid: oid, fom: dayjs().format(ISO_DATOFORMAT) },
-    });
-
-    return {
-        oppgaver: data.data?.behandledeOppgaver,
-        error: data.error,
-        loading: data.loading,
-    };
-};
 
 export interface ApolloResponse<T> {
     data?: T;
@@ -38,10 +17,20 @@ export interface OppgaverResponse {
 }
 
 interface BehandledeOppgaverResponse {
-    oppgaver?: FerdigstiltOppgave[];
+    behandledeOppgaver?: BehandletOppgave[];
     error?: ApolloError;
     loading: boolean;
 }
+
+export const useQueryBehandledeOppgaver = (): BehandledeOppgaverResponse => {
+    const { error, loading, data } = useQuery(BehandledeOppgaverDocument);
+
+    return {
+        behandledeOppgaver: data?.behandledeOppgaverIDag,
+        error,
+        loading,
+    };
+};
 
 export const useQueryOppgaver = (): OppgaverResponse => {
     const { data, error, loading } = useQuery(OppgaverDocument, {

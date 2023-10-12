@@ -137,6 +137,18 @@ export enum Begrunnelse {
     Ukjent = 'UKJENT',
 }
 
+export type BehandletOppgave = {
+    __typename?: 'BehandletOppgave';
+    aktorId: Scalars['String']['output'];
+    antallArbeidsforhold: AntallArbeidsforhold;
+    ferdigstiltAv?: Maybe<Scalars['String']['output']>;
+    ferdigstiltTidspunkt: Scalars['String']['output'];
+    id: Scalars['String']['output'];
+    oppgavetype: Oppgavetype;
+    periodetype: Periodetype;
+    personnavn: Personnavn;
+};
+
 export type Behandlingsstatistikk = {
     __typename?: 'Behandlingsstatistikk';
     antallAnnulleringer: Scalars['Int']['output'];
@@ -246,6 +258,7 @@ export enum Egenskap {
     Soknad = 'SOKNAD',
     Spesialsak = 'SPESIALSAK',
     Stikkprove = 'STIKKPROVE',
+    StrengtFortroligAdresse = 'STRENGT_FORTROLIG_ADRESSE',
     UtbetalingTilArbeidsgiver = 'UTBETALING_TIL_ARBEIDSGIVER',
     UtbetalingTilSykmeldt = 'UTBETALING_TIL_SYKMELDT',
     Utland = 'UTLAND',
@@ -850,6 +863,7 @@ export type Personoppdrag = Spennoppdrag & {
 export type Query = {
     __typename?: 'Query';
     behandledeOppgaver: Array<FerdigstiltOppgave>;
+    behandledeOppgaverIDag: Array<BehandletOppgave>;
     behandlingsstatistikk: Behandlingsstatistikk;
     hentOpptegnelser: Array<Opptegnelse>;
     hentSoknad: Soknad;

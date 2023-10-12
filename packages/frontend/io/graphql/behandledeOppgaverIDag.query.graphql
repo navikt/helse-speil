@@ -1,0 +1,16 @@
+query BehandledeOppgaver {
+    behandledeOppgaverIDag {
+        id
+        aktorId
+        ferdigstiltAv
+        ferdigstiltTidspunkt
+        antallArbeidsforhold
+        periodetype
+        oppgavetype
+        personnavn {
+            fornavn
+            mellomnavn
+            etternavn
+        }
+    }
+}

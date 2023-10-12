@@ -2,7 +2,6 @@ import React from 'react';
 
 import { Table } from '@navikt/ds-react';
 
-import { AntallArbeidsforhold, Inntektstype } from '@io/graphql';
 import { useQueryBehandledeOppgaver } from '@state/oppgaver';
 
 import { IngenOppgaver } from '../IngenOppgaver';
@@ -21,33 +20,24 @@ import { usePagination } from './state/pagination';
 
 import styles from './table.module.css';
 
-const tilAntallArbeidsforhold = (inntektstype: Inntektstype) => {
-    switch (inntektstype) {
-        case Inntektstype.Enarbeidsgiver:
-            return AntallArbeidsforhold.EtArbeidsforhold;
-        case Inntektstype.Flerearbeidsgivere:
-            return AntallArbeidsforhold.FlereArbeidsforhold;
-    }
-};
-
 export const BehandletIdagTable = () => {
-    const oppgaverResponse = useQueryBehandledeOppgaver();
+    const { behandledeOppgaver, error, loading } = useQueryBehandledeOppgaver();
     const pagination = usePagination();
 
     const paginatedRows =
-        pagination && oppgaverResponse.oppgaver !== undefined
-            ? oppgaverResponse.oppgaver.slice(pagination.firstVisibleEntry, pagination.lastVisibleEntry + 1)
-            : oppgaverResponse.oppgaver;
+        pagination && behandledeOppgaver !== undefined
+            ? behandledeOppgaver.slice(pagination.firstVisibleEntry, pagination.lastVisibleEntry + 1)
+            : behandledeOppgaver;
 
-    if (oppgaverResponse.oppgaver !== undefined && oppgaverResponse.oppgaver.length === 0) {
+    if (behandledeOppgaver !== undefined && behandledeOppgaver.length === 0) {
         return <IngenOppgaver />;
     }
 
-    if (oppgaverResponse.loading) {
+    if (loading) {
         return <OppgaverTableSkeleton />;
     }
 
-    if (oppgaverResponse.error) {
+    if (error) {
         return <OppgaverTableError />;
     }
 
@@ -71,10 +61,8 @@ export const BehandletIdagTable = () => {
                                 <LinkRow aktørId={oppgave.aktorId} key={oppgave.id}>
                                     <BehandletAvCell name={oppgave.ferdigstiltAv} />
                                     <PeriodetypeCell periodetype={oppgave.periodetype} />
-                                    <OppgavetypeCell oppgavetype={oppgave.type} />
-                                    <InntektskildeCell
-                                        antallArbeidsforhold={tilAntallArbeidsforhold(oppgave.inntektstype)}
-                                    />
+                                    <OppgavetypeCell oppgavetype={oppgave.oppgavetype} />
+                                    <InntektskildeCell antallArbeidsforhold={oppgave.antallArbeidsforhold} />
                                     <SøkerCell
                                         name={{
                                             fornavn: oppgave.personnavn.fornavn,
@@ -89,9 +77,7 @@ export const BehandletIdagTable = () => {
                     </Table>
                 </div>
             </div>
-            {oppgaverResponse.oppgaver !== undefined && (
-                <Pagination numberOfEntries={oppgaverResponse.oppgaver.length} />
-            )}
+            {behandledeOppgaver !== undefined && <Pagination numberOfEntries={behandledeOppgaver.length} />}
         </div>
     );
 };

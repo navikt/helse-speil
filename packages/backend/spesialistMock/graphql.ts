@@ -97,7 +97,7 @@ const getResolvers = (): IResolvers => ({
         oppdrag: (_) => {
             return getMockOppdrag();
         },
-        behandledeOppgaver: async () => {
+        behandledeOppgaverIDag: async () => {
             return behandledeOppgaver;
         },
         behandlingsstatistikk: async () => {

@@ -139,6 +139,18 @@ export enum Begrunnelse {
     Ukjent = 'UKJENT',
 }
 
+export type BehandletOppgave = {
+    __typename?: 'BehandletOppgave';
+    aktorId: Scalars['String']['output'];
+    antallArbeidsforhold: AntallArbeidsforhold;
+    ferdigstiltAv?: Maybe<Scalars['String']['output']>;
+    ferdigstiltTidspunkt: Scalars['String']['output'];
+    id: Scalars['String']['output'];
+    oppgavetype: Oppgavetype;
+    periodetype: Periodetype;
+    personnavn: Personnavn;
+};
+
 export type Behandlingsstatistikk = {
     __typename?: 'Behandlingsstatistikk';
     antallAnnulleringer: Scalars['Int']['output'];
@@ -248,6 +260,7 @@ export enum Egenskap {
     Soknad = 'SOKNAD',
     Spesialsak = 'SPESIALSAK',
     Stikkprove = 'STIKKPROVE',
+    StrengtFortroligAdresse = 'STRENGT_FORTROLIG_ADRESSE',
     UtbetalingTilArbeidsgiver = 'UTBETALING_TIL_ARBEIDSGIVER',
     UtbetalingTilSykmeldt = 'UTBETALING_TIL_SYKMELDT',
     Utland = 'UTLAND',
@@ -852,6 +865,7 @@ export type Personoppdrag = Spennoppdrag & {
 export type Query = {
     __typename?: 'Query';
     behandledeOppgaver: Array<FerdigstiltOppgave>;
+    behandledeOppgaverIDag: Array<BehandletOppgave>;
     behandlingsstatistikk: Behandlingsstatistikk;
     hentOpptegnelser: Array<Opptegnelse>;
     hentSoknad: Soknad;
@@ -1368,6 +1382,23 @@ export type FetchBehandledeOppgaverQuery = {
         inntektstype: Inntektstype;
         periodetype: Periodetype;
         type: Oppgavetype;
+        personnavn: { __typename?: 'Personnavn'; fornavn: string; mellomnavn?: string | null; etternavn: string };
+    }>;
+};
+
+export type BehandledeOppgaverQueryVariables = Exact<{ [key: string]: never }>;
+
+export type BehandledeOppgaverQuery = {
+    __typename?: 'Query';
+    behandledeOppgaverIDag: Array<{
+        __typename?: 'BehandletOppgave';
+        id: string;
+        aktorId: string;
+        ferdigstiltAv?: string | null;
+        ferdigstiltTidspunkt: string;
+        antallArbeidsforhold: AntallArbeidsforhold;
+        periodetype: Periodetype;
+        oppgavetype: Oppgavetype;
         personnavn: { __typename?: 'Personnavn'; fornavn: string; mellomnavn?: string | null; etternavn: string };
     }>;
 };
@@ -3063,6 +3094,49 @@ export const FetchBehandledeOppgaverDocument = {
         },
     ],
 } as unknown as DocumentNode<FetchBehandledeOppgaverQuery, FetchBehandledeOppgaverQueryVariables>;
+export const BehandledeOppgaverDocument = {
+    kind: 'Document',
+    definitions: [
+        {
+            kind: 'OperationDefinition',
+            operation: 'query',
+            name: { kind: 'Name', value: 'BehandledeOppgaver' },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'behandledeOppgaverIDag' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'aktorId' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'ferdigstiltAv' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'ferdigstiltTidspunkt' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'antallArbeidsforhold' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'periodetype' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'oppgavetype' } },
+                                {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'personnavn' },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            { kind: 'Field', name: { kind: 'Name', value: 'fornavn' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'mellomnavn' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'etternavn' } },
+                                        ],
+                                    },
+                                },
+                            ],
+                        },
+                    },
+                ],
+            },
+        },
+    ],
+} as unknown as DocumentNode<BehandledeOppgaverQuery, BehandledeOppgaverQueryVariables>;
 export const HentBehandlingsstatistikkDocument = {
     kind: 'Document',
     definitions: [
