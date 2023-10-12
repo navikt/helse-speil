@@ -1,12 +1,13 @@
 import dayjs from 'dayjs';
-import { atom, selector, useRecoilState, useRecoilValue } from 'recoil';
+import { useParams } from 'react-router-dom';
+import { atom, useRecoilState, useRecoilValue } from 'recoil';
 
-import { GhostPeriode } from '@io/graphql';
+import { useQuery } from '@apollo/client';
+import { FetchPersonDocument, GhostPeriode } from '@io/graphql';
 import { findArbeidsgiverWithGhostPeriode, findArbeidsgiverWithPeriode } from '@state/arbeidsgiver';
 import { sessionStorageEffect } from '@state/effects/sessionStorageEffect';
 import { toNotat } from '@state/notater';
-import { activePeriod } from '@state/periode';
-import { personState } from '@state/person';
+import { useActivePeriod } from '@state/periode';
 import {
     isBeregnetPeriode,
     isGhostPeriode,
@@ -111,31 +112,30 @@ const getHendelserForUberegnetPeriode = (
     ].sort(byTimestamp);
 };
 
-const historikkState = selector<Array<HendelseObject>>({
-    key: 'historikkState',
-    get: ({ get }) => {
-        const period = get(activePeriod);
-        const person = get(personState).person;
+const useHistorikk = (): HendelseObject[] => {
+    const activePeriod = useActivePeriod();
+    const { aktorId } = useParams<{ aktorId: string }>();
+    const { data } = useQuery(FetchPersonDocument, { variables: { aktorId } });
+    const person = data?.person;
 
-        if (!person) {
-            return [];
-        }
-
-        if (isBeregnetPeriode(period)) {
-            return getHendelserForBeregnetPeriode(period, person);
-        }
-
-        if (isGhostPeriode(period)) {
-            return getHendelserForGhostPeriode(period, person);
-        }
-
-        if (isUberegnetPeriode(period) || isUberegnetVilkarsprovdPeriode(period)) {
-            return getHendelserForUberegnetPeriode(period, person);
-        }
-
+    if (!person) {
         return [];
-    },
-});
+    }
+
+    if (isBeregnetPeriode(activePeriod)) {
+        return getHendelserForBeregnetPeriode(activePeriod, person);
+    }
+
+    if (isGhostPeriode(activePeriod)) {
+        return getHendelserForGhostPeriode(activePeriod, person);
+    }
+
+    if (isUberegnetPeriode(activePeriod) || isUberegnetVilkarsprovdPeriode(activePeriod)) {
+        return getHendelserForUberegnetPeriode(activePeriod, person);
+    }
+
+    return [];
+};
 
 const filterState = atom<Filtertype>({
     key: 'filterState',
@@ -158,14 +158,6 @@ const filterMap: Record<Filtertype, Array<Hendelsetype>> = {
     Notat: ['Notat'],
 };
 
-const filteredHistorikkState = selector<Array<HendelseObject>>({
-    key: 'historikk',
-    get: ({ get }) => {
-        const filter = get(filterState);
-        return get(historikkState).filter((it) => filterMap[filter].includes(it.type));
-    },
-});
-
 const showHistorikkState = atom<boolean>({
     key: 'showHistorikkState',
     default: true,
@@ -174,6 +166,11 @@ const showHistorikkState = atom<boolean>({
 
 export const useShowHistorikkState = () => useRecoilState(showHistorikkState);
 
-export const useFilteredHistorikk = (): Array<HendelseObject> => useRecoilValue(filteredHistorikkState);
+export const useFilteredHistorikk = (): Array<HendelseObject> => {
+    const filter = useRecoilValue(filterState);
+    const historikk = useHistorikk();
+
+    return historikk.filter((hendelse) => filterMap[filter].includes(hendelse.type));
+};
 
 export const useFilterState = () => useRecoilState(filterState);

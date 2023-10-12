@@ -2,7 +2,7 @@ import classNames from 'classnames';
 import React, { ReactNode, useRef } from 'react';
 
 import { useUvurderteVarslerPåPeriode } from '@hooks/uvurderteVarsler';
-import { useSetActivePeriod } from '@state/periode';
+import { useSetActivePeriodId } from '@state/periode';
 import { getPeriodState } from '@utils/mapping';
 import {
     isBeregnetPeriode,
@@ -125,7 +125,7 @@ export const Period: React.FC<PeriodProps> = ({
     generation = 0,
     ...buttonProps
 }) => {
-    const setActivePeriod = useSetActivePeriod();
+    const setActivePeriod = useSetActivePeriodId();
     const button = useRef<HTMLButtonElement>(null);
     const iconIsVisible = useIsWiderThan(button, 32);
     const harUvurderteVarsler = useUvurderteVarslerPåPeriode(period);
@@ -140,7 +140,7 @@ export const Period: React.FC<PeriodProps> = ({
             isGhostPeriode(period) ||
             isUberegnetVilkarsprovdPeriode(period)
         ) {
-            setActivePeriod(period);
+            setActivePeriod(period.id);
         }
     };
 

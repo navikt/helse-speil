@@ -1,4 +1,3 @@
-import { PåVentDropdownMenuButton } from './PåVentDropdownMenuButton';
 import React, { useRef, useState } from 'react';
 
 import { Collapse, Expand } from '@navikt/ds-icons';
@@ -16,6 +15,7 @@ import { isArbeidsgiver, isBeregnetPeriode, isPerson } from '@utils/typeguards';
 
 import { AnnullerButton } from './AnnullerButton';
 import { OppdaterPersondataButton } from './OppdaterPersondataButton';
+import { PåVentDropdownMenuButton } from './PåVentDropdownMenuButton';
 import { TildelingDropdownMenuButton } from './TildelingDropdownMenuButton';
 
 import styles from './DropdownMenu.module.css';

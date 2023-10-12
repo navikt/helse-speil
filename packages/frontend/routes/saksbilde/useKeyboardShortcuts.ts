@@ -1,21 +1,26 @@
+import { useParams } from 'react-router-dom';
+
+import { useQuery } from '@apollo/client';
 import { redirigerTilArbeidOgInntektUrl } from '@components/SystemMenu';
 import { copyString } from '@components/clipboard/util';
 import { Action, Key, useKeyboard } from '@hooks/useKeyboard';
 import { useNavigation } from '@hooks/useNavigation';
-import { usePersonLoadable } from '@state/person';
+import { FetchPersonDocument } from '@io/graphql';
 import { useAddToast } from '@state/toasts';
 import { isPerson } from '@utils/typeguards';
 
 const useCurrentFødselsnummer = (): string | null => {
-    const person = usePersonLoadable();
+    const { aktorId } = useParams<{ aktorId: string }>();
+    const { loading, data } = useQuery(FetchPersonDocument, { variables: { aktorId } });
 
-    return person.state === 'hasValue' && isPerson(person.contents) ? person.contents.fodselsnummer : null;
+    return !loading && data !== undefined && isPerson(data.person) ? data.person.fodselsnummer : null;
 };
 
 const useCurrentAktørId = (): string | null => {
-    const person = usePersonLoadable();
+    const { aktorId } = useParams<{ aktorId: string }>();
+    const { loading, data } = useQuery(FetchPersonDocument, { variables: { aktorId } });
 
-    return person.state === 'hasValue' && isPerson(person.contents) ? person.contents.aktorId : null;
+    return !loading && data !== undefined && isPerson(data.person) ? data.person.aktorId : null;
 };
 
 const useCopyFødselsnummer = (): (() => void) => {

@@ -1,9 +1,8 @@
-import { useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
-import { Person } from '@io/graphql';
+import { useQuery } from '@apollo/client';
+import { FetchPersonDocument } from '@io/graphql';
 import { NotFoundError } from '@io/graphql/errors';
-import { useFetchPerson, usePersonLoadable } from '@state/person';
 import { useAddVarsel, useRemoveVarsel } from '@state/varsler';
 import { SpeilError } from '@utils/error';
 
@@ -20,24 +19,19 @@ export const useRefreshPersonVedUrlEndring = () => {
     const addVarsel = useAddVarsel();
     const removeVarsel = useRemoveVarsel();
     const navigate = useNavigate();
-    const { state, contents } = usePersonLoadable();
 
-    const fetchPerson = useFetchPerson();
-
-    useEffect(() => {
-        if (aktorId && erGyldigPersonId(aktorId)) {
-            if (state !== 'hasValue' || contents === null || (contents as Person).aktorId !== aktorId) {
-                removeVarsel(HENT_PERSON_ERROR_KEY);
-                fetchPerson(aktorId).then((personState) => {
-                    if (personState?.person?.arbeidsgivere.length === 0) {
-                        navigate('/');
-                        addVarsel(new NotFoundError());
-                        return;
-                    }
-                });
+    useQuery(FetchPersonDocument, {
+        variables: { aktorId },
+        fetchPolicy: 'cache-and-network',
+        onCompleted: (data) => {
+            removeVarsel(HENT_PERSON_ERROR_KEY);
+            if (data.person?.arbeidsgivere.length === 0) {
+                navigate('/');
+                addVarsel(new NotFoundError());
             }
-        } else {
+        },
+        onError: () => {
             addVarsel(new HentPersonError(`'${aktorId}' er ikke en gyldig aktør-ID/fødselsnummer.`));
-        }
-    }, [aktorId]);
+        },
+    });
 };

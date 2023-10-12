@@ -1,7 +1,8 @@
 import { RecoilAndRouterWrapper } from '@test-wrappers';
 import React from 'react';
 
-import { useFetchPerson } from '@state/person';
+import { MockedProvider } from '@apollo/client/testing';
+import { FetchPersonDocument } from '@io/graphql';
 import '@testing-library/jest-dom';
 import { fireEvent, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
@@ -20,11 +21,6 @@ jest.mock('@utils/featureToggles', () => ({
     erDev: () => false,
 }));
 
-jest.mock('graphql-request', () => ({
-    request: () => Promise.resolve({}),
-    gql: () => null,
-}));
-
 jest.mock('@state/varsler', () => ({
     __esModule: true,
     Scopes: { GLOBAL: '/' },
@@ -36,6 +32,24 @@ jest.mock('@state/varsler', () => ({
     },
 }));
 
+const mocks = [
+    {
+        request: {
+            query: FetchPersonDocument,
+            variables: {
+                aktorId: '12345678910',
+            },
+        },
+        result: () => {
+            return {
+                data: {
+                    person: {},
+                },
+            };
+        },
+    },
+];
+
 describe('Header', () => {
     beforeEach(() => {
         (useKeyboardActions as jest.Mock).mockReturnValue(() => Promise.resolve(null));
@@ -46,15 +60,26 @@ describe('Header', () => {
     });
 
     it('legger til varsel ved ugyldig søk', async () => {
-        render(<Header />, { wrapper: RecoilAndRouterWrapper });
+        render(
+            <MockedProvider mocks={mocks} addTypename={false}>
+                <RecoilAndRouterWrapper>
+                    <Header />
+                </RecoilAndRouterWrapper>
+            </MockedProvider>,
+        );
         await userEvent.type(screen.getByRole('searchbox'), 'test');
         fireEvent.submit(screen.getByRole('searchbox'));
         expect(cachedVarsel).not.toBeNull();
     });
 
     it('legger ikke til varsel ved gyldig søk', async () => {
-        (useFetchPerson as jest.Mock).mockReturnValueOnce(() => Promise.resolve(null));
-        render(<Header />, { wrapper: RecoilAndRouterWrapper });
+        render(
+            <MockedProvider mocks={mocks} addTypename={false}>
+                <RecoilAndRouterWrapper>
+                    <Header />
+                </RecoilAndRouterWrapper>
+            </MockedProvider>,
+        );
         await userEvent.type(screen.getByRole('searchbox'), '12345678910');
         fireEvent.submit(screen.getByRole('searchbox'));
         expect(cachedVarsel).toBeNull();

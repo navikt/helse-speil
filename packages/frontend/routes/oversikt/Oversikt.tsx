@@ -1,4 +1,4 @@
-import React, { Suspense, lazy, useEffect } from 'react';
+import React, { Suspense, lazy } from 'react';
 
 import { Alert } from '@navikt/ds-react';
 
@@ -7,7 +7,6 @@ import { useLoadingToast } from '@hooks/useLoadingToast';
 import { OppgaveTilBehandling } from '@io/graphql';
 import { useInnloggetSaksbehandler } from '@state/authentication';
 import { OppgaverResponse, useQueryOppgaver } from '@state/oppgaver';
-import { useResetPerson } from '@state/person';
 import { onLazyLoadFail } from '@utils/error';
 
 import { IngenOppgaver } from './IngenOppgaver';
@@ -28,8 +27,6 @@ export const Oversikt = () => {
     const aktivTab = useAktivTab();
 
     useLoadingToast({ isLoading: oppgaverResponse.loading, message: 'Henter oppgaver' });
-
-    useResetPersonOnMount();
 
     return (
         <main className={styles.Oversikt}>
@@ -85,12 +82,4 @@ const useOppgaverFilteredByTab = (): OppgaverResponse => {
         ...oppgaverResponse,
         oppgaver: oppgaverResponse.oppgaver ? filtrer(oppgaverResponse.oppgaver) : oppgaverResponse.oppgaver,
     };
-};
-
-const useResetPersonOnMount = (): void => {
-    const resetPerson = useResetPerson();
-
-    useEffect(() => {
-        resetPerson();
-    }, []);
 };

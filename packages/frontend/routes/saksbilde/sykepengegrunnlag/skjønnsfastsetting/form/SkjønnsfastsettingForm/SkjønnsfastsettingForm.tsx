@@ -1,5 +1,3 @@
-import { skjønnsfastsettingFormToDto } from './skjønnsfastsettingFormToDto';
-import { useSkjønnsfastsettingDefaults } from './useSkjønnsfastsettingDefaults';
 import React, { useEffect, useRef } from 'react';
 import { FieldErrors, FormProvider, useForm, useWatch } from 'react-hook-form';
 import { CustomElement, FieldValues } from 'react-hook-form/dist/types/fields';
@@ -18,6 +16,8 @@ import { SkjønnsfastsettingBegrunnelse } from '../SkjønnsfastsettingBegrunnels
 import { SkjønnsfastsettingType } from '../SkjønnsfastsettingType';
 import { SkjønnsfastsettingÅrsak } from '../SkjønnsfastsettingÅrsak';
 import { SkjønnsfastsettingArbeidsgivere } from '../arbeidsgivere/SkjønnsfastsettingArbeidsgivere';
+import { skjønnsfastsettingFormToDto } from './skjønnsfastsettingFormToDto';
+import { useSkjønnsfastsettingDefaults } from './useSkjønnsfastsettingDefaults';
 
 import styles from './SkjønnsfastsettingForm.module.css';
 

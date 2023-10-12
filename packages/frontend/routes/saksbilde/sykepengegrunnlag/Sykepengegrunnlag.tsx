@@ -1,4 +1,3 @@
-import { useVilkårsgrunnlag } from './useVilkårsgrunnlag';
 import React from 'react';
 
 import { Alert } from '@navikt/ds-react';
@@ -19,6 +18,7 @@ import {
 import { BehandletSykepengegrunnlag } from './sykepengegrunnlagvisninger/BehandletSykepengegrunnlag';
 import { SykepengegrunnlagFraInfogtrygd } from './sykepengegrunnlagvisninger/infotrygd/SykepengegrunnlagFraInfotrygd';
 import { SykepengegrunnlagFraSpleis } from './sykepengegrunnlagvisninger/spleis/SykepengegrunnlagFraSpleis';
+import { useVilkårsgrunnlag } from './useVilkårsgrunnlag';
 
 const SykepengegrunnlagContainer: React.FC = () => {
     const person = useCurrentPerson();

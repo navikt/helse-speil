@@ -1,10 +1,11 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { Table } from '@navikt/ds-react';
 
+import { useLazyQuery } from '@apollo/client';
 import { useLoadingToast } from '@hooks/useLoadingToast';
-import { useFetchPerson } from '@state/person';
+import { FetchPersonDocument } from '@io/graphql';
 
 import styles from './LinkRow.module.css';
 
@@ -23,29 +24,23 @@ interface LinkRowProps extends React.HTMLAttributes<HTMLTableRowElement> {
 export const LinkRow = ({ aktørId, children, ...rest }: LinkRowProps) => {
     const ref = useRef<HTMLTableRowElement | null>(null);
     const doNavigate = useNavigate();
-    const fetchPerson = useFetchPerson();
-    const [isFetching, setIsFetching] = useState(false);
+    const [hentPerson, { loading }] = useLazyQuery(FetchPersonDocument);
 
-    useLoadingToast({ isLoading: isFetching, message: 'Henter person' });
+    useLoadingToast({ isLoading: loading, message: 'Henter person' });
 
     const navigate = (event: React.SyntheticEvent) => {
-        if (isFetching) {
+        if (loading) {
             return;
         }
 
-        setIsFetching(true);
-        fetchPerson(aktørId)
-            .then(() => {
-                const destinationUrl = `/person/${aktørId}/utbetaling`;
-                if (shouldOpenInNewTab(event)) {
-                    window.open(destinationUrl, '_blank');
-                } else {
-                    doNavigate(destinationUrl);
-                }
-            })
-            .finally(() => {
-                setIsFetching(false);
-            });
+        hentPerson({ variables: { aktorId: aktørId } }).then(() => {
+            const destinationUrl = `/person/${aktørId}/utbetaling`;
+            if (shouldOpenInNewTab(event)) {
+                window.open(destinationUrl, '_blank');
+            } else {
+                doNavigate(destinationUrl);
+            }
+        });
     };
 
     const onKeyDown = (event: React.KeyboardEvent) => {

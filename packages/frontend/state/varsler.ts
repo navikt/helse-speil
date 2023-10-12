@@ -1,6 +1,10 @@
-import { atom, selector, useRecoilValue, useSetRecoilState } from 'recoil';
+import { GraphQLError } from 'graphql/error';
+import { useParams } from 'react-router-dom';
+import { atom, useRecoilValue, useSetRecoilState } from 'recoil';
 
-import { personState } from '@state/person';
+import { useQuery } from '@apollo/client';
+import { FetchPersonDocument } from '@io/graphql';
+import { FetchError, FlereFodselsnumreError, NotFoundError, ProtectedError } from '@io/graphql/errors';
 import { SpeilError } from '@utils/error';
 
 const varslerState = atom<Array<SpeilError>>({
@@ -8,16 +12,32 @@ const varslerState = atom<Array<SpeilError>>({
     default: [],
 });
 
-const derivedVarsler = selector<Array<SpeilError>>({
-    key: 'derivedVarsler',
-    get: ({ get }) => {
-        const personStateErrors = get(personState).errors;
-        return get(varslerState).concat(personStateErrors);
-    },
-});
-
 export const useVarsler = (): Array<SpeilError> => {
-    return useRecoilValue(derivedVarsler);
+    const { aktorId } = useParams<{ aktorId: string | undefined }>();
+    const { error } = useQuery(FetchPersonDocument, { variables: { aktorId }, skip: aktorId == null });
+
+    const errors: SpeilError[] =
+        error?.graphQLErrors.map((error: GraphQLError) => {
+            switch (error.extensions?.code) {
+                case 403: {
+                    return new ProtectedError();
+                }
+                case 404: {
+                    return new NotFoundError();
+                }
+                case 500: {
+                    if (error.extensions.feilkode === 'HarFlereFodselsnumre') {
+                        const fodselsnumre = error.extensions.fodselsnumre;
+                        return new FlereFodselsnumreError(fodselsnumre as string[]);
+                    } else return new FetchError();
+                }
+                default: {
+                    return new FetchError();
+                }
+            }
+        }) ?? [];
+
+    return useRecoilValue(varslerState).concat(aktorId !== undefined ? errors : []);
 };
 
 export const useAddVarsel = (): ((varsel: SpeilError) => void) => {

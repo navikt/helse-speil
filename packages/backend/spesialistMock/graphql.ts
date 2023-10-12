@@ -82,6 +82,8 @@ const fetchPersondata = (): Record<string, JSON> => {
     }, {});
 };
 
+let valgtPerson: Person | undefined = undefined;
+
 const getResolvers = (): IResolvers => ({
     Query: {
         person: async (_, { fnr, aktorId }: { fnr?: string; aktorId?: string }) => {
@@ -92,6 +94,7 @@ const getResolvers = (): IResolvers => ({
             if (!person) {
                 throw new NotFoundError(fnr ?? aktorId ?? '');
             }
+            valgtPerson = person as unknown as Person;
             return person;
         },
         oppdrag: (_) => {
@@ -155,14 +158,17 @@ const getResolvers = (): IResolvers => ({
             { generasjonIdString, definisjonIdString, varselkode, ident }: MutationSettVarselstatusArgs,
         ) => {
             if (definisjonIdString) {
-                return VarselMock.settVarselstatusVurdert({
-                    generasjonIdString,
-                    definisjonIdString,
-                    varselkode,
-                    ident,
-                });
+                return VarselMock.settVarselstatusVurdert(
+                    {
+                        generasjonIdString,
+                        definisjonIdString,
+                        varselkode,
+                        ident,
+                    },
+                    valgtPerson,
+                );
             } else {
-                return VarselMock.settVarselstatusAktiv({ generasjonIdString, varselkode, ident });
+                return VarselMock.settVarselstatusAktiv({ generasjonIdString, varselkode, ident }, valgtPerson);
             }
         },
         opprettTildeling: async (_, { oppgaveId }: MutationOpprettTildelingArgs) => {

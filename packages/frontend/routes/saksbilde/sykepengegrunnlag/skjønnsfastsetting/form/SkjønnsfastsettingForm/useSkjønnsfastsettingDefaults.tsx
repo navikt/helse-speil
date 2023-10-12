@@ -1,5 +1,3 @@
-import { SkjønnsfastsettingFormFields } from './SkjønnsfastsettingForm';
-
 import { Arbeidsgiver, Arbeidsgiverinntekt } from '@io/graphql';
 import { useCurrentArbeidsgiver } from '@state/arbeidsgiver';
 import { useActivePeriod } from '@state/periode';
@@ -7,6 +5,7 @@ import { useCurrentPerson } from '@state/person';
 import { isSykepengegrunnlagskjønnsfastsetting } from '@utils/typeguards';
 
 import { skjønnsfastsettelseBegrunnelser } from '../../skjønnsfastsetting';
+import { SkjønnsfastsettingFormFields } from './SkjønnsfastsettingForm';
 
 export const useSkjønnsfastsettingDefaults = (
     inntekter: Arbeidsgiverinntekt[],

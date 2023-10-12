@@ -1,12 +1,7 @@
-import { useLocation, useNavigate } from 'react-router-dom';
-
-import { usePersonLoadable } from '@state/person';
-import { isPerson } from '@utils/typeguards';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 
 export interface Navigation {
-    toString: (location: Location) => string;
     navigateTo: (location: Location, aktørId?: string) => void;
-    pathForLocation: (location: Location, aktørId?: string) => string;
     navigateToNext: () => void;
     navigateToPrevious: () => void;
 }
@@ -26,9 +21,8 @@ const locationFromCurrentPath = (path: string, locations: string[]) => {
 };
 
 const useCurrentAktørId = (): string | null => {
-    const person = usePersonLoadable();
-
-    return person.state === 'hasValue' && isPerson(person.contents) ? person.contents.aktorId : null;
+    const { aktorId } = useParams<{ aktorId: string }>();
+    return aktorId ?? null;
 };
 
 export const useNavigation = (): Navigation => {
@@ -50,15 +44,8 @@ export const useNavigation = (): Navigation => {
         }
     };
 
-    const pathForLocation = (location: Location, aktørId?: string) =>
-        `/person/${aktørId ?? currentAktørId}${locations[location]}`;
-
-    const toString = (location: Location) => locations[location];
-
     return {
-        toString: toString,
         navigateTo: navigateTo,
-        pathForLocation: pathForLocation,
         navigateToNext: () => canNavigateToNext && navigateTo(currentLocation + 1),
         navigateToPrevious: () => canNavigateToPrevious && navigateTo(currentLocation - 1),
     };

@@ -1,9 +1,3 @@
-import { kategoriserteInngangsvilkår } from './kategoriserteInngangsvilkår';
-import { IkkeOppfylteVilkår } from './vilkårsgrupper/IkkeOppfylteVilkår';
-import { IkkeVurderteVilkår } from './vilkårsgrupper/IkkeVurderteVilkår';
-import { OppfylteVilkår } from './vilkårsgrupper/OppfylteVilkår';
-import { VurdertIInfotrygd } from './vilkårsgrupper/VurdertIInfotrygd';
-import { VurdertISpleis } from './vilkårsgrupper/VurdertISpleis';
 import dayjs from 'dayjs';
 import { Vilkårdata } from 'mapping/vilkår';
 import React from 'react';
@@ -16,6 +10,13 @@ import { useActivePeriod } from '@state/periode';
 import { useCurrentPerson } from '@state/person';
 import { getRequiredVilkårsgrunnlag } from '@state/selectors/person';
 import { isBeregnetPeriode, isUberegnetVilkarsprovdPeriode } from '@utils/typeguards';
+
+import { kategoriserteInngangsvilkår } from './kategoriserteInngangsvilkår';
+import { IkkeOppfylteVilkår } from './vilkårsgrupper/IkkeOppfylteVilkår';
+import { IkkeVurderteVilkår } from './vilkårsgrupper/IkkeVurderteVilkår';
+import { OppfylteVilkår } from './vilkårsgrupper/OppfylteVilkår';
+import { VurdertIInfotrygd } from './vilkårsgrupper/VurdertIInfotrygd';
+import { VurdertISpleis } from './vilkårsgrupper/VurdertISpleis';
 
 import styles from './Inngangsvilkår.module.css';
 

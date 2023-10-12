@@ -1,9 +1,11 @@
-import { ApolloClient, InMemoryCache } from '@apollo/client';
+import fetch from 'cross-fetch';
+
+import { ApolloClient, HttpLink, InMemoryCache } from '@apollo/client';
 import possibletypes from '@io/graphql/generated/possibletypes';
 
 const baseUrlGraphQL = (process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : '') + '/graphql';
 export const client = new ApolloClient({
-    uri: baseUrlGraphQL,
+    link: new HttpLink({ uri: baseUrlGraphQL, fetch }),
     cache: new InMemoryCache({
         dataIdFromObject: () => undefined,
         possibleTypes: possibletypes.possibleTypes,
@@ -12,6 +14,8 @@ export const client = new ApolloClient({
             Notater: { keyFields: ['id'] },
             Notat: { keyFields: ['id'] },
             Kommentarer: { keyFields: ['id'] },
+            Person: { keyFields: ['fodselsnummer'] },
+            VarselDTO: { keyFields: ['generasjonId', 'kode'] },
         },
     }),
 });

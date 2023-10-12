@@ -1,24 +1,24 @@
 import { useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 
+import { useQuery } from '@apollo/client';
+import { FetchPersonDocument } from '@io/graphql';
 import { nyesteOpptegnelserState } from '@state/opptegnelser';
-import { usePersonLoadable, useRefetchPerson } from '@state/person';
+
+import { client } from '../routes/apolloClient';
 
 const personHarFåttOpptegnelse = (opptegnelser: Opptegnelse[], valgtAktørId: string): boolean =>
     opptegnelser.some((opptegnelse) => opptegnelse.aktørId.toString() === valgtAktørId);
 
 export const useRefreshPersonVedOpptegnelse = () => {
     const opptegnelser = useRecoilValue(nyesteOpptegnelserState);
-    const currentPerson = usePersonLoadable();
-    const refetchPerson = useRefetchPerson();
+    const { aktorId } = useParams<{ aktorId: string }>();
+    const { data } = useQuery(FetchPersonDocument, { variables: { aktorId } });
 
     useEffect(() => {
-        if (
-            currentPerson.state === 'hasValue' &&
-            currentPerson.contents?.aktorId &&
-            personHarFåttOpptegnelse(opptegnelser, currentPerson.contents.aktorId)
-        ) {
-            refetchPerson();
+        if (data !== undefined && data.person?.aktorId && personHarFåttOpptegnelse(opptegnelser, data.person.aktorId)) {
+            client.refetchQueries({ include: [FetchPersonDocument] });
         }
     }, [opptegnelser]);
 };

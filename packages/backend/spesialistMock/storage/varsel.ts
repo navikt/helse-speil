@@ -4,6 +4,7 @@ import { GraphQLError } from 'graphql';
 import {
     MutationSettVarselstatusAktivArgs,
     MutationSettVarselstatusVurdertArgs,
+    Person,
     VarselDto,
     Varselstatus,
 } from '../schemaTypes';
@@ -27,12 +28,18 @@ export class VarselMock {
         });
     };
 
-    static settVarselstatusVurdert = ({
-        generasjonIdString,
-        definisjonIdString,
-        varselkode,
-        ident,
-    }: MutationSettVarselstatusVurdertArgs): VarselDto | GraphQLError => {
+    static settVarselstatusVurdert = (
+        { generasjonIdString, definisjonIdString, varselkode, ident }: MutationSettVarselstatusVurdertArgs,
+        person?: Person,
+    ): VarselDto | GraphQLError => {
+        const gjeldendeVarsel = person?.arbeidsgivere
+            .flatMap((arbeidsgiver) =>
+                arbeidsgiver.generasjoner.flatMap((generasjon) =>
+                    generasjon.perioder.flatMap((periode) => periode.varsler),
+                ),
+            )
+            .find((varsel) => varsel.kode === varselkode && varsel.generasjonId === generasjonIdString);
+
         const { varselMedEndring, index } = this.findWithIndex(
             this.varslerMedEndring,
             (varselMedEndring) =>
@@ -81,11 +88,10 @@ export class VarselMock {
         return varselMedVurdering;
     };
 
-    static settVarselstatusAktiv = ({
-        generasjonIdString,
-        varselkode,
-        ident,
-    }: MutationSettVarselstatusAktivArgs): VarselDto | GraphQLError => {
+    static settVarselstatusAktiv = (
+        { generasjonIdString, varselkode, ident }: MutationSettVarselstatusAktivArgs,
+        person?: Person,
+    ): VarselDto | GraphQLError => {
         const { varselMedEndring, index } = this.findWithIndex(
             this.varslerMedEndring,
             (varselMedEndring) =>

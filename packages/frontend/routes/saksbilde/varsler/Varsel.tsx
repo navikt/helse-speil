@@ -1,12 +1,11 @@
 import classNames from 'classnames';
-import React, { useState } from 'react';
+import React from 'react';
 
 import { BodyShort, Loader } from '@navikt/ds-react';
 
 import { useMutation } from '@apollo/client';
 import { SettVarselStatusDocument, VarselDto, Varselstatus } from '@io/graphql';
 import { useInnloggetSaksbehandler } from '@state/authentication';
-import { useRefetchPerson } from '@state/person';
 import { getFormattedDatetimeString } from '@utils/date';
 
 import { Avhuking } from './Avhuking';
@@ -32,18 +31,10 @@ const getErrorMessage = (errorCode: number) => {
 
 export const Varsel: React.FC<VarselProps> = ({ className, varsel, type }) => {
     const innloggetSaksbehandler = useInnloggetSaksbehandler();
-    const [venterPåRefetch, setVenterPåRefetch] = useState(false);
     const varselVurdering = varsel.vurdering;
     const varselStatus = varselVurdering?.status ?? Varselstatus.Aktiv;
-    const refetchPerson = useRefetchPerson();
 
-    const [settVarselstatus, { error, loading }] = useMutation(SettVarselStatusDocument, {
-        onCompleted: async () => {
-            setVenterPåRefetch(true);
-            await refetchPerson();
-            setVenterPåRefetch(false);
-        },
-    });
+    const [settVarselstatus, { error, loading }] = useMutation(SettVarselStatusDocument);
 
     const settVarselstatusVurdert = async () => {
         const ident = innloggetSaksbehandler.ident;
@@ -75,7 +66,7 @@ export const Varsel: React.FC<VarselProps> = ({ className, varsel, type }) => {
 
     return (
         <div className={classNames(className, styles.varsel, styles[type])}>
-            {loading || venterPåRefetch ? (
+            {loading ? (
                 <Loader
                     style={{ height: 'var(--a-font-line-height-xlarge)', alignSelf: 'flex-start' }}
                     size="medium"

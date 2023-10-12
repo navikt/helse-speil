@@ -1,4 +1,3 @@
-import { VenterPåEndringProvider } from './VenterPåEndringContext';
 import React from 'react';
 import { Route, Routes } from 'react-router-dom';
 
@@ -12,6 +11,7 @@ import { AmplitudeProvider } from '@io/amplitude';
 import { usePollEtterOpptegnelser } from '@io/http';
 import { onLazyLoadFail } from '@utils/error';
 
+import { VenterPåEndringProvider } from './VenterPåEndringContext';
 import { PersonHeader } from './personHeader';
 import { SaksbildeMenu } from './saksbildeMenu/SaksbildeMenu';
 import { Timeline } from './timeline';

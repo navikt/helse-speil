@@ -4,7 +4,6 @@ import React from 'react';
 
 import { HentBehandlingsstatistikkDocument } from '@io/graphql';
 import { useMineOppgaver, useOppgaver, useQueryOppgaver } from '@state/oppgaver';
-import { useResetPerson } from '@state/person';
 import { enOppgaveForOversikten } from '@test-data/oppgave';
 import { render } from '@testing-library/react';
 
@@ -29,7 +28,6 @@ describe('Oversikt', () => {
         const result = await axe(container);
 
         expect(result).toHaveNoViolations();
-        expect(useResetPerson).toHaveBeenCalled();
     });
 });
 

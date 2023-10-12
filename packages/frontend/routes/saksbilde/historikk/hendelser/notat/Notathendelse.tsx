@@ -6,10 +6,10 @@ import { Send, SpeechBubble, StopWatch } from '@navikt/ds-icons';
 import { ErrorMessage } from '@navikt/ds-react';
 
 import { useMutation } from '@apollo/client';
-import { FeilregistrerNotatMutationDocument } from '@io/graphql';
+import { FeilregistrerNotatMutationDocument, FetchPersonDocument } from '@io/graphql';
 import { useInnloggetSaksbehandler } from '@state/authentication';
-import { useRefetchPerson } from '@state/person';
 
+import { client } from '../../../../apolloClient';
 import { ExpandableHistorikkContent } from '../ExpandableHistorikkContent';
 import { Hendelse } from '../Hendelse';
 import { HendelseDate } from '../HendelseDate';
@@ -36,14 +36,11 @@ export const Notathendelse: React.FC<NotathendelseProps> = ({
     const [expanded, setExpanded] = useState(false);
 
     const innloggetSaksbehandler = useInnloggetSaksbehandler();
-    const refetchPerson = useRefetchPerson();
 
     const [feilregistrerNotat, { loading, error }] = useMutation(FeilregistrerNotatMutationDocument, {
         variables: { id: parseInt(id) },
         onCompleted: () => {
-            refetchPerson().finally(() => {
-                setShowAddDialog(false);
-            });
+            client.refetchQueries({ include: [FetchPersonDocument], onQueryUpdated: () => setShowAddDialog(false) });
         },
     });
 

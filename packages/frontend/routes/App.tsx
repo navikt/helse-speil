@@ -12,7 +12,7 @@ import { Varsler } from '@components/Varsler';
 import { Header } from '@components/header/Header';
 import { useLoadingToast } from '@hooks/useLoadingToast';
 import { useAuthentication, useUpdateAuthentication } from '@state/authentication';
-import { usePersonLoadable } from '@state/person';
+import { useIsFetchingPerson } from '@state/person';
 import { useSetVarsler } from '@state/varsler';
 import { onLazyLoadFail } from '@utils/error';
 import { erDev, erLocal } from '@utils/featureToggles';
@@ -53,7 +53,9 @@ const useSyncAlertsToLocation = () => {
 };
 
 const App = () => {
-    useLoadingToast({ isLoading: usePersonLoadable().state === 'loading', message: 'Henter person' });
+    const loading = useIsFetchingPerson();
+
+    useLoadingToast({ isLoading: loading, message: 'Henter person' });
     useUpdateAuthentication();
 
     useSyncAlertsToLocation();

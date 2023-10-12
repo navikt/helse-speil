@@ -8,12 +8,12 @@ import { useMutation } from '@apollo/client';
 import { ErrorMessage } from '@components/ErrorMessage';
 import { Modal } from '@components/Modal';
 import { AnonymizableText } from '@components/anonymizable/AnonymizableText';
-import { LeggTilNotatDocument, NotatType, Personnavn } from '@io/graphql';
+import { FetchPersonDocument, LeggTilNotatDocument, NotatType, Personnavn } from '@io/graphql';
 import { useInnloggetSaksbehandler } from '@state/authentication';
 import { useNotaterForVedtaksperiode } from '@state/notater';
-import { useRefetchPerson } from '@state/person';
 import { getFormatertNavn } from '@utils/string';
 
+import { client } from '../../../../apolloClient';
 import { SisteNotat } from './SisteNotat';
 
 const Container = styled.section`
@@ -113,7 +113,6 @@ export const NyttNotatModal = ({
     const notaterForOppgave = useNotaterForVedtaksperiode(vedtaksperiodeId);
     const { oid } = useInnloggetSaksbehandler();
     const [nyttNotat, { loading }] = useMutation(LeggTilNotatDocument);
-    const refetchPerson = useRefetchPerson();
     const søkernavn = navn ? getFormatertNavn(navn, ['E', ',', 'F', 'M']) : undefined;
 
     const form = useForm();
@@ -156,7 +155,7 @@ export const NyttNotatModal = ({
                 },
             })
                 .then(() => {
-                    void refetchPerson(); // Refresher for saksbildet, for GraphQL
+                    client.refetchQueries({ include: [FetchPersonDocument] });
                     onClose({} as React.SyntheticEvent);
                 })
                 .catch((err) => {

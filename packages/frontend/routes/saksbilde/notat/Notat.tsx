@@ -9,13 +9,13 @@ import { BodyShort, Button, ErrorMessage, Loader } from '@navikt/ds-react';
 
 import { useMutation } from '@apollo/client';
 import { Key, useKeyboard } from '@hooks/useKeyboard';
-import { LeggTilNotatDocument, NotatType } from '@io/graphql';
+import { FetchPersonDocument, LeggTilNotatDocument, NotatType } from '@io/graphql';
 import { useInnloggetSaksbehandler } from '@state/authentication';
 import { lokaleNotaterState } from '@state/notater';
 import { useActivePeriod } from '@state/periode';
-import { useRefetchPerson } from '@state/person';
 import { isGhostPeriode } from '@utils/typeguards';
 
+import { client } from '../../apolloClient';
 import { ControlledTextarea } from './ControlledTextarea';
 
 import styles from './Notat.module.css';
@@ -29,7 +29,6 @@ export const Notat = () => {
     const [nyttNotat, { loading }] = useMutation(LeggTilNotatDocument);
     const [error, setError] = useState<string | undefined>();
     const { oid } = useInnloggetSaksbehandler();
-    const refetchPerson = useRefetchPerson();
 
     const erGhostEllerHarIkkeAktivPeriode = isGhostPeriode(aktivPeriode) || !aktivPeriode;
     const harPåbegyntNotat =
@@ -74,7 +73,7 @@ export const Notat = () => {
             },
         })
             .then(() => {
-                void refetchPerson(); // Refresher for saksbildet, for GraphQL
+                client.refetchQueries({ include: [FetchPersonDocument] });
                 setOpen(false);
                 slettNotat();
             })

@@ -1,154 +1,34 @@
-import { GraphQLError } from 'graphql';
-import {
-    Loadable,
-    atom,
-    selector,
-    useRecoilValue,
-    useRecoilValueLoadable,
-    useResetRecoilState,
-    useSetRecoilState,
-} from 'recoil';
+import { useParams } from 'react-router-dom';
+import { useRecoilValue } from 'recoil';
 
-import { Maybe, Person, fetchPerson } from '@io/graphql';
-import {
-    FetchError,
-    FlereFodselsnumreError,
-    NotFoundError,
-    ProtectedError,
-    isFetchErrorArray,
-} from '@io/graphql/errors';
-import { activePeriod, activePeriodState } from '@state/periode';
+import { useQuery } from '@apollo/client';
+import { FetchPersonDocument, Maybe } from '@io/graphql';
+import { useActivePeriod } from '@state/periode';
 import { tildelingState } from '@state/tildeling';
-import { SpeilError } from '@utils/error';
-
-type PersonState = {
-    person: Maybe<FetchedPerson>;
-    errors: Array<SpeilError>;
-    loading: boolean;
-};
-
-const fetchPersonState = (id: string): Promise<PersonState> => {
-    return fetchPerson(id)
-        .then((res) => {
-            return Promise.resolve({
-                person: res.person ?? null,
-                errors: [],
-                loading: false,
-            });
-        })
-        .catch(({ response }) => {
-            const errors = response.errors.map((error: GraphQLError) => {
-                switch (error.extensions?.code) {
-                    case 403: {
-                        throw new ProtectedError();
-                    }
-                    case 404: {
-                        throw new NotFoundError();
-                    }
-                    case 500: {
-                        if (error.extensions.feilkode === 'HarFlereFodselsnumre') {
-                            const fodselsnumre = error.extensions.fodselsnumre;
-                            throw new FlereFodselsnumreError(fodselsnumre as string[]);
-                        } else throw new FetchError();
-                    }
-                    default: {
-                        throw new FetchError();
-                    }
-                }
-            });
-            return Promise.reject(errors);
-        });
-};
-
-const emptyPersonState = (): PersonState => ({
-    person: null,
-    errors: [],
-    loading: false,
-});
-
-export const personState = atom<PersonState>({
-    key: 'CurrentPerson',
-    default: emptyPersonState(),
-});
 
 export const useCurrentPerson = (): Maybe<FetchedPerson> => {
-    return useRecoilValue(fetchedPersonSelector);
-};
-
-export const fetchedPersonSelector = selector<Maybe<FetchedPerson>>({
-    key: 'fetchedPersonSelector',
-    get: ({ get }) => {
-        const tildelinger = get(tildelingState);
-        const aktivPeriode = get(activePeriod) as FetchedBeregnetPeriode;
-        const person = get(personState).person;
-        if (person === null) return null;
-        return {
-            ...person,
-            tildeling:
-                aktivPeriode?.oppgave !== undefined &&
-                aktivPeriode?.oppgave?.id !== undefined &&
-                tildelinger[aktivPeriode.oppgave.id] !== undefined
-                    ? tildelinger[aktivPeriode.oppgave.id]
-                    : person?.tildeling,
-        } as FetchedPerson;
-    },
-});
-
-export const useFetchPerson = (): ((id: string) => Promise<PersonState | void>) => {
-    const setPerson = useSetRecoilState(personState);
-    const setActivePeriod = useSetRecoilState(activePeriodState);
-
-    return async (id: string) => {
-        setPerson((prevState) => (prevState.person ? prevState : { ...prevState, loading: true }));
-        return fetchPersonState(id)
-            .then((state) => {
-                setPerson(state);
-                setActivePeriod((prevState) => {
-                    return (
-                        state.person?.arbeidsgivere
-                            .flatMap((arbeidsgiver) =>
-                                arbeidsgiver.generasjoner.flatMap((it) => it.perioder as Array<ActivePeriod>),
-                            )
-                            .find((it) => it.id === prevState?.id) ?? null
-                    );
-                });
-
-                return Promise.resolve(state);
-            })
-            .catch((errors) => {
-                setPerson((prevState) => ({ ...prevState, errors, loading: false }));
-            });
-    };
-};
-
-export const useRefetchPerson = (): (() => Promise<PersonState | null>) => {
-    const personId = useRecoilValue(personState).person?.fodselsnummer;
-    const fetchPerson = useFetchPerson();
-
-    return async () => {
-        if (personId) {
-            const personState = await fetchPerson(personId);
-            return Promise.resolve(personState ?? null);
-        } else {
-            return Promise.resolve(null);
-        }
-    };
-};
-
-export const usePersonLoadable = (): Loadable<Person | null> => {
-    const loadable = useRecoilValueLoadable(personState);
-
-    if (loadable.state === 'hasValue' && isFetchErrorArray(loadable.contents.errors)) {
-        return { state: 'hasValue', contents: null } as Loadable<null>;
-    }
-
-    return { state: loadable.state, contents: loadable.contents.person ?? null } as Loadable<Person | null>;
-};
-
-export const useResetPerson = (): (() => void) => {
-    return useResetRecoilState(personState);
+    const { aktorId } = useParams<{ aktorId?: string }>();
+    const { data } = useQuery(FetchPersonDocument, {
+        variables: { aktorId },
+        skip: aktorId == null,
+    });
+    const activPeriod = useActivePeriod() as FetchedBeregnetPeriode;
+    const tildelinger = useRecoilValue(tildelingState);
+    const person = data?.person ?? null;
+    if (person === null) return null;
+    return {
+        ...person,
+        tildeling:
+            activPeriod?.oppgave !== undefined &&
+            activPeriod?.oppgave?.id !== undefined &&
+            tildelinger[activPeriod.oppgave.id] !== undefined
+                ? tildelinger[activPeriod.oppgave.id]
+                : person?.tildeling,
+    } as FetchedPerson;
 };
 
 export const useIsFetchingPerson = (): boolean => {
-    return useRecoilValue(personState).loading;
+    const { aktorId } = useParams<{ aktorId: string | undefined }>();
+    const { loading } = useQuery(FetchPersonDocument, { variables: { aktorId }, skip: aktorId == null });
+    return loading;
 };

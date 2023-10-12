@@ -2,10 +2,10 @@ import React from 'react';
 
 import { useMutation } from '@apollo/client';
 import { LinkButton } from '@components/LinkButton';
-import { FetchNotaterDocument, LeggTilKommentarDocument } from '@io/graphql';
+import { FetchNotaterDocument, FetchPersonDocument, LeggTilKommentarDocument } from '@io/graphql';
 import { useInnloggetSaksbehandler } from '@state/authentication';
-import { useRefetchPerson } from '@state/person';
 
+import { client } from '../../../../apolloClient';
 import { Kommentarer } from './Kommentarer';
 import { NotatForm } from './NotatForm';
 
@@ -29,16 +29,13 @@ export const NotatHendelseContent = ({
     vedtaksperiodeId,
 }: NotatHendelseContentProps) => {
     const innloggetSaksbehandler = useInnloggetSaksbehandler();
-    const refetchPerson = useRefetchPerson();
     const [leggTilKommentar, { error, loading }] = useMutation(LeggTilKommentarDocument, {
         refetchQueries: [{ query: FetchNotaterDocument, variables: { forPerioder: [vedtaksperiodeId] } }],
     });
 
     const onLeggTilKommentar = (notatId: number, saksbehandlerident: string) => (tekst: string) => {
         leggTilKommentar({ variables: { tekst, notatId, saksbehandlerident } }).then(() => {
-            refetchPerson().finally(() => {
-                setShowAddDialog(false);
-            });
+            client.refetchQueries({ include: [FetchPersonDocument], onQueryUpdated: () => setShowAddDialog(false) });
         });
     };
 
