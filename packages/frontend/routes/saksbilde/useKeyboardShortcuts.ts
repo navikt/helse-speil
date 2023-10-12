@@ -11,14 +11,14 @@ import { isPerson } from '@utils/typeguards';
 
 const useCurrentFødselsnummer = (): string | null => {
     const { aktorId } = useParams<{ aktorId: string }>();
-    const { loading, data } = useQuery(FetchPersonDocument, { variables: { aktorId } });
+    const { loading, data } = useQuery(FetchPersonDocument, { variables: { aktorId }, skip: !aktorId });
 
     return !loading && data !== undefined && isPerson(data.person) ? data.person.fodselsnummer : null;
 };
 
 const useCurrentAktørId = (): string | null => {
     const { aktorId } = useParams<{ aktorId: string }>();
-    const { loading, data } = useQuery(FetchPersonDocument, { variables: { aktorId } });
+    const { loading, data } = useQuery(FetchPersonDocument, { variables: { aktorId }, skip: !aktorId });
 
     return !loading && data !== undefined && isPerson(data.person) ? data.person.aktorId : null;
 };

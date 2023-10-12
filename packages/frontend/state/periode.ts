@@ -13,7 +13,7 @@ const activePeriodIdState = atom<string | null>({
 export const useSetActivePeriodId = () => useSetRecoilState(activePeriodIdState);
 export const useActivePeriod = (): ActivePeriod | null => {
     const { aktorId } = useParams<{ aktorId: string }>();
-    const { data } = useQuery(FetchPersonDocument, { variables: { aktorId } });
+    const { data } = useQuery(FetchPersonDocument, { variables: { aktorId }, skip: !aktorId });
     const activePeriodId = useRecoilValue(activePeriodIdState);
 
     if (data === undefined || !isPerson(data?.person)) {
