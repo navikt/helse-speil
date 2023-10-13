@@ -6,15 +6,15 @@ import { Search } from '@navikt/ds-react';
 import { useLazyQuery } from '@apollo/client';
 import styles from '@components/header/Header.module.css';
 import { useLoadingToast } from '@hooks/useLoadingToast';
-import { erGyldigPersonId } from '@hooks/useRefreshPersonVedUrlEndring';
 import { FetchPersonDocument } from '@io/graphql';
 import { validFødselsnummer } from '@io/graphql/common';
 import { NotFoundError } from '@io/graphql/errors';
-import { useAddVarsel, useRapporterGraphQLErrors, useRemoveVarsel } from '@state/varsler';
+import { useAddVarsel, useRapporterGraphQLErrors } from '@state/varsler';
 import { SpeilError } from '@utils/error';
 
+const erGyldigPersonId = (value: string) => value.match(/^\d{1,15}$/) !== null;
+
 export const Personsøk: React.FC = () => {
-    const removeVarsel = useRemoveVarsel();
     const addVarsel = useAddVarsel();
     const navigate = useNavigate();
     const rapporterError = useRapporterGraphQLErrors();
@@ -30,7 +30,6 @@ export const Personsøk: React.FC = () => {
 
     const søkOppPerson = async (event: FormEvent) => {
         event.preventDefault();
-        removeVarsel('ugyldig-søk');
         const personId = searchRef.current?.value;
 
         if (!personId || loading) {
