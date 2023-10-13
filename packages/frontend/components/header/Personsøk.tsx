@@ -10,20 +10,25 @@ import { erGyldigPersonId } from '@hooks/useRefreshPersonVedUrlEndring';
 import { FetchPersonDocument } from '@io/graphql';
 import { validFødselsnummer } from '@io/graphql/common';
 import { NotFoundError } from '@io/graphql/errors';
-import { useAddVarsel, useRemoveVarsel } from '@state/varsler';
+import { useAddVarsel, useRapporterGraphQLErrors, useRemoveVarsel } from '@state/varsler';
 import { SpeilError } from '@utils/error';
 
 export const Personsøk: React.FC = () => {
-    const [hentPerson, { loading }] = useLazyQuery(FetchPersonDocument);
     const removeVarsel = useRemoveVarsel();
     const addVarsel = useAddVarsel();
     const navigate = useNavigate();
+    const rapporterError = useRapporterGraphQLErrors();
+    const [hentPerson, { loading }] = useLazyQuery(FetchPersonDocument, {
+        onError: (error) => {
+            rapporterError(error.graphQLErrors);
+        },
+    });
 
     useLoadingToast({ isLoading: loading, message: 'Henter person' });
 
     const searchRef = useRef<HTMLInputElement>(null);
 
-    const søkOppPerson = (event: FormEvent) => {
+    const søkOppPerson = async (event: FormEvent) => {
         event.preventDefault();
         removeVarsel('ugyldig-søk');
         const personId = searchRef.current?.value;

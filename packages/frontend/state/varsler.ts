@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import { atom, useRecoilValue, useSetRecoilState } from 'recoil';
 
 import { useQuery } from '@apollo/client';
+import { GraphQLErrors } from '@apollo/client/errors';
 import { FetchPersonDocument } from '@io/graphql';
 import { FetchError, FlereFodselsnumreError, NotFoundError, ProtectedError } from '@io/graphql/errors';
 import { SpeilError } from '@utils/error';
@@ -38,6 +39,34 @@ export const useVarsler = (): Array<SpeilError> => {
         }) ?? [];
 
     return useRecoilValue(varslerState).concat(aktorId !== undefined ? errors : []);
+};
+
+export const useRapporterGraphQLErrors = (): ((graphQLErrors: GraphQLErrors) => void) => {
+    const addVarsel = useAddVarsel();
+
+    return (errors) =>
+        errors.map((error: GraphQLError) => {
+            switch (error.extensions?.code) {
+                case 403: {
+                    addVarsel(new ProtectedError());
+                    break;
+                }
+                case 404: {
+                    addVarsel(new NotFoundError());
+                    break;
+                }
+                case 500: {
+                    if (error.extensions.feilkode === 'HarFlereFodselsnumre') {
+                        const fodselsnumre = error.extensions.fodselsnumre;
+                        addVarsel(new FlereFodselsnumreError(fodselsnumre as string[]));
+                    } else addVarsel(new FetchError());
+                    break;
+                }
+                default: {
+                    addVarsel(new FetchError());
+                }
+            }
+        });
 };
 
 export const useAddVarsel = (): ((varsel: SpeilError) => void) => {

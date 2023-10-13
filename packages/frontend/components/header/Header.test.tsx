@@ -30,6 +30,7 @@ jest.mock('@state/varsler', () => ({
     useRemoveVarsel: () => () => {
         cachedVarsel = null;
     },
+    useRapporterGraphQLErrors: () => () => {},
 }));
 
 const mocks = [
