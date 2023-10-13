@@ -60,14 +60,15 @@ export const defaultFilters: Filter<OppgaveTilBehandling>[] = [
         key: 'FORLENGELSE',
         label: 'Forlengelse',
         active: false,
-        function: (oppgave: OppgaveTilBehandling) => oppgave.periodetype === Periodetype.Forlengelse,
+        function: (oppgave: OppgaveTilBehandling) =>
+            [Periodetype.Forlengelse, Periodetype.Infotrygdforlengelse].includes(oppgave.periodetype),
         column: Oppgaveoversiktkolonne.PERIODETYPE,
     },
     {
         key: 'FORLENGELSE_IT',
         label: 'Forlengelse - IT',
         active: false,
-        function: (oppgave: OppgaveTilBehandling) => oppgave.periodetype === Periodetype.Infotrygdforlengelse,
+        function: (oppgave: OppgaveTilBehandling) => oppgave.periodetype === Periodetype.OvergangFraIt,
         column: Oppgaveoversiktkolonne.PERIODETYPE,
     },
     {
