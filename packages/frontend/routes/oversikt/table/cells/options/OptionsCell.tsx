@@ -48,19 +48,26 @@ export const OptionsCell = ({ oppgave, navn }: OptionsButtonProps) => {
                     <Dropdown.Menu>
                         <Dropdown.Menu.List>
                             {!erTildeltInnloggetBruker && !readOnly && (
-                                <TildelMenuButton oppgavereferanse={oppgave.id} tildeling={oppgave.tildeling} />
+                                <TildelMenuButton
+                                    oppgavereferanse={oppgave.id}
+                                    aktørId={oppgave.aktorId}
+                                    tildeling={oppgave.tildeling}
+                                />
                             )}
                             {erTildeltInnloggetBruker &&
                                 (oppgave?.tildeling?.paaVent ? (
-                                    <FjernFraPåVentMenuButton oppgavereferanse={oppgave.id} />
+                                    <FjernFraPåVentMenuButton oppgavereferanse={oppgave.id} aktørId={oppgave.aktorId} />
                                 ) : (
                                     <LeggPåVentMenuButton
                                         oppgavereferanse={oppgave.id}
+                                        aktørId={oppgave.aktorId}
                                         vedtaksperiodeId={oppgave.vedtaksperiodeId}
                                         navn={navn}
                                     />
                                 ))}
-                            {skalViseAvmeldingsknapp && <MeldAvMenuButton oppgavereferanse={oppgave.id} />}
+                            {skalViseAvmeldingsknapp && (
+                                <MeldAvMenuButton oppgavereferanse={oppgave.id} aktørId={oppgave.aktorId} />
+                            )}
                         </Dropdown.Menu.List>
                     </Dropdown.Menu>
                 </Dropdown>

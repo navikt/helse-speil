@@ -1,53 +1,75 @@
-import { useParams } from 'react-router-dom';
-import { atom, useRecoilValue, useSetRecoilState } from 'recoil';
+import { useEffect } from 'react';
+import { atom, useRecoilState, useRecoilValue } from 'recoil';
 
-import { useQuery } from '@apollo/client';
-import { FetchPersonDocument, Periodetilstand } from '@io/graphql';
-import { isBeregnetPeriode, isPerson, isUberegnetVilkarsprovdPeriode } from '@utils/typeguards';
+import { Periodetilstand } from '@io/graphql';
+import { useCurrentPerson } from '@state/person';
+import { isBeregnetPeriode, isUberegnetVilkarsprovdPeriode } from '@utils/typeguards';
 
 const activePeriodIdState = atom<string | null>({
-    key: 'activePeriodIdState',
+    key: 'activePeriodId',
     default: null,
 });
 
-export const useSetActivePeriodId = () => useSetRecoilState(activePeriodIdState);
-export const useActivePeriod = (): ActivePeriod | null => {
-    const { aktorId } = useParams<{ aktorId: string }>();
-    const { data } = useQuery(FetchPersonDocument, { variables: { aktorId }, skip: !aktorId });
-    const activePeriodId = useRecoilValue(activePeriodIdState);
+export const useSetActivePeriodId = () => {
+    const person = useCurrentPerson();
+    const [activePeriodId, setActivePeriodId] = useRecoilState(activePeriodIdState);
 
-    if (data === undefined || !isPerson(data?.person)) {
-        return null;
-    }
-
-    if (activePeriodId !== null) {
-        const activPeriodFraId =
-            data.person.arbeidsgivere
-                .flatMap((arbeidsgiver) => arbeidsgiver.generasjoner.flatMap((generasjon) => generasjon.perioder))
-                .find((periode) => periode.id === activePeriodId) ?? null;
-
-        if (activPeriodFraId !== null) return activPeriodFraId;
-    }
-
-    const perioderINyesteGenerasjoner = data.person.arbeidsgivere.flatMap(
-        (arbeidsgiver) => arbeidsgiver.generasjoner[0]?.perioder ?? [],
-    );
-
-    const aktuellePerioder = perioderINyesteGenerasjoner
-        .sort((a, b) => new Date(b.fom).getTime() - new Date(a.fom).getTime())
-        .filter(
-            (period) =>
-                (isBeregnetPeriode(period) || isUberegnetVilkarsprovdPeriode(period)) &&
-                period.periodetilstand !== Periodetilstand.TilInfotrygd,
-        );
-
-    const periodeTilBehandling = aktuellePerioder.find(
-        (periode) =>
-            (isBeregnetPeriode(periode) &&
-                periode.periodetilstand === Periodetilstand.TilGodkjenning &&
-                typeof periode.oppgave?.id === 'string') ||
-            (isUberegnetVilkarsprovdPeriode(periode) &&
-                periode.periodetilstand === Periodetilstand.TilSkjonnsfastsettelse),
-    );
-    return periodeTilBehandling ?? aktuellePerioder[0] ?? null;
+    return (periodeId: string) => {
+        const periode = findPeriod(periodeId, person);
+        if (activePeriodId === periode || !periode) return;
+        setActivePeriodId(periode.id);
+    };
 };
+
+export const useActivePeriod = (): ActivePeriod | null => {
+    const person = useCurrentPerson();
+    const activePeriodId = useRecoilValue(activePeriodIdState);
+    useSelectInitialPeriod();
+    useUnsetActivePeriodOnNewPerson();
+    return activePeriodId ? findPeriod(activePeriodId, person) : null;
+};
+
+const useSelectInitialPeriod = () => {
+    const person = useCurrentPerson();
+    const [activePeriodId, setActivePeriodId] = useRecoilState(activePeriodIdState);
+
+    useEffect(() => {
+        if (!person || activePeriodId) return;
+        const perioderINyesteGenerasjoner = person.arbeidsgivere.flatMap(
+            (arbeidsgiver) => arbeidsgiver.generasjoner[0]?.perioder ?? [],
+        );
+        const aktuellePerioder = perioderINyesteGenerasjoner
+            .sort((a, b) => new Date(b.fom).getTime() - new Date(a.fom).getTime())
+            .filter(
+                (period) =>
+                    (isBeregnetPeriode(period) || isUberegnetVilkarsprovdPeriode(period)) &&
+                    period.periodetilstand !== Periodetilstand.TilInfotrygd,
+            );
+
+        const periodeTilBehandling = aktuellePerioder.find(
+            (periode) =>
+                (isBeregnetPeriode(periode) &&
+                    periode.periodetilstand === Periodetilstand.TilGodkjenning &&
+                    typeof periode.oppgave?.id === 'string') ||
+                (isUberegnetVilkarsprovdPeriode(periode) &&
+                    periode.periodetilstand === Periodetilstand.TilSkjonnsfastsettelse),
+        );
+        setActivePeriodId((periodeTilBehandling ?? aktuellePerioder[0] ?? null)?.id);
+    }, [person, activePeriodId]);
+};
+
+const useUnsetActivePeriodOnNewPerson = () => {
+    const person = useCurrentPerson();
+    const [activePeriodId, setActivePeriodId] = useRecoilState(activePeriodIdState);
+    useEffect(() => {
+        if (person && activePeriodId && !findPeriod(activePeriodId, person)) {
+            setActivePeriodId(null);
+        }
+    }, [person, activePeriodId]);
+};
+
+const findPeriod = (periodeId: string, person: FetchPersonQuery['person']) =>
+    person?.arbeidsgivere
+        .flatMap((arbeidsgiver) => arbeidsgiver.generasjoner)
+        .flatMap((generasjon) => generasjon.perioder)
+        .find((periode) => periode.id === periodeId) ?? null;

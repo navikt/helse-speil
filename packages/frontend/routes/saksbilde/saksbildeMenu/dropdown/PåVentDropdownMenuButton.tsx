@@ -12,6 +12,7 @@ import { NyttNotatModal } from '../../../oversikt/table/cells/notat/NyttNotatMod
 
 interface PåVentDropdownMenuButtonProps {
     oppgavereferanse: string;
+    aktørId: string;
     vedtaksperiodeId: string;
     personinfo: Personinfo;
     erPåVent?: boolean;
@@ -20,6 +21,7 @@ interface PåVentDropdownMenuButtonProps {
 export const PåVentDropdownMenuButton = ({
     erPåVent,
     oppgavereferanse,
+    aktørId,
     vedtaksperiodeId,
     personinfo,
 }: PåVentDropdownMenuButtonProps) => {
@@ -37,13 +39,13 @@ export const PåVentDropdownMenuButton = ({
     };
 
     const settPåVent = (notattekst: string) => {
-        return leggPåVentMedNotat(oppgavereferanse, { tekst: notattekst, type: 'PaaVent' }, vedtaksperiodeId)
+        return leggPåVentMedNotat(oppgavereferanse, aktørId, { tekst: notattekst, type: 'PaaVent' }, vedtaksperiodeId)
             .then(() => navigate('/'))
             .catch(errorHandler);
     };
 
     const fjernFraPåVent = () => {
-        fjernPåVent(oppgavereferanse).catch(errorHandler);
+        fjernPåVent(oppgavereferanse, aktørId).catch(errorHandler);
     };
 
     return (

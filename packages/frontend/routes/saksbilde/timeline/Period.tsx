@@ -125,7 +125,7 @@ export const Period: React.FC<PeriodProps> = ({
     generation = 0,
     ...buttonProps
 }) => {
-    const setActivePeriod = useSetActivePeriodId();
+    const setActivePeriodId = useSetActivePeriodId();
     const button = useRef<HTMLButtonElement>(null);
     const iconIsVisible = useIsWiderThan(button, 32);
     const harUvurderteVarsler = useUvurderteVarslerPåPeriode(period);
@@ -140,7 +140,7 @@ export const Period: React.FC<PeriodProps> = ({
             isGhostPeriode(period) ||
             isUberegnetVilkarsprovdPeriode(period)
         ) {
-            setActivePeriod(period.id);
+            setActivePeriodId(period.id);
         }
     };
 

@@ -12,11 +12,17 @@ import styles from './OptionsCell.module.css';
 
 interface LeggPåVentMenuButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
     oppgavereferanse: string;
+    aktørId: string;
     vedtaksperiodeId: string;
     navn: Personnavn;
 }
 
-export const LeggPåVentMenuButton = ({ oppgavereferanse, vedtaksperiodeId, navn }: LeggPåVentMenuButtonProps) => {
+export const LeggPåVentMenuButton = ({
+    oppgavereferanse,
+    aktørId,
+    vedtaksperiodeId,
+    navn,
+}: LeggPåVentMenuButtonProps) => {
     const [visModal, setVisModal] = useState(false);
     const [error, setError] = useState<string | undefined>();
 
@@ -29,6 +35,7 @@ export const LeggPåVentMenuButton = ({ oppgavereferanse, vedtaksperiodeId, navn
     const settPåVent = (notattekst: string) =>
         leggPåVentMedNotat(
             oppgavereferanse,
+            aktørId,
             { tekst: notattekst, type: 'PaaVent' } as NotatDTO,
             vedtaksperiodeId,
         ).catch(() => setError('Kunne ikke lagre notat'));

@@ -8,12 +8,14 @@ import { useFjernTildeling, useOpprettTildeling } from '@state/tildeling';
 
 interface TildelingDropdownMenuButtonProps {
     oppgavereferanse: string;
+    aktørId: string;
     tildeling?: Tildeling | null;
     erTildeltInnloggetBruker: boolean;
 }
 
 export const TildelingDropdownMenuButton = ({
     oppgavereferanse,
+    aktørId,
     tildeling,
     erTildeltInnloggetBruker,
 }: TildelingDropdownMenuButtonProps) => {
@@ -24,7 +26,7 @@ export const TildelingDropdownMenuButton = ({
         return (
             <Tildelingsknapp
                 knappetekst={erTildeltInnloggetBruker ? 'Meld av' : 'Frigi oppgave'}
-                onClick={() => fjernTildeling(oppgavereferanse)}
+                onClick={() => fjernTildeling(oppgavereferanse, aktørId)}
                 isFetching={loadingFjern}
             />
         );
@@ -32,7 +34,7 @@ export const TildelingDropdownMenuButton = ({
     return (
         <Tildelingsknapp
             knappetekst="Tildel meg"
-            onClick={() => opprettTildeling(oppgavereferanse)}
+            onClick={() => opprettTildeling(oppgavereferanse, aktørId)}
             isFetching={loadingOpprett}
         />
     );

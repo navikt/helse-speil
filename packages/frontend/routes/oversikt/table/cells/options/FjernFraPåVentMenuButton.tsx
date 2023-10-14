@@ -7,14 +7,15 @@ import { AsyncMenuButton } from './AsyncMenuButton';
 
 interface FjernFraPåVentMenuButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
     oppgavereferanse: string;
+    aktørId: string;
 }
 
-export const FjernFraPåVentMenuButton = ({ oppgavereferanse, ...rest }: FjernFraPåVentMenuButtonProps) => {
+export const FjernFraPåVentMenuButton = ({ oppgavereferanse, aktørId, ...rest }: FjernFraPåVentMenuButtonProps) => {
     const [fjernPåVent] = useFjernPåVent();
     const errorHandler = useOperationErrorHandler('Fjern fra på vent');
 
     return (
-        <AsyncMenuButton asyncOperation={() => fjernPåVent(oppgavereferanse)} onFail={errorHandler} {...rest}>
+        <AsyncMenuButton asyncOperation={() => fjernPåVent(oppgavereferanse, aktørId)} onFail={errorHandler} {...rest}>
             Fjern fra på vent
         </AsyncMenuButton>
     );

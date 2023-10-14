@@ -41,7 +41,7 @@ export const Saksbilde = () => (
     </ErrorBoundary>
 );
 
-const SaksbildeContent = React.memo(() => {
+const SaksbildeContent = () => {
     useRefreshPersonVedUrlEndring();
     useRefreshPersonVedOpptegnelse();
     usePollEtterOpptegnelser();
@@ -63,4 +63,4 @@ const SaksbildeContent = React.memo(() => {
             </AmplitudeProvider>
         </div>
     );
-});
+};

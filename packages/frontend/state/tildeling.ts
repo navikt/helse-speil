@@ -18,7 +18,7 @@ import { NotatDTO } from '@io/http';
 import { useAddVarsel, useRemoveVarsel } from '@state/varsler';
 import { InfoAlert } from '@utils/error';
 
-type TildelingStateType = { [id: string]: Maybe<Tildeling> | undefined };
+export type TildelingStateType = { [id: string]: Maybe<Tildeling> | undefined };
 
 export const tildelingState = atom<TildelingStateType>({
     key: 'tildelingState',
@@ -40,7 +40,7 @@ const useLeggTilTildelingsvarsel = () => {
 };
 
 export const useOpprettTildeling = (): [
-    (oppgavereferanse: string) => Promise<Maybe<Tildeling> | undefined>,
+    (oppgavereferanse: string, aktørId: string) => Promise<Maybe<Tildeling> | undefined>,
     MutationResult<OpprettTildelingMutation>,
 ] => {
     const [tildelinger, setTildelinger] = useRecoilState(tildelingState);
@@ -49,7 +49,7 @@ export const useOpprettTildeling = (): [
     const leggTilTildelingsvarsel = useLeggTilTildelingsvarsel();
     const fjernTildelingsvarsel = useFjernTildelingsvarsel();
 
-    const opprettTildeling = (oppgavereferanse: string): Promise<Maybe<Tildeling> | undefined> => {
+    const opprettTildeling = async (oppgavereferanse: string, aktørId: string) => {
         fjernTildelingsvarsel();
         return opprettTildelingMutation({
             variables: { oppgaveId: oppgavereferanse },
@@ -65,7 +65,7 @@ export const useOpprettTildeling = (): [
             .then((result) => {
                 setTildelinger({
                     ...tildelinger,
-                    [oppgavereferanse]: result.data?.opprettTildeling,
+                    [aktørId]: result.data?.opprettTildeling,
                 });
                 return result.data?.opprettTildeling;
             })
@@ -82,7 +82,7 @@ export const useOpprettTildeling = (): [
     return [opprettTildeling, data];
 };
 export const useFjernTildeling = (): [
-    (oppgavereferanse: string) => Promise<Maybe<boolean> | undefined>,
+    (oppgavereferanse: string, aktørId: string) => Promise<Maybe<boolean> | undefined>,
     MutationResult<OpprettTildelingMutation>,
 ] => {
     const [tildelinger, setTildelinger] = useRecoilState(tildelingState);
@@ -91,7 +91,7 @@ export const useFjernTildeling = (): [
     const leggTilTildelingsvarsel = useLeggTilTildelingsvarsel();
     const fjernTildelingsvarsel = useFjernTildelingsvarsel();
 
-    const fjernTildeling = (oppgavereferanse: string): Promise<Maybe<boolean> | undefined> => {
+    const fjernTildeling = async (oppgavereferanse: string, aktørId: string): Promise<Maybe<boolean> | undefined> => {
         fjernTildelingsvarsel();
         return fjernTildelingMutation({
             variables: { oppgaveId: oppgavereferanse },
@@ -107,7 +107,7 @@ export const useFjernTildeling = (): [
             .then((result) => {
                 setTildelinger({
                     ...tildelinger,
-                    [oppgavereferanse]: null,
+                    [aktørId]: null,
                 });
                 return result.data?.fjernTildeling;
             })
@@ -120,14 +120,15 @@ export const useFjernTildeling = (): [
 };
 export const useLeggPåVent = (): ((
     oppgavereferanse: string,
+    aktørId: string,
     notat: NotatDTO,
     vedtaksperiodeId: string,
 ) => Promise<Maybe<Tildeling> | undefined>) => {
     const [tildelinger, setTildelinger] = useRecoilState(tildelingState);
     const [leggPåVentMutation] = useMutation(LeggPaaVentDocument);
 
-    return (oppgavereferanse: string, notat: NotatDTO, vedtaksperiodeId: string) => {
-        return leggPåVentMutation({
+    return async (oppgavereferanse: string, aktørId: string, notat: NotatDTO, vedtaksperiodeId: string) =>
+        leggPåVentMutation({
             refetchQueries: [{ query: FetchNotaterDocument, variables: { forPerioder: [vedtaksperiodeId] } }],
             variables: { oppgaveId: oppgavereferanse, notatType: NotatType.PaaVent, notatTekst: notat.tekst },
             update: (cache, result) => {
@@ -142,20 +143,19 @@ export const useLeggPåVent = (): ((
             .then((response) => {
                 setTildelinger({
                     ...tildelinger,
-                    [oppgavereferanse]: response.data?.leggPaaVent,
+                    [aktørId]: response.data?.leggPaaVent,
                 });
                 return response.data?.leggPaaVent;
             })
             .catch(() => Promise.reject('Kunne ikke legge oppgave på vent.'));
-    };
 };
 export const useFjernPåVent = (): [
-    (oppgavereferanse: string) => Promise<Maybe<Tildeling> | undefined>,
+    (oppgavereferanse: string, aktørId: string) => Promise<Maybe<Tildeling> | undefined>,
     MutationResult<FjernPaaVentMutation>,
 ] => {
     const [tildelinger, setTildelinger] = useRecoilState(tildelingState);
     const [fjernPåVentMutation, data] = useMutation(FjernPaaVentDocument);
-    const fjernPåVent = async (oppgavereferanse: string) =>
+    const fjernPåVent = (oppgavereferanse: string, aktørId: string) =>
         fjernPåVentMutation({
             variables: { oppgaveId: oppgavereferanse },
             update: (cache) => {
@@ -170,7 +170,7 @@ export const useFjernPåVent = (): [
             .then((response) => {
                 setTildelinger({
                     ...tildelinger,
-                    [oppgavereferanse]: response.data?.fjernPaaVent,
+                    [aktørId]: response.data?.fjernPaaVent,
                 });
                 return response.data?.fjernPaaVent;
             })
