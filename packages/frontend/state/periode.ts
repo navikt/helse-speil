@@ -20,18 +20,20 @@ export const useActivePeriod = (): ActivePeriod | null => {
         return null;
     }
 
-    const activPeriodFraId =
-        data.person.arbeidsgivere
-            .flatMap((arbeidsgiver) => arbeidsgiver.generasjoner.flatMap((generasjon) => generasjon.perioder))
-            .find((periode) => periode.id === activePeriodId) ?? null;
+    if (activePeriodId !== null) {
+        const activPeriodFraId =
+            data.person.arbeidsgivere
+                .flatMap((arbeidsgiver) => arbeidsgiver.generasjoner.flatMap((generasjon) => generasjon.perioder))
+                .find((periode) => periode.id === activePeriodId) ?? null;
 
-    if (activPeriodFraId !== null) return activPeriodFraId;
+        if (activPeriodFraId !== null) return activPeriodFraId;
+    }
 
-    const allePerioderINyesteGenerasjon = data.person.arbeidsgivere.flatMap(
+    const perioderINyesteGenerasjoner = data.person.arbeidsgivere.flatMap(
         (arbeidsgiver) => arbeidsgiver.generasjoner[0]?.perioder ?? [],
     );
 
-    const aktuellePerioder = allePerioderINyesteGenerasjon
+    const aktuellePerioder = perioderINyesteGenerasjoner
         .sort((a, b) => new Date(b.fom).getTime() - new Date(a.fom).getTime())
         .filter(
             (period) =>
@@ -39,16 +41,13 @@ export const useActivePeriod = (): ActivePeriod | null => {
                 period.periodetilstand !== Periodetilstand.TilInfotrygd,
         );
 
-    return (
-        aktuellePerioder.find(
-            (periode) =>
-                (isBeregnetPeriode(periode) &&
-                    periode.periodetilstand === Periodetilstand.TilGodkjenning &&
-                    typeof periode.oppgave?.id === 'string') ||
-                (isUberegnetVilkarsprovdPeriode(periode) &&
-                    periode.periodetilstand === Periodetilstand.TilSkjonnsfastsettelse),
-        ) ??
-        aktuellePerioder[0] ??
-        null
+    const periodeTilBehandling = aktuellePerioder.find(
+        (periode) =>
+            (isBeregnetPeriode(periode) &&
+                periode.periodetilstand === Periodetilstand.TilGodkjenning &&
+                typeof periode.oppgave?.id === 'string') ||
+            (isUberegnetVilkarsprovdPeriode(periode) &&
+                periode.periodetilstand === Periodetilstand.TilSkjonnsfastsettelse),
     );
+    return periodeTilBehandling ?? aktuellePerioder[0] ?? null;
 };
