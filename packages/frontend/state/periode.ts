@@ -20,20 +20,21 @@ export const useActivePeriod = (): ActivePeriod | null => {
         return null;
     }
 
-    const allePerioder = data.person.arbeidsgivere.flatMap((arbeidsgiver) => {
+    const activPeriodFraId =
+        data.person.arbeidsgivere
+            .flatMap((arbeidsgiver) => arbeidsgiver.generasjoner.flatMap((generasjon) => generasjon.perioder))
+            .find((periode) => periode.id === activePeriodId) ?? null;
+
+    if (activPeriodFraId !== null) return activPeriodFraId;
+
+    const allePerioderINyesteGenerasjon = data.person.arbeidsgivere.flatMap((arbeidsgiver) => {
         if (arbeidsgiver.generasjoner.length > 0) {
             return arbeidsgiver.generasjoner[0].perioder;
         }
         return [];
     });
 
-    const activPeriodFraId = allePerioder.find((periode) => periode.id === activePeriodId) ?? null;
-
-    if (activPeriodFraId !== null) {
-        return activPeriodFraId;
-    }
-
-    const aktuellePerioder = allePerioder
+    const aktuellePerioder = allePerioderINyesteGenerasjon
         .sort((a, b) => new Date(b.fom).getTime() - new Date(a.fom).getTime())
         .filter(
             (period) =>
