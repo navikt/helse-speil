@@ -27,12 +27,9 @@ export const useActivePeriod = (): ActivePeriod | null => {
 
     if (activPeriodFraId !== null) return activPeriodFraId;
 
-    const allePerioderINyesteGenerasjon = data.person.arbeidsgivere.flatMap((arbeidsgiver) => {
-        if (arbeidsgiver.generasjoner.length > 0) {
-            return arbeidsgiver.generasjoner[0].perioder;
-        }
-        return [];
-    });
+    const allePerioderINyesteGenerasjon = data.person.arbeidsgivere.flatMap(
+        (arbeidsgiver) => arbeidsgiver.generasjoner[0]?.perioder ?? [],
+    );
 
     const aktuellePerioder = allePerioderINyesteGenerasjon
         .sort((a, b) => new Date(b.fom).getTime() - new Date(a.fom).getTime())
