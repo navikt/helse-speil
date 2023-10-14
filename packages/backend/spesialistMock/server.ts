@@ -8,8 +8,8 @@ const app = express();
 const port = 9001;
 
 const passeLenge = () => {
-    const minimumforsinkelse = Math.random() > 0.8 ? 700 : 200;
-    const varians = Math.random() * 500;
+    const minimumforsinkelse = Math.random() > 0.8 ? 200 : 100;
+    const varians = Math.random() * 50;
     return Math.round(minimumforsinkelse + varians);
 };
 
