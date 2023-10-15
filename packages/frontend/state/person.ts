@@ -2,7 +2,7 @@ import { useParams } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 
 import { useQuery } from '@apollo/client';
-import { FetchPersonDocument } from '@io/graphql';
+import { FetchPersonDocument, Tildeling } from '@io/graphql';
 import { TildelingStateType, tildelingState } from '@state/tildeling';
 
 export const useCurrentPerson = () => {
@@ -16,18 +16,17 @@ export const useCurrentPerson = () => {
 };
 
 const personMedTildeling = (tildelinger: TildelingStateType, person: FetchPersonQuery['person']) => {
+    if (!person) return null;
     const tildeling = finnTildeling(tildelinger, person);
-    return tildeling
-        ? ({
-              ...person,
-              tildeling: { ...tildeling },
-          } as FetchedPerson)
-        : person ?? null;
+    return {
+        ...person,
+        tildeling: tildeling ? { ...tildeling } : null,
+    } as FetchedPerson;
 };
 
-const finnTildeling = (tildelinger: TildelingStateType, person: FetchPersonQuery['person']) => {
-    const aktorId = person?.aktorId;
-    return aktorId ? tildelinger[aktorId]! : person?.tildeling ?? null;
+const finnTildeling = (tildelinger: TildelingStateType, person: NonNullable<FetchPersonQuery['person']>) => {
+    const tildelingOverlay: Tildeling | null | undefined = tildelinger[person.aktorId];
+    return tildelingOverlay !== undefined ? tildelingOverlay : person?.tildeling;
 };
 
 export const useIsFetchingPerson = (): boolean => {
