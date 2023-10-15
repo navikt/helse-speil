@@ -45,6 +45,7 @@ const shouldDisableKeyboard = (): boolean =>
 
 export const useKeyboard = (actions: Action[]) => {
     const handleKeyDown = (event: KeyboardEvent) => {
+        if (!event.code) return; // Valg i autocomplete-lister, f.eks. i søkefeltet, trigger et tynt keydown-event, som vi ikke trenger å håndtere her
         const activeModifiers: string[] = [];
         if (event.getModifierState('Alt')) activeModifiers.push(Key.Alt);
         if (event.getModifierState('Shift')) activeModifiers.push(Key.Shift);
