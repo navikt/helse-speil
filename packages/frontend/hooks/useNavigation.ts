@@ -1,6 +1,7 @@
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 
 export interface Navigation {
+    aktørId: string | undefined;
     navigateTo: (location: Location, aktørId?: string) => void;
     navigateToNext: () => void;
     navigateToPrevious: () => void;
@@ -45,6 +46,7 @@ export const useNavigation = (): Navigation => {
     };
 
     return {
+        aktørId: location.pathname.split('/')[2] ?? undefined,
         navigateTo: navigateTo,
         navigateToNext: () => canNavigateToNext && navigateTo(currentLocation + 1),
         navigateToPrevious: () => canNavigateToPrevious && navigateTo(currentLocation - 1),

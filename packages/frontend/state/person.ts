@@ -2,14 +2,15 @@ import { useParams } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 
 import { useQuery } from '@apollo/client';
+import { useNavigation } from '@hooks/useNavigation';
 import { FetchPersonDocument, Tildeling } from '@io/graphql';
 import { TildelingStateType, tildelingState } from '@state/tildeling';
 
 export const useCurrentPerson = () => {
-    const { aktorId } = useParams<{ aktorId?: string }>();
+    const { aktørId } = useNavigation();
     const { data } = useQuery(FetchPersonDocument, {
-        variables: { aktorId },
-        skip: aktorId == null,
+        variables: { aktorId: aktørId },
+        skip: aktørId == null,
     });
     const tildelinger = useRecoilValue(tildelingState);
     return personMedTildeling(tildelinger, data?.person);
