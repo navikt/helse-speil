@@ -1,13 +1,12 @@
 import dayjs from 'dayjs';
-import { useParams } from 'react-router-dom';
 import { atom, useRecoilState, useRecoilValue } from 'recoil';
 
-import { useQuery } from '@apollo/client';
-import { FetchPersonDocument, GhostPeriode } from '@io/graphql';
+import { GhostPeriode } from '@io/graphql';
 import { findArbeidsgiverWithGhostPeriode, findArbeidsgiverWithPeriode } from '@state/arbeidsgiver';
 import { sessionStorageEffect } from '@state/effects/sessionStorageEffect';
 import { toNotat } from '@state/notater';
 import { useActivePeriod } from '@state/periode';
+import { useFetchPersonQuery } from '@state/person';
 import {
     isBeregnetPeriode,
     isGhostPeriode,
@@ -114,8 +113,7 @@ const getHendelserForUberegnetPeriode = (
 
 const useHistorikk = (): HendelseObject[] => {
     const activePeriod = useActivePeriod();
-    const { aktorId } = useParams<{ aktorId: string }>();
-    const { data } = useQuery(FetchPersonDocument, { variables: { aktorId } });
+    const { data } = useFetchPersonQuery();
     const person = data?.person;
 
     if (!person) {

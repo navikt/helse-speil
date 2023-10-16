@@ -1,4 +1,3 @@
-import { useParams } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 
 import { useQuery } from '@apollo/client';
@@ -7,11 +6,7 @@ import { FetchPersonDocument, Tildeling } from '@io/graphql';
 import { TildelingStateType, tildelingState } from '@state/tildeling';
 
 export const useCurrentPerson = () => {
-    const { aktørId } = useNavigation();
-    const { data } = useQuery(FetchPersonDocument, {
-        variables: { aktorId: aktørId },
-        skip: aktørId == null,
-    });
+    const { data } = useFetchPersonQuery();
     const tildelinger = useRecoilValue(tildelingState);
     return personMedTildeling(tildelinger, data?.person);
 };
@@ -30,8 +25,16 @@ const finnTildeling = (tildelinger: TildelingStateType, person: NonNullable<Fetc
     return tildelingOverlay !== undefined ? tildelingOverlay : person?.tildeling;
 };
 
+export const useFetchPersonQuery = () => {
+    // Henter aktørId fra URL, slik at personen er tilgjengelig utenfor saksbilde-routen også
+    const { aktørId: aktorId } = useNavigation();
+    return useQuery(FetchPersonDocument, {
+        variables: { aktorId },
+        skip: aktorId == null,
+    });
+};
+
 export const useIsFetchingPerson = (): boolean => {
-    const { aktorId } = useParams<{ aktorId: string | undefined }>();
-    const { loading } = useQuery(FetchPersonDocument, { variables: { aktorId }, skip: aktorId == null });
+    const { loading } = useFetchPersonQuery();
     return loading;
 };

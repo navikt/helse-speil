@@ -1,24 +1,18 @@
-import { useParams } from 'react-router-dom';
-
-import { useQuery } from '@apollo/client';
 import { redirigerTilArbeidOgInntektUrl } from '@components/SystemMenu';
 import { copyString } from '@components/clipboard/util';
 import { Action, Key, useKeyboard } from '@hooks/useKeyboard';
 import { useNavigation } from '@hooks/useNavigation';
-import { FetchPersonDocument } from '@io/graphql';
+import { useFetchPersonQuery } from '@state/person';
 import { useAddToast } from '@state/toasts';
 import { isPerson } from '@utils/typeguards';
 
 const useCurrentFødselsnummer = (): string | null => {
-    const { aktorId } = useParams<{ aktorId: string }>();
-    const { loading, data } = useQuery(FetchPersonDocument, { variables: { aktorId }, skip: !aktorId });
-
+    const { loading, data } = useFetchPersonQuery();
     return !loading && data !== undefined && isPerson(data.person) ? data.person.fodselsnummer : null;
 };
 
 const useCurrentAktørId = (): string | null => {
-    const { aktorId } = useParams<{ aktorId: string }>();
-    const { loading, data } = useQuery(FetchPersonDocument, { variables: { aktorId }, skip: !aktorId });
+    const { loading, data } = useFetchPersonQuery();
 
     return !loading && data !== undefined && isPerson(data.person) ? data.person.aktorId : null;
 };

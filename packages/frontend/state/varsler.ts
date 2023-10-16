@@ -2,10 +2,9 @@ import { GraphQLError } from 'graphql/error';
 import { useParams } from 'react-router-dom';
 import { atom, useRecoilValue, useSetRecoilState } from 'recoil';
 
-import { useQuery } from '@apollo/client';
 import { GraphQLErrors } from '@apollo/client/errors';
-import { FetchPersonDocument } from '@io/graphql';
 import { FetchError, FlereFodselsnumreError, NotFoundError, ProtectedError } from '@io/graphql/errors';
+import { useFetchPersonQuery } from '@state/person';
 import { SpeilError } from '@utils/error';
 
 const varslerState = atom<Array<SpeilError>>({
@@ -15,7 +14,7 @@ const varslerState = atom<Array<SpeilError>>({
 
 export const useVarsler = (): Array<SpeilError> => {
     const { aktorId } = useParams<{ aktorId: string | undefined }>();
-    const { error } = useQuery(FetchPersonDocument, { variables: { aktorId }, skip: aktorId == null });
+    const { error } = useFetchPersonQuery();
 
     const errors: SpeilError[] =
         error?.graphQLErrors.map((error: GraphQLError) => {
