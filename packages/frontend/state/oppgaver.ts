@@ -3,13 +3,15 @@ import {
     AlleOppgaverDocument,
     BehandledeOppgaverDocument,
     BehandletOppgave,
+    Egenskap,
     Fane,
+    Kategori,
     OppgaveTilBehandling,
-    OppgaverDocument,
 } from '@io/graphql';
 import { InfoAlert } from '@utils/error';
 
 import { TabType, useAktivTab } from '../routes/oversikt/tabState';
+import { useFilters } from '../routes/oversikt/table/state/filter';
 import { usePagination } from '../routes/oversikt/table/state/pagination';
 import { useInnloggetSaksbehandler } from './authentication';
 
@@ -24,6 +26,7 @@ export interface OppgaverResponse {
     error?: ApolloError;
     loading: boolean;
 }
+
 export interface AlleOppgaverResponse {
     antallOppgaver: number;
     oppgaver?: OppgaveTilBehandling[];
@@ -47,35 +50,29 @@ export const useQueryBehandledeOppgaver = (): BehandledeOppgaverResponse => {
     };
 };
 
-export const useQueryOppgaver = (): OppgaverResponse => {
-    const { data, error, loading } = useQuery(OppgaverDocument, {
-        fetchPolicy: 'no-cache',
-        onError: () => {
-            throw Error('Kunne ikke hente saker. Prøv igjen senere.');
-        },
-    });
-    const oppgaver = data?.oppgaver;
-    return {
-        oppgaver: oppgaver,
-        error,
-        loading,
-    };
-};
-
-export const useQueryAlleOppgaver = (): AlleOppgaverResponse => {
+export const useQueryOppgaver = (): AlleOppgaverResponse => {
     const foo = usePagination();
     const aktivTab = useAktivTab();
+    const { activeFilters } = useFilters();
+
     const fane =
         aktivTab === TabType.TilGodkjenning
             ? Fane.TilGodkjenning
             : aktivTab === TabType.Mine
             ? Fane.MineSaker
             : Fane.PaaVent;
+
     const { data, error, loading } = useQuery(AlleOppgaverDocument, {
         variables: {
             startIndex: foo?.currentPage,
             pageSize: foo?.entriesPerPage,
             fane: fane,
+            filtrerteEgenskaper: activeFilters
+                .filter((filter) => Object.values(Egenskap).includes(filter.key as Egenskap))
+                .map((filter) => ({
+                    egenskap: filter.key as Egenskap,
+                    kategori: Kategori.Ukategorisert,
+                })),
         },
 
         initialFetchPolicy: 'network-only',

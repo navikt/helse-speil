@@ -1,20 +1,12 @@
 import { atom, selector, useRecoilValue, useSetRecoilState } from 'recoil';
 
-import {
-    AntallArbeidsforhold,
-    Egenskap,
-    Kategori,
-    Mottaker,
-    OppgaveTilBehandling,
-    Oppgavetype,
-    Periodetype,
-} from '@io/graphql';
+import { Egenskap, Kategori, OppgaveTilBehandling } from '@io/graphql';
 import { harSpesialsaktilgang } from '@utils/featureToggles';
 
 import { TabType, tabState } from '../../tabState';
 
 export type Filter<T> = {
-    key: string;
+    key: string | Egenskap;
     label: string;
     function: (value: T) => boolean;
     active: boolean;
@@ -50,127 +42,128 @@ export const defaultFilters: Filter<OppgaveTilBehandling>[] = [
         column: Oppgaveoversiktkolonne.TILDELING,
     },
     {
-        key: 'FØRSTEGANG',
+        key: Egenskap.Forstegangsbehandling,
         label: 'Førstegangsbehandling',
         active: false,
-        function: (oppgave: OppgaveTilBehandling) => oppgave.periodetype === Periodetype.Forstegangsbehandling,
+        function: (oppgave: OppgaveTilBehandling) => egenskaperInneholder(oppgave, [Egenskap.Forstegangsbehandling]),
         column: Oppgaveoversiktkolonne.PERIODETYPE,
     },
     {
-        key: 'FORLENGELSE',
+        key: Egenskap.Forlengelse,
         label: 'Forlengelse',
         active: false,
         function: (oppgave: OppgaveTilBehandling) =>
-            [Periodetype.Forlengelse, Periodetype.Infotrygdforlengelse].includes(oppgave.periodetype),
+            egenskaperInneholder(oppgave, [Egenskap.Forlengelse, Egenskap.Infotrygdforlengelse]),
         column: Oppgaveoversiktkolonne.PERIODETYPE,
     },
     {
-        key: 'FORLENGELSE_IT',
+        key: Egenskap.OvergangFraIt,
         label: 'Forlengelse - IT',
         active: false,
-        function: (oppgave: OppgaveTilBehandling) => oppgave.periodetype === Periodetype.OvergangFraIt,
+        function: (oppgave: OppgaveTilBehandling) => egenskaperInneholder(oppgave, [Egenskap.OvergangFraIt]),
         column: Oppgaveoversiktkolonne.PERIODETYPE,
     },
     {
-        key: 'SØKNAD',
+        key: Egenskap.Soknad,
         label: 'Søknad',
         active: false,
-        function: (oppgave: OppgaveTilBehandling) => oppgave.oppgavetype === Oppgavetype.Soknad,
+        function: (oppgave: OppgaveTilBehandling) => egenskaperInneholder(oppgave, [Egenskap.Soknad]),
         column: Oppgaveoversiktkolonne.OPPGAVETYPE,
     },
     {
-        key: 'REVURDERING',
+        key: Egenskap.Revurdering,
         label: 'Revurdering',
         active: false,
-        function: (oppgave: OppgaveTilBehandling) => oppgave.oppgavetype === Oppgavetype.Revurdering,
+        function: (oppgave: OppgaveTilBehandling) => egenskaperInneholder(oppgave, [Egenskap.Revurdering]),
         column: Oppgaveoversiktkolonne.OPPGAVETYPE,
     },
     {
-        key: 'SYKMELDT_MOTTAKER',
+        key: Egenskap.UtbetalingTilSykmeldt,
         label: 'Sykmeldt',
         active: false,
-        function: (oppgave: OppgaveTilBehandling) => oppgave.mottaker === Mottaker.Sykmeldt,
+        function: (oppgave: OppgaveTilBehandling) => egenskaperInneholder(oppgave, [Egenskap.UtbetalingTilSykmeldt]),
         column: Oppgaveoversiktkolonne.MOTTAKER,
     },
     {
-        key: 'ARBEIDSGIVER_MOTTAKER',
+        key: Egenskap.UtbetalingTilArbeidsgiver,
         label: 'Arbeidsgiver',
         active: false,
-        function: (oppgave: OppgaveTilBehandling) => oppgave.mottaker === Mottaker.Arbeidsgiver,
+        function: (oppgave: OppgaveTilBehandling) =>
+            egenskaperInneholder(oppgave, [Egenskap.UtbetalingTilArbeidsgiver]),
         column: Oppgaveoversiktkolonne.MOTTAKER,
     },
     {
-        key: 'BEGGE_MOTTAKER',
+        key: Egenskap.DelvisRefusjon,
         label: 'Begge',
         active: false,
-        function: (oppgave: OppgaveTilBehandling) => oppgave.mottaker === Mottaker.Begge,
+        function: (oppgave: OppgaveTilBehandling) => egenskaperInneholder(oppgave, [Egenskap.DelvisRefusjon]),
         column: Oppgaveoversiktkolonne.MOTTAKER,
     },
     {
-        key: 'INGEN_MOTTAKER',
+        key: Egenskap.IngenUtbetaling,
         label: 'Ingen mottaker',
         active: false,
-        function: (oppgave: OppgaveTilBehandling) => oppgave.mottaker === Mottaker.Ingen,
+        function: (oppgave: OppgaveTilBehandling) => egenskaperInneholder(oppgave, [Egenskap.IngenUtbetaling]),
         column: Oppgaveoversiktkolonne.MOTTAKER,
     },
     {
-        key: 'BESLUTTER',
+        key: Egenskap.Beslutter,
         label: 'Beslutter',
         active: false,
         function: (oppgave: OppgaveTilBehandling) => egenskaperInneholder(oppgave, [Egenskap.Beslutter]),
         column: Oppgaveoversiktkolonne.EGENSKAPER,
     },
     {
-        key: 'RETUR',
+        key: Egenskap.Retur,
         label: 'Retur',
         active: false,
         function: (oppgave: OppgaveTilBehandling) => egenskaperInneholder(oppgave, [Egenskap.Retur]),
         column: Oppgaveoversiktkolonne.EGENSKAPER,
     },
     {
-        key: 'HASTER',
+        key: Egenskap.Haster,
         label: 'Haster',
         active: false,
         function: (oppgave: OppgaveTilBehandling) => egenskaperInneholder(oppgave, [Egenskap.Haster]),
         column: Oppgaveoversiktkolonne.EGENSKAPER,
     },
     {
-        key: 'VERGEMÅL',
+        key: Egenskap.Vergemal,
         label: 'Vergemål',
         active: false,
         function: (oppgave: OppgaveTilBehandling) => egenskaperInneholder(oppgave, [Egenskap.Vergemal]),
         column: Oppgaveoversiktkolonne.EGENSKAPER,
     },
     {
-        key: 'UTLAND',
+        key: Egenskap.Utland,
         label: 'Utland',
         active: false,
         function: (oppgave: OppgaveTilBehandling) => egenskaperInneholder(oppgave, [Egenskap.Utland]),
         column: Oppgaveoversiktkolonne.EGENSKAPER,
     },
     {
-        key: 'EGEN_ANSATT',
+        key: Egenskap.EgenAnsatt,
         label: 'Egen ansatt',
         active: false,
         function: (oppgave: OppgaveTilBehandling) => egenskaperInneholder(oppgave, [Egenskap.EgenAnsatt]),
         column: Oppgaveoversiktkolonne.EGENSKAPER,
     },
     {
-        key: 'FULLMAKT',
+        key: Egenskap.Fullmakt,
         label: 'Fullmakt',
         active: false,
         function: (oppgave: OppgaveTilBehandling) => egenskaperInneholder(oppgave, [Egenskap.Fullmakt]),
         column: Oppgaveoversiktkolonne.EGENSKAPER,
     },
     {
-        key: 'STIKKPRØVER',
+        key: Egenskap.Stikkprove,
         label: 'Stikkprøve',
         active: false,
         function: (oppgave: OppgaveTilBehandling) => egenskaperInneholder(oppgave, [Egenskap.Stikkprove]),
         column: Oppgaveoversiktkolonne.EGENSKAPER,
     },
     {
-        key: 'RISK_QA',
+        key: Egenskap.RiskQa,
         label: 'Risk QA',
         active: false,
         function: (oppgave: OppgaveTilBehandling) => egenskaperInneholder(oppgave, [Egenskap.RiskQa]),
@@ -178,14 +171,14 @@ export const defaultFilters: Filter<OppgaveTilBehandling>[] = [
     },
 
     {
-        key: 'FORTROLIG_ADR',
+        key: Egenskap.FortroligAdresse,
         label: 'Fortrolig adresse',
         active: false,
         function: (oppgave: OppgaveTilBehandling) => egenskaperInneholder(oppgave, [Egenskap.FortroligAdresse]),
         column: Oppgaveoversiktkolonne.EGENSKAPER,
     },
     {
-        key: 'NØTTESAK',
+        key: Egenskap.Spesialsak,
         label: '🌰',
         active: false,
         function: (oppgave: OppgaveTilBehandling) => egenskaperInneholder(oppgave, [Egenskap.Spesialsak]),
@@ -200,19 +193,17 @@ export const defaultFilters: Filter<OppgaveTilBehandling>[] = [
         column: Oppgaveoversiktkolonne.EGENSKAPER,
     },
     {
-        key: 'EN_ARBEIDSGIVER',
+        key: Egenskap.EnArbeidsgiver,
         label: 'En arbeidsgiver',
         active: false,
-        function: (oppgave: OppgaveTilBehandling) =>
-            oppgave.antallArbeidsforhold === AntallArbeidsforhold.EtArbeidsforhold,
+        function: (oppgave: OppgaveTilBehandling) => egenskaperInneholder(oppgave, [Egenskap.EnArbeidsgiver]),
         column: Oppgaveoversiktkolonne.ANTALLARBEIDSFORHOLD,
     },
     {
-        key: 'FLERE_ARBEIDSGIVERE',
+        key: Egenskap.FlereArbeidsgivere,
         label: 'Flere arbeidsgivere',
         active: false,
-        function: (oppgave: OppgaveTilBehandling) =>
-            oppgave.antallArbeidsforhold === AntallArbeidsforhold.FlereArbeidsforhold,
+        function: (oppgave: OppgaveTilBehandling) => egenskaperInneholder(oppgave, [Egenskap.FlereArbeidsgivere]),
         column: Oppgaveoversiktkolonne.ANTALLARBEIDSFORHOLD,
     },
 ].filter((filter) => filter.label !== '🌰' || harSpesialsaktilgang);

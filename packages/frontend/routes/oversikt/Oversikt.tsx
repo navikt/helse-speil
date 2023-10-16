@@ -4,7 +4,9 @@ import { Alert } from '@navikt/ds-react';
 
 import { Flex } from '@components/Flex';
 import { useLoadingToast } from '@hooks/useLoadingToast';
-import { useQueryAlleOppgaver } from '@state/oppgaver';
+import { OppgaveTilBehandling } from '@io/graphql';
+import { useInnloggetSaksbehandler } from '@state/authentication';
+import { OppgaverResponse, useQueryOppgaver } from '@state/oppgaver';
 import { onLazyLoadFail } from '@utils/error';
 
 import { IngenOppgaver } from './IngenOppgaver';
@@ -21,7 +23,7 @@ const BehandletIdagTable = lazy(() =>
 );
 
 export const Oversikt = () => {
-    const oppgaverResponse = useQueryAlleOppgaver();
+    const oppgaverResponse = useOppgaverFilteredByTab();
     const aktivTab = useAktivTab();
 
     useLoadingToast({ isLoading: oppgaverResponse.loading, message: 'Henter oppgaver' });
@@ -52,4 +54,32 @@ export const Oversikt = () => {
             </Flex>
         </main>
     );
+};
+
+const useOppgaverFilteredByTab = (): OppgaverResponse => {
+    const { oid } = useInnloggetSaksbehandler();
+    const aktivTab = useAktivTab();
+    const oppgaverResponse = useQueryOppgaver();
+
+    const filtrer = (oppgaver: OppgaveTilBehandling[]): OppgaveTilBehandling[] => {
+        switch (aktivTab) {
+            case TabType.TilGodkjenning: {
+                return oppgaver;
+            }
+            case TabType.Mine: {
+                return oppgaver.filter(({ tildeling }) => tildeling?.oid === oid && !tildeling?.paaVent);
+            }
+            case TabType.Ventende: {
+                return oppgaver.filter(({ tildeling }) => tildeling?.oid === oid && tildeling?.paaVent);
+            }
+            case TabType.BehandletIdag: {
+                return [];
+            }
+        }
+    };
+
+    return {
+        ...oppgaverResponse,
+        oppgaver: oppgaverResponse.oppgaver ? filtrer(oppgaverResponse.oppgaver) : oppgaverResponse.oppgaver,
+    };
 };
