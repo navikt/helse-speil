@@ -8,7 +8,7 @@ import { CloseButton } from '@components/CloseButton';
 import { ErrorBoundary } from '@components/ErrorBoundary';
 import { JusterbarSidemeny } from '@components/justerbarSidemeny/JusterbarSidemeny';
 import { Key, useKeyboard } from '@hooks/useKeyboard';
-import { useCurrentPerson, useIsFetchingPerson } from '@state/person';
+import { useCurrentPerson, useFetchPersonQuery } from '@state/person';
 
 import { Notat } from '../notat/Notat';
 import { AnnetArbeidsforholdoverstyringhendelse } from './hendelser/AnnetArbeidsforholdoverstyringhendelse';
@@ -45,7 +45,7 @@ const HistorikkWithContent: React.FC = () => {
 
     const [showHistorikk, setShowHistorikk] = useShowHistorikkState();
 
-    const isLoading = useIsFetchingPerson();
+    const { loading } = useFetchPersonQuery();
     useKeyboard([
         {
             key: Key.H,
@@ -66,8 +66,8 @@ const HistorikkWithContent: React.FC = () => {
                 }}
                 style={{ overflow: 'hidden' }}
             >
-                {isLoading && <HistorikkSkeleton />}
-                {!isLoading && (
+                {loading && <HistorikkSkeleton />}
+                {!loading && (
                     <div className={styles.Historikk}>
                         <ul>
                             <div>
@@ -150,10 +150,10 @@ const HistorikkError = () => {
 };
 
 export const Historikk = () => {
-    const isLoading = useIsFetchingPerson();
+    const { loading } = useFetchPersonQuery();
     const currentPerson = useCurrentPerson();
 
-    if (!currentPerson && !isLoading) {
+    if (!currentPerson && !loading) {
         return null;
     }
 

@@ -9,7 +9,7 @@ import { LoadingShimmer } from '@components/LoadingShimmer';
 import { Key, useKeyboard } from '@hooks/useKeyboard';
 import { Arbeidsgiver, Infotrygdutbetaling } from '@io/graphql';
 import { useActivePeriod } from '@state/periode';
-import { useCurrentPerson, useIsFetchingPerson } from '@state/person';
+import { useCurrentPerson, useFetchPersonQuery } from '@state/person';
 import { isBeregnetPeriode } from '@utils/typeguards';
 
 import { ExpandableTimelineRow } from './ExpandableTimelineRow';
@@ -155,9 +155,9 @@ const TimelineContainer: React.FC = () => {
     const arbeidsgivere = currentPerson?.arbeidsgivere;
     const infotrygdutbetalinger = currentPerson?.infotrygdutbetalinger;
 
-    const isLoading = useIsFetchingPerson();
+    const { loading } = useFetchPersonQuery();
 
-    if (isLoading) {
+    if (loading) {
         return <TimelineSkeleton />;
     }
 

@@ -7,7 +7,7 @@ import { BodyShort } from '@navikt/ds-react';
 import { ErrorBoundary } from '@components/ErrorBoundary';
 import { LoadingShimmer } from '@components/LoadingShimmer';
 import { useActivePeriod } from '@state/periode';
-import { useIsFetchingPerson } from '@state/person';
+import { useFetchPersonQuery } from '@state/person';
 import { onLazyLoadFail } from '@utils/error';
 import { isBeregnetPeriode, isGhostPeriode, isUberegnetVilkarsprovdPeriode } from '@utils/typeguards';
 
@@ -90,9 +90,9 @@ const NavLenke = ({ tittel, to }: { tittel: string; to: string }) => (
 
 const SaksbildeMenuContainer: React.FC = () => {
     const activePeriod = useActivePeriod();
-    const isLoading = useIsFetchingPerson();
+    const { loading } = useFetchPersonQuery();
 
-    if (isLoading) {
+    if (loading) {
         return <SaksbildeMenuSkeleton />;
     }
 

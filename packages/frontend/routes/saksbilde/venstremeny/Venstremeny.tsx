@@ -7,7 +7,7 @@ import { ErrorBoundary } from '@components/ErrorBoundary';
 import { useIsReadOnlyOppgave } from '@hooks/useIsReadOnlyOppgave';
 import { useCurrentArbeidsgiver } from '@state/arbeidsgiver';
 import { useActivePeriod } from '@state/periode';
-import { useCurrentPerson, useIsFetchingPerson } from '@state/person';
+import { useCurrentPerson, useFetchPersonQuery } from '@state/person';
 import {
     isBeregnetPeriode,
     isGhostPeriode,
@@ -29,9 +29,9 @@ const VenstremenyContainer: React.FC = () => {
     const currentArbeidsgiver = useCurrentArbeidsgiver();
     const readOnly = useIsReadOnlyOppgave();
 
-    const isLoading = useIsFetchingPerson();
+    const { loading } = useFetchPersonQuery();
 
-    if (isLoading) {
+    if (loading) {
         return <VenstremenySkeleton />;
     }
 

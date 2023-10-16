@@ -33,8 +33,3 @@ export const useFetchPersonQuery = () => {
         skip: aktorId == null,
     });
 };
-
-export const useIsFetchingPerson = (): boolean => {
-    const { loading } = useFetchPersonQuery();
-    return loading;
-};

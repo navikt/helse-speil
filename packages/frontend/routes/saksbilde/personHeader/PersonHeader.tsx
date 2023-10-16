@@ -7,7 +7,7 @@ import { ErrorBoundary } from '@components/ErrorBoundary';
 import { LoadingShimmer } from '@components/LoadingShimmer';
 import { Kjonn } from '@io/graphql';
 import { useIsAnonymous } from '@state/anonymization';
-import { useCurrentPerson, useIsFetchingPerson } from '@state/person';
+import { useCurrentPerson, useFetchPersonQuery } from '@state/person';
 
 import { GenderIcon } from './GenderIcon';
 import { PersonHeaderWithContent } from './PersonHeaderWIthContent';
@@ -17,9 +17,9 @@ import styles from './PersonHeader.module.css';
 const PersonHeaderContainer: React.FC = () => {
     const currentPerson = useCurrentPerson();
     const isAnonymous = useIsAnonymous();
-    const isLoading = useIsFetchingPerson();
+    const { loading } = useFetchPersonQuery();
 
-    if (isLoading) {
+    if (loading) {
         return <PersonHeaderSkeleton />;
     }
 
