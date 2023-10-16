@@ -4,6 +4,7 @@ import { Route, Routes } from 'react-router-dom';
 import { Alert } from '@navikt/ds-react';
 
 import { ErrorBoundary } from '@components/ErrorBoundary';
+import { useFjernPersonFraApolloCache } from '@hooks/useFjernPersonFraApolloCache';
 import { useRefreshPersonVedOpptegnelse } from '@hooks/useRefreshPersonVedOpptegnelse';
 import { useRefreshPersonVedUrlEndring } from '@hooks/useRefreshPersonVedUrlEndring';
 import { useVarselOmSakErTildeltAnnenSaksbehandler } from '@hooks/useVarselOmSakErTildeltAnnenSaksbehandler';
@@ -44,6 +45,7 @@ export const Saksbilde = () => (
 const SaksbildeContent = () => {
     useRefreshPersonVedUrlEndring();
     useRefreshPersonVedOpptegnelse();
+    useFjernPersonFraApolloCache();
     usePollEtterOpptegnelser();
     useVarselOmSakErTildeltAnnenSaksbehandler();
     useKeyboardShortcuts();
