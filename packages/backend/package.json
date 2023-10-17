@@ -37,7 +37,7 @@
         "express-session": "^1.17.3",
         "nanoid": "^3.1.31",
         "openid-client": "^5.6.1",
-        "prom-client": "^14.2.0",
+        "prom-client": "^15.0.0",
         "redis": "^3.1.0",
         "request": "^2.88.2",
         "request-promise-native": "^1.0.9",
