@@ -59,7 +59,7 @@ export const useUpdateAuthentication = () => {
         const originalFetch = window.fetch;
 
         window.fetch = async function (input, init) {
-            const response = await originalFetch(input, init);
+            const response = await originalFetch(input as string | Request | URL, init);
             if (response.status === 401) {
                 localStorage.removeItem('agurkmodus');
                 resetAuthInfo();
