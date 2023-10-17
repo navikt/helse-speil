@@ -46,7 +46,7 @@
         "eslint-config-prettier": "^9.0.0",
         "husky": "^8.0.3",
         "lerna": "^7.3.1",
-        "lint-staged": "^14.0.1",
+        "lint-staged": "^15.0.1",
         "prettier": "^3.0.3",
         "rollup-plugin-visualizer": "^5.9.2",
         "ts-node-dev": "^2.0.0",
