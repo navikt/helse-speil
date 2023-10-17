@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 
 import { Search } from '@navikt/ds-react';
 
-import { useLazyQuery } from '@apollo/client';
+import { useApolloClient, useLazyQuery } from '@apollo/client';
 import styles from '@components/header/Header.module.css';
 import { useLoadingToast } from '@hooks/useLoadingToast';
 import { FetchPersonDocument } from '@io/graphql';
@@ -18,7 +18,18 @@ export const Personsøk: React.FC = () => {
     const addVarsel = useAddVarsel();
     const navigate = useNavigate();
     const rapporterError = useRapporterGraphQLErrors();
+    const client = useApolloClient();
     const [hentPerson, { loading }] = useLazyQuery(FetchPersonDocument, {
+        onCompleted: (data) => {
+            client.writeQuery({
+                query: FetchPersonDocument,
+                variables: { aktorId: data.person?.aktorId },
+                data: {
+                    __typename: 'Query',
+                    person: data.person,
+                },
+            });
+        },
         onError: (error) => {
             rapporterError(error.graphQLErrors);
         },

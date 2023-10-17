@@ -34,8 +34,7 @@ export const useQueryBehandledeOppgaver = (): BehandledeOppgaverResponse => {
 
 export const useQueryOppgaver = (): OppgaverResponse => {
     const { data, error, loading } = useQuery(OppgaverDocument, {
-        initialFetchPolicy: 'no-cache',
-        nextFetchPolicy: 'cache-first',
+        fetchPolicy: 'no-cache',
         onError: () => {
             throw Error('Kunne ikke hente saker. Prøv igjen senere.');
         },

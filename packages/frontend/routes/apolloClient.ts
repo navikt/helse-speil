@@ -10,7 +10,8 @@ export const client = new ApolloClient({
         dataIdFromObject: () => undefined,
         possibleTypes: possibletypes.possibleTypes,
         typePolicies: {
-            OppgaveTilBehandling: { keyFields: ['id'] },
+            // oppgaver caches ikke pt.
+            // OppgaveTilBehandling: { keyFields: ['id'] },
             Notater: { keyFields: ['id'] },
             Notat: { keyFields: ['id'] },
             Kommentarer: { keyFields: ['id'] },
