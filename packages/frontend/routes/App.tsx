@@ -53,7 +53,7 @@ const useSyncAlertsToLocation = () => {
 };
 
 const App = () => {
-    const { loading } = useFetchPersonQuery();
+    const { loading } = useFetchPersonQuery(true);
 
     useLoadingToast({ isLoading: loading, message: 'Henter person' });
     useUpdateAuthentication();

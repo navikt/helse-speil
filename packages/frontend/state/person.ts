@@ -25,10 +25,11 @@ const finnTildeling = (tildelinger: TildelingStateType, person: NonNullable<Fetc
     return tildelingOverlay !== undefined ? tildelingOverlay : person?.tildeling;
 };
 
-export const useFetchPersonQuery = () => {
+export const useFetchPersonQuery = (force: boolean = false) => {
     // Henter aktørId fra URL, slik at personen er tilgjengelig utenfor saksbilde-routen også
     const { aktørId: aktorId } = useNavigation();
     return useQuery(FetchPersonDocument, {
+        fetchPolicy: force ? 'cache-first' : 'cache-only',
         variables: { aktorId },
         skip: aktorId == null,
     });
