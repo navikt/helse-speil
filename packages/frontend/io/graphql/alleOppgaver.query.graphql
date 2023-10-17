@@ -1,0 +1,31 @@
+query AlleOppgaver($startIndex: Int, $pageSize: Int, $fane: Fane, $filtrerteEgenskaper: [OppgaveegenskapInput!]) {
+    alleOppgaver(startIndex: $startIndex, pageSize: $pageSize, fane: $fane, filtrerteEgenskaper: $filtrerteEgenskaper) {
+        oppgaver {
+            aktorId
+            egenskaper {
+                egenskap
+                kategori
+            }
+            navn {
+                fornavn
+                etternavn
+                mellomnavn
+            }
+            id
+            opprettet
+            opprinneligSoknadsdato
+            tildeling {
+                epost
+                navn
+                oid
+                paaVent
+            }
+            vedtaksperiodeId,
+            oppgavetype,
+            periodetype,
+            mottaker,
+            antallArbeidsforhold
+        }
+        totaltAntallOppgaver
+    }
+}

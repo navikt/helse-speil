@@ -271,6 +271,12 @@ export type Enhet = {
     navn: Scalars['String']['output'];
 };
 
+export enum Fane {
+    MineSaker = 'MINE_SAKER',
+    PaaVent = 'PAA_VENT',
+    TilGodkjenning = 'TIL_GODKJENNING',
+}
+
 export type Faresignal = {
     __typename?: 'Faresignal';
     beskrivelse: Scalars['String']['output'];
@@ -646,6 +652,17 @@ export type Oppgaveegenskap = {
     kategori: Kategori;
 };
 
+export type OppgaveegenskapInput = {
+    egenskap: Egenskap;
+    kategori: Kategori;
+};
+
+export type OppgaverTilBehandling = {
+    __typename?: 'OppgaverTilBehandling';
+    oppgaver: Array<OppgaveTilBehandling>;
+    totaltAntallOppgaver: Scalars['Int']['output'];
+};
+
 export type OppgavesorteringInput = {
     nokkel: Sorteringsnokkel;
     stigende: Scalars['Boolean']['input'];
@@ -849,6 +866,7 @@ export type Personoppdrag = Spennoppdrag & {
 
 export type Query = {
     __typename?: 'Query';
+    alleOppgaver: OppgaverTilBehandling;
     behandledeOppgaverIDag: Array<BehandletOppgave>;
     behandlingsstatistikk: Behandlingsstatistikk;
     hentOpptegnelser: Array<Opptegnelse>;
@@ -857,6 +875,14 @@ export type Query = {
     oppdrag: Array<Oppdrag>;
     oppgaver: Array<OppgaveTilBehandling>;
     person?: Maybe<Person>;
+};
+
+export type QueryAlleOppgaverArgs = {
+    fane?: InputMaybe<Fane>;
+    filtrerteEgenskaper?: InputMaybe<Array<OppgaveegenskapInput>>;
+    pageSize?: InputMaybe<Scalars['Int']['input']>;
+    sortering?: InputMaybe<Array<OppgavesorteringInput>>;
+    startIndex?: InputMaybe<Scalars['Int']['input']>;
 };
 
 export type QueryHentOpptegnelserArgs = {
@@ -877,6 +903,8 @@ export type QueryOppdragArgs = {
 };
 
 export type QueryOppgaverArgs = {
+    fane?: InputMaybe<Fane>;
+    filtrerteEgenskaper?: InputMaybe<Array<OppgaveegenskapInput>>;
     pageSize?: InputMaybe<Scalars['Int']['input']>;
     sortering?: InputMaybe<Array<OppgavesorteringInput>>;
     startIndex?: InputMaybe<Scalars['Int']['input']>;
