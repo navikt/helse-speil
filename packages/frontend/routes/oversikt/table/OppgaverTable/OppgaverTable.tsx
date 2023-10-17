@@ -22,14 +22,13 @@ interface OppgaverTableProps {
 
 export const OppgaverTable: React.FC<OppgaverTableProps> = React.memo(({ oppgaver }) => {
     const tab = useAktivTab();
-    const filters = useFilters();
+    const { allFilters, activeFilters } = useFilters();
     const [sort, setSort] = useRecoilState(sortering);
     const pagination = usePagination();
     const toggleFilter = useToggleFilter();
     const setMultipleFilters = useSetMultipleFilters();
     const readOnly = useIsReadOnlyOppgave();
 
-    const activeFilters = filters.filter((it) => it.active);
     const filteredRows = filterRows(activeFilters, oppgaver);
     const sortedRows = sortRows(sort, filteredRows);
     const paginatedRows = paginateRows(pagination, sortedRows);
@@ -45,7 +44,7 @@ export const OppgaverTable: React.FC<OppgaverTableProps> = React.memo(({ oppgave
                 <div className={styles.Scrollable}>
                     {tab === TabType.TilGodkjenning && (
                         <TilGodkjenningTable
-                            filters={filters}
+                            filters={allFilters}
                             oppgaver={paginatedRows}
                             readOnly={readOnly}
                             sort={sort}
@@ -53,10 +52,10 @@ export const OppgaverTable: React.FC<OppgaverTableProps> = React.memo(({ oppgave
                         />
                     )}
                     {tab === TabType.Mine && (
-                        <MineSakerTable filters={filters} oppgaver={paginatedRows} sort={sort} setSort={setSort} />
+                        <MineSakerTable filters={allFilters} oppgaver={paginatedRows} sort={sort} setSort={setSort} />
                     )}
                     {tab === TabType.Ventende && (
-                        <PåVentTable filters={filters} oppgaver={paginatedRows} sort={sort} setSort={setSort} />
+                        <PåVentTable filters={allFilters} oppgaver={paginatedRows} sort={sort} setSort={setSort} />
                     )}
                 </div>
             </div>

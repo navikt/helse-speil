@@ -297,7 +297,10 @@ const filtersState = selector<Filter<OppgaveTilBehandling>[]>({
     },
 });
 
-export const useFilters = () => useRecoilValue(filtersState);
+export const useFilters = () => ({
+    allFilters: useRecoilValue(filtersState),
+    activeFilters: useRecoilValue(filtersState).filter((filter) => filter.active),
+});
 
 export const useSetMultipleFilters = () => {
     const setFilters = useSetRecoilState(filtersState);
