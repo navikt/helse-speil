@@ -40,45 +40,34 @@ export const AvvisningButton: React.FC<AvvisningButtonProps> = ({
     ...buttonProps
 }) => {
     const [showModal, setShowModal] = useState(false);
-    const [isSending, setIsSending] = useState(false);
-    const [error, setError] = useState<string | null>(null);
     const [kanIkkeAvvisesMelding, setKanIkkeAvvisesMelding] = useState<string | null>();
-    const [sendTilInfotrygdMutation] = useMutation(TilInfoTrygdDocument);
+    const [sendTilInfotrygdMutation, { error, loading }] = useMutation(TilInfoTrygdDocument);
 
     const amplitude = useContext(AmplitudeContext);
     const addInfotrygdtoast = useAddInfotrygdtoast();
     const kanAvvises = finnKanAvvises(activePeriod);
 
     const closeModal = () => {
-        setError(null);
         setShowModal(false);
     };
-    const avvisUtbetaling = (skjema: Avvisningsskjema) => {
-        setError(null);
-        setIsSending(true);
+    const avvisUtbetaling = async (skjema: Avvisningsskjema) => {
         const skjemaBegrunnelser: string[] = skjema.begrunnelser?.map((begrunnelse) => begrunnelse.valueOf()) ?? [];
         const skjemaKommentar: string[] = skjema.kommentar ? [skjema.kommentar] : [];
 
-        sendTilInfotrygdMutation({
+        await sendTilInfotrygdMutation({
             variables: {
                 oppgavereferanse: activePeriod.oppgave?.id ?? '',
                 kommentar: skjema.kommentar,
                 begrunnelser: skjemaBegrunnelser,
                 arsak: skjema.årsak.valueOf(),
             },
-        })
-            .then(() => {
+            onCompleted: () => {
                 amplitude.logOppgaveForkastet([skjema.årsak.valueOf(), ...skjemaBegrunnelser, ...skjemaKommentar]);
                 addInfotrygdtoast();
-                setIsSending(false);
                 closeModal();
                 onSuccess?.();
-            })
-            .catch((error) => {
-                setIsSending(false);
-                const errorMessage = error.statusCode === 409 ? 'Saken er allerede avvist' : 'En feil har oppstått';
-                setError(errorMessage);
-            });
+            },
+        });
     };
 
     return (
@@ -104,9 +93,15 @@ export const AvvisningButton: React.FC<AvvisningButtonProps> = ({
                     <AvvisningModal
                         onClose={closeModal}
                         onApprove={avvisUtbetaling}
-                        isSending={isSending}
+                        isSending={loading}
                         activePeriod={activePeriod}
-                        error={error}
+                        error={
+                            error
+                                ? error.graphQLErrors[0].extensions.code === 409
+                                    ? 'Saken er allerede avvist'
+                                    : 'En feil har oppstått'
+                                : null
+                        }
                     />
                 )
             )}

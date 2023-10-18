@@ -214,6 +214,14 @@ const getResolvers = (): IResolvers => ({
             });
             return TildelingMock.getTildeling(oppgaveId);
         },
+        sendTilInfotrygd: async () => {
+            if (Math.random() > 0.95) {
+                return new GraphQLError(`Allerede sendt til Infotrygd`, {
+                    extensions: { code: { value: 409 } },
+                });
+            }
+            return true;
+        },
         fjernPaaVent: async (_, { oppgaveId }: MutationFjernPaaVentArgs) => {
             TildelingMock.setTildeling(oppgaveId, {
                 epost: 'epost@nav.no',
