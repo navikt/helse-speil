@@ -30,7 +30,7 @@ export const TilGodkjenningOppgaveRow = ({ oppgave, readOnly }: TilGodkjenningOp
         <InntektskildeCell antallArbeidsforhold={oppgave.antallArbeidsforhold} />
         <DatoCell date={oppgave.opprettet} />
         <DatoCell date={oppgave.opprinneligSoknadsdato} />
-        <OptionsCell oppgave={oppgave} navn={oppgave.navn} />
+        {oppgave.tildeling ? <OptionsCell oppgave={oppgave} navn={oppgave.navn} /> : <Table.DataCell />}
         {oppgave.tildeling?.paaVent ? (
             <NotatCell
                 vedtaksperiodeId={oppgave.vedtaksperiodeId}
