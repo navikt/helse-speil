@@ -58,18 +58,17 @@ export const AvvisningButton: React.FC<AvvisningButtonProps> = ({
         setIsSending(true);
         const skjemaBegrunnelser: string[] = skjema.begrunnelser?.map((begrunnelse) => begrunnelse.valueOf()) ?? [];
         const skjemaKommentar: string[] = skjema.kommentar ? [skjema.kommentar] : [];
-        const begrunnelser: string[] = [skjema.årsak.valueOf(), ...skjemaBegrunnelser, ...skjemaKommentar];
 
         sendTilInfotrygdMutation({
             variables: {
                 oppgavereferanse: activePeriod.oppgave?.id ?? '',
                 kommentar: skjema.kommentar,
-                begrunnelser: begrunnelser,
+                begrunnelser: skjemaBegrunnelser,
                 arsak: skjema.årsak.valueOf(),
             },
         })
             .then(() => {
-                amplitude.logOppgaveForkastet(begrunnelser);
+                amplitude.logOppgaveForkastet([skjema.årsak.valueOf(), ...skjemaBegrunnelser, ...skjemaKommentar]);
                 addInfotrygdtoast();
                 setIsSending(false);
                 closeModal();
