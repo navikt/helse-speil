@@ -4,9 +4,7 @@ import { Alert } from '@navikt/ds-react';
 
 import { Flex } from '@components/Flex';
 import { useLoadingToast } from '@hooks/useLoadingToast';
-import { OppgaveTilBehandling } from '@io/graphql';
-import { useInnloggetSaksbehandler } from '@state/authentication';
-import { OppgaverResponse, useQueryOppgaver } from '@state/oppgaver';
+import { useOppgaveFeed } from '@state/oppgaver';
 import { onLazyLoadFail } from '@utils/error';
 
 import { IngenOppgaver } from './IngenOppgaver';
@@ -23,16 +21,16 @@ const BehandletIdagTable = lazy(() =>
 );
 
 export const Oversikt = () => {
-    const oppgaverResponse = useOppgaverFilteredByTab();
+    const oppgaveFeed = useOppgaveFeed();
     const aktivTab = useAktivTab();
 
-    useLoadingToast({ isLoading: oppgaverResponse.loading, message: 'Henter oppgaver' });
+    useLoadingToast({ isLoading: oppgaveFeed.loading, message: 'Henter oppgaver' });
 
     return (
         <main className={styles.Oversikt}>
-            {oppgaverResponse.error && (
+            {oppgaveFeed.error && (
                 <Alert className={styles.Alert} variant="warning" size="small">
-                    {oppgaverResponse.error?.message}
+                    {oppgaveFeed.error?.message}
                 </Alert>
             )}
             <Tabs />
@@ -42,10 +40,17 @@ export const Oversikt = () => {
                         <Suspense fallback={<OppgaverTableSkeleton />}>
                             <BehandletIdagTable />
                         </Suspense>
-                    ) : oppgaverResponse.loading ? (
+                    ) : oppgaveFeed.loading ? (
                         <OppgaverTableSkeleton />
-                    ) : oppgaverResponse.oppgaver && oppgaverResponse.oppgaver?.length > 0 ? (
-                        <OppgaverTable oppgaver={oppgaverResponse.oppgaver} />
+                    ) : oppgaveFeed.oppgaver ? (
+                        <OppgaverTable
+                            oppgaver={oppgaveFeed.oppgaver}
+                            antallOppgaver={oppgaveFeed.antallOppgaver}
+                            numberOfPages={oppgaveFeed.numberOfPages}
+                            currentPage={oppgaveFeed.currentPage}
+                            limit={oppgaveFeed.limit}
+                            setPage={oppgaveFeed.setPage}
+                        />
                     ) : (
                         <IngenOppgaver />
                     )}
@@ -54,32 +59,4 @@ export const Oversikt = () => {
             </Flex>
         </main>
     );
-};
-
-const useOppgaverFilteredByTab = (): OppgaverResponse => {
-    const { oid } = useInnloggetSaksbehandler();
-    const aktivTab = useAktivTab();
-    const oppgaverResponse = useQueryOppgaver();
-
-    const filtrer = (oppgaver: OppgaveTilBehandling[]): OppgaveTilBehandling[] => {
-        switch (aktivTab) {
-            case TabType.TilGodkjenning: {
-                return oppgaver;
-            }
-            case TabType.Mine: {
-                return oppgaver.filter(({ tildeling }) => tildeling?.oid === oid && !tildeling?.paaVent);
-            }
-            case TabType.Ventende: {
-                return oppgaver.filter(({ tildeling }) => tildeling?.oid === oid && tildeling?.paaVent);
-            }
-            case TabType.BehandletIdag: {
-                return [];
-            }
-        }
-    };
-
-    return {
-        ...oppgaverResponse,
-        oppgaver: oppgaverResponse.oppgaver ? filtrer(oppgaverResponse.oppgaver) : oppgaverResponse.oppgaver,
-    };
 };

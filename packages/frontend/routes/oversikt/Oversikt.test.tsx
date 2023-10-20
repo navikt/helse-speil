@@ -3,7 +3,7 @@ import { axe } from 'jest-axe';
 import React from 'react';
 
 import { HentBehandlingsstatistikkDocument } from '@io/graphql';
-import { useMineOppgaver, useOppgaver, useQueryOppgaver } from '@state/oppgaver';
+import { useMineOppgaver, useMineOppgaverPåVent, useOppgaveFeed } from '@state/oppgaver';
 import { enOppgaveForOversikten } from '@test-data/oppgave';
 import { render } from '@testing-library/react';
 
@@ -13,12 +13,17 @@ describe('Oversikt', () => {
     it('rendrer uten violations', async () => {
         const oppgaver = [enOppgaveForOversikten()];
 
-        (useMineOppgaver as jest.Mock).mockReturnValue([]);
-        (useOppgaver as jest.Mock).mockReturnValue(oppgaver);
-        (useQueryOppgaver as jest.Mock).mockReturnValue({
-            oppgaver: oppgaver,
-            errors: undefined,
+        (useMineOppgaver as jest.Mock).mockReturnValue(0);
+        (useMineOppgaverPåVent as jest.Mock).mockReturnValue(0);
+        (useOppgaveFeed as jest.Mock).mockReturnValue({
+            oppgaver,
+            error: undefined,
             loading: false,
+            antallOppgaver: 1,
+            numberOfPages: 1,
+            limit: 14,
+            currentPage: 1,
+            setPage: () => {},
         });
 
         const { container } = render(<Oversikt />, {

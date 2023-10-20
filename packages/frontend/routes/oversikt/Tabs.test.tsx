@@ -1,9 +1,8 @@
 import { RecoilWrapper } from '@test-wrappers';
 import { axe } from 'jest-axe';
-import { nanoid } from 'nanoid';
 import React from 'react';
 
-import { useMineOppgaver, useOppgaver } from '@state/oppgaver';
+import { useMineOppgaver, useMineOppgaverPåVent, useOppgaveFeed } from '@state/oppgaver';
 import { enOppgaveForOversikten } from '@test-data/oppgave';
 import { render, screen, within } from '@testing-library/react';
 
@@ -19,8 +18,9 @@ describe('Tabs', () => {
     it('rendrer uten violations', async () => {
         const oppgaver = [enOppgaveForOversikten()];
 
-        (useMineOppgaver as jest.Mock).mockReturnValue(oppgaver);
-        (useOppgaver as jest.Mock).mockReturnValue(oppgaver);
+        (useOppgaveFeed as jest.Mock).mockReturnValue(oppgaver);
+        (useMineOppgaver as jest.Mock).mockReturnValue(0);
+        (useMineOppgaverPåVent as jest.Mock).mockReturnValue(0);
 
         const { container } = render(<Tabs />, { wrapper: RecoilWrapper });
 
@@ -30,29 +30,15 @@ describe('Tabs', () => {
     });
 
     it('rendrer antall oppgaver', async () => {
-        const tildeling = {
-            epost: 'navn.navnesen@nav.no',
-            navn: 'Fornavn Etternavn',
-            oid: nanoid(),
-            reservert: false,
-            paaVent: false,
-        };
-        const minOppgave = enOppgaveForOversikten({ tildeling });
-        const alleOppgaver = [enOppgaveForOversikten(), minOppgave];
-        const mineOppgaver = [minOppgave];
-
-        (useMineOppgaver as jest.Mock).mockReturnValue(mineOppgaver);
-        (useOppgaver as jest.Mock).mockReturnValue(alleOppgaver);
+        (useMineOppgaver as jest.Mock).mockReturnValue(1);
+        (useMineOppgaverPåVent as jest.Mock).mockReturnValue(1);
 
         render(<Tabs />, { wrapper: RecoilWrapper });
-
-        const tilGodkjenning = screen.getByText('Til godkjenning');
-        expect(within(tilGodkjenning).getByText('(2)')).toBeVisible();
 
         const mineSaker = screen.getByText('Mine saker');
         expect(within(mineSaker).getByText('(1)')).toBeVisible();
 
         const påVent = screen.getByText('På vent');
-        expect(within(påVent).getByText('(0)')).toBeVisible();
+        expect(within(påVent).getByText('(1)')).toBeVisible();
     });
 });

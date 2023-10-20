@@ -9,6 +9,7 @@ import {
     LeggPaaVentDocument,
     Maybe,
     NotatType,
+    OppgaveFeedDocument,
     OppgaverDocument,
     OpprettTildelingDocument,
     OpprettTildelingMutation,
@@ -45,7 +46,9 @@ export const useOpprettTildeling = (): [
 ] => {
     const [tildelinger, setTildelinger] = useRecoilState(tildelingState);
     const client = useApolloClient();
-    const [opprettTildelingMutation, data] = useMutation(OpprettTildelingDocument);
+    const [opprettTildelingMutation, data] = useMutation(OpprettTildelingDocument, {
+        refetchQueries: [OppgaveFeedDocument],
+    });
     const leggTilTildelingsvarsel = useLeggTilTildelingsvarsel();
     const fjernTildelingsvarsel = useFjernTildelingsvarsel();
 
@@ -86,7 +89,9 @@ export const useFjernTildeling = (): [
     MutationResult<OpprettTildelingMutation>,
 ] => {
     const [tildelinger, setTildelinger] = useRecoilState(tildelingState);
-    const [fjernTildelingMutation, data] = useMutation(FjernTildelingDocument);
+    const [fjernTildelingMutation, data] = useMutation(FjernTildelingDocument, {
+        refetchQueries: [OppgaveFeedDocument],
+    });
 
     const leggTilTildelingsvarsel = useLeggTilTildelingsvarsel();
     const fjernTildelingsvarsel = useFjernTildelingsvarsel();
@@ -129,7 +134,10 @@ export const useLeggPåVent = (): ((
 
     return async (oppgavereferanse: string, aktørId: string, notat: NotatDTO, vedtaksperiodeId: string) =>
         leggPåVentMutation({
-            refetchQueries: [{ query: FetchNotaterDocument, variables: { forPerioder: [vedtaksperiodeId] } }],
+            refetchQueries: [
+                OppgaveFeedDocument,
+                { query: FetchNotaterDocument, variables: { forPerioder: [vedtaksperiodeId] } },
+            ],
             variables: { oppgaveId: oppgavereferanse, notatType: NotatType.PaaVent, notatTekst: notat.tekst },
             update: (cache, result) => {
                 cache.modify({
@@ -154,7 +162,7 @@ export const useFjernPåVent = (): [
     MutationResult<FjernPaaVentMutation>,
 ] => {
     const [tildelinger, setTildelinger] = useRecoilState(tildelingState);
-    const [fjernPåVentMutation, data] = useMutation(FjernPaaVentDocument);
+    const [fjernPåVentMutation, data] = useMutation(FjernPaaVentDocument, { refetchQueries: [OppgaveFeedDocument] });
     const fjernPåVent = (oppgavereferanse: string, aktørId: string) =>
         fjernPåVentMutation({
             variables: { oppgaveId: oppgavereferanse },

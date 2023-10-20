@@ -9,7 +9,7 @@ import { LinkRow } from './LinkRow';
 import { HeaderCell } from './OppgaverTable/HeaderCell';
 import { OppgaverTableError } from './OppgaverTableError';
 import { OppgaverTableSkeleton } from './OppgaverTableSkeleton';
-import { Pagination } from './Pagination';
+import { BehandletIdagPagination } from './Pagination';
 import { BehandletAvCell } from './cells/BehandletAvCell';
 import { BehandletTimestampCell } from './cells/BehandletTimestampCell';
 import { InntektskildeCell } from './cells/InntektskildeCell';
@@ -77,7 +77,9 @@ export const BehandletIdagTable = () => {
                     </Table>
                 </div>
             </div>
-            {behandledeOppgaver !== undefined && <Pagination numberOfEntries={behandledeOppgaver.length} />}
+            {behandledeOppgaver !== undefined && (
+                <BehandletIdagPagination numberOfEntries={behandledeOppgaver.length} />
+            )}
         </div>
     );
 };

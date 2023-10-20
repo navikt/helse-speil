@@ -288,6 +288,11 @@ const filtersState = selector<Filter<OppgaveTilBehandling>[]>({
     },
 });
 
+export const filterEndret = atom<boolean>({
+    key: 'filterEndret',
+    default: false,
+});
+
 export const useFilters = () => ({
     allFilters: useRecoilValue(filtersState),
     activeFilters: useRecoilValue(filtersState).filter((filter) => filter.active),
@@ -295,13 +300,18 @@ export const useFilters = () => ({
 
 export const useSetMultipleFilters = () => {
     const setFilters = useSetRecoilState(filtersState);
+    const setFilterEndret = useSetRecoilState(filterEndret);
     return (state: boolean, ...labels: string[]) => {
         setFilters((filters) => filters.map((it) => (labels.includes(it.label) ? { ...it, active: state } : it)));
+        setFilterEndret(true);
     };
 };
 
 export const useToggleFilter = () => {
     const setFilters = useSetRecoilState(filtersState);
-    return (label: string) =>
+    const setFilterEndret = useSetRecoilState(filterEndret);
+    return (label: string) => {
         setFilters((filters) => filters.map((it) => (it.label === label ? { ...it, active: !it.active } : it)));
+        setFilterEndret(true);
+    };
 };

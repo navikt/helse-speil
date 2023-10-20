@@ -1,14 +1,13 @@
 import classNames from 'classnames';
 import React from 'react';
-import { useRecoilState } from 'recoil';
 
 import { DataFilled } from '@navikt/ds-icons';
 
 import { RoundedButton } from '@components/RoundedButton';
-import { useMineOppgaver, useOppgaver } from '@state/oppgaver';
+import { useMineOppgaver, useMineOppgaverPåVent } from '@state/oppgaver';
 
 import { useShowStatistikk, useToggleStatistikk } from './behandlingsstatistikk/state';
-import { TabType, tabState } from './tabState';
+import { TabType, useSwitchTab } from './tabState';
 
 import styles from './Tabs.module.css';
 
@@ -19,7 +18,7 @@ interface OppgaveTabProps {
 }
 
 const OppgaveTab = ({ tag, label, numberOfTasks }: OppgaveTabProps) => {
-    const [aktivTab, setAktivTab] = useRecoilState(tabState);
+    const [aktivTab, setAktivTab] = useSwitchTab();
     return (
         <button
             className={classNames(styles.Tab, aktivTab === tag && styles.active)}
@@ -33,24 +32,19 @@ const OppgaveTab = ({ tag, label, numberOfTasks }: OppgaveTabProps) => {
     );
 };
 
-const AlleSakerTab = () => {
-    const antallOppgaver = useOppgaver().length;
-    return <OppgaveTab tag={TabType.TilGodkjenning} label="Til godkjenning" numberOfTasks={antallOppgaver} />;
-};
+const AlleSakerTab = () => <OppgaveTab tag={TabType.TilGodkjenning} label="Til godkjenning" />;
 
 const MineSakerTab = () => {
-    const antallEgneOppgaver = useMineOppgaver().filter((it) => !it.tildeling?.paaVent).length;
+    const antallEgneOppgaver = useMineOppgaver();
     return <OppgaveTab tag={TabType.Mine} label="Mine saker" numberOfTasks={antallEgneOppgaver} />;
 };
 
 const VentendeSakerTab = () => {
-    const antallEgneVentendeSaker = useMineOppgaver().filter((it) => it.tildeling?.paaVent).length;
+    const antallEgneVentendeSaker = useMineOppgaverPåVent();
     return <OppgaveTab tag={TabType.Ventende} label="På vent" numberOfTasks={antallEgneVentendeSaker} />;
 };
 
-const BehandletIdagTab = () => {
-    return <OppgaveTab tag={TabType.BehandletIdag} label="Behandlet i dag" />;
-};
+const BehandletIdagTab = () => <OppgaveTab tag={TabType.BehandletIdag} label="Behandlet i dag" />;
 
 export const Tabs = () => {
     const toggleStatistikk = useToggleStatistikk();

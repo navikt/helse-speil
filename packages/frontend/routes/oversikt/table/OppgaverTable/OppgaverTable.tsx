@@ -6,9 +6,8 @@ import { OppgaveTilBehandling } from '@io/graphql';
 
 import { TabType, useAktivTab } from '../../tabState';
 import { Pagination } from '../Pagination';
-import { filterRows, useFilters, useSetMultipleFilters, useToggleFilter } from '../state/filter';
-import { Pagination as PaginationType, usePagination } from '../state/pagination';
-import { sortRows, sortering } from '../state/sortation';
+import { useFilters, useSetMultipleFilters, useToggleFilter } from '../state/filter';
+import { sortering } from '../state/sortation';
 import { FilterChips } from './FilterChips';
 import { MineSakerTable } from './mineSaker/MineSakerTable';
 import { PåVentTable } from './påVent/PåVentTable';
@@ -18,52 +17,56 @@ import styles from '../table.module.css';
 
 interface OppgaverTableProps {
     oppgaver: OppgaveTilBehandling[];
+    antallOppgaver: number;
+    numberOfPages: number;
+    currentPage: number;
+    limit: number;
+    setPage: (newPage: number) => void;
 }
 
-export const OppgaverTable: React.FC<OppgaverTableProps> = React.memo(({ oppgaver }) => {
-    const tab = useAktivTab();
-    const { allFilters, activeFilters } = useFilters();
-    const [sort, setSort] = useRecoilState(sortering);
-    const pagination = usePagination();
-    const toggleFilter = useToggleFilter();
-    const setMultipleFilters = useSetMultipleFilters();
-    const readOnly = useIsReadOnlyOppgave();
+export const OppgaverTable: React.FC<OppgaverTableProps> = React.memo(
+    ({ oppgaver, antallOppgaver, numberOfPages, currentPage, limit, setPage }) => {
+        const tab = useAktivTab();
+        const { allFilters, activeFilters } = useFilters();
+        const [sort, setSort] = useRecoilState(sortering);
+        const toggleFilter = useToggleFilter();
+        const setMultipleFilters = useSetMultipleFilters();
+        const readOnly = useIsReadOnlyOppgave();
 
-    const filteredRows = filterRows(activeFilters, oppgaver);
-    const sortedRows = sortRows(sort, filteredRows);
-    const paginatedRows = paginateRows(pagination, sortedRows);
-
-    return (
-        <div className={styles.TableContainer}>
-            <FilterChips
-                activeFilters={activeFilters}
-                setMultipleFilters={setMultipleFilters}
-                toggleFilter={toggleFilter}
-            />
-            <div className={styles.Content}>
-                <div className={styles.Scrollable}>
-                    {tab === TabType.TilGodkjenning && (
-                        <TilGodkjenningTable
-                            filters={allFilters}
-                            oppgaver={paginatedRows}
-                            readOnly={readOnly}
-                            sort={sort}
-                            setSort={setSort}
-                        />
-                    )}
-                    {tab === TabType.Mine && (
-                        <MineSakerTable filters={allFilters} oppgaver={paginatedRows} sort={sort} setSort={setSort} />
-                    )}
-                    {tab === TabType.Ventende && (
-                        <PåVentTable filters={allFilters} oppgaver={paginatedRows} sort={sort} setSort={setSort} />
-                    )}
+        return (
+            <div className={styles.TableContainer}>
+                <FilterChips
+                    activeFilters={activeFilters}
+                    setMultipleFilters={setMultipleFilters}
+                    toggleFilter={toggleFilter}
+                />
+                <div className={styles.Content}>
+                    <div className={styles.Scrollable}>
+                        {tab === TabType.TilGodkjenning && (
+                            <TilGodkjenningTable
+                                filters={allFilters}
+                                oppgaver={oppgaver}
+                                readOnly={readOnly}
+                                sort={sort}
+                                setSort={setSort}
+                            />
+                        )}
+                        {tab === TabType.Mine && (
+                            <MineSakerTable filters={allFilters} oppgaver={oppgaver} sort={sort} setSort={setSort} />
+                        )}
+                        {tab === TabType.Ventende && (
+                            <PåVentTable filters={allFilters} oppgaver={oppgaver} sort={sort} setSort={setSort} />
+                        )}
+                    </div>
                 </div>
+                <Pagination
+                    numberOfEntries={antallOppgaver}
+                    numberOfPages={numberOfPages}
+                    currentPage={currentPage}
+                    limit={limit}
+                    setPage={setPage}
+                />
             </div>
-            <Pagination numberOfEntries={filteredRows.length} />
-        </div>
-    );
-});
-
-const paginateRows = (pagination: PaginationType | null, oppgaver: OppgaveTilBehandling[]) => {
-    return pagination ? oppgaver.slice(pagination.firstVisibleEntry, pagination.lastVisibleEntry + 1) : oppgaver;
-};
+        );
+    },
+);

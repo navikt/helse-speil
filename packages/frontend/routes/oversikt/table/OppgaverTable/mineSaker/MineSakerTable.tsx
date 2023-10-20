@@ -5,7 +5,7 @@ import { SortState, Table } from '@navikt/ds-react';
 import { OppgaveTilBehandling } from '@io/graphql';
 
 import { Filter } from '../../state/filter';
-import { SortKey, updateSort } from '../../state/sortation';
+import { SortKey, useUpdateSort } from '../../state/sortation';
 import { IngenMatchendeFiltre } from '../IngenMatchendeFiltre';
 import { MineSakerDropdownHeaderRow } from './MineSakerDropdownHeaderRow';
 import { MineSakerOppgaveRow } from './MineSakerOppgaveRow';
@@ -19,25 +19,27 @@ interface MineSakerTableProps {
     sort: SortState | undefined;
     setSort: (state: SortState | undefined) => void;
 }
-
-export const MineSakerTable = ({ filters, oppgaver, sort, setSort }: MineSakerTableProps) => (
-    <Table
-        sort={sort}
-        onSortChange={(sortKey: string | undefined) => sortKey && updateSort(sort, setSort, sortKey as SortKey)}
-        className={styles.Table}
-        aria-label="Saker som er tildelt meg"
-        zebraStripes
-    >
-        <Table.Header>
-            <MineSakerDropdownHeaderRow filters={filters} />
-            <MineSakerSortHeaderRow />
-        </Table.Header>
-        <Table.Body>
-            {oppgaver.length > 0 ? (
-                oppgaver.map((oppgave) => <MineSakerOppgaveRow key={oppgave.id} oppgave={oppgave} />)
-            ) : (
-                <IngenMatchendeFiltre />
-            )}
-        </Table.Body>
-    </Table>
-);
+export const MineSakerTable = ({ filters, oppgaver, sort, setSort }: MineSakerTableProps) => {
+    const updateSort = useUpdateSort();
+    return (
+        <Table
+            sort={sort}
+            onSortChange={(sortKey: string | undefined) => sortKey && updateSort(sort, setSort, sortKey as SortKey)}
+            className={styles.Table}
+            aria-label="Saker som er tildelt meg"
+            zebraStripes
+        >
+            <Table.Header>
+                <MineSakerDropdownHeaderRow filters={filters} />
+                <MineSakerSortHeaderRow />
+            </Table.Header>
+            <Table.Body>
+                {oppgaver.length > 0 ? (
+                    oppgaver.map((oppgave) => <MineSakerOppgaveRow key={oppgave.id} oppgave={oppgave} />)
+                ) : (
+                    <IngenMatchendeFiltre />
+                )}
+            </Table.Body>
+        </Table>
+    );
+};

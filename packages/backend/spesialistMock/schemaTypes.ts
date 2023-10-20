@@ -283,6 +283,14 @@ export type Faresignal = {
     kategori: Array<Scalars['String']['output']>;
 };
 
+export type FiltreringInput = {
+    egenskaper: Array<OppgaveegenskapInput>;
+    egneSaker: Scalars['Boolean']['input'];
+    egneSakerPaVent: Scalars['Boolean']['input'];
+    ingenUkategoriserteEgenskaper: Scalars['Boolean']['input'];
+    tildelt?: InputMaybe<Scalars['Boolean']['input']>;
+};
+
 export type Generasjon = {
     __typename?: 'Generasjon';
     id: Scalars['String']['output'];
@@ -866,23 +874,15 @@ export type Personoppdrag = Spennoppdrag & {
 
 export type Query = {
     __typename?: 'Query';
-    alleOppgaver: OppgaverTilBehandling;
     behandledeOppgaverIDag: Array<BehandletOppgave>;
     behandlingsstatistikk: Behandlingsstatistikk;
     hentOpptegnelser: Array<Opptegnelse>;
     hentSoknad: Soknad;
     notater: Array<Notater>;
     oppdrag: Array<Oppdrag>;
+    oppgaveFeed: OppgaverTilBehandling;
     oppgaver: Array<OppgaveTilBehandling>;
     person?: Maybe<Person>;
-};
-
-export type QueryAlleOppgaverArgs = {
-    fane?: InputMaybe<Fane>;
-    filtrerteEgenskaper?: InputMaybe<Array<OppgaveegenskapInput>>;
-    pageSize?: InputMaybe<Scalars['Int']['input']>;
-    sortering?: InputMaybe<Array<OppgavesorteringInput>>;
-    startIndex?: InputMaybe<Scalars['Int']['input']>;
 };
 
 export type QueryHentOpptegnelserArgs = {
@@ -900,6 +900,13 @@ export type QueryNotaterArgs = {
 
 export type QueryOppdragArgs = {
     fnr: Scalars['String']['input'];
+};
+
+export type QueryOppgaveFeedArgs = {
+    filtrering: FiltreringInput;
+    limit: Scalars['Int']['input'];
+    offset: Scalars['Int']['input'];
+    sortering: Array<OppgavesorteringInput>;
 };
 
 export type QueryOppgaverArgs = {

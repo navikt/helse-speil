@@ -11,7 +11,7 @@ if (process.env.NODE_ENV === 'development') {
             name: 'Lokal utvikler',
             NAVident: 'dev-ident',
             email: 'dev@nav.no',
-            oid: 'uuid',
+            oid: '4577332e-801a-4c13-8a71-39f12b8abfa3',
             groups: ['gruppe1', 'gruppe2'],
         }),
     )}.ignored-part`;

@@ -5,7 +5,7 @@ import { SortState, Table } from '@navikt/ds-react';
 import { OppgaveTilBehandling } from '@io/graphql';
 
 import { Filter } from '../../state/filter';
-import { SortKey, updateSort } from '../../state/sortation';
+import { SortKey, useUpdateSort } from '../../state/sortation';
 import { IngenMatchendeFiltre } from '../IngenMatchendeFiltre';
 import { TilGodkjenningDropdownHeaderRow } from './TilGodkjenningDropdownHeaderRow';
 import { TilGodkjenningOppgaveRow } from './TilGodkjenningOppgaveRow';
@@ -21,26 +21,29 @@ interface TilGodkjenningTableProps {
     setSort: (state: SortState | undefined) => void;
 }
 
-export const TilGodkjenningTable = ({ filters, oppgaver, readOnly, sort, setSort }: TilGodkjenningTableProps) => (
-    <Table
-        sort={sort}
-        onSortChange={(sortKey: string | undefined) => sortKey && updateSort(sort, setSort, sortKey as SortKey)}
-        className={styles.Table}
-        aria-label="Saker som er klare for behandling"
-        zebraStripes
-    >
-        <Table.Header>
-            <TilGodkjenningDropdownHeaderRow filters={filters} />
-            <TilGodkjenningSortHeaderRow />
-        </Table.Header>
-        <Table.Body>
-            {oppgaver.length > 0 ? (
-                oppgaver.map((oppgave) => (
-                    <TilGodkjenningOppgaveRow key={oppgave.id} oppgave={oppgave} readOnly={readOnly} />
-                ))
-            ) : (
-                <IngenMatchendeFiltre />
-            )}
-        </Table.Body>
-    </Table>
-);
+export const TilGodkjenningTable = ({ filters, oppgaver, readOnly, sort, setSort }: TilGodkjenningTableProps) => {
+    const updateSort = useUpdateSort();
+    return (
+        <Table
+            sort={sort}
+            onSortChange={(sortKey: string | undefined) => sortKey && updateSort(sort, setSort, sortKey as SortKey)}
+            className={styles.Table}
+            aria-label="Saker som er klare for behandling"
+            zebraStripes
+        >
+            <Table.Header>
+                <TilGodkjenningDropdownHeaderRow filters={filters} />
+                <TilGodkjenningSortHeaderRow />
+            </Table.Header>
+            <Table.Body>
+                {oppgaver.length > 0 ? (
+                    oppgaver.map((oppgave) => (
+                        <TilGodkjenningOppgaveRow key={oppgave.id} oppgave={oppgave} readOnly={readOnly} />
+                    ))
+                ) : (
+                    <IngenMatchendeFiltre />
+                )}
+            </Table.Body>
+        </Table>
+    );
+};

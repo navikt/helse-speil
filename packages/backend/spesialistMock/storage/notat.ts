@@ -117,7 +117,7 @@ export class NotatMock {
             id: NotatMock.notatCounter++,
             tekst: 'Revidert utgave 2',
             opprettet: dayjs().format('YYYY-MM-DDTHH:mm:ss'),
-            saksbehandlerOid: 'uuid',
+            saksbehandlerOid: '4577332e-801a-4c13-8a71-39f12b8abfa3',
             saksbehandlerNavn: 'Bernt Bjelle',
             saksbehandlerEpost: 'bernt.bjelle@nav.no',
             saksbehandlerIdent: 'E123456',

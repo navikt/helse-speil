@@ -1,4 +1,4 @@
-import { atom, selector } from 'recoil';
+import { atom, selector, useSetRecoilState } from 'recoil';
 
 import { SortState } from '@navikt/ds-react';
 
@@ -41,6 +41,11 @@ const sorteringPerTab = atom<SorteringPerTab>({
     },
 });
 
+export const sorteringEndret = atom<boolean>({
+    key: 'sorteringEndret',
+    default: false,
+});
+
 export const sortering = selector<SortState | undefined>({
     key: 'sortering',
     get: ({ get }) => {
@@ -52,20 +57,22 @@ export const sortering = selector<SortState | undefined>({
     },
 });
 
-export const updateSort = (
-    sort: SortState | undefined,
-    setSort: (state: SortState | undefined) => void,
-    sortKey: SortKey,
-) => {
-    const sortState =
-        sort && sortKey === sort.orderBy && sort.direction === 'descending'
-            ? undefined
-            : ({
-                  orderBy: sortKey,
-                  direction:
-                      sort && sortKey === sort.orderBy && sort.direction === 'ascending' ? 'descending' : 'ascending',
-              } as SortState);
-    setSort(sortState);
+export const useUpdateSort = () => {
+    const setSorteringEndret = useSetRecoilState(sorteringEndret);
+    return (sort: SortState | undefined, setSort: (state: SortState | undefined) => void, sortKey: SortKey) => {
+        const sortState =
+            sort && sortKey === sort.orderBy && sort.direction === 'descending'
+                ? undefined
+                : ({
+                      orderBy: sortKey,
+                      direction:
+                          sort && sortKey === sort.orderBy && sort.direction === 'ascending'
+                              ? 'descending'
+                              : 'ascending',
+                  } as SortState);
+        setSort(sortState);
+        setSorteringEndret(true);
+    };
 };
 
 export const sortRows = (sort: SortState | undefined, filteredRows: OppgaveTilBehandling[]): OppgaveTilBehandling[] => {

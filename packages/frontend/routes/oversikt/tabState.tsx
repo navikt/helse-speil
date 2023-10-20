@@ -1,4 +1,4 @@
-import { atom, useRecoilValue } from 'recoil';
+import { atom, useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 
 import { sessionStorageEffect } from '@state/effects/sessionStorageEffect';
 
@@ -14,4 +14,21 @@ export const tabState = atom<TabType>({
     default: TabType.TilGodkjenning,
     effects: [sessionStorageEffect()],
 });
+
+export const tabEndret = atom<boolean>({
+    key: 'tabEndret',
+    default: false,
+});
 export const useAktivTab = () => useRecoilValue(tabState);
+
+export const useSwitchTab = (): [aktivTab: TabType, setAktivTab: (tab: TabType) => void] => {
+    const [aktivTab, setAktivTab] = useRecoilState(tabState);
+    const setTabEndret = useSetRecoilState(tabEndret);
+    return [
+        aktivTab,
+        (tab: TabType) => {
+            setAktivTab(tab);
+            setTabEndret(true);
+        },
+    ];
+};

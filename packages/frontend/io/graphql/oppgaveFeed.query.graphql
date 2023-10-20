@@ -1,5 +1,5 @@
-query AlleOppgaver($startIndex: Int, $pageSize: Int, $fane: Fane, $filtrerteEgenskaper: [OppgaveegenskapInput!]) {
-    alleOppgaver(startIndex: $startIndex, pageSize: $pageSize, fane: $fane, filtrerteEgenskaper: $filtrerteEgenskaper) {
+query OppgaveFeed($offset: Int!, $limit: Int!, $sortering: [OppgavesorteringInput!]!, $filtrering: FiltreringInput!) {
+    oppgaveFeed(offset: $offset, limit: $limit, sortering: $sortering, filtrering: $filtrering) {
         oppgaver {
             aktorId
             egenskaper {

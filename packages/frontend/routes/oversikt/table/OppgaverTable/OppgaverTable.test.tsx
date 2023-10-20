@@ -11,7 +11,17 @@ describe('OppgaverTable', () => {
     it('rendres uten violations', async () => {
         const oppgaver = [enOppgaveForOversikten()];
 
-        const { container } = render(<OppgaverTable oppgaver={oppgaver} />, { wrapper: ApolloWrapper });
+        const { container } = render(
+            <OppgaverTable
+                antallOppgaver={1}
+                numberOfPages={1}
+                currentPage={1}
+                limit={14}
+                setPage={() => {}}
+                oppgaver={oppgaver}
+            />,
+            { wrapper: ApolloWrapper },
+        );
 
         const result = await axe(container);
 
@@ -21,7 +31,17 @@ describe('OppgaverTable', () => {
     it('rendrer alle headere', () => {
         const oppgaver = [enOppgaveForOversikten()];
 
-        render(<OppgaverTable oppgaver={oppgaver} />, { wrapper: ApolloWrapper });
+        render(
+            <OppgaverTable
+                antallOppgaver={1}
+                numberOfPages={1}
+                currentPage={1}
+                limit={14}
+                setPage={() => {}}
+                oppgaver={oppgaver}
+            />,
+            { wrapper: ApolloWrapper },
+        );
 
         expect(
             screen.getByText(

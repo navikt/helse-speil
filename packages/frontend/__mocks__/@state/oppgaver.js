@@ -1,5 +1,5 @@
 module.exports = {
-    useOppgaver: jest.fn(),
     useMineOppgaver: jest.fn(),
-    useQueryOppgaver: jest.fn(),
+    useMineOppgaverPåVent: jest.fn(),
+    useOppgaveFeed: jest.fn(),
 };

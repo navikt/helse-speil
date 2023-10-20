@@ -188,7 +188,7 @@ const getResolvers = (): IResolvers => ({
             TildelingMock.setTildeling(oppgaveId, {
                 epost: 'epost@nav.no',
                 navn: 'Utvikler, Lokal',
-                oid: 'uuid',
+                oid: '4577332e-801a-4c13-8a71-39f12b8abfa3',
                 reservert: OppgaveMock.getOppgave(oppgaveId)?.erPåVent ?? false,
                 paaVent: OppgaveMock.getOppgave(oppgaveId)?.erPåVent ?? false,
             });
@@ -208,7 +208,7 @@ const getResolvers = (): IResolvers => ({
             TildelingMock.setTildeling(oppgaveId, {
                 epost: 'epost@nav.no',
                 navn: 'Utvikler, Lokal',
-                oid: 'uuid',
+                oid: '4577332e-801a-4c13-8a71-39f12b8abfa3',
                 reservert: true,
                 paaVent: true,
             });
@@ -226,7 +226,7 @@ const getResolvers = (): IResolvers => ({
             TildelingMock.setTildeling(oppgaveId, {
                 epost: 'epost@nav.no',
                 navn: 'Utvikler, Lokal',
-                oid: 'uuid',
+                oid: '4577332e-801a-4c13-8a71-39f12b8abfa3',
                 reservert: false,
                 paaVent: false,
             });
@@ -249,11 +249,14 @@ const getResolvers = (): IResolvers => ({
             const oppgave: Oppgave = {
                 ...getDefaultOppgave(),
                 id: oppgavereferanse,
-                tildelt: tidligereSaksbehandler === 'uuid' ? null : 'uuid',
+                tildelt:
+                    tidligereSaksbehandler === '4577332e-801a-4c13-8a71-39f12b8abfa3'
+                        ? null
+                        : '4577332e-801a-4c13-8a71-39f12b8abfa3',
                 totrinnsvurdering: {
                     erRetur: false,
                     erBeslutteroppgave: true,
-                    saksbehandler: 'uuid',
+                    saksbehandler: '4577332e-801a-4c13-8a71-39f12b8abfa3',
                 },
             };
 
@@ -267,7 +270,7 @@ const getResolvers = (): IResolvers => ({
                 id: oppgavereferanse,
                 tildelt: tidligereSaksbehandler,
                 totrinnsvurdering: {
-                    saksbehandler: 'uuid',
+                    saksbehandler: '4577332e-801a-4c13-8a71-39f12b8abfa3',
                     erRetur: true,
                     erBeslutteroppgave: false,
                 },
