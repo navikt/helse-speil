@@ -32,11 +32,15 @@ export const Pagination = ({ numberOfEntries }: PaginationProps) => {
                 siblingCount={2}
                 prevNextTexts
             />
-            <p>
-                Viser {pagination.firstVisibleEntry + 1} til{' '}
-                {pagination.lastVisibleEntry + 1 > numberOfEntries ? numberOfEntries : pagination.lastVisibleEntry + 1}{' '}
-                av {numberOfEntries} oppgaver
-            </p>
+            {numberOfEntries > 0 && (
+                <p>
+                    Viser {pagination.firstVisibleEntry + 1} til{' '}
+                    {pagination.lastVisibleEntry + 1 > numberOfEntries
+                        ? numberOfEntries
+                        : pagination.lastVisibleEntry + 1}{' '}
+                    av {numberOfEntries} oppgaver
+                </p>
+            )}
         </div>
     );
 };
