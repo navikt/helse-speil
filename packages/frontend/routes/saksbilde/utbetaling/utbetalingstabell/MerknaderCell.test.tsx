@@ -43,6 +43,8 @@ describe('MerknaderCell', () => {
 
         expect(screen.queryAllByTestId('Inntekt under krav til minste sykepengegrunnlag')).toHaveLength(2);
         expect(screen.queryAllByTestId('Maks antall sykepengedager er nådd')).toHaveLength(2);
+
+        expect(screen.queryByText('§ 8-7, 1. avsnitt')).toBeVisible();
     });
 
     test('rendrer riktig for forskjellige varianter av minimum inntekt', () => {

@@ -26,7 +26,7 @@ const Merknad: React.FC<MerknadProps> = ({ begrunnelse, alderVedSkjæringstidspu
             return (
                 <Tooltip content="Egenmelding utenfor arbeidsgiverperioden">
                     <Container data-testid="Egenmelding utenfor arbeidsgiverperioden">
-                        <LovdataLenke paragraf="8-23">§ 8-23</LovdataLenke>
+                        <LovdataLenke paragraf="8-7">§ 8-7, 1. avsnitt</LovdataLenke>
                     </Container>
                 </Tooltip>
             );
