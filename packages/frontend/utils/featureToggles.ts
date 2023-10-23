@@ -55,8 +55,7 @@ export const harSpesialsaktilgang: boolean = extractGroups().includes(groupIdSpe
 
 export const toggleMeny: boolean = erLocal() || erDev();
 
-export const kanSkjønnsfastsetteSykepengegrunnlag: boolean =
-    erLocal() || erDev() || erSupersaksbehandler() || erCoach();
+export const kanSkjønnsfastsetteSykepengegrunnlag: boolean = erLocal() || erDev();
 export const tilgjengeligeBegrunnelser = erLocal() || erDev() ? ['0', '1', '2'] : ['0'];
 
 export const skalViseDokumenter = erLocal() || erDev();
