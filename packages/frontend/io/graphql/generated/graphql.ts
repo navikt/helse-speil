@@ -1056,6 +1056,7 @@ export type Soknad = {
     arbeidGjenopptatt?: Maybe<Scalars['String']['output']>;
     egenmeldingsdagerFraSykmelding?: Maybe<Array<Scalars['String']['output']>>;
     soknadsperioder?: Maybe<Array<Soknadsperioder>>;
+    sporsmal?: Maybe<Array<Sporsmal>>;
     sykmeldingSkrevet?: Maybe<Scalars['String']['output']>;
 };
 
@@ -1099,6 +1100,51 @@ export type Spennoppdrag = {
     fagsystemId: Scalars['String']['output'];
     linjer: Array<Utbetalingslinje>;
 };
+
+export type Sporsmal = {
+    __typename?: 'Sporsmal';
+    kriterieForVisningAvUndersporsmal?: Maybe<Visningskriterium>;
+    sporsmalstekst?: Maybe<Scalars['String']['output']>;
+    svar?: Maybe<Array<Svar>>;
+    svartype?: Maybe<Svartype>;
+    tag?: Maybe<Scalars['String']['output']>;
+    undersporsmal?: Maybe<Array<Maybe<Sporsmal>>>;
+    undertekst?: Maybe<Scalars['String']['output']>;
+};
+
+export type Svar = {
+    __typename?: 'Svar';
+    verdi?: Maybe<Scalars['String']['output']>;
+};
+
+export enum Svartype {
+    Bekreftelsespunkter = 'BEKREFTELSESPUNKTER',
+    Belop = 'BELOP',
+    Checkbox = 'CHECKBOX',
+    CheckboxGruppe = 'CHECKBOX_GRUPPE',
+    CheckboxPanel = 'CHECKBOX_PANEL',
+    ComboboxMulti = 'COMBOBOX_MULTI',
+    ComboboxSingle = 'COMBOBOX_SINGLE',
+    Dato = 'DATO',
+    Datoer = 'DATOER',
+    Fritekst = 'FRITEKST',
+    IkkeRelevant = 'IKKE_RELEVANT',
+    InfoBehandlingsdager = 'INFO_BEHANDLINGSDAGER',
+    JaNei = 'JA_NEI',
+    Kilometer = 'KILOMETER',
+    Kvittering = 'KVITTERING',
+    Land = 'LAND',
+    Periode = 'PERIODE',
+    Perioder = 'PERIODER',
+    Prosent = 'PROSENT',
+    Radio = 'RADIO',
+    RadioGruppe = 'RADIO_GRUPPE',
+    RadioGruppeTimerProsent = 'RADIO_GRUPPE_TIMER_PROSENT',
+    RadioGruppeUkekalender = 'RADIO_GRUPPE_UKEKALENDER',
+    Tall = 'TALL',
+    Timer = 'TIMER',
+    Ukjent = 'UKJENT',
+}
 
 export enum Sykdomsdagtype {
     AndreYtelserAap = 'ANDRE_YTELSER_AAP',
@@ -1357,6 +1403,13 @@ export type VilkarsgrunnlagSpleis = Vilkarsgrunnlag & {
 export enum Vilkarsgrunnlagtype {
     Infotrygd = 'INFOTRYGD',
     Spleis = 'SPLEIS',
+    Ukjent = 'UKJENT',
+}
+
+export enum Visningskriterium {
+    Checked = 'CHECKED',
+    Ja = 'JA',
+    Nei = 'NEI',
     Ukjent = 'UKJENT',
 }
 
