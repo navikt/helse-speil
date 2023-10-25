@@ -1053,8 +1053,10 @@ export enum Skjonnsfastsettingstype {
 
 export type Soknad = {
     __typename?: 'Soknad';
-    sendtNav: Scalars['String']['output'];
-    soknadsperioder: Array<Soknadsperiode>;
+    arbeidGjenopptatt?: Maybe<Scalars['String']['output']>;
+    egenmeldingsdagerFraSykmelding?: Maybe<Array<Scalars['String']['output']>>;
+    soknadsperioder?: Maybe<Array<Soknadsperioder>>;
+    sykmeldingSkrevet?: Maybe<Scalars['String']['output']>;
 };
 
 export type SoknadArbeidsgiver = Hendelse & {
@@ -1079,13 +1081,12 @@ export type SoknadNav = Hendelse & {
     type: Hendelsetype;
 };
 
-export type Soknadsperiode = {
-    __typename?: 'Soknadsperiode';
-    avtaltTimer?: Maybe<Scalars['Int']['output']>;
-    faktiskGrad?: Maybe<Scalars['Float']['output']>;
-    faktiskTimer?: Maybe<Scalars['Float']['output']>;
-    sykemeldingsgrad?: Maybe<Scalars['Float']['output']>;
-    sykemeldingstype?: Maybe<Scalars['String']['output']>;
+export type Soknadsperioder = {
+    __typename?: 'Soknadsperioder';
+    faktiskGrad?: Maybe<Scalars['Int']['output']>;
+    fom: Scalars['String']['output'];
+    grad: Scalars['Int']['output'];
+    tom: Scalars['String']['output'];
 };
 
 export enum Sorteringsnokkel {
@@ -1452,18 +1453,7 @@ export type FetchSoknadQueryVariables = Exact<{
 
 export type FetchSoknadQuery = {
     __typename?: 'Query';
-    hentSoknad: {
-        __typename?: 'Soknad';
-        sendtNav: string;
-        soknadsperioder: Array<{
-            __typename?: 'Soknadsperiode';
-            avtaltTimer?: number | null;
-            faktiskGrad?: number | null;
-            faktiskTimer?: number | null;
-            sykemeldingsgrad?: number | null;
-            sykemeldingstype?: string | null;
-        }>;
-    };
+    hentSoknad: { __typename?: 'Soknad'; arbeidGjenopptatt?: string | null; sykmeldingSkrevet?: string | null };
 };
 
 export type FeilregistrerKommentarMutationMutationVariables = Exact<{
@@ -3423,21 +3413,8 @@ export const FetchSoknadDocument = {
                         selectionSet: {
                             kind: 'SelectionSet',
                             selections: [
-                                { kind: 'Field', name: { kind: 'Name', value: 'sendtNav' } },
-                                {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'soknadsperioder' },
-                                    selectionSet: {
-                                        kind: 'SelectionSet',
-                                        selections: [
-                                            { kind: 'Field', name: { kind: 'Name', value: 'avtaltTimer' } },
-                                            { kind: 'Field', name: { kind: 'Name', value: 'faktiskGrad' } },
-                                            { kind: 'Field', name: { kind: 'Name', value: 'faktiskTimer' } },
-                                            { kind: 'Field', name: { kind: 'Name', value: 'sykemeldingsgrad' } },
-                                            { kind: 'Field', name: { kind: 'Name', value: 'sykemeldingstype' } },
-                                        ],
-                                    },
-                                },
+                                { kind: 'Field', name: { kind: 'Name', value: 'arbeidGjenopptatt' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'sykmeldingSkrevet' } },
                             ],
                         },
                     },

@@ -1051,8 +1051,10 @@ export enum Skjonnsfastsettingstype {
 
 export type Soknad = {
     __typename?: 'Soknad';
-    sendtNav: Scalars['String']['output'];
-    soknadsperioder: Array<Soknadsperiode>;
+    arbeidGjenopptatt?: Maybe<Scalars['String']['output']>;
+    egenmeldingsdagerFraSykmelding?: Maybe<Array<Scalars['String']['output']>>;
+    soknadsperioder?: Maybe<Array<Soknadsperioder>>;
+    sykmeldingSkrevet?: Maybe<Scalars['String']['output']>;
 };
 
 export type SoknadArbeidsgiver = Hendelse & {
@@ -1077,13 +1079,12 @@ export type SoknadNav = Hendelse & {
     type: Hendelsetype;
 };
 
-export type Soknadsperiode = {
-    __typename?: 'Soknadsperiode';
-    avtaltTimer?: Maybe<Scalars['Int']['output']>;
-    faktiskGrad?: Maybe<Scalars['Float']['output']>;
-    faktiskTimer?: Maybe<Scalars['Float']['output']>;
-    sykemeldingsgrad?: Maybe<Scalars['Float']['output']>;
-    sykemeldingstype?: Maybe<Scalars['String']['output']>;
+export type Soknadsperioder = {
+    __typename?: 'Soknadsperioder';
+    faktiskGrad?: Maybe<Scalars['Int']['output']>;
+    fom: Scalars['String']['output'];
+    grad: Scalars['Int']['output'];
+    tom: Scalars['String']['output'];
 };
 
 export enum Sorteringsnokkel {

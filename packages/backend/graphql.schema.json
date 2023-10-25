@@ -9393,16 +9393,32 @@
                 "description": null,
                 "fields": [
                     {
-                        "name": "sendtNav",
+                        "name": "arbeidGjenopptatt",
                         "description": null,
                         "args": [],
                         "type": {
-                            "kind": "NON_NULL",
+                            "kind": "SCALAR",
+                            "name": "String",
+                            "ofType": null
+                        },
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
+                    {
+                        "name": "egenmeldingsdagerFraSykmelding",
+                        "description": null,
+                        "args": [],
+                        "type": {
+                            "kind": "LIST",
                             "name": null,
                             "ofType": {
-                                "kind": "SCALAR",
-                                "name": "String",
-                                "ofType": null
+                                "kind": "NON_NULL",
+                                "name": null,
+                                "ofType": {
+                                    "kind": "SCALAR",
+                                    "name": "String",
+                                    "ofType": null
+                                }
                             }
                         },
                         "isDeprecated": false,
@@ -9413,21 +9429,29 @@
                         "description": null,
                         "args": [],
                         "type": {
-                            "kind": "NON_NULL",
+                            "kind": "LIST",
                             "name": null,
                             "ofType": {
-                                "kind": "LIST",
+                                "kind": "NON_NULL",
                                 "name": null,
                                 "ofType": {
-                                    "kind": "NON_NULL",
-                                    "name": null,
-                                    "ofType": {
-                                        "kind": "OBJECT",
-                                        "name": "Soknadsperiode",
-                                        "ofType": null
-                                    }
+                                    "kind": "OBJECT",
+                                    "name": "Soknadsperioder",
+                                    "ofType": null
                                 }
                             }
+                        },
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
+                    {
+                        "name": "sykmeldingSkrevet",
+                        "description": null,
+                        "args": [],
+                        "type": {
+                            "kind": "SCALAR",
+                            "name": "String",
+                            "ofType": null
                         },
                         "isDeprecated": false,
                         "deprecationReason": null
@@ -9690,11 +9714,11 @@
             },
             {
                 "kind": "OBJECT",
-                "name": "Soknadsperiode",
+                "name": "Soknadsperioder",
                 "description": null,
                 "fields": [
                     {
-                        "name": "avtaltTimer",
+                        "name": "faktiskGrad",
                         "description": null,
                         "args": [],
                         "type": {
@@ -9706,49 +9730,49 @@
                         "deprecationReason": null
                     },
                     {
-                        "name": "faktiskGrad",
+                        "name": "fom",
                         "description": null,
                         "args": [],
                         "type": {
-                            "kind": "SCALAR",
-                            "name": "Float",
-                            "ofType": null
+                            "kind": "NON_NULL",
+                            "name": null,
+                            "ofType": {
+                                "kind": "SCALAR",
+                                "name": "String",
+                                "ofType": null
+                            }
                         },
                         "isDeprecated": false,
                         "deprecationReason": null
                     },
                     {
-                        "name": "faktiskTimer",
+                        "name": "grad",
                         "description": null,
                         "args": [],
                         "type": {
-                            "kind": "SCALAR",
-                            "name": "Float",
-                            "ofType": null
+                            "kind": "NON_NULL",
+                            "name": null,
+                            "ofType": {
+                                "kind": "SCALAR",
+                                "name": "Int",
+                                "ofType": null
+                            }
                         },
                         "isDeprecated": false,
                         "deprecationReason": null
                     },
                     {
-                        "name": "sykemeldingsgrad",
+                        "name": "tom",
                         "description": null,
                         "args": [],
                         "type": {
-                            "kind": "SCALAR",
-                            "name": "Float",
-                            "ofType": null
-                        },
-                        "isDeprecated": false,
-                        "deprecationReason": null
-                    },
-                    {
-                        "name": "sykemeldingstype",
-                        "description": null,
-                        "args": [],
-                        "type": {
-                            "kind": "SCALAR",
-                            "name": "String",
-                            "ofType": null
+                            "kind": "NON_NULL",
+                            "name": null,
+                            "ofType": {
+                                "kind": "SCALAR",
+                                "name": "String",
+                                "ofType": null
+                            }
                         },
                         "isDeprecated": false,
                         "deprecationReason": null
