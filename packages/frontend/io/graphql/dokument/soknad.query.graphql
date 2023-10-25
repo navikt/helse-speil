@@ -1,6 +1,35 @@
+fragment sporsmal on Sporsmal {
+    sporsmalstekst
+    svar {
+        verdi
+    }
+    svartype
+}
+
 query FetchSoknad($fnr: String!, $dokumentId: String!) {
     hentSoknad(fnr: $fnr, dokumentId: $dokumentId) {
         arbeidGjenopptatt
         sykmeldingSkrevet
+        soknadsperioder {
+            fom
+            tom
+            grad
+            faktiskGrad
+        }
+        sporsmal {
+            ...sporsmal
+            undersporsmal {
+                ...sporsmal
+                undersporsmal {
+                    ...sporsmal
+                    undersporsmal {
+                        ...sporsmal
+                        undersporsmal {
+                            ...sporsmal
+                        }
+                    }
+                }
+            }
+        }
     }
 }

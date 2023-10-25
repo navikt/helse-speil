@@ -1499,6 +1499,13 @@ export type HentBehandlingsstatistikkQuery = {
     };
 };
 
+export type SporsmalFragment = {
+    __typename?: 'Sporsmal';
+    sporsmalstekst?: string | null;
+    svartype?: Svartype | null;
+    svar?: Array<{ __typename?: 'Svar'; verdi?: string | null }> | null;
+};
+
 export type FetchSoknadQueryVariables = Exact<{
     fnr: Scalars['String']['input'];
     dokumentId: Scalars['String']['input'];
@@ -1506,7 +1513,48 @@ export type FetchSoknadQueryVariables = Exact<{
 
 export type FetchSoknadQuery = {
     __typename?: 'Query';
-    hentSoknad: { __typename?: 'Soknad'; arbeidGjenopptatt?: string | null; sykmeldingSkrevet?: string | null };
+    hentSoknad: {
+        __typename?: 'Soknad';
+        arbeidGjenopptatt?: string | null;
+        sykmeldingSkrevet?: string | null;
+        soknadsperioder?: Array<{
+            __typename?: 'Soknadsperioder';
+            fom: string;
+            tom: string;
+            grad: number;
+            faktiskGrad?: number | null;
+        }> | null;
+        sporsmal?: Array<{
+            __typename?: 'Sporsmal';
+            sporsmalstekst?: string | null;
+            svartype?: Svartype | null;
+            undersporsmal?: Array<{
+                __typename?: 'Sporsmal';
+                sporsmalstekst?: string | null;
+                svartype?: Svartype | null;
+                undersporsmal?: Array<{
+                    __typename?: 'Sporsmal';
+                    sporsmalstekst?: string | null;
+                    svartype?: Svartype | null;
+                    undersporsmal?: Array<{
+                        __typename?: 'Sporsmal';
+                        sporsmalstekst?: string | null;
+                        svartype?: Svartype | null;
+                        undersporsmal?: Array<{
+                            __typename?: 'Sporsmal';
+                            sporsmalstekst?: string | null;
+                            svartype?: Svartype | null;
+                            svar?: Array<{ __typename?: 'Svar'; verdi?: string | null }> | null;
+                        } | null> | null;
+                        svar?: Array<{ __typename?: 'Svar'; verdi?: string | null }> | null;
+                    } | null> | null;
+                    svar?: Array<{ __typename?: 'Svar'; verdi?: string | null }> | null;
+                } | null> | null;
+                svar?: Array<{ __typename?: 'Svar'; verdi?: string | null }> | null;
+            } | null> | null;
+            svar?: Array<{ __typename?: 'Svar'; verdi?: string | null }> | null;
+        }> | null;
+    };
 };
 
 export type FeilregistrerKommentarMutationMutationVariables = Exact<{
@@ -2770,6 +2818,31 @@ export const AntallFragmentDoc = {
         },
     ],
 } as unknown as DocumentNode<AntallFragment, unknown>;
+export const SporsmalFragmentDoc = {
+    kind: 'Document',
+    definitions: [
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'sporsmal' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Sporsmal' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'Field', name: { kind: 'Name', value: 'sporsmalstekst' } },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'svar' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [{ kind: 'Field', name: { kind: 'Name', value: 'verdi' } }],
+                        },
+                    },
+                    { kind: 'Field', name: { kind: 'Name', value: 'svartype' } },
+                ],
+            },
+        },
+    ],
+} as unknown as DocumentNode<SporsmalFragment, unknown>;
 export const SimuleringFragmentDoc = {
     kind: 'Document',
     definitions: [
@@ -3468,9 +3541,113 @@ export const FetchSoknadDocument = {
                             selections: [
                                 { kind: 'Field', name: { kind: 'Name', value: 'arbeidGjenopptatt' } },
                                 { kind: 'Field', name: { kind: 'Name', value: 'sykmeldingSkrevet' } },
+                                {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'soknadsperioder' },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            { kind: 'Field', name: { kind: 'Name', value: 'fom' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'tom' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'grad' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'faktiskGrad' } },
+                                        ],
+                                    },
+                                },
+                                {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'sporsmal' },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            { kind: 'FragmentSpread', name: { kind: 'Name', value: 'sporsmal' } },
+                                            {
+                                                kind: 'Field',
+                                                name: { kind: 'Name', value: 'undersporsmal' },
+                                                selectionSet: {
+                                                    kind: 'SelectionSet',
+                                                    selections: [
+                                                        {
+                                                            kind: 'FragmentSpread',
+                                                            name: { kind: 'Name', value: 'sporsmal' },
+                                                        },
+                                                        {
+                                                            kind: 'Field',
+                                                            name: { kind: 'Name', value: 'undersporsmal' },
+                                                            selectionSet: {
+                                                                kind: 'SelectionSet',
+                                                                selections: [
+                                                                    {
+                                                                        kind: 'FragmentSpread',
+                                                                        name: { kind: 'Name', value: 'sporsmal' },
+                                                                    },
+                                                                    {
+                                                                        kind: 'Field',
+                                                                        name: { kind: 'Name', value: 'undersporsmal' },
+                                                                        selectionSet: {
+                                                                            kind: 'SelectionSet',
+                                                                            selections: [
+                                                                                {
+                                                                                    kind: 'FragmentSpread',
+                                                                                    name: {
+                                                                                        kind: 'Name',
+                                                                                        value: 'sporsmal',
+                                                                                    },
+                                                                                },
+                                                                                {
+                                                                                    kind: 'Field',
+                                                                                    name: {
+                                                                                        kind: 'Name',
+                                                                                        value: 'undersporsmal',
+                                                                                    },
+                                                                                    selectionSet: {
+                                                                                        kind: 'SelectionSet',
+                                                                                        selections: [
+                                                                                            {
+                                                                                                kind: 'FragmentSpread',
+                                                                                                name: {
+                                                                                                    kind: 'Name',
+                                                                                                    value: 'sporsmal',
+                                                                                                },
+                                                                                            },
+                                                                                        ],
+                                                                                    },
+                                                                                },
+                                                                            ],
+                                                                        },
+                                                                    },
+                                                                ],
+                                                            },
+                                                        },
+                                                    ],
+                                                },
+                                            },
+                                        ],
+                                    },
+                                },
                             ],
                         },
                     },
+                ],
+            },
+        },
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'sporsmal' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Sporsmal' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'Field', name: { kind: 'Name', value: 'sporsmalstekst' } },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'svar' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [{ kind: 'Field', name: { kind: 'Name', value: 'verdi' } }],
+                        },
+                    },
+                    { kind: 'Field', name: { kind: 'Name', value: 'svartype' } },
                 ],
             },
         },
