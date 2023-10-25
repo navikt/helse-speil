@@ -4,7 +4,7 @@ import React from 'react';
 import { BodyShort } from '@navikt/ds-react';
 
 import { Bold } from '@components/Bold';
-import { NORSK_DATOFORMAT_MED_KLOKKESLETT } from '@utils/date';
+import { NORSK_DATOFORMAT, NORSK_DATOFORMAT_MED_KLOKKESLETT } from '@utils/date';
 
 import { DokumentLoader } from './DokumentLoader';
 import { useQuerySoknad } from './queries';
@@ -24,9 +24,14 @@ export const Søknadsinnhold: React.FC<SøknadsinnholdProps> = ({ dokumentId, f�
         <div>
             {søknad && (
                 <div className={styles.dokument}>
-                    {søknad.sendtNav && (
-                        <EnBlokk overskrift="Søknad sendt">
-                            {dayjs(søknad.sendtNav).format(NORSK_DATOFORMAT_MED_KLOKKESLETT)}
+                    {søknad.sykmeldingSkrevet && (
+                        <EnBlokk overskrift="Sykmelding skrevet">
+                            {dayjs(søknad.sykmeldingSkrevet).format(NORSK_DATOFORMAT_MED_KLOKKESLETT)}
+                        </EnBlokk>
+                    )}
+                    {søknad.arbeidGjenopptatt && (
+                        <EnBlokk overskrift="Arbeid gjenopptatt">
+                            {dayjs(søknad.arbeidGjenopptatt).format(NORSK_DATOFORMAT)}
                         </EnBlokk>
                     )}
                 </div>
