@@ -2,7 +2,7 @@ import { atom, selector, useRecoilValue, useSetRecoilState } from 'recoil';
 
 export const opptegnelsePollingTimeState = atom<number>({
     key: 'opptegnelsePollingTimeState',
-    default: 1_000,
+    default: 5_000,
 });
 
 export const nyesteOpptegnelserState = atom<Opptegnelse[]>({

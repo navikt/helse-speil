@@ -54,7 +54,7 @@ const useOnGodkjenn = (period: FetchedBeregnetPeriode, person: FetchedPerson): (
     return () => {
         if (skalPolleEtterNestePeriode(person) || (isBeregnetPeriode(period) && isRevurdering(period.utbetaling))) {
             postAbonnerPåAktør(person.aktorId).then(() => {
-                setOpptegnelsePollingTime(1000);
+                setOpptegnelsePollingTime(2000);
             });
         } else {
             navigate('/');
