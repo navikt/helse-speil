@@ -7,7 +7,7 @@ import { OidcConfig, OnBehalfOf, SpeilSession } from '../types';
 
 const spesialistBaseUrl = config.server.spesialistBaseUrl;
 
-const baseUrl = process.env.NODE_ENV === 'development' ? 'http://0.0.0.0:4321' : `${spesialistBaseUrl}`;
+const baseUrl = process.env.NODE_ENV === 'development' ? 'http://localhost:9001' : `${spesialistBaseUrl}`;
 
 export interface GraphQLClient {
     postGraphQLQuery: (speilToken: string, session: SpeilSession, data: string) => Promise<request.FullResponse>;

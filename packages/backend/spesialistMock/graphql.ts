@@ -16,6 +16,7 @@ import { oppgaver, tilfeldigeOppgaver } from './data/oppgaver';
 import { FlereFodselsnumreError, NotFoundError } from './errors';
 import type {
     BeregnetPeriode,
+    FiltreringInput,
     MutationFeilregistrerKommentarArgs,
     MutationFeilregistrerNotatArgs,
     MutationFjernPaaVentArgs,
@@ -32,6 +33,8 @@ import type {
     MutationSettVarselstatusArgs,
     MutationSkjonnsfastsettSykepengegrunnlagArgs,
     OppgaveTilBehandling,
+    OppgaverTilBehandling,
+    OppgavesorteringInput,
     Person,
 } from './schemaTypes';
 import { NotatType } from './schemaTypes';
@@ -106,8 +109,16 @@ const getResolvers = (): IResolvers => ({
         behandlingsstatistikk: async () => {
             return behandlingsstatistikk;
         },
-        oppgaver: async () => {
-            return oppgaver
+        oppgaveFeed: async (
+            _,
+            {
+                offset,
+                limit,
+                sortering,
+                filtrering,
+            }: { offset: string; limit: string; sortering: OppgavesorteringInput; filtrering: FiltreringInput },
+        ) => {
+            const oppgaveliste = oppgaver
                 .map((oppgave) => {
                     if (
                         oppgave.tildeling !== undefined &&
@@ -122,6 +133,7 @@ const getResolvers = (): IResolvers => ({
                     } as OppgaveTilBehandling;
                 })
                 .concat(tilfeldigeOppgaver(antallTilfeldigeOppgaver));
+            return { oppgaver: oppgaveliste, totaltAntallOppgaver: oppgaveliste.length } as OppgaverTilBehandling;
         },
         notater: async (_, { forPerioder }: { forPerioder: string[] }) => {
             return forPerioder.map((it) => ({
