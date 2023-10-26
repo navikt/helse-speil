@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { atom, useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 
 import { Periodetilstand } from '@io/graphql';
@@ -35,8 +35,11 @@ export const useActivePeriod = (): ActivePeriod | null => {
 const useSelectInitialPeriodOnOppgaveChanged = () => {
     const person = useCurrentPerson();
     const opptegnelse = useOpptegnelser();
+    const ref = useRef(opptegnelse?.sekvensnummer);
     const setActivePeriodId = useSetRecoilState(activePeriodIdState);
     if (!opptegnelse || !person || !erDev()) return;
+    if (ref.current === opptegnelse.sekvensnummer) return;
+    ref.current = opptegnelse.sekvensnummer;
 
     const perioderINyesteGenerasjoner = person.arbeidsgivere.flatMap(
         (arbeidsgiver) => arbeidsgiver.generasjoner[0]?.perioder ?? [],
