@@ -29,8 +29,9 @@ export const Søknadsinnhold: React.FC<SøknadsinnholdProps> = ({ dokumentId, f�
                         <>
                             <SøknadFragment overskrift="Søknadsperiode">
                                 <BodyShort size="small">
-                                    {dayjs(søknad.soknadsperioder[0].fom).format(NORSK_DATOFORMAT)}–
-                                    {dayjs(søknad.soknadsperioder[0].tom).format(NORSK_DATOFORMAT)}
+                                    {`${dayjs(søknad.soknadsperioder[0].fom).format(NORSK_DATOFORMAT)} – ${dayjs(
+                                        søknad.soknadsperioder[0].tom,
+                                    ).format(NORSK_DATOFORMAT)}`}
                                 </BodyShort>
                             </SøknadFragment>
                             <SøknadFragment overskrift="Grad">

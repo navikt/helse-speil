@@ -53,7 +53,7 @@ const getSvarForVisning = (svar: Svar[], svartype: Svartype) => {
                 .join(', ')
                 .replace(/,(?=[^,]*$)/, ' og');
         case Svartype.Periode:
-            return `${dayjs(JSON.parse(svar[0].verdi).fom).format(NORSK_DATOFORMAT)}–${dayjs(
+            return `${dayjs(JSON.parse(svar[0].verdi).fom).format(NORSK_DATOFORMAT)} – ${dayjs(
                 JSON.parse(svar[0].verdi).tom,
             ).format(NORSK_DATOFORMAT)}`;
         case Svartype.Perioder:
@@ -61,7 +61,7 @@ const getSvarForVisning = (svar: Svar[], svartype: Svartype) => {
                 .map((it) => {
                     if (!it.verdi) return;
                     const periode = JSON.parse(it.verdi);
-                    return `${dayjs(periode.fom).format(NORSK_DATOFORMAT)}–${dayjs(periode.tom).format(
+                    return `${dayjs(periode.fom).format(NORSK_DATOFORMAT)} – ${dayjs(periode.tom).format(
                         NORSK_DATOFORMAT,
                     )}`;
                 })
