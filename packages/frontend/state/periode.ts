@@ -2,9 +2,9 @@ import { useEffect } from 'react';
 import { atom, useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 
 import { Periodetilstand } from '@io/graphql';
-import { useInnloggetSaksbehandler } from '@state/authentication';
 import { useOpptegnelser } from '@state/opptegnelser';
 import { useCurrentPerson } from '@state/person';
+import { erDev } from '@utils/featureToggles';
 import { isBeregnetPeriode, isUberegnetVilkarsprovdPeriode } from '@utils/typeguards';
 
 const activePeriodIdState = atom<string | null>({
@@ -36,8 +36,7 @@ const useSelectInitialPeriodOnOppgaveChanged = () => {
     const person = useCurrentPerson();
     const opptegnelse = useOpptegnelser();
     const setActivePeriodId = useSetRecoilState(activePeriodIdState);
-    const saksbehandler = useInnloggetSaksbehandler();
-    if (!opptegnelse || !person || saksbehandler.ident !== 'N115007') return;
+    if (!opptegnelse || !person || !erDev()) return;
 
     const perioderINyesteGenerasjoner = person.arbeidsgivere.flatMap(
         (arbeidsgiver) => arbeidsgiver.generasjoner[0]?.perioder ?? [],
