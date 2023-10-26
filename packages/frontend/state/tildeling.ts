@@ -2,6 +2,7 @@ import { atom, useRecoilState } from 'recoil';
 
 import { ApolloError, MutationResult, useApolloClient, useMutation } from '@apollo/client';
 import {
+    AntallOppgaverDocument,
     FetchNotaterDocument,
     FjernPaaVentDocument,
     FjernPaaVentMutation,
@@ -47,7 +48,7 @@ export const useOpprettTildeling = (): [
     const [tildelinger, setTildelinger] = useRecoilState(tildelingState);
     const client = useApolloClient();
     const [opprettTildelingMutation, data] = useMutation(OpprettTildelingDocument, {
-        refetchQueries: [OppgaveFeedDocument],
+        refetchQueries: [AntallOppgaverDocument],
     });
     const leggTilTildelingsvarsel = useLeggTilTildelingsvarsel();
     const fjernTildelingsvarsel = useFjernTildelingsvarsel();
@@ -90,7 +91,7 @@ export const useFjernTildeling = (): [
 ] => {
     const [tildelinger, setTildelinger] = useRecoilState(tildelingState);
     const [fjernTildelingMutation, data] = useMutation(FjernTildelingDocument, {
-        refetchQueries: [OppgaveFeedDocument],
+        refetchQueries: [OppgaveFeedDocument, AntallOppgaverDocument],
     });
 
     const leggTilTildelingsvarsel = useLeggTilTildelingsvarsel();
@@ -136,6 +137,7 @@ export const useLeggPåVent = (): ((
         leggPåVentMutation({
             refetchQueries: [
                 OppgaveFeedDocument,
+                AntallOppgaverDocument,
                 { query: FetchNotaterDocument, variables: { forPerioder: [vedtaksperiodeId] } },
             ],
             variables: { oppgaveId: oppgavereferanse, notatType: NotatType.PaaVent, notatTekst: notat.tekst },
@@ -162,7 +164,9 @@ export const useFjernPåVent = (): [
     MutationResult<FjernPaaVentMutation>,
 ] => {
     const [tildelinger, setTildelinger] = useRecoilState(tildelingState);
-    const [fjernPåVentMutation, data] = useMutation(FjernPaaVentDocument, { refetchQueries: [OppgaveFeedDocument] });
+    const [fjernPåVentMutation, data] = useMutation(FjernPaaVentDocument, {
+        refetchQueries: [OppgaveFeedDocument, AntallOppgaverDocument],
+    });
     const fjernPåVent = (oppgavereferanse: string, aktørId: string) =>
         fjernPåVentMutation({
             variables: { oppgaveId: oppgavereferanse },

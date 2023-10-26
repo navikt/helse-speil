@@ -1442,6 +1442,13 @@ export type AnnullerMutationVariables = Exact<{
 
 export type AnnullerMutation = { __typename?: 'Mutation'; annuller: boolean };
 
+export type AntallOppgaverQueryVariables = Exact<{ [key: string]: never }>;
+
+export type AntallOppgaverQuery = {
+    __typename?: 'Query';
+    antallOppgaver: { __typename?: 'AntallOppgaver'; antallMineSaker: number; antallMineSakerPaVent: number };
+};
+
 export type BehandledeOppgaverQueryVariables = Exact<{ [key: string]: never }>;
 
 export type BehandledeOppgaverQuery = {
@@ -3175,6 +3182,32 @@ export const AnnullerDocument = {
         },
     ],
 } as unknown as DocumentNode<AnnullerMutation, AnnullerMutationVariables>;
+export const AntallOppgaverDocument = {
+    kind: 'Document',
+    definitions: [
+        {
+            kind: 'OperationDefinition',
+            operation: 'query',
+            name: { kind: 'Name', value: 'AntallOppgaver' },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'antallOppgaver' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                { kind: 'Field', name: { kind: 'Name', value: 'antallMineSaker' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'antallMineSakerPaVent' } },
+                            ],
+                        },
+                    },
+                ],
+            },
+        },
+    ],
+} as unknown as DocumentNode<AntallOppgaverQuery, AntallOppgaverQueryVariables>;
 export const BehandledeOppgaverDocument = {
     kind: 'Document',
     definitions: [

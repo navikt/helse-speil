@@ -1,5 +1,4 @@
 module.exports = {
-    useMineOppgaver: jest.fn(),
-    useMineOppgaverPåVent: jest.fn(),
+    useAntallOppgaver: jest.fn(),
     useOppgaveFeed: jest.fn(),
 };

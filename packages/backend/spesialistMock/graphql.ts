@@ -134,7 +134,35 @@ const getResolvers = (): IResolvers => ({
                     } as OppgaveTilBehandling;
                 })
                 .concat(tilfeldigeOppgaver(antallTilfeldigeOppgaver));
+            if (filtrering.egneSaker) {
+                const mineSaker = oppgaveliste.filter(
+                    (oppgave) =>
+                        oppgave.tildeling?.oid === '4577332e-801a-4c13-8a71-39f12b8abfa3' &&
+                        !oppgave.tildeling?.paaVent,
+                );
+                return {
+                    oppgaver: mineSaker,
+                    totaltAntallOppgaver: mineSaker.length,
+                } as OppgaverTilBehandling;
+            }
+            if (filtrering.egneSakerPaVent) {
+                const mineSakerPåVent = oppgaveliste.filter(
+                    (oppgave) =>
+                        oppgave.tildeling?.oid === '4577332e-801a-4c13-8a71-39f12b8abfa3' && oppgave.tildeling?.paaVent,
+                );
+                return {
+                    oppgaver: mineSakerPåVent,
+                    totaltAntallOppgaver: mineSakerPåVent.length,
+                } as OppgaverTilBehandling;
+            }
             return { oppgaver: oppgaveliste, totaltAntallOppgaver: oppgaveliste.length } as OppgaverTilBehandling;
+        },
+        antallOppgaver: async () => {
+            const tildelinger = TildelingMock.getTildelingerFor('4577332e-801a-4c13-8a71-39f12b8abfa3');
+            return {
+                antallMineSaker: tildelinger.filter((tildeling) => !tildeling.paaVent).length,
+                antallMineSakerPaVent: tildelinger.filter((tildeling) => tildeling.paaVent).length,
+            };
         },
         notater: async (_, { forPerioder }: { forPerioder: string[] }) => {
             return forPerioder.map((it) => ({

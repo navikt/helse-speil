@@ -4,7 +4,7 @@ import React from 'react';
 import { DataFilled } from '@navikt/ds-icons';
 
 import { RoundedButton } from '@components/RoundedButton';
-import { useMineOppgaver, useMineOppgaverPåVent } from '@state/oppgaver';
+import { useAntallOppgaver } from '@state/oppgaver';
 
 import { useShowStatistikk, useToggleStatistikk } from './behandlingsstatistikk/state';
 import { TabType, useSwitchTab } from './tabState';
@@ -35,13 +35,13 @@ const OppgaveTab = ({ tag, label, numberOfTasks }: OppgaveTabProps) => {
 const AlleSakerTab = () => <OppgaveTab tag={TabType.TilGodkjenning} label="Til godkjenning" />;
 
 const MineSakerTab = () => {
-    const antallEgneOppgaver = useMineOppgaver();
-    return <OppgaveTab tag={TabType.Mine} label="Mine saker" numberOfTasks={antallEgneOppgaver} />;
+    const { antallMineSaker } = useAntallOppgaver();
+    return <OppgaveTab tag={TabType.Mine} label="Mine saker" numberOfTasks={antallMineSaker} />;
 };
 
 const VentendeSakerTab = () => {
-    const antallEgneVentendeSaker = useMineOppgaverPåVent();
-    return <OppgaveTab tag={TabType.Ventende} label="På vent" numberOfTasks={antallEgneVentendeSaker} />;
+    const { antallPåVent } = useAntallOppgaver();
+    return <OppgaveTab tag={TabType.Ventende} label="På vent" numberOfTasks={antallPåVent} />;
 };
 
 const BehandletIdagTab = () => <OppgaveTab tag={TabType.BehandletIdag} label="Behandlet i dag" />;

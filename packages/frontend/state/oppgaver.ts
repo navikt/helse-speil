@@ -5,6 +5,7 @@ import { SortState } from '@navikt/ds-react';
 
 import { ApolloError, useQuery } from '@apollo/client';
 import {
+    AntallOppgaverDocument,
     BehandledeOppgaverDocument,
     BehandletOppgave,
     Egenskap,
@@ -86,13 +87,15 @@ export const useOppgaveFeed = (): OppgaveFeedResponse => {
             filtrering: originalFiltrering,
             sortering: originalSortering,
         },
+        initialFetchPolicy: 'network-only',
+        nextFetchPolicy: 'cache-first',
         onError: () => {
             throw Error('Kunne ikke hente saker. Prøv igjen senere.');
         },
     });
 
     useEffect(() => {
-        fetchMore({
+        void fetchMore({
             variables: {
                 offset,
             },
@@ -102,7 +105,7 @@ export const useOppgaveFeed = (): OppgaveFeedResponse => {
     useEffect(() => {
         if (filterErEndret || sorteringErEndret || tabErEndret) {
             setOffset(0);
-            refetch({
+            void refetch({
                 offset,
                 filtrering: filtrering(activeFilters, aktivTab),
                 sortering: _sortering(sort),
@@ -144,36 +147,19 @@ export const useOppgaveFeed = (): OppgaveFeedResponse => {
     };
 };
 
-export const useMineOppgaver = () => {
-    const { data } = useQuery(OppgaveFeedDocument, {
-        variables: {
-            offset: 0,
-            limit: 14,
-            filtrering: { ...defaultFiltrering, egneSaker: true },
-            sortering: [],
-        },
+export const useAntallOppgaver = () => {
+    const { data } = useQuery(AntallOppgaverDocument, {
+        initialFetchPolicy: 'network-only',
+        nextFetchPolicy: 'cache-first',
         onError: () => {
-            throw Error('Kunne ikke hente saker. Prøv igjen senere.');
+            throw Error('Kunne ikke antall for Mine saker og På vent. Prøv igjen senere.');
         },
     });
 
-    return data?.oppgaveFeed.totaltAntallOppgaver ?? 0;
-};
-
-export const useMineOppgaverPåVent = () => {
-    const { data } = useQuery(OppgaveFeedDocument, {
-        variables: {
-            offset: 0,
-            limit: 14,
-            filtrering: { ...defaultFiltrering, egneSakerPaVent: true },
-            sortering: [],
-        },
-        onError: () => {
-            throw Error('Kunne ikke hente saker. Prøv igjen senere.');
-        },
-    });
-
-    return data?.oppgaveFeed.totaltAntallOppgaver ?? 0;
+    return {
+        antallMineSaker: data?.antallOppgaver.antallMineSaker ?? 0,
+        antallPåVent: data?.antallOppgaver.antallMineSakerPaVent ?? 0,
+    };
 };
 
 export class TildelingAlert extends InfoAlert {
