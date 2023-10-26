@@ -244,8 +244,9 @@ const storageKeyForFilters = (tab: TabType) => 'filtereForTab_' + tab;
 
 const hentValgteFiltre = (tab: TabType, defaultFilters: Filter<OppgaveTilBehandling>[]) => {
     const filters = localStorage.getItem(storageKeyForFilters(tab));
-    if (filters == null && tab === TabType.TilGodkjenning)
-        return defaultFilters.map(makeFilterActive('Ufordelte saker'));
+    // Kan kommenteres inn igjen når vi har funnet ut av hvorfor det kneler useOppgaveFeed å filtrere på 'Ufordelte saker'
+    // if (filters == null && tab === TabType.TilGodkjenning)
+    //     return defaultFilters.map(makeFilterActive('Ufordelte saker'));
     if (filters == null) {
         return defaultFilters;
     }
@@ -257,8 +258,8 @@ const hentValgteFiltre = (tab: TabType, defaultFilters: Filter<OppgaveTilBehandl
     });
 };
 
-const makeFilterActive = (targetFilterLabel: string) => (it: Filter<OppgaveTilBehandling>) =>
-    it.label === targetFilterLabel ? { ...it, active: true } : it;
+// const makeFilterActive = (targetFilterLabel: string) => (it: Filter<OppgaveTilBehandling>) =>
+//     it.label === targetFilterLabel ? { ...it, active: true } : it;
 
 const allFilters = atom<ActiveFiltersPerTab>({
     key: 'activeFiltersPerTab',
