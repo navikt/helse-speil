@@ -21,23 +21,20 @@ export const Søknadsinnhold: React.FC<SøknadsinnholdProps> = ({ dokumentId, f�
     const søknadsrespons = useQuerySoknad(fødselsnummer, dokumentId);
     const søknad = søknadsrespons.data;
 
-    const søknadsperiode = (søknad?.soknadsperioder?.length ?? 0) > 0 ? søknad?.soknadsperioder?.shift() : null;
-
-    console.log(søknadsperiode);
     return (
         <div>
             {søknad && (
                 <div className={styles.dokument}>
-                    {søknadsperiode && (
+                    {søknad.soknadsperioder && søknad.soknadsperioder.length > 0 && (
                         <>
                             <SøknadFragment overskrift="Søknadsperiode">
                                 <BodyShort size="small">
-                                    {dayjs(søknadsperiode.fom).format(NORSK_DATOFORMAT)}–
-                                    {dayjs(søknadsperiode.tom).format(NORSK_DATOFORMAT)}
+                                    {dayjs(søknad.soknadsperioder[0].fom).format(NORSK_DATOFORMAT)}–
+                                    {dayjs(søknad.soknadsperioder[0].tom).format(NORSK_DATOFORMAT)}
                                 </BodyShort>
                             </SøknadFragment>
                             <SøknadFragment overskrift="Grad">
-                                <BodyShort size="small">{søknadsperiode.grad}</BodyShort>
+                                <BodyShort size="small">{søknad.soknadsperioder[0].grad}</BodyShort>
                             </SøknadFragment>
                         </>
                     )}
