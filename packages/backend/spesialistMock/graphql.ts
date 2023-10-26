@@ -38,6 +38,7 @@ import type {
     Person,
 } from './schemaTypes';
 import { NotatType } from './schemaTypes';
+import { DokumentMock } from './storage/dokument';
 import { NotatMock } from './storage/notat';
 import { OppgaveMock, getDefaultOppgave } from './storage/oppgave';
 import { TildelingMock } from './storage/tildeling';
@@ -147,7 +148,7 @@ const getResolvers = (): IResolvers => ({
                     resolve('test');
                 }, 3000);
             });
-            return { sendtNav: '2023-01-01T00:42:42.000Z', soknadsperioder: [] };
+            return DokumentMock.getMockedSoknad();
         },
     },
     Mutation: {
