@@ -1,4 +1,4 @@
-import { atom, selector, useRecoilValue, useSetRecoilState } from 'recoil';
+import { atom, selector, useRecoilValue, useResetRecoilState, useSetRecoilState } from 'recoil';
 
 export const opptegnelsePollingTimeState = atom<number>({
     key: 'opptegnelsePollingTimeState',
@@ -7,6 +7,11 @@ export const opptegnelsePollingTimeState = atom<number>({
 
 export const nyesteOpptegnelserState = atom<Opptegnelse[]>({
     key: 'nyesteOpptegnelserState',
+    default: [],
+});
+
+const nyesteOpptegnelserStateNy = atom<Opptegnelse[]>({
+    key: 'nyesteOpptegnelserStateNy',
     default: [],
 });
 
@@ -30,6 +35,20 @@ export const sisteSekvensIdOpptegnelseState = selector<number | undefined>({
             : undefined;
     },
 });
+
+export const useHåndterOpptegnelser = (onOpptegnelseCallback: (o: Opptegnelse) => void) => {
+    const opptegnelser = useRecoilValue(nyesteOpptegnelserStateNy);
+    const resetOpptegnelser = useResetRecoilState(nyesteOpptegnelserStateNy);
+    opptegnelser?.forEach((o) => onOpptegnelseCallback(o));
+    resetOpptegnelser();
+};
+
+export const useSetOpptegnelserNy = () => {
+    const setOpptegnelser = useSetRecoilState(nyesteOpptegnelserStateNy);
+    return (data: Opptegnelse[]) => {
+        setOpptegnelser(data);
+    };
+};
 
 export const useOpptegnelser = () => useRecoilValue(nyesteOpptegnelseMedTypeOppgaveState);
 

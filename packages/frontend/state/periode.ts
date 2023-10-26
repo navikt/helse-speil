@@ -1,8 +1,8 @@
-import { useEffect, useRef } from 'react';
+import { useEffect } from 'react';
 import { atom, useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 
 import { Periodetilstand } from '@io/graphql';
-import { useOpptegnelser } from '@state/opptegnelser';
+import { useHåndterOpptegnelser } from '@state/opptegnelser';
 import { useCurrentPerson } from '@state/person';
 import { erDev } from '@utils/featureToggles';
 import { isBeregnetPeriode, isUberegnetVilkarsprovdPeriode } from '@utils/typeguards';
@@ -34,22 +34,22 @@ export const useActivePeriod = (): ActivePeriod | null => {
 
 const useSelectInitialPeriodOnOppgaveChanged = () => {
     const person = useCurrentPerson();
-    const opptegnelse = useOpptegnelser();
-    const ref = useRef(opptegnelse?.sekvensnummer);
+    const erOpptegnelseForNyOppgave = (opptegnelse: Opptegnelse) =>
+        opptegnelse.type === 'NY_SAKSBEHANDLEROPPGAVE' || opptegnelse.type === 'REVURDERING_FERDIGBEHANDLET';
     const setActivePeriodId = useSetRecoilState(activePeriodIdState);
-    if (!opptegnelse || !person || !erDev()) return;
-    if (ref.current === opptegnelse.sekvensnummer) return;
-    ref.current = opptegnelse.sekvensnummer;
+    useHåndterOpptegnelser((opptegnelse) => {
+        if (!erOpptegnelseForNyOppgave(opptegnelse) || !person || !erDev()) return;
 
-    const perioderINyesteGenerasjoner = person.arbeidsgivere.flatMap(
-        (arbeidsgiver) => arbeidsgiver.generasjoner[0]?.perioder ?? [],
-    );
+        const perioderINyesteGenerasjoner = person.arbeidsgivere.flatMap(
+            (arbeidsgiver) => arbeidsgiver.generasjoner[0]?.perioder ?? [],
+        );
 
-    const periodeTilBehandling = perioderINyesteGenerasjoner.find(
-        (periode) => isBeregnetPeriode(periode) && typeof periode.oppgave?.id === 'string',
-    );
-    if (!periodeTilBehandling) return;
-    setActivePeriodId(periodeTilBehandling.id);
+        const periodeTilBehandling = perioderINyesteGenerasjoner.find(
+            (periode) => isBeregnetPeriode(periode) && typeof periode.oppgave?.id === 'string',
+        );
+        if (!periodeTilBehandling) return;
+        setActivePeriodId(periodeTilBehandling.id);
+    });
 };
 
 const useSelectInitialPeriod = () => {

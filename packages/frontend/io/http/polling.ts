@@ -6,12 +6,14 @@ import {
     opptegnelsePollingTimeState,
     sisteSekvensIdOpptegnelseState,
     useOpptegnelserPollingRate,
+    useSetOpptegnelserNy,
 } from '@state/opptegnelser';
 
 import { SpeilResponse, getOpptegnelser } from './http';
 
 export const usePollEtterOpptegnelser = () => {
     const setOpptegnelser = useSetRecoilState(nyesteOpptegnelserState);
+    const setOpptegnelserNy = useSetOpptegnelserNy();
     const sisteSekvensId = useRecoilValue(sisteSekvensIdOpptegnelseState);
     const opptegnelsePollingTime = useOpptegnelserPollingRate();
     const resetPollefrekvens = useResetRecoilState(opptegnelsePollingTimeState);
@@ -22,6 +24,7 @@ export const usePollEtterOpptegnelser = () => {
                 .then(({ data }: SpeilResponse<Array<Opptegnelse>>) => {
                     if (data && data.length > 0) {
                         setOpptegnelser(data);
+                        setOpptegnelserNy(data);
                         resetPollefrekvens();
                     }
                 })
