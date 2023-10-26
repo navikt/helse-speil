@@ -1,7 +1,8 @@
 import { useEffect } from 'react';
-import { atom, useRecoilState, useRecoilValue } from 'recoil';
+import { atom, useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 
 import { Periodetilstand } from '@io/graphql';
+import { useOpptegnelser } from '@state/opptegnelser';
 import { useCurrentPerson } from '@state/person';
 import { isBeregnetPeriode, isUberegnetVilkarsprovdPeriode } from '@utils/typeguards';
 
@@ -26,7 +27,25 @@ export const useActivePeriod = (): ActivePeriod | null => {
     const activePeriodId = useRecoilValue(activePeriodIdState);
     useSelectInitialPeriod();
     useUnsetActivePeriodOnNewPerson();
+    useSelectInitialPeriodOnOppgaveChanged();
     return activePeriodId ? findPeriod(activePeriodId, person) : null;
+};
+
+const useSelectInitialPeriodOnOppgaveChanged = () => {
+    const person = useCurrentPerson();
+    const opptegnelse = useOpptegnelser();
+    const setActivePeriodId = useSetRecoilState(activePeriodIdState);
+    if (!opptegnelse || !person) return;
+
+    const perioderINyesteGenerasjoner = person.arbeidsgivere.flatMap(
+        (arbeidsgiver) => arbeidsgiver.generasjoner[0]?.perioder ?? [],
+    );
+
+    const periodeTilBehandling = perioderINyesteGenerasjoner.find(
+        (periode) => isBeregnetPeriode(periode) && typeof periode.oppgave?.id === 'string',
+    );
+    if (!periodeTilBehandling) return;
+    setActivePeriodId(periodeTilBehandling.id);
 };
 
 const useSelectInitialPeriod = () => {
