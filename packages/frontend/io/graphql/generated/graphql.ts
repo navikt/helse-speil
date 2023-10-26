@@ -1108,7 +1108,7 @@ export type Sporsmal = {
     svar?: Maybe<Array<Svar>>;
     svartype?: Maybe<Svartype>;
     tag?: Maybe<Scalars['String']['output']>;
-    undersporsmal?: Maybe<Array<Maybe<Sporsmal>>>;
+    undersporsmal?: Maybe<Array<Sporsmal>>;
     undertekst?: Maybe<Scalars['String']['output']>;
 };
 
@@ -1517,6 +1517,7 @@ export type FetchSoknadQuery = {
         __typename?: 'Soknad';
         arbeidGjenopptatt?: string | null;
         sykmeldingSkrevet?: string | null;
+        egenmeldingsdagerFraSykmelding?: Array<string> | null;
         soknadsperioder?: Array<{
             __typename?: 'Soknadsperioder';
             fom: string;
@@ -1545,13 +1546,13 @@ export type FetchSoknadQuery = {
                             sporsmalstekst?: string | null;
                             svartype?: Svartype | null;
                             svar?: Array<{ __typename?: 'Svar'; verdi?: string | null }> | null;
-                        } | null> | null;
+                        }> | null;
                         svar?: Array<{ __typename?: 'Svar'; verdi?: string | null }> | null;
-                    } | null> | null;
+                    }> | null;
                     svar?: Array<{ __typename?: 'Svar'; verdi?: string | null }> | null;
-                } | null> | null;
+                }> | null;
                 svar?: Array<{ __typename?: 'Svar'; verdi?: string | null }> | null;
-            } | null> | null;
+            }> | null;
             svar?: Array<{ __typename?: 'Svar'; verdi?: string | null }> | null;
         }> | null;
     };
@@ -3541,6 +3542,7 @@ export const FetchSoknadDocument = {
                             selections: [
                                 { kind: 'Field', name: { kind: 'Name', value: 'arbeidGjenopptatt' } },
                                 { kind: 'Field', name: { kind: 'Name', value: 'sykmeldingSkrevet' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'egenmeldingsdagerFraSykmelding' } },
                                 {
                                     kind: 'Field',
                                     name: { kind: 'Name', value: 'soknadsperioder' },

@@ -1106,7 +1106,7 @@ export type Sporsmal = {
     svar?: Maybe<Array<Svar>>;
     svartype?: Maybe<Svartype>;
     tag?: Maybe<Scalars['String']['output']>;
-    undersporsmal?: Maybe<Array<Maybe<Sporsmal>>>;
+    undersporsmal?: Maybe<Array<Sporsmal>>;
     undertekst?: Maybe<Scalars['String']['output']>;
 };
 

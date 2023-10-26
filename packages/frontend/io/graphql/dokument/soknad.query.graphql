@@ -10,6 +10,7 @@ query FetchSoknad($fnr: String!, $dokumentId: String!) {
     hentSoknad(fnr: $fnr, dokumentId: $dokumentId) {
         arbeidGjenopptatt
         sykmeldingSkrevet
+        egenmeldingsdagerFraSykmelding
         soknadsperioder {
             fom
             tom
