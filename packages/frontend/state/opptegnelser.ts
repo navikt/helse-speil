@@ -39,8 +39,10 @@ export const sisteSekvensIdOpptegnelseState = selector<number | undefined>({
 export const useHåndterOpptegnelser = (onOpptegnelseCallback: (o: Opptegnelse) => void) => {
     const opptegnelser = useRecoilValue(nyesteOpptegnelserStateNy);
     const resetOpptegnelser = useResetRecoilState(nyesteOpptegnelserStateNy);
-    opptegnelser?.forEach((o) => onOpptegnelseCallback(o));
-    resetOpptegnelser();
+    if (opptegnelser.length > 0) {
+        opptegnelser.forEach((o) => onOpptegnelseCallback(o));
+        resetOpptegnelser();
+    }
 };
 
 export const useSetOpptegnelserNy = () => {
