@@ -20,7 +20,7 @@ export const Pagination = ({ numberOfEntries, numberOfPages, currentPage, limit,
         {numberOfEntries > 0 && (
             <p>
                 Viser {currentPage * limit - (limit - 1)} til{' '}
-                {currentPage === numberOfPages
+                {currentPage === numberOfPages && numberOfEntries % limit !== 0
                     ? currentPage * limit - (limit - (numberOfEntries % limit))
                     : currentPage * limit}{' '}
                 av {numberOfEntries} oppgaver
