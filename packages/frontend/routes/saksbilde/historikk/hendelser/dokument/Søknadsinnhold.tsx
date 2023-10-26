@@ -23,6 +23,7 @@ export const Søknadsinnhold: React.FC<SøknadsinnholdProps> = ({ dokumentId, f�
 
     const søknadsperiode = (søknad?.soknadsperioder?.length ?? 0) > 0 ? søknad?.soknadsperioder?.shift() : null;
 
+    console.log(søknadsperiode);
     return (
         <div>
             {søknad && (
@@ -31,17 +32,13 @@ export const Søknadsinnhold: React.FC<SøknadsinnholdProps> = ({ dokumentId, f�
                         <>
                             <SøknadFragment overskrift="Søknadsperiode">
                                 <BodyShort size="small">
-                                    {søknadsperiode.fom} - {søknadsperiode.tom}
+                                    {dayjs(søknadsperiode.fom).format(NORSK_DATOFORMAT)}–
+                                    {dayjs(søknadsperiode.tom).format(NORSK_DATOFORMAT)}
                                 </BodyShort>
                             </SøknadFragment>
                             <SøknadFragment overskrift="Grad">
                                 <BodyShort size="small">{søknadsperiode.grad}</BodyShort>
                             </SøknadFragment>
-                            {søknadsperiode.faktiskGrad && (
-                                <SøknadFragment overskrift="Faktisk grad">
-                                    <BodyShort size="small">{søknadsperiode.faktiskGrad}</BodyShort>
-                                </SøknadFragment>
-                            )}
                         </>
                     )}
                     {søknad.arbeidGjenopptatt && (
@@ -56,7 +53,10 @@ export const Søknadsinnhold: React.FC<SøknadsinnholdProps> = ({ dokumentId, f�
                     )}
                     {(søknad.egenmeldingsdagerFraSykmelding?.length ?? 0) > 0 && (
                         <SøknadFragment overskrift="Egenmeldingsdager fra sykmelding">
-                            {søknad.egenmeldingsdagerFraSykmelding?.map((it) => dayjs(it).format(NORSK_DATOFORMAT))}
+                            {søknad.egenmeldingsdagerFraSykmelding
+                                ?.map((it) => dayjs(it).format(NORSK_DATOFORMAT))
+                                .join(', ')
+                                .replace(/,(?=[^,]*$)/, ' og')}
                         </SøknadFragment>
                     )}
                     {søknad.sporsmal && <Spørsmål spørsmål={søknad.sporsmal} />}

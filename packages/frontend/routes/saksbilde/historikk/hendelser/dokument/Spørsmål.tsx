@@ -1,30 +1,34 @@
+import classNames from 'classnames';
 import dayjs from 'dayjs';
 import React from 'react';
+
+import { CheckmarkIcon } from '@navikt/aksel-icons';
 
 import { Sporsmal, Svar, Svartype } from '@io/graphql';
 import { NORSK_DATOFORMAT } from '@utils/date';
 import { toKronerOgØre } from '@utils/locale';
 
-import { CheckIcon } from '../../../timeline/icons';
 import { SøknadFragment } from './SøknadFragment';
+
+import styles from './Søknadsinnhold.module.css';
 
 interface SpørsmålProps {
     spørsmål: Array<Sporsmal>;
-    iterasjon?: number;
+    rotnivå?: boolean;
 }
 
-export const Spørsmål: React.FC<SpørsmålProps> = ({ spørsmål, iterasjon = 0 }) => {
+export const Spørsmål: React.FC<SpørsmålProps> = ({ spørsmål, rotnivå = true }) => {
     return spørsmål?.map((it) => {
         if (it === undefined || it === null) return;
         const underspørsmål = it?.undersporsmal && it.undersporsmal.length > 0 ? it.undersporsmal : null;
         return (
-            <div style={{ paddingLeft: `${10 * iterasjon}px` }}>
+            <div className={classNames(styles.spørsmål, rotnivå && styles.rotspørsmål)}>
                 {it.svar && it.svartype && (
                     <SøknadFragment overskrift={it?.sporsmalstekst ?? ''}>
                         {getSvarForVisning(it.svar, it.svartype)}
                     </SøknadFragment>
                 )}
-                {underspørsmål && <Spørsmål spørsmål={underspørsmål} iterasjon={iterasjon + 1} />}
+                {underspørsmål && <Spørsmål spørsmål={underspørsmål} rotnivå={false} />}
             </div>
         );
     });
@@ -35,7 +39,8 @@ const getSvarForVisning = (svar: Svar[], svartype: Svartype) => {
 
     switch (svartype) {
         case Svartype.Checkbox:
-            return <CheckIcon />;
+        case Svartype.Radio:
+            return <CheckmarkIcon fill="#000" style={{ border: '1px solid #000' }} />;
         case Svartype.Belop:
             return toKronerOgØre(svar[0].verdi);
         case Svartype.Dato:
@@ -48,7 +53,7 @@ const getSvarForVisning = (svar: Svar[], svartype: Svartype) => {
                 .join(', ')
                 .replace(/,(?=[^,]*$)/, ' og');
         case Svartype.Periode:
-            return `${dayjs(JSON.parse(svar[0].verdi).fom).format(NORSK_DATOFORMAT)}-${dayjs(
+            return `${dayjs(JSON.parse(svar[0].verdi).fom).format(NORSK_DATOFORMAT)}–${dayjs(
                 JSON.parse(svar[0].verdi).tom,
             ).format(NORSK_DATOFORMAT)}`;
         case Svartype.Perioder:
@@ -56,7 +61,7 @@ const getSvarForVisning = (svar: Svar[], svartype: Svartype) => {
                 .map((it) => {
                     if (!it.verdi) return;
                     const periode = JSON.parse(it.verdi);
-                    return `${dayjs(periode.fom).format(NORSK_DATOFORMAT)}-${dayjs(periode.tom).format(
+                    return `${dayjs(periode.fom).format(NORSK_DATOFORMAT)}–${dayjs(periode.tom).format(
                         NORSK_DATOFORMAT,
                     )}`;
                 })
@@ -74,6 +79,8 @@ const getSvarForVisning = (svar: Svar[], svartype: Svartype) => {
             return `${svar[0].verdi} timer`;
         case Svartype.Kilometer:
             return `${svar[0].verdi} km`;
+        case Svartype.JaNei:
+            return svar[0].verdi === 'JA' ? 'Ja' : 'Nei';
         case Svartype.RadioGruppeTimerProsent:
             return;
         default:

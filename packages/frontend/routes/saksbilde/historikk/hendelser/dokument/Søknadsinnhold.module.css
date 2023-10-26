@@ -22,3 +22,16 @@
 .skeleton p {
     margin-bottom: 0.25rem;
 }
+
+.spørsmål {
+    padding-left: 0.5rem;
+    grid-column: 1 / span 2;
+    padding-top: 0.25rem;
+}
+.rotspørsmål {
+    padding-bottom: 0.5rem;
+    padding-top: 0;
+}
+.spørsmål.rotspørsmål {
+    padding-left: 0;
+}
