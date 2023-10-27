@@ -110,8 +110,25 @@ const beslutteroppgave = (
             årsaker.push('Overstyring av utbetalingsdager');
         }
 
-        if (endringerEtterNyesteUtbetalingPåPerson?.some(isInntektoverstyring) ?? false) {
-            årsaker.push('Overstyring av inntekt');
+        if (
+            endringerEtterNyesteUtbetalingPåPerson?.some(
+                (it) => isInntektoverstyring(it) && it.inntekt.fraManedligInntekt !== it.inntekt.manedligInntekt,
+            ) ??
+            false
+        ) {
+            årsaker.push('Overstyring av månedsinntekt');
+        }
+
+        if (
+            endringerEtterNyesteUtbetalingPåPerson?.some(
+                (it) =>
+                    isInntektoverstyring(it) &&
+                    JSON.stringify(it.inntekt.fraRefusjonsopplysninger) !==
+                        JSON.stringify(it.inntekt.refusjonsopplysninger),
+            ) ??
+            false
+        ) {
+            årsaker.push('Overstyring av Refusjon');
         }
 
         if (endringerEtterNyesteUtbetalingPåPerson?.some(isArbeidsforholdoverstyring) ?? false) {
