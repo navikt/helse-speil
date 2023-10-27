@@ -48,7 +48,7 @@ export const useOpprettTildeling = (): [
     const [tildelinger, setTildelinger] = useRecoilState(tildelingState);
     const client = useApolloClient();
     const [opprettTildelingMutation, data] = useMutation(OpprettTildelingDocument, {
-        refetchQueries: [AntallOppgaverDocument],
+        refetchQueries: [OppgaveFeedDocument, AntallOppgaverDocument],
     });
     const leggTilTildelingsvarsel = useLeggTilTildelingsvarsel();
     const fjernTildelingsvarsel = useFjernTildelingsvarsel();
