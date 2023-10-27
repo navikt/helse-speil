@@ -28,11 +28,11 @@ export const useActivePeriod = (): ActivePeriod | null => {
     const activePeriodId = useRecoilValue(activePeriodIdState);
     useSelectInitialPeriod();
     useUnsetActivePeriodOnNewPerson();
-    useSelectInitialPeriodOnOppgaveChanged();
+    useSelectPeriodOnOppgaveChanged();
     return activePeriodId ? findPeriod(activePeriodId, person) : null;
 };
 
-const useSelectInitialPeriodOnOppgaveChanged = () => {
+const useSelectPeriodOnOppgaveChanged = () => {
     const person = useCurrentPerson();
     const erOpptegnelseForNyOppgave = (opptegnelse: Opptegnelse) =>
         opptegnelse.type === 'NY_SAKSBEHANDLEROPPGAVE' || opptegnelse.type === 'REVURDERING_FERDIGBEHANDLET';
