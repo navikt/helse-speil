@@ -17,8 +17,9 @@ export const useSetActivePeriodId = () => {
     const [activePeriodId, setActivePeriodId] = useRecoilState(activePeriodIdState);
 
     return (periodeId: string) => {
+        if (activePeriodId === periodeId) return;
         const periode = findPeriod(periodeId, person);
-        if (activePeriodId === periode || !periode) return;
+        if (!periode) return;
         setActivePeriodId(periode.id);
     };
 };
