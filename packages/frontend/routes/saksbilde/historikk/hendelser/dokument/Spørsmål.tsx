@@ -22,7 +22,13 @@ export const Spørsmål: React.FC<SpørsmålProps> = ({ spørsmål, rotnivå = t
         if (it === undefined || it === null) return;
         const underspørsmål = it?.undersporsmal && it.undersporsmal.length > 0 ? it.undersporsmal : null;
         return (
-            <div className={classNames(styles.spørsmål, rotnivå && styles.rotspørsmål)}>
+            <div
+                className={classNames(
+                    styles.spørsmål,
+                    rotnivå && styles.rotspørsmål,
+                    it.svar?.[0]?.verdi === 'CHECKED' && styles.sammelinje,
+                )}
+            >
                 {it.svar && it.svartype && (
                     <SøknadFragment overskrift={it?.sporsmalstekst ?? ''}>
                         {getSvarForVisning(it.svar, it.svartype)}

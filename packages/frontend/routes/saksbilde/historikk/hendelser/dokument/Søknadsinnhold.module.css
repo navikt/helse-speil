@@ -11,6 +11,17 @@
     grid-column: 1 / span 2;
 }
 
+.dokument .sammelinje {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.dokument .sammelinje > p {
+    display: flex;
+    align-items: center;
+    padding-right: 0.5rem;
+}
+
 .dokument > p:nth-child(even) {
     padding-bottom: 0.5rem;
 }
