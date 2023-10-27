@@ -93,6 +93,8 @@ const useUnsetActivePeriodOnNewPerson = () => {
 
 const findPeriod = (periodeId: string, person: FetchPersonQuery['person']) =>
     person?.arbeidsgivere
-        .flatMap((arbeidsgiver) => arbeidsgiver.generasjoner)
-        .flatMap((generasjon) => generasjon.perioder)
+        .flatMap((arbeidsgiver) => [
+            ...arbeidsgiver.generasjoner.flatMap((generasjon) => generasjon.perioder),
+            ...arbeidsgiver.ghostPerioder,
+        ])
         .find((periode) => periode.id === periodeId) ?? null;
