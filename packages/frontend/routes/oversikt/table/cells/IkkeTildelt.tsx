@@ -9,17 +9,16 @@ import styles from './IkkeTildelt.module.css';
 
 interface IkkeTildeltProps {
     oppgavereferanse: string;
-    aktørId: string;
     width: number;
 }
 
-export const IkkeTildelt = ({ oppgavereferanse, aktørId, width }: IkkeTildeltProps) => {
+export const IkkeTildelt = ({ oppgavereferanse, width }: IkkeTildeltProps) => {
     const saksbehandler = useInnloggetSaksbehandler();
     const [tildelOppgave, { loading }] = useOpprettTildeling();
 
     const tildel = (event: React.MouseEvent) => {
         event.stopPropagation();
-        void tildelOppgave(oppgavereferanse, aktørId);
+        void tildelOppgave(oppgavereferanse);
     };
 
     return (

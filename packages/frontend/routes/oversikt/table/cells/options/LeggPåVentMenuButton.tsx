@@ -12,33 +12,21 @@ import styles from './OptionsCell.module.css';
 
 interface LeggPåVentMenuButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
     oppgavereferanse: string;
-    aktørId: string;
     vedtaksperiodeId: string;
     navn: Personnavn;
 }
 
-export const LeggPåVentMenuButton = ({
-    oppgavereferanse,
-    aktørId,
-    vedtaksperiodeId,
-    navn,
-}: LeggPåVentMenuButtonProps) => {
+export const LeggPåVentMenuButton = ({ oppgavereferanse, vedtaksperiodeId, navn }: LeggPåVentMenuButtonProps) => {
     const [visModal, setVisModal] = useState(false);
-    const [error, setError] = useState<string | undefined>();
 
-    const leggPåVentMedNotat = useLeggPåVent();
+    const [leggPåVentMedNotat, data] = useLeggPåVent();
 
     const åpneModal = () => {
         setVisModal(true);
     };
 
     const settPåVent = (notattekst: string) =>
-        leggPåVentMedNotat(
-            oppgavereferanse,
-            aktørId,
-            { tekst: notattekst, type: 'PaaVent' } as NotatDTO,
-            vedtaksperiodeId,
-        ).catch(() => setError('Kunne ikke lagre notat'));
+        leggPåVentMedNotat(oppgavereferanse, { tekst: notattekst, type: 'PaaVent' } as NotatDTO, vedtaksperiodeId);
 
     return (
         <>
@@ -51,7 +39,7 @@ export const LeggPåVentMenuButton = ({
                     navn={navn}
                     vedtaksperiodeId={vedtaksperiodeId}
                     onSubmitOverride={settPåVent}
-                    errorOverride={error}
+                    errorOverride={data.error ? 'Kunne ikke lagre notat' : undefined}
                     notattype={NotatType.PaaVent}
                 />
             )}

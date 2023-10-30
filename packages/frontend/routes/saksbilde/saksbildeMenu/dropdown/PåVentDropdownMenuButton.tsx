@@ -12,7 +12,6 @@ import { NyttNotatModal } from '../../../oversikt/table/cells/notat/NyttNotatMod
 
 interface PåVentDropdownMenuButtonProps {
     oppgavereferanse: string;
-    aktørId: string;
     vedtaksperiodeId: string;
     personinfo: Personinfo;
     erPåVent?: boolean;
@@ -21,15 +20,14 @@ interface PåVentDropdownMenuButtonProps {
 export const PåVentDropdownMenuButton = ({
     erPåVent,
     oppgavereferanse,
-    aktørId,
     vedtaksperiodeId,
     personinfo,
 }: PåVentDropdownMenuButtonProps) => {
     const [visModal, setVisModal] = useState(false);
 
     const navigate = useNavigate();
-    const leggPåVentMedNotat = useLeggPåVent();
-    const [fjernPåVent, { loading }] = useFjernPåVent();
+    const [leggPåVentMedNotat, { error: leggPåVentError }] = useLeggPåVent();
+    const [fjernPåVent, { loading, error: fjernPåVentError }] = useFjernPåVent();
     const errorHandler = useOperationErrorHandler('Legg på vent');
 
     const navn: Personnavn = {
@@ -38,14 +36,19 @@ export const PåVentDropdownMenuButton = ({
         etternavn: personinfo.etternavn,
     };
 
-    const settPåVent = (notattekst: string) => {
-        return leggPåVentMedNotat(oppgavereferanse, aktørId, { tekst: notattekst, type: 'PaaVent' }, vedtaksperiodeId)
-            .then(() => navigate('/'))
-            .catch(errorHandler);
+    const settPåVent = async (notattekst: string) => {
+        await leggPåVentMedNotat(oppgavereferanse, { tekst: notattekst, type: 'PaaVent' }, vedtaksperiodeId);
+        if (leggPåVentError) {
+            errorHandler(leggPåVentError);
+        }
+        navigate('/');
     };
 
-    const fjernFraPåVent = () => {
-        fjernPåVent(oppgavereferanse, aktørId).catch(errorHandler);
+    const fjernFraPåVent = async () => {
+        await fjernPåVent(oppgavereferanse);
+        if (fjernPåVentError) {
+            errorHandler(fjernPåVentError);
+        }
     };
 
     return (

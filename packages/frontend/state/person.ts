@@ -1,28 +1,10 @@
-import { useRecoilValue } from 'recoil';
-
 import { useQuery } from '@apollo/client';
 import { useNavigation } from '@hooks/useNavigation';
-import { FetchPersonDocument, Tildeling } from '@io/graphql';
-import { TildelingStateType, tildelingState } from '@state/tildeling';
+import { FetchPersonDocument } from '@io/graphql';
 
-export const useCurrentPerson = () => {
+export const useCurrentPerson = (): FetchedPerson => {
     const { data } = useFetchPersonQuery();
-    const tildelinger = useRecoilValue(tildelingState);
-    return personMedTildeling(tildelinger, data?.person);
-};
-
-const personMedTildeling = (tildelinger: TildelingStateType, person: FetchPersonQuery['person']) => {
-    if (!person) return null;
-    const tildeling = finnTildeling(tildelinger, person);
-    return {
-        ...person,
-        tildeling: tildeling ? { ...tildeling } : null,
-    } as FetchedPerson;
-};
-
-const finnTildeling = (tildelinger: TildelingStateType, person: NonNullable<FetchPersonQuery['person']>) => {
-    const tildelingOverlay: Tildeling | null | undefined = tildelinger[person.aktorId];
-    return tildelingOverlay !== undefined ? tildelingOverlay : person?.tildeling;
+    return data?.person as FetchedPerson;
 };
 
 export const useFetchPersonQuery = (force: boolean = false) => {

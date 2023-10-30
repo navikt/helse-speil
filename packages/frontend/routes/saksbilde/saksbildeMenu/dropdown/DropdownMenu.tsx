@@ -58,14 +58,12 @@ const DropdownMenuContent: React.FC = () => {
                         <>
                             <TildelingDropdownMenuButton
                                 oppgavereferanse={period.oppgave.id}
-                                aktørId={person.aktorId}
                                 erTildeltInnloggetBruker={personIsAssignedUser}
                                 tildeling={person?.tildeling}
                             />
                             {personIsAssignedUser && (
                                 <PåVentDropdownMenuButton
                                     oppgavereferanse={period.oppgave.id}
-                                    aktørId={person.aktorId}
                                     vedtaksperiodeId={period.vedtaksperiodeId}
                                     personinfo={person.personinfo}
                                     erPåVent={person.tildeling?.paaVent}

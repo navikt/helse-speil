@@ -22,7 +22,7 @@ export const TildelingCell = ({ oppgave, kanTildeles }: TildelingProps) =>
             {oppgave.tildeling ? (
                 <Tildelt width={128} name={oppgave.tildeling.navn} />
             ) : (
-                <IkkeTildelt width={128} oppgavereferanse={oppgave.id} aktørId={oppgave.aktorId} />
+                <IkkeTildelt width={128} oppgavereferanse={oppgave.id} />
             )}
         </Table.DataCell>
     );
