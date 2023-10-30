@@ -2749,6 +2749,15 @@ export type OpprettTildelingMutation = {
     } | null;
 };
 
+export type TildelingFragment = {
+    __typename?: 'Tildeling';
+    navn: string;
+    oid: string;
+    epost: string;
+    reservert?: boolean | null;
+    paaVent: boolean;
+};
+
 export type SendIReturMutationVariables = Exact<{
     oppgavereferanse: Scalars['String']['input'];
     notatTekst: Scalars['String']['input'];
@@ -3126,6 +3135,26 @@ export const NotatFragmentDoc = {
         },
     ],
 } as unknown as DocumentNode<NotatFragment, unknown>;
+export const TildelingFragmentDoc = {
+    kind: 'Document',
+    definitions: [
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'tildeling' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Tildeling' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'Field', name: { kind: 'Name', value: 'navn' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'oid' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'epost' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'reservert' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'paaVent' } },
+                ],
+            },
+        },
+    ],
+} as unknown as DocumentNode<TildelingFragment, unknown>;
 export const AnnullerDocument = {
     kind: 'Document',
     definitions: [
@@ -6336,15 +6365,24 @@ export const FjernPaaVentDocument = {
                         ],
                         selectionSet: {
                             kind: 'SelectionSet',
-                            selections: [
-                                { kind: 'Field', name: { kind: 'Name', value: 'navn' } },
-                                { kind: 'Field', name: { kind: 'Name', value: 'oid' } },
-                                { kind: 'Field', name: { kind: 'Name', value: 'epost' } },
-                                { kind: 'Field', name: { kind: 'Name', value: 'reservert' } },
-                                { kind: 'Field', name: { kind: 'Name', value: 'paaVent' } },
-                            ],
+                            selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'tildeling' } }],
                         },
                     },
+                ],
+            },
+        },
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'tildeling' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Tildeling' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'Field', name: { kind: 'Name', value: 'navn' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'oid' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'epost' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'reservert' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'paaVent' } },
                 ],
             },
         },
@@ -6435,15 +6473,24 @@ export const LeggPaaVentDocument = {
                         ],
                         selectionSet: {
                             kind: 'SelectionSet',
-                            selections: [
-                                { kind: 'Field', name: { kind: 'Name', value: 'navn' } },
-                                { kind: 'Field', name: { kind: 'Name', value: 'oid' } },
-                                { kind: 'Field', name: { kind: 'Name', value: 'epost' } },
-                                { kind: 'Field', name: { kind: 'Name', value: 'reservert' } },
-                                { kind: 'Field', name: { kind: 'Name', value: 'paaVent' } },
-                            ],
+                            selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'tildeling' } }],
                         },
                     },
+                ],
+            },
+        },
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'tildeling' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Tildeling' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'Field', name: { kind: 'Name', value: 'navn' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'oid' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'epost' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'reservert' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'paaVent' } },
                 ],
             },
         },
@@ -6478,15 +6525,24 @@ export const OpprettTildelingDocument = {
                         ],
                         selectionSet: {
                             kind: 'SelectionSet',
-                            selections: [
-                                { kind: 'Field', name: { kind: 'Name', value: 'navn' } },
-                                { kind: 'Field', name: { kind: 'Name', value: 'oid' } },
-                                { kind: 'Field', name: { kind: 'Name', value: 'epost' } },
-                                { kind: 'Field', name: { kind: 'Name', value: 'reservert' } },
-                                { kind: 'Field', name: { kind: 'Name', value: 'paaVent' } },
-                            ],
+                            selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'tildeling' } }],
                         },
                     },
+                ],
+            },
+        },
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'tildeling' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Tildeling' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'Field', name: { kind: 'Name', value: 'navn' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'oid' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'epost' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'reservert' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'paaVent' } },
                 ],
             },
         },
