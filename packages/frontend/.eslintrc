@@ -40,7 +40,7 @@
             }
         }
     ],
-    "plugins": ["react", "react-hooks", "@typescript-eslint", "react-refresh", "testing-library", "jest-dom"],
+    "plugins": ["react", "react-hooks", "@typescript-eslint", "testing-library", "jest-dom"],
     "extends": ["eslint:recommended", "prettier", "plugin:jest-dom/recommended", "plugin:testing-library/dom", "plugin:@typescript-eslint/recommended"],
     "rules": {
         "react/jsx-no-bind": [
@@ -56,7 +56,6 @@
         "react/no-unknown-property": "error",
         "react/no-unused-prop-types": "error",
         "react/react-in-jsx-scope": "error",
-        "react-refresh/only-export-components": "warn",
         "no-unused-vars": ["off"],
         "indent": "off",
         "react/jsx-indent": "off",
