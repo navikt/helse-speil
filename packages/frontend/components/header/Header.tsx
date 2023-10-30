@@ -6,6 +6,7 @@ import { Header as InternalHeader } from '@navikt/ds-react-internal';
 
 import { SystemMenu } from '@components/SystemMenu';
 import { UserMenu } from '@components/UserMenu';
+import { EasterEgg } from '@components/header/EasterEgg';
 import { Personsøk } from '@components/header/Personsøk';
 import { erDev, erLocal, graphqlplayground, toggleMeny } from '@utils/featureToggles';
 
@@ -23,6 +24,7 @@ export const Header = () => (
             </Link>
         </InternalHeader.Title>
         <Personsøk />
+        <EasterEgg />
         {toggleMeny && <ToggleMenyButton />}
         {graphqlplayground && (
             <InternalHeader.Title as="span">
