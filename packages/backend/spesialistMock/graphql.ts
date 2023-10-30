@@ -329,6 +329,9 @@ const getResolvers = (): IResolvers => ({
         annuller: async (_, __) => {
             return true;
         },
+        oppdaterPerson: async (_, __) => {
+            return true;
+        },
     },
     Periode: {
         __resolveType: (periode: { beregningId: string; vilkarsgrunnlagId: string }) => {

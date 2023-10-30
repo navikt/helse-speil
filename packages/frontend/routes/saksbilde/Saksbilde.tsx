@@ -9,6 +9,7 @@ import { useRefreshPersonVedOpptegnelse } from '@hooks/useRefreshPersonVedOppteg
 import { useVarselOmSakErTildeltAnnenSaksbehandler } from '@hooks/useVarselOmSakErTildeltAnnenSaksbehandler';
 import { AmplitudeProvider } from '@io/amplitude';
 import { usePollEtterOpptegnelser } from '@io/http';
+import { useSelectPeriodOnOppgaveChanged } from '@state/periode';
 import { onLazyLoadFail } from '@utils/error';
 
 import { VenterPåEndringProvider } from './VenterPåEndringContext';
@@ -45,6 +46,7 @@ const SaksbildeContent = () => {
     useRefreshPersonVedOpptegnelse();
     useFjernPersonFraApolloCache();
     usePollEtterOpptegnelser();
+    useSelectPeriodOnOppgaveChanged();
     useVarselOmSakErTildeltAnnenSaksbehandler();
     useKeyboardShortcuts();
 

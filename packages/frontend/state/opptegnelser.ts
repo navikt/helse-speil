@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { atom, selector, useRecoilValue, useResetRecoilState, useSetRecoilState } from 'recoil';
 
 export const opptegnelsePollingTimeState = atom<number>({
@@ -39,10 +40,12 @@ export const sisteSekvensIdOpptegnelseState = selector<number | undefined>({
 export const useHåndterOpptegnelser = (onOpptegnelseCallback: (o: Opptegnelse) => void) => {
     const opptegnelser = useRecoilValue(nyesteOpptegnelserStateNy);
     const resetOpptegnelser = useResetRecoilState(nyesteOpptegnelserStateNy);
-    if (opptegnelser.length > 0) {
-        opptegnelser.forEach((o) => onOpptegnelseCallback(o));
-        resetOpptegnelser();
-    }
+    useEffect(() => {
+        if (opptegnelser.length > 0) {
+            opptegnelser.forEach((o) => onOpptegnelseCallback(o));
+            resetOpptegnelser();
+        }
+    }, [opptegnelser]);
 };
 
 export const useSetOpptegnelserNy = () => {
