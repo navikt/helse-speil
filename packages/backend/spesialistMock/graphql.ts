@@ -255,13 +255,21 @@ const getResolvers = (): IResolvers => ({
             });
             return TildelingMock.getTildeling(oppgaveId);
         },
+        innvilgVedtak: async () => {
+            return (
+                Math.random() < 0.95 ||
+                new GraphQLError(`Oppgaven er ikke åpen.`, {
+                    extensions: { code: { value: 500 } },
+                })
+            );
+        },
         sendTilInfotrygd: async () => {
-            if (Math.random() > 0.95) {
-                return new GraphQLError(`Allerede sendt til Infotrygd`, {
+            return (
+                Math.random() < 0.95 ??
+                new GraphQLError(`Allerede sendt til Infotrygd`, {
                     extensions: { code: { value: 409 } },
-                });
-            }
-            return true;
+                })
+            );
         },
         fjernPaaVent: async (_, { oppgaveId }: MutationFjernPaaVentArgs) => {
             TildelingMock.setTildeling(oppgaveId, {
