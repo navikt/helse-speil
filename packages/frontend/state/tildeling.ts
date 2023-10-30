@@ -1,6 +1,6 @@
 import { atom, useRecoilState } from 'recoil';
 
-import { ApolloError, MutationResult, useApolloClient, useMutation } from '@apollo/client';
+import { ApolloError, MutationResult, useMutation } from '@apollo/client';
 import {
     AntallOppgaverDocument,
     FetchNotaterDocument,
@@ -11,7 +11,6 @@ import {
     Maybe,
     NotatType,
     OppgaveFeedDocument,
-    OppgaverDocument,
     OpprettTildelingDocument,
     OpprettTildelingMutation,
     Tildeling,
@@ -46,7 +45,6 @@ export const useOpprettTildeling = (): [
     MutationResult<OpprettTildelingMutation>,
 ] => {
     const [tildelinger, setTildelinger] = useRecoilState(tildelingState);
-    const client = useApolloClient();
     const [opprettTildelingMutation, data] = useMutation(OpprettTildelingDocument, {
         refetchQueries: [OppgaveFeedDocument, AntallOppgaverDocument],
     });
@@ -79,7 +77,6 @@ export const useOpprettTildeling = (): [
                 if (errorCode === 409) leggTilTildelingsvarsel(`${tildeling.navn} har allerede tatt saken.`);
                 else leggTilTildelingsvarsel('Kunne ikke tildele sak.');
 
-                client.refetchQueries({ include: [OppgaverDocument] });
                 return Promise.reject('Kunne ikke tildele sak.');
             });
     };
