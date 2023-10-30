@@ -20,7 +20,6 @@ import { useInnloggetSaksbehandler } from '@state/authentication';
 import { useFetchPersonQuery } from '@state/person';
 import { useAddVarsel, useRemoveVarsel } from '@state/varsler';
 import { InfoAlert } from '@utils/error';
-import { capitalizeName } from '@utils/locale';
 
 class TildelingAlert extends InfoAlert {
     name = 'tildeling';
@@ -43,12 +42,9 @@ const useFødselsnummer = () => {
 
 const useOptimistiskTildeling = (): TildelingFragment => {
     const saksbehandler = useInnloggetSaksbehandler();
-    const listenavn = capitalizeName(saksbehandler.navn).split(' ');
-    const fornavn = listenavn[0];
-    const etternavn = listenavn.slice(1);
     return {
         __typename: 'Tildeling',
-        navn: `${etternavn}, ${fornavn}`,
+        navn: saksbehandler.navn,
         oid: saksbehandler.oid,
         paaVent: false,
         epost: saksbehandler.epost,

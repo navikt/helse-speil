@@ -8,7 +8,7 @@ export const Keys = {
 if (process.env.NODE_ENV === 'development') {
     document.cookie = `speil=dev-cookie.${btoa(
         JSON.stringify({
-            name: 'Lokal utvikler',
+            name: 'Utvikler, Lokal',
             NAVident: 'dev-ident',
             email: 'dev@nav.no',
             oid: '4577332e-801a-4c13-8a71-39f12b8abfa3',
