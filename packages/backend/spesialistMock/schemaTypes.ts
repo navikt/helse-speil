@@ -261,6 +261,7 @@ export enum Egenskap {
     Retur = 'RETUR',
     Revurdering = 'REVURDERING',
     RiskQa = 'RISK_QA',
+    Skjonnsfastsettelse = 'SKJONNSFASTSETTELSE',
     Soknad = 'SOKNAD',
     Spesialsak = 'SPESIALSAK',
     Stikkprove = 'STIKKPROVE',

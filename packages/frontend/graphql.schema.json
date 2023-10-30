@@ -2481,6 +2481,12 @@
                         "deprecationReason": null
                     },
                     {
+                        "name": "SKJONNSFASTSETTELSE",
+                        "description": null,
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
+                    {
                         "name": "SOKNAD",
                         "description": null,
                         "isDeprecated": false,
