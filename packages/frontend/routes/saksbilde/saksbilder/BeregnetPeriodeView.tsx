@@ -111,7 +111,7 @@ export const BeregnetPeriodeView: React.FC<BeregnetPeriodeViewProps> = ({ period
                 <div className={styles.RouteContainer}>
                     <React.Suspense fallback={<BeregnetPeriodeViewLoader />}>
                         <Routes>
-                            <Route path="forslag-til-vedtak" element={<Utbetaling />} />
+                            <Route path="utkast-til-vedtak" element={<Utbetaling />} />
                             <Route path="inngangsvilkår" element={<Inngangsvilkår />} />
                             <Route path="sykepengegrunnlag" element={<Sykepengegrunnlag />} />
                             <Route path="faresignaler" element={<Faresignaler />} />

@@ -39,7 +39,7 @@ const SaksbildeMenuBeregnetPeriode = ({ activePeriod }: SaksbildeMenuBeregnetPer
     <div className={styles.SaksbildeMenu}>
         <div>
             <nav className={styles.TabList} role="tablist">
-                <NavLenke to="forslag-til-vedtak" tittel="Forslag til vedtak" />
+                <NavLenke to="utkast-til-vedtak" tittel="Utkast til vedtak" />
                 <NavLenke to="inngangsvilkår" tittel="Inngangsvilkår" />
                 <NavLenke to="sykepengegrunnlag" tittel="Sykepengegrunnlag" />
                 {activePeriod.risikovurdering?.funn && activePeriod.risikovurdering?.funn?.length > 0 && (
@@ -56,7 +56,7 @@ const SaksbildeMenuUberegnetVilkarsprovdPeriode: React.FC = () => (
     <div className={styles.SaksbildeMenu}>
         <div>
             <nav className={styles.TabList} role="tablist">
-                <NavLenke to="forslag-til-vedtak" tittel="Forslag til vedtak" />
+                <NavLenke to="utkast-til-vedtak" tittel="Utkast til vedtak" />
                 <NavLenke to="inngangsvilkår" tittel="Inngangsvilkår" />
                 <NavLenke to="sykepengegrunnlag" tittel="Sykepengegrunnlag" />
             </nav>
@@ -70,7 +70,7 @@ const SaksbildeMenuUberegnetPeriode: React.FC = () => (
     <div className={styles.SaksbildeMenu}>
         <div>
             <nav className={styles.TabList} role="tablist">
-                <NavLenke to="forslag-til-vedtak" tittel="Forslag til vedtak" />
+                <NavLenke to="utkast-til-vedtak" tittel="Utkast til vedtak" />
             </nav>
             <DropdownMenu />
         </div>

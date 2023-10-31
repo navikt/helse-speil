@@ -34,7 +34,7 @@ export const LinkRow = ({ aktørId, children, ...rest }: LinkRowProps) => {
         }
 
         hentPerson({ variables: { aktorId: aktørId } }).then(() => {
-            const destinationUrl = `/person/${aktørId}/forslag-til-vedtak`;
+            const destinationUrl = `/person/${aktørId}/utkast-til-vedtak`;
             if (shouldOpenInNewTab(event)) {
                 window.open(destinationUrl, '_blank');
             } else {

@@ -92,7 +92,7 @@ export const UberegnetVilkarsprovdPeriodeView: React.FC<UberegnetVilkarsprovdPer
                 <div className={styles.RouteContainer}>
                     <React.Suspense fallback={<UberegnetVilkarsprovdPeriodeViewLoader />}>
                         <Routes>
-                            <Route path="forslag-til-vedtak" element={<Utbetaling />} />
+                            <Route path="utkast-til-vedtak" element={<Utbetaling />} />
                             <Route path="inngangsvilkår" element={<Inngangsvilkår />} />
                             <Route path="sykepengegrunnlag" element={<Sykepengegrunnlag />} />
                         </Routes>
