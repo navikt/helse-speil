@@ -1,6 +1,7 @@
 import classNames from 'classnames';
 import React, { useEffect, useState } from 'react';
-import { useForm } from 'react-hook-form';
+import { SubmitHandler, useForm } from 'react-hook-form';
+import { FieldValues } from 'react-hook-form/dist/types/fields';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 
 import { PlusCircleFillIcon } from '@navikt/aksel-icons';
@@ -9,13 +10,12 @@ import { BodyShort, Button, ErrorMessage, Loader } from '@navikt/ds-react';
 
 import { useMutation } from '@apollo/client';
 import { Key, useKeyboard } from '@hooks/useKeyboard';
-import { FetchPersonDocument, LeggTilNotatDocument, NotatType } from '@io/graphql';
+import { LeggTilNotatDocument, NotatType } from '@io/graphql';
 import { useInnloggetSaksbehandler } from '@state/authentication';
 import { lokaleNotaterState } from '@state/notater';
 import { useActivePeriod } from '@state/periode';
 import { isGhostPeriode } from '@utils/typeguards';
 
-import { client } from '../../apolloClient';
 import { ControlledTextarea } from './ControlledTextarea';
 
 import styles from './Notat.module.css';
@@ -26,8 +26,7 @@ export const Notat = () => {
     const aktivPeriode = useActivePeriod();
     const [open, setOpen] = useState(false);
     const form = useForm();
-    const [nyttNotat, { loading }] = useMutation(LeggTilNotatDocument);
-    const [error, setError] = useState<string | undefined>();
+    const [nyttNotat, { loading, error }] = useMutation(LeggTilNotatDocument);
     const { oid } = useInnloggetSaksbehandler();
 
     const erGhostEllerHarIkkeAktivPeriode = isGhostPeriode(aktivPeriode) || !aktivPeriode;
@@ -52,41 +51,35 @@ export const Notat = () => {
 
     if (erGhostEllerHarIkkeAktivPeriode) return null;
 
-    const submit = () => {
-        setError(undefined);
-        nyttNotat({
+    const submit: SubmitHandler<FieldValues> = (data) => {
+        void nyttNotat({
             variables: {
                 oid: oid,
-                tekst: notater.find((notat) => notat.vedtaksperiodeId === aktivPeriode.vedtaksperiodeId)?.tekst || '',
+                tekst: data.tekst || '',
                 type: NotatType.Generelt,
                 vedtaksperiodeId: aktivPeriode.vedtaksperiodeId,
             },
             update: (cache, { data }) => {
                 cache.modify({
-                    id: cache.identify({ __typename: 'Notater', id: aktivPeriode.vedtaksperiodeId }),
+                    id: cache.identify({ __typename: aktivPeriode?.__typename, id: aktivPeriode?.id }),
                     fields: {
                         notater(existingNotater) {
-                            return [...existingNotater, data];
+                            return [...existingNotater, data?.leggTilNotat];
                         },
                     },
                 });
             },
-        })
-            .then(() => {
-                client.refetchQueries({ include: [FetchPersonDocument] });
-                setOpen(false);
-                slettNotat();
-            })
-            .catch((err) => {
-                setError(err.statusCode === 401 ? 'Du har blitt logget ut' : 'Notatet kunne ikke lagres');
-            });
+            onCompleted: () => {
+                lukkNotatfelt();
+            },
+        });
     };
 
-    const slettNotat = () => {
+    const lukkNotatfelt = () => {
+        setOpen(false);
         oppdaterNotat((currentValue) => [
             ...currentValue.filter((notat) => notat.vedtaksperiodeId !== aktivPeriode.vedtaksperiodeId),
         ]);
-        setOpen(false);
     };
 
     return (
@@ -101,7 +94,7 @@ export const Notat = () => {
             </div>
 
             {open && (
-                <div>
+                <>
                     <BodyShort>Blir ikke forevist den sykmeldte, med mindre den sykmeldte ber om innsyn.</BodyShort>
                     <form onSubmit={form.handleSubmit(submit)} className={styles.form}>
                         <ControlledTextarea control={form.control} vedtaksperiodeId={aktivPeriode.vedtaksperiodeId} />
@@ -110,14 +103,20 @@ export const Notat = () => {
                                 Lagre notat
                                 {loading && <Loader size="xsmall" />}
                             </Button>
-                            <Button size="small" variant="tertiary" onClick={() => slettNotat()} type="button">
+                            <Button size="small" variant="tertiary" onClick={lukkNotatfelt} type="button">
                                 Avbryt
                             </Button>
                         </span>
                     </form>
-                </div>
+                </>
             )}
-            {error && <ErrorMessage>{error}</ErrorMessage>}
+            {error && (
+                <ErrorMessage>
+                    {(error.graphQLErrors[0].extensions['code'] as { value: number }).value === 401
+                        ? 'Du har blitt logget ut'
+                        : 'Notatet kunne ikke lagres'}
+                </ErrorMessage>
+            )}
         </li>
     );
 };
