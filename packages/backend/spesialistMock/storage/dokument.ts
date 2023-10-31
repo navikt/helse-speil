@@ -26,6 +26,7 @@ export class DokumentMock {
                         },
                     ],
                     svartype: Svartype.JaNei,
+                    tag: 'TILBAKE_I_ARBEID',
                     __typename: 'Sporsmal',
                     undersporsmal: [
                         {
@@ -51,6 +52,7 @@ export class DokumentMock {
                         },
                     ],
                     svartype: Svartype.JaNei,
+                    tag: 'FERIE_V2',
                     __typename: 'Sporsmal',
                     undersporsmal: [
                         {
@@ -76,6 +78,7 @@ export class DokumentMock {
                         },
                     ],
                     svartype: Svartype.JaNei,
+                    tag: 'PERMISJON_V2',
                     __typename: 'Sporsmal',
                     undersporsmal: [
                         {
@@ -87,6 +90,7 @@ export class DokumentMock {
                                 },
                             ],
                             svartype: Svartype.Perioder,
+                            tag: 'PERMISJON_NAR_V2',
                             __typename: 'Sporsmal',
                             undersporsmal: [],
                         },
@@ -102,12 +106,14 @@ export class DokumentMock {
                         },
                     ],
                     svartype: Svartype.JaNei,
+                    tag: 'ARBEID_UNDERVEIS_100_PROSENT_0',
                     __typename: 'Sporsmal',
                     undersporsmal: [
                         {
                             sporsmalstekst: 'Oppgi arbeidsmengde i timer eller prosent:',
                             svar: [],
                             svartype: Svartype.RadioGruppeTimerProsent,
+                            tag: 'HVOR_MYE_HAR_DU_JOBBET_0',
                             __typename: 'Sporsmal',
                             undersporsmal: [
                                 {
@@ -119,6 +125,7 @@ export class DokumentMock {
                                         },
                                     ],
                                     svartype: Svartype.Radio,
+                                    tag: 'HVOR_MYE_PROSENT_0',
                                     __typename: 'Sporsmal',
                                     undersporsmal: [
                                         {
@@ -131,6 +138,7 @@ export class DokumentMock {
                                                 },
                                             ],
                                             svartype: Svartype.Prosent,
+                                            tag: 'HVOR_MYE_PROSENT_VERDI_0',
                                             __typename: 'Sporsmal',
                                             undersporsmal: [],
                                         },
@@ -147,6 +155,7 @@ export class DokumentMock {
                                 },
                             ],
                             svartype: Svartype.JaNei,
+                            tag: 'JOBBER_DU_NORMAL_ARBEIDSUKE_0',
                             __typename: 'Sporsmal',
                             undersporsmal: [
                                 {
@@ -158,6 +167,7 @@ export class DokumentMock {
                                         },
                                     ],
                                     svartype: Svartype.Timer,
+                                    tag: 'HVOR_MANGE_TIMER_PER_UKE_0',
                                     __typename: 'Sporsmal',
                                     undersporsmal: [],
                                 },
