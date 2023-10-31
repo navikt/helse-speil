@@ -3,7 +3,7 @@ import React, { ReactNode, useContext, useState } from 'react';
 
 import { Button } from '@navikt/ds-react';
 
-import { useMutation } from '@apollo/client';
+import { ApolloError, useMutation } from '@apollo/client';
 import { Key, useKeyboard } from '@hooks/useKeyboard';
 import { AmplitudeContext } from '@io/amplitude';
 import { Personinfo, SendTilGodkjenningDocument, Utbetaling } from '@io/graphql';
@@ -46,11 +46,10 @@ export const SendTilGodkjenningButton: React.FC<SendTilGodkjenningButtonProps> =
     ...buttonProps
 }) => {
     const [showModal, setShowModal] = useState(false);
-    const [isSending, setIsSending] = useState(false);
-    const [error, setError] = useState<BackendFeil | undefined>();
     const amplitude = useContext(AmplitudeContext);
     const addToast = useAddSendtTilGodkjenningtoast();
-    const [sendTilGodkjenningMutation] = useMutation(SendTilGodkjenningDocument);
+    const [sendTilGodkjenningMutation, { loading, error }] = useMutation(SendTilGodkjenningDocument);
+
     useKeyboard([
         {
             key: Key.F6,
@@ -60,27 +59,19 @@ export const SendTilGodkjenningButton: React.FC<SendTilGodkjenningButtonProps> =
     ]);
 
     const closeModal = () => {
-        setError(undefined);
         setShowModal(false);
     };
 
-    const sendTilGodkjenning = () => {
-        setIsSending(true);
-        sendTilGodkjenningMutation({ variables: { oppgavereferanse } })
-            .then(() => {
+    const sendTilGodkjenning = async () => {
+        await sendTilGodkjenningMutation({
+            variables: { oppgavereferanse },
+            onCompleted: () => {
                 amplitude.logTotrinnsoppgaveTilGodkjenning();
                 addToast();
                 onSuccess?.();
                 closeModal();
-            })
-            .catch((error) => {
-                if (error.statusCode === 409) {
-                    setError({ ...error, message: 'Denne perioden er allerede behandlet' });
-                } else setError(error);
-            })
-            .finally(() => {
-                setIsSending(false);
-            });
+            },
+        });
     };
 
     return (
@@ -102,11 +93,20 @@ export const SendTilGodkjenningButton: React.FC<SendTilGodkjenningButtonProps> =
                     personinfo={personinfo}
                     onClose={closeModal}
                     onApprove={sendTilGodkjenning}
-                    error={error}
-                    isSending={isSending}
+                    error={error && somBackendfeil(error)}
+                    isSending={loading}
                     totrinnsvurdering={true}
                 />
             )}
         </>
     );
+};
+
+const somBackendfeil = (error: ApolloError): BackendFeil => {
+    const errorCode = (error.graphQLErrors[0].extensions['code'] as { value: number }).value;
+
+    return {
+        message: errorCode === 409 ? 'Denne perioden er allerede behandlet' : error.message,
+        statusCode: errorCode,
+    };
 };
