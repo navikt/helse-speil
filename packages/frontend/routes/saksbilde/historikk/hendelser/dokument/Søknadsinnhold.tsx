@@ -1,8 +1,6 @@
 import dayjs from 'dayjs';
 import React from 'react';
 
-import { BodyShort } from '@navikt/ds-react';
-
 import { NORSK_DATOFORMAT, NORSK_DATOFORMAT_MED_KLOKKESLETT } from '@utils/date';
 
 import { DokumentLoader } from './DokumentLoader';
@@ -28,18 +26,14 @@ export const Søknadsinnhold: React.FC<SøknadsinnholdProps> = ({ dokumentId, f�
                     {søknad.soknadsperioder && søknad.soknadsperioder.length > 0 && (
                         <>
                             <SøknadFragment overskrift="Søknadsperiode">
-                                <BodyShort size="small">
-                                    {`${dayjs(søknad.soknadsperioder[0].fom).format(NORSK_DATOFORMAT)} – ${dayjs(
-                                        søknad.soknadsperioder[0].tom,
-                                    ).format(NORSK_DATOFORMAT)}`}
-                                </BodyShort>
+                                {`${dayjs(søknad.soknadsperioder[0].fom).format(NORSK_DATOFORMAT)} – ${dayjs(
+                                    søknad.soknadsperioder[0].tom,
+                                ).format(NORSK_DATOFORMAT)}`}
                             </SøknadFragment>
-                            <SøknadFragment overskrift="Grad">
-                                <BodyShort size="small">{søknad.soknadsperioder[0].grad} %</BodyShort>
-                            </SøknadFragment>
+                            <SøknadFragment overskrift="Grad">{søknad.soknadsperioder[0].grad} %</SøknadFragment>
                             {søknad.soknadsperioder[0].faktiskGrad && (
                                 <SøknadFragment overskrift="Oppgitt faktisk arbeidsgrad">
-                                    <BodyShort size="small">{søknad.soknadsperioder[0].faktiskGrad} %</BodyShort>
+                                    {søknad.soknadsperioder[0].faktiskGrad} %
                                 </SøknadFragment>
                             )}
                         </>
