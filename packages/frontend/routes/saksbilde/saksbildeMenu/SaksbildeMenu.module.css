@@ -86,6 +86,7 @@
     left: 50%;
     transform: translateX(-50%);
     color: var(--a-text-default);
+    white-space: nowrap;
 }
 
 .NavLink:active:after {
