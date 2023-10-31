@@ -3,7 +3,7 @@ import React, { ReactNode, useContext, useState } from 'react';
 
 import { Button } from '@navikt/ds-react';
 
-import { useMutation } from '@apollo/client';
+import { ApolloError, useMutation } from '@apollo/client';
 import { Key, useKeyboard } from '@hooks/useKeyboard';
 import { AmplitudeContext } from '@io/amplitude';
 import { InnvilgVedtakDocument, Personinfo, Utbetaling } from '@io/graphql';
@@ -48,35 +48,26 @@ export const GodkjenningButton: React.FC<GodkjenningButtonProps> = ({
     ...buttonProps
 }) => {
     const [showModal, setShowModal] = useState(false);
-    const [isSending, setIsSending] = useState(false);
-    const [error, setError] = useState<BackendFeil | undefined>();
-    const [innvilgVedtakMutation] = useMutation(InnvilgVedtakDocument);
+    const [innvilgVedtakMutation, { error, loading }] = useMutation(InnvilgVedtakDocument);
     useKeyboard([{ key: Key.F6, action: () => !disabled && setShowModal(true), ignoreIfModifiers: false }]);
 
     const amplitude = useContext(AmplitudeContext);
     const addUtbetalingstoast = useAddUtbetalingstoast();
 
     const closeModal = () => {
-        setError(undefined);
         setShowModal(false);
     };
 
     const godkjennUtbetaling = () => {
-        setIsSending(true);
-        setError(undefined);
-        innvilgVedtakMutation({ variables: { oppgavereferanse } })
-            .then(() => {
+        void innvilgVedtakMutation({
+            variables: { oppgavereferanse },
+            onCompleted: () => {
                 amplitude.logOppgaveGodkjent(erBeslutteroppgave);
                 addUtbetalingstoast();
                 onSuccess?.();
                 closeModal();
-            })
-            .catch((error) => {
-                setError({ ...error, message: errorMessages.get(error.message) || errorMessages.get('default') });
-            })
-            .finally(() => {
-                setIsSending(false);
-            });
+            },
+        });
     };
 
     return (
@@ -98,8 +89,8 @@ export const GodkjenningButton: React.FC<GodkjenningButtonProps> = ({
                     personinfo={personinfo}
                     onClose={closeModal}
                     onApprove={godkjennUtbetaling}
-                    error={error}
-                    isSending={isSending}
+                    error={error && somBackendfeil(error)}
+                    isSending={loading}
                     totrinnsvurdering={false}
                 />
             )}
@@ -107,9 +98,16 @@ export const GodkjenningButton: React.FC<GodkjenningButtonProps> = ({
     );
 };
 
+const somBackendfeil = (error: ApolloError): BackendFeil => {
+    const errorCode = (error.graphQLErrors[0].extensions['code'] as { value: number }).value;
+    return {
+        message: errorMessages.get(error.message) || 'Feil under fatting av vedtak',
+        statusCode: errorCode,
+    };
+};
+
 const errorMessages = new Map<string, string>([
     ['mangler_vurdering_av_varsler', 'Det mangler vurdering av varsler i en eller flere perioder'],
     ['ikke_aapen_saksbehandleroppgave', 'Saken er allerede utbetalt'],
     ['ikke_tilgang_til_risk_qa', 'Du har ikke tilgang til å behandle risk-saker'],
-    ['default', 'Feil under fatting av vedtak'],
 ]);
