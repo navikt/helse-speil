@@ -19,10 +19,11 @@ interface SpørsmålProps {
 
 export const Spørsmål: React.FC<SpørsmålProps> = ({ spørsmål, rotnivå = true }) => {
     return spørsmål?.map((it) => {
-        if (it === undefined || it === null) return;
         const underspørsmål = it?.undersporsmal && it.undersporsmal.length > 0 ? it.undersporsmal : null;
+
         return (
             <div
+                key={it.tag}
                 className={classNames(
                     styles.spørsmål,
                     rotnivå && styles.rotspørsmål,

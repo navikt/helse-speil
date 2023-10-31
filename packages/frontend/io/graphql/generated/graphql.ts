@@ -1496,6 +1496,7 @@ export type SporsmalFragment = {
     __typename?: 'Sporsmal';
     sporsmalstekst?: string | null;
     svartype?: Svartype | null;
+    tag?: string | null;
     svar?: Array<{ __typename?: 'Svar'; verdi?: string | null }> | null;
 };
 
@@ -1522,22 +1523,27 @@ export type FetchSoknadQuery = {
             __typename?: 'Sporsmal';
             sporsmalstekst?: string | null;
             svartype?: Svartype | null;
+            tag?: string | null;
             undersporsmal?: Array<{
                 __typename?: 'Sporsmal';
                 sporsmalstekst?: string | null;
                 svartype?: Svartype | null;
+                tag?: string | null;
                 undersporsmal?: Array<{
                     __typename?: 'Sporsmal';
                     sporsmalstekst?: string | null;
                     svartype?: Svartype | null;
+                    tag?: string | null;
                     undersporsmal?: Array<{
                         __typename?: 'Sporsmal';
                         sporsmalstekst?: string | null;
                         svartype?: Svartype | null;
+                        tag?: string | null;
                         undersporsmal?: Array<{
                             __typename?: 'Sporsmal';
                             sporsmalstekst?: string | null;
                             svartype?: Svartype | null;
+                            tag?: string | null;
                             svar?: Array<{ __typename?: 'Svar'; verdi?: string | null }> | null;
                         }> | null;
                         svar?: Array<{ __typename?: 'Svar'; verdi?: string | null }> | null;
@@ -2850,6 +2856,7 @@ export const SporsmalFragmentDoc = {
                         },
                     },
                     { kind: 'Field', name: { kind: 'Name', value: 'svartype' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'tag' } },
                 ],
             },
         },
@@ -3578,6 +3585,7 @@ export const FetchSoknadDocument = {
                         },
                     },
                     { kind: 'Field', name: { kind: 'Name', value: 'svartype' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'tag' } },
                 ],
             },
         },

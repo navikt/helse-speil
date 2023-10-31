@@ -4,6 +4,7 @@ fragment sporsmal on Sporsmal {
         verdi
     }
     svartype
+    tag
 }
 
 query FetchSoknad($fnr: String!, $dokumentId: String!) {
