@@ -60,11 +60,24 @@ export const Notat = () => {
                 vedtaksperiodeId: aktivPeriode.vedtaksperiodeId,
             },
             update: (cache, { data }) => {
+                cache.writeQuery({
+                    query: LeggTilNotatDocument,
+                    variables: {
+                        oid: oid,
+                        tekst: data?.leggTilNotat?.tekst || '',
+                        type: NotatType.Generelt,
+                        vedtaksperiodeId: aktivPeriode.vedtaksperiodeId,
+                    },
+                    data: data,
+                });
                 cache.modify({
                     id: cache.identify({ __typename: aktivPeriode?.__typename, id: aktivPeriode?.id }),
                     fields: {
                         notater(existingNotater) {
-                            return [...existingNotater, data?.leggTilNotat];
+                            return [
+                                ...existingNotater,
+                                { __ref: cache.identify({ __typename: 'Notat', id: data?.leggTilNotat?.id }) },
+                            ];
                         },
                     },
                 });
