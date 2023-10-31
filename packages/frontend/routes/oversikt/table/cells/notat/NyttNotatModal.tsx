@@ -1,19 +1,19 @@
 import styled from '@emotion/styled';
-import React, { useState } from 'react';
-import { Control, useController, useForm } from 'react-hook-form';
+import React from 'react';
+import { Control, SubmitHandler, useController, useForm } from 'react-hook-form';
+import { FieldValues } from 'react-hook-form/dist/types/fields';
 
 import { Button, Loader, Textarea as NavTextarea } from '@navikt/ds-react';
 
-import { useMutation } from '@apollo/client';
+import { ApolloError, useMutation } from '@apollo/client';
 import { ErrorMessage } from '@components/ErrorMessage';
 import { Modal } from '@components/Modal';
 import { AnonymizableText } from '@components/anonymizable/AnonymizableText';
-import { FetchPersonDocument, LeggTilNotatDocument, NotatType, Personnavn } from '@io/graphql';
+import { LeggTilNotatDocument, NotatType, Personnavn } from '@io/graphql';
 import { useInnloggetSaksbehandler } from '@state/authentication';
 import { useNotaterForVedtaksperiode } from '@state/notater';
 import { getFormatertNavn } from '@utils/string';
 
-import { client } from '../../../../apolloClient';
 import { SisteNotat } from './SisteNotat';
 
 const Container = styled.section`
@@ -112,12 +112,10 @@ export const NyttNotatModal = ({
 }: NyttNotatModalProps) => {
     const notaterForOppgave = useNotaterForVedtaksperiode(vedtaksperiodeId);
     const { oid } = useInnloggetSaksbehandler();
-    const [nyttNotat, { loading }] = useMutation(LeggTilNotatDocument);
+    const [nyttNotat, { loading, error }] = useMutation(LeggTilNotatDocument);
     const søkernavn = navn ? getFormatertNavn(navn, ['E', ',', 'F', 'M']) : undefined;
 
     const form = useForm();
-
-    const [error, setError] = useState<string | undefined>();
 
     const notattekst = notattypeTekster(notattype);
 
@@ -127,19 +125,17 @@ export const NyttNotatModal = ({
         .shift();
 
     const closeModal = (event: React.SyntheticEvent) => {
-        setError(undefined);
         onClose(event);
     };
 
-    const submit = () => {
-        setError(undefined);
+    const submit: SubmitHandler<FieldValues> = async (fieldValues) => {
         if (onSubmitOverride) {
-            onSubmitOverride(form.getValues().tekst);
+            void onSubmitOverride(fieldValues.tekst);
         } else {
-            nyttNotat({
+            await nyttNotat({
                 variables: {
                     oid: oid,
-                    tekst: form.getValues().tekst,
+                    tekst: fieldValues.tekst,
                     type: notattype,
                     vedtaksperiodeId: vedtaksperiodeId,
                 },
@@ -148,24 +144,24 @@ export const NyttNotatModal = ({
                         id: cache.identify({ __typename: 'Notater', id: vedtaksperiodeId }),
                         fields: {
                             notater(existingNotater) {
-                                return [...existingNotater, data];
+                                return [...existingNotater, data?.leggTilNotat];
                             },
                         },
                     });
                 },
-            })
-                .then(() => {
-                    client.refetchQueries({ include: [FetchPersonDocument] });
-                    onClose({} as React.SyntheticEvent);
-                })
-                .catch((err) => {
-                    setError(err.statusCode === 401 ? 'Du har blitt logget ut' : 'Notatet kunne ikke lagres');
-                });
+            });
+            onClose({} as React.SyntheticEvent);
         }
     };
 
     const tillattTekstlengde = 1_000;
-    const errorMessage = errorOverride ?? error;
+    const errorMessage: string | undefined =
+        errorOverride ?? error
+            ? apolloErrorCode(error) === 401
+                ? 'Du har blitt logget ut'
+                : 'Notatet kunne ikke lagres'
+            : undefined;
+
     return (
         <Modal
             title={<Tittel>{notattekst.tittel}</Tittel>}
@@ -229,3 +225,10 @@ const ControlledTextarea = ({ control, notattekst, tillattTekstlengde }: Control
         />
     );
 };
+
+const apolloErrorCode = (error: ApolloError | undefined) =>
+    (
+        error?.graphQLErrors[0].extensions['code'] as {
+            value: number;
+        }
+    ).value;
