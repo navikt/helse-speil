@@ -5,11 +5,10 @@ import React from 'react';
 import { ErrorMessage } from '@navikt/ds-react';
 
 import { useMutation } from '@apollo/client';
-import { FeilregistrerKommentarMutationDocument, FetchPersonDocument, Kommentar } from '@io/graphql';
+import { FeilregistrerKommentarMutationDocument, Kommentar } from '@io/graphql';
 import { useInnloggetSaksbehandler } from '@state/authentication';
 import { ISO_TIDSPUNKTFORMAT } from '@utils/date';
 
-import { client } from '../../../../apolloClient';
 import { HendelseDate } from '../HendelseDate';
 import { HendelseDropdownMenu } from './HendelseDropdownMenu';
 
@@ -25,8 +24,21 @@ export const NotatKommentar = ({ kommentar, forfatterSaksbehandlerOid }: NotatKo
     const innloggetSaksbehandler = useInnloggetSaksbehandler();
 
     const onFeilregistrerKommentar = (id: number) => () => {
-        feilregistrerKommentar({ variables: { id: id } }).then(() => {
-            client.refetchQueries({ include: [FetchPersonDocument] });
+        void feilregistrerKommentar({
+            variables: { id: id },
+            update: (cache, { data }) => {
+                cache.modify({
+                    id: cache.identify({ __typename: 'Notat', id: data?.feilregistrerKommentar?.id }),
+                    fields: {
+                        feilregistrert() {
+                            return true;
+                        },
+                        feilregistrert_tidspunkt() {
+                            return data?.feilregistrerKommentar?.feilregistrert_tidspunkt?.toString() ?? '';
+                        },
+                    },
+                });
+            },
         });
     };
 
