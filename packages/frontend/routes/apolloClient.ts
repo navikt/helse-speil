@@ -28,6 +28,7 @@ export const client = new ApolloClient({
             OppgaveTilBehandling: { keyFields: ['id'] },
             Notater: { keyFields: ['id'] },
             Notat: { keyFields: ['id'] },
+            Kommentar: { keyFields: ['id'] },
             Periode: { keyFields: ['id'] },
             Kommentarer: { keyFields: ['id'] },
             Person: { keyFields: ['fodselsnummer'] },

@@ -6,10 +6,9 @@ import { Send, SpeechBubble, StopWatch } from '@navikt/ds-icons';
 import { ErrorMessage } from '@navikt/ds-react';
 
 import { useMutation } from '@apollo/client';
-import { FeilregistrerNotatMutationDocument, FetchPersonDocument } from '@io/graphql';
+import { FeilregistrerNotatMutationDocument } from '@io/graphql';
 import { useInnloggetSaksbehandler } from '@state/authentication';
 
-import { client } from '../../../../apolloClient';
 import { ExpandableHistorikkContent } from '../ExpandableHistorikkContent';
 import { Hendelse } from '../Hendelse';
 import { HendelseDate } from '../HendelseDate';
@@ -29,7 +28,6 @@ export const Notathendelse: React.FC<NotathendelseProps> = ({
     saksbehandlerOid,
     timestamp,
     feilregistrert,
-    vedtaksperiodeId,
     kommentarer,
 }) => {
     const [showAddDialog, setShowAddDialog] = useState(false);
@@ -39,8 +37,21 @@ export const Notathendelse: React.FC<NotathendelseProps> = ({
 
     const [feilregistrerNotat, { loading, error }] = useMutation(FeilregistrerNotatMutationDocument, {
         variables: { id: parseInt(id) },
+        update: (cache, { data }) => {
+            cache.modify({
+                id: cache.identify({ __typename: 'Notat', id: data?.feilregistrerNotat?.id }),
+                fields: {
+                    feilregistrert() {
+                        return true;
+                    },
+                    feilregistert_tidspunkt() {
+                        return data?.feilregistrerNotat?.feilregistrert_tidspunkt ?? '';
+                    },
+                },
+            });
+        },
         onCompleted: () => {
-            client.refetchQueries({ include: [FetchPersonDocument], onQueryUpdated: () => setShowAddDialog(false) });
+            setShowAddDialog(false);
         },
     });
 
@@ -98,7 +109,6 @@ export const Notathendelse: React.FC<NotathendelseProps> = ({
                     id={id}
                     showAddDialog={showAddDialog}
                     setShowAddDialog={setShowAddDialog}
-                    vedtaksperiodeId={vedtaksperiodeId}
                 />
             </ExpandableHistorikkContent>
         </Hendelse>

@@ -2,10 +2,9 @@ import React from 'react';
 
 import { useMutation } from '@apollo/client';
 import { LinkButton } from '@components/LinkButton';
-import { FetchNotaterDocument, FetchPersonDocument, LeggTilKommentarDocument } from '@io/graphql';
+import { LeggTilKommentarDocument } from '@io/graphql';
 import { useInnloggetSaksbehandler } from '@state/authentication';
 
-import { client } from '../../../../apolloClient';
 import { Kommentarer } from './Kommentarer';
 import { NotatForm } from './NotatForm';
 
@@ -17,7 +16,6 @@ type NotatHendelseContentProps = {
     showAddDialog: boolean;
     setShowAddDialog: (show: boolean) => void;
     id: string;
-    vedtaksperiodeId: string;
 };
 
 export const NotatHendelseContent = ({
@@ -26,17 +24,50 @@ export const NotatHendelseContent = ({
     showAddDialog,
     setShowAddDialog,
     id,
-    vedtaksperiodeId,
 }: NotatHendelseContentProps) => {
     const innloggetSaksbehandler = useInnloggetSaksbehandler();
-    const [leggTilKommentar, { error, loading }] = useMutation(LeggTilKommentarDocument, {
-        refetchQueries: [{ query: FetchNotaterDocument, variables: { forPerioder: [vedtaksperiodeId] } }],
-    });
+    const [leggTilKommentar, { error, loading }] = useMutation(LeggTilKommentarDocument);
 
-    const onLeggTilKommentar = (notatId: number, saksbehandlerident: string) => (tekst: string) => {
-        leggTilKommentar({ variables: { tekst, notatId, saksbehandlerident } }).then(() => {
-            client.refetchQueries({ include: [FetchPersonDocument], onQueryUpdated: () => setShowAddDialog(false) });
-        });
+    const onLeggTilKommentar = async (tekst: string) => {
+        const saksbehandlerident = innloggetSaksbehandler.ident;
+        if (saksbehandlerident) {
+            const notatId = Number.parseInt(id);
+            await leggTilKommentar({
+                variables: {
+                    tekst,
+                    notatId,
+                    saksbehandlerident,
+                },
+                update: (cache, { data }) => {
+                    cache.writeQuery({
+                        query: LeggTilKommentarDocument,
+                        variables: {
+                            tekst,
+                            notatId,
+                            saksbehandlerident,
+                        },
+                        data,
+                    });
+                    cache.modify({
+                        id: cache.identify({ __typename: 'Notat', id: notatId }),
+                        fields: {
+                            kommentarer(eksisterendeKommentarer) {
+                                return [
+                                    ...eksisterendeKommentarer,
+                                    {
+                                        __ref: cache.identify({
+                                            __typename: 'Kommentar',
+                                            id: data?.leggTilKommentar?.id,
+                                        }),
+                                    },
+                                ];
+                            },
+                        },
+                    });
+                },
+            });
+            setShowAddDialog(false);
+        }
     };
 
     return (
@@ -46,7 +77,7 @@ export const NotatHendelseContent = ({
                 (showAddDialog ? (
                     <NotatForm
                         label="Kommentar"
-                        onSubmitForm={onLeggTilKommentar(Number.parseInt(id), innloggetSaksbehandler.ident)}
+                        onSubmitForm={onLeggTilKommentar}
                         closeForm={() => setShowAddDialog(false)}
                         isFetching={loading}
                         hasError={error !== undefined}

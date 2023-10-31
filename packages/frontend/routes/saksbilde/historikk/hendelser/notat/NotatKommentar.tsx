@@ -28,11 +28,8 @@ export const NotatKommentar = ({ kommentar, forfatterSaksbehandlerOid }: NotatKo
             variables: { id: id },
             update: (cache, { data }) => {
                 cache.modify({
-                    id: cache.identify({ __typename: 'Notat', id: data?.feilregistrerKommentar?.id }),
+                    id: cache.identify({ __typename: 'Kommentar', id: id }),
                     fields: {
-                        feilregistrert() {
-                            return true;
-                        },
                         feilregistrert_tidspunkt() {
                             return data?.feilregistrerKommentar?.feilregistrert_tidspunkt?.toString() ?? '';
                         },
