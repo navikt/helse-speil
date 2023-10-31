@@ -35,8 +35,13 @@ export const Søknadsinnhold: React.FC<SøknadsinnholdProps> = ({ dokumentId, f�
                                 </BodyShort>
                             </SøknadFragment>
                             <SøknadFragment overskrift="Grad">
-                                <BodyShort size="small">{søknad.soknadsperioder[0].grad}</BodyShort>
+                                <BodyShort size="small">{søknad.soknadsperioder[0].grad} %</BodyShort>
                             </SøknadFragment>
+                            {søknad.soknadsperioder[0].faktiskGrad && (
+                                <SøknadFragment overskrift="Oppgitt faktisk arbeidsgrad">
+                                    <BodyShort size="small">{søknad.soknadsperioder[0].faktiskGrad} %</BodyShort>
+                                </SøknadFragment>
+                            )}
                         </>
                     )}
                     {søknad.arbeidGjenopptatt && (
