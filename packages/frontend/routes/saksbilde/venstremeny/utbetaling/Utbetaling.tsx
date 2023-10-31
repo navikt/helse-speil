@@ -148,9 +148,9 @@ export const Utbetaling = ({ period, person, arbeidsgiver }: UtbetalingProps) =>
                         onSuccess={onGodkjennUtbetaling}
                     >
                         {erBeslutteroppgaveOgHarTilgang
-                            ? 'Godkjenn og utbetal'
+                            ? 'Godkjenn og fatt vedtak'
                             : harArbeidsgiverutbetaling || harBrukerutbetaling
-                            ? 'Utbetal'
+                            ? 'Fatt vedtak'
                             : 'Godkjenn'}
                     </GodkjenningButton>
                 )}
