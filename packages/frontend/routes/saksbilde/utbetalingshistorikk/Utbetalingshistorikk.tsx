@@ -72,7 +72,7 @@ const UtbetalingshistorikkWithContent: React.FC<UtbetalingshistorikkWithContentP
     const readOnly = useIsReadOnlyOppgave();
     const activePeriod = useActivePeriod();
 
-    const lukkUtbetalingshistorikk = () => navigate(`/person/${aktørId}/utbetaling`);
+    const lukkUtbetalingshistorikk = () => navigate(`/person/${aktørId}/forslag-til-vedtak`);
 
     const settValgtOppdragSomInFlight = (oppdrag: Spennoppdrag) => () => {
         setAnnulleringerInFlight(annulleringerInFlight.concat([oppdrag.fagsystemId]));
