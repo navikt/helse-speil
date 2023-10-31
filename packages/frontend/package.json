@@ -36,7 +36,6 @@
         "amplitude-js": "^8.21.9",
         "classnames": "^2.3.2",
         "cross-env": "^7.0.3",
-        "cross-fetch": "^4.0.0",
         "dayjs": "^1.11.10",
         "framer-motion": "^10.16.4",
         "graphiql": "^3.0.6",
