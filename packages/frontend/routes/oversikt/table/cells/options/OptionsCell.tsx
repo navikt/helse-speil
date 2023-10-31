@@ -52,7 +52,7 @@ export const OptionsCell = ({ oppgave, navn }: OptionsButtonProps) => {
                             )}
                             {erTildeltInnloggetBruker &&
                                 (oppgave?.tildeling?.paaVent ? (
-                                    <FjernFraPåVentMenuButton oppgavereferanse={oppgave.id} aktørId={oppgave.aktorId} />
+                                    <FjernFraPåVentMenuButton oppgavereferanse={oppgave.id} />
                                 ) : (
                                     <LeggPåVentMenuButton
                                         oppgavereferanse={oppgave.id}

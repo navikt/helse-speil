@@ -220,7 +220,6 @@ const ControlledTextarea = ({ control, notattekst, tillattTekstlengde }: Control
     return (
         <Textarea
             {...field}
-            {...fieldState}
             error={fieldState.error?.message}
             label={notattekst.tittel}
             hideLabel
