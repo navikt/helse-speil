@@ -127,7 +127,7 @@ export const useKeyboardActions = (): Action[] => {
         },
         {
             key: Key.F6,
-            visningstekst: 'Åpne modal for utbetaling/send til godkjenning',
+            visningstekst: 'Åpne modal for fatting av vedtak/send til godkjenning',
             visningssnarvei: ['F6'],
             action: () => {},
             ignoreIfModifiers: true,
