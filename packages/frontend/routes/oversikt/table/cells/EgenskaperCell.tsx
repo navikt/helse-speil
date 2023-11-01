@@ -32,6 +32,8 @@ const tilTekst = (egenskap: Egenskap) => {
             return 'Vergemål';
         case Egenskap.Beslutter:
             return 'Beslutter';
+        case Egenskap.Skjonnsfastsettelse:
+            return 'Skjønnsfastsettelse';
         default:
             return '';
     }
