@@ -37,6 +37,7 @@ export const getUberegnetPeriodState = (period: UberegnetPeriode): PeriodState =
             return 'venter';
         case Periodetilstand.ForberederGodkjenning:
         case Periodetilstand.VenterPaEnAnnenPeriode:
+        case Periodetilstand.UtbetaltVenterPaEnAnnenPeriode:
             return 'venterPåKiling';
         default:
             return 'ukjent';
