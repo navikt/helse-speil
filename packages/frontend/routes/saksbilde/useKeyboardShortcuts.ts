@@ -184,6 +184,14 @@ export const useKeyboardActions = (): Action[] => {
             modifier: Key.Alt,
         },
         {
+            key: Key.D,
+            visningstekst: 'Åpne modal med info om dagtyper (om man er inne i endringsboksen)',
+            visningssnarvei: ['ALT', 'D'],
+            action: () => {},
+            ignoreIfModifiers: false,
+            modifier: Key.Alt,
+        },
+        {
             key: Key.H,
             visningstekst: 'Åpne/lukk historikk',
             visningssnarvei: ['ALT', 'H'],

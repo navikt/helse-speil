@@ -27,6 +27,7 @@ export enum Key {
     A = 'KeyA',
     B = 'KeyB',
     C = 'KeyC',
+    D = 'KeyD',
     G = 'KeyG',
     H = 'KeyH',
     I = 'KeyI',

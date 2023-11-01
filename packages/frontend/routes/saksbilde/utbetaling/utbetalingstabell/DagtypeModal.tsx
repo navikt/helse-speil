@@ -4,6 +4,7 @@ import { BodyShort, Heading } from '@navikt/ds-react';
 
 import { Bold } from '@components/Bold';
 import { Modal } from '@components/Modal';
+import { Key, useKeyboard } from '@hooks/useKeyboard';
 
 import styles from './DagtypeModal.module.css';
 
@@ -12,6 +13,15 @@ interface TastaturModalProps {
     onSetVisModal: (open: boolean) => void;
 }
 export const DagtypeModal = ({ isOpen, onSetVisModal }: TastaturModalProps) => {
+    useKeyboard([
+        {
+            key: Key.D,
+            action: () => onSetVisModal(!isOpen),
+            ignoreIfModifiers: false,
+            modifier: Key.Alt,
+        },
+    ]);
+
     return (
         <Modal
             isOpen={isOpen}
