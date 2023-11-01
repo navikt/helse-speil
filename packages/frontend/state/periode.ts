@@ -1,10 +1,10 @@
 import { useEffect } from 'react';
 import { atom, useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 
-import { Periodetilstand } from '@io/graphql';
+import { Maybe, Periodetilstand } from '@io/graphql';
 import { useHåndterOpptegnelser } from '@state/opptegnelser';
 import { useCurrentPerson } from '@state/person';
-import { isBeregnetPeriode, isUberegnetVilkarsprovdPeriode } from '@utils/typeguards';
+import { isBeregnetPeriode, isUberegnetPeriode, isUberegnetVilkarsprovdPeriode } from '@utils/typeguards';
 
 const activePeriodIdState = atom<string | null>({
     key: 'activePeriodId',
@@ -47,11 +47,11 @@ export const useSelectPeriodOnOppgaveChanged = () => {
     useHåndterOpptegnelser((opptegnelse) => {
         if (!erOpptegnelseForNyOppgave(opptegnelse) || !person) return;
         const periodToSelect = findPeriodToSelect(person);
-        setActivePeriodId(periodToSelect.id);
+        periodToSelect && setActivePeriodId(periodToSelect.id);
     });
 };
 
-const findPeriodToSelect = (person: FetchedPerson) => {
+const findPeriodToSelect = (person: FetchedPerson): Maybe<ActivePeriod> => {
     const perioderINyesteGenerasjoner = person.arbeidsgivere.flatMap(
         (arbeidsgiver) => arbeidsgiver.generasjoner[0]?.perioder ?? [],
     );
@@ -59,7 +59,7 @@ const findPeriodToSelect = (person: FetchedPerson) => {
         .sort((a, b) => new Date(b.fom).getTime() - new Date(a.fom).getTime())
         .filter(
             (period) =>
-                (isBeregnetPeriode(period) || isUberegnetVilkarsprovdPeriode(period)) &&
+                (isBeregnetPeriode(period) || isUberegnetVilkarsprovdPeriode(period) || isUberegnetPeriode(period)) &&
                 period.periodetilstand !== Periodetilstand.TilInfotrygd,
         );
 
