@@ -107,7 +107,7 @@ const beslutteroppgave = (
             harDagOverstyringer ||
             harRelevanteDagoverstyringer(endringerEtterNyesteUtbetalingPåPerson ?? [], activePeriodTom)
         ) {
-            årsaker.push('Overstyring av utbetalingsdager');
+            årsaker.push('Overstyring av dager');
         }
 
         if (
