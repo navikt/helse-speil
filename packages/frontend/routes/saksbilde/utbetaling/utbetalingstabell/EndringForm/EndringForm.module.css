@@ -57,3 +57,25 @@
 .Dagtypevelger :global(.navds-select__container) {
     width: 190px;
 }
+
+.dagtypelabel {
+    display: flex;
+    align-items: center;
+}
+
+.dagtypelabel .button {
+    margin-left: 0.25rem;
+    display: flex;
+    align-items: center;
+    padding: 0;
+}
+
+.dagtypelabel .button:hover svg,
+.dagtypelabel .button:focus svg {
+    background: black;
+    color: white;
+}
+
+.dagtypelabel label {
+    line-height: var(--a-font-line-height-large);
+}

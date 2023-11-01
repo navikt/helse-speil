@@ -1,7 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import { Select } from '@navikt/ds-react';
 
+import { Button } from '@components/Button';
+import { SortInfoikon } from '@components/ikoner/SortInfoikon';
+
+import { DagtypeModal } from './DagtypeModal';
 import {
     OverstyrbarDagtype,
     alleTypeendringer,
@@ -18,6 +22,7 @@ interface DagtypeSelectProps {
 }
 
 export const DagtypeSelect = ({ errorMessage, clearErrors, setType }: DagtypeSelectProps) => {
+    const [showModal, setShowModal] = useState(false);
     const oppdaterDagtype = (event: React.ChangeEvent<HTMLSelectElement>) => {
         if (alleTypeendringer.map((dag) => dag.speilDagtype).includes(event.target.value as OverstyrbarDagtype)) {
             clearErrors();
@@ -27,27 +32,37 @@ export const DagtypeSelect = ({ errorMessage, clearErrors, setType }: DagtypeSel
     };
 
     return (
-        <Select
-            className={styles.Dagtypevelger}
-            size="small"
-            label="Utbet. dager"
-            onChange={oppdaterDagtype}
-            error={errorMessage ? <>{errorMessage}</> : null}
-            data-testid="dagtypevelger"
-        >
-            <>
-                {typeendringer.map((dag) => (
-                    <option key={dag.speilDagtype} value={dag.speilDagtype}>
-                        {dag.visningstekst}
-                    </option>
-                ))}
-                <option disabled>-- Andre ytelser --</option>
-                {typeendringerAndreYtelser.map((dag) => (
-                    <option key={dag.speilDagtype} value={dag.speilDagtype}>
-                        {dag.visningstekst}
-                    </option>
-                ))}
-            </>
-        </Select>
+        <>
+            <Select
+                className={styles.Dagtypevelger}
+                size="small"
+                label={
+                    <span className={styles.dagtypelabel}>
+                        Dagtype{' '}
+                        <Button className={styles.button} type="button" onClick={() => setShowModal(true)}>
+                            <SortInfoikon />
+                        </Button>
+                    </span>
+                }
+                onChange={oppdaterDagtype}
+                error={errorMessage ? <>{errorMessage}</> : null}
+                data-testid="dagtypevelger"
+            >
+                <>
+                    {typeendringer.map((dag) => (
+                        <option key={dag.speilDagtype} value={dag.speilDagtype}>
+                            {dag.visningstekst}
+                        </option>
+                    ))}
+                    <option disabled>-- Andre ytelser --</option>
+                    {typeendringerAndreYtelser.map((dag) => (
+                        <option key={dag.speilDagtype} value={dag.speilDagtype}>
+                            {dag.visningstekst}
+                        </option>
+                    ))}
+                </>
+            </Select>
+            <DagtypeModal isOpen={showModal} onSetVisModal={(open) => setShowModal(open)} />
+        </>
     );
 };

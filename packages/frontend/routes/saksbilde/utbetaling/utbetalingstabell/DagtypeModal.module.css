@@ -1,0 +1,13 @@
+.dagtypeliste {
+    display: flex;
+    flex-direction: column;
+    margin-top: 1rem;
+}
+
+.dagtypeliste p {
+    display: flex;
+}
+
+.dagtypeliste p:nth-of-type(2n):not(:last-child) {
+    margin-bottom: 1.5rem;
+}
