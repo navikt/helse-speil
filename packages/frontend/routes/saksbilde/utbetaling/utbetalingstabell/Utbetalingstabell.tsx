@@ -1,5 +1,3 @@
-import { GjenståendeDagerCell } from './GjenståendeDagerCell';
-import { useAlderVedSkjæringstidspunkt } from './useAlderVedSkjæringstidspunkt';
 import classNames from 'classnames';
 import React, { useMemo } from 'react';
 
@@ -11,6 +9,7 @@ import { Header } from '../../table/Header';
 import { Row } from '../../table/Row';
 import { DagtypeCell } from './DagtypeCell';
 import { DateCell } from './DateCell';
+import { GjenståendeDagerCell } from './GjenståendeDagerCell';
 import { GradCell } from './GradCell';
 import { KildeCell } from './KildeCell';
 import { MerknaderCell } from './MerknaderCell';
@@ -18,6 +17,7 @@ import { SlettNyDagCell } from './SlettNyDagCell';
 import { TotalGradCell } from './TotalGradCell';
 import { TotalRow } from './TotalRow';
 import { UtbetalingCell } from './UtbetalingCell';
+import { useAlderVedSkjæringstidspunkt } from './useAlderVedSkjæringstidspunkt';
 
 import styles from './Utbetalingstabell.module.css';
 
@@ -60,7 +60,7 @@ export const Utbetalingstabell = ({
                                 Dato
                             </Header>
                             <Header scope="col" colSpan={1}>
-                                Utbet. dager
+                                Dagtype
                             </Header>
                             <Header scope="col" colSpan={1}>
                                 Grad
