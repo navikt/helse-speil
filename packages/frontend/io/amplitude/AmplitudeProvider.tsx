@@ -15,17 +15,6 @@ amplitude?.getInstance().init('default', '', {
     platform: window.location.origin.toString(),
 });
 
-const getApiKey = () => (process.env.NODE_ENV === 'production' ? '100003867' : '100003868');
-
-amplitude?.getInstance().init(getApiKey(), '', {
-    apiEndpoint: 'amplitude.nav.no/collect',
-    serverZone: 'EU',
-    saveEvents: false,
-    includeUtm: true,
-    batchEvents: false,
-    includeReferrer: true,
-});
-
 const logEventCallback = (oppgaveId: string) => () => AmplitudeStorageHandler.removeÅpnetOppgaveTidspunkt(oppgaveId);
 
 const useStoreÅpnetTidspunkt = () => {
@@ -49,7 +38,7 @@ const getEventProperties = (
 ): Amplitude.EventProperties | Amplitude.EventPropertiesBeregnetPeriode => {
     if (isBeregnetPeriode(period)) {
         return {
-            varighet: dayjs().diff(openedTimestamp, 'seconds'),
+            varighet: dayjs().diff(openedTimestamp),
             type: period.periodetype,
             inntektskilde: period.inntektstype,
             warnings: period.varsler.map((it) => it.tittel),
