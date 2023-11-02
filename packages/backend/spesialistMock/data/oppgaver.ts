@@ -129,6 +129,29 @@ export const oppgaver: Array<OppgaveTilBehandling> = [
             { kategori: Kategori.Inntektskilde, egenskap: Egenskap.FlereArbeidsgivere },
         ],
     },
+    {
+        aktorId: '2128719010641',
+        egenskaper: [
+            { kategori: Kategori.Periodetype, egenskap: Egenskap.Forstegangsbehandling },
+            { kategori: Kategori.Oppgavetype, egenskap: Egenskap.Soknad },
+            { kategori: Kategori.Mottaker, egenskap: Egenskap.UtbetalingTilArbeidsgiver },
+            { kategori: Kategori.Inntektskilde, egenskap: Egenskap.EnArbeidsgiver },
+        ],
+        navn: {
+            fornavn: 'SKEPTISK',
+            mellomnavn: null,
+            etternavn: 'SERVICE',
+        },
+        id: '90021',
+        opprettet: '2023-07-02T11:08:58',
+        opprinneligSoknadsdato: '2023-07-01 12:27:29.585667',
+        tildeling: null,
+        vedtaksperiodeId: 'eee7b58b-4d41-481f-ab27-a68aba84f914',
+        oppgavetype: Oppgavetype.Soknad,
+        periodetype: Periodetype.Forstegangsbehandling,
+        mottaker: Mottaker.Arbeidsgiver,
+        antallArbeidsforhold: AntallArbeidsforhold.EtArbeidsforhold,
+    },
 ];
 
 export const tilfeldigeOppgaver = (antall: number) => {

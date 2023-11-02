@@ -1,0 +1,770 @@
+{
+    "data": {
+        "person": {
+            "fodselsnummer": "12495629285",
+            "dodsdato": null,
+            "enhet": {
+                "id": "0538",
+                "navn": "Nordre Land",
+                "__typename": "Enhet"
+            },
+            "infotrygdutbetalinger": [],
+            "personinfo": {
+                "fornavn": "SKEPTISK",
+                "mellomnavn": null,
+                "etternavn": "SERVICE",
+                "adressebeskyttelse": "Ugradert",
+                "fodselsdato": "1956-09-12",
+                "kjonn": "Kvinne",
+                "reservasjon": null,
+                "__typename": "Personinfo"
+            },
+            "tildeling": null,
+            "versjon": 50,
+            "vilkarsgrunnlag": [
+                {
+                    "id": "821f95e6-f1ad-433d-97ee-dc74d706416b",
+                    "sykepengegrunnlag": 375996,
+                    "skjaeringstidspunkt": "2023-06-01",
+                    "omregnetArsinntekt": 375996,
+                    "sammenligningsgrunnlag": 375996,
+                    "inntekter": [
+                        {
+                            "sammenligningsgrunnlag": {
+                                "belop": 375996,
+                                "inntektFraAOrdningen": [],
+                                "__typename": "Sammenligningsgrunnlag"
+                            },
+                            "omregnetArsinntekt": {
+                                "inntektFraAOrdningen": null,
+                                "belop": 375996,
+                                "manedsbelop": 31333,
+                                "kilde": "INNTEKTSMELDING",
+                                "__typename": "OmregnetArsinntekt"
+                            },
+                            "skjonnsmessigFastsatt": null,
+                            "arbeidsgiver": "972674818",
+                            "deaktivert": false,
+                            "__typename": "Arbeidsgiverinntekt"
+                        }
+                    ],
+                    "arbeidsgiverrefusjoner": [
+                        {
+                            "arbeidsgiver": "972674818",
+                            "refusjonsopplysninger": [
+                                {
+                                    "fom": "2023-06-01",
+                                    "tom": null,
+                                    "belop": 31333,
+                                    "meldingsreferanseId": "9530ffeb-ce7c-45cf-9a9f-162bade50b1b",
+                                    "__typename": "Refusjonselement"
+                                }
+                            ],
+                            "__typename": "Arbeidsgiverrefusjon"
+                        }
+                    ],
+                    "vilkarsgrunnlagtype": "SPLEIS",
+                    "skjonnsmessigFastsattAarlig": null,
+                    "oppfyllerKravOmMinstelonn": true,
+                    "oppfyllerKravOmMedlemskap": null,
+                    "oppfyllerKravOmOpptjening": true,
+                    "antallOpptjeningsdagerErMinst": 7287,
+                    "grunnbelop": 118620,
+                    "avviksprosent": 0,
+                    "opptjeningFra": "2003-06-19",
+                    "sykepengegrunnlagsgrense": {
+                        "grunnbelop": 118620,
+                        "grense": 711720,
+                        "virkningstidspunkt": "2023-05-01",
+                        "__typename": "Sykepengegrunnlagsgrense"
+                    },
+                    "__typename": "VilkarsgrunnlagSpleis"
+                }
+            ],
+            "aktorId": "2128719010641",
+            "arbeidsgivere": [
+                {
+                    "bransjer": [],
+                    "navn": "PENGELØS SPAREBANK",
+                    "organisasjonsnummer": "972674818",
+                    "arbeidsforhold": [
+                        {
+                            "sluttdato": null,
+                            "startdato": "2003-06-19",
+                            "stillingsprosent": 100,
+                            "stillingstittel": "FRISØR",
+                            "__typename": "Arbeidsforhold"
+                        }
+                    ],
+                    "ghostPerioder": [],
+                    "generasjoner": [
+                        {
+                            "id": "9db7d916-00ab-40e3-9889-48b7461d5f99",
+                            "perioder": [
+                                {
+                                    "__typename": "BeregnetPeriode",
+                                    "fom": "2023-05-31",
+                                    "tom": "2023-06-30",
+                                    "erForkastet": false,
+                                    "inntektstype": "ENARBEIDSGIVER",
+                                    "opprettet": "2023-09-25T15:22:43.323196865",
+                                    "periodetype": "FORSTEGANGSBEHANDLING",
+                                    "tidslinje": [
+                                        {
+                                            "dato": "2023-05-31",
+                                            "grad": null,
+                                            "kilde": {
+                                                "id": "9530ffeb-ce7c-45cf-9a9f-162bade50b1b",
+                                                "type": "INNTEKTSMELDING",
+                                                "__typename": "Kilde"
+                                            },
+                                            "sykdomsdagtype": "ARBEIDSDAG",
+                                            "utbetalingsdagtype": "ARBEIDSDAG",
+                                            "utbetalingsinfo": null,
+                                            "begrunnelser": null,
+                                            "__typename": "Dag"
+                                        },
+                                        {
+                                            "dato": "2023-06-01",
+                                            "grad": 100,
+                                            "kilde": {
+                                                "id": "c4f3c838-a5c8-48d7-93c1-2c7b557c078d",
+                                                "type": "SOKNAD",
+                                                "__typename": "Kilde"
+                                            },
+                                            "sykdomsdagtype": "SYKEDAG",
+                                            "utbetalingsdagtype": "ARBEIDSGIVERPERIODEDAG",
+                                            "utbetalingsinfo": null,
+                                            "begrunnelser": null,
+                                            "__typename": "Dag"
+                                        },
+                                        {
+                                            "dato": "2023-06-02",
+                                            "grad": 100,
+                                            "kilde": {
+                                                "id": "c4f3c838-a5c8-48d7-93c1-2c7b557c078d",
+                                                "type": "SOKNAD",
+                                                "__typename": "Kilde"
+                                            },
+                                            "sykdomsdagtype": "SYKEDAG",
+                                            "utbetalingsdagtype": "ARBEIDSGIVERPERIODEDAG",
+                                            "utbetalingsinfo": null,
+                                            "begrunnelser": null,
+                                            "__typename": "Dag"
+                                        },
+                                        {
+                                            "dato": "2023-06-03",
+                                            "grad": 100,
+                                            "kilde": {
+                                                "id": "c4f3c838-a5c8-48d7-93c1-2c7b557c078d",
+                                                "type": "SOKNAD",
+                                                "__typename": "Kilde"
+                                            },
+                                            "sykdomsdagtype": "SYK_HELGEDAG",
+                                            "utbetalingsdagtype": "ARBEIDSGIVERPERIODEDAG",
+                                            "utbetalingsinfo": null,
+                                            "begrunnelser": null,
+                                            "__typename": "Dag"
+                                        },
+                                        {
+                                            "dato": "2023-06-04",
+                                            "grad": 100,
+                                            "kilde": {
+                                                "id": "c4f3c838-a5c8-48d7-93c1-2c7b557c078d",
+                                                "type": "SOKNAD",
+                                                "__typename": "Kilde"
+                                            },
+                                            "sykdomsdagtype": "SYK_HELGEDAG",
+                                            "utbetalingsdagtype": "ARBEIDSGIVERPERIODEDAG",
+                                            "utbetalingsinfo": null,
+                                            "begrunnelser": null,
+                                            "__typename": "Dag"
+                                        },
+                                        {
+                                            "dato": "2023-06-05",
+                                            "grad": 100,
+                                            "kilde": {
+                                                "id": "c4f3c838-a5c8-48d7-93c1-2c7b557c078d",
+                                                "type": "SOKNAD",
+                                                "__typename": "Kilde"
+                                            },
+                                            "sykdomsdagtype": "SYKEDAG",
+                                            "utbetalingsdagtype": "ARBEIDSGIVERPERIODEDAG",
+                                            "utbetalingsinfo": null,
+                                            "begrunnelser": null,
+                                            "__typename": "Dag"
+                                        },
+                                        {
+                                            "dato": "2023-06-06",
+                                            "grad": 100,
+                                            "kilde": {
+                                                "id": "c4f3c838-a5c8-48d7-93c1-2c7b557c078d",
+                                                "type": "SOKNAD",
+                                                "__typename": "Kilde"
+                                            },
+                                            "sykdomsdagtype": "SYKEDAG",
+                                            "utbetalingsdagtype": "ARBEIDSGIVERPERIODEDAG",
+                                            "utbetalingsinfo": null,
+                                            "begrunnelser": null,
+                                            "__typename": "Dag"
+                                        },
+                                        {
+                                            "dato": "2023-06-07",
+                                            "grad": 100,
+                                            "kilde": {
+                                                "id": "c4f3c838-a5c8-48d7-93c1-2c7b557c078d",
+                                                "type": "SOKNAD",
+                                                "__typename": "Kilde"
+                                            },
+                                            "sykdomsdagtype": "SYKEDAG",
+                                            "utbetalingsdagtype": "ARBEIDSGIVERPERIODEDAG",
+                                            "utbetalingsinfo": null,
+                                            "begrunnelser": null,
+                                            "__typename": "Dag"
+                                        },
+                                        {
+                                            "dato": "2023-06-08",
+                                            "grad": 100,
+                                            "kilde": {
+                                                "id": "c4f3c838-a5c8-48d7-93c1-2c7b557c078d",
+                                                "type": "SOKNAD",
+                                                "__typename": "Kilde"
+                                            },
+                                            "sykdomsdagtype": "SYKEDAG",
+                                            "utbetalingsdagtype": "ARBEIDSGIVERPERIODEDAG",
+                                            "utbetalingsinfo": null,
+                                            "begrunnelser": null,
+                                            "__typename": "Dag"
+                                        },
+                                        {
+                                            "dato": "2023-06-09",
+                                            "grad": 100,
+                                            "kilde": {
+                                                "id": "c4f3c838-a5c8-48d7-93c1-2c7b557c078d",
+                                                "type": "SOKNAD",
+                                                "__typename": "Kilde"
+                                            },
+                                            "sykdomsdagtype": "SYKEDAG",
+                                            "utbetalingsdagtype": "ARBEIDSGIVERPERIODEDAG",
+                                            "utbetalingsinfo": null,
+                                            "begrunnelser": null,
+                                            "__typename": "Dag"
+                                        },
+                                        {
+                                            "dato": "2023-06-10",
+                                            "grad": 100,
+                                            "kilde": {
+                                                "id": "c4f3c838-a5c8-48d7-93c1-2c7b557c078d",
+                                                "type": "SOKNAD",
+                                                "__typename": "Kilde"
+                                            },
+                                            "sykdomsdagtype": "SYK_HELGEDAG",
+                                            "utbetalingsdagtype": "ARBEIDSGIVERPERIODEDAG",
+                                            "utbetalingsinfo": null,
+                                            "begrunnelser": null,
+                                            "__typename": "Dag"
+                                        },
+                                        {
+                                            "dato": "2023-06-11",
+                                            "grad": 100,
+                                            "kilde": {
+                                                "id": "c4f3c838-a5c8-48d7-93c1-2c7b557c078d",
+                                                "type": "SOKNAD",
+                                                "__typename": "Kilde"
+                                            },
+                                            "sykdomsdagtype": "SYK_HELGEDAG",
+                                            "utbetalingsdagtype": "ARBEIDSGIVERPERIODEDAG",
+                                            "utbetalingsinfo": null,
+                                            "begrunnelser": null,
+                                            "__typename": "Dag"
+                                        },
+                                        {
+                                            "dato": "2023-06-12",
+                                            "grad": 100,
+                                            "kilde": {
+                                                "id": "c4f3c838-a5c8-48d7-93c1-2c7b557c078d",
+                                                "type": "SOKNAD",
+                                                "__typename": "Kilde"
+                                            },
+                                            "sykdomsdagtype": "SYKEDAG",
+                                            "utbetalingsdagtype": "ARBEIDSGIVERPERIODEDAG",
+                                            "utbetalingsinfo": null,
+                                            "begrunnelser": null,
+                                            "__typename": "Dag"
+                                        },
+                                        {
+                                            "dato": "2023-06-13",
+                                            "grad": 100,
+                                            "kilde": {
+                                                "id": "c4f3c838-a5c8-48d7-93c1-2c7b557c078d",
+                                                "type": "SOKNAD",
+                                                "__typename": "Kilde"
+                                            },
+                                            "sykdomsdagtype": "SYKEDAG",
+                                            "utbetalingsdagtype": "ARBEIDSGIVERPERIODEDAG",
+                                            "utbetalingsinfo": null,
+                                            "begrunnelser": null,
+                                            "__typename": "Dag"
+                                        },
+                                        {
+                                            "dato": "2023-06-14",
+                                            "grad": 100,
+                                            "kilde": {
+                                                "id": "c4f3c838-a5c8-48d7-93c1-2c7b557c078d",
+                                                "type": "SOKNAD",
+                                                "__typename": "Kilde"
+                                            },
+                                            "sykdomsdagtype": "SYKEDAG",
+                                            "utbetalingsdagtype": "ARBEIDSGIVERPERIODEDAG",
+                                            "utbetalingsinfo": null,
+                                            "begrunnelser": null,
+                                            "__typename": "Dag"
+                                        },
+                                        {
+                                            "dato": "2023-06-15",
+                                            "grad": 100,
+                                            "kilde": {
+                                                "id": "c4f3c838-a5c8-48d7-93c1-2c7b557c078d",
+                                                "type": "SOKNAD",
+                                                "__typename": "Kilde"
+                                            },
+                                            "sykdomsdagtype": "SYKEDAG",
+                                            "utbetalingsdagtype": "ARBEIDSGIVERPERIODEDAG",
+                                            "utbetalingsinfo": null,
+                                            "begrunnelser": null,
+                                            "__typename": "Dag"
+                                        },
+                                        {
+                                            "dato": "2023-06-16",
+                                            "grad": 100,
+                                            "kilde": {
+                                                "id": "c4f3c838-a5c8-48d7-93c1-2c7b557c078d",
+                                                "type": "SOKNAD",
+                                                "__typename": "Kilde"
+                                            },
+                                            "sykdomsdagtype": "SYKEDAG",
+                                            "utbetalingsdagtype": "ARBEIDSGIVERPERIODEDAG",
+                                            "utbetalingsinfo": null,
+                                            "begrunnelser": null,
+                                            "__typename": "Dag"
+                                        },
+                                        {
+                                            "dato": "2023-06-17",
+                                            "grad": 100,
+                                            "kilde": {
+                                                "id": "c4f3c838-a5c8-48d7-93c1-2c7b557c078d",
+                                                "type": "SOKNAD",
+                                                "__typename": "Kilde"
+                                            },
+                                            "sykdomsdagtype": "SYK_HELGEDAG",
+                                            "utbetalingsdagtype": "NAVHELGDAG",
+                                            "utbetalingsinfo": null,
+                                            "begrunnelser": null,
+                                            "__typename": "Dag"
+                                        },
+                                        {
+                                            "dato": "2023-06-18",
+                                            "grad": 100,
+                                            "kilde": {
+                                                "id": "c4f3c838-a5c8-48d7-93c1-2c7b557c078d",
+                                                "type": "SOKNAD",
+                                                "__typename": "Kilde"
+                                            },
+                                            "sykdomsdagtype": "SYK_HELGEDAG",
+                                            "utbetalingsdagtype": "NAVHELGDAG",
+                                            "utbetalingsinfo": null,
+                                            "begrunnelser": null,
+                                            "__typename": "Dag"
+                                        },
+                                        {
+                                            "dato": "2023-06-19",
+                                            "grad": 100,
+                                            "kilde": {
+                                                "id": "c4f3c838-a5c8-48d7-93c1-2c7b557c078d",
+                                                "type": "SOKNAD",
+                                                "__typename": "Kilde"
+                                            },
+                                            "sykdomsdagtype": "SYKEDAG",
+                                            "utbetalingsdagtype": "NAVDAG",
+                                            "utbetalingsinfo": {
+                                                "arbeidsgiverbelop": 1446,
+                                                "inntekt": null,
+                                                "personbelop": 0,
+                                                "refusjonsbelop": null,
+                                                "totalGrad": 100,
+                                                "utbetaling": 1446,
+                                                "__typename": "Utbetalingsinfo"
+                                            },
+                                            "begrunnelser": null,
+                                            "__typename": "Dag"
+                                        },
+                                        {
+                                            "dato": "2023-06-20",
+                                            "grad": 100,
+                                            "kilde": {
+                                                "id": "c4f3c838-a5c8-48d7-93c1-2c7b557c078d",
+                                                "type": "SOKNAD",
+                                                "__typename": "Kilde"
+                                            },
+                                            "sykdomsdagtype": "SYKEDAG",
+                                            "utbetalingsdagtype": "NAVDAG",
+                                            "utbetalingsinfo": {
+                                                "arbeidsgiverbelop": 1446,
+                                                "inntekt": null,
+                                                "personbelop": 0,
+                                                "refusjonsbelop": null,
+                                                "totalGrad": 100,
+                                                "utbetaling": 1446,
+                                                "__typename": "Utbetalingsinfo"
+                                            },
+                                            "begrunnelser": null,
+                                            "__typename": "Dag"
+                                        },
+                                        {
+                                            "dato": "2023-06-21",
+                                            "grad": 100,
+                                            "kilde": {
+                                                "id": "c4f3c838-a5c8-48d7-93c1-2c7b557c078d",
+                                                "type": "SOKNAD",
+                                                "__typename": "Kilde"
+                                            },
+                                            "sykdomsdagtype": "SYKEDAG",
+                                            "utbetalingsdagtype": "NAVDAG",
+                                            "utbetalingsinfo": {
+                                                "arbeidsgiverbelop": 1446,
+                                                "inntekt": null,
+                                                "personbelop": 0,
+                                                "refusjonsbelop": null,
+                                                "totalGrad": 100,
+                                                "utbetaling": 1446,
+                                                "__typename": "Utbetalingsinfo"
+                                            },
+                                            "begrunnelser": null,
+                                            "__typename": "Dag"
+                                        },
+                                        {
+                                            "dato": "2023-06-22",
+                                            "grad": 100,
+                                            "kilde": {
+                                                "id": "c4f3c838-a5c8-48d7-93c1-2c7b557c078d",
+                                                "type": "SOKNAD",
+                                                "__typename": "Kilde"
+                                            },
+                                            "sykdomsdagtype": "SYKEDAG",
+                                            "utbetalingsdagtype": "NAVDAG",
+                                            "utbetalingsinfo": {
+                                                "arbeidsgiverbelop": 1446,
+                                                "inntekt": null,
+                                                "personbelop": 0,
+                                                "refusjonsbelop": null,
+                                                "totalGrad": 100,
+                                                "utbetaling": 1446,
+                                                "__typename": "Utbetalingsinfo"
+                                            },
+                                            "begrunnelser": null,
+                                            "__typename": "Dag"
+                                        },
+                                        {
+                                            "dato": "2023-06-23",
+                                            "grad": 100,
+                                            "kilde": {
+                                                "id": "c4f3c838-a5c8-48d7-93c1-2c7b557c078d",
+                                                "type": "SOKNAD",
+                                                "__typename": "Kilde"
+                                            },
+                                            "sykdomsdagtype": "SYKEDAG",
+                                            "utbetalingsdagtype": "NAVDAG",
+                                            "utbetalingsinfo": {
+                                                "arbeidsgiverbelop": 1446,
+                                                "inntekt": null,
+                                                "personbelop": 0,
+                                                "refusjonsbelop": null,
+                                                "totalGrad": 100,
+                                                "utbetaling": 1446,
+                                                "__typename": "Utbetalingsinfo"
+                                            },
+                                            "begrunnelser": null,
+                                            "__typename": "Dag"
+                                        },
+                                        {
+                                            "dato": "2023-06-24",
+                                            "grad": 100,
+                                            "kilde": {
+                                                "id": "c4f3c838-a5c8-48d7-93c1-2c7b557c078d",
+                                                "type": "SOKNAD",
+                                                "__typename": "Kilde"
+                                            },
+                                            "sykdomsdagtype": "SYK_HELGEDAG",
+                                            "utbetalingsdagtype": "NAVHELGDAG",
+                                            "utbetalingsinfo": null,
+                                            "begrunnelser": null,
+                                            "__typename": "Dag"
+                                        },
+                                        {
+                                            "dato": "2023-06-25",
+                                            "grad": 100,
+                                            "kilde": {
+                                                "id": "c4f3c838-a5c8-48d7-93c1-2c7b557c078d",
+                                                "type": "SOKNAD",
+                                                "__typename": "Kilde"
+                                            },
+                                            "sykdomsdagtype": "SYK_HELGEDAG",
+                                            "utbetalingsdagtype": "NAVHELGDAG",
+                                            "utbetalingsinfo": null,
+                                            "begrunnelser": null,
+                                            "__typename": "Dag"
+                                        },
+                                        {
+                                            "dato": "2023-06-26",
+                                            "grad": 100,
+                                            "kilde": {
+                                                "id": "c4f3c838-a5c8-48d7-93c1-2c7b557c078d",
+                                                "type": "SOKNAD",
+                                                "__typename": "Kilde"
+                                            },
+                                            "sykdomsdagtype": "SYKEDAG",
+                                            "utbetalingsdagtype": "NAVDAG",
+                                            "utbetalingsinfo": {
+                                                "arbeidsgiverbelop": 1446,
+                                                "inntekt": null,
+                                                "personbelop": 0,
+                                                "refusjonsbelop": null,
+                                                "totalGrad": 100,
+                                                "utbetaling": 1446,
+                                                "__typename": "Utbetalingsinfo"
+                                            },
+                                            "begrunnelser": null,
+                                            "__typename": "Dag"
+                                        },
+                                        {
+                                            "dato": "2023-06-27",
+                                            "grad": 100,
+                                            "kilde": {
+                                                "id": "c4f3c838-a5c8-48d7-93c1-2c7b557c078d",
+                                                "type": "SOKNAD",
+                                                "__typename": "Kilde"
+                                            },
+                                            "sykdomsdagtype": "SYKEDAG",
+                                            "utbetalingsdagtype": "NAVDAG",
+                                            "utbetalingsinfo": {
+                                                "arbeidsgiverbelop": 1446,
+                                                "inntekt": null,
+                                                "personbelop": 0,
+                                                "refusjonsbelop": null,
+                                                "totalGrad": 100,
+                                                "utbetaling": 1446,
+                                                "__typename": "Utbetalingsinfo"
+                                            },
+                                            "begrunnelser": null,
+                                            "__typename": "Dag"
+                                        },
+                                        {
+                                            "dato": "2023-06-28",
+                                            "grad": 100,
+                                            "kilde": {
+                                                "id": "c4f3c838-a5c8-48d7-93c1-2c7b557c078d",
+                                                "type": "SOKNAD",
+                                                "__typename": "Kilde"
+                                            },
+                                            "sykdomsdagtype": "SYKEDAG",
+                                            "utbetalingsdagtype": "NAVDAG",
+                                            "utbetalingsinfo": {
+                                                "arbeidsgiverbelop": 1446,
+                                                "inntekt": null,
+                                                "personbelop": 0,
+                                                "refusjonsbelop": null,
+                                                "totalGrad": 100,
+                                                "utbetaling": 1446,
+                                                "__typename": "Utbetalingsinfo"
+                                            },
+                                            "begrunnelser": null,
+                                            "__typename": "Dag"
+                                        },
+                                        {
+                                            "dato": "2023-06-29",
+                                            "grad": 100,
+                                            "kilde": {
+                                                "id": "c4f3c838-a5c8-48d7-93c1-2c7b557c078d",
+                                                "type": "SOKNAD",
+                                                "__typename": "Kilde"
+                                            },
+                                            "sykdomsdagtype": "SYKEDAG",
+                                            "utbetalingsdagtype": "NAVDAG",
+                                            "utbetalingsinfo": {
+                                                "arbeidsgiverbelop": 1446,
+                                                "inntekt": null,
+                                                "personbelop": 0,
+                                                "refusjonsbelop": null,
+                                                "totalGrad": 100,
+                                                "utbetaling": 1446,
+                                                "__typename": "Utbetalingsinfo"
+                                            },
+                                            "begrunnelser": null,
+                                            "__typename": "Dag"
+                                        },
+                                        {
+                                            "dato": "2023-06-30",
+                                            "grad": 100,
+                                            "kilde": {
+                                                "id": "c4f3c838-a5c8-48d7-93c1-2c7b557c078d",
+                                                "type": "SOKNAD",
+                                                "__typename": "Kilde"
+                                            },
+                                            "sykdomsdagtype": "SYKEDAG",
+                                            "utbetalingsdagtype": "NAVDAG",
+                                            "utbetalingsinfo": {
+                                                "arbeidsgiverbelop": 1446,
+                                                "inntekt": null,
+                                                "personbelop": 0,
+                                                "refusjonsbelop": null,
+                                                "totalGrad": 100,
+                                                "utbetaling": 1446,
+                                                "__typename": "Utbetalingsinfo"
+                                            },
+                                            "begrunnelser": null,
+                                            "__typename": "Dag"
+                                        }
+                                    ],
+                                    "vedtaksperiodeId": "eee7b58b-4d41-481f-ab27-a68aba84f914",
+                                    "periodetilstand": "Utbetalt",
+                                    "skjaeringstidspunkt": "2023-06-01",
+                                    "varsler": [],
+                                    "hendelser": [
+                                        {
+                                            "id": "c4f3c838-a5c8-48d7-93c1-2c7b557c078d",
+                                            "type": "SENDT_SOKNAD_NAV",
+                                            "fom": "2023-06-01",
+                                            "tom": "2023-06-30",
+                                            "rapportertDato": "2023-07-01T00:00:00",
+                                            "sendtNav": "2023-07-01T00:00:00",
+                                            "eksternDokumentId": "3320826d-8329-4c60-a7ab-52fe432fe3bd",
+                                            "__typename": "SoknadNav"
+                                        },
+                                        {
+                                            "id": "9530ffeb-ce7c-45cf-9a9f-162bade50b1b",
+                                            "type": "INNTEKTSMELDING",
+                                            "beregnetInntekt": 31333,
+                                            "mottattDato": "2023-06-01T00:00:00",
+                                            "eksternDokumentId": "d987c3e8-6e75-4b31-8e44-c394d7dcf921",
+                                            "__typename": "Inntektsmelding"
+                                        }
+                                    ],
+                                    "id": "f0cc0a46-1f05-39f1-a45a-433eef64f86d",
+                                    "beregningId": "4c5b2280-d8f7-4d7e-ae7d-b84b8f36e760",
+                                    "forbrukteSykedager": 10,
+                                    "gjenstaendeSykedager": 112,
+                                    "handlinger": [
+                                        {
+                                            "type": "UTBETALE",
+                                            "tillatt": false,
+                                            "begrunnelse": "perioden er ikke til godkjenning",
+                                            "__typename": "Handling"
+                                        }
+                                    ],
+                                    "notater": [],
+                                    "periodehistorikk": [],
+                                    "maksdato": "2023-12-05",
+                                    "periodevilkar": {
+                                        "alder": {
+                                            "alderSisteSykedag": 66,
+                                            "oppfylt": true,
+                                            "__typename": "Alder"
+                                        },
+                                        "sykepengedager": {
+                                            "forbrukteSykedager": 10,
+                                            "gjenstaendeSykedager": 112,
+                                            "maksdato": "2023-12-05",
+                                            "oppfylt": true,
+                                            "skjaeringstidspunkt": "2023-06-01",
+                                            "__typename": "Sykepengedager"
+                                        },
+                                        "__typename": "Periodevilkar"
+                                    },
+                                    "risikovurdering": {
+                                        "funn": [],
+                                        "kontrollertOk": [],
+                                        "__typename": "Risikovurdering"
+                                    },
+                                    "utbetaling": {
+                                        "id": "4c5b2280-d8f7-4d7e-ae7d-b84b8f36e760",
+                                        "arbeidsgiverFagsystemId": "5NI6P2IYHBDDNMI2TUEYRMG25M",
+                                        "arbeidsgiverNettoBelop": 14460,
+                                        "personFagsystemId": "DWSWLAZZZVHEXGADBTC3LM6INA",
+                                        "personNettoBelop": 0,
+                                        "status": "UTBETALT",
+                                        "type": "UTBETALING",
+                                        "vurdering": {
+                                            "automatisk": true,
+                                            "godkjent": true,
+                                            "ident": "Automatisk behandlet",
+                                            "tidsstempel": "2023-09-25T15:22:46.844113986",
+                                            "__typename": "Vurdering"
+                                        },
+                                        "arbeidsgiversimulering": {
+                                            "fagsystemId": "5NI6P2IYHBDDNMI2TUEYRMG25M",
+                                            "totalbelop": 14460,
+                                            "tidsstempel": "2023-09-25T15:22:43.323110161",
+                                            "utbetalingslinjer": [],
+                                            "perioder": [
+                                                {
+                                                    "fom": "2023-06-17",
+                                                    "tom": "2023-06-30",
+                                                    "utbetalinger": [
+                                                        {
+                                                            "mottakerId": "972674818",
+                                                            "mottakerNavn": "PENGELØS SPAREBANK",
+                                                            "forfall": "2023-09-25",
+                                                            "feilkonto": false,
+                                                            "detaljer": [
+                                                                {
+                                                                    "fom": "2023-06-17",
+                                                                    "tom": "2023-06-30",
+                                                                    "utbetalingstype": "YTEL",
+                                                                    "uforegrad": 100,
+                                                                    "typeSats": "DAG",
+                                                                    "tilbakeforing": false,
+                                                                    "sats": 1446,
+                                                                    "refunderesOrgNr": "972674818",
+                                                                    "konto": "2338020",
+                                                                    "klassekode": "SPREFAG-IOP",
+                                                                    "antallSats": 10,
+                                                                    "belop": 14460,
+                                                                    "klassekodebeskrivelse": "Sykepenger, Refusjon arbeidsgiver",
+                                                                    "__typename": "Simuleringsdetaljer"
+                                                                }
+                                                            ],
+                                                            "__typename": "Simuleringsutbetaling"
+                                                        }
+                                                    ],
+                                                    "__typename": "Simuleringsperiode"
+                                                }
+                                            ],
+                                            "__typename": "Simulering"
+                                        },
+                                        "personsimulering": {
+                                            "fagsystemId": "DWSWLAZZZVHEXGADBTC3LM6INA",
+                                            "totalbelop": null,
+                                            "tidsstempel": "2023-09-25T15:22:43.323120699",
+                                            "utbetalingslinjer": [],
+                                            "perioder": null,
+                                            "__typename": "Simulering"
+                                        },
+                                        "__typename": "Utbetaling"
+                                    },
+                                    "vilkarsgrunnlagId": "821f95e6-f1ad-433d-97ee-dc74d706416b",
+                                    "oppgave": null,
+                                    "totrinnsvurdering": null
+                                }
+                            ],
+                            "__typename": "Generasjon"
+                        }
+                    ],
+                    "overstyringer": [],
+                    "inntekterFraAordningen": [],
+                    "__typename": "Arbeidsgiver"
+                }
+            ],
+            "__typename": "Person"
+        }
+    }
+}
