@@ -280,12 +280,6 @@ export type Enhet = {
     navn: Scalars['String']['output'];
 };
 
-export enum Fane {
-    MineSaker = 'MINE_SAKER',
-    PaaVent = 'PAA_VENT',
-    TilGodkjenning = 'TIL_GODKJENNING',
-}
-
 export type Faresignal = {
     __typename?: 'Faresignal';
     beskrivelse: Scalars['String']['output'];
@@ -892,7 +886,6 @@ export type Query = {
     notater: Array<Notater>;
     oppdrag: Array<Oppdrag>;
     oppgaveFeed: OppgaverTilBehandling;
-    oppgaver: Array<OppgaveTilBehandling>;
     person?: Maybe<Person>;
 };
 
@@ -918,14 +911,6 @@ export type QueryOppgaveFeedArgs = {
     limit: Scalars['Int']['input'];
     offset: Scalars['Int']['input'];
     sortering: Array<OppgavesorteringInput>;
-};
-
-export type QueryOppgaverArgs = {
-    fane?: InputMaybe<Fane>;
-    filtrerteEgenskaper?: InputMaybe<Array<OppgaveegenskapInput>>;
-    pageSize?: InputMaybe<Scalars['Int']['input']>;
-    sortering?: InputMaybe<Array<OppgavesorteringInput>>;
-    startIndex?: InputMaybe<Scalars['Int']['input']>;
 };
 
 export type QueryPersonArgs = {
