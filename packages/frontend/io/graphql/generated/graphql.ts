@@ -1952,14 +1952,7 @@ export type FetchPersonQuery = {
             kjonn: Kjonn;
             reservasjon?: { __typename?: 'Reservasjon'; kanVarsles: boolean; reservert: boolean } | null;
         };
-        tildeling?: {
-            __typename?: 'Tildeling';
-            navn: string;
-            epost: string;
-            oid: string;
-            reservert?: boolean | null;
-            paaVent: boolean;
-        } | null;
+        tildeling?: { __typename?: 'Tildeling'; navn: string; epost: string; oid: string; paaVent: boolean } | null;
         vilkarsgrunnlag: Array<
             | {
                   __typename?: 'VilkarsgrunnlagInfotrygd';
@@ -4383,7 +4376,6 @@ export const FetchPersonDocument = {
                                             { kind: 'Field', name: { kind: 'Name', value: 'navn' } },
                                             { kind: 'Field', name: { kind: 'Name', value: 'epost' } },
                                             { kind: 'Field', name: { kind: 'Name', value: 'oid' } },
-                                            { kind: 'Field', name: { kind: 'Name', value: 'reservert' } },
                                             { kind: 'Field', name: { kind: 'Name', value: 'paaVent' } },
                                         ],
                                     },
