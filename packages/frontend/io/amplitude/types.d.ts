@@ -11,7 +11,7 @@ declare namespace Amplitude {
     type Inntektstype = 'ENARBEIDSGIVER' | 'FLEREARBEIDSGIVERE';
 
     type EventProperties = {
-        varighet: number; // Tid i millisekunder fra oppgaven ble åpnet til den ble godkjent/forkastet
+        varighet: number; // Tid i sekkunder fra oppgaven ble åpnet til den ble godkjent/forkastet
         begrunnelser?: Array<string>;
     };
 
