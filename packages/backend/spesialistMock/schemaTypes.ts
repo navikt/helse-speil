@@ -1215,8 +1215,6 @@ export type Tildeling = {
     navn: Scalars['String']['output'];
     oid: Scalars['String']['output'];
     paaVent: Scalars['Boolean']['output'];
-    /** @deprecated Skal fjernes til fordel for paaVent */
-    reservert?: Maybe<Scalars['Boolean']['output']>;
 };
 
 export type Totrinnsvurdering = {

@@ -10885,18 +10885,6 @@
                         },
                         "isDeprecated": false,
                         "deprecationReason": null
-                    },
-                    {
-                        "name": "reservert",
-                        "description": null,
-                        "args": [],
-                        "type": {
-                            "kind": "SCALAR",
-                            "name": "Boolean",
-                            "ofType": null
-                        },
-                        "isDeprecated": true,
-                        "deprecationReason": "Skal fjernes til fordel for paaVent"
                     }
                 ],
                 "inputFields": null,

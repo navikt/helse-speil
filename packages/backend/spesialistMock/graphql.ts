@@ -230,7 +230,6 @@ const getResolvers = (): IResolvers => ({
                 epost: 'epost@nav.no',
                 navn: 'Utvikler, Lokal',
                 oid: '4577332e-801a-4c13-8a71-39f12b8abfa3',
-                reservert: OppgaveMock.getOppgave(oppgaveId)?.erPåVent ?? false,
                 paaVent: OppgaveMock.getOppgave(oppgaveId)?.erPåVent ?? false,
             });
 
@@ -250,7 +249,6 @@ const getResolvers = (): IResolvers => ({
                 epost: 'epost@nav.no',
                 navn: 'Utvikler, Lokal',
                 oid: '4577332e-801a-4c13-8a71-39f12b8abfa3',
-                reservert: true,
                 paaVent: true,
             });
             return TildelingMock.getTildeling(oppgaveId);
@@ -276,7 +274,6 @@ const getResolvers = (): IResolvers => ({
                 epost: 'epost@nav.no',
                 navn: 'Utvikler, Lokal',
                 oid: '4577332e-801a-4c13-8a71-39f12b8abfa3',
-                reservert: false,
                 paaVent: false,
             });
             return TildelingMock.getTildeling(oppgaveId);

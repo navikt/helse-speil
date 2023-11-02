@@ -1217,8 +1217,6 @@ export type Tildeling = {
     navn: Scalars['String']['output'];
     oid: Scalars['String']['output'];
     paaVent: Scalars['Boolean']['output'];
-    /** @deprecated Skal fjernes til fordel for paaVent */
-    reservert?: Maybe<Scalars['Boolean']['output']>;
 };
 
 export type Totrinnsvurdering = {
@@ -2683,14 +2681,7 @@ export type FjernPaaVentMutationVariables = Exact<{
 
 export type FjernPaaVentMutation = {
     __typename?: 'Mutation';
-    fjernPaaVent?: {
-        __typename?: 'Tildeling';
-        navn: string;
-        oid: string;
-        epost: string;
-        reservert?: boolean | null;
-        paaVent: boolean;
-    } | null;
+    fjernPaaVent?: { __typename?: 'Tildeling'; navn: string; oid: string; epost: string; paaVent: boolean } | null;
 };
 
 export type FjernTildelingMutationVariables = Exact<{
@@ -2707,14 +2698,7 @@ export type LeggPaaVentMutationVariables = Exact<{
 
 export type LeggPaaVentMutation = {
     __typename?: 'Mutation';
-    leggPaaVent?: {
-        __typename?: 'Tildeling';
-        navn: string;
-        oid: string;
-        epost: string;
-        reservert?: boolean | null;
-        paaVent: boolean;
-    } | null;
+    leggPaaVent?: { __typename?: 'Tildeling'; navn: string; oid: string; epost: string; paaVent: boolean } | null;
 };
 
 export type OpprettTildelingMutationVariables = Exact<{
@@ -2723,14 +2707,7 @@ export type OpprettTildelingMutationVariables = Exact<{
 
 export type OpprettTildelingMutation = {
     __typename?: 'Mutation';
-    opprettTildeling?: {
-        __typename?: 'Tildeling';
-        navn: string;
-        oid: string;
-        epost: string;
-        reservert?: boolean | null;
-        paaVent: boolean;
-    } | null;
+    opprettTildeling?: { __typename?: 'Tildeling'; navn: string; oid: string; epost: string; paaVent: boolean } | null;
 };
 
 export type TildelingFragment = {
@@ -2738,7 +2715,6 @@ export type TildelingFragment = {
     navn: string;
     oid: string;
     epost: string;
-    reservert?: boolean | null;
     paaVent: boolean;
 };
 
@@ -3133,7 +3109,6 @@ export const TildelingFragmentDoc = {
                     { kind: 'Field', name: { kind: 'Name', value: 'navn' } },
                     { kind: 'Field', name: { kind: 'Name', value: 'oid' } },
                     { kind: 'Field', name: { kind: 'Name', value: 'epost' } },
-                    { kind: 'Field', name: { kind: 'Name', value: 'reservert' } },
                     { kind: 'Field', name: { kind: 'Name', value: 'paaVent' } },
                 ],
             },
@@ -6366,7 +6341,6 @@ export const FjernPaaVentDocument = {
                     { kind: 'Field', name: { kind: 'Name', value: 'navn' } },
                     { kind: 'Field', name: { kind: 'Name', value: 'oid' } },
                     { kind: 'Field', name: { kind: 'Name', value: 'epost' } },
-                    { kind: 'Field', name: { kind: 'Name', value: 'reservert' } },
                     { kind: 'Field', name: { kind: 'Name', value: 'paaVent' } },
                 ],
             },
@@ -6474,7 +6448,6 @@ export const LeggPaaVentDocument = {
                     { kind: 'Field', name: { kind: 'Name', value: 'navn' } },
                     { kind: 'Field', name: { kind: 'Name', value: 'oid' } },
                     { kind: 'Field', name: { kind: 'Name', value: 'epost' } },
-                    { kind: 'Field', name: { kind: 'Name', value: 'reservert' } },
                     { kind: 'Field', name: { kind: 'Name', value: 'paaVent' } },
                 ],
             },
@@ -6526,7 +6499,6 @@ export const OpprettTildelingDocument = {
                     { kind: 'Field', name: { kind: 'Name', value: 'navn' } },
                     { kind: 'Field', name: { kind: 'Name', value: 'oid' } },
                     { kind: 'Field', name: { kind: 'Name', value: 'epost' } },
-                    { kind: 'Field', name: { kind: 'Name', value: 'reservert' } },
                     { kind: 'Field', name: { kind: 'Name', value: 'paaVent' } },
                 ],
             },
