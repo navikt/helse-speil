@@ -26,7 +26,7 @@ export const SystemMenuContent = () => {
         {
             tekst: 'A-inntekt',
             url: 'https://arbeid-og-inntekt.nais.adeo.no/api/v2/redirect/sok/a-inntekt',
-            snarveibokstav: 'I',
+            snarveibokstav: 'E',
         },
         {
             tekst: 'Aa-registeret',

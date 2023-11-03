@@ -237,9 +237,9 @@ export const useKeyboardActions = (): Action[] => {
             modifier: Key.Shift,
         },
         {
-            key: Key.I,
+            key: Key.E,
             visningstekst: 'Åpne a-inntekt i ny fane',
-            visningssnarvei: ['⇧', 'I'],
+            visningssnarvei: ['⇧', 'E'],
             action: () =>
                 fødselsnummer &&
                 redirigerTilArbeidOgInntektUrl(
