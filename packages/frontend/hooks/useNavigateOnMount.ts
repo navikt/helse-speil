@@ -1,11 +1,11 @@
 import { useEffect } from 'react';
 
-import { Location, useNavigation } from '@hooks/useNavigation';
+import { Fane, useNavigation } from '@hooks/useNavigation';
 
-export const useNavigateOnMount = (location: Location) => {
+export const useNavigateOnMount = (fane: Fane) => {
     const { navigateTo } = useNavigation();
 
     useEffect(() => {
-        navigateTo(location);
+        navigateTo(fane);
     }, []);
 };

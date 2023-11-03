@@ -2,7 +2,7 @@ import React from 'react';
 import { Route, Routes } from 'react-router-dom';
 
 import { useNavigateOnMount } from '@hooks/useNavigateOnMount';
-import { Location } from '@hooks/useNavigation';
+import { Fane } from '@hooks/useNavigation';
 import type { GhostPeriode } from '@io/graphql';
 import { getPeriodState } from '@utils/mapping';
 
@@ -22,7 +22,7 @@ export const GhostPeriodeView: React.FC<GhostPeriodeViewProps> = ({ activePeriod
         throw Error('Mangler skjæringstidspunkt eller vilkårsgrunnlag. Ta kontakt med en utvikler.');
     }
 
-    useNavigateOnMount(Location.Sykepengegrunnlag);
+    useNavigateOnMount(Fane.Sykepengegrunnlag);
 
     return (
         <>

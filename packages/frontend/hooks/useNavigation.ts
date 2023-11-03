@@ -2,12 +2,12 @@ import { useLocation, useMatch, useNavigate, useParams } from 'react-router-dom'
 
 export interface Navigation {
     aktørId: string | undefined;
-    navigateTo: (location: Location, aktørId?: string) => void;
+    navigateTo: (fane: Fane, aktørId?: string) => void;
     navigateToNext: () => void;
     navigateToPrevious: () => void;
 }
 
-export enum Location {
+export enum Fane {
     Utbetaling,
     Inngangsvilkår,
     Sykepengegrunnlag,
@@ -37,8 +37,8 @@ export const useNavigation = (): Navigation => {
 
     const canNavigateToPrevious = currentLocation !== 0;
 
-    const navigateTo = (targetLocation: Location, aktørId: string | null = currentAktørId) => {
-        const destination = `/person/${aktørId}${locations[targetLocation]}`;
+    const navigateTo = (ønsketFane: Fane, aktørId: string | null = currentAktørId) => {
+        const destination = `/person/${aktørId}${locations[ønsketFane]}`;
         const current = location.pathname;
         if (destination !== current) {
             navigate(destination);
