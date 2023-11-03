@@ -23,7 +23,7 @@ const useCopyFødselsnummer = (): (() => void) => {
 
     return () => {
         if (fødselsnummer) {
-            copyString(fødselsnummer, false);
+            void copyString(fødselsnummer, false);
             addToast({
                 key: 'kopierFødselsnummerToastKey',
                 message: 'Fødselsnummer er kopiert',
@@ -45,7 +45,7 @@ const useCopyAktørId = (): (() => void) => {
 
     return () => {
         if (aktørId) {
-            copyString(aktørId, false);
+            void copyString(aktørId, false);
             addToast({
                 key: 'kopierAktørIdToastKey',
                 message: 'Aktør-ID er kopiert',
