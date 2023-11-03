@@ -69,6 +69,7 @@ export const useOpprettTildeling = (): [
             } else {
                 leggTilTildelingsvarsel('Kunne ikke tildele sak.');
             }
+            data.client.refetchQueries({ include: [OppgaveFeedDocument, AntallOppgaverDocument] });
         },
     });
 
