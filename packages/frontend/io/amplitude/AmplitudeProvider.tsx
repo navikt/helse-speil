@@ -7,9 +7,10 @@ import { AmplitudeStorageHandler } from '@io/amplitude/AmplitudeStorageHandler';
 import { Periode } from '@io/graphql';
 import { useActivePeriod } from '@state/periode';
 import { getOppgavereferanse } from '@state/selectors/period';
+import { erProd } from '@utils/featureToggles';
 import { isBeregnetPeriode } from '@utils/typeguards';
 
-const getApiKey = () => (process.env.NODE_ENV === 'production' ? '100003867' : '100003868');
+const getApiKey = () => (erProd() ? '100003867' : '100003868');
 
 const amplitudeClient = amplitude?.getInstance();
 
