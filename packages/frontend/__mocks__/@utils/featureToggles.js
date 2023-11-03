@@ -3,4 +3,5 @@ module.exports = {
         overstyreUtbetaltPeriodeEnabled: true,
     },
     erLocal: () => false,
+    erDev: () => false,
 };
