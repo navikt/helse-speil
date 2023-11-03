@@ -91,7 +91,7 @@ export const UberegnetPeriodeView = ({ activePeriod }: UberegnetPeriodeViewProps
                 <div className={styles.RouteContainer}>
                     <React.Suspense fallback={<UberegnetPeriodeViewLoader />}>
                         <Routes>
-                            <Route path="utkast-til-vedtak" element={<Utbetaling />} />
+                            <Route path="dagoversikt" element={<Utbetaling />} />
                         </Routes>
                     </React.Suspense>
                 </div>

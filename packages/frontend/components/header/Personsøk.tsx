@@ -61,7 +61,7 @@ export const Personsøk: React.FC = () => {
                     return;
                 }
                 if (data?.person) {
-                    navigate(`/person/${data.person.aktorId}/utkast-til-vedtak`);
+                    navigate(`/person/${data.person.aktorId}/dagoversikt`);
                 }
             });
         }
