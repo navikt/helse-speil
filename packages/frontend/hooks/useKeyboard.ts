@@ -1,5 +1,7 @@
 import { useEffect } from 'react';
 
+import { erDev, erLocal } from '@utils/featureToggles';
+
 export interface Action {
     key: string;
     action: () => void;
@@ -46,6 +48,7 @@ const shouldDisableKeyboard = (): boolean =>
 
 export const useKeyboard = (actions: Action[]) => {
     const handleKeyDown = (event: KeyboardEvent) => {
+        if (erLocal() || erDev()) return;
         if (!event.code) return; // Valg i autocomplete-lister, f.eks. i søkefeltet, trigger et tynt keydown-event, som vi ikke trenger å håndtere her
         const activeModifiers: string[] = [];
         if (event.getModifierState('Alt')) activeModifiers.push(Key.Alt);
