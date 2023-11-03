@@ -9,10 +9,17 @@ import { useActivePeriod } from '@state/periode';
 import { getOppgavereferanse } from '@state/selectors/period';
 import { isBeregnetPeriode } from '@utils/typeguards';
 
-amplitude?.getInstance().init('default', '', {
-    apiEndpoint: 'amplitude.nav.no/collect-auto',
+const getApiKey = () => (process.env.NODE_ENV === 'production' ? '100003867' : '100003868');
+
+const amplitudeClient = amplitude?.getInstance();
+
+amplitudeClient?.init(getApiKey(), '', {
+    apiEndpoint: 'amplitude.nav.no/collect',
+    serverZone: 'EU',
     saveEvents: false,
-    platform: window.location.origin.toString(),
+    includeUtm: true,
+    batchEvents: false,
+    includeReferrer: true,
 });
 
 const logEventCallback = (oppgaveId: string) => () => AmplitudeStorageHandler.removeÅpnetOppgaveTidspunkt(oppgaveId);
@@ -38,7 +45,7 @@ const getEventProperties = (
 ): Amplitude.EventProperties | Amplitude.EventPropertiesBeregnetPeriode => {
     if (isBeregnetPeriode(period)) {
         return {
-            varighet: dayjs().diff(openedTimestamp),
+            varighet: dayjs().diff(openedTimestamp, 'seconds'),
             type: period.periodetype,
             inntektskilde: period.inntektstype,
             warnings: period.varsler.map((it) => it.tittel),
@@ -62,13 +69,11 @@ const useLogEvent = (): ((event: Amplitude.LogEvent, begrunnelser?: Array<string
             const åpnetTidspunkt = AmplitudeStorageHandler.getÅpnetOppgaveTidspunkt(oppgavereferanse);
 
             åpnetTidspunkt &&
-                amplitude
-                    ?.getInstance()
-                    .logEvent(
-                        event,
-                        getEventProperties(activePeriod, åpnetTidspunkt, begrunnelser),
-                        logEventCallback(oppgavereferanse),
-                    );
+                amplitudeClient?.logEvent(
+                    event,
+                    getEventProperties(activePeriod, åpnetTidspunkt, begrunnelser),
+                    logEventCallback(oppgavereferanse),
+                );
         }
     };
 };
@@ -88,7 +93,7 @@ const _AmplitudeProvider: React.FC<PropsWithChildren<object>> = ({ children }) =
     const logTotrinnsoppgaveTilGodkjenning = () => logEvent('totrinnsoppgave til godkjenning');
 
     useEffect(() => {
-        amplitude?.getInstance().setUserProperties({
+        amplitudeClient?.setUserProperties({
             skjermbredde: window.screen.width,
         });
     }, []);
