@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { useRecoilValue } from 'recoil';
 
 import { Loader } from '@navikt/ds-react';
 
 import { useMutation } from '@apollo/client';
 import { OppdaterPersonDocument } from '@io/graphql';
 import { postAbonnerPåAktør } from '@io/http';
-import { nyesteOpptegnelserState, useSetOpptegnelserPollingRate } from '@state/opptegnelser';
+import { useHåndterOpptegnelser, useSetOpptegnelserPollingRate } from '@state/opptegnelser';
 import { useCurrentPerson } from '@state/person';
 import { useAddToast, useRemoveToast } from '@state/toasts';
 import { useAddVarsel, useRemoveVarsel } from '@state/varsler';
@@ -34,25 +33,21 @@ export const useOppdaterPersondata = (): [forespørPersonoppdatering: () => Prom
     const removeToast = useRemoveToast();
     const setPollingRate = useSetOpptegnelserPollingRate();
     const removeVarsel = useRemoveVarsel();
-    const opptegnelser = useRecoilValue(nyesteOpptegnelserState);
     const [polling, setPolling] = useState(false);
     const [oppdaterPerson] = useMutation(OppdaterPersonDocument);
 
-    useEffect(() => {
-        if (opptegnelser && polling) {
-            const finnesOpptegnelseMedRiktigType = opptegnelser.find(
-                (opptegnelse) => opptegnelse.type === 'PERSONDATA_OPPDATERT',
-            );
-
-            if (!finnesOpptegnelseMedRiktigType) {
+    useHåndterOpptegnelser((opptegnelse) => {
+        if (polling) {
+            if (opptegnelse.type !== 'PERSONDATA_OPPDATERT') {
                 setPollingRate(1000);
                 return;
             }
+
             removeToast(oppdatererPersondataToastKey);
             addToast({ key: 'doneUpdating', message: 'Persondata oppdatert', timeToLiveMs: 3000 });
             setPolling(false);
         }
-    }, [opptegnelser]);
+    });
 
     useEffect(() => {
         return () => {
