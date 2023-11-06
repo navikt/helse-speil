@@ -18,13 +18,11 @@ class PersonoppdateringAlert extends SpeilError {
     name = PersonoppdateringAlert.key;
 }
 
-const oppdatererPersondataMessage = () => {
-    return (
-        <>
-            Oppdaterer persondata <Loader size="xsmall" variant="inverted" />
-        </>
-    );
-};
+const oppdatererPersondataMessage = () => (
+    <>
+        Oppdaterer persondata <Loader size="xsmall" variant="inverted" />
+    </>
+);
 
 export const useOppdaterPersondata = (): [forespørPersonoppdatering: () => Promise<void>] => {
     const person = useCurrentPerson() as FetchedPerson;
@@ -57,17 +55,19 @@ export const useOppdaterPersondata = (): [forespørPersonoppdatering: () => Prom
 
     const forespørPersonoppdatering = async (): Promise<void> => {
         removeVarsel(PersonoppdateringAlert.key);
-        return oppdaterPerson({ variables: { fodselsnummer: person.fodselsnummer } })
-            .then(() => {
+        return void oppdaterPerson({
+            variables: { fodselsnummer: person.fodselsnummer },
+            onCompleted: () => {
                 addToast({ key: oppdatererPersondataToastKey, message: oppdatererPersondataMessage() });
                 setPolling(true);
                 postAbonnerPåAktør(person.aktorId).then(() => setPollingRate(1000));
-            })
-            .catch(() => {
+            },
+            onError: () => {
                 addVarsel(
                     new PersonoppdateringAlert('Personoppdatering feilet. Prøv igjen om litt.', { severity: 'error' }),
                 );
-            });
+            },
+        });
     };
 
     return [forespørPersonoppdatering];
