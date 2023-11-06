@@ -15,7 +15,7 @@ import {
     kalkulererToastKey,
     kalkuleringFerdigToast,
 } from '@state/kalkuleringstoasts';
-import { useOpptegnelser, useSetOpptegnelserPollingRate } from '@state/opptegnelser';
+import { useHåndterOpptegnelser, useSetOpptegnelserPollingRate } from '@state/opptegnelser';
 import { useCurrentPerson } from '@state/person';
 import { useAddToast, useRemoveToast } from '@state/toasts';
 
@@ -51,25 +51,21 @@ export const useGetOverstyrtArbeidsforhold = (): OverstyrtArbeidsforholdGetter =
 export const usePostOverstyrtArbeidsforhold = (onFerdigKalkulert?: () => void) => {
     const addToast = useAddToast();
     const removeToast = useRemoveToast();
-    const opptegnelser = useOpptegnelser();
     const aktørId = useCurrentPerson()?.aktorId;
     const setPollingRate = useSetOpptegnelserPollingRate();
 
-    const [isLoading, setIsLoading] = useState(false);
     const [calculating, setCalculating] = useState(false);
-    const [error, setError] = useState<string | null>();
     const [timedOut, setTimedOut] = useState(false);
 
-    const [overstyrMutation] = useMutation(OverstyrArbeidsforholdMutationDocument);
+    const [overstyrMutation, { error, loading }] = useMutation(OverstyrArbeidsforholdMutationDocument);
 
-    useEffect(() => {
-        if (opptegnelser && calculating) {
+    useHåndterOpptegnelser((opptegnelse) => {
+        if (calculating && opptegnelse.type === 'NY_SAKSBEHANDLEROPPGAVE') {
             addToast(kalkuleringFerdigToast({ callback: () => removeToast(kalkulererFerdigToastKey) }));
-            setIsLoading(false);
             setCalculating(false);
             onFerdigKalkulert && onFerdigKalkulert();
         }
-    }, [opptegnelser]);
+    });
 
     useEffect(() => {
         const timeout: NodeJS.Timeout | number | null = calculating
@@ -89,12 +85,11 @@ export const usePostOverstyrtArbeidsforhold = (onFerdigKalkulert?: () => void) =
     }, [calculating]);
 
     return {
-        isLoading,
-        error,
+        isLoading: loading || calculating,
+        error: error && 'Kunne ikke overstyre arbeidsforhold. Prøv igjen senere.',
         timedOut,
         setTimedOut,
         postOverstyring: (overstyrtArbeidsforhold: OverstyrtArbeidsforholdDTO) => {
-            setIsLoading(true);
             const overstyring: ArbeidsforholdOverstyringHandlingInput = {
                 aktorId: overstyrtArbeidsforhold.aktørId,
                 overstyrteArbeidsforhold: overstyrtArbeidsforhold.overstyrteArbeidsforhold.map(
@@ -109,22 +104,16 @@ export const usePostOverstyrtArbeidsforhold = (onFerdigKalkulert?: () => void) =
                 skjaringstidspunkt: overstyrtArbeidsforhold.skjæringstidspunkt,
             };
 
-            overstyrMutation({ variables: { overstyring: overstyring } })
-                .then(() => {
+            void overstyrMutation({
+                variables: { overstyring: overstyring },
+                onCompleted: () => {
                     if (aktørId) {
                         setCalculating(true);
                         addToast(kalkulererToast({}));
                         postAbonnerPåAktør(aktørId).then(() => setPollingRate(1000));
                     }
-                })
-                .catch((error) => {
-                    switch (error.statusCode) {
-                        default: {
-                            setError('Kunne ikke overstyre arbeidsforhold. Prøv igjen senere. ');
-                        }
-                    }
-                    setIsLoading(false);
-                });
+                },
+            });
         },
     };
 };
