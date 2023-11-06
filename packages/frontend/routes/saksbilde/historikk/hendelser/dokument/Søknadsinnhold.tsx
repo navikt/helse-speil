@@ -23,21 +23,23 @@ export const Søknadsinnhold: React.FC<SøknadsinnholdProps> = ({ dokumentId, f�
         <div>
             {søknad && (
                 <div className={styles.dokument}>
-                    {søknad.soknadsperioder && søknad.soknadsperioder.length > 0 && (
-                        <>
-                            <SøknadFragment overskrift="Søknadsperiode">
-                                {`${dayjs(søknad.soknadsperioder[0].fom).format(NORSK_DATOFORMAT)} – ${dayjs(
-                                    søknad.soknadsperioder[0].tom,
-                                ).format(NORSK_DATOFORMAT)}`}
-                            </SøknadFragment>
-                            <SøknadFragment overskrift="Grad">{søknad.soknadsperioder[0].grad} %</SøknadFragment>
-                            {søknad.soknadsperioder[0].faktiskGrad && (
-                                <SøknadFragment overskrift="Oppgitt faktisk arbeidsgrad">
-                                    {søknad.soknadsperioder[0].faktiskGrad} %
+                    {søknad.soknadsperioder &&
+                        søknad.soknadsperioder.length > 0 &&
+                        søknad.soknadsperioder.map((søknadsperiode) => (
+                            <>
+                                <SøknadFragment overskrift="Søknadsperiode">
+                                    {`${dayjs(søknadsperiode.fom).format(NORSK_DATOFORMAT)} – ${dayjs(
+                                        søknadsperiode.tom,
+                                    ).format(NORSK_DATOFORMAT)}`}
                                 </SøknadFragment>
-                            )}
-                        </>
-                    )}
+                                <SøknadFragment overskrift="Grad">{søknadsperiode.grad} %</SøknadFragment>
+                                {søknadsperiode.faktiskGrad && (
+                                    <SøknadFragment overskrift="Oppgitt faktisk arbeidsgrad">
+                                        {søknadsperiode.faktiskGrad} %
+                                    </SøknadFragment>
+                                )}
+                            </>
+                        ))}
                     {søknad.arbeidGjenopptatt && (
                         <SøknadFragment overskrift="Arbeid gjenopptatt">
                             {dayjs(søknad.arbeidGjenopptatt).format(NORSK_DATOFORMAT)}
