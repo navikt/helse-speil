@@ -16,7 +16,7 @@ const nyesteOpptegnelserStateNy = atom<Opptegnelse[]>({
     default: [],
 });
 
-export const nyesteOpptegnelseMedTypeOppgaveState = selector<Opptegnelse | undefined>({
+const nyesteOpptegnelseMedTypeOppgaveState = selector<Opptegnelse | undefined>({
     key: 'nyesteOpptegnelseMedTypeOppgaveState',
     get: ({ get }) =>
         get(nyesteOpptegnelserState).find(
