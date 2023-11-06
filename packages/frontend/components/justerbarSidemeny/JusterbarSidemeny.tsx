@@ -45,7 +45,7 @@ export const JusterbarSidemeny: React.FC<JusterbarSidebarProps> = ({
 
     useEffect(() => {
         if (!localStorageNavn) return;
-        localStorage.setItem('historikkBredde', `${width}`);
+        localStorage.setItem(localStorageNavn, `${width}`);
     }, [width]);
 
     useEffect(() => {
