@@ -1,3 +1,4 @@
+import { Lovhjemmel } from '../overstyring/overstyring.types';
 import { useEffect, useState } from 'react';
 
 import { useMutation } from '@apollo/client';
@@ -19,11 +20,9 @@ import {
     kalkulererToastKey,
     kalkuleringFerdigToast,
 } from '@state/kalkuleringstoasts';
-import { useOpptegnelser, useSetOpptegnelserPollingRate } from '@state/opptegnelser';
+import { useHåndterOpptegnelser, useSetOpptegnelserPollingRate } from '@state/opptegnelser';
 import { useAddToast, useRemoveToast } from '@state/toasts';
 import { toKronerOgØre } from '@utils/locale';
-
-import { Lovhjemmel } from '../overstyring/overstyring.types';
 
 export interface BegrunnelseForSkjønnsfastsetting {
     id: string;
@@ -119,23 +118,22 @@ export interface ArbeidsgiverForm {
 export const usePostSkjønnsfastsattSykepengegrunnlag = (onFerdigKalkulert: () => void) => {
     const addToast = useAddToast();
     const removeToast = useRemoveToast();
-    const opptegnelser = useOpptegnelser();
     const setPollingRate = useSetOpptegnelserPollingRate();
-    const [isLoading, setIsLoading] = useState(false);
     const [calculating, setCalculating] = useState(false);
-    const [error, setError] = useState<string | null>();
     const [timedOut, setTimedOut] = useState(false);
 
-    const [overstyrMutation] = useMutation(SkjonnsfastsettelseMutationDocument);
+    const [overstyrMutation, { error, loading }] = useMutation(SkjonnsfastsettelseMutationDocument);
 
-    useEffect(() => {
-        if (opptegnelser && calculating) {
+    useHåndterOpptegnelser((opptegnelse) => {
+        if (
+            (opptegnelse.type === 'NY_SAKSBEHANDLEROPPGAVE' || opptegnelse.type === 'REVURDERING_FERDIGBEHANDLET') &&
+            calculating
+        ) {
             addToast(kalkuleringFerdigToast({ callback: () => removeToast(kalkulererFerdigToastKey) }));
-            setIsLoading(false);
             setCalculating(false);
             onFerdigKalkulert();
         }
-    }, [opptegnelser, calculating]);
+    });
 
     useEffect(() => {
         const timeout: NodeJS.Timeout | number | null = calculating
@@ -155,13 +153,11 @@ export const usePostSkjønnsfastsattSykepengegrunnlag = (onFerdigKalkulert: () =
     }, [calculating]);
 
     return {
-        isLoading,
-        error,
+        isLoading: loading || calculating,
+        error: error && 'Kunne ikke skjønnsfastsette sykepengegrunnlaget. Prøv igjen senere.',
         timedOut,
         setTimedOut,
         postSkjønnsfastsetting: (skjønnsfastsattSykepengegrunnlag: SkjønnsfastsattSykepengegrunnlagDTO) => {
-            setIsLoading(true);
-
             const skjønnsfastsettelse: SkjonnsfastsettelseInput = {
                 aktorId: skjønnsfastsattSykepengegrunnlag.aktørId,
                 arbeidsgivere: skjønnsfastsattSykepengegrunnlag.arbeidsgivere.map(
@@ -196,20 +192,14 @@ export const usePostSkjønnsfastsattSykepengegrunnlag = (onFerdigKalkulert: () =
                 skjaringstidspunkt: skjønnsfastsattSykepengegrunnlag.skjæringstidspunkt,
             };
 
-            overstyrMutation({ variables: { skjonnsfastsettelse: skjønnsfastsettelse } })
-                .then(() => {
+            void overstyrMutation({
+                variables: { skjonnsfastsettelse: skjønnsfastsettelse },
+                onCompleted: () => {
                     setCalculating(true);
                     addToast(kalkulererToast({}));
                     postAbonnerPåAktør(skjønnsfastsattSykepengegrunnlag.aktørId).then(() => setPollingRate(1000));
-                })
-                .catch((error) => {
-                    switch (error.statusCode) {
-                        default: {
-                            setError('Kunne ikke skjønnsfastsette sykepengegrunnlaget. Prøv igjen senere.');
-                        }
-                    }
-                    setIsLoading(false);
-                });
+                },
+            });
         },
     };
 };
