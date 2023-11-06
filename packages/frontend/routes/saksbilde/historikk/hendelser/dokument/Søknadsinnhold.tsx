@@ -27,17 +27,19 @@ export const Søknadsinnhold: React.FC<SøknadsinnholdProps> = ({ dokumentId, f�
                         søknad.soknadsperioder.length > 0 &&
                         søknad.soknadsperioder.map((søknadsperiode) => (
                             <>
-                                <SøknadFragment overskrift="Søknadsperiode">
-                                    {`${dayjs(søknadsperiode.fom).format(NORSK_DATOFORMAT)} – ${dayjs(
+                                <SøknadFragment
+                                    overskrift={`${dayjs(søknadsperiode.fom).format(NORSK_DATOFORMAT)} – ${dayjs(
                                         søknadsperiode.tom,
                                     ).format(NORSK_DATOFORMAT)}`}
+                                >
+                                    {søknadsperiode.grad} % sykmeldt
+                                    {søknadsperiode.faktiskGrad && (
+                                        <>
+                                            <br />
+                                            Oppgitt faktisk arbeidsgrad {søknadsperiode.faktiskGrad} %
+                                        </>
+                                    )}
                                 </SøknadFragment>
-                                <SøknadFragment overskrift="Grad">{søknadsperiode.grad} %</SøknadFragment>
-                                {søknadsperiode.faktiskGrad && (
-                                    <SøknadFragment overskrift="Oppgitt faktisk arbeidsgrad">
-                                        {søknadsperiode.faktiskGrad} %
-                                    </SøknadFragment>
-                                )}
                             </>
                         ))}
                     {søknad.arbeidGjenopptatt && (
