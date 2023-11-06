@@ -25,6 +25,9 @@ const nyesteOpptegnelseMedTypeOppgaveState = selector<Opptegnelse | undefined>({
         ),
 });
 
+export const erOpptegnelseForNyOppgave = (opptegnelse: Opptegnelse) =>
+    opptegnelse.type === 'NY_SAKSBEHANDLEROPPGAVE' || opptegnelse.type === 'REVURDERING_FERDIGBEHANDLET';
+
 export const sisteSekvensIdOpptegnelseState = selector<number | undefined>({
     key: 'sisteSekvensIdOpptegnelseState',
     get: ({ get }) => {
