@@ -10,7 +10,7 @@ import { getOppgavereferanse } from '@state/selectors/period';
 import { erProd } from '@utils/featureToggles';
 import { isBeregnetPeriode } from '@utils/typeguards';
 
-const getApiKey = () => (erProd() ? '100003867' : '100003868');
+const getApiKey = () => (erProd() ? '4000b8a4a426b0dbefbe011778062779' : '27bc226964689268f3258512c10dc2a1');
 
 const amplitudeClient = amplitude?.getInstance();
 
