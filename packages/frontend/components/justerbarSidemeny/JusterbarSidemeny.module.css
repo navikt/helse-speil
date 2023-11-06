@@ -2,6 +2,9 @@
     display: flex;
     gridarea: 'høyremeny';
 }
+.justerbarSidemeny.venstre {
+    flex-direction: row-reverse;
+}
 .justerbarLinje {
     width: 0.5rem;
     height: 100%;

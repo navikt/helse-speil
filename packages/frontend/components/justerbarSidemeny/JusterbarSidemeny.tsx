@@ -1,3 +1,4 @@
+import classNames from 'classnames';
 import React, { useEffect, useRef, useState } from 'react';
 
 import styles from './JusterbarSidemeny.module.css';
@@ -7,12 +8,14 @@ interface JusterbarSidebarProps {
     visSidemeny: boolean;
     children: ReactNode;
     localStorageNavn?: string;
+    åpnesTilVenstre?: boolean;
 }
 export const JusterbarSidemeny: React.FC<JusterbarSidebarProps> = ({
     visSidemeny,
     defaultBredde,
     children,
     localStorageNavn,
+    åpnesTilVenstre = false,
 }: JusterbarSidebarProps) => {
     const [width, setWidth] = useState(
         localStorageNavn ? parseInt(localStorage.getItem(localStorageNavn) || defaultBredde.toString()) : defaultBredde,
@@ -28,7 +31,7 @@ export const JusterbarSidemeny: React.FC<JusterbarSidebarProps> = ({
             }
 
             setWidth((previousWidth) => {
-                const newWidth = previousWidth - e.movementX;
+                const newWidth = previousWidth + (åpnesTilVenstre ? e.movementX : -e.movementX);
                 const isWidthInRange = newWidth >= minWidth && newWidth <= maxWidth;
 
                 return isWidthInRange ? newWidth : previousWidth;
@@ -54,7 +57,7 @@ export const JusterbarSidemeny: React.FC<JusterbarSidebarProps> = ({
 
     return (
         visSidemeny && (
-            <div className={styles.justerbarSidemeny}>
+            <div className={classNames(styles.justerbarSidemeny, åpnesTilVenstre && styles.venstre)}>
                 <div
                     className={styles.justerbarLinje}
                     onMouseDown={(e) => {
