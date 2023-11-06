@@ -1,4 +1,3 @@
-import { Lovhjemmel } from '../../sykepengegrunnlag/overstyring/overstyring.types';
 import dayjs from 'dayjs';
 import { useEffect, useRef, useState } from 'react';
 
@@ -12,9 +11,11 @@ import {
     kalkulererToastKey,
     kalkuleringFerdigToast,
 } from '@state/kalkuleringstoasts';
-import { erOpptegnelseForNyOppgave, useHåndterOpptegnelser, useSetOpptegnelserPollingRate } from '@state/opptegnelser';
+import { useOpptegnelser, useSetOpptegnelserPollingRate } from '@state/opptegnelser';
 import { useCurrentPerson } from '@state/person';
 import { useAddToast, useRemoveToast } from '@state/toasts';
+
+import { Lovhjemmel } from '../../sykepengegrunnlag/overstyring/overstyring.types';
 
 type UsePostOverstyringState = 'loading' | 'hasValue' | 'hasError' | 'initial' | 'timedOut' | 'done';
 
@@ -36,22 +37,20 @@ export const useOverstyrDager = (): UsePostOverstyringResult => {
     const personFørRefetchRef = useRef(person);
     const addToast = useAddToast();
     const removeToast = useRemoveToast();
+    const opptegnelser = useOpptegnelser();
     const setPollingRate = useSetOpptegnelserPollingRate();
-    const [overstyrMutation, { error }] = useMutation(OverstyrDagerMutationDocument);
+    const [overstyrMutation] = useMutation(OverstyrDagerMutationDocument);
     const [calculating, setCalculating] = useState(false);
     const [state, setState] = useState<UsePostOverstyringState>('initial');
+    const [error, setError] = useState<string>();
 
-    useHåndterOpptegnelser((opptegnelse) => {
-        if (erOpptegnelseForNyOppgave(opptegnelse)) {
-            if (calculating) {
-                addToast(kalkuleringFerdigToast({ callback: () => removeToast(kalkulererFerdigToastKey) }));
-                setCalculating(false);
-            }
-            if (person !== personFørRefetchRef.current) {
-                setState('done');
-            }
+    useEffect(() => {
+        if (opptegnelser && calculating) {
+            addToast(kalkuleringFerdigToast({ callback: () => removeToast(kalkulererFerdigToastKey) }));
+            setCalculating(false);
         }
-    });
+        if (opptegnelser && person !== personFørRefetchRef.current) setState('done');
+    }, [opptegnelser, person, personFørRefetchRef]);
 
     useEffect(() => {
         const timeout: NodeJS.Timeout | number | null = calculating
@@ -85,29 +84,24 @@ export const useOverstyrDager = (): UsePostOverstyringResult => {
             begrunnelse: begrunnelse,
             vedtaksperiodeId,
         };
-
-        return (
-            void overstyrMutation({
-                variables: { overstyring: overstyring },
-                onCompleted: () => {
-                    setState('hasValue');
-                    personFørRefetchRef.current = person;
-                    addToast(kalkulererToast({}));
-                    setCalculating(true);
-                    callback?.();
-                    postAbonnerPåAktør(person.aktorId).then(() => setPollingRate(1000));
-                },
-                onError: () => {
-                    setState('hasError');
-                },
-            }) ?? Promise.resolve()
-        );
+        return overstyrMutation({ variables: { overstyring: overstyring } })
+            .then(() => {
+                setState('hasValue');
+                personFørRefetchRef.current = person;
+                addToast(kalkulererToast({}));
+                setCalculating(true);
+                callback?.();
+                postAbonnerPåAktør(person.aktorId).then(() => setPollingRate(1000));
+            })
+            .catch(() => {
+                setState('hasError');
+                setError('Feil under sending av overstyring. Prøv igjen senere.');
+            });
     };
-
     return {
         postOverstyring: overstyrDager,
         state: state,
-        error: error && 'Feil under sending av overstyring. Prøv igjen senere.',
+        error: error,
     };
 };
 

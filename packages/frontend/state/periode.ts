@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { atom, useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 
 import { Maybe, Periodetilstand } from '@io/graphql';
-import { erOpptegnelseForNyOppgave, useHåndterOpptegnelser } from '@state/opptegnelser';
+import { useHåndterOpptegnelser } from '@state/opptegnelser';
 import { useCurrentPerson } from '@state/person';
 import { isBeregnetPeriode, isUberegnetPeriode, isUberegnetVilkarsprovdPeriode } from '@utils/typeguards';
 
@@ -41,6 +41,8 @@ export const useActivePeriod = (): ActivePeriod | null => {
 
 export const useSelectPeriodOnOppgaveChanged = () => {
     const person = useCurrentPerson();
+    const erOpptegnelseForNyOppgave = (opptegnelse: Opptegnelse) =>
+        opptegnelse.type === 'NY_SAKSBEHANDLEROPPGAVE' || opptegnelse.type === 'REVURDERING_FERDIGBEHANDLET';
     const setActivePeriodId = useSetRecoilState(activePeriodIdState);
     useHåndterOpptegnelser((opptegnelse) => {
         if (!erOpptegnelseForNyOppgave(opptegnelse) || !person) return;
