@@ -14,7 +14,7 @@ export enum Fane {
     Faresignaler,
 }
 
-const locations = ['/utbetaling', '/inngangsvilkår', '/sykepengegrunnlag', '/faresignaler'];
+const locations = ['/dagoversikt', '/inngangsvilkår', '/sykepengegrunnlag', '/faresignaler'];
 
 const locationFromCurrentPath = (path: string, locations: string[]) => {
     const currentPathName = path.split('/')[3];
