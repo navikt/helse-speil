@@ -1,8 +1,7 @@
 import classNames from 'classnames';
 import React from 'react';
 
-import { FilterIcon } from '@navikt/aksel-icons';
-import { DataFilled } from '@navikt/ds-icons';
+import { BarChartIcon, FilterIcon } from '@navikt/aksel-icons';
 
 import { RoundedButton } from '@components/RoundedButton';
 import { useAntallOppgaver } from '@state/oppgaver';
@@ -81,7 +80,7 @@ export const Tabs = () => {
                 aria-expanded={showStatistikk}
                 onClick={toggleStatistikk}
             >
-                <DataFilled title="Behandlingsstatistikk" width={20} height={20} />
+                <BarChartIcon title="Behandlingsstatistikk" width={20} height={20} />
             </RoundedButton>
         </div>
     );
