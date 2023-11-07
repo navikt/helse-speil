@@ -28,11 +28,11 @@ export const GhostPeriodeView: React.FC<GhostPeriodeViewProps> = ({ activePeriod
     return (
         <>
             <Venstremeny />
-            <Saksbildevarsler
-                periodState={getPeriodState(activePeriod)}
-                skjæringstidspunkt={activePeriod.skjaeringstidspunkt}
-            />
             <div className={styles.Content} data-testid="saksbilde-content-uten-sykefravær">
+                <Saksbildevarsler
+                    periodState={getPeriodState(activePeriod)}
+                    skjæringstidspunkt={activePeriod.skjaeringstidspunkt}
+                />
                 <SaksbildeMenu />
                 <Routes>
                     <Route

@@ -12,6 +12,7 @@ import { getPeriodState } from '@utils/mapping';
 import { isArbeidsforholdoverstyring, isSpleisVilkarsgrunnlag } from '@utils/typeguards';
 
 import { Historikk } from '../historikk';
+import { SaksbildeMenu } from '../saksbildeMenu/SaksbildeMenu';
 import { useVilkårsgrunnlag } from '../sykepengegrunnlag/useVilkårsgrunnlag';
 import { Saksbildevarsler } from '../varsler/Saksbildevarsler';
 import { Venstremeny } from '../venstremeny/Venstremeny';
@@ -78,17 +79,18 @@ export const UberegnetVilkarsprovdPeriodeView: React.FC<UberegnetVilkarsprovdPer
     return (
         <>
             <Venstremeny />
-            <Saksbildevarsler
-                periodState={getPeriodState(period)}
-                varsler={period.varsler}
-                erTidligereSaksbehandler={erTidligereSaksbehandler}
-                endringerEtterNyesteUtbetalingPåPerson={overstyringerEtterNyesteUtbetalingPåPerson}
-                activePeriodTom={period.tom}
-                skjæringstidspunkt={period.skjaeringstidspunkt}
-                navnPåDeaktiverteGhostArbeidsgivere={navnPåDeaktiverteGhostArbeidsgivere}
-                avviksprosent={(vilkårsgrunnlag as VilkarsgrunnlagSpleis)?.avviksprosent}
-            />
             <div className={styles.Content}>
+                <Saksbildevarsler
+                    periodState={getPeriodState(period)}
+                    varsler={period.varsler}
+                    erTidligereSaksbehandler={erTidligereSaksbehandler}
+                    endringerEtterNyesteUtbetalingPåPerson={overstyringerEtterNyesteUtbetalingPåPerson}
+                    activePeriodTom={period.tom}
+                    skjæringstidspunkt={period.skjaeringstidspunkt}
+                    navnPåDeaktiverteGhostArbeidsgivere={navnPåDeaktiverteGhostArbeidsgivere}
+                    avviksprosent={(vilkårsgrunnlag as VilkarsgrunnlagSpleis)?.avviksprosent}
+                />
+                <SaksbildeMenu />
                 <div className={styles.RouteContainer}>
                     <React.Suspense fallback={<UberegnetVilkarsprovdPeriodeViewLoader />}>
                         <Routes>

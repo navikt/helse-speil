@@ -7,7 +7,6 @@
     grid-template-areas:
         'personlinje personlinje personlinje'
         'timeline timeline timeline'
-        'varsler varsler varsler'
         'venstremeny content høyremeny';
     flex: 1;
     height: max-content;

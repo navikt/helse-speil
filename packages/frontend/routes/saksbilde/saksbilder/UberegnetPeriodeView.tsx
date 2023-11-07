@@ -86,8 +86,8 @@ export const UberegnetPeriodeView = ({ activePeriod }: UberegnetPeriodeViewProps
     return (
         <>
             <Venstremeny />
-            <Saksbildevarsler periodState={getPeriodState(activePeriod)} varsler={activePeriod.varsler} />
             <div className={styles.Content}>
+                <Saksbildevarsler periodState={getPeriodState(activePeriod)} varsler={activePeriod.varsler} />
                 <SaksbildeMenu />
                 {errorMelding}
                 <div className={styles.RouteContainer}>

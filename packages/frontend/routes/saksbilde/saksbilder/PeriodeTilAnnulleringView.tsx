@@ -13,10 +13,10 @@ export const PeriodeTilAnnulleringView: React.FC = () => {
         <>
             <Venstremeny />
             <div className={styles.Content}>
-                <SaksbildeMenu />
                 <Alert variant="info" className={styles.Varsel}>
                     Utbetalingen er sendt til annullering
                 </Alert>
+                <SaksbildeMenu />
             </div>
             <Historikk />
         </>

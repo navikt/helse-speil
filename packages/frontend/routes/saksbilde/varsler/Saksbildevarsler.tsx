@@ -198,7 +198,7 @@ export const Saksbildevarsler = ({
     ].filter((it) => it) as VarselObject[];
 
     return (
-        <div className="Saksbildevarsler" style={{ gridArea: 'varsler' }}>
+        <div className="Saksbildevarsler">
             {infoVarsler.map(({ grad, melding }, index) => (
                 <Alert className={styles.Varsel} variant={grad} key={index}>
                     <BodyShort>{melding}</BodyShort>
