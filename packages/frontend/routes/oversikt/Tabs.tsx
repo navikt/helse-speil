@@ -64,7 +64,7 @@ export const Tabs = () => {
                     aria-expanded={showFiltermeny}
                     onClick={toggleFiltermeny}
                 >
-                    <FilterIcon title="Filtermeny" width={20} height={20} /> {showFiltermeny && 'FILTER (6)'}
+                    <FilterIcon title="Filtermeny" width={20} height={20} />
                 </RoundedButton>
             )}
             <span role="tablist">
