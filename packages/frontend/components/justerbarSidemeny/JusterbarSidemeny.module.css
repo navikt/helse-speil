@@ -1,13 +1,14 @@
 .justerbarSidemeny {
     display: flex;
     gridarea: 'høyremeny';
+    height: fit-content;
+    min-height: 100%;
 }
 .justerbarSidemeny.venstre {
     flex-direction: row-reverse;
 }
 .justerbarLinje {
     width: 0.5rem;
-    height: 100%;
     grid-area: høyremeny;
     cursor: col-resize;
     display: flex;
