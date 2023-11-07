@@ -81,10 +81,7 @@ const HistorikkWithContent: React.FC = () => {
                     {!loading && (
                         <div className={styles.Historikk}>
                             <ul>
-                                <div>
-                                    {getHistorikkTitle(filter)}
-                                    <CloseButton onClick={() => setShowHistorikk(false)} aria-label="Lukk" />
-                                </div>
+                                <div>{getHistorikkTitle(filter)}</div>
                                 {filter !== 'Dokument' && <Notat />}
                                 {historikk.map((it: HendelseObject, index) => {
                                     switch (it.type) {
