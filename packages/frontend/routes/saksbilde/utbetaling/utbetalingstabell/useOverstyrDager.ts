@@ -1,9 +1,10 @@
+import { Lovhjemmel } from '../../sykepengegrunnlag/overstyring/overstyring.types';
 import dayjs from 'dayjs';
 import { useEffect, useRef, useState } from 'react';
 
 import { useMutation } from '@apollo/client';
 import { Arbeidsgiver, OverstyrDagerMutationDocument, TidslinjeOverstyringInput } from '@io/graphql';
-import { OverstyrtDagDTO, postAbonnerPåAktør } from '@io/http';
+import { OverstyrtDagDTO, OverstyrtDagtype, postAbonnerPåAktør } from '@io/http';
 import { useCurrentArbeidsgiver } from '@state/arbeidsgiver';
 import {
     kalkulererFerdigToastKey,
@@ -14,8 +15,6 @@ import {
 import { useOpptegnelser, useSetOpptegnelserPollingRate } from '@state/opptegnelser';
 import { useCurrentPerson } from '@state/person';
 import { useAddToast, useRemoveToast } from '@state/toasts';
-
-import { Lovhjemmel } from '../../sykepengegrunnlag/overstyring/overstyring.types';
 
 type UsePostOverstyringState = 'loading' | 'hasValue' | 'hasError' | 'initial' | 'timedOut' | 'done';
 
@@ -32,7 +31,7 @@ type UsePostOverstyringResult = {
 };
 
 export const useOverstyrDager = (): UsePostOverstyringResult => {
-    const person = useCurrentPerson() as FetchedPerson;
+    const person = useCurrentPerson();
     const arbeidsgiver = useCurrentArbeidsgiver() as Arbeidsgiver;
     const personFørRefetchRef = useRef(person);
     const addToast = useAddToast();
@@ -69,7 +68,7 @@ export const useOverstyrDager = (): UsePostOverstyringResult => {
         };
     }, [calculating]);
 
-    const overstyrDager = (
+    const overstyrDager = async (
         dager: Array<Utbetalingstabelldag>,
         overstyrteDager: Array<Utbetalingstabelldag>,
         begrunnelse: string,
@@ -105,7 +104,7 @@ export const useOverstyrDager = (): UsePostOverstyringResult => {
     };
 };
 
-const tilOverstyrteDager = (
+export const tilOverstyrteDager = (
     dager: Array<Utbetalingstabelldag>,
     overstyrteDager: Array<Utbetalingstabelldag>,
 ): OverstyrtDagDTO[] =>
@@ -120,15 +119,15 @@ const tilOverstyrteDager = (
             fraType: fraDag.dag.overstyrtDagtype,
             grad: overstyrtDag.grad ?? undefined,
             fraGrad: fraDag.grad ?? undefined,
-            lovhjemmel: finnLovhjemmelForDagoverstyring(fraDag, overstyrtDag),
+            lovhjemmel: finnLovhjemmelForDagoverstyring(fraDag.erForeldet, overstyrtDag.dag.overstyrtDagtype),
         };
     });
 
 const finnLovhjemmelForDagoverstyring = (
-    fraDag: Utbetalingstabelldag,
-    overstyrtDag: Utbetalingstabelldag,
+    fraDagForeldet: boolean,
+    overstyrtDagtype: OverstyrtDagtype,
 ): Lovhjemmel | undefined => {
-    if (fraDag.erForeldet && overstyrtDag.dag.overstyrtDagtype === 'Sykedag') {
+    if (fraDagForeldet && overstyrtDagtype === 'Sykedag') {
         return {
             paragraf: '22-13',
             ledd: '7',
