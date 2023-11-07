@@ -8,16 +8,11 @@ import { ErrorBoundary } from '@components/ErrorBoundary';
 import { LoadingShimmer } from '@components/LoadingShimmer';
 import { useActivePeriod } from '@state/periode';
 import { useFetchPersonQuery } from '@state/person';
-import { onLazyLoadFail } from '@utils/error';
 import { isBeregnetPeriode, isGhostPeriode, isUberegnetVilkarsprovdPeriode } from '@utils/typeguards';
 
 import { DropdownMenu } from './dropdown/DropdownMenu';
 
 import styles from './SaksbildeMenu.module.css';
-
-const HistorikkHeader = React.lazy(() =>
-    import('../historikk/HistorikkHeader.js').then((res) => ({ default: res.HistorikkHeader })).catch(onLazyLoadFail),
-);
 
 const SaksbildeMenuGhostPeriode: React.FC = () => (
     <div className={styles.SaksbildeMenu}>
@@ -27,7 +22,6 @@ const SaksbildeMenuGhostPeriode: React.FC = () => (
             </nav>
             <DropdownMenu />
         </div>
-        <HistorikkHeader />
     </div>
 );
 
@@ -48,7 +42,6 @@ const SaksbildeMenuBeregnetPeriode = ({ activePeriod }: SaksbildeMenuBeregnetPer
             </nav>
             <DropdownMenu />
         </div>
-        <HistorikkHeader />
     </div>
 );
 
@@ -62,7 +55,6 @@ const SaksbildeMenuUberegnetVilkarsprovdPeriode: React.FC = () => (
             </nav>
             <DropdownMenu />
         </div>
-        <HistorikkHeader />
     </div>
 );
 
@@ -74,7 +66,6 @@ const SaksbildeMenuUberegnetPeriode: React.FC = () => (
             </nav>
             <DropdownMenu />
         </div>
-        <HistorikkHeader />
     </div>
 );
 

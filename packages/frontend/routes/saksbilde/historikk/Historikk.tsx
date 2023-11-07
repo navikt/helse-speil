@@ -9,6 +9,7 @@ import { ErrorBoundary } from '@components/ErrorBoundary';
 import { JusterbarSidemeny } from '@components/justerbarSidemeny/JusterbarSidemeny';
 import { Key, useKeyboard } from '@hooks/useKeyboard';
 import { useCurrentPerson, useFetchPersonQuery } from '@state/person';
+import { onLazyLoadFail } from '@utils/error';
 
 import { Notat } from '../notat/Notat';
 import { AnnetArbeidsforholdoverstyringhendelse } from './hendelser/AnnetArbeidsforholdoverstyringhendelse';
@@ -24,6 +25,10 @@ import { Notathendelse } from './hendelser/notat/Notathendelse';
 import { useFilterState, useFilteredHistorikk, useShowHistorikkState } from './state';
 
 import styles from './Historikk.module.css';
+
+const HistorikkHeader = React.lazy(() =>
+    import('../historikk/HistorikkHeader.js').then((res) => ({ default: res.HistorikkHeader })).catch(onLazyLoadFail),
+);
 
 const getHistorikkTitle = (type: Filtertype): string => {
     switch (type) {
@@ -56,68 +61,76 @@ const HistorikkWithContent: React.FC = () => {
     ]);
 
     return (
-        <JusterbarSidemeny defaultBredde={320} visSidemeny={showHistorikk} localStorageNavn="historikkBredde">
-            <motion.div
-                key="historikk"
-                transition={{
-                    type: 'tween',
-                    duration: 0.2,
-                    ease: 'easeInOut',
-                }}
-                style={{ overflow: 'hidden' }}
+        <>
+            <JusterbarSidemeny
+                defaultBredde={320}
+                visSidemeny={showHistorikk}
+                localStorageNavn="historikkBredde"
+                className={styles.justerbarsidemeny}
             >
-                {loading && <HistorikkSkeleton />}
-                {!loading && (
-                    <div className={styles.Historikk}>
-                        <ul>
-                            <div>
-                                {getHistorikkTitle(filter)}
-                                <CloseButton onClick={() => setShowHistorikk(false)} aria-label="Lukk" />
-                            </div>
-                            {filter !== 'Dokument' && <Notat />}
-                            {historikk.map((it: HendelseObject, index) => {
-                                switch (it.type) {
-                                    case 'Arbeidsforholdoverstyring': {
-                                        return <Arbeidsforholdoverstyringhendelse key={it.id} {...it} />;
+                <motion.div
+                    key="historikk"
+                    transition={{
+                        type: 'tween',
+                        duration: 0.2,
+                        ease: 'easeInOut',
+                    }}
+                    style={{ overflow: 'hidden' }}
+                >
+                    {loading && <HistorikkSkeleton />}
+                    {!loading && (
+                        <div className={styles.Historikk}>
+                            <ul>
+                                <div>
+                                    {getHistorikkTitle(filter)}
+                                    <CloseButton onClick={() => setShowHistorikk(false)} aria-label="Lukk" />
+                                </div>
+                                {filter !== 'Dokument' && <Notat />}
+                                {historikk.map((it: HendelseObject, index) => {
+                                    switch (it.type) {
+                                        case 'Arbeidsforholdoverstyring': {
+                                            return <Arbeidsforholdoverstyringhendelse key={it.id} {...it} />;
+                                        }
+                                        case 'AnnetArbeidsforholdoverstyring': {
+                                            return <AnnetArbeidsforholdoverstyringhendelse key={it.id} {...it} />;
+                                        }
+                                        case 'Dagoverstyring': {
+                                            return <Dagoverstyringhendelse key={it.id} {...it} />;
+                                        }
+                                        case 'Inntektoverstyring': {
+                                            return <Inntektoverstyringhendelse key={`${it.id}-${index}`} {...it} />;
+                                        }
+                                        case 'Sykepengegrunnlagskjonnsfastsetting': {
+                                            return (
+                                                <Sykepengegrunnlagskjønnsfastsettinghendelse
+                                                    key={`${it.id}-${index}`}
+                                                    {...it}
+                                                />
+                                            );
+                                        }
+                                        case 'Dokument': {
+                                            return <Dokumenthendelse key={it.id} {...it} />;
+                                        }
+                                        case 'Notat': {
+                                            return <Notathendelse key={it.id} {...it} />;
+                                        }
+                                        case 'Utbetaling': {
+                                            return <Utbetalinghendelse key={it.id} {...it} />;
+                                        }
+                                        case 'Historikk': {
+                                            return <Historikkhendelse key={it.id} {...it} />;
+                                        }
+                                        default:
+                                            return null;
                                     }
-                                    case 'AnnetArbeidsforholdoverstyring': {
-                                        return <AnnetArbeidsforholdoverstyringhendelse key={it.id} {...it} />;
-                                    }
-                                    case 'Dagoverstyring': {
-                                        return <Dagoverstyringhendelse key={it.id} {...it} />;
-                                    }
-                                    case 'Inntektoverstyring': {
-                                        return <Inntektoverstyringhendelse key={`${it.id}-${index}`} {...it} />;
-                                    }
-                                    case 'Sykepengegrunnlagskjonnsfastsetting': {
-                                        return (
-                                            <Sykepengegrunnlagskjønnsfastsettinghendelse
-                                                key={`${it.id}-${index}`}
-                                                {...it}
-                                            />
-                                        );
-                                    }
-                                    case 'Dokument': {
-                                        return <Dokumenthendelse key={it.id} {...it} />;
-                                    }
-                                    case 'Notat': {
-                                        return <Notathendelse key={it.id} {...it} />;
-                                    }
-                                    case 'Utbetaling': {
-                                        return <Utbetalinghendelse key={it.id} {...it} />;
-                                    }
-                                    case 'Historikk': {
-                                        return <Historikkhendelse key={it.id} {...it} />;
-                                    }
-                                    default:
-                                        return null;
-                                }
-                            })}
-                        </ul>
-                    </div>
-                )}
-            </motion.div>
-        </JusterbarSidemeny>
+                                })}
+                            </ul>
+                        </div>
+                    )}
+                </motion.div>
+            </JusterbarSidemeny>
+            <HistorikkHeader />
+        </>
     );
 };
 

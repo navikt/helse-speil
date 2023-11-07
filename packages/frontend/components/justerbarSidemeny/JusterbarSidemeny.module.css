@@ -1,6 +1,6 @@
 .justerbarSidemeny {
     display: flex;
-    gridarea: 'høyremeny';
+    grid-area: høyremeny;
     height: fit-content;
     min-height: 100%;
 }

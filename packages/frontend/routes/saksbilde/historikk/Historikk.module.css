@@ -22,3 +22,7 @@
 .Error {
     background-color: var(--a-surface-danger-subtle);
 }
+
+.justerbarsidemeny {
+    margin-right: 48px;
+}

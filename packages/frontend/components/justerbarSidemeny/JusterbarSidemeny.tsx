@@ -7,6 +7,7 @@ interface JusterbarSidebarProps {
     defaultBredde: number;
     visSidemeny: boolean;
     children: ReactNode;
+    className?: string;
     localStorageNavn?: string;
     åpnesTilVenstre?: boolean;
 }
@@ -15,6 +16,7 @@ export const JusterbarSidemeny: React.FC<JusterbarSidebarProps> = ({
     defaultBredde,
     children,
     localStorageNavn,
+    className,
     åpnesTilVenstre = false,
 }: JusterbarSidebarProps) => {
     const [width, setWidth] = useState(
@@ -57,7 +59,7 @@ export const JusterbarSidemeny: React.FC<JusterbarSidebarProps> = ({
 
     return (
         visSidemeny && (
-            <div className={classNames(styles.justerbarSidemeny, åpnesTilVenstre && styles.venstre)}>
+            <div className={classNames(styles.justerbarSidemeny, className, åpnesTilVenstre && styles.venstre)}>
                 <div
                     className={styles.justerbarLinje}
                     onMouseDown={(e) => {
