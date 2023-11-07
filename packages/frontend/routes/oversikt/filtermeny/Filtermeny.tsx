@@ -6,6 +6,7 @@ import { OppgaveTilBehandling } from '@io/graphql';
 
 import { Filter, Oppgaveoversiktkolonne } from '../table/state/filter';
 import { FilterList } from './FilterList';
+import { useShowFiltermeny } from './state';
 
 import styles from './Filtermeny.module.css';
 
@@ -13,8 +14,15 @@ interface FilterMenyProps {
     filters: Filter<OppgaveTilBehandling>[];
 }
 export const Filtermeny = ({ filters }: FilterMenyProps) => {
+    const showFiltermeny = useShowFiltermeny();
+
     return (
-        <JusterbarSidemeny defaultBredde={320} visSidemeny={true} localStorageNavn="filterBredde" åpnesTilVenstre>
+        <JusterbarSidemeny
+            defaultBredde={320}
+            visSidemeny={showFiltermeny}
+            localStorageNavn="filterBredde"
+            åpnesTilVenstre
+        >
             <section className={classNames(styles.filtermeny)}>
                 <FilterList
                     filters={filters.filter((it) => it.column === Oppgaveoversiktkolonne.TILDELING)}

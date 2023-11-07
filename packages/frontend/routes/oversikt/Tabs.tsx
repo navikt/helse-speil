@@ -1,12 +1,15 @@
 import classNames from 'classnames';
 import React from 'react';
 
+import { FilterIcon } from '@navikt/aksel-icons';
 import { DataFilled } from '@navikt/ds-icons';
 
 import { RoundedButton } from '@components/RoundedButton';
 import { useAntallOppgaver } from '@state/oppgaver';
+import { skalSeFiltermeny } from '@utils/featureToggles';
 
 import { useShowStatistikk, useToggleStatistikk } from './behandlingsstatistikk/state';
+import { useShowFiltermeny, useToggleFiltermeny } from './filtermeny/state';
 import { TabType, useSwitchTab } from './tabState';
 
 import styles from './Tabs.module.css';
@@ -49,9 +52,22 @@ const BehandletIdagTab = () => <OppgaveTab tag={TabType.BehandletIdag} label="Be
 export const Tabs = () => {
     const toggleStatistikk = useToggleStatistikk();
     const showStatistikk = useShowStatistikk();
+    const toggleFiltermeny = useToggleFiltermeny();
+    const showFiltermeny = useShowFiltermeny();
 
     return (
         <div className={styles.Tabs}>
+            {skalSeFiltermeny && (
+                <RoundedButton
+                    id="filtermeny-toggle"
+                    className={classNames(styles.Button, showFiltermeny && styles.active)}
+                    aria-label="Toggle visning av filtermeny"
+                    aria-expanded={showFiltermeny}
+                    onClick={toggleFiltermeny}
+                >
+                    <FilterIcon title="Filtermeny" width={20} height={20} /> {showFiltermeny && 'FILTER (6)'}
+                </RoundedButton>
+            )}
             <span role="tablist">
                 <AlleSakerTab />
                 <MineSakerTab />

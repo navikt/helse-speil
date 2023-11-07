@@ -85,10 +85,12 @@
 
 .Button:active {
     background: var(--a-surface-action);
+    color: #ffffff;
 }
 
 .Button.active:not(:active) {
     background: var(--a-surface-action-selected);
+    color: #ffffff;
 }
 
 .Button.active > svg > path {

@@ -1,3 +1,4 @@
 .filtermeny {
     overflow: hidden;
+    margin-left: var(--a-spacing-6);
 }
