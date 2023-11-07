@@ -56,18 +56,19 @@ export const Tabs = () => {
 
     return (
         <div className={styles.Tabs}>
-            {skalSeFiltermeny && (
-                <RoundedButton
-                    id="filtermeny-toggle"
-                    className={classNames(styles.Button, showFiltermeny && styles.active)}
-                    aria-label="Toggle visning av filtermeny"
-                    aria-expanded={showFiltermeny}
-                    onClick={toggleFiltermeny}
-                >
-                    <FilterIcon title="Filtermeny" width={20} height={20} />
-                </RoundedButton>
-            )}
             <span role="tablist">
+                {skalSeFiltermeny && (
+                    <RoundedButton
+                        id="filtermeny-toggle"
+                        className={classNames(styles.Button, styles.filterbutton, showFiltermeny && styles.active)}
+                        aria-label="Toggle visning av filtermeny"
+                        aria-expanded={showFiltermeny}
+                        onClick={toggleFiltermeny}
+                    >
+                        <FilterIcon title="Filtermeny" width={20} height={20} />
+                    </RoundedButton>
+                )}
+
                 <AlleSakerTab />
                 <MineSakerTab />
                 <VentendeSakerTab />

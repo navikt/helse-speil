@@ -96,3 +96,7 @@
 .Button.active > svg > path {
     fill: #ffffff;
 }
+
+.filterbutton {
+    margin-right: 1rem;
+}
