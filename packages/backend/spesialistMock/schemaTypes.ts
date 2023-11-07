@@ -1162,6 +1162,7 @@ export enum Sykdomsdagtype {
     FriskHelgedag = 'FRISK_HELGEDAG',
     Permisjonsdag = 'PERMISJONSDAG',
     Sykedag = 'SYKEDAG',
+    SykedagNav = 'SYKEDAG_NAV',
     SykHelgedag = 'SYK_HELGEDAG',
     Ubestemtdag = 'UBESTEMTDAG',
 }
