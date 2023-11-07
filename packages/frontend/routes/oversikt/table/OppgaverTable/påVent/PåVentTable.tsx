@@ -3,6 +3,7 @@ import React from 'react';
 import { SortState, Table } from '@navikt/ds-react';
 
 import { OppgaveTilBehandling } from '@io/graphql';
+import { skalSeFiltermeny } from '@utils/featureToggles';
 
 import { Filter } from '../../state/filter';
 import { SortKey, useUpdateSort } from '../../state/sortation';
@@ -31,7 +32,7 @@ export const PåVentTable = ({ filters, oppgaver, sort, setSort }: PåVentTableP
             zebraStripes
         >
             <Table.Header>
-                <PåVentDropdownHeaderRow filters={filters} />
+                {!skalSeFiltermeny && <PåVentDropdownHeaderRow filters={filters} />}
                 <PåVentSortHeaderRow />
             </Table.Header>
             <Table.Body>

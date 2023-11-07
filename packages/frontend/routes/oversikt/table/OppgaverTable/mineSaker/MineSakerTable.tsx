@@ -3,6 +3,7 @@ import React from 'react';
 import { SortState, Table } from '@navikt/ds-react';
 
 import { OppgaveTilBehandling } from '@io/graphql';
+import { skalSeFiltermeny } from '@utils/featureToggles';
 
 import { Filter } from '../../state/filter';
 import { SortKey, useUpdateSort } from '../../state/sortation';
@@ -30,7 +31,7 @@ export const MineSakerTable = ({ filters, oppgaver, sort, setSort }: MineSakerTa
             zebraStripes
         >
             <Table.Header>
-                <MineSakerDropdownHeaderRow filters={filters} />
+                {!skalSeFiltermeny && <MineSakerDropdownHeaderRow filters={filters} />}
                 <MineSakerSortHeaderRow />
             </Table.Header>
             <Table.Body>

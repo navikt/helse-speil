@@ -3,6 +3,7 @@ import React from 'react';
 import { SortState, Table } from '@navikt/ds-react';
 
 import { OppgaveTilBehandling } from '@io/graphql';
+import { skalSeFiltermeny } from '@utils/featureToggles';
 
 import { Filter } from '../../state/filter';
 import { SortKey, useUpdateSort } from '../../state/sortation';
@@ -32,7 +33,7 @@ export const TilGodkjenningTable = ({ filters, oppgaver, readOnly, sort, setSort
             zebraStripes
         >
             <Table.Header>
-                <TilGodkjenningDropdownHeaderRow filters={filters} />
+                {!skalSeFiltermeny && <TilGodkjenningDropdownHeaderRow filters={filters} />}
                 <TilGodkjenningSortHeaderRow />
             </Table.Header>
             <Table.Body>
