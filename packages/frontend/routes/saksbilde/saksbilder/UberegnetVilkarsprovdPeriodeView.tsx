@@ -78,17 +78,17 @@ export const UberegnetVilkarsprovdPeriodeView: React.FC<UberegnetVilkarsprovdPer
     return (
         <>
             <Venstremeny />
+            <Saksbildevarsler
+                periodState={getPeriodState(period)}
+                varsler={period.varsler}
+                erTidligereSaksbehandler={erTidligereSaksbehandler}
+                endringerEtterNyesteUtbetalingPåPerson={overstyringerEtterNyesteUtbetalingPåPerson}
+                activePeriodTom={period.tom}
+                skjæringstidspunkt={period.skjaeringstidspunkt}
+                navnPåDeaktiverteGhostArbeidsgivere={navnPåDeaktiverteGhostArbeidsgivere}
+                avviksprosent={(vilkårsgrunnlag as VilkarsgrunnlagSpleis)?.avviksprosent}
+            />
             <div className={styles.Content}>
-                <Saksbildevarsler
-                    periodState={getPeriodState(period)}
-                    varsler={period.varsler}
-                    erTidligereSaksbehandler={erTidligereSaksbehandler}
-                    endringerEtterNyesteUtbetalingPåPerson={overstyringerEtterNyesteUtbetalingPåPerson}
-                    activePeriodTom={period.tom}
-                    skjæringstidspunkt={period.skjaeringstidspunkt}
-                    navnPåDeaktiverteGhostArbeidsgivere={navnPåDeaktiverteGhostArbeidsgivere}
-                    avviksprosent={(vilkårsgrunnlag as VilkarsgrunnlagSpleis)?.avviksprosent}
-                />
                 <div className={styles.RouteContainer}>
                     <React.Suspense fallback={<UberegnetVilkarsprovdPeriodeViewLoader />}>
                         <Routes>

@@ -7,6 +7,7 @@ import type { GhostPeriode } from '@io/graphql';
 import { getPeriodState } from '@utils/mapping';
 
 import { Historikk } from '../historikk';
+import { SaksbildeMenu } from '../saksbildeMenu/SaksbildeMenu';
 import { Sykepengegrunnlag } from '../sykepengegrunnlag/Sykepengegrunnlag';
 import { Saksbildevarsler } from '../varsler/Saksbildevarsler';
 import { Venstremeny } from '../venstremeny/Venstremeny';
@@ -27,11 +28,12 @@ export const GhostPeriodeView: React.FC<GhostPeriodeViewProps> = ({ activePeriod
     return (
         <>
             <Venstremeny />
+            <Saksbildevarsler
+                periodState={getPeriodState(activePeriod)}
+                skjæringstidspunkt={activePeriod.skjaeringstidspunkt}
+            />
             <div className={styles.Content} data-testid="saksbilde-content-uten-sykefravær">
-                <Saksbildevarsler
-                    periodState={getPeriodState(activePeriod)}
-                    skjæringstidspunkt={activePeriod.skjaeringstidspunkt}
-                />
+                <SaksbildeMenu />
                 <Routes>
                     <Route
                         path="sykepengegrunnlag"

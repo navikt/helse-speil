@@ -15,6 +15,7 @@ import {
 } from '@utils/typeguards';
 
 import { Historikk } from '../historikk';
+import { SaksbildeMenu } from '../saksbildeMenu/SaksbildeMenu';
 import { Venstremeny } from '../venstremeny/Venstremeny';
 import { AnnullertPeriodeView } from './AnnullertPeriodeView';
 import { PeriodeTilAnnulleringView } from './PeriodeTilAnnulleringView';
@@ -66,7 +67,9 @@ const PeriodeViewSkeleton = () => {
     return (
         <>
             <Venstremeny />
-            <div className={styles.Content} />
+            <div className={styles.Content}>
+                <SaksbildeMenu />
+            </div>
             <Historikk />
         </>
     );

@@ -14,7 +14,6 @@ import { onLazyLoadFail } from '@utils/error';
 
 import { VenterPåEndringProvider } from './VenterPåEndringContext';
 import { PersonHeader } from './personHeader';
-import { SaksbildeMenu } from './saksbildeMenu/SaksbildeMenu';
 import { Timeline } from './timeline';
 import { useKeyboardShortcuts } from './useKeyboardShortcuts';
 
@@ -56,7 +55,6 @@ const SaksbildeContent = () => {
             <Timeline />
             <AmplitudeProvider>
                 <VenterPåEndringProvider>
-                    <SaksbildeMenu />
                     <Routes>
                         <Route path="utbetalingshistorikk" element={<Utbetalingshistorikk />} />
                         <Route path="/*" element={<PeriodeView />} />

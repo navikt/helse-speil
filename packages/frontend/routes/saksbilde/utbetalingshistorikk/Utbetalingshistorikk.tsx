@@ -15,6 +15,7 @@ import { useCurrentPerson } from '@state/person';
 
 import { Annulleringsmodal } from '../annullering/Annulleringsmodal';
 import { useKanAnnulleres } from '../annullering/useKanAnnulleres';
+import { SaksbildeMenu } from '../saksbildeMenu/SaksbildeMenu';
 import { UtbetalingshistorikkRow } from './UtbetalingshistorikkRow';
 
 const Container = styled.div`
@@ -90,73 +91,76 @@ const UtbetalingshistorikkWithContent: React.FC<UtbetalingshistorikkWithContentP
         );
 
     return (
-        <Container className="Utbetalingshistorikk">
-            <CloseButton as="button" onClick={lukkUtbetalingshistorikk} size="small" variant="tertiary">
-                <Close /> Lukk utbetalingshistorikk
-            </CloseButton>
-            <Table aria-label={`Utbetalingshistorikk for person med fødselsnummer ${fødselsnummer ?? '"Ukjent"'}`}>
-                <thead>
-                    <tr>
-                        <th>Fra</th>
-                        <th>Til</th>
-                        <th>Fagsystem-ID</th>
-                        <th>Mottaker</th>
-                        <th>Totalt</th>
-                        <th>Status</th>
-                        <th>Type</th>
-                        <th />
-                    </tr>
-                </thead>
-                <tbody>
-                    {data?.oppdrag.map((oppdrag, i) => (
-                        <React.Fragment key={i}>
-                            {oppdrag.personoppdrag && (
-                                <UtbetalingshistorikkRow
-                                    visAnnullering={skalViseAnnulleringButton(oppdrag)}
-                                    kanAnnulleres={kanAnnulleres(oppdrag.personoppdrag)}
-                                    setTilAnnullering={() => setTilAnnullering(oppdrag.personoppdrag ?? undefined)}
-                                    oppdaterVarselTekst={oppdaterVarselTekst}
-                                    oppdrag={oppdrag.personoppdrag}
-                                    status={oppdrag.status}
-                                    type={oppdrag.type}
-                                />
-                            )}
-                            {oppdrag.arbeidsgiveroppdrag && (
-                                <UtbetalingshistorikkRow
-                                    visAnnullering={skalViseAnnulleringButton(oppdrag)}
-                                    kanAnnulleres={kanAnnulleres(oppdrag.arbeidsgiveroppdrag)}
-                                    setTilAnnullering={() =>
-                                        setTilAnnullering(oppdrag.arbeidsgiveroppdrag ?? undefined)
-                                    }
-                                    oppdaterVarselTekst={oppdaterVarselTekst}
-                                    oppdrag={oppdrag.arbeidsgiveroppdrag}
-                                    status={oppdrag.status}
-                                    type={oppdrag.type}
-                                />
-                            )}
-                        </React.Fragment>
-                    ))}
-                </tbody>
-            </Table>
-            {tilAnnullering && (
-                <Annulleringsmodal
-                    fødselsnummer={fødselsnummer}
-                    aktørId={aktørId}
-                    organisasjonsnummer={(tilAnnullering as Arbeidsgiveroppdrag)?.organisasjonsnummer}
-                    fagsystemId={tilAnnullering.fagsystemId}
-                    linjer={tilAnnullering.linjer.map((it) => ({
-                        ...it,
-                        totalbeløp: it.totalbelop,
-                    }))}
-                    onClose={() => {
-                        setTilAnnullering(undefined);
-                        setVarseltekst(undefined);
-                    }}
-                    onSuccess={settValgtOppdragSomInFlight(tilAnnullering)}
-                    varseltekst={varseltekst}
-                />
-            )}
-        </Container>
+        <>
+            <SaksbildeMenu />
+            <Container className="Utbetalingshistorikk">
+                <CloseButton as="button" onClick={lukkUtbetalingshistorikk} size="small" variant="tertiary">
+                    <Close /> Lukk utbetalingshistorikk
+                </CloseButton>
+                <Table aria-label={`Utbetalingshistorikk for person med fødselsnummer ${fødselsnummer ?? '"Ukjent"'}`}>
+                    <thead>
+                        <tr>
+                            <th>Fra</th>
+                            <th>Til</th>
+                            <th>Fagsystem-ID</th>
+                            <th>Mottaker</th>
+                            <th>Totalt</th>
+                            <th>Status</th>
+                            <th>Type</th>
+                            <th />
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {data?.oppdrag.map((oppdrag, i) => (
+                            <React.Fragment key={i}>
+                                {oppdrag.personoppdrag && (
+                                    <UtbetalingshistorikkRow
+                                        visAnnullering={skalViseAnnulleringButton(oppdrag)}
+                                        kanAnnulleres={kanAnnulleres(oppdrag.personoppdrag)}
+                                        setTilAnnullering={() => setTilAnnullering(oppdrag.personoppdrag ?? undefined)}
+                                        oppdaterVarselTekst={oppdaterVarselTekst}
+                                        oppdrag={oppdrag.personoppdrag}
+                                        status={oppdrag.status}
+                                        type={oppdrag.type}
+                                    />
+                                )}
+                                {oppdrag.arbeidsgiveroppdrag && (
+                                    <UtbetalingshistorikkRow
+                                        visAnnullering={skalViseAnnulleringButton(oppdrag)}
+                                        kanAnnulleres={kanAnnulleres(oppdrag.arbeidsgiveroppdrag)}
+                                        setTilAnnullering={() =>
+                                            setTilAnnullering(oppdrag.arbeidsgiveroppdrag ?? undefined)
+                                        }
+                                        oppdaterVarselTekst={oppdaterVarselTekst}
+                                        oppdrag={oppdrag.arbeidsgiveroppdrag}
+                                        status={oppdrag.status}
+                                        type={oppdrag.type}
+                                    />
+                                )}
+                            </React.Fragment>
+                        ))}
+                    </tbody>
+                </Table>
+                {tilAnnullering && (
+                    <Annulleringsmodal
+                        fødselsnummer={fødselsnummer}
+                        aktørId={aktørId}
+                        organisasjonsnummer={(tilAnnullering as Arbeidsgiveroppdrag)?.organisasjonsnummer}
+                        fagsystemId={tilAnnullering.fagsystemId}
+                        linjer={tilAnnullering.linjer.map((it) => ({
+                            ...it,
+                            totalbeløp: it.totalbelop,
+                        }))}
+                        onClose={() => {
+                            setTilAnnullering(undefined);
+                            setVarseltekst(undefined);
+                        }}
+                        onSuccess={settValgtOppdragSomInFlight(tilAnnullering)}
+                        varseltekst={varseltekst}
+                    />
+                )}
+            </Container>
+        </>
     );
 };
 

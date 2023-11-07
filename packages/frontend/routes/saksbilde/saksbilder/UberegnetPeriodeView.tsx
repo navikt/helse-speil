@@ -9,6 +9,7 @@ import { onLazyLoadFail } from '@utils/error';
 import { getPeriodState } from '@utils/mapping';
 
 import { Historikk } from '../historikk';
+import { SaksbildeMenu } from '../saksbildeMenu/SaksbildeMenu';
 import { Saksbildevarsler } from '../varsler/Saksbildevarsler';
 import { Venstremeny } from '../venstremeny/Venstremeny';
 
@@ -85,9 +86,10 @@ export const UberegnetPeriodeView = ({ activePeriod }: UberegnetPeriodeViewProps
     return (
         <>
             <Venstremeny />
+            <Saksbildevarsler periodState={getPeriodState(activePeriod)} varsler={activePeriod.varsler} />
             <div className={styles.Content}>
+                <SaksbildeMenu />
                 {errorMelding}
-                <Saksbildevarsler periodState={getPeriodState(activePeriod)} varsler={activePeriod.varsler} />
                 <div className={styles.RouteContainer}>
                     <React.Suspense fallback={<UberegnetPeriodeViewLoader />}>
                         <Routes>

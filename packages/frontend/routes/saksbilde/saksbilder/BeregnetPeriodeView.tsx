@@ -17,6 +17,7 @@ import {
 } from '@utils/typeguards';
 
 import { Historikk } from '../historikk';
+import { SaksbildeMenu } from '../saksbildeMenu/SaksbildeMenu';
 import { useVilkårsgrunnlag } from '../sykepengegrunnlag/useVilkårsgrunnlag';
 import { Saksbildevarsler } from '../varsler/Saksbildevarsler';
 import { Venstremeny } from '../venstremeny/Venstremeny';
@@ -92,22 +93,23 @@ export const BeregnetPeriodeView: React.FC<BeregnetPeriodeViewProps> = ({ period
 
     return (
         <>
+            <Saksbildevarsler
+                periodState={getPeriodState(period)}
+                oppgavereferanse={period.oppgave?.id}
+                varsler={period.varsler}
+                erTidligereSaksbehandler={erTidligereSaksbehandler}
+                erBeslutteroppgave={period.totrinnsvurdering?.erBeslutteroppgave}
+                endringerEtterNyesteUtbetalingPåPerson={overstyringerEtterNyesteUtbetalingPåPerson}
+                harDagOverstyringer={harDagOverstyringer}
+                activePeriodTom={period.tom}
+                skjæringstidspunkt={period.skjaeringstidspunkt}
+                navnPåDeaktiverteGhostArbeidsgivere={navnPåDeaktiverteGhostArbeidsgivere}
+                harBlittSkjønnsmessigFastsatt={harBlittSkjønnsmessigFastsatt}
+                avviksprosent={(vilkårsgrunnlag as VilkarsgrunnlagSpleis)?.avviksprosent}
+            />
             <Venstremeny />
             <div className={styles.Content}>
-                <Saksbildevarsler
-                    periodState={getPeriodState(period)}
-                    oppgavereferanse={period.oppgave?.id}
-                    varsler={period.varsler}
-                    erTidligereSaksbehandler={erTidligereSaksbehandler}
-                    erBeslutteroppgave={period.totrinnsvurdering?.erBeslutteroppgave}
-                    endringerEtterNyesteUtbetalingPåPerson={overstyringerEtterNyesteUtbetalingPåPerson}
-                    harDagOverstyringer={harDagOverstyringer}
-                    activePeriodTom={period.tom}
-                    skjæringstidspunkt={period.skjaeringstidspunkt}
-                    navnPåDeaktiverteGhostArbeidsgivere={navnPåDeaktiverteGhostArbeidsgivere}
-                    harBlittSkjønnsmessigFastsatt={harBlittSkjønnsmessigFastsatt}
-                    avviksprosent={(vilkårsgrunnlag as VilkarsgrunnlagSpleis)?.avviksprosent}
-                />
+                <SaksbildeMenu />
                 <div className={styles.RouteContainer}>
                     <React.Suspense fallback={<BeregnetPeriodeViewLoader />}>
                         <Routes>
