@@ -13,9 +13,10 @@ export const HistorikkHeader = () => {
     const [filter, setFilter] = useFilterState();
     const [showHistorikk, setShowHistorikk] = useShowHistorikkState();
 
-    const activateFilter = (filter: Filtertype) => () => {
+    const activateFilter = (nyttFilter: Filtertype) => () => {
+        if (showHistorikk && filter === nyttFilter) return setShowHistorikk(false);
         setShowHistorikk(true);
-        setFilter(filter);
+        setFilter(nyttFilter);
     };
 
     return (
