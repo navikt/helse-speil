@@ -1,5 +1,5 @@
 .filterChips {
-    margin: var(--a-spacing-1) var(--a-spacing-3);
+    margin: var(--a-spacing-1) var(--a-spacing-3) var(--a-spacing-5);
 }
 
 .ingenValgteFilter {
