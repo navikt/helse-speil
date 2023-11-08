@@ -65,7 +65,7 @@ export const Tabs = () => {
                         aria-expanded={showFiltermeny}
                         onClick={toggleFiltermeny}
                     >
-                        <FilterIcon title="Filtermeny" width={20} height={20} />
+                        <FilterIcon title="Filtermeny" fontSize="18px" />
                     </RoundedButton>
                 )}
 
@@ -81,7 +81,7 @@ export const Tabs = () => {
                 aria-expanded={showStatistikk}
                 onClick={toggleStatistikk}
             >
-                <BarChartIcon title="Behandlingsstatistikk" width={20} height={20} />
+                <BarChartIcon title="Behandlingsstatistikk" fontSize="18px" />
             </RoundedButton>
         </div>
     );

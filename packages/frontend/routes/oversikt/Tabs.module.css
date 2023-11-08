@@ -77,12 +77,12 @@
 }
 
 .Button:active {
-    background: var(--a-surface-neutral);
+    background: var(--a-icon-default);
     color: #ffffff;
 }
 
 .Button.active:not(:active) {
-    background: var(--a-surface-neutral-selected);
+    background: var(--a-icon-default);
     color: #ffffff;
 }
 
