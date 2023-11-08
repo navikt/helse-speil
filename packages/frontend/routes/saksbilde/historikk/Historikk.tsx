@@ -4,7 +4,6 @@ import React from 'react';
 
 import { BodyShort } from '@navikt/ds-react';
 
-import { CloseButton } from '@components/CloseButton';
 import { ErrorBoundary } from '@components/ErrorBoundary';
 import { JusterbarSidemeny } from '@components/justerbarSidemeny/JusterbarSidemeny';
 import { Key, useKeyboard } from '@hooks/useKeyboard';
@@ -135,10 +134,7 @@ export const HistorikkSkeleton = () => {
     return (
         <div className={styles.Historikk}>
             <ul>
-                <div>
-                    HISTORIKK
-                    <CloseButton disabled />
-                </div>
+                <div>HISTORIKK</div>
                 <HendelseSkeleton />
                 <HendelseSkeleton />
                 <HendelseSkeleton />
