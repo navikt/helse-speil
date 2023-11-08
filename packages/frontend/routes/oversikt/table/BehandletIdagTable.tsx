@@ -12,7 +12,6 @@ import { OppgaverTableSkeleton } from './OppgaverTableSkeleton';
 import { BehandletIdagPagination } from './Pagination';
 import { BehandletAvCell } from './cells/BehandletAvCell';
 import { BehandletTimestampCell } from './cells/BehandletTimestampCell';
-import { InntektskildeCell } from './cells/InntektskildeCell';
 import { OppgavetypeCell } from './cells/OppgavetypeCell';
 import { PeriodetypeCell } from './cells/PeriodetypeCell';
 import { SøkerCell } from './cells/SøkerCell';
@@ -51,7 +50,6 @@ export const BehandletIdagTable = () => {
                                 <HeaderCell text="Behandlet av" />
                                 <HeaderCell text="Periodetype" />
                                 <HeaderCell text="Oppgavetype" />
-                                <HeaderCell text="Inntektskilde" />
                                 <HeaderCell text="Søker" />
                                 <HeaderCell text="Behandlet" />
                             </Table.Row>
@@ -62,7 +60,6 @@ export const BehandletIdagTable = () => {
                                     <BehandletAvCell name={oppgave.ferdigstiltAv} />
                                     <PeriodetypeCell periodetype={oppgave.periodetype} />
                                     <OppgavetypeCell oppgavetype={oppgave.oppgavetype} />
-                                    <InntektskildeCell antallArbeidsforhold={oppgave.antallArbeidsforhold} />
                                     <SøkerCell
                                         name={{
                                             fornavn: oppgave.personnavn.fornavn,

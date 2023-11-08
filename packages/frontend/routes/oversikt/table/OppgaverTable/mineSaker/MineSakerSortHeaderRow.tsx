@@ -11,7 +11,6 @@ export const MineSakerSortHeaderRow = () => (
         <HeaderCell text="Oppgavetype" />
         <HeaderCell text="Mottaker" />
         <HeaderCell text="Egenskaper" />
-        <HeaderCell text="Inntektskilde" />
         <Table.ColumnHeader sortKey={SortKey.Søker} sortable>
             Søker
         </Table.ColumnHeader>

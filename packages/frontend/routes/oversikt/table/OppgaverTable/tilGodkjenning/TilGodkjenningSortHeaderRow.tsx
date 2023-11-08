@@ -14,7 +14,6 @@ export const TilGodkjenningSortHeaderRow = () => (
         <HeaderCell text="Oppgavetype" />
         <HeaderCell text="Mottaker" />
         <HeaderCell text="Egenskaper" />
-        <HeaderCell text="Inntektskilde" />
         <Table.ColumnHeader sortKey={SortKey.Opprettet} sortable>
             Opprettet
         </Table.ColumnHeader>

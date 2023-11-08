@@ -7,7 +7,6 @@ import { OppgaveTilBehandling } from '@io/graphql';
 import { LinkRow } from '../../LinkRow';
 import { DatoCell } from '../../cells/DatoCell';
 import { EgenskaperCell } from '../../cells/EgenskaperCell';
-import { InntektskildeCell } from '../../cells/InntektskildeCell';
 import { MottakerCell } from '../../cells/MottakerCell';
 import { OppgavetypeCell } from '../../cells/OppgavetypeCell';
 import { PeriodetypeCell } from '../../cells/PeriodetypeCell';
@@ -25,7 +24,6 @@ export const MineSakerOppgaveRow = ({ oppgave }: MineSakerOppgaveRowProps) => (
         <OppgavetypeCell oppgavetype={oppgave.oppgavetype} />
         <MottakerCell mottaker={oppgave.mottaker} />
         <EgenskaperCell egenskaper={oppgave.egenskaper} />
-        <InntektskildeCell antallArbeidsforhold={oppgave.antallArbeidsforhold} />
         <SøkerCell name={oppgave.navn} />
         <DatoCell date={oppgave.opprettet} />
         <DatoCell date={oppgave.opprinneligSoknadsdato ?? oppgave.opprettet} />
