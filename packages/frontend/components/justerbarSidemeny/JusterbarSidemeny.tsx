@@ -7,6 +7,7 @@ interface JusterbarSidebarProps {
     defaultBredde: number;
     visSidemeny: boolean;
     children: ReactNode;
+    onChangeBredde?: (width: number) => void;
     className?: string;
     localStorageNavn?: string;
     åpnesTilVenstre?: boolean;
@@ -17,6 +18,7 @@ export const JusterbarSidemeny: React.FC<JusterbarSidebarProps> = ({
     children,
     localStorageNavn,
     className,
+    onChangeBredde,
     åpnesTilVenstre = false,
 }: JusterbarSidebarProps) => {
     const [width, setWidth] = useState(
@@ -48,6 +50,7 @@ export const JusterbarSidemeny: React.FC<JusterbarSidebarProps> = ({
     useEffect(() => {
         if (!localStorageNavn) return;
         localStorage.setItem(localStorageNavn, `${width}`);
+        if (onChangeBredde) onChangeBredde(width);
     }, [width]);
 
     useEffect(() => {
