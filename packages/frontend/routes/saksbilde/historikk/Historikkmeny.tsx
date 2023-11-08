@@ -27,7 +27,7 @@ export const Historikkmeny = () => {
                 onClick={activateFilter('Historikk')}
                 title="Historikk"
             >
-                <ClockIcon title="Historikk" fontSize="22px" />
+                <ClockIcon title="Historikk" fontSize="18px" />
             </TabButton>
             <TabButton
                 className={classNames(styles.filterknapp, showHistorikk && filter === 'Dokument' && styles.active)}
@@ -35,7 +35,7 @@ export const Historikkmeny = () => {
                 onClick={activateFilter('Dokument')}
                 title="Dokumenter"
             >
-                <FolderIcon title="Dokumenter" fontSize="22px" />
+                <FolderIcon title="Dokumenter" fontSize="18px" />
             </TabButton>
             <TabButton
                 className={classNames(styles.filterknapp, showHistorikk && filter === 'Notat' && styles.active)}
@@ -43,7 +43,7 @@ export const Historikkmeny = () => {
                 onClick={activateFilter('Notat')}
                 title="Notat"
             >
-                <PencilWritingIcon title="Notat" fontSize="22px" />
+                <PencilWritingIcon title="Notat" fontSize="18px" />
             </TabButton>
         </div>
     );

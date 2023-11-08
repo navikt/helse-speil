@@ -1,27 +1,34 @@
 .historikkmeny {
-    --size: 48px;
     --antall-notater: 0;
     display: flex;
     box-sizing: border-box;
     flex-direction: column;
     grid-area: høyremeny;
-    background: #f2f3f5;
+    /*background: #f2f3f5;*/
     margin-left: auto;
     border-left: 1px solid #1a3636;
+    width: 58px;
+    align-items: center;
 }
 
 .filterknapp {
-    height: var(--size);
-    width: var(--size);
+    height: 2rem;
+    width: 2rem;
     border-bottom: 0;
+    padding: 0;
+    background: var(--a-bg-subtle);
+    border-radius: 50%;
+    margin-top: 1.5rem;
+}
+
+.filterknapp.active {
+    background-color: var(--a-icon-default);
+    color: #ffffff;
 }
 
 .filterknapp.active:before {
     left: initial;
     right: 0;
     top: 4px;
-    width: 8px;
-    height: 40px;
-    background: #23262a;
-    border-radius: 4px 0 0 4px;
+    height: 0;
 }
