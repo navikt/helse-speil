@@ -1,5 +1,6 @@
 import classNames from 'classnames';
 import React from 'react';
+import { useRecoilValue } from 'recoil';
 
 import { BarChartIcon, FilterIcon } from '@navikt/aksel-icons';
 
@@ -8,7 +9,7 @@ import { useAntallOppgaver } from '@state/oppgaver';
 import { skalSeFiltermeny } from '@utils/featureToggles';
 
 import { useShowStatistikk, useToggleStatistikk } from './behandlingsstatistikk/state';
-import { useShowFiltermeny, useToggleFiltermeny } from './filtermeny/state';
+import { filtermenyWidth, useShowFiltermeny, useToggleFiltermeny } from './filtermeny/state';
 import { TabType, useSwitchTab } from './tabState';
 
 import styles from './Tabs.module.css';
@@ -53,6 +54,7 @@ export const Tabs = () => {
     const showStatistikk = useShowStatistikk();
     const toggleFiltermeny = useToggleFiltermeny();
     const showFiltermeny = useShowFiltermeny();
+    const filtermenyBredde = useRecoilValue(filtermenyWidth);
 
     return (
         <div className={styles.Tabs}>
@@ -64,6 +66,7 @@ export const Tabs = () => {
                         aria-label="Toggle visning av filtermeny"
                         aria-expanded={showFiltermeny}
                         onClick={toggleFiltermeny}
+                        style={{ marginRight: showFiltermeny ? `${filtermenyBredde - 32}px` : '1rem' }}
                     >
                         <FilterIcon title="Filtermeny" fontSize="18px" />
                     </RoundedButton>

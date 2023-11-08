@@ -23,3 +23,8 @@ export const useToggleFiltermeny = () => {
 };
 
 export const useShowFiltermeny = () => useRecoilValue(showFiltermeny);
+
+export const filtermenyWidth = atom<number>({
+    key: 'filtermenyWidth',
+    default: 320,
+});

@@ -1,12 +1,13 @@
 import classNames from 'classnames';
 import React from 'react';
+import { useSetRecoilState } from 'recoil';
 
 import { JusterbarSidemeny } from '@components/justerbarSidemeny/JusterbarSidemeny';
 import { OppgaveTilBehandling } from '@io/graphql';
 
 import { Filter, Oppgaveoversiktkolonne } from '../table/state/filter';
 import { FilterList } from './FilterList';
-import { useShowFiltermeny } from './state';
+import { filtermenyWidth, useShowFiltermeny } from './state';
 
 import styles from './Filtermeny.module.css';
 
@@ -15,6 +16,7 @@ interface FilterMenyProps {
 }
 export const Filtermeny = ({ filters }: FilterMenyProps) => {
     const showFiltermeny = useShowFiltermeny();
+    const settBredde = useSetRecoilState(filtermenyWidth);
 
     return (
         <JusterbarSidemeny
@@ -22,6 +24,7 @@ export const Filtermeny = ({ filters }: FilterMenyProps) => {
             visSidemeny={showFiltermeny}
             localStorageNavn="filterBredde"
             åpnesTilVenstre
+            onChangeBredde={(width) => settBredde(width)}
         >
             <section className={classNames(styles.filtermeny)}>
                 <FilterList
