@@ -18,7 +18,14 @@ import { useOpptegnelser, useSetOpptegnelserPollingRate } from '@state/opptegnel
 import { inntektOgRefusjonState } from '@state/overstyring';
 import { useAddToast, useRemoveToast } from '@state/toasts';
 
-export const usePostOverstyrtInntektOgRefusjon = () => {
+interface PostOverstyrtInntektOgRefusjonResponse {
+    isLoading: boolean;
+    error: string | undefined;
+    timedOut: boolean;
+    setTimedOut: (nyTimedOut: boolean) => void;
+    postOverstyring: (overstyrtInntekt: OverstyrtInntektOgRefusjonDTO) => Promise<void>;
+}
+export const usePostOverstyrtInntektOgRefusjon = (): PostOverstyrtInntektOgRefusjonResponse => {
     const addToast = useAddToast();
     const removeToast = useRemoveToast();
     const opptegnelser = useOpptegnelser();
@@ -26,7 +33,7 @@ export const usePostOverstyrtInntektOgRefusjon = () => {
     const slettLokaleOverstyringer = useResetRecoilState(inntektOgRefusjonState);
     const [isLoading, setIsLoading] = useState(false);
     const [calculating, setCalculating] = useState(false);
-    const [error, setError] = useState<string | null>();
+    const [error, setError] = useState<string>();
     const [timedOut, setTimedOut] = useState(false);
 
     const [overstyrMutation] = useMutation(OverstyrInntektOgRefusjonMutationDocument);
@@ -62,7 +69,7 @@ export const usePostOverstyrtInntektOgRefusjon = () => {
         error,
         timedOut,
         setTimedOut,
-        postOverstyring: (overstyrtInntekt: OverstyrtInntektOgRefusjonDTO) => {
+        postOverstyring: async (overstyrtInntekt: OverstyrtInntektOgRefusjonDTO) => {
             setIsLoading(true);
 
             const overstyring: InntektOgRefusjonOverstyringInput = {
@@ -99,7 +106,7 @@ export const usePostOverstyrtInntektOgRefusjon = () => {
                 fodselsnummer: overstyrtInntekt.fødselsnummer,
                 skjaringstidspunkt: overstyrtInntekt.skjæringstidspunkt,
             };
-            overstyrMutation({ variables: { overstyring: overstyring } })
+            return overstyrMutation({ variables: { overstyring: overstyring } })
                 .then(() => {
                     setCalculating(true);
                     addToast(kalkulererToast({}));
