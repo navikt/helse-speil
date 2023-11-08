@@ -7,14 +7,14 @@ import { AmplitudeStorageHandler } from '@io/amplitude/AmplitudeStorageHandler';
 import { Periode } from '@io/graphql';
 import { useActivePeriod } from '@state/periode';
 import { getOppgavereferanse } from '@state/selectors/period';
-import { erProd } from '@utils/featureToggles';
+import { erDev, erProd } from '@utils/featureToggles';
 import { isBeregnetPeriode } from '@utils/typeguards';
 
-const getApiKey = () => (erProd() ? '4000b8a4a426b0dbefbe011778062779' : '27bc226964689268f3258512c10dc2a1');
+const apiKey = erProd() ? '4000b8a4a426b0dbefbe011778062779' : '27bc226964689268f3258512c10dc2a1';
 
-const amplitudeClient = amplitude?.getInstance();
+const amplitudeClient = erProd() || erDev() ? amplitude.getInstance() : undefined;
 
-amplitudeClient?.init(getApiKey(), '', {
+amplitudeClient?.init(apiKey, '', {
     apiEndpoint: 'amplitude.nav.no/collect',
     serverZone: 'EU',
     saveEvents: false,
