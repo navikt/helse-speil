@@ -76,13 +76,17 @@
     transition: fill 0.1s ease;
 }
 
+.Button {
+    background: var(--a-bg-subtle);
+}
+
 .Button:active {
-    background: var(--a-icon-default);
+    background: var(--a-surface-action);
     color: #ffffff;
 }
 
 .Button.active:not(:active) {
-    background: var(--a-icon-default);
+    background: var(--a-surface-action);
     color: #ffffff;
 }
 

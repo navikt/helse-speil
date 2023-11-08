@@ -22,7 +22,7 @@
 }
 
 .filterknapp.active {
-    background-color: var(--a-icon-default);
+    background-color: var(--a-surface-action);
     color: #ffffff;
 }
 
