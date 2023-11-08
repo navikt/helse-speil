@@ -154,6 +154,13 @@ const filterMap: Record<Filtertype, Array<Hendelsetype>> = {
     ],
     Dokument: ['Dokument'],
     Notat: ['Notat'],
+    Overstyring: [
+        'Dagoverstyring',
+        'Arbeidsforholdoverstyring',
+        'AnnetArbeidsforholdoverstyring',
+        'Inntektoverstyring',
+        'Sykepengegrunnlagskjonnsfastsetting',
+    ],
 };
 
 const showHistorikkState = atom<boolean>({

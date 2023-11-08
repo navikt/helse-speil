@@ -2,6 +2,7 @@ import classNames from 'classnames';
 import React from 'react';
 
 import { ClockIcon, FolderIcon, PencilWritingIcon } from '@navikt/aksel-icons';
+import { CaseworkerFilled } from '@navikt/ds-icons';
 
 import { TabButton } from '@components/TabButton';
 
@@ -44,6 +45,14 @@ export const Historikkmeny = () => {
                 title="Notat"
             >
                 <PencilWritingIcon title="Notat" fontSize="18px" />
+            </TabButton>
+            <TabButton
+                className={classNames(styles.filterknapp, showHistorikk && filter === 'Overstyring' && styles.active)}
+                active={showHistorikk && filter === 'Overstyring'}
+                onClick={activateFilter('Overstyring')}
+                title="Overstyring"
+            >
+                <CaseworkerFilled width={18} height={18} />
             </TabButton>
         </div>
     );

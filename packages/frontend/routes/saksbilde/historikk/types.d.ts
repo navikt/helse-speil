@@ -7,7 +7,7 @@ type OverstyrtInntekt = import('@io/graphql').OverstyrtInntekt;
 type PeriodehistorikkType = import('@io/graphql').PeriodehistorikkType;
 type SkjonnsfastsattSykepengegrunnlag = import('@io/graphql').SkjonnsfastsattSykepengegrunnlag;
 
-declare type Filtertype = 'Dokument' | 'Historikk' | 'Notat';
+declare type Filtertype = 'Dokument' | 'Historikk' | 'Notat' | 'Overstyring';
 
 declare type Hendelsetype =
     | 'Dagoverstyring'

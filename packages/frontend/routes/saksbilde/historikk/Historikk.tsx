@@ -40,6 +40,9 @@ const getHistorikkTitle = (type: Filtertype): string => {
         case 'Notat': {
             return 'NOTATER';
         }
+        case 'Overstyring': {
+            return 'OVERSTYRINGER';
+        }
     }
 };
 
@@ -81,7 +84,7 @@ const HistorikkWithContent: React.FC = () => {
                         <div className={styles.Historikk}>
                             <ul>
                                 <div>{getHistorikkTitle(filter)}</div>
-                                {filter !== 'Dokument' && <Notat />}
+                                {filter !== 'Dokument' && filter !== 'Overstyring' && <Notat />}
                                 {historikk.map((it: HendelseObject, index) => {
                                     switch (it.type) {
                                         case 'Arbeidsforholdoverstyring': {
