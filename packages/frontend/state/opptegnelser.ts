@@ -16,13 +16,12 @@ const nyesteOpptegnelserStateNy = atom<Opptegnelse[]>({
     default: [],
 });
 
+export const erOpptegnelseForNyOppgave = (opptegnelse: Opptegnelse) =>
+    opptegnelse.type === 'NY_SAKSBEHANDLEROPPGAVE' || opptegnelse.type === 'REVURDERING_FERDIGBEHANDLET';
+
 const nyesteOpptegnelseMedTypeOppgaveState = selector<Opptegnelse | undefined>({
     key: 'nyesteOpptegnelseMedTypeOppgaveState',
-    get: ({ get }) =>
-        get(nyesteOpptegnelserState).find(
-            (opptegnelse) =>
-                opptegnelse.type === 'NY_SAKSBEHANDLEROPPGAVE' || opptegnelse.type === 'REVURDERING_FERDIGBEHANDLET',
-        ),
+    get: ({ get }) => get(nyesteOpptegnelserState).find((opptegnelse) => erOpptegnelseForNyOppgave(opptegnelse)),
 });
 
 export const sisteSekvensIdOpptegnelseState = selector<number | undefined>({

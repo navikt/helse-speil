@@ -12,7 +12,7 @@ import {
     kalkulererToastKey,
     kalkuleringFerdigToast,
 } from '@state/kalkuleringstoasts';
-import { useOpptegnelser, useSetOpptegnelserPollingRate } from '@state/opptegnelser';
+import { erOpptegnelseForNyOppgave, useHåndterOpptegnelser, useSetOpptegnelserPollingRate } from '@state/opptegnelser';
 import { useCurrentPerson } from '@state/person';
 import { useAddToast, useRemoveToast } from '@state/toasts';
 
@@ -36,19 +36,23 @@ export const useOverstyrDager = (): UsePostOverstyringResult => {
     const personFørRefetchRef = useRef(person);
     const addToast = useAddToast();
     const removeToast = useRemoveToast();
-    const opptegnelser = useOpptegnelser();
     const setPollingRate = useSetOpptegnelserPollingRate();
     const [overstyrMutation, { error }] = useMutation(OverstyrDagerMutationDocument);
     const [calculating, setCalculating] = useState(false);
     const [state, setState] = useState<UsePostOverstyringState>('initial');
 
-    useEffect(() => {
-        if (opptegnelser && calculating) {
+    useHåndterOpptegnelser((opptegnelse) => {
+        if (erOpptegnelseForNyOppgave(opptegnelse) && calculating) {
             addToast(kalkuleringFerdigToast({ callback: () => removeToast(kalkulererFerdigToastKey) }));
             setCalculating(false);
         }
-        if (opptegnelser && person !== personFørRefetchRef.current) setState('done');
-    }, [opptegnelser, person, personFørRefetchRef]);
+    });
+
+    useEffect(() => {
+        if (person !== personFørRefetchRef.current) {
+            setState('done');
+        }
+    }, [person]);
 
     useEffect(() => {
         const timeout: NodeJS.Timeout | number | null = calculating

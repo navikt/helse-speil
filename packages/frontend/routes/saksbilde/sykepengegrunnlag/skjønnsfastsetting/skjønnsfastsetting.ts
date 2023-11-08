@@ -20,7 +20,7 @@ import {
     kalkulererToastKey,
     kalkuleringFerdigToast,
 } from '@state/kalkuleringstoasts';
-import { useHåndterOpptegnelser, useSetOpptegnelserPollingRate } from '@state/opptegnelser';
+import { erOpptegnelseForNyOppgave, useHåndterOpptegnelser, useSetOpptegnelserPollingRate } from '@state/opptegnelser';
 import { useAddToast, useRemoveToast } from '@state/toasts';
 import { toKronerOgØre } from '@utils/locale';
 
@@ -125,10 +125,7 @@ export const usePostSkjønnsfastsattSykepengegrunnlag = (onFerdigKalkulert: () =
     const [overstyrMutation, { error, loading }] = useMutation(SkjonnsfastsettelseMutationDocument);
 
     useHåndterOpptegnelser((opptegnelse) => {
-        if (
-            (opptegnelse.type === 'NY_SAKSBEHANDLEROPPGAVE' || opptegnelse.type === 'REVURDERING_FERDIGBEHANDLET') &&
-            calculating
-        ) {
+        if (erOpptegnelseForNyOppgave(opptegnelse) && calculating) {
             addToast(kalkuleringFerdigToast({ callback: () => removeToast(kalkulererFerdigToastKey) }));
             setCalculating(false);
             onFerdigKalkulert();
