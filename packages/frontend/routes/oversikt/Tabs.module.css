@@ -67,13 +67,6 @@
     margin: 0 6px;
 }
 
-.Button {
-    width: max-content;
-    height: max-content;
-    padding: 8px 12px;
-    border-radius: 4px;
-}
-
 /*Justerer posisjonering av ikonet i knappen for å se vertikalt sentrert ut for et menneskeøye*/
 .Button > svg {
     transform: translateY(-1px);
@@ -84,12 +77,12 @@
 }
 
 .Button:active {
-    background: var(--a-surface-action);
+    background: var(--a-surface-neutral);
     color: #ffffff;
 }
 
 .Button.active:not(:active) {
-    background: var(--a-surface-action-selected);
+    background: var(--a-surface-neutral-selected);
     color: #ffffff;
 }
 

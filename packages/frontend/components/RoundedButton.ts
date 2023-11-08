@@ -1,8 +1,8 @@
 import styled from '@emotion/styled';
 
 export const RoundedButton = styled.button`
-    height: 28px;
-    width: 28px;
+    height: 32px;
+    width: 32px;
     background-color: transparent;
     outline: none;
     border: none;
