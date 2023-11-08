@@ -37,7 +37,7 @@ export const PåVentDropdownMenuButton = ({
     };
 
     const settPåVent = async (notattekst: string) => {
-        await leggPåVentMedNotat(oppgavereferanse, { tekst: notattekst, type: 'PaaVent' }, vedtaksperiodeId);
+        await leggPåVentMedNotat(oppgavereferanse, notattekst, vedtaksperiodeId);
         if (leggPåVentError) {
             errorHandler(leggPåVentError);
         }

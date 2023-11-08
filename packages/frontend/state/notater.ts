@@ -26,7 +26,7 @@ export const useNotaterForVedtaksperiode = (vedtaksperiodeId: string) => {
     return notater.data?.filter((notat) => notat.vedtaksperiodeId == vedtaksperiodeId) ?? [];
 };
 
-export const toNotat = (spesialistNotat: ExternalNotat | GraphQLNotat): Notat => ({
+export const toNotat = (spesialistNotat: GraphQLNotat): Notat => ({
     id: `${spesialistNotat.id}`,
     tekst: spesialistNotat.tekst,
     saksbehandler: {
@@ -39,7 +39,7 @@ export const toNotat = (spesialistNotat: ExternalNotat | GraphQLNotat): Notat =>
     vedtaksperiodeId: spesialistNotat.vedtaksperiodeId,
     feilregistrert: spesialistNotat.feilregistrert,
     type: spesialistNotat.type,
-    kommentarer: (spesialistNotat as GraphQLNotat).kommentarer ?? [],
+    kommentarer: spesialistNotat.kommentarer ?? [],
 });
 
 export interface LagretNotat {

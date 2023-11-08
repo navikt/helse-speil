@@ -31,15 +31,6 @@ export interface OverstyrtDagDTO {
     lovhjemmel?: Lovhjemmel;
 }
 
-export interface OverstyrtTidslinjeDTO {
-    aktørId: string;
-    fødselsnummer: string;
-    organisasjonsnummer: string;
-    begrunnelse: string;
-    vedtaksperiodeId: string;
-    dager: OverstyrtDagDTO[];
-}
-
 export interface OverstyrtInntektOgRefusjonDTO {
     aktørId: string;
     fødselsnummer: string;
@@ -104,22 +95,4 @@ export enum SkjønnsfastsettingstypeDTO {
     OMREGNET_ÅRSINNTEKT = 'OMREGNET_ÅRSINNTEKT',
     RAPPORTERT_ÅRSINNTEKT = 'RAPPORTERT_ÅRSINNTEKT',
     ANNET = 'ANNET',
-}
-
-export interface AnnulleringDTO {
-    aktørId: string;
-    fødselsnummer: string;
-    organisasjonsnummer: string;
-    fagsystemId: string;
-    begrunnelser?: string[];
-    kommentar?: string;
-}
-
-export interface PersonoppdateringDTO {
-    fødselsnummer: string;
-}
-
-export interface NotatDTO {
-    tekst: string;
-    type: ExternalNotatType;
 }

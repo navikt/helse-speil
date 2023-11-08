@@ -3,7 +3,6 @@ import React, { useState } from 'react';
 import { Dropdown } from '@navikt/ds-react-internal';
 
 import { NotatType, Personnavn } from '@io/graphql';
-import { NotatDTO } from '@io/http';
 import { useLeggPåVent } from '@state/tildeling';
 
 import { NyttNotatModal } from '../notat/NyttNotatModal';
@@ -25,8 +24,7 @@ export const LeggPåVentMenuButton = ({ oppgavereferanse, vedtaksperiodeId, navn
         setVisModal(true);
     };
 
-    const settPåVent = (notattekst: string) =>
-        leggPåVentMedNotat(oppgavereferanse, { tekst: notattekst, type: 'PaaVent' } as NotatDTO, vedtaksperiodeId);
+    const settPåVent = (notattekst: string) => leggPåVentMedNotat(oppgavereferanse, notattekst, vedtaksperiodeId);
 
     return (
         <>

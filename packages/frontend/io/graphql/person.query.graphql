@@ -97,7 +97,7 @@ fragment vilkarsgrunnlag on Vilkarsgrunnlag {
     }
 }
 
-fragment notat on Notat{
+fragment notat on Notat {
     id
     tekst
     opprettet
@@ -116,7 +116,6 @@ fragment notat on Notat{
         saksbehandlerident
         feilregistrert_tidspunkt
     }
-
 }
 
 query FetchPerson($fnr: String, $aktorId: String) {
@@ -275,24 +274,7 @@ query FetchPerson($fnr: String, $aktorId: String) {
                             begrunnelse
                         }
                         notater {
-                            id
-                            tekst
-                            opprettet
-                            saksbehandlerOid
-                            saksbehandlerNavn
-                            saksbehandlerEpost
-                            saksbehandlerIdent
-                            vedtaksperiodeId
-                            feilregistrert
-                            feilregistrert_tidspunkt
-                            type
-                            kommentarer {
-                                id
-                                tekst
-                                opprettet
-                                saksbehandlerident
-                                feilregistrert_tidspunkt
-                            }
+                            ...notat
                         }
                         periodehistorikk {
                             type

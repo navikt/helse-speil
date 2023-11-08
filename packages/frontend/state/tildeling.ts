@@ -15,7 +15,6 @@ import {
     Tildeling,
     TildelingFragment,
 } from '@io/graphql';
-import { NotatDTO } from '@io/http';
 import { useInnloggetSaksbehandler } from '@state/authentication';
 import { useFetchPersonQuery } from '@state/person';
 import { useAddVarsel, useRemoveVarsel } from '@state/varsler';
@@ -117,14 +116,18 @@ export const useFjernTildeling = (): [
 };
 
 export const useLeggPåVent = (): [
-    (oppgavereferanse: string, notat: NotatDTO, vedtaksperiodeId: string) => Promise<FetchResult<LeggPaaVentMutation>>,
+    (
+        oppgavereferanse: string,
+        notattekst: string,
+        vedtaksperiodeId: string,
+    ) => Promise<FetchResult<LeggPaaVentMutation>>,
     MutationResult<LeggPaaVentMutation>,
 ] => {
     const fødselsnummer = useFødselsnummer();
     const optimistiskTildeling = useOptimistiskTildeling();
     const [leggPåVentMutation, data] = useMutation(LeggPaaVentDocument);
 
-    const leggPåVent = async (oppgavereferanse: string, notat: NotatDTO, vedtaksperiodeId: string) =>
+    const leggPåVent = async (oppgavereferanse: string, notattekst: string, vedtaksperiodeId: string) =>
         leggPåVentMutation({
             refetchQueries: [
                 AntallOppgaverDocument,
@@ -134,7 +137,7 @@ export const useLeggPåVent = (): [
                 __typename: 'Mutation',
                 leggPaaVent: { ...optimistiskTildeling, paaVent: true },
             },
-            variables: { oppgaveId: oppgavereferanse, notatType: NotatType.PaaVent, notatTekst: notat.tekst },
+            variables: { oppgaveId: oppgavereferanse, notatType: NotatType.PaaVent, notatTekst: notattekst },
             update: (cache, result) =>
                 oppdaterTildelingICache(cache, oppgavereferanse, fødselsnummer, () => result.data?.leggPaaVent ?? null),
         });
