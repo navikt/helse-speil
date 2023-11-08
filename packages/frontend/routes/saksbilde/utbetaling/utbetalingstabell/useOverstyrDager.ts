@@ -2,8 +2,8 @@ import { Lovhjemmel } from '../../sykepengegrunnlag/overstyring/overstyring.type
 import dayjs from 'dayjs';
 import { useEffect, useRef, useState } from 'react';
 
-import { useMutation } from '@apollo/client';
-import { Arbeidsgiver, OverstyrDagerMutationDocument, TidslinjeOverstyringInput } from '@io/graphql';
+import { FetchResult, useMutation } from '@apollo/client';
+import { Arbeidsgiver, OverstyrDagerMutationDocument, OverstyrDagerMutationMutation } from '@io/graphql';
 import { OverstyrtDagDTO, OverstyrtDagtype, postAbonnerPåAktør } from '@io/http';
 import { useCurrentArbeidsgiver } from '@state/arbeidsgiver';
 import {
@@ -25,7 +25,7 @@ type UsePostOverstyringResult = {
         begrunnelse: string,
         vedtaksperiodeId: string,
         callback?: () => void,
-    ) => Promise<void>;
+    ) => Promise<void | FetchResult<OverstyrDagerMutationMutation>>;
     state: UsePostOverstyringState;
     error?: string;
 };
@@ -38,10 +38,9 @@ export const useOverstyrDager = (): UsePostOverstyringResult => {
     const removeToast = useRemoveToast();
     const opptegnelser = useOpptegnelser();
     const setPollingRate = useSetOpptegnelserPollingRate();
-    const [overstyrMutation] = useMutation(OverstyrDagerMutationDocument);
+    const [overstyrMutation, { error }] = useMutation(OverstyrDagerMutationDocument);
     const [calculating, setCalculating] = useState(false);
     const [state, setState] = useState<UsePostOverstyringState>('initial');
-    const [error, setError] = useState<string>();
 
     useEffect(() => {
         if (opptegnelser && calculating) {
@@ -74,33 +73,32 @@ export const useOverstyrDager = (): UsePostOverstyringResult => {
         begrunnelse: string,
         vedtaksperiodeId: string,
         callback?: () => void,
-    ): Promise<void> => {
-        const overstyring: TidslinjeOverstyringInput = {
-            aktorId: person.aktorId,
-            fodselsnummer: person.fodselsnummer,
-            organisasjonsnummer: arbeidsgiver.organisasjonsnummer,
-            dager: tilOverstyrteDager(dager, overstyrteDager),
-            begrunnelse: begrunnelse,
-            vedtaksperiodeId,
-        };
-        return overstyrMutation({ variables: { overstyring: overstyring } })
-            .then(() => {
+    ): Promise<void | FetchResult<OverstyrDagerMutationMutation>> =>
+        overstyrMutation({
+            variables: {
+                overstyring: {
+                    aktorId: person.aktorId,
+                    fodselsnummer: person.fodselsnummer,
+                    organisasjonsnummer: arbeidsgiver.organisasjonsnummer,
+                    dager: tilOverstyrteDager(dager, overstyrteDager),
+                    begrunnelse: begrunnelse,
+                    vedtaksperiodeId,
+                },
+            },
+            onCompleted: () => {
                 setState('hasValue');
                 personFørRefetchRef.current = person;
                 addToast(kalkulererToast({}));
                 setCalculating(true);
                 callback?.();
                 postAbonnerPåAktør(person.aktorId).then(() => setPollingRate(1000));
-            })
-            .catch(() => {
-                setState('hasError');
-                setError('Feil under sending av overstyring. Prøv igjen senere.');
-            });
-    };
+            },
+            onError: () => setState('hasError'),
+        });
     return {
         postOverstyring: overstyrDager,
         state: state,
-        error: error,
+        error: error && 'Feil under sending av overstyring. Prøv igjen senere.',
     };
 };
 

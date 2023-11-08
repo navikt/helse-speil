@@ -117,8 +117,9 @@ describe('useOverstyrDager', () => {
         await postOverstyring([], [], BEGRUNNELSE, 'en feil');
 
         rerender();
-        const { state } = result.current;
+        const { state, error } = result.current;
         await waitFor(() => expect(state).toBe('hasError'));
+        await waitFor(() => expect(error).not.toBeNull());
     });
 });
 
