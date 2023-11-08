@@ -1,7 +1,7 @@
 import classNames from 'classnames';
 import React from 'react';
 
-import { Clock, DialogDots, Folder } from '@navikt/ds-icons';
+import { ClockIcon, FolderIcon, PencilWritingIcon } from '@navikt/aksel-icons';
 
 import { TabButton } from '@components/TabButton';
 
@@ -27,7 +27,7 @@ export const Historikkmeny = () => {
                 onClick={activateFilter('Historikk')}
                 title="Historikk"
             >
-                <Clock title="Historikk" height={22} width={22} />
+                <ClockIcon title="Historikk" fontSize="22px" />
             </TabButton>
             <TabButton
                 className={classNames(styles.filterknapp, showHistorikk && filter === 'Dokument' && styles.active)}
@@ -35,7 +35,7 @@ export const Historikkmeny = () => {
                 onClick={activateFilter('Dokument')}
                 title="Dokumenter"
             >
-                <Folder title="Dokumenter" height={22} width={22} />
+                <FolderIcon title="Dokumenter" fontSize="22px" />
             </TabButton>
             <TabButton
                 className={classNames(styles.filterknapp, showHistorikk && filter === 'Notat' && styles.active)}
@@ -43,7 +43,7 @@ export const Historikkmeny = () => {
                 onClick={activateFilter('Notat')}
                 title="Notat"
             >
-                <DialogDots title="Notat" height={22} width={22} />
+                <PencilWritingIcon title="Notat" fontSize="22px" />
             </TabButton>
         </div>
     );
