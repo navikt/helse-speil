@@ -1,10 +1,11 @@
 import { useEffect, useState } from 'react';
 import { useResetRecoilState } from 'recoil';
 
-import { useMutation } from '@apollo/client';
+import { FetchResult, useMutation } from '@apollo/client';
 import {
     InntektOgRefusjonOverstyringInput,
     OverstyrInntektOgRefusjonMutationDocument,
+    OverstyrInntektOgRefusjonMutationMutation,
     OverstyringArbeidsgiverInput,
 } from '@io/graphql';
 import { OverstyrtInntektOgRefusjonDTO, postAbonnerPåAktør } from '@io/http';
@@ -23,8 +24,11 @@ interface PostOverstyrtInntektOgRefusjonResponse {
     error: string | undefined;
     timedOut: boolean;
     setTimedOut: (nyTimedOut: boolean) => void;
-    postOverstyring: (overstyrtInntekt: OverstyrtInntektOgRefusjonDTO) => Promise<void>;
+    postOverstyring: (
+        overstyrtInntekt: OverstyrtInntektOgRefusjonDTO,
+    ) => Promise<void | FetchResult<OverstyrInntektOgRefusjonMutationMutation>>;
 }
+
 export const usePostOverstyrtInntektOgRefusjon = (): PostOverstyrtInntektOgRefusjonResponse => {
     const addToast = useAddToast();
     const removeToast = useRemoveToast();
@@ -106,20 +110,18 @@ export const usePostOverstyrtInntektOgRefusjon = (): PostOverstyrtInntektOgRefus
                 fodselsnummer: overstyrtInntekt.fødselsnummer,
                 skjaringstidspunkt: overstyrtInntekt.skjæringstidspunkt,
             };
-            return overstyrMutation({ variables: { overstyring: overstyring } })
-                .then(() => {
+            return overstyrMutation({
+                variables: { overstyring: overstyring },
+                onCompleted: () => {
                     setCalculating(true);
                     addToast(kalkulererToast({}));
                     postAbonnerPåAktør(overstyrtInntekt.aktørId).then(() => setPollingRate(1000));
-                })
-                .catch((error) => {
-                    switch (error.statusCode) {
-                        default: {
-                            setError('Kunne ikke overstyre inntekt og/eller refusjon. Prøv igjen senere.');
-                        }
-                    }
+                },
+                onError: () => {
+                    setError('Kunne ikke overstyre inntekt og/eller refusjon. Prøv igjen senere.');
                     setIsLoading(false);
-                });
+                },
+            });
         },
     };
 };
