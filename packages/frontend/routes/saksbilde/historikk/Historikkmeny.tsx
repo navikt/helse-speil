@@ -2,7 +2,7 @@ import classNames from 'classnames';
 import React from 'react';
 
 import { ClockIcon, FolderIcon, PencilWritingIcon } from '@navikt/aksel-icons';
-import { CaseworkerFilled } from '@navikt/ds-icons';
+import { Caseworker } from '@navikt/ds-icons';
 
 import { TabButton } from '@components/TabButton';
 
@@ -52,7 +52,7 @@ export const Historikkmeny = () => {
                 onClick={activateFilter('Overstyring')}
                 title="Overstyring"
             >
-                <CaseworkerFilled width={18} height={18} />
+                <Caseworker width={18} height={18} />
             </TabButton>
         </div>
     );
