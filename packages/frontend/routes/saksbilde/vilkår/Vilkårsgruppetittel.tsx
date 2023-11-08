@@ -15,7 +15,7 @@ import styles from './Vilkarsgruppetittel.module.css';
 interface VilkårsgruppetittelProps {
     children: ReactNode | ReactNode[];
     type?: Vilkårstype;
-    oppfylt?: boolean;
+    oppfylt?: boolean | null;
     paragraf?: ReactNode;
     className?: string;
 }
@@ -23,7 +23,7 @@ interface VilkårsgruppetittelProps {
 export const Vilkårsgruppetittel = ({ children, oppfylt, paragraf, type, className }: VilkårsgruppetittelProps) => (
     <div className={classNames('vilkårsgruppetittel', className, [styles.Header])}>
         <IkonContainer>
-            {oppfylt === undefined ? (
+            {oppfylt === undefined || oppfylt === null ? (
                 <Utropstegnikon alt="Til vurdering" />
             ) : oppfylt ? (
                 <Sjekkikon alt="Oppfylt" />

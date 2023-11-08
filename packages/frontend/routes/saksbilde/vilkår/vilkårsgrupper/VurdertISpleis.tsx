@@ -1,3 +1,4 @@
+import { BehandletVarselContent, Vilkårgrid, Vilkårgruppe } from '../Vilkår.styles';
 import React from 'react';
 
 import { AutomatiskVurdering } from '@components/AutomatiskVurdering';
@@ -5,12 +6,11 @@ import { Saksbehandlervurdering } from '@components/Saksbehandlervurdering';
 import { getFormattedDateString } from '@utils/date';
 
 import { Vilkårdata } from '../../../../mapping/vilkår';
-import { BehandletVarselContent, Vilkårgrid, Vilkårgruppe } from '../Vilkår.styles';
 import { Vilkårsgruppetittel } from '../Vilkårsgruppetittel';
 
-const Vilkår = ({ tittel, paragraf, komponent, type }: Vilkårdata) => (
+const Vilkår = ({ tittel, paragraf, komponent, type, oppfylt }: Vilkårdata) => (
     <Vilkårgruppe>
-        <Vilkårsgruppetittel type={type} oppfylt={true} paragraf={paragraf}>
+        <Vilkårsgruppetittel type={type} oppfylt={oppfylt} paragraf={paragraf}>
             {tittel}
         </Vilkårsgruppetittel>
         {komponent && <Vilkårgrid>{komponent}</Vilkårgrid>}
