@@ -2,10 +2,10 @@ import { RecoilWrapper } from '@test-wrappers';
 import React from 'react';
 
 import { MockedProvider } from '@apollo/client/testing';
-import { Kildetype, Opptegnelsetype, OverstyrDagerMutationDocument } from '@io/graphql';
+import { Kildetype, OverstyrDagerMutationDocument } from '@io/graphql';
 import { postAbonnerPåAktør } from '@io/http';
 import { useCurrentArbeidsgiver } from '@state/arbeidsgiver';
-import { useOpptegnelser, useSetOpptegnelserPollingRate } from '@state/opptegnelser';
+import { useSetOpptegnelserPollingRate } from '@state/opptegnelser';
 import { useCurrentPerson } from '@state/person';
 import { useAddToast, useRemoveToast } from '@state/toasts';
 import { renderHook, waitFor } from '@testing-library/react';
@@ -43,7 +43,6 @@ const BEGRUNNELSE = 'begrunnelse';
 (useSetOpptegnelserPollingRate as jest.Mock).mockReturnValue(() => {
     //do nothing
 });
-(useOpptegnelser as jest.Mock).mockReturnValue([]);
 (postAbonnerPåAktør as jest.Mock).mockReturnValue(Promise.resolve());
 
 describe('useOverstyrDager', () => {
@@ -91,14 +90,6 @@ describe('useOverstyrDager', () => {
             fodselsnummer: FØDSELSNUMMER,
             noeNytt: 'yolo',
         });
-        (useOpptegnelser as jest.Mock).mockReturnValue([
-            {
-                aktørId: AKTØR_ID,
-                sekvensnummer: 1,
-                type: Opptegnelsetype.NySaksbehandleroppgave,
-                payload: { huskerIkke: 'shrug' },
-            },
-        ]);
 
         rerender();
         const { state } = result.current;
