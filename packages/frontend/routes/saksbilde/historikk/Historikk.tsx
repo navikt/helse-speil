@@ -25,8 +25,8 @@ import { useFilterState, useFilteredHistorikk, useShowHistorikkState } from './s
 
 import styles from './Historikk.module.css';
 
-const HistorikkHeader = React.lazy(() =>
-    import('../historikk/HistorikkHeader.js').then((res) => ({ default: res.HistorikkHeader })).catch(onLazyLoadFail),
+const Historikkmeny = React.lazy(() =>
+    import('../historikk/Historikkmeny.js').then((res) => ({ default: res.Historikkmeny })).catch(onLazyLoadFail),
 );
 
 const getHistorikkTitle = (type: Filtertype): string => {
@@ -125,7 +125,7 @@ const HistorikkWithContent: React.FC = () => {
                     )}
                 </motion.div>
             </JusterbarSidemeny>
-            <HistorikkHeader />
+            <Historikkmeny />
         </>
     );
 };

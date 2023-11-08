@@ -1,5 +1,5 @@
 import { Historikk, HistorikkSkeleton } from './Historikk';
-import { HistorikkHeader } from './HistorikkHeader';
+import { Historikkmeny } from './Historikkmeny';
 
-export { Historikk, HistorikkSkeleton, HistorikkHeader };
-export default HistorikkHeader;
+export { Historikk, HistorikkSkeleton, Historikkmeny };
+export default Historikkmeny;

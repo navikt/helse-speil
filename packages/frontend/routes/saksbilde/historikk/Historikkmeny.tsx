@@ -7,9 +7,9 @@ import { TabButton } from '@components/TabButton';
 
 import { useFilterState, useShowHistorikkState } from './state';
 
-import styles from './HistorikkHeader.module.css';
+import styles from './Historikkmeny.module.css';
 
-export const HistorikkHeader = () => {
+export const Historikkmeny = () => {
     const [filter, setFilter] = useFilterState();
     const [showHistorikk, setShowHistorikk] = useShowHistorikkState();
 
@@ -20,9 +20,9 @@ export const HistorikkHeader = () => {
     };
 
     return (
-        <div className={styles.HistorikkHeader}>
+        <div className={styles.historikkmeny}>
             <TabButton
-                className={classNames(styles.FilterButton, showHistorikk && filter === 'Historikk' && styles.active)}
+                className={classNames(styles.filterknapp, showHistorikk && filter === 'Historikk' && styles.active)}
                 active={showHistorikk && filter === 'Historikk'}
                 onClick={activateFilter('Historikk')}
                 title="Historikk"
@@ -30,7 +30,7 @@ export const HistorikkHeader = () => {
                 <Clock title="Historikk" height={22} width={22} />
             </TabButton>
             <TabButton
-                className={classNames(styles.FilterButton, showHistorikk && filter === 'Dokument' && styles.active)}
+                className={classNames(styles.filterknapp, showHistorikk && filter === 'Dokument' && styles.active)}
                 active={showHistorikk && filter === 'Dokument'}
                 onClick={activateFilter('Dokument')}
                 title="Dokumenter"
@@ -38,7 +38,7 @@ export const HistorikkHeader = () => {
                 <Folder title="Dokumenter" height={22} width={22} />
             </TabButton>
             <TabButton
-                className={classNames(styles.FilterButton, showHistorikk && filter === 'Notat' && styles.active)}
+                className={classNames(styles.filterknapp, showHistorikk && filter === 'Notat' && styles.active)}
                 active={showHistorikk && filter === 'Notat'}
                 onClick={activateFilter('Notat')}
                 title="Notat"

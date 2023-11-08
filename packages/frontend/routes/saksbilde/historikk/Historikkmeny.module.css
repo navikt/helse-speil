@@ -1,4 +1,4 @@
-.HistorikkHeader {
+.historikkmeny {
     --size: 48px;
     --antall-notater: 0;
     display: flex;
@@ -10,13 +10,13 @@
     border-left: 1px solid #1a3636;
 }
 
-.FilterButton {
+.filterknapp {
     height: var(--size);
     width: var(--size);
     border-bottom: 0;
 }
 
-.FilterButton.active:before {
+.filterknapp.active:before {
     left: initial;
     right: 0;
     top: 4px;
