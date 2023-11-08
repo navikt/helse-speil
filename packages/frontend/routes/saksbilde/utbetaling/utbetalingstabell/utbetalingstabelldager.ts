@@ -16,7 +16,7 @@ export const Arbeidsdag: Speildag = {
 export const Helgedag: Speildag = {
     speilDagtype: 'Helg',
     visningstekst: 'Helg',
-    overstyrtDagtype: undefined,
+    overstyrtDagtype: 'Helg',
 };
 
 export const Navhelgedag: Speildag = {

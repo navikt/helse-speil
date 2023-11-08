@@ -11,7 +11,6 @@ export type OverstyrtDagtype =
     | 'Feriedag'
     | 'Egenmeldingsdag'
     | 'Permisjonsdag'
-    | 'Avvistdag'
     | 'ArbeidIkkeGjenopptattDag'
     | 'Arbeidsdag'
     | 'Foreldrepengerdag'
@@ -20,7 +19,10 @@ export type OverstyrtDagtype =
     | 'Pleiepengerdag'
     | 'Svangerskapspengerdag'
     | 'Opplaringspengerdag'
-    | 'Dagpengerdag';
+    | 'Dagpengerdag'
+    // Disse støtter ikke Spleis å motta, men kan overstyre _fra_ dem
+    | 'Avvistdag'
+    | 'Helg';
 
 export interface OverstyrtDagDTO {
     dato: string;
