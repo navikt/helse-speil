@@ -53,11 +53,10 @@ describe('OppgaverTable', () => {
         expect(screen.getAllByText(/Oppgavetype/)).toHaveLength(2);
         expect(screen.getAllByText(/Mottaker/)).toHaveLength(2);
         expect(screen.getAllByText(/Egenskaper/)).toHaveLength(2);
-        expect(screen.getAllByText(/Inntektskilde/)).toHaveLength(2);
         expect(screen.getByText(/Opprettet/)).toBeVisible();
         expect(screen.getByText(/Søknad mottatt/)).toBeVisible();
 
-        expect(screen.getAllByRole('columnheader')).toHaveLength(14);
+        expect(screen.getAllByRole('columnheader')).toHaveLength(13);
     });
 });
 
