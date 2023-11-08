@@ -31,6 +31,7 @@ export const FilterList = ({ filters, text }: FilterListProps) => {
                         size="medium"
                         checked={it.active}
                         onChange={() => toggleFilter(it.label)}
+                        key={it.key}
                     >
                         {it.label}
                     </Checkbox>
