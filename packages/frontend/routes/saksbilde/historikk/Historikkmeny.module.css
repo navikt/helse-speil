@@ -4,9 +4,8 @@
     box-sizing: border-box;
     flex-direction: column;
     grid-area: høyremeny;
-    /*background: #f2f3f5;*/
     margin-left: auto;
-    border-left: 1px solid #1a3636;
+    border-left: 1px solid var(--a-border-divider);
     width: 58px;
     align-items: center;
 }

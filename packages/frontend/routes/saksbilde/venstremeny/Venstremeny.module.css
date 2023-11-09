@@ -9,7 +9,7 @@
     box-sizing: border-box;
     width: var(--venstremeny-width);
     padding: 32px var(--venstremeny-horizontal-padding);
-    border-right: var(--venstremeny-border-width) solid var(--a-border-strong);
+    border-right: var(--venstremeny-border-width) solid var(--a-border-divider);
 }
 
 .Title {

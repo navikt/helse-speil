@@ -12,7 +12,6 @@ export const TabButton = styled.button<{ active?: boolean; disabled?: boolean }>
     border: none;
     cursor: pointer;
     padding: 0 13px;
-    border-bottom: 1px solid var(--a-border-strong);
     transition: background-color 0.1s ease;
 
     ${(props) =>

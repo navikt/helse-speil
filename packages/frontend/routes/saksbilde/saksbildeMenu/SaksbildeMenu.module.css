@@ -4,7 +4,7 @@
     justify-content: space-between;
     height: 48px;
     box-sizing: border-box;
-    border-bottom: 1px solid var(--a-border-strong);
+    border-bottom: 1px solid var(--a-border-divider);
     padding: 0 2rem 0 2rem;
 }
 
@@ -64,7 +64,7 @@
     border: none;
     cursor: pointer;
     padding: 0 13px;
-    border-bottom: 1px solid var(--a-border-strong);
+    /*border-bottom: 1px solid var(--a-border-strong);*/
     transition: background-color 0.1s ease;
 }
 

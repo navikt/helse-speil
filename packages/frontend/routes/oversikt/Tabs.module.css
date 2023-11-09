@@ -1,5 +1,5 @@
 .Tabs {
-    border-bottom: 1px solid var(--a-border-strong);
+    border-bottom: 1px solid var(--a-border-divider);
     margin: 0.5rem 1.5rem 0;
     display: flex;
     flex-wrap: nowrap;
