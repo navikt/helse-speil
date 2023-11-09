@@ -16,7 +16,6 @@ import {
 } from '@state/kalkuleringstoasts';
 import { erOpptegnelseForNyOppgave, useHåndterOpptegnelser, useSetOpptegnelserPollingRate } from '@state/opptegnelser';
 import { inntektOgRefusjonState } from '@state/overstyring';
-import { useLazyFetchPersonQuery } from '@state/person';
 import { useAddToast, useRemoveToast } from '@state/toasts';
 
 interface PostOverstyrtInntektOgRefusjonResponse {
@@ -36,7 +35,6 @@ export const usePostOverstyrtInntektOgRefusjon = (): PostOverstyrtInntektOgRefus
     const slettLokaleOverstyringer = useResetRecoilState(inntektOgRefusjonState);
     const [calculating, setCalculating] = useState(false);
     const [timedOut, setTimedOut] = useState(false);
-    const [hentPerson] = useLazyFetchPersonQuery();
 
     const [overstyrMutation, { loading, error }] = useMutation(OverstyrInntektOgRefusjonMutationDocument);
 
@@ -46,7 +44,6 @@ export const usePostOverstyrtInntektOgRefusjon = (): PostOverstyrtInntektOgRefus
             addToast(kalkuleringFerdigToast({ callback: () => removeToast(kalkulererFerdigToastKey) }));
             setCalculating(false);
             slettLokaleOverstyringer();
-            void hentPerson({ fetchPolicy: 'network-only' });
         }
     });
 
