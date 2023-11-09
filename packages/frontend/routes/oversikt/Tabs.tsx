@@ -48,9 +48,7 @@ const VentendeSakerTab = () => {
 
 const BehandletIdagTab = () => <OppgaveTab tag={TabType.BehandletIdag} label="Behandlet i dag" />;
 
-export const Tabs = () => {
-    const toggleStatistikk = useToggleStatistikk();
-    const showStatistikk = useShowStatistikk();
+const FilterButton = () => {
     const toggleFiltermeny = useToggleFiltermeny();
     const showFiltermeny = useShowFiltermeny();
     const filtermenyBredde = useRecoilValue(filtermenyWidth);
@@ -61,38 +59,52 @@ export const Tabs = () => {
     }, [showFiltermeny]);
 
     return (
+        <RoundedButton
+            id="filtermeny-toggle"
+            className={classNames(
+                styles.Button,
+                styles.filterbutton,
+                showFiltermeny && styles.active,
+                showFiltermeny === prevShowFiltermeny.current && styles.varaktiv,
+            )}
+            aria-label="Toggle visning av filtermeny"
+            aria-expanded={showFiltermeny}
+            onClick={toggleFiltermeny}
+            style={{ marginRight: showFiltermeny ? `${filtermenyBredde - 32}px` : '1rem' }}
+        >
+            <FilterIcon title="Filtermeny" fontSize="18px" />
+        </RoundedButton>
+    );
+};
+
+const StatistikkButton = () => {
+    const toggleStatistikk = useToggleStatistikk();
+    const showStatistikk = useShowStatistikk();
+
+    return (
+        <RoundedButton
+            id="behandlingsstatistikk-toggle"
+            className={classNames(styles.Button, styles.statistikkbutton, showStatistikk && styles.active)}
+            aria-label="Toggle visning av behandlingsstatistikk"
+            aria-expanded={showStatistikk}
+            onClick={toggleStatistikk}
+        >
+            <BarChartIcon title="Behandlingsstatistikk" fontSize="18px" />
+        </RoundedButton>
+    );
+};
+
+export const Tabs = () => {
+    return (
         <div className={styles.Tabs}>
+            <FilterButton />
             <span role="tablist">
-                <RoundedButton
-                    id="filtermeny-toggle"
-                    className={classNames(
-                        styles.Button,
-                        styles.filterbutton,
-                        showFiltermeny && styles.active,
-                        showFiltermeny === prevShowFiltermeny.current && styles.varaktiv,
-                    )}
-                    aria-label="Toggle visning av filtermeny"
-                    aria-expanded={showFiltermeny}
-                    onClick={toggleFiltermeny}
-                    style={{ marginRight: showFiltermeny ? `${filtermenyBredde - 32}px` : '1rem' }}
-                    role="tab"
-                >
-                    <FilterIcon title="Filtermeny" fontSize="18px" />
-                </RoundedButton>
                 <AlleSakerTab />
                 <MineSakerTab />
                 <VentendeSakerTab />
                 <BehandletIdagTab />
             </span>
-            <RoundedButton
-                id="behandlingsstatistikk-toggle"
-                className={classNames(styles.Button, showStatistikk && styles.active)}
-                aria-label="Toggle visning av behandlingsstatistikk"
-                aria-expanded={showStatistikk}
-                onClick={toggleStatistikk}
-            >
-                <BarChartIcon title="Behandlingsstatistikk" fontSize="18px" />
-            </RoundedButton>
+            <StatistikkButton />
         </div>
     );
 };
