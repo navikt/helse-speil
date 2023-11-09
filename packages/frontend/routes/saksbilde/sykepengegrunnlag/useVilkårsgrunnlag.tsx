@@ -1,5 +1,5 @@
 import { Vilkarsgrunnlag } from '@io/graphql';
-import { getRequiredVilkårsgrunnlag } from '@state/selectors/person';
+import { getVilkårsgrunnlag } from '@state/selectors/person';
 import { isBeregnetPeriode, isGhostPeriode, isUberegnetVilkarsprovdPeriode } from '@utils/typeguards';
 
 export const useVilkårsgrunnlag = (
@@ -15,5 +15,5 @@ export const useVilkårsgrunnlag = (
         return null;
     }
 
-    return getRequiredVilkårsgrunnlag(person, period.vilkarsgrunnlagId);
+    return getVilkårsgrunnlag(person, period.vilkarsgrunnlagId);
 };
