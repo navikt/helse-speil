@@ -5,14 +5,18 @@ import { MockedProvider } from '@apollo/client/testing';
 import { OverstyrInntektOgRefusjonMutationDocument } from '@io/graphql';
 import { postAbonnerPåAktør } from '@io/http';
 import { kalkulererFerdigToastKey, kalkulererToastKey } from '@state/kalkuleringstoasts';
-import { useOpptegnelser, useSetOpptegnelserPollingRate } from '@state/opptegnelser';
+import { useHåndterOpptegnelser, useSetOpptegnelserPollingRate } from '@state/opptegnelser';
 import { ToastObject, useAddToast, useRemoveToast } from '@state/toasts';
 import { renderHook, waitFor } from '@testing-library/react';
 
 import { usePostOverstyrtInntektOgRefusjon } from './usePostOverstyrtInntektOgRefusjon';
 
 jest.mock('@state/toasts');
-jest.mock('@state/opptegnelser');
+jest.mock('@state/opptegnelser', () => ({
+    ...jest.requireActual('@state/opptegnelser'),
+    useHåndterOpptegnelser: jest.fn(),
+    useSetOpptegnelserPollingRate: jest.fn(),
+}));
 jest.mock('@io/http');
 
 const addToastMock = jest.fn();
@@ -20,7 +24,7 @@ const addToastMock = jest.fn();
     addToastMock(toast);
 });
 (useRemoveToast as jest.Mock).mockReturnValue(() => {});
-(useOpptegnelser as jest.Mock).mockReturnValue(() => {});
+(useHåndterOpptegnelser as jest.Mock).mockReturnValue(() => {});
 (useSetOpptegnelserPollingRate as jest.Mock).mockReturnValue(() => {});
 (postAbonnerPåAktør as jest.Mock).mockReturnValue(Promise.resolve());
 
@@ -102,12 +106,14 @@ describe('usePostOverstyrInntektOgRefusjon', () => {
         });
         rerender();
 
-        (useOpptegnelser as jest.Mock).mockReturnValue(() => ({
-            aktørId: 1,
-            sekvensnummer: 1,
-            type: 'REVURDERING_FERDIGBEHANDLET',
-            payload: '{}',
-        }));
+        (useHåndterOpptegnelser as jest.Mock).mockImplementation((callBack: (o: Opptegnelse) => void) => {
+            callBack({
+                aktørId: 1,
+                sekvensnummer: 1,
+                type: 'REVURDERING_FERDIGBEHANDLET',
+                payload: '{}',
+            });
+        });
 
         rerender();
 

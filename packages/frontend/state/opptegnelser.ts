@@ -16,7 +16,7 @@ const nyesteOpptegnelserStateNy = atom<Opptegnelse[]>({
     default: [],
 });
 
-export const erOpptegnelseForNyOppgave = (opptegnelse: Opptegnelse) =>
+export const erOpptegnelseForNyOppgave = (opptegnelse: Opptegnelse): boolean =>
     opptegnelse.type === 'NY_SAKSBEHANDLEROPPGAVE' || opptegnelse.type === 'REVURDERING_FERDIGBEHANDLET';
 
 const nyesteOpptegnelseMedTypeOppgaveState = selector<Opptegnelse | undefined>({

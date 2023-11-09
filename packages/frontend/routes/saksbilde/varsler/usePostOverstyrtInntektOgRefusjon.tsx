@@ -14,7 +14,7 @@ import {
     kalkulererToastKey,
     kalkuleringFerdigToast,
 } from '@state/kalkuleringstoasts';
-import { useOpptegnelser, useSetOpptegnelserPollingRate } from '@state/opptegnelser';
+import { erOpptegnelseForNyOppgave, useHåndterOpptegnelser, useSetOpptegnelserPollingRate } from '@state/opptegnelser';
 import { inntektOgRefusjonState } from '@state/overstyring';
 import { useAddToast, useRemoveToast } from '@state/toasts';
 
@@ -31,7 +31,6 @@ interface PostOverstyrtInntektOgRefusjonResponse {
 export const usePostOverstyrtInntektOgRefusjon = (): PostOverstyrtInntektOgRefusjonResponse => {
     const addToast = useAddToast();
     const removeToast = useRemoveToast();
-    const opptegnelser = useOpptegnelser();
     const setPollingRate = useSetOpptegnelserPollingRate();
     const slettLokaleOverstyringer = useResetRecoilState(inntektOgRefusjonState);
     const [calculating, setCalculating] = useState(false);
@@ -39,13 +38,14 @@ export const usePostOverstyrtInntektOgRefusjon = (): PostOverstyrtInntektOgRefus
 
     const [overstyrMutation, { loading, error }] = useMutation(OverstyrInntektOgRefusjonMutationDocument);
 
-    useEffect(() => {
-        if (opptegnelser && calculating) {
+    useHåndterOpptegnelser((opptegnelse) => {
+        const erFerdigOpptegnelse = erOpptegnelseForNyOppgave(opptegnelse);
+        if (erFerdigOpptegnelse && calculating) {
             addToast(kalkuleringFerdigToast({ callback: () => removeToast(kalkulererFerdigToastKey) }));
             setCalculating(false);
             slettLokaleOverstyringer();
         }
-    }, [opptegnelser]);
+    });
 
     useEffect(() => {
         const timeout: NodeJS.Timeout | number | null = calculating
