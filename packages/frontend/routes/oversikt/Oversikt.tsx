@@ -6,7 +6,6 @@ import { Flex } from '@components/Flex';
 import { useLoadingToast } from '@hooks/useLoadingToast';
 import { useOppgaveFeed } from '@state/oppgaver';
 import { onLazyLoadFail } from '@utils/error';
-import { skalSeFiltermeny } from '@utils/featureToggles';
 
 import { IngenOppgaver } from './IngenOppgaver';
 import { Tabs } from './Tabs';
@@ -39,7 +38,7 @@ export const Oversikt = () => {
             )}
             <Tabs />
             <Flex className={styles.fullHeight}>
-                {skalSeFiltermeny && <Filtermeny filters={allFilters} />}
+                <Filtermeny filters={allFilters} />
                 <section className={styles.Content}>
                     {aktivTab === TabType.BehandletIdag ? (
                         <Suspense fallback={<OppgaverTableSkeleton />}>

@@ -6,7 +6,6 @@ import { BarChartIcon, FilterIcon } from '@navikt/aksel-icons';
 
 import { RoundedButton } from '@components/RoundedButton';
 import { useAntallOppgaver } from '@state/oppgaver';
-import { skalSeFiltermeny } from '@utils/featureToggles';
 
 import { useShowStatistikk, useToggleStatistikk } from './behandlingsstatistikk/state';
 import { filtermenyWidth, useShowFiltermeny, useToggleFiltermeny } from './filtermeny/state';
@@ -59,19 +58,17 @@ export const Tabs = () => {
     return (
         <div className={styles.Tabs}>
             <span role="tablist">
-                {skalSeFiltermeny && (
-                    <RoundedButton
-                        id="filtermeny-toggle"
-                        className={classNames(styles.Button, styles.filterbutton, showFiltermeny && styles.active)}
-                        aria-label="Toggle visning av filtermeny"
-                        aria-expanded={showFiltermeny}
-                        onClick={toggleFiltermeny}
-                        style={{ marginRight: showFiltermeny ? `${filtermenyBredde - 32}px` : '1rem' }}
-                    >
-                        <FilterIcon title="Filtermeny" fontSize="18px" />
-                    </RoundedButton>
-                )}
-
+                <RoundedButton
+                    id="filtermeny-toggle"
+                    className={classNames(styles.Button, styles.filterbutton, showFiltermeny && styles.active)}
+                    aria-label="Toggle visning av filtermeny"
+                    aria-expanded={showFiltermeny}
+                    onClick={toggleFiltermeny}
+                    style={{ marginRight: showFiltermeny ? `${filtermenyBredde - 32}px` : '1rem' }}
+                    role="tab"
+                >
+                    <FilterIcon title="Filtermeny" fontSize="18px" />
+                </RoundedButton>
                 <AlleSakerTab />
                 <MineSakerTab />
                 <VentendeSakerTab />

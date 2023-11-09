@@ -27,7 +27,7 @@ interface OppgaverTableProps {
 export const OppgaverTable: React.FC<OppgaverTableProps> = React.memo(
     ({ oppgaver, antallOppgaver, numberOfPages, currentPage, limit, setPage }) => {
         const tab = useAktivTab();
-        const { allFilters, activeFilters } = useFilters();
+        const { activeFilters } = useFilters();
         const [sort, setSort] = useRecoilState(sortering);
         const toggleFilter = useToggleFilter();
         const setMultipleFilters = useSetMultipleFilters();
@@ -44,19 +44,14 @@ export const OppgaverTable: React.FC<OppgaverTableProps> = React.memo(
                     <div className={styles.Scrollable}>
                         {tab === TabType.TilGodkjenning && (
                             <TilGodkjenningTable
-                                filters={allFilters}
                                 oppgaver={oppgaver}
                                 readOnly={readOnly}
                                 sort={sort}
                                 setSort={setSort}
                             />
                         )}
-                        {tab === TabType.Mine && (
-                            <MineSakerTable filters={allFilters} oppgaver={oppgaver} sort={sort} setSort={setSort} />
-                        )}
-                        {tab === TabType.Ventende && (
-                            <PåVentTable filters={allFilters} oppgaver={oppgaver} sort={sort} setSort={setSort} />
-                        )}
+                        {tab === TabType.Mine && <MineSakerTable oppgaver={oppgaver} sort={sort} setSort={setSort} />}
+                        {tab === TabType.Ventende && <PåVentTable oppgaver={oppgaver} sort={sort} setSort={setSort} />}
                     </div>
                 </div>
                 <Pagination

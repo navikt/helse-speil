@@ -43,20 +43,15 @@ describe('OppgaverTable', () => {
             { wrapper: ApolloWrapper },
         );
 
-        expect(
-            screen.getByText(
-                (content, element) => element?.tagName.toLowerCase() === 'button' && content.startsWith('Tildelt'),
-            ),
-        ).toBeVisible();
         expect(screen.getByText('Saksbehandler')).toBeVisible();
-        expect(screen.getAllByText(/Periodetype/)).toHaveLength(2);
-        expect(screen.getAllByText(/Oppgavetype/)).toHaveLength(2);
-        expect(screen.getAllByText(/Mottaker/)).toHaveLength(2);
-        expect(screen.getAllByText(/Egenskaper/)).toHaveLength(2);
+        expect(screen.getAllByText(/Periodetype/)).toHaveLength(1);
+        expect(screen.getAllByText(/Oppgavetype/)).toHaveLength(1);
+        expect(screen.getAllByText(/Mottaker/)).toHaveLength(1);
+        expect(screen.getAllByText(/Egenskaper/)).toHaveLength(1);
         expect(screen.getByText(/Opprettet/)).toBeVisible();
         expect(screen.getByText(/Søknad mottatt/)).toBeVisible();
 
-        expect(screen.getAllByRole('columnheader')).toHaveLength(13);
+        expect(screen.getAllByRole('columnheader')).toHaveLength(7);
     });
 });
 

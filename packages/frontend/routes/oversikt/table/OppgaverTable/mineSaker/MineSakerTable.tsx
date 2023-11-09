@@ -3,24 +3,20 @@ import React from 'react';
 import { SortState, Table } from '@navikt/ds-react';
 
 import { OppgaveTilBehandling } from '@io/graphql';
-import { skalSeFiltermeny } from '@utils/featureToggles';
 
-import { Filter } from '../../state/filter';
 import { SortKey, useUpdateSort } from '../../state/sortation';
 import { IngenMatchendeFiltre } from '../IngenMatchendeFiltre';
-import { MineSakerDropdownHeaderRow } from './MineSakerDropdownHeaderRow';
 import { MineSakerOppgaveRow } from './MineSakerOppgaveRow';
 import { MineSakerSortHeaderRow } from './MineSakerSortHeaderRow';
 
 import styles from '../../table.module.css';
 
 interface MineSakerTableProps {
-    filters: Filter<OppgaveTilBehandling>[];
     oppgaver: OppgaveTilBehandling[];
     sort: SortState | undefined;
     setSort: (state: SortState | undefined) => void;
 }
-export const MineSakerTable = ({ filters, oppgaver, sort, setSort }: MineSakerTableProps) => {
+export const MineSakerTable = ({ oppgaver, sort, setSort }: MineSakerTableProps) => {
     const updateSort = useUpdateSort();
     return (
         <Table
@@ -31,7 +27,6 @@ export const MineSakerTable = ({ filters, oppgaver, sort, setSort }: MineSakerTa
             zebraStripes
         >
             <Table.Header>
-                {!skalSeFiltermeny && <MineSakerDropdownHeaderRow filters={filters} />}
                 <MineSakerSortHeaderRow />
             </Table.Header>
             <Table.Body>
