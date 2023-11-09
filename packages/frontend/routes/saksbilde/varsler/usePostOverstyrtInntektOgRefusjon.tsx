@@ -3,7 +3,6 @@ import { useResetRecoilState } from 'recoil';
 
 import { FetchResult, useMutation } from '@apollo/client';
 import {
-    InntektOgRefusjonOverstyringInput,
     OverstyrInntektOgRefusjonMutationDocument,
     OverstyrInntektOgRefusjonMutationMutation,
     OverstyringArbeidsgiverInput,
@@ -35,17 +34,14 @@ export const usePostOverstyrtInntektOgRefusjon = (): PostOverstyrtInntektOgRefus
     const opptegnelser = useOpptegnelser();
     const setPollingRate = useSetOpptegnelserPollingRate();
     const slettLokaleOverstyringer = useResetRecoilState(inntektOgRefusjonState);
-    const [isLoading, setIsLoading] = useState(false);
     const [calculating, setCalculating] = useState(false);
-    const [error, setError] = useState<string>();
     const [timedOut, setTimedOut] = useState(false);
 
-    const [overstyrMutation] = useMutation(OverstyrInntektOgRefusjonMutationDocument);
+    const [overstyrMutation, { loading, error }] = useMutation(OverstyrInntektOgRefusjonMutationDocument);
 
     useEffect(() => {
         if (opptegnelser && calculating) {
             addToast(kalkuleringFerdigToast({ callback: () => removeToast(kalkulererFerdigToastKey) }));
-            setIsLoading(false);
             setCalculating(false);
             slettLokaleOverstyringer();
         }
@@ -68,60 +64,58 @@ export const usePostOverstyrtInntektOgRefusjon = (): PostOverstyrtInntektOgRefus
         };
     }, [calculating]);
 
+    const overstyrInntektOgRefusjon = async (
+        overstyrtInntekt: OverstyrtInntektOgRefusjonDTO,
+    ): Promise<void | FetchResult<OverstyrInntektOgRefusjonMutationMutation>> =>
+        overstyrMutation({
+            variables: {
+                overstyring: {
+                    aktorId: overstyrtInntekt.aktørId,
+                    arbeidsgivere: overstyrtInntekt.arbeidsgivere.map(
+                        (arbeidsgiver): OverstyringArbeidsgiverInput => ({
+                            begrunnelse: arbeidsgiver.begrunnelse,
+                            forklaring: arbeidsgiver.forklaring,
+                            fraManedligInntekt: arbeidsgiver.fraMånedligInntekt,
+                            manedligInntekt: arbeidsgiver.månedligInntekt,
+                            organisasjonsnummer: arbeidsgiver.organisasjonsnummer,
+                            fraRefusjonsopplysninger: arbeidsgiver.fraRefusjonsopplysninger.map((refusjon) => ({
+                                fom: refusjon.fom,
+                                tom: refusjon.tom,
+                                belop: refusjon.beløp,
+                            })),
+                            refusjonsopplysninger: arbeidsgiver.refusjonsopplysninger.map((refusjon) => ({
+                                fom: refusjon.fom,
+                                tom: refusjon.tom,
+                                belop: refusjon.beløp,
+                            })),
+                            lovhjemmel:
+                                arbeidsgiver.subsumsjon !== undefined
+                                    ? {
+                                          bokstav: arbeidsgiver.subsumsjon.bokstav,
+                                          ledd: arbeidsgiver.subsumsjon.ledd,
+                                          paragraf: arbeidsgiver.subsumsjon.paragraf,
+                                          lovverk: arbeidsgiver.subsumsjon.lovverk,
+                                          lovverksversjon: arbeidsgiver.subsumsjon.lovverksversjon,
+                                      }
+                                    : undefined,
+                        }),
+                    ),
+                    fodselsnummer: overstyrtInntekt.fødselsnummer,
+                    skjaringstidspunkt: overstyrtInntekt.skjæringstidspunkt,
+                },
+            },
+            onCompleted: () => {
+                setCalculating(true);
+                addToast(kalkulererToast({}));
+                postAbonnerPåAktør(overstyrtInntekt.aktørId).then(() => setPollingRate(1000));
+            },
+        }).catch(() => Promise.resolve());
+
     return {
-        isLoading,
-        error,
+        postOverstyring: overstyrInntektOgRefusjon,
+        isLoading: loading || calculating,
+        error: error && 'Kunne ikke overstyre inntekt og/eller refusjon. Prøv igjen senere.',
         timedOut,
         setTimedOut,
-        postOverstyring: async (overstyrtInntekt: OverstyrtInntektOgRefusjonDTO) => {
-            setIsLoading(true);
-
-            const overstyring: InntektOgRefusjonOverstyringInput = {
-                aktorId: overstyrtInntekt.aktørId,
-                arbeidsgivere: overstyrtInntekt.arbeidsgivere.map(
-                    (arbeidsgiver): OverstyringArbeidsgiverInput => ({
-                        begrunnelse: arbeidsgiver.begrunnelse,
-                        forklaring: arbeidsgiver.forklaring,
-                        fraManedligInntekt: arbeidsgiver.fraMånedligInntekt,
-                        manedligInntekt: arbeidsgiver.månedligInntekt,
-                        organisasjonsnummer: arbeidsgiver.organisasjonsnummer,
-                        fraRefusjonsopplysninger: arbeidsgiver.fraRefusjonsopplysninger.map((refusjon) => ({
-                            fom: refusjon.fom,
-                            tom: refusjon.tom,
-                            belop: refusjon.beløp,
-                        })),
-                        refusjonsopplysninger: arbeidsgiver.refusjonsopplysninger.map((refusjon) => ({
-                            fom: refusjon.fom,
-                            tom: refusjon.tom,
-                            belop: refusjon.beløp,
-                        })),
-                        lovhjemmel:
-                            arbeidsgiver.subsumsjon !== undefined
-                                ? {
-                                      bokstav: arbeidsgiver.subsumsjon.bokstav,
-                                      ledd: arbeidsgiver.subsumsjon.ledd,
-                                      paragraf: arbeidsgiver.subsumsjon.paragraf,
-                                      lovverk: arbeidsgiver.subsumsjon.lovverk,
-                                      lovverksversjon: arbeidsgiver.subsumsjon.lovverksversjon,
-                                  }
-                                : undefined,
-                    }),
-                ),
-                fodselsnummer: overstyrtInntekt.fødselsnummer,
-                skjaringstidspunkt: overstyrtInntekt.skjæringstidspunkt,
-            };
-            return overstyrMutation({
-                variables: { overstyring: overstyring },
-                onCompleted: () => {
-                    setCalculating(true);
-                    addToast(kalkulererToast({}));
-                    postAbonnerPåAktør(overstyrtInntekt.aktørId).then(() => setPollingRate(1000));
-                },
-                onError: () => {
-                    setError('Kunne ikke overstyre inntekt og/eller refusjon. Prøv igjen senere.');
-                    setIsLoading(false);
-                },
-            });
-        },
     };
 };

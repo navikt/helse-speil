@@ -40,7 +40,7 @@ describe('usePostOverstyrInntektOgRefusjon', () => {
     });
 
     it('skal poste overstyring', async () => {
-        const { result } = renderHook(usePostOverstyrtInntektOgRefusjon, {
+        const { result, rerender } = renderHook(usePostOverstyrtInntektOgRefusjon, {
             wrapper: ({ children }) => (
                 <MockedProvider mocks={mocks}>
                     <RecoilWrapper>{children}</RecoilWrapper>
@@ -63,6 +63,9 @@ describe('usePostOverstyrInntektOgRefusjon', () => {
                 },
             ],
         });
+
+        rerender();
+
         await waitFor(() =>
             expect(addToastMock).toHaveBeenCalledWith(
                 expect.objectContaining({
@@ -70,6 +73,7 @@ describe('usePostOverstyrInntektOgRefusjon', () => {
                 }),
             ),
         );
+        await waitFor(() => expect(result.current.isLoading).toBeTruthy());
     });
 
     it('viser fullført toast når overstyring er ferdig', async () => {
@@ -114,6 +118,40 @@ describe('usePostOverstyrInntektOgRefusjon', () => {
                 }),
             ),
         );
+        await waitFor(() => expect(result.current.isLoading).toBeFalsy());
+    });
+
+    it('setter error om sending av overstyring feiler', async () => {
+        const { result, rerender } = renderHook(usePostOverstyrtInntektOgRefusjon, {
+            wrapper: ({ children }) => (
+                <MockedProvider mocks={mocks}>
+                    <RecoilWrapper>{children}</RecoilWrapper>
+                </MockedProvider>
+            ),
+        });
+
+        const { postOverstyring } = result.current;
+        await postOverstyring({
+            aktørId: 'aktørid',
+            fødselsnummer: 'fødselsnummer',
+            skjæringstidspunkt: '2020-01-01',
+            arbeidsgivere: [
+                {
+                    begrunnelse: 'begrunnelse',
+                    forklaring: 'forklaring',
+                    fraMånedligInntekt: 10000,
+                    månedligInntekt: 20000,
+                    organisasjonsnummer: 'en feil',
+                    fraRefusjonsopplysninger: [],
+                    refusjonsopplysninger: [],
+                },
+            ],
+        });
+
+        rerender();
+        const { isLoading, error } = result.current;
+        await waitFor(() => expect(isLoading).toBeFalsy());
+        await waitFor(() => expect(error).not.toBeNull());
     });
 });
 
@@ -146,5 +184,30 @@ const mocks = [
                 overstyrArbeidsforhold: true,
             },
         },
+    },
+    {
+        request: {
+            query: OverstyrInntektOgRefusjonMutationDocument,
+            variables: {
+                overstyring: {
+                    aktorId: 'aktørid',
+                    arbeidsgivere: [
+                        {
+                            begrunnelse: 'begrunnelse',
+                            forklaring: 'forklaring',
+                            fraManedligInntekt: 10000,
+                            manedligInntekt: 20000,
+                            organisasjonsnummer: 'en feil',
+                            fraRefusjonsopplysninger: [],
+                            refusjonsopplysninger: [],
+                            lovhjemmel: undefined,
+                        },
+                    ],
+                    fodselsnummer: 'fødselsnummer',
+                    skjaringstidspunkt: '2020-01-01',
+                },
+            },
+        },
+        error: Error('en feil'),
     },
 ];
