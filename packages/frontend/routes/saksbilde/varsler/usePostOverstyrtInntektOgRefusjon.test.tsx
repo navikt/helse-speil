@@ -12,6 +12,7 @@ import { renderHook, waitFor } from '@testing-library/react';
 import { usePostOverstyrtInntektOgRefusjon } from './usePostOverstyrtInntektOgRefusjon';
 
 jest.mock('@state/toasts');
+jest.mock('@state/person');
 jest.mock('@state/opptegnelser', () => ({
     ...jest.requireActual('@state/opptegnelser'),
     useHåndterOpptegnelser: jest.fn(),
