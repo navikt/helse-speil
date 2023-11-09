@@ -4,8 +4,9 @@ import React from 'react';
 import { MockedProvider } from '@apollo/client/testing';
 import { OverstyrInntektOgRefusjonMutationDocument } from '@io/graphql';
 import { postAbonnerPåAktør } from '@io/http';
+import { kalkulererFerdigToastKey, kalkulererToastKey } from '@state/kalkuleringstoasts';
 import { useOpptegnelser, useSetOpptegnelserPollingRate } from '@state/opptegnelser';
-import { useAddToast, useRemoveToast } from '@state/toasts';
+import { ToastObject, useAddToast, useRemoveToast } from '@state/toasts';
 import { renderHook, waitFor } from '@testing-library/react';
 
 import { usePostOverstyrtInntektOgRefusjon } from './usePostOverstyrtInntektOgRefusjon';
@@ -15,21 +16,12 @@ jest.mock('@state/opptegnelser');
 jest.mock('@io/http');
 
 const addToastMock = jest.fn();
-
-(useAddToast as jest.Mock).mockReturnValue(() => {
-    addToastMock();
+(useAddToast as jest.Mock).mockReturnValue((toast: ToastObject) => {
+    addToastMock(toast);
 });
-
-(useRemoveToast as jest.Mock).mockReturnValue(() => {
-    //do nothing
-});
-(useOpptegnelser as jest.Mock).mockReturnValue(() => {
-    //do nothing
-});
-(useSetOpptegnelserPollingRate as jest.Mock).mockReturnValue(() => {
-    //do nothing
-});
-
+(useRemoveToast as jest.Mock).mockReturnValue(() => {});
+(useOpptegnelser as jest.Mock).mockReturnValue(() => {});
+(useSetOpptegnelserPollingRate as jest.Mock).mockReturnValue(() => {});
 (postAbonnerPåAktør as jest.Mock).mockReturnValue(Promise.resolve());
 
 describe('usePostOverstyrInntektOgRefusjon', () => {
@@ -71,7 +63,13 @@ describe('usePostOverstyrInntektOgRefusjon', () => {
                 },
             ],
         });
-        await waitFor(() => expect(addToastMock).toHaveBeenCalled());
+        await waitFor(() =>
+            expect(addToastMock).toHaveBeenCalledWith(
+                expect.objectContaining({
+                    key: kalkulererToastKey,
+                }),
+            ),
+        );
     });
 
     it('viser fullført toast når overstyring er ferdig', async () => {
@@ -109,7 +107,13 @@ describe('usePostOverstyrInntektOgRefusjon', () => {
 
         rerender();
 
-        await waitFor(() => expect(addToastMock).toHaveBeenCalled());
+        await waitFor(() =>
+            expect(addToastMock).toHaveBeenCalledWith(
+                expect.objectContaining({
+                    key: kalkulererFerdigToastKey,
+                }),
+            ),
+        );
     });
 });
 
