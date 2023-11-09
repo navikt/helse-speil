@@ -23,7 +23,7 @@ const OppgaveTab = ({ tag, label, numberOfTasks }: OppgaveTabProps) => {
     const [aktivTab, setAktivTab] = useSwitchTab();
     return (
         <button
-            className={classNames(styles.Tab, aktivTab === tag && styles.active)}
+            className={classNames(styles.tab, aktivTab === tag && styles.active)}
             role="tab"
             aria-selected={aktivTab === tag}
             onClick={() => setAktivTab(tag)}
@@ -62,7 +62,7 @@ const FilterButton = () => {
         <RoundedButton
             id="filtermeny-toggle"
             className={classNames(
-                styles.Button,
+                styles.button,
                 styles.filterbutton,
                 showFiltermeny && styles.active,
                 showFiltermeny === prevShowFiltermeny.current && styles.varaktiv,
@@ -84,7 +84,7 @@ const StatistikkButton = () => {
     return (
         <RoundedButton
             id="behandlingsstatistikk-toggle"
-            className={classNames(styles.Button, styles.statistikkbutton, showStatistikk && styles.active)}
+            className={classNames(styles.button, styles.statistikkbutton, showStatistikk && styles.active)}
             aria-label="Toggle visning av behandlingsstatistikk"
             aria-expanded={showStatistikk}
             onClick={toggleStatistikk}
@@ -96,7 +96,7 @@ const StatistikkButton = () => {
 
 export const Tabs = () => {
     return (
-        <div className={styles.Tabs}>
+        <div className={styles.tabs}>
             <FilterButton />
             <span role="tablist">
                 <AlleSakerTab />

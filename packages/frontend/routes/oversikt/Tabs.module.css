@@ -1,4 +1,4 @@
-.Tabs {
+.tabs {
     border-bottom: 1px solid var(--a-border-divider);
     margin: 0.5rem 1.5rem 0;
     display: flex;
@@ -6,14 +6,14 @@
     align-items: center;
 }
 
-.Tabs > span {
+.tabs > span {
     white-space: nowrap;
     display: flex;
     flex-wrap: nowrap;
     align-items: center;
 }
 
-.Tab {
+.tab {
     position: relative;
     display: flex;
     align-items: center;
@@ -31,11 +31,11 @@
     outline: none;
 }
 
-.Tab > span {
+.tab > span {
     font-weight: var(--a-font-weight-regular);
 }
 
-.Tab:before {
+.tab:before {
     content: '';
     position: absolute;
     width: 100%;
@@ -48,48 +48,43 @@
     transition: height 0.1s ease;
 }
 
-.Tab:hover,
-.Tab:focus {
+.tab:hover,
+.tab:focus {
     color: var(--a-surface-action);
 }
 
-.Tab:focus-visible {
+.tab:focus-visible {
     box-shadow: inset var(--a-shadow-focus);
 }
 
-.Tab.active:before {
+.tab.active:before {
     height: 4px;
 }
 
-.Meny {
-    padding: 16px;
-    margin: 0 6px;
-}
-
 /*Justerer posisjonering av ikonet i knappen for å se vertikalt sentrert ut for et menneskeøye*/
-.Button > svg {
+.button > svg {
     transform: translateY(-1px);
 }
 
-.Button > svg > path {
+.button > svg > path {
     transition: fill 0.1s ease;
 }
 
-.Button {
+.button {
     background: var(--a-bg-subtle);
 }
 
-.Button:active {
+.button:active {
     background: var(--a-surface-action);
     color: #ffffff;
 }
 
-.Button.active:not(:active) {
+.button.active:not(:active) {
     background: var(--a-surface-action);
     color: #ffffff;
 }
 
-.Button.active > svg > path {
+.button.active > svg > path {
     fill: #ffffff;
 }
 
