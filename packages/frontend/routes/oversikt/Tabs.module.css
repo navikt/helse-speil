@@ -94,6 +94,7 @@
     fill: #ffffff;
 }
 
-.filterbutton {
-    margin-right: 1rem;
+.filterbutton:not(.varaktiv),
+.filterbutton.varaktiv:not(.active) {
+    transition: 0.2s ease-in-out;
 }

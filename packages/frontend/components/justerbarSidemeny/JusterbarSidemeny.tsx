@@ -61,17 +61,20 @@ export const JusterbarSidemeny: React.FC<JusterbarSidebarProps> = ({
     }, [visSidemeny]);
 
     return (
-        visSidemeny && (
-            <div className={classNames(styles.justerbarSidemeny, className, åpnesTilVenstre && styles.venstre)}>
-                <div
-                    className={styles.justerbarLinje}
-                    onMouseDown={(e) => {
-                        e.preventDefault();
-                        isResized.current = true;
-                    }}
-                />
-                <div style={{ width: `${width}px` }}>{children}</div>
+        <div className={classNames(styles.justerbarSidemeny, className, åpnesTilVenstre && styles.venstre)}>
+            <div
+                className={classNames(styles.justerbarLinje, visSidemeny && styles.active)}
+                onMouseDown={(e) => {
+                    e.preventDefault();
+                    isResized.current = true;
+                }}
+            />
+            <div
+                className={classNames(styles.innhold, visSidemeny && styles.active, åpnesTilVenstre && styles.venstre)}
+                style={{ width: `${width}px` }}
+            >
+                {children}
             </div>
-        )
+        </div>
     );
 };

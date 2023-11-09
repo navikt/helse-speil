@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useRecoilValue } from 'recoil';
 
 import { BarChartIcon, FilterIcon } from '@navikt/aksel-icons';
@@ -54,13 +54,23 @@ export const Tabs = () => {
     const toggleFiltermeny = useToggleFiltermeny();
     const showFiltermeny = useShowFiltermeny();
     const filtermenyBredde = useRecoilValue(filtermenyWidth);
+    const prevShowFiltermeny = useRef<boolean>(showFiltermeny);
+
+    useEffect(() => {
+        prevShowFiltermeny.current = showFiltermeny;
+    }, [showFiltermeny]);
 
     return (
         <div className={styles.Tabs}>
             <span role="tablist">
                 <RoundedButton
                     id="filtermeny-toggle"
-                    className={classNames(styles.Button, styles.filterbutton, showFiltermeny && styles.active)}
+                    className={classNames(
+                        styles.Button,
+                        styles.filterbutton,
+                        showFiltermeny && styles.active,
+                        showFiltermeny === prevShowFiltermeny.current && styles.varaktiv,
+                    )}
                     aria-label="Toggle visning av filtermeny"
                     aria-expanded={showFiltermeny}
                     onClick={toggleFiltermeny}

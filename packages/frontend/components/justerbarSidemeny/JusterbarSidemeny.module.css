@@ -3,15 +3,42 @@
     grid-area: høyremeny;
     height: fit-content;
     min-height: 100%;
+    background-color: #fff;
+    z-index: 1;
 }
 .justerbarSidemeny.venstre {
     flex-direction: row-reverse;
 }
 .justerbarLinje {
-    width: 0.5rem;
+    width: 0;
     grid-area: høyremeny;
     cursor: col-resize;
     display: flex;
     align-items: stretch;
+    transition: 0.1s ease-in-out;
+    transition-delay: 0.1s;
+}
+.justerbarLinje.active {
+    width: 0.5rem;
     border-left: 1px solid var(--a-border-strong);
+}
+
+.innhold {
+    transition: margin 0.2s ease-in-out;
+}
+
+.innhold:not(.venstre) {
+    margin-right: -20rem;
+}
+
+.innhold.active {
+    margin-right: 0;
+}
+
+.innhold.venstre {
+    margin-left: -20rem;
+}
+
+.innhold.venstre.active {
+    margin-left: 0;
 }

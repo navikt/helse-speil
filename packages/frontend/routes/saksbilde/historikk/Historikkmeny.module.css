@@ -8,6 +8,8 @@
     border-left: 1px solid var(--a-border-divider);
     width: 58px;
     align-items: center;
+    background-color: #fff;
+    z-index: 1;
 }
 
 .filterknapp {
