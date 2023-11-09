@@ -6,7 +6,6 @@ import { Loader } from '@navikt/ds-react';
 import { useErTidligereSaksbehandler } from '@hooks/useErTidligereSaksbehandler';
 import { Arbeidsforholdoverstyring, Overstyring, VilkarsgrunnlagSpleis } from '@io/graphql';
 import { useHarDagOverstyringer } from '@state/arbeidsgiver';
-import { useActivePeriod } from '@state/periode';
 import { getLatestUtbetalingTimestamp, getOverstyringerForEksisterendePerioder } from '@state/selectors/person';
 import { onLazyLoadFail } from '@utils/error';
 import { getPeriodState } from '@utils/mapping';
@@ -65,9 +64,7 @@ export const BeregnetPeriodeView: React.FC<BeregnetPeriodeViewProps> = ({ period
     const erTidligereSaksbehandler = useErTidligereSaksbehandler();
     const overstyringerEtterNyesteUtbetalingPåPerson = useOverstyringerEtterSisteGodkjenteUtbetaling(person);
     const harDagOverstyringer = useHarDagOverstyringer(period);
-
-    const activePeriod = useActivePeriod();
-    const vilkårsgrunnlag = useVilkårsgrunnlag(person, activePeriod);
+    const vilkårsgrunnlag = useVilkårsgrunnlag(person, period);
 
     const navnPåDeaktiverteGhostArbeidsgivere = isSpleisVilkarsgrunnlag(vilkårsgrunnlag)
         ? person.arbeidsgivere
@@ -87,7 +84,7 @@ export const BeregnetPeriodeView: React.FC<BeregnetPeriodeViewProps> = ({ period
             arbeidsgiver.overstyringer.find(
                 (overstyring) =>
                     isSykepengegrunnlagskjønnsfastsetting(overstyring) &&
-                    overstyring.skjonnsfastsatt.skjaeringstidspunkt === activePeriod?.skjaeringstidspunkt,
+                    overstyring.skjonnsfastsatt.skjaeringstidspunkt === period?.skjaeringstidspunkt,
             ),
         ).length > 0;
 
