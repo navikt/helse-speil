@@ -19,11 +19,6 @@ const nyesteOpptegnelserStateNy = atom<Opptegnelse[]>({
 export const erOpptegnelseForNyOppgave = (opptegnelse: Opptegnelse): boolean =>
     opptegnelse.type === 'NY_SAKSBEHANDLEROPPGAVE' || opptegnelse.type === 'REVURDERING_FERDIGBEHANDLET';
 
-const nyesteOpptegnelseMedTypeOppgaveState = selector<Opptegnelse | undefined>({
-    key: 'nyesteOpptegnelseMedTypeOppgaveState',
-    get: ({ get }) => get(nyesteOpptegnelserState).find((opptegnelse) => erOpptegnelseForNyOppgave(opptegnelse)),
-});
-
 export const sisteSekvensIdOpptegnelseState = selector<number | undefined>({
     key: 'sisteSekvensIdOpptegnelseState',
     get: ({ get }) => {
@@ -53,8 +48,6 @@ export const useSetOpptegnelserNy = () => {
         setOpptegnelser(data);
     };
 };
-
-export const useOpptegnelser = () => useRecoilValue(nyesteOpptegnelseMedTypeOppgaveState);
 
 export const useSetOpptegnelserPollingRate = () => {
     const setOpptegnelsePollingRate = useSetRecoilState(opptegnelsePollingTimeState);

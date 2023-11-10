@@ -5,7 +5,7 @@ import { Arbeidsgiverrefusjon, Hendelsetype, Kildetype, Refusjonselement } from 
 import { OverstyrtInntektOgRefusjonArbeidsgiver, OverstyrtInntektOgRefusjonDTO, Refusjonsopplysning } from '@io/http';
 import { useArbeidsgiver, usePeriodForSkjæringstidspunktForArbeidsgiver } from '@state/arbeidsgiver';
 import { kalkulererFerdigToastKey, kalkulererToastKey, kalkuleringFerdigToast } from '@state/kalkuleringstoasts';
-import { useOpptegnelser } from '@state/opptegnelser';
+import { erOpptegnelseForNyOppgave, useHåndterOpptegnelser } from '@state/opptegnelser';
 import { useCurrentPerson } from '@state/person';
 import { useAddToast, useRemoveToast } from '@state/toasts';
 import {
@@ -47,20 +47,18 @@ export const usePostOverstyrtInntekt = (
     const [lokaleInntektoverstyringer, setLokaleInntektoverstyringer] = useRecoilState(inntektOgRefusjonState);
     const addToast = useAddToast();
     const removeToast = useRemoveToast();
-    const opptegnelser = useOpptegnelser();
     const [isLoading, setIsLoading] = useState(false);
     const [calculating, setCalculating] = useState(false);
-    const [error] = useState<string | null>();
     const [timedOut, setTimedOut] = useState(false);
 
-    useEffect(() => {
-        if (opptegnelser && calculating) {
+    useHåndterOpptegnelser((opptegnelse) => {
+        if (erOpptegnelseForNyOppgave(opptegnelse) && calculating) {
             addToast(kalkuleringFerdigToast({ callback: () => removeToast(kalkulererFerdigToastKey) }));
             setIsLoading(false);
             setCalculating(false);
             onFerdigKalkulert();
         }
-    }, [opptegnelser]);
+    });
 
     useEffect(() => {
         const timeout: NodeJS.Timeout | number | null = calculating
@@ -81,7 +79,7 @@ export const usePostOverstyrtInntekt = (
 
     return {
         isLoading,
-        error,
+        error: null,
         timedOut,
         setTimedOut,
         postOverstyring: (overstyrtInntekt: OverstyrtInntektOgRefusjonDTO, organisasjonsnummer?: string) => {
