@@ -1,36 +1,24 @@
 import { useEffect } from 'react';
-import { atom, selector, useRecoilValue, useResetRecoilState, useSetRecoilState } from 'recoil';
+import { atom, useRecoilState, useRecoilValue, useResetRecoilState, useSetRecoilState } from 'recoil';
 
 const opptegnelsePollingTimeState = atom<number>({
     key: 'opptegnelsePollingTimeState',
     default: 5_000,
 });
 
-export const nyesteOpptegnelserState = atom<Opptegnelse[]>({
+const nyesteOpptegnelserState = atom<Opptegnelse[]>({
     key: 'nyesteOpptegnelserState',
     default: [],
 });
 
-const nyesteOpptegnelserStateNy = atom<Opptegnelse[]>({
-    key: 'nyesteOpptegnelserStateNy',
-    default: [],
-});
-
-export const sisteSekvensIdOpptegnelseState = selector<number | undefined>({
-    key: 'sisteSekvensIdOpptegnelseState',
-    get: ({ get }) => {
-        const nyesteOpptegnelser = get(nyesteOpptegnelserState);
-
-        return nyesteOpptegnelser.length > 0
-            ? nyesteOpptegnelser.reduce((acc, curr) => (curr.sekvensnummer > acc.sekvensnummer ? curr : acc))
-                  .sekvensnummer
-            : undefined;
-    },
+const nyesteOpptegnelseSekvensIdState = atom<number | undefined>({
+    key: 'nyesteOpptegnelseSekvensIdState',
+    default: undefined,
 });
 
 export const useHåndterOpptegnelser = (onOpptegnelseCallback: (o: Opptegnelse) => void) => {
-    const opptegnelser = useRecoilValue(nyesteOpptegnelserStateNy);
-    const resetOpptegnelser = useResetRecoilState(nyesteOpptegnelserStateNy);
+    const opptegnelser = useRecoilValue(nyesteOpptegnelserState);
+    const resetOpptegnelser = useResetRecoilState(nyesteOpptegnelserState);
     useEffect(() => {
         if (opptegnelser.length > 0) {
             opptegnelser.forEach((o) => onOpptegnelseCallback(o));
@@ -39,12 +27,38 @@ export const useHåndterOpptegnelser = (onOpptegnelseCallback: (o: Opptegnelse) 
     }, [opptegnelser]);
 };
 
-export const useSetOpptegnelserNy = () => {
-    const setOpptegnelser = useSetRecoilState(nyesteOpptegnelserStateNy);
+export const useMottaOpptegnelser = () => {
+    const setOpptegnelser = useSetOpptegnelser();
+    const setOpptegnelserSekvensId = useSetNyesteOpptegnelseSekvens();
+    const resetPollefrekvens = useResetOpptegnelsePollingRate();
+    return (opptegnelser: Opptegnelse[]) => {
+        setOpptegnelser(opptegnelser);
+        setOpptegnelserSekvensId(opptegnelser);
+        resetPollefrekvens();
+    };
+};
+
+const useSetOpptegnelser = () => {
+    const setOpptegnelser = useSetRecoilState(nyesteOpptegnelserState);
     return (data: Opptegnelse[]) => {
         setOpptegnelser(data);
     };
 };
+
+export const useNyesteOpptegnelseSekvens = () => useRecoilValue(nyesteOpptegnelseSekvensIdState);
+
+const useSetNyesteOpptegnelseSekvens = () => {
+    const [sekvensId, setSekvensId] = useRecoilState(nyesteOpptegnelseSekvensIdState);
+    return (opptegnelser: Opptegnelse[]) => {
+        opptegnelser.forEach((opptegnelse) => {
+            if (sekvensId === undefined || opptegnelse.sekvensnummer > sekvensId) {
+                setSekvensId(opptegnelse.sekvensnummer);
+            }
+        });
+    };
+};
+
+export const useOpptegnelserPollingRate = () => useRecoilValue(opptegnelsePollingTimeState);
 
 export const useSetOpptegnelserPollingRate = () => {
     const setOpptegnelsePollingRate = useSetRecoilState(opptegnelsePollingTimeState);
@@ -53,14 +67,12 @@ export const useSetOpptegnelserPollingRate = () => {
     };
 };
 
-export const useResetOpptegnelsePollingRate = () => {
+const useResetOpptegnelsePollingRate = () => {
     const resetOpptegnelsePollingRate = useResetRecoilState(opptegnelsePollingTimeState);
     return () => {
         resetOpptegnelsePollingRate();
     };
 };
-
-export const useOpptegnelserPollingRate = () => useRecoilValue(opptegnelsePollingTimeState);
 
 export const erOpptegnelseForNyOppgave = (opptegnelse: Opptegnelse): boolean =>
     opptegnelse.type === 'NY_SAKSBEHANDLEROPPGAVE' || opptegnelse.type === 'REVURDERING_FERDIGBEHANDLET';

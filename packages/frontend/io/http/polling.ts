@@ -1,31 +1,20 @@
 import { useEffect } from 'react';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
 
-import {
-    nyesteOpptegnelserState,
-    sisteSekvensIdOpptegnelseState,
-    useOpptegnelserPollingRate,
-    useResetOpptegnelsePollingRate,
-    useSetOpptegnelserNy,
-} from '@state/opptegnelser';
+import { useMottaOpptegnelser, useNyesteOpptegnelseSekvens, useOpptegnelserPollingRate } from '@state/opptegnelser';
 
 import { SpeilResponse, getOpptegnelser } from './http';
 
 export const usePollEtterOpptegnelser = () => {
-    const setOpptegnelser = useSetRecoilState(nyesteOpptegnelserState);
-    const setOpptegnelserNy = useSetOpptegnelserNy();
-    const sisteSekvensId = useRecoilValue(sisteSekvensIdOpptegnelseState);
+    const mottaOpptegnelser = useMottaOpptegnelser();
+    const sisteSekvensId = useNyesteOpptegnelseSekvens();
     const opptegnelsePollingTime = useOpptegnelserPollingRate();
-    const resetPollefrekvens = useResetOpptegnelsePollingRate();
 
     useEffect(() => {
         function tick() {
             getOpptegnelser(sisteSekvensId)
                 .then(({ data }: SpeilResponse<Array<Opptegnelse>>) => {
                     if (data && data.length > 0) {
-                        setOpptegnelser(data);
-                        setOpptegnelserNy(data);
-                        resetPollefrekvens();
+                        mottaOpptegnelser(data);
                     }
                 })
                 .catch((error) => {
