@@ -2,7 +2,6 @@ import styled from '@emotion/styled';
 import dayjs from 'dayjs';
 import React, { useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
-import { useSetRecoilState } from 'recoil';
 
 import { Alert, BodyShort, Button, Loader } from '@navikt/ds-react';
 
@@ -10,7 +9,7 @@ import { useMutation } from '@apollo/client';
 import { Modal } from '@components/Modal';
 import { AnnullerDocument, AnnulleringDataInput, Utbetalingslinje } from '@io/graphql';
 import { postAbonnerPåAktør } from '@io/http';
-import { opptegnelsePollingTimeState } from '@state/opptegnelser';
+import { useSetOpptegnelserPollingRate } from '@state/opptegnelser';
 import { NORSK_DATOFORMAT } from '@utils/date';
 import { somPenger } from '@utils/locale';
 
@@ -88,7 +87,7 @@ export const Annulleringsmodal = ({
 }: AnnulleringsmodalProps) => {
     const [isSending, setIsSending] = useState<boolean>(false);
     const [postAnnulleringFeil, setPostAnnulleringFeil] = useState<string>();
-    const setOpptegnelsePollingTime = useSetRecoilState(opptegnelsePollingTimeState);
+    const setOpptegnelsePollingTime = useSetOpptegnelserPollingRate();
     const [annullerMutation] = useMutation(AnnullerDocument);
 
     const form = useForm({ mode: 'onBlur' });
@@ -135,6 +134,7 @@ export const Annulleringsmodal = ({
                 .catch(() => setPostAnnulleringFeil('Noe gikk galt. Prøv igjen senere eller kontakt en utvikler.'))
                 .finally(() => setIsSending(false));
         }
+
         setTimeout(() => {
             if (!harFeil()) startSubmit();
         }, 0);

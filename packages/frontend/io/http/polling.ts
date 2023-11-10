@@ -1,11 +1,11 @@
 import { useEffect } from 'react';
-import { useRecoilValue, useResetRecoilState, useSetRecoilState } from 'recoil';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 
 import {
     nyesteOpptegnelserState,
-    opptegnelsePollingTimeState,
     sisteSekvensIdOpptegnelseState,
     useOpptegnelserPollingRate,
+    useResetOpptegnelsePollingRate,
     useSetOpptegnelserNy,
 } from '@state/opptegnelser';
 
@@ -16,7 +16,7 @@ export const usePollEtterOpptegnelser = () => {
     const setOpptegnelserNy = useSetOpptegnelserNy();
     const sisteSekvensId = useRecoilValue(sisteSekvensIdOpptegnelseState);
     const opptegnelsePollingTime = useOpptegnelserPollingRate();
-    const resetPollefrekvens = useResetRecoilState(opptegnelsePollingTimeState);
+    const resetPollefrekvens = useResetOpptegnelsePollingRate();
 
     useEffect(() => {
         function tick() {

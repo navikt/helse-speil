@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { atom, selector, useRecoilValue, useResetRecoilState, useSetRecoilState } from 'recoil';
 
-export const opptegnelsePollingTimeState = atom<number>({
+const opptegnelsePollingTimeState = atom<number>({
     key: 'opptegnelsePollingTimeState',
     default: 5_000,
 });
@@ -15,9 +15,6 @@ const nyesteOpptegnelserStateNy = atom<Opptegnelse[]>({
     key: 'nyesteOpptegnelserStateNy',
     default: [],
 });
-
-export const erOpptegnelseForNyOppgave = (opptegnelse: Opptegnelse): boolean =>
-    opptegnelse.type === 'NY_SAKSBEHANDLEROPPGAVE' || opptegnelse.type === 'REVURDERING_FERDIGBEHANDLET';
 
 export const sisteSekvensIdOpptegnelseState = selector<number | undefined>({
     key: 'sisteSekvensIdOpptegnelseState',
@@ -56,4 +53,14 @@ export const useSetOpptegnelserPollingRate = () => {
     };
 };
 
+export const useResetOpptegnelsePollingRate = () => {
+    const resetOpptegnelsePollingRate = useResetRecoilState(opptegnelsePollingTimeState);
+    return () => {
+        resetOpptegnelsePollingRate();
+    };
+};
+
 export const useOpptegnelserPollingRate = () => useRecoilValue(opptegnelsePollingTimeState);
+
+export const erOpptegnelseForNyOppgave = (opptegnelse: Opptegnelse): boolean =>
+    opptegnelse.type === 'NY_SAKSBEHANDLEROPPGAVE' || opptegnelse.type === 'REVURDERING_FERDIGBEHANDLET';

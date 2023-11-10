@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { useRecoilValue } from 'recoil';
 
 import { BodyShort, Loader } from '@navikt/ds-react';
 
@@ -10,7 +10,7 @@ import { useHarUvurderteVarslerPåEllerFør } from '@hooks/uvurderteVarsler';
 import { Periodetilstand } from '@io/graphql';
 import { postAbonnerPåAktør } from '@io/http';
 import { useFinnesNyereUtbetaltPeriodePåPerson } from '@state/arbeidsgiver';
-import { opptegnelsePollingTimeState } from '@state/opptegnelser';
+import { useSetOpptegnelserPollingRate } from '@state/opptegnelser';
 import { inntektOgRefusjonState } from '@state/overstyring';
 import { isRevurdering } from '@state/selectors/utbetaling';
 import { useTotrinnsvurderingErAktiv } from '@state/toggles';
@@ -49,7 +49,7 @@ const hasOppgave = (period: FetchedBeregnetPeriode): boolean =>
 
 const useOnGodkjenn = (period: FetchedBeregnetPeriode, person: FetchedPerson): (() => void) => {
     const navigate = useNavigate();
-    const setOpptegnelsePollingTime = useSetRecoilState(opptegnelsePollingTimeState);
+    const setOpptegnelsePollingTime = useSetOpptegnelserPollingRate();
 
     return () => {
         if (skalPolleEtterNestePeriode(person) || (isBeregnetPeriode(period) && isRevurdering(period.utbetaling))) {
