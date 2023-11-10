@@ -235,6 +235,7 @@ export enum Dagtype {
     Egenmeldingsdag = 'Egenmeldingsdag',
     Feriedag = 'Feriedag',
     Foreldrepengerdag = 'Foreldrepengerdag',
+    Helg = 'Helg',
     Omsorgspengerdag = 'Omsorgspengerdag',
     Opplaringspengerdag = 'Opplaringspengerdag',
     Permisjonsdag = 'Permisjonsdag',
@@ -438,7 +439,6 @@ export enum Mottaker {
 
 export type Mutation = {
     __typename?: 'Mutation';
-    abonner: Scalars['Boolean']['output'];
     annuller: Scalars['Boolean']['output'];
     feilregistrerKommentar?: Maybe<Kommentar>;
     feilregistrerKommentarV2?: Maybe<Kommentar>;
@@ -450,6 +450,7 @@ export type Mutation = {
     leggTilKommentar?: Maybe<Kommentar>;
     leggTilNotat?: Maybe<Notat>;
     oppdaterPerson: Scalars['Boolean']['output'];
+    opprettAbonnement: Scalars['Boolean']['output'];
     opprettTildeling?: Maybe<Tildeling>;
     overstyrArbeidsforhold: Scalars['Boolean']['output'];
     overstyrDager: Scalars['Boolean']['output'];
@@ -461,10 +462,6 @@ export type Mutation = {
     settVarselstatusAktiv?: Maybe<VarselDto>;
     settVarselstatusVurdert?: Maybe<VarselDto>;
     skjonnsfastsettSykepengegrunnlag: Scalars['Boolean']['output'];
-};
-
-export type MutationAbonnerArgs = {
-    personidentifikator: Scalars['String']['input'];
 };
 
 export type MutationAnnullerArgs = {
@@ -516,6 +513,10 @@ export type MutationLeggTilNotatArgs = {
 
 export type MutationOppdaterPersonArgs = {
     fodselsnummer: Scalars['String']['input'];
+};
+
+export type MutationOpprettAbonnementArgs = {
+    personidentifikator: Scalars['String']['input'];
 };
 
 export type MutationOpprettTildelingArgs = {
@@ -879,16 +880,12 @@ export type Query = {
     antallOppgaver: AntallOppgaver;
     behandledeOppgaverIDag: Array<BehandletOppgave>;
     behandlingsstatistikk: Behandlingsstatistikk;
-    hentOpptegnelser: Array<Opptegnelse>;
     hentSoknad: Soknad;
     notater: Array<Notater>;
     oppdrag: Array<Oppdrag>;
     oppgaveFeed: OppgaverTilBehandling;
+    opptegnelser: Array<Opptegnelse>;
     person?: Maybe<Person>;
-};
-
-export type QueryHentOpptegnelserArgs = {
-    sekvensId?: InputMaybe<Scalars['Int']['input']>;
 };
 
 export type QueryHentSoknadArgs = {
@@ -909,6 +906,10 @@ export type QueryOppgaveFeedArgs = {
     limit: Scalars['Int']['input'];
     offset: Scalars['Int']['input'];
     sortering: Array<OppgavesorteringInput>;
+};
+
+export type QueryOpptegnelserArgs = {
+    sekvensId?: InputMaybe<Scalars['Int']['input']>;
 };
 
 export type QueryPersonArgs = {
