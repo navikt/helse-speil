@@ -1728,6 +1728,21 @@ export type OppgaveFeedQuery = {
     };
 };
 
+export type OpprettAbonnementMutationVariables = Exact<{
+    personidentifikator: Scalars['String']['input'];
+}>;
+
+export type OpprettAbonnementMutation = { __typename?: 'Mutation'; opprettAbonnement: boolean };
+
+export type OpptegnelserQueryVariables = Exact<{
+    sekvensId: Scalars['Int']['input'];
+}>;
+
+export type OpptegnelserQuery = {
+    __typename?: 'Query';
+    opptegnelser: Array<{ __typename?: 'Opptegnelse'; aktorId: string; type: Opptegnelsetype; sekvensnummer: number }>;
+};
+
 export type OverstyrArbeidsforholdMutationMutationVariables = Exact<{
     overstyring: ArbeidsforholdOverstyringHandlingInput;
 }>;
@@ -4136,6 +4151,80 @@ export const OppgaveFeedDocument = {
         },
     ],
 } as unknown as DocumentNode<OppgaveFeedQuery, OppgaveFeedQueryVariables>;
+export const OpprettAbonnementDocument = {
+    kind: 'Document',
+    definitions: [
+        {
+            kind: 'OperationDefinition',
+            operation: 'mutation',
+            name: { kind: 'Name', value: 'OpprettAbonnement' },
+            variableDefinitions: [
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'personidentifikator' } },
+                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
+                },
+            ],
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'opprettAbonnement' },
+                        arguments: [
+                            {
+                                kind: 'Argument',
+                                name: { kind: 'Name', value: 'personidentifikator' },
+                                value: { kind: 'Variable', name: { kind: 'Name', value: 'personidentifikator' } },
+                            },
+                        ],
+                    },
+                ],
+            },
+        },
+    ],
+} as unknown as DocumentNode<OpprettAbonnementMutation, OpprettAbonnementMutationVariables>;
+export const OpptegnelserDocument = {
+    kind: 'Document',
+    definitions: [
+        {
+            kind: 'OperationDefinition',
+            operation: 'query',
+            name: { kind: 'Name', value: 'Opptegnelser' },
+            variableDefinitions: [
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'sekvensId' } },
+                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'Int' } } },
+                },
+            ],
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'opptegnelser' },
+                        arguments: [
+                            {
+                                kind: 'Argument',
+                                name: { kind: 'Name', value: 'sekvensId' },
+                                value: { kind: 'Variable', name: { kind: 'Name', value: 'sekvensId' } },
+                            },
+                        ],
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                { kind: 'Field', name: { kind: 'Name', value: 'aktorId' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'type' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'sekvensnummer' } },
+                            ],
+                        },
+                    },
+                ],
+            },
+        },
+    ],
+} as unknown as DocumentNode<OpptegnelserQuery, OpptegnelserQueryVariables>;
 export const OverstyrArbeidsforholdMutationDocument = {
     kind: 'Document',
     definitions: [
