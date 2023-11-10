@@ -1740,7 +1740,13 @@ export type OpptegnelserQueryVariables = Exact<{
 
 export type OpptegnelserQuery = {
     __typename?: 'Query';
-    opptegnelser: Array<{ __typename?: 'Opptegnelse'; aktorId: string; type: Opptegnelsetype; sekvensnummer: number }>;
+    opptegnelser: Array<{
+        __typename?: 'Opptegnelse';
+        aktorId: string;
+        type: Opptegnelsetype;
+        sekvensnummer: number;
+        payload: string;
+    }>;
 };
 
 export type OverstyrArbeidsforholdMutationMutationVariables = Exact<{
@@ -4217,6 +4223,7 @@ export const OpptegnelserDocument = {
                                 { kind: 'Field', name: { kind: 'Name', value: 'aktorId' } },
                                 { kind: 'Field', name: { kind: 'Name', value: 'type' } },
                                 { kind: 'Field', name: { kind: 'Name', value: 'sekvensnummer' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'payload' } },
                             ],
                         },
                     },
