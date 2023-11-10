@@ -38,6 +38,7 @@
     padding-left: 0.5rem;
     grid-column: 1 / span 2;
     padding-top: 0.25rem;
+    flex: 0 0 100%;
 }
 .rotspørsmål {
     padding-bottom: 0.5rem;
