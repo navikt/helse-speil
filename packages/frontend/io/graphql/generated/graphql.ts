@@ -1735,7 +1735,7 @@ export type OpprettAbonnementMutationVariables = Exact<{
 export type OpprettAbonnementMutation = { __typename?: 'Mutation'; opprettAbonnement: boolean };
 
 export type OpptegnelserQueryVariables = Exact<{
-    sekvensId: Scalars['Int']['input'];
+    sekvensId?: InputMaybe<Scalars['Int']['input']>;
 }>;
 
 export type OpptegnelserQuery = {
@@ -4195,7 +4195,7 @@ export const OpptegnelserDocument = {
                 {
                     kind: 'VariableDefinition',
                     variable: { kind: 'Variable', name: { kind: 'Name', value: 'sekvensId' } },
-                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'Int' } } },
+                    type: { kind: 'NamedType', name: { kind: 'Name', value: 'Int' } },
                 },
             ],
             selectionSet: {

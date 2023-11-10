@@ -1,4 +1,4 @@
-query Opptegnelser($sekvensId: Int!) {
+query Opptegnelser($sekvensId: Int) {
     opptegnelser(sekvensId: $sekvensId) {
         aktorId, type, sekvensnummer
     }
