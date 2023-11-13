@@ -1556,6 +1556,46 @@ export type HentBehandlingsstatistikkQuery = {
     };
 };
 
+export type FetchInntektsmeldingQueryVariables = Exact<{
+    fnr: Scalars['String']['input'];
+    dokumentId: Scalars['String']['input'];
+}>;
+
+export type FetchInntektsmeldingQuery = {
+    __typename?: 'Query';
+    hentInntektsmelding: {
+        __typename?: 'DokumentInntektsmelding';
+        begrunnelseForReduksjonEllerIkkeUtbetalt?: string | null;
+        bruttoUtbetalt?: number | null;
+        beregnetInntekt?: number | null;
+        inntektsdato?: string | null;
+        foersteFravaersdag?: string | null;
+        naerRelasjon?: boolean | null;
+        innsenderFulltNavn?: string | null;
+        innsenderTelefon?: string | null;
+        refusjon?: { __typename?: 'Refusjon'; beloepPrMnd?: number | null; opphoersdato?: string | null } | null;
+        endringIRefusjoner?: Array<{
+            __typename?: 'EndringIRefusjon';
+            endringsdato?: string | null;
+            beloep?: number | null;
+        }> | null;
+        opphoerAvNaturalytelser?: Array<{
+            __typename?: 'OpphoerAvNaturalytelse';
+            naturalytelse?: Naturalytelse | null;
+            fom?: string | null;
+            beloepPrMnd?: number | null;
+        }> | null;
+        gjenopptakelseNaturalytelser?: Array<{
+            __typename?: 'GjenopptakelseNaturalytelse';
+            naturalytelse?: Naturalytelse | null;
+            fom?: string | null;
+            beloepPrMnd?: number | null;
+        }> | null;
+        arbeidsgiverperioder?: Array<{ __typename?: 'IMPeriode'; fom?: string | null; tom?: string | null }> | null;
+        ferieperioder?: Array<{ __typename?: 'IMPeriode'; fom?: string | null; tom?: string | null }> | null;
+    };
+};
+
 export type SporsmalFragment = {
     __typename?: 'Sporsmal';
     sporsmalstekst?: string | null;
@@ -3490,6 +3530,133 @@ export const HentBehandlingsstatistikkDocument = {
         },
     ],
 } as unknown as DocumentNode<HentBehandlingsstatistikkQuery, HentBehandlingsstatistikkQueryVariables>;
+export const FetchInntektsmeldingDocument = {
+    kind: 'Document',
+    definitions: [
+        {
+            kind: 'OperationDefinition',
+            operation: 'query',
+            name: { kind: 'Name', value: 'FetchInntektsmelding' },
+            variableDefinitions: [
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'fnr' } },
+                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
+                },
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'dokumentId' } },
+                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
+                },
+            ],
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'hentInntektsmelding' },
+                        arguments: [
+                            {
+                                kind: 'Argument',
+                                name: { kind: 'Name', value: 'fnr' },
+                                value: { kind: 'Variable', name: { kind: 'Name', value: 'fnr' } },
+                            },
+                            {
+                                kind: 'Argument',
+                                name: { kind: 'Name', value: 'dokumentId' },
+                                value: { kind: 'Variable', name: { kind: 'Name', value: 'dokumentId' } },
+                            },
+                        ],
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'begrunnelseForReduksjonEllerIkkeUtbetalt' },
+                                },
+                                { kind: 'Field', name: { kind: 'Name', value: 'bruttoUtbetalt' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'beregnetInntekt' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'inntektsdato' } },
+                                {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'refusjon' },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            { kind: 'Field', name: { kind: 'Name', value: 'beloepPrMnd' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'opphoersdato' } },
+                                        ],
+                                    },
+                                },
+                                {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'endringIRefusjoner' },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            { kind: 'Field', name: { kind: 'Name', value: 'endringsdato' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'beloep' } },
+                                        ],
+                                    },
+                                },
+                                {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'opphoerAvNaturalytelser' },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            { kind: 'Field', name: { kind: 'Name', value: 'naturalytelse' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'fom' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'beloepPrMnd' } },
+                                        ],
+                                    },
+                                },
+                                {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'gjenopptakelseNaturalytelser' },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            { kind: 'Field', name: { kind: 'Name', value: 'naturalytelse' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'fom' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'beloepPrMnd' } },
+                                        ],
+                                    },
+                                },
+                                {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'arbeidsgiverperioder' },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            { kind: 'Field', name: { kind: 'Name', value: 'fom' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'tom' } },
+                                        ],
+                                    },
+                                },
+                                {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'ferieperioder' },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            { kind: 'Field', name: { kind: 'Name', value: 'fom' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'tom' } },
+                                        ],
+                                    },
+                                },
+                                { kind: 'Field', name: { kind: 'Name', value: 'foersteFravaersdag' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'naerRelasjon' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'innsenderFulltNavn' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'innsenderTelefon' } },
+                            ],
+                        },
+                    },
+                ],
+            },
+        },
+    ],
+} as unknown as DocumentNode<FetchInntektsmeldingQuery, FetchInntektsmeldingQueryVariables>;
 export const FetchSoknadDocument = {
     kind: 'Document',
     definitions: [

@@ -1,0 +1,20 @@
+query FetchInntektsmelding($fnr: String!, $dokumentId: String!) {
+    hentInntektsmelding(fnr: $fnr, dokumentId: $dokumentId) {
+        begrunnelseForReduksjonEllerIkkeUtbetalt,
+        bruttoUtbetalt,
+        beregnetInntekt,
+        inntektsdato,
+        refusjon {
+            beloepPrMnd, opphoersdato
+        },
+        endringIRefusjoner { endringsdato, beloep },
+        opphoerAvNaturalytelser { naturalytelse, fom, beloepPrMnd },
+        gjenopptakelseNaturalytelser { naturalytelse, fom, beloepPrMnd },
+        arbeidsgiverperioder { fom, tom },
+        ferieperioder { fom, tom },
+        foersteFravaersdag,
+        naerRelasjon,
+        innsenderFulltNavn,
+        innsenderTelefon
+    }
+}
