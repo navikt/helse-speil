@@ -1,0 +1,32 @@
+.dokument {
+    display: grid;
+    column-gap: 8px;
+    grid-template-columns: 83px auto;
+}
+
+.dokument p {
+    font-size: var(--a-font-size-medium);
+    line-height: var(--a-font-line-height-medium);
+    word-break: break-word;
+    grid-column: 1 / span 2;
+}
+
+.dokument > p:nth-of-type(even) {
+    padding-bottom: 0.5rem;
+}
+
+.skeleton {
+    padding-right: 1rem;
+}
+
+.skeleton p {
+    margin-bottom: 0.25rem;
+}
+
+.liste {
+    grid-column: 1 / span 2;
+    flex: 0 0 100%;
+    padding-bottom: 0.5rem;
+    padding-top: 0;
+    padding-left: 0;
+}
