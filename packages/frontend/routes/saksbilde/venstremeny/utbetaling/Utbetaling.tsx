@@ -5,10 +5,10 @@ import { useRecoilValue } from 'recoil';
 
 import { BodyShort, Loader } from '@navikt/ds-react';
 
+import { useMutation } from '@apollo/client';
 import { useErBeslutteroppgaveOgHarTilgang } from '@hooks/useErBeslutteroppgaveOgHarTilgang';
 import { useHarUvurderteVarslerPåEllerFør } from '@hooks/uvurderteVarsler';
-import { Periodetilstand } from '@io/graphql';
-import { postAbonnerPåAktør } from '@io/http';
+import { OpprettAbonnementDocument, Periodetilstand } from '@io/graphql';
 import { useFinnesNyereUtbetaltPeriodePåPerson } from '@state/arbeidsgiver';
 import { useSetOpptegnelserPollingRate } from '@state/opptegnelser';
 import { inntektOgRefusjonState } from '@state/overstyring';
@@ -50,11 +50,15 @@ const hasOppgave = (period: FetchedBeregnetPeriode): boolean =>
 const useOnGodkjenn = (period: FetchedBeregnetPeriode, person: FetchedPerson): (() => void) => {
     const navigate = useNavigate();
     const setOpptegnelsePollingTime = useSetOpptegnelserPollingRate();
+    const [opprettAbonnement] = useMutation(OpprettAbonnementDocument);
 
     return () => {
         if (skalPolleEtterNestePeriode(person) || (isBeregnetPeriode(period) && isRevurdering(period.utbetaling))) {
-            postAbonnerPåAktør(person.aktorId).then(() => {
-                setOpptegnelsePollingTime(1000);
+            void opprettAbonnement({
+                variables: { personidentifikator: person.aktorId },
+                onCompleted: () => {
+                    setOpptegnelsePollingTime(1000);
+                },
             });
         } else {
             navigate('/');

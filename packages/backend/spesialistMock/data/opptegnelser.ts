@@ -1,4 +1,4 @@
-export const opptegnelser: Array<any> = [
+export const opptegnelser: any[] = [
     {
         aktørId: 12341234,
         sekvensnummer: 12121212,

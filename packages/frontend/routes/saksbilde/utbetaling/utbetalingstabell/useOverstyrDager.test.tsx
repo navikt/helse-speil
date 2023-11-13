@@ -2,8 +2,7 @@ import { RecoilWrapper } from '@test-wrappers';
 import React from 'react';
 
 import { MockedProvider } from '@apollo/client/testing';
-import { Kildetype, OverstyrDagerMutationDocument } from '@io/graphql';
-import { postAbonnerPåAktør } from '@io/http';
+import { Kildetype, OpprettAbonnementDocument, OverstyrDagerMutationDocument } from '@io/graphql';
 import { useCurrentArbeidsgiver } from '@state/arbeidsgiver';
 import { useSetOpptegnelserPollingRate } from '@state/opptegnelser';
 import { useCurrentPerson } from '@state/person';
@@ -33,17 +32,9 @@ const BEGRUNNELSE = 'begrunnelse';
     organisasjonsnummer: ORGNUMMER,
 });
 
-(useAddToast as jest.Mock).mockReturnValue(() => {
-    //do nothing
-});
-
-(useRemoveToast as jest.Mock).mockReturnValue(() => {
-    //do nothing
-});
-(useSetOpptegnelserPollingRate as jest.Mock).mockReturnValue(() => {
-    //do nothing
-});
-(postAbonnerPåAktør as jest.Mock).mockReturnValue(Promise.resolve());
+(useAddToast as jest.Mock).mockReturnValue(() => {});
+(useRemoveToast as jest.Mock).mockReturnValue(() => {});
+(useSetOpptegnelserPollingRate as jest.Mock).mockReturnValue(() => {});
 
 describe('useOverstyrDager', () => {
     test('skal ha state initial ved oppstart', async () => {
@@ -182,5 +173,18 @@ const mocks = [
             },
         },
         error: new Error('en feil'),
+    },
+    {
+        request: {
+            query: OpprettAbonnementDocument,
+            variables: {
+                personidentifikator: AKTØR_ID,
+            },
+        },
+        result: {
+            data: {
+                opprettAbonnement: true,
+            },
+        },
     },
 ];

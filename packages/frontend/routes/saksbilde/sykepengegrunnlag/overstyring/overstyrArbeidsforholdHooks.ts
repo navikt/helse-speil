@@ -4,10 +4,10 @@ import { useEffect, useState } from 'react';
 import { useMutation } from '@apollo/client';
 import {
     ArbeidsforholdOverstyringHandlingInput,
+    OpprettAbonnementDocument,
     OverstyrArbeidsforholdMutationDocument,
     OverstyringArbeidsforholdInput,
 } from '@io/graphql';
-import { postAbonnerPåAktør } from '@io/http';
 import { OverstyrtArbeidsforholdDTO } from '@io/http/types';
 import {
     kalkulererFerdigToastKey,
@@ -58,6 +58,7 @@ export const usePostOverstyrtArbeidsforhold = (onFerdigKalkulert?: () => void) =
     const [timedOut, setTimedOut] = useState(false);
 
     const [overstyrMutation, { error, loading }] = useMutation(OverstyrArbeidsforholdMutationDocument);
+    const [opprettAbonnement] = useMutation(OpprettAbonnementDocument);
 
     useHåndterOpptegnelser((opptegnelse) => {
         if (calculating && opptegnelse.type === 'NY_SAKSBEHANDLEROPPGAVE') {
@@ -110,7 +111,12 @@ export const usePostOverstyrtArbeidsforhold = (onFerdigKalkulert?: () => void) =
                     if (aktørId) {
                         setCalculating(true);
                         addToast(kalkulererToast({}));
-                        postAbonnerPåAktør(aktørId).then(() => setPollingRate(1000));
+                        void opprettAbonnement({
+                            variables: { personidentifikator: aktørId },
+                            onCompleted: () => {
+                                setPollingRate(1000);
+                            },
+                        });
                     }
                 },
             });

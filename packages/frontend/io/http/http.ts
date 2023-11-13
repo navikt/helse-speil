@@ -1,5 +1,3 @@
-import { Options } from './types';
-
 export const ResponseError = (statusCode: number, message?: string) => ({
     statusCode,
     message,
@@ -14,8 +12,6 @@ type Headers = {
     [key: string]: unknown;
 };
 
-// eslint-disable-next-line no-undef
-const baseUrl = (process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : '') + '/api';
 const baseUrlGraphQL = (process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : '') + '/graphql';
 
 const getData = async (response: Response) => {
@@ -32,29 +28,6 @@ const getErrorMessage = async (response: Response) => {
     } catch (e) {
         return undefined;
     }
-};
-
-const ensureAcceptHeader = (options: Options = {}): RequestInit | undefined => {
-    const acceptHeader = { Accept: 'application/json' };
-    if (!options?.headers) {
-        return { ...options, headers: acceptHeader };
-    } else if (!options.headers.Accept || !options.headers.accept) {
-        return { ...options, headers: { ...acceptHeader, ...options.headers } };
-    }
-    return undefined;
-};
-
-const get = async <T>(url: string, options?: Options): Promise<SpeilResponse<T>> => {
-    const response = await fetch(url, ensureAcceptHeader(options));
-
-    if (response.status >= 400) {
-        throw ResponseError(response.status);
-    }
-
-    return {
-        status: response.status,
-        data: await getData(response),
-    };
 };
 
 const post = async (url: string, data: unknown, headere?: Headers): Promise<SpeilResponse<unknown>> => {
@@ -79,15 +52,6 @@ const post = async (url: string, data: unknown, headere?: Headers): Promise<Spei
     };
 };
 
-// Opptegnelse
-export const getOpptegnelser = async (sisteSekvensId?: number): Promise<SpeilResponse<Array<Opptegnelse>>> => {
-    return sisteSekvensId
-        ? get<Opptegnelse[]>(`${baseUrl}/opptegnelse/hent/${sisteSekvensId}`)
-        : get<Opptegnelse[]>(`${baseUrl}/opptegnelse/hent`);
-};
-export const postAbonnerPåAktør = async (aktørId: string) => {
-    return post(`${baseUrl}/opptegnelse/abonner/${aktørId}`, {});
-};
 // GraphQL
 export const postGraphQLQuery = async (operation: string) => {
     return post(`${baseUrlGraphQL}`, JSON.parse(operation));

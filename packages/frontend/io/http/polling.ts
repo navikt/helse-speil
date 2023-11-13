@@ -1,31 +1,47 @@
-import { useEffect } from 'react';
-
+import { useQuery } from '@apollo/client';
+import { OpptegnelserDocument, Opptegnelsetype } from '@io/graphql';
 import { useMottaOpptegnelser, useNyesteOpptegnelseSekvens, useOpptegnelserPollingRate } from '@state/opptegnelser';
-
-import { SpeilResponse, getOpptegnelser } from './http';
 
 export const usePollEtterOpptegnelser = () => {
     const mottaOpptegnelser = useMottaOpptegnelser();
-    const sisteSekvensId = useNyesteOpptegnelseSekvens();
-    const opptegnelsePollingTime = useOpptegnelserPollingRate();
+    const sekvensId = useNyesteOpptegnelseSekvens();
+    const pollInterval = useOpptegnelserPollingRate();
+    useQuery(OpptegnelserDocument, {
+        variables: {
+            sekvensId,
+        },
+        pollInterval,
+        onCompleted: (data) => {
+            mottaOpptegnelser(
+                data.opptegnelser.map((opptegnelse) => ({
+                    sekvensnummer: opptegnelse.sekvensnummer,
+                    type: tilOpptegnelsetype(opptegnelse.type),
+                    aktørId: Number.parseInt(opptegnelse.aktorId),
+                    payload: opptegnelse.payload,
+                })),
+            );
+        },
+        onError: (error) => {
+            console.error(error);
+        },
+    });
+};
 
-    useEffect(() => {
-        function tick() {
-            getOpptegnelser(sisteSekvensId)
-                .then(({ data }: SpeilResponse<Array<Opptegnelse>>) => {
-                    if (data && data.length > 0) {
-                        mottaOpptegnelser(data);
-                    }
-                })
-                .catch((error) => {
-                    if (error.statusCode === 401) clearInterval(id);
-                    else if (error.statusCode >= 500) {
-                        console.error(error);
-                    }
-                });
-        }
-
-        const id = setInterval(tick, opptegnelsePollingTime);
-        return () => clearInterval(id);
-    }, [opptegnelsePollingTime, sisteSekvensId]);
+const tilOpptegnelsetype = (opptegnelsetype: Opptegnelsetype): OpptegnelseType => {
+    switch (opptegnelsetype) {
+        case Opptegnelsetype.FerdigbehandletGodkjenningsbehov:
+            return Opptegnelsetype.FerdigbehandletGodkjenningsbehov;
+        case Opptegnelsetype.NySaksbehandleroppgave:
+            return Opptegnelsetype.NySaksbehandleroppgave;
+        case Opptegnelsetype.PersondataOppdatert:
+            return Opptegnelsetype.PersondataOppdatert;
+        case Opptegnelsetype.RevurderingAvvist:
+            return Opptegnelsetype.RevurderingAvvist;
+        case Opptegnelsetype.RevurderingFerdigbehandlet:
+            return Opptegnelsetype.RevurderingFerdigbehandlet;
+        case Opptegnelsetype.UtbetalingAnnulleringFeilet:
+            return Opptegnelsetype.UtbetalingAnnulleringFeilet;
+        case Opptegnelsetype.UtbetalingAnnulleringOk:
+            return Opptegnelsetype.UtbetalingAnnulleringOk;
+    }
 };

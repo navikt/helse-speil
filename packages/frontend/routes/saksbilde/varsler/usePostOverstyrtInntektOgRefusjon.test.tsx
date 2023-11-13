@@ -2,8 +2,7 @@ import { RecoilWrapper } from '@test-wrappers';
 import React from 'react';
 
 import { MockedProvider } from '@apollo/client/testing';
-import { OverstyrInntektOgRefusjonMutationDocument } from '@io/graphql';
-import { postAbonnerPåAktør } from '@io/http';
+import { OpprettAbonnementDocument, OverstyrInntektOgRefusjonMutationDocument } from '@io/graphql';
 import { kalkulererFerdigToastKey, kalkulererToastKey } from '@state/kalkuleringstoasts';
 import { useHåndterOpptegnelser, useSetOpptegnelserPollingRate } from '@state/opptegnelser';
 import { ToastObject, useAddToast, useRemoveToast } from '@state/toasts';
@@ -26,7 +25,6 @@ const addToastMock = jest.fn();
 (useRemoveToast as jest.Mock).mockReturnValue(() => {});
 (useHåndterOpptegnelser as jest.Mock).mockReturnValue(() => {});
 (useSetOpptegnelserPollingRate as jest.Mock).mockReturnValue(() => {});
-(postAbonnerPåAktør as jest.Mock).mockReturnValue(Promise.resolve());
 
 describe('usePostOverstyrInntektOgRefusjon', () => {
     it('skal ha initial state ved oppstart', () => {
@@ -215,5 +213,18 @@ const mocks = [
             },
         },
         error: Error('en feil'),
+    },
+    {
+        request: {
+            query: OpprettAbonnementDocument,
+            variables: {
+                personidentifikator: 'aktørid',
+            },
+        },
+        result: {
+            data: {
+                opprettAbonnement: true,
+            },
+        },
     },
 ];

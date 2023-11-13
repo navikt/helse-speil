@@ -1,14 +1,13 @@
 import styled from '@emotion/styled';
 import dayjs from 'dayjs';
-import React, { useState } from 'react';
+import React from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 
 import { Alert, BodyShort, Button, Loader } from '@navikt/ds-react';
 
 import { useMutation } from '@apollo/client';
 import { Modal } from '@components/Modal';
-import { AnnullerDocument, AnnulleringDataInput, Utbetalingslinje } from '@io/graphql';
-import { postAbonnerPåAktør } from '@io/http';
+import { AnnullerDocument, AnnulleringDataInput, OpprettAbonnementDocument, Utbetalingslinje } from '@io/graphql';
 import { useSetOpptegnelserPollingRate } from '@state/opptegnelser';
 import { NORSK_DATOFORMAT } from '@utils/date';
 import { somPenger } from '@utils/locale';
@@ -85,10 +84,9 @@ export const Annulleringsmodal = ({
     onSuccess,
     varseltekst,
 }: AnnulleringsmodalProps) => {
-    const [isSending, setIsSending] = useState<boolean>(false);
-    const [postAnnulleringFeil, setPostAnnulleringFeil] = useState<string>();
     const setOpptegnelsePollingTime = useSetOpptegnelserPollingRate();
-    const [annullerMutation] = useMutation(AnnullerDocument);
+    const [annullerMutation, { error, loading }] = useMutation(AnnullerDocument);
+    const [opprettAbonnement] = useMutation(OpprettAbonnementDocument);
 
     const form = useForm({ mode: 'onBlur' });
     const kommentar = form.watch('kommentar');
@@ -121,18 +119,17 @@ export const Annulleringsmodal = ({
         }
 
         function startSubmit() {
-            setIsSending(true);
-            setPostAnnulleringFeil(undefined);
-            annullerMutation({ variables: { annullering } })
-                .then(() => {
-                    postAbonnerPåAktør(annullering.aktorId).then(() => {
-                        setOpptegnelsePollingTime(1000);
+            void annullerMutation({
+                variables: { annullering },
+                onCompleted: () => {
+                    void opprettAbonnement({
+                        variables: { personidentifikator: annullering.aktorId },
+                        onCompleted: () => setOpptegnelsePollingTime(1000),
                     });
                     onSuccess && onSuccess();
                     onClose();
-                })
-                .catch(() => setPostAnnulleringFeil('Noe gikk galt. Prøv igjen senere eller kontakt en utvikler.'))
-                .finally(() => setIsSending(false));
+                },
+            });
         }
 
         setTimeout(() => {
@@ -170,14 +167,16 @@ export const Annulleringsmodal = ({
                     </Utbetalingsgruppe>
                     <Annulleringsbegrunnelse />
                     {varseltekst && <Varseltekst as="p">{varseltekst}</Varseltekst>}
-                    <AnnullerKnapp as="button" variant="secondary" disabled={isSending}>
+                    <AnnullerKnapp as="button" variant="secondary" disabled={loading}>
                         Annuller
-                        {isSending && <Loader size="xsmall" />}
+                        {loading && <Loader size="xsmall" />}
                     </AnnullerKnapp>
                     <Button variant="tertiary" onClick={onClose}>
                         Avbryt
                     </Button>
-                    {postAnnulleringFeil && <Feilmelding as="p">{postAnnulleringFeil}</Feilmelding>}
+                    {error && (
+                        <Feilmelding as="p">Noe gikk galt. Prøv igjen senere eller kontakt en utvikler.</Feilmelding>
+                    )}
                 </Form>
             </ModalContainer>
         </FormProvider>

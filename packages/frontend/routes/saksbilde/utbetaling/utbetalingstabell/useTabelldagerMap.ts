@@ -13,6 +13,7 @@ import {
     Egenmeldingsdag,
     Feriedag,
     Foreldrepengerdag,
+    Helgedag,
     Navhelgedag,
     Omsorgspengerdag,
     Opplæringspengerdag,
@@ -27,6 +28,8 @@ import {
 
 const getUtbetalingstabelldagtypeFromOverstyrtDag = (dag: OverstyrtDag): Speildag => {
     switch (dag.type) {
+        case Dagtype.Helg:
+            return Helgedag;
         case Dagtype.AaPdag:
             return AAPdag;
         case Dagtype.Dagpengerdag:

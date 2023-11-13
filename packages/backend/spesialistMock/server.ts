@@ -2,7 +2,6 @@ import express from 'express';
 
 import { sleep } from '../devHelpers';
 import { setUpGraphQLMiddleware } from './graphql';
-import { setUpOpptegnelse } from './opptegnelser';
 
 const app = express();
 const port = 9001;
@@ -38,6 +37,5 @@ app.post('/api/person/oppdater', (req, res) => {
 });
 
 setUpGraphQLMiddleware(app);
-setUpOpptegnelse(app);
 
 app.listen(port, () => console.log(`Spesialist-mock kjører på port ${port}`));

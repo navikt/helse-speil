@@ -3,11 +3,12 @@ import { useResetRecoilState } from 'recoil';
 
 import { FetchResult, useMutation } from '@apollo/client';
 import {
+    OpprettAbonnementDocument,
     OverstyrInntektOgRefusjonMutationDocument,
     OverstyrInntektOgRefusjonMutationMutation,
     OverstyringArbeidsgiverInput,
 } from '@io/graphql';
-import { OverstyrtInntektOgRefusjonDTO, postAbonnerPåAktør } from '@io/http';
+import { OverstyrtInntektOgRefusjonDTO } from '@io/http';
 import {
     kalkulererFerdigToastKey,
     kalkulererToast,
@@ -37,6 +38,7 @@ export const usePostOverstyrtInntektOgRefusjon = (): PostOverstyrtInntektOgRefus
     const [timedOut, setTimedOut] = useState(false);
 
     const [overstyrMutation, { loading, error }] = useMutation(OverstyrInntektOgRefusjonMutationDocument);
+    const [opprettAbonnement] = useMutation(OpprettAbonnementDocument);
 
     useHåndterOpptegnelser((opptegnelse) => {
         const erFerdigOpptegnelse = erOpptegnelseForNyOppgave(opptegnelse);
@@ -107,7 +109,12 @@ export const usePostOverstyrtInntektOgRefusjon = (): PostOverstyrtInntektOgRefus
             onCompleted: () => {
                 setCalculating(true);
                 addToast(kalkulererToast({}));
-                postAbonnerPåAktør(overstyrtInntekt.aktørId).then(() => setPollingRate(1000));
+                opprettAbonnement({
+                    variables: { personidentifikator: overstyrtInntekt.aktørId },
+                    onCompleted: () => {
+                        setPollingRate(1000);
+                    },
+                });
             },
         }).catch(() => Promise.resolve());
 

@@ -3,8 +3,13 @@ import dayjs from 'dayjs';
 import { useEffect, useRef, useState } from 'react';
 
 import { FetchResult, useMutation } from '@apollo/client';
-import { Arbeidsgiver, OverstyrDagerMutationDocument, OverstyrDagerMutationMutation } from '@io/graphql';
-import { OverstyrtDagDTO, OverstyrtDagtype, postAbonnerPåAktør } from '@io/http';
+import {
+    Arbeidsgiver,
+    OpprettAbonnementDocument,
+    OverstyrDagerMutationDocument,
+    OverstyrDagerMutationMutation,
+} from '@io/graphql';
+import { OverstyrtDagDTO, OverstyrtDagtype } from '@io/http';
 import { useCurrentArbeidsgiver } from '@state/arbeidsgiver';
 import {
     kalkulererFerdigToastKey,
@@ -40,6 +45,7 @@ export const useOverstyrDager = (): UsePostOverstyringResult => {
     const [overstyrMutation, { error }] = useMutation(OverstyrDagerMutationDocument);
     const [calculating, setCalculating] = useState(false);
     const [state, setState] = useState<UsePostOverstyringState>('initial');
+    const [opprettAbonnement] = useMutation(OpprettAbonnementDocument);
 
     useHåndterOpptegnelser((opptegnelse) => {
         if (erOpptegnelseForNyOppgave(opptegnelse) && calculating) {
@@ -95,7 +101,12 @@ export const useOverstyrDager = (): UsePostOverstyringResult => {
                 addToast(kalkulererToast({}));
                 setCalculating(true);
                 callback?.();
-                postAbonnerPåAktør(person.aktorId).then(() => setPollingRate(1000));
+                void opprettAbonnement({
+                    variables: { personidentifikator: person.aktorId },
+                    onCompleted: () => {
+                        setPollingRate(1000);
+                    },
+                });
             },
             onError: () => setState('hasError'),
         });

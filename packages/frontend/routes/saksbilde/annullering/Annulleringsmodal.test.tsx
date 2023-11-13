@@ -4,7 +4,7 @@ import isSameOrAfter from 'dayjs/plugin/isSameOrAfter';
 import React from 'react';
 
 import { MockedProvider } from '@apollo/client/testing';
-import { AnnullerDocument } from '@io/graphql';
+import { AnnullerDocument, OpprettAbonnementDocument } from '@io/graphql';
 import '@testing-library/jest-dom';
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
@@ -52,6 +52,19 @@ const mocks = [
                     annuller: true,
                 },
             };
+        },
+    },
+    {
+        request: {
+            query: OpprettAbonnementDocument,
+            variables: {
+                personidentifikator: '12345678910',
+            },
+        },
+        result: {
+            data: {
+                opprettAbonnement: true,
+            },
         },
     },
 ];

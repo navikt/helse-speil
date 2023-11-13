@@ -3,17 +3,13 @@ import { useEffect, useState } from 'react';
 
 import { useMutation } from '@apollo/client';
 import {
+    OpprettAbonnementDocument,
     SkjonnsfastsettelseArbeidsgiverInput,
     SkjonnsfastsettelseInput,
     SkjonnsfastsettelseMutationDocument,
     SkjonnsfastsettelseType,
 } from '@io/graphql';
-import {
-    SkjønnsfastsattArbeidsgiver,
-    SkjønnsfastsattSykepengegrunnlagDTO,
-    SkjønnsfastsettingstypeDTO,
-    postAbonnerPåAktør,
-} from '@io/http';
+import { SkjønnsfastsattArbeidsgiver, SkjønnsfastsattSykepengegrunnlagDTO, SkjønnsfastsettingstypeDTO } from '@io/http';
 import {
     kalkulererFerdigToastKey,
     kalkulererToast,
@@ -123,6 +119,7 @@ export const usePostSkjønnsfastsattSykepengegrunnlag = (onFerdigKalkulert: () =
     const [timedOut, setTimedOut] = useState(false);
 
     const [overstyrMutation, { error, loading }] = useMutation(SkjonnsfastsettelseMutationDocument);
+    const [opprettAbonnement] = useMutation(OpprettAbonnementDocument);
 
     useHåndterOpptegnelser((opptegnelse) => {
         if (erOpptegnelseForNyOppgave(opptegnelse) && calculating) {
@@ -194,7 +191,12 @@ export const usePostSkjønnsfastsattSykepengegrunnlag = (onFerdigKalkulert: () =
                 onCompleted: () => {
                     setCalculating(true);
                     addToast(kalkulererToast({}));
-                    postAbonnerPåAktør(skjønnsfastsattSykepengegrunnlag.aktørId).then(() => setPollingRate(1000));
+                    void opprettAbonnement({
+                        variables: { personidentifikator: skjønnsfastsattSykepengegrunnlag.aktørId },
+                        onCompleted: () => {
+                            setPollingRate(1000);
+                        },
+                    });
                 },
             });
         },

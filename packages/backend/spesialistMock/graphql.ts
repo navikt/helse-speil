@@ -14,6 +14,7 @@ import { behandlingsstatistikk } from './data/behandlingsstatistikk';
 import { getMockOppdrag } from './data/oppdrag';
 import { oppgaver, tilfeldigeOppgaver } from './data/oppgaver';
 import { FlereFodselsnumreError, NotFoundError } from './errors';
+import { hentOpptegnelser, opprettAbonnement } from './opptegnelser';
 import type {
     BeregnetPeriode,
     FiltreringInput,
@@ -113,9 +114,6 @@ const getResolvers = (): IResolvers => ({
         oppgaveFeed: async (
             _,
             {
-                offset,
-                limit,
-                sortering,
                 filtrering,
             }: { offset: string; limit: string; sortering: OppgavesorteringInput; filtrering: FiltreringInput },
         ) => {
@@ -170,13 +168,16 @@ const getResolvers = (): IResolvers => ({
                 notater: NotatMock.getNotater(it),
             }));
         },
-        hentSoknad: async (_, { fnr, dokumentId }: { fnr: string; dokumentId: string }) => {
+        hentSoknad: async (_) => {
             await new Promise((resolve) => {
                 setTimeout(() => {
                     resolve('test');
                 }, 3000);
             });
             return DokumentMock.getMockedSoknad();
+        },
+        opptegnelser: async (_, { sekvensId }) => {
+            return hentOpptegnelser(sekvensId);
         },
     },
     Mutation: {
@@ -336,6 +337,9 @@ const getResolvers = (): IResolvers => ({
         },
         oppdaterPerson: async (_, __) => {
             return true;
+        },
+        opprettAbonnement: async (_) => {
+            return opprettAbonnement();
         },
     },
     Periode: {
