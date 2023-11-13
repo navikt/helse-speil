@@ -245,6 +245,24 @@ export enum Dagtype {
     SykedagNav = 'SykedagNav',
 }
 
+export type DokumentInntektsmelding = {
+    __typename?: 'DokumentInntektsmelding';
+    arbeidsgiverperioder?: Maybe<Array<ImPeriode>>;
+    begrunnelseForReduksjonEllerIkkeUtbetalt?: Maybe<Scalars['String']['output']>;
+    beregnetInntekt?: Maybe<Scalars['Float']['output']>;
+    bruttoUtbetalt?: Maybe<Scalars['Float']['output']>;
+    endringIRefusjoner?: Maybe<Array<EndringIRefusjon>>;
+    ferieperioder?: Maybe<Array<ImPeriode>>;
+    foersteFravaersdag?: Maybe<Scalars['String']['output']>;
+    gjenopptakelseNaturalytelser?: Maybe<Array<GjenopptakelseNaturalytelse>>;
+    innsenderFulltNavn?: Maybe<Scalars['String']['output']>;
+    innsenderTelefon?: Maybe<Scalars['String']['output']>;
+    inntektsdato?: Maybe<Scalars['String']['output']>;
+    naerRelasjon?: Maybe<Scalars['Boolean']['output']>;
+    opphoerAvNaturalytelser?: Maybe<Array<OpphoerAvNaturalytelse>>;
+    refusjon?: Maybe<Refusjon>;
+};
+
 export enum Egenskap {
     Beslutter = 'BESLUTTER',
     DelvisRefusjon = 'DELVIS_REFUSJON',
@@ -272,6 +290,12 @@ export enum Egenskap {
     Utland = 'UTLAND',
     Vergemal = 'VERGEMAL',
 }
+
+export type EndringIRefusjon = {
+    __typename?: 'EndringIRefusjon';
+    beloep?: Maybe<Scalars['Float']['output']>;
+    endringsdato?: Maybe<Scalars['String']['output']>;
+};
 
 export type Enhet = {
     __typename?: 'Enhet';
@@ -310,6 +334,13 @@ export type GhostPeriode = {
     vilkarsgrunnlagId?: Maybe<Scalars['String']['output']>;
 };
 
+export type GjenopptakelseNaturalytelse = {
+    __typename?: 'GjenopptakelseNaturalytelse';
+    beloepPrMnd?: Maybe<Scalars['Float']['output']>;
+    fom?: Maybe<Scalars['String']['output']>;
+    naturalytelse?: Maybe<Naturalytelse>;
+};
+
 export type Handling = {
     __typename?: 'Handling';
     begrunnelse?: Maybe<Scalars['String']['output']>;
@@ -329,6 +360,12 @@ export enum Hendelsetype {
     SendtSoknadNav = 'SENDT_SOKNAD_NAV',
     Ukjent = 'UKJENT',
 }
+
+export type ImPeriode = {
+    __typename?: 'IMPeriode';
+    fom?: Maybe<Scalars['String']['output']>;
+    tom?: Maybe<Scalars['String']['output']>;
+};
 
 export type Infotrygdutbetaling = {
     __typename?: 'Infotrygdutbetaling';
@@ -575,6 +612,29 @@ export type MutationSkjonnsfastsettSykepengegrunnlagArgs = {
     skjonnsfastsettelse: SkjonnsfastsettelseInput;
 };
 
+export enum Naturalytelse {
+    Aksjergrunnfondsbevistilunderkurs = 'AKSJERGRUNNFONDSBEVISTILUNDERKURS',
+    Annet = 'ANNET',
+    Bedriftsbarnehageplass = 'BEDRIFTSBARNEHAGEPLASS',
+    Besoeksreiserhjemmetannet = 'BESOEKSREISERHJEMMETANNET',
+    Bil = 'BIL',
+    Bolig = 'BOLIG',
+    Elektroniskkommunikasjon = 'ELEKTRONISKKOMMUNIKASJON',
+    Fritransport = 'FRITRANSPORT',
+    Innbetalingtilutenlandskpensjonsordning = 'INNBETALINGTILUTENLANDSKPENSJONSORDNING',
+    Kostbesparelseihjemmet = 'KOSTBESPARELSEIHJEMMET',
+    Kostdager = 'KOSTDAGER',
+    Kostdoegn = 'KOSTDOEGN',
+    Losji = 'LOSJI',
+    Opsjoner = 'OPSJONER',
+    Rentefordellaan = 'RENTEFORDELLAAN',
+    Skattepliktigdelforsikringer = 'SKATTEPLIKTIGDELFORSIKRINGER',
+    Tilskuddbarnehageplass = 'TILSKUDDBARNEHAGEPLASS',
+    Ukjent = 'UKJENT',
+    Yrkebiltjenestligbehovkilometer = 'YRKEBILTJENESTLIGBEHOVKILOMETER',
+    Yrkebiltjenestligbehovlistepris = 'YRKEBILTJENESTLIGBEHOVLISTEPRIS',
+}
+
 export type Notat = {
     __typename?: 'Notat';
     feilregistrert: Scalars['Boolean']['output'];
@@ -689,6 +749,13 @@ export enum Oppgavetype {
     UtbetalingTilArbeidsgiver = 'UTBETALING_TIL_ARBEIDSGIVER',
     UtbetalingTilSykmeldt = 'UTBETALING_TIL_SYKMELDT',
 }
+
+export type OpphoerAvNaturalytelse = {
+    __typename?: 'OpphoerAvNaturalytelse';
+    beloepPrMnd?: Maybe<Scalars['Float']['output']>;
+    fom?: Maybe<Scalars['String']['output']>;
+    naturalytelse?: Maybe<Naturalytelse>;
+};
 
 export type Opptegnelse = {
     __typename?: 'Opptegnelse';
@@ -880,12 +947,18 @@ export type Query = {
     antallOppgaver: AntallOppgaver;
     behandledeOppgaverIDag: Array<BehandletOppgave>;
     behandlingsstatistikk: Behandlingsstatistikk;
+    hentInntektsmelding: DokumentInntektsmelding;
     hentSoknad: Soknad;
     notater: Array<Notater>;
     oppdrag: Array<Oppdrag>;
     oppgaveFeed: OppgaverTilBehandling;
     opptegnelser: Array<Opptegnelse>;
     person?: Maybe<Person>;
+};
+
+export type QueryHentInntektsmeldingArgs = {
+    dokumentId: Scalars['String']['input'];
+    fnr: Scalars['String']['input'];
 };
 
 export type QueryHentSoknadArgs = {
@@ -915,6 +988,12 @@ export type QueryOpptegnelserArgs = {
 export type QueryPersonArgs = {
     aktorId?: InputMaybe<Scalars['String']['input']>;
     fnr?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type Refusjon = {
+    __typename?: 'Refusjon';
+    beloepPrMnd?: Maybe<Scalars['Float']['output']>;
+    opphoersdato?: Maybe<Scalars['String']['output']>;
 };
 
 export type Refusjonselement = {
