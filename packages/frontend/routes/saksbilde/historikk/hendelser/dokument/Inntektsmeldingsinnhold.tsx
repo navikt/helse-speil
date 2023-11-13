@@ -31,12 +31,12 @@ export const Inntektsmeldingsinnhold: React.FC<SøknadsinnholdProps> = ({ dokume
                             {inntektsmelding.begrunnelseForReduksjonEllerIkkeUtbetalt}
                         </DokumentFragment>
                     )}
-                    {inntektsmelding.bruttoUtbetalt && (
+                    {inntektsmelding.bruttoUtbetalt != null && (
                         <DokumentFragment overskrift="Brutto utbetalt">
                             {toKronerOgØre(inntektsmelding.bruttoUtbetalt)}
                         </DokumentFragment>
                     )}
-                    {inntektsmelding.beregnetInntekt && (
+                    {inntektsmelding.beregnetInntekt != null && (
                         <DokumentFragment overskrift="Beregnet inntekt">
                             {toKronerOgØre(inntektsmelding.beregnetInntekt)}
                         </DokumentFragment>
@@ -49,7 +49,7 @@ export const Inntektsmeldingsinnhold: React.FC<SøknadsinnholdProps> = ({ dokume
                     {inntektsmelding.refusjon && (
                         <DokumentFragment overskrift="Refusjon">
                             <>
-                                {inntektsmelding.refusjon.beloepPrMnd !== null &&
+                                {inntektsmelding.refusjon.beloepPrMnd != null &&
                                     `Beløp pr mnd: ${inntektsmelding.refusjon.beloepPrMnd}`}
                                 {inntektsmelding.refusjon.opphoersdato &&
                                     `${(<br />)}Opphørsdato: ${inntektsmelding.refusjon.opphoersdato}`}
@@ -64,7 +64,7 @@ export const Inntektsmeldingsinnhold: React.FC<SøknadsinnholdProps> = ({ dokume
                                     {it.endringsdato && (
                                         <DokumentFragment overskrift="Endringsdato">{it.endringsdato}</DokumentFragment>
                                     )}
-                                    {it.beloep && (
+                                    {it.beloep != null && (
                                         <DokumentFragment overskrift="Beløp">
                                             {toKronerOgØre(it.beloep)}
                                         </DokumentFragment>
@@ -88,7 +88,7 @@ export const Inntektsmeldingsinnhold: React.FC<SøknadsinnholdProps> = ({ dokume
                                             {dayjs(it.fom).format(NORSK_DATOFORMAT)}
                                         </DokumentFragment>
                                     )}
-                                    {it.beloepPrMnd && (
+                                    {it.beloepPrMnd != null && (
                                         <DokumentFragment overskrift="Beløp per måned">
                                             {toKronerOgØre(it.beloepPrMnd)}
                                         </DokumentFragment>
@@ -112,7 +112,7 @@ export const Inntektsmeldingsinnhold: React.FC<SøknadsinnholdProps> = ({ dokume
                                             {dayjs(it.fom).format(NORSK_DATOFORMAT)}
                                         </DokumentFragment>
                                     )}
-                                    {it.beloepPrMnd && (
+                                    {it.beloepPrMnd != null && (
                                         <DokumentFragment overskrift="Beløp per måned">
                                             {toKronerOgØre(it.beloepPrMnd)}
                                         </DokumentFragment>
