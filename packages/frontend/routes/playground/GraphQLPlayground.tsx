@@ -1,14 +1,12 @@
 import GraphiQL from 'graphiql';
 import React from 'react';
 
-import { Fetcher } from '@graphiql/toolkit';
-import { postGraphQLQuery } from '@io/http';
+import { createGraphiQLFetcher } from '@graphiql/toolkit';
 
 import 'graphiql/graphiql.min.css';
 
-const graphQLFetcher = async (graphQLParams: unknown) => {
-    const response = await postGraphQLQuery(JSON.stringify(graphQLParams));
-    return response.status === 200 ? response.data : response;
-};
+const fetcher = createGraphiQLFetcher({
+    url: (process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : '') + '/graphql',
+});
 
-export const GraphQLPlayground = () => <GraphiQL isHeadersEditorEnabled={true} fetcher={graphQLFetcher as Fetcher} />;
+export const GraphQLPlayground = () => <GraphiQL isHeadersEditorEnabled={true} fetcher={fetcher} />;
