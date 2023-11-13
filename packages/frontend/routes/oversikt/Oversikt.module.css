@@ -17,7 +17,7 @@
 }
 
 .fullHeight {
-    height: 88.8vh;
+    height: calc(100vh - 108px);
 }
 
 .Alert {
