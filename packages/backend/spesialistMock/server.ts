@@ -25,15 +25,8 @@ app.use((req, res, next) => {
     res.header('Access-Control-Allow-Methods', 'PUT, GET, POST, DELETE');
     const ventetid = passeLenge();
     const pathOrQuery: string = req.url === '/graphql' ? req.body['operationName'] : req.url;
-    if (!pathOrQuery.includes('/opptegnelse/hent')) {
-        console.log(`Behandler ${req.method} til ${pathOrQuery} etter ${ventetid} ms`);
-    }
+    console.log(`Behandler ${req.method} til ${pathOrQuery} etter ${ventetid} ms`);
     sleep(ventetid).then(next);
-});
-
-app.post('/api/person/oppdater', (req, res) => {
-    console.log(`Mottok forespørsel om oppdatering ${JSON.stringify(req.body)}`);
-    return Math.random() < 0.2 ? res.status(503).send('Dev feil!') : res.sendStatus(200);
 });
 
 setUpGraphQLMiddleware(app);

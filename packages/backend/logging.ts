@@ -20,6 +20,9 @@ const sikkerLogger = winston.createLogger({
     transports: [new winston.transports.File({ filename: sikkerLogPath(), maxsize: 5242880 })],
 });
 
+const debug = (message: string, ...meta: any[]) => {
+    stdoutLogger.debug(message, ...meta);
+};
 const info = (message: string, ...meta: any[]) => {
     stdoutLogger.info(message, ...meta);
 };
@@ -63,6 +66,7 @@ const requestMeta = (req: SpeilRequest) => {
 };
 
 export default {
+    debug,
     info,
     warn,
     error,

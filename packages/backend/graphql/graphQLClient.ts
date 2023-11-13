@@ -34,7 +34,7 @@ export default (oidcConfig: OidcConfig, onBehalfOf: OnBehalfOf): GraphQLClient =
         const start = Date.now();
         return request.post(options).then((response): Promise<request.FullResponse> => {
             const tidBrukt = Date.now() - start;
-            logger.info(`GraphQL-kall til ${baseUrl} med X-Request-Id: ${callId} ferdig etter ${tidBrukt} ms`);
+            logger.debug(`GraphQL-kall til ${baseUrl} med X-Request-Id: ${callId} ferdig etter ${tidBrukt} ms`);
             return response;
         });
     },
