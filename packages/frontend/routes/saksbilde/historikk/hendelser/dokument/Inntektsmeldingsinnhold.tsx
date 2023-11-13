@@ -26,9 +26,25 @@ export const Inntektsmeldingsinnhold: React.FC<SøknadsinnholdProps> = ({ dokume
         <div>
             {inntektsmelding && (
                 <div className={styles.dokument}>
-                    {inntektsmelding.begrunnelseForReduksjonEllerIkkeUtbetalt && (
-                        <DokumentFragment overskrift="Begrunnelse for reduksjon eller ikke utbetalt">
-                            {inntektsmelding.begrunnelseForReduksjonEllerIkkeUtbetalt}
+                    {inntektsmelding.foersteFravaersdag && (
+                        <DokumentFragment overskrift="Første fraværsdag">
+                            {dayjs(inntektsmelding.foersteFravaersdag).format(NORSK_DATOFORMAT)}
+                        </DokumentFragment>
+                    )}
+                    {(inntektsmelding.arbeidsgiverperioder?.length ?? 0) > 0 && (
+                        <div className={styles.liste}>
+                            <Bold size="small">Arbeidsgiverperioder</Bold>
+                            {inntektsmelding.arbeidsgiverperioder?.map((it) => (
+                                <BodyShort size="small">
+                                    {it.fom && dayjs(it.fom).format(NORSK_DATOFORMAT)} –{' '}
+                                    {it.tom && dayjs(it.tom).format(NORSK_DATOFORMAT)}
+                                </BodyShort>
+                            ))}
+                        </div>
+                    )}
+                    {inntektsmelding.beregnetInntekt != null && (
+                        <DokumentFragment overskrift="Beregnet inntekt">
+                            {toKronerOgØre(inntektsmelding.beregnetInntekt)}
                         </DokumentFragment>
                     )}
                     {inntektsmelding.bruttoUtbetalt != null && (
@@ -36,14 +52,14 @@ export const Inntektsmeldingsinnhold: React.FC<SøknadsinnholdProps> = ({ dokume
                             {toKronerOgØre(inntektsmelding.bruttoUtbetalt)}
                         </DokumentFragment>
                     )}
-                    {inntektsmelding.beregnetInntekt != null && (
-                        <DokumentFragment overskrift="Beregnet inntekt">
-                            {toKronerOgØre(inntektsmelding.beregnetInntekt)}
-                        </DokumentFragment>
-                    )}
                     {inntektsmelding.inntektsdato && (
                         <DokumentFragment overskrift="Inntektsdato">
                             {dayjs(inntektsmelding.inntektsdato).format(NORSK_DATOFORMAT)}
+                        </DokumentFragment>
+                    )}
+                    {inntektsmelding.begrunnelseForReduksjonEllerIkkeUtbetalt && (
+                        <DokumentFragment overskrift="Begrunnelse for reduksjon eller ikke utbetalt">
+                            {inntektsmelding.begrunnelseForReduksjonEllerIkkeUtbetalt}
                         </DokumentFragment>
                     )}
                     {inntektsmelding.refusjon && (
@@ -70,6 +86,17 @@ export const Inntektsmeldingsinnhold: React.FC<SøknadsinnholdProps> = ({ dokume
                                         </DokumentFragment>
                                     )}
                                 </>
+                            ))}
+                        </div>
+                    )}
+                    {(inntektsmelding.ferieperioder?.length ?? 0) > 0 && (
+                        <div className={styles.liste}>
+                            <Bold size="small">Ferieperioder</Bold>
+                            {inntektsmelding.ferieperioder?.map((it) => (
+                                <BodyShort size="small">
+                                    {it.fom && dayjs(it.fom).format(NORSK_DATOFORMAT)} –{' '}
+                                    {it.tom && dayjs(it.tom).format(NORSK_DATOFORMAT)}
+                                </BodyShort>
                             ))}
                         </div>
                     )}
@@ -120,33 +147,6 @@ export const Inntektsmeldingsinnhold: React.FC<SøknadsinnholdProps> = ({ dokume
                                 </>
                             ))}
                         </div>
-                    )}
-                    {(inntektsmelding.arbeidsgiverperioder?.length ?? 0) > 0 && (
-                        <div className={styles.liste}>
-                            <Bold size="small">Arbeidsgiverperioder</Bold>
-                            {inntektsmelding.arbeidsgiverperioder?.map((it) => (
-                                <BodyShort size="small">
-                                    {it.fom && dayjs(it.fom).format(NORSK_DATOFORMAT)} –{' '}
-                                    {it.tom && dayjs(it.tom).format(NORSK_DATOFORMAT)}
-                                </BodyShort>
-                            ))}
-                        </div>
-                    )}
-                    {(inntektsmelding.ferieperioder?.length ?? 0) > 0 && (
-                        <div className={styles.liste}>
-                            <Bold size="small">Ferieperioder</Bold>
-                            {inntektsmelding.ferieperioder?.map((it) => (
-                                <BodyShort size="small">
-                                    {it.fom && dayjs(it.fom).format(NORSK_DATOFORMAT)} –{' '}
-                                    {it.tom && dayjs(it.tom).format(NORSK_DATOFORMAT)}
-                                </BodyShort>
-                            ))}
-                        </div>
-                    )}
-                    {inntektsmelding.foersteFravaersdag && (
-                        <DokumentFragment overskrift="Første fraværsdag">
-                            {dayjs(inntektsmelding.foersteFravaersdag).format(NORSK_DATOFORMAT)}
-                        </DokumentFragment>
                     )}
                     {inntektsmelding.naerRelasjon && (
                         <DokumentFragment overskrift="Nær relasjon">
