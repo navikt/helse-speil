@@ -3,9 +3,9 @@ import React from 'react';
 
 import { NORSK_DATOFORMAT, NORSK_DATOFORMAT_MED_KLOKKESLETT } from '@utils/date';
 
+import { DokumentFragment } from './DokumentFragment';
 import { DokumentLoader } from './DokumentLoader';
 import { Spørsmål } from './Spørsmål';
-import { SøknadFragment } from './SøknadFragment';
 import { useQuerySoknad } from './queries';
 
 import styles from './Søknadsinnhold.module.css';
@@ -27,7 +27,7 @@ export const Søknadsinnhold: React.FC<SøknadsinnholdProps> = ({ dokumentId, f�
                         søknad.soknadsperioder.length > 0 &&
                         søknad.soknadsperioder.map((søknadsperiode) => (
                             <>
-                                <SøknadFragment
+                                <DokumentFragment
                                     overskrift={`${dayjs(søknadsperiode.fom).format(NORSK_DATOFORMAT)} – ${dayjs(
                                         søknadsperiode.tom,
                                     ).format(NORSK_DATOFORMAT)}`}
@@ -39,26 +39,26 @@ export const Søknadsinnhold: React.FC<SøknadsinnholdProps> = ({ dokumentId, f�
                                             Oppgitt faktisk arbeidsgrad {søknadsperiode.faktiskGrad} %
                                         </>
                                     )}
-                                </SøknadFragment>
+                                </DokumentFragment>
                             </>
                         ))}
                     {søknad.arbeidGjenopptatt && (
-                        <SøknadFragment overskrift="Arbeid gjenopptatt">
+                        <DokumentFragment overskrift="Arbeid gjenopptatt">
                             {dayjs(søknad.arbeidGjenopptatt).format(NORSK_DATOFORMAT)}
-                        </SøknadFragment>
+                        </DokumentFragment>
                     )}
                     {søknad.sykmeldingSkrevet && (
-                        <SøknadFragment overskrift="Sykmelding skrevet">
+                        <DokumentFragment overskrift="Sykmelding skrevet">
                             {dayjs(søknad.sykmeldingSkrevet).format(NORSK_DATOFORMAT_MED_KLOKKESLETT)}
-                        </SøknadFragment>
+                        </DokumentFragment>
                     )}
                     {(søknad.egenmeldingsdagerFraSykmelding?.length ?? 0) > 0 && (
-                        <SøknadFragment overskrift="Egenmeldingsdager fra sykmelding">
+                        <DokumentFragment overskrift="Egenmeldingsdager fra sykmelding">
                             {søknad.egenmeldingsdagerFraSykmelding
                                 ?.map((it) => dayjs(it).format(NORSK_DATOFORMAT))
                                 .join(', ')
                                 .replace(/,(?=[^,]*$)/, ' og')}
-                        </SøknadFragment>
+                        </DokumentFragment>
                     )}
                     {søknad.sporsmal && <Spørsmål spørsmål={søknad.sporsmal} />}
                 </div>

@@ -8,7 +8,7 @@ import { Sporsmal, Svar, Svartype } from '@io/graphql';
 import { NORSK_DATOFORMAT } from '@utils/date';
 import { toKronerOgØre } from '@utils/locale';
 
-import { SøknadFragment } from './SøknadFragment';
+import { DokumentFragment } from './DokumentFragment';
 
 import styles from './Søknadsinnhold.module.css';
 
@@ -31,9 +31,9 @@ export const Spørsmål: React.FC<SpørsmålProps> = ({ spørsmål, rotnivå = t
                 )}
             >
                 {it.svar && it.svartype && (
-                    <SøknadFragment overskrift={it?.sporsmalstekst ?? ''}>
+                    <DokumentFragment overskrift={it?.sporsmalstekst ?? ''}>
                         {getSvarForVisning(it.svar, it.svartype)}
-                    </SøknadFragment>
+                    </DokumentFragment>
                 )}
                 {underspørsmål && <Spørsmål spørsmål={underspørsmål} rotnivå={false} />}
             </div>
