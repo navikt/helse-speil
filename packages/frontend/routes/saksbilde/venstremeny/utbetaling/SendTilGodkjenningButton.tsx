@@ -106,7 +106,12 @@ const somBackendfeil = (error: ApolloError): BackendFeil => {
     const errorCode = (error.graphQLErrors[0].extensions['code'] as { value: number }).value;
 
     return {
-        message: errorCode === 409 ? 'Denne perioden er allerede behandlet' : error.message,
+        message:
+            errorCode === 409
+                ? 'Denne perioden er allerede behandlet'
+                : error.message === 'mangler_vurdering_av_varsler'
+                ? 'Mangler vurdering av varsler'
+                : 'Kunne ikke sende saken til godkjenning',
         statusCode: errorCode,
     };
 };
