@@ -1,4 +1,4 @@
-import { Soknad, Svartype } from '../schemaTypes';
+import { DokumentInntektsmelding, Soknad, Svartype } from '../schemaTypes';
 
 export class DokumentMock {
     static getMockedSoknad = (): Soknad => {
@@ -177,6 +177,33 @@ export class DokumentMock {
                 },
             ],
             __typename: 'Soknad',
+        };
+    };
+
+    static getMockedInntektsmelding = (): DokumentInntektsmelding => {
+        return {
+            innsenderFulltNavn: 'MUSKULØS VALS',
+            innsenderTelefon: '12345678',
+            begrunnelseForReduksjonEllerIkkeUtbetalt: '',
+            bruttoUtbetalt: null,
+            beregnetInntekt: 35000.0,
+            inntektsdato: '2023-08-01',
+            refusjon: {
+                beloepPrMnd: 0.0,
+                opphoersdato: null,
+            },
+            endringIRefusjoner: [],
+            opphoerAvNaturalytelser: [],
+            gjenopptakelseNaturalytelser: [],
+            arbeidsgiverperioder: [
+                {
+                    fom: '2023-08-01',
+                    tom: '2023-08-16',
+                },
+            ],
+            ferieperioder: [],
+            foersteFravaersdag: '2023-08-01',
+            naerRelasjon: null,
         };
     };
 }

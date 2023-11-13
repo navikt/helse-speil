@@ -176,6 +176,14 @@ const getResolvers = (): IResolvers => ({
             });
             return DokumentMock.getMockedSoknad();
         },
+        hentInntektsmelding: async (_) => {
+            await new Promise((resolve) => {
+                setTimeout(() => {
+                    resolve('test');
+                }, 1000);
+            });
+            return DokumentMock.getMockedInntektsmelding();
+        },
         opptegnelser: async (_, { sekvensId }) => {
             return hentOpptegnelser(sekvensId);
         },
