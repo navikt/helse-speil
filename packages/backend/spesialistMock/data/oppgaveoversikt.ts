@@ -1,5 +1,10 @@
-import { antallTilfeldigeOppgaver } from '../../devHelpers';
-import { FiltreringInput, OppgaveTilBehandling, OppgaverTilBehandling, OppgavesorteringInput } from '../schemaTypes';
+import {
+    FiltreringInput,
+    Kategori,
+    OppgaveTilBehandling,
+    OppgaverTilBehandling,
+    OppgavesorteringInput,
+} from '../schemaTypes';
 import { TildelingMock } from '../storage/tildeling';
 import { oppgaver, tilfeldigeOppgaver } from './oppgaver';
 
@@ -9,7 +14,7 @@ export const oppgaveliste = (
     sortering: OppgavesorteringInput,
     filtrering: FiltreringInput,
 ): OppgaverTilBehandling => {
-    const oppgaveliste = syncTildelingMock(oppgaver).concat(tilfeldigeOppgaver(antallTilfeldigeOppgaver));
+    const oppgaveliste = syncTildelingMock(oppgaver).concat(tilfeldigeOppgaver);
     const filtrertListe = filtrer(oppgaveliste, filtrering);
     const sortertListe = sorter(filtrertListe, sortering);
 
@@ -20,19 +25,35 @@ export const oppgaveliste = (
 };
 
 const filtrer = (oppgaver: OppgaveTilBehandling[], filtrering: FiltreringInput): OppgaveTilBehandling[] => {
-    if (filtrering.egneSaker) {
-        return oppgaver.filter(
+    return oppgaver
+        .filter((oppgave) =>
+            filtrering.egneSaker
+                ? oppgave.tildeling?.oid === '4577332e-801a-4c13-8a71-39f12b8abfa3' && !oppgave.tildeling?.paaVent
+                : true,
+        )
+        .filter((oppgave) =>
+            filtrering.egneSakerPaVent
+                ? oppgave.tildeling?.oid === '4577332e-801a-4c13-8a71-39f12b8abfa3' && oppgave.tildeling?.paaVent
+                : true,
+        )
+        .filter((oppgave) =>
+            filtrering.ingenUkategoriserteEgenskaper
+                ? !oppgave.egenskaper.some((egenskap) => egenskap.kategori === Kategori.Ukategorisert)
+                : true,
+        )
+        .filter(
             (oppgave) =>
-                oppgave.tildeling?.oid === '4577332e-801a-4c13-8a71-39f12b8abfa3' && !oppgave.tildeling?.paaVent,
-        );
-    }
-    if (filtrering.egneSakerPaVent) {
-        return oppgaver.filter(
+                // OBS: Dette er ikke helt sånn filtrering av egenskaper gjøres backend.
+                filtrering.egenskaper.length === 0 ||
+                filtrering.egenskaper.every((egenskap) =>
+                    oppgave.egenskaper.map((oppgaveegenskap) => oppgaveegenskap.egenskap).includes(egenskap.egenskap),
+                ),
+        )
+        .filter(
             (oppgave) =>
-                oppgave.tildeling?.oid === '4577332e-801a-4c13-8a71-39f12b8abfa3' && oppgave.tildeling?.paaVent,
+                filtrering.tildelt === null ||
+                (filtrering.tildelt === true ? oppgave.tildeling !== undefined : oppgave.tildeling === undefined),
         );
-    }
-    return oppgaver;
 };
 
 const sorter = (oppgaver: OppgaveTilBehandling[], sortering: OppgavesorteringInput): OppgaveTilBehandling[] => {

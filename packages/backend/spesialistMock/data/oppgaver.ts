@@ -1,5 +1,6 @@
 import { randomUUID } from 'crypto';
 
+import { antallTilfeldigeOppgaver } from '../../devHelpers';
 import {
     AntallArbeidsforhold,
     Egenskap,
@@ -154,7 +155,7 @@ export const oppgaver: Array<OppgaveTilBehandling> = [
     },
 ];
 
-export const tilfeldigeOppgaver = (antall: number) => {
+const genererTilfeldigeOppgaver = (antall: number) => {
     const oppgaver: OppgaveTilBehandling[] = [];
     let n = 0;
     let startId = 6000;
@@ -324,3 +325,5 @@ const egenskapFraAntallArbeidsforhold = (antallArbeidsforhold: AntallArbeidsforh
             return { kategori: Kategori.Inntektskilde, egenskap: Egenskap.FlereArbeidsgivere };
     }
 };
+
+export const tilfeldigeOppgaver = genererTilfeldigeOppgaver(antallTilfeldigeOppgaver);
