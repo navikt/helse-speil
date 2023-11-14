@@ -80,6 +80,14 @@ For å generere DocumentNodes som brukes i apollo queries og mutations må man f
 npm run generate-graphql
 ```
 
+### Kjøre speil frontend mot LocalGraphQLApi i Spesialist
+
+Finn filen `LocalGraphQLApi.kt` i Spesialist og kjør main-funksjonen.
+
+Endre `baseUrl` fra `localhost:3000` til `0.0.0.0:4321` i `graphQLClient.ts` her i Speil.
+
+Start speil med `npm run dev`
+
 ## Henvendelser
 
 Spørsmål knyttet til koden eller prosjektet kan stilles som issues her på GitHub.
