@@ -1,7 +1,7 @@
 import { atom, selector, useRecoilValue, useSetRecoilState } from 'recoil';
 
 import { Egenskap, Kategori, OppgaveTilBehandling } from '@io/graphql';
-import { harSpesialsaktilgang } from '@utils/featureToggles';
+import { erUtvikling, harSpesialsaktilgang } from '@utils/featureToggles';
 
 import { TabType, tabState } from '../../tabState';
 
@@ -185,6 +185,13 @@ export const defaultFilters: Filter<OppgaveTilBehandling>[] = [
         column: Oppgaveoversiktkolonne.EGENSKAPER,
     },
     {
+        key: Egenskap.PaVent,
+        label: 'På vent',
+        active: false,
+        function: (oppgave: OppgaveTilBehandling) => egenskaperInneholder(oppgave, [Egenskap.PaVent]),
+        column: Oppgaveoversiktkolonne.EGENSKAPER,
+    },
+    {
         key: Egenskap.Spesialsak,
         label: '🌰',
         active: false,
@@ -213,7 +220,9 @@ export const defaultFilters: Filter<OppgaveTilBehandling>[] = [
         function: (oppgave: OppgaveTilBehandling) => egenskaperInneholder(oppgave, [Egenskap.FlereArbeidsgivere]),
         column: Oppgaveoversiktkolonne.ANTALLARBEIDSFORHOLD,
     },
-].filter((filter) => filter.label !== '🌰' || harSpesialsaktilgang);
+]
+    .filter((filter) => filter.label !== '🌰' || harSpesialsaktilgang)
+    .filter((filter) => filter.label !== 'På vent' || erUtvikling());
 
 const groupFiltersByColumn = (filters: Filter<OppgaveTilBehandling>[]) => {
     const groups = filters.reduce(
