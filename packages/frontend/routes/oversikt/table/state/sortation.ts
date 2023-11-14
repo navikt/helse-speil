@@ -2,8 +2,6 @@ import { atom, selector, useSetRecoilState } from 'recoil';
 
 import { SortState } from '@navikt/ds-react';
 
-import { OppgaveTilBehandling } from '@io/graphql';
-
 import { TabType, tabState } from '../../tabState';
 
 export enum SortKey {
@@ -73,52 +71,4 @@ export const useUpdateSort = () => {
         setSort(sortState);
         setSorteringEndret(true);
     };
-};
-
-export const sortRows = (sort: SortState | undefined, filteredRows: OppgaveTilBehandling[]): OppgaveTilBehandling[] => {
-    if (!sort) return filteredRows;
-    switch (sort.orderBy as SortKey) {
-        case SortKey.Saksbehandler:
-            return sortFilteredRows(filteredRows, sort, saksbehandlerSortFunction);
-        case SortKey.Opprettet:
-            return sortFilteredRows(filteredRows, sort, opprettetSortFunction);
-        case SortKey.SøknadMottatt:
-            return sortFilteredRows(filteredRows, sort, søknadMottattSortFunction);
-        case SortKey.Søker:
-            return sortFilteredRows(filteredRows, sort, søkerSortFunction);
-    }
-};
-
-type OppgaveSortFunctionType = (a: OppgaveTilBehandling, b: OppgaveTilBehandling) => number;
-
-const sortFilteredRows = (
-    filteredRows: OppgaveTilBehandling[],
-    sort: SortState,
-    sortFunction: OppgaveSortFunctionType,
-): OppgaveTilBehandling[] =>
-    filteredRows.slice().sort((a, b) => (sort.direction === 'ascending' ? sortFunction(a, b) : sortFunction(b, a)));
-
-export const opprettetSortFunction: OppgaveSortFunctionType = (a: OppgaveTilBehandling, b: OppgaveTilBehandling) =>
-    new Date(a.opprettet).getTime() - new Date(b.opprettet).getTime();
-
-export const saksbehandlerSortFunction: OppgaveSortFunctionType = (
-    a: OppgaveTilBehandling,
-    b: OppgaveTilBehandling,
-) => {
-    if (!a.tildeling) return 1;
-    if (!b.tildeling) return -1;
-    if (a.tildeling.navn > b.tildeling.navn) return 1;
-    if (a.tildeling.navn < b.tildeling.navn) return -1;
-    return 0;
-};
-
-export const søknadMottattSortFunction: OppgaveSortFunctionType = (a: OppgaveTilBehandling, b: OppgaveTilBehandling) =>
-    new Date(a.opprinneligSoknadsdato).getTime() - new Date(b.opprinneligSoknadsdato).getTime();
-
-export const søkerSortFunction: OppgaveSortFunctionType = (a: OppgaveTilBehandling, b: OppgaveTilBehandling) => {
-    if (!a.navn) return 1;
-    if (!b.navn) return -1;
-    if (a.navn.etternavn > b.navn.etternavn) return 1;
-    if (a.navn.etternavn < b.navn.etternavn) return -1;
-    return 0;
 };
