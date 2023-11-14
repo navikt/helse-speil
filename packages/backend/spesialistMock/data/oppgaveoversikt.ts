@@ -4,6 +4,7 @@ import {
     OppgaveTilBehandling,
     OppgaverTilBehandling,
     OppgavesorteringInput,
+    Sorteringsnokkel,
 } from '../schemaTypes';
 import { TildelingMock } from '../storage/tildeling';
 import { oppgaver, tilfeldigeOppgaver } from './oppgaver';
@@ -11,7 +12,7 @@ import { oppgaver, tilfeldigeOppgaver } from './oppgaver';
 export const oppgaveliste = (
     offset: number,
     limit: number,
-    sortering: OppgavesorteringInput,
+    sortering: OppgavesorteringInput[],
     filtrering: FiltreringInput,
 ): OppgaverTilBehandling => {
     const oppgaveliste = syncTildelingMock(oppgaver).concat(tilfeldigeOppgaver);
@@ -19,7 +20,7 @@ export const oppgaveliste = (
     const sortertListe = sorter(filtrertListe, sortering);
 
     return {
-        oppgaver: offset !== 0 ? sortertListe.slice(offset).slice(0, limit) : sortertListe.slice(0, limit),
+        oppgaver: offset === 0 ? sortertListe.slice(0, limit) : sortertListe.slice(offset).slice(0, limit),
         totaltAntallOppgaver: sortertListe.length,
     } as OppgaverTilBehandling;
 };
@@ -56,9 +57,39 @@ const filtrer = (oppgaver: OppgaveTilBehandling[], filtrering: FiltreringInput):
         );
 };
 
-const sorter = (oppgaver: OppgaveTilBehandling[], sortering: OppgavesorteringInput): OppgaveTilBehandling[] => {
-    return oppgaver;
+const sorter = (oppgaver: OppgaveTilBehandling[], sortering: OppgavesorteringInput[]): OppgaveTilBehandling[] => {
+    const sorteringting = sortering[0];
+    switch (sorteringting?.nokkel) {
+        case Sorteringsnokkel.Opprettet:
+            return sorterOppgaver(oppgaver, sorteringting.stigende, opprettetSortFunction);
+        case Sorteringsnokkel.TildeltTil:
+            return sorterOppgaver(oppgaver, sorteringting.stigende, saksbehandlerSortFunction);
+        case Sorteringsnokkel.SoknadMottatt:
+            return sorterOppgaver(oppgaver, sorteringting.stigende, søknadMottattSortFunction);
+        default:
+            return oppgaver;
+    }
 };
+
+const sorterOppgaver = (
+    oppgaver: OppgaveTilBehandling[],
+    stigende: boolean,
+    sortFunction: (a: OppgaveTilBehandling, b: OppgaveTilBehandling) => number,
+): OppgaveTilBehandling[] => oppgaver.slice().sort((a, b) => (stigende ? sortFunction(a, b) : sortFunction(b, a)));
+
+const saksbehandlerSortFunction = (a: OppgaveTilBehandling, b: OppgaveTilBehandling) => {
+    if (!a.tildeling) return 1;
+    if (!b.tildeling) return -1;
+    if (a.tildeling.navn > b.tildeling.navn) return 1;
+    if (a.tildeling.navn < b.tildeling.navn) return -1;
+    return 0;
+};
+
+const opprettetSortFunction = (a: OppgaveTilBehandling, b: OppgaveTilBehandling) =>
+    new Date(a.opprettet).getTime() - new Date(b.opprettet).getTime();
+
+const søknadMottattSortFunction = (a: OppgaveTilBehandling, b: OppgaveTilBehandling) =>
+    new Date(a.opprinneligSoknadsdato).getTime() - new Date(b.opprinneligSoknadsdato).getTime();
 
 const syncTildelingMock = (oppgaver: OppgaveTilBehandling[]) => {
     return oppgaver.map((oppgave) => {

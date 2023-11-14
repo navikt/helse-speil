@@ -115,7 +115,7 @@ const getResolvers = (): IResolvers => ({
                 limit,
                 sortering,
                 filtrering,
-            }: { offset: number; limit: number; sortering: OppgavesorteringInput; filtrering: FiltreringInput },
+            }: { offset: number; limit: number; sortering: OppgavesorteringInput[]; filtrering: FiltreringInput },
         ) => {
             return oppgaveliste(offset, limit, sortering, filtrering);
         },
