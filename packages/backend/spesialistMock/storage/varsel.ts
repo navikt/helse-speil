@@ -1,13 +1,7 @@
 import dayjs from 'dayjs';
 import { GraphQLError } from 'graphql';
 
-import {
-    MutationSettVarselstatusAktivArgs,
-    MutationSettVarselstatusVurdertArgs,
-    Person,
-    VarselDto,
-    Varselstatus,
-} from '../schemaTypes';
+import { MutationSettVarselstatusArgs, Person, VarselDto, Varselstatus } from '../schemaTypes';
 
 const ISO_TIDSPUNKTFORMAT = 'YYYY-MM-DDTHH:mm:ss';
 
@@ -29,7 +23,7 @@ export class VarselMock {
     };
 
     static settVarselstatusVurdert = (
-        { generasjonIdString, definisjonIdString, varselkode, ident }: MutationSettVarselstatusVurdertArgs,
+        { generasjonIdString, definisjonIdString, varselkode, ident }: MutationSettVarselstatusArgs,
         person?: Person,
     ): VarselDto | GraphQLError => {
         const gjeldendeVarsel = person?.arbeidsgivere
@@ -68,12 +62,12 @@ export class VarselMock {
                   },
               }
             : {
-                  definisjonId: definisjonIdString,
+                  definisjonId: definisjonIdString ?? '',
                   generasjonId: generasjonIdString,
                   kode: varselkode,
-                  tittel: '',
-                  forklaring: null,
-                  handling: null,
+                  tittel: gjeldendeVarsel?.tittel ?? '',
+                  forklaring: gjeldendeVarsel?.forklaring ?? '',
+                  handling: gjeldendeVarsel?.handling ?? '',
                   vurdering: {
                       status: Varselstatus.Vurdert,
                       ident: ident,
@@ -85,13 +79,15 @@ export class VarselMock {
         } else {
             this.varslerMedEndring.push(varselMedVurdering);
         }
+
         return varselMedVurdering;
     };
 
-    static settVarselstatusAktiv = (
-        { generasjonIdString, varselkode, ident }: MutationSettVarselstatusAktivArgs,
-        person?: Person,
-    ): VarselDto | GraphQLError => {
+    static settVarselstatusAktiv = ({
+        generasjonIdString,
+        varselkode,
+        ident,
+    }: MutationSettVarselstatusArgs): VarselDto | GraphQLError => {
         const { varselMedEndring, index } = this.findWithIndex(
             this.varslerMedEndring,
             (varselMedEndring) =>

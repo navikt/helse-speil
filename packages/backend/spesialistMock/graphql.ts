@@ -218,7 +218,7 @@ const getResolvers = (): IResolvers => ({
                     valgtPerson,
                 );
             } else {
-                return VarselMock.settVarselstatusAktiv({ generasjonIdString, varselkode, ident }, valgtPerson);
+                return VarselMock.settVarselstatusAktiv({ generasjonIdString, varselkode, ident });
             }
         },
         opprettTildeling: async (_, { oppgaveId }: MutationOpprettTildelingArgs) => {
