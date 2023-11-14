@@ -277,6 +277,7 @@ export enum Egenskap {
     Infotrygdforlengelse = 'INFOTRYGDFORLENGELSE',
     IngenUtbetaling = 'INGEN_UTBETALING',
     OvergangFraIt = 'OVERGANG_FRA_IT',
+    PaVent = 'PA_VENT',
     Retur = 'RETUR',
     Revurdering = 'REVURDERING',
     RiskQa = 'RISK_QA',
