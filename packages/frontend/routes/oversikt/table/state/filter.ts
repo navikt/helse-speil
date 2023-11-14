@@ -224,37 +224,11 @@ export const defaultFilters: Filter<OppgaveTilBehandling>[] = [
     .filter((filter) => filter.label !== '🌰' || harSpesialsaktilgang)
     .filter((filter) => filter.label !== 'På vent' || fellesPåVentBenk);
 
-const groupFiltersByColumn = (filters: Filter<OppgaveTilBehandling>[]) => {
-    const groups = filters.reduce(
-        (groups: { [key: string]: Filter<OppgaveTilBehandling>[] }, filter: Filter<OppgaveTilBehandling>) => {
-            const key = filter.column;
-            return groups[key] ? { ...groups, [key]: [...groups[key], filter] } : { ...groups, [key]: [filter] };
-        },
-        {},
-    );
-
-    return Object.entries(groups);
-};
-
 const egenskaperInneholder = (oppgave: OppgaveTilBehandling, egenskaper: Egenskap[]) =>
     oppgave.egenskaper.some(({ egenskap }) => egenskaper.includes(egenskap));
 
 const egenskaperMedKategori = (oppgave: OppgaveTilBehandling, medKategori: Kategori) =>
     oppgave.egenskaper.filter(({ kategori }) => kategori === medKategori);
-
-export const filterRows = (activeFilters: Filter<OppgaveTilBehandling>[], oppgaver: OppgaveTilBehandling[]) => {
-    const groupedFilters = groupFiltersByColumn(activeFilters);
-
-    return activeFilters.length > 0
-        ? (oppgaver.filter((oppgave) =>
-              groupedFilters.every(([key, value]) => {
-                  if (key === Oppgaveoversiktkolonne.EGENSKAPER)
-                      return value.every((it) => it.function(oppgave as OppgaveTilBehandling));
-                  return value.some((it) => it.function(oppgave as OppgaveTilBehandling));
-              }),
-          ) as Array<OppgaveTilBehandling>)
-        : (oppgaver as Array<OppgaveTilBehandling>);
-};
 
 const storageKeyForFilters = (tab: TabType) => 'filtereForTab_' + tab;
 
