@@ -1,4 +1,4 @@
-FROM gcr.io/distroless/nodejs18-debian11
+FROM gcr.io/distroless/nodejs20-debian11
 
 ARG NODE_ENV=production
 ENV NODE_ENV=${NODE_ENV}
