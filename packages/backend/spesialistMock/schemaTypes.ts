@@ -497,8 +497,6 @@ export type Mutation = {
     sendTilGodkjenning: Scalars['Boolean']['output'];
     sendTilInfotrygd: Scalars['Boolean']['output'];
     settVarselstatus: VarselDto;
-    settVarselstatusAktiv?: Maybe<VarselDto>;
-    settVarselstatusVurdert?: Maybe<VarselDto>;
     skjonnsfastsettSykepengegrunnlag: Scalars['Boolean']['output'];
 };
 
@@ -591,19 +589,6 @@ export type MutationSendTilInfotrygdArgs = {
 
 export type MutationSettVarselstatusArgs = {
     definisjonIdString?: InputMaybe<Scalars['String']['input']>;
-    generasjonIdString: Scalars['String']['input'];
-    ident: Scalars['String']['input'];
-    varselkode: Scalars['String']['input'];
-};
-
-export type MutationSettVarselstatusAktivArgs = {
-    generasjonIdString: Scalars['String']['input'];
-    ident: Scalars['String']['input'];
-    varselkode: Scalars['String']['input'];
-};
-
-export type MutationSettVarselstatusVurdertArgs = {
-    definisjonIdString: Scalars['String']['input'];
     generasjonIdString: Scalars['String']['input'];
     ident: Scalars['String']['input'];
     varselkode: Scalars['String']['input'];
