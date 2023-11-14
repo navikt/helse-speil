@@ -20,7 +20,7 @@ import { InfoAlert } from '@utils/error';
 
 import { TabType, tabEndret, useAktivTab } from '../routes/oversikt/tabState';
 import { Filter, Oppgaveoversiktkolonne, filterEndret, useFilters } from '../routes/oversikt/table/state/filter';
-import { SortKey, sortering, sorteringEndret } from '../routes/oversikt/table/state/sortation';
+import { SortKey, sorteringEndret, sortering as sorteringSelector } from '../routes/oversikt/table/state/sortation';
 
 export interface ApolloResponse<T> {
     data?: T;
@@ -69,7 +69,7 @@ export const useOppgaveFeed = (): OppgaveFeedResponse => {
     const [originalSortering, setOriginalSortering] = useState<OppgavesorteringInput[]>([]);
     const aktivTab = useAktivTab();
     const { activeFilters } = useFilters();
-    const sort = useRecoilValue(sortering);
+    const sort = useRecoilValue(sorteringSelector);
     const [filterErEndret, setFilterEndret] = useRecoilState(filterEndret);
     const [sorteringErEndret, setSorteringEndret] = useRecoilState(sorteringEndret);
     const [tabErEndret, setTabEndret] = useRecoilState(tabEndret);
@@ -77,7 +77,7 @@ export const useOppgaveFeed = (): OppgaveFeedResponse => {
 
     useEffect(() => {
         setOriginalFiltrering(filtrering(activeFilters, aktivTab));
-        setOriginalSortering(_sortering(sort));
+        setOriginalSortering(sortering(sort));
     }, []);
 
     const { data, error, loading, fetchMore, refetch } = useQuery(OppgaveFeedDocument, {
@@ -108,7 +108,7 @@ export const useOppgaveFeed = (): OppgaveFeedResponse => {
             void refetch({
                 offset,
                 filtrering: filtrering(activeFilters, aktivTab),
-                sortering: _sortering(sort),
+                sortering: sortering(sort),
             });
             setFilterEndret(false);
             setSorteringEndret(false);
@@ -197,17 +197,6 @@ const finnKategori = (kolonne: Oppgaveoversiktkolonne) => {
     }
 };
 
-const finnSorteringsNøkkel = (sortKey: SortKey) => {
-    switch (sortKey) {
-        case SortKey.Saksbehandler:
-            return Sorteringsnokkel.TildeltTil;
-        case SortKey.SøknadMottatt:
-            return Sorteringsnokkel.SoknadMottatt;
-        default:
-            return Sorteringsnokkel.Opprettet;
-    }
-};
-
 const filtrering = (activeFilters: Filter<OppgaveTilBehandling>[], aktivTab: TabType): FiltreringInput => ({
     egenskaper: activeFilters
         .filter((filter) => Object.values(Egenskap).includes(filter.key as Egenskap))
@@ -221,7 +210,18 @@ const filtrering = (activeFilters: Filter<OppgaveTilBehandling>[], aktivTab: Tab
     egneSakerPaVent: aktivTab === TabType.Ventende,
 });
 
-const _sortering = (sort: SortState | undefined): OppgavesorteringInput[] =>
+const finnSorteringsNøkkel = (sortKey: SortKey) => {
+    switch (sortKey) {
+        case SortKey.Saksbehandler:
+            return Sorteringsnokkel.TildeltTil;
+        case SortKey.SøknadMottatt:
+            return Sorteringsnokkel.SoknadMottatt;
+        default:
+            return Sorteringsnokkel.Opprettet;
+    }
+};
+
+const sortering = (sort: SortState | undefined): OppgavesorteringInput[] =>
     sort?.orderBy === undefined
         ? []
         : [
