@@ -1,7 +1,7 @@
 import { atom, selector, useRecoilValue, useSetRecoilState } from 'recoil';
 
 import { Egenskap, Kategori, OppgaveTilBehandling } from '@io/graphql';
-import { erUtvikling, harSpesialsaktilgang } from '@utils/featureToggles';
+import { fellesPåVentBenk, harSpesialsaktilgang } from '@utils/featureToggles';
 
 import { TabType, tabState } from '../../tabState';
 
@@ -222,7 +222,7 @@ export const defaultFilters: Filter<OppgaveTilBehandling>[] = [
     },
 ]
     .filter((filter) => filter.label !== '🌰' || harSpesialsaktilgang)
-    .filter((filter) => filter.label !== 'På vent' || erUtvikling());
+    .filter((filter) => filter.label !== 'På vent' || fellesPåVentBenk);
 
 const groupFiltersByColumn = (filters: Filter<OppgaveTilBehandling>[]) => {
     const groups = filters.reduce(
