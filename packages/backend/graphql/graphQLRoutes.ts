@@ -24,7 +24,11 @@ const postSpørring = (graphQLClient: GraphQLClient, req: SpeilRequest, res: Res
         .then((it) => {
             res.status(200).send(it.body);
         })
-        .catch(({ error }) => {
+        .catch((exeption) => {
+            const { error } = exeption;
+            if (error === undefined || error === null) {
+                logger.sikker.info(`Ingen 'error' i exception=${exeption}`);
+            }
             if (førsteForsøk) {
                 logger.info(`Feil ved GraphQL-sending, prøver en gang til`, error);
                 postSpørring(graphQLClient, req, res, false);
