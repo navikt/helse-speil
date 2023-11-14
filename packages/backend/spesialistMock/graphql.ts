@@ -8,11 +8,10 @@ import path from 'path';
 import { makeExecutableSchema } from '@graphql-tools/schema';
 import type { IResolvers } from '@graphql-tools/utils';
 
-import { antallTilfeldigeOppgaver } from '../devHelpers';
 import { behandledeOppgaver } from './data/behandledeOppgaver';
 import { behandlingsstatistikk } from './data/behandlingsstatistikk';
 import { getMockOppdrag } from './data/oppdrag';
-import { oppgaver, tilfeldigeOppgaver } from './data/oppgaver';
+import { oppgaveliste } from './data/oppgaveoversikt';
 import { FlereFodselsnumreError, NotFoundError } from './errors';
 import { hentOpptegnelser, opprettAbonnement } from './opptegnelser';
 import type {
@@ -33,8 +32,6 @@ import type {
     MutationSendTilGodkjenningArgs,
     MutationSettVarselstatusArgs,
     MutationSkjonnsfastsettSykepengegrunnlagArgs,
-    OppgaveTilBehandling,
-    OppgaverTilBehandling,
     OppgavesorteringInput,
     Person,
 } from './schemaTypes';
@@ -114,46 +111,13 @@ const getResolvers = (): IResolvers => ({
         oppgaveFeed: async (
             _,
             {
+                offset,
+                limit,
+                sortering,
                 filtrering,
-            }: { offset: string; limit: string; sortering: OppgavesorteringInput; filtrering: FiltreringInput },
+            }: { offset: number; limit: number; sortering: OppgavesorteringInput; filtrering: FiltreringInput },
         ) => {
-            const oppgaveliste = oppgaver
-                .map((oppgave) => {
-                    if (
-                        oppgave.tildeling !== undefined &&
-                        oppgave.tildeling !== null &&
-                        !TildelingMock.harTildeling(oppgave.id)
-                    ) {
-                        TildelingMock.setTildeling(oppgave.id, oppgave.tildeling);
-                    }
-                    return {
-                        ...oppgave,
-                        tildeling: TildelingMock.getTildeling(oppgave.id),
-                    } as OppgaveTilBehandling;
-                })
-                .concat(tilfeldigeOppgaver(antallTilfeldigeOppgaver));
-            if (filtrering.egneSaker) {
-                const mineSaker = oppgaveliste.filter(
-                    (oppgave) =>
-                        oppgave.tildeling?.oid === '4577332e-801a-4c13-8a71-39f12b8abfa3' &&
-                        !oppgave.tildeling?.paaVent,
-                );
-                return {
-                    oppgaver: mineSaker,
-                    totaltAntallOppgaver: mineSaker.length,
-                } as OppgaverTilBehandling;
-            }
-            if (filtrering.egneSakerPaVent) {
-                const mineSakerPåVent = oppgaveliste.filter(
-                    (oppgave) =>
-                        oppgave.tildeling?.oid === '4577332e-801a-4c13-8a71-39f12b8abfa3' && oppgave.tildeling?.paaVent,
-                );
-                return {
-                    oppgaver: mineSakerPåVent,
-                    totaltAntallOppgaver: mineSakerPåVent.length,
-                } as OppgaverTilBehandling;
-            }
-            return { oppgaver: oppgaveliste, totaltAntallOppgaver: oppgaveliste.length } as OppgaverTilBehandling;
+            return oppgaveliste(offset, limit, sortering, filtrering);
         },
         antallOppgaver: async () => {
             const tildelinger = TildelingMock.getTildelingerFor('4577332e-801a-4c13-8a71-39f12b8abfa3');
