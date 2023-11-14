@@ -8,12 +8,12 @@ export const hentOpptegnelser = async (nyesteSekvensnummer?: number): Promise<Op
     if (!svarPåOpptegnelser) {
         return Promise.resolve([]);
     }
-    if (nyesteSekvensnummer)
-        return Promise.resolve(
-            opptegnelser.find((opptegnelse) => opptegnelse.sekvensnummer === nyesteSekvensnummer) ?? [],
-        );
+    if (nyesteSekvensnummer) {
+        const opptegnelse = opptegnelser.find((opptegnelse) => opptegnelse.sekvensnummer > nyesteSekvensnummer);
+        return Promise.resolve(opptegnelse ? [opptegnelse] : []);
+    }
 
-    return Promise.resolve(opptegnelser);
+    return Promise.resolve(opptegnelser.slice(0, 2));
 };
 
 export const opprettAbonnement = async (): Promise<boolean> => {
@@ -26,7 +26,7 @@ const blokkerSvarPåOpptegnelser = () => {
     svarPåOpptegnelser = false;
     setTimeout(() => {
         svarPåOpptegnelser = true;
-    }, 5000);
+    }, 3000);
 };
 
 type OpptegnelseType =
