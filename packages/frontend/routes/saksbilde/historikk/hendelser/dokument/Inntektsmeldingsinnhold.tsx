@@ -27,7 +27,7 @@ export const Inntektsmeldingsinnhold: React.FC<SøknadsinnholdProps> = ({ dokume
             {inntektsmelding && (
                 <div className={styles.dokument}>
                     {inntektsmelding.foersteFravaersdag && (
-                        <DokumentFragment overskrift="Første fraværsdag">
+                        <DokumentFragment overskrift="Bestemmende fraværsdag">
                             {dayjs(inntektsmelding.foersteFravaersdag).format(NORSK_DATOFORMAT)}
                         </DokumentFragment>
                     )}
