@@ -147,13 +147,13 @@ app.use('/*', async (req: SpeilRequest, res, next) => {
                 req.session.destroy(() => logger.info(`Sesjonen for '${user}' er slettet ifm redirect til /login.`));
                 res.redirect('/login');
             } else {
-                if (req.accepts('html')) {
-                    const url = req.originalUrl;
+                const url = req.originalUrl;
+                if (req.accepts('html') && url.includes('/person/')) {
                     req.session.wantedPathBeforeAuth = url;
                     logger.sikker.info(`Bruker vil til ${url}, tar vare på den URL-en til etter innlogging`);
                     res.redirect('/login');
                 } else {
-                    // these are xhr's, let the client decide how to handle
+                    // these are not _that_ important, let the client decide how to handle
                     res.clearCookie('speil');
                     res.sendStatus(401);
                 }
