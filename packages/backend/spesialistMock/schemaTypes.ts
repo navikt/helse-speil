@@ -143,6 +143,12 @@ export enum Begrunnelse {
     Ukjent = 'UKJENT',
 }
 
+export type BehandledeOppgaver = {
+    __typename?: 'BehandledeOppgaver';
+    oppgaver: Array<BehandletOppgave>;
+    totaltAntallOppgaver: Scalars['Int']['output'];
+};
+
 export type BehandletOppgave = {
     __typename?: 'BehandletOppgave';
     aktorId: Scalars['String']['output'];
@@ -931,6 +937,7 @@ export type Personoppdrag = Spennoppdrag & {
 export type Query = {
     __typename?: 'Query';
     antallOppgaver: AntallOppgaver;
+    behandledeOppgaverFeed: BehandledeOppgaver;
     behandledeOppgaverIDag: Array<BehandletOppgave>;
     behandlingsstatistikk: Behandlingsstatistikk;
     hentInntektsmelding: DokumentInntektsmelding;
@@ -940,6 +947,11 @@ export type Query = {
     oppgaveFeed: OppgaverTilBehandling;
     opptegnelser: Array<Opptegnelse>;
     person?: Maybe<Person>;
+};
+
+export type QueryBehandledeOppgaverFeedArgs = {
+    limit: Scalars['Int']['input'];
+    offset: Scalars['Int']['input'];
 };
 
 export type QueryHentInntektsmeldingArgs = {
