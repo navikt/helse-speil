@@ -8,7 +8,6 @@ import path from 'path';
 import { makeExecutableSchema } from '@graphql-tools/schema';
 import type { IResolvers } from '@graphql-tools/utils';
 
-import { behandledeOppgaver } from './data/behandledeOppgaver';
 import { behandlingsstatistikk } from './data/behandlingsstatistikk';
 import { getMockOppdrag } from './data/oppdrag';
 import { behandledeOppgaverliste, oppgaveliste } from './data/oppgaveoversikt';
@@ -101,9 +100,6 @@ const getResolvers = (): IResolvers => ({
         },
         oppdrag: (_) => {
             return getMockOppdrag();
-        },
-        behandledeOppgaverIDag: async () => {
-            return behandledeOppgaver;
         },
         behandledeOppgaverFeed: async (_, { offset, limit }: { offset: number; limit: number }) => {
             return behandledeOppgaverliste(offset, limit);
