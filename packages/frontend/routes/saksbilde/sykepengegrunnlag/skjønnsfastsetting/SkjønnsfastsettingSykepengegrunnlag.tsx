@@ -1,5 +1,3 @@
-import { SkjønnsfastsettingHeader } from './SkjønnsfastsettingHeader';
-import { SkjønnsfastsettingForm } from './form/SkjønnsfastsettingForm/SkjønnsfastsettingForm';
 import classNames from 'classnames';
 import React, { useEffect, useState } from 'react';
 
@@ -7,6 +5,8 @@ import { Arbeidsgiverinntekt, Sykepengegrunnlagsgrense } from '@io/graphql';
 import { kanSkjønnsfastsetteSykepengegrunnlag } from '@utils/featureToggles';
 
 import { SykepengegrunnlagsgrenseView } from '../InntektsgrunnlagTable/SykepengegrunnlagsgrenseView/SykepengegrunnlagsgrenseView';
+import { SkjønnsfastsettingHeader } from './SkjønnsfastsettingHeader';
+import { SkjønnsfastsettingForm } from './form/SkjønnsfastsettingForm/SkjønnsfastsettingForm';
 
 import styles from './SkjønnsfastsettingSykepengegrunnlag.module.css';
 
@@ -45,15 +45,18 @@ export const SkjønnsfastsettingSykepengegrunnlag = ({
                     editing={editing}
                     setEditing={setEditing}
                 />
-                {editing && kanSkjønnsfastsetteSykepengegrunnlag && omregnetÅrsinntekt && sammenligningsgrunnlag && (
-                    <SkjønnsfastsettingForm
-                        inntekter={inntekter}
-                        omregnetÅrsinntekt={omregnetÅrsinntekt}
-                        sammenligningsgrunnlag={sammenligningsgrunnlag}
-                        onEndretSykepengegrunnlag={setEndretSykepengegrunnlag}
-                        setEditing={setEditing}
-                    />
-                )}
+                {editing &&
+                    kanSkjønnsfastsetteSykepengegrunnlag &&
+                    omregnetÅrsinntekt != null &&
+                    sammenligningsgrunnlag != null && (
+                        <SkjønnsfastsettingForm
+                            inntekter={inntekter}
+                            omregnetÅrsinntekt={omregnetÅrsinntekt}
+                            sammenligningsgrunnlag={sammenligningsgrunnlag}
+                            onEndretSykepengegrunnlag={setEndretSykepengegrunnlag}
+                            setEditing={setEditing}
+                        />
+                    )}
             </div>
             {omregnetÅrsinntekt && (
                 <SykepengegrunnlagsgrenseView
