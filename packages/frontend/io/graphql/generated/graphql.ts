@@ -940,7 +940,6 @@ export type Query = {
     __typename?: 'Query';
     antallOppgaver: AntallOppgaver;
     behandledeOppgaverFeed: BehandledeOppgaver;
-    behandledeOppgaverIDag: Array<BehandletOppgave>;
     behandlingsstatistikk: Behandlingsstatistikk;
     hentInntektsmelding: DokumentInntektsmelding;
     hentSoknad: Soknad;
@@ -1534,23 +1533,6 @@ export type BehandledeOppgaverFeedQuery = {
             personnavn: { __typename?: 'Personnavn'; fornavn: string; mellomnavn?: string | null; etternavn: string };
         }>;
     };
-};
-
-export type BehandledeOppgaverQueryVariables = Exact<{ [key: string]: never }>;
-
-export type BehandledeOppgaverQuery = {
-    __typename?: 'Query';
-    behandledeOppgaverIDag: Array<{
-        __typename?: 'BehandletOppgave';
-        id: string;
-        aktorId: string;
-        ferdigstiltAv?: string | null;
-        ferdigstiltTidspunkt: string;
-        antallArbeidsforhold: AntallArbeidsforhold;
-        periodetype: Periodetype;
-        oppgavetype: Oppgavetype;
-        personnavn: { __typename?: 'Personnavn'; fornavn: string; mellomnavn?: string | null; etternavn: string };
-    }>;
 };
 
 export type AntallFragment = { __typename?: 'Antall'; automatisk: number; manuelt: number; tilgjengelig: number };
@@ -3418,49 +3400,6 @@ export const BehandledeOppgaverFeedDocument = {
         },
     ],
 } as unknown as DocumentNode<BehandledeOppgaverFeedQuery, BehandledeOppgaverFeedQueryVariables>;
-export const BehandledeOppgaverDocument = {
-    kind: 'Document',
-    definitions: [
-        {
-            kind: 'OperationDefinition',
-            operation: 'query',
-            name: { kind: 'Name', value: 'BehandledeOppgaver' },
-            selectionSet: {
-                kind: 'SelectionSet',
-                selections: [
-                    {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'behandledeOppgaverIDag' },
-                        selectionSet: {
-                            kind: 'SelectionSet',
-                            selections: [
-                                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                                { kind: 'Field', name: { kind: 'Name', value: 'aktorId' } },
-                                { kind: 'Field', name: { kind: 'Name', value: 'ferdigstiltAv' } },
-                                { kind: 'Field', name: { kind: 'Name', value: 'ferdigstiltTidspunkt' } },
-                                { kind: 'Field', name: { kind: 'Name', value: 'antallArbeidsforhold' } },
-                                { kind: 'Field', name: { kind: 'Name', value: 'periodetype' } },
-                                { kind: 'Field', name: { kind: 'Name', value: 'oppgavetype' } },
-                                {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'personnavn' },
-                                    selectionSet: {
-                                        kind: 'SelectionSet',
-                                        selections: [
-                                            { kind: 'Field', name: { kind: 'Name', value: 'fornavn' } },
-                                            { kind: 'Field', name: { kind: 'Name', value: 'mellomnavn' } },
-                                            { kind: 'Field', name: { kind: 'Name', value: 'etternavn' } },
-                                        ],
-                                    },
-                                },
-                            ],
-                        },
-                    },
-                ],
-            },
-        },
-    ],
-} as unknown as DocumentNode<BehandledeOppgaverQuery, BehandledeOppgaverQueryVariables>;
 export const HentBehandlingsstatistikkDocument = {
     kind: 'Document',
     definitions: [

@@ -938,7 +938,6 @@ export type Query = {
     __typename?: 'Query';
     antallOppgaver: AntallOppgaver;
     behandledeOppgaverFeed: BehandledeOppgaver;
-    behandledeOppgaverIDag: Array<BehandletOppgave>;
     behandlingsstatistikk: Behandlingsstatistikk;
     hentInntektsmelding: DokumentInntektsmelding;
     hentSoknad: Soknad;
