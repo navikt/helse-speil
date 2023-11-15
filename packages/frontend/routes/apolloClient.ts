@@ -21,9 +21,20 @@ export const client = new ApolloClient({
                             };
                         },
                     },
+                    behandledeOppgaverFeed: {
+                        keyArgs: [],
+                        merge(_, incoming) {
+                            const incomingOppgaver = incoming.oppgaver;
+                            return {
+                                oppgaver: incomingOppgaver,
+                                totaltAntallOppgaver: incoming.totaltAntallOppgaver,
+                            };
+                        },
+                    },
                 },
             },
             OppgaveTilBehandling: { keyFields: ['id'] },
+            BehandletOppgave: { keyFields: ['id'] },
             Notater: { keyFields: ['id'] },
             Notat: { keyFields: ['id'] },
             Kommentar: { keyFields: ['id'] },

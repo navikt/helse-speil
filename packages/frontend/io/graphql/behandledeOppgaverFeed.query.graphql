@@ -1,0 +1,19 @@
+query BehandledeOppgaverFeed($offset: Int!, $limit: Int!) {
+    behandledeOppgaverFeed(offset: $offset, limit: $limit) {
+        oppgaver {
+            id
+            aktorId
+            ferdigstiltAv
+            ferdigstiltTidspunkt
+            antallArbeidsforhold
+            periodetype
+            oppgavetype
+            personnavn {
+                fornavn
+                mellomnavn
+                etternavn
+            }
+        }
+        totaltAntallOppgaver
+    }
+}

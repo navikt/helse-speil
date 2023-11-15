@@ -6,8 +6,6 @@ import { SortState } from '@navikt/ds-react';
 import { ApolloError, useQuery } from '@apollo/client';
 import {
     AntallOppgaverDocument,
-    BehandledeOppgaverDocument,
-    BehandletOppgave,
     Egenskap,
     FiltreringInput,
     Kategori,
@@ -27,22 +25,6 @@ export interface ApolloResponse<T> {
     error?: ApolloError;
     loading: boolean;
 }
-
-interface BehandledeOppgaverResponse {
-    behandledeOppgaver?: BehandletOppgave[];
-    error?: ApolloError;
-    loading: boolean;
-}
-
-export const useQueryBehandledeOppgaver = (): BehandledeOppgaverResponse => {
-    const { error, loading, data } = useQuery(BehandledeOppgaverDocument);
-
-    return {
-        behandledeOppgaver: data?.behandledeOppgaverIDag,
-        error,
-        loading,
-    };
-};
 
 export interface OppgaveFeedResponse {
     oppgaver?: OppgaveTilBehandling[];

@@ -1512,6 +1512,30 @@ export type AntallOppgaverQuery = {
     antallOppgaver: { __typename?: 'AntallOppgaver'; antallMineSaker: number; antallMineSakerPaVent: number };
 };
 
+export type BehandledeOppgaverFeedQueryVariables = Exact<{
+    offset: Scalars['Int']['input'];
+    limit: Scalars['Int']['input'];
+}>;
+
+export type BehandledeOppgaverFeedQuery = {
+    __typename?: 'Query';
+    behandledeOppgaverFeed: {
+        __typename?: 'BehandledeOppgaver';
+        totaltAntallOppgaver: number;
+        oppgaver: Array<{
+            __typename?: 'BehandletOppgave';
+            id: string;
+            aktorId: string;
+            ferdigstiltAv?: string | null;
+            ferdigstiltTidspunkt: string;
+            antallArbeidsforhold: AntallArbeidsforhold;
+            periodetype: Periodetype;
+            oppgavetype: Oppgavetype;
+            personnavn: { __typename?: 'Personnavn'; fornavn: string; mellomnavn?: string | null; etternavn: string };
+        }>;
+    };
+};
+
 export type BehandledeOppgaverQueryVariables = Exact<{ [key: string]: never }>;
 
 export type BehandledeOppgaverQuery = {
@@ -3317,6 +3341,83 @@ export const AntallOppgaverDocument = {
         },
     ],
 } as unknown as DocumentNode<AntallOppgaverQuery, AntallOppgaverQueryVariables>;
+export const BehandledeOppgaverFeedDocument = {
+    kind: 'Document',
+    definitions: [
+        {
+            kind: 'OperationDefinition',
+            operation: 'query',
+            name: { kind: 'Name', value: 'BehandledeOppgaverFeed' },
+            variableDefinitions: [
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'offset' } },
+                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'Int' } } },
+                },
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'limit' } },
+                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'Int' } } },
+                },
+            ],
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'behandledeOppgaverFeed' },
+                        arguments: [
+                            {
+                                kind: 'Argument',
+                                name: { kind: 'Name', value: 'offset' },
+                                value: { kind: 'Variable', name: { kind: 'Name', value: 'offset' } },
+                            },
+                            {
+                                kind: 'Argument',
+                                name: { kind: 'Name', value: 'limit' },
+                                value: { kind: 'Variable', name: { kind: 'Name', value: 'limit' } },
+                            },
+                        ],
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'oppgaver' },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'aktorId' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'ferdigstiltAv' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'ferdigstiltTidspunkt' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'antallArbeidsforhold' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'periodetype' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'oppgavetype' } },
+                                            {
+                                                kind: 'Field',
+                                                name: { kind: 'Name', value: 'personnavn' },
+                                                selectionSet: {
+                                                    kind: 'SelectionSet',
+                                                    selections: [
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'fornavn' } },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'mellomnavn' } },
+                                                        { kind: 'Field', name: { kind: 'Name', value: 'etternavn' } },
+                                                    ],
+                                                },
+                                            },
+                                        ],
+                                    },
+                                },
+                                { kind: 'Field', name: { kind: 'Name', value: 'totaltAntallOppgaver' } },
+                            ],
+                        },
+                    },
+                ],
+            },
+        },
+    ],
+} as unknown as DocumentNode<BehandledeOppgaverFeedQuery, BehandledeOppgaverFeedQueryVariables>;
 export const BehandledeOppgaverDocument = {
     kind: 'Document',
     definitions: [

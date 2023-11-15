@@ -1,4 +1,5 @@
 import {
+    BehandledeOppgaver,
     FiltreringInput,
     Kategori,
     OppgaveTilBehandling,
@@ -7,7 +8,20 @@ import {
     Sorteringsnokkel,
 } from '../schemaTypes';
 import { TildelingMock } from '../storage/tildeling';
+import { behandledeOppgaver } from './behandledeOppgaver';
 import { oppgaver, tilfeldigeOppgaver } from './oppgaver';
+
+export const behandledeOppgaverliste = (offset: number, limit: number): BehandledeOppgaver => {
+    const behandledeOppgaverliste = behandledeOppgaver;
+
+    return {
+        oppgaver:
+            offset === 0
+                ? behandledeOppgaverliste.slice(0, limit)
+                : behandledeOppgaverliste.slice(offset).slice(0, limit),
+        totaltAntallOppgaver: behandledeOppgaverliste.length,
+    } as BehandledeOppgaver;
+};
 
 export const oppgaveliste = (
     offset: number,

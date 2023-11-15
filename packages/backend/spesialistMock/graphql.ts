@@ -11,7 +11,7 @@ import type { IResolvers } from '@graphql-tools/utils';
 import { behandledeOppgaver } from './data/behandledeOppgaver';
 import { behandlingsstatistikk } from './data/behandlingsstatistikk';
 import { getMockOppdrag } from './data/oppdrag';
-import { oppgaveliste } from './data/oppgaveoversikt';
+import { behandledeOppgaverliste, oppgaveliste } from './data/oppgaveoversikt';
 import { FlereFodselsnumreError, NotFoundError } from './errors';
 import { hentOpptegnelser, opprettAbonnement } from './opptegnelser';
 import type {
@@ -104,6 +104,9 @@ const getResolvers = (): IResolvers => ({
         },
         behandledeOppgaverIDag: async () => {
             return behandledeOppgaver;
+        },
+        behandledeOppgaverFeed: async (_, { offset, limit }: { offset: number; limit: number }) => {
+            return behandledeOppgaverliste(offset, limit);
         },
         behandlingsstatistikk: async () => {
             return behandlingsstatistikk;
