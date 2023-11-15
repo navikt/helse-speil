@@ -111,7 +111,6 @@ const setUpAuthentication = () => {
                     }
                 });
                 res.clearCookie('speil');
-                res.clearCookie('speil');
                 res.sendStatus(err.statusCode);
             });
     });
@@ -149,9 +148,9 @@ app.use('/*', async (req: SpeilRequest, res, next) => {
                 res.redirect('/login');
             } else {
                 if (req.accepts('html')) {
-                    req.session.wantedPathBeforeAuth = req.originalUrl;
-                    logger.sikker.info(`Bruker vil til ${req.originalUrl}, tar vare på den URL-en til etterpå`);
-                    req.session.destroy(() => logger.info(`Sesjon slettet, sender til /login`));
+                    const url = req.originalUrl;
+                    req.session.wantedPathBeforeAuth = url;
+                    logger.sikker.info(`Bruker vil til ${url}, tar vare på den URL-en til etter innlogging`);
                     res.redirect('/login');
                 } else {
                     // these are xhr's, let the client decide how to handle
