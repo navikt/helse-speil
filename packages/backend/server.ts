@@ -93,7 +93,10 @@ const setUpAuthentication = () => {
                 session.speilToken = accessToken;
                 session.refreshToken = refreshToken;
                 session.user = auth.valueFromClaim('NAVident', idToken);
-                res.redirect(303, '/');
+                const tilbakeTilUrl = req.session.wantedPathBeforeAuth;
+                req.session.wantedPathBeforeAuth = undefined;
+                if (tilbakeTilUrl) logger.sikker.info(`sender bruker tilbake til ${tilbakeTilUrl}`);
+                res.redirect(303, tilbakeTilUrl ?? '/');
             })
             .catch((err: AuthError) => {
                 logger.warn(`Error caught during login: ${err.message} (se sikkerLog for detaljer)`);
@@ -145,9 +148,16 @@ app.use('/*', async (req: SpeilRequest, res, next) => {
                 req.session.destroy(() => logger.info(`Sesjonen for '${user}' er slettet ifm redirect til /login.`));
                 res.redirect('/login');
             } else {
-                // these are xhr's, let the client decide how to handle
-                res.clearCookie('speil');
-                res.sendStatus(401);
+                if (req.accepts('html')) {
+                    req.session.wantedPathBeforeAuth = req.originalUrl;
+                    logger.sikker.info(`Bruker vil til ${req.originalUrl}, tar vare på den URL-en til etterpå`);
+                    req.session.destroy(() => logger.info(`Sesjon slettet, sender til /login`));
+                    res.redirect('/login');
+                } else {
+                    // these are xhr's, let the client decide how to handle
+                    res.clearCookie('speil');
+                    res.sendStatus(401);
+                }
             }
         }
     }
@@ -157,7 +167,7 @@ app.use('/graphql', graphQLRoutes(dependencies.graphql));
 
 app.get('/*', (req, res, next) => {
     if (!req.accepts('html') && /\/api/.test(req.url)) {
-        console.debug(`Received a non-HTML request for '${req.url}', which didn't match a route`);
+        logger.debug(`Received a non-HTML request for '${req.url}', which didn't match a route`);
         res.sendStatus(404);
         return;
     }

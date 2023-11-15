@@ -13,11 +13,11 @@ export default (config: OidcConfig, instrumentation: Instrumentation) => {
     return {
         hentFor: async (targetClientId: string, session: SpeilSession, accessToken: string) => {
             if (session.oboToken && authSupport.isValidIn({ seconds: 5, token: session.oboToken })) {
-                console.log('Bruker cachet obo token i stedet for å hente nytt');
+                logger.info('Bruker cachet obo token i stedet for å hente nytt');
                 return session.oboToken;
             }
 
-            console.log('Forsøker å hente nytt obo token');
+            logger.info('Forsøker å hente nytt obo token');
 
             counter.inc(targetClientId);
 
