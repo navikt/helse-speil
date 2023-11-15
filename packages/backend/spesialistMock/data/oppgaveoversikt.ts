@@ -9,10 +9,11 @@ import {
 } from '../schemaTypes';
 import { TildelingMock } from '../storage/tildeling';
 import { behandledeOppgaver } from './behandledeOppgaver';
-import { oppgaver, tilfeldigeOppgaver } from './oppgaver';
+import { tilfeldigeBehandledeOppgaver, tilfeldigeOppgaver } from './mockDataGenerator';
+import { oppgaver } from './oppgaver';
 
 export const behandledeOppgaverliste = (offset: number, limit: number): BehandledeOppgaver => {
-    const behandledeOppgaverliste = behandledeOppgaver;
+    const behandledeOppgaverliste = behandledeOppgaver.concat(tilfeldigeBehandledeOppgaver);
 
     return {
         oppgaver:
