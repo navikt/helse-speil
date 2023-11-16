@@ -28,7 +28,7 @@ export const NotatCell = ({ vedtaksperiodeId, navn, erPåVent }: NotatCellProps)
 
     return (
         <>
-            <Table.DataCell onClick={(event) => event.stopPropagation()}>
+            <Table.DataCell onClick={(event) => event.stopPropagation()} className={styles.ikoncell}>
                 {notater.length > 0 && (
                     <Tooltip content="Lagt på vent">
                         <Button

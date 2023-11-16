@@ -33,7 +33,7 @@ export const OptionsCell = ({ oppgave, navn }: OptionsButtonProps) => {
     const skalViseAvmeldingsknapp = erTildeltInnloggetBruker || (oppgave.tildeling && kanFrigiAndresOppgaver);
 
     return (
-        <Table.DataCell onClick={(event) => event.stopPropagation()}>
+        <Table.DataCell onClick={(event) => event.stopPropagation()} className={styles.ikoncell}>
             <span className={styles.wrapper}>
                 <Dropdown>
                     <Button

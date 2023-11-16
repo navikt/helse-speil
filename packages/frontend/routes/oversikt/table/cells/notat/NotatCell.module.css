@@ -18,3 +18,8 @@
     background: var(--a-border-focus);
     box-shadow: none;
 }
+
+td.ikoncell {
+    width: 1.25rem;
+    padding-right: 1rem;
+}

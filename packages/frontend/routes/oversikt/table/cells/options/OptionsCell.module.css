@@ -17,3 +17,8 @@
 .MenuButton {
     height: 32px;
 }
+
+td.ikoncell {
+    width: 1.25rem;
+    padding-right: 1rem;
+}
