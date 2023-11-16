@@ -72,3 +72,8 @@ export const useUpdateSort = () => {
         setSorteringEndret(true);
     };
 };
+
+export const dateSortKey = atom<SortKey>({
+    key: 'dateSortKey',
+    default: SortKey.Opprettet,
+});

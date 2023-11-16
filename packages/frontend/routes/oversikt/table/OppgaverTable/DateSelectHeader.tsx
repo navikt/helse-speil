@@ -1,0 +1,35 @@
+import React from 'react';
+import { useSetRecoilState } from 'recoil';
+
+import { Select, Table } from '@navikt/ds-react';
+
+import { SortKey, dateSortKey } from '../state/sortation';
+
+import styles from './DateSelectHeader.module.css';
+
+export const DateSelectHeader = () => {
+    const setDatoKey = useSetRecoilState(dateSortKey);
+    const lagreValgtDatoSortering = (key: string) => setDatoKey(key as unknown as SortKey);
+
+    return (
+        <Table.Row className={styles.datoselect}>
+            <Table.DataCell aria-label="tomt felt" />
+            <Table.DataCell aria-label="Sorteringsdato" className={styles.selecttd}>
+                <Select label="" onChange={(e) => lagreValgtDatoSortering(e.target.value)} className={styles.select}>
+                    <option value={SortKey.Opprettet}>{tilDatoKeyTekst(SortKey.Opprettet)}</option>
+                    <option value={SortKey.SøknadMottatt}>{tilDatoKeyTekst(SortKey.SøknadMottatt)}</option>
+                </Select>
+            </Table.DataCell>
+        </Table.Row>
+    );
+};
+
+const tilDatoKeyTekst = (key: string) => {
+    switch (key) {
+        case 'søknadMottatt':
+            return 'Søknad mottatt';
+        case 'opprettet':
+        default:
+            return 'Opprettet dato';
+    }
+};
