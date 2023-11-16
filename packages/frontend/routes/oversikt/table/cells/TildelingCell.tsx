@@ -3,6 +3,7 @@ import React from 'react';
 import { Table } from '@navikt/ds-react';
 
 import { OppgaveTilBehandling } from '@io/graphql';
+import { slimOppgavetabell } from '@utils/featureToggles';
 
 import { IkkeTildelt } from './IkkeTildelt';
 import { Tildelt } from './Tildelt';
@@ -20,7 +21,7 @@ export const TildelingCell = ({ oppgave, kanTildeles }: TildelingProps) =>
     ) : (
         <Table.DataCell>
             {oppgave.tildeling ? (
-                <Tildelt width={128} name={oppgave.tildeling.navn} />
+                <Tildelt width={slimOppgavetabell ? 200 : 128} name={oppgave.tildeling.navn} />
             ) : (
                 <IkkeTildelt width={128} oppgavereferanse={oppgave.id} />
             )}
