@@ -17,6 +17,7 @@
 
 .Table th {
     white-space: nowrap;
+    vertical-align: bottom;
 }
 
 .DropdownHeader th {

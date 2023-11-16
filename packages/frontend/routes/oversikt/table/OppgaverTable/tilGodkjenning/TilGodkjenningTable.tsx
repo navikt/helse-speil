@@ -3,8 +3,10 @@ import React from 'react';
 import { SortState, Table } from '@navikt/ds-react';
 
 import { OppgaveTilBehandling } from '@io/graphql';
+import { slimOppgavetabell } from '@utils/featureToggles';
 
 import { SortKey, useUpdateSort } from '../../state/sortation';
+import { DateSelectHeader } from '../DateSelectHeader';
 import { IngenMatchendeFiltre } from '../IngenMatchendeFiltre';
 import { TilGodkjenningOppgaveRow } from './TilGodkjenningOppgaveRow';
 import { TilGodkjenningSortHeaderRow } from './TilGodkjenningSortHeaderRow';
@@ -29,6 +31,7 @@ export const TilGodkjenningTable = ({ oppgaver, readOnly, sort, setSort }: TilGo
             zebraStripes
         >
             <Table.Header>
+                {slimOppgavetabell && <DateSelectHeader />}
                 <TilGodkjenningSortHeaderRow />
             </Table.Header>
             <Table.Body>
