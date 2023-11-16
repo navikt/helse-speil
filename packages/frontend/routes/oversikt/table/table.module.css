@@ -25,10 +25,6 @@
     border-bottom: 0;
 }
 
-.Table > tbody > tr > td:last-of-type {
-    width: 100%;
-}
-
 .Content {
     padding: 0;
     color: var(--a-text-default);

@@ -1,5 +1,5 @@
 .sistenotat {
-    max-width: 200px;
+    width: 200px;
     overflow: hidden;
     text-overflow: ellipsis;
     padding-left: 0;
