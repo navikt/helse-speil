@@ -56,8 +56,8 @@ export const PåVentOppgaveRow = ({ oppgave }: PåVentOppgaveRowProps) => {
             ) : (
                 <Table.DataCell />
             )}
-            {slimOppgavetabell && oppgave.tildeling?.paaVent && (
-                <SisteNotatCell vedtaksperiodeId={oppgave.vedtaksperiodeId} />
+            {slimOppgavetabell && (
+                <SisteNotatCell vedtaksperiodeId={oppgave.vedtaksperiodeId} erPåVent={oppgave.tildeling?.paaVent} />
             )}
         </LinkRow>
     );
