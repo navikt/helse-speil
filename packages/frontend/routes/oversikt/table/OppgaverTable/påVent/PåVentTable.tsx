@@ -3,8 +3,10 @@ import React from 'react';
 import { SortState, Table } from '@navikt/ds-react';
 
 import { OppgaveTilBehandling } from '@io/graphql';
+import { slimOppgavetabell } from '@utils/featureToggles';
 
 import { SortKey, useUpdateSort } from '../../state/sortation';
+import { DateSelectHeader } from '../DateSelectHeader';
 import { IngenMatchendeFiltre } from '../IngenMatchendeFiltre';
 import { PåVentOppgaveRow } from './PåVentOppgaveRow';
 import { PåVentSortHeaderRow } from './PåVentSortHeaderRow';
@@ -28,6 +30,7 @@ export const PåVentTable = ({ oppgaver, sort, setSort }: PåVentTableProps) => 
             zebraStripes
         >
             <Table.Header>
+                {slimOppgavetabell && <DateSelectHeader />}
                 <PåVentSortHeaderRow />
             </Table.Header>
             <Table.Body>
