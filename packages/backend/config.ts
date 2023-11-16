@@ -1,6 +1,6 @@
 import env from 'dotenv';
 
-import { OidcConfig, ServerConfig } from './types';
+import { OidcConfig, RedisConfig, ServerConfig } from './types';
 
 ('use strict');
 
@@ -23,10 +23,10 @@ const server: ServerConfig = {
     spesialistBaseUrl: process.env.SPESIALIST_BASE_URL || 'http://spesialist',
 };
 
-const redis = {
-    host: process.env.REDIS_HOST,
-    port: process.env.REDIS_PORT,
-    password: process.env.REDIS_PASSWORD,
+const redis: RedisConfig = {
+    url: process.env.REDIS_URI_SESSIONS!,
+    username: process.env.REDIS_USERNAME_SESSIONS!,
+    password: process.env.REDIS_PASSWORD_SESSIONS!,
 };
 
 export default {

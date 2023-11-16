@@ -12,7 +12,6 @@ import graphQLRoutes from './graphql/graphQLRoutes';
 import headers from './headers';
 import logger from './logging';
 import { ipAddressFromRequest } from './requestData';
-import { sessionStore } from './sessionStore';
 import { AuthError, SpeilRequest } from './types';
 import wiring from './wiring';
 
@@ -23,7 +22,7 @@ const dependencies = wiring.getDependencies(app, helsesjekk);
 
 app.use(bodyParser.json());
 app.use(cookieParser());
-app.use(sessionStore(config, dependencies.redisClient));
+app.use(dependencies.sessionStore);
 app.use(compression());
 
 headers.setup(app);

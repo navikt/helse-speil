@@ -80,5 +80,5 @@ jobs:
         env:
           APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
           CLUSTER: dev-gcp
-          RESOURCE: deploy/dev.yml,deploy/alerts-dev.yml,deploy/redis-dev.yml
+          RESOURCE: deploy/dev.yml,deploy/alerts-dev.yml
           VAR: "image=${{ needs.build.outputs.image }},team=${{env.TEAM}},app=${{env.APP}}"

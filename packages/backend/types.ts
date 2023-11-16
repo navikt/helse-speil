@@ -24,9 +24,9 @@ export interface ServerConfig {
 }
 
 export interface RedisConfig {
-    host?: string;
-    port?: string;
-    password?: string;
+    url: string;
+    username: string;
+    password: string;
 }
 
 export interface AppConfig {
