@@ -3,6 +3,7 @@ import React from 'react';
 import { Table } from '@navikt/ds-react';
 
 import { useBehandledeOppgaverFeed } from '@state/behandledeOppgaver';
+import { slimOppgavetabell } from '@utils/featureToggles';
 
 import { IngenOppgaver } from '../IngenOppgaver';
 import { LinkRow } from './LinkRow';
@@ -41,8 +42,12 @@ export const BehandletIdagTable = () => {
                         <Table.Header>
                             <Table.Row>
                                 <HeaderCell text="Behandlet av" />
-                                <HeaderCell text="Periodetype" />
-                                <HeaderCell text="Oppgavetype" />
+                                {!slimOppgavetabell && (
+                                    <>
+                                        <HeaderCell text="Periodetype" />
+                                        <HeaderCell text="Oppgavetype" />
+                                    </>
+                                )}
                                 <HeaderCell text="Søker" />
                                 <HeaderCell text="Behandlet" />
                             </Table.Row>
@@ -51,8 +56,12 @@ export const BehandletIdagTable = () => {
                             {behandledeOppgaverFeed.oppgaver?.map((oppgave) => (
                                 <LinkRow aktørId={oppgave.aktorId} key={oppgave.id}>
                                     <BehandletAvCell name={oppgave.ferdigstiltAv} />
-                                    <PeriodetypeCell periodetype={oppgave.periodetype} />
-                                    <OppgavetypeCell oppgavetype={oppgave.oppgavetype} />
+                                    {!slimOppgavetabell && (
+                                        <>
+                                            <PeriodetypeCell periodetype={oppgave.periodetype} />
+                                            <OppgavetypeCell oppgavetype={oppgave.oppgavetype} />
+                                        </>
+                                    )}
                                     <SøkerCell
                                         name={{
                                             fornavn: oppgave.personnavn.fornavn,
