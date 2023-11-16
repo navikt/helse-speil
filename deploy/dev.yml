@@ -12,9 +12,6 @@ spec:
         - application: spesialist
           cluster: dev-gcp
           namespace: tbd
-        - application: speil-redis
-          cluster: dev-gcp
-          namespace: tbd
   image: {{image}}
   port: 3000
   ingresses:
@@ -62,14 +59,9 @@ spec:
     enabled: true
   envFrom:
     - secret: speil
-    - secret: speil-redis
   env:
     - name: DEBUG
       value: global-tunnel
-    - name: REDIS_HOST
-      value: speil-redis
-    - name: REDIS_PORT
-      value: '6379'
     - name: CLIENT_ID_SPESIALIST
       value: api://dev-gcp.tbd.spesialist/.default
     - name: LOGOUT_URL
