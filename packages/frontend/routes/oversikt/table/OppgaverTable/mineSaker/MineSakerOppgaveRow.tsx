@@ -55,7 +55,7 @@ export const MineSakerOppgaveRow = ({ oppgave }: MineSakerOppgaveRowProps) => {
                     erPåVent={oppgave.tildeling.paaVent}
                 />
             ) : (
-                <Table.DataCell />
+                <Table.DataCell style={{ width: '3.25rem' }} />
             )}
             {slimOppgavetabell && (
                 <SisteNotatCell vedtaksperiodeId={oppgave.vedtaksperiodeId} erPåVent={oppgave.tildeling?.paaVent} />

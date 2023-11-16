@@ -18,6 +18,6 @@ export const SisteNotatCell = ({ vedtaksperiodeId, erPåVent }: SisteNotatCellPr
             {sisteNotat?.tekst}
         </Table.DataCell>
     ) : (
-        <Table.DataCell />
+        <Table.DataCell className={styles.sistenotat} />
     );
 };
