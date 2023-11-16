@@ -16,6 +16,7 @@ import { TildelingCell } from '../../cells/TildelingCell';
 import { NotatCell } from '../../cells/notat/NotatCell';
 import { OptionsCell } from '../../cells/options/OptionsCell';
 import { SortKey, dateSortKey } from '../../state/sortation';
+import { SisteNotatCell } from '../SisteNotatCell';
 
 interface TilGodkjenningOppgaveRowProps {
     oppgave: OppgaveTilBehandling;
@@ -51,6 +52,9 @@ export const TilGodkjenningOppgaveRow = ({ oppgave, readOnly }: TilGodkjenningOp
                 />
             ) : (
                 <Table.DataCell />
+            )}
+            {slimOppgavetabell && (
+                <SisteNotatCell vedtaksperiodeId={oppgave.vedtaksperiodeId} erPåVent={oppgave.tildeling?.paaVent} />
             )}
         </LinkRow>
     );

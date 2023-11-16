@@ -40,6 +40,7 @@ export const MineSakerSortHeaderRow = () => {
             )}
             <Table.DataCell aria-label="valg" />
             <Table.DataCell aria-label="notater" />
+            {slimOppgavetabell && <Table.DataCell aria-label="siste notat" />}
         </Table.Row>
     );
 };
