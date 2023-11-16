@@ -1,6 +1,9 @@
 .filterChips {
     margin: var(--a-spacing-1) var(--a-spacing-3) var(--a-spacing-5);
 }
+.filterChips.slim {
+    margin-bottom: 0.5rem;
+}
 
 .ingenValgteFilter {
     cursor: default;

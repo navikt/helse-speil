@@ -1,4 +1,8 @@
-.datoselect td {
+table tr.datoselect {
+    height: 2rem;
+}
+
+table .datoselect td {
     border: 0;
     padding: 0;
 }
@@ -11,8 +15,12 @@
     width: 100%;
 }
 
+.select {
+    gap: unset;
+}
+
 .select select {
     min-height: 2rem;
-    padding: 0rem 1.5rem 0rem 0.5rem;
+    padding: 0 1.5rem 0 0.5rem;
     width: 140px;
 }
