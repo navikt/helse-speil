@@ -1,5 +1,3 @@
-export const baseUrl = (process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : '') + '/graphql';
-
 export const validFødselsnummer = (id: string) => {
     const weights1 = [3, 7, 6, 1, 8, 9, 4, 5, 2];
     const weights2 = [5, 4, 3, 2, 7, 6, 5, 4, 3, 2];
