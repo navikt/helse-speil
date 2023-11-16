@@ -9,5 +9,5 @@ interface DatoProps {
 }
 
 export const DatoCell = ({ date }: DatoProps) => (
-    <Table.DataCell>{`${somDato(date).format(NORSK_DATOFORMAT)}`}</Table.DataCell>
+    <Table.DataCell style={{ width: '140px' }}>{`${somDato(date).format(NORSK_DATOFORMAT)}`}</Table.DataCell>
 );

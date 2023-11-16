@@ -17,10 +17,10 @@ table .datoselect td {
 
 .select {
     gap: unset;
+    width: 140px;
 }
 
 .select select {
     min-height: 2rem;
     padding: 0 1.5rem 0 0.5rem;
-    width: 140px;
 }
