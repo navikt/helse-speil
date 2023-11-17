@@ -2,6 +2,7 @@ import React from 'react';
 
 import { Table } from '@navikt/ds-react';
 
+import { AnonymizableText } from '@components/anonymizable/AnonymizableText';
 import { useNotaterForVedtaksperiode } from '@state/notater';
 
 import styles from './SisteNotatCell.module.css';
@@ -15,7 +16,7 @@ export const SisteNotatCell = ({ vedtaksperiodeId, erPåVent }: SisteNotatCellPr
     const sisteNotat = useNotaterForVedtaksperiode(vedtaksperiodeId).shift();
     return erPåVent ? (
         <Table.DataCell scope="col" colSpan={1} className={styles.sistenotat}>
-            {sisteNotat?.tekst}
+            <AnonymizableText>{sisteNotat?.tekst}</AnonymizableText>
         </Table.DataCell>
     ) : (
         <Table.DataCell className={styles.sistenotat} />
