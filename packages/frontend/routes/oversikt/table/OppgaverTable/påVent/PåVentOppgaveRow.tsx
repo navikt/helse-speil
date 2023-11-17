@@ -24,6 +24,9 @@ interface PåVentOppgaveRowProps {
 
 export const PåVentOppgaveRow = ({ oppgave }: PåVentOppgaveRowProps) => {
     const datoKey = useRecoilValue(dateSortKey);
+    const erPåVent =
+        oppgave.tildeling?.paaVent || oppgave.egenskaper.filter((it) => it.egenskap === 'PA_VENT').length === 1;
+
     return (
         <LinkRow aktørId={oppgave.aktorId}>
             {!slimOppgavetabell && (
@@ -47,18 +50,12 @@ export const PåVentOppgaveRow = ({ oppgave }: PåVentOppgaveRowProps) => {
                 />
             )}
             <OptionsCell oppgave={oppgave} navn={oppgave.navn} />
-            {oppgave.tildeling?.paaVent ? (
-                <NotatCell
-                    vedtaksperiodeId={oppgave.vedtaksperiodeId}
-                    navn={oppgave.navn}
-                    erPåVent={oppgave.tildeling.paaVent}
-                />
+            {erPåVent ? (
+                <NotatCell vedtaksperiodeId={oppgave.vedtaksperiodeId} navn={oppgave.navn} erPåVent={erPåVent} />
             ) : (
                 <Table.DataCell />
             )}
-            {slimOppgavetabell && (
-                <SisteNotatCell vedtaksperiodeId={oppgave.vedtaksperiodeId} erPåVent={oppgave.tildeling?.paaVent} />
-            )}
+            {slimOppgavetabell && <SisteNotatCell vedtaksperiodeId={oppgave.vedtaksperiodeId} erPåVent={erPåVent} />}
         </LinkRow>
     );
 };
