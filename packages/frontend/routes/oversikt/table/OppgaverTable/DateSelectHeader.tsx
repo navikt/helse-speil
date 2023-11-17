@@ -13,7 +13,9 @@ export const DateSelectHeader = () => {
 
     return (
         <Table.Row className={styles.datoselect}>
-            <Table.DataCell aria-label="tomt felt" />
+            <Table.DataCell aria-label="Sorter på" className={styles.innledning}>
+                Sorter på
+            </Table.DataCell>
             <Table.DataCell aria-label="Sorteringsdato" className={styles.selecttd}>
                 <Select label="" onChange={(e) => lagreValgtDatoSortering(e.target.value)} className={styles.select}>
                     <option value={SortKey.Opprettet}>{tilDatoKeyTekst(SortKey.Opprettet)}</option>

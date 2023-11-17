@@ -24,3 +24,8 @@ table .datoselect td {
     min-height: 2rem;
     padding: 0 1.5rem 0 0.5rem;
 }
+
+.innledning {
+    text-align: right;
+    padding-right: 0.5rem;
+}
