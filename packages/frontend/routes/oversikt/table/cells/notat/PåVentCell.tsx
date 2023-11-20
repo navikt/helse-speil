@@ -16,10 +16,11 @@ interface NotatCellProps extends React.HTMLAttributes<HTMLTableCellElement> {
     erPåVent?: boolean;
 }
 
-export const PåVentCell = ({ vedtaksperiodeId, navn, erPåVent }: NotatCellProps) => {
-    if (!erPåVent) return <Table.DataCell className={styles.ikoncell} />;
-    return <PåVentKnapp vedtaksperiodeId={vedtaksperiodeId} navn={navn} erPåVent={erPåVent} />;
-};
+export const PåVentCell = ({ vedtaksperiodeId, navn, erPåVent }: NotatCellProps) => (
+    <Table.DataCell onClick={(event) => event.stopPropagation()} className={styles.ikoncell}>
+        {erPåVent && <PåVentKnapp vedtaksperiodeId={vedtaksperiodeId} navn={navn} erPåVent={erPåVent} />}
+    </Table.DataCell>
+);
 
 const PåVentKnapp = ({ vedtaksperiodeId, navn, erPåVent }: NotatCellProps) => {
     const [showModal, setShowModal] = useState(false);
@@ -31,22 +32,13 @@ const PåVentKnapp = ({ vedtaksperiodeId, navn, erPåVent }: NotatCellProps) => 
         setShowModal((prevState) => !prevState);
     };
 
-    return (
+    return notater.length > 0 ? (
         <>
-            <Table.DataCell onClick={(event) => event.stopPropagation()} className={styles.ikoncell}>
-                {notater.length > 0 && (
-                    <Tooltip content="Lagt på vent">
-                        <Button
-                            variant="secondary"
-                            className={styles.NotatButton}
-                            onClick={toggleModal}
-                            onKeyUp={toggleModal}
-                        >
-                            <StopWatch height={20} width={20} />
-                        </Button>
-                    </Tooltip>
-                )}
-            </Table.DataCell>
+            <Tooltip content="Lagt på vent">
+                <Button variant="secondary" className={styles.NotatButton} onClick={toggleModal} onKeyUp={toggleModal}>
+                    <StopWatch height={20} width={20} />
+                </Button>
+            </Tooltip>
             {showModal && (
                 <NotatListeModal
                     notater={notater}
@@ -58,5 +50,5 @@ const PåVentKnapp = ({ vedtaksperiodeId, navn, erPåVent }: NotatCellProps) => 
                 />
             )}
         </>
-    );
+    ) : null;
 };
