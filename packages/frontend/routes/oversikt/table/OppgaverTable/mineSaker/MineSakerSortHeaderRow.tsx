@@ -34,9 +34,12 @@ export const MineSakerSortHeaderRow = () => {
                 </>
             )}
             {slimOppgavetabell && (
-                <Table.ColumnHeader sortKey={datoSelectKey} sortable style={{ width: '140px' }}>
-                    Sorter dato
-                </Table.ColumnHeader>
+                <>
+                    <HeaderCell text="" />
+                    <Table.ColumnHeader sortKey={datoSelectKey} sortable style={{ width: '140px' }}>
+                        Dato
+                    </Table.ColumnHeader>
+                </>
             )}
             <Table.DataCell aria-label="valg" />
             <Table.DataCell aria-label="notater" />

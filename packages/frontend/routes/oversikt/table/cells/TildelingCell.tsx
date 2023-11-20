@@ -19,9 +19,9 @@ export const TildelingCell = ({ oppgave, kanTildeles }: TildelingProps) =>
             <p style={{ width: 128 }} />
         </Table.DataCell>
     ) : (
-        <Table.DataCell>
+        <Table.DataCell style={{ width: 180 }}>
             {oppgave.tildeling ? (
-                <Tildelt width={slimOppgavetabell ? 200 : 128} name={oppgave.tildeling.navn} />
+                <Tildelt width={slimOppgavetabell ? 180 : 128} name={oppgave.tildeling.navn} />
             ) : (
                 <IkkeTildelt width={128} oppgavereferanse={oppgave.id} />
             )}

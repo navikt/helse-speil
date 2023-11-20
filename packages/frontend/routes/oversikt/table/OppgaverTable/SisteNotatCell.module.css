@@ -1,12 +1,11 @@
 td.sistenotat {
-    max-width: 200px;
     width: 200px;
     padding-left: 0;
     padding-right: 1rem;
 }
 td.sistenotat p {
-    width: 11.5rem;
-    max-width: 11.5rem;
+    width: 184px;
+    max-width: 184px;
     overflow: hidden;
     text-overflow: ellipsis;
 }

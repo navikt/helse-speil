@@ -8,7 +8,7 @@ import { useNotaterForVedtaksperiode } from '@state/notater';
 
 import { NotatListeModal } from './NotatListeModal';
 
-import styles from './NotatCell.module.css';
+import styles from './PåVentCell.module.css';
 
 interface NotatCellProps extends React.HTMLAttributes<HTMLTableCellElement> {
     vedtaksperiodeId: string;
@@ -16,7 +16,12 @@ interface NotatCellProps extends React.HTMLAttributes<HTMLTableCellElement> {
     erPåVent?: boolean;
 }
 
-export const NotatCell = ({ vedtaksperiodeId, navn, erPåVent }: NotatCellProps) => {
+export const PåVentCell = ({ vedtaksperiodeId, navn, erPåVent }: NotatCellProps) => {
+    if (!erPåVent) return <Table.DataCell className={styles.ikoncell} />;
+    return <PåVentKnapp vedtaksperiodeId={vedtaksperiodeId} navn={navn} erPåVent={erPåVent} />;
+};
+
+const PåVentKnapp = ({ vedtaksperiodeId, navn, erPåVent }: NotatCellProps) => {
     const [showModal, setShowModal] = useState(false);
     const notater = useNotaterForVedtaksperiode(vedtaksperiodeId);
 

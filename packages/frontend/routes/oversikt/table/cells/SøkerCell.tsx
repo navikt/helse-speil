@@ -22,10 +22,10 @@ export const SøkerCell = ({ name }: SøkerProps) => {
     const formatertNavn = getFormattedName(name);
 
     return (
-        <Table.DataCell>
+        <Table.DataCell style={{ width: 180 }}>
             <Tooltip content={formatertNavn}>
                 <span>
-                    <AnonymizableTextWithEllipsis style={{ width: slimOppgavetabell ? 200 : 128 }}>
+                    <AnonymizableTextWithEllipsis style={{ width: slimOppgavetabell ? 180 : 128 }}>
                         {formatertNavn}
                     </AnonymizableTextWithEllipsis>
                 </span>

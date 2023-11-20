@@ -15,7 +15,7 @@ interface SisteNotatCellProps extends React.HTMLAttributes<HTMLTableCellElement>
 export const SisteNotatCell = ({ vedtaksperiodeId, erPåVent }: SisteNotatCellProps) => {
     const sisteNotat = useNotaterForVedtaksperiode(vedtaksperiodeId).shift();
     return erPåVent ? (
-        <Table.DataCell scope="col" colSpan={1} className={styles.sistenotat}>
+        <Table.DataCell className={styles.sistenotat}>
             <AnonymizableText>{sisteNotat?.tekst}</AnonymizableText>
         </Table.DataCell>
     ) : (

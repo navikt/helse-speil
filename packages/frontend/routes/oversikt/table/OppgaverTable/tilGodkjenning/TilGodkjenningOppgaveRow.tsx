@@ -9,11 +9,12 @@ import { slimOppgavetabell } from '@utils/featureToggles';
 import { LinkRow } from '../../LinkRow';
 import { DatoCell } from '../../cells/DatoCell';
 import { EgenskaperCell } from '../../cells/EgenskaperCell';
+import { EgenskaperTagsCell } from '../../cells/EgenskaperTagsCell';
 import { MottakerCell } from '../../cells/MottakerCell';
 import { OppgavetypeCell } from '../../cells/OppgavetypeCell';
 import { PeriodetypeCell } from '../../cells/PeriodetypeCell';
 import { TildelingCell } from '../../cells/TildelingCell';
-import { NotatCell } from '../../cells/notat/NotatCell';
+import { PåVentCell } from '../../cells/notat/PåVentCell';
 import { OptionsCell } from '../../cells/options/OptionsCell';
 import { SortKey, dateSortKey } from '../../state/sortation';
 import { SisteNotatCell } from '../SisteNotatCell';
@@ -42,16 +43,15 @@ export const TilGodkjenningOppgaveRow = ({ oppgave, readOnly }: TilGodkjenningOp
                 </>
             )}
             {slimOppgavetabell && (
-                <DatoCell
-                    date={datoKey === SortKey.SøknadMottatt ? oppgave.opprinneligSoknadsdato : oppgave.opprettet}
-                />
+                <>
+                    <EgenskaperTagsCell egenskaper={oppgave.egenskaper} />
+                    <DatoCell
+                        date={datoKey === SortKey.SøknadMottatt ? oppgave.opprinneligSoknadsdato : oppgave.opprettet}
+                    />
+                </>
             )}
             {oppgave.tildeling ? <OptionsCell oppgave={oppgave} navn={oppgave.navn} /> : <Table.DataCell />}
-            {erPåVent ? (
-                <NotatCell vedtaksperiodeId={oppgave.vedtaksperiodeId} navn={oppgave.navn} erPåVent={erPåVent} />
-            ) : (
-                <Table.DataCell />
-            )}
+            <PåVentCell vedtaksperiodeId={oppgave.vedtaksperiodeId} navn={oppgave.navn} erPåVent={erPåVent} />
             {slimOppgavetabell && <SisteNotatCell vedtaksperiodeId={oppgave.vedtaksperiodeId} erPåVent={erPåVent} />}
         </LinkRow>
     );
