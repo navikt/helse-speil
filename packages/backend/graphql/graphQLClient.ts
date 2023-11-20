@@ -25,11 +25,14 @@ export default (oidcConfig: OidcConfig, onBehalfOf: OnBehalfOf): GraphQLClient =
             },
             body: data,
         };
+
+        logger.debug(
+            `Kaller ${baseUrl} med X-Request-Id: ${callId} og onBehalfOfToken: ${onBehalfOfToken.substring(0, 6)}`,
+        );
         const start = Date.now();
-        return fetch(`${baseUrl}/graphql`, options).then((response): Response => {
-            const tidBrukt = Date.now() - start;
-            logger.debug(`GraphQL-kall til ${baseUrl} med X-Request-Id: ${callId} ferdig etter ${tidBrukt} ms`);
-            return response;
-        });
+        const response = await fetch(`${baseUrl}/graphql`, options);
+        const tidBrukt = Date.now() - start;
+        logger.debug(`GraphQL-kall til ${baseUrl} med X-Request-Id: ${callId} ferdig etter ${tidBrukt} ms`);
+        return response;
     },
 });

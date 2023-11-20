@@ -9,7 +9,7 @@ import { SpeilRequest } from './types';
 const sikkerLogPath = () => (fs.existsSync('/secure-logs/') ? '/secure-logs/secure.log' : './secure.log');
 
 const stdoutLogger = winston.createLogger({
-    level: 'info',
+    level: 'debug',
     format: process.env.NODE_ENV === 'development' ? winston.format.cli() : winston.format.json(),
     transports: [new winston.transports.Console()],
 });
