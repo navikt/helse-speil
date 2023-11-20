@@ -23,7 +23,7 @@ export default (config: OidcConfig, instrumentation: Instrumentation) => {
             const options = {
                 method: 'post',
                 headers: {
-                    'Content-Type': 'application/json',
+                    'Content-Type': 'application/x-www-form-urlencoded',
                 },
                 body: new URLSearchParams({
                     grant_type: 'urn:ietf:params:oauth:grant-type:jwt-bearer',
