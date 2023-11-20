@@ -55,6 +55,7 @@ jobs:
       image: ${{ steps.docker-build-push.outputs.image }}
 
   deployDev:
+    if: "false"
     name: Deploy to dev
     needs: [build]
     runs-on: ubuntu-latest
