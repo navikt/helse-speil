@@ -13,12 +13,14 @@ interface SisteNotatCellProps extends React.HTMLAttributes<HTMLTableCellElement>
 }
 
 export const SisteNotatCell = ({ vedtaksperiodeId, erPåVent }: SisteNotatCellProps) => {
-    const sisteNotat = useNotaterForVedtaksperiode(vedtaksperiodeId).shift();
-    return erPåVent ? (
+    return (
         <Table.DataCell className={styles.sistenotat}>
-            <AnonymizableText>{sisteNotat?.tekst}</AnonymizableText>
+            {erPåVent && <SisteNotat vedtaksperiodeId={vedtaksperiodeId} />}
         </Table.DataCell>
-    ) : (
-        <Table.DataCell className={styles.sistenotat} />
     );
+};
+
+const SisteNotat = ({ vedtaksperiodeId }: Pick<SisteNotatCellProps, 'vedtaksperiodeId'>) => {
+    const sisteNotat = useNotaterForVedtaksperiode(vedtaksperiodeId).shift();
+    return <AnonymizableText>{sisteNotat?.tekst}</AnonymizableText>;
 };
