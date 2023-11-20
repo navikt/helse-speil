@@ -20,9 +20,9 @@ export default ({ graphQLClient }: SetupOptions) => {
 
 const postSpørring = (graphQLClient: GraphQLClient, req: SpeilRequest, res: Response, førsteForsøk: boolean = true) => {
     graphQLClient
-        .postGraphQLQuery(req.session!.speilToken, req.session, req.body)
-        .then((it) => {
-            res.status(200).send(it.body);
+        .postGraphQLQuery(req.session!.speilToken, req.session, JSON.stringify(req.body))
+        .then((response) => {
+            response.text().then((text) => res.status(200).send(text));
         })
         .catch((exeption) => {
             const { error } = exeption;

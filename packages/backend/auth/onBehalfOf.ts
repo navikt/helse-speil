@@ -1,5 +1,4 @@
 import { TokenSet } from 'openid-client';
-import request from 'request-promise-native';
 
 import { sleep } from '../devHelpers';
 import { Instrumentation } from '../instrumentation';
@@ -22,23 +21,25 @@ export default (config: OidcConfig, instrumentation: Instrumentation) => {
             counter.inc(targetClientId);
 
             const options = {
-                uri: config.tokenEndpoint,
-                json: true,
-                method: 'POST',
-                form: {
+                method: 'post',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: new URLSearchParams({
                     grant_type: 'urn:ietf:params:oauth:grant-type:jwt-bearer',
                     client_id: config.clientID, // our own
                     client_secret: config.clientSecret,
                     assertion: accessToken,
                     scope: targetClientId, // the app we're reaching out to
                     requested_token_use: 'on_behalf_of',
-                },
+                }),
             };
             let forsøk = 0;
-            let response: TokenSet | undefined;
-            while (!response || response.error) {
+            let tokenSet: TokenSet | undefined;
+            while (!tokenSet || tokenSet.error) {
                 try {
-                    response = await request.post(options);
+                    const response = await fetch(config.tokenEndpoint, options);
+                    tokenSet = await response.json();
                 } catch (error) {
                     if (forsøk <= 3) {
                         logger.info(`Prøver å hente token på nytt for ${targetClientId}: ${error}`);
@@ -58,8 +59,8 @@ export default (config: OidcConfig, instrumentation: Instrumentation) => {
                 logger.info(`Brukte ${forsøk} forsøk på å hente token for ${targetClientId}`);
             }
 
-            session.oboToken = response.access_token!;
-            return response.access_token!;
+            session.oboToken = tokenSet.access_token!;
+            return tokenSet.access_token!;
         },
     };
 };
