@@ -1,9 +1,10 @@
+import classNames from 'classnames';
 import dayjs from 'dayjs';
-import React from 'react';
+import React, { useState } from 'react';
 
-import { Alert, BodyShort } from '@navikt/ds-react';
+import { Accordion, Alert, BodyShort } from '@navikt/ds-react';
 
-import { Maybe, Overstyring, VarselDto } from '@io/graphql';
+import { Maybe, Overstyring, VarselDto, Varselstatus } from '@io/graphql';
 import {
     isArbeidsforholdoverstyring,
     isDagoverstyring,
@@ -16,7 +17,7 @@ import { Varsler } from './Varsler';
 
 import styles from './Saksbildevarsler.module.css';
 
-type VarselObject = {
+export type VarselObject = {
     grad: 'info' | 'success' | 'warning' | 'error';
     melding: string;
 };
@@ -27,23 +28,6 @@ const sendtTilBeslutter = (erBeslutteroppgaveOgErTidligereSaksbehandler: boolean
     }
     return null;
 };
-
-const tilstandinfo = (state: PeriodState): VarselObject | null => {
-    switch (state) {
-        case 'kunFerie':
-        case 'kunPermisjon':
-        case 'revurdertIngenUtbetaling':
-        case 'ingenUtbetaling':
-            return { grad: 'info', melding: 'Perioden er godkjent, ingen utbetaling.' };
-        case 'annullert':
-            return { grad: 'info', melding: 'Utbetalingen er annullert.' };
-        case 'tilAnnullering':
-            return { grad: 'info', melding: 'Annullering venter.' };
-        default:
-            return null;
-    }
-};
-
 const tilstandfeil = (state: PeriodState): VarselObject | null => {
     switch (state) {
         case 'annulleringFeilet':
@@ -54,13 +38,6 @@ const tilstandfeil = (state: PeriodState): VarselObject | null => {
             return null;
     }
 };
-
-const utbetaling = (state: PeriodState): VarselObject | null =>
-    ['tilUtbetaling', 'utbetalt', 'revurdert'].includes(state)
-        ? { grad: 'info', melding: 'Utbetalingen er sendt til oppdragsystemet.' }
-        : ['tilUtbetalingAutomatisk', 'utbetaltAutomatisk'].includes(state)
-        ? { grad: 'info', melding: 'Perioden er automatisk godkjent' }
-        : null;
 
 const vedtaksperiodeVenter = (state: PeriodState): VarselObject | null =>
     state === 'venter'
@@ -176,10 +153,9 @@ export const Saksbildevarsler = ({
     harBlittSkjønnsmessigFastsatt = false,
     avviksprosent,
 }: SaksbildevarslerProps) => {
+    const [open, setOpen] = useState(true);
     const infoVarsler: VarselObject[] = [
         sendtTilBeslutter(erTidligereSaksbehandler && erBeslutteroppgave),
-        tilstandinfo(periodState),
-        utbetaling(periodState),
         vedtaksperiodeVenter(periodState),
         beslutteroppgave(
             periodState,
@@ -197,26 +173,50 @@ export const Saksbildevarsler = ({
         manglendeOppgavereferanse(periodState, oppgavereferanse),
     ].filter((it) => it) as VarselObject[];
 
+    const varselheadertekst = varsler
+        ? `Vis varsler (${
+              varsler.filter(
+                  (it) =>
+                      it.vurdering?.status === Varselstatus.Vurdert || it.vurdering?.status === Varselstatus.Godkjent,
+              ).length
+          } av ${varsler.length} varsler er sjekket)`
+        : 'Vis varsler';
+
     return (
         <div className="Saksbildevarsler">
-            {infoVarsler.map(({ grad, melding }, index) => (
-                <Alert className={styles.Varsel} variant={grad} key={index}>
-                    <BodyShort>{melding}</BodyShort>
-                </Alert>
-            ))}
-            {varsler && (
-                <Varsler
-                    varsler={varsler}
-                    harBlittSkjønnsmessigFastsatt={harBlittSkjønnsmessigFastsatt}
-                    tilSkjønnsfastsettelse={periodState === 'tilSkjønnsfastsettelse'}
-                    avviksprosent={avviksprosent ?? 0}
-                />
-            )}
-            {feilVarsler.map(({ grad, melding }, index) => (
-                <Alert className={styles.Varsel} variant={grad} key={index}>
-                    <BodyShort>{melding}</BodyShort>
-                </Alert>
-            ))}
+            <Accordion.Item open={open}>
+                <Accordion.Header
+                    className={classNames(
+                        styles.varslerheader,
+                        infoVarsler.length === 0 && varsler?.length === 0 && feilVarsler.length === 0 && styles.skjult,
+                    )}
+                    onClick={() => {
+                        setOpen((prevState) => !prevState);
+                    }}
+                >
+                    {!open ? varselheadertekst : 'Skjul varsler'}
+                </Accordion.Header>
+                <Accordion.Content className={styles.varsler}>
+                    {infoVarsler.map(({ grad, melding }, index) => (
+                        <Alert className={styles.Varsel} variant={grad} key={index}>
+                            <BodyShort>{melding}</BodyShort>
+                        </Alert>
+                    ))}
+                    {varsler && (
+                        <Varsler
+                            varsler={varsler}
+                            harBlittSkjønnsmessigFastsatt={harBlittSkjønnsmessigFastsatt}
+                            tilSkjønnsfastsettelse={periodState === 'tilSkjønnsfastsettelse'}
+                            avviksprosent={avviksprosent ?? 0}
+                        />
+                    )}
+                    {feilVarsler.map(({ grad, melding }, index) => (
+                        <Alert className={styles.Varsel} variant={grad} key={index}>
+                            <BodyShort>{melding}</BodyShort>
+                        </Alert>
+                    ))}
+                </Accordion.Content>
+            </Accordion.Item>
             <KalkulerEndringerVarsel skjæringstidspunkt={skjæringstidspunkt} />
         </div>
     );

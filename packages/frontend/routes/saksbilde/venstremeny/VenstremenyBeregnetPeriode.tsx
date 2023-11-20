@@ -1,5 +1,7 @@
 import React from 'react';
 
+import { Alert, BodyShort } from '@navikt/ds-react';
+
 import { ErrorMessage } from '@components/ErrorMessage';
 import { useForrigeGenerasjonPeriode } from '@hooks/useForrigeGenerasjonPeriode';
 import { useTotalbeløp } from '@hooks/useTotalbeløp';
@@ -14,7 +16,9 @@ import {
 } from '@io/graphql';
 import { useGjenståendeDager } from '@state/arbeidsgiver';
 import { getVilkårsgrunnlag } from '@state/selectors/person';
+import { getPeriodState } from '@utils/mapping';
 
+import { VarselObject } from '../varsler/Saksbildevarsler';
 import { PeriodeCard } from './PeriodeCard';
 import { UtbetalingCard } from './UtbetalingCard';
 import { Utbetaling } from './utbetaling/Utbetaling';
@@ -49,6 +53,10 @@ export const VenstremenyBeregnetPeriode: React.FC<VenstremenyBeregnetPeriodeProp
     const { totalbeløp: gammeltTotalbeløp } = useTotalbeløp(forrigeGenerasjonPeriode?.tidslinje);
     const gjenståendeSykedager = useGjenståendeDager(activePeriod);
     const utbetaleTilgang = finnUtbetaleTilgang(activePeriod);
+    const periodState = getPeriodState(activePeriod);
+    const utbetalingsvarsler: VarselObject[] = [utbetaling(periodState), tilstandinfo(periodState)].filter(
+        (it) => it,
+    ) as VarselObject[];
 
     return (
         <section className={styles.Venstremeny}>
@@ -77,6 +85,11 @@ export const VenstremenyBeregnetPeriode: React.FC<VenstremenyBeregnetPeriodeProp
                     <Utbetaling period={activePeriod} person={currentPerson} arbeidsgiver={currentArbeidsgiver.navn} />
                 )
             )}
+            {utbetalingsvarsler.map(({ grad, melding }, index) => (
+                <Alert className={styles.Varsel} variant={grad} key={index}>
+                    <BodyShort>{melding}</BodyShort>
+                </Alert>
+            ))}
         </section>
     );
 };
@@ -95,3 +108,26 @@ const Feilmelding = ({ handling }: FeilmeldingProps) => {
 
 const getNumberOfDaysWithType = (timeline: Array<Dag>, type: Utbetalingsdagtype): number =>
     timeline.filter((it) => it.utbetalingsdagtype === type).length;
+
+const utbetaling = (state: PeriodState): VarselObject | null =>
+    ['tilUtbetaling', 'utbetalt', 'revurdert'].includes(state)
+        ? { grad: 'info', melding: 'Utbetalingen er sendt til oppdragsystemet.' }
+        : ['tilUtbetalingAutomatisk', 'utbetaltAutomatisk'].includes(state)
+        ? { grad: 'info', melding: 'Perioden er automatisk godkjent' }
+        : null;
+
+const tilstandinfo = (state: PeriodState): VarselObject | null => {
+    switch (state) {
+        case 'kunFerie':
+        case 'kunPermisjon':
+        case 'revurdertIngenUtbetaling':
+        case 'ingenUtbetaling':
+            return { grad: 'info', melding: 'Perioden er godkjent, ingen utbetaling.' };
+        case 'annullert':
+            return { grad: 'info', melding: 'Utbetalingen er annullert.' };
+        case 'tilAnnullering':
+            return { grad: 'info', melding: 'Annullering venter.' };
+        default:
+            return null;
+    }
+};
