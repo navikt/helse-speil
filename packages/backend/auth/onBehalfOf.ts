@@ -3,10 +3,10 @@ import { TokenSet } from 'openid-client';
 import { sleep } from '../devHelpers';
 import { Instrumentation } from '../instrumentation';
 import logger from '../logging';
-import { OidcConfig, SpeilSession } from '../types';
+import { OidcConfig, OnBehalfOf, SpeilSession } from '../types';
 import authSupport from './authSupport';
 
-export default (config: OidcConfig, instrumentation: Instrumentation) => {
+export default (config: OidcConfig, instrumentation: Instrumentation): OnBehalfOf => {
     const counter = instrumentation.onBehalfOfCounter();
 
     return {
@@ -37,22 +37,22 @@ export default (config: OidcConfig, instrumentation: Instrumentation) => {
             let forsøk = 0;
             let tokenSet: TokenSet | undefined;
             while (!tokenSet || tokenSet.error) {
-                try {
-                    const response = await fetch(config.tokenEndpoint, options);
-                    tokenSet = await response.json();
-                } catch (error) {
-                    if (forsøk <= 3) {
-                        logger.info(`Prøver å hente token på nytt for ${targetClientId}: ${error}`);
-                    } else {
-                        logger.error(
-                            `Feil etter ${forsøk} forsøk ved henting av token for ${targetClientId}: ${error}, gir opp`,
-                        );
-                        throw error;
-                    }
-                } finally {
-                    forsøk++;
-                    await sleep(500 * forsøk);
-                }
+                tokenSet = await fetch(config.tokenEndpoint, options)
+                    .then((res) => res.json())
+                    .catch((error) => {
+                        if (forsøk <= 3) {
+                            logger.info(`Prøver å hente token på nytt for ${targetClientId}: ${error}`);
+                        } else {
+                            logger.error(
+                                `Feil etter ${forsøk} forsøk ved henting av token for ${targetClientId}: ${error}, gir opp`,
+                            );
+                            throw error;
+                        }
+                    })
+                    .finally(async () => {
+                        forsøk++;
+                        await sleep(500 * forsøk);
+                    });
             }
 
             if (forsøk > 1) {

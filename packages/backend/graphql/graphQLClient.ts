@@ -27,7 +27,7 @@ export default (oidcConfig: OidcConfig, onBehalfOf: OnBehalfOf): GraphQLClient =
         };
 
         logger.debug(
-            `Kaller ${baseUrl} med X-Request-Id: ${callId} og onBehalfOfToken: ${onBehalfOfToken.substring(0, 6)}`,
+            `Kaller ${baseUrl} med X-Request-Id: ${callId} og onBehalfOfToken: ${onBehalfOfToken.substring(0, 6)}...`,
         );
         const start = Date.now();
         const response = await fetch(`${baseUrl}/graphql`, options);

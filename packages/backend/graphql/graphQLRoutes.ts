@@ -18,12 +18,15 @@ export default ({ graphQLClient }: SetupOptions) => {
     return router;
 };
 
-const postSpørring = (graphQLClient: GraphQLClient, req: SpeilRequest, res: Response, førsteForsøk: boolean = true) => {
-    graphQLClient
+const postSpørring = async (
+    graphQLClient: GraphQLClient,
+    req: SpeilRequest,
+    res: Response,
+    førsteForsøk: boolean = true,
+) => {
+    const response = await graphQLClient
         .postGraphQLQuery(req.session!.speilToken, req.session, JSON.stringify(req.body))
-        .then((response) => {
-            response.text().then((text) => res.status(200).send(text));
-        })
+        .then((response) => response.json())
         .catch((exeption) => {
             const { error } = exeption;
             if (error === undefined || error === null) {
@@ -37,4 +40,5 @@ const postSpørring = (graphQLClient: GraphQLClient, req: SpeilRequest, res: Res
                 res.status(200).send(error);
             }
         });
+    res.status(200).send(response);
 };
