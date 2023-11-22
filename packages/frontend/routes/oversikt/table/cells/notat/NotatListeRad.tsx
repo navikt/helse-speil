@@ -27,7 +27,7 @@ export const NotatListeRad = ({ notat, innloggetSaksbehandler }: NotatListeRadPr
         <tr className={classNames(styles.NotatListeRad, notat.feilregistrert && styles.error)}>
             <td>{`${notat.opprettet.format(NORSK_DATOFORMAT_MED_KLOKKESLETT)}`}</td>
             <td>{notat.saksbehandler.ident}</td>
-            <td>{notat.tekst}</td>
+            <td className={styles.Kommentar}>{notat.tekst}</td>
             <td>
                 {notat.feilregistrert
                     ? 'Feilregistrert'

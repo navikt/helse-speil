@@ -5,7 +5,9 @@ import { Button, Table, Tooltip } from '@navikt/ds-react';
 
 import { NotatType, Personnavn } from '@io/graphql';
 import { useNotaterForVedtaksperiode } from '@state/notater';
+import { slimOppgavetabell } from '@utils/featureToggles';
 
+import { SisteNotattekst } from '../../OppgaverTable/SisteNotattekst';
 import { NotatListeModal } from './NotatListeModal';
 
 import styles from './PåVentCell.module.css';
@@ -17,8 +19,16 @@ interface NotatCellProps extends React.HTMLAttributes<HTMLTableCellElement> {
 }
 
 export const PåVentCell = ({ vedtaksperiodeId, navn, erPåVent }: NotatCellProps) => (
-    <Table.DataCell onClick={(event) => event.stopPropagation()} className={styles.ikoncell}>
-        {erPåVent && <PåVentKnapp vedtaksperiodeId={vedtaksperiodeId} navn={navn} erPåVent={erPåVent} />}
+    <Table.DataCell
+        onClick={(event) => event.stopPropagation()}
+        className={slimOppgavetabell ? styles.PåVentCell : styles.ikoncell}
+    >
+        {erPåVent && (
+            <div className={styles.KnappOgTekst}>
+                <PåVentKnapp vedtaksperiodeId={vedtaksperiodeId} navn={navn} erPåVent={erPåVent} />
+                {slimOppgavetabell && <SisteNotattekst vedtaksperiodeId={vedtaksperiodeId} />}
+            </div>
+        )}
     </Table.DataCell>
 );
 
@@ -36,7 +46,7 @@ const PåVentKnapp = ({ vedtaksperiodeId, navn, erPåVent }: NotatCellProps) => 
         <>
             <Tooltip content="Lagt på vent">
                 <Button variant="secondary" className={styles.NotatButton} onClick={toggleModal} onKeyUp={toggleModal}>
-                    <StopWatch height={20} width={20} />
+                    <StopWatch height={20} width={20} aria-label="Vis lagt på vent-notater" />
                 </Button>
             </Tooltip>
             {showModal && (

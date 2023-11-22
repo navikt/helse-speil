@@ -1,0 +1,10 @@
+p.SisteNotat {
+    width: 14rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.NotattekstPopover {
+    max-width: 30rem;
+    white-space: pre-wrap;
+}

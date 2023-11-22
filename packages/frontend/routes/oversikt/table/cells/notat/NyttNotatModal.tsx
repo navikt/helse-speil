@@ -21,6 +21,7 @@ const Container = styled.section`
     flex-direction: column;
     gap: 0.5rem;
     min-width: 670px;
+    max-width: 670px;
 `;
 
 const Buttons = styled.span`

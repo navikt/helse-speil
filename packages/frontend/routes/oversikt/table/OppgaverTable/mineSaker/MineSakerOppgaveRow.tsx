@@ -15,7 +15,6 @@ import { SøkerCell } from '../../cells/SøkerCell';
 import { PåVentCell } from '../../cells/notat/PåVentCell';
 import { OptionsCell } from '../../cells/options/OptionsCell';
 import { SortKey, dateSortKey } from '../../state/sortation';
-import { SisteNotatCell } from '../SisteNotatCell';
 
 interface MineSakerOppgaveRowProps {
     oppgave: OppgaveTilBehandling;
@@ -53,8 +52,6 @@ export const MineSakerOppgaveRow = ({ oppgave }: MineSakerOppgaveRowProps) => {
             )}
             <OptionsCell oppgave={oppgave} navn={oppgave.navn} />
             <PåVentCell vedtaksperiodeId={oppgave.vedtaksperiodeId} navn={oppgave.navn} erPåVent={erPåVent} />
-
-            {slimOppgavetabell && <SisteNotatCell vedtaksperiodeId={oppgave.vedtaksperiodeId} erPåVent={erPåVent} />}
         </LinkRow>
     );
 };

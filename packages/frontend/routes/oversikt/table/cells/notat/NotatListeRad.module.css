@@ -2,6 +2,10 @@
     max-width: 22rem;
 }
 
+.NotatListeRad > td > :not(:last-of-type) {
+    margin-bottom: 0.5rem;
+}
+
 .NotatListeRad.error > td {
     background-color: #f9d2cc !important;
 }
@@ -12,4 +16,8 @@
 
 .FeilregistrerButton {
     color: var(--a-text-default);
+}
+
+.Kommentar {
+    white-space: pre-wrap;
 }
