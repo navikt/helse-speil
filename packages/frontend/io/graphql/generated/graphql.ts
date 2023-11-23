@@ -198,6 +198,7 @@ export type BeregnetPeriode = Periode & {
     /** @deprecated Oppgavereferanse bør hentes fra periodens oppgave */
     oppgavereferanse?: Maybe<Scalars['String']['output']>;
     opprettet: Scalars['String']['output'];
+    paVent?: Maybe<PaVent>;
     periodehistorikk: Array<PeriodeHistorikkElement>;
     periodetilstand: Periodetilstand;
     periodetype: Periodetype;
@@ -489,9 +490,11 @@ export type Mutation = {
     feilregistrerKommentar?: Maybe<Kommentar>;
     feilregistrerKommentarV2?: Maybe<Kommentar>;
     feilregistrerNotat?: Maybe<Notat>;
+    fjernPaVent?: Maybe<Scalars['Boolean']['output']>;
     fjernPaaVent?: Maybe<Tildeling>;
     fjernTildeling: Scalars['Boolean']['output'];
     innvilgVedtak: Scalars['Boolean']['output'];
+    leggPaVent?: Maybe<PaVent>;
     leggPaaVent?: Maybe<Tildeling>;
     leggTilKommentar?: Maybe<Kommentar>;
     leggTilNotat?: Maybe<Notat>;
@@ -524,6 +527,10 @@ export type MutationFeilregistrerNotatArgs = {
     id: Scalars['Int']['input'];
 };
 
+export type MutationFjernPaVentArgs = {
+    oppgaveId: Scalars['String']['input'];
+};
+
 export type MutationFjernPaaVentArgs = {
     oppgaveId: Scalars['String']['input'];
 };
@@ -534,6 +541,14 @@ export type MutationFjernTildelingArgs = {
 
 export type MutationInnvilgVedtakArgs = {
     oppgavereferanse: Scalars['String']['input'];
+};
+
+export type MutationLeggPaVentArgs = {
+    begrunnelse: Scalars['String']['input'];
+    frist: Scalars['String']['input'];
+    notatTekst: Scalars['String']['input'];
+    notatType: NotatType;
+    oppgaveId: Scalars['String']['input'];
 };
 
 export type MutationLeggPaaVentArgs = {
@@ -827,6 +842,13 @@ export type OverstyrtInntekt = {
     manedligInntekt: Scalars['Float']['output'];
     refusjonsopplysninger?: Maybe<Array<Refusjonsopplysning>>;
     skjaeringstidspunkt: Scalars['String']['output'];
+};
+
+export type PaVent = {
+    __typename?: 'PaVent';
+    begrunnelse?: Maybe<Scalars['String']['output']>;
+    frist?: Maybe<Scalars['String']['output']>;
+    oid: Scalars['String']['output'];
 };
 
 export type Periode = {
