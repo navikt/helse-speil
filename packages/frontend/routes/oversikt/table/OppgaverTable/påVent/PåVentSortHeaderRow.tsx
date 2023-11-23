@@ -38,7 +38,7 @@ export const PåVentSortHeaderRow = () => {
                 <>
                     <HeaderCell text="" />
                     <Table.ColumnHeader sortKey={datoSelectKey} sortable style={{ width: '140px' }}>
-                        Dato
+                        {datoSelectKey === SortKey.Opprettet ? 'Opprettet' : 'Mottatt'}
                     </Table.ColumnHeader>
                 </>
             )}

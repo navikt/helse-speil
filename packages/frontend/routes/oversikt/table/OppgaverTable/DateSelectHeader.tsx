@@ -1,5 +1,5 @@
 import React from 'react';
-import { useSetRecoilState } from 'recoil';
+import { useRecoilState } from 'recoil';
 
 import { Select, Table } from '@navikt/ds-react';
 
@@ -8,7 +8,7 @@ import { SortKey, dateSortKey } from '../state/sortation';
 import styles from './DateSelectHeader.module.css';
 
 export const DateSelectHeader = () => {
-    const setDatoKey = useSetRecoilState(dateSortKey);
+    const [datoKey, setDatoKey] = useRecoilState(dateSortKey);
     const lagreValgtDatoSortering = (key: string) => setDatoKey(key as unknown as SortKey);
 
     return (
@@ -17,8 +17,12 @@ export const DateSelectHeader = () => {
             <Table.DataCell />
             <Table.DataCell aria-label="Sorteringsdato" className={styles.selecttd}>
                 <Select label="" onChange={(e) => lagreValgtDatoSortering(e.target.value)} className={styles.select}>
-                    <option value={SortKey.Opprettet}>{tilDatoKeyTekst(SortKey.Opprettet)}</option>
-                    <option value={SortKey.SøknadMottatt}>{tilDatoKeyTekst(SortKey.SøknadMottatt)}</option>
+                    <option selected={datoKey === SortKey.Opprettet} value={SortKey.Opprettet}>
+                        {tilDatoKeyTekst(SortKey.Opprettet)}
+                    </option>
+                    <option selected={datoKey === SortKey.SøknadMottatt} value={SortKey.SøknadMottatt}>
+                        {tilDatoKeyTekst(SortKey.SøknadMottatt)}
+                    </option>
                 </Select>
             </Table.DataCell>
         </Table.Row>
