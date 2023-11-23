@@ -100,7 +100,8 @@ const setUpAuthentication = () => {
             .catch((err: AuthError) => {
                 logger.warn(`Error caught during login: ${err.message} (se sikkerLog for detaljer)`);
                 logger.sikker.warn(
-                    `Error caught during login: ${err.message}. The request received: ${util.inspect(req)}`,
+                    `Error caught during login: ${err.message}, cause ${err.cause}.` +
+                        `The request received: ${util.inspect(req)}`,
                     err,
                 );
                 authErrorCounter.inc();
