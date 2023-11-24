@@ -130,20 +130,15 @@ export const Ukjentdag: Speildag = {
 export const AvvistEllerForeldetDag = (
     sykdomsdagtype: Sykdomsdagtype,
     utbetalingsdagtype: Utbetalingsdagtype,
-    erSykedagNav: boolean,
 ): Speildag => {
     return {
         speilDagtype: 'Avslått',
-        visningstekst: getSpeildag(sykdomsdagtype, utbetalingsdagtype, erSykedagNav).visningstekst,
+        visningstekst: getSpeildag(sykdomsdagtype, utbetalingsdagtype).visningstekst,
         overstyrtDagtype: 'Avvistdag',
     };
 };
 
-export const getSpeildag = (
-    sykdomsdagtype: Sykdomsdagtype,
-    utbetalingsdagtype: Utbetalingsdagtype,
-    erSykedagNav: boolean,
-): Speildag => {
+export const getSpeildag = (sykdomsdagtype: Sykdomsdagtype, utbetalingsdagtype: Utbetalingsdagtype): Speildag => {
     switch (sykdomsdagtype) {
         case Sykdomsdagtype.AndreYtelserAap:
             return AAPdag;
@@ -173,7 +168,7 @@ export const getSpeildag = (
             return SykedagNav;
         case Sykdomsdagtype.Sykedag:
         case Sykdomsdagtype.ForeldetSykedag:
-            return erSykedagNav ? SykedagNav : Sykedag;
+            return Sykedag;
         case Sykdomsdagtype.SykHelgedag:
             return Navhelgedag;
         case Sykdomsdagtype.FriskHelgedag:

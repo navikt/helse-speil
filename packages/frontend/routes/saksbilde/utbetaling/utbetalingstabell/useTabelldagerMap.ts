@@ -63,20 +63,20 @@ const getUtbetalingstabelldagtypeFromOverstyrtDag = (dag: OverstyrtDag): Speilda
     }
 };
 
-const getUtbetalingstabelldag = (dag: Dag, erSykedagNav: boolean): Speildag => {
+const getUtbetalingstabelldag = (dag: Dag): Speildag => {
     switch (dag.utbetalingsdagtype) {
         case Utbetalingsdagtype.Arbeidsdag:
             return Arbeidsdag;
         case Utbetalingsdagtype.Navhelgdag:
             return Navhelgedag;
         case Utbetalingsdagtype.Navdag:
-            return erSykedagNav ? SykedagNav : Sykedag;
+            return Sykedag;
         case Utbetalingsdagtype.AvvistDag:
         case Utbetalingsdagtype.ForeldetDag:
-            return AvvistEllerForeldetDag(dag.sykdomsdagtype, dag.utbetalingsdagtype, erSykedagNav);
+            return AvvistEllerForeldetDag(dag.sykdomsdagtype, dag.utbetalingsdagtype);
     }
 
-    return getSpeildag(dag.sykdomsdagtype, dag.utbetalingsdagtype, erSykedagNav);
+    return getSpeildag(dag.sykdomsdagtype, dag.utbetalingsdagtype);
 };
 
 export const createDagerMap = (
@@ -91,8 +91,6 @@ export const createDagerMap = (
 
     for (let i = 0; i < dager.length; i++) {
         const currentDag = dager[i];
-        const erSykedagNav =
-            currentDag.utbetalingsdagtype === 'ARBEIDSGIVERPERIODEDAG' && currentDag.utbetalingsinfo !== null;
 
         if (typeof dagerIgjen === 'number') {
             dagerIgjen = currentDag.utbetalingsdagtype === 'NAVDAG' ? dagerIgjen - 1 : dagerIgjen;
@@ -110,7 +108,7 @@ export const createDagerMap = (
         map.set(currentDag.dato, {
             dato: currentDag.dato,
             kilde: currentDag.kilde,
-            dag: getUtbetalingstabelldag(currentDag, erSykedagNav),
+            dag: getUtbetalingstabelldag(currentDag),
             erAGP: erAGP,
             erAvvist: currentDag.utbetalingsdagtype === 'AVVIST_DAG',
             erForeldet: currentDag.utbetalingsdagtype === 'FORELDET_DAG',
