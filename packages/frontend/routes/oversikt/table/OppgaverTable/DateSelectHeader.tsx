@@ -16,13 +16,14 @@ export const DateSelectHeader = () => {
             <Table.DataCell />
             <Table.DataCell />
             <Table.DataCell aria-label="Sorteringsdato" className={styles.selecttd}>
-                <Select label="" onChange={(e) => lagreValgtDatoSortering(e.target.value)} className={styles.select}>
-                    <option selected={datoKey === SortKey.Opprettet} value={SortKey.Opprettet}>
-                        {tilDatoKeyTekst(SortKey.Opprettet)}
-                    </option>
-                    <option selected={datoKey === SortKey.SøknadMottatt} value={SortKey.SøknadMottatt}>
-                        {tilDatoKeyTekst(SortKey.SøknadMottatt)}
-                    </option>
+                <Select
+                    defaultValue={datoKey}
+                    label=""
+                    onChange={(e) => lagreValgtDatoSortering(e.target.value)}
+                    className={styles.select}
+                >
+                    <option value={SortKey.Opprettet}>{tilDatoKeyTekst(SortKey.Opprettet)}</option>
+                    <option value={SortKey.SøknadMottatt}>{tilDatoKeyTekst(SortKey.SøknadMottatt)}</option>
                 </Select>
             </Table.DataCell>
         </Table.Row>
