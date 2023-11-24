@@ -1,0 +1,3 @@
+mutation FjernPaVent($oppgaveId: String!) {
+    fjernPaVent(oppgaveId: $oppgaveId)
+}

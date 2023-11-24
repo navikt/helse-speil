@@ -1,0 +1,5 @@
+mutation LeggPaVent($oppgaveId: String!, $frist: String, $begrunnelse: String, $notatType: NotatType!, $notatTekst: String!) {
+    leggPaVent(oppgaveId: $oppgaveId, frist: $frist, begrunnelse: $begrunnelse, notatType: $notatType, notatTekst: $notatTekst) {
+        ...pavent
+    }
+}

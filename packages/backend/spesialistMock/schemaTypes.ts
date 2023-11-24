@@ -542,8 +542,8 @@ export type MutationInnvilgVedtakArgs = {
 };
 
 export type MutationLeggPaVentArgs = {
-    begrunnelse: Scalars['String']['input'];
-    frist: Scalars['String']['input'];
+    begrunnelse?: InputMaybe<Scalars['String']['input']>;
+    frist?: InputMaybe<Scalars['String']['input']>;
     notatTekst: Scalars['String']['input'];
     notatType: NotatType;
     oppgaveId: Scalars['String']['input'];

@@ -544,8 +544,8 @@ export type MutationInnvilgVedtakArgs = {
 };
 
 export type MutationLeggPaVentArgs = {
-    begrunnelse: Scalars['String']['input'];
-    frist: Scalars['String']['input'];
+    begrunnelse?: InputMaybe<Scalars['String']['input']>;
+    frist?: InputMaybe<Scalars['String']['input']>;
     notatTekst: Scalars['String']['input'];
     notatType: NotatType;
     oppgaveId: Scalars['String']['input'];
@@ -2834,6 +2834,27 @@ export type OppdaterPersonMutationVariables = Exact<{
 
 export type OppdaterPersonMutation = { __typename?: 'Mutation'; oppdaterPerson: boolean };
 
+export type FjernPaVentMutationVariables = Exact<{
+    oppgaveId: Scalars['String']['input'];
+}>;
+
+export type FjernPaVentMutation = { __typename?: 'Mutation'; fjernPaVent?: boolean | null };
+
+export type LeggPaVentMutationVariables = Exact<{
+    oppgaveId: Scalars['String']['input'];
+    frist?: InputMaybe<Scalars['String']['input']>;
+    begrunnelse?: InputMaybe<Scalars['String']['input']>;
+    notatType: NotatType;
+    notatTekst: Scalars['String']['input'];
+}>;
+
+export type LeggPaVentMutation = {
+    __typename?: 'Mutation';
+    leggPaVent?: { __typename?: 'PaVent'; frist?: string | null; begrunnelse?: string | null; oid: string } | null;
+};
+
+export type PaventFragment = { __typename?: 'PaVent'; frist?: string | null; begrunnelse?: string | null; oid: string };
+
 export type SkjonnsfastsettelseMutationMutationVariables = Exact<{
     skjonnsfastsettelse: SkjonnsfastsettelseInput;
 }>;
@@ -3264,6 +3285,24 @@ export const NotatFragmentDoc = {
         },
     ],
 } as unknown as DocumentNode<NotatFragment, unknown>;
+export const PaventFragmentDoc = {
+    kind: 'Document',
+    definitions: [
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'pavent' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'PaVent' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'Field', name: { kind: 'Name', value: 'frist' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'begrunnelse' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'oid' } },
+                ],
+            },
+        },
+    ],
+} as unknown as DocumentNode<PaventFragment, unknown>;
 export const TildelingFragmentDoc = {
     kind: 'Document',
     definitions: [
@@ -6547,6 +6586,132 @@ export const OppdaterPersonDocument = {
         },
     ],
 } as unknown as DocumentNode<OppdaterPersonMutation, OppdaterPersonMutationVariables>;
+export const FjernPaVentDocument = {
+    kind: 'Document',
+    definitions: [
+        {
+            kind: 'OperationDefinition',
+            operation: 'mutation',
+            name: { kind: 'Name', value: 'FjernPaVent' },
+            variableDefinitions: [
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'oppgaveId' } },
+                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
+                },
+            ],
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'fjernPaVent' },
+                        arguments: [
+                            {
+                                kind: 'Argument',
+                                name: { kind: 'Name', value: 'oppgaveId' },
+                                value: { kind: 'Variable', name: { kind: 'Name', value: 'oppgaveId' } },
+                            },
+                        ],
+                    },
+                ],
+            },
+        },
+    ],
+} as unknown as DocumentNode<FjernPaVentMutation, FjernPaVentMutationVariables>;
+export const LeggPaVentDocument = {
+    kind: 'Document',
+    definitions: [
+        {
+            kind: 'OperationDefinition',
+            operation: 'mutation',
+            name: { kind: 'Name', value: 'LeggPaVent' },
+            variableDefinitions: [
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'oppgaveId' } },
+                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
+                },
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'frist' } },
+                    type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
+                },
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'begrunnelse' } },
+                    type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
+                },
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'notatType' } },
+                    type: {
+                        kind: 'NonNullType',
+                        type: { kind: 'NamedType', name: { kind: 'Name', value: 'NotatType' } },
+                    },
+                },
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'notatTekst' } },
+                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
+                },
+            ],
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'leggPaVent' },
+                        arguments: [
+                            {
+                                kind: 'Argument',
+                                name: { kind: 'Name', value: 'oppgaveId' },
+                                value: { kind: 'Variable', name: { kind: 'Name', value: 'oppgaveId' } },
+                            },
+                            {
+                                kind: 'Argument',
+                                name: { kind: 'Name', value: 'frist' },
+                                value: { kind: 'Variable', name: { kind: 'Name', value: 'frist' } },
+                            },
+                            {
+                                kind: 'Argument',
+                                name: { kind: 'Name', value: 'begrunnelse' },
+                                value: { kind: 'Variable', name: { kind: 'Name', value: 'begrunnelse' } },
+                            },
+                            {
+                                kind: 'Argument',
+                                name: { kind: 'Name', value: 'notatType' },
+                                value: { kind: 'Variable', name: { kind: 'Name', value: 'notatType' } },
+                            },
+                            {
+                                kind: 'Argument',
+                                name: { kind: 'Name', value: 'notatTekst' },
+                                value: { kind: 'Variable', name: { kind: 'Name', value: 'notatTekst' } },
+                            },
+                        ],
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'pavent' } }],
+                        },
+                    },
+                ],
+            },
+        },
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'pavent' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'PaVent' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'Field', name: { kind: 'Name', value: 'frist' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'begrunnelse' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'oid' } },
+                ],
+            },
+        },
+    ],
+} as unknown as DocumentNode<LeggPaVentMutation, LeggPaVentMutationVariables>;
 export const SkjonnsfastsettelseMutationDocument = {
     kind: 'Document',
     definitions: [
