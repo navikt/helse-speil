@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="118px" height="118px" viewBox="0 0 118 118" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 59.1 (86144) - https://sketch.com -->
+    <title>Artboard</title>
+    <desc>Created with Sketch.</desc>
+    <g id="Artboard" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <rect id="Rectangle-Copy-3" fill="#A13A28" x="0" y="0" width="118" height="118" rx="14"></rect>
+        <g id="Group" transform="translate(23.227133, 7.664192)" stroke="#FFFFFF" stroke-width="9">
+            <path d="M13.9780894,60 L13.9780894,33.5 C13.9780894,20.5213084 24.4993978,10 37.4780894,10 C50.4567811,10 60.9780894,20.5213084 60.9780894,33.5 L60.9780894,40 L60.9780894,40" id="Path-2-Copy-6" transform="translate(37.478089, 35.000000) rotate(-40.000000) translate(-37.478089, -35.000000) "></path>
+            <path d="M11,93.0366415 L11,66.5366415 C11,53.5579498 21.5213084,43.0366415 34.5,43.0366415 C47.4786916,43.0366415 58,53.5579498 58,66.5366415 L58,73.0366415 L58,73.0366415" id="Path-2-Copy-7" transform="translate(34.500000, 68.036641) rotate(140.000000) translate(-34.500000, -68.036641) "></path>
+        </g>
+    </g>
+</svg>
