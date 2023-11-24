@@ -169,6 +169,8 @@ export const getSpeildag = (
             return Permisjonsdag;
         case Sykdomsdagtype.Arbeidsgiverdag: // Spleis bruker bare "Arbeidsgiverdag" om egenmeldingsdager
             return Egenmeldingsdag;
+        case Sykdomsdagtype.SykedagNav:
+            return SykedagNav;
         case Sykdomsdagtype.Sykedag:
         case Sykdomsdagtype.ForeldetSykedag:
             return erSykedagNav ? SykedagNav : Sykedag;
