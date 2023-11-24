@@ -2450,6 +2450,12 @@ export type FetchPersonQuery = {
                               } | null;
                           };
                           oppgave?: { __typename?: 'OppgaveForPeriodevisning'; id: string } | null;
+                          paVent?: {
+                              __typename?: 'PaVent';
+                              frist?: string | null;
+                              begrunnelse?: string | null;
+                              oid: string;
+                          } | null;
                           totrinnsvurdering?: {
                               __typename?: 'Totrinnsvurdering';
                               erBeslutteroppgave: boolean;
@@ -5857,6 +5863,39 @@ export const FetchPersonDocument = {
                                                                                                 name: {
                                                                                                     kind: 'Name',
                                                                                                     value: 'id',
+                                                                                                },
+                                                                                            },
+                                                                                        ],
+                                                                                    },
+                                                                                },
+                                                                                {
+                                                                                    kind: 'Field',
+                                                                                    name: {
+                                                                                        kind: 'Name',
+                                                                                        value: 'paVent',
+                                                                                    },
+                                                                                    selectionSet: {
+                                                                                        kind: 'SelectionSet',
+                                                                                        selections: [
+                                                                                            {
+                                                                                                kind: 'Field',
+                                                                                                name: {
+                                                                                                    kind: 'Name',
+                                                                                                    value: 'frist',
+                                                                                                },
+                                                                                            },
+                                                                                            {
+                                                                                                kind: 'Field',
+                                                                                                name: {
+                                                                                                    kind: 'Name',
+                                                                                                    value: 'begrunnelse',
+                                                                                                },
+                                                                                            },
+                                                                                            {
+                                                                                                kind: 'Field',
+                                                                                                name: {
+                                                                                                    kind: 'Name',
+                                                                                                    value: 'oid',
                                                                                                 },
                                                                                             },
                                                                                         ],

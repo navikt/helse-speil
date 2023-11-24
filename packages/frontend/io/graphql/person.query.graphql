@@ -331,6 +331,11 @@ query FetchPerson($fnr: String, $aktorId: String) {
                         oppgave {
                             id
                         }
+                        paVent {
+                            frist,
+                            begrunnelse,
+                            oid
+                        }
                         totrinnsvurdering {
                             erBeslutteroppgave
                             erRetur
