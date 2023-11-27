@@ -3,11 +3,14 @@ import { AnimatePresence, motion } from 'framer-motion';
 import React, { useState } from 'react';
 
 import { Send, SpeechBubble, StopWatch } from '@navikt/ds-icons';
-import { ErrorMessage } from '@navikt/ds-react';
+import { BodyShort, ErrorMessage } from '@navikt/ds-react';
 
 import { useMutation } from '@apollo/client';
 import { FeilregistrerNotatMutationDocument } from '@io/graphql';
 import { useInnloggetSaksbehandler } from '@state/authentication';
+import { useActivePeriod } from '@state/periode';
+import { fellesPåVentBenk } from '@utils/featureToggles';
+import { isBeregnetPeriode } from '@utils/typeguards';
 
 import { ExpandableHistorikkContent } from '../ExpandableHistorikkContent';
 import { Hendelse } from '../Hendelse';
@@ -34,6 +37,7 @@ export const Notathendelse: React.FC<NotathendelseProps> = ({
     const [expanded, setExpanded] = useState(false);
 
     const innloggetSaksbehandler = useInnloggetSaksbehandler();
+    const activePeriod = useActivePeriod();
 
     const [feilregistrerNotat, { loading, error }] = useMutation(FeilregistrerNotatMutationDocument, {
         variables: { id: parseInt(id) },
@@ -98,6 +102,14 @@ export const Notathendelse: React.FC<NotathendelseProps> = ({
                             {tekst}
                         </motion.p>
                     )}
+                    {fellesPåVentBenk &&
+                        notattype === 'PaaVent' &&
+                        isBeregnetPeriode(activePeriod) &&
+                        activePeriod.paVent?.frist && (
+                            <BodyShort className={styles.tidsfrist}>
+                                Tidsfrist: <span className={styles.frist}>{activePeriod.paVent.frist}</span>
+                            </BodyShort>
+                        )}
                 </AnimatePresence>
             </div>
             {error && <ErrorMessage>Kunne ikke feilregistrere notat. Prøv igjen senere.</ErrorMessage>}

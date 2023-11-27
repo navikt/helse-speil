@@ -29,7 +29,8 @@
 }
 
 .Notat,
-.NotatTruncated {
+.NotatTruncated,
+.tidsfrist {
     max-width: 100%;
     font-size: var(--a-font-size-medium);
     line-height: var(--a-font-line-height-medium);
@@ -61,4 +62,8 @@
 .LeggTilKommentarButton {
     font-size: var(--a-font-size-medium);
     width: max-content;
+}
+
+.frist {
+    font-weight: 600;
 }
