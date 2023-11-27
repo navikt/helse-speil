@@ -1,5 +1,6 @@
 import {
     BehandledeOppgaver,
+    Egenskap,
     FiltreringInput,
     Kategori,
     OppgaveTilBehandling,
@@ -7,6 +8,7 @@ import {
     OppgavesorteringInput,
     Sorteringsnokkel,
 } from '../schemaTypes';
+import { PaVentMock } from '../storage/påvent';
 import { TildelingMock } from '../storage/tildeling';
 import { behandledeOppgaver } from './behandledeOppgaver';
 import { tilfeldigeBehandledeOppgaver, tilfeldigeOppgaver } from './mockDataGenerator';
@@ -111,9 +113,13 @@ const syncTildelingMock = (oppgaver: OppgaveTilBehandling[]) => {
         if (oppgave.tildeling !== undefined && oppgave.tildeling !== null && !TildelingMock.harTildeling(oppgave.id)) {
             TildelingMock.setTildeling(oppgave.id, oppgave.tildeling);
         }
+        const egenskaper = PaVentMock.erPåVent(oppgave.id)
+            ? [...oppgave.egenskaper, { egenskap: Egenskap.PaVent, kategori: Kategori.Ukategorisert }]
+            : oppgave.egenskaper;
         return {
             ...oppgave,
             tildeling: TildelingMock.getTildeling(oppgave.id),
+            egenskaper: egenskaper,
         } as OppgaveTilBehandling;
     });
 };

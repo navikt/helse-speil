@@ -18,8 +18,10 @@ import type {
     FiltreringInput,
     MutationFeilregistrerKommentarArgs,
     MutationFeilregistrerNotatArgs,
+    MutationFjernPaVentArgs,
     MutationFjernPaaVentArgs,
     MutationFjernTildelingArgs,
+    MutationLeggPaVentArgs,
     MutationLeggPaaVentArgs,
     MutationLeggTilKommentarArgs,
     MutationLeggTilNotatArgs,
@@ -38,6 +40,7 @@ import { NotatType } from './schemaTypes';
 import { DokumentMock } from './storage/dokument';
 import { NotatMock } from './storage/notat';
 import { OppgaveMock, getDefaultOppgave } from './storage/oppgave';
+import { PaVentMock } from './storage/påvent';
 import { TildelingMock } from './storage/tildeling';
 import { VarselMock } from './storage/varsel';
 
@@ -49,6 +52,10 @@ const leggTilLagretData = (person: Person): void => {
             for (const periode of generasjon.perioder as Array<BeregnetPeriode>) {
                 if (periode.oppgave?.id && TildelingMock.harTildeling(periode.oppgave.id)) {
                     tildeling = TildelingMock.getTildeling(periode.oppgave.id);
+                }
+
+                if (periode.oppgave?.id && PaVentMock.erPåVent(periode.oppgave.id)) {
+                    periode.paVent = PaVentMock.getPåVent(periode.oppgave.id);
                 }
 
                 periode.notater = NotatMock.getNotaterForPeriode(periode);
@@ -224,6 +231,19 @@ const getResolvers = (): IResolvers => ({
                 paaVent: true,
             });
             return TildelingMock.getTildeling(oppgaveId);
+        },
+        leggPaVent: async (_, { oppgaveId, frist, begrunnelse, notatType, notatTekst }: MutationLeggPaVentArgs) => {
+            NotatMock.addNotat(oppgaveId, { tekst: notatTekst, type: notatType });
+            PaVentMock.setPåVent(oppgaveId, {
+                frist: '2024-01-01',
+                begrunnelse: 'En begrunnelse',
+                oid: '4577332e-801a-4c13-8a71-39f12b8abfa3',
+            });
+            return PaVentMock.getPåVent(oppgaveId);
+        },
+        fjernPaVent: async (_, { oppgaveId }: MutationFjernPaVentArgs) => {
+            PaVentMock.fjernPåVent(oppgaveId);
+            return true;
         },
         innvilgVedtak: async () => {
             return (
