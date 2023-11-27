@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import React from 'react';
-import { Control, SubmitHandler, useController, useForm } from 'react-hook-form';
+import { Control, FormProvider, SubmitHandler, useController, useForm } from 'react-hook-form';
 import { FieldValues } from 'react-hook-form/dist/types/fields';
 
 import { Button, Loader, Textarea as NavTextarea } from '@navikt/ds-react';
@@ -12,8 +12,10 @@ import { AnonymizableText } from '@components/anonymizable/AnonymizableText';
 import { LeggTilNotatDocument, NotatType, Personnavn } from '@io/graphql';
 import { useInnloggetSaksbehandler } from '@state/authentication';
 import { useNotaterForVedtaksperiode } from '@state/notater';
+import { fellesPåVentBenk } from '@utils/featureToggles';
 import { getFormatertNavn } from '@utils/string';
 
+import { Frist } from './Frist';
 import { SisteNotat } from './SisteNotat';
 
 const Container = styled.section`
@@ -94,7 +96,7 @@ interface NyttNotatModalProps {
     onClose: (event: React.SyntheticEvent) => void;
     navn: Personnavn;
     vedtaksperiodeId: string;
-    onSubmitOverride?: (notattekst: string) => Promise<unknown>;
+    onSubmitOverride?: (notattekst: string, frist?: string, begrunnelse?: string) => Promise<unknown>;
     errorOverride?: string | undefined;
     notattype: NotatType;
     ekstraInnhold?: ReactNode;
@@ -131,6 +133,9 @@ export const NyttNotatModal = ({
 
     const submit: SubmitHandler<FieldValues> = async (fieldValues) => {
         if (onSubmitOverride) {
+            if (notattype === NotatType.PaaVent && fellesPåVentBenk)
+                return void onSubmitOverride(fieldValues.tekst, fieldValues.frist, fieldValues.begrunnelse);
+
             void onSubmitOverride(fieldValues.tekst);
         } else {
             await nyttNotat({
@@ -187,22 +192,25 @@ export const NyttNotatModal = ({
                 {søkernavn && <AnonymizableText size="small">{`Søker: ${søkernavn}`}</AnonymizableText>}
                 {sisteNotat && <SisteNotat notat={sisteNotat} />}
                 {ekstraInnhold}
-                <form onSubmit={form.handleSubmit(submit)}>
-                    <ControlledTextarea
-                        control={form.control}
-                        notattekst={notattekst}
-                        tillattTekstlengde={tillattTekstlengde}
-                    />
-                    <Buttons>
-                        <Button size="small" disabled={loading} type="submit">
-                            {submitButtonText ?? (onSubmitOverride ? notattekst.submitTekst : 'Lagre')}
-                            {loading && <Loader size="xsmall" />}
-                        </Button>
-                        <Button size="small" variant="secondary" onClick={closeModal} type="button">
-                            Avbryt
-                        </Button>
-                    </Buttons>
-                </form>
+                <FormProvider {...form}>
+                    <form onSubmit={form.handleSubmit(submit)}>
+                        <ControlledTextarea
+                            control={form.control}
+                            notattekst={notattekst}
+                            tillattTekstlengde={tillattTekstlengde}
+                        />
+                        {notattype === NotatType.PaaVent && fellesPåVentBenk && <Frist />}
+                        <Buttons>
+                            <Button size="small" disabled={loading} type="submit">
+                                {submitButtonText ?? (onSubmitOverride ? notattekst.submitTekst : 'Lagre')}
+                                {loading && <Loader size="xsmall" />}
+                            </Button>
+                            <Button size="small" variant="secondary" onClick={closeModal} type="button">
+                                Avbryt
+                            </Button>
+                        </Buttons>
+                    </form>
+                </FormProvider>
             </Container>
             {errorMessage && <NotatErrorMessage>{errorMessage}</NotatErrorMessage>}
         </Modal>
