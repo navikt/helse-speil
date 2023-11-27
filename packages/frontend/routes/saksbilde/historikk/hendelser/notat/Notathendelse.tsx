@@ -1,4 +1,5 @@
 import classNames from 'classnames';
+import dayjs from 'dayjs';
 import { AnimatePresence, motion } from 'framer-motion';
 import React, { useState } from 'react';
 
@@ -9,6 +10,7 @@ import { useMutation } from '@apollo/client';
 import { FeilregistrerNotatMutationDocument } from '@io/graphql';
 import { useInnloggetSaksbehandler } from '@state/authentication';
 import { useActivePeriod } from '@state/periode';
+import { NORSK_DATOFORMAT } from '@utils/date';
 import { fellesPåVentBenk } from '@utils/featureToggles';
 import { isBeregnetPeriode } from '@utils/typeguards';
 
@@ -107,7 +109,10 @@ export const Notathendelse: React.FC<NotathendelseProps> = ({
                         isBeregnetPeriode(activePeriod) &&
                         activePeriod.paVent?.frist && (
                             <BodyShort className={styles.tidsfrist}>
-                                Tidsfrist: <span className={styles.frist}>{activePeriod.paVent.frist}</span>
+                                Tidsfrist:{' '}
+                                <span className={styles.frist}>
+                                    {dayjs(activePeriod.paVent.frist).format(NORSK_DATOFORMAT)}
+                                </span>
                             </BodyShort>
                         )}
                 </AnimatePresence>
