@@ -4,7 +4,6 @@ import { Table, Tooltip } from '@navikt/ds-react';
 
 import { AnonymizableTextWithEllipsis } from '@components/TextWithEllipsis';
 import { Personinfo } from '@io/graphql';
-import { slimOppgavetabell } from '@utils/featureToggles';
 import { capitalizeName } from '@utils/locale';
 
 type Name = Pick<Personinfo, 'fornavn' | 'etternavn' | 'mellomnavn'>;
@@ -25,9 +24,7 @@ export const SøkerCell = ({ name }: SøkerProps) => {
         <Table.DataCell style={{ width: 180 }}>
             <Tooltip content={formatertNavn}>
                 <span>
-                    <AnonymizableTextWithEllipsis style={{ width: slimOppgavetabell ? 180 : 128 }}>
-                        {formatertNavn}
-                    </AnonymizableTextWithEllipsis>
+                    <AnonymizableTextWithEllipsis style={{ width: 180 }}>{formatertNavn}</AnonymizableTextWithEllipsis>
                 </span>
             </Tooltip>
         </Table.DataCell>

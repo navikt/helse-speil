@@ -18,7 +18,7 @@ export const DateSelectHeader = () => {
             <Table.DataCell aria-label="Sorteringsdato" className={styles.selecttd}>
                 <Select
                     defaultValue={datoKey}
-                    label=""
+                    label="Sorteringsdatovelger"
                     onChange={(e) => lagreValgtDatoSortering(e.target.value)}
                     className={styles.select}
                 >

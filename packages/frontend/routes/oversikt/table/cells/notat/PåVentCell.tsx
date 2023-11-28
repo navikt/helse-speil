@@ -5,7 +5,6 @@ import { Button, Table, Tooltip } from '@navikt/ds-react';
 
 import { NotatType, Personnavn } from '@io/graphql';
 import { useNotaterForVedtaksperiode } from '@state/notater';
-import { slimOppgavetabell } from '@utils/featureToggles';
 
 import { SisteNotattekst } from '../../OppgaverTable/SisteNotattekst';
 import { NotatListeModal } from './NotatListeModal';
@@ -19,14 +18,11 @@ interface NotatCellProps extends React.HTMLAttributes<HTMLTableCellElement> {
 }
 
 export const PåVentCell = ({ vedtaksperiodeId, navn, erPåVent }: NotatCellProps) => (
-    <Table.DataCell
-        onClick={(event) => event.stopPropagation()}
-        className={slimOppgavetabell ? styles.PåVentCell : styles.ikoncell}
-    >
+    <Table.DataCell onClick={(event) => event.stopPropagation()} className={styles.PåVentCell}>
         {erPåVent && (
             <div className={styles.KnappOgTekst}>
                 <PåVentKnapp vedtaksperiodeId={vedtaksperiodeId} navn={navn} erPåVent={erPåVent} />
-                {slimOppgavetabell && <SisteNotattekst vedtaksperiodeId={vedtaksperiodeId} />}
+                <SisteNotattekst vedtaksperiodeId={vedtaksperiodeId} />
             </div>
         )}
     </Table.DataCell>

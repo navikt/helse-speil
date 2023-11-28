@@ -3,7 +3,6 @@ import React from 'react';
 import { SortState, Table } from '@navikt/ds-react';
 
 import { OppgaveTilBehandling } from '@io/graphql';
-import { slimOppgavetabell } from '@utils/featureToggles';
 
 import { SortKey, useUpdateSort } from '../../state/sortation';
 import { DateSelectHeader } from '../DateSelectHeader';
@@ -30,7 +29,7 @@ export const PåVentTable = ({ oppgaver, sort, setSort }: PåVentTableProps) => 
             zebraStripes
         >
             <Table.Header>
-                {slimOppgavetabell && <DateSelectHeader />}
+                <DateSelectHeader />
                 <PåVentSortHeaderRow />
             </Table.Header>
             <Table.Body>

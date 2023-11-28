@@ -44,14 +44,9 @@ describe('OppgaverTable', () => {
         );
 
         expect(screen.getByText('Saksbehandler')).toBeVisible();
-        expect(screen.getAllByText(/Periodetype/)).toHaveLength(1);
-        expect(screen.getAllByText(/Oppgavetype/)).toHaveLength(1);
-        expect(screen.getAllByText(/Mottaker/)).toHaveLength(1);
-        expect(screen.getAllByText(/Egenskaper/)).toHaveLength(1);
-        expect(screen.getByText(/Opprettet/)).toBeVisible();
-        expect(screen.getByText(/Søknad mottatt/)).toBeVisible();
+        expect(screen.getByText('Opprettet')).toBeVisible();
 
-        expect(screen.getAllByRole('columnheader')).toHaveLength(7);
+        expect(screen.getAllByRole('columnheader')).toHaveLength(2);
     });
 });
 

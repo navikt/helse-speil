@@ -3,7 +3,6 @@ import React from 'react';
 import { Table, Tooltip } from '@navikt/ds-react';
 
 import { TextWithEllipsis } from '@components/TextWithEllipsis';
-import { slimOppgavetabell } from '@utils/featureToggles';
 
 interface BehandletAvCellProps {
     name?: Maybe<string>;
@@ -15,7 +14,7 @@ export const BehandletAvCell = ({ name }: BehandletAvCellProps) => {
             {name ? (
                 <Tooltip content={name}>
                     <span>
-                        <TextWithEllipsis style={{ width: slimOppgavetabell ? 200 : 128 }}>{name}</TextWithEllipsis>
+                        <TextWithEllipsis style={{ width: 200 }}>{name}</TextWithEllipsis>
                     </span>
                 </Tooltip>
             ) : (

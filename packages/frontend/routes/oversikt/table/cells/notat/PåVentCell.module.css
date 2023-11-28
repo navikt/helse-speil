@@ -28,8 +28,3 @@
     background: var(--a-border-focus);
     box-shadow: none;
 }
-
-td.ikoncell {
-    width: 52px;
-    padding-right: 1rem;
-}
