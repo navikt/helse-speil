@@ -719,6 +719,7 @@ export type OppgaveTilBehandling = {
     opprettet: Scalars['String']['output'];
     opprinneligSoknadsdato: Scalars['String']['output'];
     periodetype: Periodetype;
+    tidsfrist?: Maybe<Scalars['String']['output']>;
     tildeling?: Maybe<Tildeling>;
     vedtaksperiodeId: Scalars['String']['output'];
 };
@@ -1191,6 +1192,7 @@ export type Soknadsperioder = {
 export enum Sorteringsnokkel {
     Opprettet = 'OPPRETTET',
     SoknadMottatt = 'SOKNAD_MOTTATT',
+    Tidsfrist = 'TIDSFRIST',
     TildeltTil = 'TILDELT_TIL',
 }
 
