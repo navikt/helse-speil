@@ -4,6 +4,7 @@ import { useRecoilValue } from 'recoil';
 import { Table } from '@navikt/ds-react';
 
 import { OppgaveTilBehandling } from '@io/graphql';
+import { fellesPåVentBenk } from '@utils/featureToggles';
 
 import { LinkRow } from '../../LinkRow';
 import { DatoCell } from '../../cells/DatoCell';
@@ -28,7 +29,11 @@ export const TilGodkjenningOppgaveRow = ({ oppgave, readOnly }: TilGodkjenningOp
             <TildelingCell oppgave={oppgave} kanTildeles={!readOnly} />
             <EgenskaperTagsCell egenskaper={oppgave.egenskaper} />
             <DatoCell date={datoKey === SortKey.SøknadMottatt ? oppgave.opprinneligSoknadsdato : oppgave.opprettet} />
-            {oppgave.tildeling ? <OptionsCell oppgave={oppgave} navn={oppgave.navn} /> : <Table.DataCell />}
+            {oppgave.tildeling || fellesPåVentBenk ? (
+                <OptionsCell oppgave={oppgave} navn={oppgave.navn} />
+            ) : (
+                <Table.DataCell />
+            )}
             <PåVentCell vedtaksperiodeId={oppgave.vedtaksperiodeId} navn={oppgave.navn} erPåVent={erPåVent} />
         </LinkRow>
     );

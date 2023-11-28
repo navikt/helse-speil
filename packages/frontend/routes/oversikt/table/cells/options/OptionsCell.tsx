@@ -5,13 +5,15 @@ import { Button, Table } from '@navikt/ds-react';
 import { Dropdown } from '@navikt/ds-react-internal';
 
 import { useIsReadOnlyOppgave } from '@hooks/useIsReadOnlyOppgave';
-import { Maybe, OppgaveTilBehandling, Personnavn } from '@io/graphql';
+import { Egenskap, Maybe, OppgaveTilBehandling, Personnavn } from '@io/graphql';
 import { useInnloggetSaksbehandler } from '@state/authentication';
 import { useKanFrigiOppgaver } from '@state/toggles';
+import { fellesPåVentBenk } from '@utils/featureToggles';
 
 import { FjernFraPåVentMenuButton } from './FjernFraPåVentMenuButton';
 import { LeggPåVentMenuButton } from './LeggPåVentMenuButton';
 import { MeldAvMenuButton } from './MeldAvMenuButton';
+import { PåVentMenuButton } from './PåVentMenuButton';
 import { TildelMenuButton } from './TildelMenuButton';
 
 import styles from './OptionsCell.module.css';
@@ -31,6 +33,7 @@ export const OptionsCell = ({ oppgave, navn }: OptionsButtonProps) => {
     const erTildeltInnloggetBruker = erLike(oppgave.tildeling?.oid, innloggetSaksbehandler.oid);
     const kanFrigiAndresOppgaver = useKanFrigiOppgaver();
     const skalViseAvmeldingsknapp = erTildeltInnloggetBruker || (oppgave.tildeling && kanFrigiAndresOppgaver);
+    const erPåVent = oppgave.egenskaper.filter((it) => it.egenskap === Egenskap.PaVent).length !== 0;
 
     return (
         <Table.DataCell onClick={(event) => event.stopPropagation()} className={styles.ikoncell}>
@@ -50,7 +53,8 @@ export const OptionsCell = ({ oppgave, navn }: OptionsButtonProps) => {
                             {!erTildeltInnloggetBruker && !readOnly && (
                                 <TildelMenuButton oppgavereferanse={oppgave.id} tildeling={oppgave.tildeling} />
                             )}
-                            {erTildeltInnloggetBruker &&
+                            {!fellesPåVentBenk ? (
+                                erTildeltInnloggetBruker &&
                                 (oppgave?.tildeling?.paaVent ? (
                                     <FjernFraPåVentMenuButton oppgavereferanse={oppgave.id} />
                                 ) : (
@@ -59,7 +63,15 @@ export const OptionsCell = ({ oppgave, navn }: OptionsButtonProps) => {
                                         vedtaksperiodeId={oppgave.vedtaksperiodeId}
                                         navn={navn}
                                     />
-                                ))}
+                                ))
+                            ) : (
+                                <PåVentMenuButton
+                                    oppgavereferanse={oppgave.id}
+                                    vedtaksperiodeId={oppgave.vedtaksperiodeId}
+                                    navn={navn}
+                                    erPåVent={erPåVent}
+                                />
+                            )}
                             {skalViseAvmeldingsknapp && <MeldAvMenuButton oppgavereferanse={oppgave.id} />}
                         </Dropdown.Menu.List>
                     </Dropdown.Menu>
