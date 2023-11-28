@@ -1,25 +1,32 @@
+import dayjs from 'dayjs';
 import React, { useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 
 import DatePicker from '@navikt/ds-react/esm/date/datepicker/DatePicker';
 import { useDatepicker } from '@navikt/ds-react/esm/date/hooks/useDatepicker';
 
+import { NORSK_DATOFORMAT } from '@utils/date';
+
 export const Frist = () => {
-    const { setValue } = useFormContext();
+    const { setValue, register, formState } = useFormContext();
     const [hasError, setHasError] = useState(false);
     const { datepickerProps, inputProps } = useDatepicker({
         fromDate: new Date(),
         onValidate: (val) => {
-            setHasError(!val.isValidDate && !val.isEmpty);
+            setHasError(!val.isValidDate);
         },
     });
     return (
         <div style={{ marginBottom: '2rem' }}>
             <DatePicker {...datepickerProps}>
                 <DatePicker.Input
+                    {...register('frist', {
+                        required: 'Frist må være satt',
+                        validate: (value) => dayjs(value, NORSK_DATOFORMAT).isValid() || 'Ugyldig dato',
+                    })}
                     {...inputProps}
                     label="Tidsfrist"
-                    error={hasError && 'Noe er feil'}
+                    error={(hasError || formState.errors?.frist) && (formState.errors?.frist?.message as string)}
                     onSelect={(e) => setValue('frist', (e.target as HTMLSelectElement)?.value ?? null)}
                 />
             </DatePicker>
