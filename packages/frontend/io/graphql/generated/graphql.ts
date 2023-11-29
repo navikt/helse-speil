@@ -1863,6 +1863,7 @@ export type OppgaveFeedQuery = {
             id: string;
             opprettet: string;
             opprinneligSoknadsdato: string;
+            tidsfrist?: string | null;
             vedtaksperiodeId: string;
             oppgavetype: Oppgavetype;
             periodetype: Periodetype;
@@ -4480,6 +4481,7 @@ export const OppgaveFeedDocument = {
                                             { kind: 'Field', name: { kind: 'Name', value: 'id' } },
                                             { kind: 'Field', name: { kind: 'Name', value: 'opprettet' } },
                                             { kind: 'Field', name: { kind: 'Name', value: 'opprinneligSoknadsdato' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'tidsfrist' } },
                                             {
                                                 kind: 'Field',
                                                 name: { kind: 'Name', value: 'tildeling' },
