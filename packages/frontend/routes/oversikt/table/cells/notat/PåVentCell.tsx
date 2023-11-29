@@ -1,3 +1,4 @@
+import classNames from 'classnames';
 import React, { useState } from 'react';
 
 import { StopWatch } from '@navikt/ds-icons';
@@ -15,20 +16,31 @@ interface NotatCellProps extends React.HTMLAttributes<HTMLTableCellElement> {
     vedtaksperiodeId: string;
     navn: Personnavn;
     erPåVent?: boolean;
+    utgåttFrist: boolean;
 }
 
-export const PåVentCell = ({ vedtaksperiodeId, navn, erPåVent }: NotatCellProps) => (
-    <Table.DataCell onClick={(event) => event.stopPropagation()} className={styles.PåVentCell}>
-        {erPåVent && (
-            <div className={styles.KnappOgTekst}>
-                <PåVentKnapp vedtaksperiodeId={vedtaksperiodeId} navn={navn} erPåVent={erPåVent} />
-                <SisteNotattekst vedtaksperiodeId={vedtaksperiodeId} />
-            </div>
-        )}
-    </Table.DataCell>
-);
+export const PåVentCell = ({ vedtaksperiodeId, navn, erPåVent, utgåttFrist }: NotatCellProps) => {
+    return (
+        <Table.DataCell
+            onClick={(event) => event.stopPropagation()}
+            className={classNames(styles.PåVentCell, utgåttFrist && styles.utgåttFrist)}
+        >
+            {erPåVent && (
+                <div className={styles.KnappOgTekst}>
+                    <PåVentKnapp
+                        vedtaksperiodeId={vedtaksperiodeId}
+                        navn={navn}
+                        erPåVent={erPåVent}
+                        utgåttFrist={utgåttFrist}
+                    />
+                    <SisteNotattekst vedtaksperiodeId={vedtaksperiodeId} />
+                </div>
+            )}
+        </Table.DataCell>
+    );
+};
 
-const PåVentKnapp = ({ vedtaksperiodeId, navn, erPåVent }: NotatCellProps) => {
+const PåVentKnapp = ({ vedtaksperiodeId, navn, erPåVent, utgåttFrist }: NotatCellProps) => {
     const [showModal, setShowModal] = useState(false);
     const notater = useNotaterForVedtaksperiode(vedtaksperiodeId);
 
@@ -41,7 +53,12 @@ const PåVentKnapp = ({ vedtaksperiodeId, navn, erPåVent }: NotatCellProps) => 
     return notater.length > 0 ? (
         <>
             <Tooltip content="Lagt på vent">
-                <Button variant="secondary" className={styles.NotatButton} onClick={toggleModal} onKeyUp={toggleModal}>
+                <Button
+                    variant="secondary"
+                    className={classNames(styles.NotatButton, utgåttFrist && styles.utgåttFrist)}
+                    onClick={toggleModal}
+                    onKeyUp={toggleModal}
+                >
                     <StopWatch height={20} width={20} aria-label="Vis lagt på vent-notater" />
                 </Button>
             </Tooltip>

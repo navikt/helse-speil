@@ -28,3 +28,8 @@
     background: var(--a-border-focus);
     box-shadow: none;
 }
+
+.utgåttFrist,
+.utgåttFrist svg {
+    color: var(--a-text-danger);
+}

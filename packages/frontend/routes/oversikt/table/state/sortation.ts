@@ -1,4 +1,4 @@
-import { atom, selector, useRecoilValue, useSetRecoilState } from 'recoil';
+import { atom, selector, useSetRecoilState } from 'recoil';
 
 import { SortState } from '@navikt/ds-react';
 
@@ -81,9 +81,7 @@ export const dateSortKey = atom<SortKey>({
     default: SortKey.Opprettet,
 });
 
-export const useVisningsDato = (oppgave: OppgaveTilBehandling): Maybe<string> => {
-    const sorteringsnøkkel = useRecoilValue(dateSortKey);
-
+export const getVisningsDato = (oppgave: OppgaveTilBehandling, sorteringsnøkkel: SortKey): Maybe<string> => {
     switch (sorteringsnøkkel) {
         case SortKey.SøknadMottatt:
             return oppgave.opprinneligSoknadsdato;

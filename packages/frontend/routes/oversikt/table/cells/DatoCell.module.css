@@ -1,0 +1,7 @@
+.datocell {
+    width: 140px;
+}
+
+.utgåttfrist {
+    color: var(--a-text-danger);
+}
