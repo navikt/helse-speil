@@ -198,6 +198,8 @@ const finnSorteringsNøkkel = (sortKey: SortKey) => {
             return Sorteringsnokkel.TildeltTil;
         case SortKey.SøknadMottatt:
             return Sorteringsnokkel.SoknadMottatt;
+        case SortKey.Tidsfrist:
+            return Sorteringsnokkel.Tidsfrist;
         default:
             return Sorteringsnokkel.Opprettet;
     }
