@@ -4,6 +4,7 @@ import { useRecoilValue } from 'recoil';
 import { Table } from '@navikt/ds-react';
 
 import { SortKey, dateSortKey } from '../../state/sortation';
+import { tilDatoHeaderTekst } from '../DateSelectHeader';
 import { HeaderCell } from '../HeaderCell';
 
 export const PåVentSortHeaderRow = () => {
@@ -16,7 +17,7 @@ export const PåVentSortHeaderRow = () => {
             </Table.ColumnHeader>
             <HeaderCell text="" />
             <Table.ColumnHeader sortKey={datoSelectKey} sortable style={{ width: '140px' }}>
-                {datoSelectKey === SortKey.Opprettet ? 'Opprettet' : 'Mottatt'}
+                {tilDatoHeaderTekst(datoSelectKey)}
             </Table.ColumnHeader>
             <Table.DataCell aria-label="valg" />
             <Table.DataCell aria-label="notater" />

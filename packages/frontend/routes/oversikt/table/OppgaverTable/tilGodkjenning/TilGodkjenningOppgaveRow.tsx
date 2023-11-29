@@ -1,5 +1,4 @@
 import React from 'react';
-import { useRecoilValue } from 'recoil';
 
 import { Table } from '@navikt/ds-react';
 
@@ -12,7 +11,7 @@ import { EgenskaperTagsCell } from '../../cells/EgenskaperTagsCell';
 import { TildelingCell } from '../../cells/TildelingCell';
 import { PåVentCell } from '../../cells/notat/PåVentCell';
 import { OptionsCell } from '../../cells/options/OptionsCell';
-import { SortKey, dateSortKey } from '../../state/sortation';
+import { useVisningsDato } from '../../state/sortation';
 
 interface TilGodkjenningOppgaveRowProps {
     oppgave: OppgaveTilBehandling;
@@ -20,7 +19,6 @@ interface TilGodkjenningOppgaveRowProps {
 }
 
 export const TilGodkjenningOppgaveRow = ({ oppgave, readOnly }: TilGodkjenningOppgaveRowProps) => {
-    const datoKey = useRecoilValue(dateSortKey);
     const erPåVent =
         oppgave.tildeling?.paaVent || oppgave.egenskaper.filter((it) => it.egenskap === 'PA_VENT').length === 1;
 
@@ -28,7 +26,7 @@ export const TilGodkjenningOppgaveRow = ({ oppgave, readOnly }: TilGodkjenningOp
         <LinkRow aktørId={oppgave.aktorId}>
             <TildelingCell oppgave={oppgave} kanTildeles={!readOnly} />
             <EgenskaperTagsCell egenskaper={oppgave.egenskaper} />
-            <DatoCell date={datoKey === SortKey.SøknadMottatt ? oppgave.opprinneligSoknadsdato : oppgave.opprettet} />
+            <DatoCell date={useVisningsDato(oppgave)} />
             {oppgave.tildeling || fellesPåVentBenk ? (
                 <OptionsCell oppgave={oppgave} navn={oppgave.navn} />
             ) : (

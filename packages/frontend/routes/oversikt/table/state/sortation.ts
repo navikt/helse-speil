@@ -1,6 +1,8 @@
-import { atom, selector, useSetRecoilState } from 'recoil';
+import { atom, selector, useRecoilValue, useSetRecoilState } from 'recoil';
 
 import { SortState } from '@navikt/ds-react';
+
+import { OppgaveTilBehandling } from '@io/graphql';
 
 import { TabType, tabState } from '../../tabState';
 
@@ -9,6 +11,7 @@ export enum SortKey {
     SøknadMottatt = 'søknadMottatt',
     Opprettet = 'opprettet',
     Søker = 'søker',
+    Tidsfrist = 'tidsfrist',
 }
 
 const defaultSortation: SortState = {
@@ -77,3 +80,17 @@ export const dateSortKey = atom<SortKey>({
     key: 'dateSortKey',
     default: SortKey.Opprettet,
 });
+
+export const useVisningsDato = (oppgave: OppgaveTilBehandling): Maybe<string> => {
+    const sorteringsnøkkel = useRecoilValue(dateSortKey);
+
+    switch (sorteringsnøkkel) {
+        case SortKey.SøknadMottatt:
+            return oppgave.opprinneligSoknadsdato;
+        case SortKey.Tidsfrist:
+            return oppgave?.tidsfrist ?? null;
+        case SortKey.Opprettet:
+        default:
+            return oppgave.opprettet;
+    }
+};
