@@ -3,7 +3,7 @@ import React from 'react';
 import { Control, FormProvider, SubmitHandler, useController, useForm } from 'react-hook-form';
 import { FieldValues } from 'react-hook-form/dist/types/fields';
 
-import { Button, Loader, Textarea as NavTextarea } from '@navikt/ds-react';
+import { Button, Checkbox, Loader, Textarea as NavTextarea } from '@navikt/ds-react';
 
 import { ApolloError, useMutation } from '@apollo/client';
 import { ErrorMessage } from '@components/ErrorMessage';
@@ -200,6 +200,7 @@ export const NyttNotatModal = ({
                             tillattTekstlengde={tillattTekstlengde}
                         />
                         {notattype === NotatType.PaaVent && fellesPåVentBenk && <Frist />}
+                        <Checkbox value="Bakerst">Behold tildeling</Checkbox>
                         <Buttons>
                             <Button size="small" disabled={loading} type="submit">
                                 {submitButtonText ?? (onSubmitOverride ? notattekst.submitTekst : 'Lagre')}

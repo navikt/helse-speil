@@ -68,6 +68,7 @@ export const OptionsCell = ({ oppgave, navn }: OptionsButtonProps) => {
                                 <PåVentMenuButton
                                     oppgavereferanse={oppgave.id}
                                     vedtaksperiodeId={oppgave.vedtaksperiodeId}
+                                    tildeling={oppgave?.tildeling ?? null}
                                     navn={navn}
                                     erPåVent={erPåVent}
                                 />
