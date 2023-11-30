@@ -17,19 +17,17 @@ export const Frist = () => {
         },
     });
     return (
-        <div style={{ marginBottom: '2rem' }}>
-            <DatePicker {...datepickerProps}>
-                <DatePicker.Input
-                    {...register('frist', {
-                        required: 'Frist må være satt',
-                        validate: (value) => dayjs(value, NORSK_DATOFORMAT).isValid() || 'Ugyldig dato',
-                    })}
-                    {...inputProps}
-                    label="Tidsfrist"
-                    error={(hasError || formState.errors?.frist) && (formState.errors?.frist?.message as string)}
-                    onSelect={(e) => setValue('frist', (e.target as HTMLSelectElement)?.value ?? null)}
-                />
-            </DatePicker>
-        </div>
+        <DatePicker {...datepickerProps}>
+            <DatePicker.Input
+                {...register('frist', {
+                    required: 'Frist må være satt',
+                    validate: (value) => dayjs(value, NORSK_DATOFORMAT).isValid() || 'Ugyldig dato',
+                })}
+                {...inputProps}
+                label="Tidsfrist"
+                error={(hasError || formState.errors?.frist) && (formState.errors?.frist?.message as string)}
+                onSelect={(e) => setValue('frist', (e.target as HTMLSelectElement)?.value ?? null)}
+            />
+        </DatePicker>
     );
 };
