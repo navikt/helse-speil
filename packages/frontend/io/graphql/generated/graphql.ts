@@ -545,10 +545,11 @@ export type MutationInnvilgVedtakArgs = {
 
 export type MutationLeggPaVentArgs = {
     begrunnelse?: InputMaybe<Scalars['String']['input']>;
-    frist?: InputMaybe<Scalars['String']['input']>;
+    frist: Scalars['String']['input'];
     notatTekst: Scalars['String']['input'];
     notatType: NotatType;
     oppgaveId: Scalars['String']['input'];
+    tildeling: Scalars['Boolean']['input'];
 };
 
 export type MutationLeggPaaVentArgs = {
@@ -2851,7 +2852,8 @@ export type FjernPaVentMutation = { __typename?: 'Mutation'; fjernPaVent?: boole
 
 export type LeggPaVentMutationVariables = Exact<{
     oppgaveId: Scalars['String']['input'];
-    frist?: InputMaybe<Scalars['String']['input']>;
+    frist: Scalars['String']['input'];
+    tildeling: Scalars['Boolean']['input'];
     begrunnelse?: InputMaybe<Scalars['String']['input']>;
     notatType: NotatType;
     notatTekst: Scalars['String']['input'];
@@ -6678,7 +6680,15 @@ export const LeggPaVentDocument = {
                 {
                     kind: 'VariableDefinition',
                     variable: { kind: 'Variable', name: { kind: 'Name', value: 'frist' } },
-                    type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
+                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
+                },
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'tildeling' } },
+                    type: {
+                        kind: 'NonNullType',
+                        type: { kind: 'NamedType', name: { kind: 'Name', value: 'Boolean' } },
+                    },
                 },
                 {
                     kind: 'VariableDefinition',
@@ -6715,6 +6725,11 @@ export const LeggPaVentDocument = {
                                 kind: 'Argument',
                                 name: { kind: 'Name', value: 'frist' },
                                 value: { kind: 'Variable', name: { kind: 'Name', value: 'frist' } },
+                            },
+                            {
+                                kind: 'Argument',
+                                name: { kind: 'Name', value: 'tildeling' },
+                                value: { kind: 'Variable', name: { kind: 'Name', value: 'tildeling' } },
                             },
                             {
                                 kind: 'Argument',

@@ -543,10 +543,11 @@ export type MutationInnvilgVedtakArgs = {
 
 export type MutationLeggPaVentArgs = {
     begrunnelse?: InputMaybe<Scalars['String']['input']>;
-    frist?: InputMaybe<Scalars['String']['input']>;
+    frist: Scalars['String']['input'];
     notatTekst: Scalars['String']['input'];
     notatType: NotatType;
     oppgaveId: Scalars['String']['input'];
+    tildeling: Scalars['Boolean']['input'];
 };
 
 export type MutationLeggPaaVentArgs = {
