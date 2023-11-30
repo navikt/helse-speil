@@ -25,7 +25,8 @@ const useOptimistiskPaVent = (): PaventFragment => {
 export const useLeggPåVent = (): [
     (
         oppgavereferanse: string,
-        frist: Maybe<string>,
+        frist: string,
+        tildeling: boolean,
         begrunnelse: Maybe<string>,
         notattekst: string,
         vedtaksperiodeId: string,
@@ -37,7 +38,8 @@ export const useLeggPåVent = (): [
 
     const leggPåVent = async (
         oppgavereferanse: string,
-        frist: Maybe<string>,
+        frist: string,
+        tildeling: boolean,
         begrunnelse: Maybe<string>,
         notattekst: string,
         vedtaksperiodeId: string,
@@ -54,6 +56,7 @@ export const useLeggPåVent = (): [
             variables: {
                 oppgaveId: oppgavereferanse,
                 frist: frist,
+                tildeling: tildeling,
                 begrunnelse: begrunnelse,
                 notatType: NotatType.PaaVent,
                 notatTekst: notattekst,

@@ -64,10 +64,10 @@ export const PåVentNotatModal = ({ onClose, navn, vedtaksperiodeId, oppgaveId, 
     };
 
     const settPåVent = async (notattekst: string, frist: string, tildeling: boolean, begrunnelse?: Maybe<string>) => {
-        const fristVerdi = frist ? dayjs(frist, NORSK_DATOFORMAT).format(ISO_DATOFORMAT) : null;
+        const fristVerdi = dayjs(frist, NORSK_DATOFORMAT).format(ISO_DATOFORMAT);
         const begrunnelseVerdi = begrunnelse ?? null;
 
-        await leggPåVentMedNotat(oppgaveId, fristVerdi, begrunnelseVerdi, notattekst, vedtaksperiodeId);
+        await leggPåVentMedNotat(oppgaveId, fristVerdi, tildeling, begrunnelseVerdi, notattekst, vedtaksperiodeId);
         if (leggPåVentError) {
             errorHandler(leggPåVentError);
         } else {
