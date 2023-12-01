@@ -82,7 +82,7 @@ const setUpAuthentication = () => {
 
     app.post('/oauth2/callback', (req: SpeilRequest, res: Response) => {
         const session = req.session;
-        auth.validateOidcCallback(req, azureClient!, config.oidc)
+        auth.validateOidcCallback(req, azureClient!)
             .then((tokens: string[]) => {
                 const [accessToken, idToken, refreshToken] = tokens;
                 res.cookie('speil', `${idToken}`, {
