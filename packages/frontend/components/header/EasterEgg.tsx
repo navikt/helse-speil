@@ -1,6 +1,8 @@
 import styled from '@emotion/styled';
 import React from 'react';
 
+import { Julegurken } from '@components/header/Julegurken';
+
 const Container = styled.div`
     display: flex;
     flex-grow: 1;
@@ -8,4 +10,8 @@ const Container = styled.div`
     align-self: center;
 `;
 
-export const EasterEgg = () => <Container>{/* Putt easter eggs her */}</Container>;
+export const EasterEgg = () => (
+    <Container>
+        <Julegurken />
+    </Container>
+);
