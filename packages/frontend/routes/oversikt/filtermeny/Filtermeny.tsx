@@ -32,6 +32,10 @@ export const Filtermeny = ({ filters }: FilterMenyProps) => {
                     text="Tildelt"
                 />
                 <FilterList
+                    filters={filters.filter((it) => it.column === Oppgaveoversiktkolonne.STATUS)}
+                    text="Status"
+                />
+                <FilterList
                     filters={filters.filter((it) => it.column === Oppgaveoversiktkolonne.PERIODETYPE)}
                     text="Periodetype"
                 />

@@ -15,6 +15,7 @@ export type Filter<T> = {
 
 export enum Oppgaveoversiktkolonne {
     TILDELING = 'TILDELING',
+    STATUS = 'STATUS',
     PERIODETYPE = 'PERIODETYPE',
     OPPGAVETYPE = 'OPPGAVETYPE',
     MOTTAKER = 'MOTTAKER',
@@ -40,6 +41,27 @@ export const defaultFilters: Filter<OppgaveTilBehandling>[] = [
         active: false,
         function: (oppgave: OppgaveTilBehandling) => !!oppgave.tildeling,
         column: Oppgaveoversiktkolonne.TILDELING,
+    },
+    {
+        key: Egenskap.PaVent,
+        label: 'På vent',
+        active: false,
+        function: (oppgave: OppgaveTilBehandling) => egenskaperInneholder(oppgave, [Egenskap.PaVent]),
+        column: Oppgaveoversiktkolonne.STATUS,
+    },
+    {
+        key: Egenskap.Beslutter,
+        label: 'Beslutter',
+        active: false,
+        function: (oppgave: OppgaveTilBehandling) => egenskaperInneholder(oppgave, [Egenskap.Beslutter]),
+        column: Oppgaveoversiktkolonne.STATUS,
+    },
+    {
+        key: Egenskap.Retur,
+        label: 'Retur',
+        active: false,
+        function: (oppgave: OppgaveTilBehandling) => egenskaperInneholder(oppgave, [Egenskap.Retur]),
+        column: Oppgaveoversiktkolonne.STATUS,
     },
     {
         key: Egenskap.Forstegangsbehandling,
@@ -107,20 +129,6 @@ export const defaultFilters: Filter<OppgaveTilBehandling>[] = [
         column: Oppgaveoversiktkolonne.MOTTAKER,
     },
     {
-        key: Egenskap.Beslutter,
-        label: 'Beslutter',
-        active: false,
-        function: (oppgave: OppgaveTilBehandling) => egenskaperInneholder(oppgave, [Egenskap.Beslutter]),
-        column: Oppgaveoversiktkolonne.EGENSKAPER,
-    },
-    {
-        key: Egenskap.Retur,
-        label: 'Retur',
-        active: false,
-        function: (oppgave: OppgaveTilBehandling) => egenskaperInneholder(oppgave, [Egenskap.Retur]),
-        column: Oppgaveoversiktkolonne.EGENSKAPER,
-    },
-    {
         key: Egenskap.Haster,
         label: 'Haster',
         active: false,
@@ -182,13 +190,6 @@ export const defaultFilters: Filter<OppgaveTilBehandling>[] = [
         label: 'Skjønnsfastsettelse',
         active: false,
         function: (oppgave: OppgaveTilBehandling) => egenskaperInneholder(oppgave, [Egenskap.Skjonnsfastsettelse]),
-        column: Oppgaveoversiktkolonne.EGENSKAPER,
-    },
-    {
-        key: Egenskap.PaVent,
-        label: 'På vent',
-        active: false,
-        function: (oppgave: OppgaveTilBehandling) => egenskaperInneholder(oppgave, [Egenskap.PaVent]),
         column: Oppgaveoversiktkolonne.EGENSKAPER,
     },
     {

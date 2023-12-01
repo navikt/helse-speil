@@ -33,6 +33,7 @@ export const oppgaver: OppgaveTilBehandling[] = [
             { kategori: Kategori.Ukategorisert, egenskap: Egenskap.Vergemal },
             { kategori: Kategori.Ukategorisert, egenskap: Egenskap.Utland },
             { kategori: Kategori.Ukategorisert, egenskap: Egenskap.Beslutter },
+            { kategori: Kategori.Status, egenskap: Egenskap.PaVent },
         ],
     },
     {
@@ -51,6 +52,7 @@ export const oppgaver: OppgaveTilBehandling[] = [
         antallArbeidsforhold: AntallArbeidsforhold.EtArbeidsforhold,
         mottaker: Mottaker.Sykmeldt,
         egenskaper: [
+            { kategori: Kategori.Status, egenskap: Egenskap.PaVent },
             { kategori: Kategori.Periodetype, egenskap: Egenskap.Forstegangsbehandling },
             { kategori: Kategori.Oppgavetype, egenskap: Egenskap.Soknad },
             { kategori: Kategori.Mottaker, egenskap: Egenskap.UtbetalingTilSykmeldt },

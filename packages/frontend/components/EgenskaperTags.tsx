@@ -63,6 +63,8 @@ const tilVariant = (kategori: Kategori): TagProps['variant'] =>
         ? 'alt3'
         : kategori === Kategori.Mottaker
         ? 'alt1'
+        : kategori === Kategori.Status
+        ? 'warning'
         : 'neutral';
 
 const getData = (egenskaper: Oppgaveegenskap[]) => {
@@ -70,6 +72,7 @@ const getData = (egenskaper: Oppgaveegenskap[]) => {
         .filter(
             ({ kategori }) =>
                 kategori === Kategori.Ukategorisert ||
+                kategori === Kategori.Status ||
                 kategori === Kategori.Periodetype ||
                 kategori === Kategori.Oppgavetype ||
                 kategori === Kategori.Mottaker,
@@ -82,10 +85,13 @@ const getData = (egenskaper: Oppgaveegenskap[]) => {
         .sort((a, b) => {
             let kategoriVerdi = 0;
             if (a.kategori !== b.kategori) {
-                if (a.kategori === Kategori.Periodetype) kategoriVerdi = -1;
+                if (a.kategori === Kategori.Status) kategoriVerdi = -1;
+                else if (a.kategori === Kategori.Periodetype && b.kategori !== Kategori.Status) kategoriVerdi = -1;
+                else if (a.kategori === Kategori.Periodetype) kategoriVerdi = 1;
                 else if (a.kategori === Kategori.Ukategorisert) kategoriVerdi = 1;
                 else if (b.kategori === Kategori.Oppgavetype && a.kategori === Kategori.Mottaker) kategoriVerdi = 1;
                 else if (b.kategori === Kategori.Periodetype) kategoriVerdi = 1;
+                else if (b.kategori === Kategori.Status) kategoriVerdi = 1;
                 else kategoriVerdi = -1;
             }
             if (kategoriVerdi === 0) return a.tekst.localeCompare(b.tekst);
