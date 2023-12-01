@@ -435,6 +435,7 @@ export enum Kategori {
     Mottaker = 'Mottaker',
     Oppgavetype = 'Oppgavetype',
     Periodetype = 'Periodetype',
+    Status = 'Status',
     Ukategorisert = 'Ukategorisert',
 }
 
