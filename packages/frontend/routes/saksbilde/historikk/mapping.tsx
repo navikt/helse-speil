@@ -44,9 +44,17 @@ const isSøknadArbeidsgiver = (hendelse: Hendelse): hendelse is SoknadArbeidsgiv
     return hendelse.type === 'SENDT_SOKNAD_ARBEIDSGIVER';
 };
 
+const isSøknadArbeidsledig = (hendelse: Hendelse): hendelse is SoknadArbeidsgiver => {
+    return hendelse.type === 'SENDT_SOKNAD_ARBEIDSLEDIG';
+};
+
 const isDokument = (hendelse: Hendelse): hendelse is Inntektsmelding | Sykmelding | SoknadNav => {
     return (
-        isInntektsmelding(hendelse) || isSykmelding(hendelse) || isSøknadNav(hendelse) || isSøknadArbeidsgiver(hendelse)
+        isInntektsmelding(hendelse) ||
+        isSykmelding(hendelse) ||
+        isSøknadNav(hendelse) ||
+        isSøknadArbeidsgiver(hendelse) ||
+        isSøknadArbeidsledig(hendelse)
     );
 };
 

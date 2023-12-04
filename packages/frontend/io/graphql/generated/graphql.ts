@@ -367,7 +367,10 @@ export enum Hendelsetype {
     Inntektsmelding = 'INNTEKTSMELDING',
     NySoknad = 'NY_SOKNAD',
     SendtSoknadArbeidsgiver = 'SENDT_SOKNAD_ARBEIDSGIVER',
+    SendtSoknadArbeidsledig = 'SENDT_SOKNAD_ARBEIDSLEDIG',
+    SendtSoknadFrilans = 'SENDT_SOKNAD_FRILANS',
     SendtSoknadNav = 'SENDT_SOKNAD_NAV',
+    SendtSoknadSelvstendig = 'SENDT_SOKNAD_SELVSTENDIG',
     Ukjent = 'UKJENT',
 }
 
@@ -1174,8 +1177,41 @@ export type SoknadArbeidsgiver = Hendelse & {
     type: Hendelsetype;
 };
 
+export type SoknadArbeidsledig = Hendelse & {
+    __typename?: 'SoknadArbeidsledig';
+    eksternDokumentId?: Maybe<Scalars['String']['output']>;
+    fom: Scalars['String']['output'];
+    id: Scalars['String']['output'];
+    rapportertDato: Scalars['String']['output'];
+    sendtNav: Scalars['String']['output'];
+    tom: Scalars['String']['output'];
+    type: Hendelsetype;
+};
+
+export type SoknadFrilans = Hendelse & {
+    __typename?: 'SoknadFrilans';
+    eksternDokumentId?: Maybe<Scalars['String']['output']>;
+    fom: Scalars['String']['output'];
+    id: Scalars['String']['output'];
+    rapportertDato: Scalars['String']['output'];
+    sendtNav: Scalars['String']['output'];
+    tom: Scalars['String']['output'];
+    type: Hendelsetype;
+};
+
 export type SoknadNav = Hendelse & {
     __typename?: 'SoknadNav';
+    eksternDokumentId?: Maybe<Scalars['String']['output']>;
+    fom: Scalars['String']['output'];
+    id: Scalars['String']['output'];
+    rapportertDato: Scalars['String']['output'];
+    sendtNav: Scalars['String']['output'];
+    tom: Scalars['String']['output'];
+    type: Hendelsetype;
+};
+
+export type SoknadSelvstendig = Hendelse & {
+    __typename?: 'SoknadSelvstendig';
     eksternDokumentId?: Maybe<Scalars['String']['output']>;
     fom: Scalars['String']['output'];
     id: Scalars['String']['output'];
@@ -2520,6 +2556,8 @@ export type FetchPersonQuery = {
                                     id: string;
                                     type: Hendelsetype;
                                 }
+                              | { __typename?: 'SoknadArbeidsledig'; id: string; type: Hendelsetype }
+                              | { __typename?: 'SoknadFrilans'; id: string; type: Hendelsetype }
                               | {
                                     __typename?: 'SoknadNav';
                                     fom: string;
@@ -2530,6 +2568,7 @@ export type FetchPersonQuery = {
                                     id: string;
                                     type: Hendelsetype;
                                 }
+                              | { __typename?: 'SoknadSelvstendig'; id: string; type: Hendelsetype }
                               | {
                                     __typename?: 'Sykmelding';
                                     fom: string;
@@ -2626,6 +2665,8 @@ export type FetchPersonQuery = {
                                     id: string;
                                     type: Hendelsetype;
                                 }
+                              | { __typename?: 'SoknadArbeidsledig'; id: string; type: Hendelsetype }
+                              | { __typename?: 'SoknadFrilans'; id: string; type: Hendelsetype }
                               | {
                                     __typename?: 'SoknadNav';
                                     fom: string;
@@ -2636,6 +2677,7 @@ export type FetchPersonQuery = {
                                     id: string;
                                     type: Hendelsetype;
                                 }
+                              | { __typename?: 'SoknadSelvstendig'; id: string; type: Hendelsetype }
                               | {
                                     __typename?: 'Sykmelding';
                                     fom: string;
@@ -2733,6 +2775,8 @@ export type FetchPersonQuery = {
                                     id: string;
                                     type: Hendelsetype;
                                 }
+                              | { __typename?: 'SoknadArbeidsledig'; id: string; type: Hendelsetype }
+                              | { __typename?: 'SoknadFrilans'; id: string; type: Hendelsetype }
                               | {
                                     __typename?: 'SoknadNav';
                                     fom: string;
@@ -2743,6 +2787,7 @@ export type FetchPersonQuery = {
                                     id: string;
                                     type: Hendelsetype;
                                 }
+                              | { __typename?: 'SoknadSelvstendig'; id: string; type: Hendelsetype }
                               | {
                                     __typename?: 'Sykmelding';
                                     fom: string;

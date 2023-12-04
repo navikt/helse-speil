@@ -5,7 +5,15 @@ export interface PossibleTypesResultData {
 }
 const result: PossibleTypesResultData = {
     possibleTypes: {
-        Hendelse: ['Inntektsmelding', 'SoknadArbeidsgiver', 'SoknadNav', 'Sykmelding'],
+        Hendelse: [
+            'Inntektsmelding',
+            'SoknadArbeidsgiver',
+            'SoknadArbeidsledig',
+            'SoknadFrilans',
+            'SoknadNav',
+            'SoknadSelvstendig',
+            'Sykmelding',
+        ],
         Overstyring: [
             'Arbeidsforholdoverstyring',
             'Dagoverstyring',
