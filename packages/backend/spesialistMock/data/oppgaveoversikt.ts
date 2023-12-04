@@ -114,7 +114,7 @@ const syncTildelingMock = (oppgaver: OppgaveTilBehandling[]) => {
             TildelingMock.setTildeling(oppgave.id, oppgave.tildeling);
         }
         const egenskaper = PaVentMock.erPåVent(oppgave.id)
-            ? [...oppgave.egenskaper, { egenskap: Egenskap.PaVent, kategori: Kategori.Ukategorisert }]
+            ? [...oppgave.egenskaper, { egenskap: Egenskap.PaVent, kategori: Kategori.Status }]
             : oppgave.egenskaper;
         return {
             ...oppgave,
