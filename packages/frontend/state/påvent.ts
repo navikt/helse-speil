@@ -1,15 +1,20 @@
-import { FetchResult, MutationResult, useMutation } from '@apollo/client';
+import { ApolloCache, FetchResult, MutationResult, useMutation } from '@apollo/client';
 import {
     AntallOppgaverDocument,
+    Egenskap,
     FetchNotaterDocument,
     FjernPaVentDocument,
     FjernPaVentMutation,
+    Kategori,
     LeggPaVentDocument,
     LeggPaVentMutation,
     NotatType,
     OppgaveFeedDocument,
+    Oppgaveegenskap,
+    PaVent,
     PaventFragment,
 } from '@io/graphql';
+import { usePeriodeTilGodkjenning } from '@state/arbeidsgiver';
 import { useInnloggetSaksbehandler } from '@state/authentication';
 
 const useOptimistiskPaVent = (): PaventFragment => {
@@ -35,6 +40,7 @@ export const useLeggPåVent = (): [
 ] => {
     const optimistiskPaVent = useOptimistiskPaVent();
     const [leggPåVentMutation, data] = useMutation(LeggPaVentDocument);
+    const periodeId = usePeriodeTilGodkjenning()?.id ?? null;
 
     const leggPåVent = async (
         oppgavereferanse: string,
@@ -46,6 +52,7 @@ export const useLeggPåVent = (): [
     ) =>
         leggPåVentMutation({
             refetchQueries: [
+                OppgaveFeedDocument,
                 AntallOppgaverDocument,
                 { query: FetchNotaterDocument, variables: { forPerioder: [vedtaksperiodeId] } },
             ],
@@ -61,6 +68,8 @@ export const useLeggPåVent = (): [
                 notatType: NotatType.PaaVent,
                 notatTekst: notattekst,
             },
+            update: (cache, result) =>
+                oppdaterPåVentICache(cache, oppgavereferanse, periodeId, () => result.data?.leggPaVent ?? null),
         });
 
     return [leggPåVent, data];
@@ -72,6 +81,8 @@ export const useFjernPåVent = (): [
     const [fjernPåVentMutation, data] = useMutation(FjernPaVentDocument, {
         refetchQueries: [OppgaveFeedDocument, AntallOppgaverDocument],
     });
+    const periodeId = usePeriodeTilGodkjenning()?.id ?? null;
+
     const fjernPåVent = (oppgavereferanse: string) =>
         fjernPåVentMutation({
             variables: { oppgaveId: oppgavereferanse },
@@ -79,7 +90,35 @@ export const useFjernPåVent = (): [
                 __typename: 'Mutation',
                 fjernPaVent: true,
             },
+            update: (cache) => oppdaterPåVentICache(cache, oppgavereferanse, periodeId, () => null),
         });
 
     return [fjernPåVent, data];
+};
+
+const oppdaterPåVentICache = (
+    cache: ApolloCache<unknown>,
+    oppgavereferanse: string,
+    periodeId: string | null,
+    påVent: (påVent: PaVent) => PaVent | null,
+) => {
+    cache.modify({
+        id: cache.identify({ __typename: 'OppgaveTilBehandling', id: oppgavereferanse }),
+        fields: {
+            egenskaper(existingEgenskaper) {
+                return !påVent
+                    ? existingEgenskaper.filter((it: Oppgaveegenskap) => it.egenskap !== Egenskap.PaVent)
+                    : existingEgenskaper.some((it: Oppgaveegenskap) => it.egenskap === Egenskap.PaVent)
+                    ? existingEgenskaper
+                    : existingEgenskaper.push({ egenskap: Egenskap.PaVent, kategori: Kategori.Status });
+            },
+        },
+    });
+
+    cache.modify({
+        id: cache.identify({ __typename: 'BeregnetPeriode', id: periodeId }),
+        fields: {
+            paVent: (value) => påVent(value),
+        },
+    });
 };
