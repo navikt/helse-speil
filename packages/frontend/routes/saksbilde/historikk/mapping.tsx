@@ -9,6 +9,8 @@ import {
     Periode,
     PeriodehistorikkType,
     SoknadArbeidsgiver,
+    SoknadArbeidsledig,
+    SoknadFrilans,
     SoknadNav,
     Sykepengegrunnlagskjonnsfastsetting,
     Sykmelding,
@@ -48,13 +50,20 @@ const isSøknadArbeidsledig = (hendelse: Hendelse): hendelse is SoknadArbeidsgiv
     return hendelse.type === 'SENDT_SOKNAD_ARBEIDSLEDIG';
 };
 
-const isDokument = (hendelse: Hendelse): hendelse is Inntektsmelding | Sykmelding | SoknadNav => {
+const isSøknadFrilans = (hendelse: Hendelse): hendelse is SoknadFrilans => {
+    return hendelse.type === 'SENDT_SOKNAD_FRILANS';
+};
+
+const isDokument = (
+    hendelse: Hendelse,
+): hendelse is Inntektsmelding | Sykmelding | SoknadNav | SoknadArbeidsgiver | SoknadArbeidsledig | SoknadFrilans => {
     return (
         isInntektsmelding(hendelse) ||
         isSykmelding(hendelse) ||
         isSøknadNav(hendelse) ||
         isSøknadArbeidsgiver(hendelse) ||
-        isSøknadArbeidsledig(hendelse)
+        isSøknadArbeidsledig(hendelse) ||
+        isSøknadFrilans(hendelse)
     );
 };
 

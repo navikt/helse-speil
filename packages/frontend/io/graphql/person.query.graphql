@@ -249,6 +249,20 @@ query FetchPerson($fnr: String, $aktorId: String) {
                             sendtArbeidsgiver
                             eksternDokumentId
                         }
+                        ... on SoknadArbeidsledig {
+                            fom
+                            tom
+                            rapportertDato
+                            sendtNav
+                            eksternDokumentId
+                        }
+                        ... on SoknadFrilans {
+                            fom
+                            tom
+                            rapportertDato
+                            sendtNav
+                            eksternDokumentId
+                        }
                     }
                     ... on UberegnetPeriode {
                         id

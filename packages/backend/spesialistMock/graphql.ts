@@ -359,6 +359,10 @@ const getResolvers = (): IResolvers => ({
                         return 'SoknadArbeidsgiver';
                     case 'SENDT_SOKNAD_NAV':
                         return 'SoknadNav';
+                    case 'SENDT_SOKNAD_ARBEIDSLEDIG':
+                        return 'SoknadArbeidsledig';
+                    case 'SENDT_SOKNAD_FRILANS':
+                        return 'SoknadFrilans';
                     default:
                         throw Error(`Fant hendelse med ukjent type: ${hendelse.type}`);
                 }

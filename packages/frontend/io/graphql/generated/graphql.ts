@@ -2556,8 +2556,26 @@ export type FetchPersonQuery = {
                                     id: string;
                                     type: Hendelsetype;
                                 }
-                              | { __typename?: 'SoknadArbeidsledig'; id: string; type: Hendelsetype }
-                              | { __typename?: 'SoknadFrilans'; id: string; type: Hendelsetype }
+                              | {
+                                    __typename?: 'SoknadArbeidsledig';
+                                    fom: string;
+                                    tom: string;
+                                    rapportertDato: string;
+                                    sendtNav: string;
+                                    eksternDokumentId?: string | null;
+                                    id: string;
+                                    type: Hendelsetype;
+                                }
+                              | {
+                                    __typename?: 'SoknadFrilans';
+                                    fom: string;
+                                    tom: string;
+                                    rapportertDato: string;
+                                    sendtNav: string;
+                                    eksternDokumentId?: string | null;
+                                    id: string;
+                                    type: Hendelsetype;
+                                }
                               | {
                                     __typename?: 'SoknadNav';
                                     fom: string;
@@ -2665,8 +2683,26 @@ export type FetchPersonQuery = {
                                     id: string;
                                     type: Hendelsetype;
                                 }
-                              | { __typename?: 'SoknadArbeidsledig'; id: string; type: Hendelsetype }
-                              | { __typename?: 'SoknadFrilans'; id: string; type: Hendelsetype }
+                              | {
+                                    __typename?: 'SoknadArbeidsledig';
+                                    fom: string;
+                                    tom: string;
+                                    rapportertDato: string;
+                                    sendtNav: string;
+                                    eksternDokumentId?: string | null;
+                                    id: string;
+                                    type: Hendelsetype;
+                                }
+                              | {
+                                    __typename?: 'SoknadFrilans';
+                                    fom: string;
+                                    tom: string;
+                                    rapportertDato: string;
+                                    sendtNav: string;
+                                    eksternDokumentId?: string | null;
+                                    id: string;
+                                    type: Hendelsetype;
+                                }
                               | {
                                     __typename?: 'SoknadNav';
                                     fom: string;
@@ -2775,8 +2811,26 @@ export type FetchPersonQuery = {
                                     id: string;
                                     type: Hendelsetype;
                                 }
-                              | { __typename?: 'SoknadArbeidsledig'; id: string; type: Hendelsetype }
-                              | { __typename?: 'SoknadFrilans'; id: string; type: Hendelsetype }
+                              | {
+                                    __typename?: 'SoknadArbeidsledig';
+                                    fom: string;
+                                    tom: string;
+                                    rapportertDato: string;
+                                    sendtNav: string;
+                                    eksternDokumentId?: string | null;
+                                    id: string;
+                                    type: Hendelsetype;
+                                }
+                              | {
+                                    __typename?: 'SoknadFrilans';
+                                    fom: string;
+                                    tom: string;
+                                    rapportertDato: string;
+                                    sendtNav: string;
+                                    eksternDokumentId?: string | null;
+                                    id: string;
+                                    type: Hendelsetype;
+                                }
                               | {
                                     __typename?: 'SoknadNav';
                                     fom: string;
@@ -5372,6 +5426,106 @@ export const FetchPersonDocument = {
                                                                                                 name: {
                                                                                                     kind: 'Name',
                                                                                                     value: 'sendtArbeidsgiver',
+                                                                                                },
+                                                                                            },
+                                                                                            {
+                                                                                                kind: 'Field',
+                                                                                                name: {
+                                                                                                    kind: 'Name',
+                                                                                                    value: 'eksternDokumentId',
+                                                                                                },
+                                                                                            },
+                                                                                        ],
+                                                                                    },
+                                                                                },
+                                                                                {
+                                                                                    kind: 'InlineFragment',
+                                                                                    typeCondition: {
+                                                                                        kind: 'NamedType',
+                                                                                        name: {
+                                                                                            kind: 'Name',
+                                                                                            value: 'SoknadArbeidsledig',
+                                                                                        },
+                                                                                    },
+                                                                                    selectionSet: {
+                                                                                        kind: 'SelectionSet',
+                                                                                        selections: [
+                                                                                            {
+                                                                                                kind: 'Field',
+                                                                                                name: {
+                                                                                                    kind: 'Name',
+                                                                                                    value: 'fom',
+                                                                                                },
+                                                                                            },
+                                                                                            {
+                                                                                                kind: 'Field',
+                                                                                                name: {
+                                                                                                    kind: 'Name',
+                                                                                                    value: 'tom',
+                                                                                                },
+                                                                                            },
+                                                                                            {
+                                                                                                kind: 'Field',
+                                                                                                name: {
+                                                                                                    kind: 'Name',
+                                                                                                    value: 'rapportertDato',
+                                                                                                },
+                                                                                            },
+                                                                                            {
+                                                                                                kind: 'Field',
+                                                                                                name: {
+                                                                                                    kind: 'Name',
+                                                                                                    value: 'sendtNav',
+                                                                                                },
+                                                                                            },
+                                                                                            {
+                                                                                                kind: 'Field',
+                                                                                                name: {
+                                                                                                    kind: 'Name',
+                                                                                                    value: 'eksternDokumentId',
+                                                                                                },
+                                                                                            },
+                                                                                        ],
+                                                                                    },
+                                                                                },
+                                                                                {
+                                                                                    kind: 'InlineFragment',
+                                                                                    typeCondition: {
+                                                                                        kind: 'NamedType',
+                                                                                        name: {
+                                                                                            kind: 'Name',
+                                                                                            value: 'SoknadFrilans',
+                                                                                        },
+                                                                                    },
+                                                                                    selectionSet: {
+                                                                                        kind: 'SelectionSet',
+                                                                                        selections: [
+                                                                                            {
+                                                                                                kind: 'Field',
+                                                                                                name: {
+                                                                                                    kind: 'Name',
+                                                                                                    value: 'fom',
+                                                                                                },
+                                                                                            },
+                                                                                            {
+                                                                                                kind: 'Field',
+                                                                                                name: {
+                                                                                                    kind: 'Name',
+                                                                                                    value: 'tom',
+                                                                                                },
+                                                                                            },
+                                                                                            {
+                                                                                                kind: 'Field',
+                                                                                                name: {
+                                                                                                    kind: 'Name',
+                                                                                                    value: 'rapportertDato',
+                                                                                                },
+                                                                                            },
+                                                                                            {
+                                                                                                kind: 'Field',
+                                                                                                name: {
+                                                                                                    kind: 'Name',
+                                                                                                    value: 'sendtNav',
                                                                                                 },
                                                                                             },
                                                                                             {
