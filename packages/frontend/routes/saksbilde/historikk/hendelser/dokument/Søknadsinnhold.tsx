@@ -26,21 +26,24 @@ export const Søknadsinnhold: React.FC<SøknadsinnholdProps> = ({ dokumentId, f�
                     {søknad.soknadsperioder &&
                         søknad.soknadsperioder.length > 0 &&
                         søknad.soknadsperioder.map((søknadsperiode) => (
-                            <>
-                                <DokumentFragment
-                                    overskrift={`${dayjs(søknadsperiode.fom).format(NORSK_DATOFORMAT)} – ${dayjs(
-                                        søknadsperiode.tom,
-                                    ).format(NORSK_DATOFORMAT)}`}
-                                >
-                                    {søknadsperiode.grad} % sykmeldt
-                                    {søknadsperiode.faktiskGrad && (
-                                        <>
-                                            <br />
-                                            Oppgitt faktisk arbeidsgrad {søknadsperiode.faktiskGrad} %
-                                        </>
-                                    )}
-                                </DokumentFragment>
-                            </>
+                            <DokumentFragment
+                                overskrift={`${dayjs(søknadsperiode.fom).format(NORSK_DATOFORMAT)} – ${dayjs(
+                                    søknadsperiode.tom,
+                                ).format(NORSK_DATOFORMAT)}`}
+                                key={`søknadsperiode${søknadsperiode.fom}`}
+                            >
+                                {søknadsperiode.grad || søknadsperiode.sykmeldingsgrad ? (
+                                    <>{søknadsperiode.grad || søknadsperiode.sykmeldingsgrad} % sykmeldt</>
+                                ) : (
+                                    'Sykmeldingsgrad ikke oppgitt'
+                                )}
+                                {søknadsperiode.faktiskGrad && (
+                                    <>
+                                        <br />
+                                        Oppgitt faktisk arbeidsgrad {søknadsperiode.faktiskGrad} %
+                                    </>
+                                )}
+                            </DokumentFragment>
                         ))}
                     {søknad.arbeidGjenopptatt && (
                         <DokumentFragment overskrift="Arbeid gjenopptatt">

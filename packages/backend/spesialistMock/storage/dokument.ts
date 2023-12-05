@@ -10,8 +10,9 @@ export class DokumentMock {
                 {
                     fom: '2023-09-01',
                     tom: '2023-09-30',
-                    grad: 100,
+                    grad: null,
                     faktiskGrad: 20,
+                    sykmeldingsgrad: 100,
                     __typename: 'Soknadsperioder',
                 },
             ],

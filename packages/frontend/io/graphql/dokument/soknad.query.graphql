@@ -17,6 +17,7 @@ query FetchSoknad($fnr: String!, $dokumentId: String!) {
             tom
             grad
             faktiskGrad
+            sykmeldingsgrad
         }
         sporsmal {
             ...sporsmal

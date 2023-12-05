@@ -1223,7 +1223,8 @@ export type Soknadsperioder = {
     __typename?: 'Soknadsperioder';
     faktiskGrad?: Maybe<Scalars['Int']['output']>;
     fom: Scalars['String']['output'];
-    grad: Scalars['Int']['output'];
+    grad?: Maybe<Scalars['Int']['output']>;
+    sykmeldingsgrad?: Maybe<Scalars['Int']['output']>;
     tom: Scalars['String']['output'];
 };
 

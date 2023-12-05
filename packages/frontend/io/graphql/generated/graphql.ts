@@ -1225,7 +1225,8 @@ export type Soknadsperioder = {
     __typename?: 'Soknadsperioder';
     faktiskGrad?: Maybe<Scalars['Int']['output']>;
     fom: Scalars['String']['output'];
-    grad: Scalars['Int']['output'];
+    grad?: Maybe<Scalars['Int']['output']>;
+    sykmeldingsgrad?: Maybe<Scalars['Int']['output']>;
     tom: Scalars['String']['output'];
 };
 
@@ -1686,8 +1687,9 @@ export type FetchSoknadQuery = {
             __typename?: 'Soknadsperioder';
             fom: string;
             tom: string;
-            grad: number;
+            grad?: number | null;
             faktiskGrad?: number | null;
+            sykmeldingsgrad?: number | null;
         }> | null;
         sporsmal?: Array<{
             __typename?: 'Sporsmal';
@@ -3920,6 +3922,7 @@ export const FetchSoknadDocument = {
                                             { kind: 'Field', name: { kind: 'Name', value: 'tom' } },
                                             { kind: 'Field', name: { kind: 'Name', value: 'grad' } },
                                             { kind: 'Field', name: { kind: 'Name', value: 'faktiskGrad' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'sykmeldingsgrad' } },
                                         ],
                                     },
                                 },
