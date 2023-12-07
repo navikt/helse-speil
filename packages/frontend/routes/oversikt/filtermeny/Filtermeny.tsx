@@ -3,7 +3,6 @@ import React from 'react';
 import { useSetRecoilState } from 'recoil';
 
 import { JusterbarSidemeny } from '@components/justerbarSidemeny/JusterbarSidemeny';
-import { OppgaveTilBehandling } from '@io/graphql';
 import { fellesPåVentBenk } from '@utils/featureToggles';
 
 import { Filter, Oppgaveoversiktkolonne } from '../table/state/filter';
@@ -13,7 +12,7 @@ import { filtermenyWidth, useShowFiltermeny } from './state';
 import styles from './Filtermeny.module.css';
 
 interface FilterMenyProps {
-    filters: Filter<OppgaveTilBehandling>[];
+    filters: Filter[];
 }
 export const Filtermeny = ({ filters }: FilterMenyProps) => {
     const showFiltermeny = useShowFiltermeny();

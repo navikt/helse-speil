@@ -4,14 +4,13 @@ import React, { useState } from 'react';
 import { Accordion, Checkbox } from '@navikt/ds-react';
 
 import { Bold } from '@components/Bold';
-import { OppgaveTilBehandling } from '@io/graphql';
 
 import { Filter, useToggleFilter } from '../table/state/filter';
 
 import styles from './FilterList.module.css';
 
 interface FilterListProps extends React.HTMLAttributes<HTMLButtonElement> {
-    filters: Filter<OppgaveTilBehandling>[];
+    filters: Filter[];
     text: string;
 }
 

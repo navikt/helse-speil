@@ -149,7 +149,7 @@ export class TildelingAlert extends InfoAlert {
     name = 'tildeling';
 }
 
-const tildeltFiltrering = (activeFilters: Filter<OppgaveTilBehandling>[]) => {
+const tildeltFiltrering = (activeFilters: Filter[]) => {
     if (
         activeFilters.some((filter) => filter.key === 'TILDELTE_SAKER') &&
         !activeFilters.some((filter) => filter.key === 'UFORDELTE_SAKER')
@@ -183,7 +183,7 @@ const finnKategori = (kolonne: Oppgaveoversiktkolonne) => {
     }
 };
 
-const filtrering = (activeFilters: Filter<OppgaveTilBehandling>[], aktivTab: TabType): FiltreringInput => ({
+const filtrering = (activeFilters: Filter[], aktivTab: TabType): FiltreringInput => ({
     egenskaper: activeFilters
         .filter((filter) => Object.values(Egenskap).includes(filter.key as Egenskap))
         .map((filter) => ({

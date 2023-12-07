@@ -3,14 +3,12 @@ import React from 'react';
 
 import { Chips } from '@navikt/ds-react';
 
-import { OppgaveTilBehandling } from '@io/graphql';
-
 import { Filter } from '../state/filter';
 
 import styles from './filterChips.module.css';
 
 interface FilterChipsProps {
-    activeFilters: Filter<OppgaveTilBehandling>[];
+    activeFilters: Filter[];
     toggleFilter: (label: string) => void;
     setMultipleFilters: (value: boolean, ...labels: string[]) => void;
 }
