@@ -3023,6 +3023,26 @@
                         "deprecationReason": null
                     },
                     {
+                        "name": "ekskluderteEgenskaper",
+                        "description": null,
+                        "type": {
+                            "kind": "LIST",
+                            "name": null,
+                            "ofType": {
+                                "kind": "NON_NULL",
+                                "name": null,
+                                "ofType": {
+                                    "kind": "INPUT_OBJECT",
+                                    "name": "OppgaveegenskapInput",
+                                    "ofType": null
+                                }
+                            }
+                        },
+                        "defaultValue": null,
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
+                    {
                         "name": "ingenUkategoriserteEgenskaper",
                         "description": null,
                         "type": {

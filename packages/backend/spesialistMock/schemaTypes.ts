@@ -321,6 +321,7 @@ export type FiltreringInput = {
     egenskaper: Array<OppgaveegenskapInput>;
     egneSaker: Scalars['Boolean']['input'];
     egneSakerPaVent: Scalars['Boolean']['input'];
+    ekskluderteEgenskaper?: InputMaybe<Array<OppgaveegenskapInput>>;
     ingenUkategoriserteEgenskaper: Scalars['Boolean']['input'];
     tildelt?: InputMaybe<Scalars['Boolean']['input']>;
 };
