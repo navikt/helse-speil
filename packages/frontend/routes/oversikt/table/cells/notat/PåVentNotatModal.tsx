@@ -97,7 +97,12 @@ export const PåVentNotatModal = ({ onClose, navn, vedtaksperiodeId, oppgaveId, 
                     <form onSubmit={form.handleSubmit(submit)}>
                         <ControlledTextarea control={form.control} tillattTekstlengde={tillattTekstlengde} />
                         {fellesPåVentBenk && <Frist />}
-                        <Checkbox checked onChange={onCheck} {...tildelingValidation} className={styles.tildeling}>
+                        <Checkbox
+                            defaultChecked
+                            onChange={onCheck}
+                            {...tildelingValidation}
+                            className={styles.tildeling}
+                        >
                             {erTildeltSaksbehandler ? 'Behold tildeling' : 'Tildel meg'}
                         </Checkbox>
                         <div className={styles.buttons}>
