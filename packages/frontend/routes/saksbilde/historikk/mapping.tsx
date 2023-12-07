@@ -397,4 +397,9 @@ export const getNotathendelser = (notater: Array<Notat>): Array<NotathendelseObj
         feilregistrert: notat.feilregistrert,
         vedtaksperiodeId: notat.vedtaksperiodeId,
         kommentarer: notat.kommentarer,
+        erNyesteNotatMedType: [...notater].sort(byTimestamp).find((it) => it.type === notat.type)?.id === notat.id,
     }));
+
+const byTimestamp = (a: Notat, b: Notat): number => {
+    return dayjs(b.opprettet).diff(dayjs(a.opprettet));
+};

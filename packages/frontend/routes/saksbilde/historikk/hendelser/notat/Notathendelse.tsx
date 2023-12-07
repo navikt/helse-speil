@@ -34,6 +34,7 @@ export const Notathendelse: React.FC<NotathendelseProps> = ({
     timestamp,
     feilregistrert,
     kommentarer,
+    erNyesteNotatMedType = false,
 }) => {
     const [showAddDialog, setShowAddDialog] = useState(false);
     const [expanded, setExpanded] = useState(false);
@@ -106,6 +107,7 @@ export const Notathendelse: React.FC<NotathendelseProps> = ({
                     )}
                     {fellesPåVentBenk &&
                         notattype === 'PaaVent' &&
+                        erNyesteNotatMedType &&
                         isBeregnetPeriode(activePeriod) &&
                         activePeriod.paVent?.frist && (
                             <BodyShort className={styles.tidsfrist}>

@@ -89,6 +89,7 @@ declare type NotathendelseObject = BaseHendelseObject & {
     feilregistrert: boolean;
     vedtaksperiodeId: string;
     kommentarer: Array<Kommentar>;
+    erNyesteNotatMedType: boolean;
 };
 
 declare type UtbetalinghendelseObject = BaseHendelseObject & {
