@@ -15,6 +15,7 @@ export type Filter<T> = {
 
 export enum Oppgaveoversiktkolonne {
     TILDELING = 'TILDELING',
+    PÅVENT = 'PÅVENT',
     STATUS = 'STATUS',
     PERIODETYPE = 'PERIODETYPE',
     OPPGAVETYPE = 'OPPGAVETYPE',
@@ -47,7 +48,14 @@ export const defaultFilters: Filter<OppgaveTilBehandling>[] = [
         label: 'På vent',
         active: false,
         function: (oppgave: OppgaveTilBehandling) => egenskaperInneholder(oppgave, [Egenskap.PaVent]),
-        column: Oppgaveoversiktkolonne.STATUS,
+        column: Oppgaveoversiktkolonne.PÅVENT,
+    },
+    {
+        key: 'IKKE_PA_VENT',
+        label: 'Ikke på vent',
+        active: false,
+        function: (oppgave: OppgaveTilBehandling) => ekskluderteEgenskaperInneholder(oppgave, [Egenskap.PaVent]),
+        column: Oppgaveoversiktkolonne.PÅVENT,
     },
     {
         key: Egenskap.Beslutter,
@@ -223,9 +231,13 @@ export const defaultFilters: Filter<OppgaveTilBehandling>[] = [
     },
 ]
     .filter((filter) => filter.label !== '🌰' || harSpesialsaktilgang)
-    .filter((filter) => filter.label !== 'På vent' || fellesPåVentBenk);
+    .filter((filter) => filter.label !== 'På vent' || fellesPåVentBenk)
+    .filter((filter) => filter.label !== 'Ikke på vent' || fellesPåVentBenk);
 
 const egenskaperInneholder = (oppgave: OppgaveTilBehandling, egenskaper: Egenskap[]) =>
+    oppgave.egenskaper.some(({ egenskap }) => egenskaper.includes(egenskap));
+
+const ekskluderteEgenskaperInneholder = (oppgave: OppgaveTilBehandling, egenskaper: Egenskap[]) =>
     oppgave.egenskaper.some(({ egenskap }) => egenskaper.includes(egenskap));
 
 const egenskaperMedKategori = (oppgave: OppgaveTilBehandling, medKategori: Kategori) =>

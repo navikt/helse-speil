@@ -39,6 +39,7 @@ export interface OppgaveFeedResponse {
 
 const defaultFiltrering: FiltreringInput = {
     egenskaper: [],
+    ekskluderteEgenskaper: [],
     ingenUkategoriserteEgenskaper: false,
     tildelt: null,
     egneSaker: false,
@@ -174,6 +175,9 @@ const finnKategori = (kolonne: Oppgaveoversiktkolonne) => {
             return Kategori.Mottaker;
         case Oppgaveoversiktkolonne.ANTALLARBEIDSFORHOLD:
             return Kategori.Inntektskilde;
+        case Oppgaveoversiktkolonne.STATUS:
+        case Oppgaveoversiktkolonne.PÅVENT:
+            return Kategori.Status;
         default:
             return Kategori.Ukategorisert;
     }
@@ -184,6 +188,12 @@ const filtrering = (activeFilters: Filter<OppgaveTilBehandling>[], aktivTab: Tab
         .filter((filter) => Object.values(Egenskap).includes(filter.key as Egenskap))
         .map((filter) => ({
             egenskap: filter.key as Egenskap,
+            kategori: finnKategori(filter.column),
+        })),
+    ekskluderteEgenskaper: activeFilters
+        .filter((filter) => filter.key === 'IKKE_PA_VENT')
+        .map((filter) => ({
+            egenskap: Egenskap.PaVent,
             kategori: finnKategori(filter.column),
         })),
     ingenUkategoriserteEgenskaper: activeFilters.some((filter) => filter.key === 'INGEN_EGENSKAPER'),

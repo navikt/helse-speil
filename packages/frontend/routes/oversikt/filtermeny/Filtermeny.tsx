@@ -4,6 +4,7 @@ import { useSetRecoilState } from 'recoil';
 
 import { JusterbarSidemeny } from '@components/justerbarSidemeny/JusterbarSidemeny';
 import { OppgaveTilBehandling } from '@io/graphql';
+import { fellesPåVentBenk } from '@utils/featureToggles';
 
 import { Filter, Oppgaveoversiktkolonne } from '../table/state/filter';
 import { FilterList } from './FilterList';
@@ -31,6 +32,12 @@ export const Filtermeny = ({ filters }: FilterMenyProps) => {
                     filters={filters.filter((it) => it.column === Oppgaveoversiktkolonne.TILDELING)}
                     text="Tildelt"
                 />
+                {fellesPåVentBenk && (
+                    <FilterList
+                        filters={filters.filter((it) => it.column === Oppgaveoversiktkolonne.PÅVENT)}
+                        text="På vent"
+                    />
+                )}
                 <FilterList
                     filters={filters.filter((it) => it.column === Oppgaveoversiktkolonne.STATUS)}
                     text="Status"

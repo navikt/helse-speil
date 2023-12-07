@@ -71,6 +71,16 @@ const filtrer = (oppgaver: OppgaveTilBehandling[], filtrering: FiltreringInput):
             (oppgave) =>
                 filtrering.tildelt === null ||
                 (filtrering.tildelt === true ? oppgave.tildeling !== undefined : oppgave.tildeling === undefined),
+        )
+        .filter(
+            (oppgave) =>
+                filtrering.ekskluderteEgenskaper?.length === 0 ||
+                filtrering.ekskluderteEgenskaper?.every(
+                    (ekskludertEgenskap) =>
+                        !oppgave.egenskaper
+                            .map((oppgaveegenskap) => oppgaveegenskap.egenskap)
+                            .includes(ekskludertEgenskap.egenskap),
+                ),
         );
 };
 
