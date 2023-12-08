@@ -127,7 +127,7 @@ const getResolvers = (): IResolvers => ({
             const tildelinger = TildelingMock.getTildelingerFor('4577332e-801a-4c13-8a71-39f12b8abfa3');
             const paVent = PaVentMock.getPåVentFor('4577332e-801a-4c13-8a71-39f12b8abfa3');
             return {
-                antallMineSaker: tildelinger.length - paVent.length,
+                antallMineSaker: tildelinger.length,
                 antallMineSakerPaVent: paVent.length,
             };
         },

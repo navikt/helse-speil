@@ -46,10 +46,7 @@ export const oppgaveliste = (
 const filtrer = (oppgaver: OppgaveTilBehandling[], filtrering: FiltreringInput): OppgaveTilBehandling[] => {
     return oppgaver
         .filter((oppgave) =>
-            filtrering.egneSaker
-                ? oppgave.tildeling?.oid === '4577332e-801a-4c13-8a71-39f12b8abfa3' &&
-                  !oppgave.egenskaper.find((it: Oppgaveegenskap) => it.egenskap === Egenskap.PaVent)
-                : true,
+            filtrering.egneSaker ? oppgave.tildeling?.oid === '4577332e-801a-4c13-8a71-39f12b8abfa3' : true,
         )
         .filter((oppgave) =>
             filtrering.egneSakerPaVent
