@@ -205,6 +205,7 @@ const hentValgteFiltre = (tab: TabType, defaultFilters: Filter[]) => {
     const filters = localStorage.getItem(storageKeyForFilters(tab));
     if (filters == null && tab === TabType.TilGodkjenning)
         return defaultFilters.map(makeFilterActive('Ufordelte saker'));
+    if (filters == null && tab === TabType.Mine) return defaultFilters.map(makeFilterActive('Ikke på vent'));
     if (filters == null) {
         return defaultFilters;
     }

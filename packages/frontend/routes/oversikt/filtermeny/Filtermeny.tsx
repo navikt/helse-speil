@@ -29,16 +29,16 @@ export const Filtermeny = ({ filters }: FilterMenyProps) => {
         >
             <section className={classNames(styles.filtermeny)}>
                 {aktivTab === TabType.TilGodkjenning && (
-                    <>
-                        <FilterList
-                            filters={filters.filter((it) => it.column === Oppgaveoversiktkolonne.TILDELING)}
-                            text="Tildelt"
-                        />
-                        <FilterList
-                            filters={filters.filter((it) => it.column === Oppgaveoversiktkolonne.PÅVENT)}
-                            text="På vent"
-                        />
-                    </>
+                    <FilterList
+                        filters={filters.filter((it) => it.column === Oppgaveoversiktkolonne.TILDELING)}
+                        text="Tildelt"
+                    />
+                )}
+                {(aktivTab === TabType.TilGodkjenning || aktivTab === TabType.Mine) && (
+                    <FilterList
+                        filters={filters.filter((it) => it.column === Oppgaveoversiktkolonne.PÅVENT)}
+                        text="På vent"
+                    />
                 )}
                 <FilterList
                     filters={filters.filter((it) => it.column === Oppgaveoversiktkolonne.STATUS)}
