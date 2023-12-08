@@ -3,8 +3,6 @@ import { useRecoilState } from 'recoil';
 
 import { Select, Table } from '@navikt/ds-react';
 
-import { fellesPåVentBenk } from '@utils/featureToggles';
-
 import { SortKey, dateSortKey } from '../state/sortation';
 
 import styles from './DateSelectHeader.module.css';
@@ -27,9 +25,7 @@ export const DateSelectHeader = () => {
                 >
                     <option value={SortKey.Opprettet}>{tilDatoKeyTekst(SortKey.Opprettet)}</option>
                     <option value={SortKey.SøknadMottatt}>{tilDatoKeyTekst(SortKey.SøknadMottatt)}</option>
-                    {fellesPåVentBenk && (
-                        <option value={SortKey.Tidsfrist}>{tilDatoKeyTekst(SortKey.Tidsfrist)}</option>
-                    )}
+                    <option value={SortKey.Tidsfrist}>{tilDatoKeyTekst(SortKey.Tidsfrist)}</option>
                 </Select>
             </Table.DataCell>
         </Table.Row>

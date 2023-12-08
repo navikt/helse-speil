@@ -11,13 +11,11 @@ import { useCurrentArbeidsgiver } from '@state/arbeidsgiver';
 import { useInnloggetSaksbehandler } from '@state/authentication';
 import { useActivePeriod } from '@state/periode';
 import { useCurrentPerson } from '@state/person';
-import { fellesPåVentBenk } from '@utils/featureToggles';
 import { isArbeidsgiver, isBeregnetPeriode, isPerson } from '@utils/typeguards';
 
 import { AnnullerButton } from './AnnullerButton';
 import { OppdaterPersondataButton } from './OppdaterPersondataButton';
 import { PåVentButton } from './PåVentButton';
-import { PåVentDropdownMenuButton } from './PåVentDropdownMenuButton';
 import { TildelingDropdownMenuButton } from './TildelingDropdownMenuButton';
 
 import styles from './DropdownMenu.module.css';
@@ -63,20 +61,7 @@ const DropdownMenuContent: React.FC = () => {
                                 erTildeltInnloggetBruker={personIsAssignedUser}
                                 tildeling={person?.tildeling}
                             />
-                            {personIsAssignedUser &&
-                                (fellesPåVentBenk ? (
-                                    <PåVentButton personinfo={person.personinfo} />
-                                ) : (
-                                    <PåVentDropdownMenuButton
-                                        oppgavereferanse={period.oppgave.id}
-                                        vedtaksperiodeId={period.vedtaksperiodeId}
-                                        personinfo={person.personinfo}
-                                        erPåVent={person.tildeling?.paaVent}
-                                    />
-                                ))}
-                            {!personIsAssignedUser && fellesPåVentBenk && (
-                                <PåVentButton personinfo={person.personinfo} />
-                            )}
+                            <PåVentButton personinfo={person.personinfo} />
                         </>
                     </Dropdown.Menu.List>
                     <Dropdown.Menu.Divider />

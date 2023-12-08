@@ -11,7 +11,6 @@ import { FeilregistrerNotatMutationDocument } from '@io/graphql';
 import { useInnloggetSaksbehandler } from '@state/authentication';
 import { useActivePeriod } from '@state/periode';
 import { NORSK_DATOFORMAT } from '@utils/date';
-import { fellesPåVentBenk } from '@utils/featureToggles';
 import { isBeregnetPeriode } from '@utils/typeguards';
 
 import { ExpandableHistorikkContent } from '../ExpandableHistorikkContent';
@@ -105,8 +104,7 @@ export const Notathendelse: React.FC<NotathendelseProps> = ({
                             {tekst}
                         </motion.p>
                     )}
-                    {fellesPåVentBenk &&
-                        notattype === 'PaaVent' &&
+                    {notattype === 'PaaVent' &&
                         erNyesteNotatMedType &&
                         isBeregnetPeriode(activePeriod) &&
                         activePeriod.paVent?.frist && (

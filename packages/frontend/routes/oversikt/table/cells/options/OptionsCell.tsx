@@ -8,10 +8,7 @@ import { useIsReadOnlyOppgave } from '@hooks/useIsReadOnlyOppgave';
 import { Egenskap, Maybe, OppgaveTilBehandling, Personnavn } from '@io/graphql';
 import { useInnloggetSaksbehandler } from '@state/authentication';
 import { useKanFrigiOppgaver } from '@state/toggles';
-import { fellesPåVentBenk } from '@utils/featureToggles';
 
-import { FjernFraPåVentMenuButton } from './FjernFraPåVentMenuButton';
-import { LeggPåVentMenuButton } from './LeggPåVentMenuButton';
 import { MeldAvMenuButton } from './MeldAvMenuButton';
 import { PåVentMenuButton } from './PåVentMenuButton';
 import { TildelMenuButton } from './TildelMenuButton';
@@ -53,26 +50,13 @@ export const OptionsCell = ({ oppgave, navn }: OptionsButtonProps) => {
                             {!erTildeltInnloggetBruker && !readOnly && (
                                 <TildelMenuButton oppgavereferanse={oppgave.id} tildeling={oppgave.tildeling} />
                             )}
-                            {!fellesPåVentBenk ? (
-                                erTildeltInnloggetBruker &&
-                                (oppgave?.tildeling?.paaVent ? (
-                                    <FjernFraPåVentMenuButton oppgavereferanse={oppgave.id} />
-                                ) : (
-                                    <LeggPåVentMenuButton
-                                        oppgavereferanse={oppgave.id}
-                                        vedtaksperiodeId={oppgave.vedtaksperiodeId}
-                                        navn={navn}
-                                    />
-                                ))
-                            ) : (
-                                <PåVentMenuButton
-                                    oppgavereferanse={oppgave.id}
-                                    vedtaksperiodeId={oppgave.vedtaksperiodeId}
-                                    tildeling={oppgave?.tildeling ?? null}
-                                    navn={navn}
-                                    erPåVent={erPåVent}
-                                />
-                            )}
+                            <PåVentMenuButton
+                                oppgavereferanse={oppgave.id}
+                                vedtaksperiodeId={oppgave.vedtaksperiodeId}
+                                tildeling={oppgave?.tildeling ?? null}
+                                navn={navn}
+                                erPåVent={erPåVent}
+                            />
                             {skalViseAvmeldingsknapp && <MeldAvMenuButton oppgavereferanse={oppgave.id} />}
                         </Dropdown.Menu.List>
                     </Dropdown.Menu>

@@ -3,7 +3,6 @@ import React from 'react';
 import { useSetRecoilState } from 'recoil';
 
 import { JusterbarSidemeny } from '@components/justerbarSidemeny/JusterbarSidemeny';
-import { fellesPåVentBenk } from '@utils/featureToggles';
 
 import { TabType, useAktivTab } from '../tabState';
 import { Filter, Oppgaveoversiktkolonne } from '../table/state/filter';
@@ -35,12 +34,10 @@ export const Filtermeny = ({ filters }: FilterMenyProps) => {
                             filters={filters.filter((it) => it.column === Oppgaveoversiktkolonne.TILDELING)}
                             text="Tildelt"
                         />
-                        {fellesPåVentBenk && (
-                            <FilterList
-                                filters={filters.filter((it) => it.column === Oppgaveoversiktkolonne.PÅVENT)}
-                                text="På vent"
-                            />
-                        )}
+                        <FilterList
+                            filters={filters.filter((it) => it.column === Oppgaveoversiktkolonne.PÅVENT)}
+                            text="På vent"
+                        />
                     </>
                 )}
                 <FilterList

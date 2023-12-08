@@ -12,7 +12,6 @@ import { AnonymizableText } from '@components/anonymizable/AnonymizableText';
 import { LeggTilNotatDocument, NotatType, Personnavn } from '@io/graphql';
 import { useInnloggetSaksbehandler } from '@state/authentication';
 import { useNotaterForVedtaksperiode } from '@state/notater';
-import { fellesPåVentBenk } from '@utils/featureToggles';
 import { getFormatertNavn } from '@utils/string';
 
 import { Frist } from './Frist';
@@ -133,7 +132,7 @@ export const NyttNotatModal = ({
 
     const submit: SubmitHandler<FieldValues> = async (fieldValues) => {
         if (onSubmitOverride) {
-            if (notattype === NotatType.PaaVent && fellesPåVentBenk)
+            if (notattype === NotatType.PaaVent)
                 return void onSubmitOverride(fieldValues.tekst, fieldValues.frist, fieldValues.begrunnelse);
 
             void onSubmitOverride(fieldValues.tekst);
@@ -199,7 +198,7 @@ export const NyttNotatModal = ({
                             notattekst={notattekst}
                             tillattTekstlengde={tillattTekstlengde}
                         />
-                        {notattype === NotatType.PaaVent && fellesPåVentBenk && <Frist />}
+                        {notattype === NotatType.PaaVent && <Frist />}
                         <Buttons>
                             <Button size="small" disabled={loading} type="submit">
                                 {submitButtonText ?? (onSubmitOverride ? notattekst.submitTekst : 'Lagre')}

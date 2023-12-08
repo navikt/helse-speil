@@ -16,7 +16,6 @@ import { useNotaterForVedtaksperiode } from '@state/notater';
 import { useLeggPåVent } from '@state/påvent';
 import { useOperationErrorHandler } from '@state/varsler';
 import { ISO_DATOFORMAT, NORSK_DATOFORMAT } from '@utils/date';
-import { fellesPåVentBenk } from '@utils/featureToggles';
 import { getFormatertNavn } from '@utils/string';
 
 import { Frist } from './Frist';
@@ -96,7 +95,7 @@ export const PåVentNotatModal = ({ onClose, navn, vedtaksperiodeId, oppgaveId, 
                 <FormProvider {...form}>
                     <form onSubmit={form.handleSubmit(submit)}>
                         <ControlledTextarea control={form.control} tillattTekstlengde={tillattTekstlengde} />
-                        {fellesPåVentBenk && <Frist />}
+                        <Frist />
                         <Checkbox
                             defaultChecked
                             onChange={onCheck}
