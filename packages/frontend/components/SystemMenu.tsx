@@ -4,14 +4,24 @@ import { ExternalLink, System } from '@navikt/ds-icons';
 import { Dropdown, Header } from '@navikt/ds-react-internal';
 
 import { useCurrentPerson } from '@state/person';
+import { erCoachEllerSuper } from '@utils/featureToggles';
 
 import styles from './SystemMenu.module.css';
 
 export const redirigerTilArbeidOgInntektUrl = (url: string, fødselsnummer: string) => {
+    const extraOptions: Record<string, string | never> = erCoachEllerSuper()
+        ? {
+              'Nav-A-inntekt-Filter': '8-28Sykepenger',
+          }
+        : {};
     return fetch(url, {
         method: 'GET',
         headers: {
-            'Nav-Personident': fødselsnummer,
+            ...{
+                'Nav-Personident': fødselsnummer,
+                'Nav-Enhet': '4488',
+            },
+            ...extraOptions,
         },
     })
         .then((response) => response.text())
