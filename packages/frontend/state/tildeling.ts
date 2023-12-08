@@ -1,14 +1,8 @@
 import { ApolloCache, FetchResult, MutationResult, useMutation } from '@apollo/client';
 import {
     AntallOppgaverDocument,
-    FetchNotaterDocument,
-    FjernPaaVentDocument,
-    FjernPaaVentMutation,
     FjernTildelingDocument,
     FjernTildelingMutation,
-    LeggPaaVentDocument,
-    LeggPaaVentMutation,
-    NotatType,
     OppgaveFeedDocument,
     OpprettTildelingDocument,
     OpprettTildelingMutation,
@@ -113,62 +107,6 @@ export const useFjernTildeling = (): [
         });
     };
     return [fjernTildeling, data];
-};
-
-export const useLeggPåVent = (): [
-    (
-        oppgavereferanse: string,
-        notattekst: string,
-        vedtaksperiodeId: string,
-    ) => Promise<FetchResult<LeggPaaVentMutation>>,
-    MutationResult<LeggPaaVentMutation>,
-] => {
-    const fødselsnummer = useFødselsnummer();
-    const optimistiskTildeling = useOptimistiskTildeling();
-    const [leggPåVentMutation, data] = useMutation(LeggPaaVentDocument);
-
-    const leggPåVent = async (oppgavereferanse: string, notattekst: string, vedtaksperiodeId: string) =>
-        leggPåVentMutation({
-            refetchQueries: [
-                AntallOppgaverDocument,
-                { query: FetchNotaterDocument, variables: { forPerioder: [vedtaksperiodeId] } },
-            ],
-            optimisticResponse: {
-                __typename: 'Mutation',
-                leggPaaVent: { ...optimistiskTildeling, paaVent: true },
-            },
-            variables: { oppgaveId: oppgavereferanse, notatType: NotatType.PaaVent, notatTekst: notattekst },
-            update: (cache, result) =>
-                oppdaterTildelingICache(cache, oppgavereferanse, fødselsnummer, () => result.data?.leggPaaVent ?? null),
-        });
-
-    return [leggPåVent, data];
-};
-export const useFjernPåVent = (): [
-    (oppgavereferanse: string) => Promise<FetchResult<FjernPaaVentMutation>>,
-    MutationResult<FjernPaaVentMutation>,
-] => {
-    const fødselsnummer = useFødselsnummer();
-    const optimistiskTildeling = useOptimistiskTildeling();
-    const [fjernPåVentMutation, data] = useMutation(FjernPaaVentDocument, {
-        refetchQueries: [OppgaveFeedDocument, AntallOppgaverDocument],
-    });
-    const fjernPåVent = (oppgavereferanse: string) =>
-        fjernPåVentMutation({
-            variables: { oppgaveId: oppgavereferanse },
-            optimisticResponse: {
-                __typename: 'Mutation',
-                fjernPaaVent: optimistiskTildeling,
-            },
-            update: (cache) =>
-                oppdaterTildelingICache(cache, oppgavereferanse, fødselsnummer, (value) => ({
-                    ...value,
-                    paaVent: false,
-                    reservert: false,
-                })),
-        });
-
-    return [fjernPåVent, data];
 };
 
 const oppdaterTildelingICache = (

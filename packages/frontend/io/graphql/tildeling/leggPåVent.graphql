@@ -1,5 +1,0 @@
-mutation LeggPaaVent($oppgaveId: String!, $notatType: NotatType!, $notatTekst: String!) {
-    leggPaaVent(oppgaveId: $oppgaveId, notatType: $notatType, notatTekst: $notatTekst) {
-        ...tildeling
-    }
-}

@@ -1,5 +1,0 @@
-mutation FjernPaaVent($oppgaveId: String!) {
-    fjernPaaVent(oppgaveId: $oppgaveId) {
-        ...tildeling
-    }
-}

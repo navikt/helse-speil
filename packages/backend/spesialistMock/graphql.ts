@@ -19,10 +19,8 @@ import type {
     MutationFeilregistrerKommentarArgs,
     MutationFeilregistrerNotatArgs,
     MutationFjernPaVentArgs,
-    MutationFjernPaaVentArgs,
     MutationFjernTildelingArgs,
     MutationLeggPaVentArgs,
-    MutationLeggPaaVentArgs,
     MutationLeggTilKommentarArgs,
     MutationLeggTilNotatArgs,
     MutationOpprettTildelingArgs,
@@ -222,16 +220,6 @@ const getResolvers = (): IResolvers => ({
                 return false;
             }
         },
-        leggPaaVent: async (_, { oppgaveId, notatType, notatTekst }: MutationLeggPaaVentArgs) => {
-            NotatMock.addNotat(oppgaveId, { tekst: notatTekst, type: notatType });
-            TildelingMock.setTildeling(oppgaveId, {
-                epost: 'epost@nav.no',
-                navn: 'Utvikler, Lokal',
-                oid: '4577332e-801a-4c13-8a71-39f12b8abfa3',
-                paaVent: true,
-            });
-            return TildelingMock.getTildeling(oppgaveId);
-        },
         leggPaVent: async (_, { oppgaveId, frist, begrunnelse, notatType, notatTekst }: MutationLeggPaVentArgs) => {
             NotatMock.addNotat(oppgaveId, { tekst: notatTekst, type: notatType });
             PaVentMock.setPåVent(oppgaveId, {
@@ -260,15 +248,6 @@ const getResolvers = (): IResolvers => ({
                     extensions: { code: { value: 409 } },
                 })
             );
-        },
-        fjernPaaVent: async (_, { oppgaveId }: MutationFjernPaaVentArgs) => {
-            TildelingMock.setTildeling(oppgaveId, {
-                epost: 'epost@nav.no',
-                navn: 'Utvikler, Lokal',
-                oid: '4577332e-801a-4c13-8a71-39f12b8abfa3',
-                paaVent: false,
-            });
-            return TildelingMock.getTildeling(oppgaveId);
         },
         overstyrDager: async (_, __: MutationOverstyrDagerArgs) => {
             return true;

@@ -2978,31 +2978,11 @@ export type SkjonnsfastsettelseMutationMutation = {
     skjonnsfastsettSykepengegrunnlag: boolean;
 };
 
-export type FjernPaaVentMutationVariables = Exact<{
-    oppgaveId: Scalars['String']['input'];
-}>;
-
-export type FjernPaaVentMutation = {
-    __typename?: 'Mutation';
-    fjernPaaVent?: { __typename?: 'Tildeling'; navn: string; oid: string; epost: string; paaVent: boolean } | null;
-};
-
 export type FjernTildelingMutationVariables = Exact<{
     oppgaveId: Scalars['String']['input'];
 }>;
 
 export type FjernTildelingMutation = { __typename?: 'Mutation'; fjernTildeling: boolean };
-
-export type LeggPaaVentMutationVariables = Exact<{
-    oppgaveId: Scalars['String']['input'];
-    notatType: NotatType;
-    notatTekst: Scalars['String']['input'];
-}>;
-
-export type LeggPaaVentMutation = {
-    __typename?: 'Mutation';
-    leggPaaVent?: { __typename?: 'Tildeling'; navn: string; oid: string; epost: string; paaVent: boolean } | null;
-};
 
 export type OpprettTildelingMutationVariables = Exact<{
     oppgaveId: Scalars['String']['input'];
@@ -7010,57 +6990,6 @@ export const SkjonnsfastsettelseMutationDocument = {
         },
     ],
 } as unknown as DocumentNode<SkjonnsfastsettelseMutationMutation, SkjonnsfastsettelseMutationMutationVariables>;
-export const FjernPaaVentDocument = {
-    kind: 'Document',
-    definitions: [
-        {
-            kind: 'OperationDefinition',
-            operation: 'mutation',
-            name: { kind: 'Name', value: 'FjernPaaVent' },
-            variableDefinitions: [
-                {
-                    kind: 'VariableDefinition',
-                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'oppgaveId' } },
-                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
-                },
-            ],
-            selectionSet: {
-                kind: 'SelectionSet',
-                selections: [
-                    {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'fjernPaaVent' },
-                        arguments: [
-                            {
-                                kind: 'Argument',
-                                name: { kind: 'Name', value: 'oppgaveId' },
-                                value: { kind: 'Variable', name: { kind: 'Name', value: 'oppgaveId' } },
-                            },
-                        ],
-                        selectionSet: {
-                            kind: 'SelectionSet',
-                            selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'tildeling' } }],
-                        },
-                    },
-                ],
-            },
-        },
-        {
-            kind: 'FragmentDefinition',
-            name: { kind: 'Name', value: 'tildeling' },
-            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Tildeling' } },
-            selectionSet: {
-                kind: 'SelectionSet',
-                selections: [
-                    { kind: 'Field', name: { kind: 'Name', value: 'navn' } },
-                    { kind: 'Field', name: { kind: 'Name', value: 'oid' } },
-                    { kind: 'Field', name: { kind: 'Name', value: 'epost' } },
-                    { kind: 'Field', name: { kind: 'Name', value: 'paaVent' } },
-                ],
-            },
-        },
-    ],
-} as unknown as DocumentNode<FjernPaaVentMutation, FjernPaaVentMutationVariables>;
 export const FjernTildelingDocument = {
     kind: 'Document',
     definitions: [
@@ -7094,80 +7023,6 @@ export const FjernTildelingDocument = {
         },
     ],
 } as unknown as DocumentNode<FjernTildelingMutation, FjernTildelingMutationVariables>;
-export const LeggPaaVentDocument = {
-    kind: 'Document',
-    definitions: [
-        {
-            kind: 'OperationDefinition',
-            operation: 'mutation',
-            name: { kind: 'Name', value: 'LeggPaaVent' },
-            variableDefinitions: [
-                {
-                    kind: 'VariableDefinition',
-                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'oppgaveId' } },
-                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
-                },
-                {
-                    kind: 'VariableDefinition',
-                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'notatType' } },
-                    type: {
-                        kind: 'NonNullType',
-                        type: { kind: 'NamedType', name: { kind: 'Name', value: 'NotatType' } },
-                    },
-                },
-                {
-                    kind: 'VariableDefinition',
-                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'notatTekst' } },
-                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
-                },
-            ],
-            selectionSet: {
-                kind: 'SelectionSet',
-                selections: [
-                    {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'leggPaaVent' },
-                        arguments: [
-                            {
-                                kind: 'Argument',
-                                name: { kind: 'Name', value: 'oppgaveId' },
-                                value: { kind: 'Variable', name: { kind: 'Name', value: 'oppgaveId' } },
-                            },
-                            {
-                                kind: 'Argument',
-                                name: { kind: 'Name', value: 'notatType' },
-                                value: { kind: 'Variable', name: { kind: 'Name', value: 'notatType' } },
-                            },
-                            {
-                                kind: 'Argument',
-                                name: { kind: 'Name', value: 'notatTekst' },
-                                value: { kind: 'Variable', name: { kind: 'Name', value: 'notatTekst' } },
-                            },
-                        ],
-                        selectionSet: {
-                            kind: 'SelectionSet',
-                            selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'tildeling' } }],
-                        },
-                    },
-                ],
-            },
-        },
-        {
-            kind: 'FragmentDefinition',
-            name: { kind: 'Name', value: 'tildeling' },
-            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Tildeling' } },
-            selectionSet: {
-                kind: 'SelectionSet',
-                selections: [
-                    { kind: 'Field', name: { kind: 'Name', value: 'navn' } },
-                    { kind: 'Field', name: { kind: 'Name', value: 'oid' } },
-                    { kind: 'Field', name: { kind: 'Name', value: 'epost' } },
-                    { kind: 'Field', name: { kind: 'Name', value: 'paaVent' } },
-                ],
-            },
-        },
-    ],
-} as unknown as DocumentNode<LeggPaaVentMutation, LeggPaaVentMutationVariables>;
 export const OpprettTildelingDocument = {
     kind: 'Document',
     definitions: [
