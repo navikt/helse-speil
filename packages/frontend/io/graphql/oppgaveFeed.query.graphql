@@ -19,7 +19,6 @@ query OppgaveFeed($offset: Int!, $limit: Int!, $sortering: [OppgavesorteringInpu
                 epost
                 navn
                 oid
-                paaVent
             }
             vedtaksperiodeId,
             oppgavetype,

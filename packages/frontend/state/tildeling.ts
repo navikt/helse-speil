@@ -39,7 +39,6 @@ const useOptimistiskTildeling = (): TildelingFragment => {
         __typename: 'Tildeling',
         navn: saksbehandler.navn,
         oid: saksbehandler.oid,
-        paaVent: false,
         epost: saksbehandler.epost,
     };
 };

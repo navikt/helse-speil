@@ -150,7 +150,6 @@ query FetchPerson($fnr: String, $aktorId: String) {
             navn
             epost
             oid
-            paaVent
         }
         versjon
         vilkarsgrunnlag {

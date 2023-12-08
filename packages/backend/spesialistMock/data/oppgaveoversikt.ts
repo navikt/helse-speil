@@ -4,6 +4,7 @@ import {
     FiltreringInput,
     Kategori,
     OppgaveTilBehandling,
+    Oppgaveegenskap,
     OppgaverTilBehandling,
     OppgavesorteringInput,
     Sorteringsnokkel,
@@ -46,12 +47,14 @@ const filtrer = (oppgaver: OppgaveTilBehandling[], filtrering: FiltreringInput):
     return oppgaver
         .filter((oppgave) =>
             filtrering.egneSaker
-                ? oppgave.tildeling?.oid === '4577332e-801a-4c13-8a71-39f12b8abfa3' && !oppgave.tildeling?.paaVent
+                ? oppgave.tildeling?.oid === '4577332e-801a-4c13-8a71-39f12b8abfa3' &&
+                  !oppgave.egenskaper.find((it: Oppgaveegenskap) => it.egenskap === Egenskap.PaVent)
                 : true,
         )
         .filter((oppgave) =>
             filtrering.egneSakerPaVent
-                ? oppgave.tildeling?.oid === '4577332e-801a-4c13-8a71-39f12b8abfa3' && oppgave.tildeling?.paaVent
+                ? oppgave.tildeling?.oid === '4577332e-801a-4c13-8a71-39f12b8abfa3' &&
+                  oppgave.egenskaper.find((it: Oppgaveegenskap) => it.egenskap === Egenskap.PaVent) !== undefined
                 : true,
         )
         .filter((oppgave) =>

@@ -496,11 +496,9 @@ export type Mutation = {
     feilregistrerKommentarV2?: Maybe<Kommentar>;
     feilregistrerNotat?: Maybe<Notat>;
     fjernPaVent?: Maybe<Scalars['Boolean']['output']>;
-    fjernPaaVent?: Maybe<Tildeling>;
     fjernTildeling: Scalars['Boolean']['output'];
     innvilgVedtak: Scalars['Boolean']['output'];
     leggPaVent?: Maybe<PaVent>;
-    leggPaaVent?: Maybe<Tildeling>;
     leggTilKommentar?: Maybe<Kommentar>;
     leggTilNotat?: Maybe<Notat>;
     oppdaterPerson: Scalars['Boolean']['output'];
@@ -536,10 +534,6 @@ export type MutationFjernPaVentArgs = {
     oppgaveId: Scalars['String']['input'];
 };
 
-export type MutationFjernPaaVentArgs = {
-    oppgaveId: Scalars['String']['input'];
-};
-
 export type MutationFjernTildelingArgs = {
     oppgaveId: Scalars['String']['input'];
 };
@@ -555,12 +549,6 @@ export type MutationLeggPaVentArgs = {
     notatType: NotatType;
     oppgaveId: Scalars['String']['input'];
     tildeling: Scalars['Boolean']['input'];
-};
-
-export type MutationLeggPaaVentArgs = {
-    notatTekst: Scalars['String']['input'];
-    notatType: NotatType;
-    oppgaveId: Scalars['String']['input'];
 };
 
 export type MutationLeggTilKommentarArgs = {
@@ -1358,7 +1346,7 @@ export type Tildeling = {
     epost: Scalars['String']['output'];
     navn: Scalars['String']['output'];
     oid: Scalars['String']['output'];
-    paaVent: Scalars['Boolean']['output'];
+    paaVent?: Maybe<Scalars['Boolean']['output']>;
 };
 
 export type Totrinnsvurdering = {
@@ -1912,7 +1900,7 @@ export type OppgaveFeedQuery = {
             antallArbeidsforhold: AntallArbeidsforhold;
             egenskaper: Array<{ __typename?: 'Oppgaveegenskap'; egenskap: Egenskap; kategori: Kategori }>;
             navn: { __typename?: 'Personnavn'; fornavn: string; etternavn: string; mellomnavn?: string | null };
-            tildeling?: { __typename?: 'Tildeling'; epost: string; navn: string; oid: string; paaVent: boolean } | null;
+            tildeling?: { __typename?: 'Tildeling'; epost: string; navn: string; oid: string } | null;
         }>;
     };
 };
@@ -2162,7 +2150,7 @@ export type FetchPersonQuery = {
             kjonn: Kjonn;
             reservasjon?: { __typename?: 'Reservasjon'; kanVarsles: boolean; reservert: boolean } | null;
         };
-        tildeling?: { __typename?: 'Tildeling'; navn: string; epost: string; oid: string; paaVent: boolean } | null;
+        tildeling?: { __typename?: 'Tildeling'; navn: string; epost: string; oid: string } | null;
         vilkarsgrunnlag: Array<
             | {
                   __typename?: 'VilkarsgrunnlagInfotrygd';
@@ -2990,16 +2978,10 @@ export type OpprettTildelingMutationVariables = Exact<{
 
 export type OpprettTildelingMutation = {
     __typename?: 'Mutation';
-    opprettTildeling?: { __typename?: 'Tildeling'; navn: string; oid: string; epost: string; paaVent: boolean } | null;
+    opprettTildeling?: { __typename?: 'Tildeling'; navn: string; oid: string; epost: string } | null;
 };
 
-export type TildelingFragment = {
-    __typename?: 'Tildeling';
-    navn: string;
-    oid: string;
-    epost: string;
-    paaVent: boolean;
-};
+export type TildelingFragment = { __typename?: 'Tildeling'; navn: string; oid: string; epost: string };
 
 export type SendIReturMutationVariables = Exact<{
     oppgavereferanse: Scalars['String']['input'];
@@ -3410,7 +3392,6 @@ export const TildelingFragmentDoc = {
                     { kind: 'Field', name: { kind: 'Name', value: 'navn' } },
                     { kind: 'Field', name: { kind: 'Name', value: 'oid' } },
                     { kind: 'Field', name: { kind: 'Name', value: 'epost' } },
-                    { kind: 'Field', name: { kind: 'Name', value: 'paaVent' } },
                 ],
             },
         },
@@ -4577,7 +4558,6 @@ export const OppgaveFeedDocument = {
                                                         { kind: 'Field', name: { kind: 'Name', value: 'epost' } },
                                                         { kind: 'Field', name: { kind: 'Name', value: 'navn' } },
                                                         { kind: 'Field', name: { kind: 'Name', value: 'oid' } },
-                                                        { kind: 'Field', name: { kind: 'Name', value: 'paaVent' } },
                                                     ],
                                                 },
                                             },
@@ -4890,7 +4870,6 @@ export const FetchPersonDocument = {
                                             { kind: 'Field', name: { kind: 'Name', value: 'navn' } },
                                             { kind: 'Field', name: { kind: 'Name', value: 'epost' } },
                                             { kind: 'Field', name: { kind: 'Name', value: 'oid' } },
-                                            { kind: 'Field', name: { kind: 'Name', value: 'paaVent' } },
                                         ],
                                     },
                                 },
@@ -7068,7 +7047,6 @@ export const OpprettTildelingDocument = {
                     { kind: 'Field', name: { kind: 'Name', value: 'navn' } },
                     { kind: 'Field', name: { kind: 'Name', value: 'oid' } },
                     { kind: 'Field', name: { kind: 'Name', value: 'epost' } },
-                    { kind: 'Field', name: { kind: 'Name', value: 'paaVent' } },
                 ],
             },
         },

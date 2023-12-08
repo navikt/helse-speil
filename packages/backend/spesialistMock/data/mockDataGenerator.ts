@@ -70,7 +70,6 @@ const tilfeldigOppgave = (oppgaveId: number): OppgaveTilBehandling => {
                 ', ' +
                 tilfeldigFornavn() +
                 (tildelingMellomnavn ? ' ' + tildelingMellomnavn : ''),
-            paaVent: false,
             oid: randomUUID().toString(),
         },
         egenskaper: [

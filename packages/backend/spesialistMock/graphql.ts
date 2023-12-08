@@ -125,9 +125,10 @@ const getResolvers = (): IResolvers => ({
         },
         antallOppgaver: async () => {
             const tildelinger = TildelingMock.getTildelingerFor('4577332e-801a-4c13-8a71-39f12b8abfa3');
+            const paVent = PaVentMock.getPåVentFor('4577332e-801a-4c13-8a71-39f12b8abfa3');
             return {
-                antallMineSaker: tildelinger.filter((tildeling) => !tildeling.paaVent).length,
-                antallMineSakerPaVent: tildelinger.filter((tildeling) => tildeling.paaVent).length,
+                antallMineSaker: tildelinger.length - paVent.length,
+                antallMineSakerPaVent: paVent.length,
             };
         },
         notater: async (_, { forPerioder }: { forPerioder: string[] }) => {
@@ -207,7 +208,6 @@ const getResolvers = (): IResolvers => ({
                 epost: 'epost@nav.no',
                 navn: 'Utvikler, Lokal',
                 oid: '4577332e-801a-4c13-8a71-39f12b8abfa3',
-                paaVent: OppgaveMock.getOppgave(oppgaveId)?.erPåVent ?? false,
             });
 
             return TildelingMock.getTildeling(oppgaveId);

@@ -1,3 +1,3 @@
 fragment tildeling on Tildeling {
-    navn, oid, epost, paaVent
+    navn, oid, epost
 }

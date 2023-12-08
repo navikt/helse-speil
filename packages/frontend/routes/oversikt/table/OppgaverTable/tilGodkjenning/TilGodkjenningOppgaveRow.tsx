@@ -21,8 +21,7 @@ interface TilGodkjenningOppgaveRowProps {
 export const TilGodkjenningOppgaveRow = ({ oppgave, readOnly }: TilGodkjenningOppgaveRowProps) => {
     const sorteringsnøkkel = useRecoilValue(dateSortKey);
 
-    const erPåVent =
-        oppgave.tildeling?.paaVent || oppgave.egenskaper.filter((it) => it.egenskap === 'PA_VENT').length === 1;
+    const erPåVent = oppgave.egenskaper.filter((it) => it.egenskap === 'PA_VENT').length === 1;
 
     const utgåttFrist: boolean =
         oppgave.tidsfrist != null && dayjs(oppgave.tidsfrist, ISO_DATOFORMAT).isSameOrBefore(dayjs());

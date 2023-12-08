@@ -494,11 +494,9 @@ export type Mutation = {
     feilregistrerKommentarV2?: Maybe<Kommentar>;
     feilregistrerNotat?: Maybe<Notat>;
     fjernPaVent?: Maybe<Scalars['Boolean']['output']>;
-    fjernPaaVent?: Maybe<Tildeling>;
     fjernTildeling: Scalars['Boolean']['output'];
     innvilgVedtak: Scalars['Boolean']['output'];
     leggPaVent?: Maybe<PaVent>;
-    leggPaaVent?: Maybe<Tildeling>;
     leggTilKommentar?: Maybe<Kommentar>;
     leggTilNotat?: Maybe<Notat>;
     oppdaterPerson: Scalars['Boolean']['output'];
@@ -534,10 +532,6 @@ export type MutationFjernPaVentArgs = {
     oppgaveId: Scalars['String']['input'];
 };
 
-export type MutationFjernPaaVentArgs = {
-    oppgaveId: Scalars['String']['input'];
-};
-
 export type MutationFjernTildelingArgs = {
     oppgaveId: Scalars['String']['input'];
 };
@@ -553,12 +547,6 @@ export type MutationLeggPaVentArgs = {
     notatType: NotatType;
     oppgaveId: Scalars['String']['input'];
     tildeling: Scalars['Boolean']['input'];
-};
-
-export type MutationLeggPaaVentArgs = {
-    notatTekst: Scalars['String']['input'];
-    notatType: NotatType;
-    oppgaveId: Scalars['String']['input'];
 };
 
 export type MutationLeggTilKommentarArgs = {
@@ -1356,7 +1344,7 @@ export type Tildeling = {
     epost: Scalars['String']['output'];
     navn: Scalars['String']['output'];
     oid: Scalars['String']['output'];
-    paaVent: Scalars['Boolean']['output'];
+    paaVent?: Maybe<Scalars['Boolean']['output']>;
 };
 
 export type Totrinnsvurdering = {
