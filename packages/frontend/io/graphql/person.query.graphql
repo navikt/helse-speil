@@ -211,6 +211,7 @@ query FetchPerson($fnr: String, $aktorId: String) {
                     varsler {
                         generasjonId
                         definisjonId
+                        opprettet
                         kode
                         tittel
                         forklaring

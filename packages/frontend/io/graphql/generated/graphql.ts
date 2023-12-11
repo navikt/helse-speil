@@ -1467,6 +1467,7 @@ export type VarselDto = {
     generasjonId: Scalars['String']['output'];
     handling?: Maybe<Scalars['String']['output']>;
     kode: Scalars['String']['output'];
+    opprettet: Scalars['String']['output'];
     tittel: Scalars['String']['output'];
     vurdering?: Maybe<VarselvurderingDto>;
 };
@@ -2517,6 +2518,7 @@ export type FetchPersonQuery = {
                               __typename?: 'VarselDTO';
                               generasjonId: string;
                               definisjonId: string;
+                              opprettet: string;
                               kode: string;
                               tittel: string;
                               forklaring?: string | null;
@@ -2644,6 +2646,7 @@ export type FetchPersonQuery = {
                               __typename?: 'VarselDTO';
                               generasjonId: string;
                               definisjonId: string;
+                              opprettet: string;
                               kode: string;
                               tittel: string;
                               forklaring?: string | null;
@@ -2772,6 +2775,7 @@ export type FetchPersonQuery = {
                               __typename?: 'VarselDTO';
                               generasjonId: string;
                               definisjonId: string;
+                              opprettet: string;
                               kode: string;
                               tittel: string;
                               forklaring?: string | null;
@@ -5146,6 +5150,13 @@ export const FetchPersonDocument = {
                                                                                     name: {
                                                                                         kind: 'Name',
                                                                                         value: 'definisjonId',
+                                                                                    },
+                                                                                },
+                                                                                {
+                                                                                    kind: 'Field',
+                                                                                    name: {
+                                                                                        kind: 'Name',
+                                                                                        value: 'opprettet',
                                                                                     },
                                                                                 },
                                                                                 {

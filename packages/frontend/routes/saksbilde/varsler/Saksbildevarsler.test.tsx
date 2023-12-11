@@ -50,10 +50,17 @@ describe('Saksbildevarsler', () => {
             <SaksbildevarslerWrapper
                 periodState="utbetalt"
                 varsler={[
-                    { definisjonId: 'EN_ID', generasjonId: 'EN_ID', kode: 'EN_KODE', tittel: 'Dette er en aktivitet' },
                     {
                         definisjonId: 'EN_ID',
                         generasjonId: 'EN_ID',
+                        opprettet: '2020-01-01',
+                        kode: 'EN_KODE',
+                        tittel: 'Dette er en aktivitet',
+                    },
+                    {
+                        definisjonId: 'EN_ID',
+                        generasjonId: 'EN_ID',
+                        opprettet: '2020-01-01',
                         kode: 'EN_KODE',
                         tittel: 'Dette er også en aktivitet',
                     },

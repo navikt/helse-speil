@@ -5628,6 +5628,7 @@
                                         {
                                             "generasjonId": "1f9e0ae8-2638-482d-bdeb-4237f38b8dc6",
                                             "definisjonId": "1a20655c-7618-41a5-a092-92f0edf603f2",
+                                            "opprettet": "2021-06-27T14:44:12",
                                             "kode": "RV_SØ_23",
                                             "tittel": "Korrigert søknad er mottatt med nye opplysninger - kontroller dagene i sykmeldingsperioden",
                                             "forklaring": "Det har kommet en korrigert søknad som er lagt til grunn",
@@ -8859,6 +8860,7 @@
                                         {
                                             "generasjonId": "b8a0bcfc-90fb-4bdf-a612-5e0528582e12",
                                             "definisjonId": "7e6efbb1-68c3-4196-86f2-12a87fe4702f",
+                                            "opprettet": "2021-01-22T15:56:41",
                                             "kode": "RV_IT_30",
                                             "tittel": "Perioden er lagt inn i Infotrygd, men ikke utbetalt. Fjern fra Infotrygd hvis det utbetales via speil.",
                                             "forklaring": "Det ligger registrert en søknad om sykepenger på SP UB.",
@@ -14494,6 +14496,7 @@
                                         {
                                             "generasjonId": "1f9e0ae8-2638-482d-bdeb-4237f38b8dc6",
                                             "definisjonId": "1a20655c-7618-41a5-a092-92f0edf603f2",
+                                            "opprettet": "2021-06-27T14:44:11",
                                             "kode": "RV_SØ_23",
                                             "tittel": "Korrigert søknad er mottatt med nye opplysninger - kontroller dagene i sykmeldingsperioden",
                                             "forklaring": "Det har kommet en korrigert søknad som er lagt til grunn",
@@ -16929,6 +16932,7 @@
                                         {
                                             "generasjonId": "9c980089-292d-48e8-a36b-ec95d20a5766",
                                             "definisjonId": "8c2f4822-834d-4817-bfd1-9b668a3e914d",
+                                            "opprettet": "2021-02-07T14:19:10",
                                             "kode": "SB_EX_1",
                                             "tittel": "Det finnes åpne oppgaver på sykepenger i Gosys",
                                             "forklaring": "Det ligger aktive oppgaver med tema sykepenger i Gosys.",
@@ -17739,6 +17743,7 @@
                                         {
                                             "generasjonId": "b8a0bcfc-90fb-4bdf-a612-5e0528582e12",
                                             "definisjonId": "7e6efbb1-68c3-4196-86f2-12a87fe4702f",
+                                            "opprettet": "2021-01-22T15:56:41",
                                             "kode": "RV_IT_30",
                                             "tittel": "Perioden er lagt inn i Infotrygd, men ikke utbetalt. Fjern fra Infotrygd hvis det utbetales via speil.",
                                             "forklaring": "Det ligger registrert en søknad om sykepenger på SP UB.",
@@ -23287,6 +23292,7 @@
                                         {
                                             "generasjonId": "1f9e0ae8-2638-482d-bdeb-4237f38b8dc6",
                                             "definisjonId": "1a20655c-7618-41a5-a092-92f0edf603f2",
+                                            "opprettet": "2021-06-27T14:44:12",
                                             "kode": "RV_SØ_23",
                                             "tittel": "Korrigert søknad er mottatt med nye opplysninger - kontroller dagene i sykmeldingsperioden",
                                             "forklaring": "Det har kommet en korrigert søknad som er lagt til grunn",
@@ -25722,6 +25728,7 @@
                                         {
                                             "generasjonId": "9c980089-292d-48e8-a36b-ec95d20a5766",
                                             "definisjonId": "8c2f4822-834d-4817-bfd1-9b668a3e914d",
+                                            "opprettet": "2021-02-07T14:19:12",
                                             "kode": "SB_EX_1",
                                             "tittel": "Det finnes åpne oppgaver på sykepenger i Gosys",
                                             "forklaring": "Det ligger aktive oppgaver med tema sykepenger i Gosys.",
@@ -26532,6 +26539,7 @@
                                         {
                                             "generasjonId": "b8a0bcfc-90fb-4bdf-a612-5e0528582e12",
                                             "definisjonId": "7e6efbb1-68c3-4196-86f2-12a87fe4702f",
+                                            "opprettet": "2021-01-22T15:56:34",
                                             "kode": "RV_IT_30",
                                             "tittel": "Perioden er lagt inn i Infotrygd, men ikke utbetalt. Fjern fra Infotrygd hvis det utbetales via speil.",
                                             "forklaring": "Det ligger registrert en søknad om sykepenger på SP UB.",

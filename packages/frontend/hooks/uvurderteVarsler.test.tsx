@@ -61,6 +61,7 @@ const getVarsel = (status?: Varselstatus): VarselDto => {
     return {
         definisjonId: 'en verdi',
         generasjonId: 'en verdi',
+        opprettet: '2020-01-01',
         kode: 'RV_IM_1',
         tittel: '',
         vurdering: status

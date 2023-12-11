@@ -64,6 +64,7 @@ export class VarselMock {
             : {
                   definisjonId: definisjonIdString ?? '',
                   generasjonId: generasjonIdString,
+                  opprettet: dayjs().format(ISO_TIDSPUNKTFORMAT),
                   kode: varselkode,
                   tittel: gjeldendeVarsel?.tittel ?? '',
                   forklaring: gjeldendeVarsel?.forklaring ?? '',
@@ -118,6 +119,7 @@ export class VarselMock {
             : {
                   definisjonId: '',
                   generasjonId: generasjonIdString,
+                  opprettet: dayjs().format(ISO_TIDSPUNKTFORMAT),
                   kode: varselkode,
                   tittel: '',
                   forklaring: null,

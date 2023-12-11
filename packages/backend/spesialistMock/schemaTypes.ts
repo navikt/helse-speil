@@ -1465,6 +1465,7 @@ export type VarselDto = {
     generasjonId: Scalars['String']['output'];
     handling?: Maybe<Scalars['String']['output']>;
     kode: Scalars['String']['output'];
+    opprettet: Scalars['String']['output'];
     tittel: Scalars['String']['output'];
     vurdering?: Maybe<VarselvurderingDto>;
 };

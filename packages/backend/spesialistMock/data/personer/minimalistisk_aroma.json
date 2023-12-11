@@ -856,6 +856,7 @@
                                         {
                                             "generasjonId": "71413e0b-87fc-408a-97dc-6c040ea9664f",
                                             "definisjonId": "d5553185-9350-4a2d-939b-6b6def9d2fa0",
+                                            "opprettet": "2023-08-02T12:01:27",
                                             "kode": "RV_IM_4",
                                             "tittel": "Det er mottatt flere inntektsmeldinger på samme skjæringstidspunkt. Undersøk at arbeidsgiverperioden, sykepengegrunnlaget og refusjonsopplysningene er riktige.",
                                             "forklaring": "Det har kommet inn flere inntektsmeldinger. Speil håndterer endringer i refusjon, men ikke tilfeller der inntekt eller arbeidsgiverperiode er endret. ",
@@ -1207,6 +1208,7 @@
                                         {
                                             "generasjonId": "44b18d7f-7c44-4a5e-a95f-ab7f704c3f2f",
                                             "definisjonId": "d5553185-9350-4a2d-939b-6b6def9d2fa0",
+                                            "opprettet": "2023-05-02T06:09:57",
                                             "kode": "RV_IM_4",
                                             "tittel": "Det er mottatt flere inntektsmeldinger på samme skjæringstidspunkt. Undersøk at arbeidsgiverperioden, sykepengegrunnlaget og refusjonsopplysningene er riktige.",
                                             "forklaring": "Det har kommet inn flere inntektsmeldinger. Speil håndterer endringer i refusjon, men ikke tilfeller der inntekt eller arbeidsgiverperiode er endret. ",
@@ -1608,6 +1610,7 @@
                                         {
                                             "generasjonId": "51d0d62a-59e9-4990-9d70-22895b18185f",
                                             "definisjonId": "b8ccbad1-de8c-4ca6-b944-df240bc42e6b",
+                                            "opprettet": "2023-03-07T15:13:35",
                                             "kode": "RV_MV_1",
                                             "tittel": "Vurder lovvalg og medlemskap",
                                             "forklaring": "Medlemskapssjekken har ikke klart å entydig konkludere med at bruker er medlem",
@@ -2463,6 +2466,7 @@
                                         {
                                             "generasjonId": "5322acc9-af79-4805-915a-cf2c16bcdf94",
                                             "definisjonId": "641acb03-c373-4760-816a-26999ac7cd3a",
+                                            "opprettet": "2023-03-07T15:17:12",
                                             "kode": "RV_IM_2",
                                             "tittel": "Første fraværsdag i inntektsmeldingen er ulik skjæringstidspunktet. Kontrollér at inntektsmeldingen er knyttet til riktig periode.",
                                             "forklaring": "Første fraværsdag i inntektsmeldingen er ulik første fraværsdag i sykdomsperioden:",
