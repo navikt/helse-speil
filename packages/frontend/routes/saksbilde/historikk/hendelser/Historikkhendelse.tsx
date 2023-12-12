@@ -2,7 +2,7 @@ import classNames from 'classnames';
 import { AnimatePresence, motion } from 'framer-motion';
 import React, { useState } from 'react';
 
-import { Cancel, Refresh, Send, Success } from '@navikt/ds-icons';
+import { Cancel, Refresh, Send, StopWatch, Success } from '@navikt/ds-icons';
 
 import { PeriodehistorikkType } from '@io/graphql';
 
@@ -23,6 +23,8 @@ const getTitle = (type: PeriodehistorikkType): string => {
             return 'Godkjent og utbetalt';
         case PeriodehistorikkType.VedtaksperiodeReberegnet:
             return 'Periode reberegnet';
+        case PeriodehistorikkType.FjernFraPaVent:
+            return 'Fjernet fra på vent';
         default:
             return '';
     }
@@ -41,6 +43,9 @@ const getIcon = (type: PeriodehistorikkType): ReactNode => {
         }
         case PeriodehistorikkType.VedtaksperiodeReberegnet: {
             return <Refresh title="Refresh-ikon" className={classNames(styles.Innrammet)} />;
+        }
+        case PeriodehistorikkType.FjernFraPaVent: {
+            return <StopWatch title="Stop-watch-ikon" className={classNames(styles.Innrammet, styles.pavent)} />;
         }
     }
 };
