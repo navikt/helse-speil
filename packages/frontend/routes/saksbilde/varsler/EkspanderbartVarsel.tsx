@@ -6,7 +6,6 @@ import { Accordion, Tag } from '@navikt/ds-react';
 
 import { VarselDto } from '@io/graphql';
 import { NORSK_DATOFORMAT_MED_KLOKKESLETT } from '@utils/date';
-import { erUtvikling } from '@utils/featureToggles';
 
 import { Varsel } from './Varsel';
 import { Varselseksjon } from './Varselseksjon';
@@ -30,11 +29,9 @@ export const EkspanderbartVarsel: React.FC<EkspanderbartVarselProps> = ({ varsel
             <Accordion.Content className={classNames(styles.content, styles[type])}>
                 <Varselseksjon tittel="Hva betyr det?">{varsel.forklaring}</Varselseksjon>
                 <Varselseksjon tittel="Hva gjør du?">{varsel.handling}</Varselseksjon>
-                {erUtvikling() && (
-                    <Tag variant="info">
-                        Opprettet: {dayjs(varsel.opprettet).format(NORSK_DATOFORMAT_MED_KLOKKESLETT)}
-                    </Tag>
-                )}
+                <Tag variant="neutral">
+                    Opprettet: {dayjs(varsel.opprettet).format(NORSK_DATOFORMAT_MED_KLOKKESLETT)}
+                </Tag>
             </Accordion.Content>
         </Accordion.Item>
     );
