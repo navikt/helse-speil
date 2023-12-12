@@ -7748,6 +7748,12 @@
                 "interfaces": null,
                 "enumValues": [
                     {
+                        "name": "FJERN_FRA_PA_VENT",
+                        "description": null,
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
+                    {
                         "name": "TOTRINNSVURDERING_ATTESTERT",
                         "description": null,
                         "isDeprecated": false,
