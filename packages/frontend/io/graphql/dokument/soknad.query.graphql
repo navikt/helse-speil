@@ -29,6 +29,24 @@ query FetchSoknad($fnr: String!, $dokumentId: String!) {
                         ...sporsmal
                         undersporsmal {
                             ...sporsmal
+                            undersporsmal {
+                                ...sporsmal
+                                undersporsmal {
+                                    ...sporsmal
+                                    undersporsmal {
+                                        ...sporsmal
+                                        undersporsmal {
+                                            ...sporsmal
+                                            undersporsmal {
+                                                ...sporsmal
+                                                undersporsmal {
+                                                    ...sporsmal
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
                         }
                     }
                 }

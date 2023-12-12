@@ -1707,6 +1707,48 @@ export type FetchSoknadQuery = {
                             sporsmalstekst?: string | null;
                             svartype?: Svartype | null;
                             tag?: string | null;
+                            undersporsmal?: Array<{
+                                __typename?: 'Sporsmal';
+                                sporsmalstekst?: string | null;
+                                svartype?: Svartype | null;
+                                tag?: string | null;
+                                undersporsmal?: Array<{
+                                    __typename?: 'Sporsmal';
+                                    sporsmalstekst?: string | null;
+                                    svartype?: Svartype | null;
+                                    tag?: string | null;
+                                    undersporsmal?: Array<{
+                                        __typename?: 'Sporsmal';
+                                        sporsmalstekst?: string | null;
+                                        svartype?: Svartype | null;
+                                        tag?: string | null;
+                                        undersporsmal?: Array<{
+                                            __typename?: 'Sporsmal';
+                                            sporsmalstekst?: string | null;
+                                            svartype?: Svartype | null;
+                                            tag?: string | null;
+                                            undersporsmal?: Array<{
+                                                __typename?: 'Sporsmal';
+                                                sporsmalstekst?: string | null;
+                                                svartype?: Svartype | null;
+                                                tag?: string | null;
+                                                undersporsmal?: Array<{
+                                                    __typename?: 'Sporsmal';
+                                                    sporsmalstekst?: string | null;
+                                                    svartype?: Svartype | null;
+                                                    tag?: string | null;
+                                                    svar?: Array<{ __typename?: 'Svar'; verdi?: string | null }> | null;
+                                                }> | null;
+                                                svar?: Array<{ __typename?: 'Svar'; verdi?: string | null }> | null;
+                                            }> | null;
+                                            svar?: Array<{ __typename?: 'Svar'; verdi?: string | null }> | null;
+                                        }> | null;
+                                        svar?: Array<{ __typename?: 'Svar'; verdi?: string | null }> | null;
+                                    }> | null;
+                                    svar?: Array<{ __typename?: 'Svar'; verdi?: string | null }> | null;
+                                }> | null;
+                                svar?: Array<{ __typename?: 'Svar'; verdi?: string | null }> | null;
+                            }> | null;
                             svar?: Array<{ __typename?: 'Svar'; verdi?: string | null }> | null;
                         }> | null;
                         svar?: Array<{ __typename?: 'Svar'; verdi?: string | null }> | null;
@@ -3947,6 +3989,130 @@ export const FetchSoknadDocument = {
                                                                                                 name: {
                                                                                                     kind: 'Name',
                                                                                                     value: 'sporsmal',
+                                                                                                },
+                                                                                            },
+                                                                                            {
+                                                                                                kind: 'Field',
+                                                                                                name: {
+                                                                                                    kind: 'Name',
+                                                                                                    value: 'undersporsmal',
+                                                                                                },
+                                                                                                selectionSet: {
+                                                                                                    kind: 'SelectionSet',
+                                                                                                    selections: [
+                                                                                                        {
+                                                                                                            kind: 'FragmentSpread',
+                                                                                                            name: {
+                                                                                                                kind: 'Name',
+                                                                                                                value: 'sporsmal',
+                                                                                                            },
+                                                                                                        },
+                                                                                                        {
+                                                                                                            kind: 'Field',
+                                                                                                            name: {
+                                                                                                                kind: 'Name',
+                                                                                                                value: 'undersporsmal',
+                                                                                                            },
+                                                                                                            selectionSet:
+                                                                                                                {
+                                                                                                                    kind: 'SelectionSet',
+                                                                                                                    selections:
+                                                                                                                        [
+                                                                                                                            {
+                                                                                                                                kind: 'FragmentSpread',
+                                                                                                                                name: {
+                                                                                                                                    kind: 'Name',
+                                                                                                                                    value: 'sporsmal',
+                                                                                                                                },
+                                                                                                                            },
+                                                                                                                            {
+                                                                                                                                kind: 'Field',
+                                                                                                                                name: {
+                                                                                                                                    kind: 'Name',
+                                                                                                                                    value: 'undersporsmal',
+                                                                                                                                },
+                                                                                                                                selectionSet:
+                                                                                                                                    {
+                                                                                                                                        kind: 'SelectionSet',
+                                                                                                                                        selections:
+                                                                                                                                            [
+                                                                                                                                                {
+                                                                                                                                                    kind: 'FragmentSpread',
+                                                                                                                                                    name: {
+                                                                                                                                                        kind: 'Name',
+                                                                                                                                                        value: 'sporsmal',
+                                                                                                                                                    },
+                                                                                                                                                },
+                                                                                                                                                {
+                                                                                                                                                    kind: 'Field',
+                                                                                                                                                    name: {
+                                                                                                                                                        kind: 'Name',
+                                                                                                                                                        value: 'undersporsmal',
+                                                                                                                                                    },
+                                                                                                                                                    selectionSet:
+                                                                                                                                                        {
+                                                                                                                                                            kind: 'SelectionSet',
+                                                                                                                                                            selections:
+                                                                                                                                                                [
+                                                                                                                                                                    {
+                                                                                                                                                                        kind: 'FragmentSpread',
+                                                                                                                                                                        name: {
+                                                                                                                                                                            kind: 'Name',
+                                                                                                                                                                            value: 'sporsmal',
+                                                                                                                                                                        },
+                                                                                                                                                                    },
+                                                                                                                                                                    {
+                                                                                                                                                                        kind: 'Field',
+                                                                                                                                                                        name: {
+                                                                                                                                                                            kind: 'Name',
+                                                                                                                                                                            value: 'undersporsmal',
+                                                                                                                                                                        },
+                                                                                                                                                                        selectionSet:
+                                                                                                                                                                            {
+                                                                                                                                                                                kind: 'SelectionSet',
+                                                                                                                                                                                selections:
+                                                                                                                                                                                    [
+                                                                                                                                                                                        {
+                                                                                                                                                                                            kind: 'FragmentSpread',
+                                                                                                                                                                                            name: {
+                                                                                                                                                                                                kind: 'Name',
+                                                                                                                                                                                                value: 'sporsmal',
+                                                                                                                                                                                            },
+                                                                                                                                                                                        },
+                                                                                                                                                                                        {
+                                                                                                                                                                                            kind: 'Field',
+                                                                                                                                                                                            name: {
+                                                                                                                                                                                                kind: 'Name',
+                                                                                                                                                                                                value: 'undersporsmal',
+                                                                                                                                                                                            },
+                                                                                                                                                                                            selectionSet:
+                                                                                                                                                                                                {
+                                                                                                                                                                                                    kind: 'SelectionSet',
+                                                                                                                                                                                                    selections:
+                                                                                                                                                                                                        [
+                                                                                                                                                                                                            {
+                                                                                                                                                                                                                kind: 'FragmentSpread',
+                                                                                                                                                                                                                name: {
+                                                                                                                                                                                                                    kind: 'Name',
+                                                                                                                                                                                                                    value: 'sporsmal',
+                                                                                                                                                                                                                },
+                                                                                                                                                                                                            },
+                                                                                                                                                                                                        ],
+                                                                                                                                                                                                },
+                                                                                                                                                                                        },
+                                                                                                                                                                                    ],
+                                                                                                                                                                            },
+                                                                                                                                                                    },
+                                                                                                                                                                ],
+                                                                                                                                                        },
+                                                                                                                                                },
+                                                                                                                                            ],
+                                                                                                                                    },
+                                                                                                                            },
+                                                                                                                        ],
+                                                                                                                },
+                                                                                                        },
+                                                                                                    ],
                                                                                                 },
                                                                                             },
                                                                                         ],
