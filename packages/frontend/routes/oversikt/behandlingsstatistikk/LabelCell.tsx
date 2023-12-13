@@ -80,11 +80,11 @@ const DelvisRefusjon: React.FC = () => {
     );
 };
 
-const Faresignaler: React.FC = () => {
+const Vurderingsoppgaver: React.FC = () => {
     return (
         <BaseCell>
             <Tag color="orange">QA</Tag>
-            FARESIGNALER
+            VURDERINGSOPPGAVER
         </BaseCell>
     );
 };
@@ -142,7 +142,7 @@ export const LabelCell = {
     UtbetalingTilArbeidsgiver,
     UtbetalingTilSykmeldt,
     DelvisRefusjon,
-    Faresignaler,
+    Vurderingsoppgaver,
     FortroligAdresse,
     Stikkprøver,
     Revurdering,

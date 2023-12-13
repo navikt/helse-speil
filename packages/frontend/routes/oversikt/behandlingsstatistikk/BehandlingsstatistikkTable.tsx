@@ -73,7 +73,7 @@ export const BehandlingsstatistikkTable: React.FC<BehandlingsstatistikkTableProp
                     <LabelCell.Søknad />
                 </StatistikkRow>
                 <StatistikkRow antall={behandlingsstatistikk.faresignaler}>
-                    <LabelCell.Faresignaler />
+                    <LabelCell.Vurderingsoppgaver />
                 </StatistikkRow>
                 <StatistikkRow antall={behandlingsstatistikk.fortroligAdresse}>
                     <LabelCell.FortroligAdresse />

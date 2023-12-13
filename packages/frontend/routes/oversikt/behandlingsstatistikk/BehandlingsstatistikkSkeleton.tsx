@@ -91,7 +91,7 @@ export const BehandlingsstatistikkSkeleton: React.FC = () => {
                 </tr>
                 <tr>
                     <td>
-                        <LabelCell.Faresignaler />
+                        <LabelCell.Vurderingsoppgaver />
                     </td>
                     <LoadingCells />
                 </tr>
